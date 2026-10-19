@@ -1,0 +1,27 @@
+{
+  "founding_charter": {
+    "__no_id": true,
+    "name": "founding-charter",
+    "creatures": [],
+    "actors": "=gen(founding_charter_actors)",
+    "initial": [],
+    "outcomes": [
+      {
+        "id": "shelter_open",
+        "predicate": "not closed(shelter)"
+      },
+      {
+        "id": "keeper_informed",
+        "predicate": "knows(host, localfounding_oath)"
+      },
+      {
+        "id": "keeper_dead",
+        "predicate": "dead(host)"
+      }
+    ]
+  },
+  "founding_charter_actors": {
+    "__no_id": true,
+    "order": []
+  }
+}

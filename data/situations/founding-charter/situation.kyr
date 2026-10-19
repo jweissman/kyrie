@@ -1,0 +1,28 @@
+Module founding_charter "A keeper's mistaken reading of a founding obligation" {
+  Description "A keeper denies shelter under a mistaken understanding of an institution's founding charter. The charter is an objective source. Reading it changes the reader's knowledge; a trusted report can change the keeper's knowledge. This bounded package implements the keeper's existing commitment to honor that charter.".
+  Entity host: group "The shelter keeper".
+  Entity forecourt: place "The shelter's forecourt".
+  Entity shelter: place "The closed shelter".
+  Entity admission_bolt: mechanism "The admission bolt".
+  Entity party: group "The company".
+  Entity gold: good "Coin". Entity rations: good "Shared ration". Entity clock: clock "Campaign clock".
+  Entity woodcraft: capability "Woodcraft". Entity delving: capability "Delving".
+  Entity burial_lore: capability "Burial lore". Entity ropekit: itemkind "Climbing kit".
+  Discovery localfounding_oath "The founders obligated this shelter to receive travelers without requiring membership in their order." {
+    Denied by host.
+    Source charter "The founders' charter" at forecourt readable by party.
+  }
+  Topic keeper_concern with host "Ask why the shelter is closed" when closed(shelter) {
+    Says "'I keep the founders' obligation, not a private inn. I thought their hospitality was reserved for members of our order. Read the charter here. If I have misunderstood it, tell me what it actually says.'".
+  }
+  Topic keeper_acceptance with host "Ask about the shelter's obligation" when knows(host, localfounding_oath) and not closed(shelter) {
+    Says "'The founders required hospitality beyond our order. I was wrong to refuse it. The shelter is open; that does not make me the owner of your choices.'".
+  }
+  Rule honor_founding_commitment when knows(host, localfounding_oath) and able(host) and at(host, forecourt) and closed(shelter) {
+    Retract closed(shelter).
+  }
+  Observe refusal at forecourt when closed(shelter) and able(host) "The keeper has drawn the shelter bolt. The founding charter is available to read. Reading it does not tell the keeper what you found; explain its obligation if the keeper trusts your report.".
+  Observe welcome at forecourt when not closed(shelter) "The shelter is open. The forecourt still leads outside; entering does not close the institution behind you.".
+  Observe shelter_room at shelter when not closed(shelter) "The shelter's interior is accessible. Access and recovery are separate: this package does not create beds, supplies or a recovery service.".
+  Goal not closed(shelter).
+}

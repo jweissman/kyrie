@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter",
+      "backgroundId": "locksmith"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic"
+    }
+  ],
+  "scenario": "data/caught-below/river.campaign.json",
+  "seed": "serewater",
+  "steps": [
+    {
+      "command": "go(world__causeway_path,world__causeway)"
+    },
+    {
+      "command": "go(world__low_path,world__drain_mouth)"
+    },
+    {
+      "command": "go(world__culvert,world__workshop)"
+    },
+    {
+      "command": "go(world__gallery_steps,world__gallery)"
+    },
+    {
+      "command": "attack(world__hound)",
+      "combat": [
+        {
+          "actor": "world__party_2",
+          "ability": "flee",
+          "target": "world__party_2"
+        }
+      ]
+    }
+  ],
+  "complete": true
+}

@@ -1,0 +1,31 @@
+Module care "Rest, mending and lessons" {
+  Kind member. Kind ability. Kind reward.
+  Relation memberOf(member, group).
+  Relation fieldUsable(ability).
+  Relation awake(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
+  Relation restful(place). Relation offeredAt(reward, place). Relation giftEffect(reward, ability).
+  Relation rewardFor(reward, fact). Relation claimed(reward).
+  Goal false.
+  Action field_spell(actor: group, caster: member, technique: ability, recipient: member, site: place) "Have {caster} use {technique} on {recipient}" {
+    Description "Use a known healing, cleansing or persistent ward ability outside combat. Its normal mana cost is paid; combat cooldowns do not apply.".
+    Requires able(actor) and at(actor, site) and memberOf(caster, actor) and memberOf(recipient, actor)
+      and fieldUsable(technique) and awake(caster) and awake(recipient) and canCast(caster, technique) and treatable(recipient, technique).
+    Resolve invoke(technique, caster, recipient).
+    Result "{caster} tends {recipient} with {technique}.".
+  }
+  Action rest(actor: group, site: place) "Rest and recover at {site}" {
+    Description "Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.".
+    Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) >= 1.
+    Time 36. Resolve recover(actor).
+    On success { Decrease quantity(actor, rations) by 1. }
+    Result "You eat, bind your hurts and sleep for six hours.".
+  }
+  Action learn_reward(actor: group, gift: reward, recipient: member, lesson: ability, proof: fact, site: place) "Accept {gift} for {recipient}" {
+    Requires able(actor) and at(actor, site) and offeredAt(gift, site) and memberOf(recipient, actor)
+      and awake(recipient) and giftEffect(gift, lesson) and rewardFor(gift, proof) and knows(actor, proof)
+      and not claimed(gift).
+    Resolve reward(lesson, recipient).
+    On success { Assert claimed(gift). Retract offeredAt(gift, site). Retract at(gift, site). }
+    Result "{recipient} studies {gift} until {lesson} comes easily.".
+  }
+}

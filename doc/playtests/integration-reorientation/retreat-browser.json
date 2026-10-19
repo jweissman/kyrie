@@ -1,0 +1,113 @@
+{
+  "errors": [],
+  "metrics": {
+    "scroll": false,
+    "paneCoverage": 76,
+    "visibleRows": 4,
+    "words": 148
+  },
+  "final": {
+    "mode": "talk",
+    "place": {
+      "id": "world__gallery",
+      "name": "Casting gallery",
+      "kind": "room"
+    },
+    "path": [
+      {
+        "id": "world__march",
+        "name": "The Serewater March",
+        "kind": "region"
+      },
+      {
+        "id": "world__censer_hill",
+        "name": "Censer Hill foundry",
+        "kind": "site"
+      },
+      {
+        "id": "world__works",
+        "name": "The upper works",
+        "kind": "level"
+      },
+      {
+        "id": "world__gallery",
+        "name": "Casting gallery",
+        "kind": "room"
+      }
+    ],
+    "rows": [
+      {
+        "id": "topic:Ask Hesta about Ash and the missing surveyor",
+        "label": "Ask Hesta about Ash and the missing surveyor"
+      },
+      {
+        "id": "deal:Ask for clean water, salve and linen — 2 coin",
+        "label": "Ask for clean water, salve and linen — 2 coin"
+      },
+      {
+        "id": "deal:Buy",
+        "label": "Buy"
+      },
+      {
+        "id": "leave",
+        "label": "End the conversation"
+      }
+    ],
+    "selected": "topic:Ask Hesta about Ash and the missing surveyor",
+    "menu": null,
+    "log": [
+      {
+        "at": "1h · Day 1, 9:00 a.m.",
+        "title": "→ Willow causeway",
+        "lines": [],
+        "tone": "act"
+      },
+      {
+        "at": "30 min · Day 1, 9:30 a.m.",
+        "title": "→ Drain mouth",
+        "lines": [],
+        "tone": "act"
+      },
+      {
+        "at": "10 min · Day 1, 9:40 a.m.",
+        "title": "→ Bell workshop",
+        "lines": [],
+        "tone": "act"
+      },
+      {
+        "at": "10 min · Day 1, 9:50 a.m.",
+        "title": "→ Casting gallery",
+        "lines": [
+          "The hound's growl fills the gallery. It does not come at you; it holds the hoist passage."
+        ],
+        "tone": "act"
+      },
+      {
+        "at": "10 min · Day 1, 10:00 a.m.",
+        "title": "Ash, a cave hound: Attack",
+        "lines": [
+          "Your company withdraws. Survivors retain their injuries and spent resources.",
+          "Your company withdraws from the encounter."
+        ],
+        "tone": "fight"
+      }
+    ],
+    "party": [
+      {
+        "name": "Elen",
+        "hp": 7
+      },
+      {
+        "name": "Bran",
+        "hp": 12
+      },
+      {
+        "name": "Dori",
+        "hp": 12
+      }
+    ],
+    "pending": false,
+    "error": ""
+  },
+  "unwitnessedBlow": true
+}

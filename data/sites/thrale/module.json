@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "situation": "site.kyr",
+  "rules": [
+    "../../rulesets/world/core.kyr",
+    "../../rulesets/world/passages.kyr",
+    "../../rulesets/world/people.kyr",
+    "../../rulesets/world/needs.kyr",
+    "../../rulesets/world/services.kyr",
+    "../../rulesets/discovery.kyr",
+    "../../rulesets/world/care.kyr",
+    "../../rulesets/world/belongings.kyr",
+    "../../rulesets/world/elements.kyr"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "watcher": "tobin",
+    "roost": "ledge",
+    "lair": "cave_hall",
+    "hunting": "sheepfold",
+    "village": "green",
+    "approach": "rope_bridge",
+    "lair_mouth": "cave_mouth"
+  }
+}

@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "scenario": "data/red-crag/thrale.campaign.json",
+ "seed": "thrale",
+ "steps": [
+  {
+   "command": "go(world__chandlery_door,world__counter)"
+  },
+  {
+   "command": "buy_item(world__ysolde_fireproof_salve_1,world__member_party_1)"
+  },
+  {
+   "command": "use_item(world__ysolde_fireproof_salve_1,world__member_party_1)"
+  },
+  {
+   "command": "buy_item(world__ysolde_fireproof_salve_2,world__member_party_2)"
+  },
+  {
+   "command": "use_item(world__ysolde_fireproof_salve_2,world__member_party_2)"
+  },
+  {
+   "command": "buy_item(world__ysolde_fireproof_salve_3,world__member_party_3)"
+  },
+  {
+   "command": "use_item(world__ysolde_fireproof_salve_3,world__member_party_3)"
+  },
+  {
+   "command": "go(world__chandlery_door,world__green)"
+  },
+  {
+   "command": "go(world__gorge_road,world__gorge_edge)"
+  },
+  {
+   "command": "go(world__rope_bridge,world__ledge)"
+  },
+  {
+   "command": "roost__hail"
+  },
+  {
+   "command": "attack(roost__dragon)",
+   "combat": [
+    {
+     "actor": "world__party_3",
+     "ability": "attack",
+     "target": "roost__dragon_person"
+    },
+    {
+     "actor": "world__party_1",
+     "ability": "attack",
+     "target": "roost__dragon_person"
+    },
+    {
+     "actor": "world__party_2",
+     "ability": "attack",
+     "target": "roost__dragon_person"
+    },
+    {
+     "actor": "world__party_1",
+     "ability": "flee",
+     "target": "world__party_1"
+    }
+   ]
+  },
+  {
+   "command": "go(world__goat_path,world__shoulder)"
+  },
+  {
+   "command": "go(world__scree,world__sheepfold)"
+  },
+  {
+   "command": "go(world__pasture_track,world__green)"
+  },
+  {
+   "command": "go(world__hearth_door,world__common_room)"
+  },
+  {
+   "command": "take_lodging(world__aldo_lodging,world__aldo)"
+  }
+ ],
+ "complete": true
+}

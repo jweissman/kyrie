@@ -1,0 +1,131 @@
+{
+  "frontierName": {
+    "discriminator": "role",
+    "groups": {
+      "fen track": [
+        "Alder causeway",
+        "Reedbank track"
+      ],
+      "pine track": [
+        "Needle ridge",
+        "Resin path"
+      ],
+      "fen camp": [
+        "Reedcutters\u2019 camp",
+        "Willow shelter"
+      ],
+      "pine camp": [
+        "Charcoal camp",
+        "Pineward shelter"
+      ],
+      "fen ford": [
+        "White-reed ford",
+        "Silt ford"
+      ],
+      "pine ford": [
+        "Stonepine crossing",
+        "Needle creek"
+      ],
+      "fen shrine": [
+        "Drowned winter shrine",
+        "Willow crypt"
+      ],
+      "pine shrine": [
+        "Hollow winter shrine",
+        "Basalt crypt"
+      ]
+    }
+  },
+  "frontierPeople": {
+    "discriminator": "biome",
+    "groups": {
+      "fen": [
+        "human",
+        "human",
+        "elf",
+        "goblin"
+      ],
+      "pine": [
+        "human",
+        "elf",
+        "dwarf",
+        "human"
+      ]
+    }
+  },
+  "frontierGuide": {
+    "discriminator": "role",
+    "groups": {
+      "guide": [
+        "Tala the trapper",
+        "Orin Reedwalker",
+        "Hessa of the margin"
+      ]
+    }
+  },
+  "frontierDelay": {
+    "discriminator": "pace",
+    "groups": {
+      "ordinary": [
+        96,
+        102,
+        108
+      ],
+      "urgent": [
+        84,
+        90
+      ]
+    }
+  },
+  "frontierLedger": {
+    "discriminator": "part",
+    "groups": {
+      "outcomes": [
+        {
+          "id": "font_stopped",
+          "predicate": "not functioning(font)"
+        },
+        {
+          "id": "camp_lost",
+          "predicate": "frozen(camp)"
+        },
+        {
+          "id": "wolf_dead",
+          "predicate": "dead(frostback)"
+        },
+        {
+          "id": "guide_displaced",
+          "predicate": "at(tala, village)"
+        }
+      ]
+    }
+  },
+  "frontierProvision": {
+    "discriminator": "biome",
+    "groups": {
+      "fen": [
+        4,
+        6
+      ],
+      "pine": [
+        2,
+        3
+      ]
+    }
+  },
+  "frontierBeastLevel": {
+    "discriminator": "biome",
+    "groups": {
+      "fen": [
+        4,
+        4,
+        5
+      ],
+      "pine": [
+        4,
+        5,
+        5
+      ]
+    }
+  }
+}

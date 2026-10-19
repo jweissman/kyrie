@@ -1,0 +1,146 @@
+{
+  "about": "Classes: adventuring callings that a member of an ancestry can take. specializations are traits of category specialization that the class may choose (a mage school, a cleric domain); their spells come with the choice. Creatures that are not people are species, not classes. A class with adventuring false (commoner) is ordinary life rather than a calling, open to every ancestry.",
+  "classes": {
+    "fighter": {
+      "name": "Fighter",
+      "description": "Hardy front line; sweeping weapon blows.",
+      "hitDie": 8,
+      "hpPerLevel": 4,
+      "mana": 0,
+      "primary": "strength",
+      "abilities": [
+        "attack",
+        "defend",
+        "cleave",
+        "flee",
+        "rally",
+        "wounding_blow"
+      ],
+      "playable": true,
+      "source": {
+        "orsino": "class:warrior",
+        "fidelity": "adapted",
+        "notes": "Kyr chassis: hit die 8, not 12; no proficiencies or Orsino warrior abilities."
+      }
+    },
+    "cleric": {
+      "name": "Cleric",
+      "description": "Divine support; healing, blessing, and purification.",
+      "hitDie": 6,
+      "hpPerLevel": 3,
+      "mana": 6,
+      "primary": "wisdom",
+      "abilities": [
+        "attack",
+        "defend",
+        "heal",
+        "bless",
+        "purify",
+        "revive",
+        "flee"
+      ],
+      "playable": true,
+      "specializations": [
+        "vitalist",
+        "lightbringer"
+      ],
+      "source": {
+        "orsino": "class:cleric",
+        "fidelity": "adapted",
+        "notes": "Kyr chassis: hit die 6, not 8; Kyr spells; no spell slots."
+      }
+    },
+    "magic_user": {
+      "name": "Magic-user",
+      "description": "Fragile scholar; limited but powerful magic.",
+      "hitDie": 4,
+      "hpPerLevel": 2,
+      "mana": 7,
+      "primary": "intelligence",
+      "abilities": [
+        "attack",
+        "defend",
+        "bolt",
+        "sleep",
+        "ward",
+        "drain",
+        "summon",
+        "flee"
+      ],
+      "playable": true,
+      "specializations": [
+        "abjurer"
+      ],
+      "source": {
+        "orsino": "class:mage",
+        "fidelity": "adapted",
+        "notes": "Kyr chassis: hit die 4; Kyr spells; no spell slots or spellbook picks."
+      }
+    },
+    "thief": {
+      "name": "Thief",
+      "description": "Quick specialist; ambush and venom.",
+      "hitDie": 4,
+      "hpPerLevel": 2,
+      "mana": 0,
+      "primary": "dexterity",
+      "abilities": [
+        "attack",
+        "defend",
+        "ambush",
+        "venom",
+        "flee"
+      ],
+      "playable": true,
+      "skills": [
+        "trapwork"
+      ],
+      "source": {
+        "orsino": "class:thief",
+        "fidelity": "adapted",
+        "notes": "Kyr chassis: hit die 4, not 6."
+      }
+    },
+    "ranger": {
+      "name": "Ranger",
+      "description": "Trail guide; patient approaches to receptive wildlife.",
+      "hitDie": 6,
+      "hpPerLevel": 3,
+      "mana": 2,
+      "primary": "wisdom",
+      "abilities": [
+        "attack",
+        "defend",
+        "ambush",
+        "heal",
+        "flee"
+      ],
+      "playable": true,
+      "skills": [
+        "woodcraft"
+      ],
+      "source": {
+        "orsino": "class:ranger",
+        "fidelity": "adapted",
+        "notes": "Kyr chassis: hit die 6, not 10."
+      }
+    },
+    "commoner": {
+      "name": "Commoner",
+      "description": "Untrained work, travel, and basic self-defense.",
+      "hitDie": 4,
+      "hpPerLevel": 2,
+      "mana": 0,
+      "primary": "constitution",
+      "abilities": [
+        "attack",
+        "defend",
+        "flee"
+      ],
+      "source": {
+        "kyr": true
+      },
+      "adventuring": false
+    }
+  }
+}

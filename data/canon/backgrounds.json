@@ -1,0 +1,187 @@
+{
+  "about": "Backgrounds: where a person comes from (use background) or what they do for a living (use profession). attributes and gold are Orsino's; skills, gear, offers and routine are what the background means in a Kyr world. gold is in Orsino gold pieces; Kyr pays one coin per ten.",
+  "backgrounds": {
+    "hunter": {
+      "name": "Hunter",
+      "use": "background",
+      "attributes": {
+        "dexterity": 2,
+        "wisdom": 1,
+        "constitution": 1
+      },
+      "gold": 15,
+      "requiredClass": "ranger",
+      "skills": [
+        "woodcraft"
+      ],
+      "gear": [
+        "rope"
+      ],
+      "source": {
+        "orsino": "background:hunter",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold only; Kyr adds woodcraft (reading animals) and a coil of rope."
+      }
+    },
+    "medic": {
+      "name": "Medic",
+      "use": "background",
+      "attributes": {
+        "wisdom": 2,
+        "intelligence": 2
+      },
+      "gold": 20,
+      "requiredClass": "cleric",
+      "skills": [
+        "mending"
+      ],
+      "gear": [
+        "bandages",
+        "herbs"
+      ],
+      "source": {
+        "orsino": "background:medic",
+        "fidelity": "adapted",
+        "notes": "Orsino starting gear \"bandages\" and \"herbs\" are not in its gear catalog; Kyr defines them. Mending sets bones and binds wounds."
+      }
+    },
+    "locksmith": {
+      "name": "Locksmith",
+      "use": "background",
+      "attributes": {
+        "dexterity": 4,
+        "intelligence": 2
+      },
+      "gold": 40,
+      "skills": [
+        "lockwork"
+      ],
+      "gear": [
+        "thieves_tools"
+      ],
+      "source": {
+        "orsino": "background:locksmith",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds lockwork (Orsino pickLock skill) and thieves' tools from the Orsino gear catalog."
+      }
+    },
+    "explorer": {
+      "name": "Explorer",
+      "use": "background",
+      "attributes": {
+        "dexterity": 2,
+        "wisdom": 1
+      },
+      "gold": 15,
+      "requiredClass": "ranger",
+      "skills": [
+        "wayfinding"
+      ],
+      "gear": [
+        "map"
+      ],
+      "source": {
+        "orsino": "background:explorer",
+        "fidelity": "adapted",
+        "notes": "Orsino starting gear \"map\"; Kyr gives the map meaning: a company with wayfinding knows the region's roads before walking them."
+      }
+    },
+    "miner": {
+      "name": "Miner",
+      "use": "background",
+      "attributes": {
+        "constitution": 2,
+        "strength": 1
+      },
+      "gold": 15,
+      "skills": [
+        "digging"
+      ],
+      "gear": [
+        "shovel"
+      ],
+      "source": {
+        "orsino": "background:miner",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds digging (faster earth-moving) and a shovel from the Orsino gear catalog."
+      }
+    },
+    "innkeeper": {
+      "name": "Innkeeper",
+      "use": "profession",
+      "attributes": {
+        "charisma": 2,
+        "wisdom": 1
+      },
+      "gold": 25,
+      "offers": [
+        {
+          "kind": "lodging",
+          "text": "a bed and supper",
+          "fee": 3
+        }
+      ],
+      "routine": "keeping the inn",
+      "source": {
+        "orsino": "background:innkeeper",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr makes the profession offer lodging and keep its owner at their workplace."
+      }
+    },
+    "herbalist": {
+      "name": "Herbalist",
+      "use": "profession",
+      "attributes": {
+        "wisdom": 2,
+        "intelligence": 1
+      },
+      "gold": 15,
+      "skills": [
+        "mending"
+      ],
+      "routine": "minding the shop",
+      "source": {
+        "orsino": "background:herbalist",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds mending and a routine. What the herbalist sells is authored per person."
+      }
+    },
+    "priest": {
+      "name": "Priest",
+      "use": "profession",
+      "attributes": {
+        "wisdom": 3,
+        "charisma": 2
+      },
+      "gold": 30,
+      "offers": [
+        {
+          "kind": "healing",
+          "text": "the shrine's care for the wounded",
+          "fee": 2
+        }
+      ],
+      "routine": "tending the shrine",
+      "source": {
+        "orsino": "background:priest",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr makes the profession offer healing."
+      }
+    },
+    "boatman": {
+      "name": "Boatman",
+      "use": "profession",
+      "attributes": {
+        "strength": 2,
+        "constitution": 1
+      },
+      "gold": 10,
+      "routine": "watching the river",
+      "source": {
+        "orsino": "background:boatman",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr gives a routine only (no ferry service yet)."
+      }
+    }
+  }
+}

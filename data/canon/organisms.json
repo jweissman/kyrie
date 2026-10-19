@@ -1,0 +1,102 @@
+{
+  "about": "Living things found in places. An animal may name the species that represents it in play; a plant may name the item it yields when gathered. Habitats map to Orsino terrains where one exists.",
+  "habitats": {
+    "meadow": {
+      "name": "Meadow",
+      "terrain": "plains"
+    },
+    "woodland": {
+      "name": "Woodland",
+      "terrain": "forest"
+    },
+    "marsh": {
+      "name": "Marsh",
+      "terrain": "swamp"
+    },
+    "upland": {
+      "name": "Upland",
+      "terrain": "mountain"
+    },
+    "mountain": {
+      "name": "Mountain",
+      "terrain": "mountain"
+    },
+    "riverbank": {
+      "name": "Riverbank"
+    },
+    "cave": {
+      "name": "Cave",
+      "terrain": "cave"
+    }
+  },
+  "organisms": {
+    "yarrow": {
+      "name": "Yarrow",
+      "kind": "plant",
+      "habitats": [
+        "meadow",
+        "riverbank",
+        "woodland"
+      ],
+      "signs": "Flat pale flower heads above feathery leaves.",
+      "yields": "yarrow_poultice",
+      "source": {
+        "kyr": true
+      }
+    },
+    "alder": {
+      "name": "Alder",
+      "kind": "plant",
+      "habitats": [
+        "riverbank",
+        "marsh"
+      ],
+      "signs": "Dark cone-like catkins and roots at the water line.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "red_deer": {
+      "name": "Red deer",
+      "kind": "animal",
+      "habitats": [
+        "meadow",
+        "woodland",
+        "riverbank"
+      ],
+      "signs": "Split hoofprints and stripped sapling bark.",
+      "receptive": true,
+      "source": {
+        "orsino": "animal:deer",
+        "fidelity": "adapted",
+        "notes": "No Kyr game species yet; the deer is scenery that a woodcraft company can approach."
+      }
+    },
+    "otter": {
+      "name": "Otter",
+      "kind": "animal",
+      "habitats": [
+        "riverbank",
+        "marsh"
+      ],
+      "signs": "Webbed prints and fish scales on a flat stone.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "grey_wolf": {
+      "name": "Grey wolf",
+      "kind": "animal",
+      "species": "wolf",
+      "habitats": [
+        "woodland",
+        "upland"
+      ],
+      "signs": "Paired tracks and coarse grey fur on a low branch.",
+      "source": {
+        "orsino": "animal:wolf",
+        "fidelity": "adapted"
+      }
+    }
+  }
+}

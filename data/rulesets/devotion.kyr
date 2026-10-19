@@ -1,0 +1,26 @@
+Module devotion "Shared traditions and source-bound shrine blessings" {
+  Kind deity. Kind shrine.
+  Relation shrineOf(shrine, deity).
+  Relation honored(group, shrine).
+  Relation persistentWard(ability).
+  Entity orsino_fireproof: ability "Resist Fire".
+  Initially Assert persistentWard(orsino_fireproof).
+  Goal false.
+  Action field_ward(actor: group, caster: member, technique: ability, recipient: member, site: place) "Have {caster} ward {recipient} with {technique}" {
+    Description "Prepare a persistent protective ward before entering danger. Normal mana is paid; duration counts owner-combat-turn boundaries rather than travel time.".
+    Requires able(actor) and at(actor, site) and memberOf(caster, actor) and memberOf(recipient, actor)
+      and persistentWard(technique) and awake(caster) and awake(recipient)
+      and canCast(caster, technique) and treatable(recipient, technique).
+    Resolve invoke(technique, caster, recipient).
+    Result "The companion prepares a protective ward. Its normal mana cost is paid, its source is recorded, and it persists into the next encounter.".
+  }
+  Action seek_blessing(actor: group, altar: shrine, patron: deity, recipient: member, site: place) "Keep the observance at {altar} for {recipient}" {
+    Description "A companion versed in burial lore leads Veyra's observance. Spend one shared ration as hospitality. This shrine grants its blessing once per company: +2 to saves, for three owner-combat-turn boundaries. Travel does not consume it. It cannot stack with another shrine's identical blessing.".
+    Requires able(actor) and at(actor, site) and at(altar, site) and shrineOf(altar, patron)
+      and capable(actor, burial_lore) and memberOf(recipient, actor) and awake(recipient)
+      and quantity(actor, rations) >= 1 and not honored(actor, altar).
+    Resolve bless(altar, patron, recipient).
+    On success { Decrease quantity(actor, rations) by 1. Assert honored(actor, altar). }
+    Result "You share food in the Keeper's name. A wayfarer's protection settles on the chosen companion; its source and remaining combat lifetime persist.".
+  }
+}

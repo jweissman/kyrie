@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "Saint Orra \u2014 Ash and Silver",
+  "modules": [
+    {
+      "id": "refuge",
+      "bundle": "refuge.module.json",
+      "context": {
+        "company": "fellowship"
+      }
+    },
+    {
+      "id": "tower",
+      "bundle": "tower.module.json",
+      "imports": {
+        "green": "refuge.green",
+        "kiln": "refuge.kiln",
+        "furnace": "refuge.furnace",
+        "crawl": "refuge.crawl",
+        "party": "refuge.party",
+        "gold": "refuge.gold",
+        "rations": "refuge.rations",
+        "clock": "refuge.clock",
+        "fellowship": "refuge.fellowship",
+        "woodcraft": "refuge.woodcraft"
+      }
+    }
+  ]
+}

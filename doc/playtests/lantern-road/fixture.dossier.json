@@ -1,0 +1,968 @@
+{
+  "status": "Implemented interface fixture, not the proposed complete Serewater region",
+  "seed": "censer",
+  "manifest": "data/client-study/campaign.json",
+  "packageSources": [
+    "data/client-study/campaign.json",
+    "data/client-study/module.json",
+    "data/client-study/journey.kyr",
+    "data/client-study/templates.json",
+    "data/orra/tables.json",
+    "data/default/templates/deem.templates.json"
+  ],
+  "provenanceLimit": "Package-level source index; not a complete per-expression generation trace",
+  "world": {
+    "relations": [
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "censer__vesper",
+          "censer__town"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "censer__oren",
+          "censer__entry"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "censer__guardian",
+          "censer__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "party",
+          "censer__town"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "restful",
+        "args": [
+          "censer__town"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__town",
+          "censer__road"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__road",
+          "censer__town"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__road",
+          "censer__entry"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__entry",
+          "censer__road"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__entry",
+          "censer__stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__stair",
+          "censer__entry"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__stair",
+          "censer__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "censer__crypt",
+          "censer__stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "censer__seal",
+          "censer__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "giftEffect",
+        "args": [
+          "censer__seal",
+          "cinder_lesson"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "rewardFor",
+        "args": [
+          "censer__seal",
+          "censer__hearth"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "offeredAt",
+        "args": [
+          "censer__seal",
+          "censer__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "censer__hearth"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "knows",
+        "args": [
+          "censer__oren",
+          "censer__hearth"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "censer__rubbing",
+          "censer__hearth"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "censer__rubbing",
+          "censer__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "censer__rubbing"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "censer__rubbing"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "censer__rubbing"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "censer__member_guide",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "censer__member_shield",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "censer__member_lamp",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "censer__member_vesper_person",
+          "censer__vesper"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "censer__member_oren_person",
+          "censer__oren"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "censer__member_guardian_person",
+          "censer__guardian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "censer__vesper"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "censer__oren"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "censer__guardian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__vesper",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__vesper",
+          "censer__oren"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__vesper",
+          "censer__guardian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__oren",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__oren",
+          "censer__vesper"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__oren",
+          "censer__guardian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__guardian",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__guardian",
+          "censer__vesper"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "censer__guardian",
+          "censer__oren"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "censer__member_guide"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "censer__member_guide",
+          "heal"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "censer__member_shield"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "censer__member_lamp"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "censer__member_lamp",
+          "heal"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "censer__member_lamp",
+          "purify"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "censer__member_vesper_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "censer__vesper"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "censer__member_oren_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "censer__oren"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "censer__member_guardian_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "censer__guardian"
+        ]
+      }
+    ],
+    "measures": [
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "party",
+            "rations"
+          ]
+        },
+        "value": 3
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "party",
+            "gold"
+          ]
+        },
+        "value": 4
+      }
+    ]
+  },
+  "entities": [
+    {
+      "id": "censer__vesper",
+      "name": "Vesper, ferry clerk and burial trustee",
+      "type": "group"
+    },
+    {
+      "id": "censer__oren",
+      "name": "Oren, surveyor waiting for a safe escort",
+      "type": "group"
+    },
+    {
+      "id": "censer__guardian",
+      "name": "The White Hound, cold-altered burial guardian",
+      "type": "group"
+    },
+    {
+      "id": "party",
+      "type": "group",
+      "name": "The Wayfarers"
+    },
+    {
+      "id": "gold",
+      "type": "good",
+      "name": "Coin"
+    },
+    {
+      "id": "rations",
+      "type": "good",
+      "name": "Ration"
+    },
+    {
+      "id": "clock",
+      "type": "clock",
+      "name": "Time"
+    },
+    {
+      "id": "censer__town",
+      "type": "place",
+      "name": "Reedwake · Ferry square"
+    },
+    {
+      "id": "censer__road",
+      "type": "place",
+      "name": "The willow causeway"
+    },
+    {
+      "id": "censer__entry",
+      "type": "place",
+      "name": "Censer Hill · The receiving hall"
+    },
+    {
+      "id": "censer__crypt",
+      "type": "place",
+      "name": "The lower ossuary"
+    },
+    {
+      "id": "censer__stair",
+      "type": "place",
+      "name": "The broken singers' stair"
+    },
+    {
+      "id": "censer__seal",
+      "type": "reward",
+      "name": "a one-use ember seal"
+    },
+    {
+      "id": "censer__hearth",
+      "type": "fact",
+      "name": "The ember seal is a foundry lesson: one companion can learn its fire invocation permanently. Its origin does not grant ownership of the burials."
+    },
+    {
+      "id": "censer__rubbing",
+      "type": "source",
+      "name": "The seal's firing instructions"
+    },
+    {
+      "id": "censer__member_guide",
+      "creatureId": "censer__guide",
+      "name": "Elen",
+      "type": "member"
+    },
+    {
+      "id": "censer__member_shield",
+      "creatureId": "censer__shield",
+      "name": "Bran",
+      "type": "member"
+    },
+    {
+      "id": "censer__member_lamp",
+      "creatureId": "censer__lamp",
+      "name": "Dori",
+      "type": "member"
+    },
+    {
+      "id": "censer__member_vesper_person",
+      "creatureId": "censer__vesper_person",
+      "name": "Vesper",
+      "type": "member"
+    },
+    {
+      "id": "censer__member_oren_person",
+      "creatureId": "censer__oren_person",
+      "name": "Oren",
+      "type": "member"
+    },
+    {
+      "id": "censer__member_guardian_person",
+      "creatureId": "censer__guardian_person",
+      "name": "The White Hound",
+      "type": "member"
+    },
+    {
+      "id": "attack",
+      "type": "ability",
+      "name": "Weapon attack"
+    },
+    {
+      "id": "defend",
+      "type": "ability",
+      "name": "Guard"
+    },
+    {
+      "id": "flee",
+      "type": "ability",
+      "name": "Retreat"
+    },
+    {
+      "id": "cleave",
+      "type": "ability",
+      "name": "Sweeping blow"
+    },
+    {
+      "id": "heal",
+      "type": "ability",
+      "name": "Mend wounds"
+    },
+    {
+      "id": "bless",
+      "type": "ability",
+      "name": "Bless the company"
+    },
+    {
+      "id": "purify",
+      "type": "ability",
+      "name": "Purify"
+    },
+    {
+      "id": "revive",
+      "type": "ability",
+      "name": "Recall the fallen"
+    },
+    {
+      "id": "bolt",
+      "type": "ability",
+      "name": "Ember bolt"
+    },
+    {
+      "id": "sleep",
+      "type": "ability",
+      "name": "Binding sleep"
+    },
+    {
+      "id": "ward",
+      "type": "ability",
+      "name": "Protective ward"
+    },
+    {
+      "id": "drain",
+      "type": "ability",
+      "name": "Siphon life"
+    },
+    {
+      "id": "venom",
+      "type": "ability",
+      "name": "Venom blade"
+    },
+    {
+      "id": "ambush",
+      "type": "ability",
+      "name": "Backstab"
+    },
+    {
+      "id": "summon",
+      "type": "ability",
+      "name": "Call a wisp"
+    },
+    {
+      "id": "rally",
+      "type": "ability",
+      "name": "Second wind"
+    },
+    {
+      "id": "wounding_blow",
+      "type": "ability",
+      "name": "Wounding blow"
+    },
+    {
+      "id": "dawn_spark",
+      "type": "ability",
+      "name": "Dawn spark"
+    },
+    {
+      "id": "rending_bite",
+      "type": "ability",
+      "name": "Rending bite"
+    },
+    {
+      "id": "camp_recovery",
+      "type": "ability",
+      "name": "Sheltered recovery"
+    },
+    {
+      "id": "cinder_lesson",
+      "type": "ability",
+      "name": "Cinder lesson"
+    },
+    {
+      "id": "cinder",
+      "type": "ability",
+      "name": "Cinder invocation"
+    },
+    {
+      "id": "rime_bite",
+      "type": "ability",
+      "name": "Rime bite"
+    },
+    {
+      "id": "winter_howl",
+      "type": "ability",
+      "name": "Winter howl"
+    }
+  ],
+  "creatures": [
+    {
+      "id": "censer__guide",
+      "name": "Elen",
+      "classId": "ranger",
+      "raceId": "elf",
+      "base": {
+        "strength": 10,
+        "dexterity": 13,
+        "intelligence": 9,
+        "wisdom": 12,
+        "constitution": 14,
+        "charisma": 12,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "ambush",
+          "heal",
+          "flee"
+        ],
+        "maxHp": 14,
+        "maxMana": 2,
+        "speed": 4
+      },
+      "state": {
+        "hp": 14,
+        "mana": 2,
+        "gold": 4,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "censer__shield",
+      "name": "Bran",
+      "classId": "fighter",
+      "raceId": "human",
+      "base": {
+        "strength": 10,
+        "dexterity": 12,
+        "intelligence": 13,
+        "wisdom": 12,
+        "constitution": 10,
+        "charisma": 10,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "cleave",
+          "flee",
+          "rally",
+          "wounding_blow"
+        ],
+        "maxHp": 14,
+        "maxMana": 0,
+        "speed": 4
+      },
+      "state": {
+        "hp": 14,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "censer__lamp",
+      "name": "Dori",
+      "classId": "cleric",
+      "raceId": "dwarf",
+      "base": {
+        "strength": 9,
+        "dexterity": 15,
+        "intelligence": 15,
+        "wisdom": 10,
+        "constitution": 12,
+        "charisma": 16,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "heal",
+          "bless",
+          "purify",
+          "revive",
+          "flee",
+          "dawn_spark"
+        ],
+        "maxHp": 12,
+        "maxMana": 6,
+        "speed": 5
+      },
+      "state": {
+        "hp": 12,
+        "mana": 6,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "censer__vesper_person",
+      "name": "Vesper",
+      "classId": "commoner",
+      "raceId": "human",
+      "base": {
+        "strength": 9,
+        "dexterity": 10,
+        "intelligence": 8,
+        "wisdom": 10,
+        "constitution": 13,
+        "charisma": 13,
+        "level": 1,
+        "abilities": [
+          "attack",
+          "defend",
+          "flee"
+        ],
+        "maxHp": 9,
+        "maxMana": 0,
+        "speed": 3
+      },
+      "state": {
+        "hp": 9,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "censer__oren_person",
+      "name": "Oren",
+      "classId": "fighter",
+      "raceId": "dwarf",
+      "base": {
+        "strength": 10,
+        "dexterity": 14,
+        "intelligence": 12,
+        "wisdom": 8,
+        "constitution": 10,
+        "charisma": 10,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "cleave",
+          "flee",
+          "rally",
+          "wounding_blow"
+        ],
+        "maxHp": 14,
+        "maxMana": 0,
+        "speed": 2
+      },
+      "state": {
+        "hp": 14,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "censer__guardian_person",
+      "name": "The White Hound",
+      "classId": "rime_beast",
+      "raceId": "frost_wolf",
+      "base": {
+        "strength": 7,
+        "dexterity": 9,
+        "intelligence": 13,
+        "wisdom": 12,
+        "constitution": 10,
+        "charisma": 11,
+        "level": 2,
+        "abilities": [
+          "rime_bite",
+          "winter_howl",
+          "rending_bite",
+          "defend"
+        ],
+        "maxHp": 15,
+        "maxMana": 3,
+        "speed": 3
+      },
+      "state": {
+        "hp": 15,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    }
+  ],
+  "actors": [
+    {
+      "id": "party",
+      "members": [
+        "censer__guide",
+        "censer__shield",
+        "censer__lamp"
+      ],
+      "player": true,
+      "horizon": 4,
+      "actions": [
+        "wait",
+        "travel",
+        "walk",
+        "cross",
+        "pay",
+        "give_food",
+        "eat",
+        "release",
+        "collect",
+        "put",
+        "fulfill_job",
+        "attack",
+        "examine",
+        "tell",
+        "ask",
+        "destroy_source",
+        "field_spell",
+        "rest",
+        "learn_reward",
+        "censer__vesper_work",
+        "censer__vesper_help",
+        "censer__oren_burials"
+      ],
+      "goals": [],
+      "allActions": true
+    },
+    {
+      "id": "censer__vesper",
+      "members": [
+        "censer__vesper_person"
+      ],
+      "horizon": 4,
+      "actions": [],
+      "goals": []
+    },
+    {
+      "id": "censer__oren",
+      "members": [
+        "censer__oren_person"
+      ],
+      "horizon": 4,
+      "actions": [],
+      "goals": []
+    },
+    {
+      "id": "censer__guardian",
+      "members": [
+        "censer__guardian_person"
+      ],
+      "horizon": 4,
+      "actions": [],
+      "goals": []
+    }
+  ]
+}

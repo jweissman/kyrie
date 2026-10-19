@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter",
+      "backgroundId": "locksmith"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic"
+    }
+  ],
+  "scenario": "data/caught-below/river.campaign.json",
+  "seed": "serewater",
+  "steps": [
+    {
+      "command": "rescue__plea"
+    },
+    {
+      "command": "go(world__causeway_path,world__causeway)"
+    },
+    {
+      "command": "go(world__low_path,world__drain_mouth)"
+    },
+    {
+      "command": "go(world__culvert,world__workshop)"
+    },
+    {
+      "command": "take_item(world__ward_focus,world__member_party_3)"
+    },
+    {
+      "command": "equip_item(world__ward_focus,world__member_party_3)"
+    },
+    {
+      "command": "field_spell(world__member_party_3,orsino_fireproof_world,world__member_party_2)"
+    },
+    {
+      "command": "risk(world__steam_pipe,world__member_party_2)"
+    },
+    {
+      "command": "take_item(world__ward_sword,world__member_party_2)"
+    },
+    {
+      "command": "equip_item(world__ward_sword,world__member_party_2)"
+    },
+    {
+      "command": "attack(world__sentinel)",
+      "combat": [
+        {
+          "actor": "world__party_2",
+          "ability": "orsino_flame_strike",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_1",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_3",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_2",
+          "ability": "orsino_flame_strike",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_1",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_3",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_2",
+          "ability": "orsino_flame_strike",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_1",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_3",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__party_2",
+          "ability": "orsino_flame_strike",
+          "target": "world__sentinel_person"
+        }
+      ]
+    },
+    {
+      "command": "go(world__pipe_walk,world__gallery)"
+    },
+    {
+      "command": "world__hesta_help"
+    },
+    {
+      "command": "attack(world__hound)",
+      "combat": [
+        {
+          "actor": "world__party_2",
+          "ability": "orsino_flame_strike",
+          "target": "world__hound_person"
+        },
+        {
+          "actor": "world__party_1",
+          "ability": "attack",
+          "target": "world__hound_person"
+        },
+        {
+          "actor": "world__party_3",
+          "ability": "attack",
+          "target": "world__hound_person"
+        }
+      ]
+    },
+    {
+      "command": "go(world__gallery_steps,world__workshop)"
+    },
+    {
+      "command": "change_thing(world__padlock_pick)"
+    },
+    {
+      "command": "go(world__stores_door,world__stores)"
+    },
+    {
+      "command": "take_item(rescue__bar,world__member_party_2)"
+    },
+    {
+      "command": "go(world__stores_door,world__workshop)"
+    },
+    {
+      "command": "go(world__workshop_door,world__vestibule)"
+    },
+    {
+      "command": "go(world__arch,world__yard)"
+    },
+    {
+      "command": "go(world__yard_track,world__ridge)"
+    },
+    {
+      "command": "go(world__ridge_track,world__causeway)"
+    },
+    {
+      "command": "go(world__causeway_path,world__quay)"
+    }
+  ],
+  "complete": true
+}

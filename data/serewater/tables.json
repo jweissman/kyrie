@@ -1,0 +1,183 @@
+{
+  "marchCompany": {
+    "discriminator": "company",
+    "groups": {
+      "fellowship": [
+        {
+          "id": "guide",
+          "context": {
+            "name": "Elen",
+            "raceId": "elf",
+            "classId": "ranger",
+            "backgroundId": "forager",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "shield",
+          "context": {
+            "name": "Bran",
+            "raceId": "human",
+            "classId": "fighter",
+            "backgroundId": "surveyor",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "lamp",
+          "context": {
+            "name": "Dori",
+            "raceId": "dwarf",
+            "classId": "cleric",
+            "backgroundId": "pilgrim",
+            "level": 2
+          },
+          "gold": 0
+        }
+      ]
+    }
+  },
+  "marchControllers": {
+    "discriminator": "role",
+    "groups": {
+      "player": [
+        {
+          "id": "party",
+          "members": [
+            "guide",
+            "shield",
+            "lamp"
+          ],
+          "player": true,
+          "horizon": 4,
+          "actions": [
+            "*"
+          ],
+          "goals": []
+        }
+      ]
+    }
+  },
+  "marchPopulation": {
+    "discriminator": "culture",
+    "groups": {
+      "riverside": [
+        "human",
+        "human",
+        "human",
+        "dwarf",
+        "elf",
+        "goblin"
+      ]
+    }
+  },
+  "marchThreat": {
+    "discriminator": "habitat",
+    "groups": {
+      "cave": [
+        1,
+        2,
+        2
+      ],
+      "floodplain": [
+        2,
+        2,
+        3
+      ]
+    }
+  },
+  "marchSupplies": {
+    "discriminator": "season",
+    "groups": {
+      "early_autumn": [
+        7,
+        8,
+        9
+      ],
+      "late_autumn": [
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "marchWater": {
+    "discriminator": "season",
+    "groups": {
+      "early_autumn": [
+        54,
+        60,
+        66
+      ],
+      "late_autumn": [
+        30,
+        36,
+        42
+      ]
+    }
+  },
+  "marchOutcomes": {
+    "discriminator": "aspect",
+    "groups": {
+      "dimensions": [
+        {
+          "id": "surveyor_home",
+          "predicate": "rescued(pell) and at(pell, quay)"
+        },
+        {
+          "id": "names_recovered",
+          "predicate": "knows(party, names_survive)"
+        },
+        {
+          "id": "custody_respected",
+          "predicate": "custodyGranted(custodian, party)"
+        },
+        {
+          "id": "guardian_destroyed",
+          "predicate": "dead(custodian)"
+        },
+        {
+          "id": "secret_stair_known",
+          "predicate": "knows(party, secret_stair)"
+        },
+        {
+          "id": "deep_return_route",
+          "predicate": "knows(party, chalk_exit)"
+        },
+        {
+          "id": "salvagers_withdrawn",
+          "predicate": "at(edda, quay)"
+        },
+        {
+          "id": "water_risen",
+          "predicate": "highWater(flood)"
+        }
+      ]
+    }
+  },
+  "marchForage": {
+    "discriminator": "season",
+    "groups": {
+      "early_autumn": [
+        1,
+        2,
+        2
+      ],
+      "late_autumn": [
+        0,
+        1
+      ]
+    }
+  },
+  "marchRelic": {
+    "discriminator": "origin",
+    "groups": {
+      "burial": [
+        "protectivecharm",
+        "wardblade"
+      ]
+    }
+  }
+}

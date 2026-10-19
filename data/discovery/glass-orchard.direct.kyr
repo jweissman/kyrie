@@ -1,0 +1,41 @@
+Module glass_orchard "The Glass Orchard" {
+  Description "The abandoned manor's reflections move independently. Its caretaker Orris still keeps his rounds.".
+  Entity party: group "Mara's company". Entity orris: group "Orris".
+  Entity gate: place "Gatehouse". Entity yard: place "Orchard yard".
+  Entity glasshouse: place "Glasshouse". Entity loft: place "Portrait loft". Entity road: place "Outside road".
+  Entity mirror: source "Gatehouse observation mirror".
+  Entity journal: source "Founder's journal". Entity plaque: source "Stair diagram".
+  Entity mirror_prisons: fact "The founder made the manor's mirrors as prisons for living people.".
+  Entity stair_plan: fact "The founder escaped through the loft stair.".
+  Entity gold: good "Coin". Entity rations: good "Ration". Entity clock: clock "Campaign watch".
+  Initially Assert established(mirror_prisons). Initially Assert established(stair_plan).
+  Initially Assert knows(orris, stair_plan).
+  Initially Assert assumesFalse(orris, mirror_prisons).
+  Initially Assert trusts(orris, party).
+  Initially Assert at(party, gate). Initially Assert at(orris, gate).
+  Initially Assert publicPlace(gate). Initially Assert publicPlace(yard). Initially Assert publicPlace(glasshouse).
+  Initially Assert publicPlace(loft). Initially Assert publicPlace(road).
+  Initially Assert route(gate, yard). Initially Assert route(yard, gate).
+  Initially Assert route(yard, glasshouse). Initially Assert route(glasshouse, yard).
+  Initially Assert route(yard, loft). Initially Assert route(loft, yard).
+  Initially Assert route(gate, road). Initially Assert route(road, gate).
+  Initially Assert destructible(mirror). Initially Assert destructible(journal).
+  Goal at(orris, loft).
+
+  // These declarations are exactly what the reusable discovery records lower to.
+  Initially Assert reveals(mirror, mirror_prisons).
+  Initially Assert at(mirror, gate).
+  Initially Assert intact(mirror).
+  Initially Assert noticeable(mirror).
+  Initially Assert mayExamine(party, mirror).
+  Initially Assert reveals(journal, mirror_prisons).
+  Initially Assert at(journal, glasshouse).
+  Initially Assert intact(journal).
+  Initially Assert noticeable(journal).
+  Initially Assert mayExamine(party, journal).
+  Initially Assert reveals(plaque, stair_plan).
+  Initially Assert at(plaque, yard).
+  Initially Assert intact(plaque).
+  Initially Assert noticeable(plaque).
+  Initially Assert mayExamine(orris, plaque).
+}

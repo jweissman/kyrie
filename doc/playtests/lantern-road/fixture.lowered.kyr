@@ -1,0 +1,405 @@
+Module campaign "Serewater March · Client study" {
+  Description "Installed situations share this persistent world.".
+  Kind group.
+  Kind place.
+  Kind good.
+  Kind stock.
+  Kind pressure.
+  Kind clock.
+  Kind fact.
+  Kind source.
+  Kind member.
+  Kind ability.
+  Kind reward.
+  Relation at(entity, place) exclusive.
+  Relation route(place, place).
+  Relation closed(place).
+  Relation denied(group, place, place).
+  Relation footway(place, place).
+  Relation gate(group, place, place).
+  Relation gatekeeper(group).
+  Relation distinct(group, group).
+  Relation able(group).
+  Relation dead(group).
+  Relation released(group).
+  Relation sated(group).
+  Relation acceptsFood(group).
+  Relation carrying(group, good) exclusive.
+  Relation unladen(group).
+  Relation mayCollect(group, stock).
+  Relation job(stock, good).
+  Relation hostile(group, group).
+  Relation recorded(pressure).
+  Relation established(fact).
+  Relation reveals(source, fact).
+  Relation intact(source).
+  Relation noticeable(source).
+  Relation destructible(source).
+  Relation mayExamine(group, source).
+  Relation knows(group, fact).
+  Relation assumesFalse(group, fact).
+  Relation trusts(group, group).
+  Relation learnedFrom(group, source, fact).
+  Relation toldBy(group, group, fact).
+  Relation publicPlace(place).
+  Relation testimony(group, source).
+  Relation memberOf(member, group).
+  Relation awake(member).
+  Relation needsCare(member).
+  Relation canCast(member, ability).
+  Relation treatable(member, ability).
+  Relation restful(place).
+  Relation offeredAt(reward, place).
+  Relation giftEffect(reward, ability).
+  Relation rewardFor(reward, fact).
+  Relation claimed(reward).
+  Measure quantity(entity, good).
+  Measure received(group).
+  Measure claim(group).
+  Measure mercy(group).
+  Measure fee(stock).
+  Measure required(stock, good).
+  Measure watch(clock).
+  Measure urgentAt(clock).
+  Measure deficit(pressure).
+  Query paid(who: group) means received(who) >= claim(who).
+  Query releaseAllowed(who: group) means (paid(who)) or (((acceptsFood(who)) and (sated(who))) or (watch(clock) >= mercy(who))).
+  Entity censer__vesper: group "Vesper, ferry clerk and burial trustee".
+  Entity censer__oren: group "Oren, surveyor waiting for a safe escort".
+  Entity censer__guardian: group "The White Hound, cold-altered burial guardian".
+  Entity party: group "The Wayfarers".
+  Entity gold: good "Coin".
+  Entity rations: good "Ration".
+  Entity clock: clock "Time".
+  Entity censer__town: place "Reedwake · Ferry square".
+  Entity censer__road: place "The willow causeway".
+  Entity censer__entry: place "Censer Hill · The receiving hall".
+  Entity censer__crypt: place "The lower ossuary".
+  Entity censer__stair: place "The broken singers' stair".
+  Entity censer__seal: reward "a one-use ember seal".
+  Entity censer__hearth: fact "The ember seal is a foundry lesson: one companion can learn its fire invocation permanently. Its origin does not grant ownership of the burials.".
+  Entity censer__rubbing: source "The seal's firing instructions".
+  Entity censer__member_guide: member "Elen" bound to censer__guide.
+  Entity censer__member_shield: member "Bran" bound to censer__shield.
+  Entity censer__member_lamp: member "Dori" bound to censer__lamp.
+  Entity censer__member_vesper_person: member "Vesper" bound to censer__vesper_person.
+  Entity censer__member_oren_person: member "Oren" bound to censer__oren_person.
+  Entity censer__member_guardian_person: member "The White Hound" bound to censer__guardian_person.
+  Entity attack: ability "Weapon attack".
+  Entity defend: ability "Guard".
+  Entity flee: ability "Retreat".
+  Entity cleave: ability "Sweeping blow".
+  Entity heal: ability "Mend wounds".
+  Entity bless: ability "Bless the company".
+  Entity purify: ability "Purify".
+  Entity revive: ability "Recall the fallen".
+  Entity bolt: ability "Ember bolt".
+  Entity sleep: ability "Binding sleep".
+  Entity ward: ability "Protective ward".
+  Entity drain: ability "Siphon life".
+  Entity venom: ability "Venom blade".
+  Entity ambush: ability "Backstab".
+  Entity summon: ability "Call a wisp".
+  Entity rally: ability "Second wind".
+  Entity wounding_blow: ability "Wounding blow".
+  Entity dawn_spark: ability "Dawn spark".
+  Entity rending_bite: ability "Rending bite".
+  Entity camp_recovery: ability "Sheltered recovery".
+  Entity cinder_lesson: ability "Cinder lesson".
+  Entity cinder: ability "Cinder invocation".
+  Entity rime_bite: ability "Rime bite".
+  Entity winter_howl: ability "Winter howl".
+  Observe censer__square at censer__town when true "Rain ticks on the ferry office roof. Beyond the landing, a broken chain hangs in the brown water. Vesper keeps a list of the people who went up to Censer Hill. Willow country rises west of the last houses.".
+  Observe censer__willows at censer__road when true "Willow roots grip the raised stone path. Reed warblers call from last year's stems. Above the flood line stands the old foundry: a long roof, an empty bell-frame, and a dark receiving door. You can continue or return before committing supplies.".
+  Observe censer__hall at censer__entry when true "Someone has swept a dry square among the fallen plaster. Oren sits beside a measuring staff. The broad passage descends toward the singers' stair. Light from the doorway remains at your back.".
+  Observe censer__steps at censer__stair when true "Worn steps turn beneath a row of empty niches. A cold draught rises from the lower ossuary. Water has left a pale line across the lowest step. The air smells of limestone and old charcoal.".
+  Observe censer__hound at censer__crypt when able(censer__guardian) "The White Hound stands between chalk burial slabs. Cold has bleached its coat. Its rime bite can weaken; its howl can stun. A small ember seal rests in a side niche, beside its firing instructions. The hound watches the burial slabs. The stair remains behind you.".
+  Observe censer__remains at censer__crypt when dead(censer__guardian) "The White Hound lies still. The crypt does not reset: the injuries and death are part of this campaign. The burial slabs remain undisturbed. The ember seal can be read and accepted if it is still here.".
+  Observe censer__taken at censer__crypt when claimed(censer__seal) "The seal has crumbled. Its invocation belongs to the companion who learned it, and will remain available in future encounters. Return to Reedwake to recover; nothing ends the campaign here.".
+  Initially Assert at(censer__vesper, censer__town).
+  Initially Assert at(censer__oren, censer__entry).
+  Initially Assert at(censer__guardian, censer__crypt).
+  Initially Assert at(party, censer__town).
+  Initially Assert restful(censer__town).
+  Initially Assert route(censer__town, censer__road).
+  Initially Assert route(censer__road, censer__town).
+  Initially Assert route(censer__road, censer__entry).
+  Initially Assert route(censer__entry, censer__road).
+  Initially Assert route(censer__entry, censer__stair).
+  Initially Assert route(censer__stair, censer__entry).
+  Initially Assert route(censer__stair, censer__crypt).
+  Initially Assert route(censer__crypt, censer__stair).
+  Initially Assert at(censer__seal, censer__crypt).
+  Initially Assert giftEffect(censer__seal, cinder_lesson).
+  Initially Assert rewardFor(censer__seal, censer__hearth).
+  Initially Assert offeredAt(censer__seal, censer__crypt).
+  Initially Assert established(censer__hearth).
+  Initially Assert knows(censer__oren, censer__hearth).
+  Initially Assert reveals(censer__rubbing, censer__hearth).
+  Initially Assert at(censer__rubbing, censer__crypt).
+  Initially Assert intact(censer__rubbing).
+  Initially Assert noticeable(censer__rubbing).
+  Initially Assert mayExamine(party, censer__rubbing).
+  Initially Set quantity(party, rations) to 3.
+  Initially Set quantity(party, gold) to 4.
+  Initially Assert memberOf(censer__member_guide, party).
+  Initially Assert memberOf(censer__member_shield, party).
+  Initially Assert memberOf(censer__member_lamp, party).
+  Initially Assert memberOf(censer__member_vesper_person, censer__vesper).
+  Initially Assert memberOf(censer__member_oren_person, censer__oren).
+  Initially Assert memberOf(censer__member_guardian_person, censer__guardian).
+  Initially Assert distinct(party, censer__vesper).
+  Initially Assert distinct(party, censer__oren).
+  Initially Assert distinct(party, censer__guardian).
+  Initially Assert distinct(censer__vesper, party).
+  Initially Assert distinct(censer__vesper, censer__oren).
+  Initially Assert distinct(censer__vesper, censer__guardian).
+  Initially Assert distinct(censer__oren, party).
+  Initially Assert distinct(censer__oren, censer__vesper).
+  Initially Assert distinct(censer__oren, censer__guardian).
+  Initially Assert distinct(censer__guardian, party).
+  Initially Assert distinct(censer__guardian, censer__vesper).
+  Initially Assert distinct(censer__guardian, censer__oren).
+  Budget 0.
+  Goal false.
+
+  Action wait(actor: group) "Wait" {
+    Description "".
+    Requires able(actor).
+    Cost 1. Time 1.
+    On success {
+    }
+  }
+
+  Action travel(actor: group, origin: place, destination: place) "Travel to {destination}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, origin)) and ((route(origin, destination)) and ((not (closed(destination))) and (not (denied(actor, origin, destination)))))).
+    Cost 1. Time 1.
+    Result "You follow the route and arrive at the next place. People and dangers continue while you travel.".
+    On success {
+      Assert at(actor, destination).
+    }
+  }
+
+  Action walk(actor: group, origin: place, destination: place) "Walk the footpath to {destination}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, origin)) and ((unladen(actor)) and (footway(origin, destination)))).
+    Cost 1. Time 1.
+    On success {
+      Assert at(actor, destination).
+    }
+  }
+
+  Action cross(actor: group, origin: place, destination: place, defender: group) "Cross past {defender} to {destination}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, origin)) and ((gate(defender, origin, destination)) and (((released(defender)) or (not (able(defender)))) and (not (closed(destination)))))).
+    Cost 1. Time 1.
+    On success {
+      Assert at(actor, destination).
+    }
+  }
+
+  Action pay(actor: group, recipient: group, site: place) "Give {recipient} one coin" {
+    Description "".
+    Requires (able(actor)) and ((able(recipient)) and ((distinct(actor, recipient)) and ((at(actor, site)) and ((at(recipient, site)) and (quantity(actor, gold) >= 1))))).
+    Cost 1. Time 1.
+    Result "You hand over one coin. It is now in the recipient’s purse.".
+    On success {
+      Decrease quantity(actor, gold) by 1.
+      Increase quantity(recipient, gold) by 1.
+      Increase received(recipient) by 1.
+    }
+  }
+
+  Action give_food(actor: group, recipient: group, site: place) "Give {recipient} one ration" {
+    Description "".
+    Requires (able(actor)) and ((able(recipient)) and ((distinct(actor, recipient)) and ((at(actor, site)) and ((at(recipient, site)) and (quantity(actor, rations) >= 1))))).
+    Cost 1. Time 1.
+    Result "You offer a ration and step back. The recipient now owns it; what they do next is their decision.".
+    On success {
+      Decrease quantity(actor, rations) by 1.
+      Increase quantity(recipient, rations) by 1.
+    }
+  }
+
+  Action eat(actor: group) "Eat a ration" {
+    Description "".
+    Requires (able(actor)) and ((not (sated(actor))) and (quantity(actor, rations) >= 1)).
+    Cost 1. Time 1.
+    Result "The company shares a ration. This satisfies hunger but does not restore health or mana.".
+    On success {
+      Decrease quantity(actor, rations) by 1.
+      Assert sated(actor).
+    }
+  }
+
+  Action release(actor: group) "End the blockade" {
+    Description "".
+    Requires (able(actor)) and ((gatekeeper(actor)) and ((not (released(actor))) and (releaseAllowed(actor)))).
+    Cost 1. Time 1.
+    On success {
+      Assert released(actor).
+    }
+  }
+
+  Action collect(actor: group, store: stock, goods: good, site: place) "Collect one {goods} from {store}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(store, site)) and ((mayCollect(actor, store)) and ((unladen(actor)) and (quantity(store, goods) >= 1))))).
+    Cost 1. Time 1.
+    Result "You collect one unit from the available stock. It is now carried by the company.".
+    On success {
+      Decrease quantity(store, goods) by 1.
+      Retract unladen(actor).
+      Assert carrying(actor, goods).
+    }
+  }
+
+  Action put(actor: group, store: stock, goods: good, site: place) "Deposit one {goods} in {store}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(store, site)) and (carrying(actor, goods)))).
+    Cost 1. Time 1.
+    Result "You deposit what the company was carrying. The stock increases and your hands are free.".
+    On success {
+      Retract carrying(actor, goods).
+      Assert unladen(actor).
+      Increase quantity(store, goods) by 1.
+    }
+  }
+
+  Action fulfill_job(actor: group, store: stock, goods: good, site: place) "Deliver {goods} to {store} for pay" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(store, site)) and ((carrying(actor, goods)) and ((job(store, goods)) and (quantity(store, gold) >= 1))))).
+    Cost 1. Time 1.
+    On success {
+      Retract carrying(actor, goods).
+      Assert unladen(actor).
+      Increase quantity(store, goods) by 1.
+      Decrease quantity(store, gold) by 1.
+      Increase quantity(actor, gold) by 1.
+    }
+  }
+
+  Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
+    Description "".
+    Requires (able(actor)) and ((able(opponent)) and ((distinct(actor, opponent)) and ((at(actor, site)) and (at(opponent, site))))).
+    Cost 1. Time 1.
+    Resolve combat(opponent).
+    On success {
+      Assert hostile(actor, opponent).
+      Assert hostile(opponent, actor).
+    }
+    On failure {
+      Assert hostile(actor, opponent).
+      Assert hostile(opponent, actor).
+    }
+  }
+
+  Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(witness, site)) and ((noticeable(witness)) and ((intact(witness)) and ((mayExamine(actor, witness)) and ((reveals(witness, statement)) and ((established(statement)) and (not (learnedFrom(actor, witness, statement)))))))))).
+    Cost 1. Time 1.
+    On success {
+      Assert knows(actor, statement).
+      Retract assumesFalse(actor, statement).
+      Assert learnedFrom(actor, witness, statement).
+    }
+  }
+
+  Action tell(actor: group, recipient: group, statement: fact, site: place) "Tell {recipient}: {statement}" {
+    Description "".
+    Requires (able(actor)) and ((able(recipient)) and ((distinct(actor, recipient)) and ((at(actor, site)) and ((at(recipient, site)) and ((trusts(recipient, actor)) and ((knows(actor, statement)) and ((established(statement)) and (not (toldBy(recipient, actor, statement)))))))))).
+    Cost 1. Time 1.
+    Result "You explain what the evidence establishes. The listener accepts your account and sets aside a conflicting assumption; their next choices remain their own.".
+    On success {
+      Assert knows(recipient, statement).
+      Retract assumesFalse(recipient, statement).
+      Assert toldBy(recipient, actor, statement).
+    }
+  }
+
+  Action ask(actor: group, informant: group, topic: source, statement: fact, site: place) "Ask {informant} about {topic}" {
+    Description "Ask about an offered topic. The speaker shares an established fact they actually know.".
+    Requires (able(actor)) and ((able(informant)) and ((distinct(actor, informant)) and ((at(actor, site)) and ((at(informant, site)) and ((testimony(informant, topic)) and ((reveals(topic, statement)) and ((noticeable(topic)) and ((knows(informant, statement)) and ((established(statement)) and (not (toldBy(actor, informant, statement)))))))))))).
+    Cost 1. Time 1.
+    Result "The speaker shares an account they know. You record it in your journal.".
+    On success {
+      Assert knows(actor, statement).
+      Retract assumesFalse(actor, statement).
+      Assert toldBy(actor, informant, statement).
+    }
+  }
+
+  Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(witness, site)) and ((noticeable(witness)) and ((intact(witness)) and (destructible(witness)))))).
+    Cost 1. Time 1.
+    Result "You destroy this source of evidence. Existing knowledge and other sources remain.".
+    On success {
+      Retract intact(witness).
+    }
+  }
+
+  Action field_spell(actor: group, caster: member, technique: ability, recipient: member, site: place) "Have {caster} use {technique} on {recipient}" {
+    Description "Use a known healing or cleansing ability outside combat. Its normal mana cost is paid; combat cooldowns do not apply.".
+    Requires (able(actor)) and ((at(actor, site)) and ((memberOf(caster, actor)) and ((memberOf(recipient, actor)) and ((awake(caster)) and ((awake(recipient)) and ((needsCare(recipient)) and ((canCast(caster, technique)) and (treatable(recipient, technique))))))))).
+    Cost 1. Time 1.
+    Result "You pause to tend a companion. The same spell effects and mana costs apply here as in battle.".
+    Resolve invoke(technique, caster, recipient).
+    On success {
+    }
+  }
+
+  Action rest(actor: group, site: place) "Rest and recover at {site}" {
+    Description "Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.".
+    Requires (able(actor)) and ((at(actor, site)) and ((restful(site)) and (quantity(actor, rations) >= 1))).
+    Cost 1. Time 36.
+    Result "You settle in for six hours, sharing a ration and tending your wounds. The world continues outside.".
+    Resolve recover(actor).
+    On success {
+      Decrease quantity(actor, rations) by 1.
+    }
+  }
+
+  Action learn_reward(actor: group, gift: reward, recipient: member, lesson: ability, proof: fact, site: place) "Accept {gift} for {recipient}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((offeredAt(gift, site)) and ((memberOf(recipient, actor)) and ((awake(recipient)) and ((giftEffect(gift, lesson)) and ((rewardFor(gift, proof)) and ((knows(actor, proof)) and (not (claimed(gift)))))))))).
+    Cost 1. Time 1.
+    Result "The chosen companion studies the one-use lesson. Its power is spent, but the learned ability remains available on future expeditions.".
+    Resolve reward(lesson, recipient).
+    On success {
+      Assert claimed(gift).
+      Retract offeredAt(gift, site).
+      Retract at(gift, site).
+    }
+  }
+
+  Action censer__vesper_work(actor: group, site: place) "Why are people going to Censer Hill?" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(censer__vesper)) and ((distinct(actor, censer__vesper)) and ((at(actor, site)) and (at(censer__vesper, site)))))) and (true).
+    Cost 1. Time 1.
+    Result "'The flood broke the ferry chain. The foundry has bronze enough for a new one, but those are our families' burial galleries now. My brother went with the salvagers. I need him back; I will not buy a bridge with stolen bones. Speak to Oren before you decide what to take.'".
+    Speaker censer__vesper.
+    On success {
+    }
+  }
+
+  Action censer__vesper_help(actor: group, site: place) "What can we prepare here?" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(censer__vesper)) and ((distinct(actor, censer__vesper)) and ((at(actor, site)) and (at(censer__vesper, site)))))) and (true).
+    Cost 1. Time 1.
+    Result "'The inn has beds and your company has provisions. Rest here costs a ration and six hours. A cleric can heal wounds on the road. You will need to choose how far to go before turning back. Ask what the people up there claim before deciding what is yours to take.'".
+    Speaker censer__vesper.
+    On success {
+    }
+  }
+
+  Action censer__oren_burials(actor: group, site: place) "What happened to the expedition?" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(censer__oren)) and ((distinct(actor, censer__oren)) and ((at(actor, site)) and (at(censer__oren, site)))))) and (true).
+    Cost 1. Time 1.
+    Result "'We split over the bronze. The others went farther down. The hound guards the lower gallery: fire can hurt it, cold scarcely does, and its howl can stun. You can turn back. There is also an old lesson seal below; taking that does not mend the ferry or recover my companions.' Oren folds his survey. 'I can tell you what I saw. I cannot promise what lies beyond.'".
+    Speaker censer__oren.
+    On success {
+    }
+  }
+}

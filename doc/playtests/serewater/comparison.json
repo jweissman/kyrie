@@ -1,0 +1,441 @@
+[
+  {
+    "kind": "fellowship",
+    "seed": "serewater",
+    "commands": 92,
+    "time": "Day 2, 12:20 p.m.",
+    "money": 42,
+    "conserved": true,
+    "cliBrowserMatch": true,
+    "outcomes": {
+      "march.surveyor_home": true,
+      "march.names_recovered": true,
+      "march.custody_respected": true,
+      "march.guardian_destroyed": false,
+      "march.secret_stair_known": true,
+      "march.deep_return_route": true,
+      "march.salvagers_withdrawn": true,
+      "march.water_risen": true
+    },
+    "party": [
+      {
+        "backgroundId": "forager",
+        "id": "march__guide",
+        "name": "Elen",
+        "raceId": "elf",
+        "classId": "ranger",
+        "base": {
+          "strength": 11,
+          "dexterity": 10,
+          "intelligence": 8,
+          "wisdom": 15,
+          "constitution": 15,
+          "charisma": 9,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "ambush",
+            "heal",
+            "flee",
+            "elf_focus"
+          ],
+          "maxHp": 14,
+          "maxMana": 2,
+          "speed": 4
+        },
+        "state": {
+          "hp": 14,
+          "mana": 2,
+          "gold": 7,
+          "experience": 20,
+          "learnedAbilities": [
+            "serewater_training"
+          ],
+          "conditions": [],
+          "inventory": [
+            {
+              "id": "march__line_cache",
+              "definition": "ropekit",
+              "equipped": true
+            },
+            {
+              "id": "march__lantern_cache",
+              "definition": "wardedlantern",
+              "equipped": true
+            },
+            {
+              "id": "march__charm_cache",
+              "definition": "wardblade",
+              "equipped": true
+            }
+          ]
+        }
+      },
+      {
+        "backgroundId": "surveyor",
+        "id": "march__shield",
+        "name": "Bran",
+        "raceId": "human",
+        "classId": "fighter",
+        "base": {
+          "strength": 18,
+          "dexterity": 11,
+          "intelligence": 14,
+          "wisdom": 8,
+          "constitution": 5,
+          "charisma": 16,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow",
+            "human_resolve"
+          ],
+          "maxHp": 13,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 13,
+          "mana": 0,
+          "gold": 0,
+          "experience": 40,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "backgroundId": "pilgrim",
+        "id": "march__lamp",
+        "name": "Dori",
+        "raceId": "dwarf",
+        "classId": "cleric",
+        "base": {
+          "strength": 16,
+          "dexterity": 5,
+          "intelligence": 11,
+          "wisdom": 15,
+          "constitution": 18,
+          "charisma": 11,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee",
+            "dwarf_guard"
+          ],
+          "maxHp": 16,
+          "maxMana": 6,
+          "speed": 0
+        },
+        "state": {
+          "hp": 16,
+          "mana": 6,
+          "gold": 0,
+          "experience": 40,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      }
+    ],
+    "sourceDecisions": [
+      {
+        "actor": "march__edda",
+        "goal": "permit_withdraw",
+        "action": "travel(march__edda,march__workshop,march__vestibule)",
+        "plan": [
+          "travel(march__edda,march__workshop,march__vestibule)",
+          "travel(march__edda,march__vestibule,march__yard)"
+        ],
+        "elapsed": 78,
+        "changes": [
+          "- at(march__edda, march__workshop)",
+          "+ at(march__edda, march__vestibule)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_withdraw",
+        "action": "travel(march__edda,march__vestibule,march__yard)",
+        "plan": [
+          "travel(march__edda,march__vestibule,march__yard)"
+        ],
+        "elapsed": 79,
+        "changes": [
+          "- at(march__edda, march__vestibule)",
+          "+ at(march__edda, march__yard)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_return",
+        "action": "travel(march__edda,march__yard,march__ridge)",
+        "plan": [
+          "travel(march__edda,march__yard,march__ridge)",
+          "travel(march__edda,march__ridge,march__causeway)",
+          "travel(march__edda,march__causeway,march__quay)"
+        ],
+        "elapsed": 80,
+        "changes": [
+          "- at(march__edda, march__yard)",
+          "+ at(march__edda, march__ridge)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_return",
+        "action": "travel(march__edda,march__ridge,march__causeway)",
+        "plan": [
+          "travel(march__edda,march__ridge,march__causeway)",
+          "travel(march__edda,march__causeway,march__quay)"
+        ],
+        "elapsed": 81,
+        "changes": [
+          "- at(march__edda, march__ridge)",
+          "+ at(march__edda, march__causeway)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_return",
+        "action": "travel(march__edda,march__causeway,march__quay)",
+        "plan": [
+          "travel(march__edda,march__causeway,march__quay)"
+        ],
+        "elapsed": 82,
+        "changes": [
+          "- at(march__edda, march__causeway)",
+          "+ at(march__edda, march__quay)"
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "hired",
+    "seed": "drizzle",
+    "commands": 91,
+    "time": "Day 2, 12:10 p.m.",
+    "money": 43,
+    "conserved": true,
+    "cliBrowserMatch": true,
+    "outcomes": {
+      "march.surveyor_home": true,
+      "march.names_recovered": true,
+      "march.custody_respected": false,
+      "march.guardian_destroyed": true,
+      "march.secret_stair_known": true,
+      "march.deep_return_route": true,
+      "march.salvagers_withdrawn": true,
+      "march.water_risen": true
+    },
+    "party": [
+      {
+        "backgroundId": "forager",
+        "id": "march__guide",
+        "name": "Nell",
+        "raceId": "human",
+        "classId": "thief",
+        "base": {
+          "strength": 10,
+          "dexterity": 18,
+          "intelligence": 13,
+          "wisdom": 18,
+          "constitution": 13,
+          "charisma": 12,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "ambush",
+            "venom",
+            "flee",
+            "human_resolve"
+          ],
+          "maxHp": 8,
+          "maxMana": 0,
+          "speed": 5
+        },
+        "state": {
+          "hp": 8,
+          "mana": 0,
+          "gold": 8,
+          "experience": 80,
+          "learnedAbilities": [
+            "serewater_training"
+          ],
+          "conditions": [],
+          "inventory": [
+            {
+              "id": "march__line_cache",
+              "definition": "ropekit",
+              "equipped": true
+            },
+            {
+              "id": "march__lantern_cache",
+              "definition": "wardedlantern",
+              "equipped": true
+            },
+            {
+              "id": "march__charm_cache",
+              "definition": "wardblade",
+              "equipped": true
+            }
+          ]
+        }
+      },
+      {
+        "backgroundId": "forager",
+        "id": "march__shield",
+        "name": "Bran",
+        "raceId": "human",
+        "classId": "fighter",
+        "base": {
+          "strength": 11,
+          "dexterity": 11,
+          "intelligence": 12,
+          "wisdom": 5,
+          "constitution": 8,
+          "charisma": 10,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow",
+            "human_resolve"
+          ],
+          "maxHp": 14,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 14,
+          "mana": 0,
+          "gold": 0,
+          "experience": 100,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "backgroundId": "forager",
+        "id": "march__lamp",
+        "name": "Mira",
+        "raceId": "human",
+        "classId": "magic_user",
+        "base": {
+          "strength": 12,
+          "dexterity": 7,
+          "intelligence": 13,
+          "wisdom": 10,
+          "constitution": 8,
+          "charisma": 12,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "bolt",
+            "sleep",
+            "ward",
+            "drain",
+            "summon",
+            "flee",
+            "human_resolve"
+          ],
+          "maxHp": 6,
+          "maxMana": 7,
+          "speed": 1
+        },
+        "state": {
+          "hp": 0,
+          "mana": 0,
+          "gold": 0,
+          "experience": 20,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      }
+    ],
+    "sourceDecisions": [
+      {
+        "actor": "march__edda",
+        "goal": "permit_withdraw",
+        "action": "travel(march__edda,march__workshop,march__vestibule)",
+        "plan": [
+          "travel(march__edda,march__workshop,march__vestibule)",
+          "travel(march__edda,march__vestibule,march__yard)"
+        ],
+        "elapsed": 76,
+        "changes": [
+          "- at(march__edda, march__workshop)",
+          "+ at(march__edda, march__vestibule)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_withdraw",
+        "action": "travel(march__edda,march__vestibule,march__yard)",
+        "plan": [
+          "travel(march__edda,march__vestibule,march__yard)"
+        ],
+        "elapsed": 77,
+        "changes": [
+          "- at(march__edda, march__vestibule)",
+          "+ at(march__edda, march__yard)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_return",
+        "action": "travel(march__edda,march__yard,march__ridge)",
+        "plan": [
+          "travel(march__edda,march__yard,march__ridge)",
+          "travel(march__edda,march__ridge,march__causeway)",
+          "travel(march__edda,march__causeway,march__quay)"
+        ],
+        "elapsed": 78,
+        "changes": [
+          "- at(march__edda, march__yard)",
+          "+ at(march__edda, march__ridge)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_return",
+        "action": "travel(march__edda,march__ridge,march__causeway)",
+        "plan": [
+          "travel(march__edda,march__ridge,march__causeway)",
+          "travel(march__edda,march__causeway,march__quay)"
+        ],
+        "elapsed": 79,
+        "changes": [
+          "- at(march__edda, march__ridge)",
+          "+ at(march__edda, march__causeway)"
+        ]
+      },
+      {
+        "actor": "march__edda",
+        "goal": "permit_return",
+        "action": "travel(march__edda,march__causeway,march__quay)",
+        "plan": [
+          "travel(march__edda,march__causeway,march__quay)"
+        ],
+        "elapsed": 80,
+        "changes": [
+          "- at(march__edda, march__causeway)",
+          "+ at(march__edda, march__quay)"
+        ]
+      }
+    ]
+  }
+]

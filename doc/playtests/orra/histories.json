@@ -1,0 +1,172 @@
+[
+  {
+    "name": "investigator",
+    "party": "fellowship",
+    "watch": 16,
+    "running": true,
+    "outcomes": {
+      "refuge.accusation_withdrawn": true,
+      "refuge.heating_lost": true,
+      "refuge.water_spoiled": false,
+      "refuge.expelled": false,
+      "tower.siphon_stopped": true,
+      "tower.moor_flooded": false,
+      "tower.healer_home": true,
+      "tower.warden_dead": false
+    },
+    "partyHp": [
+      {
+        "id": "refuge__guide",
+        "hp": 10,
+        "maxHp": 10
+      },
+      {
+        "id": "refuge__shield",
+        "hp": 15,
+        "maxHp": 15
+      },
+      {
+        "id": "refuge__lamp",
+        "hp": 13,
+        "maxHp": 13
+      }
+    ],
+    "combat": 0
+  },
+  {
+    "name": "expedition",
+    "party": "fellowship",
+    "watch": 11,
+    "running": true,
+    "outcomes": {
+      "refuge.accusation_withdrawn": false,
+      "refuge.heating_lost": false,
+      "refuge.water_spoiled": false,
+      "refuge.expelled": false,
+      "tower.siphon_stopped": true,
+      "tower.moor_flooded": false,
+      "tower.healer_home": true,
+      "tower.warden_dead": false
+    },
+    "partyHp": [
+      {
+        "id": "refuge__guide",
+        "hp": 10,
+        "maxHp": 10
+      },
+      {
+        "id": "refuge__shield",
+        "hp": 15,
+        "maxHp": 15
+      },
+      {
+        "id": "refuge__lamp",
+        "hp": 13,
+        "maxHp": 13
+      }
+    ],
+    "combat": 0
+  },
+  {
+    "name": "violent",
+    "party": "company",
+    "watch": 5,
+    "running": true,
+    "outcomes": {
+      "refuge.accusation_withdrawn": false,
+      "refuge.heating_lost": false,
+      "refuge.water_spoiled": false,
+      "refuge.expelled": false,
+      "tower.siphon_stopped": false,
+      "tower.moor_flooded": false,
+      "tower.healer_home": false,
+      "tower.warden_dead": true
+    },
+    "partyHp": [
+      {
+        "id": "refuge__guide",
+        "hp": 0,
+        "maxHp": 7
+      },
+      {
+        "id": "refuge__shield",
+        "hp": 5,
+        "maxHp": 15
+      },
+      {
+        "id": "refuge__lamp",
+        "hp": 10,
+        "maxHp": 10
+      }
+    ],
+    "combat": 68
+  },
+  {
+    "name": "unattended",
+    "party": "fellowship",
+    "watch": 38,
+    "running": true,
+    "outcomes": {
+      "refuge.accusation_withdrawn": false,
+      "refuge.heating_lost": false,
+      "refuge.water_spoiled": true,
+      "refuge.expelled": true,
+      "tower.siphon_stopped": false,
+      "tower.moor_flooded": true,
+      "tower.healer_home": false,
+      "tower.warden_dead": false
+    },
+    "partyHp": [
+      {
+        "id": "refuge__guide",
+        "hp": 10,
+        "maxHp": 10
+      },
+      {
+        "id": "refuge__shield",
+        "hp": 15,
+        "maxHp": 15
+      },
+      {
+        "id": "refuge__lamp",
+        "hp": 13,
+        "maxHp": 13
+      }
+    ],
+    "combat": 0
+  },
+  {
+    "name": "fellowship-battle",
+    "party": "fellowship",
+    "watch": 5,
+    "running": true,
+    "outcomes": {
+      "refuge.accusation_withdrawn": false,
+      "refuge.heating_lost": false,
+      "refuge.water_spoiled": false,
+      "refuge.expelled": false,
+      "tower.siphon_stopped": false,
+      "tower.moor_flooded": false,
+      "tower.healer_home": false,
+      "tower.warden_dead": true
+    },
+    "partyHp": [
+      {
+        "id": "refuge__guide",
+        "hp": 10,
+        "maxHp": 10
+      },
+      {
+        "id": "refuge__shield",
+        "hp": 10,
+        "maxHp": 15
+      },
+      {
+        "id": "refuge__lamp",
+        "hp": 13,
+        "maxHp": 13
+      }
+    ],
+    "combat": 85
+  }
+]

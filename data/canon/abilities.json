@@ -1,0 +1,474 @@
+{
+  "about": "Abilities: what a creature can choose to do. kind is technique (trained or innate action), spell (with tradition, level and, for Orsino spells, school or domain) or natural (a creature's own attack). effect is written in the Kyr effect language; effects is the typed form. Mechanisms of places are hazards in their own modules, not abilities.",
+  "abilities": {
+    "attack": {
+      "name": "Weapon attack",
+      "kind": "technique",
+      "effect": "Deal (max(0, statMod(#strength) + 1d6)) physical damage to enemy.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "defend": {
+      "name": "Guard",
+      "kind": "technique",
+      "effect": "Defend.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "flee": {
+      "name": "Retreat",
+      "kind": "technique",
+      "effect": "Flee.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "cleave": {
+      "name": "Sweeping blow",
+      "kind": "technique",
+      "effect": "Deal (max(0, statMod(#strength) + 1d4)) physical damage to enemies.",
+      "recharge": 2,
+      "source": {
+        "kyr": true
+      }
+    },
+    "venom": {
+      "name": "Venom blade",
+      "kind": "technique",
+      "effect": "Deal (1d4) poison damage to enemy. Apply poisoned to enemy for 3 turns.",
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "ambush": {
+      "name": "Backstab",
+      "kind": "technique",
+      "effect": "Deal (max(0, statMod(#dexterity) + 2d4)) physical damage to enemy.",
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "rally": {
+      "name": "Second wind",
+      "kind": "technique",
+      "effect": "If (#hp < #maxHp), Heal (1d4) health to self.",
+      "recharge": 4,
+      "source": {
+        "kyr": true
+      }
+    },
+    "wounding_blow": {
+      "name": "Wounding blow",
+      "kind": "technique",
+      "effect": "Deal (1d4) physical damage to enemy. Apply weakened to enemy for 3 turns.",
+      "recharge": 2,
+      "source": {
+        "kyr": true
+      }
+    },
+    "human_resolve": {
+      "name": "Riverland resolve",
+      "kind": "technique",
+      "effect": "Remove weakened from self. Heal (1d3) health to self.",
+      "recharge": 4,
+      "source": {
+        "kyr": true
+      }
+    },
+    "elf_focus": {
+      "name": "Elder focus",
+      "kind": "technique",
+      "effect": "Apply blessed to self for 2 turns.",
+      "recharge": 4,
+      "source": {
+        "kyr": true
+      }
+    },
+    "dwarf_guard": {
+      "name": "Stone endurance",
+      "kind": "technique",
+      "effect": "Apply warded to self for 2 turns.",
+      "recharge": 4,
+      "source": {
+        "kyr": true
+      }
+    },
+    "goblin_feint": {
+      "name": "Warren feint",
+      "kind": "technique",
+      "effect": "Deal (1d4) physical damage to enemy. Apply weakened to enemy for 2 turns unless dexterity save against (11).",
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "heal": {
+      "name": "Mend wounds",
+      "kind": "spell",
+      "effect": "Heal (max(0, 1d6 + statMod(#wisdom))) health to ally.",
+      "cost": 2,
+      "spell": {
+        "tradition": "divine",
+        "level": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "bless": {
+      "name": "Bless the company",
+      "kind": "spell",
+      "effect": "Apply blessed to party for 3 turns.",
+      "cost": 2,
+      "spell": {
+        "tradition": "divine",
+        "level": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "purify": {
+      "name": "Purify",
+      "kind": "spell",
+      "effect": "Remove poisoned from ally.",
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "revive": {
+      "name": "Recall the fallen",
+      "kind": "spell",
+      "effect": "Revive dead ally with (1d6) health.",
+      "cost": 4,
+      "spell": {
+        "tradition": "divine",
+        "level": 3
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "bolt": {
+      "name": "Ember bolt",
+      "kind": "spell",
+      "effect": "Deal (max(0, 1d6 + statMod(#intelligence))) fire damage to enemy.",
+      "cost": 1,
+      "spell": {
+        "tradition": "arcane",
+        "level": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "sleep": {
+      "name": "Binding sleep",
+      "kind": "spell",
+      "effect": "Apply stunned to enemies for 1 turn unless wisdom save against (10 + statMod(#intelligence)).",
+      "cost": 3,
+      "spell": {
+        "tradition": "arcane",
+        "level": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "ward": {
+      "name": "Protective ward",
+      "kind": "spell",
+      "effect": "Apply warded to self for 3 turns.",
+      "cost": 1,
+      "spell": {
+        "tradition": "arcane",
+        "level": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "drain": {
+      "name": "Siphon life",
+      "kind": "spell",
+      "effect": "Drain (1d6) health from enemy.",
+      "cost": 2,
+      "spell": {
+        "tradition": "arcane",
+        "level": 2
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "summon": {
+      "name": "Call a wisp",
+      "kind": "spell",
+      "effect": "Summon wisp for self.",
+      "cost": 3,
+      "spell": {
+        "tradition": "arcane",
+        "level": 2
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "cure_minor": {
+      "name": "Cure Minor Wounds",
+      "kind": "spell",
+      "effect": "Heal (1d4) health to ally.",
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 0,
+        "domain": "life"
+      },
+      "source": {
+        "orsino": "divineSpell:cure_minor",
+        "fidelity": "adapted",
+        "notes": "Exact 1d4 healing; Kyr mana cost replaces spell slots."
+      }
+    },
+    "luminous_touch": {
+      "name": "Luminous Touch",
+      "kind": "spell",
+      "effect": "Heal (1d2 + #level) health to ally.",
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 0,
+        "domain": "light"
+      },
+      "source": {
+        "orsino": "divineSpell:luminous_touch",
+        "fidelity": "adapted",
+        "notes": "Exact 1d2 + level healing; Kyr mana cost replaces spell slots."
+      }
+    },
+    "resist_fire": {
+      "name": "Resist Fire",
+      "kind": "spell",
+      "description": "Grant an ally resistance to fire.",
+      "effect": "Apply fireproof to ally for 10 turns.",
+      "cost": 2,
+      "spell": {
+        "tradition": "divine",
+        "level": 2,
+        "domain": "life"
+      },
+      "source": {
+        "orsino": "divineSpell:resist_fire",
+        "fidelity": "adapted",
+        "notes": "Orsino buffs fireproof with its default duration; Kyr lasts ten of the recipient's combat turns and is paid in mana."
+      }
+    },
+    "fire_ward": {
+      "name": "Fire ward",
+      "kind": "technique",
+      "description": "Spend a little strength to ward a companion against fire for about two hours.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "fireproof",
+          "duration": 12,
+          "target": "ally",
+          "clock": "world-time"
+        }
+      ],
+      "cost": 2,
+      "source": {
+        "orsino": "status:fireproof",
+        "fidelity": "adapted",
+        "notes": "Kyr technique granted by a ward focus; applies fireproof on the world clock for twelve units."
+      }
+    },
+    "flame_strike": {
+      "name": "Strike with the Longsword of Flames",
+      "kind": "technique",
+      "description": "A burning blade: a piercing cut and a lick of fire.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d8"
+          },
+          "damageType": "piercing",
+          "target": "enemy"
+        },
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d6"
+          },
+          "damageType": "fire",
+          "target": "enemy"
+        }
+      ],
+      "attack": {
+        "stat": "strength",
+        "defense": 10,
+        "critical": 2
+      },
+      "damagePolicy": "typed-v1",
+      "source": {
+        "orsino": "equipment:longsword_of_flames",
+        "fidelity": "adapted",
+        "notes": "Exact 1d8 piercing + 1d6 fire on hit; Kyr attack roll against 10, not THAC0."
+      }
+    },
+    "rending_bite": {
+      "name": "Rending bite",
+      "kind": "natural",
+      "effect": "Deal (1d6) physical damage to enemy. Apply bleeding to enemy for 2 turns unless constitution save against (11).",
+      "recharge": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "rime_bite": {
+      "name": "Rime bite",
+      "kind": "natural",
+      "effect": "Deal (2d6) cold damage to enemy. Apply weakened to enemy for 3 turns unless constitution save against (11).",
+      "recharge": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "winter_howl": {
+      "name": "Winter howl",
+      "kind": "natural",
+      "effect": "Apply stunned to enemies for 1 turn unless wisdom save against (12).",
+      "cost": 1,
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "custodian_sweep": {
+      "name": "Bronze sweep",
+      "kind": "natural",
+      "effect": "Deal (1d6) physical damage to enemies unless dexterity save against (11).",
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "custodian_chain": {
+      "name": "Burial chain",
+      "kind": "natural",
+      "effect": "Deal (1d6) physical damage to enemy. Apply weakened to enemy for 3 turns unless strength save against (12).",
+      "recharge": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "bite": {
+      "name": "Bite",
+      "kind": "natural",
+      "description": "Jaws close on one opponent.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d6 + max(0, statMod(#strength))"
+          },
+          "damageType": "piercing",
+          "target": "enemy"
+        }
+      ],
+      "attack": {
+        "stat": "strength",
+        "defense": 10,
+        "critical": 2
+      },
+      "damagePolicy": "typed-v1",
+      "source": {
+        "orsino": "weapon:bite",
+        "fidelity": "adapted",
+        "notes": "Exact 1d6 piercing plus the positive strength modifier; Kyr attack roll against 10."
+      }
+    },
+    "fire_breath": {
+      "name": "Fire breath",
+      "kind": "natural",
+      "description": "Fire pours over everyone before the creature. A quick or hardy creature takes half. The fire takes a while to rekindle.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "4d6"
+          },
+          "damageType": "fire",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "damagePolicy": "typed-v1",
+      "source": {
+        "orsino": "weapon:fire_breath",
+        "fidelity": "adapted",
+        "notes": "Exact 4d6 fire. Orsino uses it as a single-target melee weapon; Kyr breathes it over every opponent with a breath save for half and a three-turn recharge."
+      }
+    },
+    "slam": {
+      "name": "Slam",
+      "kind": "natural",
+      "description": "A heavy body drives into one opponent.",
+      "attack": {
+        "stat": "strength",
+        "defense": 10,
+        "critical": 2
+      },
+      "damagePolicy": "typed-v1",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d6 + max(0, statMod(#strength))"
+          },
+          "damageType": "piercing",
+          "target": "enemy"
+        }
+      ],
+      "source": {
+        "orsino": "weapon:slam",
+        "fidelity": "adapted",
+        "notes": "Exact 1d6 and Orsino's piercing type (sic) plus the positive strength modifier; Kyr attack roll against 10."
+      }
+    },
+    "smash": {
+      "name": "Smash",
+      "kind": "technique",
+      "description": "A powerful two-fisted blow.",
+      "effect": "Deal (2d6 + #level) bludgeoning damage to enemy.",
+      "source": {
+        "orsino": "ability:smash",
+        "fidelity": "faithful",
+        "notes": "Exact 2d6 + level bludgeoning, no attack roll, as in Orsino."
+      }
+    }
+  }
+}

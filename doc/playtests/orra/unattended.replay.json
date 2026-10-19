@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "scenario": "data/orra/fellowship.campaign.json",
+  "seed": "orra",
+  "steps": [
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "wait"
+    }
+  ],
+  "complete": true
+}

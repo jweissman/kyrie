@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "situation": "refuge.kyr",
+  "rules": [
+    "../rulesets/adventure.kyr",
+    "../rulesets/discovery.kyr",
+    "../rulesets/site-capabilities.kyr",
+    "../rulesets/affinities.kyr"
+  ],
+  "generation": {
+    "type": "refuge_situation",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "globals": [
+    "party",
+    "gold",
+    "rations",
+    "clock",
+    "fellowship",
+    "woodcraft"
+  ],
+  "imports": [],
+  "exports": {
+    "green": "green",
+    "kiln": "kiln",
+    "furnace": "furnace",
+    "crawl": "crawl",
+    "party": "party",
+    "gold": "gold",
+    "rations": "rations",
+    "clock": "clock",
+    "fellowship": "fellowship",
+    "woodcraft": "woodcraft"
+  }
+}

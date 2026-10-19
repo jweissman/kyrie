@@ -1,0 +1,225 @@
+{
+  "communityPopulation": {
+    "discriminator": "culture",
+    "groups": {
+      "river": [
+        "human",
+        "human",
+        "goblin"
+      ],
+      "upland": [
+        "goblin",
+        "goblin",
+        "human"
+      ]
+    }
+  },
+  "communityPressure": {
+    "discriminator": "pace",
+    "groups": {
+      "ordinary": [
+        18
+      ],
+      "urgent": [
+        12
+      ]
+    }
+  },
+  "communityRoles": {
+    "discriminator": "kind",
+    "groups": {
+      "residents": [
+        {
+          "id": "ada",
+          "role": "forewoman",
+          "classId": "commoner",
+          "name": "Ada Flint",
+          "gold": 0
+        },
+        {
+          "id": "vey",
+          "role": "agent",
+          "classId": "fighter",
+          "name": "Ser Caldus",
+          "gold": 0
+        },
+        {
+          "id": "iven",
+          "role": "priest",
+          "classId": "cleric",
+          "name": "Brother Iven",
+          "gold": 0
+        },
+        {
+          "id": "len",
+          "role": "witness",
+          "classId": "commoner",
+          "name": "Len",
+          "gold": 0
+        },
+        {
+          "id": "echo",
+          "role": "echo",
+          "classId": "commoner",
+          "name": "The listening echo",
+          "gold": 0,
+          "raceId": "wisp"
+        }
+      ],
+      "party": [
+        {
+          "id": "hero",
+          "context": {
+            "raceId": "human",
+            "classId": "fighter",
+            "name": "Rowan",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "companion",
+          "context": {
+            "raceId": "human",
+            "classId": "cleric",
+            "name": "Tamsin",
+            "level": 2
+          },
+          "gold": 0
+        }
+      ],
+      "controllers": [
+        {
+          "id": "party",
+          "members": [
+            "hero",
+            "companion"
+          ],
+          "player": true,
+          "horizon": 6,
+          "actions": [
+            "wait",
+            "travel",
+            "cross",
+            "attack",
+            "examine",
+            "tell",
+            "passage",
+            "shut",
+            "disable",
+            "endorse",
+            "pay",
+            "give_food",
+            "open",
+            "ask",
+            "destroy_source"
+          ],
+          "goals": []
+        },
+        {
+          "id": "ada",
+          "members": [
+            "ada"
+          ],
+          "player": false,
+          "horizon": 5,
+          "actions": [
+            "travel",
+            "shut",
+            "open"
+          ],
+          "goals": []
+        },
+        {
+          "id": "vey",
+          "members": [
+            "vey"
+          ],
+          "player": false,
+          "horizon": 5,
+          "actions": [
+            "travel",
+            "enforce"
+          ],
+          "goals": []
+        },
+        {
+          "id": "iven",
+          "members": [
+            "iven"
+          ],
+          "player": false,
+          "horizon": 5,
+          "actions": [
+            "travel"
+          ],
+          "goals": []
+        },
+        {
+          "id": "len",
+          "members": [
+            "len"
+          ],
+          "player": false,
+          "horizon": 6,
+          "actions": [
+            "travel"
+          ],
+          "goals": []
+        },
+        {
+          "id": "echo",
+          "members": [
+            "echo"
+          ],
+          "player": false,
+          "horizon": 1,
+          "actions": [],
+          "goals": []
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "bell_silenced",
+          "predicate": "not functioning(bell)"
+        },
+        {
+          "id": "mine_closed",
+          "predicate": "closed(shaft)"
+        },
+        {
+          "id": "road_controlled",
+          "predicate": "controlled(toll, vey)"
+        },
+        {
+          "id": "mine_appropriated",
+          "predicate": "controlled(mine, vey)"
+        },
+        {
+          "id": "mine_claim_defeated",
+          "predicate": "knows(vey, charter)"
+        },
+        {
+          "id": "water_spoiled",
+          "predicate": "tainted(shrine)"
+        },
+        {
+          "id": "town_abandoned",
+          "predicate": "abandoned(square)"
+        },
+        {
+          "id": "miner_home",
+          "predicate": "at(len, inn)"
+        },
+        {
+          "id": "agent_dead",
+          "predicate": "dead(vey)"
+        },
+        {
+          "id": "miners_displaced",
+          "predicate": "sheltered(ada)"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "forager"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter",
+      "backgroundId": "surveyor"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "orsino_life_cleric",
+      "backgroundId": "pilgrim"
+    }
+  ],
+  "scenario": "data/greenhollow/campaign.json",
+  "seed": "greenhollow",
+  "steps": [
+    {
+      "command": "world__move_into_shop"
+    },
+    {
+      "command": "world__preparation"
+    },
+    {
+      "command": "take_item(world__cabinet_key,world__member_guide)"
+    },
+    {
+      "command": "take_item(world__medicine,world__member_guide)"
+    },
+    {
+      "command": "unlock_door(world__cellar_door,world__cabinet_key)"
+    },
+    {
+      "command": "open_door(world__cellar_door)"
+    },
+    {
+      "command": "world__move_cellar_stair"
+    },
+    {
+      "command": "rescue__pinned_request"
+    },
+    {
+      "command": "free_obstruction(world__rack,world__guest)"
+    },
+    {
+      "command": "world__escort_cellar_return(world__guest)"
+    },
+    {
+      "command": "world__escort_out_shop(world__guest)"
+    },
+    {
+      "command": "rescue__safe_return"
+    },
+    {
+      "command": "world__move_into_shop"
+    },
+    {
+      "command": "world__move_cellar_stair"
+    },
+    {
+      "command": "world__search_place_cellar"
+    },
+    {
+      "command": "disarm(world__dust_trap)"
+    },
+    {
+      "command": "world__move_stores_out"
+    },
+    {
+      "command": "world__move_archive_stair"
+    },
+    {
+      "command": "attack(world__sentinel)",
+      "combat": [
+        {
+          "actor": "world__lamp",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__shield",
+          "ability": "wounding_blow",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__guide",
+          "ability": "ambush",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__lamp",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        },
+        {
+          "actor": "world__shield",
+          "ability": "attack",
+          "target": "world__sentinel_person"
+        }
+      ]
+    },
+    {
+      "command": "take_item(world__relic,world__member_guide)"
+    },
+    {
+      "command": "equip_item(world__relic,world__member_guide)"
+    },
+    {
+      "command": "world__search_place_vault"
+    },
+    {
+      "command": "world__move_drain_in"
+    },
+    {
+      "command": "world__move_drain_home"
+    },
+    {
+      "command": "identify_species(yarrow)"
+    },
+    {
+      "command": "gather_herb(world__herb_patch,world__member_guide)"
+    },
+    {
+      "command": "world__move_to_clearing"
+    },
+    {
+      "command": "approach_wildlife(world__wildlife,woodcraft)"
+    },
+    {
+      "command": "world__move_from_clearing"
+    },
+    {
+      "command": "world__move_to_ferry"
+    },
+    {
+      "command": "rest(world__ferry)"
+    },
+    {
+      "command": "world__move_from_ferry"
+    }
+  ],
+  "complete": true
+}

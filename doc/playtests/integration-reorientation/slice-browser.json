@@ -1,0 +1,250 @@
+[
+  {
+    "name": "valve-and-rescue",
+    "errors": [],
+    "final": {
+      "mode": "explore",
+      "place": {
+        "id": "world__quay",
+        "name": "Reedwake quay",
+        "kind": "room"
+      },
+      "path": [
+        {
+          "id": "world__march",
+          "name": "The Serewater March",
+          "kind": "region"
+        },
+        {
+          "id": "world__reedwake_town",
+          "name": "Reedwake",
+          "kind": "settlement"
+        },
+        {
+          "id": "world__quay",
+          "name": "Reedwake quay",
+          "kind": "room"
+        }
+      ],
+      "rows": [
+        {
+          "id": "exit:world__shop_floor",
+          "label": "Enter Nera's shop"
+        },
+        {
+          "id": "exit:world__ferry_room",
+          "label": "Enter Ferry house"
+        },
+        {
+          "id": "exit:world__taproom",
+          "label": "Enter The Returning Oar"
+        },
+        {
+          "id": "exit:world__shrine",
+          "label": "Enter The common shrine"
+        },
+        {
+          "id": "exit:world__causeway",
+          "label": "Willow causeway"
+        },
+        {
+          "id": "rescue__guest",
+          "label": "Pell, surveyor"
+        },
+        {
+          "id": "rescue__relative",
+          "label": "Wren, ferry-keeper"
+        },
+        {
+          "id": "camp:Wait a while",
+          "label": "Wait a while"
+        }
+      ],
+      "selected": "exit:world__shop_floor",
+      "menu": null,
+      "log": [
+        {
+          "at": "10 min · Day 1, 12:30 p.m.",
+          "title": "→ Surveyor's vestibule",
+          "lines": [
+            "Pell takes the workshop doorway toward Surveyor's vestibule."
+          ],
+          "tone": "act"
+        },
+        {
+          "at": "10 min · Day 1, 12:40 p.m.",
+          "title": "→ Foundry yard",
+          "lines": [
+            "Pell takes the roofless arch toward Foundry yard."
+          ],
+          "tone": "act"
+        },
+        {
+          "at": "30 min · Day 1, 1:10 p.m.",
+          "title": "→ Chalk ridge",
+          "lines": [
+            "Pell takes the track up to the yard toward Chalk ridge."
+          ],
+          "tone": "act"
+        },
+        {
+          "at": "30 min · Day 1, 1:40 p.m.",
+          "title": "→ Willow causeway",
+          "lines": [
+            "Pell takes the ridge track toward Willow causeway."
+          ],
+          "tone": "act"
+        },
+        {
+          "at": "1h · Day 1, 2:40 p.m.",
+          "title": "→ Reedwake quay",
+          "lines": [
+            "Pell takes the causeway path toward Reedwake quay.",
+            "Wren hurries over to you. 'Are you going up to Censer Hill foundry? Have you seen Pell?'",
+            "Wren sees Pell, and runs. For a while nobody says anything sensible."
+          ],
+          "tone": "act"
+        }
+      ],
+      "party": [
+        {
+          "name": "Elen",
+          "hp": 7
+        },
+        {
+          "name": "Bran",
+          "hp": 12
+        },
+        {
+          "name": "Dori",
+          "hp": 12
+        }
+      ],
+      "pending": false,
+      "error": ""
+    },
+    "metrics": {
+      "scroll": false,
+      "paneCoverage": 75,
+      "visibleRows": 8,
+      "words": 320
+    }
+  },
+  {
+    "name": "risk-and-violence",
+    "errors": [],
+    "final": {
+      "mode": "explore",
+      "place": {
+        "id": "world__quay",
+        "name": "Reedwake quay",
+        "kind": "room"
+      },
+      "path": [
+        {
+          "id": "world__march",
+          "name": "The Serewater March",
+          "kind": "region"
+        },
+        {
+          "id": "world__reedwake_town",
+          "name": "Reedwake",
+          "kind": "settlement"
+        },
+        {
+          "id": "world__quay",
+          "name": "Reedwake quay",
+          "kind": "room"
+        }
+      ],
+      "rows": [
+        {
+          "id": "exit:world__shop_floor",
+          "label": "Enter Nera's shop"
+        },
+        {
+          "id": "exit:world__ferry_room",
+          "label": "Enter Ferry house"
+        },
+        {
+          "id": "exit:world__taproom",
+          "label": "Enter The Returning Oar"
+        },
+        {
+          "id": "exit:world__shrine",
+          "label": "Enter The common shrine"
+        },
+        {
+          "id": "exit:world__causeway",
+          "label": "Willow causeway"
+        },
+        {
+          "id": "rescue__relative",
+          "label": "Wren, ferry-keeper"
+        },
+        {
+          "id": "camp:Wait a while",
+          "label": "Wait a while"
+        }
+      ],
+      "selected": "exit:world__shop_floor",
+      "menu": null,
+      "log": [
+        {
+          "at": "10 min · Day 1, 11:00 a.m.",
+          "title": "→ Surveyor's vestibule",
+          "lines": [],
+          "tone": "act"
+        },
+        {
+          "at": "10 min · Day 1, 11:10 a.m.",
+          "title": "→ Foundry yard",
+          "lines": [],
+          "tone": "act"
+        },
+        {
+          "at": "30 min · Day 1, 11:40 a.m.",
+          "title": "→ Chalk ridge",
+          "lines": [],
+          "tone": "act"
+        },
+        {
+          "at": "30 min · Day 1, 12:10 p.m.",
+          "title": "→ Willow causeway",
+          "lines": [],
+          "tone": "act"
+        },
+        {
+          "at": "1h · Day 1, 1:10 p.m.",
+          "title": "→ Reedwake quay",
+          "lines": [
+            "Wren hurries over to you. 'Are you going up to Censer Hill foundry? Have you seen Pell?'"
+          ],
+          "tone": "act"
+        }
+      ],
+      "party": [
+        {
+          "name": "Elen",
+          "hp": 7
+        },
+        {
+          "name": "Bran",
+          "hp": 12
+        },
+        {
+          "name": "Dori",
+          "hp": 12
+        }
+      ],
+      "pending": false,
+      "error": ""
+    },
+    "metrics": {
+      "scroll": false,
+      "paneCoverage": 75,
+      "visibleRows": 7,
+      "words": 278
+    }
+  }
+]

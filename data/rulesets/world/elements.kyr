@@ -1,0 +1,9 @@
+Module world_elements "Fire, frost and other elements let loose in a place" {
+  Kind element.
+  Entity fire: element "fire". Entity cold: element "frost". Entity lightning: element "lightning".
+  Entity acid: element "acid". Entity poison: element "poison". Entity necrotic: element "blight".
+  Entity radiant: element "radiance". Entity force: element "force". Entity sonic: element "thunder".
+  Entity psychic: element "dread".
+  Relation exposedTo(place, element).
+  Goal false.
+}

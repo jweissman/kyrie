@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "scenario": "data/orra/company.campaign.json",
+  "seed": "orra",
+  "steps": [
+    {
+      "command": "travel(tower__moor)"
+    },
+    {
+      "command": "give_food(tower__wolf)"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "cross(tower__wolf,tower__cairn)"
+    },
+    {
+      "command": "attack(tower__hart)",
+      "combat": [
+        {
+          "actor": "refuge__guide",
+          "ability": "venom",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "wounding_blow",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "cleave",
+          "target": "refuge__shield"
+        },
+        {
+          "actor": "refuge__guide",
+          "ability": "ambush",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "sleep",
+          "target": "refuge__lamp"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "wounding_blow",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "bolt",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "cleave",
+          "target": "refuge__shield"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "bolt",
+          "target": "tower__warden"
+        }
+      ]
+    }
+  ],
+  "complete": true
+}

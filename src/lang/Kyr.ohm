@@ -1,0 +1,137 @@
+Kyr {
+  Module = "Module" ident string "{" Declaration* "}"
+  Declaration = Kind | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Company | ItemDecl | HazardDecl
+  Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? "."
+  PlaceParent = "within" ident
+  PlaceGrid = "at" integer "," integer
+  Company = "Company" ident string "of" integer "at" ident "."
+  ItemDecl = "Item" ident string? "is" ident "at" ident "."
+  HazardDecl = "Hazard" ident string "means" string "."
+  Passage = "Passage" ident string PassageKind? "between" ident "and" ident PassagePart* "."
+  PassageKind = "is" ident
+  PassagePart = "one" "way" -- oneway
+              | "hidden" "until" ident -- hidden
+              | "needing" ident -- needs
+              | "taking" integer timeUnit -- taking
+  timeUnit = "minutes" | "minute" | "hours" | "hour" | "days" | "day"
+  Thing = "Thing" ident string ThingSite ThingKind? "{" ThingPart* "}"
+  ThingSite = "at" ident -- at
+            | "on" ident -- on
+  ThingKind = "is" ident
+  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart
+  StatePart = "State" ident StateFlag* string "."
+  StateFlag = "blocking" | "dangerous"
+  ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? "."
+  ChangeNeeds = "needing" ident
+  ChangeAfter = "after" "learning" ident
+  ChangeConsumes = "consuming" ident
+  HurtsPart = "Hurts" "with" ident "when" ident "then" ident "."
+  GuardsPart = "Guards" ident "."
+  Event = "Event" ident Anchor? "when" Predicate string EventTail
+  EventTail = "then" "{" ChangeStatement* "}" -- effects
+    | "." -- plain
+  Anchor = "at" ident -- at
+         | "near" ident -- near
+         | "beside" ident -- beside
+  Objective = "Objective" ident "when" Predicate string "."
+  Exit = "Exit" ident string "from" ident "to" ident "by" ident ExitDoor? ExitKnowledge? "."
+  ExitDoor = "through" ident
+  ExitKnowledge = "known" "by" ident
+  Person = "Person" ident string "at" ident "{" PersonPart* "}"
+  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart
+  PersonProfession = "Profession" ident "."
+  PersonBackground = "Background" ident "."
+  OffersPart = "Offers" ident string "for" integer "coin" "."
+  SellsPart = "Sells" ident "for" integer "coin" "from" integer "."
+  PersonHorizon = "Plans" integer "steps" "."
+  PersonPeaceable = "Peaceable" "."
+  PersonRole = "Role" string "."
+  PersonRace = ("Race" | "Ancestry") ident "."
+  PersonSpecies = "Species" ident "."
+  PersonTrait = "Trait" ident "."
+  PersonCarries = "Carries" ident "."
+  PersonClass = ("Class" | "Calling") ident "."
+  PersonLevel = "Level" integer "."
+  PersonUses = "Uses" ListOf<ident, ","> "."
+  Topic = "Topic" ident "with" ident string "when" Predicate TopicOnce? "{" "Says" string "." TopicEffects? "}"
+  TopicOnce = "once"
+  TopicEffects = "On" "discuss" "{" ChangeStatement* "}"
+  Speaker = "Speaker" ident "."
+  Result = "Result" string "."
+  Information = "Discovery" ident string "{" InformationPart* "}"
+  InformationPart = KnownBy | DeniedBy | InformationSource
+  KnownBy = "Known" "by" NonemptyListOf<ident, ","> "."
+  DeniedBy = "Denied" "by" NonemptyListOf<ident, ","> "."
+  InformationSource = "Source" ident string "at" ident "readable" "by" NonemptyListOf<ident, ","> Speakers? Destructible? "."
+  Speakers = "spoken" "by" NonemptyListOf<ident, ",">
+  Destructible = "destructible"
+  Pursuit = "Pursuit" ident "for" ident string? "priority" integer "when" Predicate "seeks" Predicate "."
+  WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? "{" ChangeStatement* "}"
+  RuleSays = "says" string
+  Observation = "Observe" ident Anchor "when" Predicate string "."
+  Kind = "Kind" ident "."
+  Relation = "Relation" ident "(" ListOf<ident, ","> ")" exclusive? "."
+  Measure = "Measure" ident "(" ListOf<ident, ","> ")" "."
+  Query = "Query" ident "(" ListOf<Parameter, ","> ")" "means" Predicate "."
+  Parameter = ident ":" ident
+  Entity = "Entity" ident ":" ident string MemberBinding? "."
+  MemberBinding = "bound" "to" ident
+  Initial = "Initially" Change "."
+  Goal = "Goal" Predicate "."
+  Budget = "Budget" NumberValue "."
+  Description = "Description" string "."
+  Action = "Action" ident ActionParameters? string "{" ActionPart* "}"
+  ActionParameters = "(" ListOf<Parameter, ","> ")"
+  ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Speaker | Seen
+  Seen = "Seen" string "."
+  Requires = "Requires" Predicate "."
+  Success = "On" "success" "{" ChangeStatement* "}"
+  Failure = "On" "failure" "{" ChangeStatement* "}"
+  Cost = "Cost" integer "."
+  Time = "Time" integer "." -- fixed
+       | "Time" Call "." -- measured
+  Resolve = "Resolve" Call "."
+  ChangeStatement = Change "."
+  Change = Assert | Retract | Set | Increase | Decrease
+  Assert = "Assert" Call
+  Retract = "Retract" Call
+  Set = "Set" Call "to" Value
+  Increase = "Increase" Call "by" Value
+  Decrease = "Decrease" Call "by" Value
+  Predicate = Or
+  Or = And kwOr Or -- binary
+     | And
+  And = Unary kwAnd And -- binary
+      | Unary
+  Unary = kwNot Unary -- not
+        | "(" Predicate ")" -- group
+        | Comparison
+        | Call
+        | kwTrue -- true
+        | kwFalse -- false
+  Comparison = Value comparator Value
+  Value = Call | NumberValue
+  NumberValue = expression | integer
+  Call = ident "(" ListOf<term, ","> ")"
+  term = variable | ident
+  variable = "?" ident
+  comparator = ">=" | "<=" | "==" | "!=" | ">" | "<"
+  exclusive = "exclusive"
+  expression = "(" expressionPart* ")"
+  expressionPart = expression | quoted | plain
+  quoted = "\"" (escaped | ~"\"" any)* "\"" -- double
+         | "'" (escaped | ~"'" any)* "'" -- single
+  escaped = "\\" any
+  plain = ~("(" | ")" | "\"" | "'") any
+  string = "\"" (escaped | ~("\"" | "\n" | "\r") any)* "\""
+  kwNot = "not" ~identPart
+  kwAnd = "and" ~identPart
+  kwOr = "or" ~identPart
+  kwTrue = "true" ~identPart
+  kwFalse = "false" ~identPart
+  identPart = letter | digit | "_" | "-"
+  ident = letter identPart*
+  integer = digit+
+  comment = "//" (~"\n" any)*
+  space += comment
+}

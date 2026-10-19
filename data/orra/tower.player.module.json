@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "situation": [
+    "tower.kyr",
+    "tower.player.kyr"
+  ],
+  "rules": [
+    "../rulesets/adventure.kyr",
+    "../rulesets/discovery.kyr",
+    "../rulesets/site-capabilities.kyr",
+    "../rulesets/affinities.kyr",
+    "../rulesets/fieldcraft.kyr"
+  ],
+  "generation": {
+    "type": "tower_situation",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "imports": [
+    "green",
+    "kiln",
+    "furnace",
+    "crawl",
+    "party",
+    "gold",
+    "rations",
+    "clock",
+    "fellowship",
+    "woodcraft"
+  ],
+  "exports": {
+    "moor": "moor"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "situation": "serewater.kyr",
+  "rules": [
+    "../rulesets/adventure.kyr",
+    "../rulesets/discovery.kyr",
+    "../rulesets/site-capabilities.kyr",
+    "../rulesets/affinities.kyr",
+    "../rulesets/fieldcraft.kyr",
+    "../rulesets/expedition.kyr",
+    "../rulesets/items.kyr",
+    "../rulesets/dungeoneering.kyr"
+  ],
+  "globals": [
+    "party",
+    "gold",
+    "rations",
+    "clock",
+    "fellowship",
+    "woodcraft",
+    "delving",
+    "burial_lore",
+    "ropekit",
+    "wardedlantern",
+    "protectivecharm",
+    "antidote",
+    "healingdraught",
+    "bronzeBearing",
+    "register",
+    "spectralSight",
+    "wardblade"
+  ],
+  "exports": {
+    "quay": "quay",
+    "hill": "yard"
+  },
+  "generation": {
+    "type": "march_campaign",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  }
+}

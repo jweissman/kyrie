@@ -1,0 +1,90 @@
+Module dungeoneering "Physical obstructions, warnings and custody" {
+  Kind hazard. Kind districtkind.
+  Relation district(place, districtkind).
+  Relation townDistrict(districtkind). Relation wildernessDistrict(districtkind). Relation undergroundDistrict(districtkind).
+  Measure encounterXp(group).
+  Relation hazardPassage(hazard, place, place).
+  Relation armed(hazard). Relation triggered(hazard).
+  Relation hazardEffect(hazard, ability). Relation warning(hazard, fact).
+  Relation obstruction(mechanism). Relation trapped(group). Relation restrainedBy(group, mechanism).
+  Relation home(group, place). Relation rescued(group).
+  Relation climbingPassage(place, place).
+  Relation acceptsCustody(group). Relation requiresRecord(group, fact).
+  Relation custodyGranted(group, group).
+  Relation custodyWrit(group).
+  Relation soldRecord(group). Relation deliveredBearing(group).
+  Relation forageStock(stock).
+  Relation commissions(group, item). Relation commissionPaid(group, item).
+  Goal false.
+  Action fulfill_commission(actor: group, buyer: group, cargo: item, carrier: member, receiver: member, site: place) "Deliver {cargo} to {buyer} for six coins" {
+    Requires able(actor) and able(buyer) and distinct(actor, buyer) and at(actor, site) and at(buyer, site)
+      and commissions(buyer, cargo) and not commissionPaid(buyer, cargo) and quantity(buyer, gold) >= 6
+      and memberOf(carrier, actor) and ownedItem(cargo, carrier) and memberOf(receiver, buyer) and awake(receiver).
+    Resolve transfer_item(cargo, carrier, receiver).
+    On success { Decrease quantity(buyer, gold) by 6. Increase quantity(actor, gold) by 6. Assert commissionPaid(buyer, cargo). }
+    Result "The buyer takes actual possession of the commissioned object and pays six coins from their finite purse. The company no longer carries it.".
+  }
+  Action forage(actor: group, patch: stock, site: place) "Gather an edible ration from {patch}" {
+    Requires able(actor) and at(actor, site) and at(patch, site) and forageStock(patch)
+      and capable(actor, woodcraft) and quantity(patch, rations) >= 1.
+    Time 2.
+    On success { Decrease quantity(patch, rations) by 1. Increase quantity(actor, rations) by 1. }
+    Result "Your woodcraft specialist gathers a shared ration from the identified edible patch. The finite patch is reduced; it does not replenish when you revisit.".
+  }
+  Action risk_passage(actor: group, trap: hazard, origin: place, destination: place, blow: ability, victim: member) "Risk {trap} toward {destination}; {victim} leads" {
+    Requires able(actor) and at(actor, origin) and hazardPassage(trap, origin, destination) and armed(trap)
+      and hazardEffect(trap, blow) and memberOf(victim, actor) and awake(victim).
+    Resolve expose(blow, victim).
+    On success { Retract armed(trap). Assert triggered(trap). Assert at(actor, destination). }
+    On failure { Retract armed(trap). Assert triggered(trap). }
+    Result "The leading companion tests the dangerous crossing. Its mechanism discharges once; the injuries and spent mechanism remain.".
+  }
+  Action cleared_passage(actor: group, trap: hazard, origin: place, destination: place) "Cross the spent {trap} toward {destination}" {
+    Requires able(actor) and at(actor, origin) and hazardPassage(trap, origin, destination) and not armed(trap).
+    On success { Assert at(actor, destination). }
+    Result "You cross the now-spent mechanism. It will not rearm when you return.".
+  }
+  Action disarm(actor: group, trap: hazard, origin: place, destination: place, clue: fact) "Disarm {trap}" {
+    Requires able(actor) and at(actor, origin) and hazardPassage(trap, origin, destination) and armed(trap)
+      and warning(trap, clue) and knows(actor, clue) and capable(actor, delving).
+    Time 2.
+    On success { Retract armed(trap). }
+    Result "Your delving specialist identifies the warned release and pins it safely. The spent mechanism stays disabled.".
+  }
+  Action brace(actor: group, trap: hazard, origin: place, destination: place, clue: fact, kit: item, bearer: member) "Brace {trap} with {kit}" {
+    Requires able(actor) and at(actor, origin) and hazardPassage(trap, origin, destination) and armed(trap)
+      and warning(trap, clue) and knows(actor, clue) and memberOf(bearer, actor) and awake(bearer)
+      and ownedItem(kit, bearer) and wearing(kit, bearer) and itemKind(kit, ropekit).
+    Time 2.
+    On success { Retract armed(trap). }
+    Result "Following the warning, you pin and brace the moving parts with the climbing kit. This crossing remains safe. The reusable kit stays with its bearer.".
+  }
+  Action climb(actor: group, origin: place, destination: place, kit: item, bearer: member) "Climb to {destination} using {kit}" {
+    Requires able(actor) and at(actor, origin) and climbingPassage(origin, destination)
+      and memberOf(bearer, actor) and awake(bearer) and ownedItem(kit, bearer) and wearing(kit, bearer) and itemKind(kit, ropekit).
+    Time 2.
+    On success { Assert at(actor, destination). }
+    Result "The company anchors its line and climbs together. The kit opens this route without changing the underlying geography.".
+  }
+  Action free_obstruction(actor: group, companion: group, device: mechanism, site: place) "Shift {device} to free {companion}" {
+    Requires able(actor) and able(companion) and at(actor, site) and at(companion, site) and trapped(companion)
+      and restrainedBy(companion, device) and mounted(device, site) and obstruction(device).
+    Time 2.
+    On success { Retract trapped(companion). Assert rescued(companion). }
+    Result "You lever the obstruction aside. The trapped person is free, but still needs a safe route home.".
+  }
+  Action escort(actor: group, companion: group, origin: place, destination: place) "Escort {companion} to {destination}" {
+    Requires able(actor) and able(companion) and distinct(actor, companion) and at(actor, origin) and at(companion, origin)
+      and rescued(companion) and not trapped(companion) and not home(companion, origin)
+      and route(origin, destination) and not closed(destination) and not denied(actor, origin, destination).
+    On success { Assert at(actor, destination). Assert at(companion, destination). }
+    Result "You travel together. Your companion remains at the actual destination; no one teleports home.".
+  }
+  Action request_custody(actor: group, keeper: group, statement: fact, site: place) "Present the register and custody writ to {keeper}" {
+    Requires able(actor) and able(keeper) and distinct(actor, keeper) and at(actor, site) and at(keeper, site)
+      and acceptsCustody(keeper) and requiresRecord(keeper, statement) and knows(actor, statement)
+      and custodyWrit(actor) and not custodyGranted(keeper, actor).
+    On success { Assert custodyGranted(keeper, actor). Assert released(keeper). }
+    Result "The keeper checks the named record and your custody writ. It allows passage under that authority. It remains alive, and the dead have not become ownerless loot.".
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "resource_gate": {
+    "__no_id": true,
+    "_profile": "=lookup(gateProfile, #profile)",
+    "provider": "=dig(#_profile, 'provider')",
+    "beneficiary": "=dig(#_profile, 'beneficiary')",
+    "asset": "=dig(#_profile, 'asset')",
+    "requiredGood": "=dig(#_profile, 'requiredGood')",
+    "requiredAmount": "=dig(#_profile, 'requiredAmount')",
+    "mode": "=dig(#_profile, 'mode')",
+    "output": "=dig(#_profile, 'output')",
+    "recipe": "=dig(#_profile, 'recipe')",
+    "operator": "=dig(#_profile, 'operator')",
+    "initial": "=dig(#_profile, 'initial')",
+    "deadline": "=4 + 1d3",
+    "constraint": "anytime",
+    "control": "=gen(gate_control)",
+    "term": "=gen(gate_term)",
+    "need": "=gen(gate_need)",
+    "operation": "=gen(gate_operation)"
+  },
+  "gate_control": {
+    "__no_id": true,
+    "holder": "=#provider",
+    "asset": "=#asset"
+  },
+  "gate_term": {
+    "__no_id": true,
+    "creditor": "=#provider",
+    "debtor": "=#beneficiary",
+    "asset": "=#asset",
+    "resource": "=#requiredGood",
+    "amount": "=#requiredAmount",
+    "mode": "=#mode"
+  },
+  "gate_need": {
+    "__no_id": true,
+    "party": "=#beneficiary",
+    "resource": "=#output",
+    "amount": 3,
+    "deadline": "=#deadline",
+    "onMiss": "record_deficit"
+  },
+  "gate_operation": {
+    "__no_id": true,
+    "_constraint": "=lookup(operatingConstraint, #constraint)",
+    "notBefore": "=dig(#_constraint, 'notBefore')",
+    "recipe": "=#recipe",
+    "operator": "=#operator"
+  }
+}

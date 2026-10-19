@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric"
+    }
+  ],
+  "scenario": "data/orra/play.campaign.json",
+  "seed": "orra",
+  "steps": [
+    {
+      "command": "examine(refuge__cup)"
+    },
+    {
+      "command": "travel(refuge__porch)"
+    },
+    {
+      "command": "refuge__mere_concern"
+    },
+    {
+      "command": "tell(refuge__mere,refuge__runoff)"
+    },
+    {
+      "command": "travel(refuge__cell)"
+    },
+    {
+      "command": "examine(refuge__letter)"
+    },
+    {
+      "command": "travel(refuge__porch)"
+    },
+    {
+      "command": "travel(refuge__green)"
+    },
+    {
+      "command": "travel(refuge__kiln)"
+    },
+    {
+      "command": "examine(refuge__sketch)"
+    },
+    {
+      "command": "passage(tower__vault)"
+    },
+    {
+      "command": "tower__ys_mission"
+    },
+    {
+      "command": "ask(tower__ys,tower__account)"
+    },
+    {
+      "command": "travel(tower__spring)"
+    },
+    {
+      "command": "disable(tower__siphon)"
+    },
+    {
+      "command": "travel(tower__vault)"
+    },
+    {
+      "command": "travel(refuge__kiln)"
+    },
+    {
+      "command": "travel(refuge__green)"
+    },
+    {
+      "command": "learn_reward(tower__cinder_gift,refuge__member_shield)"
+    },
+    {
+      "command": "travel(refuge__porch)"
+    },
+    {
+      "command": "rest(refuge__porch)"
+    },
+    {
+      "command": "travel(refuge__green)"
+    },
+    {
+      "command": "travel(margin__track)"
+    },
+    {
+      "command": "travel(margin__camp)"
+    },
+    {
+      "command": "margin__tala_welcome"
+    },
+    {
+      "command": "margin__tala_route"
+    },
+    {
+      "command": "travel(margin__track)"
+    },
+    {
+      "command": "passage(margin__shrine)"
+    },
+    {
+      "command": "examine(margin__tide_marks)"
+    },
+    {
+      "command": "disable(margin__font)"
+    },
+    {
+      "command": "salvage_coin(margin__purse)"
+    },
+    {
+      "command": "travel(margin__track)"
+    },
+    {
+      "command": "travel(refuge__green)"
+    },
+    {
+      "command": "travel(refuge__porch)"
+    },
+    {
+      "command": "rest(refuge__porch)"
+    }
+  ],
+  "complete": true
+}

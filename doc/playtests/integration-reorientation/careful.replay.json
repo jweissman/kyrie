@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter",
+      "backgroundId": "locksmith"
+    },
+    {
+      "name": "Una",
+      "raceId": "dwarf",
+      "classId": "orsino_abjurer"
+    }
+  ],
+  "scenario": "data/caught-below/river.campaign.json",
+  "seed": "causal",
+  "steps": [
+    {
+      "command": "field_spell(world__member_party_3,orsino_fireproof,world__member_party_2)"
+    },
+    {
+      "command": "go(world__causeway_path,world__causeway)"
+    },
+    {
+      "command": "go(world__low_path,world__drain_mouth)"
+    },
+    {
+      "command": "go(world__culvert,world__workshop)"
+    },
+    {
+      "command": "change_thing(world__padlock_pick)"
+    },
+    {
+      "command": "go(world__stores_door,world__stores)"
+    },
+    {
+      "command": "take_item(rescue__bar,world__member_party_2)"
+    },
+    {
+      "command": "go(world__stores_door,world__workshop)"
+    },
+    {
+      "command": "change_thing(world__steam_pipe_close)"
+    },
+    {
+      "command": "go(world__boiler_arch,world__boiler)"
+    },
+    {
+      "command": "take_item(world__ward_sword,world__member_party_2)"
+    },
+    {
+      "command": "equip_item(world__ward_sword,world__member_party_2)"
+    },
+    {
+      "command": "go(world__pipe_walk,world__gallery)"
+    },
+    {
+      "command": "world__hesta_help"
+    },
+    {
+      "command": "change_thing(world__hound_soothe)"
+    },
+    {
+      "command": "go(world__hoist_passage,world__hoist)"
+    },
+    {
+      "command": "rescue__lever_free(party,world__hoist)"
+    },
+    {
+      "command": "lead(rescue__guest)"
+    },
+    {
+      "command": "go(world__hoist_passage,world__gallery)"
+    },
+    {
+      "command": "go(world__gallery_steps,world__workshop)"
+    },
+    {
+      "command": "go(world__workshop_door,world__vestibule)"
+    },
+    {
+      "command": "go(world__arch,world__yard)"
+    },
+    {
+      "command": "go(world__yard_track,world__ridge)"
+    },
+    {
+      "command": "go(world__ridge_track,world__causeway)"
+    },
+    {
+      "command": "go(world__causeway_path,world__quay)"
+    },
+    {
+      "command": "go(world__oar_door,world__taproom)"
+    },
+    {
+      "command": "take_lodging(world__maud_lodging,world__maud)"
+    },
+    {
+      "command": "go(world__oar_door,world__quay)"
+    }
+  ],
+  "complete": true
+}

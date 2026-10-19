@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "situation": "situation.kyr",
+  "rules": [
+    "../../rulesets/world/core.kyr",
+    "../../rulesets/world/passages.kyr",
+    "../../rulesets/world/people.kyr",
+    "../../rulesets/world/needs.kyr",
+    "../../rulesets/world/services.kyr",
+    "../../rulesets/discovery.kyr",
+    "../../rulesets/world/care.kyr",
+    "../../rulesets/world/belongings.kyr"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "workings",
+    "captive_room",
+    "tool_room",
+    "home",
+    "lookout",
+    "closing_way"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "workings": {
+      "type": "place"
+    },
+    "captive_room": {
+      "type": "place"
+    },
+    "tool_room": {
+      "type": "place"
+    },
+    "home": {
+      "type": "place"
+    },
+    "lookout": {
+      "type": "place"
+    },
+    "closing_way": {
+      "type": "passage",
+      "conditions": [
+        "connects(closing_way, ?a, ?b)"
+      ]
+    }
+  },
+  "exports": {},
+  "generation": {
+    "type": "caught_below",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  }
+}

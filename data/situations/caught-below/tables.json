@@ -1,0 +1,101 @@
+{
+  "caughtPopulation": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "human"
+      ],
+      "quarry": [
+        "dwarf"
+      ]
+    }
+  },
+  "caughtGuestName": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "Pell"
+      ],
+      "quarry": [
+        "Tamsin"
+      ]
+    }
+  },
+  "caughtRelativeName": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "Wren"
+      ],
+      "quarry": [
+        "Marrit"
+      ]
+    }
+  },
+  "caughtGuestLabel": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "Pell, surveyor"
+      ],
+      "quarry": [
+        "Tamsin, quarry tally-keeper"
+      ]
+    }
+  },
+  "caughtRelativeLabel": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "Wren, ferry-keeper"
+      ],
+      "quarry": [
+        "Marrit, Tamsin's grandmother"
+      ]
+    }
+  },
+  "caughtWeight": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "the fallen timber rack"
+      ],
+      "quarry": [
+        "the derailed ore tub"
+      ]
+    }
+  },
+  "caughtTool": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "a pry bar"
+      ],
+      "quarry": [
+        "a crowbar"
+      ]
+    }
+  },
+  "caughtClosing": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "the rising river"
+      ],
+      "quarry": [
+        "the drifting snow"
+      ]
+    }
+  },
+  "caughtCloses": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        30
+      ],
+      "quarry": [
+        24
+      ]
+    }
+  }
+}

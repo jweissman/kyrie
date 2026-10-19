@@ -1,0 +1,17 @@
+{
+  "about": "Quarantined: Serewater puzzle keys, not backgrounds. Canonical backgrounds are in canon/backgrounds.json.",
+  "backgrounds": {
+    "surveyor": {
+      "name": "Surveyor's apprentice",
+      "description": "Reads masonry and old machinery. Grants delving: safely disarm a discovered physical trap without buying a tool kit."
+    },
+    "pilgrim": {
+      "name": "Keeper's pilgrim",
+      "description": "Knows funerary responsibilities. Grants burial lore: request a named-remains custody writ and pass the Custodian lawfully."
+    },
+    "forager": {
+      "name": "Marsh forager",
+      "description": "Reads animal warning signs. Grants woodcraft: take a receptive wildlife route without fighting."
+    }
+  }
+}

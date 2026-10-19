@@ -1,0 +1,404 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "forager"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter",
+      "backgroundId": "surveyor"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "pilgrim"
+    }
+  ],
+  "scenario": "data/serewater/campaign.json",
+  "seed": "serewater",
+  "steps": [
+    {
+      "command": "travel(march__outfitter)"
+    },
+    {
+      "command": "march__nera_preparation"
+    },
+    {
+      "command": "march__nera_interest"
+    },
+    {
+      "command": "buy_item(march__medicine_1,march__member_guide)"
+    },
+    {
+      "command": "buy_item(march__draught_1,march__member_guide)"
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "travel(march__shrine)"
+    },
+    {
+      "command": "march__iven_mandate"
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "travel(march__causeway)"
+    },
+    {
+      "command": "travel(march__ridge)"
+    },
+    {
+      "command": "travel(march__yard)"
+    },
+    {
+      "command": "travel(march__vestibule)"
+    },
+    {
+      "command": "march__pell_request"
+    },
+    {
+      "command": "free_obstruction(march__rack,march__pell)"
+    },
+    {
+      "command": "escort(march__pell,march__yard)"
+    },
+    {
+      "command": "escort(march__pell,march__ridge)"
+    },
+    {
+      "command": "escort(march__pell,march__causeway)"
+    },
+    {
+      "command": "escort(march__pell,march__quay)"
+    },
+    {
+      "command": "march__pell_home"
+    },
+    {
+      "command": "travel(march__causeway)"
+    },
+    {
+      "command": "travel(march__ridge)"
+    },
+    {
+      "command": "travel(march__yard)"
+    },
+    {
+      "command": "travel(march__vestibule)"
+    },
+    {
+      "command": "travel(march__workshop)"
+    },
+    {
+      "command": "march__edda_claim"
+    },
+    {
+      "command": "travel(march__furnace)"
+    },
+    {
+      "command": "travel(march__gallery)"
+    },
+    {
+      "command": "attack(march__roost)",
+      "combat": [
+        {
+          "actor": "march__guide",
+          "ability": "ambush",
+          "target": "march__roost_person"
+        },
+        {
+          "actor": "march__shield",
+          "ability": "wounding_blow",
+          "target": "march__roost_person"
+        },
+        {
+          "actor": "march__lamp",
+          "ability": "attack",
+          "target": "march__roost_person"
+        }
+      ]
+    },
+    {
+      "command": "use_item(march__draught_1,march__member_guide)"
+    },
+    {
+      "command": "cross(march__roost,march__hoist)"
+    },
+    {
+      "command": "examine(march__scored_timber)"
+    },
+    {
+      "command": "risk_passage(march__counterweight,march__landing,march__member_guide)"
+    },
+    {
+      "command": "travel(march__hall)"
+    },
+    {
+      "command": "travel(march__stair)"
+    },
+    {
+      "command": "travel(march__stores)"
+    },
+    {
+      "command": "take_item(march__line_cache,march__member_guide)"
+    },
+    {
+      "command": "equip_item(march__line_cache,march__member_guide)"
+    },
+    {
+      "command": "travel(march__stair)"
+    },
+    {
+      "command": "travel(march__hall)"
+    },
+    {
+      "command": "travel(march__kitchen)"
+    },
+    {
+      "command": "examine(march__crock_label)"
+    },
+    {
+      "command": "risk_passage(march__miasma,march__name_room,march__member_guide)"
+    },
+    {
+      "command": "use_item(march__medicine_1,march__member_guide)"
+    },
+    {
+      "command": "examine(march__register_pages)"
+    },
+    {
+      "command": "take_item(march__lantern_cache,march__member_guide)"
+    },
+    {
+      "command": "equip_item(march__lantern_cache,march__member_guide)"
+    },
+    {
+      "command": "examine(march__lantern_letters)"
+    },
+    {
+      "command": "passage(march__crypt)"
+    },
+    {
+      "command": "climb(march__founders,march__line_cache)"
+    },
+    {
+      "command": "travel(march__chalk)"
+    },
+    {
+      "command": "examine(march__survey_scratches)"
+    },
+    {
+      "command": "passage(march__drain)"
+    },
+    {
+      "command": "travel(march__ridge)"
+    },
+    {
+      "command": "travel(march__causeway)"
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "travel(march__inn)"
+    },
+    {
+      "command": "rest(march__inn)"
+    },
+    {
+      "command": "march__jory_training"
+    },
+    {
+      "command": "train_member(march__member_guide,serewater_training)"
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "travel(march__shrine)"
+    },
+    {
+      "command": "march__iven_writ"
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "travel(march__causeway)"
+    },
+    {
+      "command": "travel(march__ridge)"
+    },
+    {
+      "command": "travel(march__drain)"
+    },
+    {
+      "command": "passage(march__chalk)"
+    },
+    {
+      "command": "travel(march__founders)"
+    },
+    {
+      "command": "climb(march__crypt,march__line_cache)"
+    },
+    {
+      "command": "travel(march__court)"
+    },
+    {
+      "command": "march__custodian_demand"
+    },
+    {
+      "command": "request_custody(march__custodian)"
+    },
+    {
+      "command": "cross(march__custodian,march__vault)"
+    },
+    {
+      "command": "take_item(march__charm_cache,march__member_guide)"
+    },
+    {
+      "command": "equip_item(march__charm_cache,march__member_guide)"
+    },
+    {
+      "command": "travel(march__court)"
+    },
+    {
+      "command": "travel(march__crypt)"
+    },
+    {
+      "command": "passage(march__name_room)"
+    },
+    {
+      "command": "travel(march__kitchen)"
+    },
+    {
+      "command": "travel(march__hall)"
+    },
+    {
+      "command": "travel(march__stair)"
+    },
+    {
+      "command": "travel(march__stores)"
+    },
+    {
+      "command": "travel(march__workshop)"
+    },
+    {
+      "command": "travel(march__vestibule)"
+    },
+    {
+      "command": "travel(march__yard)"
+    },
+    {
+      "command": "travel(march__ridge)"
+    },
+    {
+      "command": "travel(march__causeway)"
+    },
+    {
+      "command": "attack(march__marshfang)",
+      "combat": [
+        {
+          "actor": "march__guide",
+          "ability": "serewater_training",
+          "target": "march__marshfang_person"
+        },
+        {
+          "actor": "march__shield",
+          "ability": "wounding_blow",
+          "target": "march__marshfang_person"
+        },
+        {
+          "actor": "march__lamp",
+          "ability": "attack",
+          "target": "march__marshfang_person"
+        }
+      ]
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "travel(march__inn)"
+    },
+    {
+      "command": "rest(march__inn)"
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "travel(march__causeway)"
+    },
+    {
+      "command": "travel(march__ridge)"
+    },
+    {
+      "command": "forage(march__hazel_patch)"
+    },
+    {
+      "command": "travel(march__yard)"
+    },
+    {
+      "command": "climb(march__hoist,march__line_cache)"
+    },
+    {
+      "command": "take_item(march__bearing_cache,march__member_shield)"
+    },
+    {
+      "command": "cleared_passage(march__counterweight,march__landing)"
+    },
+    {
+      "command": "travel(march__hall)"
+    },
+    {
+      "command": "travel(march__sluice)"
+    },
+    {
+      "command": "travel(march__lower)"
+    },
+    {
+      "command": "travel(march__crypt)"
+    },
+    {
+      "command": "travel(march__court)"
+    },
+    {
+      "command": "examine(march__shutter_scratches)"
+    },
+    {
+      "command": "disarm(march__shutters)"
+    },
+    {
+      "command": "cleared_passage(march__shutters,march__founders)"
+    },
+    {
+      "command": "travel(march__chalk)"
+    },
+    {
+      "command": "passage(march__drain)"
+    },
+    {
+      "command": "travel(march__ridge)"
+    },
+    {
+      "command": "travel(march__causeway)"
+    },
+    {
+      "command": "travel(march__quay)"
+    },
+    {
+      "command": "fulfill_commission(march__bearing_cache,march__edda)"
+    }
+  ],
+  "complete": true
+}

@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "situation": "situation.kyr",
+  "rules": [
+    "../../rulesets/adventure.kyr",
+    "../../rulesets/discovery.kyr",
+    "../../rulesets/site-capabilities.kyr",
+    "../../rulesets/affinities.kyr",
+    "../../rulesets/fieldcraft.kyr",
+    "../../rulesets/items.kyr",
+    "../../rulesets/dungeoneering.kyr"
+  ],
+  "globals": [
+    "party",
+    "gold",
+    "rations",
+    "clock",
+    "woodcraft",
+    "delving",
+    "burial_lore",
+    "ropekit"
+  ],
+  "imports": [
+    "guest",
+    "captive_room",
+    "safe_home",
+    "restraint",
+    "party"
+  ],
+  "roles": {
+    "guest": {
+      "type": "group",
+      "conditions": [
+        "trapped(guest)",
+        "at(guest, captive_room)"
+      ]
+    },
+    "captive_room": {
+      "type": "place"
+    },
+    "safe_home": {
+      "type": "place"
+    },
+    "restraint": {
+      "type": "mechanism",
+      "conditions": [
+        "mounted(restraint, captive_room)",
+        "obstruction(restraint)",
+        "restrainedBy(guest, restraint)"
+      ]
+    },
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {},
+  "generation": {
+    "type": "trapped_traveler",
+    "templates": "templates.json"
+  }
+}

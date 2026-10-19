@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter",
+      "backgroundId": "locksmith"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic"
+    }
+  ],
+  "scenario": "data/caught-below/river.campaign.json",
+  "seed": "serewater",
+  "steps": [
+    {
+      "command": "rescue__plea"
+    },
+    {
+      "command": "go(world__shop_door,world__shop_floor)"
+    },
+    {
+      "command": "buy_goods(rations,world__nera)"
+    },
+    {
+      "command": "go(world__shop_door,world__quay)"
+    },
+    {
+      "command": "go(world__causeway_path,world__causeway)"
+    },
+    {
+      "command": "go(world__low_path,world__drain_mouth)"
+    },
+    {
+      "command": "go(world__culvert,world__workshop)"
+    },
+    {
+      "command": "change_thing(world__padlock_pick)"
+    },
+    {
+      "command": "go(world__stores_door,world__stores)"
+    },
+    {
+      "command": "take_item(rescue__bar,world__member_party_2)"
+    },
+    {
+      "command": "go(world__stores_door,world__workshop)"
+    },
+    {
+      "command": "go(world__gallery_steps,world__gallery)"
+    },
+    {
+      "command": "change_thing(world__hound_soothe)"
+    },
+    {
+      "command": "go(world__hoist_passage,world__hoist)"
+    },
+    {
+      "command": "rescue__what_happened"
+    },
+    {
+      "command": "rescue__lever_free(party,world__hoist)"
+    },
+    {
+      "command": "lead(rescue__guest)"
+    },
+    {
+      "command": "go(world__hoist_passage,world__gallery)"
+    },
+    {
+      "command": "go(world__gallery_steps,world__workshop)"
+    },
+    {
+      "command": "go(world__culvert,world__drain_mouth)"
+    },
+    {
+      "command": "go(world__low_path,world__causeway)"
+    },
+    {
+      "command": "go(world__causeway_path,world__quay)"
+    },
+    {
+      "command": "rescue__thanks_escorted"
+    },
+    {
+      "command": "go(world__oar_door,world__taproom)"
+    },
+    {
+      "command": "take_lodging(world__maud_lodging,world__maud)"
+    }
+  ],
+  "complete": true
+}

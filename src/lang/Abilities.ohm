@@ -1,0 +1,25 @@
+KyrAbilities <: Kyr {
+  Program = Statement+
+  Statement = AbilityAction Save? "."
+  AbilityAction = Conditional | Damage | Healing | Defend | Apply | Remove | Drain | Revive | Kill | Flee | Gain | Learn | Summon | Travel
+  Conditional = "If" expression "," AbilityAction
+  Save = "unless" ident "save" "against" Amount
+  Damage = "Deal" Amount DamageType "damage" "to" Target
+  Healing = "Heal" Amount "health" "to" Target
+  Defend = "Defend"
+  Apply = "Apply" ident "to" Target "for" integer Turns
+  Remove = "Remove" ident "from" Target
+  Drain = "Drain" Amount "health" "from" Target
+  Revive = "Revive" Target "with" Amount "health"
+  Kill = "Kill" Target
+  Flee = "Flee"
+  Gain = "Grant" Amount Resource "to" Target
+  Learn = "Teach" ident "to" Target
+  Summon = "Summon" ident "for" Target
+  Travel = "Travel" "to" ident
+  Turns = "turns" | "turn"
+  Amount = expression | integer
+  DamageType = ident
+  Target = "dead ally" | "random enemy" | "enemies" | "allies" | "party" | "enemy" | "ally" | "self" | "all"
+  Resource = ident
+}

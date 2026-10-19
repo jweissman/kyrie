@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "situation": "journey.kyr",
+  "rules": [
+    "../rulesets/adventure.kyr",
+    "../rulesets/discovery.kyr",
+    "../rulesets/fieldcraft.kyr"
+  ],
+  "globals": [
+    "party",
+    "gold",
+    "rations",
+    "clock"
+  ],
+  "imports": [],
+  "exports": {},
+  "generation": {
+    "type": "client_journey",
+    "templates": "templates.json",
+    "tables": "../orra/tables.json"
+  }
+}

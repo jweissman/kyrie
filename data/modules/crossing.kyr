@@ -1,0 +1,85 @@
+Module crossing "The disputed crossing" {
+  Description "Winter supplies are stranded at the river. Open a route and return the cargo before dusk.".
+  Kind place.
+  Kind group.
+  Kind item.
+  Relation at(entity, place) exclusive.
+  Relation blocked(place).
+  Relation known(place).
+  Relation hungry(group).
+  Relation hostile(group).
+  Relation allied(group, group).
+  Relation defeated(group).
+  Relation supplied(place).
+  Measure quantity(group, item).
+  Query has(owner: group, goods: item) means quantity(owner, goods) > 0.
+  Query open(site: place) means not blocked(site).
+
+  Entity village: place "Alderwick".
+  Entity bridge: place "The old crossing".
+  Entity ford: place "Willow ford".
+  Entity party: group "The company".
+  Entity raiders: group "The bridge raiders".
+  Entity cargo: item "Winter grain".
+  Entity rations: item "Travel rations".
+  Entity gold: item "Gold".
+
+  Initially Assert at(party, village).
+  Initially Assert at(cargo, bridge).
+  Initially Assert blocked(bridge).
+  Initially Assert hungry(raiders).
+  Initially Set quantity(party, rations) to 1.
+  Initially Set quantity(party, gold) to 8.
+  Budget 8.
+  Goal supplied(village).
+
+  Action scout "Scout the riverbank" {
+    Description "Find a ford beyond the occupied bridge.".
+    Requires at(party, village) and not known(ford).
+    Cost 1. Time 1.
+    On success { Assert known(ford). }
+  }
+  Action ford "Carry the cargo across the ford" {
+    Description "A slower passage; leave the raiders in control of the bridge.".
+    Requires known(ford) and at(cargo, bridge) and at(party, village).
+    Cost 4. Time 4.
+    On success { Assert at(cargo, village). }
+  }
+  Action parley "Offer food for safe passage" {
+    Description "Spend one ration to make allies and open the crossing.".
+    Requires hungry(raiders) and has(party, rations) and blocked(bridge) and not hostile(raiders).
+    Cost 1. Time 1.
+    On success {
+      Decrease quantity(party, rations) by 1.
+      Retract hungry(raiders).
+      Retract blocked(bridge).
+      Assert allied(party, raiders).
+    }
+  }
+  Action bribe "Pay the bridge toll" {
+    Description "Buy passage for eight gold.".
+    Requires quantity(party, gold) >= 8 and blocked(bridge).
+    Cost 3. Time 1.
+    On success { Decrease quantity(party, gold) by 8. Retract blocked(bridge). }
+  }
+  Action assault "Drive the raiders from the crossing" {
+    Description "Fight for the bridge; wounds, mana use, and deaths persist.".
+    Requires blocked(bridge) and not hostile(raiders).
+    Cost 5. Time 2.
+    Resolve combat(raiders).
+    On success { Retract blocked(bridge). Retract hungry(raiders). Assert defeated(raiders). }
+    On failure { Assert hostile(raiders). }
+  }
+  Action recover "Recover the village cargo" {
+    Description "Bring the stranded cargo to town.".
+    Requires open(bridge) and at(cargo, bridge).
+    Cost 1. Time 1.
+    On success { Assert at(cargo, village). }
+  }
+  Action deliver "Distribute the supplies" {
+    Description "Supply the village without erasing the journey's consequences.".
+    Requires at(cargo, village) and not supplied(village).
+    Cost 1. Time 1.
+    On success { Assert supplied(village). }
+  }
+}

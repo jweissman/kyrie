@@ -1,0 +1,20 @@
+{
+  "habitatPlant": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": ["yarrow", "yarrow", "alder"],
+      "meadow": ["yarrow"],
+      "woodland": ["yarrow"],
+      "marsh": ["alder"]
+    }
+  },
+  "habitatAnimal": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": ["otter", "otter", "reddeer"],
+      "meadow": ["reddeer"],
+      "woodland": ["reddeer", "greywolf"],
+      "marsh": ["otter"]
+    }
+  }
+}

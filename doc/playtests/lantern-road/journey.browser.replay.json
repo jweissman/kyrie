@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "fighter"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric"
+    }
+  ],
+  "scenario": "data/client-study/campaign.json",
+  "seed": "censer",
+  "steps": [
+    {
+      "command": "censer__vesper_work"
+    },
+    {
+      "command": "travel(censer__road)"
+    },
+    {
+      "command": "travel(censer__entry)"
+    },
+    {
+      "command": "censer__oren_burials"
+    },
+    {
+      "command": "travel(censer__stair)"
+    },
+    {
+      "command": "travel(censer__crypt)"
+    },
+    {
+      "command": "attack(censer__guardian)",
+      "combat": [
+        {
+          "actor": "censer__lamp",
+          "ability": "attack",
+          "target": "censer__guardian_person"
+        },
+        {
+          "actor": "censer__guide",
+          "ability": "ambush",
+          "target": "censer__guardian_person"
+        },
+        {
+          "actor": "censer__shield",
+          "ability": "cleave",
+          "target": "censer__shield"
+        },
+        {
+          "actor": "censer__guide",
+          "ability": "attack",
+          "target": "censer__guardian_person"
+        },
+        {
+          "actor": "censer__shield",
+          "ability": "wounding_blow",
+          "target": "censer__guardian_person"
+        },
+        {
+          "actor": "censer__lamp",
+          "ability": "attack",
+          "target": "censer__guardian_person"
+        },
+        {
+          "actor": "censer__guide",
+          "ability": "attack",
+          "target": "censer__guardian_person"
+        }
+      ]
+    },
+    {
+      "command": "examine(censer__rubbing)"
+    },
+    {
+      "command": "learn_reward(censer__seal,censer__member_shield)"
+    },
+    {
+      "command": "travel(censer__stair)"
+    },
+    {
+      "command": "travel(censer__entry)"
+    },
+    {
+      "command": "travel(censer__road)"
+    },
+    {
+      "command": "travel(censer__town)"
+    },
+    {
+      "command": "rest(censer__town)"
+    }
+  ],
+  "complete": true
+}

@@ -1,0 +1,126 @@
+Module caught_below "Someone caught below" {
+  Description "Someone went into old workings and has not come back. A fallen weight pins them; the short way out will close.".
+  Entity party: group "Your company".
+  Place workings "The workings" is site.
+  Place captive_room "Where the accident happened" is room within workings.
+  Place tool_room "Where a tool lies" is room.
+  Place home "The home they left" is room.
+  Place lookout "Where someone waits and watches" is room.
+  Entity closing_way: passage "The short way".
+  Item bar "a pry bar" is crowbar at tool_room.
+  Measure closesAt(entity).
+  Relation asked(group, group). Relation freedBy(group, group). Relation escortedHome(group, group).
+  Relation returned(group). Relation grateful(group, group). Relation reunited(group).
+
+  Person guest "Someone" at captive_room {
+    Role "missing". Uses go. Plans 14 steps. Peaceable.
+    State pinned "{guest} lies half under {rack}, one leg trapped beneath it. Their face is grey with pain and cold.".
+    State hurt "{guest} keeps their weight off one leg, but can walk.".
+    State lame "{guest} cannot put any weight on the broken leg.".
+    State settled "{guest} sits with the bad leg up on a stool while {relative} scolds and feeds them.".
+  }
+  Person relative "Someone waiting" at lookout {
+    Role "waiting". Uses go. Plans 14 steps. Peaceable.
+    State waiting "{relative} stands with one hand shading their eyes, watching the way to {workings}.".
+    State relieved "{relative} keeps a hand on {guest}'s sleeve, as if they might vanish again.".
+  }
+  Initially Assert hobbled(guest).
+  Initially Set quantity(relative, gold) to 6.
+
+  Hazard heave_strain "The strain of heaving" means "Deal (1d4) physical damage to ally.".
+  Thing rack "the fallen weight" at captive_room {
+    State pinning "{rack} lies across the floor where it fell, wedged against the wall.".
+    State propped "{rack} has been levered up and wedged on a lump of stone; there is space beneath it now.".
+    State dug "{rack} lies where it fell, but a hollow has been scraped out of the floor beneath one end.".
+    State toppled "{rack} lies tipped on its side against the wall, one end split where it dropped.".
+  }
+  Thing water "the closing" on closing_way {
+    State open "{closing_way} is still clear, but {water} will close it at about watch {closesAt(water)}.".
+    State closed blocking "{water} has closed {closing_way}.".
+  }
+
+  Event worried near relative when together(party, relative) and state(relative, waiting) and not reunited(guest) and not asked(relative, party) "{relative} hurries over to you. 'Are you going up to {workings}? Have you seen {guest}?'".
+  Event cry near guest when state(guest, pinned) and together(party, guest) "A voice from low down in the dark: 'Here! Over here. Mind {rack}; it's on my leg. Don't just haul on it. Something cracked when it came down.'".
+  Event closing beside closing_way when watch(clock) >= closesAt(water) "{water} closes over {closing_way}. That way is shut now." then { Assert state(water, closed). }
+  Rule escorted when together(guest, relative) and following(guest, party) and not reunited(guest) { Assert escortedHome(guest, party). }
+  Event reunion near guest when together(guest, relative) and freedBy(guest, party) "{relative} sees {guest}, and runs. For a while nobody says anything sensible." then {
+    Retract following(guest, party). Retract acceptsEscort(guest, party). Assert reunited(guest). Assert state(relative, relieved).
+  }
+  Event homecoming at home when at(guest, home) "{guest} limps in and sits down hard by the hearth." then {
+    Retract following(guest, party). Retract acceptsEscort(guest, party). Assert returned(guest). Assert state(guest, settled).
+  }
+
+  Pursuit stay_close for guest "staying close to you" priority 30 when following(guest, party) seeks together(guest, party).
+  Pursuit go_home for guest "making for {home}" priority 20 when freedBy(guest, party) and not following(guest, party) and not hobbled(guest) and not returned(guest)
+    and (not together(guest, party) or dismissed(guest, party) or reunited(guest)) seeks at(guest, home).
+  Pursuit keep_watch for relative "watching the way to {workings}" priority 10 when not reunited(guest) seeks at(relative, lookout).
+  Pursuit see_home for relative "taking {guest} home" priority 20 when reunited(guest) seeks at(relative, home).
+
+  Action lever_free(actor: group, spot: place) "Lever {rack} up with {bar}" {
+    Requires able(actor) and at(actor, spot) and at(rack, spot) and state(rack, pinning) and holding(actor, crowbar).
+    On success { Assert state(rack, propped). Assert state(guest, hurt). Retract hobbled(guest).
+      Assert freedBy(guest, actor). Assert acceptsEscort(guest, actor). }
+    Result "You get {bar} under {rack} and lean on it. It lifts a hand's breadth, and {guest} drags the leg clear: bruised and cut, but whole.".
+  }
+  Action dig_free(actor: group, spot: place) "Dig out beneath {rack} with your hands" {
+    Requires able(actor) and at(actor, spot) and at(rack, spot) and state(rack, pinning) and not capable(actor, digging).
+    Time 4.
+    On success { Assert state(rack, dug). Assert state(guest, hurt). Retract hobbled(guest).
+      Assert freedBy(guest, actor). Assert acceptsEscort(guest, actor). }
+    Result "It takes most of an hour of scraping grit and stone with bare hands. At last {guest} eases the leg out from under {rack}.".
+  }
+  Action dig_quick(actor: group, spot: place) "Dig out beneath {rack}, the way a miner would" {
+    Requires able(actor) and at(actor, spot) and at(rack, spot) and state(rack, pinning) and capable(actor, digging).
+    Time 2.
+    On success { Assert state(rack, dug). Assert state(guest, hurt). Retract hobbled(guest).
+      Assert freedBy(guest, actor). Assert acceptsEscort(guest, actor). }
+    Result "Twenty minutes of quick, careful digging, shoring as you go. At last {guest} eases the leg out from under {rack}.".
+  }
+  Action heave_free(actor: group, lifter: member, spot: place) "Heave {rack} off by main force; {lifter} lifts" {
+    Requires able(actor) and at(actor, spot) and at(rack, spot) and state(rack, pinning) and memberOf(lifter, actor) and awake(lifter).
+    Resolve expose(heave_strain, lifter).
+    On success { Assert state(rack, toppled). Assert state(guest, lame).
+      Assert freedBy(guest, actor). Assert acceptsEscort(guest, actor). }
+    Result "{lifter} gets a shoulder under {rack} and heaves. It comes up, then the grip slips and it crashes down on its side. {guest} screams; the leg is broken.".
+  }
+  Action set_leg(actor: group, spot: place) "Set and bind {guest}'s broken leg" {
+    Requires able(actor) and at(actor, spot) and at(guest, spot) and state(guest, lame)
+      and capable(actor, mending).
+    Time 2.
+    On success { Assert state(guest, hurt). Retract hobbled(guest). }
+    Result "The leg is straightened and splinted between two lengths of wood. {guest} goes white, then manages to stand.".
+  }
+
+  Topic plea with relative "Ask {relative} what is wrong" when not freedBy(guest, party) and not reunited(guest) {
+    Says "'{guest} went up to {workings} at first light and should have been back by mid-morning,' says {relative}. 'Nobody has seen them since. The short way in is {closing_way}, and {water} will close it at about watch {closesAt(water)}; after that you go the long way round. Please. Go and look.'".
+    On discuss { Assert asked(relative, party). }
+  }
+  Topic thanks_escorted with relative "Speak with {relative}" when reunited(guest) and escortedHome(guest, party) once {
+    Says "{relative} takes your hands in both of theirs. 'You brought them back yourselves. I won't forget it.' Six coins are pressed into your palm: everything in the purse.".
+    On discuss { Decrease quantity(relative, gold) by 6. Increase quantity(party, gold) by 6. Assert grateful(relative, party). }
+  }
+  Topic thanks_alone with relative "Speak with {relative}" when reunited(guest) and not escortedHome(guest, party) once {
+    Says "'They found their own way back, on that leg,' says {relative}, not quite looking at you. 'You got them out. I'm grateful. But you might have walked them back.' Three coins, counted out carefully.".
+    On discuss { Decrease quantity(relative, gold) by 3. Increase quantity(party, gold) by 3. Assert grateful(relative, party). }
+  }
+  Topic after with relative "Ask how {guest} is mending" when grateful(relative, party) {
+    Says "'Grumbling, which is a good sign,' says {relative}. 'You're welcome at this door any time.'".
+  }
+  Topic what_happened with guest "Ask {guest} what happened" when state(guest, pinned) {
+    Says "'It came down on me when I leaned on it,' says {guest} through their teeth. 'I can't shift it from under. There's {bar} in {tool_room}, if you can fetch it. Or dig me out, if you've the time. Don't just haul on it; I heard something crack already.'".
+  }
+  Topic plans_hurt with guest "Ask {guest} what they mean to do" when freedBy(guest, party) and state(guest, hurt) {
+    Says "'Home,' says {guest}. 'If you're going that way, I'll come with you. If not, I'll manage. I'm not sitting down here another hour.'".
+  }
+  Topic plans_lame with guest "Ask {guest} what they mean to do" when freedBy(guest, party) and state(guest, lame) {
+    Says "'I can't walk on it,' says {guest}. 'Not alone. Give me an arm and I'll hop the whole way if I have to.'".
+  }
+  Topic home_thanks with guest "Speak with {guest}" when returned(guest) once {
+    Says "'I owe you,' says {guest}. 'Next time I'll leave the old workings to the rats.'".
+  }
+
+  Objective find when asked(relative, party) and not freedBy(guest, party) "{relative} asked you to find {guest} in {workings}. {water} closes {closing_way} at about watch {closesAt(water)}.".
+  Objective bring when freedBy(guest, party) and not reunited(guest) and not returned(guest) "Get {guest} home to {home}.".
+  Objective report when reunited(guest) and not grateful(relative, party) "{guest} is back with {relative}, who will want a word with you.".
+  Goal returned(guest).
+}

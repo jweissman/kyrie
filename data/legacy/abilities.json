@@ -1,0 +1,74 @@
+{
+  "about": "Quarantined: abilities and site mechanisms that only legacy campaigns and recorded histories use. New modules declare mechanisms as Hazards in their own module. Lint rejects these in recommended campaigns.",
+  "abilities": {
+    "dawn_spark": {
+      "name": "Dawn spark",
+      "kind": "spell",
+      "effect": "Deal (max(0, 1d6 + statMod(#wisdom))) radiant damage to enemy.",
+      "cost": 1
+    },
+    "cinder_lesson": {
+      "name": "Cinder lesson",
+      "kind": "lesson",
+      "effect": "Teach cinder to self. Grant 40 experience to self."
+    },
+    "cinder": {
+      "name": "Cinder invocation",
+      "kind": "technique",
+      "effect": "Deal (1d6) fire damage to enemy.",
+      "recharge": 2
+    },
+    "censer_counterweight": {
+      "name": "Falling counterweight",
+      "kind": "hazard",
+      "effect": "Deal (1d6) physical damage to ally unless dexterity save against (11). Apply bleeding to ally for 2 turns unless dexterity save against (11)."
+    },
+    "censer_miasma": {
+      "name": "Ossuary spore cloud",
+      "kind": "hazard",
+      "effect": "Deal (1d4) poison damage to ally unless constitution save against (11). Apply poisoned to ally for 3 turns unless constitution save against (11)."
+    },
+    "censer_shutters": {
+      "name": "Burial shutters",
+      "kind": "hazard",
+      "effect": "Deal (1d4) physical damage to ally unless dexterity save against (12). Apply weakened to ally for 2 turns unless constitution save against (12)."
+    },
+    "serewater_training": {
+      "name": "Measured strike training",
+      "kind": "technique",
+      "effect": "Deal (1d6 + 2) physical damage to enemy.",
+      "recharge": 1
+    },
+    "brace_line": {
+      "name": "Brace the line",
+      "kind": "technique",
+      "effect": "Apply warded to party for 2 turns.",
+      "recharge": 4
+    },
+    "orsino_flame_blade": {
+      "name": "Strike with the Longsword of Flames",
+      "kind": "technique",
+      "description": "Automatic-hit compatibility strike.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d8"
+          },
+          "damageType": "piercing",
+          "target": "enemy"
+        },
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d6"
+          },
+          "damageType": "fire",
+          "target": "enemy"
+        }
+      ]
+    }
+  }
+}

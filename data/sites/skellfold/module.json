@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "situation": "site.kyr",
+  "rules": [
+    "../../rulesets/world/core.kyr",
+    "../../rulesets/world/passages.kyr",
+    "../../rulesets/world/people.kyr",
+    "../../rulesets/world/needs.kyr",
+    "../../rulesets/world/services.kyr",
+    "../../rulesets/discovery.kyr",
+    "../../rulesets/world/care.kyr",
+    "../../rulesets/world/belongings.kyr"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "home": "cottage_room",
+    "lookout": "green",
+    "captive": "lower_gallery",
+    "tools": "smithy",
+    "site": "quarry",
+    "closing": "beck_lane"
+  },
+  "generation": {
+    "type": "quarry_site",
+    "templates": "templates.json"
+  }
+}

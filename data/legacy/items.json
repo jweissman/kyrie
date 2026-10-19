@@ -1,0 +1,48 @@
+{
+  "about": "Quarantined: Serewater item kinds and the automatic-hit Longsword of Flames kept for recorded histories.",
+  "items": {
+    "ropekit": {
+      "name": "Climber's harness",
+      "description": "A rope, pitons and fitted harness. Equip it to use supported climbing routes.",
+      "slot": "tool",
+      "capability": "climbing"
+    },
+    "wardedlantern": {
+      "name": "Sepulchral lantern",
+      "description": "A hooded lantern whose consecrated flame reveals concealed funerary markings. Equip it to read spectral routes.",
+      "slot": "light",
+      "capability": "spectralSight"
+    },
+    "protectivecharm": {
+      "name": "Ashwood ward charm",
+      "description": "A mortuary charm. While equipped: +3 to saving throws and 1 point of damage reduction.",
+      "slot": "charm",
+      "armor": 1,
+      "save": 3
+    },
+    "wardblade": {
+      "name": "Warden's blade",
+      "description": "A balanced mortuary blade. While equipped: +2 damage power.",
+      "slot": "weapon",
+      "power": 2
+    },
+    "bronzeBearing": {
+      "name": "Bronze censer bearing",
+      "description": "A portable, valuable fragment of the old censer machinery."
+    },
+    "register": {
+      "name": "Mortuary register",
+      "description": "A durable record of the dead and the institution that kept their names."
+    },
+    "brasskey": {
+      "name": "Cabinet key",
+      "description": "A brass key. It opens only a lock explicitly keyed to this particular item instance."
+    },
+    "longsword_of_flames_autohit": {
+      "name": "Longsword of Flames",
+      "description": "A steel blade bearing the old foundry ward. Equipped: strike for 1d8 piercing plus 1d6 fire damage.",
+      "slot": "weapon",
+      "ability": "orsino_flame_blade"
+    }
+  }
+}

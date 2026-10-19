@@ -1,0 +1,26 @@
+{
+  "pantry_manifest": {
+    "__no_id": true,
+    "name": "Wayside pantry",
+    "deadline": 3,
+    "creatures": [{"id":"caretaker","context":{"raceId":"human","classId":"commoner","name":"Ivo"},"gold":0}],
+    "actors": {"order":[{
+      "id":"carrier","members":["caretaker"],"actions":["collect","put"],"horizon":2,
+      "goals":[{"id":"provision","when":"true","target":"supplied()","priority":10}]
+    }]},
+    "initial": [{"name":"quantity","args":["cache","rations"],"value":1}],
+    "pressure": "=gen(pantry_deadline)",
+    "outcomes": [
+      {"id":"supplied","predicate":"supplied()"},
+      {"id":"deadline_missed","predicate":"missed()"},
+      {"id":"guard_dead","predicate":"dead(watcher)"}
+    ]
+  },
+  "pantry_deadline": {
+    "__no_id": true,
+    "id": "winter",
+    "at": "=#deadline",
+    "measure": {"kind":"call","name":"quantity","args":["granary","rations"]},
+    "required": 1
+  }
+}

@@ -1,0 +1,820 @@
+Module campaign "Saint Orra — Ash and Silver" {
+  Description "Installed situations share this persistent world.".
+  Kind group.
+  Kind place.
+  Kind good.
+  Kind stock.
+  Kind pressure.
+  Kind clock.
+  Kind fact.
+  Kind source.
+  Kind mechanism.
+  Kind capability.
+  Kind member.
+  Kind ability.
+  Kind reward.
+  Relation at(entity, place) exclusive.
+  Relation route(place, place).
+  Relation closed(place).
+  Relation denied(group, place, place).
+  Relation footway(place, place).
+  Relation gate(group, place, place).
+  Relation gatekeeper(group).
+  Relation distinct(group, group).
+  Relation able(group).
+  Relation dead(group).
+  Relation released(group).
+  Relation sated(group).
+  Relation acceptsFood(group).
+  Relation carrying(group, good) exclusive.
+  Relation unladen(group).
+  Relation mayCollect(group, stock).
+  Relation job(stock, good).
+  Relation hostile(group, group).
+  Relation recorded(pressure).
+  Relation established(fact).
+  Relation reveals(source, fact).
+  Relation intact(source).
+  Relation noticeable(source).
+  Relation destructible(source).
+  Relation mayExamine(group, source).
+  Relation knows(group, fact).
+  Relation assumesFalse(group, fact).
+  Relation trusts(group, group).
+  Relation learnedFrom(group, source, fact).
+  Relation toldBy(group, group, fact).
+  Relation publicPlace(place).
+  Relation testimony(group, source).
+  Relation functioning(mechanism).
+  Relation mounted(mechanism, place).
+  Relation barrier(mechanism, place).
+  Relation operates(group, mechanism).
+  Relation keyedBy(mechanism, group).
+  Relation supports(group, group).
+  Relation seeksBacking(group).
+  Relation mandate(group, place).
+  Relation controlled(place, group) exclusive.
+  Relation informedPassage(place, place, fact).
+  Relation capable(group, capability).
+  Relation recognizes(group, capability).
+  Relation receptive(group, capability).
+  Relation memberOf(member, group).
+  Relation awake(member).
+  Relation needsCare(member).
+  Relation canCast(member, ability).
+  Relation treatable(member, ability).
+  Relation restful(place).
+  Relation offeredAt(reward, place).
+  Relation giftEffect(reward, ability).
+  Relation rewardFor(reward, fact).
+  Relation claimed(reward).
+  Relation refuge__expelled(group).
+  Relation refuge__spoiled(place).
+  Relation tower__flooded(place).
+  Relation tower__rescued(group).
+  Relation offers(group, good).
+  Relation salvage(stock).
+  Relation margin__frozen(place).
+  Measure quantity(entity, good).
+  Measure received(group).
+  Measure claim(group).
+  Measure mercy(group).
+  Measure fee(stock).
+  Measure required(stock, good).
+  Measure watch(clock).
+  Measure urgentAt(clock).
+  Measure deficit(pressure).
+  Measure enforceAt(group).
+  Measure margin__departAt(pressure).
+  Measure margin__freezeAt(pressure).
+  Query paid(who: group) means received(who) >= claim(who).
+  Query releaseAllowed(who: group) means (paid(who)) or (((acceptsFood(who)) and (sated(who))) or (watch(clock) >= mercy(who))).
+  Entity party: group "Your company".
+  Entity refuge__mere: group "Mere, keeper of the refuge".
+  Entity refuge__tamsin: group "Tamsin, charcoal worker".
+  Entity refuge__green: place "Saint Orra's green".
+  Entity refuge__porch: place "Refuge porch".
+  Entity refuge__cell: place "Locked guest house".
+  Entity refuge__kiln: place "Charcoal kiln".
+  Entity gold: good "Coin".
+  Entity rations: good "Ration".
+  Entity clock: clock "Campaign watch".
+  Entity fellowship: capability "the Free Fellowship".
+  Entity woodcraft: capability "ranger woodcraft".
+  Entity refuge__cistern: stock "Refuge water reserve".
+  Entity refuge__water: good "Clean water".
+  Entity refuge__latch: mechanism "guest-house latch".
+  Entity refuge__furnace: mechanism "kiln's forced-draft bellows".
+  Entity refuge__runoff: fact "Silver residue from the watchtower stones is carried into the spring by the kiln's forced draft; Tamsin did not poison the water.".
+  Entity refuge__cup: source "Ys’s signed water analysis beneath the testing cup".
+  Entity refuge__ledger: source "Firing ledger: illness follows silver-stone firings, even during Tamsin's absence".
+  Entity refuge__whereabouts: fact "Healer Ys went beneath the watchtower to recover its silver drain-key. She is alive, not hiding stolen medicine.".
+  Entity refuge__letter: source "Ys's letter entrusted to Tamsin".
+  Entity refuge__crawl: fact "A charcoal flue behind the kiln enters the watchtower's undercroft, bypassing the guardian's stair.".
+  Entity refuge__sketch: source "Chalk flue survey behind the bellows".
+  Entity refuge__member_guide: member "Elen" bound to refuge__guide.
+  Entity refuge__member_shield: member "Bran" bound to refuge__shield.
+  Entity refuge__member_lamp: member "Dori" bound to refuge__lamp.
+  Entity refuge__member_keeper: member "Mere" bound to refuge__keeper.
+  Entity refuge__member_worker: member "Tamsin" bound to refuge__worker.
+  Entity attack: ability "Weapon attack".
+  Entity defend: ability "Guard".
+  Entity flee: ability "Retreat".
+  Entity cleave: ability "Sweeping blow".
+  Entity heal: ability "Mend wounds".
+  Entity bless: ability "Bless the company".
+  Entity purify: ability "Purify".
+  Entity revive: ability "Recall the fallen".
+  Entity bolt: ability "Ember bolt".
+  Entity sleep: ability "Binding sleep".
+  Entity ward: ability "Protective ward".
+  Entity drain: ability "Siphon life".
+  Entity venom: ability "Venom blade".
+  Entity ambush: ability "Backstab".
+  Entity summon: ability "Call a wisp".
+  Entity rally: ability "Second wind".
+  Entity wounding_blow: ability "Wounding blow".
+  Entity dawn_spark: ability "Dawn spark".
+  Entity rending_bite: ability "Rending bite".
+  Entity camp_recovery: ability "Sheltered recovery".
+  Entity cinder_lesson: ability "Cinder lesson".
+  Entity cinder: ability "Cinder invocation".
+  Entity rime_bite: ability "Rime bite".
+  Entity winter_howl: ability "Winter howl".
+  Entity tower__moor: place "Wind-bitten moor".
+  Entity tower__cairn: place "Broken watchtower".
+  Entity tower__vault: place "Drowned undercroft".
+  Entity tower__spring: place "Silver-water reservoir".
+  Entity tower__wolf: group "The grey she-wolf".
+  Entity tower__hart: group "The antlered warden".
+  Entity tower__ys: group "Ys, the missing healer".
+  Entity tower__siphon: mechanism "the silver siphon".
+  Entity tower__hatch: mechanism "reservoir inspection hatch".
+  Entity tower__burial: fact "The antlered warden swore to keep grave robbers from the reservoir. Ys entered to drain it, not plunder the dead.".
+  Entity tower__inscription: source "An oath carved into the watchtower stair".
+  Entity tower__account: source "Ys's account of her descent".
+  Entity tower__cinder_gift: reward "Ys's one-use cinder seal".
+  Entity tower__member_animal: member "Grey" bound to tower__animal.
+  Entity tower__member_warden: member "Antlered warden" bound to tower__warden.
+  Entity tower__member_healer: member "Ys" bound to tower__healer.
+  Entity margin__tala: group "Orin Reedwalker, northern guide and trader".
+  Entity margin__frostback: group "Frostback, altered wolf".
+  Entity margin__track: place "Needle ridge".
+  Entity margin__camp: place "Charcoal camp".
+  Entity margin__ford: place "Needle creek".
+  Entity margin__shrine: place "Hollow winter shrine".
+  Entity margin__font: mechanism "the winter shrine's ice-pump".
+  Entity margin__purse: stock "a salvager's scattered purse".
+  Entity margin__winter: pressure "The camp’s frost line".
+  Entity margin__old_trail: fact "A dry shepherds' ledge runs from the northern track into the winter shrine, bypassing the ford.".
+  Entity margin__trail_note: source "The guide's marked shepherds' route".
+  Entity margin__winter_engine: fact "The winter shrine's ice-pump causes the spreading frost; dismantling its exposed intake stops further growth but does not repair frozen shelters.".
+  Entity margin__tide_marks: source "A salvager's account of the ice-pump and its tide marks".
+  Entity margin__member_tala_person: member "Orin Reedwalker" bound to margin__tala_person.
+  Entity margin__member_frostback_person: member "Frostback" bound to margin__frostback_person.
+  Pursuit hear_challenge for refuge__mere priority 30 when knows(refuge__mere, refuge__runoff) seeks not (closed(refuge__cell)).
+  Pursuit stop_poison for refuge__mere priority 20 when knows(refuge__mere, refuge__runoff) seeks not (functioning(refuge__furnace)).
+  Pursuit return_to_duty for refuge__mere priority 10 when (not (functioning(refuge__furnace))) and (not (closed(refuge__cell))) seeks at(refuge__mere, refuge__porch).
+  Pursuit seek_work for refuge__tamsin priority 10 when not (closed(refuge__cell)) seeks at(refuge__tamsin, refuge__kiln).
+  Pursuit hungry for tower__wolf priority 10 when not (sated(tower__wolf)) seeks sated(tower__wolf).
+  Pursuit let_pass for tower__wolf priority 9 when sated(tower__wolf) seeks released(tower__wolf).
+  Pursuit honor_oath for tower__hart priority 30 when knows(tower__hart, tower__burial) seeks at(tower__hart, tower__moor).
+  Pursuit open_drain for tower__ys priority 20 when able(tower__ys) seeks not (closed(tower__spring)).
+  Pursuit homeward for tower__ys priority 10 when not (functioning(tower__siphon)) seeks at(tower__ys, refuge__green).
+  Pursuit leave_danger for margin__tala priority 20 when (functioning(margin__font)) and (watch(clock) >= margin__departAt(margin__winter)) seeks at(margin__tala, refuge__green).
+  Pursuit reopen_trade for margin__tala priority 10 when (not (functioning(margin__font))) and (not (margin__frozen(margin__camp))) seeks at(margin__tala, margin__camp).
+  Rule refuge__fellowship_hearing when (released(refuge__mere)) and (closed(refuge__cell)) {
+    Retract closed(refuge__cell).
+  }
+  Rule refuge__expulsion when (watch(clock) >= 28) and ((able(refuge__mere)) and ((not (knows(refuge__mere, refuge__runoff))) and (not (refuge__expelled(refuge__tamsin))))) {
+    Assert refuge__expelled(refuge__tamsin).
+    Assert at(refuge__tamsin, refuge__green).
+    Assert closed(refuge__cell).
+  }
+  Rule refuge__pollution when (watch(clock) >= 20) and ((functioning(refuge__furnace)) and (not (refuge__spoiled(refuge__green)))) {
+    Assert refuge__spoiled(refuge__green).
+    Set quantity(refuge__cistern, refuge__water) to 0.
+  }
+  Rule tower__oath_passage when (knows(tower__hart, tower__burial)) and (not (released(tower__hart))) {
+    Assert released(tower__hart).
+  }
+  Rule tower__overflow when (watch(clock) >= 36) and ((functioning(tower__siphon)) and (not (tower__flooded(tower__moor)))) {
+    Assert tower__flooded(tower__moor).
+    Assert closed(tower__cairn).
+  }
+  Rule tower__home when (at(tower__ys, refuge__green)) and (not (tower__rescued(tower__ys))) {
+    Assert tower__rescued(tower__ys).
+  }
+  Rule tower__offer_lesson when (tower__rescued(tower__ys)) and ((able(tower__ys)) and (not (claimed(tower__cinder_gift)))) {
+    Assert offeredAt(tower__cinder_gift, refuge__green).
+    Assert at(tower__cinder_gift, refuge__green).
+  }
+  Rule margin__encroachment when (watch(clock) >= margin__freezeAt(margin__winter)) and ((functioning(margin__font)) and (not (margin__frozen(margin__camp)))) {
+    Assert margin__frozen(margin__camp).
+    Assert closed(margin__camp).
+    Retract restful(margin__camp).
+  }
+  Observe refuge__arrival at refuge__green when (not (refuge__spoiled(refuge__green))) and (not (knows(refuge__mere, refuge__runoff))) "A barefoot child watches the testing cup beside the spring. A chalk notice blames Tamsin for the sickness; the cup covers Ys's sealed water analysis. Her note and the firing ledger can be read independently. East is the refuge porch, west the kiln, north the moor and ruined watchtower. Mere hears documented challenges. Read the analysis or the kiln ledger before accepting the accusation. The spring will be spoiled at watch 20 if firing continues.".
+  Observe refuge__polluted at refuge__green when refuge__spoiled(refuge__green) "A silver scum covers the spring. Stopping the bellows now prevents further discharge but cannot restore the stored water. The refuge's clean-water reserve has been emptied. Water collected earlier remains yours.".
+  Observe refuge__judgment at refuge__porch when (closed(refuge__cell)) and (able(refuge__mere)) "Mere holds the guest-house key. 'One sick child and a missing healer. I cannot risk another. I will open a hearing if you bring evidence against my judgment.' Her founding compact also admits a company of human, elf and dwarf together. Tamsin's expulsion is set for watch 28. The door is a physical barrier; if its keeper falls, you can recover her key and open it yourself; that proves nothing about the charge.".
+  Observe refuge__hearing at refuge__porch when not (closed(refuge__cell)) "The guest-house door stands open. Tamsin can leave; Mere's decision is no longer a prison sentence. The illness and the missing healer remain separate problems. Disabling the kiln ends the discharge but also its warmth.".
+  Observe refuge__guest at refuge__cell when at(refuge__tamsin, refuge__cell) "Tamsin sits beside a letter. 'Ys went to the tower, not away with the medicine. I promised to wait for her. Burning old stone made the glaze white; I thought it harmless.' She offers the letter freely. She cannot tell you what happened after Ys descended.".
+  Observe refuge__empty at refuge__cell when not (at(refuge__tamsin, refuge__cell)) "Tamsin's blanket is folded on the empty pallet. Her letter remains; a person's departure does not erase written evidence.".
+  Observe refuge__fire at refuge__kiln when functioning(refuge__furnace) "Bellows drive hot air through silver-flecked stones scavenged from the watchtower. You can dismantle the draft here without anyone's permission. It will stop the firing—and the refuge's heat. A ledger and flue survey lie under a loose slate. The water discharge will reach the spring at watch 20.".
+  Observe refuge__cold at refuge__kiln when not (functioning(refuge__furnace)) "The dismantled bellows lie beside cold stone. No more silver ash rises toward the spring. Families huddle under blankets: removing a danger did not replace their livelihood or heat. The tower's drain still needs attention.".
+  Observe refuge__cleared at refuge__kiln when (knows(refuge__mere, refuge__runoff)) and (at(refuge__tamsin, refuge__kiln)) "Tamsin has returned to her workplace after Mere accepted the evidence. The false accusation is withdrawn; the cold kiln remains a real loss. 'Find Ys. She knew how to drain the tower without firing these stones.'".
+  Observe refuge__banished at refuge__green when (refuge__expelled(refuge__tamsin)) and (at(refuge__tamsin, refuge__green)) "Tamsin waits outside with her blanket. The expulsion happened even while you were elsewhere. Evidence can still change Mere's knowledge; it cannot erase the day Tamsin lost her shelter.".
+  Observe refuge__rest_offer at refuge__porch when true "Spare pallets and a cookpot offer six hours of recovery here for one shared ration. You may stop, but the outside world will not wait. Recovery restores living companions' health and mana and treats bleeding; it does not reverse death or purge poison.".
+  Observe refuge__cleared_square at refuge__green when (knows(refuge__mere, refuge__runoff)) and (not (refuge__spoiled(refuge__green))) "The spring runs clear and the accusation against Tamsin has been withdrawn. The refuge is colder after the kiln stopped. The northern track leads toward the trappers' camp; the watchtower still holds whatever this company has left unresolved. You can prepare at the refuge, speak to Ys if she has returned, or choose a fresh expedition.".
+  Observe tower__trail at tower__moor when (not (tower__flooded(tower__moor))) and ((able(tower__wolf)) and (not (released(tower__wolf)))) "A gaunt she-wolf stands over a den at the tower path. She watches your food, not your throat. A ranger can read her warning and pass; anyone can give her a ration and wait for her to eat. You may fight, but her death will be permanent. The green is behind you; the watchtower lies beyond her.".
+  Observe tower__quiet at tower__moor when (released(tower__wolf)) or (dead(tower__wolf)) "The path to the watchtower is passable. Beyond the broken arch, antlers scrape against stone. A low voice repeats an oath. The reservoir's tide mark is climbing toward watch 36.".
+  Observe tower__flood at tower__moor when tower__flooded(tower__moor) "Silver water has drowned the direct tower path. The collapse cannot be reversed by stopping the siphon now. The charcoal flue remains another entrance if you discovered it. The green is still reachable.".
+  Observe tower__warden at tower__cairn when (able(tower__hart)) and (not (released(tower__hart))) "A revenant wearing a stag's skull bars the stair. 'No plunderer passes.' The oath is carved beside its hand. Ordinary weapons deal half damage to it; fire deals half again as much, radiant twice as much. It can drain life, shield itself and cast sleep resisted by wisdom. Reading and communicating its oath may establish why you came; it is not a promise that every undead creature will listen.".
+  Observe tower__departed at tower__cairn when released(tower__hart) "The warden has accepted the healer's purpose and left the stair. Its oath remains carved in stone. The reservoir is still dangerous; gaining passage did not repair it.".
+  Observe tower__slain at tower__cairn when dead(tower__hart) "The antlered skull is broken. The stair is clear. No one remains here to guard the dead, and the tide continues to rise.".
+  Observe tower__healer at tower__vault when (at(tower__ys, tower__vault)) and (able(tower__ys)) "Ys crouches above a silver tide. 'I can open the inspection hatch. You can dismantle the siphon beyond it; I cannot abandon the patients above until this is done.' The charcoal flue leads back to the kiln. The guardian's stair leads up to the watchtower.".
+  Observe tower__working at tower__spring when functioning(tower__siphon) "Silver water climbs through a narrow glass tube. Its intake brace is exposed. Dismantling the siphon prevents the reservoir overflowing at watch 36; any flooded ground stays flooded. The hatch and undercroft remain behind you.".
+  Observe tower__drained at tower__spring when not (functioning(tower__siphon)) "The tube drains and the water falls below the tide marks. The reservoir has stopped climbing. Ys can return by the tower path. The stair allows anyone already below to leave; the guardian bars entry, not escape.".
+  Observe tower__returned at refuge__green when (tower__rescued(tower__ys)) and (able(tower__ys)) "Ys has returned from below the watchtower. She has seen what poisoned the spring and can offer her account here. The missing-person search is over, but spoiled water, a lost kiln and dead creatures remain consequences of your history.".
+  Observe margin__approach at margin__track when true "The northern track leaves Orra behind. A side path reaches a camp of trappers and salvagers. Beyond it the white ford leads to a ruined shrine. The guide at camp knows a way around the ford. You can return to Orra from here without entering the shrine.".
+  Observe margin__shelter at margin__camp when not (margin__frozen(margin__camp)) "Pallets surround a small cookpot. The guide sells finite rations when present; recovery here takes six hours and one shared ration. A marked route lies beside the fire. The shelters will fail at watch {margin__freezeAt(margin__winter)} if the ice-pump still runs. The guide plans to leave at watch {margin__departAt(margin__winter)}.".
+  Observe margin__departure at margin__camp when (not (at(margin__tala, margin__camp))) and (not (margin__frozen(margin__camp))) "The guide has left. You can still use the pallets, but there is no one here to trade. Quieting the shrine before the shelters freeze can bring the guide back.".
+  Observe margin__ice at margin__camp when margin__frozen(margin__camp) "The shelters have split beneath ice. They no longer offer safe recovery. The old camp will remain damaged even if you stop the source. Orra's refuge is still reachable by the northern track.".
+  Observe margin__beast at margin__ford when able(margin__frostback) "The rime-matted wolf holds the causeway. Its cold bite can weaken a companion; its howl can stun unless resisted by wisdom. It resists physical and cold damage, but fire deals extra damage. A fire invocation from Ys can help. A guide's ledge can bypass the encounter entirely. Retreat preserves both sides' injuries.".
+  Observe margin__carcass at margin__ford when dead(margin__frostback) "The altered wolf lies dead. The causeway is clear. Its death has not dismantled the machine beyond it.".
+  Observe margin__working at margin__shrine when functioning(margin__font) "A bronze intake pumps silver-white cold into the ground. Its retaining pins are exposed and can be dismantled. A scattered purse lies among salvager's bones; you can take the money without repairing the shrine. The exit leads back toward the ford, and a dry ledge returns directly to the northern track.".
+  Observe margin__quiet at margin__shrine when not (functioning(margin__font)) "The intake has stopped. Frost no longer advances from the shrine. Any shelter already split by ice remains ruined. The purse and the dead remain where this history left them. You can return to Orra, recover and choose another journey.".
+  Observe margin__return_report at refuge__green when (margin__frozen(margin__camp)) and ((at(margin__tala, refuge__green)) and (able(margin__tala))) "The northern guide has returned with a report: the camp's shelters split under the shrine's frost. Their supply service has moved with them; the old safe stopping place has been lost.".
+  Observe margin__signpost at refuge__green when true "A northern sign points toward a trappers' camp and a winter shrine. The guide there sells rations and knows the route. Ys went beneath the watchtower to the south of that margin; you can seek her, travel north or remain at the refuge. These are choices, not orders.".
+  Initially Assert at(refuge__cistern, refuge__green).
+  Initially Set quantity(refuge__cistern, refuge__water) to 2.
+  Initially Assert mayCollect(party, refuge__cistern).
+  Initially Assert unladen(party).
+  Initially Assert at(party, refuge__green).
+  Initially Assert at(refuge__mere, refuge__porch).
+  Initially Assert at(refuge__tamsin, refuge__cell).
+  Initially Assert route(refuge__green, refuge__porch).
+  Initially Assert route(refuge__porch, refuge__green).
+  Initially Assert route(refuge__green, refuge__kiln).
+  Initially Assert route(refuge__kiln, refuge__green).
+  Initially Assert route(refuge__porch, refuge__cell).
+  Initially Assert route(refuge__cell, refuge__porch).
+  Initially Assert closed(refuge__cell).
+  Initially Assert mounted(refuge__latch, refuge__porch).
+  Initially Assert barrier(refuge__latch, refuge__cell).
+  Initially Assert operates(refuge__mere, refuge__latch).
+  Initially Assert keyedBy(refuge__latch, refuge__mere).
+  Initially Assert mounted(refuge__furnace, refuge__kiln).
+  Initially Assert functioning(refuge__furnace).
+  Initially Assert operates(party, refuge__furnace).
+  Initially Assert operates(refuge__mere, refuge__furnace).
+  Initially Assert recognizes(refuge__mere, fellowship).
+  Initially Assert trusts(refuge__mere, party).
+  Initially Assert trusts(refuge__tamsin, party).
+  Initially Assert established(refuge__runoff).
+  Initially Assert assumesFalse(refuge__mere, refuge__runoff).
+  Initially Assert reveals(refuge__cup, refuge__runoff).
+  Initially Assert at(refuge__cup, refuge__green).
+  Initially Assert intact(refuge__cup).
+  Initially Assert noticeable(refuge__cup).
+  Initially Assert mayExamine(party, refuge__cup).
+  Initially Assert reveals(refuge__ledger, refuge__runoff).
+  Initially Assert at(refuge__ledger, refuge__kiln).
+  Initially Assert intact(refuge__ledger).
+  Initially Assert noticeable(refuge__ledger).
+  Initially Assert mayExamine(party, refuge__ledger).
+  Initially Assert destructible(refuge__ledger).
+  Initially Assert established(refuge__whereabouts).
+  Initially Assert knows(refuge__tamsin, refuge__whereabouts).
+  Initially Assert reveals(refuge__letter, refuge__whereabouts).
+  Initially Assert at(refuge__letter, refuge__cell).
+  Initially Assert intact(refuge__letter).
+  Initially Assert noticeable(refuge__letter).
+  Initially Assert mayExamine(party, refuge__letter).
+  Initially Assert testimony(refuge__tamsin, refuge__letter).
+  Initially Assert established(refuge__crawl).
+  Initially Assert reveals(refuge__sketch, refuge__crawl).
+  Initially Assert at(refuge__sketch, refuge__kiln).
+  Initially Assert intact(refuge__sketch).
+  Initially Assert noticeable(refuge__sketch).
+  Initially Assert mayExamine(party, refuge__sketch).
+  Initially Assert destructible(refuge__sketch).
+  Initially Assert restful(refuge__porch).
+  Initially Set quantity(party, gold) to 4.
+  Initially Set quantity(party, rations) to 2.
+  Initially Assert memberOf(refuge__member_guide, party).
+  Initially Assert memberOf(refuge__member_shield, party).
+  Initially Assert memberOf(refuge__member_lamp, party).
+  Initially Assert memberOf(refuge__member_keeper, refuge__mere).
+  Initially Assert memberOf(refuge__member_worker, refuge__tamsin).
+  Initially Assert distinct(party, refuge__mere).
+  Initially Assert distinct(party, refuge__tamsin).
+  Initially Assert distinct(refuge__mere, party).
+  Initially Assert distinct(refuge__mere, refuge__tamsin).
+  Initially Assert distinct(refuge__tamsin, party).
+  Initially Assert distinct(refuge__tamsin, refuge__mere).
+  Initially Assert at(tower__wolf, tower__moor).
+  Initially Assert at(tower__hart, tower__cairn).
+  Initially Assert at(tower__ys, tower__vault).
+  Initially Assert route(refuge__green, tower__moor).
+  Initially Assert route(tower__moor, refuge__green).
+  Initially Assert gate(tower__wolf, tower__moor, tower__cairn).
+  Initially Assert route(tower__cairn, tower__moor).
+  Initially Assert gate(tower__hart, tower__cairn, tower__vault).
+  Initially Assert route(tower__vault, tower__cairn).
+  Initially Assert informedPassage(refuge__kiln, tower__vault, refuge__crawl).
+  Initially Assert route(tower__vault, refuge__kiln).
+  Initially Assert route(tower__vault, tower__spring).
+  Initially Assert route(tower__spring, tower__vault).
+  Initially Assert mounted(tower__siphon, tower__spring).
+  Initially Assert functioning(tower__siphon).
+  Initially Assert operates(party, tower__siphon).
+  Initially Assert mounted(tower__hatch, tower__vault).
+  Initially Assert barrier(tower__hatch, tower__spring).
+  Initially Assert closed(tower__spring).
+  Initially Assert operates(party, tower__hatch).
+  Initially Assert operates(tower__ys, tower__hatch).
+  Initially Assert gatekeeper(tower__wolf).
+  Initially Assert acceptsFood(tower__wolf).
+  Initially Assert receptive(tower__wolf, woodcraft).
+  Initially Set claim(tower__wolf) to 9999.
+  Initially Set mercy(tower__wolf) to 9999.
+  Initially Assert trusts(tower__hart, party).
+  Initially Assert trusts(tower__ys, party).
+  Initially Assert established(tower__burial).
+  Initially Assert knows(tower__ys, tower__burial).
+  Initially Assert assumesFalse(tower__hart, tower__burial).
+  Initially Assert reveals(tower__inscription, tower__burial).
+  Initially Assert at(tower__inscription, tower__cairn).
+  Initially Assert intact(tower__inscription).
+  Initially Assert noticeable(tower__inscription).
+  Initially Assert mayExamine(party, tower__inscription).
+  Initially Assert reveals(tower__account, tower__burial).
+  Initially Assert at(tower__account, tower__vault).
+  Initially Assert intact(tower__account).
+  Initially Assert noticeable(tower__account).
+  Initially Assert mayExamine(party, tower__account).
+  Initially Assert testimony(tower__ys, tower__account).
+  Initially Assert giftEffect(tower__cinder_gift, cinder_lesson).
+  Initially Assert rewardFor(tower__cinder_gift, tower__burial).
+  Initially Assert memberOf(tower__member_animal, tower__wolf).
+  Initially Assert memberOf(tower__member_warden, tower__hart).
+  Initially Assert memberOf(tower__member_healer, tower__ys).
+  Initially Assert distinct(tower__wolf, tower__hart).
+  Initially Assert distinct(tower__wolf, tower__ys).
+  Initially Assert distinct(tower__hart, tower__wolf).
+  Initially Assert distinct(tower__hart, tower__ys).
+  Initially Assert distinct(tower__ys, tower__wolf).
+  Initially Assert distinct(tower__ys, tower__hart).
+  Initially Assert at(margin__tala, margin__camp).
+  Initially Assert at(margin__frostback, margin__ford).
+  Initially Assert route(refuge__green, margin__track).
+  Initially Assert route(margin__track, refuge__green).
+  Initially Assert route(margin__track, margin__camp).
+  Initially Assert route(margin__camp, margin__track).
+  Initially Assert route(margin__camp, margin__ford).
+  Initially Assert route(margin__ford, margin__camp).
+  Initially Assert gate(margin__frostback, margin__ford, margin__shrine).
+  Initially Assert route(margin__shrine, margin__ford).
+  Initially Assert informedPassage(margin__track, margin__shrine, margin__old_trail).
+  Initially Assert route(margin__shrine, margin__track).
+  Initially Assert restful(margin__camp).
+  Initially Assert offers(margin__tala, rations).
+  Initially Assert mounted(margin__font, margin__shrine).
+  Initially Assert functioning(margin__font).
+  Initially Assert operates(party, margin__font).
+  Initially Assert at(margin__purse, margin__shrine).
+  Initially Assert salvage(margin__purse).
+  Initially Set quantity(margin__purse, gold) to 8.
+  Initially Assert trusts(margin__tala, party).
+  Initially Assert established(margin__old_trail).
+  Initially Assert knows(margin__tala, margin__old_trail).
+  Initially Assert reveals(margin__trail_note, margin__old_trail).
+  Initially Assert at(margin__trail_note, margin__camp).
+  Initially Assert intact(margin__trail_note).
+  Initially Assert noticeable(margin__trail_note).
+  Initially Assert mayExamine(party, margin__trail_note).
+  Initially Assert testimony(margin__tala, margin__trail_note).
+  Initially Assert established(margin__winter_engine).
+  Initially Assert knows(margin__tala, margin__winter_engine).
+  Initially Assert reveals(margin__tide_marks, margin__winter_engine).
+  Initially Assert at(margin__tide_marks, margin__shrine).
+  Initially Assert intact(margin__tide_marks).
+  Initially Assert noticeable(margin__tide_marks).
+  Initially Assert mayExamine(party, margin__tide_marks).
+  Initially Set margin__departAt(margin__winter) to 78.
+  Initially Set margin__freezeAt(margin__winter) to 90.
+  Initially Set quantity(margin__tala, rations) to 2.
+  Initially Assert memberOf(margin__member_tala_person, margin__tala).
+  Initially Assert memberOf(margin__member_frostback_person, margin__frostback).
+  Initially Assert distinct(margin__tala, margin__frostback).
+  Initially Assert distinct(margin__frostback, margin__tala).
+  Budget 0.
+  Goal false.
+
+  Action wait(actor: group) "Wait" {
+    Description "".
+    Requires able(actor).
+    Cost 1. Time 1.
+    On success {
+    }
+  }
+
+  Action travel(actor: group, origin: place, destination: place) "Travel to {destination}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, origin)) and ((route(origin, destination)) and ((not (closed(destination))) and (not (denied(actor, origin, destination)))))).
+    Cost 1. Time 1.
+    Result "You follow the route and arrive at the next place. People and dangers continue while you travel.".
+    On success {
+      Assert at(actor, destination).
+    }
+  }
+
+  Action walk(actor: group, origin: place, destination: place) "Walk the footpath to {destination}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, origin)) and ((unladen(actor)) and (footway(origin, destination)))).
+    Cost 1. Time 1.
+    On success {
+      Assert at(actor, destination).
+    }
+  }
+
+  Action cross(actor: group, origin: place, destination: place, defender: group) "Cross past {defender} to {destination}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, origin)) and ((gate(defender, origin, destination)) and (((released(defender)) or (not (able(defender)))) and (not (closed(destination)))))).
+    Cost 1. Time 1.
+    On success {
+      Assert at(actor, destination).
+    }
+  }
+
+  Action pay(actor: group, recipient: group, site: place) "Give {recipient} one coin" {
+    Description "".
+    Requires (able(actor)) and ((able(recipient)) and ((distinct(actor, recipient)) and ((at(actor, site)) and ((at(recipient, site)) and (quantity(actor, gold) >= 1))))).
+    Cost 1. Time 1.
+    Result "You hand over one coin. It is now in the recipient’s purse.".
+    On success {
+      Decrease quantity(actor, gold) by 1.
+      Increase quantity(recipient, gold) by 1.
+      Increase received(recipient) by 1.
+    }
+  }
+
+  Action give_food(actor: group, recipient: group, site: place) "Give {recipient} one ration" {
+    Description "".
+    Requires (able(actor)) and ((able(recipient)) and ((distinct(actor, recipient)) and ((at(actor, site)) and ((at(recipient, site)) and (quantity(actor, rations) >= 1))))).
+    Cost 1. Time 1.
+    Result "You offer a ration and step back. The recipient now owns it; what they do next is their decision.".
+    On success {
+      Decrease quantity(actor, rations) by 1.
+      Increase quantity(recipient, rations) by 1.
+    }
+  }
+
+  Action eat(actor: group) "Eat a ration" {
+    Description "".
+    Requires (able(actor)) and ((not (sated(actor))) and (quantity(actor, rations) >= 1)).
+    Cost 1. Time 1.
+    Result "The company shares a ration. This satisfies hunger but does not restore health or mana.".
+    On success {
+      Decrease quantity(actor, rations) by 1.
+      Assert sated(actor).
+    }
+  }
+
+  Action release(actor: group) "End the blockade" {
+    Description "".
+    Requires (able(actor)) and ((gatekeeper(actor)) and ((not (released(actor))) and (releaseAllowed(actor)))).
+    Cost 1. Time 1.
+    On success {
+      Assert released(actor).
+    }
+  }
+
+  Action collect(actor: group, store: stock, goods: good, site: place) "Collect one {goods} from {store}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(store, site)) and ((mayCollect(actor, store)) and ((unladen(actor)) and (quantity(store, goods) >= 1))))).
+    Cost 1. Time 1.
+    Result "You collect one unit from the available stock. It is now carried by the company.".
+    On success {
+      Decrease quantity(store, goods) by 1.
+      Retract unladen(actor).
+      Assert carrying(actor, goods).
+    }
+  }
+
+  Action put(actor: group, store: stock, goods: good, site: place) "Deposit one {goods} in {store}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(store, site)) and (carrying(actor, goods)))).
+    Cost 1. Time 1.
+    Result "You deposit what the company was carrying. The stock increases and your hands are free.".
+    On success {
+      Retract carrying(actor, goods).
+      Assert unladen(actor).
+      Increase quantity(store, goods) by 1.
+    }
+  }
+
+  Action fulfill_job(actor: group, store: stock, goods: good, site: place) "Deliver {goods} to {store} for pay" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(store, site)) and ((carrying(actor, goods)) and ((job(store, goods)) and (quantity(store, gold) >= 1))))).
+    Cost 1. Time 1.
+    On success {
+      Retract carrying(actor, goods).
+      Assert unladen(actor).
+      Increase quantity(store, goods) by 1.
+      Decrease quantity(store, gold) by 1.
+      Increase quantity(actor, gold) by 1.
+    }
+  }
+
+  Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
+    Description "".
+    Requires (able(actor)) and ((able(opponent)) and ((distinct(actor, opponent)) and ((at(actor, site)) and (at(opponent, site))))).
+    Cost 1. Time 1.
+    Resolve combat(opponent).
+    On success {
+      Assert hostile(actor, opponent).
+      Assert hostile(opponent, actor).
+    }
+    On failure {
+      Assert hostile(actor, opponent).
+      Assert hostile(opponent, actor).
+    }
+  }
+
+  Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(witness, site)) and ((noticeable(witness)) and ((intact(witness)) and ((mayExamine(actor, witness)) and ((reveals(witness, statement)) and ((established(statement)) and (not (learnedFrom(actor, witness, statement)))))))))).
+    Cost 1. Time 1.
+    On success {
+      Assert knows(actor, statement).
+      Retract assumesFalse(actor, statement).
+      Assert learnedFrom(actor, witness, statement).
+    }
+  }
+
+  Action tell(actor: group, recipient: group, statement: fact, site: place) "Tell {recipient}: {statement}" {
+    Description "".
+    Requires (able(actor)) and ((able(recipient)) and ((distinct(actor, recipient)) and ((at(actor, site)) and ((at(recipient, site)) and ((trusts(recipient, actor)) and ((knows(actor, statement)) and ((established(statement)) and (not (toldBy(recipient, actor, statement)))))))))).
+    Cost 1. Time 1.
+    Result "You explain what the evidence establishes. The listener accepts your account and sets aside a conflicting assumption; their next choices remain their own.".
+    On success {
+      Assert knows(recipient, statement).
+      Retract assumesFalse(recipient, statement).
+      Assert toldBy(recipient, actor, statement).
+    }
+  }
+
+  Action ask(actor: group, informant: group, topic: source, statement: fact, site: place) "Ask {informant} about {topic}" {
+    Description "Ask about an offered topic. The speaker shares an established fact they actually know.".
+    Requires (able(actor)) and ((able(informant)) and ((distinct(actor, informant)) and ((at(actor, site)) and ((at(informant, site)) and ((testimony(informant, topic)) and ((reveals(topic, statement)) and ((noticeable(topic)) and ((knows(informant, statement)) and ((established(statement)) and (not (toldBy(actor, informant, statement)))))))))))).
+    Cost 1. Time 1.
+    Result "The speaker shares an account they know. You record it in your journal.".
+    On success {
+      Assert knows(actor, statement).
+      Retract assumesFalse(actor, statement).
+      Assert toldBy(actor, informant, statement).
+    }
+  }
+
+  Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(witness, site)) and ((noticeable(witness)) and ((intact(witness)) and (destructible(witness)))))).
+    Cost 1. Time 1.
+    Result "You destroy this source of evidence. Existing knowledge and other sources remain.".
+    On success {
+      Retract intact(witness).
+    }
+  }
+
+  Action take_control(actor: group, device: mechanism, keeper: group, site: place) "Take the key for {device} from {keeper}" {
+    Description "Recover access from an incapacitated keeper here. You must still operate the mechanism yourself.".
+    Requires (able(actor)) and ((not (able(keeper))) and ((at(actor, site)) and ((at(keeper, site)) and ((mounted(device, site)) and ((keyedBy(device, keeper)) and (not (operates(actor, device)))))))).
+    Cost 1. Time 1.
+    Result "You recover the keeper’s key. You can now operate the mechanism; it has not opened by itself.".
+    On success {
+      Assert operates(actor, device).
+    }
+  }
+
+  Action endorse(actor: group, recipient: group, site: place) "Pledge support to {recipient}" {
+    Description "Publicly put your name behind this person's claim.".
+    Requires (able(actor)) and ((able(recipient)) and ((distinct(actor, recipient)) and ((at(actor, site)) and ((at(recipient, site)) and ((seeksBacking(recipient)) and (not (supports(actor, recipient)))))))).
+    Cost 1. Time 1.
+    On success {
+      Assert supports(actor, recipient).
+    }
+  }
+
+  Action enforce(actor: group, site: place) "Establish control of {site}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((mandate(actor, site)) and ((not (controlled(site, actor))) and (watch(clock) >= enforceAt(actor))))).
+    Cost 1. Time 1.
+    On success {
+      Assert controlled(site, actor).
+    }
+  }
+
+  Action disable(actor: group, device: mechanism, site: place) "Disable {device}" {
+    Description "Dismantle an accessible mechanism you are equipped to work on. The change persists.".
+    Requires (able(actor)) and ((at(actor, site)) and ((mounted(device, site)) and ((operates(actor, device)) and (functioning(device))))).
+    Cost 1. Time 1.
+    Result "You dismantle the operating mechanism. It stops; any earlier damage remains.".
+    On success {
+      Retract functioning(device).
+    }
+  }
+
+  Action shut(actor: group, device: mechanism, site: place, destination: place) "Close {device}" {
+    Description "Close the passage this mechanism controls. People already inside can leave.".
+    Requires (able(actor)) and ((at(actor, site)) and ((mounted(device, site)) and ((barrier(device, destination)) and ((operates(actor, device)) and (not (closed(destination))))))).
+    Cost 1. Time 1.
+    Result "You close the barrier. People already beyond it can leave.".
+    On success {
+      Assert closed(destination).
+    }
+  }
+
+  Action open(actor: group, device: mechanism, site: place, destination: place) "Open {device}" {
+    Description "Reopen the physical passage. This does not make the place beyond it safe.".
+    Requires (able(actor)) and ((at(actor, site)) and ((mounted(device, site)) and ((barrier(device, destination)) and ((operates(actor, device)) and (closed(destination)))))).
+    Cost 1. Time 1.
+    Result "You open the barrier. The passage beyond is now available, though it may still be dangerous.".
+    On success {
+      Retract closed(destination).
+    }
+  }
+
+  Action passage(actor: group, origin: place, destination: place, statement: fact) "Follow the concealed passage to {destination}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, origin)) and ((informedPassage(origin, destination, statement)) and ((knows(actor, statement)) and (not (closed(destination)))))).
+    Cost 1. Time 1.
+    Result "You follow the route you learned about and emerge beyond the obstruction.".
+    On success {
+      Assert at(actor, destination).
+    }
+  }
+
+  Action request_passage(actor: group, keeper: group, identity: capability, site: place) "Request passage from {keeper} as {identity}" {
+    Description "Invoke a company identity this keeper has explicitly agreed to honor. This is not general persuasion.".
+    Requires (able(actor)) and ((able(keeper)) and ((distinct(actor, keeper)) and ((at(actor, site)) and ((at(keeper, site)) and ((recognizes(keeper, identity)) and ((capable(actor, identity)) and (not (released(keeper))))))))).
+    Cost 1. Time 1.
+    Result "You invoke the compact. The keeper honors your company’s standing and grants passage.".
+    On success {
+      Assert released(keeper).
+    }
+  }
+
+  Action approach_wildlife(actor: group, animal: group, skill: capability, site: place) "Approach {animal} using {skill}" {
+    Description "Read the signals of an explicitly receptive animal and pass without provoking it. Hostile animals cannot be approached this way.".
+    Requires (able(actor)) and ((able(animal)) and ((distinct(actor, animal)) and ((at(actor, site)) and ((at(animal, site)) and ((receptive(animal, skill)) and ((capable(actor, skill)) and ((not (hostile(animal, actor))) and (not (released(animal)))))))))).
+    Cost 1. Time 1.
+    Result "You read the animal’s signals and approach without provoking it. The guarded route is now available.".
+    On success {
+      Assert released(animal).
+    }
+  }
+
+  Action field_spell(actor: group, caster: member, technique: ability, recipient: member, site: place) "Have {caster} use {technique} on {recipient}" {
+    Description "Use a known healing or cleansing ability outside combat. Its normal mana cost is paid; combat cooldowns do not apply.".
+    Requires (able(actor)) and ((at(actor, site)) and ((memberOf(caster, actor)) and ((memberOf(recipient, actor)) and ((awake(caster)) and ((awake(recipient)) and ((needsCare(recipient)) and ((canCast(caster, technique)) and (treatable(recipient, technique))))))))).
+    Cost 1. Time 1.
+    Result "You pause to tend a companion. The same spell effects and mana costs apply here as in battle.".
+    Resolve invoke(technique, caster, recipient).
+    On success {
+    }
+  }
+
+  Action rest(actor: group, site: place) "Rest and recover at {site}" {
+    Description "Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.".
+    Requires (able(actor)) and ((at(actor, site)) and ((restful(site)) and (quantity(actor, rations) >= 1))).
+    Cost 1. Time 36.
+    Result "You settle in for six hours, sharing a ration and tending your wounds. The world continues outside.".
+    Resolve recover(actor).
+    On success {
+      Decrease quantity(actor, rations) by 1.
+    }
+  }
+
+  Action learn_reward(actor: group, gift: reward, recipient: member, lesson: ability, proof: fact, site: place) "Accept {gift} for {recipient}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((offeredAt(gift, site)) and ((memberOf(recipient, actor)) and ((awake(recipient)) and ((giftEffect(gift, lesson)) and ((rewardFor(gift, proof)) and ((knows(actor, proof)) and (not (claimed(gift)))))))))).
+    Cost 1. Time 1.
+    Result "The chosen companion studies the one-use lesson. Its power is spent, but the learned ability remains available on future expeditions.".
+    Resolve reward(lesson, recipient).
+    On success {
+      Assert claimed(gift).
+      Retract offeredAt(gift, site).
+      Retract at(gift, site).
+    }
+  }
+
+  Action refuge__mere_concern(actor: group, site: place) "Ask Mere what she is trying to protect" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(refuge__mere)) and ((distinct(actor, refuge__mere)) and ((at(actor, site)) and (at(refuge__mere, site)))))) and (not (knows(refuge__mere, refuge__runoff))).
+    Cost 1. Time 1.
+    Result "Mere turns the key in her hand. 'I promised these families shelter. One child is ill and Ys has vanished. I suspect Tamsin, but shutting her kiln would leave everyone cold. Show me why I am wrong: Ys left an analysis by the spring, and the kiln has a firing ledger. If they clear her, I will hear it. You can also visit the tower; I cannot order you to help.'".
+    Speaker refuge__mere.
+    On success {
+    }
+  }
+
+  Action refuge__mere_admission(actor: group, site: place) "Ask Mere what the evidence changes" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(refuge__mere)) and ((distinct(actor, refuge__mere)) and ((at(actor, site)) and (at(refuge__mere, site)))))) and (knows(refuge__mere, refuge__runoff)).
+    Cost 1. Time 1.
+    Result "'I accused someone I should have protected,' Mere says. 'I will open the guest house and stop the draft. That costs us warmth, but I cannot keep poisoning the spring. Ys may know a way forward. Help her if you can; I cannot bring back the water we already lost.'".
+    Speaker refuge__mere.
+    On success {
+    }
+  }
+
+  Action refuge__tamsin_promise(actor: group, site: place) "Ask Tamsin why she stayed" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(refuge__tamsin)) and ((distinct(actor, refuge__tamsin)) and ((at(actor, site)) and (at(refuge__tamsin, site)))))) and (able(refuge__tamsin)).
+    Cost 1. Time 1.
+    Result "'Ys trusted me with her letter. I stayed because I thought she would come home to explain. Now they call that proof I was hiding something. Read it, or ask me about it. I want my work back without being blamed for old magic. I know how to tend a fire, not how to judge old magic.'".
+    Speaker refuge__tamsin.
+    On success {
+    }
+  }
+
+  Action tower__ys_mission(actor: group, site: place) "Ask Ys why she risked the tower" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(tower__ys)) and ((distinct(actor, tower__ys)) and ((at(actor, site)) and (at(tower__ys, site)))))) and (functioning(tower__siphon)).
+    Cost 1. Time 1.
+    Result "'Those families need clean water more than another promise. I came for the drain and could not get the siphon apart. The warden thinks everyone is a thief. Read its oath or use the flue; fighting is your choice. Open the hatch, stop the siphon and I can walk home. I have a one-use cinder seal to give you afterward. It lets one companion learn a fire invocation. It would be useful against the frost things in the northern fen.'".
+    Speaker tower__ys.
+    On success {
+    }
+  }
+
+  Action tower__ys_recovery(actor: group, site: place) "Ask Ys about tomorrow's expedition" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(tower__ys)) and ((distinct(actor, tower__ys)) and ((at(actor, site)) and (at(tower__ys, site)))))) and ((tower__rescued(tower__ys)) and ((knows(tower__ys, tower__burial)) and (not (claimed(tower__cinder_gift))))).
+    Cost 1. Time 1.
+    Result "'We have breathing space, not a cure for every loss. The warden swore to keep grave robbers from the reservoir; I came to drain it, not plunder it. I have left a one-use cinder seal here. Let one companion study it and the invocation will be theirs permanently. Rest at the refuge before going north. Frost things hate fire, but a quiet traveler can sometimes pass them. Do not spend lives to prove you can win.'".
+    Speaker tower__ys.
+    On success {
+      Assert knows(actor, tower__burial).
+      Retract assumesFalse(actor, tower__burial).
+    }
+  }
+
+  Action tower__ys_after_lesson(actor: group, site: place) "Ask Ys what remains to be done" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(tower__ys)) and ((distinct(actor, tower__ys)) and ((at(actor, site)) and (at(tower__ys, site)))))) and ((tower__rescued(tower__ys)) and (claimed(tower__cinder_gift))).
+    Cost 1. Time 1.
+    Result "'The seal is spent, but the invocation is part of your companion now. Take supplies and recover before going north. Stopping the frost can preserve a safe camp; taking salvage without stopping it is a different choice. I cannot promise that fighting will bring everyone home.'".
+    Speaker tower__ys.
+    On success {
+    }
+  }
+
+  Action buy(actor: group, merchant: group, goods: good, site: place) "Buy one {goods} from {merchant} for two coins" {
+    Description "Trade two coins for one unit from a present merchant's finite stock. This is a posted price, not a negotiation simulation.".
+    Requires (able(actor)) and ((able(merchant)) and ((distinct(actor, merchant)) and ((at(actor, site)) and ((at(merchant, site)) and ((offers(merchant, goods)) and ((quantity(merchant, goods) >= 1) and (quantity(actor, gold) >= 2))))))).
+    Cost 1. Time 1.
+    Result "You pay two coins and receive one unit of supplies. The merchant's stock and both purses change accordingly.".
+    On success {
+      Decrease quantity(actor, gold) by 2.
+      Increase quantity(merchant, gold) by 2.
+      Decrease quantity(merchant, goods) by 1.
+      Increase quantity(actor, goods) by 1.
+    }
+  }
+
+  Action salvage_coin(actor: group, store: stock, site: place) "Recover a coin from {store}" {
+    Description "".
+    Requires (able(actor)) and ((at(actor, site)) and ((at(store, site)) and ((salvage(store)) and (quantity(store, gold) >= 1)))).
+    Cost 1. Time 1.
+    Result "You recover one coin from the finite cache. It is now in the company's purse.".
+    On success {
+      Decrease quantity(store, gold) by 1.
+      Increase quantity(actor, gold) by 1.
+    }
+  }
+
+  Action margin__tala_welcome(actor: group, site: place) "Ask the guide what keeps this camp alive" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(margin__tala)) and ((distinct(actor, margin__tala)) and ((at(actor, site)) and (at(margin__tala, site)))))) and (true).
+    Cost 1. Time 1.
+    Result "'Trappers, salvagers, and people who cannot afford a town bed,' the guide says. 'I have {quantity(margin__tala, rations)} rations, two coins each while my stock lasts. Pallets here are safe for recovery while the shelters stand. The wolf at the ford is changed by old cold. Fire hurts it; cold barely does. You do not have to fight. Ask me for the shepherds' route. I leave for Orra at watch {margin__departAt(margin__winter)} if the frost has not stopped.'".
+    Speaker margin__tala.
+    On success {
+    }
+  }
+
+  Action margin__tala_route(actor: group, site: place) "Ask for a route around the altered wolf" {
+    Description "Speak with someone here about an offered topic.".
+    Requires ((able(actor)) and ((able(margin__tala)) and ((distinct(actor, margin__tala)) and ((at(actor, site)) and (at(margin__tala, site)))))) and (knows(margin__tala, margin__old_trail)).
+    Cost 1. Time 1.
+    Result "The guide marks a dry ledge from the northern track to the shrine. 'You can enter without going near the ford. There is salvage beyond, but taking the money will not stop the ice-pump. You will have to choose whether to dismantle it.'".
+    Speaker margin__tala.
+    On success {
+      Assert knows(actor, margin__old_trail).
+      Retract assumesFalse(actor, margin__old_trail).
+    }
+  }
+}

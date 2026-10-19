@@ -1,0 +1,16 @@
+Module world_people "Company and intention" {
+  Relation acceptsEscort(group, group). Relation dismissed(group, group).
+  Goal false.
+  Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
+    Requires able(actor) and able(companion) and distinct(actor, companion) and at(actor, site)
+      and at(companion, site) and acceptsEscort(companion, actor) and not following(companion, actor).
+    On success { Assert following(companion, actor). Retract dismissed(companion, actor). }
+    Result "{companion} falls in beside you.".
+  }
+  Action part_ways(actor: group, companion: group, site: place) "Let {companion} make their own way" {
+    Requires able(actor) and able(companion) and at(actor, site) and at(companion, site)
+      and acceptsEscort(companion, actor) and not dismissed(companion, actor) and not hobbled(companion).
+    On success { Retract following(companion, actor). Assert dismissed(companion, actor). }
+    Result "{companion} nods, and lets you go about your business.".
+  }
+}

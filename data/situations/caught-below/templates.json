@@ -1,0 +1,65 @@
+{
+  "caught_below": {
+    "__no_id": true,
+    "setting": "river",
+    "name": "Someone caught below",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "casting": "=gen(caught_casting)",
+    "labels": "=gen(caught_labels)",
+    "initial": "=concat(gen(caught_closing))",
+    "outcomes": [
+      {
+        "id": "freed",
+        "predicate": "freedBy(guest, party)"
+      },
+      {
+        "id": "home",
+        "predicate": "returned(guest)"
+      },
+      {
+        "id": "walked_home",
+        "predicate": "returned(guest) and escortedHome(guest, party)"
+      },
+      {
+        "id": "leg_broken",
+        "predicate": "state(rack, toppled)"
+      }
+    ]
+  },
+  "caught_casting": {
+    "__no_id": true,
+    "guest": "=gen(caught_guest)",
+    "relative": "=gen(caught_relative)"
+  },
+  "caught_guest": {
+    "__no_id": true,
+    "raceId": "=lookup(caughtPopulation, #setting)",
+    "classId": "commoner",
+    ">name": "=lookup(caughtGuestName, #setting)"
+  },
+  "caught_relative": {
+    "__no_id": true,
+    "raceId": "=lookup(caughtPopulation, #setting)",
+    "classId": "commoner",
+    ">name": "=lookup(caughtRelativeName, #setting)"
+  },
+  "caught_labels": {
+    "__no_id": true,
+    "guest": "=lookup(caughtGuestLabel, #setting)",
+    "relative": "=lookup(caughtRelativeLabel, #setting)",
+    "rack": "=lookup(caughtWeight, #setting)",
+    "bar": "=lookup(caughtTool, #setting)",
+    "water": "=lookup(caughtClosing, #setting)"
+  },
+  "caught_closing": {
+    "__no_id": true,
+    ">name": "closesAt",
+    "args": [
+      "water"
+    ],
+    "value": "=lookup(caughtCloses, #setting) + 1d4"
+  }
+}

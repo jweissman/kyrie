@@ -1,0 +1,38 @@
+{
+  "name": "kyrie",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@stylistic/eslint-plugin": "5.10.0",
+    "@types/bun": "latest",
+    "eslint-plugin-no-comments": "1.2.1",
+    "playwright-core": "1.48.2",
+    "typescript-eslint": "8.71.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "deem": "file:../deem",
+    "eslint": "^10.13.0",
+    "ohm-js": "^17.5.0"
+  },
+  "scripts": {
+    "arena": "bun run bin/arena.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p web",
+    "play": "bun run bin/kyrie.ts play",
+    "kyrie": "bun run bin/kyrie.ts",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "check": "bun run lint && bun run typecheck && bun test",
+    "build": "bun build --compile ./bin/kyrie.ts --outfile dist/kyrie",
+    "web:build": "bun run bin/build-web.ts",
+    "web:dev": "bun run bin/build-web.ts --serve"
+  },
+  "bin": {
+    "kyrie": "./bin/kyrie.ts"
+  }
+}

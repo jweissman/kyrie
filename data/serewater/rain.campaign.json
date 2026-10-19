@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "name": "Serewater March \u2014 Censer Hill",
+  "modules": [
+    {
+      "id": "march",
+      "bundle": "module.json",
+      "context": {
+        "season": "late_autumn"
+      }
+    }
+  ]
+}

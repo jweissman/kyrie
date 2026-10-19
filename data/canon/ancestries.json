@@ -1,0 +1,98 @@
+{
+  "about": "Ancestries: peoples whose members take adventuring classes. lineageTraits are the traits a member may be born with (chosen at creation). techniques are the ancestry's own innate abilities.",
+  "ancestries": {
+    "human": {
+      "name": "Human",
+      "description": "A human of the settled riverlands.",
+      "nameGroup": "hero",
+      "classes": [
+        "fighter",
+        "cleric",
+        "magic_user",
+        "thief",
+        "commoner",
+        "ranger"
+      ],
+      "playable": true,
+      "techniques": [
+        "human_resolve"
+      ],
+      "feature": "Riverland resolve: treat weakness and regain a little health, on a combat cooldown.",
+      "lineageTraits": [
+        "adaptable",
+        "versatile"
+      ],
+      "source": {
+        "orsino": "ancestry:human",
+        "fidelity": "adapted",
+        "notes": "Orsino attribute modifiers {\"str\": 1, \"dex\": 1, \"con\": 1, \"int\": 1, \"wis\": 1, \"cha\": 1} are not yet applied; the riverland techniques are Kyr."
+      }
+    },
+    "elf": {
+      "name": "Elf",
+      "description": "Elf of the frontier.",
+      "nameGroup": "hero",
+      "classes": [
+        "ranger",
+        "magic_user",
+        "fighter"
+      ],
+      "playable": true,
+      "techniques": [
+        "elf_focus"
+      ],
+      "feature": "Elder focus: strengthen your next blows for two owner turns.",
+      "lineageTraits": [
+        "agile",
+        "perceptive"
+      ],
+      "source": {
+        "orsino": "ancestry:elf",
+        "fidelity": "adapted",
+        "notes": "Orsino attribute modifiers {\"str\": -1, \"dex\": 2, \"con\": -1, \"int\": 1, \"wis\": 2, \"cha\": 1} are not yet applied; the riverland techniques are Kyr."
+      }
+    },
+    "dwarf": {
+      "name": "Dwarf",
+      "description": "Dwarf of the frontier.",
+      "nameGroup": "hero",
+      "classes": [
+        "fighter",
+        "cleric"
+      ],
+      "playable": true,
+      "techniques": [
+        "dwarf_guard"
+      ],
+      "feature": "Stone endurance: gain a two-turn damage-reducing ward.",
+      "lineageTraits": [
+        "sturdy",
+        "tough"
+      ],
+      "source": {
+        "orsino": "ancestry:dwarf",
+        "fidelity": "adapted",
+        "notes": "Orsino attribute modifiers {\"str\": 1, \"dex\": -1, \"con\": 2, \"int\": 1, \"wis\": 2, \"cha\": -1} are not yet applied; the riverland techniques are Kyr."
+      }
+    },
+    "goblin": {
+      "name": "Goblin",
+      "description": "A small, sharp-featured person of the river warrens.",
+      "nameGroup": "goblin",
+      "classes": [
+        "commoner",
+        "fighter"
+      ],
+      "playable": true,
+      "techniques": [
+        "goblin_feint"
+      ],
+      "feature": "Warren feint: a quick attack that can weaken an opponent.",
+      "source": {
+        "orsino": "ancestry:goblin",
+        "fidelity": "adapted",
+        "notes": "Orsino attribute modifiers {\"str\": -2, \"dex\": 2, \"con\": -1, \"int\": 1, \"wis\": -1, \"cha\": -2} are not yet applied; the riverland techniques are Kyr."
+      }
+    }
+  }
+}

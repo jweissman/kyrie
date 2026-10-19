@@ -1,0 +1,60 @@
+{
+  "about": "Quarantined: legacy grants of Serewater-era skill keys by class, ancestry and background. fellowship is Orsino's party trait (see canon/traits.json); delving duplicates trapwork.",
+  "grants": {
+    "woodcraft": {
+      "classes": [
+        "ranger"
+      ],
+      "races": [],
+      "backgrounds": [
+        "forager"
+      ]
+    },
+    "fellowship": {
+      "classes": [],
+      "races": [
+        "human",
+        "elf",
+        "dwarf"
+      ],
+      "backgrounds": []
+    },
+    "delving": {
+      "classes": [
+        "thief"
+      ],
+      "races": [],
+      "backgrounds": [
+        "surveyor"
+      ]
+    },
+    "burial_lore": {
+      "classes": [
+        "cleric",
+        "orsino_life_cleric"
+      ],
+      "races": [],
+      "backgrounds": [
+        "pilgrim"
+      ]
+    },
+    "climbing": {
+      "classes": [],
+      "races": [],
+      "backgrounds": []
+    },
+    "spectralSight": {
+      "classes": [],
+      "races": [],
+      "backgrounds": []
+    },
+    "arcane_lore": {
+      "classes": [
+        "magic_user",
+        "orsino_abjurer"
+      ],
+      "races": [],
+      "backgrounds": []
+    }
+  }
+}

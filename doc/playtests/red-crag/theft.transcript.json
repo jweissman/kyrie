@@ -1,0 +1,176 @@
+{
+ "version": 1,
+ "scenario": "data/red-crag/thrale.campaign.json",
+ "seed": "thrale",
+ "steps": [
+  {
+   "command": "go(world__pasture_track,world__sheepfold)"
+  },
+  {
+   "command": "roost__habits"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "go(world__pasture_track,world__green)"
+  },
+  {
+   "command": "go(world__gorge_road,world__gorge_edge)"
+  },
+  {
+   "command": "go(world__rope_bridge,world__ledge)"
+  },
+  {
+   "command": "go(world__cave_mouth,world__cave_hall)"
+  },
+  {
+   "command": "take_item(roost__chapel_bell,world__member_party_1)"
+  },
+  {
+   "command": "go(world__cave_mouth,world__ledge)"
+  },
+  {
+   "command": "go(world__rope_bridge,world__gorge_edge)"
+  },
+  {
+   "command": "go(world__gorge_road,world__green)"
+  },
+  {
+   "command": "put_item(roost__chapel_bell)"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  }
+ ],
+ "complete": true
+}

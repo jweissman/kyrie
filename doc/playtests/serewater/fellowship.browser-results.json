@@ -1,0 +1,378 @@
+{
+  "kind": "fellowship",
+  "errors": [],
+  "times": [
+    {
+      "id": "travel(march__outfitter)",
+      "ms": 355
+    },
+    {
+      "id": "march__nera_preparation",
+      "ms": 300
+    },
+    {
+      "id": "march__nera_interest",
+      "ms": 311
+    },
+    {
+      "id": "buy_item(march__medicine_1,march__member_guide)",
+      "ms": 299
+    },
+    {
+      "id": "buy_item(march__draught_1,march__member_guide)",
+      "ms": 341
+    },
+    {
+      "id": "travel(march__quay)",
+      "ms": 392
+    },
+    {
+      "id": "travel(march__shrine)",
+      "ms": 279
+    },
+    {
+      "id": "march__iven_mandate",
+      "ms": 323
+    },
+    {
+      "id": "travel(march__quay)",
+      "ms": 311
+    },
+    {
+      "id": "travel(march__causeway)",
+      "ms": 350
+    },
+    {
+      "id": "travel(march__ridge)",
+      "ms": 272
+    },
+    {
+      "id": "travel(march__yard)",
+      "ms": 253
+    },
+    {
+      "id": "travel(march__vestibule)",
+      "ms": 301
+    },
+    {
+      "id": "march__pell_request",
+      "ms": 298
+    },
+    {
+      "id": "free_obstruction(march__rack,march__pell)",
+      "ms": 413
+    },
+    {
+      "id": "escort(march__pell,march__yard)",
+      "ms": 406
+    },
+    {
+      "id": "escort(march__pell,march__ridge)",
+      "ms": 342
+    },
+    {
+      "id": "escort(march__pell,march__causeway)",
+      "ms": 612
+    },
+    {
+      "id": "escort(march__pell,march__quay)",
+      "ms": 461
+    },
+    {
+      "id": "march__pell_home",
+      "ms": 401
+    },
+    {
+      "id": "travel(march__causeway)",
+      "ms": 314
+    },
+    {
+      "id": "travel(march__ridge)",
+      "ms": 317
+    },
+    {
+      "id": "travel(march__yard)",
+      "ms": 234
+    },
+    {
+      "id": "travel(march__vestibule)",
+      "ms": 240
+    },
+    {
+      "id": "travel(march__workshop)",
+      "ms": 275
+    },
+    {
+      "id": "march__edda_claim",
+      "ms": 281
+    },
+    {
+      "id": "travel(march__furnace)",
+      "ms": 270
+    },
+    {
+      "id": "travel(march__gallery)",
+      "ms": 280
+    },
+    {
+      "id": "attack(march__roost)",
+      "ms": 733
+    },
+    {
+      "id": "use_item(march__draught_1,march__member_guide)",
+      "ms": 316
+    },
+    {
+      "id": "cross(march__roost,march__hoist)",
+      "ms": 253
+    },
+    {
+      "id": "examine(march__scored_timber)",
+      "ms": 249
+    },
+    {
+      "id": "risk_passage(march__counterweight,march__landing,march__member_guide)",
+      "ms": 262
+    },
+    {
+      "id": "travel(march__hall)",
+      "ms": 251
+    },
+    {
+      "id": "travel(march__stair)",
+      "ms": 252
+    },
+    {
+      "id": "travel(march__stores)",
+      "ms": 244
+    },
+    {
+      "id": "take_item(march__line_cache,march__member_guide)",
+      "ms": 245
+    },
+    {
+      "id": "equip_item(march__line_cache,march__member_guide)",
+      "ms": 229
+    },
+    {
+      "id": "travel(march__stair)",
+      "ms": 260
+    },
+    {
+      "id": "travel(march__hall)",
+      "ms": 247
+    },
+    {
+      "id": "travel(march__kitchen)",
+      "ms": 263
+    },
+    {
+      "id": "examine(march__crock_label)",
+      "ms": 258
+    },
+    {
+      "id": "risk_passage(march__miasma,march__name_room,march__member_guide)",
+      "ms": 272
+    },
+    {
+      "id": "use_item(march__medicine_1,march__member_guide)",
+      "ms": 267
+    },
+    {
+      "id": "examine(march__register_pages)",
+      "ms": 247
+    },
+    {
+      "id": "take_item(march__lantern_cache,march__member_guide)",
+      "ms": 240
+    },
+    {
+      "id": "equip_item(march__lantern_cache,march__member_guide)",
+      "ms": 271
+    },
+    {
+      "id": "examine(march__lantern_letters)",
+      "ms": 263
+    },
+    {
+      "id": "passage(march__crypt)",
+      "ms": 262
+    },
+    {
+      "id": "climb(march__founders,march__line_cache)",
+      "ms": 253
+    },
+    {
+      "id": "travel(march__chalk)",
+      "ms": 231
+    },
+    {
+      "id": "examine(march__survey_scratches)",
+      "ms": 219
+    },
+    {
+      "id": "passage(march__drain)",
+      "ms": 248
+    },
+    {
+      "id": "travel(march__ridge)",
+      "ms": 228
+    },
+    {
+      "id": "travel(march__causeway)",
+      "ms": 273
+    },
+    {
+      "id": "travel(march__quay)",
+      "ms": 323
+    },
+    {
+      "id": "travel(march__inn)",
+      "ms": 341
+    },
+    {
+      "id": "rest(march__inn)",
+      "ms": 1560
+    },
+    {
+      "id": "march__jory_training",
+      "ms": 321
+    },
+    {
+      "id": "train_member(march__member_guide,serewater_training)",
+      "ms": 444
+    },
+    {
+      "id": "travel(march__quay)",
+      "ms": 370
+    },
+    {
+      "id": "travel(march__shrine)",
+      "ms": 313
+    },
+    {
+      "id": "march__iven_writ",
+      "ms": 317
+    },
+    {
+      "id": "travel(march__quay)",
+      "ms": 361
+    },
+    {
+      "id": "travel(march__causeway)",
+      "ms": 345
+    },
+    {
+      "id": "travel(march__ridge)",
+      "ms": 261
+    },
+    {
+      "id": "travel(march__drain)",
+      "ms": 262
+    },
+    {
+      "id": "passage(march__chalk)",
+      "ms": 246
+    },
+    {
+      "id": "travel(march__founders)",
+      "ms": 256
+    },
+    {
+      "id": "climb(march__crypt,march__line_cache)",
+      "ms": 271
+    },
+    {
+      "id": "travel(march__court)",
+      "ms": 292
+    },
+    {
+      "id": "march__custodian_demand",
+      "ms": 345
+    },
+    {
+      "id": "request_custody(march__custodian)",
+      "ms": 386
+    },
+    {
+      "id": "cross(march__custodian,march__vault)",
+      "ms": 244
+    },
+    {
+      "id": "take_item(march__charm_cache,march__member_guide)",
+      "ms": 232
+    },
+    {
+      "id": "equip_item(march__charm_cache,march__member_guide)",
+      "ms": 236
+    },
+    {
+      "id": "travel(march__court)",
+      "ms": 329
+    },
+    {
+      "id": "travel(march__crypt)",
+      "ms": 316
+    },
+    {
+      "id": "passage(march__name_room)",
+      "ms": 242
+    },
+    {
+      "id": "travel(march__kitchen)",
+      "ms": 235
+    },
+    {
+      "id": "travel(march__hall)",
+      "ms": 243
+    },
+    {
+      "id": "travel(march__stair)",
+      "ms": 217
+    },
+    {
+      "id": "travel(march__stores)",
+      "ms": 221
+    },
+    {
+      "id": "travel(march__workshop)",
+      "ms": 253
+    },
+    {
+      "id": "travel(march__vestibule)",
+      "ms": 234
+    },
+    {
+      "id": "travel(march__yard)",
+      "ms": 280
+    },
+    {
+      "id": "travel(march__ridge)",
+      "ms": 262
+    },
+    {
+      "id": "travel(march__causeway)",
+      "ms": 334
+    },
+    {
+      "id": "attack(march__marshfang)",
+      "ms": 764
+    },
+    {
+      "id": "travel(march__quay)",
+      "ms": 503
+    },
+    {
+      "id": "travel(march__inn)",
+      "ms": 391
+    },
+    {
+      "id": "rest(march__inn)",
+      "ms": 1857
+    }
+  ],
+  "reloaded": true,
+  "combat": 2,
+  "overflow": false,
+  "steps": 92
+}

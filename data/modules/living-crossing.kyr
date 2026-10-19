@@ -1,0 +1,27 @@
+Module living_crossing "A crossing before winter" {
+  Description "The guard wants unpaid wages. A carrier must choose paid work or urgent grain delivery. Winter will not wait.".
+  Entity party: group "The company". Entity guard: group "The unpaid guard". Entity carrier: group "The carrier".
+  Entity village: place "Alderwick". Entity bank: place "Bridge checkpoint".
+  Entity road: place "East road". Entity refuge: place "Wayside market".
+  Entity consignment: stock "Village grain". Entity parcels: stock "Delivery depot".
+  Entity granary: stock "Village granary". Entity market: stock "Market account".
+  Entity gold: good "Coin". Entity grain: good "Grain". Entity parcel: good "Parcel". Entity rations: good "Ration".
+  Entity winter: pressure "Winter provision deadline". Entity clock: clock "Campaign watch".
+  Initially Assert at(party, village). Initially Assert at(guard, bank). Initially Assert at(carrier, road).
+  Initially Assert at(consignment, road). Initially Assert at(parcels, road).
+  Initially Assert at(granary, village). Initially Assert at(market, refuge).
+  Initially Assert route(village, bank). Initially Assert route(bank, village).
+  Initially Assert route(road, refuge). Initially Assert route(refuge, road).
+  Initially Assert footway(village, refuge). Initially Assert footway(refuge, village).
+  Initially Assert gate(guard, bank, road). Initially Assert gate(guard, road, bank).
+  Initially Assert gatekeeper(guard). Initially Assert acceptsFood(guard).
+  Initially Assert unladen(party). Initially Assert unladen(carrier). Initially Assert unladen(guard).
+  Initially Assert mayCollect(carrier, consignment). Initially Assert mayCollect(carrier, parcels).
+  Initially Assert mayCollect(party, consignment). Initially Assert job(market, parcel).
+  Query supplied() means quantity(granary, grain) >= required(granary, grain).
+  Query settled() means paid(guard).
+  Query missed() means recorded(winter) and deficit(winter) > 0.
+  Query violent() means hostile(party, guard).
+  Query away() means not at(party, village) and not at(party, bank).
+  Goal supplied().
+}

@@ -1,0 +1,56 @@
+Module refuge "Ashes at Saint Orra" {
+  Description "Saint Orra shelters quarry families beside a ruined watchtower. A child fell ill after drinking from the spring; the charcoal worker Tamsin is blamed. Keeper Mere has locked the guest house pending expulsion at watch 28. The kiln still warms the refuge. Investigate before lending your name to a judgment. Every action costs a watch; examining the scene never obliges you to take a side.".
+  Entity party: group "Your company". Entity mere: group "Mere, keeper of the refuge".
+  Entity tamsin: group "Tamsin, charcoal worker".
+  Entity green: place "Saint Orra's green". Entity porch: place "Refuge porch".
+  Entity cell: place "Locked guest house". Entity kiln: place "Charcoal kiln".
+  Entity gold: good "Coin". Entity rations: good "Ration". Entity clock: clock "Campaign watch".
+  Entity fellowship: capability "the Free Fellowship". Entity woodcraft: capability "ranger woodcraft".
+  Entity cistern: stock "Refuge water reserve". Entity water: good "Clean water".
+  Entity latch: mechanism "guest-house latch". Entity furnace: mechanism "kiln's forced-draft bellows".
+  Relation expelled(group). Relation spoiled(place).
+  Initially Assert at(cistern, green). Initially Set quantity(cistern, water) to 2.
+  Initially Assert mayCollect(party, cistern). Initially Assert unladen(party).
+  Initially Assert at(party, green). Initially Assert at(mere, porch). Initially Assert at(tamsin, cell).
+  Initially Assert route(green, porch). Initially Assert route(porch, green).
+  Initially Assert route(green, kiln). Initially Assert route(kiln, green).
+  Initially Assert route(porch, cell). Initially Assert route(cell, porch). Initially Assert closed(cell).
+  Initially Assert mounted(latch, porch). Initially Assert barrier(latch, cell). Initially Assert operates(mere, latch).
+  Initially Assert keyedBy(latch, mere).
+  Initially Assert mounted(furnace, kiln). Initially Assert functioning(furnace).
+  Initially Assert operates(party, furnace). Initially Assert operates(mere, furnace).
+  Initially Assert recognizes(mere, fellowship).
+  Initially Assert trusts(mere, party). Initially Assert trusts(tamsin, party).
+  Discovery runoff "Silver residue from the watchtower stones is carried into the spring by the kiln's forced draft; Tamsin did not poison the water." {
+    Denied by mere.
+    Source cup "Ys’s signed water analysis beneath the testing cup" at green readable by party.
+    Source ledger "Firing ledger: illness follows silver-stone firings, even during Tamsin's absence" at kiln readable by party destructible.
+  }
+  Discovery whereabouts "Healer Ys went beneath the watchtower to recover its silver drain-key. She is alive, not hiding stolen medicine." {
+    Known by tamsin.
+    Source letter "Ys's letter entrusted to Tamsin" at cell readable by party spoken by tamsin.
+  }
+  Discovery crawl "A charcoal flue behind the kiln enters the watchtower's undercroft, bypassing the guardian's stair." {
+    Source sketch "Chalk flue survey behind the bellows" at kiln readable by party destructible.
+  }
+  Pursuit hear_challenge for mere priority 30 when knows(mere, runoff) seeks not closed(cell).
+  Pursuit stop_poison for mere priority 20 when knows(mere, runoff) seeks not functioning(furnace).
+  Pursuit return_to_duty for mere priority 10 when not functioning(furnace) and not closed(cell) seeks at(mere, porch).
+  Pursuit seek_work for tamsin priority 10 when not closed(cell) seeks at(tamsin, kiln).
+  Rule fellowship_hearing when released(mere) and closed(cell) { Retract closed(cell). }
+  Rule expulsion when watch(clock) >= 28 and able(mere) and not knows(mere, runoff) and not expelled(tamsin) {
+    Assert expelled(tamsin). Assert at(tamsin, green). Assert closed(cell).
+  }
+  Rule pollution when watch(clock) >= 20 and functioning(furnace) and not spoiled(green) { Assert spoiled(green). Set quantity(cistern, water) to 0. }
+  Observe arrival at green when not spoiled(green) and not knows(mere, runoff) "A barefoot child watches the testing cup beside the spring. A chalk notice blames Tamsin for the sickness; the cup covers Ys's sealed water analysis. Her note and the firing ledger can be read independently. East is the refuge porch, west the kiln, north the moor and ruined watchtower. Mere hears documented challenges. Read the analysis or the kiln ledger before accepting the accusation. The spring will be spoiled at watch 20 if firing continues.".
+  Observe polluted at green when spoiled(green) "A silver scum covers the spring. Stopping the bellows now prevents further discharge but cannot restore the stored water. The refuge's clean-water reserve has been emptied. Water collected earlier remains yours.".
+  Observe judgment at porch when closed(cell) and able(mere) "Mere holds the guest-house key. 'One sick child and a missing healer. I cannot risk another. I will open a hearing if you bring evidence against my judgment.' Her founding compact also admits a company of human, elf and dwarf together. Tamsin's expulsion is set for watch 28. The door is a physical barrier; if its keeper falls, you can recover her key and open it yourself; that proves nothing about the charge.".
+  Observe hearing at porch when not closed(cell) "The guest-house door stands open. Tamsin can leave; Mere's decision is no longer a prison sentence. The illness and the missing healer remain separate problems. Disabling the kiln ends the discharge but also its warmth.".
+  Observe guest at cell when at(tamsin, cell) "Tamsin sits beside a letter. 'Ys went to the tower, not away with the medicine. I promised to wait for her. Burning old stone made the glaze white; I thought it harmless.' She offers the letter freely. She cannot tell you what happened after Ys descended.".
+  Observe empty at cell when not at(tamsin, cell) "Tamsin's blanket is folded on the empty pallet. Her letter remains; a person's departure does not erase written evidence.".
+  Observe fire at kiln when functioning(furnace) "Bellows drive hot air through silver-flecked stones scavenged from the watchtower. You can dismantle the draft here without anyone's permission. It will stop the firing—and the refuge's heat. A ledger and flue survey lie under a loose slate. The water discharge will reach the spring at watch 20.".
+  Observe cold at kiln when not functioning(furnace) "The dismantled bellows lie beside cold stone. No more silver ash rises toward the spring. Families huddle under blankets: removing a danger did not replace their livelihood or heat. The tower's drain still needs attention.".
+  Observe cleared at kiln when knows(mere, runoff) and at(tamsin, kiln) "Tamsin has returned to her workplace after Mere accepted the evidence. The false accusation is withdrawn; the cold kiln remains a real loss. 'Find Ys. She knew how to drain the tower without firing these stones.'".
+  Observe banished at green when expelled(tamsin) and at(tamsin, green) "Tamsin waits outside with her blanket. The expulsion happened even while you were elsewhere. Evidence can still change Mere's knowledge; it cannot erase the day Tamsin lost her shelter.".
+  Goal false.
+}

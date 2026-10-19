@@ -1,0 +1,54 @@
+Module discovery_rules "Reliable discovery and trusted reports" {
+  Kind fact. Kind source.
+  Relation established(fact).
+  Relation reveals(source, fact).
+  Relation intact(source).
+  Relation noticeable(source).
+  Relation destructible(source).
+  Relation mayExamine(group, source).
+  Relation knows(group, fact).
+  Relation assumesFalse(group, fact).
+  Relation trusts(group, group).
+  Relation learnedFrom(group, source, fact).
+  Relation toldBy(group, group, fact).
+  Relation publicPlace(place).
+  Relation testimony(group, source).
+  Goal false.
+  Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
+    Requires able(actor) and at(actor, site) and at(witness, site)
+      and noticeable(witness) and intact(witness) and mayExamine(actor, witness)
+      and reveals(witness, statement) and established(statement) and not learnedFrom(actor, witness, statement).
+    On success {
+      Assert knows(actor, statement). Retract assumesFalse(actor, statement).
+      Assert learnedFrom(actor, witness, statement).
+    }
+  }
+  Action tell(actor: group, recipient: group, statement: fact, site: place) "Tell {recipient}: {statement}" {
+    Result "You explain what the evidence establishes. The listener accepts your account and sets aside a conflicting assumption; their next choices remain their own.".
+    Requires able(actor) and able(recipient) and distinct(actor, recipient)
+      and at(actor, site) and at(recipient, site) and trusts(recipient, actor)
+      and knows(actor, statement) and established(statement) and not toldBy(recipient, actor, statement).
+    On success {
+      Assert knows(recipient, statement). Retract assumesFalse(recipient, statement).
+      Assert toldBy(recipient, actor, statement).
+    }
+  }
+  Action ask(actor: group, informant: group, topic: source, statement: fact, site: place) "Ask {informant} about {topic}" {
+    Result "The speaker shares an account they know. You record it in your journal.".
+    Description "Ask about an offered topic. The speaker shares an established fact they actually know.".
+    Requires able(actor) and able(informant) and distinct(actor, informant)
+      and at(actor, site) and at(informant, site) and testimony(informant, topic)
+      and reveals(topic, statement) and noticeable(topic)
+      and knows(informant, statement) and established(statement) and not toldBy(actor, informant, statement).
+    On success {
+      Assert knows(actor, statement). Retract assumesFalse(actor, statement).
+      Assert toldBy(actor, informant, statement).
+    }
+  }
+  Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {
+    Result "You destroy this source of evidence. Existing knowledge and other sources remain.".
+    Requires able(actor) and at(actor, site) and at(witness, site)
+      and noticeable(witness) and intact(witness) and destructible(witness).
+    On success { Retract intact(witness). }
+  }
+}

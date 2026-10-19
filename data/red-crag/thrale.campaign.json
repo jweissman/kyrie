@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "The Red Crag — Thrale",
+  "modules": [
+    {
+      "id": "world",
+      "bundle": "../sites/thrale/module.json"
+    },
+    {
+      "id": "roost",
+      "bundle": "../situations/dragon-roost/module.json",
+      "imports": {
+        "party": "world.party",
+        "watcher": "world.watcher",
+        "roost": "world.roost",
+        "lair": "world.lair",
+        "hunting_ground": "world.hunting",
+        "village": "world.village",
+        "approach": "world.approach",
+        "lair_mouth": "world.lair_mouth"
+      }
+    }
+  ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+    { "name": "Bran", "raceId": "human", "classId": "fighter", "backgroundId": "locksmith" },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic" }
+  ]
+}

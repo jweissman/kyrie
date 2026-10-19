@@ -1,0 +1,17 @@
+{
+  "quarry_site": {
+    "__no_id": true,
+    "name": "Skellfold and the high quarry",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "initial": [],
+    "outcomes": [
+      {
+        "id": "ladder_broken",
+        "predicate": "state(ladder, broken)"
+      }
+    ]
+  }
+}

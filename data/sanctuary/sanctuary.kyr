@@ -1,0 +1,19 @@
+Module sanctuary "The Open Hand Sanctuary" {
+  Description "Cira's refusal to shelter travelers outside her order has brought a dispute to the sanctuary porch. She has promised to honor the founders' own charter if shown that she has misread its obligations.".
+  Entity party: group "A traveler". Entity cira: group "Cira, sanctuary keeper".
+  Entity porch: place "Pilgrims' porch". Entity hall: place "Sanctuary hall".
+  Entity gold: good "Coin". Entity rations: good "Ration". Entity clock: clock "Campaign watch".
+  Entity bolt: mechanism "the sanctuary bolt".
+  Initially Assert at(party, porch). Initially Assert at(cira, porch).
+  Initially Assert trusts(cira, party).
+  Initially Assert route(porch, hall). Initially Assert route(hall, porch).
+  Initially Assert closed(hall).
+  Initially Assert mounted(bolt, porch). Initially Assert barrier(bolt, hall).
+  Initially Assert operates(cira, bolt).
+  // Her commitment is specific: accept this historical charter and open the physical barrier.
+  Pursuit honor_founders for cira priority 20 when knows(cira, founding_oath) seeks not closed(hall).
+  Observe locked at porch when closed(hall) "Cira keeps the bolt drawn. 'I keep the founders' vow. Their charter is on the porch; if it binds me to shelter travelers of every faith, show me.' You can read it here, but reading does not tell Cira what you found.".
+  Observe opened at porch when not closed(hall) "Cira has drawn the bolt after accepting the founders' charter. The inner hall stands open; you can enter or leave.".
+  Observe shelter at hall when true "Worn pallets line the quiet stone hall. The porch remains open behind you.".
+  Goal not closed(hall).
+}

@@ -1,0 +1,54 @@
+Module items "Equipment, consumables and training" {
+  Kind item. Kind itemkind.
+  Relation itemKind(item, itemkind). Relation ownedItem(item, member). Relation wearing(item, member).
+  Relation forSale(item). Relation soldBy(item, group) exclusive. Relation wearable(itemkind). Relation consumable(itemkind).
+  Relation canTrain(member, ability). Relation teaches(group, ability).
+  Measure price(item).
+  Goal false.
+  Action take_item(actor: group, find: item, form: itemkind, recipient: member, site: place) "Collect {find} for {recipient}" {
+    Requires able(actor) and at(actor, site) and at(find, site) and not forSale(find)
+      and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient).
+    Resolve acquire(find, form, recipient).
+    On success { Retract at(find, site). }
+    Result "The item is now carried by the chosen companion. It will remain with them between expeditions.".
+  }
+  Action buy_item(actor: group, find: item, form: itemkind, recipient: member, merchant: group, site: place) "Buy {find} for {recipient}" {
+    Requires able(actor) and at(actor, site) and at(find, site) and forSale(find) and itemKind(find, form)
+      and memberOf(recipient, actor) and awake(recipient) and soldBy(find, merchant)
+      and able(merchant) and at(merchant, site) and distinct(actor, merchant) and quantity(actor, gold) >= price(find).
+    Resolve purchase(find, form, recipient, actor, merchant).
+    On success { Retract at(find, site). Retract forSale(find). }
+    Result "You pay the posted price and take possession of the item. This finite stock is not replaced when you return.".
+  }
+  Action equip_item(actor: group, tool: item, form: itemkind, wearer: member) "Equip {tool} on {wearer}" {
+    Requires able(actor) and memberOf(wearer, actor) and awake(wearer) and ownedItem(tool, wearer)
+      and itemKind(tool, form) and wearable(form) and not wearing(tool, wearer).
+    Resolve equip(tool, wearer).
+    Result "The companion equips the item. Another item in the same slot is put away; generated characteristics stay unchanged.".
+  }
+  Action use_item(actor: group, dose: item, form: itemkind, carrier: member, recipient: member) "Use {dose} on {recipient}" {
+    Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
+      and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form).
+    Resolve consume(dose, carrier, recipient).
+    Result "The single dose is spent. Its effects resolve on the chosen companion.".
+  }
+  Action transfer_item(actor: group, cargo: item, carrier: member, recipient: member) "Give {cargo} to {recipient}" {
+    Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor)
+      and not ownedItem(cargo, recipient) and awake(recipient) and ownedItem(cargo, carrier).
+    Resolve transfer_item(cargo, carrier, recipient).
+    Result "The companion takes the item and packs it away. Equipment can also be recovered from fallen companions.".
+  }
+  Action put_item(actor: group, cargo: item, carrier: member, site: place) "Set down {cargo}" {
+    Requires able(actor) and at(actor, site) and memberOf(carrier, actor) and awake(carrier) and ownedItem(cargo, carrier).
+    Resolve drop(cargo, carrier).
+    On success { Assert at(cargo, site). }
+    Result "You leave the object here. Its position persists until somebody moves it.".
+  }
+  Action train_member(actor: group, mentor: group, student: member, lesson: ability, site: place) "Train {student} in {lesson}" {
+    Requires able(actor) and able(mentor) and distinct(actor, mentor) and at(actor, site) and at(mentor, site)
+      and memberOf(student, actor) and awake(student) and teaches(mentor, lesson) and canTrain(student, lesson).
+    Resolve train(lesson, student).
+    Time 6.
+    Result "An hour of instruction spends 20 earned experience. The learned technique remains available on future expeditions.".
+  }
+}

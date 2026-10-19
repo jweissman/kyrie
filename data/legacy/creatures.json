@@ -1,0 +1,25 @@
+{
+  "about": "Quarantined: arena demonstration rosters.",
+  "creatures": {
+    "goblin": {
+      "race": "goblin",
+      "class": "commoner"
+    },
+    "wisp": {
+      "race": "wisp",
+      "class": "commoner"
+    }
+  },
+  "encounters": {
+    "raiders": [
+      {
+        "race": "goblin",
+        "class": "fighter"
+      },
+      {
+        "race": "goblin",
+        "class": "commoner"
+      }
+    ]
+  }
+}

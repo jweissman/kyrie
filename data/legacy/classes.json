@@ -1,0 +1,97 @@
+{
+  "about": "Quarantined: creature chassis and misattributed classes used only by legacy campaigns and histories.",
+  "classes": {
+    "wild_beast": {
+      "name": "Wild beast",
+      "role": "Rending bites cause persistent bleeding unless constitution saves.",
+      "hitDie": 6,
+      "mana": 0,
+      "primary": "constitution",
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "hpPerLevel": 3,
+      "supersededBy": "the statistics and natural abilities of a species"
+    },
+    "rime_beast": {
+      "name": "Rime beast",
+      "role": "Cold bite, weakening and save-resisted howl; fire vulnerability.",
+      "hitDie": 10,
+      "mana": 3,
+      "primary": "constitution",
+      "hpPerLevel": 4,
+      "abilities": [
+        "rime_bite",
+        "winter_howl",
+        "rending_bite",
+        "defend"
+      ],
+      "supersededBy": "the statistics and natural abilities of a species"
+    },
+    "barrow_warden": {
+      "name": "Barrow warden",
+      "role": "Drains life, wards itself and invokes sleep.",
+      "hitDie": 12,
+      "mana": 9,
+      "primary": "intelligence",
+      "abilities": [
+        "attack",
+        "drain",
+        "ward",
+        "sleep"
+      ],
+      "hpPerLevel": 5,
+      "supersededBy": "the statistics and natural abilities of a species"
+    },
+    "mortuary_custodian": {
+      "name": "Mortuary Custodian",
+      "role": "Bronze sweep tests agility; burial chain weakens; physical resistance rewards preparation.",
+      "hitDie": 16,
+      "mana": 0,
+      "primary": "strength",
+      "abilities": [
+        "custodian_sweep",
+        "custodian_chain",
+        "defend"
+      ],
+      "hpPerLevel": 5,
+      "supersededBy": "the statistics and natural abilities of a species"
+    },
+    "orsino_life_cleric": {
+      "name": "Life cleric",
+      "role": "Orsino healing amounts: Luminous Touch scales with level; Cure Minor Wounds restores 1d4. Knows shrine observances. Kyr class chassis and mana costs.",
+      "hitDie": 6,
+      "mana": 8,
+      "primary": "wisdom",
+      "abilities": [
+        "attack",
+        "defend",
+        "orsino_luminous_touch",
+        "orsino_cure_minor",
+        "purify",
+        "flee"
+      ],
+      "hpPerLevel": 3,
+      "playable": true,
+      "supersededBy": "cleric with the vitalist specialization (cure_minor). Luminous Touch is a light-domain spell in Orsino."
+    },
+    "orsino_abjurer": {
+      "name": "Abjurer",
+      "role": "Fireproof ward grants the Orsino status’s 50% fire resistance, in battle or before entering danger. Kyr class chassis and duration.",
+      "hitDie": 4,
+      "mana": 9,
+      "primary": "intelligence",
+      "abilities": [
+        "attack",
+        "defend",
+        "orsino_fireproof",
+        "bolt",
+        "flee"
+      ],
+      "hpPerLevel": 2,
+      "playable": true,
+      "supersededBy": "cleric with the vitalist specialization (resist_fire). Orsino gives fireproof to the life and ocean domains, not the abjuration school."
+    }
+  }
+}

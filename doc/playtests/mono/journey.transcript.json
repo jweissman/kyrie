@@ -1,0 +1,162 @@
+{
+ "version": 1,
+ "party": [
+  {
+   "name": "Elen",
+   "raceId": "elf",
+   "classId": "ranger",
+   "backgroundId": "forager"
+  },
+  {
+   "name": "Bran",
+   "raceId": "human",
+   "classId": "fighter",
+   "backgroundId": "surveyor"
+  },
+  {
+   "name": "Dori",
+   "raceId": "dwarf",
+   "classId": "cleric",
+   "backgroundId": "pilgrim"
+  }
+ ],
+ "scenario": "data/serewater/campaign.json",
+ "seed": "serewater",
+ "steps": [
+  {
+   "command": "travel(march__outfitter)"
+  },
+  {
+   "command": "march__nera_preparation"
+  },
+  {
+   "command": "buy_item(march__draught_1,march__member_shield)"
+  },
+  {
+   "command": "travel(march__quay)"
+  },
+  {
+   "command": "travel(march__causeway)"
+  },
+  {
+   "command": "forage(march__marsh_cress)"
+  },
+  {
+   "command": "travel(march__ridge)"
+  },
+  {
+   "command": "travel(march__yard)"
+  },
+  {
+   "command": "travel(march__vestibule)"
+  },
+  {
+   "command": "march__pell_request"
+  },
+  {
+   "command": "free_obstruction(march__rack,march__pell)"
+  },
+  {
+   "command": "examine(march__survey_board)"
+  },
+  {
+   "command": "travel(march__workshop)"
+  },
+  {
+   "command": "travel(march__stores)"
+  },
+  {
+   "command": "take_item(march__line_cache,march__member_shield)"
+  },
+  {
+   "command": "equip_item(march__line_cache,march__member_shield)"
+  },
+  {
+   "command": "travel(march__workshop)"
+  },
+  {
+   "command": "travel(march__gallery)"
+  },
+  {
+   "command": "attack(march__roost)",
+   "combat": [
+    {
+     "actor": "march__guide",
+     "ability": "attack",
+     "target": "march__roost_person"
+    },
+    {
+     "actor": "march__shield",
+     "ability": "attack",
+     "target": "march__roost_person"
+    },
+    {
+     "actor": "march__lamp",
+     "ability": "attack",
+     "target": "march__roost_person"
+    }
+   ]
+  },
+  {
+   "command": "cross(march__roost,march__hoist)"
+  },
+  {
+   "command": "examine(march__scored_timber)"
+  },
+  {
+   "command": "brace(march__counterweight,march__line_cache)"
+  },
+  {
+   "command": "cleared_passage(march__counterweight,march__landing)"
+  },
+  {
+   "command": "travel(march__hall)"
+  },
+  {
+   "command": "travel(march__kitchen)"
+  },
+  {
+   "command": "risk_passage(march__miasma,march__name_room,march__member_guide)"
+  },
+  {
+   "command": "use_item(march__draught_1,march__member_guide)"
+  },
+  {
+   "command": "travel(march__kitchen)"
+  },
+  {
+   "command": "travel(march__hall)"
+  },
+  {
+   "command": "travel(march__landing)"
+  },
+  {
+   "command": "travel(march__hoist)"
+  },
+  {
+   "command": "travel(march__gallery)"
+  },
+  {
+   "command": "travel(march__workshop)"
+  },
+  {
+   "command": "travel(march__vestibule)"
+  },
+  {
+   "command": "escort(march__pell,march__yard)"
+  },
+  {
+   "command": "escort(march__pell,march__ridge)"
+  },
+  {
+   "command": "escort(march__pell,march__causeway)"
+  },
+  {
+   "command": "escort(march__pell,march__quay)"
+  },
+  {
+   "command": "march__pell_home"
+  }
+ ],
+ "complete": true
+}

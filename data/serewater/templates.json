@@ -1,0 +1,121 @@
+{
+  "march_campaign": {
+    "__no_id": true,
+    "season": "early_autumn",
+    "name": "Serewater March \u2014 Censer Hill",
+    "creatures": "=gatherEntries(marchCompany, fellowship)",
+    "actors": "=gen(march_actors)",
+    "casting": "=gen(march_casting)",
+    "initial": "=concat(gen(march_purse), gen(march_crew_purse), gen(march_food), gen(march_stock), gen(march_flood), gen(march_permit), gen(march_treasure), gen(march_cress), gen(march_hazel))",
+    "outcomes": "=gatherEntries(marchOutcomes, dimensions)",
+    "items": "=gen(march_items)"
+  },
+  "march_actors": {
+    "__no_id": true,
+    "order": "=gatherEntries(marchControllers, player)"
+  },
+  "march_casting": {
+    "__no_id": true,
+    "nera": "=gen(march_person)",
+    "iven": "=gen(march_person)",
+    "edda": "=gen(march_person)",
+    "pell": "=gen(march_person)",
+    "roost": "=gen(march_cave_beast)",
+    "marshfang": "=gen(march_marsh_beast)"
+  },
+  "march_person": {
+    "__no_id": true,
+    "raceId": "=lookup(marchPopulation, riverside)"
+  },
+  "march_cave_beast": {
+    "__no_id": true,
+    "level": "=lookup(marchThreat, cave)"
+  },
+  "march_marsh_beast": {
+    "__no_id": true,
+    "level": "=lookup(marchThreat, floodplain)"
+  },
+  "march_purse": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "party",
+      "gold"
+    ],
+    "value": "=10 + 1d4"
+  },
+  "march_food": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "party",
+      "rations"
+    ],
+    "value": "=4 + 1d2"
+  },
+  "march_stock": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "nera",
+      "rations"
+    ],
+    "value": "=lookup(marchSupplies, #season)"
+  },
+  "march_flood": {
+    "__no_id": true,
+    ">name": "risesAt",
+    "args": [
+      "flood"
+    ],
+    "value": "=lookup(marchWater, #season)"
+  },
+  "march_permit": {
+    "__no_id": true,
+    ">name": "expiresAt",
+    "args": [
+      "permit"
+    ],
+    "value": "=72 + 1d6"
+  },
+  "march_treasure": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "vault_purse",
+      "gold"
+    ],
+    "value": "=4 + 2d6"
+  },
+  "march_cress": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "marsh_cress",
+      "rations"
+    ],
+    "value": "=lookup(marchForage, #season)"
+  },
+  "march_hazel": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "hazel_patch",
+      "rations"
+    ],
+    "value": "=lookup(marchForage, #season)"
+  },
+  "march_crew_purse": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "edda",
+      "gold"
+    ],
+    "value": 12
+  },
+  "march_items": {
+    "__no_id": true,
+    "charm_cache": "=lookup(marchRelic, burial)"
+  }
+}

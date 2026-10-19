@@ -1,0 +1,11 @@
+Module world_needs "Food" {
+  Relation eats(group). Relation hungry(group).
+  Measure nextMeal(group).
+  Goal false.
+  Rule meal when eats(?g) and watch(clock) >= nextMeal(?g) and quantity(?g, rations) >= 1 {
+    Decrease quantity(?g, rations) by 1. Increase nextMeal(?g) by 144. Retract hungry(?g).
+  }
+  Rule hunger when eats(?g) and watch(clock) >= nextMeal(?g) and quantity(?g, rations) < 1 and not hungry(?g) {
+    Assert hungry(?g).
+  }
+}

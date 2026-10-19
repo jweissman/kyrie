@@ -1,0 +1,25 @@
+Module world_core "Bodies, places, time and the shared catalog" {
+  Kind group. Kind place. Kind good. Kind clock. Kind capability.
+  Entity gold: good "coin". Entity rations: good "ration". Entity clock: clock "Time".
+  Entity woodcraft: capability "Woodcraft". Entity mending: capability "Mending".
+  Entity lockwork: capability "Lockwork". Entity trapwork: capability "Trapwork".
+  Entity wayfinding: capability "Wayfinding". Entity digging: capability "Digging".
+  Relation at(entity, place) exclusive.
+  Relation able(group). Relation dead(group). Relation distinct(group, group).
+  Relation closed(place). Relation indoors(place). Relation settled(place).
+  Relation peaceable(group).
+  Relation witnessedAttack(group, group, group).
+  Relation refusesService(group, group).
+  Relation capable(group, capability).
+  Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
+  Goal false.
+  Action wait(actor: group) "Wait a while" {
+    Requires able(actor). Time 1.
+  }
+  Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
+    Description "Fight someone who is not peaceable. Townsfolk and the people you came to help are not offered as targets.".
+    Requires able(actor) and able(opponent) and distinct(actor, opponent) and at(actor, site) and at(opponent, site)
+      and not peaceable(opponent).
+    Resolve combat(opponent).
+  }
+}

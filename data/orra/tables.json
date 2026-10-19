@@ -1,0 +1,315 @@
+{
+  "orraCompany": {
+    "discriminator": "company",
+    "groups": {
+      "fellowship": [
+        {
+          "id": "guide",
+          "context": {
+            "name": "Elen",
+            "raceId": "elf",
+            "classId": "ranger",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "shield",
+          "context": {
+            "name": "Bran",
+            "raceId": "human",
+            "classId": "fighter",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "lamp",
+          "context": {
+            "name": "Dori",
+            "raceId": "dwarf",
+            "classId": "cleric",
+            "level": 2,
+            "abilities": [
+              "attack",
+              "defend",
+              "heal",
+              "bless",
+              "purify",
+              "revive",
+              "flee",
+              "dawn_spark"
+            ]
+          },
+          "gold": 0
+        }
+      ],
+      "company": [
+        {
+          "id": "guide",
+          "context": {
+            "name": "Nell",
+            "raceId": "human",
+            "classId": "thief",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "shield",
+          "context": {
+            "name": "Bran",
+            "raceId": "human",
+            "classId": "fighter",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "lamp",
+          "context": {
+            "name": "Mira",
+            "raceId": "human",
+            "classId": "magic_user",
+            "level": 2
+          },
+          "gold": 0
+        }
+      ]
+    }
+  },
+  "orraCast": {
+    "discriminator": "part",
+    "groups": {
+      "refuge": [
+        {
+          "id": "keeper",
+          "context": {
+            "name": "Mere",
+            "raceId": "human",
+            "classId": "commoner",
+            "level": 1
+          },
+          "gold": 0
+        },
+        {
+          "id": "worker",
+          "context": {
+            "name": "Tamsin",
+            "raceId": "human",
+            "classId": "commoner",
+            "level": 1
+          },
+          "gold": 0
+        }
+      ],
+      "tower": [
+        {
+          "id": "animal",
+          "context": {
+            "name": "Grey",
+            "raceId": "wolf",
+            "classId": "wild_beast",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "warden",
+          "context": {
+            "name": "Antlered warden",
+            "raceId": "revenant",
+            "classId": "barrow_warden",
+            "level": 3
+          },
+          "gold": 0
+        },
+        {
+          "id": "healer",
+          "context": {
+            "name": "Ys",
+            "raceId": "human",
+            "classId": "cleric",
+            "level": 1
+          },
+          "gold": 0
+        }
+      ],
+      "refugeControllers": [
+        {
+          "id": "party",
+          "members": [
+            "guide",
+            "shield",
+            "lamp"
+          ],
+          "player": true,
+          "horizon": 4,
+          "actions": [
+            "wait",
+            "travel",
+            "cross",
+            "passage",
+            "examine",
+            "tell",
+            "ask",
+            "destroy_source",
+            "give_food",
+            "attack",
+            "disable",
+            "open",
+            "shut",
+            "request_passage",
+            "approach_wildlife",
+            "collect",
+            "put",
+            "take_control"
+          ],
+          "goals": []
+        },
+        {
+          "id": "mere",
+          "members": [
+            "keeper"
+          ],
+          "horizon": 4,
+          "actions": [
+            "travel",
+            "open",
+            "disable"
+          ],
+          "goals": []
+        },
+        {
+          "id": "tamsin",
+          "members": [
+            "worker"
+          ],
+          "horizon": 4,
+          "actions": [
+            "travel"
+          ],
+          "goals": []
+        }
+      ],
+      "towerControllers": [
+        {
+          "id": "wolf",
+          "members": [
+            "animal"
+          ],
+          "horizon": 4,
+          "actions": [
+            "eat",
+            "release"
+          ],
+          "goals": []
+        },
+        {
+          "id": "hart",
+          "members": [
+            "warden"
+          ],
+          "horizon": 4,
+          "actions": [
+            "travel"
+          ],
+          "goals": []
+        },
+        {
+          "id": "ys",
+          "members": [
+            "healer"
+          ],
+          "horizon": 4,
+          "actions": [
+            "open",
+            "travel"
+          ],
+          "goals": []
+        }
+      ],
+      "refugeOutcomes": [
+        {
+          "id": "accusation_withdrawn",
+          "predicate": "knows(mere, runoff)"
+        },
+        {
+          "id": "heating_lost",
+          "predicate": "not functioning(furnace)"
+        },
+        {
+          "id": "water_spoiled",
+          "predicate": "spoiled(green)"
+        },
+        {
+          "id": "expelled",
+          "predicate": "expelled(tamsin)"
+        }
+      ],
+      "towerOutcomes": [
+        {
+          "id": "siphon_stopped",
+          "predicate": "not functioning(siphon)"
+        },
+        {
+          "id": "moor_flooded",
+          "predicate": "flooded(moor)"
+        },
+        {
+          "id": "healer_home",
+          "predicate": "rescued(ys)"
+        },
+        {
+          "id": "warden_dead",
+          "predicate": "dead(hart)"
+        }
+      ]
+    }
+  },
+  "orraPlay": {
+    "discriminator": "part",
+    "groups": {
+      "controllers": [
+        {
+          "id": "party",
+          "members": [
+            "guide",
+            "shield",
+            "lamp"
+          ],
+          "player": true,
+          "horizon": 4,
+          "actions": [
+            "*"
+          ],
+          "goals": []
+        },
+        {
+          "id": "mere",
+          "members": [
+            "keeper"
+          ],
+          "horizon": 4,
+          "actions": [
+            "travel",
+            "open",
+            "disable"
+          ],
+          "goals": []
+        },
+        {
+          "id": "tamsin",
+          "members": [
+            "worker"
+          ],
+          "horizon": 4,
+          "actions": [
+            "travel"
+          ],
+          "goals": []
+        }
+      ]
+    }
+  }
+}

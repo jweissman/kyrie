@@ -1,0 +1,89 @@
+Module dragon_roost "A dragon on the crag" {
+  Description "A dragon has taken a crag above a crossing. It hunts on its own hours, guards its hoard, answers theft with fire, and can be paid, waited out, robbed or fought.".
+  Entity party: group "Your company".
+  Entity watcher: group "Someone who watches the dragon".
+  Place roost "Where the dragon roosts" is room.
+  Place lair "Where the dragon keeps its hoard" is room.
+  Place hunting_ground "Where the dragon hunts" is room.
+  Place village "The settlement below" is room.
+  Entity approach: passage "The near way onto the roost".
+  Entity lair_mouth: passage "The way into the lair".
+  Measure leavesAt(entity). Measure returnsAt(entity). Measure raidAt(entity).
+  Relation placated(group). Relation robbed(group). Relation wrathful(group). Relation rung(group).
+
+  Person dragon "the dragon" at roost {
+    Role "a red dragon". Species red_dragon. Level 1.
+    State roosting blocking "{dragon} lies coiled across {lair_mouth}, one eye open, smoke curling from its nostrils.".
+    State away "{dragon} circles low over {hunting_ground}, hunting.".
+    State placated "{dragon} has drawn its tail aside from {lair_mouth} and watches you with something like amusement.".
+    Guards lair_mouth.
+  }
+  Initially Set encounterXp(dragon) to 850.
+  Item chapel_bell "the chapel bell" is bell at lair.
+
+  Thing ropes "the bridge ropes" on approach {
+    State sound "Old hemp ropes and weathered planks. The bridge sways, but it holds.".
+    State burnt blocking "Charred rope ends hang from the posts. The bridge is gone.".
+  }
+  Thing barn "the hay barn" at village {
+    State standing "A stone barn under a deep thatch, stuffed with the winter's hay.".
+    State burnt "The barn is a blackened shell. The winter's hay is ash.".
+  }
+  Person ringer "the bell-ringer" at village {
+    Role "bell-ringer". Peaceable.
+    State waiting "{ringer} keeps glancing up at the empty bell-cote.".
+    State glad "{ringer} has the bell rope in hand again and keeps finding reasons to pull it.".
+  }
+  Initially Assert state(ringer, waiting).
+
+  Rule departs near dragon when at(dragon, roost) and able(dragon) and watch(clock) >= leavesAt(dragon)
+    says "{dragon} unfolds its wings, drops off the crag and glides away toward {hunting_ground}." {
+    Assert at(dragon, hunting_ground). Assert state(dragon, away). Increase leavesAt(dragon) by 144.
+  }
+  Rule returns near dragon when at(dragon, hunting_ground) and able(dragon) and watch(clock) >= returnsAt(dragon)
+    says "{dragon} beats up from {hunting_ground}, something limp in its claws, and makes for the crag." {
+    Assert at(dragon, roost). Assert state(dragon, roosting). Increase returnsAt(dragon) by 144.
+  }
+  Rule settled when placated(dragon) and state(dragon, roosting) { Assert state(dragon, placated). }
+  Rule theft when not at(chapel_bell, lair) and not placated(dragon) and not robbed(dragon) { Assert robbed(dragon). }
+  Event wrath near dragon when robbed(dragon) and at(dragon, roost) and able(dragon) and not wrathful(dragon) "{dragon} noses through its hoard, then rears back and screams. Fire splashes across the stone." then {
+    Assert wrathful(dragon). Assert exposedTo(roost, fire). Set raidAt(dragon) to watch(clock). Increase raidAt(dragon) by 18.
+  }
+  Event raid at village when wrathful(dragon) and able(dragon) and state(barn, standing) and watch(clock) >= raidAt(dragon) "Fire falls on {village} out of the sky. {barn} goes up like a torch." then {
+    Assert state(barn, burnt). Assert exposedTo(village, fire).
+  }
+  Event bridge_burns beside approach when exposedTo(roost, fire) and state(ropes, sound) "Flame runs along {ropes}. The planks drop away into the gorge one by one." then {
+    Assert state(ropes, burnt).
+  }
+  Event bell_home near ringer when at(chapel_bell, village) and not rung(ringer) "{ringer} takes {chapel_bell} in both hands and runs for the bell-cote." then {
+    Assert rung(ringer). Assert state(ringer, glad).
+  }
+  Observe empty_roost at roost when not at(dragon, roost) and not dead(dragon) "The ledge is empty but for split bones and scorched wool.".
+  Observe dead_dragon at roost when dead(dragon) "The great red body lies across the ledge, cooling. The stone around it is black.".
+
+  Action tribute(actor: group, spot: place) "Lay fifteen coins before {dragon}" {
+    Requires able(actor) and at(actor, spot) and at(dragon, spot) and state(dragon, roosting) and quantity(actor, gold) >= 15.
+    On success { Decrease quantity(actor, gold) by 15. Assert placated(dragon). Assert peaceable(dragon). Assert state(dragon, placated). }
+    Result "The coins clink onto the stone. {dragon} rakes them toward itself with one claw and lifts its tail from {lair_mouth}.".
+  }
+
+  Topic hail with dragon "Speak to {dragon}" when state(dragon, roosting) and not robbed(dragon) {
+    Says "'Thieves come with swords,' says {dragon}, in a voice like a kiln door opening. 'Beggars come with nothing. Petitioners come with gold. Which are you?'".
+  }
+  Topic bargain with dragon "Ask {dragon} for the bell" when placated(dragon) {
+    Says "'That little thing? It rings flat. Take it, and take yourselves off my ledge.'".
+  }
+  Topic habits with watcher "Ask {watcher} about the dragon" when not dead(dragon) {
+    Says "'It goes out over {hunting_ground} at about watch {leavesAt(dragon)} and comes back near watch {returnsAt(dragon)}. Takes a sheep most days. Never harmed a soul, mind, till folk started going up there with spears.'".
+  }
+  Topic plea with ringer "Ask {ringer} about the empty bell-cote" when not rung(ringer) {
+    Says "'The dragon took our bell. Flew off with it in its claws, rope and all. Mother Cate says a chapel without a bell is a barn with ideas. If you could bring it back, any way you can, without burning the village down.'".
+  }
+  Topic thanks with ringer "Speak with {ringer}" when rung(ringer) {
+    Says "'Listen to it! A bit flat, but it's ours.'".
+  }
+
+  Objective fetch when not rung(ringer) and not robbed(dragon) "{ringer} wants the chapel bell back from the dragon's hoard.".
+  Objective carry when robbed(dragon) and not rung(ringer) "Get {chapel_bell} back to {village}.".
+  Goal rung(ringer).
+}

@@ -1,0 +1,126 @@
+{
+  "inhabited_region": {
+    "__no_id": true,
+    "biome": "riverbank",
+    "name": "A house over older halls",
+    "_plant": "=lookup(habitatPlant, #biome)",
+    "_animal": "=lookup(habitatAnimal, #biome)",
+    "creatures": "=gatherEntries(marchCompany, fellowship)",
+    "actors": "=gen(region_actors)",
+    "labels": "=gen(region_labels)",
+    "casting": "=gen(region_casting)",
+    "facts": "=concat(gatherEntries(terrainConstraint, #biome), gen(plant_habitat), gen(plant_sign), gen(animal_habitat), gen(animal_sign))",
+    "initial": "=concat(gen(purse),gen(food),gen(stock),gen(deadline))",
+    "outcomes": [
+      {
+        "id": "cellar_safe",
+        "predicate": "rescued(guest)"
+      },
+      {
+        "id": "archive_searched",
+        "predicate": "knows(party, old_drain)"
+      },
+      {
+        "id": "wildlife_spared",
+        "predicate": "released(wildlife)"
+      },
+      {
+        "id": "guardian_dead",
+        "predicate": "dead(sentinel)"
+      }
+    ],
+    "items": "=gen(region_items)"
+  },
+  "region_actors": {
+    "__no_id": true,
+    "order": "=gatherEntries(marchControllers, player)"
+  },
+  "region_labels": {
+    "__no_id": true,
+    "town": "=lookup(settlementName, #biome)",
+    "vale": "=lookup(regionName, #biome)",
+    "wilds": "=lookup(habitatName, #biome)",
+    "wood": "=lookup(approachName, #biome)",
+    "roadstead": "=lookup(hamletName, #biome)"
+  },
+  "region_casting": {
+    "__no_id": true,
+    "apothecary": "=gen(local_householder)",
+    "host": "=gen(local_warden)",
+    "guest": "=gen(local_worker)"
+  },
+  "local_householder": {
+    "__no_id": true,
+    "raceId": "=lookup(population, #biome)",
+    ">name": "=lookup(householder, #biome)"
+  },
+  "local_warden": {
+    "__no_id": true,
+    "raceId": "=lookup(population, #biome)",
+    ">name": "=lookup(warden, #biome)"
+  },
+  "local_worker": {
+    "__no_id": true,
+    "raceId": "=lookup(population, #biome)",
+    ">name": "Tamsin"
+  },
+  "region_items": {
+    "__no_id": true,
+    "relic": "=lookup(relic, archive)"
+  },
+  "plant_habitat": {
+    "__no_id": true,
+    ">name": "habitatSpecies",
+    "args": "=concat(wood, #_plant)"
+  },
+  "plant_sign": {
+    "__no_id": true,
+    ">name": "signsOf",
+    "args": "=concat(wood, #_plant)"
+  },
+  "animal_habitat": {
+    "__no_id": true,
+    ">name": "habitatSpecies",
+    "args": "=concat(wood, #_animal)"
+  },
+  "animal_sign": {
+    "__no_id": true,
+    ">name": "signsOf",
+    "args": "=concat(wood, #_animal)"
+  },
+  "purse": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "party",
+      "gold"
+    ],
+    "value": 14
+  },
+  "food": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "party",
+      "rations"
+    ],
+    "value": 6
+  },
+  "stock": {
+    "__no_id": true,
+    ">name": "quantity",
+    "args": [
+      "apothecary",
+      "rations"
+    ],
+    "value": "=lookup(supply, #biome)"
+  },
+  "deadline": {
+    "__no_id": true,
+    ">name": "closesAt",
+    "args": [
+      "rain"
+    ],
+    "value": "=lookup(weatherDeadline, #biome)"
+  }
+}

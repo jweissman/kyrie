@@ -1,0 +1,18 @@
+Module expedition "Finite supplies and salvage" {
+  Relation offers(group, good).
+  Relation salvage(stock).
+  Goal false.
+  Action buy(actor: group, merchant: group, goods: good, site: place) "Buy one {goods} from {merchant} for two coins" {
+    Description "Trade two coins for one unit from a present merchant's finite stock. This is a posted price, not a negotiation simulation.".
+    Requires able(actor) and able(merchant) and distinct(actor, merchant) and at(actor, site) and at(merchant, site)
+      and offers(merchant, goods) and quantity(merchant, goods) >= 1 and quantity(actor, gold) >= 2.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(merchant, gold) by 2.
+      Decrease quantity(merchant, goods) by 1. Increase quantity(actor, goods) by 1. }
+    Result "You pay two coins and receive one unit of supplies. The merchant's stock and both purses change accordingly.".
+  }
+  Action salvage_coin(actor: group, store: stock, site: place) "Recover a coin from {store}" {
+    Requires able(actor) and at(actor, site) and at(store, site) and salvage(store) and quantity(store, gold) >= 1.
+    On success { Decrease quantity(store, gold) by 1. Increase quantity(actor, gold) by 1. }
+    Result "You recover one coin from the finite cache. It is now in the company's purse.".
+  }
+}

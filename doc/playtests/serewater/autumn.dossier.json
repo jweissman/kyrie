@@ -1,0 +1,4267 @@
+{
+  "manifest": "data/serewater/campaign.json",
+  "seed": "serewater",
+  "provenance": {
+    "module": "data/serewater/module.json",
+    "source": "data/serewater/serewater.kyr",
+    "construction": "data/serewater/templates.json",
+    "tables": "data/serewater/tables.json",
+    "creatureConstructor": "data/default/templates/deem.templates.json",
+    "itemCatalog": "data/items.json"
+  },
+  "provenanceScope": "Package source index and frozen resulting references, not a complete per-expression trace",
+  "creatures": [
+    {
+      "id": "march__guide",
+      "name": "Elen",
+      "classId": "ranger",
+      "raceId": "elf",
+      "base": {
+        "strength": 11,
+        "dexterity": 10,
+        "intelligence": 8,
+        "wisdom": 15,
+        "constitution": 15,
+        "charisma": 9,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "ambush",
+          "heal",
+          "flee",
+          "elf_focus"
+        ],
+        "maxHp": 14,
+        "maxMana": 2,
+        "speed": 4
+      },
+      "state": {
+        "hp": 14,
+        "mana": 2,
+        "gold": 13,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "backgroundId": "forager"
+    },
+    {
+      "id": "march__shield",
+      "name": "Bran",
+      "classId": "fighter",
+      "raceId": "human",
+      "base": {
+        "strength": 18,
+        "dexterity": 11,
+        "intelligence": 14,
+        "wisdom": 8,
+        "constitution": 5,
+        "charisma": 16,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "cleave",
+          "flee",
+          "rally",
+          "wounding_blow",
+          "human_resolve"
+        ],
+        "maxHp": 13,
+        "maxMana": 0,
+        "speed": 3
+      },
+      "state": {
+        "hp": 13,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "backgroundId": "surveyor"
+    },
+    {
+      "id": "march__lamp",
+      "name": "Dori",
+      "classId": "cleric",
+      "raceId": "dwarf",
+      "base": {
+        "strength": 16,
+        "dexterity": 5,
+        "intelligence": 11,
+        "wisdom": 15,
+        "constitution": 18,
+        "charisma": 11,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "heal",
+          "bless",
+          "purify",
+          "revive",
+          "flee",
+          "dwarf_guard"
+        ],
+        "maxHp": 16,
+        "maxMana": 6,
+        "speed": 0
+      },
+      "state": {
+        "hp": 16,
+        "mana": 6,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "backgroundId": "pilgrim"
+    },
+    {
+      "id": "march__nera_person",
+      "name": "Nera",
+      "classId": "commoner",
+      "raceId": "dwarf",
+      "base": {
+        "strength": 6,
+        "dexterity": 12,
+        "intelligence": 6,
+        "wisdom": 8,
+        "constitution": 13,
+        "charisma": 12,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "flee"
+        ],
+        "maxHp": 8,
+        "maxMana": 0,
+        "speed": 5
+      },
+      "state": {
+        "hp": 8,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "march__iven_person",
+      "name": "Iven",
+      "classId": "cleric",
+      "raceId": "human",
+      "base": {
+        "strength": 13,
+        "dexterity": 11,
+        "intelligence": 15,
+        "wisdom": 18,
+        "constitution": 11,
+        "charisma": 8,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "heal",
+          "bless",
+          "purify",
+          "revive",
+          "flee"
+        ],
+        "maxHp": 12,
+        "maxMana": 6,
+        "speed": 2
+      },
+      "state": {
+        "hp": 12,
+        "mana": 6,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "march__edda_person",
+      "name": "Edda",
+      "classId": "fighter",
+      "raceId": "elf",
+      "base": {
+        "strength": 10,
+        "dexterity": 7,
+        "intelligence": 6,
+        "wisdom": 6,
+        "constitution": 13,
+        "charisma": 12,
+        "level": 3,
+        "abilities": [
+          "attack",
+          "defend",
+          "cleave",
+          "flee",
+          "rally",
+          "wounding_blow"
+        ],
+        "maxHp": 18,
+        "maxMana": 0,
+        "speed": 2
+      },
+      "state": {
+        "hp": 18,
+        "mana": 0,
+        "gold": 12,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "march__pell_person",
+      "name": "Pell",
+      "classId": "thief",
+      "raceId": "human",
+      "base": {
+        "strength": 8,
+        "dexterity": 16,
+        "intelligence": 10,
+        "wisdom": 10,
+        "constitution": 6,
+        "charisma": 10,
+        "level": 2,
+        "abilities": [
+          "attack",
+          "defend",
+          "ambush",
+          "venom",
+          "flee"
+        ],
+        "maxHp": 7,
+        "maxMana": 0,
+        "speed": 4
+      },
+      "state": {
+        "hp": 7,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "march__custodian_person",
+      "name": "Mortuary Custodian",
+      "classId": "mortuary_custodian",
+      "raceId": "bronze_construct",
+      "base": {
+        "strength": 13,
+        "dexterity": 10,
+        "intelligence": 10,
+        "wisdom": 8,
+        "constitution": 11,
+        "charisma": 14,
+        "level": 5,
+        "abilities": [
+          "custodian_sweep",
+          "custodian_chain",
+          "defend"
+        ],
+        "maxHp": 37,
+        "maxMana": 0,
+        "speed": 2
+      },
+      "state": {
+        "hp": 37,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "march__roost_person",
+      "name": "Ash the cave hound",
+      "classId": "wild_beast",
+      "raceId": "cave_hound",
+      "base": {
+        "strength": 11,
+        "dexterity": 8,
+        "intelligence": 12,
+        "wisdom": 12,
+        "constitution": 12,
+        "charisma": 9,
+        "level": 2,
+        "abilities": [
+          "rending_bite",
+          "flee"
+        ],
+        "maxHp": 11,
+        "maxMana": 0,
+        "speed": 0
+      },
+      "state": {
+        "hp": 11,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "march__marshfang_person",
+      "name": "Reedbank boar",
+      "classId": "wild_beast",
+      "raceId": "boar",
+      "base": {
+        "strength": 12,
+        "dexterity": 9,
+        "intelligence": 8,
+        "wisdom": 8,
+        "constitution": 9,
+        "charisma": 11,
+        "level": 2,
+        "abilities": [
+          "rending_bite",
+          "flee"
+        ],
+        "maxHp": 13,
+        "maxMana": 0,
+        "speed": 2
+      },
+      "state": {
+        "hp": 13,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    },
+    {
+      "id": "march__jory_person",
+      "name": "Jory",
+      "classId": "fighter",
+      "raceId": "human",
+      "base": {
+        "strength": 12,
+        "dexterity": 4,
+        "intelligence": 11,
+        "wisdom": 13,
+        "constitution": 8,
+        "charisma": 10,
+        "level": 3,
+        "abilities": [
+          "attack",
+          "defend",
+          "cleave",
+          "flee",
+          "rally",
+          "wounding_blow"
+        ],
+        "maxHp": 16,
+        "maxMana": 0,
+        "speed": 1
+      },
+      "state": {
+        "hp": 16,
+        "mana": 0,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      }
+    }
+  ],
+  "actors": [
+    {
+      "id": "party",
+      "members": [
+        "march__guide",
+        "march__shield",
+        "march__lamp"
+      ],
+      "player": true,
+      "horizon": 4,
+      "actions": [
+        "wait",
+        "travel",
+        "walk",
+        "cross",
+        "pay",
+        "give_food",
+        "eat",
+        "release",
+        "collect",
+        "put",
+        "fulfill_job",
+        "attack",
+        "examine",
+        "tell",
+        "ask",
+        "destroy_source",
+        "take_control",
+        "endorse",
+        "enforce",
+        "disable",
+        "shut",
+        "open",
+        "passage",
+        "request_passage",
+        "approach_wildlife",
+        "field_spell",
+        "rest",
+        "learn_reward",
+        "buy",
+        "salvage_coin",
+        "take_item",
+        "buy_item",
+        "equip_item",
+        "use_item",
+        "transfer_item",
+        "put_item",
+        "train_member",
+        "fulfill_commission",
+        "forage",
+        "risk_passage",
+        "cleared_passage",
+        "disarm",
+        "brace",
+        "climb",
+        "free_obstruction",
+        "escort",
+        "request_custody",
+        "march__jory_training",
+        "march__nera_preparation",
+        "march__nera_interest",
+        "march__iven_mandate",
+        "march__iven_writ",
+        "march__edda_claim",
+        "march__pell_request",
+        "march__pell_free",
+        "march__pell_home",
+        "march__custodian_demand"
+      ],
+      "goals": [],
+      "allActions": true
+    },
+    {
+      "id": "march__nera",
+      "members": [
+        "march__nera_person"
+      ],
+      "horizon": 4,
+      "actions": [
+        "travel"
+      ],
+      "goals": []
+    },
+    {
+      "id": "march__iven",
+      "members": [
+        "march__iven_person"
+      ],
+      "horizon": 4,
+      "actions": [
+        "travel"
+      ],
+      "goals": []
+    },
+    {
+      "id": "march__edda",
+      "members": [
+        "march__edda_person"
+      ],
+      "horizon": 4,
+      "actions": [
+        "travel"
+      ],
+      "goals": [
+        {
+          "id": "permit_withdraw",
+          "priority": 20,
+          "when": {
+            "kind": "and",
+            "left": {
+              "kind": "compare",
+              "left": {
+                "kind": "call",
+                "name": "watch",
+                "args": [
+                  "clock"
+                ]
+              },
+              "right": {
+                "kind": "call",
+                "name": "march__expiresAt",
+                "args": [
+                  "march__permit"
+                ]
+              },
+              "operator": ">="
+            },
+            "right": {
+              "kind": "not",
+              "value": {
+                "kind": "call",
+                "name": "march__departed",
+                "args": [
+                  "march__edda"
+                ]
+              }
+            }
+          },
+          "target": {
+            "kind": "call",
+            "name": "at",
+            "args": [
+              "march__edda",
+              "march__yard"
+            ]
+          }
+        },
+        {
+          "id": "permit_return",
+          "priority": 20,
+          "when": {
+            "kind": "call",
+            "name": "march__departed",
+            "args": [
+              "march__edda"
+            ]
+          },
+          "target": {
+            "kind": "call",
+            "name": "at",
+            "args": [
+              "march__edda",
+              "march__quay"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "march__pell",
+      "members": [
+        "march__pell_person"
+      ],
+      "horizon": 4,
+      "actions": [
+        "travel"
+      ],
+      "goals": []
+    },
+    {
+      "id": "march__custodian",
+      "members": [
+        "march__custodian_person"
+      ],
+      "horizon": 4,
+      "actions": [
+        "travel"
+      ],
+      "goals": []
+    },
+    {
+      "id": "march__roost",
+      "members": [
+        "march__roost_person"
+      ],
+      "horizon": 4,
+      "actions": [
+        "travel"
+      ],
+      "goals": []
+    },
+    {
+      "id": "march__marshfang",
+      "members": [
+        "march__marshfang_person"
+      ],
+      "horizon": 4,
+      "actions": [
+        "travel"
+      ],
+      "goals": []
+    },
+    {
+      "id": "march__jory",
+      "members": [
+        "march__jory_person"
+      ],
+      "horizon": 4,
+      "actions": [],
+      "goals": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "march__nera",
+      "name": "Nera, outfitter",
+      "type": "group"
+    },
+    {
+      "id": "march__iven",
+      "name": "Iven, burial keeper",
+      "type": "group"
+    },
+    {
+      "id": "march__edda",
+      "name": "Edda, salvage forewoman",
+      "type": "group"
+    },
+    {
+      "id": "march__pell",
+      "name": "Pell, surveyor",
+      "type": "group"
+    },
+    {
+      "id": "march__custodian",
+      "name": "Mortuary Custodian, mortuary guardian",
+      "type": "group"
+    },
+    {
+      "id": "march__roost",
+      "name": "Ash the cave hound, cave scavenger",
+      "type": "group"
+    },
+    {
+      "id": "march__marshfang",
+      "name": "Reedbank boar, floodplain wildlife",
+      "type": "group"
+    },
+    {
+      "id": "march__jory",
+      "name": "Jory, retired ferry guard",
+      "type": "group"
+    },
+    {
+      "id": "march__reedwake",
+      "type": "districtkind",
+      "name": "Reedwake"
+    },
+    {
+      "id": "march__reedlands",
+      "type": "districtkind",
+      "name": "Willow floodplain and chalk ridge"
+    },
+    {
+      "id": "march__upperworks",
+      "type": "districtkind",
+      "name": "Censer Hill I · Foundry"
+    },
+    {
+      "id": "march__refugehalls",
+      "type": "districtkind",
+      "name": "Censer Hill II · Flood refuge"
+    },
+    {
+      "id": "march__lowerossuary",
+      "type": "districtkind",
+      "name": "Censer Hill III · Ossuary"
+    },
+    {
+      "id": "march__keeper_names",
+      "type": "march__tradition",
+      "name": "The Keeper of Names"
+    },
+    {
+      "id": "march__returning_current",
+      "type": "march__tradition",
+      "name": "The Returning Current"
+    },
+    {
+      "id": "march__marsh_cress",
+      "type": "stock",
+      "name": "Edible marsh cress bed"
+    },
+    {
+      "id": "march__hazel_patch",
+      "type": "stock",
+      "name": "Hazel stand"
+    },
+    {
+      "id": "party",
+      "type": "group",
+      "name": "Your company"
+    },
+    {
+      "id": "gold",
+      "type": "good",
+      "name": "Coin"
+    },
+    {
+      "id": "rations",
+      "type": "good",
+      "name": "Shared ration"
+    },
+    {
+      "id": "clock",
+      "type": "clock",
+      "name": "March time"
+    },
+    {
+      "id": "spectralSight",
+      "type": "capability",
+      "name": "Funeral-light sight"
+    },
+    {
+      "id": "fellowship",
+      "type": "capability",
+      "name": "Free Fellowship"
+    },
+    {
+      "id": "woodcraft",
+      "type": "capability",
+      "name": "Woodcraft"
+    },
+    {
+      "id": "delving",
+      "type": "capability",
+      "name": "Delving"
+    },
+    {
+      "id": "burial_lore",
+      "type": "capability",
+      "name": "Burial lore"
+    },
+    {
+      "id": "march__flood",
+      "type": "pressure",
+      "name": "Seasonal flood"
+    },
+    {
+      "id": "march__permit",
+      "type": "pressure",
+      "name": "Salvage permit"
+    },
+    {
+      "id": "march__rack",
+      "type": "mechanism",
+      "name": "Fallen timber rack"
+    },
+    {
+      "id": "march__counterweight",
+      "type": "hazard",
+      "name": "Exposed hoist counterweight"
+    },
+    {
+      "id": "march__miasma",
+      "type": "hazard",
+      "name": "Sealed kitchen vapour"
+    },
+    {
+      "id": "march__shutters",
+      "type": "hazard",
+      "name": "Bronze burial shutters"
+    },
+    {
+      "id": "censer_counterweight",
+      "type": "ability",
+      "name": "Counterweight impact"
+    },
+    {
+      "id": "censer_miasma",
+      "type": "ability",
+      "name": "Old preservative vapour"
+    },
+    {
+      "id": "censer_shutters",
+      "type": "ability",
+      "name": "Burial shutter strike"
+    },
+    {
+      "id": "ropekit",
+      "type": "itemkind",
+      "name": "Line and pitons"
+    },
+    {
+      "id": "wardedlantern",
+      "type": "itemkind",
+      "name": "Warded names lantern"
+    },
+    {
+      "id": "wardblade",
+      "type": "itemkind",
+      "name": "Warden’s blade"
+    },
+    {
+      "id": "protectivecharm",
+      "type": "itemkind",
+      "name": "River charm"
+    },
+    {
+      "id": "antidote",
+      "type": "itemkind",
+      "name": "Antidote"
+    },
+    {
+      "id": "healingdraught",
+      "type": "itemkind",
+      "name": "Healing draught"
+    },
+    {
+      "id": "bronzeBearing",
+      "type": "itemkind",
+      "name": "Bronze tram bearing"
+    },
+    {
+      "id": "register",
+      "type": "itemkind",
+      "name": "Refuge register"
+    },
+    {
+      "id": "march__quay",
+      "type": "place",
+      "name": "Reedwake · Ferry quay"
+    },
+    {
+      "id": "march__inn",
+      "type": "place",
+      "name": "Reedwake · The Returning Oar"
+    },
+    {
+      "id": "march__shrine",
+      "type": "place",
+      "name": "Reedwake · Common shrine"
+    },
+    {
+      "id": "march__outfitter",
+      "type": "place",
+      "name": "Reedwake · Nera’s outfitter"
+    },
+    {
+      "id": "march__salvage",
+      "type": "place",
+      "name": "Reedwake · Salvage office"
+    },
+    {
+      "id": "march__causeway",
+      "type": "place",
+      "name": "Willow causeway"
+    },
+    {
+      "id": "march__ridge",
+      "type": "place",
+      "name": "Chalk ridge"
+    },
+    {
+      "id": "march__yard",
+      "type": "place",
+      "name": "Censer Hill · Foundry yard"
+    },
+    {
+      "id": "march__drain",
+      "type": "place",
+      "name": "Censer Hill · Exposed drain"
+    },
+    {
+      "id": "march__vestibule",
+      "type": "place",
+      "name": "I.1 · Surveyor’s vestibule"
+    },
+    {
+      "id": "march__workshop",
+      "type": "place",
+      "name": "I.2 · Bell workshop"
+    },
+    {
+      "id": "march__gallery",
+      "type": "place",
+      "name": "I.3 · Casting gallery"
+    },
+    {
+      "id": "march__furnace",
+      "type": "place",
+      "name": "I.6 · Cracked bell furnace"
+    },
+    {
+      "id": "march__hoist",
+      "type": "place",
+      "name": "I.4 · Hoist shaft"
+    },
+    {
+      "id": "march__stores",
+      "type": "place",
+      "name": "I.5 · Dry stores"
+    },
+    {
+      "id": "march__stair",
+      "type": "place",
+      "name": "II.1 · Dry refuge stair"
+    },
+    {
+      "id": "march__landing",
+      "type": "place",
+      "name": "II.2 · Hoist landing"
+    },
+    {
+      "id": "march__hall",
+      "type": "place",
+      "name": "II.3 · Hundred-Day Hall"
+    },
+    {
+      "id": "march__kitchen",
+      "type": "place",
+      "name": "II.4 · Refuge kitchens"
+    },
+    {
+      "id": "march__name_room",
+      "type": "place",
+      "name": "II.5 · Dry name room"
+    },
+    {
+      "id": "march__sluice",
+      "type": "place",
+      "name": "II.6 · Sluice walk"
+    },
+    {
+      "id": "march__lower",
+      "type": "place",
+      "name": "III.1 · Lower landing"
+    },
+    {
+      "id": "march__crypt",
+      "type": "place",
+      "name": "III.2 · Family crypt"
+    },
+    {
+      "id": "march__court",
+      "type": "place",
+      "name": "III.3 · Custodian court"
+    },
+    {
+      "id": "march__vault",
+      "type": "place",
+      "name": "III.4 · Named vault"
+    },
+    {
+      "id": "march__founders",
+      "type": "place",
+      "name": "III.5 · Founders’ gallery"
+    },
+    {
+      "id": "march__chalk",
+      "type": "place",
+      "name": "III.6 · Chalk escape passage"
+    },
+    {
+      "id": "serewater_training",
+      "type": "ability",
+      "name": "Measured strike"
+    },
+    {
+      "id": "brace_line",
+      "type": "ability",
+      "name": "Brace line"
+    },
+    {
+      "id": "march__line_cache",
+      "type": "item",
+      "name": "Surveyor’s line and pitons"
+    },
+    {
+      "id": "march__lantern_cache",
+      "type": "item",
+      "name": "Lantern of the named dead"
+    },
+    {
+      "id": "march__charm_cache",
+      "type": "item",
+      "name": "Warden's blade"
+    },
+    {
+      "id": "march__medicine_1",
+      "type": "item",
+      "name": "Nera’s first antidote"
+    },
+    {
+      "id": "march__medicine_2",
+      "type": "item",
+      "name": "Nera’s second antidote"
+    },
+    {
+      "id": "march__draught_1",
+      "type": "item",
+      "name": "Nera’s healing draught"
+    },
+    {
+      "id": "march__bearing_cache",
+      "type": "item",
+      "name": "Bronze tram bearing"
+    },
+    {
+      "id": "march__register_cache",
+      "type": "item",
+      "name": "Pell’s waxed register transcription"
+    },
+    {
+      "id": "march__vault_purse",
+      "type": "stock",
+      "name": "Scattered salvage coin"
+    },
+    {
+      "id": "march__founders_purse",
+      "type": "stock",
+      "name": "Scattered salvage coin"
+    },
+    {
+      "id": "march__workshop_purse",
+      "type": "stock",
+      "name": "Scattered salvage coin"
+    },
+    {
+      "id": "march__secret_stair",
+      "type": "fact",
+      "name": "A concealed stair joins the name room and family crypt"
+    },
+    {
+      "id": "march__lantern_letters",
+      "type": "source",
+      "name": "Names written in funeral light"
+    },
+    {
+      "id": "march__names_survive",
+      "type": "fact",
+      "name": "The waxed refuge register survives. Its family numbers identify the remains in the crypt; the flood refuge belonged to three settlements, not the salvage company."
+    },
+    {
+      "id": "march__register_pages",
+      "type": "source",
+      "name": "Waxed register pages"
+    },
+    {
+      "id": "march__hoist_warning",
+      "type": "fact",
+      "name": "The hoist counterweight releases when the cable takes weight. Delving can pin it; a survey line can brace it. Otherwise the leading companion takes the risk."
+    },
+    {
+      "id": "march__scored_timber",
+      "type": "source",
+      "name": "Scored counterweight warning"
+    },
+    {
+      "id": "march__vapour_warning",
+      "type": "fact",
+      "name": "The split preservative crock vents poison when its floorboard tilts. Delving can pin the board; a line braces it. An antidote removes poison after exposure."
+    },
+    {
+      "id": "march__crock_label",
+      "type": "source",
+      "name": "Preservative crock warning"
+    },
+    {
+      "id": "march__shutter_warning",
+      "type": "fact",
+      "name": "The bronze shutter strikes and weakens an unready intruder. The release can be pinned or braced. The court itself is safe to converse in."
+    },
+    {
+      "id": "march__shutter_scratches",
+      "type": "source",
+      "name": "Old shutter release scratches"
+    },
+    {
+      "id": "march__chalk_exit",
+      "type": "fact",
+      "name": "A chalk fault connects the founders gallery to the exposed drainage entrance. Once learned, this return route remains usable."
+    },
+    {
+      "id": "march__survey_scratches",
+      "type": "source",
+      "name": "Chalk escape survey"
+    },
+    {
+      "id": "march__pell_map",
+      "type": "fact",
+      "name": "Pell surveyed the dry stair: vestibule, workshop, stores, refuge stair, then the great hall. The hoist is not the only descent."
+    },
+    {
+      "id": "march__survey_board",
+      "type": "source",
+      "name": "Pell’s scratched survey board"
+    },
+    {
+      "id": "march__bearing_claim",
+      "type": "fact",
+      "name": "The company license covers the tram bearing and foundry machinery. It does not cover registered burials. Edda leaves for Reedwake if her permit expires."
+    },
+    {
+      "id": "march__license_copy",
+      "type": "source",
+      "name": "Posted salvage license"
+    },
+    {
+      "id": "march__custodian_law",
+      "type": "fact",
+      "name": "The Mortuary Custodian admits a company bearing Iven’s custody writ and knowledge of the surviving register. It can also be bypassed by the line descent from the family crypt."
+    },
+    {
+      "id": "march__custody_notice",
+      "type": "source",
+      "name": "Burial society notice"
+    },
+    {
+      "id": "march__member_guide",
+      "creatureId": "march__guide",
+      "name": "Elen",
+      "type": "member"
+    },
+    {
+      "id": "march__member_shield",
+      "creatureId": "march__shield",
+      "name": "Bran",
+      "type": "member"
+    },
+    {
+      "id": "march__member_lamp",
+      "creatureId": "march__lamp",
+      "name": "Dori",
+      "type": "member"
+    },
+    {
+      "id": "march__member_nera_person",
+      "creatureId": "march__nera_person",
+      "name": "Nera",
+      "type": "member"
+    },
+    {
+      "id": "march__member_iven_person",
+      "creatureId": "march__iven_person",
+      "name": "Iven",
+      "type": "member"
+    },
+    {
+      "id": "march__member_edda_person",
+      "creatureId": "march__edda_person",
+      "name": "Edda",
+      "type": "member"
+    },
+    {
+      "id": "march__member_pell_person",
+      "creatureId": "march__pell_person",
+      "name": "Pell",
+      "type": "member"
+    },
+    {
+      "id": "march__member_custodian_person",
+      "creatureId": "march__custodian_person",
+      "name": "Mortuary Custodian",
+      "type": "member"
+    },
+    {
+      "id": "march__member_roost_person",
+      "creatureId": "march__roost_person",
+      "name": "Ash the cave hound",
+      "type": "member"
+    },
+    {
+      "id": "march__member_marshfang_person",
+      "creatureId": "march__marshfang_person",
+      "name": "Reedbank boar",
+      "type": "member"
+    },
+    {
+      "id": "march__member_jory_person",
+      "creatureId": "march__jory_person",
+      "name": "Jory",
+      "type": "member"
+    },
+    {
+      "id": "attack",
+      "type": "ability",
+      "name": "Weapon attack"
+    },
+    {
+      "id": "defend",
+      "type": "ability",
+      "name": "Guard"
+    },
+    {
+      "id": "flee",
+      "type": "ability",
+      "name": "Retreat"
+    },
+    {
+      "id": "cleave",
+      "type": "ability",
+      "name": "Sweeping blow"
+    },
+    {
+      "id": "heal",
+      "type": "ability",
+      "name": "Mend wounds"
+    },
+    {
+      "id": "bless",
+      "type": "ability",
+      "name": "Bless the company"
+    },
+    {
+      "id": "purify",
+      "type": "ability",
+      "name": "Purify"
+    },
+    {
+      "id": "revive",
+      "type": "ability",
+      "name": "Recall the fallen"
+    },
+    {
+      "id": "bolt",
+      "type": "ability",
+      "name": "Ember bolt"
+    },
+    {
+      "id": "sleep",
+      "type": "ability",
+      "name": "Binding sleep"
+    },
+    {
+      "id": "ward",
+      "type": "ability",
+      "name": "Protective ward"
+    },
+    {
+      "id": "venom",
+      "type": "ability",
+      "name": "Venom blade"
+    },
+    {
+      "id": "ambush",
+      "type": "ability",
+      "name": "Backstab"
+    },
+    {
+      "id": "summon",
+      "type": "ability",
+      "name": "Call a wisp"
+    },
+    {
+      "id": "rally",
+      "type": "ability",
+      "name": "Second wind"
+    },
+    {
+      "id": "wounding_blow",
+      "type": "ability",
+      "name": "Wounding blow"
+    },
+    {
+      "id": "dawn_spark",
+      "type": "ability",
+      "name": "Dawn spark"
+    },
+    {
+      "id": "rending_bite",
+      "type": "ability",
+      "name": "Rending bite"
+    },
+    {
+      "id": "camp_recovery",
+      "type": "ability",
+      "name": "Sheltered recovery"
+    },
+    {
+      "id": "cinder_lesson",
+      "type": "ability",
+      "name": "Cinder lesson"
+    },
+    {
+      "id": "cinder",
+      "type": "ability",
+      "name": "Cinder invocation"
+    },
+    {
+      "id": "rime_bite",
+      "type": "ability",
+      "name": "Rime bite"
+    },
+    {
+      "id": "winter_howl",
+      "type": "ability",
+      "name": "Winter howl"
+    },
+    {
+      "id": "human_resolve",
+      "type": "ability",
+      "name": "Riverland resolve"
+    },
+    {
+      "id": "elf_focus",
+      "type": "ability",
+      "name": "Elder focus"
+    },
+    {
+      "id": "dwarf_guard",
+      "type": "ability",
+      "name": "Stone endurance"
+    },
+    {
+      "id": "goblin_feint",
+      "type": "ability",
+      "name": "Warren feint"
+    },
+    {
+      "id": "custodian_sweep",
+      "type": "ability",
+      "name": "Bronze sweep"
+    },
+    {
+      "id": "custodian_chain",
+      "type": "ability",
+      "name": "Burial chain"
+    },
+    {
+      "id": "minor_healing_potion",
+      "type": "ability",
+      "name": "Minor healing potion"
+    },
+    {
+      "id": "antidote_dose",
+      "type": "ability",
+      "name": "Antidote"
+    }
+  ],
+  "facts": {
+    "relations": [
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__nera",
+          "march__outfitter"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__iven",
+          "march__shrine"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__edda",
+          "march__workshop"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__pell",
+          "march__vestibule"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__custodian",
+          "march__court"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__roost",
+          "march__gallery"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__marshfang",
+          "march__causeway"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__jory",
+          "march__inn"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "townDistrict",
+        "args": [
+          "march__reedwake"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__quay",
+          "march__reedwake"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__inn",
+          "march__reedwake"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__shrine",
+          "march__reedwake"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__outfitter",
+          "march__reedwake"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__salvage",
+          "march__reedwake"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "wildernessDistrict",
+        "args": [
+          "march__reedlands"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__causeway",
+          "march__reedlands"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__ridge",
+          "march__reedlands"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__yard",
+          "march__reedlands"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__drain",
+          "march__reedlands"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "undergroundDistrict",
+        "args": [
+          "march__upperworks"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__vestibule",
+          "march__upperworks"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__workshop",
+          "march__upperworks"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__gallery",
+          "march__upperworks"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__furnace",
+          "march__upperworks"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__hoist",
+          "march__upperworks"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__stores",
+          "march__upperworks"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "undergroundDistrict",
+        "args": [
+          "march__refugehalls"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__stair",
+          "march__refugehalls"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__landing",
+          "march__refugehalls"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__hall",
+          "march__refugehalls"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__kitchen",
+          "march__refugehalls"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__name_room",
+          "march__refugehalls"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__sluice",
+          "march__refugehalls"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "undergroundDistrict",
+        "args": [
+          "march__lowerossuary"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__lower",
+          "march__lowerossuary"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__crypt",
+          "march__lowerossuary"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__court",
+          "march__lowerossuary"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__vault",
+          "march__lowerossuary"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__founders",
+          "march__lowerossuary"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "district",
+        "args": [
+          "march__chalk",
+          "march__lowerossuary"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "march__dedicatedTo",
+        "args": [
+          "march__shrine",
+          "march__keeper_names"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "march__dedicatedTo",
+        "args": [
+          "march__shrine",
+          "march__returning_current"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "march__serves",
+        "args": [
+          "march__iven",
+          "march__keeper_names"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__marsh_cress",
+          "march__causeway"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "forageStock",
+        "args": [
+          "march__marsh_cress"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__hazel_patch",
+          "march__ridge"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "forageStock",
+        "args": [
+          "march__hazel_patch"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "teaches",
+        "args": [
+          "march__jory",
+          "serewater_training"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "teaches",
+        "args": [
+          "march__iven",
+          "brace_line"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "party",
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "unladen",
+        "args": [
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "restful",
+        "args": [
+          "march__inn"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "restful",
+        "args": [
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "acceptsCustody",
+        "args": [
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "requiresRecord",
+        "args": [
+          "march__custodian",
+          "march__names_survive"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "assumesFalse",
+        "args": [
+          "march__iven",
+          "march__names_survive"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "trapped",
+        "args": [
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "restrainedBy",
+        "args": [
+          "march__pell",
+          "march__rack"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mounted",
+        "args": [
+          "march__rack",
+          "march__vestibule"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "obstruction",
+        "args": [
+          "march__rack"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "home",
+        "args": [
+          "march__pell",
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "receptive",
+        "args": [
+          "march__marshfang",
+          "woodcraft"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "receptive",
+        "args": [
+          "march__roost",
+          "woodcraft"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "offers",
+        "args": [
+          "march__nera",
+          "rations"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "commissions",
+        "args": [
+          "march__edda",
+          "march__bearing_cache"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__quay",
+          "march__inn"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__inn",
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__quay",
+          "march__shrine"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__shrine",
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__quay",
+          "march__outfitter"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__outfitter",
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__quay",
+          "march__salvage"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__salvage",
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__quay",
+          "march__causeway"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__causeway",
+          "march__quay"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__causeway",
+          "march__ridge"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__ridge",
+          "march__causeway"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__ridge",
+          "march__yard"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__yard",
+          "march__ridge"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__ridge",
+          "march__drain"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__drain",
+          "march__ridge"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__yard",
+          "march__vestibule"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__vestibule",
+          "march__yard"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__vestibule",
+          "march__workshop"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__workshop",
+          "march__vestibule"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__workshop",
+          "march__furnace"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__furnace",
+          "march__workshop"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__furnace",
+          "march__gallery"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__gallery",
+          "march__furnace"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__workshop",
+          "march__gallery"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__gallery",
+          "march__workshop"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__workshop",
+          "march__stores"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__stores",
+          "march__workshop"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__stores",
+          "march__stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__stair",
+          "march__stores"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__stair",
+          "march__hall"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__hall",
+          "march__stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__landing",
+          "march__hall"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__hall",
+          "march__landing"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__hall",
+          "march__kitchen"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__kitchen",
+          "march__hall"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__hall",
+          "march__sluice"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__sluice",
+          "march__hall"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__drain",
+          "march__sluice"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__sluice",
+          "march__drain"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__sluice",
+          "march__lower"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__lower",
+          "march__sluice"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__lower",
+          "march__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__crypt",
+          "march__lower"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__crypt",
+          "march__court"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__court",
+          "march__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__founders",
+          "march__chalk"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__chalk",
+          "march__founders"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "gate",
+        "args": [
+          "march__marshfang",
+          "march__causeway",
+          "march__drain"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__drain",
+          "march__causeway"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "gate",
+        "args": [
+          "march__roost",
+          "march__gallery",
+          "march__hoist"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__hoist",
+          "march__gallery"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "gate",
+        "args": [
+          "march__custodian",
+          "march__court",
+          "march__vault"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__vault",
+          "march__court"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "gate",
+        "args": [
+          "march__custodian",
+          "march__court",
+          "march__founders"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "climbingPassage",
+        "args": [
+          "march__yard",
+          "march__hoist"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "climbingPassage",
+        "args": [
+          "march__hoist",
+          "march__yard"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "climbingPassage",
+        "args": [
+          "march__crypt",
+          "march__founders"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "climbingPassage",
+        "args": [
+          "march__founders",
+          "march__crypt"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "armed",
+        "args": [
+          "march__counterweight"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "hazardEffect",
+        "args": [
+          "march__counterweight",
+          "censer_counterweight"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "warning",
+        "args": [
+          "march__counterweight",
+          "march__hoist_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "hazardPassage",
+        "args": [
+          "march__counterweight",
+          "march__hoist",
+          "march__landing"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__landing",
+          "march__hoist"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "armed",
+        "args": [
+          "march__miasma"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "hazardEffect",
+        "args": [
+          "march__miasma",
+          "censer_miasma"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "warning",
+        "args": [
+          "march__miasma",
+          "march__vapour_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "hazardPassage",
+        "args": [
+          "march__miasma",
+          "march__kitchen",
+          "march__name_room"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__name_room",
+          "march__kitchen"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "armed",
+        "args": [
+          "march__shutters"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "hazardEffect",
+        "args": [
+          "march__shutters",
+          "censer_shutters"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "warning",
+        "args": [
+          "march__shutters",
+          "march__shutter_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "hazardPassage",
+        "args": [
+          "march__shutters",
+          "march__court",
+          "march__founders"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "route",
+        "args": [
+          "march__founders",
+          "march__court"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "informedPassage",
+        "args": [
+          "march__name_room",
+          "march__crypt",
+          "march__secret_stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "informedPassage",
+        "args": [
+          "march__crypt",
+          "march__name_room",
+          "march__secret_stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "informedPassage",
+        "args": [
+          "march__chalk",
+          "march__drain",
+          "march__chalk_exit"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "informedPassage",
+        "args": [
+          "march__drain",
+          "march__chalk",
+          "march__chalk_exit"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__line_cache",
+          "ropekit"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__line_cache",
+          "march__stores"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__lantern_cache",
+          "wardedlantern"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__lantern_cache",
+          "march__name_room"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__charm_cache",
+          "march__vault"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__medicine_1",
+          "antidote"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__medicine_1",
+          "march__outfitter"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "soldBy",
+        "args": [
+          "march__medicine_1",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "forSale",
+        "args": [
+          "march__medicine_1"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__medicine_2",
+          "antidote"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__medicine_2",
+          "march__outfitter"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "soldBy",
+        "args": [
+          "march__medicine_2",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "forSale",
+        "args": [
+          "march__medicine_2"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__draught_1",
+          "healingdraught"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__draught_1",
+          "march__outfitter"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "soldBy",
+        "args": [
+          "march__draught_1",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "forSale",
+        "args": [
+          "march__draught_1"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__bearing_cache",
+          "bronzeBearing"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__bearing_cache",
+          "march__hoist"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__register_cache",
+          "register"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__register_cache",
+          "march__name_room"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "wearable",
+        "args": [
+          "ropekit"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "wearable",
+        "args": [
+          "wardedlantern"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "wearable",
+        "args": [
+          "protectivecharm"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "wearable",
+        "args": [
+          "wardblade"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "consumable",
+        "args": [
+          "antidote"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "consumable",
+        "args": [
+          "healingdraught"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__vault_purse",
+          "march__vault"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "salvage",
+        "args": [
+          "march__vault_purse"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__founders_purse",
+          "march__founders"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "salvage",
+        "args": [
+          "march__founders_purse"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__workshop_purse",
+          "march__workshop"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "salvage",
+        "args": [
+          "march__workshop_purse"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__secret_stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__lantern_letters",
+          "march__name_room"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__lantern_letters"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__lantern_letters",
+          "march__secret_stair"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__lantern_letters"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__names_survive"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__register_pages",
+          "march__names_survive"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__register_pages",
+          "march__name_room"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__register_pages"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__register_pages"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__register_pages"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__hoist_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__scored_timber",
+          "march__hoist_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__scored_timber",
+          "march__hoist"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__scored_timber"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__scored_timber"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__scored_timber"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__vapour_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__crock_label",
+          "march__vapour_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__crock_label",
+          "march__kitchen"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__crock_label"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__crock_label"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__crock_label"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__shutter_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__shutter_scratches",
+          "march__shutter_warning"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__shutter_scratches",
+          "march__court"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__shutter_scratches"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__shutter_scratches"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__shutter_scratches"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__chalk_exit"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__survey_scratches",
+          "march__chalk_exit"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__survey_scratches",
+          "march__chalk"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__survey_scratches"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__survey_scratches"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__survey_scratches"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__pell_map"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "knows",
+        "args": [
+          "march__pell",
+          "march__pell_map"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__survey_board",
+          "march__pell_map"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__survey_board",
+          "march__vestibule"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__survey_board"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__survey_board"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__survey_board"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__bearing_claim"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "knows",
+        "args": [
+          "march__edda",
+          "march__bearing_claim"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__license_copy",
+          "march__bearing_claim"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__license_copy",
+          "march__salvage"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__license_copy"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__license_copy"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__license_copy"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "established",
+        "args": [
+          "march__custodian_law"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "knows",
+        "args": [
+          "march__iven",
+          "march__custodian_law"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "reveals",
+        "args": [
+          "march__custody_notice",
+          "march__custodian_law"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "at",
+        "args": [
+          "march__custody_notice",
+          "march__shrine"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "intact",
+        "args": [
+          "march__custody_notice"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "noticeable",
+        "args": [
+          "march__custody_notice"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "mayExamine",
+        "args": [
+          "party",
+          "march__custody_notice"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "itemKind",
+        "args": [
+          "march__charm_cache",
+          "wardblade"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "fieldUsable",
+        "args": [
+          "heal"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "fieldUsable",
+        "args": [
+          "purify"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "fieldUsable",
+        "args": [
+          "minor_healing_potion"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "fieldUsable",
+        "args": [
+          "antidote_dose"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_guide",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_shield",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_lamp",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_nera_person",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_iven_person",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_edda_person",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_pell_person",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_custodian_person",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_roost_person",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_marshfang_person",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "memberOf",
+        "args": [
+          "march__member_jory_person",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "party",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__nera",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__iven",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__edda",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__pell",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__custodian",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__roost",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__marshfang",
+          "march__jory"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "distinct",
+        "args": [
+          "march__jory",
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "capable",
+        "args": [
+          "party",
+          "fellowship"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "capable",
+        "args": [
+          "party",
+          "woodcraft"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "capable",
+        "args": [
+          "party",
+          "delving"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "capable",
+        "args": [
+          "party",
+          "burial_lore"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_guide"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "march__member_guide",
+          "heal"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_shield"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_lamp"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "march__member_lamp",
+          "heal"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "march__member_lamp",
+          "purify"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "party"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_nera_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__nera"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "capable",
+        "args": [
+          "march__iven",
+          "burial_lore"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_iven_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "march__member_iven_person",
+          "heal"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "canCast",
+        "args": [
+          "march__member_iven_person",
+          "purify"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__iven"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_edda_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__edda"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "capable",
+        "args": [
+          "march__pell",
+          "delving"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_pell_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__pell"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_custodian_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__custodian"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_roost_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__roost"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_marshfang_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__marshfang"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "awake",
+        "args": [
+          "march__member_jory_person"
+        ]
+      },
+      {
+        "kind": "call",
+        "name": "able",
+        "args": [
+          "march__jory"
+        ]
+      }
+    ],
+    "measures": [
+      {
+        "call": {
+          "kind": "call",
+          "name": "encounterXp",
+          "args": [
+            "march__roost"
+          ]
+        },
+        "value": 20
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "encounterXp",
+          "args": [
+            "march__marshfang"
+          ]
+        },
+        "value": 20
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "encounterXp",
+          "args": [
+            "march__custodian"
+          ]
+        },
+        "value": 60
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "price",
+          "args": [
+            "march__medicine_1"
+          ]
+        },
+        "value": 3
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "price",
+          "args": [
+            "march__medicine_2"
+          ]
+        },
+        "value": 3
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "price",
+          "args": [
+            "march__draught_1"
+          ]
+        },
+        "value": 3
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "march__founders_purse",
+            "gold"
+          ]
+        },
+        "value": 6
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "march__workshop_purse",
+            "gold"
+          ]
+        },
+        "value": 4
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "party",
+            "gold"
+          ]
+        },
+        "value": 13
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "march__edda",
+            "gold"
+          ]
+        },
+        "value": 12
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "party",
+            "rations"
+          ]
+        },
+        "value": 5
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "march__nera",
+            "rations"
+          ]
+        },
+        "value": 7
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "march__risesAt",
+          "args": [
+            "march__flood"
+          ]
+        },
+        "value": 60
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "march__expiresAt",
+          "args": [
+            "march__permit"
+          ]
+        },
+        "value": 78
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "march__vault_purse",
+            "gold"
+          ]
+        },
+        "value": 7
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "march__marsh_cress",
+            "rations"
+          ]
+        },
+        "value": 1
+      },
+      {
+        "call": {
+          "kind": "call",
+          "name": "quantity",
+          "args": [
+            "march__hazel_patch",
+            "rations"
+          ]
+        },
+        "value": 1
+      }
+    ]
+  },
+  "outcomes": {
+    "march.surveyor_home": false,
+    "march.names_recovered": false,
+    "march.custody_respected": false,
+    "march.guardian_destroyed": false,
+    "march.secret_stair_known": false,
+    "march.deep_return_route": false,
+    "march.salvagers_withdrawn": false,
+    "march.water_risen": false
+  }
+}

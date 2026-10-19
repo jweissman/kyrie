@@ -1,0 +1,32 @@
+[
+  {
+    "name": "valve-and-rescue",
+    "commands": 24,
+    "fullCanonicalBrowserCliEqual": true,
+    "saveResumeEqual": true
+  },
+  {
+    "name": "risk-and-violence",
+    "commands": 15,
+    "fullCanonicalBrowserCliEqual": true,
+    "saveResumeEqual": true
+  },
+  {
+    "name": "retreat",
+    "commands": 5,
+    "fullCanonicalBrowserCliEqual": true,
+    "saveResumeEqual": true
+  },
+  {
+    "name": "careful",
+    "totalPurseCoins": 28,
+    "currencyConserved": true,
+    "itemInstancesUnique": true
+  },
+  {
+    "name": "violent",
+    "totalPurseCoins": 28,
+    "currencyConserved": true,
+    "itemInstancesUnique": true
+  }
+]

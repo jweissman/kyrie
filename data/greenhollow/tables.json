@@ -1,0 +1,272 @@
+{
+  "marchCompany": {
+    "discriminator": "company",
+    "groups": {
+      "fellowship": [
+        {
+          "id": "guide",
+          "context": {
+            "name": "Elen",
+            "raceId": "elf",
+            "classId": "ranger",
+            "backgroundId": "forager",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "shield",
+          "context": {
+            "name": "Bran",
+            "raceId": "human",
+            "classId": "fighter",
+            "backgroundId": "surveyor",
+            "level": 2
+          },
+          "gold": 0
+        },
+        {
+          "id": "lamp",
+          "context": {
+            "name": "Dori",
+            "raceId": "dwarf",
+            "classId": "orsino_life_cleric",
+            "backgroundId": "pilgrim",
+            "level": 2
+          },
+          "gold": 0
+        }
+      ]
+    }
+  },
+  "marchControllers": {
+    "discriminator": "role",
+    "groups": {
+      "player": [
+        {
+          "id": "party",
+          "members": [
+            "guide",
+            "shield",
+            "lamp"
+          ],
+          "player": true,
+          "horizon": 4,
+          "actions": [
+            "*"
+          ],
+          "goals": []
+        }
+      ]
+    }
+  },
+  "settlementName": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "Greenhollow",
+        "Alderford",
+        "Willowmead"
+      ],
+      "woodland": [
+        "Saltpine",
+        "Pinehaven",
+        "Greybough"
+      ]
+    }
+  },
+  "regionName": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "The Alder Vale",
+        "Greenhollow Vale"
+      ],
+      "woodland": [
+        "The Saltpine Reach",
+        "Greybough Uplands"
+      ]
+    }
+  },
+  "population": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "human",
+        "human",
+        "elf",
+        "goblin"
+      ],
+      "woodland": [
+        "dwarf",
+        "elf",
+        "human",
+        "dwarf"
+      ]
+    }
+  },
+  "householder": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "Maren",
+        "Tala",
+        "Lysa"
+      ],
+      "woodland": [
+        "Orrin",
+        "Sela",
+        "Durn"
+      ]
+    }
+  },
+  "warden": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "Cira",
+        "Halden"
+      ],
+      "woodland": [
+        "Voss",
+        "Edda"
+      ]
+    }
+  },
+  "supply": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        7,
+        8,
+        9
+      ],
+      "woodland": [
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  "weatherDeadline": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        60,
+        66,
+        72
+      ],
+      "woodland": [
+        36,
+        42,
+        48
+      ]
+    }
+  },
+  "relic": {
+    "discriminator": "origin",
+    "groups": {
+      "archive": [
+        "protectivecharm",
+        "wardblade"
+      ]
+    }
+  },
+  "habitatPlant": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "yarrow",
+        "yarrow",
+        "alder"
+      ],
+      "meadow": [
+        "yarrow"
+      ],
+      "woodland": [
+        "yarrow"
+      ],
+      "marsh": [
+        "alder"
+      ]
+    }
+  },
+  "habitatAnimal": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "otter",
+        "otter",
+        "reddeer"
+      ],
+      "meadow": [
+        "reddeer"
+      ],
+      "woodland": [
+        "reddeer",
+        "greywolf"
+      ],
+      "marsh": [
+        "otter"
+      ]
+    }
+  },
+  "terrainConstraint": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        {
+          "name": "denied",
+          "args": [
+            "party",
+            "street",
+            "ferry"
+          ]
+        }
+      ],
+      "woodland": [
+        {
+          "name": "denied",
+          "args": [
+            "party",
+            "wood",
+            "ferry"
+          ]
+        }
+      ]
+    }
+  },
+  "habitatName": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "Alder floodplain"
+      ],
+      "woodland": [
+        "Pine-and-yarrow upland"
+      ]
+    }
+  },
+  "hamletName": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "The Lower Ferry"
+      ],
+      "woodland": [
+        "Grey Pass waystation"
+      ]
+    }
+  },
+  "approachName": {
+    "discriminator": "biome",
+    "groups": {
+      "riverbank": [
+        "Alderbank towpath"
+      ],
+      "woodland": [
+        "The pine-root track"
+      ]
+    }
+  }
+}

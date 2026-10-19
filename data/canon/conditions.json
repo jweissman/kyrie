@@ -1,0 +1,89 @@
+{
+  "about": "Conditions: states applied to a creature for a while (or until removed). damage is periodic damage of damageType each tick of its clock; skip means the creature cannot act. Permanent properties are traits, not conditions.",
+  "conditions": {
+    "poisoned": {
+      "name": "Poisoned",
+      "description": "Poison works through the body, hurting a little at a time until it is cured.",
+      "damage": 2,
+      "skip": false,
+      "armor": 0,
+      "power": 0,
+      "lifetime": "persistent",
+      "damageType": "poison"
+    },
+    "stunned": {
+      "name": "Stunned",
+      "description": "Dazed and unable to act.",
+      "damage": 0,
+      "skip": true,
+      "armor": 0,
+      "power": 0,
+      "lifetime": "encounter"
+    },
+    "warded": {
+      "name": "Warded",
+      "description": "A ward turns aside part of each blow.",
+      "damage": 0,
+      "skip": false,
+      "armor": 2,
+      "power": 0,
+      "lifetime": "encounter"
+    },
+    "blessed": {
+      "name": "Blessed",
+      "description": "Blows land harder for a while.",
+      "damage": 0,
+      "skip": false,
+      "armor": 0,
+      "power": 2,
+      "lifetime": "encounter"
+    },
+    "weakened": {
+      "name": "Weakened",
+      "description": "Blows land softer until the weakness passes or is treated.",
+      "damage": 0,
+      "skip": false,
+      "armor": 0,
+      "power": -1,
+      "lifetime": "persistent"
+    },
+    "bleeding": {
+      "name": "Bleeding",
+      "description": "A wound that keeps bleeding until it is bound.",
+      "damage": 1,
+      "skip": false,
+      "armor": 0,
+      "power": 0,
+      "lifetime": "persistent"
+    },
+    "fireproof": {
+      "name": "Fireproof",
+      "description": "Fire does half its harm.",
+      "damage": 0,
+      "skip": false,
+      "armor": 0,
+      "power": 0,
+      "lifetime": "persistent",
+      "resistances": {
+        "fire": 0.5
+      },
+      "stacking": "source-refresh",
+      "source": {
+        "orsino": "status:fireproof",
+        "fidelity": "faithful",
+        "notes": "Exact 50% fire resistance. How long it lasts is set by the ability or item that applies it."
+      }
+    },
+    "wayfarer_guard": {
+      "name": "Wayfarer's guard",
+      "description": "Veyra watches over the traveller: saves come easier.",
+      "damage": 0,
+      "skip": false,
+      "armor": 0,
+      "power": 0,
+      "save": 2,
+      "lifetime": "persistent",
+      "stacking": "source-refresh"
+    }
+  }
+}

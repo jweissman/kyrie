@@ -1,0 +1,34 @@
+Module world_services "Lodging, goods and camping" {
+  Kind service. Kind servicekind.
+  Entity lodging: servicekind "Lodging". Entity healing: servicekind "Healing". Entity passage_fare: servicekind "Passage".
+  Relation offers(group, service). Relation serviceOf(service, servicekind). Relation sells(group, good).
+  Measure fee(service). Measure goodsPrice(group, good).
+  Goal false.
+  Action take_lodging(actor: group, host: group, service: service, site: place) "Take {service} from {host}" {
+    Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
+      and not refusesService(host, actor) and offers(host, service) and serviceOf(service, lodging) and quantity(actor, gold) >= fee(service).
+    Time 48. Resolve recover(actor).
+    On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service).
+      Retract hungry(actor). Increase nextMeal(actor) by 144. }
+    Result "You eat a hot supper and sleep eight hours in a dry bed.".
+  }
+  Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}" {
+    Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)
+      and not refusesService(healer, actor) and offers(healer, service) and serviceOf(service, healing) and quantity(actor, gold) >= fee(service).
+    Time 6. Resolve recover(actor).
+    On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service). }
+    Result "{healer} cleans and dresses every wound in the company.".
+  }
+  Action buy_goods(actor: group, seller: group, goods: good, site: place) "Buy one {goods} from {seller}" {
+    Requires able(actor) and able(seller) and distinct(actor, seller) and at(actor, site) and at(seller, site)
+      and not refusesService(seller, actor) and sells(seller, goods) and quantity(seller, goods) >= 1 and quantity(actor, gold) >= goodsPrice(seller, goods).
+    On success { Decrease quantity(actor, gold) by goodsPrice(seller, goods). Increase quantity(seller, gold) by goodsPrice(seller, goods).
+      Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1. }
+    Result "{seller} counts the coins and hands over one {goods}.".
+  }
+  Action camp(actor: group, site: place) "Make camp at {site}" {
+    Requires able(actor) and at(actor, site) and not indoors(site) and not settled(site) and not hungry(actor).
+    Time 48. Resolve rough(actor).
+    Result "You find what shelter there is, and sleep in turns.".
+  }
+}

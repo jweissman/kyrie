@@ -1,0 +1,21 @@
+Module affinities "Recognized company and receptive wildlife" {
+  Kind capability.
+  Relation capable(group, capability).
+  Relation recognizes(group, capability).
+  Relation receptive(group, capability).
+  Goal false.
+  Action request_passage(actor: group, keeper: group, identity: capability, site: place) "Request passage from {keeper} as {identity}" {
+    Result "You invoke the compact. The keeper honors your company\u2019s standing and grants passage.".
+    Description "Invoke a company identity this keeper has explicitly agreed to honor. This is not general persuasion.".
+    Requires able(actor) and able(keeper) and distinct(actor, keeper) and at(actor, site) and at(keeper, site)
+      and recognizes(keeper, identity) and capable(actor, identity) and not released(keeper).
+    On success { Assert released(keeper). }
+  }
+  Action approach_wildlife(actor: group, animal: group, skill: capability, site: place) "Approach {animal} using {skill}" {
+    Result "You read the animal\u2019s signals and approach without provoking it. The guarded route is now available.".
+    Description "Read the signals of an explicitly receptive animal and pass without provoking it. Hostile animals cannot be approached this way.".
+    Requires able(actor) and able(animal) and distinct(actor, animal) and at(actor, site) and at(animal, site)
+      and receptive(animal, skill) and capable(actor, skill) and not hostile(animal, actor) and not released(animal).
+    On success { Assert released(animal). }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "Serewater March \u00b7 Client study",
+  "modules": [
+    {
+      "id": "censer",
+      "bundle": "module.json"
+    }
+  ]
+}

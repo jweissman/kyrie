@@ -1,0 +1,31 @@
+# Publishes the static browser workbench to GitHub Pages. Kyrie depends on DEEM as a sibling checkout
+# (package.json: "deem": "file:../deem"); set the repository variable DEEM_REPOSITORY (owner/name).
+name: Pages
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: actions/checkout@v4
+        with: { repository: '${{ vars.DEEM_REPOSITORY }}', path: deem }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install
+        working-directory: deem
+      - run: bun install && bun test test/browser-parity.test.ts test/play-session.test.ts && bun run web:build
+        working-directory: kyrie
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: kyrie/site }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.deployment.outputs.page_url }}' }
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

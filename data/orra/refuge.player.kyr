@@ -1,0 +1,15 @@
+Module refuge_player "Life at the refuge" {
+  Initially Assert restful(porch).
+  Topic mere_concern with mere "Ask Mere what she is trying to protect" when not knows(mere, runoff) {
+    Says "Mere turns the key in her hand. 'I promised these families shelter. One child is ill and Ys has vanished. I suspect Tamsin, but shutting her kiln would leave everyone cold. Show me why I am wrong: Ys left an analysis by the spring, and the kiln has a firing ledger. If they clear her, I will hear it. You can also visit the tower; I cannot order you to help.'".
+  }
+  Topic mere_admission with mere "Ask Mere what the evidence changes" when knows(mere, runoff) {
+    Says "'I accused someone I should have protected,' Mere says. 'I will open the guest house and stop the draft. That costs us warmth, but I cannot keep poisoning the spring. Ys may know a way forward. Help her if you can; I cannot bring back the water we already lost.'".
+  }
+  Topic tamsin_promise with tamsin "Ask Tamsin why she stayed" when able(tamsin) {
+    Says "'Ys trusted me with her letter. I stayed because I thought she would come home to explain. Now they call that proof I was hiding something. Read it, or ask me about it. I want my work back without being blamed for old magic. I know how to tend a fire, not how to judge old magic.'".
+  }
+  Observe rest_offer at porch when true "Spare pallets and a cookpot offer six hours of recovery here for one shared ration. You may stop, but the outside world will not wait. Recovery restores living companions' health and mana and treats bleeding; it does not reverse death or purge poison.".
+  Observe cleared_square at green when knows(mere, runoff) and not spoiled(green) "The spring runs clear and the accusation against Tamsin has been withdrawn. The refuge is colder after the kiln stopped. The northern track leads toward the trappers' camp; the watchtower still holds whatever this company has left unresolved. You can prepare at the refuge, speak to Ys if she has returned, or choose a fresh expedition.".
+  Goal false.
+}

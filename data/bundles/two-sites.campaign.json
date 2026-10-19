@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "Crossing and wayside pantry",
+  "modules": [
+    {"id":"crossing","bundle":"crossing.module.json"},
+    {"id":"pantry","bundle":"pantry.module.json","imports":{
+      "party":"crossing.party","gold":"crossing.gold","rations":"crossing.rations","clock":"crossing.clock",
+      "road":"crossing.exit","watcher":"crossing.guard"
+    }}
+  ]
+}

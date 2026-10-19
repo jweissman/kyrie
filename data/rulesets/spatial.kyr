@@ -1,0 +1,35 @@
+Module spatial_rules "Physical places, thresholds and keys" {
+  Kind passage. Kind door.
+  Relation doorHere(door, place).
+  Relation openedDoor(door).
+  Relation lockedDoor(door).
+  Relation keyFor(item, door).
+  Relation pickableDoor(door).
+  Relation searched(group, place).
+  Relation discoverable(place, fact).
+  Relation inside(entity, entity) exclusive.
+  Goal false.
+  Action open_door(actor: group, door: door, site: place) "Open {door}" {
+    Requires able(actor) and at(actor, site) and doorHere(door, site) and not lockedDoor(door) and not openedDoor(door).
+    On success { Assert openedDoor(door). }
+    Result "You open the door. The threshold is now passable from either side.".
+  }
+  Action close_door(actor: group, door: door, site: place) "Close {door}" {
+    Requires able(actor) and at(actor, site) and doorHere(door, site) and openedDoor(door).
+    On success { Retract openedDoor(door). }
+    Result "You close the door. It remains unlocked.".
+  }
+  Action unlock_door(actor: group, door: door, key: item, carrier: member, site: place) "Unlock {door} with {key}" {
+    Requires able(actor) and at(actor, site) and doorHere(door, site) and lockedDoor(door)
+      and keyFor(key, door) and ownedItem(key, carrier) and memberOf(carrier, actor) and awake(carrier).
+    On success { Retract lockedDoor(door). }
+    Result "The carried key turns in the lock. The door is unlocked but still closed; the key stays with its owner.".
+  }
+  Action pick_door(actor: group, door: door, site: place) "Pick the lock on {door}" {
+    Requires able(actor) and at(actor, site) and doorHere(door, site) and lockedDoor(door)
+      and pickableDoor(door) and capable(actor, delving).
+    Time 3.
+    On success { Retract lockedDoor(door). }
+    Result "The delver works the simple lock open. This takes half an hour and does not open the door itself.".
+  }
+}

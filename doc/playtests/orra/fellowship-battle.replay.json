@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "scenario": "data/orra/fellowship.campaign.json",
+  "seed": "orra",
+  "steps": [
+    {
+      "command": "travel(tower__moor)"
+    },
+    {
+      "command": "give_food(tower__wolf)"
+    },
+    {
+      "command": "wait"
+    },
+    {
+      "command": "cross(tower__wolf,tower__cairn)"
+    },
+    {
+      "command": "attack(tower__hart)",
+      "combat": [
+        {
+          "actor": "refuge__shield",
+          "ability": "wounding_blow",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__guide",
+          "ability": "ambush",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__guide",
+          "ability": "heal",
+          "target": "refuge__shield"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "heal",
+          "target": "refuge__shield"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "wounding_blow",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__guide",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "cleave",
+          "target": "refuge__shield"
+        },
+        {
+          "actor": "refuge__guide",
+          "ability": "ambush",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "heal",
+          "target": "refuge__shield"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__guide",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "heal",
+          "target": "refuge__shield"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "wounding_blow",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__guide",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__lamp",
+          "ability": "attack",
+          "target": "tower__warden"
+        },
+        {
+          "actor": "refuge__shield",
+          "ability": "attack",
+          "target": "tower__warden"
+        }
+      ]
+    }
+  ],
+  "complete": true
+}

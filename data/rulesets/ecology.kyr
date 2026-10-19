@@ -1,0 +1,24 @@
+Module ecology "Habitat signs and finite herbal gathering" {
+  Kind species.
+  Relation habitatSpecies(place, species).
+  Relation signsOf(place, species).
+  Relation recognized(group, species).
+  Relation harvestable(item, species).
+  Goal false.
+  Action identify_species(actor: group, life: species, site: place) "Read the signs of {life}" {
+    Description "A living woodcraft specialist identifies an authored species from signs in its declared habitat. This is identification, not a simulation of an ecosystem.".
+    Requires able(actor) and at(actor, site) and habitatSpecies(site, life) and signsOf(site, life)
+      and capable(actor, woodcraft) and not recognized(actor, life).
+    On success { Assert recognized(actor, life). }
+    Result "Your trail-wise companion identifies the species from its signs. Suitable resources here can now be gathered carefully.".
+  }
+  Action gather_herb(actor: group, herb: item, life: species, form: itemkind, recipient: member, site: place) "Gather {herb} for {recipient}" {
+    Description "Collect a finite, authored herbal preparation. It does not regrow merely because you leave.".
+    Requires able(actor) and at(actor, site) and habitatSpecies(site, life) and recognized(actor, life)
+      and harvestable(herb, life) and at(herb, site) and itemKind(herb, form)
+      and memberOf(recipient, actor) and awake(recipient) and capable(actor, woodcraft).
+    Resolve acquire(herb, form, recipient).
+    On success { Retract at(herb, site). }
+    Result "You gather and dress the usable stems into one poultice. The patch is depleted; its preparation is now a real, single-use carried item.".
+  }
+}

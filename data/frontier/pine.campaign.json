@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "name": "Saint Orra \u2014 Ash and Silver",
+  "modules": [
+    {
+      "id": "refuge",
+      "bundle": "../orra/refuge.player.module.json",
+      "context": {
+        "company": "fellowship"
+      }
+    },
+    {
+      "id": "tower",
+      "bundle": "../orra/tower.player.module.json",
+      "imports": {
+        "green": "refuge.green",
+        "kiln": "refuge.kiln",
+        "furnace": "refuge.furnace",
+        "crawl": "refuge.crawl",
+        "party": "refuge.party",
+        "gold": "refuge.gold",
+        "rations": "refuge.rations",
+        "clock": "refuge.clock",
+        "fellowship": "refuge.fellowship",
+        "woodcraft": "refuge.woodcraft"
+      }
+    },
+    {
+      "id": "margin",
+      "bundle": "module.json",
+      "imports": {
+        "village": "refuge.green"
+      },
+      "context": {
+        "biome": "pine",
+        "pace": "urgent"
+      }
+    }
+  ]
+}

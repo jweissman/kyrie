@@ -1,0 +1,24 @@
+Module trapped_traveler "A traveler pinned beneath an obstruction" {
+  Description "A living traveler is trapped by a physical obstruction. Freeing them and getting them home are separate accomplishments; neither creates a route nor teleports the traveler.".
+  Entity guest: group "The trapped traveler".
+  Entity captive_room: place "The place of confinement".
+  Entity safe_home: place "The traveler's safe destination".
+  Entity restraint: mechanism "The fallen obstruction".
+  Entity party: group "The company".
+  Entity gold: good "Coin". Entity rations: good "Shared ration". Entity clock: clock "Campaign clock".
+  Entity woodcraft: capability "Woodcraft". Entity delving: capability "Delving".
+  Entity burial_lore: capability "Burial lore". Entity ropekit: itemkind "Climbing kit".
+  Topic pinned_request with guest "Ask the trapped traveler what happened" when trapped(guest) {
+    Says "'The load shifted and caught me. The obstruction can be levered aside. After that I need company along an actual safe route home; I cannot follow you if you simply walk away.'".
+  }
+  Topic freed_request with guest "Ask the freed traveler what they need" when rescued(guest) and not at(guest, safe_home) {
+    Says "'I can walk now. Escort me along the open ways, one place at a time. I will wait here if you go on without me.'".
+  }
+  Topic safe_return with guest "Speak with the traveler after returning" when rescued(guest) and at(guest, safe_home) {
+    Says "'You came back with me instead of just shifting the debris. I will remember that.' The journey home is a lasting fact, not the end of the campaign.".
+  }
+  Observe pinned at captive_room when trapped(guest) and able(guest) "A traveler is pinned beneath a fallen obstruction. You can reach and speak to them. Moving the weight will free them; escorting them to safety will still require a traversable route.".
+  Observe waiting at captive_room when rescued(guest) and at(guest, captive_room) and able(guest) "The obstruction has been shifted. The traveler is free and waiting here. They will not teleport home or follow a company that leaves without escorting them.".
+  Observe homecoming at safe_home when rescued(guest) and at(guest, safe_home) and able(guest) "The rescued traveler has reached safety and remains here. The place where they were trapped stays changed.".
+  Goal rescued(guest) and at(guest, safe_home).
+}

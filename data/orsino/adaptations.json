@@ -1,0 +1,1337 @@
+{
+  "about": "Which Kyr definitions represent each Orsino registry entry, and how far. support: represented (typed Kyr equivalent, some mechanics omitted), executable (every source mechanic runs through canonical Kyr systems or has a declared adaptation), play-validated (exercised in real play; evidence is file#text that must appear in that file). Every feature Kyr judges unsupported must be listed under omits or adapts. Checked by test/orsino-registry.test.ts.",
+  "records": [
+    {
+      "orsino": "background:hunter",
+      "kyr": [
+        "background:hunter"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact Dex +2, Wis +1, Con +1 and the ranger requirement; 15 gold becomes 2 coin.",
+      "adds": [
+        "woodcraft skill (approach and calm animals)",
+        "a coil of rope"
+      ],
+      "evidence": [
+        "test/caught-below.test.ts#change_thing(world__hound_soothe)",
+        "data/caught-below/river.campaign.json#\"backgroundId\": \"hunter\""
+      ]
+    },
+    {
+      "orsino": "background:medic",
+      "kyr": [
+        "background:medic",
+        "item:bandages",
+        "item:herbs"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact Wis +2, Int +2 and the cleric requirement. Orsino's starting gear names bandages and herbs, which are absent from its own gear catalog; Kyr defines them.",
+      "adds": [
+        "mending skill (set bones, bind wounds)"
+      ],
+      "evidence": [
+        "test/caught-below.test.ts#rescue__set_leg(party,world__gallery)",
+        "data/caught-below/river.campaign.json#\"backgroundId\": \"medic\""
+      ]
+    },
+    {
+      "orsino": "background:locksmith",
+      "kyr": [
+        "background:locksmith"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact Dex +4, Int +2; 40 gold becomes 4 coin.",
+      "adds": [
+        "lockwork skill",
+        "thieves' tools from Orsino's gear catalog"
+      ],
+      "evidence": [
+        "test/caught-below.test.ts#change_thing(world__padlock_pick)",
+        "data/caught-below/river.campaign.json#\"backgroundId\": \"locksmith\""
+      ]
+    },
+    {
+      "orsino": "background:explorer",
+      "kyr": [
+        "background:explorer",
+        "item:map"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Dex +2, Wis +1 and the ranger requirement. The map is Orsino starting gear absent from its gear catalog.",
+      "adds": [
+        "wayfinding skill: the company knows the region's roads before walking them"
+      ]
+    },
+    {
+      "orsino": "background:miner",
+      "kyr": [
+        "background:miner"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Con +2, Str +1.",
+      "adds": [
+        "digging skill",
+        "a shovel from Orsino's gear catalog"
+      ]
+    },
+    {
+      "orsino": "background:innkeeper",
+      "kyr": [
+        "background:innkeeper"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact Cha +2, Wis +1. Used as a profession: Kyr adds a lodging offer and a routine of keeping the inn.",
+      "adds": [
+        "lodging offer",
+        "routine"
+      ],
+      "evidence": [
+        "data/sites/reedwake/site.kyr#Profession innkeeper",
+        "test/expedition.test.ts#innkeeper"
+      ]
+    },
+    {
+      "orsino": "background:herbalist",
+      "kyr": [
+        "background:herbalist"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact Wis +2, Int +1. Used as a profession.",
+      "adds": [
+        "mending skill",
+        "routine"
+      ],
+      "evidence": [
+        "data/sites/reedwake/site.kyr#Profession herbalist"
+      ]
+    },
+    {
+      "orsino": "background:priest",
+      "kyr": [
+        "background:priest"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Wis +3, Cha +2. Used as a profession.",
+      "adds": [
+        "healing offer",
+        "routine"
+      ]
+    },
+    {
+      "orsino": "background:boatman",
+      "kyr": [
+        "background:boatman"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Str +2, Con +1. Used as a profession with a routine only; Kyr has no ferry service yet.",
+      "adds": [
+        "routine"
+      ]
+    },
+    {
+      "orsino": "gear:rope",
+      "kyr": [
+        "item:rope"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Orsino's rope has a description and price only. Kyr gives it meaning through passage requirements.",
+      "evidence": [
+        "data/sites/reedwake/site.kyr#Sells rope"
+      ]
+    },
+    {
+      "orsino": "gear:crowbar",
+      "kyr": [
+        "item:crowbar"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Kyr gives it meaning: it opens obstacles that need a bar.",
+      "evidence": [
+        "data/situations/caught-below/situation.kyr#holding(actor, crowbar)",
+        "test/caught-below.test.ts#levering frees them"
+      ]
+    },
+    {
+      "orsino": "gear:thieves_tools",
+      "kyr": [
+        "item:thieves_tools"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Starting gear of the locksmith overlay; the lockwork skill does the work."
+    },
+    {
+      "orsino": "gear:shovel",
+      "kyr": [
+        "item:shovel"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Starting gear of the miner overlay; the digging skill does the work."
+    },
+    {
+      "orsino": "equipment:longsword_of_flames",
+      "kyr": [
+        "item:longsword_of_flames",
+        "ability:flame_strike"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact 1d8 piercing and 1d6 fire. One Kyr attack roll gates both components; Kyr accuracy and criticals are not Orsino THAC0.",
+      "adapts": {
+        "modifier:onAttackHit": "The on-hit fire rider is a second damage component gated by the same attack roll.",
+        "target:target": "The rider strikes the struck target."
+      },
+      "evidence": [
+        "data/sites/reedwake/site.kyr#is longsword_of_flames at boiler",
+        "doc/playtests/command-contract/trace.json#orsino_flame_strike"
+      ]
+    },
+    {
+      "orsino": "equipment:longsword_of_flames",
+      "kyr": [
+        "item:longsword_of_flames_autohit",
+        "ability:orsino_flame_blade"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Compatibility variant kept for recorded histories: the same dice, but no attack roll and legacy per-component mitigation. Quarantined in data/legacy.",
+      "adapts": {
+        "modifier:onAttackHit": "The fire rider is a second damage component of the same automatic strike.",
+        "target:target": "The rider strikes the struck target."
+      }
+    },
+    {
+      "orsino": "consumable:minor_healing_potion",
+      "kyr": [
+        "item:healingdraught"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact 2d4+2 healing to a living self or ally. Kyr price and consumption.",
+      "evidence": [
+        "test/shared-item-effects.test.ts#healingdraught"
+      ]
+    },
+    {
+      "orsino": "consumable:antidote",
+      "kyr": [
+        "item:antidote"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Orsino removes the status named Poison; Kyr removes its poisoned condition.",
+      "evidence": [
+        "test/shared-item-effects.test.ts#antidote"
+      ]
+    },
+    {
+      "orsino": "divineSpell:luminous_touch",
+      "kyr": [
+        "ability:luminous_touch"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact 1d2 + level healing to self or ally. Kyr mana cost replaces Orsino spell slots."
+    },
+    {
+      "orsino": "divineSpell:cure_minor",
+      "kyr": [
+        "ability:cure_minor"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Kyr mana cost replaces Orsino spell slots."
+    },
+    {
+      "orsino": "monsterClass:dragon",
+      "kyr": [
+        "species:red_dragon",
+        "species:dragon"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Stat line, stat base, terrain, aspect and type overlays and hit points are composed by OrsinoMonsters exactly as the monster template computes them (red, Dragon type, wildtype, mountain, minor rank, level 1): Str 35, Dex 28, Con 32, Int 29, Wis 27, Cha 31, 99 HP. Kyr's statMod reads those scores.",
+      "omits": {
+        "field:monsterNaturalArmor": "Scale armour gives Orsino AC 4; Kyr has no armour class yet.",
+        "field:monsterAttacksPerTurn": "Orsino dragons attack three times a turn; a Kyr creature acts once per turn.",
+        "field:monsterGold": "The 10d100 gold hoard is not placed; the lair holds only authored items.",
+        "field:monsterTraits": "Partly. Formidable is a passive trait (without its toHit). Flying is not attached: its only effects, evasion and toHit, have no Kyr meaning yet.",
+        "field:monsterAbilities": "Partly. Melee with the colour's breath weapon becomes orsino_fire_breath. Maul (slow's attribute, initiative and extra-attack penalties; dice-based bleeding) and flight (an arcane spell) are not given."
+      },
+      "evidence": [
+        "data/situations/dragon-roost/situation.kyr#Species red_dragon"
+      ]
+    },
+    {
+      "orsino": "monsterType:Dragon",
+      "kyr": [
+        "species:red_dragon",
+        "species:dragon"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "The type's attribute overlay (+6 Str, +4 Dex, +5 Con, +4 Int, +3 Wis, +5 Cha) is part of the composed stat line.",
+      "omits": {
+        "field:monsterTypeAbilities": "Flight and maul are not given; see monsterClass:dragon."
+      }
+    },
+    {
+      "orsino": "dragonColor:red",
+      "kyr": [
+        "species:red_dragon",
+        "ability:fire_breath"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "The red colour's fire_breath replaces the bite, as the template's overlay does. Its description is the kind's description.",
+      "evidence": [
+        "doc/playtests/red-crag/fire.trace.json#fire_breath"
+      ]
+    },
+    {
+      "orsino": "weapon:fire_breath",
+      "kyr": [
+        "ability:fire_breath"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact 4d6 fire. Orsino fires it at one target through melee with an attack roll and no save. Kyr breathes it over every opponent with one shared roll, a breath-category save (Orsino's Constitution-based category, its modifiers and immunity) against 15 + the dragon's level (Orsino's default debuff difficulty) for half, and a three-turn recharge. Fire released this way exposes the place to fire.",
+      "evidence": [
+        "doc/playtests/red-crag/fire.trace.json#\"kind\": \"breath\"",
+        "doc/playtests/red-crag/fire.md#bridge"
+      ]
+    },
+    {
+      "orsino": "weapon:bite",
+      "kyr": [
+        "ability:bite"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact 1d6 piercing plus the attacker's positive strength modifier, as Orsino's melee damage bonus adds. The dragon bites while its breath rekindles: a Kyr adaptation, since Orsino's coloured dragons carry their breath weapon instead. Accuracy is a Kyr typed attack against 10, not THAC0 against armour class.",
+      "evidence": [
+        "doc/playtests/red-crag/fire.trace.json#\"ability\": \"bite\""
+      ]
+    },
+    {
+      "orsino": "trait:formidable",
+      "kyr": [
+        "trait:formidable"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Translated by OrsinoStatuses: +2 will saves, 10% bludgeoning, piercing and slashing resistance, bonusDamage 3 as Kyr power. The resistances apply to those typed subtypes; legacy untyped physical damage is not resisted.",
+      "omits": {
+        "modifier:toHit": "No Kyr attack bonus from statuses yet."
+      }
+    },
+    {
+      "orsino": "trait:fire_affinity",
+      "kyr": [
+        "trait:fire_affinity"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Translated by OrsinoStatuses: 50% fire resistance, cold vulnerability (-1), immunity to breath saves. Not yet given to any creature in play."
+    },
+    {
+      "orsino": "gear:bell",
+      "kyr": [
+        "item:bell"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Orsino's bell is a signalling tool with a price. In the Red Crag it is the stolen chapel bell.",
+      "evidence": [
+        "data/situations/dragon-roost/situation.kyr#is bell at lair",
+        "doc/playtests/red-crag/tribute.md#chapel bell"
+      ]
+    },
+    {
+      "orsino": "rule.saveKind:poison",
+      "kyr": [
+        "save:poison"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:disease",
+      "kyr": [
+        "save:disease"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:death",
+      "kyr": [
+        "save:death"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:magic",
+      "kyr": [
+        "save:magic"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:insanity",
+      "kyr": [
+        "save:insanity"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:charm",
+      "kyr": [
+        "save:charm"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:fear",
+      "kyr": [
+        "save:fear"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:stun",
+      "kyr": [
+        "save:stun"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:will",
+      "kyr": [
+        "save:will"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:breath",
+      "kyr": [
+        "save:breath"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod.",
+      "evidence": [
+        "doc/playtests/red-crag/fire.trace.json#\"kind\": \"breath\""
+      ]
+    },
+    {
+      "orsino": "rule.saveKind:paralyze",
+      "kyr": [
+        "save:paralyze"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:sleep",
+      "kyr": [
+        "save:sleep"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:bleed",
+      "kyr": [
+        "save:bleed"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:reflex",
+      "kyr": [
+        "save:reflex"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.saveKind:fortitude",
+      "kyr": [
+        "save:fortitude"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod."
+    },
+    {
+      "orsino": "rule.damageKind:acid",
+      "kyr": [
+        "damage:acid"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:bludgeoning",
+      "kyr": [
+        "damage:bludgeoning"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:cold",
+      "kyr": [
+        "damage:cold"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:fire",
+      "kyr": [
+        "damage:fire"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll.",
+      "evidence": [
+        "doc/playtests/red-crag/fire.trace.json#\"damageType\": \"fire\""
+      ]
+    },
+    {
+      "orsino": "rule.damageKind:force",
+      "kyr": [
+        "damage:force"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:lightning",
+      "kyr": [
+        "damage:lightning"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:necrotic",
+      "kyr": [
+        "damage:necrotic"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:piercing",
+      "kyr": [
+        "damage:piercing"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll.",
+      "evidence": [
+        "doc/playtests/red-crag/fire.trace.json#\"damageType\": \"piercing\""
+      ]
+    },
+    {
+      "orsino": "rule.damageKind:poison",
+      "kyr": [
+        "damage:poison"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:psychic",
+      "kyr": [
+        "damage:psychic"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:radiant",
+      "kyr": [
+        "damage:radiant"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:slashing",
+      "kyr": [
+        "damage:slashing"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:sonic",
+      "kyr": [
+        "damage:sonic"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll."
+    },
+    {
+      "orsino": "rule.damageKind:true",
+      "kyr": [
+        "damage:true"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Ignores resistance and flat armor."
+    },
+    {
+      "orsino": "status:fireproof",
+      "kyr": [
+        "condition:fireproof",
+        "ability:resist_fire",
+        "ability:fire_ward",
+        "item:fireproof_salve",
+        "item:warding_focus"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact 50% fire resistance. Duration and clock are set by what applies it.",
+      "evidence": [
+        "test/command-contract.test.ts#fireproof",
+        "data/sites/thrale/site.kyr#fireproof_salve"
+      ]
+    },
+    {
+      "orsino": "divineSpell:resist_fire",
+      "kyr": [
+        "ability:resist_fire"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Life-domain level-2 spell: apply fireproof to an ally. Kyr: ten of the recipient's combat turns, two mana instead of a spell slot. Granted by the vitalist specialization from level 3."
+    },
+    {
+      "orsino": "trait:vitalist",
+      "kyr": [
+        "trait:vitalist"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Cleric specialization in the life domain: spell access by domain and castable level, as Orsino's school/domain trait does. Orsino's pick-three-spells creation choice is replaced by every executable spell of the domain."
+    },
+    {
+      "orsino": "weapon:slam",
+      "kyr": [
+        "ability:slam"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact 1d6 and Orsino's piercing type (sic) plus the positive strength modifier; Kyr attack roll against 10."
+    },
+    {
+      "orsino": "ability:smash",
+      "kyr": [
+        "ability:smash"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Exact 2d6 + level bludgeoning, no attack roll, as in Orsino."
+    },
+    {
+      "orsino": "ancestry:human",
+      "kyr": [
+        "ancestry:human"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino attribute modifiers {\"str\": 1, \"dex\": 1, \"con\": 1, \"int\": 1, \"wis\": 1, \"cha\": 1} are not yet applied; the riverland techniques are Kyr.",
+      "omits": {
+        "field:racialModifier.cha": "Not yet modelled in Kyr.",
+        "field:racialModifier.con": "Not yet modelled in Kyr.",
+        "field:racialModifier.dex": "Not yet modelled in Kyr.",
+        "field:racialModifier.int": "Not yet modelled in Kyr.",
+        "field:racialModifier.str": "Not yet modelled in Kyr.",
+        "field:racialModifier.wis": "Not yet modelled in Kyr.",
+        "field:traits": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "ancestry:elf",
+      "kyr": [
+        "ancestry:elf"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino attribute modifiers {\"str\": -1, \"dex\": 2, \"con\": -1, \"int\": 1, \"wis\": 2, \"cha\": 1} are not yet applied; the riverland techniques are Kyr.",
+      "omits": {
+        "field:racialModifier.cha": "Not yet modelled in Kyr.",
+        "field:racialModifier.con": "Not yet modelled in Kyr.",
+        "field:racialModifier.dex": "Not yet modelled in Kyr.",
+        "field:racialModifier.forbiddenTraits": "Not yet modelled in Kyr.",
+        "field:racialModifier.int": "Not yet modelled in Kyr.",
+        "field:racialModifier.str": "Not yet modelled in Kyr.",
+        "field:racialModifier.wis": "Not yet modelled in Kyr.",
+        "field:traits": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "ancestry:dwarf",
+      "kyr": [
+        "ancestry:dwarf"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino attribute modifiers {\"str\": 1, \"dex\": -1, \"con\": 2, \"int\": 1, \"wis\": 2, \"cha\": -1} are not yet applied; the riverland techniques are Kyr.",
+      "omits": {
+        "field:racialModifier.cha": "Not yet modelled in Kyr.",
+        "field:racialModifier.con": "Not yet modelled in Kyr.",
+        "field:racialModifier.dex": "Not yet modelled in Kyr.",
+        "field:racialModifier.int": "Not yet modelled in Kyr.",
+        "field:racialModifier.str": "Not yet modelled in Kyr.",
+        "field:racialModifier.wis": "Not yet modelled in Kyr.",
+        "field:traits": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "ancestry:goblin",
+      "kyr": [
+        "ancestry:goblin"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino attribute modifiers {\"str\": -2, \"dex\": 2, \"con\": -1, \"int\": 1, \"wis\": -1, \"cha\": -2} are not yet applied; the riverland techniques are Kyr.",
+      "omits": {
+        "field:racialModifier.cha": "Not yet modelled in Kyr.",
+        "field:racialModifier.con": "Not yet modelled in Kyr.",
+        "field:racialModifier.dex": "Not yet modelled in Kyr.",
+        "field:racialModifier.evil": "Not yet modelled in Kyr.",
+        "field:racialModifier.int": "Not yet modelled in Kyr.",
+        "field:racialModifier.str": "Not yet modelled in Kyr.",
+        "field:racialModifier.wis": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "animal:wolf",
+      "kyr": [
+        "species:wolf"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes.",
+      "omits": {
+        "field:animalKind.body": "Not yet modelled in Kyr.",
+        "field:animalKind.cha": "Not yet modelled in Kyr.",
+        "field:animalKind.con": "Not yet modelled in Kyr.",
+        "field:animalKind.dex": "Not yet modelled in Kyr.",
+        "field:animalKind.hp": "Not yet modelled in Kyr.",
+        "field:animalKind.int": "Not yet modelled in Kyr.",
+        "field:animalKind.str": "Not yet modelled in Kyr.",
+        "field:animalKind.weapon": "Not yet modelled in Kyr.",
+        "field:animalKind.wis": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "monsterClass:undead",
+      "kyr": [
+        "species:revenant"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr creature of the undead type. It does not carry Orsino's undead trait (its immunities); its resistances are Kyr's.",
+      "omits": {
+        "field:monsterAttacksPerTurn": "Not yet modelled in Kyr.",
+        "field:monsterGold": "Not yet modelled in Kyr.",
+        "field:monsterNaturalArmor": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "monsterClass:construct",
+      "kyr": [
+        "species:bronze_construct"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's.",
+      "omits": {
+        "field:monsterAttacksPerTurn": "Not yet modelled in Kyr.",
+        "field:monsterGold": "Not yet modelled in Kyr.",
+        "field:monsterNaturalArmor": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "monsterType:Golem",
+      "kyr": [
+        "species:golem"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled."
+    },
+    {
+      "orsino": "class:warrior",
+      "kyr": [
+        "class:fighter"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr chassis: hit die 8, not 12; no proficiencies or Orsino warrior abilities.",
+      "omits": {
+        "field:abilities": "Not yet modelled in Kyr.",
+        "field:armor": "Not yet modelled in Kyr.",
+        "field:classModifier.armorProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.cha": "Not yet modelled in Kyr.",
+        "field:classModifier.con": "Not yet modelled in Kyr.",
+        "field:classModifier.dex": "Not yet modelled in Kyr.",
+        "field:classModifier.gp": "Not yet modelled in Kyr.",
+        "field:classModifier.int": "Not yet modelled in Kyr.",
+        "field:classModifier.itemProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.startingGear": "Not yet modelled in Kyr.",
+        "field:classModifier.str": "Not yet modelled in Kyr.",
+        "field:classModifier.traitChoices": "Not yet modelled in Kyr.",
+        "field:classModifier.weaponProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.wis": "Not yet modelled in Kyr.",
+        "field:weapon": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "class:cleric",
+      "kyr": [
+        "class:cleric"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr chassis: hit die 6, not 8; Kyr spells; no spell slots.",
+      "omits": {
+        "field:abilities": "Not yet modelled in Kyr.",
+        "field:armor": "Not yet modelled in Kyr.",
+        "field:classModifier.armorProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.cha": "Not yet modelled in Kyr.",
+        "field:classModifier.con": "Not yet modelled in Kyr.",
+        "field:classModifier.dex": "Not yet modelled in Kyr.",
+        "field:classModifier.gp": "Not yet modelled in Kyr.",
+        "field:classModifier.int": "Not yet modelled in Kyr.",
+        "field:classModifier.itemProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.startingGear": "Not yet modelled in Kyr.",
+        "field:classModifier.str": "Not yet modelled in Kyr.",
+        "field:classModifier.traitChoices": "Not yet modelled in Kyr.",
+        "field:classModifier.weaponProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.wis": "Not yet modelled in Kyr.",
+        "field:weapon": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "class:mage",
+      "kyr": [
+        "class:magic_user"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr chassis: hit die 4; Kyr spells; no spell slots or spellbook picks.",
+      "omits": {
+        "field:abilities": "Not yet modelled in Kyr.",
+        "field:armor": "Not yet modelled in Kyr.",
+        "field:classModifier.armorProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.cha": "Not yet modelled in Kyr.",
+        "field:classModifier.con": "Not yet modelled in Kyr.",
+        "field:classModifier.dex": "Not yet modelled in Kyr.",
+        "field:classModifier.gp": "Not yet modelled in Kyr.",
+        "field:classModifier.int": "Not yet modelled in Kyr.",
+        "field:classModifier.itemProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.startingGear": "Not yet modelled in Kyr.",
+        "field:classModifier.str": "Not yet modelled in Kyr.",
+        "field:classModifier.traitChoices": "Not yet modelled in Kyr.",
+        "field:classModifier.weaponProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.wis": "Not yet modelled in Kyr.",
+        "field:weapon": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "class:thief",
+      "kyr": [
+        "class:thief"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr chassis: hit die 4, not 6.",
+      "omits": {
+        "field:abilities": "Not yet modelled in Kyr.",
+        "field:armor": "Not yet modelled in Kyr.",
+        "field:classModifier.armorProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.cha": "Not yet modelled in Kyr.",
+        "field:classModifier.con": "Not yet modelled in Kyr.",
+        "field:classModifier.dex": "Not yet modelled in Kyr.",
+        "field:classModifier.gp": "Not yet modelled in Kyr.",
+        "field:classModifier.int": "Not yet modelled in Kyr.",
+        "field:classModifier.itemProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.startingGear": "Not yet modelled in Kyr.",
+        "field:classModifier.str": "Not yet modelled in Kyr.",
+        "field:classModifier.weaponProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.wis": "Not yet modelled in Kyr.",
+        "field:weapon": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "class:ranger",
+      "kyr": [
+        "class:ranger"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr chassis: hit die 6, not 10.",
+      "omits": {
+        "field:abilities": "Not yet modelled in Kyr.",
+        "field:armor": "Not yet modelled in Kyr.",
+        "field:classModifier.armorProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.cha": "Not yet modelled in Kyr.",
+        "field:classModifier.con": "Not yet modelled in Kyr.",
+        "field:classModifier.dex": "Not yet modelled in Kyr.",
+        "field:classModifier.gp": "Not yet modelled in Kyr.",
+        "field:classModifier.int": "Not yet modelled in Kyr.",
+        "field:classModifier.itemProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.startingGear": "Not yet modelled in Kyr.",
+        "field:classModifier.str": "Not yet modelled in Kyr.",
+        "field:classModifier.weaponProficiencies": "Not yet modelled in Kyr.",
+        "field:classModifier.wis": "Not yet modelled in Kyr.",
+        "field:weapon": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "trait:flying",
+      "kyr": [
+        "trait:flying"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Classification only until evasion exists.",
+      "omits": {
+        "modifier:evasion": "No evasion roll yet.",
+        "modifier:toHit": "No Kyr attack bonus from traits yet."
+      }
+    },
+    {
+      "orsino": "trait:construct",
+      "kyr": [
+        "trait:construct"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Kyr trait construct."
+    },
+    {
+      "orsino": "trait:undead",
+      "kyr": [
+        "trait:undead"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Kyr trait undead."
+    },
+    {
+      "orsino": "trait:sturdy",
+      "kyr": [
+        "trait:sturdy"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Kyr trait sturdy."
+    },
+    {
+      "orsino": "trait:tough",
+      "kyr": [
+        "trait:tough"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr trait tough.",
+      "omits": {
+        "effect:upgrade": "Not yet modelled in Kyr.",
+        "modifier:onLevelUp": "Kyr has no level-up hook yet."
+      }
+    },
+    {
+      "orsino": "trait:adaptable",
+      "kyr": [
+        "trait:adaptable"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr trait adaptable.",
+      "omits": {
+        "modifier:xpMultiplier": "No experience multiplier yet."
+      }
+    },
+    {
+      "orsino": "trait:versatile",
+      "kyr": [
+        "trait:versatile"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr trait versatile.",
+      "omits": {
+        "modifier:disarmTrapBonus": "As searchBonus.",
+        "modifier:examineBonus": "As searchBonus.",
+        "modifier:gatherInformationBonus": "As searchBonus.",
+        "modifier:pickLockBonus": "As searchBonus.",
+        "modifier:searchBonus": "Skill checks are deterministic in Kyr."
+      }
+    },
+    {
+      "orsino": "trait:agile",
+      "kyr": [
+        "trait:agile"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr trait agile.",
+      "omits": {
+        "modifier:ac": "No armour class yet."
+      }
+    },
+    {
+      "orsino": "trait:perceptive",
+      "kyr": [
+        "trait:perceptive"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr trait perceptive.",
+      "omits": {
+        "modifier:searchBonus": "Skill checks are deterministic in Kyr."
+      }
+    },
+    {
+      "orsino": "trait:lightbringer",
+      "kyr": [
+        "trait:lightbringer"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Kyr trait lightbringer."
+    },
+    {
+      "orsino": "trait:abjurer",
+      "kyr": [
+        "trait:abjurer"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Orsino requires a mage or bard; Kyr maps mage to magic_user. Orsino abjuration spells (armor, ward, minor_ward, dispel_magic, magebane) are catalogued but not yet executable."
+    },
+    {
+      "orsino": "trait:piety",
+      "kyr": [
+        "trait:piety"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr trait piety.",
+      "omits": {
+        "modifier:bonusHealing": "No healing bonus modifier yet."
+      }
+    },
+    {
+      "orsino": "trait:fellowship",
+      "kyr": [
+        "trait:fellowship"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Kyr trait fellowship.",
+      "omits": {
+        "modifier:examineBonus": "Skill checks are deterministic in Kyr.",
+        "modifier:gatherInformationBonus": "As examineBonus.",
+        "modifier:searchBonus": "As examineBonus."
+      }
+    },
+    {
+      "orsino": "trait:knight",
+      "kyr": [
+        "trait:knight"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino requires a level-3 warrior; Kyr maps warrior to fighter.",
+      "omits": {
+        "modifier:ac": "No armour class yet.",
+        "modifier:toHit": "Heavy-weapon bonus: no attack bonus or weapon weight yet."
+      }
+    },
+    {
+      "orsino": "golemSubstance:iron",
+      "kyr": [
+        "species:iron_golem"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "The iron substance overlay (+1 Str, \u22123 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
+    },
+    {
+      "orsino": "deity:chaos",
+      "kyr": [
+        "domain:chaos",
+        "deity:cailleach",
+        "deity:morrigan"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:cha": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:darkness",
+      "kyr": [
+        "domain:darkness",
+        "deity:balor"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:searchBonus": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:death",
+      "kyr": [
+        "domain:death",
+        "deity:arawn",
+        "deity:donn",
+        "deity:gwyn_ap_nudd"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:toHit": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:knowledge",
+      "kyr": [
+        "domain:knowledge",
+        "deity:brigid",
+        "deity:ceridwen",
+        "deity:lugh",
+        "deity:macha",
+        "deity:ogma"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:examineBonus": "Not yet modelled in Kyr.",
+        "modifier:int": "Not yet modelled in Kyr.",
+        "modifier:wis": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:life",
+      "kyr": [
+        "domain:life",
+        "deity:aengus",
+        "deity:dagda",
+        "deity:flidais"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. Orsino's resistPoison 2 would make poison heal (damage \u00d7 (1 \u2212 2)); Kyr treats it as immunity. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:bonusHealing": "Not yet modelled in Kyr.",
+        "modifier:onTurnEnd": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:light",
+      "kyr": [
+        "domain:light",
+        "deity:aine",
+        "deity:belenus",
+        "deity:danu",
+        "deity:grannus"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:bonusHealing": "Not yet modelled in Kyr.",
+        "modifier:toHit": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:love",
+      "kyr": [
+        "domain:love",
+        "deity:cliodhna",
+        "deity:rhiannon"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:cha": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:magic",
+      "kyr": [
+        "domain:magic"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:bonusSpellDC": "Not yet modelled in Kyr.",
+        "modifier:int": "Not yet modelled in Kyr.",
+        "modifier:wis": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:nature",
+      "kyr": [
+        "domain:nature",
+        "deity:cernunnos",
+        "deity:coventina",
+        "deity:epona",
+        "deity:nodens"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:con": "Not yet modelled in Kyr.",
+        "modifier:dex": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:oceans",
+      "kyr": [
+        "domain:oceans",
+        "deity:boann",
+        "deity:lir",
+        "deity:nechtan"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:con": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:order",
+      "kyr": [
+        "domain:order"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:ac": "Not yet modelled in Kyr.",
+        "modifier:wis": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:poison",
+      "kyr": [
+        "domain:poison",
+        "deity:airmid"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {}
+    },
+    {
+      "orsino": "deity:storms",
+      "kyr": [
+        "domain:storms",
+        "deity:nuada",
+        "deity:taranis"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:dex": "Not yet modelled in Kyr.",
+        "modifier:str": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:trickery",
+      "kyr": [
+        "domain:trickery",
+        "deity:badb",
+        "deity:gwydion"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:cha": "Not yet modelled in Kyr.",
+        "modifier:dex": "Not yet modelled in Kyr.",
+        "modifier:disarmTrapBonus": "Not yet modelled in Kyr."
+      }
+    },
+    {
+      "orsino": "deity:war",
+      "kyr": [
+        "domain:war",
+        "deity:camulus"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "omits": {
+        "modifier:str": "Not yet modelled in Kyr."
+      }
+    }
+  ]
+}

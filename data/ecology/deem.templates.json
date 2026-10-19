@@ -1,0 +1,8 @@
+{
+  "ecological_palette": {
+    "__no_id": true,
+    "biome": "riverbank",
+    "plant": "=lookup(habitatPlant, #biome)",
+    "animal": "=lookup(habitatAnimal, #biome)"
+  }
+}

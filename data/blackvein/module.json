@@ -1,0 +1,7 @@
+{
+  "version":1,"situation":"blackvein.kyr",
+  "rules":["../rulesets/adventure.kyr","../rulesets/discovery.kyr","../rulesets/site-capabilities.kyr"],
+  "generation":{"type":"settled_situation","templates":"templates.json","tables":"tables.json"},
+  "globals":["party","gold","rations","clock"],
+  "exports":{"square":"square","road":"road","mine":"mine"}
+}

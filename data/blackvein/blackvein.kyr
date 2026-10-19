@@ -1,0 +1,149 @@
+Module blackvein "Bells Under Blackvein" {
+  Description "Blackvein lives on mine wages. Lord Vey's agent promises a safe road in exchange for the mine's revenue. The reopened workings ring at night; one miner has not come home. Explore, examine what you find, and decide whose claims deserve your help. Travel and work each cost a watch; people and dangers act while you are elsewhere.".
+  Entity party: group "Your company".
+  Entity ada: group "Ada Flint, miners' forewoman".
+  Entity vey: group "Ser Caldus, Lord Vey's agent".
+  Entity iven: group "Brother Iven, keeper of the well".
+  Entity len: group "Len Wren, pump tender".
+  Entity echo: group "The listening echo".
+  Entity road: place "South road". Entity square: place "Weighbridge square".
+  Entity inn: place "The Bent Pick inn". Entity guild: place "Merchants' countinghouse".
+  Entity shrine: place "Well shrine". Entity toll: place "North road checkpoint".
+  Entity ridge: place "Heather ridge". Entity mine: place "Blackvein minehead".
+  Entity shaft: place "Old pumping gallery". Entity vault: place "Buried bell chamber".
+  Entity hollow: place "Charcoal-burner's hollow".
+  Entity gold: good "Coin". Entity rations: good "Ration". Entity clock: clock "Campaign watch".
+
+  // Immutable historical discoveries, their evidence and initial distribution of knowledge.
+  Discovery danger "The buried bell drove water upward when the old pumps stopped; Len fled after seeing it." {
+    Known by len, iven.
+    Denied by ada.
+    Source report "Len's scratched warning beside the abandoned pump"
+      at shaft readable by party destructible.
+    Source bark "Len's account of the bell, scratched into charcoal bark"
+      at hollow readable by party destructible.
+  }
+
+  Discovery charter "The town charter grants the miners the workings; Vey's purchased road deed excludes the mine." {
+    Denied by vey.
+    Source ledger "The road deed and miners' charter, displayed under the countinghouse seal"
+      at guild readable by party.
+  }
+
+  Discovery tunnel "A ventilation crawl connects Heather ridge with the buried bell chamber, bypassing the pumping gallery." {
+    Known by len.
+    Source survey "Ventilation survey nailed to a fallen survey post"
+      at ridge readable by party.
+    Source escape_route "Len's ventilation sketch"
+      at hollow readable by party spoken by len destructible.
+  }
+
+  Discovery absence "Len was last seen taking the ridge path rather than returning through the checkpoint." {
+    Source notice "Mine roster: Len failed to return; Ada asks searchers to check the ridge"
+      at square readable by party.
+  }
+  Initially Assert trusts(ada, party).
+  Initially Assert trusts(vey, party).
+  Initially Assert trusts(iven, party).
+  Initially Assert trusts(len, party).
+
+  // Geography: road -> square; western ridge bypasses the northern checkpoint.
+  Initially Assert at(party, road). Initially Assert at(ada, mine). Initially Assert at(vey, toll).
+  Initially Assert at(iven, shrine). Initially Assert at(len, hollow). Initially Assert at(echo, shaft).
+  Initially Assert route(road, square). Initially Assert route(square, road).
+  Initially Assert route(square, inn). Initially Assert route(inn, square).
+  Initially Assert route(square, guild). Initially Assert route(guild, square).
+  Initially Assert route(square, shrine). Initially Assert route(shrine, square).
+  Initially Assert route(square, toll). Initially Assert route(toll, square).
+  Initially Assert route(square, ridge). Initially Assert route(ridge, square).
+  Initially Assert route(ridge, mine). Initially Assert route(mine, ridge).
+  Initially Assert route(ridge, hollow). Initially Assert route(hollow, ridge).
+  Initially Assert route(toll, mine). Initially Assert route(mine, toll).
+  Initially Assert route(mine, shaft). Initially Assert route(shaft, mine).
+  Initially Assert gate(echo, shaft, vault). Initially Assert route(vault, shaft).
+  Initially Assert informedPassage(ridge, vault, tunnel).
+  Initially Assert route(vault, ridge).
+
+  Entity bell: mechanism "the bell's water-driven striker".
+  Entity bulkhead: mechanism "the mine's emergency bulkhead".
+  Initially Assert mounted(bell, vault). Initially Assert functioning(bell).
+  Initially Assert mounted(bulkhead, mine). Initially Assert barrier(bulkhead, shaft).
+  Initially Assert operates(party, bell). Initially Assert operates(party, bulkhead).
+  Initially Assert operates(ada, bulkhead).
+  Initially Assert seeksBacking(vey).
+  Initially Assert mandate(vey, toll). Initially Assert mandate(vey, mine).
+  Relation tainted(place). Relation displaced(group). Relation sheltered(group).
+  Relation abandoned(place).
+  Initially Assert unladen(party).
+
+  // Competing commitments, evaluated by the existing bounded planner.
+  Pursuit protect_workers for ada priority 30 when knows(ada, danger) and functioning(bell) seeks closed(shaft).
+  Pursuit find_shelter for ada priority 20 when displaced(ada) and closed(shaft) and functioning(bell) seeks at(ada, inn).
+  Pursuit reopen_safe_workings for ada priority 35 when not functioning(bell) seeks not closed(shaft).
+  Pursuit resume_work for ada priority 10 when not functioning(bell) and not closed(shaft) seeks at(ada, mine).
+  Pursuit secure_road for vey priority 10 when able(vey) and watch(clock) >= enforceAt(vey) seeks controlled(toll, vey).
+  Pursuit secure_revenue for vey priority 9 when able(vey) and controlled(toll, vey) and not knows(vey, charter) seeks controlled(mine, vey).
+  Pursuit return_to_checkpoint for vey priority 15 when knows(vey, charter) seeks at(vey, toll).
+  Pursuit shelter_survivors for iven priority 20 when displaced(iven) seeks at(iven, inn).
+  Pursuit return_home for len priority 10 when knows(len, charter) seeks at(len, inn).
+
+  // Explicit causality. Rules run once in source order after each watch's NPC opportunities.
+  Rule early_claim when supports(party, vey) and not controlled(toll, vey) {
+    Set enforceAt(vey) to 1.
+  }
+  Rule contested_mandate when knows(vey, charter) and mandate(vey, mine) {
+    Retract mandate(vey, mine).
+    Retract controlled(mine, vey).
+  }
+  Rule occupation_ends when not able(vey) and (controlled(toll, vey) or controlled(mine, vey)) {
+    Retract controlled(toll, vey). Retract controlled(mine, vey).
+  }
+  Rule road_exclusion when controlled(toll, vey) and not knows(vey, charter) and not supports(party, vey) {
+    Assert denied(party, toll, mine).
+  }
+  Rule charter_access when knows(vey, charter) or supports(party, vey) or dead(vey) {
+    Retract denied(party, toll, mine).
+  }
+  Rule revenue when controlled(mine, vey) and not closed(shaft) and quantity(ada, gold) >= 1 {
+    Decrease quantity(ada, gold) by 1. Increase quantity(vey, gold) by 1.
+  }
+  Rule seepage when watch(clock) >= 30 and functioning(bell) and not closed(shaft) and not tainted(shrine) {
+    Assert tainted(shrine).
+  }
+  Rule lost_livelihood when closed(shaft) and not displaced(ada) {
+    Assert displaced(ada).
+  }
+  Rule flight when watch(clock) >= 42 and tainted(shrine) and functioning(bell) and not closed(shaft) and not displaced(iven) {
+    Assert displaced(iven). Assert abandoned(square).
+  }
+  Rule new_shelter when displaced(ada) and at(ada, inn) and not sheltered(ada) {
+    Assert sheltered(ada).
+  }
+
+  // Local observations: claims and evidence remain distinct from objective truth and actor knowledge.
+  Observe arrival at road when true "Ore carts have stopped on the south road. Ahead, Blackvein's weighbridge rises between a tavern roof and the mine's black ridge. A chalk sign points north: 'MINE SHIFTS DELAYED — ask at the square.'".
+  Observe town at square when not abandoned(square) "Miners wait by idle carts. The inn is west, the countinghouse east, the well shrine south. The north road leads to Vey's checkpoint; a western foot trail climbs Heather ridge. A roster asks after a missing miner. Two concerns dominate the square: who will own the mine, and why its pumps ring like bells.".
+  Observe deserted at square when abandoned(square) "The weighbridge is deserted. Buckets hang unused above a foul well. The ridge road remains open; shelter can still be found at the Bent Pick.".
+  Observe shelter at inn when not sheltered(ada) or not closed(shaft) "The Bent Pick smells of peat smoke. Spare blankets lie on a bench. Its keeper offers the loft to anyone driven from the workings; the offer is real even if the mine never reopens.".
+  Observe displaced at inn when sheltered(ada) and closed(shaft) and at(ada, inn) and able(ada) "Ada and the displaced miners have taken the loft. Closing the workings kept the water below ground, but wages have stopped. Ada is available here to hear new evidence; the bell can still be reached from the ridge if you find the old survey.".
+  Observe quiet_inn at inn when not functioning(bell) "The underground vibration has stopped even beneath the inn floor. Ada can return to check the bulkhead and reopen the workings. Any earlier displacement or spoiled water remains part of the town's history.".
+  Observe deed at guild when true "The merchants want escorts on the road, but fear Vey will take the ore as well as the toll. They have displayed the original deeds so anyone can compare them. Caldus accepts a documented challenge to his mine claim; showing him the charter will not cancel his road rights.".
+  Observe clean_well at shrine when not tainted(shrine) "A silver testing cup rests on the well. Iven's chalk warning reads: 'At the thirtieth watch the old pump reservoir will crest. Find what Len saw, or ask Ada to close the bulkhead. Closure costs wages. Silence the striker below and the mine can remain open.' He has marked the rising levels on the well stone.".
+  Observe foul_well at shrine when tainted(shrine) "An oily black film covers the well. The water already drawn is spoiled even if the bell is silenced now. Iven's evacuation threshold is watch 42. Cutting off the source can still prevent further flight.".
+  Observe checkpoint at toll when not controlled(toll, vey) and able(vey) and not supports(party, vey) "Caldus drills a road patrol. 'I secure the checkpoint at watch {enforceAt(vey)}, then the mine. Back me openly and I move sooner. The miners cannot keep this road safe alone.' His men have not yet taken control. You may leave by either road; the ridge bypass is unguarded.".
+  Observe backing at toll when not controlled(toll, vey) and able(vey) and supports(party, vey) "Caldus enters your name beside his claim. He orders the checkpoint secured at his next opportunity. Backing him has made his timetable immediate.".
+  Observe garrison at toll when controlled(toll, vey) "Vey's road banner flies above the checkpoint. The patrol has established an enduring claim on this road. The mine road is barred to you unless you back Caldus or establish the charter boundary. The ridge remains a physical alternative. A road victory does not settle the separate mine title.".
+  Observe challenged at toll when knows(vey, charter) and able(vey) "Caldus has accepted the charter's boundary. He still wants road security, but has withdrawn his claim to mining revenue. The distinction matters: the checkpoint stays, the mine is no longer his objective.".
+  Observe corpse at toll when dead(vey) "Caldus lies dead. His authority cannot act in his absence. His bloodied writ lies beside him. The patrol has no further orders.".
+  Observe ridge at ridge when true "Heather hides an old survey post. East lies the minehead; a charcoal track descends west into a sheltered hollow. A cold draft rises through stones that do not match the hillside.".
+  Observe work at mine when not closed(shaft) and not controlled(mine, vey) "The shift bell hangs silent beside the ore scales. A notice in Ada's hand reads: 'These are our workings. I won't throw away a winter's wages on a rumor. Bring evidence from Len or the old pump and I'll shut the bulkhead myself.' The pumping gallery descends below; the ridge offers another way back to town.".
+  Observe levy at mine when controlled(mine, vey) and not closed(shaft) "Caldus has posted his seal on the ore scales. Mine revenue is now under his control: one coin of the miners' remaining pay is taken each watch until their purse runs dry. Ada still has the emergency key: title does not prevent her closing unsafe workings.".
+  Observe closed_mine at mine when closed(shaft) "The emergency bulkhead is closed. No new shift can enter the pumping gallery. People already below can still climb out. The miners have lost their workplace. The Bent Pick has offered its loft as shelter. The sealed danger remains underground. The ventilation crawl can bypass the closure; silence the striker and reopening becomes a real option.".
+  Observe pump at shaft when true "Water shivers upward in the old pump barrels. Len scratched a warning into the casing. Beyond it a listening echo blocks the bell door. You can fight it or retreat; a survey might reveal a route that avoids it altogether.".
+  Observe bell_running at vault when functioning(bell) "An ancient bell hangs over a waterwheel. Each strike lifts a thread of black water toward the town. Its striker can be dismantled by hand. A cotter pin holds the striker arm. Remove it and the wheel will turn without sounding the bell.".
+  Observe bell_silent at vault when not functioning(bell) "The striker is dismantled. Water drains downward again. The bell is silent; any well water already spoiled remains spoiled. The mine can remain productive if its entrance was not sealed.".
+  Observe missing at hollow when at(len, hollow) and able(len) "Len is alive beneath the charcoal shelter. He left his account on bark, unwilling to approach the checkpoint. He has sketched the old ventilation crawl and can explain it from memory. 'Caldus will call me a trespasser in my own workings. Show me the charter and I will go home with a claim I can defend.' Learning it yourself does not tell Len anything; you must show him what you found.".
+  Observe len_dead at hollow when at(len, hollow) and dead(len) "Len lies dead beneath the shelter. His charcoal-bark account remains beside the cold fire. His death has not erased what he wrote.".
+  Observe empty_hollow at hollow when not at(len, hollow) "Len's cold fire remains beneath the charcoal shelter. His written account is still here. He has gone toward the inn; leaving did not erase what he witnessed.".
+  Goal not functioning(bell).
+}

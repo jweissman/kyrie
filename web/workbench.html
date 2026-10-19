@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kyrie workbench</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand"><strong>Kyrie</strong> <span class="muted">scenario workbench</span></div>
+      <div class="controls">
+        <label>Scenario <select id="scenario"></select></label>
+        <label>Seed <input id="seed" size="10"></label>
+        <button type="button" data-action="new">New</button>
+        <button type="button" data-action="restart" title="Same scenario, same seed">Restart</button>
+        <button type="button" data-action="undo" title="Replay all but the last command">Undo</button>
+      </div>
+      <div class="clock" id="clock"></div>
+      <nav>
+        <button type="button" data-action="tab" data-tab="play">Play</button>
+        <button type="button" data-action="tab" data-tab="inspect">Inspect</button>
+      </nav>
+    </header>
+    <div id="status" class="status" role="status"></div>
+    <main>
+      <div id="play"></div>
+      <div id="inspect" hidden></div>
+    </main>
+    <footer>
+      <div class="saves">
+        <strong>Saves</strong>
+        <input id="slot-name" placeholder="slot or run name" size="16">
+        <button type="button" data-action="save-slot">Save</button>
+        <button type="button" data-action="export-save" title="Kyr CampaignSave JSON, resumable with the CLI">Export save</button>
+        <button type="button" data-action="export-transcript" title="Seed and commands, replayable with the CLI">Export transcript</button>
+        <button type="button" data-action="import">Import…</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <div id="slots"></div>
+      <p class="muted small">All simulation runs in this page. Saves live in this browser's local storage.
+        Play mode hides facts your party has not perceived, but nothing here is secret: saves and Inspect mode contain everything.</p>
+    </footer>
+  </div>
+  <script src="./workbench.js"></script>
+</body>
+</html>

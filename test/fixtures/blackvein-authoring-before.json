@@ -1,0 +1,2483 @@
+[
+  {
+    "name": "investigator",
+    "steps": [
+      {
+        "command": "travel(vale__square)"
+      },
+      {
+        "command": "travel(vale__guild)"
+      },
+      {
+        "command": "examine(vale__ledger)"
+      },
+      {
+        "command": "travel(vale__square)"
+      },
+      {
+        "command": "travel(vale__toll)"
+      },
+      {
+        "command": "tell(vale__vey,vale__charter)"
+      },
+      {
+        "command": "travel(vale__square)"
+      },
+      {
+        "command": "travel(vale__ridge)"
+      },
+      {
+        "command": "travel(vale__hollow)"
+      },
+      {
+        "command": "ask(vale__len,vale__escape_route)"
+      },
+      {
+        "command": "examine(vale__bark)"
+      },
+      {
+        "command": "tell(vale__len,vale__charter)"
+      },
+      {
+        "command": "travel(vale__ridge)"
+      },
+      {
+        "command": "passage(vale__vault)"
+      },
+      {
+        "command": "disable(vale__bell)"
+      }
+    ],
+    "world": [
+      "able(party)",
+      "able(vale__ada)",
+      "able(vale__echo)",
+      "able(vale__iven)",
+      "able(vale__len)",
+      "able(vale__vey)",
+      "assumesFalse(vale__ada, vale__danger)",
+      "at(party, vale__vault)",
+      "at(vale__ada, vale__mine)",
+      "at(vale__bark, vale__hollow)",
+      "at(vale__echo, vale__shaft)",
+      "at(vale__escape_route, vale__hollow)",
+      "at(vale__iven, vale__shrine)",
+      "at(vale__ledger, vale__guild)",
+      "at(vale__len, vale__inn)",
+      "at(vale__notice, vale__square)",
+      "at(vale__report, vale__shaft)",
+      "at(vale__survey, vale__ridge)",
+      "at(vale__vey, vale__toll)",
+      "barrier(vale__bulkhead, vale__shaft)",
+      "destructible(vale__bark)",
+      "destructible(vale__escape_route)",
+      "destructible(vale__report)",
+      "distinct(party, vale__ada)",
+      "distinct(party, vale__echo)",
+      "distinct(party, vale__iven)",
+      "distinct(party, vale__len)",
+      "distinct(party, vale__vey)",
+      "distinct(vale__ada, party)",
+      "distinct(vale__ada, vale__echo)",
+      "distinct(vale__ada, vale__iven)",
+      "distinct(vale__ada, vale__len)",
+      "distinct(vale__ada, vale__vey)",
+      "distinct(vale__echo, party)",
+      "distinct(vale__echo, vale__ada)",
+      "distinct(vale__echo, vale__iven)",
+      "distinct(vale__echo, vale__len)",
+      "distinct(vale__echo, vale__vey)",
+      "distinct(vale__iven, party)",
+      "distinct(vale__iven, vale__ada)",
+      "distinct(vale__iven, vale__echo)",
+      "distinct(vale__iven, vale__len)",
+      "distinct(vale__iven, vale__vey)",
+      "distinct(vale__len, party)",
+      "distinct(vale__len, vale__ada)",
+      "distinct(vale__len, vale__echo)",
+      "distinct(vale__len, vale__iven)",
+      "distinct(vale__len, vale__vey)",
+      "distinct(vale__vey, party)",
+      "distinct(vale__vey, vale__ada)",
+      "distinct(vale__vey, vale__echo)",
+      "distinct(vale__vey, vale__iven)",
+      "distinct(vale__vey, vale__len)",
+      "enforceAt(vale__vey) = 18",
+      "established(vale__absence)",
+      "established(vale__charter)",
+      "established(vale__danger)",
+      "established(vale__tunnel)",
+      "gate(vale__echo, vale__shaft, vale__vault)",
+      "informedPassage(vale__ridge, vale__vault, vale__tunnel)",
+      "intact(vale__bark)",
+      "intact(vale__escape_route)",
+      "intact(vale__ledger)",
+      "intact(vale__notice)",
+      "intact(vale__report)",
+      "intact(vale__survey)",
+      "knows(party, vale__charter)",
+      "knows(party, vale__danger)",
+      "knows(party, vale__tunnel)",
+      "knows(vale__iven, vale__danger)",
+      "knows(vale__len, vale__charter)",
+      "knows(vale__len, vale__danger)",
+      "knows(vale__len, vale__tunnel)",
+      "knows(vale__vey, vale__charter)",
+      "learnedFrom(party, vale__bark, vale__danger)",
+      "learnedFrom(party, vale__ledger, vale__charter)",
+      "mandate(vale__vey, vale__toll)",
+      "mayExamine(party, vale__bark)",
+      "mayExamine(party, vale__escape_route)",
+      "mayExamine(party, vale__ledger)",
+      "mayExamine(party, vale__notice)",
+      "mayExamine(party, vale__report)",
+      "mayExamine(party, vale__survey)",
+      "mounted(vale__bell, vale__vault)",
+      "mounted(vale__bulkhead, vale__mine)",
+      "noticeable(vale__bark)",
+      "noticeable(vale__escape_route)",
+      "noticeable(vale__ledger)",
+      "noticeable(vale__notice)",
+      "noticeable(vale__report)",
+      "noticeable(vale__survey)",
+      "operates(party, vale__bell)",
+      "operates(party, vale__bulkhead)",
+      "operates(vale__ada, vale__bulkhead)",
+      "quantity(party, gold) = 4",
+      "quantity(vale__ada, gold) = 12",
+      "reveals(vale__bark, vale__danger)",
+      "reveals(vale__escape_route, vale__tunnel)",
+      "reveals(vale__ledger, vale__charter)",
+      "reveals(vale__notice, vale__absence)",
+      "reveals(vale__report, vale__danger)",
+      "reveals(vale__survey, vale__tunnel)",
+      "route(vale__guild, vale__square)",
+      "route(vale__hollow, vale__ridge)",
+      "route(vale__inn, vale__square)",
+      "route(vale__mine, vale__ridge)",
+      "route(vale__mine, vale__shaft)",
+      "route(vale__mine, vale__toll)",
+      "route(vale__ridge, vale__hollow)",
+      "route(vale__ridge, vale__mine)",
+      "route(vale__ridge, vale__square)",
+      "route(vale__road, vale__square)",
+      "route(vale__shaft, vale__mine)",
+      "route(vale__shrine, vale__square)",
+      "route(vale__square, vale__guild)",
+      "route(vale__square, vale__inn)",
+      "route(vale__square, vale__ridge)",
+      "route(vale__square, vale__road)",
+      "route(vale__square, vale__shrine)",
+      "route(vale__square, vale__toll)",
+      "route(vale__toll, vale__mine)",
+      "route(vale__toll, vale__square)",
+      "route(vale__vault, vale__ridge)",
+      "route(vale__vault, vale__shaft)",
+      "seeksBacking(vale__vey)",
+      "testimony(vale__len, vale__escape_route)",
+      "toldBy(party, vale__len, vale__tunnel)",
+      "toldBy(vale__len, party, vale__charter)",
+      "toldBy(vale__vey, party, vale__charter)",
+      "trusts(vale__ada, party)",
+      "trusts(vale__iven, party)",
+      "trusts(vale__len, party)",
+      "trusts(vale__vey, party)",
+      "unladen(party)",
+      "watch(clock) = 15"
+    ],
+    "creatures": [
+      {
+        "id": "vale__hero",
+        "name": "Rowan",
+        "classId": "fighter",
+        "raceId": "human",
+        "base": {
+          "strength": 8,
+          "dexterity": 13,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 12,
+          "charisma": 8,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 17,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 17,
+          "mana": 0,
+          "gold": 4,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__companion",
+        "name": "Tamsin",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 6,
+          "dexterity": 9,
+          "intelligence": 17,
+          "wisdom": 14,
+          "constitution": 10,
+          "charisma": 7,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 12,
+          "maxMana": 6,
+          "speed": 2
+        },
+        "state": {
+          "hp": 12,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__ada",
+        "name": "Ada Flint",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 10,
+          "intelligence": 10,
+          "wisdom": 12,
+          "constitution": 13,
+          "charisma": 14,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 6,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 6,
+          "mana": 0,
+          "gold": 12,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__vey",
+        "name": "Ser Caldus",
+        "classId": "fighter",
+        "raceId": "goblin",
+        "base": {
+          "strength": 15,
+          "dexterity": 12,
+          "intelligence": 14,
+          "wisdom": 13,
+          "constitution": 11,
+          "charisma": 5,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 10,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 10,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__iven",
+        "name": "Brother Iven",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 15,
+          "dexterity": 16,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 11,
+          "charisma": 12,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 8,
+          "maxMana": 6,
+          "speed": 5
+        },
+        "state": {
+          "hp": 8,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__len",
+        "name": "Len",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 8,
+          "intelligence": 11,
+          "wisdom": 12,
+          "constitution": 14,
+          "charisma": 13,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 9,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 9,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__echo",
+        "name": "The listening echo",
+        "classId": "commoner",
+        "raceId": "wisp",
+        "base": {
+          "strength": 15,
+          "dexterity": 4,
+          "intelligence": 14,
+          "wisdom": 9,
+          "constitution": 10,
+          "charisma": 8,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 5,
+          "maxMana": 0,
+          "speed": 0
+        },
+        "state": {
+          "hp": 5,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      }
+    ],
+    "outcomes": {
+      "vale.bell_silenced": true,
+      "vale.mine_closed": false,
+      "vale.road_controlled": false,
+      "vale.mine_appropriated": false,
+      "vale.mine_claim_defeated": true,
+      "vale.water_spoiled": false,
+      "vale.town_abandoned": false,
+      "vale.miner_home": true,
+      "vale.agent_dead": false,
+      "vale.miners_displaced": false
+    },
+    "npc": [
+      {
+        "actor": "vale__len",
+        "goal": "return_home",
+        "action": "travel(vale__len,vale__hollow,vale__ridge)",
+        "elapsed": 12
+      },
+      {
+        "actor": "vale__len",
+        "goal": "return_home",
+        "action": "travel(vale__len,vale__ridge,vale__square)",
+        "elapsed": 13
+      },
+      {
+        "actor": "vale__len",
+        "goal": "return_home",
+        "action": "travel(vale__len,vale__square,vale__inn)",
+        "elapsed": 14
+      }
+    ]
+  },
+  {
+    "name": "political",
+    "steps": [
+      {
+        "command": "travel(vale__square)"
+      },
+      {
+        "command": "travel(vale__toll)"
+      },
+      {
+        "command": "endorse(vale__vey)"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      }
+    ],
+    "world": [
+      "able(party)",
+      "able(vale__ada)",
+      "able(vale__echo)",
+      "able(vale__iven)",
+      "able(vale__len)",
+      "able(vale__vey)",
+      "assumesFalse(vale__ada, vale__danger)",
+      "assumesFalse(vale__vey, vale__charter)",
+      "at(party, vale__toll)",
+      "at(vale__ada, vale__mine)",
+      "at(vale__bark, vale__hollow)",
+      "at(vale__echo, vale__shaft)",
+      "at(vale__escape_route, vale__hollow)",
+      "at(vale__iven, vale__square)",
+      "at(vale__ledger, vale__guild)",
+      "at(vale__len, vale__hollow)",
+      "at(vale__notice, vale__square)",
+      "at(vale__report, vale__shaft)",
+      "at(vale__survey, vale__ridge)",
+      "at(vale__vey, vale__mine)",
+      "barrier(vale__bulkhead, vale__shaft)",
+      "controlled(vale__mine, vale__vey)",
+      "controlled(vale__toll, vale__vey)",
+      "destructible(vale__bark)",
+      "destructible(vale__escape_route)",
+      "destructible(vale__report)",
+      "distinct(party, vale__ada)",
+      "distinct(party, vale__echo)",
+      "distinct(party, vale__iven)",
+      "distinct(party, vale__len)",
+      "distinct(party, vale__vey)",
+      "distinct(vale__ada, party)",
+      "distinct(vale__ada, vale__echo)",
+      "distinct(vale__ada, vale__iven)",
+      "distinct(vale__ada, vale__len)",
+      "distinct(vale__ada, vale__vey)",
+      "distinct(vale__echo, party)",
+      "distinct(vale__echo, vale__ada)",
+      "distinct(vale__echo, vale__iven)",
+      "distinct(vale__echo, vale__len)",
+      "distinct(vale__echo, vale__vey)",
+      "distinct(vale__iven, party)",
+      "distinct(vale__iven, vale__ada)",
+      "distinct(vale__iven, vale__echo)",
+      "distinct(vale__iven, vale__len)",
+      "distinct(vale__iven, vale__vey)",
+      "distinct(vale__len, party)",
+      "distinct(vale__len, vale__ada)",
+      "distinct(vale__len, vale__echo)",
+      "distinct(vale__len, vale__iven)",
+      "distinct(vale__len, vale__vey)",
+      "distinct(vale__vey, party)",
+      "distinct(vale__vey, vale__ada)",
+      "distinct(vale__vey, vale__echo)",
+      "distinct(vale__vey, vale__iven)",
+      "distinct(vale__vey, vale__len)",
+      "enforceAt(vale__vey) = 1",
+      "established(vale__absence)",
+      "established(vale__charter)",
+      "established(vale__danger)",
+      "established(vale__tunnel)",
+      "functioning(vale__bell)",
+      "gate(vale__echo, vale__shaft, vale__vault)",
+      "informedPassage(vale__ridge, vale__vault, vale__tunnel)",
+      "intact(vale__bark)",
+      "intact(vale__escape_route)",
+      "intact(vale__ledger)",
+      "intact(vale__notice)",
+      "intact(vale__report)",
+      "intact(vale__survey)",
+      "knows(vale__iven, vale__danger)",
+      "knows(vale__len, vale__danger)",
+      "knows(vale__len, vale__tunnel)",
+      "mandate(vale__vey, vale__mine)",
+      "mandate(vale__vey, vale__toll)",
+      "mayExamine(party, vale__bark)",
+      "mayExamine(party, vale__escape_route)",
+      "mayExamine(party, vale__ledger)",
+      "mayExamine(party, vale__notice)",
+      "mayExamine(party, vale__report)",
+      "mayExamine(party, vale__survey)",
+      "mounted(vale__bell, vale__vault)",
+      "mounted(vale__bulkhead, vale__mine)",
+      "noticeable(vale__bark)",
+      "noticeable(vale__escape_route)",
+      "noticeable(vale__ledger)",
+      "noticeable(vale__notice)",
+      "noticeable(vale__report)",
+      "noticeable(vale__survey)",
+      "operates(party, vale__bell)",
+      "operates(party, vale__bulkhead)",
+      "operates(vale__ada, vale__bulkhead)",
+      "quantity(party, gold) = 4",
+      "quantity(vale__vey, gold) = 12",
+      "reveals(vale__bark, vale__danger)",
+      "reveals(vale__escape_route, vale__tunnel)",
+      "reveals(vale__ledger, vale__charter)",
+      "reveals(vale__notice, vale__absence)",
+      "reveals(vale__report, vale__danger)",
+      "reveals(vale__survey, vale__tunnel)",
+      "route(vale__guild, vale__square)",
+      "route(vale__hollow, vale__ridge)",
+      "route(vale__inn, vale__square)",
+      "route(vale__mine, vale__ridge)",
+      "route(vale__mine, vale__shaft)",
+      "route(vale__mine, vale__toll)",
+      "route(vale__ridge, vale__hollow)",
+      "route(vale__ridge, vale__mine)",
+      "route(vale__ridge, vale__square)",
+      "route(vale__road, vale__square)",
+      "route(vale__shaft, vale__mine)",
+      "route(vale__shrine, vale__square)",
+      "route(vale__square, vale__guild)",
+      "route(vale__square, vale__inn)",
+      "route(vale__square, vale__ridge)",
+      "route(vale__square, vale__road)",
+      "route(vale__square, vale__shrine)",
+      "route(vale__square, vale__toll)",
+      "route(vale__toll, vale__mine)",
+      "route(vale__toll, vale__square)",
+      "route(vale__vault, vale__ridge)",
+      "route(vale__vault, vale__shaft)",
+      "seeksBacking(vale__vey)",
+      "supports(party, vale__vey)",
+      "testimony(vale__len, vale__escape_route)",
+      "trusts(vale__ada, party)",
+      "trusts(vale__iven, party)",
+      "trusts(vale__len, party)",
+      "trusts(vale__vey, party)",
+      "unladen(party)",
+      "vale__abandoned(vale__square)",
+      "vale__displaced(vale__iven)",
+      "vale__tainted(vale__shrine)",
+      "watch(clock) = 43"
+    ],
+    "creatures": [
+      {
+        "id": "vale__hero",
+        "name": "Rowan",
+        "classId": "fighter",
+        "raceId": "human",
+        "base": {
+          "strength": 8,
+          "dexterity": 13,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 12,
+          "charisma": 8,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 17,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 17,
+          "mana": 0,
+          "gold": 4,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__companion",
+        "name": "Tamsin",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 6,
+          "dexterity": 9,
+          "intelligence": 17,
+          "wisdom": 14,
+          "constitution": 10,
+          "charisma": 7,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 12,
+          "maxMana": 6,
+          "speed": 2
+        },
+        "state": {
+          "hp": 12,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__ada",
+        "name": "Ada Flint",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 10,
+          "intelligence": 10,
+          "wisdom": 12,
+          "constitution": 13,
+          "charisma": 14,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 6,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 6,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__vey",
+        "name": "Ser Caldus",
+        "classId": "fighter",
+        "raceId": "goblin",
+        "base": {
+          "strength": 15,
+          "dexterity": 12,
+          "intelligence": 14,
+          "wisdom": 13,
+          "constitution": 11,
+          "charisma": 5,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 10,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 10,
+          "mana": 0,
+          "gold": 12,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__iven",
+        "name": "Brother Iven",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 15,
+          "dexterity": 16,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 11,
+          "charisma": 12,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 8,
+          "maxMana": 6,
+          "speed": 5
+        },
+        "state": {
+          "hp": 8,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__len",
+        "name": "Len",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 8,
+          "intelligence": 11,
+          "wisdom": 12,
+          "constitution": 14,
+          "charisma": 13,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 9,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 9,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__echo",
+        "name": "The listening echo",
+        "classId": "commoner",
+        "raceId": "wisp",
+        "base": {
+          "strength": 15,
+          "dexterity": 4,
+          "intelligence": 14,
+          "wisdom": 9,
+          "constitution": 10,
+          "charisma": 8,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 5,
+          "maxMana": 0,
+          "speed": 0
+        },
+        "state": {
+          "hp": 5,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      }
+    ],
+    "outcomes": {
+      "vale.bell_silenced": false,
+      "vale.mine_closed": false,
+      "vale.road_controlled": true,
+      "vale.mine_appropriated": true,
+      "vale.mine_claim_defeated": false,
+      "vale.water_spoiled": true,
+      "vale.town_abandoned": true,
+      "vale.miner_home": false,
+      "vale.agent_dead": false,
+      "vale.miners_displaced": false
+    },
+    "npc": [
+      {
+        "actor": "vale__vey",
+        "goal": "secure_road",
+        "action": "enforce(vale__vey,vale__toll)",
+        "elapsed": 4
+      },
+      {
+        "actor": "vale__vey",
+        "goal": "secure_revenue",
+        "action": "travel(vale__vey,vale__toll,vale__mine)",
+        "elapsed": 5
+      },
+      {
+        "actor": "vale__vey",
+        "goal": "secure_revenue",
+        "action": "enforce(vale__vey,vale__mine)",
+        "elapsed": 6
+      },
+      {
+        "actor": "vale__iven",
+        "goal": "shelter_survivors",
+        "action": "travel(vale__iven,vale__shrine,vale__square)",
+        "elapsed": 43
+      }
+    ]
+  },
+  {
+    "name": "violence",
+    "steps": [
+      {
+        "command": "travel(vale__square)"
+      },
+      {
+        "command": "travel(vale__toll)"
+      },
+      {
+        "command": "attack(vale__vey)",
+        "combat": [
+          {
+            "actor": "vale__hero",
+            "ability": "wounding_blow",
+            "target": "vale__vey"
+          },
+          {
+            "actor": "vale__companion",
+            "ability": "attack",
+            "target": "vale__vey"
+          },
+          {
+            "actor": "vale__hero",
+            "ability": "attack",
+            "target": "vale__vey"
+          }
+        ]
+      },
+      {
+        "command": "travel(vale__square)"
+      },
+      {
+        "command": "travel(vale__toll)"
+      }
+    ],
+    "world": [
+      "able(party)",
+      "able(vale__ada)",
+      "able(vale__echo)",
+      "able(vale__iven)",
+      "able(vale__len)",
+      "assumesFalse(vale__ada, vale__danger)",
+      "assumesFalse(vale__vey, vale__charter)",
+      "at(party, vale__toll)",
+      "at(vale__ada, vale__mine)",
+      "at(vale__bark, vale__hollow)",
+      "at(vale__echo, vale__shaft)",
+      "at(vale__escape_route, vale__hollow)",
+      "at(vale__iven, vale__shrine)",
+      "at(vale__ledger, vale__guild)",
+      "at(vale__len, vale__hollow)",
+      "at(vale__notice, vale__square)",
+      "at(vale__report, vale__shaft)",
+      "at(vale__survey, vale__ridge)",
+      "at(vale__vey, vale__toll)",
+      "barrier(vale__bulkhead, vale__shaft)",
+      "dead(vale__vey)",
+      "destructible(vale__bark)",
+      "destructible(vale__escape_route)",
+      "destructible(vale__report)",
+      "distinct(party, vale__ada)",
+      "distinct(party, vale__echo)",
+      "distinct(party, vale__iven)",
+      "distinct(party, vale__len)",
+      "distinct(party, vale__vey)",
+      "distinct(vale__ada, party)",
+      "distinct(vale__ada, vale__echo)",
+      "distinct(vale__ada, vale__iven)",
+      "distinct(vale__ada, vale__len)",
+      "distinct(vale__ada, vale__vey)",
+      "distinct(vale__echo, party)",
+      "distinct(vale__echo, vale__ada)",
+      "distinct(vale__echo, vale__iven)",
+      "distinct(vale__echo, vale__len)",
+      "distinct(vale__echo, vale__vey)",
+      "distinct(vale__iven, party)",
+      "distinct(vale__iven, vale__ada)",
+      "distinct(vale__iven, vale__echo)",
+      "distinct(vale__iven, vale__len)",
+      "distinct(vale__iven, vale__vey)",
+      "distinct(vale__len, party)",
+      "distinct(vale__len, vale__ada)",
+      "distinct(vale__len, vale__echo)",
+      "distinct(vale__len, vale__iven)",
+      "distinct(vale__len, vale__vey)",
+      "distinct(vale__vey, party)",
+      "distinct(vale__vey, vale__ada)",
+      "distinct(vale__vey, vale__echo)",
+      "distinct(vale__vey, vale__iven)",
+      "distinct(vale__vey, vale__len)",
+      "enforceAt(vale__vey) = 18",
+      "established(vale__absence)",
+      "established(vale__charter)",
+      "established(vale__danger)",
+      "established(vale__tunnel)",
+      "functioning(vale__bell)",
+      "gate(vale__echo, vale__shaft, vale__vault)",
+      "hostile(party, vale__vey)",
+      "hostile(vale__vey, party)",
+      "informedPassage(vale__ridge, vale__vault, vale__tunnel)",
+      "intact(vale__bark)",
+      "intact(vale__escape_route)",
+      "intact(vale__ledger)",
+      "intact(vale__notice)",
+      "intact(vale__report)",
+      "intact(vale__survey)",
+      "knows(vale__iven, vale__danger)",
+      "knows(vale__len, vale__danger)",
+      "knows(vale__len, vale__tunnel)",
+      "mandate(vale__vey, vale__mine)",
+      "mandate(vale__vey, vale__toll)",
+      "mayExamine(party, vale__bark)",
+      "mayExamine(party, vale__escape_route)",
+      "mayExamine(party, vale__ledger)",
+      "mayExamine(party, vale__notice)",
+      "mayExamine(party, vale__report)",
+      "mayExamine(party, vale__survey)",
+      "mounted(vale__bell, vale__vault)",
+      "mounted(vale__bulkhead, vale__mine)",
+      "noticeable(vale__bark)",
+      "noticeable(vale__escape_route)",
+      "noticeable(vale__ledger)",
+      "noticeable(vale__notice)",
+      "noticeable(vale__report)",
+      "noticeable(vale__survey)",
+      "operates(party, vale__bell)",
+      "operates(party, vale__bulkhead)",
+      "operates(vale__ada, vale__bulkhead)",
+      "quantity(party, gold) = 4",
+      "quantity(vale__ada, gold) = 12",
+      "reveals(vale__bark, vale__danger)",
+      "reveals(vale__escape_route, vale__tunnel)",
+      "reveals(vale__ledger, vale__charter)",
+      "reveals(vale__notice, vale__absence)",
+      "reveals(vale__report, vale__danger)",
+      "reveals(vale__survey, vale__tunnel)",
+      "route(vale__guild, vale__square)",
+      "route(vale__hollow, vale__ridge)",
+      "route(vale__inn, vale__square)",
+      "route(vale__mine, vale__ridge)",
+      "route(vale__mine, vale__shaft)",
+      "route(vale__mine, vale__toll)",
+      "route(vale__ridge, vale__hollow)",
+      "route(vale__ridge, vale__mine)",
+      "route(vale__ridge, vale__square)",
+      "route(vale__road, vale__square)",
+      "route(vale__shaft, vale__mine)",
+      "route(vale__shrine, vale__square)",
+      "route(vale__square, vale__guild)",
+      "route(vale__square, vale__inn)",
+      "route(vale__square, vale__ridge)",
+      "route(vale__square, vale__road)",
+      "route(vale__square, vale__shrine)",
+      "route(vale__square, vale__toll)",
+      "route(vale__toll, vale__mine)",
+      "route(vale__toll, vale__square)",
+      "route(vale__vault, vale__ridge)",
+      "route(vale__vault, vale__shaft)",
+      "seeksBacking(vale__vey)",
+      "testimony(vale__len, vale__escape_route)",
+      "trusts(vale__ada, party)",
+      "trusts(vale__iven, party)",
+      "trusts(vale__len, party)",
+      "trusts(vale__vey, party)",
+      "unladen(party)",
+      "watch(clock) = 5"
+    ],
+    "creatures": [
+      {
+        "id": "vale__hero",
+        "name": "Rowan",
+        "raceId": "human",
+        "classId": "fighter",
+        "base": {
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 17,
+          "maxMana": 0,
+          "level": 2,
+          "speed": 3,
+          "strength": 8,
+          "dexterity": 13,
+          "constitution": 12,
+          "intelligence": 15,
+          "wisdom": 15,
+          "charisma": 8
+        },
+        "state": {
+          "hp": 14,
+          "mana": 0,
+          "gold": 4,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__companion",
+        "name": "Tamsin",
+        "raceId": "human",
+        "classId": "cleric",
+        "base": {
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 12,
+          "maxMana": 6,
+          "level": 2,
+          "speed": 2,
+          "strength": 6,
+          "dexterity": 9,
+          "constitution": 10,
+          "intelligence": 17,
+          "wisdom": 14,
+          "charisma": 7
+        },
+        "state": {
+          "hp": 9,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__ada",
+        "name": "Ada Flint",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 10,
+          "intelligence": 10,
+          "wisdom": 12,
+          "constitution": 13,
+          "charisma": 14,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 6,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 6,
+          "mana": 0,
+          "gold": 12,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__vey",
+        "name": "Ser Caldus",
+        "raceId": "goblin",
+        "classId": "fighter",
+        "base": {
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 10,
+          "maxMana": 0,
+          "level": 1,
+          "speed": 3,
+          "strength": 15,
+          "dexterity": 12,
+          "constitution": 11,
+          "intelligence": 14,
+          "wisdom": 13,
+          "charisma": 5
+        },
+        "state": {
+          "hp": 0,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": [
+            {
+              "id": "weakened",
+              "remaining": 2
+            }
+          ]
+        }
+      },
+      {
+        "id": "vale__iven",
+        "name": "Brother Iven",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 15,
+          "dexterity": 16,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 11,
+          "charisma": 12,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 8,
+          "maxMana": 6,
+          "speed": 5
+        },
+        "state": {
+          "hp": 8,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__len",
+        "name": "Len",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 8,
+          "intelligence": 11,
+          "wisdom": 12,
+          "constitution": 14,
+          "charisma": 13,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 9,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 9,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__echo",
+        "name": "The listening echo",
+        "classId": "commoner",
+        "raceId": "wisp",
+        "base": {
+          "strength": 15,
+          "dexterity": 4,
+          "intelligence": 14,
+          "wisdom": 9,
+          "constitution": 10,
+          "charisma": 8,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 5,
+          "maxMana": 0,
+          "speed": 0
+        },
+        "state": {
+          "hp": 5,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      }
+    ],
+    "outcomes": {
+      "vale.bell_silenced": false,
+      "vale.mine_closed": false,
+      "vale.road_controlled": false,
+      "vale.mine_appropriated": false,
+      "vale.mine_claim_defeated": false,
+      "vale.water_spoiled": false,
+      "vale.town_abandoned": false,
+      "vale.miner_home": false,
+      "vale.agent_dead": true,
+      "vale.miners_displaced": false
+    },
+    "npc": []
+  },
+  {
+    "name": "unattended",
+    "steps": [
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "travel(vale__square)"
+      }
+    ],
+    "world": [
+      "able(party)",
+      "able(vale__ada)",
+      "able(vale__echo)",
+      "able(vale__iven)",
+      "able(vale__len)",
+      "able(vale__vey)",
+      "assumesFalse(vale__ada, vale__danger)",
+      "assumesFalse(vale__vey, vale__charter)",
+      "at(party, vale__square)",
+      "at(vale__ada, vale__mine)",
+      "at(vale__bark, vale__hollow)",
+      "at(vale__echo, vale__shaft)",
+      "at(vale__escape_route, vale__hollow)",
+      "at(vale__iven, vale__inn)",
+      "at(vale__ledger, vale__guild)",
+      "at(vale__len, vale__hollow)",
+      "at(vale__notice, vale__square)",
+      "at(vale__report, vale__shaft)",
+      "at(vale__survey, vale__ridge)",
+      "at(vale__vey, vale__mine)",
+      "barrier(vale__bulkhead, vale__shaft)",
+      "controlled(vale__mine, vale__vey)",
+      "controlled(vale__toll, vale__vey)",
+      "denied(party, vale__toll, vale__mine)",
+      "destructible(vale__bark)",
+      "destructible(vale__escape_route)",
+      "destructible(vale__report)",
+      "distinct(party, vale__ada)",
+      "distinct(party, vale__echo)",
+      "distinct(party, vale__iven)",
+      "distinct(party, vale__len)",
+      "distinct(party, vale__vey)",
+      "distinct(vale__ada, party)",
+      "distinct(vale__ada, vale__echo)",
+      "distinct(vale__ada, vale__iven)",
+      "distinct(vale__ada, vale__len)",
+      "distinct(vale__ada, vale__vey)",
+      "distinct(vale__echo, party)",
+      "distinct(vale__echo, vale__ada)",
+      "distinct(vale__echo, vale__iven)",
+      "distinct(vale__echo, vale__len)",
+      "distinct(vale__echo, vale__vey)",
+      "distinct(vale__iven, party)",
+      "distinct(vale__iven, vale__ada)",
+      "distinct(vale__iven, vale__echo)",
+      "distinct(vale__iven, vale__len)",
+      "distinct(vale__iven, vale__vey)",
+      "distinct(vale__len, party)",
+      "distinct(vale__len, vale__ada)",
+      "distinct(vale__len, vale__echo)",
+      "distinct(vale__len, vale__iven)",
+      "distinct(vale__len, vale__vey)",
+      "distinct(vale__vey, party)",
+      "distinct(vale__vey, vale__ada)",
+      "distinct(vale__vey, vale__echo)",
+      "distinct(vale__vey, vale__iven)",
+      "distinct(vale__vey, vale__len)",
+      "enforceAt(vale__vey) = 18",
+      "established(vale__absence)",
+      "established(vale__charter)",
+      "established(vale__danger)",
+      "established(vale__tunnel)",
+      "functioning(vale__bell)",
+      "gate(vale__echo, vale__shaft, vale__vault)",
+      "informedPassage(vale__ridge, vale__vault, vale__tunnel)",
+      "intact(vale__bark)",
+      "intact(vale__escape_route)",
+      "intact(vale__ledger)",
+      "intact(vale__notice)",
+      "intact(vale__report)",
+      "intact(vale__survey)",
+      "knows(vale__iven, vale__danger)",
+      "knows(vale__len, vale__danger)",
+      "knows(vale__len, vale__tunnel)",
+      "mandate(vale__vey, vale__mine)",
+      "mandate(vale__vey, vale__toll)",
+      "mayExamine(party, vale__bark)",
+      "mayExamine(party, vale__escape_route)",
+      "mayExamine(party, vale__ledger)",
+      "mayExamine(party, vale__notice)",
+      "mayExamine(party, vale__report)",
+      "mayExamine(party, vale__survey)",
+      "mounted(vale__bell, vale__vault)",
+      "mounted(vale__bulkhead, vale__mine)",
+      "noticeable(vale__bark)",
+      "noticeable(vale__escape_route)",
+      "noticeable(vale__ledger)",
+      "noticeable(vale__notice)",
+      "noticeable(vale__report)",
+      "noticeable(vale__survey)",
+      "operates(party, vale__bell)",
+      "operates(party, vale__bulkhead)",
+      "operates(vale__ada, vale__bulkhead)",
+      "quantity(party, gold) = 4",
+      "quantity(vale__vey, gold) = 12",
+      "reveals(vale__bark, vale__danger)",
+      "reveals(vale__escape_route, vale__tunnel)",
+      "reveals(vale__ledger, vale__charter)",
+      "reveals(vale__notice, vale__absence)",
+      "reveals(vale__report, vale__danger)",
+      "reveals(vale__survey, vale__tunnel)",
+      "route(vale__guild, vale__square)",
+      "route(vale__hollow, vale__ridge)",
+      "route(vale__inn, vale__square)",
+      "route(vale__mine, vale__ridge)",
+      "route(vale__mine, vale__shaft)",
+      "route(vale__mine, vale__toll)",
+      "route(vale__ridge, vale__hollow)",
+      "route(vale__ridge, vale__mine)",
+      "route(vale__ridge, vale__square)",
+      "route(vale__road, vale__square)",
+      "route(vale__shaft, vale__mine)",
+      "route(vale__shrine, vale__square)",
+      "route(vale__square, vale__guild)",
+      "route(vale__square, vale__inn)",
+      "route(vale__square, vale__ridge)",
+      "route(vale__square, vale__road)",
+      "route(vale__square, vale__shrine)",
+      "route(vale__square, vale__toll)",
+      "route(vale__toll, vale__mine)",
+      "route(vale__toll, vale__square)",
+      "route(vale__vault, vale__ridge)",
+      "route(vale__vault, vale__shaft)",
+      "seeksBacking(vale__vey)",
+      "testimony(vale__len, vale__escape_route)",
+      "trusts(vale__ada, party)",
+      "trusts(vale__iven, party)",
+      "trusts(vale__len, party)",
+      "trusts(vale__vey, party)",
+      "unladen(party)",
+      "vale__abandoned(vale__square)",
+      "vale__displaced(vale__iven)",
+      "vale__tainted(vale__shrine)",
+      "watch(clock) = 44"
+    ],
+    "creatures": [
+      {
+        "id": "vale__hero",
+        "name": "Rowan",
+        "classId": "fighter",
+        "raceId": "human",
+        "base": {
+          "strength": 8,
+          "dexterity": 13,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 12,
+          "charisma": 8,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 17,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 17,
+          "mana": 0,
+          "gold": 4,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__companion",
+        "name": "Tamsin",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 6,
+          "dexterity": 9,
+          "intelligence": 17,
+          "wisdom": 14,
+          "constitution": 10,
+          "charisma": 7,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 12,
+          "maxMana": 6,
+          "speed": 2
+        },
+        "state": {
+          "hp": 12,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__ada",
+        "name": "Ada Flint",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 10,
+          "intelligence": 10,
+          "wisdom": 12,
+          "constitution": 13,
+          "charisma": 14,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 6,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 6,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__vey",
+        "name": "Ser Caldus",
+        "classId": "fighter",
+        "raceId": "goblin",
+        "base": {
+          "strength": 15,
+          "dexterity": 12,
+          "intelligence": 14,
+          "wisdom": 13,
+          "constitution": 11,
+          "charisma": 5,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 10,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 10,
+          "mana": 0,
+          "gold": 12,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__iven",
+        "name": "Brother Iven",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 15,
+          "dexterity": 16,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 11,
+          "charisma": 12,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 8,
+          "maxMana": 6,
+          "speed": 5
+        },
+        "state": {
+          "hp": 8,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__len",
+        "name": "Len",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 8,
+          "intelligence": 11,
+          "wisdom": 12,
+          "constitution": 14,
+          "charisma": 13,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 9,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 9,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__echo",
+        "name": "The listening echo",
+        "classId": "commoner",
+        "raceId": "wisp",
+        "base": {
+          "strength": 15,
+          "dexterity": 4,
+          "intelligence": 14,
+          "wisdom": 9,
+          "constitution": 10,
+          "charisma": 8,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 5,
+          "maxMana": 0,
+          "speed": 0
+        },
+        "state": {
+          "hp": 5,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      }
+    ],
+    "outcomes": {
+      "vale.bell_silenced": false,
+      "vale.mine_closed": false,
+      "vale.road_controlled": true,
+      "vale.mine_appropriated": true,
+      "vale.mine_claim_defeated": false,
+      "vale.water_spoiled": true,
+      "vale.town_abandoned": true,
+      "vale.miner_home": false,
+      "vale.agent_dead": false,
+      "vale.miners_displaced": false
+    },
+    "npc": [
+      {
+        "actor": "vale__vey",
+        "goal": "secure_road",
+        "action": "enforce(vale__vey,vale__toll)",
+        "elapsed": 18
+      },
+      {
+        "actor": "vale__vey",
+        "goal": "secure_revenue",
+        "action": "travel(vale__vey,vale__toll,vale__mine)",
+        "elapsed": 19
+      },
+      {
+        "actor": "vale__vey",
+        "goal": "secure_revenue",
+        "action": "enforce(vale__vey,vale__mine)",
+        "elapsed": 20
+      },
+      {
+        "actor": "vale__iven",
+        "goal": "shelter_survivors",
+        "action": "travel(vale__iven,vale__shrine,vale__square)",
+        "elapsed": 43
+      },
+      {
+        "actor": "vale__iven",
+        "goal": "shelter_survivors",
+        "action": "travel(vale__iven,vale__square,vale__inn)",
+        "elapsed": 44
+      }
+    ]
+  },
+  {
+    "name": "partial",
+    "steps": [
+      {
+        "command": "travel(vale__square)"
+      },
+      {
+        "command": "travel(vale__ridge)"
+      },
+      {
+        "command": "travel(vale__hollow)"
+      },
+      {
+        "command": "examine(vale__bark)"
+      },
+      {
+        "command": "travel(vale__ridge)"
+      },
+      {
+        "command": "travel(vale__mine)"
+      },
+      {
+        "command": "tell(vale__ada,vale__danger)"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "travel(vale__ridge)"
+      },
+      {
+        "command": "examine(vale__survey)"
+      },
+      {
+        "command": "passage(vale__vault)"
+      },
+      {
+        "command": "disable(vale__bell)"
+      },
+      {
+        "command": "travel(vale__ridge)"
+      },
+      {
+        "command": "travel(vale__mine)"
+      },
+      {
+        "command": "wait"
+      },
+      {
+        "command": "wait"
+      }
+    ],
+    "world": [
+      "able(party)",
+      "able(vale__ada)",
+      "able(vale__echo)",
+      "able(vale__iven)",
+      "able(vale__len)",
+      "able(vale__vey)",
+      "assumesFalse(vale__vey, vale__charter)",
+      "at(party, vale__mine)",
+      "at(vale__ada, vale__mine)",
+      "at(vale__bark, vale__hollow)",
+      "at(vale__echo, vale__shaft)",
+      "at(vale__escape_route, vale__hollow)",
+      "at(vale__iven, vale__shrine)",
+      "at(vale__ledger, vale__guild)",
+      "at(vale__len, vale__hollow)",
+      "at(vale__notice, vale__square)",
+      "at(vale__report, vale__shaft)",
+      "at(vale__survey, vale__ridge)",
+      "at(vale__vey, vale__mine)",
+      "barrier(vale__bulkhead, vale__shaft)",
+      "controlled(vale__mine, vale__vey)",
+      "controlled(vale__toll, vale__vey)",
+      "denied(party, vale__toll, vale__mine)",
+      "destructible(vale__bark)",
+      "destructible(vale__escape_route)",
+      "destructible(vale__report)",
+      "distinct(party, vale__ada)",
+      "distinct(party, vale__echo)",
+      "distinct(party, vale__iven)",
+      "distinct(party, vale__len)",
+      "distinct(party, vale__vey)",
+      "distinct(vale__ada, party)",
+      "distinct(vale__ada, vale__echo)",
+      "distinct(vale__ada, vale__iven)",
+      "distinct(vale__ada, vale__len)",
+      "distinct(vale__ada, vale__vey)",
+      "distinct(vale__echo, party)",
+      "distinct(vale__echo, vale__ada)",
+      "distinct(vale__echo, vale__iven)",
+      "distinct(vale__echo, vale__len)",
+      "distinct(vale__echo, vale__vey)",
+      "distinct(vale__iven, party)",
+      "distinct(vale__iven, vale__ada)",
+      "distinct(vale__iven, vale__echo)",
+      "distinct(vale__iven, vale__len)",
+      "distinct(vale__iven, vale__vey)",
+      "distinct(vale__len, party)",
+      "distinct(vale__len, vale__ada)",
+      "distinct(vale__len, vale__echo)",
+      "distinct(vale__len, vale__iven)",
+      "distinct(vale__len, vale__vey)",
+      "distinct(vale__vey, party)",
+      "distinct(vale__vey, vale__ada)",
+      "distinct(vale__vey, vale__echo)",
+      "distinct(vale__vey, vale__iven)",
+      "distinct(vale__vey, vale__len)",
+      "enforceAt(vale__vey) = 18",
+      "established(vale__absence)",
+      "established(vale__charter)",
+      "established(vale__danger)",
+      "established(vale__tunnel)",
+      "gate(vale__echo, vale__shaft, vale__vault)",
+      "informedPassage(vale__ridge, vale__vault, vale__tunnel)",
+      "intact(vale__bark)",
+      "intact(vale__escape_route)",
+      "intact(vale__ledger)",
+      "intact(vale__notice)",
+      "intact(vale__report)",
+      "intact(vale__survey)",
+      "knows(party, vale__danger)",
+      "knows(party, vale__tunnel)",
+      "knows(vale__ada, vale__danger)",
+      "knows(vale__iven, vale__danger)",
+      "knows(vale__len, vale__danger)",
+      "knows(vale__len, vale__tunnel)",
+      "learnedFrom(party, vale__bark, vale__danger)",
+      "learnedFrom(party, vale__survey, vale__tunnel)",
+      "mandate(vale__vey, vale__mine)",
+      "mandate(vale__vey, vale__toll)",
+      "mayExamine(party, vale__bark)",
+      "mayExamine(party, vale__escape_route)",
+      "mayExamine(party, vale__ledger)",
+      "mayExamine(party, vale__notice)",
+      "mayExamine(party, vale__report)",
+      "mayExamine(party, vale__survey)",
+      "mounted(vale__bell, vale__vault)",
+      "mounted(vale__bulkhead, vale__mine)",
+      "noticeable(vale__bark)",
+      "noticeable(vale__escape_route)",
+      "noticeable(vale__ledger)",
+      "noticeable(vale__notice)",
+      "noticeable(vale__report)",
+      "noticeable(vale__survey)",
+      "operates(party, vale__bell)",
+      "operates(party, vale__bulkhead)",
+      "operates(vale__ada, vale__bulkhead)",
+      "quantity(party, gold) = 4",
+      "quantity(vale__ada, gold) = 11",
+      "quantity(vale__vey, gold) = 1",
+      "reveals(vale__bark, vale__danger)",
+      "reveals(vale__escape_route, vale__tunnel)",
+      "reveals(vale__ledger, vale__charter)",
+      "reveals(vale__notice, vale__absence)",
+      "reveals(vale__report, vale__danger)",
+      "reveals(vale__survey, vale__tunnel)",
+      "route(vale__guild, vale__square)",
+      "route(vale__hollow, vale__ridge)",
+      "route(vale__inn, vale__square)",
+      "route(vale__mine, vale__ridge)",
+      "route(vale__mine, vale__shaft)",
+      "route(vale__mine, vale__toll)",
+      "route(vale__ridge, vale__hollow)",
+      "route(vale__ridge, vale__mine)",
+      "route(vale__ridge, vale__square)",
+      "route(vale__road, vale__square)",
+      "route(vale__shaft, vale__mine)",
+      "route(vale__shrine, vale__square)",
+      "route(vale__square, vale__guild)",
+      "route(vale__square, vale__inn)",
+      "route(vale__square, vale__ridge)",
+      "route(vale__square, vale__road)",
+      "route(vale__square, vale__shrine)",
+      "route(vale__square, vale__toll)",
+      "route(vale__toll, vale__mine)",
+      "route(vale__toll, vale__square)",
+      "route(vale__vault, vale__ridge)",
+      "route(vale__vault, vale__shaft)",
+      "seeksBacking(vale__vey)",
+      "testimony(vale__len, vale__escape_route)",
+      "toldBy(vale__ada, party, vale__danger)",
+      "trusts(vale__ada, party)",
+      "trusts(vale__iven, party)",
+      "trusts(vale__len, party)",
+      "trusts(vale__vey, party)",
+      "unladen(party)",
+      "vale__displaced(vale__ada)",
+      "vale__sheltered(vale__ada)",
+      "watch(clock) = 20"
+    ],
+    "creatures": [
+      {
+        "id": "vale__hero",
+        "name": "Rowan",
+        "classId": "fighter",
+        "raceId": "human",
+        "base": {
+          "strength": 8,
+          "dexterity": 13,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 12,
+          "charisma": 8,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 17,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 17,
+          "mana": 0,
+          "gold": 4,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__companion",
+        "name": "Tamsin",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 6,
+          "dexterity": 9,
+          "intelligence": 17,
+          "wisdom": 14,
+          "constitution": 10,
+          "charisma": 7,
+          "level": 2,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 12,
+          "maxMana": 6,
+          "speed": 2
+        },
+        "state": {
+          "hp": 12,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__ada",
+        "name": "Ada Flint",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 10,
+          "intelligence": 10,
+          "wisdom": 12,
+          "constitution": 13,
+          "charisma": 14,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 6,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 6,
+          "mana": 0,
+          "gold": 11,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__vey",
+        "name": "Ser Caldus",
+        "classId": "fighter",
+        "raceId": "goblin",
+        "base": {
+          "strength": 15,
+          "dexterity": 12,
+          "intelligence": 14,
+          "wisdom": 13,
+          "constitution": 11,
+          "charisma": 5,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "cleave",
+            "flee",
+            "rally",
+            "wounding_blow"
+          ],
+          "maxHp": 10,
+          "maxMana": 0,
+          "speed": 3
+        },
+        "state": {
+          "hp": 10,
+          "mana": 0,
+          "gold": 1,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__iven",
+        "name": "Brother Iven",
+        "classId": "cleric",
+        "raceId": "human",
+        "base": {
+          "strength": 15,
+          "dexterity": 16,
+          "intelligence": 15,
+          "wisdom": 15,
+          "constitution": 11,
+          "charisma": 12,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "heal",
+            "bless",
+            "purify",
+            "revive",
+            "flee"
+          ],
+          "maxHp": 8,
+          "maxMana": 6,
+          "speed": 5
+        },
+        "state": {
+          "hp": 8,
+          "mana": 6,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__len",
+        "name": "Len",
+        "classId": "commoner",
+        "raceId": "goblin",
+        "base": {
+          "strength": 10,
+          "dexterity": 8,
+          "intelligence": 11,
+          "wisdom": 12,
+          "constitution": 14,
+          "charisma": 13,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 9,
+          "maxMana": 0,
+          "speed": 2
+        },
+        "state": {
+          "hp": 9,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      },
+      {
+        "id": "vale__echo",
+        "name": "The listening echo",
+        "classId": "commoner",
+        "raceId": "wisp",
+        "base": {
+          "strength": 15,
+          "dexterity": 4,
+          "intelligence": 14,
+          "wisdom": 9,
+          "constitution": 10,
+          "charisma": 8,
+          "level": 1,
+          "abilities": [
+            "attack",
+            "defend",
+            "flee"
+          ],
+          "maxHp": 5,
+          "maxMana": 0,
+          "speed": 0
+        },
+        "state": {
+          "hp": 5,
+          "mana": 0,
+          "gold": 0,
+          "experience": 0,
+          "learnedAbilities": [],
+          "conditions": []
+        }
+      }
+    ],
+    "outcomes": {
+      "vale.bell_silenced": true,
+      "vale.mine_closed": false,
+      "vale.road_controlled": true,
+      "vale.mine_appropriated": true,
+      "vale.mine_claim_defeated": false,
+      "vale.water_spoiled": false,
+      "vale.town_abandoned": false,
+      "vale.miner_home": false,
+      "vale.agent_dead": false,
+      "vale.miners_displaced": true
+    },
+    "npc": [
+      {
+        "actor": "vale__ada",
+        "goal": "protect_workers",
+        "action": "shut(vale__ada,vale__bulkhead,vale__mine,vale__shaft)",
+        "elapsed": 7
+      },
+      {
+        "actor": "vale__ada",
+        "goal": "find_shelter",
+        "action": "travel(vale__ada,vale__mine,vale__toll)",
+        "elapsed": 8
+      },
+      {
+        "actor": "vale__ada",
+        "goal": "find_shelter",
+        "action": "travel(vale__ada,vale__toll,vale__square)",
+        "elapsed": 9
+      },
+      {
+        "actor": "vale__ada",
+        "goal": "find_shelter",
+        "action": "travel(vale__ada,vale__square,vale__inn)",
+        "elapsed": 10
+      },
+      {
+        "actor": "vale__ada",
+        "goal": "reopen_safe_workings",
+        "action": "travel(vale__ada,vale__inn,vale__square)",
+        "elapsed": 16
+      },
+      {
+        "actor": "vale__ada",
+        "goal": "reopen_safe_workings",
+        "action": "travel(vale__ada,vale__square,vale__toll)",
+        "elapsed": 17
+      },
+      {
+        "actor": "vale__ada",
+        "goal": "reopen_safe_workings",
+        "action": "travel(vale__ada,vale__toll,vale__mine)",
+        "elapsed": 18
+      },
+      {
+        "actor": "vale__vey",
+        "goal": "secure_road",
+        "action": "enforce(vale__vey,vale__toll)",
+        "elapsed": 18
+      },
+      {
+        "actor": "vale__ada",
+        "goal": "reopen_safe_workings",
+        "action": "open(vale__ada,vale__bulkhead,vale__mine,vale__shaft)",
+        "elapsed": 19
+      },
+      {
+        "actor": "vale__vey",
+        "goal": "secure_revenue",
+        "action": "travel(vale__vey,vale__toll,vale__mine)",
+        "elapsed": 19
+      },
+      {
+        "actor": "vale__vey",
+        "goal": "secure_revenue",
+        "action": "enforce(vale__vey,vale__mine)",
+        "elapsed": 20
+      }
+    ]
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "situation": "situation.kyr",
+  "rules": [
+    "../../rulesets/adventure.kyr",
+    "../../rulesets/discovery.kyr",
+    "../../rulesets/site-capabilities.kyr",
+    "../../rulesets/affinities.kyr",
+    "../../rulesets/fieldcraft.kyr",
+    "../../rulesets/items.kyr",
+    "../../rulesets/dungeoneering.kyr"
+  ],
+  "globals": [
+    "party",
+    "gold",
+    "rations",
+    "clock",
+    "woodcraft",
+    "delving",
+    "burial_lore",
+    "ropekit"
+  ],
+  "imports": [
+    "host",
+    "forecourt",
+    "shelter",
+    "admission_bolt",
+    "party"
+  ],
+  "roles": {
+    "host": {
+      "type": "group",
+      "conditions": [
+        "at(host, forecourt)"
+      ]
+    },
+    "forecourt": {
+      "type": "place"
+    },
+    "shelter": {
+      "type": "place",
+      "conditions": [
+        "closed(shelter)"
+      ]
+    },
+    "admission_bolt": {
+      "type": "mechanism",
+      "conditions": [
+        "mounted(admission_bolt, forecourt)"
+      ]
+    },
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "charter": "charter",
+    "localfounding_oath": "localfounding_oath"
+  },
+  "generation": {
+    "type": "founding_charter",
+    "templates": "templates.json"
+  }
+}

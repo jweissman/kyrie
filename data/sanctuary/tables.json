@@ -1,0 +1,19 @@
+{
+  "refugeCast": {"discriminator":"kind","groups":{
+    "creatures":[
+      {"id":"traveler","context":{"name":"Merrin","raceId":"human","classId":"fighter"},"gold":0},
+      {"id":"keeper","context":{"name":"Cira","raceId":"human","classId":"commoner"},"gold":0}
+    ],
+    "controllers":[
+      {"id":"party","members":["traveler"],"player":true,"horizon":4,"actions":["wait","travel","examine","tell"],"goals":[]},
+      {"id":"cira","members":["keeper"],"horizon":3,"actions":["open"],"goals":[]}
+    ],
+    "outcomes":[{"id":"hall_open","predicate":"not closed(hall)"}]
+  }},
+  "refugeInformation":{"discriminator":"kind","groups":{"charter":[{
+    "id":"founding_oath",
+    "text":"The founders dedicated the sanctuary hall to travelers of every faith.",
+    "knownBy":[],"deniedBy":["cira"],
+    "sources":[{"id":"charter","text":"The founders' charter","place":"porch","readers":["party"]}]
+  }]}}
+}

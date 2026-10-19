@@ -1,0 +1,8 @@
+{
+  "roostDragonName": {
+    "discriminator": "color",
+    "groups": {
+      "red": ["Firetongue", "Emberwing", "Calder", "Sejanus", "Gei-Zar", "Draconius", "Fafnir"]
+    }
+  }
+}
