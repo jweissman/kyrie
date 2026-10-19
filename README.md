@@ -252,3 +252,4 @@ deem run --settingDir . --type module --seed demo
 The raw Deem `module` result is a generation manifest. `kyrie module` composes it
 into a complete, checked Kyr module. See [design notes](doc/design.md) for semantics,
 architecture, research limitations, and the remaining Orsino effect target.
+# kyrie
