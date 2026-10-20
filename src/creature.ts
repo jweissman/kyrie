@@ -15,9 +15,11 @@ export interface Creature {
   traits?: string[]; generation?: { trace: string[] };
   base: Attributes & {
     maxHp: number; maxMana: number; speed: number; level: number; abilities: string[];
+    // A caster's spell slots by spell level (index 0 is first level); state.slots are those not yet spent.
+    maxSlots?: number[];
   };
   state: {
-    hp: number; mana: number; gold: number; experience: number;
+    hp: number; mana: number; gold: number; experience: number; slots?: number[];
     learnedAbilities: string[]; conditions: ConditionInstance[]; inventory?: ItemInstance[];
   };
 }
@@ -45,6 +47,9 @@ export class CreatureSchema {
       throw new Error(`Invalid creature statistics: ${creature.id}`);
     }
     if (this.attributes.some(key => creature.base[key] < 1)) { throw new Error('Invalid ability score'); }
+    const most = creature.base.maxSlots ?? [], left = creature.state.slots ?? [];
+    if (most.length !== left.length || [...most, ...left].some(n => !Number.isSafeInteger(n) || n < 0)
+      || left.some((n, i) => n > most[i]!)) { throw new Error(`Invalid spell slots: ${creature.id}`); }
     const inventory = creature.state.inventory ?? [];
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition
       || (i.equipped !== undefined && typeof i.equipped !== 'boolean'))

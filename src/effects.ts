@@ -1,3 +1,4 @@
+import { Spellcasting } from './rules/spellcasting';
 import { Content } from './content';
 import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
@@ -277,6 +278,11 @@ export class Effects {
         }
         break;
       case 'gain': {
+        if (effect.resource === 'slots') {
+          const restored = Spellcasting.restore(target, rolled);
+          if (restored) { Effects.detail(context, target, { type: 'gain', detail: 'spell slots', amount: restored }); }
+          break;
+        }
         const amount = effect.resource === 'mana' ? Math.min(rolled, target.maxMana - target.mana) : rolled;
         target[effect.resource] += amount;
         if (amount) { Effects.detail(context, target, { type: 'gain', detail: effect.resource, amount }); }

@@ -22,8 +22,9 @@ export interface ItemRow {
 }
 export interface MemberRow {
   id: string; ref?: string; name: string; line: string; background?: string; level: number;
-  hp: number; maxHp: number; mana: number; maxMana: number; experience: number; gold: number;
-  conditions: string[]; abilities: { id: string; name: string; text: string; cost: number }[];
+  hp: number; maxHp: number; mana: number; maxMana: number; slots?: number[]; maxSlots?: number[];
+  experience: number; gold: number;
+  conditions: string[]; abilities: { id: string; name: string; text: string; cost: number; price: string }[];
   attributes: Record<string, number>; acts: Act[];
   overlays?: { id: string; name: string; role: string; grants: string[] }[];
 }
@@ -52,11 +53,12 @@ export interface RegionChart {
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;
   foes: CombatantRow[]; allies: CombatantRow[];
-  abilities: { id: string; name: string; text: string; cost: number; cooldown: number; scope: string;
+  abilities: { id: string; name: string; text: string; cost: number; price: string; cooldown: number; scope: string;
     targets: { id: string; name: string }[] }[];
   log: string[]; exchanges: string[][];
 }
 export interface CombatantRow {
   id: string; name: string; line: string; hp: number; maxHp: number; mana: number; maxMana: number;
+  slots?: number[]; maxSlots?: number[];
   statuses: string[]; acting: boolean; down: boolean;
 }

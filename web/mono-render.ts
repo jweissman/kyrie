@@ -75,8 +75,15 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   }
   static member(m: MemberRow): string {
     return `<div class="member${m.hp ? '' : ' dead'}" data-member="${Html.escape(m.id)}"><div class="who"><b>${Html.escape(m.name)}</b><span>${Html.escape(m.line)}</span></div>`
-      + `${this.bar('HP', m.hp, m.maxHp, 'hp')}${m.maxMana ? this.bar('MP', m.mana, m.maxMana, 'mp') : ''}`
+      + `${this.bar('HP', m.hp, m.maxHp, 'hp')}${m.maxMana ? this.bar('MP', m.mana, m.maxMana, 'mp') : ''}${this.slots(m)}`
       + `${m.conditions.length ? `<div class="cond">${m.conditions.map(c => Html.escape(c)).join(' · ')}</div>` : ''}</div>`;
+  }
+  // Spell slots by level: "Spells I ●●○ II ●", a filled pip for each slot not yet spent.
+  static slots(m: { slots?: number[]; maxSlots?: number[] }): string {
+    if (!m.maxSlots?.length) { return ''; }
+    const levels = m.maxSlots.map((most, i) => `${['I', 'II', 'III', 'IV', 'V'][i] ?? i + 1} ${'●'.repeat(m.slots?.[i] ?? 0)}`
+      + `${'○'.repeat(most - (m.slots?.[i] ?? 0))}`);
+    return `<div class="meter slots" aria-label="Spell slots"><span class="k">Spells</span><span class="cells">${levels.join(' ')}</span></div>`;
   }
   static bar(label: string, value: number, max: number, kind: string): string {
     const cells = 10, filled = max ? Math.round((value / max) * cells) : 0;
@@ -99,7 +106,7 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   }
   static combatant(c: CombatantRow): string {
     return `<div class="fighter${c.acting ? ' acting' : ''}${c.down ? ' down' : ''}" data-fighter="${Html.escape(c.id)}"><div class="who"><b>${c.acting ? '▶ ' : ''}${Html.escape(c.name)}</b><span>${Html.escape(c.line)}</span></div>`
-      + `${this.bar('HP', c.hp, c.maxHp, 'hp')}${c.maxMana ? this.bar('MP', c.mana, c.maxMana, 'mp') : ''}${c.statuses.length ? `<div class="cond">${c.statuses.map(x => Html.escape(x)).join(' · ')}</div>` : ''}</div>`;
+      + `${this.bar('HP', c.hp, c.maxHp, 'hp')}${c.maxMana ? this.bar('MP', c.mana, c.maxMana, 'mp') : ''}${this.slots(c)}${c.statuses.length ? `<div class="cond">${c.statuses.map(x => Html.escape(x)).join(' · ')}</div>` : ''}</div>`;
   }
   static combat(s: MonoState): string {
     const c = s.combat!;

@@ -65,6 +65,9 @@ export interface CharacterClass {
   };
   // Orsino's maxSpellSlotsForCombatant: base plus 2 + level, plus a multiple of a positive attribute modifier.
   slots: { base: number; attribute?: Attribute; multiplier?: number };
+  // Spell slots by spell level for each character level (row 0 is level 1); a casting attribute of 14 or more adds a
+  // first-level slot. Cantrips need no slot.
+  spellcasting?: { attribute: Attribute; slots: number[][] };
   omits?: Omissions; source: Source;
 }
 export interface Background {

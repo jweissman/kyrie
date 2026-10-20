@@ -1,3 +1,4 @@
+import { Spellcasting } from '../rules/spellcasting';
 import { Content } from '../content';
 import { Deem } from 'deem';
 import { Canon } from '../canon/canon';
@@ -20,13 +21,21 @@ export class MechanicsText {
   };
   static ability(ability: ArenaAbility, actor?: Record<string, number>): AbilityText {
     const parts = ability.effects.map(e => this.effect(e, actor));
-    const costs = [ability.cost ? `${ability.cost} mana` : '',
+    const level = ability.spell?.level ?? 0;
+    const costs = [level ? `a ${Spellcasting.ordinal(level)}-level slot` : ability.spell ? 'a cantrip, at will'
+      : ability.cost ? `${ability.cost} mana` : '',
       ability.cooldown ? `usable again in ${ability.cooldown} turn${ability.cooldown === 1 ? '' : 's'}` : '']
       .filter(Boolean);
     const details = [...new Set(ability.effects.flatMap(e => e.kind === 'apply' ? [e.status]
       : this.triggered(e).map(([id]) => id)))].map(id => this.condition(id, actor)).filter((d): d is string => !!d);
     if (ability.spell) { details.unshift(`Level ${ability.spell.level} ${ability.spell.tradition} spell.`); }
     return { summary: `${this.capitalize(parts.join('; '))}.${costs.length ? ` (${costs.join(', ')})` : ''}`, details };
+  }
+  // What using an ability spends, in a few words: "1st-level slot", "cantrip", "2 mana", or nothing.
+  static price(ability: ArenaAbility): string {
+    const level = ability.spell?.level ?? 0;
+    return level ? `${['1st', '2nd', '3rd'][level - 1] ?? `${level}th`}-level slot` : ability.spell ? 'cantrip'
+      : ability.cost ? `${ability.cost} mana` : '';
   }
   // The summary followed by what each condition it applies does.
   static full(ability: ArenaAbility, actor?: Record<string, number>): string {

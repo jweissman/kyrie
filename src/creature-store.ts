@@ -1,3 +1,4 @@
+import { Spellcasting } from './rules/spellcasting';
 import { CreatureSchema, type Creature } from './creature';
 import { CreatureLease } from './creature-lease';
 import { Equality } from './equality';
@@ -14,6 +15,7 @@ export class CreatureStore {
     for (const creature of creatures) { this.insert(creature); }
   }
   insert(creature: Creature) {
+    creature = Spellcasting.equip(structuredClone(creature));
     CreatureSchema.validate(creature);
     if (this.records.has(creature.id)) { throw new Error(`Duplicate creature ${creature.id}`); }
     const existingItems = new Set([...this.records.values()].flatMap(c => (c.state.inventory ?? []).map(i => i.id)));

@@ -1,3 +1,4 @@
+import { Spellcasting } from './rules/spellcasting';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import type { Expressions } from './expressions';
@@ -33,7 +34,9 @@ export class AbilityUse {
     if (!actor && (!context.source || !context.recipients)) { throw new Error('A non-creature source needs bound recipients'); }
     if (!actor && (ability.cost || ability.effects.some(e => ['defend', 'flee', 'drain', 'summon', 'travel', 'attack']
       .includes(e.kind) || e.target === 'self'))) { throw new Error('This ability requires a creature actor'); }
-    if ((ability.cost ?? 0) > (actor?.mana ?? 0)) { throw new Error('Insufficient mana'); }
+    if (actor ? !Spellcasting.affordable(actor, ability) : (ability.cost ?? 0) > 0) {
+      throw new Error(Spellcasting.needsSlot(ability) ? 'No spell slot of that level is free' : 'Insufficient mana');
+    }
   }
   private static targets(effect: Effect, targetId: string, expressions: Expressions,
     context: EffectContext): Fighter[] {
@@ -58,7 +61,7 @@ export class AbilityUse {
     if (effects.length && effects.every(e => !AbilityUse.targets(e, targetId, expressions, context).length
       && !['defend', 'flee', 'travel'].includes(e.kind))) { throw new Error('No eligible ability target'); }
     if (actor) {
-      actor.mana -= ability.cost ?? 0;
+      Spellcasting.spend(actor, ability);
       actor.cooldowns[ability.id] = (ability.cooldown ?? 0) + 1;
     }
     context.events.push({ type: 'action', turn: context.turn,

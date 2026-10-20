@@ -69,7 +69,7 @@ export class MonoRows {
   static combat(combat: CombatScreen): Row[] {
     if (!combat.ours || combat.outcome) { return []; }
     return combat.abilities.map(a => ({ id: `ability:${a.id}`, group: combat.actorName, glyph: '⚔', label: a.name,
-      note: [a.cost ? `${a.cost} mana` : '', a.targets.length ? '' : a.scope].filter(Boolean).join(' · '), about: a.text,
+      note: [a.price, a.targets.length ? '' : a.scope].filter(Boolean).join(' · '), about: a.text,
       acts: a.targets.length ? a.targets.map(t => ({ key: t.id, label: t.name, command: `${a.id}>${t.id}` })) :
         [{ key: a.id, label: a.name, command: `${a.id}>` }], tone: 'ability' as const }));
   }

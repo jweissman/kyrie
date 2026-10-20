@@ -1,3 +1,4 @@
+import { Spellcasting } from './rules/spellcasting';
 import { AbilityUse } from './ability-use';
 import { CreatureStore, type CreatureLease } from './creature-store';
 import { CombatProjection } from './combat-projection';
@@ -102,7 +103,7 @@ export class Battle {
     const known = [...actor.abilities, actor.equipment?.weapon?.missile ? 'ranged' : 'melee',
       ...actor.team === 'fighters' ? ['wait', 'flee'] : []];
     const m = Effects.modifiers(actor);
-    const usable = this.abilities.filter(a => known.includes(a.id) && (a.cost ?? 0) <= actor.mana
+    const usable = this.abilities.filter(a => known.includes(a.id) && Spellcasting.affordable(actor, a)
       && !(actor.cooldowns[a.id] ?? 0)
       && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(actor.level)
       && !(a.spell && m.noSpellcasting)

@@ -1,3 +1,4 @@
+import { Spellcasting } from './rules/spellcasting';
 import { buildSetting, Generator, Template } from 'deem';
 import type { DeemValue } from 'deem';
 import tables from '../data/generation/tables/deem.tables.json';
@@ -160,7 +161,9 @@ export class Content {
       ...context.abilities ?? []])].filter(a => Creation.executable(a));
     const hp = chassis.hitPoints ?? Creation.hitPoints(chassis.hitDie, level, creature.base.constitution);
     creature.base.maxHp = creature.state.hp = hp;
-    creature.base.maxMana = creature.state.mana = Creation.slots(classId, level, creature.base);
+    // Spells spend slots by level; the general pool is only for techniques that cost something, and none does yet.
+    creature.base.maxMana = creature.state.mana = 0;
+    Spellcasting.equip(creature);
     creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
     if (!species) { this.equip(creature, chassis, context, randomIdentity); }
     Overlays.carry(creature, context.gear ?? []);

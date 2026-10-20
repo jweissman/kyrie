@@ -19,7 +19,7 @@ export class MonoScreens {
     if (!m) { return '<main class="screen company-sheet"></main>'; }
     const attrs = Object.entries(m.attributes).map(([k, v]) => `<span><abbr title="${k}">${k.slice(0, 3).toUpperCase()}</abbr> ${v}</span>`).join('');
     const gear = screen.items.filter(i => i.owner === m.id).map(i => `<li>${i.equipped ? '◉' : '○'} ${Html.escape(i.name)}${i.kind === i.name ? '' : ` <small>${Html.escape(i.kind)}</small>`}</li>`).join('');
-    const abilities = m.abilities.map(a => `<li><b>${Html.escape(a.name)}</b>${a.cost ? ` <small>${a.cost} mana</small>` : ''}<br><small>${Html.escape(a.text)}</small></li>`).join('');
+    const abilities = m.abilities.map(a => `<li><b>${Html.escape(a.name)}</b>${a.price ? ` <small>${Html.escape(a.price)}</small>` : ''}<br><small>${Html.escape(a.text)}</small></li>`).join('');
     return `<main class="screen company-sheet">${MonoRender.rows(s, 'Company')}<section class="pane sheet" data-region="sheet"><h1>${Html.escape(m.name)}</h1>`
       + `<p class="kind">${Html.escape(m.line)} · level ${m.level}${m.background ? ` · ${Html.escape(m.background)}` : ''} · ${m.experience} xp · ${m.gold} coin</p>`
       + `${MonoRender.bar('HP', m.hp, m.maxHp, 'hp')}${m.maxMana ? MonoRender.bar('MP', m.mana, m.maxMana, 'mp') : ''}<div class="attrs">${attrs}</div>`

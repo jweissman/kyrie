@@ -5,7 +5,7 @@ import source from './Abilities.ohm' with { type: 'text' };
 
 export type Target = 'enemy' | 'ally' | 'self' | 'dead ally' | 'enemies' | 'allies' | 'party' | 'all' | 'random enemy';
 export type Amount = { kind: 'literal'; value: number } | { kind: 'deem'; expression: string };
-export type Resource = 'gold' | 'experience' | 'mana';
+export type Resource = 'gold' | 'experience' | 'mana' | 'slots';
 type EffectBody =
   // A weapon attack (Orsino's attack effect): an attack roll with the actor's weapon, then its damage. Spillover
   // carries lethal excess damage on to another enemy.

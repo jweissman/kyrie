@@ -14,7 +14,7 @@
     "fire_ward": {
       "name": "Fire ward",
       "kind": "technique",
-      "description": "Spend a little strength to ward a companion against fire for about two hours.",
+      "description": "Ward a companion against fire for about two hours.",
       "effects": [
         {
           "kind": "apply",
@@ -24,7 +24,6 @@
           "clock": "world-time"
         }
       ],
-      "cost": 2,
       "source": {
         "orsino": "status:fireproof",
         "fidelity": "adapted",

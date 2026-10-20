@@ -123,9 +123,10 @@ export class ScreenModel {
       const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
-        maxMana: m.maxMana, experience: m.experience, gold: m.gold, conditions: m.conditions,
+        maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
+        experience: m.experience, gold: m.gold, conditions: m.conditions,
         abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))
-          .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0,
+          .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
             text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),
         attributes: m.attributes ?? {}, acts: ref ? grouped.members.get(ref) ?? [] : [],
         overlays: this.overlays(campaign, m.id) };

@@ -1,3 +1,4 @@
+import { Spellcasting } from '../rules/spellcasting';
 import { ItemCatalog } from '../item-catalog';
 import { Fighting } from '../rules/fighting';
 import { Creation } from '../rules/creation';
@@ -75,7 +76,7 @@ export class CreatureFacts {
               || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status)));
             changes.push({ kind: useful ? 'assert' : 'retract', call: ModuleWriter.call('treatable', reference, a.id) });
             // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
-            const usable = ready && known.has(a.id) && c.state.mana >= (a.cost ?? 0)
+            const usable = ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
               && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(c.base.level);
             changes.push({ kind: usable ? 'assert' : 'retract', call: ModuleWriter.call('canCast', reference, a.id) });
           }

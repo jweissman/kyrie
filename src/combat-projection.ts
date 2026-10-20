@@ -12,10 +12,12 @@ export class CombatProjection {
       ...fighter.classId ? { classId: fighter.classId } : {},
       base: original ? structuredClone(original.base) : { abilities: [...fighter.abilities],
         maxHp: fighter.maxHp, maxMana: fighter.maxMana,
+        ...(fighter.maxSlots ? { maxSlots: [...fighter.maxSlots] } : {}),
         level: fighter.level, speed: fighter.speed, strength: fighter.strength, dexterity: fighter.dexterity,
         constitution: fighter.constitution, intelligence: fighter.intelligence,
         wisdom: fighter.wisdom, charisma: fighter.charisma },
       state: { hp: fighter.hp, mana: fighter.mana, gold: fighter.gold, experience: fighter.experience,
+        ...(fighter.slots ? { slots: [...fighter.slots] } : {}),
         learnedAbilities: fighter.abilities.filter(id => !(original?.base.abilities ?? fighter.abilities).includes(id)
           && !(original && ItemCatalog.abilities(original)[id]
             && !original.state.learnedAbilities.includes(id))),
@@ -27,6 +29,7 @@ export class CombatProjection {
     return { id: creature.id, name: creature.name, raceId: creature.raceId,
       ...creature.classId ? { classId: creature.classId } : {},
       ...structuredClone(creature.base), hp: creature.state.hp, mana: creature.state.mana,
+      ...(creature.state.slots ? { slots: [...creature.state.slots] } : {}),
       gold: creature.state.gold, experience: creature.state.experience,
       abilities: [...new Set([...creature.base.abilities, ...creature.state.learnedAbilities,
         ...Object.keys(sources)])],

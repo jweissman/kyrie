@@ -19,7 +19,8 @@ export class CombatModel {
       allies: state.combatants.filter(f => f.team === 'fighters').map(f => this.row(f, state)),
       abilities: choices.map(c => ({ id: c.ability.id, name: c.ability.name,
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
-        cost: c.ability.cost ?? 0, cooldown: c.ability.cooldown ?? 0, scope: c.scope,
+        cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
+        cooldown: c.ability.cooldown ?? 0, scope: c.scope,
         targets: c.requiresTarget ? c.commands.map(cmd => ({ id: cmd.target,
           name: state.combatants.find(f => f.id === cmd.target)?.name ?? cmd.target })) : [] })),
       log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
@@ -41,7 +42,8 @@ export class CombatModel {
     const race = Content.races[f.raceId as keyof typeof Content.races]?.name ?? f.raceId;
     const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
     return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,
-      mana: f.mana, maxMana: f.maxMana, statuses: f.statuses.map(s => s.id), acting: f.id === state.actor,
+      mana: f.mana, maxMana: f.maxMana, ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
+      statuses: f.statuses.map(s => s.id), acting: f.id === state.actor,
       down: f.hp === 0 };
   }
   private static name(state: BattleState, id: string): string {

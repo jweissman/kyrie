@@ -33,8 +33,9 @@ describe('compositional creature generation', () => {
     expect([high.base.strength, high.base.constitution]).toEqual([18, 15]);
     // A level-1 character: hit die 8 + CON modifier 3. Above level 1, Orsino's NPC formula: 8 + 3 × 8 / 2 + 3.
     expect([low.base.maxHp, high.base.maxHp]).toEqual([11, 23]);
-    // Slots: a cleric's 2, plus 2 + level, plus the positive WIS modifier (2).
-    expect([low.base.maxMana, high.base.maxMana]).toEqual([7, 10]);
+    // Slots by spell level from the cleric table (1 at level 1; 2 and 2 at level 4), plus one for WIS 14.
+    expect([low.base.maxSlots, high.base.maxSlots]).toEqual([[2], [3, 2]]);
+    expect(low.state.slots).toEqual([2]);
     expect(high.base.abilities).toEqual(['defend', 'cure_minor', 'sanctify', ...spells]);
     expect(new Content('alias').generate('character'))
       .toEqual(new Content('alias').generate('creature', { family: 'humanoid' }));

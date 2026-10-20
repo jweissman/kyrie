@@ -13,7 +13,7 @@ export interface Fighter {
   id: string; name: string; team: Team; hp: number; maxHp: number;
   strength: number; speed: number; level: number; abilities: string[];
   raceId: string; classId?: string; dexterity: number; intelligence: number; wisdom: number;
-  constitution: number; charisma: number; mana: number; maxMana: number;
+  constitution: number; charisma: number; mana: number; maxMana: number; maxSlots?: number[]; slots?: number[];
   gold: number; experience: number;
   abilitySources?: Record<string, { id: string; kind: 'item'; name: string }>;
   // The wielded (or natural) weapon, worn armour's ac, and equipped items' modifiers and hooks.
