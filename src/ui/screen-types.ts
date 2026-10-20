@@ -54,7 +54,7 @@ export interface CombatScreen {
   foes: CombatantRow[]; allies: CombatantRow[];
   abilities: { id: string; name: string; text: string; cost: number; cooldown: number; scope: string;
     targets: { id: string; name: string }[] }[];
-  log: string[];
+  log: string[]; exchanges: string[][];
 }
 export interface CombatantRow {
   id: string; name: string; line: string; hp: number; maxHp: number; mana: number; maxMana: number;

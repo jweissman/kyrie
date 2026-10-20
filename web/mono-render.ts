@@ -107,6 +107,6 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     return `<main class="screen combat"><section class="pane foes" data-region="foes"><h2>Opposed</h2>${c.foes.map(f => this.combatant(f)).join('')}</section>`
       + `<section class="pane allies" data-region="allies"><h2>Your company</h2>${c.allies.map(f => this.combatant(f)).join('')}</section>`
       + `${this.rows(s, title)}${this.menu(s)}`
-      + `<section class="pane log battle" data-region="battle-log" aria-live="polite"><h2>Blow by blow</h2>${c.log.slice(-14).reverse().map((l, i) => `<p class="${i ? 'old' : ''}">${Html.escape(l)}</p>`).join('')}</section></main>`;
+      + `<section class="pane log battle" data-region="battle-log" aria-live="polite"><h2>Blow by blow</h2>${c.exchanges.slice(-6).reverse().map((g, i) => `<div class="exchange${i ? ' old' : ''}">${g.map(l => `<p>${Html.escape(l)}</p>`).join('')}</div>`).join('')}</section></main>`;
   }
 }

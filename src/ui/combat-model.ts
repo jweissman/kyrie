@@ -23,12 +23,24 @@ export class CombatModel {
         targets: c.requiresTarget ? c.commands.map(cmd => ({ id: cmd.target,
           name: state.combatants.find(f => f.id === cmd.target)?.name ?? cmd.target })) : [] })),
       log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
+      exchanges: this.exchanges([...prior, ...battle.events], state).slice(-12),
     };
+  }
+  // The log in causal groups: each action (or initiative roll) with everything it caused, in the order it happened.
+  static exchanges(events: CombatEvent[], state: BattleState): string[][] {
+    const groups: string[][] = [];
+    for (const e of events) {
+      const line = this.line(e, state);
+      if (!line) { continue; }
+      if (e.type === 'action' || e.type === 'initiative' || !groups.length) { groups.push([line]); }
+      else { groups.at(-1)!.push(line); }
+    }
+    return groups;
   }
   private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
     const race = Content.races[f.raceId as keyof typeof Content.races]?.name ?? f.raceId;
-    const klass = Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId;
-    return { id: f.id, name: f.name, line: `${race} ${klass}`.toLowerCase(), hp: f.hp, maxHp: f.maxHp,
+    const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
+    return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,
       mana: f.mana, maxMana: f.maxMana, statuses: f.statuses.map(s => s.id), acting: f.id === state.actor,
       down: f.hp === 0 };
   }
@@ -49,7 +61,8 @@ export class CombatModel {
     }
     if (e.type === 'heal') { return `${this.name(state, e.target)} recovers ${e.amount} → ${e.hp} HP.`; }
     if (e.type === 'save') {
-      return `${this.name(state, e.target)} ${e.success ? 'resists' : 'fails to resist'} (${e.stat ?? 'save'} ${e.rolled} vs ${e.difficulty}).`;
+      const against = e.kind && e.kind !== e.stat ? ` the ${e.kind} save` : '';
+      return `${this.name(state, e.target)} ${e.success ? 'resists' : 'fails to resist'}${against} (${e.stat ?? 'save'} ${e.rolled} vs ${e.difficulty}).`;
     }
     if (e.type === 'action' && e.source?.kind !== 'trap') {
       const ability = Content.abilities.find(a => a.id === e.command.ability)?.name ?? e.command.ability;
