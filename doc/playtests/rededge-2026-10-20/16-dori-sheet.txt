@@ -1,0 +1,77 @@
+REDEDGE
+Rededge›Coldhill›the Velvet Hand
+Day 2, 6:10 p.m.
+COMPANY
+COMPANY
+1
+☺
+Elen
+elf ranger · lvl 2
+2
+☺
+Bran
+human warrior · lvl 2
+3
+☺
+Dori
+dwarf cleric · lvl 2
+Dori
+
+dwarf cleric · level 2 · Medic · 1300 xp of 3000 for level 3 · 2 coin
+
+HP
+██████████
+14/14
+Spells
+I ●●●
+STR 15
+DEX 8
+CON 12
+INT 14
+WIS 17
+CHA 14
+Abilities
+Defend
+You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Cure Minor Wounds cantrip
+Heal one ally for 1d4 (1–4). (a cantrip, at will) Level 0 divine spell.
+Sanctify cantrip
+Heal every ally for 1d3 + 2 (3–5). (a cantrip, at will) Level 0 divine spell.
+Cure Light Wounds 1st-level slot
+Heal one ally for 1d8 (1–8). (a first-level slot) Level 1 divine spell.
+Bless 1st-level slot
+One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+Anoint 1st-level slot
+Every ally gains anointed for 5 turns. (a first-level slot) Level 1 divine spell. Anointed: +1 to hit, +1 damage, +2 to every save, resists 50% of radiant.
+Prayer 2nd-level slot
+The whole company gains praying for 3 turns. (a second-level slot) Level 2 divine spell. Praying: +1 to hit, +2 healing, +2 to every save.
+Minor Restoration 2nd-level slot
+End poison on one ally; end cursed on one ally; end blinded on one ally. (a second-level slot) Level 2 divine spell.
+Cure Moderate Wounds 3rd-level slot
+Heal one ally for 2d8 (2–16). (a third-level slot) Level 3 divine spell.
+Carried
+○ Bandages
+○ Healing herbs
+◉ staff
+◉ Studded Leather Armor
+Background and profession
+Medic background
+Mending (skill) · Bandages · Healing herbs · wisdom +2 · intelligence +2 · +2 coin
+Company standing
+Woodcraft — Elen (elf ranger)
+Mending — Dori (dwarf cleric)
+Lockwork — Bran (human warrior)
+DORI
+
+Nothing you can do with this right now.
+
+HHistory · 87 earlier
+coin: 27 → 24
+Elen reaches level 2 (+5 HP).
+Bran reaches level 2 (+12 HP).
+Dori reaches level 2 (+5 HP).
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

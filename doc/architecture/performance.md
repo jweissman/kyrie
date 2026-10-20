@@ -106,6 +106,20 @@ Scaling (`bun bin/scale-bench.ts`: a chain of rooms with items, generated throug
 | 40 | 80 | 6 | refuses (>20k for one schema) | 189 ms | 7 ms | 8 ms | 196 KB |
 | 80 | 160 | 6 | refuses | 295 ms | 8 ms | 9 ms | 260 KB |
 
+Scenarios in a generated region (same bench, seed `thorn`, upland; each scenario adds its modules and a word-of-mouth
+module, see [generated-worlds.md](generated-worlds.md)):
+
+| Scenarios | Modules | Entities | Schemas | Load | Choices | Tick | Save |
+|---|---|---|---|---|---|---|---|
+| 0 | 1 | 410 | 27 | 198 ms | 6 ms | 11 ms | 249 KB |
+| 1 | 4 | 550 | 36 | 778 ms | 8 ms | 15 ms | 381 KB |
+| 2 | 6 | 603 | 39 | 1,041 ms | 20 ms | 18 ms | 448 KB |
+| 3 | 8 | 648 | 41 | 1,340 ms | 21 ms | 24 ms | 486 KB |
+| 4 | 10 | 691 | 43 | 1,610 ms | 15 ms | 22 ms | 525 KB |
+
+Load grows by about 270 ms per scenario (compiling its modules and generating its creatures); choosing and ticking
+stay flat because they depend on what is near the company, not on what exists.
+
 ## Remaining risks
 
 - The load cache assumes bundle files do not change during a process. A long-lived dev server that edits `.kyr` files

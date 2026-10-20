@@ -79,6 +79,7 @@ state(webs, burnt)` is planned with the shared planner, using the rope and torch
 | A group of creatures as one opponent | `Numbers 3.` on a person | the spider brood |
 | A generated person | `Creature body cave_spider, level 3.` | the brood-mother |
 | Something every world needs | A rule module in `data/rules` | `dark()`, `routed`, `wait_for_light` |
+| An adventure a generated region may hold | A scenario manifest in `data/scenarios` over ordinary modules ([generated-worlds.md](generated-worlds.md)) | the unquiet tower: needs a tower site, a town's priest, three rumours |
 | A new kind of resolution (combat, purchase, recovery) | `src/campaign` resolver, with a Kyr `Resolve` call | `Resolve combat(opponent)` |
 | How it looks | `src/ui` (screen model) and `web` (renderer) | numbered menus, grouped combat log |
 

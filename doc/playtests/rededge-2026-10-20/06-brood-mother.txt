@@ -1,0 +1,104 @@
+REDEDGE
+Rededge›the upland of Rededge›Silkholme sink›The caves below
+Day 1, 1:20 p.m.
+The nest
+
+The caves below · Silkholme sink
+
+◆ Spiders from Silkholme sink take a ewe from Garth's flock every night. Garth wants them burned out; Odile, who gathers their silk, says the brood-mother only needs feeding.
+
+A high chamber, its roof lost in grey silk. Old husks of sheep and rabbits hang in the threads like washing.
+
+Cave spiders hang in the silk overhead, legs folded, waiting.
+
+The brood-mother crouches at the back of the nest, big as a pony and thin as a rake, turning all her eyes on you at once.
+
+A ragged hole has been hacked through the silk in the web gallery.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The lower cave
+by the web gallery
+HERE
+2
+◆
+the spider brood, a cave spider
+hunting
+3
+◆
+the brood-mother
+starving
+COMPANY
+4
+○
+Wait a while
+10m
+THE BROOD-MOTHER
+
+Cave spider; level 3; 17 HP; unhurt.
+
+1
+Leave the dead ewe for the brood-mother, slowly
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+lower cave
+nest
+→ Stone Delf
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+20 coin · 2 rations · 1 dead ewe · eat by 8:00 p.m. · day
+
+HHistory · 18 earlier
+1:00 p.m.
+→ the lower cave
+1:10 p.m.
+Hack a way through the webs
+A ragged hole has been hacked through the silk in the web gallery.
+1:20 p.m.
+→ the nest
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

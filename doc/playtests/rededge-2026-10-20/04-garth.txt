@@ -1,0 +1,81 @@
+REDEDGE
+Rededge›the upland of Rededge
+Day 1, 10:40 a.m.
+Garth, shepherd
+
+worried · Stone Delf
+
+» Ask Garth what is wrong
+
+'Something comes up out of Silkholme sink at night and takes a ewe,' says Garth. 'I've lost 1 to them so far. It's the spiders: Odile's precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'
+
+SAY
+ASK
+1
+»
+Ask Garth what is wrong
+END
+2
+⇤
+End the conversation
+ASK GARTH WHAT IS WRONG
+Ask Garth what is wrong
+10m
+MAP
+UPLAND OF REDEDGE
+Stone Delf
+? Red Watch
+→ Coldhill
+→ Silkholmesink
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+20 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 4 earlier
+8:30 a.m.
+→ Coldhill green
+10:30 a.m.
+→ Stone Delf
+10:40 a.m.
+Garth, shepherd: Ask Garth what is wrong
+'Something comes up out of Silkholme sink at night and takes a ewe,' says Garth. 'I've lost 1 to them so far. It's the spiders: Odile's precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

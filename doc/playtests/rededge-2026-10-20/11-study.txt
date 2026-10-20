@@ -1,0 +1,111 @@
+REDEDGE
+Rededge›the upland of Rededge›The tower›Inside the tower
+Day 2, 7:30 a.m.
+The study at the top
+
+Inside the tower · The tower
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+◆ Something is wrong at Red Watch: lights at night, and the churchyard's dead taken.
+
+Burke bends over a table of bones, muttering, and does not look up.
+
+A lantern of yellowed bone hangs over the table. It burns with a cold green flame, and the room smells of the grave.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The crypt under the tower
+by the crypt steps
+2
+→
+The tower hall
+by the turning stair · past the risen dead · new
+HERE
+3
+☺
+Burke, necromancer
+working
+4
+·
+the bone lantern
+lit
+5
+·
+a daybook in a cramped hand
+can be read
+COMPANY
+6
+○
+Wait a while
+10m
+BURKE, NECROMANCER
+
+Human cleric; level 3; 16 HP; unhurt.
+
+1
+Attack
+10m !
+
+A fight goes on until one side is down or runs. Anyone brought to nothing must save against death, and may not get up.
+
+MAP
+INSIDE THE TOWER
+study at thetop
+crypt undertower
+? tower hall
+→ Red Watch
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+21 coin · 2 rations · eat by 8:00 p.m. on day 2 · day
+
+HHistory · 58 earlier
+7:10 a.m.
+→ Red Watch
+7:20 a.m.
+Go by a barred postern low in the wall → the crypt under the tower
+You arrive at the crypt under the tower.
+7:30 a.m.
+→ the study at the top
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,0 +1,104 @@
+REDEDGE
+Rededge›Coldhill
+Day 1, 8:00 a.m.
+Coldhill green
+
+Coldhill · Rededge
+
+Coldhill is a town of human folk that lives by wool. Smoke rises from the Velvet Hand; the shrine of Brigid stands open across the green.
+
+A shepherd's boy is telling anyone who will listen that something comes up out of Silkholme sink at night and takes a ewe off Stone Delf, and that Garth means to burn it out.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The shrine of Brigid
+by the shrine porch in Coldhill · new
+2
+→
+Warren's shop
+by Warren's door · new
+3
+⇥
+Enter the Velvet Hand
+by the door of the Velvet Hand · new
+4
+⇢
+Peakview green
+by the road from Coldhill to Peakview · new
+5
+⇢
+Red Watch
+by the track to Red Watch · new
+6
+⇢
+Stone Delf
+by the track to Stone Delf · new
+COMPANY
+7
+○
+Wait a while
+10m
+THE SHRINE OF BRIGID
+
+the shrine of Brigid, a few steps away.
+
+Go
+10m
+MAP
+COLDHILL
+VELVET HAND
+Coldhillgreen
+? taproom ofVelvet Hand
+? shrine ofBrigid
+? Warren'sshop
+→ Peakview
+→ Stone Delf
+→ Red Watch
+REGION
+2h
+2h
+Coldhill
+Peakview
+upland of Rededge
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+20 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory
+Nothing has happened yet.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

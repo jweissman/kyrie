@@ -32,6 +32,10 @@ offers. New work uses only that vocabulary. Older campaigns remain as replayable
 - [Ontology](doc/architecture/ontology.md): the vocabulary, the authority for each mutable property, and how
   authored, generated and default values combine.
 - [Play model](doc/architecture/play-model.md): space, time scales, food, rest, services and NPC agency.
+- [Generated regions](doc/architecture/generated-worlds.md): Deem generates a region, scenarios are selected by
+  the contexts they declare and situated in it, and word of them spreads through people. Try
+  `bun bin/world.ts thorn --terrain mountain`, or play `site/mono.html?world=thorn&terrain=mountain`
+  ([a played journey](doc/playtests/rededge-2026-10-20/README.md)).
 - [Milestone reports](doc/architecture/milestones.md), [audit](doc/architecture/audit.md) and
   [migration plan](doc/architecture/migration.md).
 

@@ -1,0 +1,82 @@
+REDEDGE
+Rededge›the upland of Rededge›The tower›Inside the tower
+Day 2, 8:00 a.m.
+Burke, necromancer
+
+broken · the study at the top
+
+» Ask Burke who he was raising
+
+'My sister,' says Burke. 'She drowned the spring I left the shrine of Brigid. I only wanted to ask her one thing. The others came up with her.' He will not look at you.
+
+SAY
+ASK
+1
+»
+Ask Burke who he was raising
+2
+»
+Tell Burke to leave and never come back
+END
+3
+⇤
+End the conversation
+ASK BURKE WHO HE WAS RAISING
+Ask Burke who he was raising
+10m
+MAP
+INSIDE THE TOWER
+study at thetop
+crypt undertower
+? tower hall
+→ Red Watch
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+21 coin · 2 rations · eat by 8:00 p.m. on day 2 · day
+
+HHistory · 70 earlier
+Shards of bone and a dead wick lie under the table.
+The green flame goes out. Somewhere below, things fall to the floor, and Burke cries out as if struck.
+8:00 a.m.
+Burke, necromancer: Ask Burke who he was raising
+'My sister,' says Burke. 'She drowned the spring I left the shrine of Brigid. I only wanted to ask her one thing. The others came up with her.' He will not look at you.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -3,9 +3,12 @@ import { MemoryBundleSource } from '../src/campaign/memory-bundle-source';
 import { ModuleBundle } from '../src/campaign/module-bundle';
 import { ActionSchemas } from '../src/campaign/action-schemas';
 import { PlayerView } from '../src/presentation/player-view';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 
-// How campaign costs grow with places, items and company size. Each world is a chain of rooms with items lying in
-// them; eager grounding is computed for comparison only. Usage: bun bin/scale-bench.ts
+// How campaign costs grow with places, items and company size, and with the scenarios a generated region holds.
+// Each synthetic world is a chain of rooms with items lying in them; eager grounding is computed for comparison only.
+// Usage: bun bin/scale-bench.ts
 class Scale {
   static async rules(): Promise<Record<string, string>> {
     return Object.fromEntries(await Promise.all(ModuleBundle.world.map(async name => [
@@ -34,6 +37,19 @@ class Scale {
     return { places, items, company, eager, choices, loadMs: Math.round(load), listMs: Math.round(list),
       tickMs: Math.round(tick), saveKb: Math.round(save / 1024) };
   }
+  // One generated region (seed thorn, upland) with 0–4 scenarios situated in it.
+  static async world(scenarios: number) {
+    const world = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,
+      { region: { terrain: 'mountain' }, scenarios });
+    let t = performance.now();
+    const c = await Campaign.load(world.path, `world-${scenarios}`, world.source);
+    const load = performance.now() - t;
+    t = performance.now(); const choices = PlayerView.choices(c).length; const list = performance.now() - t;
+    t = performance.now(); c.execute(PlayerView.resolve(c, 'wait')); const tick = performance.now() - t;
+    return { scenarios: world.report.placements.length, modules: c.installations.length,
+      entities: c.module.entities.length, schemas: c.module.actions.length, choices, loadMs: Math.round(load),
+      listMs: Math.round(list), tickMs: Math.round(tick), saveKb: Math.round(JSON.stringify(c.save()).length / 1024) };
+  }
 }
 const rules = await Scale.rules();
 const rows = [];
@@ -41,3 +57,6 @@ for (const [places, items, company] of [[5, 5, 2], [10, 20, 3], [20, 40, 3], [40
   rows.push(await Scale.run(places!, items!, company!, rules));
 }
 console.table(rows);
+const worlds = [];
+for (const n of [0, 1, 2, 3, 4]) { worlds.push(await Scale.world(n)); }
+console.table(worlds);

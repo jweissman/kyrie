@@ -1,0 +1,102 @@
+REDEDGE
+Rededge›the upland of Rededge›The tower›Inside the tower
+Day 2, 7:50 a.m.
+The study at the top
+
+Inside the tower · The tower
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+◆ The dead in the tower are still. Cillian will want to know.
+
+Burke sits on the floor among the bones with his face in his hands.
+
+Shards of bone and a dead wick lie under the table.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The crypt under the tower
+by the crypt steps
+2
+→
+The tower hall
+by the turning stair · new
+HERE
+3
+☺
+Burke, necromancer
+broken
+4
+·
+the bone lantern
+broken
+5
+·
+a daybook in a cramped hand
+can be read
+COMPANY
+6
+○
+Wait a while
+10m
+THE BONE LANTERN
+
+Nothing you can do with this right now.
+
+MAP
+INSIDE THE TOWER
+study at thetop
+crypt undertower
+? tower hall
+→ Red Watch
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+21 coin · 2 rations · eat by 8:00 p.m. on day 2 · day
+
+HHistory · 68 earlier
+Dori gains 800 experience.
+Burke sits on the floor among the bones with his face in his hands.
+Shards of bone and a dead wick lie under the table.
+The green flame goes out. Somewhere below, things fall to the floor, and Burke cries out as if struck.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

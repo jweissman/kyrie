@@ -1,0 +1,107 @@
+REDEDGE
+Rededge›the upland of Rededge
+Day 3, 8:10 a.m.
+OPPOSED
+Bear 1
+bear
+HP
+██████████
+13/13
+MP
+██████████
+3/3
+Bear 2
+bear
+HP
+██████████
+12/12
+MP
+██████████
+3/3
+YOUR COMPANY
+Elen
+elf ranger
+HP
+████░░░░░░
+6/17
+stun
+▶ Bran
+human warrior
+HP
+██████████
+26/26
+Dori
+dwarf cleric
+HP
+██████████
+14/14
+Spells
+I ●●●
+BRAN ACTS — TURN 4
+BRAN
+1
+⚔
+Charge
+2
+⚔
+Cleave
+3
+⚔
+Defend
+self
+4
+⚔
+Flee
+self
+5
+⚔
+Melee Attack
+6
+⚔
+Prepare Charge
+self
+7
+⚔
+Second Wind
+self
+8
+⚔
+Sweeping Strike
+9
+⚔
+Taunt
+⚔
+Vigor Up
+self
+⚔
+Wait
+CHARGE
+
+3d8 + 1 + 2 (6–27) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Bear 1
+Bear 2
+BLOW BY BLOW
+
+Bear 1: Smash → Elen
+
+Elen takes 8 bludgeoning damage (roll 8) → 6 HP.
+
+Elen resists the stun save (constitution 21 vs 15).
+
+Elen cannot act.
+
+Bear 2: Smash → Elen
+
+Elen takes 3 bludgeoning damage (roll 3) → 14 HP.
+
+Elen fails to resist the stun save (constitution 12 vs 15).
+
+Elen gains stun for 3 turns.
+
+Initiative: Bear 2 19, Bear 1 17, Elen 12, Bran 3, Dori 1.
+
+↑↓choose
+⏎act
+Escback
+TAuto: one action

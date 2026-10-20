@@ -1,0 +1,95 @@
+REDEDGE
+Rededge›Coldhill›the Velvet Hand
+Day 2, 6:10 p.m.
+The taproom of the Velvet Hand
+
+the Velvet Hand · Coldhill
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+Benches, a long table, a fire. People who work wool drink here.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Coldhill green
+by the door of the Velvet Hand
+HERE
+2
+☺
+Iamond, innkeeper
+Human
+3
+☺
+Baldric, tinker
+Human
+COMPANY
+4
+○
+Wait a while
+10m
+IAMOND, INNKEEPER
+Take a bed and supper — 3 coin
+8h
+Buy
+▸
+MAP
+COLDHILL
+VELVET HAND
+Coldhillgreen
+taproom ofVelvet Hand
+shrine ofBrigid
+Warren'sshop
+→ Peakview
+→ Stone Delf
+→ Red Watch
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+17/17
+Bran
+human warrior
+HP
+██████████
+26/26
+Dori
+dwarf cleric
+HP
+██████████
+14/14
+Spells
+I ●●●
+
+24 coin · 2 rations · eat by 8:00 p.m. on day 3 · evening
+
+HHistory · 87 earlier
+coin: 27 → 24
+Elen reaches level 2 (+5 HP).
+Bran reaches level 2 (+12 HP).
+Dori reaches level 2 (+5 HP).
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

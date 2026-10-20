@@ -1,0 +1,82 @@
+REDEDGE
+Rededge›the upland of Rededge›Silkholme sink
+Day 1, 2:50 p.m.
+Odile, silk-gatherer
+
+content · the frame terrace
+
+» Speak with Odile
+
+'Listen,' says Odile, and you hear it: a dry whisper from the fissure, like rain on leaves. 'They're spinning again.' She presses four coins on you. 'And the first silk is yours to buy before anyone's.'
+
+SAY
+DEAL
+1
+¤
+Buy
+END
+2
+⇤
+End the conversation
+BUY
+one hank of silk — 3 coin
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+lower cave
+nest
+→ Stone Delf
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+24 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 31 earlier
+2:40 p.m.
+→ the frame terrace
+2:50 p.m.
+Odile, silk-gatherer: Speak with Odile
+'Listen,' says Odile, and you hear it: a dry whisper from the fissure, like rain on leaves. 'They're spinning again.' She presses four coins on you. 'And the first silk is yours to buy before anyone's.'
+coin: 20 → 24
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,0 +1,87 @@
+REDEDGE
+Rededge›Coldhill
+Day 2, 9:50 a.m.
+Cillian, priest of Brigid
+
+Human · the shrine of Brigid
+
+» Tell Cillian the dead can rest
+
+'Then we will bury them again, properly this time,' says Cillian, and empties the alms box into your hands.
+
+SAY
+DEAL
+1
+¤
+Ask for the shrine's care for the wounded — 2 coin
+2
+¤
+Ask about the silk from the sink at Stone Delf
+END
+3
+⇤
+End the conversation
+ASK FOR THE SHRINE'S CARE FOR THE WOUNDED — 2 COIN
+Ask for the shrine's care for the wounded — 2 coin
+1h
+MAP
+COLDHILL
+VELVET HAND
+Coldhillgreen
+taproom ofVelvet Hand
+shrine ofBrigid
+Warren'sshop
+→ Peakview
+→ Stone Delf
+→ Red Watch
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+27 coin · 2 rations · eat by 8:00 p.m. on day 2 · day
+
+HHistory · 79 earlier
+9:40 a.m.
+→ the shrine of Brigid
+9:50 a.m.
+Cillian, priest of Brigid: Tell Cillian the dead can rest
+'Then we will bury them again, properly this time,' says Cillian, and empties the alms box into your hands.
+coin: 21 → 27
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

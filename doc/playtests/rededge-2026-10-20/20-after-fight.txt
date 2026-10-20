@@ -1,0 +1,105 @@
+REDEDGE
+Rededge›the upland of Rededge
+Day 3, 8:20 a.m.
+Peak Delf
+
+the upland of Rededge · Rededge
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+Peak Delf. A dark mouth opens in the hillside.
+
+Peak Delf is quiet now. Flies settle on what is left.
+
+WAYS AND THINGS
+WAYS
+1
+⇢
+Peakview green
+by the track to Peak Delf
+HERE
+2
+✝
+the pack
+Bear · dead
+COMPANY
+3
+○
+Wait a while
+10m
+4
+○
+Make camp for the night
+8h
+5
+○
+Search Peak Delf for what was dragged in
+20m
+PEAKVIEW GREEN
+
+Across country to Peakview green, Peakview.
+
+Go
+2h
+MAP
+UPLAND OF REDEDGE
+Stone Delf
+Peak Delf
+Red Watch
+→ Coldhill
+→ Peakview
+→ Silkholmesink
+→ tower
+→ tower
+REGION
+2h
+2h
+2h
+2h
+Coldhill
+Peakview
+upland of Rededge
+Highstead
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████░░░░
+10/17
+Bran
+human warrior
+HP
+██████████
+26/26
+Dori
+dwarf cleric
+HP
+██████████
+14/14
+Spells
+I ●●○
+
+21 coin · 2 rations · eat by 8:00 p.m. on day 4 · day
+
+HHistory · 113 earlier
+Elen gains 200 experience.
+Bran gains 200 experience.
+Dori gains 200 experience.
+Peak Delf is quiet now. Flies settle on what is left.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

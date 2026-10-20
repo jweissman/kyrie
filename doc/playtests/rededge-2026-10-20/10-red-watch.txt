@@ -1,0 +1,112 @@
+REDEDGE
+Rededge›the upland of Rededge
+Day 2, 7:10 a.m.
+Red Watch
+
+the upland of Rededge · Rededge
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+◆ Something is wrong at Red Watch: lights at night, and the churchyard's dead taken.
+
+Red Watch. A lone tower stands above the land.
+
+The tower is bare stone, cracked by frost. A light burns at the top.
+
+Behind the tower, a well-head is half buried in nettles.
+
+Low in the wall is a postern, barred from within, with an old lock on it.
+
+WAYS AND THINGS
+WAYS
+1
+⇥
+Enter The tower: the crypt under the tower
+by the old well shaft · new
+2
+⇥
+Enter The tower: the tower hall
+by the iron-bound door · new
+3
+⇢
+Coldhill green
+by the track to Red Watch
+COMPANY
+4
+○
+Wait a while
+10m
+5
+○
+Make camp for the night
+8h
+ENTER THE TOWER: THE CRYPT UNDER THE TOWER
+
+Into The tower: the crypt under the tower.
+
+1
+Go by the old well shaft
+10m
+2
+Go by a barred postern low in the wall
+10m
+MAP
+UPLAND OF REDEDGE
+Stone Delf
+Red Watch
+→ Coldhill
+→ Silkholmesink
+→ tower
+→ tower
+REGION
+2h
+2h
+Coldhill
+upland of Rededge
+Peakview
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+12/12
+Bran
+human warrior
+HP
+██████████
+14/14
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+Spells
+I ●●
+
+21 coin · 2 rations · eat by 8:00 p.m. on day 2 · day
+
+HHistory · 55 earlier
+6:00 a.m.
+Wait until first light
+The sky greys, then lightens. It is morning.
+6:10 a.m.
+→ Coldhill green
+7:10 a.m.
+→ Red Watch
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

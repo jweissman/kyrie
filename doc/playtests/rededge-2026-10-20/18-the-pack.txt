@@ -1,0 +1,113 @@
+REDEDGE
+Rededge›the upland of Rededge
+Day 3, 8:10 a.m.
+Peak Delf
+
+the upland of Rededge · Rededge
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+◆ The pack have a den at Peak Delf.
+
+Peak Delf. A dark mouth opens in the hillside.
+
+Eyes shine at the back of Peak Delf. Bones lie scattered in front of it.
+
+WAYS AND THINGS
+WAYS
+1
+⇢
+Peakview green
+by the track to Peak Delf
+HERE
+2
+◆
+the pack
+lurking
+COMPANY
+3
+○
+Wait a while
+10m
+4
+○
+Make camp for the night
+8h
+THE PACK
+
+Bear ×2; level 1; 12–13 HP each; unhurt.
+
+1
+Attack
+10m !
+2
+Smoke the pack out of Peak Delf with green wood
+1h
+
+A fight goes on until one side is down or runs. Anyone brought to nothing must save against death, and may not get up.
+
+MAP
+UPLAND OF REDEDGE
+Stone Delf
+Peak Delf
+Red Watch
+→ Coldhill
+→ Peakview
+→ Silkholmesink
+→ tower
+→ tower
+REGION
+2h
+2h
+2h
+2h
+Coldhill
+Peakview
+upland of Rededge
+Highstead
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+17/17
+Bran
+human warrior
+HP
+██████████
+26/26
+Dori
+dwarf cleric
+HP
+██████████
+14/14
+Spells
+I ●●●
+
+21 coin · 2 rations · eat by 8:00 p.m. on day 4 · day
+
+HHistory · 100 earlier
+6:00 a.m.
+Wait until first light
+The sky greys, then lightens. It is morning.
+6:10 a.m.
+→ Peakview green
+8:10 a.m.
+→ Peak Delf
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

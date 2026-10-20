@@ -1,0 +1,108 @@
+REDEDGE
+Form a company of three
+A company in Rededge
+
+Rededge is upland country of human settlements under Brigid. Nobody hires a company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. Choose three companions.
+
+Fellowship: elf, human, dwarf Hired company
+
+World seed
+1
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Calling
+Warrior
+Mage
+Thief
+Cleric
+Bard
+Ranger
+Monk
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+Acolyte
+Soldier
+Caravaner
+
+woodcraft; carries rope; rangers only; knows someone who hears road news.
+
+2
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Calling
+Warrior
+Mage
+Thief
+Cleric
+Bard
+Ranger
+Monk
+Specialization
+Drawn at random
+Toughness
+Bravery
+Strong Willed
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+Acolyte
+Soldier
+Caravaner
+
+lockwork; carries thieves tools; knows someone who hears market news.
+
+3
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Calling
+Warrior
+Mage
+Thief
+Cleric
+Bard
+Ranger
+Monk
+Specialization
+Drawn at random
+Vitalist
+Deathspeaker
+Lightbringer
+Shadowmancer
+Oathkeeper
+Wildcaller
+Chaotician
+Warbringer
+Oceanist
+Cherubist
+Stormcaller
+Veneficium
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+Acolyte
+Soldier
+Caravaner
+
+mending; carries bandages, herbs; clerics only; knows someone who hears shrine news.
+
+⏎Begin the expedition
+Load a save file

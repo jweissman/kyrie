@@ -1,0 +1,102 @@
+REDEDGE
+Rededge›Peakview›the Stormy Crown
+Day 2, 8:30 p.m.
+The taproom of the Stormy Crown
+
+the Stormy Crown · Peakview
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+Benches, a long table, a fire. People who work tin drink here.
+
+Baldrus and Elen hunted the same hills for a season. News from the roads reaches them first.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Peakview green
+by the door of the Stormy Crown
+HERE
+2
+☺
+Xander, innkeeper
+Human
+3
+☺
+Baldrus, drover
+Human
+COMPANY
+4
+○
+Wait a while
+10m
+OUT TO PEAKVIEW GREEN
+
+Out of here, to Peakview green in Peakview.
+
+Go
+10m
+MAP
+PEAKVIEW
+STORMY CROWN
+Peakviewgreen
+taproom ofStormy Crown
+? shrine ofBrigid
+? Wesley'sshop
+→ Coldhill
+→ Highstead
+REGION
+2h
+2h
+2h
+Coldhill
+Peakview
+upland of Rededge
+Highstead
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+17/17
+Bran
+human warrior
+HP
+██████████
+26/26
+Dori
+dwarf cleric
+HP
+██████████
+14/14
+Spells
+I ●●●
+
+24 coin · 2 rations · eat by 8:00 p.m. on day 3 · evening
+
+HHistory · 90 earlier
+Dori reaches level 2 (+5 HP).
+6:20 p.m.
+→ Coldhill green
+8:20 p.m.
+→ Peakview green
+8:30 p.m.
+→ the taproom of the Stormy Crown
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback
