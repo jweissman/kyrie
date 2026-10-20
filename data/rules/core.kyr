@@ -20,9 +20,10 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Measure untilLight(clock).
   Action wait_for_light(actor: group) "Wait until first light" {
     Requires able(actor) and dark(). Time untilLight(clock).
+    Result "The sky greys, then lightens. It is morning.".
   }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
-    Description "Fight someone who is not peaceable. Townsfolk and the people you came to help are not offered as targets.".
+    Description "A fight goes on until one side is down or runs. Anyone brought to nothing must save against death, and may not get up.".
     Requires able(actor) and able(opponent) and distinct(actor, opponent) and at(actor, site) and at(opponent, site)
       and not peaceable(opponent).
     Resolve combat(opponent).

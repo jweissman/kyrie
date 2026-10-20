@@ -100,7 +100,9 @@ export class ScreenModel {
     if (!standing.length) { return undefined; }
     const kinds = new Map<string, number>();
     for (const m of standing) {
-      const kind = Content.races[m.raceId as keyof typeof Content.races]?.name ?? m.raceId;
+      const race = Content.races[m.raceId as keyof typeof Content.races]?.name ?? m.raceId;
+      const calling = m.classId ? Content.classes[m.classId as keyof typeof Content.classes]?.name : undefined;
+      const kind = calling ? `${race} ${calling.toLowerCase()}` : race;
       kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
     }
     const levels = [...new Set(standing.map(m => m.level))].sort((a, b) => a - b);
@@ -115,7 +117,9 @@ export class ScreenModel {
       const member = p.members?.[0];
       const playable = member && (Content.playableRaces as string[]).includes(member.raceId);
       const note = (p.state ? undefined : p.condition) ?? (member ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);
-      const look = playable || p.state ? undefined : this.look(p.members ?? []);
+      // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
+      const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined
+        : this.look(p.members ?? []);
       return { id: p.id, kind: playable ? 'person' : 'creature', name: p.name, ...(note ? { note } : {}),
         ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };

@@ -28,4 +28,8 @@ describe('ability text comes from the typed mechanics', () => {
       expect([a.id, text]).not.toEqual([a.id, expect.stringMatching(/#|statMod\(|bonusSpellDC/)]);
     }
   });
+  it('a blow sets off each condition once, under its own name, not again under an alias', () => {
+    const smash = ability('smash').effects[0]!;
+    expect(MechanicsText.triggered(smash).map(([id]) => id)).toEqual(['stun']);
+  });
 });

@@ -14,7 +14,7 @@ export interface Grouped {
 }
 export interface GroupingContext {
   names: Map<string, string>; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
-  fees?: Map<string, number>;
+  fees?: Map<string, number>; several?: Set<string>;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -89,7 +89,16 @@ export class ChoiceGrouping {
   static group(rows: { choice: PublicChoice; action: Operator }[], context: GroupingContext): Grouped {
     const out: Grouped = { exits: new Map(), targets: new Map(), items: new Map(), members: new Map(),
       camp: [], unplaced: [] };
-    for (const row of rows) { this.place(out, row, context); }
+    // A place reached by more than one way offers each by name: a shaft needing rope, a postern needing a picked lock.
+    const ways = new Map<string, Set<string>>();
+    for (const { action } of rows) {
+      const b = action.bindings ?? {}, rule = this.rules[action.schema ?? action.id];
+      const to = action.movement?.destination ?? (rule?.slot === 'exit' ? b.destination : undefined);
+      const way = action.movement?.passage ?? b.way;
+      if (to && way) { ways.set(to, (ways.get(to) ?? new Set()).add(way)); }
+    }
+    const several = new Set([...ways].filter(([, w]) => w.size > 1).map(([d]) => d));
+    for (const row of rows) { this.place(out, row, { ...context, several }); }
     return out;
   }
   private static place(out: Grouped, row: { choice: PublicChoice; action: Operator }, context: GroupingContext) {
@@ -98,7 +107,10 @@ export class ChoiceGrouping {
       ...(action.description ? { about: action.description } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {};
     if (action.movement) {
-      const path = b.escorted_group ? [`Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}`] : ['Go'];
+      const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';
+      const way = action.movement.passage ?? b.way;
+      const path = [way && context.several?.has(action.movement.destination)
+        ? `${verb} by ${context.names.get(way) ?? way}` : verb];
       this.exit(out, action.movement.destination, { acts: [], path, leaf });
       return;
     }
@@ -108,6 +120,9 @@ export class ChoiceGrouping {
     if (!rule) { this.fallback(out, row, context, leaf); return; }
     const data = { choice: choice.name, b, context };
     const path = rule.path.map(text => this.fill(text, data));
+    if (rule.slot === 'exit' && path.length === 1 && b.way && context.several?.has(b.destination ?? '')) {
+      path[0] = `${path[0]} by ${context.names.get(b.way) ?? b.way}`;
+    }
     const risky = { ...leaf, ...(rule.risk ? { risk: true } : {}) };
     const subject = rule.param ? b[rule.param] : undefined;
     const also = rule.also ? b[rule.also.param] : undefined;

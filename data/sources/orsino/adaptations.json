@@ -887,7 +887,7 @@
       ],
       "support": "represented",
       "fidelity": "adapted",
-      "note": "Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables, weapon and armour proficiencies, specialization choices and spell slots.",
+      "note": "Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables, weapon and armour proficiencies and specialization choices. Orsino's ranger knows Heal Ally from creation; under Kyr's spell slots it is a fifth-level spell and a ranger has no slots, so Kyr's ranger does not know it.",
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
@@ -1294,7 +1294,7 @@
       ],
       "support": "represented",
       "fidelity": "adapted",
-      "note": "Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables, weapon and armour proficiencies and spell slots.",
+      "note": "Orsino chassis executed: hit die, attribute modifiers, class abilities, starting weapon and armour tables and weapon and armour proficiencies. Kyr gives the bard a lesser caster's slot table on charisma so that its cure and charm spells can be cast.",
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",

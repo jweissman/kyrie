@@ -15,6 +15,10 @@ export class ChartModel {
   area(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).find(e => ChartModel.areaKinds.includes(e.space!.kind));
   }
+  // On the region chart a site in open country is part of that country, not an area of its own.
+  private regionalArea(id: string): Entity | undefined {
+    return Spatial.ancestry(this.entities, id).findLast(e => ChartModel.areaKinds.includes(e.space!.kind));
+  }
   private ways(visited: Set<string>): WayInfo[] {
     const model = new PassageModel(this.world, this.actor, this.entities);
     const seen = [...visited].flatMap(from => model.ways(from));
@@ -59,7 +63,8 @@ export class ChartModel {
       }
       edges.push({ ...this.edge(w, visited), from: inside.id, to: id });
     }
-    return { ...(places.length ? { chart: { places, edges } } : {}), ...this.region(ways, visited, home?.id) };
+    return { ...(places.length ? { chart: { places, edges } } : {}),
+      ...this.region(ways, visited, this.regionalArea(here)?.id) };
   }
   private edge(w: WayInfo, visited: Set<string>) {
     return { id: w.passage, name: w.name, from: w.from, to: w.to, status: w.status, oneWay: w.oneWay,
@@ -72,7 +77,7 @@ export class ChartModel {
   }
   // Records the area containing a place on the region chart; returns the area's id when it can be drawn.
   private mark(areas: Map<string, RegionChart['areas'][number]>, id: string, visited: Set<string>, here?: string) {
-    const a = this.area(id);
+    const a = this.regionalArea(id);
     if (!a?.space?.grid) { return undefined; }
     const row = areas.get(a.id)
       ?? { id: a.id, name: a.name, x: a.space.grid[0], y: a.space.grid[1], visited: false, here: a.id === here };

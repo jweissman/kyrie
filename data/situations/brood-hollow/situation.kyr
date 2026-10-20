@@ -87,7 +87,7 @@ Module brood_hollow "A brood under the hill" {
   Pursuit tend for garth "tending his flock" priority 10 when true seeks at(garth, pasture).
 
   Topic complaint with garth "Ask {garth} what is wrong" when not quieted(brood) {
-    Says "'Something comes up out of {hollow} at night and takes a ewe,' says {garth}. I've lost {lost(garth)} to them so far. It's the spiders: Odile's precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'".
+    Says "'Something comes up out of {hollow} at night and takes a ewe,' says {garth}. 'I've lost {lost(garth)} to them so far. It's the spiders: {odile}'s precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'".
     On discuss { Assert asked(garth, party). }
   }
   Topic carcass with garth "Ask {garth} for the ewe that was killed" when asked(odile, party) and not quieted(brood) and quantity(party, ewe) < 1 once {

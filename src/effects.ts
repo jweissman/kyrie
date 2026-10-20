@@ -204,7 +204,9 @@ export class Effects {
       }
       return;
     }
-    for (const [id, status] of Object.entries(Content.statuses).filter(([, c]) => c.trigger === type)) {
+    // Aliases ("stunned" for stun) name the same condition; each triggered condition is saved against once.
+    for (const [id, status] of Object.entries(Content.statuses)
+      .filter(([id, c]) => c.trigger === type && Canon.resolve('conditions', id) === id)) {
       if (target.hp === 0) { continue; }
       if (!Effects.save(target, status.saveKind ?? 'magic', 15, context)) {
         Effects.condition({ kind: 'apply', status: id, duration: status.duration ?? 3, target: 'enemy' }, target, context);

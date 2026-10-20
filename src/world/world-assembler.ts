@@ -173,14 +173,15 @@ export class WorldAssembler {
   private static install(module: string, n: number): string {
     return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`;
   }
-  // A scenario reference: @party, @region, @role, @role.part (a settlement's green, a site's track…), module.export.
+  // A scenario reference: @party, @region, @wilds (the open country sites stand in), @role, @role.part (a settlement's
+  // green, a site's track…), module.export.
   private static ref(value: string, placement: Placement): string {
     if (!value.startsWith('@')) {
       const [module, name] = value.split('.') as [string, string];
       return `${this.install(module, Number(placement.instance.match(/\d+$/)?.[0] ?? 1))}.${name}`;
     }
     const [role, part] = value.slice(1).split('.') as [string, string | undefined];
-    if (role === 'party' || role === 'region') { return `${RegionWriter.id}.${role}`; }
+    if (['party', 'region', 'wilds'].includes(role)) { return `${RegionWriter.id}.${role}`; }
     const bound = placement.bindings[role];
     if (!bound) { throw new Error(`Scenario reference ${value} names no bound place`); }
     return `${RegionWriter.id}.${part ? `${bound}_${part}` : bound}`;

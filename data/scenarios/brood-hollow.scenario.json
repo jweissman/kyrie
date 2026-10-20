@@ -27,7 +27,7 @@
       "bundle": "../sites/silkholme/module.json",
       "imports": {
         "party": "@party",
-        "march": "@region",
+        "march": "@wilds",
         "ridge": "@approach"
       }
     },

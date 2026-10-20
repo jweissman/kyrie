@@ -44,6 +44,7 @@ Module unquiet_tower "The unquiet tower" {
   Observe drowned_look at outside when looks(tower, drowned) "The tower stands with its feet in black water. Weed hangs from its lower windows.".
   Observe ivied_look at outside when looks(tower, ivied) "Ivy has taken the tower to its roof. A light burns behind the ivy at the top.".
   Observe bare_look at outside when looks(tower, bare) "The tower is bare stone, cracked by frost. A light burns at the top.".
+  Observe crypt_look at crypt when true "Burial niches line the walls. Most stand empty, and the earth under them is freshly turned.".
   Observe dark_hall at hall when true "Coffin-boards lean against the walls, and the floor is gritty with churchyard earth.".
   Observe well_head at outside when true "Behind the tower, a well-head is half buried in nettles.".
   Observe postern_look at outside when true "Low in the wall is a postern, barred from within, with an old lock on it.".

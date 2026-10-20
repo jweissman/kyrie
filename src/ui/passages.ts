@@ -53,9 +53,10 @@ export class Passages {
       const parent = Spatial.ancestry(this.entities, destination)[1];
       return parent ? parent.name : undefined;
     }
-    const inner = Spatial.ancestry(this.entities, destination).slice(1)
-      .find(e => !Spatial.ancestry(this.entities, origin).some(o => o.id === e.id));
-    return inner?.name;
+    // Entering, name the outermost enclosure crossed (the tower, not the level inside it).
+    const crossed = Spatial.ancestry(this.entities, destination).slice(1)
+      .filter(e => !Spatial.ancestry(this.entities, origin).some(o => o.id === e.id));
+    return (transition === 'enter' ? crossed.at(-1) : crossed[0])?.name;
   }
   private known(here: string, spatial?: SpatialScene): Known[] {
     const rows: Known[] = [];

@@ -13,8 +13,12 @@ export class MonoRows {
     walk: '→', enter: '⇥', leave: '⇤', level: '⇅', ascend: '↑', descend: '↓', travel: '⇢', cross_plane: '✶',
   };
   static explore(screen: Screen): Row[] {
+    const exits = screen.exits.map(e => this.exit(e));
+    // Two ways into the same place (a tower by its door and by its well) are told apart by where they arrive.
+    const twice = new Set(exits.map(r => r.label).filter((l, i, all) => all.indexOf(l) !== i));
+    exits.forEach((row, i) => { if (twice.has(row.label)) { row.label = `${row.label}: ${screen.exits[i]!.destination.name}`; } });
     return [
-      ...screen.exits.map(e => this.exit(e)),
+      ...exits,
       ...screen.people.map(p => ({ id: p.id, group: 'Here', glyph: p.state ? '✝' : p.kind === 'person' ? '☺' : '◆',
         label: p.name, ...(p.activity || p.note || p.state ? { note: [p.activity ?? p.note,
           p.state === 'dead' ? 'dead' : p.state ? 'down' : ''].filter(Boolean).join(' · ') } : {}),
