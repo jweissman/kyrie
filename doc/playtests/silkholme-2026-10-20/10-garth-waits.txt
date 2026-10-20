@@ -1,0 +1,88 @@
+SILKHOLME
+The Serewater March›Willow floodplain
+Day 1, 2:00 p.m.
+Garth, shepherd
+
+worried · Chalk ridge
+
+» Tell Garth the brood is fed
+
+'Fed them,' says Garth. 'Fed them!' He looks at the sky. 'We'll see what comes over the ridge tonight.'
+
+SAY
+ASK
+1
+»
+Tell Garth the brood is fed
+END
+2
+⇤
+End the conversation
+TELL GARTH THE BROOD IS FED
+Tell Garth the brood is fed
+10m
+MAP
+WILLOW FLOODPLAIN
+Willowcauseway
+Chalk ridge
+→ Reedwake
+→ Silkholmesink
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+18 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 29 earlier
+1:20 p.m.
+→ the lip of the sink
+1:50 p.m.
+→ Chalk ridge
+2:00 p.m.
+Garth, shepherd: Tell Garth the brood is fed
+'Fed them,' says Garth. 'Fed them!' He looks at the sky. 'We'll see what comes over the ridge tonight.'
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

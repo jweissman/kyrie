@@ -1,0 +1,89 @@
+SILKHOLME
+The Serewater March›Silkholme sink
+Day 1, 10:30 a.m.
+Odile, silk-gatherer
+
+fretting · the frame terrace
+
+» Ask Odile about the spiders
+
+'Don't let Garth burn them,' says Odile. 'They aren't killing for spite. The brood-mother is starving, and the brood hunts for her. Feed her and they'll go quiet. Take her the ewe Garth lost; she'll take it if you go slowly. And keep fire away from the silk. It goes up like straw, and the frames with it.'
+
+SAY
+ASK
+1
+»
+Ask Odile about the spiders
+END
+2
+⇤
+End the conversation
+ASK ODILE ABOUT THE SPIDERS
+Ask Odile about the spiders
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+? lower cave
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 4 earlier
+10:10 a.m.
+→ the lip of the sink
+10:20 a.m.
+→ the frame terrace
+10:30 a.m.
+Odile, silk-gatherer: Ask Odile about the spiders
+'Don't let Garth burn them,' says Odile. 'They aren't killing for spite. The brood-mother is starving, and the brood hunts for her. Feed her and they'll go quiet. Take her the ewe Garth lost; she'll take it if you go slowly. And keep fire away from the silk. It goes up like straw, and the frames with it.'
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

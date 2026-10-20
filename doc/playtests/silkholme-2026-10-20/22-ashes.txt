@@ -1,0 +1,115 @@
+SILKHOLME
+The Serewater March›Silkholme sink
+Day 1, 10:50 a.m.
+The frame terrace
+
+Silkholme sink · The Serewater March
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+A ledge cut into the side of the sink, sheltered from the wind. A wet fissure at the back of the ledge breathes cave air.
+
+Odile stands among the ashes of her frames and will not look at you.
+
+The frames are scorched black. The wind lifts ash off the terrace.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The lip of the sink
+by the terrace steps
+2
+⇥
+Enter The caves below
+by the seep crawl
+HERE
+3
+☺
+Odile, silk-gatherer
+bitter
+4
+·
+the silk frames
+ruined
+COMPANY
+5
+○
+Wait a while
+10m
+6
+○
+Make camp for the night
+8h
+THE LIP OF THE SINK
+
+the lip of the sink, a few steps away.
+
+Go
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+lower cave
+? nest
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 8 earlier
+Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+Fire runs up the silk into the nest. Spiders boil out of the dark and away down the cracks in the chalk; the brood-mother follows them. Smoke pours up the seep.
+10:40 a.m.
+→ the lip of the sink
+10:50 a.m.
+→ the frame terrace
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,0 +1,89 @@
+SILKHOLME
+The Serewater March›Silkholme sink
+Day 1, 1:10 p.m.
+Odile, silk-gatherer
+
+content · the frame terrace
+
+» Speak with Odile
+
+'Listen,' says Odile, and you hear it: a dry whisper from the fissure, like rain on leaves. 'They're spinning again.' She presses four coins on you. 'And the first silk is yours to buy before anyone's.'
+
+SAY
+DEAL
+1
+¤
+Buy
+END
+2
+⇤
+End the conversation
+BUY
+one hank of silk — 3 coin
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+lower cave
+nest
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+18 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 25 earlier
+1:00 p.m.
+→ the frame terrace
+1:10 p.m.
+Odile, silk-gatherer: Speak with Odile
+'Listen,' says Odile, and you hear it: a dry whisper from the fissure, like rain on leaves. 'They're spinning again.' She presses four coins on you. 'And the first silk is yours to buy before anyone's.'
+coin: 14 → 18
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

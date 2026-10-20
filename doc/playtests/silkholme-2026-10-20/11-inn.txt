@@ -1,0 +1,108 @@
+SILKHOLME
+The Serewater March›Reedwake›The Returning Oar
+Day 1, 11:40 p.m.
+The Oar's taproom
+
+The Returning Oar · Reedwake
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+Dry boots steam above the hearth. Bargemen eat at the long table, and stairs climb to the pallets above.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Reedwake quay
+by the Oar's door
+HERE
+2
+☺
+Maud, innkeeper
+Human
+COMPANY
+3
+○
+Wait a while
+10m
+4
+○
+Wait until first light
+6h 20m
+MAUD, INNKEEPER
+Take a bed and supper — 3 coin
+8h
+Buy
+▸
+MAP
+REEDWAKE
+RETURNING OAR
+NERA'S SHOP
+COMMON SHRINE
+FERRY HOUSE
+SALVAGE OFFICE
+Reedwakequay
+Oar'staproom
+? Nera'sshop floor
+? shrine
+? ferryhouse
+? salvageoffice
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+15 coin · 1 ration · eat by 8:00 p.m. on day 2 · night
+
+HHistory · 35 earlier
+3:40 p.m.
+→ the Oar's taproom
+11:40 p.m.
+Maud, innkeeper: Take a bed and supper — 3 coin
+You eat a hot supper and sleep eight hours in a dry bed.
+coin: 18 → 15
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

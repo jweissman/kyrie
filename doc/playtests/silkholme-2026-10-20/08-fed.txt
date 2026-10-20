@@ -1,0 +1,105 @@
+SILKHOLME
+The Serewater March›Silkholme sink›The caves below
+Day 1, 12:30 p.m.
+The nest
+
+The caves below · Silkholme sink
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+A high chamber, its roof lost in grey silk. Old husks of sheep and rabbits hang in the threads like washing.
+
+The spiders hang heavy and still in the silk, too full to stir.
+
+The brood-mother has dragged the ewe into the dark, and is busy with it.
+
+A ragged hole has been hacked through the silk in the web gallery.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The lower cave
+by the web gallery
+HERE
+2
+◆
+the spider brood, a cave spider
+gorged
+3
+◆
+the brood-mother
+fed
+COMPANY
+4
+○
+Wait a while
+10m
+THE BROOD-MOTHER
+
+Nothing you can do with this right now.
+
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+lower cave
+nest
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 19 earlier
+The spiders hang heavy and still in the silk, too full to stir.
+dead ewe: 1 → 0
+The brood-mother has dragged the ewe into the dark, and is busy with it.
+The brood creeps down out of the silk to share the ewe. Not one of them looks at you.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

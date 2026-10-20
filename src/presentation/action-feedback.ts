@@ -31,11 +31,11 @@ export class ActionFeedbackView {
       `${ended.outcome === 'fighters' ? 'Your company prevails.' : ended.outcome === 'escaped' ? ended.fled?.team === 'goblins'
         ? 'Your opponent flees; the company holds the ground.' : 'Your company withdraws.'
         : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
-      + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} died.` : ''} Survivors retain their injuries and spent resources.` : undefined;
+      + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} ${fallen.length === 1 ? 'is' : 'are'} down.` : ''}` : undefined;
     const result = event.response ?? battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
-      learned.length ? 'You examine the evidence and record what it establishes.' :
+      learned.length ? `You learn: ${learned.map(k => k.text).join(' ')}` :
         before.location?.id !== after.location?.id ? `You arrive at ${after.location?.name}.` :
-          combat.length ? 'The action has resolved. Your companions retain the results shown below.' :
+          combat.length ? '' :
             action.schema === 'wait' ? 'You remain here while time passes.' :
               changed[0] ? FictionalTime.prose(changed[0].text) : 'You carry out the action.');
     const resources = [...new Set([...(before.resources ?? []).map(r => r.id),

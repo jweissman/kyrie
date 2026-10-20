@@ -1,0 +1,122 @@
+SILKHOLME
+The Serewater March›Reedwake
+Day 2, 6:00 a.m.
+Reedwake quay
+
+Reedwake · The Serewater March
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.
+
+A woman on the quay is showing off a scarf of grey Silkholme silk. 'Odile's frames are full again,' she says.
+
+WAYS AND THINGS
+WAYS
+1
+⇥
+Enter Nera's shop
+by Nera's shop door · new
+2
+⇥
+Enter Ferry house
+by the ferry-house door · new
+3
+⇥
+Enter The Returning Oar
+by the Oar's door
+4
+⇥
+Enter The salvage office
+by the salvage office door · new
+5
+⇥
+Enter The common shrine
+by the shrine porch · new
+6
+⇢
+Willow causeway
+by the causeway path
+COMPANY
+7
+○
+Wait a while
+10m
+ENTER NERA'S SHOP
+
+Into Nera's shop: Nera's shop floor.
+
+Go
+10m
+MAP
+REEDWAKE
+RETURNING OAR
+NERA'S SHOP
+COMMON SHRINE
+FERRY HOUSE
+SALVAGE OFFICE
+Reedwakequay
+Oar'staproom
+? Nera'sshop floor
+? shrine
+? ferryhouse
+? salvageoffice
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+15 coin · 1 ration · eat by 8:00 p.m. on day 2 · day
+
+HHistory · 39 earlier
+11:50 p.m.
+→ Reedwake quay
+6:00 a.m.
+Wait until first light
+Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.
+A woman on the quay is showing off a scarf of grey Silkholme silk. 'Odile's frames are full again,' she says.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

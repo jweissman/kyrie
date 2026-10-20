@@ -1,0 +1,104 @@
+SILKHOLME
+The Serewater March›Silkholme sink›The caves below
+Day 1, 10:30 a.m.
+The lower cave
+
+The caves below · Silkholme sink
+
+◆ The brood is quiet. Garth and Odile will want to know.
+
+Water drips from the chalk into shallow pools. Pale threads run along the walls towards a low arch, and every thread trembles a little.
+
+Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The nest
+by the web gallery · new
+2
+⇤
+Out to the frame terrace
+by the seep crawl · new
+3
+⇤
+Out to the lip of the sink
+by the sink shaft
+COMPANY
+4
+○
+Wait a while
+10m
+THE NEST
+
+the nest, a few steps away.
+
+Go
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+lower cave
+? frameterrace
+? nest
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 6 earlier
+10:20 a.m.
+→ the lower cave
+10:30 a.m.
+Put a torch to the webs
+Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+Fire runs up the silk into the nest. Spiders boil out of the dark and away down the cracks in the chalk; the brood-mother follows them. Smoke pours up the seep.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

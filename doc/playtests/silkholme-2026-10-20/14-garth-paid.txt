@@ -1,0 +1,84 @@
+SILKHOLME
+The Serewater March›Willow floodplain
+Day 2, 7:40 a.m.
+Garth, shepherd
+
+easy · Chalk ridge
+
+» Speak with Garth
+
+'Not a ewe gone since,' says Garth. 'Odile says they've been fed. I don't like it.' A long pause. 'But I'll take it.' He gives you three coins.
+
+SAY
+END
+1
+⇤
+End the conversation
+END THE CONVERSATION
+
+Nothing you can do with this right now.
+
+MAP
+WILLOW FLOODPLAIN
+Willowcauseway
+Chalk ridge
+→ Reedwake
+→ Silkholmesink
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+18 coin · 1 ration · eat by 8:00 p.m. on day 2 · day
+
+HHistory · 44 earlier
+7:30 a.m.
+→ Chalk ridge
+7:40 a.m.
+Garth, shepherd: Speak with Garth
+'Not a ewe gone since,' says Garth. 'Odile says they've been fed. I don't like it.' A long pause. 'But I'll take it.' He gives you three coins.
+coin: 15 → 18
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

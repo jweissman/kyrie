@@ -1,0 +1,88 @@
+SILKHOLME
+The Serewater March›Willow floodplain
+Day 1, 9:40 a.m.
+Garth, shepherd
+
+worried · Chalk ridge
+
+» Ask Garth what is wrong
+
+'Something comes up out of Silkholme sink at night and takes a ewe,' says Garth. I've lost 1 to them so far. It's the spiders: Odile's precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'
+
+SAY
+ASK
+1
+»
+Ask Garth what is wrong
+END
+2
+⇤
+End the conversation
+ASK GARTH WHAT IS WRONG
+Ask Garth what is wrong
+10m
+MAP
+WILLOW FLOODPLAIN
+Willowcauseway
+Chalk ridge
+→ Reedwake
+→ Silkholmesink
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory
+9:00 a.m.
+→ Willow causeway
+9:30 a.m.
+→ Chalk ridge
+9:40 a.m.
+Garth, shepherd: Ask Garth what is wrong
+'Something comes up out of Silkholme sink at night and takes a ewe,' says Garth. I've lost 1 to them so far. It's the spiders: Odile's precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

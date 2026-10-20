@@ -1,0 +1,99 @@
+SILKHOLME
+Form a company of three
+A company for Chalk ridge
+
+Something comes up out of Silkholme sink at night and takes a ewe from Garth's flock. Garth wants the hollow burned out; Odile, who gathers silk there, says that would be a crime. Choose three companions. Their ancestry, calling and background decide what they can do, and what doors open.
+
+Fellowship: elf, human, dwarf Hired company
+
+World seed
+1
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Calling
+Warrior
+Mage
+Thief
+Cleric
+Bard
+Ranger
+Monk
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+
+woodcraft; carries rope; rangers only.
+
+2
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Calling
+Warrior
+Mage
+Thief
+Cleric
+Bard
+Ranger
+Monk
+Specialization
+Drawn at random
+Toughness
+Bravery
+Strong Willed
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+
+lockwork; carries thieves tools.
+
+3
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Calling
+Warrior
+Mage
+Thief
+Cleric
+Bard
+Ranger
+Monk
+Specialization
+Drawn at random
+Vitalist
+Deathspeaker
+Lightbringer
+Shadowmancer
+Oathkeeper
+Wildcaller
+Chaotician
+Warbringer
+Oceanist
+Cherubist
+Stormcaller
+Veneficium
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+
+mending; carries bandages, herbs; clerics only.
+
+⏎Begin the expedition
+Load a save file

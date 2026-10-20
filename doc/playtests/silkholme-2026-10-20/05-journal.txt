@@ -1,0 +1,49 @@
+SILKHOLME
+The Serewater March›Silkholme sink
+Day 1, 10:30 a.m.
+IN HAND
+Spiders from Silkholme sink take a ewe from Garth's flock every night. Garth wants them burned out; Odile, who gathers their silk, says the brood-mother only needs feeding.
+What you know
+
+Nothing established yet.
+
+Deadlines
+
+No public deadline.
+
+Company standing
+Woodcraft — Elen (elf ranger)
+Mending — Dori (dwarf cleric)
+Lockwork — Bran (human warrior)
+
+Download save file New company
+
+CHRONICLE
+Day 1, 10:20 a.m. Ask Odile about the spiders
+1 details
+Day 1, 10:20 a.m. The frames stand empty. There has been no silk to wind for a week.
+Day 1, 10:20 a.m. Odile paces the terrace, looking down the fissure every few steps.
+Day 1, 10:20 a.m. A ledge cut into the side of the sink, sheltered from the wind. A wet fissure at the back of the ledge breathes cave air.
+Day 1, 10:10 a.m. Take the terrace steps to the frame terrace
+Day 1, 10:10 a.m. The grass runs right to the edge and stops. Below, the chalk drops into a round shaft, white at the top and grey further down, and cool air comes up out of it.
+Day 1, 9:40 a.m. Take the sink path to the lip of the sink
+Day 1, 9:30 a.m. Ask Garth what is wrong
+1 details
+Day 1, 9:30 a.m. Garth leans on his crook, counting sheep that are not there.
+Day 1, 9:30 a.m. Short grass and hawthorn on pale chalk. Sheep bells sound from distant Chalkcross. Reedwake lies far below.
+Day 1, 9:00 a.m. Take the ridge track to Chalk ridge
+Day 1, 9:00 a.m. Old stones run out across the floodplain between willow poles. Waterfowl lift from the sedges. A track climbs the chalk ridge; a lower path drops into the reeds.
+Day 1, 8:00 a.m. Take the causeway path to Willow causeway
+HHistory · 4 earlier
+10:10 a.m.
+→ the lip of the sink
+10:20 a.m.
+→ the frame terrace
+10:30 a.m.
+Odile, silk-gatherer: Ask Odile about the spiders
+'Don't let Garth burn them,' says Odile. 'They aren't killing for spite. The brood-mother is starving, and the brood hunts for her. Feed her and they'll go quiet. Take her the ewe Garth lost; she'll take it if you go slowly. And keep fire away from the silk. It goes up like straw, and the frames with it.'
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

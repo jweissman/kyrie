@@ -1,0 +1,110 @@
+SILKHOLME
+The Serewater March›Silkholme sink›The caves below
+Day 1, 12:20 p.m.
+The nest
+
+The caves below · Silkholme sink
+
+◆ Spiders from Silkholme sink take a ewe from Garth's flock every night. Garth wants them burned out; Odile, who gathers their silk, says the brood-mother only needs feeding.
+
+A high chamber, its roof lost in grey silk. Old husks of sheep and rabbits hang in the threads like washing.
+
+Cave spiders hang in the silk overhead, legs folded, waiting.
+
+The brood-mother crouches at the back of the nest, big as a pony and thin as a rake, turning all her eyes on you at once.
+
+A ragged hole has been hacked through the silk in the web gallery.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The lower cave
+by the web gallery
+HERE
+2
+◆
+the spider brood, a cave spider
+hunting
+3
+◆
+the brood-mother
+starving
+COMPANY
+4
+○
+Wait a while
+10m
+THE LOWER CAVE
+
+the lower cave, a few steps away.
+
+Go
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+lower cave
+nest
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+14 coin · 1 ration · 1 dead ewe · eat by 8:00 p.m. · day
+
+HHistory · 14 earlier
+12:00 p.m.
+→ the lower cave
+12:10 p.m.
+Hack a way through the webs
+A ragged hole has been hacked through the silk in the web gallery.
+12:20 p.m.
+→ the nest
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

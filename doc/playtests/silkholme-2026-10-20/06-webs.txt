@@ -1,0 +1,104 @@
+SILKHOLME
+The Serewater March›Silkholme sink›The caves below
+Day 1, 12:00 p.m.
+The lower cave
+
+The caves below · Silkholme sink
+
+◆ Spiders from Silkholme sink take a ewe from Garth's flock every night. Garth wants them burned out; Odile, who gathers their silk, says the brood-mother only needs feeding.
+
+Water drips from the chalk into shallow pools. Pale threads run along the walls towards a low arch, and every thread trembles a little.
+
+Sheets of grey silk close the web gallery from wall to wall. Things hang in them.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The nest
+by the web gallery · through the webs · new
+2
+⇤
+Out to the frame terrace
+by the seep crawl
+3
+⇤
+Out to the lip of the sink
+by the sink shaft
+COMPANY
+4
+○
+Wait a while
+10m
+THE NEST
+
+the nest, a few steps away.
+
+Hack a way through the webs
+10m
+MAP
+SILKHOLME SINK
+CAVES BELOW
+lip of thesink
+frameterrace
+lower cave
+? nest
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Silkholme sink
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+11/11
+MP
+██████████
+3/3
+Bran
+human warrior
+HP
+██████████
+14/14
+MP
+██████████
+3/3
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+
+14 coin · 1 ration · 1 dead ewe · eat by 8:00 p.m. · day
+
+HHistory · 11 earlier
+'What's left of it is behind the fold,' says Garth. 'Feed it to them, she says. Feed them!' He spits. 'Take it, then. If they come again, I'm going down there with fire.'
+dead ewe: 0 → 1
+11:50 a.m.
+→ the lip of the sink
+12:00 p.m.
+→ the lower cave
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback
