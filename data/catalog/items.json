@@ -248,6 +248,17 @@
       "source": {
         "kyr": true
       }
+    },
+    "torch": {
+      "name": "Torch",
+      "category": "gear",
+      "description": "A pitch-soaked torch. It lights the dark, and it sets dry things burning.",
+      "value": 1,
+      "source": {
+        "orsino": "gear:torch",
+        "fidelity": "adapted",
+        "notes": "Orsino's torch is a light source with a duration. Kyr gives it meaning through world rules: changes that need fire."
+      }
     }
   }
 }

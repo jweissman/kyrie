@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "source": "site.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "march",
+    "ridge"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "march": {
+      "type": "place"
+    },
+    "ridge": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "site": "silkholme",
+    "mouth": "lip",
+    "workroom": "frames",
+    "below": "cave",
+    "nest": "nest",
+    "web_way": "web_gallery"
+  }
+}

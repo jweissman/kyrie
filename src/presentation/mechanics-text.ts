@@ -1,3 +1,4 @@
+import { Content } from '../content';
 import { Deem } from 'deem';
 import { Canon } from '../canon/canon';
 import { FantasyRules } from '../fantasy-rules';
@@ -22,8 +23,8 @@ export class MechanicsText {
     const costs = [ability.cost ? `${ability.cost} mana` : '',
       ability.cooldown ? `usable again in ${ability.cooldown} turn${ability.cooldown === 1 ? '' : 's'}` : '']
       .filter(Boolean);
-    const details = ability.effects.flatMap(e => e.kind === 'apply' ? [this.condition(e.status, actor)] : [])
-      .filter((d): d is string => !!d);
+    const details = [...new Set(ability.effects.flatMap(e => e.kind === 'apply' ? [e.status]
+      : this.triggered(e).map(([id]) => id)))].map(id => this.condition(id, actor)).filter((d): d is string => !!d);
     if (ability.spell) { details.unshift(`Level ${ability.spell.level} ${ability.spell.tradition} spell.`); }
     return { summary: `${this.capitalize(parts.join('; '))}.${costs.length ? ` (${costs.join(', ')})` : ''}`, details };
   }
@@ -44,7 +45,7 @@ export class MechanicsText {
         case 'drain': return `drain ${amount} health from ${to}`;
         case 'defend': return 'guard until your next turn';
         case 'flee': return 'try to escape the fight (an even chance)';
-        case 'apply': return `${e.target === 'self' ? 'you are' : `${to} is`} ${this.conditionName(e.status)} for ${
+        case 'apply': return `${e.target === 'self' ? 'you gain' : `${to} gains`} ${this.conditionName(e.status)} for ${
           this.duration(e.duration, e.clock)}`;
         case 'remove': return `end ${this.conditionName(e.status)} on ${to}`;
         case 'kill': return `slay ${to}`;
@@ -55,9 +56,15 @@ export class MechanicsText {
       }
     })();
     const qualifiers = [e.when ? 'when its condition holds' : '', e.targetTrait ? `only ${e.targetTrait} creatures` : '',
-      e.save ? this.save(e.save, actor) : '', e.onResist ? `${e.onResist === 'half' ? 'halved' : 'none'} if resisted` : '']
+      e.save ? this.save(e.save, actor) : '', e.onResist ? `${e.onResist === 'half' ? 'halved' : 'none'} if resisted` : '',
+      ...this.triggered(e).map(([id, c]) => `may cause ${this.conditionName(id)}: a ${c.saveKind ?? 'magic'} save against 15 avoids it`)]
       .filter(Boolean);
     return qualifiers.length ? `${text} (${qualifiers.join('; ')})` : text;
+  }
+  // Conditions a damage type sets off on whoever it hurts (Orsino's status triggers): fire may set a creature burning.
+  static triggered(e: Effect): [string, (typeof Content.statuses)[string]][] {
+    const type = e.kind === 'damage' || e.kind === 'drain' ? e.damageType : undefined;
+    return type ? Object.entries(Content.statuses).filter(([, c]) => c.trigger === type) : [];
   }
   static save(save: Save, actor?: Record<string, number>): string {
     const against = save.stat ?? save.kind ?? 'a';

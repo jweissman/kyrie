@@ -6,6 +6,8 @@ export interface ScenarioEntry { manifest: string; title: string; seed: string; 
 export class Scenarios {
   static readonly files: Record<string, string> = bundled;
   static readonly list: ScenarioEntry[] = [
+    { manifest: 'data/campaigns/silkholme.campaign.json', title: 'Silkholme', seed: 'silk',
+      note: 'Spiders under the ridge: a shepherd losing ewes, a silk-gatherer who lives by them.' },
     { manifest: 'data/campaigns/serewater-march.campaign.json', title: 'The Serewater March', seed: 'serewater',
       note: 'Reedwake, Censer Hill and its ossuary: a rescue, a salvage permit, and the keepers of the dead.' },
     { manifest: 'data/campaigns/skellfold.campaign.json', title: 'Skellfold', seed: 'serewater',

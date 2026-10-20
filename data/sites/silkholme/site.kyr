@@ -1,0 +1,25 @@
+Module silkholme "Silkholme sink" {
+  Description "A chalk sinkhole on the ridge above Reedwake. Its lip is quiet grass; below, the chalk opens into caves that something has hung with silk.".
+  Entity party: group "Your company".
+  Place march "The region" is region.
+  Place ridge "The high approach" is room.
+
+  Place silkholme "Silkholme sink" is site within march at 3, 0.
+  Place lip "the lip of the sink" is room within silkholme at 0, 0.
+  Place frames "the frame terrace" is room within silkholme at 1, 0.
+  Place caves "The caves below" is level within silkholme.
+  Place cave "the lower cave" is room within caves at 0, 1.
+  Place nest "the nest" is room within caves at 1, 1.
+
+  Passage sink_path "the sink path" is path between ridge and lip taking 30 minutes.
+  Passage terrace_steps "the terrace steps" is path between lip and frames.
+  Passage shaft "the sink shaft" is climb between lip and cave needing rope.
+  Passage seep "the seep crawl" is crawl between frames and cave taking 1 hour.
+  Passage web_gallery "the web gallery" is passage between cave and nest.
+
+  Observe sink_lip at lip when true "The grass runs right to the edge and stops. Below, the chalk drops into a round shaft, white at the top and grey further down, and cool air comes up out of it.".
+  Observe frame_terrace at frames when true "A ledge cut into the side of the sink, sheltered from the wind. A wet fissure at the back of the ledge breathes cave air.".
+  Observe lower_cave at cave when true "Water drips from the chalk into shallow pools. Pale threads run along the walls towards a low arch, and every thread trembles a little.".
+  Observe nest_room at nest when true "A high chamber, its roof lost in grey silk. Old husks of sheep and rabbits hang in the threads like washing.".
+  Goal false.
+}

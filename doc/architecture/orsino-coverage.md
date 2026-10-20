@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 763 represented or better; 545 executable or better; 16 play-validated; 2239 feasible.
+2651 entries in 79 families. 764 represented or better; 545 executable or better; 16 play-validated; 2239 feasible.
 
 ## By family
 
@@ -41,7 +41,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | equipment | armor | 15 | 0 | 15 | 0 | 15 |
 | equipment | consumable | 28 | 0 | 0 | 2 | 17 |
 | equipment | equipment | 48 | 0 | 0 | 1 | 36 |
-| equipment | gear | 68 | 0 | 2 | 3 | 48 |
+| equipment | gear | 68 | 1 | 2 | 3 | 48 |
 | equipment | gem | 5 | 0 | 0 | 0 | 5 |
 | equipment | junk | 71 | 0 | 0 | 0 | 71 |
 | equipment | treasureTier | 6 | 0 | 0 | 0 | 6 |
@@ -213,6 +213,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `background:priest` | `background:priest` | executable | adapted | Exact Wis +3, Cha +2. Used as a profession. |
 | `background:boatman` | `background:boatman` | executable | adapted | Exact Str +2, Con +1. Used as a profession with a routine only; Kyr has no ferry service yet. |
 | `gear:rope` | `item:rope` | play-validated | adapted | Orsino's rope has a description and price only. Kyr gives it meaning through passage requirements. |
+| `gear:torch` | `item:torch` | represented | adapted | Orsino's torch is a light source with a duration. Kyr gives it meaning through changes that need fire; it does not burn down. |
 | `gear:crowbar` | `item:crowbar` | play-validated | adapted | Kyr gives it meaning: it opens obstacles that need a bar. |
 | `gear:thieves_tools` | `item:thieves_tools` | executable | adapted | Starting gear of the locksmith overlay; the lockwork skill does the work. |
 | `gear:shovel` | `item:shovel` | executable | adapted | Starting gear of the miner overlay; the digging skill does the work. |

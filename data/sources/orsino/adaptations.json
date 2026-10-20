@@ -150,6 +150,21 @@
       ]
     },
     {
+      "orsino": "gear:torch",
+      "kyr": [
+        "item:torch"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino's torch is a light source with a duration. Kyr gives it meaning through changes that need fire; it does not burn down.",
+      "evidence": [
+        "data/situations/brood-hollow/situation.kyr#needing torch"
+      ],
+      "omits": {
+        "field:masterGear.duration": "A Kyr torch does not burn down; it is a tool that changes need, not a light that runs out."
+      }
+    },
+    {
       "orsino": "gear:crowbar",
       "kyr": [
         "item:crowbar"

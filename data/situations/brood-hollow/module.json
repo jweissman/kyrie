@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world",
+    "elements"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "hollow",
+    "mouth",
+    "workroom",
+    "below",
+    "nest",
+    "pasture",
+    "web_way"
+  ],
+  "roles": {
+    "party": { "type": "group" },
+    "hollow": { "type": "place" },
+    "mouth": { "type": "place" },
+    "workroom": { "type": "place" },
+    "below": { "type": "place" },
+    "nest": { "type": "place" },
+    "pasture": { "type": "place" },
+    "web_way": { "type": "passage" }
+  }
+}

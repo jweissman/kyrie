@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "name": "Silkholme",
+  "modules": [
+    {
+      "id": "march",
+      "bundle": "../regions/serewater-march/module.json"
+    },
+    {
+      "id": "sink",
+      "bundle": "../sites/silkholme/module.json",
+      "imports": {
+        "party": "march.party",
+        "march": "march.region",
+        "ridge": "march.high_road"
+      }
+    },
+    {
+      "id": "brood",
+      "bundle": "../situations/brood-hollow/module.json",
+      "imports": {
+        "party": "march.party",
+        "hollow": "sink.site",
+        "mouth": "sink.mouth",
+        "workroom": "sink.workroom",
+        "below": "sink.below",
+        "nest": "sink.nest",
+        "pasture": "march.high_road",
+        "web_way": "sink.web_way"
+      }
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith",
+      "traits": [
+        "toughness"
+      ]
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ],
+      "spells": [
+        "cure",
+        "bless",
+        "anoint",
+        "prayer",
+        "minor_restoration",
+        "cure_moderate"
+      ]
+    }
+  ]
+}

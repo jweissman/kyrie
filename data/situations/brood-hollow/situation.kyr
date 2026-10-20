@@ -1,0 +1,126 @@
+Module brood_hollow "A brood under the hill" {
+  Description "Cave spiders nest under a hill. A silk-gatherer lives by their silk; a shepherd loses a ewe to them every night. Burn them out, fight them, or feed their mother and keep the peace.".
+  Entity party: group "Your company".
+  Place hollow "The hollow" is site.
+  Place mouth "The way down" is room within hollow.
+  Place workroom "Where the silk is worked" is room within hollow.
+  Place below "The cave below" is room within hollow.
+  Place nest "The nest" is room within hollow.
+  Place pasture "Where the flock grazes" is room.
+  Entity web_way: passage "The way into the nest".
+  Entity ewe: good "dead ewe". Entity silk: good "hank of silk".
+  Measure raidAt(entity). Measure lost(entity).
+  Relation asked(group, group). Relation sated(group). Relation scattered(group). Relation quieted(group).
+  Relation thanked(group, group).
+
+  Person brood "the spider brood" at nest {
+    Role "a cave spider". Creature body cave_spider. Numbers 3.
+    State hunting "Cave spiders hang in the silk overhead, legs folded, waiting.".
+    State gorged "The spiders hang heavy and still in the silk, too full to stir.".
+  }
+  Person mother "the brood-mother" at nest {
+    Role "the brood-mother". Creature body cave_spider. Level 3. Peaceable.
+    State starving "{mother} crouches at the back of {nest}, big as a pony and thin as a rake, turning all her eyes on you at once.".
+    State fed "{mother} has dragged the ewe into the dark, and is busy with it.".
+    Change feed "Leave the dead ewe for {self}, slowly" from starving to fed consuming ewe.
+  }
+  Person garth "Garth" at pasture {
+    Role "shepherd". Ancestry human. Peaceable. Uses go, change_thing. Plans 6 steps.
+    Carries torch. Carries rope.
+    State worried "{garth} leans on his crook, counting sheep that are not there.".
+    State angry "{garth} has a torch through his belt and a set to his jaw.".
+    State easy "{garth} watches the flock graze, and for once he does not count them.".
+  }
+  Person odile "Odile" at workroom {
+    Role "silk-gatherer". Ancestry human. Peaceable.
+    Sells silk for 3 coin from 0.
+    State fretting "{odile} paces the terrace, looking down the fissure every few steps.".
+    State content "{odile} winds new silk onto a frame and hums while she works.".
+    State bitter "{odile} stands among the ashes of her frames and will not look at you.".
+    State grieving "{odile} sits on the terrace with her hands in her lap. The frames are empty.".
+  }
+  Initially Set raidAt(brood) to 84.
+  Initially Set lost(garth) to 1.
+  Initially Set quantity(garth, gold) to 8.
+  Initially Set quantity(odile, gold) to 4.
+  Item spare_torch "Garth's spare torch" is torch at pasture.
+
+  Thing webs "the webs" on web_way {
+    State whole blocking "Sheets of grey silk close {web_way} from wall to wall. Things hang in them.".
+    State cut "A ragged hole has been hacked through the silk in {web_way}.".
+    State burnt "Black threads curl from the walls of {web_way}. The air stinks of burnt hair.".
+    Change hack "Hack a way through the webs" from whole to cut.
+    Change burn "Put a torch to the webs" from whole to burnt needing torch.
+  }
+  Thing frames "the silk frames" at workroom {
+    State idle "The frames stand empty. There has been no silk to wind for a week.".
+    State winding "Grey silk is wound on every frame, fine as smoke.".
+    State ruined "The frames are scorched black. The wind lifts ash off the terrace.".
+  }
+
+  Rule raid at pasture when state(brood, hunting) and able(brood) and not quieted(brood) and watch(clock) >= raidAt(brood)
+    says "Something pale comes over the ridge in the dark. In the morning there is one ewe fewer." {
+    Increase lost(garth) by 1. Increase raidAt(brood) by 144.
+  }
+  Rule fury when lost(garth) >= 2 and state(garth, worried) and not quieted(brood) { Assert state(garth, angry). }
+  Event spark beside web_way when exposedTo(nest, fire) and state(webs, whole) "Fire catches the silk." then { Assert state(webs, burnt). }
+  Event blaze beside web_way when state(webs, burnt) and not scattered(brood) "Fire runs up the silk into the nest. Spiders boil out of the dark and away down the cracks in the chalk; the brood-mother follows them. Smoke pours up the seep." then {
+    Assert scattered(brood). Assert quieted(brood). Assert state(frames, ruined). Assert state(odile, bitter).
+    Retract at(brood, nest). Retract at(mother, nest).
+  }
+  Event slaughter at nest when dead(brood) and not scattered(brood) "The brood-mother backs away from what is left of her brood, and is gone into the chalk." then {
+    Assert scattered(brood). Assert quieted(brood). Assert state(odile, grieving). Retract at(mother, nest).
+  }
+  Event rout at nest when routed(brood) and not scattered(brood) "The spiders scatter into the cracks, and the brood-mother goes after them." then {
+    Assert scattered(brood). Assert quieted(brood). Assert state(odile, grieving). Retract at(brood, nest). Retract at(mother, nest).
+  }
+  Event feast near mother when state(mother, fed) and state(brood, hunting) "The brood creeps down out of the silk to share the ewe. Not one of them looks at you." then {
+    Assert state(brood, gorged). Assert sated(brood). Assert quieted(brood). Assert peaceable(brood).
+    Assert state(frames, winding). Assert state(odile, content). Increase quantity(odile, silk) by 3.
+  }
+  Event calm near garth when quieted(brood) and watch(clock) >= raidAt(brood) and not state(garth, easy) "Another dawn on the ridge, and {garth} counts every ewe twice. They are all there." then {
+    Assert state(garth, easy).
+  }
+
+  Pursuit burn_out for garth "going to burn out Silkholme himself" priority 20 when state(garth, angry) and not quieted(brood) seeks state(webs, burnt).
+  Pursuit tend for garth "tending his flock" priority 10 when true seeks at(garth, pasture).
+
+  Topic complaint with garth "Ask {garth} what is wrong" when not quieted(brood) {
+    Says "'Something comes up out of {hollow} at night and takes a ewe,' says {garth}. I've lost {lost(garth)} to them so far. It's the spiders: Odile's precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'".
+    On discuss { Assert asked(garth, party). }
+  }
+  Topic carcass with garth "Ask {garth} for the ewe that was killed" when asked(odile, party) and not quieted(brood) and quantity(party, ewe) < 1 once {
+    Says "'What's left of it is behind the fold,' says {garth}. 'Feed it to them, she says. Feed them!' He spits. 'Take it, then. If they come again, I'm going down there with fire.'".
+    On discuss { Increase quantity(party, ewe) by 1. }
+  }
+  Topic paid_burnt with garth "Speak with {garth}" when scattered(brood) and not thanked(garth, party) once {
+    Says "'Saw the smoke from here,' says {garth}. 'Good riddance.' He counts out eight coins.".
+    On discuss { Decrease quantity(garth, gold) by 8. Increase quantity(party, gold) by 8. Assert thanked(garth, party). }
+  }
+  Topic wait_and_see with garth "Tell {garth} the brood is fed" when sated(brood) and not state(garth, easy) {
+    Says "'Fed them,' says {garth}. 'Fed them!' He looks at the sky. 'We'll see what comes over the ridge tonight.'".
+  }
+  Topic paid_fed with garth "Speak with {garth}" when sated(brood) and state(garth, easy) and not thanked(garth, party) once {
+    Says "'Not a ewe gone since,' says {garth}. 'Odile says they've been fed. I don't like it.' A long pause. 'But I'll take it.' He gives you three coins.".
+    On discuss { Decrease quantity(garth, gold) by 3. Increase quantity(party, gold) by 3. Assert thanked(garth, party). }
+  }
+  Topic plea with odile "Ask {odile} about the spiders" when not quieted(brood) {
+    Says "'Don't let Garth burn them,' says {odile}. 'They aren't killing for spite. The brood-mother is starving, and the brood hunts for her. Feed her and they'll go quiet. Take her the ewe Garth lost; she'll take it if you go slowly. And keep fire away from the silk. It goes up like straw, and the frames with it.'".
+    On discuss { Assert asked(odile, party). }
+  }
+  Topic grateful with odile "Speak with {odile}" when sated(brood) and not thanked(odile, party) once {
+    Says "'Listen,' says {odile}, and you hear it: a dry whisper from the fissure, like rain on leaves. 'They're spinning again.' She presses four coins on you. 'And the first silk is yours to buy before anyone's.'".
+    On discuss { Decrease quantity(odile, gold) by 4. Increase quantity(party, gold) by 4. Assert thanked(odile, party). }
+  }
+  Topic ashes with odile "Speak with {odile}" when state(odile, bitter) {
+    Says "'Twelve years,' says {odile}. 'Twelve years I fed them.' She does not say anything else.".
+  }
+  Topic mourning with odile "Speak with {odile}" when state(odile, grieving) {
+    Says "'Garth will be pleased,' says {odile}. 'I suppose the silk is gone the way of the sheep.'".
+  }
+
+  Objective quarrel when (asked(garth, party) or asked(odile, party)) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out; {odile}, who gathers their silk, says the brood-mother only needs feeding.".
+  Objective deadline when state(garth, angry) and not quieted(brood) "{garth} has lost another ewe and means to burn out {hollow} himself.".
+  Objective tell when quieted(brood) and (not thanked(garth, party) or (sated(brood) and not thanked(odile, party))) "The brood is quiet. {garth} and {odile} will want to know.".
+  Goal quieted(brood).
+}
