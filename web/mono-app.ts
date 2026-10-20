@@ -207,7 +207,7 @@ export class MonoApp {
     const title = context.plainMove ? `→ ${arrived}` : context.exit ? `${context.title}${context.moved ? ` → ${arrived}` : ''}`
       : context.topic ? `${this.talk?.name ?? context.subject}: ${context.title}`
         : context.subject === context.title ? context.title : `${context.subject}: ${context.title}`;
-    this.log.push({ at: f.time, title, lines, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' });
+    this.log.push({ at: f.time, title, lines: [...new Set(lines)], tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' });
   }
   static tidy(lines: string[], actions: number): string[] {
     const clean = lines.map(l => l.replace(/ \((\d+) HP; [^)]*\)/, ' ($1 HP left)')

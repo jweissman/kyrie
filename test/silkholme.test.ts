@@ -70,4 +70,16 @@ describe('Silkholme: one quarrel, several ways through it', () => {
       .toEqual(['Cave spider 1', 'Cave spider 2', 'Cave spider 3']);
     battle.close();
   }, 120000);
+  it('night falls in the world: dark() holds from nine to six, and the quay is described by it', async () => {
+    const s = await Sink.play();
+    const quay = () => JSON.stringify(PlayerView.observe(s.campaign));
+    expect(quay()).toContain('Barges nose into reed-fringed piles');
+    expect(quay()).toContain("A shepherd's boy is telling anyone");
+    while (s.campaign.state.elapsed < 78) { await s.perform('wait'); }
+    expect(Sink.holds(s, 'dark')).toBe(true);
+    expect(quay()).toContain('The quay is dark and empty');
+    expect(quay()).not.toContain("A shepherd's boy");
+    while (s.campaign.state.elapsed < 132) { await s.perform('wait'); }
+    expect(Sink.holds(s, 'dark')).toBe(false);
+  }, 120000);
 });

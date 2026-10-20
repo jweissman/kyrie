@@ -69,6 +69,7 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   static party(screen: Screen, compact: boolean): string {
     return `<section class="pane party${compact ? ' compact' : ''}" data-region="party"><h2>Company</h2>${screen.party.map(m => this.member(m)).join('')}`
       + `<p class="purse" data-id="purse">${screen.purse.coin} coin · ${screen.purse.rations} ration${screen.purse.rations === 1 ? '' : 's'}`
+      + `${screen.purse.other.map(o => ` · ${Html.escape(o)}`).join('')}`
       + `${screen.expedition.hungry ? ' · <b class="hungry">hungry</b>' : screen.expedition.nextMeal ? ` · eat by ${Html.escape(screen.expedition.nextMeal)}` : ''}`
       + ` · ${screen.expedition.daylight}</p></section>`;
   }

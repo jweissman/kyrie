@@ -86,7 +86,9 @@ export class ModuleParser {
           const { spec, peaceable, ...p } = value as Person & { spec: ThingSpec; peaceable?: boolean };
           (module.people ??= []).push(p);
           WorldConstructs.offers(module, p, kind => ItemCatalog.definitions[kind]?.name);
-          module.entities.push({ id: p.id, name: p.role ? `${p.name}, ${p.role}` : p.name, type: 'group' });
+          // A person's role follows their name ("Garth, shepherd"), unless it only repeats it.
+          const named = p.role && p.role.toLowerCase() !== p.name.toLowerCase() ? `${p.name}, ${p.role}` : p.name;
+          module.entities.push({ id: p.id, name: named, type: 'group' });
           module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [p.id, p.place] } });
           if (peaceable) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'peaceable', args: [p.id] } }); }
           WorldConstructs.states(module, spec, { kind: 'near', id: p.id });

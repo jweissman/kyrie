@@ -33,7 +33,7 @@ export interface Screen {
   path: PlaceRef[]; place: PlaceRef; prose: string[];
   exits: ExitRow[]; people: TargetRow[]; things: TargetRow[];
   party: MemberRow[]; items: ItemRow[]; camp: Act[];
-  purse: { coin: number; rations: number };
+  purse: { coin: number; rations: number; other: string[] };
   knowledge: string[]; deadlines: string[]; capabilities: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
   chart?: Chart; region?: RegionChart; objectives: string[];

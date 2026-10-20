@@ -8,6 +8,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation able(group). Relation dead(group). Relation distinct(group, group).
   Relation closed(place). Relation indoors(place). Relation settled(place).
   Relation peaceable(group). Relation routed(group).
+  Relation dark().
   Relation witnessedAttack(group, group, group).
   Relation refusesService(group, group).
   Relation capable(group, capability).

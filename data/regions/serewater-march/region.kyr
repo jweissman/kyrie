@@ -49,7 +49,8 @@ Module serewater_march "The Serewater March" {
     Says "'Bronze buys work; washed-out bones buy grief. The foundry served three settlements once, and the refuge under it sheltered all of them in the great flood. Some of them are still down there. Ask at the shrine before you treat everything under that hill as salvage.'".
   }
 
-  Observe quay_scene at quay when true "Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.".
+  Observe quay_night at quay when dark() "The quay is dark and empty. Water slaps the piles, the barges ride at their ropes, and a lamp still burns in the Oar's window.".
+  Observe quay_scene at quay when not dark() "Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.".
   Observe taproom_scene at taproom when true "Dry boots steam above the hearth. Bargemen eat at the long table, and stairs climb to the pallets above.".
   Observe shop_scene at shop_floor when true "Bunches of herbs hang from the beams over shelves of jars, coils of rope, stoppered antidotes and wrapped rations.".
   Observe shrine_scene at shrine when true "Two small altars face each other under a low roof. Water-stained name slips are pinned to every beam.".

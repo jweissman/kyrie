@@ -30,7 +30,7 @@ Module brood_hollow "A brood under the hill" {
     Carries torch. Carries rope.
     State worried "{garth} leans on his crook, counting sheep that are not there.".
     State angry "{garth} has a torch through his belt and a set to his jaw.".
-    State easy "{garth} watches the flock graze, and for once he does not count them.".
+    State easy "{garth} is easy about the flock now, and for once he does not count them.".
   }
   Person odile "Odile" at workroom {
     Role "silk-gatherer". Ancestry human. Peaceable.
@@ -55,7 +55,7 @@ Module brood_hollow "A brood under the hill" {
   }
   Thing frames "the silk frames" at workroom {
     State idle "The frames stand empty. There has been no silk to wind for a week.".
-    State winding "Grey silk is wound on every frame, fine as smoke.".
+    State winding "The first new silk is wound on one frame, grey and fine as smoke.".
     State ruined "The frames are scorched black. The wind lifts ash off the terrace.".
   }
 
@@ -120,10 +120,10 @@ Module brood_hollow "A brood under the hill" {
     Says "'Garth will be pleased,' says {odile}. 'I suppose the silk is gone the way of the sheep.'".
   }
 
-  Observe rumour at gossip when not quieted(brood) and not asked(garth, party) "A shepherd's boy is telling anyone who will listen that something comes up out of {hollow} at night and takes a ewe off Chalk ridge, and that {garth} means to burn it out.".
-  Observe silk_news at gossip when sated(brood) "A woman on the quay is showing off a scarf of grey Silkholme silk. 'Odile's frames are full again,' she says.".
-  Observe smoke_news at gossip when scattered(brood) and state(frames, ruined) "People on the quay still talk about the smoke over Chalk ridge, and how Odile's frames went up with the spiders.".
-  Observe brood_news at gossip when scattered(brood) and not state(frames, ruined) "Word has come down from Chalk ridge: the Silkholme spiders are dead, and Garth's flock is safe.".
+  Observe rumour at gossip when not quieted(brood) and not asked(garth, party) and not dark() "A shepherd's boy is telling anyone who will listen that something comes up out of {hollow} at night and takes a ewe off Chalk ridge, and that {garth} means to burn it out.".
+  Observe silk_news at gossip when sated(brood) and state(garth, easy) and not dark() "A woman on the quay is showing off a scarf of grey Silkholme silk. 'Odile's frames are full again,' she says.".
+  Observe smoke_news at gossip when scattered(brood) and state(frames, ruined) and not dark() "People on the quay still talk about the smoke over Chalk ridge, and how Odile's frames went up with the spiders.".
+  Observe brood_news at gossip when scattered(brood) and not state(frames, ruined) and not dark() "Word has come down from Chalk ridge: the Silkholme spiders are dead, and Garth's flock is safe.".
 
   Objective quarrel when asked(garth, party) and not asked(odile, party) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out, and says {odile} keeps them for their silk.".
   Objective plea_heard when asked(odile, party) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out; {odile}, who gathers their silk, says the brood-mother only needs feeding.".

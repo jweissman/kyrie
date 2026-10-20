@@ -1,3 +1,4 @@
+import { FictionalTime } from '../presentation/fictional-time';
 import { Agency } from './agency';
 import { ActionTime } from './action-time';
 import { CreatureFacts } from './creature-facts';
@@ -25,6 +26,12 @@ export type Happening = { id: string; text: string; kind: 'event' };
 // One watch of the world after the player's action: every NPC acts or continues what it is doing, then each rule
 // fires once in authored order. A rule with ?variables fires once for every binding that satisfies it.
 export class CampaignTick {
+  // The clock after a watch passes: its reading, and dark() from nine in the evening until six in the morning.
+  static clock(world: World, elapsed: number): Change[] {
+    const night: Change[] = world.module.relations.some(r => r.name === 'dark')
+      ? [{ kind: FictionalTime.dark(elapsed) ? 'assert' : 'retract', call: ModuleWriter.call('dark') }] : [];
+    return [{ kind: 'set', call: ModuleWriter.call('watch', 'clock'), value: ModuleWriter.number(elapsed) }, ...night];
+  }
   static npcs(host: TickHost, decisions: TickDecision[]) {
     const { definition, current } = host.tickState;
     for (const actor of definition.actors.filter(a => !a.player)) {

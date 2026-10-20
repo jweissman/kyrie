@@ -367,8 +367,7 @@ export class Campaign implements TickHost {
       if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
         { world: this.world, actors: this.definition?.actors ?? [], player: this.playerActor })) { this.refresh(); }
       if (this.definition) {
-        this.commit(this.world.apply([{ kind: 'set', call: ModuleWriter.call('watch', 'clock'),
-          value: ModuleWriter.number(this.current.elapsed) }]));
+        this.commit(this.world.apply(CampaignTick.clock(this.world, this.current.elapsed)));
         CampaignTick.npcs(this, npc as TickDecision[]);
         CampaignTick.rules(this, happenings);
         this.commit(Progression.check(this.world, this.definition, this.current.elapsed));

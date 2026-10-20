@@ -49,7 +49,9 @@ export class ScreenModel {
       items: this.items(campaign, grouped, entities),
       camp: grouped.camp,
       purse: { coin: view.resources?.find(r => r.id === 'gold')?.amount ?? 0,
-        rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0 },
+        rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
+        other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
+          .map(r => `${r.amount} ${r.name}`) },
       knowledge: view.knowledge.map(k => k.text),
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
