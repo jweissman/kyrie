@@ -25,7 +25,7 @@ describe('a generated region with situated scenarios', () => {
     expect(fen.report.placements.some(p => p.scenario === 'brood-hollow')).toBe(false);
     const brood = upland.report.placements.filter(p => p.scenario === 'brood-hollow');
     expect(brood).toHaveLength(1);
-    const towns = new Set(brood[0]!.carriers.ewes!.map(c => c.split('_')[0]));
+    const towns = new Set(brood[0]!.carriers['brood.ewes']!.map(c => c.split('_')[0]));
     expect(towns.size).toBe(2);
     const claimed = upland.report.placements.flatMap(p => Object.entries(p.bindings).filter(([r]) => r !== 'town').map(([, v]) => v));
     expect(new Set(claimed).size).toBe(claimed.length);
@@ -44,14 +44,14 @@ describe('a generated region with situated scenarios', () => {
     const s = await PlaySession.start(world.path, 'thorn', world.source);
     const way = 'go(sink__sink_path,sink__lip)', approach = world.report.placements[0]!.bindings.approach!;
     await s.perform(`go(region__s1_inn_door,region__s1_taproom)`);
-    const ask = Worlds.ids(s).find(id => id.startsWith('ask(') && id.includes('word1__ewes'))!;
+    const ask = Worlds.ids(s).find(id => id.startsWith('ask(') && id.includes('word1__h1'))!;
     expect(ask).toBeDefined();
     await s.perform('go(region__s1_inn_door,region__s1_green)');
     await s.perform(`go(region__${approach}_track,region__${approach})`);
     expect(Worlds.ids(s)).not.toContain(way);
     for (const c of [`go(region__${approach}_track,region__s1_green)`, 'go(region__s1_inn_door,region__s1_taproom)', ask,
       'go(region__s1_inn_door,region__s1_green)', `go(region__${approach}_track,region__${approach})`]) { await s.perform(c); }
-    expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'word1__ewes'))).toBe(true);
+    expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'brood__ewes'))).toBe(true);
     expect(Worlds.ids(s)).toContain(way);
   }, 60000);
   it('assembles and loads across seeds and terrains', async () => {

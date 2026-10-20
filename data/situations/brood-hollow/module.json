@@ -47,5 +47,9 @@
     "gossip": {
       "type": "place"
     }
+  },
+  "exports": {
+    "ewes": "ewes",
+    "no_silk": "no_silk"
   }
 }

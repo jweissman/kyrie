@@ -1,3 +1,5 @@
+import { WorldAssembler } from '../src/world/world-assembler';
+import type { BundleSource } from '../src/campaign/bundle-source';
 import type { CampaignManifest } from '../src/campaign/module-bundle';
 import partyExamples from '../data/campaigns/companies.json';
 import { PlaySession } from '../src/session/play-session';
@@ -33,7 +35,10 @@ export class MonoApp {
   private history = false;
   private draft: Draft = { seed: 'serewater', field: 0, party: MonoApp.preset('fellowship') };
   private readonly key = 'kyrie.mono.v1';
-  readonly manifest = new URLSearchParams(location.search).get('campaign') ?? 'data/campaigns/serewater-march.campaign.json';
+  private manifest = new URLSearchParams(location.search).get('campaign') ?? 'data/campaigns/serewater-march.campaign.json';
+  // ?world=<seed>[&terrain=…]: a generated region with situated scenarios instead of an authored campaign.
+  private world?: { path: string; source: BundleSource; campaign: CampaignManifest };
+  private readonly worldSeed = new URLSearchParams(location.search).get('world');
   constructor(private root: HTMLElement) {
     const declared = (JSON.parse(Scenarios.files[this.manifest] ?? '{}') as { party?: CreatureGenerationContext[] }).party;
     if (declared) { this.draft.party = structuredClone(declared); }
@@ -50,6 +55,19 @@ export class MonoApp {
     window.addEventListener('resize', () => this.render());
     this.restore();
     this.render();
+    if (this.worldSeed && !this.session) { void this.generate(this.worldSeed); }
+  }
+  private async generate(seed: string) {
+    this.pending = true; this.render();
+    try {
+      const terrain = new URLSearchParams(location.search).get('terrain');
+      const world = await WorldAssembler.assemble(seed, Scenarios.source(), terrain ? { region: { terrain } } : {});
+      const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
+      this.world = { path: world.path, source: world.source, campaign };
+      this.manifest = world.path; this.draft.seed = seed;
+      if (campaign.party) { this.draft.party = structuredClone(campaign.party); }
+    } catch (error) { this.error = error instanceof Error ? error.message : String(error); }
+    finally { this.pending = false; this.render(); }
   }
   private restore() {
     try {
@@ -90,7 +108,8 @@ export class MonoApp {
   }
   render() {
     if (!this.session) {
-      const campaign = JSON.parse(Scenarios.files[this.manifest] ?? '{"name":""}') as CampaignManifest;
+      const campaign = this.world?.campaign
+        ?? JSON.parse(Scenarios.files[this.manifest] ?? '{"name":"A generated world"}') as CampaignManifest;
       this.root.innerHTML = MonoScreens.create(this.draft, this.error, campaign); return;
     }
     if (!this.turn && !this.session.acting) { this.screen = ScreenModel.build(this.session.campaign); }
@@ -295,7 +314,8 @@ export class MonoApp {
     if (this.pending) { return; }
     this.pending = true; this.error = '';
     try {
-      this.session = await PlaySession.start(this.manifest, this.draft.seed, Scenarios.source(), this.draft.party);
+      this.session = await PlaySession.start(this.manifest, this.draft.seed, this.world?.source ?? Scenarios.source(),
+        this.draft.party);
       this.mode = 'explore'; this.log = []; this.rowId = ''; this.persist();
     } catch (error) { this.error = error instanceof Error ? error.message : String(error); }
     finally { this.pending = false; this.render(); }

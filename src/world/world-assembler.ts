@@ -14,8 +14,9 @@ export interface ScenarioManifest {
   places: Record<string, { site?: string[]; settlement?: string }>;
   modules: { id: string; bundle: string; imports: Record<string, string>; context?: Record<string, DeemValue> }[];
   route?: string;
-  // A hook is something people say; unless it `opens: false`, hearing it reveals the way in.
-  hooks?: { id: string; topic: string; text: string; channels: Carrier['channel'][]; opens?: boolean }[];
+  // A hook is a fact the scenario establishes (module.export) that people pass on through some channels; unless it
+  // `opens: false`, hearing it reveals the way in.
+  hooks?: { fact: string; topic: string; channels: Carrier['channel'][]; opens?: boolean }[];
 }
 export interface Placement {
   scenario: string; instance: string; bindings: Record<string, string>; generated: string[];
@@ -186,7 +187,7 @@ export class WorldAssembler {
     const site = region.sites.find(w => w.id === placement.bindings[firstSite ?? '']);
     const home = site ? RegionWriter.near(region, site) : region.settlements[0]!;
     const towns = [home, region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!];
-    const roles = Object.keys(s.places).filter(r => hooks.some(h => `${h.text} ${h.topic}`.includes(`{${r}}`)));
+    const roles = Object.keys(s.places).filter(r => hooks.some(h => h.topic.includes(`{${r}}`)));
     const imports: Record<string, string> = { party: `${RegionWriter.id}.party` }, lines: string[] = [];
     lines.push(`Module word_${placement.instance} ${q(`Word of ${s.name}`)} {`, '  Entity party: group "Your company".');
     // Local names are prefixed so they cannot shadow a rule's parameter names (site, way…).
@@ -194,12 +195,14 @@ export class WorldAssembler {
     if (s.route) { lines.push('  Entity route_in: passage "The way in".'); imports.route_in = this.ref(s.route, placement); }
     for (const role of roles) { lines.push(`  Place p_${role} ${q(role)} is room.`); imports[`p_${role}`] = this.ref(`@${role}`, placement); }
     const carriers = new Set<string>();
-    for (const hook of hooks) {
-      lines.push(`  Entity ${hook.id}: fact ${q(local(hook.text))}.`, `  Initially Assert established(${hook.id}).`);
-      if (s.route && hook.opens !== false) { lines.push(`  Initially Assert revealedBy(route_in, ${hook.id}).`); }
+    for (const [index, hook] of hooks.entries()) {
+      const fact = `h${index + 1}`;
+      lines.push(`  Entity ${fact}: fact "What people say".`);
+      imports[fact] = this.ref(hook.fact, placement);
+      if (s.route && hook.opens !== false) { lines.push(`  Initially Assert revealedBy(route_in, ${fact}).`); }
       for (const town of new Set(towns)) {
         for (const channel of hook.channels) {
-          const carrier = `${town.id}_${this.speakers[channel]}`, topic = `${hook.id}_${carrier}`;
+          const carrier = `${town.id}_${this.speakers[channel]}`, topic = `${fact}_${carrier}`;
           const room = `${town.id}_${this.rooms[channel]}`;
           if (!carriers.has(carrier)) {
             lines.push(`  Entity ${carrier}: group "Someone".`); carriers.add(carrier);
@@ -207,17 +210,17 @@ export class WorldAssembler {
           }
           imports[carrier] = `${RegionWriter.id}.${carrier}`; imports[room] = `${RegionWriter.id}.${room}`;
           lines.push(`  Entity ${topic}: source ${q(local(hook.topic))}.`,
-            `  Initially Assert knows(${carrier}, ${hook.id}). Initially Assert testimony(${carrier}, ${topic}).`,
-            `  Initially Assert reveals(${topic}, ${hook.id}). Initially Assert noticeable(${topic}).`,
+            `  Initially Assert knows(${carrier}, ${fact}). Initially Assert testimony(${carrier}, ${topic}).`,
+            `  Initially Assert reveals(${topic}, ${fact}). Initially Assert noticeable(${topic}).`,
             `  Initially Assert at(${topic}, ${room}).`);
-          (placement.carriers[hook.id] ??= []).push(carrier);
+          (placement.carriers[hook.fact] ??= []).push(carrier);
         }
       }
     }
     lines.push('  Goal false.', '}');
     const names = Object.keys(imports);
     const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : n === 'route_in' ? 'passage'
-      : n.startsWith('p_') || /_(taproom|shrine|shop)$/.test(n) ? 'place' : 'group' }]));
+      : /^h\d+$/.test(n) ? 'fact' : n.startsWith('p_') || /_(taproom|shrine|shop)$/.test(n) ? 'place' : 'group' }]));
     return { source: lines.join('\n'), imports,
       manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }

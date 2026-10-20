@@ -15,6 +15,8 @@ Module den "A den in the wild" {
     Result "Among the bones are coins and a broken buckle: {hoard(beasts)} coin in all.".
   }
   Observe cleared at den when dead(beasts) "{den} is quiet now. Flies settle on what is left.".
-  Objective clear when not dead(beasts) "{beasts} have a den at {den}.".
+  Entity rumour: fact "Folk who go out to {den} come back short of a sheep or a dog, or don't come back. Something has made its den there.".
+  Initially Assert established(rumour).
+  Objective clear when knows(party, rumour) and not dead(beasts) "{beasts} have a den at {den}.".
   Goal dead(beasts).
 }

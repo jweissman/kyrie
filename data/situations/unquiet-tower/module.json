@@ -1,13 +1,50 @@
 {
   "version": 1,
   "source": "situation.kyr",
-  "rules": ["world"],
-  "globals": ["party"],
-  "imports": ["party", "land", "outside", "shrine", "gossip", "keeper"],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "land",
+    "outside",
+    "shrine",
+    "gossip",
+    "keeper"
+  ],
   "roles": {
-    "party": { "type": "group" }, "land": { "type": "place" }, "outside": { "type": "place" },
-    "shrine": { "type": "place" }, "gossip": { "type": "place" }, "keeper": { "type": "group" }
+    "party": {
+      "type": "group"
+    },
+    "land": {
+      "type": "place"
+    },
+    "outside": {
+      "type": "place"
+    },
+    "shrine": {
+      "type": "place"
+    },
+    "gossip": {
+      "type": "place"
+    },
+    "keeper": {
+      "type": "group"
+    }
   },
-  "exports": { "well": "well", "tower": "tower" },
-  "generation": { "type": "unquiet_tower", "templates": "templates.json", "tables": "tables.json" }
+  "exports": {
+    "well": "well",
+    "tower": "tower",
+    "lights": "lights",
+    "graves": "graves",
+    "old_well": "old_well"
+  },
+  "generation": {
+    "type": "unquiet_tower",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  }
 }

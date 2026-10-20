@@ -68,6 +68,11 @@ Module unquiet_tower "The unquiet tower" {
   Initially Set quantity(alms, gold) to 6.
 
   Observe news_ended at gossip when ended(necromancer) and not dark() "People say the dead have stopped walking out by the tower, and the priest has been digging graves again.".
+  Entity lights: fact "A green light burns at the top of {outside} at night, and something walks the lane below it.".
+  Entity graves: fact "Graves have been opened in the churchyard and the dead taken. An acolyte who left {shrine} years ago lives in {outside} now.".
+  Entity old_well: fact "There is an old well behind {outside} that runs down into the cellars. The builders used it.".
+  Initially Assert established(lights). Initially Assert established(graves). Initially Assert established(old_well).
+  Objective rumoured when (knows(party, lights) or knows(party, graves)) and not knows(party, binding) and not ended(necromancer) "Something is wrong at {outside}: lights at night, and the churchyard's dead taken.".
   Objective tower when not ended(necromancer) and knows(party, binding) "The bone lantern in the tower holds the risen dead.".
   Objective report when ended(necromancer) and not thanked(keeper, party) "The dead in the tower are still. {keeper} will want to know.".
   Goal ended(necromancer).

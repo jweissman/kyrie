@@ -1,9 +1,30 @@
 {
   "version": 1,
   "source": "situation.kyr",
-  "rules": ["world"],
-  "globals": ["party"],
-  "imports": ["party", "den"],
-  "roles": { "party": { "type": "group" }, "den": { "type": "place" } },
-  "generation": { "type": "den", "templates": "templates.json", "tables": "tables.json" }
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "den"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "den": {
+      "type": "place"
+    }
+  },
+  "generation": {
+    "type": "den",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "exports": {
+    "rumour": "rumour"
+  }
 }

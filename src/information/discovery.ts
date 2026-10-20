@@ -87,7 +87,8 @@ export class Discovery {
         throw new Error('A reliable discovery source must attest an established fact');
       }
     }
-    for (const relation of world.snapshot.relations.filter(r => r.name === 'knows')) {
+    // An imported fact is established, or not, in the module that declares it.
+    for (const relation of world.snapshot.relations.filter(r => r.name === 'knows' && !imported.includes(r.args[1]!))) {
       if (!world.test(ModuleWriter.call('established', relation.args[1]!))
         || world.test(ModuleWriter.call('assumesFalse', ...relation.args))) {
         throw new Error('Invalid initial knowledge');
