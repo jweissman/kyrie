@@ -41,7 +41,7 @@ export class MonoMap {
       const c = at.get(p.id)!;
       return `<g class="place${p.here ? ' here' : ''}${p.visited ? '' : ' unknown'}${p.external ? ' beyond' : ''}" data-place="${Html.escape(p.id)}"${p.here ? ' aria-current="location"' : ''}>`
         + `<rect x="${c.cx - node.w / 2}" y="${c.cy - node.h / 2}" width="${node.w}" height="${node.h}" rx="3"/>`
-        + `<text x="${c.cx}" y="${c.cy}" text-anchor="middle">${this.wrap(p.external ? `→ ${p.name.replace(/^(the|a|an) /i, '')}` : p.visited ? p.name : `? ${p.name.replace(/^(the|a|an) /i, '')}`)
+        + `<text x="${c.cx}" y="${c.cy}" text-anchor="middle">${this.wrap(p.external ? `→ ${p.name.replace(/^(the|a|an) /i, '')}` : p.name)
           .map((l, i, all) => `<tspan x="${c.cx}" dy="${i === 0 ? (all.length === 1 ? 5 : -3) : 16}">${Html.escape(l)}</tspan>`).join('')}</text>`
         + `${p.here ? `<circle cx="${c.cx - node.w / 2 + 2}" cy="${c.cy - node.h / 2 + 2}" r="5"/>` : ''}<title>${Html.escape(p.name)}</title></g>`;
     }).join('');
@@ -75,13 +75,13 @@ export class MonoMap {
     return `<svg class="chart regional" role="img" aria-label="Region" viewBox="-4 -10 ${width + 8} ${height + 20}">${edges}${nodes}</svg>`;
   }
   static pane(chart: Chart | undefined, fallback: { name: string; here: boolean; visited: boolean }[],
-    region?: RegionChart): string {
+    region?: RegionChart, size: 'small' | 'large' = 'small'): string {
     const legend = '<p class="legend"><span class="k open">—</span>open <span class="k blocked">—</span>shut <span class="k guarded">—</span>guarded <span class="k hazard">—</span>danger <span class="k unexplored">- -</span>not yet walked</p>';
     const regional = region ? `<h3 class="map-scale">Region</h3>${this.region(region)}` : '';
     const narrow = typeof matchMedia === 'function' && matchMedia('(max-width: 719px)').matches;
     const body = chart ? `${this.svg(chart, narrow)}${regional}${legend}`
       : `<ul class="placelist">${fallback.filter(p => p.visited || p.here)
         .map(p => `<li${p.here ? ' class="here"' : ''}>${p.here ? '◎' : '·'} ${Html.escape(p.name)}</li>`).join('')}</ul>`;
-    return `<section class="pane map" data-region="map" aria-label="Map"><h2>Map</h2>${body}</section>`;
+    return `<section class="pane map ${size}" data-region="map" aria-label="Map"><h2>Map</h2>${body}</section>`;
   }
 }

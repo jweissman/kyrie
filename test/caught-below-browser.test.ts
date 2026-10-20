@@ -58,22 +58,24 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Caught Below in a real browser', ()
       if (shut && closed) { expect(closed).toBe('blocked'); }
       await page.close();
     }, 300000);
-  it('selecting a row only shows its actions; nothing happens until one is chosen', async () => {
+  it('looking only describes; a choice happens when it is made, by Enter, a digit or a click', async () => {
     const { page, errors, driver } = await MonoJourney.page(browser, { width: 1440, height: 900 },
       { site, query: `?campaign=${CaughtJourney.campaigns.river}` });
     await driver.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]');
     const steps = () => page.evaluate(() => (window as unknown as {
       kyrieMono: { exportTranscript(): Transcript } }).kyrieMono.exportTranscript().steps.length);
-    for (const row of (await driver.inspect()).rows.map(r => r.id)) {
-      await driver.open(row);
-      expect([row, await steps()]).toEqual([row, 0]);
-      await driver.key('Escape');
+    const choices = (await driver.inspect()).choices;
+    for (let i = 1; i < choices.length; i++) {
+      await driver.key('ArrowDown');
+      expect([(await driver.inspect()).selected, await steps()]).toEqual([choices[i]!.id, 0]);
+      expect(await page.textContent('[data-id="detail"]')).not.toBe(null);
     }
-    await driver.key('6');
-    expect(await steps()).toBe(0);
+    // The first choice is asking Wren what is wrong: its digit does it at once.
+    expect(choices[0]!.label).toBe('Ask Wren what is wrong');
     await driver.key('1');
     expect(await steps()).toBe(1);
+    expect(await page.textContent('[data-id="response"]')).toContain('Pell');
     expect(errors).toEqual([]);
     await page.close();
   }, 120000);

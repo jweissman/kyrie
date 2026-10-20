@@ -7,7 +7,7 @@ Module serewater_march "The Serewater March" {
   Place oar "The Returning Oar" is building within reedwake_town.
   Place shop "Nera's shop" is building within reedwake_town.
   Place shrine_house "The common shrine" is building within reedwake_town.
-  Place ferry_house "Ferry house" is building within reedwake_town.
+  Place ferry_house "The ferry house" is building within reedwake_town.
   Place salvage_house "The salvage office" is building within reedwake_town.
 
   Place quay "Reedwake quay" is room within reedwake_town at 1, 1.

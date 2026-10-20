@@ -116,7 +116,9 @@ export class ScreenModel {
     if (p.type === 'group') {
       const member = p.members?.[0];
       const playable = member && (Content.playableRaces as string[]).includes(member.raceId);
-      const note = (p.state ? undefined : p.condition) ?? (member ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);
+      // A person's ancestry is in their look; their note is what is going on with them (a creature's, what it is).
+      const note = (p.state ? undefined : p.condition)
+        ?? (member && !playable ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined
         : this.look(p.members ?? []);

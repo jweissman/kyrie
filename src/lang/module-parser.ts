@@ -323,7 +323,7 @@ export class ModuleParser {
     const who = speaker.sourceString;
     const text = `able(actor) and able(${who}) and distinct(actor, ${who}) and at(actor, site) and at(${who}, site)`;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title),
-      description: 'Speak with someone here about an offered topic.', speaker: who,
+      description: '', speaker: who,
       report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
       success: effects.children.length ? ModuleParser.ast(effects.children[0]!) : [], failure: [], cost: 1, time: 1,

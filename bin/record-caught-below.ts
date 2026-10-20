@@ -25,46 +25,47 @@ export class CaughtJourney {
         .map(e => [e.getAttribute('data-edge')!, e.getAttribute('data-status')!])),
     }));
   }
-  static async talk(d: MonoDriver, person: string, topic: string) {
-    await d.open(person); await d.choose('Talk'); await d.act(`topic:${topic}`);
-    if ((await d.inspect()).mode === 'talk') { await d.open('leave'); }
-  }
   static async walk(d: MonoDriver, ...places: string[]) { for (const p of places) { await d.go(p); } }
+  // A way that is not yet open says what to do first (open the door); once done, the way leads on.
+  static async through(d: MonoDriver, place: string) {
+    const ways = (await d.inspect()).choices.filter(c => c.id.startsWith('exit:') && c.id.split('/')[0]!.endsWith(`__${place}`));
+    const first = ways.find(c => c.label.includes(' — '));
+    if (first) { await d.go(place, first.label.split(' — ')[1]); }
+    await d.go(place);
+  }
   static async river(d: MonoDriver, shot: (name: string) => Promise<void>) {
     await d.click('[data-action="start"]');
     await d.page.waitForSelector('[data-mode="explore"]');
     await shot('01-quay');
-    await d.open('rescue__relative'); await d.choose('Talk'); await d.act('topic:Ask Wren what is wrong');
+    await d.do('rescue__relative', 'Ask Wren what is wrong');
     await shot('02-wren');
-    await d.open('leave');
     await this.walk(d, 'shop_floor');
-    await d.open('nera'); await d.choose('Buy', 'one ration');
+    await d.do('nera', 'Buy', 'one ration');
     await shot('03-shop');
     await this.walk(d, 'quay', 'causeway');
     await shot('04-floodplain');
-    await d.open('boar'); await d.choose('Read');
+    await d.do('boar', 'Read');
     await this.walk(d, 'drain_mouth', 'workshop');
-    await d.act('exit:stores');
-    await this.walk(d, 'stores');
-    await d.open('rescue__bar'); await d.choose('Take', 'for Bran');
+    await this.through(d, 'stores');
+    await d.do('rescue__bar', 'Take', 'for Bran');
     await this.walk(d, 'workshop', 'gallery');
     await shot('05-hound');
-    await d.open('hound'); await d.choose('Approach');
+    await d.do('hound', 'Approach');
     await this.walk(d, 'hoist');
     await shot('06-pinned');
-    await this.talk(d, 'rescue__guest', 'Ask Pell what happened');
-    await d.open('rescue__rack'); await d.choose('Lever');
-    await d.open('rescue__guest'); await d.choose('Ask them to come with you');
+    await d.do('rescue__guest', 'Ask Pell what happened');
+    await d.do('rescue__rack', 'Lever');
+    await d.do('rescue__guest', 'Ask them to come with you');
     await shot('07-freed');
     await this.walk(d, 'gallery', 'workshop');
-    const culvert = (await d.inspect()).rows.find(r => r.id.startsWith('exit:') && r.id.endsWith('__drain_mouth'));
-    if (culvert && !culvert.blocked) { await this.walk(d, 'drain_mouth', 'causeway'); }
+    const culvert = (await d.inspect()).choices.find(c => c.id.startsWith('exit:') && c.id.split('/')[0]!.endsWith('__drain_mouth'));
+    if (culvert && !culvert.disabled) { await this.walk(d, 'drain_mouth', 'causeway'); }
     else { await this.walk(d, 'vestibule', 'yard', 'ridge', 'causeway'); }
     await this.walk(d, 'quay');
     await shot('08-reunion');
-    await this.talk(d, 'rescue__relative', 'Speak with Wren');
+    await d.do('rescue__relative', 'Speak with Wren');
     await this.walk(d, 'taproom');
-    await d.open('maud'); await d.choose('Take a bed');
+    await d.do('maud', 'Take a bed');
     await shot('09-inn');
     await d.mode('c');
     await shot('10-company');
@@ -76,24 +77,24 @@ export class CaughtJourney {
   static async quarry(d: MonoDriver, shot: (name: string) => Promise<void>) {
     await d.click('[data-action="start"]');
     await d.page.waitForSelector('[data-mode="explore"]');
-    await this.talk(d, 'rescue__relative', 'Ask Marrit what is wrong');
+    await d.do('rescue__relative', 'Ask Marrit what is wrong');
     await shot('01-marrit');
     await this.walk(d, 'lane_foot', 'quarry_floor', 'smithy');
-    await d.open('rescue__bar'); await d.choose('Take', 'for Bran');
-    await d.open('coil'); await d.choose('Take', 'for Elen');
+    await d.do('rescue__bar', 'Take', 'for Bran');
+    await d.do('coil', 'Take', 'for Elen');
     await this.walk(d, 'quarry_floor', 'adit', 'upper_gallery');
     await shot('02-ladder');
-    await d.open('exit:lower_gallery'); await d.choose('Lash');
+    await d.go('lower_gallery', 'Lash');
     await this.walk(d, 'lower_gallery');
-    await d.open('rescue__rack'); await d.choose('Lever');
-    await d.open('rescue__guest'); await d.choose('Ask them to come with you');
+    await d.do('rescue__rack', 'Lever');
+    await d.do('rescue__guest', 'Ask them to come with you');
     await shot('03-freed');
     await this.walk(d, 'upper_gallery', 'adit', 'quarry_floor');
-    const lane = (await d.inspect()).rows.find(r => r.id.startsWith('exit:') && r.id.endsWith('__lane_foot'));
+    const lane = (await d.inspect()).choices.find(c => c.id.startsWith('exit:') && c.id.split('/')[0]!.endsWith('__lane_foot'));
     await shot('04-quarry-floor');
-    if (lane && !lane.blocked) { await this.walk(d, 'lane_foot', 'green'); }
+    if (lane && !lane.disabled) { await this.walk(d, 'lane_foot', 'green'); }
     else { await this.walk(d, 'fell_track', 'green'); }
-    await this.talk(d, 'rescue__relative', 'Speak with Marrit');
+    await d.do('rescue__relative', 'Speak with Marrit');
     await shot('05-reunion');
   }
   static async run() {

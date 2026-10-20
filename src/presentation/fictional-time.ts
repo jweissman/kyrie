@@ -10,6 +10,11 @@ export class FictionalTime {
     const hour = Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24;
     return hour >= 21 || hour < 6;
   }
+  // The part of the day, as people say it.
+  static part(tick: number): string {
+    const hour = Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24;
+    return hour < 5 ? 'night' : hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : hour < 21 ? 'evening' : 'night';
+  }
   // Watches from this one until six in the morning, while it is dark.
   static untilLight(tick: number): number {
     if (!this.dark(tick)) { return 0; }

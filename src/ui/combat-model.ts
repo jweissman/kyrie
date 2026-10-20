@@ -21,6 +21,7 @@ export class CombatModel {
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
         cooldown: c.ability.cooldown ?? 0, scope: c.scope,
+        ...(c.ability.spell ? { spell: { level: c.ability.spell.level } } : {}),
         targets: c.requiresTarget ? c.commands.map(cmd => ({ id: cmd.target,
           name: state.combatants.find(f => f.id === cmd.target)?.name ?? cmd.target })) : [] })),
       log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
