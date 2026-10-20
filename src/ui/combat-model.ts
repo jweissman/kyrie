@@ -1,3 +1,5 @@
+import { MechanicsText } from '../presentation/mechanics-text';
+import { Effects } from '../effects';
 import { Content } from '../content';
 import type { Battle } from '../battle';
 import type { BattleState, CombatEvent } from '../model';
@@ -15,7 +17,8 @@ export class CombatModel {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
       foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state)),
       allies: state.combatants.filter(f => f.team === 'fighters').map(f => this.row(f, state)),
-      abilities: choices.map(c => ({ id: c.ability.id, name: c.ability.name, text: c.ability.description ?? '',
+      abilities: choices.map(c => ({ id: c.ability.id, name: c.ability.name,
+        text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, cooldown: c.ability.cooldown ?? 0, scope: c.scope,
         targets: c.requiresTarget ? c.commands.map(cmd => ({ id: cmd.target,
           name: state.combatants.find(f => f.id === cmd.target)?.name ?? cmd.target })) : [] })),

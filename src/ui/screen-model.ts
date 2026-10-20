@@ -1,3 +1,4 @@
+import { MechanicsText } from '../presentation/mechanics-text';
 import { Canon } from '../canon/canon';
 import { Content } from '../content';
 import { ItemCatalog } from '../item-catalog';
@@ -122,7 +123,8 @@ export class ScreenModel {
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, experience: m.experience, gold: m.gold, conditions: m.conditions,
         abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))
-          .filter(a => !!a).map(a => ({ id: a.id, name: a.name, text: a.description ?? '', cost: a.cost ?? 0 })),
+          .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0,
+            text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),
         attributes: m.attributes ?? {}, acts: ref ? grouped.members.get(ref) ?? [] : [],
         overlays: this.overlays(campaign, m.id) };
     });
