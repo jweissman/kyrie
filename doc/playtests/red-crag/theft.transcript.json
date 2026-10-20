@@ -82,6 +82,18 @@
    "command": "wait"
   },
   {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
+   "command": "wait"
+  },
+  {
    "command": "go(world__pasture_track,world__green)"
   },
   {
@@ -107,12 +119,6 @@
   },
   {
    "command": "put_item(roost__chapel_bell)"
-  },
-  {
-   "command": "wait"
-  },
-  {
-   "command": "wait"
   },
   {
    "command": "wait"

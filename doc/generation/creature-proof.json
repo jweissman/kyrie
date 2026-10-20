@@ -1,0 +1,2263 @@
+[
+  {
+    "parameters": {},
+    "commandLine": "deem run --seed public-cli --type creature",
+    "definition": {
+      "terrain": "any",
+      "family": "humanoid",
+      "raceId": "human",
+      "classId": "warrior",
+      "level": 1,
+      "traits": [
+        "humanoid",
+        "adaptable",
+        "versatile"
+      ],
+      "abilities": [
+        "defend",
+        "taunt",
+        "vigor_up",
+        "cleave",
+        "prepare_charge",
+        "charge",
+        "second_wind",
+        "sweep"
+      ],
+      "trace": [
+        "ancestry:human",
+        "class:warrior",
+        "adaptation:none"
+      ],
+      "strength": 10,
+      "dexterity": 16,
+      "intelligence": 5,
+      "wisdom": 14,
+      "constitution": 15,
+      "charisma": 9,
+      "weapon": "battleaxe",
+      "armor": "scale",
+      "name": "Human warrior",
+      "adaptation": "none",
+      "maxHp": 15,
+      "maxMana": 3,
+      "speed": 3
+    },
+    "creature": {
+      "id": "creature",
+      "name": "Human warrior",
+      "raceId": "human",
+      "classId": "warrior",
+      "traits": [
+        "humanoid",
+        "adaptable",
+        "versatile"
+      ],
+      "base": {
+        "strength": 10,
+        "dexterity": 16,
+        "intelligence": 5,
+        "wisdom": 14,
+        "constitution": 15,
+        "charisma": 9,
+        "level": 1,
+        "maxHp": 15,
+        "maxMana": 3,
+        "speed": 3,
+        "abilities": [
+          "defend",
+          "taunt",
+          "vigor_up",
+          "cleave",
+          "prepare_charge",
+          "charge",
+          "second_wind",
+          "sweep"
+        ]
+      },
+      "state": {
+        "hp": 15,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": [],
+        "inventory": [
+          {
+            "id": "creature__battleaxe",
+            "definition": "battleaxe",
+            "equipped": true
+          },
+          {
+            "id": "creature__scale",
+            "definition": "scale",
+            "equipped": true
+          }
+        ]
+      },
+      "generation": {
+        "trace": [
+          "ancestry:human",
+          "class:warrior",
+          "adaptation:none"
+        ]
+      }
+    },
+    "command": {
+      "actor": "creature",
+      "ability": "melee",
+      "target": "left"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "creature",
+            "roll": 10
+          },
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "creature",
+          "ability": "melee",
+          "target": "left"
+        },
+        "source": {
+          "id": "creature",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "attack",
+        "turn": 1,
+        "actor": "creature",
+        "target": "left",
+        "die": 20,
+        "need": 15,
+        "toHit": 0,
+        "armorClass": 5,
+        "weapon": "battleaxe",
+        "success": true,
+        "critical": true
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "creature",
+        "target": "left",
+        "rolled": 8,
+        "amount": 8,
+        "hp": 120,
+        "damageType": "slashing",
+        "modifiers": {
+          "bonus": 0,
+          "resistance": 0,
+          "reduction": 0,
+          "critical": 1
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "creature",
+        "target": "left",
+        "rolled": 26,
+        "die": 5,
+        "modifier": 1,
+        "stat": "dexterity",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "reflex"
+      },
+      {
+        "type": "end",
+        "turn": 2,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "dragon",
+      "lineage": "blue",
+      "maturity": "young"
+    },
+    "commandLine": "deem run --seed public-cli --type blue_young --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "dragon",
+      "terrain": "any",
+      "lineage": "blue",
+      "maturity": "young",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 3,
+      "traits": [
+        "formidable",
+        "flying",
+        "lightning_lineage"
+      ],
+      "abilities": [
+        "breathe_lightning"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:blue",
+        "maturity:young",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 23,
+      "dexterity": 16,
+      "constitution": 20,
+      "intelligence": 17,
+      "wisdom": 15,
+      "charisma": 19,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Young blue dragon",
+      "adaptation": "none",
+      "maxHp": 36,
+      "maxMana": 5,
+      "speed": 3
+    },
+    "creature": {
+      "id": "blue_young",
+      "name": "Young blue dragon",
+      "raceId": "dragon",
+      "traits": [
+        "formidable",
+        "flying",
+        "lightning_lineage"
+      ],
+      "base": {
+        "strength": 23,
+        "dexterity": 16,
+        "intelligence": 17,
+        "wisdom": 15,
+        "constitution": 20,
+        "charisma": 19,
+        "level": 3,
+        "maxHp": 36,
+        "maxMana": 5,
+        "speed": 3,
+        "abilities": [
+          "breathe_lightning"
+        ]
+      },
+      "state": {
+        "hp": 36,
+        "mana": 5,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:dragon",
+          "lineage:blue",
+          "maturity:young",
+          "adaptation:none"
+        ]
+      }
+    },
+    "command": {
+      "actor": "blue_young",
+      "ability": "breathe_lightning",
+      "target": "blue_young"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "blue_young",
+            "roll": 10
+          },
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "blue_young",
+          "ability": "breathe_lightning",
+          "target": "blue_young"
+        },
+        "source": {
+          "id": "blue_young",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "blue_young",
+        "target": "left",
+        "rolled": 38,
+        "die": 16,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 18,
+        "success": true,
+        "kind": "breath"
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "blue_young",
+        "target": "left",
+        "rolled": 13,
+        "amount": 9,
+        "hp": 119,
+        "damageType": "lightning",
+        "modifiers": {
+          "bonus": 3,
+          "resistance": 0,
+          "reduction": 0,
+          "halfSave": true
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "blue_young",
+        "target": "left",
+        "rolled": 24,
+        "die": 5,
+        "modifier": -1,
+        "stat": "strength",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "paralyze"
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "blue_young",
+        "target": "right",
+        "rolled": 27,
+        "die": 9,
+        "modifier": -2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 18,
+        "success": true,
+        "kind": "breath"
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "blue_young",
+        "target": "right",
+        "rolled": 15,
+        "amount": 10,
+        "hp": 114,
+        "damageType": "lightning",
+        "modifiers": {
+          "bonus": 3,
+          "resistance": 0,
+          "reduction": 0,
+          "halfSave": true
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "blue_young",
+        "target": "right",
+        "rolled": 21,
+        "die": 1,
+        "modifier": 0,
+        "stat": "strength",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "paralyze"
+      },
+      {
+        "type": "end",
+        "turn": 2,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "dragon",
+      "lineage": "red",
+      "maturity": "ancient"
+    },
+    "commandLine": "deem run --seed public-cli --type red_ancient --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "dragon",
+      "terrain": "any",
+      "lineage": "red",
+      "maturity": "ancient",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 12,
+      "traits": [
+        "formidable",
+        "flying",
+        "fire_lineage"
+      ],
+      "abilities": [
+        "breathe_fire"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:red",
+        "maturity:ancient",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 41,
+      "dexterity": 34,
+      "constitution": 38,
+      "intelligence": 35,
+      "wisdom": 33,
+      "charisma": 37,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Ancient red dragon",
+      "adaptation": "none",
+      "maxHp": 180,
+      "maxMana": 14,
+      "speed": 12
+    },
+    "creature": {
+      "id": "red_ancient",
+      "name": "Ancient red dragon",
+      "raceId": "dragon",
+      "traits": [
+        "formidable",
+        "flying",
+        "fire_lineage"
+      ],
+      "base": {
+        "strength": 41,
+        "dexterity": 34,
+        "intelligence": 35,
+        "wisdom": 33,
+        "constitution": 38,
+        "charisma": 37,
+        "level": 12,
+        "maxHp": 180,
+        "maxMana": 14,
+        "speed": 12,
+        "abilities": [
+          "breathe_fire"
+        ]
+      },
+      "state": {
+        "hp": 180,
+        "mana": 14,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:dragon",
+          "lineage:red",
+          "maturity:ancient",
+          "adaptation:none"
+        ]
+      }
+    },
+    "command": {
+      "actor": "red_ancient",
+      "ability": "breathe_fire",
+      "target": "red_ancient"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "red_ancient",
+            "roll": 19
+          },
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "red_ancient",
+          "ability": "breathe_fire",
+          "target": "red_ancient"
+        },
+        "source": {
+          "id": "red_ancient",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "red_ancient",
+        "target": "left",
+        "rolled": 38,
+        "die": 16,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 27,
+        "success": true,
+        "kind": "breath"
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "red_ancient",
+        "target": "left",
+        "rolled": 31,
+        "amount": 18,
+        "hp": 110,
+        "damageType": "fire",
+        "modifiers": {
+          "bonus": 3,
+          "resistance": 0,
+          "reduction": 0,
+          "halfSave": true
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "red_ancient",
+        "target": "left",
+        "rolled": 27,
+        "die": 5,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "fortitude"
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "red_ancient",
+        "target": "right",
+        "rolled": 27,
+        "die": 9,
+        "modifier": -2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 27,
+        "success": true,
+        "kind": "breath"
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "red_ancient",
+        "target": "right",
+        "rolled": 33,
+        "amount": 19,
+        "hp": 105,
+        "damageType": "fire",
+        "modifiers": {
+          "bonus": 3,
+          "resistance": 0,
+          "reduction": 0,
+          "halfSave": true
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "red_ancient",
+        "target": "right",
+        "rolled": 19,
+        "die": 1,
+        "modifier": -2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "fortitude"
+      },
+      {
+        "type": "end",
+        "turn": 2,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "animal",
+      "body": "wolf",
+      "adaptation": "frost"
+    },
+    "commandLine": "deem run --seed public-cli --type frost_wolf --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "animal",
+      "terrain": "any",
+      "body": "wolf",
+      "raceId": "wolf",
+      "level": 1,
+      "traits": [
+        "frost_adapted"
+      ],
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:wolf",
+        "adaptation:frost"
+      ],
+      "strength": 9,
+      "dexterity": 7,
+      "intelligence": 14,
+      "wisdom": 5,
+      "constitution": 14,
+      "charisma": 12,
+      "classId": "",
+      "weapon": "bite",
+      "armor": "fur",
+      "name": "Wolf",
+      "adaptation": "frost",
+      "maxHp": 8,
+      "maxMana": 3,
+      "speed": 0
+    },
+    "creature": {
+      "id": "frost_wolf",
+      "name": "Wolf",
+      "raceId": "wolf",
+      "traits": [
+        "frost_adapted"
+      ],
+      "base": {
+        "strength": 9,
+        "dexterity": 7,
+        "intelligence": 14,
+        "wisdom": 5,
+        "constitution": 14,
+        "charisma": 12,
+        "level": 1,
+        "maxHp": 8,
+        "maxMana": 3,
+        "speed": 0,
+        "abilities": [
+          "rending_bite",
+          "flee"
+        ]
+      },
+      "state": {
+        "hp": 8,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:animal",
+          "body:wolf",
+          "adaptation:frost"
+        ]
+      }
+    },
+    "command": {
+      "actor": "frost_wolf",
+      "ability": "rending_bite",
+      "target": "left"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          },
+          {
+            "id": "frost_wolf",
+            "roll": 6
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "right",
+          "ability": "defend",
+          "target": "right"
+        },
+        "source": {
+          "id": "right",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 1,
+        "actor": "right",
+        "target": "right"
+      },
+      {
+        "type": "action",
+        "turn": 2,
+        "command": {
+          "actor": "left",
+          "ability": "defend",
+          "target": "left"
+        },
+        "source": {
+          "id": "left",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 2,
+        "actor": "left",
+        "target": "left"
+      },
+      {
+        "type": "action",
+        "turn": 3,
+        "command": {
+          "actor": "frost_wolf",
+          "ability": "rending_bite",
+          "target": "left"
+        },
+        "source": {
+          "id": "frost_wolf",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "damage",
+        "turn": 3,
+        "actor": "frost_wolf",
+        "target": "left",
+        "rolled": 6,
+        "amount": 6,
+        "hp": 122,
+        "damageType": "physical",
+        "modifiers": {
+          "bonus": 0,
+          "resistance": 0,
+          "reduction": 0
+        }
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "frost_wolf",
+        "target": "left",
+        "rolled": 3,
+        "die": 1,
+        "modifier": 2,
+        "stat": "constitution",
+        "difficulty": 11,
+        "success": false
+      },
+      {
+        "type": "status",
+        "detail": "bleeding",
+        "amount": 2,
+        "turn": 3,
+        "actor": "frost_wolf",
+        "target": "left"
+      },
+      {
+        "type": "initiative",
+        "turn": 3,
+        "order": [
+          {
+            "id": "right",
+            "roll": 16
+          },
+          {
+            "id": "frost_wolf",
+            "roll": 15
+          },
+          {
+            "id": "left",
+            "roll": 6
+          }
+        ]
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "left",
+        "detail": "defending"
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "right",
+        "detail": "defending"
+      },
+      {
+        "type": "end",
+        "turn": 4,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "humanoid",
+      "classId": "ranger",
+      "adaptation": "frost",
+      "weapon": "shortbow"
+    },
+    "commandLine": "deem run --seed public-cli --type frost_ranger --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "humanoid",
+      "terrain": "any",
+      "raceId": "elf",
+      "classId": "ranger",
+      "level": 1,
+      "traits": [
+        "humanoid",
+        "agile",
+        "perceptive",
+        "frost_adapted"
+      ],
+      "abilities": [
+        "defend",
+        "heal",
+        "hunters_mark",
+        "ensnare"
+      ],
+      "trace": [
+        "ancestry:elf",
+        "class:ranger",
+        "adaptation:frost"
+      ],
+      "strength": 10,
+      "dexterity": 13,
+      "intelligence": 13,
+      "wisdom": 12,
+      "constitution": 14,
+      "charisma": 11,
+      "weapon": "shortbow",
+      "armor": "chainmail",
+      "name": "Elf ranger",
+      "adaptation": "frost",
+      "maxHp": 12,
+      "maxMana": 3,
+      "speed": 2
+    },
+    "creature": {
+      "id": "frost_ranger",
+      "name": "Elf ranger",
+      "raceId": "elf",
+      "classId": "ranger",
+      "traits": [
+        "humanoid",
+        "agile",
+        "perceptive",
+        "frost_adapted"
+      ],
+      "base": {
+        "strength": 10,
+        "dexterity": 13,
+        "intelligence": 13,
+        "wisdom": 12,
+        "constitution": 14,
+        "charisma": 11,
+        "level": 1,
+        "maxHp": 12,
+        "maxMana": 3,
+        "speed": 2,
+        "abilities": [
+          "defend",
+          "heal",
+          "hunters_mark",
+          "ensnare"
+        ]
+      },
+      "state": {
+        "hp": 12,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": [],
+        "inventory": [
+          {
+            "id": "frost_ranger__shortbow",
+            "definition": "shortbow",
+            "equipped": true
+          },
+          {
+            "id": "frost_ranger__chainmail",
+            "definition": "chainmail",
+            "equipped": true
+          }
+        ]
+      },
+      "generation": {
+        "trace": [
+          "ancestry:elf",
+          "class:ranger",
+          "adaptation:frost"
+        ]
+      }
+    },
+    "command": {
+      "actor": "frost_ranger",
+      "ability": "ranged",
+      "target": "left"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "frost_ranger",
+            "roll": 9
+          },
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "frost_ranger",
+          "ability": "ranged",
+          "target": "left"
+        },
+        "source": {
+          "id": "frost_ranger",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "attack",
+        "turn": 1,
+        "actor": "frost_ranger",
+        "target": "left",
+        "die": 20,
+        "need": 13,
+        "toHit": 2,
+        "armorClass": 5,
+        "weapon": "shortbow",
+        "success": true,
+        "critical": true
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "frost_ranger",
+        "target": "left",
+        "rolled": 7,
+        "amount": 7,
+        "hp": 121,
+        "damageType": "piercing",
+        "modifiers": {
+          "bonus": 0,
+          "resistance": 0,
+          "reduction": 0,
+          "critical": 1
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "frost_ranger",
+        "target": "left",
+        "rolled": 27,
+        "die": 5,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "bleed"
+      },
+      {
+        "type": "end",
+        "turn": 2,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "construct",
+      "adaptation": "frost"
+    },
+    "commandLine": "deem run --seed public-cli --type frost_construct --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "construct",
+      "terrain": "any",
+      "material": "none",
+      "role": "none",
+      "body": "golem",
+      "raceId": "golem",
+      "level": 1,
+      "traits": [
+        "construct",
+        "frost_adapted"
+      ],
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "trace": [
+        "family:construct",
+        "body:golem",
+        "adaptation:frost"
+      ],
+      "classId": "",
+      "strength": 17,
+      "dexterity": 7,
+      "constitution": 17,
+      "intelligence": 9,
+      "wisdom": 9,
+      "charisma": 8,
+      "weapon": "slam",
+      "armor": "plate",
+      "name": "Golem",
+      "adaptation": "frost",
+      "maxHp": 13,
+      "maxMana": 3,
+      "speed": 0
+    },
+    "creature": {
+      "id": "frost_construct",
+      "name": "Golem",
+      "raceId": "golem",
+      "traits": [
+        "construct",
+        "frost_adapted"
+      ],
+      "base": {
+        "strength": 17,
+        "dexterity": 7,
+        "intelligence": 9,
+        "wisdom": 9,
+        "constitution": 17,
+        "charisma": 8,
+        "level": 1,
+        "maxHp": 13,
+        "maxMana": 3,
+        "speed": 0,
+        "abilities": [
+          "smash",
+          "defend"
+        ]
+      },
+      "state": {
+        "hp": 13,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:construct",
+          "body:golem",
+          "adaptation:frost"
+        ]
+      }
+    },
+    "command": {
+      "actor": "frost_construct",
+      "ability": "smash",
+      "target": "left"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          },
+          {
+            "id": "frost_construct",
+            "roll": 6
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "right",
+          "ability": "defend",
+          "target": "right"
+        },
+        "source": {
+          "id": "right",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 1,
+        "actor": "right",
+        "target": "right"
+      },
+      {
+        "type": "action",
+        "turn": 2,
+        "command": {
+          "actor": "left",
+          "ability": "defend",
+          "target": "left"
+        },
+        "source": {
+          "id": "left",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 2,
+        "actor": "left",
+        "target": "left"
+      },
+      {
+        "type": "action",
+        "turn": 3,
+        "command": {
+          "actor": "frost_construct",
+          "ability": "smash",
+          "target": "left"
+        },
+        "source": {
+          "id": "frost_construct",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "damage",
+        "turn": 3,
+        "actor": "frost_construct",
+        "target": "left",
+        "rolled": 8,
+        "amount": 8,
+        "hp": 120,
+        "damageType": "bludgeoning",
+        "modifiers": {
+          "bonus": 0,
+          "resistance": 0,
+          "reduction": 0
+        }
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "frost_construct",
+        "target": "left",
+        "rolled": 38,
+        "die": 16,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "frost_construct",
+        "target": "left",
+        "rolled": 27,
+        "die": 5,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "initiative",
+        "turn": 3,
+        "order": [
+          {
+            "id": "left",
+            "roll": 17
+          },
+          {
+            "id": "right",
+            "roll": 13
+          },
+          {
+            "id": "frost_construct",
+            "roll": 11
+          }
+        ]
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "left",
+        "detail": "defending"
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "right",
+        "detail": "defending"
+      },
+      {
+        "type": "end",
+        "turn": 4,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "animal",
+      "body": "bear"
+    },
+    "commandLine": "deem run --seed public-cli --type bear --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "animal",
+      "terrain": "any",
+      "body": "bear",
+      "raceId": "bear",
+      "level": 1,
+      "traits": [],
+      "abilities": [
+        "smash",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:bear",
+        "adaptation:none"
+      ],
+      "strength": 9,
+      "dexterity": 7,
+      "intelligence": 14,
+      "wisdom": 5,
+      "constitution": 14,
+      "charisma": 12,
+      "classId": "",
+      "weapon": "claws",
+      "armor": "fur",
+      "name": "Bear",
+      "adaptation": "none",
+      "maxHp": 14,
+      "maxMana": 3,
+      "speed": 0
+    },
+    "creature": {
+      "id": "bear",
+      "name": "Bear",
+      "raceId": "bear",
+      "traits": [],
+      "base": {
+        "strength": 9,
+        "dexterity": 7,
+        "intelligence": 14,
+        "wisdom": 5,
+        "constitution": 14,
+        "charisma": 12,
+        "level": 1,
+        "maxHp": 14,
+        "maxMana": 3,
+        "speed": 0,
+        "abilities": [
+          "smash",
+          "flee"
+        ]
+      },
+      "state": {
+        "hp": 14,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:animal",
+          "body:bear",
+          "adaptation:none"
+        ]
+      }
+    },
+    "command": {
+      "actor": "bear",
+      "ability": "smash",
+      "target": "left"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          },
+          {
+            "id": "bear",
+            "roll": 6
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "right",
+          "ability": "defend",
+          "target": "right"
+        },
+        "source": {
+          "id": "right",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 1,
+        "actor": "right",
+        "target": "right"
+      },
+      {
+        "type": "action",
+        "turn": 2,
+        "command": {
+          "actor": "left",
+          "ability": "defend",
+          "target": "left"
+        },
+        "source": {
+          "id": "left",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 2,
+        "actor": "left",
+        "target": "left"
+      },
+      {
+        "type": "action",
+        "turn": 3,
+        "command": {
+          "actor": "bear",
+          "ability": "smash",
+          "target": "left"
+        },
+        "source": {
+          "id": "bear",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "damage",
+        "turn": 3,
+        "actor": "bear",
+        "target": "left",
+        "rolled": 8,
+        "amount": 8,
+        "hp": 120,
+        "damageType": "bludgeoning",
+        "modifiers": {
+          "bonus": 0,
+          "resistance": 0,
+          "reduction": 0
+        }
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "bear",
+        "target": "left",
+        "rolled": 38,
+        "die": 16,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "bear",
+        "target": "left",
+        "rolled": 27,
+        "die": 5,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "initiative",
+        "turn": 3,
+        "order": [
+          {
+            "id": "left",
+            "roll": 17
+          },
+          {
+            "id": "right",
+            "roll": 13
+          },
+          {
+            "id": "bear",
+            "roll": 11
+          }
+        ]
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "left",
+        "detail": "defending"
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "right",
+        "detail": "defending"
+      },
+      {
+        "type": "end",
+        "turn": 4,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "dragon",
+      "lineage": "copper",
+      "maturity": "adult"
+    },
+    "commandLine": "deem run --seed public-cli --type copper_dragon --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "dragon",
+      "terrain": "any",
+      "lineage": "copper",
+      "maturity": "adult",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 6,
+      "traits": [
+        "formidable",
+        "flying",
+        "acid_lineage"
+      ],
+      "abilities": [
+        "breathe_acid"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:copper",
+        "maturity:adult",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 35,
+      "dexterity": 28,
+      "constitution": 32,
+      "intelligence": 29,
+      "wisdom": 27,
+      "charisma": 31,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Adult copper dragon",
+      "adaptation": "none",
+      "maxHp": 99,
+      "maxMana": 8,
+      "speed": 9
+    },
+    "creature": {
+      "id": "copper_dragon",
+      "name": "Adult copper dragon",
+      "raceId": "dragon",
+      "traits": [
+        "formidable",
+        "flying",
+        "acid_lineage"
+      ],
+      "base": {
+        "strength": 35,
+        "dexterity": 28,
+        "intelligence": 29,
+        "wisdom": 27,
+        "constitution": 32,
+        "charisma": 31,
+        "level": 6,
+        "maxHp": 99,
+        "maxMana": 8,
+        "speed": 9,
+        "abilities": [
+          "breathe_acid"
+        ]
+      },
+      "state": {
+        "hp": 99,
+        "mana": 8,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:dragon",
+          "lineage:copper",
+          "maturity:adult",
+          "adaptation:none"
+        ]
+      }
+    },
+    "command": {
+      "actor": "copper_dragon",
+      "ability": "breathe_acid",
+      "target": "copper_dragon"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "copper_dragon",
+            "roll": 16
+          },
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "copper_dragon",
+          "ability": "breathe_acid",
+          "target": "copper_dragon"
+        },
+        "source": {
+          "id": "copper_dragon",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "copper_dragon",
+        "target": "left",
+        "rolled": 38,
+        "die": 16,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 21,
+        "success": true,
+        "kind": "breath"
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "copper_dragon",
+        "target": "left",
+        "rolled": 19,
+        "amount": 12,
+        "hp": 116,
+        "damageType": "acid",
+        "modifiers": {
+          "bonus": 3,
+          "resistance": 0,
+          "reduction": 0,
+          "halfSave": true
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "copper_dragon",
+        "target": "left",
+        "rolled": 27,
+        "die": 5,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "fortitude"
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "copper_dragon",
+        "target": "right",
+        "rolled": 27,
+        "die": 9,
+        "modifier": -2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 21,
+        "success": true,
+        "kind": "breath"
+      },
+      {
+        "type": "damage",
+        "turn": 1,
+        "actor": "copper_dragon",
+        "target": "right",
+        "rolled": 21,
+        "amount": 13,
+        "hp": 111,
+        "damageType": "acid",
+        "modifiers": {
+          "bonus": 3,
+          "resistance": 0,
+          "reduction": 0,
+          "halfSave": true
+        }
+      },
+      {
+        "type": "save",
+        "turn": 1,
+        "actor": "copper_dragon",
+        "target": "right",
+        "rolled": 19,
+        "die": 1,
+        "modifier": -2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "fortitude"
+      },
+      {
+        "type": "end",
+        "turn": 2,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "animal",
+      "body": "bear",
+      "adaptation": "frost"
+    },
+    "commandLine": "deem run --seed public-cli --type frost_bear --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "animal",
+      "terrain": "any",
+      "body": "bear",
+      "raceId": "bear",
+      "level": 1,
+      "traits": [
+        "frost_adapted"
+      ],
+      "abilities": [
+        "smash",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:bear",
+        "adaptation:frost"
+      ],
+      "strength": 9,
+      "dexterity": 7,
+      "intelligence": 14,
+      "wisdom": 5,
+      "constitution": 14,
+      "charisma": 12,
+      "classId": "",
+      "weapon": "claws",
+      "armor": "fur",
+      "name": "Bear",
+      "adaptation": "frost",
+      "maxHp": 14,
+      "maxMana": 3,
+      "speed": 0
+    },
+    "creature": {
+      "id": "frost_bear",
+      "name": "Bear",
+      "raceId": "bear",
+      "traits": [
+        "frost_adapted"
+      ],
+      "base": {
+        "strength": 9,
+        "dexterity": 7,
+        "intelligence": 14,
+        "wisdom": 5,
+        "constitution": 14,
+        "charisma": 12,
+        "level": 1,
+        "maxHp": 14,
+        "maxMana": 3,
+        "speed": 0,
+        "abilities": [
+          "smash",
+          "flee"
+        ]
+      },
+      "state": {
+        "hp": 14,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:animal",
+          "body:bear",
+          "adaptation:frost"
+        ]
+      }
+    },
+    "command": {
+      "actor": "frost_bear",
+      "ability": "smash",
+      "target": "left"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          },
+          {
+            "id": "frost_bear",
+            "roll": 6
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "right",
+          "ability": "defend",
+          "target": "right"
+        },
+        "source": {
+          "id": "right",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 1,
+        "actor": "right",
+        "target": "right"
+      },
+      {
+        "type": "action",
+        "turn": 2,
+        "command": {
+          "actor": "left",
+          "ability": "defend",
+          "target": "left"
+        },
+        "source": {
+          "id": "left",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 2,
+        "actor": "left",
+        "target": "left"
+      },
+      {
+        "type": "action",
+        "turn": 3,
+        "command": {
+          "actor": "frost_bear",
+          "ability": "smash",
+          "target": "left"
+        },
+        "source": {
+          "id": "frost_bear",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "damage",
+        "turn": 3,
+        "actor": "frost_bear",
+        "target": "left",
+        "rolled": 8,
+        "amount": 8,
+        "hp": 120,
+        "damageType": "bludgeoning",
+        "modifiers": {
+          "bonus": 0,
+          "resistance": 0,
+          "reduction": 0
+        }
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "frost_bear",
+        "target": "left",
+        "rolled": 38,
+        "die": 16,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "frost_bear",
+        "target": "left",
+        "rolled": 27,
+        "die": 5,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "initiative",
+        "turn": 3,
+        "order": [
+          {
+            "id": "left",
+            "roll": 17
+          },
+          {
+            "id": "right",
+            "roll": 13
+          },
+          {
+            "id": "frost_bear",
+            "roll": 11
+          }
+        ]
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "left",
+        "detail": "defending"
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "right",
+        "detail": "defending"
+      },
+      {
+        "type": "end",
+        "turn": 4,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  },
+  {
+    "parameters": {
+      "family": "construct",
+      "body": "golem",
+      "material": "stone",
+      "role": "guardian"
+    },
+    "commandLine": "deem run --seed public-cli --type stone_guardian --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "construct",
+      "terrain": "any",
+      "material": "stone",
+      "role": "guardian",
+      "body": "golem",
+      "raceId": "golem",
+      "level": 1,
+      "traits": [
+        "construct",
+        "formidable"
+      ],
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "trace": [
+        "family:construct",
+        "body:golem",
+        "material:stone",
+        "role:guardian",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 17,
+      "dexterity": 7,
+      "constitution": 19,
+      "intelligence": 9,
+      "wisdom": 9,
+      "charisma": 8,
+      "weapon": "slam",
+      "armor": "plate",
+      "name": "Stone guardian",
+      "adaptation": "none",
+      "maxHp": 17,
+      "maxMana": 3,
+      "speed": 0
+    },
+    "creature": {
+      "id": "stone_guardian",
+      "name": "Stone guardian",
+      "raceId": "golem",
+      "traits": [
+        "construct",
+        "formidable"
+      ],
+      "base": {
+        "strength": 17,
+        "dexterity": 7,
+        "intelligence": 9,
+        "wisdom": 9,
+        "constitution": 19,
+        "charisma": 8,
+        "level": 1,
+        "maxHp": 17,
+        "maxMana": 3,
+        "speed": 0,
+        "abilities": [
+          "smash",
+          "defend"
+        ]
+      },
+      "state": {
+        "hp": 17,
+        "mana": 3,
+        "gold": 0,
+        "experience": 0,
+        "learnedAbilities": [],
+        "conditions": []
+      },
+      "generation": {
+        "trace": [
+          "family:construct",
+          "body:golem",
+          "material:stone",
+          "role:guardian",
+          "adaptation:none"
+        ]
+      }
+    },
+    "command": {
+      "actor": "stone_guardian",
+      "ability": "smash",
+      "target": "left"
+    },
+    "events": [
+      {
+        "type": "initiative",
+        "turn": 1,
+        "order": [
+          {
+            "id": "right",
+            "roll": 8
+          },
+          {
+            "id": "left",
+            "roll": 7
+          },
+          {
+            "id": "stone_guardian",
+            "roll": 6
+          }
+        ]
+      },
+      {
+        "type": "action",
+        "turn": 1,
+        "command": {
+          "actor": "right",
+          "ability": "defend",
+          "target": "right"
+        },
+        "source": {
+          "id": "right",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 1,
+        "actor": "right",
+        "target": "right"
+      },
+      {
+        "type": "action",
+        "turn": 2,
+        "command": {
+          "actor": "left",
+          "ability": "defend",
+          "target": "left"
+        },
+        "source": {
+          "id": "left",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 2,
+        "actor": "left",
+        "target": "left"
+      },
+      {
+        "type": "action",
+        "turn": 3,
+        "command": {
+          "actor": "stone_guardian",
+          "ability": "smash",
+          "target": "left"
+        },
+        "source": {
+          "id": "stone_guardian",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "damage",
+        "turn": 3,
+        "actor": "stone_guardian",
+        "target": "left",
+        "rolled": 8,
+        "amount": 11,
+        "hp": 117,
+        "damageType": "bludgeoning",
+        "modifiers": {
+          "bonus": 3,
+          "resistance": 0,
+          "reduction": 0
+        }
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "stone_guardian",
+        "target": "left",
+        "rolled": 38,
+        "die": 16,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "save",
+        "turn": 3,
+        "actor": "stone_guardian",
+        "target": "left",
+        "rolled": 27,
+        "die": 5,
+        "modifier": 2,
+        "stat": "constitution",
+        "level": 20,
+        "bonus": 0,
+        "difficulty": 15,
+        "success": true,
+        "kind": "stun"
+      },
+      {
+        "type": "initiative",
+        "turn": 3,
+        "order": [
+          {
+            "id": "left",
+            "roll": 17
+          },
+          {
+            "id": "right",
+            "roll": 13
+          },
+          {
+            "id": "stone_guardian",
+            "roll": 11
+          }
+        ]
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "left",
+        "detail": "defending"
+      },
+      {
+        "type": "expire",
+        "turn": 3,
+        "actor": "defending",
+        "target": "right",
+        "detail": "defending"
+      },
+      {
+        "type": "end",
+        "turn": 4,
+        "outcome": "escaped",
+        "reason": "retreat"
+      }
+    ]
+  }
+]

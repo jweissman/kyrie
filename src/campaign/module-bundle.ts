@@ -1,5 +1,6 @@
 import type { DeemValue } from 'deem';
 import { RoleRequirements, type RoleContract } from './role-requirements';
+import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
 import { ModuleWriter } from '../lang/module-writer';
 import { ModuleParser } from '../lang/module-parser';
@@ -10,6 +11,7 @@ import type { BundleSource } from './bundle-source';
 
 export interface BundleRequest {
   id: string; bundle: string; imports?: Record<string, string>; context?: Record<string, DeemValue>;
+  randomIdentity?: string;
 }
 export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
@@ -71,7 +73,7 @@ export class ModuleBundle {
       if (result.status === 'rejected') { throw result.reason; }
       return result.value;
     });
-    const seed = `${options.seed}:module:${request.id}`;
+    const seed = RandomStreams.key(options.seed, 'module', ModuleParser.parse(texts[0]!).id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
     const rules = rulePaths.map((_, i) => ModuleParser.parse(texts[situationPaths.length + i]!));

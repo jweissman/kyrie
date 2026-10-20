@@ -1,4 +1,78 @@
 {
   "about": "Traits: permanent grants. Orsino traits are generated into data/catalog/orsino/traits.json with their categories: lineage (given at birth by an ancestry), nature, affinity, character, feat, party and specialization (a school or domain with spell access). This file holds Kyr's own traits and adaptations; there are none at present.",
-  "traits": {}
+  "traits": {
+    "frost_adapted": {
+      "name": "Frost adapted",
+      "category": "nature",
+      "modifiers": {
+        "resistances": {
+          "cold": 0.5,
+          "fire": -0.25
+        }
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "marsh_adapted": {
+      "name": "Marsh adapted",
+      "category": "nature",
+      "modifiers": {
+        "resistances": {
+          "poison": 0.5
+        }
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "fire_lineage": {
+      "name": "Fire lineage",
+      "category": "nature",
+      "modifiers": {
+        "resistances": {
+          "fire": 0.75
+        }
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "cold_lineage": {
+      "name": "Cold lineage",
+      "category": "nature",
+      "modifiers": {
+        "resistances": {
+          "cold": 0.75
+        }
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "acid_lineage": {
+      "name": "Acid lineage",
+      "category": "nature",
+      "modifiers": {
+        "resistances": {
+          "acid": 0.75
+        }
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "lightning_lineage": {
+      "name": "Lightning lineage",
+      "category": "nature",
+      "modifiers": {
+        "resistances": {
+          "lightning": 0.75
+        }
+      },
+      "source": {
+        "kyr": true
+      }
+    }
+  }
 }

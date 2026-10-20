@@ -293,6 +293,33 @@
         "fidelity": "faithful",
         "notes": "The iron substance overlay (+1 Str, \u22123 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
       }
+    },
+    "bear": {
+      "name": "Bear",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A powerful woodland omnivore, dangerous when its young or feeding ground are threatened.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "claws",
+        "armor": "fur"
+      },
+      "abilities": [
+        "smash",
+        "flee"
+      ],
+      "temperament": "defensive",
+      "habitats": [
+        "woodland",
+        "mountain"
+      ],
+      "source": {
+        "orsino": "animal:bear",
+        "fidelity": "adapted",
+        "notes": "Uses the existing claws and fur profiles and executable Smash action. Kyr rolls its attributes; the Deem animal grammar composes the body."
+      }
     }
   }
 }

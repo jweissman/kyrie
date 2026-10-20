@@ -13,6 +13,7 @@ export { World } from './src/lang/world';
 export type { Module, Instance, Predicate, Change, Call, WorldState } from './src/lang/module';
 
 export { CreatureStore } from './src/creature-store';
+export { CreatureDefinition } from './src/creature-definition';
 export { CreatureSchema } from './src/creature';
 export { CombatProjection } from './src/combat-projection';
 

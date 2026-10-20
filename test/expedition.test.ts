@@ -70,9 +70,9 @@ describe('food and rest', () => {
   it('an inn sells a night: coin goes to the innkeeper, the company eats, sleeps eight hours and recovers', async () => {
     const s = await Trip.start('go(march__causeway_path,march__causeway)', 'change_thing(hill__boar_pass)', 'go(hill__low_path,hill__drain_mouth)',
       'go(hill__culvert,hill__workshop)', 'go(hill__gallery_steps,hill__gallery)', 'change_thing(hill__hound_soothe)',
-      'go(hill__hoist_passage,hill__hoist)', 'rescue__heave_free(march__member_party_2)');
-    const bran = () => s.campaign.state.creatures.find(c => c.name === 'Bran')!;
-    expect(bran().state.hp).toBeLessThan(bran().base.maxHp);
+      'go(hill__hoist_passage,hill__hoist)', 'rescue__heave_free(march__member_party_1)');
+    const elen = () => s.campaign.state.creatures.find(c => c.name === 'Elen')!;
+    expect(elen().state.hp).toBeLessThan(elen().base.maxHp);
     for (const c of ['go(hill__hoist_passage,hill__gallery)', 'go(hill__gallery_steps,hill__workshop)', 'go(hill__culvert,hill__drain_mouth)',
       'go(hill__low_path,march__causeway)', 'go(march__causeway_path,march__quay)', 'go(march__oar_door,march__taproom)']) { await s.perform(c); }
     const coins = Trip.coins(s), maud = () => s.campaign.state.creatures.find(c => c.name === 'Maud')!.state.gold;
@@ -81,7 +81,7 @@ describe('food and rest', () => {
     expect(s.campaign.state.elapsed - started).toBe(48);
     expect(Trip.coins(s)).toBe(coins);
     expect(maud() - maudBefore).toBe(3);
-    expect(bran().state.hp).toBe(bran().base.maxHp);
+    expect(elen().state.hp).toBe(elen().base.maxHp);
   }, 90000);
   it('goods are counted stock: buying moves coin to the seller and one ration to the company', async () => {
     const s = await Trip.start('go(march__shop_door,march__shop_floor)');

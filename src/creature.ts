@@ -12,7 +12,7 @@ export interface ItemInstance { id: string; definition: string; equipped?: boole
 // raceId is what the creature is: an ancestry (a person, who has a class) or a species (which has none).
 export interface Creature {
   id: string; name: string; raceId: string; classId?: string; backgroundId?: string; professionId?: string;
-  traits?: string[];
+  traits?: string[]; generation?: { trace: string[] };
   base: Attributes & {
     maxHp: number; maxMana: number; speed: number; level: number; abilities: string[];
   };

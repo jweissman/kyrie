@@ -1,25 +1,175 @@
 {
- "population": {
-  "__no_id": true,
-  "raceId": "=lookup(creaturePopulation, defined('population') ? #population : any)"
- },
- "creature": {
-  "__no_id": true,
-  "_kind": "=defined('kind') ? #kind : 'hero'",
-  "name": "=lookup(forename, #_kind)",
-  "*attributes": "=gen(attributes)"
- },
- "attributes": {
-  "__no_id": true,
-  "strength": "=3d6",
-  "dexterity": "=3d6",
-  "intelligence": "=3d6",
-  "wisdom": "=3d6",
-  "constitution": "=3d6",
-  "charisma": "=3d6"
- },
- "character": {
-  "__no_id": true,
-  "*creature": "=gen(creature)"
- }
+  "population": {
+    "__no_id": true,
+    "raceId": "=lookup(creaturePopulation, defined('population') ? #population : any)"
+  },
+  "attributes": {
+    "__no_id": true,
+    "strength": "=3d6",
+    "dexterity": "=3d6",
+    "intelligence": "=3d6",
+    "wisdom": "=3d6",
+    "constitution": "=3d6",
+    "charisma": "=3d6"
+  },
+  "creature_name": {
+    "__no_id": true,
+    "_kind": "=defined('kind') ? #kind : 'hero'",
+    "name": "=lookup(forename, #_kind)"
+  },
+  "creature": {
+    "__no_id": true,
+    "terrain": "any",
+    "_family": "=defined('family') ? #family : (defined('raceId') ? dig(select(creatureKinds, default, 'dig(#__it, \"raceId\") == #raceId && dig(#__it, \"_terrains\", #terrain)'), 'family') : lookup(creatureFamilyPool, #terrain))",
+    "*creature": "=gen(lookup(creatureFamilies, #_family))"
+  },
+  "dragon": {
+    "__no_id": true,
+    ">family": "dragon",
+    "terrain": "any",
+    "_kind": "=select(creatureKinds, dragon, 'dig(#__it, \"_terrains\", #terrain) && (defined(\"body\") ? dig(#__it, \"body\") == #body : true) && (defined(\"raceId\") ? dig(#__it, \"raceId\") == #raceId : true) && (defined(\"adaptation\") ? dig(#__it, \"_adaptationTerrains\", #adaptation, #terrain) : true)')",
+    "_lineage": "=select(dragonLineage, defined('lineage') ? #lineage : default, 'dig(#__it, \"_terrains\", #terrain)')",
+    "lineage": "=dig(#_lineage, '_key')",
+    "_maturity": "=select(dragonMaturity, defined('maturity') ? #maturity : default)",
+    "maturity": "=dig(#_maturity, '_key')",
+    "body": "=dig(#_kind, 'body')",
+    "_body": "=gen('_dragon_body')",
+    "*creature": "=gen('_creature_complete')"
+  },
+  "animal": {
+    "__no_id": true,
+    ">family": "animal",
+    "terrain": "any",
+    "_kind": "=select(creatureKinds, animal, 'dig(#__it, \"_terrains\", #terrain) && (defined(\"body\") ? dig(#__it, \"body\") == #body : true) && (defined(\"raceId\") ? dig(#__it, \"raceId\") == #raceId : true) && (defined(\"adaptation\") ? dig(#__it, \"_adaptationTerrains\", #adaptation, #terrain) : true)')",
+    "body": "=dig(#_kind, 'body')",
+    "_body": "=gen('_animal_body')",
+    "*creature": "=gen('_creature_complete')"
+  },
+  "humanoid": {
+    "__no_id": true,
+    ">family": "humanoid",
+    "terrain": "any",
+    "_kind": "=select(creatureKinds, humanoid, 'dig(#__it, \"_terrains\", #terrain) && (defined(\"body\") ? dig(#__it, \"body\") == #body : true) && (defined(\"raceId\") ? dig(#__it, \"raceId\") == #raceId : true) && (defined(\"adaptation\") ? dig(#__it, \"_adaptationTerrains\", #adaptation, #terrain) : true) && (defined(\"classId\") ? dig(#__it, \"_classes\", #classId) : true)')",
+    "raceId": "=dig(#_kind, 'raceId')",
+    "_class": "=select(creatureClass, defined('classId') ? #classId : default, 'dig(#_kind, \"_classes\", dig(#__it, \"_key\"))')",
+    "classId": "=dig(#_class, '_key')",
+    "_body": "=gen('_humanoid_body')",
+    "*creature": "=gen('_creature_complete')"
+  },
+  "construct": {
+    "__no_id": true,
+    ">family": "construct",
+    "terrain": "any",
+    "_kind": "=select(creatureKinds, construct, 'dig(#__it, \"_terrains\", #terrain) && (defined(\"body\") ? dig(#__it, \"body\") == #body : true) && (defined(\"raceId\") ? dig(#__it, \"raceId\") == #raceId : true) && (defined(\"adaptation\") ? dig(#__it, \"_adaptationTerrains\", #adaptation, #terrain) : true) && (defined(\"role\") ? dig(#__it, \"_roles\", #role) : true)')",
+    "_material": "=select(constructMaterial, defined('material') ? #material : default, 'dig(#__it, \"_terrains\", #terrain)')",
+    "material": "=dig(#_material, '_key')",
+    "_role": "=select(creatureRole, defined('role') ? #role : default, 'dig(#_kind, \"_roles\", dig(#__it, \"_key\"))')",
+    "role": "=dig(#_role, '_key')",
+    "body": "=dig(#_kind, 'body')",
+    "_body": "=gen('_construct_body')",
+    "*creature": "=gen('_creature_complete')"
+  },
+  "_dragon_body": {
+    "__no_id": true,
+    "classId": "",
+    ">level": 0,
+    "*body": "=lookup(creatureBody, dragon)",
+    "*lineage": "=#_lineage",
+    "*maturity": "=#_maturity",
+    "name": "=capitalize(#maturity) + ' ' + #lineage + ' dragon'"
+  },
+  "_animal_body": {
+    "__no_id": true,
+    "trace": [
+      "family:animal"
+    ],
+    "*scores": "=gen(attributes)",
+    "classId": "",
+    ">level": 1,
+    "*body": "=lookup(creatureBody, #body)",
+    "name": "=humanize(#body)"
+  },
+  "_humanoid_body": {
+    "__no_id": true,
+    "_requestedWeapon": "=defined('weapon') ? #weapon : ''",
+    "_requestedArmor": "=defined('armor') ? #armor : ''",
+    ">level": 1,
+    "*scores": "=gen(attributes)",
+    "*ancestry": "=lookup(creatureAncestry, #raceId)",
+    "*class": "=#_class",
+    ">weapon": "=#_requestedWeapon != '' ? #_requestedWeapon : pick(#weapons)",
+    ">armor": "=#_requestedArmor != '' ? #_requestedArmor : pick(#armors)",
+    "name": "=capitalize(#raceId) + ' ' + #classId"
+  },
+  "_construct_body": {
+    "__no_id": true,
+    "classId": "",
+    ">level": 1,
+    "*body": "=lookup(creatureBody, #body)",
+    "*material": "=#_material",
+    "*role": "=#_role",
+    "name": "=(#materialName != '' ? #materialName + ' ' : '') + (#roleName != '' ? #roleName : humanize(#body))"
+  },
+  "_creature_complete": {
+    "__no_id": true,
+    "_requestedName": "=defined('name') ? #name : ''",
+    "_requestedLevel": "=defined('level') ? #level : 0",
+    "*kind": "=#_kind",
+    "*defaults": "=gen(creature_defaults)",
+    "*body": "=#_body",
+    "_adaptation": "=select(environmentAdaptation, defined('adaptation') ? #adaptation : default, 'dig(#_kind, \"_adaptationTerrains\", dig(#__it, \"_key\"), #terrain) && dig(#__it, \"_terrains\", #terrain)')",
+    "adaptation": "=dig(#_adaptation, '_key')",
+    "*adaptation": "=#_adaptation",
+    ">name": "=#_requestedName != '' ? #_requestedName : #name",
+    ">level": "=#_requestedLevel > 0 ? #_requestedLevel : #level",
+    "slotScore": "=dig(#_self, #slotAttribute)",
+    "_statistics": "=gen(creature_statistics)",
+    ">maxHp": "=dig(#_statistics, 'maxHp')",
+    ">maxMana": "=dig(#_statistics, 'maxMana')",
+    ">speed": "=dig(#_statistics, 'speed')",
+    ">abilities": "=uniq(#abilities)",
+    ">traits": "=uniq(#traits)",
+    "!remove": [
+      "hitDie",
+      "fixedHp",
+      "hpBonus",
+      "manaBonus",
+      "slotBase",
+      "slotMultiplier",
+      "slotAttribute",
+      "weapons",
+      "armors",
+      "slotScore",
+      "materialName",
+      "roleName"
+    ]
+  },
+  "creature_defaults": {
+    "__no_id": true,
+    "level": 0,
+    "hitDie": 0,
+    "slotBase": 0,
+    "slotAttribute": "intelligence",
+    "slotMultiplier": 0,
+    "traits": [],
+    "abilities": [],
+    "trace": [],
+    "fixedHp": 0,
+    "hpBonus": 0,
+    "manaBonus": 0
+  },
+  "creature_statistics": {
+    "__no_id": true,
+    "_slotScore": "=defined('slotScore') ? #slotScore : 10",
+    ">maxHp": "=max(1, (#fixedHp > 0 ? #fixedHp : (#level <= 1 ? max(1, #hitDie + max(0, round((#constitution - 10) / 2))) : max(2, round(#hitDie + (#level - 1) * #hitDie / 2 + round((#constitution - 10) / 2))))) + #hpBonus)",
+    ">maxMana": "=max(0, #slotBase + 2 + #level + #slotMultiplier * max(0, round((#_slotScore - 10) / 2)) + #manaBonus)",
+    ">speed": "=max(0, round((#dexterity - 10) / 2))"
+  },
+  "character": {
+    "__no_id": true,
+    "_parameters": {
+      "family": "humanoid"
+    },
+    "*creature": "=gen(creature, #_parameters)"
+  }
 }

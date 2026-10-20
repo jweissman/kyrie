@@ -6,6 +6,7 @@ import { buildSetting, Deem, Generator, Template, runGeneration } from 'deem';
 import { Content } from '../src/content';
 import { Canon } from '../src/canon/canon';
 import { CreatureSchema, type Attribute } from '../src/creature';
+import { RandomStreams } from '../src/random-streams';
 import { Expressions } from '../src/expressions';
 import { FantasyRules } from '../src/fantasy-rules';
 import templates from '../data/generation/templates/deem.templates.json';
@@ -74,7 +75,7 @@ describe('score-only attributes and derived statMod', () => {
     for (const [raceId, classId, backgroundId] of [['human', 'warrior', 'locksmith'], ['elf', 'ranger', 'hunter'],
       ['dwarf', 'cleric', 'medic']] as const) {
       const seed = `overlays:${raceId}`;
-      const raw = new Content(seed).generate('creature', { kind: 'hero' });
+      const raw = new Content(RandomStreams.key(seed, 'attributes', 'hero')).generate('attributes');
       const creature = new Content(seed).createCreature('hero', { raceId, classId, backgroundId,
         ...classId === 'warrior' ? { traits: ['brave'] } : classId === 'cleric' ? { traits: ['vitalist'] } : {} });
       for (const key of CreatureSchema.attributes) {

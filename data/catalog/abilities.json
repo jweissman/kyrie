@@ -85,7 +85,7 @@
           "kind": "damage",
           "amount": {
             "kind": "deem",
-            "expression": "4d6"
+            "expression": "2d6 + 2 * #level"
           },
           "damageType": "fire",
           "target": "enemies",
@@ -103,7 +103,91 @@
       "source": {
         "orsino": "weapon:fire_breath",
         "fidelity": "adapted",
-        "notes": "Exact 4d6 fire with a breath save for half. Orsino uses the breath as a single-target melee weapon; Kyr breathes it over every enemy."
+        "notes": "Area fire damage scales as 2d6 + 2 per creature level, with a breath save for half and a three-turn recharge. Maturity supplies a generated dragon level; its natural bite remains available."
+      }
+    },
+    "breathe_cold": {
+      "name": "Cold breath",
+      "kind": "natural",
+      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "cold",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "breathe_acid": {
+      "name": "Acid breath",
+      "kind": "natural",
+      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "acid",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "breathe_lightning": {
+      "name": "Lightning breath",
+      "kind": "natural",
+      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "lightning",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true
       }
     }
   }

@@ -1,0 +1,5166 @@
+{
+  "command": "bash test/smoke-deem-choices.sh",
+  "seeds": 32,
+  "extensionSeeds": 128,
+  "invocations": 608,
+  "diversity": {
+    "creature": {
+      "family": [
+        "animal",
+        "construct",
+        "dragon",
+        "humanoid"
+      ],
+      "body": [
+        "bear",
+        "dragon",
+        "golem",
+        "wolf"
+      ],
+      "raceId": [
+        "bear",
+        "dragon",
+        "elf",
+        "golem",
+        "human",
+        "wolf"
+      ],
+      "lineage": [
+        "black",
+        "red",
+        "white"
+      ],
+      "maturity": [
+        "adult",
+        "ancient",
+        "young"
+      ],
+      "classId": [
+        "ranger",
+        "warrior"
+      ],
+      "material": [
+        "none",
+        "stone"
+      ],
+      "role": [
+        "none"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "forest": {
+      "family": [
+        "animal",
+        "dragon",
+        "humanoid"
+      ],
+      "body": [
+        "bear",
+        "dragon",
+        "wolf"
+      ],
+      "raceId": [
+        "bear",
+        "dragon",
+        "elf",
+        "human",
+        "wolf"
+      ],
+      "lineage": [
+        "copper"
+      ],
+      "maturity": [
+        "adult",
+        "young"
+      ],
+      "classId": [
+        "ranger",
+        "warrior"
+      ],
+      "adaptation": [
+        "none"
+      ]
+    },
+    "dragons": {
+      "family": [
+        "dragon"
+      ],
+      "body": [
+        "dragon"
+      ],
+      "raceId": [
+        "dragon"
+      ],
+      "lineage": [
+        "black",
+        "blue",
+        "copper",
+        "red",
+        "white"
+      ],
+      "maturity": [
+        "adult",
+        "ancient",
+        "wyrmling",
+        "young"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "blue_ancient": {
+      "family": [
+        "dragon"
+      ],
+      "body": [
+        "dragon"
+      ],
+      "raceId": [
+        "dragon"
+      ],
+      "lineage": [
+        "blue"
+      ],
+      "maturity": [
+        "ancient"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "animals": {
+      "family": [
+        "animal"
+      ],
+      "body": [
+        "bear",
+        "wolf"
+      ],
+      "raceId": [
+        "bear",
+        "wolf"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "people": {
+      "family": [
+        "humanoid"
+      ],
+      "raceId": [
+        "elf",
+        "human"
+      ],
+      "classId": [
+        "ranger",
+        "warrior"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "constructs": {
+      "family": [
+        "construct"
+      ],
+      "body": [
+        "golem"
+      ],
+      "raceId": [
+        "golem"
+      ],
+      "material": [
+        "none",
+        "stone"
+      ],
+      "role": [
+        "guardian",
+        "none"
+      ],
+      "adaptation": [
+        "frost",
+        "none"
+      ]
+    },
+    "frost": {
+      "family": [
+        "animal",
+        "dragon",
+        "humanoid"
+      ],
+      "body": [
+        "bear",
+        "dragon",
+        "wolf"
+      ],
+      "raceId": [
+        "bear",
+        "dragon",
+        "human",
+        "wolf"
+      ],
+      "lineage": [
+        "white"
+      ],
+      "maturity": [
+        "adult",
+        "young"
+      ],
+      "classId": [
+        "ranger",
+        "warrior"
+      ],
+      "adaptation": [
+        "frost",
+        "none"
+      ]
+    },
+    "dragon": {
+      "family": [
+        "dragon"
+      ],
+      "body": [
+        "dragon"
+      ],
+      "raceId": [
+        "dragon"
+      ],
+      "lineage": [
+        "black",
+        "blue",
+        "copper",
+        "red",
+        "white"
+      ],
+      "maturity": [
+        "adult",
+        "ancient",
+        "wyrmling",
+        "young"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "animal": {
+      "family": [
+        "animal"
+      ],
+      "body": [
+        "bear",
+        "wolf"
+      ],
+      "raceId": [
+        "bear",
+        "wolf"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "humanoid": {
+      "family": [
+        "humanoid"
+      ],
+      "raceId": [
+        "elf",
+        "human"
+      ],
+      "classId": [
+        "ranger",
+        "warrior"
+      ],
+      "adaptation": [
+        "frost",
+        "marsh",
+        "none"
+      ]
+    },
+    "construct": {
+      "family": [
+        "construct"
+      ],
+      "body": [
+        "golem"
+      ],
+      "raceId": [
+        "golem"
+      ],
+      "material": [
+        "none",
+        "stone"
+      ],
+      "role": [
+        "guardian",
+        "none"
+      ],
+      "adaptation": [
+        "frost",
+        "none"
+      ]
+    },
+    "bear_fixed": {
+      "family": [
+        "animal"
+      ],
+      "body": [
+        "bear"
+      ],
+      "raceId": [
+        "bear"
+      ],
+      "adaptation": [
+        "frost"
+      ]
+    },
+    "ranger_fixed": {
+      "family": [
+        "humanoid"
+      ],
+      "raceId": [
+        "elf"
+      ],
+      "classId": [
+        "ranger"
+      ],
+      "adaptation": [
+        "none"
+      ]
+    },
+    "guardian_fixed": {
+      "family": [
+        "construct"
+      ],
+      "body": [
+        "golem"
+      ],
+      "raceId": [
+        "golem"
+      ],
+      "material": [
+        "stone"
+      ],
+      "role": [
+        "guardian"
+      ],
+      "adaptation": [
+        "frost",
+        "none"
+      ]
+    }
+  },
+  "results": {
+    "creature": [
+      {
+        "seed": "choice-",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-x",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      }
+    ],
+    "forest": [
+      {
+        "seed": "choice-",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      }
+    ],
+    "dragons": [
+      {
+        "seed": "choice-",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      }
+    ],
+    "blue_ancient": [
+      {
+        "seed": "choice-",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      }
+    ],
+    "animals": [
+      {
+        "seed": "choice-",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      }
+    ],
+    "people": [
+      {
+        "seed": "choice-",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-x",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "frost"
+      }
+    ],
+    "constructs": [
+      {
+        "seed": "choice-",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      }
+    ],
+    "frost": [
+      {
+        "seed": "choice-",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      }
+    ],
+    "dragon": [
+      {
+        "seed": "choice-",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "red",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "white",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "black",
+        "maturity": "adult",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "young",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "copper",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "dragon",
+        "body": "dragon",
+        "raceId": "dragon",
+        "lineage": "blue",
+        "maturity": "wyrmling",
+        "classId": "",
+        "adaptation": "none"
+      }
+    ],
+    "animal": [
+      {
+        "seed": "choice-",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "wolf",
+        "raceId": "wolf",
+        "classId": "",
+        "adaptation": "marsh"
+      }
+    ],
+    "humanoid": [
+      {
+        "seed": "choice-",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "marsh"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "warrior",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "human",
+        "classId": "ranger",
+        "adaptation": "none"
+      }
+    ],
+    "construct": [
+      {
+        "seed": "choice-",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "none",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "none",
+        "role": "none",
+        "adaptation": "none"
+      }
+    ],
+    "bear_fixed": [
+      {
+        "seed": "choice-",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-x",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "animal",
+        "body": "bear",
+        "raceId": "bear",
+        "classId": "",
+        "adaptation": "frost"
+      }
+    ],
+    "ranger_fixed": [
+      {
+        "seed": "choice-",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "ranger",
+        "adaptation": "none"
+      }
+    ],
+    "guardian_fixed": [
+      {
+        "seed": "choice-",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-x",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "frost"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      },
+      {
+        "seed": "choice-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "family": "construct",
+        "body": "golem",
+        "raceId": "golem",
+        "classId": "",
+        "material": "stone",
+        "role": "guardian",
+        "adaptation": "none"
+      }
+    ]
+  },
+  "extensionAdditions": {
+    "body": [
+      {
+        "raceId": "boar",
+        "hitDie": 6,
+        "weapon": "tusks",
+        "armor": "hide_armor",
+        "abilities": [
+          "rending_bite",
+          "flee"
+        ],
+        "traits": [],
+        "trace": [
+          "body:boar"
+        ]
+      }
+    ],
+    "eligibility": {
+      "family": "animal",
+      "body": "boar",
+      "raceId": "boar",
+      "_terrains": {
+        "any": true,
+        "marsh": true
+      },
+      "_adaptations": {
+        "none": true,
+        "frost": true,
+        "marsh": true
+      },
+      "_classes": {},
+      "_roles": {},
+      "_adaptationTerrains": {
+        "none": {
+          "any": true,
+          "marsh": true
+        },
+        "marsh": {
+          "any": true,
+          "marsh": true
+        }
+      }
+    },
+    "lineage": [
+      {
+        "_key": "jade",
+        "_terrains": {
+          "any": true,
+          "forest": true
+        },
+        "abilities": [
+          "breathe_acid"
+        ],
+        "traits": [
+          "acid_lineage"
+        ],
+        "trace": [
+          "lineage:jade"
+        ]
+      }
+    ]
+  },
+  "extensionExamples": [
+    {
+      "terrain": "any",
+      "family": "animal",
+      "body": "boar",
+      "raceId": "boar",
+      "level": 1,
+      "traits": [],
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:boar",
+        "adaptation:none"
+      ],
+      "strength": 8,
+      "dexterity": 10,
+      "intelligence": 9,
+      "wisdom": 7,
+      "constitution": 10,
+      "charisma": 11,
+      "classId": "",
+      "weapon": "tusks",
+      "armor": "hide_armor",
+      "name": "Boar",
+      "adaptation": "none",
+      "maxHp": 6,
+      "maxMana": 3,
+      "speed": 0
+    },
+    {
+      "terrain": "any",
+      "family": "dragon",
+      "lineage": "jade",
+      "maturity": "young",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 3,
+      "traits": [
+        "formidable",
+        "flying",
+        "acid_lineage"
+      ],
+      "abilities": [
+        "breathe_acid"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:jade",
+        "maturity:young",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 23,
+      "dexterity": 16,
+      "constitution": 20,
+      "intelligence": 17,
+      "wisdom": 15,
+      "charisma": 19,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Young jade dragon",
+      "adaptation": "none",
+      "maxHp": 36,
+      "maxMana": 5,
+      "speed": 3
+    }
+  ],
+  "combat": [
+    {
+      "name": "Boar",
+      "action": "melee",
+      "events": [
+        {
+          "type": "initiative",
+          "turn": 1,
+          "order": [
+            {
+              "id": "generated",
+              "roll": 7
+            },
+            {
+              "id": "target",
+              "roll": 7
+            }
+          ]
+        },
+        {
+          "type": "action",
+          "turn": 1,
+          "command": {
+            "actor": "generated",
+            "ability": "melee",
+            "target": "target"
+          },
+          "source": {
+            "id": "generated",
+            "kind": "ability"
+          }
+        },
+        {
+          "type": "attack",
+          "turn": 1,
+          "actor": "generated",
+          "target": "target",
+          "die": 8,
+          "need": 18,
+          "toHit": -1,
+          "armorClass": 3,
+          "weapon": "tusks",
+          "success": false,
+          "critical": false
+        },
+        {
+          "type": "end",
+          "turn": 2,
+          "outcome": "escaped",
+          "reason": "retreat"
+        }
+      ]
+    },
+    {
+      "name": "Young jade dragon",
+      "action": "breathe_acid",
+      "events": [
+        {
+          "type": "initiative",
+          "turn": 1,
+          "order": [
+            {
+              "id": "generated",
+              "roll": 10
+            },
+            {
+              "id": "target",
+              "roll": 7
+            }
+          ]
+        },
+        {
+          "type": "action",
+          "turn": 1,
+          "command": {
+            "actor": "generated",
+            "ability": "breathe_acid",
+            "target": "generated"
+          },
+          "source": {
+            "id": "generated",
+            "kind": "ability"
+          }
+        },
+        {
+          "type": "save",
+          "turn": 1,
+          "actor": "generated",
+          "target": "target",
+          "rolled": 38,
+          "die": 15,
+          "modifier": 3,
+          "stat": "constitution",
+          "level": 20,
+          "bonus": 0,
+          "difficulty": 18,
+          "success": true,
+          "kind": "breath"
+        },
+        {
+          "type": "damage",
+          "turn": 1,
+          "actor": "generated",
+          "target": "target",
+          "rolled": 12,
+          "amount": 9,
+          "hp": 120,
+          "damageType": "acid",
+          "modifiers": {
+            "bonus": 3,
+            "resistance": 0,
+            "reduction": 0,
+            "halfSave": true
+          }
+        },
+        {
+          "type": "save",
+          "turn": 1,
+          "actor": "generated",
+          "target": "target",
+          "rolled": 39,
+          "die": 16,
+          "modifier": 3,
+          "stat": "constitution",
+          "level": 20,
+          "bonus": 0,
+          "difficulty": 15,
+          "success": true,
+          "kind": "fortitude"
+        },
+        {
+          "type": "end",
+          "turn": 2,
+          "outcome": "escaped",
+          "reason": "retreat"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "command": "deem run --type creature --seed choice-",
+      "output": {
+        "terrain": "any",
+        "family": "dragon",
+        "lineage": "black",
+        "maturity": "young",
+        "body": "dragon",
+        "raceId": "dragon",
+        "level": 3,
+        "traits": [
+          "formidable",
+          "flying",
+          "acid_lineage",
+          "frost_adapted"
+        ],
+        "abilities": [
+          "breathe_acid"
+        ],
+        "trace": [
+          "family:dragon",
+          "lineage:black",
+          "maturity:young",
+          "adaptation:frost"
+        ],
+        "classId": "",
+        "strength": 23,
+        "dexterity": 16,
+        "constitution": 20,
+        "intelligence": 17,
+        "wisdom": 15,
+        "charisma": 19,
+        "weapon": "bite",
+        "armor": "scale",
+        "name": "Young black dragon",
+        "adaptation": "frost",
+        "maxHp": 36,
+        "maxMana": 5,
+        "speed": 3
+      }
+    },
+    {
+      "command": "deem run --type dragon --seed choice-",
+      "output": {
+        "family": "dragon",
+        "terrain": "any",
+        "lineage": "red",
+        "maturity": "adult",
+        "body": "dragon",
+        "raceId": "dragon",
+        "level": 6,
+        "traits": [
+          "formidable",
+          "flying",
+          "fire_lineage"
+        ],
+        "abilities": [
+          "breathe_fire"
+        ],
+        "trace": [
+          "family:dragon",
+          "lineage:red",
+          "maturity:adult",
+          "adaptation:none"
+        ],
+        "classId": "",
+        "strength": 35,
+        "dexterity": 28,
+        "constitution": 32,
+        "intelligence": 29,
+        "wisdom": 27,
+        "charisma": 31,
+        "weapon": "bite",
+        "armor": "scale",
+        "name": "Adult red dragon",
+        "adaptation": "none",
+        "maxHp": 99,
+        "maxMana": 8,
+        "speed": 9
+      }
+    },
+    {
+      "command": "deem run --type animal --seed choice-",
+      "output": {
+        "family": "animal",
+        "terrain": "any",
+        "body": "bear",
+        "raceId": "bear",
+        "level": 1,
+        "traits": [],
+        "abilities": [
+          "smash",
+          "flee"
+        ],
+        "trace": [
+          "family:animal",
+          "body:bear",
+          "adaptation:none"
+        ],
+        "strength": 12,
+        "dexterity": 10,
+        "intelligence": 13,
+        "wisdom": 13,
+        "constitution": 13,
+        "charisma": 12,
+        "classId": "",
+        "weapon": "claws",
+        "armor": "fur",
+        "name": "Bear",
+        "adaptation": "none",
+        "maxHp": 14,
+        "maxMana": 3,
+        "speed": 0
+      }
+    },
+    {
+      "command": "deem run --type humanoid --seed choice-",
+      "output": {
+        "family": "humanoid",
+        "terrain": "any",
+        "raceId": "elf",
+        "classId": "ranger",
+        "level": 1,
+        "traits": [
+          "humanoid",
+          "agile",
+          "perceptive"
+        ],
+        "abilities": [
+          "defend",
+          "heal",
+          "hunters_mark",
+          "ensnare"
+        ],
+        "trace": [
+          "ancestry:elf",
+          "class:ranger",
+          "adaptation:none"
+        ],
+        "strength": 15,
+        "dexterity": 13,
+        "intelligence": 14,
+        "wisdom": 17,
+        "constitution": 14,
+        "charisma": 14,
+        "weapon": "longsword",
+        "armor": "scale",
+        "name": "Elf ranger",
+        "adaptation": "none",
+        "maxHp": 12,
+        "maxMana": 3,
+        "speed": 2
+      }
+    },
+    {
+      "command": "deem run --type construct --seed choice-",
+      "output": {
+        "family": "construct",
+        "terrain": "any",
+        "material": "none",
+        "role": "guardian",
+        "body": "golem",
+        "raceId": "golem",
+        "level": 1,
+        "traits": [
+          "construct",
+          "formidable"
+        ],
+        "abilities": [
+          "smash",
+          "defend"
+        ],
+        "trace": [
+          "family:construct",
+          "body:golem",
+          "role:guardian",
+          "adaptation:none"
+        ],
+        "classId": "",
+        "strength": 17,
+        "dexterity": 7,
+        "constitution": 17,
+        "intelligence": 9,
+        "wisdom": 9,
+        "charisma": 8,
+        "weapon": "slam",
+        "armor": "plate",
+        "name": "guardian",
+        "adaptation": "none",
+        "maxHp": 13,
+        "maxMana": 3,
+        "speed": 0
+      }
+    },
+    {
+      "command": "deem run --type forest --seed choice- --templates \"$fixture/templates.json\"",
+      "output": {
+        "terrain": "forest",
+        "family": "humanoid",
+        "raceId": "elf",
+        "classId": "warrior",
+        "level": 1,
+        "traits": [
+          "humanoid",
+          "agile",
+          "perceptive"
+        ],
+        "abilities": [
+          "defend",
+          "taunt",
+          "vigor_up",
+          "cleave",
+          "prepare_charge",
+          "charge",
+          "second_wind",
+          "sweep"
+        ],
+        "trace": [
+          "ancestry:elf",
+          "class:warrior",
+          "adaptation:none"
+        ],
+        "strength": 11,
+        "dexterity": 16,
+        "intelligence": 13,
+        "wisdom": 14,
+        "constitution": 13,
+        "charisma": 11,
+        "weapon": "longsword",
+        "armor": "chainmail",
+        "name": "Elf warrior",
+        "adaptation": "none",
+        "maxHp": 14,
+        "maxMana": 3,
+        "speed": 3
+      }
+    },
+    {
+      "command": "deem run --type blue_ancient --seed choice- --templates \"$fixture/templates.json\"",
+      "output": {
+        "family": "dragon",
+        "terrain": "any",
+        "lineage": "blue",
+        "maturity": "ancient",
+        "body": "dragon",
+        "raceId": "dragon",
+        "level": 12,
+        "traits": [
+          "formidable",
+          "flying",
+          "lightning_lineage"
+        ],
+        "abilities": [
+          "breathe_lightning"
+        ],
+        "trace": [
+          "family:dragon",
+          "lineage:blue",
+          "maturity:ancient",
+          "adaptation:none"
+        ],
+        "classId": "",
+        "strength": 41,
+        "dexterity": 34,
+        "constitution": 38,
+        "intelligence": 35,
+        "wisdom": 33,
+        "charisma": 37,
+        "weapon": "bite",
+        "armor": "scale",
+        "name": "Ancient blue dragon",
+        "adaptation": "none",
+        "maxHp": 180,
+        "maxMana": 14,
+        "speed": 12
+      }
+    },
+    {
+      "command": "deem run --type bear_fixed --seed choice- --templates \"$fixture/templates.json\"",
+      "output": {
+        "family": "animal",
+        "terrain": "any",
+        "body": "bear",
+        "raceId": "bear",
+        "level": 1,
+        "traits": [
+          "frost_adapted"
+        ],
+        "abilities": [
+          "smash",
+          "flee"
+        ],
+        "trace": [
+          "family:animal",
+          "body:bear",
+          "adaptation:frost"
+        ],
+        "strength": 12,
+        "dexterity": 10,
+        "intelligence": 13,
+        "wisdom": 13,
+        "constitution": 13,
+        "charisma": 12,
+        "classId": "",
+        "weapon": "claws",
+        "armor": "fur",
+        "name": "Bear",
+        "adaptation": "frost",
+        "maxHp": 14,
+        "maxMana": 3,
+        "speed": 0
+      }
+    },
+    {
+      "command": "deem run --type ranger_fixed --seed choice- --templates \"$fixture/templates.json\"",
+      "output": {
+        "family": "humanoid",
+        "terrain": "forest",
+        "raceId": "elf",
+        "classId": "ranger",
+        "level": 1,
+        "traits": [
+          "humanoid",
+          "agile",
+          "perceptive"
+        ],
+        "abilities": [
+          "defend",
+          "heal",
+          "hunters_mark",
+          "ensnare"
+        ],
+        "trace": [
+          "ancestry:elf",
+          "class:ranger",
+          "adaptation:none"
+        ],
+        "strength": 15,
+        "dexterity": 13,
+        "intelligence": 14,
+        "wisdom": 17,
+        "constitution": 14,
+        "charisma": 14,
+        "weapon": "shortbow",
+        "armor": "leather",
+        "name": "Elf ranger",
+        "adaptation": "none",
+        "maxHp": 12,
+        "maxMana": 3,
+        "speed": 2
+      }
+    },
+    {
+      "command": "deem run --type guardian_fixed --seed choice- --templates \"$fixture/templates.json\"",
+      "output": {
+        "family": "construct",
+        "terrain": "any",
+        "material": "stone",
+        "role": "guardian",
+        "body": "golem",
+        "raceId": "golem",
+        "level": 4,
+        "traits": [
+          "construct",
+          "formidable"
+        ],
+        "abilities": [
+          "smash",
+          "defend"
+        ],
+        "trace": [
+          "family:construct",
+          "body:golem",
+          "material:stone",
+          "role:guardian",
+          "adaptation:none"
+        ],
+        "classId": "",
+        "strength": 17,
+        "dexterity": 7,
+        "constitution": 19,
+        "intelligence": 9,
+        "wisdom": 9,
+        "charisma": 8,
+        "weapon": "slam",
+        "armor": "plate",
+        "name": "Stone guardian",
+        "adaptation": "none",
+        "maxHp": 17,
+        "maxMana": 6,
+        "speed": 0
+      }
+    }
+  ]
+}

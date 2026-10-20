@@ -4,7 +4,8 @@ import type { EncounterParticipant, Fighter, Team } from './model';
 
 export class CombatProjection {
   static creature(fighter: Fighter, original?: Creature): Creature {
-    return { ...(original?.professionId ? { professionId: original.professionId } : {}),
+    return { ...(original?.generation ? { generation: structuredClone(original.generation) } : {}),
+      ...(original?.professionId ? { professionId: original.professionId } : {}),
       ...(original?.traits ?? fighter.traits ? { traits: [...original?.traits ?? fighter.traits ?? []] } : {}),
       ...(original?.backgroundId ? { backgroundId: original.backgroundId } : {}),
       id: fighter.id, name: fighter.name, raceId: fighter.raceId,

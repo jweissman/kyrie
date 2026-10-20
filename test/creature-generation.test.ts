@@ -36,8 +36,8 @@ describe('compositional creature generation', () => {
     // Slots: a cleric's 2, plus 2 + level, plus the positive WIS modifier (2).
     expect([low.base.maxMana, high.base.maxMana]).toEqual([7, 10]);
     expect(high.base.abilities).toEqual(['defend', 'cure_minor', 'sanctify', ...spells]);
-    expect(new Content('alias').generate('character', { kind: 'hero' }))
-      .toEqual(new Content('alias').generate('creature', { kind: 'hero' }));
+    expect(new Content('alias').generate('character'))
+      .toEqual(new Content('alias').generate('creature', { family: 'humanoid' }));
     expect(new Content('attributes').generate('attributes', { strength: 18 }).strength).toBe(18);
   });
   it('keeps kind and class independent of allegiance, and a species free of any class', () => {

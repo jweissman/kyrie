@@ -1,0 +1,173 @@
+[
+  {
+    "parameters": {
+      "family": "animal",
+      "body": "bear"
+    },
+    "commandLine": "deem run --seed public-cli --type bear --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "animal",
+      "terrain": "any",
+      "body": "bear",
+      "raceId": "bear",
+      "level": 1,
+      "traits": [],
+      "abilities": [
+        "smash",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:bear",
+        "adaptation:none"
+      ],
+      "strength": 9,
+      "dexterity": 7,
+      "intelligence": 14,
+      "wisdom": 5,
+      "constitution": 14,
+      "charisma": 12,
+      "classId": "",
+      "weapon": "claws",
+      "armor": "fur",
+      "name": "Bear",
+      "adaptation": "none",
+      "maxHp": 14,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "parameters": {
+      "family": "dragon",
+      "lineage": "copper",
+      "maturity": "adult"
+    },
+    "commandLine": "deem run --seed public-cli --type copper_dragon --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "dragon",
+      "terrain": "any",
+      "lineage": "copper",
+      "maturity": "adult",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 6,
+      "traits": [
+        "formidable",
+        "flying",
+        "acid_lineage"
+      ],
+      "abilities": [
+        "breathe_acid"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:copper",
+        "maturity:adult",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 35,
+      "dexterity": 28,
+      "constitution": 32,
+      "intelligence": 29,
+      "wisdom": 27,
+      "charisma": 31,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Adult copper dragon",
+      "adaptation": "none",
+      "maxHp": 99,
+      "maxMana": 8,
+      "speed": 9
+    }
+  },
+  {
+    "parameters": {
+      "family": "animal",
+      "body": "bear",
+      "adaptation": "frost"
+    },
+    "commandLine": "deem run --seed public-cli --type frost_bear --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "animal",
+      "terrain": "any",
+      "body": "bear",
+      "raceId": "bear",
+      "level": 1,
+      "traits": [
+        "frost_adapted"
+      ],
+      "abilities": [
+        "smash",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:bear",
+        "adaptation:frost"
+      ],
+      "strength": 9,
+      "dexterity": 7,
+      "intelligence": 14,
+      "wisdom": 5,
+      "constitution": 14,
+      "charisma": 12,
+      "classId": "",
+      "weapon": "claws",
+      "armor": "fur",
+      "name": "Bear",
+      "adaptation": "frost",
+      "maxHp": 14,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "parameters": {
+      "family": "construct",
+      "body": "golem",
+      "material": "stone",
+      "role": "guardian"
+    },
+    "commandLine": "deem run --seed public-cli --type stone_guardian --templates \"$fixture/templates.json\"",
+    "definition": {
+      "family": "construct",
+      "terrain": "any",
+      "material": "stone",
+      "role": "guardian",
+      "body": "golem",
+      "raceId": "golem",
+      "level": 1,
+      "traits": [
+        "construct",
+        "formidable"
+      ],
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "trace": [
+        "family:construct",
+        "body:golem",
+        "material:stone",
+        "role:guardian",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 17,
+      "dexterity": 7,
+      "constitution": 19,
+      "intelligence": 9,
+      "wisdom": 9,
+      "charisma": 8,
+      "weapon": "slam",
+      "armor": "plate",
+      "name": "Stone guardian",
+      "adaptation": "none",
+      "maxHp": 17,
+      "maxMana": 3,
+      "speed": 0
+    }
+  }
+]

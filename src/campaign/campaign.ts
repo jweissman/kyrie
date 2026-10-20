@@ -1,3 +1,4 @@
+import { RandomStreams } from '../random-streams';
 import { CommandResolutions, type CommandResolution } from './command-resolution';
 import { Aftermath } from './aftermath';
 import { Items } from './items';
@@ -92,7 +93,7 @@ export class Campaign implements TickHost {
     const content = new Content(`${seed}:campaign`);
     this.compiled = structuredClone(instance.module);
     for (const entry of this.definition.creatures) {
-      const creature = (entry.seed ? new Content(entry.seed) : content).createCreature(entry.id, entry.context);
+      const creature = (entry.seed ? new Content(entry.seed) : content).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
       creature.state.gold += entry.gold;
       this.creatures.insert(creature);
     }
@@ -160,7 +161,7 @@ export class Campaign implements TickHost {
     const actors = next.campaign!.actors.filter(a => !this.definition!.actors.some(old => old.id === a.id));
     const added = next.campaign!.creatures.filter(c => !this.creatures.snapshot.some(old => old.id === c.id));
     const store = new CreatureStore([...this.creatures.snapshot, ...added.map(entry => {
-      const creature = new Content(entry.seed!).createCreature(entry.id, entry.context);
+      const creature = new Content(entry.seed!).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
       creature.state.gold += entry.gold;
       return creature;
     })]);
@@ -250,7 +251,7 @@ export class Campaign implements TickHost {
   encounterBattle(actionId: string): Battle {
     const action = this.module.actions.find(candidate => candidate.id === actionId);
     if (action?.resolve?.name !== 'combat') { throw new Error('Action does not resolve a combat encounter'); }
-    const seed = `${this.current.seed}:encounter:${this.encounter}:${action.resolve.args.join(':')}`;
+    const seed = this.randomSeed(action, 'combat');
     const group = action.resolve.args[0]!;
     const attacker = action.actor && this.definition ?
       this.definition.actors.find(a => a.id === action.actor) : undefined;
@@ -375,10 +376,25 @@ export class Campaign implements TickHost {
     this.log.push(event);
     return structuredClone(event);
   }
+  private randomIdentity(id: string): string {
+    const owner = this.definition?.installations?.find(m => id.startsWith(`${m.id}__`));
+    return owner ? `${owner.seed}:${id.slice(owner.id.length + 2)}` : id;
+  }
+  private randomActionKey(action: Operator): string {
+    return JSON.stringify([action.resolve?.name, ...(action.resolve?.args ?? [action.id])
+      .map(id => this.randomIdentity(id))]);
+  }
+  private randomSeed(action: Operator, domain: string): string {
+    const occurrence = this.log.filter(e => {
+      const previous = this.module.actions.find(a => a.id === e.action);
+      return previous && this.randomActionKey(previous) === this.randomActionKey(action);
+    }).length;
+    return RandomStreams.key(this.current.seed, domain, this.randomActionKey(action), occurrence);
+  }
   private field(action: Operator): CombatEvent[] {
     const call = structuredClone(action.resolve!);
     call.args = call.args.map(id => this.module.entities.find(e => e.id === id)?.creatureId ?? id);
-    const seed = `${this.current.seed}:field:${this.encounter}:${action.id}`;
+    const seed = this.randomSeed(action, 'field');
     if (call.name === 'recover' || call.name === 'rough') {
       const actor = this.definition!.actors.find(a => a.id === call.args[0])!;
       const caster = actor.members.find(id => this.creatures.get(id).state.hp > 0)!;

@@ -1,49 +1,1286 @@
 {
- "forename": {
-  "discriminator": "kind",
-  "groups": {
-   "hero": [
-    "Ada",
-    "Bram",
-    "Cora",
-    "Dain",
-    "Edda",
-    "Finn",
-    "Mira",
-    "Nell"
-   ],
-   "goblin": [
-    "Grik",
-    "Skit",
-    "Vek",
-    "Brug"
-   ],
-   "wisp": [
-    "Glimmer",
-    "Wick",
-    "Mote"
-   ]
+  "forename": {
+    "discriminator": "kind",
+    "groups": {
+      "hero": [
+        "Ada",
+        "Bram",
+        "Cora",
+        "Dain",
+        "Edda",
+        "Finn",
+        "Mira",
+        "Nell"
+      ],
+      "goblin": [
+        "Grik",
+        "Skit",
+        "Vek",
+        "Brug"
+      ],
+      "wisp": [
+        "Glimmer",
+        "Wick",
+        "Mote"
+      ]
+    }
+  },
+  "creaturePopulation": {
+    "discriminator": "population",
+    "groups": {
+      "any": [
+        "human",
+        "elf",
+        "dwarf",
+        "goblin",
+        "wisp"
+      ],
+      "pc": [
+        "human",
+        "elf",
+        "dwarf"
+      ],
+      "monster": [
+        "goblin",
+        "wisp"
+      ]
+    }
+  },
+  "environmentAdaptation": {
+    "groups": {
+      "none": [
+        {
+          "trace": [
+            "adaptation:none"
+          ],
+          "_key": "none",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        },
+        {
+          "trace": [
+            "adaptation:none"
+          ],
+          "_key": "none",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        },
+        {
+          "trace": [
+            "adaptation:none"
+          ],
+          "_key": "none",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        },
+        {
+          "trace": [
+            "adaptation:none"
+          ],
+          "_key": "none",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ],
+      "frost": [
+        {
+          "traits": [
+            "frost_adapted"
+          ],
+          "trace": [
+            "adaptation:frost"
+          ],
+          "_key": "frost",
+          "_terrains": {
+            "frost": true,
+            "mountain": true,
+            "any": true
+          }
+        }
+      ],
+      "marsh": [
+        {
+          "traits": [
+            "marsh_adapted"
+          ],
+          "trace": [
+            "adaptation:marsh"
+          ],
+          "_key": "marsh",
+          "_terrains": {
+            "marsh": true,
+            "any": true
+          }
+        }
+      ]
+    },
+    "discriminator": "adaptation"
+  },
+  "dragonLineage": {
+    "groups": {
+      "red": [
+        {
+          "abilities": [
+            "breathe_fire"
+          ],
+          "traits": [
+            "fire_lineage"
+          ],
+          "trace": [
+            "lineage:red"
+          ],
+          "_key": "red",
+          "_terrains": {
+            "mountain": true,
+            "cave": true,
+            "desert": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ],
+      "blue": [
+        {
+          "abilities": [
+            "breathe_lightning"
+          ],
+          "traits": [
+            "lightning_lineage"
+          ],
+          "trace": [
+            "lineage:blue"
+          ],
+          "_key": "blue",
+          "_terrains": {
+            "desert": true,
+            "mountain": true,
+            "any": true
+          }
+        }
+      ],
+      "white": [
+        {
+          "abilities": [
+            "breathe_cold"
+          ],
+          "traits": [
+            "cold_lineage"
+          ],
+          "trace": [
+            "lineage:white"
+          ],
+          "_key": "white",
+          "_terrains": {
+            "frost": true,
+            "mountain": true,
+            "any": true
+          }
+        }
+      ],
+      "black": [
+        {
+          "abilities": [
+            "breathe_acid"
+          ],
+          "traits": [
+            "acid_lineage"
+          ],
+          "trace": [
+            "lineage:black"
+          ],
+          "_key": "black",
+          "_terrains": {
+            "marsh": true,
+            "cave": true,
+            "any": true
+          }
+        }
+      ],
+      "copper": [
+        {
+          "abilities": [
+            "breathe_acid"
+          ],
+          "traits": [
+            "acid_lineage"
+          ],
+          "trace": [
+            "lineage:copper"
+          ],
+          "_key": "copper",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ]
+    },
+    "discriminator": "lineage"
+  },
+  "dragonMaturity": {
+    "groups": {
+      "wyrmling": [
+        {
+          "level": 1,
+          "trace": [
+            "maturity:wyrmling"
+          ],
+          "strength": -18,
+          "dexterity": -18,
+          "constitution": -18,
+          "intelligence": -18,
+          "wisdom": -18,
+          "charisma": -18,
+          "hpBonus": -83,
+          "_key": "wyrmling"
+        },
+        {
+          "level": 1,
+          "trace": [
+            "maturity:wyrmling"
+          ],
+          "strength": -18,
+          "dexterity": -18,
+          "constitution": -18,
+          "intelligence": -18,
+          "wisdom": -18,
+          "charisma": -18,
+          "hpBonus": -83,
+          "_key": "wyrmling"
+        },
+        {
+          "level": 1,
+          "trace": [
+            "maturity:wyrmling"
+          ],
+          "strength": -18,
+          "dexterity": -18,
+          "constitution": -18,
+          "intelligence": -18,
+          "wisdom": -18,
+          "charisma": -18,
+          "hpBonus": -83,
+          "_key": "wyrmling"
+        }
+      ],
+      "young": [
+        {
+          "level": 3,
+          "trace": [
+            "maturity:young"
+          ],
+          "strength": -12,
+          "dexterity": -12,
+          "constitution": -12,
+          "intelligence": -12,
+          "wisdom": -12,
+          "charisma": -12,
+          "hpBonus": -63,
+          "_key": "young"
+        },
+        {
+          "level": 3,
+          "trace": [
+            "maturity:young"
+          ],
+          "strength": -12,
+          "dexterity": -12,
+          "constitution": -12,
+          "intelligence": -12,
+          "wisdom": -12,
+          "charisma": -12,
+          "hpBonus": -63,
+          "_key": "young"
+        },
+        {
+          "level": 3,
+          "trace": [
+            "maturity:young"
+          ],
+          "strength": -12,
+          "dexterity": -12,
+          "constitution": -12,
+          "intelligence": -12,
+          "wisdom": -12,
+          "charisma": -12,
+          "hpBonus": -63,
+          "_key": "young"
+        },
+        {
+          "level": 3,
+          "trace": [
+            "maturity:young"
+          ],
+          "strength": -12,
+          "dexterity": -12,
+          "constitution": -12,
+          "intelligence": -12,
+          "wisdom": -12,
+          "charisma": -12,
+          "hpBonus": -63,
+          "_key": "young"
+        }
+      ],
+      "adult": [
+        {
+          "level": 6,
+          "trace": [
+            "maturity:adult"
+          ],
+          "strength": 0,
+          "dexterity": 0,
+          "constitution": 0,
+          "intelligence": 0,
+          "wisdom": 0,
+          "charisma": 0,
+          "hpBonus": 0,
+          "_key": "adult"
+        },
+        {
+          "level": 6,
+          "trace": [
+            "maturity:adult"
+          ],
+          "strength": 0,
+          "dexterity": 0,
+          "constitution": 0,
+          "intelligence": 0,
+          "wisdom": 0,
+          "charisma": 0,
+          "hpBonus": 0,
+          "_key": "adult"
+        }
+      ],
+      "ancient": [
+        {
+          "level": 12,
+          "trace": [
+            "maturity:ancient"
+          ],
+          "strength": 6,
+          "dexterity": 6,
+          "constitution": 6,
+          "intelligence": 6,
+          "wisdom": 6,
+          "charisma": 6,
+          "hpBonus": 81,
+          "_key": "ancient"
+        }
+      ]
+    },
+    "discriminator": "maturity"
+  },
+  "creatureBody": {
+    "discriminator": "body",
+    "groups": {
+      "dragon": [
+        {
+          "strength": 35,
+          "dexterity": 28,
+          "constitution": 32,
+          "intelligence": 29,
+          "wisdom": 27,
+          "charisma": 31,
+          "hitDie": 20,
+          "abilities": [],
+          "traits": [
+            "formidable",
+            "flying"
+          ],
+          "trace": [
+            "family:dragon"
+          ],
+          "raceId": "dragon",
+          "weapon": "bite",
+          "armor": "scale",
+          "fixedHp": 99
+        }
+      ],
+      "wolf": [
+        {
+          "hitDie": 6,
+          "abilities": [
+            "rending_bite",
+            "flee"
+          ],
+          "traits": [],
+          "trace": [
+            "body:wolf"
+          ],
+          "raceId": "wolf",
+          "weapon": "bite",
+          "armor": "fur"
+        }
+      ],
+      "golem": [
+        {
+          "raceId": "golem",
+          "strength": 17,
+          "dexterity": 7,
+          "constitution": 17,
+          "intelligence": 9,
+          "wisdom": 9,
+          "charisma": 8,
+          "hitDie": 10,
+          "weapon": "slam",
+          "armor": "plate",
+          "traits": [
+            "construct"
+          ],
+          "abilities": [
+            "smash",
+            "defend"
+          ],
+          "trace": [
+            "family:construct",
+            "body:golem"
+          ],
+          "fixedHp": 13
+        }
+      ],
+      "bear": [
+        {
+          "raceId": "bear",
+          "hitDie": 12,
+          "weapon": "claws",
+          "armor": "fur",
+          "abilities": [
+            "smash",
+            "flee"
+          ],
+          "traits": [],
+          "trace": [
+            "body:bear"
+          ]
+        }
+      ]
+    }
+  },
+  "creatureAncestry": {
+    "discriminator": "raceId",
+    "groups": {
+      "human": [
+        {
+          "strength": 1,
+          "dexterity": 1,
+          "constitution": 1,
+          "intelligence": 1,
+          "wisdom": 1,
+          "charisma": 1,
+          "traits": [
+            "humanoid",
+            "adaptable",
+            "versatile"
+          ],
+          "trace": [
+            "ancestry:human"
+          ]
+        }
+      ],
+      "elf": [
+        {
+          "strength": -1,
+          "dexterity": 2,
+          "constitution": -1,
+          "intelligence": 1,
+          "wisdom": 2,
+          "charisma": 1,
+          "traits": [
+            "humanoid",
+            "agile",
+            "perceptive"
+          ],
+          "trace": [
+            "ancestry:elf"
+          ]
+        }
+      ]
+    }
+  },
+  "creatureClass": {
+    "discriminator": "classId",
+    "groups": {
+      "ranger": [
+        {
+          "strength": 1,
+          "dexterity": 2,
+          "constitution": 1,
+          "wisdom": 2,
+          "charisma": -1,
+          "hitDie": 10,
+          "weapons": [
+            "longsword",
+            "javelin",
+            "shortbow"
+          ],
+          "armors": [
+            "leather",
+            "chainmail",
+            "studded",
+            "scale"
+          ],
+          "abilities": [
+            "defend",
+            "heal",
+            "hunters_mark",
+            "ensnare"
+          ],
+          "trace": [
+            "class:ranger"
+          ],
+          "slotBase": 0,
+          "slotAttribute": "intelligence",
+          "slotMultiplier": 0,
+          "_key": "ranger"
+        }
+      ],
+      "warrior": [
+        {
+          "strength": 2,
+          "dexterity": 1,
+          "constitution": 2,
+          "intelligence": -1,
+          "wisdom": -1,
+          "hitDie": 12,
+          "weapons": [
+            "longsword",
+            "battleaxe"
+          ],
+          "armors": [
+            "plate",
+            "scale",
+            "chainmail"
+          ],
+          "abilities": [
+            "defend",
+            "taunt",
+            "vigor_up",
+            "cleave",
+            "prepare_charge",
+            "charge",
+            "second_wind",
+            "sweep"
+          ],
+          "trace": [
+            "class:warrior"
+          ],
+          "slotBase": 0,
+          "slotAttribute": "intelligence",
+          "slotMultiplier": 0,
+          "_key": "warrior"
+        }
+      ]
+    }
+  },
+  "creatureFamilies": {
+    "discriminator": "family",
+    "groups": {
+      "dragon": [
+        "dragon"
+      ],
+      "humanoid": [
+        "humanoid"
+      ],
+      "construct": [
+        "construct"
+      ],
+      "animal": [
+        "animal"
+      ]
+    }
+  },
+  "constructMaterial": {
+    "discriminator": "material",
+    "groups": {
+      "none": [
+        {
+          "materialName": "",
+          "_key": "none",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        },
+        {
+          "materialName": "",
+          "_key": "none",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ],
+      "stone": [
+        {
+          "materialName": "Stone",
+          "constitution": 2,
+          "hpBonus": 4,
+          "trace": [
+            "material:stone"
+          ],
+          "_key": "stone",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "mountain": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ]
+    }
+  },
+  "creatureRole": {
+    "discriminator": "role",
+    "groups": {
+      "none": [
+        {
+          "roleName": "",
+          "_key": "none"
+        },
+        {
+          "roleName": "",
+          "_key": "none"
+        }
+      ],
+      "guardian": [
+        {
+          "roleName": "guardian",
+          "traits": [
+            "formidable"
+          ],
+          "trace": [
+            "role:guardian"
+          ],
+          "_key": "guardian"
+        }
+      ]
+    }
+  },
+  "creatureKinds": {
+    "discriminator": "family",
+    "groups": {
+      "animal": [
+        {
+          "family": "animal",
+          "body": "wolf",
+          "raceId": "wolf",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "frost": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "frost": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "animal",
+          "body": "wolf",
+          "raceId": "wolf",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "frost": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "frost": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "animal",
+          "body": "wolf",
+          "raceId": "wolf",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "frost": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "frost": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "animal",
+          "body": "bear",
+          "raceId": "bear",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "frost": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "animal",
+          "body": "bear",
+          "raceId": "bear",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "frost": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        }
+      ],
+      "dragon": [
+        {
+          "family": "dragon",
+          "body": "dragon",
+          "raceId": "dragon",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "ruins": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "cave": true,
+              "marsh": true,
+              "mountain": true,
+              "frost": true,
+              "desert": true,
+              "ruins": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        }
+      ],
+      "humanoid": [
+        {
+          "family": "humanoid",
+          "raceId": "human",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {
+            "ranger": true,
+            "warrior": true
+          },
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "cave": true,
+              "marsh": true,
+              "mountain": true,
+              "frost": true,
+              "desert": true,
+              "settlement": true,
+              "ruins": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "humanoid",
+          "raceId": "human",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {
+            "ranger": true,
+            "warrior": true
+          },
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "cave": true,
+              "marsh": true,
+              "mountain": true,
+              "frost": true,
+              "desert": true,
+              "settlement": true,
+              "ruins": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "humanoid",
+          "raceId": "human",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "marsh": true,
+            "mountain": true,
+            "frost": true,
+            "desert": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {
+            "ranger": true,
+            "warrior": true
+          },
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "cave": true,
+              "marsh": true,
+              "mountain": true,
+              "frost": true,
+              "desert": true,
+              "settlement": true,
+              "ruins": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "humanoid",
+          "raceId": "elf",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {
+            "ranger": true,
+            "warrior": true
+          },
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "humanoid",
+          "raceId": "elf",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {
+            "ranger": true,
+            "warrior": true
+          },
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        }
+      ],
+      "construct": [
+        {
+          "family": "construct",
+          "body": "golem",
+          "raceId": "golem",
+          "_terrains": {
+            "cave": true,
+            "ruins": true,
+            "settlement": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true
+          },
+          "_classes": {},
+          "_roles": {
+            "none": true,
+            "guardian": true
+          },
+          "_adaptationTerrains": {
+            "none": {
+              "cave": true,
+              "ruins": true,
+              "settlement": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "creatureFamilyPool": {
+    "discriminator": "terrain",
+    "groups": {
+      "any": [
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon",
+        "construct"
+      ],
+      "forest": [
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon"
+      ],
+      "cave": [
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon",
+        "construct"
+      ],
+      "marsh": [
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon"
+      ],
+      "mountain": [
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon"
+      ],
+      "frost": [
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "animal",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon"
+      ],
+      "desert": [
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon"
+      ],
+      "settlement": [
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "construct"
+      ],
+      "ruins": [
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "humanoid",
+        "dragon",
+        "construct"
+      ]
+    }
   }
- },
- "creaturePopulation": {
-  "discriminator": "population",
-  "groups": {
-   "any": [
-    "human",
-    "elf",
-    "dwarf",
-    "goblin",
-    "wisp"
-   ],
-   "pc": [
-    "human",
-    "elf",
-    "dwarf"
-   ],
-   "monster": [
-    "goblin",
-    "wisp"
-   ]
-  }
- }
 }

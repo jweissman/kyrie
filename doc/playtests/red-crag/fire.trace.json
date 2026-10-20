@@ -3,8 +3,6 @@
  "elapsed": 17,
  "result": "failure",
  "changes": [
-  "- awake(world__member_party_1)",
-  "- capable(party, woodcraft)",
   "- state(roost__ropes, roost__sound)",
   "- watch(clock) = 16",
   "+ exposedTo(world__ledge, fire)",
@@ -54,20 +52,20 @@
    "turn": 1,
    "order": [
     {
-     "id": "world__party_3",
-     "roll": 19
-    },
-    {
-     "id": "world__party_2",
-     "roll": 17
+     "id": "world__party_1",
+     "roll": 18
     },
     {
      "id": "roost__dragon_person",
-     "roll": 12
+     "roll": 10
     },
     {
-     "id": "world__party_1",
-     "roll": 10
+     "id": "world__party_2",
+     "roll": 5
+    },
+    {
+     "id": "world__party_3",
+     "roll": 4
     }
    ]
   },
@@ -75,57 +73,31 @@
    "type": "action",
    "turn": 1,
    "command": {
-    "actor": "world__party_3",
+    "actor": "world__party_1",
     "ability": "melee",
     "target": "roost__dragon_person"
    },
    "source": {
-    "id": "world__party_3",
+    "id": "world__party_1",
     "kind": "ability"
    }
   },
   {
    "type": "attack",
    "turn": 1,
-   "actor": "world__party_3",
+   "actor": "world__party_1",
    "target": "roost__dragon_person",
-   "die": 17,
-   "need": 23,
-   "toHit": 0,
+   "die": 16,
+   "need": 21,
+   "toHit": 2,
    "armorClass": -3,
-   "weapon": "staff",
+   "weapon": "javelin",
    "success": false,
    "critical": false
   },
   {
    "type": "action",
    "turn": 2,
-   "command": {
-    "actor": "world__party_2",
-    "ability": "melee",
-    "target": "roost__dragon_person"
-   },
-   "source": {
-    "id": "world__party_2",
-    "kind": "ability"
-   }
-  },
-  {
-   "type": "attack",
-   "turn": 2,
-   "actor": "world__party_2",
-   "target": "roost__dragon_person",
-   "die": 19,
-   "need": 22,
-   "toHit": 1,
-   "armorClass": -3,
-   "weapon": "battleaxe",
-   "success": false,
-   "critical": false
-  },
-  {
-   "type": "action",
-   "turn": 3,
    "command": {
     "actor": "roost__dragon_person",
     "ability": "breathe_fire",
@@ -138,11 +110,11 @@
   },
   {
    "type": "save",
-   "turn": 3,
+   "turn": 2,
    "actor": "roost__dragon_person",
    "target": "world__party_1",
-   "rolled": 8,
-   "die": 5,
+   "rolled": 9,
+   "die": 6,
    "modifier": 2,
    "stat": "constitution",
    "level": 1,
@@ -153,12 +125,12 @@
   },
   {
    "type": "damage",
-   "turn": 3,
+   "turn": 2,
    "actor": "roost__dragon_person",
    "target": "world__party_1",
-   "rolled": 21,
-   "amount": 12,
-   "hp": 0,
+   "rolled": 7,
+   "amount": 5,
+   "hp": 7,
    "damageType": "fire",
    "modifiers": {
     "bonus": 3,
@@ -167,62 +139,12 @@
    }
   },
   {
-   "type": "death",
-   "turn": 3,
-   "actor": "world__party_1"
-  },
-  {
    "type": "save",
-   "turn": 3,
+   "turn": 2,
    "actor": "roost__dragon_person",
    "target": "world__party_1",
-   "rolled": 6,
-   "die": 3,
-   "modifier": 2,
-   "stat": "constitution",
-   "level": 1,
-   "bonus": 0,
-   "difficulty": 25,
-   "success": false,
-   "kind": "death"
-  },
-  {
-   "type": "save",
-   "turn": 3,
-   "actor": "roost__dragon_person",
-   "target": "world__party_2",
-   "rolled": 6,
-   "die": 3,
-   "modifier": 2,
-   "stat": "constitution",
-   "level": 1,
-   "bonus": 0,
-   "difficulty": 16,
-   "success": false,
-   "kind": "breath"
-  },
-  {
-   "type": "damage",
-   "turn": 3,
-   "actor": "roost__dragon_person",
-   "target": "world__party_2",
-   "rolled": 15,
-   "amount": 7,
-   "hp": 7,
-   "damageType": "fire",
-   "modifiers": {
-    "bonus": 3,
-    "resistance": 0.6,
-    "reduction": 0
-   }
-  },
-  {
-   "type": "save",
-   "turn": 3,
-   "actor": "roost__dragon_person",
-   "target": "world__party_2",
-   "rolled": 17,
-   "die": 14,
+   "rolled": 16,
+   "die": 13,
    "modifier": 2,
    "stat": "constitution",
    "level": 1,
@@ -233,12 +155,12 @@
   },
   {
    "type": "save",
-   "turn": 3,
+   "turn": 2,
    "actor": "roost__dragon_person",
-   "target": "world__party_3",
-   "rolled": 19,
-   "die": 17,
-   "modifier": 1,
+   "target": "world__party_2",
+   "rolled": 18,
+   "die": 14,
+   "modifier": 3,
    "stat": "constitution",
    "level": 1,
    "bonus": 0,
@@ -248,28 +170,28 @@
   },
   {
    "type": "damage",
-   "turn": 3,
+   "turn": 2,
    "actor": "roost__dragon_person",
-   "target": "world__party_3",
-   "rolled": 12,
-   "amount": 4,
-   "hp": 5,
+   "target": "world__party_2",
+   "rolled": 11,
+   "amount": 3,
+   "hp": 12,
    "damageType": "fire",
    "modifiers": {
     "bonus": 3,
-    "resistance": 0.5,
+    "resistance": 0.6,
     "reduction": 0,
     "halfSave": true
    }
   },
   {
    "type": "save",
-   "turn": 3,
+   "turn": 2,
    "actor": "roost__dragon_person",
-   "target": "world__party_3",
-   "rolled": 8,
-   "die": 6,
-   "modifier": 1,
+   "target": "world__party_2",
+   "rolled": 9,
+   "die": 5,
+   "modifier": 3,
    "stat": "constitution",
    "level": 1,
    "bonus": 0,
@@ -281,31 +203,115 @@
    "type": "status",
    "detail": "burning",
    "amount": 3,
-   "turn": 3,
+   "turn": 2,
+   "actor": "roost__dragon_person",
+   "target": "world__party_2"
+  },
+  {
+   "type": "save",
+   "turn": 2,
+   "actor": "roost__dragon_person",
+   "target": "world__party_3",
+   "rolled": 9,
+   "die": 6,
+   "modifier": 2,
+   "stat": "constitution",
+   "level": 1,
+   "bonus": 0,
+   "difficulty": 16,
+   "success": false,
+   "kind": "breath"
+  },
+  {
+   "type": "damage",
+   "turn": 2,
+   "actor": "roost__dragon_person",
+   "target": "world__party_3",
+   "rolled": 5,
+   "amount": 4,
+   "hp": 6,
+   "damageType": "fire",
+   "modifiers": {
+    "bonus": 3,
+    "resistance": 0.5,
+    "reduction": 0
+   }
+  },
+  {
+   "type": "save",
+   "turn": 2,
+   "actor": "roost__dragon_person",
+   "target": "world__party_3",
+   "rolled": 14,
+   "die": 11,
+   "modifier": 2,
+   "stat": "constitution",
+   "level": 1,
+   "bonus": 0,
+   "difficulty": 15,
+   "success": false,
+   "kind": "fortitude"
+  },
+  {
+   "type": "status",
+   "detail": "burning",
+   "amount": 3,
+   "turn": 2,
    "actor": "roost__dragon_person",
    "target": "world__party_3"
   },
   {
-   "type": "initiative",
-   "turn": 4,
-   "order": [
-    {
-     "id": "world__party_3",
-     "roll": 15
-    },
-    {
-     "id": "roost__dragon_person",
-     "roll": 14
-    },
-    {
-     "id": "world__party_2",
-     "roll": 3
-    }
-   ]
+   "type": "action",
+   "turn": 3,
+   "command": {
+    "actor": "world__party_2",
+    "ability": "flee",
+    "target": "world__party_2"
+   },
+   "source": {
+    "id": "world__party_2",
+    "kind": "ability"
+   }
+  },
+  {
+   "type": "flee",
+   "turn": 3,
+   "actor": "world__party_2",
+   "success": false
+  },
+  {
+   "type": "damage",
+   "turn": 3,
+   "actor": "burning",
+   "target": "world__party_2",
+   "rolled": 2,
+   "amount": 0,
+   "hp": 12,
+   "damageType": "fire",
+   "modifiers": {
+    "bonus": 0,
+    "resistance": 0.6,
+    "reduction": 0
+   }
+  },
+  {
+   "type": "save",
+   "turn": 3,
+   "actor": "burning",
+   "target": "world__party_2",
+   "rolled": 15,
+   "die": 11,
+   "modifier": 3,
+   "stat": "constitution",
+   "level": 1,
+   "bonus": 0,
+   "difficulty": 15,
+   "success": true,
+   "kind": "fortitude"
   },
   {
    "type": "action",
-   "turn": 5,
+   "turn": 4,
    "command": {
     "actor": "world__party_3",
     "ability": "flee",
@@ -318,13 +324,13 @@
   },
   {
    "type": "flee",
-   "turn": 5,
+   "turn": 4,
    "actor": "world__party_3",
    "success": true
   },
   {
    "type": "end",
-   "turn": 5,
+   "turn": 4,
    "outcome": "escaped",
    "reason": "retreat"
   }
@@ -368,8 +374,8 @@
        "definition": "rope"
       },
       {
-       "id": "world__party_1__spear",
-       "definition": "spear",
+       "id": "world__party_1__javelin",
+       "definition": "javelin",
        "equipped": true
       },
       {
@@ -380,7 +386,7 @@
      ]
     },
     "after": {
-     "hp": 0,
+     "hp": 7,
      "mana": 3,
      "gold": 2,
      "experience": 0,
@@ -399,8 +405,8 @@
        "definition": "rope"
       },
       {
-       "id": "world__party_1__spear",
-       "definition": "spear",
+       "id": "world__party_1__javelin",
+       "definition": "javelin",
        "equipped": true
       },
       {
@@ -414,7 +420,7 @@
    {
     "id": "world__party_2",
     "before": {
-     "hp": 14,
+     "hp": 15,
      "mana": 3,
      "gold": 4,
      "experience": 0,
@@ -445,7 +451,7 @@
      ]
     },
     "after": {
-     "hp": 7,
+     "hp": 12,
      "mana": 3,
      "gold": 4,
      "experience": 0,
@@ -453,7 +459,7 @@
      "conditions": [
       {
        "id": "fireproof",
-       "remaining": 8,
+       "remaining": 9,
        "source": "world__ysolde_fireproof_salve_2",
        "by": "world__party_2"
       }
@@ -479,8 +485,8 @@
    {
     "id": "world__party_3",
     "before": {
-     "hp": 9,
-     "mana": 11,
+     "hp": 10,
+     "mana": 7,
      "gold": 2,
      "experience": 0,
      "learnedAbilities": [],
@@ -502,8 +508,8 @@
        "definition": "herbs"
       },
       {
-       "id": "world__party_3__staff",
-       "definition": "staff",
+       "id": "world__party_3__light_warhammer",
+       "definition": "light_warhammer",
        "equipped": true
       },
       {
@@ -514,15 +520,15 @@
      ]
     },
     "after": {
-     "hp": 5,
-     "mana": 11,
+     "hp": 6,
+     "mana": 7,
      "gold": 2,
      "experience": 0,
      "learnedAbilities": [],
      "conditions": [
       {
        "id": "fireproof",
-       "remaining": 8,
+       "remaining": 9,
        "source": "world__ysolde_fireproof_salve_3",
        "by": "world__party_3"
       }
@@ -537,8 +543,8 @@
        "definition": "herbs"
       },
       {
-       "id": "world__party_3__staff",
-       "definition": "staff",
+       "id": "world__party_3__light_warhammer",
+       "definition": "light_warhammer",
        "equipped": true
       },
       {
@@ -551,27 +557,6 @@
    }
   ],
   "world": [
-   {
-    "kind": "retract",
-    "call": {
-     "kind": "call",
-     "name": "capable",
-     "args": [
-      "party",
-      "woodcraft"
-     ]
-    }
-   },
-   {
-    "kind": "retract",
-    "call": {
-     "kind": "call",
-     "name": "awake",
-     "args": [
-      "world__member_party_1"
-     ]
-    }
-   },
    {
     "kind": "retract",
     "call": {
@@ -1030,20 +1015,20 @@
     "turn": 1,
     "order": [
      {
-      "id": "world__party_3",
-      "roll": 19
-     },
-     {
-      "id": "world__party_2",
-      "roll": 17
+      "id": "world__party_1",
+      "roll": 18
      },
      {
       "id": "roost__dragon_person",
-      "roll": 12
+      "roll": 10
      },
      {
-      "id": "world__party_1",
-      "roll": 10
+      "id": "world__party_2",
+      "roll": 5
+     },
+     {
+      "id": "world__party_3",
+      "roll": 4
      }
     ]
    },
@@ -1051,57 +1036,31 @@
     "type": "action",
     "turn": 1,
     "command": {
-     "actor": "world__party_3",
+     "actor": "world__party_1",
      "ability": "melee",
      "target": "roost__dragon_person"
     },
     "source": {
-     "id": "world__party_3",
+     "id": "world__party_1",
      "kind": "ability"
     }
    },
    {
     "type": "attack",
     "turn": 1,
-    "actor": "world__party_3",
+    "actor": "world__party_1",
     "target": "roost__dragon_person",
-    "die": 17,
-    "need": 23,
-    "toHit": 0,
+    "die": 16,
+    "need": 21,
+    "toHit": 2,
     "armorClass": -3,
-    "weapon": "staff",
+    "weapon": "javelin",
     "success": false,
     "critical": false
    },
    {
     "type": "action",
     "turn": 2,
-    "command": {
-     "actor": "world__party_2",
-     "ability": "melee",
-     "target": "roost__dragon_person"
-    },
-    "source": {
-     "id": "world__party_2",
-     "kind": "ability"
-    }
-   },
-   {
-    "type": "attack",
-    "turn": 2,
-    "actor": "world__party_2",
-    "target": "roost__dragon_person",
-    "die": 19,
-    "need": 22,
-    "toHit": 1,
-    "armorClass": -3,
-    "weapon": "battleaxe",
-    "success": false,
-    "critical": false
-   },
-   {
-    "type": "action",
-    "turn": 3,
     "command": {
      "actor": "roost__dragon_person",
      "ability": "breathe_fire",
@@ -1114,11 +1073,11 @@
    },
    {
     "type": "save",
-    "turn": 3,
+    "turn": 2,
     "actor": "roost__dragon_person",
     "target": "world__party_1",
-    "rolled": 8,
-    "die": 5,
+    "rolled": 9,
+    "die": 6,
     "modifier": 2,
     "stat": "constitution",
     "level": 1,
@@ -1129,12 +1088,12 @@
    },
    {
     "type": "damage",
-    "turn": 3,
+    "turn": 2,
     "actor": "roost__dragon_person",
     "target": "world__party_1",
-    "rolled": 21,
-    "amount": 12,
-    "hp": 0,
+    "rolled": 7,
+    "amount": 5,
+    "hp": 7,
     "damageType": "fire",
     "modifiers": {
      "bonus": 3,
@@ -1143,62 +1102,12 @@
     }
    },
    {
-    "type": "death",
-    "turn": 3,
-    "actor": "world__party_1"
-   },
-   {
     "type": "save",
-    "turn": 3,
+    "turn": 2,
     "actor": "roost__dragon_person",
     "target": "world__party_1",
-    "rolled": 6,
-    "die": 3,
-    "modifier": 2,
-    "stat": "constitution",
-    "level": 1,
-    "bonus": 0,
-    "difficulty": 25,
-    "success": false,
-    "kind": "death"
-   },
-   {
-    "type": "save",
-    "turn": 3,
-    "actor": "roost__dragon_person",
-    "target": "world__party_2",
-    "rolled": 6,
-    "die": 3,
-    "modifier": 2,
-    "stat": "constitution",
-    "level": 1,
-    "bonus": 0,
-    "difficulty": 16,
-    "success": false,
-    "kind": "breath"
-   },
-   {
-    "type": "damage",
-    "turn": 3,
-    "actor": "roost__dragon_person",
-    "target": "world__party_2",
-    "rolled": 15,
-    "amount": 7,
-    "hp": 7,
-    "damageType": "fire",
-    "modifiers": {
-     "bonus": 3,
-     "resistance": 0.6,
-     "reduction": 0
-    }
-   },
-   {
-    "type": "save",
-    "turn": 3,
-    "actor": "roost__dragon_person",
-    "target": "world__party_2",
-    "rolled": 17,
-    "die": 14,
+    "rolled": 16,
+    "die": 13,
     "modifier": 2,
     "stat": "constitution",
     "level": 1,
@@ -1209,12 +1118,12 @@
    },
    {
     "type": "save",
-    "turn": 3,
+    "turn": 2,
     "actor": "roost__dragon_person",
-    "target": "world__party_3",
-    "rolled": 19,
-    "die": 17,
-    "modifier": 1,
+    "target": "world__party_2",
+    "rolled": 18,
+    "die": 14,
+    "modifier": 3,
     "stat": "constitution",
     "level": 1,
     "bonus": 0,
@@ -1224,28 +1133,28 @@
    },
    {
     "type": "damage",
-    "turn": 3,
+    "turn": 2,
     "actor": "roost__dragon_person",
-    "target": "world__party_3",
-    "rolled": 12,
-    "amount": 4,
-    "hp": 5,
+    "target": "world__party_2",
+    "rolled": 11,
+    "amount": 3,
+    "hp": 12,
     "damageType": "fire",
     "modifiers": {
      "bonus": 3,
-     "resistance": 0.5,
+     "resistance": 0.6,
      "reduction": 0,
      "halfSave": true
     }
    },
    {
     "type": "save",
-    "turn": 3,
+    "turn": 2,
     "actor": "roost__dragon_person",
-    "target": "world__party_3",
-    "rolled": 8,
-    "die": 6,
-    "modifier": 1,
+    "target": "world__party_2",
+    "rolled": 9,
+    "die": 5,
+    "modifier": 3,
     "stat": "constitution",
     "level": 1,
     "bonus": 0,
@@ -1257,31 +1166,115 @@
     "type": "status",
     "detail": "burning",
     "amount": 3,
-    "turn": 3,
+    "turn": 2,
+    "actor": "roost__dragon_person",
+    "target": "world__party_2"
+   },
+   {
+    "type": "save",
+    "turn": 2,
+    "actor": "roost__dragon_person",
+    "target": "world__party_3",
+    "rolled": 9,
+    "die": 6,
+    "modifier": 2,
+    "stat": "constitution",
+    "level": 1,
+    "bonus": 0,
+    "difficulty": 16,
+    "success": false,
+    "kind": "breath"
+   },
+   {
+    "type": "damage",
+    "turn": 2,
+    "actor": "roost__dragon_person",
+    "target": "world__party_3",
+    "rolled": 5,
+    "amount": 4,
+    "hp": 6,
+    "damageType": "fire",
+    "modifiers": {
+     "bonus": 3,
+     "resistance": 0.5,
+     "reduction": 0
+    }
+   },
+   {
+    "type": "save",
+    "turn": 2,
+    "actor": "roost__dragon_person",
+    "target": "world__party_3",
+    "rolled": 14,
+    "die": 11,
+    "modifier": 2,
+    "stat": "constitution",
+    "level": 1,
+    "bonus": 0,
+    "difficulty": 15,
+    "success": false,
+    "kind": "fortitude"
+   },
+   {
+    "type": "status",
+    "detail": "burning",
+    "amount": 3,
+    "turn": 2,
     "actor": "roost__dragon_person",
     "target": "world__party_3"
    },
    {
-    "type": "initiative",
-    "turn": 4,
-    "order": [
-     {
-      "id": "world__party_3",
-      "roll": 15
-     },
-     {
-      "id": "roost__dragon_person",
-      "roll": 14
-     },
-     {
-      "id": "world__party_2",
-      "roll": 3
-     }
-    ]
+    "type": "action",
+    "turn": 3,
+    "command": {
+     "actor": "world__party_2",
+     "ability": "flee",
+     "target": "world__party_2"
+    },
+    "source": {
+     "id": "world__party_2",
+     "kind": "ability"
+    }
+   },
+   {
+    "type": "flee",
+    "turn": 3,
+    "actor": "world__party_2",
+    "success": false
+   },
+   {
+    "type": "damage",
+    "turn": 3,
+    "actor": "burning",
+    "target": "world__party_2",
+    "rolled": 2,
+    "amount": 0,
+    "hp": 12,
+    "damageType": "fire",
+    "modifiers": {
+     "bonus": 0,
+     "resistance": 0.6,
+     "reduction": 0
+    }
+   },
+   {
+    "type": "save",
+    "turn": 3,
+    "actor": "burning",
+    "target": "world__party_2",
+    "rolled": 15,
+    "die": 11,
+    "modifier": 3,
+    "stat": "constitution",
+    "level": 1,
+    "bonus": 0,
+    "difficulty": 15,
+    "success": true,
+    "kind": "fortitude"
    },
    {
     "type": "action",
-    "turn": 5,
+    "turn": 4,
     "command": {
      "actor": "world__party_3",
      "ability": "flee",
@@ -1294,13 +1287,13 @@
    },
    {
     "type": "flee",
-    "turn": 5,
+    "turn": 4,
     "actor": "world__party_3",
     "success": true
    },
    {
     "type": "end",
-    "turn": 5,
+    "turn": 4,
     "outcome": "escaped",
     "reason": "retreat"
    }
@@ -1319,7 +1312,7 @@
   },
   {
    "id": "roost__dragon__roosting",
-   "text": "Calder lies coiled across the cave mouth, one eye open, smoke curling from its nostrils.",
+   "text": "Gei-Zar lies coiled across the cave mouth, one eye open, smoke curling from its nostrils.",
    "kind": "observation"
   },
   {

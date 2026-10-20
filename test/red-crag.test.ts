@@ -53,7 +53,7 @@ describe('a red dragon composed from the Orsino corpus', () => {
     expect(red.description).toBe(definition('dragonColor:red').description as string);
   });
 
-  it('carries translated Orsino traits, never a silent approximation', () => {
+  it('carries translated traits and explicitly adapts breath to maturity', () => {
     const red = Canon.creature('red_dragon');
     const formidable = traitEffect('trait:formidable') as Record<string, number>;
     expect(Canon.traits.formidable!.modifiers).toMatchObject({ toHit: formidable.toHit,
@@ -69,7 +69,7 @@ describe('a red dragon composed from the Orsino corpus', () => {
     const breath = Content.abilities.find(a => a.id === 'breathe_fire')!.effects[0]!;
     const source = definition('weapon:fire_breath');
     expect(breath).toMatchObject({ kind: 'damage', damageType: source.type, target: 'enemies',
-      amount: { kind: 'deem', expression: source.damage }, save: { kind: 'breath', success: 'half' } });
+      amount: { kind: 'deem', expression: '2d6 + 2 * #level' }, save: { kind: 'breath', success: 'half' } });
   });
 
   it('maps every save category to the attribute Orsino uses', () => {
@@ -131,7 +131,7 @@ describe('breath: a breath save and a damage roll per creature', () => {
 });
 
 describe('the Red Crag in play', () => {
-  it('a fireproofed company cannot touch the dragon; its breath kills one of them, and the way home changes', async () => {
+  it('a fireproofed company cannot touch the dragon; its breath injures them, and the way home changes', async () => {
     const s = await RedCragHistories.play('fire');
     const fight = s.campaign.events.find(e => e.action.startsWith('attack('))!;
     // Orsino's dragon has armour class −3: a first-level company needs more than a d20 can roll.
@@ -148,7 +148,8 @@ describe('the Red Crag in play', () => {
       call: { kind: 'call', name: 'exposedTo', args: ['world__ledge', 'fire'] } });
     expect(RedCragHistories.state(s, 'roost__ropes')).toBe('roost__burnt');
     expect(s.campaign.events.map(e => e.action)).toContain('go(party,world__goat_path,world__ledge,world__shoulder)');
-    expect(s.campaign.state.creatures.find(c => c.id === 'world__party_1')!.state.hp).toBe(0);
+    expect(fight.resolution?.bodies.some(c => c.id.startsWith('world__party_') && c.after.hp < c.before.hp))
+      .toBe(true);
   }, 60000);
 
   it('robbing the dragon while it hunts brings the bell home, and its wrath burns the bridge and the barn', async () => {

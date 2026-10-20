@@ -13,24 +13,24 @@ Waiting steps are folded. Combat lines are the committed mechanical events.
 - **go(world__chandlery_door,world__green)** (watch 8, success)
 - **go(world__gorge_road,world__gorge_edge)** (watch 14, success)
 - **go(world__rope_bridge,world__ledge)** (watch 15, success)
-- **roost__hail** (watch 16, success): 'Thieves come with swords,' says Calder, in a voice like a kiln door opening. 'Beggars come with nothing. Petitioners come with gold. Which are you?'
+- **roost__hail** (watch 16, success): 'Thieves come with swords,' says Gei-Zar, in a voice like a kiln door opening. 'Beggars come with nothing. Petitioners come with gold. Which are you?'
 - **attack(roost__dragon)** (watch 17, failure)
   - Flame runs along the bridge ropes. The planks drop away into the gorge one by one.
-  - Dori uses melee.
-  - Dori attacks Calder with staff: d20 17 needing 23 (AC -3, to-hit 0): miss.
-  - Bran uses melee.
-  - Bran attacks Calder with battleaxe: d20 19 needing 22 (AC -3, to-hit 1): miss.
-  - Calder uses breathe_fire.
-  - Elen saves versus breath: d20 5 + constitution 2 + level 1 + bonus 0 = 8 against 16: failure.
-  - Elen takes 12 fire damage (rolled 21; resistance 0.5, bonus 3); 0 HP left.
-  - Elen falls.
-  - Elen saves versus death: d20 3 + constitution 2 + level 1 + bonus 0 = 6 against 25: failure.
-  - Bran saves versus breath: d20 3 + constitution 2 + level 1 + bonus 0 = 6 against 16: failure.
-  - Bran takes 7 fire damage (rolled 15; resistance 0.6, bonus 3); 7 HP left.
-  - Bran saves versus fortitude: d20 14 + constitution 2 + level 1 + bonus 0 = 17 against 15: success.
-  - Dori saves versus breath: d20 17 + constitution 1 + level 1 + bonus 0 = 19 against 16: success.
-  - Dori takes 4 fire damage (rolled 12; halved by the save, resistance 0.5, bonus 3); 5 HP left.
-  - Dori saves versus fortitude: d20 6 + constitution 1 + level 1 + bonus 0 = 8 against 15: failure.
+  - Elen uses melee.
+  - Elen attacks Gei-Zar with javelin: d20 16 needing 21 (AC -3, to-hit 2): miss.
+  - Gei-Zar uses breathe_fire.
+  - Elen saves versus breath: d20 6 + constitution 2 + level 1 + bonus 0 = 9 against 16: failure.
+  - Elen takes 5 fire damage (rolled 7; resistance 0.5, bonus 3); 7 HP left.
+  - Elen saves versus fortitude: d20 13 + constitution 2 + level 1 + bonus 0 = 16 against 15: success.
+  - Bran saves versus breath: d20 14 + constitution 3 + level 1 + bonus 0 = 18 against 16: success.
+  - Bran takes 3 fire damage (rolled 11; halved by the save, resistance 0.6, bonus 3); 12 HP left.
+  - Bran saves versus fortitude: d20 5 + constitution 3 + level 1 + bonus 0 = 9 against 15: failure.
+  - Dori saves versus breath: d20 6 + constitution 2 + level 1 + bonus 0 = 9 against 16: failure.
+  - Dori takes 4 fire damage (rolled 5; resistance 0.5, bonus 3); 6 HP left.
+  - Dori saves versus fortitude: d20 11 + constitution 2 + level 1 + bonus 0 = 14 against 15: failure.
+  - Bran uses flee.
+  - Bran takes 0 fire damage (rolled 2; resistance 0.6); 12 HP left.
+  - Bran saves versus fortitude: d20 11 + constitution 3 + level 1 + bonus 0 = 15 against 15: success.
   - Dori uses flee.
   - The fight ends: escaped (retreat).
 - **go(world__goat_path,world__shoulder)** (watch 18, success)
@@ -40,4 +40,4 @@ Waiting steps are folded. Combat lines are the committed mechanical events.
 - **take_lodging(world__aldo_lodging,world__aldo)** (watch 85, success): You eat a hot supper and sleep eight hours in a dry bed.
 
 Outcomes observed (watch): `{"roost.bridge_burnt":17}`.
-Company: Elen 0/12 HP, Bran 14/14 HP, Dori 9/9 HP.
+Company: Elen 12/12 HP, Bran 15/15 HP, Dori 10/10 HP.

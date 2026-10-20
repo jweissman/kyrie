@@ -1279,6 +1279,29 @@
         "field:animalKind.weapon": "The weapon and body become the species' natural weapon and armour.",
         "field:animalKind.wis": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used."
       }
+    },
+    {
+      "orsino": "animal:bear",
+      "kyr": [
+        "species:bear"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Retains claws, fur and a defensive disposition. Kyr rolls scores, uses a 12-point hit die and the existing executable Smash action; the original animal stat line is not transcribed.",
+      "omits": {
+        "field:animalKind.body": "The weapon and body become the species' natural weapon and armour.",
+        "field:animalKind.cha": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.con": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.dex": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.hp": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.int": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.str": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.weapon": "The weapon and body become the species' natural weapon and armour.",
+        "field:animalKind.wis": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used."
+      },
+      "evidence": [
+        "test/deem-cli.test.ts#generates a bear, copper dragon, frost bear and stone guardian through existing patterns"
+      ]
     }
   ]
 }

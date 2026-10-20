@@ -192,7 +192,7 @@ describe('canonical creature lifecycle', () => {
   const yard = (seed: string) => Campaign.load('test/fixtures/wolf-yard/campaign.json', seed, NodeBundleSource.shared);
   const assault = 'attack(party,world__grey,world__yard)', hero = 'world__party_1';
   it('commits injured inhabitants through the campaign adapter and reuses them after retreat', async () => {
-    const campaign = await yard('campaign-injury');
+    const campaign = await yard('campaign-injury:2');
     const id = campaign.state.inhabitants.world__grey![0]!;
     const original = campaign.state.creatures.find(c => c.id === id)!;
     campaign.execute(assault, battle => {

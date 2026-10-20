@@ -1,0 +1,110 @@
+--- a/src/Generator.ts
++++ b/src/Generator.ts
+@@ -8,6 +8,8 @@
+ export type GenerationSetting = Record<string, Template | Table>;
+ export type LookupInTableOptions = {
+   condition?: string;
++  strict?: boolean;
++  evaluateCondition?: (expression: string, context: Record<string, DeemValue>) => DeemValue;
+   context?: Record<string, DeemValue>;
+   setting?: GenerationSetting;
+   trace?: ExecutionTrace;
+@@ -186,9 +188,9 @@
+ 
+     if (condition) {
+       const conditionMatches = availableOptions.map((option) => {
+-        const conditionResult = Deem.evaluate(condition, {
+-          __it: option,
+-          ...context
++        const conditionResult = (options.evaluateCondition ?? Deem.evaluate)(condition, {
++          ...context,
++          __it: option
+         });
+         return {
+           option,
+@@ -205,6 +207,9 @@
+       });
+ 
+       if (filteredOptions.length === 0) {
++        if (options.strict) {
++          throw new Error(`No matching options in ${tableName}[${groupName}] for condition: ${condition}`);
++        }
+         console.warn(`No options in group ${groupName} of table ${tableName} satisfy condition: ${condition} -- returning first available option.`, { npc_role: context.npc_role });
+         const fallback = availableOptions[0];
+         if (fallback === undefined) {
+--- a/src/Template.ts
++++ b/src/Template.ts
+@@ -56,6 +56,13 @@
+             { condition, context: activeContext, setting, randomFunc, trace },
+           );
+         }) as DeemFunc,
++        select: ((tableName: GenerationTemplateType, groupName: string = 'default', condition?: string) =>
++          Generator.lookupInTable(tableName, groupName, false, {
++            condition, context: activeContext, setting, trace, strict: true,
++            randomFunc: (max: number) => (runtime.stdlib.rand as ((max: number) => number))(max),
++            evaluateCondition: (expression, candidateContext) => runtime.evaluate(expression, candidateContext),
++          })) as DeemFunc,
++
+         lookupUnique: ((tableName: GenerationTemplateType, groupName: string) =>
+           Generator.lookupInTable(tableName, groupName, true, { setting, trace })
+         ) as DeemFunc,
+@@ -101,12 +108,12 @@
+           tableName: GenerationTemplateType, count: number = -1, condition?: string
+         ) => Generator.gatherKeysFromTable(tableName, count, condition, setting)) as DeemFunc,
+ 
+-        gen: ((type: GenerationTemplateType) => {
+-          return Generator.gen(type, {
+-            ...activeContext,
+-            __deemRuntime: runtime,
+-            __setting: setting,
+-            __trace: trace,
++        gen: ((type: GenerationTemplateType, parameters: DeemValue = {}) => {
++          if (typeof parameters !== 'object' || parameters === null || Array.isArray(parameters)) {
++            throw new Error('gen() parameters must be an object');
++          }
++          return Generator.gen(type, { ...activeContext, ...parameters,
++            __deemRuntime: runtime, __setting: setting, __trace: trace,
+           });
+         }) as DeemFunc,
+         genIsolated: ((type: GenerationTemplateType) => {
+--- /dev/null
++++ b/test/select.test.ts
+@@ -0,0 +1,38 @@
++import { expect, it } from 'bun:test';
++import Generator from '../src/Generator';
++import { Template } from '../src/Template';
++import { Table } from '../src/Table';
++
++it('select uses active-context functions, candidate binding, weights and strict empty results', () => {
++  const setting = {
++    options: new Table('options', 'kind').group('a', [{ key: 'a' }, { key: 'a' }]).group('b', [{ key: 'b' }]),
++    constraints: new Table('constraints', 'kind').group('allowed', ['b']),
++    example: new Template('example', { __no_id: true,
++      chosen: `=select(options, default, '(!defined("wanted")) || dig(#__it, "key") == #wanted')` }),
++    nested: new Template('nested', { __no_id: true,
++      chosen: `=select(options, default, 'dig(#__it, "key") == lookup(constraints, allowed)')` }),
++  };
++  const runtime = Template.bootstrapDeem({ seed: 'strict-selection' }, setting);
++  const options = { wanted: 'b', __it: { key: 'wrong-outer-value' }, __setting: setting, __deemRuntime: runtime };
++  expect(Generator.gen('example', options)).toMatchObject({ chosen: { key: 'b' } });
++  expect(Generator.gen('nested', options)).toMatchObject({ chosen: { key: 'b' } });
++  const invalid = { ...options, wanted: 'missing' };
++  expect(() => Generator.gen('example', invalid)).toThrow('No matching options');
++  let weighted: number | undefined;
++  expect(Generator.lookupInTable('options', 'default', false, {
++    setting, strict: true, condition: 'true', randomFunc: max => { weighted = max; return 2; },
++  })).toEqual({ key: 'b' });
++  expect(weighted).toBe(3);
++});
++
++it('gen accepts scoped object overrides without changing inheritance or adding parameter fields to output', () => {
++  const setting = {
++    child: new Template('child', { __no_id: true, level: 1, inherited: '="#terrain"' }),
++    parent: new Template('parent', { __no_id: true, _parameters: { level: 4 }, '*result': '=gen(child, #_parameters)' }),
++  };
++  const runtime = Template.bootstrapDeem({ seed: 'parameters' }, setting);
++  const options = { terrain: 'forest', __setting: setting, __deemRuntime: runtime };
++  expect(Generator.gen('parent', options)).toEqual({ level: 4, inherited: 'forest' });
++  expect(Generator.gen('child', options)).toEqual({ level: 1, inherited: 'forest' });
++  expect(() => runtime.evaluate('gen(child, 3)', { terrain: 'forest' })).toThrow('parameters must be an object');
++});

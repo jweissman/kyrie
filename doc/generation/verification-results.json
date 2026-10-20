@@ -1,0 +1,287 @@
+{
+  "command": "Every path from rg --files test -g '*.test.ts': bun test ./<path>, eight isolated processes",
+  "files": 28,
+  "results": [
+    {
+      "file": "test/Kyrie.test.ts",
+      "exit": 0,
+      "seconds": 0.44,
+      "pass": 1,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/caught-below-browser.test.ts",
+      "exit": 0,
+      "seconds": 0.99,
+      "pass": 0,
+      "skip": 4,
+      "fail": 0
+    },
+    {
+      "file": "test/creature-generation.test.ts",
+      "exit": 0,
+      "seconds": 1.11,
+      "pass": 4,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/attributes.test.ts",
+      "exit": 0,
+      "seconds": 1.66,
+      "pass": 6,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/creature-lifecycle.test.ts",
+      "exit": 0,
+      "seconds": 2.98,
+      "pass": 9,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/creature-statistics.test.ts",
+      "exit": 0,
+      "seconds": 2.59,
+      "pass": 4,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/domain-model.test.ts",
+      "exit": 0,
+      "seconds": 0.82,
+      "pass": 12,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/effects.test.ts",
+      "exit": 0,
+      "seconds": 0.86,
+      "pass": 8,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/deem-cli.test.ts",
+      "exit": 0,
+      "seconds": 1.98,
+      "pass": 10,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/generative-kernel.test.ts",
+      "exit": 0,
+      "seconds": 1.44,
+      "pass": 9,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/grounding.test.ts",
+      "exit": 0,
+      "seconds": 0.34,
+      "pass": 1,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/observation-text.test.ts",
+      "exit": 0,
+      "seconds": 0.32,
+      "pass": 1,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/orsino-registry.test.ts",
+      "exit": 0,
+      "seconds": 0.49,
+      "pass": 8,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/authoring-guide.test.ts",
+      "exit": 0,
+      "seconds": 27.06,
+      "pass": 3,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/arena.test.ts",
+      "exit": 0,
+      "seconds": 35.33,
+      "pass": 10,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/random-streams.test.ts",
+      "exit": 0,
+      "seconds": 2.23,
+      "pass": 2,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/play-session.test.ts",
+      "exit": 1,
+      "seconds": 68.58,
+      "pass": 6,
+      "skip": 0,
+      "fail": 1
+    },
+    {
+      "file": "test/causal-integration.test.ts",
+      "exit": 1,
+      "seconds": 111.18,
+      "pass": 5,
+      "skip": 0,
+      "fail": 2
+    },
+    {
+      "file": "test/shared-item-effects.test.ts",
+      "exit": 0,
+      "seconds": 1.26,
+      "pass": 8,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/ui.test.ts",
+      "exit": 0,
+      "seconds": 0.4,
+      "pass": 1,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/world-constructs.test.ts",
+      "exit": 0,
+      "seconds": 0.58,
+      "pass": 13,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/deem-choice-space.test.ts",
+      "exit": 0,
+      "seconds": 119.87,
+      "pass": 1,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/overlays.test.ts",
+      "exit": 0,
+      "seconds": 201.49,
+      "pass": 7,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/command-contract.test.ts",
+      "exit": 0,
+      "seconds": 219.1,
+      "pass": 14,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/red-crag.test.ts",
+      "exit": 0,
+      "seconds": 249.79,
+      "pass": 10,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/serewater-march.test.ts",
+      "exit": 0,
+      "seconds": 211.03,
+      "pass": 6,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/expedition.test.ts",
+      "exit": 0,
+      "seconds": 421.52,
+      "pass": 6,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/caught-below.test.ts",
+      "exit": 1,
+      "seconds": 554.45,
+      "pass": 13,
+      "skip": 0,
+      "fail": 1
+    }
+  ],
+  "totals": {
+    "pass": 178,
+    "skip": 4,
+    "fail": 4
+  },
+  "serialTimeoutRetries": [
+    {
+      "file": "test/play-session.test.ts",
+      "command": [
+        "bun",
+        "test",
+        "./test/play-session.test.ts",
+        "--test-name-pattern",
+        "loads\\ bundled\\ browser\\ assets\\ exactly\\ as\\ the\\ CLI\\ loads\\ files"
+      ],
+      "exit": 0,
+      "seconds": 53.48,
+      "pass": 1,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/causal-integration.test.ts",
+      "command": [
+        "bun",
+        "test",
+        "./test/causal-integration.test.ts",
+        "--test-name-pattern",
+        "connects\\ an\\ ordinary\\ object\\ transition,\\ equipment,\\ a\\ witnessed\\ attack\\ and\\ a\\ lasting\\ service\\ consequence|offers\\ the\\ risky\\ hazard\\ approach,\\ records\\ its\\ actual\\ physical\\ source,\\ and\\ keeps\\ nearby\\ witnesses\\ private"
+      ],
+      "exit": 0,
+      "seconds": 82.02,
+      "pass": 2,
+      "skip": 0,
+      "fail": 0
+    },
+    {
+      "file": "test/caught-below.test.ts",
+      "command": [
+        "bun",
+        "test",
+        "./test/caught-below.test.ts",
+        "--test-name-pattern",
+        "a\\ closing\\ way\\ shuts\\ from\\ both\\ ends,\\ and\\ its\\ obstacle\\ explains\\ itself\\ from\\ either\\ side"
+      ],
+      "exit": 0,
+      "seconds": 70.09,
+      "pass": 1,
+      "skip": 0,
+      "fail": 0
+    }
+  ],
+  "finalTotals": {
+    "pass": 182,
+    "skip": 4,
+    "fail": 0
+  }
+}

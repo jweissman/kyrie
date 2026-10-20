@@ -40,14 +40,14 @@
    "command": "attack(roost__dragon)",
    "combat": [
     {
-     "actor": "world__party_3",
+     "actor": "world__party_1",
      "ability": "melee",
      "target": "roost__dragon_person"
     },
     {
      "actor": "world__party_2",
-     "ability": "melee",
-     "target": "roost__dragon_person"
+     "ability": "flee",
+     "target": "world__party_2"
     },
     {
      "actor": "world__party_3",

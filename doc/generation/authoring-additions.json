@@ -1,0 +1,205 @@
+{
+  "deemRows": {
+    "creatureBody": {
+      "bear": [
+        {
+          "raceId": "bear",
+          "hitDie": 12,
+          "weapon": "claws",
+          "armor": "fur",
+          "abilities": [
+            "smash",
+            "flee"
+          ],
+          "traits": [],
+          "trace": [
+            "body:bear"
+          ]
+        }
+      ]
+    },
+    "dragonLineage": {
+      "copper": [
+        {
+          "abilities": [
+            "breathe_acid"
+          ],
+          "traits": [
+            "acid_lineage"
+          ],
+          "trace": [
+            "lineage:copper"
+          ],
+          "_key": "copper",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ]
+    },
+    "constructMaterial": {
+      "stone": [
+        {
+          "materialName": "Stone",
+          "constitution": 2,
+          "hpBonus": 4,
+          "trace": [
+            "material:stone"
+          ],
+          "_key": "stone",
+          "_terrains": {
+            "forest": true,
+            "cave": true,
+            "mountain": true,
+            "settlement": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ]
+    },
+    "creatureRole": {
+      "guardian": [
+        {
+          "roleName": "guardian",
+          "traits": [
+            "formidable"
+          ],
+          "trace": [
+            "role:guardian"
+          ],
+          "_key": "guardian"
+        }
+      ]
+    },
+    "creatureKinds": {
+      "animal": [
+        {
+          "family": "animal",
+          "body": "bear",
+          "raceId": "bear",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "frost": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "animal",
+          "body": "bear",
+          "raceId": "bear",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "frost": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true,
+            "frost": true,
+            "marsh": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "forest": true,
+              "mountain": true,
+              "any": true
+            },
+            "frost": {
+              "frost": true,
+              "mountain": true,
+              "any": true
+            },
+            "marsh": {
+              "marsh": true,
+              "any": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "kyrSpecies": {
+    "bear": {
+      "name": "Bear",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A powerful woodland omnivore, dangerous when its young or feeding ground are threatened.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "claws",
+        "armor": "fur"
+      },
+      "abilities": [
+        "smash",
+        "flee"
+      ],
+      "temperament": "defensive",
+      "habitats": [
+        "woodland",
+        "mountain"
+      ],
+      "source": {
+        "orsino": "animal:bear",
+        "fidelity": "adapted",
+        "notes": "Uses the existing claws and fur profiles and executable Smash action. Kyr rolls its attributes; the Deem animal grammar composes the body."
+      }
+    }
+  },
+  "provenanceLedger": [
+    {
+      "orsino": "animal:bear",
+      "kyr": [
+        "species:bear"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Retains claws, fur and a defensive disposition. Kyr rolls scores, uses a 12-point hit die and the existing executable Smash action; the original animal stat line is not transcribed.",
+      "omits": {
+        "field:animalKind.body": "The weapon and body become the species' natural weapon and armour.",
+        "field:animalKind.cha": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.con": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.dex": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.hp": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.int": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.str": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.",
+        "field:animalKind.weapon": "The weapon and body become the species' natural weapon and armour.",
+        "field:animalKind.wis": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used."
+      },
+      "evidence": [
+        "test/deem-cli.test.ts#generates a bear, copper dragon, frost bear and stone guardian through existing patterns"
+      ]
+    }
+  ]
+}
