@@ -33,7 +33,17 @@ export class Cast {
     }
     // People of a module are Orsino NPCs: they prepare spells rather than choosing them as a player character does.
     context.prepared = true;
+    if (p.creature) { context.parameters = { ...p.creature }; provenance.parameters = 'authored'; }
     return { id: `${p.id}_person`, context: context as CreatureGenerationContext, gold: 0, provenance };
+  }
+  // Every creature of a person's group: one unless the person Numbers more. Each has its own identity and draws.
+  static group(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember[] {
+    const first = this.person(p, generated, conflicts), count = p.count ?? 1;
+    if (count === 1) { return [first]; }
+    // Members of a group are told apart by their role and number: "Cave spider 2".
+    const kind = (p.role ?? p.name).replace(/^(a|an|the) /i, '');
+    return Array.from({ length: count }, (_, i) => ({ ...structuredClone(first), id: i ? `${first.id}_${i + 1}` : first.id,
+      context: { ...structuredClone(first.context), name: `${kind.charAt(0).toUpperCase()}${kind.slice(1)} ${i + 1}` } }));
   }
   // What a profession means for a person in the world: what they offer, and where they spend their day.
   static professions(module: Module, people: Person[]) {

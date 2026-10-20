@@ -33,6 +33,7 @@ export class ModuleParser {
     Person: ModuleParser.Person, PersonRole: ModuleParser.PersonRole,
     PersonRace: ModuleParser.PersonRace, PersonClass: ModuleParser.PersonClass,
     PersonLevel: ModuleParser.PersonLevel, PersonSpecies: ModuleParser.PersonSpecies,
+    PersonCreature: ModuleParser.PersonCreature, PersonCount: ModuleParser.PersonCount,
     PersonTrait: ModuleParser.PersonTrait, PersonCarries: ModuleParser.PersonCarries,
     HazardDecl: ModuleParser.HazardDecl, PersonUses: ModuleParser.PersonUses,
     Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
@@ -240,8 +241,13 @@ export class ModuleParser {
         if (!authored.includes(part.field)) { authored.push(part.field); }
         continue;
       }
-      if (part.field === 'species') {
+      if (part.field === 'species' || part.field === 'creature') {
         if (seen.has('raceId') || seen.has('classId')) { throw new Error(`${p.id}: a species has no ancestry or calling`); }
+        if (part.field === 'creature') {
+          p.creature = part.value as Record<string, string | number>;
+          delete p.raceId; delete p.classId;
+          seen.add('raceId'); seen.add('classId'); continue;
+        }
         p.raceId = part.value as string; delete p.classId;
         authored.push('raceId'); seen.add('raceId'); seen.add('classId');
         continue;
@@ -261,6 +267,15 @@ export class ModuleParser {
   static PersonRace(_r: Node, id: Node, _dot: Node): Field { return { field: 'raceId', value: id.sourceString }; }
   static PersonClass(_c: Node, id: Node, _dot: Node): Field { return { field: 'classId', value: id.sourceString }; }
   static PersonSpecies(_s: Node, id: Node, _dot: Node): Field { return { field: 'species', value: id.sourceString }; }
+  static PersonCreature(_c: Node, list: Node, _dot: Node): Field {
+    const params = list.asIteration().children.map(c => {
+      const [name, value] = c.children as [Node, Node];
+      const text = value.sourceString;
+      return [name.sourceString, /^\d+$/.test(text) ? Number(text) : text] as const;
+    });
+    return { field: 'creature', value: Object.fromEntries(params) };
+  }
+  static PersonCount(_n: Node, n: Node, _dot: Node): Field { return { field: 'count', value: Number(n.sourceString) }; }
   static PersonTrait(_t: Node, id: Node, _dot: Node): Field { return { field: 'traits', value: id.sourceString }; }
   static PersonCarries(_c: Node, id: Node, _dot: Node): Field { return { field: 'gear', value: id.sourceString }; }
   // A mechanism of this place: its effect is written in the Kyr effect language and belongs to this module only.

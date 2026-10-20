@@ -60,10 +60,11 @@ export class ModuleAssembly {
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
     const conflicts: string[] = [];
-    const generatedPeople = (situation.people ?? []).map(p =>
-      Cast.person(p, manifest.casting?.[p.id] as Record<string, unknown> | undefined, conflicts));
+    const groups = (situation.people ?? []).map(p =>
+      Cast.group(p, manifest.casting?.[p.id] as Record<string, unknown> | undefined, conflicts));
+    const generatedPeople = groups.flat();
     const company = Cast.company(module);
-    const peopleActors = (situation.people ?? []).map(p => ({ id: p.id, members: [`${p.id}_person`],
+    const peopleActors = (situation.people ?? []).map((p, i) => ({ id: p.id, members: groups[i]!.map(m => m.id),
       horizon: p.horizon ?? 4, actions: p.actions, goals: [] }));
     for (const p of situation.people ?? []) {
       const name = manifest.casting?.[p.id]?.name;
