@@ -68,5 +68,34 @@
       "effect": "Heal (1d6 + 2) health to party. Grant (1) slots to party. Remove bleeding from party.",
       "description": "A cold night on hard ground: some rest, no more."
     }
+  },
+  "advancement": {
+    "about": "Experience to reach each level from 2 (Orsino's CharacterRecord.xpForLevel: 50L^3 + 150L^2 + 300L - 600), and the experience a defeated creature is worth per level when no encounter value is authored (Orsino's monsterXp and npcXp).",
+    "thresholds": [
+      1000,
+      3000,
+      6200,
+      10900,
+      17400,
+      26000,
+      37000,
+      50700,
+      67400
+    ],
+    "species": {
+      "beast": 150,
+      "undead": 300,
+      "spirit": 200,
+      "construct": 350,
+      "dragon": 800,
+      "monster": 200
+    },
+    "ancestry": {
+      "human": 30,
+      "elf": 40,
+      "dwarf": 50,
+      "goblin": 25
+    },
+    "person": 30
   }
 }

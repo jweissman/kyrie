@@ -39,7 +39,9 @@ export class CreatureStore {
     this.leases.set(lease, [...ids]);
     return lease;
   }
-  commit(lease: CreatureLease, next: Creature[]) {
+  // Advancement may change a creature's level, maximum health and spell slots; nothing else may alter what was
+  // generated.
+  commit(lease: CreatureLease, next: Creature[], options: { advancement?: boolean } = {}) {
     const ids = this.leases.get(lease);
     if (!ids) { throw new Error('Encounter lease is closed'); }
     if (next.length !== ids.length || new Set(next.map(c => c.id)).size !== ids.length
@@ -47,7 +49,8 @@ export class CreatureStore {
     next.forEach(c => {
       CreatureSchema.validate(c);
       const previous = this.records.get(c.id)!;
-      if (!Equality.deep(c.base, previous.base)
+      if (!Equality.deep(CreatureStore.kept(c.base, options), CreatureStore.kept(previous.base, options))
+        || c.base.level < previous.base.level
         || c.name !== previous.name || c.classId !== previous.classId || c.raceId !== previous.raceId
         || c.backgroundId !== previous.backgroundId) {
         throw new Error('Combat cannot replace generated characteristics');
@@ -62,6 +65,9 @@ export class CreatureStore {
     if (new Set(itemIds).size !== itemIds.length) { throw new Error('Item has multiple owners'); }
     next.forEach(c => this.records.set(c.id, structuredClone(c)));
     this.revision++;
+  }
+  private static kept(base: Creature['base'], options: { advancement?: boolean }) {
+    return options.advancement ? { ...base, level: 0, maxHp: 0, maxSlots: [] } : base;
   }
   release(lease: CreatureLease) {
     const ids = this.leases.get(lease);

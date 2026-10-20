@@ -51,5 +51,6 @@
   "exports": {
     "ewes": "ewes",
     "no_silk": "no_silk"
-  }
+  },
+  "experience": 500
 }

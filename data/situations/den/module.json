@@ -26,5 +26,6 @@
   },
   "exports": {
     "rumour": "rumour"
-  }
+  },
+  "experience": 200
 }

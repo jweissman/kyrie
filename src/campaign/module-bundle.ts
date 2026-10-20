@@ -25,6 +25,8 @@ interface BundleManifest {
   version: 1; source: string | string[]; rules: string | string[]; globals?: string[]; imports?: string[];
   exports?: Record<string, string>;
   generation?: { type: string; context?: Record<string, DeemValue>; tables?: string; templates?: string };
+  // Experience for each companion when the module's goal first holds.
+  experience?: number;
 }
 export class ModuleBundle {
   // Rule modules named in a manifest resolve to data/rules; "world" is the standard set every world uses.
@@ -119,6 +121,7 @@ export class ModuleBundle {
     const draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
       imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
     draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
+    if (manifest.experience) { draft.experience = manifest.experience; }
     return draft;
   }
 }

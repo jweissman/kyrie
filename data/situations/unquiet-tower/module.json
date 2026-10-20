@@ -46,5 +46,6 @@
     "type": "unquiet_tower",
     "templates": "templates.json",
     "tables": "tables.json"
-  }
+  },
+  "experience": 800
 }

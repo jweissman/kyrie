@@ -1,3 +1,4 @@
+import { Advancement } from '../src/rules/advancement';
 import { Content, type CreatureGenerationContext } from '../src/content';
 import { Html } from './html';
 import { MonoRender, type MonoState } from './mono-render';
@@ -21,7 +22,7 @@ export class MonoScreens {
     const gear = screen.items.filter(i => i.owner === m.id).map(i => `<li>${i.equipped ? '◉' : '○'} ${Html.escape(i.name)}${i.kind === i.name ? '' : ` <small>${Html.escape(i.kind)}</small>`}</li>`).join('');
     const abilities = m.abilities.map(a => `<li><b>${Html.escape(a.name)}</b>${a.price ? ` <small>${Html.escape(a.price)}</small>` : ''}<br><small>${Html.escape(a.text)}</small></li>`).join('');
     return `<main class="screen company-sheet">${MonoRender.rows(s, 'Company')}<section class="pane sheet" data-region="sheet"><h1>${Html.escape(m.name)}</h1>`
-      + `<p class="kind">${Html.escape(m.line)} · level ${m.level}${m.background ? ` · ${Html.escape(m.background)}` : ''} · ${m.experience} xp · ${m.gold} coin</p>`
+      + `<p class="kind">${Html.escape(m.line)} · level ${m.level}${m.background ? ` · ${Html.escape(m.background)}` : ''} · ${m.experience} xp${Advancement.threshold(m.level + 1) <= m.experience ? ' (ready to advance: rest under a roof)' : ` of ${Advancement.threshold(m.level + 1)} for level ${m.level + 1}`} · ${m.gold} coin</p>`
       + `${MonoRender.bar('HP', m.hp, m.maxHp, 'hp')}${m.maxMana ? MonoRender.bar('MP', m.mana, m.maxMana, 'mp') : ''}<div class="attrs">${attrs}</div>`
       + `<div class="cols"><div><h3>Abilities</h3><ul>${abilities}</ul></div><div><h3>Carried</h3><ul>${gear || '<li class="muted">Nothing</li>'}</ul>`
       + `<h3>Background and profession</h3><ul>${(m.overlays ?? []).map(o => `<li><b>${Html.escape(o.name)}</b> <small>${Html.escape(o.role)}</small><br><small>${o.grants.map(g => Html.escape(g)).join(' · ')}</small></li>`).join('') || '<li class="muted">None</li>'}</ul>`

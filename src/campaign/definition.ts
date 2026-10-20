@@ -12,7 +12,7 @@ export interface CampaignActor {
 export interface InstalledModule {
   id: string; name: string; description?: string; seed: string; installedAt: number; deadline?: number;
   goal: Predicate; actors: string[]; pressures: string[]; roles?: BoundRole[];
-  outcomes: { id: string; predicate: Predicate }[]; exports: Record<string, string>;
+  outcomes: { id: string; predicate: Predicate }[]; exports: Record<string, string>; experience?: number;
 }
 export interface CampaignDefinition {
   schemas?: Operator[];

@@ -330,9 +330,11 @@ export class Campaign implements TickHost {
   private complete(action: Operator, checkpoint: ReturnType<Campaign['checkpoint']>, battle?: Battle): CampaignEvent {
     if (battle && !battle.state.outcome) { throw new Error('Encounter must finish before campaign resolution'); }
     const combat = battle?.events ?? [];
-    if (battle?.state.outcome === 'fighters' && action.resolve?.name === 'combat') {
+    const won = battle?.state.outcome === 'fighters' || combat.some(e => e.type === 'end' && e.fled?.team === 'goblins');
+    if (won && action.resolve?.name === 'combat') {
+      const opponent = action.resolve.args[0]!;
       FieldUse.award(this.creatures, this.current.partyIds, this.world,
-        { opponent: action.resolve.args[0]!, events: combat });
+        { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
     }
     if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name)) {
       combat.push(...this.field(action));
@@ -378,6 +380,10 @@ export class Campaign implements TickHost {
       success = false;
       response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.';
     }
+    if (this.definition) {
+      Progression.resolutions(this.world, this.definition, this.observations, { elapsed: this.current.elapsed,
+        store: this.creatures, party: this.current.partyIds, events: combat });
+    }
     const after = this.world;
     if (action.resolve) { this.encounter++; }
     this.updateOutcome();
@@ -416,8 +422,10 @@ export class Campaign implements TickHost {
     if (call.name === 'recover' || call.name === 'rough') {
       const actor = this.definition!.actors.find(a => a.id === call.args[0])!;
       const caster = actor.members.find(id => this.creatures.get(id).state.hp > 0)!;
-      return FieldUse.perform(this.creatures, actor.members, { ability: call.name === 'rough' ? 'rough_rest' : 'camp_recovery', caster, target: caster,
-        seed, service: 'recover' });
+      const rested = FieldUse.perform(this.creatures, actor.members, { ability: call.name === 'rough' ? 'rough_rest'
+        : 'camp_recovery', caster, target: caster, seed, service: 'recover' });
+      // A night under a roof is also when a companion takes in what they have learned.
+      return call.name === 'recover' ? [...rested, ...FieldUse.train(this.creatures, actor.members, seed)] : rested;
     }
     if (call.name === 'reward') {
       return FieldUse.perform(this.creatures, [call.args[1]!], { ability: call.args[0]!, caster: call.args[1]!,

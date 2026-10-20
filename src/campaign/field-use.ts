@@ -1,3 +1,4 @@
+import { Advancement } from '../rules/advancement';
 import type { CampaignActor } from './definition';
 import { ModuleWriter } from '../lang/module-writer';
 import type { World } from '../lang/world';
@@ -11,16 +12,31 @@ import type { CreatureStore } from '../creature-store';
 import type { CombatEvent } from '../model';
 
 export class FieldUse {
+  // Experience for a won encounter: its authored value, or what its creatures are worth (Advancement.worth).
   static award(store: CreatureStore, party: string[], world: World,
-    result: { opponent: string; events: CombatEvent[] }) {
-    if (!world.module.measures.some(m => m.name === 'encounterXp')) { return; }
-    const amount = world.number(ModuleWriter.call('encounterXp', result.opponent));
+    result: { opponent: string; members: string[]; events: CombatEvent[] }) {
+    const authored = world.module.measures.some(m => m.name === 'encounterXp')
+      ? world.number(ModuleWriter.call('encounterXp', result.opponent)) : 0;
+    const amount = authored || result.members.reduce((sum, id) => sum + Advancement.worth(store.get(id)), 0);
+    this.grant(store, party, amount, result.events);
+  }
+  // Living members whose experience has reached their next level gain it (Advancement.train).
+  static train(store: CreatureStore, members: string[], seed: string): CombatEvent[] {
+    const events: CombatEvent[] = [];
+    const lease = store.acquire(members.filter(id => store.get(id).state.hp > 0));
+    try {
+      for (const c of lease.creatures) { events.push(...Advancement.train(c, seed)); }
+      lease.commit(lease.creatures, { advancement: true });
+    } finally { lease.release(); }
+    return events;
+  }
+  static grant(store: CreatureStore, party: string[], amount: number, events: CombatEvent[]) {
     if (amount <= 0) { return; }
     const lease = store.acquire(party.filter(id => store.get(id).state.hp > 0));
     try {
       for (const c of lease.creatures) {
         c.state.experience += amount;
-        result.events.push({ type: 'gain', turn: 0, actor: c.id, target: c.id, detail: 'experience', amount });
+        events.push({ type: 'gain', turn: 0, actor: c.id, target: c.id, detail: 'experience', amount });
       }
       lease.commit(lease.creatures);
     } finally { lease.release(); }

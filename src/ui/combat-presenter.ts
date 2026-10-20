@@ -46,7 +46,9 @@ export class CombatPresenter {
       case 'remove': return `${target} loses ${event.detail}.`;
       case 'expire': return `${target}'s ${event.detail} expires.`;
       case 'revive': return `${target} returns with ${event.amount ?? 0} HP.`;
-      case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.` : `${target} gains ${event.amount} ${event.detail}.`;
+      case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.`
+        : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`
+          : `${target} gains ${event.amount} ${event.detail}.`;
       case 'learn': return `${target} learns ${event.detail}.`;
       case 'summon': return `${actor} calls a companion.`;
       case 'travel': return `${actor} travels to ${event.detail}.`;
