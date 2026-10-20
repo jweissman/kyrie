@@ -1,16 +1,9 @@
 {
   "version": 1,
-  "situation": "site.kyr",
+  "source": "site.kyr",
   "rules": [
-    "../../rulesets/world/core.kyr",
-    "../../rulesets/world/passages.kyr",
-    "../../rulesets/world/people.kyr",
-    "../../rulesets/world/needs.kyr",
-    "../../rulesets/world/services.kyr",
-    "../../rulesets/discovery.kyr",
-    "../../rulesets/world/care.kyr",
-    "../../rulesets/world/belongings.kyr",
-    "../../rulesets/world/elements.kyr"
+    "world",
+    "elements"
   ],
   "globals": [
     "party"

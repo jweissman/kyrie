@@ -1,0 +1,100 @@
+THE RED CRAG
+The Thrale Highlands›Thrale›The bell chapel
+Day 1, 3:20 p.m.
+The chapel nave
+
+The bell chapel · Thrale
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+A cold little chapel. A rope hangs from the bell-cote with nothing on the end of it.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Thrale green
+by the chapel door
+HERE
+2
+☺
+Mother Cate, priest of the bell chapel
+Human
+COMPANY
+3
+○
+Wait a while
+10m
+MOTHER CATE, PRIEST OF THE BELL CHAPEL
+
+Nothing you can do with this right now.
+
+MAP
+THRALE
+YSOLDE'S CHANDLERY
+BELL CHAPEL
+EMBER HEARTH
+Thrale green
+Ysolde'scounter
+chapel nave
+? Hearth'scommon room
+→ SkarthGorge
+→ highpastures
+REGION
+1h
+1h
+10m
+2h
+Thrale
+Skarth Gorge
+high pastures
+Red Crag
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+0 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 29 earlier
+2:20 p.m.
+→ the chapel nave
+3:20 p.m.
+Mother Cate, priest of the bell chapel: Ask for the shrine's care for the wounded — 2 coin
+Mother Cate cleans and dresses every wound in the company.
+coin: 2 → 0
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -4,7 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SiteBuild } from '../bin/site-build';
-import { MonoJourney } from '../bin/record-mono';
+import { MonoBrowser as MonoJourney } from './support/mono-browser';
 import { CaughtJourney, type MapState } from '../bin/record-caught-below';
 import { PlaySession, type Transcript } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';

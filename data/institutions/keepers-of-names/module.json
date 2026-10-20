@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "source": "institution.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "shrine"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "shrine": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "keeper": "keeper",
+    "record": "register_survives",
+    "writ": "custody_writ"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "salvagePopulation": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "human"
+      ],
+      "quarry": [
+        "dwarf"
+      ]
+    }
+  },
+  "salvagerName": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "Edda"
+      ],
+      "quarry": [
+        "Corran"
+      ]
+    }
+  },
+  "salvagerLabel": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "Edda, salvage forewoman"
+      ],
+      "quarry": [
+        "Corran, the slate merchant's agent"
+      ]
+    }
+  },
+  "salvagePrize": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "the bronze tram bearing"
+      ],
+      "quarry": [
+        "the incline drum's bronze bearing"
+      ]
+    }
+  },
+  "salvageOffering": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "the offering-tray relic"
+      ],
+      "quarry": [
+        "a drowned miner's ashwood charm"
+      ]
+    }
+  },
+  "salvagePermit": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        "the salvage company's permit"
+      ],
+      "quarry": [
+        "the merchant's quarry lease"
+      ]
+    }
+  },
+  "salvageExpires": {
+    "discriminator": "setting",
+    "groups": {
+      "river": [
+        36
+      ],
+      "quarry": [
+        36
+      ]
+    }
+  }
+}

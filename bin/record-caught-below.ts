@@ -5,7 +5,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import type { Page } from 'playwright-core';
-import { MonoJourney } from './record-mono';
+import { MonoBrowser as MonoJourney } from '../test/support/mono-browser';
 import type { MonoDriver } from '../test/support/mono-driver';
 
 export interface MapState { here?: string; places: string[]; edges: Record<string, string> }

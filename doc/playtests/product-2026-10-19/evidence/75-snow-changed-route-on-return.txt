@@ -1,0 +1,98 @@
+CAUGHT BELOW
+The Skell fells›The fellside
+Day 1, 1:20 p.m.
+The foot of the beck lane
+
+The fellside · The Skell fells
+
+The beck lane climbs between drystone walls toward the quarry. Snow is already curling over the walls into it.
+
+The drifting snow has closed the beck lane.
+
+WAYS AND THINGS
+WAYS
+1
+⇢
+Skellfold green
+by the path along the beck
+2
+⇢
+The quarry floor
+by the beck lane · through the drifting snow
+COMPANY
+3
+○
+Wait a while
+10m
+4
+○
+Make camp for the night
+8h
+SKELLFOLD GREEN
+
+Across country to Skellfold green, Skellfold.
+
+Go
+30m
+MAP
+FELLSIDE
+foot of thebeck lane
+? shepherds'track
+→ Skellfold
+→ Skellfoldhigh quarry
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 33 earlier
+12:40 p.m.
+Speak with Marrit: Speak with Marrit
+coin: 14 → 17
+12:50 p.m.
+→ Skellfold green
+1:20 p.m.
+→ the foot of the beck lane
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

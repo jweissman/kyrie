@@ -43,7 +43,7 @@ The `witnessedAttack` canonical-core declaration currently enables receipts. Leg
 | Save categories | `save: {kind, difficulty, success}` names an Orsino category instead of an attribute: d20 + statMod(the category's attribute, from `rules.json`) + level + the category's status bonuses + all-save bonuses. `immune` categories succeed without rolling; a fourth success in one category per encounter fails (Orsino's `savedTimes`). Kyr statMod. |
 | Passive traits | `traits` on an ancestry or calling name statuses that always apply. They are read by the same armor, power, save and resistance queries as conditions, and are never applied, expired or removed. |
 | Hazards | A site or situation declares `Hazard id "name" means "<effect>".` The hazard is a module entity carrying its effect; `expose` resolves it under typed-v1 damage. Global abilities are not used for mechanisms of places. |
-| Exposure | In modules that include `rulesets/world/elements.kyr`, an area damage effect of an element during a combat command records `exposedTo(place, element)` in the receipt. Things react through ordinary events. Physical damage is not an element. |
+| Exposure | In modules that include `rules/elements.kyr`, an area damage effect of an element during a combat command records `exposedTo(place, element)` in the receipt. Things react through ordinary events. Physical damage is not an element. |
 | Conditions | Missing clock retains owner-turn compatibility. Explicit `owner-turn` ongoing damage uses Effects; `world-time` ticks once per elapsed campaign unit; `until-removed` does not expire automatically. The latter two require a persistent status definition. One unit currently represents ten fictional minutes. The casting command itself consumes time on that clock. Periodic effects need a declared damage type; the engine does not guess one. The new poisoned clock declares poison damage. Legacy bleeding remains an owner-turn compatibility effect until explicitly defined for the new clock. |
 | Stacking/removal | Status replacement by id, or id + source for source-refresh. Explicit removal removes that status's attachments. Revival restores HP without silently erasing unrelated persistent attachments. |
 | Equipment | Equipment grants derive from owned, equipped instances. Projection does not convert them into learned abilities. The same grant now participates in field eligibility. Applied timed spells are independent of later unequipping their casting focus. |
@@ -55,7 +55,7 @@ The body and world effect vocabularies remain distinct typed domains under one c
 
 ## Authoring examples and compatibility
 
-`data/canon/abilities.json` (formerly `data/orsino/mechanics.json`) contains typed definitions, not English evaluated during execution:
+`data/catalog/abilities.json` (formerly `data/sources/orsino/mechanics.json`) contains typed definitions, not English evaluated during execution:
 
 ```json
 {

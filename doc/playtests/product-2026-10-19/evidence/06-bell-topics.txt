@@ -1,0 +1,82 @@
+THE RED CRAG
+The Thrale Highlands›Thrale
+Day 1, 8:00 a.m.
+the bell-ringer, bell-ringer
+
+waiting · Thrale green
+
+They wait for you to speak.
+
+SAY
+ASK
+1
+»
+Ask the bell-ringer about the empty bell-cote
+END
+2
+⇤
+End the conversation
+ASK THE BELL-RINGER ABOUT THE EMPTY BELL-COTE
+Ask the bell-ringer about the empty bell-cote
+10m
+MAP
+THRALE
+EMBER HEARTH
+YSOLDE'S CHANDLERY
+BELL CHAPEL
+Thrale green
+? Hearth'scommon room
+? Ysolde'scounter
+? chapelnave
+→ SkarthGorge
+→ highpastures
+REGION
+1h
+1h
+Thrale
+Skarth Gorge
+high pastures
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+22 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory
+Nothing has happened yet.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,0 +1,107 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 11:10 a.m.
+Dry stores
+
+The upper works · Censer Hill foundry
+
+◆ Wren asked you to find Pell in Censer Hill foundry. The rising river closes the drain culvert about 1:40 p.m.
+
+The stores door stands open; its padlock hangs from the hasp.
+
+Collapsed shelving and oilcloth bundles. The far wall is old brick with a low, black opening at its foot.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Bell workshop
+by the stores door
+2
+→
+Hoist room
+by the old tram crawl · new
+HERE
+3
+·
+a pry bar
+COMPANY
+4
+○
+Wait a while
+10m
+A PRY BAR › TAKE
+for Elen
+10m
+for Bran
+10m
+for Dori
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+? Drainmouth
+? Castinggallery
+? valvechamber
+? Hoist room
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 12 earlier
+11:00 a.m.
+Pick the stores padlock
+The stores door stands open; its padlock hangs from the hasp.
+The stores door stands open; its padlock hangs from the hasp.
+11:10 a.m.
+→ Dry stores
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

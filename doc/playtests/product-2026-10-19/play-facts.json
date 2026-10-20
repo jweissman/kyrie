@@ -1,0 +1,976 @@
+{
+  "method": "Read-only summary of UI-exported checkpoints, not new gameplay simulation.",
+  "checkpoints": {
+    "red-crag-before-approach.save.json": {
+      "elapsed_ticks": 13,
+      "sha256": "5b91fa1535071e77196bec205c3dfd420954a257b0bd3ecdc31f9d2bcab0018c",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 9,
+          "maxHp": 9,
+          "mana": 7,
+          "conditions": []
+        },
+        {
+          "name": "Bran",
+          "class": "thief",
+          "background": "locksmith",
+          "hp": 7,
+          "maxHp": 7,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 6,
+          "maxHp": 6,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": []
+    },
+    "red-crag-defeat.save.json": {
+      "elapsed_ticks": 15,
+      "sha256": "9358d8852c02b7663f2fc4b5e7986d220515a3cceb999845b87e847985e82ad7",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 0,
+          "maxHp": 9,
+          "mana": 7,
+          "conditions": []
+        },
+        {
+          "name": "Bran",
+          "class": "thief",
+          "background": "locksmith",
+          "hp": 0,
+          "maxHp": 7,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 0,
+          "maxHp": 6,
+          "mana": 6,
+          "conditions": [
+            {
+              "id": "fireproof",
+              "remaining": 10,
+              "source": "world__ysolde_fireproof_salve_1"
+            }
+          ]
+        }
+      ],
+      "encounters": [
+        {
+          "action": "attack(party,roost__dragon,world__ledge)",
+          "ending": {
+            "type": "end",
+            "turn": 1,
+            "outcome": "goblins",
+            "reason": "elimination"
+          },
+          "actions": 1,
+          "events": [
+            {
+              "type": "action",
+              "turn": 1,
+              "command": {
+                "actor": "roost__dragon_person",
+                "ability": "fire_breath",
+                "target": "roost__dragon_person"
+              },
+              "source": {
+                "id": "roost__dragon_person",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 3,
+              "die": 3,
+              "modifier": -1,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 16,
+              "amount": 6,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0.5,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_3"
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 10,
+              "die": 7,
+              "modifier": 2,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 16,
+              "amount": 9,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_1"
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 14,
+              "die": 13,
+              "modifier": 0,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 16,
+              "amount": 7,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_2"
+            },
+            {
+              "type": "end",
+              "turn": 1,
+              "outcome": "goblins",
+              "reason": "elimination"
+            }
+          ]
+        }
+      ]
+    },
+    "red-crag-directed-completion.save.json": {
+      "elapsed_ticks": 49,
+      "sha256": "5e2b093b7b89f409a2342f5fe667cff8f258fb0ee2c6173e490f26f678d1286f",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 9,
+          "maxHp": 9,
+          "mana": 7,
+          "conditions": []
+        },
+        {
+          "name": "Bran",
+          "class": "thief",
+          "background": "locksmith",
+          "hp": 7,
+          "maxHp": 7,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 6,
+          "maxHp": 6,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": []
+    },
+    "red-crag-negotiated-return.save.json": {
+      "elapsed_ticks": 45,
+      "sha256": "af4dd545eef716351417d72b949d4bf7c23afbc8dd939d13424c35733ea5bdc9",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 9,
+          "maxHp": 9,
+          "mana": 7,
+          "conditions": []
+        },
+        {
+          "name": "Bran",
+          "class": "thief",
+          "background": "locksmith",
+          "hp": 7,
+          "maxHp": 7,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 6,
+          "maxHp": 6,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": []
+    },
+    "red-crag-re-entry.save.json": {
+      "elapsed_ticks": 103,
+      "sha256": "fddfe3e3503eda499825508a3679259234d01a0975efcb8c5b0058d9cebb380f",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 9,
+          "maxHp": 9,
+          "mana": 7,
+          "conditions": [
+            {
+              "id": "fireproof",
+              "remaining": 9,
+              "source": "world__ysolde_fireproof_salve_1"
+            }
+          ]
+        },
+        {
+          "name": "Bran",
+          "class": "thief",
+          "background": "locksmith",
+          "hp": 0,
+          "maxHp": 7,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 0,
+          "maxHp": 6,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": [
+        {
+          "action": "attack(party,roost__dragon,world__ledge)",
+          "ending": {
+            "type": "end",
+            "turn": 2,
+            "outcome": "escaped",
+            "reason": "retreat"
+          },
+          "actions": 2,
+          "events": [
+            {
+              "type": "action",
+              "turn": 1,
+              "command": {
+                "actor": "roost__dragon_person",
+                "ability": "fire_breath",
+                "target": "roost__dragon_person"
+              },
+              "source": {
+                "id": "roost__dragon_person",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 3,
+              "die": 3,
+              "modifier": -1,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 16,
+              "amount": 6,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_3"
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 10,
+              "die": 7,
+              "modifier": 2,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 16,
+              "amount": 8,
+              "hp": 1,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0.5,
+                "guarding": false
+              }
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 14,
+              "die": 13,
+              "modifier": 0,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 16,
+              "amount": 7,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_2"
+            },
+            {
+              "type": "action",
+              "turn": 2,
+              "command": {
+                "actor": "world__party_1",
+                "ability": "flee",
+                "target": "world__party_1"
+              },
+              "source": {
+                "id": "world__party_1",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "end",
+              "turn": 2,
+              "outcome": "escaped",
+              "reason": "retreat"
+            }
+          ]
+        }
+      ]
+    },
+    "red-crag-retreated-rested.save.json": {
+      "elapsed_ticks": 83,
+      "sha256": "d360bda353352b7ee0d78c75320a44ebbe0c6585d0a8a6471575677adc606e2d",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 9,
+          "maxHp": 9,
+          "mana": 7,
+          "conditions": [
+            {
+              "id": "fireproof",
+              "remaining": 9,
+              "source": "world__ysolde_fireproof_salve_1"
+            }
+          ]
+        },
+        {
+          "name": "Bran",
+          "class": "thief",
+          "background": "locksmith",
+          "hp": 0,
+          "maxHp": 7,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 0,
+          "maxHp": 6,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": [
+        {
+          "action": "attack(party,roost__dragon,world__ledge)",
+          "ending": {
+            "type": "end",
+            "turn": 2,
+            "outcome": "escaped",
+            "reason": "retreat"
+          },
+          "actions": 2,
+          "events": [
+            {
+              "type": "action",
+              "turn": 1,
+              "command": {
+                "actor": "roost__dragon_person",
+                "ability": "fire_breath",
+                "target": "roost__dragon_person"
+              },
+              "source": {
+                "id": "roost__dragon_person",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 3,
+              "die": 3,
+              "modifier": -1,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 16,
+              "amount": 6,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_3"
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 10,
+              "die": 7,
+              "modifier": 2,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 16,
+              "amount": 8,
+              "hp": 1,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0.5,
+                "guarding": false
+              }
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 14,
+              "die": 13,
+              "modifier": 0,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 16,
+              "amount": 7,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_2"
+            },
+            {
+              "type": "action",
+              "turn": 2,
+              "command": {
+                "actor": "world__party_1",
+                "ability": "flee",
+                "target": "world__party_1"
+              },
+              "source": {
+                "id": "world__party_1",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "end",
+              "turn": 2,
+              "outcome": "escaped",
+              "reason": "retreat"
+            }
+          ]
+        }
+      ]
+    },
+    "red-crag-spell-defeat.save.json": {
+      "elapsed_ticks": 15,
+      "sha256": "f36fc61db4f9b5730d53d24cc41754ebf8f019eda52529b607f043cd182bf13c",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 0,
+          "maxHp": 9,
+          "mana": 4,
+          "conditions": [
+            {
+              "id": "fireproof",
+              "remaining": 9,
+              "source": "world__ysolde_fireproof_salve_1"
+            }
+          ]
+        },
+        {
+          "name": "Bran",
+          "class": "thief",
+          "background": "locksmith",
+          "hp": 0,
+          "maxHp": 7,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 0,
+          "maxHp": 6,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": [
+        {
+          "action": "attack(party,roost__dragon,world__ledge)",
+          "ending": {
+            "type": "end",
+            "turn": 3,
+            "outcome": "goblins",
+            "reason": "elimination"
+          },
+          "actions": 3,
+          "events": [
+            {
+              "type": "action",
+              "turn": 1,
+              "command": {
+                "actor": "roost__dragon_person",
+                "ability": "fire_breath",
+                "target": "roost__dragon_person"
+              },
+              "source": {
+                "id": "roost__dragon_person",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 3,
+              "die": 3,
+              "modifier": -1,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_3",
+              "rolled": 16,
+              "amount": 6,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_3"
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 10,
+              "die": 7,
+              "modifier": 2,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 16,
+              "amount": 8,
+              "hp": 1,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0.5,
+                "guarding": false
+              }
+            },
+            {
+              "type": "save",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 14,
+              "die": 13,
+              "modifier": 0,
+              "stat": "constitution",
+              "level": 1,
+              "bonus": 0,
+              "difficulty": 16,
+              "success": false,
+              "kind": "breath"
+            },
+            {
+              "type": "damage",
+              "turn": 1,
+              "actor": "roost__dragon_person",
+              "target": "world__party_2",
+              "rolled": 16,
+              "amount": 7,
+              "hp": 0,
+              "damageType": "fire",
+              "modifiers": {
+                "power": 0,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 1,
+              "actor": "world__party_2"
+            },
+            {
+              "type": "action",
+              "turn": 2,
+              "command": {
+                "actor": "world__party_1",
+                "ability": "sleep",
+                "target": "world__party_1"
+              },
+              "source": {
+                "id": "world__party_1",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "save",
+              "turn": 2,
+              "actor": "world__party_1",
+              "target": "roost__dragon_person",
+              "rolled": 13,
+              "die": 7,
+              "modifier": 6,
+              "stat": "wisdom",
+              "difficulty": 13,
+              "success": true
+            },
+            {
+              "type": "action",
+              "turn": 3,
+              "command": {
+                "actor": "roost__dragon_person",
+                "ability": "bite",
+                "target": "world__party_1"
+              },
+              "source": {
+                "id": "roost__dragon_person",
+                "kind": "ability"
+              }
+            },
+            {
+              "type": "attack",
+              "turn": 3,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "die": 18,
+              "modifier": 8,
+              "defense": 10,
+              "success": true,
+              "critical": false
+            },
+            {
+              "type": "damage",
+              "turn": 3,
+              "actor": "roost__dragon_person",
+              "target": "world__party_1",
+              "rolled": 10,
+              "amount": 1,
+              "hp": 0,
+              "damageType": "piercing",
+              "modifiers": {
+                "power": 3,
+                "armor": 0,
+                "resistance": 0,
+                "guarding": false
+              }
+            },
+            {
+              "type": "death",
+              "turn": 3,
+              "actor": "world__party_1"
+            },
+            {
+              "type": "end",
+              "turn": 3,
+              "outcome": "goblins",
+              "reason": "elimination"
+            }
+          ]
+        }
+      ]
+    },
+    "skellfold-changed-route.save.json": {
+      "elapsed_ticks": 32,
+      "sha256": "18a977f5b687f0cdad587b0e3b86666568e948ebc7973e381935d71fa8855a0f",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 4,
+          "maxHp": 4,
+          "mana": 7,
+          "conditions": []
+        },
+        {
+          "name": "Bran",
+          "class": "fighter",
+          "background": "miner",
+          "hp": 13,
+          "maxHp": 13,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 9,
+          "maxHp": 9,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": []
+    },
+    "skellfold-rescue-return.save.json": {
+      "elapsed_ticks": 28,
+      "sha256": "65881aad93c0f73e76d19c9b2ff3c9ac67edc5b9778754fbf0c26a747372a9f3",
+      "party": [
+        {
+          "name": "Elen",
+          "class": "magic_user",
+          "background": "locksmith",
+          "hp": 4,
+          "maxHp": 4,
+          "mana": 7,
+          "conditions": []
+        },
+        {
+          "name": "Bran",
+          "class": "fighter",
+          "background": "miner",
+          "hp": 13,
+          "maxHp": 13,
+          "mana": 0,
+          "conditions": []
+        },
+        {
+          "name": "Dori",
+          "class": "cleric",
+          "background": "medic",
+          "hp": 9,
+          "maxHp": 9,
+          "mana": 6,
+          "conditions": []
+        }
+      ],
+      "encounters": []
+    }
+  }
+}

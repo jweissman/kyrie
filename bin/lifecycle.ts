@@ -4,17 +4,20 @@ import { Battle } from '../src/battle';
 
 const content = new Content('lifecycle');
 const store = new CreatureStore([
-  content.createCreature('hero', { raceId: 'human', classId: 'fighter' }), content.createCreature('goblin', { raceId: 'goblin', classId: 'commoner' }),
+  content.createCreature('hero', { raceId: 'human', classId: 'warrior' }),
+  content.createCreature('goblin', { raceId: 'goblin', classId: 'commoner' }),
 ]);
 const participants = [
   { creatureId: 'hero', team: 'fighters' as const }, { creatureId: 'goblin', team: 'goblins' as const },
 ];
 const before = store.get('goblin');
 const first = Battle.encounter(store, participants, { seed: 'encounter' });
-while (first.state.actor !== 'hero') {
-  first.step(first.legalCommands().find(c => c.ability === 'defend')!);
+// Swing until a blow lands (Orsino attacks can miss), then retreat with the goblin wounded.
+for (let i = 0; i < 20 && store.get('goblin').state.hp === before.state.hp && !first.state.outcome; i++) {
+  const legal = first.legalCommands();
+  first.step(first.state.actor === 'hero' ? { actor: 'hero', ability: 'melee', target: 'goblin' }
+    : legal.find(c => c.ability === 'defend') ?? legal.find(c => c.ability !== 'flee')!);
 }
-first.step({ actor: 'hero', ability: 'wounding_blow', target: 'goblin' });
 first.close();
 const injured = store.get('goblin');
 const restored = new CreatureStore(store.snapshot);

@@ -1,0 +1,31 @@
+Module keepers_of_names "The Keepers of Names" {
+  Description "A burial society that holds the river settlements' dead in custody: their registers, their shrines and the guardians they set over them. It claims no treasure, only that the named dead stay named.".
+  Entity party: group "Your company".
+  Place shrine "Where the keepers keep their shrine" is room.
+
+  Entity register_survives: fact "The keepers' register of the dead survives. Its family numbers name the remains below; those dead belong to the settlements that sheltered together, not to whoever reaches them first".
+  Initially Assert established(register_survives).
+  Entity custody_writ: fact "A keeper's custody writ, granting supervised access to the named dead".
+  Initially Assert established(custody_writ).
+
+  Person keeper "Iven" at shrine {
+    Role "keeper of names". Ancestry human. Calling cleric. Trait vitalist. Level 3. Profession priest. Peaceable.
+    Offers healing "clean linen and a keeper's prayer" for 2 coin.
+  }
+  Initially Assert assumesFalse(keeper, register_survives).
+
+  Topic mandate with keeper "Ask {keeper} about the keepers' dead" when not knows(keeper, register_survives) {
+    Says "'We are the Keepers of Names,' says {keeper}. 'We do not command the dead or what guards them; we hold them in custody. Our register was lost in the flood, and without it the dead are only bones to anyone with a pry bar. If the register survives, bring me word of it and I will write you a custody writ. Our guardians honour the writ. Killing them also opens the way, but then there is no keeper below at all.'".
+  }
+  Topic writ with keeper "Tell {keeper} the register survives, and ask for custody" when knows(actor, register_survives) and not knows(actor, custody_writ) {
+    Says "{keeper} listens, then sits down hard. 'I was wrong to think it lost.' He writes slowly, seals the page and gives it to you. 'This is a custody writ. It permits supervised access, not ownership of anything buried. Show it below.'".
+    On discuss { Assert knows(keeper, register_survives). Retract assumesFalse(keeper, register_survives). Assert knows(actor, custody_writ). }
+  }
+  Topic custody_held with keeper "Speak with {keeper}" when knows(actor, custody_writ) and not refusesService(keeper, actor) {
+    Says "'You carry the keepers' writ,' says {keeper}. 'Carry it honestly.'".
+  }
+
+  Observe keepers_shrine at shrine when not knows(keeper, register_survives) "One altar is the Keeper of Names'. Its shelf, where the register should lie, is bare; {keeper} has been rewriting the name slips from memory.".
+  Observe keepers_restored at shrine when knows(keeper, register_survives) "The keepers' altar has fresh slips pinned to it, copied from an account of the surviving register.".
+  Goal false.
+}

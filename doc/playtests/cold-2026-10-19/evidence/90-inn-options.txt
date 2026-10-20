@@ -1,0 +1,98 @@
+CAUGHT BELOW
+The Serewater March›Reedwake›The Returning Oar
+Day 1, 9:10 p.m.
+The Oar's taproom
+
+The Returning Oar · Reedwake
+
+Dry boots steam above the hearth. Bargemen eat at the long table, and stairs climb to the rooms above.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Reedwake quay
+by the Oar's door
+HERE
+2
+☺
+Maud, innkeeper
+Human
+COMPANY
+3
+○
+Wait a while
+10m
+MAUD, INNKEEPER
+Take a bed and supper — 3 coin
+8h
+Buy
+▸
+MAP
+REEDWAKE
+RETURNING OAR
+NERA'S SHOP
+COMMON SHRINE
+FERRY HOUSE
+Reedwakequay
+Oar'staproom
+Nera's shopfloor
+? shrine
+? ferryhouse
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+████████░░
+10/12
+Dori
+dwarf cleric
+HP
+█████████░
+11/12
+MP
+░░░░░░░░░░
+0/6
+
+17 coin · 0 rations · eat by 8:00 p.m. on day 2 · night
+
+HHistory · 93 earlier
+8:00 p.m.
+→ Willow causeway
+ration: 1 → 0
+9:00 p.m.
+→ Reedwake quay
+9:10 p.m.
+→ the Oar's taproom
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

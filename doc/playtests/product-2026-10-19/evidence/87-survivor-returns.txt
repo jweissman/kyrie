@@ -1,0 +1,128 @@
+THE RED CRAG
+The Thrale Highlands›Thrale
+Day 1, 1:40 p.m.
+Thrale green
+
+Thrale · The Thrale Highlands
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+Slate roofs huddle around a sheep-cropped green. Smoke rises from the Hearth's chimney; the chandler's shutters are open, and the chapel's bell-cote stands empty.
+
+A stone barn under a deep thatch, stuffed with the winter's hay.
+
+The bell-ringer keeps glancing up at the empty bell-cote.
+
+WAYS AND THINGS
+WAYS
+1
+⇥
+Enter The bell chapel
+by the chapel door · new
+2
+⇥
+Enter The Ember Hearth
+by the Hearth's door · new
+3
+⇥
+Enter Ysolde's chandlery
+by the chandlery door
+4
+⇢
+The gorge edge
+by the gorge road
+5
+⇢
+The stone sheepfold
+by the pasture track
+HERE
+6
+☺
+the bell-ringer, bell-ringer
+waiting
+7
+·
+the hay barn
+standing
+COMPANY
+8
+○
+Wait a while
+10m
+ENTER THE BELL CHAPEL
+
+Into The bell chapel: the chapel nave.
+
+Go
+10m
+MAP
+THRALE
+YSOLDE'S CHANDLERY
+EMBER HEARTH
+BELL CHAPEL
+Thrale green
+Ysolde'scounter
+? Hearth'scommon room
+? chapelnave
+→ SkarthGorge
+→ highpastures
+REGION
+1h
+1h
+10m
+2h
+Thrale
+Skarth Gorge
+high pastures
+Red Crag
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+█░░░░░░░░░
+1/9
+MP
+██████████
+7/7
+fireproof
+Bran
+human thief
+HP
+░░░░░░░░░░
+0/7
+Dori
+dwarf cleric
+HP
+░░░░░░░░░░
+0/6
+MP
+██████████
+6/6
+
+17 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 10 earlier
+Flame runs along the bridge ropes. The planks drop away into the gorge one by one.
+10:40 a.m.
+→ the crag shoulder
+12:40 p.m.
+→ the stone sheepfold
+1:40 p.m.
+→ Thrale green
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

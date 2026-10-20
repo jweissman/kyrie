@@ -242,7 +242,8 @@ export class ModuleParser {
       }
       if (part.field === 'species') {
         if (seen.has('raceId') || seen.has('classId')) { throw new Error(`${p.id}: a species has no ancestry or calling`); }
-        p.raceId = p.classId = part.value as string; authored.push('raceId', 'classId'); seen.add('raceId'); seen.add('classId');
+        p.raceId = part.value as string; delete p.classId;
+        authored.push('raceId'); seen.add('raceId'); seen.add('classId');
         continue;
       }
       if (['raceId', 'classId'].includes(part.field) && seen.has(part.field)) {

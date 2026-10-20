@@ -1,0 +1,69 @@
+CAUGHT BELOW
+The Serewater March›Reedwake›The Returning Oar
+Day 2, 5:10 a.m.
+COMPANY
+COMPANY
+1
+☺
+Elen
+elf ranger · lvl 1
+2
+☺
+Bran
+human fighter · lvl 1
+3
+☺
+Dori
+dwarf cleric · lvl 1
+Elen
+
+elf ranger · level 1 · Hunter · 20 xp · 8 coin
+
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+STR 5
+DEX 11
+CON 12
+INT 9
+WIS 15
+CHA 9
+Abilities
+Weapon attack
+Deal (max(0, statMod(#strength) + 1d6)) physical damage to enemy.
+Guard
+Defend.
+Backstab
+Deal (max(0, statMod(#dexterity) + 2d4)) physical damage to enemy.
+Mend wounds 2 mana
+Heal (max(0, 1d6 + statMod(#wisdom))) health to ally.
+Retreat
+Flee.
+Elder focus
+Apply blessed to self for 2 turns.
+Carried
+○ Coil of rope
+Background and profession
+Hunter background
+Woodcraft (skill) · Coil of rope · dexterity +2 · wisdom +1 · constitution +1 · +2 coin
+Company standing
+Woodcraft — Elen (elf ranger)
+Mending — Dori (dwarf cleric)
+Lockwork — Bran (human fighter)
+ELEN
+
+Nothing you can do with this right now.
+
+HHistory · 99 earlier
+coin: 17 → 14
+Bran recovers 2 HP (12 HP).
+Dori recovers 1 HP (12 HP).
+Dori gains 6 mana.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

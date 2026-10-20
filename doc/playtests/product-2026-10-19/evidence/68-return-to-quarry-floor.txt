@@ -1,0 +1,121 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry
+Day 1, 11:20 a.m.
+The quarry floor
+
+Skellfold high quarry · The Skell fells
+
+◆ Get Tamsin home to the cottage.
+
+Spoil heaps, a smithy with cold chimney, and the black mouth of the adit in the quarry face.
+
+Tamsin keeps their weight off one leg, but can walk.
+
+The beck lane is still clear, but the drifting snow will close it about 12:20 p.m.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The quarry smithy
+by the smithy door
+2
+⇥
+Enter The old workings
+by the adit
+3
+⇢
+The foot of the beck lane
+by the beck lane
+4
+⇢
+The shepherds' track
+by the fell track down to the quarry · new
+HERE
+5
+☺
+Tamsin, quarry tally-keeper
+making for the cottage
+COMPANY
+6
+○
+Wait a while
+10m
+7
+○
+Make camp for the night
+8h
+THE QUARRY SMITHY
+
+the quarry smithy, a few steps away.
+
+Go
+10m
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+LOWER GALLERY
+quarry floor
+quarrysmithy
+adit mouth
+uppergallery
+head of thetub incline
+lowergallery
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 21 earlier
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+11:00 a.m.
+→ the upper gallery
+11:10 a.m.
+→ the adit mouth
+11:20 a.m.
+→ the quarry floor
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

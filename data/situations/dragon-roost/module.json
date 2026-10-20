@@ -1,16 +1,9 @@
 {
   "version": 1,
-  "situation": "situation.kyr",
+  "source": "situation.kyr",
   "rules": [
-    "../../rulesets/world/core.kyr",
-    "../../rulesets/world/passages.kyr",
-    "../../rulesets/world/people.kyr",
-    "../../rulesets/world/needs.kyr",
-    "../../rulesets/world/services.kyr",
-    "../../rulesets/discovery.kyr",
-    "../../rulesets/world/care.kyr",
-    "../../rulesets/world/belongings.kyr",
-    "../../rulesets/world/elements.kyr"
+    "world",
+    "elements"
   ],
   "globals": [
     "party"
@@ -26,16 +19,37 @@
     "lair_mouth"
   ],
   "roles": {
-    "party": { "type": "group" },
-    "watcher": { "type": "group" },
-    "roost": { "type": "place" },
-    "lair": { "type": "place" },
-    "hunting_ground": { "type": "place" },
-    "village": { "type": "place" },
-    "approach": { "type": "passage", "conditions": ["connects(approach, ?a, roost)"] },
-    "lair_mouth": { "type": "passage", "conditions": ["connects(lair_mouth, roost, lair)"] }
+    "party": {
+      "type": "group"
+    },
+    "watcher": {
+      "type": "group"
+    },
+    "roost": {
+      "type": "place"
+    },
+    "lair": {
+      "type": "place"
+    },
+    "hunting_ground": {
+      "type": "place"
+    },
+    "village": {
+      "type": "place"
+    },
+    "approach": {
+      "type": "passage",
+      "conditions": [
+        "connects(approach, ?a, roost)"
+      ]
+    },
+    "lair_mouth": {
+      "type": "passage",
+      "conditions": [
+        "connects(lair_mouth, roost, lair)"
+      ]
+    }
   },
-  "exports": {},
   "generation": {
     "type": "dragon_roost",
     "templates": "templates.json",

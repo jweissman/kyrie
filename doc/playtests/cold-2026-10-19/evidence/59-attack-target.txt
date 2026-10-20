@@ -1,0 +1,109 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 5:40 p.m.
+Casting gallery
+
+The upper works · Censer Hill foundry
+
+Ceramic moulds stand in rows beneath a broken roof. The far end narrows into the hoist passage.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Bell workshop
+by the gallery steps
+2
+→
+Hoist room
+by the hoist passage
+3
+→
+The valve chamber
+by the pipe walk · new
+HERE
+4
+✝
+Ash, a cave hound
+Feral cave hound · dead
+5
+☺
+Hesta, the foundry's herb gatherer
+Human
+COMPANY
+6
+○
+Wait a while
+10m
+BELL WORKSHOP
+
+Bell workshop, a few steps away.
+
+Go
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Castinggallery
+Hoist room
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+███░░░░░░░
+2/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+███░░░░░░░
+2/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 70 earlier
+Your company wins the encounter.
+Elen gains 20 experience.
+Bran gains 20 experience.
+Dori gains 20 experience.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,15 +1,8 @@
 {
   "version": 1,
-  "situation": "site.kyr",
+  "source": "site.kyr",
   "rules": [
-    "../../rulesets/world/core.kyr",
-    "../../rulesets/world/passages.kyr",
-    "../../rulesets/world/people.kyr",
-    "../../rulesets/world/needs.kyr",
-    "../../rulesets/world/services.kyr",
-    "../../rulesets/discovery.kyr",
-    "../../rulesets/world/care.kyr",
-    "../../rulesets/world/belongings.kyr"
+    "world"
   ],
   "globals": [
     "party"
@@ -21,7 +14,11 @@
     "captive": "lower_gallery",
     "tools": "smithy",
     "site": "quarry",
-    "closing": "beck_lane"
+    "closing": "beck_lane",
+    "warden": "sexton",
+    "camp": "quarry_floor",
+    "prize_room": "incline_top",
+    "sanctum": "drowned_drift"
   },
   "generation": {
     "type": "quarry_site",

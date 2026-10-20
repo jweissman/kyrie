@@ -1,0 +1,15 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:30 a.m.
+The company has fallen
+
+No companion survives. This history remains saved; start a new company from the Journal.
+
+New company
+HClose history
+Nothing has happened yet.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

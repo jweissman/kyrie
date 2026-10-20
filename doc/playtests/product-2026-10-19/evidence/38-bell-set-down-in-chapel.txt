@@ -1,0 +1,78 @@
+THE RED CRAG
+The Thrale Highlands›Thrale›The bell chapel
+Day 1, 3:30 p.m.
+CARRIED
+ELEN
+1
+○
+Thieves' tools
+carried
+BRAN
+2
+○
+Thieves' tools
+carried
+3
+○
+Coil of rope
+carried
+DORI
+4
+○
+Bandages
+carried
+5
+○
+Healing herbs
+carried
+6
+○
+Fireproof salve
+carried
+THIEVES' TOOLS
+Give to
+▸
+Set down here
+10m
+THIEVES' TOOLS
+
+Thieves' tools · carried by Elen
+
+A set of tools for picking locks and disarming traps.
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+0 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 32 earlier
+coin: 2 → 0
+3:30 p.m.
+the chapel bell: Set down here
+Bran sets the chapel bell down.
+Bran: set down the chapel bell.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

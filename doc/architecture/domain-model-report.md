@@ -29,7 +29,7 @@ The full audit is in [domain-model.md §1](domain-model.md#1-audit-what-the-old-
 
 ## 2. Canonical concepts and why
 
-There are thirteen catalogs in [data/canon](../../data/canon), one per concept, each validated by
+There are thirteen catalogs in [data/catalog](../../data/catalog), one per concept, each validated by
 [CanonValidation](../../src/canon/canon-validation.ts) when content loads:
 
 | Concept | Why it is separate |

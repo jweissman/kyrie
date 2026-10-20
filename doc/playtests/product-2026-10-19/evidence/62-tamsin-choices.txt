@@ -1,0 +1,94 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry›The lower gallery
+Day 1, 10:30 a.m.
+Tamsin, quarry tally-keeper
+
+hurt · the lower gallery
+
+They wait for you to speak.
+
+SAY
+ASK
+1
+»
+Ask Tamsin what they mean to do
+DEAL
+2
+¤
+Ask them to come with you
+3
+¤
+Let them make their own way
+END
+4
+⇤
+End the conversation
+ASK TAMSIN WHAT THEY MEAN TO DO
+Ask Tamsin what they mean to do
+10m
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+LOWER GALLERY
+quarry floor
+quarrysmithy
+adit mouth
+head of thetub incline
+lowergallery
+? uppergallery
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 12 earlier
+10:30 a.m.
+the derailed ore tub: Dig out beneath the derailed ore tub, the way a miner would
+Twenty minutes of quick, careful digging, shoring as you go. At last Tamsin eases the leg out from under the derailed ore tub.
+Tamsin keeps their weight off one leg, but can walk.
+The derailed ore tub lies where it fell, but a hollow has been scraped out of the floor beneath one end.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

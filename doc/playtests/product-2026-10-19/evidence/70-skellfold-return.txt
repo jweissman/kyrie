@@ -1,0 +1,96 @@
+CAUGHT BELOW
+The Skell fells›Skellfold
+Day 1, 12:20 p.m.
+Skellfold green
+
+Skellfold · The Skell fells
+
+◆ Tamsin is back with Marrit, who will want a word with you.
+
+Snow lies thin on the green and thick on the walls. The beck path runs up the valley; a steep track climbs the fellside.
+
+WAYS AND THINGS
+WAYS
+1
+⇥
+Enter Marrit's cottage
+by the cottage door · new
+2
+⇢
+The foot of the beck lane
+by the path along the beck
+3
+⇢
+The shepherds' track
+by the climb up to the fell track · new
+COMPANY
+4
+○
+Wait a while
+10m
+ENTER MARRIT'S COTTAGE
+
+Into Marrit's cottage: the cottage.
+
+Go
+10m
+MAP
+SKELLFOLD
+MARRIT'S COTTAGE
+Skellfoldgreen
+? cottage
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 28 earlier
+Tamsin takes the path along the beck toward Skellfold green.
+Tamsin takes the cottage door toward the cottage.
+Marrit takes the cottage door toward the cottage.
+Marrit sees Tamsin, and runs. For a while nobody says anything sensible.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

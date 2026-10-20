@@ -1,0 +1,99 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 10:30 a.m.
+Surveyor's vestibule
+
+The upper works · Censer Hill foundry
+
+◆ Wren asked you to find Pell in Censer Hill foundry. The rising river closes the drain culvert about 1:40 p.m.
+
+Lime-washed walls, a fallen lamp bracket, and footprints in the dust heading deeper in.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Bell workshop
+by the workshop doorway · new
+2
+⇤
+Out to Foundry yard
+by the roofless arch
+HERE
+3
+·
+a scratched survey board
+can be read
+COMPANY
+4
+○
+Wait a while
+10m
+A SCRATCHED SURVEY BOARD
+
+Nothing you can do with this right now.
+
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+? Drainmouth
+? Bellworkshop
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 4 earlier
+10:20 a.m.
+→ Surveyor's vestibule
+10:30 a.m.
+a scratched survey board: Examine
+You examine the evidence and record what it establishes.
+Learned: A tram crawl runs from the dry stores to the back of the hoist room; it is marked on a surveyor's board.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

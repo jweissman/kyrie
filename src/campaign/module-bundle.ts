@@ -14,13 +14,30 @@ export interface BundleRequest {
 export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
 }
+// A module manifest: the Kyr source files it consists of, the rule modules it is written against, what it imports
+// and exports, and optional DEEM generation. Every region, site, situation and institution is such a module.
 interface BundleManifest {
   roles?: Record<string, RoleContract>;
-  version: 1; situation: string | string[]; rules: string | string[]; globals?: string[]; imports?: string[];
-  exports: Record<string, string>;
+  version: 1; source: string | string[]; rules: string | string[]; globals?: string[]; imports?: string[];
+  exports?: Record<string, string>;
   generation?: { type: string; context?: Record<string, DeemValue>; tables?: string; templates?: string };
 }
 export class ModuleBundle {
+  // Rule modules named in a manifest resolve to data/rules; "world" is the standard set every world uses.
+  static readonly world = ['core', 'passages', 'people', 'needs', 'services', 'discovery', 'care', 'belongings'];
+  static readonly ruleNames = [...ModuleBundle.world, 'elements'];
+  private static strings(v: unknown, min = 0): boolean {
+    return typeof v === 'string' || (Array.isArray(v) && v.length >= min && v.every(x => typeof x === 'string'));
+  }
+  private static check(m: BundleManifest) {
+    const strings = ModuleBundle.strings.bind(ModuleBundle);
+    const valid = m.version === 1 && strings(m.source, 1) && strings(m.rules, 1)
+      && (!m.generation || typeof m.generation.type === 'string')
+      && [m.imports, m.globals].every(list => list === undefined || Array.isArray(list) && strings(list))
+      && (m.exports === undefined || (typeof m.exports === 'object' && !Array.isArray(m.exports)
+        && Object.entries(m.exports).every(([k, v]) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(k) && typeof v === 'string')));
+    if (!valid) { throw new Error('Invalid module manifest'); }
+  }
   static async campaign(path: string, source: BundleSource): Promise<CampaignManifest> {
     const manifest = JSON.parse(await source.read(path)) as CampaignManifest;
     if (manifest.version !== 1 || typeof manifest.name !== 'string' || !Array.isArray(manifest.modules)
@@ -41,27 +58,22 @@ export class ModuleBundle {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
     const path = source.resolve(request.bundle);
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
-    if (manifest.version !== 1 || !(typeof manifest.rules === 'string' || (Array.isArray(manifest.rules)
-      && manifest.rules.length && manifest.rules.every(r => typeof r === 'string'))) || !(typeof manifest.situation === 'string' || (Array.isArray(manifest.situation) && manifest.situation.length && manifest.situation.every(p => typeof p === 'string')))
-      || (manifest.generation && typeof manifest.generation.type !== 'string')
-      || !manifest.exports || typeof manifest.exports !== 'object' || Array.isArray(manifest.exports)
-      || [manifest.imports, manifest.globals].some(list => list !== undefined && (!Array.isArray(list)
-        || list.some(name => typeof name !== 'string')))
-      || Object.entries(manifest.exports).some(([key, value]) => !/^[A-Za-z][A-Za-z0-9_-]*$/.test(key)
-        || typeof value !== 'string')) {
-      throw new Error('Invalid module bundle');
-    }
-    const situationPaths = typeof manifest.situation === 'string' ? [manifest.situation] : manifest.situation;
-    const rulePaths = typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules;
+    ModuleBundle.check(manifest);
+    const situationPaths = (typeof manifest.source === 'string' ? [manifest.source] : manifest.source)
+      .map(p => source.resolve(p, path));
+    const rulePaths = (typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules)
+      .flatMap(r => ModuleBundle.ruleNames.includes(r) || r === 'world' ? (r === 'world' ? ModuleBundle.world : [r])
+        .map(name => source.resolve(`data/rules/${name}.kyr`)) : [source.resolve(r, path)]);
     const files = await Promise.allSettled([...situationPaths, ...rulePaths,
-      manifest.generation?.tables, manifest.generation?.templates].map(p => p ? source.read(source.resolve(p, path)) : '{}'));
+      manifest.generation?.tables, manifest.generation?.templates].map((p, i) => !p ? Promise.resolve('{}')
+      : source.read(i < situationPaths.length + rulePaths.length ? p : source.resolve(p, path))));
     const texts = files.map(result => {
       if (result.status === 'rejected') { throw result.reason; }
       return result.value;
     });
     const seed = `${options.seed}:module:${request.id}`;
-    const generated = this.generated(manifest, texts.slice(-2) as [string, string], seed,
-      { ...request.context, now: options.elapsed ?? 0 });
+    const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
+      { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
     const rules = rulePaths.map((_, i) => ModuleParser.parse(texts[situationPaths.length + i]!));
     const combined = { ...rules[0]!, kinds: rules.flatMap(r => r.kinds),
       relations: rules.flatMap(r => r.relations), measures: rules.flatMap(r => r.measures),
@@ -101,7 +113,7 @@ export class ModuleBundle {
       if (options.installed?.some(m => Object.values(m.exports).includes(name))) { imports[name] = name; }
     }
     const draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
-      imports, globals: manifest.globals ?? [], exports: manifest.exports }).draft();
+      imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
     draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
     return draft;
   }

@@ -1,0 +1,71 @@
+{
+  "about": "Conditions: states applied to a creature for a while (or until removed). modifiers use the Orsino vocabulary (see src/rules/modifiers.ts); onTurnEnd damage or healing happens at the end of the holder's turn, or on each tick of a world-time clock. Orsino statuses are generated into data/catalog/orsino/conditions.json; this file holds Kyr's own conditions and deliberate adaptations of Orsino ones.",
+  "conditions": {
+    "poisoned": {
+      "name": "Poisoned",
+      "description": "Poison works through the body, hurting a little at a time until it is cured.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "onTurnEnd": [
+          {
+            "kind": "damage",
+            "amount": "2",
+            "damageType": "poison"
+          }
+        ]
+      },
+      "saveKind": "poison",
+      "source": {
+        "kyr": true,
+        "notes": "A world condition that lasts beyond an encounter and is cured by an antidote; Orsino's poison ends with the fight."
+      }
+    },
+    "bleeding": {
+      "name": "Bleeding",
+      "description": "A wound that keeps bleeding until it is bound.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "onTurnEnd": [
+          {
+            "kind": "damage",
+            "amount": "1",
+            "damageType": "bleed"
+          }
+        ]
+      },
+      "saveKind": "bleed",
+      "source": {
+        "kyr": true,
+        "notes": "A world condition treated by rest or a poultice; Orsino's bleed ends with the fight."
+      }
+    },
+    "fireproof": {
+      "name": "Fireproof",
+      "description": "Fire does half its harm.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "resistances": {
+          "fire": 0.5
+        }
+      },
+      "stacking": "source-refresh",
+      "source": {
+        "orsino": "status:fireproof",
+        "fidelity": "adapted",
+        "notes": "Exact 50% fire resistance. It persists beyond an encounter for as long as the applying salve or ward says, and one source refreshes rather than stacks."
+      }
+    },
+    "wayfarer_guard": {
+      "name": "Wayfarer's guard",
+      "description": "Veyra watches over the traveller: saves come easier.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "saveVersusAll": 2
+      },
+      "stacking": "source-refresh",
+      "source": {
+        "kyr": true
+      }
+    }
+  }
+}

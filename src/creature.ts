@@ -1,10 +1,17 @@
 import { ItemCatalog } from './item-catalog';
+import { Canon } from './canon/canon';
 export type Attribute = 'strength' | 'dexterity' | 'intelligence' | 'wisdom' | 'constitution' | 'charisma';
 export type Attributes = Record<Attribute, number>;
-export interface ConditionInstance { id: string; remaining: number; source?: string; clock?: 'owner-turn' | 'world-time' | 'until-removed' }
+// by: the creature that applied it (Orsino's `by`, read by forceTarget). tempHp: what remains of its temporary hit
+// points.
+export interface ConditionInstance {
+  id: string; remaining: number; source?: string; clock?: 'owner-turn' | 'world-time' | 'until-removed';
+  by?: string; tempHp?: number;
+}
 export interface ItemInstance { id: string; definition: string; equipped?: boolean }
+// raceId is what the creature is: an ancestry (a person, who has a class) or a species (which has none).
 export interface Creature {
-  id: string; name: string; raceId: string; classId: string; backgroundId?: string; professionId?: string;
+  id: string; name: string; raceId: string; classId?: string; backgroundId?: string; professionId?: string;
   traits?: string[];
   base: Attributes & {
     maxHp: number; maxMana: number; speed: number; level: number; abilities: string[];
@@ -23,8 +30,12 @@ export class CreatureSchema {
     if (Object.hasOwn(creature.base, 'scores')) {
       throw new Error('Legacy score/modifier creature data requires migration');
     }
-    if (![creature.id, creature.name, creature.raceId, creature.classId].every(v => typeof v === 'string' && v.length)) {
-      throw new Error('Creature needs identity, name, ancestry and class');
+    if (![creature.id, creature.name, creature.raceId].every(v => typeof v === 'string' && v.length)) {
+      throw new Error('Creature needs identity, name and kind');
+    }
+    if (Canon.isSpecies(creature.raceId) ? creature.classId !== undefined
+      : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Canon.classes[creature.classId]) {
+      throw new Error(`${creature.id}: a person has an ancestry and a class; a species creature has no class`);
     }
     const values = [creature.base.level, creature.base.maxHp, creature.base.maxMana, creature.base.speed,
       creature.state.hp, creature.state.mana, creature.state.gold, creature.state.experience,

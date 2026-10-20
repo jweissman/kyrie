@@ -11,8 +11,8 @@ import { ModuleParser } from '../src/lang/module-parser';
 import type { Person } from '../src/lang/module';
 
 class Party {
-  static readonly river = 'data/caught-below/river.campaign.json';
-  static readonly quarry = 'data/caught-below/quarry.campaign.json';
+  static readonly river = 'data/campaigns/serewater-march.campaign.json';
+  static readonly quarry = 'data/campaigns/skellfold.campaign.json';
   static start(manifest: string, party?: CreatureGenerationContext[]) {
     return PlaySession.start(manifest, 'overlays', NodeBundleSource.shared, party);
   }
@@ -28,7 +28,8 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
     expect(hunter.base.dexterity - base.base.dexterity).toBe(2);
     expect(hunter.base.wisdom - base.base.wisdom).toBe(1);
     expect(hunter.state.gold - base.state.gold).toBe(2);
-    expect(hunter.state.inventory).toEqual([{ id: 'x__rope', definition: 'rope' }]);
+    expect(hunter.state.inventory).toContainEqual({ id: 'x__rope', definition: 'rope' });
+    expect(base.state.inventory!.some(i => i.definition === 'rope')).toBe(false);
     expect(Overlays.contributions(hunter).filter(c => c.kind === 'skill')).toEqual([{ kind: 'skill', value: 'woodcraft', source: 'hunter' }]);
     expect(Canon.backgrounds.hunter!.source.orsino).toBe('background:hunter');
   });
@@ -43,23 +44,25 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
       const s = await Party.start(manifest);
       const elen = s.campaign.state.creatures.find(c => c.name === 'Elen')!;
       expect(elen.backgroundId).toBe('hunter');
-      expect(elen.state.inventory?.map(i => i.definition)).toEqual(['rope']);
+      expect(elen.state.inventory?.map(i => i.definition)).toContain('rope');
       expect(s.campaign.world.test({ kind: 'call', name: 'capable', args: ['party', 'woodcraft'] })).toBe(true);
     }
   }, 60000);
   it('change what a company can do: lockwork opens the stores, mending sets a bone, woodcraft calms the hound', async () => {
-    const toWorkshop = ['go(world__causeway_path,world__causeway)', 'go(world__low_path,world__drain_mouth)', 'go(world__culvert,world__workshop)'];
+    // Over the ridge and in by the vestibule: the boar on the low path needs woodcraft or a ration.
+    const toWorkshop = ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
+      'go(hill__yard_track,hill__yard)', 'go(hill__arch,hill__vestibule)', 'go(hill__workshop_door,hill__workshop)'];
     const trained = await Party.start(Party.river), plain = await Party.start(Party.river, Party.plain);
     for (const s of [trained, plain]) { for (const c of toWorkshop) { await s.perform(c); } }
-    expect(Party.legal(trained)).toContain('change_thing(world__padlock_pick)');
-    expect(Party.legal(plain)).not.toContain('change_thing(world__padlock_pick)');
-    for (const s of [trained, plain]) { await s.perform('go(world__gallery_steps,world__gallery)'); }
-    expect(Party.legal(trained)).toContain('change_thing(world__hound_soothe)');
-    expect(Party.legal(plain)).not.toContain('change_thing(world__hound_soothe)');
-    expect(Party.legal(plain)).toContain('change_thing_paying(world__hound_feed)');
-    await trained.perform('change_thing(world__hound_soothe)'); await trained.perform('go(world__hoist_passage,world__hoist)');
-    await trained.perform('rescue__heave_free(world__member_party_2)');
-    expect(Party.legal(trained)).toContain('rescue__set_leg(party,world__hoist)');
+    expect(Party.legal(trained)).toContain('change_thing(hill__padlock_pick)');
+    expect(Party.legal(plain)).not.toContain('change_thing(hill__padlock_pick)');
+    for (const s of [trained, plain]) { await s.perform('go(hill__gallery_steps,hill__gallery)'); }
+    expect(Party.legal(trained)).toContain('change_thing(hill__hound_soothe)');
+    expect(Party.legal(plain)).not.toContain('change_thing(hill__hound_soothe)');
+    expect(Party.legal(plain)).toContain('change_thing_paying(hill__hound_feed)');
+    await trained.perform('change_thing(hill__hound_soothe)'); await trained.perform('go(hill__hoist_passage,hill__hoist)');
+    await trained.perform('rescue__heave_free(march__member_party_2)');
+    expect(Party.legal(trained)).toContain('rescue__set_leg(party,hill__hoist)');
   }, 90000);
   it('wayfinding puts the region\'s roads on the map before the company has walked them', async () => {
     const explorer = await Party.start(Party.river, [{ name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'explorer' },
@@ -71,10 +74,10 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
   }, 60000);
   it('a profession gives a person offers and a routine; an authored offer of the same kind wins', async () => {
     const s = await Party.start(Party.river);
-    await s.perform('go(world__oar_door,world__taproom)');
-    const maud = ScreenModel.build(s.campaign).people.find(p => p.id === 'world__maud')!;
+    await s.perform('go(march__oar_door,march__taproom)');
+    const maud = ScreenModel.build(s.campaign).people.find(p => p.id === 'march__maud')!;
     expect(maud.acts.map(a => a.label)).toContain('Take a bed and supper — 3 coin');
-    expect(s.campaign.module.pursuits?.some(p => p.actor === 'world__maud' && p.label === 'keeping the inn')).toBe(true);
+    expect(s.campaign.module.pursuits?.some(p => p.actor === 'march__maud' && p.label === 'keeping the inn')).toBe(true);
     const own = { id: 'm', name: 'M', place: 'p', raceId: 'human', classId: 'commoner', level: 1, actions: [],
       professionId: 'innkeeper', offers: [{ kind: 'lodging', text: 'a cot', fee: 1 }] } as Person;
     const module = ModuleParser.parse('Module t "T" { Relation offers(group, service). Goal false. }');

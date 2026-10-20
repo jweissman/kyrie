@@ -1,6 +1,7 @@
 import { Content, type CreatureGenerationContext } from '../src/content';
 import { Html } from './html';
 import { MonoRender, type MonoState } from './mono-render';
+import { Canon } from '../src/canon/canon';
 import { Overlays } from '../src/overlays';
 
 export interface Draft { seed: string; party: CreatureGenerationContext[]; field: number }
@@ -41,7 +42,7 @@ export class MonoScreens {
   }
   static background(id?: string): string {
     if (!id) { return ''; }
-    if (!Overlays.has(id)) { return Content.backgrounds[id as keyof typeof Content.backgrounds]?.description ?? ''; }
+    if (!Overlays.has(id)) { return ''; }
     const o = Overlays.get(id), grants = Overlays.contributions({ backgroundId: id });
     return `${grants.filter(g => g.kind === 'skill').map(g => g.value).join(', ') || 'no skill'}; carries ${grants.filter(g => g.kind === 'gear').map(g => g.value.replace('_', ' ')).join(', ') || 'nothing special'}${o.requiredClass ? `; ${o.requiredClass}s only` : ''}.`;
   }
@@ -51,14 +52,24 @@ export class MonoScreens {
   static options(entries: string[][], value: string): string {
     return entries.map(([id, name]) => `<option value="${Html.escape(id)}"${id === value ? ' selected' : ''}>${Html.escape(name)}</option>`).join('');
   }
+  // Orsino's trait choice for the class (a mage school, a cleric domain, a warrior's disposition), when it has one.
+  static specialization(p: Draft['party'][number], i: number): string {
+    const choices = Canon.classes[Canon.resolve('classes', p.classId ?? '')]?.specializations ?? [];
+    if (!choices.length) { return ''; }
+    const forbidden = Canon.ancestries[p.raceId ?? '']?.forbiddenTraits ?? [];
+    const options = [['', 'Drawn at random'], ...choices.filter(id => !forbidden.includes(id))
+      .map(id => [id, Canon.traits[id]?.name ?? id])];
+    return `<label>Specialization <select data-field="specialization" data-index="${i}">${this.options(options, p.traits?.[0] ?? '')}</select></label>`;
+  }
   static create(draft: Draft, error: string): string {
     const races = Content.playableRaces as string[], classes = Content.playableClasses as string[];
-    const backgrounds = [...Object.keys(Overlays.catalog).filter(id => Overlays.has(id, 'background')), ...Object.keys(Content.backgrounds)];
+    const backgrounds = Object.keys(Overlays.catalog).filter(id => Overlays.has(id, 'background'));
     const rows = draft.party.map((p, i) => `<fieldset class="companion${draft.field === i ? ' sel' : ''}" data-companion="${i}"><legend>${i + 1}</legend>`
       + `<label>Name <input data-field="name" data-index="${i}" maxlength="40" value="${Html.escape(p.name ?? '')}"></label>`
       + `<label>Ancestry <select data-field="raceId" data-index="${i}">${this.options(races.map(id => [id, Content.races[id as keyof typeof Content.races]?.name ?? id]), p.raceId ?? '')}</select></label>`
       + `<label>Calling <select data-field="classId" data-index="${i}">${this.options(classes.map(id => [id, Content.classes[id as keyof typeof Content.classes]?.name ?? id]), p.classId ?? '')}</select></label>`
-      + `<label>Background <select data-field="backgroundId" data-index="${i}">${this.options(backgrounds.map(id => [id, Overlays.has(id) ? Overlays.get(id).name : Content.backgrounds[id as keyof typeof Content.backgrounds]!.name]), p.backgroundId ?? '')}</select></label>`
+      + this.specialization(p, i)
+      + `<label>Background <select data-field="backgroundId" data-index="${i}">${this.options(backgrounds.map(id => [id, Overlays.get(id).name]), p.backgroundId ?? '')}</select></label>`
       + `<p class="muted">${Html.escape(MonoScreens.background(p.backgroundId))}</p></fieldset>`).join('');
     return `<div class="mono-frame" data-mode="create"><header class="bar top"><b class="brand">Serewater March</b><nav class="path">Form a company of three</nav><time></time></header>`
       + `<main class="screen create"><section class="pane place"><h1>A company for Censer Hill</h1><p>Reedwake needs people willing to go under the hill: a surveyor is missing, a salvage crew wants its bronze, and a burial keeper wants the dead left with their names. Choose three companions. Their ancestry, calling and background decide what they can do — and what doors open.</p>`

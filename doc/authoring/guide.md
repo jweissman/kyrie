@@ -107,7 +107,7 @@ adds or replaces a service.
   }
 ```
 
-Backgrounds and professions are in `data/canon/backgrounds.json`:
+Backgrounds and professions are in `data/catalog/backgrounds.json`:
 
 - Professions: `innkeeper`, `herbalist`, `priest`, `boatman`.
 - Backgrounds: `hunter`, `medic`, `locksmith`, `explorer`, `miner`.
@@ -118,11 +118,15 @@ Some backgrounds require a class; `hunter`, for example, requires a ranger.
 
 A person of an ancestry can have a class, a level, traits and equipment.
 
-- **Trait** names something they are or have learned. A specialization, such as a cleric's `vitalist` (the life
-  domain), opens the spells of its domain up to the highest level the person can cast. A feat, such as `knight`,
-  needs its class and level. A lineage trait, such as a dwarf's `sturdy`, needs its ancestry.
-- **Carries** gives them one of an item kind. A weapon or focus is equipped if its slot is free, and grants the
-  strike or technique it carries.
+- **Trait** names a specialization or a feat. A class with specializations takes exactly one: a cleric's domain
+  (`vitalist`, the life domain), a mage's school (`evoker`), a warrior's disposition (`brave`, `toughness`,
+  `strong_willed`). Name it, or one is drawn at random. A specialist person prepares spells as Orsino's casters do:
+  every cantrip of its tradition, and a few spells of its school or domain up to half its level, rounded up. A feat,
+  such as `knight`, needs whatever its own requirements say (the knight needs level 3). Lineage traits, such as a
+  dwarf's `sturdy`, are not chosen: a person is born with its ancestry's traits.
+- **Carries** gives them one of an item kind. A person already starts with a weapon and armour drawn from its class's
+  tables; a carried weapon or armour takes the place of that draw and is worn. Other equipment is worn if its slot is
+  free, and grants the skill or technique it carries.
 
 A creature that is not a person of an ancestry is a **Species**: a wolf, a cave hound, a golem, a dragon. A species
 brings its own statistics, natural attacks and nature traits, so it takes no class. A variant such as `frost_wolf`
@@ -130,7 +134,7 @@ or `red_dragon` names its base species in the catalog and changes only what diff
 
 ```kyr
   Person reeve "Hollis" at green {
-    Role "reeve". Ancestry human. Calling fighter. Level 3. Trait knight. Background locksmith.
+    Role "reeve". Ancestry human. Calling warrior. Level 3. Trait brave. Trait knight. Background locksmith.
     Carries longsword_of_flames. Peaceable.
   }
   Person sister "Sister Maren" at taproom {
@@ -141,7 +145,7 @@ or `red_dragon` names its base species in the catalog and changes only what diff
   }
 ```
 
-The catalogs live in `data/canon`, one file per concept: `ancestries`, `species`, `classes`, `traits`,
+The catalogs live in `data/catalog`, one file per concept: `ancestries`, `species`, `classes`, `traits`,
 `backgrounds`, `abilities`, `conditions`, `items`, `skills`, `religion`, `organisms` and `rules`. Use the plain
 identifiers you find there. Former identifiers still resolve through `aliases.json`, but lint reports them.
 
@@ -206,17 +210,15 @@ works. `kyrie lint` reports text that explains the implementation ("persists", "
 
 ## 7. module.json: rules and exports
 
-The bundle lists the rules your site uses and names the places a situation may use. Exports are the only way a
+The manifest names the Kyr source of your module, the rules it is written against (`world` is the standard set), and the places a situation may use. Exports are the only way a
 situation reaches into your site, so a situation never names a particular room. A site that generates nothing leaves
 out `generation`.
 
 ```json module.json
 {
   "version": 1,
-  "situation": "site.kyr",
-  "rules": ["../../rulesets/world/core.kyr", "../../rulesets/world/passages.kyr",
-    "../../rulesets/world/people.kyr", "../../rulesets/world/needs.kyr", "../../rulesets/world/services.kyr",
-    "../../rulesets/discovery.kyr", "../../rulesets/world/care.kyr", "../../rulesets/world/belongings.kyr"],
+  "source": "site.kyr",
+  "rules": ["world"],
   "globals": ["party"],
   "exports": { "party": "party", "home": "cottage", "lookout": "strand", "captive": "ossuary",
     "tools": "nave", "site": "chapel_site", "closing": "ford" }

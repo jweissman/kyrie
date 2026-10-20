@@ -1,0 +1,76 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 5:20 p.m.
+OPPOSED
+Ash
+feral cave hound feral cave hound
+HP
+██████████
+11/11
+YOUR COMPANY
+Bran
+human fighter
+HP
+██████████
+12/12
+▶ Elen
+elf ranger
+HP
+███░░░░░░░
+2/7
+MP
+██████████
+2/2
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+ELEN ACTS — TURN 3
+ELEN
+1
+⚔
+Weapon attack
+2
+⚔
+Guard
+self
+3
+⚔
+Retreat
+self
+4
+⚔
+Backstab
+5
+⚔
+Elder focus
+self
+6
+⚔
+Mend wounds
+2 mana
+GUARD
+
+Defend.
+
+Guard
+BLOW BY BLOW
+
+Elen resists (constitution 18 vs 11).
+
+Elen takes 5 physical damage (roll 5) → 2 HP.
+
+Ash: Rending bite → Elen
+
+Bran guards.
+
+Bran: Guard
+
+↑↓choose
+⏎act
+Escback
+TTactics

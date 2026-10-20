@@ -1,0 +1,85 @@
+CAUGHT BELOW
+The Skell fells›Skellfold›Marrit's cottage
+Day 1, 12:40 p.m.
+Marrit, Tamsin's grandmother
+
+relieved · the cottage
+
+» Speak with Marrit
+
+'They found their own way back, on that leg,' says Marrit, not quite looking at you. 'You got them out. I'm grateful. But you might have walked them back.' Three coins, counted out carefully.
+
+SAY
+ASK
+1
+»
+Ask how Tamsin is mending
+END
+2
+⇤
+End the conversation
+ASK HOW TAMSIN IS MENDING
+Ask how Tamsin is mending
+10m
+MAP
+MARRIT'S COTTAGE
+SKELLFOLD
+cottage
+Skellfoldgreen
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 31 earlier
+Marrit sees Tamsin, and runs. For a while nobody says anything sensible.
+12:30 p.m.
+→ the cottage
+12:40 p.m.
+Speak with Marrit: Speak with Marrit
+coin: 14 → 17
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

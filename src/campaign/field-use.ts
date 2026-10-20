@@ -4,6 +4,7 @@ import type { World } from '../lang/world';
 import { Content } from '../content';
 import { CombatProjection } from '../combat-projection';
 import { Effects } from '../effects';
+import { Fighting } from '../rules/fighting';
 import { AbilityUse } from '../ability-use';
 import { Expressions } from '../expressions';
 import type { CreatureStore } from '../creature-store';
@@ -65,8 +66,10 @@ export class FieldUse {
       if (options.service === 'recover' && lease.creatures.every(c => c.state.hp === 0)) { return []; }
       const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
       const actor = fighters.find(f => f.id === options.caster)!;
-      if (!actor || actor.hp === 0 || actor.statuses.some(s => Effects.status(s.id).skip)
-        || (!options.service && !actor.abilities.includes(ability.id))) { throw new Error('Caster cannot use this ability'); }
+      if (!actor || actor.hp === 0 || actor.statuses.some(s => Effects.skips(s.id))
+        || (!options.service && !actor.abilities.includes(ability.id))
+        || (ability.spell?.level ?? ability.level ?? 0) > Fighting.maxSpellLevel(actor.level)
+        || (ability.spell && Effects.modifiers(actor).noSpellcasting)) { throw new Error('Caster cannot use this ability'); }
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[],
         ...(actor.abilitySources?.[ability.id] ? { source: actor.abilitySources[ability.id] } : {}),
         content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),

@@ -1,0 +1,36 @@
+{
+  "fellowship": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior"
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric"
+    }
+  ],
+  "company": [
+    {
+      "name": "Nell",
+      "raceId": "human",
+      "classId": "thief"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior"
+    },
+    {
+      "name": "Mira",
+      "raceId": "human",
+      "classId": "mage"
+    }
+  ]
+}

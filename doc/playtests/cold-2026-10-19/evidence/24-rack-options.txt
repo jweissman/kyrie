@@ -1,0 +1,114 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 11:40 a.m.
+Hoist room
+
+The upper works · Censer Hill foundry
+
+◆ Wren asked you to find Pell in Censer Hill foundry. The rising river closes the drain culvert about 1:40 p.m.
+
+A slack cable hangs from the hoist drum. Timber and tools lie where a rack came down.
+
+Pell lies half under the fallen timber rack, one leg trapped beneath it. Their face is grey with pain and cold.
+
+The fallen timber rack lies across the floor where it fell, wedged against the wall.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Dry stores
+by the old tram crawl
+2
+→
+Casting gallery
+by the hoist passage · past Ash · new
+HERE
+3
+☺
+Pell, surveyor
+pinned
+4
+·
+the fallen timber rack
+pinning
+COMPANY
+5
+○
+Wait a while
+10m
+THE FALLEN TIMBER RACK
+Lever the fallen timber rack up with a pry bar
+10m
+Dig out beneath the fallen timber rack with your hands
+40m
+Heave the fallen timber rack off by main force
+▸
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Hoist room
+? Drainmouth
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 18 earlier
+Bran gains 1 a pry bar.
+11:30 a.m.
+→ Hoist room
+A voice from low down in the dark: 'Here! Over here. Mind the fallen timber rack; it's on my leg. Don't just haul on it. Something cracked when it came down.'
+11:40 a.m.
+Ask Pell what happened: Ask Pell what happened
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

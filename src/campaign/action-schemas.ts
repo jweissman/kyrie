@@ -14,7 +14,8 @@ export class ActionSchemas {
     }
     // Join only on relations that no action, rule or campaign projection can write. Keep dynamic
     // preconditions for execution, including cross-module distinct facts installed after grounding.
-    const written = new Set(['at', 'able', 'dead', 'distinct', 'recorded', 'capable', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain',
+    const written = new Set(['at', 'able', 'dead', 'distinct', 'recorded', 'capable', 'awake', 'needsCare', 'canCast',
+      'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient',
       ...module.actions.flatMap(a => [...a.success, ...a.failure].map(c => c.call.name)),
       ...(module.rules ?? []).flatMap(r => r.effects.map(c => c.call.name))]);
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));

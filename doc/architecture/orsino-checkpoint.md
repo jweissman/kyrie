@@ -15,7 +15,7 @@ creature kinds with stat lines, four damage kinds and environmental exposure. Th
 
 Orsino was read at `/home/jweissman/work/orsino`, revision `4cb27ce68cb204a82c6ce6eb1a29c2131dc67eb3` (clean). The
 inventory is not hand-counted. `bun bin/orsino-registry.ts generate` reads twelve JSON files and six TypeScript rule
-files and writes [data/orsino/registry.json](../../data/orsino/registry.json). `test/orsino-registry.test.ts`
+files and writes [data/sources/orsino/registry.json](../../data/sources/orsino/registry.json). `test/orsino-registry.test.ts`
 regenerates it from the pinned checkout and compares byte for byte. Extraction fails if any Orsino table is not
 assigned to a registry family, so nothing in the corpus is silently left out.
 
@@ -76,8 +76,8 @@ Documentation found stale or inconsistent:
 
 ## 3. Compatibility today
 
-Support levels are computed from [the adaptation ledger](../../data/orsino/adaptations.json), and feasibility from
-[the per-feature support table](../../data/orsino/kyr-support.json). See the generated matrix for every family.
+Support levels are computed from [the adaptation ledger](../../data/sources/orsino/adaptations.json), and feasibility from
+[the per-feature support table](../../data/sources/orsino/kyr-support.json). See the generated matrix for every family.
 
 | Status | Orsino definitions |
 |---|---|
@@ -114,10 +114,10 @@ Ranked by how many mechanical entries each one blocks (generated table: [orsino-
 ## 4. Registry and adaptation architecture
 
 ```
-Orsino checkout ──generate──▶ data/orsino/registry.json        catalogued: every source definition, verbatim
+Orsino checkout ──generate──▶ data/sources/orsino/registry.json        catalogued: every source definition, verbatim
                                     │  (family:key ids, file and table provenance, references, rule features)
-data/orsino/kyr-support.json ──────┤  Kyr's judgement of each rule feature: faithful / adapted / cosmetic / unsupported
-data/orsino/adaptations.json ──────┤  which Kyr definitions represent an entry, at what level, with declared gaps
+data/sources/orsino/kyr-support.json ──────┤  Kyr's judgement of each rule feature: faithful / adapted / cosmetic / unsupported
+data/sources/orsino/adaptations.json ──────┤  which Kyr definitions represent an entry, at what level, with declared gaps
                                     ▼
              OrsinoRegistry (src/registry) ──report──▶ doc/architecture/orsino-coverage.md
                                     │
@@ -148,7 +148,7 @@ These categories describe composition responsibilities. None of them is a new ru
 
 | Category | Contents now | Disposition |
 |---|---|---|
-| Shared rules | `rulesets/world/{core,passages,people,needs,services,care,belongings}.kyr`, `rulesets/discovery.kyr` | Keep. Add rule modules only for new canonical vocabulary (environmental exposure in this slice). |
+| Shared rules | `rules/{core,passages,people,needs,services,care,belongings}.kyr`, `rules/discovery.kyr` | Keep. Add rule modules only for new canonical vocabulary (environmental exposure in this slice). |
 | Shared catalogs | `races`, `classes`, `abilities` + `orsino/mechanics`, `statuses`, `items`, `orsino/overlays`, `rules`, `creatures`, `encounters`, DEEM defaults | Keep. Add typed fields (save categories, passive traits, creature stat blocks). Retire `backgrounds.json`, `capabilities.json` and `encounters.json` once their only users (Serewater fixtures, the arena demo) are retired. |
 | Regions | Embedded in each site: Reedwake's `march` region, Skellfold's region | Split the region (settlements, wilderness, routes) from adventure sites in Stage F, so several sites can share one region. |
 | Sites | `sites/reedwake`, `sites/skellfold`: real rooms, passages, durations, services | Keep as the canonical pattern. New sites follow it. |

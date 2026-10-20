@@ -7,8 +7,12 @@ export type Target = 'enemy' | 'ally' | 'self' | 'dead ally' | 'enemies' | 'alli
 export type Amount = { kind: 'literal'; value: number } | { kind: 'deem'; expression: string };
 export type Resource = 'gold' | 'experience' | 'mana';
 type EffectBody =
+  // A weapon attack (Orsino's attack effect): an attack roll with the actor's weapon, then its damage. Spillover
+  // carries lethal excess damage on to another enemy.
+  | { kind: 'attack'; target: Target; spillover?: true }
   | { kind: 'damage'; amount: Amount; damageType: string; target: Target }
-  | { kind: 'heal' | 'drain' | 'revive'; amount: Amount; target: Target }
+  | { kind: 'heal' | 'revive'; amount: Amount; target: Target }
+  | { kind: 'drain'; amount: Amount; damageType?: string; target: Target }
   | { kind: 'defend' | 'flee'; target: 'self' }
   | { kind: 'apply'; status: string; duration: number; clock?: 'owner-turn' | 'world-time' | 'until-removed'; target: Target }
   | { kind: 'remove'; status: string; target: Target }
@@ -19,12 +23,17 @@ type EffectBody =
   | { kind: 'travel'; location: string; target: 'self' };
 // A save names either an attribute (a Kyr attribute save) or an Orsino save category such as breath or will.
 export type Save = { stat?: string; kind?: string; difficulty: Amount; success?: 'negate' | 'half' };
-export type Effect = EffectBody & { when?: string; save?: Save };
+// onResist: what a resisted spell save does to this damage. targetTrait: the effect only touches creatures with that
+// trait (Orsino's condition.trait).
+export type Effect = EffectBody & { when?: string; save?: Save; onResist?: 'half' | 'negate'; targetTrait?: string };
 export interface ArenaAbility {
   id: string; name: string; effects: Effect[]; cost?: number; cooldown?: number;
   description?: string;
-  damagePolicy?: 'typed-v1';
-  attack?: { stat: 'strength' | 'dexterity'; defense: number; critical: number };
+  // A spell spends a slot and is gated by its level; a technique with a level is gated the same way.
+  spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string };
+  level?: number;
+  resist?: { kind: string; difficulty: Amount };
+  requires?: { status?: string; interceptWeapon?: true };
 }
 
 type Ast = Effect | Effect[] | Amount;

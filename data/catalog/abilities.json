@@ -1,0 +1,110 @@
+{
+  "about": "Abilities: what a creature can choose to do. Orsino skills and spells are generated into data/catalog/orsino/abilities.json; this file holds Kyr's own abilities and adaptations. kind is technique, spell (with tradition, level and school or domain; a spell spends one slot) or natural. effect is written in the Kyr effect language; effects is the typed form.",
+  "abilities": {
+    "flee": {
+      "name": "Flee",
+      "kind": "technique",
+      "effect": "Flee.",
+      "source": {
+        "orsino": "ability:flee",
+        "fidelity": "adapted",
+        "notes": "Orsino offers player-side combatants Flee every turn: an even chance (Math.random() < 0.5; Kyr rolls from the seeded stream) to end the fight. Orsino's monster Escape skill rolls a will save that, as written for fear effects, makes a successful save fail; Kyr uses the player rule for every creature that flees."
+      }
+    },
+    "fire_ward": {
+      "name": "Fire ward",
+      "kind": "technique",
+      "description": "Spend a little strength to ward a companion against fire for about two hours.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "fireproof",
+          "duration": 12,
+          "target": "ally",
+          "clock": "world-time"
+        }
+      ],
+      "cost": 2,
+      "source": {
+        "orsino": "status:fireproof",
+        "fidelity": "adapted",
+        "notes": "Kyr technique granted by a ward focus; applies fireproof on the world clock for twelve units."
+      }
+    },
+    "rending_bite": {
+      "name": "Rending bite",
+      "kind": "natural",
+      "effect": "Deal (1d6) physical damage to enemy. Apply bleeding to enemy for 2 turns unless constitution save against (11).",
+      "recharge": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "rime_bite": {
+      "name": "Rime bite",
+      "kind": "natural",
+      "effect": "Deal (2d6) cold damage to enemy. Apply weakened to enemy for 3 turns unless constitution save against (11).",
+      "recharge": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "winter_howl": {
+      "name": "Winter howl",
+      "kind": "natural",
+      "effect": "Apply stun to enemies for 1 turn unless wisdom save against (12).",
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "custodian_sweep": {
+      "name": "Bronze sweep",
+      "kind": "natural",
+      "effect": "Deal (1d6) physical damage to enemies unless dexterity save against (11).",
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
+    },
+    "custodian_chain": {
+      "name": "Burial chain",
+      "kind": "natural",
+      "effect": "Deal (1d6) physical damage to enemy. Apply weakened to enemy for 3 turns unless strength save against (12).",
+      "recharge": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "breathe_fire": {
+      "name": "Fire breath",
+      "kind": "natural",
+      "description": "Fire pours over everyone before the creature. A quick or hardy creature takes half. The fire takes a while to rekindle.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "4d6"
+          },
+          "damageType": "fire",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "orsino": "weapon:fire_breath",
+        "fidelity": "adapted",
+        "notes": "Exact 4d6 fire with a breath save for half. Orsino uses the breath as a single-target melee weapon; Kyr breathes it over every enemy."
+      }
+    }
+  }
+}

@@ -20,12 +20,14 @@ class RedCragRecord {
         ? `${RedCragRecord.name(names, e.target)} saves versus ${e.kind}: d20 ${e.die} + ${e.stat} ${e.modifier} + level ${e.level} + bonus ${e.bonus}`
           + ` = ${e.rolled} against ${e.difficulty}: ${e.success ? 'success' : 'failure'}.`
         : `${RedCragRecord.name(names, e.target)} saves (${e.stat}): ${e.rolled} against ${e.difficulty}: ${e.success ? 'success' : 'failure'}.`;
-      case 'attack': return `${RedCragRecord.name(names, e.actor)} attacks ${RedCragRecord.name(names, e.target)}: d20 ${e.die} + ${e.modifier} against ${e.defense}: `
-        + `${e.success ? e.critical ? 'critical hit' : 'hit' : 'miss'}.`;
+      case 'attack': return `${RedCragRecord.name(names, e.actor)} attacks ${RedCragRecord.name(names, e.target)} with ${e.weapon}:`
+        + ` d20 ${e.die} needing ${e.need} (AC ${e.armorClass}, to-hit ${e.toHit}): `
+        + `${e.success ? e.critical ? 'critical hit' : 'hit' : e.evaded ? 'evaded' : 'miss'}.`;
       case 'damage': {
         const m = e.modifiers;
         const how = m ? [m.halfSave ? 'halved by the save' : '', m.resistance ? `resistance ${m.resistance}` : '',
-          m.power ? `power ${m.power}` : '', m.critical ? `critical x${m.critical}` : ''].filter(Boolean).join(', ') : '';
+          m.bonus ? `bonus ${m.bonus}` : '', m.reduction ? `reduction ${m.reduction}` : '',
+          m.critical ? `critical +${m.critical}` : ''].filter(Boolean).join(', ') : '';
         return `${RedCragRecord.name(names, e.target)} takes ${e.amount} ${e.damageType ?? ''} damage (rolled ${e.rolled}${how ? `; ${how}` : ''}); `
           + `${e.hp} HP left.`;
       }

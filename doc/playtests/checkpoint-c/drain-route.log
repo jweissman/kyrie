@@ -1,0 +1,143 @@
+== PREPARATION
+  Elen: elf ranger L1 HP 12/12 slots 3/3 STR 9 DEX 22 CON 14 INT 9 WIS 17 CHA 8 gold 8
+    traits humanoid, agile, perceptive; knows Defend, Heal Ally, Hunter's Mark, Ensnare
+    gear rope, longsword*, chainmail*; conditions 
+  Bran: human warrior L1 HP 15/15 slots 3/3 STR 8 DEX 16 CON 16 INT 11 WIS 15 CHA 11 gold 4
+    traits humanoid, adaptable, versatile, toughness; knows Defend, Taunt, Vigor Up, Cleave, Prepare Charge, Charge, Second Wind, Sweeping Strike
+    gear thieves_tools, battleaxe*, chainmail*; conditions 
+  Dori: dwarf cleric L1 HP 12/12 slots 8/8 STR 12 DEX 11 CON 17 INT 11 WIS 15 CHA 9 gold 2
+    traits humanoid, sturdy, tough, vitalist; knows Defend, Cure Minor Wounds, Sanctify, Cure Light Wounds, Bless, Anoint, Prayer, Minor Restoration, Cure Moderate Wounds
+    gear bandages, herbs, staff*, studded*; conditions 
+  | Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.
+  | Wren stands with one hand shading their eyes, watching the way to Censer Hill foundry.
+> Take Nera's shop door to Nera's shop floor   [success, watch 1]
+> Ask Nera how to prepare   [success, watch 2]
+  "'Plan your way back before you go down,' says Nera. 'Maud's pallets are two coin. I sell what I have, and when it is gone it is gone. Antidote treats poison, not a crushed skull. Take a line; there are clefts in that hill that strength alone won't get you across.'"
+  | Bunches of herbs hang from the beams over shelves of jars, coils of rope, stoppered antidotes and wrapped rations.
+> Buy Antidote for Dori · 3 coin   [success, watch 3]
+  "Nera takes the money and hands Antidote to Dori."
+  ~ Dori gains 1 Antidote.
+> Take Nera's shop door to Reedwake quay   [success, watch 4]
+  * Wren hurries over to you. 'Are you going up to Censer Hill foundry? Have you seen Pell?'
+> Take the shrine porch to the shrine   [success, watch 5]
+> Ask Iven about the keepers' dead   [success, watch 6]
+  "'We are the Keepers of Names,' says Iven. 'We do not command the dead or what guards them; we hold them in custody. Our register was lost in the flood, and without it the dead are only bones to anyone with a pry bar. If the register survives, bring me word of it and I will write you a custody writ. Our guardians honour the writ. Killing them also opens the way, but then there is no keeper below at all.'"
+> Ask Iven about the salvage   [success, watch 7]
+  "'Edda has a permit for machinery,' says Iven. 'Not for Named vault. If anything that was buried with the dead comes up for sale, I will hear of it.'"
+> Take the shrine porch to Reedwake quay   [success, watch 8]
+> Ask Wren what is wrong   [success, watch 9]
+  "'Pell went up to Censer Hill foundry at first light and should have been back by mid-morning,' says Wren. 'Nobody has seen them since. The short way in is the drain culvert, and the rising river will close it at about watch 34; after that you go the long way round. Please. Go and look.'"
+== EXPLORATION
+> Take the causeway path to Willow causeway   [success, watch 15]
+  | Old stones run out across the floodplain between willow poles. Waterfowl lift from the sedges. A track climbs the chalk ridge; a lower path drops into the reeds.
+  | A boar has rooted up the low path and stands across it, bristling, watching you.
+> Read a reedbank boar's warning posture and give it room   [success, watch 16]
+> Take the low path through the reeds to Drain mouth   [success, watch 19]
+> Take the drain culvert to Bell workshop   [success, watch 20]
+  | A split pipe hisses over the boiler arch. Fresh scorch marks stripe the boiler arch; turning its seized valve needs a crowbar. A fire ward can blunt a scald, but the jet must still be crossed.
+  | A rusted padlock holds the stores door shut.
+  | Half-cast bells lean against the walls. Chalk circles mark reusable bronze; older burial marks below the stores door declare another custody. Doorways lead to the stores and the vestibule; steps go down to the casting gallery, and the culvert mouth gapes in the floor.
+  | The drain culvert is still clear, but the rising river will close it at about watch 34.
+> Take the workshop doorway to Surveyor's vestibule   [success, watch 21]
+> Examine a scratched survey board   [success, watch 22]
+  * A tram crawl runs from the dry stores to the back of the hoist room; it is marked on a surveyor's board.
+> Take the workshop doorway to Bell workshop   [success, watch 23]
+> Pick the stores padlock   [success, watch 24]
+> Take the stores door to Dry stores   [success, watch 25]
+  | The stores door stands open; its padlock hangs from the hasp.
+  | Collapsed shelving and oilcloth bundles. A soot-black dry stair goes down to the refuge. The far wall is old brick with a low, black opening at its foot.
+> Collect a pry bar for Bran   [success, watch 26]
+  "Bran takes a pry bar."
+  ~ Bran gains 1 a pry bar.
+> Collect a surveyor's harness and pitons for Elen   [success, watch 27]
+  "Elen takes a surveyor's harness and pitons."
+  ~ Elen gains 1 a surveyor's harness and pitons.
+> Equip a surveyor's harness and pitons on Elen   [success, watch 28]
+  "Elen readies a surveyor's harness and pitons."
+  ~ Elen: equipped a surveyor's harness and pitons.
+> Take the stores door to Bell workshop   [success, watch 29]
+> Take the gallery steps to Casting gallery   [success, watch 30]
+  * The hound's growl fills the gallery. It does not come at you; it holds the hoist passage.
+  | A lean cave hound stands across the hoist passage, head low, lips back from its teeth.
+  | Ceramic moulds stand in rows beneath a broken roof. The far end narrows into the hoist passage.
+== ENCOUNTER: the hound
+> Attack Ash   [success, watch 31]
+  * Hesta draws the linen basket to her chest. 'I saw you strike Ash. Find your salve elsewhere.'
+  ~ Initiative: Elen 22, Bran 17, Dori 17, Ash 13.
+  ~ Elen uses Melee Attack.
+  ~ Elen critically hits Ash (d20 20, needing 9: THAC0 less AC 11 less to-hit 0).
+  ~ Ash takes 10 slashing damage (0 HP; roll 10, critical +2).
+  ~ Ash falls.
+  ~ Ash fails the death save (d20 6 + constitution 1 + level 2 = 9 against 25).
+  ~ Your company wins the encounter.
+  ~ Elen gains 20 experience.
+  ~ Bran gains 20 experience.
+  ~ Dori gains 20 experience.
+  Elen: elf ranger L1 HP 12/12 slots 3/3 STR 9 DEX 22 CON 14 INT 9 WIS 17 CHA 8 gold 5
+    traits humanoid, agile, perceptive; knows Defend, Heal Ally, Hunter's Mark, Ensnare
+    gear rope, longsword*, chainmail*, climbing_harness*; conditions 
+  Bran: human warrior L1 HP 15/15 slots 3/3 STR 8 DEX 16 CON 16 INT 11 WIS 15 CHA 11 gold 4
+    traits humanoid, adaptable, versatile, toughness; knows Defend, Taunt, Vigor Up, Cleave, Prepare Charge, Charge, Second Wind, Sweeping Strike
+    gear thieves_tools, battleaxe*, chainmail*, crowbar; conditions 
+  Dori: dwarf cleric L1 HP 12/12 slots 8/8 STR 12 DEX 11 CON 17 INT 11 WIS 15 CHA 9 gold 2
+    traits humanoid, sturdy, tough, vitalist; knows Defend, Cure Minor Wounds, Sanctify, Cure Light Wounds, Bless, Anoint, Prayer, Minor Restoration, Cure Moderate Wounds
+    gear bandages, herbs, staff*, studded*, antidote; conditions 
+  | Ceramic moulds stand in rows beneath a broken roof. The far end narrows into the hoist passage.
+== RESCUE
+> Take the hoist passage to Hoist room   [success, watch 32]
+  * A voice from low down in the dark: 'Here! Over here. Mind the fallen timber rack; it's on my leg. Don't just haul on it. Something cracked when it came down.'
+  | An uncovered counterweight hangs over the shaft. It releases when the cable takes weight.
+  | A slack cable hangs from the hoist drum. Timber and tools lie where a rack came down. The shaft drops to the refuge.
+  | Pell lies half under the fallen timber rack, one leg trapped beneath it. Their face is grey with pain and cold.
+  | The fallen timber rack lies across the floor where it fell, wedged against the wall.
+  | The bronze tram bearing lies here, stamped with Edda's chalk.
+!! NOT AVAILABLE: salvage__claim
+  | An uncovered counterweight hangs over the shaft. It releases when the cable takes weight.
+  | A slack cable hangs from the hoist drum. Timber and tools lie where a rack came down. The shaft drops to the refuge.
+  | Pell lies half under the fallen timber rack, one leg trapped beneath it. Their face is grey with pain and cold.
+  | The fallen timber rack lies across the floor where it fell, wedged against the wall.
+  | The bronze tram bearing lies here, stamped with Edda's chalk.
+> Ask Pell what happened   [success, watch 33]
+  "'It came down on me when I leaned on it,' says Pell through their teeth. 'I can't shift it from under. There's a pry bar in Dry stores, if you can fetch it. Or dig me out, if you've the time. Don't just haul on it; I heard something crack already.'"
+> Lever the fallen timber rack up with a pry bar   [success, watch 34]
+  "You get a pry bar under the fallen timber rack and lean on it. It lifts a hand's breadth, and Pell drags the leg clear: bruised and cut, but whole."
+> Collect the bronze tram bearing for Bran   [success, watch 35]
+  "Bran takes the bronze tram bearing."
+  ~ Bran gains 1 the bronze tram bearing.
+> Ask Pell what they mean to do   [success, watch 36]
+  "'Home,' says Pell. 'If you're going that way, I'll come with you. If not, I'll manage. I'm not sitting down here another hour.'"
+> Ask Pell to come with you   [success, watch 37]
+  "Pell falls in beside you."
+== RETURN
+> Take the hoist passage to Casting gallery   [success, watch 38]
+> Take the gallery steps to Bell workshop   [success, watch 39]
+> Take the workshop doorway to Surveyor's vestibule   [success, watch 40]
+> Take the roofless arch to Foundry yard   [success, watch 41]
+  | Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works. A surveyor's scratches mark a climb up the hoist side; without a proper harness it is too exposed.
+  | Pell keeps their weight off one leg, but can walk.
+!! NOT AVAILABLE: salvage__deliver_prize
+  | Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works. A surveyor's scratches mark a climb up the hoist side; without a proper harness it is too exposed.
+  | Pell keeps their weight off one leg, but can walk.
+> Take the track up to the yard to Chalk ridge   [success, watch 44]
+> Take the ridge track to Willow causeway   [success, watch 47]
+> Take the causeway path to Reedwake quay   [success, watch 53]
+  * Wren sees Pell, and runs. For a while nobody says anything sensible.
+  | Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.
+  | Pell keeps their weight off one leg, but can walk.
+  | Wren keeps a hand on Pell's sleeve, as if they might vanish again.
+> Speak with Wren   [success, watch 54]
+  "Wren takes your hands in both of theirs. 'You brought them back yourselves. I won't forget it.' Six coins are pressed into your palm: everything in the purse."
+> Take the Oar's door to the Oar's taproom   [success, watch 55]
+> Take a bed and supper from Maud   [success, watch 103]
+  "You eat a hot supper and sleep eight hours in a dry bed."
+  ~ Elen uses Sheltered recovery.
+  Elen: elf ranger L1 HP 12/12 slots 3/3 STR 9 DEX 22 CON 14 INT 9 WIS 17 CHA 8 gold 8
+    traits humanoid, agile, perceptive; knows Defend, Heal Ally, Hunter's Mark, Ensnare
+    gear rope, longsword*, chainmail*, climbing_harness*; conditions 
+  Bran: human warrior L1 HP 15/15 slots 3/3 STR 8 DEX 16 CON 16 INT 11 WIS 15 CHA 11 gold 4
+    traits humanoid, adaptable, versatile, toughness; knows Defend, Taunt, Vigor Up, Cleave, Prepare Charge, Charge, Second Wind, Sweeping Strike
+    gear thieves_tools, battleaxe*, chainmail*, crowbar, bronze_bearing; conditions 
+  Dori: dwarf cleric L1 HP 12/12 slots 8/8 STR 12 DEX 11 CON 17 INT 11 WIS 15 CHA 9 gold 2
+    traits humanoid, sturdy, tough, vitalist; knows Defend, Cure Minor Wounds, Sanctify, Cure Light Wounds, Bless, Anoint, Prayer, Minor Restoration, Cure Moderate Wounds
+    gear bandages, herbs, staff*, studded*, antidote; conditions 
+  | Dry boots steam above the hearth. Bargemen eat at the long table, and stairs climb to the pallets above.

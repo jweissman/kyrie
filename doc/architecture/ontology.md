@@ -131,7 +131,7 @@ Initially Assert soldBy(medicine_1, nera). Initially Assert forSale(medicine_1).
 Observe scene_inn at inn when true "… A shared ration buys six hours on the upstairs pallets, with full recovery …".
 ```
 
-After ([data/sites/reedwake/site.kyr](../../data/sites/reedwake/site.kyr)):
+After ([data/regions/serewater-march/region.kyr](../../data/regions/serewater-march/region.kyr)):
 
 ```kyr
 Place oar "The Returning Oar" is building within reedwake_town.

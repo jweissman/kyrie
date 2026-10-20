@@ -31,6 +31,8 @@ export class Cast {
       } else if (theirs !== undefined) { context[field] = theirs; provenance[field] = 'generated'; }
       else if (mine !== undefined) { context[field] = mine; provenance[field] = 'default'; }
     }
+    // People of a module are Orsino NPCs: they prepare spells rather than choosing them as a player character does.
+    context.prepared = true;
     return { id: `${p.id}_person`, context: context as CreatureGenerationContext, gold: 0, provenance };
   }
   // What a profession means for a person in the world: what they offer, and where they spend their day.
@@ -39,8 +41,10 @@ export class Cast {
       const id = p.professionId;
       if (!id || !Overlays.has(id, 'profession')) { continue; }
       const o = Overlays.get(id);
+      // An authored offer of the same kind replaces the profession's default, including after a writer round trip.
       const own = new Set((p.offers ?? []).map(x => x.kind));
-      const offers = (o.offers ?? []).filter(x => !own.has(x.kind));
+      const offers = (o.offers ?? []).filter(x => !own.has(x.kind)
+        && !module.entities.some(e => e.id === `${p.id}_${x.kind}` && e.type === 'service'));
       if (offers.length && module.relations.some(r => r.name === 'offers')) {
         WorldConstructs.offers(module, { id: p.id, place: p.place, offers },
           kind => ItemCatalog.definitions[kind]?.name);

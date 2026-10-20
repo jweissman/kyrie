@@ -5,9 +5,10 @@ import type { EncounterParticipant, Fighter, Team } from './model';
 export class CombatProjection {
   static creature(fighter: Fighter, original?: Creature): Creature {
     return { ...(original?.professionId ? { professionId: original.professionId } : {}),
-      ...(original?.traits ? { traits: [...original.traits] } : {}),
+      ...(original?.traits ?? fighter.traits ? { traits: [...original?.traits ?? fighter.traits ?? []] } : {}),
       ...(original?.backgroundId ? { backgroundId: original.backgroundId } : {}),
-      id: fighter.id, name: fighter.name, raceId: fighter.raceId, classId: fighter.classId,
+      id: fighter.id, name: fighter.name, raceId: fighter.raceId,
+      ...fighter.classId ? { classId: fighter.classId } : {},
       base: original ? structuredClone(original.base) : { abilities: [...fighter.abilities],
         maxHp: fighter.maxHp, maxMana: fighter.maxMana,
         level: fighter.level, speed: fighter.speed, strength: fighter.strength, dexterity: fighter.dexterity,
@@ -22,18 +23,19 @@ export class CombatProjection {
   }
   static fighter(creature: Creature, team: Team): Fighter {
     const sources = ItemCatalog.abilities(creature);
-    return { id: creature.id, name: creature.name, raceId: creature.raceId, classId: creature.classId,
+    return { id: creature.id, name: creature.name, raceId: creature.raceId,
+      ...creature.classId ? { classId: creature.classId } : {},
       ...structuredClone(creature.base), hp: creature.state.hp, mana: creature.state.mana,
       gold: creature.state.gold, experience: creature.state.experience,
       abilities: [...new Set([...creature.base.abilities, ...creature.state.learnedAbilities,
         ...Object.keys(sources)])],
       ...(Object.keys(sources).length ? { abilitySources: sources } : {}),
-      statuses: structuredClone(creature.state.conditions), attachmentModifiers: ItemCatalog.modifiers(creature),
+      statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature),
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
-      team, guarding: false, cooldowns: {} };
+      team, cooldowns: {} };
   }
   static participant(fighter: Fighter, localConditions: Fighter['statuses']): EncounterParticipant {
-    return { creatureId: fighter.id, team: fighter.team, guarding: fighter.guarding,
+    return { creatureId: fighter.id, team: fighter.team,
       cooldowns: structuredClone(fighter.cooldowns), conditions: structuredClone(localConditions) };
   }
 }

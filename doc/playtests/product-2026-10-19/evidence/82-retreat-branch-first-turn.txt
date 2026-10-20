@@ -1,0 +1,98 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:20 a.m.
+OPPOSED
+Calder
+red dragon red dragon
+HP
+██████████
+99/99
+YOUR COMPANY
+Dori
+dwarf cleric
+HP
+░░░░░░░░░░
+0/6
+MP
+██████████
+6/6
+▶ Elen
+elf magic-user
+HP
+█░░░░░░░░░
+1/9
+MP
+██████████
+7/7
+fireproof
+Bran
+human thief
+HP
+░░░░░░░░░░
+0/7
+ELEN ACTS — TURN 2
+ELEN
+1
+⚔
+Weapon attack
+2
+⚔
+Guard
+self
+3
+⚔
+Retreat
+self
+4
+⚔
+Elder focus
+self
+5
+⚔
+Ember bolt
+1 mana
+6
+⚔
+Binding sleep
+3 mana · enemies
+7
+⚔
+Protective ward
+1 mana · self
+8
+⚔
+Siphon life
+2 mana
+9
+⚔
+Call a wisp
+3 mana · self
+WEAPON ATTACK
+
+Deal (max(0, statMod(#strength) + 1d6)) physical damage to enemy.
+
+Calder
+BLOW BY BLOW
+
+Bran falls.
+
+Bran takes 7 fire damage (roll 16) → 0 HP.
+
+Bran fails to resist (constitution 14 vs 16).
+
+Elen takes 8 fire damage (roll 16; resists 50%) → 1 HP.
+
+Elen fails to resist (constitution 10 vs 16).
+
+Dori falls.
+
+Dori takes 6 fire damage (roll 16) → 0 HP.
+
+Dori fails to resist (constitution 3 vs 16).
+
+Calder: Fire breath
+
+↑↓choose
+⏎act
+Escback
+TTactics

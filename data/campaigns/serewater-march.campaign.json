@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "name": "The Serewater March",
+  "modules": [
+    {
+      "id": "march",
+      "bundle": "../regions/serewater-march/module.json"
+    },
+    {
+      "id": "keepers",
+      "bundle": "../institutions/keepers-of-names/module.json",
+      "imports": {
+        "party": "march.party",
+        "shrine": "march.shrine"
+      }
+    },
+    {
+      "id": "hill",
+      "bundle": "../sites/censer-hill/module.json",
+      "imports": {
+        "party": "march.party",
+        "march": "march.region",
+        "ridge": "march.high_road",
+        "causeway": "march.low_road",
+        "register_survives": "keepers.record",
+        "custody_writ": "keepers.writ"
+      }
+    },
+    {
+      "id": "rescue",
+      "bundle": "../situations/caught-below/module.json",
+      "context": {
+        "setting": "river"
+      },
+      "imports": {
+        "party": "march.party",
+        "workings": "hill.site",
+        "captive_room": "hill.captive",
+        "tool_room": "hill.tools",
+        "home": "march.home",
+        "lookout": "march.lookout",
+        "closing_way": "hill.closing"
+      }
+    },
+    {
+      "id": "salvage",
+      "bundle": "../situations/salvage-rights/module.json",
+      "context": {
+        "setting": "river"
+      },
+      "imports": {
+        "party": "march.party",
+        "warden": "keepers.keeper",
+        "station": "hill.camp",
+        "prize_room": "hill.prize_room",
+        "sanctum": "hill.sanctum",
+        "home": "march.office"
+      }
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith",
+      "traits": [
+        "toughness"
+      ]
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ],
+      "spells": [
+        "cure",
+        "bless",
+        "anoint",
+        "prayer",
+        "minor_restoration",
+        "cure_moderate"
+      ]
+    }
+  ]
+}

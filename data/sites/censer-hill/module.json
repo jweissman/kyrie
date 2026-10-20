@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "source": "site.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "march",
+    "ridge",
+    "causeway",
+    "register_survives",
+    "custody_writ"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "march": {
+      "type": "place"
+    },
+    "ridge": {
+      "type": "place"
+    },
+    "causeway": {
+      "type": "place"
+    },
+    "register_survives": {
+      "type": "fact"
+    },
+    "custody_writ": {
+      "type": "fact"
+    }
+  },
+  "exports": {
+    "site": "censer_hill",
+    "camp": "yard",
+    "captive": "hoist",
+    "tools": "stores",
+    "closing": "culvert",
+    "prize_room": "hoist",
+    "sanctum": "vault"
+  }
+}

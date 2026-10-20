@@ -1,0 +1,107 @@
+THE RED CRAG
+The Thrale Highlands›Thrale›Ysolde's chandlery
+Day 1, 8:30 a.m.
+Ysolde's counter
+
+Ysolde's chandlery · Thrale
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+Rope, tallow, jars of salve and a shelf of stoppered clay pots that smell of ash and lanolin.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Thrale green
+by the chandlery door
+HERE
+2
+☺
+Ysolde, chandler
+Human
+3
+·
+Coil of rope
+for sale ×2
+4
+·
+Fireproof salve
+for sale ×2
+5
+·
+Minor healing potion
+for sale ×2
+COMPANY
+6
+○
+Wait a while
+10m
+COIL OF ROPE
+Buy from Ysolde — 1 coin
+▸
+MAP
+THRALE
+YSOLDE'S CHANDLERY
+EMBER HEARTH
+BELL CHAPEL
+Thrale green
+Ysolde'scounter
+? Hearth'scommon room
+? chapelnave
+→ SkarthGorge
+→ highpastures
+REGION
+1h
+1h
+Thrale
+Skarth Gorge
+high pastures
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+18 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 2 earlier
+8:30 a.m.
+Fireproof salve: Buy from Ysolde — 4 coin › for Dori
+Ysolde takes the money and hands Fireproof salve to Dori.
+coin: 22 → 18
+Dori gains 1 Fireproof salve.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

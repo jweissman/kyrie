@@ -4,10 +4,11 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { buildSetting, Deem, Generator, Template, runGeneration } from 'deem';
 import { Content } from '../src/content';
+import { Canon } from '../src/canon/canon';
 import { CreatureSchema, type Attribute } from '../src/creature';
 import { Expressions } from '../src/expressions';
 import { FantasyRules } from '../src/fantasy-rules';
-import templates from '../data/default/templates/deem.templates.json';
+import templates from '../data/generation/templates/deem.templates.json';
 
 class AttributesTest {
   static cli(options: Parameters<typeof runGeneration>[0]) {
@@ -16,8 +17,8 @@ class AttributesTest {
 }
 
 describe('score-only attributes and derived statMod', () => {
-  it('uses the Orsino rounding formula for known low, middle and high scores in both hosts', () => {
-    const expected = [-2, -2, -2, -1, -1, -1, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3];
+  it('uses Orsino\'s statMod, round((score − 10) / 2), in both hosts', () => {
+    const expected = [-3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4];
     const expressions = new Expressions('modifiers');
     for (let score = 3; score <= 18; score++) {
       expect(FantasyRules.statMod(score)).toBe(expected[score - 3]!);
@@ -33,10 +34,10 @@ describe('score-only attributes and derived statMod', () => {
     });
     const runtime = Template.bootstrapDeem({ seed: 'registered' }, setting);
     Object.assign(runtime.stdlib, FantasyRules.functions);
-    expect(Generator.gen('probe', { __setting: setting, __deemRuntime: runtime })).toEqual({ low: -2, high: 3 });
+    expect(Generator.gen('probe', { __setting: setting, __deemRuntime: runtime })).toEqual({ low: -3, high: 4 });
   });
   it('emits exactly six scores, omitting internal context and redundant score/modifier fields', () => {
-    const context = { primary: 'wisdom', _intermediate: 99 };
+    const context = { _intermediate: 99 };
     const first = new Content('attributes').generate('attributes', context);
     expect(Object.keys(first).sort()).toEqual([...CreatureSchema.attributes].sort());
     expect(first).toEqual(new Content('attributes').generate('attributes', context));
@@ -69,62 +70,44 @@ describe('score-only attributes and derived statMod', () => {
     expect(values.filter(value => value < 10).length / values.length).toBeGreaterThan(0.3);
     expect(values.filter(value => value >= 15).length / values.length).toBeGreaterThan(0.07);
   });
-  it('bonuses only the selected primary, caps rolled scores at 18 and respects exact overrides', () => {
-    for (const primary of CreatureSchema.attributes) {
-      for (let i = 0; i < 12; i++) {
-        const seed = `primary:${i}`;
-        const plain = new Content(seed).generate('attributes');
-        const favored = new Content(seed).generate('attributes', { primary });
-        for (const key of CreatureSchema.attributes) {
-          expect(favored[key]).toBe(key === primary ? Math.min(18, (plain[key] as number) + 2) : plain[key]);
-        }
+  it('rolls straight 3d6 and adds the ancestry\'s, class\'s and background\'s modifiers, as Orsino\'s overlays do', () => {
+    for (const [raceId, classId, backgroundId] of [['human', 'warrior', 'locksmith'], ['elf', 'ranger', 'hunter'],
+      ['dwarf', 'cleric', 'medic']] as const) {
+      const seed = `overlays:${raceId}`;
+      const raw = new Content(seed).generate('creature', { kind: 'hero' });
+      const creature = new Content(seed).createCreature('hero', { raceId, classId, backgroundId,
+        ...classId === 'warrior' ? { traits: ['brave'] } : classId === 'cleric' ? { traits: ['vitalist'] } : {} });
+      for (const key of CreatureSchema.attributes) {
+        const add = (Canon.ancestries[raceId]!.attributes[key] ?? 0) + (Canon.classes[classId]!.attributes[key] ?? 0)
+          + (Canon.backgrounds[backgroundId]!.attributes[key] ?? 0);
+        expect(creature.base[key]).toBe(Math.max(1, (raw[key] as number) + add));
       }
     }
     const chosen = { strength: 3, dexterity: 6, intelligence: 9, wisdom: 12, constitution: 15, charisma: 18 };
-    expect(new Content('overrides').generate('attributes', { ...chosen, primary: 'strength' })).toEqual(chosen);
-    const creature = new Content('overrides').createCreature('hero', { ...chosen, classId: 'fighter' });
+    expect(new Content('overrides').generate('attributes', chosen)).toEqual(chosen);
+    const creature = new Content('overrides').createCreature('hero', { ...chosen, raceId: 'human', classId: 'warrior' });
     for (const key of CreatureSchema.attributes) { expect(creature.base[key]).toBe(chosen[key]); }
     expect(creature.base).not.toHaveProperty('scores');
-    expect(creature.base.maxHp).toBeGreaterThan(0);
+    expect(creature.base.maxHp).toBe(12 + 3); // the warrior's hit die plus CON 15's modifier, round(2.5) = 3
     expect(() => CreatureSchema.validate({ ...creature, base: { ...creature.base, scores: chosen } } as never))
       .toThrow('requires migration');
     expect(() => new Content('legacy').createCreature('hero', { strengthScore: 18 } as never)).toThrow('context');
     for (const invalid of [0, -1, 1.5, Infinity]) {
       expect(() => new Content('invalid').createCreature('hero', { strength: invalid })).toThrow('context');
     }
-    expect(() => new Content('invalid').createCreature('hero', { primary: 'bogus' as never })).toThrow('context');
   });
-  it('inherits class/context primary and scores through nested generation and additive overlays', () => {
+  it('keeps numeric overlays additive through nested generation', () => {
     const seed = 'inheritance';
-    for (const classId of ['fighter', 'cleric', 'magic_user', 'thief', 'commoner'] as const) {
-      const context = { raceId: 'human' as const, classId, name: 'Fixed' };
-      const fixed = new Content(seed).generate('creature', context);
-      const selected = new Content(seed).generate('creature', { ...context, primary: Content.classes[classId]!.primary });
-      expect(fixed).toEqual(selected);
-      expect(fixed).not.toHaveProperty('_primary');
-    }
-    const context = { raceId: 'human', classId: 'fighter', name: 'Fixed', primary: 'charisma', strength: 4 };
-    const creature = new Content(seed).generate('creature', context);
-    const alias = new Content(seed).generate('character', context);
-    expect(alias).toEqual(creature);
-    expect(creature.strength).toBe(4);
-    const baseline = new Content(seed).generate('creature', { ...context, primary: 'strength' });
-    expect(creature.charisma).toBe(Math.min(18, (baseline.charisma as number) + 2));
-    for (const key of ['dexterity', 'intelligence', 'wisdom', 'constitution']) {
-      expect(creature[key]).toBe(baseline[key]);
-    }
     const setting = buildSetting({}, {
       attributes: templates.attributes,
-      parent: { __no_id: true, _primary: 'wisdom', strength: 3,
-        '*attributes': '=gen(attributes)', after: '=statMod(#wisdom)' },
+      parent: { __no_id: true, strength: 3, '*attributes': '=gen(attributes)', after: '=statMod(#wisdom)' },
     });
     const runtime = Template.bootstrapDeem({ seed }, setting);
     Object.assign(runtime.stdlib, FantasyRules.functions);
     const nested = Generator.gen('parent', { __setting: setting, __deemRuntime: runtime }) as Record<string, number>;
     // Numeric overlays add to existing values; they do not replace them.
-    expect(nested.strength).toBe(6);
+    expect(nested.strength).toBeGreaterThan(3);
     expect(nested.after).toBe(FantasyRules.statMod(nested.wisdom));
-    expect(nested).not.toHaveProperty('_primary');
   });
   it('checks the CLI generation entrypoint, including a nested contextual caller', () => {
     const args = { type: 'attributes', seed: 'attribute-review' };

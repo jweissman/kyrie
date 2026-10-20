@@ -1,16 +1,17 @@
 import { describe, expect, it } from 'bun:test';
 import { existsSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import snapshot from '../data/orsino/registry.json';
-import ledger from '../data/orsino/adaptations.json';
+import snapshot from '../data/sources/orsino/registry.json';
+import ledger from '../data/sources/orsino/adaptations.json';
 import { OrsinoCorpus } from '../bin/orsino-corpus';
 import { OrsinoExtract, type RegistrySnapshot } from '../src/registry/orsino-extract';
+import { CatalogLedger } from '../src/registry/catalog-ledger';
 import { OrsinoRegistry, type Ledger } from '../src/registry/orsino-registry';
 import { OrsinoReport } from '../src/registry/orsino-report';
 import { KyrLinks } from '../src/registry/kyr-links';
 import { Canon } from '../src/canon/canon';
 
-const registry = new OrsinoRegistry(snapshot as unknown as RegistrySnapshot, ledger as Ledger);
+const registry = new OrsinoRegistry(snapshot as unknown as RegistrySnapshot, CatalogLedger.combined(ledger as Ledger));
 const orsino = '../orsino';
 const pinned = OrsinoCorpus.available(orsino)
   && execFileSync('git', ['-C', orsino, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim() === snapshot.source.revision;
@@ -20,7 +21,7 @@ describe('Orsino registry', () => {
     const corpus = OrsinoCorpus.load(orsino);
     expect(() => OrsinoExtract.coverage(corpus)).not.toThrow();
     expect(`${JSON.stringify(OrsinoExtract.snapshot(corpus), null, 1)}\n`)
-      .toBe(readFileSync('data/orsino/registry.json', 'utf8'));
+      .toBe(readFileSync('data/sources/orsino/registry.json', 'utf8'));
   });
 
   it('preserves stable identifiers, provenance, descriptions and raw definitions', () => {
@@ -51,8 +52,9 @@ describe('Orsino registry', () => {
   });
 
   it('judges rule features conservatively: anything not declared is unsupported', () => {
-    expect(OrsinoRegistry.judge('modifier:toHit').judgement).toBe('unsupported');
-    expect(OrsinoRegistry.judge('modifier:resistFire').judgement).toBe('adapted');
+    expect(OrsinoRegistry.judge('modifier:toHit').judgement).toBe('faithful');
+    expect(OrsinoRegistry.judge('modifier:resistFire').judgement).toBe('faithful');
+    expect(OrsinoRegistry.judge('modifier:extraAttacksPerTurn').judgement).toBe('unsupported');
     expect(OrsinoRegistry.judge('an:invented feature').judgement).toBe('unsupported');
   });
 

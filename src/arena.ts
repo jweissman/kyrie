@@ -9,14 +9,14 @@ export class Arena {
   static create(seed: string): Scenario {
     const content = new Content(`${seed}:generation`);
     return { id: 'two-versus-two', abilities: structuredClone(Content.abilities), combatants: [
-      content.character('fighter', 'fighters-1', 'fighters'),
-      content.character('fighter', 'fighters-2', 'fighters'),
-      content.creature('goblin', 'goblins-1', 'goblins'),
-      content.creature('goblin', 'goblins-2', 'goblins'),
+      content.character('warrior', 'fighters-1', 'fighters'),
+      content.character('warrior', 'fighters-2', 'fighters'),
+      content.character('commoner', 'goblins-1', 'goblins', 'goblin'),
+      content.character('commoner', 'goblins-2', 'goblins', 'goblin'),
     ] };
   }
   static aggressive: Controller = (state, legal) => {
-    const attacks = legal.filter(c => c.ability === 'attack');
+    const attacks = legal.filter(c => c.ability === 'melee' || c.ability === 'ranged');
     attacks.sort((a, b) => state.combatants.find(f => f.id === a.target)!.hp
       - state.combatants.find(f => f.id === b.target)!.hp);
     const command = attacks[0] ?? legal[0];

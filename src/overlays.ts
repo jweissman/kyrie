@@ -74,6 +74,16 @@ export class Overlays {
       inventory.push({ id, definition: kind, ...free ? { equipped: true } : {} });
     }
   }
+  // The weapons and armour a person might start with: Orsino draws them from the class's tables during creation, so
+  // every candidate is declared and only the drawn ones are ever owned.
+  static startingCandidates(c: { raceId?: string; classId?: string; weapon?: string; armor?: string }): string[] {
+    if (c.raceId && Canon.isSpecies(c.raceId)) { return []; }
+    const classes = c.classId ? [Canon.classes[Canon.resolve('classes', c.classId)]!]
+      : Object.values(Canon.classes).filter(k => k.adventuring !== false);
+    const tables = [...c.weapon ? [c.weapon] : classes.flatMap(k => k.weapons),
+      ...c.armor ? [c.armor] : classes.flatMap(k => k.armor)];
+    return [...new Set(tables.filter(k => Canon.items[k] && !Canon.items[k]!.weapon?.natural))];
+  }
   static contributions(c: { backgroundId?: string; professionId?: string }): Contribution[] {
     return this.of(c).flatMap(([id, o]) => [
       ...(o.skills ?? []).map(value => ({ kind: 'skill' as const, value, source: id })),
@@ -90,7 +100,8 @@ export class Overlays {
     const module = instance.module;
     for (const c of instance.campaign?.creatures ?? []) {
       const carried = (c.context.gear ?? []).map(k => Canon.resolve('items', k));
-      for (const kinds of [...this.of(c.context).map(([, o]) => o.gear ?? []), carried]) {
+      const gear = [...this.of(c.context).map(([, o]) => o.gear ?? []), carried, this.startingCandidates(c.context)];
+      for (const kinds of gear) {
         for (const kind of kinds) {
           const id = this.gearId(c.id, kind);
           if (module.entities.some(e => e.id === id)) { continue; }

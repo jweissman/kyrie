@@ -1,0 +1,101 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry›The old workings
+Day 1, 11:00 a.m.
+The upper gallery
+
+The old workings · Skellfold high quarry
+
+◆ Get Tamsin home to the cottage.
+
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+
+A wide gallery of split slate. In the floor, a square shaft drops into darkness.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The adit mouth
+by the upper gallery passage
+2
+⇅
+The lower gallery
+by the ladder shaft
+COMPANY
+3
+○
+Wait a while
+10m
+THE ADIT MOUTH
+
+the adit mouth, a few steps away.
+
+Go
+10m
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+LOWER GALLERY
+quarry floor
+quarrysmithy
+adit mouth
+uppergallery
+head of thetub incline
+lowergallery
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 19 earlier
+10:50 a.m.
+Lash the rotten ladder to a line before anyone climbs
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+11:00 a.m.
+→ the upper gallery
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

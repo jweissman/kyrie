@@ -1,3 +1,4 @@
+import { Canon } from '../canon/canon';
 import { Content } from '../content';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
@@ -116,8 +117,7 @@ export class ScreenModel {
       const ref = entities.find(e => e.creatureId === m.id)?.id;
       const race = Content.races[m.raceId as keyof typeof Content.races]?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
-      const background = m.backgroundId ?
-        Content.backgrounds[m.backgroundId as keyof typeof Content.backgrounds]?.name : undefined;
+      const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, experience: m.experience, gold: m.gold, conditions: m.conditions,

@@ -1,0 +1,79 @@
+CAUGHT BELOW
+The Skell fells›Skellfold
+Day 1, 8:10 a.m.
+Marrit, Tamsin's grandmother
+
+waiting · Skellfold green
+
+» Ask Marrit what is wrong
+
+'Tamsin went up to Skellfold high quarry at first light and should have been back by mid-morning,' says Marrit. 'Nobody has seen them since. The short way in is the beck lane, and the drifting snow will close it about 12:20 p.m.; after that you go the long way round. Please. Go and look.'
+
+SAY
+ASK
+1
+»
+Ask Marrit what is wrong
+END
+2
+⇤
+End the conversation
+ASK MARRIT WHAT IS WRONG
+Ask Marrit what is wrong
+10m
+MAP
+SKELLFOLD
+MARRIT'S COTTAGE
+Skellfoldgreen
+? cottage
+→ fellside
+→ fellside
+REGION
+30m
+Skellfold
+fellside
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory
+8:10 a.m.
+Ask Marrit what is wrong: Ask Marrit what is wrong
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

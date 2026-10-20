@@ -1,0 +1,113 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry
+Day 1, 12:30 p.m.
+Drain mouth
+
+Censer Hill foundry · The Serewater March
+
+◆ Get Pell home to the ferry house.
+
+A broken culvert breathes cold air out of the hillside. Water already runs ankle-deep along its floor.
+
+Pell keeps their weight off one leg, but can walk.
+
+The drain culvert is still clear, but the rising river will close it about 1:40 p.m.
+
+WAYS AND THINGS
+WAYS
+1
+⇥
+Enter The upper works
+by the drain culvert
+2
+⇢
+Willow causeway
+by the low path through the reeds
+HERE
+3
+☺
+Pell, surveyor
+hurt
+COMPANY
+4
+○
+Wait a while
+10m
+5
+○
+Make camp for the night
+8h
+ENTER THE UPPER WORKS
+
+Into The upper works: Bell workshop.
+
+Go
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Hoist room
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 30 earlier
+12:20 p.m.
+→ Bell workshop
+Pell takes the stores door toward Bell workshop.
+12:30 p.m.
+→ Drain mouth
+Pell takes the drain culvert toward Drain mouth.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

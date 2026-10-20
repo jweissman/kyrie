@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { Canon } from '../src/canon/canon';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
@@ -17,7 +18,7 @@ class Guide {
     const text = await readFile(this.path, 'utf8');
     const site = join(root, 'sites', 'thornmere');
     await mkdir(site, { recursive: true });
-    for (const dir of ['rulesets', 'situations']) { await symlink(resolve('data', dir), join(root, dir)); }
+    for (const dir of ['rules', 'situations']) { await symlink(resolve('data', dir), join(root, dir)); }
     await writeFile(join(site, 'site.kyr'), this.blocks(text, 'kyr').join('\n'));
     await writeFile(join(site, 'module.json'), this.blocks(text, 'json module.json')[0]!);
     await writeFile(join(site, 'thornmere.campaign.json'), this.blocks(text, 'json campaign.json')[0]!);
@@ -58,12 +59,16 @@ describe('the authoring guide', () => {
     const s = await PlaySession.start(campaign, 'guide', NodeBundleSource.shared);
     const who = (id: string) => s.campaign.state.creatures.find(c => c.id === `world__${id}_person`)!;
     const reeve = who('reeve'), sister = who('sister'), wolf = who('wolf');
-    expect(reeve.traits).toEqual(['knight']);
+    expect(reeve.traits).toEqual(['humanoid', 'adaptable', 'versatile', 'brave', 'knight']);
     expect(reeve.state.inventory).toContainEqual({ id: 'world__reeve_person__longsword_of_flames',
       definition: 'longsword_of_flames', equipped: true });
     expect(reeve.state.inventory).toContainEqual({ id: 'world__reeve_person__thieves_tools', definition: 'thieves_tools' });
-    expect(sister.base.abilities).toEqual(expect.arrayContaining(['cure_minor', 'resist_fire']));
-    expect([wolf.raceId, wolf.classId, wolf.base.abilities]).toEqual(['wolf', 'wolf', ['rending_bite', 'flee']]);
+    // A specialist person prepares as Orsino's casters do: cantrips, then spells no higher than ⌈level / 2⌉.
+    expect(sister.base.abilities).toContain('cure_minor');
+    const spells = sister.base.abilities.map(a => Canon.abilities[a]?.spell).filter(x => x !== undefined);
+    expect(spells.every(x => x.tradition === 'divine' && x.level <= 2)).toBe(true);
+    expect(spells.some(x => x.level > 0 && x.domain === 'life')).toBe(true);
+    expect([wolf.raceId, wolf.classId, wolf.base.abilities]).toEqual(['wolf', undefined, ['rending_bite', 'flee']]);
     expect(s.campaign.module.entities.find(e => e.id === 'world__bone_slide')).toMatchObject({ type: 'hazard' });
   }, 60000);
 });

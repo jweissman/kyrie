@@ -18,7 +18,7 @@ if (mode === 'batch') {
       const actor = state.combatants.find(f => f.id === state.actor)!;
       let command;
       if (actor.team === 'fighters') {
-        console.table(state.combatants.map(({ id, hp, maxHp, guarding }) => ({ id, hp, maxHp, guarding })));
+        console.table(state.combatants.map(({ id, hp, maxHp }) => ({ id, hp, maxHp })));
         console.log(`Turn ${state.turn}: ${actor.name}`);
         legal.forEach((c, i) => console.log(`${i + 1}. ${c.ability} → ${c.target}`));
         const answer = await input.question('Action number (q to quit): ');

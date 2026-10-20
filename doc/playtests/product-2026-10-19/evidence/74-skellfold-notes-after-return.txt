@@ -1,0 +1,81 @@
+CAUGHT BELOW
+The Skell fells›Skellfold›Marrit's cottage
+Day 1, 12:40 p.m.
+WHAT YOU KNOW
+
+Nothing established yet.
+
+Deadlines
+
+No public deadline.
+
+Company standing
+Mending — Dori (dwarf cleric)
+Lockwork — Elen (elf magic_user)
+Digging — Bran (human fighter)
+
+Download save file New company
+
+CHRONICLE
+Day 1, 12:30 p.m. Speak with Marrit
+1 details
+Day 1, 12:30 p.m. Marrit keeps a hand on Tamsin's sleeve, as if they might vanish again.
+Day 1, 12:30 p.m. Tamsin sits with the bad leg up on a stool while Marrit scolds and feeds them.
+Day 1, 12:30 p.m. Peat smoke, a tally-stick rack by the door, and a window that looks straight up the fell at the quarry.
+Day 1, 12:20 p.m. Take the cottage door to the cottage
+Day 1, 12:20 p.m. Marrit sees Tamsin, and runs. For a while nobody says anything sensible.
+Day 1, 12:10 p.m. Marrit takes the cottage door toward the cottage.
+Day 1, 12:10 p.m. Tamsin takes the cottage door toward the cottage.
+Day 1, 12:00 p.m. Tamsin takes the path along the beck toward Skellfold green.
+Day 1, 11:50 a.m. Take the path along the beck to Skellfold green
+Day 1, 11:30 a.m. Tamsin takes the beck lane toward the foot of the beck lane.
+Day 1, 11:20 a.m. Take the beck lane to the foot of the beck lane
+Day 1, 11:10 a.m. Take the adit to the quarry floor
+Day 1, 11:00 a.m. Take the upper gallery passage to the adit mouth
+Day 1, 11:00 a.m. A wide gallery of split slate. In the floor, a square shaft drops into darkness.
+Day 1, 10:50 a.m. Take the ladder shaft to the upper gallery
+Day 1, 10:50 a.m. A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+Day 1, 10:40 a.m. Lash the rotten ladder to a line before anyone climbs
+Day 1, 10:40 a.m. Tamsin takes the tub incline toward the head of the tub incline.
+Day 1, 10:30 a.m. Let Tamsin make their own way
+1 details
+Day 1, 10:30 a.m. The derailed ore tub lies where it fell, but a hollow has been scraped out of the floor beneath one end.
+Day 1, 10:30 a.m. Tamsin keeps their weight off one leg, but can walk.
+Day 1, 10:10 a.m. Dig out beneath the derailed ore tub, the way a miner would
+1 details
+Day 1, 10:10 a.m. The derailed ore tub lies across the floor where it fell, wedged against the wall.
+Day 1, 10:10 a.m. Tamsin lies half under the derailed ore tub, one leg trapped beneath it. Their face is grey with pain and cold.
+Day 1, 10:10 a.m. Low and wet. Rails end in a tangle where an ore tub has jumped them.
+Day 1, 10:10 a.m. A ladder of soft, black wood goes down the shaft. Two rungs are already gone.
+Day 1, 10:10 a.m. A voice from low down in the dark: 'Here! Over here. Mind the derailed ore tub; it's on my leg. Don't just haul on it. Something cracked when it came down.'
+Day 1, 10:00 a.m. Take the tub incline to the lower gallery
+Day 1, 10:00 a.m. Rails run steeply down into the dark: the old tub incline.
+Day 1, 9:50 a.m. Take the side drift to the head of the tub incline
+Day 1, 9:50 a.m. The adit runs straight into the hill. A side drift slopes away to the left.
+Day 1, 9:40 a.m. Take the adit to the adit mouth
+Day 1, 9:30 a.m. Take the smithy door to the quarry floor
+Day 1, 9:20 a.m. Collect a coil of line for Bran
+2 details
+Day 1, 9:20 a.m. Tongs, wedges, a cold forge.
+Day 1, 9:10 a.m. Take the smithy door to the quarry smithy
+Day 1, 9:10 a.m. Spoil heaps, a smithy with cold chimney, and the black mouth of the adit in the quarry face.
+Day 1, 8:40 a.m. Take the beck lane to the quarry floor
+Day 1, 8:40 a.m. The beck lane is still clear, but the drifting snow will close it at about watch 26.
+Day 1, 8:40 a.m. The beck lane climbs between drystone walls toward the quarry. Snow is already curling over the walls into it.
+Day 1, 8:10 a.m. Take the path along the beck to the foot of the beck lane
+Day 1, 8:10 a.m. Marrit stands with one hand shading their eyes, watching the way to Skellfold high quarry.
+Day 1, 8:10 a.m. Snow lies thin on the green and thick on the walls. The beck path runs up the valley; a steep track climbs the fellside.
+Day 1, 8:00 a.m. Ask Marrit what is wrong
+1 details
+HHistory · 31 earlier
+Marrit sees Tamsin, and runs. For a while nobody says anything sensible.
+12:30 p.m.
+→ the cottage
+12:40 p.m.
+Speak with Marrit: Speak with Marrit
+coin: 14 → 17
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

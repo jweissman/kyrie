@@ -1,32 +1,37 @@
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
-import snapshot from '../data/orsino/registry.json';
-import ledger from '../data/orsino/adaptations.json';
+import snapshot from '../data/sources/orsino/registry.json';
+import ledger from '../data/sources/orsino/adaptations.json';
 import { AbilityUse } from '../src/ability-use';
 import { Content } from '../src/content';
 import { Canon } from '../src/canon/canon';
 import { Expressions } from '../src/expressions';
 import { PlaySession } from '../src/session/play-session';
 import { OrsinoMonsters } from '../src/registry/orsino-monsters';
+import { CatalogLedger } from '../src/registry/catalog-ledger';
 import { OrsinoRegistry, type Ledger } from '../src/registry/orsino-registry';
-import { OrsinoStatuses } from '../src/registry/orsino-statuses';
+import { CombatProjection } from '../src/combat-projection';
 import type { RegistrySnapshot } from '../src/registry/orsino-extract';
 import type { CombatEvent, Fighter } from '../src/model';
 import type { Transcript } from '../src/session/play-session';
 import { RedCragHistories } from './red-crag-histories';
 
-const registry = new OrsinoRegistry(snapshot as unknown as RegistrySnapshot, ledger as Ledger);
+const registry = new OrsinoRegistry(snapshot as unknown as RegistrySnapshot, CatalogLedger.combined(ledger as Ledger));
 const definition = (id: string) => registry.entry(id).definition as Record<string, unknown>;
 const traitEffect = (id: string) => (definition(id).statuses as { effect: Record<string, unknown> }[])[0]!.effect;
 
 class Arena {
-  static fighter(id: string, kind: [string, string], team: Fighter['team'], scores: Partial<Fighter> = {}): Fighter {
-    return { ...new Content(id).character(kind[1] as never, id, team, kind[0] as never), ...scores };
+  // A person (a warrior of steady disposition) or a creature of a species, which has no class.
+  static fighter(id: string, kind: string, team: Fighter['team'], scores: Partial<Fighter> = {}): Fighter {
+    const content = new Content(id);
+    const base = Canon.isSpecies(kind) ? content.creature(kind, id, team)
+      : CombatProjection.fighter(content.createCreature(id, { raceId: kind, classId: 'warrior', traits: ['brave'] }), team);
+    return { ...base, ...scores };
   }
   static breathe(targets: Fighter[], seed: string): CombatEvent[] {
-    const dragon = this.fighter('calder', ['red_dragon', 'red_dragon'], 'goblins');
+    const dragon = this.fighter('calder', 'red_dragon', 'goblins');
     const events: CombatEvent[] = [];
-    AbilityUse.perform(Content.abilities.find(a => a.id === 'fire_breath')!, dragon.id, new Expressions(seed),
+    AbilityUse.perform(Content.abilities.find(a => a.id === 'breathe_fire')!, dragon.id, new Expressions(seed),
       { actor: dragon, fighters: [dragon, ...targets], turn: 1, events, content: new Content(seed),
         abilities: Content.abilities.map(a => a.id), retreat: false, location: null });
     return events;
@@ -50,17 +55,18 @@ describe('a red dragon composed from the Orsino corpus', () => {
 
   it('carries translated Orsino traits, never a silent approximation', () => {
     const red = Canon.creature('red_dragon');
-    const formidable = OrsinoStatuses.translate(traitEffect('trait:formidable'));
-    expect(Canon.traits.formidable!.modifiers).toEqual({ power: formidable.status.power,
-      saves: formidable.status.saves, resistances: formidable.status.resistances });
-    expect(formidable.omitted).toEqual(['toHit']);
-    const affinity = OrsinoStatuses.translate(traitEffect('trait:fire_affinity')).status;
+    const formidable = traitEffect('trait:formidable') as Record<string, number>;
+    expect(Canon.traits.formidable!.modifiers).toMatchObject({ toHit: formidable.toHit,
+      bonusDamage: formidable.bonusDamage,
+      saves: { will: formidable.saveVersusWill } });
+    expect(Canon.traits.formidable!.unsupported).toBeUndefined();
+    const affinity = traitEffect('trait:fire_affinity') as Record<string, number>;
     expect(Canon.traits.fire_affinity!.modifiers)
-      .toEqual({ resistances: affinity.resistances, immune: affinity.immune });
-    expect(OrsinoStatuses.translate(traitEffect('trait:flying')).translated).toEqual({});
-    expect(Canon.traits.flying!.modifiers).toEqual({});
+      .toEqual({ resistances: { fire: affinity.resistFire!, cold: affinity.resistCold! }, immune: ['breath'] });
+    const flying = traitEffect('trait:flying') as Record<string, number>;
+    expect(Canon.traits.flying!.modifiers).toEqual({ toHit: flying.toHit!, evasion: flying.evasion! });
     expect(red.traits).toEqual(['formidable', 'flying']);
-    const breath = Content.abilities.find(a => a.id === 'fire_breath')!.effects[0]!;
+    const breath = Content.abilities.find(a => a.id === 'breathe_fire')!.effects[0]!;
     const source = definition('weapon:fire_breath');
     expect(breath).toMatchObject({ kind: 'damage', damageType: source.type, target: 'enemies',
       amount: { kind: 'deem', expression: source.damage }, save: { kind: 'breath', success: 'half' } });
@@ -75,63 +81,74 @@ describe('a red dragon composed from the Orsino corpus', () => {
   });
 });
 
-describe('breath: one shared roll, a breath save per creature', () => {
+describe('breath: a breath save and a damage roll per creature', () => {
   it('rolls d20 + Constitution modifier + level + breath bonuses, halves on success and lets resistance apply after', () => {
     const company = ['elen', 'bran', 'dori', 'tam', 'wyn', 'ash'].map(id =>
-      Arena.fighter(id, ['human', 'fighter'], 'fighters', { level: 2, maxHp: 100, hp: 100 }));
+      Arena.fighter(id, 'human', 'fighters', { level: 2, maxHp: 100, hp: 100 }));
     company[1]!.statuses = [{ id: 'fireproof', remaining: 3 }];
     const events = Arena.breathe(company, 'breath-1');
-    const saves = events.flatMap(e => e.type === 'save' ? [e] : []);
+    // Fire that leaves a creature standing also makes it save against burning (Orsino's damage trigger).
+    const saves = events.flatMap(e => e.type === 'save' && e.kind === 'breath' ? [e] : []);
     const damage = events.flatMap(e => e.type === 'damage' ? [e] : []);
     expect(saves).toHaveLength(6);
+    expect(events.filter(e => e.type === 'save' && e.kind === 'fortitude')).toHaveLength(6);
     expect(new Set(saves.map(s => s.success))).toEqual(new Set([true, false]));
-    expect(new Set(damage.map(d => d.rolled)).size).toBe(1);
+    // Orsino rolls an effect's amount for each target it touches.
+    expect(new Set(damage.map(d => d.rolled)).size).toBeGreaterThan(1);
     for (const save of saves) {
       expect(save).toMatchObject({ kind: 'breath', stat: 'constitution', level: 2, difficulty: 16 });
       expect(save.rolled).toBe(save.die! + save.modifier! + save.level! + save.bonus!);
       const hit = damage.find(d => d.target === save.target)!;
       const halved = save.success ? Math.floor(hit.rolled / 2) : hit.rolled;
-      expect(hit.amount).toBe(save.target === 'bran' ? Math.floor(halved * 0.5) : halved);
+      // The dragon's Formidable trait adds its bonus damage before resistance (Commands.handleHit).
+      const bonus = hit.modifiers!.bonus;
+      expect(bonus).toBe(3);
+      expect(hit.amount).toBe(save.target === 'bran' ? Math.floor((halved + bonus) * 0.5) : halved + bonus);
     }
   });
 
   it('lets an immune creature succeed without rolling, and fails a fourth success in one encounter', () => {
-    const salamander = Arena.fighter('sal', ['human', 'fighter'], 'fighters', { maxHp: 200, hp: 200 });
+    const salamander = Arena.fighter('sal', 'human', 'fighters', { maxHp: 200, hp: 200 });
     salamander.traits = ['fire_affinity'];
     expect(Arena.breathe([salamander], 'immune').find(e => e.type === 'save')).toMatchObject({ immune: true, success: true });
-    const stoic = Arena.fighter('stoic', ['human', 'fighter'], 'fighters', { maxHp: 500, hp: 500, constitution: 40 });
+    const stoic = Arena.fighter('stoic', 'human', 'fighters', { maxHp: 500, hp: 500, constitution: 40 });
     stoic.saved = { breath: 3 };
     expect(Arena.breathe([stoic], 'cap').find(e => e.type === 'save')).toMatchObject({ success: false, limit: true });
   });
 
   it('applies a category bonus only to its own category', () => {
-    const dragon = Arena.fighter('calder', ['red_dragon', 'red_dragon'], 'goblins');
+    const dragon = Arena.fighter('calder', 'red_dragon', 'goblins');
     const events: CombatEvent[] = [];
-    const sleep = { id: 'test_will', name: 'Will test', effects: [{ kind: 'apply' as const, status: 'stunned', duration: 1,
+    const sleep = { id: 'test_will', name: 'Will test', effects: [{ kind: 'apply' as const, status: 'stun', duration: 1,
       target: 'enemy' as const, save: { kind: 'will', difficulty: { kind: 'literal' as const, value: 30 } } }] };
-    const caster = Arena.fighter('mage', ['human', 'fighter'], 'fighters');
+    const caster = Arena.fighter('mage', 'human', 'fighters');
     AbilityUse.perform(sleep, dragon.id, new Expressions('will'), { actor: caster, fighters: [caster, dragon], turn: 1,
       events, content: new Content('will'), abilities: [], retreat: false, location: null });
     expect(events.find(e => e.type === 'save')).toMatchObject({ kind: 'will', stat: 'wisdom', bonus: 2 });
-    expect(Arena.breathe([Arena.fighter('x', ['human', 'fighter'], 'fighters')], 'b').find(e => e.type === 'save'))
+    expect(Arena.breathe([Arena.fighter('x', 'human', 'fighters')], 'b').find(e => e.type === 'save'))
       .toMatchObject({ bonus: 0 });
   });
 });
 
 describe('the Red Crag in play', () => {
-  it('a fireproofed company survives the breath, the fire burns the bridge, and the way home changes', async () => {
+  it('a fireproofed company cannot touch the dragon; its breath kills one of them, and the way home changes', async () => {
     const s = await RedCragHistories.play('fire');
     const fight = s.campaign.events.find(e => e.action.startsWith('attack('))!;
-    const breath = fight.combat.filter(e => e.type === 'save');
-    expect(breath.every(e => e.kind === 'breath')).toBe(true);
+    // Orsino's dragon has armour class −3: a first-level company needs more than a d20 can roll.
+    const swings = fight.combat.filter(e => e.type === 'attack' && e.target === 'roost__dragon_person');
+    expect(swings.length).toBeGreaterThan(0);
+    expect(swings.every(e => e.type === 'attack' && !e.success && e.need > 20)).toBe(true);
+    const breath = fight.combat.filter(e => e.type === 'save' && e.kind === 'breath');
+    expect(breath).toHaveLength(3);
+    // Fireproofing is additive with any other resistance (Bran's toughness adds 10%).
     expect(fight.combat.filter(e => e.type === 'damage' && e.damageType === 'fire')
-      .every(e => e.type === 'damage' && e.modifiers!.resistance === 0.5)).toBe(true);
-    expect(fight.combat.some(e => e.type === 'action' && e.command.ability === 'bite')).toBe(true);
+      .every(e => e.type === 'damage' && e.modifiers!.resistance >= 0.5)).toBe(true);
+    expect(fight.combat.some(e => e.type === 'flee' && e.success)).toBe(true);
     expect(fight.resolution?.world).toContainEqual({ kind: 'assert',
       call: { kind: 'call', name: 'exposedTo', args: ['world__ledge', 'fire'] } });
     expect(RedCragHistories.state(s, 'roost__ropes')).toBe('roost__burnt');
     expect(s.campaign.events.map(e => e.action)).toContain('go(party,world__goat_path,world__ledge,world__shoulder)');
-    expect(s.campaign.state.creatures.find(c => c.id === 'world__party_3')!.state.hp).toBe(0);
+    expect(s.campaign.state.creatures.find(c => c.id === 'world__party_1')!.state.hp).toBe(0);
   }, 60000);
 
   it('robbing the dragon while it hunts brings the bell home, and its wrath burns the bridge and the barn', async () => {

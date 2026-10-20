@@ -1,0 +1,110 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 12:00 p.m.
+Hoist room
+
+The upper works · Censer Hill foundry
+
+◆ Get Pell home to the ferry house.
+
+A slack cable hangs from the hoist drum. Timber and tools lie where a rack came down.
+
+Pell keeps their weight off one leg, but can walk.
+
+The fallen timber rack has been levered up and wedged on a lump of stone; there is space beneath it now.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Dry stores
+by the old tram crawl
+2
+→
+Casting gallery
+by the hoist passage · past Ash · new
+HERE
+3
+☺
+Pell, surveyor
+hurt
+4
+·
+the fallen timber rack
+propped
+COMPANY
+5
+○
+Wait a while
+10m
+CASTING GALLERY
+
+Ash bars the way.
+
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Hoist room
+? Drainmouth
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 24 earlier
+Pell keeps their weight off one leg, but can walk.
+The fallen timber rack has been levered up and wedged on a lump of stone; there is space beneath it now.
+12:00 p.m.
+Ask them to come with you: Ask them to come with you
+Pell falls in beside you.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

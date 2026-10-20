@@ -1,1 +1,1 @@
-{"type":"situation","seed":"crossing","scenario":"default","settingDir":"."}
+{"type": "creature", "seed": "kyrie", "scenario": "generation", "settingDir": "."}

@@ -1,0 +1,104 @@
+THE RED CRAG
+The Thrale Highlands›Thrale›The Ember Hearth
+Day 1, 1:50 p.m.
+The Hearth's common room
+
+The Ember Hearth · Thrale
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+A long room with a peat fire and a row of shepherds' crooks by the door.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Thrale green
+by the Hearth's door
+HERE
+2
+☺
+Aldo, innkeeper
+Human
+COMPANY
+3
+○
+Wait a while
+10m
+ALDO, INNKEEPER
+Take a bed and supper — 3 coin
+8h
+Buy
+▸
+MAP
+THRALE
+EMBER HEARTH
+YSOLDE'S CHANDLERY
+BELL CHAPEL
+Thrale green
+Hearth'scommon room
+Ysolde'scounter
+? chapelnave
+→ SkarthGorge
+→ highpastures
+REGION
+1h
+1h
+10m
+2h
+Thrale
+Skarth Gorge
+high pastures
+Red Crag
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+█░░░░░░░░░
+1/9
+MP
+██████████
+7/7
+fireproof
+Bran
+human thief
+HP
+░░░░░░░░░░
+0/7
+Dori
+dwarf cleric
+HP
+░░░░░░░░░░
+0/6
+MP
+██████████
+6/6
+
+17 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 11 earlier
+10:40 a.m.
+→ the crag shoulder
+12:40 p.m.
+→ the stone sheepfold
+1:40 p.m.
+→ Thrale green
+1:50 p.m.
+→ the Hearth's common room
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

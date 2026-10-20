@@ -1,0 +1,110 @@
+THE RED CRAG
+The Thrale Highlands›The high pastures
+Day 1, 1:10 p.m.
+The stone sheepfold
+
+The high pastures · The Thrale Highlands
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+Dry-stone walls, a tally post scored with notches, and a flock that keeps to the far wall. Above the fold, a scree slope climbs toward the shoulder of the red crag.
+
+Calder circles low over the stone sheepfold, hunting.
+
+WAYS AND THINGS
+WAYS
+1
+⇢
+The crag shoulder
+by the scree climb
+2
+⇢
+Thrale green
+by the pasture track
+HERE
+3
+☺
+Tobin, shepherd
+Human
+4
+◆
+Calder, a red dragon
+away
+COMPANY
+5
+○
+Wait a while
+10m
+6
+○
+Make camp for the night
+8h
+THE CRAG SHOULDER
+
+Across country to the crag shoulder, The Red Crag.
+
+Go
+2h
+MAP
+HIGH PASTURES
+stonesheepfold
+→ Thrale
+→ Red Crag
+REGION
+1h
+1h
+10m
+2h
+Thrale
+Skarth Gorge
+high pastures
+Red Crag
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+2 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 24 earlier
+1:00 p.m.
+→ the stone sheepfold
+1:10 p.m.
+Ask Tobin about the dragon: Ask Tobin about the dragon
+Calder circles low over the stone sheepfold, hunting.
+Calder unfolds its wings, drops off the crag and glides away toward the stone sheepfold.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

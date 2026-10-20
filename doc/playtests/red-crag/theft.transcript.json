@@ -1,6 +1,6 @@
 {
  "version": 1,
- "scenario": "data/red-crag/thrale.campaign.json",
+ "scenario": "data/campaigns/red-crag.campaign.json",
  "seed": "thrale",
  "steps": [
   {

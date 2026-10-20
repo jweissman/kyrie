@@ -1,0 +1,15 @@
+Module wolf_yard "A yard with two wolves" {
+  Description "A test fixture: a walled yard, a company and two hungry wolves.".
+  Place country "The fixture country" is region.
+  Place farm "The farm" is site within country at 0, 0.
+  Place yard "the walled yard" is room within farm at 0, 0.
+  Place byre "the byre" is room within farm at 1, 0.
+  Passage byre_door "the byre door" is door between yard and byre.
+  Company party "The company" of 2 at yard.
+  Initially Set quantity(party, gold) to 4. Initially Set quantity(party, rations) to 1.
+  Person grey "a grey wolf" at yard { Role "a hungry wolf". Species wolf. }
+  Person lean "a lean wolf" at yard { Role "a hungry wolf". Species wolf. }
+  Observe yard_scene at yard when true "A walled yard of trodden mud.".
+  Observe byre_scene at byre when true "Straw and the smell of cattle.".
+  Goal false.
+}

@@ -1,0 +1,209 @@
+Module censer_hill "Censer Hill" {
+  Description "A derelict bellfoundry above the flood refuge three settlements shared, and the ossuary beneath it where the keepers' named dead lie under a bronze guardian.".
+  Entity party: group "Your company".
+  Place march "The region" is region.
+  Place ridge "The high approach" is room.
+  Place causeway "The low approach" is room.
+  Entity register_survives: fact "The register of the dead survives".
+  Entity custody_writ: fact "A custody writ".
+  Entity climbing: capability "Climbing". Entity reading_the_dead: capability "Reading the dead".
+
+  Place censer_hill "Censer Hill foundry" is site within march at 2, 0.
+  Place works "The bell foundry" is level within censer_hill.
+  Place refuge "The flood refuge" is level within censer_hill.
+  Place ossuary "The ossuary" is level within censer_hill.
+
+  Place yard "Foundry yard" is room within censer_hill at 0, 0.
+  Place drain_mouth "Drain mouth" is room within censer_hill at 0, 2.
+  Place vestibule "Surveyor's vestibule" is room within works at 1, 0.
+  Place workshop "Bell workshop" is room within works at 1, 1.
+  Place stores "Dry stores" is room within works at 2, 0.
+  Place boiler "The valve chamber" is room within works at 2, 1.
+  Place gallery "Casting gallery" is room within works at 1, 2.
+  Place hoist "Hoist room" is room within works at 2, 2.
+  Place hall "Flood hall" is room within refuge at 1, 1.
+  Place landing "Hoist landing" is room within refuge at 2, 2.
+  Place kitchen "Refuge kitchen" is room within refuge at 1, 2.
+  Place name_room "Name room" is room within refuge at 0, 2.
+  Place sluice "Sluice walk" is room within refuge at 1, 0.
+  Place lower "Limestone stair" is room within ossuary at 1, 0.
+  Place crypt "Family crypt" is room within ossuary at 0, 1.
+  Place court "Custodian's court" is room within ossuary at 1, 1.
+  Place vault "Named vault" is room within ossuary at 1, 2.
+  Place founders "Founders' gallery" is room within ossuary at 2, 1.
+  Place chalk "Chalk fault" is room within ossuary at 2, 0.
+
+  Passage yard_track "the track up to the yard" is track between ridge and yard taking 30 minutes.
+  Passage low_path "the low path through the reeds" is path between causeway and drain_mouth taking 30 minutes.
+  Passage arch "the roofless arch" is arch between yard and vestibule.
+  Passage culvert "the drain culvert" is culvert between drain_mouth and workshop.
+  Passage climbing_scar "the climbing scar" is climb between yard and hoist needing climbing.
+  Passage workshop_door "the workshop doorway" is doorway between vestibule and workshop.
+  Passage stores_door "the stores door" is door between workshop and stores.
+  Passage gallery_steps "the gallery steps" is steps between workshop and gallery.
+  Passage boiler_arch "the boiler arch" is arch between workshop and boiler.
+  Passage pipe_walk "the pipe walk" between boiler and gallery.
+  Passage hoist_passage "the hoist passage" between gallery and hoist.
+  Passage tram_crawl "the old tram crawl" is crawl between stores and hoist hidden until crawl_known.
+  Passage dry_stair "the dry stair" is stair between stores and hall taking 10 minutes.
+  Passage hoist_shaft "the hoist shaft" is shaft between hoist and landing.
+  Passage landing_crawl "the landing crawl" is crawl between landing and hall.
+  Passage kitchen_door "the kitchen doorway" is doorway between hall and kitchen.
+  Passage name_way "the passage to the name room" between kitchen and name_room.
+  Passage sluice_arch "the sluice arch" is arch between hall and sluice.
+  Passage limestone_stair "the limestone stair" is stair between sluice and lower taking 10 minutes.
+  Passage hidden_stair "the concealed stair" is stair between name_room and crypt hidden until stair_known.
+  Passage crypt_steps "the crypt steps" is steps between lower and crypt.
+  Passage court_arch "the court arch" is arch between crypt and court.
+  Passage vault_gate "the vault gate" is gate between court and vault.
+  Passage shutter_way "the shutter passage" between court and founders.
+  Passage cleft "the cleft" is climb between crypt and founders needing climbing.
+  Passage chalk_passage "the chalk passage" between founders and chalk.
+  Passage chalk_fault "the chalk fault" is crawl between chalk and drain_mouth taking 30 minutes hidden until chalk_exit.
+
+  Person boar "a reedbank boar" at causeway {
+    Role "a boar rooting in the reeds". Species boar. Level 1.
+    State rooting blocking "A boar has rooted up the low path and stands across it, bristling, watching you.".
+    State wary "The boar has drawn off into the sedge. The low path is clear.".
+    Guards low_path.
+    Change pass "Read {self}'s warning posture and give it room" from rooting to wary needing woodcraft.
+    Change bait "Scatter a ration for {self} away from the path" from rooting to wary consuming rations.
+  }
+  Initially Set encounterXp(boar) to 10.
+
+  Person hound "Ash" at gallery {
+    Role "a cave hound". Species cave_hound. Level 2.
+    State guarding blocking "A lean cave hound stands across the hoist passage, head low, lips back from its teeth.".
+    State calm "The cave hound lies in the mould dust, watching, no longer barring the hoist passage.".
+    Guards hoist_passage.
+    Change soothe "Approach {self} slowly, low and quiet" from guarding to calm needing woodcraft.
+    Change feed "Toss {self} a ration" from guarding to calm consuming rations.
+  }
+  Event growl near hound when state(hound, guarding) and together(party, hound) "The hound's growl fills the gallery. It does not come at you; it holds the hoist passage.".
+  Initially Set encounterXp(hound) to 20.
+  Person hesta "Hesta" at gallery {
+    Role "the foundry's herb gatherer". Profession herbalist. Peaceable.
+    Offers healing "clean water, salve and linen" for 2 coin.
+    Sells rations for 2 coin from 2.
+  }
+  Topic hesta_help with hesta "Ask Hesta about Ash and the hill" when not refusesService(hesta, actor) {
+    Says "'Ash kept me company after the foundry closed. Give him space, a little food, or that quiet hunter's look. I'll dress your wounds if you need it. But don't strike him in front of me and then ask me to patch you up. The ward blade is still in the valve chamber; fire runs along it, but no steel will turn a steam jet. And the dry stair from the stores goes down to the old refuge without trusting the hoist.'".
+  }
+  Event hesta_refuses near hesta when witnessedAttack(hesta, party, hound) "Hesta draws the linen basket to her chest. 'I saw you strike Ash. Find your salve elsewhere.'" then { Assert refusesService(hesta, party). }
+  Topic hesta_after with hesta "Speak to Hesta after the fight" when refusesService(hesta, actor) {
+    Says "'Nera keeps a shop in town. I will not stop you leaving, but I won't serve you.'".
+  }
+
+  Item ward_focus "the warder's copper focus" is warding_focus at workshop.
+  Item line_cache "a surveyor's harness and pitons" is climbing_harness at stores.
+  Item names_lantern "the lantern of names" is lantern_of_names at name_room.
+  Item register_copy "the waxed refuge register" is burial_register at name_room.
+
+  Person sentinel "the bronze boiler sentinel" at boiler {
+    Role "an abandoned inspection construct". Species bronze_construct. Level 1.
+  }
+  Observe sentinel_warning at boiler when able(sentinel) "A squat bronze inspector turns on stiff joints. Its plated body resists steel and cannot be poisoned. The arch and pipe walk remain open; nothing compels you to fight it.".
+  Item ward_sword "the foundry's Longsword of Flames" is longsword_of_flames at boiler.
+  Hazard foundry_steam "Scalding foundry steam" means "Deal (1d6) fire damage to ally unless dexterity save against (11).".
+  Thing steam_pipe "the split steam pipe" on boiler_arch {
+    State leaking dangerous "A split pipe hisses over the boiler arch. Fresh scorch marks stripe the boiler arch; turning its seized valve needs a crowbar. A fire ward can blunt a scald, but the jet must still be crossed.".
+    State shut "The pipe's valve is turned hard shut. The boiler arch is clear.".
+    State vented "The old pipe has vented its last pressure. Wet stone steams underfoot.".
+    Change close "Turn the steam valve with a bar" from leaking to shut needing crowbar.
+    Hurts with foundry_steam when leaking then vented.
+  }
+  Thing padlock "the stores padlock" on stores_door {
+    State locked blocking "A rusted padlock holds the stores door shut.".
+    State open "The stores door stands open; its padlock hangs from the hasp.".
+    Change pick "Pick the stores padlock" from locked to open needing lockwork.
+  }
+
+  Hazard counterweight_drop "The hoist counterweight" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
+  Thing counterweight "the hoist counterweight" on hoist_shaft {
+    State armed dangerous "An uncovered counterweight hangs over the shaft. It releases when the cable takes weight.".
+    State pinned "A wedge holds the counterweight's release. The shaft is safe to climb.".
+    State braced "A line is lashed around the counterweight. It will not fall.".
+    State sprung "The counterweight lies at the bottom of the shaft, its cable slack.".
+    Change pin "Pin the counterweight's release" from armed to pinned needing trapwork after learning hoist_warning.
+    Change brace "Lash {self} with a line" from armed to braced needing rope after learning hoist_warning.
+    Hurts with counterweight_drop when armed then sprung.
+  }
+  Hazard kitchen_vapour "Sealed kitchen vapour" means "Deal (1d4) poison damage to ally unless constitution save against (11). Apply poisoned to ally for 3 turns unless constitution save against (11).".
+  Thing crock "the split preservative crock" on name_way {
+    State venting dangerous "A split preservative crock sits under a tilting floorboard. Greenish dust traces the floor.".
+    State pinned "The floorboard under the crock is nailed down. Nothing will vent.".
+    State emptied "The crock has vented. The air is stale, but clear.".
+    Change pin "Pin the tilting floorboard" from venting to pinned needing trapwork after learning vapour_warning.
+    Hurts with kitchen_vapour when venting then emptied.
+  }
+  Hazard shutter_blow "The bronze burial shutters" means "Deal (1d8) physical damage to ally unless dexterity save against (13).".
+  Thing shutters "the bronze burial shutters" on shutter_way {
+    State armed dangerous "Articulated bronze shutters hang over the passage to the founders' gallery, poised to strike.".
+    State pinned "The shutters' release is pinned. They hang still.".
+    State sprung "The shutters have struck and jammed half-open.".
+    Change pin "Pin the shutter release" from armed to pinned needing trapwork after learning shutter_warning.
+    Change brace "Brace the shutters with a line" from armed to pinned needing rope after learning shutter_warning.
+    Hurts with shutter_blow when armed then sprung.
+  }
+
+  Person custodian "the Mortuary Custodian" at court {
+    Role "the keepers' funerary guardian". Species bronze_construct. Level 5.
+    State guarding blocking "The Custodian stands across the vault gate, bronze fingers folded.".
+    State admitting "The Custodian has stepped aside from the vault gate. It still watches.".
+    Guards vault_gate.
+    Change admit "Show {self} the keepers' custody writ" from guarding to admitting after learning custody_writ.
+  }
+  Initially Set encounterXp(custodian) to 120.
+  Topic custodian_demand with custodian "Address the Mortuary Custodian" when able(custodian) {
+    Says "Bronze fingers fold. 'CUSTODY IS NOT CONQUEST. NAME THE DEAD. BEAR THE KEEPER'S WRIT. OR RETURN BY THE WAY YOU CAME.' The same words are cut into its breastplate.".
+  }
+
+  Discovery crawl_known "A tram crawl runs from the dry stores to the back of the hoist room; it is marked on a surveyor's board." {
+    Source survey_board "a scratched survey board" at vestibule readable by party.
+  }
+  Discovery hoist_warning "The hoist counterweight releases when the cable takes weight. A trapwork hand can pin it; a line can lash it. Otherwise whoever goes first takes the risk." {
+    Source scored_timber "a scored warning on the hoist timber" at hoist readable by party.
+  }
+  Discovery vapour_warning "The split crock vents poison when its floorboard tilts. A trapwork hand can pin the board. An antidote treats the poison afterwards." {
+    Source crock_label "a preservative crock's warning label" at kitchen readable by party.
+  }
+  Discovery shutter_warning "The bronze shutter strikes an unready intruder. Its release can be pinned or braced with a line. The court itself is safe to stand in." {
+    Source shutter_scratches "old scratches by the shutter release" at court readable by party.
+  }
+  Discovery chalk_exit "A chalk fault runs from the founders' gallery up to the drain mouth. Once learned, it is a way home." {
+    Source survey_scratches "a chalk survey scratched on the wall" at chalk readable by party.
+  }
+  Entity register_pages: source "the register's waxed pages".
+  Initially Assert at(register_pages, name_room). Initially Assert intact(register_pages). Initially Assert noticeable(register_pages).
+  Initially Assert reveals(register_pages, register_survives). Initially Assert mayExamine(party, register_pages).
+  Entity stair_known: fact "A concealed stair joins the name room and the family crypt".
+  Entity lantern_letters: source "names written in funeral light".
+  Initially Assert established(stair_known). Initially Assert at(lantern_letters, name_room). Initially Assert intact(lantern_letters).
+  Initially Assert reveals(lantern_letters, stair_known). Initially Assert mayExamine(party, lantern_letters).
+  Rule lit_letters when at(party, name_room) and capable(party, reading_the_dead) { Assert noticeable(lantern_letters). }
+  Rule dark_letters when not capable(party, reading_the_dead) { Retract noticeable(lantern_letters). }
+
+  Observe yard_scene at yard when true "Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works. A surveyor's scratches mark a climb up the hoist side; without a proper harness it is too exposed.".
+  Observe drain_scene at drain_mouth when true "A broken culvert breathes cold air out of the hillside. Water already runs ankle-deep along its floor.".
+  Observe vestibule_scene at vestibule when true "Lime-washed walls, a fallen lamp bracket, and footprints in the dust heading deeper in.".
+  Observe workshop_scene at workshop when true "Half-cast bells lean against the walls. Chalk circles mark reusable bronze; older burial marks below the stores door declare another custody. Doorways lead to the stores and the vestibule; steps go down to the casting gallery, and the culvert mouth gapes in the floor.".
+  Observe stores_scene at stores when true "Collapsed shelving and oilcloth bundles. A soot-black dry stair goes down to the refuge. The far wall is old brick with a low, black opening at its foot.".
+  Observe boiler_scene at boiler when true "A wheel valve and a row of cold boilers fill the room. The workshop arch leads back; a narrow pipe walk reaches the casting gallery.".
+  Observe gallery_scene at gallery when true "Ceramic moulds stand in rows beneath a broken roof. The far end narrows into the hoist passage.".
+  Observe hoist_scene at hoist when true "A slack cable hangs from the hoist drum. Timber and tools lie where a rack came down. The shaft drops to the refuge.".
+  Observe hall_scene at hall when true "Three settlements carved their household tallies on the refuge pillars. This was a shelter before it was an ossuary. The dry stair, the hoist landing, the kitchens and the sluice walk all meet here.".
+  Observe landing_scene at landing when true "The hoist cage has sunk into gravel. A narrow crawl joins the flood hall.".
+  Observe kitchen_scene at kitchen when true "Cold hearths and broken crocks. A passage leads on to the name room.".
+  Observe name_room_scene at name_room when true "Waxed shelves and a funeral lampstand occupy the dry wall.".
+  Observe faint_letters at name_room when not capable(party, reading_the_dead) "Tiny lettering shines faintly on the rear wall, too faint to read by ordinary light.".
+  Observe lit_letters_scene at name_room when capable(party, reading_the_dead) "In the lantern's consecrated light, names written on the rear wall stand out clearly, and an arrow among them points behind the shelves.".
+  Observe sluice_scene at sluice when true "Stone gutters run through the refuge. Flood marks record the river's rises. A limestone stair goes down.".
+  Observe lower_scene at lower when true "River-smoothed limestone steps turn toward the family crypt. Cold incense hangs in the air.".
+  Observe crypt_scene at crypt when true "Small alcoves hold bundled remains under numbered tiles. The court arch stands ahead. A cleft drops toward the founders' gallery; it needs a harness.".
+  Observe court_scene at court when true "A bronze dais rises beneath articulated burial shutters. The vault gate lies beyond the dais; a shuttered passage leads aside to the founders' gallery.".
+  Observe vault_scene at vault when true "Named stone drawers stand in order, each cut with a family number.".
+  Observe founders_scene at founders when true "Three bronze founders hold tools rather than crowns. Their plinths name the flood compact of Reedwake, Chalkcross and Brackenholt. A chalk passage leads upward.".
+  Observe chalk_scene at chalk when true "A pale fault runs upward through the chalk. Your old footprints are undisturbed in the dust.".
+  Observe guardian_dead at court when dead(custodian) "The Custodian lies still. Its burial chain hangs severed from a bronze hand. The vault is open, and the keepers have no guardian here now.".
+  Goal false.
+}

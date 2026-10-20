@@ -38,7 +38,7 @@ export class ModuleInstallations {
       const relation = incoming.module.relations.find(r => r.name === change.call.name);
       if ((imported && (change.kind !== 'assert' || relation?.exclusive || (relation?.types.length ?? 0) < 2))
         || ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
-          'awake', 'needsCare', 'canCast', 'treatable'].includes(change.call.name)) {
+          'awake', 'needsCare', 'canCast', 'treatable', 'proficient'].includes(change.call.name)) {
         throw new Error('Module initialization cannot reset imported or campaign-owned state');
       }
     }

@@ -1,0 +1,108 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry
+Day 1, 9:20 a.m.
+The quarry smithy
+
+Skellfold high quarry · The Skell fells
+
+◆ Marrit asked you to find Tamsin in Skellfold high quarry. The drifting snow closes the beck lane about 12:20 p.m.
+
+Tongs, wedges, a cold forge.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The quarry floor
+by the smithy door
+HERE
+2
+☺
+Hob, quarry smith
+Dwarf
+3
+·
+a coil of line
+4
+·
+a crowbar
+COMPANY
+5
+○
+Wait a while
+10m
+6
+○
+Make camp for the night
+8h
+THE QUARRY FLOOR
+
+the quarry floor, a few steps away.
+
+Go
+10m
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+quarry floor
+quarrysmithy
+? adit mouth
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory
+8:10 a.m.
+Ask Marrit what is wrong: Ask Marrit what is wrong
+8:40 a.m.
+→ the foot of the beck lane
+9:10 a.m.
+→ the quarry floor
+9:20 a.m.
+→ the quarry smithy
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,0 +1,14 @@
+{
+  "about": "Former identifiers kept so that older modules, saves and transcripts still resolve. An alias may never equal a canonical identifier of its family. fighter and magic_user are Kyr's old names for Orsino's warrior and mage, and resolve to their mechanics.",
+  "abilities": {},
+  "conditions": {
+    "stunned": "stun"
+  },
+  "traits": {},
+  "items": {},
+  "organisms": {},
+  "classes": {
+    "fighter": "warrior",
+    "magic_user": "mage"
+  }
+}

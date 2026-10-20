@@ -1,0 +1,91 @@
+THE RED CRAG
+The Thrale Highlands›Thrale
+Day 1, 4:10 p.m.
+the bell-ringer, bell-ringer
+
+glad · Thrale green
+
+» Speak with the bell-ringer
+
+'Listen to it! A bit flat, but it's ours.'
+
+SAY
+ASK
+1
+»
+Speak with the bell-ringer
+END
+2
+⇤
+End the conversation
+SPEAK WITH THE BELL-RINGER
+Speak with the bell-ringer
+10m
+MAP
+THRALE
+YSOLDE'S CHANDLERY
+BELL CHAPEL
+EMBER HEARTH
+Thrale green
+Ysolde'scounter
+chapel nave
+? Hearth'scommon room
+→ SkarthGorge
+→ highpastures
+REGION
+1h
+1h
+10m
+2h
+Thrale
+Skarth Gorge
+high pastures
+Red Crag
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+0 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 6 earlier
+Bran: set down the chapel bell.
+The bell-ringer has the bell rope in hand again and keeps finding reasons to pull it.
+The bell-ringer takes the chapel bell in both hands and runs for the bell-cote.
+4:10 p.m.
+Speak with the bell-ringer: Speak with the bell-ringer
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

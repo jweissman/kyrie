@@ -1,0 +1,92 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag›The crag cave
+Day 1, 10:30 a.m.
+The cave hall
+
+The crag cave · The Red Crag
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+Warm air, and the glint of metal in heaps along the walls.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to the crag ledge
+by the cave mouth
+HERE
+2
+·
+the chapel bell
+COMPANY
+3
+○
+Wait a while
+10m
+THE CHAPEL BELL
+Take
+▸
+MAP
+RED CRAG
+CRAG CAVE
+crag ledge
+cave hall
+? cragshoulder
+→ SkarthGorge
+REGION
+1h
+1h
+10m
+Thrale
+Skarth Gorge
+Red Crag
+high pastures
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+2 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 15 earlier
+The coins clink onto the stone. Calder rakes them toward itself with one claw and lifts its tail from the cave mouth.
+coin: 17 → 2
+Calder has drawn its tail aside from the cave mouth and watches you with something like amusement.
+10:30 a.m.
+→ the cave hall
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -104,8 +104,8 @@ export class ModuleWriter {
   // Only authored identity is written back, so a reparse cannot turn a default into an authored value.
   static person(p: Person): string {
     const authored = new Set(p.authored ?? []);
-    // A species person lowers to the same kind and calling id; those never coincide for an ancestry and a class.
-    const species = authored.has('raceId') && authored.has('classId') && p.raceId === p.classId;
+    // A species person has a kind and no class; every person of an ancestry has one (commoner by default).
+    const species = authored.has('raceId') && p.classId === undefined;
     return [p.role ? `Role ${JSON.stringify(p.role)}.` : '', species ? `Species ${p.raceId}.` : '',
       !species && authored.has('raceId') ? `Ancestry ${p.raceId}.` : '',
       !species && authored.has('classId') ? `Calling ${p.classId}.` : '', authored.has('level') ? `Level ${p.level}.` : '',

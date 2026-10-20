@@ -40,7 +40,7 @@ export class WorldConstructs {
       value: { kind: 'number', value: p.ticks ?? 1 } });
   }
   static readonly wayKinds = ['passage', 'door', 'doorway', 'arch', 'gate', 'stair', 'steps', 'ladder', 'shaft', 'path',
-    'track', 'road', 'causeway', 'bridge', 'ford', 'tunnel', 'crawl', 'culvert', 'drift', 'incline', 'ferry'];
+    'track', 'road', 'causeway', 'bridge', 'ford', 'tunnel', 'crawl', 'culvert', 'drift', 'incline', 'ferry', 'climb'];
   // An item instance with one name: the authored one, or its catalog kind's name.
   static item(module: Module, i: { id: string; name?: string; kind: string; place: string }, kindName?: string) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }

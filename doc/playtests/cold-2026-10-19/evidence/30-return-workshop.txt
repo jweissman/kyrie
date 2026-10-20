@@ -1,0 +1,125 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 12:20 p.m.
+Bell workshop
+
+The upper works · Censer Hill foundry
+
+◆ Get Pell home to the ferry house.
+
+A split pipe hisses over the boiler arch. Fresh scorch marks stripe the boiler arch; turning its seized valve needs a crowbar. A fire ward can blunt a scald, but the jet must still be crossed.
+
+The stores door stands open; its padlock hangs from the hasp.
+
+Half-cast bells lean against the walls. Doorways lead to the stores and the vestibule; steps go down to the casting gallery, and the culvert mouth gapes in the floor.
+
+Pell keeps their weight off one leg, but can walk.
+
+The drain culvert is still clear, but the rising river will close it about 1:40 p.m.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Casting gallery
+by the gallery steps · new
+2
+→
+Dry stores
+by the stores door
+3
+→
+Surveyor's vestibule
+by the workshop doorway
+4
+→
+The valve chamber
+by the boiler arch · across the split steam pipe · new
+5
+⇤
+Out to Drain mouth
+by the drain culvert · new
+HERE
+6
+☺
+Pell, surveyor
+hurt
+COMPANY
+7
+○
+Wait a while
+10m
+CASTING GALLERY
+
+Casting gallery, a few steps away.
+
+Go
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Hoist room
+? Drainmouth
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 28 earlier
+12:10 p.m.
+→ Dry stores
+Pell takes the old tram crawl toward Dry stores.
+12:20 p.m.
+→ Bell workshop
+Pell takes the stores door toward Bell workshop.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

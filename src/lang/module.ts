@@ -38,7 +38,7 @@ export interface WorldRule {
 }
 export interface Observation { id: string; place: string; anchor?: Anchor; when: Predicate; text: string }
 export interface Objective { id: string; when: Predicate; text: string }
-export interface Person { role?: string; id: string; name: string; place: string; raceId: string; classId: string;
+export interface Person { role?: string; id: string; name: string; place: string; raceId: string; classId?: string;
   level: number; actions: string[]; horizon?: number;
   authored?: string[]; professionId?: string; backgroundId?: string; traits?: string[]; gear?: string[];
   offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[] }

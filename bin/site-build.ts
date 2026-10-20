@@ -24,16 +24,8 @@ export class SiteBuild {
   static async site(out: string) {
     await rm(out, { recursive: true, force: true });
     await mkdir(out, { recursive: true });
-    const size = await this.bundle('web/main.ts', out, 'app.js')
-      + await this.bundle('web/workbench-main.ts', out, 'workbench.js')
-      + await this.bundle('web/harness.ts', out, 'harness.js')
-      + await this.bundle('web/folio-main.ts', out, 'folio.js')
-      + await this.bundle('web/wayfarer.ts', out, 'wayfarer.js')
-      + await this.bundle('web/mono-main.ts', out, 'mono.js');
-    for (const file of ['index.html', 'workbench.html', 'style.css', 'player.css', 'parity.html', 'folio.html', 'folio.css', 'orra.html', 'wayfarer.html', 'wayfarer.css', 'mono.html', 'mono.css']) {
-      await cp(join(this.root, 'web', file), join(out, file));
-    }
-    await cp(join(this.root, 'web/index.html'), join(out, 'serewater.html'));
+    const size = await this.bundle('web/mono-main.ts', out, 'mono.js');
+    for (const file of ['mono.html', 'mono.css']) { await cp(join(this.root, 'web', file), join(out, file)); }
     await cp(join(this.root, 'web/mono.html'), join(out, 'index.html'));
     await writeFile(join(out, '.nojekyll'), '');
     return size;

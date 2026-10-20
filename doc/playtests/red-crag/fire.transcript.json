@@ -1,6 +1,6 @@
 {
  "version": 1,
- "scenario": "data/red-crag/thrale.campaign.json",
+ "scenario": "data/campaigns/red-crag.campaign.json",
  "seed": "thrale",
  "steps": [
   {
@@ -41,23 +41,18 @@
    "combat": [
     {
      "actor": "world__party_3",
-     "ability": "attack",
-     "target": "roost__dragon_person"
-    },
-    {
-     "actor": "world__party_1",
-     "ability": "attack",
+     "ability": "melee",
      "target": "roost__dragon_person"
     },
     {
      "actor": "world__party_2",
-     "ability": "attack",
+     "ability": "melee",
      "target": "roost__dragon_person"
     },
     {
-     "actor": "world__party_1",
+     "actor": "world__party_3",
      "ability": "flee",
-     "target": "world__party_1"
+     "target": "world__party_3"
     }
    ]
   },

@@ -1,0 +1,114 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry›The lower gallery
+Day 1, 10:10 a.m.
+The lower gallery
+
+The lower gallery · Skellfold high quarry
+
+◆ Marrit asked you to find Tamsin in Skellfold high quarry. The drifting snow closes the beck lane about 12:20 p.m.
+
+A ladder of soft, black wood goes down the shaft. Two rungs are already gone.
+
+Low and wet. Rails end in a tangle where an ore tub has jumped them.
+
+Tamsin lies half under the derailed ore tub, one leg trapped beneath it. Their face is grey with pain and cold.
+
+The derailed ore tub lies across the floor where it fell, wedged against the wall.
+
+WAYS AND THINGS
+WAYS
+1
+⇅
+The head of the tub incline
+by the tub incline
+2
+⇅
+The upper gallery
+by the ladder shaft · across the rotten ladder · new
+HERE
+3
+☺
+Tamsin, quarry tally-keeper
+pinned
+4
+·
+the derailed ore tub
+pinning
+COMPANY
+5
+○
+Wait a while
+10m
+THE DERAILED ORE TUB
+Dig out beneath the derailed ore tub, the way a miner would
+20m
+Heave the derailed ore tub off by main force
+▸
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+LOWER GALLERY
+quarry floor
+quarrysmithy
+adit mouth
+head of thetub incline
+lowergallery
+? uppergallery
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 8 earlier
+9:50 a.m.
+→ the adit mouth
+10:00 a.m.
+→ the head of the tub incline
+10:10 a.m.
+→ the lower gallery
+A voice from low down in the dark: 'Here! Over here. Mind the derailed ore tub; it's on my leg. Don't just haul on it. Something cracked when it came down.'
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

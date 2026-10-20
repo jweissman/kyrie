@@ -1,7 +1,7 @@
 import { buildSetting, Generator, Template } from 'deem';
 import type { DeemValue } from 'deem';
-import tables from '../data/default/tables/deem.tables.json';
-import templates from '../data/default/templates/deem.templates.json';
+import tables from '../data/generation/tables/deem.tables.json';
+import templates from '../data/generation/templates/deem.templates.json';
 import { Expressions } from './expressions';
 import { Effects } from './effects';
 import { FantasyRules } from './fantasy-rules';
@@ -13,49 +13,33 @@ import { CanonValidation } from './canon/canon-validation';
 import { CreatureSchema, type Attribute, type Creature } from './creature';
 import { CombatProjection } from './combat-projection';
 import { Overlays } from './overlays';
+import { Creation } from './rules/creation';
+import { Fighting } from './rules/fighting';
 import type { Fighter } from './model';
 
-const classData = CanonRuntime.callings();
-const races = CanonRuntime.kinds();
-const statuses = CanonRuntime.conditions();
 const rules = Canon.rules;
-const creatures = Canon.legacy.creatures;
-const encounters = Canon.legacy.encounters;
-const backgrounds = Canon.legacy.backgrounds;
 export type ClassId = string;
 export type RaceId = string;
+// What an author or the creation screen may say about a creature. traits are the chosen ones (a specialization);
+// spells are a specialist's picks; weapon and armor override the class's starting tables.
 export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   raceId?: RaceId; classId?: ClassId; level?: number; population?: 'any' | 'pc' | 'monster';
-  name?: string; primary?: Attribute;
-  abilities?: string[]; backgroundId?: string; professionId?: string; traits?: string[]; gear?: string[];
+  name?: string; abilities?: string[]; backgroundId?: string; professionId?: string; traits?: string[];
+  spells?: string[]; gear?: string[]; weapon?: string; armor?: string;
+  // An NPC prepares a sample of its spells (Orsino's enemy casters) instead of making a player's picks.
+  prepared?: boolean;
 };
-interface CreatureKind { stats?: Partial<Record<Attribute, number>>; hitPoints?: number }
 export class Content {
-  static readonly classes = classData;
-  static readonly backgrounds = backgrounds;
-  static readonly playableClasses = Object.entries(classData).filter(([, c]) => 'playable' in c && c.playable)
-    .map(([id]) => id as ClassId);
-  static readonly playableRaces = Object.entries(races).filter(([, r]) => 'playable' in r && r.playable)
-    .map(([id]) => id as RaceId);
-  static readonly statuses = statuses;
-  static readonly races = races;
-  static readonly creatures = creatures;
+  // What the creation screen and presenters show: classes and kinds by name.
+  static readonly classes: Record<string, { name: string; playable?: boolean }> = { ...Canon.classes };
+  static readonly races: Record<string, { name: string; classes?: string[]; playable?: boolean }> = {
+    ...Canon.ancestries, ...Object.fromEntries(Object.keys(Canon.species).map(id => [id, Canon.creature(id)])) };
+  static readonly playableClasses = Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id]) => id);
+  static readonly playableRaces = Object.entries(Canon.ancestries).filter(([, a]) => a.playable).map(([id]) => id);
+  static readonly statuses = CanonRuntime.conditions();
   static readonly rules = rules;
-  // A creature kind (a non-playable ancestry such as a dragon) may carry a complete stat line and hit points derived
-  // from a source creature definition. Authored scores in the generation context still win.
-  static kind(raceId: string | undefined): CreatureKind | undefined {
-    return raceId ? (races as Record<string, CreatureKind>)[raceId] : undefined;
-  }
-  static resistance(raceId: string, damageType: string): number {
-    const race = races[raceId as keyof typeof races] as { resistances?: Record<string, number> } | undefined;
-    return race?.resistances?.[damageType]
-      ?? (['piercing', 'slashing', 'bludgeoning'].includes(damageType) ? race?.resistances?.physical : undefined) ?? 0;
-  }
   static readonly abilities: ArenaAbility[] = CanonRuntime.abilities();
-  private static readonly setting = buildSetting({ ...tables,
-    creatureClass: { discriminator: 'classId', groups: classData },
-    creatureRace: { discriminator: 'raceId', groups: races },
-  } as unknown as Parameters<typeof buildSetting>[0], templates);
+  private static readonly setting = buildSetting(tables as unknown as Parameters<typeof buildSetting>[0], templates);
   private runtime;
   static settingWith(tables: Parameters<typeof buildSetting>[0], templates: Parameters<typeof buildSetting>[1]) {
     const extra = buildSetting(tables, templates);
@@ -72,44 +56,10 @@ export class Content {
   private static checked = false;
   static validate() {
     if (!Content.checked) { CanonValidation.assert(); Content.checked = true; }
-    const ids = new Set(Content.abilities.map(a => a.id));
-    for (const definition of [...Object.values(races), ...Object.values(classData)]) {
-      for (const trait of (definition as { traits?: string[] }).traits ?? []) {
-        if (!Object.hasOwn(Canon.traits, Canon.resolve('traits', trait))) { throw new Error(`Unknown passive trait ${trait}`); }
-      }
-    }
-    for (const status of Object.values(statuses) as { saves?: Record<string, number>; immune?: string[] }[]) {
-      for (const kind of [...Object.keys(status.saves ?? {}), ...status.immune ?? []]) {
-        if (!Object.hasOwn(rules.saveKinds, kind)) { throw new Error(`Unknown save category ${kind}`); }
-      }
-    }
-    for (const race of Object.values(races)) {
-      const resistance = (race as { resistances?: Record<string, number> }).resistances ?? {};
-      for (const [type, amount] of Object.entries(resistance)) {
-        if (!rules.damageTypes.includes(type) || !Number.isFinite(amount) || amount < -1 || amount > 1) {
-          throw new Error('Invalid innate resistance');
-        }
-      }
-    }
-    for (const entry of [...Object.values(creatures), ...Object.values(encounters).flat()]) {
-      if (!Object.hasOwn(classData, entry.class) || !Object.hasOwn(races, entry.race)) {
-        throw new Error('Unknown creature/encounter class or race');
-      }
-    }
-    for (const entry of Object.values(classData)) {
-      for (const id of entry.abilities) {
-        if (!ids.has(id)) { throw new Error(`Unknown class ability: ${id}`); }
-      }
-    }
+    const ids = Content.abilities.map(a => a.id);
     for (const ability of Content.abilities) {
       for (const effect of ability.effects) {
-        Effects.validate(effect, [...ids]);
-        if ((effect.kind === 'apply' || effect.kind === 'remove') && !(effect.status in statuses)) {
-          throw new Error(`Unknown status: ${effect.status}`);
-        }
-        if (effect.kind === 'summon' && !(effect.creature in creatures)) {
-          throw new Error(`Unknown summon: ${effect.creature}`);
-        }
+        Effects.validate(effect, ids);
       }
     }
   }
@@ -118,74 +68,89 @@ export class Content {
     if (Array.isArray(result)) { throw new Error('Expected a single generated entity'); }
     return result;
   }
-  private static number(generated: Record<string, DeemValue>, key: string): number {
-    const value = generated[key];
-    if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < 0) {
-      throw new Error(`Invalid generated ${key}`);
-    }
-    return value;
+  // One of a list, drawn from this generator's seeded stream (Orsino's NullDriver picks uniformly).
+  pick<T>(options: T[]): T {
+    if (!options.length) { throw new Error('Nothing to choose from'); }
+    const roll = this.runtime.evaluate(`1d${options.length}`) as number;
+    return options[roll - 1]!;
   }
-  creature(archetype: string, id: string, team: Fighter['team']): Fighter {
-    const definition = creatures[archetype];
-    if (!definition || !Object.hasOwn(creatures, archetype)) { throw new Error(`Unknown creature ${archetype}`); }
-    return this.character(definition.class as ClassId, id, team, definition.race as RaceId);
-  }
-  encounter(group: string): Fighter[] {
-    if (!Object.hasOwn(encounters, group)) { throw new Error(`No encounter roster registered for ${group}`); }
-    return encounters[group]!.map((entry, i) =>
-      this.character(entry.class as ClassId, `${group}-${i + 1}`, 'goblins', entry.race as RaceId));
+  // A summoned or ad hoc creature of a species.
+  creature(species: string, id: string, team: Fighter['team']): Fighter {
+    if (!Canon.isSpecies(species)) { throw new Error(`Unknown species ${species}`); }
+    return CombatProjection.fighter(this.createCreature(id, { raceId: species }), team);
   }
   character(classId: ClassId, id: string, team: Fighter['team'], raceId: RaceId = 'human'): Fighter {
     return CombatProjection.fighter(this.createCreature(id, { classId, raceId }), team);
   }
-  createCreature(id: string, context: CreatureGenerationContext = {}): Creature {
-    if ((context.backgroundId !== undefined && !Object.hasOwn(backgrounds, context.backgroundId)
-      && !Overlays.has(context.backgroundId))
+  private static invalid(context: CreatureGenerationContext): boolean {
+    return (context.backgroundId !== undefined && !Overlays.has(context.backgroundId))
       || Object.keys(context).some(key => key.endsWith('Score'))
-      || (context.raceId !== undefined && !Object.hasOwn(races, context.raceId))
-      || (context.classId !== undefined && !Object.hasOwn(classData, context.classId))
+      || (context.raceId !== undefined && !Object.hasOwn(Content.races, context.raceId))
+      || (context.classId !== undefined && !Creation.classOf(context.classId))
       || (context.population !== undefined && !Object.hasOwn(tables.creaturePopulation.groups, context.population))
-      || (context.primary !== undefined && !CreatureSchema.attributes.includes(context.primary))
       || CreatureSchema.attributes.some(key => context[key] !== undefined
         && (!Number.isSafeInteger(context[key]) || context[key]! < 1))
-      || (context.level !== undefined && (!Number.isSafeInteger(context.level) || context.level < 1))) {
-      throw new Error(`Invalid creature generation context for ${id}`);
-    }
-    const { professionId, traits: chosen, gear, ...rest } = context;
-    const kind = Content.kind(context.raceId);
-    const generationContext = { ...kind?.stats, ...rest };
-    const creature = this.generatedCreature(this.generate('creature', generationContext), id);
-    if (kind?.hitPoints) { creature.base.maxHp = creature.state.hp = kind.hitPoints; }
+      || (context.level !== undefined && (!Number.isSafeInteger(context.level) || context.level < 1));
+  }
+  // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
+  // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
+  // derive hit points and spell slots. A species creature takes its own statistics, natural weapon and nature traits.
+  createCreature(id: string, context: CreatureGenerationContext = {}): Creature {
+    if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
+    const raceId = context.raceId ?? this.generate('population', context.population ? { population: context.population } : {})
+      .raceId as string;
+    const species = Canon.isSpecies(raceId);
+    if (species && context.classId !== undefined) { throw new Error(`${id}: ${Creation.a(raceId)} is a species and takes no class`); }
+    const ancestry = Canon.ancestries[raceId];
+    const classId = species ? undefined : Creation.classId(context.classId
+      ?? this.pick(ancestry!.classes.filter(c => Canon.classes[c]?.adventuring !== false)));
+    if (ancestry && !ancestry.classes.includes(classId!)) { throw new Error(`${id}: ${Creation.a(raceId)} cannot be ${Creation.a(classId!)}`); }
+    const kind = ancestry?.nameGroup ?? (Object.hasOwn(tables.forename.groups, raceId) ? raceId : 'hero');
+    const generated = this.generate('creature', { kind });
+    const chassis = Creation.chassis(raceId, classId);
+    const level = context.level ?? (species ? Canon.creature(raceId).statistics?.level : undefined) ?? 1;
+    const scores = Object.fromEntries(CreatureSchema.attributes.map(key => [key, Math.max(1,
+      (chassis.fixed?.[key] ?? Content.score(generated, key)) + (chassis.attributes[key] ?? 0))]));
+    const creature: Creature = { id, name: context.name ?? String(generated.name), raceId,
+      ...classId ? { classId } : {},
+      base: { ...scores as Record<Attribute, number>, level, abilities: [], maxHp: 1, maxMana: 0, speed: 0 },
+      state: { hp: 1, mana: 0, gold: 0, experience: 0, learnedAbilities: [], conditions: [] } };
     if (context.backgroundId) { creature.backgroundId = context.backgroundId; }
-    if (professionId) { creature.professionId = professionId; }
-    if (chosen?.length) {
-      creature.traits = chosen.map(t => Canon.resolve('traits', t));
-      creature.base.abilities = [...new Set([...creature.base.abilities, ...TraitGrants.abilities(creature)])];
-    }
-    Overlays.validate({ classId: creature.classId, backgroundId: creature.backgroundId, professionId }, id);
+    if (context.professionId) { creature.professionId = context.professionId; }
+    Overlays.validate({ classId, backgroundId: context.backgroundId, professionId: context.professionId }, id);
     Overlays.apply(creature);
-    Overlays.carry(creature, gear ?? []);
+    for (const key of CreatureSchema.attributes) {
+      if (context[key] !== undefined) { creature.base[key] = context[key]!; }
+    }
+    creature.traits = [...new Set([...chassis.traits, ...TraitGrants.choose(creature, context.traits, this)])];
+    const granted = TraitGrants.abilities(creature, { spells: context.spells, prepared: context.prepared }, this);
+    creature.base.abilities = [...new Set([...chassis.abilities, ...granted,
+      ...context.abilities ?? []])].filter(a => Creation.executable(a));
+    const hp = chassis.hitPoints ?? Creation.hitPoints(chassis.hitDie, level, creature.base.constitution);
+    creature.base.maxHp = creature.state.hp = hp;
+    creature.base.maxMana = creature.state.mana = Creation.slots(classId, level, creature.base);
+    creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
+    if (!species) { this.equip(creature, chassis, context); }
+    Overlays.carry(creature, context.gear ?? []);
     CreatureSchema.validate(creature);
     return creature;
   }
-  private generatedCreature(generated: Record<string, DeemValue>, id: string): Creature {
-    const classId = generated.classId;
-    const raceId = generated.raceId;
-    if (typeof classId !== 'string' || !Object.hasOwn(classData, classId)
-      || typeof raceId !== 'string' || !Object.hasOwn(races, raceId)
-      || typeof generated.name !== 'string' || !Array.isArray(generated.abilities)
-      || generated.abilities.some(a => typeof a !== 'string' || !Content.abilities.some(b => b.id === a))) {
-      throw new Error('Invalid generated creature references');
+  // The pc equipment template: one weapon and one body armour from the class's tables, worn from the start.
+  private equip(creature: Creature, chassis: ReturnType<typeof Creation.chassis>, context: CreatureGenerationContext) {
+    const inventory = creature.state.inventory ??= [];
+    for (const [choice, table] of [[context.weapon, chassis.weapons], [context.armor, chassis.armor]] as const) {
+      // A weapon or armour the author gave the person replaces the draw from the class's table.
+    const authored = (context.gear ?? []).map(g => Canon.resolve('items', g))
+      .find(g => table === chassis.weapons ? Canon.items[g]?.weapon && Canon.items[g]?.slot : Canon.items[g]?.armor);
+    const kind = choice ?? authored ?? (table.length ? this.pick([...table]) : undefined);
+      if (!kind || Canon.items[kind]?.weapon?.natural) { continue; }
+      if (!Canon.items[kind]) { throw new Error(`${creature.id}: unknown starting equipment ${kind}`); }
+      inventory.push({ id: Overlays.gearId(creature.id, kind), definition: kind, equipped: true });
     }
-    const scores = Object.fromEntries(CreatureSchema.attributes.map(key =>
-      [key, Content.number(generated, key)])) as Record<Attribute, number>;
-    const creature: Creature = { id, name: generated.name, classId, raceId,
-      base: { ...scores, level: Content.number(generated, 'level'),
-        abilities: generated.abilities as string[], maxHp: Content.number(generated, 'maxHp'),
-        maxMana: Content.number(generated, 'maxMana'), speed: Content.number(generated, 'speed') },
-      state: { hp: Content.number(generated, 'maxHp'), mana: Content.number(generated, 'maxMana'),
-        gold: 0, experience: 0, learnedAbilities: [], conditions: [] } };
-    CreatureSchema.validate(creature);
-    return creature;
+  }
+  private static score(generated: Record<string, DeemValue>, key: string): number {
+    const value = generated[key];
+    if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < 1) { throw new Error(`Invalid generated ${key}`); }
+    return value;
   }
 }

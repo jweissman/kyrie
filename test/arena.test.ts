@@ -2,6 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import { Battle, batch, createArena, simulate } from '../src/arena';
 import { parseAbility } from '../src/lang/parse';
 import { Expressions } from '../src/expressions';
+import { Effects } from '../src/effects';
+import { Fighting } from '../src/rules/fighting';
 
 describe('ability language', () => {
   it('preserves nested Deem expressions and parses multiple typed effects', () => {
@@ -53,41 +55,46 @@ describe('arena', () => {
     expect(() => battle.step({ actor: actor.id, ability: 'attack', target: actor.id })).toThrow();
     expect(() => battle.step({ actor: 'missing', ability: 'attack', target: actor.id })).toThrow();
     expect(battle.state).toEqual(before);
-    expect(battle.events).toEqual([]);
+    expect(battle.events.map(e => e.type)).toEqual(['initiative']);
     const command = battle.legalCommands()[0]!;
     battle.step(command);
     const control = new Battle(scenario, 'validation');
     control.step(command);
     expect(battle.events).toEqual(control.events);
   });
-  it('halves damage while defending, expires defense, heals without exceeding max HP, and skips dead actors', () => {
+  it('defends by lowering armour class until the next round, heals without exceeding max HP, and skips dead actors', () => {
     const scenario = createArena('rules');
     scenario.combatants = scenario.combatants.slice(0, 1).concat(scenario.combatants.slice(2, 3));
     const [fighter, goblin] = scenario.combatants;
-    fighter!.speed = 10; goblin!.speed = 1;
-    fighter!.hp = fighter!.maxHp = 20;
+    fighter!.equipment = { ...fighter!.equipment, modifiers: { initiative: 100 } };
+    fighter!.hp = 10; fighter!.maxHp = 20;
     goblin!.hp = goblin!.maxHp = 6;
-    fighter!.abilities = ['attack', 'defend', 'heal'];
-    goblin!.abilities = ['attack', 'defend'];
-    scenario.abilities = [parseAbility('attack', 'Attack', 'Deal 6 physical damage to enemy.'),
-      parseAbility('defend', 'Defend', 'Defend.'), parseAbility('heal', 'Heal', 'Heal 99 health to self.')];
+    fighter!.abilities = ['defend', 'mend', 'end'];
+    goblin!.abilities = ['wait'];
+    scenario.abilities = [...scenario.abilities.filter(a => ['defend', 'wait', 'melee'].includes(a.id)),
+      parseAbility('mend', 'Mend', 'Heal 99 health to self.'), parseAbility('end', 'End', 'Kill enemy.')];
     const battle = new Battle(scenario, 'rules');
+    const ac = () => Fighting.armorClass(Effects.combatant(battle.state.combatants[0]!));
+    const open = ac();
     battle.step({ actor: fighter!.id, ability: 'defend', target: fighter!.id });
-    battle.step({ actor: goblin!.id, ability: 'attack', target: fighter!.id });
-    expect(battle.state.combatants[0]!.hp).toBe(17);
-    battle.step({ actor: fighter!.id, ability: 'heal', target: fighter!.id });
+    expect(battle.state.combatants[0]!.statuses).toEqual([{ id: 'defending', remaining: 1, by: fighter!.id }]);
+    expect(ac()).toBe(open - 2);
+    battle.step({ actor: goblin!.id, ability: 'wait', target: goblin!.id });
+    // A new round: defending ticks out before the fighter's next turn (Orsino's duration 1).
+    expect(battle.state.combatants[0]!.statuses).toEqual([]);
+    expect(ac()).toBe(open);
+    battle.step({ actor: fighter!.id, ability: 'mend', target: fighter!.id });
     expect(battle.state.combatants[0]!.hp).toBe(20);
-    expect(battle.state.combatants[0]!.guarding).toBe(false);
-    battle.step({ actor: goblin!.id, ability: 'attack', target: fighter!.id });
-    expect(battle.state.combatants[0]!.hp).toBe(14);
-    battle.step({ actor: fighter!.id, ability: 'attack', target: goblin!.id });
+    battle.step({ actor: goblin!.id, ability: 'wait', target: goblin!.id });
+    battle.step({ actor: fighter!.id, ability: 'end', target: goblin!.id });
     expect(battle.state.outcome).toBe('fighters');
     expect(battle.events.filter(e => e.type === 'death')).toHaveLength(1);
     expect(battle.legalCommands()).toEqual([]);
   });
   it('bounds stalemates and protects snapshots', () => {
     const scenario = createArena('draw');
-    const result = simulate(scenario, 'draw', (_state, legal) => legal.find(c => c.ability === 'defend')!, 4);
+    const result = simulate(scenario, 'draw', (_state, legal) => legal.find(c => c.ability === 'defend')
+      ?? legal.find(c => c.ability !== 'melee' && c.ability !== 'ranged' && !c.ability.includes('charge'))!, 4);
     expect(result.state.outcome).toBe('draw');
     expect(result.commands).toHaveLength(4);
     const battle = new Battle(scenario, 'draw');

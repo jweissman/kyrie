@@ -6,7 +6,6 @@ export { Content } from './src/content';
 export { Campaign } from './src/campaign/campaign';
 export { Planner } from './src/campaign/planner';
 export { Tactics } from './src/tactics';
-export { Modules } from './src/campaign/modules';
 export { ModuleParser } from './src/lang/module-parser';
 export { ModuleCompiler } from './src/lang/module-compiler';
 export { ModuleWriter } from './src/lang/module-writer';

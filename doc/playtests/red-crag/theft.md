@@ -1,6 +1,6 @@
 # They wait for the dragon to hunt, and rob it
 
-Recorded by `bun bin/record-red-crag.ts` from `data/red-crag/thrale.campaign.json`, seed `thrale`.
+Recorded by `bun bin/record-red-crag.ts` from `data/campaigns/red-crag.campaign.json`, seed `thrale`.
 Waiting steps are folded. Combat lines are the committed mechanical events.
 
 - **go(world__pasture_track,world__sheepfold)** (watch 6, success)
@@ -23,4 +23,4 @@ Waiting steps are folded. Combat lines are the committed mechanical events.
   - Fire falls on Thrale green out of the sky. The hay barn goes up like a torch.
 
 Outcomes observed (watch): `{"roost.robbed":46,"roost.bell_rung":55,"roost.bridge_burnt":58,"roost.barn_burnt":76}`.
-Company: Elen 11/11 HP, Bran 11/11 HP, Dori 6/6 HP.
+Company: Elen 12/12 HP, Bran 14/14 HP, Dori 9/9 HP.

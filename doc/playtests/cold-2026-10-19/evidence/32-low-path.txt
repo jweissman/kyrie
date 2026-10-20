@@ -1,0 +1,109 @@
+CAUGHT BELOW
+The Serewater March›Willow floodplain
+Day 1, 1:00 p.m.
+Willow causeway
+
+Willow floodplain · The Serewater March
+
+◆ Get Pell home to the ferry house.
+
+Old stones run out across the floodplain between willow poles. A track climbs the ridge toward the foundry; a lower path drops into the reeds toward the hill's drain.
+
+Pell keeps their weight off one leg, but can walk.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Chalk ridge
+by the ridge track
+2
+⇢
+Drain mouth
+by the low path through the reeds
+3
+⇢
+Reedwake quay
+by the causeway path
+HERE
+4
+☺
+Pell, surveyor
+hurt
+COMPANY
+5
+○
+Wait a while
+10m
+6
+○
+Make camp for the night
+8h
+CHALK RIDGE
+
+Chalk ridge, a few steps away.
+
+Go
+30m
+MAP
+WILLOW FLOODPLAIN
+Willowcauseway
+Chalk ridge
+→ Reedwake
+→ CenserHill foundry
+→ CenserHill foundry
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 32 earlier
+12:30 p.m.
+→ Drain mouth
+Pell takes the drain culvert toward Drain mouth.
+1:00 p.m.
+→ Willow causeway
+Pell takes the low path through the reeds toward Willow causeway.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

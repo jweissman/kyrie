@@ -1,4 +1,6 @@
 import { ItemCatalog } from '../item-catalog';
+import { Fighting } from '../rules/fighting';
+import { Creation } from '../rules/creation';
 import { Content } from '../content';
 import { FieldUse } from './field-use';
 import { CreatureStore } from '../creature-store';
@@ -28,7 +30,7 @@ export class CreatureFacts {
         for (const c of members) {
           const reference = world.module.entities.find(e => e.creatureId === c.id)?.id;
           if (!reference) { throw new Error(`Missing canonical member binding for ${c.id}`); }
-          const ready = c.state.hp > 0 && !c.state.conditions.some(s => Effects.status(s.id).skip);
+          const ready = c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id));
           changes.push({ kind: 'assert', call: ModuleWriter.call('memberOf', reference, actor.id) });
           changes.push({ kind: ready ? 'assert' : 'retract', call: ModuleWriter.call('awake', reference) });
           changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
@@ -38,6 +40,12 @@ export class CreatureFacts {
               const owned = c.state.inventory?.find(i => i.id === item.id);
               changes.push({ kind: owned ? 'assert' : 'retract', call: ModuleWriter.call('ownedItem', item.id, reference) });
               changes.push({ kind: owned?.equipped ? 'assert' : 'retract', call: ModuleWriter.call('wearing', item.id, reference) });
+            }
+          }
+          if (world.module.relations.some(r => r.name === 'proficient')) {
+            for (const kind of world.module.entities.filter(e => e.type === 'itemkind')) {
+              changes.push({ kind: Creation.canEquip(c.classId, kind.id) ? 'assert' : 'retract',
+                call: ModuleWriter.call('proficient', reference, kind.id) });
             }
           }
           if (world.module.relations.some(r => r.name === 'canTrain')) {
@@ -54,14 +62,15 @@ export class CreatureFacts {
               || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status)));
             changes.push({ kind: useful ? 'assert' : 'retract', call: ModuleWriter.call('treatable', reference, a.id) });
             const known = [...c.base.abilities, ...c.state.learnedAbilities, ...Object.keys(ItemCatalog.abilities(c))];
-            const usable = ready && known.includes(a.id)
-              && c.state.mana >= (a.cost ?? 0);
+            // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
+            const usable = ready && known.includes(a.id) && c.state.mana >= (a.cost ?? 0)
+              && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(c.base.level);
             changes.push({ kind: usable ? 'assert' : 'retract', call: ModuleWriter.call('canCast', reference, a.id) });
           }
         }
       }
       const alive = members.some(c => c.state.hp > 0);
-      const able = members.some(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.status(s.id).skip));
+      const able = members.some(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id)));
       for (const [name, active] of [['able', able], ['dead', !alive]] as const) {
         changes.push({ kind: active ? 'assert' : 'retract', call: ModuleWriter.call(name, actor.id) });
       }

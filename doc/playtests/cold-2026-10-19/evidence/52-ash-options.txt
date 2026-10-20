@@ -1,0 +1,115 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 5:20 p.m.
+Casting gallery
+
+The upper works · Censer Hill foundry
+
+A lean cave hound stands across the hoist passage, head low, lips back from its teeth.
+
+Ceramic moulds stand in rows beneath a broken roof. The far end narrows into the hoist passage.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Bell workshop
+by the gallery steps
+2
+→
+The valve chamber
+by the pipe walk · new
+3
+→
+Hoist room
+by the hoist passage · past Ash
+HERE
+4
+◆
+Ash, a cave hound
+guarding
+5
+☺
+Hesta, the foundry's herb gatherer
+Human
+COMPANY
+6
+○
+Wait a while
+10m
+ASH, A CAVE HOUND
+Attack
+10m !
+Approach Ash slowly, low and quiet
+10m
+Toss Ash a ration
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Castinggallery
+Hoist room
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 53 earlier
+5:00 p.m.
+→ Bell workshop
+5:10 p.m.
+→ Casting gallery
+The hound's growl fills the gallery. It does not come at you; it holds the hoist passage.
+5:20 p.m.
+Ask Hesta about Ash and the missing surveyor: Ask Hesta about Ash and the missing surveyor
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

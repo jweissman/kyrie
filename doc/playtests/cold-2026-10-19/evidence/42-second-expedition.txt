@@ -1,0 +1,100 @@
+CAUGHT BELOW
+The Serewater March›Willow floodplain
+Day 1, 3:40 p.m.
+Willow causeway
+
+Willow floodplain · The Serewater March
+
+Old stones run out across the floodplain between willow poles. A track climbs the ridge toward the foundry; a lower path drops into the reeds toward the hill's drain.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Chalk ridge
+by the ridge track
+2
+⇢
+Drain mouth
+by the low path through the reeds
+3
+⇢
+Reedwake quay
+by the causeway path
+COMPANY
+4
+○
+Wait a while
+10m
+5
+○
+Make camp for the night
+8h
+CHALK RIDGE
+
+Chalk ridge, a few steps away.
+
+Go
+30m
+MAP
+WILLOW FLOODPLAIN
+Willowcauseway
+Chalk ridge
+→ Reedwake
+→ CenserHill foundry
+→ CenserHill foundry
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 46 earlier
+coin: 20 → 17
+Elen gains 1 Minor healing potion.
+2:40 p.m.
+→ Reedwake quay
+3:40 p.m.
+→ Willow causeway
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

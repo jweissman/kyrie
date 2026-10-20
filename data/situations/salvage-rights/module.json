@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "warden",
+    "station",
+    "prize_room",
+    "sanctum",
+    "home"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "warden": {
+      "type": "group",
+      "conditions": [
+        "peaceable(warden)"
+      ]
+    },
+    "station": {
+      "type": "place"
+    },
+    "prize_room": {
+      "type": "place"
+    },
+    "sanctum": {
+      "type": "place"
+    },
+    "home": {
+      "type": "place"
+    }
+  },
+  "generation": {
+    "type": "salvage_rights",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  }
+}

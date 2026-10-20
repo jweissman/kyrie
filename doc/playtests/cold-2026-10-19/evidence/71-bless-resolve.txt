@@ -1,0 +1,99 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 6:00 p.m.
+OPPOSED
+the bronze boiler sentinel
+funerary bronze construct funerary bronze construct
+HP
+████████░░
+16/20
+weakened
+YOUR COMPANY
+▶ Bran
+human fighter
+HP
+█████████░
+11/12
+blessed
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+blessed · weakened
+Dori
+dwarf cleric
+HP
+█████████░
+11/12
+MP
+░░░░░░░░░░
+0/6
+blessed
+BRAN ACTS — TURN 6
+BRAN
+1
+⚔
+Weapon attack
+2
+⚔
+Guard
+self
+3
+⚔
+Retreat
+self
+4
+⚔
+Sweeping blow
+enemies
+5
+⚔
+Second wind
+self
+6
+⚔
+Riverland resolve
+self
+WEAPON ATTACK
+
+Deal (max(0, statMod(#strength) + 1d6)) physical damage to enemy.
+
+the bronze boiler sentinel
+BLOW BY BLOW
+
+Elen gains weakened for 3 turns.
+
+Elen fails to resist (strength 0 vs 12).
+
+Elen takes 0 physical damage (roll 1) → 7 HP.
+
+the bronze boiler sentinel: Burial chain → Elen
+
+Dori gains blessed for 3 turns.
+
+Elen gains blessed for 3 turns.
+
+Bran gains blessed for 3 turns.
+
+Dori: Bless the company
+
+the bronze boiler sentinel takes 3 physical damage (roll 6; resists 35%) → 16 HP.
+
+Elen: Backstab → the bronze boiler sentinel
+
+the bronze boiler sentinel gains weakened for 3 turns.
+
+the bronze boiler sentinel takes 1 physical damage (roll 3; resists 35%) → 19 HP.
+
+Bran: Wounding blow → the bronze boiler sentinel
+
+Dori takes 1 physical damage (roll 1) → 11 HP.
+
+↑↓choose
+⏎act
+Escback
+TTactics

@@ -1,0 +1,98 @@
+CAUGHT BELOW
+The Serewater March›Willow floodplain
+Day 1, 7:30 p.m.
+Chalk ridge
+
+Willow floodplain · The Serewater March
+
+Short grass and hawthorn on pale chalk. The foundry yard is just above; Reedwake lies far below.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Willow causeway
+by the ridge track
+2
+⇢
+Foundry yard
+by the track up to the yard
+COMPANY
+3
+○
+Wait a while
+10m
+4
+○
+Make camp for the night
+8h
+WILLOW CAUSEWAY
+
+Willow causeway, a few steps away.
+
+Go
+30m
+MAP
+WILLOW FLOODPLAIN
+Willowcauseway
+Chalk ridge
+→ Reedwake
+→ CenserHill foundry
+→ CenserHill foundry
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+████████░░
+10/12
+Dori
+dwarf cleric
+HP
+█████████░
+11/12
+MP
+░░░░░░░░░░
+0/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · evening
+
+HHistory · 89 earlier
+6:40 p.m.
+→ Bell workshop
+6:50 p.m.
+→ Surveyor's vestibule
+7:00 p.m.
+→ Foundry yard
+7:30 p.m.
+→ Chalk ridge
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

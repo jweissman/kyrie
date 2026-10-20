@@ -1,0 +1,26 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:30 a.m.
+The company has fallen
+
+No companion survives. This history remains saved; start a new company from the Journal.
+
+New company
+HClose history
+10:20 a.m.
+Fireproof salve: Use on › Dori
+Dori takes Fireproof salve.
+Dori gains fireproof for 10 turns.
+10:30 a.m.
+Calder, a red dragon: Attack
+Your company is defeated. Elen, Bran, Dori died. Survivors retain their injuries and spent resources.
+1 actions over the fight; the journal keeps every blow.
+Dori falls.
+Elen falls.
+Bran falls.
+The opposition wins the encounter.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -4,15 +4,15 @@ import { ItemCatalog } from '../item-catalog';
 import { Overlays } from '../overlays';
 import type { Ledger } from './orsino-registry';
 
-// The Kyr side of an adaptation record: each linked id names a definition in a canonical catalog (never the legacy
-// quarantine), and a definition claimed executable must pass that catalog's own validation.
+// The Kyr side of an adaptation record: each linked id names a definition in a canonical catalog, and a definition
+// claimed executable must pass that catalog's own validation.
 export class KyrLinks {
   static exists(link: string): boolean {
     const [family, id = ''] = link.split(/:(.*)/s);
     switch (family) {
       case 'background': return Object.hasOwn(Canon.backgrounds, id);
-      case 'item': return Object.hasOwn(Canon.items, id) || Canon.isLegacy('items', id);
-      case 'ability': return Object.hasOwn(Canon.abilities, id) || Canon.isLegacy('abilities', id);
+      case 'item': return Object.hasOwn(Canon.items, id);
+      case 'ability': return Object.hasOwn(Canon.abilities, id);
       case 'condition': return Object.hasOwn(Canon.conditions, id);
       case 'trait': return Object.hasOwn(Canon.traits, id);
       case 'ancestry': return Canon.isAncestry(id);

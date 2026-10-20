@@ -1,0 +1,93 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:10 a.m.
+Calder, a red dragon
+
+roosting · the crag ledge
+
+» Speak to Calder
+
+'Thieves come with swords,' says Calder, in a voice like a kiln door opening. 'Beggars come with nothing. Petitioners come with gold. Which are you?'
+
+SAY
+ASK
+1
+»
+Speak to Calder
+DEAL
+2
+¤
+Lay fifteen coins before Calder
+END
+3
+⇤
+End the conversation
+SPEAK TO CALDER
+Speak to Calder
+10m
+MAP
+RED CRAG
+CRAG CAVE
+crag ledge
+? cragshoulder
+? cave hall
+→ SkarthGorge
+REGION
+1h
+1h
+10m
+Thrale
+Skarth Gorge
+Red Crag
+high pastures
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+17 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 10 earlier
+8:50 a.m.
+→ Thrale green
+9:50 a.m.
+→ the gorge edge
+10:00 a.m.
+→ the crag ledge
+10:10 a.m.
+Speak to Calder: Speak to Calder
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

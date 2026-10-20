@@ -1,0 +1,758 @@
+{
+  "source": "evidence/end-blind.save.json",
+  "source_sha256": "cc262dc02eeb83d6af6f8b588a3cd2b96cbddb22d3fac202b5a9a6be174921c6",
+  "method": "Read saved events; exact finite dice enumeration. No new battle simulation.",
+  "encounter": "attack(party,world__sentinel,world__boiler)",
+  "actions_total": 15,
+  "party_actions": 11,
+  "enemy_actions": 4,
+  "party_hp_damage_total": 3,
+  "damage_by_party_member": {
+    "Elen": 0,
+    "Bran": 2,
+    "Dori": 1
+  },
+  "creature_base_stats": {
+    "Elen": {
+      "strength": 5,
+      "dexterity": 11,
+      "intelligence": 9,
+      "wisdom": 15,
+      "constitution": 12,
+      "charisma": 9,
+      "level": 1,
+      "abilities": [
+        "attack",
+        "defend",
+        "ambush",
+        "heal",
+        "flee",
+        "elf_focus"
+      ],
+      "maxHp": 7,
+      "maxMana": 2,
+      "speed": 1
+    },
+    "Bran": {
+      "strength": 17,
+      "dexterity": 13,
+      "intelligence": 10,
+      "wisdom": 10,
+      "constitution": 9,
+      "charisma": 12,
+      "level": 1,
+      "abilities": [
+        "attack",
+        "defend",
+        "cleave",
+        "flee",
+        "rally",
+        "wounding_blow",
+        "human_resolve"
+      ],
+      "maxHp": 12,
+      "maxMana": 0,
+      "speed": 2
+    },
+    "Dori": {
+      "strength": 13,
+      "dexterity": 8,
+      "intelligence": 16,
+      "wisdom": 15,
+      "constitution": 15,
+      "charisma": 10,
+      "level": 1,
+      "abilities": [
+        "attack",
+        "defend",
+        "heal",
+        "bless",
+        "purify",
+        "revive",
+        "flee",
+        "dwarf_guard"
+      ],
+      "maxHp": 12,
+      "maxMana": 6,
+      "speed": 1
+    },
+    "the bronze boiler sentinel": {
+      "strength": 14,
+      "dexterity": 15,
+      "intelligence": 12,
+      "wisdom": 7,
+      "constitution": 12,
+      "charisma": 11,
+      "level": 1,
+      "abilities": [
+        "custodian_sweep",
+        "custodian_chain",
+        "defend"
+      ],
+      "maxHp": 20,
+      "maxMana": 0,
+      "speed": 4
+    }
+  },
+  "combat_events": [
+    {
+      "type": "action",
+      "turn": 1,
+      "command": {
+        "actor": "world__sentinel_person",
+        "ability": "custodian_sweep",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__sentinel_person",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "save",
+      "turn": 1,
+      "actor": "world__sentinel_person",
+      "target": "world__party_2",
+      "rolled": 7,
+      "die": 6,
+      "modifier": 1,
+      "stat": "dexterity",
+      "difficulty": 11,
+      "success": false
+    },
+    {
+      "type": "damage",
+      "turn": 1,
+      "actor": "world__sentinel_person",
+      "target": "world__party_2",
+      "rolled": 1,
+      "amount": 1,
+      "hp": 11,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 0,
+        "armor": 0,
+        "resistance": 0,
+        "guarding": false
+      }
+    },
+    {
+      "type": "save",
+      "turn": 1,
+      "actor": "world__sentinel_person",
+      "target": "world__party_1",
+      "rolled": 20,
+      "die": 20,
+      "modifier": 0,
+      "stat": "dexterity",
+      "difficulty": 11,
+      "success": true
+    },
+    {
+      "type": "save",
+      "turn": 1,
+      "actor": "world__sentinel_person",
+      "target": "world__party_3",
+      "rolled": 2,
+      "die": 3,
+      "modifier": -1,
+      "stat": "dexterity",
+      "difficulty": 11,
+      "success": false
+    },
+    {
+      "type": "damage",
+      "turn": 1,
+      "actor": "world__sentinel_person",
+      "target": "world__party_3",
+      "rolled": 1,
+      "amount": 1,
+      "hp": 11,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 0,
+        "armor": 0,
+        "resistance": 0,
+        "guarding": false
+      }
+    },
+    {
+      "type": "action",
+      "turn": 2,
+      "command": {
+        "actor": "world__party_2",
+        "ability": "wounding_blow",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_2",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 2,
+      "actor": "world__party_2",
+      "target": "world__sentinel_person",
+      "rolled": 3,
+      "amount": 1,
+      "hp": 19,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 0,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": false
+      }
+    },
+    {
+      "type": "status",
+      "detail": "weakened",
+      "amount": 3,
+      "turn": 2,
+      "actor": "world__party_2",
+      "target": "world__sentinel_person"
+    },
+    {
+      "type": "action",
+      "turn": 3,
+      "command": {
+        "actor": "world__party_1",
+        "ability": "ambush",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_1",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 3,
+      "actor": "world__party_1",
+      "target": "world__sentinel_person",
+      "rolled": 6,
+      "amount": 3,
+      "hp": 16,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 0,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": false
+      }
+    },
+    {
+      "type": "action",
+      "turn": 4,
+      "command": {
+        "actor": "world__party_3",
+        "ability": "bless",
+        "target": "world__party_3"
+      },
+      "source": {
+        "id": "world__party_3",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "status",
+      "detail": "blessed",
+      "amount": 3,
+      "turn": 4,
+      "actor": "world__party_3",
+      "target": "world__party_2"
+    },
+    {
+      "type": "status",
+      "detail": "blessed",
+      "amount": 3,
+      "turn": 4,
+      "actor": "world__party_3",
+      "target": "world__party_1"
+    },
+    {
+      "type": "status",
+      "detail": "blessed",
+      "amount": 3,
+      "turn": 4,
+      "actor": "world__party_3",
+      "target": "world__party_3"
+    },
+    {
+      "type": "action",
+      "turn": 5,
+      "command": {
+        "actor": "world__sentinel_person",
+        "ability": "custodian_chain",
+        "target": "world__party_1"
+      },
+      "source": {
+        "id": "world__sentinel_person",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 5,
+      "actor": "world__sentinel_person",
+      "target": "world__party_1",
+      "rolled": 1,
+      "amount": 0,
+      "hp": 7,
+      "damageType": "physical",
+      "modifiers": {
+        "power": -1,
+        "armor": 0,
+        "resistance": 0,
+        "guarding": false
+      }
+    },
+    {
+      "type": "save",
+      "turn": 5,
+      "actor": "world__sentinel_person",
+      "target": "world__party_1",
+      "rolled": 0,
+      "die": 2,
+      "modifier": -2,
+      "stat": "strength",
+      "difficulty": 12,
+      "success": false
+    },
+    {
+      "type": "status",
+      "detail": "weakened",
+      "amount": 3,
+      "turn": 5,
+      "actor": "world__sentinel_person",
+      "target": "world__party_1"
+    },
+    {
+      "type": "action",
+      "turn": 6,
+      "command": {
+        "actor": "world__party_2",
+        "ability": "cleave",
+        "target": "world__party_2"
+      },
+      "source": {
+        "id": "world__party_2",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 6,
+      "actor": "world__party_2",
+      "target": "world__sentinel_person",
+      "rolled": 3,
+      "amount": 3,
+      "hp": 13,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 2,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": false
+      }
+    },
+    {
+      "type": "action",
+      "turn": 7,
+      "command": {
+        "actor": "world__party_1",
+        "ability": "attack",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_1",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 7,
+      "actor": "world__party_1",
+      "target": "world__sentinel_person",
+      "rolled": 0,
+      "amount": 0,
+      "hp": 13,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 1,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": false
+      }
+    },
+    {
+      "type": "action",
+      "turn": 8,
+      "command": {
+        "actor": "world__party_3",
+        "ability": "attack",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_3",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 8,
+      "actor": "world__party_3",
+      "target": "world__sentinel_person",
+      "rolled": 5,
+      "amount": 4,
+      "hp": 9,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 2,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": false
+      }
+    },
+    {
+      "type": "action",
+      "turn": 9,
+      "command": {
+        "actor": "world__sentinel_person",
+        "ability": "defend",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__sentinel_person",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "defend",
+      "turn": 9,
+      "actor": "world__sentinel_person"
+    },
+    {
+      "type": "action",
+      "turn": 10,
+      "command": {
+        "actor": "world__party_2",
+        "ability": "attack",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_2",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 10,
+      "actor": "world__party_2",
+      "target": "world__sentinel_person",
+      "rolled": 8,
+      "amount": 3,
+      "hp": 6,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 2,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": true
+      }
+    },
+    {
+      "type": "action",
+      "turn": 11,
+      "command": {
+        "actor": "world__party_1",
+        "ability": "defend",
+        "target": "world__party_1"
+      },
+      "source": {
+        "id": "world__party_1",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "defend",
+      "turn": 11,
+      "actor": "world__party_1"
+    },
+    {
+      "type": "action",
+      "turn": 12,
+      "command": {
+        "actor": "world__party_3",
+        "ability": "attack",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_3",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 12,
+      "actor": "world__party_3",
+      "target": "world__sentinel_person",
+      "rolled": 2,
+      "amount": 1,
+      "hp": 5,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 2,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": true
+      }
+    },
+    {
+      "type": "expire",
+      "turn": 13,
+      "actor": "world__sentinel_person",
+      "target": "world__sentinel_person",
+      "detail": "weakened"
+    },
+    {
+      "type": "action",
+      "turn": 13,
+      "command": {
+        "actor": "world__sentinel_person",
+        "ability": "custodian_chain",
+        "target": "world__party_2"
+      },
+      "source": {
+        "id": "world__sentinel_person",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 13,
+      "actor": "world__sentinel_person",
+      "target": "world__party_2",
+      "rolled": 1,
+      "amount": 1,
+      "hp": 10,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 0,
+        "armor": 0,
+        "resistance": 0,
+        "guarding": false
+      }
+    },
+    {
+      "type": "save",
+      "turn": 13,
+      "actor": "world__sentinel_person",
+      "target": "world__party_2",
+      "rolled": 18,
+      "die": 16,
+      "modifier": 2,
+      "stat": "strength",
+      "difficulty": 12,
+      "success": true
+    },
+    {
+      "type": "expire",
+      "turn": 14,
+      "actor": "world__party_2",
+      "target": "world__party_2",
+      "detail": "blessed"
+    },
+    {
+      "type": "action",
+      "turn": 14,
+      "command": {
+        "actor": "world__party_2",
+        "ability": "attack",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_2",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 14,
+      "actor": "world__party_2",
+      "target": "world__sentinel_person",
+      "rolled": 5,
+      "amount": 3,
+      "hp": 2,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 0,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": false
+      }
+    },
+    {
+      "type": "expire",
+      "turn": 15,
+      "actor": "world__party_1",
+      "target": "world__party_1",
+      "detail": "blessed"
+    },
+    {
+      "type": "expire",
+      "turn": 15,
+      "actor": "world__party_1",
+      "target": "world__party_1",
+      "detail": "weakened"
+    },
+    {
+      "type": "action",
+      "turn": 15,
+      "command": {
+        "actor": "world__party_1",
+        "ability": "attack",
+        "target": "world__sentinel_person"
+      },
+      "source": {
+        "id": "world__party_1",
+        "kind": "ability"
+      }
+    },
+    {
+      "type": "damage",
+      "turn": 15,
+      "actor": "world__party_1",
+      "target": "world__sentinel_person",
+      "rolled": 4,
+      "amount": 2,
+      "hp": 0,
+      "damageType": "physical",
+      "modifiers": {
+        "power": 0,
+        "armor": 0,
+        "resistance": 0.35,
+        "guarding": false
+      }
+    },
+    {
+      "type": "death",
+      "turn": 15,
+      "actor": "world__sentinel_person"
+    },
+    {
+      "type": "end",
+      "turn": 15,
+      "outcome": "fighters",
+      "reason": "elimination"
+    }
+  ],
+  "dice_assumptions": "Physical damage; 35% resistance, no power buffs/debuffs, no armor or Guard. Elen STR modifier -2 and DEX modifier 0; Bran STR modifier +2. Fraction uses integer arithmetic for resistance floor.",
+  "exact_dice": {
+    "Elen weapon": {
+      "rolls": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "after_resistance": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2
+      ],
+      "raw_mean": 1.6666666666666667,
+      "resisted_mean": 0.6666666666666666,
+      "zero_outcomes": 3,
+      "outcomes": 6
+    },
+    "Elen Backstab": {
+      "rolls": [
+        2,
+        3,
+        4,
+        5,
+        3,
+        4,
+        5,
+        6,
+        4,
+        5,
+        6,
+        7,
+        5,
+        6,
+        7,
+        8
+      ],
+      "after_resistance": [
+        1,
+        1,
+        2,
+        3,
+        1,
+        2,
+        3,
+        3,
+        2,
+        3,
+        3,
+        4,
+        3,
+        3,
+        4,
+        5
+      ],
+      "raw_mean": 5.0,
+      "resisted_mean": 2.6875,
+      "zero_outcomes": 0,
+      "outcomes": 16
+    },
+    "Bran weapon": {
+      "rolls": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "after_resistance": [
+        1,
+        2,
+        3,
+        3,
+        4,
+        5
+      ],
+      "raw_mean": 5.5,
+      "resisted_mean": 3.0,
+      "zero_outcomes": 0,
+      "outcomes": 6
+    },
+    "Bran Sweeping blow": {
+      "rolls": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "after_resistance": [
+        1,
+        2,
+        3,
+        3
+      ],
+      "raw_mean": 4.5,
+      "resisted_mean": 2.25,
+      "zero_outcomes": 0,
+      "outcomes": 4
+    }
+  }
+}

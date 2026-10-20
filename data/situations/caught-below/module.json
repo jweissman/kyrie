@@ -1,15 +1,8 @@
 {
   "version": 1,
-  "situation": "situation.kyr",
+  "source": "situation.kyr",
   "rules": [
-    "../../rulesets/world/core.kyr",
-    "../../rulesets/world/passages.kyr",
-    "../../rulesets/world/people.kyr",
-    "../../rulesets/world/needs.kyr",
-    "../../rulesets/world/services.kyr",
-    "../../rulesets/discovery.kyr",
-    "../../rulesets/world/care.kyr",
-    "../../rulesets/world/belongings.kyr"
+    "world"
   ],
   "globals": [
     "party"
@@ -49,7 +42,6 @@
       ]
     }
   },
-  "exports": {},
   "generation": {
     "type": "caught_below",
     "templates": "templates.json",

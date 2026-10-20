@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "name": "Skellfold",
+  "modules": [
+    {
+      "id": "world",
+      "bundle": "../sites/skellfold/module.json"
+    },
+    {
+      "id": "rescue",
+      "bundle": "../situations/caught-below/module.json",
+      "context": {
+        "setting": "quarry"
+      },
+      "imports": {
+        "party": "world.party",
+        "workings": "world.site",
+        "captive_room": "world.captive",
+        "tool_room": "world.tools",
+        "home": "world.home",
+        "lookout": "world.lookout",
+        "closing_way": "world.closing"
+      }
+    },
+    {
+      "id": "salvage",
+      "bundle": "../situations/salvage-rights/module.json",
+      "context": {
+        "setting": "quarry"
+      },
+      "imports": {
+        "party": "world.party",
+        "warden": "world.warden",
+        "station": "world.camp",
+        "prize_room": "world.prize_room",
+        "sanctum": "world.sanctum",
+        "home": "world.lookout"
+      }
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith",
+      "traits": [
+        "toughness"
+      ]
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ],
+      "spells": [
+        "cure",
+        "bless",
+        "anoint",
+        "prayer",
+        "minor_restoration",
+        "cure_moderate"
+      ]
+    }
+  ]
+}

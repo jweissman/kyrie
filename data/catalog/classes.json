@@ -1,0 +1,598 @@
+{
+  "about": "Classes: adventuring callings a member of an ancestry can take, with Orsino's chassis. hitDie and attributes add to the rolled character (Orsino's classModifier overlay); abilities are known from creation (melee or ranged is added from the equipped weapon); weapons and armor are the starting tables; proficiencies bound what can be equipped; specializations are the trait choices (a mage school, a cleric domain, a warrior disposition), chosen at creation; slots give spell slots: base + 2 + level + multiplier \u00d7 the positive modifier of attribute.",
+  "classes": {
+    "warrior": {
+      "name": "Warrior",
+      "description": "Warriors are skilled combatants, excelling in melee and ranged combat with a variety of weapons and armor.",
+      "hitDie": 12,
+      "attributes": {
+        "strength": 2,
+        "dexterity": 1,
+        "constitution": 2,
+        "intelligence": -1,
+        "wisdom": -1
+      },
+      "gold": 10,
+      "abilities": [
+        "defend",
+        "taunt",
+        "vigor_up",
+        "cleave",
+        "prepare_charge",
+        "charge",
+        "set_spear",
+        "second_wind",
+        "sweep"
+      ],
+      "playable": true,
+      "specializations": [
+        "toughness",
+        "brave",
+        "strong_willed"
+      ],
+      "weapons": [
+        "longsword",
+        "battleaxe"
+      ],
+      "armor": [
+        "plate",
+        "scale",
+        "chainmail"
+      ],
+      "startingGear": [
+        "torch",
+        "pole"
+      ],
+      "proficiencies": {
+        "weapons": {
+          "all": true
+        },
+        "armor": {
+          "all": true
+        },
+        "items": {
+          "kinds": [
+            "kit",
+            "potion",
+            "flask"
+          ]
+        }
+      },
+      "slots": {
+        "base": 0
+      },
+      "source": {
+        "orsino": "class:warrior",
+        "fidelity": "faithful",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots."
+      }
+    },
+    "mage": {
+      "name": "Mage",
+      "description": "Mages are masters of arcane magic, wielding powerful spells to manipulate the forces of the world.",
+      "hitDie": 4,
+      "attributes": {
+        "strength": -2,
+        "dexterity": 1,
+        "constitution": -1,
+        "intelligence": 3,
+        "wisdom": 1
+      },
+      "gold": 50,
+      "abilities": [
+        "defend"
+      ],
+      "playable": true,
+      "specializations": [
+        "abjurer",
+        "conjurer",
+        "diviner",
+        "enchanter",
+        "evoker",
+        "illusionist",
+        "necromancer",
+        "transmuter"
+      ],
+      "weapons": [
+        "staff",
+        "dagger"
+      ],
+      "armor": [
+        "cloth"
+      ],
+      "startingGear": [
+        "spellbook"
+      ],
+      "proficiencies": {
+        "weapons": {
+          "kinds": [
+            "blade",
+            "staff",
+            "dart",
+            "sling"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "armor": {
+          "kinds": [
+            "cloth"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "items": {
+          "all": true
+        }
+      },
+      "slots": {
+        "base": 4,
+        "attribute": "intelligence",
+        "multiplier": 2
+      },
+      "source": {
+        "orsino": "class:mage",
+        "fidelity": "faithful",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots."
+      }
+    },
+    "thief": {
+      "name": "Thief",
+      "description": "Thieves are stealthy and cunning, adept at sneaking, lockpicking, and dealing precise strikes.",
+      "hitDie": 6,
+      "attributes": {
+        "strength": -1,
+        "dexterity": 2,
+        "constitution": 1,
+        "intelligence": 1,
+        "wisdom": -1,
+        "charisma": 1
+      },
+      "gold": 20,
+      "abilities": [
+        "defend",
+        "dodge",
+        "poison_weapon",
+        "smoke_screen",
+        "backstab",
+        "dirty_trick",
+        "disable"
+      ],
+      "playable": true,
+      "skills": [
+        "trapwork",
+        "lockwork"
+      ],
+      "weapons": [
+        "dagger",
+        "dart",
+        "shortsword"
+      ],
+      "armor": [
+        "leather",
+        "studded"
+      ],
+      "startingGear": [
+        "thieves_tools"
+      ],
+      "proficiencies": {
+        "weapons": {
+          "kinds": [
+            "blade",
+            "bow",
+            "crossbow",
+            "dart",
+            "sling"
+          ],
+          "weights": [
+            "light",
+            "medium"
+          ]
+        },
+        "armor": {
+          "kinds": [
+            "leather"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "items": {
+          "kinds": [
+            "kit",
+            "potion",
+            "flask",
+            "special"
+          ]
+        }
+      },
+      "slots": {
+        "base": 0
+      },
+      "source": {
+        "orsino": "class:thief",
+        "fidelity": "faithful",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the trapwork, lockwork skill for its deterministic world actions."
+      }
+    },
+    "cleric": {
+      "name": "Cleric",
+      "description": "Clerics are divine spellcasters who draw power from their faith to heal allies and smite foes.",
+      "hitDie": 8,
+      "attributes": {
+        "strength": 1,
+        "dexterity": -1,
+        "constitution": 1,
+        "wisdom": 2,
+        "charisma": 1
+      },
+      "gold": 15,
+      "abilities": [
+        "defend"
+      ],
+      "playable": true,
+      "skills": [
+        "mending"
+      ],
+      "specializations": [
+        "vitalist",
+        "deathspeaker",
+        "lightbringer",
+        "shadowmancer",
+        "oathkeeper",
+        "wildcaller",
+        "chaotician",
+        "warbringer",
+        "oceanist",
+        "cherubist",
+        "stormcaller",
+        "veneficium"
+      ],
+      "weapons": [
+        "light_mace",
+        "light_warhammer",
+        "staff"
+      ],
+      "armor": [
+        "studded",
+        "splint",
+        "chainmail"
+      ],
+      "startingGear": [
+        "holy_symbol"
+      ],
+      "proficiencies": {
+        "weapons": {
+          "kinds": [
+            "flail",
+            "mace",
+            "light_warhammer",
+            "staff",
+            "club"
+          ],
+          "weights": [
+            "light",
+            "medium",
+            "heavy"
+          ]
+        },
+        "armor": {
+          "kinds": [
+            "cloth",
+            "leather",
+            "metal"
+          ],
+          "weights": [
+            "light",
+            "medium"
+          ]
+        },
+        "items": {
+          "kinds": [
+            "kit",
+            "potion",
+            "flask",
+            "wand",
+            "scroll"
+          ],
+          "withoutTradition": "arcane"
+        }
+      },
+      "slots": {
+        "base": 2,
+        "attribute": "wisdom",
+        "multiplier": 1
+      },
+      "source": {
+        "orsino": "class:cleric",
+        "fidelity": "faithful",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the mending skill for its deterministic world actions."
+      }
+    },
+    "bard": {
+      "name": "Bard",
+      "description": "Bards are charismatic performers who inspire allies and confound enemies through music and magic.",
+      "hitDie": 6,
+      "attributes": {
+        "dexterity": 1,
+        "intelligence": 1,
+        "wisdom": 1,
+        "charisma": 3
+      },
+      "gold": 25,
+      "abilities": [
+        "defend",
+        "cure",
+        "inspire",
+        "charm",
+        "taunt",
+        "riposte"
+      ],
+      "playable": true,
+      "weapons": [
+        "dagger",
+        "shortsword",
+        "light_mace"
+      ],
+      "armor": [
+        "leather",
+        "cloth",
+        "studded"
+      ],
+      "startingGear": [
+        "musical_instrument"
+      ],
+      "proficiencies": {
+        "weapons": {
+          "kinds": [
+            "blade",
+            "bow",
+            "crossbow",
+            "staff",
+            "light_mace"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "armor": {
+          "kinds": [
+            "leather",
+            "cloth"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "items": {
+          "kinds": [
+            "kit",
+            "potion",
+            "flask",
+            "scroll",
+            "special"
+          ]
+        }
+      },
+      "slots": {
+        "base": 1,
+        "attribute": "charisma",
+        "multiplier": 1
+      },
+      "source": {
+        "orsino": "class:bard",
+        "fidelity": "faithful",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots."
+      }
+    },
+    "ranger": {
+      "name": "Ranger",
+      "description": "Rangers are skilled hunters and trackers, proficient with bows and survival in the wilderness.",
+      "hitDie": 10,
+      "attributes": {
+        "strength": 1,
+        "dexterity": 2,
+        "constitution": 1,
+        "wisdom": 2,
+        "charisma": -1
+      },
+      "gold": 30,
+      "abilities": [
+        "defend",
+        "heal",
+        "summon_animal",
+        "set_spear",
+        "hunters_mark",
+        "ensnare"
+      ],
+      "playable": true,
+      "skills": [
+        "woodcraft"
+      ],
+      "weapons": [
+        "longsword",
+        "spear",
+        "javelin",
+        "shortbow"
+      ],
+      "armor": [
+        "leather",
+        "chainmail",
+        "studded",
+        "scale"
+      ],
+      "startingGear": [
+        "rations",
+        "bedroll",
+        "firewood",
+        "flask"
+      ],
+      "proficiencies": {
+        "weapons": {
+          "kinds": [
+            "blade",
+            "bow",
+            "crossbow",
+            "polearm"
+          ],
+          "weights": [
+            "light",
+            "medium"
+          ]
+        },
+        "armor": {
+          "all": true,
+          "weights": [
+            "light",
+            "medium"
+          ]
+        },
+        "items": {
+          "kinds": [
+            "kit",
+            "potion",
+            "flask",
+            "scroll"
+          ]
+        }
+      },
+      "slots": {
+        "base": 0
+      },
+      "source": {
+        "orsino": "class:ranger",
+        "fidelity": "faithful",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the woodcraft skill for its deterministic world actions."
+      }
+    },
+    "monk": {
+      "name": "Monk",
+      "description": "Monks are disciplined martial artists who harness their inner energy to perform extraordinary feats.",
+      "hitDie": 8,
+      "attributes": {
+        "strength": 1,
+        "dexterity": 2,
+        "constitution": 1,
+        "wisdom": 2
+      },
+      "gold": 10,
+      "abilities": [
+        "defend",
+        "roundhouse",
+        "flurry_of_blows",
+        "meditate",
+        "dodge",
+        "second_wind"
+      ],
+      "playable": true,
+      "skills": [
+        "mending"
+      ],
+      "specializations": [
+        "wise",
+        "compassion",
+        "discipline"
+      ],
+      "weapons": [
+        "fist"
+      ],
+      "armor": [
+        "cloth"
+      ],
+      "startingGear": [
+        "robe",
+        "alms_bowl",
+        "needle_and_thread"
+      ],
+      "proficiencies": {
+        "weapons": {
+          "kinds": [
+            "unarmed"
+          ]
+        },
+        "armor": {
+          "kinds": [
+            "cloth"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "items": {
+          "kinds": [
+            "kit",
+            "potion",
+            "flask",
+            "scroll",
+            "special"
+          ]
+        }
+      },
+      "slots": {
+        "base": 0
+      },
+      "source": {
+        "orsino": "class:monk",
+        "fidelity": "faithful",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the mending skill for its deterministic world actions."
+      }
+    },
+    "commoner": {
+      "name": "Commoner",
+      "description": "Untrained work, travel, and basic self-defense.",
+      "hitDie": 4,
+      "attributes": {},
+      "gold": 0,
+      "abilities": [
+        "defend"
+      ],
+      "adventuring": false,
+      "weapons": [
+        "fist"
+      ],
+      "armor": [
+        "cloth"
+      ],
+      "startingGear": [],
+      "proficiencies": {
+        "weapons": {
+          "kinds": [
+            "blade",
+            "staff",
+            "club",
+            "dart",
+            "sling"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "armor": {
+          "kinds": [
+            "cloth",
+            "leather"
+          ],
+          "weights": [
+            "light"
+          ]
+        },
+        "items": {
+          "kinds": [
+            "kit",
+            "potion",
+            "flask"
+          ]
+        }
+      },
+      "slots": {
+        "base": 0
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Ordinary life rather than a calling, open to every ancestry. Orsino has no commoner class."
+      }
+    }
+  }
+}

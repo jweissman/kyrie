@@ -1,5 +1,0 @@
-{
-  "version": 1,
-  "name": "A crossing before winter",
-  "modules": [{"id": "crossing", "bundle": "crossing.module.json"}]
-}

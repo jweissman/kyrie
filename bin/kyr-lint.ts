@@ -13,8 +13,8 @@ export interface Finding { level: 'error' | 'warning'; check: string; where: str
 
 export class KyrLint {
   static readonly root = resolve(import.meta.dir, '..');
-  static readonly recommended = ['data/caught-below/river.campaign.json', 'data/caught-below/quarry.campaign.json',
-    'data/red-crag/thrale.campaign.json'];
+  static readonly recommended = ['data/campaigns/serewater-march.campaign.json', 'data/campaigns/skellfold.campaign.json',
+    'data/campaigns/red-crag.campaign.json'];
   static walk(dir: string, keep: (file: string) => boolean): string[] {
     return readdirSync(dir).flatMap(f => {
       const p = join(dir, f);
@@ -41,8 +41,8 @@ export class KyrLint {
         findings.push({ level: 'warning', check: 'vocabulary', where: name,
           message: `defined with different meanings: ${list.map(d => `${d.file}(${d.sig})`).join(', ')}` });
       }
-      const canonical = list.some(d => d.file.includes('rulesets/world/'));
-      for (const d of list.filter(x => !x.file.includes('rulesets/'))) {
+      const canonical = list.some(d => d.file.startsWith('data/rules/'));
+      for (const d of list.filter(x => !x.file.startsWith('data/rules/'))) {
         findings.push({ level: canonical ? 'error' : 'warning', check: canonical ? 'redefinition' : 'campaign-vocabulary',
           where: d.file, message: canonical ? `redefines canonical ${name}` : `campaign-local relation ${name}` });
       }

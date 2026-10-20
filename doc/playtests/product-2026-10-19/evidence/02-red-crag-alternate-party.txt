@@ -1,0 +1,77 @@
+SEREWATER MARCH
+Form a company of three
+A company for Censer Hill
+
+Reedwake needs people willing to go under the hill: a surveyor is missing, a salvage crew wants its bronze, and a burial keeper wants the dead left with their names. Choose three companions. Their ancestry, calling and background decide what they can do — and what doors open.
+
+Fellowship: elf, human, dwarf Hired company
+
+World seed
+1
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Goblin
+Calling
+Fighter
+Cleric
+Magic-user
+Thief
+Ranger
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+
+wayfinding; carries map; rangers only.
+
+2
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Goblin
+Calling
+Fighter
+Cleric
+Magic-user
+Thief
+Ranger
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+
+lockwork; carries thieves tools.
+
+3
+Name
+Ancestry
+Human
+Elf
+Dwarf
+Goblin
+Calling
+Fighter
+Cleric
+Magic-user
+Thief
+Ranger
+Background
+Hunter
+Medic
+Locksmith
+Explorer
+Miner
+
+mending; carries bandages, herbs; clerics only.
+
+⏎Begin the expedition
+Load a save file

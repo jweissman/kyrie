@@ -1,0 +1,70 @@
+Module salvage_rights "Salvage against the dead" {
+  Description "A salvager holds a permit for machinery in an old place where the dead also lie. The permit runs out at a fixed hour. The keeper of those dead wants them left alone, and will hear of it if they are not.".
+  Entity party: group "Your company".
+  Entity warden: group "The keeper of the dead".
+  Place station "Where the salvager works" is room.
+  Place prize_room "Where the licensed salvage lies" is room.
+  Place sanctum "Where the dead lie" is room.
+  Place home "Where the salvager goes when the permit ends" is room.
+  Entity permit: thing "the salvage permit".
+  Item prize "the licensed salvage" is bronze_bearing at prize_room.
+  Item offering "the grave goods" is ashwood_charm at sanctum.
+  Measure expiresAt(entity).
+  Relation asked(group, group). Relation delivered(item). Relation sold(item). Relation departed(group).
+  Relation judged(group, group).
+
+  Person salvager "Someone" at station {
+    Role "salvager". Uses go. Plans 10 steps. Peaceable.
+  }
+  Initially Set quantity(salvager, gold) to 16.
+
+  Discovery permit_scope "{permit} covers {prize} and the old machinery. It does not cover the dead, or anything buried with them." {
+    Known by salvager.
+    Source permit_copy "a copy of the permit, nailed to a post" at station readable by party.
+  }
+
+  Action deliver_prize(actor: group, carrier: member, site: place) "Hand {prize} to {salvager}" {
+    Description "Deliver the licensed salvage while the permit still runs. The salvager pays six coin.".
+    Requires able(actor) and at(actor, site) and at(salvager, site) and memberOf(carrier, actor) and awake(carrier)
+      and ownedItem(prize, carrier) and not departed(salvager) and watch(clock) < expiresAt(permit).
+    Resolve drop(prize, carrier).
+    On success { Assert delivered(prize). Decrease quantity(salvager, gold) by 6. Increase quantity(actor, gold) by 6. }
+    Result "{salvager} hefts {prize}, checks the stamp against {permit}, and counts six coins into your hand.".
+  }
+  Action sell_offering(actor: group, carrier: member, site: place) "Sell {offering} to {salvager}" {
+    Description "The salvager will buy grave goods for ten coin, no questions asked. The permit does not cover them.".
+    Requires able(actor) and at(actor, site) and at(salvager, site) and memberOf(carrier, actor) and awake(carrier)
+      and ownedItem(offering, carrier).
+    Resolve drop(offering, carrier).
+    On success { Assert sold(offering). Decrease quantity(salvager, gold) by 10. Increase quantity(actor, gold) by 10. }
+    Result "{salvager} turns {offering} over once, does not ask where it came from, and pays ten coins.".
+  }
+
+  Pursuit keep_station for salvager "working {station}" priority 10 when not departed(salvager) and watch(clock) < expiresAt(permit) seeks at(salvager, station).
+  Pursuit withdraw for salvager "going home; the permit has run out" priority 20 when watch(clock) >= expiresAt(permit) and not departed(salvager) seeks at(salvager, home).
+  Rule permit_lapsed when at(salvager, home) and watch(clock) >= expiresAt(permit) { Assert departed(salvager). }
+  Event judgement near warden when sold(offering) and together(party, warden) and not judged(warden, party) "{warden} already knows. 'You sold {offering} out of {sanctum}. The dead do not need your coin, and you will not have my help.'" then {
+    Assert judged(warden, party). Assert refusesService(warden, party).
+  }
+
+  Topic claim with salvager "Ask {salvager} what they are salvaging" when not departed(salvager) and watch(clock) < expiresAt(permit) {
+    Says "'{prize}, not someone's grandmother,' says {salvager}. 'It's in {prize_room}. Bring me the actual thing and I'll pay six coin from my own purse. {permit} runs out at watch {expiresAt(permit)}; after that I go home, and I am not taking my crew down there to chase it. If anything else finds its way out with you, I don't ask questions.'".
+    On discuss { Assert asked(salvager, party). }
+  }
+  Topic temptation with salvager "Ask {salvager} what {offering} would fetch" when ownedItem(offering, ?m) and memberOf(?m, actor) {
+    Says "{salvager} looks at {offering} and then, carefully, at nothing. 'Ten coin. It isn't on {permit}. Nobody will know from me.'".
+  }
+  Topic gone with salvager "Speak with {salvager}" when departed(salvager) {
+    Says "'{permit} ran out,' says {salvager}. 'Whatever is still up there stays up there, as far as I'm concerned.'".
+  }
+  Topic concern with warden "Ask {warden} about the salvage" when not judged(warden, party) {
+    Says "'{salvager} has a permit for machinery,' says {warden}. 'Not for {sanctum}. If anything that was buried with the dead comes up for sale, I will hear of it.'".
+  }
+
+  Observe salvager_away at home when not departed(salvager) and not at(salvager, home) "A chalked note says {salvager} is out at {station} under {permit}, which runs until watch {expiresAt(permit)}.".
+  Observe prize_present at prize_room when at(prize, prize_room) "{prize} lies here, stamped with {salvager}'s chalk.".
+  Observe offering_present at sanctum when at(offering, sanctum) "{offering} lies where it was laid with the dead.".
+
+  Objective fetch when asked(salvager, party) and not delivered(prize) and not departed(salvager) "{salvager} will pay six coin for {prize} from {prize_room} until watch {expiresAt(permit)}.".
+  Goal delivered(prize) or departed(salvager).
+}

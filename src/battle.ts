@@ -5,14 +5,19 @@ import { Content } from './content';
 import { Expressions } from './expressions';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
+import { Fighting } from './rules/fighting';
 import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Outcome, Scenario } from './model';
 
+// Orsino's combat loop (Combat.round and Combat.turn): each round everyone rolls initiative (d20 + DEX modifier +
+// initiative bonus) and every untimed condition ticks down; on its turn a creature's cooldowns tick, a creature with
+// noActions loses the turn, and after acting its conditions' turn-end effects happen.
 export class Battle {
   private fighters: Fighter[];
   private abilities: ArenaAbility[];
   private expressions: Expressions;
   private content: Content;
+  private order: string[] = [];
   private cursor = 0;
   private turn = 1;
   private outcome: Outcome | null = null;
@@ -30,14 +35,10 @@ export class Battle {
       }));
       this.lease = store.acquire(this.fighters.map(f => f.id));
     }
-    this.fighters.sort((a, b) => b.speed - a.speed);
     this.expressions = new Expressions(`${seed}:combat`);
     this.content = new Content(`${seed}:summons`);
     this.finishIfEliminated();
-    if (!this.outcome) {
-      this.cursor = this.fighters.findIndex(f => f.hp > 0);
-      this.startTurn();
-    }
+    if (!this.outcome) { this.round(); this.startTurn(); }
     this.commit();
   }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
@@ -79,7 +80,7 @@ export class Battle {
       f.statuses.forEach(s => Effects.status(s.id));
     }
     for (const ability of this.abilities) {
-      if (!ability.effects.length) { throw new Error(`Empty ability ${ability.id}`); }
+      if (!ability.effects.length && ability.id !== 'wait') { throw new Error(`Empty ability ${ability.id}`); }
       for (const n of [ability.cost ?? 0, ability.cooldown ?? 0]) {
         if (!Number.isSafeInteger(n) || n < 0) { throw new Error('Invalid ability cost/cooldown'); }
       }
@@ -88,14 +89,34 @@ export class Battle {
   }
   get state(): BattleState {
     return { combatants: structuredClone(this.fighters), turn: this.turn,
-      actor: this.outcome ? '' : this.fighters[this.cursor]!.id, outcome: this.outcome };
+      actor: this.outcome ? '' : this.order[this.cursor]!, outcome: this.outcome };
   }
   get events(): CombatEvent[] { return structuredClone(this.history); }
+  private actor(): Fighter { return this.fighters.find(f => f.id === this.order[this.cursor])!; }
+  // What a creature may do: the abilities it knows plus melee or ranged from its weapon (Orsino's validActions),
+  // except a spell or levelled skill above ⌈level / 2⌉, a spell without a slot or under noSpellcasting, an ability on
+  // cooldown, or one whose condition (a status, an intercepting weapon) is unmet. A compelled creature must use its
+  // compelled ability; a taunted one must target its taunter.
+  usable(actor: Fighter): ArenaAbility[] {
+    // Orsino's pcTurn also offers every player-side combatant Wait and Flee.
+    const known = [...actor.abilities, actor.equipment?.weapon?.missile ? 'ranged' : 'melee',
+      ...actor.team === 'fighters' ? ['wait', 'flee'] : []];
+    const m = Effects.modifiers(actor);
+    const usable = this.abilities.filter(a => known.includes(a.id) && (a.cost ?? 0) <= actor.mana
+      && !(actor.cooldowns[a.id] ?? 0)
+      && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(actor.level)
+      && !(a.spell && m.noSpellcasting)
+      && (!a.requires?.status || actor.statuses.some(s => s.id === a.requires!.status))
+      && (!a.requires?.interceptWeapon || actor.equipment?.weapon?.intercept === true));
+    const compel = actor.statuses.map(s => Effects.status(s.id).compel).find(c => c && usable.some(a => a.id === c));
+    return compel ? usable.filter(a => a.id === compel) : usable;
+  }
   legalCommands(): Command[] {
     if (this.outcome) { return []; }
-    const actor = this.fighters[this.cursor]!;
-    return this.abilities.filter(a => actor.abilities.includes(a.id) && (a.cost ?? 0) <= actor.mana
-      && !(actor.cooldowns[a.id] ?? 0)).flatMap(ability => {
+    const actor = this.actor();
+    const taunters = actor.statuses.filter(s => Effects.status(s.id).forceTarget && s.by)
+      .map(s => s.by!).filter(id => this.fighters.some(f => f.id === id && f.hp > 0));
+    const commands = this.usable(actor).flatMap(ability => {
       const selected = ability.effects.filter(effect => Targeting.selected(effect.target));
       if (ability.effects.some(effect => !Targeting.candidates(effect.target, actor, this.fighters).length)) {
         return [];
@@ -104,63 +125,77 @@ export class Battle {
         Targeting.candidates(effect.target, actor, this.fighters).some(f => f.id === target.id))) : [actor];
       return targets.map(target => ({ actor: actor.id, ability: ability.id, target: target.id }));
     });
+    const forced = commands.filter(c => taunters.includes(c.target));
+    return forced.length ? forced : commands;
   }
   step(command: Command): CombatEvent[] {
     const valid = this.legalCommands().some(c =>
       c.actor === command.actor && c.ability === command.ability && c.target === command.target);
     if (!valid) { throw new Error('Illegal combat command'); }
-    const actor = this.fighters[this.cursor]!;
+    const actor = this.actor();
     const ability = this.abilities.find(a => a.id === command.ability)!;
     const start = this.history.length;
-    const context: EffectContext = { actor, fighters: this.fighters, turn: this.turn, events: this.history,
-      content: this.content, abilities: this.abilities.map(a => a.id), retreat: false, location: null };
+    const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
     AbilityUse.perform(ability, command.target, this.expressions, context);
     if (context.retreat || context.location) { this.finish('escaped', 'retreat'); }
     else { this.finishIfEliminated(); }
+    if (!this.outcome) { this.endTurn(actor); }
     if (!this.outcome) { this.advance(); }
     this.commit();
     return structuredClone(this.history.slice(start));
   }
+  private context(actor?: Fighter): EffectContext {
+    return { ...actor ? { actor } : {}, fighters: this.fighters, turn: this.turn, events: this.history,
+      content: this.content, abilities: this.abilities.map(a => a.id), retreat: false, location: null,
+      expressions: this.expressions, hook: AbilityUse.hooks.bind(AbilityUse) };
+  }
+  // Combat.turn's onTurnEnd hooks: the turn-end effects of the conditions the actor holds.
+  private endTurn(actor: Fighter) {
+    for (const s of actor.statuses.filter(c => !c.clock)) { Effects.periodic(actor, s.id, s.source, this.context()); }
+    this.finishIfEliminated();
+  }
+  // Combat.round: initiative for every living creature, then every untimed condition ticks down and expires at zero.
+  private round() {
+    const living = this.fighters.filter(f => f.hp > 0);
+    const rolls = living.map(f => {
+      const m = Effects.modifiers(f);
+      return { id: f.id, roll: Fighting.d20(() => this.expressions.number('1d20'), m)
+        + Fighting.statMod(Effects.scores(f).dexterity) + (m.initiative ?? 0) };
+    });
+    rolls.sort((a, b) => b.roll - a.roll);
+    this.order = rolls.map(r => r.id);
+    this.cursor = 0;
+    this.history.push({ type: 'initiative', turn: this.turn, order: rolls });
+    for (const f of living) {
+      for (const s of f.statuses.filter(c => !c.clock)) { s.remaining--; }
+      Effects.expire(f, s => !s.clock, this.context());
+    }
+  }
   private advance() {
-    if (this.turn >= this.maxTurns) { this.finish('draw', 'turn-limit'); return; }
-    do { this.cursor = (this.cursor + 1) % this.fighters.length; } while (this.fighters[this.cursor]!.hp === 0);
-    this.turn++;
+    do {
+      if (this.turn >= this.maxTurns) { this.finish('draw', 'turn-limit'); return; }
+      this.cursor++;
+      if (this.cursor >= this.order.length) { this.round(); }
+      this.turn++;
+    } while (!this.actor() || this.actor().hp === 0);
     this.startTurn();
   }
+  // Combat.turn's start: cooldowns tick; a creature with noActions loses the turn.
   private startTurn() {
-    // Forced status turns also count against the limit. Iterate to avoid recursive stun/death chains.
     while (!this.outcome) {
-      const actor = this.fighters[this.cursor]!;
-      actor.guarding = false;
-      for (const id of Object.keys(actor.cooldowns)) {
-        actor.cooldowns[id] = Math.max(0, actor.cooldowns[id]! - 1);
-      }
-      let skip = false;
-      for (const active of actor.statuses) {
-        const status = Effects.status(active.id);
-        skip ||= status.skip;
-        if (active.clock === 'owner-turn') { continue; }
-        if (active.clock === 'world-time' || active.clock === 'until-removed') { continue; }
-        if (status.damage && actor.hp > 0) {
-          Effects.hp(actor, status.damage, { actor, fighters: this.fighters, turn: this.turn,
-            events: this.history, content: this.content, abilities: [], retreat: false, location: null });
-        }
-        active.remaining--;
-      }
-      Effects.advance(actor, 'owner-turn', { fighters: this.fighters, turn: this.turn,
-        events: this.history, content: this.content, abilities: [], retreat: false, location: null });
-      actor.statuses = actor.statuses.filter(s => {
-        if (s.remaining > 0) { return true; }
-        this.history.push({ type: 'expire', turn: this.turn, actor: actor.id, target: actor.id, detail: s.id });
-        return false;
-      });
+      const actor = this.actor();
+      for (const id of Object.keys(actor.cooldowns)) { actor.cooldowns[id] = Math.max(0, actor.cooldowns[id]! - 1); }
       this.finishIfEliminated();
-      if (this.outcome || (actor.hp > 0 && !skip)) { return; }
+      if (this.outcome) { return; }
+      if (actor.hp > 0 && !actor.statuses.some(s => Effects.skips(s.id))) { return; }
       this.history.push({ type: 'skip', turn: this.turn, actor: actor.id });
       if (this.turn >= this.maxTurns) { this.finish('draw', 'turn-limit'); return; }
-      do { this.cursor = (this.cursor + 1) % this.fighters.length; } while (this.fighters[this.cursor]!.hp === 0);
-      this.turn++;
+      do {
+        this.cursor++;
+        if (this.cursor >= this.order.length) { this.round(); }
+        this.turn++;
+      } while (this.actor().hp === 0);
     }
   }
   private finishIfEliminated() {

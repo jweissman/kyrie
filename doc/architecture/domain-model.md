@@ -7,7 +7,7 @@
 - the canonical model Kyr now uses;
 - the migration from the old catalogs.
 
-The model is implemented under [data/canon](../../data/canon) and [src/canon](../../src/canon). The registry,
+The model is implemented under [data/catalog](../../data/catalog) and [src/canon](../../src/canon). The registry,
 support table and ledger that track Orsino coverage are described in [orsino-checkpoint.md](orsino-checkpoint.md).
 
 ## 1. Audit: what the old catalogs meant
@@ -100,7 +100,7 @@ taxonomy deeper than plant or animal.
   organisms (plants, animals: habitats, signs; animal → species, plant → item)
 ```
 
-Each concept has one catalog file in `data/canon` and one validator in `src/canon`. References between concepts
+Each concept has one catalog file in `data/catalog` and one validator in `src/canon`. References between concepts
 are typed fields, and the validator rejects references of the wrong kind.
 
 | Concept | Definition | Key properties | Lowering | Example | Counterexample |
@@ -127,7 +127,7 @@ are typed fields, and the validator rejects references of the wrong kind.
   skills, deities and organisms. The validator rejects a collision across them.
 - **Source identity lives in `source`,** inspectable but never shown in fiction, and keyed to the registry:
   `{"orsino": "divineSpell:resist_fire", "fidelity": "adapted", "notes": "..."}`.
-- **Old ids are kept as aliases** in `data/canon/aliases.json` (`orsino_fireproof` → `fireproof`). Modules, saves
+- **Old ids are kept as aliases** in `data/catalog/aliases.json` (`orsino_fireproof` → `fireproof`). Modules, saves
   and transcripts are resolved through them, and an alias may never shadow a canonical id.
 - **Player-facing text** (`name`, `description`) describes the fiction. Implementation notes belong in `source.notes`.
 
@@ -150,7 +150,7 @@ ability catalog contains only things a creature can learn or be born with.
 | `foundry_steam`, `heave_strain`, `ladder_fall` | `Hazard` in Reedwake, Caught Below, Skellfold | moved to their modules | — |
 | `censer_*`, `cinder*`, `serewater_training`, `brace_line`, `dawn_spark` | `legacy/abilities.json` | quarantined with the legacy campaigns that use them | recorded saves name them |
 | `minor_healing_potion`, `antidote_dose`, `burning_resin` | — | retired (unused) | — |
-| `camp_recovery`, `rough_rest` | `canon/rules.json` procedures | moved | coordinator lookup |
+| `camp_recovery`, `rough_rest` | `catalog/vocabulary.json` procedures | moved | coordinator lookup |
 | `statuses.json` | `canon/conditions.json` and `canon/traits.json` | split | — |
 | `backgrounds.json` (surveyor, pilgrim, forager) | `legacy/backgrounds.json` | quarantined (Serewater histories) | — |
 | `capabilities.json` | `canon/skills.json` + grants on classes, items and backgrounds | replaced; `fellowship` becomes a party trait in the legacy rule set | Orra and Serewater use it |
@@ -158,7 +158,7 @@ ability catalog contains only things a creature can learn or be born with.
 | `religions.json` | `canon/religion.json` (domains, deities) | replaced; Veyra kept as a Kyr deity of explicit Kyr domains | — |
 | `ecology.json` | `canon/organisms.json` + `canon/habitats.json` | replaced; animals link to species, plants to items | — |
 | `items.json` | `canon/items.json` | migrated to categories and properties; site-only kinds flagged | — |
-| `rules.json` | `canon/rules.json` | moved | — |
+| `rules.json` | `catalog/vocabulary.json` | moved | — |
 | `creatures.json`, `encounters.json` | arena fixture | moved under `legacy/` | — |
 
 Section 5 of the [report](domain-model-report.md) records what was actually done, and what was not.

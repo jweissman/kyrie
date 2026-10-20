@@ -1,0 +1,298 @@
+{
+  "about": "Species: kinds of creature statted by their own nature rather than by an adventuring class. type is the creature classification; traits are nature traits that carry mechanics. statistics give the natural weapon and armour (Orsino weapon and armour entries), the hit die and a fixed or rolled stat line. A variant names its base species with variantOf and overrides only the fields it declares. A species creature has no class.",
+  "species": {
+    "wisp": {
+      "name": "Wisp",
+      "type": "spirit",
+      "kind": "spirit",
+      "description": "A drifting mote of light that answers a summoner's call.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "constitution",
+        "weapon": "flutter"
+      },
+      "abilities": [
+        "defend",
+        "flee"
+      ],
+      "source": {
+        "kyr": true
+      }
+    },
+    "wolf": {
+      "name": "Wolf",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A grey wolf of the uplands: a pack hunter with a rending bite.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "constitution",
+        "weapon": "bite",
+        "armor": "fur"
+      },
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "temperament": "wary",
+      "habitats": [
+        "woodland",
+        "upland"
+      ],
+      "source": {
+        "orsino": "animal:wolf",
+        "fidelity": "adapted",
+        "notes": "Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes."
+      }
+    },
+    "frost_wolf": {
+      "variantOf": "wolf",
+      "name": "Frost-altered wolf",
+      "description": "A living wolf altered by an old winter shrine: a freezing bite and a howl that stops the heart.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "bite",
+        "armor": "fur"
+      },
+      "abilities": [
+        "rime_bite",
+        "winter_howl",
+        "rending_bite",
+        "defend"
+      ],
+      "resistances": {
+        "physical": 0.25,
+        "cold": 0.75,
+        "fire": -0.5
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "boar": {
+      "name": "Marsh boar",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A territorial animal along reed margins.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "constitution",
+        "weapon": "tusks",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "temperament": "territorial",
+      "habitats": [
+        "marsh",
+        "riverbank"
+      ],
+      "source": {
+        "orsino": "animal:boar",
+        "fidelity": "adapted",
+        "notes": "Orsino's boar: tusks and hide. Kyr rolls its attributes and gives it the Kyr rending bite."
+      }
+    },
+    "cave_hound": {
+      "name": "Feral cave hound",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A scavenging dog descended from abandoned working animals.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "constitution",
+        "weapon": "bite",
+        "armor": "fur"
+      },
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "temperament": "territorial",
+      "habitats": [
+        "cave"
+      ],
+      "source": {
+        "orsino": "animal:hound",
+        "fidelity": "adapted",
+        "notes": "Orsino's hound: bite and fur. Feral, with the Kyr rending bite."
+      }
+    },
+    "revenant": {
+      "name": "Revenant",
+      "type": "undead",
+      "kind": "monster",
+      "description": "A barrow's dead warden, risen to drain the living and lull them to sleep.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "intelligence",
+        "weapon": "claws",
+        "armor": "cloth"
+      },
+      "abilities": [
+        "defend",
+        "curse",
+        "fear",
+        "life_drain"
+      ],
+      "resistances": {
+        "physical": 0.5,
+        "radiant": -1,
+        "fire": -0.5
+      },
+      "source": {
+        "orsino": "monsterClass:undead",
+        "fidelity": "adapted",
+        "notes": "Orsino undead monster class: claws, cloth, curse, fear and life drain. It does not carry Orsino's undead trait; its resistances are Kyr's."
+      }
+    },
+    "bronze_construct": {
+      "name": "Funerary bronze construct",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A bounded guardian of registered burials.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 16,
+        "primary": "strength",
+        "weapon": "slam",
+        "armor": "plate"
+      },
+      "abilities": [
+        "custodian_sweep",
+        "custodian_chain",
+        "defend"
+      ],
+      "resistances": {
+        "physical": 0.35,
+        "poison": 1,
+        "radiant": -0.25
+      },
+      "source": {
+        "orsino": "monsterClass:construct",
+        "fidelity": "adapted",
+        "notes": "Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's."
+      }
+    },
+    "dragon": {
+      "name": "Dragon",
+      "type": "dragon",
+      "kind": "monster",
+      "description": "A great winged reptile: scaled, clawed, cunning and proud.",
+      "statistics": {
+        "attributes": {
+          "strength": 35,
+          "dexterity": 28,
+          "constitution": 32,
+          "intelligence": 29,
+          "wisdom": 27,
+          "charisma": 31
+        },
+        "hitPoints": 99,
+        "hitDie": 20,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "scale"
+      },
+      "traits": [
+        "formidable",
+        "flying"
+      ],
+      "abilities": [],
+      "temperament": "proud",
+      "habitats": [
+        "mountain",
+        "cave"
+      ],
+      "source": {
+        "orsino": "monsterClass:dragon",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (Dragon type, wildtype aspect, mountain terrain, minor rank, level 1). Natural armour, three attacks a turn, maul and the gold hoard are not modelled."
+      }
+    },
+    "red_dragon": {
+      "variantOf": "dragon",
+      "name": "Red dragon",
+      "description": "Its crimson scales shimmer like molten lava.",
+      "abilities": [
+        "breathe_fire"
+      ],
+      "source": {
+        "orsino": "dragonColor:red",
+        "fidelity": "adapted",
+        "notes": "The red colour gives the fire breath; Kyr keeps the bite for when the breath is spent."
+      }
+    },
+    "golem": {
+      "name": "Golem",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A body of clay or metal, shaped and set to work by a maker.",
+      "statistics": {
+        "attributes": {
+          "strength": 17,
+          "dexterity": 7,
+          "constitution": 17,
+          "intelligence": 9,
+          "wisdom": 9,
+          "charisma": 8
+        },
+        "hitPoints": 13,
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "slam",
+        "armor": "plate"
+      },
+      "traits": [
+        "construct"
+      ],
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "temperament": "obedient",
+      "habitats": [
+        "cave"
+      ],
+      "source": {
+        "orsino": "monsterType:Golem",
+        "fidelity": "adapted",
+        "notes": "Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled."
+      }
+    },
+    "iron_golem": {
+      "variantOf": "golem",
+      "name": "Iron golem",
+      "description": "A golem of riveted iron plates: slow, and very hard to break.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 4,
+          "constitution": 21,
+          "intelligence": 9,
+          "wisdom": 9,
+          "charisma": 8
+        },
+        "hitPoints": 15,
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "slam",
+        "armor": "plate"
+      },
+      "source": {
+        "orsino": "golemSubstance:iron",
+        "fidelity": "faithful",
+        "notes": "The iron substance overlay (+1 Str, \u22123 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
+      }
+    }
+  }
+}

@@ -1,0 +1,117 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 10:50 a.m.
+Bell workshop
+
+The upper works · Censer Hill foundry
+
+◆ Wren asked you to find Pell in Censer Hill foundry. The rising river closes the drain culvert about 1:40 p.m.
+
+A split pipe hisses over the boiler arch. Fresh scorch marks stripe the boiler arch; turning its seized valve needs a crowbar. A fire ward can blunt a scald, but the jet must still be crossed.
+
+A rusted padlock holds the stores door shut.
+
+Half-cast bells lean against the walls. Doorways lead to the stores and the vestibule; steps go down to the casting gallery, and the culvert mouth gapes in the floor.
+
+The drain culvert is still clear, but the rising river will close it about 1:40 p.m.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Casting gallery
+by the gallery steps · new
+2
+→
+Dry stores
+by the stores door · through the stores padlock · new
+3
+→
+Surveyor's vestibule
+by the workshop doorway
+4
+→
+The valve chamber
+by the boiler arch · across the split steam pipe · new
+5
+⇤
+Out to Drain mouth
+by the drain culvert · new
+COMPANY
+6
+○
+Wait a while
+10m
+CASTING GALLERY
+
+Casting gallery, a few steps away.
+
+Go
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+Bellworkshop
+? Drainmouth
+? Dry stores
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 8 earlier
+10:40 a.m.
+→ Bell workshop
+10:50 a.m.
+the warder's copper focus: Take › for Dori
+Dori takes the warder's copper focus.
+Dori gains 1 the warder's copper focus.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

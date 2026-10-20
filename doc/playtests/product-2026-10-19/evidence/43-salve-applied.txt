@@ -1,0 +1,74 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:20 a.m.
+CARRIED
+ELEN
+1
+○
+Thieves' tools
+carried
+BRAN
+2
+○
+Thieves' tools
+carried
+3
+○
+Coil of rope
+carried
+DORI
+4
+○
+Bandages
+carried
+5
+○
+Healing herbs
+carried
+THIEVES' TOOLS
+Give to
+▸
+Set down here
+10m
+THIEVES' TOOLS
+
+Thieves' tools · carried by Elen
+
+A set of tools for picking locks and disarming traps.
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+fireproof
+
+17 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory
+10:20 a.m.
+Fireproof salve: Use on › Dori
+Dori takes Fireproof salve.
+Dori gains fireproof for 10 turns.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

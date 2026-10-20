@@ -1,0 +1,104 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry
+Day 1, 4:40 p.m.
+Foundry yard
+
+Censer Hill foundry · The Serewater March
+
+Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works.
+
+WAYS AND THINGS
+WAYS
+1
+⇥
+Enter The upper works
+by the roofless arch
+2
+⇢
+Chalk ridge
+by the track up to the yard
+COMPANY
+3
+○
+Wait a while
+10m
+4
+○
+Make camp for the night
+8h
+ENTER THE UPPER WORKS
+
+Into The upper works: Surveyor's vestibule.
+
+Go
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Hoist room
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 48 earlier
+2:40 p.m.
+→ Reedwake quay
+3:40 p.m.
+→ Willow causeway
+4:10 p.m.
+→ Chalk ridge
+4:40 p.m.
+→ Foundry yard
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

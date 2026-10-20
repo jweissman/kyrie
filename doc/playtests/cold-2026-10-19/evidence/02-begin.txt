@@ -1,0 +1,109 @@
+CAUGHT BELOW
+The Serewater March›Reedwake
+Day 1, 8:00 a.m.
+Reedwake quay
+
+Reedwake · The Serewater March
+
+Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, and the shrine porch faces the water.
+
+Wren stands with one hand shading their eyes, watching the way to Censer Hill foundry.
+
+WAYS AND THINGS
+WAYS
+1
+⇥
+Enter Nera's shop
+by Nera's shop door · new
+2
+⇥
+Enter Ferry house
+by the ferry-house door · new
+3
+⇥
+Enter The Returning Oar
+by the Oar's door · new
+4
+⇥
+Enter The common shrine
+by the shrine porch · new
+5
+⇢
+Willow causeway
+by the causeway path · new
+HERE
+6
+☺
+Wren, ferry-keeper
+waiting
+COMPANY
+7
+○
+Wait a while
+10m
+ENTER NERA'S SHOP
+
+Into Nera's shop: Nera's shop floor.
+
+Go
+10m
+MAP
+REEDWAKE
+RETURNING OAR
+NERA'S SHOP
+COMMON SHRINE
+FERRY HOUSE
+Reedwakequay
+? Oar'staproom
+? Nera'sshop floor
+? shrine
+? ferryhouse
+→ Willowfloodplain
+REGION
+1h
+Reedwake
+Willow floodplain
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory
+Nothing has happened yet.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

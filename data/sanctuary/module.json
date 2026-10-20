@@ -1,1 +1,0 @@
-{"version":1,"situation":"sanctuary.kyr","rules":["../rulesets/adventure.kyr","../rulesets/discovery.kyr","../rulesets/site-capabilities.kyr"],"generation":{"type":"refuge_situation","templates":"templates.json","tables":"tables.json"},"globals":["party","gold","rations","clock"],"exports":{"porch":"porch"}}

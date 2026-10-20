@@ -1,0 +1,91 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 11:40 a.m.
+Pell, surveyor
+
+pinned · Hoist room
+
+» Ask Pell what happened
+
+'It came down on me when I leaned on it,' says Pell through their teeth. 'I can't shift it from under. There's a pry bar in Dry stores, if you can fetch it. Or dig me out, if you've the time. Don't just haul on it; I heard something crack already.'
+
+SAY
+ASK
+1
+»
+Ask Pell what happened
+END
+2
+⇤
+End the conversation
+ASK PELL WHAT HAPPENED
+Ask Pell what happened
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Hoist room
+? Drainmouth
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 18 earlier
+Bran gains 1 a pry bar.
+11:30 a.m.
+→ Hoist room
+A voice from low down in the dark: 'Here! Over here. Mind the fallen timber rack; it's on my leg. Don't just haul on it. Something cracked when it came down.'
+11:40 a.m.
+Ask Pell what happened: Ask Pell what happened
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

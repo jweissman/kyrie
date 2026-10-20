@@ -1,0 +1,97 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 5:10 p.m.
+Hesta, the foundry's herb gatherer
+
+Human · Casting gallery
+
+They wait for you to speak.
+
+SAY
+ASK
+1
+»
+Ask Hesta about Ash and the missing surveyor
+DEAL
+2
+¤
+Ask for clean water, salve and linen — 2 coin
+3
+¤
+Buy
+END
+4
+⇤
+End the conversation
+ASK HESTA ABOUT ASH AND THE MISSING SURVEYOR
+Ask Hesta about Ash and the missing surveyor
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Castinggallery
+Hoist room
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 52 earlier
+4:50 p.m.
+→ Surveyor's vestibule
+5:00 p.m.
+→ Bell workshop
+5:10 p.m.
+→ Casting gallery
+The hound's growl fills the gallery. It does not come at you; it holds the hoist passage.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

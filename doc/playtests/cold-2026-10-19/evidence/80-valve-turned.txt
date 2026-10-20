@@ -1,0 +1,107 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 6:20 p.m.
+The valve chamber
+
+The upper works · Censer Hill foundry
+
+The pipe's valve is turned hard shut. The boiler arch is clear.
+
+A wheel valve and a row of cold boilers fill the room. The workshop arch leads back; a narrow pipe walk reaches the casting gallery.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Bell workshop
+by the boiler arch
+2
+→
+Casting gallery
+by the pipe walk
+HERE
+3
+✝
+the bronze boiler sentinel, an abandoned inspection construct
+Funerary bronze construct · dead
+4
+·
+the foundry's Longsword of Flames
+COMPANY
+5
+○
+Wait a while
+10m
+BELL WORKSHOP
+
+Bell workshop, a few steps away.
+
+Go
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+valvechamber
+Castinggallery
+Hoist room
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+████████░░
+10/12
+Dori
+dwarf cleric
+HP
+█████████░
+11/12
+MP
+░░░░░░░░░░
+0/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · evening
+
+HHistory · 82 earlier
+Your company wins the encounter.
+6:20 p.m.
+Turn the steam valve with a bar
+The pipe's valve is turned hard shut. The boiler arch is clear.
+The pipe's valve is turned hard shut. The boiler arch is clear.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

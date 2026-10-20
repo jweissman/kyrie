@@ -1,0 +1,100 @@
+THE RED CRAG
+The Thrale Highlands›Skarth Gorge
+Day 1, 9:50 a.m.
+The gorge edge
+
+Skarth Gorge · The Thrale Highlands
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+The road ends at a lip of rock over Skarth Gorge. A rope bridge spans the drop to a ledge on the red crag.
+
+Old hemp ropes and weathered planks. The bridge sways, but it holds.
+
+WAYS AND THINGS
+WAYS
+1
+⇢
+The crag ledge
+by the rope bridge · new
+2
+⇢
+Thrale green
+by the gorge road
+COMPANY
+3
+○
+Wait a while
+10m
+4
+○
+Make camp for the night
+8h
+THE CRAG LEDGE
+
+Across country to the crag ledge, The Red Crag.
+
+Go
+10m
+MAP
+SKARTH GORGE
+gorge edge
+→ Thrale
+→ Red Crag
+REGION
+1h
+1h
+10m
+Thrale
+Skarth Gorge
+high pastures
+Red Crag
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+17 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 8 earlier
+coin: 18 → 17
+Bran gains 1 Coil of rope.
+8:50 a.m.
+→ Thrale green
+9:50 a.m.
+→ the gorge edge
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

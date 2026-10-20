@@ -10,7 +10,7 @@ export type RedCragHistory = 'fire' | 'theft' | 'tribute';
 // Three ways through the Red Crag, played with ordinary session commands. Each step names a choice by the prefix of
 // its id; the session resolves it exactly as the client would.
 export class RedCragHistories {
-  static readonly campaign = 'data/red-crag/thrale.campaign.json';
+  static readonly campaign = 'data/campaigns/red-crag.campaign.json';
   static readonly seed = 'thrale';
   static readonly salves = [1, 2, 3].flatMap(i => [`buy_item(world__ysolde_fireproof_salve_${i},world__member_party_${i})`,
     `use_item(world__ysolde_fireproof_salve_${i},world__member_party_${i})`]);
@@ -38,12 +38,14 @@ export class RedCragHistories {
   static watch(s: PlaySession): number {
     return s.campaign.world.snapshot.measures.find(m => m.call.name === 'watch')?.value ?? 0;
   }
-  // The company holds its ground until the dragon has both breathed and bitten, then runs.
+  // The company holds its ground until the dragon has breathed, then runs. (Under Orsino's numbers the dragon's armour
+  // class is below anything a first-level company can roll, so standing to trade blows only feeds its bite.)
   static fight(this: void, battle: Battle): Promise<Command> {
     const legal = battle.legalCommands();
-    const bitten = battle.events.some(e => e.type === 'action' && e.command.ability === 'bite');
-    return Promise.resolve((bitten ? legal.find(c => c.ability === 'flee') : undefined)
-      ?? legal.find(c => c.ability === 'attack') ?? legal.find(c => c.ability === 'defend') ?? legal[0]!);
+    const breathed = battle.events.some(e => e.type === 'action' && e.command.ability === 'breathe_fire');
+    return Promise.resolve((breathed ? legal.find(c => c.ability === 'flee') : undefined)
+      ?? legal.find(c => c.ability === 'melee' || c.ability === 'ranged') ?? legal.find(c => c.ability === 'defend')
+      ?? legal[0]!);
   }
   private static waiting(s: PlaySession, until: string): boolean {
     if (until === 'dragon-away') { return this.where(s, 'roost__dragon') !== 'world__sheepfold'; }

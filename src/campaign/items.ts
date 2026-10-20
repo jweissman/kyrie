@@ -1,5 +1,6 @@
 import { Canon } from '../canon/canon';
 import { ItemCatalog } from '../item-catalog';
+import { Creation } from '../rules/creation';
 import { AbilityUse } from '../ability-use';
 import { CombatProjection } from '../combat-projection';
 import { Content } from '../content';
@@ -36,6 +37,9 @@ export class Items {
       if (!creature.state.hp || !item) { throw new Error('Item is not owned by a living wearer'); }
       const definition = ItemCatalog.get(item.definition);
       if (!definition.slot) { throw new Error('Item cannot be equipped'); }
+      if (!Creation.canEquip(creature.classId, item.definition)) {
+        throw new Error(`${creature.name} is not proficient with ${definition.name}`);
+      }
       for (const other of creature.state.inventory!) {
         if (ItemCatalog.get(other.definition).slot === definition.slot) { other.equipped = false; }
       }
@@ -57,7 +61,7 @@ export class Items {
   }
   private static hazard(id: string, entities: Entity[] = []): ArenaAbility | undefined {
     const hazard = entities.find(e => e.id === id && e.type === 'hazard');
-    return hazard?.effect ? { ...parseAbility(hazard.id, hazard.name, hazard.effect), damagePolicy: 'typed-v1' }
+    return hazard?.effect ? parseAbility(hazard.id, hazard.name, hazard.effect)
       : Content.abilities.find(a => a.id === id);
   }
   // A hazard is a mechanism of the installed module, carrying its own effect; legacy modules still name global
@@ -139,7 +143,7 @@ export class Items {
     try {
       const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
       const actor = fighters.find(c => c.id === actorId);
-      if (actor && (!actor.hp || actor.statuses.some(s => Effects.status(s.id).skip))) {
+      if (actor && (!actor.hp || actor.statuses.some(s => Effects.skips(s.id)))) {
         throw new Error('Source cannot act');
       }
       if (!actor && !['trap', 'shrine'].includes(source.kind)) { throw new Error('Missing creature source'); }

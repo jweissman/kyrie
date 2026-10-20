@@ -1,0 +1,82 @@
+CAUGHT BELOW
+The Skell fells›Skellfold›Marrit's cottage
+Day 1, 12:30 p.m.
+Marrit, Tamsin's grandmother
+
+relieved · the cottage
+
+They wait for you to speak.
+
+SAY
+ASK
+1
+»
+Speak with Marrit
+END
+2
+⇤
+End the conversation
+SPEAK WITH MARRIT
+Speak with Marrit
+10m
+MAP
+MARRIT'S COTTAGE
+SKELLFOLD
+cottage
+Skellfoldgreen
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 29 earlier
+Tamsin takes the cottage door toward the cottage.
+Marrit takes the cottage door toward the cottage.
+Marrit sees Tamsin, and runs. For a while nobody says anything sensible.
+12:30 p.m.
+→ the cottage
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -43,14 +43,7 @@ or a cleric's training.
 
 ## Installations
 
-- [river.campaign.json](../../caught-below/river.campaign.json) binds the roles to [Reedwake and Censer
-  Hill](../../sites/reedwake/site.kyr) with `setting: river`.
-- [quarry.campaign.json](../../caught-below/quarry.campaign.json) binds them to [Skellfold and the high
+- [serewater-march.campaign.json](../../campaigns/serewater-march.campaign.json) binds the roles to [Censer
+  Hill](../../sites/censer-hill/site.kyr) and [Reedwake](../../regions/serewater-march/region.kyr) with `setting: river`.
+- [skellfold.campaign.json](../../campaigns/skellfold.campaign.json) binds them to [Skellfold and the high
   quarry](../../sites/skellfold/site.kyr) with `setting: quarry`.
-
-`setting` selects names, the fallen weight, the tool, what closes the way, and when it closes
-([tables.json](tables.json)): about 1:10–1:40 p.m. at the river and 12:10–12:40 p.m. in the quarry. Both
-are reachable in time only by a company that goes fairly directly, because passages now take their real length.
-
-The situation names no service, shop or inn. Those belong to the site, and the needs and services rules give
-them meaning in every installation.

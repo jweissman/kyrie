@@ -1,0 +1,31 @@
+CAUGHT BELOW
+The Serewater March›Reedwake
+Day 1, 8:10 a.m.
+WHAT YOU KNOW
+
+Nothing established yet.
+
+Deadlines
+
+No public deadline.
+
+Company standing
+Woodcraft — Elen (elf ranger)
+Mending — Dori (dwarf cleric)
+Lockwork — Bran (human fighter)
+
+Download save file New company
+
+CHRONICLE
+Day 1, 8:10 a.m. Wren stands with one hand shading their eyes, watching the way to Censer Hill foundry.
+Day 1, 8:10 a.m. Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, and the shrine porch faces the water.
+Day 1, 8:00 a.m. Ask Wren what is wrong
+1 details
+HHistory
+8:10 a.m.
+Ask Wren what is wrong: Ask Wren what is wrong
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

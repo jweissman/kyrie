@@ -1,0 +1,100 @@
+== PREPARATION
+> Take the salvage office door to the salvage office   [success, watch 1]
+  | A ledger lies open on a trestle beside a sketch of foundry machinery. A licence is pinned above it, its seal still bright.
+  | A chalked note says Edda is out at Foundry yard under the salvage company's permit, which runs until watch 41.
+> Take the salvage office door to Reedwake quay   [success, watch 2]
+  * Wren hurries over to you. 'Are you going up to Censer Hill foundry? Have you seen Pell?'
+== OUT BY THE RIDGE
+> Take the causeway path to Willow causeway   [success, watch 8]
+> Take the ridge track to Chalk ridge   [success, watch 11]
+> Take the track up to the yard to Foundry yard   [success, watch 14]
+  | Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works. A surveyor's scratches mark a climb up the hoist side; without a proper harness it is too exposed.
+> Ask Edda what they are salvaging   [success, watch 15]
+  "'The bronze tram bearing, not someone's grandmother,' says Edda. 'It's in Hoist room. Bring me the actual thing and I'll pay six coin from my own purse. The salvage company's permit runs out at watch 41; after that I go home, and I am not taking my crew down there to chase it. If anything else finds its way out with you, I don't ask questions.'"
+> Examine a copy of the permit, nailed to a post   [success, watch 16]
+  * The salvage company's permit covers the bronze tram bearing and the old machinery. It does not cover the dead, or anything buried with them.
+> Take the roofless arch to Surveyor's vestibule   [success, watch 17]
+> Take the workshop doorway to Bell workshop   [success, watch 18]
+> Pick the stores padlock   [success, watch 19]
+> Take the stores door to Dry stores   [success, watch 20]
+> Collect a pry bar for Bran   [success, watch 21]
+  "Bran takes a pry bar."
+  ~ Bran gains 1 a pry bar.
+> Collect a surveyor's harness and pitons for Elen   [success, watch 22]
+  "Elen takes a surveyor's harness and pitons."
+  ~ Elen gains 1 a surveyor's harness and pitons.
+> Equip a surveyor's harness and pitons on Elen   [success, watch 23]
+  "Elen readies a surveyor's harness and pitons."
+  ~ Elen: equipped a surveyor's harness and pitons.
+> Take the stores door to Bell workshop   [success, watch 24]
+> Take the gallery steps to Casting gallery   [success, watch 25]
+  * The hound's growl fills the gallery. It does not come at you; it holds the hoist passage.
+== ENCOUNTER
+> Attack Ash   [success, watch 26]
+  * Hesta draws the linen basket to her chest. 'I saw you strike Ash. Find your salve elsewhere.'
+  ~ Initiative: Elen 19, Bran 8, Dori 3, Ash 0.
+  ~ Elen uses Melee Attack.
+  ~ Elen misses Ash (d20 6, needing 9: THAC0 less AC 11 less to-hit 0).
+  ~ Bran uses Sweeping Strike.
+  ~ Bran hits Ash (d20 10, needing 10: THAC0 less AC 11 less to-hit -1).
+  ~ Ash takes 8 slashing damage (2 HP; roll 8).
+  ~ Ash fails the reflex save (d20 5 + dexterity -1 + level 2 = 6 against 15).
+  ~ Ash gains shred for 3 turns.
+  ~ Ash passes the reflex save (d20 15 + dexterity -1 + level 2 = 16 against 16).
+  ~ Dori uses Melee Attack.
+  ~ Dori misses Ash (d20 5, needing 6: THAC0 less AC 13 less to-hit 1).
+  ~ Ash uses Rending bite.
+  ~ Elen takes 5 physical damage (7 HP; roll 5).
+  ~ Elen passes the constitution save (d20 19 + constitution 2 = 21 against 11).
+  ~ Initiative: Dori 21, Bran 14, Elen 13, Ash 2.
+  ~ Dori uses Melee Attack.
+  ~ Dori hits Ash (d20 18, needing 6: THAC0 less AC 13 less to-hit 1).
+  ~ Ash takes 2 bludgeoning damage (0 HP; roll 6).
+  ~ Ash falls.
+  ~ Ash fails the death save (d20 20 + constitution 1 + level 2 = 23 against 25).
+  ~ Your company wins the encounter.
+  ~ Elen gains 20 experience.
+  ~ Bran gains 20 experience.
+  ~ Dori gains 20 experience.
+  field spells: Have Dori use Cure Light Wounds on Elen / Have Dori use Cure Minor Wounds on Elen
+  Elen: elf ranger L1 HP 7/12 slots 3/3 STR 9 DEX 22 CON 14 INT 9 WIS 17 CHA 8 gold 8
+    traits humanoid, agile, perceptive; knows Defend, Heal Ally, Hunter's Mark, Ensnare
+    gear rope, longsword*, chainmail*, climbing_harness*; conditions 
+  Bran: human warrior L1 HP 15/15 slots 3/3 STR 8 DEX 16 CON 16 INT 11 WIS 15 CHA 11 gold 4
+    traits humanoid, adaptable, versatile, toughness; knows Defend, Taunt, Vigor Up, Cleave, Prepare Charge, Charge, Second Wind, Sweeping Strike
+    gear thieves_tools, battleaxe*, chainmail*, crowbar; conditions 
+  Dori: dwarf cleric L1 HP 12/12 slots 8/8 STR 12 DEX 11 CON 17 INT 11 WIS 15 CHA 9 gold 2
+    traits humanoid, sturdy, tough, vitalist; knows Defend, Cure Minor Wounds, Sanctify, Cure Light Wounds, Bless, Anoint, Prayer, Minor Restoration, Cure Moderate Wounds
+    gear bandages, herbs, staff*, studded*; conditions 
+> Take the hoist passage to Hoist room   [success, watch 27]
+  * A voice from low down in the dark: 'Here! Over here. Mind the fallen timber rack; it's on my leg. Don't just haul on it. Something cracked when it came down.'
+> Lever the fallen timber rack up with a pry bar   [success, watch 28]
+  "You get a pry bar under the fallen timber rack and lean on it. It lifts a hand's breadth, and Pell drags the leg clear: bruised and cut, but whole."
+> Collect the bronze tram bearing for Bran   [success, watch 29]
+  "Bran takes the bronze tram bearing."
+  ~ Bran gains 1 the bronze tram bearing.
+> Ask Pell to come with you   [success, watch 30]
+  "Pell falls in beside you."
+== CLIMB OUT TO EDDA
+> Take the climbing scar to Foundry yard   [success, watch 31]
+  | Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works. A surveyor's scratches mark a climb up the hoist side; without a proper harness it is too exposed.
+> Hand the bronze tram bearing to Edda   [success, watch 32]
+  "Edda hefts the bronze tram bearing, checks the stamp against the salvage company's permit, and counts six coins into your hand."
+  ~ Bran: set down the bronze tram bearing.
+  | Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works. A surveyor's scratches mark a climb up the hoist side; without a proper harness it is too exposed.
+> Take the track up to the yard to Chalk ridge   [success, watch 35]
+> Take the ridge track to Willow causeway   [success, watch 38]
+> Take the causeway path to Reedwake quay   [success, watch 44]
+!! NOT AVAILABLE: rescue__thanks
+  | Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.
+  | Wren stands with one hand shading their eyes, watching the way to Censer Hill foundry.
+== END
+  Elen: elf ranger L1 HP 7/12 slots 3/3 STR 9 DEX 22 CON 14 INT 9 WIS 17 CHA 8 gold 14
+    traits humanoid, agile, perceptive; knows Defend, Heal Ally, Hunter's Mark, Ensnare
+    gear rope, longsword*, chainmail*, climbing_harness*; conditions 
+  Bran: human warrior L1 HP 15/15 slots 3/3 STR 8 DEX 16 CON 16 INT 11 WIS 15 CHA 11 gold 4
+    traits humanoid, adaptable, versatile, toughness; knows Defend, Taunt, Vigor Up, Cleave, Prepare Charge, Charge, Second Wind, Sweeping Strike
+    gear thieves_tools, battleaxe*, chainmail*, crowbar; conditions 
+  Dori: dwarf cleric L1 HP 12/12 slots 8/8 STR 12 DEX 11 CON 17 INT 11 WIS 15 CHA 9 gold 2
+    traits humanoid, sturdy, tough, vitalist; knows Defend, Cure Minor Wounds, Sanctify, Cure Light Wounds, Bless, Anoint, Prayer, Minor Restoration, Cure Moderate Wounds
+    gear bandages, herbs, staff*, studded*; conditions 

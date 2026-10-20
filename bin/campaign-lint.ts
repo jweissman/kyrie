@@ -97,30 +97,14 @@ export class CampaignLint {
     for (const c of this.session.campaign.state.creatures) {
       const where = c.id;
       if (Canon.isSpecies(c.raceId)) {
-        if (Canon.legacy.classes[c.classId]) { this.add('warning', 'legacy', `${where}: species ${c.raceId} uses the legacy chassis ${c.classId}`); }
-        else if (c.classId !== c.raceId) { this.add('error', 'category', `${where}: species ${c.raceId} cannot take the calling ${c.classId}`); }
+        if (c.classId !== undefined) { this.add('error', 'category', `${where}: species ${c.raceId} cannot take the class ${c.classId}`); }
       } else if (Canon.isAncestry(c.raceId)) {
-        if (Canon.isSpecies(c.classId)) { this.add('error', 'category', `${where}: ${c.classId} is a species, not a class`); }
-        else if (Canon.legacy.classes[c.classId]) { this.add('warning', 'legacy', `${where}: uses the legacy class ${c.classId}`); }
-        else if (Canon.classes[c.classId]?.adventuring !== false
-          && !Canon.ancestries[c.raceId]!.classes.includes(c.classId)) {
+        if (!c.classId) { this.add('error', 'category', `${where}: a ${c.raceId} needs a class`); }
+        else if (Canon.isSpecies(c.classId)) { this.add('error', 'category', `${where}: ${c.classId} is a species, not a class`); }
+        else if (!Canon.ancestries[c.raceId]!.classes.includes(c.classId)) {
           this.add('error', 'category', `${where}: a ${c.raceId} cannot be a ${c.classId}`);
         }
       } else { this.add('error', 'category', `${where}: ${c.raceId} is neither an ancestry nor a species`); }
-      for (const a of [...c.base.abilities, ...c.state.learnedAbilities].filter(a => Canon.isLegacy('abilities', a))) {
-        this.add('warning', 'legacy', `${where}: has the legacy ability ${a}`);
-      }
-      if (c.backgroundId && Canon.legacy.backgrounds[c.backgroundId]) {
-        this.add('warning', 'legacy', `${where}: has the legacy background ${c.backgroundId}`);
-      }
-    }
-    for (const r of this.relations('itemKind')) {
-      const kind = r.args[1]!;
-      if (Canon.isLegacy('items', kind)) { this.add('warning', 'legacy', `${r.args[0]!} is of the legacy item kind ${kind}`); }
-      else if (Canon.aliases.items[kind]) { this.add('warning', 'legacy', `${r.args[0]!} uses the former name ${kind} for ${Canon.aliases.items[kind]}`); }
-    }
-    for (const e of this.module.entities.filter(x => x.type === 'ability' && Canon.isLegacy('abilities', x.id))) {
-      if (this.relations('hurtsWith').some(r => r.args[1] === e.id)) { this.add('warning', 'legacy', `${e.id} is a global legacy hazard`); }
     }
   }
   prose() {

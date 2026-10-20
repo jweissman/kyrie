@@ -1,0 +1,209 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 5:40 p.m.
+Casting gallery
+
+The upper works · Censer Hill foundry
+
+Ceramic moulds stand in rows beneath a broken roof. The far end narrows into the hoist passage.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Bell workshop
+by the gallery steps
+2
+→
+Hoist room
+by the hoist passage
+3
+→
+The valve chamber
+by the pipe walk · new
+HERE
+4
+✝
+Ash, a cave hound
+Feral cave hound · dead
+5
+☺
+Hesta, the foundry's herb gatherer
+Human
+COMPANY
+6
+○
+Wait a while
+10m
+HESTA, THE FOUNDRY'S HERB GATHERER
+Talk
+▸
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Castinggallery
+Hoist room
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+███░░░░░░░
+2/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+███░░░░░░░
+2/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HClose history
+8:10 a.m.
+Ask Wren what is wrong: Ask Wren what is wrong
+9:10 a.m.
+→ Willow causeway
+9:40 a.m.
+→ Chalk ridge
+10:10 a.m.
+→ Foundry yard
+10:20 a.m.
+→ Surveyor's vestibule
+10:30 a.m.
+a scratched survey board: Examine
+You examine the evidence and record what it establishes.
+Learned: A tram crawl runs from the dry stores to the back of the hoist room; it is marked on a surveyor's board.
+10:40 a.m.
+→ Bell workshop
+10:50 a.m.
+the warder's copper focus: Take › for Dori
+Dori takes the warder's copper focus.
+Dori gains 1 the warder's copper focus.
+11:00 a.m.
+Pick the stores padlock
+The stores door stands open; its padlock hangs from the hasp.
+The stores door stands open; its padlock hangs from the hasp.
+11:10 a.m.
+→ Dry stores
+11:20 a.m.
+a pry bar: Take › for Bran
+Bran takes a pry bar.
+Bran gains 1 a pry bar.
+11:30 a.m.
+→ Hoist room
+A voice from low down in the dark: 'Here! Over here. Mind the fallen timber rack; it's on my leg. Don't just haul on it. Something cracked when it came down.'
+11:40 a.m.
+Ask Pell what happened: Ask Pell what happened
+11:50 a.m.
+the fallen timber rack: Lever the fallen timber rack up with a pry bar
+You get a pry bar under the fallen timber rack and lean on it. It lifts a hand's breadth, and Pell drags the leg clear: bruised and cut, but whole.
+Pell keeps their weight off one leg, but can walk.
+The fallen timber rack has been levered up and wedged on a lump of stone; there is space beneath it now.
+12:00 p.m.
+Ask them to come with you: Ask them to come with you
+Pell falls in beside you.
+12:10 p.m.
+→ Dry stores
+Pell takes the old tram crawl toward Dry stores.
+12:20 p.m.
+→ Bell workshop
+Pell takes the stores door toward Bell workshop.
+12:30 p.m.
+→ Drain mouth
+Pell takes the drain culvert toward Drain mouth.
+1:00 p.m.
+→ Willow causeway
+Pell takes the low path through the reeds toward Willow causeway.
+2:00 p.m.
+→ Reedwake quay
+Pell takes the causeway path toward Reedwake quay.
+Wren sees Pell, and runs. For a while nobody says anything sensible.
+2:10 p.m.
+Speak with Wren: Speak with Wren
+coin: 14 → 20
+Pell takes the ferry-house door toward the ferry house.
+Wren takes the ferry-house door toward the ferry house.
+2:20 p.m.
+→ Nera's shop floor
+2:30 p.m.
+Minor healing potion: Buy from Nera — 3 coin › for Elen
+Nera takes the money and hands Minor healing potion to Elen.
+coin: 20 → 17
+Elen gains 1 Minor healing potion.
+2:40 p.m.
+→ Reedwake quay
+3:40 p.m.
+→ Willow causeway
+4:10 p.m.
+→ Chalk ridge
+4:40 p.m.
+→ Foundry yard
+4:50 p.m.
+→ Surveyor's vestibule
+5:00 p.m.
+→ Bell workshop
+5:10 p.m.
+→ Casting gallery
+The hound's growl fills the gallery. It does not come at you; it holds the hoist passage.
+5:20 p.m.
+Ask Hesta about Ash and the missing surveyor: Ask Hesta about Ash and the missing surveyor
+5:30 p.m.
+Ash, a cave hound: Attack
+Your company withdraws. Survivors retain their injuries and spent resources.
+Ash takes 3 physical damage (8 HP left).
+Ash gains weakened for 3 turns.
+Elen takes 4 physical damage (3 HP left).
+Elen resists (constitution).
+Your company withdraws from the encounter.
+Hesta draws the linen basket to her chest. 'I saw you strike Ash. Find your salve elsewhere.'
+5:40 p.m.
+Ash, a cave hound: Attack
+Your company prevails. Survivors retain their injuries and spent resources.
+4 actions over the fight; the journal keeps every blow.
+Elen falls.
+Ash falls.
+Your company wins the encounter.
+Elen gains 20 experience.
+Bran gains 20 experience.
+Dori gains 20 experience.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

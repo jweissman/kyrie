@@ -1,0 +1,103 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry›The old workings
+Day 1, 11:10 a.m.
+The adit mouth
+
+The old workings · Skellfold high quarry
+
+◆ Get Tamsin home to the cottage.
+
+The adit runs straight into the hill. A side drift slopes away to the left.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The head of the tub incline
+by the side drift
+2
+→
+The upper gallery
+by the upper gallery passage
+3
+⇤
+Out to the quarry floor
+by the adit
+COMPANY
+4
+○
+Wait a while
+10m
+THE HEAD OF THE TUB INCLINE
+
+the head of the tub incline, a few steps away.
+
+Go
+10m
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+LOWER GALLERY
+quarry floor
+quarrysmithy
+adit mouth
+uppergallery
+head of thetub incline
+lowergallery
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 20 earlier
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+11:00 a.m.
+→ the upper gallery
+11:10 a.m.
+→ the adit mouth
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

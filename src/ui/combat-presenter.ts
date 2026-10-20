@@ -15,21 +15,31 @@ export class CombatPresenter {
       }
       case 'damage': {
         const m = event.modifiers;
-        const adjustment = `${m?.critical ? `, critical ×${m.critical}` : ''}${m?.halfSave ? ', save halves' : ''}`;
-        const calculation = m ? `roll ${event.rolled}${adjustment}, power ${m.power >= 0 ? '+' : ''}${m.power}, `
-          + `resistance ${Math.round(m.resistance * 100)}%, armor ${m.armor}${m.guarding ? ', guarding halves' : ''}`
-          : `roll ${event.rolled}`;
+        const parts = m ? [m.critical ? `critical +${m.critical}` : '', m.halfSave ? 'save halves' : '',
+          m.bonus ? `bonus ${m.bonus >= 0 ? '+' : ''}${m.bonus}` : '',
+          m.resistance ? `resistance ${Math.round(m.resistance * 100)}%` : '', m.reduction ? `reduction ${m.reduction}` : '',
+          m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
+        const calculation = [`roll ${event.rolled}`, ...parts].join(', ');
         return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${event.hp} HP; ${calculation}).`;
       }
       case 'heal': return `${target} recovers ${event.amount} HP (${event.hp} HP).`;
       case 'death': return `${actor} falls.`;
       case 'defend': return `${actor} guards.`;
       case 'skip': return `${actor} cannot act.`;
-      case 'attack': return `${actor} ${event.success ? event.critical ? 'critically hits' : 'hits' : 'misses'} ${target} `
-        + `(d20 ${event.die} + ${event.modifier} against ${event.defense}).`;
-      case 'save': return `${target} ${event.success ? 'passes' : 'fails'} the ${event.stat ?? ''} save `
-        + `(${event.die === undefined ? event.rolled : `${event.die} + ${event.modifier} = ${event.rolled}`} `
-        + `against ${event.difficulty}).`;
+      case 'attack': return `${actor} ${event.success ? event.critical ? 'critically hits' : 'hits' : event.evaded
+        ? 'is evaded by' : 'misses'} ${target} (d20 ${event.die}, needing ${event.need}: THAC0 less AC ${event.armorClass}`
+        + ` less to-hit ${event.toHit}).`;
+      case 'flee': return event.success ? `${actor} gets away.` : `${actor} tries to get away, and cannot.`;
+      case 'initiative': return `Initiative: ${event.order.map(o => `${state.combatants.find(f => f.id === o.id)?.name ?? o.id}`
+        + ` ${o.roll}`).join(', ')}.`;
+      case 'save': {
+        if (event.immune) { return `${target} is immune (${event.kind}).`; }
+        const terms = event.die === undefined ? `${event.rolled}` : [`d20 ${event.die}`, `${event.stat} ${event.modifier}`,
+          ...event.level !== undefined ? [`level ${event.level}`] : [], ...event.bonus ? [`bonus ${event.bonus}`] : []]
+          .join(' + ') + ` = ${event.rolled}`;
+        return `${target} ${event.success ? 'passes' : 'fails'} the ${event.kind ?? event.stat ?? ''} save (${terms} `
+          + `against ${event.difficulty}${event.limit ? '; three saves already made' : ''}).`;
+      }
       case 'status': return `${target} gains ${event.detail} `
         + (event.clock === 'until-removed' ? 'until removed.' : event.clock === 'world-time'
           ? `for ${FictionalTime.duration(event.amount ?? 0)}.` : `for ${event.amount ?? 0} turns.`);

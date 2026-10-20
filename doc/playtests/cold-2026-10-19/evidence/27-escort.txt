@@ -1,0 +1,92 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 12:00 p.m.
+Pell, surveyor
+
+hurt · Hoist room
+
+They wait for you to speak.
+
+SAY
+ASK
+1
+»
+Ask Pell what they mean to do
+DEAL
+2
+¤
+Let them make their own way
+END
+3
+⇤
+End the conversation
+ASK PELL WHAT THEY MEAN TO DO
+Ask Pell what they mean to do
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+Hoist room
+? Drainmouth
+? Castinggallery
+? valvechamber
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 24 earlier
+Pell keeps their weight off one leg, but can walk.
+The fallen timber rack has been levered up and wedged on a lump of stone; there is space beneath it now.
+12:00 p.m.
+Ask them to come with you: Ask them to come with you
+Pell falls in beside you.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

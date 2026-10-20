@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "Wolf yard (test fixture)",
+  "modules": [
+    {
+      "id": "world",
+      "bundle": "module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Hal",
+      "raceId": "human",
+      "classId": "warrior",
+      "traits": [
+        "brave"
+      ],
+      "weapon": "dagger"
+    },
+    {
+      "name": "Ide",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "traits": [
+        "vitalist"
+      ]
+    }
+  ]
+}

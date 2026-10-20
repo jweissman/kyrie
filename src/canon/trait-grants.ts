@@ -1,28 +1,59 @@
 import { Canon } from './canon';
+import type { Trait } from './schema';
 import type { Creature } from '../creature';
+import { SpellSelection } from '../rules/spell-selection';
+import { Creation } from '../rules/creation';
 
-// What a creature's chosen traits give it. Requirements are checked here, at creation, so a character can never
-// hold a trait its ancestry, class or level does not allow. A specialization opens its school or domain: every
-// executable spell of that tradition within it, up to the highest spell level the character can cast (Orsino's
-// ⌈level / 2⌉).
+interface Chooser { pick<T>(options: T[]): T }
+// What a creature's chosen traits are and give it. Requirements are checked at creation, so a character can never hold
+// a trait its ancestry, class or level does not allow. A class with specializations (Orsino's traitChoices) takes
+// exactly one; when none is given, one is drawn, as Orsino's autogen does. A feat is bounded by its own requirements.
 export class TraitGrants {
   static maxSpellLevel(level: number): number { return Math.ceil(level / 2); }
-  static abilities(creature: Creature): string[] {
-    return (creature.traits ?? []).flatMap(id => {
-      const trait = Canon.traits[id];
-      if (!trait) { throw new Error(`${creature.id}: unknown trait ${id}`); }
-      const r = trait.requires ?? {};
-      if (r.ancestry && r.ancestry !== creature.raceId) { throw new Error(`${creature.id}: ${id} requires a ${r.ancestry}`); }
-      if (r.class && r.class !== creature.classId) { throw new Error(`${creature.id}: ${id} requires the ${r.class} class`); }
-      if (r.level && creature.base.level < r.level) { throw new Error(`${creature.id}: ${id} requires level ${r.level}`); }
-      if (r.ancestries) { throw new Error(`${creature.id}: ${id} is a party trait, held by a company`); }
-      return [...trait.grants?.abilities ?? [], ...this.spells(trait.spellAccess, creature.base.level)];
-    });
+  private static check(creature: Creature, id: string): Trait {
+    const trait = Canon.traits[id];
+    if (!trait) { throw new Error(`${creature.id}: unknown trait ${id}`); }
+    const r = trait.requires ?? {};
+    if (r.ancestry && r.ancestry !== creature.raceId) { throw new Error(`${creature.id}: ${id} requires ${Creation.a(r.ancestry)}`); }
+    if (r.class && r.class !== creature.classId) { throw new Error(`${creature.id}: ${id} requires the ${r.class} class`); }
+    if (r.classes && !r.classes.includes(creature.classId ?? '')) {
+      throw new Error(`${creature.id}: ${id} requires a ${r.classes.join(' or ')}`);
+    }
+    if (r.level && creature.base.level < r.level) { throw new Error(`${creature.id}: ${id} requires level ${r.level}`); }
+    if (trait.category === 'party') { throw new Error(`${creature.id}: ${id} is a party trait, held by a company`); }
+    if (Canon.ancestries[creature.raceId]?.forbiddenTraits?.includes(id)) {
+      throw new Error(`${creature.id}: ${Creation.a(creature.raceId)} may not take ${id}`);
+    }
+    return trait;
   }
-  static spells(access: { tradition: string; school?: string; domain?: string } | undefined, level: number): string[] {
-    if (!access) { return []; }
-    return Object.entries(Canon.abilities).filter(([, a]) => a.kind === 'spell' && a.spell
-      && a.spell.tradition === access.tradition && a.spell.level <= this.maxSpellLevel(level)
-      && (access.school ? a.spell.school === access.school : a.spell.domain === access.domain)).map(([id]) => id);
+  static choose(creature: Creature, chosen: string[] = [], chooser: Chooser): string[] {
+    const ids = chosen.map(t => Canon.resolve('traits', t));
+    const choices = Creation.classOf(creature.classId)?.specializations ?? [];
+    for (const id of ids) {
+      const trait = this.check(creature, id);
+      if (trait.category === 'specialization' || choices.includes(id)) {
+        if (!choices.includes(id)) { throw new Error(`${creature.id}: ${Creation.a(creature.classId ?? 'creature')} cannot specialize as ${id}`); }
+      } else if (trait.category === 'feat') {
+        // A feat's own requirements (checked above) bound it; Orsino offers feats as level-up choices.
+      } else { throw new Error(`${creature.id}: ${id} is a ${trait.category} trait, which is not chosen`); }
+    }
+    const specializations = ids.filter(id => choices.includes(id));
+    if (specializations.length > 1) { throw new Error(`${creature.id}: choose one specialization`); }
+    if (choices.length && !specializations.length) {
+      const allowed = choices.filter(id => !Canon.ancestries[creature.raceId]?.forbiddenTraits?.includes(id));
+      ids.push(chooser.pick(allowed));
+    }
+    return ids;
+  }
+  // Abilities granted by the creature's traits, and the spells its specialization opens (chosen or drawn).
+  static abilities(creature: Creature, how: { spells?: string[]; prepared?: boolean }, chooser: Chooser): string[] {
+    const traits = (creature.traits ?? []).map(id => Canon.traits[id]!);
+    const specialist = traits.find(t => t.spellAccess);
+    if (how.spells && !specialist) { throw new Error(`${creature.id}: only a specialist chooses spells`); }
+    const pick = chooser.pick.bind(chooser) as (options: string[]) => string;
+    const spells = !specialist ? [] : how.prepared && !how.spells
+      ? SpellSelection.prepare(specialist, creature.base.level, pick)
+      : SpellSelection.choose(specialist, how.spells, pick, creature.id);
+    return [...traits.flatMap(t => t.grants?.abilities ?? []), ...spells];
   }
 }

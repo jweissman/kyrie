@@ -1,0 +1,78 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 5:50 p.m.
+CARRIED
+ELEN
+1
+○
+Coil of rope
+carried
+BRAN
+2
+○
+Thieves' tools
+carried
+3
+○
+a pry bar
+carried
+DORI
+4
+○
+Bandages
+carried
+5
+○
+Healing herbs
+carried
+6
+○
+the warder's copper focus
+focus
+COIL OF ROPE
+Give to
+▸
+Set down here
+10m
+COIL OF ROPE
+
+Coil of rope · carried by Elen
+
+A length of sturdy rope for climbing, tying, or securing items.
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+███░░░░░░░
+2/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 73 earlier
+Dori gains 20 experience.
+5:50 p.m.
+Minor healing potion: Use on › Elen
+Elen takes Minor healing potion.
+Elen recovers 5 HP (7 HP).
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

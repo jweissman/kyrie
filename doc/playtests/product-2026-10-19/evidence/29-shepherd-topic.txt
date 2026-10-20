@@ -1,0 +1,85 @@
+THE RED CRAG
+The Thrale Highlands›The high pastures
+Day 1, 1:00 p.m.
+Tobin, shepherd
+
+Human · the stone sheepfold
+
+They wait for you to speak.
+
+SAY
+ASK
+1
+»
+Ask Tobin about the dragon
+END
+2
+⇤
+End the conversation
+ASK TOBIN ABOUT THE DRAGON
+Ask Tobin about the dragon
+10m
+MAP
+HIGH PASTURES
+stonesheepfold
+→ Thrale
+→ Red Crag
+REGION
+1h
+1h
+10m
+2h
+Thrale
+Skarth Gorge
+high pastures
+Red Crag
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+2 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 21 earlier
+Bran gains 1 the chapel bell.
+10:50 a.m.
+→ the crag ledge
+11:00 a.m.
+→ the crag shoulder
+1:00 p.m.
+→ the stone sheepfold
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

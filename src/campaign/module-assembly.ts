@@ -29,6 +29,7 @@ export interface SituationManifest {
   initial: { name: string; args: string[]; value: number }[];
   pressure?: CampaignDefinition['pressures'][number];
   outcomes: { id: string; predicate: string }[];
+  imports?: string[];
 }
 
 export type AdventureManifest = SituationManifest;
@@ -74,7 +75,7 @@ export class ModuleAssembly {
     }
     delete module.people;
     const cast = [...manifest.creatures, ...(company?.creatures ?? []), ...generatedPeople];
-    if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain'].includes(c.call.name))) {
+    if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
       throw new Error('Member state is inferred from the canonical cast; do not initialize it manually');
     }
     this.generatedItems(module, manifest.items ?? {});
@@ -107,13 +108,13 @@ export class ModuleAssembly {
       const goal = definition.actors.find(a => a.id === p.actor)!.goals.find(g => g.id === p.id)!;
       goal.when = p.when; goal.target = p.target;
     }
-    Discovery.validate(instance.module, new World(instance.module, instance.world));
+    Discovery.validate(instance.module, new World(instance.module, instance.world), manifest.imports);
     definition.schemas = structuredClone(instance.module.actions);
     instance.module.actions = ActionSchemas.ground(instance.module, actors);
     compiler.validate(instance.module);
     if (instance.module.actions.some(a => [...a.success, ...a.failure].some(c =>
       ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
-        'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain'].includes(c.call.name)))) {
+        'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name)))) {
       throw new Error('Creature projections and campaign clock/pressure records are read-only');
     }
     if ([...instance.module.initial, ...(instance.module.rules ?? []).flatMap(r => r.effects)]

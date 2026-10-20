@@ -43,7 +43,7 @@ export class ModuleCompiler {
       if (r.place) { this.anchor(module, r.place, r.anchor); }
       if (r.say) { this.text(module, r.say); }
       r.effects.forEach(c => this.change(module, c));
-      if (r.effects.some(c => ['able', 'dead', 'watch', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain'].includes(c.call.name))) {
+      if (r.effects.some(c => ['able', 'dead', 'watch', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
         throw new Error('Rules cannot change canonical projections, clocks, records or discovery knowledge');
       }
     }
@@ -127,7 +127,8 @@ export class ModuleCompiler {
     }
   }
   private static unique(names: string[], label: string) {
-    if (new Set(names).size !== names.length) { throw new Error(`Duplicate ${label}`); }
+    const repeated = names.filter((n, i) => names.indexOf(n) !== i);
+    if (repeated.length) { throw new Error(`Duplicate ${label} ${[...new Set(repeated)].join(', ')}`); }
   }
   private kind(module: Module, kind: string) {
     if (kind !== 'entity' && !module.kinds.includes(kind)) { throw new Error(`Unknown kind ${kind}`); }

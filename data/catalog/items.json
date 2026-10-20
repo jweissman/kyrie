@@ -1,0 +1,253 @@
+{
+  "about": "Items: kinds of thing a creature can carry. Orsino weapons and armour are generated into data/catalog/orsino/items.json; this file holds Kyr's own items and adaptations. weapon gives the damage die and type for the attack roll; armor gives the armour class it subtracts; modifiers and hooks act while the item is equipped; grants give a skill or an ability.",
+  "items": {
+    "rope": {
+      "name": "Coil of rope",
+      "category": "gear",
+      "description": "A length of sturdy rope for climbing, tying, or securing items.",
+      "value": 1,
+      "source": {
+        "orsino": "gear:rope",
+        "fidelity": "adapted",
+        "notes": "Orsino gives a description and price; Kyr gives the tool meaning through world rules."
+      }
+    },
+    "crowbar": {
+      "name": "Crowbar",
+      "category": "tool",
+      "description": "A sturdy crowbar for prying open doors or crates.",
+      "value": 2,
+      "source": {
+        "orsino": "gear:crowbar",
+        "fidelity": "adapted",
+        "notes": "Orsino gives a description and price; Kyr gives the tool meaning through world rules."
+      }
+    },
+    "thieves_tools": {
+      "name": "Thieves' tools",
+      "category": "tool",
+      "description": "A set of tools for picking locks and disarming traps.",
+      "value": 25,
+      "source": {
+        "orsino": "gear:thieves_tools",
+        "fidelity": "adapted",
+        "notes": "Orsino gives a description and price; Kyr gives the tool meaning through world rules."
+      }
+    },
+    "shovel": {
+      "name": "Shovel",
+      "category": "tool",
+      "description": "A sturdy shovel for digging or moving earth.",
+      "value": 3,
+      "source": {
+        "orsino": "gear:shovel",
+        "fidelity": "adapted",
+        "notes": "Orsino gives a description and price; Kyr gives the tool meaning through world rules."
+      }
+    },
+    "bell": {
+      "name": "Bell",
+      "category": "gear",
+      "description": "A small bell that can be used to signal others or scare off wildlife.",
+      "value": 1,
+      "source": {
+        "orsino": "gear:bell",
+        "fidelity": "adapted",
+        "notes": "Orsino gives a description and price; Kyr gives the tool meaning through world rules."
+      }
+    },
+    "map": {
+      "name": "Map of the district",
+      "category": "gear",
+      "description": "A hand-drawn map of the local roads and landmarks.",
+      "value": 5,
+      "source": {
+        "orsino": "background:explorer",
+        "fidelity": "adapted",
+        "notes": "Starting gear of the explorer; absent from Orsino's gear catalog."
+      }
+    },
+    "bandages": {
+      "name": "Bandages",
+      "category": "consumable",
+      "description": "Clean linen for binding wounds. One use.",
+      "value": 1,
+      "use": "Heal (1d4 + 1) health to ally.",
+      "source": {
+        "orsino": "background:medic",
+        "fidelity": "adapted",
+        "notes": "Starting gear of the medic; absent from Orsino's gear catalog."
+      }
+    },
+    "herbs": {
+      "name": "Healing herbs",
+      "category": "consumable",
+      "description": "A twist of dried herbs for a poultice. One use.",
+      "value": 2,
+      "use": "Heal (1d6) health to ally.",
+      "source": {
+        "orsino": "background:medic",
+        "fidelity": "adapted",
+        "notes": "Starting gear of the medic; absent from Orsino's gear catalog."
+      }
+    },
+    "antidote": {
+      "name": "Antidote",
+      "category": "consumable",
+      "description": "A single dose removes the poisoned condition from a living companion.",
+      "use": "Remove poisoned from ally.",
+      "source": {
+        "orsino": "consumable:antidote",
+        "fidelity": "adapted",
+        "notes": "Orsino removes the status named Poison; Kyr removes poisoned."
+      }
+    },
+    "healingdraught": {
+      "name": "Minor healing potion",
+      "category": "consumable",
+      "description": "A single dose restores 2d4 + 2 health to a living companion.",
+      "use": "Heal (2d4 + 2) health to ally.",
+      "source": {
+        "orsino": "consumable:minor_healing_potion",
+        "fidelity": "adapted",
+        "notes": "Exact 2d4 + 2 healing."
+      }
+    },
+    "fireproof_salve": {
+      "name": "Fireproof salve",
+      "category": "consumable",
+      "description": "A clay pot of ash-and-lanolin salve. Smeared on skin and clothing, it makes fire do half its harm for a while.",
+      "use": "Apply fireproof to ally for 10 turns.",
+      "source": {
+        "orsino": "status:fireproof",
+        "fidelity": "adapted",
+        "notes": "A Kyr preparation of Orsino's fireproof; lasts ten of the wearer's combat turns."
+      }
+    },
+    "yarrow_poultice": {
+      "name": "Prepared yarrow poultice",
+      "category": "consumable",
+      "description": "Crushed yarrow bound in a cloth. It stops bleeding and eases a small wound.",
+      "use": "Remove bleeding from ally. Heal (1d3) health to ally.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "longsword_of_flames": {
+      "name": "Longsword of Flames",
+      "category": "weapon",
+      "description": "A longsword engulfed in magical flames, dealing extra fire damage on hit.",
+      "value": 800,
+      "slot": "weapon",
+      "weapon": {
+        "damage": "1d8",
+        "type": "piercing"
+      },
+      "hooks": {
+        "onAttackHit": [
+          {
+            "kind": "damage",
+            "amount": {
+              "kind": "deem",
+              "expression": "1d6"
+            },
+            "damageType": "fire",
+            "target": "enemy"
+          }
+        ]
+      },
+      "source": {
+        "orsino": "equipment:longsword_of_flames",
+        "fidelity": "faithful",
+        "notes": "Orsino gives it no weapon kind or weight, so every weapon proficiency that names kinds excludes it; warriors (all weapons) can wield it."
+      }
+    },
+    "warding_focus": {
+      "name": "Foundry ward focus",
+      "category": "equipment",
+      "description": "A copper warding focus. A companion who knows how can raise a ward against fire with it.",
+      "slot": "focus",
+      "grants": {
+        "ability": "fire_ward"
+      },
+      "source": {
+        "orsino": "status:fireproof",
+        "fidelity": "adapted",
+        "notes": "Kyr implement that grants the fire ward technique."
+      }
+    },
+    "ashwood_charm": {
+      "name": "Ashwood ward charm",
+      "category": "equipment",
+      "description": "A mortuary charm of ashwood and bronze wire, left on an offering tray. Whoever wears it turns aside harm and resists what would overcome them.",
+      "slot": "charm",
+      "modifiers": {
+        "damageReduction": 1,
+        "saveVersusAll": 3
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "wardens_blade": {
+      "name": "Warden's blade",
+      "category": "weapon",
+      "description": "A balanced mortuary blade carried by the wardens of the dead. It strikes harder than its weight suggests.",
+      "slot": "weapon",
+      "modifiers": {
+        "bonusDamage": 2
+      },
+      "source": {
+        "kyr": true
+      },
+      "weapon": {
+        "damage": "1d6",
+        "type": "slashing",
+        "kind": "blade",
+        "weight": "light"
+      }
+    },
+    "lantern_of_names": {
+      "name": "Lantern of names",
+      "category": "equipment",
+      "description": "A hooded lantern whose consecrated flame shows the names and markings the keepers wrote in light.",
+      "slot": "light",
+      "grants": {
+        "skill": "reading_the_dead"
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "climbing_harness": {
+      "name": "Climber's harness",
+      "category": "tool",
+      "description": "A rope, pitons and a fitted harness.",
+      "slot": "tool",
+      "grants": {
+        "skill": "climbing"
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "bronze_bearing": {
+      "name": "Bronze bearing",
+      "category": "treasure",
+      "description": "A heavy bronze bearing from old foundry machinery: valuable to a salvager, sacred to nobody.",
+      "value": 12,
+      "source": {
+        "kyr": true
+      }
+    },
+    "burial_register": {
+      "name": "Burial register",
+      "category": "gear",
+      "description": "A waxed register of the named dead, in a keeper's careful hand.",
+      "value": 2,
+      "source": {
+        "kyr": true
+      }
+    }
+  }
+}

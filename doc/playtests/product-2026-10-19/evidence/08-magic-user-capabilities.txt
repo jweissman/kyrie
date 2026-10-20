@@ -1,0 +1,73 @@
+THE RED CRAG
+The Thrale Highlands›Thrale
+Day 1, 8:10 a.m.
+COMPANY
+COMPANY
+1
+☺
+Elen
+elf magic-user · lvl 1
+2
+☺
+Bran
+human thief · lvl 1
+3
+☺
+Dori
+dwarf cleric · lvl 1
+Elen
+
+elf magic-user · level 1 · Locksmith · 0 xp · 16 coin
+
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+STR 9
+DEX 21
+CON 16
+INT 20
+WIS 7
+CHA 11
+Abilities
+Weapon attack
+Deal (max(0, statMod(#strength) + 1d6)) physical damage to enemy.
+Guard
+Defend.
+Ember bolt 1 mana
+Deal (max(0, 1d6 + statMod(#intelligence))) fire damage to enemy.
+Binding sleep 3 mana
+Apply stunned to enemies for 1 turn unless wisdom save against (10 + statMod(#intelligence)).
+Protective ward 1 mana
+Apply warded to self for 3 turns.
+Siphon life 2 mana
+Drain (1d6) health from enemy.
+Call a wisp 3 mana
+Summon wisp for self.
+Retreat
+Flee.
+Elder focus
+Apply blessed to self for 2 turns.
+Carried
+○ Thieves' tools
+Background and profession
+Locksmith background
+Lockwork (skill) · Thieves' tools · dexterity +4 · intelligence +2 · +4 coin
+Company standing
+Mending — Dori (dwarf cleric)
+Lockwork — Elen (elf magic_user)
+Trapwork — Bran (human thief)
+ELEN
+
+Nothing you can do with this right now.
+
+HHistory
+8:10 a.m.
+Ask the bell-ringer about the empty bell-cote: Ask the bell-ringer about the empty bell-cote
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

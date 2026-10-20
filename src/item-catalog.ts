@@ -1,10 +1,12 @@
-import { CanonRuntime } from './canon/canon-runtime';
+import { CanonRuntime, type RuntimeItem } from './canon/canon-runtime';
+import { Canon } from './canon/canon';
+import type { Hooks } from './canon/schema';
+import { ModifierSet, type Modifiers } from './rules/modifiers';
+import type { WeaponProfile } from './rules/fighting';
 import type { Creature } from './creature';
-export interface ItemDefinition {
-  name: string; description: string; slot?: string; capability?: string;
-  ability?: string;
-  armor?: number; power?: number; save?: number; use?: string;
-}
+export type ItemDefinition = RuntimeItem;
+export interface Equipment { modifiers: Modifiers; hooks: Hooks; weapon: WeaponProfile; armorAc: number }
+
 export class ItemCatalog {
   static readonly definitions: Record<string, ItemDefinition> = CanonRuntime.items();
   static get(id: string): ItemDefinition {
@@ -17,19 +19,28 @@ export class ItemCatalog {
       .flatMap(i => { const d = this.get(i.definition); return d.ability
         ? [[d.ability, { id: i.id, kind: 'item' as const, name: d.name }]] : []; }));
   }
-  static attachments(creature: Creature) {
-    return (creature.state.inventory ?? []).filter(i => i.equipped).map(i => ({
-      source: i.id, definition: i.definition, modifiers: {
-        armor: this.get(i.definition).armor ?? 0, power: this.get(i.definition).power ?? 0,
-        save: this.get(i.definition).save ?? 0,
-      },
-    }));
+  static weapon(id: string, name?: string): WeaponProfile {
+    const w = this.get(id).weapon;
+    if (!w) { throw new Error(`${id} is not a weapon`); }
+    return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
+      ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
+      ...w.natural ? { natural: true } : {} };
   }
-  static modifiers(creature: Creature) {
-    return (creature.state.inventory ?? []).filter(i => i.equipped).reduce((result, i) => {
-      const definition = this.get(i.definition);
-      return { armor: result.armor + (definition.armor ?? 0), power: result.power + (definition.power ?? 0),
-        save: result.save + (definition.save ?? 0) };
-    }, { armor: 0, power: 0, save: 0 });
+  // What a creature's equipment contributes: the wielded weapon (else its natural weapon, else a fist, as in Orsino's
+  // effectiveWeapon), the body armour's ac (else its natural armour), and the modifiers and hooks of equipped items.
+  static equipment(creature: Creature): Equipment {
+    const equipped = (creature.state.inventory ?? []).filter(i => i.equipped);
+    const natural = Canon.isSpecies(creature.raceId) ? Canon.creature(creature.raceId).statistics : undefined;
+    const wielded = equipped.find(i => this.get(i.definition).weapon);
+    const worn = equipped.find(i => this.get(i.definition).armor);
+    const hooks: Hooks = {};
+    for (const i of equipped) {
+      for (const [key, effects] of Object.entries(this.get(i.definition).hooks ?? {})) {
+        (hooks[key as keyof Hooks] ??= []).push(...effects);
+      }
+    }
+    return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
+      weapon: wielded ? this.weapon(wielded.definition) : this.weapon(natural?.weapon ?? 'fist'),
+      armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac : 0 };
   }
 }

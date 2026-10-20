@@ -73,7 +73,8 @@ export class Discovery {
   static supported(module: Module): boolean {
     return module.relations.some(r => r.name === 'reveals' && r.types.join(',') === 'source,fact');
   }
-  static validate(module: Module, world: World) {
+  // Facts a module imports are established by their owner; installation validates them against the whole world.
+  static validate(module: Module, world: World, imported: string[] = []) {
     if (!this.supported(module)) { return; }
     for (const source of module.entities.filter(e => e.type === 'source')) {
       const facts = world.snapshot.relations.filter(r => r.name === 'reveals' && r.args[0] === source.id);
@@ -82,7 +83,7 @@ export class Discovery {
       if (facts.length !== 1 || new Set(locations).size !== 1) {
         throw new Error('Each discovery source requires one fact and one initial location');
       }
-      if (!world.test(ModuleWriter.call('established', facts[0]!.args[1]!))) {
+      if (!imported.includes(facts[0]!.args[1]!) && !world.test(ModuleWriter.call('established', facts[0]!.args[1]!))) {
         throw new Error('A reliable discovery source must attest an established fact');
       }
     }

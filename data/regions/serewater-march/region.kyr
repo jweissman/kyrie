@@ -1,0 +1,61 @@
+Module serewater_march "The Serewater March" {
+  Description "Reedwake, a wool-and-barge town on the flooding Serewater, and the willow floodplain between it and the hills.".
+
+  Place march "The Serewater March" is region.
+  Place reedwake_town "Reedwake" is settlement within march at 0, 0.
+  Place reedlands "Willow floodplain" is wilderness within march at 1, 0.
+  Place oar "The Returning Oar" is building within reedwake_town.
+  Place shop "Nera's shop" is building within reedwake_town.
+  Place shrine_house "The common shrine" is building within reedwake_town.
+  Place ferry_house "Ferry house" is building within reedwake_town.
+  Place salvage_house "The salvage office" is building within reedwake_town.
+
+  Place quay "Reedwake quay" is room within reedwake_town at 1, 1.
+  Place taproom "the Oar's taproom" is room within oar at 1, 0.
+  Place shop_floor "Nera's shop floor" is room within shop at 2, 1.
+  Place shrine "the shrine" is room within shrine_house at 1, 2.
+  Place ferry_room "the ferry house" is room within ferry_house at 0, 1.
+  Place salvage_office "the salvage office" is room within salvage_house at 2, 2.
+  Place causeway "Willow causeway" is room within reedlands at 0, 1.
+  Place ridge "Chalk ridge" is room within reedlands at 1, 0.
+
+  Passage oar_door "the Oar's door" is door between taproom and quay.
+  Passage shop_door "Nera's shop door" is door between shop_floor and quay.
+  Passage shrine_door "the shrine porch" is doorway between shrine and quay.
+  Passage ferry_door "the ferry-house door" is door between ferry_room and quay.
+  Passage office_door "the salvage office door" is door between salvage_office and quay.
+  Passage causeway_path "the causeway path" is path between quay and causeway taking 1 hour.
+  Passage ridge_track "the ridge track" is track between causeway and ridge taking 30 minutes.
+
+  Company party "Your company" of 3 at quay.
+  Initially Set quantity(party, gold) to 6. Initially Set quantity(party, rations) to 1.
+
+  Person maud "Maud" at taproom {
+    Role "innkeeper". Profession innkeeper. Peaceable.
+    Sells rations for 2 coin from 4.
+  }
+  Person nera "Nera" at shop_floor {
+    Role "outfitter". Profession herbalist. Peaceable.
+    Sells rations for 2 coin from 6.
+    Sells bandages for 1 coin from 3.
+    Sells rope for 1 coin from 2.
+    Sells antidote for 3 coin from 2.
+    Sells healingdraught for 3 coin from 1.
+  }
+  Topic nera_preparation with nera "Ask Nera how to prepare" when true {
+    Says "'Plan your way back before you go down,' says Nera. 'Maud's pallets are two coin. I sell what I have, and when it is gone it is gone. Antidote treats poison, not a crushed skull. Take a line; there are clefts in that hill that strength alone won't get you across.'".
+  }
+  Topic nera_interest with nera "Ask why the town cares about Censer Hill" when true {
+    Says "'Bronze buys work; washed-out bones buy grief. The foundry served three settlements once, and the refuge under it sheltered all of them in the great flood. Some of them are still down there. Ask at the shrine before you treat everything under that hill as salvage.'".
+  }
+
+  Observe quay_scene at quay when true "Barges nose into reed-fringed piles. The Serewater is high and brown. Upriver, the derelict foundry on Censer Hill stands above the willows. The Oar's sign creaks over one door, Nera's herbs hang in another, the shrine porch faces the water, and a salvage company's chalked board leans by the office.".
+  Observe taproom_scene at taproom when true "Dry boots steam above the hearth. Bargemen eat at the long table, and stairs climb to the pallets above.".
+  Observe shop_scene at shop_floor when true "Bunches of herbs hang from the beams over shelves of jars, coils of rope, stoppered antidotes and wrapped rations.".
+  Observe shrine_scene at shrine when true "Two small altars face each other under a low roof. Water-stained name slips are pinned to every beam.".
+  Observe ferry_scene at ferry_room when true "A low kitchen with the tide board nailed by the door and a kettle on the hob.".
+  Observe office_scene at salvage_office when true "A ledger lies open on a trestle beside a sketch of foundry machinery. A licence is pinned above it, its seal still bright.".
+  Observe causeway_scene at causeway when true "Old stones run out across the floodplain between willow poles. Waterfowl lift from the sedges. A track climbs the chalk ridge; a lower path drops into the reeds.".
+  Observe ridge_scene at ridge when true "Short grass and hawthorn on pale chalk. Sheep bells sound from distant Chalkcross. Reedwake lies far below.".
+  Goal false.
+}

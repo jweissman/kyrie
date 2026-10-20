@@ -1,4 +1,4 @@
-import partyExamples from '../data/party-examples.json';
+import partyExamples from '../data/campaigns/companies.json';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView, type ActionFeedback } from '../src/presentation/action-feedback';
@@ -32,7 +32,7 @@ export class MonoApp {
   private history = false;
   private draft: Draft = { seed: 'serewater', field: 0, party: MonoApp.preset('fellowship') };
   private readonly key = 'kyrie.mono.v1';
-  readonly manifest = new URLSearchParams(location.search).get('campaign') ?? 'data/caught-below/river.campaign.json';
+  readonly manifest = new URLSearchParams(location.search).get('campaign') ?? 'data/campaigns/serewater-march.campaign.json';
   constructor(private root: HTMLElement) {
     const declared = (JSON.parse(Scenarios.files[this.manifest] ?? '{}') as { party?: CreatureGenerationContext[] }).party;
     if (declared) { this.draft.party = structuredClone(declared); }
@@ -268,8 +268,15 @@ export class MonoApp {
     const field = input.dataset.field;
     if (field === 'seed') { this.draft.seed = input.value.trim() || 'serewater'; return; }
     const i = Number(input.dataset.index);
-    if (field && this.draft.party[i]) {
-      (this.draft.party[i] as unknown as Record<string, string>)[field] = input.value;
+    const member = this.draft.party[i];
+    if (field && member) {
+      // A specialization is the one chosen trait; its spells are drawn when the company forms. Changing class or
+      // specialization discards choices that no longer fit.
+      if (field === 'specialization') { member.traits = input.value ? [input.value] : []; delete member.spells; }
+      else {
+        (member as unknown as Record<string, string>)[field] = input.value;
+        if (field === 'classId') { delete member.traits; delete member.spells; }
+      }
       if (field !== 'name') { this.render(); }
     }
   }

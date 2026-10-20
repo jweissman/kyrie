@@ -1,0 +1,106 @@
+CAUGHT BELOW
+The Serewater March›Reedwake›Nera's shop
+Day 1, 2:20 p.m.
+Nera's shop floor
+
+Nera's shop · Reedwake
+
+Bunches of herbs hang from the beams over shelves of jars, coils of rope and wrapped rations.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Reedwake quay
+by Nera's shop door
+HERE
+2
+☺
+Nera, herbalist
+Human
+3
+·
+Bandages
+for sale ×3
+4
+·
+Coil of rope
+for sale ×2
+5
+·
+Minor healing potion
+for sale
+COMPANY
+6
+○
+Wait a while
+10m
+MINOR HEALING POTION
+Buy from Nera — 3 coin
+▸
+MAP
+REEDWAKE
+NERA'S SHOP
+RETURNING OAR
+COMMON SHRINE
+FERRY HOUSE
+Reedwakequay
+Nera's shopfloor
+? Oar'staproom
+? shrine
+? ferryhouse
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+20 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 40 earlier
+coin: 14 → 20
+Pell takes the ferry-house door toward the ferry house.
+Wren takes the ferry-house door toward the ferry house.
+2:20 p.m.
+→ Nera's shop floor
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

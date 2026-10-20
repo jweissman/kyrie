@@ -1,0 +1,102 @@
+CAUGHT BELOW
+The Skell fells›Skellfold›Marrit's cottage
+Day 1, 12:30 p.m.
+The cottage
+
+Marrit's cottage · Skellfold
+
+◆ Tamsin is back with Marrit, who will want a word with you.
+
+Peat smoke, a tally-stick rack by the door, and a window that looks straight up the fell at the quarry.
+
+Tamsin sits with the bad leg up on a stool while Marrit scolds and feeds them.
+
+Marrit keeps a hand on Tamsin's sleeve, as if they might vanish again.
+
+WAYS AND THINGS
+WAYS
+1
+⇤
+Out to Skellfold green
+by the cottage door
+HERE
+2
+☺
+Tamsin, quarry tally-keeper
+settled
+3
+☺
+Marrit, Tamsin's grandmother
+relieved
+COMPANY
+4
+○
+Wait a while
+10m
+OUT TO SKELLFOLD GREEN
+
+Out of here, to Skellfold green in Skellfold.
+
+Go
+10m
+MAP
+MARRIT'S COTTAGE
+SKELLFOLD
+cottage
+Skellfoldgreen
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 29 earlier
+Tamsin takes the cottage door toward the cottage.
+Marrit takes the cottage door toward the cottage.
+Marrit sees Tamsin, and runs. For a while nobody says anything sensible.
+12:30 p.m.
+→ the cottage
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

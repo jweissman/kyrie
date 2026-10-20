@@ -1,0 +1,83 @@
+THE RED CRAG
+The Thrale Highlands›Thrale›The bell chapel
+Day 1, 3:20 p.m.
+CARRIED
+ELEN
+1
+○
+Thieves' tools
+carried
+BRAN
+2
+○
+Thieves' tools
+carried
+3
+○
+Coil of rope
+carried
+4
+○
+the chapel bell
+carried
+DORI
+5
+○
+Bandages
+carried
+6
+○
+Healing herbs
+carried
+7
+○
+Fireproof salve
+carried
+THE CHAPEL BELL
+Give to
+▸
+Set down here
+10m
+THE CHAPEL BELL
+
+Bell · carried by Bran
+
+A small bell that can be used to signal others or scare off wildlife.
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+0 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 29 earlier
+2:20 p.m.
+→ the chapel nave
+3:20 p.m.
+Mother Cate, priest of the bell chapel: Ask for the shrine's care for the wounded — 2 coin
+Mother Cate cleans and dresses every wound in the company.
+coin: 2 → 0
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,0 +1,83 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:30 a.m.
+WHAT YOU KNOW
+
+Nothing established yet.
+
+Deadlines
+
+No public deadline.
+
+Company standing
+
+None.
+
+Download save file New company
+
+CHRONICLE
+Day 1, 10:20 a.m. Attack Calder — failed
+11 details
+
+Calder uses Fire breath.
+
+Dori fails the constitution save (3 + -1 = 3 against 16).
+
+Dori takes 6 fire damage (0 HP; roll 16, power +0, resistance 50%, armor 0).
+
+Dori falls.
+
+Elen fails the constitution save (7 + 2 = 10 against 16).
+
+Elen takes 9 fire damage (0 HP; roll 16, power +0, resistance 0%, armor 0).
+
+Elen falls.
+
+Bran fails the constitution save (13 + 0 = 14 against 16).
+
+Bran takes 7 fire damage (0 HP; roll 16, power +0, resistance 0%, armor 0).
+
+Bran falls.
+
+The opposition wins the encounter.
+
+Day 1, 10:10 a.m. Use Fireproof salve on Dori
+3 details
+Day 1, 10:00 a.m. Speak to Calder
+1 details
+Day 1, 10:00 a.m. Calder lies coiled across the cave mouth, one eye open, smoke curling from its nostrils.
+Day 1, 10:00 a.m. A wide shelf of rust-red stone, scattered with split bones and scorched wool. A cave mouth opens behind it.
+Day 1, 9:50 a.m. Take the rope bridge to the crag ledge
+Day 1, 9:50 a.m. Old hemp ropes and weathered planks. The bridge sways, but it holds.
+Day 1, 9:50 a.m. The road ends at a lip of rock over Skarth Gorge. A rope bridge spans the drop to a ledge on the red crag.
+Day 1, 8:50 a.m. Take the gorge road to the gorge edge
+Day 1, 8:40 a.m. Take the chandlery door to Thrale green
+Day 1, 8:30 a.m. Buy Coil of rope for Bran
+2 details
+Day 1, 8:20 a.m. Buy Fireproof salve for Dori
+2 details
+Day 1, 8:20 a.m. Rope, tallow, jars of salve and a shelf of stoppered clay pots that smell of ash and lanolin.
+Day 1, 8:10 a.m. Take the chandlery door to Ysolde's counter
+Day 1, 8:10 a.m. The bell-ringer keeps glancing up at the empty bell-cote.
+Day 1, 8:10 a.m. A stone barn under a deep thatch, stuffed with the winter's hay.
+Day 1, 8:10 a.m. Slate roofs huddle around a sheep-cropped green. Smoke rises from the Hearth's chimney; the chandler's shutters are open, and the chapel's bell-cote stands empty.
+Day 1, 8:00 a.m. Ask the bell-ringer about the empty bell-cote
+1 details
+HClose history
+10:20 a.m.
+Fireproof salve: Use on › Dori
+Dori takes Fireproof salve.
+Dori gains fireproof for 10 turns.
+10:30 a.m.
+Calder, a red dragon: Attack
+Your company is defeated. Elen, Bran, Dori died. Survivors retain their injuries and spent resources.
+1 actions over the fight; the journal keeps every blow.
+Dori falls.
+Elen falls.
+Bran falls.
+The opposition wins the encounter.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

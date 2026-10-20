@@ -1,0 +1,100 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry›The old workings
+Day 1, 10:00 a.m.
+The head of the tub incline
+
+The old workings · Skellfold high quarry
+
+◆ Marrit asked you to find Tamsin in Skellfold high quarry. The drifting snow closes the beck lane about 12:20 p.m.
+
+Rails run steeply down into the dark: the old tub incline.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The adit mouth
+by the side drift
+2
+⇅
+The lower gallery
+by the tub incline · new
+COMPANY
+3
+○
+Wait a while
+10m
+THE ADIT MOUTH
+
+the adit mouth, a few steps away.
+
+Go
+10m
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+LOWER GALLERY
+quarry floor
+quarrysmithy
+adit mouth
+head of thetub incline
+? uppergallery
+? lowergallery
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 6 earlier
+Bran gains 1 a coil of line.
+9:40 a.m.
+→ the quarry floor
+9:50 a.m.
+→ the adit mouth
+10:00 a.m.
+→ the head of the tub incline
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

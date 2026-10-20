@@ -1,0 +1,4 @@
+{
+  "about": "Traits: permanent grants. Orsino traits are generated into data/catalog/orsino/traits.json with their categories: lineage (given at birth by an ancestry), nature, affinity, character, feat, party and specialization (a school or domain with spell access). This file holds Kyr's own traits and adaptations; there are none at present.",
+  "traits": {}
+}

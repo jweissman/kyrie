@@ -22,12 +22,12 @@ export interface SpatialScene {
 }
 export interface SceneMetadata { kind?: string; zone?: string; zoneId?: string; scene?: 'town' | 'wild' | 'dungeon' }
 export interface PartyMember {
-  id: string; name: string; raceId: string; classId: string; level: number; hp: number; maxHp: number;
+  id: string; name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number;
   mana: number; maxMana: number; gold: number; experience: number; conditions: string[];
   abilities?: string[]; attributes?: Record<string, number>; backgroundId?: string;
 }
 export interface PresentEntity {
-  id: string; name: string; type: string; members?: { name: string; raceId: string; classId: string }[];
+  id: string; name: string; type: string; members?: { name: string; raceId: string; classId?: string }[];
   state?: 'dead' | 'incapacitated'; intact?: boolean; activity?: string; condition?: string;
 }
 export interface PlayerSnapshot {
@@ -125,9 +125,9 @@ export class PlayerView {
       facts: world.snapshot.relations.filter(r => r.args[0] === actor && !this.ownHidden.includes(r.name))
         .map(r => r.args.length > 1 ? `${r.name}: ${this.rest(r, labels)}` : r.name).sort(),
       knowledge: entities.filter(e => e.type === 'fact' && this.test(world, 'knows', actor, e.id))
-        .map(e => ({ id: e.id, text: e.name })),
+        .map(e => ({ id: e.id, text: ObservationText.render(e.name, world) })),
       assumptions: entities.filter(e => e.type === 'fact' && this.test(world, 'assumesFalse', actor, e.id))
-        .map(e => ({ id: e.id, text: e.name })),
+        .map(e => ({ id: e.id, text: ObservationText.render(e.name, world) })),
       deadlines: campaign.installations.filter(m => m.deadline !== undefined).flatMap(m => m.pressures.map(id => ({
         situation: m.name, pressure: labels.get(id) ?? id, at: m.deadline!, passed: state.elapsed >= m.deadline! }))),
       capabilities: campaign.module.entities.filter(e => e.type === 'capability'

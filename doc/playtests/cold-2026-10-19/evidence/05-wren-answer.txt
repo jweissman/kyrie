@@ -1,0 +1,84 @@
+CAUGHT BELOW
+The Serewater March›Reedwake
+Day 1, 8:10 a.m.
+Wren, ferry-keeper
+
+waiting · Reedwake quay
+
+» Ask Wren what is wrong
+
+'Pell went up to Censer Hill foundry at first light and should have been back by mid-morning,' says Wren. 'Nobody has seen them since. The short way in is the drain culvert, and the rising river will close it about 1:40 p.m.; after that you go the long way round. Please. Go and look.'
+
+SAY
+ASK
+1
+»
+Ask Wren what is wrong
+END
+2
+⇤
+End the conversation
+ASK WREN WHAT IS WRONG
+Ask Wren what is wrong
+10m
+MAP
+REEDWAKE
+RETURNING OAR
+NERA'S SHOP
+COMMON SHRINE
+FERRY HOUSE
+Reedwakequay
+? Oar'staproom
+? Nera'sshop floor
+? shrine
+? ferryhouse
+→ Willowfloodplain
+REGION
+1h
+Reedwake
+Willow floodplain
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory
+8:10 a.m.
+Ask Wren what is wrong: Ask Wren what is wrong
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

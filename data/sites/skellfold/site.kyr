@@ -8,7 +8,9 @@ Module skellfold "Skellfold and the high quarry" {
   Place workings "The old workings" is level within quarry.
   Place deep "The lower gallery" is level within quarry.
   Place cottage "Marrit's cottage" is building within hamlet.
+  Place chapel_house "The fell chapel" is building within hamlet.
   Place cottage_room "the cottage" is room within cottage at 0, 0.
+  Place chapel "the fell chapel" is room within chapel_house at 2, 0.
   Place green "Skellfold green" is room within hamlet at 1, 0.
   Place lane_foot "the foot of the beck lane" is room within fellside at 0, 1.
   Place fell_track "the shepherds' track" is room within fellside at 0, 0.
@@ -18,8 +20,11 @@ Module skellfold "Skellfold and the high quarry" {
   Place upper_gallery "the upper gallery" is room within workings at 2, 1.
   Place incline_top "the head of the tub incline" is room within workings at 1, 2.
   Place lower_gallery "the lower gallery" is room within deep at 2, 2.
+  Place drowned_drift "the drowned drift" is room within deep at 3, 2.
 
   Passage cottage_door "the cottage door" is door between cottage_room and green.
+  Passage chapel_door "the chapel door" is door between chapel and green.
+  Passage drift_seal "the sealed drift" is drift between lower_gallery and drowned_drift.
   Passage beck_path "the path along the beck" is path between green and lane_foot taking 30 minutes.
   Passage beck_lane "the beck lane" is track between lane_foot and quarry_floor taking 30 minutes.
   Passage fell_climb "the climb up to the fell track" is path between green and fell_track taking 1 hour.
@@ -42,7 +47,13 @@ Module skellfold "Skellfold and the high quarry" {
   Item coil "a coil of line" is rope at smithy.
 
   Person smith "Hob" at smithy {
-    Role "quarry smith". Ancestry dwarf. Calling fighter. Level 2. Peaceable. Background miner.
+    Role "quarry smith". Ancestry dwarf. Calling warrior. Level 2. Peaceable. Background miner.
+  }
+  Person sexton "Gethin" at chapel {
+    Role "sexton of the fell chapel". Ancestry dwarf. Calling cleric. Trait vitalist. Level 2. Profession priest. Peaceable.
+  }
+  Topic sexton_drift with sexton "Ask Gethin about the quarry" when true {
+    Says "'Nine men were drowned in the lower drift when the beck broke in,' says Gethin. 'We could not bring them up, so we sealed it and said the words over the seal. That drift is consecrated ground, whatever a lease says.'".
   }
   Company party "Your company" of 3 at green.
   Initially Set quantity(party, gold) to 6. Initially Set quantity(party, rations) to 1.
@@ -58,6 +69,8 @@ Module skellfold "Skellfold and the high quarry" {
   Observe smithy_scene at smithy when true "Tongs, wedges, a cold forge.".
   Observe adit_scene at adit when true "The adit runs straight into the hill. A side drift slopes away to the left.".
   Observe upper_scene at upper_gallery when true "A wide gallery of split slate. In the floor, a square shaft drops into darkness.".
+  Observe chapel_scene at chapel when true "A low slate chapel. Nine names are cut into the lintel, newer than the rest.".
+  Observe drift_scene at drowned_drift when true "Water stands knee-deep. Tally sticks and a few small things were left on a ledge above it, out of the wet.".
   Observe incline_scene at incline_top when true "Rails run steeply down into the dark: the old tub incline.".
   Observe lower_scene at lower_gallery when true "Low and wet. Rails end in a tangle where an ore tub has jumped them.".
   Goal false.

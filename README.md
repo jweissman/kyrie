@@ -24,7 +24,7 @@ bun bin/kyrie.ts lint --inventory   # every relation and measure, and the files 
 
 ## The fantasy domain model
 
-Content lives in [data/canon](data/canon), one catalog per concept: ancestries, species (with variants), classes,
+Content lives in [data/catalog](data/catalog), one catalog per concept: ancestries, species (with variants), classes,
 traits (lineage, nature, feat, specialization…), conditions, abilities, backgrounds, skills, items, religion
 (domains and deities), organisms and rules. Persons are written with `Ancestry`, `Calling`, `Trait`, `Carries`,
 `Background` and `Profession`, or with `Species` for creatures. Site mechanisms are `Hazard`s in their own module.
@@ -33,8 +33,8 @@ Material that only legacy campaigns use is quarantined in [data/legacy](data/leg
 
 ## Orsino registry and the Red Crag
 
-`data/orsino/registry.json` catalogues all 2,651 Orsino source definitions, generated reproducibly from the Orsino
-checkout. `data/orsino/adaptations.json` records which Kyr definitions represent which entries, and how far. The
+`data/sources/orsino/registry.json` catalogues all 2,651 Orsino source definitions, generated reproducibly from the Orsino
+checkout. `data/sources/orsino/adaptations.json` records which Kyr definitions represent which entries, and how far. The
 compatibility matrix is generated: [orsino-coverage.md](doc/architecture/orsino-coverage.md). See
 [the checkpoint](doc/architecture/orsino-checkpoint.md) for the inventory, architecture and plan. The first vertical
 slice is a red dragon composed from Orsino's monster tables, with breath saves, recharge, resistances and fire that
@@ -50,7 +50,7 @@ bun test test/orsino-registry.test.ts test/red-crag.test.ts
 A portable rescue situation written with first-class passages, things, events and goals. It is installed at Reedwake
 (river) and at Skellfold (quarry) from the same source. These are the recommended example of the canonical
 vocabulary: each site has an inn or smith, a shop with counted stock, daily meals, camping, measured travel, and
-maps at two scales. The default company's Orsino backgrounds (hunter, locksmith, medic) open different approaches. Open `site/mono.html?campaign=data/caught-below/river.campaign.json`
+maps at two scales. The default company's Orsino backgrounds (hunter, locksmith, medic) open different approaches. Open `site/mono.html?campaign=data/campaigns/serewater-march.campaign.json`
 or `…/quarry.campaign.json` after `bun run web:build`. See [the intended experience](doc/design/caught-below.md),
 [the report](doc/design/caught-below-report.md), [the situation's roles](data/situations/caught-below/README.md) and
 [browser histories](doc/playtests/caught-below/).
@@ -216,7 +216,7 @@ come from curated tables; Orsino's language/naming system is deferred.
 
 - [Kyr.ohm](src/lang/Kyr.ohm): genre-independent module and query syntax.
 - [Abilities.ohm](src/lang/Abilities.ohm): the current RPG effect-language extension.
-- [data/canon](data/canon): the canonical catalogs (see "The fantasy domain model" above).
+- [data/catalog](data/catalog): the canonical catalogs (see "The fantasy domain model" above).
 - [data/default](data/default): standard Deem tables/templates.
 - [data/rulesets/world](data/rulesets/world): the canonical rules (core, passages, people, needs, services, care,
   belongings).

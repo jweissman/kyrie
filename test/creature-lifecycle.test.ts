@@ -6,37 +6,50 @@ import { Battle } from '../src/battle';
 import { CombatProjection } from '../src/combat-projection';
 import { parseAbility } from '../src/lang/parse';
 import { Campaign } from '../src/campaign/campaign';
-import { Modules } from '../src/campaign/modules';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 
 class Lifecycle {
+  // A blow that always lands and leaves a wound that lasts beyond the fight: Kyr's persistent bleeding.
+  static readonly wound = parseAbility('wound', 'Wound', 'Deal 2 physical damage to enemy. Apply bleeding to enemy for 2 turns.');
   static setup(seed = 'lifecycle') {
     const content = new Content(seed);
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'fighter' });
-    const goblin = content.createCreature('goblin', { raceId: 'goblin', classId: 'commoner' });
+    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior', traits: ['brave'],
+      abilities: ['wait'] });
+    const goblin = content.createCreature('goblin', { raceId: 'goblin', classId: 'commoner', abilities: ['wait'] });
+    hero.state.learnedAbilities.push('wound');
     const store = new CreatureStore([hero, goblin]);
     return { hero, goblin, store };
   }
-  static enter(store: CreatureStore, seed = 'encounter', abilities = Content.abilities) {
+  static enter(store: CreatureStore, seed = 'encounter', abilities = [...Content.abilities, Lifecycle.wound]) {
     return Battle.encounter(store, [
       { creatureId: 'hero', team: 'fighters' }, { creatureId: 'goblin', team: 'goblins' },
     ], { seed, abilities });
   }
   static until(battle: Battle, id: string) {
     while (!battle.state.outcome && battle.state.actor !== id) {
-      const command = battle.legalCommands().find(c => c.ability === 'defend')!;
+      const legal = battle.legalCommands();
+      const command = legal.find(c => c.ability === 'wait') ?? legal.find(c => c.ability === 'defend')
+        ?? legal.find(c => c.ability !== 'flee')!;
       battle.step(command);
     }
     expect(battle.state.actor).toBe(id);
+  }
+  // Swing at a target until a blow lands (Orsino attacks can miss); the seeds decide how many swings that takes.
+  static strike(battle: Battle, actor: string, target: string) {
+    const start = battle.state.combatants.find(f => f.id === target)!.hp;
+    for (let i = 0; i < 20 && battle.state.combatants.find(f => f.id === target)!.hp === start; i++) {
+      Lifecycle.until(battle, actor);
+      battle.step({ actor, ability: 'melee', target });
+    }
   }
   static woundAndLeave(seed: string) {
     const { hero, goblin, store } = this.setup(seed);
     const battle = this.enter(store);
     this.until(battle, hero.id);
-    battle.step({ actor: hero.id, ability: 'wounding_blow', target: goblin.id });
+    battle.step({ actor: hero.id, ability: 'wound', target: goblin.id });
     const injured = store.get(goblin.id);
-    expect(injured.state.hp).toBeGreaterThan(0);
-    expect(injured.state.hp).toBeLessThan(goblin.state.hp);
-    expect(injured.state.conditions).toEqual([{ id: 'weakened', remaining: 2 }]);
+    expect(injured.state.hp).toBe(goblin.state.hp - 2);
+    expect(injured.state.conditions).toEqual([{ id: 'bleeding', remaining: 2, by: hero.id }]);
     battle.close();
     return { hero, goblin, store, injured, events: battle.events };
   }
@@ -48,7 +61,7 @@ describe('canonical creature lifecycle', () => {
     const b = Lifecycle.setup();
     expect(a.store.snapshot).toEqual(b.store.snapshot);
     expect(Lifecycle.setup('different').store.snapshot).not.toEqual(a.store.snapshot);
-    expect(a.hero.base.abilities).toContain('wounding_blow');
+    expect(a.hero.base.abilities).toContain('cleave');
     expect(a.goblin.raceId).toBe('goblin');
     for (const creature of a.store.snapshot) {
       CreatureSchema.validate(creature);
@@ -70,14 +83,14 @@ describe('canonical creature lifecycle', () => {
   it('runs two generated fighters versus two generated goblins through the shared engine deterministically', () => {
     const run = () => {
       const content = new Content('persistent-arena');
-      const creatures = [content.createCreature('hero-1', { raceId: 'human', classId: 'fighter' }),
-        content.createCreature('hero-2', { raceId: 'human', classId: 'fighter' }), content.createCreature('goblin-1', { raceId: 'goblin', classId: 'commoner' }),
+      const creatures = [content.createCreature('hero-1', { raceId: 'human', classId: 'warrior' }),
+        content.createCreature('hero-2', { raceId: 'human', classId: 'warrior' }), content.createCreature('goblin-1', { raceId: 'goblin', classId: 'commoner' }),
         content.createCreature('goblin-2', { raceId: 'goblin', classId: 'commoner' })];
       const store = new CreatureStore(creatures);
       const battle = Battle.encounter(store, creatures.map(c => ({ creatureId: c.id,
         team: c.raceId === 'goblin' ? 'goblins' as const : 'fighters' as const })), { seed: 'persistent-battle' });
       while (!battle.state.outcome) {
-        battle.step(battle.legalCommands().find(c => c.ability === 'attack')!);
+        battle.step(battle.legalCommands().find(c => c.ability === 'melee' || c.ability === 'ranged')!);
       }
       expect(store.snapshot.some(c => c.state.hp === 0)).toBe(true);
       for (const fighter of battle.state.combatants) {
@@ -100,12 +113,9 @@ describe('canonical creature lifecycle', () => {
     expect(again.participants.map(p => p.creatureId)).toEqual(expect.arrayContaining([hero.id, goblin.id]));
     expect(again.participants.every(p => !('hp' in p) && !('base' in p))).toBe(true);
     Lifecycle.until(again, goblin.id);
-    const hit = again.step({ actor: goblin.id, ability: 'attack', target: hero.id })
-      .find(e => e.type === 'damage');
-    expect(hit?.type).toBe('damage');
-    if (hit?.type === 'damage') {
-      expect(hit.amount).toBe(Math.min(reloaded.get(hero.id).base.maxHp, Math.max(0, hit.rolled - 1)));
-    }
+    // The wound bleeds at the end of the goblin's turn (Orsino's onTurnEnd), whatever it does.
+    const turn = again.step({ actor: goblin.id, ability: 'wait', target: goblin.id });
+    expect(turn.find(e => e.type === 'damage')).toMatchObject({ target: goblin.id, damageType: 'bleed', amount: 1 });
     again.close();
     expect(Lifecycle.woundAndLeave('lifecycle').events).toEqual(events);
     expect(Lifecycle.woundAndLeave('lifecycle').store.snapshot).toEqual(store.snapshot);
@@ -113,32 +123,31 @@ describe('canonical creature lifecycle', () => {
   it('keeps encounter conditions, guarding and cooldowns local, with no blanket clearing of persistent conditions', () => {
     const { store } = Lifecycle.setup();
     const ability = { ...parseAbility('local_ward', 'Ward',
-      'Apply warded to self for 5 turns. Apply weakened to enemy for 5 turns.'), cooldown: 3 };
+      'Apply blessed to self for 5 turns. Apply bleeding to enemy for 5 turns.'), cooldown: 3 };
     const lease = store.acquire(['hero']);
     lease.creatures[0]!.state.learnedAbilities.push('local_ward');
     lease.commit(lease.creatures); lease.release();
     const battle = Battle.encounter(store, [
       { creatureId: 'hero', team: 'fighters' }, { creatureId: 'goblin', team: 'goblins' },
-    ], { seed: 'local', abilities: [...Content.abilities, ability] });
+    ], { seed: 'local', abilities: [...Content.abilities, ability, Lifecycle.wound] });
     Lifecycle.until(battle, 'hero');
     battle.step({ actor: 'hero', ability: 'local_ward', target: 'goblin' });
     expect(battle.participants.find(p => p.creatureId === 'hero')!.conditions).toContainEqual({
-      id: 'warded', remaining: 5,
+      id: 'blessed', remaining: 5, by: 'hero',
     });
     expect(battle.participants.find(p => p.creatureId === 'hero')!.cooldowns.local_ward).toBeGreaterThan(0);
     expect(store.get('hero').state.conditions).toEqual([]);
-    expect(store.get('goblin').state.conditions[0]!.id).toBe('weakened');
+    expect(store.get('goblin').state.conditions[0]!.id).toBe('bleeding');
     battle.close();
-    const next = Lifecycle.enter(store, 'next', [...Content.abilities, ability]);
-    expect(next.participants.every(p => !p.guarding && !Object.keys(p.cooldowns).length
-      && !p.conditions.length)).toBe(true);
-    expect(store.get('goblin').state.conditions[0]!.id).toBe('weakened');
+    const next = Lifecycle.enter(store, 'next', [...Content.abilities, ability, Lifecycle.wound]);
+    expect(next.participants.every(p => !Object.keys(p.cooldowns).length && !p.conditions.length)).toBe(true);
+    expect(store.get('goblin').state.conditions[0]!.id).toBe('bleeding');
     next.close();
   });
   it('commits healing, mana, learned abilities and death to the right persistent IDs', () => {
     const { store } = Lifecycle.setup();
     const ability = { ...parseAbility('test', 'Test',
-      'Deal 3 physical damage to self. Heal 1 health to self. Teach bolt to self. Kill enemy.'), cost: 2 };
+      'Deal 3 physical damage to self. Heal 1 health to self. Teach firebolt to self. Kill enemy.'), cost: 2 };
     const lease = store.acquire(['hero']);
     lease.creatures[0]!.base.maxMana = 4;
     expect(() => lease.commit(lease.creatures)).toThrow('characteristics');
@@ -150,15 +159,15 @@ describe('canonical creature lifecycle', () => {
     const owner = new CreatureStore(creatures);
     const battle = Battle.encounter(owner, [
       { creatureId: 'hero', team: 'fighters' }, { creatureId: 'goblin', team: 'goblins' },
-    ], { seed: 'effects', abilities: [...Content.abilities, ability] });
+    ], { seed: 'effects', abilities: [...Content.abilities, ability, Lifecycle.wound] });
     Lifecycle.until(battle, 'hero');
     const before = owner.get('hero');
     battle.step({ actor: 'hero', ability: 'test', target: 'goblin' });
     expect(owner.get('hero').state.hp).toBe(before.state.hp - 2);
     expect(owner.get('hero').state.mana).toBe(2);
-    expect(owner.get('hero').state.learnedAbilities).toContain('bolt');
+    expect(owner.get('hero').state.learnedAbilities).toContain('firebolt');
     expect(owner.get('goblin').state.hp).toBe(0);
-    const next = Lifecycle.enter(owner, 'next', [...Content.abilities, ability]);
+    const next = Lifecycle.enter(owner, 'next', [...Content.abilities, ability, Lifecycle.wound]);
     expect(next.state.outcome).toBe('fighters');
     expect(owner.get('goblin').state.hp).toBe(0);
   });
@@ -179,46 +188,47 @@ describe('canonical creature lifecycle', () => {
     expect(() => lease.commit(lease.creatures)).toThrow('closed');
     const reopened = Lifecycle.enter(store); reopened.close();
   });
-  it('commits injured inhabitants through the campaign adapter and reuses them after retreat', () => {
-    const campaign = new Campaign('campaign-injury', undefined, Modules.authored());
-    const id = campaign.state.inhabitants.raiders![0]!;
+  // A canonical fixture campaign: a company of two and two wolves in a yard.
+  const yard = (seed: string) => Campaign.load('test/fixtures/wolf-yard/campaign.json', seed, NodeBundleSource.shared);
+  const assault = 'attack(party,world__grey,world__yard)', hero = 'world__party_1';
+  it('commits injured inhabitants through the campaign adapter and reuses them after retreat', async () => {
+    const campaign = await yard('campaign-injury');
+    const id = campaign.state.inhabitants.world__grey![0]!;
     const original = campaign.state.creatures.find(c => c.id === id)!;
-    campaign.execute('assault', battle => {
-      Lifecycle.until(battle, 'hero-1');
-      battle.step({ actor: 'hero-1', ability: 'wounding_blow', target: id });
+    campaign.execute(assault, battle => {
+      Lifecycle.strike(battle, hero, id);
       battle.close();
     });
     const injured = campaign.state.creatures.find(c => c.id === id)!;
     expect(injured.state.hp).toBeGreaterThan(0);
     expect(injured.state.hp).toBeLessThan(original.state.hp);
-    expect(injured.state.conditions[0]!.id).toBe('weakened');
-    const next = campaign.encounterBattle('assault');
+    const next = campaign.encounterBattle(assault);
     expect(next.state.combatants.find(f => f.id === id)!.hp).toBe(injured.state.hp);
-    expect(next.state.combatants.find(f => f.id === id)!.statuses[0]!.id).toBe('weakened');
     next.close();
   });
   it('lets interactive controllers resolve the live encounter once without replaying its commands', async () => {
-    const campaign = new Campaign('interactive-lifecycle', undefined, Modules.authored());
-    const id = campaign.state.inhabitants.raiders![0]!;
+    const campaign = await yard('interactive-lifecycle');
+    const id = campaign.state.inhabitants.world__grey![0]!;
     let hp = 0;
-    const event = await campaign.executeAsync('assault', async battle => {
-      Lifecycle.until(battle, 'hero-1');
-      battle.step({ actor: 'hero-1', ability: 'wounding_blow', target: id });
+    const event = await campaign.executeAsync(assault, async battle => {
+      Lifecycle.until(battle, hero);
+      battle.step({ actor: hero, ability: 'melee', target: id });
       hp = campaign.state.creatures.find(c => c.id === id)!.state.hp;
       battle.close();
     });
     expect(campaign.state.creatures.find(c => c.id === id)!.state.hp).toBe(hp);
-    expect(event.combat.filter(e => e.type === 'action' && e.command.ability === 'wounding_blow')).toHaveLength(1);
+    expect(event.combat.filter(e => e.type === 'action' && e.command.actor === hero && e.command.ability === 'melee'))
+      .toHaveLength(1);
     expect(event.result).toBe('failure');
   });
-  it('uses one campaign registry for party and generated-once inhabitants', () => {
-    const campaign = new Campaign('campaign-lifecycle', undefined, Modules.authored());
-    const original = campaign.state.creatures.filter(c => campaign.state.inhabitants.raiders!.includes(c.id));
-    const first = campaign.encounterBattle('assault');
+  it('uses one campaign registry for party and generated-once inhabitants', async () => {
+    const campaign = await yard('campaign-lifecycle');
+    const original = campaign.state.creatures.filter(c => campaign.state.inhabitants.world__grey!.includes(c.id));
+    const first = campaign.encounterBattle(assault);
     first.close();
-    const second = campaign.encounterBattle('assault');
+    const second = campaign.encounterBattle(assault);
     expect(second.state.combatants.filter(f => f.team === 'goblins')
-      .map(f => CombatProjection.creature(f)).sort((a, b) => a.id.localeCompare(b.id)))
+      .map(f => CombatProjection.creature(f, original[0])).sort((a, b) => a.id.localeCompare(b.id)))
       .toEqual(original.sort((a, b) => a.id.localeCompare(b.id)));
     second.close();
     expect(campaign.state.party.map(f => f.id)).toEqual(campaign.state.partyIds);

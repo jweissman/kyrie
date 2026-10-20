@@ -1,0 +1,70 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 2, 1:10 a.m.
+WHAT YOU KNOW
+
+Nothing established yet.
+
+Deadlines
+
+No public deadline.
+
+Company standing
+Lockwork — Elen (elf magic_user)
+
+Download save file New company
+
+CHRONICLE
+Day 2, 1:00 a.m. Take the goat path to the crag ledge
+Day 1, 11:00 p.m. Take the scree climb to the crag shoulder
+Day 1, 10:00 p.m. Take the pasture track to the stone sheepfold
+Day 1, 9:50 p.m. Take the Hearth's door to Thrale green
+Day 1, 1:50 p.m. Take a bed and supper from Aldo
+5 details
+Day 1, 1:50 p.m. A long room with a peat fire and a row of shepherds' crooks by the door.
+Day 1, 1:40 p.m. Take the Hearth's door to the Hearth's common room
+Day 1, 12:40 p.m. Take the pasture track to Thrale green
+Day 1, 12:40 p.m. Dry-stone walls, a tally post scored with notches, and a flock that keeps to the far wall. Above the fold, a scree slope climbs toward the shoulder of the red crag.
+Day 1, 10:40 a.m. Take the scree climb to the stone sheepfold
+Day 1, 10:40 a.m. A wind-scoured saddle of rock. A goat path picks its way around to the ledge.
+Day 1, 10:30 a.m. Take the goat path to the crag shoulder
+Day 1, 10:30 a.m. Charred rope ends hang from the posts. The bridge is gone.
+Day 1, 10:30 a.m. Flame runs along the bridge ropes. The planks drop away into the gorge one by one.
+Day 1, 10:20 a.m. Attack Calder — failed
+11 details
+Day 1, 10:10 a.m. Use Fireproof salve on Elen
+3 details
+Day 1, 10:00 a.m. Speak to Calder
+1 details
+Day 1, 10:00 a.m. Calder lies coiled across the cave mouth, one eye open, smoke curling from its nostrils.
+Day 1, 10:00 a.m. A wide shelf of rust-red stone, scattered with split bones and scorched wool. A cave mouth opens behind it.
+Day 1, 9:50 a.m. Take the rope bridge to the crag ledge
+Day 1, 9:50 a.m. Old hemp ropes and weathered planks. The bridge sways, but it holds.
+Day 1, 9:50 a.m. The road ends at a lip of rock over Skarth Gorge. A rope bridge spans the drop to a ledge on the red crag.
+Day 1, 8:50 a.m. Take the gorge road to the gorge edge
+Day 1, 8:40 a.m. Take the chandlery door to Thrale green
+Day 1, 8:30 a.m. Buy Coil of rope for Bran
+2 details
+Day 1, 8:20 a.m. Buy Fireproof salve for Dori
+2 details
+Day 1, 8:20 a.m. Rope, tallow, jars of salve and a shelf of stoppered clay pots that smell of ash and lanolin.
+Day 1, 8:10 a.m. Take the chandlery door to Ysolde's counter
+Day 1, 8:10 a.m. The bell-ringer keeps glancing up at the empty bell-cote.
+Day 1, 8:10 a.m. A stone barn under a deep thatch, stuffed with the winter's hay.
+Day 1, 8:10 a.m. Slate roofs huddle around a sheep-cropped green. Smoke rises from the Hearth's chimney; the chandler's shutters are open, and the chapel's bell-cote stands empty.
+Day 1, 8:00 a.m. Ask the bell-ringer about the empty bell-cote
+1 details
+HHistory · 19 earlier
+10:00 p.m.
+→ Thrale green
+11:00 p.m.
+→ the stone sheepfold
+1:00 a.m.
+→ the crag shoulder
+1:10 a.m.
+→ the crag ledge
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

@@ -1,0 +1,76 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:10 a.m.
+CARRIED
+ELEN
+1
+○
+Thieves' tools
+carried
+BRAN
+2
+○
+Thieves' tools
+carried
+3
+○
+Coil of rope
+carried
+DORI
+4
+○
+Bandages
+carried
+5
+○
+Healing herbs
+carried
+6
+○
+Fireproof salve
+carried
+FIREPROOF SALVE
+Use on
+▸
+Give to
+▸
+Set down here
+10m
+FIREPROOF SALVE
+
+Fireproof salve · carried by Dori
+
+A clay pot of ash-and-lanolin salve. Smeared on skin and clothing, it makes fire do half its harm for a while.
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+17 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory
+Nothing has happened yet.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

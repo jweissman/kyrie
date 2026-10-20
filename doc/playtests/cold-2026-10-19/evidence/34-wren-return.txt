@@ -1,0 +1,87 @@
+CAUGHT BELOW
+The Serewater March›Reedwake
+Day 1, 2:00 p.m.
+Wren, ferry-keeper
+
+relieved · Reedwake quay
+
+They wait for you to speak.
+
+SAY
+ASK
+1
+»
+Speak with Wren
+END
+2
+⇤
+End the conversation
+SPEAK WITH WREN
+Speak with Wren
+10m
+MAP
+REEDWAKE
+RETURNING OAR
+NERA'S SHOP
+COMMON SHRINE
+FERRY HOUSE
+Reedwakequay
+? Oar'staproom
+? Nera'sshop floor
+? shrine
+? ferryhouse
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 35 earlier
+Pell takes the low path through the reeds toward Willow causeway.
+2:00 p.m.
+→ Reedwake quay
+Pell takes the causeway path toward Reedwake quay.
+Wren sees Pell, and runs. For a while nobody says anything sensible.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

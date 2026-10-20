@@ -1,0 +1,49 @@
+{
+ "forename": {
+  "discriminator": "kind",
+  "groups": {
+   "hero": [
+    "Ada",
+    "Bram",
+    "Cora",
+    "Dain",
+    "Edda",
+    "Finn",
+    "Mira",
+    "Nell"
+   ],
+   "goblin": [
+    "Grik",
+    "Skit",
+    "Vek",
+    "Brug"
+   ],
+   "wisp": [
+    "Glimmer",
+    "Wick",
+    "Mote"
+   ]
+  }
+ },
+ "creaturePopulation": {
+  "discriminator": "population",
+  "groups": {
+   "any": [
+    "human",
+    "elf",
+    "dwarf",
+    "goblin",
+    "wisp"
+   ],
+   "pc": [
+    "human",
+    "elf",
+    "dwarf"
+   ],
+   "monster": [
+    "goblin",
+    "wisp"
+   ]
+  }
+ }
+}

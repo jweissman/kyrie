@@ -1,0 +1,113 @@
+THE RED CRAG
+The Thrale Highlands›The Red Crag
+Day 1, 10:50 a.m.
+The crag ledge
+
+The Red Crag · The Thrale Highlands
+
+◆ The bell-ringer wants the chapel bell back from the dragon's hoard.
+
+A wide shelf of rust-red stone, scattered with split bones and scorched wool. A cave mouth opens behind it.
+
+Calder has drawn its tail aside from the cave mouth and watches you with something like amusement.
+
+Old hemp ropes and weathered planks. The bridge sways, but it holds.
+
+WAYS AND THINGS
+WAYS
+1
+→
+The crag shoulder
+by the goat path · new
+2
+⇥
+Enter The crag cave
+by the cave mouth
+3
+⇢
+The gorge edge
+by the rope bridge
+HERE
+4
+◆
+Calder, a red dragon
+placated
+COMPANY
+5
+○
+Wait a while
+10m
+6
+○
+Make camp for the night
+8h
+THE CRAG SHOULDER
+
+the crag shoulder, a few steps away.
+
+Go
+10m
+MAP
+RED CRAG
+CRAG CAVE
+crag ledge
+cave hall
+? cragshoulder
+→ SkarthGorge
+REGION
+1h
+1h
+10m
+Thrale
+Skarth Gorge
+Red Crag
+high pastures
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+9/9
+MP
+██████████
+7/7
+Bran
+human thief
+HP
+██████████
+7/7
+Dori
+dwarf cleric
+HP
+██████████
+6/6
+MP
+██████████
+6/6
+
+2 coin · 2 rations · eat by 8:00 p.m. · day
+
+HHistory · 19 earlier
+10:40 a.m.
+the chapel bell: Take › for Bran
+Bran takes the chapel bell.
+Bran gains 1 the chapel bell.
+10:50 a.m.
+→ the crag ledge
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

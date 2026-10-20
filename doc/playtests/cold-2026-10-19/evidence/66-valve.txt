@@ -1,0 +1,112 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 6:00 p.m.
+The valve chamber
+
+The upper works · Censer Hill foundry
+
+A squat bronze inspector turns on stiff joints. Its plated body resists steel and cannot be poisoned. The arch and pipe walk remain open; nothing compels you to fight it.
+
+A split pipe hisses over the boiler arch. Fresh scorch marks stripe the boiler arch; turning its seized valve needs a crowbar. A fire ward can blunt a scald, but the jet must still be crossed.
+
+A wheel valve and a row of cold boilers fill the room. The workshop arch leads back; a narrow pipe walk reaches the casting gallery.
+
+WAYS AND THINGS
+WAYS
+1
+→
+Bell workshop
+by the boiler arch · across the split steam pipe
+2
+→
+Casting gallery
+by the pipe walk
+HERE
+3
+◆
+the bronze boiler sentinel, an abandoned inspection construct
+Funerary bronze construct
+4
+·
+the foundry's Longsword of Flames
+COMPANY
+5
+○
+Wait a while
+10m
+BELL WORKSHOP
+
+Bell workshop, a few steps away. A split pipe hisses over the boiler arch. Fresh scorch marks stripe the boiler arch; turning its seized valve needs a crowbar. A fire ward can blunt a scald, but the jet must still be crossed.
+
+Risk the split steam pipe
+▸
+Turn the steam valve with a bar
+10m
+MAP
+CENSER HILL FOUNDRY
+UPPER WORKS
+Foundry yard
+Drain mouth
+Surveyor'svestibule
+Bellworkshop
+Dry stores
+valvechamber
+Castinggallery
+Hoist room
+→ Willowfloodplain
+→ Willowfloodplain
+REGION
+1h
+30m
+Reedwake
+Willow floodplain
+Censer Hill found…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf ranger
+HP
+██████████
+7/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+███░░░░░░░
+2/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · evening
+
+HHistory · 74 earlier
+5:50 p.m.
+Minor healing potion: Use on › Elen
+Elen takes Minor healing potion.
+Elen recovers 5 HP (7 HP).
+6:00 p.m.
+→ The valve chamber
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

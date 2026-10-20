@@ -1,0 +1,53 @@
+{
+  "salvage_rights": {
+    "__no_id": true,
+    "setting": "river",
+    "name": "Salvage against the dead",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "casting": "=gen(salvage_casting)",
+    "labels": "=gen(salvage_labels)",
+    "initial": "=concat(gen(salvage_deadline))",
+    "outcomes": [
+      {
+        "id": "delivered",
+        "predicate": "delivered(prize)"
+      },
+      {
+        "id": "sold_the_dead",
+        "predicate": "sold(offering)"
+      },
+      {
+        "id": "lapsed",
+        "predicate": "departed(salvager) and not delivered(prize)"
+      }
+    ]
+  },
+  "salvage_casting": {
+    "__no_id": true,
+    "salvager": "=gen(salvage_salvager)"
+  },
+  "salvage_salvager": {
+    "__no_id": true,
+    "raceId": "=lookup(salvagePopulation, #setting)",
+    "classId": "commoner",
+    ">name": "=lookup(salvagerName, #setting)"
+  },
+  "salvage_labels": {
+    "__no_id": true,
+    "salvager": "=lookup(salvagerLabel, #setting)",
+    "prize": "=lookup(salvagePrize, #setting)",
+    "offering": "=lookup(salvageOffering, #setting)",
+    "permit": "=lookup(salvagePermit, #setting)"
+  },
+  "salvage_deadline": {
+    "__no_id": true,
+    ">name": "expiresAt",
+    "args": [
+      "permit"
+    ],
+    "value": "=lookup(salvageExpires, #setting) + 1d6"
+  }
+}

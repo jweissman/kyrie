@@ -1,0 +1,92 @@
+CAUGHT BELOW
+The Serewater March›Censer Hill foundry›The upper works
+Day 1, 5:40 p.m.
+CARRIED
+ELEN
+1
+○
+Coil of rope
+carried
+2
+○
+Minor healing potion
+carried
+BRAN
+3
+○
+Thieves' tools
+carried
+4
+○
+a pry bar
+carried
+DORI
+5
+○
+Bandages
+carried
+6
+○
+Healing herbs
+carried
+7
+○
+the warder's copper focus
+focus
+TEND THE COMPANY
+8
+✚
+Elen tends…
+2/2 mana
+9
+✚
+Dori tends…
+2/6 mana
+MINOR HEALING POTION › USE ON
+Elen
+10m
+Bran
+10m
+Dori
+10m
+MINOR HEALING POTION
+
+Minor healing potion · carried by Elen
+
+A single dose restores 2d4 + 2 health to a living companion.
+
+COMPANY
+Elen
+elf ranger
+HP
+███░░░░░░░
+2/7
+MP
+██████████
+2/2
+Bran
+human fighter
+HP
+██████████
+12/12
+Dori
+dwarf cleric
+HP
+██████████
+12/12
+MP
+███░░░░░░░
+2/6
+
+17 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 70 earlier
+Your company wins the encounter.
+Elen gains 20 experience.
+Bran gains 20 experience.
+Dori gains 20 experience.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback

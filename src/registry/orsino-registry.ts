@@ -1,4 +1,4 @@
-import support from '../../data/orsino/kyr-support.json';
+import support from '../../data/sources/orsino/kyr-support.json';
 import type { RegistryEntry, RegistrySnapshot } from './orsino-extract';
 
 export type Judgement = 'faithful' | 'adapted' | 'cosmetic' | 'unsupported';
@@ -6,6 +6,8 @@ export type Support = 'catalogued' | 'represented' | 'executable' | 'play-valida
 export interface AdaptationRecord {
   orsino: string; kyr: string[]; support: Exclude<Support, 'catalogued'>; fidelity: 'faithful' | 'adapted';
   note: string; omits?: Record<string, string>; adapts?: Record<string, string>; adds?: string[]; evidence?: string[];
+  // Derived from the generated catalog rather than written (see CatalogLedger).
+  generated?: true;
 }
 export interface Ledger { about?: string; records: AdaptationRecord[] }
 
@@ -77,6 +79,15 @@ export class OrsinoRegistry {
     for (const r of this.ledger.records) {
       const where = `${r.orsino} -> ${r.kyr.join(', ')}`;
       if (!this.has(r.orsino)) { problems.push(`${where}: unknown registry entry`); continue; }
+      // The translator and the feature judgements must agree: an entry translated as executable relies on no
+      // feature judged unsupported.
+      if (r.generated) {
+        const omitted = Object.keys(r.omits ?? {});
+        for (const f of r.support === 'executable' ? this.blockers(this.entry(r.orsino)).filter(b => !omitted.includes(b)) : []) {
+          problems.push(`${where}: translated as executable, but ${f} is judged unsupported`);
+        }
+        continue;
+      }
       if (!OrsinoRegistry.levels.slice(1).includes(r.support)) { problems.push(`${where}: unknown support ${r.support}`); }
       const entry = this.entry(r.orsino);
       const declared = { ...r.omits, ...r.adapts };

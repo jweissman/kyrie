@@ -1,0 +1,25 @@
+{
+ "population": {
+  "__no_id": true,
+  "raceId": "=lookup(creaturePopulation, defined('population') ? #population : any)"
+ },
+ "creature": {
+  "__no_id": true,
+  "_kind": "=defined('kind') ? #kind : 'hero'",
+  "name": "=lookup(forename, #_kind)",
+  "*attributes": "=gen(attributes)"
+ },
+ "attributes": {
+  "__no_id": true,
+  "strength": "=3d6",
+  "dexterity": "=3d6",
+  "intelligence": "=3d6",
+  "wisdom": "=3d6",
+  "constitution": "=3d6",
+  "charisma": "=3d6"
+ },
+ "character": {
+  "__no_id": true,
+  "*creature": "=gen(creature)"
+ }
+}

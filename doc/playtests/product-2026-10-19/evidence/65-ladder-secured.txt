@@ -1,0 +1,107 @@
+CAUGHT BELOW
+The Skell fells›Skellfold high quarry›The lower gallery
+Day 1, 10:50 a.m.
+The lower gallery
+
+The lower gallery · Skellfold high quarry
+
+◆ Get Tamsin home to the cottage.
+
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+
+Low and wet. Rails end in a tangle where an ore tub has jumped them.
+
+The derailed ore tub lies where it fell, but a hollow has been scraped out of the floor beneath one end.
+
+WAYS AND THINGS
+WAYS
+1
+⇅
+The head of the tub incline
+by the tub incline
+2
+⇅
+The upper gallery
+by the ladder shaft · new
+HERE
+3
+·
+the derailed ore tub
+dug
+COMPANY
+4
+○
+Wait a while
+10m
+THE UPPER GALLERY
+
+To another level: The old workings, the upper gallery.
+
+Go
+10m
+MAP
+SKELLFOLD HIGH QUARRY
+OLD WORKINGS
+LOWER GALLERY
+quarry floor
+quarrysmithy
+adit mouth
+head of thetub incline
+lowergallery
+? uppergallery
+→ fellside
+→ fellside
+REGION
+30m
+30m
+Skellfold
+fellside
+Skellfold high qu…
+
+—
+open
+—
+shut
+—
+guarded
+—
+danger
+- -
+not yet walked
+
+COMPANY
+Elen
+elf magic-user
+HP
+██████████
+4/4
+MP
+██████████
+7/7
+Bran
+human fighter
+HP
+██████████
+13/13
+Dori
+dwarf cleric
+HP
+██████████
+9/9
+MP
+██████████
+6/6
+
+14 coin · 1 ration · eat by 8:00 p.m. · day
+
+HHistory · 18 earlier
+Tamsin takes the tub incline toward the head of the tub incline.
+10:50 a.m.
+Lash the rotten ladder to a line before anyone climbs
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+A line runs from a piton beside the shaft down along the ladder, lashed at every third rung.
+EExplore
+IPack
+CCompany
+JJournal
+↑↓select ⏎act Escback
