@@ -8,7 +8,6 @@ import { World } from '../lang/world';
 import { ModuleParser } from '../lang/module-parser';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { ModuleWriter } from '../lang/module-writer';
-import { ActionSchemas } from './action-schemas';
 import { Cast } from './cast';
 import type { CampaignActor, CampaignDefinition } from './definition';
 import type { Instance, Operator, Module } from '../lang/module';
@@ -111,8 +110,6 @@ export class ModuleAssembly {
     }
     Discovery.validate(instance.module, new World(instance.module, instance.world), manifest.imports);
     definition.schemas = structuredClone(instance.module.actions);
-    instance.module.actions = ActionSchemas.ground(instance.module, actors);
-    compiler.validate(instance.module);
     if (instance.module.actions.some(a => [...a.success, ...a.failure].some(c =>
       ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
         'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name)))) {

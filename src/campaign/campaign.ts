@@ -4,7 +4,8 @@ import { Aftermath } from './aftermath';
 import { Items } from './items';
 import { FieldUse } from './field-use';
 import { ObservationText } from '../lang/observation-text';
-import { ActionSchemas } from './action-schemas';
+import { Operators } from './operators';
+import { CompanyChoices } from './company-choices';
 import { LocalObservations } from '../presentation/local-observations';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
@@ -21,7 +22,6 @@ import { CombatProjection } from '../combat-projection';
 import type { Creature } from '../creature';
 import { Battle } from '../arena';
 import { Content, type CreatureGenerationContext } from '../content';
-import { Creation } from '../rules/creation';
 import type { CombatEvent, Fighter } from '../model';
 import type { Call, Instance, Module, WorldState } from '../lang/module';
 import { World } from '../lang/world';
@@ -78,11 +78,11 @@ export class Campaign implements TickHost {
       this.current = structuredClone(saved.state); this.creatures = new CreatureStore(saved.creatures);
       this.log = structuredClone(saved.events); this.encounter = saved.encounter;
       this.observations = structuredClone(saved.observations);
-      new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module);
-      if (saved.actionFormat === 'schemas') {
-        this.compiled.actions = ActionSchemas.ground(this.compiled, this.definition?.actors);
-        new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module);
+      // A save from before demand grounding holds grounded actions; its schemas are in the definition.
+      if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
+        this.compiled.actions = this.definition.schemas;
       }
+      new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module);
       if (this.definition) {
         const projected = CreatureFacts.project(this.world, this.definition.actors, this.creatures);
         if (projected.key() !== this.world.key()) { throw new Error('Inconsistent saved creature facts'); }
@@ -137,30 +137,7 @@ export class Campaign implements TickHost {
       if (campaign) { await campaign.install(request, source); }
       else {
         const draft = await ModuleBundle.load(request, { seed }, source);
-        if (party) {
-          const player = draft.instance.campaign!.actors.find(a => a.player)!;
-          if (party.length !== player.members.length) { throw new Error(`Choose ${player.members.length} companions`); }
-          if (new Set(party.map(c => c.name?.trim().toLowerCase())).size !== party.length) {
-            throw new Error('Give each companion a distinct name');
-          }
-          party.forEach((context, i) => {
-            const entry = draft.instance.campaign!.creatures.find(c => c.id === player.members[i])!;
-            if (!context.name?.trim() || context.name.length > 40 || !context.raceId || !context.classId
-              || !Content.playableRaces.includes(context.raceId)
-              || !Content.playableClasses.includes(Creation.classId(context.classId))) {
-              throw new Error('Choose a name, playable ancestry and class for every companion');
-            }
-            entry.context = { name: context.name.trim(), raceId: context.raceId,
-              classId: Creation.classId(context.classId), level: entry.context.level ?? 1,
-              ...(context.backgroundId ? { backgroundId: context.backgroundId } : {}),
-              ...(context.traits ? { traits: [...context.traits] } : {}),
-              ...(context.spells ? { spells: [...context.spells] } : {}),
-              ...(context.weapon ? { weapon: context.weapon } : {}),
-              ...(context.armor ? { armor: context.armor } : {}) };
-            const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
-            if (entity) { entity.name = context.name; }
-          });
-        }
+        if (party) { CompanyChoices.apply(draft, party); }
         Overlays.declareGear(draft.instance);
         campaign = new Campaign(seed, ModuleInstallations.prepare(undefined, draft, 0));
       }
@@ -217,18 +194,17 @@ export class Campaign implements TickHost {
   explain() {
     if (!this.definition || this.executing) { return []; }
     return this.definition.actors.filter(a => !a.player)
-      .map(actor => Agency.explain(this.world, actor, this.module.actions));
+      .map(actor => Agency.explain(this.world, actor, this.operators));
   }
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
   get persistent(): boolean { return !!this.definition; }
   get running(): boolean {
     return this.party.some(c => c.hp > 0) && (this.persistent || this.current.outcome === 'active');
   }
-  save(compact = false): CampaignSave {
+  // A save holds action schemas; operators are grounded on demand, so every save is compact.
+  save(_compact = false): CampaignSave {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
-    const schemas = compact && this.definition?.schemas;
-    return structuredClone({ version: 1, ...(schemas ? { actionFormat: 'schemas' as const } : {}),
-      module: schemas ? { ...this.module, actions: schemas } : this.module,
+    return structuredClone({ version: 1, actionFormat: 'schemas' as const, module: this.module,
       definition: this.definition, state: this.current,
       creatures: this.creatures.snapshot, events: this.log, encounter: this.encounter,
       observations: this.observations });
@@ -263,13 +239,24 @@ export class Campaign implements TickHost {
     return world;
   }
   private applicable?: { world: World; player: CampaignActor | undefined; actions: Operator[] };
+  // Actions are grounded on demand against the current module and controllers.
+  private grounded?: { module: Module; length: number; actors: CampaignActor[] | undefined; operators: Operators };
+  get operators(): Operators {
+    const g = this.grounded, actors = this.definition?.actors;
+    if (g?.module === this.module && g.length === this.module.actions.length && g.actors === actors) {
+      return g.operators;
+    }
+    const operators = new Operators(this.module, actors);
+    this.grounded = { module: this.module, length: this.module.actions.length, actors, operators };
+    return operators;
+  }
+  operator(id: string): Operator | undefined { return this.operators.get(id); }
   available(): Operator[] {
     if (!this.running || this.executing) { return []; }
     const player = this.definition?.actors.find(a => a.player), world = this.world;
     const memo = this.applicable;
     if (memo?.world === world && memo.player === player) { return structuredClone(memo.actions); }
-    const own = player ? Planner.byActor(this.module.actions, player.id) : this.module.actions;
-    const actions = Planner.applicableAmong(world, own)
+    const actions = this.operators.applicable(world, player?.id)
       .filter(action => !player || player.allActions || player.actions.includes(action.schema ?? action.id));
     this.applicable = { world, player, actions };
     return structuredClone(actions);
@@ -280,15 +267,17 @@ export class Campaign implements TickHost {
     const installed = moduleId ? this.installations.find(m => m.id === moduleId) :
       this.installations.find(m => !this.world.test(m.goal));
     if (moduleId && !installed) { throw new Error('Unknown module'); }
-    const actions = this.module.actions.filter(a => !player || (!a.resolve
-      && a.actor === player.id && (player.allActions || player.actions.includes(a.schema ?? a.id))));
-    return Planner.search(this.world, installed?.goal ?? this.module.goal, actions, {
+    return Planner.search(this.world, installed?.goal ?? this.module.goal, this.moves.bind(this, player), {
       maxNodes: 2000,
       timeRemaining: (installed ? installed.deadline ?? Infinity : this.current.deadline) - this.current.elapsed,
     });
   }
+  private moves(player: CampaignActor | undefined, world: World): Operator[] {
+    return this.operators.applicable(world, player?.id).filter(a => !player || (!a.resolve
+      && (player.allActions || player.actions.includes(a.schema ?? a.id))));
+  }
   encounterBattle(actionId: string): Battle {
-    const action = this.module.actions.find(candidate => candidate.id === actionId);
+    const action = this.operator(actionId);
     if (action?.resolve?.name !== 'combat') { throw new Error('Action does not resolve a combat encounter'); }
     const seed = this.randomSeed(action, 'combat');
     const group = action.resolve.args[0]!;
@@ -418,7 +407,7 @@ export class Campaign implements TickHost {
   }
   private randomSeed(action: Operator, domain: string): string {
     return RandomStreams.command(this.current.seed, domain, { installations: this.definition?.installations,
-      actions: this.module.actions, history: this.log }, action);
+      operator: this.operator.bind(this), history: this.log }, action);
   }
   private field(action: Operator): CombatEvent[] {
     const call = structuredClone(action.resolve!);

@@ -192,7 +192,7 @@ export class PlayerView {
     });
     const lastMove = [...campaign.events].reverse()
       .find(event => event.changes.includes(`+ at(${actor}, ${location.id})`));
-    const action = lastMove ? campaign.module.actions.find(a => a.id === lastMove.action) : undefined;
+    const action = lastMove ? campaign.operator(lastMove.action) : undefined;
     const movement = action?.movement;
     return { ancestry, exits, ...(movement ? { enteredFrom: { id: movement.origin,
       name: entities.get(movement.origin)?.name ?? movement.origin, mode: movement.mode } } : {}) };
@@ -235,7 +235,7 @@ export class PlayerView {
   private static activity(campaign: Campaign, world: World, id: string): string | undefined {
     const actor = campaign.actors.find(a => a.id === id && !a.player);
     if (!actor || !world.module.relations.some(r => r.name === 'at') || !this.test(world, 'able', id)) { return undefined; }
-    const explained = Agency.explain(world, actor, campaign.module.actions);
+    const explained = Agency.explain(world, actor, campaign.operators);
     const pursuing = explained.selected ?? explained.goals.find(g => g.applicable && !g.satisfied)?.id;
     const label = campaign.module.pursuits?.find(p => p.actor === id && p.id === pursuing)?.label;
     if (!label) { return undefined; }
@@ -273,9 +273,9 @@ export class PlayerView {
       for (const decision of event.npc ?? []) {
         const before = at.get(decision.actor);
         this.moves(decision.changes, at);
-        const bindings = Object.values(campaign.module.actions.find(a => a.id === decision.action)?.bindings ?? {});
+        const bindings = Object.values(campaign.operator(decision.action)?.bindings ?? {});
         if (here && (before === here || at.get(decision.actor) === here || bindings.includes(here))) {
-          const act = campaign.module.actions.find(a => a.id === decision.action);
+          const act = campaign.operator(decision.action);
           const name = act?.name ?? decision.action;
           entries.push({ at: decision.elapsed ?? event.elapsed, kind: 'npc',
             text: act?.seen ? ObservationText.render(act.seen, campaign.world)
@@ -299,7 +299,7 @@ export class PlayerView {
   }
   private static playerEntry(campaign: Campaign, event: CampaignEvent, previous: number, { labels, names }: {
     labels: Map<string, string>; names: Parameters<typeof CombatPresenter.format>[1]; }): ChronicleEntry {
-    const action = campaign.module.actions.find(a => a.id === event.action);
+    const action = campaign.operator(event.action);
     const declared = action ? (event.result === 'success' ? action.success : action.failure) : [];
     return { at: previous, kind: 'player',
       text: `${action?.name ?? event.action}${event.result === 'failure' ? ' — failed' : ''}`,

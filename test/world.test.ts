@@ -4,6 +4,7 @@ import { ModuleCompiler } from '../src/lang/module-compiler';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ActionSchemas } from '../src/campaign/action-schemas';
 import { Planner } from '../src/campaign/planner';
+import { Operators } from '../src/campaign/operators';
 import { World } from '../src/lang/world';
 import type { Change } from '../src/lang/module';
 
@@ -75,8 +76,8 @@ describe('world state', () => {
   });
 });
 
-describe('applicability index', () => {
-  it('finds the same actions as testing every one, in module order, as the world changes', () => {
+describe('demand grounding', () => {
+  it('finds the same actions as eager grounding and testing every one, in the same order, as the world changes', () => {
     const actions = ActionSchemas.ground(module);
     let world = start;
     const states = [start];
@@ -85,10 +86,15 @@ describe('applicability index', () => {
       world = world.apply(action.success);
       states.push(world);
     }
+    const operators = new Operators(module);
     for (const state of states) {
-      expect(Planner.applicableAmong(state, actions).map(a => a.id))
+      expect(operators.applicable(state).map(a => a.id))
         .toEqual(actions.filter(a => Planner.applicable(state, a)).map(a => a.id));
+      expect(operators.applicable(state, 'a').map(a => a.id))
+        .toEqual(actions.filter(a => a.actor === 'a' && Planner.applicable(state, a)).map(a => a.id));
     }
-    expect(Planner.applicableAmong(world, actions).map(a => a.id)).not.toContain('pay(a)');
+    expect(operators.applicable(world).map(a => a.id)).not.toContain('pay(a)');
+    expect(operators.get('travel(a,y,z)')).toEqual(actions.find(a => a.id === 'travel(a,y,z)'));
+    expect(operators.get('travel(a,y,nonsense)')).toBeUndefined();
   });
 });

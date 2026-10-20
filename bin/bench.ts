@@ -1,6 +1,7 @@
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
+import { Campaign, type CampaignSave } from '../src/campaign/campaign';
 
 // Reproducible timings for representative engine workloads. Usage: bun bin/bench.ts [--json]
 class Bench {
@@ -20,10 +21,15 @@ class Bench {
     await this.time('wait x1', () => s.perform('wait'));
     await this.time('wait x6', async () => { for (let i = 0; i < 6; i++) { await s.perform('wait'); } });
     await this.time('camp', () => s.perform('camp(march__causeway)'));
+    const save = await this.time('save + restore', () => {
+      const saved = JSON.stringify(s.campaign.save());
+      Campaign.restore(JSON.parse(saved) as CampaignSave);
+      return saved;
+    });
     const world = s.campaign.state.world;
     return { choices: choices.length, relations: world.relations.length, measures: world.measures.length,
-      actions: s.campaign.module.actions.length, rules: s.campaign.module.rules?.length ?? 0,
-      elapsed: s.campaign.state.elapsed };
+      schemas: s.campaign.module.actions.length, rules: s.campaign.module.rules?.length ?? 0,
+      elapsed: s.campaign.state.elapsed, saveBytes: save.length };
   }
 }
 const summary = await Bench.run();

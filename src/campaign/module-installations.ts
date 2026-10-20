@@ -4,7 +4,6 @@ import { ModuleCompiler } from '../lang/module-compiler';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world';
-import { ActionSchemas } from './action-schemas';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { CampaignDefinition } from './definition';
 import { Discovery } from '../information/discovery';
@@ -79,9 +78,6 @@ export class ModuleInstallations {
       throw new Error('Campaign rules require shared gold and clock entities');
     }
     compiler.validate(module);
-    // Grounding substitutes entities of each parameter's declared type into validated schemas.
-    module.actions = ActionSchemas.ground(module, definition.actors);
-    ModuleCompiler.unique(module.actions.map(a => a.id), 'action');
     const world = new World(module, base?.world).apply(incoming.module.initial);
     const distinct = definition.actors.flatMap(a => definition.actors.filter(b => b.id !== a.id).map(b => ({
       kind: 'assert' as const, call: ModuleWriter.call('distinct', a.id, b.id),

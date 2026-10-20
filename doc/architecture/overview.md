@@ -32,9 +32,9 @@ Event blaze beside web_way when state(webs, burnt) and not scattered(brood) "Fir
    sentences into observations conditioned on those facts. No action is written for the burn: the generic
    `change_thing` schema in [passages.kyr](../../data/rules/passages.kyr) covers every authored change.
 2. **Composition.** The campaign installs region, site and situation; imports bind roles (`web_way` → the site's
-   `web_gallery`) and ids are namespaced (`brood__webs`). Schemas are grounded against the composed world.
-3. **Applicability.** Each turn `Planner.applicableAmong` evaluates only grounded actions whose guard fact holds
-   (here `at(party, cave)`), then the full precondition: the burn needs `meets(party, torch)`, so it is offered only
+   `web_gallery`) and ids are namespaced (`brood__webs`). Action schemas stay schemas.
+3. **Applicability.** `Operators` grounds on demand: it joins the facts a schema requires against the current world
+   (here `at(party, cave)` binds the place), builds candidate operators, then tests the full precondition: the burn needs `meets(party, torch)`, so it is offered only
    while someone holds a torch. The same test serves the player, NPC planning and the UI.
 4. **Execution.** `Campaign.complete` applies the change, then runs each watch: NPCs act, rules and events fire in
    authored order, projections refresh. `blaze` fires in the same command, and the brood leaves the world.
@@ -87,9 +87,6 @@ needed `Numbers` and `Creature`, not a spider-specific resolver; night needed `d
 
 ## Known weaknesses
 
-- **Eager grounding.** Every schema is grounded at load into all type-correct bindings: 20–25k actions in the
-  current campaigns, multiplying with members × items × places. Applicability is indexed, but load time and save size
-  scale with that product. Query-time grounding would fix it.
 - **Two geographies.** Canon habitats (`woodland`, `marsh`→`swamp`) and Deem terrains (`forest`, `marsh`) are
   separate vocabularies, and species statistics are repeated in Deem body rows (drift-tested, not derived).
 - **Rules namespaces leak.** A situation entity named like a rule schema parameter (`site`) is rejected at load;

@@ -16,7 +16,7 @@ export class ActionFeedbackView {
   }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
-    const action = campaign.module.actions.find(a => a.id === event.action)!;
+    const action = campaign.operator(event.action)!;
     const names = { combatants: campaign.state.creatures.map(c => CombatProjection.fighter(c, 'fighters')),
       turn: 0, actor: '', outcome: null };
     const combat = event.combat.filter(e => e.type !== 'action' && !('amount' in e && e.amount === 0 && e.type !== 'damage')

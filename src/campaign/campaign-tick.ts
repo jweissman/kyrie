@@ -1,3 +1,4 @@
+import type { Operators } from './operators';
 import { FictionalTime } from '../presentation/fictional-time';
 import { Agency } from './agency';
 import { ActionTime } from './action-time';
@@ -14,6 +15,7 @@ import type { CreatureStore } from '../creature-store';
 export interface PendingAction { action: string; until: number }
 export interface TickHost {
   readonly world: World; readonly module: Module; readonly playerActor: string | undefined;
+  readonly operators: Operators;
   readonly tickState: { definition: CampaignDefinition; creatures: CreatureStore;
     current: { elapsed: number; world: WorldState; pending?: Record<string, PendingAction> } };
   applyAction(action: Operator): void; refreshProjection(): void; recordObservations(): void;
@@ -44,11 +46,11 @@ export class CampaignTick {
       if (pending) {
         if (current.elapsed < pending.until) { continue; }
         delete current.pending![actor.id];
-        const action = host.module.actions.find(a => a.id === pending.action);
+        const action = host.operators.get(pending.action);
         if (action && Planner.applicable(host.world, action)) { this.act(host, decisions, { actor: actor.id, goal: 'continuing', action, plan: [] }); }
         continue;
       }
-      const choice = Agency.choose(host.world, actor, host.module.actions);
+      const choice = Agency.choose(host.world, actor, host.operators);
       if (!choice) { continue; }
       const duration = ActionTime.of(choice.action, host.world);
       if (duration > 1) {

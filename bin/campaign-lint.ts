@@ -1,3 +1,4 @@
+import { ActionSchemas } from '../src/campaign/action-schemas';
 import { PlaySession } from '../src/session/play-session';
 import { ItemCatalog } from '../src/item-catalog';
 import { Canon } from '../src/canon/canon';
@@ -77,8 +78,11 @@ export class CampaignLint {
     }
   }
   applicability() {
+    // Campaigns ground actions on demand; lint grounds them all once, statically, to find schemas with no target.
+    const grounded = new Set(ActionSchemas.ground(this.module, this.session.campaign.actors)
+      .map(a => a.schema ?? a.id));
     for (const schema of this.session.campaign.schemas.filter(x => x.id.includes('__'))) {
-      if (!this.module.actions.some(a => (a.schema ?? a.id) === schema.id)) {
+      if (!grounded.has(schema.id)) {
         this.add('warning', 'applicability', `action ${schema.id} has no possible target in this world`);
       }
     }

@@ -7,11 +7,28 @@ export class ActionSchemas {
   static placeholders(template: string): string[] {
     return [...template.matchAll(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g)].map(match => match[1]!);
   }
-  static ground(module: Module, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Operator[] {
+  // Entity names for action labels: a person's name without their role, with {references} resolved.
+  static labels(module: Module): Map<string, string> {
     const labels = new Map(module.entities.map(e => [e.id, e.type === 'group' ? e.name.split(', ')[0]! : e.name]));
     for (const [id, name] of labels) {
       labels.set(id, name.replace(/\{([A-Za-z][A-Za-z0-9_-]*)\}/g, (whole, ref: string) => labels.get(ref) ?? whole));
     }
+    return labels;
+  }
+  static checkLabels(action: Operator, labels: Map<string, string>) {
+    const shown = this.placeholders(action.name).filter(name => action.parameters?.some(p => p.name === name));
+    if (this.placeholders(action.name).some(name => !shown.includes(name) && !labels.has(name))) {
+      throw new Error(`Unknown label parameter in ${action.id}`);
+    }
+  }
+  // Whether an actor may bind a schema's actor parameter.
+  static mayAct(action: Operator, actor: string, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]) {
+    return !actors || actors.some(a => a.id === actor && (a.allActions || a.actions.includes(action.id)));
+  }
+  // Every type-correct binding of every schema, less those a static fact rules out. Campaigns ground on demand
+  // (see Operators); this eager form serves validation and tools.
+  static ground(module: Module, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Operator[] {
+    const labels = this.labels(module);
     // Join only on relations that no action, rule or campaign projection can write. Keep dynamic
     // preconditions for execution, including cross-module distinct facts installed after grounding.
     const written = new Set(['at', 'able', 'dead', 'distinct', 'dark', 'recorded', 'capable', 'awake', 'needsCare', 'canCast',
@@ -21,37 +38,37 @@ export class ActionSchemas {
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));
     const facts = new Set(new World(module).apply(module.initial).snapshot.relations.map(c => ActionSchemas.key(c)));
     return module.actions.flatMap(action => {
-      const shown = this.placeholders(action.name).filter(name => action.parameters?.some(p => p.name === name));
-      if (this.placeholders(action.name).some(name => !shown.includes(name) && !labels.has(name))) {
-        throw new Error(`Unknown label parameter in ${action.id}`);
-      }
+      this.checkLabels(action, labels);
       if (!action.parameters?.length) { return [structuredClone(action)]; }
       const parameters = new Set(action.parameters.map(p => p.name));
       let combinations: Record<string, string>[] = [{}];
       for (const parameter of action.parameters) {
         const candidates = module.entities.filter(e => (parameter.type === 'entity' || e.type === parameter.type)
-          && (parameter.name !== 'actor' || !actors || actors.some(a => a.id === e.id
-            && (a.allActions || a.actions.includes(action.id)))));
+          && (parameter.name !== 'actor' || this.mayAct(action, e.id, actors)));
         combinations = combinations.flatMap(binding => candidates.map(e => ({ ...binding, [parameter.name]: e.id })))
           .filter(binding => this.constantTruth(action.requires, binding, { parameters, constants, facts }) !== false);
         if (combinations.length > 20000) { throw new Error(`Too many bindings for ${action.id}`); }
       }
-      return combinations.map(bindings => {
-        const args = action.parameters!.map(p => bindings[p.name]!);
-        const body = { ...action };
-        delete body.parameters;
-        return { ...body, id: `${action.id}(${args.join(',')})`, schema: action.id, bindings,
-          actor: bindings.actor, name: action.speaker || this.placeholders(action.name).length || action.parameters!.every(p => p.name === 'actor') ? action.name.replace(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g,
-            (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name) : `${action.name} (${args.join(', ')})`,
-          requires: this.predicate(action.requires, bindings),
-          ...(action.report ? { report: this.text(action.report, bindings) } : {}),
-          ...(action.seen ? { seen: this.text(action.seen, bindings) } : {}),
-          success: action.success.map(c => this.change(c, bindings)),
-          failure: action.failure.map(c => this.change(c, bindings)),
-          ...(action.resolve ? { resolve: this.call(action.resolve, bindings) } : {}),
-          ...(action.duration ? { duration: this.call(action.duration, bindings) } : {}) };
-      });
+      return combinations.map(bindings => this.instance(action, bindings, labels));
     });
+  }
+  // One grounded operator: the schema with its parameters replaced by a binding.
+  static instance(action: Operator, bindings: Record<string, string>, labels: Map<string, string>): Operator {
+    if (!action.parameters?.length) { return structuredClone(action); }
+    const args = action.parameters.map(p => bindings[p.name]!);
+    const body = { ...action };
+    delete body.parameters;
+    return { ...body, id: `${action.id}(${args.join(',')})`, schema: action.id, bindings,
+      actor: bindings.actor, name: action.speaker || this.placeholders(action.name).length
+        || action.parameters.every(p => p.name === 'actor') ? action.name.replace(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g,
+          (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name) : `${action.name} (${args.join(', ')})`,
+      requires: this.predicate(action.requires, bindings),
+      ...(action.report ? { report: this.text(action.report, bindings) } : {}),
+      ...(action.seen ? { seen: this.text(action.seen, bindings) } : {}),
+      success: action.success.map(c => this.change(c, bindings)),
+      failure: action.failure.map(c => this.change(c, bindings)),
+      ...(action.resolve ? { resolve: this.call(action.resolve, bindings) } : {}),
+      ...(action.duration ? { duration: this.call(action.duration, bindings) } : {}) };
   }
   private static constantTruth(p: Predicate, binding: Record<string, string>, context: {
     parameters: Set<string>; constants: Set<string>; facts: Set<string>;

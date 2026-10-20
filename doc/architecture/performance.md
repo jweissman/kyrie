@@ -79,12 +79,35 @@ Costs were not proportional to relevant work. Every one of these traversed or co
 - One generated Deem expansion (a single creature) still shares one stream, so adding a draw early in a template shifts
   later draws *within that creature*. This is causal within one object and is left as is.
 
+## Demand grounding (second wave)
+
+Campaigns no longer ground every schema at load. `Operators` (`src/campaign/operators.ts`) finds a schema's candidate
+bindings by joining the positive facts its precondition requires against the current world (most-bound atom first),
+enumerates any parameter left open over the entities of its type, and then applies the unchanged test (full
+precondition and admissible effects). A binding with a true precondition satisfies every positive conjunct, so the
+set is exactly what eager grounding and filtering produced: checked for the player, every NPC and the unrestricted set
+across 30 states of all four campaigns, and the canonical 23-command session is byte-identical. Operators are made once
+per id, so event logs, pending actions and random seeds resolve ids as before.
+
+| Serewater March | Eager | On demand |
+|---|---|---|
+| Load (first in process) | 2.57 s | 1.06 s |
+| Save | 34.8 MB | 0.40 MB |
+| Save + restore | 1,355 ms | 24 ms |
+| List the player's choices | 89 ms | 18 ms |
+
+Scaling (`bun bin/scale-bench.ts`: a chain of rooms with items, generated through the real loader):
+
+| Places | Items | Company | Eager operators | Load | Choices | Tick | Save |
+|---|---|---|---|---|---|---|---|
+| 5 | 5 | 2 | 1,736 | 184 ms | 8 ms | 5 ms | 113 KB |
+| 20 | 40 | 3 | 17,248 | 154 ms | 4 ms | 4 ms | 144 KB |
+| 40 | 80 | 3 | 43,068 | 203 ms | 4 ms | 5 ms | 177 KB |
+| 40 | 80 | 6 | refuses (>20k for one schema) | 189 ms | 7 ms | 8 ms | 196 KB |
+| 80 | 160 | 6 | refuses | 295 ms | 8 ms | 9 ms | 260 KB |
+
 ## Remaining risks
 
-- **Eager grounding scales multiplicatively.** 24,766 operators come mostly from `field_spell` (members × abilities ×
-  targets, 8,073) and `take_item`/`put_item` (5,967 each). First load (2.75 s), save size (35 MB uncompacted) and
-  restore (0.6 s) grow with members × items × places. Query-driven grounding (solve a schema's precondition with its
-  parameters as variables) would make these proportional to the reachable state.
 - The load cache assumes bundle files do not change during a process. A long-lived dev server that edits `.kyr` files
   must restart (or use a fresh `BundleSource`) to see changes.
 - Shared compiled operators rely on a convention that loaded `Operator`s are never mutated in place. A test that pushes
