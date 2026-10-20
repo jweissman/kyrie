@@ -70,8 +70,9 @@ export class MonoApp {
     document.addEventListener('keydown', e => { void this.keydown(e); });
     window.addEventListener('resize', () => this.render());
     this.saved = this.read();
-    if (this.query.has('campaign')) { this.choose(this.manifest); }
-    else if (this.worldSeed) { void this.generate(this.worldSeed); }
+    // A saved game always offers itself first; a campaign named in the address is where a new one would begin.
+    if (!this.saved && this.query.has('campaign')) { this.choose(this.manifest); }
+    else if (!this.saved && this.worldSeed) { void this.generate(this.worldSeed); }
     this.render();
   }
   // The region and its scenarios depend only on the seed; the company's contacts follow the backgrounds chosen.
@@ -177,10 +178,13 @@ export class MonoApp {
     return MonoScreens.title({ ...this.opening, ...(saved ? { saved } : {}) }, this.error);
   }
   private summary(saved: Saved): Opening['saved'] {
-    const save = (saved.checkpoint as { save?: { module?: { name?: string }; state?: { elapsed?: number } } }).save;
+    interface Fact { name: string; args: string[] }
+    const save = (saved.checkpoint as { save?: { module?: { name?: string; entities?: { id: string; name: string }[] };
+      state?: { elapsed?: number; world?: { relations?: Fact[] } } } }).save;
     const party = (saved.checkpoint as { transcript?: { party?: { name?: string }[] } }).transcript?.party ?? [];
-    const last = saved.log?.at(-1);
-    return { title: save?.module?.name ?? 'your expedition', where: last?.title.replace(/^→ /, '') ?? '',
+    const here = save?.state?.world?.relations?.find(r => r.name === 'at' && r.args[0] === 'party')?.args[1];
+    const place = save?.module?.entities?.find(e => e.id === here)?.name ?? '';
+    return { title: save?.module?.name ?? 'your expedition', where: ChoiceList.upper(place),
       when: FictionalTime.at(save?.state?.elapsed ?? 0), company: party.map(p => p.name).filter(Boolean).join(', ') };
   }
   private move(delta: number) {
@@ -303,6 +307,8 @@ export class MonoApp {
   }
   private async begin(action?: string) {
     if (action === 'continue') { this.resume(); }
+    else if (action === 'campaigns' && this.query.has('campaign')) { this.choose(this.query.get('campaign')!); }
+    else if (action === 'campaigns' && this.query.has('world')) { void this.generate(this.query.get('world')!); }
     else if (action === 'campaigns') { this.mode = 'campaigns'; this.opening.cursor = 0; }
     else if (action === 'load-file') { this.root.querySelector<HTMLInputElement>('#load')?.click(); }
     this.render();
