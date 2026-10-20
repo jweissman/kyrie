@@ -78,40 +78,7 @@
     "creatureKinds": {
       "animal": [
         {
-          "family": "animal",
-          "body": "bear",
-          "raceId": "bear",
-          "_terrains": {
-            "forest": true,
-            "mountain": true,
-            "frost": true,
-            "any": true
-          },
-          "_adaptations": {
-            "none": true,
-            "frost": true,
-            "marsh": true
-          },
-          "_classes": {},
-          "_roles": {},
-          "_adaptationTerrains": {
-            "none": {
-              "forest": true,
-              "mountain": true,
-              "any": true
-            },
-            "frost": {
-              "frost": true,
-              "mountain": true,
-              "any": true
-            },
-            "marsh": {
-              "marsh": true,
-              "any": true
-            }
-          }
-        },
-        {
+          "__weight": 2,
           "family": "animal",
           "body": "bear",
           "raceId": "bear",

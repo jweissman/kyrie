@@ -34,7 +34,7 @@ class ChoiceProof {
     variants.creatureBody.groups.boar = [{ raceId: 'boar', hitDie: boar.statistics!.hitDie,
       weapon: boar.statistics!.weapon, armor: boar.statistics!.armor, abilities: boar.abilities,
       traits: [], trace: ['body:boar'] }];
-    variants.creatureKinds.groups.animal.push({ ...extended.creatureKinds.groups.animal[0],
+    variants.creatureKinds.groups.animal.push({ ...extended.creatureKinds.groups.animal[0], __weight: 1,
       body: 'boar', raceId: 'boar', _terrains: { any: true, marsh: true },
       _adaptationTerrains: { none: { any: true, marsh: true }, marsh: { any: true, marsh: true } } });
     variants.dragonLineage.groups.jade = [{ _key: 'jade', _terrains: { any: true, forest: true },
