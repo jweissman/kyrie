@@ -21,7 +21,7 @@ Module unquiet_tower "The unquiet tower" {
   Passage crypt_steps "the crypt steps" is steps between crypt and study.
 
   Person necromancer "Someone" at study {
-    Role "necromancer". Calling mage. Level 3.
+    Role "necromancer". Level 3.
     State working "{necromancer} bends over a table of bones, muttering, and does not look up.".
     State broken "{necromancer} sits on the floor among the bones with his face in his hands.".
   }

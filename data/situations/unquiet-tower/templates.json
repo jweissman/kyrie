@@ -5,13 +5,36 @@
     "ancestry": "human",
     "name": "The unquiet tower",
     "creatures": [],
-    "actors": { "order": [] },
+    "actors": {
+      "order": []
+    },
     "casting": "=gen(tower_casting)",
     "facts": "=concat(gen(tower_style))",
     "initial": [],
-    "outcomes": [{ "id": "ended", "predicate": "ended(necromancer)" }, { "id": "spared", "predicate": "spared(necromancer)" }]
+    "outcomes": [
+      {
+        "id": "ended",
+        "predicate": "ended(necromancer)"
+      },
+      {
+        "id": "spared",
+        "predicate": "spared(necromancer)"
+      }
+    ]
   },
-  "tower_casting": { "__no_id": true, "necromancer": "=gen(tower_necromancer)" },
-  "tower_necromancer": { "__no_id": true, ">name": "=lookup(townsfolkName, #ancestry)", ">raceId": "=#ancestry" },
-  "tower_style": { "__no_id": true, ">name": "looks", "args": "=concat('tower', lookup(towerStyle, #terrain))" }
+  "tower_casting": {
+    "__no_id": true,
+    "necromancer": "=gen(tower_necromancer)"
+  },
+  "tower_necromancer": {
+    "__no_id": true,
+    ">name": "=lookup(townsfolkName, #ancestry)",
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(necromancerCalling, #ancestry)"
+  },
+  "tower_style": {
+    "__no_id": true,
+    ">name": "looks",
+    "args": "=concat('tower', lookup(towerStyle, #terrain))"
+  }
 }

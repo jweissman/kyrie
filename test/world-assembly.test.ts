@@ -54,4 +54,13 @@ describe('a generated region with situated scenarios', () => {
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'word1__ewes'))).toBe(true);
     expect(Worlds.ids(s)).toContain(way);
   }, 60000);
+  it('assembles and loads across seeds and terrains', async () => {
+    for (const [seed, terrain] of [['a1', 'forest'], ['a2', 'marsh'], ['a3', 'mountain'], ['a4', 'frost'],
+      ['b1', 'forest'], ['b2', 'marsh'], ['b3', 'mountain'], ['b4', 'frost']] as const) {
+      const world = await Worlds.assemble(seed, terrain);
+      const s = await PlaySession.start(world.path, seed, world.source);
+      expect([seed, PlayerView.observe(s.campaign).location?.id]).toEqual([seed, 'region__s1_green']);
+    }
+  }, 180000);
 });
+
