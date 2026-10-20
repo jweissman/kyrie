@@ -20,7 +20,7 @@
   "creature": {
     "__no_id": true,
     "terrain": "any",
-    "_family": "=defined('family') ? #family : (defined('raceId') ? dig(select(creatureKinds, default, 'dig(#__it, \"raceId\") == #raceId && dig(#__it, \"_terrains\", #terrain)'), 'family') : lookup(creatureFamilyPool, #terrain))",
+    "_family": "=defined('family') ? select(creatureFamilies, #family, 'count(definedOf(except(gatherEntries(creatureDimensions, \"default\"), gatherEntries(creatureDimensions, #__it)))) == 0') : (defined('raceId') || defined('body')) ? dig(select(creatureKinds, default, 'dig(#__it, \"_terrains\", #terrain) && (defined(\"raceId\") ? dig(#__it, \"raceId\") == #raceId : true) && (defined(\"body\") ? dig(#__it, \"body\") == #body : true) && count(definedOf(except(gatherEntries(creatureDimensions, \"default\"), gatherEntries(creatureDimensions, dig(#__it, \"family\"))))) == 0'), 'family') : select(creatureFamilyPool, #terrain, 'count(definedOf(except(gatherEntries(creatureDimensions, \"default\"), gatherEntries(creatureDimensions, #__it)))) == 0')",
     "*creature": "=gen(lookup(creatureFamilies, #_family))"
   },
   "dragon": {
@@ -112,6 +112,7 @@
   },
   "_creature_complete": {
     "__no_id": true,
+    "_owned": "=select(creatureFamilies, dig(#_kind, 'family'), 'count(definedOf(except(gatherEntries(creatureDimensions, \"default\"), gatherEntries(creatureDimensions, #__it)))) == 0')",
     "_requestedName": "=defined('name') ? #name : ''",
     "_requestedLevel": "=defined('level') ? #level : 0",
     "*kind": "=#_kind",

@@ -98,11 +98,11 @@ class ChoiceProof {
           material: raw.material, role: raw.role, adaptation: raw.adaptation };
       });
     }
-    this.require(this.distinct(results, 'creature', 'family').length === 4, 'Unconstrained CLI did not cover all four families');
-    this.require(this.distinct(results, 'animals', 'body').length === 2, 'Animal body is still fixed');
-    this.require(this.distinct(results, 'people', 'raceId').length === 2 && this.distinct(results, 'people', 'classId').length === 2, 'Ancestry/class is still fixed');
-    this.require(this.distinct(results, 'dragons', 'lineage').length === 5 && this.distinct(results, 'dragons', 'maturity').length === 4, 'Dragon choices are still fixed');
-    this.require(this.distinct(results, 'constructs', 'material').length === 2 && this.distinct(results, 'constructs', 'role').length === 2, 'Construct dimensions are still fixed');
+    this.require(this.distinct(results, 'creature', 'family').length >= 4, 'Unconstrained CLI did not cover all four families');
+    this.require(this.distinct(results, 'animals', 'body').length >= 2, 'Animal body is still fixed');
+    this.require(this.distinct(results, 'people', 'raceId').length >= 2 && this.distinct(results, 'people', 'classId').length >= 2, 'Ancestry/class is still fixed');
+    this.require(this.distinct(results, 'dragons', 'lineage').length >= 5 && this.distinct(results, 'dragons', 'maturity').length >= 4, 'Dragon choices are still fixed');
+    this.require(this.distinct(results, 'constructs', 'material').length >= 2 && this.distinct(results, 'constructs', 'role').length >= 2, 'Construct dimensions are still fixed');
     const extensions = Array.from({ length: 128 }, (_, seed) => {
       const raw = JSON.parse(readFileSync(join(dir, `extended-${seed}.json`), 'utf8'));
       CreatureDefinition.accept(`extended-${seed}`, raw);

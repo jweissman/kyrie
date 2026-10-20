@@ -89,6 +89,13 @@ export class Content {
   character(classId: ClassId, id: string, team: Fighter['team'], raceId: RaceId = 'human'): Fighter {
     return CombatProjection.fighter(this.createCreature(id, { classId, raceId }), team);
   }
+  // A request names a family-specific dimension (lineage, material, an adaptation…) that only Deem composition
+  // honours. A class alone keeps the character-creation path.
+  private static composed(context: CreatureGenerationContext): boolean {
+    const dimensions = new Set(Object.values(tables.creatureDimensions.groups).flat());
+    dimensions.delete('classId');
+    return [...Object.keys(context), ...Object.keys(context.parameters ?? {})].some(key => dimensions.has(key));
+  }
   private static invalid(context: CreatureGenerationContext): boolean {
     return (context.backgroundId !== undefined && !Overlays.has(context.backgroundId))
       || Object.keys(context).some(key => key.endsWith('Score'))
@@ -110,8 +117,8 @@ export class Content {
       throw new Error(`${id}: ${Creation.a(speciesFamily)} is a species and takes no class`);
     }
     const deemSpecies = speciesFamily && Object.hasOwn(tables.creatureBody.groups, speciesFamily);
-    const family = context.family ?? (!deemSpecies && context.adaptation ? 'humanoid' : undefined);
-    if (family || deemSpecies) {
+    const family = context.family;
+    if (family || deemSpecies || Content.composed(context)) {
       if (context.backgroundId || context.professionId || context.spells || context.gear?.length) {
         throw new Error('Specialized Deem creatures do not yet support background, profession, spell or extra gear overlays');
       }

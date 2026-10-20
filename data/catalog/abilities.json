@@ -189,6 +189,34 @@
       "source": {
         "kyr": true
       }
+    },
+    "breathe_poison": {
+      "name": "Poison breath",
+      "kind": "natural",
+      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6 + 2 * #level"
+          },
+          "damageType": "poison",
+          "target": "enemies",
+          "save": {
+            "kind": "breath",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

@@ -320,6 +320,34 @@
         "fidelity": "adapted",
         "notes": "Uses the existing claws and fur profiles and executable Smash action. Kyr rolls its attributes; the Deem animal grammar composes the body."
       }
+    },
+    "cave_spider": {
+      "name": "Cave spider",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "chitin"
+      },
+      "abilities": [
+        "venomous_bite",
+        "ensnare",
+        "flee"
+      ],
+      "temperament": "ambush",
+      "habitats": [
+        "cave",
+        "woodland"
+      ],
+      "source": {
+        "orsino": "animal:spider",
+        "fidelity": "adapted",
+        "notes": "Orsino's spider: bite and chitin. Kyr enlarges it to a cave hunter, rolls its attributes and gives it Orsino's venomous bite and ensnare."
+      }
     }
   }
 }

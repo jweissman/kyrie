@@ -251,6 +251,25 @@
             "any": true
           }
         }
+      ],
+      "green": [
+        {
+          "abilities": [
+            "breathe_poison"
+          ],
+          "traits": [
+            "poison_lineage"
+          ],
+          "trace": [
+            "lineage:green"
+          ],
+          "_key": "green",
+          "_terrains": {
+            "forest": true,
+            "marsh": true,
+            "any": true
+          }
+        }
       ]
     },
     "discriminator": "lineage"
@@ -489,6 +508,23 @@
           "traits": [],
           "trace": [
             "body:bear"
+          ]
+        }
+      ],
+      "cave_spider": [
+        {
+          "raceId": "cave_spider",
+          "hitDie": 8,
+          "weapon": "bite",
+          "armor": "chitin",
+          "abilities": [
+            "venomous_bite",
+            "ensnare",
+            "flee"
+          ],
+          "traits": [],
+          "trace": [
+            "body:cave_spider"
           ]
         }
       ]
@@ -886,6 +922,50 @@
               "any": true
             }
           }
+        },
+        {
+          "family": "animal",
+          "body": "cave_spider",
+          "raceId": "cave_spider",
+          "_terrains": {
+            "cave": true,
+            "forest": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "cave": true,
+              "forest": true,
+              "any": true
+            }
+          }
+        },
+        {
+          "family": "animal",
+          "body": "cave_spider",
+          "raceId": "cave_spider",
+          "_terrains": {
+            "cave": true,
+            "forest": true,
+            "any": true
+          },
+          "_adaptations": {
+            "none": true
+          },
+          "_classes": {},
+          "_roles": {},
+          "_adaptationTerrains": {
+            "none": {
+              "cave": true,
+              "forest": true,
+              "any": true
+            }
+          }
         }
       ],
       "dragon": [
@@ -1214,6 +1294,8 @@
         "dragon"
       ],
       "cave": [
+        "animal",
+        "animal",
         "humanoid",
         "humanoid",
         "humanoid",
@@ -1280,6 +1362,32 @@
         "humanoid",
         "dragon",
         "construct"
+      ]
+    }
+  },
+  "creatureDimensions": {
+    "discriminator": "family",
+    "groups": {
+      "dragon": [
+        "body",
+        "adaptation",
+        "lineage",
+        "maturity"
+      ],
+      "humanoid": [
+        "body",
+        "adaptation",
+        "classId"
+      ],
+      "construct": [
+        "body",
+        "adaptation",
+        "material",
+        "role"
+      ],
+      "animal": [
+        "body",
+        "adaptation"
       ]
     }
   }

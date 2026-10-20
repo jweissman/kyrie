@@ -73,6 +73,18 @@
       "source": {
         "kyr": true
       }
+    },
+    "poison_lineage": {
+      "name": "Poison lineage",
+      "category": "nature",
+      "modifiers": {
+        "resistances": {
+          "poison": 0.75
+        }
+      },
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

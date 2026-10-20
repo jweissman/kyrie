@@ -63,4 +63,16 @@ describe('compositional creature generation', () => {
     expect(() => content.createCreature('invalid', { raceId: 'missing' as never })).toThrow('context');
     expect(() => content.createCreature('invalid', { classId: 'missing' as never })).toThrow('context');
   });
+  it('routes a family-specific request without a family to a family that owns it, and rejects impossible ones', () => {
+    const make = (seed: string, context: CreatureGenerationContext) => new Content(seed).createCreature('m', context);
+    for (const seed of ['a', 'b', 'c', 'd']) {
+      const red = make(seed, { lineage: 'red' });
+      expect([red.raceId, red.traits]).toEqual(['dragon', expect.arrayContaining(['fire_lineage'])]);
+      expect(make(seed, { parameters: { material: 'stone' } }).raceId).toBe('golem');
+      expect(make(seed, { maturity: 'wyrmling', parameters: { terrain: 'frost' } }).traits).toContain('cold_lineage');
+    }
+    expect(() => make('a', { lineage: 'red', parameters: { classId: 'ranger' } })).toThrow('No matching options');
+    expect(() => make('a', { family: 'animal', parameters: { classId: 'ranger' } })).toThrow('No matching options');
+    expect(make('a', { raceId: 'human', classId: 'ranger' }).classId).toBe('ranger');
+  });
 });
