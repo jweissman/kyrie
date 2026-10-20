@@ -3,208 +3,14 @@
     "command": "deem run --type creature --seed choice-",
     "output": {
       "terrain": "any",
-      "family": "dragon",
-      "lineage": "black",
-      "maturity": "young",
-      "body": "dragon",
-      "raceId": "dragon",
-      "level": 3,
-      "traits": [
-        "formidable",
-        "flying",
-        "acid_lineage",
-        "frost_adapted"
-      ],
-      "abilities": [
-        "breathe_acid"
-      ],
-      "trace": [
-        "family:dragon",
-        "lineage:black",
-        "maturity:young",
-        "adaptation:frost"
-      ],
-      "classId": "",
-      "strength": 23,
-      "dexterity": 16,
-      "constitution": 20,
-      "intelligence": 17,
-      "wisdom": 15,
-      "charisma": 19,
-      "weapon": "bite",
-      "armor": "scale",
-      "name": "Young black dragon",
-      "adaptation": "frost",
-      "maxHp": 36,
-      "maxMana": 5,
-      "speed": 3
-    }
-  },
-  {
-    "command": "deem run --type dragon --seed choice-",
-    "output": {
-      "family": "dragon",
-      "terrain": "any",
-      "lineage": "red",
-      "maturity": "adult",
-      "body": "dragon",
-      "raceId": "dragon",
-      "level": 6,
-      "traits": [
-        "formidable",
-        "flying",
-        "fire_lineage"
-      ],
-      "abilities": [
-        "breathe_fire"
-      ],
-      "trace": [
-        "family:dragon",
-        "lineage:red",
-        "maturity:adult",
-        "adaptation:none"
-      ],
-      "classId": "",
-      "strength": 35,
-      "dexterity": 28,
-      "constitution": 32,
-      "intelligence": 29,
-      "wisdom": 27,
-      "charisma": 31,
-      "weapon": "bite",
-      "armor": "scale",
-      "name": "Adult red dragon",
-      "adaptation": "none",
-      "maxHp": 99,
-      "maxMana": 8,
-      "speed": 9
-    }
-  },
-  {
-    "command": "deem run --type animal --seed choice-",
-    "output": {
-      "family": "animal",
-      "terrain": "any",
-      "body": "bear",
-      "raceId": "bear",
-      "level": 1,
-      "traits": [],
-      "abilities": [
-        "smash",
-        "flee"
-      ],
-      "trace": [
-        "family:animal",
-        "body:bear",
-        "adaptation:none"
-      ],
-      "strength": 12,
-      "dexterity": 10,
-      "intelligence": 13,
-      "wisdom": 13,
-      "constitution": 13,
-      "charisma": 12,
-      "classId": "",
-      "weapon": "claws",
-      "armor": "fur",
-      "name": "Bear",
-      "adaptation": "none",
-      "maxHp": 14,
-      "maxMana": 3,
-      "speed": 0
-    }
-  },
-  {
-    "command": "deem run --type humanoid --seed choice-",
-    "output": {
       "family": "humanoid",
-      "terrain": "any",
-      "raceId": "elf",
-      "classId": "ranger",
-      "level": 1,
-      "traits": [
-        "humanoid",
-        "agile",
-        "perceptive"
-      ],
-      "abilities": [
-        "defend",
-        "heal",
-        "hunters_mark",
-        "ensnare"
-      ],
-      "trace": [
-        "ancestry:elf",
-        "class:ranger",
-        "adaptation:none"
-      ],
-      "strength": 15,
-      "dexterity": 13,
-      "intelligence": 14,
-      "wisdom": 17,
-      "constitution": 14,
-      "charisma": 14,
-      "weapon": "longsword",
-      "armor": "scale",
-      "name": "Elf ranger",
-      "adaptation": "none",
-      "maxHp": 12,
-      "maxMana": 3,
-      "speed": 2
-    }
-  },
-  {
-    "command": "deem run --type construct --seed choice-",
-    "output": {
-      "family": "construct",
-      "terrain": "any",
-      "material": "none",
-      "role": "guardian",
-      "body": "golem",
-      "raceId": "golem",
-      "level": 1,
-      "traits": [
-        "construct",
-        "formidable"
-      ],
-      "abilities": [
-        "smash",
-        "defend"
-      ],
-      "trace": [
-        "family:construct",
-        "body:golem",
-        "role:guardian",
-        "adaptation:none"
-      ],
-      "classId": "",
-      "strength": 17,
-      "dexterity": 7,
-      "constitution": 17,
-      "intelligence": 9,
-      "wisdom": 9,
-      "charisma": 8,
-      "weapon": "slam",
-      "armor": "plate",
-      "name": "guardian",
-      "adaptation": "none",
-      "maxHp": 13,
-      "maxMana": 3,
-      "speed": 0
-    }
-  },
-  {
-    "command": "deem run --type forest --seed choice- --templates \"$fixture/templates.json\"",
-    "output": {
-      "terrain": "forest",
-      "family": "humanoid",
-      "raceId": "elf",
+      "raceId": "human",
       "classId": "warrior",
       "level": 1,
       "traits": [
         "humanoid",
-        "agile",
-        "perceptive"
+        "adaptable",
+        "versatile"
       ],
       "abilities": [
         "defend",
@@ -217,23 +23,221 @@
         "sweep"
       ],
       "trace": [
-        "ancestry:elf",
+        "ancestry:human",
         "class:warrior",
         "adaptation:none"
       ],
-      "strength": 11,
-      "dexterity": 16,
-      "intelligence": 13,
-      "wisdom": 14,
-      "constitution": 13,
-      "charisma": 11,
-      "weapon": "longsword",
+      "strength": 8,
+      "dexterity": 8,
+      "intelligence": 7,
+      "wisdom": 9,
+      "constitution": 16,
+      "charisma": 9,
+      "weapon": "battleaxe",
       "armor": "chainmail",
-      "name": "Elf warrior",
+      "name": "Human warrior",
+      "adaptation": "none",
+      "maxHp": 15,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type dragon --seed choice-",
+    "output": {
+      "family": "dragon",
+      "terrain": "any",
+      "lineage": "white",
+      "maturity": "young",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 3,
+      "traits": [
+        "formidable",
+        "flying",
+        "cold_lineage"
+      ],
+      "abilities": [
+        "breathe_cold"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:white",
+        "maturity:young",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 23,
+      "dexterity": 16,
+      "constitution": 20,
+      "intelligence": 17,
+      "wisdom": 15,
+      "charisma": 19,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Young white dragon",
+      "adaptation": "none",
+      "maxHp": 36,
+      "maxMana": 5,
+      "speed": 3
+    }
+  },
+  {
+    "command": "deem run --type animal --seed choice-",
+    "output": {
+      "family": "animal",
+      "terrain": "any",
+      "body": "wolf",
+      "raceId": "wolf",
+      "level": 1,
+      "traits": [],
+      "abilities": [
+        "rending_bite",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:wolf",
+        "adaptation:none"
+      ],
+      "strength": 12,
+      "dexterity": 5,
+      "intelligence": 6,
+      "wisdom": 7,
+      "constitution": 9,
+      "charisma": 13,
+      "classId": "",
+      "weapon": "bite",
+      "armor": "fur",
+      "name": "Wolf",
+      "adaptation": "none",
+      "maxHp": 6,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type humanoid --seed choice-",
+    "output": {
+      "family": "humanoid",
+      "terrain": "any",
+      "raceId": "human",
+      "classId": "warrior",
+      "level": 1,
+      "traits": [
+        "humanoid",
+        "adaptable",
+        "versatile"
+      ],
+      "abilities": [
+        "defend",
+        "taunt",
+        "vigor_up",
+        "cleave",
+        "prepare_charge",
+        "charge",
+        "second_wind",
+        "sweep"
+      ],
+      "trace": [
+        "ancestry:human",
+        "class:warrior",
+        "adaptation:none"
+      ],
+      "strength": 12,
+      "dexterity": 8,
+      "intelligence": 6,
+      "wisdom": 10,
+      "constitution": 13,
+      "charisma": 10,
+      "weapon": "battleaxe",
+      "armor": "scale",
+      "name": "Human warrior",
       "adaptation": "none",
       "maxHp": 14,
       "maxMana": 3,
-      "speed": 3
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type construct --seed choice-",
+    "output": {
+      "family": "construct",
+      "terrain": "any",
+      "material": "none",
+      "role": "none",
+      "body": "golem",
+      "raceId": "golem",
+      "level": 1,
+      "traits": [
+        "construct"
+      ],
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "trace": [
+        "family:construct",
+        "body:golem",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 17,
+      "dexterity": 7,
+      "constitution": 17,
+      "intelligence": 9,
+      "wisdom": 9,
+      "charisma": 8,
+      "weapon": "slam",
+      "armor": "plate",
+      "name": "Golem",
+      "adaptation": "none",
+      "maxHp": 13,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type forest --seed choice- --templates \"$fixture/templates.json\"",
+    "output": {
+      "terrain": "forest",
+      "family": "humanoid",
+      "raceId": "human",
+      "classId": "warrior",
+      "level": 1,
+      "traits": [
+        "humanoid",
+        "adaptable",
+        "versatile"
+      ],
+      "abilities": [
+        "defend",
+        "taunt",
+        "vigor_up",
+        "cleave",
+        "prepare_charge",
+        "charge",
+        "second_wind",
+        "sweep"
+      ],
+      "trace": [
+        "ancestry:human",
+        "class:warrior",
+        "adaptation:none"
+      ],
+      "strength": 8,
+      "dexterity": 8,
+      "intelligence": 7,
+      "wisdom": 9,
+      "constitution": 16,
+      "charisma": 9,
+      "weapon": "battleaxe",
+      "armor": "chainmail",
+      "name": "Human warrior",
+      "adaptation": "none",
+      "maxHp": 15,
+      "maxMana": 3,
+      "speed": 0
     }
   },
   {
@@ -297,17 +301,17 @@
         "adaptation:frost"
       ],
       "strength": 12,
-      "dexterity": 10,
-      "intelligence": 13,
-      "wisdom": 13,
-      "constitution": 13,
-      "charisma": 12,
+      "dexterity": 5,
+      "intelligence": 6,
+      "wisdom": 7,
+      "constitution": 9,
+      "charisma": 13,
       "classId": "",
       "weapon": "claws",
       "armor": "fur",
       "name": "Bear",
       "adaptation": "frost",
-      "maxHp": 14,
+      "maxHp": 12,
       "maxMana": 3,
       "speed": 0
     }
@@ -336,19 +340,19 @@
         "class:ranger",
         "adaptation:none"
       ],
-      "strength": 15,
-      "dexterity": 13,
-      "intelligence": 14,
-      "wisdom": 17,
-      "constitution": 14,
-      "charisma": 14,
+      "strength": 9,
+      "dexterity": 10,
+      "intelligence": 7,
+      "wisdom": 14,
+      "constitution": 10,
+      "charisma": 9,
       "weapon": "shortbow",
-      "armor": "leather",
+      "armor": "scale",
       "name": "Elf ranger",
       "adaptation": "none",
-      "maxHp": 12,
+      "maxHp": 10,
       "maxMana": 3,
-      "speed": 2
+      "speed": 0
     }
   },
   {

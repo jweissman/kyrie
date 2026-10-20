@@ -113,7 +113,7 @@ describe('score-only attributes and derived statMod', () => {
   it('checks the CLI generation entrypoint, including a nested contextual caller', () => {
     const args = { type: 'attributes', seed: 'attribute-review' };
     const output = AttributesTest.cli(args);
-    expect(output).toEqual({ strength: 12, dexterity: 9, intelligence: 9, wisdom: 9, constitution: 10, charisma: 15 });
+    expect(output).toEqual({ strength: 11, dexterity: 10, intelligence: 8, wisdom: 13, constitution: 7, charisma: 8 });
     expect(AttributesTest.cli(args)).toEqual(output);
     const dir = mkdtempSync(join(tmpdir(), 'kyr-attributes-'));
     try {

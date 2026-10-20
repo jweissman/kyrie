@@ -5,9 +5,19 @@ import { Expressions } from '../expressions';
 import type { Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
 
+// Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
+interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
 export class ModuleCompiler {
+  private lookup?: Lookup;
+  private signatures = new WeakMap<Signature[], Map<string, Signature>>();
   constructor(private readonly capabilities: Signature[] = []) {}
   validate(module: Module) {
+    this.lookup = { types: new Map(module.entities.map(e => [e.id, e.type])), relations: module.relations,
+      predicates: [...module.relations, ...module.queries.map(q => ({ name: q.name,
+        types: q.parameters.map(p => p.type), exclusive: false }))] };
+    try { this.check(module); } finally { this.lookup = undefined; this.signatures = new WeakMap(); }
+  }
+  private check(module: Module) {
     Spatial.validate(module);
     ModuleCompiler.unique(module.kinds, 'kind');
     ModuleCompiler.unique(module.entities.map(e => e.id), 'entity');
@@ -65,7 +75,7 @@ export class ModuleCompiler {
       ModuleCompiler.unique((action.parameters ?? []).map(p => p.name), 'action parameter');
       (action.parameters ?? []).forEach(p => {
         this.kind(module, p.type);
-        if (module.entities.some(e => e.id === p.name)) { throw new Error(`Parameter shadows entity ${p.name}`); }
+        if (this.type(module, p.name)) { throw new Error(`Parameter shadows entity ${p.name}`); }
       });
       this.predicate(module, action.requires, bindings);
       [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
@@ -123,22 +133,27 @@ export class ModuleCompiler {
   private text(module: Module, text: string, bindings: Record<string, string> = {}) {
     for (const call of ObservationText.references(text)) { this.call(module, call, module.measures, bindings); }
     for (const id of ObservationText.names(text)) {
-      if (!bindings[id] && !module.entities.some(e => e.id === id)) { throw new Error(`Text names unknown entity {${id}}`); }
+      if (!bindings[id] && !this.type(module, id)) { throw new Error(`Text names unknown entity {${id}}`); }
     }
   }
-  private static unique(names: string[], label: string) {
-    const repeated = names.filter((n, i) => names.indexOf(n) !== i);
+  static unique(names: string[], label: string) {
+    const seen = new Set<string>(), repeated = names.filter(n => seen.size === seen.add(n).size);
     if (repeated.length) { throw new Error(`Duplicate ${label} ${[...new Set(repeated)].join(', ')}`); }
+  }
+  private type(module: Module, id: string): string | undefined {
+    return this.lookup ? this.lookup.types.get(id) : module.entities.find(e => e.id === id)?.type;
   }
   private kind(module: Module, kind: string) {
     if (kind !== 'entity' && !module.kinds.includes(kind)) { throw new Error(`Unknown kind ${kind}`); }
   }
   private call(module: Module, call: Call, signatures: Signature[], bindings: Record<string, string> = {}) {
-    const signature = signatures.find(s => s.name === call.name);
+    let index = this.signatures.get(signatures);
+    if (!index) { index = new Map(signatures.map(s => [s.name, s])); this.signatures.set(signatures, index); }
+    const signature = index.get(call.name);
     if (!signature || signature.types.length !== call.args.length) { throw new Error(`Unknown function or arity: ${World.format(call)}`); }
     call.args.forEach((arg, i) => {
       if (arg.startsWith('?')) { return; }
-      const type = bindings[arg] ?? module.entities.find(e => e.id === arg)?.type;
+      const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
       if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
         throw new Error(`Invalid argument ${arg} in ${World.format(call)}`);
@@ -148,8 +163,8 @@ export class ModuleCompiler {
   private predicate(module: Module, predicate: Predicate, bindings: Record<string, string> = {}) {
     switch (predicate.kind) {
       case 'call':
-        this.call(module, predicate, [...module.relations, ...module.queries.map(q => ({ name: q.name,
-          types: q.parameters.map(p => p.type), exclusive: false }))], bindings);
+        this.call(module, predicate, this.lookup?.predicates ?? [...module.relations, ...module.queries.map(q => ({
+          name: q.name, types: q.parameters.map(p => p.type), exclusive: false }))], bindings);
         break;
       case 'compare': this.value(module, predicate.left, bindings); this.value(module, predicate.right, bindings); break;
       case 'and': case 'or': this.predicate(module, predicate.left, bindings); this.predicate(module, predicate.right, bindings); break;

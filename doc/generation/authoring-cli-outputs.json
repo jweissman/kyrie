@@ -22,19 +22,19 @@
         "adaptation:none"
       ],
       "strength": 9,
-      "dexterity": 7,
-      "intelligence": 14,
-      "wisdom": 5,
-      "constitution": 14,
-      "charisma": 12,
+      "dexterity": 13,
+      "intelligence": 4,
+      "wisdom": 11,
+      "constitution": 7,
+      "charisma": 6,
       "classId": "",
       "weapon": "claws",
       "armor": "fur",
       "name": "Bear",
       "adaptation": "none",
-      "maxHp": 14,
+      "maxHp": 12,
       "maxMana": 3,
-      "speed": 0
+      "speed": 2
     }
   },
   {
@@ -55,7 +55,8 @@
       "traits": [
         "formidable",
         "flying",
-        "acid_lineage"
+        "acid_lineage",
+        "marsh_adapted"
       ],
       "abilities": [
         "breathe_acid"
@@ -64,7 +65,7 @@
         "family:dragon",
         "lineage:copper",
         "maturity:adult",
-        "adaptation:none"
+        "adaptation:marsh"
       ],
       "classId": "",
       "strength": 35,
@@ -76,7 +77,7 @@
       "weapon": "bite",
       "armor": "scale",
       "name": "Adult copper dragon",
-      "adaptation": "none",
+      "adaptation": "marsh",
       "maxHp": 99,
       "maxMana": 8,
       "speed": 9
@@ -108,19 +109,19 @@
         "adaptation:frost"
       ],
       "strength": 9,
-      "dexterity": 7,
-      "intelligence": 14,
-      "wisdom": 5,
-      "constitution": 14,
-      "charisma": 12,
+      "dexterity": 13,
+      "intelligence": 4,
+      "wisdom": 11,
+      "constitution": 7,
+      "charisma": 6,
       "classId": "",
       "weapon": "claws",
       "armor": "fur",
       "name": "Bear",
       "adaptation": "frost",
-      "maxHp": 14,
+      "maxHp": 12,
       "maxMana": 3,
-      "speed": 0
+      "speed": 2
     }
   },
   {
@@ -141,7 +142,8 @@
       "level": 1,
       "traits": [
         "construct",
-        "formidable"
+        "formidable",
+        "frost_adapted"
       ],
       "abilities": [
         "smash",
@@ -152,7 +154,7 @@
         "body:golem",
         "material:stone",
         "role:guardian",
-        "adaptation:none"
+        "adaptation:frost"
       ],
       "classId": "",
       "strength": 17,
@@ -164,7 +166,7 @@
       "weapon": "slam",
       "armor": "plate",
       "name": "Stone guardian",
-      "adaptation": "none",
+      "adaptation": "frost",
       "maxHp": 17,
       "maxMana": 3,
       "speed": 0

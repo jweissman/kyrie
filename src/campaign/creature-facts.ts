@@ -13,42 +13,53 @@ import { PartyCapabilities } from './party-capabilities';
 
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
+  // Every relation or measure `project` writes.
+  static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
+    'treatable', 'canCast', 'able', 'dead', 'quantity'];
+  // Changes whenever the store or a relation `project` writes has changed.
+  static stamp(world: World, store: CreatureStore): string {
+    return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
+  }
   static project(world: World, actors: CampaignActor[], store: CreatureStore): World {
     const changes: Change[] = [];
-    const declaredAbilities = Content.abilities.filter(a => world.module.entities.some(e =>
-      e.type === 'ability' && e.id === a.id));
+    const abilityIds = new Set(world.module.entities.filter(e => e.type === 'ability').map(e => e.id));
+    const declaredAbilities = Content.abilities.filter(a => abilityIds.has(a.id));
     const fieldAbilities = declaredAbilities.filter(a => FieldUse.safe(a.id));
+    const { entities, relations } = world.module, has = new Set(relations.map(r => r.name));
+    const capabilities = entities.filter(e => e.type === 'capability'), items = entities.filter(e => e.type === 'item');
+    const kinds = entities.filter(e => e.type === 'itemkind');
+    const references = new Map(entities.filter(e => e.creatureId).map(e => [e.creatureId!, e.id]));
     for (const actor of actors) {
       const members = actor.members.map(id => store.get(id));
-      if (world.module.relations.some(r => r.name === 'capable')) {
-        for (const capability of world.module.entities.filter(e => e.type === 'capability')) {
+      if (has.has('capable')) {
+        for (const capability of capabilities) {
           changes.push({ kind: PartyCapabilities.has(capability.id, members) ? 'assert' : 'retract',
             call: ModuleWriter.call('capable', actor.id, capability.id) });
         }
       }
-      if (world.module.relations.some(r => r.name === 'memberOf')) {
+      if (has.has('memberOf')) {
         for (const c of members) {
-          const reference = world.module.entities.find(e => e.creatureId === c.id)?.id;
+          const reference = references.get(c.id);
           if (!reference) { throw new Error(`Missing canonical member binding for ${c.id}`); }
           const ready = c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id));
           changes.push({ kind: 'assert', call: ModuleWriter.call('memberOf', reference, actor.id) });
           changes.push({ kind: ready ? 'assert' : 'retract', call: ModuleWriter.call('awake', reference) });
           changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
             call: ModuleWriter.call('needsCare', reference) });
-          if (world.module.relations.some(r => r.name === 'ownedItem')) {
-            for (const item of world.module.entities.filter(e => e.type === 'item')) {
+          if (has.has('ownedItem')) {
+            for (const item of items) {
               const owned = c.state.inventory?.find(i => i.id === item.id);
               changes.push({ kind: owned ? 'assert' : 'retract', call: ModuleWriter.call('ownedItem', item.id, reference) });
               changes.push({ kind: owned?.equipped ? 'assert' : 'retract', call: ModuleWriter.call('wearing', item.id, reference) });
             }
           }
-          if (world.module.relations.some(r => r.name === 'proficient')) {
-            for (const kind of world.module.entities.filter(e => e.type === 'itemkind')) {
+          if (has.has('proficient')) {
+            for (const kind of kinds) {
               changes.push({ kind: Creation.canEquip(c.classId, kind.id) ? 'assert' : 'retract',
                 call: ModuleWriter.call('proficient', reference, kind.id) });
             }
           }
-          if (world.module.relations.some(r => r.name === 'canTrain')) {
+          if (has.has('canTrain')) {
             for (const a of declaredAbilities) {
               const eligible = ready && c.state.experience >= 20
                 && ![...c.base.abilities, ...c.state.learnedAbilities].includes(a.id);
@@ -56,14 +67,15 @@ export class CreatureFacts {
             }
           }
           for (const item of c.state.inventory ?? []) { ItemCatalog.get(item.definition); }
+          const known = new Set([...c.base.abilities, ...c.state.learnedAbilities,
+            ...Object.keys(ItemCatalog.abilities(c))]);
           for (const a of fieldAbilities) {
             const useful = a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
               || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
               || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status)));
             changes.push({ kind: useful ? 'assert' : 'retract', call: ModuleWriter.call('treatable', reference, a.id) });
-            const known = [...c.base.abilities, ...c.state.learnedAbilities, ...Object.keys(ItemCatalog.abilities(c))];
             // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
-            const usable = ready && known.includes(a.id) && c.state.mana >= (a.cost ?? 0)
+            const usable = ready && known.has(a.id) && c.state.mana >= (a.cost ?? 0)
               && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(c.base.level);
             changes.push({ kind: usable ? 'assert' : 'retract', call: ModuleWriter.call('canCast', reference, a.id) });
           }
@@ -77,12 +89,9 @@ export class CreatureFacts {
       changes.push({ kind: 'set', call: ModuleWriter.call('quantity', actor.id, 'gold'),
         value: ModuleWriter.number(members.reduce((sum, c) => sum + c.state.gold, 0)) });
     }
-    const snapshot = world.snapshot;
-    const facts = new Set(snapshot.relations.map(World.key));
-    const measures = new Map(snapshot.measures.map(m => [World.key(m.call), m.value]));
-    const different = changes.filter(c => c.kind === 'assert' ? !facts.has(World.key(c.call)) :
-      c.kind === 'retract' ? facts.has(World.key(c.call)) :
-        'value' in c && c.value.kind !== 'call' && World.literal(c.value) !== (measures.get(World.key(c.call)) ?? 0));
+    const different = changes.filter(c => c.kind === 'assert' ? !world.test(c.call) :
+      c.kind === 'retract' ? world.test(c.call) :
+        'value' in c && c.value.kind !== 'call' && World.literal(c.value) !== world.number(c.call));
     return different.length ? world.apply(different) : world;
   }
   static initialize(world: World, actors: CampaignActor[], store: CreatureStore) {

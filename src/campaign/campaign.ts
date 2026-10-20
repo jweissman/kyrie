@@ -16,6 +16,7 @@ import type { InstalledModule, CampaignActor, CampaignDefinition } from './defin
 import { ModuleWriter } from '../lang/module-writer';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
+import { LoadCache } from './load-cache';
 import { CombatProjection } from '../combat-projection';
 import type { Creature } from '../creature';
 import { Battle } from '../arena';
@@ -107,7 +108,27 @@ export class Campaign implements TickHost {
     this.refresh(); this.observe();
     this.updateOutcome();
   }
+  // Loading is deterministic in (source, path, seed, party), so later loads fork the first.
+  private static loads = new LoadCache<Campaign>();
   static async load(path: string, seed: string, source: BundleSource,
+    party?: CreatureGenerationContext[]): Promise<Campaign> {
+    return (await this.loads.get(source, JSON.stringify([path, seed, party ?? null]),
+      () => this.assemble(path, seed, source, party && structuredClone(party)))).fork();
+  }
+  private static arrays<T extends object>(o: T): T {
+    return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
+  }
+  // A fork shares compiled operators and definition records, which are never mutated after loading, behind fresh
+  // top-level arrays, and copies all mutable state.
+  private fork(): Campaign {
+    const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays;
+    Object.assign(copy, { compiled: arrays(this.compiled), definition: this.definition && arrays(this.definition),
+      current: structuredClone(this.current), creatures: new CreatureStore(this.creatures.snapshot),
+      log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
+      executing: false });
+    return copy;
+  }
+  private static async assemble(path: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[]): Promise<Campaign> {
     const manifest = await ModuleBundle.campaign(path, source);
     party ??= manifest.party;
@@ -175,7 +196,7 @@ export class Campaign implements TickHost {
       }
     }
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
-    this.current.world = world.snapshot; this.current.deadline = next.budget;
+    this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
     this.updateOutcome();
   }
@@ -227,13 +248,31 @@ export class Campaign implements TickHost {
     return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters'));
   }
   get events(): CampaignEvent[] { return structuredClone(this.log); }
-  get world(): World { return new World(this.module, this.current.world); }
+  // Worlds are immutable; one is built per distinct state object (and module) rather than per access.
+  private viewed?: { state: WorldState; module: Module; world: World };
+  private commit(world: World) {
+    const state = world.snapshot;
+    this.current.world = state;
+    this.viewed = { state, module: this.module, world };
+  }
+  get world(): World {
+    const v = this.viewed;
+    if (v && v.state === this.current.world && v.module === this.module) { return v.world; }
+    const world = new World(this.module, this.current.world);
+    this.viewed = { state: this.current.world, module: this.module, world };
+    return world;
+  }
+  private applicable?: { world: World; player: CampaignActor | undefined; actions: Operator[] };
   available(): Operator[] {
     if (!this.running || this.executing) { return []; }
     const player = this.definition?.actors.find(a => a.player), world = this.world;
-    return structuredClone(this.module.actions.filter(action => (!player || (action.actor === player.id
-      && (player.allActions || player.actions.includes(action.schema ?? action.id))))
-      && Planner.applicable(world, action)));
+    const memo = this.applicable;
+    if (memo?.world === world && memo.player === player) { return structuredClone(memo.actions); }
+    const own = player ? Planner.byActor(this.module.actions, player.id) : this.module.actions;
+    const actions = Planner.applicableAmong(world, own)
+      .filter(action => !player || player.allActions || player.actions.includes(action.schema ?? action.id));
+    this.applicable = { world, player, actions };
+    return structuredClone(actions);
   }
   plan(moduleId?: string) {
     if (!this.persistent && this.current.outcome === 'failure') { return null; }
@@ -315,7 +354,7 @@ export class Campaign implements TickHost {
     const before = this.world;
     this.apply(action, success);
     if (this.definition) { this.refresh(); }
-    this.current.world = Aftermath.record(before, this.world, action, combat).snapshot;
+    this.commit(Aftermath.record(before, this.world, action, combat));
     let response = success && action.report ? ObservationText.render(action.report, this.world) : undefined;
     if (!success && action.resolve?.name === 'expose') {
       response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
@@ -326,11 +365,11 @@ export class Campaign implements TickHost {
       if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
         { world: this.world, actors: this.definition?.actors ?? [], player: this.playerActor })) { this.refresh(); }
       if (this.definition) {
-        this.current.world = this.world.apply([{ kind: 'set', call: ModuleWriter.call('watch', 'clock'),
-          value: ModuleWriter.number(this.current.elapsed) }]).snapshot;
+        this.commit(this.world.apply([{ kind: 'set', call: ModuleWriter.call('watch', 'clock'),
+          value: ModuleWriter.number(this.current.elapsed) }]));
         CampaignTick.npcs(this, npc as TickDecision[]);
         CampaignTick.rules(this, happenings);
-        this.current.world = Progression.check(this.world, this.definition, this.current.elapsed).snapshot;
+        this.commit(Progression.check(this.world, this.definition, this.current.elapsed));
         this.observe();
       }
     }
@@ -376,20 +415,9 @@ export class Campaign implements TickHost {
     this.log.push(event);
     return structuredClone(event);
   }
-  private randomIdentity(id: string): string {
-    const owner = this.definition?.installations?.find(m => id.startsWith(`${m.id}__`));
-    return owner ? `${owner.seed}:${id.slice(owner.id.length + 2)}` : id;
-  }
-  private randomActionKey(action: Operator): string {
-    return JSON.stringify([action.resolve?.name, ...(action.resolve?.args ?? [action.id])
-      .map(id => this.randomIdentity(id))]);
-  }
   private randomSeed(action: Operator, domain: string): string {
-    const occurrence = this.log.filter(e => {
-      const previous = this.module.actions.find(a => a.id === e.action);
-      return previous && this.randomActionKey(previous) === this.randomActionKey(action);
-    }).length;
-    return RandomStreams.key(this.current.seed, domain, this.randomActionKey(action), occurrence);
+    return RandomStreams.command(this.current.seed, domain, { installations: this.definition?.installations,
+      actions: this.module.actions, history: this.log }, action);
   }
   private field(action: Operator): CombatEvent[] {
     const call = structuredClone(action.resolve!);
@@ -455,12 +483,17 @@ export class Campaign implements TickHost {
   private apply(action: Operator, success: boolean) {
     const before = this.world, after = before.apply(success ? action.success : action.failure);
     if (this.definition) { CreatureFacts.commitMoney(before, after, this.definition.actors, this.creatures); }
-    this.current.world = after.snapshot;
+    this.commit(after);
   }
+  // The projection is a function of creatures, actors and the relations it writes; skip it when none has changed.
+  private projected?: { store: CreatureStore; stamp: string; actors: CampaignActor[]; module: Module };
   private refresh() {
-    if (this.definition) {
-      this.current.world = CreatureFacts.project(this.world, this.definition.actors, this.creatures).snapshot;
-    }
+    if (!this.definition) { return; }
+    const p = this.projected, { creatures: store, definition: { actors } } = this;
+    if (p?.store === store && p.actors === actors && p.module === this.module
+      && p.stamp === CreatureFacts.stamp(this.world, store)) { return; }
+    this.commit(CreatureFacts.project(this.world, actors, store));
+    this.projected = { store, stamp: CreatureFacts.stamp(this.world, store), actors, module: this.module };
   }
   private observe() {
     if (!this.definition) { return; }

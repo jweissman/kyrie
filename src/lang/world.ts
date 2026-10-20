@@ -1,28 +1,71 @@
-import type { Call, Change, Module, NumberValue, Predicate, Value, WorldState } from './module';
+import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, WorldState } from './module';
 
+// Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
+// (by identity or length) rebuilds the index.
+interface Signatures {
+  relations: Map<string, Signature>; measures: Set<string>; queries: Map<string, Module['queries'][number]>;
+  source: [Signature[], Signature[], Module['queries']]; lengths: [number, number, number] }
+type Measure = { call: Call; value: number };
+
+// An immutable view of world state. Facts are indexed by key and by relation name; `apply` forks the indexes
+// instead of re-cloning and re-keying the whole state. Calls held by a world are never mutated.
 export class World {
-  private state: WorldState;
-  private facts: Set<string>;
-  private quantities: Map<string, number>;
-  private index?: Map<string, Call[]>;
+  private facts: Map<string, Call>;
+  private byName: Map<string, Map<string, Call>>;
+  private quantities: Map<string, Measure>;
+  private owned = new Set<string>();
+  // A globally unique stamp per write to each relation or measure name, so views derived from some names can tell
+  // whether those names changed between two worlds.
+  private stamps = new Map<string, number>();
+  private static writes = 0;
+  private memoKey?: string;
+  private memoSnapshot?: WorldState;
   private static readonly open = new WeakMap<object, boolean>();
+  private static readonly signatures = new WeakMap<Module, Signatures>();
   constructor(readonly module: Module, state: WorldState = { relations: [], measures: [] }) {
-    this.state = structuredClone(state);
-    this.facts = new Set(this.state.relations.map(World.key));
-    this.quantities = new Map(this.state.measures.map(m => [World.key(m.call), m.value]));
+    this.facts = new Map(); this.byName = new Map(); this.quantities = new Map();
+    for (const call of state.relations) { this.add(World.key(call), World.copy(call)); }
+    for (const m of state.measures) {
+      this.quantities.set(World.key(m.call), { call: World.copy(m.call), value: m.value });
+    }
   }
-  get snapshot(): WorldState { return structuredClone(this.state); }
+  private static fork(from: World): World {
+    const next = Object.create(World.prototype) as World;
+    (next as { module: Module }).module = from.module;
+    next.facts = new Map(from.facts); next.quantities = new Map(from.quantities);
+    next.byName = new Map(from.byName); next.owned = new Set(); next.stamps = new Map(from.stamps);
+    return next;
+  }
+  private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
+  get snapshot(): WorldState {
+    this.memoSnapshot ??= { relations: [...this.facts.values()], measures: [...this.quantities.values()] };
+    return { relations: this.memoSnapshot.relations.map(World.copy),
+      measures: this.memoSnapshot.measures.map(m => ({ call: World.copy(m.call), value: m.value })) };
+  }
+  // Whether the fact with this key (see `key`) currently holds.
+  holds(key: string): boolean { return this.facts.has(key); }
   static key(call: Call): string { return JSON.stringify([call.name, ...call.args]); }
   static format(call: Call): string { return `${call.name}(${call.args.join(', ')})`; }
+  private static index(module: Module): Signatures {
+    const cached = World.signatures.get(module);
+    if (cached && cached.source[0] === module.relations && cached.source[1] === module.measures
+      && cached.source[2] === module.queries && cached.lengths[0] === module.relations.length
+      && cached.lengths[1] === module.measures.length && cached.lengths[2] === module.queries.length) { return cached; }
+    const built: Signatures = { relations: new Map(module.relations.map(r => [r.name, r])),
+      measures: new Set(module.measures.map(m => m.name)), queries: new Map(module.queries.map(q => [q.name, q])),
+      source: [module.relations, module.measures, module.queries],
+      lengths: [module.relations.length, module.measures.length, module.queries.length] };
+    World.signatures.set(module, built);
+    return built;
+  }
   private bind(call: Call, bindings: Record<string, string>): Call {
     return { ...call, args: call.args.map(arg => bindings[arg] ?? arg) };
   }
   number(value: Value, bindings: Record<string, string> = {}): number {
     if (value.kind === 'number') { return value.value; }
     if (value.kind === 'deem') { throw new Error('Deem module values must be instantiated before execution'); }
-    if (!this.module.measures.some(m => m.name === value.name)) { throw new Error(`Unknown measure ${value.name}`); }
-    const key = World.key(this.bind(value, bindings));
-    return this.quantities.get(key) ?? 0;
+    if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
+    return this.quantities.get(World.key(this.bind(value, bindings)))?.value ?? 0;
   }
   // A predicate may contain existential variables (?name). Closed predicates keep the direct evaluator.
   test(predicate: Predicate, bindings: Record<string, string> = {}): boolean {
@@ -37,16 +80,6 @@ export class World {
     World.open.set(p, result);
     return result;
   }
-  private facts$(name: string): Call[] {
-    if (!this.index) {
-      this.index = new Map();
-      for (const call of this.state.relations) {
-        if (!this.index.has(call.name)) { this.index.set(call.name, []); }
-        this.index.get(call.name)!.push(call);
-      }
-    }
-    return this.index.get(name) ?? [];
-  }
   // Depth-first search over bindings; negation succeeds when no binding exists (variables stay existential).
   *solve(p: Predicate, b: Record<string, string>): Generator<Record<string, string>> {
     switch (p.kind) {
@@ -57,14 +90,14 @@ export class World {
       default: if (this.closed(p, b)) { yield b; } return;
     }
     const args = p.args.map(a => b[a] ?? a);
-    const query = this.module.queries.find(q => q.name === p.name);
-    if (query || !args.some(a => a.startsWith('?'))) {
+    const signatures = World.index(this.module);
+    if (signatures.queries.has(p.name) || !args.some(a => a.startsWith('?'))) {
       if (args.some(a => a.startsWith('?'))) { throw new Error(`Query ${p.name} needs bound arguments`); }
       if (this.closed({ ...p, args }, {})) { yield b; }
       return;
     }
-    if (!this.module.relations.some(r => r.name === p.name)) { throw new Error(`Unknown predicate ${p.name}`); }
-    for (const fact of this.facts$(p.name)) {
+    if (!signatures.relations.has(p.name)) { throw new Error(`Unknown predicate ${p.name}`); }
+    for (const fact of [...(this.byName.get(p.name)?.values() ?? [])]) {
       const next = { ...b };
       if (fact.args.every((value, i) => {
         const arg = args[i]!;
@@ -82,13 +115,14 @@ export class World {
       case 'or': return this.closed(predicate.left, bindings) || this.closed(predicate.right, bindings);
       case 'call': {
         const call = this.bind(predicate, bindings);
-        const query = this.module.queries.find(q => q.name === call.name);
+        const signatures = World.index(this.module);
+        const query = signatures.queries.get(call.name);
         if (query) {
           const argumentsByName: Record<string, string> = {};
           query.parameters.forEach((parameter, index) => { argumentsByName[parameter.name] = call.args[index]!; });
           return this.test(query.body, argumentsByName);
         }
-        if (!this.module.relations.some(r => r.name === call.name)) { throw new Error(`Unknown predicate ${call.name}`); }
+        if (!signatures.relations.has(call.name)) { throw new Error(`Unknown predicate ${call.name}`); }
         return this.facts.has(World.key(call));
       }
       case 'compare': {
@@ -105,45 +139,85 @@ export class World {
     }
   }
   apply(changes: Change[]): World {
-    const next = new World(this.module, this.state);
+    const next = World.fork(this);
     for (const change of changes) { next.change(change); }
     return next;
   }
+  // Whether `apply(changes)` would succeed, without building the next world.
+  admits(changes: Change[]): boolean {
+    const signatures = World.index(this.module), pending = new Map<string, number>();
+    for (const change of changes) {
+      if (change.kind === 'assert' || change.kind === 'retract') {
+        if (!signatures.relations.has(change.call.name)) { return false; }
+        continue;
+      }
+      if (!signatures.measures.has(change.call.name)) { return false; }
+      try {
+        const amount = change.value.kind === 'call' ? this.pending(pending, change.value) : World.literal(change.value);
+        const previous = this.pending(pending, change.call), key = World.key(change.call);
+        const value = change.kind === 'set' ? amount : change.kind === 'increase' ? previous + amount : previous - amount;
+        if (!Number.isSafeInteger(value) || value < 0) { return false; }
+        pending.set(key, value);
+      } catch { return false; }
+    }
+    return true;
+  }
+  private pending(pending: Map<string, number>, call: Call): number {
+    if (!World.index(this.module).measures.has(call.name)) { throw new Error(`Unknown measure ${call.name}`); }
+    const key = World.key(call);
+    return pending.has(key) ? pending.get(key)! : this.quantities.get(key)?.value ?? 0;
+  }
+  private add(key: string, call: Call) {
+    this.facts.set(key, call);
+    let named = this.byName.get(call.name);
+    if (!named) { named = new Map(); this.byName.set(call.name, named); this.owned.add(call.name); }
+    named.set(key, call);
+  }
+  // Copy-on-write: a forked world shares per-name maps with its parent until it first writes that name.
+  private named(name: string): Map<string, Call> {
+    if (this.owned.has(name)) { return this.byName.get(name)!; }
+    const own = new Map(this.byName.get(name) ?? []);
+    this.byName.set(name, own); this.owned.add(name);
+    return own;
+  }
+  stamp(name: string): number { return this.stamps.get(name) ?? 0; }
   private change(change: Change) {
-    this.index = undefined;
+    this.memoKey = undefined; this.memoSnapshot = undefined;
+    this.stamps.set(change.call.name, ++World.writes);
     const key = World.key(change.call);
     if (change.kind === 'assert' || change.kind === 'retract') {
-      const relation = this.module.relations.find(r => r.name === change.call.name);
+      const relation = World.index(this.module).relations.get(change.call.name);
       if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
-      this.state.relations = this.state.relations.filter(call => {
-        if (World.key(call) === key) { this.facts.delete(key); return false; }
-        const sameSubject = call.name === change.call.name
-          && call.args.slice(0, -1).every((arg, i) => arg === change.call.args[i]);
-        const removed = change.kind === 'assert' && relation.exclusive && sameSubject;
-        if (removed) { this.facts.delete(World.key(call)); }
-        return !removed;
-      });
-      if (change.kind === 'assert') { this.state.relations.push(structuredClone(change.call)); this.facts.add(key); }
+      const named = this.named(change.call.name);
+      if (this.facts.delete(key)) { named.delete(key); }
+      if (change.kind === 'assert' && relation.exclusive) {
+        for (const [k, call] of [...named]) {
+          if (call.args.slice(0, -1).every((arg, i) => arg === change.call.args[i])) {
+          named.delete(k); this.facts.delete(k);
+        }
+        }
+      }
+      if (change.kind === 'assert') { const call = World.copy(change.call); this.facts.set(key, call); named.set(key, call); }
       return;
     }
     const amount = change.value.kind === 'call' ? this.number(change.value) : World.literal(change.value);
     const previous = this.number(change.call);
     const value = change.kind === 'set' ? amount : change.kind === 'increase' ? previous + amount : previous - amount;
     if (!Number.isSafeInteger(value) || value < 0) { throw new Error(`Invalid quantity for ${World.format(change.call)}`); }
-    this.state.measures = this.state.measures.filter(entry => World.key(entry.call) !== key);
-    if (value === 0) { this.quantities.delete(key); } else { this.quantities.set(key, value); }
-    if (value !== 0) { this.state.measures.push({ call: structuredClone(change.call), value }); }
+    this.quantities.delete(key);
+    if (value !== 0) { this.quantities.set(key, { call: World.copy(change.call), value }); }
   }
   static literal(value: NumberValue): number {
     if (value.kind !== 'number') { throw new Error('Unresolved Deem expression'); }
     return value.value;
   }
   key(): string {
-    return JSON.stringify({ relations: this.state.relations.map(World.key).sort(),
-      measures: this.state.measures.map(entry => [World.key(entry.call), entry.value]).sort() });
+    this.memoKey ??= JSON.stringify({ relations: [...this.facts.keys()].sort(),
+      measures: [...this.quantities].map(([key, entry]) => [key, entry.value]).sort() });
+    return this.memoKey;
   }
   describe(): string[] {
-    return [...this.state.relations.map(World.format),
-      ...this.state.measures.map(entry => `${World.format(entry.call)} = ${entry.value}`)].sort();
+    return [...[...this.facts.values()].map(World.format),
+      ...[...this.quantities.values()].map(entry => `${World.format(entry.call)} = ${entry.value}`)].sort();
   }
 }

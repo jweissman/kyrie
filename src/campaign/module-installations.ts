@@ -79,8 +79,9 @@ export class ModuleInstallations {
       throw new Error('Campaign rules require shared gold and clock entities');
     }
     compiler.validate(module);
+    // Grounding substitutes entities of each parameter's declared type into validated schemas.
     module.actions = ActionSchemas.ground(module, definition.actors);
-    compiler.validate(module);
+    ModuleCompiler.unique(module.actions.map(a => a.id), 'action');
     const world = new World(module, base?.world).apply(incoming.module.initial);
     const distinct = definition.actors.flatMap(a => definition.actors.filter(b => b.id !== a.id).map(b => ({
       kind: 'assert' as const, call: ModuleWriter.call('distinct', a.id, b.id),

@@ -4,100 +4,68 @@
     "commandLine": "deem run --seed public-cli --type creature",
     "definition": {
       "terrain": "any",
-      "family": "humanoid",
-      "raceId": "human",
-      "classId": "warrior",
+      "family": "animal",
+      "body": "wolf",
+      "raceId": "wolf",
       "level": 1,
-      "traits": [
-        "humanoid",
-        "adaptable",
-        "versatile"
-      ],
+      "traits": [],
       "abilities": [
-        "defend",
-        "taunt",
-        "vigor_up",
-        "cleave",
-        "prepare_charge",
-        "charge",
-        "second_wind",
-        "sweep"
+        "rending_bite",
+        "flee"
       ],
       "trace": [
-        "ancestry:human",
-        "class:warrior",
+        "family:animal",
+        "body:wolf",
         "adaptation:none"
       ],
-      "strength": 10,
-      "dexterity": 16,
-      "intelligence": 5,
-      "wisdom": 14,
-      "constitution": 15,
-      "charisma": 9,
-      "weapon": "battleaxe",
-      "armor": "scale",
-      "name": "Human warrior",
+      "strength": 9,
+      "dexterity": 9,
+      "intelligence": 7,
+      "wisdom": 11,
+      "constitution": 3,
+      "charisma": 12,
+      "classId": "",
+      "weapon": "bite",
+      "armor": "fur",
+      "name": "Wolf",
       "adaptation": "none",
-      "maxHp": 15,
+      "maxHp": 6,
       "maxMana": 3,
-      "speed": 3
+      "speed": 0
     },
     "creature": {
       "id": "creature",
-      "name": "Human warrior",
-      "raceId": "human",
-      "classId": "warrior",
-      "traits": [
-        "humanoid",
-        "adaptable",
-        "versatile"
-      ],
+      "name": "Wolf",
+      "raceId": "wolf",
+      "traits": [],
       "base": {
-        "strength": 10,
-        "dexterity": 16,
-        "intelligence": 5,
-        "wisdom": 14,
-        "constitution": 15,
-        "charisma": 9,
+        "strength": 9,
+        "dexterity": 9,
+        "intelligence": 7,
+        "wisdom": 11,
+        "constitution": 3,
+        "charisma": 12,
         "level": 1,
-        "maxHp": 15,
+        "maxHp": 6,
         "maxMana": 3,
-        "speed": 3,
+        "speed": 0,
         "abilities": [
-          "defend",
-          "taunt",
-          "vigor_up",
-          "cleave",
-          "prepare_charge",
-          "charge",
-          "second_wind",
-          "sweep"
+          "rending_bite",
+          "flee"
         ]
       },
       "state": {
-        "hp": 15,
+        "hp": 6,
         "mana": 3,
         "gold": 0,
         "experience": 0,
         "learnedAbilities": [],
-        "conditions": [],
-        "inventory": [
-          {
-            "id": "creature__battleaxe",
-            "definition": "battleaxe",
-            "equipped": true
-          },
-          {
-            "id": "creature__scale",
-            "definition": "scale",
-            "equipped": true
-          }
-        ]
+        "conditions": []
       },
       "generation": {
         "trace": [
-          "ancestry:human",
-          "class:warrior",
+          "family:animal",
+          "body:wolf",
           "adaptation:none"
         ]
       }
@@ -113,12 +81,12 @@
         "turn": 1,
         "order": [
           {
-            "id": "creature",
-            "roll": 10
-          },
-          {
             "id": "right",
             "roll": 8
+          },
+          {
+            "id": "creature",
+            "roll": 7
           },
           {
             "id": "left",
@@ -129,6 +97,27 @@
       {
         "type": "action",
         "turn": 1,
+        "command": {
+          "actor": "right",
+          "ability": "defend",
+          "target": "right"
+        },
+        "source": {
+          "id": "right",
+          "kind": "ability"
+        }
+      },
+      {
+        "type": "status",
+        "detail": "defending",
+        "amount": 1,
+        "turn": 1,
+        "actor": "right",
+        "target": "right"
+      },
+      {
+        "type": "action",
+        "turn": 2,
         "command": {
           "actor": "creature",
           "ability": "melee",
@@ -141,26 +130,26 @@
       },
       {
         "type": "attack",
-        "turn": 1,
+        "turn": 2,
         "actor": "creature",
         "target": "left",
         "die": 20,
         "need": 15,
         "toHit": 0,
         "armorClass": 5,
-        "weapon": "battleaxe",
+        "weapon": "bite",
         "success": true,
         "critical": true
       },
       {
         "type": "damage",
-        "turn": 1,
+        "turn": 2,
         "actor": "creature",
         "target": "left",
-        "rolled": 8,
-        "amount": 8,
-        "hp": 120,
-        "damageType": "slashing",
+        "rolled": 6,
+        "amount": 6,
+        "hp": 122,
+        "damageType": "piercing",
         "modifiers": {
           "bonus": 0,
           "resistance": 0,
@@ -170,22 +159,22 @@
       },
       {
         "type": "save",
-        "turn": 1,
+        "turn": 2,
         "actor": "creature",
         "target": "left",
-        "rolled": 26,
+        "rolled": 27,
         "die": 5,
-        "modifier": 1,
-        "stat": "dexterity",
+        "modifier": 2,
+        "stat": "constitution",
         "level": 20,
         "bonus": 0,
         "difficulty": 15,
         "success": true,
-        "kind": "reflex"
+        "kind": "bleed"
       },
       {
         "type": "end",
-        "turn": 2,
+        "turn": 3,
         "outcome": "escaped",
         "reason": "retreat"
       }
@@ -209,7 +198,8 @@
       "traits": [
         "formidable",
         "flying",
-        "lightning_lineage"
+        "lightning_lineage",
+        "marsh_adapted"
       ],
       "abilities": [
         "breathe_lightning"
@@ -218,7 +208,7 @@
         "family:dragon",
         "lineage:blue",
         "maturity:young",
-        "adaptation:none"
+        "adaptation:marsh"
       ],
       "classId": "",
       "strength": 23,
@@ -230,7 +220,7 @@
       "weapon": "bite",
       "armor": "scale",
       "name": "Young blue dragon",
-      "adaptation": "none",
+      "adaptation": "marsh",
       "maxHp": 36,
       "maxMana": 5,
       "speed": 3
@@ -242,7 +232,8 @@
       "traits": [
         "formidable",
         "flying",
-        "lightning_lineage"
+        "lightning_lineage",
+        "marsh_adapted"
       ],
       "base": {
         "strength": 23,
@@ -272,7 +263,7 @@
           "family:dragon",
           "lineage:blue",
           "maturity:young",
-          "adaptation:none"
+          "adaptation:marsh"
         ]
       }
     },
@@ -431,7 +422,8 @@
       "traits": [
         "formidable",
         "flying",
-        "fire_lineage"
+        "fire_lineage",
+        "marsh_adapted"
       ],
       "abilities": [
         "breathe_fire"
@@ -440,7 +432,7 @@
         "family:dragon",
         "lineage:red",
         "maturity:ancient",
-        "adaptation:none"
+        "adaptation:marsh"
       ],
       "classId": "",
       "strength": 41,
@@ -452,7 +444,7 @@
       "weapon": "bite",
       "armor": "scale",
       "name": "Ancient red dragon",
-      "adaptation": "none",
+      "adaptation": "marsh",
       "maxHp": 180,
       "maxMana": 14,
       "speed": 12
@@ -464,7 +456,8 @@
       "traits": [
         "formidable",
         "flying",
-        "fire_lineage"
+        "fire_lineage",
+        "marsh_adapted"
       ],
       "base": {
         "strength": 41,
@@ -494,7 +487,7 @@
           "family:dragon",
           "lineage:red",
           "maturity:ancient",
-          "adaptation:none"
+          "adaptation:marsh"
         ]
       }
     },
@@ -661,19 +654,19 @@
         "adaptation:frost"
       ],
       "strength": 9,
-      "dexterity": 7,
-      "intelligence": 14,
-      "wisdom": 5,
-      "constitution": 14,
-      "charisma": 12,
+      "dexterity": 13,
+      "intelligence": 4,
+      "wisdom": 11,
+      "constitution": 7,
+      "charisma": 6,
       "classId": "",
       "weapon": "bite",
       "armor": "fur",
       "name": "Wolf",
       "adaptation": "frost",
-      "maxHp": 8,
+      "maxHp": 6,
       "maxMana": 3,
-      "speed": 0
+      "speed": 2
     },
     "creature": {
       "id": "frost_wolf",
@@ -684,22 +677,22 @@
       ],
       "base": {
         "strength": 9,
-        "dexterity": 7,
-        "intelligence": 14,
-        "wisdom": 5,
-        "constitution": 14,
-        "charisma": 12,
+        "dexterity": 13,
+        "intelligence": 4,
+        "wisdom": 11,
+        "constitution": 7,
+        "charisma": 6,
         "level": 1,
-        "maxHp": 8,
+        "maxHp": 6,
         "maxMana": 3,
-        "speed": 0,
+        "speed": 2,
         "abilities": [
           "rending_bite",
           "flee"
         ]
       },
       "state": {
-        "hp": 8,
+        "hp": 6,
         "mana": 3,
         "gold": 0,
         "experience": 0,
@@ -725,64 +718,22 @@
         "turn": 1,
         "order": [
           {
+            "id": "frost_wolf",
+            "roll": 9
+          },
+          {
             "id": "right",
             "roll": 8
           },
           {
             "id": "left",
             "roll": 7
-          },
-          {
-            "id": "frost_wolf",
-            "roll": 6
           }
         ]
       },
       {
         "type": "action",
         "turn": 1,
-        "command": {
-          "actor": "right",
-          "ability": "defend",
-          "target": "right"
-        },
-        "source": {
-          "id": "right",
-          "kind": "ability"
-        }
-      },
-      {
-        "type": "status",
-        "detail": "defending",
-        "amount": 1,
-        "turn": 1,
-        "actor": "right",
-        "target": "right"
-      },
-      {
-        "type": "action",
-        "turn": 2,
-        "command": {
-          "actor": "left",
-          "ability": "defend",
-          "target": "left"
-        },
-        "source": {
-          "id": "left",
-          "kind": "ability"
-        }
-      },
-      {
-        "type": "status",
-        "detail": "defending",
-        "amount": 1,
-        "turn": 2,
-        "actor": "left",
-        "target": "left"
-      },
-      {
-        "type": "action",
-        "turn": 3,
         "command": {
           "actor": "frost_wolf",
           "ability": "rending_bite",
@@ -795,7 +746,7 @@
       },
       {
         "type": "damage",
-        "turn": 3,
+        "turn": 1,
         "actor": "frost_wolf",
         "target": "left",
         "rolled": 6,
@@ -810,7 +761,7 @@
       },
       {
         "type": "save",
-        "turn": 3,
+        "turn": 1,
         "actor": "frost_wolf",
         "target": "left",
         "rolled": 3,
@@ -824,45 +775,13 @@
         "type": "status",
         "detail": "bleeding",
         "amount": 2,
-        "turn": 3,
+        "turn": 1,
         "actor": "frost_wolf",
         "target": "left"
       },
       {
-        "type": "initiative",
-        "turn": 3,
-        "order": [
-          {
-            "id": "right",
-            "roll": 16
-          },
-          {
-            "id": "frost_wolf",
-            "roll": 15
-          },
-          {
-            "id": "left",
-            "roll": 6
-          }
-        ]
-      },
-      {
-        "type": "expire",
-        "turn": 3,
-        "actor": "defending",
-        "target": "left",
-        "detail": "defending"
-      },
-      {
-        "type": "expire",
-        "turn": 3,
-        "actor": "defending",
-        "target": "right",
-        "detail": "defending"
-      },
-      {
         "type": "end",
-        "turn": 4,
+        "turn": 2,
         "outcome": "escaped",
         "reason": "retreat"
       }
@@ -879,13 +798,13 @@
     "definition": {
       "family": "humanoid",
       "terrain": "any",
-      "raceId": "elf",
+      "raceId": "human",
       "classId": "ranger",
       "level": 1,
       "traits": [
         "humanoid",
-        "agile",
-        "perceptive",
+        "adaptable",
+        "versatile",
         "frost_adapted"
       ],
       "abilities": [
@@ -895,46 +814,46 @@
         "ensnare"
       ],
       "trace": [
-        "ancestry:elf",
+        "ancestry:human",
         "class:ranger",
         "adaptation:frost"
       ],
-      "strength": 10,
-      "dexterity": 13,
-      "intelligence": 13,
-      "wisdom": 12,
-      "constitution": 14,
-      "charisma": 11,
+      "strength": 12,
+      "dexterity": 12,
+      "intelligence": 7,
+      "wisdom": 15,
+      "constitution": 5,
+      "charisma": 10,
       "weapon": "shortbow",
       "armor": "chainmail",
-      "name": "Elf ranger",
+      "name": "Human ranger",
       "adaptation": "frost",
-      "maxHp": 12,
+      "maxHp": 10,
       "maxMana": 3,
-      "speed": 2
+      "speed": 1
     },
     "creature": {
       "id": "frost_ranger",
-      "name": "Elf ranger",
-      "raceId": "elf",
+      "name": "Human ranger",
+      "raceId": "human",
       "classId": "ranger",
       "traits": [
         "humanoid",
-        "agile",
-        "perceptive",
+        "adaptable",
+        "versatile",
         "frost_adapted"
       ],
       "base": {
-        "strength": 10,
-        "dexterity": 13,
-        "intelligence": 13,
-        "wisdom": 12,
-        "constitution": 14,
-        "charisma": 11,
+        "strength": 12,
+        "dexterity": 12,
+        "intelligence": 7,
+        "wisdom": 15,
+        "constitution": 5,
+        "charisma": 10,
         "level": 1,
-        "maxHp": 12,
+        "maxHp": 10,
         "maxMana": 3,
-        "speed": 2,
+        "speed": 1,
         "abilities": [
           "defend",
           "heal",
@@ -943,7 +862,7 @@
         ]
       },
       "state": {
-        "hp": 12,
+        "hp": 10,
         "mana": 3,
         "gold": 0,
         "experience": 0,
@@ -964,7 +883,7 @@
       },
       "generation": {
         "trace": [
-          "ancestry:elf",
+          "ancestry:human",
           "class:ranger",
           "adaptation:frost"
         ]
@@ -982,7 +901,7 @@
         "order": [
           {
             "id": "frost_ranger",
-            "roll": 9
+            "roll": 8
           },
           {
             "id": "right",
@@ -1013,8 +932,8 @@
         "actor": "frost_ranger",
         "target": "left",
         "die": 20,
-        "need": 13,
-        "toHit": 2,
+        "need": 14,
+        "toHit": 1,
         "armorClass": 5,
         "weapon": "shortbow",
         "success": true,
@@ -1025,9 +944,9 @@
         "turn": 1,
         "actor": "frost_ranger",
         "target": "left",
-        "rolled": 7,
-        "amount": 7,
-        "hp": 121,
+        "rolled": 6,
+        "amount": 6,
+        "hp": 122,
         "damageType": "piercing",
         "modifiers": {
           "bonus": 0,
@@ -1068,7 +987,7 @@
     "definition": {
       "family": "construct",
       "terrain": "any",
-      "material": "none",
+      "material": "stone",
       "role": "none",
       "body": "golem",
       "raceId": "golem",
@@ -1084,26 +1003,27 @@
       "trace": [
         "family:construct",
         "body:golem",
+        "material:stone",
         "adaptation:frost"
       ],
       "classId": "",
       "strength": 17,
       "dexterity": 7,
-      "constitution": 17,
+      "constitution": 19,
       "intelligence": 9,
       "wisdom": 9,
       "charisma": 8,
       "weapon": "slam",
       "armor": "plate",
-      "name": "Golem",
+      "name": "Stone Golem",
       "adaptation": "frost",
-      "maxHp": 13,
+      "maxHp": 17,
       "maxMana": 3,
       "speed": 0
     },
     "creature": {
       "id": "frost_construct",
-      "name": "Golem",
+      "name": "Stone Golem",
       "raceId": "golem",
       "traits": [
         "construct",
@@ -1114,10 +1034,10 @@
         "dexterity": 7,
         "intelligence": 9,
         "wisdom": 9,
-        "constitution": 17,
+        "constitution": 19,
         "charisma": 8,
         "level": 1,
-        "maxHp": 13,
+        "maxHp": 17,
         "maxMana": 3,
         "speed": 0,
         "abilities": [
@@ -1126,7 +1046,7 @@
         ]
       },
       "state": {
-        "hp": 13,
+        "hp": 17,
         "mana": 3,
         "gold": 0,
         "experience": 0,
@@ -1137,6 +1057,7 @@
         "trace": [
           "family:construct",
           "body:golem",
+          "material:stone",
           "adaptation:frost"
         ]
       }
@@ -1328,19 +1249,19 @@
         "adaptation:none"
       ],
       "strength": 9,
-      "dexterity": 7,
-      "intelligence": 14,
-      "wisdom": 5,
-      "constitution": 14,
-      "charisma": 12,
+      "dexterity": 13,
+      "intelligence": 4,
+      "wisdom": 11,
+      "constitution": 7,
+      "charisma": 6,
       "classId": "",
       "weapon": "claws",
       "armor": "fur",
       "name": "Bear",
       "adaptation": "none",
-      "maxHp": 14,
+      "maxHp": 12,
       "maxMana": 3,
-      "speed": 0
+      "speed": 2
     },
     "creature": {
       "id": "bear",
@@ -1349,22 +1270,22 @@
       "traits": [],
       "base": {
         "strength": 9,
-        "dexterity": 7,
-        "intelligence": 14,
-        "wisdom": 5,
-        "constitution": 14,
-        "charisma": 12,
+        "dexterity": 13,
+        "intelligence": 4,
+        "wisdom": 11,
+        "constitution": 7,
+        "charisma": 6,
         "level": 1,
-        "maxHp": 14,
+        "maxHp": 12,
         "maxMana": 3,
-        "speed": 0,
+        "speed": 2,
         "abilities": [
           "smash",
           "flee"
         ]
       },
       "state": {
-        "hp": 14,
+        "hp": 12,
         "mana": 3,
         "gold": 0,
         "experience": 0,
@@ -1390,64 +1311,22 @@
         "turn": 1,
         "order": [
           {
+            "id": "bear",
+            "roll": 9
+          },
+          {
             "id": "right",
             "roll": 8
           },
           {
             "id": "left",
             "roll": 7
-          },
-          {
-            "id": "bear",
-            "roll": 6
           }
         ]
       },
       {
         "type": "action",
         "turn": 1,
-        "command": {
-          "actor": "right",
-          "ability": "defend",
-          "target": "right"
-        },
-        "source": {
-          "id": "right",
-          "kind": "ability"
-        }
-      },
-      {
-        "type": "status",
-        "detail": "defending",
-        "amount": 1,
-        "turn": 1,
-        "actor": "right",
-        "target": "right"
-      },
-      {
-        "type": "action",
-        "turn": 2,
-        "command": {
-          "actor": "left",
-          "ability": "defend",
-          "target": "left"
-        },
-        "source": {
-          "id": "left",
-          "kind": "ability"
-        }
-      },
-      {
-        "type": "status",
-        "detail": "defending",
-        "amount": 1,
-        "turn": 2,
-        "actor": "left",
-        "target": "left"
-      },
-      {
-        "type": "action",
-        "turn": 3,
         "command": {
           "actor": "bear",
           "ability": "smash",
@@ -1460,7 +1339,7 @@
       },
       {
         "type": "damage",
-        "turn": 3,
+        "turn": 1,
         "actor": "bear",
         "target": "left",
         "rolled": 8,
@@ -1475,7 +1354,7 @@
       },
       {
         "type": "save",
-        "turn": 3,
+        "turn": 1,
         "actor": "bear",
         "target": "left",
         "rolled": 38,
@@ -1490,7 +1369,7 @@
       },
       {
         "type": "save",
-        "turn": 3,
+        "turn": 1,
         "actor": "bear",
         "target": "left",
         "rolled": 27,
@@ -1504,40 +1383,8 @@
         "kind": "stun"
       },
       {
-        "type": "initiative",
-        "turn": 3,
-        "order": [
-          {
-            "id": "left",
-            "roll": 17
-          },
-          {
-            "id": "right",
-            "roll": 13
-          },
-          {
-            "id": "bear",
-            "roll": 11
-          }
-        ]
-      },
-      {
-        "type": "expire",
-        "turn": 3,
-        "actor": "defending",
-        "target": "left",
-        "detail": "defending"
-      },
-      {
-        "type": "expire",
-        "turn": 3,
-        "actor": "defending",
-        "target": "right",
-        "detail": "defending"
-      },
-      {
         "type": "end",
-        "turn": 4,
+        "turn": 2,
         "outcome": "escaped",
         "reason": "retreat"
       }
@@ -1561,7 +1408,8 @@
       "traits": [
         "formidable",
         "flying",
-        "acid_lineage"
+        "acid_lineage",
+        "marsh_adapted"
       ],
       "abilities": [
         "breathe_acid"
@@ -1570,7 +1418,7 @@
         "family:dragon",
         "lineage:copper",
         "maturity:adult",
-        "adaptation:none"
+        "adaptation:marsh"
       ],
       "classId": "",
       "strength": 35,
@@ -1582,7 +1430,7 @@
       "weapon": "bite",
       "armor": "scale",
       "name": "Adult copper dragon",
-      "adaptation": "none",
+      "adaptation": "marsh",
       "maxHp": 99,
       "maxMana": 8,
       "speed": 9
@@ -1594,7 +1442,8 @@
       "traits": [
         "formidable",
         "flying",
-        "acid_lineage"
+        "acid_lineage",
+        "marsh_adapted"
       ],
       "base": {
         "strength": 35,
@@ -1624,7 +1473,7 @@
           "family:dragon",
           "lineage:copper",
           "maturity:adult",
-          "adaptation:none"
+          "adaptation:marsh"
         ]
       }
     },
@@ -1791,19 +1640,19 @@
         "adaptation:frost"
       ],
       "strength": 9,
-      "dexterity": 7,
-      "intelligence": 14,
-      "wisdom": 5,
-      "constitution": 14,
-      "charisma": 12,
+      "dexterity": 13,
+      "intelligence": 4,
+      "wisdom": 11,
+      "constitution": 7,
+      "charisma": 6,
       "classId": "",
       "weapon": "claws",
       "armor": "fur",
       "name": "Bear",
       "adaptation": "frost",
-      "maxHp": 14,
+      "maxHp": 12,
       "maxMana": 3,
-      "speed": 0
+      "speed": 2
     },
     "creature": {
       "id": "frost_bear",
@@ -1814,22 +1663,22 @@
       ],
       "base": {
         "strength": 9,
-        "dexterity": 7,
-        "intelligence": 14,
-        "wisdom": 5,
-        "constitution": 14,
-        "charisma": 12,
+        "dexterity": 13,
+        "intelligence": 4,
+        "wisdom": 11,
+        "constitution": 7,
+        "charisma": 6,
         "level": 1,
-        "maxHp": 14,
+        "maxHp": 12,
         "maxMana": 3,
-        "speed": 0,
+        "speed": 2,
         "abilities": [
           "smash",
           "flee"
         ]
       },
       "state": {
-        "hp": 14,
+        "hp": 12,
         "mana": 3,
         "gold": 0,
         "experience": 0,
@@ -1855,64 +1704,22 @@
         "turn": 1,
         "order": [
           {
+            "id": "frost_bear",
+            "roll": 9
+          },
+          {
             "id": "right",
             "roll": 8
           },
           {
             "id": "left",
             "roll": 7
-          },
-          {
-            "id": "frost_bear",
-            "roll": 6
           }
         ]
       },
       {
         "type": "action",
         "turn": 1,
-        "command": {
-          "actor": "right",
-          "ability": "defend",
-          "target": "right"
-        },
-        "source": {
-          "id": "right",
-          "kind": "ability"
-        }
-      },
-      {
-        "type": "status",
-        "detail": "defending",
-        "amount": 1,
-        "turn": 1,
-        "actor": "right",
-        "target": "right"
-      },
-      {
-        "type": "action",
-        "turn": 2,
-        "command": {
-          "actor": "left",
-          "ability": "defend",
-          "target": "left"
-        },
-        "source": {
-          "id": "left",
-          "kind": "ability"
-        }
-      },
-      {
-        "type": "status",
-        "detail": "defending",
-        "amount": 1,
-        "turn": 2,
-        "actor": "left",
-        "target": "left"
-      },
-      {
-        "type": "action",
-        "turn": 3,
         "command": {
           "actor": "frost_bear",
           "ability": "smash",
@@ -1925,7 +1732,7 @@
       },
       {
         "type": "damage",
-        "turn": 3,
+        "turn": 1,
         "actor": "frost_bear",
         "target": "left",
         "rolled": 8,
@@ -1940,7 +1747,7 @@
       },
       {
         "type": "save",
-        "turn": 3,
+        "turn": 1,
         "actor": "frost_bear",
         "target": "left",
         "rolled": 38,
@@ -1955,7 +1762,7 @@
       },
       {
         "type": "save",
-        "turn": 3,
+        "turn": 1,
         "actor": "frost_bear",
         "target": "left",
         "rolled": 27,
@@ -1969,40 +1776,8 @@
         "kind": "stun"
       },
       {
-        "type": "initiative",
-        "turn": 3,
-        "order": [
-          {
-            "id": "left",
-            "roll": 17
-          },
-          {
-            "id": "right",
-            "roll": 13
-          },
-          {
-            "id": "frost_bear",
-            "roll": 11
-          }
-        ]
-      },
-      {
-        "type": "expire",
-        "turn": 3,
-        "actor": "defending",
-        "target": "left",
-        "detail": "defending"
-      },
-      {
-        "type": "expire",
-        "turn": 3,
-        "actor": "defending",
-        "target": "right",
-        "detail": "defending"
-      },
-      {
         "type": "end",
-        "turn": 4,
+        "turn": 2,
         "outcome": "escaped",
         "reason": "retreat"
       }
@@ -2026,7 +1801,8 @@
       "level": 1,
       "traits": [
         "construct",
-        "formidable"
+        "formidable",
+        "frost_adapted"
       ],
       "abilities": [
         "smash",
@@ -2037,7 +1813,7 @@
         "body:golem",
         "material:stone",
         "role:guardian",
-        "adaptation:none"
+        "adaptation:frost"
       ],
       "classId": "",
       "strength": 17,
@@ -2049,7 +1825,7 @@
       "weapon": "slam",
       "armor": "plate",
       "name": "Stone guardian",
-      "adaptation": "none",
+      "adaptation": "frost",
       "maxHp": 17,
       "maxMana": 3,
       "speed": 0
@@ -2060,7 +1836,8 @@
       "raceId": "golem",
       "traits": [
         "construct",
-        "formidable"
+        "formidable",
+        "frost_adapted"
       ],
       "base": {
         "strength": 17,
@@ -2092,7 +1869,7 @@
           "body:golem",
           "material:stone",
           "role:guardian",
-          "adaptation:none"
+          "adaptation:frost"
         ]
       }
     },

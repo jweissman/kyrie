@@ -7,6 +7,9 @@ export class CreatureStore {
   private records = new Map<string, Creature>();
   private occupied = new Set<string>();
   private leases = new Map<CreatureLease, string[]>();
+  // Incremented by every write, so derived views can tell when they are stale.
+  private revision = 0;
+  get version(): number { return this.revision; }
   constructor(creatures: Creature[] = []) {
     for (const creature of creatures) { this.insert(creature); }
   }
@@ -16,6 +19,7 @@ export class CreatureStore {
     const existingItems = new Set([...this.records.values()].flatMap(c => (c.state.inventory ?? []).map(i => i.id)));
     if (creature.state.inventory?.some(i => existingItems.has(i.id))) { throw new Error('Item has multiple owners'); }
     this.records.set(creature.id, structuredClone(creature));
+    this.revision++;
   }
   get(id: string): Creature {
     const creature = this.records.get(id);
@@ -55,6 +59,7 @@ export class CreatureStore {
     const itemIds = all.flatMap(c => (c.state.inventory ?? []).map(i => i.id));
     if (new Set(itemIds).size !== itemIds.length) { throw new Error('Item has multiple owners'); }
     next.forEach(c => this.records.set(c.id, structuredClone(c)));
+    this.revision++;
   }
   release(lease: CreatureLease) {
     const ids = this.leases.get(lease);

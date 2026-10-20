@@ -16,8 +16,16 @@ export class Agency {
       .map(({ order: _order, ...goal }) => goal);
   }
   // Combat success branches and another actor's choices are not predictions available to this planner.
+  private static memo = new WeakMap<Operator[], WeakMap<CampaignActor, Operator[]>>();
   private static allowed(actor: CampaignActor, actions: Operator[]): Operator[] {
-    return actions.filter(a => a.actor === actor.id && actor.actions.includes(a.schema ?? a.id) && !a.resolve);
+    let byActor = this.memo.get(actions);
+    if (!byActor) { byActor = new WeakMap(); this.memo.set(actions, byActor); }
+    let allowed = byActor.get(actor);
+    if (!allowed) {
+      allowed = Planner.byActor(actions, actor.id).filter(a => actor.actions.includes(a.schema ?? a.id) && !a.resolve);
+      byActor.set(actor, allowed);
+    }
+    return allowed;
   }
   private static plan(world: World, actor: CampaignActor, allowed: Operator[], goal: GoalAssessment) {
     const target = actor.goals.find(g => g.id === goal.id)!.target;

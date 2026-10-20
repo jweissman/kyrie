@@ -19,7 +19,7 @@ export class ActionSchemas {
       ...module.actions.flatMap(a => [...a.success, ...a.failure].map(c => c.call.name)),
       ...(module.rules ?? []).flatMap(r => r.effects.map(c => c.call.name))]);
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));
-    const facts = new Set(new World(module).apply(module.initial).snapshot.relations.map(World.key));
+    const facts = new Set(new World(module).apply(module.initial).snapshot.relations.map(c => ActionSchemas.key(c)));
     return module.actions.flatMap(action => {
       const shown = this.placeholders(action.name).filter(name => action.parameters?.some(p => p.name === name));
       if (this.placeholders(action.name).some(name => !shown.includes(name) && !labels.has(name))) {
@@ -38,7 +38,7 @@ export class ActionSchemas {
       }
       return combinations.map(bindings => {
         const args = action.parameters!.map(p => bindings[p.name]!);
-        const body = structuredClone(action);
+        const body = { ...action };
         delete body.parameters;
         return { ...body, id: `${action.id}(${args.join(',')})`, schema: action.id, bindings,
           actor: bindings.actor, name: action.speaker || this.placeholders(action.name).length || action.parameters!.every(p => p.name === 'actor') ? action.name.replace(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g,
@@ -63,7 +63,7 @@ export class ActionSchemas {
         if (!constants.has(p.name) || p.args.some(a => a.startsWith('?') || (parameters.has(a) && !(a in binding)))) {
           return undefined;
         }
-        return facts.has(World.key(this.call(p, binding)));
+        return facts.has(this.key(p, binding));
       case 'not': {
         const value = this.constantTruth(p.value, binding, context);
         return value === undefined ? undefined : !value;
@@ -79,6 +79,11 @@ export class ActionSchemas {
       default: return undefined;
     }
   }
+  private static key(call: Call, binding: Record<string, string> = {}): string {
+    let key = call.name;
+    for (const a of call.args) { key += '\u0000' + (binding[a] ?? a); }
+    return key;
+  }
   private static text(text: string, bindings: Record<string, string>): string {
     return ObservationText.scope(text, call => this.call(call, bindings), id => bindings[id] ?? id);
   }
@@ -86,7 +91,7 @@ export class ActionSchemas {
     return { ...call, args: call.args.map(arg => bindings[arg] ?? arg) };
   }
   private static value(value: Value, bindings: Record<string, string>): Value {
-    return value.kind === 'call' ? this.call(value, bindings) : structuredClone(value);
+    return value.kind === 'call' ? this.call(value, bindings) : { ...value };
   }
   private static predicate(p: Predicate, bindings: Record<string, string>): Predicate {
     switch (p.kind) {
@@ -98,8 +103,8 @@ export class ActionSchemas {
     }
   }
   private static change(change: Change, bindings: Record<string, string>): Change {
-    const next = { ...structuredClone(change), call: this.call(change.call, bindings) };
-    if ('value' in next && next.value.kind === 'call') { next.value = this.call(next.value, bindings); }
+    const next = { ...change, call: this.call(change.call, bindings) };
+    if ('value' in next) { next.value = this.value(next.value, bindings) as typeof next.value; }
     return next;
   }
 }

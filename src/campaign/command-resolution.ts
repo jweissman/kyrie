@@ -23,14 +23,16 @@ export class CommandResolutions {
   }
   static world(before: WorldState, after: WorldState): Change[] {
     const changes: Change[] = [];
+    const prior = new Set(before.relations.map(World.key)), next = new Set(after.relations.map(World.key));
+    const values = new Map(before.measures.map(m => [World.key(m.call), m.value]));
     for (const call of before.relations) {
-      if (!after.relations.some(c => World.key(c) === World.key(call))) { changes.push({ kind: 'retract', call }); }
+      if (!next.has(World.key(call))) { changes.push({ kind: 'retract', call }); }
     }
     for (const call of after.relations) {
-      if (!before.relations.some(c => World.key(c) === World.key(call))) { changes.push({ kind: 'assert', call }); }
+      if (!prior.has(World.key(call))) { changes.push({ kind: 'assert', call }); }
     }
     for (const m of after.measures) {
-      if (before.measures.find(c => World.key(c.call) === World.key(m.call))?.value !== m.value) {
+      if (values.get(World.key(m.call)) !== m.value) {
         changes.push({ kind: 'set', call: m.call, value: { kind: 'number', value: m.value } });
       }
     }

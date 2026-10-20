@@ -90,7 +90,8 @@ export class CampaignTick {
   }
   static diff(before: World, after: World): string[] {
     const previous = before.describe(), next = after.describe();
-    return [...previous.filter(s => !next.includes(s)).map(s => `- ${s}`),
-      ...next.filter(s => !previous.includes(s)).map(s => `+ ${s}`)];
+    const was = new Set(previous), is = new Set(next);
+    return [...previous.filter(s => !is.has(s)).map(s => `- ${s}`),
+      ...next.filter(s => !was.has(s)).map(s => `+ ${s}`)];
   }
 }
