@@ -16,16 +16,36 @@
     "below",
     "nest",
     "pasture",
-    "web_way"
+    "web_way",
+    "gossip"
   ],
   "roles": {
-    "party": { "type": "group" },
-    "hollow": { "type": "place" },
-    "mouth": { "type": "place" },
-    "workroom": { "type": "place" },
-    "below": { "type": "place" },
-    "nest": { "type": "place" },
-    "pasture": { "type": "place" },
-    "web_way": { "type": "passage" }
+    "party": {
+      "type": "group"
+    },
+    "hollow": {
+      "type": "place"
+    },
+    "mouth": {
+      "type": "place"
+    },
+    "workroom": {
+      "type": "place"
+    },
+    "below": {
+      "type": "place"
+    },
+    "nest": {
+      "type": "place"
+    },
+    "pasture": {
+      "type": "place"
+    },
+    "web_way": {
+      "type": "passage"
+    },
+    "gossip": {
+      "type": "place"
+    }
   }
 }

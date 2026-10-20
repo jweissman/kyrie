@@ -1,3 +1,4 @@
+import type { CampaignManifest } from '../src/campaign/module-bundle';
 import partyExamples from '../data/campaigns/companies.json';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
@@ -88,7 +89,10 @@ export class MonoApp {
     return MonoRows.explore(screen);
   }
   render() {
-    if (!this.session) { this.root.innerHTML = MonoScreens.create(this.draft, this.error); return; }
+    if (!this.session) {
+      const campaign = JSON.parse(Scenarios.files[this.manifest] ?? '{"name":""}') as CampaignManifest;
+      this.root.innerHTML = MonoScreens.create(this.draft, this.error, campaign); return;
+    }
     if (!this.turn && !this.session.acting) { this.screen = ScreenModel.build(this.session.campaign); }
     if (this.mode === 'talk' && !this.screen?.people.some(p => p.id === this.talk?.person && !p.state)) {
       this.mode = 'explore'; this.talk = undefined;
@@ -191,8 +195,9 @@ export class MonoApp {
   private record(event: CampaignEvent, f: ActionFeedback, context: { title: string; subject: string; plainMove: boolean;
     topic: boolean; moved: boolean; exit?: boolean }) {
     const fight = event.combat.some(e => e.type === 'end');
+    // A conversation keeps what was said, so a reply survives the speaker leaving and the screen changing.
     const lines = [
-      ...(context.plainMove || context.topic ? [] : [f.result]),
+      ...(context.plainMove ? [] : [f.result]),
       ...f.resources, ...f.discoveries.map(d => `Learned: ${d}`),
       ...MonoApp.tidy(f.immediate.map(l => l.replace(/^You witness: /, '')),
         fight ? event.combat.filter(e => e.type === 'action').length : 0),
@@ -200,7 +205,8 @@ export class MonoApp {
     ];
     const arrived = PlayerView.observe(this.session!.campaign).location?.name ?? context.subject;
     const title = context.plainMove ? `→ ${arrived}` : context.exit ? `${context.title}${context.moved ? ` → ${arrived}` : ''}`
-      : `${context.subject}: ${context.title}`;
+      : context.topic ? `${this.talk?.name ?? context.subject}: ${context.title}`
+        : context.subject === context.title ? context.title : `${context.subject}: ${context.title}`;
     this.log.push({ at: f.time, title, lines, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' });
   }
   static tidy(lines: string[], actions: number): string[] {
@@ -220,11 +226,14 @@ export class MonoApp {
     if (key === 'ArrowDown' || key === 'ArrowUp') { e.preventDefault(); this.move(key === 'ArrowDown' ? 1 : -1); return; }
     if (key === 'Enter' || key === 'ArrowRight' || key === ' ') { e.preventDefault(); await this.open(); return; }
     if (key === 'Escape' || key === 'ArrowLeft' || key === 'Backspace') { e.preventDefault(); this.back(); return; }
+    // A digit picks from the list in focus: a row (showing its actions), or an item of the open menu.
     if (/^[1-9]$/.test(key)) {
       e.preventDefault();
-      const again = this.menu && this.state.rows[Number(key) - 1]?.id === this.rowId;
-      if (!again) { this.menu = null; }
-      await this.open(again ? undefined : Number(key) - 1); return;
+      if (this.menu) {
+        if (Number(key) <= this.level().length) { this.menu.cursor = Number(key) - 1; await this.open(); }
+        return;
+      }
+      await this.open(Number(key) - 1); return;
     }
     if (this.mode === 'combat') {
       if (key.toLowerCase() === 't' && this.turn) { this.answer(Tactics.choose(this.turn.battle.state, this.turn.battle.legalCommands())); }

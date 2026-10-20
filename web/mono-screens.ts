@@ -30,7 +30,8 @@ export class MonoScreens {
   }
   static journal(s: MonoState): string {
     const screen = s.screen!;
-    return `<main class="screen journal"><section class="pane knowledge" data-region="knowledge"><h2>What you know</h2>${this.list(screen.knowledge, 'Nothing established yet.')}`
+    return `<main class="screen journal"><section class="pane knowledge" data-region="knowledge"><h2>In hand</h2>`
+      + `${this.list(screen.objectives ?? [], 'Nothing in hand.')}<h3>What you know</h3>${this.list(screen.knowledge, 'Nothing established yet.')}`
       + `<h3>Deadlines</h3>${this.list(screen.deadlines, 'No public deadline.')}<h3>Company standing</h3>${this.list(screen.capabilities, 'None.')}`
       + `<p class="save-actions">${Html.button('Download save file', 'export')} ${Html.button('New company', 'new')}</p></section>`
       + `<section class="pane chronicle" data-region="chronicle"><h2>Chronicle</h2>${this.chronicle(s.chronicle.slice(-60).reverse())}</section></main>`;
@@ -61,7 +62,8 @@ export class MonoScreens {
       .map(id => [id, Canon.traits[id]?.name ?? id])];
     return `<label>Specialization <select data-field="specialization" data-index="${i}">${this.options(options, p.traits?.[0] ?? '')}</select></label>`;
   }
-  static create(draft: Draft, error: string): string {
+  static create(draft: Draft, error: string,
+    campaign: { name: string; pitch?: { heading: string; text: string } }): string {
     const races = Content.playableRaces as string[], classes = Content.playableClasses as string[];
     const backgrounds = Object.keys(Overlays.catalog).filter(id => Overlays.has(id, 'background'));
     const rows = draft.party.map((p, i) => `<fieldset class="companion${draft.field === i ? ' sel' : ''}" data-companion="${i}"><legend>${i + 1}</legend>`
@@ -71,8 +73,10 @@ export class MonoScreens {
       + this.specialization(p, i)
       + `<label>Background <select data-field="backgroundId" data-index="${i}">${this.options(backgrounds.map(id => [id, Overlays.get(id).name]), p.backgroundId ?? '')}</select></label>`
       + `<p class="muted">${Html.escape(MonoScreens.background(p.backgroundId))}</p></fieldset>`).join('');
-    return `<div class="mono-frame" data-mode="create"><header class="bar top"><b class="brand">Serewater March</b><nav class="path">Form a company of three</nav><time></time></header>`
-      + `<main class="screen create"><section class="pane place"><h1>A company for Censer Hill</h1><p>Reedwake needs people willing to go under the hill: a surveyor is missing, a salvage crew wants its bronze, and a burial keeper wants the dead left with their names. Choose three companions. Their ancestry, calling and background decide what they can do — and what doors open.</p>`
+    const pitch = campaign.pitch ?? { heading: campaign.name, text: 'Choose three companions.' };
+    return `<div class="mono-frame" data-mode="create"><header class="bar top"><b class="brand">${Html.escape(campaign.name)}</b>`
+      + `<nav class="path">Form a company of three</nav><time></time></header>`
+      + `<main class="screen create"><section class="pane place"><h1>${Html.escape(pitch.heading)}</h1><p>${Html.escape(pitch.text)}</p>`
       + `<p>${Html.button('Fellowship: elf, human, dwarf', 'preset', { id: 'fellowship' })} ${Html.button('Hired company', 'preset', { id: 'company' })}</p>`
       + `<label class="seed">World seed <input data-field="seed" value="${Html.escape(draft.seed)}"></label></section>`
       + `<section class="pane companions" data-region="companions">${rows}</section></main>`

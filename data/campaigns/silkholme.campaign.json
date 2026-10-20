@@ -1,6 +1,10 @@
 {
   "version": 1,
   "name": "Silkholme",
+  "pitch": {
+    "heading": "A company for Chalk ridge",
+    "text": "Something comes up out of Silkholme sink at night and takes a ewe from Garth's flock. Garth wants the hollow burned out; Odile, who gathers silk there, says that would be a crime. Choose three companions. Their ancestry, calling and background decide what they can do, and what doors open."
+  },
   "modules": [
     {
       "id": "march",
@@ -26,7 +30,8 @@
         "below": "sink.below",
         "nest": "sink.nest",
         "pasture": "march.high_road",
-        "web_way": "sink.web_way"
+        "web_way": "sink.web_way",
+        "gossip": "march.lookout"
       }
     }
   ],

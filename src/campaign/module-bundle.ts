@@ -15,6 +15,8 @@ export interface BundleRequest {
 }
 export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
+  // What the company is being asked to do, shown when it is formed.
+  pitch?: { heading: string; text: string };
 }
 // A module manifest: the Kyr source files it consists of, the rule modules it is written against, what it imports
 // and exports, and optional DEEM generation. Every region, site, situation and institution is such a module.

@@ -7,6 +7,7 @@ Module brood_hollow "A brood under the hill" {
   Place below "The cave below" is room within hollow.
   Place nest "The nest" is room within hollow.
   Place pasture "Where the flock grazes" is room.
+  Place gossip "Where news is passed on" is room.
   Entity web_way: passage "The way into the nest".
   Entity ewe: good "dead ewe". Entity silk: good "hank of silk".
   Measure raidAt(entity). Measure lost(entity).
@@ -119,7 +120,13 @@ Module brood_hollow "A brood under the hill" {
     Says "'Garth will be pleased,' says {odile}. 'I suppose the silk is gone the way of the sheep.'".
   }
 
-  Objective quarrel when (asked(garth, party) or asked(odile, party)) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out; {odile}, who gathers their silk, says the brood-mother only needs feeding.".
+  Observe rumour at gossip when not quieted(brood) and not asked(garth, party) "A shepherd's boy is telling anyone who will listen that something comes up out of {hollow} at night and takes a ewe off Chalk ridge, and that {garth} means to burn it out.".
+  Observe silk_news at gossip when sated(brood) "A woman on the quay is showing off a scarf of grey Silkholme silk. 'Odile's frames are full again,' she says.".
+  Observe smoke_news at gossip when scattered(brood) and state(frames, ruined) "People on the quay still talk about the smoke over Chalk ridge, and how Odile's frames went up with the spiders.".
+  Observe brood_news at gossip when scattered(brood) and not state(frames, ruined) "Word has come down from Chalk ridge: the Silkholme spiders are dead, and Garth's flock is safe.".
+
+  Objective quarrel when asked(garth, party) and not asked(odile, party) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out, and says {odile} keeps them for their silk.".
+  Objective plea_heard when asked(odile, party) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out; {odile}, who gathers their silk, says the brood-mother only needs feeding.".
   Objective deadline when state(garth, angry) and not quieted(brood) "{garth} has lost another ewe and means to burn out {hollow} himself.".
   Objective tell when quieted(brood) and (not thanked(garth, party) or (sated(brood) and not thanked(odile, party))) "The brood is quiet. {garth} and {odile} will want to know.".
   Goal quieted(brood).

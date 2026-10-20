@@ -70,7 +70,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Caught Below in a real browser', ()
       expect([row, await steps()]).toEqual([row, 0]);
       await driver.key('Escape');
     }
-    await driver.key('6'); await driver.key('6');
+    await driver.key('6');
+    expect(await steps()).toBe(0);
+    await driver.key('1');
     expect(await steps()).toBe(1);
     expect(errors).toEqual([]);
     await page.close();

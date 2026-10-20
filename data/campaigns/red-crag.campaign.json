@@ -1,6 +1,10 @@
 {
   "version": 1,
   "name": "The Red Crag \u2014 Thrale",
+  "pitch": {
+    "heading": "A company for Thrale",
+    "text": "A dragon has taken the crag above a highland village, and with it the chapel bell. Choose three companions."
+  },
   "modules": [
     {
       "id": "world",

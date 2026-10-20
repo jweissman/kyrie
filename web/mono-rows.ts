@@ -35,7 +35,9 @@ export class MonoRows {
     const where = e.transition === 'level' ? e.scope : ['enter', 'leave'].includes(e.transition) ? '' : e.scope;
     const note = [e.way ? `by ${e.way}` : where, e.via && e.via !== e.way ? `${how}${e.via}` : '', e.visited ? '' : 'new']
       .filter(Boolean).join(' · ');
-    const about = { walk: `${room}, a few steps away.`, enter: `Into ${e.scope ?? room}: ${room}.`,
+    const minutes = Math.min(...e.acts.map(a => a.minutes ?? 0).filter(m => m > 0), Infinity);
+    const near = !Number.isFinite(minutes) || minutes <= 10;
+    const about = { walk: near ? `${room}, a few steps away.` : `${room}, ${this.span(minutes)} away${e.way ? ` by ${e.way}` : ''}.`, enter: `Into ${e.scope ?? room}: ${room}.`,
       leave: `Out of here, to ${room}${e.scope ? ` in ${e.scope}` : ''}.`, level: `To another level: ${e.scope ?? ''}, ${room}.`,
       ascend: `Up to ${room}.`, descend: `Down to ${room}.`, travel: `Across country to ${room}${e.scope ? `, ${e.scope}` : ''}.`,
       cross_plane: `Across a planar threshold to ${room}.` }[e.transition];
@@ -70,6 +72,12 @@ export class MonoRows {
       note: [a.cost ? `${a.cost} mana` : '', a.targets.length ? '' : a.scope].filter(Boolean).join(' · '), about: a.text,
       acts: a.targets.length ? a.targets.map(t => ({ key: t.id, label: t.name, command: `${a.id}>${t.id}` })) :
         [{ key: a.id, label: a.name, command: `${a.id}>` }], tone: 'ability' as const }));
+  }
+  // A walking distance in words: "half an hour", "an hour and a half".
+  static span(m: number): string {
+    const words: Record<number, string> = { 20: 'twenty minutes', 30: 'half an hour', 60: 'an hour', 90: 'an hour and a half',
+      120: 'two hours' };
+    return words[m] ?? this.minutes(m);
   }
   static minutes(m: number): string {
     return m >= 60 ? `${Math.floor(m / 60)}h${m % 60 ? ` ${m % 60}m` : ''}` : `${m}m`;

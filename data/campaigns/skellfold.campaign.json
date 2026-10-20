@@ -1,6 +1,10 @@
 {
   "version": 1,
   "name": "Skellfold",
+  "pitch": {
+    "heading": "A company for Skellfold",
+    "text": "A quarry hamlet under the fell: someone has not come back from the workings, and a salvager wants what the dead were buried with. Choose three companions."
+  },
   "modules": [
     {
       "id": "world",

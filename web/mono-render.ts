@@ -48,9 +48,9 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     const level = s.menu ? (s.menu.trail.at(-1)?.children ?? row.acts) : row.acts;
     const trail = [row.label, ...(s.menu?.trail.map(a => a.label) ?? [])];
     const acts = level.map((a, i) => `<li><button type="button" class="act${s.menu && i === s.menu.cursor ? ' sel' : ''}${a.risk ? ' risk' : ''}" data-action="act" data-act="${Html.escape(a.key)}"${a.command ? ` data-command="${Html.escape(a.command)}"` : ''} data-index="${i}">`
-      + `<span class="l">${Html.escape(a.label)}</span><span class="note">${a.children ? '▸' : a.minutes ? MonoRows.minutes(a.minutes) : ''}${a.risk ? ' !' : ''}</span></button></li>`).join('');
+      + `${s.menu && i < 9 ? `<span class="n">${i + 1}</span>` : ''}<span class="l">${Html.escape(a.label)}</span><span class="note">${a.children ? '▸' : a.minutes ? MonoRows.minutes(a.minutes) : ''}${a.risk ? ' !' : ''}</span></button></li>`).join('');
     const blocked = !level.length ? `<p class="blocked-why" data-id="blocked">${Html.escape(row.blocked ?? 'Nothing you can do with this right now.')}</p>` : '';
-    const about = !s.menu && row.about ? `<p class="about">${Html.escape(row.about)}</p>` : '';
+    const about = row.about && !s.menu?.trail.length ? `<p class="about">${Html.escape(row.about)}</p>` : '';
     return `<section class="pane menu${s.menu ? ' open' : ''}" data-region="menu" aria-label="Actions"><h2>${trail.map(t => Html.escape(t)).join(' › ')}</h2>${about}${blocked}<ul role="list">${acts}</ul></section>`;
   }
   static title(name: string): string { return name.charAt(0).toUpperCase() + name.slice(1); }

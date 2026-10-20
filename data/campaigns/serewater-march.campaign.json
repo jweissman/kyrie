@@ -1,6 +1,10 @@
 {
   "version": 1,
   "name": "The Serewater March",
+  "pitch": {
+    "heading": "A company for Censer Hill",
+    "text": "Reedwake needs people willing to go under the hill: a surveyor is missing, a salvage crew wants its bronze, and a burial keeper wants the dead left with their names. Choose three companions. Their ancestry, calling and background decide what they can do, and what doors open."
+  },
   "modules": [
     {
       "id": "march",
