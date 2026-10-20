@@ -5,6 +5,24 @@ a symbolic planner, and a nonspatial party battle system.
 
 ## Architecture and authoring (start here)
 
+- [How Kyr works](doc/architecture/overview.md): the four layers, one authored line followed through to a remembered
+  consequence, the invariants to defend, and where a change belongs.
+- [Performance and the development loop](doc/architecture/performance.md): measurements and the test tiers.
+
+```sh
+bun run test:changed   # files affected by uncommitted changes
+bun run test:fast      # everything but the 608-call public CLI proof (~20 s)
+bun run test           # full suite in parallel (~40 s)
+bun bin/bench.ts       # engine workload timings
+```
+
+## Silkholme: the integrated expedition
+
+A shepherd losing ewes, a silk-gatherer who lives by a spider brood, and a chalk sink with a rope shaft and webbed
+nest. Feed the brood-mother, burn the webs, fight a brood of three Deem-composed spiders, or leave it to the shepherd.
+Open `site/mono.html?campaign=data/campaigns/silkholme.campaign.json` after `bun run web:build`. See
+[the playtest](doc/playtests/silkholme-2026-10-20/README.md).
+
 Kyr worlds are built from a small canonical vocabulary: places in one containment tree, passages with kinds and
 durations, things with states, items, people with Orsino professions and backgrounds, a company, facts, events and
 offers. New work uses only that vocabulary. Older campaigns remain as replayable fixtures.
