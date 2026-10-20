@@ -28,7 +28,8 @@ export interface PartyMember {
   abilities?: string[]; attributes?: Record<string, number>; backgroundId?: string;
 }
 export interface PresentEntity {
-  id: string; name: string; type: string; members?: { name: string; raceId: string; classId?: string }[];
+  id: string; name: string; type: string;
+  members?: { name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number }[];
   state?: 'dead' | 'incapacitated'; intact?: boolean; activity?: string; condition?: string;
 }
 export interface PlayerSnapshot {
@@ -67,6 +68,10 @@ export class PlayerView {
   private static labels(campaign: Campaign): Map<string, string> {
     return new Map(campaign.module.entities.map(e => [e.id, e.name]));
   }
+  // A topic someone can be asked about is spoken, not a thing lying in the room.
+  private static spoken(world: World, source: string): boolean {
+    return world.snapshot.relations.some(r => r.name === 'testimony' && r.args[1] === source);
+  }
   private static test(world: World, name: string, ...args: string[]): boolean {
     return world.module.relations.some(r => r.name === name) && world.test(ModuleWriter.call(name, ...args));
   }
@@ -103,7 +108,7 @@ export class PlayerView {
       present: entities.filter(e => perceiving && location && e.id !== actor && e.type !== 'place'
         && (this.test(world, 'at', e.id, location.id) || this.test(world, 'mounted', e.id, location.id)
           || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id)))
-        && (e.type !== 'source' || !discovery || this.test(world, 'noticeable', e.id)))
+        && (e.type !== 'source' || !discovery || (this.test(world, 'noticeable', e.id) && !this.spoken(world, e.id))))
         .map(e => this.entity(campaign, world, e)),
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>
         (c.state.inventory ?? []).map(i => {
@@ -220,7 +225,7 @@ export class PlayerView {
       return { id: e.id, name: e.name, type: e.type, ...(activity ? { activity } : {}),
         ...(condition ? { condition } : {}),
         members: ids.map(id => creatures.find(c => c.id === id)!).map(c => ({ name: c.name, raceId: c.raceId,
-          classId: c.classId })),
+          classId: c.classId, level: c.base.level, hp: c.state.hp, maxHp: c.base.maxHp })),
         ...(this.test(world, 'dead', e.id) ? { state: 'dead' as const } :
           !this.test(world, 'able', e.id) ? { state: 'incapacitated' as const } : {}) };
     }

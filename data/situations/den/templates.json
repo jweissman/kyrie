@@ -16,7 +16,7 @@
     "outcomes": [
       {
         "id": "cleared",
-        "predicate": "dead(beasts)"
+        "predicate": "dead(beasts) or driven(beasts)"
       }
     ]
   },

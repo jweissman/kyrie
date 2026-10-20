@@ -348,6 +348,7 @@ export class Campaign implements TickHost {
     this.apply(action, success);
     if (this.definition) { this.refresh(); }
     this.commit(Aftermath.record(before, this.world, action, combat));
+    this.resolutions(combat, true);
     let response = success && action.report ? ObservationText.render(action.report, this.world) : undefined;
     if (!success && action.resolve?.name === 'expose') {
       response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
@@ -362,6 +363,7 @@ export class Campaign implements TickHost {
         CampaignTick.npcs(this, npc as TickDecision[]);
         CampaignTick.rules(this, happenings);
         this.commit(Progression.check(this.world, this.definition, this.current.elapsed));
+        this.resolutions(combat, false);
         this.observe();
       }
     }
@@ -380,10 +382,7 @@ export class Campaign implements TickHost {
       success = false;
       response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.';
     }
-    if (this.definition) {
-      Progression.resolutions(this.world, this.definition, this.observations, { elapsed: this.current.elapsed,
-        store: this.creatures, party: this.current.partyIds, events: combat });
-    }
+    this.resolutions(combat, false);
     const after = this.world;
     if (action.resolve) { this.encounter++; }
     this.updateOutcome();
@@ -482,6 +481,13 @@ export class Campaign implements TickHost {
     const before = this.world, after = before.apply(success ? action.success : action.failure);
     if (this.definition) { CreatureFacts.commitMoney(before, after, this.definition.actors, this.creatures); }
     this.commit(after);
+  }
+  // Experience changes what members may train; the facts must agree with the store before anything is saved.
+  private resolutions(events: CombatEvent[], own: boolean) {
+    if (!this.definition) { return; }
+    Progression.resolutions(this.world, this.definition, this.observations, { elapsed: this.current.elapsed,
+      store: this.creatures, party: this.current.partyIds, events, own });
+    this.refresh();
   }
   // The projection is a function of creatures, actors and the relations it writes; skip it when none has changed.
   private projected?: { store: CreatureStore; stamp: string; actors: CampaignActor[]; module: Module };

@@ -51,7 +51,10 @@ export class ChartModel {
         const [dx, dy] = this.direction(home, there);
         let step = 1;
         while (places.some(p => p.x === inside.x + dx * step && p.y === inside.y + dy * step)) { step++; }
-        places.push({ id, name: there?.name ?? this.entities.get(outside)?.name ?? outside, x: inside.x + dx * step,
+        // A way out to a settlement is named for it; one out into open country, for the place it reaches.
+        const open = !there || ['wilderness', 'region'].includes(there.space?.kind ?? '');
+        const name = (open ? this.entities.get(outside)?.name : there.name) ?? outside;
+        places.push({ id, name, x: inside.x + dx * step,
           y: inside.y + dy * step, visited: false, here: false, area: '', external: true });
       }
       edges.push({ ...this.edge(w, visited), from: inside.id, to: id });

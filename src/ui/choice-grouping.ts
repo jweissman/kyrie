@@ -94,7 +94,8 @@ export class ChoiceGrouping {
   }
   private static place(out: Grouped, row: { choice: PublicChoice; action: Operator }, context: GroupingContext) {
     const { choice, action } = row;
-    const leaf = { command: choice.id, minutes: choice.time * 10 };
+    const leaf = { command: choice.id, minutes: choice.time * 10,
+      ...(action.description ? { about: action.description } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {};
     if (action.movement) {
       const path = b.escorted_group ? [`Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}`] : ['Go'];
@@ -124,13 +125,14 @@ export class ChoiceGrouping {
     else { this.insert(out.camp, path, risky); }
   }
   private static fallback(out: Grouped, row: { choice: PublicChoice; action: Operator }, context: GroupingContext,
-    leaf: Pick<Act, 'command' | 'minutes'>) {
+    leaf: Pick<Act, 'command' | 'minutes' | 'about'>) {
     const changed = [...row.action.success].flatMap(c => c.call.args).find(id => context.present.has(id));
     const subject = changed ?? Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.present.has(v))?.[1];
     const path = row.choice.name.split('; ');
+    // An action about no one and nothing in view is something the company does here.
     if (subject) { this.insert(this.slot(out.targets, subject), path, leaf); }
-    else { this.insert(out.unplaced, path, leaf); }
+    else { this.insert(out.camp, path, leaf); }
   }
   private static fill(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {
     return text.replace(/\{(\w+)\}/g, (_, key: string) => key === 'choice' ? data.choice :
@@ -165,8 +167,9 @@ export class ChoiceGrouping {
       return;
     }
     if (node.command) {
-      const moved: Act = { key: `${node.key}/0`, label: node.label, command: node.command, minutes: node.minutes };
-      delete node.command; delete node.minutes; node.children = [moved];
+      const moved: Act = { key: `${node.key}/0`, label: node.label, command: node.command, minutes: node.minutes,
+        ...(node.about ? { about: node.about } : {}) };
+      delete node.command; delete node.minutes; delete node.about; node.children = [moved];
     }
     this.insert(node.children ??= [], rest, leaf);
   }

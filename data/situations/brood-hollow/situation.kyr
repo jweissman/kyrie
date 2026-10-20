@@ -124,6 +124,7 @@ Module brood_hollow "A brood under the hill" {
   Entity ewes: fact "Something comes up out of the ground by {pasture} at night and takes a ewe from {garth}'s flock. {garth} means to burn it out.".
   Entity no_silk: fact "{odile}, who winds silk at the sink by {pasture}, has had none for a week, and is frightened for her spiders.".
   Initially Assert established(ewes). Initially Assert established(no_silk).
+  Initially Assert knows(garth, ewes). Initially Assert knows(odile, no_silk).
   Observe silk_news at gossip when sated(brood) and state(garth, easy) and not dark() "Someone is showing off a scarf of grey silk from {hollow}. '{odile}'s frames are full again,' she says.".
   Observe smoke_news at gossip when scattered(brood) and state(frames, ruined) and not dark() "People here still talk about the smoke over {pasture}, and how Odile's frames went up with the spiders.".
   Observe brood_news at gossip when scattered(brood) and not state(frames, ruined) and not dark() "Word has come down from {pasture}: the spiders of {hollow} are dead, and {garth}'s flock is safe.".

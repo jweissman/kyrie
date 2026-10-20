@@ -18,7 +18,7 @@ export class MonoRows {
       ...screen.people.map(p => ({ id: p.id, group: 'Here', glyph: p.state ? '✝' : p.kind === 'person' ? '☺' : '◆',
         label: p.name, ...(p.activity || p.note || p.state ? { note: [p.activity ?? p.note,
           p.state === 'dead' ? 'dead' : p.state ? 'down' : ''].filter(Boolean).join(' · ') } : {}),
-        ...(p.activity ? { about: `${p.name.split(', ')[0]}: ${p.activity}.` } : {}), acts: p.acts, tone: p.state ? 'down' as const : p.kind })),
+        ...(p.activity ? { about: `${p.name.split(', ')[0]}: ${p.activity}.` } : p.look ? { about: p.look } : {}), acts: p.acts, tone: p.state ? 'down' as const : p.kind })),
       ...screen.things.map(t => ({ id: t.id, group: 'Here', glyph: t.kind === 'feature' ? '▣' : '·', label: t.name,
         ...(t.note ? { note: t.note } : {}), acts: t.acts, tone: 'thing' as const })),
       ...screen.camp.map(a => ({ id: `camp:${a.label}`, group: 'Company', glyph: '○', label: a.label,

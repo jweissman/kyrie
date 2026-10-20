@@ -95,14 +95,29 @@ export class ScreenModel {
     }
     return out;
   }
+  private static look(members: NonNullable<PlayerSnapshot['present'][number]['members']>): string | undefined {
+    const standing = members.filter(m => m.hp > 0);
+    if (!standing.length) { return undefined; }
+    const kinds = new Map<string, number>();
+    for (const m of standing) {
+      const kind = Content.races[m.raceId as keyof typeof Content.races]?.name ?? m.raceId;
+      kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
+    }
+    const levels = [...new Set(standing.map(m => m.level))].sort((a, b) => a - b);
+    const hurt = standing.filter(m => m.hp < m.maxHp).length;
+    const hp = standing.map(m => m.maxHp), [low, high] = [Math.min(...hp), Math.max(...hp)];
+    return `${[...kinds].map(([k, n]) => n > 1 ? `${k} ×${n}` : k).join(', ')}; level ${levels.join('–')}`
+      + `; ${low === high ? low : `${low}–${high}`} HP${standing.length > 1 ? ' each' : ''}; ${hurt ? `${hurt} wounded` : 'unhurt'}.`;
+  }
   private static target(p: PlayerSnapshot['present'][number], grouped: Grouped, w: Campaign['world']): TargetRow {
     const acts = grouped.targets.get(p.id) ?? [];
     if (p.type === 'group') {
       const member = p.members?.[0];
       const playable = member && (Content.playableRaces as string[]).includes(member.raceId);
       const note = (p.state ? undefined : p.condition) ?? (member ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);
+      const look = playable || p.state ? undefined : this.look(p.members ?? []);
       return { id: p.id, kind: playable ? 'person' : 'creature', name: p.name, ...(note ? { note } : {}),
-        ...(!p.state && p.activity ? { activity: p.activity } : {}),
+        ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }
     const counted = w.module.measures.some(m => m.name === 'quantity');

@@ -192,8 +192,12 @@ export class WorldAssembler {
       imports: Object.fromEntries(Object.entries(m.imports).map(([name, value]) => [name, this.ref(value, placement)])),
       context: { ...context, ...m.context } }));
   }
-  private static localize(this: void, roles: string[], text: string): string {
-    return roles.reduce((t, r) => t.replaceAll(`{${r}}`, `{p_${r}}`), text);
+  // A hook's topic names the places it is about by role: {den} becomes the bound place's generated name.
+  private static named(text: string, placement: Placement, region: Region): string {
+    return text.replace(/\{(\w+)\}/g, (whole, role: string) => {
+      const id = placement.bindings[role];
+      return [...region.sites, ...region.settlements].find(p => p.id === id)?.name ?? whole;
+    });
   }
   // The module that spreads word of a placed scenario: each hook is an established fact, known to carriers in the
   // settlement nearest it and the next one along, offered as something to ask about; any of them reveals the way in.
@@ -206,13 +210,10 @@ export class WorldAssembler {
     const site = region.sites.find(w => w.id === placement.bindings[firstSite ?? '']);
     const home = site ? RegionWriter.near(region, site) : region.settlements[0]!;
     const towns = [home, region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!];
-    const roles = Object.keys(s.places).filter(r => hooks.some(h => h.topic.includes(`{${r}}`)));
     const imports: Record<string, string> = { party: `${RegionWriter.id}.party` }, lines: string[] = [];
     lines.push(`Module word_${placement.instance} ${q(`Word of ${s.name}`)} {`, '  Entity party: group "Your company".');
     // Local names are prefixed so they cannot shadow a rule's parameter names (site, way…).
-    const local = WorldAssembler.localize.bind(undefined, roles);
     if (s.route) { lines.push('  Entity route_in: passage "The way in".'); imports.route_in = this.ref(s.route, placement); }
-    for (const role of roles) { lines.push(`  Place p_${role} ${q(role)} is room.`); imports[`p_${role}`] = this.ref(`@${role}`, placement); }
     const carriers = new Set<string>();
     for (const [index, hook] of hooks.entries()) {
       const fact = `h${index + 1}`;
@@ -232,7 +233,7 @@ export class WorldAssembler {
           if (!carriers.has(room)) { lines.push(`  Place ${room} "Where they are" is room.`); carriers.add(room); }
         }
         imports[carrier] = `${RegionWriter.id}.${carrier}`; imports[room] = `${RegionWriter.id}.${room}`;
-        lines.push(`  Entity ${topic}: source ${q(local(hook.topic))}.`,
+        lines.push(`  Entity ${topic}: source ${q(this.named(hook.topic, placement, region))}.`,
           `  Initially Assert knows(${carrier}, ${fact}). Initially Assert testimony(${carrier}, ${topic}).`,
           `  Initially Assert reveals(${topic}, ${fact}). Initially Assert noticeable(${topic}).`,
           `  Initially Assert at(${topic}, ${room}).`);
@@ -242,7 +243,7 @@ export class WorldAssembler {
     lines.push('  Goal false.', '}');
     const names = Object.keys(imports);
     const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : n === 'route_in' ? 'passage'
-      : /^h\d+$/.test(n) ? 'fact' : n.startsWith('p_') || /_(taproom|shrine|shop)$/.test(n) ? 'place' : 'group' }]));
+      : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop)$/.test(n) ? 'place' : 'group' }]));
     return { source: lines.join('\n'), imports,
       manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }

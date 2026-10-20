@@ -48,10 +48,12 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     const level = s.menu ? (s.menu.trail.at(-1)?.children ?? row.acts) : row.acts;
     const trail = [row.label, ...(s.menu?.trail.map(a => a.label) ?? [])];
     const acts = level.map((a, i) => `<li><button type="button" class="act${s.menu && i === s.menu.cursor ? ' sel' : ''}${a.risk ? ' risk' : ''}" data-action="act" data-act="${Html.escape(a.key)}"${a.command ? ` data-command="${Html.escape(a.command)}"` : ''} data-index="${i}">`
-      + `${s.menu && i < 9 ? `<span class="n">${i + 1}</span>` : ''}<span class="l">${Html.escape(a.label)}</span><span class="note">${a.children ? '▸' : a.minutes ? MonoRows.minutes(a.minutes) : ''}${a.risk ? ' !' : ''}</span></button></li>`).join('');
+      + `${s.menu ? `<span class="n">${i < 9 ? i + 1 : ''}</span>` : ''}<span class="l">${Html.escape(a.label)}</span><span class="note">${a.children ? '▸' : a.minutes ? MonoRows.minutes(a.minutes) : ''}${a.risk ? ' !' : ''}</span></button></li>`).join('');
     const blocked = !level.length ? `<p class="blocked-why" data-id="blocked">${Html.escape(row.blocked ?? 'Nothing you can do with this right now.')}</p>` : '';
     const about = row.about && !s.menu?.trail.length ? `<p class="about">${Html.escape(row.about)}</p>` : '';
-    return `<section class="pane menu${s.menu ? ' open' : ''}" data-region="menu" aria-label="Actions"><h2>${trail.map(t => Html.escape(t)).join(' › ')}</h2>${about}${blocked}<ul role="list">${acts}</ul></section>`;
+    const chosen = s.menu ? level[s.menu.cursor] : undefined;
+    const meaning = chosen?.about ? `<p class="about act-about">${Html.escape(chosen.about)}</p>` : '';
+    return `<section class="pane menu${s.menu ? ' open' : ''}" data-region="menu" aria-label="Actions"><h2>${trail.map(t => Html.escape(t)).join(' › ')}</h2>${about}${blocked}<ul role="list">${acts}</ul>${meaning}</section>`;
   }
   static title(name: string): string { return name.charAt(0).toUpperCase() + name.slice(1); }
   static place(screen: Screen): string {
@@ -106,7 +108,7 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   }
   static combatant(c: CombatantRow): string {
     return `<div class="fighter${c.acting ? ' acting' : ''}${c.down ? ' down' : ''}" data-fighter="${Html.escape(c.id)}"><div class="who"><b>${c.acting ? '▶ ' : ''}${Html.escape(c.name)}</b><span>${Html.escape(c.line)}</span></div>`
-      + `${this.bar('HP', c.hp, c.maxHp, 'hp')}${c.maxMana ? this.bar('MP', c.mana, c.maxMana, 'mp') : ''}${this.slots(c)}${c.statuses.length ? `<div class="cond">${c.statuses.map(x => Html.escape(x)).join(' · ')}</div>` : ''}</div>`;
+      + `${this.bar('HP', c.hp, c.maxHp, 'hp')}${c.maxMana ? this.bar('MP', c.mana, c.maxMana, 'mp') : ''}${this.slots(c)}${c.down ? '<div class="cond">down</div>' : c.statuses.length ? `<div class="cond">${[...new Set(c.statuses)].map(x => Html.escape(x)).join(' · ')}</div>` : ''}</div>`;
   }
   static combat(s: MonoState): string {
     const c = s.combat!;

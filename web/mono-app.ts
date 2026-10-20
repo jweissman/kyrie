@@ -81,7 +81,11 @@ export class MonoApp {
       const saved = JSON.parse(raw) as { checkpoint: Parameters<typeof PlaySession.resume>[0]; log?: LogEntry[] };
       this.session = PlaySession.resume(saved.checkpoint);
       this.log = saved.log ?? []; this.mode = 'explore';
-    } catch { this.session = undefined; }
+    } catch (error) {
+      this.session = undefined;
+      this.error = `The saved expedition could not be resumed (${error instanceof Error ? error.message : String(error)}). `
+        + 'It stays in this browser until a new company begins.';
+    }
   }
   private persist() {
     if (!this.session) { return; }

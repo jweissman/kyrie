@@ -6,6 +6,8 @@ export type Passage = 'open' | 'guarded' | 'hazard' | 'climb' | 'hidden' | 'door
 
 export interface Act {
   key: string; label: string; command?: string; minutes?: number; risk?: boolean; children?: Act[];
+  // What the action's author says it means, shown before it is chosen.
+  about?: string;
 }
 export interface PlaceRef { id: string; name: string; kind: string }
 export interface ExitRow {
@@ -14,7 +16,8 @@ export interface ExitRow {
 }
 export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
-  state?: 'dead' | 'down'; acts: Act[];
+  // What a group is, seen from outside: how many of what, how seasoned, how hurt.
+  look?: string; state?: 'dead' | 'down'; acts: Act[];
 }
 export interface ItemRow {
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;

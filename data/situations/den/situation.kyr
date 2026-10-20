@@ -11,7 +11,7 @@ Module den "A den in the wild" {
   Action smoke_out(actor: group, spot: place) "Smoke {beasts} out of {den} with green wood" {
     Description "Someone who knows animals can drive them off without a fight. They will not be dead, and you will not be paid for their hides.".
     Requires able(actor) and at(actor, spot) and at(beasts, spot) and not dead(beasts) and capable(actor, woodcraft).
-    Time 1.
+    Time 6.
     On success { Assert driven(beasts). Assert peaceable(beasts). Retract at(beasts, spot). }
     Result "You build a smoky fire of green wood upwind of {den}. After an hour {beasts} break out of the far side and are gone up the hill.".
   }

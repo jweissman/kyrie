@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { WorldAssembler } from '../src/world/world-assembler';
 import { Content } from '../src/content';
 import { Advancement } from '../src/rules/advancement';
 import { PlaySession } from '../src/session/play-session';
@@ -35,8 +36,23 @@ describe('advancement', () => {
     const burn = await s.perform('change_thing(brood__webs_burn)');
     expect(burn.combat.filter(e => e.type === 'gain' && e.detail === 'experience').map(e => 'amount' in e && e.amount))
       .toEqual([500, 500, 500]);
+    // Experience changes what members may train; a save taken at once must still be consistent.
+    expect(PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint()))).campaign.state.elapsed)
+      .toBe(s.campaign.state.elapsed);
     const xp = () => s.campaign.state.creatures.filter(c => c.id.includes('party')).map(c => c.state.experience);
     await s.perform('wait');
     expect(xp()).toEqual([500, 500, 500]);
   }, 120000);
+});
+describe('experience for a module someone else resolves', () => {
+  it('is not the company\'s: a shepherd who burns out the nest while the company sleeps in town earns it nothing', async () => {
+    const world = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
+    const s = await PlaySession.start(world.path, 'thorn', world.source);
+    for (const c of ['go(region__s1_inn_door,region__s1_taproom)', 'ask(region__s1_innkeeper,word1__h1_s1_innkeeper)',
+      'take_lodging(region__s1_innkeeper_lodging,region__s1_innkeeper)', 'take_lodging(region__s1_innkeeper_lodging,region__s1_innkeeper)']) {
+      await s.perform(c);
+    }
+    expect(s.campaign.state.modules?.find(m => m.id === 'brood')).toMatchObject({ outcome: 'success' });
+    expect(s.campaign.state.creatures.filter(c => c.id.includes('party')).map(c => c.state.experience)).toEqual([0, 0, 0]);
+  }, 60000);
 });
