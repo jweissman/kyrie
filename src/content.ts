@@ -92,6 +92,7 @@ export class Content {
   // A request names a family-specific dimension (lineage, material, an adaptation…) that only Deem composition
   // honours. A class alone keeps the character-creation path.
   private static composed(context: CreatureGenerationContext): boolean {
+    if (Object.keys(context.parameters ?? {}).length) { return true; }
     const dimensions = new Set(Object.values(tables.creatureDimensions.groups).flat());
     dimensions.delete('classId');
     return [...Object.keys(context), ...Object.keys(context.parameters ?? {})].some(key => dimensions.has(key));

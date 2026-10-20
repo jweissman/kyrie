@@ -1,0 +1,12 @@
+{
+  "denFamily": { "discriminator": "terrain", "groups": {
+    "forest": [{ "__weight": 3, "__value": "animal" }, "humanoid"],
+    "mountain": [{ "__weight": 2, "__value": "animal" }, "humanoid"],
+    "marsh": ["humanoid"],
+    "frost": ["animal"]
+  } },
+  "denLabel": { "discriminator": "family", "groups": {
+    "animal": ["the pack", "the beasts"],
+    "humanoid": ["the outlaws", "the cutthroats"]
+  } }
+}

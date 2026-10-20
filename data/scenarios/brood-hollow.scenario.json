@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "id": "brood-hollow",
+  "name": "A brood under the hill",
+  "instances": 1,
+  "weight": 3,
+  "context": {
+    "terrain": [
+      "mountain",
+      "forest"
+    ]
+  },
+  "places": {
+    "approach": {
+      "site": [
+        "sinkhole",
+        "cave"
+      ]
+    },
+    "town": {
+      "settlement": "near:approach"
+    }
+  },
+  "modules": [
+    {
+      "id": "sink",
+      "bundle": "../sites/silkholme/module.json",
+      "imports": {
+        "party": "@party",
+        "march": "@region",
+        "ridge": "@approach"
+      }
+    },
+    {
+      "id": "brood",
+      "bundle": "../situations/brood-hollow/module.json",
+      "imports": {
+        "party": "@party",
+        "hollow": "sink.site",
+        "mouth": "sink.mouth",
+        "workroom": "sink.workroom",
+        "below": "sink.below",
+        "nest": "sink.nest",
+        "pasture": "@approach",
+        "web_way": "sink.web_way",
+        "gossip": "@town.green"
+      }
+    }
+  ],
+  "route": "sink.path",
+  "hooks": [
+    {
+      "id": "ewes",
+      "topic": "the ewes taken on {approach}",
+      "channels": [
+        "tavern",
+        "road"
+      ],
+      "text": "Something comes up out of the ground near {approach} at night and takes a ewe. The shepherd up there means to burn it out."
+    },
+    {
+      "id": "silk",
+      "topic": "the silk from the sink at {approach}",
+      "channels": [
+        "market",
+        "temple"
+      ],
+      "text": "Odile, who winds silk at the sink below {approach}, has had none for a week, and is frightened for her spiders."
+    }
+  ]
+}

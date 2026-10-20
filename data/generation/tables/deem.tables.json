@@ -981,5 +981,916 @@
         "adaptation"
       ]
     }
+  },
+  "regionTerrain": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        {
+          "__weight": 3,
+          "__value": "forest"
+        },
+        {
+          "__weight": 2,
+          "__value": "marsh"
+        },
+        {
+          "__weight": 3,
+          "__value": "mountain"
+        },
+        "frost"
+      ]
+    }
+  },
+  "regionAncestry": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        {
+          "__weight": 3,
+          "__value": "human"
+        },
+        {
+          "__weight": 2,
+          "__value": "elf"
+        }
+      ],
+      "marsh": [
+        {
+          "__weight": 3,
+          "__value": "human"
+        },
+        "elf"
+      ],
+      "mountain": [
+        {
+          "__weight": 2,
+          "__value": "human"
+        },
+        {
+          "__weight": 3,
+          "__value": "dwarf"
+        }
+      ],
+      "frost": [
+        {
+          "__weight": 2,
+          "__value": "human"
+        },
+        {
+          "__weight": 2,
+          "__value": "dwarf"
+        }
+      ]
+    }
+  },
+  "faithDomain": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        {
+          "__weight": 2,
+          "__value": "life"
+        },
+        {
+          "__weight": 2,
+          "__value": "light"
+        },
+        {
+          "__weight": 2,
+          "__value": "nature"
+        },
+        "war",
+        "knowledge",
+        "death",
+        "storms",
+        "order"
+      ]
+    }
+  },
+  "deityName": {
+    "discriminator": "domain",
+    "groups": {
+      "life": [
+        "Brigid",
+        "Dagda",
+        "Aengus",
+        "Flidais"
+      ],
+      "light": [
+        "Lugh",
+        "Belenus",
+        "Grannus",
+        "Aine",
+        "Danu"
+      ],
+      "nature": [
+        "Cernunnos",
+        "Coventina",
+        "Epona",
+        "Nodens",
+        "Rhiannon"
+      ],
+      "war": [
+        "Nuada",
+        "Camulus",
+        "Badb"
+      ],
+      "knowledge": [
+        "Ogma",
+        "Lugh",
+        "Brigid",
+        "Macha",
+        "Ceridwen"
+      ],
+      "death": [
+        "Donn",
+        "Arawn",
+        "Gwyn ap Nudd"
+      ],
+      "storms": [
+        "Taranis",
+        "Lugh",
+        "Nuada"
+      ],
+      "order": [
+        "Dagda",
+        "Brigid",
+        "Lugh",
+        "Danu"
+      ]
+    }
+  },
+  "placeFeature": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "acorn",
+        "bark",
+        "bush",
+        "fern",
+        "flower",
+        "green",
+        "leaf",
+        "tree",
+        "thorn",
+        "rose",
+        "lily",
+        "willow",
+        "elm",
+        "birds"
+      ],
+      "marsh": [
+        "marsh",
+        "wet",
+        "moss",
+        "black",
+        "gloom",
+        "fen"
+      ],
+      "mountain": [
+        "hill",
+        "mountain",
+        "peak",
+        "iron",
+        "cold",
+        "stone",
+        "high",
+        "red",
+        "tall",
+        "lofty",
+        "lonely",
+        "high",
+        "tin",
+        "iron",
+        "silver",
+        "gold"
+      ],
+      "frost": [
+        "snow",
+        "ice",
+        "frost",
+        "white",
+        "cold",
+        "needle",
+        "pale",
+        "bitter",
+        "cloudy",
+        "sharp",
+        "cloud"
+      ]
+    }
+  },
+  "placeAffix": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "wood",
+        "grove",
+        "lake",
+        "glade",
+        "glen",
+        "vale",
+        "mere",
+        "borough",
+        "town",
+        "village",
+        "stead",
+        "hold",
+        "view"
+      ],
+      "marsh": [
+        "dale",
+        "mire",
+        "water",
+        "borough",
+        "town",
+        "village",
+        "stead",
+        "hold",
+        "view"
+      ],
+      "mountain": [
+        "hill",
+        "rock",
+        "crest",
+        "point",
+        "fall",
+        "ridge",
+        "pass",
+        "borough",
+        "town",
+        "village",
+        "stead",
+        "hold",
+        "view"
+      ],
+      "frost": [
+        "wind",
+        "veil",
+        "borough",
+        "town",
+        "village",
+        "stead",
+        "hold",
+        "view"
+      ]
+    }
+  },
+  "regionAffix": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "weald",
+        "holt",
+        "wood"
+      ],
+      "marsh": [
+        "fen",
+        "moss",
+        "carr"
+      ],
+      "mountain": [
+        "fells",
+        "moor",
+        "edge"
+      ],
+      "frost": [
+        "wold",
+        "reach",
+        "waste"
+      ]
+    }
+  },
+  "innAdjective": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "ancient",
+        "black",
+        "blue",
+        "brave",
+        "bronze",
+        "crying",
+        "crystal",
+        "dancing",
+        "dusty",
+        "fierce",
+        "fiery",
+        "gentle",
+        "glass",
+        "golden",
+        "green",
+        "hidden",
+        "howling",
+        "icy",
+        "iron",
+        "laughing",
+        "lucky",
+        "merry",
+        "peaceful",
+        "red",
+        "roaring",
+        "shadowy",
+        "shining",
+        "silent",
+        "silk",
+        "silver",
+        "singing",
+        "sleepy",
+        "stone",
+        "stormy",
+        "velvet",
+        "weeping",
+        "whispering",
+        "white",
+        "wild",
+        "wooden"
+      ]
+    }
+  },
+  "innObject": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "axe",
+        "banner",
+        "bear",
+        "boar",
+        "chalice",
+        "crown",
+        "dragon",
+        "eagle",
+        "falcon",
+        "flame",
+        "goblet",
+        "griffin",
+        "hand",
+        "harp",
+        "horn",
+        "horse",
+        "lantern",
+        "lion",
+        "mask",
+        "moon",
+        "phoenix",
+        "pixie",
+        "ram",
+        "rose",
+        "serpent",
+        "shield",
+        "ship",
+        "skull",
+        "spear",
+        "stag",
+        "star",
+        "sun",
+        "sword",
+        "tankard",
+        "tree",
+        "unicorn",
+        "willow",
+        "wolf"
+      ]
+    }
+  },
+  "townsfolkName": {
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "Aaron",
+        "Abelard",
+        "Abram",
+        "Adrian",
+        "Aedan",
+        "Aelric",
+        "Afran",
+        "Aghavan",
+        "Agnus",
+        "Aiden",
+        "Alaric",
+        "Alarion",
+        "Alistair",
+        "Ambrose",
+        "Amlath",
+        "Amleth",
+        "Amos",
+        "Amrod",
+        "Anorius",
+        "Aric",
+        "Arlen",
+        "Asher",
+        "Aspen",
+        "Aster",
+        "Auden",
+        "Aurelius",
+        "Auron",
+        "Baldric",
+        "Baldrus",
+        "Barryn",
+        "Bartholomew",
+        "Bearn",
+        "Beowulf",
+        "Beren",
+        "Bran",
+        "Brom",
+        "Bryce",
+        "Burke",
+        "Byrn",
+        "Cadan",
+        "Cadfael",
+        "Cadmus",
+        "Caius",
+        "Caleb",
+        "Cameron",
+        "Caradoc",
+        "Carlin",
+        "Carmine",
+        "Cassian",
+        "Cassius",
+        "Cedric",
+        "Cesar",
+        "Cillian",
+        "Clovis",
+        "Cy",
+        "Cyril",
+        "Dara",
+        "Darius",
+        "Dawn",
+        "Devlin",
+        "Dorian",
+        "Eamon",
+        "Edrick",
+        "Eira",
+        "Elara",
+        "Elinde",
+        "Elric",
+        "Elysia",
+        "Ember",
+        "Emric",
+        "Emrys",
+        "Eogan",
+        "Ephraim",
+        "Evelyn",
+        "Everard",
+        "Falkor",
+        "Fendrel",
+        "Fenris",
+        "Felix",
+        "Fenwick",
+        "Fox",
+        "Francis",
+        "Gizon",
+        "Goron",
+        "Gareth",
+        "Gavin",
+        "Gideon",
+        "Gilbert",
+        "Glen",
+        "Gorim",
+        "Granger",
+        "Griffin",
+        "Hadrian",
+        "Haldric",
+        "Hallon",
+        "Hector",
+        "Helena",
+        "Herbrand",
+        "Hilda",
+        "Holgar",
+        "Holmes",
+        "Hugh",
+        "Ian",
+        "Iamond",
+        "Iaric",
+        "Indira",
+        "Imogen",
+        "Imlas",
+        "Ingrid",
+        "Ion",
+        "Irina",
+        "Isla",
+        "Isolde",
+        "Ithil",
+        "Jade",
+        "Jareth",
+        "Jessica",
+        "Jeremiah",
+        "Jessen",
+        "Jocelyn",
+        "Jora",
+        "Jordan",
+        "Juniper",
+        "K'nar",
+        "Kael",
+        "Kaldor",
+        "Kalon",
+        "Kara",
+        "Kendra",
+        "Kestrel",
+        "Keyl",
+        "Kynes",
+        "Laban",
+        "Lareth",
+        "Laird",
+        "Lareth",
+        "Leif",
+        "Leoric",
+        "Levan",
+        "Lia",
+        "Liora",
+        "Lirien",
+        "Lirion",
+        "Lazslo",
+        "Lena",
+        "Lothar",
+        "Lunessa",
+        "Luthor",
+        "Lyrael",
+        "Mabon",
+        "Malachai",
+        "Malric",
+        "Marina",
+        "Marissa",
+        "Mark",
+        "Mathias",
+        "Mel",
+        "Mogan",
+        "Ragnar",
+        "Rucker",
+        "Rudd",
+        "Rudolf",
+        "Ruth",
+        "Ruven",
+        "Sable",
+        "Salome",
+        "Sabin",
+        "Selene",
+        "Sel",
+        "Sienna",
+        "Soben",
+        "Sorgen",
+        "Tabor",
+        "Tathren",
+        "Tegan",
+        "Tan",
+        "Thal",
+        "Thea",
+        "Tobias",
+        "Tomas",
+        "Tulan",
+        "Ulric",
+        "Uarin",
+        "Uendra",
+        "Ulara",
+        "Ulrith",
+        "Valen",
+        "Vance",
+        "Varric",
+        "Velana",
+        "Veltris",
+        "Violet",
+        "Wade",
+        "Warren",
+        "Wesley",
+        "Wend",
+        "Wolf",
+        "Woressa",
+        "Wynd",
+        "Xander",
+        "Xavian",
+        "Xyn",
+        "Yoriel",
+        "Zachariah",
+        "Zara",
+        "Zaron",
+        "Ziven"
+      ],
+      "elf": [
+        "Aelar",
+        "Arannis",
+        "Baeloth",
+        "Caelynn",
+        "Dayereth",
+        "Erevan",
+        "Felosial",
+        "Galinndan",
+        "Hadarai",
+        "Immeral",
+        "Jassin",
+        "Keyleth",
+        "Lia",
+        "Myriil",
+        "Naivara",
+        "Orym",
+        "Peren",
+        "Quarion",
+        "Rolen",
+        "Soveliss",
+        "Thamior",
+        "Uriel",
+        "Veyas",
+        "Wyn"
+      ],
+      "dwarf": [
+        "Adrik",
+        "Baern",
+        "Barendd",
+        "Brottor",
+        "Dain",
+        "Eberk",
+        "Fargrim",
+        "Gimgen",
+        "Harbek",
+        "Kildrak",
+        "Morgran",
+        "Orsik",
+        "Rangrim",
+        "Rurik",
+        "Taklinn",
+        "Thoradin",
+        "Traubon",
+        "Ulfgar",
+        "Veit"
+      ]
+    }
+  },
+  "regionTrade": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "charcoal",
+        "timber",
+        "honey"
+      ],
+      "marsh": [
+        "eels",
+        "reed",
+        "salt"
+      ],
+      "mountain": [
+        "slate",
+        "wool",
+        "tin"
+      ],
+      "frost": [
+        "furs",
+        "whale oil",
+        "peat"
+      ]
+    }
+  },
+  "travellerCalling": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "charcoal-burner",
+        "pedlar",
+        "pilgrim"
+      ],
+      "marsh": [
+        "eel-catcher",
+        "pedlar",
+        "pilgrim"
+      ],
+      "mountain": [
+        "drover",
+        "tinker",
+        "pilgrim"
+      ],
+      "frost": [
+        "trapper",
+        "tinker",
+        "pilgrim"
+      ]
+    }
+  },
+  "settlementSize": {
+    "discriminator": "rank",
+    "groups": {
+      "first": [
+        "town"
+      ],
+      "other": [
+        {
+          "__weight": 2,
+          "__value": "village"
+        },
+        "hamlet"
+      ]
+    }
+  },
+  "siteKind": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        {
+          "_key": "cave",
+          "__weight": 2
+        },
+        {
+          "_key": "barrow"
+        },
+        {
+          "_key": "ruin",
+          "__weight": 2
+        },
+        {
+          "_key": "tower"
+        },
+        {
+          "_key": "grove"
+        }
+      ],
+      "marsh": [
+        {
+          "_key": "ruin",
+          "__weight": 2
+        },
+        {
+          "_key": "tower",
+          "__weight": 2
+        },
+        {
+          "_key": "barrow"
+        },
+        {
+          "_key": "bog",
+          "__weight": 2
+        }
+      ],
+      "mountain": [
+        {
+          "_key": "cave",
+          "__weight": 3
+        },
+        {
+          "_key": "mine",
+          "__weight": 2
+        },
+        {
+          "_key": "ruin"
+        },
+        {
+          "_key": "tower"
+        },
+        {
+          "_key": "sinkhole"
+        }
+      ],
+      "frost": [
+        {
+          "_key": "cave",
+          "__weight": 2
+        },
+        {
+          "_key": "barrow",
+          "__weight": 2
+        },
+        {
+          "_key": "ruin"
+        },
+        {
+          "_key": "tower"
+        }
+      ]
+    }
+  },
+  "siteNoun": {
+    "discriminator": "kind",
+    "groups": {
+      "cave": [
+        "hole",
+        "cave",
+        "delf"
+      ],
+      "barrow": [
+        "barrow",
+        "howe",
+        "low"
+      ],
+      "ruin": [
+        "walls",
+        "stones",
+        "hall"
+      ],
+      "tower": [
+        "tower",
+        "spire",
+        "watch"
+      ],
+      "grove": [
+        "grove",
+        "holt",
+        "shaw"
+      ],
+      "bog": [
+        "moss",
+        "bog",
+        "flow"
+      ],
+      "mine": [
+        "delving",
+        "workings",
+        "levels"
+      ],
+      "sinkhole": [
+        "sink",
+        "swallet",
+        "pot"
+      ]
+    }
+  },
+  "wonderKind": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "glowing_runes",
+        "levitating_objects",
+        "ethereal_music",
+        "shifting_walls",
+        "enchanted_statues",
+        "ancient_trees",
+        "time_dilation",
+        "illusory_visions",
+        "enchanted_aura",
+        "whispering_voices",
+        "spectral_figures",
+        "magical_weather",
+        "floating_lights",
+        "color_shifts",
+        "unearthly_silence",
+        "glowing_crystals",
+        "mysterious_portal",
+        "arcane_symbols",
+        "mystical_fog",
+        "celestial_glow"
+      ]
+    }
+  },
+  "wonderDescription": {
+    "discriminator": "kind",
+    "groups": {
+      "glowing_runes": [
+        "runes that glow with an inner light, pulsing softly."
+      ],
+      "levitating_objects": [
+        "various objects levitating gently in the air, defying gravity."
+      ],
+      "ethereal_music": [
+        "a haunting melody that seems to come from nowhere, filling the air."
+      ],
+      "shifting_walls": [
+        "walls that subtly shift and change position when not being observed."
+      ],
+      "enchanted_statues": [
+        "a statue that appears to move slightly when not directly looked at."
+      ],
+      "ancient_trees": [
+        "a massive tree with gnarled roots and a trunk that seems to pulse with life."
+      ],
+      "time_dilation": [
+        "an area where time seems to pass differently"
+      ],
+      "illusory_visions": [
+        "visions that appear and disappear at the edge of your sight."
+      ],
+      "enchanted_aura": [
+        "a shimmering aura that seems to protect the area from harm."
+      ],
+      "whispering_voices": [
+        "soft whispers that seem to come from the walls themselves."
+      ],
+      "spectral_figures": [
+        "ghostly figures that move silently through the area."
+      ],
+      "magical_weather": [
+        "weather phenomena that seem to be controlled by magic."
+      ],
+      "floating_lights": [
+        "small lights that float in the air, moving in intricate patterns."
+      ],
+      "color_shifts": [
+        "colors that shift and change in a mesmerizing way."
+      ],
+      "unearthly_silence": [
+        "a profound silence that seems to absorb all sound."
+      ],
+      "glowing_crystals": [
+        "a crystal that emits a soft, radiant glow."
+      ],
+      "mysterious_portal": [
+        "a swirling portal that seems to lead to another place."
+      ],
+      "arcane_symbols": [
+        "symbols that glow with magical energy, pulsing rhythmically."
+      ],
+      "mystical_fog": [
+        "a thick fog that seems to have a life of its own."
+      ],
+      "celestial_glow": [
+        "a soft glow that seems to come from the heavens themselves."
+      ]
+    }
   }
 }

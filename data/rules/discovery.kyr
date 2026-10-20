@@ -34,7 +34,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     }
   }
   Action ask(actor: group, informant: group, topic: source, statement: fact, site: place) "Ask {informant} about {topic}" {
-    Result "The speaker shares an account they know. You record it in your journal.".
+    Result "{informant} tells you what they have heard about {topic}.".
     Description "Ask about an offered topic. The speaker shares an established fact they actually know.".
     Requires able(actor) and able(informant) and distinct(actor, informant)
       and at(actor, site) and at(informant, site) and testimony(informant, topic)

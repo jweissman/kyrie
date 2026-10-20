@@ -1,0 +1,20 @@
+Module den "A den in the wild" {
+  Description "Something has made its den out in the wild and takes what strays near it. Clear it out, and take what it dragged home.".
+  Entity party: group "Your company".
+  Place den "The den" is room.
+  Measure hoard(entity).
+  Relation looted(group).
+  Person beasts "the beasts" at den {
+    Role "a beast". Creature terrain any. Numbers 2.
+    State lurking "Eyes shine at the back of {den}. Bones lie scattered in front of it.".
+  }
+  Action plunder(actor: group, spot: place) "Search {den} for what was dragged in" {
+    Requires able(actor) and at(actor, spot) and at(beasts, spot) and dead(beasts) and not looted(actor).
+    Time 2.
+    On success { Increase quantity(actor, gold) by hoard(beasts). Assert looted(actor). }
+    Result "Among the bones are coins and a broken buckle: {hoard(beasts)} coin in all.".
+  }
+  Observe cleared at den when dead(beasts) "{den} is quiet now. Flies settle on what is left.".
+  Objective clear when not dead(beasts) "{beasts} have a den at {den}.".
+  Goal dead(beasts).
+}

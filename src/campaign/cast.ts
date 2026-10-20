@@ -14,7 +14,7 @@ export class Cast {
   static readonly fields = ['raceId', 'classId', 'level', 'backgroundId', 'professionId', 'traits', 'gear'] as const;
   static person(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember {
     for (const key of Object.keys(generated)) {
-      if (key !== 'name' && !(this.fields as readonly string[]).includes(key)) {
+      if (!['name', 'parameters', 'role'].includes(key) && !(this.fields as readonly string[]).includes(key)) {
         throw new Error(`Generated casting for ${p.id} sets ${key}, which is not a field of a person`);
       }
     }
@@ -33,7 +33,13 @@ export class Cast {
     }
     // People of a module are Orsino NPCs: they prepare spells rather than choosing them as a player character does.
     context.prepared = true;
-    if (p.creature) { context.parameters = { ...p.creature }; provenance.parameters = 'authored'; }
+    // Creature constraints: generation may fill them in (a scenario's terrain or body); authored ones win.
+    const offered = Object.entries((generated.parameters ?? {}) as Record<string, unknown>)
+      .filter(([, v]) => v != null);
+    const parameters = { ...Object.fromEntries(offered), ...p.creature };
+    if (Object.keys(parameters).length) {
+      context.parameters = parameters; provenance.parameters = p.creature ? 'authored' : 'generated';
+    }
     return { id: `${p.id}_person`, context: context as CreatureGenerationContext, gold: 0, provenance };
   }
   // Every creature of a person's group: one unless the person Numbers more. Each has its own identity and draws.
@@ -41,7 +47,8 @@ export class Cast {
     const first = this.person(p, generated, conflicts), count = p.count ?? 1;
     if (count === 1) { return [first]; }
     // Members of a group are told apart by their role and number: "Cave spider 2".
-    const kind = (p.role ?? p.name).replace(/^(a|an|the) /i, '');
+    const role = typeof generated.role === 'string' ? generated.role : p.role;
+    const kind = (role ?? p.name).replace(/^(a|an|the) /i, '');
     return Array.from({ length: count }, (_, i) => ({ ...structuredClone(first), id: i ? `${first.id}_${i + 1}` : first.id,
       context: { ...structuredClone(first.context), name: `${kind.charAt(0).toUpperCase()}${kind.slice(1)} ${i + 1}` } }));
   }

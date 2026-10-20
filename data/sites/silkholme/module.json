@@ -29,6 +29,7 @@
     "workroom": "frames",
     "below": "cave",
     "nest": "nest",
-    "web_way": "web_gallery"
+    "web_way": "web_gallery",
+    "path": "sink_path"
   }
 }

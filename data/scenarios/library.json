@@ -1,0 +1,4 @@
+{
+  "about": "Scenarios a generated region may include. Each file declares where it belongs, what it needs and how word of it travels; the world assembler (src/world/world-assembler.ts) selects and situates them.",
+  "scenarios": ["brood-hollow.scenario.json", "den.scenario.json"]
+}

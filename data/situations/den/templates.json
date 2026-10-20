@@ -1,0 +1,55 @@
+{
+  "den": {
+    "__no_id": true,
+    "terrain": "forest",
+    "name": "A den in the wild",
+    "_family": "=lookup(denFamily, #terrain)",
+    "_request": "=gen(den_request)",
+    "_creature": "=gen(creature, #_request)",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "casting": "=gen(den_casting)",
+    "labels": "=gen(den_labels)",
+    "initial": "=concat(gen(den_hoard))",
+    "outcomes": [
+      {
+        "id": "cleared",
+        "predicate": "dead(beasts)"
+      }
+    ]
+  },
+  "den_casting": {
+    "__no_id": true,
+    "beasts": "=gen(den_beast)"
+  },
+  "den_beast": {
+    "__no_id": true,
+    "role": "=#_family == 'animal' ? 'a ' + dig(#_creature, 'body') : 'an outlaw'",
+    "parameters": "=gen(den_constraints)"
+  },
+  "den_constraints": {
+    "__no_id": true,
+    "family": "=#_family",
+    "body": "=dig(#_creature, 'body')",
+    "raceId": "=dig(#_creature, 'raceId')"
+  },
+  "den_labels": {
+    "__no_id": true,
+    "beasts": "=lookup(denLabel, #_family)"
+  },
+  "den_hoard": {
+    "__no_id": true,
+    ">name": "hoard",
+    "args": [
+      "beasts"
+    ],
+    "value": "=2d6 + 2"
+  },
+  "den_request": {
+    "__no_id": true,
+    "terrain": "=#terrain",
+    "family": "=#_family"
+  }
+}
