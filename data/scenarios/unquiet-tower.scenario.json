@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "id": "unquiet-tower",
+  "name": "The unquiet tower",
+  "instances": 1,
+  "weight": 3,
+  "context": { "domain": ["life", "light", "nature", "war", "knowledge", "storms", "order"] },
+  "places": {
+    "spire": { "site": ["tower"] },
+    "town": { "settlement": "near:spire" }
+  },
+  "modules": [
+    { "id": "tower", "bundle": "../situations/unquiet-tower/module.json",
+      "imports": { "party": "@party", "land": "@region", "outside": "@spire", "shrine": "@town.shrine",
+        "gossip": "@town.green", "keeper": "@town.priest" } }
+  ],
+  "route": "tower.well",
+  "hooks": [
+    { "id": "lights", "topic": "the light in {spire}", "channels": ["tavern", "road"], "opens": false,
+      "text": "A green light burns at the top of {spire} at night, and something walks the lane below it." },
+    { "id": "graves", "topic": "the opened graves", "channels": ["temple"], "opens": false,
+      "text": "Graves have been opened in the churchyard and the dead taken. An acolyte who left the shrine years ago lives in {spire} now." },
+    { "id": "old_well", "topic": "the old well at {spire}", "channels": ["road", "market"],
+      "text": "There is an old well behind {spire} that runs down into the cellars. The builders used it." }
+  ]
+}

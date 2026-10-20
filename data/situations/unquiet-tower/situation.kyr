@@ -1,0 +1,74 @@
+Module unquiet_tower "The unquiet tower" {
+  Description "Someone who once served at the shrine has taken a lonely tower and is raising the dead from the churchyard. Fight through the risen, find the back way in, or break what holds them.".
+  Entity party: group "Your company".
+  Place land "The region" is region.
+  Place outside "Below the tower" is room.
+  Place shrine "The shrine" is room.
+  Place gossip "Where news is passed on" is room.
+  Entity keeper: group "The priest".
+
+  Kind style. Entity drowned: style "drowned". Entity ivied: style "ivied". Entity bare: style "bare".
+  Relation looks(place, style). Relation ended(group). Relation spared(group). Relation thanked(group, group).
+
+  Place tower "The tower" is site within land at 6, 2.
+  Place inside "Inside the tower" is level within tower.
+  Place hall "the tower hall" is room within inside at 0, 0.
+  Place study "the study at the top" is room within inside at 1, 0.
+  Place crypt "the crypt under the tower" is room within inside at 0, 1.
+  Passage door "the iron-bound door" is door between outside and hall.
+  Passage stair "the turning stair" is stair between hall and study.
+  Passage well "the old well shaft" is shaft between outside and crypt needing rope.
+  Passage crypt_steps "the crypt steps" is steps between crypt and study.
+
+  Person necromancer "Someone" at study {
+    Role "necromancer". Calling mage. Level 3.
+    State working "{necromancer} bends over a table of bones, muttering, and does not look up.".
+    State broken "{necromancer} sits on the floor among the bones with his face in his hands.".
+  }
+  Person risen "the risen dead" at hall {
+    Role "a risen corpse". Species revenant. Numbers 2.
+    State shambling blocking "Dead folk in grave-clothes stand at the foot of {stair}, swaying, and turn their faces to you.".
+    State fallen "Grave-clothes and bones lie in heaps at the foot of {stair}.".
+    Guards stair.
+  }
+  Thing lantern "the bone lantern" at study {
+    State lit "A lantern of yellowed bone hangs over the table. It burns with a cold green flame, and the room smells of the grave.".
+    State broken "Shards of bone and a dead wick lie under the table.".
+    Change smash "Smash the bone lantern" from lit to broken.
+  }
+  Discovery binding "The bone lantern holds the risen dead to the tower. Its flame is the only thing that moves them." {
+    Source daybook "a daybook in a cramped hand" at study readable by party.
+  }
+
+  Observe drowned_look at outside when looks(tower, drowned) "The tower stands with its feet in black water. Weed hangs from its lower windows.".
+  Observe ivied_look at outside when looks(tower, ivied) "Ivy has taken the tower to its roof. A light burns behind the ivy at the top.".
+  Observe bare_look at outside when looks(tower, bare) "The tower is bare stone, cracked by frost. A light burns at the top.".
+  Observe dark_hall at hall when true "Coffin-boards lean against the walls, and the floor is gritty with churchyard earth.".
+  Observe well_head at outside when true "Behind the tower, a well-head is half buried in nettles.".
+
+  Event release near lantern when state(lantern, broken) and not ended(necromancer) "The green flame goes out. Somewhere below, things fall to the floor, and {necromancer} cries out as if struck." then {
+    Assert ended(necromancer). Assert state(risen, fallen). Assert peaceable(risen). Assert state(necromancer, broken). Assert peaceable(necromancer).
+  }
+  Event slain at study when dead(necromancer) and not ended(necromancer) "With {necromancer} dead, the lantern gutters out, and the risen fall where they stand." then {
+    Assert ended(necromancer). Assert state(lantern, broken). Assert state(risen, fallen). Assert peaceable(risen).
+  }
+
+  Topic why with necromancer "Ask {necromancer} who he was raising" when state(necromancer, broken) and not spared(necromancer) {
+    Says "'My sister,' says {necromancer}. 'She drowned the spring I left {shrine}. I only wanted to ask her one thing. The others came up with her.' He will not look at you.".
+  }
+  Topic send_away with necromancer "Tell {necromancer} to leave and never come back" when state(necromancer, broken) and not spared(necromancer) once {
+    Says "{necromancer} gathers a coat and a satchel and goes down the stair without a word.".
+    On discuss { Assert spared(necromancer). Retract at(necromancer, study). }
+  }
+  Topic graves with keeper "Tell {keeper} the dead can rest" when ended(necromancer) and not thanked(keeper, party) once {
+    Says "'Then we will bury them again, properly this time,' says {keeper}, and empties the alms box into your hands.".
+    On discuss { Decrease quantity(alms, gold) by 6. Increase quantity(party, gold) by 6. Assert thanked(keeper, party). }
+  }
+  Entity alms: thing "the shrine's alms box".
+  Initially Set quantity(alms, gold) to 6.
+
+  Observe news_ended at gossip when ended(necromancer) and not dark() "People say the dead have stopped walking out by the tower, and the priest has been digging graves again.".
+  Objective tower when not ended(necromancer) and knows(party, binding) "The bone lantern in the tower holds the risen dead.".
+  Objective report when ended(necromancer) and not thanked(keeper, party) "The dead in the tower are still. {keeper} will want to know.".
+  Goal ended(necromancer).
+}

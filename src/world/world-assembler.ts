@@ -14,7 +14,8 @@ export interface ScenarioManifest {
   places: Record<string, { site?: string[]; settlement?: string }>;
   modules: { id: string; bundle: string; imports: Record<string, string>; context?: Record<string, DeemValue> }[];
   route?: string;
-  hooks?: { id: string; topic: string; text: string; channels: Carrier['channel'][] }[];
+  // A hook is something people say; unless it `opens: false`, hearing it reveals the way in.
+  hooks?: { id: string; topic: string; text: string; channels: Carrier['channel'][]; opens?: boolean }[];
 }
 export interface Placement {
   scenario: string; instance: string; bindings: Record<string, string>; generated: string[];
@@ -195,7 +196,7 @@ export class WorldAssembler {
     const carriers = new Set<string>();
     for (const hook of hooks) {
       lines.push(`  Entity ${hook.id}: fact ${q(local(hook.text))}.`, `  Initially Assert established(${hook.id}).`);
-      if (s.route) { lines.push(`  Initially Assert revealedBy(route_in, ${hook.id}).`); }
+      if (s.route && hook.opens !== false) { lines.push(`  Initially Assert revealedBy(route_in, ${hook.id}).`); }
       for (const town of new Set(towns)) {
         for (const channel of hook.channels) {
           const carrier = `${town.id}_${this.speakers[channel]}`, topic = `${hook.id}_${carrier}`;

@@ -1,0 +1,5 @@
+{
+  "towerStyle": { "discriminator": "terrain", "groups": {
+    "marsh": ["drowned"], "forest": ["ivied", "bare"], "mountain": ["bare"], "frost": ["bare"]
+  } }
+}
