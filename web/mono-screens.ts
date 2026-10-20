@@ -46,7 +46,7 @@ export class MonoScreens {
     if (!id) { return ''; }
     if (!Overlays.has(id)) { return ''; }
     const o = Overlays.get(id), grants = Overlays.contributions({ backgroundId: id });
-    return `${grants.filter(g => g.kind === 'skill').map(g => g.value).join(', ') || 'no skill'}; carries ${grants.filter(g => g.kind === 'gear').map(g => g.value.replace('_', ' ')).join(', ') || 'nothing special'}${o.requiredClass ? `; ${o.requiredClass}s only` : ''}.`;
+    return `${grants.filter(g => g.kind === 'skill').map(g => g.value).join(', ') || 'no skill'}; carries ${grants.filter(g => g.kind === 'gear').map(g => g.value.replace('_', ' ')).join(', ') || 'nothing special'}${o.requiredClass ? `; ${o.requiredClass}s only` : ''}${o.contact ? `; knows someone who hears ${({ tavern: 'taproom', temple: 'shrine', market: 'market', road: 'road' })[o.contact.channel]} news` : ''}.`;
   }
   static list(items: string[], empty: string): string {
     return items.length ? `<ul>${items.map(i => `<li>${Html.escape(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`;

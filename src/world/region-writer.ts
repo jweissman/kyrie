@@ -12,6 +12,11 @@ export interface Region {
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
+// A company member's old acquaintance, from their background: a carrier who passes on news of that channel heard
+// anywhere in the region, and who is introduced where they are found.
+export interface Contact {
+  member: string; background: string; channel: Carrier['channel']; carrier: string; room: string; text: string;
+}
 
 export class RegionWriter {
   static readonly id = 'region';
@@ -27,7 +32,7 @@ export class RegionWriter {
     const index = region.sites.indexOf(site);
     return region.settlements.find(s => s.id === site.near) ?? region.settlements[index % region.settlements.length]!;
   }
-  static source(region: Region): string {
+  static source(region: Region, company: { size: number; contacts: Contact[] } = { size: 3, contacts: [] }): string {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(`Module ${this.id} ${q(region.name)} {`,
       `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country of ${region.ancestry} settlements, where people keep the faith of ${region.deity}.`)}.`,
@@ -44,11 +49,12 @@ export class RegionWriter {
         `  Passage ${site.id}_track ${q(`the track to ${site.name}`)} is track between ${town.id}_green and ${site.id} taking ${site.hours} hour${site.hours === 1 ? '' : 's'}.`,
         `  Observe ${site.id}_scene at ${site.id} when true ${q(this.site(site, region))}.`);
     });
+    company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
     const wonderSite = region.sites[0];
     if (wonderSite) {
       lines.push(`  Observe wonder at ${wonderSite.id} when true ${q(`Nearby you find ${region.wonder.description.replace(/\.$/, '')}. Nobody in ${region.settlements[0]!.name} can say why.`)}.`);
     }
-    lines.push(`  Company party "Your company" of 3 at ${region.settlements[0]!.id}_green.`,
+    lines.push(`  Company party "Your company" of ${company.size} at ${region.settlements[0]!.id}_green.`,
       '  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.', '  Goal false.', '}');
     return lines.join('\n');
   }

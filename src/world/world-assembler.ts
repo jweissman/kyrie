@@ -4,7 +4,9 @@ import { RandomStreams } from '../random-streams';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { BundleRequest } from '../campaign/module-bundle';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
-import { RegionWriter, type Carrier, type Region, type Site } from './region-writer';
+import { Expressions } from '../expressions';
+import { Overlays } from '../overlays';
+import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
 // way in that stays hidden until someone hears of it, and what people say about it.
@@ -24,7 +26,7 @@ export interface Placement {
 }
 export interface WorldReport {
   seed: string; region: Region; context: Record<string, string>;
-  eligibility: { scenario: string; fits: boolean; why?: string }[]; placements: Placement[];
+  eligibility: { scenario: string; fits: boolean; why?: string }[]; placements: Placement[]; contacts: Contact[];
 }
 interface Entry { path: string; manifest: ScenarioManifest }
 
@@ -36,13 +38,16 @@ export class WorldAssembler {
     temple: 'priest', market: 'merchant' };
   static readonly rooms: Record<Carrier['channel'], string> = { tavern: 'taproom', road: 'taproom', temple: 'shrine',
     market: 'shop' };
+  static readonly heard: Record<Carrier['channel'], string> = { road: 'News from the roads reaches them first.',
+    tavern: 'They hear everything said across their tables.', temple: 'The faithful bring them their troubles.',
+    market: 'Traders tell them what they have seen.' };
   static readonly party: CreatureGenerationContext[] = [
     { name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' },
     { name: 'Bran', raceId: 'human', classId: 'warrior', backgroundId: 'locksmith', traits: ['toughness'] },
     { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic', traits: ['vitalist'],
       spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'] }];
   static async assemble(seed: string, base: BundleSource, options: {
-    library?: string; scenarios?: number; region?: Record<string, DeemValue>;
+    library?: string; scenarios?: number; region?: Record<string, DeemValue>; party?: CreatureGenerationContext[];
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = new Content(RandomStreams.key(seed, 'world', 'region'))
       .generate('region', options.region ?? {}) as unknown as Region;
@@ -59,15 +64,16 @@ export class WorldAssembler {
       count.set(chosen.manifest.id, n);
       placements.push(this.place(chosen.manifest, { n, region, claimed, seed }));
     }
+    const party = options.party ?? this.party, contacts = this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {
       [`${root}/region/module.json`]: JSON.stringify(RegionWriter.manifest(region)),
-      [`${root}/region/region.kyr`]: RegionWriter.source(region) };
+      [`${root}/region/region.kyr`]: RegionWriter.source(region, { size: party.length, contacts }) };
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: `${root}/region/module.json` }];
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
       modules.push(...this.requests(entry, placement, base, context));
-      const word = this.word(entry.manifest, placement, region);
+      const word = this.word(entry.manifest, placement, { region, contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
         files[`${root}/word-${placement.instance}/word.kyr`] = word.source;
@@ -75,13 +81,25 @@ export class WorldAssembler {
       }
     });
     const path = base.resolve(`${root}.campaign.json`);
-    files[path] = JSON.stringify({ version: 1, name: region.name, modules, party: this.party,
+    files[path] = JSON.stringify({ version: 1, name: region.name, modules, party,
       pitch: { heading: `A company in ${region.name}`, text: `${region.name} is ${RegionWriter.terrain(region.terrain)} `
         + `country of ${region.ancestry} settlements under ${region.deity}. Nobody hires a company for nothing: listen `
         + 'in the taprooms, at the shrines and on the roads, and go where the trouble is. Choose three companions.' } });
     return { path, source: new OverlayBundleSource(base, files),
-      report: { seed, region, context, placements,
+      report: { seed, region, context, placements, contacts,
         eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
+  }
+  // Each member whose background brings a contact knows someone of that channel in one of the region's settlements.
+  private static contacts(region: Region, party: CreatureGenerationContext[], seed: string): Contact[] {
+    return party.flatMap((member, i) => {
+      const tie = member.backgroundId ? Overlays.catalog[member.backgroundId]?.contact : undefined;
+      if (!tie) { return []; }
+      const name = member.name ?? `Member ${i + 1}`, n = region.settlements.length;
+      const town = region.settlements[new Expressions(RandomStreams.key(seed, 'world', 'contact', name)).number(`1d${n}`) - 1]!;
+      const carrier = `${town.id}_${this.speakers[tie.channel]}`;
+      return [{ member: name, background: member.backgroundId!, channel: tie.channel, carrier, room: `${town.id}_${this.rooms[tie.channel]}`,
+        text: `${tie.text.replaceAll('{contact}', `{${carrier}}`).replaceAll('{member}', name)} ${this.heard[tie.channel]}` }];
+    });
   }
   private static async library(base: BundleSource, index: string): Promise<Entry[]> {
     const path = base.resolve(index);
@@ -179,7 +197,8 @@ export class WorldAssembler {
   }
   // The module that spreads word of a placed scenario: each hook is an established fact, known to carriers in the
   // settlement nearest it and the next one along, offered as something to ask about; any of them reveals the way in.
-  private static word(s: ScenarioManifest, placement: Placement, region: Region) {
+  private static word(s: ScenarioManifest, placement: Placement, at: { region: Region; contacts: Contact[] }) {
+    const { region, contacts } = at;
     const hooks = s.hooks ?? [];
     if (!hooks.length && !s.route) { return undefined; }
     const q = JSON.stringify;
@@ -200,21 +219,24 @@ export class WorldAssembler {
       lines.push(`  Entity ${fact}: fact "What people say".`);
       imports[fact] = this.ref(hook.fact, placement);
       if (s.route && hook.opens !== false) { lines.push(`  Initially Assert revealedBy(route_in, ${fact}).`); }
+      // Carriers in the towns nearest the scenario, and members' contacts anywhere who hear that kind of news.
+      const tellers = new Map<string, string>();
       for (const town of new Set(towns)) {
-        for (const channel of hook.channels) {
-          const carrier = `${town.id}_${this.speakers[channel]}`, topic = `${fact}_${carrier}`;
-          const room = `${town.id}_${this.rooms[channel]}`;
-          if (!carriers.has(carrier)) {
-            lines.push(`  Entity ${carrier}: group "Someone".`); carriers.add(carrier);
-            if (!carriers.has(room)) { lines.push(`  Place ${room} "Where they are" is room.`); carriers.add(room); }
-          }
-          imports[carrier] = `${RegionWriter.id}.${carrier}`; imports[room] = `${RegionWriter.id}.${room}`;
-          lines.push(`  Entity ${topic}: source ${q(local(hook.topic))}.`,
-            `  Initially Assert knows(${carrier}, ${fact}). Initially Assert testimony(${carrier}, ${topic}).`,
-            `  Initially Assert reveals(${topic}, ${fact}). Initially Assert noticeable(${topic}).`,
-            `  Initially Assert at(${topic}, ${room}).`);
-          (placement.carriers[hook.fact] ??= []).push(carrier);
+        for (const channel of hook.channels) { tellers.set(`${town.id}_${this.speakers[channel]}`, `${town.id}_${this.rooms[channel]}`); }
+      }
+      for (const c of contacts.filter(c => hook.channels.includes(c.channel))) { tellers.set(c.carrier, c.room); }
+      for (const [carrier, room] of tellers) {
+        const topic = `${fact}_${carrier}`;
+        if (!carriers.has(carrier)) {
+          lines.push(`  Entity ${carrier}: group "Someone".`); carriers.add(carrier);
+          if (!carriers.has(room)) { lines.push(`  Place ${room} "Where they are" is room.`); carriers.add(room); }
         }
+        imports[carrier] = `${RegionWriter.id}.${carrier}`; imports[room] = `${RegionWriter.id}.${room}`;
+        lines.push(`  Entity ${topic}: source ${q(local(hook.topic))}.`,
+          `  Initially Assert knows(${carrier}, ${fact}). Initially Assert testimony(${carrier}, ${topic}).`,
+          `  Initially Assert reveals(${topic}, ${fact}). Initially Assert noticeable(${topic}).`,
+          `  Initially Assert at(${topic}, ${room}).`);
+        (placement.carriers[hook.fact] ??= []).push(carrier);
       }
     }
     lines.push('  Goal false.', '}');

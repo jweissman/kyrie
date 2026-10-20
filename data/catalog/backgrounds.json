@@ -1,5 +1,5 @@
 {
-  "about": "Backgrounds: where a person comes from (use background) or what they do for a living (use profession). attributes and gold are Orsino's; skills, gear, offers and routine are what the background means in a Kyr world. gold is in Orsino gold pieces; Kyr pays one coin per ten.",
+  "about": "Backgrounds: where a person comes from (use background) or what they do for a living (use profession). attributes and gold are Orsino's; skills, gear, offers, routine and contact (an old acquaintance somewhere in a generated region, who hears news through a channel and passes it on) are what the background means in a Kyr world. gold is in Orsino gold pieces; Kyr pays one coin per ten.",
   "backgrounds": {
     "hunter": {
       "name": "Hunter",
@@ -17,6 +17,10 @@
       "gear": [
         "rope"
       ],
+      "contact": {
+        "channel": "road",
+        "text": "{contact} and {member} hunted the same hills for a season."
+      },
       "source": {
         "orsino": "background:hunter",
         "fidelity": "adapted",
@@ -39,6 +43,10 @@
         "bandages",
         "herbs"
       ],
+      "contact": {
+        "channel": "temple",
+        "text": "{contact} and {member} nursed the sick together through a hard winter."
+      },
       "source": {
         "orsino": "background:medic",
         "fidelity": "adapted",
@@ -59,6 +67,10 @@
       "gear": [
         "thieves_tools"
       ],
+      "contact": {
+        "channel": "market",
+        "text": "{contact} once bought {member}'s work and asked no questions about it."
+      },
       "source": {
         "orsino": "background:locksmith",
         "fidelity": "adapted",
@@ -80,6 +92,10 @@
       "gear": [
         "map"
       ],
+      "contact": {
+        "channel": "road",
+        "text": "{contact} walked a surveyor's road with {member} years ago."
+      },
       "source": {
         "orsino": "background:explorer",
         "fidelity": "adapted",
@@ -100,6 +116,10 @@
       "gear": [
         "shovel"
       ],
+      "contact": {
+        "channel": "tavern",
+        "text": "{contact} worked the same seam as {member} before taking the inn."
+      },
       "source": {
         "orsino": "background:miner",
         "fidelity": "adapted",
@@ -181,6 +201,65 @@
         "orsino": "background:boatman",
         "fidelity": "adapted",
         "notes": "Orsino gives stats and gold; Kyr gives a routine only (no ferry service yet)."
+      }
+    },
+    "acolyte": {
+      "name": "Acolyte",
+      "use": "background",
+      "attributes": {
+        "wisdom": 2,
+        "intelligence": 1
+      },
+      "gold": 5,
+      "contact": {
+        "channel": "temple",
+        "text": "{contact} and {member} kept the same altar as novices."
+      },
+      "source": {
+        "orsino": "background:acolyte",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds an old friend at a shrine who hears what the faithful say."
+      }
+    },
+    "soldier": {
+      "name": "Soldier",
+      "use": "background",
+      "attributes": {
+        "strength": 2,
+        "constitution": 1,
+        "dexterity": 1
+      },
+      "gold": 20,
+      "requiredClass": "warrior",
+      "contact": {
+        "channel": "tavern",
+        "text": "{contact} served in the same company as {member}."
+      },
+      "source": {
+        "orsino": "background:soldier",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats, gold and the warrior requirement; Kyr adds an old comrade keeping an inn."
+      }
+    },
+    "caravaner": {
+      "name": "Caravaner",
+      "use": "background",
+      "attributes": {
+        "wisdom": 2,
+        "constitution": 1
+      },
+      "gold": 15,
+      "skills": [
+        "wayfinding"
+      ],
+      "contact": {
+        "channel": "road",
+        "text": "{contact} drove the same caravan road as {member}."
+      },
+      "source": {
+        "orsino": "background:caravaner",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds wayfinding (roads known before they are walked) and a driver on the road who passes news on."
       }
     }
   }

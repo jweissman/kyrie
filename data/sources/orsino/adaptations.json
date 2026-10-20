@@ -11,11 +11,13 @@
       "note": "Exact Dex +2, Wis +1, Con +1 and the ranger requirement; 15 gold becomes 2 coin.",
       "adds": [
         "woodcraft skill (approach and calm animals)",
-        "a coil of rope"
+        "a coil of rope",
+        "a contact in generated regions who passes on news of their channel heard anywhere"
       ],
       "evidence": [
         "test/caught-below.test.ts#change_thing(hill__hound_soothe)",
-        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"hunter\""
+        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"hunter\"",
+        "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
     {
@@ -29,11 +31,13 @@
       "fidelity": "adapted",
       "note": "Exact Wis +2, Int +2 and the cleric requirement. Orsino's starting gear names bandages and herbs, which are absent from its own gear catalog; Kyr defines them.",
       "adds": [
-        "mending skill (set bones, bind wounds)"
+        "mending skill (set bones, bind wounds)",
+        "a contact in generated regions who passes on news of their channel heard anywhere"
       ],
       "evidence": [
         "test/caught-below.test.ts#rescue__set_leg(party,hill__gallery)",
-        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"medic\""
+        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"medic\"",
+        "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
     {
@@ -46,11 +50,13 @@
       "note": "Exact Dex +4, Int +2; 40 gold becomes 4 coin.",
       "adds": [
         "lockwork skill",
-        "thieves' tools from Orsino's gear catalog"
+        "thieves' tools from Orsino's gear catalog",
+        "a contact in generated regions who passes on news of their channel heard anywhere"
       ],
       "evidence": [
         "test/caught-below.test.ts#change_thing(hill__padlock_pick)",
-        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"locksmith\""
+        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"locksmith\"",
+        "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
     {
@@ -63,7 +69,11 @@
       "fidelity": "adapted",
       "note": "Exact Dex +2, Wis +1 and the ranger requirement. The map is Orsino starting gear absent from its gear catalog.",
       "adds": [
-        "wayfinding skill: the company knows the region's roads before walking them"
+        "wayfinding skill: the company knows the region's roads before walking them",
+        "a contact in generated regions who passes on news of their channel heard anywhere"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
     {
@@ -76,7 +86,57 @@
       "note": "Exact Con +2, Str +1.",
       "adds": [
         "digging skill",
-        "a shovel from Orsino's gear catalog"
+        "a shovel from Orsino's gear catalog",
+        "a contact in generated regions who passes on news of their channel heard anywhere"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:acolyte",
+      "kyr": [
+        "background:acolyte"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Wis +2, Int +1; 5 gold becomes 1 coin.",
+      "adds": [
+        "a contact at a shrine who hears temple news"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:soldier",
+      "kyr": [
+        "background:soldier"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Str +2, Con +1, Dex +1, 20 gold becomes 2 coin, and the warrior requirement.",
+      "adds": [
+        "an old comrade keeping an inn, who hears taproom news"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:caravaner",
+      "kyr": [
+        "background:caravaner"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Wis +2, Con +1; 15 gold becomes 2 coin.",
+      "adds": [
+        "wayfinding skill",
+        "a driver on the road who passes road news on"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
     {
@@ -775,7 +835,7 @@
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
-        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol\u2026) is not catalogued in Kyr."
+        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol…) is not catalogued in Kyr."
       }
     },
     {
@@ -789,7 +849,7 @@
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
-        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol\u2026) is not catalogued in Kyr."
+        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol…) is not catalogued in Kyr."
       }
     },
     {
@@ -803,7 +863,7 @@
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
-        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol\u2026) is not catalogued in Kyr."
+        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol…) is not catalogued in Kyr."
       }
     },
     {
@@ -817,7 +877,7 @@
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
-        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol\u2026) is not catalogued in Kyr."
+        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol…) is not catalogued in Kyr."
       }
     },
     {
@@ -831,7 +891,7 @@
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
-        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol\u2026) is not catalogued in Kyr."
+        "field:classModifier.startingGear": "The starting kit (torch, spellbook, holy symbol…) is not catalogued in Kyr."
       }
     },
     {
@@ -1003,7 +1063,7 @@
       ],
       "support": "executable",
       "fidelity": "faithful",
-      "note": "The iron substance overlay (+1 Str, \u22123 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
+      "note": "The iron substance overlay (+1 Str, −3 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
     },
     {
       "orsino": "deity:chaos",
@@ -1076,7 +1136,7 @@
       ],
       "support": "represented",
       "fidelity": "adapted",
-      "note": "Blessing translated from deityBlessings; alignment from the deity template. Orsino's resistPoison 2 would make poison heal (damage \u00d7 (1 \u2212 2)); Kyr treats it as immunity. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
+      "note": "Blessing translated from deityBlessings; alignment from the deity template. Orsino's resistPoison 2 would make poison heal (damage × (1 − 2)); Kyr treats it as immunity. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless.",
       "omits": {
         "modifier:bonusHealing": "Not yet modelled in Kyr.",
         "modifier:onTurnEnd": "Not yet modelled in Kyr."
@@ -1238,7 +1298,7 @@
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
-        "field:classModifier.startingGear": "The starting kit (musical instrument, robe, alms bowl\u2026) is not catalogued in Kyr."
+        "field:classModifier.startingGear": "The starting kit (musical instrument, robe, alms bowl…) is not catalogued in Kyr."
       }
     },
     {
@@ -1252,7 +1312,7 @@
       "omits": {
         "field:classModifier.gp": "Starting gold is not added; Kyr characters start with their background's coin.",
         "field:classModifier.itemProficiencies": "Kyr consumables carry no Orsino item kind, so their use is not checked.",
-        "field:classModifier.startingGear": "The starting kit (musical instrument, robe, alms bowl\u2026) is not catalogued in Kyr."
+        "field:classModifier.startingGear": "The starting kit (musical instrument, robe, alms bowl…) is not catalogued in Kyr."
       }
     },
     {

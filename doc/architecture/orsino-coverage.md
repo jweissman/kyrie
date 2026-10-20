@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 764 represented or better; 545 executable or better; 16 play-validated; 2239 feasible.
+2651 entries in 79 families. 767 represented or better; 548 executable or better; 16 play-validated; 2239 feasible.
 
 ## By family
 
@@ -16,7 +16,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 |---|---|---:|---:|---:|---:|---:|
 | character | alignment | 9 | 0 | 0 | 0 | 0 |
 | character | ancestry | 25 | 0 | 4 | 0 | 25 |
-| character | background | 215 | 0 | 4 | 5 | 215 |
+| character | background | 215 | 0 | 7 | 5 | 215 |
 | character | class | 7 | 7 | 0 | 0 | 0 |
 | character | nobility | 3 | 0 | 0 | 0 | 0 |
 | character | trait | 100 | 33 | 67 | 0 | 68 |
@@ -208,6 +208,9 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `background:locksmith` | `background:locksmith` | play-validated | adapted | Exact Dex +4, Int +2; 40 gold becomes 4 coin. |
 | `background:explorer` | `background:explorer` `item:map` | executable | adapted | Exact Dex +2, Wis +1 and the ranger requirement. The map is Orsino starting gear absent from its gear catalog. |
 | `background:miner` | `background:miner` | executable | adapted | Exact Con +2, Str +1. |
+| `background:acolyte` | `background:acolyte` | executable | adapted | Exact Wis +2, Int +1; 5 gold becomes 1 coin. |
+| `background:soldier` | `background:soldier` | executable | adapted | Exact Str +2, Con +1, Dex +1, 20 gold becomes 2 coin, and the warrior requirement. |
+| `background:caravaner` | `background:caravaner` | executable | adapted | Exact Wis +2, Con +1; 15 gold becomes 2 coin. |
 | `background:innkeeper` | `background:innkeeper` | play-validated | adapted | Exact Cha +2, Wis +1. Used as a profession: Kyr adds a lodging offer and a routine of keeping the inn. |
 | `background:herbalist` | `background:herbalist` | play-validated | adapted | Exact Wis +2, Int +1. Used as a profession. |
 | `background:priest` | `background:priest` | executable | adapted | Exact Wis +3, Cha +2. Used as a profession. |

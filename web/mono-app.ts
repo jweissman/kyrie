@@ -44,7 +44,7 @@ export class MonoApp {
     if (declared) { this.draft.party = structuredClone(declared); }
   }
   static preset(id: 'fellowship' | 'company'): CreatureGenerationContext[] {
-    const backgrounds = id === 'fellowship' ? ['forager', 'surveyor', 'pilgrim'] : ['surveyor', 'forager', 'pilgrim'];
+    const backgrounds = id === 'fellowship' ? ['hunter', 'soldier', 'medic'] : ['locksmith', 'soldier', 'caravaner'];
     return structuredClone(partyExamples[id])
       .map((p, i) => ({ ...p, backgroundId: backgrounds[i] })) as CreatureGenerationContext[];
   }
@@ -57,11 +57,16 @@ export class MonoApp {
     this.render();
     if (this.worldSeed && !this.session) { void this.generate(this.worldSeed); }
   }
+  // The region and its scenarios depend only on the seed; the company's contacts follow the backgrounds chosen.
+  private async assemble(seed: string, party?: CreatureGenerationContext[]) {
+    const terrain = new URLSearchParams(location.search).get('terrain');
+    return WorldAssembler.assemble(seed, Scenarios.source(),
+      { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {} });
+  }
   private async generate(seed: string) {
     this.pending = true; this.render();
     try {
-      const terrain = new URLSearchParams(location.search).get('terrain');
-      const world = await WorldAssembler.assemble(seed, Scenarios.source(), terrain ? { region: { terrain } } : {});
+      const world = await this.assemble(seed);
       const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
       this.world = { path: world.path, source: world.source, campaign };
       this.manifest = world.path; this.draft.seed = seed;
@@ -314,8 +319,9 @@ export class MonoApp {
     if (this.pending) { return; }
     this.pending = true; this.error = '';
     try {
-      this.session = await PlaySession.start(this.manifest, this.draft.seed, this.world?.source ?? Scenarios.source(),
-        this.draft.party);
+      const world = this.worldSeed ? await this.assemble(this.worldSeed, this.draft.party) : undefined;
+      this.session = await PlaySession.start(world?.path ?? this.manifest, this.draft.seed,
+        world?.source ?? Scenarios.source(), this.draft.party);
       this.mode = 'explore'; this.log = []; this.rowId = ''; this.persist();
     } catch (error) { this.error = error instanceof Error ? error.message : String(error); }
     finally { this.pending = false; this.render(); }

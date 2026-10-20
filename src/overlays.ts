@@ -7,6 +7,7 @@ export interface Overlay {
   role: 'background' | 'profession'; name: string;
   attributes: Partial<Record<Attribute, number>>; gold: number; requiredClass?: string;
   skills?: string[]; gear?: string[]; offers?: { kind: string; text: string; fee: number }[]; routine?: string;
+  contact?: { channel: 'tavern' | 'temple' | 'market' | 'road'; text: string };
 }
 export interface Contribution { kind: 'skill' | 'gear' | 'gold' | 'attribute' | 'offer'; value: string; source: string }
 
@@ -17,7 +18,7 @@ export class Overlays {
     .map(([id, b]) => [id, { role: b.use, name: b.name, attributes: b.attributes, gold: b.gold,
       ...b.requiredClass ? { requiredClass: b.requiredClass } : {}, ...b.skills ? { skills: b.skills } : {},
       ...b.gear ? { gear: b.gear } : {}, ...b.offers ? { offers: b.offers } : {},
-      ...b.routine ? { routine: b.routine } : {} }]));
+      ...b.routine ? { routine: b.routine } : {}, ...b.contact ? { contact: b.contact } : {} }]));
   static has(id: string, role?: Overlay['role']): boolean {
     const o = this.catalog[id];
     return !!o && (!role || o.role === role);

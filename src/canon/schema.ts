@@ -73,7 +73,7 @@ export interface CharacterClass {
 export interface Background {
   name: string; use: 'background' | 'profession'; attributes: Partial<Record<Attribute, number>>; gold: number;
   requiredClass?: string; skills?: string[]; gear?: string[]; offers?: { kind: string; text: string; fee: number }[];
-  routine?: string; source: Source;
+  routine?: string; contact?: { channel: 'tavern' | 'temple' | 'market' | 'road'; text: string }; source: Source;
 }
 export interface Skill { name: string; description: string; source: Source }
 export interface WeaponStats {

@@ -18,6 +18,7 @@ Module unquiet_tower "The unquiet tower" {
   Passage door "the iron-bound door" is door between outside and hall.
   Passage stair "the turning stair" is stair between hall and study.
   Passage well "the old well shaft" is shaft between outside and crypt needing rope.
+  Passage postern "a barred postern low in the wall" is door between outside and crypt needing lockwork.
   Passage crypt_steps "the crypt steps" is steps between crypt and study.
 
   Person necromancer "Someone" at study {
@@ -45,6 +46,7 @@ Module unquiet_tower "The unquiet tower" {
   Observe bare_look at outside when looks(tower, bare) "The tower is bare stone, cracked by frost. A light burns at the top.".
   Observe dark_hall at hall when true "Coffin-boards lean against the walls, and the floor is gritty with churchyard earth.".
   Observe well_head at outside when true "Behind the tower, a well-head is half buried in nettles.".
+  Observe postern_look at outside when true "Low in the wall is a postern, barred from within, with an old lock on it.".
 
   Event release near lantern when state(lantern, broken) and not ended(necromancer) "The green flame goes out. Somewhere below, things fall to the floor, and {necromancer} cries out as if struck." then {
     Assert ended(necromancer). Assert state(risen, fallen). Assert peaceable(risen). Assert state(necromancer, broken). Assert peaceable(necromancer).

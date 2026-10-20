@@ -64,3 +64,36 @@ describe('a generated region with situated scenarios', () => {
   }, 180000);
 });
 
+describe('backgrounds in a generated region', () => {
+  it('give each member an acquaintance who hears news of their channel anywhere in the region', async () => {
+    const party = [{ name: 'Ada', raceId: 'human', classId: 'cleric', backgroundId: 'medic' },
+      { name: 'Tam', raceId: 'human', classId: 'warrior', backgroundId: 'miner' }];
+    const world = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' }, party });
+    const [ada, tam] = world.report.contacts;
+    expect([ada!.channel, tam!.channel]).toEqual(['temple', 'tavern']);
+    expect(ada!.carrier).toMatch(/_priest$/);
+    const temple = world.report.placements.flatMap(p => Object.values(p.carriers).flat());
+    expect(temple).toContain(ada!.carrier);
+    await PlaySession.start(world.path, 'thorn', world.source, party);
+    const region = await world.source.read(world.path.replace('.campaign.json', '/region/region.kyr'));
+    expect(region).toContain(`{${ada!.carrier}} and Ada nursed the sick together`);
+  }, 60000);
+  it('let a hunter drive the beasts from a den: the den is resolved and searched, with no foes killed', async () => {
+    const world = await Worlds.assemble('thorn', 'mountain'), s = await PlaySession.start(world.path, 'thorn', world.source);
+    const den = world.report.placements.find(p => p.scenario === 'den')!.bindings.den!;
+    for (const c of ['go(region__road_s1_s2,region__s2_green)', 'go(region__s2_inn_door,region__s2_taproom)',
+      'ask(region__s2_traveller,word3__h1_s2_traveller)', 'go(region__s2_inn_door,region__s2_green)',
+      `go(region__${den}_track,region__${den})`, `den__smoke_out(party,region__${den})`]) { await s.perform(c); }
+    expect(s.campaign.world.test(ModuleWriter.call('dead', 'den__beasts'))).toBe(false);
+    expect(Worlds.ids(s)).toContain(`den__plunder(party,region__${den})`);
+    expect(s.campaign.state.creatures.find(c => c.id === 'region__party_1')!.state.experience).toBe(200);
+  }, 60000);
+  it('change where the company first hears of a scenario, and not whether it exists', async () => {
+    const a = await Worlds.assemble('thorn', 'mountain');
+    const b = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' },
+      party: [{ name: 'Elen', raceId: 'elf', classId: 'ranger' }] });
+    const placed = (w: typeof a) => w.report.placements.map(p => [p.scenario, p.bindings]);
+    expect(placed(b)).toEqual(placed(a));
+    expect(b.report.contacts).toEqual([]);
+  });
+});
