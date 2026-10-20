@@ -47,7 +47,7 @@
     "output": {
       "family": "dragon",
       "terrain": "any",
-      "lineage": "white",
+      "lineage": "black",
       "maturity": "young",
       "body": "dragon",
       "raceId": "dragon",
@@ -55,14 +55,14 @@
       "traits": [
         "formidable",
         "flying",
-        "cold_lineage"
+        "acid_lineage"
       ],
       "abilities": [
-        "breathe_cold"
+        "breathe_acid"
       ],
       "trace": [
         "family:dragon",
-        "lineage:white",
+        "lineage:black",
         "maturity:young",
         "adaptation:none"
       ],
@@ -75,7 +75,7 @@
       "charisma": 19,
       "weapon": "bite",
       "armor": "scale",
-      "name": "Young white dragon",
+      "name": "Young black dragon",
       "adaptation": "none",
       "maxHp": 36,
       "maxMana": 5,
@@ -87,18 +87,20 @@
     "output": {
       "family": "animal",
       "terrain": "any",
-      "body": "wolf",
-      "raceId": "wolf",
+      "body": "bear",
+      "raceId": "bear",
       "level": 1,
-      "traits": [],
+      "traits": [
+        "frost_adapted"
+      ],
       "abilities": [
-        "rending_bite",
+        "smash",
         "flee"
       ],
       "trace": [
         "family:animal",
-        "body:wolf",
-        "adaptation:none"
+        "body:bear",
+        "adaptation:frost"
       ],
       "strength": 12,
       "dexterity": 5,
@@ -107,11 +109,11 @@
       "constitution": 9,
       "charisma": 13,
       "classId": "",
-      "weapon": "bite",
+      "weapon": "claws",
       "armor": "fur",
-      "name": "Wolf",
-      "adaptation": "none",
-      "maxHp": 6,
+      "name": "Bear",
+      "adaptation": "frost",
+      "maxHp": 12,
       "maxMana": 3,
       "speed": 0
     }
@@ -127,7 +129,8 @@
       "traits": [
         "humanoid",
         "adaptable",
-        "versatile"
+        "versatile",
+        "marsh_adapted"
       ],
       "abilities": [
         "defend",
@@ -142,7 +145,7 @@
       "trace": [
         "ancestry:human",
         "class:warrior",
-        "adaptation:none"
+        "adaptation:marsh"
       ],
       "strength": 12,
       "dexterity": 8,
@@ -153,7 +156,7 @@
       "weapon": "battleaxe",
       "armor": "scale",
       "name": "Human warrior",
-      "adaptation": "none",
+      "adaptation": "marsh",
       "maxHp": 14,
       "maxMana": 3,
       "speed": 0
@@ -394,6 +397,213 @@
       "maxHp": 17,
       "maxMana": 6,
       "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type via_lineage --seed choice- --templates \"$fixture/templates.json\"",
+    "output": {
+      "terrain": "any",
+      "family": "dragon",
+      "lineage": "green",
+      "maturity": "wyrmling",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 1,
+      "traits": [
+        "formidable",
+        "flying",
+        "poison_lineage"
+      ],
+      "abilities": [
+        "breathe_poison"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:green",
+        "maturity:wyrmling",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 17,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 9,
+      "charisma": 13,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Wyrmling green dragon",
+      "adaptation": "none",
+      "maxHp": 16,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type via_material --seed choice- --templates \"$fixture/templates.json\"",
+    "output": {
+      "terrain": "any",
+      "family": "construct",
+      "material": "stone",
+      "role": "none",
+      "body": "golem",
+      "raceId": "golem",
+      "level": 1,
+      "traits": [
+        "construct"
+      ],
+      "abilities": [
+        "smash",
+        "defend"
+      ],
+      "trace": [
+        "family:construct",
+        "body:golem",
+        "material:stone",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 17,
+      "dexterity": 7,
+      "constitution": 19,
+      "intelligence": 9,
+      "wisdom": 9,
+      "charisma": 8,
+      "weapon": "slam",
+      "armor": "plate",
+      "name": "Stone Golem",
+      "adaptation": "none",
+      "maxHp": 17,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type via_class --seed choice- --templates \"$fixture/templates.json\"",
+    "output": {
+      "terrain": "any",
+      "family": "humanoid",
+      "raceId": "human",
+      "classId": "ranger",
+      "level": 1,
+      "traits": [
+        "humanoid",
+        "adaptable",
+        "versatile"
+      ],
+      "abilities": [
+        "defend",
+        "heal",
+        "hunters_mark",
+        "ensnare"
+      ],
+      "trace": [
+        "ancestry:human",
+        "class:ranger",
+        "adaptation:none"
+      ],
+      "strength": 7,
+      "dexterity": 9,
+      "intelligence": 8,
+      "wisdom": 12,
+      "constitution": 15,
+      "charisma": 8,
+      "weapon": "javelin",
+      "armor": "scale",
+      "name": "Human ranger",
+      "adaptation": "none",
+      "maxHp": 13,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type via_body --seed choice- --templates \"$fixture/templates.json\"",
+    "output": {
+      "terrain": "any",
+      "family": "animal",
+      "body": "cave_spider",
+      "raceId": "cave_spider",
+      "level": 1,
+      "traits": [],
+      "abilities": [
+        "venomous_bite",
+        "ensnare",
+        "flee"
+      ],
+      "trace": [
+        "family:animal",
+        "body:cave_spider",
+        "adaptation:none"
+      ],
+      "strength": 8,
+      "dexterity": 7,
+      "intelligence": 4,
+      "wisdom": 10,
+      "constitution": 10,
+      "charisma": 9,
+      "classId": "",
+      "weapon": "bite",
+      "armor": "chitin",
+      "name": "Cave Spider",
+      "adaptation": "none",
+      "maxHp": 8,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type via_maturity --seed choice- --templates \"$fixture/templates.json\"",
+    "output": {
+      "terrain": "frost",
+      "family": "dragon",
+      "lineage": "white",
+      "maturity": "wyrmling",
+      "body": "dragon",
+      "raceId": "dragon",
+      "level": 1,
+      "traits": [
+        "formidable",
+        "flying",
+        "cold_lineage"
+      ],
+      "abilities": [
+        "breathe_cold"
+      ],
+      "trace": [
+        "family:dragon",
+        "lineage:white",
+        "maturity:wyrmling",
+        "adaptation:none"
+      ],
+      "classId": "",
+      "strength": 17,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 9,
+      "charisma": 13,
+      "weapon": "bite",
+      "armor": "scale",
+      "name": "Wyrmling white dragon",
+      "adaptation": "none",
+      "maxHp": 16,
+      "maxMana": 3,
+      "speed": 0
+    }
+  },
+  {
+    "command": "deem run --type foreign_class --seed choice- --templates \"$fixture/templates.json\"",
+    "rejects": true,
+    "output": {
+      "rejected": "No matching options in creatureFamilies[animal] for condition: count(definedOf(except(gatherEntries(creatureDimensions, \"default\"), gatherEntries(creatureDimensions, #__it)))) == 0"
+    }
+  },
+  {
+    "command": "deem run --type mixed --seed choice- --templates \"$fixture/templates.json\"",
+    "rejects": true,
+    "output": {
+      "rejected": "No matching options in creatureFamilyPool[any] for condition: count(definedOf(except(gatherEntries(creatureDimensions, \"default\"), gatherEntries(creatureDimensions, #__it)))) == 0"
     }
   }
 ]

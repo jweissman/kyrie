@@ -23,11 +23,18 @@ class ChoiceProof {
   static publicTypes = ['creature', 'dragon', 'animal', 'humanoid', 'construct'];
   static targets: Record<string, string> = { blue_ancient: 'dragon', bear_fixed: 'animal',
     ranger_fixed: 'humanoid', guardian_fixed: 'construct' };
+  // Constraints given to the general generator without a family: each must reach a family that owns it.
+  static routed = Object.fromEntries(Object.entries({ via_lineage: ['creature', { lineage: 'green' }],
+    via_material: ['creature', { material: 'stone' }], via_class: ['creature', { classId: 'ranger' }],
+    via_body: ['creature', { body: 'cave_spider' }], via_maturity: ['creature', { maturity: 'wyrmling', terrain: 'frost' }],
+    foreign_class: ['animal', { classId: 'ranger' }], mixed: ['creature', { lineage: 'red', classId: 'ranger' }] } as const)
+    .map(([id, [type, context]]) => [id, { __no_id: true, _parameters: context, '*creature': `=gen(${type}, #_parameters)` }]));
   static prepare(dir: string) {
     const callers = Object.fromEntries(Object.entries(this.contexts).filter(([id]) => !this.publicTypes.includes(id))
       .map(([id, context]) => [id, { __no_id: true, _parameters: context, '*creature': '=gen(' + (this.targets[id] ?? 'creature') + ', #_parameters)' }]));
     writeFileSync(join(dir, 'templates.json'), JSON.stringify({ ...templates, ...callers,
-      impossible: { __no_id: true, _parameters: { lineage: 'blue', terrain: 'forest' }, '*creature': '=gen(dragon, #_parameters)' } }));
+      impossible: { __no_id: true, _parameters: { lineage: 'blue', terrain: 'forest' }, '*creature': '=gen(dragon, #_parameters)' },
+      ...this.routed }));
     const extended = structuredClone(tables);
     const variants = extended as Record<string, any>;
     const boar = Canon.creature('boar');

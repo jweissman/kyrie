@@ -12,7 +12,7 @@ deem run --type construct --seed public-cli
 
 ## Decomposition
 
-`creature` chooses a category from `creatureFamilyPool[terrain]`, or dispatches the supplied family through `creatureFamilies`. A supplied canonical race can resolve its category from the ordinary eligibility rows. It does not select dragon lineage, maturity, class, material or role. It contains no dimension registry, request interpreter, predicate evaluator or family switch.
+`creature` chooses a category from `creatureFamilyPool[terrain]`, or dispatches the supplied family through `creatureFamilies`. A supplied race or body resolves its category from the ordinary eligibility rows. Either way it only considers families that own every dimension requested: `creatureDimensions` says which family owns which dimension (dragon: lineage, maturity; humanoid: classId; construct: material, role; all: body, adaptation). It does not itself select lineage, maturity, class, material or role.
 
 Each public category selects its own eligible kind and relevant dimensions:
 
@@ -63,7 +63,7 @@ deem run --type guardian_fixed --seed choice- --templates "$fixture/templates.js
 rm -rf "$fixture"
 ```
 
-`family` and `terrain` are dispatcher constraints. Body/race and family-specific dimensions belong to the category that declares them; pass `family` when using them through the general generator, or call the category directly. There is no global solver inferring a family from an arbitrary future dimension name. Ambient inherited context is not a universal schema of strict arguments.
+`family` and `terrain` are dispatcher constraints. A family-specific dimension supplied without a family routes to a family that owns it: `lineage=green` yields a green dragon, `material=stone` a stone golem, `classId=ranger` a humanoid ranger, `body=cave_spider` an animal. A request no family can honour (`lineage=red` with `classId=ranger`) or a family asked for a dimension it does not own (`animal` with `classId`) is rejected by `select`, rather than generating a creature that silently ignores or leaks the request. A new dimension that should be routable from `creature` is one row in `creatureDimensions`; a dimension used only inside its family needs nothing. Examples: the `via_*`, `foreign_class` and `mixed` entries of [public-cli-examples.json](public-cli-examples.json).
 
 Missing dimensions generate choices. `terrain=any` is the explicit neutral context meaning unrestricted geography. `none` is a weighted neutral adaptation/material/role, not an obligatory default. Non-dragon starting level remains 1 unless supplied. Name, level, equipment and dimension requests are preserved; HP, mana and stored speed are derived after composition under the existing [statistic contract](statistic-contract.md).
 

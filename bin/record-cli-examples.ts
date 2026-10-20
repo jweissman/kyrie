@@ -11,8 +11,13 @@ class Recorder {
     if (prepared.exitCode !== 0) { throw new Error(`${script} prepare failed: ${prepared.stderr.toString()}`); }
     return dir;
   }
-  static run(command: string, fixture: string): unknown {
+  // A command's output, or for an expected rejection, the reason it gave.
+  static run(command: string, fixture: string, rejects = false): unknown {
     const result = Bun.spawnSync(['bash', '-c', command], { env: { ...process.env, fixture } });
+    if (rejects) {
+      if (result.exitCode === 0) { throw new Error(`${command} should have been rejected`); }
+      return { rejected: result.stderr.toString().split('\n').find(l => l.startsWith('No matching options')) };
+    }
     if (result.exitCode !== 0) { throw new Error(`${command}: ${result.stderr.toString()}`); }
     return JSON.parse(result.stdout.toString());
   }
@@ -24,7 +29,7 @@ class Recorder {
     } finally { rmSync(fixture, { recursive: true, force: true }); }
   }
 }
-await Recorder.rewrite<{ command: string; output: unknown }>('doc/generation/public-cli-examples.json',
-  'bin/prove-creature-choices.ts', (e, fixture) => ({ ...e, output: Recorder.run(e.command, fixture) }));
+await Recorder.rewrite<{ command: string; output: unknown; rejects?: boolean }>('doc/generation/public-cli-examples.json',
+  'bin/prove-creature-choices.ts', (e, fixture) => ({ ...e, output: Recorder.run(e.command, fixture, e.rejects) }));
 await Recorder.rewrite<{ commandLine: string; definition: unknown }>('doc/generation/authoring-cli-outputs.json',
   'bin/prove-creature-composition.ts', (e, fixture) => ({ ...e, definition: Recorder.run(e.commandLine, fixture) }));
