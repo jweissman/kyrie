@@ -23,7 +23,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Caught Below in a real browser', ()
   it.each([['river', 1440, 900, false], ['quarry', 390, 844, true]] as const)(
     'plays the %s installation; the map marks where the company is and what stands in each way', async (campaign, width, height, pointer) => {
       const { page, errors, driver } = await MonoJourney.page(browser, { width, height },
-        { site, pointer, query: `?campaign=data/caught-below/${campaign}.campaign.json` });
+        { site, pointer, query: `?campaign=${CaughtJourney.campaigns[campaign]}` });
       const maps: Record<string, MapState & { place?: string; scroll: boolean }> = {};
       const play = campaign === 'river' ? CaughtJourney.river.bind(CaughtJourney) : CaughtJourney.quarry.bind(CaughtJourney);
       await play(driver, async name => {
@@ -37,15 +37,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Caught Below in a real browser', ()
         if (!name.endsWith('company')) { expect([name, m.here]).toEqual([name, m.place]); }
       }
       if (campaign === 'river') {
-        expect(maps['05-hound']!.edges['world__hoist_passage']).toBe('guarded');
-        expect(maps['06-pinned']!.edges['world__hoist_passage']).toBe('open');
-        expect(maps['01-quay']!.places).not.toContain('world__hoist');
+        expect(CaughtJourney.edge(maps['05-hound']!.edges, 'hoist_passage')).toBe('guarded');
+        expect(CaughtJourney.edge(maps['06-pinned']!.edges, 'hoist_passage')).toBe('open');
+        expect(maps['01-quay']!.places.some(p => p.endsWith('__hoist'))).toBe(false);
       } else {
-        expect(maps['02-ladder']!.edges['world__ladder_shaft']).toBe('hazard');
-        expect(maps['03-freed']!.edges['world__ladder_shaft']).toBe('open');
-        expect(maps['01-marrit']!.places).not.toContain('world__lower_gallery');
+        expect(CaughtJourney.edge(maps['02-ladder']!.edges, 'ladder_shaft')).toBe('hazard');
+        expect(CaughtJourney.edge(maps['03-freed']!.edges, 'ladder_shaft')).toBe('open');
+        expect(maps['01-marrit']!.places.some(p => p.endsWith('__lower_gallery'))).toBe(false);
       }
-      const closing = campaign === 'river' ? 'world__culvert' : 'world__beck_lane';
+      const closing = campaign === 'river' ? 'culvert' : 'beck_lane';
       const late = Object.values(maps).at(-1)!;
       const transcript = await page.evaluate(() => (window as unknown as {
         kyrieMono: { exportTranscript(): Transcript } }).kyrieMono.exportTranscript());
@@ -54,7 +54,25 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Caught Below in a real browser', ()
       await replay.replay(transcript.steps);
       expect(replay.campaign.world.test(ModuleWriter.call('rescue__reunited', 'rescue__guest'))).toBe(true);
       const shut = replay.campaign.world.test(ModuleWriter.call('state', 'rescue__water', 'rescue__closed'));
-      if (shut && late.edges[closing]) { expect(late.edges[closing]).toBe('blocked'); }
+      const closed = CaughtJourney.edge(late.edges, closing);
+      if (shut && closed) { expect(closed).toBe('blocked'); }
       await page.close();
     }, 300000);
+  it('selecting a row only shows its actions; nothing happens until one is chosen', async () => {
+    const { page, errors, driver } = await MonoJourney.page(browser, { width: 1440, height: 900 },
+      { site, query: `?campaign=${CaughtJourney.campaigns.river}` });
+    await driver.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]');
+    const steps = () => page.evaluate(() => (window as unknown as {
+      kyrieMono: { exportTranscript(): Transcript } }).kyrieMono.exportTranscript().steps.length);
+    for (const row of (await driver.inspect()).rows.map(r => r.id)) {
+      await driver.open(row);
+      expect([row, await steps()]).toEqual([row, 0]);
+      await driver.key('Escape');
+    }
+    await driver.key('6'); await driver.key('6');
+    expect(await steps()).toBe(1);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 120000);
 });

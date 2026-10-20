@@ -25,7 +25,7 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   }
   private static keys(s: MonoState): string {
     if (s.mode === 'combat') {
-      return `<span><kbd>↑↓</kbd>choose</span><span><kbd>⏎</kbd>act</span><span><kbd>Esc</kbd>back</span>${Html.button('Tactics', 'auto', { key: 't' }, '<kbd>T</kbd>')}`;
+      return `<span><kbd>↑↓</kbd>choose</span><span><kbd>⏎</kbd>act</span><span><kbd>Esc</kbd>back</span>${Html.button('Auto: one action', 'auto', { key: 't' }, '<kbd>T</kbd>')}`;
     }
     const tabs = this.tabs.map(([mode, key, label]) => Html.button(label, 'mode', { mode, key: key.toLowerCase(),
       class: s.mode === mode ? 'tab on' : 'tab' }, `<kbd>${key}</kbd>`)).join('');

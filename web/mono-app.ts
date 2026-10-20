@@ -125,11 +125,8 @@ export class MonoApp {
     if (!row) { return; }
     this.rowId = row.id;
     if (row.id === 'leave') { this.mode = 'explore'; this.talk = undefined; this.menu = null; this.rowId = ''; this.render(); return; }
-    if (!this.menu) {
-      const only = row.acts.length === 1 ? row.acts[0]! : undefined;
-      if (only && !only.children && only.command) { await this.choose(only, row); return; }
-      this.menu = { trail: [], cursor: 0 }; this.render(); return;
-    }
+    // Selecting a row only shows what can be done there; an action is committed by choosing it.
+    if (!this.menu) { this.menu = { trail: [], cursor: 0 }; this.render(); return; }
     const act = this.level()[this.menu.cursor];
     if (act) { await this.choose(act, row); }
   }
@@ -223,7 +220,12 @@ export class MonoApp {
     if (key === 'ArrowDown' || key === 'ArrowUp') { e.preventDefault(); this.move(key === 'ArrowDown' ? 1 : -1); return; }
     if (key === 'Enter' || key === 'ArrowRight' || key === ' ') { e.preventDefault(); await this.open(); return; }
     if (key === 'Escape' || key === 'ArrowLeft' || key === 'Backspace') { e.preventDefault(); this.back(); return; }
-    if (/^[1-9]$/.test(key)) { e.preventDefault(); this.menu = null; await this.open(Number(key) - 1); return; }
+    if (/^[1-9]$/.test(key)) {
+      e.preventDefault();
+      const again = this.menu && this.state.rows[Number(key) - 1]?.id === this.rowId;
+      if (!again) { this.menu = null; }
+      await this.open(again ? undefined : Number(key) - 1); return;
+    }
     if (this.mode === 'combat') {
       if (key.toLowerCase() === 't' && this.turn) { this.answer(Tactics.choose(this.turn.battle.state, this.turn.battle.legalCommands())); }
       return;
