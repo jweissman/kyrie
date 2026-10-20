@@ -30,6 +30,10 @@ export class CampaignTick {
   static clock(world: World, elapsed: number): Change[] {
     const night: Change[] = world.module.relations.some(r => r.name === 'dark')
       ? [{ kind: FictionalTime.dark(elapsed) ? 'assert' : 'retract', call: ModuleWriter.call('dark') }] : [];
+    if (world.module.measures.some(m => m.name === 'untilLight')) {
+      night.push({ kind: 'set', call: ModuleWriter.call('untilLight', 'clock'),
+        value: ModuleWriter.number(FictionalTime.untilLight(elapsed)) });
+    }
     return [{ kind: 'set', call: ModuleWriter.call('watch', 'clock'), value: ModuleWriter.number(elapsed) }, ...night];
   }
   static npcs(host: TickHost, decisions: TickDecision[]) {

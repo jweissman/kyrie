@@ -82,6 +82,7 @@ export class ChoiceGrouping {
     put_item: { slot: 'item', param: 'cargo', path: ['Set down here'] },
     field_spell: { slot: 'member', param: 'caster', path: ['{technique}', 'on {recipient}'] },
     wait: { slot: 'camp', path: ['Wait a while'] },
+    wait_for_light: { slot: 'camp', path: ['Wait until first light'] },
     eat: { slot: 'camp', path: ['Eat a ration'] },
     rest: { slot: 'camp', path: ['Rest six hours'] },
   };

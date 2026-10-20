@@ -17,6 +17,10 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Action wait(actor: group) "Wait a while" {
     Requires able(actor). Time 1.
   }
+  Measure untilLight(clock).
+  Action wait_for_light(actor: group) "Wait until first light" {
+    Requires able(actor) and dark(). Time untilLight(clock).
+  }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
     Description "Fight someone who is not peaceable. Townsfolk and the people you came to help are not offered as targets.".
     Requires able(actor) and able(opponent) and distinct(actor, opponent) and at(actor, site) and at(opponent, site)

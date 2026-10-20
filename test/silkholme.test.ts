@@ -79,7 +79,10 @@ describe('Silkholme: one quarrel, several ways through it', () => {
     expect(Sink.holds(s, 'dark')).toBe(true);
     expect(quay()).toContain('The quay is dark and empty');
     expect(quay()).not.toContain("A shepherd's boy");
-    while (s.campaign.state.elapsed < 132) { await s.perform('wait'); }
+    expect(Sink.legal(s)).toContain('wait_for_light');
+    await s.perform('wait_for_light');
+    expect(s.campaign.state.elapsed).toBe(132);
     expect(Sink.holds(s, 'dark')).toBe(false);
+    expect(Sink.legal(s)).not.toContain('wait_for_light');
   }, 120000);
 });
