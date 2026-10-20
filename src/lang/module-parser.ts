@@ -177,7 +177,7 @@ export class ModuleParser {
     if (part.field === 'state') { spec.states.push(part.value as ThingSpec['states'][number]); }
     else if (part.field === 'change') { spec.changes.push(part.value as ThingSpec['changes'][number]); }
     else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
-    else if (part.field === 'guards') { spec.guards = part.value as string; }
+    else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
   }
   static Site(word: Node, id: Node) { return { anchor: word.sourceString, id: id.sourceString }; }
   static ThingKind(_is: Node, kind: Node) { return kind.sourceString; }

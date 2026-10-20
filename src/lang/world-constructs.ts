@@ -6,7 +6,8 @@ export interface ChangeSpec {
 }
 export interface ThingSpec {
   id: string; name: string; type: string; site?: { anchor: 'at' | 'on'; id: string };
-  states: StateSpec[]; changes: ChangeSpec[]; hurts?: { ability: string; when: string; then: string }; guards?: string;
+  states: StateSpec[]; changes: ChangeSpec[]; hurts?: { ability: string; when: string; then: string };
+  guards?: string[];
 }
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string;
@@ -119,7 +120,7 @@ export class WorldConstructs {
       this.assert(module, 'hurtsWith', t.id, t.hurts.ability);
       this.assert(module, 'hurtsInto', t.id, t.hurts.then);
     }
-    if (t.guards) { this.assert(module, 'guards', t.id, t.guards); }
+    for (const way of t.guards ?? []) { this.assert(module, 'guards', t.id, way); }
   }
   static thing(module: Module, t: ThingSpec) {
     module.entities.push({ id: t.id, type: t.type, name: t.name });

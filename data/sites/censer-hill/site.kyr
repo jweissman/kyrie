@@ -8,7 +8,7 @@ Module censer_hill "Censer Hill" {
   Entity custody_writ: fact "A custody writ".
   Entity climbing: capability "Climbing". Entity reading_the_dead: capability "Reading the dead".
 
-  Place censer_hill "Censer Hill foundry" is site within march at 2, 0.
+  Place censer_hill "Censer Hill foundry" is site within march at 2, 1.
   Place works "The bell foundry" is level within censer_hill.
   Place refuge "The flood refuge" is level within censer_hill.
   Place ossuary "The ossuary" is level within censer_hill.

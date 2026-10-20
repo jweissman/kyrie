@@ -30,6 +30,9 @@ export class CampaignLint {
       this.add('warning', 'containment', `${p.id} has no place in the containment tree`);
     }
   }
+  private needs(way: string): string {
+    return this.relations('needs').filter(r => r.args[0] === way).map(r => r.args[1]).join(',');
+  }
   passages() {
     const seen = new Map<string, string>();
     for (const c of this.relations('connects')) {
@@ -38,7 +41,8 @@ export class CampaignLint {
         if (this.entities.get(end)?.type !== 'place') { this.add('error', 'passage', `${way} ends at ${end}, which is not a place`); }
       }
       const key = [a, b].sort().join('|');
-      if (seen.has(key) && seen.get(key) !== way) {
+      // Two ways between the same places are alternatives only if they ask for different things (a rope, a lock).
+      if (seen.has(key) && seen.get(key) !== way && this.needs(way) === this.needs(seen.get(key)!)) {
         this.add('warning', 'passage', `${way} duplicates ${seen.get(key)} between ${a} and ${b}`);
       }
       seen.set(key, way);
@@ -78,9 +82,8 @@ export class CampaignLint {
     }
   }
   applicability() {
-    // Campaigns ground actions on demand; lint grounds them all once, statically, to find schemas with no target.
-    const grounded = new Set(ActionSchemas.ground(this.module, this.session.campaign.actors)
-      .map(a => a.schema ?? a.id));
+    // Campaigns ground actions on demand; lint asks once, statically, which schemas have no target at all.
+    const grounded = ActionSchemas.targeted(this.module, this.session.campaign.actors);
     for (const schema of this.session.campaign.schemas.filter(x => x.id.includes('__'))) {
       if (!grounded.has(schema.id)) {
         this.add('warning', 'applicability', `action ${schema.id} has no possible target in this world`);

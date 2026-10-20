@@ -2,8 +2,8 @@
   "version": 1,
   "name": "The Serewater March",
   "pitch": {
-    "heading": "A company for Censer Hill",
-    "text": "Reedwake needs people willing to go under the hill: a surveyor is missing, a salvage crew wants its bronze, and a burial keeper wants the dead left with their names. Choose three companions. Their ancestry, calling and background decide what they can do, and what doors open."
+    "heading": "A company for the Serewater March",
+    "text": "Three settlements share the March and, under Censer Hill, their dead: Reedwake on the river, Chalkcross on the downs, Brackenholt across the water. A surveyor is missing under the hill this morning. Choose three companions; their ancestry, calling and background decide what they can do, and what doors open."
   },
   "modules": [
     {
@@ -59,6 +59,83 @@
         "prize_room": "hill.prize_room",
         "sanctum": "hill.sanctum",
         "home": "march.office"
+      }
+    },
+    {
+      "id": "east",
+      "bundle": "../regions/brackenholt/module.json",
+      "imports": {
+        "party": "march.party",
+        "march": "march.region",
+        "quay": "march.lookout",
+        "home": "march.home",
+        "cross_green": "march.cross_green",
+        "missing": "rescue.missing",
+        "waiting": "rescue.waiting"
+      }
+    },
+    {
+      "id": "sink",
+      "bundle": "../sites/silkholme/module.json",
+      "imports": {
+        "party": "march.party",
+        "march": "march.downs",
+        "ridge": "march.high_road"
+      }
+    },
+    {
+      "id": "brood",
+      "bundle": "../situations/brood-hollow/module.json",
+      "imports": {
+        "party": "march.party",
+        "hollow": "sink.site",
+        "mouth": "sink.mouth",
+        "workroom": "sink.workroom",
+        "below": "sink.below",
+        "nest": "sink.nest",
+        "pasture": "march.high_road",
+        "web_way": "sink.web_way",
+        "gossip": "march.lookout"
+      }
+    },
+    {
+      "id": "tower",
+      "bundle": "../situations/unquiet-tower/module.json",
+      "context": {
+        "ancestry": "human",
+        "terrain": "forest",
+        "domain": "life"
+      },
+      "imports": {
+        "party": "march.party",
+        "land": "east.holt",
+        "outside": "east.tower_foot",
+        "shrine": "march.shrine",
+        "gossip": "east.green",
+        "keeper": "keepers.keeper"
+      }
+    },
+    {
+      "id": "word",
+      "bundle": "../regions/march-word/module.json",
+      "imports": {
+        "party": "march.party",
+        "maud": "march.maud",
+        "nera": "march.nera",
+        "iven": "keepers.keeper",
+        "hedda": "march.hedda",
+        "tam": "march.tam",
+        "osric": "east.osric",
+        "agnes": "east.agnes",
+        "cutter": "east.cutter",
+        "ewes": "brood.ewes",
+        "no_silk": "brood.no_silk",
+        "lights": "tower.lights",
+        "graves": "tower.graves",
+        "old_well": "tower.old_well",
+        "well": "tower.well",
+        "tower_foot": "east.tower_foot",
+        "ridge": "march.high_road"
       }
     }
   ],

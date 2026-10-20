@@ -37,7 +37,8 @@ class March {
 describe('Censer Hill, reconstructed', () => {
   it('composes a region, an institution, a site and two situations into one world', async () => {
     const s = await March.start(March.manifest);
-    expect(s.campaign.installations.map(m => m.id)).toEqual(['march', 'keepers', 'hill', 'rescue', 'salvage']);
+    expect(s.campaign.installations.map(m => m.id)).toEqual(['march', 'keepers', 'hill', 'rescue', 'salvage', 'east',
+      'sink', 'brood', 'tower', 'word']);
     expect(March.where(s, 'hill__custodian')).toBe('hill__court');
     expect(March.where(s, 'keepers__keeper')).toBe('march__shrine');
     expect(March.where(s, 'salvage__prize')).toBe('hill__hoist');

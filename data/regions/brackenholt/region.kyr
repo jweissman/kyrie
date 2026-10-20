@@ -1,0 +1,68 @@
+Module brackenholt "Brackenholt and the holt" {
+  Description "The east bank of the Serewater: Brackenholt, a woodcutters' village under an old watchtower, and the holt of bracken and oak between it and the downs. Wren's ferry crosses from Reedwake; the long way round passes a bears' den.".
+  Entity party: group "Your company".
+  Place march "The region" is region.
+  Place quay "Reedwake quay" is room.
+  Place home "The ferry house" is room.
+  Place cross_green "Chalkcross green" is room.
+  Entity missing: group "The one who went missing".
+  Entity waiting: group "The one who waits".
+
+  Place holt "the Holt" is wilderness within march at 1, 2.
+  Place brackenholt "Brackenholt" is settlement within march at 0, 2.
+  Place holly_bush "The Holly Bush" is building within brackenholt.
+  Place landing "Brackenholt landing" is room within brackenholt at 0, 0.
+  Place holt_green "Brackenholt green" is room within brackenholt at 1, 0.
+  Place holly_room "the Holly Bush taproom" is room within holly_bush at 1, 1.
+  Place den_clearing "the bear clearing" is room within holt at 1, 0.
+  Place holt_edge "the edge of the holt" is room within holt at 2, 0.
+  Place tower_foot "Below Holt tower" is room within holt at 0, 1.
+
+  Passage ferry_crossing "Wren's ferry" is ferry between quay and landing taking 30 minutes.
+  Passage landing_lane "the landing lane" is path between landing and holt_green.
+  Passage holly_door "the Holly Bush door" is door between holly_room and holt_green.
+  Passage holt_west "the holt way down from the downs" is path between cross_green and holt_edge taking 1 hour.
+  Passage holt_mid "the holt way through the bracken" is path between holt_edge and den_clearing taking 30 minutes.
+  Passage holt_east "the holt way into Brackenholt" is path between den_clearing and holt_green taking 1 hour.
+  Passage tower_lane "the lane up to the tower" is track between holt_green and tower_foot taking 30 minutes.
+
+  Thing ferry "Wren's ferry" on ferry_crossing {
+    State tied blocking "Wren's ferry is tied up at the quay steps. Nobody else will take it out while its keeper waits for news.".
+    State running "Wren's ferry rides at the quay steps, ready to cross.".
+  }
+  Event ferry_free near ferry when state(ferry, tied) and at(missing, home) "Wren comes down to the steps and slaps the ferry's gunwale. 'Anywhere you need on this river, and no charge. Not while I keep the ferry.'" then {
+    Assert state(ferry, running).
+  }
+
+  Person bears "the bears of the holt" at den_clearing {
+    Role "a sow bear and her grown cub". Species bear. Numbers 2.
+    State denning blocking "A sow bear and her grown cub have denned in the bracken across the holt way. The sow rises on her hind legs and blows at you.".
+    State gone "Trampled bracken and the smell of old smoke where the bears denned. The holt way is clear.".
+    Guards holt_mid. Guards holt_east.
+    Change smoke "Lay green wood upwind and smoke {self} out of the bracken" from denning to gone needing woodcraft.
+  }
+  Rule bears_leave when state(bears, gone) and at(bears, den_clearing) { Retract at(bears, den_clearing). }
+
+  Person osric "Osric" at holly_room {
+    Role "landlord of the Holly Bush". Profession innkeeper. Peaceable.
+    Sells rations for 2 coin from 6.
+  }
+  Person agnes "Agnes" at holt_green {
+    Role "sexton of Brackenholt". Ancestry human. Peaceable.
+  }
+  Person cutter "Wat" at holly_room {
+    Role "woodcutter". Ancestry human. Peaceable.
+  }
+  Topic osric_crossing with osric "Ask Osric about Brackenholt" when true {
+    Says "'Woodcutters, charcoal and the ferry, that's Brackenholt,' says Osric. 'We buried our dead in the compact refuge under Censer Hill once, the same as Reedwake and Chalkcross. Now we bury them in the churchyard here, and lately we don't sleep so well.' He looks up the lane toward the tower and says no more.".
+  }
+
+  Observe landing_scene at landing when true "A timber stage on the east bank, slick with river water. Reedwake's roofs show across the Serewater.".
+  Observe holt_day at holt_green when not dark() "Charcoal smoke hangs over a green ringed by woodcutters' cottages and a squat churchyard wall. Above the village a grey watchtower stands among the oaks.".
+  Observe holt_night at holt_green when dark() "Brackenholt is barred and shuttered. Up the lane, high in the old tower, a light burns.".
+  Observe holly_scene at holly_room when true "Oak beams black with smoke, a fire of offcuts, and axes hung by their heads along one wall.".
+  Observe edge_scene at holt_edge when true "Bracken shoulder-high under old oaks. The holt way dips toward the river; a clawed oak shows where something big has scratched.".
+  Observe clearing_scene at den_clearing when true "A clearing of flattened bracken, bones, and a strong animal smell.".
+  Observe tower_foot_scene at tower_foot when true "The lane ends in nettles under Holt tower. Oaks crowd the walls.".
+  Goal false.
+}

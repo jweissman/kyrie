@@ -12,8 +12,9 @@ Module unquiet_tower "The unquiet tower" {
 
   Place tower "The tower" is site within land at 6, 2.
   Place inside "Inside the tower" is level within tower.
+  Place top "The top of the tower" is level within tower.
   Place hall "the tower hall" is room within inside at 0, 0.
-  Place study "the study at the top" is room within inside at 1, 0.
+  Place study "the study at the top" is room within top at 1, 0.
   Place crypt "the crypt under the tower" is room within inside at 0, 1.
   Passage door "the iron-bound door" is door between outside and hall.
   Passage stair "the turning stair" is stair between hall and study.

@@ -16,6 +16,15 @@
     "shrine": "shrine",
     "office": "salvage_office",
     "high_road": "ridge",
-    "low_road": "causeway"
+    "low_road": "causeway",
+    "downs": "downs",
+    "floodplain": "reedlands",
+    "chalkcross": "chalkcross",
+    "cross_green": "cross_green",
+    "fold": "fold_room",
+    "maud": "maud",
+    "nera": "nera",
+    "hedda": "hedda",
+    "tam": "tam"
   }
 }

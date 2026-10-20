@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "source": "region.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "march",
+    "quay",
+    "home",
+    "cross_green",
+    "missing",
+    "waiting"
+  ],
+  "roles": {
+    "party": { "type": "group" },
+    "march": { "type": "place" },
+    "quay": { "type": "place" },
+    "home": { "type": "place" },
+    "cross_green": { "type": "place" },
+    "missing": { "type": "group" },
+    "waiting": { "type": "group" }
+  },
+  "exports": {
+    "holt": "holt",
+    "village": "brackenholt",
+    "landing": "landing",
+    "green": "holt_green",
+    "inn": "holly_room",
+    "tower_foot": "tower_foot",
+    "den": "den_clearing",
+    "bears": "bears",
+    "osric": "osric",
+    "agnes": "agnes",
+    "cutter": "cutter"
+  }
+}

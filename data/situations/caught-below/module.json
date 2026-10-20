@@ -46,5 +46,9 @@
     "type": "caught_below",
     "templates": "templates.json",
     "tables": "tables.json"
+  },
+  "exports": {
+    "missing": "guest",
+    "waiting": "relative"
   }
 }

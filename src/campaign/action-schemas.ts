@@ -28,29 +28,45 @@ export class ActionSchemas {
   // Every type-correct binding of every schema, less those a static fact rules out. Campaigns ground on demand
   // (see Operators); this eager form serves validation and tools.
   static ground(module: Module, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Operator[] {
-    const labels = this.labels(module);
-    // Join only on relations that no action, rule or campaign projection can write. Keep dynamic
-    // preconditions for execution, including cross-module distinct facts installed after grounding.
+    const labels = this.labels(module), context = this.context(module);
+    return module.actions.flatMap(action => {
+      this.checkLabels(action, labels);
+      return this.bindings(module, action, { ...context, actors })
+        .map(bindings => this.instance(action, bindings, labels));
+    });
+  }
+  // Which schemas have at least one binding their unchanging facts allow (what lint asks), without listing them all:
+  // a schema with more bindings than the limit plainly has some.
+  static targeted(module: Module, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Set<string> {
+    const context = this.context(module);
+    return new Set(module.actions.filter(action => {
+      try { return this.bindings(module, action, { ...context, actors }).length > 0; } catch { return true; }
+    }).map(a => a.id));
+  }
+  // Join only on relations that no action, rule or campaign projection can write. Keep dynamic
+  // preconditions for execution, including cross-module distinct facts installed after grounding.
+  private static context(module: Module) {
     const written = new Set(['at', 'able', 'dead', 'distinct', 'dark', 'recorded', 'capable', 'awake', 'needsCare', 'canCast',
       'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient',
       ...module.actions.flatMap(a => [...a.success, ...a.failure].map(c => c.call.name)),
       ...(module.rules ?? []).flatMap(r => r.effects.map(c => c.call.name))]);
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));
     const facts = new Set(new World(module).apply(module.initial).snapshot.relations.map(c => ActionSchemas.key(c)));
-    return module.actions.flatMap(action => {
-      this.checkLabels(action, labels);
-      if (!action.parameters?.length) { return [structuredClone(action)]; }
-      const parameters = new Set(action.parameters.map(p => p.name));
-      let combinations: Record<string, string>[] = [{}];
-      for (const parameter of action.parameters) {
-        const candidates = module.entities.filter(e => (parameter.type === 'entity' || e.type === parameter.type)
-          && (parameter.name !== 'actor' || this.mayAct(action, e.id, actors)));
-        combinations = combinations.flatMap(binding => candidates.map(e => ({ ...binding, [parameter.name]: e.id })))
-          .filter(binding => this.constantTruth(action.requires, binding, { parameters, constants, facts }) !== false);
-        if (combinations.length > 20000) { throw new Error(`Too many bindings for ${action.id}`); }
-      }
-      return combinations.map(bindings => this.instance(action, bindings, labels));
-    });
+    return { constants, facts };
+  }
+  private static bindings(module: Module, action: Operator, context: { constants: Set<string>; facts: Set<string>;
+    actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[] }): Record<string, string>[] {
+    if (!action.parameters?.length) { return [{}]; }
+    const { constants, facts, actors } = context, parameters = new Set(action.parameters.map(p => p.name));
+    let combinations: Record<string, string>[] = [{}];
+    for (const parameter of action.parameters) {
+      const candidates = module.entities.filter(e => (parameter.type === 'entity' || e.type === parameter.type)
+        && (parameter.name !== 'actor' || this.mayAct(action, e.id, actors)));
+      combinations = combinations.flatMap(binding => candidates.map(e => ({ ...binding, [parameter.name]: e.id })))
+        .filter(binding => this.constantTruth(action.requires, binding, { parameters, constants, facts }) !== false);
+      if (combinations.length > 20000) { throw new Error(`Too many bindings for ${action.id}`); }
+    }
+    return combinations;
   }
   // One grounded operator: the schema with its parameters replaced by a binding.
   static instance(action: Operator, bindings: Record<string, string>, labels: Map<string, string>): Operator {
