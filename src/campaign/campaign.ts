@@ -348,7 +348,9 @@ export class Campaign implements TickHost {
     if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name)) {
       combat.push(...this.field(action));
     }
-    let success = (!battle || battle.state.outcome === 'fighters') && CommandResolutions.survived(action,
+    const held = battle?.state.outcome === 'fighters'
+      || battle?.events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
+    let success = (!battle || !!held) && CommandResolutions.survived(action,
       this.creatures.snapshot, this.definition?.actors, this.module.entities);
     const causal = this.module.relations.some(r => r.name === 'witnessedAttack');
     const before = this.world;

@@ -227,6 +227,7 @@ export class PlayerView {
       ...(e.type === 'source' ? { intact: this.test(world, 'intact', e.id) } : {}) };
   }
   private static condition(world: World, id: string): string | undefined {
+    if (this.test(world, 'routed', id)) { return 'routed'; }
     const state = world.snapshot.relations.find(r => r.name === 'state' && r.args[0] === id)?.args[1];
     return state ? world.module.entities.find(e => e.id === state)?.name : undefined;
   }

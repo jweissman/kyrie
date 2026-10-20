@@ -46,6 +46,7 @@ export type CombatEvent = (
   | { type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'travel' | 'expire';
     turn: number; actor: string; target: string; detail: string; amount?: number;
     clock?: 'owner-turn' | 'world-time' | 'until-removed' }
-  | { type: 'end'; turn: number; outcome: Outcome; reason: 'elimination' | 'turn-limit' | 'retreat' }) & { visibility?: 'private' };
+  | { type: 'end'; turn: number; outcome: Outcome; reason: 'elimination' | 'turn-limit' | 'retreat';
+    fled?: { actor: string; team: Team } }) & { visibility?: 'private' };
 export interface BattleState { combatants: Fighter[]; turn: number; actor: string; outcome: Outcome | null }
 export type Controller = (state: BattleState, legal: Command[]) => Command;

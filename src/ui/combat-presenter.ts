@@ -52,7 +52,10 @@ export class CombatPresenter {
       case 'travel': return `${actor} travels to ${event.detail}.`;
       case 'end': return event.outcome === 'fighters' ? 'Your company wins the encounter.' :
         event.outcome === 'goblins' ? 'The opposition wins the encounter.' :
-          event.outcome === 'escaped' ? 'Your company withdraws from the encounter.' : 'The encounter ends without a victor.';
+          event.outcome !== 'escaped' ? 'The encounter ends without a victor.'
+            : event.fled?.team === 'goblins'
+              ? `${state.combatants.find(f => f.id === event.fled!.actor)?.name ?? event.fled.actor} flees the fight.`
+              : 'Your company withdraws from the encounter.';
     }
   }
 }

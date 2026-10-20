@@ -7,7 +7,7 @@ import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Fighting } from './rules/fighting';
 import type { ArenaAbility } from './lang/parse';
-import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Outcome, Scenario } from './model';
+import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Outcome, Scenario, Team } from './model';
 
 // Orsino's combat loop (Combat.round and Combat.turn): each round everyone rolls initiative (d20 + DEX modifier +
 // initiative bonus) and every untimed condition ticks down; on its turn a creature's cooldowns tick, a creature with
@@ -138,7 +138,7 @@ export class Battle {
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
     AbilityUse.perform(ability, command.target, this.expressions, context);
-    if (context.retreat || context.location) { this.finish('escaped', 'retreat'); }
+    if (context.retreat || context.location) { this.finish('escaped', 'retreat', { actor: actor.id, team: actor.team }); }
     else { this.finishIfEliminated(); }
     if (!this.outcome) { this.endTurn(actor); }
     if (!this.outcome) { this.advance(); }
@@ -202,8 +202,8 @@ export class Battle {
     const teams = new Set(this.fighters.filter(f => f.hp > 0).map(f => f.team));
     if (teams.size < 2) { this.finish(teams.values().next().value ?? 'draw', 'elimination'); }
   }
-  private finish(outcome: Outcome, reason: 'elimination' | 'turn-limit' | 'retreat') {
+  private finish(outcome: Outcome, reason: 'elimination' | 'turn-limit' | 'retreat', fled?: { actor: string; team: Team }) {
     this.outcome = outcome;
-    this.history.push({ type: 'end', turn: this.turn, outcome, reason });
+    this.history.push({ type: 'end', turn: this.turn, outcome, reason, ...(fled ? { fled } : {}) });
   }
 }

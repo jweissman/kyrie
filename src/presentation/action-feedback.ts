@@ -28,8 +28,9 @@ export class ActionFeedbackView {
     const ended = event.combat.find(e => e.type === 'end');
     const fallen = after.party.filter(p => p.hp === 0 && before.party.some(b => b.id === p.id && b.hp > 0));
     const battleResult = ended?.type === 'end' ?
-      `${ended.outcome === 'fighters' ? 'Your company prevails.' : ended.outcome === 'escaped' ?
-        'Your company withdraws.' : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
+      `${ended.outcome === 'fighters' ? 'Your company prevails.' : ended.outcome === 'escaped' ? ended.fled?.team === 'goblins'
+        ? 'Your opponent flees; the company holds the ground.' : 'Your company withdraws.'
+        : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
       + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} died.` : ''} Survivors retain their injuries and spent resources.` : undefined;
     const result = event.response ?? battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
       learned.length ? 'You examine the evidence and record what it establishes.' :
