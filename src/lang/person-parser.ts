@@ -18,7 +18,7 @@ export class PersonParser {
     for (const node of parts.children) {
       const part = ModuleParser.ast(node) as Field;
       if (['state', 'change', 'hurts', 'guards'].includes(part.field)) { ModuleParser.thingPart(spec, part); continue; }
-      if (part.field === 'offers' || part.field === 'sells') {
+      if (part.field === 'offers' || part.field === 'sells' || part.field === 'buys') {
         ((p as unknown as Record<string, unknown[]>)[part.field] ??= []).push(part.value); continue;
       }
       if (part.field === 'wants') { (p.wants ??= []).push(part.value as string); continue; }

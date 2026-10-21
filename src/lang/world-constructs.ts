@@ -52,8 +52,15 @@ export class WorldConstructs {
   }
   // A person's offers and wares: services with fees, counted goods, or item instances of catalog kinds for sale.
   static offers(module: Module, p: { id: string; place: string; offers?: { kind: string; text: string; fee: number }[];
-    sells?: { what: string; fee: number; stock: number }[] },
+    sells?: { what: string; fee: number; stock: number }[]; buys?: { what: string; fee: number }[] },
   catalog?: (kind: string) => string | undefined) {
+    // What a person will pay for a kind of thing the company brings them.
+    for (const b of p.buys ?? []) {
+      const kindName = catalog?.(b.what);
+      if (!kindName) { throw new Error(`${p.id} buys ${b.what}, which is no kind of item`); }
+      this.entity(module, b.what, 'itemkind', kindName);
+      module.initial.push({ kind: 'set', call: { kind: 'call', name: 'pays', args: [p.id, b.what] }, value: { kind: 'number', value: b.fee } });
+    }
     for (const o of p.offers ?? []) {
       const id = `${p.id}_${o.kind}`;
       module.entities.push({ id, type: 'service', name: o.text });

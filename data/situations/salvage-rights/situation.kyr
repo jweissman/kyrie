@@ -15,6 +15,7 @@ Module salvage_rights "Salvage against the dead" {
 
   Person salvager "Someone" at station {
     Role "salvager". Uses go. Plans 10 steps. Peaceable.
+    Buys bronze_bearing for 6 coin. Buys ashwood_charm for 10 coin.
   }
   Initially Set quantity(salvager, gold) to 16.
 
@@ -23,22 +24,15 @@ Module salvage_rights "Salvage against the dead" {
     Source permit_copy "a copy of the permit, nailed to a post" at station readable by party.
   }
 
-  Action deliver_prize(actor: group, carrier: member, site: place) "Hand {prize} to {salvager}" {
-    Description "Deliver the licensed salvage while the permit still runs. The salvager pays six coin.".
-    Requires able(actor) and at(actor, site) and at(salvager, site) and memberOf(carrier, actor) and awake(carrier)
-      and ownedItem(prize, carrier) and not departed(salvager) and watch(clock) < expiresAt(permit).
-    Resolve drop(prize, carrier).
-    On success { Assert delivered(prize). Decrease quantity(salvager, gold) by 6. Increase quantity(actor, gold) by 6. }
-    Result "{salvager} hefts {prize}, checks the stamp against {permit}, and counts six coins into your hand.".
+  // The salvager pays for the bearing while the permit runs, and for grave goods whenever offered; selling them is
+  // the standard sale, and what the salvager makes of each is a reaction to keeping it.
+  Event paid near salvager when keeps(salvager, prize) "{salvager} hefts {prize}, checks the stamp against {permit}, and counts six coins into your hand." then {
+    Assert delivered(prize).
   }
-  Action sell_offering(actor: group, carrier: member, site: place) "Sell {offering} to {salvager}" {
-    Description "The salvager will buy grave goods for ten coin, no questions asked. The permit does not cover them.".
-    Requires able(actor) and at(actor, site) and at(salvager, site) and memberOf(carrier, actor) and awake(carrier)
-      and ownedItem(offering, carrier).
-    Resolve drop(offering, carrier).
-    On success { Assert sold(offering). Decrease quantity(salvager, gold) by 10. Increase quantity(actor, gold) by 10. }
-    Result "{salvager} turns {offering} over once, does not ask where it came from, and pays ten coins.".
+  Event fenced near salvager when keeps(salvager, offering) "{salvager} turns {offering} over once and does not ask where it came from." then {
+    Assert sold(offering).
   }
+  Rule permit_ends when watch(clock) >= expiresAt(permit) { Set pays(salvager, bronze_bearing) to 0. }
 
   Pursuit keep_station for salvager "working {station}" priority 10 when not departed(salvager) and watch(clock) < expiresAt(permit) seeks at(salvager, station).
   Pursuit withdraw for salvager "going home; the permit has run out" priority 20 when watch(clock) >= expiresAt(permit) and not departed(salvager) seeks at(salvager, home).

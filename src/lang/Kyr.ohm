@@ -38,11 +38,12 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart
+  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart
   PersonProfession = "Profession" ident "."
   PersonBackground = "Background" ident "."
   OffersPart = "Offers" ident string "for" integer "coin" "."
   SellsPart = "Sells" ident "for" integer "coin" "from" integer "."
+  BuysPart = "Buys" ident "for" integer "coin" "."
   PersonHorizon = "Plans" integer "steps" "."
   PersonPeaceable = "Peaceable" "."
   PersonRole = "Role" string "."

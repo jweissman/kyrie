@@ -119,9 +119,9 @@ describe('salvage against the dead', () => {
       // Snow has closed the beck lane by now (Caught Below's closing way); the fell track is the long way round.
       'go(world__fell_descent,world__fell_track)', 'go(world__fell_climb,world__green)']) { await s.perform(c); }
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-    await s.perform('salvage__sell_offering(party,world__member_party_2,world__green)');
+    await s.perform('sell(salvage__offering,salvage__salvager)');
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 10);
-    expect(March.legal(s)).not.toContain('salvage__deliver_prize(party,world__member_party_2,world__green)');
+    expect(March.legal(s)).not.toContain('sell(salvage__prize,salvage__salvager)');
     await s.perform('go(world__chapel_door,world__chapel)');
     expect(March.fact(s, 'refusesService', 'world__sexton', 'party')).toBe(true);
     expect(March.legal(s).some(c => c.startsWith('take_healing(world__sexton'))).toBe(false);

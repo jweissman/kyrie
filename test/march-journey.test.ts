@@ -19,7 +19,7 @@ class Journey {
     'rescue__lift_free(march__member_party_2)', 'lead(rescue__guest)',
     'take_item(salvage__prize,march__member_party_2)', 'go(hill__tram_crawl,hill__stores)',
     'go(hill__stores_door,hill__workshop)', 'go(hill__workshop_door,hill__vestibule)', 'go(hill__arch,hill__yard)',
-    'salvage__deliver_prize(party,march__member_party_2,hill__yard)', 'go(hill__yard_track,march__ridge)',
+    'sell(salvage__prize,salvage__salvager)', 'go(hill__yard_track,march__ridge)',
     'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)', 'rescue__thanks_escorted',
     'go(march__ferry_door,march__ferry_room)', 'rescue__home_thanks'];
   static readonly silkholme = [

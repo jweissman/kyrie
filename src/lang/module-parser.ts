@@ -29,7 +29,8 @@ export class ModuleParser {
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PersonProfession: PersonParser.PersonProfession,
     PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
-    SellsPart: ModuleParser.SellsPart, Time_fixed: StatementParser.Time, Time_measured: StatementParser.Duration,
+    SellsPart: ModuleParser.SellsPart, BuysPart: ModuleParser.BuysPart, Time_fixed: StatementParser.Time,
+    Time_measured: StatementParser.Duration,
     Exit: ModuleParser.Exit, ExitDoor: ModuleParser.ExitDoor, ExitKnowledge: ModuleParser.ExitKnowledge,
     Person: ModuleParser.Person, PersonRole: PersonParser.PersonRole,
     PersonRace: PersonParser.PersonRace, PersonClass: PersonParser.PersonClass,
@@ -83,6 +84,9 @@ export class ModuleParser {
   }
   static SellsPart(_s: Node, what: Node, _for: Node, fee: Node, _coin: Node, _from: Node, stock: Node, _dot: Node) {
     return PersonParser.sells(what, fee, stock);
+  }
+  static BuysPart(_b: Node, what: Node, _for: Node, fee: Node, _coin: Node, _dot: Node) {
+    return { field: 'buys', value: { what: what.sourceString, fee: Number(fee.sourceString) } };
   }
   // A spatial exit is an entity and the action that takes it.
   private static exit(module: Module, entity: Module['entities'][number]) {

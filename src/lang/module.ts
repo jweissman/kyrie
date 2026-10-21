@@ -52,7 +52,9 @@ export interface Person { role?: string; id: string; name: string; place: string
   // names: what each of them is called, in order.
   creature?: Record<string, string | number>; count?: number; names?: string[]; wants?: string[];
   authored?: string[]; professionId?: string; backgroundId?: string; traits?: string[]; gear?: string[];
-  offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[] }
+  offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[];
+  // What the person will pay for each kind of thing brought to them.
+  buys?: { what: string; fee: number }[] }
 export interface CompanyDeclaration { id: string; name: string; size: number; place: string }
 export interface Module {
   people?: Person[];
