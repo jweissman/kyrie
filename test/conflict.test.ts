@@ -34,6 +34,13 @@ class March {
     return s.campaign.world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === id)?.args[1];
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
+  // Moves the company without the walk, for tests about what is found there.
+  static put(s: PlaySession, place: string) {
+    const here = this.where(s, 'party')!;
+    const campaign = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    campaign.commit(campaign.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', here) },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', place) }]));
+  }
   static decisions(s: PlaySession) { return s.campaign.events.flatMap(e => e.npc ?? []); }
 }
 
@@ -70,6 +77,27 @@ describe('the register of names: a power that acts while the company is elsewher
     await March.until(s, 400);
     expect(March.where(s, 'rising__compact')).toBe('march__ridge');
     expect(March.fact(s, 'watched', 'march__drove_road')).toBe(true);
+  }, 120000);
+  it('the churchyard rings, brought to Agnes, give the warden\'s name; said with the rites, it lays him without a fight', async () => {
+    const s = await March.start();
+    await March.walk(s, ['go(march__shop_door,march__shop_floor)', 'buy_item(march__nera_torch_1,march__member_party_3)',
+      'go(march__shop_door,march__quay)']);
+    await March.until(s, 150);
+    expect(March.where(s, 'east__agnes')).toBe('march__shrine');
+    // From Sorgen's bone store (the hound is left alone), the rings; then to Agnes, who fled to the Reedwake shrine.
+    March.put(s, 'tower__ossuary');
+    await s.perform('use_item(march__nera_torch_1,march__member_party_3)');
+    await s.perform('take_item(tower__rings,march__member_party_1)');
+    March.put(s, 'march__shrine');
+    expect(March.legal(s)).toContain('give(tower__rings,east__agnes)');
+    await s.perform('give(tower__rings,east__agnes)');
+    await s.perform('rising__iron_band');
+    March.put(s, 'east__churchyard');
+    await s.perform('change_thing(rising__gravewarden_name_him)');
+    expect([March.fact(s, 'state', 'rising__gravewarden', 'rising__laid'), March.fact(s, 'holds', 'tower__necromancer', 'east__churchyard')])
+      .toEqual([true, false]);
+    await March.until(s, 200);
+    expect(March.where(s, 'east__agnes')).toBe('east__holt_green');
   }, 120000);
   it('a company that takes the register first leaves Corvin nothing to find, and the compact sleeps on', async () => {
     const s = await March.start();

@@ -53,7 +53,8 @@
     "necromancer_broken": "broken",
     "cell": "cell",
     "crypt": "crypt",
-    "maren_empty": "empty"
+    "maren_empty": "empty",
+    "rings": "rings"
   },
   "generation": {
     "type": "unquiet_tower",

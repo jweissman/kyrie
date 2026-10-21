@@ -16,6 +16,7 @@ Module salvage_rights "Salvage against the dead" {
   Person salvager "Someone" at station {
     Role "salvager". Uses go. Plans 10 steps. Peaceable.
     Buys bronze_bearing for 6 coin. Buys ashwood_charm for 10 coin.
+    Buys grave_rings for 8 coin. Buys chapel_plate for 12 coin. Buys chainmail for 20 coin.
   }
   Initially Set quantity(salvager, gold) to 16.
 
@@ -49,7 +50,7 @@ Module salvage_rights "Salvage against the dead" {
     Says "{salvager} looks at {offering} and then, carefully, at nothing. 'Ten coin. It isn't on {permit}. Nobody will know from me.'".
   }
   Topic gone with salvager "Speak with {salvager}" when departed(salvager) {
-    Says "'{permit} ran out,' says {salvager}. 'Whatever is still up there stays up there, as far as I'm concerned.'".
+    Says "'{permit} ran out,' says {salvager}. 'Whatever is still up there stays up there, as far as I'm concerned. Anything you bring down yourselves, I'll look at: old silver, good mail, rings. I don't ask where from.'".
   }
   Topic concern with warden "Ask {warden} about the salvage" when not judged(warden, party) {
     Says "'{salvager} has a permit for machinery,' says {warden}. 'Not for {sanctum}. If anything that was buried with the dead comes up for sale, I will hear of it.'".

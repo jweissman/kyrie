@@ -7,6 +7,7 @@ Module rising "The register of names" {
   Entity register: item "The keepers' register of the dead". Entity lit: condition "burning".
   Entity sister: group "The one he raised first". Entity empty: condition "empty". Entity named: condition "named".
   Entity broken: condition "broken". Place roof "Where the land can be seen from" is room.
+  Entity rings: item "What was taken from the churchyard dead".
   Place study "The necromancer's study" is room. Place churchyard "The village churchyard" is room.
   Place green "The village green" is room. Place shrine "The keepers' shrine" is room.
   Place refuge "Where the register lies" is room. Place founders "Where the compact's founders lie" is room.
@@ -15,7 +16,7 @@ Module rising "The register of names" {
 
   Relation slumbers(group, place). Relation sought(group, entity). Relation chanting(group). Relation disturbed(place).
   Relation fled(group). Relation ransacked(place). Relation dropped(entity). Relation bought(group).
-  Relation foundWanting(group, entity).
+  Relation foundWanting(group, entity). Relation returned(entity).
   Entity churchyard_fallen: fact "Brackenholt churchyard is held by a dead man in grave-mail, the churchyard's first warden, called up out of his grave.".
   Entity register_taken: fact "Someone has taken the keepers' register from the flood refuge under Censer Hill, and left by no door.".
   Entity rite_seen_fact: fact "Sorgen reads the dead up by name from the keepers' register, among the founders' plinths, by night.".
@@ -28,7 +29,21 @@ Module rising "The register of names" {
   Person gravewarden "the Gravewarden" at below_yews {
     Role "the first warden of the churchyard, raised in his grave-mail". Species revenant. Level 3.
     State standing blocking "A tall dead man in rusted grave-mail stands among the stones with a sexton's spade in his hands, watching the lychgate.".
+    State laid "The first warden lies along his own grave in his rusted mail, the spade across his chest. He does not stir.".
+    Change name_him "Say the rites of the dead over the first warden, naming him Aldric Venn" from standing to laid needing rites after learning warden_name.
   }
+  Entity warden_name: fact "The churchyard's first warden was Aldric Venn. Said over him by name, the rites of the dead will hold him.".
+  // What Sorgen's digger took from the churchyard dead is Agnes's to put back; given them, she knows the warden's
+  // name, and the rites said over him by name lay him without a fight.
+  Initially Assert wants(sexton, grave_rings).
+  Event rings_home near sexton when keeps(sexton, rings) "{sexton} turns the rings over one at a time and says a name for each, under her breath." then {
+    Assert returned(rings).
+  }
+  Topic iron_band with sexton "Ask {sexton} about the plain iron band" when keeps(sexton, rings) once {
+    Says "'Aldric Venn's,' says {sexton}. 'The first warden. They buried him with his ring off his finger so his name could still be said over him, my grandmother said; a warden is held by his name. Say it with the rites and he will lie down.'".
+    On discuss { Assert knows(actor, warden_name). }
+  }
+  Rule warden_rests when state(gravewarden, laid) and not peaceable(gravewarden) { Assert peaceable(gravewarden). }
   Person compact "the compact's dead" at below_plinths {
     Role "the founders of the flood compact, raised by name". Species revenant. Level 2. Numbers 3.
     Called "the Reedwake founder", "the Chalkcross founder", "the Brackenholt founder".
@@ -125,7 +140,7 @@ Module rising "The register of names" {
     Result "The old words of the keepers fill the gallery. The plinths settle with a sound like a door shutting; whatever lies under them is at rest, and will stay so.".
   }
   Rule dropped_here when dropped(?x) and keeps(?g, ?x) and at(?g, ?p) { Retract keeps(?g, ?x). Retract dropped(?x). Assert at(?x, ?p). }
-  Rule churchyard_freed when holds(necromancer, churchyard) and dead(gravewarden) { Retract holds(necromancer, churchyard). }
+  Rule churchyard_freed when holds(necromancer, churchyard) and (dead(gravewarden) or state(gravewarden, laid)) { Retract holds(necromancer, churchyard). }
   Rule sexton_returns when fled(sexton) and not holds(necromancer, churchyard) and at(sexton, shrine) and not dark() { Retract at(sexton, shrine). Assert at(sexton, green). Retract fled(sexton). }
 
   Query scheming(n: group) means able(n) and not state(n, broken).

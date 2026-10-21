@@ -31,7 +31,8 @@
     "empty",
     "named",
     "broken",
-    "roof"
+    "roof",
+    "rings"
   ],
   "roles": {
     "party": {
@@ -105,6 +106,9 @@
     },
     "roof": {
       "type": "place"
+    },
+    "rings": {
+      "type": "item"
     }
   },
   "exports": {

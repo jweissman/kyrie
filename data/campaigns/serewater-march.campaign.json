@@ -168,7 +168,8 @@
         "empty": "tower.maren_empty",
         "named": "tower.maren_named",
         "broken": "tower.necromancer_broken",
-        "roof": "tower.roof"
+        "roof": "tower.roof",
+        "rings": "tower.rings"
       }
     }
   ],
