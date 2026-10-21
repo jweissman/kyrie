@@ -199,7 +199,8 @@ export class ScreenModel {
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),
         experience: m.experience, gold: m.gold,
         conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)),
-        boons: m.conditions.filter(c => this.boon(c)).map(c => this.condition(c)),
+        boons: m.conditions.filter(c => this.boon(c))
+          .map(c => `${this.condition(c)}${m.lasting?.[c] ? ` · ${FictionalTime.duration(m.lasting[c])} left` : ''}`),
         abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))
           .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
             text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),

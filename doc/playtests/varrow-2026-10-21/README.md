@@ -83,6 +83,6 @@ What the company knows, and who told it when; the chronicle of what was done.
   are now daytime only, and she must be awake to talk.
 - Fixed during it: Ninefingers' bargain and the bounties went into the journal as knowledge but not as aims. They
   are now listed under "In hand" until they are done.
-- Torch time matters, and the company panel shows who is torchlit. It does not show how long a torch has left.
-  Light management here is learned by running out.
+- Torch time matters. The company panel showed who was torchlit but not for how long, so light management was
+  learned by running out. It now shows the time left ("Torchlit · 50 min left").
 - The objective line repeats at the top of every scene. It keeps the purpose in view, at some cost in space.

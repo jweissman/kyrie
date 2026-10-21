@@ -26,6 +26,8 @@ export interface PartyMember {
   mana: number; maxMana: number; slots?: number[]; maxSlots?: number[]; gold: number; experience: number;
   prepared?: string[][]; ready?: string[][];
   conditions: string[];
+  // Watches left on conditions that run on the world's clock (a torch burning down).
+  lasting?: Record<string, number>;
   abilities?: string[]; attributes?: Record<string, number>; backgroundId?: string;
 }
 export interface PresentEntity {
@@ -124,6 +126,11 @@ export class PlayerView {
         ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
     });
   }
+  private static lasting(statuses: { id: string; remaining: number; clock?: string }[]):
+    { lasting?: Record<string, number> } {
+    const timed = statuses.filter(s => s.clock === 'world-time' && s.remaining > 0);
+    return timed.length ? { lasting: Object.fromEntries(timed.map(s => [s.id, s.remaining])) } : {};
+  }
   // Unable to see here: an unlit place without a light, or one where light dies, without sunlight.
   private static benighted(world: World, actor: string, place: string): boolean {
     return world.module.queries.some(q => q.name === 'benighted') ? world.test(ModuleWriter.call('benighted', actor))
@@ -164,7 +171,7 @@ export class PlayerView {
         hp: f.hp, maxHp: f.maxHp, mana: f.mana, maxMana: f.maxMana, gold: f.gold, experience: f.experience,
         ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
         ...(f.prepared ? { prepared: structuredClone(f.prepared), ready: structuredClone(f.ready ?? []) } : {}),
-        conditions: f.statuses.map(s => s.id), abilities: [...f.abilities],
+        conditions: f.statuses.map(s => s.id), ...PlayerView.lasting(f.statuses), abilities: [...f.abilities],
         attributes: { strength: f.strength, dexterity: f.dexterity, constitution: f.constitution,
           intelligence: f.intelligence, wisdom: f.wisdom, charisma: f.charisma } })),
       resources: world.snapshot.measures.filter(m => m.call.name === 'quantity' && m.call.args[0] === actor)
