@@ -29,7 +29,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
     Description "A fight goes on until one side is down or runs. Anyone brought to nothing must save against death, and may not get up.".
-    Requires able(actor) and able(opponent) and distinct(actor, opponent) and at(actor, site) and at(opponent, site)
+    Requires able(actor) and able(opponent) and distinct(actor, opponent) and at(actor, site) and reaches(actor, opponent)
       and not peaceable(opponent).
     Resolve combat(opponent).
   }

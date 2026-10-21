@@ -94,6 +94,13 @@ export class PlayerView {
     if (!match) { throw new Error(`Unavailable command: ${command}`); }
     return match.action.id;
   }
+  // Someone who stands across a way out of here, barring it, is met from this side of it.
+  private static guarding(world: Campaign['world'], id: string, here: string): boolean {
+    const ways = world.snapshot.relations.filter(r => r.name === 'guards' && r.args[0] === id).map(r => r.args[1]);
+    return ways.length > 0 && this.test(world, 'able', id) && world.snapshot.relations.some(r => r.name === 'connects'
+      && ways.includes(r.args[0]) && r.args[1] === here) && world.module.queries.some(q => q.name === 'watched')
+      && ways.some(w => world.test(ModuleWriter.call('watched', w!)));
+  }
   static observe(campaign: Campaign): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
     const entities = campaign.module.entities, state = campaign.state;
@@ -113,7 +120,8 @@ export class PlayerView {
       present: entities.filter(e => perceiving && location && e.id !== actor && e.type !== 'place'
         && (!dark || e.type === 'group')
         && (this.test(world, 'at', e.id, location.id) || this.test(world, 'mounted', e.id, location.id)
-          || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id)))
+          || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id))
+          || (e.type === 'group' && this.guarding(world, e.id, location.id)))
         && (e.type !== 'source' || !discovery || (this.test(world, 'noticeable', e.id) && !this.spoken(world, e.id))))
         .map(e => this.entity(campaign, world, e)),
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>
