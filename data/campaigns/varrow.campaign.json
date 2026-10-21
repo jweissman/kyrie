@@ -63,6 +63,10 @@
       }
     },
     {
+      "kit": "../kits/bounty/kit.json",
+      "id": "price"
+    },
+    {
       "id": "hush",
       "bundle": "../sites/hush/module.json",
       "imports": {

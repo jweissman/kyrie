@@ -1,0 +1,27 @@
+Module widow_patron "A widow's price" {
+  Description "A woman whose son went after the raiders and did not come back puts her savings on their chief: dead or run, she does not care which.".
+  Entity party: group "Your company".
+  Place town "The settlement the raiders prey on" is room.
+  Entity chief: group "The raiders' chief".
+  Entity band: group "The raiders".
+  Person widow "Someone" at town {
+    Role "a widow whose son went after the raiders". Ancestry human. Calling commoner. Level 1. Peaceable.
+    State waiting "A woman in black sits on the step of a cold house with her hands in her lap, watching the road.".
+  }
+  Entity price: fact "A widow will pay her savings and her son's ring for the raiders' chief, dead or run off.".
+  Initially Assert established(price).
+  Topic offer with widow "Ask the woman in black what she is waiting for" when true once {
+    Says "'For somebody to go up there,' she says, 'and do what my boy went to do.' She opens her hand: coins, and a ring. 'All I have, for {chief}. Dead or run, I don't care which. Just gone.'".
+    On discuss { Assert knows(actor, price). }
+  }
+  Relation met(entity).
+  Rule chief_gone when (not able(chief) or routed(chief)) and not met(price) { Assert met(price). }
+  Item ring "her son's ring" is grave_rings at town hidden until paid_out.
+  Entity paid_out: fact "The widow has paid the company her savings and her son's ring.".
+  Initially Assert established(paid_out).
+  Topic claim with widow "Tell the woman in black it is done" when met(price) and knows(actor, price) once {
+    Says "She doesn't cry. She counts the coins into your hand one at a time, and then puts the ring on top, and goes inside and shuts the door.".
+    On discuss { Increase quantity(actor, gold) by 15. Assert knows(actor, paid_out). }
+  }
+  Goal met(price) and knows(party, paid_out).
+}

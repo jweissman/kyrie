@@ -163,3 +163,11 @@ down the crack at night: the Glimmerkin lose jars, and a company on the far shor
 the Hush routs the Hob-Knot's hobs (the Hush imports them), and the house never lets the ringers back in. The
 Glimmerkin are a new, non-playable ancestry: one catalog entry and a name list.
 
+### A kit that builds on another (October 21): row 22 closed
+
+The bounty kit needs a power that some other placement put in the world, and binds to it through the ledger:
+which settlement it raids, its chief, its band. This is the "power whose needs imply..." half of row 22 seen from
+the other side: a later structure built on an earlier one's commitments, with no code that knows about either. The
+assembler asks Deem for a site only when the first refusal is for a place off the roads. A bounty refused for want
+of raiders is not helped by a site, and is left out until the raiders are placed.
+

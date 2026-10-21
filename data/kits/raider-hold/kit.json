@@ -73,7 +73,9 @@
     "folk(@band, #folk)",
     "holds(@band, ?approach)",
     "ambushes(@band, ?road)",
-    "raids(@band, ?prey)"
+    "raids(@band, ?prey)",
+    "chief(@band, $folk.chief)",
+    "band(@band, $folk.raiders)"
   ],
   "claims": [
     "approach"

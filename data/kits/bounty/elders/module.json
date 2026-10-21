@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "source": "patron.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "town", "chief", "band"],
+  "roles": { "party": { "type": "group" }, "town": { "type": "place" }, "chief": { "type": "group" }, "band": { "type": "group" } },
+  "exports": { "patron": "elders", "price": "price" },
+  "experience": 200
+}

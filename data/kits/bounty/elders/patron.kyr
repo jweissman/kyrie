@@ -1,0 +1,28 @@
+Module elders_patron "The elders' price" {
+  Description "The settlement's elders pool what they have to see the raiders' band broken, and will feed and house whoever breaks it for as long as they live.".
+  Entity party: group "Your company".
+  Place town "The settlement the raiders prey on" is room.
+  Entity chief: group "The raiders' chief".
+  Entity band: group "The raiders".
+  Person elders "the elders" at town {
+    Role "the settlement's elders". Ancestry human. Calling commoner. Level 2. Numbers 3. Peaceable.
+    State conferring "Three old people stand together by the well with their heads close, and stop talking when you come near.".
+    Offers lodging "a bed and a hot supper in one of their houses" for 0 coin.
+  }
+  // Their tables are for whoever breaks the band; until then, strangers pay at the inn like anyone.
+  Initially Assert refusesService(elders, party).
+  Entity price: fact "The elders will pay twenty-five crowns, pooled, to see the raiders' band broken, and feed whoever does it.".
+  Initially Assert established(price).
+  Topic offer with elders "Ask the elders what they are whispering about" when true once {
+    Says "'Them up there,' says the oldest, and doesn't need to point. 'We've put together what we can. Twenty-five crowns, to see that band broken: not the chief, the band, every last one run off or under. And whoever does it eats at our tables till they die.'".
+    On discuss { Assert knows(actor, price). }
+  }
+  Relation met(entity).
+  Rule band_broken when (not able(band) or routed(band)) and not met(price) { Assert met(price). }
+  Topic claim with elders "Tell the elders the band is broken" when met(price) and knows(actor, price) once {
+    Says "The elders count out the coins on the well's lid, slowly, arguing about one of them. Then the oldest shakes your hand and says you will not pay for a meal here again.".
+    On discuss { Increase quantity(actor, gold) by 25. Assert thanked(elders). Retract refusesService(elders, actor). }
+  }
+  Relation thanked(group).
+  Goal thanked(elders).
+}

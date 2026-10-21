@@ -1,0 +1,11 @@
+{
+  "bounty_patron": {
+    "discriminator": "terrain",
+    "groups": {
+      "default": [
+        { "_key": "widow", "__weight": 2, "_why": "a widow whose son went after the raiders, who will pay her savings for their chief, gone" },
+        { "_key": "elders", "_why": "the settlement's elders, who pool what they have for the band broken, and feed whoever does it" }
+      ]
+    }
+  }
+}

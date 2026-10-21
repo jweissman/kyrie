@@ -18,6 +18,8 @@ Module assembly "What a world is made of, for assembling one" {
   Relation holds(group, place). Relation raids(group, place). Relation ambushes(group, place).
   Relation tolls(group, place). Relation buysFrom(group, place). Relation serves(group, group).
   Relation buried(place, entity). Relation beneath(place, place).
+  // The people a power acts through, as the modules that placed it name them: its chief, its fighting band.
+  Relation chief(group, group). Relation band(group, group). Relation bountyOn(place, group).
   // A place given over to one placement's purpose; another kit does not take it.
   Relation taken(place, kit).
   Query free(p: place) means not taken(p, ?k).

@@ -9,6 +9,7 @@ import { Overlays } from '../overlays';
 import { PlaceNames } from './place-names';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 import { Composition, type KitEntry } from './compose/composition';
+import { Kits } from './compose/kit';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
 // way in that stays hidden until someone hears of it, and what people say about it.
@@ -111,14 +112,15 @@ export class WorldAssembler {
       const modules = at.modules.map(m => ({ ...m, bundle: base.resolve(m.bundle) }));
       const composed = await Composition.expand([...modules, ...kits.map(k => ({ ...k, optional: true }))],
         { seed, source: new OverlayBundleSource(base, files) });
-      const short = composed.refused.filter(r => /nothing can be/.test(r.reason));
-      if (!short.length) { return asked; }
-      for (const refusal of short) {
-        const site = this.anySite(region, RandomStreams.key(seed, 'world', 'kit-site', refusal.id, attempt));
-        site.near = region.settlements[region.sites.length % region.settlements.length]!.id;
-        region.sites.push(site);
-        asked.push(`${refusal.id}: ${refusal.reason}; Deem proposes ${site.name} (${site.kind})`);
-      }
+      // Only the first refusal can be helped: later kits may stand on what it would have placed. A site helps only
+      // a slot filled by a place off the roads.
+      const first = composed.refused[0], slot = first && /nothing can be (\w+)/.exec(first.reason)?.[1];
+      const kit = first ? await Kits.load(base, kits.find(k => k.id === first.id)!.kit) : undefined;
+      if (!first || !slot || !kit?.manifest.slots[slot]?.is.includes('waypoint(')) { return asked; }
+      const site = this.anySite(region, RandomStreams.key(seed, 'world', 'kit-site', first.id, attempt));
+      site.near = region.settlements[region.sites.length % region.settlements.length]!.id;
+      region.sites.push(site);
+      asked.push(`${first.id}: ${first.reason}; Deem proposes ${site.name} (${site.kind})`);
     }
   }
   private static anySite(region: Region, seed: string): Site {

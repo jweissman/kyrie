@@ -44,7 +44,7 @@ export class Composer {
     if (!choices) { return undefined; }
     const named = Object.fromEntries(Object.entries(bindings).map(([k, v]) => [k.slice(1), v]));
     const entities = { ...Object.fromEntries(this.minted(kit).map(name => [name, `${request.id}__${name}`])) };
-    this.establish(kit, { step, bindings, choices, entities });
+    this.establish(kit, { step, id: request.id, bindings, choices, entities });
     const modules = kit.manifest.modules.filter(m => Object.entries(m.when ?? {}).every(([d, v]) => choices[d] === v))
       .map(m => this.request(m, { kit, request, bindings: named, choices }));
     for (const m of modules) { this.trace.add({ step, kind: 'module', id: m.id, bundle: m.bundle }); }
@@ -85,13 +85,15 @@ export class Composer {
   private minted(kit: Kit): string[] {
     return [...new Set(kit.manifest.provides.flatMap(p => [...p.matchAll(/@(\w+)/g)].map(m => m[1]!)))];
   }
-  private establish(kit: Kit, at: { step: string; bindings: Record<string, string>; choices: Record<string, string>;
-    entities: Record<string, string> }) {
+  private establish(kit: Kit, at: { step: string; id: string; bindings: Record<string, string>;
+    choices: Record<string, string>; entities: Record<string, string> }) {
     const { step, bindings, choices, entities } = at, by = { by: `kit:${step}` };
     const facts = [...kit.manifest.provides, ...(kit.manifest.claims ?? []).map(s => `taken(?${s}, ${kit.manifest.id})`)];
     for (const text of facts) {
+      // $module.export names something one of the kit's own modules exports, as the ledger knows it once installed.
       const filled = text.replace(/@(\w+)/g, (_, n: string) => entities[n]!)
-        .replace(/#(\w+)/g, (_, d: string) => choices[d]!);
+        .replace(/#(\w+)/g, (_, d: string) => choices[d]!)
+        .replace(/\$(\w+)\.(\w+)/g, (_, m: string, e: string) => Geography.id(Composer.install(at.id, m), e));
       const call = ModuleParser.predicate(filled);
       if (call.kind !== 'call') { throw new Error(`Kit ${kit.manifest.id} provides ${text}, which is not a fact`); }
       const args = call.args.map(a => bindings[a] ?? a);

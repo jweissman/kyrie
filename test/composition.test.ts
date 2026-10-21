@@ -79,6 +79,34 @@ describe('composing kits', () => {
   }, 120000);
 });
 
+describe('a kit that builds on another', () => {
+  it('puts a price on the band an earlier placement put in the world, bound through the ledger', async () => {
+    const m = await ModuleBundle.campaign(Compose.varrow, NodeBundleSource.shared, 'varrow');
+    const price = m.composition!.placements.find(p => p.kit === 'bounty')!;
+    expect(price.bindings).toEqual({ victim: 'varrow__ford_green', power: 'knot__band', chief: 'knotFolk__chief',
+      band: 'knotFolk__raiders' });
+    expect(m.modules.find(x => x.id === 'pricePatron')!.imports).toMatchObject({ chief: 'knotFolk.chief', band: 'knotFolk.raiders' });
+  }, 60000);
+  it('pays when the band is broken, whichever patron Deem proposed', async () => {
+    for (const patron of ['widow', 'elders']) {
+      const source = NodeBundleSource.shared, path = source.resolve(Compose.varrow);
+      const manifest = JSON.parse(await source.read(path)) as { modules: Record<string, unknown>[] };
+      manifest.modules = manifest.modules.map(x => x.id === 'price' ? { ...x, fix: { patron } } : x);
+      const at = source.resolve(`data/campaigns/varrow-${patron}.campaign.json`);
+      const s = await PlaySession.start(at, 'varrow', new OverlayBundleSource(source, { [at]: JSON.stringify(manifest) }));
+      Compose.put(s, 'varrow__ford_green');
+      await s.perform(Compose.legal(s).find(c => c.startsWith('pricePatron__offer'))!);
+      const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+      c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('routed', 'knotFolk__raiders') },
+        { kind: 'assert', call: ModuleWriter.call('routed', 'knotFolk__gaffer') }]));
+      await s.perform('wait');
+      const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
+      await s.perform(Compose.legal(s).find(c => c.startsWith('pricePatron__claim'))!);
+      expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')) - gold).toBe(patron === 'widow' ? 15 : 25);
+    }
+  }, 120000);
+});
+
 describe('the raider-hold kit in play', () => {
   it('lets the hobs\' own stolen bell drive them off their gate', async () => {
     const s = await PlaySession.start(Compose.varrow, 'varrow', NodeBundleSource.shared);

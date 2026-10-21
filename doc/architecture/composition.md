@@ -50,6 +50,25 @@ An author asks for a kit in a campaign manifest and may fix anything:
 Anything left open is bound or proposed with the campaign's seed when the campaign loads. Kit entries are composed
 in order against the regions listed before them. The same seed and the same manifest give the same world.
 
+## Kits that build on kits
+
+A placement's facts are commitments like any other, so a later kit can require them. The raider-hold kit provides
+`chief(@band, $folk.chief)` and `band(@band, $folk.raiders)`, where `$module.export` is the ledger's name for
+something one of its own modules exports. The bounty kit (`data/kits/bounty`) asks for a settlement some power
+raids, that power, its chief and its band:
+
+```json
+"victim": { "is": "raids(?raider, ?victim)", "requires": ["not bountyOn(?victim, ?raider)"] },
+"power": { "is": "raids(?power, ?victim) and power(?power)" },
+"chief": { "is": "chief(?power, ?chief)" },
+"band":  { "is": "band(?power, ?band)" }
+```
+
+Its patron modules (a widow who pays for the chief, elders who pay for the band broken and then feed whoever broke
+it) import the chief and the band as ordinary groups (`knotFolk.chief`). Listed after a raiders' hold, in the Varrow
+or in the frontier framework, it binds to whatever hold that region got. Listed alone, it is refused ("no place is
+raids(?raider, ?victim)").
+
 ## The trace
 
 Every decision is recorded: each candidate weighed for a slot, and the requirement that ruled it out; what Deem

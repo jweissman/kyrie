@@ -1,0 +1,19 @@
+{
+  "widow_patron": {
+    "__no_id": true,
+    "name": "A widow's price",
+    "creatures": [],
+    "actors": { "order": [] },
+    "casting": "=gen(widow_casting)",
+    "initial": [],
+    "outcomes": []
+  },
+  "widow_casting": {
+    "__no_id": true,
+    "widow": "=gen(widow_person)"
+  },
+  "widow_person": {
+    "__no_id": true,
+    ">name": "=lookup(townsfolkName, #ancestry)"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "id": "bounty",
+  "name": "A price on a power",
+  "about": "A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, and the people the power acts through; who offers the money, and what they want for it, is Deem's to propose.",
+  "slots": {
+    "victim": { "is": "raids(?raider, ?victim)", "requires": ["not bountyOn(?victim, ?raider)"] },
+    "power": { "is": "raids(?power, ?victim) and power(?power)" },
+    "chief": { "is": "chief(?power, ?chief)" },
+    "band": { "is": "band(?power, ?band)" }
+  },
+  "proposals": {
+    "patron": { "table": "bounty_patron", "by": "terrain" }
+  },
+  "provides": ["bountyOn(?victim, ?power)"],
+  "tables": "tables.json",
+  "modules": [
+    { "id": "patron", "when": { "patron": "widow" }, "bundle": "widow/module.json",
+      "imports": { "party": "@party", "town": "?victim", "chief": "?chief", "band": "?band" } },
+    { "id": "patron", "when": { "patron": "elders" }, "bundle": "elders/module.json",
+      "imports": { "party": "@party", "town": "?victim", "chief": "?chief", "band": "?band" } }
+  ]
+}
