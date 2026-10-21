@@ -217,6 +217,8 @@ Module unquiet_tower "The unquiet tower" {
     Assert state(hound, fallen). Assert peaceable(hound).
   }
 
+  // What the company did below reaches him: dead he raised, laid down in his own hall.
+  Event noticed near necromancer when state(risen, laid) and together(party, necromancer) and state(necromancer, working) "{necromancer} looks up at last. 'You laid my dead down in the hall,' he says. 'They will not get up again for me. Who sent you? The keepers?' He does not wait for an answer.".
   Topic why with necromancer "Ask {necromancer} who he was raising" when state(necromancer, broken) and not spared(necromancer) {
     Says "'My sister,' says {necromancer}. 'She drowned the spring I left {shrine}. I only wanted to ask her one thing. The others came up with her.' He will not look at you.".
   }
