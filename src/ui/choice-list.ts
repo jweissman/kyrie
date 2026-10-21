@@ -204,7 +204,9 @@ export class ChoiceList {
     const tone: Tone = a.spell ? 'spell' : 'ability';
     // A levelled spell says how many castings are ready; a cantrip, that it is free.
     const cost = a.spell && a.spell.level > 0 ? `${a.spell.ready} ready` : a.price;
-    const note = [cost, a.targets.length ? '' : a.scope === 'self' ? 'self' : a.scope].filter(Boolean).join(' · ');
+    // Withdrawing is the whole company's: it ends the fight for everyone.
+    const scope = a.id === 'flee' ? 'ends the fight' : a.targets.length ? '' : a.scope;
+    const note = [cost, scope].filter(Boolean).join(' · ');
     const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}) };
     if (!a.targets.length) { return { ...base, command: `${a.id}>` }; }
     const fighters = [...c.foes, ...c.allies];

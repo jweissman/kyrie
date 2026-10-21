@@ -1,6 +1,7 @@
 import { MechanicsText } from '../presentation/mechanics-text';
 import { Effects } from '../effects';
 import { Content } from '../content';
+import { Canon } from '../canon/canon';
 import type { Battle } from '../battle';
 import { Fighting } from '../rules/fighting';
 import type { BattleState, CombatEvent, Fighter } from '../model';
@@ -47,7 +48,8 @@ export class CombatModel {
     const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
     return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,
       mana: f.mana, maxMana: f.maxMana, ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
-      statuses: f.statuses.map(s => s.id), acting: f.id === state.actor,
+      statuses: f.statuses.map(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.name ?? s.id),
+      acting: f.id === state.actor,
       down: f.hp === 0, ...f.team === 'fighters' ? {} : this.reading(f, state) };
   }
   // What the company can read off a foe: what it means to do this round, and what it shrugs off or fears.

@@ -40,10 +40,16 @@ export class MonoApp {
   private draft: Draft = { seed: 'serewater', party: MonoApp.preset('fellowship') };
   private readonly key = 'kyrie.mono.v1';
   private readonly query = new URLSearchParams(location.search);
-  private manifest = this.query.get('campaign') ?? 'data/campaigns/serewater-march.campaign.json';
+  private manifest = MonoApp.campaign(this.query.get('campaign'));
   // ?world=<seed>[&terrain=…]: a generated region with situated scenarios instead of an authored campaign.
   private world?: { path: string; source: BundleSource; campaign: CampaignManifest };
   private worldSeed = this.query.get('world');
+  // ?campaign= names a manifest by its path, or a bundled campaign by its id ("serewater-march").
+  static campaign(asked: string | null): string {
+    if (!asked) { return 'data/campaigns/serewater-march.campaign.json'; }
+    const path = `data/campaigns/${asked.replace(/\.campaign\.json$/, '')}.campaign.json`;
+    return Scenarios.files[asked] || !Scenarios.files[path] ? asked : path;
+  }
   constructor(private root: HTMLElement) {
     this.opening.campaigns = [
       ...Scenarios.list.map(s => ({ id: s.manifest, title: s.title, note: s.note, detail: s.detail,
