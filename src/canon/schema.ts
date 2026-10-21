@@ -19,6 +19,8 @@ export interface Condition {
   saveKind?: string;
   // Orsino's compelNextMove and forceTarget: the holder must use that ability, or target whoever applied it.
   compel?: string; forceTarget?: true;
+  // Whoever applied it stands in front of its holder: a blow aimed at the holder strikes them instead.
+  guard?: true;
   stacking?: 'source-refresh'; omits?: Omissions; unsupported?: Omissions; source?: Source;
   // A capability its holder brings to the company while it lasts (a lit torch brings light), and what is said
   // when it runs out.
@@ -36,6 +38,8 @@ export interface Ability {
   name: string; kind: AbilityKind; description?: string; effect?: string; effects?: Effect[];
   // A spell spends one slot; Kyr techniques may still cost mana where they are Kyr's own.
   cost?: number; recharge?: number;
+  // A big blow a creature must wind up for a turn first ("rears up on its hind legs"); stun it and it is lost.
+  windup?: string;
   spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string };
   // Orsino's ability level gate for a technique (a level-2 skill such as Meditate).
   level?: number;

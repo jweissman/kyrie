@@ -7,6 +7,7 @@ import { Expressions } from './expressions';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Fighting } from './rules/fighting';
+import { Tactics } from './tactics';
 import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Outcome, Scenario, Team } from './model';
 
@@ -23,6 +24,8 @@ export class Battle {
   private turn = 1;
   private outcome: Outcome | null = null;
   private history: CombatEvent[] = [];
+  // What each creature on the other side means to do this round, decided as the round begins.
+  private intents = new Map<string, Command>();
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
     this.fighters = structuredClone(scenario.combatants);
@@ -90,7 +93,9 @@ export class Battle {
   }
   get state(): BattleState {
     return { combatants: structuredClone(this.fighters), turn: this.turn,
-      actor: this.outcome ? '' : this.order[this.cursor]!, outcome: this.outcome };
+      actor: this.outcome ? '' : this.order[this.cursor]!, outcome: this.outcome,
+      ...(this.intents.size ? { intents: Object.fromEntries([...this.intents].map(([id, c]) => [id, { ...c }])) } : {}),
+      order: this.order.slice(this.cursor) };
   }
   get events(): CombatEvent[] { return structuredClone(this.history); }
   private actor(): Fighter { return this.fighters.find(f => f.id === this.order[this.cursor])!; }
@@ -114,7 +119,30 @@ export class Battle {
   }
   legalCommands(): Command[] {
     if (this.outcome) { return []; }
-    const actor = this.actor();
+    return this.commandsFor(this.actor());
+  }
+  // The automatic choice for whoever acts now: a creature carries out the intent it declared when the round began
+  // if it still can (its target may have fallen, or it may be compelled), and otherwise does the best it can.
+  chosen(): Command {
+    const legal = this.legalCommands(), intent = this.intents.get(this.actor().id);
+    if (intent && legal.some(c => c.ability === intent.ability && c.target === intent.target)) { return { ...intent }; }
+    return Tactics.choose(this.state, legal);
+  }
+  // Each creature on the other side decides what it means to do as the round begins, on what it can see then; the
+  // company sees those intents and can answer them before they land. One winding up a blow means to land it.
+  private declare() {
+    this.intents.clear();
+    for (const f of this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters')) {
+      const legal = this.commandsFor(f);
+      const wound = f.windup && legal.find(c => c.ability === f.windup!.ability && c.target === f.windup!.target);
+      if (f.windup && !wound) { delete f.windup; }
+      if (legal.length) { this.intents.set(f.id, wound ?? Tactics.choose({ ...this.state, actor: f.id }, legal)); }
+    }
+  }
+  private winding(actor: Fighter, command: Command): boolean {
+    return !!actor.windup && actor.windup.ability === command.ability && actor.windup.target === command.target;
+  }
+  private commandsFor(actor: Fighter): Command[] {
     const taunters = actor.statuses.filter(s => Effects.status(s.id).forceTarget && s.by)
       .map(s => s.by!).filter(id => this.fighters.some(f => f.id === id && f.hp > 0));
     const commands = this.usable(actor).flatMap(ability => {
@@ -136,6 +164,16 @@ export class Battle {
     const actor = this.actor();
     const ability = this.abilities.find(a => a.id === command.ability)!;
     const start = this.history.length;
+    // A creature on the other side winds up a big blow before it lands: this turn it gathers itself.
+    if (ability.windup && actor.team !== 'fighters' && !this.winding(actor, command)) {
+      actor.windup = { ...command };
+      this.history.push({ type: 'windup', turn: this.turn, actor: actor.id, target: command.target, detail: ability.windup });
+      this.endTurn(actor);
+      if (!this.outcome) { this.advance(); }
+      this.commit();
+      return structuredClone(this.history.slice(start));
+    }
+    delete actor.windup;
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
     AbilityUse.perform(ability, command.target, this.expressions, context);
@@ -172,6 +210,7 @@ export class Battle {
       for (const s of f.statuses.filter(c => !c.clock)) { s.remaining--; }
       Effects.expire(f, s => !s.clock, this.context());
     }
+    this.declare();
   }
   private advance() {
     do {
@@ -190,6 +229,12 @@ export class Battle {
       this.finishIfEliminated();
       if (this.outcome) { return; }
       if (actor.hp > 0 && !actor.statuses.some(s => Effects.skips(s.id))) { return; }
+      // A creature that loses its turn loses the blow it was winding up.
+      if (actor.windup) {
+        this.history.push({ type: 'interrupt', turn: this.turn, actor: actor.id, target: actor.windup.target,
+          detail: this.abilities.find(a => a.id === actor.windup!.ability)?.name ?? actor.windup.ability });
+        delete actor.windup;
+      }
       this.history.push({ type: 'skip', turn: this.turn, actor: actor.id });
       if (this.turn >= this.maxTurns) { this.finish('draw', 'turn-limit'); return; }
       do {

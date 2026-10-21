@@ -23,6 +23,7 @@ export class CanonRuntime {
   static ability(id: string, a: Ability): ArenaAbility {
     const common = { cost: a.cost ?? 0, cooldown: a.recharge ?? 0, ...a.spell ? { spell: a.spell } : {},
       ...a.level !== undefined ? { level: a.level } : {}, ...a.requires ? { requires: a.requires } : {},
+      ...a.windup ? { windup: a.windup } : {},
       ...a.resist ? { resist: { kind: a.resist.kind, difficulty: this.amount(a.resist.difficulty) } } : {} };
     if (a.effects) { return { id, name: a.name, effects: a.effects, ...common, description: a.description ?? a.name }; }
     return { ...parseAbility(id, a.name, a.effect!), description: a.effect!, ...common };

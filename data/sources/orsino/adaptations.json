@@ -1600,6 +1600,22 @@
         "field:animalKind.weapon": "The weapon and body become the species' natural weapon and armour.",
         "field:animalKind.wis": "Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used."
       }
+    },
+    {
+      "orsino": "ability:maul",
+      "kyr": [
+        "ability:maul"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino's attack, 1d6 + Strength bludgeoning and bleed are kept; the slow it also inflicts is not, as Kyr cannot execute slow.",
+      "adds": [
+        "a one-turn wind-up a stun interrupts",
+        "a two-turn recharge"
+      ],
+      "evidence": [
+        "test/encounters.test.ts#winds up"
+      ]
     }
   ]
 }

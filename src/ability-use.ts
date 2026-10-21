@@ -6,6 +6,7 @@ import type { ArenaAbility, Effect, Save } from './lang/parse';
 import type { Fighter } from './model';
 import { Fighting } from './rules/fighting';
 import type { Hooks } from './canon/schema';
+import { Canon } from './canon/canon';
 
 export class AbilityUse {
   // Category saves follow Orsino's handleSave: d20 (with allRolls) + the category's attribute modifier + level +
@@ -50,9 +51,10 @@ export class AbilityUse {
   }
   // Ability.perform: pay, give each target of an offensive spell its resist save, then resolve the effects in order;
   // the first effect that succeeds on no target ends the ability (a missed attack, a saved debuff).
-  static perform(ability: ArenaAbility, targetId: string, expressions: Expressions, context: EffectContext) {
+  static perform(ability: ArenaAbility, chosenId: string, expressions: Expressions, context: EffectContext) {
     AbilityUse.validate(ability, context);
     const actor = context.actor;
+    const targetId = AbilityUse.guarded(ability, chosenId, context);
     context.expressions = expressions;
     context.hook ??= AbilityUse.hooks.bind(AbilityUse);
     const effects = ability.effects.filter(effect => !effect.when
@@ -65,8 +67,11 @@ export class AbilityUse {
       actor.cooldowns[ability.id] = (ability.cooldown ?? 0) + 1;
     }
     context.events.push({ type: 'action', turn: context.turn,
-      command: { actor: actor?.id ?? Effects.sourceId(context), ability: ability.id, target: targetId },
+      command: { actor: actor?.id ?? Effects.sourceId(context), ability: ability.id, target: chosenId },
       source: context.source ?? { id: actor!.id, kind: 'ability' } });
+    if (targetId !== chosenId) {
+      context.events.push({ type: 'intercept', turn: context.turn, actor: targetId, target: chosenId });
+    }
     const resisted = new Set<string>();
     if (ability.resist && actor) {
       const dc = expressions.amount(ability.resist.difficulty, Effects.context(actor));
@@ -92,6 +97,18 @@ export class AbilityUse {
     }
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
+  }
+  // A blow aimed at one enemy who is guarded strikes the guard instead, while the guard stands and can act.
+  private static guarded(ability: ArenaAbility, targetId: string, context: EffectContext): string {
+    const actor = context.actor;
+    if (!actor || !ability.effects.some(e => e.target === 'enemy')) { return targetId; }
+    const target = context.fighters.find(f => f.id === targetId);
+    if (!target || target.team === actor.team) { return targetId; }
+    const guard = target.statuses.filter(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.guard && s.by)
+      .map(s => context.fighters.find(f => f.id === s.by))
+      .find(g => g && g.id !== target.id && g.hp > 0 && g.team === target.team
+        && !g.statuses.some(s => Effects.skips(s.id)));
+    return guard?.id ?? targetId;
   }
   // One effect on one target (Ability.handleSingleEffect): whether it took hold fully, partly (halved by a save or a
   // resisted spell), or not at all.

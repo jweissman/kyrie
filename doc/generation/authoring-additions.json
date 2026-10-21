@@ -9,6 +9,7 @@
           "armor": "fur",
           "abilities": [
             "smash",
+            "maul",
             "flee"
           ],
           "traits": [],
@@ -130,6 +131,7 @@
       },
       "abilities": [
         "smash",
+        "maul",
         "flee"
       ],
       "temperament": "defensive",

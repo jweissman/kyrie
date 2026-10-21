@@ -25,7 +25,6 @@ import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model';
 import type { Call, Instance, Module, WorldState } from '../lang/module';
 import { World } from '../lang/world';
-import { Tactics } from '../tactics';
 import { Planner, type Operator } from './planner';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
@@ -511,6 +510,6 @@ export class Campaign implements TickHost {
   // Campaigns are open-ended: installed situations report outcomes; the campaign itself does not end.
   private updateOutcome() { this.current.outcome = 'active'; this.observe(); }
   static autofight(battle: Battle) {
-    while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.legalCommands())); }
+    while (!battle.state.outcome) { battle.step(battle.chosen()); }
   }
 }

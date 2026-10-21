@@ -34,6 +34,8 @@ export interface ArenaAbility {
   level?: number;
   resist?: { kind: string; difficulty: Amount };
   requires?: { status?: string; interceptWeapon?: true };
+  // Wound up for a turn before it lands; a creature stunned in between loses it.
+  windup?: string;
 }
 
 type Ast = Effect | Effect[] | Amount;

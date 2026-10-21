@@ -97,6 +97,34 @@
         "kyr": true,
         "notes": "A torch burns about an hour: light in unlit places, and a flame for what needs burning."
       }
+    },
+    "unbarring": {
+      "name": "Unbarring",
+      "description": "Locks open at a touch for a while.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "grants": [
+        "lockwork"
+      ],
+      "begins": "Locks will open at {target}'s touch for the next hour.",
+      "ends": "The unbarring on {target}'s hands is spent.",
+      "source": {
+        "kyr": true,
+        "notes": "The effect of Knock: for an hour its bearer opens what lockwork opens."
+      }
+    },
+    "guarded": {
+      "name": "Guarded",
+      "description": "Someone stands in front of them and takes the blows meant for them.",
+      "begins": "Until the next round is out, blows aimed at {target} meet their guard instead.",
+      "ends": "{target} is no longer guarded.",
+      "lifetime": "encounter",
+      "modifiers": {},
+      "guard": true,
+      "source": {
+        "kyr": true,
+        "notes": "Interception without positions: a blow aimed at the holder strikes whoever is guarding them."
+      }
     }
   }
 }

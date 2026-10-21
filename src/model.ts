@@ -26,6 +26,8 @@ export interface Fighter {
   // Successful category saves in this encounter; Orsino fails a fourth success of one category automatically.
   saved?: Record<string, number>;
   cooldowns: Record<string, number>;
+  // A big blow this creature is winding up, to land on its next turn unless it is interrupted.
+  windup?: Command;
 }
 export interface Scenario { id: string; combatants: Fighter[]; abilities: ArenaAbility[] }
 export interface Command { actor: string; ability: string; target: string }
@@ -45,10 +47,17 @@ export type CombatEvent = (
     stat?: string; die?: number; modifier?: number; kind?: string; level?: number; bonus?: number;
     immune?: boolean; limit?: boolean }
   | { type: 'defend' | 'death' | 'skip'; turn: number; actor: string }
+  // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
+  | { type: 'intercept'; turn: number; actor: string; target: string }
+  | { type: 'windup' | 'interrupt'; turn: number; actor: string; target: string; detail: string }
   | { type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'travel' | 'expire';
     turn: number; actor: string; target: string; detail: string; amount?: number;
     clock?: 'owner-turn' | 'world-time' | 'until-removed' }
   | { type: 'end'; turn: number; outcome: Outcome; reason: 'elimination' | 'turn-limit' | 'retreat';
     fled?: { actor: string; team: Team } }) & { visibility?: 'private' };
-export interface BattleState { combatants: Fighter[]; turn: number; actor: string; outcome: Outcome | null }
+export interface BattleState {
+  combatants: Fighter[]; turn: number; actor: string; outcome: Outcome | null;
+  // What each creature on the other side declared it means to do this round, and who acts next, in order.
+  intents?: Record<string, Command>; order?: string[];
+}
 export type Controller = (state: BattleState, legal: Command[]) => Command;

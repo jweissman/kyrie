@@ -15,6 +15,7 @@
       "gold": 10,
       "abilities": [
         "defend",
+        "guard",
         "taunt",
         "vigor_up",
         "cleave",

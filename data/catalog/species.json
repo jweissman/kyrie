@@ -291,7 +291,7 @@
       "source": {
         "orsino": "golemSubstance:iron",
         "fidelity": "faithful",
-        "notes": "The iron substance overlay (+1 Str, \u22123 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
+        "notes": "The iron substance overlay (+1 Str, −3 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template."
       }
     },
     "bear": {
@@ -308,6 +308,7 @@
       },
       "abilities": [
         "smash",
+        "maul",
         "flee"
       ],
       "temperament": "defensive",

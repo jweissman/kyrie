@@ -64,7 +64,8 @@
       "recharge": 3,
       "source": {
         "kyr": true
-      }
+      },
+      "windup": "raises its bronze arms for a great sweep"
     },
     "custodian_chain": {
       "name": "Burial chain",
@@ -230,6 +231,71 @@
       "source": {
         "kyr": true,
         "notes": "The old-school Light spell, which Orsino's catalog lacks; every mage learns it as an apprentice."
+      }
+    },
+    "knock": {
+      "name": "Knock",
+      "kind": "spell",
+      "description": "For an hour, locks and bars open at the caster's touch.",
+      "effect": "Apply unbarring to ally for 1 hour.",
+      "spell": {
+        "tradition": "arcane",
+        "level": 2,
+        "school": "transmutation"
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The old-school Knock, which Orsino's catalog lacks: whoever bears it may do what lockwork does for an hour."
+      }
+    },
+    "guard": {
+      "name": "Guard",
+      "kind": "technique",
+      "description": "Stand in front of a companion: until the next round is over, blows aimed at them strike you.",
+      "effect": "Apply guarded to ally for 2 turns.",
+      "source": {
+        "kyr": true,
+        "notes": "A warrior's interception, in place of positions or reach."
+      }
+    },
+    "maul": {
+      "name": "Maul",
+      "kind": "natural",
+      "description": "Make a powerful attack that deals 1d6 + strength modifier extra damage and inflicts bleeding on a successful hit.",
+      "effects": [
+        {
+          "kind": "attack",
+          "target": "enemy"
+        },
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d6 + statMod(#strength)"
+          },
+          "damageType": "bludgeoning",
+          "target": "enemy"
+        },
+        {
+          "kind": "apply",
+          "status": "bleed",
+          "duration": 3,
+          "target": "enemy",
+          "save": {
+            "kind": "bleed",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "windup": "rears up on its hind legs",
+      "recharge": 2,
+      "source": {
+        "orsino": "ability:maul",
+        "fidelity": "adapted",
+        "notes": "Orsino's Maul without its slow (which Kyr cannot execute), given to bears as a blow they gather for a turn first: stun the bear in between and it is lost."
       }
     }
   }

@@ -372,6 +372,7 @@
           "armor": "fur",
           "abilities": [
             "smash",
+            "maul",
             "flee"
           ],
           "traits": [],
@@ -495,6 +496,7 @@
           ],
           "abilities": [
             "defend",
+            "guard",
             "taunt",
             "vigor_up",
             "cleave",
