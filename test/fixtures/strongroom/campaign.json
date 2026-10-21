@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "The cartographer's strongroom (test fixture)",
+  "modules": [{ "id": "world", "bundle": "module.json" }],
+  "party": [
+    { "name": "Nell", "raceId": "human", "classId": "thief", "backgroundId": "burglar" },
+    { "name": "Hulda", "raceId": "dwarf", "classId": "warrior", "backgroundId": "miner" },
+    { "name": "Ivo", "raceId": "human", "classId": "mage", "backgroundId": "scholar" }
+  ]
+}

@@ -32,6 +32,8 @@ export interface PresentEntity {
   id: string; name: string; type: string;
   members?: { name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number }[];
   state?: 'dead' | 'incapacitated'; intact?: boolean; activity?: string; condition?: string;
+  // The container it is seen in.
+  within?: string;
 }
 export interface PlayerSnapshot {
   spatial?: SpatialScene;
@@ -139,10 +141,11 @@ export class PlayerView {
       // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
       observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
       present: entities.filter(e => perceiving && location && e.id !== actor && e.type !== 'place'
-        && (!dark || e.type === 'group')
+        && (!dark || e.type === 'group') && LocalObservations.noticed(world, e.id, actor)
         && (this.test(world, 'at', e.id, location.id) || this.test(world, 'mounted', e.id, location.id)
           || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id))
-          || (e.type === 'group' && this.guarding(world, e.id, location.id)))
+          || (e.type === 'group' && this.guarding(world, e.id, location.id))
+          || LocalObservations.within(world, e.id, location.id))
         && (e.type !== 'source' || !discovery || (this.test(world, 'noticeable', e.id) && !this.spoken(world, e.id))))
         .map(e => this.entity(campaign, world, e)),
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>
@@ -265,7 +268,9 @@ export class PlayerView {
           !this.test(world, 'able', e.id) ? { state: 'incapacitated' as const } : {}) };
     }
     const condition = this.condition(world, e.id);
+    const box = world.snapshot.relations.find(r => r.name === 'inside' && r.args[0] === e.id)?.args[1];
     return { id: e.id, name: e.name, type: e.type, ...(condition ? { condition } : {}),
+      ...(box ? { within: ObservationText.label(world, box) } : {}),
       ...(e.type === 'source' ? { intact: this.test(world, 'intact', e.id) } : {}) };
   }
   private static condition(world: World, id: string): string | undefined {

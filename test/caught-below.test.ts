@@ -75,7 +75,9 @@ describe('passages are physical and two-sided', () => {
     await q.perform('risk(world__ladder,world__member_party_2)');
     expect(Situation.where(q, 'party')).toBe('world__lower_gallery');
     expect(Situation.state(q, 'world__ladder')).toBe('world__broken');
-    expect(Situation.legal(q).some(c => c.includes('ladder'))).toBe(false);
+    // What is left of the ladder can still be looked at or prodded, but it is no way down.
+    expect(Situation.legal(q).some(c => c.includes('ladder') && !/^(look_closely|prod|pry|burn|push|listen)\(/.test(c)))
+      .toBe(false);
     expect(Situation.legal(q)).toContain('go(world__tub_incline,world__incline_top)');
   }, 60000);
 });

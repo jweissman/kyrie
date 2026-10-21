@@ -14,7 +14,7 @@ export interface ModuleBindings {
 export class ModuleNamespace {
   // Catalog-backed entity types: the same id means the same thing in every installation.
   static readonly canonical = ['ability', 'capability', 'itemkind', 'good', 'clock', 'waykind', 'servicekind', 'element',
-    'circle', 'quality'];
+    'verb', 'circle', 'quality'];
   private entities: Record<string, string>;
   private functions: Record<string, string>;
   private kinds: Record<string, string>;

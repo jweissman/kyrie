@@ -17,8 +17,9 @@ export interface TickHost {
   readonly world: World; readonly module: Module; readonly playerActor: string | undefined;
   readonly operators: Operators;
   readonly tickState: { definition: CampaignDefinition; creatures: CreatureStore;
-    current: { elapsed: number; world: WorldState; pending?: Record<string, PendingAction> } };
+    current: { seed: string; elapsed: number; world: WorldState; pending?: Record<string, PendingAction> } };
   applyAction(action: Operator, success?: boolean): void; refreshProjection(): void; recordObservations(): void;
+  commitWorld(world: World): void;
 }
 export interface TickDecision {
   actor: string; goal: string; action: string; plan: string[]; elapsed: number; changes: string[];

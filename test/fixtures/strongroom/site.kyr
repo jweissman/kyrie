@@ -1,0 +1,89 @@
+Module strongroom "The cartographer's strongroom" {
+  Description "A dead cartographer's house: a study with a trapped chest, an alcove behind a map, a passage with a loose flagstone, and a vault where a jade idol sits on a pressure plate.".
+  Place house "The cartographer's house" is site.
+  Place hall "the hall" is room within house at 0, 0.
+  Place study "the study" is room within house at 1, 0.
+  Place alcove "the alcove" is room within house at 1, 1.
+  Place vault "the vault" is room within house at 0, 1.
+  Initially Assert unlit(vault).
+  Passage study_door "the study door" is door between hall and study.
+  Passage vault_way "the vault passage" is passage between hall and vault.
+  Passage alcove_way "the low alcove" is crawl between study and alcove hidden until alcove_known.
+
+  Company party "Your company" of 3 at hall.
+  Initially Set quantity(party, gold) to 5. Initially Set quantity(party, rations) to 1.
+
+  Item long_pole "a ten-foot pole" is pole at hall.
+  Item sand "a sack of sand" is sandbag at hall.
+  Item brand "a torch" is torch at hall.
+
+  // A chest whose lock hides a poisoned needle: scratches for a careful eye, a trapper's hand, a pole from a pace
+  // away, or brute force that breaks what is inside.
+  Thing chest "an iron-bound chest" at study {
+    Holds.
+    State locked closed "An iron-bound chest stands under the window, locked.".
+    State shut closed "The chest is unlocked, its lid down.".
+    State open "The chest stands open.".
+    State broken "The chest lies split open where it was smashed.".
+    Change pick "Pick the chest's lock" from locked to shut needing lockwork.
+    Change lift "Lift the chest's lid" from shut to open.
+    Change smash "Smash the chest open" from locked to broken needing brawn.
+  }
+  Item chart "the cartographer's best map" is map in chest.
+  Item vial "a vial of physic" is healingdraught in chest.
+  Thing lock "the chest's lock" at study {
+    State armed "".
+    State disarmed "The needle from the chest's lock lies on the windowsill, harmless.".
+    State sprung "A needle stands out of the chest's keyhole, bent.".
+    Change disarm "Ease the needle out of the chest's lock" from armed to disarmed needing trapwork after learning needle_known.
+    Change trip "Trip the lock with the pole, from a pace away" from armed to sprung needing pole.
+  }
+  Hazard needle_poison "A poisoned needle" means "Deal (1d4) poison damage to ally unless dexterity save against (12). Apply poisoned to ally for 3 turns unless constitution save against (11).".
+  Entity needle_known: fact "A needle waits in the chest's lock, to prick whoever turns it.".
+  Initially Assert established(needle_known).
+  Observe needle_tell near chest when tried(chest, looking) and state(lock, armed) "Around the chest's keyhole the brass is scratched bright, the way a lock is scratched when something inside it is oiled and set again." teaches needle_known.
+  Rule needle_snaps when state(lock, armed) and state(chest, broken) { Assert state(lock, sprung). }
+  Rule needle_springs when state(lock, armed) and not state(chest, locked) { Assert strikes(needle_poison, party). Assert state(lock, sprung). }
+  Rule vial_breaks when state(chest, broken) and inside(vial, chest)
+    says "Something in the chest breaks with a small sad sound, and a smell of camphor fills the study." {
+    Retract inside(vial, chest).
+  }
+
+  // The map on the wall hides an alcove, which a search finds.
+  Thing wall_map "a great map of the coast on the wall" at study {
+    State hanging "A great map of the coast hangs from a rail along the study wall.".
+  }
+  Discovery alcove_known "Behind the hanging map, a low alcove is cut into the wall." {
+    Found by searching study "Behind the hanging map, the wall gives way to a low alcove, just big enough to crawl into.".
+  }
+  Item rings "a cord of rings" is grave_rings at alcove.
+
+  // A loose flagstone in the vault passage: always visible, for those who look at floors; prod it and the pit shows.
+  Hazard stakes "A pit of stakes" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Thing flagstone "a flagstone in the vault passage" on vault_way {
+    State loose dangerous "The flagstones of the vault passage are worn smooth by feet, all but one, which no one has stepped on in years.".
+    State open "A flagstone of the vault passage hangs open on a pivot over a pit of stakes. There is room to step round it.".
+    Hurts with stakes when loose then open.
+  }
+  Rule pit_shown when tried(flagstone, prodding) and state(flagstone, loose)
+    says "The flagstone swings down under the pole on a pivot. Below it, a pit bristles with stakes." {
+    Assert state(flagstone, open).
+  }
+
+  // A jade idol on a pressure plate: the ceiling falls when the plate is empty. Anything heavy enough keeps it down.
+  Thing plate "a bronze plate set in the vault floor" at vault {
+    Holds.
+    State set "A bronze plate is set in the vault floor, polished by nobody.".
+  }
+  Item idol "a jade idol" is jade_idol in plate.
+  Hazard falling_stone "The falling ceiling" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Thing ceiling "the vault ceiling" at vault {
+    State poised "The vault's ceiling is one slab of stone, hung on chains that run up into slots in the walls.".
+    State fallen "The ceiling slab lies across half the vault, chains trailing.".
+  }
+  Rule ceiling_falls when state(ceiling, poised) and not inside(?weight, plate)
+    says "The plate rises with a click. Chains run in the walls, and the ceiling comes down." {
+    Assert state(ceiling, fallen). Assert strikes(falling_stone, party).
+  }
+  Goal false.
+}

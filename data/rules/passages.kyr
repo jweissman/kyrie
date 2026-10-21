@@ -7,7 +7,13 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Relation state(entity, condition) exclusive.
   Relation blocksWhen(entity, condition). Relation harmsWhen(entity, condition).
   Relation hurtsWith(entity, hazard). Relation hurtsInto(entity, condition).
-  Relation revealedBy(passage, fact).
+  Relation revealedBy(entity, fact).
+  // Containment: a thing or item inside another, reachable while that one is not shut; a receptacle can take more.
+  Relation inside(entity, entity). Relation receptacle(entity). Relation closesWhen(entity, condition).
+  // A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls).
+  Relation strikes(hazard, group).
+  // What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
+  Kind verb. Relation probeable(entity). Relation tried(entity, verb).
   Relation needs(entity, entity).
   Relation changeOf(change, entity). Relation changeFrom(change, condition). Relation changeTo(change, condition).
   Relation changeKnows(change, fact). Relation consumes(change, good).
@@ -28,8 +34,13 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query hazardous(w: passage) means on(?h, w) and state(?h, ?s) and harmsWhen(?h, ?s).
   Query mobile(a: group) means not hobbled(a) or following(a, ?l).
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
-  Query reaches(a: group, t: entity) means (at(a, ?p) and at(t, ?p)) or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
-    or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r)).
+  Query shut(c: entity) means state(c, ?s) and closesWhen(c, ?s).
+  // A thing hidden until something is known is not there, for a company that does not know it.
+  Query noticed(x: entity, a: group) means not revealedBy(x, ?f) or (revealedBy(x, ?f) and knows(a, ?f)).
+  Query reaches(a: group, t: entity) means noticed(t, a) and ((at(a, ?p) and at(t, ?p))
+    or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
+    or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r))
+    or (at(a, ?h) and inside(t, ?c) and at(?c, ?h) and not shut(?c))).
   Query passable(w: passage, a: group) means visibleTo(w, a) and not barred(w) and not watchedAgainst(w, a) and not hazardous(w)
     and equippedFor(a, w).
   Goal false.

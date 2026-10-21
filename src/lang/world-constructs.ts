@@ -5,9 +5,11 @@ export interface ChangeSpec {
   id: string; label: string; from: string; to: string; needs?: string[]; after?: string; consumes?: string;
 }
 export interface ThingSpec {
-  id: string; name: string; type: string; site?: { anchor: 'at' | 'on'; id: string };
+  id: string; name: string; type: string; site?: { anchor: 'at' | 'on' | 'inside'; id: string };
   states: StateSpec[]; changes: ChangeSpec[]; hurts?: { ability: string; when: string; then: string };
   guards?: string[];
+  // Not perceived or reachable until the company knows this fact; holds: things can be put inside it.
+  hidden?: string; holds?: boolean;
 }
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
@@ -43,12 +45,14 @@ export class WorldConstructs {
   static readonly wayKinds = ['passage', 'door', 'doorway', 'arch', 'gate', 'stair', 'steps', 'ladder', 'shaft', 'path',
     'track', 'road', 'causeway', 'bridge', 'ford', 'tunnel', 'crawl', 'culvert', 'drift', 'incline', 'ferry', 'climb'];
   // An item instance with one name: the authored one, or its catalog kind's name.
-  static item(module: Module, i: { id: string; name?: string; kind: string; place: string }, kindName?: string) {
+  static item(module: Module, i: { id: string; name?: string; kind: string; place: string; inside?: boolean;
+    hidden?: string }, kindName?: string) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }
     module.entities.push({ id: i.id, type: 'item', name: i.name ?? kindName });
     this.entity(module, i.kind, 'itemkind', kindName);
     this.assert(module, 'itemKind', i.id, i.kind);
-    this.assert(module, 'at', i.id, i.place);
+    this.assert(module, i.inside ? 'inside' : 'at', i.id, i.place);
+    if (i.hidden) { this.assert(module, 'revealedBy', i.id, i.hidden); }
   }
   // A person's offers and wares: services with fees, counted goods, or item instances of catalog kinds for sale.
   static offers(module: Module, p: { id: string; place: string; offers?: { kind: string; text: string; fee: number }[];
@@ -103,6 +107,7 @@ export class WorldConstructs {
       this.entity(module, s.id, 'condition', s.id);
       if (s.flags.includes('blocking')) { this.assert(module, 'blocksWhen', t.id, s.id); }
       if (s.flags.includes('dangerous')) { this.assert(module, 'harmsWhen', t.id, s.id); }
+      if (s.flags.includes('closed')) { this.assert(module, 'closesWhen', t.id, s.id); }
       if (s.text) {
         (module.observations ??= []).push({ id: `${t.id}__${s.id}`, place: anchor.id, anchor: anchor.kind,
           when: t.type === 'group' ? { kind: 'and',
@@ -133,6 +138,10 @@ export class WorldConstructs {
     module.entities.push({ id: t.id, type: t.type, name: t.name });
     if (!t.site) { throw new Error(`Thing ${t.id} needs a place or passage`); }
     this.assert(module, t.site.anchor, t.id, t.site.id);
+    if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
+    if (t.holds) { this.assert(module, 'receptacle', t.id); }
+    // Anything a company can handle can be tried: looked over closely, prodded, pried at, burned, listened at.
+    if (t.type !== 'group') { this.assert(module, 'probeable', t.id); }
     this.states(module, t, t.site.anchor === 'on' ? { kind: 'beside', id: t.site.id } : { kind: 'near', id: t.id });
   }
   // An event happens once, when its condition first holds, and is perceived only by those at its anchor.

@@ -224,6 +224,31 @@ Thornmere):
 `sell`. A long activity that someone arriving should break off says so: `Interrupted when threatened(actor).` Its
 time passes a watch at a time, and its success applies only if it runs its course.
 
+### Objects: inside, hidden, trapped, tried
+
+A thing can hold others (`Holds.`), and a state flagged `closed` keeps what it holds out of sight and reach. Items
+and things can start inside one (`in chest`), and anything can be `hidden until` a fact the company learns; a
+discovery can be `Found by searching` a place (optionally `with` a skill), and is then seen there from that time on.
+Every thing can be tried: looked over closely, prodded with a pole, pried at with a bar, put to the flame, pushed and
+pulled, listened at. Offering a try reveals nothing; what a try finds is an observation or a rule on `tried(thing,
+verb)`, and a try that finds nothing says so. A trap is a thing whose rule asserts `strikes(hazard, party)`; the
+world turns the hazard on one member. From `test/fixtures/strongroom`:
+
+```text
+  Thing chest "an iron-bound chest" at study {
+    Holds.
+    State locked closed "An iron-bound chest stands under the window, locked.".
+    State open "The chest stands open.".
+    Change pick "Pick the chest's lock" from locked to open needing lockwork.
+  }
+  Item vial "a vial of physic" is healingdraught in chest.
+  Observe needle_tell near chest when tried(chest, looking) and state(lock, armed) "Around the keyhole the brass is scratched bright…" teaches needle_known.
+  Rule needle_springs when state(lock, armed) and not state(chest, locked) { Assert strikes(needle_poison, party). Assert state(lock, sprung). }
+  Discovery alcove_known "Behind the hanging map, a low alcove is cut into the wall." { Found by searching study. }
+  Passage alcove_way "the low alcove" is crawl between study and alcove hidden until alcove_known.
+  Rule ceiling_falls when state(ceiling, poised) and not inside(?weight, plate) { … Assert strikes(falling_stone, party). }
+```
+
 ## 6. Descriptions and goal
 
 An observation describes a place while its condition holds. Write what the company sees; leave out how the game

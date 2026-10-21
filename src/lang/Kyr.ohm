@@ -5,7 +5,10 @@ Kyr {
   PlaceParent = "within" ident
   PlaceGrid = "at" integer "," integer
   Company = "Company" ident string "of" integer "at" ident "."
-  ItemDecl = "Item" ident string? "is" ident "at" ident "."
+  ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? "."
+  ItemPlace = "at" ident -- at
+            | kwIn ident -- in
+  Concealed = "hidden" "until" ident
   HazardDecl = "Hazard" ident string "means" string "."
   Passage = "Passage" ident string PassageKind? "between" ident "and" ident PassagePart* "."
   PassageKind = "is" ident
@@ -14,13 +17,15 @@ Kyr {
               | "needing" ident ("or" ident)* -- needs
               | "taking" integer timeUnit -- taking
   timeUnit = "minutes" | "minute" | "hours" | "hour" | "days" | "day"
-  Thing = "Thing" ident string ThingSite ThingKind? "{" ThingPart* "}"
+  Thing = "Thing" ident string ThingSite ThingKind? Concealed? "{" ThingPart* "}"
   ThingSite = "at" ident -- at
             | "on" ident -- on
+            | kwIn ident -- in
   ThingKind = "is" ident
-  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart
+  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart
+  HoldsPart = "Holds" "."
   StatePart = "State" ident StateFlag* string "."
-  StateFlag = "blocking" | "dangerous"
+  StateFlag = "blocking" | "dangerous" | "closed"
   ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? "."
   ChangeNeeds = "needing" ident ("or" ident)*
   ChangeAfter = "after" "learning" ident
@@ -65,7 +70,9 @@ Kyr {
   Speaker = "Speaker" ident "."
   Result = "Result" string "."
   Information = "Discovery" ident string "{" InformationPart* "}"
-  InformationPart = KnownBy | DeniedBy | InformationSource
+  InformationPart = KnownBy | DeniedBy | InformationSource | FoundBy
+  FoundBy = "Found" "by" "searching" ident FoundWith? string? "."
+  FoundWith = "with" ident
   KnownBy = "Known" "by" NonemptyListOf<ident, ","> "."
   DeniedBy = "Denied" "by" NonemptyListOf<ident, ","> "."
   InformationSource = "Source" ident string "at" ident "readable" "by" NonemptyListOf<ident, ","> Speakers? Destructible? "."
@@ -134,6 +141,7 @@ Kyr {
   plain = ~("(" | ")" | "\"" | "'") any
   string = "\"" (escaped | ~("\"" | "\n" | "\r") any)* "\""
   kwNot = "not" ~identPart
+  kwIn = "in" ~identPart
   kwAnd = "and" ~identPart
   kwOr = "or" ~identPart
   kwTrue = "true" ~identPart

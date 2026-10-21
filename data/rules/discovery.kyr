@@ -14,6 +14,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   Relation publicPlace(place).
   Relation testimony(group, source).
   Relation witnessed(group, fact).
+  Relation searched(group, place).
   Goal false.
   Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
     Requires able(actor) and at(actor, site) and at(witness, site) and not benighted(actor)
@@ -45,6 +46,13 @@ Module discovery_rules "Reliable discovery and trusted reports" {
       Assert knows(actor, statement). Retract assumesFalse(actor, statement).
       Assert toldBy(actor, informant, statement).
     }
+  }
+  Action search(actor: group, site: place) "Search {site}" {
+    Description "Go over the place: walls, floor, furniture, the backs of things. Twenty minutes, once.".
+    Requires able(actor) and at(actor, site) and not benighted(actor) and not searched(actor, site).
+    Time 2. Interrupted when threatened(actor).
+    On success { Assert searched(actor, site). }
+    Result "You go over {site} carefully.".
   }
   Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {
     Result "You destroy this source of evidence. Existing knowledge and other sources remain.".

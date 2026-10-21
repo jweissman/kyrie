@@ -8,6 +8,7 @@ import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } fro
 import { ItemCatalog } from '../item-catalog';
 import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
+import { ObjectParser } from './object-parser';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -17,8 +18,11 @@ export class ModuleParser {
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
-    PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_at: ModuleParser.Site,
-    ThingSite_on: ModuleParser.Site, ThingKind: ModuleParser.ThingKind, StatePart: ModuleParser.StatePart,
+    PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
+    HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
+    ItemPlace_in: ObjectParser.In, FoundBy: ModuleParser.FoundBy, FoundWith: ObjectParser.FoundWith,
+    ThingSite_at: ModuleParser.Site, ThingSite_on: ModuleParser.Site, ThingKind: ModuleParser.ThingKind,
+    StatePart: ModuleParser.StatePart,
     ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.ChangeNeeds, ChangeAfter: ModuleParser.Third,
     ChangeConsumes: ModuleParser.Second, HurtsPart: ModuleParser.HurtsPart, GuardsPart: ModuleParser.GuardsPart,
     Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
@@ -138,6 +142,7 @@ export class ModuleParser {
     }
     const expanded = Discovery.describe(information);
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
+    if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
     Spatial.addEscorts(module); Spatial.addSearches(module);
     if (!singleton.has('goal')) { throw new Error('Module needs a goal'); }
     return module;
@@ -169,18 +174,23 @@ export class ModuleParser {
   static ChangeNeeds(_needing: Node, kind: Node, _ors: Node, more: Node) {
     return [kind.sourceString, ...more.children.map(n => n.sourceString)];
   }
-  static Thing(_t: Node, id: Node, name: Node, site: Node, kind: Node, _open: Node, parts: Node, _close: Node): Field {
-    const spec: ThingSpec = { id: id.sourceString, name: ModuleParser.ast(name) as string,
-      type: kind.children.length ? ModuleParser.ast(kind.children[0]!) as string : 'thing',
-      site: ModuleParser.ast(site) as ThingSpec['site'], states: [], changes: [] };
-    for (const part of parts.children) { ModuleParser.thingPart(spec, ModuleParser.ast(part) as Field); }
-    return { field: 'thing', value: spec };
+  // Ohm calls an action with one node per element of its rule; these take the elements that matter to ObjectParser.
+  static ItemDecl(_i: Node, id: Node, name: Node, _is: Node, kind: Node, place: Node, concealed: Node, _dot: Node) {
+    return ObjectParser.item(id, name, kind, { place, concealed });
+  }
+  static Thing(_t: Node, id: Node, name: Node, site: Node, kind: Node, concealed: Node, _open: Node, parts: Node,
+    _close: Node) {
+    return ObjectParser.thing(id, name, { site, kind, concealed }, parts);
+  }
+  static FoundBy(_found: Node, _by: Node, _searching: Node, place: Node, skill: Node, text: Node, _dot: Node) {
+    return ObjectParser.found(place, skill, text);
   }
   static thingPart(spec: ThingSpec, part: Field) {
     if (part.field === 'state') { spec.states.push(part.value as ThingSpec['states'][number]); }
     else if (part.field === 'change') { spec.changes.push(part.value as ThingSpec['changes'][number]); }
     else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
     else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
+    else if (part.field === 'holds') { spec.holds = true; }
   }
   static Site(word: Node, id: Node) { return { anchor: word.sourceString, id: id.sourceString }; }
   static ThingKind(_is: Node, kind: Node) { return kind.sourceString; }
@@ -236,10 +246,6 @@ export class ModuleParser {
     return { field: 'company', value: { id: id.sourceString, name: ModuleParser.ast(name), size: Number(size.sourceString),
       place: place.sourceString } };
   }
-  static ItemDecl(_i: Node, id: Node, name: Node, _is: Node, kind: Node, _at: Node, place: Node, _dot: Node): Field {
-    return { field: 'item', value: { id: id.sourceString, kind: kind.sourceString, place: place.sourceString,
-      ...(name.children.length ? { name: ModuleParser.ast(name.children[0]!) } : {}) } };
-  }
   static Taking(_t: Node, amount: Node, unit: Node) {
     const n = Number(amount.sourceString), u = unit.sourceString;
     return { ticks: Math.max(1, u.startsWith('minute') ? Math.ceil(n / 10) : u.startsWith('hour') ? n * 6 : n * 144) };
@@ -279,6 +285,7 @@ export class ModuleParser {
       if (part.field === 'source') {
         definition.sources.push(part.value as DiscoveryDefinition['sources'][number]);
       }
+      else if (part.field === 'found') { (definition.found ??= []).push(part.value as NonNullable<DiscoveryDefinition['found']>[number]); }
       else {
         if (seen.has(part.field)) { throw new Error(`Duplicate discovery field ${part.field}`); }
         seen.add(part.field); Object.assign(definition, { [part.field]: part.value });

@@ -23,6 +23,24 @@
         "notes": "Orsino gives a description and price; Kyr gives the tool meaning through world rules."
       }
     },
+    "pole": {
+      "name": "Ten-foot pole",
+      "category": "gear",
+      "description": "A long ash pole, iron-shod at one end. For testing floors, prodding what should not be touched, and reaching what should not be reached for.",
+      "value": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "sandbag": {
+      "name": "Sack of sand",
+      "category": "gear",
+      "description": "A tied sack of dry sand, about as heavy as a small child. Useless, until it is not.",
+      "value": 0,
+      "source": {
+        "kyr": true
+      }
+    },
     "thieves_tools": {
       "name": "Thieves' tools",
       "category": "tool",
@@ -263,6 +281,15 @@
       "category": "treasure",
       "description": "A garrison chapel's silver: a censer, a paten and a cup, black with tarnish.",
       "value": 24,
+      "source": {
+        "kyr": true
+      }
+    },
+    "jade_idol": {
+      "name": "Jade idol",
+      "category": "treasure",
+      "description": "A squat idol of green jade with a hollow belly and an expression of polite disappointment.",
+      "value": 30,
       "source": {
         "kyr": true
       }

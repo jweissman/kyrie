@@ -27,13 +27,12 @@ import { World } from '../lang/world';
 import { Planner, type Operator } from './planner';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
-import { ActionTime } from './action-time';
-import { CampaignTick, type TickDecision, type TickHost } from './campaign-tick';
-import { Interruption } from './interruption';
+import { CampaignTick } from './campaign-tick';
+import { WatchLoop, type WatchHost } from './watch-loop';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
-import type { CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
-export class Campaign implements TickHost {
+import type { CampaignState, CampaignSave, CampaignEvent } from './campaign-types';
+export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
   private current: Omit<CampaignState, 'party' | 'creatures'>;
@@ -297,7 +296,7 @@ export class Campaign implements TickHost {
     if (!success && action.resolve?.name === 'expose') {
       response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
     }
-    const { npc, happenings, interrupted } = this.pass(action, before, combat);
+    const { npc, happenings, interrupted } = WatchLoop.pass(this, action, before, combat);
     if (deferred) { success &&= !interrupted; this.apply(action, success); }
     if (interrupted) { response = interrupted; }
     if (!interrupted && !this.shelter(action, combat)) {
@@ -342,28 +341,6 @@ export class Campaign implements TickHost {
       combat.push(...this.field(action));
     }
   }
-  // The command's time passes a watch at a time: conditions run out, people act, rules fire, modules progress.
-  private pass(action: Operator, before: World, combat: CombatEvent[]) {
-    const npc: NpcDecision[] = [], happenings: { id: string; text: string; kind: 'event' }[] = [];
-    const player = this.playerActor, watch = Interruption.begin(this.world, action, player, this.current.elapsed);
-    let why: string | undefined;
-    for (let tick = 0; tick < ActionTime.of(action, before) && !why; tick++) {
-      this.current.elapsed++;
-      if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
-        { world: this.world, actors: this.definition?.actors ?? [], player: this.playerActor })) { this.refresh(); }
-      if (this.definition) {
-        this.commit(this.world.apply(CampaignTick.clock(this.world, this.current.elapsed)));
-        CampaignTick.npcs(this, npc as TickDecision[]);
-        CampaignTick.rules(this, happenings);
-        this.commit(Progression.check(this.world, this.definition, this.current.elapsed));
-        this.resolutions(combat, false);
-        this.observe();
-      }
-      why = watch && Interruption.check(watch, this.world, player!, happenings);
-    }
-    const interrupted = watch && why ? Interruption.told(watch, why, this.current.elapsed) : undefined;
-    return { npc, happenings, interrupted };
-  }
   // A rest recovers the company at its end, if the shelter is still safe; whether it was.
   private shelter(action: Operator, combat: CombatEvent[]): boolean {
     if (action.resolve?.name !== 'recover' && action.resolve?.name !== 'rough') { return true; }
@@ -385,6 +362,18 @@ export class Campaign implements TickHost {
   applyAction(action: Operator, success = true) { this.apply(action, success); }
   refreshProjection() { this.refresh(); }
   recordObservations() { this.observe(); }
+  commitWorld(world: World) { this.commit(world); }
+  advanceWatch(combat: CombatEvent[]) {
+    this.current.elapsed++;
+    if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
+      { world: this.world, actors: this.definition?.actors ?? [], player: this.playerActor })) { this.refresh(); }
+    if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current.elapsed))); }
+  }
+  settleWatch(combat: CombatEvent[]) {
+    this.commit(Progression.check(this.world, this.definition!, this.current.elapsed));
+    this.resolutions(combat, false);
+    this.observe();
+  }
   private apply(action: Operator, success: boolean) {
     const before = this.world, after = before.apply(success ? action.success : action.failure);
     if (this.definition) { CreatureFacts.commitMoney(before, after, this.definition.actors, this.creatures); }

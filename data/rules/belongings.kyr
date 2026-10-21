@@ -9,10 +9,27 @@ Module belongings "What the company carries" {
   Goal false.
   Action take_item(actor: group, find: item, form: itemkind, recipient: member, site: place) "Collect {find} for {recipient}" {
     Requires able(actor) and at(actor, site) and at(find, site) and not forSale(find) and not benighted(actor)
-      and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient).
+      and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient) and noticed(find, actor).
     Resolve acquire(find, form, recipient).
     On success { Retract at(find, site). }
     Result "{recipient} takes {find}.".
+  }
+  Action take_out(actor: group, find: item, form: itemkind, box: thing, recipient: member, site: place) "Take {find} out of {box} for {recipient}" {
+    Requires able(actor) and at(actor, site) and at(box, site) and inside(find, box) and not shut(box)
+      and noticed(box, actor) and noticed(find, actor) and not benighted(actor)
+      and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient).
+    Resolve acquire(find, form, recipient).
+    On success { Retract inside(find, box). }
+    Result "{recipient} takes {find} out of {box}.".
+  }
+  Action put_in(actor: group, cargo: item, carrier: member, box: thing, site: place) "Put {cargo} in {box}" {
+    Description "Set it in, on or into the thing, where it stays until someone takes it out.".
+    Requires able(actor) and at(actor, site) and at(box, site) and receptacle(box) and not shut(box)
+      and noticed(box, actor) and not benighted(actor)
+      and memberOf(carrier, actor) and awake(carrier) and ownedItem(cargo, carrier).
+    Resolve drop(cargo, carrier).
+    On success { Assert inside(cargo, box). }
+    Result "{carrier} puts {cargo} in {box}.".
   }
   Action buy_item(actor: group, find: item, form: itemkind, recipient: member, merchant: group, site: place) "Buy {find} for {recipient}" {
     Requires able(actor) and at(actor, site) and at(find, site) and forSale(find) and itemKind(find, form)

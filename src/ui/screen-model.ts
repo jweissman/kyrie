@@ -181,7 +181,7 @@ export class ScreenModel {
     const coin = counted ? w.number(ModuleWriter.call('quantity', p.id, 'gold')) : 0;
     const food = counted ? w.number(ModuleWriter.call('quantity', p.id, 'rations')) : 0;
     const forSale = w.module.relations.some(r => r.name === 'forSale') && w.test(ModuleWriter.call('forSale', p.id));
-    const note = p.condition ? p.condition : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'read')
+    const note = p.condition ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...(note ? { note } : {}), acts };

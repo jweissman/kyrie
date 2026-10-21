@@ -9,6 +9,7 @@ export interface ActionFeedback {
   observations: string[]; available: string[]; unavailable: string[]; events: string[];
 }
 export class ActionFeedbackView {
+  static readonly probes = ['look_closely', 'prod', 'pry', 'burn', 'push', 'listen', 'search'];
   // A recovery that removes a status the member never had is not news.
   private static lacked(before: PlayerSnapshot, target: string, status: string): boolean {
     const member = before.party.find(p => p.id === target);
@@ -32,7 +33,11 @@ export class ActionFeedbackView {
         ? 'Your opponent flees; the company holds the ground.' : 'Your company withdraws.'
         : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
       + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} ${fallen.length === 1 ? 'is' : 'are'} down.` : ''}` : undefined;
-    const result = event.response ?? battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
+    // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
+    const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
+      && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');
+    const nothing = quiet ? ` ${action.schema === 'search' ? 'You find nothing out of the ordinary.' : 'Nothing comes of it.'}` : '';
+    const result = event.response ? `${event.response}${nothing}` : battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
       learned.length ? `You learn: ${learned.map(k => k.text).join(' ')}` :
         before.location?.id !== after.location?.id ? `You arrive at ${after.location?.name}.` :
           combat.length ? '' :

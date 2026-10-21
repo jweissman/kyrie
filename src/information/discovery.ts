@@ -1,5 +1,5 @@
 import { ModuleWriter } from '../lang/module-writer';
-import type { Change, Entity, Module } from '../lang/module';
+import type { Change, Entity, Module, Observation, Predicate } from '../lang/module';
 import { World } from '../lang/world';
 
 export interface DiscoveryBinding { actor: string; source: string; fact: string; place: string }
@@ -7,23 +7,28 @@ export interface DiscoveryDefinition {
   id: string; text: string; knownBy?: string[]; deniedBy?: string[];
   sources: { id: string; text: string; place: string; readers: string[];
     speakers?: string[]; destructible?: boolean }[];
+  // Places where searching finds it (with a skill, if named), and what the searcher then sees there.
+  found?: { place: string; with?: string; text?: string }[];
 }
 export class Discovery {
   // Authoring expansion only: the result uses the existing world and information-transfer rules.
-  static describe(definitions: DiscoveryDefinition[]): { entities: Entity[]; initial: Change[] } {
-    const context = { entities: [] as Entity[], initial: [] as Change[], ids: new Set<string>() };
+  static describe(definitions: DiscoveryDefinition[]):
+    { entities: Entity[]; initial: Change[]; observations: Observation[] } {
+    const context = { entities: [] as Entity[], initial: [] as Change[], ids: new Set<string>(),
+      observations: [] as Observation[] };
     if (!Array.isArray(definitions)) { throw new Error('Information definitions must be a list'); }
     for (const definition of definitions) {
       this.addEntity(context, definition, 'fact');
-      if (!this.validKeys(definition, ['id', 'text', 'knownBy', 'deniedBy', 'sources'])) {
+      if (!this.validKeys(definition, ['id', 'text', 'knownBy', 'deniedBy', 'sources', 'found'])) {
         throw new Error('Unknown discovery field');
       }
       const known = definition.knownBy ?? [], denied = definition.deniedBy ?? [];
       if (!this.actorList(known) || !this.actorList(denied) || known.some(a => denied.includes(a))
-        || !Array.isArray(definition.sources) || !definition.sources.length) {
+        || !Array.isArray(definition.sources) || !(definition.sources.length || definition.found?.length)) {
         throw new Error('Invalid discovery knowledge or sources');
       }
       this.assert(context, 'established', definition.id);
+      this.found(context, definition);
       known.forEach(a => this.assert(context, 'knows', a, definition.id));
       denied.forEach(a => this.assert(context, 'assumesFalse', a, definition.id));
       for (const source of definition.sources) {
@@ -43,7 +48,17 @@ export class Discovery {
         if (source.destructible) { this.assert(context, 'destructible', source.id); }
       }
     }
-    return { entities: context.entities, initial: context.initial };
+    return { entities: context.entities, initial: context.initial, observations: context.observations };
+  }
+  // A thing found by searching is seen where it was found from then on, and seeing it is knowing it.
+  private static found(context: { observations: Observation[] }, definition: DiscoveryDefinition) {
+    for (const [i, f] of (definition.found ?? []).entries()) {
+      const searched: Predicate = ModuleWriter.call('searched', 'party', f.place);
+      const when: Predicate = f.with ? { kind: 'and', left: searched, right: ModuleWriter.call('capable', 'party', f.with) }
+        : searched;
+      context.observations.push({ id: `${definition.id}__found${i ? i + 1 : ''}`, place: f.place, anchor: 'at', when,
+        text: f.text ?? definition.text, teaches: definition.id });
+    }
   }
   private static validKeys(value: object, keys: string[]): boolean {
     return Object.keys(value).every(k => keys.includes(k));

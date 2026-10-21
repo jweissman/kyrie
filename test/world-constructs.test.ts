@@ -13,7 +13,7 @@ class Source {
   Relation harmsWhen(entity, condition). Relation hurtsWith(entity, ability). Relation hurtsInto(entity, condition).
   Relation revealedBy(passage, fact). Relation needs(entity, entity). Relation changeOf(change, entity).
   Relation changeFrom(change, condition). Relation changeTo(change, condition). Relation changeKnows(change, fact).
-  Relation consumes(change, good). Relation knows(group, fact).
+  Relation consumes(change, good). Relation knows(group, fact). Relation probeable(entity).
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
   Query alone(a: group) means not (at(a, ?p) and at(?other, ?p) and distinctFrom(a, ?other)).
   Relation distinctFrom(group, group).`;
