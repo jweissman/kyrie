@@ -41,8 +41,10 @@ export class OrsinoEffects {
     return out;
   }
   private scope(raw: Raw, target: Target): { target: Target; extra: Partial<Effect> } | string {
-    const t = raw.target === 'self' ? 'self' : ['target', 'attacker'].includes(String(raw.target)) ? 'enemy'
-      : raw.target === undefined ? target : undefined;
+    // A nested effect that names "enemy" falls on the enemy the ability chose, or the one drawn for it.
+    const drawn = raw.target === 'enemy' && ['enemy', 'random enemy', 'random enemies'].includes(target);
+    const t = raw.target === 'self' ? 'self' : drawn ? target : ['target', 'attacker', 'caster'].includes(String(raw.target))
+      ? 'enemy' : raw.target === undefined ? target : undefined;
     if (!t) { return `Effect target ${String(raw.target)} is not supported.`; }
     const extra: Partial<Effect> = {};
     if (raw.condition && typeof raw.condition === 'object') {
@@ -78,6 +80,24 @@ export class OrsinoEffects {
       }
       // Orsino removes, by a case-insensitive pattern over names, every active status that matches; Kyr does the same.
       case 'summon': return this.summon(raw, target);
+      // Orsino declares a save on a kill but never rolls it; Kyr rolls it as it rolls a debuff's.
+      case 'kill': return [{ kind: 'kill', target, ...typeof raw.saveDC === 'number' ? { save: { kind: String(raw.saveKind ?? 'magic'),
+        difficulty: { kind: 'deem' as const, expression: `${raw.saveDC} + #level + #bonusSpellDC` } } } : {}, ...extra } as Effect];
+      case 'resurrect': {
+        const traits = (raw.applyTraits ?? []) as string[];
+        return [{ kind: 'revive', amount: { kind: 'literal', value: 1 }, target,
+          ...typeof raw.hpPercent === 'number' ? { percent: raw.hpPercent } : {}, ...traits.length ? { traits } : {}, ...extra } as Effect];
+      }
+      // Orsino's flee: the target saves (no level added) or flees for two turns, and is gone at the next round.
+      case 'flee': return [{ kind: 'apply', status: 'fleeing', duration: 2, target, save: { kind: String(raw.succeedType ?? 'will'),
+        difficulty: { kind: 'literal' as const, value: Number(raw.succeedDC ?? 15) } }, ...extra } as Effect];
+      case 'randomEffect': case 'cycleEffects': {
+        const list = (raw.type === 'randomEffect' ? raw.randomEffects : raw.cycledEffects) as Raw[];
+        const inner = list.map(x => this.effect(x, target, from));
+        const failure = inner.find((x): x is string => typeof x === 'string');
+        return failure ?? [{ kind: raw.type === 'randomEffect' ? 'random' : 'cycle', effects: inner.flat() as Effect[], target, ...extra } as Effect];
+      }
+      case 'cast': return [{ kind: 'cast', ability: String(raw.spellName), target, ...extra } as Effect];
       case 'removeStatus':
         return [{ kind: 'remove' as const, status: '', pattern: String(raw.statusName), target, ...extra } as Effect];
       default: return `Effect ${String(raw.type)} is not supported.`;

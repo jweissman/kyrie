@@ -125,6 +125,18 @@
         "kyr": true,
         "notes": "Interception without positions: a blow aimed at the holder strikes whoever is guarding them."
       }
+    },
+    "fleeing": {
+      "name": "Fleeing",
+      "description": "Turned to flight: it will be gone from the fight when the next round begins.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "flee": true
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Orsino's flee effect (Ability.handleSingleEffect) gives its target this status, {flee: true}, for two turns; Combat removes a fleeing enemy when the next round begins."
+      }
     }
   }
 }

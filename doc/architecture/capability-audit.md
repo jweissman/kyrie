@@ -6,10 +6,10 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 |---|---|
 | Ancestries, callings, backgrounds and formations | 34 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 21 orsino data only |
 | Character creation | 8 faithful, 24 adapted, 1 kyr |
-| Progression, feats and high levels | 224 faithful, 7 adapted, 2 kyr, 61 not playable |
-| Action timing, reactions, conditions, costs and targeting | 167 faithful, 9 adapted, 8 kyr, 44 not playable |
-| Spells: traditions, slots, durations and unusual magic | 221 faithful, 3 adapted, 2 kyr, 58 not playable |
-| Summoning, transformation, domination, movement, divination and travel | 27 faithful, 1 adapted, 24 not playable, 10 orsino data only |
+| Progression, feats and high levels | 242 faithful, 8 adapted, 2 kyr, 42 not playable |
+| Action timing, reactions, conditions, costs and targeting | 175 faithful, 17 adapted, 9 kyr, 28 not playable |
+| Spells: traditions, slots, durations and unusual magic | 239 faithful, 4 adapted, 2 kyr, 39 not playable |
+| Summoning, transformation, domination, movement, divination and travel | 35 faithful, 1 adapted, 16 not playable, 10 orsino data only |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 122 adapted, 9 represented, 19 kyr, 5 not playable, 154 orsino data only |
 | Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 20 kyr, 141 orsino data only |
 | Environment, world and planar rules | 74 kyr, 190 orsino data only |
@@ -57,7 +57,7 @@ Handbook sections: `phb:callings`, `phb:ancestries`.
 
 ## Progression, feats and high levels
 
-Entries: 224 faithful, 7 adapted, 2 kyr, 61 not playable.
+Entries: 242 faithful, 8 adapted, 2 kyr, 42 not playable.
 
 **What Orsino defines.** Experience to any level (50L³ + 150L² + 300L − 600), a quality point a level, a new spell for specialists, feats at 5, 10 and 15, an epic note at 20; spell levels to 9 as caster level rises.
 
@@ -77,39 +77,39 @@ Handbook sections: `phb:advancement`, `phb:feats`, `phb:magic`.
 
 ## Action timing, reactions, conditions, costs and targeting
 
-Entries: 167 faithful, 9 adapted, 8 kyr, 44 not playable.
+Entries: 175 faithful, 17 adapted, 9 kyr, 28 not playable.
 
 **What Orsino defines.** Initiative each round, actions a turn, haste and slow, preparation (Charge), compelled moves, wound-up blows, reactions on being attacked, on an enemy's melee, attack, cast or charge, on combat start, on a status expiring, on healing and on a kill; random multi-target spells.
 
-**What Kyr implements faithfully.** Initiative, THAC0 against descending armour class, criticals, evasion, saves with the three-successes rule, the death save, haste and slow, confusion, charm and domination, preparation and compelled moves, conditions that tick and lapse, recharge.
+**What Kyr implements faithfully.** Initiative, THAC0 against descending armour class, criticals, evasion, saves with the three-successes rule, the death save, haste and slow, confusion, charm and domination, preparation and compelled moves, conditions that tick and lapse, recharge, and reactions: a status answers an enemy's named ability (overwatch and blade barrier to a melee blow, a braced spear to a charge), any attack (charm aura, consecrated ground) or any casting (magebane), before the deed lands; what lapses can act (a countdown detonates, a black ritual raises a lich), and a healer's own statuses answer its healing.
 
-**What Kyr deliberately adapts.** Wind-ups are shown to the company a turn ahead; fleeing is the whole company's.
+**What Kyr deliberately adapts.** Wind-ups are shown to the company a turn ahead; fleeing is the whole company's; a reaction never sets off another.
 
-**What is data only.** Reactions to an enemy's action (onEnemyMelee, onEnemyAttack, onEnemyCharge, onOffensiveCasting), onExpire and onCombatStart, extra turns, reflection and spell turning.
+**What is data only.** Extra turns and turning off reactions (time stop), reflection and spell turning, untargetability, invisibility and the sight that sees through it.
 
-**What is missing or wrong.** Random multi-target spells (magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray); reactions to what an enemy does; thirty-two statuses Kyr cannot apply (overwatch, braced, invisible, reflect, spellturn, timestop and others).
+**What is missing or wrong.** Twenty-four statuses still cannot be applied (reflect, spell turning, invisible, untargetable, polymorphed and others) and with them the abilities that apply them.
 
-**What abstractions are needed.** A reaction is a condition's or trait's hook on an event another combatant causes, answered within that event; a random target set is a target kind with a count expression. Both are general and replayable from the seed.
+**What abstractions are needed.** Reflection and spell turning as reactions to being struck or targeted; invisibility as a targeting rule with a perception that defeats it.
 
-**Whether the browser makes it understandable.** A fight shows whose turn it is, the order, wound-up blows and conditions. It does not show a reaction as it happens or why a creature chose its target.
+**Whether the browser makes it understandable.** A fight tells each reaction as it happens ("the warden answers the wolf"); it does not yet show which statuses are waiting to answer.
 
 Handbook sections: `phb:combat`, `phb:conditions`, `phb:techniques`.
 
 ## Spells: traditions, slots, durations and unusual magic
 
-Entries: 221 faithful, 3 adapted, 2 kyr, 58 not playable.
+Entries: 239 faithful, 4 adapted, 2 kyr, 39 not playable.
 
 **What Orsino defines.** 131 arcane and 154 divine spells across levels 0 to 9, schools and domains, slot tables, spell saves and durations, and spells that summon, cast other spells, choose an effect at random, resurrect, kill outright or shift planes.
 
-**What Kyr implements faithfully.** Slots by spell level, preparation and readying at rest, cantrips, spell saves for half or none, school and domain access, durations in turns, random targets drawn once for every effect of a spell, electric damage as Orsino's content deals it, and summoning.
+**What Kyr implements faithfully.** Slots by spell level, preparation and readying at rest, cantrips, spell saves for half or none, school and domain access, durations in turns, random targets drawn once for every effect of a spell, electric damage, summoning, effects drawn at random, spells that cast another at no cost, raising the fallen with a share of their health and any traits (animate dead's undead), and turning or commanding foes so they flee the fight.
 
-**What Kyr deliberately adapts.** Preparing a different spell takes an hour. A random spell's count is evaluated as written (Orsino's parseInt reads "2 + round(#level/2)" as 2 and an expression as nothing).
+**What Kyr deliberately adapts.** Preparing a different spell takes an hour. A random spell's count is evaluated as written. A kill rolls the save the spell declares, which Orsino never rolls. A cycling spell keeps its place per caster.
 
 **What is data only.** None: every Orsino spell is catalogued and says whether it plays.
 
-**What is missing or wrong.** Spells that cast other spells, choose an effect at random or in turn, resurrect, kill outright, planeshift, or apply one of 34 statuses Kyr cannot run (overwatch, invisible, reflect, spell turning, time stop).
+**What is missing or wrong.** Spells that planeshift, teleport, polymorph or shapechange, cascade from target to target, or apply a status Kyr cannot run.
 
-**What abstractions are needed.** An effect that casts a named ability; a weighted random choice of effects drawn from the battle's seed; resurrection as a state change on a fallen creature; statuses that answer what an enemy does.
+**What abstractions are needed.** Cascading damage as a target rule; transformation as a temporary change of a creature's kind.
 
 **Whether the browser makes it understandable.** Each companion's sheet shows what is prepared today; a spell is cast from the fight's menu with its effect stated. The handbook lists every spell with whether it plays.
 
@@ -117,7 +117,7 @@ Handbook sections: `phb:magic`.
 
 ## Summoning, transformation, domination, movement, divination and travel
 
-Entries: 27 faithful, 1 adapted, 24 not playable, 10 orsino data only.
+Entries: 35 faithful, 1 adapted, 16 not playable, 10 orsino data only.
 
 **What Orsino defines.** Summon creatures by kind or generated template, polymorph and shapechange, charm and dominate, flee, teleport and planeshift, divination that reveals.
 
@@ -222,10 +222,10 @@ Handbook sections: `dmg:making-worlds`, `dmg:campaigns`, `mm:generated`.
 | 1 | Progression stopped at level 10 | 56 spells of levels 6–9, feats at 15, levels 11–20; now reached, with calling features for every calling | 4 | addressed |
 | 2 | Creatures were fourteen hand-made species acting once a turn; their temperament is still read by nothing | Orsino's bestiary (93 species) with actions a turn and growth; inhabitants that answer intrusion still to come | 2 | partly addressed |
 | 3 | Summoning had no ownership, limit or generated creatures | 12 summoning abilities now play; aspect summons (images, the weird) still do not | 3 | addressed |
-| 4 | No reactions to what an enemy does | 32 statuses (overwatch, braced, reflect, spellturn …), reactive magic items | 3 | open |
+| 4 | No reactions to what an enemy does | overwatch, blade barrier, braced spears, magebane, consecrated ground, charm aura now play; reflection and spell turning do not | 3 | addressed |
 | 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm now play; prismatic spray waits on cycling effects | 3 | addressed |
 | 6 | No planes, place laws or magical travel | 10 planes, planeshift, teleport, a planar adventure | 5 | open |
-| 7 | Cast, random effect, resurrect and kill effects | 20 entries that cast, 6 that randomize, 8 that resurrect or kill | 3 | open |
+| 7 | Cast, random, cycling, resurrect, kill and flee effects | chaos bolt, warp, prismatic spray, raise dead, animate dead, death, command, turn undead now play; 43 abilities still do not | 3 | addressed |
 | 8 | Items are mostly Orsino data | 60 gear, 42 magic items, 22 consumables | 2 | open |
 | 9 | Electric damage is not a Kyr damage kind | 11 spells and weapons | 3 | addressed |
 | 10 | No city, no institutions as kits | urban investigation, negotiation and patronage | 5 | open |

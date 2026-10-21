@@ -1011,11 +1011,18 @@
       "pattern": "Invisible",
       "target": "enemy"
      }
+    ],
+    "onOffensiveCasting": [
+     {
+      "kind": "remove",
+      "status": "",
+      "pattern": "Invisible",
+      "target": "enemy"
+     }
     ]
    },
    "unsupported": {
-    "invisible": "Kyr does not execute this Orsino effect yet.",
-    "onOffensiveCasting": "Kyr does not execute this Orsino effect yet."
+    "invisible": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "status:invisible",
@@ -1619,8 +1626,15 @@
     "toHit": 2,
     "bonusDamage": 2
    },
-   "unsupported": {
-    "onEnemyMelee": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "reactions": {
+     "onEnemyMelee": [
+      {
+       "kind": "attack",
+       "target": "enemy"
+      }
+     ]
+    }
    },
    "source": {
     "orsino": "status:oathbound",
@@ -1648,8 +1662,21 @@
    "modifiers": {
     "bonusDamage": 2
    },
-   "unsupported": {
-    "onEnemyMelee": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "reactions": {
+     "onEnemyMelee": [
+      {
+       "kind": "attack",
+       "target": "enemy"
+      },
+      {
+       "kind": "remove",
+       "status": "",
+       "pattern": "Overwatching",
+       "target": "enemy"
+      }
+     ]
+    }
    },
    "source": {
     "orsino": "status:overwatch",
@@ -2338,10 +2365,16 @@
    "description": "Summoning",
    "lifetime": "encounter",
    "modifiers": {},
-   "duration": 3,
-   "unsupported": {
-    "onExpire": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "onExpire": [
+     {
+      "kind": "cast",
+      "ability": "summon_lich",
+      "target": "self"
+     }
+    ]
    },
+   "duration": 3,
    "source": {
     "orsino": "ability:black_ritual",
     "fidelity": "adapted",
@@ -2353,10 +2386,16 @@
    "description": "Ticking",
    "lifetime": "encounter",
    "modifiers": {},
-   "duration": 3,
-   "unsupported": {
-    "onExpire": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "onExpire": [
+     {
+      "kind": "cast",
+      "ability": "detonation",
+      "target": "enemy"
+     }
+    ]
    },
+   "duration": 3,
    "source": {
     "orsino": "ability:countdown",
     "fidelity": "adapted",
@@ -2415,10 +2454,22 @@
    "description": "Braced",
    "lifetime": "encounter",
    "modifiers": {},
-   "duration": 2,
-   "unsupported": {
-    "onEnemyCharge": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "reactions": {
+     "onEnemyCharge": [
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "3d8+1"
+       },
+       "damageType": "piercing",
+       "target": "enemy"
+      }
+     ]
+    }
    },
+   "duration": 2,
    "source": {
     "orsino": "ability:set_spear",
     "fidelity": "adapted",
@@ -2476,10 +2527,22 @@
    "description": "Magebane",
    "lifetime": "encounter",
    "modifiers": {},
-   "duration": 3,
-   "unsupported": {
-    "onEnemyCasting": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "reactions": {
+     "onEnemyCasting": [
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "2d6"
+       },
+       "damageType": "true",
+       "target": "enemy"
+      }
+     ]
+    }
    },
+   "duration": 3,
    "source": {
     "orsino": "arcaneSpell:magebane",
     "fidelity": "adapted",
@@ -2565,10 +2628,28 @@
    "description": "Blade Barrier",
    "lifetime": "encounter",
    "modifiers": {},
-   "duration": 5,
-   "unsupported": {
-    "onEnemyMelee": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "reactions": {
+     "onEnemyMelee": [
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "3d6"
+       },
+       "damageType": "slashing",
+       "target": "enemy"
+      },
+      {
+       "kind": "remove",
+       "status": "",
+       "pattern": "Blade Barrier",
+       "target": "enemy"
+      }
+     ]
+    }
    },
+   "duration": 5,
    "source": {
     "orsino": "divineSpell:blade_barrier",
     "fidelity": "adapted",
@@ -2586,10 +2667,27 @@
      "wisdom": 1
     }
    },
-   "duration": 10,
-   "unsupported": {
-    "onEnemyAttack": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "reactions": {
+     "onEnemyAttack": [
+      {
+       "kind": "apply",
+       "status": "charmed",
+       "duration": 4,
+       "target": "enemy",
+       "save": {
+        "kind": "will",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "16 + #level + #bonusSpellDC"
+        }
+       },
+       "targetTrait": "humanoid"
+      }
+     ]
+    }
    },
+   "duration": 10,
    "source": {
     "orsino": "divineSpell:charm_aura",
     "fidelity": "adapted",
@@ -2601,9 +2699,43 @@
    "description": "Consecrated",
    "lifetime": "encounter",
    "modifiers": {},
-   "unsupported": {
-    "onEnemyOffensiveCasting": "Kyr does not execute this Orsino effect yet.",
-    "onEnemyAttack": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "reactions": {
+     "onEnemyOffensiveCasting": [
+      {
+       "kind": "remove",
+       "status": "",
+       "pattern": "Consecrated",
+       "target": "self"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "2d6"
+       },
+       "damageType": "radiant",
+       "target": "enemy"
+      }
+     ],
+     "onEnemyAttack": [
+      {
+       "kind": "remove",
+       "status": "",
+       "pattern": "Consecrated",
+       "target": "self"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "2d6"
+       },
+       "damageType": "radiant",
+       "target": "enemy"
+      }
+     ]
+    }
    },
    "source": {
     "orsino": "divineSpell:consecrated_ground",
@@ -2618,7 +2750,7 @@
    "modifiers": {},
    "duration": 10,
    "unsupported": {
-    "onEnemyEnter": "Kyr does not execute this Orsino effect yet."
+    "onEnemyEnter": "Kyr cannot tell when an enemy does \"Enter\"."
    },
    "source": {
     "orsino": "divineSpell:electrostatic_field",
@@ -2675,10 +2807,20 @@
    "description": "Marked for Judgment",
    "lifetime": "encounter",
    "modifiers": {},
-   "duration": 5,
-   "unsupported": {
-    "onHeal": "Kyr does not execute this Orsino effect yet."
+   "hooks": {
+    "onHeal": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d6"
+      },
+      "damageType": "radiant",
+      "target": "self"
+     }
+    ]
    },
+   "duration": 5,
    "source": {
     "orsino": "divineSpell:judgment",
     "fidelity": "adapted",

@@ -198,7 +198,7 @@
    "description": "Unleash a barrage of bolts in response to hostile attacks.",
    "modifiers": {},
    "unsupported": {
-    "onEnemyAttack": "Kyr does not execute this Orsino effect yet."
+    "statuses": "Trait statuses with hooks or compulsion are not executed."
    },
    "source": {
     "orsino": "trait:automatic_fire",
@@ -416,7 +416,7 @@
    },
    "unsupported": {
     "reflectSpellChance": "Kyr does not execute this Orsino effect yet.",
-    "onEnemyOffensiveCasting": "Kyr does not execute this Orsino effect yet."
+    "statuses": "Trait statuses with hooks or compulsion are not executed."
    },
    "source": {
     "orsino": "trait:counter_arcane",
@@ -1075,7 +1075,7 @@
     ]
    },
    "unsupported": {
-    "onAttacked": "Effect kill is not supported."
+    "statuses": "Trait statuses with hooks or compulsion are not executed."
    },
    "source": {
     "orsino": "trait:illusory",
@@ -1648,7 +1648,7 @@
     "displayClass": "Presentation only."
    },
    "unsupported": {
-    "onCombatStart": "Kyr does not execute this Orsino effect yet."
+    "statuses": "Trait statuses with hooks or compulsion are not executed."
    },
    "source": {
     "orsino": "trait:skald",

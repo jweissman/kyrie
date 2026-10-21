@@ -1,3 +1,5 @@
+import { Reactions } from './reactions';
+import { CompoundEffects } from './compound-effects';
 import { Spellcasting } from './rules/spellcasting';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
@@ -5,7 +7,7 @@ import type { Expressions } from './expressions';
 import type { ArenaAbility, Effect, Save } from './lang/parse';
 import type { Fighter } from './model';
 import { Fighting } from './rules/fighting';
-import type { Hooks } from './canon/schema';
+import type { HookKey } from './canon/schema';
 import { Canon } from './canon/canon';
 import { Perks } from './rules/perks';
 import { PerkTriggers } from './rules/perk-triggers';
@@ -37,7 +39,7 @@ export class AbilityUse {
     if (!actor && (!context.source || !context.recipients)) { throw new Error('A non-creature source needs bound recipients'); }
     if (!actor && (ability.cost || ability.effects.some(e => ['defend', 'flee', 'drain', 'summon', 'travel', 'attack']
       .includes(e.kind) || e.target === 'self'))) { throw new Error('This ability requires a creature actor'); }
-    if (actor ? !Spellcasting.affordable(actor, ability) : (ability.cost ?? 0) > 0) {
+    if (!context.free && (actor ? !Spellcasting.affordable(actor, ability) : (ability.cost ?? 0) > 0)) {
       throw new Error(Spellcasting.needsSlot(ability) ? `No ready slot holds ${ability.id}` : 'Insufficient mana');
     }
   }
@@ -76,7 +78,7 @@ export class AbilityUse {
     // An ability with no effects (Orsino's wait), or whose conditions all fail, resolves without touching anyone.
     if (effects.length && effects.every(e => !AbilityUse.targets(e, targetId, expressions, context).length
       && !['defend', 'flee', 'travel'].includes(e.kind))) { throw new Error('No eligible ability target'); }
-    if (actor) {
+    if (actor && !context.free) {
       Spellcasting.spend(actor, ability);
       actor.cooldowns[ability.id] = (ability.cooldown ?? 0) + 1;
     }
@@ -110,6 +112,7 @@ export class AbilityUse {
       if (!success) { break; }
     }
     if (applied) { PerkTriggers.after(ability, actor, alive, context); }
+    Reactions.cast(ability, actor, context);
     context.drawn = outer;
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
@@ -133,7 +136,13 @@ export class AbilityUse {
   }): 'full' | 'partial' | false {
     const { expressions, context } = options, actor = context.actor;
     if (target.hp === 0 && effect.kind !== 'revive') { return false; }
+    if (actor && !context.hooking && target.team !== actor.team) {
+      Reactions.provoke(actor, Reactions.keys(options.ability, effect), context);
+      if (actor.hp === 0) { return false; }
+    }
     if (effect.kind === 'attack') { return AbilityUse.attack(actor!, target, context, effect.spillover === true) && 'full'; }
+    if (effect.kind === 'random' || effect.kind === 'cycle') { return CompoundEffects.one(effect, target, options); }
+    if (effect.kind === 'cast') { return CompoundEffects.cast(effect, target, options); }
     if (effect.kind === 'apply' && effect.save && options.resisted) { return false; }
     let took: 'full' | 'partial' = 'full';
     const values = actor ? Effects.context(actor) : context.values ?? {};
@@ -159,6 +168,8 @@ export class AbilityUse {
       source: { id: `${actor.id}:${options.ability ?? 'hook'}`, kind: 'ability' as const } } : context;
     const start = context.events.length;
     Effects.apply(effect, target, amount, effectContext);
+    // Orsino's onHeal: the healer's own statuses answer its healing (a healer marked for judgment burns).
+    if (effect.kind === 'heal' && actor) { AbilityUse.hooks(actor, 'onHeal', target, context); }
     if (took === 'partial' && effect.kind === 'damage') {
       const hit = context.events.slice(start).find(e => e.type === 'damage');
       if (hit?.type === 'damage' && hit.modifiers) { hit.modifiers.halfSave = true; hit.rolled = rolled; }
@@ -204,9 +215,17 @@ export class AbilityUse {
       remaining -= hp; others = others.filter(f => f !== next);
     }
   }
+  // A lapsing condition's effects (Orsino's onExpire): its holder acts them out, on itself or as they aim.
+  static lapse(holder: Fighter, effects: Effect[], context: EffectContext) {
+    const inner: EffectContext = { ...context, actor: holder, hooking: true, drawn: undefined };
+    for (const effect of effects) {
+      if (holder.hp === 0) { break; }
+      if (!AbilityUse.effectOn(effect, holder, { expressions: context.expressions!, context: inner })) { break; }
+    }
+  }
   // A status or item hook: each effect touches the holder (target self) or the hook's subject (the creature hit, the
   // attacker who missed, or the holder itself for onAttack). Hooks do not trigger further hooks.
-  static hooks(holder: Fighter, key: keyof Hooks, subject: Fighter, context: EffectContext) {
+  static hooks(holder: Fighter, key: HookKey, subject: Fighter, context: EffectContext) {
     const effects = Effects.hooks(holder, key);
     if (!effects.length || context.hooking) { return; }
     const inner: EffectContext = { ...context, actor: holder, hooking: true };

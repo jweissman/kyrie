@@ -4,7 +4,7 @@ import { Content } from './content';
 import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
 import { Perks } from './rules/perks';
-import type { Condition, Hooks } from './canon/schema';
+import type { Condition, HookKey } from './canon/schema';
 import type { Effect } from './lang/parse';
 import type { Expressions } from './expressions';
 import type { CombatEvent, Fighter } from './model';
@@ -20,10 +20,14 @@ export interface EffectContext {
   // The seeded stream dice bonuses (bonusDamage "1d4") and temporary hit points are rolled from.
   expressions?: Expressions;
   // Runs a creature's status or item hooks (set by AbilityUse); hooking marks effects already inside a hook.
-  hook?: (holder: Fighter, key: keyof Hooks, subject: Fighter, context: EffectContext) => void;
+  hook?: (holder: Fighter, key: HookKey, subject: Fighter, context: EffectContext) => void;
   hooking?: boolean;
   // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
   drawn?: Fighter[];
+  // An ability another one casts (Orsino's cast effect) costs nothing.
+  free?: boolean;
+  // Runs a lapsing condition's effects (set by the battle, which knows how to resolve them).
+  lapse?: (holder: Fighter, effects: Effect[], context: EffectContext) => void;
 }
 const ATTRIBUTES: Attribute[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 export class Effects {
@@ -48,7 +52,7 @@ export class Effects {
     return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits, at).modifiers,
       fighter.equipment?.modifiers ?? {}, ...kind ? [{ resistances: kind }] : []]);
   }
-  static hooks(fighter: Fighter, key: keyof Hooks): Effect[] {
+  static hooks(fighter: Fighter, key: HookKey): Effect[] {
     return [...[...new Set(fighter.statuses.map(s => s.id))].flatMap(id => Effects.status(id).hooks?.[key] ?? []),
       ...fighter.equipment?.hooks?.[key] ?? []];
   }
@@ -86,7 +90,8 @@ export class Effects {
   }
   static validate(effect: Effect, abilities: string[]) {
     if (!['attack', 'damage', 'heal', 'drain', 'revive', 'defend', 'flee', 'apply', 'remove', 'kill', 'gain',
-      'learn', 'summon', 'travel'].includes(effect.kind)) { throw new Error('Unknown typed effect'); }
+      'learn', 'summon', 'travel', 'random', 'cycle', 'cast'].includes(effect.kind)) { throw new Error('Unknown typed effect'); }
+    if (effect.kind === 'random' || effect.kind === 'cycle') { effect.effects.forEach(e => Effects.validate(e, abilities)); }
     if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy', 'random enemies']
       .includes(effect.target)) { throw new Error('Unknown effect target'); }
     for (const amount of [...('amount' in effect ? [effect.amount] : []), ...(effect.save ? [effect.save.difficulty] : [])]) {
@@ -234,8 +239,14 @@ export class Effects {
     target.statuses = target.statuses.filter(s => {
       if (!ticking(s) || s.remaining > 0) { return true; }
       context.events.push({ type: 'expire', turn: context.turn, actor: s.source ?? s.id, target: target.id, detail: s.id });
+      Effects.lapse(target, s.id, context);
       return false;
     });
+  }
+  // Orsino's onExpire: what a condition does as it lapses (a countdown's blast), to its holder or whoever is named.
+  static lapse(holder: Fighter, id: string, context: EffectContext) {
+    const effects = Effects.status(id).hooks?.onExpire ?? [];
+    if (effects.length && holder.hp > 0) { context.lapse?.(holder, effects, context); }
   }
   // Orsino's onTurnEnd hooks of one condition: periodic damage or healing, rolled from the seeded stream.
   static periodic(target: Fighter, id: string, source: string | undefined, context: EffectContext) {
@@ -272,8 +283,10 @@ export class Effects {
         }
         break;
       case 'revive':
-        if (target.hp === 0 && rolled > 0) {
-          target.hp = Math.min(rolled, target.maxHp);
+        if (target.hp === 0 && (rolled > 0 || effect.percent)) {
+          target.hp = effect.percent ? Math.max(1, Math.floor((effect.percent / 100) * target.maxHp))
+            : Math.min(rolled, target.maxHp);
+          target.traits = [...new Set([...target.traits ?? [], ...effect.traits ?? []])];
           Effects.detail(context, target, { type: 'revive', detail: 'returned to life', amount: target.hp });
         }
         break;

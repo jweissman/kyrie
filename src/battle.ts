@@ -17,6 +17,8 @@ import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, 
 // noActions loses the turn, and after acting its conditions' turn-end effects happen.
 export class Battle {
   private fighters: Fighter[];
+  // Foes that fled the fight: gone from it, but still themselves when it is over.
+  private departed: Fighter[] = [];
   private abilities: ArenaAbility[];
   private expressions: Expressions;
   private content: Content;
@@ -47,6 +49,8 @@ export class Battle {
     this.expressions = new Expressions(`${seed}:combat`);
     this.content = new Content(`${seed}:summons`);
     this.finishIfEliminated();
+    // Combat.setUp: whatever the fighters carry into the fight that acts as it begins (Orsino's onCombatStart).
+    for (const f of [...this.fighters]) { AbilityUse.hooks(f, 'onCombatStart', f, this.context(f)); }
     if (!this.outcome) { this.round(); this.startTurn(); }
     this.commit();
   }
@@ -61,13 +65,13 @@ export class Battle {
     } catch (error) { lease.release(); throw error; }
   }
   get participants(): EncounterParticipant[] {
-    return this.fighters.map(f => CombatProjection.participant(f,
+    return [...this.fighters, ...this.departed].map(f => CombatProjection.participant(f,
       f.statuses.filter(s => Effects.status(s.id).lifetime === 'encounter')));
   }
   private commit() {
     if (!this.lease) { return; }
     const creatures = this.lease.creatures.map(original => {
-      const fighter = this.fighters.find(f => f.id === original.id)!;
+      const fighter = [...this.fighters, ...this.departed].find(f => f.id === original.id)!;
       const creature = CombatProjection.creature(fighter, original);
       creature.state.conditions = creature.state.conditions.filter(c => Effects.status(c.id).lifetime === 'persistent');
       return creature;
@@ -101,7 +105,8 @@ export class Battle {
     return { combatants: structuredClone(this.fighters), turn: this.turn,
       actor: this.outcome ? '' : this.order[this.cursor]!, outcome: this.outcome,
       ...(this.intents.size ? { intents: Object.fromEntries([...this.intents].map(([id, c]) => [id, { ...c }])) } : {}),
-      order: this.order.slice(this.cursor) };
+      order: this.order.slice(this.cursor),
+      ...this.departed.length ? { departed: this.departed.map(f => ({ id: f.id, name: f.name })) } : {} };
   }
   get events(): CombatEvent[] { return structuredClone(this.history); }
   private actor(): Fighter { return this.fighters.find(f => f.id === this.order[this.cursor])!; }
@@ -218,7 +223,8 @@ export class Battle {
   private context(actor?: Fighter): EffectContext {
     return { ...actor ? { actor } : {}, fighters: this.fighters, turn: this.turn, events: this.history,
       content: this.content, abilities: this.abilities.map(a => a.id), retreat: false, location: null,
-      expressions: this.expressions, hook: AbilityUse.hooks.bind(AbilityUse) };
+      expressions: this.expressions, hook: AbilityUse.hooks.bind(AbilityUse),
+      lapse: AbilityUse.lapse.bind(AbilityUse) };
   }
   // Combat.turn's onTurnEnd hooks: the turn-end effects of the conditions the actor holds.
   private endTurn(actor: Fighter) {
@@ -227,6 +233,7 @@ export class Battle {
   }
   // Combat.round: initiative for every living creature, then every untimed condition ticks down and expires at zero.
   private round() {
+    this.rout();
     const living = this.fighters.filter(f => f.hp > 0);
     const rolls = living.map(f => {
       const m = Effects.modifiers(f);
@@ -242,6 +249,16 @@ export class Battle {
       Effects.expire(f, s => !s.clock, this.context());
     }
     this.declare();
+  }
+  // Combat.round: a foe that has turned to flight leaves before anyone rolls, and what it summoned goes with it.
+  private rout() {
+    for (const f of this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee)) {
+      for (const g of [f, ...this.fighters.filter(s => s.summoner === f.id)]) {
+        this.fighters.splice(this.fighters.indexOf(g), 1);
+        if (!g.summoner) { this.departed.push(g); }
+      }
+      this.history.push({ type: 'flee', turn: this.turn, actor: f.id, success: true });
+    }
   }
   private advance() {
     do {

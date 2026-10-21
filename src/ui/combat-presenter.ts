@@ -27,8 +27,9 @@ export class CombatPresenter {
       + `against ${event.difficulty}${event.limit ? '; three saves already made' : ''}).`;
   }
   static format(event: CombatEvent, state: BattleState): string {
-    const actor = 'actor' in event ? state.combatants.find(f => f.id === event.actor)?.name ?? event.actor : '';
-    const target = 'target' in event ? state.combatants.find(f => f.id === event.target)?.name ?? event.target : '';
+    const known = [...state.combatants, ...state.departed ?? []];
+    const actor = 'actor' in event ? known.find(f => f.id === event.actor)?.name ?? event.actor : '';
+    const target = 'target' in event ? known.find(f => f.id === event.target)?.name ?? event.target : '';
     switch (event.type) {
       case 'action': {
         const name = state.combatants.find(f => f.id === event.command.actor)?.name ?? event.command.actor;
@@ -65,6 +66,7 @@ export class CombatPresenter {
       case 'learn': return `${target} learns ${event.detail}.`;
       case 'summon': return `${actor} calls ${event.detail}.`;
       case 'dismiss': return `${event.detail} goes back whence it came.`;
+      case 'react': return `${actor} answers ${target}.`;
       case 'travel': return `${actor} travels to ${event.detail}.`;
       case 'end': return event.outcome === 'fighters' ? 'Your company wins the encounter.' :
         event.outcome === 'goblins' ? 'The opposition wins the encounter.' :

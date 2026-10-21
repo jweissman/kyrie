@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 1063 represented or better; 920 executable or better; 16 play-validated; 2332 feasible.
+2651 entries in 79 families. 1063 represented or better; 948 executable or better; 16 play-validated; 2363 feasible.
 
 ## By family
 
@@ -19,8 +19,8 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | character | background | 215 | 0 | 210 | 5 | 215 |
 | character | class | 7 | 7 | 0 | 0 | 0 |
 | character | nobility | 3 | 0 | 0 | 0 | 0 |
-| character | trait | 100 | 22 | 78 | 0 | 82 |
-| condition | status | 141 | 19 | 121 | 1 | 122 |
+| character | trait | 100 | 22 | 78 | 0 | 83 |
+| condition | status | 141 | 17 | 123 | 1 | 124 |
 | creature | animal | 44 | 5 | 39 | 0 | 44 |
 | creature | aspect | 31 | 0 | 0 | 0 | 31 |
 | creature | aspectRarity | 5 | 0 | 0 | 0 | 0 |
@@ -39,7 +39,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | creature | npcRank | 12 | 0 | 0 | 0 | 0 |
 | creature | npcType | 89 | 0 | 0 | 0 | 0 |
 | equipment | armor | 15 | 0 | 15 | 0 | 15 |
-| equipment | consumable | 28 | 0 | 0 | 2 | 17 |
+| equipment | consumable | 28 | 0 | 0 | 2 | 22 |
 | equipment | equipment | 48 | 0 | 0 | 1 | 36 |
 | equipment | gear | 68 | 1 | 2 | 3 | 48 |
 | equipment | gem | 5 | 0 | 0 | 0 | 5 |
@@ -62,9 +62,9 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | language | personalityBark | 7 | 0 | 0 | 0 | 7 |
 | language | personalName | 4 | 0 | 0 | 0 | 4 |
 | language | surname | 7 | 0 | 0 | 0 | 7 |
-| magic | ability | 57 | 11 | 45 | 0 | 51 |
-| magic | arcaneSpell | 131 | 33 | 97 | 0 | 116 |
-| magic | divineSpell | 154 | 26 | 128 | 0 | 137 |
+| magic | ability | 57 | 4 | 52 | 0 | 57 |
+| magic | arcaneSpell | 131 | 25 | 105 | 0 | 123 |
+| magic | divineSpell | 154 | 15 | 139 | 0 | 147 |
 | rule | rule.damageKind | 15 | 0 | 13 | 1 | 15 |
 | rule | rule.effectType | 23 | 0 | 0 | 0 | 23 |
 | rule | rule.formula | 8 | 0 | 0 | 0 | 8 |
@@ -105,7 +105,6 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `field:npcTypeModifier.attributes` | 89 | 0 | npcType |
 | `field:npcTypeModifier.role` | 88 | 0 | npcType |
 | `field:companionType` | 27 | 27 | companion |
-| `effect:cast` | 20 | 8 | ability, arcaneSpell, consumable, divineSpell, equipment, trait |
 | `field:npcTypeModifier.traits` | 20 | 0 | npcType |
 | `field:npcArmor` | 17 | 0 | npcRace |
 | `field:npcGold` | 17 | 0 | npcRace |
@@ -125,42 +124,43 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `field:classModifier.itemProficiencies` | 7 | 0 | class |
 | `field:classModifier.startingGear` | 7 | 0 | class |
 | `field:npcType` | 7 | 0 | npcRace |
-| `effect:randomEffect` | 6 | 0 | arcaneSpell, consumable, divineSpell |
-| `field:consumables.charges` | 6 | 0 | consumable |
+| `field:consumables.charges` | 6 | 6 | consumable |
 | `field:difficultyTierRanks` | 6 | 6 | difficultyTier |
-| `flag:randomEffects` | 6 | 0 | arcaneSpell, consumable, divineSpell |
 | `modifier:examineBonus` | 6 | 2 | trait |
 | `field:combatEntityAbilities` | 5 | 0 | combatEntity |
 | `field:combatEntityTraits` | 5 | 0 | combatEntity |
 | `field:creatureAspectTypes` | 5 | 5 | aspectRarity |
 | `field:masterGear.effect` | 5 | 5 | gear |
 | `field:npcRank.traits` | 5 | 0 | npcRank |
-| `flag:cascade` | 5 | 4 | arcaneSpell, divineSpell |
+| `flag:cascade` | 5 | 5 | arcaneSpell, divineSpell |
 | `modifier:bonusSpellSlots` | 5 | 5 | status, trait |
-| `modifier:onCombatStart` | 5 | 3 | equipment, trait |
-| `modifier:reflectSpellChance` | 5 | 3 | equipment, status, trait |
+| `modifier:onCombatStart` | 5 | 5 | equipment, trait |
+| `modifier:reflectSpellChance` | 5 | 4 | equipment, status, trait |
 | `field:creatureTemplateModifiers.traits` | 4 | 1 | creatureTemplate |
 | `field:masterGear.duration` | 4 | 4 | gear |
-| `flag:hpPercent` | 4 | 2 | arcaneSpell, divineSpell |
-| `effect:flee` | 3 | 0 | ability, divineSpell |
 | `field:creatureTemplateModifiers.attributes` | 3 | 0 | creatureTemplate |
 | `field:nobilityOverlay._title` | 3 | 3 | nobility |
-| `flag:succeedDC` | 3 | 0 | ability, divineSpell |
 | `modifier:gatherInformationBonus` | 3 | 0 | trait |
-| `modifier:onEnemyAttack` | 3 | 2 | divineSpell, trait |
-| `modifier:onEnemyMelee` | 3 | 3 | divineSpell, status |
 | `modifier:reflectDamagePercent` | 3 | 3 | status |
 | `modifier:seeInvisible` | 3 | 3 | arcaneSpell, equipment, status |
 | `modifier:untargetable` | 3 | 3 | status |
-| `target:caster` | 3 | 0 | arcaneSpell, divineSpell, trait |
 | `effect:acquireItem` | 2 | 2 | divineSpell |
 | `field:creatureTemplateModifiers.abilities` | 2 | 0 | creatureTemplate |
 | `field:masterEquipment.ac` | 2 | 0 | equipment |
 | `field:masterEquipment.weight` | 2 | 0 | equipment |
-| `flag:applyTraits` | 2 | 0 | arcaneSpell |
 | `modifier:bonusPoisonDamage` | 2 | 2 | divineSpell |
 | `modifier:effectiveStats` | 2 | 0 | arcaneSpell |
 | `modifier:invisible` | 2 | 2 | status, trait |
+| `modifier:mayUseItems` | 2 | 1 | arcaneSpell, status |
+| `modifier:pickLockBonus` | 2 | 1 | trait |
+| `modifier:summonAnimalBonus` | 2 | 2 | trait |
+| `modifier:xpMultiplier` | 2 | 1 | trait |
+| `effect:planeshift` | 1 | 1 | arcaneSpell |
+| `effect:recalculateHp` | 1 | 0 | arcaneSpell |
+| `field:creatureTemplateOverlays` | 1 | 1 | creatureOverlay |
+| `field:masterEquipment.aspect` | 1 | 1 | equipment |
+| `modifier:attackDie` | 1 | 0 | arcaneSpell |
+| `modifier:bonusSpellDamage` | 1 | 1 | equipment |
 
 ## Source inconsistencies
 
@@ -331,15 +331,15 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ability:maul` | `ability:maul` | represented | adapted | Orsino's attack, 1d6 + Strength bludgeoning and bleed are kept; the slow it also inflicts is not, as Kyr cannot execute slow. |
 | `ability:arrow_volley` | `ability:arrow_volley` | executable | faithful | Generated by the Orsino translator. |
 | `ability:backstab` | `ability:backstab` | executable | faithful | Generated by the Orsino translator. |
-| `ability:black_ritual` | `ability:black_ritual` | represented | faithful | Generated; not executable: status:summoning. |
+| `ability:black_ritual` | `ability:black_ritual` | executable | faithful | Generated by the Orsino translator. |
 | `ability:bleat` | `ability:bleat` | executable | faithful | Generated by the Orsino translator. |
 | `ability:chaos_hammer` | `ability:chaos_hammer` | represented | faithful | Generated; not executable: effect:damage. |
 | `ability:charge` | `ability:charge` | executable | faithful | Generated by the Orsino translator. |
 | `ability:cleave` | `ability:cleave` | executable | faithful | Generated by the Orsino translator. |
 | `ability:confound` | `ability:confound` | executable | faithful | Generated by the Orsino translator. |
-| `ability:countdown` | `ability:countdown` | represented | faithful | Generated; not executable: status:ticking. |
+| `ability:countdown` | `ability:countdown` | executable | faithful | Generated by the Orsino translator. |
 | `ability:defend` | `ability:defend` | executable | faithful | Generated by the Orsino translator. |
-| `ability:detonation` | `ability:detonation` | represented | faithful | Generated; not executable: effect:damage, effect:kill, effects. |
+| `ability:detonation` | `ability:detonation` | represented | faithful | Generated; not executable: effect:damage. |
 | `ability:dig_in` | `ability:dig_in` | executable | faithful | Generated by the Orsino translator. |
 | `ability:dirty_trick` | `ability:dirty_trick` | executable | faithful | Generated by the Orsino translator. |
 | `ability:disable` | `ability:disable` | represented | faithful | Generated; not executable: status:disabled. |
@@ -348,16 +348,16 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ability:enrage` | `ability:enrage` | executable | faithful | Generated by the Orsino translator. |
 | `ability:ensnare` | `ability:ensnare` | executable | faithful | Generated by the Orsino translator. |
 | `ability:fear` | `ability:fear` | executable | faithful | Generated by the Orsino translator. |
-| `ability:flee` | `ability:flee` | represented | faithful | Generated; not executable: effect:flee, effects. |
+| `ability:flee` | `ability:flee` | executable | faithful | Generated by the Orsino translator. |
 | `ability:flurry_of_blows` | `ability:flurry_of_blows` | executable | faithful | Generated by the Orsino translator. |
 | `ability:hide` | `ability:hide` | executable | faithful | Generated by the Orsino translator. |
 | `ability:hunters_mark` | `ability:hunters_mark` | executable | faithful | Generated by the Orsino translator. |
 | `ability:hymn_of_valor` | `ability:hymn_of_valor` | executable | faithful | Generated by the Orsino translator. |
-| `ability:infect` | `ability:infect` | represented | faithful | Generated; not executable: effect:cast, effects. |
+| `ability:infect` | `ability:infect` | executable | faithful | Generated by the Orsino translator. |
 | `ability:inspire` | `ability:inspire` | executable | faithful | Generated by the Orsino translator. |
 | `ability:major_inspire` | `ability:major_inspire` | executable | faithful | Generated by the Orsino translator. |
 | `ability:melee` | `ability:melee` | executable | faithful | Generated by the Orsino translator. |
-| `ability:overwatch` | `ability:overwatch` | represented | faithful | Generated; not executable: status:overwatch. |
+| `ability:overwatch` | `ability:overwatch` | executable | faithful | Generated by the Orsino translator. |
 | `ability:poison_bite` | `ability:poison_bite` | executable | faithful | Generated by the Orsino translator. |
 | `ability:poison_weapon` | `ability:poison_weapon` | executable | faithful | Generated by the Orsino translator. |
 | `ability:prepare_charge` | `ability:prepare_charge` | executable | faithful | Generated by the Orsino translator. |
@@ -368,7 +368,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ability:riposte` | `ability:riposte` | executable | faithful | Generated by the Orsino translator. |
 | `ability:roundhouse` | `ability:roundhouse` | executable | faithful | Generated by the Orsino translator. |
 | `ability:second_wind` | `ability:second_wind` | executable | faithful | Generated by the Orsino translator. |
-| `ability:set_spear` | `ability:set_spear` | represented | faithful | Generated; not executable: status:braced. |
+| `ability:set_spear` | `ability:set_spear` | executable | faithful | Generated by the Orsino translator. |
 | `ability:shield_bash` | `ability:shield_bash` | executable | faithful | Generated by the Orsino translator. |
 | `ability:smoke_screen` | `ability:smoke_screen` | executable | faithful | Generated by the Orsino translator. |
 | `ability:snipe` | `ability:snipe` | executable | faithful | Generated by the Orsino translator. |
@@ -378,15 +378,15 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ability:sweep` | `ability:sweep` | executable | faithful | Generated by the Orsino translator. |
 | `ability:taunt` | `ability:taunt` | executable | faithful | Generated by the Orsino translator. |
 | `ability:trickfire` | `ability:trickfire` | executable | faithful | Generated by the Orsino translator. |
-| `ability:vexate` | `ability:vexate` | represented | faithful | Generated; not executable: effect:cast, effects. |
+| `ability:vexate` | `ability:vexate` | executable | faithful | Generated by the Orsino translator. |
 | `ability:vicious_mockery` | `ability:vicious_mockery` | executable | faithful | Generated by the Orsino translator. |
 | `ability:vigor_up` | `ability:vigor_up` | executable | faithful | Generated by the Orsino translator. |
 | `ability:wait` | `ability:wait` | executable | faithful | Generated by the Orsino translator. |
 | `ability:whirlwind` | `ability:whirlwind` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:acid_arrow` | `ability:acid_arrow` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:acid_spray` | `ability:acid_spray` | executable | faithful | Generated by the Orsino translator. |
-| `arcaneSpell:animate_animal` | `ability:animate_animal` | represented | faithful | Generated; not executable: effect:resurrect, effects. |
-| `arcaneSpell:animate_dead` | `ability:animate_dead` | represented | faithful | Generated; not executable: effect:resurrect, effects. |
+| `arcaneSpell:animate_animal` | `ability:animate_animal` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:animate_dead` | `ability:animate_dead` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:armor` | `ability:armor` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:augury` | `ability:augury` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:blur` | `ability:blur` | executable | faithful | Generated by the Orsino translator. |
@@ -394,8 +394,8 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:cathexis` | `ability:cathexis` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:cause_blindness` | `ability:cause_blindness` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:chain_lightning` | `ability:chain_lightning` | represented | faithful | Generated; not executable: effect:damage, effects. |
-| `arcaneSpell:chaos_bolt` | `ability:chaos_bolt` | represented | faithful | Generated; not executable: effect:randomEffect, effects. |
-| `arcaneSpell:chaos_storm` | `ability:chaos_storm` | represented | faithful | Generated; not executable: effect:randomEffect, effects. |
+| `arcaneSpell:chaos_bolt` | `ability:chaos_bolt` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:chaos_storm` | `ability:chaos_storm` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:charm` | `ability:charm` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:chill_blood` | `ability:chill_blood` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:coldsnap` | `ability:coldsnap` | executable | faithful | Generated by the Orsino translator. |
@@ -418,7 +418,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:electric_arc` | `ability:electric_arc` | represented | faithful | Generated; not executable: effect:damage, effects. |
 | `arcaneSpell:enlarge` | `ability:enlarge` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:false_life` | `ability:false_life` | executable | faithful | Generated by the Orsino translator. |
-| `arcaneSpell:finger_of_death` | `ability:finger_of_death` | represented | faithful | Generated; not executable: effect:kill. |
+| `arcaneSpell:finger_of_death` | `ability:finger_of_death` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:fire_storm` | `ability:fire_storm` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:fireball` | `ability:fireball` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:firebolt` | `ability:firebolt` | executable | faithful | Generated by the Orsino translator. |
@@ -442,7 +442,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:invisibility` | `ability:invisibility` | represented | faithful | Generated; not executable: status:invisible. |
 | `arcaneSpell:invulnerability` | `ability:invulnerability` | represented | faithful | Generated; not executable: status:invulnerable. |
 | `arcaneSpell:lightning_bolt` | `ability:lightning_bolt` | executable | faithful | Generated by the Orsino translator. |
-| `arcaneSpell:magebane` | `ability:magebane` | represented | faithful | Generated; not executable: status:magebane. |
+| `arcaneSpell:magebane` | `ability:magebane` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:magic_missile` | `ability:magic_missile` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:major_false_life` | `ability:major_false_life` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:major_reflection` | `ability:major_reflection` | represented | faithful | Generated; not executable: status:major_reflect. |
@@ -472,7 +472,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:poison_cloud` | `ability:poison_cloud` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:polar_ray` | `ability:polar_ray` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:polymorph` | `ability:polymorph` | represented | faithful | Generated; not executable: effect:recalculateHp, status:polymorphed. |
-| `arcaneSpell:prismatic_spray` | `ability:prismatic_spray` | represented | adapted | Generated; not executable: effect:cycleEffects, effects. |
+| `arcaneSpell:prismatic_spray` | `ability:prismatic_spray` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:psi_shield` | `ability:psi_shield` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:psionic_blast` | `ability:psionic_blast` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:quieten` | `ability:quieten` | executable | faithful | Generated by the Orsino translator. |
@@ -510,7 +510,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:time_stop` | `ability:time_stop` | represented | faithful | Generated; not executable: status:timestopped. |
 | `arcaneSpell:true_sight` | `ability:true_sight` | represented | faithful | Generated; not executable: status:truesight. |
 | `arcaneSpell:ward` | `ability:ward` | executable | faithful | Generated by the Orsino translator. |
-| `arcaneSpell:warp` | `ability:warp` | represented | faithful | Generated; not executable: effect:randomEffect, effects. |
+| `arcaneSpell:warp` | `ability:warp` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:weakness` | `ability:weakness` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:weird` | `ability:weird` | represented | faithful | Generated; not executable: effect:summon, effects. |
 | `divineSpell:abyssal_shield` | `ability:abyssal_shield` | executable | faithful | Generated by the Orsino translator. |
@@ -522,22 +522,22 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:barkskin` | `ability:barkskin` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:battle_cry` | `ability:battle_cry` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:black_hole` | `ability:black_hole` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:blade_barrier` | `ability:blade_barrier` | represented | faithful | Generated; not executable: status:blade_barrier. |
+| `divineSpell:blade_barrier` | `ability:blade_barrier` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:bless` | `ability:bless` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:bolt` | `ability:bolt` | represented | faithful | Generated; not executable: effect:cast, effect:damage, effects. |
+| `divineSpell:bolt` | `ability:bolt` | represented | faithful | Generated; not executable: effect:damage. |
 | `divineSpell:calm_emotions` | `ability:calm_emotions` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:chant` | `ability:chant` | represented | faithful | Generated; not executable: status:chanting. |
-| `divineSpell:chaotic_surge` | `ability:chaotic_surge` | represented | faithful | Generated; not executable: effect:randomEffect. |
-| `divineSpell:charm_aura` | `ability:charm_aura` | represented | faithful | Generated; not executable: status:charming. |
+| `divineSpell:chaotic_surge` | `ability:chaotic_surge` | executable | faithful | Generated by the Orsino translator. |
+| `divineSpell:charm_aura` | `ability:charm_aura` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:charming_glance` | `ability:charming_glance` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:cleanse` | `ability:cleanse` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:cloudburst` | `ability:cloudburst` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:cloudkill` | `ability:cloudkill` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:cold_embrace` | `ability:cold_embrace` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:cold_fire` | `ability:cold_fire` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:command` | `ability:command` | represented | faithful | Generated; not executable: effect:flee, effects. |
+| `divineSpell:command` | `ability:command` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:confuse` | `ability:confuse` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:consecrated_ground` | `ability:consecrated_ground` | represented | faithful | Generated; not executable: status:consecrated. |
+| `divineSpell:consecrated_ground` | `ability:consecrated_ground` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:create_darkness` | `ability:create_darkness` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:create_poison` | `ability:create_poison` | represented | faithful | Generated; not executable: effect:acquireItem, effects. |
 | `divineSpell:cruel_will` | `ability:cruel_will` | executable | faithful | Generated by the Orsino translator. |
@@ -549,8 +549,8 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:curse` | `ability:curse` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:darkbolt` | `ability:darkbolt` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:daylight` | `ability:daylight` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:death` | `ability:death` | represented | faithful | Generated; not executable: effect:kill, effects. |
-| `divineSpell:death_fog` | `ability:death_fog` | represented | faithful | Generated; not executable: effect:kill. |
+| `divineSpell:death` | `ability:death` | executable | faithful | Generated by the Orsino translator. |
+| `divineSpell:death_fog` | `ability:death_fog` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:death_ward` | `ability:death_ward` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:deathtouch` | `ability:deathtouch` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:destroy_undead` | `ability:destroy_undead` | executable | faithful | Generated by the Orsino translator. |
@@ -578,7 +578,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:heart_of_the_wild` | `ability:heart_of_the_wild` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:heartrend` | `ability:heartrend` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:heat_drain` | `ability:heat_drain` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:heteraeos` | `ability:heteraeos` | represented | faithful | Generated; not executable: effect:cast, effects. |
+| `divineSpell:heteraeos` | `ability:heteraeos` | represented | faithful | Generated; not executable: cast:polymorph. |
 | `divineSpell:hold_animal` | `ability:hold_animal` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:hold_person` | `ability:hold_person` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:holy` | `ability:holy` | executable | faithful | Generated by the Orsino translator. |
@@ -590,7 +590,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:ion_shield` | `ability:ion_shield` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:ire` | `ability:ire` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:ironskin` | `ability:ironskin` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:judgment` | `ability:judgment` | represented | faithful | Generated; not executable: status:marked_for_judgment. |
+| `divineSpell:judgment` | `ability:judgment` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:kindle` | `ability:kindle` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:life_drain` | `ability:life_drain` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:lovebomb` | `ability:lovebomb` | executable | faithful | Generated by the Orsino translator. |
@@ -620,11 +620,11 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:pure_beam` | `ability:pure_beam` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:pure_strike` | `ability:pure_strike` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:radiant_beam` | `ability:radiant_beam` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:raise_dead` | `ability:raise_dead` | represented | faithful | Generated; not executable: effect:resurrect, effects. |
+| `divineSpell:raise_dead` | `ability:raise_dead` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:rally` | `ability:rally` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:rejuvenate` | `ability:rejuvenate` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:remove_fear` | `ability:remove_fear` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:resurrect` | `ability:resurrect` | represented | faithful | Generated; not executable: effect:resurrect, effects. |
+| `divineSpell:resurrect` | `ability:resurrect` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:salt_spray` | `ability:salt_spray` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:sanctify` | `ability:sanctify` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:scaleskin` | `ability:scaleskin` | executable | faithful | Generated by the Orsino translator. |
@@ -659,7 +659,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:touch_of_serenity` | `ability:touch_of_serenity` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:toxic_spray` | `ability:toxic_spray` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:toxicity` | `ability:toxicity` | represented | faithful | Generated; not executable: status:toxicity. |
-| `divineSpell:turn_undead` | `ability:turn_undead` | represented | faithful | Generated; not executable: effect:flee, effects. |
+| `divineSpell:turn_undead` | `ability:turn_undead` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:venom_burst` | `ability:venom_burst` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:venomous_bite` | `ability:venomous_bite` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:vital_boost` | `ability:vital_boost` | executable | faithful | Generated by the Orsino translator. |
@@ -723,7 +723,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `status:insane` | `condition:insane` | executable | faithful | Generated by the Orsino translator. |
 | `status:insight` | `condition:insight` | executable | faithful | Generated by the Orsino translator. |
 | `status:inspired` | `condition:inspired` | executable | faithful | Generated by the Orsino translator. |
-| `status:invisible` | `condition:invisible` | represented | faithful | Generated; not executable: invisible, onOffensiveCasting. |
+| `status:invisible` | `condition:invisible` | represented | faithful | Generated; not executable: invisible. |
 | `status:invulnerable` | `condition:invulnerable` | represented | faithful | Generated; not executable: untargetable. |
 | `status:ironskin` | `condition:ironskin` | executable | faithful | Generated by the Orsino translator. |
 | `status:keen` | `condition:keen` | executable | faithful | Generated by the Orsino translator. |
@@ -760,9 +760,9 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `status:mirror_images` | `condition:mirror_images` | executable | faithful | Generated by the Orsino translator. |
 | `status:mocked` | `condition:mocked` | executable | faithful | Generated by the Orsino translator. |
 | `status:naturality` | `condition:naturality` | executable | faithful | Generated by the Orsino translator. |
-| `status:oathbound` | `condition:oathbound` | represented | faithful | Generated; not executable: onEnemyMelee. |
+| `status:oathbound` | `condition:oathbound` | executable | faithful | Generated by the Orsino translator. |
 | `status:oiled` | `condition:oiled` | executable | faithful | Generated by the Orsino translator. |
-| `status:overwatch` | `condition:overwatch` | represented | faithful | Generated; not executable: onEnemyMelee. |
+| `status:overwatch` | `condition:overwatch` | executable | faithful | Generated by the Orsino translator. |
 | `status:paralyzed` | `condition:paralyzed` | executable | faithful | Generated by the Orsino translator. |
 | `status:petrified` | `condition:petrified` | executable | faithful | Generated by the Orsino translator. |
 | `status:poison` | `condition:poison` | executable | faithful | Generated by the Orsino translator. |
@@ -804,25 +804,25 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `status:weakened` | `condition:weakened` | executable | faithful | Generated by the Orsino translator. |
 | `status:wildheart` | `condition:wildheart` | executable | faithful | Generated by the Orsino translator. |
 | `status:wisdom` | `condition:wisdom` | executable | faithful | Generated by the Orsino translator. |
-| `ability:black_ritual` | `condition:summoning` | represented | adapted | Generated; not executable: onExpire. |
-| `ability:countdown` | `condition:ticking` | represented | adapted | Generated; not executable: onExpire. |
+| `ability:black_ritual` | `condition:summoning` | executable | adapted | Generated by the Orsino translator. |
+| `ability:countdown` | `condition:ticking` | executable | adapted | Generated by the Orsino translator. |
 | `ability:poison_weapon` | `condition:poisoning_blade` | executable | adapted | Generated by the Orsino translator. |
 | `ability:prepare_charge` | `condition:preparing_to_charge` | executable | adapted | Generated by the Orsino translator. |
-| `ability:set_spear` | `condition:braced` | represented | adapted | Generated; not executable: onEnemyCharge. |
+| `ability:set_spear` | `condition:braced` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:disruption` | `condition:disrupting` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:glyph_of_warding` | `condition:warding_glyph` | executable | adapted | Generated by the Orsino translator. |
-| `arcaneSpell:magebane` | `condition:magebane` | represented | adapted | Generated; not executable: onEnemyCasting. |
+| `arcaneSpell:magebane` | `condition:magebane` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:mind_reading` | `condition:mind_reading` | represented | adapted | Generated; not executable: readThoughts. |
 | `arcaneSpell:polymorph` | `condition:polymorphed` | represented | adapted | Generated; not executable: displayName, attackDie, effectiveStats, effectiveAbilities, mayUseItems. |
 | `arcaneSpell:second_sight` | `condition:second_sight` | represented | adapted | Generated; not executable: seeInvisible. |
 | `arcaneSpell:shapechange` | `condition:shapechanged` | represented | adapted | Generated; not executable: displayName, effectiveStats, effectiveWeapon. |
-| `divineSpell:blade_barrier` | `condition:blade_barrier` | represented | adapted | Generated; not executable: onEnemyMelee. |
-| `divineSpell:charm_aura` | `condition:charming` | represented | adapted | Generated; not executable: onEnemyAttack. |
-| `divineSpell:consecrated_ground` | `condition:consecrated` | represented | adapted | Generated; not executable: onEnemyOffensiveCasting, onEnemyAttack. |
+| `divineSpell:blade_barrier` | `condition:blade_barrier` | executable | adapted | Generated by the Orsino translator. |
+| `divineSpell:charm_aura` | `condition:charming` | executable | adapted | Generated by the Orsino translator. |
+| `divineSpell:consecrated_ground` | `condition:consecrated` | executable | adapted | Generated by the Orsino translator. |
 | `divineSpell:electrostatic_field` | `condition:electrostatic_field` | represented | adapted | Generated; not executable: onEnemyEnter. |
 | `divineSpell:greater_toxicity` | `condition:greater_toxicity` | represented | adapted | Generated; not executable: bonusPoisonDamage. |
 | `divineSpell:ion_shield` | `condition:ion_shield` | executable | adapted | Generated by the Orsino translator. |
-| `divineSpell:judgment` | `condition:marked_for_judgment` | represented | adapted | Generated; not executable: onHeal. |
+| `divineSpell:judgment` | `condition:marked_for_judgment` | executable | adapted | Generated by the Orsino translator. |
 | `divineSpell:luminous_blade` | `condition:luminous_blade` | executable | adapted | Generated by the Orsino translator. |
 | `divineSpell:toxicity` | `condition:toxicity` | represented | adapted | Generated; not executable: bonusPoisonDamage. |
 | `weapon:acid_breath` | `item:acid_breath` | executable | faithful | Generated by the Orsino translator. |
@@ -926,7 +926,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `trait:adventurer` | `trait:adventurer` | executable | adapted | Generated by the Orsino translator. |
 | `trait:air_affinity` | `trait:air_affinity` | executable | faithful | Generated by the Orsino translator. |
 | `trait:air_vulnerability` | `trait:air_vulnerability` | executable | faithful | Generated by the Orsino translator. |
-| `trait:automatic_fire` | `trait:automatic_fire` | represented | faithful | Generated; not executable: onEnemyAttack. |
+| `trait:automatic_fire` | `trait:automatic_fire` | represented | faithful | Generated; not executable: statuses. |
 | `trait:barbarian` | `trait:barbarian` | executable | adapted | Generated by the Orsino translator. |
 | `trait:battle_cry` | `trait:battle_cry` | executable | faithful | Generated by the Orsino translator. |
 | `trait:brave` | `trait:brave` | executable | faithful | Generated by the Orsino translator. |
@@ -935,7 +935,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `trait:cherubist` | `trait:cherubist` | executable | adapted | Generated by the Orsino translator. |
 | `trait:compassion` | `trait:compassion` | executable | faithful | Generated by the Orsino translator. |
 | `trait:conjurer` | `trait:conjurer` | executable | adapted | Generated by the Orsino translator. |
-| `trait:counter_arcane` | `trait:counter_arcane` | represented | faithful | Generated; not executable: reflectSpellChance, onEnemyOffensiveCasting. |
+| `trait:counter_arcane` | `trait:counter_arcane` | represented | faithful | Generated; not executable: reflectSpellChance, statuses. |
 | `trait:curious` | `trait:curious` | represented | adapted | Generated; not executable: xpMultiplier. |
 | `trait:cursed` | `trait:cursed_trait` | executable | faithful | Generated by the Orsino translator. |
 | `trait:deathspeaker` | `trait:deathspeaker` | executable | adapted | Generated by the Orsino translator. |
@@ -963,7 +963,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `trait:huge` | `trait:huge` | executable | faithful | Generated by the Orsino translator. |
 | `trait:humanoid` | `trait:humanoid` | executable | faithful | Generated by the Orsino translator. |
 | `trait:illusionist` | `trait:illusionist` | executable | adapted | Generated by the Orsino translator. |
-| `trait:illusory` | `trait:illusory` | represented | faithful | Generated; not executable: onAttacked. |
+| `trait:illusory` | `trait:illusory` | represented | faithful | Generated; not executable: statuses. |
 | `trait:imperceptible` | `trait:imperceptible` | represented | faithful | Generated; not executable: invisible. |
 | `trait:inanimate` | `trait:inanimate` | represented | faithful | Generated; not executable: resurrectable, hasPrimaryAttack, mayBeHealed. |
 | `trait:incorporeal` | `trait:incorporeal` | executable | faithful | Generated by the Orsino translator. |
@@ -985,7 +985,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `trait:resilient` | `trait:resilient` | executable | faithful | Generated by the Orsino translator. |
 | `trait:rhythm_rhyme` | `trait:rhythm_rhyme` | executable | faithful | Generated by the Orsino translator. |
 | `trait:shadowmancer` | `trait:shadowmancer` | executable | adapted | Generated by the Orsino translator. |
-| `trait:skald` | `trait:skald` | represented | adapted | Generated; not executable: onCombatStart. |
+| `trait:skald` | `trait:skald` | represented | adapted | Generated; not executable: statuses. |
 | `trait:skeletal` | `trait:skeletal` | executable | faithful | Generated by the Orsino translator. |
 | `trait:stealthy` | `trait:stealthy` | executable | adapted | Generated by the Orsino translator. |
 | `trait:stormcaller` | `trait:stormcaller` | executable | adapted | Generated by the Orsino translator. |

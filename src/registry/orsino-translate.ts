@@ -1,5 +1,5 @@
 import type { Amount, Effect, Target } from '../lang/parse';
-import type { Ability, Bonuses, Condition, Hooks, ItemKind, Omissions, Perk, Trait, Triggers } from '../canon/schema';
+import type { Ability, Bonuses, Condition, HookKey, Hooks, ItemKind, Omissions, Perk, Trait, Triggers } from '../canon/schema';
 import { ModifierSet, type Modifiers } from '../rules/modifiers';
 import type { RegistryEntry } from './orsino-extract';
 import { OrsinoEffects, type Vocabulary } from './orsino-effects';
@@ -25,7 +25,9 @@ const OMITTED: Record<string, string> = {
 };
 const NUMERIC = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncrease', 'initiative', 'allRolls',
   'saveVersusAll', 'bonusSpellDC', 'extraAttacksPerTurn'] as const;
-const FLAGS = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance', 'controlledActions'] as const;
+const HOOKS = ['onAttack', 'onAttackHit', 'onAttacked', 'onMissReceived', 'onCombatStart', 'onExpire', 'onOffensiveCasting',
+  'onHeal'];
+const FLAGS = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance', 'controlledActions', 'flee'] as const;
 const DICE = ['bonusDamage', 'bonusMeleeDamage', 'bonusHealing'] as const;
 const ATTRIBUTES: Record<string, string> = { str: 'strength', dex: 'dexterity', con: 'constitution',
   int: 'intelligence', wis: 'wisdom', cha: 'charisma' };
@@ -81,10 +83,15 @@ export class OrsinoTranslate {
       } else if (key === 'onTurnEnd' && Array.isArray(value)) {
         const periodic = this.effects.periodic(value as Raw[]);
         if (typeof periodic === 'string') { unsupported[key] = periodic; } else { m.onTurnEnd = periodic; }
-      } else if (['onAttack', 'onAttackHit', 'onAttacked', 'onMissReceived'].includes(key) && Array.isArray(value)) {
+      } else if (HOOKS.includes(key) && Array.isArray(value)) {
         const translated = (value as Raw[]).map(e => this.effects.effect(e, 'enemy', `${from}.${key}`));
         const failure = translated.find((t): t is string => typeof t === 'string');
-        if (failure) { unsupported[key] = failure; } else { hooks[key as keyof Hooks] = translated.flat() as Effect[]; }
+        if (failure) { unsupported[key] = failure; } else { hooks[key as HookKey] = translated.flat() as Effect[]; }
+      } else if (/^onEnemy[A-Z]/.test(key) && Array.isArray(value)) {
+        const translated = (value as Raw[]).map(e => this.effects.effect(e, 'enemy', `${from}.${key}`));
+        const failure = this.reaction(key) ?? translated.find((t): t is string => typeof t === 'string');
+        if (failure) { unsupported[key] = failure; }
+        else { (hooks.reactions ??= {})[key] = translated.flat() as Effect[]; }
       } else if (key === 'compelNextMove' && typeof value === 'string') { compel = value; }
       else if (key === 'forceTarget' && value === 'you') { forceTarget = true; }
       else if (OMITTED[key]) { omits[key] = OMITTED[key]; }
@@ -109,6 +116,16 @@ export class OrsinoTranslate {
       source: { orsino: from, fidelity: Object.keys(t.omits).length || inline ? 'adapted' : 'faithful',
         ...inline ? { notes: 'Defined inline by an Orsino ability; Kyr names it after its display name.' } : {} } };
     return out;
+  }
+  // A reaction Kyr can provoke: to an Orsino ability by name, an effect by type, or a casting; not to entering.
+  reaction(key: string): string | undefined {
+    const what = key.replace(/^onEnemy/, '');
+    // Melee and Ranged are every combatant's weapon attacks (Orsino's pcTurn), named as abilities.
+    if (['Casting', 'OffensiveCasting', 'Melee', 'Ranged'].includes(what)) { return undefined; }
+    const types = ['Attack', 'Damage', 'Heal', 'Drain', 'Summon', 'Kill', 'Cast', 'Resurrect', 'RemoveStatus', 'Buff', 'Debuff'];
+    const named = this.family('ability', 'arcaneSpell', 'divineSpell')
+      .some(e => String((e.definition as Raw).name).replace(/\s+/g, '').toLowerCase() === what.toLowerCase());
+    return types.includes(what) || named ? undefined : `Kyr cannot tell when an enemy does "${what}".`;
   }
   conditions(): Record<string, Condition> {
     const out = Object.fromEntries(this.family('status').map(e => [e.key, this.condition(e.definition as Raw, e.id)]));
@@ -349,6 +366,22 @@ export class OrsinoTranslate {
         item.unsupported = { type: `Damage kind ${item.weapon.type} is not an Orsino damage kind.` };
       }
     }
+    OrsinoTranslate.casts(abilities);
     return { abilities, conditions, items, traits, blessings: this.blessings(), backgrounds: this.backgrounds() };
+  }
+  static named(effects: Effect[]): string[] {
+    return effects.flatMap(e => e.kind === 'cast' ? [e.ability]
+      : e.kind === 'random' || e.kind === 'cycle' ? OrsinoTranslate.named(e.effects) : []);
+  }
+  // An ability that casts another plays only if the other does.
+  static casts(abilities: Record<string, Ability>) {
+    for (const a of Object.values(abilities)) {
+      const missing = OrsinoTranslate.named(a.effects ?? []).filter(id => !abilities[id] || abilities[id]!.unsupported);
+      for (const id of missing) {
+        const name = abilities[id]?.name;
+        (a.unsupported ??= {})[`cast:${id}`] = name ? `Casts ${name}, which Kyr cannot execute.`
+          : `Casts ${id}, which Kyr does not have.`;
+      }
+    }
   }
 }

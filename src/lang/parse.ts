@@ -12,7 +12,14 @@ type EffectBody =
   // carries lethal excess damage on to another enemy.
   | { kind: 'attack'; target: Target; spillover?: true }
   | { kind: 'damage'; amount: Amount; damageType: string; target: Target }
-  | { kind: 'heal' | 'revive'; amount: Amount; target: Target }
+  | { kind: 'heal'; amount: Amount; target: Target }
+  // Orsino's resurrect: a fallen ally back with a share of its health (percent) or the amount, and any traits it
+  // comes back with (animate dead's undead).
+  | { kind: 'revive'; amount: Amount; target: Target; percent?: number; traits?: string[] }
+  // Orsino's randomEffect, cycleEffects and cast: one of the effects, drawn from the seed or taken in turn; or
+  // another ability performed at no cost.
+  | { kind: 'random' | 'cycle'; effects: Effect[]; target: Target }
+  | { kind: 'cast'; ability: string; target: Target }
   | { kind: 'drain'; amount: Amount; damageType?: string; target: Target }
   | { kind: 'defend' | 'flee'; target: 'self' }
   | { kind: 'apply'; status: string; duration: number; clock?: 'owner-turn' | 'world-time' | 'until-removed'; target: Target }

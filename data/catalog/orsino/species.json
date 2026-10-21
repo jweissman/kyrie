@@ -293,7 +293,7 @@
    "name": "Chimera",
    "type": "beast",
    "kind": "monster",
-   "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Fireball.",
+   "description": "A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite, Fireball and Lightning Bolt.",
    "statistics": {
     "attributes": {
      "strength": 17,
@@ -320,7 +320,8 @@
     "charge",
     "enrage",
     "poison_bite",
-    "fireball"
+    "fireball",
+    "lightning_bolt"
    ],
    "traits": [
     "wild"
@@ -330,7 +331,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:lightning_bolt": "Lightning Bolt cannot be played yet.",
     "field:monsterGold": "Orsino's 0 gold for the kill is not carried."
    },
    "source": {
@@ -587,7 +587,7 @@
    "name": "Dryad",
    "type": "fey",
    "kind": "monster",
-   "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.",
+   "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.",
    "statistics": {
     "attributes": {
      "strength": 9,
@@ -611,7 +611,8 @@
    "abilities": [
     "charm",
     "sleep",
-    "hide"
+    "hide",
+    "summon_animal"
    ],
    "traits": [],
    "worth": {
@@ -619,7 +620,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:summon_animal": "Call Animal Companion cannot be played yet.",
     "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
     "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
    },
@@ -633,7 +633,7 @@
    "name": "Air elemental",
    "type": "elemental",
    "kind": "monster",
-   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.",
+   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Lightning Bolt.",
    "statistics": {
     "attributes": {
      "strength": 16,
@@ -655,7 +655,8 @@
     }
    },
    "abilities": [
-    "defend"
+    "defend",
+    "lightning_bolt"
    ],
    "traits": [
     "elemental",
@@ -667,7 +668,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:lightning_bolt": "Lightning Bolt cannot be played yet.",
     "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
    },
    "source": {
@@ -727,7 +727,7 @@
    "name": "Crystal elemental",
    "type": "elemental",
    "kind": "monster",
-   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.",
+   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Prismatic Spray.",
    "statistics": {
     "attributes": {
      "strength": 16,
@@ -749,7 +749,8 @@
     }
    },
    "abilities": [
-    "defend"
+    "defend",
+    "prismatic_spray"
    ],
    "traits": [
     "elemental",
@@ -761,7 +762,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:prismatic_spray": "Prismatic Spray cannot be played yet.",
     "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
    },
    "source": {
@@ -962,7 +962,7 @@
    "name": "Jewel elemental",
    "type": "elemental",
    "kind": "monster",
-   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.",
+   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Prismatic Spray.",
    "statistics": {
     "attributes": {
      "strength": 16,
@@ -984,7 +984,8 @@
     }
    },
    "abilities": [
-    "defend"
+    "defend",
+    "prismatic_spray"
    ],
    "traits": [
     "elemental",
@@ -996,7 +997,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:prismatic_spray": "Prismatic Spray cannot be played yet.",
     "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
    },
    "source": {
@@ -1291,7 +1291,7 @@
    "name": "Storm elemental",
    "type": "elemental",
    "kind": "monster",
-   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.",
+   "description": "An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Lightning Bolt.",
    "statistics": {
     "attributes": {
      "strength": 16,
@@ -1313,7 +1313,8 @@
     }
    },
    "abilities": [
-    "defend"
+    "defend",
+    "lightning_bolt"
    ],
    "traits": [
     "elemental",
@@ -1325,7 +1326,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:lightning_bolt": "Lightning Bolt cannot be played yet.",
     "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
    },
    "source": {
@@ -1573,7 +1573,7 @@
    "name": "Lich",
    "type": "undead",
    "kind": "monster",
-   "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.",
+   "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Animate Dead and Death.",
    "statistics": {
     "attributes": {
      "strength": 8,
@@ -1597,7 +1597,9 @@
    "abilities": [
     "curse",
     "fear",
-    "life_drain"
+    "life_drain",
+    "animate_dead",
+    "death"
    ],
    "traits": [
     "undead",
@@ -1610,8 +1612,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:animate_dead": "Animate Dead cannot be played yet.",
-    "ability:death": "Death cannot be played yet.",
     "field:monsterGold": "Orsino's 2d10 gold for the kill is not carried."
    },
    "source": {
@@ -1715,7 +1715,7 @@
    "name": "Mind Destroyer",
    "type": "aberration",
    "kind": "monster",
-   "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Confuse.",
+   "description": "An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Command and Confuse.",
    "statistics": {
     "attributes": {
      "strength": 18,
@@ -1742,6 +1742,7 @@
     "sleep",
     "charm",
     "psionic_blast",
+    "command",
     "confuse"
    ],
    "traits": [
@@ -1752,7 +1753,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:command": "Command cannot be played yet.",
     "field:monsterGold": "Orsino's 4d10 gold for the kill is not carried."
    },
    "source": {
@@ -1914,7 +1914,7 @@
    "name": "Nymph",
    "type": "fey",
    "kind": "monster",
-   "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.",
+   "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.",
    "statistics": {
     "attributes": {
      "strength": 9,
@@ -1938,7 +1938,8 @@
    "abilities": [
     "charm",
     "sleep",
-    "hide"
+    "hide",
+    "summon_animal"
    ],
    "traits": [],
    "worth": {
@@ -1946,7 +1947,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:summon_animal": "Call Animal Companion cannot be played yet.",
     "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
     "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
    },
@@ -2248,7 +2248,7 @@
    "name": "Sprite",
    "type": "fey",
    "kind": "monster",
-   "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.",
+   "description": "A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Magic Missile.",
    "statistics": {
     "attributes": {
      "strength": 9,
@@ -2272,7 +2272,8 @@
    "abilities": [
     "charm",
     "sleep",
-    "hide"
+    "hide",
+    "magic_missile"
    ],
    "traits": [],
    "worth": {
@@ -2280,7 +2281,6 @@
     "perLevel": 50
    },
    "omits": {
-    "ability:magic_missile": "Magic Missile cannot be played yet.",
     "trait:enchanting": "Faerie Charm is not a nature Kyr plays.",
     "field:monsterGold": "Orsino's 1d10 gold for the kill is not carried."
    },

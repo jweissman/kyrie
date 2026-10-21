@@ -246,6 +246,7 @@
           "abilities": [
             "defend",
             "summon_animal",
+            "set_spear",
             "hunters_mark",
             "ensnare"
           ],
@@ -283,6 +284,7 @@
             "cleave",
             "prepare_charge",
             "charge",
+            "set_spear",
             "second_wind",
             "sweep"
           ],

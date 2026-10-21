@@ -1,6 +1,7 @@
 import { CanonRuntime, type RuntimeItem } from './canon/canon-runtime';
 import { Canon } from './canon/canon';
-import type { Hooks } from './canon/schema';
+import type { HookKey, Hooks } from './canon/schema';
+import type { Effect } from './lang/parse';
 import { ModifierSet, type Modifiers } from './rules/modifiers';
 import type { WeaponProfile } from './rules/fighting';
 import type { Creature } from './creature';
@@ -37,7 +38,7 @@ export class ItemCatalog {
     const hooks: Hooks = {};
     for (const i of equipped) {
       for (const [key, effects] of Object.entries(this.get(i.definition).hooks ?? {})) {
-        (hooks[key as keyof Hooks] ??= []).push(...effects);
+        if (key !== 'reactions') { (hooks[key as HookKey] ??= []).push(...effects as Effect[]); }
       }
     }
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,

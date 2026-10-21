@@ -52,7 +52,7 @@ describe('1-3: peoples, species, variants and aspects', () => {
     const wolf = Probe.creature('grey', { raceId: 'wolf' });
     expect([human.classId, wolf.classId]).toEqual(['warrior', undefined]);
     expect(human.base.abilities).toEqual(['defend', 'guard', 'taunt', 'vigor_up', 'cleave', 'prepare_charge', 'charge',
-      'second_wind', 'sweep']);
+      'set_spear', 'second_wind', 'sweep']);
     expect(wolf.base.abilities).toEqual(['rending_bite', 'flee']);
     expect(CombatProjection.fighter(wolf, 'goblins').equipment.weapon).toMatchObject({ id: 'bite', damage: '1d6' });
     expect(() => Probe.creature('pup', { raceId: 'wolf', classId: 'warrior' })).toThrow('species and takes no class');

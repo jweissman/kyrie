@@ -60,12 +60,12 @@
         "phb:techniques"
       ],
       "orsino": "Initiative each round, actions a turn, haste and slow, preparation (Charge), compelled moves, wound-up blows, reactions on being attacked, on an enemy's melee, attack, cast or charge, on combat start, on a status expiring, on healing and on a kill; random multi-target spells.",
-      "faithful": "Initiative, THAC0 against descending armour class, criticals, evasion, saves with the three-successes rule, the death save, haste and slow, confusion, charm and domination, preparation and compelled moves, conditions that tick and lapse, recharge.",
-      "adapted": "Wind-ups are shown to the company a turn ahead; fleeing is the whole company's.",
-      "dataOnly": "Reactions to an enemy's action (onEnemyMelee, onEnemyAttack, onEnemyCharge, onOffensiveCasting), onExpire and onCombatStart, extra turns, reflection and spell turning.",
-      "missing": "Random multi-target spells (magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray); reactions to what an enemy does; thirty-two statuses Kyr cannot apply (overwatch, braced, invisible, reflect, spellturn, timestop and others).",
-      "abstractions": "A reaction is a condition's or trait's hook on an event another combatant causes, answered within that event; a random target set is a target kind with a count expression. Both are general and replayable from the seed.",
-      "browser": "A fight shows whose turn it is, the order, wound-up blows and conditions. It does not show a reaction as it happens or why a creature chose its target."
+      "faithful": "Initiative, THAC0 against descending armour class, criticals, evasion, saves with the three-successes rule, the death save, haste and slow, confusion, charm and domination, preparation and compelled moves, conditions that tick and lapse, recharge, and reactions: a status answers an enemy's named ability (overwatch and blade barrier to a melee blow, a braced spear to a charge), any attack (charm aura, consecrated ground) or any casting (magebane), before the deed lands; what lapses can act (a countdown detonates, a black ritual raises a lich), and a healer's own statuses answer its healing.",
+      "adapted": "Wind-ups are shown to the company a turn ahead; fleeing is the whole company's; a reaction never sets off another.",
+      "dataOnly": "Extra turns and turning off reactions (time stop), reflection and spell turning, untargetability, invisibility and the sight that sees through it.",
+      "missing": "Twenty-four statuses still cannot be applied (reflect, spell turning, invisible, untargetable, polymorphed and others) and with them the abilities that apply them.",
+      "abstractions": "Reflection and spell turning as reactions to being struck or targeted; invisibility as a targeting rule with a perception that defeats it.",
+      "browser": "A fight tells each reaction as it happens (\"the warden answers the wolf\"); it does not yet show which statuses are waiting to answer."
     },
     {
       "id": "spells",
@@ -74,11 +74,11 @@
         "phb:magic"
       ],
       "orsino": "131 arcane and 154 divine spells across levels 0 to 9, schools and domains, slot tables, spell saves and durations, and spells that summon, cast other spells, choose an effect at random, resurrect, kill outright or shift planes.",
-      "faithful": "Slots by spell level, preparation and readying at rest, cantrips, spell saves for half or none, school and domain access, durations in turns, random targets drawn once for every effect of a spell, electric damage as Orsino's content deals it, and summoning.",
-      "adapted": "Preparing a different spell takes an hour. A random spell's count is evaluated as written (Orsino's parseInt reads \"2 + round(#level/2)\" as 2 and an expression as nothing).",
+      "faithful": "Slots by spell level, preparation and readying at rest, cantrips, spell saves for half or none, school and domain access, durations in turns, random targets drawn once for every effect of a spell, electric damage, summoning, effects drawn at random, spells that cast another at no cost, raising the fallen with a share of their health and any traits (animate dead's undead), and turning or commanding foes so they flee the fight.",
+      "adapted": "Preparing a different spell takes an hour. A random spell's count is evaluated as written. A kill rolls the save the spell declares, which Orsino never rolls. A cycling spell keeps its place per caster.",
       "dataOnly": "None: every Orsino spell is catalogued and says whether it plays.",
-      "missing": "Spells that cast other spells, choose an effect at random or in turn, resurrect, kill outright, planeshift, or apply one of 34 statuses Kyr cannot run (overwatch, invisible, reflect, spell turning, time stop).",
-      "abstractions": "An effect that casts a named ability; a weighted random choice of effects drawn from the battle's seed; resurrection as a state change on a fallen creature; statuses that answer what an enemy does.",
+      "missing": "Spells that planeshift, teleport, polymorph or shapechange, cascade from target to target, or apply a status Kyr cannot run.",
+      "abstractions": "Cascading damage as a target rule; transformation as a temporary change of a creature's kind.",
       "browser": "Each companion's sheet shows what is prepared today; a spell is cast from the fight's menu with its effect stated. The handbook lists every spell with whether it plays."
     },
     {
@@ -243,9 +243,9 @@
     {
       "rank": 4,
       "title": "No reactions to what an enemy does",
-      "unlocks": "32 statuses (overwatch, braced, reflect, spellturn …), reactive magic items",
+      "unlocks": "overwatch, blade barrier, braced spears, magebane, consecrated ground, charm aura now play; reflection and spell turning do not",
       "cycle": 3,
-      "state": "open"
+      "state": "addressed"
     },
     {
       "rank": 5,
@@ -263,10 +263,10 @@
     },
     {
       "rank": 7,
-      "title": "Cast, random effect, resurrect and kill effects",
-      "unlocks": "20 entries that cast, 6 that randomize, 8 that resurrect or kill",
+      "title": "Cast, random, cycling, resurrect, kill and flee effects",
+      "unlocks": "chaos bolt, warp, prismatic spray, raise dead, animate dead, death, command, turn undead now play; 43 abilities still do not",
       "cycle": 3,
-      "state": "open"
+      "state": "addressed"
     },
     {
       "rank": 8,

@@ -72,13 +72,13 @@ Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a ch
 
 Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
 
+Command: One enemy gains fleeing for 2 turns (a will save against 20 avoids it). (a fifth-level slot) Level 5 divine spell.
+
 Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
 
 Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
-> An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Confuse.
-
-*Left out — ability:command: Command cannot be played yet.*
+> An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Command and Confuse.
 
 *Left out — field:monsterGold: Orsino's 4d10 gold for the kill is not carried.*
 
@@ -307,11 +307,11 @@ Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison 
 
 Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a fourth-level slot) Level 4 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
 
+Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them gains paralyzed for 3 turns (a paralyze save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
-> A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Fireball.
-
-*Left out — ability:lightning_bolt: Lightning Bolt cannot be played yet.*
+> A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite, Fireball and Lightning Bolt.
 
 *Left out — field:monsterGold: Orsino's 0 gold for the kill is not carried.*
 
@@ -1581,15 +1581,15 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
 
+Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them gains paralyzed for 3 turns (a paralyze save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
 Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
 
 Fire Vulnerability: Takes 100% more fire.
 
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
-
-*Left out — ability:lightning_bolt: Lightning Bolt cannot be played yet.*
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Lightning Bolt.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
@@ -1635,15 +1635,15 @@ Fire Vulnerability: Takes 100% more fire.
 
 Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
 
+Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a fortitude save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a poison save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a paralyze save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a reflex save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a reflex save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 arcane spell.
+
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
 Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
 
 Earth Vulnerability: Takes 100% more bludgeoning.
 
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
-
-*Left out — ability:prismatic_spray: Prismatic Spray cannot be played yet.*
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Prismatic Spray.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
@@ -1770,15 +1770,15 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 
 Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
 
+Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a fortitude save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a poison save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a paralyze save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a reflex save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a reflex save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 arcane spell.
+
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
 Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
 
 Earth Vulnerability: Takes 100% more bludgeoning.
 
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
-
-*Left out — ability:prismatic_spray: Prismatic Spray cannot be played yet.*
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Prismatic Spray.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
@@ -1980,15 +1980,15 @@ Water Vulnerability: Takes 100% more cold.
 
 Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
 
+Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them gains paralyzed for 3 turns (a paralyze save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
 Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
 
 Fire Vulnerability: Takes 100% more fire.
 
-> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
-
-*Left out — ability:lightning_bolt: Lightning Bolt cannot be played yet.*
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Lightning Bolt.
 
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
@@ -2067,9 +2067,9 @@ Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + b
 
 Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
 
-> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
+Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. (usable again in 8 turns)
 
-*Left out — ability:summon_animal: Call Animal Companion cannot be played yet.*
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.
 
 *Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
 
@@ -2094,9 +2094,9 @@ Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + b
 
 Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
 
-> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
+Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. (usable again in 8 turns)
 
-*Left out — ability:summon_animal: Call Animal Companion cannot be played yet.*
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.
 
 *Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
 
@@ -2173,9 +2173,9 @@ Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + b
 
 Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
 
-> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
+Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) different enemies, drawn at random (may cause fatigued: a fortitude save against 15 avoids it). (a first-level slot) Level 1 arcane spell. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
 
-*Left out — ability:magic_missile: Magic Missile cannot be played yet.*
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Magic Missile.
 
 *Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
 
@@ -2390,6 +2390,10 @@ Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level
 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
 
+Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. (a third-level slot) Level 3 arcane spell.
+
+Death: Slay one enemy (a fortitude save against 20 + level + bonusSpellDC avoids it). (an eighth-level slot) Level 8 divine spell.
+
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
@@ -2398,11 +2402,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to bleed.
 
-> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.
-
-*Left out — ability:animate_dead: Animate Dead cannot be played yet.*
-
-*Left out — ability:death: Death cannot be played yet.*
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Animate Dead and Death.
 
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
@@ -2670,7 +2670,7 @@ Takes 100% more lightning, takes 100% more cold.
 
 > Unleash a barrage of bolts in response to hostile attacks.
 
-*Not playable — onEnemyAttack: Kyr does not execute this Orsino effect yet.*
+*Not playable — statuses: Trait statuses with hooks or compulsion are not executed.*
 
 ### Celestial Radiance
 
@@ -2698,7 +2698,7 @@ Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, im
 
 *Not playable — reflectSpellChance: Kyr does not execute this Orsino effect yet.*
 
-*Not playable — onEnemyOffensiveCasting: Kyr does not execute this Orsino effect yet.*
+*Not playable — statuses: Trait statuses with hooks or compulsion are not executed.*
 
 ### Cursed Fate
 
@@ -2798,7 +2798,7 @@ Resists 50% of psychic, immune to poison, immune to disease, immune to sleep, im
 
 > Resistant to mental attacks and biological effects, but vulnerable to being dispelled when attacked.
 
-*Not playable — onAttacked: Effect kill is not supported.*
+*Not playable — statuses: Trait statuses with hooks or compulsion are not executed.*
 
 ### Hidden Presence
 
@@ -3240,8 +3240,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 *Generated by the Orsino translator.*
 
-*Left out: Lightning Bolt cannot be played yet.*
-
 *Left out: Orsino's 0 gold for the kill is not carried.*
 
 #### Clockwork Soldier
@@ -3333,8 +3331,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 *Generated by the Orsino translator.*
 
-*Left out: Call Animal Companion cannot be played yet.*
-
 *Left out: Faerie Charm is not a nature Kyr plays.*
 
 *Left out: Orsino's 1d10 gold for the kill is not carried.*
@@ -3409,10 +3405,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 *Generated by the Orsino translator.*
 
-*Left out: Animate Dead cannot be played yet.*
-
-*Left out: Death cannot be played yet.*
-
 *Left out: Orsino's 2d10 gold for the kill is not carried.*
 
 #### Marilith
@@ -3451,8 +3443,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 - Abilities: psionic blast, command, confuse
 
 *Generated by the Orsino translator.*
-
-*Left out: Command cannot be played yet.*
 
 *Left out: Orsino's 4d10 gold for the kill is not carried.*
 
@@ -3507,8 +3497,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 - Abilities: charm, summon animal
 
 *Generated by the Orsino translator.*
-
-*Left out: Call Animal Companion cannot be played yet.*
 
 *Left out: Faerie Charm is not a nature Kyr plays.*
 
@@ -3606,8 +3594,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 - Abilities: hide, magic missile
 
 *Generated by the Orsino translator.*
-
-*Left out: Magic Missile cannot be played yet.*
 
 *Left out: Faerie Charm is not a nature Kyr plays.*
 
@@ -4256,8 +4242,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 *Generated by the Orsino translator.*
 
-*Left out: Lightning Bolt cannot be played yet.*
-
 *Left out: Orsino's 1d10 gold for the kill is not carried.*
 
 #### Ash
@@ -4279,8 +4263,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 - Abilities: prismatic spray
 
 *Generated by the Orsino translator.*
-
-*Left out: Prismatic Spray cannot be played yet.*
 
 *Left out: Orsino's 1d10 gold for the kill is not carried.*
 
@@ -4336,8 +4318,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 - Abilities: prismatic spray
 
 *Generated by the Orsino translator.*
-
-*Left out: Prismatic Spray cannot be played yet.*
 
 *Left out: Orsino's 1d10 gold for the kill is not carried.*
 
@@ -4415,8 +4395,6 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 - Abilities: lightning bolt
 
 *Generated by the Orsino translator.*
-
-*Left out: Lightning Bolt cannot be played yet.*
 
 *Left out: Orsino's 1d10 gold for the kill is not carried.*
 

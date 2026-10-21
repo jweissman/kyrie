@@ -71,9 +71,6 @@
    "requires": {
     "notStatus": "summoning"
    },
-   "unsupported": {
-    "status:summoning": "Applies summoning, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "ability:black_ritual",
     "fidelity": "faithful"
@@ -203,9 +200,6 @@
    "requires": {
     "notStatus": "ticking"
    },
-   "unsupported": {
-    "status:ticking": "Applies ticking, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "ability:countdown",
     "fidelity": "faithful"
@@ -233,11 +227,14 @@
    "name": "Detonation",
    "kind": "technique",
    "description": "A fiery explosion.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "kill",
+     "target": "self"
+    }
+   ],
    "unsupported": {
-    "effect:damage": "Effect target enemies is not supported.",
-    "effect:kill": "Effect kill is not supported.",
-    "effects": "No effect Kyr can execute."
+    "effect:damage": "Effect target enemies is not supported."
    },
    "source": {
     "orsino": "ability:detonation",
@@ -425,11 +422,21 @@
    "name": "Escape",
    "kind": "technique",
    "description": "Run away!",
-   "effects": [],
-   "unsupported": {
-    "effect:flee": "Effect flee is not supported.",
-    "effects": "No effect Kyr can execute."
-   },
+   "effects": [
+    {
+     "kind": "apply",
+     "status": "fleeing",
+     "duration": 2,
+     "target": "self",
+     "save": {
+      "kind": "will",
+      "difficulty": {
+       "kind": "literal",
+       "value": 10
+      }
+     }
+    }
+   ],
    "source": {
     "orsino": "ability:flee",
     "fidelity": "faithful"
@@ -524,11 +531,13 @@
    "name": "Infect",
    "kind": "technique",
    "description": "Infect an enemy with a virulent disease.",
-   "effects": [],
-   "unsupported": {
-    "effect:cast": "Effect cast is not supported.",
-    "effects": "No effect Kyr can execute."
-   },
+   "effects": [
+    {
+     "kind": "cast",
+     "ability": "inflict_disease",
+     "target": "enemy"
+    }
+   ],
    "source": {
     "orsino": "ability:infect",
     "fidelity": "faithful"
@@ -647,9 +656,6 @@
      "target": "self"
     }
    ],
-   "unsupported": {
-    "status:overwatch": "Applies overwatch, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "ability:overwatch",
     "fidelity": "faithful"
@@ -881,9 +887,6 @@
    ],
    "requires": {
     "interceptWeapon": true
-   },
-   "unsupported": {
-    "status:braced": "Applies braced, which Kyr cannot execute."
    },
    "source": {
     "orsino": "ability:set_spear",
@@ -1339,11 +1342,13 @@
    "name": "Vexate",
    "kind": "technique",
    "description": "Cast a minor hex that irritates and distracts an enemy.",
-   "effects": [],
-   "unsupported": {
-    "effect:cast": "Effect cast is not supported.",
-    "effects": "No effect Kyr can execute."
-   },
+   "effects": [
+    {
+     "kind": "cast",
+     "ability": "hex",
+     "target": "enemy"
+    }
+   ],
    "source": {
     "orsino": "ability:vexate",
     "fidelity": "faithful"
@@ -1488,16 +1493,26 @@
    "name": "Animate Animal",
    "kind": "spell",
    "description": "Bring a dead animal back to life to serve you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "revive",
+     "amount": {
+      "kind": "literal",
+      "value": 1
+     },
+     "target": "dead ally",
+     "percent": 30,
+     "traits": [
+      "undead"
+     ],
+     "targetTrait": "animal"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 0,
     "school": "necromancy"
-   },
-   "unsupported": {
-    "effect:resurrect": "Effect resurrect is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:animate_animal",
@@ -1508,16 +1523,25 @@
    "name": "Animate Dead",
    "kind": "spell",
    "description": "Bind souls to your service.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "revive",
+     "amount": {
+      "kind": "literal",
+      "value": 1
+     },
+     "target": "dead ally",
+     "percent": 40,
+     "traits": [
+      "undead"
+     ]
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 3,
     "school": "necromancy"
-   },
-   "unsupported": {
-    "effect:resurrect": "Effect resurrect is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:animate_dead",
@@ -1710,16 +1734,79 @@
    "name": "Chaos Bolt",
    "kind": "spell",
    "description": "Hurl a bolt of chaotic energy that deals random types of damage.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "random",
+     "effects": [
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "4d6"
+       },
+       "damageType": "fire",
+       "target": "enemy",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "3d12"
+       },
+       "damageType": "cold",
+       "target": "enemy",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "4d8"
+       },
+       "damageType": "lightning",
+       "target": "enemy",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "2d10"
+       },
+       "damageType": "acid",
+       "target": "enemy",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "3d4"
+       },
+       "damageType": "poison",
+       "target": "enemy",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "5d6"
+       },
+       "damageType": "force",
+       "target": "enemy",
+       "onResist": "half"
+      }
+     ],
+     "target": "enemy"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 5,
     "school": "evocation"
-   },
-   "unsupported": {
-    "effect:randomEffect": "Effect randomEffect is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:chaos_bolt",
@@ -1730,16 +1817,79 @@
    "name": "Chaos Storm",
    "kind": "spell",
    "description": "Unleash a storm of chaotic energy that damages enemies with random types of damage.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "random",
+     "effects": [
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "6d6"
+       },
+       "damageType": "fire",
+       "target": "enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "5d12"
+       },
+       "damageType": "cold",
+       "target": "enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "6d8"
+       },
+       "damageType": "lightning",
+       "target": "enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "4d10"
+       },
+       "damageType": "acid",
+       "target": "enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "5d4"
+       },
+       "damageType": "poison",
+       "target": "enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "7d6"
+       },
+       "damageType": "force",
+       "target": "enemies",
+       "onResist": "half"
+      }
+     ],
+     "target": "enemies"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 8,
     "school": "evocation"
-   },
-   "unsupported": {
-    "effect:randomEffect": "Effect randomEffect is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:chaos_storm",
@@ -2433,6 +2583,17 @@
      "damageType": "necrotic",
      "target": "enemy",
      "onResist": "half"
+    },
+    {
+     "kind": "kill",
+     "target": "enemy",
+     "save": {
+      "kind": "fortitude",
+      "difficulty": {
+       "kind": "deem",
+       "expression": "16 + #level + #bonusSpellDC"
+      }
+     }
     }
    ],
    "cost": 1,
@@ -2444,9 +2605,6 @@
    "resist": {
     "kind": "magic",
     "difficulty": "15 + #bonusSpellDC"
-   },
-   "unsupported": {
-    "effect:kill": "Effect kill is not supported."
    },
    "source": {
     "orsino": "arcaneSpell:finger_of_death",
@@ -3200,9 +3358,6 @@
     "tradition": "arcane",
     "level": 2,
     "school": "abjuration"
-   },
-   "unsupported": {
-    "status:magebane": "Applies magebane, which Kyr cannot execute."
    },
    "source": {
     "orsino": "arcaneSpell:magebane",
@@ -4047,16 +4202,118 @@
    "name": "Prismatic Spray",
    "kind": "spell",
    "description": "A dazzling array of multicolored beams springs from your hand.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "cycle",
+     "effects": [
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d3+1"
+       },
+       "damageType": "fire",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d4"
+       },
+       "damageType": "force",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d3"
+       },
+       "damageType": "poison",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d3"
+       },
+       "damageType": "lightning",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d2"
+       },
+       "damageType": "acid",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d4"
+       },
+       "damageType": "cold",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "cast",
+       "ability": "flesh_to_stone",
+       "target": "random enemies"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d4"
+       },
+       "damageType": "psychic",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d2+1"
+       },
+       "damageType": "radiant",
+       "target": "random enemies",
+       "onResist": "half"
+      },
+      {
+       "kind": "damage",
+       "amount": {
+        "kind": "deem",
+        "expression": "1d2"
+       },
+       "damageType": "necrotic",
+       "target": "random enemies",
+       "onResist": "half"
+      }
+     ],
+     "target": "random enemies",
+     "count": {
+      "kind": "deem",
+      "expression": "7 + round(#level / 2)"
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 2,
     "school": "evocation"
-   },
-   "unsupported": {
-    "effect:cycleEffects": "Effect cycleEffects is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:prismatic_spray",
@@ -5257,16 +5514,129 @@
    "name": "Warp Enemy",
    "kind": "spell",
    "description": "Distort the fabric of reality around an enemy, causing unpredictable effects.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "random",
+     "effects": [
+      {
+       "kind": "apply",
+       "status": "stun",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "stun",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "slow",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "reflex",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "weakened",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "fortitude",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "distracted",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "will",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      }
+     ],
+     "target": "enemy"
+    },
+    {
+     "kind": "random",
+     "effects": [
+      {
+       "kind": "apply",
+       "status": "cursed",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "will",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "insane",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "insanity",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "charmed",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "charm",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "fear",
+       "duration": 3,
+       "target": "enemy",
+       "save": {
+        "kind": "fear",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "15 + #level + #bonusSpellDC"
+        }
+       }
+      }
+     ],
+     "target": "enemy"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 7,
     "school": "transmutation"
-   },
-   "unsupported": {
-    "effect:randomEffect": "Effect randomEffect is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:warp",
@@ -5666,9 +6036,6 @@
     "level": 4,
     "domain": "law"
    },
-   "unsupported": {
-    "status:blade_barrier": "Applies blade_barrier, which Kyr cannot execute."
-   },
    "source": {
     "orsino": "divineSpell:blade_barrier",
     "fidelity": "faithful"
@@ -5701,7 +6068,13 @@
    "name": "Bolt",
    "kind": "spell",
    "description": "Hurl a bolt of lightning at an enemy.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "cast",
+     "ability": "thunderclap",
+     "target": "enemy"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
@@ -5709,9 +6082,7 @@
     "domain": "storm"
    },
    "unsupported": {
-    "effect:cast": "Effect cast is not supported.",
-    "effect:damage": "Cascading damage is not supported.",
-    "effects": "No effect Kyr can execute."
+    "effect:damage": "Cascading damage is not supported."
    },
    "source": {
     "orsino": "divineSpell:bolt",
@@ -5783,6 +6154,51 @@
      "damageType": "psychic",
      "target": "enemies",
      "onResist": "half"
+    },
+    {
+     "kind": "random",
+     "effects": [
+      {
+       "kind": "apply",
+       "status": "confused",
+       "duration": 3,
+       "target": "enemies",
+       "save": {
+        "kind": "will",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "14 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "slow",
+       "duration": 3,
+       "target": "enemies",
+       "save": {
+        "kind": "fortitude",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "14 + #level + #bonusSpellDC"
+        }
+       }
+      },
+      {
+       "kind": "apply",
+       "status": "distracted",
+       "duration": 3,
+       "target": "enemies",
+       "save": {
+        "kind": "will",
+        "difficulty": {
+         "kind": "deem",
+         "expression": "16 + #level + #bonusSpellDC"
+        }
+       }
+      }
+     ],
+     "target": "enemies"
     }
    ],
    "cost": 1,
@@ -5794,9 +6210,6 @@
    "resist": {
     "kind": "magic",
     "difficulty": "15 + #bonusSpellDC"
-   },
-   "unsupported": {
-    "effect:randomEffect": "Effect randomEffect is not supported."
    },
    "source": {
     "orsino": "divineSpell:chaotic_surge",
@@ -5820,9 +6233,6 @@
     "tradition": "divine",
     "level": 5,
     "domain": "love"
-   },
-   "unsupported": {
-    "status:charming": "Applies charming, which Kyr cannot execute."
    },
    "source": {
     "orsino": "divineSpell:charm_aura",
@@ -6057,16 +6467,26 @@
    "name": "Command",
    "kind": "spell",
    "description": "Give an instruction.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "apply",
+     "status": "fleeing",
+     "duration": 2,
+     "target": "enemy",
+     "save": {
+      "kind": "will",
+      "difficulty": {
+       "kind": "literal",
+       "value": 20
+      }
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 5,
     "domain": "law"
-   },
-   "unsupported": {
-    "effect:flee": "Effect flee is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:command",
@@ -6120,9 +6540,6 @@
     "tradition": "divine",
     "level": 3,
     "domain": "law"
-   },
-   "unsupported": {
-    "status:consecrated": "Applies consecrated, which Kyr cannot execute."
    },
    "source": {
     "orsino": "divineSpell:consecrated_ground",
@@ -6459,16 +6876,24 @@
    "name": "Death",
    "kind": "spell",
    "description": "Utter a power word in the blackest of tongues.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "kill",
+     "target": "enemy",
+     "save": {
+      "kind": "fortitude",
+      "difficulty": {
+       "kind": "deem",
+       "expression": "20 + #level + #bonusSpellDC"
+      }
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 8,
     "domain": "death"
-   },
-   "unsupported": {
-    "effect:kill": "Effect kill is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:death",
@@ -6489,6 +6914,17 @@
      "damageType": "poison",
      "target": "enemies",
      "onResist": "half"
+    },
+    {
+     "kind": "kill",
+     "target": "enemies",
+     "save": {
+      "kind": "fortitude",
+      "difficulty": {
+       "kind": "deem",
+       "expression": "22 + #level + #bonusSpellDC"
+      }
+     }
     }
    ],
    "cost": 1,
@@ -6500,9 +6936,6 @@
    "resist": {
     "kind": "magic",
     "difficulty": "15 + #bonusSpellDC"
-   },
-   "unsupported": {
-    "effect:kill": "Effect kill is not supported."
    },
    "source": {
     "orsino": "divineSpell:death_fog",
@@ -7568,20 +8001,26 @@
    "name": "Heteraeos",
    "kind": "spell",
    "description": "Transform an enemy into a harmless creature.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "cast",
+     "ability": "polymorph",
+     "target": "enemy",
+     "targetTrait": "humanoid"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 6,
     "domain": "love"
    },
-   "unsupported": {
-    "effect:cast": "Effect cast is not supported.",
-    "effects": "No effect Kyr can execute."
-   },
    "source": {
     "orsino": "divineSpell:heteraeos",
     "fidelity": "faithful"
+   },
+   "unsupported": {
+    "cast:polymorph": "Casts Polymorph Other, which Kyr cannot execute."
    }
   },
   "hold_animal": {
@@ -8033,9 +8472,6 @@
    "resist": {
     "kind": "magic",
     "difficulty": "15 + #bonusSpellDC"
-   },
-   "unsupported": {
-    "status:marked_for_judgment": "Applies marked_for_judgment, which Kyr cannot execute."
    },
    "source": {
     "orsino": "divineSpell:judgment",
@@ -9079,16 +9515,22 @@
    "name": "Raise Dead",
    "kind": "spell",
    "description": "Restore life to the dead.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "revive",
+     "amount": {
+      "kind": "literal",
+      "value": 1
+     },
+     "target": "dead ally",
+     "percent": 50
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 4,
     "domain": "life"
-   },
-   "unsupported": {
-    "effect:resurrect": "Effect resurrect is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:raise_dead",
@@ -9201,16 +9643,22 @@
    "name": "Resurrection",
    "kind": "spell",
    "description": "It's alive!",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "revive",
+     "amount": {
+      "kind": "literal",
+      "value": 1
+     },
+     "target": "dead ally",
+     "percent": 100
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 7,
     "domain": "life"
-   },
-   "unsupported": {
-    "effect:resurrect": "Effect resurrect is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:resurrect",
@@ -10384,16 +10832,27 @@
    "name": "Turn Undead",
    "kind": "spell",
    "description": "The dead recoil from your holy presence.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "apply",
+     "status": "fleeing",
+     "duration": 2,
+     "target": "enemies",
+     "save": {
+      "kind": "will",
+      "difficulty": {
+       "kind": "literal",
+       "value": 25
+      }
+     },
+     "targetTrait": "undead"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 3,
     "domain": "light"
-   },
-   "unsupported": {
-    "effect:flee": "Effect flee is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:turn_undead",

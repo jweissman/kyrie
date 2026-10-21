@@ -70,12 +70,12 @@
    "Deals typed damage and heals the actor by the damage actually dealt; Orsino heals the full rolled amount."
   ],
   "effect:kill": [
-   "faithful",
-   "Reduces a living target to zero hit points."
+   "adapted",
+   "The target falls; Orsino declares a save on kill effects (saveKind, saveDC) but never rolls it, and Kyr rolls it as it rolls a debuff's (saveDC + level + bonusSpellDC)."
   ],
   "effect:resurrect": [
-   "adapted",
-   "Kyr revive restores a rolled amount of HP; Orsino hpPercent and template application are not modelled."
+   "faithful",
+   "A fallen ally returns with hpPercent of its health (one hit point when unstated) and any applyTraits."
   ],
   "effect:gold": [
    "adapted",
@@ -996,6 +996,74 @@
   "target:count": [
    "adapted",
    "Orsino reads the count with parseInt: \"2 + round(#level/2)\" is always 2, and a count written as an expression (\"=1d6 + floor(#level / 2)\") is no number, so the spell touches no one. Kyr evaluates the count as written."
+  ],
+  "effect:cast": [
+   "faithful",
+   "CompoundEffects.cast: the named ability, performed by the same creature at no cost, on the same target when it may be (Orsino's cast effect performs the spell without spending a slot)."
+  ],
+  "effect:flee": [
+   "faithful",
+   "The target saves (succeedType against succeedDC, no level added) or gains Fleeing for two turns; a fleeing foe leaves the fight when the next round begins, and what it summoned goes with it."
+  ],
+  "flag:succeedDC": [
+   "faithful",
+   "The flee effect's save difficulty, as written."
+  ],
+  "effect:randomEffect": [
+   "faithful",
+   "CompoundEffects.one: one of the effects drawn from the battle's seed (Orsino uses Math.random); one aimed at self lands on the user."
+  ],
+  "flag:randomEffects": [
+   "faithful",
+   "The effects a random effect draws among."
+  ],
+  "effect:cycleEffects": [
+   "adapted",
+   "CompoundEffects.one: the next effect in turn, each time it lands; Orsino keeps the place in the cycle on the shared ability definition, Kyr on the caster, by ability."
+  ],
+  "flag:cycledEffects": [
+   "faithful",
+   "The effects a cycle steps through."
+  ],
+  "flag:hpPercent": [
+   "faithful",
+   "A raised creature returns with this share of its maximum health (at least 1)."
+  ],
+  "flag:applyTraits": [
+   "faithful",
+   "The traits a raised creature returns with (animate dead's undead)."
+  ],
+  "target:caster": [
+   "faithful",
+   "In a reaction, the creature whose casting provoked it."
+  ],
+  "modifier:onExpire": [
+   "faithful",
+   "Effects.lapse: as a condition lapses, its holder acts out its onExpire effects (a countdown's detonation, a ritual's summoning)."
+  ],
+  "modifier:onHeal": [
+   "faithful",
+   "Commands.heal: after healing, the healer's own statuses' onHeal effects (a healer marked for judgment burns)."
+  ],
+  "modifier:onEnemyMelee": [
+   "faithful",
+   "Reactions.provoke: before an enemy's Melee lands, each creature on the other side holding the status answers it; an attacker it fells does nothing more."
+  ],
+  "modifier:onEnemyCharge": [
+   "faithful",
+   "Reactions.provoke: before an enemy's Charge lands (a braced spear)."
+  ],
+  "modifier:onEnemyAttack": [
+   "faithful",
+   "Reactions.provoke: before any weapon attack by an enemy lands."
+  ],
+  "modifier:onEnemyCasting": [
+   "faithful",
+   "Reactions.cast: after an enemy casts any spell."
+  ],
+  "modifier:onEnemyOffensiveCasting": [
+   "faithful",
+   "Reactions.cast: after an enemy casts a spell aimed at its enemies."
   ]
  }
 }

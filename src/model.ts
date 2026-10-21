@@ -23,6 +23,8 @@ export interface Fighter {
   statuses: ConditionInstance[];
   // The creature whose call brought it into the fight, for a summoned one.
   summoner?: string;
+  // Where each of its cycling abilities is in its cycle (Orsino's cycleEffects: prismatic spray's beams).
+  cycles?: Record<string, number>;
   // Every trait the creature holds: birth or nature traits and the ones it chose.
   traits?: string[];
   // Where it fights (urban, forest, cave...), for perks that hold only there.
@@ -54,6 +56,8 @@ export type CombatEvent = (
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
   | { type: 'intercept'; turn: number; actor: string; target: string }
   | { type: 'windup' | 'interrupt'; turn: number; actor: string; target: string; detail: string }
+  // A creature answers what another did (Orsino's reactions), by the key that set it off.
+  | { type: 'react'; turn: number; actor: string; target: string; detail: string }
   | { type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'dismiss' | 'travel' | 'expire';
     turn: number; actor: string; target: string; detail: string; amount?: number;
     clock?: 'owner-turn' | 'world-time' | 'until-removed' }
@@ -63,5 +67,7 @@ export interface BattleState {
   combatants: Fighter[]; turn: number; actor: string; outcome: Outcome | null;
   // What each creature on the other side declared it means to do this round, and who acts next, in order.
   intents?: Record<string, Command>; order?: string[];
+  // Foes that fled the fight, by name, so what they did can still be told.
+  departed?: { id: string; name: string }[];
 }
 export type Controller = (state: BattleState, legal: Command[]) => Command;

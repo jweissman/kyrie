@@ -8,7 +8,14 @@ export interface Source { orsino?: string; kyr?: true; fidelity?: 'faithful' | '
 // Orsino mechanics an entry does not execute, keyed by the Orsino field, each with the reason.
 export type Omissions = Record<string, string>;
 // Status hooks: Orsino effect lists that run when the holder attacks, hits, is attacked or is missed.
-export interface Hooks { onAttack?: Effect[]; onAttackHit?: Effect[]; onAttacked?: Effect[]; onMissReceived?: Effect[] }
+export interface Hooks {
+  onAttack?: Effect[]; onAttackHit?: Effect[]; onAttacked?: Effect[]; onMissReceived?: Effect[];
+  // The holder's own moments: the fight beginning, this condition lapsing, its casting of an offensive spell.
+  onCombatStart?: Effect[]; onExpire?: Effect[]; onOffensiveCasting?: Effect[]; onHeal?: Effect[];
+  // Answers to what a creature on the other side does, by Orsino's key (onEnemyMelee, onEnemyAttack, onEnemyCasting).
+  reactions?: Record<string, Effect[]>;
+}
+export type HookKey = Exclude<keyof Hooks, 'reactions'>;
 export interface Condition {
   name: string; description: string; lifetime: 'persistent' | 'encounter'; modifiers: Modifiers; hooks?: Hooks;
   // Orsino's trigger: non-lethal damage of this kind makes the target save (DC 15) or gain the condition.

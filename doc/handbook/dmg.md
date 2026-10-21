@@ -1583,9 +1583,9 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Mirror Images | ac -2 saveVersusAll 2 evasion 15 | faithful |
 | Mocked | toHit -1 bonusDamage -1 saveVersusAll -1 | faithful |
 | Naturality | resistPoison 0.5 resistAcid 0.25 immuneDisease true saveVersusAll 1 | faithful |
-| Oathbound | ac -2 toHit 2 bonusDamage 2 onEnemyMelee [{"type":"attack","target":"attacker","description":"oathbound attack"}] | represented |
+| Oathbound | ac -2 toHit 2 bonusDamage 2 onEnemyMelee [{"type":"attack","target":"attacker","description":"oathbound attack"}] | faithful |
 | Oiled | resistFire -2 | faithful |
-| Overwatching | bonusDamage 2 onEnemyMelee [{"type":"attack","target":"attacker","description":"overwatch attack"},{"type":"removeStatus","statusName":"Overwatching"}] | represented |
+| Overwatching | bonusDamage 2 onEnemyMelee [{"type":"attack","target":"attacker","description":"overwatch attack"},{"type":"removeStatus","statusName":"Overwatching"}] | faithful |
 | Paralyzed | noActions true str -5 dex -5 | faithful |
 | Petrified | noActions true immuneFear true immuneCharm true immuneStun true immuneSleep true immunePoison true immuneDisease true | faithful |
 | Poison | onTurnEnd [{"type":"damage","amount":"=1d4","kind":"true"}] | faithful |

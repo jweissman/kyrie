@@ -25,7 +25,7 @@ export class MechanicsText {
     const parts = ability.effects.map((e, i) => this.effect(e, actor,
       e.target === 'random enemies' && ability.effects.slice(0, i).some(p => p.target === 'random enemies')));
     const level = ability.spell?.level ?? 0;
-    const costs = [level ? `a ${Spellcasting.ordinal(level)}-level slot` : ability.spell ? 'a cantrip, at will'
+    const costs = [level ? `${level === 8 ? 'an' : 'a'} ${Spellcasting.ordinal(level)}-level slot` : ability.spell ? 'a cantrip, at will'
       : ability.cost ? `${ability.cost} mana` : '',
       ability.cooldown ? `usable again in ${ability.cooldown} turn${ability.cooldown === 1 ? '' : 's'}` : '']
       .filter(Boolean);
@@ -45,8 +45,8 @@ export class MechanicsText {
     const t = this.ability(ability, actor);
     return [t.summary, ...t.details].join(' ');
   }
-  static effect(e: Effect, actor?: Record<string, number>, again = false): string {
-    const to = again ? 'each of them' : e.target === 'random enemies' && e.count
+  static effect(e: Effect, actor?: Record<string, number>, again: boolean | string = false): string {
+    const to = typeof again === 'string' ? again : again ? 'each of them' : e.target === 'random enemies' && e.count
       ? e.count.kind === 'literal' && e.count.value === 1 ? 'a random enemy'
         : `${this.amount(e.count, actor)} different enemies, drawn at random` : this.targets[e.target];
     const amount = 'amount' in e && e.kind !== 'summon' ? this.amount(e.amount, actor) : '';
@@ -55,7 +55,11 @@ export class MechanicsText {
         case 'attack': return `weapon attack against ${to}${e.spillover ? ', carrying a killing blow on to another' : ''}`;
         case 'damage': return `${amount} ${e.damageType} damage to ${to}`;
         case 'heal': return `heal ${to} for ${amount}`;
-        case 'revive': return `raise ${to} with ${amount} health`;
+        case 'revive': return `raise ${to} with ${e.percent ? `${e.percent}% of their health` : `${amount} health`}`
+          + `${e.traits?.length ? `, ${e.traits.map(t => Canon.traits[t]?.name.toLowerCase() ?? t).join(' and ')} now` : ''}`;
+        case 'random': return `on ${to}, one of these, drawn at random: ${MechanicsText.inner(e.effects, actor)}`;
+        case 'cycle': return `on ${to}, each the next of these in turn: ${MechanicsText.inner(e.effects, actor)}`;
+        case 'cast': return `${Canon.abilities[e.ability]?.name ?? e.ability}, at no cost`;
         case 'drain': return `drain ${amount} health from ${to}`;
         case 'defend': return 'guard until your next turn';
         case 'flee': return 'try to escape the fight (an even chance)';
@@ -142,6 +146,10 @@ export class MechanicsText {
     const many = e.amount && !(e.amount.kind === 'literal' && e.amount.value === 1);
     return `call ${many ? `${this.amount(e.amount!, actor)} creatures, each ${what}` : `${what}`}`
       + `${e.level && e.level > 1 ? `, of level ${e.level}` : ''}, to fight for you until the fight ends`;
+  }
+  // Effects inside another that chose their target already: "4d6 fire damage to it / 3d12 cold damage to it".
+  static inner(effects: Effect[], actor?: Record<string, number>): string {
+    return effects.map(x => this.effect(x, actor, x.target === 'self' ? 'yourself' : 'it')).join(' / ');
   }
   static species(ids: string[]): string[] { return ids.map(id => Canon.species[id]?.name.toLowerCase() ?? id); }
   static amount(amount: Amount, actor?: Record<string, number>): string {
