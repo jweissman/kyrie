@@ -325,8 +325,13 @@ input:focus, select:focus { outline: 2px solid var(--amber); outline-offset: 1px
   .split { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
   .split > .menu { max-height: 38dvh; border-right: 0; border-bottom: 1px solid var(--rule); }
   .columns { grid-template-columns: minmax(0, 1fr); }
-  .create-page { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
+  /* Forming a company on a narrow screen reads top to bottom: the pitch, the three, and what they make together. */
+  .create-page { display: block; overflow-y: auto; }
   .create-page > section { overflow: visible; border-right: 0; border-bottom: 1px solid var(--rule); }
+  .view-journal .split { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; overflow-y: auto; height: 100%; }
+  .view-journal .split > .sheet { overflow: visible; }
+  .view-journal .sheet + .sheet { border-left: 0; border-top: 1px solid var(--rule); }
+  .chronicle li { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
 @media (max-width: 719px) {
   :root { --gutter: 1rem; --s3: 1.6rem; }
