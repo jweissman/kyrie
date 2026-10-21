@@ -102,7 +102,7 @@ export class Campaign implements WatchHost {
   }
   private static async assemble(path: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[]): Promise<Campaign> {
-    const manifest = await ModuleBundle.campaign(path, source);
+    const manifest = await ModuleBundle.campaign(path, source, seed);
     party ??= manifest.party;
     let campaign: Campaign | undefined;
     for (const request of manifest.modules) {

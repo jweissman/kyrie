@@ -9,6 +9,7 @@ import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
 import type { Module } from '../lang/module';
+import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
 
 export interface BundleRequest {
   id: string; bundle: string; imports?: Record<string, string>; context?: Record<string, DeemValue>;
@@ -18,10 +19,12 @@ export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
   // What the company is being asked to do, shown when it is formed.
   pitch?: { heading: string; text: string };
+  // How the campaign's kits were composed into it, when it asks for any.
+  composition?: Composed;
 }
 // A module manifest: the Kyr source files it consists of, the rule modules it is written against, what it imports
 // and exports, and optional DEEM generation. Every region, site, situation and institution is such a module.
-interface BundleManifest {
+export interface BundleManifest {
   roles?: Record<string, RoleContract>;
   version: 1; source: string | string[]; rules: string | string[]; globals?: string[]; imports?: string[];
   exports?: Record<string, string>;
@@ -46,11 +49,16 @@ export class ModuleBundle {
         && Object.entries(m.exports).every(([k, v]) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(k) && typeof v === 'string')));
     if (!valid) { throw new Error('Invalid module manifest'); }
   }
-  static async campaign(path: string, source: BundleSource): Promise<CampaignManifest> {
-    const manifest = JSON.parse(await source.read(path)) as CampaignManifest;
+  // A campaign's modules, in order; entries that ask for a kit are composed into modules with the campaign's seed.
+  static async campaign(path: string, source: BundleSource, seed = ''): Promise<CampaignManifest> {
+    const manifest = JSON.parse(await source.read(path)) as Omit<CampaignManifest, 'modules'> & { modules: ManifestEntry[] };
     if (manifest.version !== 1 || typeof manifest.name !== 'string' || !Array.isArray(manifest.modules)
       || !manifest.modules.length) { throw new Error('Invalid campaign manifest'); }
-    return { ...manifest, modules: manifest.modules.map(m => ({ ...m, bundle: source.resolve(m.bundle, path) })) };
+    const entries = manifest.modules.map(m => Composition.isKit(m) ? { ...m, kit: source.resolve(m.kit, path) }
+      : { ...m, bundle: source.resolve(m.bundle, path) });
+    if (!entries.some(e => Composition.isKit(e))) { return { ...manifest, modules: entries as BundleRequest[] }; }
+    const composed = await Composition.expand(entries, { seed, source });
+    return { ...manifest, modules: composed.modules, composition: composed };
   }
   // What DEEM contributes to a bundle. A bundle that declares no generation is entirely authored.
   private static generated(manifest: BundleManifest, [tables, templates]: [string, string], seed: string,

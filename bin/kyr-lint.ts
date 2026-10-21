@@ -22,7 +22,11 @@ export class KyrLint {
       return statSync(p).isDirectory() ? this.walk(p, keep) : keep(f) ? [p] : [];
     });
   }
-  static files(): string[] { return this.walk(join(this.root, 'data'), f => f.endsWith('.kyr')); }
+  // Kyr sources of worlds. The assembler's vocabulary (data/assembly) speaks of the same things at another level and
+  // is not part of any world.
+  static files(): string[] {
+    return this.walk(join(this.root, 'data'), f => f.endsWith('.kyr')).filter(f => !f.includes('/data/assembly/'));
+  }
   static campaigns(): string[] {
     return this.walk(join(this.root, 'data'), f => /campaign(\.\w+)?\.json$/.test(f)).map(p => p.slice(this.root.length + 1));
   }

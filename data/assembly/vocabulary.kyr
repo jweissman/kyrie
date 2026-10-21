@@ -1,0 +1,25 @@
+Module assembly "What a world is made of, for assembling one" {
+  Description "The assembler's commitments are facts in this vocabulary. Geography comes from region modules; kits add powers and what they do to the land. Facts are only ever added while a world is assembled.".
+  Kind place. Kind group. Kind sitekind. Kind terrainkind. Kind kit.
+  // Geography, read from region modules: areas (settlements, wild country, sites) and the rooms on the ways between.
+  Relation region(place). Relation terrain(place, terrainkind). Relation company(group).
+  Relation settlement(place). Relation wilds(place). Relation site(place, sitekind).
+  Relation within(place, place).
+  // A settlement's open middle, where news is heard and trouble arrives.
+  Relation square(place, place).
+  // A room on a road through wild country, a landmark travellers know, a narrow place a road cannot avoid.
+  Relation waypoint(place). Relation landmark(place). Relation chokepoint(place). Relation onRoad(place).
+  Relation siteKind(place, sitekind).
+  Relation adjacent(place, place).
+  // Hours between two places by the quickest known way.
+  Measure hours(place, place).
+  // Powers and their hold on the land.
+  Relation power(group). Relation folk(group, entity).
+  Relation holds(group, place). Relation raids(group, place). Relation ambushes(group, place).
+  Relation tolls(group, place). Relation buysFrom(group, place). Relation serves(group, group).
+  Relation buried(place, entity). Relation beneath(place, place).
+  // A place given over to one placement's purpose; another kit does not take it.
+  Relation taken(place, kit).
+  Query free(p: place) means not taken(p, ?k).
+  Goal false.
+}
