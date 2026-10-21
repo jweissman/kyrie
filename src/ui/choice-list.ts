@@ -85,7 +85,8 @@ export class ChoiceList {
   }
   private static way(e: ExitRow, label: string): Choice[] {
     const about = this.wayAbout(e), id = e.id, minutes = this.longest(e.acts);
-    const note = [minutes > 10 ? this.minutes(minutes) : '', e.visited ? '' : 'unvisited'].filter(Boolean).join(' · ');
+    // Where the company has not been is on the map; the note is how long the way takes.
+    const note = minutes > 10 ? this.minutes(minutes) : '';
     const barred: Choice = { id, label, tone: 'way', disabled: e.blocked ?? 'Not possible from here right now.', about,
       note: 'barred' };
     if (!e.acts.length) { return [barred]; }
@@ -108,7 +109,7 @@ export class ChoiceList {
       const c = this.choice(a, id, 'way');
       const how = this.moves(a) && !a.label.startsWith('Go by ') ? label : a.label.startsWith('Go by ') ? `${label}, ${a.label.slice(3)}`
         : `${label} — ${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}`;
-      const told = c.disabled ? c.note : [c.note, e.visited ? '' : 'unvisited'].filter(Boolean).join(' · ');
+      const told = c.note;
       return { ...c, label: how, about: c.about ?? about, ...(told && !c.children ? { note: told } : {}) };
     });
   }
@@ -128,9 +129,11 @@ export class ChoiceList {
     const room = e.destination.name, minutes = this.longest(e.acts);
     const span = minutes > 10 ? `, ${this.span(minutes)} away` : ', a few steps away';
     const how = e.way ? ` by ${e.way}` : '';
-    const where = { walk: `${this.upper(room)}${span}${how}.`, enter: `Into ${e.scope ?? room}: ${room}.`,
-      leave: `Out of here, to ${room}${e.scope ? ` in ${e.scope}` : ''}.`, level: `To ${e.scope ?? 'another level'}: ${room}.`,
-      ascend: `Up to ${room}.`, descend: `Down to ${room}.`,
+    // Inside another building or level, the room is named with it when the two names differ.
+    const within = e.scope && e.scope !== room && !room.includes(e.scope) ? `, in ${e.scope}` : '';
+    const where = { walk: `${this.upper(room)}${span}${how}.`, enter: `${this.upper(room)}${within}${span}.`,
+      leave: `Out to ${room}${within}${span}.`, level: `${this.upper(room)}${within}${span}.`,
+      ascend: `Up to ${room}${span}.`, descend: `Down to ${room}${span}.`,
       travel: `Across country to ${room}${e.scope ? `, ${e.scope}` : ''}${minutes > 10 ? ` (${this.span(minutes)})` : ''}${how}.`,
       cross_plane: `Across a planar threshold to ${room}.` }[e.transition];
     return [where, e.via && e.via !== e.way ? `The way runs past ${e.via}.` : '', e.hazard ?? e.blocked ?? '']
@@ -215,8 +218,9 @@ export class ChoiceList {
     const tone: Tone = a.spell ? 'spell' : 'ability';
     // A levelled spell says how many castings are ready; a cantrip, that it is free.
     const cost = a.spell && a.spell.level > 0 ? `${a.spell.ready} ready` : a.price;
-    // Withdrawing is the whole company's: it ends the fight for everyone.
-    const scope = a.id === 'flee' ? 'ends the fight' : a.targets.length ? '' : a.scope;
+    // Withdrawing is the whole company's: it ends the fight for everyone. An ability on oneself needs no note.
+    const scope = a.id === 'flee' ? 'ends the fight for all' : a.targets.length ? ''
+      : ({ party: 'the whole company', allies: 'every ally', enemies: 'every foe', all: 'everyone' } as Record<string, string>)[a.scope] ?? '';
     const note = [cost, scope].filter(Boolean).join(' · ');
     const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}) };
     if (!a.targets.length) { return { ...base, command: `${a.id}>` }; }

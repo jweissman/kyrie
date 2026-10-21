@@ -16,6 +16,7 @@ import { ChartModel } from './chart-model';
 import { Carriers } from './carriers';
 import { Overlays } from '../overlays';
 import { PerkText } from '../presentation/perk-text';
+import { TradeModel } from './trade-model';
 import type { ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -71,6 +72,7 @@ export class ScreenModel {
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),
+      trade: here ? TradeModel.at(world, here, names) : [],
       objectives: (view.objectives ?? []).map(o => FictionalTime.prose(o.text)),
       ...new ChartModel(world, view.actor, entities).build(visited, here),
       expedition: this.expedition(world, view.actor, view.elapsed),

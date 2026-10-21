@@ -3,7 +3,7 @@ import type { Chart, RegionChart } from '../src/ui/screen-types';
 
 // The known map as SVG: authored grid positions, places the company has stood in, the far ends of ways it has seen,
 // and those ways coloured by what stands in them. Nothing here is inferred beyond the screen model's chart.
-export class MonoMap {
+export class PlayMap {
   static readonly cell = { w: 136, h: 88, node: { w: 108, h: 44 } };
   static short(name: string, max = 14): string {
     const plain = name.replace(/^(the|a|an) /i, '');
@@ -82,13 +82,14 @@ export class MonoMap {
   }
   static pane(chart: Chart | undefined, fallback: { name: string; here: boolean; visited: boolean }[],
     region?: RegionChart, size: 'small' | 'large' = 'small'): string {
-    const legend = '<p class="legend"><span class="k open">—</span>open <span class="k blocked">—</span>shut <span class="k guarded">—</span>guarded <span class="k hazard">—</span>danger <span class="k unexplored">- -</span>not yet walked</p>';
-    const regional = region ? `<div class="scale"><h3 class="map-scale">Region</h3>${this.region(region)}</div>` : '';
+    const legend = '<p class="legend"><span class="k open">—</span>open <span class="k blocked">—</span>shut '
+      + '<span class="k guarded">—</span>guarded <span class="k hazard">—</span>danger <span class="k unexplored">- -</span>not walked</p>';
+    const regional = region ? `<div class="scale"><h3>The region</h3>${this.region(region)}</div>` : '';
     const narrow = typeof matchMedia === 'function' && matchMedia('(max-width: 719px)').matches;
     const near = narrow ? { x: 3, y: 2 } : size === 'small' ? { x: 4, y: 3 } : undefined;
     const body = chart ? `<div class="charts"><div class="scale here">${this.svg(chart, near)}</div>${regional}</div>${legend}`
       : `<ul class="placelist">${fallback.filter(p => p.visited || p.here)
         .map(p => `<li${p.here ? ' class="here"' : ''}>${p.here ? '◎' : '·'} ${Html.escape(p.name)}</li>`).join('')}</ul>`;
-    return `<section class="pane map ${size}" data-region="map" aria-label="Map"><h2>Map</h2>${body}</section>`;
+    return `<section class="panel map ${size}" data-region="map" aria-label="Map"><h2>Map</h2>${body}</section>`;
   }
 }

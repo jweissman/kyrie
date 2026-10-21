@@ -1,3 +1,5 @@
+import type { Counter } from './trade-model';
+
 // Renderer-independent game screen contract. Every executable leaf carries a PlayerView command id; the client
 // never decides what is legal. Rows describe what the party can perceive at its current location.
 
@@ -54,6 +56,8 @@ export interface Screen {
   knowledge: { text: string; how: string }[]; deadlines: string[]; capabilities: string[];
   // The formations the company makes (Orsino's party traits), and what each perk does.
   formations: { name: string; perks: string[] }[];
+  // Merchants here: what each sells, at what price and stock, and what each buys.
+  trade: Counter[];
   // Lines of this scene the company has not seen before, at a place it has been before: what has changed.
   fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
