@@ -91,7 +91,7 @@
   ],
   "effect:summon": [
    "adapted",
-   "Legacy encounter-local summon of a catalogued creature; no persistent campaign ownership."
+   "Summoning.call: creatures by species, by animal kind, by the summoner's ancestry's companions, or by monster class, element or type, made at the level the options name; they fight for the summoner, who holds at most 3 + level / 3 (the oldest go back past that), and none outlasts the fight. Orsino draws a class and then a type within it; Kyr draws one species from all the classes' types at once."
   ],
   "flag:saveDC": [
    "faithful",
@@ -936,6 +936,66 @@
   "flag:healCaster": [
    "cosmetic",
    "Orsino's drain always heals the caster by the damage dealt; the flag is not read."
+  ],
+  "field:animalKind.str": [
+   "faithful",
+   "OrsinoBestiary: Orsino's animal template, every attribute 3 plus the kind's (rising by round(level / 8)), and the kind's hit points, fixed."
+  ],
+  "field:animalKind.dex": [
+   "faithful",
+   "OrsinoBestiary: Orsino's animal template, every attribute 3 plus the kind's (rising by round(level / 8)), and the kind's hit points, fixed."
+  ],
+  "field:animalKind.con": [
+   "faithful",
+   "OrsinoBestiary: Orsino's animal template, every attribute 3 plus the kind's (rising by round(level / 8)), and the kind's hit points, fixed."
+  ],
+  "field:animalKind.int": [
+   "faithful",
+   "OrsinoBestiary: Orsino's animal template, every attribute 3 plus the kind's (rising by round(level / 8)), and the kind's hit points, fixed."
+  ],
+  "field:animalKind.wis": [
+   "faithful",
+   "OrsinoBestiary: Orsino's animal template, every attribute 3 plus the kind's (rising by round(level / 8)), and the kind's hit points, fixed."
+  ],
+  "field:animalKind.cha": [
+   "faithful",
+   "OrsinoBestiary: Orsino's animal template, every attribute 3 plus the kind's (rising by round(level / 8)), and the kind's hit points, fixed."
+  ],
+  "field:animalKind.hp": [
+   "faithful",
+   "OrsinoBestiary: Orsino's animal template, every attribute 3 plus the kind's (rising by round(level / 8)), and the kind's hit points, fixed."
+  ],
+  "field:animalKind.weapon": [
+   "faithful",
+   "The kind's natural weapon, as the Kyr weapon that stands for it."
+  ],
+  "field:animalKind.body": [
+   "faithful",
+   "The kind's hide, as the Kyr armour that stands for it."
+  ],
+  "field:animalKind.description": [
+   "cosmetic",
+   "The species description."
+  ],
+  "field:elementalAbilities": [
+   "faithful",
+   "OrsinoMonsters with an element: its abilities join the class's and the type's (Kyr keeps those it can play and names the rest)."
+  ],
+  "field:elementalModifiers.traits": [
+   "faithful",
+   "OrsinoMonsters with an element: its affinity and vulnerability traits overlay the creature's."
+  ],
+  "damage:electric": [
+   "faithful",
+   "Orsino's content deals electric damage, which no Orsino rule or resistance names (its resistance is resistLightning): Kyr keeps it a kind of its own, resisted only by resistance to all, as Orsino's handleHit does."
+  ],
+  "target:randomEnemies": [
+   "faithful",
+   "AbilityHandler.resolveTargetOrTargets: distinct living enemies, as many as the count or all if fewer, drawn once for every effect of the ability; Kyr draws them from the battle's seed."
+  ],
+  "target:count": [
+   "adapted",
+   "Orsino reads the count with parseInt: \"2 + round(#level/2)\" is always 2, and a count written as an expression (\"=1d6 + floor(#level / 2)\") is no number, so the spell touches no one. Kyr evaluates the count as written."
   ]
  }
 }

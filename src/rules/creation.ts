@@ -5,6 +5,7 @@ import { Fighting } from './fighting';
 export interface Chassis {
   hitDie: number; attributes: Partial<Record<Attribute, number>>; abilities: string[]; traits: string[];
   weapons: string[]; armor: string[]; fixed?: Record<Attribute, number>; hitPoints?: number;
+  growth?: { hitPoints?: { base: number; perLevel: number } };
 }
 // Orsino's character creation (CharacterRecord and the pc template) and its NPC hit points, as rules over the canon.
 export class Creation {
@@ -24,10 +25,12 @@ export class Creation {
   static chassis(raceId: string, classId?: string, level = 1): Chassis {
     if (Canon.isSpecies(raceId)) {
       const s = Canon.creature(raceId), st = s.statistics!;
-      return { hitDie: st.hitDie, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],
+      const grow = st.growth ? Math.round(level / 8) : 0;
+      return { hitDie: st.hitDie ?? 0, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],
         weapons: [st.weapon], armor: st.armor ? [st.armor] : [],
-        ...typeof st.attributes === 'object' ? { fixed: st.attributes } : {},
-        ...st.hitPoints ? { hitPoints: st.hitPoints } : {} };
+        ...typeof st.attributes === 'object' ? { fixed: Object.fromEntries(Object.entries(st.attributes)
+          .map(([k, v]) => [k, v + grow])) as Record<Attribute, number> } : {},
+        ...st.hitPoints ? { hitPoints: st.hitPoints } : {}, ...st.growth ? { growth: st.growth } : {} };
     }
     const a = Canon.ancestries[raceId], c = this.classOf(classId);
     if (!a || !c) { throw new Error(`A person needs an ancestry and a class: ${raceId}/${classId ?? '-'}`); }
@@ -41,6 +44,15 @@ export class Creation {
   }
   // A level-1 character has its hit die plus its positive CON modifier (the pc template). A creature made above level 1
   // uses Orsino's NPC formula: max(2, round(hitDie + (level − 1) × hitDie / 2 + statMod(con))).
+  // A creature's hit points: fixed, grown by Orsino's monster template, or rolled from its hit die.
+  static health(chassis: Chassis, level: number, constitution: number): number {
+    return chassis.hitPoints ?? (chassis.growth?.hitPoints ? this.grown(chassis.growth.hitPoints, level, constitution)
+      : this.hitPoints(chassis.hitDie, level, constitution));
+  }
+  // Orsino's monster template: max(1, the line's hit points + statMod(con) + perLevel × level).
+  static grown(growth: { base: number; perLevel: number }, level: number, constitution: number): number {
+    return Math.max(1, growth.base + Fighting.statMod(constitution) + growth.perLevel * level);
+  }
   static hitPoints(hitDie: number, level: number, constitution: number): number {
     const mod = Fighting.statMod(constitution);
     return level <= 1 ? Math.max(1, hitDie + Math.max(0, mod))

@@ -245,6 +245,7 @@
           ],
           "abilities": [
             "defend",
+            "summon_animal",
             "hunters_mark",
             "ensnare"
           ],

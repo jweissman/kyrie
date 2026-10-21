@@ -6,11 +6,11 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 |---|---|
 | Ancestries, callings, backgrounds and formations | 34 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 21 orsino data only |
 | Character creation | 8 faithful, 24 adapted, 1 kyr |
-| Progression, feats and high levels | 205 faithful, 4 adapted, 2 kyr, 83 not playable |
-| Action timing, reactions, conditions, costs and targeting | 166 faithful, 8 adapted, 8 kyr, 46 not playable |
-| Spells: traditions, slots, durations and unusual magic | 202 faithful, 2 kyr, 80 not playable |
-| Summoning, transformation, domination, movement, divination and travel | 14 faithful, 1 adapted, 37 not playable, 10 orsino data only |
-| Creatures: families, special attacks, resistances, behaviour and difficulty | 27 faithful, 14 adapted, 9 represented, 19 kyr, 5 not playable, 247 orsino data only |
+| Progression, feats and high levels | 224 faithful, 7 adapted, 2 kyr, 61 not playable |
+| Action timing, reactions, conditions, costs and targeting | 167 faithful, 9 adapted, 8 kyr, 44 not playable |
+| Spells: traditions, slots, durations and unusual magic | 221 faithful, 3 adapted, 2 kyr, 58 not playable |
+| Summoning, transformation, domination, movement, divination and travel | 27 faithful, 1 adapted, 24 not playable, 10 orsino data only |
+| Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 122 adapted, 9 represented, 19 kyr, 5 not playable, 154 orsino data only |
 | Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 20 kyr, 141 orsino data only |
 | Environment, world and planar rules | 74 kyr, 190 orsino data only |
 | Content authoring and generation | 9 kyr |
@@ -57,7 +57,7 @@ Handbook sections: `phb:callings`, `phb:ancestries`.
 
 ## Progression, feats and high levels
 
-Entries: 205 faithful, 4 adapted, 2 kyr, 83 not playable.
+Entries: 224 faithful, 7 adapted, 2 kyr, 61 not playable.
 
 **What Orsino defines.** Experience to any level (50L³ + 150L² + 300L − 600), a quality point a level, a new spell for specialists, feats at 5, 10 and 15, an epic note at 20; spell levels to 9 as caster level rises.
 
@@ -77,7 +77,7 @@ Handbook sections: `phb:advancement`, `phb:feats`, `phb:magic`.
 
 ## Action timing, reactions, conditions, costs and targeting
 
-Entries: 166 faithful, 8 adapted, 8 kyr, 46 not playable.
+Entries: 167 faithful, 9 adapted, 8 kyr, 44 not playable.
 
 **What Orsino defines.** Initiative each round, actions a turn, haste and slow, preparation (Charge), compelled moves, wound-up blows, reactions on being attacked, on an enemy's melee, attack, cast or charge, on combat start, on a status expiring, on healing and on a kill; random multi-target spells.
 
@@ -97,19 +97,19 @@ Handbook sections: `phb:combat`, `phb:conditions`, `phb:techniques`.
 
 ## Spells: traditions, slots, durations and unusual magic
 
-Entries: 202 faithful, 2 kyr, 80 not playable.
+Entries: 221 faithful, 3 adapted, 2 kyr, 58 not playable.
 
 **What Orsino defines.** 131 arcane and 154 divine spells across levels 0 to 9, schools and domains, slot tables, spell saves and durations, and spells that summon, cast other spells, choose an effect at random, resurrect, kill outright or shift planes.
 
-**What Kyr implements faithfully.** Slots by spell level, preparation and readying at rest, cantrips, spell saves for half or none, school and domain access, durations in turns.
+**What Kyr implements faithfully.** Slots by spell level, preparation and readying at rest, cantrips, spell saves for half or none, school and domain access, durations in turns, random targets drawn once for every effect of a spell, electric damage as Orsino's content deals it, and summoning.
 
-**What Kyr deliberately adapts.** Preparing a different spell takes an hour.
+**What Kyr deliberately adapts.** Preparing a different spell takes an hour. A random spell's count is evaluated as written (Orsino's parseInt reads "2 + round(#level/2)" as 2 and an expression as nothing).
 
 **What is data only.** None: every Orsino spell is catalogued and says whether it plays.
 
-**What is missing or wrong.** Unreachable spells above level 5 and unplayable spells that summon, cast, randomize, resurrect, kill outright or planeshift.
+**What is missing or wrong.** Spells that cast other spells, choose an effect at random or in turn, resurrect, kill outright, planeshift, or apply one of 34 statuses Kyr cannot run (overwatch, invisible, reflect, spell turning, time stop).
 
-**What abstractions are needed.** Entity creation with an owner and a lifetime (summon, create, dismiss); an effect that casts a named ability; a weighted random choice of effects drawn from the battle's seed; resurrection as a state change on a fallen creature.
+**What abstractions are needed.** An effect that casts a named ability; a weighted random choice of effects drawn from the battle's seed; resurrection as a state change on a fallen creature; statuses that answer what an enemy does.
 
 **Whether the browser makes it understandable.** Each companion's sheet shows what is prepared today; a spell is cast from the fight's menu with its effect stated. The handbook lists every spell with whether it plays.
 
@@ -117,17 +117,17 @@ Handbook sections: `phb:magic`.
 
 ## Summoning, transformation, domination, movement, divination and travel
 
-Entries: 14 faithful, 1 adapted, 37 not playable, 10 orsino data only.
+Entries: 27 faithful, 1 adapted, 24 not playable, 10 orsino data only.
 
 **What Orsino defines.** Summon creatures by kind or generated template, polymorph and shapechange, charm and dominate, flee, teleport and planeshift, divination that reveals.
 
-**What Kyr implements faithfully.** Charm and domination (allegiance changes and control), fleeing.
+**What Kyr implements faithfully.** Charm and domination (allegiance changes and control), fleeing, and summoning: creatures by kind, by class, by element or by type, at the level the spell names, owned by the summoner, at most 3 + level / 3 at once with the oldest sent back, and gone when the fight ends.
 
-**What Kyr deliberately adapts.** Summoning calls a catalogued species and it fights for the summoner until the fight ends.
+**What Kyr deliberately adapts.** Kyr draws a summoned monster from all the named classes' kinds at once, where Orsino draws a class and then a kind.
 
-**What is data only.** Generated summons, polymorph, shapechange, teleport, planeshift, mind reading, truesight.
+**What is data only.** Summons with an aspect (images, the weird), polymorph, shapechange, teleport, planeshift, mind reading, truesight.
 
-**What is missing or wrong.** Ownership and dismissal of summoned creatures; transformation; travel by magic; divination that answers a question about the world.
+**What is missing or wrong.** Transformation; travel by magic; divination that answers a question about the world; summons that outlast a fight.
 
 **What abstractions are needed.** One entity lifecycle for summon, create, transform and dismiss; travel as a world action whose destination must be known; divination as a world action that teaches a fact the company can then act on.
 
@@ -137,21 +137,21 @@ Handbook sections: `dmg:orsino-world/orsino-plane`.
 
 ## Creatures: families, special attacks, resistances, behaviour and difficulty
 
-Entries: 27 faithful, 14 adapted, 9 represented, 19 kyr, 5 not playable, 247 orsino data only.
+Entries: 105 faithful, 122 adapted, 9 represented, 19 kyr, 5 not playable, 154 orsino data only.
 
 **What Orsino defines.** 10 monster classes (stat line, weapon, hide, up to three attacks a turn, worth, gold) × 40 types × 31 aspects × 8 ranks, 44 animals, 17 elementals, dragons by colour, golems by substance, 89 kinds of person by trade.
 
-**What Kyr implements faithfully.** Resistances and vulnerabilities, natural weapons and hides, creature traits such as flying and formidable, experience by kind and level, the golem as Orsino composes it.
+**What Kyr implements faithfully.** Resistances and vulnerabilities, natural weapons and hides, creature traits such as flying and formidable, and Orsino's bestiary composed by its own template: 39 monster types by class, 16 elementals by element and 38 animals by kind, with each class's actions a turn (an owlbear's two, a dragon's three), growth with level (qualities by round(level / 8), hit points by three a level) and worth (class experience + 50 a level).
 
-**What Kyr deliberately adapts.** Most of Kyr's fourteen species roll their qualities instead of using Orsino's stat line.
+**What Kyr deliberately adapts.** Kyr's hand-made species (wolves, boars, the bear, the dragon) roll their qualities instead of using Orsino's stat line; a generated species keeps only the abilities and traits Kyr can play and names the rest; the gold a kill was worth is not carried.
 
-**What is data only.** Most monster types, every rank and aspect, 40 of 44 animals, every elemental and kind of person.
+**What is data only.** Ranks (which change nothing in Orsino either), the 31 aspects, the golem substances and dragon colours Kyr has not taken, and Orsino's 89 kinds of person by trade.
 
-**What is missing or wrong.** Several attacks a turn; most of the bestiary; temperament and habitat are recorded but read by nothing in play, so creatures do not warn, bargain, retreat or pursue by their nature.
+**What is missing or wrong.** Temperament and habitat are recorded but read by nothing in play, so creatures do not yet warn, bargain, retreat or pursue by their nature; aspects; most generated creatures are not yet placed in any world.
 
-**What abstractions are needed.** Species composed from Orsino's monster template through the registry (OrsinoMonsters already reproduces it); attacks a turn as a species statistic; temperament as the rules by which an inhabitant answers intrusion.
+**What abstractions are needed.** OrsinoBestiary (bun bin/orsino-registry.ts bestiary) composes species from the registry; species statistics carry actions, growth and worth; temperament as rules by which an inhabitant answers intrusion is still to come.
 
-**Whether the browser makes it understandable.** Foes are shown with their condition and wind-ups. The Monster Manual now describes every species and what is not yet held.
+**Whether the browser makes it understandable.** Foes show their condition and wind-ups; the Monster Manual describes every species by type, with what each leaves out.
 
 Handbook sections: `mm:species`, `mm:natural-abilities`, `mm:creature-traits`, `mm:orsino-bestiary`.
 
@@ -220,12 +220,12 @@ Handbook sections: `dmg:making-worlds`, `dmg:campaigns`, `mm:generated`.
 | Rank | Deficiency | Unlocks | Cycle | State |
 |---:|---|---|---:|---|
 | 1 | Progression stopped at level 10 | 56 spells of levels 6–9, feats at 15, levels 11–20; now reached, with calling features for every calling | 4 | addressed |
-| 2 | Creatures are fourteen hand-made species, one attack a turn, and their temperament is read by nothing | Orsino's bestiary through the monster template; multi-attack; inhabitants that answer intrusion | 2 | open |
-| 3 | Summoning has no ownership, lifetime or dismissal, and cannot call a generated creature | 16 summoning abilities, 27 companions, conjured guardians | 3 | open |
+| 2 | Creatures were fourteen hand-made species acting once a turn; their temperament is still read by nothing | Orsino's bestiary (93 species) with actions a turn and growth; inhabitants that answer intrusion still to come | 2 | partly addressed |
+| 3 | Summoning had no ownership, limit or generated creatures | 12 summoning abilities now play; aspect summons (images, the weird) still do not | 3 | addressed |
 | 4 | No reactions to what an enemy does | 32 statuses (overwatch, braced, reflect, spellturn …), reactive magic items | 3 | open |
-| 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray | 3 | open |
+| 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm now play; prismatic spray waits on cycling effects | 3 | addressed |
 | 6 | No planes, place laws or magical travel | 10 planes, planeshift, teleport, a planar adventure | 5 | open |
 | 7 | Cast, random effect, resurrect and kill effects | 20 entries that cast, 6 that randomize, 8 that resurrect or kill | 3 | open |
 | 8 | Items are mostly Orsino data | 60 gear, 42 magic items, 22 consumables | 2 | open |
-| 9 | Electric damage is not a Kyr damage kind | 11 spells and weapons | 3 | open |
+| 9 | Electric damage is not a Kyr damage kind | 11 spells and weapons | 3 | addressed |
 | 10 | No city, no institutions as kits | urban investigation, negotiation and patronage | 5 | open |

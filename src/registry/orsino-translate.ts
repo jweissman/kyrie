@@ -1,4 +1,4 @@
-import type { Effect, Target } from '../lang/parse';
+import type { Amount, Effect, Target } from '../lang/parse';
 import type { Ability, Bonuses, Condition, Hooks, ItemKind, Omissions, Perk, Trait, Triggers } from '../canon/schema';
 import { ModifierSet, type Modifiers } from '../rules/modifiers';
 import type { RegistryEntry } from './orsino-extract';
@@ -114,8 +114,12 @@ export class OrsinoTranslate {
     const out = Object.fromEntries(this.family('status').map(e => [e.key, this.condition(e.definition as Raw, e.id)]));
     return { ...out, ...this.inline };
   }
-  private target(target: unknown): { target: Target } | { error: string } {
+  private target(target: unknown): { target: Target; count?: Amount } | { error: string } {
     const t = Array.isArray(target) ? target.map(String) : [];
+    if (t[0] === 'randomEnemies' && t.length <= 2) {
+      const raw = t[1] ?? '1', text = OrsinoEffects.expression(raw);
+      return { target: 'random enemies', count: /^\d+$/.test(text) ? { kind: 'literal', value: Number(text) } : { kind: 'deem', expression: text } };
+    }
     const map: Record<string, Target> = { enemy: 'enemy', enemies: 'enemies', self: 'self', ally: 'ally',
       'self,ally': 'ally', allies: 'allies', party: 'party', deadAlly: 'dead ally' };
     const found = map[t.join(',')];
@@ -130,9 +134,10 @@ export class OrsinoTranslate {
       for (const raw of (d.effects ?? []) as Raw[]) {
         const translated = this.effects.effect(raw, target.target, e.id);
         if (typeof translated === 'string') { unsupported[`effect:${String(raw.type)}`] = translated; }
-        else { effects.push(...translated); }
+        else { effects.push(...translated.map(x => x.target === 'random enemies' ? { ...x, count: target.count! } : x)); }
       }
     } else { unsupported.target = target.error; }
+    const counted = 'count' in target && target.count?.kind === 'deem' ? OrsinoTranslate.counted(d.target) : undefined;
     for (const id of effects.flatMap(x => x.kind === 'apply' ? [x.status] : [])) {
       const c = this.inline[id] ?? this.family('status').find(s => s.key === id);
       const condition = c && 'modifiers' in c ? c : c ? this.condition((c as RegistryEntry).definition as Raw, c.id) : undefined;
@@ -149,7 +154,14 @@ export class OrsinoTranslate {
       ...typeof d.cooldown === 'number' ? { recharge: d.cooldown } : {},
       ...offensive ? { resist: { kind: 'magic', difficulty: '15 + #bonusSpellDC' } } : {},
       ...requires ? { requires } : {}, ...Object.keys(unsupported).length ? { unsupported } : {},
-      source: { orsino: e.id, fidelity: 'faithful' } };
+      source: { orsino: e.id, fidelity: counted ? 'adapted' : 'faithful', ...counted ? { notes: counted } : {} } };
+  }
+  // Orsino reads a random target count with parseInt: "2 + round(#level/2)" is 2, and a count written as an
+  // expression ("=1d6 + floor(#level / 2)") is no number, so the spell touches no one. Kyr evaluates the count.
+  static counted(target: unknown): string {
+    const raw = String((target as unknown[])[1]), read = parseInt(raw, 10);
+    return `Orsino reads the count "${raw}" with parseInt, ${Number.isNaN(read) ? 'finds no number and touches no one'
+      : `and always draws ${read}`}; Kyr evaluates it as written.`;
   }
   private requires(condition: unknown, unsupported: Omissions): Ability['requires'] {
     if (!condition || typeof condition !== 'object') { return undefined; }

@@ -79,13 +79,21 @@ export interface Ancestry {
   techniques?: string[]; feature?: string; source: Source;
 }
 export interface Statistics {
-  attributes: 'rolled' | Record<Attribute, number>; hitPoints?: number; hitDie: number;
+  attributes: 'rolled' | Record<Attribute, number>; hitPoints?: number; hitDie?: number;
   level?: number; weapon: string; armor?: string; primary: Attribute;
+  // Actions a turn (Orsino's monsterAttacksPerTurn); one when unstated.
+  actions?: number;
+  // Orsino's template growth for a creature made above first level: every fixed attribute rises by round(level / 8),
+  // and a monster's hit points are base + Constitution modifier + perLevel × level (an animal's stay fixed).
+  growth?: { hitPoints?: { base: number; perLevel: number } };
 }
 export interface Species {
   name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit';
   statistics?: Statistics; abilities?: string[]; traits?: string[]; resistances?: Record<string, number>;
-  temperament?: string; habitats?: string[]; source: Source;
+  temperament?: string; habitats?: string[];
+  // Experience for defeating one (Orsino's monsterXp + 50 × level, an animal's 10 × level); else by type.
+  worth?: { base: number; perLevel: number };
+  omits?: Omissions; source: Source;
 }
 export interface Proficiencies { all?: true; kinds?: string[]; weights?: string[] }
 export interface CharacterClass {

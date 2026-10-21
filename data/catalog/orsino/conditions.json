@@ -2650,10 +2650,20 @@
    "description": "Ion Shield",
    "lifetime": "encounter",
    "modifiers": {},
-   "duration": 10,
-   "unsupported": {
-    "onAttacked": "Damage kind electric is not a Kyr damage type."
+   "hooks": {
+    "onAttacked": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d6+#level"
+      },
+      "damageType": "electric",
+      "target": "enemy"
+     }
+    ]
    },
+   "duration": 10,
    "source": {
     "orsino": "divineSpell:ion_shield",
     "fidelity": "adapted",

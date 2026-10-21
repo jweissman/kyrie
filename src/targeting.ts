@@ -13,7 +13,7 @@ export class Targeting {
       if (f.hp === 0) { return false; }
       if (target === 'self') { return f.id === actor.id; }
       if (target === 'all') { return true; }
-      const enemy = ['enemy', 'enemies', 'random enemy'].includes(target);
+      const enemy = ['enemy', 'enemies', 'random enemy', 'random enemies'].includes(target);
       return enemy ? !friend && f.id !== actor.id : friend || f.id === actor.id;
     });
   }

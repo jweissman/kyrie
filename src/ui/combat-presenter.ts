@@ -63,7 +63,8 @@ export class CombatPresenter {
         : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`
           : `${target} gains ${event.amount} ${event.detail}.`;
       case 'learn': return `${target} learns ${event.detail}.`;
-      case 'summon': return `${actor} calls a companion.`;
+      case 'summon': return `${actor} calls ${event.detail}.`;
+      case 'dismiss': return `${event.detail} goes back whence it came.`;
       case 'travel': return `${actor} travels to ${event.detail}.`;
       case 'end': return event.outcome === 'fighters' ? 'Your company wins the encounter.' :
         event.outcome === 'goblins' ? 'The opposition wins the encounter.' :

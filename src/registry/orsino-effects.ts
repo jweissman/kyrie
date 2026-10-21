@@ -2,7 +2,12 @@ import type { Amount, Effect, Target } from '../lang/parse';
 import type { Periodic } from '../rules/modifiers';
 
 type Raw = Record<string, unknown>;
-export interface Vocabulary { saveKinds: string[]; damageTypes: string[] }
+// The species a summon can call, read from Kyr's species catalogs: by Orsino source ("animal:rat"), monsters by type,
+// and each ancestry's companion beasts (Orsino's companionType).
+export interface Bestiary {
+  byOrsino: Record<string, string>; byType: Record<string, string[]>; companions: Record<string, string[]>;
+}
+export interface Vocabulary { saveKinds: string[]; damageTypes: string[]; bestiary?: Bestiary }
 
 // One Orsino ability effect (Ability.ts handleSingleEffect) as Kyr typed effects, or the reason it cannot be.
 export class OrsinoEffects {
@@ -72,9 +77,46 @@ export class OrsinoEffects {
         return [{ kind: 'apply', status, duration, target, ...save, ...extra } as Effect];
       }
       // Orsino removes, by a case-insensitive pattern over names, every active status that matches; Kyr does the same.
+      case 'summon': return this.summon(raw, target);
       case 'removeStatus':
         return [{ kind: 'remove' as const, status: '', pattern: String(raw.statusName), target, ...extra } as Effect];
       default: return `Effect ${String(raw.type)} is not supported.`;
     }
+  }
+  // Orsino's summon: an animal by kind or a companion by the summoner's ancestry, or a monster by class, element or
+  // type, at the level its options name. Its rank has no effect in Orsino, and none here.
+  summon(raw: Raw, target: Target): Effect[] | string {
+    if (target !== 'self') { return `A summon aimed at ${target} is not supported.`; }
+    const b = this.vocabulary.bestiary, o = (raw.options ?? {}) as Raw;
+    if (!b) { return 'No bestiary to summon from.'; }
+    const aspect = o.animal_aspect ?? o.monster_aspect;
+    if (aspect) { return `Summoning with the ${String(aspect)} aspect is not modelled.`; }
+    const known = ['background', 'animal_type', 'level', 'rank', '_class', 'element', 'monster_type'];
+    const unknown = Object.keys(o).filter(k => !known.includes(k));
+    if (unknown.length) { return `Summon options ${unknown.join(', ')} are not supported.`; }
+    let from: string[] = [], byAncestry: Record<string, string[]> | undefined;
+    if (raw.creature === 'animal' && o.animal_type) {
+      from = OrsinoEffects.choices(o.animal_type).map(k => b.byOrsino[`animal:${k}`]!).filter(Boolean);
+    } else if (raw.creature === 'animal') {
+      byAncestry = b.companions;
+      from = [...new Set(Object.values(b.companions).flat())];
+    } else if (raw.creature === 'monster' && o.monster_type) {
+      from = OrsinoEffects.choices(o.monster_type).map(k => b.byOrsino[`monsterType:${k}`]!).filter(Boolean);
+    } else if (raw.creature === 'monster' && o.element) {
+      from = OrsinoEffects.choices(o.element).map(k => b.byOrsino[`elemental:${k}`]!).filter(Boolean);
+    } else if (raw.creature === 'monster' && o._class) {
+      from = OrsinoEffects.choices(o._class).flatMap(c => b.byType[c] ?? []);
+    } else { return `Summoning a ${String(raw.creature)} is not supported.`; }
+    if (!from.length) { return 'No Kyr species stands for what this summons.'; }
+    return [{ kind: 'summon', creature: from[0]!, target, from,
+      ...byAncestry ? { byAncestry } : {},
+      ...raw.amount !== undefined ? { amount: OrsinoEffects.amount(raw.amount) } : {},
+      ...typeof o.level === 'number' ? { level: o.level } : {} } as Effect];
+  }
+  // "=oneOf(beast, fey)" or "Lich": the keys an option allows.
+  static choices(value: unknown): string[] {
+    const text = String(value).replace(/^=/, '').trim();
+    const m = /^oneOf\((.*)\)$/.exec(text);
+    return (m ? m[1]!.split(',') : [text]).map(s => s.trim()).filter(Boolean);
   }
 }

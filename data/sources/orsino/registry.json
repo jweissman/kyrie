@@ -7694,7 +7694,7 @@
     "damage:cold",
     "effect:damage",
     "flag:saveForHalf",
-    "target:=1d6 + floor(#level / 2)",
+    "target:count",
     "target:randomEnemies"
    ]
   },
@@ -9824,6 +9824,7 @@
     "effect:damage",
     "effect:debuff",
     "flag:saveForHalf",
+    "target:count",
     "target:randomEnemies"
    ]
   },
@@ -9924,7 +9925,7 @@
    "features": [
     "damage:force",
     "effect:damage",
-    "target:2 + round(#level/2)",
+    "target:count",
     "target:randomEnemies"
    ]
   },
@@ -10481,7 +10482,7 @@
     "damage:fire",
     "effect:damage",
     "flag:saveForHalf",
-    "target:=5 + floor(#level / 2)",
+    "target:count",
     "target:randomEnemies"
    ]
   },
@@ -11410,7 +11411,7 @@
     "effect:damage",
     "flag:cycledEffects",
     "flag:saveForHalf",
-    "target:=7 + round(#level / 2)",
+    "target:count",
     "target:enemy",
     "target:randomEnemies"
    ]
@@ -25671,6 +25672,7 @@
     "field:consumables.value",
     "flag:randomEffects",
     "flag:saveDC",
+    "target:count",
     "target:randomEnemies",
     "target:self"
    ]
@@ -26645,6 +26647,7 @@
     "field:consumables.target",
     "field:consumables.type",
     "field:consumables.value",
+    "target:count",
     "target:randomEnemies"
    ]
   },
@@ -26884,6 +26887,7 @@
     "field:consumables.type",
     "field:consumables.value",
     "flag:randomEffects",
+    "target:count",
     "target:randomEnemies",
     "target:self"
    ]

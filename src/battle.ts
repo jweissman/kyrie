@@ -1,3 +1,4 @@
+import { Canon } from './canon/canon';
 import { Spellcasting } from './rules/spellcasting';
 import { AbilityUse } from './ability-use';
 import { CreatureStore, type CreatureLease } from './creature-store';
@@ -252,6 +253,10 @@ export class Battle {
     this.startTurn();
   }
   // Combat.turn's start: cooldowns tick; a creature with noActions loses the turn.
+  // A kind's own actions a turn (Orsino's monsterAttacksPerTurn: an owlbear's two, a dragon's three); one for people.
+  static actionsOf(f: Fighter): number {
+    return Canon.isSpecies(f.raceId) ? Canon.creature(f.raceId).statistics?.actions ?? 1 : 1;
+  }
   private startTurn() {
     while (!this.outcome) {
       const actor = this.actor();
@@ -260,7 +265,7 @@ export class Battle {
       this.finishIfEliminated();
       if (this.outcome) { return; }
       if (actor.hp > 0 && !actor.statuses.some(s => Effects.skips(s.id))) {
-        this.actions = Math.max(1, 1 + (Effects.modifiers(actor).extraAttacksPerTurn ?? 0));
+        this.actions = Math.max(1, Battle.actionsOf(actor) + (Effects.modifiers(actor).extraAttacksPerTurn ?? 0));
         this.impulsive(actor);
         return;
       }
@@ -276,7 +281,7 @@ export class Battle {
         this.cursor++;
         if (this.cursor >= this.order.length) { this.round(); }
         this.turn++;
-      } while (this.actor().hp === 0);
+      } while (!this.actor() || this.actor().hp === 0);
     }
   }
   // A guard stands over a companion until the guard's own next turn.

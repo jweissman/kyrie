@@ -48,7 +48,12 @@ export class OrsinoReferences {
   private static walk(value: unknown, c: Walk) {
     if (Array.isArray(value)) {
       if (c.field === 'target') {
-        value.filter(v => typeof v === 'string').forEach(v => c.features.add(`target:${v as string}`));
+        // A random target names how many it draws after its kind: ["randomEnemies", "2 + round(#level/2)"].
+        if (value[0] === 'randomEnemies') {
+          c.features.add('target:randomEnemies');
+          if (value.length > 1) { c.features.add('target:count'); }
+        }
+        else { value.filter(v => typeof v === 'string').forEach(v => c.features.add(`target:${v as string}`)); }
         return;
       }
       value.forEach(v => this.walk(v, c));

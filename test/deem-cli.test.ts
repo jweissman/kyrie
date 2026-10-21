@@ -127,7 +127,7 @@ describe('checked-in generation facts stay executable', () => {
         const body = Canon.creature(row.raceId).statistics!;
         expect(row.weapon).toBe(body.weapon);
         expect(row.armor).toBe(body.armor ?? '');
-        expect(row.hitDie).toBe(body.hitDie);
+        expect(row.hitDie).toBe(body.hitDie!);
         if ('fixedHp' in row) { expect(row.fixedHp).toBe(body.hitPoints!); }
       }
     }

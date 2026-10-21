@@ -3,7 +3,8 @@ import * as ohm from 'ohm-js';
 import core from './Kyr.ohm' with { type: 'text' };
 import source from './Abilities.ohm' with { type: 'text' };
 
-export type Target = 'enemy' | 'ally' | 'self' | 'dead ally' | 'enemies' | 'allies' | 'party' | 'all' | 'random enemy';
+export type Target = 'enemy' | 'ally' | 'self' | 'dead ally' | 'enemies' | 'allies' | 'party' | 'all' | 'random enemy'
+  | 'random enemies';
 export type Amount = { kind: 'literal'; value: number } | { kind: 'deem'; expression: string };
 export type Resource = 'gold' | 'experience' | 'mana' | 'slots';
 type EffectBody =
@@ -20,13 +21,18 @@ type EffectBody =
   | { kind: 'kill'; target: Target }
   | { kind: 'gain'; amount: Amount; resource: Resource; target: Target }
   | { kind: 'learn'; ability: string; target: Target }
-  | { kind: 'summon'; creature: string; target: Target }
+  // Orsino's summon: amount creatures (one when unstated) of the named species, or drawn from those `from` names, or
+  // from the summoner's ancestry's companions; made at a level (first when unstated). The summoner owns them.
+  | { kind: 'summon'; creature: string; target: Target; from?: string[]; byAncestry?: Record<string, string[]>;
+    amount?: Amount; level?: number }
   | { kind: 'travel'; location: string; target: 'self' };
 // A save names either an attribute (a Kyr attribute save) or an Orsino save category such as breath or will.
 export type Save = { stat?: string; kind?: string; difficulty: Amount; success?: 'negate' | 'half' };
 // onResist: what a resisted spell save does to this damage. targetTrait: the effect only touches creatures with that
-// trait (Orsino's condition.trait).
-export type Effect = EffectBody & { when?: string; save?: Save; onResist?: 'half' | 'negate'; targetTrait?: string };
+// trait (Orsino's condition.trait). count: how many distinct living enemies 'random enemies' draws (Orsino's
+// randomEnemies), all of them if there are fewer.
+export type Effect = EffectBody & { when?: string; save?: Save; onResist?: 'half' | 'negate'; targetTrait?: string;
+  count?: Amount };
 export interface ArenaAbility {
   id: string; name: string; effects: Effect[]; cost?: number; cooldown?: number;
   description?: string;

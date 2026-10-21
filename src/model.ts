@@ -21,6 +21,8 @@ export interface Fighter {
   // The wielded (or natural) weapon, worn armour's ac, and equipped items' modifiers and hooks.
   equipment: Equipment;
   statuses: ConditionInstance[];
+  // The creature whose call brought it into the fight, for a summoned one.
+  summoner?: string;
   // Every trait the creature holds: birth or nature traits and the ones it chose.
   traits?: string[];
   // Where it fights (urban, forest, cave...), for perks that hold only there.
@@ -52,7 +54,7 @@ export type CombatEvent = (
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
   | { type: 'intercept'; turn: number; actor: string; target: string }
   | { type: 'windup' | 'interrupt'; turn: number; actor: string; target: string; detail: string }
-  | { type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'travel' | 'expire';
+  | { type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'dismiss' | 'travel' | 'expire';
     turn: number; actor: string; target: string; detail: string; amount?: number;
     clock?: 'owner-turn' | 'world-time' | 'until-removed' }
   | { type: 'end'; turn: number; outcome: Outcome; reason: 'elimination' | 'turn-limit' | 'retreat';

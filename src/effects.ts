@@ -1,4 +1,5 @@
 import { Spellcasting } from './rules/spellcasting';
+import { Summoning } from './summoning';
 import { Content } from './content';
 import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
@@ -21,6 +22,8 @@ export interface EffectContext {
   // Runs a creature's status or item hooks (set by AbilityUse); hooking marks effects already inside a hook.
   hook?: (holder: Fighter, key: keyof Hooks, subject: Fighter, context: EffectContext) => void;
   hooking?: boolean;
+  // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
+  drawn?: Fighter[];
 }
 const ATTRIBUTES: Attribute[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 export class Effects {
@@ -84,7 +87,7 @@ export class Effects {
   static validate(effect: Effect, abilities: string[]) {
     if (!['attack', 'damage', 'heal', 'drain', 'revive', 'defend', 'flee', 'apply', 'remove', 'kill', 'gain',
       'learn', 'summon', 'travel'].includes(effect.kind)) { throw new Error('Unknown typed effect'); }
-    if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy']
+    if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy', 'random enemies']
       .includes(effect.target)) { throw new Error('Unknown effect target'); }
     for (const amount of [...('amount' in effect ? [effect.amount] : []), ...(effect.save ? [effect.save.difficulty] : [])]) {
       if (!amount || (amount.kind !== 'literal' && amount.kind !== 'deem')
@@ -129,7 +132,8 @@ export class Effects {
       throw new Error('Status duration must be positive');
     }
     if (effect.kind === 'learn' && !abilities.includes(effect.ability)) { throw new Error('Unknown taught ability'); }
-    if (effect.kind === 'summon' && !Canon.isSpecies(effect.creature)) { throw new Error('Unknown summoned creature'); }
+    if (effect.kind === 'summon' && [effect.creature, ...effect.from ?? [], ...Object.values(effect.byAncestry ?? {}).flat()]
+      .some(s => !Canon.isSpecies(s))) { throw new Error('Unknown summoned creature'); }
   }
   // Damage that reaches a creature is soaked by its conditions' temporary hit points first (Commands.handleHit).
   static hp(target: Fighter, amount: number, context: EffectContext, healing = false) {
@@ -149,7 +153,7 @@ export class Effects {
     return { applied, absorbed };
   }
   private static detail(context: EffectContext, target: Fighter, data: {
-    type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'travel'; detail: string; amount?: number;
+    type: 'status' | 'remove' | 'revive' | 'gain' | 'learn' | 'summon' | 'dismiss' | 'travel'; detail: string; amount?: number;
     clock?: 'owner-turn' | 'world-time' | 'until-removed';
   }) {
     context.events.push({ ...data, turn: context.turn, actor: Effects.sourceId(context), target: target.id });
@@ -291,9 +295,7 @@ export class Effects {
         break;
       case 'summon': {
         if (!actor) { throw new Error('Summoning requires a creature actor'); }
-        const id = `summon-${context.fighters.length}-${context.turn}`;
-        context.fighters.push(context.content.creature(effect.creature, id, actor.team));
-        Effects.detail(context, target, { type: 'summon', detail: id });
+        Summoning.call(effect, actor, context);
         break;
       }
       case 'travel': context.location = effect.location; Effects.detail(context, target, { type: 'travel', detail: effect.location }); break;

@@ -210,8 +210,8 @@ describe('preventive validation', () => {
     /abjurer is not a specialization of this class/);
     Probe.rejects(() => { Canon.aliases.abilities.rending_bite = 'smash'; return () => { delete Canon.aliases.abilities.rending_bite; }; },
       /alias rending_bite: shadows a canonical abilities identifier/);
-    Probe.rejects(() => { Canon.items.rope!.weapon = { damage: '1d2', type: 'electric' };
-      return () => { delete Canon.items.rope!.weapon; }; }, /unknown damage type electric/);
+    Probe.rejects(() => { Canon.items.rope!.weapon = { damage: '1d2', type: 'plasma' };
+      return () => { delete Canon.items.rope!.weapon; }; }, /unknown damage type plasma/);
     Probe.rejects(() => { const spell = Canon.abilities.firebolt!.spell!; Canon.abilities.firebolt!.spell = { ...spell, school: 'pyromancy' };
       return () => { Canon.abilities.firebolt!.spell = spell; }; }, /unknown school pyromancy/);
     Probe.rejects(() => { const armor = Canon.items.leather!.armor!; Canon.items.leather!.armor = { ...armor, ac: 1.5 };

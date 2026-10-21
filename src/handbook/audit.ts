@@ -9,7 +9,7 @@ export interface Family {
   orsino: string; faithful: string; adapted: string; dataOnly: string;
   missing: string; abstractions: string; browser: string;
 }
-export interface Deficiency { rank: number; title: string; unlocks: string; cycle: number; state: 'open' | 'addressed' }
+export interface Deficiency { rank: number; title: string; unlocks: string; cycle: number; state: 'open' | 'partly addressed' | 'addressed' }
 export interface Audit { about: string; families: Family[]; deficiencies: Deficiency[] }
 
 // The capability audit: judgements written by hand in doc/architecture/capabilities.json, counts read from the books.

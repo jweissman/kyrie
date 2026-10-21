@@ -101,5 +101,7 @@ export class Spellcasting {
     if (now) { ready![ready!.indexOf(outgoing)] = incoming; }
     return now;
   }
-  static ordinal(level: number): string { return ['first', 'second', 'third', 'fourth', 'fifth'][level - 1] ?? `level ${level}`; }
+  static ordinal(level: number): string {
+    return ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth'][level - 1] ?? `level ${level}`;
+  }
 }

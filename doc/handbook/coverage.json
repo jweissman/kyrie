@@ -8,8 +8,8 @@
     "total": 57,
     "feasible": 51,
     "catalogued": 1,
-    "represented": 12,
-    "executable": 44,
+    "represented": 11,
+    "executable": 45,
     "play-validated": 0
    },
    {
@@ -36,20 +36,20 @@
     "family": "animal",
     "concept": "creature",
     "total": 44,
-    "feasible": 0,
-    "catalogued": 39,
+    "feasible": 44,
+    "catalogued": 0,
     "represented": 5,
-    "executable": 0,
+    "executable": 39,
     "play-validated": 0
    },
    {
     "family": "arcaneSpell",
     "concept": "magic",
     "total": 131,
-    "feasible": 112,
+    "feasible": 116,
     "catalogued": 1,
-    "represented": 46,
-    "executable": 84,
+    "represented": 33,
+    "executable": 97,
     "play-validated": 0
    },
    {
@@ -226,10 +226,10 @@
     "family": "divineSpell",
     "concept": "magic",
     "total": 154,
-    "feasible": 131,
+    "feasible": 137,
     "catalogued": 0,
-    "represented": 35,
-    "executable": 119,
+    "represented": 26,
+    "executable": 128,
     "play-validated": 0
    },
    {
@@ -256,10 +256,10 @@
     "family": "elemental",
     "concept": "creature",
     "total": 17,
-    "feasible": 0,
-    "catalogued": 17,
+    "feasible": 17,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 17,
     "play-validated": 0
    },
    {
@@ -367,9 +367,9 @@
     "concept": "creature",
     "total": 40,
     "feasible": 40,
-    "catalogued": 38,
+    "catalogued": 1,
     "represented": 1,
-    "executable": 1,
+    "executable": 38,
     "play-validated": 0
    },
    {
@@ -766,10 +766,10 @@
     "family": "weapon",
     "concept": "equipment",
     "total": 83,
-    "feasible": 82,
+    "feasible": 83,
     "catalogued": 0,
-    "represented": 1,
-    "executable": 81,
+    "represented": 0,
+    "executable": 82,
     "play-validated": 1
    },
    {
@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 515,
-    "adapted": 276,
-    "represented": 12,
+    "faithful": 536,
+    "adapted": 280,
+    "represented": 11,
     "kyr": 50,
-    "unsupported": 134,
+    "unsupported": 110,
     "unreachable": 4,
     "data-only": 22
    },
@@ -915,11 +915,11 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 202,
-      "adapted": 0,
+      "faithful": 221,
+      "adapted": 3,
       "represented": 0,
       "kyr": 2,
-      "unsupported": 80,
+      "unsupported": 58,
       "unreachable": 0,
       "data-only": 0
      }
@@ -928,11 +928,11 @@
      "id": "techniques",
      "title": "Techniques",
      "counts": {
-      "faithful": 45,
+      "faithful": 46,
       "adapted": 2,
       "represented": 0,
       "kyr": 1,
-      "unsupported": 11,
+      "unsupported": 10,
       "unreachable": 0,
       "data-only": 0
      }
@@ -968,10 +968,10 @@
      "title": "Conditions",
      "counts": {
       "faithful": 121,
-      "adapted": 6,
+      "adapted": 7,
       "represented": 0,
       "kyr": 7,
-      "unsupported": 35,
+      "unsupported": 34,
       "unreachable": 0,
       "data-only": 0
      }
@@ -980,9 +980,9 @@
      "id": "orsino-company",
      "title": "Appendix: Orsino's peoples and skills",
      "counts": {
-      "faithful": 46,
+      "faithful": 47,
       "adapted": 2,
-      "represented": 12,
+      "represented": 11,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -1060,21 +1060,21 @@
   "mm": {
    "title": "Monster Manual",
    "counts": {
-    "faithful": 27,
-    "adapted": 14,
+    "faithful": 105,
+    "adapted": 122,
     "represented": 9,
     "kyr": 19,
     "unsupported": 5,
     "unreachable": 0,
-    "data-only": 247
+    "data-only": 154
    },
    "sections": [
     {
      "id": "species",
      "title": "Creatures",
      "counts": {
-      "faithful": 1,
-      "adapted": 10,
+      "faithful": 40,
+      "adapted": 64,
       "represented": 0,
       "kyr": 3,
       "unsupported": 0,
@@ -1125,13 +1125,13 @@
      "id": "orsino-bestiary",
      "title": "Appendix: Orsino's bestiary",
      "counts": {
-      "faithful": 1,
-      "adapted": 2,
+      "faithful": 40,
+      "adapted": 56,
       "represented": 9,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 247
+      "data-only": 154
      }
     }
    ]
@@ -4151,7 +4151,7 @@
   {
    "id": "ability:magic_missile",
    "title": "Magic Missile",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-1"
   },
@@ -4186,7 +4186,7 @@
   {
    "id": "ability:summon_vermin",
    "title": "Summon Vermin",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-1"
   },
@@ -4305,7 +4305,7 @@
   {
    "id": "ability:summon_monster",
    "title": "Summon Monster I",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-2"
   },
@@ -4424,7 +4424,7 @@
   {
    "id": "ability:summon_monster_ii",
    "title": "Summon Monster II",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-3"
   },
@@ -4480,7 +4480,7 @@
   {
    "id": "ability:lightning_bolt",
    "title": "Lightning Bolt",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-4"
   },
@@ -4529,7 +4529,7 @@
   {
    "id": "ability:cone_of_cold",
    "title": "Cone of Cold",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-5"
   },
@@ -4613,7 +4613,7 @@
   {
    "id": "ability:summon_monster_iii",
    "title": "Summon Monster III",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-5"
   },
@@ -4711,14 +4711,14 @@
   {
    "id": "ability:summon_greater_elemental",
    "title": "Summon Greater Elemental",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:summon_monster_iv",
    "title": "Summon Monster IV",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
@@ -4760,7 +4760,7 @@
   {
    "id": "ability:meteor_swarm",
    "title": "Meteor Swarm",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-7"
   },
@@ -4781,7 +4781,7 @@
   {
    "id": "ability:summon_monster_v",
    "title": "Summon Monster V",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-7"
   },
@@ -4851,7 +4851,7 @@
   {
    "id": "ability:summon_monster_vi",
    "title": "Summon Monster VI",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-8"
   },
@@ -4914,7 +4914,7 @@
   {
    "id": "ability:summon_monster_vii",
    "title": "Summon Monster VII",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-9"
   },
@@ -5250,7 +5250,7 @@
   {
    "id": "ability:ion_shield",
    "title": "Ion Shield",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-2"
   },
@@ -5432,7 +5432,7 @@
   {
    "id": "ability:summon_natural_guardian",
    "title": "Summon Natural Guardian",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-3"
   },
@@ -5537,7 +5537,7 @@
   {
    "id": "ability:thunderstorm",
    "title": "Thunderstorm",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-4"
   },
@@ -5614,7 +5614,7 @@
   {
    "id": "ability:ion_burst",
    "title": "Ion Burst",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-5"
   },
@@ -5705,14 +5705,14 @@
   {
    "id": "ability:summon_elemental",
    "title": "Summon Elemental",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:thors_fury",
    "title": "Thor's Fury",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
@@ -5803,7 +5803,7 @@
   {
    "id": "ability:summon_lich",
    "title": "Summon Lich",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
@@ -5894,7 +5894,7 @@
   {
    "id": "ability:stormsurge",
    "title": "Storm Surge",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },
@@ -5957,7 +5957,7 @@
   {
    "id": "ability:maelstrom",
    "title": "Maelstrom",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
@@ -6020,7 +6020,7 @@
   {
    "id": "ability:summon_animal",
    "title": "Call Animal Companion",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "techniques"
   },
@@ -7042,7 +7042,7 @@
   {
    "id": "condition:ion_shield",
    "title": "Ion Shield",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
@@ -8169,7 +8169,7 @@
   {
    "id": "orsino:ability:summon_animal",
    "title": "Call Animal Companion",
-   "status": "represented",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ability"
   },
@@ -12255,102 +12255,753 @@
    "section": "orsino-world/orsino-dungeon"
   },
   {
-   "id": "species:wisp",
-   "title": "Wisp",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species"
-  },
-  {
-   "id": "species:wolf",
-   "title": "Wolf",
+   "id": "species:discerner",
+   "title": "Discerner",
    "status": "adapted",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-aberration"
   },
   {
-   "id": "species:frost_wolf",
-   "title": "Frost-altered wolf",
-   "status": "kyr",
-   "book": "mm",
-   "section": "species"
-  },
-  {
-   "id": "species:boar",
-   "title": "Marsh boar",
+   "id": "species:mind_destroyer",
+   "title": "Mind Destroyer",
    "status": "adapted",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-aberration"
   },
   {
-   "id": "species:cave_hound",
-   "title": "Feral cave hound",
+   "id": "species:mouther",
+   "title": "Mouther",
    "status": "adapted",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-aberration"
   },
   {
-   "id": "species:revenant",
-   "title": "Revenant",
+   "id": "species:ooze",
+   "title": "Ooze",
    "status": "adapted",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-aberration"
   },
   {
-   "id": "species:bronze_construct",
-   "title": "Funerary bronze construct",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species"
-  },
-  {
-   "id": "species:dragon",
-   "title": "Dragon",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species"
-  },
-  {
-   "id": "species:red_dragon",
-   "title": "Red dragon",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species"
-  },
-  {
-   "id": "species:golem",
-   "title": "Golem",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species"
-  },
-  {
-   "id": "species:iron_golem",
-   "title": "Iron golem",
+   "id": "species:badger",
+   "title": "Badger",
    "status": "faithful",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:bat",
+   "title": "Bat",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
   },
   {
    "id": "species:bear",
    "title": "Bear",
    "status": "adapted",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:beetle",
+   "title": "Beetle",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:butterfly",
+   "title": "Butterfly",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
   },
   {
    "id": "species:cave_spider",
    "title": "Cave spider",
    "status": "adapted",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:centipede",
+   "title": "Centipede",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:chimera",
+   "title": "Chimera",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:crocodile",
+   "title": "Crocodile",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:crow",
+   "title": "Crow",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:deer",
+   "title": "Deer",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:dragonfly",
+   "title": "Dragonfly",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:eagle",
+   "title": "Eagle",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:falcon",
+   "title": "Falcon",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:cave_hound",
+   "title": "Feral cave hound",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:ferret",
+   "title": "Ferret",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:fox",
+   "title": "Fox",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:frog",
+   "title": "Frog",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:frost_wolf",
+   "title": "Frost-altered wolf",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:goat",
+   "title": "Goat",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:hawk",
+   "title": "Hawk",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:hedgehog",
+   "title": "Hedgehog",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:hummingbird",
+   "title": "Hummingbird",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:hyena",
+   "title": "Hyena",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:lion",
+   "title": "Lion",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:lizard",
+   "title": "Lizard",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:boar",
+   "title": "Marsh boar",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:mole",
+   "title": "Mole",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:moth",
+   "title": "Moth",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:nightmare",
+   "title": "Nightmare",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:otter",
+   "title": "Otter",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:owl",
+   "title": "Owl",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:owlbear",
+   "title": "Owlbear",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:panther",
+   "title": "Panther",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:pony",
+   "title": "Pony",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:pseudodragon",
+   "title": "Pseudodragon",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:rabbit",
+   "title": "Rabbit",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:ram",
+   "title": "Ram",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:rat",
+   "title": "Rat",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:raven",
+   "title": "Raven",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:snake",
+   "title": "Snake",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:squirrel",
+   "title": "Squirrel",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:stag",
+   "title": "Stag",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:stoat",
+   "title": "Stoat",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:tiger",
+   "title": "Tiger",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:turtle",
+   "title": "Turtle",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:wendigo",
+   "title": "Wendigo",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:wolf",
+   "title": "Wolf",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:wyrm_animal",
+   "title": "Wyrm",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:angel",
+   "title": "Angel",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-celestial"
+  },
+  {
+   "id": "species:archon",
+   "title": "Archon",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-celestial"
+  },
+  {
+   "id": "species:deva",
+   "title": "Deva",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-celestial"
+  },
+  {
+   "id": "species:solar",
+   "title": "Solar",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-celestial"
+  },
+  {
+   "id": "species:automaton",
+   "title": "Automaton",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:clockwork_soldier",
+   "title": "Clockwork Soldier",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:bronze_construct",
+   "title": "Funerary bronze construct",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:golem",
+   "title": "Golem",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:iron_golem",
+   "title": "Iron golem",
+   "status": "faithful",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:balor",
+   "title": "Balor",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-demon"
+  },
+  {
+   "id": "species:fiend",
+   "title": "Fiend",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-demon"
+  },
+  {
+   "id": "species:ifrit",
+   "title": "Ifrit",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-demon"
+  },
+  {
+   "id": "species:marilith",
+   "title": "Marilith",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-demon"
+  },
+  {
+   "id": "species:dragon",
+   "title": "Dragon",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-dragon"
+  },
+  {
+   "id": "species:drake",
+   "title": "Drake",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-dragon"
+  },
+  {
+   "id": "species:red_dragon",
+   "title": "Red dragon",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-dragon"
+  },
+  {
+   "id": "species:wyrm",
+   "title": "Wyrm",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-dragon"
+  },
+  {
+   "id": "species:wyvern",
+   "title": "Wyvern",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-dragon"
+  },
+  {
+   "id": "species:air_elemental",
+   "title": "Air elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:ash_elemental",
+   "title": "Ash elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:crystal_elemental",
+   "title": "Crystal elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:dust_elemental",
+   "title": "Dust elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:earth_elemental",
+   "title": "Earth elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:fire_elemental",
+   "title": "Fire elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:ice_elemental",
+   "title": "Ice elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:jewel_elemental",
+   "title": "Jewel elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:lava_elemental",
+   "title": "Lava elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:mephit",
+   "title": "Mephit",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:mud_elemental",
+   "title": "Mud elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:salt_elemental",
+   "title": "Salt elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:sand_elemental",
+   "title": "Sand elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:smoke_elemental",
+   "title": "Smoke elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:steam_elemental",
+   "title": "Steam elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:storm_elemental",
+   "title": "Storm elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:water_elemental",
+   "title": "Water elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:wood_elemental",
+   "title": "Wood elemental",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:dryad",
+   "title": "Dryad",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-fey"
+  },
+  {
+   "id": "species:nymph",
+   "title": "Nymph",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-fey"
+  },
+  {
+   "id": "species:pixie",
+   "title": "Pixie",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-fey"
+  },
+  {
+   "id": "species:satyr",
+   "title": "Satyr",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-fey"
+  },
+  {
+   "id": "species:sprite",
+   "title": "Sprite",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-fey"
+  },
+  {
+   "id": "species:behemoth",
+   "title": "Behemoth",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-giant"
+  },
+  {
+   "id": "species:colossus",
+   "title": "Colossus",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-giant"
+  },
+  {
+   "id": "species:titan",
+   "title": "Titan",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-giant"
+  },
+  {
+   "id": "species:wisp",
+   "title": "Wisp",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-spirit"
+  },
+  {
+   "id": "species:banshee",
+   "title": "Banshee",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:ghoul",
+   "title": "Ghoul",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
   },
   {
    "id": "species:bone_hound",
    "title": "Knitted bone hound",
    "status": "kyr",
    "book": "mm",
-   "section": "species"
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:lich",
+   "title": "Lich",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:mummy",
+   "title": "Mummy",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:revenant",
+   "title": "Revenant",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:spirit",
+   "title": "Spirit",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:vampire",
+   "title": "Vampire",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
+  },
+  {
+   "id": "species:wraith",
+   "title": "Wraith",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-undead"
   },
   {
    "id": "ability:breathe_acid",
@@ -12761,77 +13412,77 @@
   {
    "id": "orsino:monsterType:Angel",
    "title": "Angel",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Archon",
    "title": "Archon",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Automaton",
    "title": "Automaton",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Balor",
    "title": "Balor",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Banshee",
    "title": "Banshee",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Behemoth",
    "title": "Behemoth",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Chimera",
    "title": "Chimera",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Clockwork Soldier",
    "title": "Clockwork Soldier",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Colossus",
    "title": "Colossus",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Deva",
    "title": "Deva",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Discerner",
    "title": "Discerner",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
@@ -12845,14 +13496,14 @@
   {
    "id": "orsino:monsterType:Drake",
    "title": "Drake",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Dryad",
    "title": "Dryad",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
@@ -12866,14 +13517,14 @@
   {
    "id": "orsino:monsterType:Fiend",
    "title": "Fiend",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Ghoul",
    "title": "Ghoul",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
@@ -12887,168 +13538,168 @@
   {
    "id": "orsino:monsterType:Ifrit",
    "title": "Ifrit",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Lich",
    "title": "Lich",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Marilith",
    "title": "Marilith",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Mephit",
    "title": "Mephit",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Mind Destroyer",
    "title": "Mind Destroyer",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Mouther",
    "title": "Mouther",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Mummy",
    "title": "Mummy",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Nightmare",
    "title": "Nightmare",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Nymph",
    "title": "Nymph",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Ooze",
    "title": "Ooze",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Owlbear",
    "title": "Owlbear",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Pixie",
    "title": "Pixie",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Satyr",
    "title": "Satyr",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Solar",
    "title": "Solar",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Spirit",
    "title": "Spirit",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Sprite",
    "title": "Sprite",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Titan",
    "title": "Titan",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Vampire",
    "title": "Vampire",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Wendigo",
    "title": "Wendigo",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Wraith",
    "title": "Wraith",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Wyrm",
    "title": "Wyrm",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:monsterType:Wyvern",
    "title": "Wyvern",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-monsterType"
   },
   {
    "id": "orsino:animal:badger",
    "title": "Badger",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:bat",
    "title": "Bat",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -13062,7 +13713,7 @@
   {
    "id": "orsino:animal:beetle",
    "title": "Beetle",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -13076,98 +13727,98 @@
   {
    "id": "orsino:animal:butterfly",
    "title": "Butterfly",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:centipede",
    "title": "Centipede",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:crocodile",
    "title": "Crocodile",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:crow",
    "title": "Crow",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:deer",
    "title": "Deer",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:dragonfly",
    "title": "Dragonfly",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:eagle",
    "title": "Eagle",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:falcon",
    "title": "Falcon",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:ferret",
    "title": "Ferret",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:fox",
    "title": "Fox",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:frog",
    "title": "Frog",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:goat",
    "title": "Goat",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:hawk",
    "title": "Hawk",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:hedgehog",
    "title": "Hedgehog",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -13181,112 +13832,112 @@
   {
    "id": "orsino:animal:hummingbird",
    "title": "Hummingbird",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:hyena",
    "title": "Hyena",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:lion",
    "title": "Lion",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:lizard",
    "title": "Lizard",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:mole",
    "title": "Mole",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:moth",
    "title": "Moth",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:otter",
    "title": "Otter",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:owl",
    "title": "Owl",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:panther",
    "title": "Panther",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:pony",
    "title": "Pony",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:pseudodragon",
    "title": "Pseudodragon",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:rabbit",
    "title": "Rabbit",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:ram",
    "title": "Ram",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:rat",
    "title": "Rat",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:raven",
    "title": "Raven",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:snake",
    "title": "Snake",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -13300,35 +13951,35 @@
   {
    "id": "orsino:animal:squirrel",
    "title": "Squirrel",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:stag",
    "title": "Stag",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:stoat",
    "title": "Stoat",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:tiger",
    "title": "Tiger",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:animal:turtle",
    "title": "Turtle",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
@@ -13342,126 +13993,126 @@
   {
    "id": "orsino:animal:wyrm",
    "title": "Wyrm",
-   "status": "data-only",
+   "status": "faithful",
    "book": "mm",
    "section": "orsino-bestiary/orsino-animal"
   },
   {
    "id": "orsino:elemental:air",
    "title": "Air",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:ash",
    "title": "Ash",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:crystal",
    "title": "Crystal",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:dust",
    "title": "Dust",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:earth",
    "title": "Earth",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:fire",
    "title": "Fire",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:ice",
    "title": "Ice",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:jewel",
    "title": "Jewel",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:lava",
    "title": "Lava",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:mud",
    "title": "Mud",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:salt",
    "title": "Salt",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:sand",
    "title": "Sand",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:smoke",
    "title": "Smoke",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:steam",
    "title": "Steam",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:storm",
    "title": "Storm",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:water",
    "title": "Water",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
   {
    "id": "orsino:elemental:wood",
    "title": "Wood",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-elemental"
   },
@@ -14505,9 +15156,21 @@
  "problems": [
   {
    "book": "mm",
-   "entry": "species:wolf",
+   "entry": "species:bear",
    "kind": "descriptive",
-   "text": "Temperament \"wary\" is read by nothing in play."
+   "text": "Temperament \"defensive\" is read by nothing in play."
+  },
+  {
+   "book": "mm",
+   "entry": "species:cave_spider",
+   "kind": "descriptive",
+   "text": "Temperament \"ambush\" is read by nothing in play."
+  },
+  {
+   "book": "mm",
+   "entry": "species:cave_hound",
+   "kind": "descriptive",
+   "text": "Temperament \"territorial\" is read by nothing in play."
   },
   {
    "book": "mm",
@@ -14523,21 +15186,9 @@
   },
   {
    "book": "mm",
-   "entry": "species:cave_hound",
+   "entry": "species:wolf",
    "kind": "descriptive",
-   "text": "Temperament \"territorial\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:dragon",
-   "kind": "descriptive",
-   "text": "Temperament \"proud\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:red_dragon",
-   "kind": "descriptive",
-   "text": "Temperament \"proud\" is read by nothing in play."
+   "text": "Temperament \"wary\" is read by nothing in play."
   },
   {
    "book": "mm",
@@ -14553,15 +15204,15 @@
   },
   {
    "book": "mm",
-   "entry": "species:bear",
+   "entry": "species:dragon",
    "kind": "descriptive",
-   "text": "Temperament \"defensive\" is read by nothing in play."
+   "text": "Temperament \"proud\" is read by nothing in play."
   },
   {
    "book": "mm",
-   "entry": "species:cave_spider",
+   "entry": "species:red_dragon",
    "kind": "descriptive",
-   "text": "Temperament \"ambush\" is read by nothing in play."
+   "text": "Temperament \"proud\" is read by nothing in play."
   },
   {
    "book": "mm",

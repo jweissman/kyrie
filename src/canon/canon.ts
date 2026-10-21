@@ -10,6 +10,7 @@ import religion from '../../data/catalog/religion.json';
 import rules from '../../data/catalog/vocabulary.json';
 import skills from '../../data/catalog/skills.json';
 import species from '../../data/catalog/species.json';
+import orsinoSpecies from '../../data/catalog/orsino/species.json';
 import traits from '../../data/catalog/traits.json';
 import orsinoAbilities from '../../data/catalog/orsino/abilities.json';
 import orsinoConditions from '../../data/catalog/orsino/conditions.json';
@@ -52,7 +53,8 @@ export class Canon {
   static readonly conditions = Canon.merge<Condition>('condition', orsinoConditions.conditions, conditions.conditions);
   static readonly traits = Canon.merge<Trait>('trait', orsinoTraits.traits, traits.traits);
   static readonly ancestries = ancestries.ancestries as unknown as Record<string, Ancestry>;
-  static readonly species = species.species as unknown as Record<string, Species>;
+  static readonly species = Canon.merge<Species>('species', orsinoSpecies.species as unknown as Record<string, unknown>,
+    species.species as unknown as Record<string, unknown>);
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
   static readonly items = Canon.merge<ItemKind>('item', orsinoItems.items, items.items);

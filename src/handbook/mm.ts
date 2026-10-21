@@ -25,24 +25,36 @@ export class MonsterManual {
         + `${Object.entries(Advancement.table.species).map(([k, v]) => `${k} ${v}`).join(', ')}; a person `
         + `${Advancement.table.person}, or by ancestry (${Object.entries(Advancement.table.ancestry).map(([k, v]) => `${k} `
         + `${v}`).join(', ')}).`,
-      'Every species acts once a turn. Orsino gives its monsters up to three attacks a turn; Kyr does not yet.'],
+      'A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three '
+        + 'times. Most of the bestiary is composed from Orsino\'s monster template and grows with level as the template '
+        + 'does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.'],
     sections: [this.species(), this.natural(), this.traits(), this.generated(), this.orsino()] };
   }
   species(): Section {
-    const entries = Object.keys(Canon.species).map(id => this.creature(id));
-    return { id: 'species', title: 'Creatures', intro: ['Each kind, with what it fights with. Temperament and habitat '
-      + 'say what it is like and where it is met; neither yet decides what it does.'], entries };
+    const types = [...new Set(Object.keys(Canon.species).map(id => Canon.creature(id).type ?? 'monster'))].sort();
+    const sections = types.map((type): Section => ({ id: `species-${type}`, title: `${HandbookText.capital(type)}s`,
+      entries: Object.keys(Canon.species).filter(id => (Canon.creature(id).type ?? 'monster') === type)
+        .sort((a, b) => Canon.creature(a).name.localeCompare(Canon.creature(b).name)).map(id => this.creature(id)) }));
+    return { id: 'species', title: 'Creatures', intro: ['Each kind, with what it fights with, by type. Temperament and '
+      + 'habitat say what it is like and where it is met; neither yet decides what it does.'], sections };
+  }
+  static hitPoints(st: NonNullable<ReturnType<typeof Canon.creature>['statistics']>): string {
+    if (st.hitPoints) { return `${st.hitPoints}`; }
+    const g = st.growth?.hitPoints;
+    return g ? `${g.base} + Constitution modifier + ${g.perLevel} a level` : `d${st.hitDie ?? 0} a level`;
   }
   creature(id: string): Entry {
     const s = Canon.creature(id), st = s.statistics;
     const weapon = st ? Canon.items[st.weapon] : undefined, armor = st?.armor ? Canon.items[st.armor] : undefined;
-    const worth = Advancement.table.species[s.type ?? ''] ?? Advancement.table.species.monster!;
+    const worth = s.worth ? `${s.worth.base ? `${s.worth.base} + ` : ''}${s.worth.perLevel} experience a level`
+      : `${Advancement.table.species[s.type ?? ''] ?? Advancement.table.species.monster!} experience a level`;
     if (s.temperament) {
       this.problems.push({ book: 'mm', entry: `species:${id}`, kind: 'descriptive',
         text: `Temperament "${s.temperament}" is read by nothing in play.` });
     }
     const facts: [string, string][] = [['Type', `${s.type ?? '—'} (${s.kind ?? 'monster'})`],
-      ...st ? [['Hit die', `d${st.hitDie}${st.hitPoints ? `, ${st.hitPoints} hit points` : ''}`] as [string, string],
+      ...st ? [['Hit points', MonsterManual.hitPoints(st)] as [string, string],
+        ...st.actions && st.actions > 1 ? [['Actions a turn', String(st.actions)] as [string, string]] : [],
         ['Qualities', st.attributes === 'rolled' ? 'rolled (3d6 each)' : HandbookText.attributes(st.attributes)] as [string, string],
         ['Attack', `${weapon?.name ?? st.weapon}${weapon?.weapon ? `, ${weapon.weapon.damage} ${weapon.weapon.type}` : ''}`] as
           [string, string]] : [],
@@ -51,12 +63,12 @@ export class MonsterManual {
         [string, string]] : [],
       ...s.temperament ? [['Temperament', s.temperament] as [string, string]] : [],
       ...s.habitats?.length ? [['Found in', s.habitats.map(h => h.replace(/_/g, ' ')).join(', ')] as [string, string]] : [],
-      ['Worth', `${worth} experience a level`]];
+      ['Worth', worth]];
     return { id: `species:${id}`, title: s.name, status: HandbookStatus.of(s),
       kind: s.variantOf ? `a ${Canon.creature(s.variantOf).name.toLowerCase()}, altered` : s.type, facts,
       rules: [...(s.abilities ?? []).map(a => `${HandbookText.ability(a)}: ${HandbookText.mechanics(a) ?? 'no mechanics'}`),
         ...(s.traits ?? []).flatMap(t => HandbookText.trait(t).map(line => `${Canon.traits[t]?.name ?? t}: ${line}`))],
-      text: [s.description], notes: HandbookStatus.notes(s),
+      text: [s.description], notes: HandbookStatus.notes(s as Parameters<typeof HandbookStatus.notes>[0]),
       refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...s.variantOf ? [`species:${s.variantOf}`] : []] };
   }
   static resistances(r: Record<string, number>): string {

@@ -46,16 +46,28 @@ export class AbilityUse {
     const actor = context.actor;
     const candidates = actor ? Targeting.candidates(effect.target, actor, context.recipients ?? context.fighters)
       : context.recipients!.filter(f => effect.target === 'dead ally' ? f.hp === 0 : f.hp > 0);
-    const chosen = effect.target === 'random enemy' && candidates.length
-      ? [candidates[expressions.number(`1d${candidates.length}`) - 1]!]
+    const chosen = effect.target === 'random enemy' || effect.target === 'random enemies'
+      ? context.drawn ??= AbilityUse.draw(effect, candidates, expressions, context)
       : Targeting.selected(effect.target) ? candidates.filter(f => f.id === targetId) : candidates;
     return effect.targetTrait ? chosen.filter(f => f.traits?.includes(effect.targetTrait!)) : chosen;
+  }
+  // Orsino's randomEnemies: distinct living enemies, as many as the count (one for a random enemy), from the seed.
+  private static draw(effect: Effect, candidates: Fighter[], expressions: Expressions,
+    context: EffectContext): Fighter[] {
+    const values = context.actor ? Effects.context(context.actor) : context.values ?? {};
+    const n = effect.target === 'random enemy' ? 1 : Math.max(0, expressions.amount(effect.count ?? { kind: 'literal', value: 1 }, values));
+    const pool = [...candidates], picked: Fighter[] = [];
+    while (picked.length < Math.min(n, candidates.length)) {
+      picked.push(...pool.splice(expressions.number(`1d${pool.length}`) - 1, 1));
+    }
+    return picked;
   }
   // Ability.perform: pay, give each target of an offensive spell its resist save, then resolve the effects in order;
   // the first effect that succeeds on no target ends the ability (a missed attack, a saved debuff).
   static perform(ability: ArenaAbility, chosenId: string, expressions: Expressions, context: EffectContext) {
     AbilityUse.validate(ability, context);
-    const actor = context.actor;
+    const actor = context.actor, outer = context.drawn;
+    context.drawn = undefined;
     const targetId = AbilityUse.guarded(ability, chosenId, context);
     context.expressions = expressions;
     context.hook ??= AbilityUse.hooks.bind(AbilityUse);
@@ -98,6 +110,7 @@ export class AbilityUse {
       if (!success) { break; }
     }
     if (applied) { PerkTriggers.after(ability, actor, alive, context); }
+    context.drawn = outer;
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
   }
@@ -127,7 +140,7 @@ export class AbilityUse {
     // A perk can make one ability hit harder (a thieves' guild's backstab).
     const harder = actor && options.ability && (effect.kind === 'damage' || effect.kind === 'drain')
       ? Perks.abilityDamage(actor.traits, options.ability) : 1;
-    let amount = 'amount' in effect ? Math.floor(expressions.amount(effect.amount, values) * harder) : 0;
+    let amount = 'amount' in effect && effect.kind !== 'summon' ? Math.floor(expressions.amount(effect.amount, values) * harder) : 0;
     const rolled = amount;
     if (options.resisted && effect.onResist) {
       if (effect.onResist === 'negate') { return false; }

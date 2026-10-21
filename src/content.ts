@@ -85,9 +85,9 @@ export class Content {
     return options[roll - 1]!;
   }
   // A summoned or ad hoc creature of a species.
-  creature(species: string, id: string, team: Fighter['team']): Fighter {
+  creature(species: string, id: string, team: Fighter['team'], level?: number): Fighter {
     if (!Canon.isSpecies(species)) { throw new Error(`Unknown species ${species}`); }
-    return CombatProjection.fighter(this.createCreature(id, { raceId: species }), team);
+    return CombatProjection.fighter(this.createCreature(id, { raceId: species, ...level ? { level } : {} }), team);
   }
   character(classId: ClassId, id: string, team: Fighter['team'], raceId: RaceId = 'human'): Fighter {
     return CombatProjection.fighter(this.createCreature(id, { classId, raceId }), team);
@@ -162,8 +162,7 @@ export class Content {
     const granted = TraitGrants.abilities(creature, { spells: context.spells, prepared: context.prepared }, stream('spells'));
     creature.base.abilities = [...new Set([...chassis.abilities, ...granted,
       ...context.abilities ?? []])].filter(a => Creation.executable(a));
-    const hp = chassis.hitPoints ?? Creation.hitPoints(chassis.hitDie, level, creature.base.constitution);
-    creature.base.maxHp = creature.state.hp = hp;
+    creature.base.maxHp = creature.state.hp = Creation.health(chassis, level, creature.base.constitution);
     // Spells spend slots by level; the general pool is only for techniques that cost something, and none does yet.
     creature.base.maxMana = creature.state.mana = 0;
     Spellcasting.equip(creature);

@@ -1038,12 +1038,212 @@
    "name": "Call Animal Companion",
    "kind": "technique",
    "description": "A friendly animal comes to your aid in battle.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "crow",
+     "target": "self",
+     "from": [
+      "crow",
+      "raven",
+      "hawk",
+      "eagle",
+      "wolf",
+      "badger",
+      "bat",
+      "boar",
+      "panther",
+      "tiger",
+      "lion",
+      "fox",
+      "wyrm_animal",
+      "pseudodragon",
+      "snake",
+      "mole",
+      "stoat",
+      "ram",
+      "deer",
+      "owl",
+      "butterfly",
+      "dragonfly",
+      "hummingbird",
+      "moth",
+      "bear",
+      "hyena",
+      "squirrel",
+      "hedgehog",
+      "rat",
+      "cave_spider",
+      "cave_hound",
+      "rabbit",
+      "ferret",
+      "pony",
+      "goat",
+      "falcon",
+      "beetle",
+      "centipede",
+      "lizard",
+      "frog",
+      "crocodile",
+      "turtle",
+      "otter"
+     ],
+     "byAncestry": {
+      "birdfolk": [
+       "crow",
+       "raven",
+       "hawk",
+       "eagle"
+      ],
+      "bugbear": [
+       "wolf",
+       "badger",
+       "bat",
+       "boar"
+      ],
+      "catfolk": [
+       "panther",
+       "tiger",
+       "lion",
+       "fox"
+      ],
+      "draconic": [
+       "wyrm_animal",
+       "pseudodragon",
+       "snake"
+      ],
+      "dragon": [
+       "wyrm_animal",
+       "snake",
+       "pseudodragon"
+      ],
+      "duergar": [
+       "badger",
+       "mole",
+       "raven",
+       "stoat"
+      ],
+      "dwarf": [
+       "badger",
+       "ram",
+       "mole",
+       "raven"
+      ],
+      "elf": [
+       "deer",
+       "owl",
+       "fox",
+       "hawk"
+      ],
+      "fae": [
+       "butterfly",
+       "dragonfly",
+       "hummingbird",
+       "moth"
+      ],
+      "giant": [
+       "eagle",
+       "hawk",
+       "bear",
+       "wolf"
+      ],
+      "gnoll": [
+       "hyena",
+       "wolf",
+       "boar"
+      ],
+      "gnome": [
+       "squirrel",
+       "hedgehog",
+       "stoat",
+       "crow"
+      ],
+      "goblin": [
+       "rat",
+       "wolf",
+       "cave_spider"
+      ],
+      "half_elf": [
+       "fox",
+       "owl",
+       "hawk",
+       "wolf"
+      ],
+      "half_orc": [
+       "boar",
+       "wolf",
+       "bear",
+       "cave_hound"
+      ],
+      "halfling": [
+       "rabbit",
+       "ferret",
+       "pony",
+       "goat"
+      ],
+      "human": [
+       "cave_hound",
+       "falcon",
+       "wolf"
+      ],
+      "insectoid": [
+       "beetle",
+       "cave_spider",
+       "centipede"
+      ],
+      "kobold": [
+       "cave_spider",
+       "rat",
+       "bat"
+      ],
+      "lizardfolk": [
+       "snake",
+       "lizard",
+       "frog",
+       "crocodile"
+      ],
+      "ogre": [
+       "bear",
+       "boar",
+       "wolf",
+       "eagle"
+      ],
+      "orc": [
+       "wolf",
+       "bear",
+       "boar"
+      ],
+      "satyr": [
+       "goat",
+       "ram",
+       "deer"
+      ],
+      "sylph": [
+       "eagle",
+       "hawk",
+       "falcon",
+       "owl"
+      ],
+      "tiefling": [
+       "bat",
+       "snake",
+       "rat"
+      ],
+      "troll": [
+       "bear",
+       "tiger",
+       "panther",
+       "lion"
+      ],
+      "undine": [
+       "frog",
+       "turtle",
+       "otter"
+      ]
+     }
+    }
+   ],
    "recharge": 8,
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
-   },
    "source": {
     "orsino": "ability:summon_animal",
     "fidelity": "faithful"
@@ -1646,20 +1846,36 @@
    "name": "Cone of Cold",
    "kind": "spell",
    "description": "Blast enemies in a cone with intense cold.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "3d12"
+     },
+     "damageType": "cold",
+     "target": "random enemies",
+     "onResist": "half",
+     "count": {
+      "kind": "deem",
+      "expression": "1d6 + floor(#level / 2)"
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 5,
     "school": "evocation"
    },
-   "unsupported": {
-    "target": "Target randomEnemies, =1d6 + floor(#level / 2) is not a Kyr target.",
-    "effects": "No effect Kyr can execute."
+   "resist": {
+    "kind": "magic",
+    "difficulty": "15 + #bonusSpellDC"
    },
    "source": {
     "orsino": "arcaneSpell:cone_of_cold",
-    "fidelity": "faithful"
+    "fidelity": "adapted",
+    "notes": "Orsino reads the count \"=1d6 + floor(#level / 2)\" with parseInt, finds no number and touches no one; Kyr evaluates it as written."
    }
   },
   "confusion": {
@@ -2825,7 +3041,7 @@
     "school": "illusion"
    },
    "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
+    "effect:summon": "Summoning with the phantasmal aspect is not modelled.",
     "effects": "No effect Kyr can execute."
    },
    "source": {
@@ -2919,16 +3135,48 @@
    "name": "Lightning Bolt",
    "kind": "spell",
    "description": "Strike random enemies with lightning.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "3d8"
+     },
+     "damageType": "electric",
+     "target": "random enemies",
+     "onResist": "half",
+     "count": {
+      "kind": "literal",
+      "value": 2
+     }
+    },
+    {
+     "kind": "apply",
+     "status": "paralyzed",
+     "duration": 3,
+     "target": "random enemies",
+     "save": {
+      "kind": "paralyze",
+      "difficulty": {
+       "kind": "deem",
+       "expression": "15 + #level + #bonusSpellDC"
+      }
+     },
+     "count": {
+      "kind": "literal",
+      "value": 2
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 4,
     "school": "evocation"
    },
-   "unsupported": {
-    "target": "Target randomEnemies, 2 is not a Kyr target.",
-    "effects": "No effect Kyr can execute."
+   "resist": {
+    "kind": "magic",
+    "difficulty": "15 + #bonusSpellDC"
    },
    "source": {
     "orsino": "arcaneSpell:lightning_bolt",
@@ -2965,20 +3213,31 @@
    "name": "Magic Missile",
    "kind": "spell",
    "description": "Fire three magical bolts that automatically hit and deal 1d3 damage each (more bolts and damage at higher levels).",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "1d4 + floor(#level/3)"
+     },
+     "damageType": "force",
+     "target": "random enemies",
+     "count": {
+      "kind": "deem",
+      "expression": "2 + round(#level/2)"
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 1,
     "school": "evocation"
    },
-   "unsupported": {
-    "target": "Target randomEnemies, 2 + round(#level/2) is not a Kyr target.",
-    "effects": "No effect Kyr can execute."
-   },
    "source": {
     "orsino": "arcaneSpell:magic_missile",
-    "fidelity": "faithful"
+    "fidelity": "adapted",
+    "notes": "Orsino reads the count \"2 + round(#level/2)\" with parseInt, and always draws 2; Kyr evaluates it as written."
    }
   },
   "major_false_life": {
@@ -3289,20 +3548,50 @@
    "name": "Meteor Swarm",
    "kind": "spell",
    "description": "Produces a swarm of meteors that strike multiple enemies, causing massive fire and bludgeoning damage.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "8d6"
+     },
+     "damageType": "fire",
+     "target": "random enemies",
+     "onResist": "half",
+     "count": {
+      "kind": "deem",
+      "expression": "5 + floor(#level / 2)"
+     }
+    },
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "2d6"
+     },
+     "damageType": "bludgeoning",
+     "target": "random enemies",
+     "onResist": "half",
+     "count": {
+      "kind": "deem",
+      "expression": "5 + floor(#level / 2)"
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 7,
     "school": "evocation"
    },
-   "unsupported": {
-    "target": "Target randomEnemies, =5 + floor(#level / 2) is not a Kyr target.",
-    "effects": "No effect Kyr can execute."
+   "resist": {
+    "kind": "magic",
+    "difficulty": "15 + #bonusSpellDC"
    },
    "source": {
     "orsino": "arcaneSpell:meteor_swarm",
-    "fidelity": "faithful"
+    "fidelity": "adapted",
+    "notes": "Orsino reads the count \"=5 + floor(#level / 2)\" with parseInt, finds no number and touches no one; Kyr evaluates it as written."
    }
   },
   "mind_blank": {
@@ -3422,7 +3711,7 @@
     "school": "illusion"
    },
    "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
+    "effect:summon": "Summoning with the phantasmal aspect is not modelled.",
     "effects": "No effect Kyr can execute."
    },
    "source": {
@@ -3766,12 +4055,13 @@
     "school": "evocation"
    },
    "unsupported": {
-    "target": "Target randomEnemies, =7 + round(#level / 2) is not a Kyr target.",
+    "effect:cycleEffects": "Effect cycleEffects is not supported.",
     "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:prismatic_spray",
-    "fidelity": "faithful"
+    "fidelity": "adapted",
+    "notes": "Orsino reads the count \"=7 + round(#level / 2)\" with parseInt, finds no number and touches no one; Kyr evaluates it as written."
    }
   },
   "psi_shield": {
@@ -4477,16 +4767,39 @@
    "name": "Summon Greater Elemental",
    "kind": "spell",
    "description": "Summon a powerful elemental to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "air_elemental",
+     "target": "self",
+     "from": [
+      "air_elemental",
+      "ash_elemental",
+      "crystal_elemental",
+      "dust_elemental",
+      "earth_elemental",
+      "fire_elemental",
+      "ice_elemental",
+      "jewel_elemental",
+      "lava_elemental",
+      "mephit",
+      "mud_elemental",
+      "salt_elemental",
+      "sand_elemental",
+      "smoke_elemental",
+      "steam_elemental",
+      "storm_elemental",
+      "water_elemental",
+      "wood_elemental"
+     ],
+     "level": 10
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 6,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_greater_elemental",
@@ -4497,16 +4810,29 @@
    "name": "Summon Monster I",
    "kind": "spell",
    "description": "Summon a random monster (beast or fey type) to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "chimera",
+     "target": "self",
+     "from": [
+      "chimera",
+      "nightmare",
+      "owlbear",
+      "wendigo",
+      "dryad",
+      "nymph",
+      "pixie",
+      "satyr",
+      "sprite"
+     ]
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 2,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_monster",
@@ -4517,16 +4843,32 @@
    "name": "Summon Monster II",
    "kind": "spell",
    "description": "Summon a more powerful random monster (construct, giant, or demon) to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "automaton",
+     "target": "self",
+     "from": [
+      "automaton",
+      "bronze_construct",
+      "clockwork_soldier",
+      "golem",
+      "behemoth",
+      "colossus",
+      "titan",
+      "balor",
+      "fiend",
+      "ifrit",
+      "marilith"
+     ],
+     "level": 5
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 3,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_monster_ii",
@@ -4537,16 +4879,29 @@
    "name": "Summon Monster III",
    "kind": "spell",
    "description": "Summon a powerful random monster (demon or celestial) to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "balor",
+     "target": "self",
+     "from": [
+      "balor",
+      "fiend",
+      "ifrit",
+      "marilith",
+      "angel",
+      "archon",
+      "deva",
+      "solar"
+     ],
+     "level": 10
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 5,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_monster_iii",
@@ -4557,16 +4912,29 @@
    "name": "Summon Monster IV",
    "kind": "spell",
    "description": "Summon a mighty random construct or aberration to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "discerner",
+     "target": "self",
+     "from": [
+      "discerner",
+      "mind_destroyer",
+      "mouther",
+      "ooze",
+      "automaton",
+      "bronze_construct",
+      "clockwork_soldier",
+      "golem"
+     ],
+     "level": 12
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 6,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_monster_iv",
@@ -4577,16 +4945,40 @@
    "name": "Summon Monster V",
    "kind": "spell",
    "description": "Summon a champion random creature to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "dragon",
+     "target": "self",
+     "from": [
+      "dragon",
+      "drake",
+      "wyrm",
+      "wyvern",
+      "behemoth",
+      "colossus",
+      "titan",
+      "angel",
+      "archon",
+      "deva",
+      "solar",
+      "balor",
+      "fiend",
+      "ifrit",
+      "marilith",
+      "discerner",
+      "mind_destroyer",
+      "mouther",
+      "ooze"
+     ],
+     "level": 15
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 7,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_monster_v",
@@ -4597,16 +4989,40 @@
    "name": "Summon Monster VI",
    "kind": "spell",
    "description": "Summon a epic random creature to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "dragon",
+     "target": "self",
+     "from": [
+      "dragon",
+      "drake",
+      "wyrm",
+      "wyvern",
+      "behemoth",
+      "colossus",
+      "titan",
+      "angel",
+      "archon",
+      "deva",
+      "solar",
+      "balor",
+      "fiend",
+      "ifrit",
+      "marilith",
+      "discerner",
+      "mind_destroyer",
+      "mouther",
+      "ooze"
+     ],
+     "level": 20
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 8,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_monster_vi",
@@ -4617,16 +5033,40 @@
    "name": "Summon Monster VII",
    "kind": "spell",
    "description": "Summon a legendary random creature to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "dragon",
+     "target": "self",
+     "from": [
+      "dragon",
+      "drake",
+      "wyrm",
+      "wyvern",
+      "behemoth",
+      "colossus",
+      "titan",
+      "angel",
+      "archon",
+      "deva",
+      "solar",
+      "balor",
+      "fiend",
+      "ifrit",
+      "marilith",
+      "discerner",
+      "mind_destroyer",
+      "mouther",
+      "ooze"
+     ],
+     "level": 25
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 9,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_monster_vii",
@@ -4637,16 +5077,27 @@
    "name": "Summon Vermin",
    "kind": "spell",
    "description": "Summon a swarm of vermin to harass your enemies.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "rat",
+     "target": "self",
+     "from": [
+      "rat",
+      "cave_spider",
+      "centipede"
+     ],
+     "amount": {
+      "kind": "deem",
+      "expression": "1d4 + floor(#level / 2)"
+     }
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 1,
     "school": "conjuration"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:summon_vermin",
@@ -4864,7 +5315,7 @@
     "school": "illusion"
    },
    "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
+    "effect:summon": "Summoning with the phantasmal aspect is not modelled.",
     "effects": "No effect Kyr can execute."
    },
    "source": {
@@ -7403,6 +7854,16 @@
    "description": "Release a burst of ionized energy that damages and stuns an enemy.",
    "effects": [
     {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "2d8+#level"
+     },
+     "damageType": "electric",
+     "target": "enemy",
+     "onResist": "half"
+    },
+    {
      "kind": "apply",
      "status": "stun",
      "duration": 3,
@@ -7422,8 +7883,9 @@
     "level": 5,
     "domain": "storm"
    },
-   "unsupported": {
-    "effect:damage": "Damage kind electric is not a Kyr damage type."
+   "resist": {
+    "kind": "magic",
+    "difficulty": "15 + #bonusSpellDC"
    },
    "source": {
     "orsino": "divineSpell:ion_burst",
@@ -7447,9 +7909,6 @@
     "tradition": "divine",
     "level": 2,
     "domain": "storm"
-   },
-   "unsupported": {
-    "status:ion_shield": "Applies ion_shield, which Kyr cannot execute."
    },
    "source": {
     "orsino": "divineSpell:ion_shield",
@@ -7864,6 +8323,16 @@
    "description": "Create a devastating maelstrom of storm energy that damages and stuns all enemies in an area.",
    "effects": [
     {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "5d8+#level*3"
+     },
+     "damageType": "electric",
+     "target": "enemies",
+     "onResist": "half"
+    },
+    {
      "kind": "apply",
      "status": "stun",
      "duration": 3,
@@ -7883,8 +8352,9 @@
     "level": 9,
     "domain": "storm"
    },
-   "unsupported": {
-    "effect:damage": "Damage kind electric is not a Kyr damage type."
+   "resist": {
+    "kind": "magic",
+    "difficulty": "15 + #bonusSpellDC"
    },
    "source": {
     "orsino": "divineSpell:maelstrom",
@@ -9321,16 +9791,27 @@
    "name": "Storm Surge",
    "kind": "spell",
    "description": "Unleash a powerful surge of storm energy that damages all enemies in an area.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "4d8+#level*2"
+     },
+     "damageType": "electric",
+     "target": "enemies",
+     "onResist": "half"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 8,
     "domain": "storm"
    },
-   "unsupported": {
-    "effect:damage": "Damage kind electric is not a Kyr damage type.",
-    "effects": "No effect Kyr can execute."
+   "resist": {
+    "kind": "magic",
+    "difficulty": "15 + #bonusSpellDC"
    },
    "source": {
     "orsino": "divineSpell:stormsurge",
@@ -9341,16 +9822,24 @@
    "name": "Summon Elemental",
    "kind": "spell",
    "description": "Summon a powerful elemental to fight by your side.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "earth_elemental",
+     "target": "self",
+     "from": [
+      "earth_elemental",
+      "air_elemental",
+      "fire_elemental",
+      "water_elemental"
+     ]
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 6,
     "domain": "nature"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:summon_elemental",
@@ -9361,16 +9850,22 @@
    "name": "Summon Lich",
    "kind": "spell",
    "description": "Summon a powerful lich to fight for you.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "lich",
+     "target": "self",
+     "from": [
+      "lich"
+     ],
+     "level": 10
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 7,
     "domain": "death"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:summon_lich",
@@ -9381,16 +9876,24 @@
    "name": "Summon Natural Guardian",
    "kind": "spell",
    "description": "Summon a powerful natural guardian to aid you in battle.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "summon",
+     "creature": "bear",
+     "target": "self",
+     "from": [
+      "bear",
+      "wolf",
+      "eagle",
+      "stag"
+     ]
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 3,
     "domain": "nature"
-   },
-   "unsupported": {
-    "effect:summon": "Effect summon is not supported.",
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "divineSpell:summon_natural_guardian",
@@ -9659,16 +10162,27 @@
    "name": "Thor's Fury",
    "kind": "spell",
    "description": "Call down a massive lightning strike on an enemy.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "3d8+#level"
+     },
+     "damageType": "electric",
+     "target": "enemy",
+     "onResist": "half"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "divine",
     "level": 6,
     "domain": "storm"
    },
-   "unsupported": {
-    "effect:damage": "Damage kind electric is not a Kyr damage type.",
-    "effects": "No effect Kyr can execute."
+   "resist": {
+    "kind": "magic",
+    "difficulty": "15 + #bonusSpellDC"
    },
    "source": {
     "orsino": "divineSpell:thors_fury",
@@ -9680,6 +10194,16 @@
    "kind": "spell",
    "description": "Create a thunderstorm that damages and deafens enemies in an area.",
    "effects": [
+    {
+     "kind": "damage",
+     "amount": {
+      "kind": "deem",
+      "expression": "2d8+#level"
+     },
+     "damageType": "electric",
+     "target": "enemies",
+     "onResist": "half"
+    },
     {
      "kind": "damage",
      "amount": {
@@ -9713,9 +10237,6 @@
    "resist": {
     "kind": "magic",
     "difficulty": "15 + #bonusSpellDC"
-   },
-   "unsupported": {
-    "effect:damage": "Damage kind electric is not a Kyr damage type."
    },
    "source": {
     "orsino": "divineSpell:thunderstorm",

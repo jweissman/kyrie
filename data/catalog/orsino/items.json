@@ -787,9 +787,6 @@
    "source": {
     "orsino": "weapon:lightning_breath",
     "fidelity": "faithful"
-   },
-   "unsupported": {
-    "type": "Damage kind electric is not an Orsino damage kind."
    }
   },
   "longbow": {

@@ -18,9 +18,12 @@ export class MechanicsText {
   private static readonly targets: Record<Target, string> = {
     enemy: 'one enemy', enemies: 'every enemy', ally: 'one ally', allies: 'every ally', party: 'the whole company',
     self: 'yourself', all: 'everyone', 'dead ally': 'a fallen ally', 'random enemy': 'a random enemy',
+    'random enemies': 'random enemies',
   };
   static ability(ability: ArenaAbility, actor?: Record<string, number>): AbilityText {
-    const parts = ability.effects.map(e => this.effect(e, actor));
+    // Enemies drawn at random are drawn once: a later effect falls on the same ones.
+    const parts = ability.effects.map((e, i) => this.effect(e, actor,
+      e.target === 'random enemies' && ability.effects.slice(0, i).some(p => p.target === 'random enemies')));
     const level = ability.spell?.level ?? 0;
     const costs = [level ? `a ${Spellcasting.ordinal(level)}-level slot` : ability.spell ? 'a cantrip, at will'
       : ability.cost ? `${ability.cost} mana` : '',
@@ -42,9 +45,11 @@ export class MechanicsText {
     const t = this.ability(ability, actor);
     return [t.summary, ...t.details].join(' ');
   }
-  static effect(e: Effect, actor?: Record<string, number>): string {
-    const to = this.targets[e.target];
-    const amount = 'amount' in e ? this.amount(e.amount, actor) : '';
+  static effect(e: Effect, actor?: Record<string, number>, again = false): string {
+    const to = again ? 'each of them' : e.target === 'random enemies' && e.count
+      ? e.count.kind === 'literal' && e.count.value === 1 ? 'a random enemy'
+        : `${this.amount(e.count, actor)} different enemies, drawn at random` : this.targets[e.target];
+    const amount = 'amount' in e && e.kind !== 'summon' ? this.amount(e.amount, actor) : '';
     const text = (() => {
       switch (e.kind) {
         case 'attack': return `weapon attack against ${to}${e.spillover ? ', carrying a killing blow on to another' : ''}`;
@@ -60,7 +65,7 @@ export class MechanicsText {
         case 'kill': return `slay ${to}`;
         case 'gain': return `give ${to} ${amount} ${e.resource}`;
         case 'learn': return `teach ${to} ${Canon.abilities[e.ability]?.name ?? e.ability}`;
-        case 'summon': return `summon ${Canon.species[e.creature]?.name ?? e.creature}`;
+        case 'summon': return MechanicsText.summon(e, actor);
         case 'travel': return 'leave the fight';
       }
     })();
@@ -129,6 +134,16 @@ export class MechanicsText {
     return out;
   }
   // A formula specialized to an actor where possible, with its range: "1d6 + 2 (3–8)".
+  // "call 1d4 + 2 (3–6) of: rat, spider, centipede, of level 5, to fight for you until the fight ends".
+  static summon(e: Extract<Effect, { kind: 'summon' }>, actor?: Record<string, number>): string {
+    const what = e.byAncestry ? 'the beast your people keep company with'
+      : e.from && e.from.length > 1 ? `one of: ${MechanicsText.species(e.from).join(', ')}`
+        : MechanicsText.species([e.from?.[0] ?? e.creature]).map(n => `${/^[aeiou]/.test(n) ? 'an' : 'a'} ${n}`)[0];
+    const many = e.amount && !(e.amount.kind === 'literal' && e.amount.value === 1);
+    return `call ${many ? `${this.amount(e.amount!, actor)} creatures, each ${what}` : `${what}`}`
+      + `${e.level && e.level > 1 ? `, of level ${e.level}` : ''}, to fight for you until the fight ends`;
+  }
+  static species(ids: string[]): string[] { return ids.map(id => Canon.species[id]?.name.toLowerCase() ?? id); }
   static amount(amount: Amount, actor?: Record<string, number>): string {
     if (amount.kind === 'literal') { return String(amount.value); }
     const result = this.preview.partialEvaluate(amount.expression, actor ?? {});

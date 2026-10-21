@@ -3,7 +3,7 @@ import type { RegistryEntry } from './orsino-extract';
 type Score = 'str' | 'dex' | 'con' | 'int' | 'wis' | 'cha';
 export interface MonsterChoice {
   monsterClass: string; monsterType: string; aspect: string; terrain: string; rank: string; level: number;
-  color?: string; substance?: string;
+  color?: string; substance?: string; element?: string;
 }
 export interface MonsterStep { step: string; source: string; values: Record<string, unknown> }
 export interface MonsterDerivation {
@@ -30,8 +30,9 @@ export class OrsinoMonsters {
     record.weapon = klass.monsterWeapon;
     record.traits = [...this.first(klass.monsterTraits)];
     const aspect = entry(`aspect:${choice.aspect}`).definition as Record<string, unknown>;
-    record.abilities = [...new Set([...this.first(klass.monsterAbilities), ...this.list(type.monsterTypeAbilities),
-      ...this.list(aspect.creatureAspectAbilities)])];
+    const element = choice.element ? entry(`elemental:${choice.element}`).definition as Record<string, unknown> : undefined;
+    record.abilities = [...new Set([...this.first(klass.monsterAbilities), ...this.list(element?.elementalAbilities),
+      ...this.list(type.monsterTypeAbilities), ...this.list(aspect.creatureAspectAbilities)])];
     steps.push({ step: 'natural equipment, traits and abilities', source: `monsterClass:${choice.monsterClass}`,
       values: { weapon: record.weapon, traits: record.traits, abilities: record.abilities } });
     const terrain = (entry(`terrain:${choice.terrain}`).definition as Record<string, unknown>).terrainModifier;
@@ -43,6 +44,7 @@ export class OrsinoMonsters {
         entry(`golemSubstance:${choice.substance}`).definition]] : [],
       ...choice.color ? [['dragon colour', `dragonColor:${choice.color}`,
         entry(`dragonColor:${choice.color}`).definition]] : [],
+      ...element ? [['element', `elemental:${choice.element}`, element.elementalModifiers]] : [],
     ] as [string, string, unknown][]) {
       steps.push({ step, source, values: this.overlay(record, overlay) });
     }

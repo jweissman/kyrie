@@ -4,55 +4,499 @@ The creatures of Kyr. A species is a kind of creature statted by its own nature:
 
 Defeating a creature is worth its kind's experience for each of its levels: beast 150, undead 300, spirit 200, construct 350, dragon 800, monster 200; a person 30, or by ancestry (human 30, elf 40, dwarf 50, goblin 25).
 
-Every species acts once a turn. Orsino gives its monsters up to three attacks a turn; Kyr does not yet.
+A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three times. Most of the bestiary is composed from Orsino's monster template and grows with level as the template does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.
 
 ## Creatures
 
-Each kind, with what it fights with. Temperament and habitat say what it is like and where it is met; neither yet decides what it does.
+Each kind, with what it fights with, by type. Temperament and habitat say what it is like and where it is met; neither yet decides what it does.
 
-### Wisp
+### Aberrations
 
-*Kyr · spirit* · `species:wisp`
+#### Discerner
 
-- Type: spirit (spirit)
-- Hit die: d4
-- Qualities: rolled (3d6 each)
-- Attack: flutter, 1d2 bludgeoning
-- Worth: 200 experience a level
+*Adapted · aberration* · `species:discerner`
+
+- Type: aberration (monster)
+- Hit points: 34 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +18 strength, +17 dexterity, +18 constitution, +24 intelligence, +23 wisdom, +14 charisma
+- Attack: tentacles, 1d4+1 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 600 + 50 experience a level
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+
+Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
+
+Flesh to Stone: One enemy gains petrified for 10 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a sixth-level slot) Level 6 arcane spell. Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act.
+
+Paralyzing Touch: One enemy gains paralyzed for 3 turns (a paralyze save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+
+> An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Confuse, Flesh to Stone, Paralyzing Touch and Scream.
+
+*Left out — field:monsterGold: Orsino's 4d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (aberration class, Discerner type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Mind Destroyer
+
+*Adapted · aberration* · `species:mind_destroyer`
+
+- Type: aberration (monster)
+- Hit points: 34 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +18 strength, +17 dexterity, +18 constitution, +25 intelligence, +22 wisdom, +14 charisma
+- Attack: tentacles, 1d4+1 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 600 + 50 experience a level
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+
+Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
+
+Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+
+> An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Confuse.
+
+*Left out — ability:command: Command cannot be played yet.*
+
+*Left out — field:monsterGold: Orsino's 4d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (aberration class, Mind Destroyer type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Mouther
+
+*Adapted · aberration* · `species:mouther`
+
+- Type: aberration (monster)
+- Hit points: 34 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +18 strength, +17 dexterity, +23 constitution, +23 intelligence, +20 wisdom, +14 charisma
+- Attack: tentacles, 1d4+1 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 600 + 50 experience a level
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+
+Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
+
+Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+
+Regeneration: Heal 1d2 - 1 (0–1) each turn.
+
+> An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Acid Spray.
+
+*Left out — field:monsterGold: Orsino's 4d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (aberration class, Mouther type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Ooze
+
+*Adapted · aberration* · `species:ooze`
+
+- Type: aberration (monster)
+- Hit points: 34 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +18 strength, +17 dexterity, +24 constitution, +19 intelligence, +17 wisdom, +14 charisma
+- Attack: tentacles, 1d4+1 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 600 + 50 experience a level
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+
+Engulf: One enemy gains engulfed for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn.
+
+Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+
+> An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Engulf.
+
+*Left out — field:monsterGold: Orsino's 4d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (aberration class, Ooze type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Beasts
+
+#### Badger
+
+*Faithful · beast* · `species:badger`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Worth: 10 experience a level
 
 Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
 
 Flee: Try to escape the fight (an even chance).
 
-> A drifting mote of light that answers a summoner's call.
+> A small but fierce mammal with fine digging ability and extreme tenacity.
 
-### Wolf
+#### Bat
 
-*Adapted · beast* · `species:wolf`
+*Faithful · beast* · `species:bat`
 
 - Type: beast (animal)
-- Hit die: d6
+- Hit points: 1
+- Qualities: +4 strength, +6 dexterity, +4 constitution, +4 intelligence, +5 wisdom, +6 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A nocturnal flying mammal that uses echolocation to navigate in the dark.
+
+#### Bear
+
+*Adapted · beast* · `species:bear`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Fur Armor, armour 0
+- Temperament: defensive
+- Found in: woodland, mountain
+- Worth: 150 experience a level
+
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Flee: Try to escape the fight (an even chance).
+
+> A powerful woodland omnivore, dangerous when its young or feeding ground are threatened.
+
+*Adapted: Uses the existing claws and fur profiles and executable Smash action. Kyr rolls its attributes; the Deem animal grammar composes the body.*
+
+#### Beetle
+
+*Faithful · beast* · `species:beetle`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +5 strength, +5 dexterity, +6 constitution, +4 intelligence, +5 wisdom, +4 charisma
+- Attack: mandibles, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small insect with a hard exoskeleton and strong mandibles for biting.
+
+#### Butterfly
+
+*Faithful · beast* · `species:butterfly`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
+- Attack: flutter, 1d2 bludgeoning
+- Hide: Chitin Armor, armour 2
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A delicate insect with colorful wings. Its flight is graceful and mesmerizing.
+
+#### Cave spider
+
+*Adapted · beast* · `species:cave_spider`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Temperament: ambush
+- Found in: cave, woodland
+- Worth: 150 experience a level
+
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+
+Flee: Try to escape the fight (an even chance).
+
+> A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.
+
+*Adapted: Orsino's spider: bite and chitin. Kyr enlarges it to a cave hunter, rolls its attributes and gives it Orsino's venomous bite and ensnare.*
+
+#### Centipede
+
+*Faithful · beast* · `species:centipede`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +5 strength, +7 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +4 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A long, segmented insect with many legs and a venomous bite.
+
+#### Chimera
+
+*Adapted · beast* · `species:chimera`
+
+- Type: beast (monster)
+- Hit points: 9 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +17 strength, +12 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Worth: 150 + 50 experience a level
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+
+Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a fourth-level slot) Level 4 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
+
+> A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Fireball.
+
+*Left out — ability:lightning_bolt: Lightning Bolt cannot be played yet.*
+
+*Left out — field:monsterGold: Orsino's 0 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (beast class, Chimera type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Crocodile
+
+*Faithful · beast* · `species:crocodile`
+
+- Type: beast (animal)
+- Hit points: 5
+- Qualities: +9 strength, +5 dexterity, +9 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A large aquatic reptile with powerful jaws and stealthy hunting.
+
+#### Crow
+
+*Faithful · beast* · `species:crow`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +5 strength, +8 dexterity, +5 constitution, +8 intelligence, +6 wisdom, +6 charisma
+- Attack: beak, 1d4 piercing
+- Hide: Feather Armor, armour -1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A highly intelligent bird remarkable for its problem-solving skills and adaptability.
+
+#### Deer
+
+*Faithful · beast* · `species:deer`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +5 strength, +7 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Attack: antlers, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A graceful herbivore with exquisite agility and keen senses.
+
+#### Dragonfly
+
+*Faithful · beast* · `species:dragonfly`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +9 charisma
+- Attack: flutter, 1d2 bludgeoning
+- Hide: Chitin Armor, armour 2
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A swift flying insect with iridescent wings and excellent maneuverability.
+
+#### Eagle
+
+*Faithful · beast* · `species:eagle`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +5 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Attack: talons, 1d8 piercing
+- Hide: Feather Armor, armour -1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A majestic bird of prey renowned for keen eyesight and capable of powerful flight.
+
+#### Falcon
+
+*Faithful · beast* · `species:falcon`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +6 strength, +6 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: talons, 1d8 piercing
+- Hide: Feather Armor, armour -1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A swift bird of prey possessing extreme speed and remarkable hunting prowess.
+
+#### Feral cave hound
+
+*Adapted · beast* · `species:cave_hound`
+
+- Type: beast (animal)
+- Hit points: d6 a level
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
-- Temperament: wary
-- Found in: woodland, upland
+- Temperament: territorial
+- Found in: cave
 - Worth: 150 experience a level
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
 
 Flee: Try to escape the fight (an even chance).
 
-> A grey wolf of the uplands: a pack hunter with a rending bite.
+> A scavenging dog descended from abandoned working animals.
 
-*Adapted: Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes.*
+*Adapted: Orsino's hound: bite and fur. Feral, with the Kyr rending bite.*
 
-### Frost-altered wolf
+#### Ferret
+
+*Faithful · beast* · `species:ferret`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small, agile mammal with great curiosity and playful nature.
+
+#### Fox
+
+*Faithful · beast* · `species:fox`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A cunning and adaptable mammal of remarkable intelligence.
+
+#### Frog
+
+*Faithful · beast* · `species:frog`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +4 strength, +6 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +5 charisma
+- Attack: tongue, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small amphibian with a powerful jumping ability and croaking calls.
+
+#### Frost-altered wolf
 
 *Kyr · a wolf, altered* · `species:frost_wolf`
 
 - Type: beast (animal)
-- Hit die: d10
+- Hit points: d10 a level
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
@@ -71,12 +515,131 @@ Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 ha
 
 > A living wolf altered by an old winter shrine: a freezing bite and a howl that stops the heart.
 
-### Marsh boar
+#### Goat
+
+*Faithful · beast* · `species:goat`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +6 charisma
+- Attack: headbutt, 1d4 bludgeoning
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A sure-footed and hardy herbivore with a curious nature.
+
+#### Hawk
+
+*Faithful · beast* · `species:hawk`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +7 wisdom, +6 charisma
+- Attack: talons, 1d8 piercing
+- Hide: Feather Armor, armour -1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A sharp-eyed bird of prey with excellent hunting skills.
+
+#### Hedgehog
+
+*Faithful · beast* · `species:hedgehog`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +5 strength, +5 dexterity, +6 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Attack: spines, 1d6 piercing
+- Hide: Spine Armor, armour 1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small mammal covered in spines. When threatened it exhibits its defensive curling behavior.
+
+#### Hummingbird
+
+*Faithful · beast* · `species:hummingbird`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
+- Attack: beak, 1d4 piercing
+- Hide: Feather Armor, armour -1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A tiny bird capable of hovering in mid-air thanks to its rapid wing flapping.
+
+#### Hyena
+
+*Faithful · beast* · `species:hyena`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +8 strength, +6 dexterity, +8 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.
+
+#### Lion
+
+*Faithful · beast* · `species:lion`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +7 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A majestic big cat of enormous strength and courage.
+
+#### Lizard
+
+*Faithful · beast* · `species:lizard`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small reptile known with exquisite agility and unusual ability to regenerate lost tails.
+
+#### Marsh boar
 
 *Adapted · beast* · `species:boar`
 
 - Type: beast (animal)
-- Hit die: d6
+- Hit points: d6 a level
 - Qualities: rolled (3d6 each)
 - Attack: tusks, 1d8 piercing
 - Hide: Hide Armor, armour 1
@@ -92,33 +655,1798 @@ Flee: Try to escape the fight (an even chance).
 
 *Adapted: Orsino's boar: tusks and hide. Kyr rolls its attributes and gives it the Kyr rending bite.*
 
-### Feral cave hound
+#### Mole
 
-*Adapted · beast* · `species:cave_hound`
+*Faithful · beast* · `species:mole`
 
 - Type: beast (animal)
-- Hit die: d6
+- Hit points: 3
+- Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small burrowing mammal with powerful forelimbs for digging and poor eyesight.
+
+#### Moth
+
+*Faithful · beast* · `species:moth`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
+- Attack: flutter, 1d2 bludgeoning
+- Hide: Chitin Armor, armour 2
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A nocturnal flying insect attracted to light, with soft, furry wings.
+
+#### Nightmare
+
+*Adapted · beast* · `species:nightmare`
+
+- Type: beast (monster)
+- Hit points: 9 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +16 strength, +13 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Worth: 150 + 50 experience a level
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
+
+> A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Scream.
+
+*Left out — field:monsterGold: Orsino's 0 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (beast class, Nightmare type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Otter
+
+*Faithful · beast* · `species:otter`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A playful aquatic mammal with great agility in water and dexterous forepaws.
+
+#### Owl
+
+*Faithful · beast* · `species:owl`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +7 wisdom, +5 charisma
+- Attack: talons, 1d8 piercing
+- Hide: Feather Armor, armour -1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A nocturnal bird of prey with night vision and silent flight.
+
+#### Owlbear
+
+*Adapted · beast* · `species:owlbear`
+
+- Type: beast (monster)
+- Hit points: 9 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +17 strength, +8 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Worth: 150 + 50 experience a level
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+
+Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a reflex save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
+
+> A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Stomp.
+
+*Left out — field:monsterGold: Orsino's 0 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (beast class, Owlbear type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Panther
+
+*Faithful · beast* · `species:panther`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A sleek and stealthy big cat with great agility and hunting prowess.
+
+#### Pony
+
+*Faithful · beast* · `species:pony`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +6 charisma
+- Attack: kick, 1d2 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small horse with surprising strength and endurance. It has a gentle temperament.
+
+#### Pseudodragon
+
+*Faithful · beast* · `species:pseudodragon`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +8 strength, +7 dexterity, +8 constitution, +8 intelligence, +8 wisdom, +8 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small dragon-like creature with keen intelligence and magical resistance.
+
+#### Rabbit
+
+*Faithful · beast* · `species:rabbit`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +4 strength, +6 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small herbivorous mammal possessing excellent speed and agility.
+
+#### Ram
+
+*Faithful · beast* · `species:ram`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +7 strength, +5 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Attack: horns, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A sturdy sure-footed herbivore capable of powerful headbutts.
+
+#### Rat
+
+*Faithful · beast* · `species:rat`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +4 strength, +5 dexterity, +4 constitution, +4 intelligence, +4 wisdom, +4 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small rodent of great adaptability and resourcefulness.
+
+#### Raven
+
+*Faithful · beast* · `species:raven`
+
+- Type: beast (animal)
+- Hit points: 2
+- Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: beak, 1d4 piercing
+- Hide: Feather Armor, armour -1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A highly intelligent bird with exceptional problem-solving skills and adaptability.
+
+#### Snake
+
+*Faithful · beast* · `species:snake`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A legless reptile of profound stealth and, in some species, venomous bite.
+
+#### Squirrel
+
+*Faithful · beast* · `species:squirrel`
+
+- Type: beast (animal)
+- Hit points: 1
+- Qualities: +4 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +5 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small rodent of great agility and bushy tail. It is an excellent climber.
+
+#### Stag
+
+*Faithful · beast* · `species:stag`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +6 wisdom, +6 charisma
+- Attack: antlers, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A majestic herbivore with impressive antlers and graceful movements.
+
+#### Stoat
+
+*Faithful · beast* · `species:stoat`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small carnivorous mammal with exceptional agility and clever hunting techniques.
+
+#### Tiger
+
+*Faithful · beast* · `species:tiger`
+
+- Type: beast (animal)
+- Hit points: 5
+- Qualities: +7 strength, +7 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Fur Armor, armour 0
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A powerful big cat with great strength, agility, and striking striped coat.
+
+#### Turtle
+
+*Faithful · beast* · `species:turtle`
+
+- Type: beast (animal)
+- Hit points: 4
+- Qualities: +5 strength, +4 dexterity, +8 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Shell Armor, armour 4
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A slow-moving reptile with a hard protective shell and long lifespan.
+
+#### Wendigo
+
+*Adapted · beast* · `species:wendigo`
+
+- Type: beast (monster)
+- Hit points: 9 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +18 strength, +8 dexterity, +12 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Worth: 150 + 50 experience a level
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
+
+> A beast of Orsino's bestiary. It fights with claws, armoured in hide armor, and knows Maul, Charge, Rage, Poison Bite and Life Drain.
+
+*Left out — field:monsterGold: Orsino's 0 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (beast class, Wendigo type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Wolf
+
+*Adapted · beast* · `species:wolf`
+
+- Type: beast (animal)
+- Hit points: d6 a level
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
-- Temperament: territorial
-- Found in: cave
+- Temperament: wary
+- Found in: woodland, upland
 - Worth: 150 experience a level
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
 
 Flee: Try to escape the fight (an even chance).
 
-> A scavenging dog descended from abandoned working animals.
+> A grey wolf of the uplands: a pack hunter with a rending bite.
 
-*Adapted: Orsino's hound: bite and fur. Feral, with the Kyr rending bite.*
+*Adapted: Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes.*
 
-### Revenant
+#### Wyrm
+
+*Faithful · beast* · `species:wyrm_animal`
+
+- Type: beast (animal)
+- Hit points: 3
+- Qualities: +10 strength, +5 dexterity, +9 constitution, +11 intelligence, +11 wisdom, +10 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 10 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A small dragon-like creature with intelligence and magical resistance.
+
+### Celestials
+
+#### Angel
+
+*Adapted · celestial* · `species:angel`
+
+- Type: celestial (monster)
+- Hit points: 25 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +20 strength, +19 dexterity, +16 constitution, +15 intelligence, +22 wisdom, +22 charisma
+- Attack: longsword, 1d8 slashing
+- Hide: Chain Mail, armour 5
+- Worth: 450 + 50 experience a level
+
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+
+Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+
+Inspire: Every ally gains inspired for 3 turns. (usable again in 8 turns) Inspired: +2 to hit, +1 to every save.
+
+Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+> A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Inspire.
+
+*Left out — trait:piety: Divine Favor is not a nature Kyr plays.*
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (celestial class, Angel type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Archon
+
+*Adapted · celestial* · `species:archon`
+
+- Type: celestial (monster)
+- Hit points: 25 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +21 strength, +20 dexterity, +16 constitution, +15 intelligence, +21 wisdom, +21 charisma
+- Attack: longsword, 1d8 slashing
+- Hide: Chain Mail, armour 5
+- Worth: 450 + 50 experience a level
+
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+
+Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
+
+> A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Defend.
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (celestial class, Archon type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Deva
+
+*Adapted · celestial* · `species:deva`
+
+- Type: celestial (monster)
+- Hit points: 25 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +20 strength, +19 dexterity, +16 constitution, +15 intelligence, +23 wisdom, +21 charisma
+- Attack: longsword, 1d8 slashing
+- Hide: Chain Mail, armour 5
+- Worth: 450 + 50 experience a level
+
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+
+Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+
+Inspire: Every ally gains inspired for 3 turns. (usable again in 8 turns) Inspired: +2 to hit, +1 to every save.
+
+Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+> A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless and Inspire.
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (celestial class, Deva type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Solar
+
+*Adapted · celestial* · `species:solar`
+
+- Type: celestial (monster)
+- Hit points: 25 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +22 strength, +20 dexterity, +16 constitution, +15 intelligence, +22 wisdom, +22 charisma
+- Attack: longsword, 1d8 slashing
+- Hide: Chain Mail, armour 5
+- Worth: 450 + 50 experience a level
+
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+
+Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+
+Inspire: Every ally gains inspired for 3 turns. (usable again in 8 turns) Inspired: +2 to hit, +1 to every save.
+
+Rally the Faithful: Heal every ally for 1d6 (1–6); every ally gains rallied for 3 turns. (a third-level slot) Level 3 divine spell. Rallied: +1 to hit, +1 to every save, constitution +2.
+
+Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+> A celestial of Orsino's bestiary. It fights with longsword, armoured in chain mail, and knows Smite Evil, Heal Ally, Bless, Inspire and Rally the Faithful.
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (celestial class, Solar type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Constructs
+
+#### Automaton
+
+*Adapted · construct* · `species:automaton`
+
+- Type: construct (monster)
+- Hit points: 6 + Constitution modifier + 3 a level
+- Qualities: +15 strength, +7 dexterity, +15 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Plate Mail, armour 7
+- Worth: 350 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+Rapid Strike: Weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy.
+
+Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
+
+> A construct of Orsino's bestiary. It fights with slam, armoured in plate mail, and knows Defend, Charge, Hide and Rapid Strike.
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (construct class, Automaton type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Clockwork Soldier
+
+*Adapted · construct* · `species:clockwork_soldier`
+
+- Type: construct (monster)
+- Hit points: 6 + Constitution modifier + 3 a level
+- Qualities: +15 strength, +7 dexterity, +16 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Plate Mail, armour 7
+- Worth: 350 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
+
+Disciplined: +1 to hit, +1 damage, +3 evasion, +2 to magic saves.
+
+> A construct of Orsino's bestiary. It fights with slam, armoured in plate mail, and knows Defend, Charge, Hide and Smash.
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (construct class, Clockwork Soldier type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Funerary bronze construct
+
+*Adapted · construct* · `species:bronze_construct`
+
+- Type: construct (monster)
+- Hit points: d16 a level
+- Qualities: rolled (3d6 each)
+- Attack: slam, 1d6 piercing
+- Hide: Plate Mail, armour 7
+- Resists: physical 35%, immune to poison, radiant takes 25% more
+- Worth: 350 experience a level
+
+Bronze sweep: 1d6 (1–6) physical damage to every enemy (a dexterity save against 11 avoids it). (usable again in 3 turns)
+
+Burial chain: 1d6 (1–6) physical damage to one enemy; one enemy gains weakened for 3 turns (a strength save against 12 avoids it). (usable again in 1 turn) Weakened: −2 damage, strength −2.
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+> A bounded guardian of registered burials.
+
+*Adapted: Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's.*
+
+#### Golem
+
+*Adapted · construct* · `species:golem`
+
+- Type: construct (monster)
+- Hit points: 13
+- Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Plate Mail, armour 7
+- Temperament: obedient
+- Found in: cave
+- Worth: 350 experience a level
+
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
+
+> A body of clay or metal, shaped and set to work by a maker.
+
+*Adapted: Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled.*
+
+#### Iron golem
+
+*Faithful · a golem, altered* · `species:iron_golem`
+
+- Type: construct (monster)
+- Hit points: 15
+- Qualities: +18 strength, +4 dexterity, +21 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Plate Mail, armour 7
+- Temperament: obedient
+- Found in: cave
+- Worth: 350 experience a level
+
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
+
+> A golem of riveted iron plates: slow, and very hard to break.
+
+### Demons
+
+#### Balor
+
+*Adapted · demon* · `species:balor`
+
+- Type: demon (monster)
+- Hit points: 20 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +20 strength, +17 dexterity, +17 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Leather Armor, armour 2
+- Worth: 400 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Mass Curse: Every enemy gains cursed for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
+
+> A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Mass Curse.
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (demon class, Balor type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Fiend
+
+*Adapted · demon* · `species:fiend`
+
+- Type: demon (monster)
+- Hit points: 20 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +18 strength, +16 dexterity, +16 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Leather Armor, armour 2
+- Worth: 400 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
+
+> A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror and Burning Hands.
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (demon class, Fiend type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Ifrit
+
+*Adapted · demon* · `species:ifrit`
+
+- Type: demon (monster)
+- Hit points: 20 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +19 strength, +18 dexterity, +17 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Leather Armor, armour 2
+- Worth: 400 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a fourth-level slot) Level 4 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
+
+> A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Fireball.
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (demon class, Ifrit type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Marilith
+
+*Adapted · demon* · `species:marilith`
+
+- Type: demon (monster)
+- Hit points: 20 + Constitution modifier + 3 a level
+- Actions a turn: 2
+- Qualities: +19 strength, +18 dexterity, +16 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Leather Armor, armour 2
+- Worth: 400 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Rapid Strike: Weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy.
+
+Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
+
+> A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Rapid Strike.
+
+*Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (demon class, Marilith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Dragons
+
+#### Dragon
+
+*Adapted · dragon* · `species:dragon`
+
+- Type: dragon (monster)
+- Hit points: 99
+- Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Temperament: proud
+- Found in: mountain, cave
+- Worth: 800 experience a level
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+Aerial Mobility: +1 to hit, +5 evasion.
+
+> A great winged reptile: scaled, clawed, cunning and proud.
+
+*Adapted: Composed by OrsinoMonsters (Dragon type, wildtype aspect, mountain terrain, minor rank, level 1). Natural armour, three attacks a turn, maul and the gold hoard are not modelled.*
+
+#### Drake
+
+*Adapted · dragon* · `species:drake`
+
+- Type: dragon (monster)
+- Hit points: 85 + Constitution modifier + 3 a level
+- Actions a turn: 3
+- Qualities: +31 strength, +29 dexterity, +30 constitution, +28 intelligence, +27 wisdom, +29 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 800 + 50 experience a level
+
+Fly: One ally gains flight for 3 turns. (a third-level slot) Level 3 arcane spell. Flight: 5 harder to hit, +20 evasion.
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+Aerial Mobility: +1 to hit, +5 evasion.
+
+> A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.
+
+*Left out — field:monsterGold: Orsino's 10d100 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (dragon class, Drake type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Red dragon
+
+*Adapted · a dragon, altered* · `species:red_dragon`
+
+- Type: dragon (monster)
+- Hit points: 99
+- Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Temperament: proud
+- Found in: mountain, cave
+- Worth: 800 experience a level
+
+Fire breath: 2d6 + 2 × level fire damage to every enemy (a breath save against 15 + level halves it; may cause burning: a fortitude save against 15 avoids it). (usable again in 3 turns) Burning: takes 1d3 (1–3) fire damage each turn.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+Aerial Mobility: +1 to hit, +5 evasion.
+
+> Its crimson scales shimmer like molten lava.
+
+*Adapted: The red colour gives the fire breath; Kyr keeps the bite for when the breath is spent.*
+
+#### Wyrm
+
+*Adapted · dragon* · `species:wyrm`
+
+- Type: dragon (monster)
+- Hit points: 85 + Constitution modifier + 3 a level
+- Actions a turn: 3
+- Qualities: +34 strength, +28 dexterity, +32 constitution, +30 intelligence, +28 wisdom, +30 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 800 + 50 experience a level
+
+Fly: One ally gains flight for 3 turns. (a third-level slot) Level 3 arcane spell. Flight: 5 harder to hit, +20 evasion.
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+Aerial Mobility: +1 to hit, +5 evasion.
+
+> A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.
+
+*Left out — field:monsterGold: Orsino's 10d100 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (dragon class, Wyrm type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Wyvern
+
+*Adapted · dragon* · `species:wyvern`
+
+- Type: dragon (monster)
+- Hit points: 85 + Constitution modifier + 3 a level
+- Actions a turn: 3
+- Qualities: +32 strength, +30 dexterity, +30 constitution, +27 intelligence, +27 wisdom, +29 charisma
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 800 + 50 experience a level
+
+Fly: One ally gains flight for 3 turns. (a third-level slot) Level 3 arcane spell. Flight: 5 harder to hit, +20 evasion.
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+Aerial Mobility: +1 to hit, +5 evasion.
+
+> A dragon of Orsino's bestiary. It fights with bite, armoured in scale mail, and knows Fly and Maul.
+
+*Left out — field:monsterGold: Orsino's 10d100 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (dragon class, Wyvern type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Elementals
+
+#### Air elemental
+
+*Adapted · elemental* · `species:air_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
+
+Fire Vulnerability: Takes 100% more fire.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
+
+*Left out — ability:lightning_bolt: Lightning Bolt cannot be played yet.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, air, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Ash elemental
+
+*Adapted · elemental* · `species:ash_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
+
+Fire Vulnerability: Takes 100% more fire.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Hide.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, ash, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Crystal elemental
+
+*Adapted · elemental* · `species:crystal_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
+
+Earth Vulnerability: Takes 100% more bludgeoning.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
+
+*Left out — ability:prismatic_spray: Prismatic Spray cannot be played yet.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, crystal, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Dust elemental
+
+*Adapted · elemental* · `species:dust_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Poison Cloud: 3d4 + level poison damage to every enemy (may cause poison: a poison save against 15 avoids it). (a fifth-level slot) Level 5 arcane spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
+
+Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Poison Cloud.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, dust, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Earth elemental
+
+*Adapted · elemental* · `species:earth_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a stun save against 12 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
+
+Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Earthquake.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, earth, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Fire elemental
+
+*Adapted · elemental* · `species:fire_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
+
+Water Vulnerability: Takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Burning Hands.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, fire, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Ice elemental
+
+*Adapted · elemental* · `species:ice_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Ray of Frost: 2d6 (2–12) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Frozen: dexterity −5, cannot act.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
+
+Earth Vulnerability: Takes 100% more bludgeoning.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Ray of Frost.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, ice, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Jewel elemental
+
+*Adapted · elemental* · `species:jewel_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
+
+Earth Vulnerability: Takes 100% more bludgeoning.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
+
+*Left out — ability:prismatic_spray: Prismatic Spray cannot be played yet.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, jewel, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Lava elemental
+
+*Adapted · elemental* · `species:lava_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
+
+Water Vulnerability: Takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Burning Hands.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, lava, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Mephit
+
+*Adapted · elemental* · `species:mephit`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +12 strength, +20 dexterity, +8 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Mephit type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Mud elemental
+
+*Adapted · elemental* · `species:mud_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Slow: Every enemy gains slow for 4 turns (a reflex save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
+
+Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Slow.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, mud, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Salt elemental
+
+*Adapted · elemental* · `species:salt_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
+
+Water Vulnerability: Takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Acid Spray.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, salt, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Sand elemental
+
+*Adapted · elemental* · `species:sand_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Sandstorm: 3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains blinded for 3 turns (a fortitude save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
+
+Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Sandstorm.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, sand, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Smoke elemental
+
+*Adapted · elemental* · `species:smoke_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
+
+Fire Vulnerability: Takes 100% more fire.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Hide.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, smoke, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Steam elemental
+
+*Adapted · elemental* · `species:steam_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Scald: 1d4 (1–4) fire damage to one enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it); one enemy gains scalded for 3 turns (a fortitude save against 14 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn. Scalded: −1 to every roll.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Fire Affinity: Resists 50% of fire, takes 100% more cold, immune to breath.
+
+Water Vulnerability: Takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Scald.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, steam, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Storm elemental
+
+*Adapted · elemental* · `species:storm_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Air Affinity: Resists 50% of lightning, resists 50% of cold, takes 100% more fire, immune to paralyze.
+
+Fire Vulnerability: Takes 100% more fire.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend.
+
+*Left out — ability:lightning_bolt: Lightning Bolt cannot be played yet.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, storm, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Water elemental
+
+*Adapted · elemental* · `species:water_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Drench: One enemy gains drenched for 3 turns (a reflex save against 10 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Water Affinity: Resists 50% of cold, takes 100% more fire, takes 100% more lightning, immune to will.
+
+Earth Vulnerability: Takes 100% more bludgeoning.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Drench.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, water, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Wood elemental
+
+*Adapted · elemental* · `species:wood_elemental`
+
+- Type: elemental (monster)
+- Hit points: 16 + Constitution modifier + 3 a level
+- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Worth: 200 + 50 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+
+Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
+
+Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
+
+Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
+
+> An elemental of Orsino's bestiary. It fights with slam, armoured in scale mail, and knows Defend and Ensnare.
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, wood, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Feys
+
+#### Dryad
+
+*Adapted · fey* · `species:dryad`
+
+- Type: fey (monster)
+- Hit points: 12 + Constitution modifier + 3 a level
+- Qualities: +9 strength, +17 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
+- Attack: dagger, 1d4 piercing
+- Hide: Leather Armor, armour 2
+- Worth: 250 + 50 experience a level
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
+
+*Left out — ability:summon_animal: Call Animal Companion cannot be played yet.*
+
+*Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (fey class, Dryad type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Nymph
+
+*Adapted · fey* · `species:nymph`
+
+- Type: fey (monster)
+- Hit points: 12 + Constitution modifier + 3 a level
+- Qualities: +9 strength, +12 dexterity, +10 constitution, +11 intelligence, +16 wisdom, +19 charisma
+- Attack: dagger, 1d4 piercing
+- Hide: Leather Armor, armour 2
+- Worth: 250 + 50 experience a level
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
+
+*Left out — ability:summon_animal: Call Animal Companion cannot be played yet.*
+
+*Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (fey class, Nymph type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Pixie
+
+*Adapted · fey* · `species:pixie`
+
+- Type: fey (monster)
+- Hit points: 12 + Constitution modifier + 3 a level
+- Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
+- Attack: dagger, 1d4 piercing
+- Hide: Leather Armor, armour 2
+- Worth: 250 + 50 experience a level
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
+
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Confuse.
+
+*Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (fey class, Pixie type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Satyr
+
+*Adapted · fey* · `species:satyr`
+
+- Type: fey (monster)
+- Hit points: 12 + Constitution modifier + 3 a level
+- Qualities: +9 strength, +16 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
+- Attack: dagger, 1d4 piercing
+- Hide: Leather Armor, armour 2
+- Worth: 250 + 50 experience a level
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
+
+*Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (fey class, Satyr type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Sprite
+
+*Adapted · fey* · `species:sprite`
+
+- Type: fey (monster)
+- Hit points: 12 + Constitution modifier + 3 a level
+- Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
+- Attack: dagger, 1d4 piercing
+- Hide: Leather Armor, armour 2
+- Worth: 250 + 50 experience a level
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+> A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
+
+*Left out — ability:magic_missile: Magic Missile cannot be played yet.*
+
+*Left out — trait:enchanting: Faerie Charm is not a nature Kyr plays.*
+
+*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (fey class, Sprite type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Giants
+
+#### Behemoth
+
+*Adapted · giant* · `species:behemoth`
+
+- Type: giant (monster)
+- Hit points: 48 + Constitution modifier + 3 a level
+- Qualities: +27 strength, +16 dexterity, +24 constitution, +16 intelligence, +18 wisdom, +17 charisma
+- Attack: greatsword, 1d10 slashing
+- Hide: Chain Mail, armour 5
+- Worth: 500 + 50 experience a level
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+
+Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a reflex save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+Dig In: You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every save.
+
+Titanic Strength: +2 to hit, +2 damage.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+> A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt, Stomp and Dig In.
+
+*Left out — field:monsterGold: Orsino's 5d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (giant class, Behemoth type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Colossus
+
+*Adapted · giant* · `species:colossus`
+
+- Type: giant (monster)
+- Hit points: 48 + Constitution modifier + 3 a level
+- Qualities: +26 strength, +16 dexterity, +23 constitution, +16 intelligence, +18 wisdom, +17 charisma
+- Attack: greatsword, 1d10 slashing
+- Hide: Chain Mail, armour 5
+- Worth: 500 + 50 experience a level
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Titanic Strength: +2 to hit, +2 damage.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+> A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt and Smash.
+
+*Left out — field:monsterGold: Orsino's 5d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (giant class, Colossus type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Titan
+
+*Adapted · giant* · `species:titan`
+
+- Type: giant (monster)
+- Hit points: 48 + Constitution modifier + 3 a level
+- Qualities: +30 strength, +16 dexterity, +27 constitution, +16 intelligence, +18 wisdom, +17 charisma
+- Attack: greatsword, 1d10 slashing
+- Hide: Chain Mail, armour 5
+- Worth: 500 + 50 experience a level
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+
+Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a stun save against 12 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+Titanic Strength: +2 to hit, +2 damage.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+> A giant of Orsino's bestiary. It fights with greatsword, armoured in chain mail, and knows Maul, Charge, Taunt and Earthquake.
+
+*Left out — field:monsterGold: Orsino's 5d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (giant class, Titan type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Spirits
+
+#### Wisp
+
+*Kyr · spirit* · `species:wisp`
+
+- Type: spirit (spirit)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: flutter, 1d2 bludgeoning
+- Worth: 200 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Flee: Try to escape the fight (an even chance).
+
+> A drifting mote of light that answers a summoner's call.
+
+### Undeads
+
+#### Banshee
+
+*Adapted · undead* · `species:banshee`
+
+- Type: undead (monster)
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: +8 strength, +8 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +11 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Worth: 300 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (undead class, Banshee type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Ghoul
+
+*Adapted · undead* · `species:ghoul`
+
+- Type: undead (monster)
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: +11 strength, +11 dexterity, +10 constitution, +10 intelligence, +9 wisdom, +5 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Worth: 300 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Paralyzing Touch: One enemy gains paralyzed for 3 turns (a paralyze save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+Regeneration: Heal 1d2 - 1 (0–1) each turn.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Paralyzing Touch.
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (undead class, Ghoul type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Knitted bone hound
+
+*Kyr · undead* · `species:bone_hound`
+
+- Type: undead (monster)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Spine Armor, armour 1
+- Resists: radiant takes 100% more, fire takes 50% more
+- Temperament: territorial
+- Worth: 300 experience a level
+
+Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+
+> A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.
+
+#### Lich
+
+*Adapted · undead* · `species:lich`
+
+- Type: undead (monster)
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: +8 strength, +8 dexterity, +16 constitution, +16 intelligence, +12 wisdom, +5 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Worth: 300 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
+
+Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to bleed.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.
+
+*Left out — ability:animate_dead: Animate Dead cannot be played yet.*
+
+*Left out — ability:death: Death cannot be played yet.*
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (undead class, Lich type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Mummy
+
+*Adapted · undead* · `species:mummy`
+
+- Type: undead (monster)
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: +12 strength, +8 dexterity, +12 constitution, +10 intelligence, +12 wisdom, +5 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Worth: 300 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Mass Curse: Every enemy gains cursed for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Reckless Attack: Weapon attack against one enemy; weapon attack against one enemy; you gain reckless for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+Regeneration: Heal 1d2 - 1 (0–1) each turn.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Mass Curse and Reckless Attack.
+
+*Left out — trait:cursed: Kyr has no cursed.*
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (undead class, Mummy type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Revenant
 
 *Adapted · undead* · `species:revenant`
 
 - Type: undead (monster)
-- Hit die: d12
+- Hit points: d12 a level
 - Qualities: rolled (3d6 each)
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
@@ -137,178 +2465,94 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause
 
 *Adapted: Orsino undead monster class: claws, cloth, curse, fear and life drain. It does not carry Orsino's undead trait; its resistances are Kyr's.*
 
-### Funerary bronze construct
+#### Spirit
 
-*Adapted · construct* · `species:bronze_construct`
-
-- Type: construct (monster)
-- Hit die: d16
-- Qualities: rolled (3d6 each)
-- Attack: slam, 1d6 piercing
-- Hide: Plate Mail, armour 7
-- Resists: physical 35%, immune to poison, radiant takes 25% more
-- Worth: 350 experience a level
-
-Bronze sweep: 1d6 (1–6) physical damage to every enemy (a dexterity save against 11 avoids it). (usable again in 3 turns)
-
-Burial chain: 1d6 (1–6) physical damage to one enemy; one enemy gains weakened for 3 turns (a strength save against 12 avoids it). (usable again in 1 turn) Weakened: −2 damage, strength −2.
-
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
-
-> A bounded guardian of registered burials.
-
-*Adapted: Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's.*
-
-### Dragon
-
-*Adapted · dragon* · `species:dragon`
-
-- Type: dragon (monster)
-- Hit die: d20, 99 hit points
-- Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Temperament: proud
-- Found in: mountain, cave
-- Worth: 800 experience a level
-
-Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
-
-Aerial Mobility: +1 to hit, +5 evasion.
-
-> A great winged reptile: scaled, clawed, cunning and proud.
-
-*Adapted: Composed by OrsinoMonsters (Dragon type, wildtype aspect, mountain terrain, minor rank, level 1). Natural armour, three attacks a turn, maul and the gold hoard are not modelled.*
-
-### Red dragon
-
-*Adapted · a dragon, altered* · `species:red_dragon`
-
-- Type: dragon (monster)
-- Hit die: d20, 99 hit points
-- Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Temperament: proud
-- Found in: mountain, cave
-- Worth: 800 experience a level
-
-Fire breath: 2d6 + 2 × level fire damage to every enemy (a breath save against 15 + level halves it; may cause burning: a fortitude save against 15 avoids it). (usable again in 3 turns) Burning: takes 1d3 (1–3) fire damage each turn.
-
-Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
-
-Aerial Mobility: +1 to hit, +5 evasion.
-
-> Its crimson scales shimmer like molten lava.
-
-*Adapted: The red colour gives the fire breath; Kyr keeps the bite for when the breath is spent.*
-
-### Golem
-
-*Adapted · construct* · `species:golem`
-
-- Type: construct (monster)
-- Hit die: d10, 13 hit points
-- Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Plate Mail, armour 7
-- Temperament: obedient
-- Found in: cave
-- Worth: 350 experience a level
-
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
-
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
-
-Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
-
-> A body of clay or metal, shaped and set to work by a maker.
-
-*Adapted: Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled.*
-
-### Iron golem
-
-*Faithful · a golem, altered* · `species:iron_golem`
-
-- Type: construct (monster)
-- Hit die: d10, 15 hit points
-- Qualities: +18 strength, +4 dexterity, +21 constitution, +9 intelligence, +9 wisdom, +8 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Plate Mail, armour 7
-- Temperament: obedient
-- Found in: cave
-- Worth: 350 experience a level
-
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
-
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
-
-Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
-
-> A golem of riveted iron plates: slow, and very hard to break.
-
-### Bear
-
-*Adapted · beast* · `species:bear`
-
-- Type: beast (animal)
-- Hit die: d12
-- Qualities: rolled (3d6 each)
-- Attack: claws, 1d4 slashing
-- Hide: Fur Armor, armour 0
-- Temperament: defensive
-- Found in: woodland, mountain
-- Worth: 150 experience a level
-
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
-
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
-
-Flee: Try to escape the fight (an even chance).
-
-> A powerful woodland omnivore, dangerous when its young or feeding ground are threatened.
-
-*Adapted: Uses the existing claws and fur profiles and executable Smash action. Kyr rolls its attributes; the Deem animal grammar composes the body.*
-
-### Cave spider
-
-*Adapted · beast* · `species:cave_spider`
-
-- Type: beast (animal)
-- Hit die: d8
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Chitin Armor, armour 2
-- Temperament: ambush
-- Found in: cave, woodland
-- Worth: 150 experience a level
-
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
-
-Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
-
-Flee: Try to escape the fight (an even chance).
-
-> A dog-sized spider that strings the dark with sticky lines and waits for something to blunder into them.
-
-*Adapted: Orsino's spider: bite and chitin. Kyr enlarges it to a cave hunter, rolls its attributes and gives it Orsino's venomous bite and ensnare.*
-
-### Knitted bone hound
-
-*Kyr · undead* · `species:bone_hound`
+*Adapted · undead* · `species:spirit`
 
 - Type: undead (monster)
-- Hit die: d8
-- Qualities: rolled (3d6 each)
-- Attack: bite, 1d6 piercing
-- Hide: Spine Armor, armour 1
-- Resists: radiant takes 100% more, fire takes 50% more
-- Temperament: territorial
-- Worth: 300 experience a level
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: +8 strength, +8 dexterity, +6 constitution, +14 intelligence, +14 wisdom, +5 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Worth: 300 + 50 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
 
-> A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Slow: Every enemy gains slow for 4 turns (a reflex save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5.
+
+Paralyzing Touch: One enemy gains paralyzed for 3 turns (a paralyze save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Slow, Paralyzing Touch and Hide.
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (undead class, Spirit type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Vampire
+
+*Adapted · undead* · `species:vampire`
+
+- Type: undead (monster)
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: +8 strength, +12 dexterity, +6 constitution, +10 intelligence, +9 wisdom, +10 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Worth: 300 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+Regeneration: Heal 1d2 - 1 (0–1) each turn.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Charm Person.
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (undead class, Vampire type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Wraith
+
+*Adapted · undead* · `species:wraith`
+
+- Type: undead (monster)
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: +8 strength, +13 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +5 charisma
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
+- Worth: 300 + 50 experience a level
+
+Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
+
+Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream and Life Drain.
+
+*Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
+
+*Adapted: Composed by OrsinoMonsters (undead class, Wraith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 ## Natural abilities
 
@@ -903,106 +3147,154 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 ### Monster types
 
-40 in Orsino; 2 held by Kyr.
+40 in Orsino; 39 held by Kyr.
 
 #### Angel
 
-*Orsino data only · monsterType* · `orsino:monsterType:Angel`
+*Adapted · monsterType* · `orsino:monsterType:Angel`
 
 - Class: celestial
 - Changes: str +4, dex +4, wis +5, cha +6
 - Traits: formidable, piety
 - Abilities: smite, inspire
 
+*Generated by the Orsino translator.*
+
+*Left out: Divine Favor is not a nature Kyr plays.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Archon
 
-*Orsino data only · monsterType* · `orsino:monsterType:Archon`
+*Adapted · monsterType* · `orsino:monsterType:Archon`
 
 - Class: celestial
 - Changes: str +5, dex +5, wis +4, cha +5
 - Traits: —
 - Abilities: smite, defend
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Automaton
 
-*Orsino data only · monsterType* · `orsino:monsterType:Automaton`
+*Adapted · monsterType* · `orsino:monsterType:Automaton`
 
 - Class: construct
 - Changes: str +3, dex -1, con +2
 - Traits: —
 - Abilities: rapid strike, defend
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Balor
 
-*Orsino data only · monsterType* · `orsino:monsterType:Balor`
+*Adapted · monsterType* · `orsino:monsterType:Balor`
 
 - Class: demon
 - Changes: str +5, dex +4, con +4
 - Traits: —
 - Abilities: mass curse, curse
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Banshee
 
-*Orsino data only · monsterType* · `orsino:monsterType:Banshee`
+*Adapted · monsterType* · `orsino:monsterType:Banshee`
 
 - Class: undead
 - Changes: wis +4, cha +6
 - Traits: incorporeal
 - Abilities: fear, curse
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Behemoth
 
-*Orsino data only · monsterType* · `orsino:monsterType:Behemoth`
+*Adapted · monsterType* · `orsino:monsterType:Behemoth`
 
 - Class: giant
 - Changes: str +5, con +3
 - Traits: formidable
 - Abilities: stomp, dig in, maul
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 5d10 gold for the kill is not carried.*
+
 #### Chimera
 
-*Orsino data only · monsterType* · `orsino:monsterType:Chimera`
+*Adapted · monsterType* · `orsino:monsterType:Chimera`
 
 - Class: beast
 - Changes: str +5, dex +4, con +4
 - Traits: —
 - Abilities: fireball, maul, lightning bolt
 
+*Generated by the Orsino translator.*
+
+*Left out: Lightning Bolt cannot be played yet.*
+
+*Left out: Orsino's 0 gold for the kill is not carried.*
+
 #### Clockwork Soldier
 
-*Orsino data only · monsterType* · `orsino:monsterType:Clockwork Soldier`
+*Adapted · monsterType* · `orsino:monsterType:Clockwork Soldier`
 
 - Class: construct
 - Changes: str +3, dex -1, con +3
 - Traits: disciplined
 - Abilities: defend, smash
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Colossus
 
-*Orsino data only · monsterType* · `orsino:monsterType:Colossus`
+*Adapted · monsterType* · `orsino:monsterType:Colossus`
 
 - Class: giant
 - Changes: str +4, con +2
 - Traits: formidable
 - Abilities: smash, maul
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 5d10 gold for the kill is not carried.*
+
 #### Deva
 
-*Orsino data only · monsterType* · `orsino:monsterType:Deva`
+*Adapted · monsterType* · `orsino:monsterType:Deva`
 
 - Class: celestial
 - Changes: str +4, dex +4, wis +6, cha +5
 - Traits: formidable
 - Abilities: smite, inspire
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Discerner
 
-*Orsino data only · monsterType* · `orsino:monsterType:Discerner`
+*Adapted · monsterType* · `orsino:monsterType:Discerner`
 
 - Class: aberration
 - Changes: int +5, wis +6
 - Traits: —
 - Abilities: confuse, charm, flesh to stone, paralyzing touch, sleep, fear, curse
+
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 4d10 gold for the kill is not carried.*
 
 #### Dragon
 
@@ -1019,21 +3311,33 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Drake
 
-*Orsino data only · monsterType* · `orsino:monsterType:Drake`
+*Adapted · monsterType* · `orsino:monsterType:Drake`
 
 - Class: dragon
 - Changes: str +4, dex +4, con +4, int +3, wis +3, cha +3
 - Traits: —
 - Abilities: flight, maul
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 10d100 gold for the kill is not carried.*
+
 #### Dryad
 
-*Orsino data only · monsterType* · `orsino:monsterType:Dryad`
+*Adapted · monsterType* · `orsino:monsterType:Dryad`
 
 - Class: fey
 - Changes: dex +5, cha +5
 - Traits: —
 - Abilities: charm, summon animal
+
+*Generated by the Orsino translator.*
+
+*Left out: Call Animal Companion cannot be played yet.*
+
+*Left out: Faerie Charm is not a nature Kyr plays.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
 
 #### Elemental
 
@@ -1046,21 +3350,29 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Fiend
 
-*Orsino data only · monsterType* · `orsino:monsterType:Fiend`
+*Adapted · monsterType* · `orsino:monsterType:Fiend`
 
 - Class: demon
 - Changes: str +3, dex +3, con +3
 - Traits: —
 - Abilities: curse
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Ghoul
 
-*Orsino data only · monsterType* · `orsino:monsterType:Ghoul`
+*Adapted · monsterType* · `orsino:monsterType:Ghoul`
 
 - Class: undead
 - Changes: str +3, dex +3, con +4
 - Traits: regeneration
 - Abilities: life drain, paralyzing touch
+
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
 
 #### Golem
 
@@ -1075,209 +3387,317 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Ifrit
 
-*Orsino data only · monsterType* · `orsino:monsterType:Ifrit`
+*Adapted · monsterType* · `orsino:monsterType:Ifrit`
 
 - Class: demon
 - Changes: str +4, dex +5, con +4
 - Traits: —
 - Abilities: fireball, burning hands
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Lich
 
-*Orsino data only · monsterType* · `orsino:monsterType:Lich`
+*Adapted · monsterType* · `orsino:monsterType:Lich`
 
 - Class: undead
 - Changes: con +10, int +6, wis +3
 - Traits: formidable, fiendish, skeletal
 - Abilities: life drain, curse, fear, animate dead, death
 
+*Generated by the Orsino translator.*
+
+*Left out: Animate Dead cannot be played yet.*
+
+*Left out: Death cannot be played yet.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Marilith
 
-*Orsino data only · monsterType* · `orsino:monsterType:Marilith`
+*Adapted · monsterType* · `orsino:monsterType:Marilith`
 
 - Class: demon
 - Changes: str +4, dex +5, con +3
 - Traits: —
 - Abilities: rapid strike, curse
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Mephit
 
-*Orsino data only · monsterType* · `orsino:monsterType:Mephit`
+*Adapted · monsterType* · `orsino:monsterType:Mephit`
 
 - Class: elemental
 - Changes: dex +5, con -4
 - Traits: —
 - Abilities: —
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Mind Destroyer
 
-*Orsino data only · monsterType* · `orsino:monsterType:Mind Destroyer`
+*Adapted · monsterType* · `orsino:monsterType:Mind Destroyer`
 
 - Class: aberration
 - Changes: int +6, wis +5
 - Traits: —
 - Abilities: psionic blast, command, confuse
 
+*Generated by the Orsino translator.*
+
+*Left out: Command cannot be played yet.*
+
+*Left out: Orsino's 4d10 gold for the kill is not carried.*
+
 #### Mouther
 
-*Orsino data only · monsterType* · `orsino:monsterType:Mouther`
+*Adapted · monsterType* · `orsino:monsterType:Mouther`
 
 - Class: aberration
 - Changes: con +5, int +4, wis +3
 - Traits: regeneration
 - Abilities: acid spray, psionic blast
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 4d10 gold for the kill is not carried.*
+
 #### Mummy
 
-*Orsino data only · monsterType* · `orsino:monsterType:Mummy`
+*Adapted · monsterType* · `orsino:monsterType:Mummy`
 
 - Class: undead
 - Changes: str +4, con +6, wis +3
 - Traits: regeneration, cursed
 - Abilities: mass curse, fear, reckless attack
 
+*Generated by the Orsino translator.*
+
+*Left out: Kyr has no cursed.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Nightmare
 
-*Orsino data only · monsterType* · `orsino:monsterType:Nightmare`
+*Adapted · monsterType* · `orsino:monsterType:Nightmare`
 
 - Class: beast
 - Changes: str +4, dex +5, con +4
 - Traits: —
 - Abilities: charge, maul, fear
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 0 gold for the kill is not carried.*
+
 #### Nymph
 
-*Orsino data only · monsterType* · `orsino:monsterType:Nymph`
+*Adapted · monsterType* · `orsino:monsterType:Nymph`
 
 - Class: fey
 - Changes: wis +4, cha +6
 - Traits: —
 - Abilities: charm, summon animal
 
+*Generated by the Orsino translator.*
+
+*Left out: Call Animal Companion cannot be played yet.*
+
+*Left out: Faerie Charm is not a nature Kyr plays.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Ooze
 
-*Orsino data only · monsterType* · `orsino:monsterType:Ooze`
+*Adapted · monsterType* · `orsino:monsterType:Ooze`
 
 - Class: aberration
 - Changes: con +6
 - Traits: —
 - Abilities: engulf
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 4d10 gold for the kill is not carried.*
+
 #### Owlbear
 
-*Orsino data only · monsterType* · `orsino:monsterType:Owlbear`
+*Adapted · monsterType* · `orsino:monsterType:Owlbear`
 
 - Class: beast
 - Changes: str +5, con +4
 - Traits: —
 - Abilities: maul, stomp
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 0 gold for the kill is not carried.*
+
 #### Pixie
 
-*Orsino data only · monsterType* · `orsino:monsterType:Pixie`
+*Adapted · monsterType* · `orsino:monsterType:Pixie`
 
 - Class: fey
 - Changes: dex +6, cha +5
 - Traits: —
 - Abilities: charm, hide, confuse
 
+*Generated by the Orsino translator.*
+
+*Left out: Faerie Charm is not a nature Kyr plays.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Satyr
 
-*Orsino data only · monsterType* · `orsino:monsterType:Satyr`
+*Adapted · monsterType* · `orsino:monsterType:Satyr`
 
 - Class: fey
 - Changes: dex +4, cha +4
 - Traits: —
 - Abilities: charm, hide
 
+*Generated by the Orsino translator.*
+
+*Left out: Faerie Charm is not a nature Kyr plays.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Solar
 
-*Orsino data only · monsterType* · `orsino:monsterType:Solar`
+*Adapted · monsterType* · `orsino:monsterType:Solar`
 
 - Class: celestial
 - Changes: str +6, dex +5, wis +5, cha +6
 - Traits: formidable
 - Abilities: smite, inspire, rally
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 3d10 gold for the kill is not carried.*
+
 #### Spirit
 
-*Orsino data only · monsterType* · `orsino:monsterType:Spirit`
+*Adapted · monsterType* · `orsino:monsterType:Spirit`
 
 - Class: undead
 - Changes: int +4, wis +5
 - Traits: incorporeal
 - Abilities: slow, paralyzing touch, hide
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Sprite
 
-*Orsino data only · monsterType* · `orsino:monsterType:Sprite`
+*Adapted · monsterType* · `orsino:monsterType:Sprite`
 
 - Class: fey
 - Changes: dex +6, cha +4
 - Traits: —
 - Abilities: hide, magic missile
 
+*Generated by the Orsino translator.*
+
+*Left out: Magic Missile cannot be played yet.*
+
+*Left out: Faerie Charm is not a nature Kyr plays.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Titan
 
-*Orsino data only · monsterType* · `orsino:monsterType:Titan`
+*Adapted · monsterType* · `orsino:monsterType:Titan`
 
 - Class: giant
 - Changes: str +8, con +6
 - Traits: formidable
 - Abilities: earthquake, maul
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 5d10 gold for the kill is not carried.*
+
 #### Vampire
 
-*Orsino data only · monsterType* · `orsino:monsterType:Vampire`
+*Adapted · monsterType* · `orsino:monsterType:Vampire`
 
 - Class: undead
 - Changes: dex +4, cha +5
 - Traits: regeneration
 - Abilities: charm, life drain
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Wendigo
 
-*Orsino data only · monsterType* · `orsino:monsterType:Wendigo`
+*Adapted · monsterType* · `orsino:monsterType:Wendigo`
 
 - Class: beast
 - Changes: str +6, con +5
 - Traits: —
 - Abilities: maul, life drain
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 0 gold for the kill is not carried.*
+
 #### Wraith
 
-*Orsino data only · monsterType* · `orsino:monsterType:Wraith`
+*Adapted · monsterType* · `orsino:monsterType:Wraith`
 
 - Class: undead
 - Changes: dex +5, wis +4
 - Traits: incorporeal
 - Abilities: fear, curse
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 2d10 gold for the kill is not carried.*
+
 #### Wyrm
 
-*Orsino data only · monsterType* · `orsino:monsterType:Wyrm`
+*Adapted · monsterType* · `orsino:monsterType:Wyrm`
 
 - Class: dragon
 - Changes: str +7, dex +3, con +6, int +5, wis +4, cha +4
 - Traits: —
 - Abilities: flight, maul
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 10d100 gold for the kill is not carried.*
+
 #### Wyvern
 
-*Orsino data only · monsterType* · `orsino:monsterType:Wyvern`
+*Adapted · monsterType* · `orsino:monsterType:Wyvern`
 
 - Class: dragon
 - Changes: str +5, dex +5, con +4, int +2, wis +3, cha +3
 - Traits: —
 - Abilities: flight, maul
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 10d100 gold for the kill is not carried.*
+
 ### Animals
 
-44 in Orsino; 5 held by Kyr.
+44 in Orsino; 44 held by Kyr.
 
 #### Badger
 
-*Orsino data only · animal* · `orsino:animal:badger`
+*Faithful · animal* · `orsino:animal:badger`
 
 - Stat line: hp 3, str +3, dex +2, con +3, int +2, wis +2, cha +2
 - Weapon: claws
@@ -1285,15 +3705,19 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small but fierce mammal with fine digging ability and extreme tenacity.
 
+*Generated by the Orsino translator.*
+
 #### Bat
 
-*Orsino data only · animal* · `orsino:animal:bat`
+*Faithful · animal* · `orsino:animal:bat`
 
 - Stat line: hp 1, str +1, dex +3, con +1, int +1, wis +2, cha +3
 - Weapon: bite
 - Hide: fur
 
 > A nocturnal flying mammal that uses echolocation to navigate in the dark.
+
+*Generated by the Orsino translator.*
 
 #### Bear
 
@@ -1313,13 +3737,15 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Beetle
 
-*Orsino data only · animal* · `orsino:animal:beetle`
+*Faithful · animal* · `orsino:animal:beetle`
 
 - Stat line: hp 2, str +2, dex +2, con +3, int +1, wis +2, cha +1
 - Weapon: mandibles
 - Hide: chitin
 
 > A small insect with a hard exoskeleton and strong mandibles for biting.
+
+*Generated by the Orsino translator.*
 
 #### Boar
 
@@ -1339,7 +3765,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Butterfly
 
-*Orsino data only · animal* · `orsino:animal:butterfly`
+*Faithful · animal* · `orsino:animal:butterfly`
 
 - Stat line: hp 2, str +1, dex +5, con +2, int +2, wis +3, cha +4
 - Weapon: flutter
@@ -1347,9 +3773,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A delicate insect with colorful wings. Its flight is graceful and mesmerizing.
 
+*Generated by the Orsino translator.*
+
 #### Centipede
 
-*Orsino data only · animal* · `orsino:animal:centipede`
+*Faithful · animal* · `orsino:animal:centipede`
 
 - Stat line: hp 2, str +2, dex +4, con +2, int +1, wis +2, cha +1
 - Weapon: bite
@@ -1357,9 +3785,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A long, segmented insect with many legs and a venomous bite.
 
+*Generated by the Orsino translator.*
+
 #### Crocodile
 
-*Orsino data only · animal* · `orsino:animal:crocodile`
+*Faithful · animal* · `orsino:animal:crocodile`
 
 - Stat line: hp 5, str +6, dex +2, con +6, int +2, wis +3, cha +2
 - Weapon: bite
@@ -1367,9 +3797,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A large aquatic reptile with powerful jaws and stealthy hunting.
 
+*Generated by the Orsino translator.*
+
 #### Crow
 
-*Orsino data only · animal* · `orsino:animal:crow`
+*Faithful · animal* · `orsino:animal:crow`
 
 - Stat line: hp 2, str +2, dex +5, con +2, int +5, wis +3, cha +3
 - Weapon: beak
@@ -1377,9 +3809,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A highly intelligent bird remarkable for its problem-solving skills and adaptability.
 
+*Generated by the Orsino translator.*
+
 #### Deer
 
-*Orsino data only · animal* · `orsino:animal:deer`
+*Faithful · animal* · `orsino:animal:deer`
 
 - Stat line: hp 3, str +2, dex +4, con +2, int +2, wis +3, cha +2
 - Weapon: antlers
@@ -1387,9 +3821,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A graceful herbivore with exquisite agility and keen senses.
 
+*Generated by the Orsino translator.*
+
 #### Dragonfly
 
-*Orsino data only · animal* · `orsino:animal:dragonfly`
+*Faithful · animal* · `orsino:animal:dragonfly`
 
 - Stat line: hp 2, str +1, dex +5, con +2, int +2, wis +3, cha +6
 - Weapon: flutter
@@ -1397,9 +3833,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A swift flying insect with iridescent wings and excellent maneuverability.
 
+*Generated by the Orsino translator.*
+
 #### Eagle
 
-*Orsino data only · animal* · `orsino:animal:eagle`
+*Faithful · animal* · `orsino:animal:eagle`
 
 - Stat line: hp 3, str +2, dex +5, con +2, int +2, wis +3, cha +2
 - Weapon: talons
@@ -1407,9 +3845,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A majestic bird of prey renowned for keen eyesight and capable of powerful flight.
 
+*Generated by the Orsino translator.*
+
 #### Falcon
 
-*Orsino data only · animal* · `orsino:animal:falcon`
+*Faithful · animal* · `orsino:animal:falcon`
 
 - Stat line: hp 3, str +3, dex +3, con +3, int +3, wis +3, cha +3
 - Weapon: talons
@@ -1417,9 +3857,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A swift bird of prey possessing extreme speed and remarkable hunting prowess.
 
+*Generated by the Orsino translator.*
+
 #### Ferret
 
-*Orsino data only · animal* · `orsino:animal:ferret`
+*Faithful · animal* · `orsino:animal:ferret`
 
 - Stat line: hp 3, str +2, dex +4, con +3, int +3, wis +3, cha +3
 - Weapon: bite
@@ -1427,9 +3869,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small, agile mammal with great curiosity and playful nature.
 
+*Generated by the Orsino translator.*
+
 #### Fox
 
-*Orsino data only · animal* · `orsino:animal:fox`
+*Faithful · animal* · `orsino:animal:fox`
 
 - Stat line: hp 3, str +3, dex +4, con +3, int +3, wis +3, cha +3
 - Weapon: bite
@@ -1437,9 +3881,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A cunning and adaptable mammal of remarkable intelligence.
 
+*Generated by the Orsino translator.*
+
 #### Frog
 
-*Orsino data only · animal* · `orsino:animal:frog`
+*Faithful · animal* · `orsino:animal:frog`
 
 - Stat line: hp 2, str +1, dex +3, con +2, int +1, wis +2, cha +2
 - Weapon: tongue
@@ -1447,9 +3893,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small amphibian with a powerful jumping ability and croaking calls.
 
+*Generated by the Orsino translator.*
+
 #### Goat
 
-*Orsino data only · animal* · `orsino:animal:goat`
+*Faithful · animal* · `orsino:animal:goat`
 
 - Stat line: hp 3, str +3, dex +2, con +3, int +2, wis +2, cha +3
 - Weapon: headbutt
@@ -1457,9 +3905,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A sure-footed and hardy herbivore with a curious nature.
 
+*Generated by the Orsino translator.*
+
 #### Hawk
 
-*Orsino data only · animal* · `orsino:animal:hawk`
+*Faithful · animal* · `orsino:animal:hawk`
 
 - Stat line: hp 3, str +3, dex +4, con +3, int +3, wis +4, cha +3
 - Weapon: talons
@@ -1467,15 +3917,19 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A sharp-eyed bird of prey with excellent hunting skills.
 
+*Generated by the Orsino translator.*
+
 #### Hedgehog
 
-*Orsino data only · animal* · `orsino:animal:hedgehog`
+*Faithful · animal* · `orsino:animal:hedgehog`
 
 - Stat line: hp 2, str +2, dex +2, con +3, int +2, wis +3, cha +2
 - Weapon: spines
 - Hide: spine
 
 > A small mammal covered in spines. When threatened it exhibits its defensive curling behavior.
+
+*Generated by the Orsino translator.*
 
 #### Hound
 
@@ -1495,7 +3949,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Hummingbird
 
-*Orsino data only · animal* · `orsino:animal:hummingbird`
+*Faithful · animal* · `orsino:animal:hummingbird`
 
 - Stat line: hp 2, str +1, dex +5, con +2, int +2, wis +3, cha +4
 - Weapon: beak
@@ -1503,9 +3957,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A tiny bird capable of hovering in mid-air thanks to its rapid wing flapping.
 
+*Generated by the Orsino translator.*
+
 #### Hyena
 
-*Orsino data only · animal* · `orsino:animal:hyena`
+*Faithful · animal* · `orsino:animal:hyena`
 
 - Stat line: hp 4, str +5, dex +3, con +5, int +2, wis +2, cha +2
 - Weapon: bite
@@ -1513,9 +3969,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.
 
+*Generated by the Orsino translator.*
+
 #### Lion
 
-*Orsino data only · animal* · `orsino:animal:lion`
+*Faithful · animal* · `orsino:animal:lion`
 
 - Stat line: hp 4, str +4, dex +3, con +4, int +2, wis +2, cha +4
 - Weapon: bite
@@ -1523,9 +3981,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A majestic big cat of enormous strength and courage.
 
+*Generated by the Orsino translator.*
+
 #### Lizard
 
-*Orsino data only · animal* · `orsino:animal:lizard`
+*Faithful · animal* · `orsino:animal:lizard`
 
 - Stat line: hp 2, str +2, dex +3, con +2, int +2, wis +2, cha +2
 - Weapon: bite
@@ -1533,9 +3993,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small reptile known with exquisite agility and unusual ability to regenerate lost tails.
 
+*Generated by the Orsino translator.*
+
 #### Mole
 
-*Orsino data only · animal* · `orsino:animal:mole`
+*Faithful · animal* · `orsino:animal:mole`
 
 - Stat line: hp 3, str +2, dex +3, con +2, int +2, wis +2, cha +2
 - Weapon: bite
@@ -1543,9 +4005,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small burrowing mammal with powerful forelimbs for digging and poor eyesight.
 
+*Generated by the Orsino translator.*
+
 #### Moth
 
-*Orsino data only · animal* · `orsino:animal:moth`
+*Faithful · animal* · `orsino:animal:moth`
 
 - Stat line: hp 2, str +1, dex +5, con +2, int +2, wis +3, cha +4
 - Weapon: flutter
@@ -1553,9 +4017,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A nocturnal flying insect attracted to light, with soft, furry wings.
 
+*Generated by the Orsino translator.*
+
 #### Otter
 
-*Orsino data only · animal* · `orsino:animal:otter`
+*Faithful · animal* · `orsino:animal:otter`
 
 - Stat line: hp 3, str +3, dex +4, con +3, int +3, wis +3, cha +3
 - Weapon: bite
@@ -1563,9 +4029,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A playful aquatic mammal with great agility in water and dexterous forepaws.
 
+*Generated by the Orsino translator.*
+
 #### Owl
 
-*Orsino data only · animal* · `orsino:animal:owl`
+*Faithful · animal* · `orsino:animal:owl`
 
 - Stat line: hp 3, str +2, dex +4, con +2, int +3, wis +4, cha +2
 - Weapon: talons
@@ -1573,9 +4041,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A nocturnal bird of prey with night vision and silent flight.
 
+*Generated by the Orsino translator.*
+
 #### Panther
 
-*Orsino data only · animal* · `orsino:animal:panther`
+*Faithful · animal* · `orsino:animal:panther`
 
 - Stat line: hp 4, str +3, dex +4, con +3, int +3, wis +3, cha +3
 - Weapon: claws
@@ -1583,9 +4053,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A sleek and stealthy big cat with great agility and hunting prowess.
 
+*Generated by the Orsino translator.*
+
 #### Pony
 
-*Orsino data only · animal* · `orsino:animal:pony`
+*Faithful · animal* · `orsino:animal:pony`
 
 - Stat line: hp 4, str +4, dex +3, con +4, int +2, wis +2, cha +3
 - Weapon: kick
@@ -1593,9 +4065,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small horse with surprising strength and endurance. It has a gentle temperament.
 
+*Generated by the Orsino translator.*
+
 #### Pseudodragon
 
-*Orsino data only · animal* · `orsino:animal:pseudodragon`
+*Faithful · animal* · `orsino:animal:pseudodragon`
 
 - Stat line: hp 3, str +5, dex +4, con +5, int +5, wis +5, cha +5
 - Weapon: bite
@@ -1603,9 +4077,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small dragon-like creature with keen intelligence and magical resistance.
 
+*Generated by the Orsino translator.*
+
 #### Rabbit
 
-*Orsino data only · animal* · `orsino:animal:rabbit`
+*Faithful · animal* · `orsino:animal:rabbit`
 
 - Stat line: hp 4, str +1, dex +3, con +2, int +2, wis +3, cha +2
 - Weapon: bite
@@ -1613,9 +4089,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small herbivorous mammal possessing excellent speed and agility.
 
+*Generated by the Orsino translator.*
+
 #### Ram
 
-*Orsino data only · animal* · `orsino:animal:ram`
+*Faithful · animal* · `orsino:animal:ram`
 
 - Stat line: hp 4, str +4, dex +2, con +4, int +2, wis +2, cha +2
 - Weapon: horns
@@ -1623,9 +4101,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A sturdy sure-footed herbivore capable of powerful headbutts.
 
+*Generated by the Orsino translator.*
+
 #### Rat
 
-*Orsino data only · animal* · `orsino:animal:rat`
+*Faithful · animal* · `orsino:animal:rat`
 
 - Stat line: hp 2, str +1, dex +2, con +1, int +1, wis +1, cha +1
 - Weapon: bite
@@ -1633,9 +4113,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small rodent of great adaptability and resourcefulness.
 
+*Generated by the Orsino translator.*
+
 #### Raven
 
-*Orsino data only · animal* · `orsino:animal:raven`
+*Faithful · animal* · `orsino:animal:raven`
 
 - Stat line: hp 2, str +2, dex +4, con +2, int +3, wis +3, cha +3
 - Weapon: beak
@@ -1643,15 +4125,19 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A highly intelligent bird with exceptional problem-solving skills and adaptability.
 
+*Generated by the Orsino translator.*
+
 #### Snake
 
-*Orsino data only · animal* · `orsino:animal:snake`
+*Faithful · animal* · `orsino:animal:snake`
 
 - Stat line: hp 3, str +4, dex +3, con +4, int +3, wis +3, cha +3
 - Weapon: bite
 - Hide: scale
 
 > A legless reptile of profound stealth and, in some species, venomous bite.
+
+*Generated by the Orsino translator.*
 
 #### Spider
 
@@ -1671,7 +4157,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Squirrel
 
-*Orsino data only · animal* · `orsino:animal:squirrel`
+*Faithful · animal* · `orsino:animal:squirrel`
 
 - Stat line: hp 1, str +1, dex +4, con +2, int +3, wis +3, cha +2
 - Weapon: bite
@@ -1679,9 +4165,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small rodent of great agility and bushy tail. It is an excellent climber.
 
+*Generated by the Orsino translator.*
+
 #### Stag
 
-*Orsino data only · animal* · `orsino:animal:stag`
+*Faithful · animal* · `orsino:animal:stag`
 
 - Stat line: hp 4, str +4, dex +3, con +4, int +2, wis +3, cha +3
 - Weapon: antlers
@@ -1689,9 +4177,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A majestic herbivore with impressive antlers and graceful movements.
 
+*Generated by the Orsino translator.*
+
 #### Stoat
 
-*Orsino data only · animal* · `orsino:animal:stoat`
+*Faithful · animal* · `orsino:animal:stoat`
 
 - Stat line: hp 3, str +2, dex +4, con +3, int +3, wis +3, cha +3
 - Weapon: bite
@@ -1699,9 +4189,11 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small carnivorous mammal with exceptional agility and clever hunting techniques.
 
+*Generated by the Orsino translator.*
+
 #### Tiger
 
-*Orsino data only · animal* · `orsino:animal:tiger`
+*Faithful · animal* · `orsino:animal:tiger`
 
 - Stat line: hp 5, str +4, dex +4, con +4, int +3, wis +3, cha +3
 - Weapon: claws
@@ -1709,15 +4201,19 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A powerful big cat with great strength, agility, and striking striped coat.
 
+*Generated by the Orsino translator.*
+
 #### Turtle
 
-*Orsino data only · animal* · `orsino:animal:turtle`
+*Faithful · animal* · `orsino:animal:turtle`
 
 - Stat line: hp 4, str +2, dex +1, con +5, int +2, wis +3, cha +2
 - Weapon: bite
 - Hide: shell
 
 > A slow-moving reptile with a hard protective shell and long lifespan.
+
+*Generated by the Orsino translator.*
 
 #### Wolf
 
@@ -1737,7 +4233,7 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 #### Wyrm
 
-*Orsino data only · animal* · `orsino:animal:wyrm`
+*Faithful · animal* · `orsino:animal:wyrm`
 
 - Stat line: hp 3, str +7, dex +2, con +6, int +8, wis +8, cha +7
 - Weapon: bite
@@ -1745,128 +4241,206 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 > A small dragon-like creature with intelligence and magical resistance.
 
+*Generated by the Orsino translator.*
+
 ### Elementals
 
-17 in Orsino; 0 held by Kyr.
+17 in Orsino; 17 held by Kyr.
 
 #### Air
 
-*Orsino data only · elemental* · `orsino:elemental:air`
+*Adapted · elemental* · `orsino:elemental:air`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: lightning bolt
 
+*Generated by the Orsino translator.*
+
+*Left out: Lightning Bolt cannot be played yet.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Ash
 
-*Orsino data only · elemental* · `orsino:elemental:ash`
+*Adapted · elemental* · `orsino:elemental:ash`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: hide
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Crystal
 
-*Orsino data only · elemental* · `orsino:elemental:crystal`
+*Adapted · elemental* · `orsino:elemental:crystal`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: prismatic spray
 
+*Generated by the Orsino translator.*
+
+*Left out: Prismatic Spray cannot be played yet.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Dust
 
-*Orsino data only · elemental* · `orsino:elemental:dust`
+*Adapted · elemental* · `orsino:elemental:dust`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: poison cloud
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Earth
 
-*Orsino data only · elemental* · `orsino:elemental:earth`
+*Adapted · elemental* · `orsino:elemental:earth`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: earthquake
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Fire
 
-*Orsino data only · elemental* · `orsino:elemental:fire`
+*Adapted · elemental* · `orsino:elemental:fire`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: burning hands
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Ice
 
-*Orsino data only · elemental* · `orsino:elemental:ice`
+*Adapted · elemental* · `orsino:elemental:ice`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: ray of frost
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Jewel
 
-*Orsino data only · elemental* · `orsino:elemental:jewel`
+*Adapted · elemental* · `orsino:elemental:jewel`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: prismatic spray
 
+*Generated by the Orsino translator.*
+
+*Left out: Prismatic Spray cannot be played yet.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Lava
 
-*Orsino data only · elemental* · `orsino:elemental:lava`
+*Adapted · elemental* · `orsino:elemental:lava`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: burning hands
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Mud
 
-*Orsino data only · elemental* · `orsino:elemental:mud`
+*Adapted · elemental* · `orsino:elemental:mud`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: slow
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Salt
 
-*Orsino data only · elemental* · `orsino:elemental:salt`
+*Adapted · elemental* · `orsino:elemental:salt`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: acid spray
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Sand
 
-*Orsino data only · elemental* · `orsino:elemental:sand`
+*Adapted · elemental* · `orsino:elemental:sand`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: sandstorm
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Smoke
 
-*Orsino data only · elemental* · `orsino:elemental:smoke`
+*Adapted · elemental* · `orsino:elemental:smoke`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: hide
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Steam
 
-*Orsino data only · elemental* · `orsino:elemental:steam`
+*Adapted · elemental* · `orsino:elemental:steam`
 
 - Traits: fire affinity, water vulnerability
 - Abilities: scald
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Storm
 
-*Orsino data only · elemental* · `orsino:elemental:storm`
+*Adapted · elemental* · `orsino:elemental:storm`
 
 - Traits: air affinity, fire vulnerability
 - Abilities: lightning bolt
 
+*Generated by the Orsino translator.*
+
+*Left out: Lightning Bolt cannot be played yet.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Water
 
-*Orsino data only · elemental* · `orsino:elemental:water`
+*Adapted · elemental* · `orsino:elemental:water`
 
 - Traits: water affinity, earth vulnerability
 - Abilities: drench
 
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
+
 #### Wood
 
-*Orsino data only · elemental* · `orsino:elemental:wood`
+*Adapted · elemental* · `orsino:elemental:wood`
 
 - Traits: earth affinity, air vulnerability
 - Abilities: ensnare
+
+*Generated by the Orsino translator.*
+
+*Left out: Orsino's 1d10 gold for the kill is not carried.*
 
 ### Aspects
 

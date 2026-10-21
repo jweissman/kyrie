@@ -18,7 +18,7 @@ export class Tactics {
     for (const effect of ability.effects) {
       switch (effect.kind) {
         case 'attack': case 'damage': case 'drain': {
-          score += 10 + (effect.target === 'enemies' ?
+          score += 10 + (effect.target === 'enemies' || effect.target === 'random enemies' ?
             state.combatants.filter(f => f.team !== actor.team && f.hp > 0).length * 5 : 0);
           score += Math.max(0, 8 - target.hp);
           const type = effect.kind === 'attack' ? actor.equipment?.weapon?.type ?? 'bludgeoning'

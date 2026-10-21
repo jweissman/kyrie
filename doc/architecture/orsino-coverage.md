@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 970 represented or better; 803 executable or better; 16 play-validated; 2260 feasible.
+2651 entries in 79 families. 1063 represented or better; 920 executable or better; 16 play-validated; 2332 feasible.
 
 ## By family
 
@@ -21,7 +21,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | character | nobility | 3 | 0 | 0 | 0 | 0 |
 | character | trait | 100 | 22 | 78 | 0 | 82 |
 | condition | status | 141 | 19 | 121 | 1 | 122 |
-| creature | animal | 44 | 5 | 0 | 0 | 0 |
+| creature | animal | 44 | 5 | 39 | 0 | 44 |
 | creature | aspect | 31 | 0 | 0 | 0 | 31 |
 | creature | aspectRarity | 5 | 0 | 0 | 0 | 0 |
 | creature | combatEntity | 5 | 0 | 0 | 0 | 0 |
@@ -30,11 +30,11 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | creature | creatureTemplate | 4 | 0 | 0 | 0 | 0 |
 | creature | difficultyTier | 6 | 0 | 0 | 0 | 0 |
 | creature | dragonColor | 10 | 0 | 0 | 1 | 10 |
-| creature | elemental | 17 | 0 | 0 | 0 | 0 |
+| creature | elemental | 17 | 0 | 17 | 0 | 17 |
 | creature | golemSubstance | 10 | 0 | 1 | 0 | 10 |
 | creature | monsterClass | 10 | 3 | 0 | 0 | 0 |
 | creature | monsterRank | 8 | 0 | 0 | 0 | 8 |
-| creature | monsterType | 40 | 1 | 1 | 0 | 40 |
+| creature | monsterType | 40 | 1 | 38 | 0 | 40 |
 | creature | npcRace | 17 | 0 | 0 | 0 | 0 |
 | creature | npcRank | 12 | 0 | 0 | 0 | 0 |
 | creature | npcType | 89 | 0 | 0 | 0 | 0 |
@@ -45,7 +45,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | equipment | gem | 5 | 0 | 0 | 0 | 5 |
 | equipment | junk | 71 | 0 | 0 | 0 | 71 |
 | equipment | treasureTier | 6 | 0 | 0 | 0 | 6 |
-| equipment | weapon | 83 | 1 | 81 | 1 | 82 |
+| equipment | weapon | 83 | 0 | 82 | 1 | 83 |
 | generation | legendaryWonderRoll | 20 | 0 | 0 | 0 | 20 |
 | generation | roomDecoration | 100 | 0 | 0 | 0 | 100 |
 | generation | roomOverlay | 9 | 0 | 0 | 0 | 9 |
@@ -62,9 +62,9 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | language | personalityBark | 7 | 0 | 0 | 0 | 7 |
 | language | personalName | 4 | 0 | 0 | 0 | 4 |
 | language | surname | 7 | 0 | 0 | 0 | 7 |
-| magic | ability | 57 | 12 | 44 | 0 | 51 |
-| magic | arcaneSpell | 131 | 46 | 84 | 0 | 112 |
-| magic | divineSpell | 154 | 35 | 119 | 0 | 131 |
+| magic | ability | 57 | 11 | 45 | 0 | 51 |
+| magic | arcaneSpell | 131 | 33 | 97 | 0 | 116 |
+| magic | divineSpell | 154 | 26 | 128 | 0 | 137 |
 | rule | rule.damageKind | 15 | 0 | 13 | 1 | 15 |
 | rule | rule.effectType | 23 | 0 | 0 | 0 | 23 |
 | rule | rule.formula | 8 | 0 | 0 | 0 | 8 |
@@ -104,15 +104,9 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `field:npcTypeModifier.abilities` | 89 | 0 | npcType |
 | `field:npcTypeModifier.attributes` | 89 | 0 | npcType |
 | `field:npcTypeModifier.role` | 88 | 0 | npcType |
-| `field:animalKind.attributes` | 44 | 0 | animal |
-| `field:animalKind.body` | 44 | 0 | animal |
-| `field:animalKind.hp` | 44 | 0 | animal |
-| `field:animalKind.weapon` | 44 | 0 | animal |
 | `field:companionType` | 27 | 27 | companion |
 | `effect:cast` | 20 | 8 | ability, arcaneSpell, consumable, divineSpell, equipment, trait |
 | `field:npcTypeModifier.traits` | 20 | 0 | npcType |
-| `field:elementalAbilities` | 17 | 0 | elemental |
-| `field:elementalModifiers.traits` | 17 | 0 | elemental |
 | `field:npcArmor` | 17 | 0 | npcRace |
 | `field:npcGold` | 17 | 0 | npcRace |
 | `field:npcStat.attributes` | 17 | 0 | npcRace |
@@ -122,12 +116,10 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `field:npcXp` | 17 | 0 | npcRace |
 | `field:npcRank.ac` | 12 | 0 | npcRank |
 | `field:npcRank.maximumHitPoints` | 12 | 0 | npcRank |
-| `damage:electric` | 11 | 7 | arcaneSpell, divineSpell, weapon |
 | `field:masterGear.capacity` | 11 | 11 | gear |
 | `field:monsterAttacksPerTurn` | 10 | 0 | monsterClass |
 | `field:monsterGold` | 10 | 0 | monsterClass |
 | `field:alignmentArchetypes` | 9 | 9 | alignment |
-| `target:randomEnemies` | 8 | 0 | arcaneSpell, consumable |
 | `field:bossNpcType` | 7 | 0 | npcRace |
 | `field:classModifier.gp` | 7 | 0 | class |
 | `field:classModifier.itemProficiencies` | 7 | 0 | class |
@@ -143,7 +135,7 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `field:creatureAspectTypes` | 5 | 5 | aspectRarity |
 | `field:masterGear.effect` | 5 | 5 | gear |
 | `field:npcRank.traits` | 5 | 0 | npcRank |
-| `flag:cascade` | 5 | 3 | arcaneSpell, divineSpell |
+| `flag:cascade` | 5 | 4 | arcaneSpell, divineSpell |
 | `modifier:bonusSpellSlots` | 5 | 5 | status, trait |
 | `modifier:onCombatStart` | 5 | 3 | equipment, trait |
 | `modifier:reflectSpellChance` | 5 | 3 | equipment, status, trait |
@@ -161,6 +153,14 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `modifier:seeInvisible` | 3 | 3 | arcaneSpell, equipment, status |
 | `modifier:untargetable` | 3 | 3 | status |
 | `target:caster` | 3 | 0 | arcaneSpell, divineSpell, trait |
+| `effect:acquireItem` | 2 | 2 | divineSpell |
+| `field:creatureTemplateModifiers.abilities` | 2 | 0 | creatureTemplate |
+| `field:masterEquipment.ac` | 2 | 0 | equipment |
+| `field:masterEquipment.weight` | 2 | 0 | equipment |
+| `flag:applyTraits` | 2 | 0 | arcaneSpell |
+| `modifier:bonusPoisonDamage` | 2 | 2 | divineSpell |
+| `modifier:effectiveStats` | 2 | 0 | arcaneSpell |
+| `modifier:invisible` | 2 | 2 | status, trait |
 
 ## Source inconsistencies
 
@@ -374,7 +374,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ability:snipe` | `ability:snipe` | executable | faithful | Generated by the Orsino translator. |
 | `ability:spread_disease` | `ability:spread_disease` | executable | faithful | Generated by the Orsino translator. |
 | `ability:stomp` | `ability:stomp` | executable | faithful | Generated by the Orsino translator. |
-| `ability:summon_animal` | `ability:summon_animal` | represented | faithful | Generated; not executable: effect:summon, effects. |
+| `ability:summon_animal` | `ability:summon_animal` | executable | faithful | Generated by the Orsino translator. |
 | `ability:sweep` | `ability:sweep` | executable | faithful | Generated by the Orsino translator. |
 | `ability:taunt` | `ability:taunt` | executable | faithful | Generated by the Orsino translator. |
 | `ability:trickfire` | `ability:trickfire` | executable | faithful | Generated by the Orsino translator. |
@@ -399,7 +399,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:charm` | `ability:charm` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:chill_blood` | `ability:chill_blood` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:coldsnap` | `ability:coldsnap` | executable | faithful | Generated by the Orsino translator. |
-| `arcaneSpell:cone_of_cold` | `ability:cone_of_cold` | represented | faithful | Generated; not executable: target, effects. |
+| `arcaneSpell:cone_of_cold` | `ability:cone_of_cold` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:confusion` | `ability:confusion` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:contagion` | `ability:contagion` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:control_undead` | `ability:control_undead` | executable | faithful | Generated by the Orsino translator. |
@@ -441,9 +441,9 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:insanity` | `ability:insanity` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:invisibility` | `ability:invisibility` | represented | faithful | Generated; not executable: status:invisible. |
 | `arcaneSpell:invulnerability` | `ability:invulnerability` | represented | faithful | Generated; not executable: status:invulnerable. |
-| `arcaneSpell:lightning_bolt` | `ability:lightning_bolt` | represented | faithful | Generated; not executable: target, effects. |
+| `arcaneSpell:lightning_bolt` | `ability:lightning_bolt` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:magebane` | `ability:magebane` | represented | faithful | Generated; not executable: status:magebane. |
-| `arcaneSpell:magic_missile` | `ability:magic_missile` | represented | faithful | Generated; not executable: target, effects. |
+| `arcaneSpell:magic_missile` | `ability:magic_missile` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:major_false_life` | `ability:major_false_life` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:major_reflection` | `ability:major_reflection` | represented | faithful | Generated; not executable: status:major_reflect. |
 | `arcaneSpell:major_ward` | `ability:major_ward` | executable | faithful | Generated by the Orsino translator. |
@@ -455,7 +455,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:mass_mind_blank` | `ability:mass_mind_blank` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:mass_weakness` | `ability:mass_weakness` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:maze` | `ability:maze` | represented | faithful | Generated; not executable: status:mazed, condition:notTrait. |
-| `arcaneSpell:meteor_swarm` | `ability:meteor_swarm` | represented | faithful | Generated; not executable: target, effects. |
+| `arcaneSpell:meteor_swarm` | `ability:meteor_swarm` | executable | adapted | Generated by the Orsino translator. |
 | `arcaneSpell:mind_blank` | `ability:mind_blank` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:mind_reading` | `ability:mind_reading` | represented | faithful | Generated; not executable: status:mind_reading. |
 | `arcaneSpell:minor_distract` | `ability:minor_distract` | executable | faithful | Generated by the Orsino translator. |
@@ -472,7 +472,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:poison_cloud` | `ability:poison_cloud` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:polar_ray` | `ability:polar_ray` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:polymorph` | `ability:polymorph` | represented | faithful | Generated; not executable: effect:recalculateHp, status:polymorphed. |
-| `arcaneSpell:prismatic_spray` | `ability:prismatic_spray` | represented | faithful | Generated; not executable: target, effects. |
+| `arcaneSpell:prismatic_spray` | `ability:prismatic_spray` | represented | adapted | Generated; not executable: effect:cycleEffects, effects. |
 | `arcaneSpell:psi_shield` | `ability:psi_shield` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:psionic_blast` | `ability:psionic_blast` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:quieten` | `ability:quieten` | executable | faithful | Generated by the Orsino translator. |
@@ -496,15 +496,15 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `arcaneSpell:spark` | `ability:spark` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:spellturning` | `ability:spellturning` | represented | faithful | Generated; not executable: status:spellturn. |
 | `arcaneSpell:stone_to_flesh` | `ability:stone_to_flesh` | executable | faithful | Generated by the Orsino translator. |
-| `arcaneSpell:summon_greater_elemental` | `ability:summon_greater_elemental` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_monster` | `ability:summon_monster` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_monster_ii` | `ability:summon_monster_ii` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_monster_iii` | `ability:summon_monster_iii` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_monster_iv` | `ability:summon_monster_iv` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_monster_v` | `ability:summon_monster_v` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_monster_vi` | `ability:summon_monster_vi` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_monster_vii` | `ability:summon_monster_vii` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `arcaneSpell:summon_vermin` | `ability:summon_vermin` | represented | faithful | Generated; not executable: effect:summon, effects. |
+| `arcaneSpell:summon_greater_elemental` | `ability:summon_greater_elemental` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_monster` | `ability:summon_monster` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_monster_ii` | `ability:summon_monster_ii` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_monster_iii` | `ability:summon_monster_iii` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_monster_iv` | `ability:summon_monster_iv` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_monster_v` | `ability:summon_monster_v` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_monster_vi` | `ability:summon_monster_vi` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_monster_vii` | `ability:summon_monster_vii` | executable | faithful | Generated by the Orsino translator. |
+| `arcaneSpell:summon_vermin` | `ability:summon_vermin` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:symbol_of_insanity` | `ability:symbol_of_insanity` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:thunderclap` | `ability:thunderclap` | executable | faithful | Generated by the Orsino translator. |
 | `arcaneSpell:time_stop` | `ability:time_stop` | represented | faithful | Generated; not executable: status:timestopped. |
@@ -586,8 +586,8 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:ice_shard` | `ability:ice_shard` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:implosion` | `ability:implosion` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:inflict_disease` | `ability:inflict_disease` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:ion_burst` | `ability:ion_burst` | represented | faithful | Generated; not executable: effect:damage. |
-| `divineSpell:ion_shield` | `ability:ion_shield` | represented | faithful | Generated; not executable: status:ion_shield. |
+| `divineSpell:ion_burst` | `ability:ion_burst` | executable | faithful | Generated by the Orsino translator. |
+| `divineSpell:ion_shield` | `ability:ion_shield` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:ire` | `ability:ire` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:ironskin` | `ability:ironskin` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:judgment` | `ability:judgment` | represented | faithful | Generated; not executable: status:marked_for_judgment. |
@@ -597,7 +597,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:luminous_blade` | `ability:luminous_blade` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:mad_whispers` | `ability:mad_whispers` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:madness` | `ability:madness` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:maelstrom` | `ability:maelstrom` | represented | faithful | Generated; not executable: effect:damage. |
+| `divineSpell:maelstrom` | `ability:maelstrom` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:major_deflection` | `ability:major_deflection` | represented | faithful | Generated; not executable: status:reflect. |
 | `divineSpell:major_life_drain` | `ability:major_life_drain` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:major_restoration` | `ability:major_restoration` | executable | faithful | Generated by the Orsino translator. |
@@ -642,10 +642,10 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:steelskin` | `ability:steelskin` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:stoneskin` | `ability:stoneskin` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:storm_wind` | `ability:storm_wind` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:stormsurge` | `ability:stormsurge` | represented | faithful | Generated; not executable: effect:damage, effects. |
-| `divineSpell:summon_elemental` | `ability:summon_elemental` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `divineSpell:summon_lich` | `ability:summon_lich` | represented | faithful | Generated; not executable: effect:summon, effects. |
-| `divineSpell:summon_natural_guardian` | `ability:summon_natural_guardian` | represented | faithful | Generated; not executable: effect:summon, effects. |
+| `divineSpell:stormsurge` | `ability:stormsurge` | executable | faithful | Generated by the Orsino translator. |
+| `divineSpell:summon_elemental` | `ability:summon_elemental` | executable | faithful | Generated by the Orsino translator. |
+| `divineSpell:summon_lich` | `ability:summon_lich` | executable | faithful | Generated by the Orsino translator. |
+| `divineSpell:summon_natural_guardian` | `ability:summon_natural_guardian` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:sunburst` | `ability:sunburst` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:sunmark` | `ability:sunmark` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:sunsphere` | `ability:sunsphere` | executable | faithful | Generated by the Orsino translator. |
@@ -653,8 +653,8 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:tempest` | `ability:tempest` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:terror` | `ability:terror` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:thorn_whip` | `ability:thorn_whip` | executable | faithful | Generated by the Orsino translator. |
-| `divineSpell:thors_fury` | `ability:thors_fury` | represented | faithful | Generated; not executable: effect:damage, effects. |
-| `divineSpell:thunderstorm` | `ability:thunderstorm` | represented | faithful | Generated; not executable: effect:damage. |
+| `divineSpell:thors_fury` | `ability:thors_fury` | executable | faithful | Generated by the Orsino translator. |
+| `divineSpell:thunderstorm` | `ability:thunderstorm` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:tidal_wave` | `ability:tidal_wave` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:touch_of_serenity` | `ability:touch_of_serenity` | executable | faithful | Generated by the Orsino translator. |
 | `divineSpell:toxic_spray` | `ability:toxic_spray` | executable | faithful | Generated by the Orsino translator. |
@@ -821,7 +821,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `divineSpell:consecrated_ground` | `condition:consecrated` | represented | adapted | Generated; not executable: onEnemyOffensiveCasting, onEnemyAttack. |
 | `divineSpell:electrostatic_field` | `condition:electrostatic_field` | represented | adapted | Generated; not executable: onEnemyEnter. |
 | `divineSpell:greater_toxicity` | `condition:greater_toxicity` | represented | adapted | Generated; not executable: bonusPoisonDamage. |
-| `divineSpell:ion_shield` | `condition:ion_shield` | represented | adapted | Generated; not executable: onAttacked. |
+| `divineSpell:ion_shield` | `condition:ion_shield` | executable | adapted | Generated by the Orsino translator. |
 | `divineSpell:judgment` | `condition:marked_for_judgment` | represented | adapted | Generated; not executable: onHeal. |
 | `divineSpell:luminous_blade` | `condition:luminous_blade` | executable | adapted | Generated by the Orsino translator. |
 | `divineSpell:toxicity` | `condition:toxicity` | represented | adapted | Generated; not executable: bonusPoisonDamage. |
@@ -872,7 +872,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `weapon:light_mace` | `item:light_mace` | executable | faithful | Generated by the Orsino translator. |
 | `weapon:light_pick` | `item:light_pick` | executable | faithful | Generated by the Orsino translator. |
 | `weapon:light_warhammer` | `item:light_warhammer` | executable | faithful | Generated by the Orsino translator. |
-| `weapon:lightning_breath` | `item:lightning_breath` | represented | faithful | Generated; not executable: type. |
+| `weapon:lightning_breath` | `item:lightning_breath` | executable | faithful | Generated by the Orsino translator. |
 | `weapon:longbow` | `item:longbow` | executable | faithful | Generated by the Orsino translator. |
 | `weapon:longsword` | `item:longsword` | executable | faithful | Generated by the Orsino translator. |
 | `weapon:maddening_breath` | `item:maddening_breath` | executable | faithful | Generated by the Orsino translator. |
@@ -1004,6 +1004,99 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `trait:wildcaller` | `trait:wildcaller` | executable | adapted | Generated by the Orsino translator. |
 | `trait:wildfolk` | `trait:wildfolk` | represented | faithful | Generated; not executable: summonAnimalBonus. |
 | `trait:wise` | `trait:wise` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Angel` | `species:angel` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Archon` | `species:archon` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Automaton` | `species:automaton` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Balor` | `species:balor` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Banshee` | `species:banshee` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Behemoth` | `species:behemoth` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Chimera` | `species:chimera` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Clockwork Soldier` | `species:clockwork_soldier` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Colossus` | `species:colossus` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Deva` | `species:deva` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Discerner` | `species:discerner` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Drake` | `species:drake` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Dryad` | `species:dryad` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:air` | `species:air_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:ash` | `species:ash_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:crystal` | `species:crystal_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:dust` | `species:dust_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:earth` | `species:earth_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:fire` | `species:fire_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:ice` | `species:ice_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:jewel` | `species:jewel_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:lava` | `species:lava_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:mud` | `species:mud_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:salt` | `species:salt_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:sand` | `species:sand_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:smoke` | `species:smoke_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:steam` | `species:steam_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:storm` | `species:storm_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:water` | `species:water_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `elemental:wood` | `species:wood_elemental` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Fiend` | `species:fiend` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Ghoul` | `species:ghoul` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Ifrit` | `species:ifrit` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Lich` | `species:lich` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Marilith` | `species:marilith` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Mephit` | `species:mephit` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Mind Destroyer` | `species:mind_destroyer` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Mouther` | `species:mouther` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Mummy` | `species:mummy` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Nightmare` | `species:nightmare` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Nymph` | `species:nymph` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Ooze` | `species:ooze` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Owlbear` | `species:owlbear` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Pixie` | `species:pixie` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Satyr` | `species:satyr` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Solar` | `species:solar` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Spirit` | `species:spirit` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Sprite` | `species:sprite` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Titan` | `species:titan` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Vampire` | `species:vampire` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Wendigo` | `species:wendigo` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Wraith` | `species:wraith` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Wyrm` | `species:wyrm` | executable | adapted | Generated by the Orsino translator. |
+| `monsterType:Wyvern` | `species:wyvern` | executable | adapted | Generated by the Orsino translator. |
+| `animal:badger` | `species:badger` | executable | faithful | Generated by the Orsino translator. |
+| `animal:bat` | `species:bat` | executable | faithful | Generated by the Orsino translator. |
+| `animal:beetle` | `species:beetle` | executable | faithful | Generated by the Orsino translator. |
+| `animal:butterfly` | `species:butterfly` | executable | faithful | Generated by the Orsino translator. |
+| `animal:centipede` | `species:centipede` | executable | faithful | Generated by the Orsino translator. |
+| `animal:crocodile` | `species:crocodile` | executable | faithful | Generated by the Orsino translator. |
+| `animal:crow` | `species:crow` | executable | faithful | Generated by the Orsino translator. |
+| `animal:deer` | `species:deer` | executable | faithful | Generated by the Orsino translator. |
+| `animal:dragonfly` | `species:dragonfly` | executable | faithful | Generated by the Orsino translator. |
+| `animal:eagle` | `species:eagle` | executable | faithful | Generated by the Orsino translator. |
+| `animal:falcon` | `species:falcon` | executable | faithful | Generated by the Orsino translator. |
+| `animal:ferret` | `species:ferret` | executable | faithful | Generated by the Orsino translator. |
+| `animal:fox` | `species:fox` | executable | faithful | Generated by the Orsino translator. |
+| `animal:frog` | `species:frog` | executable | faithful | Generated by the Orsino translator. |
+| `animal:goat` | `species:goat` | executable | faithful | Generated by the Orsino translator. |
+| `animal:hawk` | `species:hawk` | executable | faithful | Generated by the Orsino translator. |
+| `animal:hedgehog` | `species:hedgehog` | executable | faithful | Generated by the Orsino translator. |
+| `animal:hummingbird` | `species:hummingbird` | executable | faithful | Generated by the Orsino translator. |
+| `animal:hyena` | `species:hyena` | executable | faithful | Generated by the Orsino translator. |
+| `animal:lion` | `species:lion` | executable | faithful | Generated by the Orsino translator. |
+| `animal:lizard` | `species:lizard` | executable | faithful | Generated by the Orsino translator. |
+| `animal:mole` | `species:mole` | executable | faithful | Generated by the Orsino translator. |
+| `animal:moth` | `species:moth` | executable | faithful | Generated by the Orsino translator. |
+| `animal:otter` | `species:otter` | executable | faithful | Generated by the Orsino translator. |
+| `animal:owl` | `species:owl` | executable | faithful | Generated by the Orsino translator. |
+| `animal:panther` | `species:panther` | executable | faithful | Generated by the Orsino translator. |
+| `animal:pony` | `species:pony` | executable | faithful | Generated by the Orsino translator. |
+| `animal:pseudodragon` | `species:pseudodragon` | executable | faithful | Generated by the Orsino translator. |
+| `animal:rabbit` | `species:rabbit` | executable | faithful | Generated by the Orsino translator. |
+| `animal:ram` | `species:ram` | executable | faithful | Generated by the Orsino translator. |
+| `animal:rat` | `species:rat` | executable | faithful | Generated by the Orsino translator. |
+| `animal:raven` | `species:raven` | executable | faithful | Generated by the Orsino translator. |
+| `animal:snake` | `species:snake` | executable | faithful | Generated by the Orsino translator. |
+| `animal:squirrel` | `species:squirrel` | executable | faithful | Generated by the Orsino translator. |
+| `animal:stag` | `species:stag` | executable | faithful | Generated by the Orsino translator. |
+| `animal:stoat` | `species:stoat` | executable | faithful | Generated by the Orsino translator. |
+| `animal:tiger` | `species:tiger` | executable | faithful | Generated by the Orsino translator. |
+| `animal:turtle` | `species:turtle` | executable | faithful | Generated by the Orsino translator. |
+| `animal:wyrm` | `species:wyrm_animal` | executable | faithful | Generated by the Orsino translator. |
 | `background:abbot` | `background:abbot` | executable | adapted | Generated by the Orsino translator. |
 | `background:advisor` | `background:advisor` | executable | adapted | Generated by the Orsino translator. |
 | `background:alchemist` | `background:alchemist` | executable | adapted | Generated by the Orsino translator. |

@@ -3,6 +3,7 @@ import conditions from '../../data/catalog/orsino/conditions.json';
 import items from '../../data/catalog/orsino/items.json';
 import traits from '../../data/catalog/orsino/traits.json';
 import blessings from '../../data/catalog/orsino/blessings.json';
+import species from '../../data/catalog/orsino/species.json';
 import type { AdaptationRecord, Ledger } from './orsino-registry';
 import { Canon } from '../canon/canon';
 
@@ -20,6 +21,7 @@ export class CatalogLedger {
     ['item', items.items as Record<string, Generated>],
     ['trait', traits.traits as Record<string, Generated>],
     ['domain', blessings.blessings as Record<string, Generated>],
+    ['species', species.species as unknown as Record<string, Generated>],
   ];
   static records(): AdaptationRecord[] {
     // Backgrounds are compiled from Orsino's rows and Kyr's kind tables at load; the compiled catalog is the record.

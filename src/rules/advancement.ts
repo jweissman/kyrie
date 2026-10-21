@@ -24,6 +24,8 @@ export class Advancement {
   }
   // What defeating a creature is worth: its kind's value for each of its levels.
   static worth(creature: Creature): number {
+    const own = Canon.isSpecies(creature.raceId) ? Canon.creature(creature.raceId).worth : undefined;
+    if (own) { return own.base + own.perLevel * creature.base.level; }
     const each = Canon.isSpecies(creature.raceId)
       ? this.table.species[Canon.creature(creature.raceId).type ?? ''] ?? this.table.species.monster!
       : this.table.ancestry[creature.raceId] ?? this.table.person;
