@@ -1,0 +1,1655 @@
+# Dungeon Master's Guide
+
+How the world runs. Everything in a Kyr world is a fact (a relation or a measure) that actions and rules change. The rules modules below are loaded by every world; each entry gives the authors' statement of a rule above the condition and the change the engine applies. A place, a person or a band behaves as these rules say, and nothing else decides for them.
+
+Time passes in watches of ten minutes. A rule fires as soon as its condition holds; an action takes its time and then makes its change, unless something interrupts it.
+
+## The world's rules
+
+### What the company carries
+
+Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, pays, price.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 2 | 11 | 2 | 0 | 0 | 11 |
+
+#### take item
+
+*Kyr · action (group, item, itemkind, member, place)* · `rule:belongings.take_item`
+
+- Shown as: Collect {find} for {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); at(find, site); not (forSale(find)); not (benighted(actor)); itemKind(find, form); memberOf(recipient, actor); awake(recipient); noticed(find, actor)
+
+> Then: Retract at(find, site).
+
+#### take out
+
+*Kyr · action (group, item, itemkind, thing, member, place)* · `rule:belongings.take_out`
+
+- Shown as: Take {find} out of {box} for {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); at(box, site); inside(find, box); not (shut(box)); noticed(box, actor); noticed(find, actor); not (benighted(actor)); itemKind(find, form); memberOf(recipient, actor); awake(recipient)
+
+> Then: Retract inside(find, box).
+
+#### put in
+
+*Kyr · action (group, item, member, thing, place)* · `rule:belongings.put_in`
+
+- Shown as: Put {cargo} in {box}
+- Takes: 10 minutes
+- Costs: 1
+
+Set it in, on or into the thing, where it stays until someone takes it out.
+
+> Needs: able(actor); at(actor, site); at(box, site); receptacle(box); not (shut(box)); noticed(box, actor); not (benighted(actor)); memberOf(carrier, actor); awake(carrier); ownedItem(cargo, carrier)
+
+> Then: Assert inside(cargo, box).
+
+#### buy item
+
+*Kyr · action (group, item, itemkind, member, group, place)* · `rule:belongings.buy_item`
+
+- Shown as: Buy {find} for {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); at(find, site); forSale(find); itemKind(find, form); memberOf(recipient, actor); awake(recipient); soldBy(find, merchant); able(merchant); not (refusesService(merchant, actor)); at(merchant, site); distinct(actor, merchant); quantity(actor, gold) >= price(find)
+
+> Then: Retract at(find, site). Retract forSale(find).
+
+#### equip item
+
+*Kyr · action (group, item, itemkind, member)* · `rule:belongings.equip_item`
+
+- Shown as: Equip {tool} on {wearer}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); memberOf(wearer, actor); awake(wearer); ownedItem(tool, wearer); itemKind(tool, form); wearable(form); proficient(wearer, form); not (wearing(tool, wearer))
+
+> Then: nothing changes
+
+#### use item
+
+*Kyr · action (group, item, itemkind, member, member)* · `rule:belongings.use_item`
+
+- Shown as: Use {dose} on {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form)
+
+> Then: nothing changes
+
+#### transfer item
+
+*Kyr · action (group, item, member, member)* · `rule:belongings.transfer_item`
+
+- Shown as: Give {cargo} to {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); not (ownedItem(cargo, recipient)); awake(recipient); ownedItem(cargo, carrier)
+
+> Then: nothing changes
+
+#### give
+
+*Kyr · action (group, item, itemkind, member, group, place)* · `rule:belongings.give`
+
+- Shown as: Give {gift} to {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.
+
+> Needs: able(actor); at(actor, site); able(recipient); at(recipient, site); distinct(actor, recipient); memberOf(carrier, actor); awake(carrier); ownedItem(gift, carrier); itemKind(gift, form); wants(recipient, form)
+
+> Then: Assert keeps(recipient, gift).
+
+#### sell
+
+*Kyr · action (group, item, itemkind, member, group, place)* · `rule:belongings.sell`
+
+- Shown as: Sell {ware} to {buyer}
+- Takes: 10 minutes
+- Costs: 1
+
+Someone who buys this kind of thing pays what they said they would, if they have the coin.
+
+> Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); pays(buyer, form) >= 1; quantity(buyer, gold) >= pays(buyer, form); not (refusesService(buyer, actor))
+
+> Then: Assert keeps(buyer, ware). Decrease quantity(buyer, gold) by pays(buyer, form). Increase quantity(actor, gold) by pays(buyer, form).
+
+#### put item
+
+*Kyr · action (group, item, member, place)* · `rule:belongings.put_item`
+
+- Shown as: Set down {cargo}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); memberOf(carrier, actor); awake(carrier); ownedItem(cargo, carrier)
+
+> Then: Assert at(cargo, site).
+
+#### train member
+
+*Kyr · action (group, group, member, ability, place)* · `rule:belongings.train_member`
+
+- Shown as: Train {student} in {lesson}
+- Takes: 60 minutes
+- Costs: 1
+
+> Needs: able(actor); able(mentor); distinct(actor, mentor); at(actor, site); at(mentor, site); memberOf(student, actor); awake(student); teaches(mentor, lesson); canTrain(student, lesson)
+
+> Then: nothing changes
+
+### Rest, mending and lessons
+
+Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf, fieldUsable, awake, needsCare, canCast, treatable, restful, offeredAt, giftEffect, rewardFor, claimed.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 6 | 15 | 0 | 0 | 0 | 7 |
+
+#### field spell
+
+*Kyr · action (group, member, ability, member, place)* · `rule:care.field_spell`
+
+- Shown as: Have {caster} use {technique} on {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+Use a known healing, cleansing or persistent ward ability outside combat. Its normal mana cost is paid; combat cooldowns do not apply.
+
+> Needs: able(actor); at(actor, site); memberOf(caster, actor); memberOf(recipient, actor); fieldUsable(technique); awake(caster); awake(recipient); canCast(caster, technique); treatable(recipient, technique)
+
+> Then: nothing changes
+
+#### prepare spell
+
+*Kyr · action (group, member, circle, ability, ability)* · `rule:care.prepare_spell`
+
+- Shown as: Have {caster} prepare {incoming} in place of {outgoing}
+- Takes: 60 minutes
+- Costs: 1
+
+An hour of study or prayer. A spell prepared in a slot still ready can be cast at once; in a slot already spent, after the next rest.
+
+> Needs: able(actor); memberOf(caster, actor); awake(caster); swappable(caster, tier, outgoing, incoming)
+
+> Then: nothing changes
+
+#### raise quality
+
+*Kyr · action (group, member, quality)* · `rule:care.raise_quality`
+
+- Shown as: Have {member} raise {quality}
+- Takes: 10 minutes
+- Costs: 1
+
+Each level gained lets a companion raise one quality by a point. Strength lands blows and Dexterity turns them; Constitution adds hit points at the next level; Intelligence, Wisdom or Charisma feeds a caster's spells.
+
+> Needs: able(actor); memberOf(member, actor); awake(member); improvable(member)
+
+> Then: nothing changes
+
+#### learn spell
+
+*Kyr · action (group, member, ability)* · `rule:care.learn_spell`
+
+- Shown as: Have {member} learn {spell}
+- Takes: 10 minutes
+- Costs: 1
+
+Each level gained lets a caster add a spell of their tradition, of a level they can cast, to what they know. It can be prepared from then on.
+
+> Needs: able(actor); memberOf(member, actor); awake(member); learnable(member, spell)
+
+> Then: nothing changes
+
+#### take feat
+
+*Kyr · action (group, member, feat)* · `rule:care.take_feat`
+
+- Shown as: Have {member} take up {choice}
+- Takes: 10 minutes
+- Costs: 1
+
+At the fifth, tenth and fifteenth levels a companion takes up one of their calling's feats. Some rule others out: a knight is no barbarian.
+
+> Needs: able(actor); memberOf(member, actor); awake(member); featOpen(member, choice)
+
+> Then: nothing changes
+
+#### rest
+
+*Kyr · action (group, place)* · `rule:care.rest`
+
+- Shown as: Rest and recover at {site}
+- Takes: 360 minutes
+- Costs: 1
+
+Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.
+
+> Needs: able(actor); at(actor, site); restful(site); quantity(actor, rations) >= 1
+
+> Then: Decrease quantity(actor, rations) by 1.
+
+#### learn reward
+
+*Kyr · action (group, reward, member, ability, fact, place)* · `rule:care.learn_reward`
+
+- Shown as: Accept {gift} for {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); offeredAt(gift, site); memberOf(recipient, actor); awake(recipient); giftEffect(gift, lesson); rewardFor(gift, proof); knows(actor, proof); not (claimed(gift))
+
+> Then: Assert claimed(gift). Retract offeredAt(gift, site). Retract at(gift, site).
+
+### Bodies, places, time and the shared catalog
+
+Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, quantity, watch, encounterXp, untilLight, untilMorning.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 6 | 22 | 6 | 3 | 0 | 5 |
+
+#### terrainkind, terrain
+
+*Kyr · kind; relation(place, terrainkind)* · `rule:world_core.terrainkind`
+
+The lie of the land a region is: what a party's perks of place (an elven tribe in a forest) answer to.
+
+#### lightless
+
+*Kyr · relation(place)* · `rule:world_core.lightless`
+
+A place where light dies: only sunlight shows anything there.
+
+#### tolerates
+
+*Kyr · relation(group, group)* · `rule:world_core.tolerates`
+
+One who lets another be: does not bar its way or fall on it (a toll paid, a bribe taken, recruits believed).
+
+#### assails
+
+*Kyr · relation(group, group)* · `rule:world_core.assails`
+
+Someone falling on another: on the company, it starts a fight there and then.
+
+#### halts
+
+*Kyr · relation(group, group)* · `rule:world_core.halts`
+
+Someone stopping another where they stand (a challenge, a hold-up): on the company, whatever it was doing is broken off, and it must deal with them.
+
+#### threatened
+
+*Kyr · query(a: group)* · `rule:world_core.threatened`
+
+Someone who means the company no good where it is: a long wait or a rest is broken off when one arrives.
+
+#### wait
+
+*Kyr · action (group)* · `rule:world_core.wait`
+
+- Shown as: Wait a while
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor)
+
+> Then: nothing changes
+
+#### wait hour
+
+*Kyr · action (group)* · `rule:world_core.wait_hour`
+
+- Shown as: Wait an hour
+- Takes: 60 minutes
+- Costs: 1
+
+> Needs: able(actor)
+
+> Then: nothing changes
+
+#### dice
+
+*Kyr · measure(clock)* · `rule:world_core.dice`
+
+A die thrown each watch, 1 to 100, for what is left to chance.
+
+#### wait for light
+
+*Kyr · action (group)* · `rule:world_core.wait_for_light`
+
+- Shown as: Wait until first light
+- Takes: the untilLight of the way
+- Costs: 1
+
+> Needs: able(actor); dark()
+
+> Then: nothing changes
+
+#### assail
+
+*Kyr · action (group, group, place)* · `rule:world_core.assail`
+
+- Shown as: Fall on {prey}
+- Takes: 10 minutes
+- Costs: 1
+
+Someone who means harm closes and attacks.
+
+> Needs: able(actor); at(actor, site); at(prey, site); able(prey); distinct(actor, prey); not (peaceable(actor)); not (allied(actor, prey)); not (tolerates(actor, prey)); not (company(actor))
+
+> Then: Assert assails(actor, prey).
+
+#### attack
+
+*Kyr · action (group, group, place)* · `rule:world_core.attack`
+
+- Shown as: Attack {opponent}
+- Takes: 10 minutes
+- Costs: 1
+
+Once it starts it goes on until one side is down or runs, and whoever falls may not get up.
+
+> Needs: able(actor); able(opponent); distinct(actor, opponent); at(actor, site); reaches(actor, opponent); not (peaceable(opponent))
+
+> Then: nothing changes
+
+### Reliable discovery and trusted reports
+
+Also kept, without comment: established, reveals, intact, noticeable, destructible, mayExamine, knows, assumesFalse, trusts, learnedFrom, toldBy, publicPlace, testimony, witnessed, searched.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 2 | 15 | 0 | 0 | 0 | 5 |
+
+#### examine
+
+*Kyr · action (group, source, fact, place)* · `rule:discovery_rules.examine`
+
+- Shown as: Examine {witness}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); at(witness, site); not (benighted(actor)); noticeable(witness); intact(witness); mayExamine(actor, witness); reveals(witness, statement); established(statement); not (learnedFrom(actor, witness, statement))
+
+> Then: Assert knows(actor, statement). Retract assumesFalse(actor, statement). Assert learnedFrom(actor, witness, statement).
+
+#### tell
+
+*Kyr · action (group, group, fact, place)* · `rule:discovery_rules.tell`
+
+- Shown as: Tell {recipient}: {statement}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); able(recipient); distinct(actor, recipient); at(actor, site); at(recipient, site); trusts(recipient, actor); knows(actor, statement); established(statement); not (toldBy(recipient, actor, statement))
+
+> Then: Assert knows(recipient, statement). Retract assumesFalse(recipient, statement). Assert toldBy(recipient, actor, statement).
+
+#### ask
+
+*Kyr · action (group, group, source, fact, place)* · `rule:discovery_rules.ask`
+
+- Shown as: Ask {informant} about {topic}
+- Takes: 10 minutes
+- Costs: 1
+
+Ask about an offered topic. The speaker shares an established fact they actually know.
+
+> Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (toldBy(actor, informant, statement))
+
+> Then: Assert knows(actor, statement). Retract assumesFalse(actor, statement). Assert toldBy(actor, informant, statement).
+
+#### search
+
+*Kyr · action (group, place)* · `rule:discovery_rules.search`
+
+- Shown as: Search {site}
+- Takes: 20 minutes
+- Costs: 1
+
+Go over the place: walls, floor, furniture, the backs of things. Twenty minutes, once.
+
+> Needs: able(actor); at(actor, site); not (benighted(actor)); not (searched(actor, site))
+
+> Then: Assert searched(actor, site).
+
+#### destroy source
+
+*Kyr · action (group, source, place)* · `rule:discovery_rules.destroy_source`
+
+- Shown as: Destroy {witness}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); at(witness, site); noticeable(witness); intact(witness); destructible(witness)
+
+> Then: Retract intact(witness).
+
+### Who holds what, how a power stands toward a company, and how its agents go about the land
+
+Also kept, without comment: holds, keeps, covets, bywayFrom, bywayTo, knowsWay, travelling, bywayTime.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 1 | 14 | 3 | 1 | 4 | 2 |
+
+#### alarmed, admits, hostile
+
+*Kyr · relation(group); relation(group, group); relation(group, group)* · `rule:dominion.alarmed`
+
+How a power stands toward a company, kept by the power and obeyed by everyone who serves it: alarmed when something has gone wrong in what it holds; admitting a company to come and go; or hostile to it on sight.
+
+#### admitted
+
+*Kyr · rule* · `rule:dominion.admitted`
+
+> When: admits(?power, ?company); serves(?member, ?power); not (tolerates(?member, ?company)); not (hostile(?power, ?company))
+
+> Then: Assert tolerates(?member, ?company).
+
+#### turned
+
+*Kyr · rule* · `rule:dominion.turned`
+
+> When: hostile(?power, ?company); serves(?member, ?power); tolerates(?member, ?company)
+
+> Then: Retract tolerates(?member, ?company).
+
+#### unadmitted
+
+*Kyr · rule* · `rule:dominion.unadmitted`
+
+> When: hostile(?power, ?company); admits(?power, ?company)
+
+> Then: Retract admits(?power, ?company).
+
+#### tolls
+
+*Kyr · relation(group, place)* · `rule:dominion.tolls`
+
+Who takes a toll where: a collector standing on a road. A road nobody tolls is open; trade on it moves.
+
+#### credit, owes
+
+*Kyr · relation(group, group); measure(group, group)* · `rule:dominion.credit`
+
+Where a power buys on credit, and what it owes there.
+
+#### losses
+
+*Kyr · measure(place)* · `rule:dominion.losses`
+
+What raiders, tithe-takers and foragers have taken from a place.
+
+#### vacant, posts
+
+*Kyr · relation(place); relation(group, group)* · `rule:dominion.vacant`
+
+A stronghold its holder has left. A power that covets it sends the band it posts, by night, and holds it.
+
+#### seized
+
+*Kyr · rule* · `rule:dominion.seized`
+
+> When: vacant(?site); covets(?power, ?site); posts(?band, ?power); able(?power); able(?band); untilLight(clock) == 1
+
+> Then: Retract vacant(?site). Assert holds(?power, ?site). Assert at(?band, ?site).
+
+#### depart
+
+*Kyr · action (group, byway, place, place)* · `rule:dominion.depart`
+
+- Shown as: Set out by {way} toward {destination}
+- Takes: 10 minutes
+- Costs: 1
+
+Someone who knows the land's old ways leaves for a distant place, and is out of sight until they arrive.
+
+> Needs: able(actor); knowsWay(actor, way); at(actor, origin); bywayFrom(way, origin); bywayTo(way, destination)
+
+> Then: Retract at(actor, origin). Assert travelling(actor, way).
+
+#### arrive
+
+*Kyr · action (group, byway, place)* · `rule:dominion.arrive`
+
+- Shown as: Come by {way} to {destination}
+- Takes: the bywayTime of the way
+- Costs: 1
+
+> Needs: travelling(actor, way); bywayTo(way, destination)
+
+> Then: Retract travelling(actor, way). Assert at(actor, destination).
+
+### Fire, frost and other elements let loose in a place
+
+Also kept, without comment: exposedTo.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 1 | 1 | 0 | 0 | 0 | 0 |
+
+### Food
+
+Also kept, without comment: eats, hungry, nextMeal.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 0 | 2 | 1 | 0 | 2 | 0 |
+
+#### meal
+
+*Kyr · rule* · `rule:world_needs.meal`
+
+> When: eats(?g); watch(clock) >= nextMeal(?g); quantity(?g, rations) >= 1
+
+> Then: Decrease quantity(?g, rations) by 1. Increase nextMeal(?g) by 144. Retract hungry(?g).
+
+#### hunger
+
+*Kyr · rule* · `rule:world_needs.hunger`
+
+> When: eats(?g); watch(clock) >= nextMeal(?g); quantity(?g, rations) < 1; not (hungry(?g))
+
+> Then: Assert hungry(?g).
+
+### Passages, obstacles and the condition of things
+
+Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen, harmsWhen, hurtsWith, hurtsInto, revealedBy, needs, changeOf, changeFrom, changeTo, changeKnows, consumes, spends, hobbled, following, travelTime.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 8 | 26 | 1 | 19 | 0 | 6 |
+
+#### scenery
+
+*Kyr · kind* · `rule:world_passages.scenery`
+
+What is seen and changes but is not handled: the weather, a river, a beacon on a far hill.
+
+#### inside, receptacle, closesWhen
+
+*Kyr · relation(entity, entity); relation(entity); relation(entity, condition)* · `rule:world_passages.inside`
+
+Containment: a thing or item inside another, reachable while that one is not shut; a receptacle can take more.
+
+#### strikes
+
+*Kyr · relation(hazard, group)* · `rule:world_passages.strikes`
+
+A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls).
+
+#### verb, probeable, tried
+
+*Kyr · kind; relation(entity); relation(entity, verb)* · `rule:world_passages.verb`
+
+What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
+
+#### keyholder
+
+*Kyr · relation(group, entity)* · `rule:world_passages.keyholder`
+
+Who holds the key to what bars a way, and those who serve them, go through it as if it were open.
+
+#### onHiddenWay
+
+*Kyr · query(x: entity, a: group)* · `rule:world_passages.onHiddenWay`
+
+A thing hidden until something is known is not there, for a company that does not know it; nor is a thing on a way the company does not know of.
+
+#### go
+
+*Kyr · action (group, passage, place, place)* · `rule:world_passages.go`
+
+- Shown as: Take {way} to {destination}
+- Takes: the travelTime of the way
+- Costs: 1
+
+> Needs: able(actor); at(actor, origin); connects(way, origin, destination); passable(way, actor); mobile(actor)
+
+> Then: Assert at(actor, destination).
+
+#### slip past
+
+*Kyr · action (group, passage, place, place, group)* · `rule:world_passages.slip_past`
+
+- Shown as: Slip past {gatekeeper} by {way}
+- Takes: the travelTime of the way
+- Costs: 1
+
+Someone who moves quietly takes the company past a watcher without a fight or a bargain. The watcher stays where it is, and will be there on the way back.
+
+> Needs: able(actor); at(actor, origin); connects(way, origin, destination); guards(gatekeeper, way); able(gatekeeper); state(gatekeeper, ?t); blocksWhen(gatekeeper, ?t); not (tolerates(gatekeeper, actor)); at(gatekeeper, origin)) or (at(gatekeeper, destination); capable(actor, stealth); visibleTo(way, actor); not (barred(way)); not (hazardous(way)); equippedFor(actor, way); mobile(actor)
+
+> Then: Assert at(actor, destination).
+
+#### risk
+
+*Kyr · action (group, passage, place, place, entity, hazard, condition, member)* · `rule:world_passages.risk`
+
+- Shown as: Risk {trap}; {victim} goes first
+- Takes: the travelTime of the way
+- Costs: 1
+
+> Needs: able(actor); at(actor, origin); connects(way, origin, destination); on(trap, way); state(trap, ?s); harmsWhen(trap, ?s); hurtsWith(trap, blow); hurtsInto(trap, after); memberOf(victim, actor); awake(victim); visibleTo(way, actor); not (obstructed(way)); equippedFor(actor, way); mobile(actor)
+
+> Then: Assert state(trap, after). Assert at(actor, destination).
+
+#### change thing
+
+*Kyr · action (group, change, entity, condition, condition)* · `rule:world_passages.change_thing`
+
+- Shown as: {how}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
+
+> Then: Assert state(thing, result).
+
+#### change thing spending
+
+*Kyr · action (group, change, entity, condition, condition, item, itemkind, member)* · `rule:world_passages.change_thing_spending`
+
+- Shown as: {how}, using {carrier}'s {spent}
+- Takes: 10 minutes
+- Costs: 1
+
+What it takes is used up doing it.
+
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
+
+> Then: Assert state(thing, result).
+
+#### change thing paying
+
+*Kyr · action (group, change, entity, condition, condition, good)* · `rule:world_passages.change_thing_paying`
+
+- Shown as: {how}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
+
+> Then: Assert state(thing, result). Decrease quantity(actor, spent) by 1.
+
+### Company and intention
+
+Also kept, without comment: acceptsEscort, dismissed, thanks.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 0 | 6 | 1 | 0 | 1 | 2 |
+
+#### freedBy, home, cameHome, grateful
+
+*Kyr · relation(group, group); relation(group, place); relation(group); relation(group, group)* · `rule:world_people.freedBy`
+
+Someone taken from home: who set them free, where home is, and what their people will give whoever brings them back. Brought home by a company they are home, and grateful to it, and the thanks are paid.
+
+#### brought_home
+
+*Kyr · rule* · `rule:world_people.brought_home`
+
+> When: following(?person, ?company); home(?person, ?place); at(?person, ?place); not (cameHome(?person))
+
+> Then: Retract following(?person, ?company). Assert cameHome(?person). Assert grateful(?person, ?company). Increase quantity(?company, gold) by thanks(?person).
+
+#### lead
+
+*Kyr · action (group, group, place)* · `rule:world_people.lead`
+
+- Shown as: Ask {companion} to come with you
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); able(companion); distinct(actor, companion); at(actor, site); at(companion, site); acceptsEscort(companion, actor); not (following(companion, actor))
+
+> Then: Assert following(companion, actor). Retract dismissed(companion, actor).
+
+#### part ways
+
+*Kyr · action (group, group, place)* · `rule:world_people.part_ways`
+
+- Shown as: Let {companion} make their own way
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); able(companion); at(actor, site); at(companion, site); acceptsEscort(companion, actor); not (dismissed(companion, actor)); not (hobbled(companion))
+
+> Then: Retract following(companion, actor). Assert dismissed(companion, actor).
+
+### Trying things: looking closely, prodding, prying, burning, pushing, listening
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 0 | 0 | 0 | 0 | 0 | 6 |
+
+#### look closely
+
+*Kyr · action (group, entity, place)* · `rule:probing.look_closely`
+
+- Shown as: Look closely at {target}
+- Takes: 10 minutes
+- Costs: 1
+
+Anything that can be handled can be tried; what it does when tried is the author's (an observation, an event, a rule on tried). A try that finds nothing says so; offering it never reveals anything.
+
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); not (tried(target, looking))
+
+> Then: Assert tried(target, looking).
+
+#### prod
+
+*Kyr · action (group, entity, place)* · `rule:probing.prod`
+
+- Shown as: Prod {target} with the pole
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prodding); not (tried(target, prodding))
+
+> Then: Assert tried(target, prodding).
+
+#### pry
+
+*Kyr · action (group, entity, place)* · `rule:probing.pry`
+
+- Shown as: Pry at {target} with the bar
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prying); not (tried(target, prying))
+
+> Then: Assert tried(target, prying).
+
+#### burn
+
+*Kyr · action (group, entity, place)* · `rule:probing.burn`
+
+- Shown as: Hold a flame to {target}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); equippedFor(actor, burning); not (tried(target, burning))
+
+> Then: Assert tried(target, burning).
+
+#### push
+
+*Kyr · action (group, entity, place)* · `rule:probing.push`
+
+- Shown as: Push and pull at {target}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); not (tried(target, pushing))
+
+> Then: Assert tried(target, pushing).
+
+#### listen
+
+*Kyr · action (group, entity, place)* · `rule:probing.listen`
+
+- Shown as: Listen at {target}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); not (tried(target, listening))
+
+> Then: Assert tried(target, listening).
+
+### Lodging, goods and camping
+
+Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 2 | 3 | 2 | 0 | 0 | 4 |
+
+#### take lodging
+
+*Kyr · action (group, group, service, place)* · `rule:world_services.take_lodging`
+
+- Shown as: Take {service} from {host}
+- Takes: the untilMorning of the way
+- Costs: 1
+
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); quantity(actor, gold) >= fee(service)
+
+> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service). Retract hungry(actor). Increase nextMeal(actor) by 144.
+
+#### take healing
+
+*Kyr · action (group, group, service, place)* · `rule:world_services.take_healing`
+
+- Shown as: Ask {healer} for {service}
+- Takes: 60 minutes
+- Costs: 1
+
+> Needs: able(actor); able(healer); distinct(actor, healer); at(actor, site); at(healer, site); not (refusesService(healer, actor)); offers(healer, service); serviceOf(service, healing); quantity(actor, gold) >= fee(service)
+
+> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service).
+
+#### buy goods
+
+*Kyr · action (group, group, good, place)* · `rule:world_services.buy_goods`
+
+- Shown as: Buy one {goods} from {seller}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); able(seller); distinct(actor, seller); at(actor, site); at(seller, site); not (refusesService(seller, actor)); sells(seller, goods); quantity(seller, goods) >= 1; quantity(actor, gold) >= goodsPrice(seller, goods)
+
+> Then: Decrease quantity(actor, gold) by goodsPrice(seller, goods). Increase quantity(seller, gold) by goodsPrice(seller, goods). Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1.
+
+#### camp
+
+*Kyr · action (group, place)* · `rule:world_services.camp`
+
+- Shown as: Make camp at {site}
+- Takes: the untilMorning of the way
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); not (indoors(site)); not (settled(site)); not (hungry(actor))
+
+> Then: nothing changes
+
+## Making worlds
+
+A generated world is assembled from a region's geography and kits. A kit is a situation that can be placed: slots it fills from the region (a road with a chokepoint, an inn within four hours), proposals it draws from its tables (who keeps the toll), and the facts it provides once placed. The assembler places a kit only where its slots can be filled, and records every choice it made in the world's report.
+
+### Kits
+
+#### A price on a power
+
+*Kyr* · `kit:bounty`
+
+- Fills: victim (raids(?raider, ?victim)); power (raids(?power, ?victim) and power(?power)); chief (chief(?power, ?chief)); band (band(?power, ?band))
+- Draws: patron from bounty_patron by terrain
+- Provides: 1 facts
+- Modules: 2
+
+> A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, and the people the power acts through; who offers the money, and what they want for it, is Deem's to propose.
+
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
+
+#### A toll on a road
+
+*Kyr* · `kit:toll_road`
+
+- Fills: post (waypoint(?post) and onRoad(?post)); market (square(?town, ?market)); provider (keeper(?provider, ?market))
+- Draws: keepers from toll_keepers by terrain
+- Provides: 6 facts
+- Modules: 2
+
+> A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
+
+### Frameworks
+
+#### Frontier
+
+*Kyr* · `framework:frontier`
+
+- Places: raiders, toll, price
+
+> A frontier region: besides the troubles its scenarios bring, a band that lives by raiding its roads and farms, another that has made a road its own and tolls it, and a settlement that has put a price on one of them. Kits listed here are placed into every generated region that uses this framework, in order, composed with the campaign's seed when it loads.
+
+## Campaigns
+
+The worlds that ship with the game.
+
+### The Red Crag — Thrale
+
+*Kyr* · `campaign:red-crag`
+
+- Regions and sites: world, roost
+- Kits placed: —
+
+> A dragon has taken the crag above a highland village, and with it the chapel bell. Choose three companions.
+
+### The Serewater March
+
+*Kyr* · `campaign:serewater-march`
+
+- Regions and sites: march, keepers, hill, rescue, salvage, east, sink, brood, tower, word, rising
+- Kits placed: —
+
+> Three settlements share the March and, under Censer Hill, their dead: Reedwake on the river, Chalkcross on the downs, Brackenholt across the water. A surveyor is missing under the hill this morning. Choose three companions; their ancestry, calling and background decide what they can do, and what doors open.
+
+### Silkholme
+
+*Kyr* · `campaign:silkholme`
+
+- Regions and sites: march, sink, brood
+- Kits placed: —
+
+> Something comes up out of Silkholme sink at night and takes a ewe from Garth's flock. Garth wants the hollow burned out; Odile, who gathers silk there, says that would be a crime. Choose three companions. Their ancestry, calling and background decide what they can do, and what doors open.
+
+### Skellfold
+
+*Kyr* · `campaign:skellfold`
+
+- Regions and sites: world, rescue, salvage
+- Kits placed: —
+
+> A quarry hamlet under the fell: someone has not come back from the workings, and a salvager wants what the dead were buried with. Choose three companions.
+
+### The Varrow
+
+*Kyr* · `campaign:varrow`
+
+- Regions and sites: varrow, lanthorn, tombs, brimming, hush
+- Kits placed: knot, price
+
+> The Gap is shut. Ottilie Ninefingers holds the old Lanthorn at the head of the valley and tolls every cart that climbs to it, so Hollin's grain rots and Skerry's miners go hungry. The reeve will pay to see her gone. The Lanthorn is the least of what the Varrow hides. Choose three companions.
+
+## Appendix: Orsino's world material
+
+Orsino's planes, traps, wonders, treasure and magic items, with how much of each Kyr holds.
+
+### Planes
+
+10 in Orsino; 0 held by Kyr.
+
+#### Arcadia
+
+*Orsino data only · plane* · `orsino:plane:Arcadia`
+
+- Terrain: forest
+- Alignment: neutral good
+- Domain: life
+- Weather: pleasant
+- Native: fae
+- Laws: bonusSpellDC 1, spellDurationMultiplier 1.2, bonusSpellSlots 1
+
+> A lush, idyllic realm of eternal spring, where nature thrives and harmony reigns.
+
+#### Cthelll
+
+*Orsino data only · plane* · `orsino:plane:Cthelll`
+
+- Terrain: swamp
+- Alignment: neutral evil
+- Domain: death
+- Weather: foggy
+- Native: —
+- Laws: bonusSpellDC 1
+
+> A dark, swampy plane shrouded in mist and mystery, home to ancient secrets and lurking dangers.
+
+#### Gehenna
+
+*Orsino data only · plane* · `orsino:plane:Gehenna`
+
+- Terrain: mountain
+- Alignment: lawful evil
+- Domain: war
+- Weather: sulfurous clouds and ash
+- Native: —
+- Laws: bonusSpellDC -1
+
+> A fiery, volcanic landscape filled with treacherous terrain and the echoes of eternal conflict.
+
+#### Hades
+
+*Orsino data only · plane* · `orsino:plane:Hades`
+
+- Terrain: cave
+- Alignment: lawful evil
+- Domain: knowledge
+- Weather: permanently overcast
+- Native: —
+- Laws: bonusSpellDC -1, spellDurationMultiplier 0.8
+
+> A shadowy underworld of gloom and despair, where lost souls wander and forgotten knowledge lies buried.
+
+#### Limbo
+
+*Orsino data only · plane* · `orsino:plane:Limbo`
+
+- Terrain: desert
+- Alignment: chaotic neutral
+- Domain: chaos
+- Weather: windy
+- Native: —
+- Laws: bonusSpellDC 1, spellDurationMultiplier 1.3
+
+> A chaotic desert wasteland where the sands shift unpredictably and reality bends to whimsy.
+
+#### Mechanus
+
+*Orsino data only · plane* · `orsino:plane:Mechanus`
+
+- Terrain: mountain
+- Alignment: lawful neutral
+- Domain: order
+- Weather: clear skies
+- Native: —
+- Laws: bonusSpellDC 1, spellDurationMultiplier 0.8
+
+> A realm of perfect order and precision, where everything operates like clockwork in harmonious balance.
+
+#### Pandemonium
+
+*Orsino data only · plane* · `orsino:plane:Pandemonium`
+
+- Terrain: cave
+- Alignment: chaotic evil
+- Domain: trickery
+- Weather: howling winds
+- Native: —
+- Laws: bonusSpellDC -1, spellDurationMultiplier 0.9
+
+> A tumultuous plane of howling winds and swirling chaos, where nothing remains constant for long.
+
+#### Prime Material
+
+*Orsino data only · plane* · `orsino:plane:Prime Material`
+
+- Terrain: —
+- Alignment: 
+- Domain: —
+- Weather: —
+- Native: —
+- Laws: bonusSpellDC 0, spellDurationMultiplier 1, bonusSpellSlots 0, resurrectable true
+
+> The mundane world of everyday life, where magic is present but not overwhelming.
+
+#### Ysgard
+
+*Orsino data only · plane* · `orsino:plane:Ysgard`
+
+- Terrain: snow
+- Alignment: lawful good
+- Domain: war
+- Weather: snowstorms
+- Native: dwarf
+- Laws: bonusSpellDC -1, spellDurationMultiplier 1.2
+
+> A frigid, mountainous realm of valor and heroism, where mighty warriors clash amidst snowstorms.
+
+#### Zephyrus
+
+*Orsino data only · plane* · `orsino:plane:Zephyrus`
+
+- Terrain: forest
+- Alignment: neutral neutral
+- Domain: storms
+- Weather: thunderstorms
+- Native: elf
+- Laws: bonusSpellDC 1, spellDurationMultiplier 1.1, bonusSpellSlots 1
+
+> A vibrant forested plane perpetually stirred by thunderstorms, alive with elemental energy.
+
+### Traps
+
+100 in Orsino; 0 held by Kyr.
+
+| Name | Springs | Seen as | In Kyr |
+|---|---|---|---|
+| Acid pool | type damage kind acid amount =3d6 | A pool of acid forms | — |
+| Acid rain | type damage kind acid amount =6d6 | A rain of acid pours down | — |
+| Acid spray | type damage kind acid amount =2d6 | A spray of acid burns | — |
+| Apocalypse | type damage kind true amount =20d6 | Apocalyptic energies ravage the area | — |
+| Blinding flash | type debuff status blinded | A flash of blinding light erupts | — |
+| Blinding rune | type debuff status blinded | A rune glows with blinding energy | — |
+| Bone spear | type damage kind piercing amount =6d6 | A spear of bone shoots out | — |
+| Chaos rune | type debuff status insane | A rune glows with chaotic energy | — |
+| Concealed blade | type damage kind slashing amount =1d8 | A concealed blade swings out | — |
+| Confusion gas | type damage kind psychic amount =1d4; type debuff status confused | A gas of confusion spreads | — |
+| Confusion rune | type debuff status confused | A rune glows with confusing energy | — |
+| Cursed mark | type debuff status cursed | A cursed mark appears | — |
+| Darkness field | type debuff status blinded | A field of magical darkness envelops the area | — |
+| Darkness rune | type debuff status blinded | a rune glows with dark energy | — |
+| Death word | type damage kind necrotic amount =5d6 | A word of death is spoken | — |
+| Dimensional shred | type damage kind force amount =6d6 | Dimensions tear apart | — |
+| Disease cloud | type debuff status disease | A virulent disease spreads | — |
+| Divine light | type damage kind radiant amount =10d6 | A beam of harsh judgment shines down | — |
+| Doom rune | type debuff status doom | A rune glows with ominous energy | — |
+| Electrified floor | type damage kind lightning amount =3d6 | The floor becomes electrified | — |
+| Energy burst | type damage kind force amount =10d6 | A burst of energy explodes | — |
+| Energy drain | type debuff status fatigue | Energy is drained away | — |
+| Entangling vines | type debuff status entangled | Vines erupt from the ground | — |
+| Falling rocks | type damage kind bludgeoning amount =3d6 | Rocks fall from above | — |
+| Falling spikes | type damage kind piercing amount =4d6 | Spikes fall from above | — |
+| Fear gas | type damage kind psychic amount =1d4; type debuff status fear | A noxious cloud fills the area | — |
+| Fear rune | type debuff status fear | A rune glows with fearful energy | — |
+| Flame burst | type damage kind fire amount =2d6 | A burst of flame erupts | — |
+| Flame jet | type damage kind fire amount =3d6 | A jet of flame shoots out | — |
+| Flame tornado | type damage kind fire amount =8d6 | A tornado of flame swirls | — |
+| Flame wave | type damage kind fire amount =5d6 | A wave of flame surges | — |
+| Flame whip | type damage kind fire amount =4d6 | A whip of flame lashes out | — |
+| Force blast | type damage kind force amount =8d6 | A blast of force energy erupts | — |
+| Force field | type damage kind force amount =3d6 | A force field surrounds the area | — |
+| Force push | type debuff status prone | A forceful push knocks you back | — |
+| Force spike | type damage kind force amount =4d6 | A spike of force energy shoots out | — |
+| Freezing blast | type damage kind cold amount =2d6; type debuff status slow | A sudden blast of freezing air chills | — |
+| Freezing rune | type damage kind cold amount =3d6 | A rune glows with icy energy | — |
+| Freezing spray | type damage kind cold amount =4d6 | A spray of freezing air chills | — |
+| Frost bite | type damage kind cold amount =7d6 | A bite of frost chills deeply | — |
+| Frost nova | type damage kind cold amount =5d6 | A nova of frost erupts | — |
+| Gate of shadows | type planeshift location Cthelll | A gate to the shadow realm opens | — |
+| Gravity well | type debuff status agony | A well of gravity pulls inward | — |
+| Hateful whisper | type debuff status fear; type debuff status mocked | A hateful whisper fills the mind | — |
+| Hidden dart | type damage kind piercing amount =1d6 | A hidden dart shoots out | — |
+| Holy burst | type damage kind radiant amount =5d6 | A burst of holy energy explodes | — |
+| Ice spikes | type damage kind cold amount =6d6 | Spikes of ice shoot up | — |
+| Lava spray | type damage kind fire amount =6d6 | A spray of lava erupts | — |
+| Life drain | type damage kind necrotic amount =5d6 | Life energy is drained | — |
+| Lightning bolt | type damage kind lightning amount =2d6 | A bolt of lightning strikes down | — |
+| Lightning wave | type damage kind lightning amount =4d6 | A wave of lightning surges | — |
+| Maze rune | type debuff status mazed | A rune glows with maze-like energy | — |
+| Mental shock | type damage kind psychic amount =6d6 | A shock of mental energy assaults the mind | — |
+| Mind fog | type debuff status confused; type debuff status distracted | A fog of confusion clouds the mind | — |
+| Mind spike | type damage kind psychic amount =8d6; type debuff status stun | A spike of mental energy pierces the mind | — |
+| Necrotic aura | type damage kind necrotic amount =3d6 | An aura of necrotic energy radiates | — |
+| Necrotic burst | type damage kind necrotic amount =4d6 | A burst of necrotic energy explodes | — |
+| Necrotic touch | type damage kind necrotic amount =2d6 | A necrotic touch drains life | — |
+| Necrotic wave | type damage kind necrotic amount =8d6 | A wave of necrotic energy washes over | — |
+| Petrification rune | type debuff status petrified | A rune glows with petrifying energy | — |
+| Pit opening | type damage kind bludgeoning amount =2d6; type debuff status prone | The ground gives way | — |
+| Plague cloud | type debuff status disease | A cloud of plague spreads | — |
+| Planar rift | type planeshift location =oneOf(Limbo, Pandemonium, Mechanus) | A rift to another plane opens | — |
+| Poison cloud | type damage kind poison amount =1d4 | A cloud of poison gas swirls into the room | — |
+| Poison darts | type damage kind poison amount =2d6 | Darts coated in poison shoot out | — |
+| Poison gas | type damage kind poison amount =3d6 | A cloud of poison gas fills the area | — |
+| Poison mist | type damage kind poison amount =7d6 | A mist of poison fills the area | — |
+| Poisoned spikes | type damage kind piercing amount =2d6; type damage kind poison amount =1d6 | Spikes coated in poison shoot up | — |
+| Psychic rune | type damage kind psychic amount =4d6 | A rune glows with psychic energy | — |
+| Psychic scream | type damage kind psychic amount =2d6 | A psychic scream assaults the mind | — |
+| Psychic wave | type damage kind psychic amount =3d6 | A wave of psychic energy washes over | — |
+| Radiant burst | type damage kind radiant amount =3d6 | A burst of radiant energy explodes | — |
+| Radiant flash | type damage kind radiant amount =2d6 | A blinding flash of radiant light shines | — |
+| Radiant rune | type damage kind radiant amount =4d6 | A rune glows with radiant energy | — |
+| Radiant surge | type damage kind radiant amount =8d6 | A surge of radiant energy bursts forth | — |
+| Scything blade | type damage kind slashing amount =2d8 | A scything blade swings through the air | — |
+| Shadow bolt | type damage kind necrotic amount =7d6 | A bolt of shadow energy strikes | — |
+| Shadow grasp | type debuff status hexed; type debuff status slow | Shadows reach out to grasp | — |
+| Shock wave | type damage kind lightning amount =6d6 | A wave of shock energy reverberates | — |
+| Silence rune | type debuff status silence | A rune glows with silencing energy | — |
+| Silencing field | type debuff status silence | A field of silence envelops | — |
+| Sleep gas | type debuff status asleep | A gas of sleep spreads | — |
+| Sleep rune | type debuff status asleep | A rune glows with soporific energy | — |
+| Sonic boom | type damage kind sonic amount =2d6 | A booming sonic wave reverberates | — |
+| Sonic rune | type damage kind sonic amount =3d6 | A rune glows with sonic energy | — |
+| Sonic wave | type damage kind sonic amount =1d8 | A wave of sonic energy erupts | — |
+| Spike trap | type damage kind piercing amount =2d6 | Spikes shoot up from the ground | — |
+| Spinning blade | type damage kind slashing amount =3d8 | A blade spins rapidly | — |
+| Spore burst | type debuff status poison; type debuff status disease; type debuff status slow | A burst of spores erupts | — |
+| Stun rune | type debuff status stun | A rune glows brightly | — |
+| Stunning dart | type damage kind piercing amount =1d3; type debuff status stun | A stunning dart shoots out | — |
+| Sunburst | type damage kind radiant amount =2d6; type debuff status sunmarked | A sudden burst of sunlight blinds and marks you | — |
+| Telekinetic push | type debuff status prone | A telekinetic push knocks back | — |
+| Thunder clap | type damage kind lightning amount =5d6 | A clap of thunder reverberates | — |
+| Thunder strike | type damage kind lightning amount =8d6 | A strike of thunder crashes down | — |
+| Time dilation | type debuff status slow | Time dilates unnaturally | — |
+| Time warp | type debuff status slow; type debuff status weakened; type debuff status confused | Time warps unpredictably | — |
+| Vine snare | type damage kind slashing amount =2d6; type debuff status entangled | Vines erupt to entangle | — |
+| Vine whip | type damage kind slashing amount =4d6; type debuff status entangled | A whip of vines lashes out | — |
+| Withering gas | type debuff status weakened | A gas of withering spreads | — |
+
+### Wonders
+
+80 in Orsino; 0 held by Kyr.
+
+| Name | Does | Seen as | In Kyr |
+|---|---|---|---|
+| Ancient obelisk | type upgrade stat wis amount 2 | a towering obelisk inscribed with ancient runes of power. | — |
+| Ancient trees | type heal amount 2d8 | a massive tree with gnarled roots and a trunk that seems to pulse with life. | — |
+| Arcane clock | type buff status haste duration 20 | a clock that seems to measure time in a non-linear fashion. | — |
+| Arcane lantern | type learn abilityName true_sight | a lantern that emits a magical light, illuminating hidden truths. | — |
+| Arcane sculpture | type learn abilityName dispel_magic | a sculpture that seems to shift and change form when not being observed. | — |
+| Arcane symbols | type buff status focus duration 10 | symbols that glow with magical energy, pulsing rhythmically. | — |
+| Arcane tree | type upgrade stat int amount 1 | a tree that seems to grow magical energy within its branches. | — |
+| Arcane well | type heal amount 3d8 | a well that seems to draw water from other planes of existence. | — |
+| Celestial fountain | type heal amount 3d6; type upgrade stat con amount 1; type buff status protected duration 50 | a fountain that flows with water imbued with celestial energy, healing those who drink from it. | — |
+| Celestial glow | type buff status scaleskin duration 10 | a soft glow that seems to come from the heavens themselves. | — |
+| Celestial map | type learn abilityName sunburst | a map that depicts the starfall_crystals and constellations of distant realms. | — |
+| Celestial observatory | type learn abilityName meteor_swarm | an observatory that seems to connect to the stars and celestial realms. | — |
+| Color shifts | type buff status acidproof duration 10; type buff status lightproof duration 10; type buff status soundproof duration 10 | colors that shift and change in a mesmerizing way. | — |
+| Dancing lights | type buff status agility duration 10 | lights that move and dance in intricate patterns. | — |
+| Divine aegis | type grantPassive traitName favored | an invulnerable sphere of light imbued with divine protection. | — |
+| Dragon statue | type upgrade stat str amount 1 | a majestic statue of a dragon that seems almost alive, its eyes gleaming with intelligence. | — |
+| Dreamscape portal | type planeshift location Arcadia | a portal that seems to lead to a realm of dreams and imagination. | — |
+| Eerie chimes | type buff status calm duration 30 | chimes that produce otherworldly sounds when the wind blows. | — |
+| Enchanted aura | type buff status protected duration 10; type buff status mageproof duration 10 | a shimmering aura that seems to protect the area from harm. | — |
+| Enchanted flute | type buff status inspired duration 30 | a flute that produces haunting melodies when played. | — |
+| Enchanted grove | type heal amount 3d6 | a grove of trees that seem to radiate magical energy. | — |
+| Enchanted labyrinth | type learn abilityName maze | an intelligent painting of a labyrinth that shifts and changes, confounding those who enter. | — |
+| Enchanted mirror | type learn abilityName reflection | a mirror that shows not just reflections, but glimpses of other places. | — |
+| Enchanted obelisk | type upgrade stat str amount 1 | an obelisk inscribed with runes of great power. | — |
+| Enchanted statue garden | type learn abilityName flesh_to_stone | a garden filled with statues that seem to come to life when not being observed. | — |
+| Enchanted statues | type buff status shielded duration 10; type buff status warded duration 10 | a statue that appears to move slightly when not directly looked at. | — |
+| Enchanted tapestry | type learn abilityName invisibility | a tapestry that depicts scenes that seem to move and change. | — |
+| Endless staircase | type teleport location lastRoom | a staircase that seems to go on forever, leading to unknown places. | — |
+| Eternal candle | type buff status lightproof duration 20 | a candle that burns without ever melting, its flame flickering eternally. | — |
+| Eternal flame | type grantPassive traitName firekissed | a flame that burns without fuel, its light never fading. | — |
+| Eternal garden | type upgrade stat con amount 2 | a garden that blooms eternally, filled with plants of otherworldly beauty. | — |
+| Ethereal fountain | type heal amount 4d6 | a fountain that flows with water from another plane of existence. | — |
+| Ethereal music | type buff status inspired duration 10; type buff status courage duration 10 | a haunting melody that seems to come from nowhere, filling the air. | — |
+| Floating disk | type buff status flight duration 10 | a disk that hovers in the air, rotating slowly. | — |
+| Floating lights | type buff status mind_blank duration 10 | small lights that float in the air, moving in intricate patterns. | — |
+| Glowing crystals | type buff status cunning duration 10 | a crystal that emits a soft, radiant glow. | — |
+| Glowing pool | type heal amount 4d8 | a pool that glows with a soft, radiant light. | — |
+| Glowing runes | type buff status insight duration 10 | runes that glow with an inner light, pulsing softly. | — |
+| Illusory visions | type buff status clarity duration 10; type buff status wisdom duration 10 | visions that appear and disappear at the edge of your sight. | — |
+| Intelligent painting | type learn abilityName polymorph | a painting that seems to change and shift, depicting different scenes. | — |
+| Levitating objects | type buff status grace duration 10 | various objects levitating gently in the air, defying gravity. | — |
+| Life tree | type upgrade stat con amount 1 | a magnificent tree that radiates life energy, its leaves shimmering with vitality. | — |
+| Living book | type learn abilityName lightning_bolt | a book that seems to write itself, its pages filled with ever-changing text. | — |
+| Living mural | type learn abilityName haste | a mural that seems to depict scenes that change and shift over time. | — |
+| Living statue | type upgrade stat str amount 1; type upgrade stat con amount 1 | a statue that appears to move and breathe when not being observed. | — |
+| Magical fountain | type heal amount 2d10 | a fountain that flows with water imbued with magical properties. | — |
+| Magical lantern | type buff status warded duration 50 | a lantern that emits a light that reveals hidden truths. | — |
+| Magical sundial | type buff status haste duration 50 | a sundial that seems to measure time in a mystical way. | — |
+| Magical weather | type buff status fireproof duration 10; type buff status waterproof duration 10; type buff status stormproof duration 10 | weather phenomena that seem to be controlled by magic. | — |
+| Mysterious portal | type teleport location =oneOf(firstRoom, lastRoom, randomRoom) | a swirling portal that seems to lead to another place. | — |
+| Mystic compass | type upgrade stat dex amount 1 | a compass that always points toward a place of great magical power. | — |
+| Mystic conduit | type learn abilityName plane_shift | a conduit that channels mystical energies from other planes of existence. | — |
+| Mystic pedestal | type upgrade stat dex amount 1 | a pedestal that seems to radiate magical energy. | — |
+| Mystic statue | type upgrade stat int amount 1 | a statue that seems to radiate an aura of ancient power. | — |
+| Mystical fog | type buff status splendor duration 10 | a thick fog that seems to have a life of its own. | — |
+| Mystical jewel | type upgrade stat cha amount 1 | a jewel that emits a soft, radiant light, pulsing with magical energy. | — |
+| Mythic portal | type planeshift location =oneOf(Arcadia, Cthelll, Gehenna, Hades, Limbo, Mechanus, Pandemonium, Ysgard, Zephyrus) | a portal that connects to legendary realms and mythical places. | — |
+| Oathstone circle | type buff status oathbound duration 100 | a circle of stones that seem to bind those who stand within it to their oaths. | — |
+| Petrified forest | type upgrade stat con amount 1 | a forest of petrified trees that seem to pulse with ancient energy. | — |
+| Phantasmal orb | type teleport location randomRoom | an orb that glows with an inner light, showing visions of distant places. | — |
+| Phantom flame | type buff status fireproof duration 10 | a flame that burns without heat, flickering in the air. | — |
+| Phantom garden | type heal amount 5d6 | a garden that seems to bloom with flowers of ethereal beauty. | — |
+| Phoenix heart | type upgrade stat maxHp amount 5 | a radiant heart that pulses with fiery energy, symbolizing rebirth and immortality. | — |
+| Seeing stone | type upgrade stat wis amount 1 | a polished stone that allows one to see distant places or events. | — |
+| Shadow portal | type planeshift location Cthelll | a dark portal that seems to lead to a shadowy realm. | — |
+| Shifting walls | type buff status steelskin duration 10 | walls that subtly shift and change position when not being observed. | — |
+| Shimmering veil | type buff status warded duration 50 | a veil of shimmering light that seems to separate two realms. | — |
+| Singing crystal | type buff status inspired duration 20 | a crystal that emits a melodious sound when touched. | — |
+| Soul mirror | type upgrade stat cha amount 1 | a mirror that reflects not just physical appearances, but the true nature of one's soul. | — |
+| Spectral figures | type buff status splendor duration 10 | ghostly figures that move silently through the area. | — |
+| Starfall crystal | type upgrade stat int amount 2 | a crystal formed from fallen stars, radiating cosmic energy. | — |
+| Storm core | type upgrade stat dex amount 1 | a swirling core of storm energy, crackling with lightning. | — |
+| Time dilation | type buff status haste duration 10 | an area where time seems to pass differently | — |
+| Time stop aura | type learn abilityName time_stop | an aura that can temporarily halt the flow of time within its vicinity. | — |
+| Timeworn relic | type upgrade stat con amount 1 | an ancient relic that seems to pulse with the energy of ages past. | — |
+| Titan golem | type upgrade stat str amount 2 | a colossal golem imbued with the strength of titans. | — |
+| Unearthly silence | type buff status focus duration 10; type buff status calm duration 10 | a profound silence that seems to absorb all sound. | — |
+| Void singularity | type upgrade stat int amount 1; type upgrade stat wis amount 1; type upgrade stat cha amount 1 | a swirling vortex of darkness that seems to absorb all light and matter around it. | — |
+| Whispering tree | type upgrade stat wis amount 1 | a tree that seems to whisper secrets to those who listen. | — |
+| Whispering voices | type buff status wisdom duration 10 | soft whispers that seem to come from the walls themselves. | — |
+
+### Treasure tiers
+
+6 in Orsino; 0 held by Kyr.
+
+| Name | Worth | Holds | In Kyr |
+|---|---|---|---|
+| Basic | 10 | wooden bowl, cloth pouch, broken dagger, tattered map, wooden figurine, minor healing potion, firewood, shoes, candle, manacles, waterskin, flask, rations, torch, bedroll, blanket, soap, fish hook, needle and thread, skillet, whetstone | — |
+| Grand | 2500 | emerald, sapphire, crown of insight, helm of the stars, ring of strength, ring of major protection, amulet of focus, amulet of protection, ring of regeneration, ring of spell turning, ring of the firmament, priceless painting, royal scepter, dragons egg, jeweled crown, golden idol, titan statue, celestial chart, scroll of domination, deck of multiplicity, sword of ages, robe of elvenkind, darkwood staff, angelmail, dragonhelm | — |
+| Legendary | 5000 | black diamond, diamond, black opal, fire opal, star ruby, scroll of apocalypse, fallen star, crystal eye, diamond necklace, kraken claw, phoenix feather, divine scepter, jeweled statue, vial of phoenix tears, tirions fury, ring of perfect turning, arcane conduit, aegis of eternity, aeon stone, jeweled zodiac, diamond eye, opalescent skull, intelligent book | — |
+| Major | 1000 | amethyst, tourmaline, bolt blade, potion of barkskin, scroll of domination, ancient orrery, ancient crown, sacred idol, lost tome, ring of protection, ring of thorns, belt of giant strength, boots of swiftness, crystal orb, nunchaku, wardstone, katana, longbow, galvorn mail, longsword of flames, wardstone, gloves of dexterity, helm of intellect, mantle of charisma | — |
+| Minor | 200 | dagger, longsword, shortbow, chainmail, major healing potion, wand of magic missile, scroll of fireball, scroll of cure disease, agate, carnelian, moonstone, onyx, quartz, broken crown, lensing crystal, music box, ancient tome, broken scepter, dowsing rod, holy symbol, thieves tools, antidote, ring of minor protection, elixir of strength, amulet of vitality, amulet of health, ring of minor strength, mantle of charisma, wand of cure minor wounds, wand of paralyzing touch, canvas, lock, hammer, ladder, musical instrument, rope | — |
+| Negligible | 50 | simple ring, bronze statue, bronze bracelet, faded painting, faded tome, crowbar, dice, lantern, oil flask, pouch, quill, shovel, signal whistle, tent, vinegar, wind chime, alchemist fire, first aid kit, holy water, cloak pin, healing potion | — |
+
+### Magic items
+
+48 in Orsino; 1 held by Kyr.
+
+| Name | Kind | Rarity | Does | In Kyr |
+|---|---|---|---|---|
+| Aegis of Eternity | shield | legendary | ac -6 resistAll 0.3 onAttacked [{"type":"damage","amount":"2d6","kind":"true","target":"attacker"}] | — |
+| Aeon Stone | orbital | legendary | onCombatStart [{"type":"buff","status":"haste","target":"self"}] onAttacked [{"type":"debuff","status":"slow","target":"attacker","saveDC":35}] | — |
+| Amulet of Focus | amulet | rare | int 3 wis 3 bonusSpellDC 2 | — |
+| Amulet of Health | amulet | uncommon | con 2 | — |
+| Amulet of Protection | amulet | legendary | ac -2 resistAll 0.1 | — |
+| Amulet of Vitality | amulet | — | con 1 | — |
+| Angelmail | body | legendary | ac -4 resistRadiant 0.5 onAttacked [{"type":"damage","amount":"1d8","kind":"radiant","target":"attacker"}] | — |
+| Arcane Conduit | weapon | legendary | bonusSpellDC 5 int 5 | — |
+| Belt of Giant Strength | belt | rare | str 6 | — |
+| Bolt Blade | weapon | rare | onAttackHit [{"type":"damage","amount":"1d6","kind":"lightning","target":"target"}] | — |
+| Bone Armor | body | rare | resistNecrotic 0.4 onAttacked [{"type":"damage","amount":"1d3","kind":"necrotic","target":"attacker"}] | — |
+| Boots of Swiftness | boots | uncommon | dex 2 | — |
+| Censer of Consecration | special | rare | bonusSpellDC 3 wis 3 onCombatStart [{"type":"cast","spellName":"consecrated_ground","target":"self"}] | — |
+| Cloak of Invisibility | cloak | legendary | onCombatStart [{"type":"buff","status":"invisible","target":"self"}] | — |
+| Cloak of Protection | cloak | common | ac -1 saveVersusAll 1 | — |
+| Crown of Insight | helm | legendary | wis 4 | — |
+| Darkwood Staff | weapon | rare | bonusSpellDC 2 int 2 | — |
+| Dragonhelm | helm | legendary | ac -3 resistFire 0.5 onAttacked [{"type":"damage","amount":"1d6","kind":"fire","target":"attacker"}] | — |
+| Dun Rìerdan Waystone | amulet | rare | con 2 resistAll 0.05 revealLocation dun_ri | — |
+| Galvorn Mail | body | legendary | ac -5 resistAll 0.2 | — |
+| Gloves of Dexterity | gloves | uncommon | dex 1 | — |
+| Helm of Intellect | helm | uncommon | int 2 | — |
+| Helm of the Stars | helm | rare | str 1 dex 1 con 1 int 1 wis 1 cha 1 | — |
+| Ironglass Dagger | dagger | common | bonusDamage 1d2 | — |
+| Longsword of Flames | weapon | rare | onAttackHit [{"type":"damage","amount":"1d6","kind":"fire","target":"target"}] | faithful |
+| Mantle of Charisma | cloak | uncommon | cha 4 | — |
+| Phoenix Talon | weapon | legendary | onAttackHit [{"type":"damage","amount":"=3d6","kind":"fire","target":"target"},{"type":"heal","amount":"=1d8","target":"self"}] | — |
+| Ring of Major Protection | ring | legendary | ac -3 | — |
+| Ring of Minor Protection | ring | uncommon | ac -1 | — |
+| Ring of Minor Strength | ring | — | str 1 | — |
+| Ring of Perfect Turning | ring | legendary | resistAll 0.5 reflectSpellChance 0.75 | — |
+| Ring of Protection | ring | rare | ac -2 | — |
+| Ring of Regeneration | ring | legendary | onTurnEnd [{"type":"heal","amount":"=1d2-1"}] | — |
+| Ring of Spell Turning | ring | legendary | reflectSpellChance 0.5 resistAll 0.2 saveVersusMagic 4 onSaveVersusMagic [{"type":"damage","amount":"=1d6","target":"attacker","kind":"true"}] | — |
+| Ring of Strength | ring | uncommon | str 2 | — |
+| Ring of the Firmament | ring | rare | resistFire 0.5 resistCold 0.5 resistLightning 0.5 | — |
+| Ring of Thorns | ring | rare | onAttacked [{"type":"attack","target":"attacker","kind":"force"}] | — |
+| Ring of True Sight | ring | legendary | seeInvisible true | — |
+| Robe of Elvenkind | body | rare | dex 2 evasion 10 onAttacked [{"type":"debuff","status":"blinded","target":"attacker","saveDC":25},{"type":"debuff","status":"slow","target":"attacker","saveDC":25}] | — |
+| Robe of the Archmagi | body | legendary | int 4 wis 4 bonusSpellDC 4 resistAll 0.15 | — |
+| Silvered Bracers | bracers | common | ac -1 | — |
+| Singing Stone | amulet | uncommon | bonusSpellDC 1 bonusSpellDamage 1 | — |
+| Staff of Power | weapon | legendary | bonusSpellDC 6 int 6 onAttackHit [{"type":"damage","amount":"=3d6","kind":"force","target":"target"}] | — |
+| Staff of the Necromancer | weapon | legendary | bonusSpellDC 5 int 5 onAttackHit [{"type":"damage","amount":"=2d6","kind":"necrotic","target":"target"}] | — |
+| Sword of Ages | weapon | legendary | onAttackHit [{"type":"damage","amount":"=1d4+1","kind":"true","target":"target"},{"type":"debuff","status":"weakened","target":"target","saveDC":30}] | — |
+| Sword of Goblinkind | weapon | rare | dex 3 int 3 onAttackHit [{"type":"debuff","status":"confused","target":"target","saveDC":20}] | — |
+| Tirion's Fury | weapon | legendary | onAttackHit [{"type":"damage","amount":"=2d6+2","kind":"true","target":"target"},{"type":"debuff","status":"stun","target":"target","saveDC":35}] | — |
+| Wardstone | amulet | rare | onCombatStart [{"type":"buff","status":"warded"}] | — |
+
+### Consumables
+
+28 in Orsino; 2 held by Kyr.
+
+| Name | Kind | Does | In Kyr |
+|---|---|---|---|
+| Alchemist's Fire | flask | type damage amount 1d6 kind fire | — |
+| Antidote | potion | type removeStatus statusName Poison | adapted |
+| Cloudberry | food | type heal amount 1d4+1 | — |
+| Comfrey | herb | type heal amount 2d4; type removeStatus statusName Bleeding | — |
+| Dandelion | herb | type heal amount 1d3; type removeStatus statusName Poison | — |
+| Deck of Multiplicity | special | type randomEffect randomEffects [{"description":"Ace of Clubs","type":"buff","status":"haste","target":"self"},{"description":"King of Clubs","type":"buff","status":"scaleskin","target":"self"},{"description":"Dame of Clubs","type":"buff","status":"major_strength","target":"self"},{"description":"Jack of Clubs","type":"buff","status":"wisdom","target":"self"},{"description":"Ten of Clubs","type":"buff","status":"clarity","target":"self"},{"description":"Nine of Clubs","type":"buff","status":"focus","target":"self"},{"description":"Eight of Clubs","type":"buff","status":"rage","target":"self"},{"description":"Seven of Clubs","type":"buff","status":"steelskin","target":"self"},{"description":"Six of Clubs","type":"buff","status":"strength","target":"self"},{"description":"Five of Clubs","type":"buff","status":"ironskin","target":"self"},{"description":"Four of Clubs","type":"buff","status":"cunning","target":"self"},{"description":"Three of Clubs","type":"buff","status":"splendor","target":"self"},{"description":"Two of Clubs","type":"buff","status":"courage","target":"self"},{"description":"One of Clubs","type":"buff","status":"barkskin","target":"self"},{"description":"Ace of Coins","type":"cast","spellName":"death"},{"description":"King of Coins","type":"cast","spellName":"disintegrate"},{"description":"Dame of Coins","type":"cast","spellName":"flesh_to_stone"},{"description":"Jack of Coins","type":"cast","spellName":"meteor_swarm"},{"description":"Ten of Coins","type":"cast","spellName":"polymorph"},{"description":"Nine of Coins","type":"cast","spellName":"sandstorm"},{"description":"Eight of Coins","type":"cast","spellName":"chain_lightning"},{"description":"Seven of Coins","type":"cast","spellName":"ice_storm"},{"description":"Six of Coins","type":"cast","spellName":"fire_storm"},{"description":"Five of Coins","type":"cast","spellName":"cone_of_cold"},{"description":"Four of Coins","type":"cast","spellName":"dispel_magic"},{"description":"Three of Coins","type":"cast","spellName":"lightning_bolt"},{"description":"Two of Coins","type":"cast","spellName":"fireball"},{"description":"One of Coins","type":"cast","spellName":"ice_bolt"},{"description":"Ace of Swords","type":"damage","amount":"1d100","kind":"radiant"},{"description":"King of Swords","type":"damage","amount":"1d60","kind":"psychic"},{"description":"Dame of Swords","type":"damage","amount":"1d20","kind":"true"},{"description":"Jack of Swords","type":"damage","amount":"1d12","kind":"acid"},{"description":"Ten of Swords","type":"damage","amount":"1d10","kind":"sonic"},{"description":"Nine of Swords","type":"damage","amount":"2d8","kind":"poison"},{"description":"Eight of Swords","type":"damage","amount":"2d8","kind":"cold"},{"description":"Seven of Swords","type":"damage","amount":"3d6","kind":"fire"},{"description":"Six of Swords","type":"damage","amount":"3d6","kind":"necrotic"},{"description":"Five of Swords","type":"damage","amount":"3d6","kind":"lightning"},{"description":"Four of Swords","type":"damage","amount":"4d4","kind":"force"},{"description":"Three of Swords","type":"damage","amount":"4d3","kind":"slashing"},{"description":"Two of Swords","type":"damage","amount":"6d2","kind":"piercing"},{"description":"One of Swords","type":"damage","amount":"8d2","kind":"bludgeoning"},{"description":"Ace of Cups","type":"debuff","status":"asleep","saveDC":30},{"description":"King of Cups","type":"debuff","status":"confused","saveDC":30},{"description":"Dame of Cups","type":"debuff","status":"fatigue","saveDC":30},{"description":"Jack of Cups","type":"debuff","status":"fear","saveDC":30},{"description":"Ten of Cups","type":"debuff","status":"slow","saveDC":30},{"description":"Nine of Cups","type":"debuff","status":"weakened","saveDC":30},{"description":"Eight of Cups","type":"debuff","status":"feebleminded","saveDC":30},{"description":"Seven of Cups","type":"debuff","status":"petrified","saveDC":30},{"description":"Six of Cups","type":"debuff","status":"charmed","saveDC":30},{"description":"Five of Cups","type":"debuff","status":"blinded","saveDC":30},{"description":"Four of Cups","type":"debuff","status":"deafened","saveDC":30},{"description":"Three of Cups","type":"debuff","status":"paralyzed","saveDC":30},{"description":"Two of Cups","type":"debuff","status":"poison","saveDC":30},{"description":"One of Cups","type":"debuff","status":"silence","saveDC":30},{"description":"Ace of Hearts","type":"heal","amount":"3d20","target":"self"},{"description":"King of Hearts","type":"heal","amount":"4d12","target":"self"},{"description":"Dame of Hearts","type":"heal","amount":"4d10","target":"self"},{"description":"Jack of Hearts","type":"heal","amount":"4d8","target":"self"},{"description":"Ten of Hearts","type":"heal","amount":"3d8","target":"self"},{"description":"Nine of Hearts","type":"heal","amount":"4d6","target":"self"},{"description":"Eight of Hearts","type":"heal","amount":"5d4","target":"self"},{"description":"Seven of Hearts","type":"heal","amount":"6d3","target":"self"},{"description":"Six of Hearts","type":"heal","amount":"8d2","target":"self"},{"description":"Five of Hearts","type":"heal","amount":"14","target":"self"},{"description":"Four of Hearts","type":"heal","amount":"10","target":"self"},{"description":"Three of Hearts","type":"heal","amount":"9","target":"self"},{"description":"Two of Hearts","type":"heal","amount":"8","target":"self"},{"description":"One of Hearts","type":"heal","amount":"6","target":"self"},{"description":"Ace of Shields","type":"summon","creature":"dragon"},{"description":"King of Shields","type":"summon","creature":"pc"},{"description":"Dame of Shields","type":"summon","creature":"monster","options":{"_class":"elemental"}},{"description":"Jack of Shields","type":"summon","creature":"monster","options":{"_class":"aberration"}},{"description":"Ten of Shields","type":"summon","creature":"monster","options":{"_class":"fey"}},{"description":"Nine of Shields","type":"summon","creature":"monster","options":{"_class":"demon"}},{"description":"Eight of Shields","type":"summon","creature":"monster","options":{"_class":"giant"}},{"description":"Seven of Shields","type":"summon","creature":"monster","options":{"_class":"celestial"}},{"description":"Six of Shields","type":"summon","creature":"monster","options":{"_class":"construct"}},{"description":"Five of Shields","type":"summon","creature":"monster","options":{"_class":"beast"}},{"description":"Four of Shields","type":"summon","creature":"npc","options":{"race":"human"}},{"description":"Three of Shields","type":"summon","creature":"npc","options":{"race":"elf"}},{"description":"Two of Shields","type":"summon","creature":"npc","options":{"race":"dwarf"}},{"description":"One of Shields","type":"summon","creature":"animal"}] | — |
+| Elixir of Strength | potion | type buff status strength | — |
+| First Aid Kit | kit | type heal amount 1d4+1; type removeStatus statusName Bleeding | — |
+| Foxglove | herb | type heal amount 1d4+2; type removeStatus statusName Poison\|Fatigue\|Weakened | — |
+| Goodberry | food | type heal amount 1d4+1 | — |
+| Potion of Healing | potion | type heal amount 3d4+3 | — |
+| Heather | herb | type heal amount 1d3+1; type removeStatus statusName Fatigue | — |
+| Kingsfoil | herb | type heal amount 2d4+2; type removeStatus statusName Poison | — |
+| Major Potion of Healing | potion | type heal amount 4d4+4 | — |
+| Minor Potion of Healing | potion | type heal amount 2d4+2 | adapted |
+| Flask of Oil | flask | type debuff status oiled saveDC 25 | — |
+| Potion of Barkskin | potion | type cast spellName Barkskin | — |
+| Rashers of Bacon | food | type heal amount 1d3 | — |
+| Scroll of Apocalypse | scroll | type cast spellName Apocalypse | — |
+| Scroll of Cure Disease | scroll | type removeStatus statusName Disease | — |
+| Scroll of Domination | scroll | type cast spellName dominate_person | — |
+| Scroll of Fireball | scroll | type cast spellName Fireball | — |
+| Scroll of Shapechange | scroll | type cast spellName shapechange | — |
+| Wand of Cure Minor Wounds | wand | type cast spellName Cure Minor Wounds | — |
+| Wand of Magic Missile | wand | type cast spellName Magic Missile | — |
+| Wand of Paralyzing Touch | wand | type cast spellName Paralyzing Touch | — |
+| Wand of Polymorph | wand | type cast spellName Polymorph Other | — |
+| Wand of Wonder | wand | type randomEffect randomEffects [{"type":"cast","spellName":"magic_missile"},{"type":"cast","spellName":"fireball"},{"type":"cast","spellName":"lightning_bolt"},{"type":"cast","spellName":"cone_of_cold"},{"type":"cast","spellName":"invisibility","target":"self"},{"type":"cast","spellName":"flight","target":"self"},{"type":"cast","spellName":"heal","target":"self"},{"type":"cast","spellName":"summon_monster"},{"type":"cast","spellName":"summon_elemental"}] | — |
+
+### Gear
+
+68 in Orsino; 6 held by Kyr.
+
+| Name | Worth | Does | In Kyr |
+|---|---|---|---|
+| Ale | 2 | type heal amount 3d4 | — |
+| Backpack | 5 | A sturdy backpack for carrying your gear on your adventures. | — |
+| Barrel | 10 | A large barrel for storing liquids or bulk goods. | — |
+| Bedroll | 1 | A comfortable bedroll for sleeping outdoors. | — |
+| Bell | 1 | A small bell that can be used to signal others or scare off wildlife. | adapted |
+| Blanket | 1 | A warm blanket for cold nights around the campfire. | — |
+| Boots | 2 | A sturdy pair of boots for trekking through rough terrain. | — |
+| Box | 3 | A sturdy box for storing small items and valuables. | — |
+| Bracers | 4 | A pair of leather bracers for protecting your forearms in combat. | — |
+| Caltrops | 1 | A bag of caltrops that can be scattered on the ground to slow down pursuers. | — |
+| Candle | 1 | A simple wax candle that provides light in dark places. | — |
+| Canvas | 2 | A roll of canvas for making tents, sails, or other fabric items. | — |
+| Chain | 5 | A length of sturdy chain for securing items or climbing. | — |
+| Chalk | 1 | A piece of chalk for marking walls or drawing maps. | — |
+| Cloak | 3 | A warm cloak for protection against the elements. | — |
+| Cloak pin | 2 | A pin for securing a cloak in place. | — |
+| Crowbar | 2 | A sturdy crowbar for prying open doors or crates. | adapted |
+| Dice | 1 | A set of dice for gambling or passing the time. | — |
+| Doublet | 3 | A stylish doublet for formal occasions or impressing nobles. | — |
+| Firewood | 1 | A bundle of firewood for starting campfires. | — |
+| Fish hook | 1 | A sharp fish hook for catching fish. | — |
+| Fishing net | 3 | A sturdy fishing net for catching multiple fish at once. | — |
+| Flask | 1 | A small flask for carrying liquids. | — |
+| Flint and steel | 2 | A flint and steel for starting fires. | — |
+| Gloves | 2 | A pair of gloves for protecting your hands. | — |
+| Gown | 3 | An elegant gown for formal occasions. | — |
+| Hammer | 2 | A sturdy hammer for driving nails or breaking objects. | — |
+| Holy symbol | 5 | A holy symbol for religious ceremonies or warding off evil. | — |
+| Holy water | 25 | type damage kind radiant amount 2d6 condition {"trait":"undead"} | — |
+| Hose | 2 | A length of hose for carrying water or other liquids. | — |
+| Iron spikes | 1 | A set of iron spikes for securing tents or climbing walls. | — |
+| Ladder | 4 | A portable ladder for reaching high places. | — |
+| Lamp | 3 | An oil lamp that provides light in dark places. | — |
+| Lantern | 7 | A lantern that provides bright light for extended periods. | — |
+| Lock | 10 | A sturdy lock for securing doors or chests. | — |
+| Manacles | 8 | A pair of manacles for restraining prisoners. | — |
+| Mirror | 5 | A small mirror for signaling or personal grooming. | — |
+| Musical instrument | 10 | A musical instrument for entertainment or rituals. | — |
+| Needle and thread | 1 | A needle and thread for repairing clothing or gear. | — |
+| Piton | 1 | A metal spike for anchoring ropes in rock or ice. | — |
+| Pole | 2 | A long pole for support or investigation. | — |
+| Pot | 3 | A cooking pot for preparing meals while traveling. | — |
+| Pouch | 2 | A small pouch for carrying personal items. | — |
+| Quill | 1 | A feather quill for writing or drawing. | — |
+| Quiver | 3 | A quiver for holding arrows or bolts. | — |
+| Rations | 2 | type heal amount 1d4 | — |
+| Robe | 4 | A flowing robe for wizards or priests. | — |
+| Rope | 1 | A length of sturdy rope for climbing, tying, or securing items. | adapted |
+| Sack | 2 | A large sack for carrying bulky items. | — |
+| Satchel | 3 | A small satchel for carrying books or scrolls. | — |
+| Scrollcase | 2 | A protective case for carrying scrolls or maps. | — |
+| Shoes | 2 | A comfortable pair of shoes for everyday wear. | — |
+| Shovel | 3 | A sturdy shovel for digging or moving earth. | adapted |
+| Signal whistle | 1 | A whistle for signaling allies or alerting to danger. | — |
+| Skillet | 2 | A cast iron skillet for cooking meals over a campfire. | — |
+| Soap | 1 | A bar of soap for personal hygiene while traveling. | — |
+| Spellbook | 15 | A book containing spells and magical knowledge for wizards. | — |
+| Tent | 10 | A portable tent for shelter while camping outdoors. | — |
+| Thieves tools | 25 | A set of tools for picking locks and disarming traps. | adapted |
+| Torch | 1 | A wooden torch that provides light and can be used as a weapon. | represented |
+| Tunic | 2 | A simple tunic for everyday wear. | — |
+| Twine | 1 | A ball of twine for tying or binding objects. | — |
+| Vellum | 3 | A sheet of vellum for writing or drawing. | — |
+| Vinegar | 2 | type heal amount 1d4 | — |
+| Waterskin | 2 | A waterskin for carrying fresh water on long journeys. | — |
+| Whetstone | 1 | A whetstone for sharpening blades and tools. | — |
+| Wind chime | 3 | A decorative wind chime that produces soothing sounds when the wind blows. | — |
+| Wine | 3 | type heal amount 2d4 | — |
+
+### Statuses
+
+141 in Orsino; 141 held by Kyr.
+
+| Name | Does | In Kyr |
+|---|---|---|
+| Acid Burn | onTurnEnd [{"type":"damage","amount":"=1d6","kind":"acid"}] | faithful |
+| Acidproof | resistAcid 0.5 | faithful |
+| Agility | dex 4 evasion 10 initiative 5 | faithful |
+| Agony | int -1 wis -1 onTurnEnd [{"type":"damage","amount":"=2d4","kind":"necrotic"}] | faithful |
+| Anointed | resistRadiant 0.5 bonusDamage 1 toHit 1 saveVersusAll 2 | faithful |
+| Asleep | noActions true | faithful |
+| Augured | allRolls 2 saveVersusAll 2 initiative 5 | faithful |
+| Barkskin | ac -2 | faithful |
+| Battlecry | bonusDamage =1d3 | faithful |
+| Bleeding | onTurnEnd [{"type":"damage","amount":"=1d2","kind":"bleed"}] | faithful |
+| Blessed | toHit 1 bonusDamage 1 | faithful |
+| Blinded | toHit -4 evasion -10 allRolls -2 | faithful |
+| Blood Frenzy | toHit 2 bonusDamage 2 ac 2 | faithful |
+| Blurred | saveVersusMagic 2 ac -1 evasion 10 | faithful |
+| Burning | onTurnEnd [{"type":"damage","amount":"=1d3","kind":"fire"}] | faithful |
+| Calm | immuneFear true immuneInsanity true toHit 1 saveVersusWill 2 | faithful |
+| Chanting | saveVersusAll 1 bonusSpellDC 1 bonusSpellSlots 1 toHit 2 onTurnEnd [{"type":"heal","amount":"=1d3 + #level","target":"allies"}] | represented |
+| Charmed | changeAllegiance true | faithful |
+| Clarity | allRolls 2 immuneCharm true | faithful |
+| Confused | randomActions true | faithful |
+| Courage | saveVersusAll 2 immuneFear true | faithful |
+| Fox's Cunning | int 2 allRolls 1 | faithful |
+| Cursed | str -1 dex -1 int -1 wis -1 cha -1 con -1 | faithful |
+| Darkproof | resistNecrotic 0.5 immuneCharm true immuneFear true immuneSleep true | faithful |
+| Deafened | resistSonic 0.5 bonusDamage -2 ac 2 toHit -2 saveVersusAll -1 | faithful |
+| Death Ward | saveVersusDeath 5 | faithful |
+| Defending | ac -2 | faithful |
+| Deflection | ac -3 evasion 10 | faithful |
+| Despair | cha -2 toHit -2 bonusDamage -2 saveVersusAll -2 | faithful |
+| Disabled | noActions true noStatusExpiry true | represented |
+| Diseased | con -2 saveVersusAll -2 onTurnEnd [{"type":"damage","amount":"=1d4","kind":"necrotic"}] | faithful |
+| Distracted | toHit -1 bonusDamage -1 evasion -5 | faithful |
+| Divine Champion | toHit 3 bonusDamage 3 saveVersusAll 3 immuneFear true | faithful |
+| Dodging | ac -2 evasion 5 | faithful |
+| Dominated | changeAllegiance true controlledActions true | faithful |
+| Doomed | str -4 dex -4 con -4 int -4 wis -4 cha -4 | faithful |
+| Drenched | toHit -2 resistLightning -1 resistCold -2 | faithful |
+| Dug In | ac -2 saveVersusAll 3 toHit -2 | faithful |
+| Bear's Endurance | con 2 tempHp 15 | faithful |
+| Engulfed | onTurnEnd [{"type":"damage","amount":"=2d6","kind":"acid"}] noActions true | faithful |
+| Enlarged | str 4 bonusDamage =1d4 toHit 1 ac 1 evasion -5 | faithful |
+| Enlightened | int 4 wis 4 allRolls 2 bonusSpellDC 2 | faithful |
+| Entangled | dex -5 toHit -2 evasion -5 initiative -5 | faithful |
+| False Life | tempHp =10d6 + 2 * #level | faithful |
+| Fatigued | str -1 dex -1 con -1 allRolls -1 | faithful |
+| Frightened | toHit -2 initiative -5 allRolls -1 saveVersusAll -2 | faithful |
+| Feebleminded | int -4 wis -4 cha -4 allRolls -2 mayUseItems false | represented |
+| Fireproof | resistFire 0.5 | adapted |
+| Flight | evasion 20 ac -5 | faithful |
+| Focus | toHit 2 saveVersusMagic 3 bonusSpellDC 2 bonusSpellSlots 1 | represented |
+| Frozen | noActions true dex -5 | faithful |
+| Ghost Touch | onAttackHit [{"type":"damage","amount":"=1d3","kind":"necrotic","target":"target"}] | faithful |
+| Cat's Grace | dex 2 evasion 5 | faithful |
+| Haste | dex 4 initiative 10 extraAttacksPerTurn 1 ac -2 | faithful |
+| Hexed | allRolls -2 saveVersusAll -2 | faithful |
+| Hidden | ac -4 evasion 10 onAttack [{"type":"removeStatus","statusName":"Hidden"}] | faithful |
+| Infected | con -1 saveVersusAll -2 toHit -1 bonusDamage -1 | faithful |
+| Insane | randomActions true allRolls -1 saveVersusWill -2 | faithful |
+| Sage's Insight | int 4 allRolls 2 saveVersusAll 3 bonusSpellDC 2 | faithful |
+| Inspired | toHit 2 tempHp 5 saveVersusAll 1 | faithful |
+| Invisible | invisible true onAttack [{"type":"removeStatus","statusName":"Invisible"}] onOffensiveCasting [{"type":"removeStatus","statusName":"Invisible"}] | represented |
+| Invulnerable | untargetable true | represented |
+| Ironskin | ac -5 | faithful |
+| Keen Weapon | toHit 2 bonusDamage 2 criticalRangeIncrease 2 | faithful |
+| Keen Senses | toHit 2 evasion 5 bonusDamage 1 saveVersusAll 1 | faithful |
+| Lightproof | resistRadiant 0.5 | faithful |
+| Mage-Armored | ac -4 tempHp 20 | faithful |
+| Mageproof | resistForce 0.5 saveVersusMagic 2 | faithful |
+| Major Augured | int 4 wis 4 allRolls 3 saveVersusAll 3 initiative 10 | faithful |
+| Perfect Clarity | int 2 allRolls 3 saveVersusAll 2 immuneCharm true immuneInsanity true | faithful |
+| Heroism | toHit 2 bonusDamage 2 saveVersusAll 3 immuneFear true | faithful |
+| Raven's Cunning | int 4 allRolls 2 | faithful |
+| Major Deflection | ac -5 evasion 15 | faithful |
+| Severely Distracted | toHit -2 bonusDamage -2 evasion -10 allRolls -1 | faithful |
+| Mammoth's Endurance | con 6 tempHp 40 | faithful |
+| Major False Life | tempHp =20d6 + 4 * #level resistNecrotic 0.5 saveVersusDeath 2 | faithful |
+| Greater Focus | toHit 4 saveVersusMagic 5 bonusSpellDC 4 bonusSpellSlots 2 | represented |
+| Archmage's Insight | int 6 allRolls 3 saveVersusAll 5 bonusSpellDC 4 bonusSpellSlots 1 | represented |
+| Greatly Inspired | toHit 4 bonusDamage 2 tempHp 15 saveVersusAll 2 | faithful |
+| Major Reflect | reflectDamagePercent 0.75 | represented |
+| Major Spellturn | reflectSpellChance 0.75 | represented |
+| Phoenix's Splendor | cha 4 toHit 2 bonusDamage 1 | faithful |
+| Giant's Strength | str 6 bonusMeleeDamage =1d3 | faithful |
+| Major Warded | saveVersusMagic 2 saveVersusAll 1 resistFire 0.25 resistCold 0.25 resistLightning 0.25 resistForce 0.75 resistAcid 0.25 resistSonic 0.25 resistNecrotic 0.25 tempHp =21 + 3 * #level | faithful |
+| Major Weakened | str -4 bonusDamage -4 | faithful |
+| Sage's Wisdom | wis 4 allRolls 2 saveVersusAll 2 | faithful |
+| In Maze | noActions true untargetable true | represented |
+| Meditating | noActions true saveVersusMagic 2 resistForce 0.25 onTurnEnd [{"type":"heal","amount":"=1d2 + #level","target":"self"}] | faithful |
+| Migraine | resistRadiant -2 resistSonic -2 | faithful |
+| Mind Blank | resistPsychic 0.5 saveVersusWill 2 immuneCharm true immuneInsanity true immuneFear true immuneSleep true | faithful |
+| Mindproof | resistPsychic 0.5 immuneCharm true immuneInsanity true immuneFear true immuneSleep true | faithful |
+| Insight | saveVersusAll 2 bonusSpellDC 1 | faithful |
+| Minor Reflect | reflectDamagePercent 0.25 | represented |
+| Minor Warded | saveVersusMagic 1 resistForce 0.25 tempHp =7 + #level | faithful |
+| Mirror Images | ac -2 saveVersusAll 2 evasion 15 | faithful |
+| Mocked | toHit -1 bonusDamage -1 saveVersusAll -1 | faithful |
+| Naturality | resistPoison 0.5 resistAcid 0.25 immuneDisease true saveVersusAll 1 | faithful |
+| Oathbound | ac -2 toHit 2 bonusDamage 2 onEnemyMelee [{"type":"attack","target":"attacker","description":"oathbound attack"}] | represented |
+| Oiled | resistFire -2 | faithful |
+| Overwatching | bonusDamage 2 onEnemyMelee [{"type":"attack","target":"attacker","description":"overwatch attack"},{"type":"removeStatus","statusName":"Overwatching"}] | represented |
+| Paralyzed | noActions true str -5 dex -5 | faithful |
+| Petrified | noActions true immuneFear true immuneCharm true immuneStun true immuneSleep true immunePoison true immuneDisease true | faithful |
+| Poison | onTurnEnd [{"type":"damage","amount":"=1d4","kind":"true"}] | faithful |
+| Praying | toHit 1 saveVersusAll 2 bonusHealing 2 tempHp 10 | faithful |
+| Hunting Prey | ac 2 onAttacked [{"type":"damage","description":"being a marked target","target":"self","amount":"=1d8","kind":"true"}] | faithful |
+| Prone | noActions true dex -2 | faithful |
+| Protected | resistNecrotic 0.5 immuneCharm true | faithful |
+| Pure Strike | toHit 4 bonusDamage 4 onAttackHit [{"type":"damage","amount":"=2d6","kind":"true","target":"target"}] | faithful |
+| Raging | toHit 1 bonusDamage 2 ac 3 | faithful |
+| Rallied | con 2 toHit 1 saveVersusAll 1 | faithful |
+| Reckless | toHit -2 ac 2 | faithful |
+| Reflect | reflectDamagePercent 0.5 | represented |
+| Riposting | evasion 3 ac 1 onMissReceived [{"type":"attack","target":"attacker","description":"riposte"}] | faithful |
+| Scalded | allRolls -1 | faithful |
+| Scaleskin | ac -8 resistFire 0.25 | faithful |
+| Shielded | ac -1 tempHp 10 saveVersusMagic 1 | faithful |
+| Armor Shred | ac 2 | faithful |
+| Silence | noSpellcasting true | faithful |
+| Slimed | resistAcid -2 | faithful |
+| Slow | dex -5 initiative -10 extraAttacksPerTurn -1 | faithful |
+| Soundproof | resistSonic 0.5 | faithful |
+| Spellturn | reflectSpellChance 0.5 | represented |
+| Eagle's Splendor | cha 2 toHit 1 | faithful |
+| Steelskin | ac -10 resistPiercing 0.5 resistSlashing 0.5 | faithful |
+| Stoneskin | ac -3 | faithful |
+| Stormproof | resistLightning 0.5 | faithful |
+| Bull's Strength | str 2 | faithful |
+| Stunned | noActions true allRolls -2 | faithful |
+| Sunmarked | saveVersusMagic -1 resistFire -0.25 resistRadiant -0.25 onAttacked [{"type":"damage","description":"being sunmarked","target":"self","amount":"=1d4","kind":"radiant"}] | faithful |
+| Taunted | forceTarget you | faithful |
+| Thirst | con -2 saveVersusAll -1 resistFire -1 | faithful |
+| Time Stopped | extraTurns 3 triggerReactions false | represented |
+| Time Walk | untargetable true ac -5 evasion 20 extraAttacksPerTurn 4 | represented |
+| True Sight | seeInvisible true | represented |
+| Vigorous | toHit 1 criticalRangeIncrease 2 con 2 tempHp 10 saveVersusAll 1 bonusDamage 1 | faithful |
+| Vital Boost | con 4 tempHp 20 saveVersusAll 2 | faithful |
+| Warded | saveVersusMagic 1 resistFire 0.15 resistCold 0.15 resistLightning 0.15 resistForce 0.5 tempHp =14 + 2 * #level | faithful |
+| Waterproof | resistCold 0.5 | faithful |
+| Weakened | str -2 bonusDamage -2 | faithful |
+| Wildheart | toHit 2 bonusDamage 2 con 4 resistPoison 0.5 resistAcid 0.25 immuneDisease true | faithful |
+| Owl's Wisdom | wis 2 saveVersusAll 1 | faithful |
+
+### Difficulty tiers
+
+6 in Orsino; 0 held by Kyr.
+
+| Name | Ranks | In Kyr |
+|---|---|---|
+| 0 | peasant, grunt, untested | — |
+| 1 | untested, rookie | — |
+| 2 | seargeant, captain | — |
+| 3 | veteran, champion | — |
+| 4 | elite, paragon | — |
+| 5 | epic, legendary | — |
+
+### Dungeon kinds
+
+5 in Orsino; 0 held by Kyr.
+
+| Name | Shapes | In Kyr |
+|---|---|---|
+| Fortress | tower, keep, stronghold, citadel, bastion, redoubt, barbican, martello, outpost, fastness | — |
+| Library | archive, vault, scriptorium, repository, bookhouse | — |
+| Mine | cave, cavern, lair, delve, tunnel, hollow | — |
+| Temple | fane, shrine, sanctum, reliquary, sanctuary, monastery, cathedral | — |
+| Tomb | ossuary, cenotaph, crypt, catacomb, mausoleum, necropolis, sepulcher, charnel | — |
+

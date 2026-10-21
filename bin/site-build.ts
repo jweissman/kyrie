@@ -2,6 +2,8 @@ import { AssetCatalog } from './asset-catalog';
 import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import type { PluginBuilder } from 'bun';
+import { Handbooks } from '../src/handbook/handbooks';
+import { HandbookPublisher } from '../src/handbook/publish';
 
 // Static browser build: classic IIFE scripts plus HTML/CSS with relative URLs, so the site works from file://,
 // a domain root, or a GitHub Pages repository subpath. Tests reuse bundle() to execute the browser artifact.
@@ -28,6 +30,7 @@ export class SiteBuild {
     for (const file of ['mono.html', 'mono.css']) { await cp(join(this.root, 'web', file), join(out, file)); }
     await cp(join(this.root, 'web/mono.html'), join(out, 'index.html'));
     await writeFile(join(out, '.nojekyll'), '');
+    await HandbookPublisher.html(new Handbooks(this.root), join(out, 'handbook'));
     return size;
   }
   static async serve(out: string, request: Request): Promise<Response> {

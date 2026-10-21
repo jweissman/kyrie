@@ -254,6 +254,8 @@ button.primary kbd { color: var(--amber-ink); background: transparent; border-co
 .title-page { display: grid; align-content: center; justify-items: start; gap: 1.4rem; padding: 0 clamp(1.5rem, 10vw, 9rem); }
 .mark { font: 600 var(--s4)/1 var(--prose); text-transform: uppercase; letter-spacing: 0.32em; color: var(--amber); }
 .tagline { font: italic var(--s1)/1.5 var(--prose); color: var(--ink-2); max-width: 46ch; }
+.title-page .books { color: var(--dim); font-size: var(--s-1); max-width: 60ch; }
+.title-page .books a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--rule-2); }
 .menu-list, .title-page .menu { display: grid; gap: 0.3rem; min-width: min(40rem, 90vw); max-height: none; background: none; border: 0;
   padding: 0; }
 .title-page .choice { grid-template-columns: 2.2rem minmax(0, 1fr); padding: 0.55rem 0.6rem; font-size: var(--s1); }

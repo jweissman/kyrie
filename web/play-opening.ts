@@ -20,7 +20,9 @@ export class PlayOpening {
       + `<span class="note">${Html.escape(e.note)}</span></button></li>`).join('');
     return `<div class="frame opening" data-mode="title"><main class="title-page"><h1 class="mark">Kyr</h1>`
       + '<p class="tagline">Three companions, a world that keeps going without them, and the road out of town.</p>'
-      + `<ol class="menu" role="list">${menu}</ol><input type="file" id="load" accept="application/json" hidden></main>`
+      + `<ol class="menu" role="list">${menu}</ol><input type="file" id="load" accept="application/json" hidden>`
+      + '<p class="books"><a href="handbook/index.html">The handbooks</a>: every ancestry, calling, spell and creature, '
+      + 'and how far the game plays each.</p></main>'
       + `${this.toast(error)}</div>`;
   }
   static campaigns(o: Opening): string {

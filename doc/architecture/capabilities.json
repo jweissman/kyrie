@@ -1,0 +1,283 @@
+{
+  "about": "Kyr's capability audit against Orsino, one family of rules at a time. Each family answers the same seven questions. The counts are not written here: bin/handbook.ts reads them from the books (each family names the handbook sections that hold its entries) and renders doc/architecture/capability-audit.md and the matrix on the handbooks' landing page. Deficiencies are ranked by what fixing them unlocks.",
+  "families": [
+    {
+      "id": "company",
+      "title": "Ancestries, callings, backgrounds and formations",
+      "sections": [
+        "phb:ancestries",
+        "phb:callings",
+        "phb:backgrounds",
+        "phb:traits",
+        "phb:formations",
+        "phb:orsino-company/orsino-ancestry"
+      ],
+      "orsino": "25 ancestries (racialModifier, occupationOptions, traits), 7 classes with classModifier gear, gold and proficiencies, 215 backgrounds, 16 party traits recognised from the company's make-up.",
+      "faithful": "Ancestry and calling attribute modifiers, hit dice, weapon and armour proficiencies, class abilities, lineage traits, the 215 backgrounds' scores and gold, formations recognised when a company sets out and held for good.",
+      "adapted": "Backgrounds are grouped into kinds whose meaning is Kyr's (a skill, gear, a contact who hears news). Specializations are chosen or drawn at creation. Skills are carried, not rolled.",
+      "dataOnly": "20 of Orsino's 25 ancestries (birdfolk, orc, halfling and the rest) and the formations that need them.",
+      "missing": "Most ancestries; class starting gear and gold are Kyr's own; formations needing a non-playable ancestry are unreachable.",
+      "abstractions": "Ancestries are data plus traits Kyr already executes, so the gap is translation through the registry, not mechanism. A trait's perks that read an environment, a weapon or a trigger already run.",
+      "browser": "Company formation shows ancestry, calling, background and specialization with their modifiers and a formation preview. The handbook now explains each in full."
+    },
+    {
+      "id": "creation",
+      "title": "Character creation",
+      "sections": [
+        "phb:callings",
+        "phb:ancestries"
+      ],
+      "orsino": "CharacterRecord and the pc template: 3d6 attributes with racial and class modifiers, hit die plus positive Constitution, starting spells for casters, class gear and gold.",
+      "faithful": "Hit points at level 1 (hit die plus positive Constitution modifier), NPC hit points above level 1, attribute modifiers, starting abilities, spell selection for a specialist caster.",
+      "adapted": "Attribute rolls are seeded per companion so a company can be re-rolled deterministically; gear is the calling's list plus the background's.",
+      "dataOnly": "Orsino's occupation options per ancestry beyond Kyr's playable callings.",
+      "missing": "Nothing structural for the three playable ancestries and seven callings.",
+      "abstractions": "None: creation uses only rules Kyr already runs; it widens as ancestries are translated.",
+      "browser": "Forming a company reads top to bottom on a phone and side by side on a desktop; each choice shows what it changes."
+    },
+    {
+      "id": "progression",
+      "title": "Progression, feats and high levels",
+      "sections": [
+        "phb:advancement",
+        "phb:feats",
+        "phb:magic"
+      ],
+      "orsino": "Experience to any level (50L³ + 150L² + 300L − 600), a quality point a level, a new spell for specialists, feats at 5, 10 and 15, an epic note at 20; spell levels to 9 as caster level rises.",
+      "faithful": "The experience formula to level 10, quality points, specialist spells, feats at 5 and 10, the death save and THAC0 by level.",
+      "adapted": "A level is taken at the next sheltered rest.",
+      "dataOnly": "Levels 11 to 20 and every slot row past class level 10.",
+      "missing": "Slot tables stop at class level 10, so spells of levels 6 to 9 are unreachable and no level past 10 exists. Feats at 15 cannot be reached. Of ten feats, three are not playable.",
+      "abstractions": "Slot tables and thresholds that run to 20 as data; a test party at levels 1, 5, 10 and 15; a way to start a campaign with an experienced company.",
+      "browser": "Advancement is announced and applied at rest; there is no view of what the next level brings."
+    },
+    {
+      "id": "timing",
+      "title": "Action timing, reactions, conditions, costs and targeting",
+      "sections": [
+        "phb:combat",
+        "phb:conditions",
+        "phb:techniques"
+      ],
+      "orsino": "Initiative each round, actions a turn, haste and slow, preparation (Charge), compelled moves, wound-up blows, reactions on being attacked, on an enemy's melee, attack, cast or charge, on combat start, on a status expiring, on healing and on a kill; random multi-target spells.",
+      "faithful": "Initiative, THAC0 against descending armour class, criticals, evasion, saves with the three-successes rule, the death save, haste and slow, confusion, charm and domination, preparation and compelled moves, conditions that tick and lapse, recharge.",
+      "adapted": "Wind-ups are shown to the company a turn ahead; fleeing is the whole company's.",
+      "dataOnly": "Reactions to an enemy's action (onEnemyMelee, onEnemyAttack, onEnemyCharge, onOffensiveCasting), onExpire and onCombatStart, extra turns, reflection and spell turning.",
+      "missing": "Random multi-target spells (magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray); reactions to what an enemy does; thirty-two statuses Kyr cannot apply (overwatch, braced, invisible, reflect, spellturn, timestop and others).",
+      "abstractions": "A reaction is a condition's or trait's hook on an event another combatant causes, answered within that event; a random target set is a target kind with a count expression. Both are general and replayable from the seed.",
+      "browser": "A fight shows whose turn it is, the order, wound-up blows and conditions. It does not show a reaction as it happens or why a creature chose its target."
+    },
+    {
+      "id": "spells",
+      "title": "Spells: traditions, slots, durations and unusual magic",
+      "sections": [
+        "phb:magic"
+      ],
+      "orsino": "131 arcane and 154 divine spells across levels 0 to 9, schools and domains, slot tables, spell saves and durations, and spells that summon, cast other spells, choose an effect at random, resurrect, kill outright or shift planes.",
+      "faithful": "Slots by spell level, preparation and readying at rest, cantrips, spell saves for half or none, school and domain access, durations in turns.",
+      "adapted": "Preparing a different spell takes an hour.",
+      "dataOnly": "None: every Orsino spell is catalogued and says whether it plays.",
+      "missing": "Unreachable spells above level 5 and unplayable spells that summon, cast, randomize, resurrect, kill outright or planeshift.",
+      "abstractions": "Entity creation with an owner and a lifetime (summon, create, dismiss); an effect that casts a named ability; a weighted random choice of effects drawn from the battle's seed; resurrection as a state change on a fallen creature.",
+      "browser": "Each companion's sheet shows what is prepared today; a spell is cast from the fight's menu with its effect stated. The handbook lists every spell with whether it plays."
+    },
+    {
+      "id": "extraordinary",
+      "title": "Summoning, transformation, domination, movement, divination and travel",
+      "sections": [
+        "dmg:orsino-world/orsino-plane"
+      ],
+      "orsino": "Summon creatures by kind or generated template, polymorph and shapechange, charm and dominate, flee, teleport and planeshift, divination that reveals.",
+      "faithful": "Charm and domination (allegiance changes and control), fleeing.",
+      "adapted": "Summoning calls a catalogued species and it fights for the summoner until the fight ends.",
+      "dataOnly": "Generated summons, polymorph, shapechange, teleport, planeshift, mind reading, truesight.",
+      "missing": "Ownership and dismissal of summoned creatures; transformation; travel by magic; divination that answers a question about the world.",
+      "abstractions": "One entity lifecycle for summon, create, transform and dismiss; travel as a world action whose destination must be known; divination as a world action that teaches a fact the company can then act on.",
+      "browser": "Summoned creatures appear in the fight's order. Nothing yet presents a place reached by magic.",
+      "entries": [
+        "ability:black_ritual",
+        "ability:flee",
+        "ability:summon_animal",
+        "ability:animate_animal",
+        "ability:animate_dead",
+        "ability:augury",
+        "ability:charm",
+        "ability:control_undead",
+        "ability:demorph",
+        "ability:dominate_person",
+        "ability:foresight",
+        "ability:foretelling",
+        "ability:greater_augury",
+        "ability:image",
+        "ability:invisibility",
+        "ability:mass_charm",
+        "ability:mass_domination",
+        "ability:mass_mind_blank",
+        "ability:maze",
+        "ability:mind_blank",
+        "ability:mind_reading",
+        "ability:minor_foretelling",
+        "ability:minor_image",
+        "ability:plane_shift",
+        "ability:polymorph",
+        "ability:psionic_blast",
+        "ability:revelation",
+        "ability:second_sight",
+        "ability:shapechange",
+        "ability:summon_greater_elemental",
+        "ability:summon_monster",
+        "ability:summon_monster_ii",
+        "ability:summon_monster_iii",
+        "ability:summon_monster_iv",
+        "ability:summon_monster_v",
+        "ability:summon_monster_vi",
+        "ability:summon_monster_vii",
+        "ability:summon_vermin",
+        "ability:time_stop",
+        "ability:true_sight",
+        "ability:weird",
+        "ability:charm_aura",
+        "ability:charming_glance",
+        "ability:command",
+        "ability:cruel_will",
+        "ability:domination",
+        "ability:raise_dead",
+        "ability:resurrect",
+        "ability:summon_elemental",
+        "ability:summon_lich",
+        "ability:summon_natural_guardian",
+        "ability:turn_undead"
+      ]
+    },
+    {
+      "id": "creatures",
+      "title": "Creatures: families, special attacks, resistances, behaviour and difficulty",
+      "sections": [
+        "mm:species",
+        "mm:natural-abilities",
+        "mm:creature-traits",
+        "mm:orsino-bestiary"
+      ],
+      "orsino": "10 monster classes (stat line, weapon, hide, up to three attacks a turn, worth, gold) × 40 types × 31 aspects × 8 ranks, 44 animals, 17 elementals, dragons by colour, golems by substance, 89 kinds of person by trade.",
+      "faithful": "Resistances and vulnerabilities, natural weapons and hides, creature traits such as flying and formidable, experience by kind and level, the golem as Orsino composes it.",
+      "adapted": "Most of Kyr's fourteen species roll their qualities instead of using Orsino's stat line.",
+      "dataOnly": "Most monster types, every rank and aspect, 40 of 44 animals, every elemental and kind of person.",
+      "missing": "Several attacks a turn; most of the bestiary; temperament and habitat are recorded but read by nothing in play, so creatures do not warn, bargain, retreat or pursue by their nature.",
+      "abstractions": "Species composed from Orsino's monster template through the registry (OrsinoMonsters already reproduces it); attacks a turn as a species statistic; temperament as the rules by which an inhabitant answers intrusion.",
+      "browser": "Foes are shown with their condition and wind-ups. The Monster Manual now describes every species and what is not yet held."
+    },
+    {
+      "id": "equipment",
+      "title": "Equipment, treasure and magic items",
+      "sections": [
+        "phb:equipment",
+        "dmg:orsino-world/orsino-equipment",
+        "dmg:orsino-world/orsino-consumable",
+        "dmg:orsino-world/orsino-gear",
+        "dmg:orsino-world/orsino-treasureTier"
+      ],
+      "orsino": "83 weapons, 15 armours, 68 pieces of gear, 48 magic items, 28 consumables, treasure tiers by depth.",
+      "faithful": "Weapons and armour with proficiency, weight and the knight's perk; consumables that heal or harm.",
+      "adapted": "Treasure is placed by authors and kits, not rolled by tier.",
+      "dataOnly": "60 of 68 gear, 42 of 48 magic items, 22 of 28 consumables, treasure tiers.",
+      "missing": "Most magic items, including those that react when their bearer is attacked; item charges; treasure by tier.",
+      "abstractions": "Items are mostly data over effects Kyr already runs; the reaction abstraction above unlocks the rest.",
+      "browser": "Outfitting is a menu of what each companion carries; the handbook lists every item."
+    },
+    {
+      "id": "world",
+      "title": "Environment, world and planar rules",
+      "sections": [
+        "dmg:world-rules",
+        "dmg:orsino-world/orsino-plane",
+        "dmg:orsino-world/orsino-trap",
+        "dmg:orsino-world/orsino-wonder"
+      ],
+      "orsino": "Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.",
+      "faithful": "Terrain perks (an elven tribe in a forest), searching by taking 10 against 15.",
+      "adapted": "Time, light, weather, passages, obstacles, lodging, food, dominion and people are Kyr's own world rules, written in Kyr and listed in the guide.",
+      "dataOnly": "All ten planes, all traps and wonders.",
+      "missing": "Planes as places with laws; a law that changes magic or combat for everyone in a place; traps and wonders as generated content.",
+      "abstractions": "A place's laws as modifiers every creature there holds while it is there (Orsino's residency passive), applied through the same condition machinery; travel between planes as a passage whose access is a condition.",
+      "browser": "The map shows places and ways; nothing yet shows a place's laws."
+    },
+    {
+      "id": "authoring",
+      "title": "Content authoring and generation",
+      "sections": [
+        "dmg:making-worlds",
+        "dmg:campaigns",
+        "mm:generated"
+      ],
+      "orsino": "Deem tables and templates generate creatures, dungeons, rooms, settlements, shops and treasure; the books are generated from the same tables.",
+      "faithful": "Deem as the generator; creature generation by family, terrain and adaptation; dragons by lineage and maturity.",
+      "adapted": "Worlds are assembled from a region's geography and kits whose slots, proposals and provided facts are checked; every choice is recorded.",
+      "dataOnly": "Dungeon and room generation, settlements and shops by size, traps, wonders.",
+      "missing": "Institutions and planes as kits; a city; a layered situation web that spans levels of play.",
+      "abstractions": "Kits that bring sites, institutions and planes with the facts they must preserve.",
+      "browser": "Generated worlds play like authored ones."
+    }
+  ],
+  "deficiencies": [
+    {
+      "rank": 1,
+      "title": "Progression stops at level 10",
+      "unlocks": "56 spells of levels 6–9, feats at 15, levels 11–20",
+      "cycle": 4
+    },
+    {
+      "rank": 2,
+      "title": "Creatures are fourteen hand-made species, one attack a turn, and their temperament is read by nothing",
+      "unlocks": "Orsino's bestiary through the monster template; multi-attack; inhabitants that answer intrusion",
+      "cycle": 2
+    },
+    {
+      "rank": 3,
+      "title": "Summoning has no ownership, lifetime or dismissal, and cannot call a generated creature",
+      "unlocks": "16 summoning abilities, 27 companions, conjured guardians",
+      "cycle": 3
+    },
+    {
+      "rank": 4,
+      "title": "No reactions to what an enemy does",
+      "unlocks": "32 statuses (overwatch, braced, reflect, spellturn …), reactive magic items",
+      "cycle": 3
+    },
+    {
+      "rank": 5,
+      "title": "No random multi-target spells",
+      "unlocks": "magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray",
+      "cycle": 3
+    },
+    {
+      "rank": 6,
+      "title": "No planes, place laws or magical travel",
+      "unlocks": "10 planes, planeshift, teleport, a planar adventure",
+      "cycle": 5
+    },
+    {
+      "rank": 7,
+      "title": "Cast, random effect, resurrect and kill effects",
+      "unlocks": "20 entries that cast, 6 that randomize, 8 that resurrect or kill",
+      "cycle": 3
+    },
+    {
+      "rank": 8,
+      "title": "Items are mostly Orsino data",
+      "unlocks": "60 gear, 42 magic items, 22 consumables",
+      "cycle": 2
+    },
+    {
+      "rank": 9,
+      "title": "Electric damage is not a Kyr damage kind",
+      "unlocks": "11 spells and weapons",
+      "cycle": 3
+    },
+    {
+      "rank": 10,
+      "title": "No city, no institutions as kits",
+      "unlocks": "urban investigation, negotiation and patronage",
+      "cycle": 5
+    }
+  ]
+}

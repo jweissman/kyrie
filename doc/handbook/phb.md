@@ -1,0 +1,6555 @@
+# Player's Handbook
+
+A company is three companions. Each has an ancestry, a calling and a background; together they may make a formation. This book is made from the definitions the game plays from. Each entry says how far the game plays it: Faithful to Orsino, Adapted from it with a stated difference, Kyr's own, Represented by something smaller, Not playable (defined, but never offered), or Unreachable (playable, but nothing in the game yet reaches it).
+
+## Ancestries
+
+A companion's ancestry adds to their qualities, decides which callings are open to them, and gives the traits they are born with.
+
+### Human
+
+*Faithful · playable ancestry* · `ancestry:human`
+
+- Qualities: +1 strength, +1 dexterity, +1 constitution, +1 intelligence, +1 wisdom, +1 charisma
+- Callings: Warrior, Mage, Thief, Cleric, Bard, Ranger, Monk, Commoner
+- Born with: Humanoid Traits, Fast Learner, Jack of All Trades
+
++1 to charm saves, +1 to fear saves.
+
+Jack of All Trades: +1 to searching.
+
+> A human of the settled riverlands.
+
+### Elf
+
+*Faithful · playable ancestry* · `ancestry:elf`
+
+- Qualities: −1 strength, +2 dexterity, −1 constitution, +1 intelligence, +2 wisdom, +1 charisma
+- Callings: Warrior, Thief, Ranger, Bard, Mage, Commoner
+- Born with: Humanoid Traits, Graceful, Keen Senses
+- May not take: Necromancy Specialist
+
++1 to charm saves, +1 to fear saves.
+
+1 harder to hit, +1 to magic saves.
+
+Keen Senses: +4 to searching.
+
+> Elf of the frontier.
+
+### Dwarf
+
+*Faithful · playable ancestry* · `ancestry:dwarf`
+
+- Qualities: +1 strength, −1 dexterity, +2 constitution, +1 intelligence, +2 wisdom, −1 charisma
+- Callings: Warrior, Cleric, Commoner
+- Born with: Humanoid Traits, Stout Constitution, Enduring
+
++1 to charm saves, +1 to fear saves.
+
++1 to poison saves, +1 to disease saves, +1 to death saves, +1 to magic saves, +1 to insanity saves, +1 to charm saves, +1 to fear saves, +1 to stun saves, +1 to will saves, resists 50% of poison.
+
+Enduring: +2 hit points each level.
+
+> Dwarf of the frontier.
+
+### Goblin
+
+*Faithful · not chosen by players* · `ancestry:goblin`
+
+- Qualities: −2 strength, +2 dexterity, −1 constitution, +1 intelligence, −1 wisdom, −2 charisma
+- Callings: Thief, Ranger, Commoner
+- Born with: Humanoid Traits
+
++1 to charm saves, +1 to fear saves.
+
+> A small, sharp-featured person of the river warrens.
+
+### Glimmerkin
+
+*Kyr · not chosen by players* · `ancestry:glimmerkin`
+
+- Qualities: −2 strength, +2 dexterity, +1 intelligence, +1 wisdom, −1 charisma
+- Callings: Thief, Ranger, Commoner, Mage
+- Born with: Humanoid Traits
+
++1 to charm saves, +1 to fear saves.
+
+> A small, soft-footed person of the deep caves, with eyes that shine like a cat's in lamplight and a trader's patience.
+
+## Callings
+
+A calling is what a companion does in a fight and on the road: their hit die, the qualities it shapes, the arms they may bear and what they know from the start.
+
+### Warrior
+
+*Faithful · calling* · `class:warrior`
+
+- Hit die: d12
+- Qualities: +2 strength, +1 dexterity, +2 constitution, −1 intelligence, −1 wisdom
+- Gold: 10
+- Weapons: all
+- Armour: all
+- Skills: Brawn
+- Specializations: Toughness, Bravery, Strong Willed
+
+Takes and deals the most harm and wears any armour. Brawn: lifts what has fallen and wrenches what is stuck.
+
+Begins knowing Defend.
+
+Begins knowing Guard.
+
+Begins knowing Taunt.
+
+Begins knowing Vigor Up.
+
+Begins knowing Cleave.
+
+Begins knowing Prepare Charge.
+
+Begins knowing Charge.
+
+Begins knowing Sets Spear (not playable).
+
+Begins knowing Second Wind.
+
+Begins knowing Sweeping Strike.
+
+> Warriors are skilled combatants, excelling in melee and ranged combat with a variety of weapons and armor.
+
+### Mage
+
+*Faithful · calling; casts with intelligence* · `class:mage`
+
+- Hit die: d4
+- Qualities: −2 strength, +1 dexterity, −1 constitution, +3 intelligence, +1 wisdom
+- Gold: 50
+- Weapons: blade, staff, dart, sling (light)
+- Armour: cloth (light)
+- Skills: Lore
+- Specializations: Abjuration Specialist, Conjuration Specialist, Divination Specialist, Enchantment Specialist, Evocation Specialist, Illusion Specialist, Necromancy Specialist, Transmutation Specialist
+
+Few hit points and no armour, but prepared spells that can turn a fight. Lore: reads old scripts and the workings of magic.
+
+Begins knowing Defend.
+
+Begins knowing Light.
+
+> Mages are masters of arcane magic, wielding powerful spells to manipulate the forces of the world.
+
+### Thief
+
+*Faithful · calling* · `class:thief`
+
+- Hit die: d6
+- Qualities: −1 strength, +2 dexterity, +1 constitution, +1 intelligence, −1 wisdom, +1 charisma
+- Gold: 20
+- Weapons: blade, bow, crossbow, dart, sling (light, medium)
+- Armour: leather (light)
+- Skills: Lockwork, Trapwork, Stealth
+
+Light armour and a quick blade. Picks locks, finds and pins traps, and slips past watchers unseen.
+
+Begins knowing Defend.
+
+Begins knowing Dodge.
+
+Begins knowing Poison Weapon.
+
+Begins knowing Smoke Screen.
+
+Begins knowing Backstab.
+
+Begins knowing Dirty Trick.
+
+Begins knowing Deactivate Device (not playable).
+
+> Thieves are stealthy and cunning, adept at sneaking, lockpicking, and dealing precise strikes.
+
+### Cleric
+
+*Faithful · calling; casts with wisdom* · `class:cleric`
+
+- Hit die: d8
+- Qualities: +1 strength, −1 dexterity, +1 constitution, +2 wisdom, +1 charisma
+- Gold: 15
+- Weapons: flail, mace, light_warhammer, staff, club (light, medium, heavy)
+- Armour: cloth, leather, metal (light, medium)
+- Skills: Mending, Rites of the dead
+- Specializations: Vitalist, Deathspeaker, Lightbringer, Shadowmancer, Oathkeeper, Wildcaller, Chaotician, Warbringer, Oceanist, Cherubist, Stormcaller, Veneficium
+
+Prayers that heal and protect. Mends wounds outside a fight and knows the rites that put the dead to rest.
+
+Begins knowing Defend.
+
+> Clerics are divine spellcasters who draw power from their faith to heal allies and smite foes.
+
+### Bard
+
+*Faithful · calling; casts with charisma* · `class:bard`
+
+- Hit die: d6
+- Qualities: +1 dexterity, +1 intelligence, +1 wisdom, +3 charisma
+- Gold: 25
+- Weapons: blade, bow, crossbow, staff, light_mace (light)
+- Armour: leather, cloth (light)
+- Skills: Lore
+
+A few spells, a steady voice and lore: songs and histories that remember what others forget.
+
+Begins knowing Defend.
+
+Begins knowing Cure Light Wounds.
+
+Begins knowing Inspire.
+
+Begins knowing Charm Person.
+
+Begins knowing Taunt.
+
+Begins knowing Riposte.
+
+> Bards are charismatic performers who inspire allies and confound enemies through music and magic.
+
+### Ranger
+
+*Faithful · calling* · `class:ranger`
+
+- Hit die: d10
+- Qualities: +1 strength, +2 dexterity, +1 constitution, +2 wisdom, −1 charisma
+- Gold: 30
+- Weapons: blade, bow, crossbow, polearm (light, medium)
+- Armour: all
+- Skills: Woodcraft
+
+Bow and spear, and woodcraft: reads beasts and wild country, and knows the safe way past them.
+
+Begins knowing Defend.
+
+Begins knowing Call Animal Companion (not playable).
+
+Begins knowing Sets Spear (not playable).
+
+Begins knowing Hunter's Mark.
+
+Begins knowing Ensnare.
+
+> Rangers are skilled hunters and trackers, proficient with bows and survival in the wilderness.
+
+### Monk
+
+*Faithful · calling* · `class:monk`
+
+- Hit die: d8
+- Qualities: +1 strength, +2 dexterity, +1 constitution, +2 wisdom
+- Gold: 10
+- Weapons: unarmed
+- Armour: cloth (light)
+- Skills: Climbing, Mending
+- Specializations: Wisdom, Compassionate Heart, Disciplined Mind
+
+Unarmoured and quick. Climbs where others need a rope, and mends wounds.
+
+Begins knowing Defend.
+
+Begins knowing Roundhouse Kick.
+
+Begins knowing Flurry of Blows.
+
+Begins knowing Meditate.
+
+Begins knowing Dodge.
+
+Begins knowing Second Wind.
+
+> Monks are disciplined martial artists who harness their inner energy to perform extraordinary feats.
+
+### Specializations
+
+Some callings take one specialization at creation: a mage's school, a cleric's domain, a warrior's bent. Chosen, or drawn at random.
+
+#### Abjuration Specialist
+
+*Adapted · specialization* · `trait:abjurer`
+
+- Opens: arcane spells of abjuration
+
+> You are skilled in protective magics and wards.
+
+*Left out — displayClass: Presentation only.*
+
+#### Chaotician
+
+*Adapted · specialization* · `trait:chaotician`
+
+- Opens: divine spells of the chaos domain
+
+> You are a harbinger of chaos and unpredictability.
+
+*Left out — displayClass: Presentation only.*
+
+#### Cherubist
+
+*Adapted · specialization* · `trait:cherubist`
+
+- Opens: divine spells of the love domain
+
+> You embody the ideals of love and beauty.
+
+*Left out — displayClass: Presentation only.*
+
+#### Conjuration Specialist
+
+*Adapted · specialization* · `trait:conjurer`
+
+- Opens: arcane spells of conjuration
+
+> You are skilled in summoning creatures and teleportation magics.
+
+*Left out — displayClass: Presentation only.*
+
+#### Deathspeaker
+
+*Adapted · specialization* · `trait:deathspeaker`
+
+- Opens: divine spells of the death domain
+
+> You are a herald of death and the afterlife.
+
+*Left out — displayClass: Presentation only.*
+
+#### Divination Specialist
+
+*Adapted · specialization* · `trait:diviner`
+
+- Opens: arcane spells of divination
+
+> You are skilled in divination and scrying magics.
+
+*Left out — displayClass: Presentation only.*
+
+#### Enchantment Specialist
+
+*Adapted · specialization* · `trait:enchanter`
+
+- Opens: arcane spells of enchantment
+
+> You are skilled in enchantment magics, influencing the minds and emotions of others.
+
+*Left out — displayClass: Presentation only.*
+
+#### Evocation Specialist
+
+*Adapted · specialization* · `trait:evoker`
+
+- Opens: arcane spells of evocation
+
+> You are skilled in offensive and elemental magics.
+
+*Left out — displayClass: Presentation only.*
+
+#### Generalist Caster
+
+*Adapted · specialization* · `trait:generalist`
+
+- Opens: arcane spells of all
+
+> You have a broad understanding of all schools of arcane magic.
+
+*Left out — displayClass: Presentation only.*
+
+#### Illusion Specialist
+
+*Adapted · specialization* · `trait:illusionist`
+
+- Opens: arcane spells of illusion
+
+> You are skilled in illusion and mind-affecting magics.
+
+*Left out — displayClass: Presentation only.*
+
+#### Lightbringer
+
+*Adapted · specialization* · `trait:lightbringer`
+
+- Opens: divine spells of the light domain
+
+> You are a beacon of light and hope.
+
+*Left out — displayClass: Presentation only.*
+
+#### Necromancy Specialist
+
+*Adapted · specialization* · `trait:necromancer`
+
+- Opens: arcane spells of necromancy
+
+> You are skilled in necromantic magics, manipulating life and death.
+
+*Left out — displayClass: Presentation only.*
+
+#### Oathkeeper
+
+*Adapted · specialization* · `trait:oathkeeper`
+
+- Opens: divine spells of the law domain
+
+> You are a champion of justice and order.
+
+*Left out — displayClass: Presentation only.*
+
+#### Oceanist
+
+*Adapted · specialization* · `trait:oceanist`
+
+- Opens: divine spells of the ocean domain
+
+> You are a guardian of the seas and all its creatures.
+
+*Left out — displayClass: Presentation only.*
+
+#### Shadowmancer
+
+*Adapted · specialization* · `trait:shadowmancer`
+
+- Opens: divine spells of the darkness domain
+
+> You are a master of shadows and darkness.
+
+*Left out — displayClass: Presentation only.*
+
+#### Stormcaller
+
+*Adapted · specialization* · `trait:stormcaller`
+
+- Opens: divine spells of the storm domain
+
+> You command the power of storms and tempests.
+
+*Left out — displayClass: Presentation only.*
+
+#### Transmutation Specialist
+
+*Adapted · specialization* · `trait:transmuter`
+
+- Opens: arcane spells of transmutation
+
+> You are skilled in transmutation magics, altering the properties of matter and energy.
+
+*Left out — displayClass: Presentation only.*
+
+#### Veneficium
+
+*Adapted · specialization* · `trait:veneficium`
+
+- Opens: divine spells of the poison domain
+
+> You are a master of poisons and toxins.
+
+*Left out — displayClass: Presentation only.*
+
+#### Vitalist
+
+*Adapted · specialization* · `trait:vitalist`
+
+- Opens: divine spells of the life domain
+
+> You are a conduit of divine life energy.
+
+*Left out — displayClass: Presentation only.*
+
+#### Warbringer
+
+*Adapted · specialization* · `trait:warbringer`
+
+- Opens: divine spells of the war domain
+
+> You are a master of warfare and strategy.
+
+*Left out — displayClass: Presentation only.*
+
+#### Wildcaller
+
+*Adapted · specialization* · `trait:wildcaller`
+
+- Opens: divine spells of the nature domain
+
+> You are attuned to the forces of nature.
+
+*Left out — displayClass: Presentation only.*
+
+## Backgrounds
+
+Where a companion comes from: Orsino's scores and gold for each, and what the kind of background means in Kyr. A background marked "for" one calling is open only to it.
+
+### Wild country
+
+Brings woodcraft, and knows someone who hears news on the road.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Animal handler | +2 wisdom, +1 dexterity | 15 | anyone | Woodcraft | Adapted |
+| Archer | +5 dexterity, +2 wisdom | 70 | Ranger | Woodcraft | Adapted |
+| Badger | +3 constitution, +1 strength | 5 | anyone | Woodcraft | Adapted |
+| Botanist | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Adapted |
+| Forester | +2 wisdom, +1 dexterity | 15 | anyone | Woodcraft, handaxe | Adapted |
+| Gameskeeper | +2 wisdom, +2 dexterity | 20 | Thief | Woodcraft | Adapted |
+| Herdsman | +2 wisdom, +2 constitution | 15 | anyone | Woodcraft | Adapted |
+| Horsebreaker | +3 strength, +2 dexterity, +2 wisdom | 40 | anyone | Woodcraft | Adapted |
+| Hunter | +2 dexterity, +1 wisdom, +1 constitution | 15 | Ranger | Woodcraft, Coil of rope | Adapted |
+| Monster hunter | +3 strength, +3 dexterity, +3 constitution, +2 intelligence, +2 wisdom, +1 charisma | 100 | Warrior | Woodcraft | Adapted |
+| Scout | +2 dexterity, +2 wisdom | 15 | anyone | Woodcraft | Adapted |
+| Sharpshooter | +5 dexterity, +2 intelligence, +2 wisdom | 80 | Ranger | Woodcraft | Adapted |
+| Skinner | +3 dexterity, +2 constitution | 20 | anyone | Woodcraft | Adapted |
+| Tracker | +4 wisdom, +2 dexterity | 40 | Ranger | Woodcraft, Stealth | Adapted |
+| Tribesman | +2 strength, +1 constitution, +1 wisdom | 10 | anyone | Woodcraft | Adapted |
+| Woodcutter | +2 strength, +2 constitution, −1 dexterity | 15 | anyone | Woodcraft | Adapted |
+| Zoologist | +3 intelligence, +2 wisdom | 20 | anyone | Woodcraft | Adapted |
+
+### The roads
+
+Brings wayfinding, and knows someone who hears news on the road.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Caravaner | +2 wisdom, +1 constitution | 15 | anyone | Wayfinding | Adapted |
+| Cart driver | +2 strength, +1 constitution | 10 | anyone | Wayfinding | Adapted |
+| Cartographer | +2 intelligence, +2 wisdom, +1 dexterity | 20 | anyone | Wayfinding | Adapted |
+| Drifter | +2 dexterity, +1 charisma | 10 | anyone | Wayfinding | Adapted |
+| Explorer | +2 dexterity, +1 wisdom | 15 | Ranger | Wayfinding, Map of the district | Adapted |
+| Herald | +2 charisma, +1 wisdom | 15 | anyone | Wayfinding | Adapted |
+| Messenger | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
+| Nomad | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
+| Outlander | +1 strength, +1 dexterity, +1 constitution | 10 | anyone | Wayfinding | Adapted |
+| Pathfinder | +4 dexterity, +3 wisdom | 50 | Ranger | Wayfinding | Adapted |
+| Runner | +3 dexterity, +1 constitution | 10 | anyone | Wayfinding | Adapted |
+| Trader | +2 wisdom, +4 charisma, +3 intelligence | 120 | anyone | Wayfinding | Adapted |
+| Vagabond | +2 dexterity, +1 constitution | 5 | anyone | Wayfinding | Adapted |
+| Wayfarer | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
+
+### Locks and mechanisms
+
+Brings lockwork, and knows someone who hears news at a market.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Artificer | +4 intelligence, +3 dexterity, +2 wisdom | 60 | anyone | Lockwork | Adapted |
+| Bellwright | +2 strength, +1 constitution | 20 | anyone | Lockwork | Adapted |
+| Engineer | +3 intelligence, +2 dexterity | 40 | anyone | Lockwork | Adapted |
+| Inventor | +4 intelligence, +2 dexterity | 50 | anyone | Lockwork | Adapted |
+| Locksmith | +4 dexterity, +2 intelligence | 40 | anyone | Lockwork, Thieves' tools | Adapted |
+| Tinker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork | Adapted |
+| Toymaker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork | Adapted |
+
+### The shadows
+
+Brings stealth, and knows someone who hears news at a market.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Assassin | +4 dexterity, +2 intelligence, +2 wisdom, +3 charisma | 100 | Thief | Stealth | Adapted |
+| Bandit | +2 dexterity, +1 strength | 15 | Thief | Stealth, dagger | Adapted |
+| Burglar | +5 dexterity, +2 charisma | 40 | Thief | Stealth | Adapted |
+| Cardsharp | +4 dexterity, +2 intelligence | 30 | Thief | Stealth | Adapted |
+| Criminal | +2 dexterity, +1 charisma, −1 intelligence | 15 | Thief | Stealth, Lockwork | Adapted |
+| Cutpurse | +5 dexterity, +2 charisma | 30 | Thief | Stealth | Adapted |
+| Gambler | +3 charisma, +2 dexterity | 25 | Thief | Stealth | Adapted |
+| Outlaw | +3 dexterity, +1 strength | 15 | Thief | Stealth, dagger | Adapted |
+| Pickpocket | +4 dexterity, +2 charisma | 25 | Thief | Stealth | Adapted |
+| Poisoner | +3 dexterity, +4 intelligence, +2 wisdom | 70 | anyone | Stealth | Adapted |
+| Raider | +3 strength, +2 constitution | 15 | Warrior | Stealth | Adapted |
+| Saboteur | +4 dexterity, +2 intelligence | 40 | Thief | Stealth | Adapted |
+| Smuggler | +2 dexterity, +2 charisma | 40 | anyone | Stealth | Adapted |
+| Spy | +2 charisma, +2 dexterity, +1 intelligence | 50 | Thief | Stealth | Adapted |
+| Thug | +3 strength, +2 constitution | 20 | Thief | Stealth | Adapted |
+
+### Healing
+
+Brings mending, and knows someone who hears news at a shrine.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Alchemist | +2 intelligence, +1 dexterity | 30 | anyone | Mending | Adapted |
+| Apothecary | +3 intelligence, +3 wisdom | 30 | anyone | Mending, Antidote, Healing herbs | Adapted |
+| Doctor | +2 intelligence, +2 wisdom | 20 | anyone | Mending | Adapted |
+| Herbalist | +2 wisdom, +1 intelligence | 15 | anyone | Mending | Adapted |
+| Medic | +2 wisdom, +2 intelligence | 20 | Cleric | Mending, Bandages, Healing herbs | Adapted |
+| Nurse | +3 wisdom, +1 charisma | 15 | anyone | Mending | Adapted |
+| Pharmacist | +3 intelligence, +2 wisdom | 30 | anyone | Mending | Adapted |
+| Physician | +4 intelligence, +4 wisdom | 40 | anyone | Mending | Adapted |
+| Plague doctor | +2 intelligence, +3 wisdom | 15 | Cleric | Mending, Healing herbs | Adapted |
+
+### The faith
+
+Brings rites of the dead, and knows someone who hears news at a shrine.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Abbot | +4 wisdom, +3 charisma | 80 | anyone | Rites of the dead | Adapted |
+| Acolyte | +2 wisdom, +1 intelligence | 5 | anyone | Rites of the dead | Adapted |
+| Archon | +3 intelligence, +3 wisdom, +2 charisma | 100 | anyone | Rites of the dead | Adapted |
+| Ascetic | +5 wisdom, −1 constitution | 20 | Monk | Climbing | Adapted |
+| Cultist | +2 intelligence, +1 wisdom, −1 charisma | 5 | anyone | Rites of the dead | Adapted |
+| Hermit | +2 constitution, +1 wisdom, −2 charisma | 5 | anyone | Rites of the dead | Adapted |
+| Inquisitor | +3 intelligence, +4 wisdom, +3 charisma | 70 | anyone | Rites of the dead | Adapted |
+| Mendicant | +3 wisdom, +2 dexterity, +1 constitution | 30 | Monk | Climbing | Adapted |
+| Missionary | +3 wisdom, +2 charisma | 20 | Cleric | Rites of the dead | Adapted |
+| Priest | +3 wisdom, +2 charisma | 30 | anyone | — | Adapted |
+| Templar | +3 strength, +3 constitution, +3 wisdom, +2 charisma | 80 | Cleric | Rites of the dead | Adapted |
+| Vampire hunter | +3 strength, +3 dexterity, +2 constitution, +2 wisdom, +1 charisma | 50 | anyone | Rites of the dead | Adapted |
+| Witch hunter | +2 strength, +2 dexterity, +2 constitution, +2 intelligence, +3 wisdom, +1 charisma | 40 | Cleric | Rites of the dead | Adapted |
+
+### Learning
+
+Brings lore, and knows someone who hears news at a shrine.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Advisor | +3 intelligence, +3 wisdom, +2 charisma | 100 | anyone | Lore | Adapted |
+| Apprentice | +2 intelligence, +1 dexterity | 10 | anyone | Lore | Adapted |
+| Arcanist | +5 intelligence, +1 wisdom | 70 | Mage | Lore | Adapted |
+| Archaeologist | +3 intelligence, +2 wisdom | 30 | anyone | Lore, Digging, Shovel | Adapted |
+| Architect | +4 intelligence, +3 wisdom | 60 | anyone | Lore | Adapted |
+| Archivist | +4 intelligence, +5 wisdom | 30 | anyone | Lore | Adapted |
+| Astronomer | +4 intelligence, +2 wisdom | 15 | anyone | Lore | Adapted |
+| Fortuneteller | +3 charisma, +1 intelligence | 40 | anyone | Lore | Adapted |
+| Historian | +3 intelligence, +2 wisdom | 20 | anyone | Lore | Adapted |
+| Invoker | +2 intelligence, +4 wisdom | 50 | Mage | Lore | Adapted |
+| Librarian | +2 intelligence, +2 wisdom | 10 | anyone | Lore | Adapted |
+| Mystic | +5 wisdom, −1 intelligence, +2 charisma | 60 | Mage | Lore | Adapted |
+| Parchment maker | +2 dexterity, +2 intelligence | 20 | anyone | Lore | Adapted |
+| Philosopher | +3 intelligence, +2 wisdom | 20 | anyone | Lore | Adapted |
+| Rhetorician | +4 charisma, +4 intelligence, +2 wisdom | 80 | anyone | Lore | Adapted |
+| Sage | +4 intelligence, +3 wisdom | 25 | anyone | Lore | Adapted |
+| Scholar | +2 intelligence, +1 wisdom, −1 charisma | 5 | anyone | Lore | Adapted |
+| Scribe | +2 intelligence, +1 dexterity | 15 | anyone | Lore | Adapted |
+| Secretkeeper | +3 dexterity, +2 intelligence, +1 wisdom | 40 | anyone | Lore | Adapted |
+| Vizier | +5 intelligence, +3 wisdom, +4 charisma | 150 | anyone | Lore | Adapted |
+| Witch | +3 intelligence, +3 wisdom, +2 charisma | 20 | Mage | Lore | Adapted |
+
+### Stone and earth
+
+Brings digging, carries shovel, and knows someone who hears news at an inn.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Bricklayer | +3 strength, +2 constitution | 30 | anyone | Digging, Shovel | Adapted |
+| Dungeon delver | +1 strength, +2 dexterity, +2 constitution | 20 | anyone | Digging, Shovel | Adapted |
+| Gardener | +2 wisdom, +1 constitution | 15 | anyone | Digging, Shovel | Adapted |
+| Geologist | +3 intelligence, +2 wisdom | 20 | anyone | Digging, Shovel | Adapted |
+| Laborer | +2 strength, +1 constitution | 5 | anyone | Digging, Shovel | Adapted |
+| Miner | +2 constitution, +1 strength | 15 | anyone | Digging, Shovel | Adapted |
+| Peon | +1 strength, +1 constitution | 5 | anyone | Digging, Shovel | Adapted |
+| Prospector | +2 constitution, +1 wisdom | 15 | anyone | Digging, Shovel | Adapted |
+| Scavenger | +2 dexterity, +1 wisdom | 10 | anyone | Digging, Shovel | Adapted |
+| Stone mason | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 50 | anyone | Digging, Shovel | Adapted |
+| Stonecarver | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 50 | anyone | Digging, Shovel | Adapted |
+| Treasure hunter | +4 dexterity, +3 intelligence, +2 wisdom | 120 | anyone | Digging, Shovel | Adapted |
+
+### Arms
+
+Brings brawn, and knows someone who hears news at an inn.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Athlete | +2 strength, +2 dexterity, +1 constitution | 10 | anyone | Brawn | Adapted |
+| Blacksmith | +2 strength, +1 constitution, +1 dexterity | 25 | anyone | Brawn | Adapted |
+| Bounty hunter | +2 dexterity, +2 wisdom | 25 | anyone | Brawn, Coil of rope | Adapted |
+| Champion | +4 strength, +3 constitution, +2 dexterity, +1 wisdom, +2 charisma | 50 | Warrior | Brawn | Adapted |
+| Coppersmith | +3 dexterity, +1 intelligence | 25 | anyone | Brawn | Adapted |
+| Deserter | +2 dexterity, +1 constitution | 10 | anyone | Brawn | Adapted |
+| Dragon slayer | +4 strength, +3 constitution, +2 dexterity, +2 wisdom, +2 charisma | 200 | anyone | Brawn | Adapted |
+| Errant | +2 strength, +3 intelligence, +2 wisdom, +1 charisma | 75 | Warrior | Brawn | Adapted |
+| Executioner | +4 strength, +3 constitution, +2 dexterity | 40 | anyone | Brawn | Adapted |
+| Folk hero | +2 strength, +1 constitution, +1 charisma | 10 | anyone | Brawn | Adapted |
+| Gladiator | +3 strength, +2 constitution, +1 dexterity | 30 | anyone | Brawn | Adapted |
+| Guard | +2 strength, +4 constitution | 10 | Warrior | Brawn | Adapted |
+| Juggernaut | +5 strength, +5 constitution, +1 dexterity, −2 intelligence, −1 charisma | 50 | anyone | Brawn | Adapted |
+| Mercenary | +2 strength, +1 constitution, +1 dexterity | 20 | Warrior | Brawn | Adapted |
+| Praetor | +3 strength, +3 constitution, +2 dexterity | 50 | Warrior | Brawn | Adapted |
+| Roustabout | +3 strength, +2 dexterity, +2 charisma | 25 | anyone | Brawn | Adapted |
+| Sellsword | +2 strength, +2 dexterity, +1 constitution | 25 | Warrior | Brawn | Adapted |
+| Smith | +3 strength, +2 constitution | 30 | anyone | Brawn, Crowbar | Adapted |
+| Soldier | +2 strength, +1 constitution, +1 dexterity | 20 | Warrior | Brawn | Adapted |
+| Squire | +2 strength, +1 constitution, +1 dexterity | 30 | Warrior | Brawn | Adapted |
+| Swashbuckler | +3 dexterity, +2 charisma | 30 | Warrior | Brawn | Adapted |
+| Warden | +3 strength, +3 constitution, +2 dexterity, +1 intelligence, +1 wisdom, +2 charisma | 60 | anyone | Brawn | Adapted |
+| Warlord | +3 strength, +3 constitution, +2 dexterity, +2 intelligence, +2 wisdom, +3 charisma | 75 | Warrior | Brawn | Adapted |
+| Yeoman | +2 wisdom, +1 dexterity | 20 | anyone | Brawn | Adapted |
+
+### The water
+
+Brings climbing, carries coil of rope, and knows someone who hears news on the road.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Boatman | +2 strength, +1 constitution | 10 | anyone | — | Faithful |
+| Fisherman | +2 dexterity, +1 constitution, +1 wisdom | 10 | anyone | Climbing, Coil of rope | Adapted |
+| Navigator | +2 intelligence, +1 wisdom | 20 | anyone | Climbing, Coil of rope | Adapted |
+| Pirate | +2 dexterity, +1 charisma | 20 | anyone | Climbing, Coil of rope | Adapted |
+| Sailor | +2 dexterity, +1 constitution, +1 strength | 20 | anyone | Climbing, Coil of rope | Adapted |
+| Ship captain | +3 charisma, +2 wisdom | 60 | anyone | Climbing, Coil of rope | Adapted |
+| Shipwright | +2 intelligence, +1 wisdom, +1 constitution | 30 | anyone | Climbing, Coil of rope | Adapted |
+
+### The stage
+
+Brings lore, and knows someone who hears news at an inn.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Comedian | +4 charisma, +2 dexterity | 25 | Bard | Lore | Adapted |
+| Courtesan | +5 charisma, +3 intelligence | 150 | anyone | Lore | Adapted |
+| Dancer | +4 dexterity, +3 charisma, +2 intelligence | 80 | Bard | Lore | Adapted |
+| Entertainer | +2 charisma, +1 dexterity | 30 | Bard | Lore | Adapted |
+| Fabulist | +4 charisma, +3 intelligence | 60 | Bard | Lore | Adapted |
+| Harlequin | +4 charisma, +3 dexterity | 40 | Bard | Lore | Adapted |
+| Jacanape | +3 charisma, +1 dexterity | 30 | anyone | Lore | Adapted |
+| Juggler | +3 dexterity, +1 charisma | 20 | anyone | Lore | Adapted |
+| Minstrel | +3 charisma, +2 dexterity | 30 | Bard | Lore | Adapted |
+| Orator | +5 charisma, +3 intelligence | 90 | Bard | Lore | Adapted |
+| Performer | +3 charisma, +2 dexterity | 30 | Bard | Lore | Adapted |
+| Playwright | +5 charisma, +4 intelligence | 70 | Bard | Lore | Adapted |
+| Poet | +3 charisma, +1 intelligence | 25 | Bard | Lore | Adapted |
+| Singer | +2 charisma, +1 wisdom | 25 | Bard | Lore | Adapted |
+| Storyteller | +3 charisma, +2 intelligence | 30 | Bard | Lore | Adapted |
+| Town crier | +3 charisma, +1 wisdom | 15 | anyone | Lore | Adapted |
+| Tragedian | +4 charisma, +2 wisdom | 25 | Bard | Lore | Adapted |
+| Troubadour | +4 charisma, +2 dexterity | 40 | Bard | Lore | Adapted |
+| Virtuoso | +5 charisma, +3 dexterity | 60 | Bard | Lore | Adapted |
+
+### A trade
+
+Brings no skill, and knows someone who hears news at a market.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Appraiser | +3 intelligence, +2 wisdom | 30 | anyone | — | Adapted |
+| Artisan | +1 intelligence, +1 wisdom, +1 charisma | 20 | anyone | — | Adapted |
+| Artist | +3 charisma, +2 intelligence | 40 | anyone | — | Adapted |
+| Baker | +2 constitution, +1 wisdom | 15 | anyone | — | Adapted |
+| Brewer | +2 constitution, +1 intelligence | 20 | anyone | — | Adapted |
+| Chef | +2 constitution, +1 wisdom | 15 | anyone | — | Adapted |
+| Craftsman | +3 dexterity, +2 intelligence, +1 wisdom | 40 | anyone | — | Adapted |
+| Diamantaire | +5 intelligence, +4 wisdom, +5 charisma | 200 | anyone | — | Adapted |
+| Factotum | +2 intelligence, +1 dexterity, +1 wisdom | 10 | anyone | — | Adapted |
+| Farmer | +2 constitution, +1 strength, +1 wisdom | 10 | anyone | — | Adapted |
+| Fletcher | +3 dexterity, +1 intelligence | 25 | anyone | — | Adapted |
+| Glassblower | +3 dexterity, +1 intelligence | 30 | anyone | — | Adapted |
+| Hireling | +1 strength, +1 constitution, +1 dexterity | 0 | anyone | — | Adapted |
+| Innkeeper | +2 charisma, +1 wisdom | 25 | anyone | — | Adapted |
+| Jewelcrafter | +3 dexterity, +1 intelligence | 50 | anyone | — | Adapted |
+| Lamp lighter | +2 dexterity, +1 constitution | 10 | anyone | — | Adapted |
+| Mealman | +2 constitution, +1 wisdom | 10 | anyone | — | Adapted |
+| Merchant | +1 wisdom, +2 charisma, +1 intelligence | 100 | anyone | — | Adapted |
+| Mill worker | +2 strength, +1 constitution | 10 | anyone | — | Adapted |
+| Miller | +2 strength, +2 constitution | 15 | anyone | — | Adapted |
+| Orchardist | +2 wisdom, +1 constitution | 15 | anyone | — | Adapted |
+| Potter | +3 dexterity, +1 intelligence | 20 | anyone | — | Adapted |
+| Quartermaster | +2 intelligence, +2 wisdom | 20 | anyone | — | Adapted |
+| Servant | +1 strength, +1 dexterity, +1 constitution, +1 intelligence, +1 wisdom, +1 charisma | 5 | anyone | — | Adapted |
+| Street vendor | +2 charisma, +1 wisdom | 20 | anyone | — | Adapted |
+| Thatcher | +2 dexterity, +1 constitution | 15 | anyone | — | Adapted |
+| Waterbearer | +2 constitution, +1 strength | 10 | anyone | — | Adapted |
+| Weaver | +3 dexterity, +1 intelligence | 25 | anyone | — | Adapted |
+| Wheelwright | +3 strength, +2 dexterity | 30 | anyone | — | Adapted |
+| Winemaker | +2 constitution, +1 intelligence | 20 | anyone | — | Adapted |
+| Woodworker | +3 dexterity, +1 intelligence | 25 | anyone | — | Adapted |
+
+### Courts and offices
+
+Brings no skill, and knows someone who hears news at a market.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Aristocrat | +2 charisma, +1 intelligence, −1 strength | 400 | anyone | — | Adapted |
+| Beadle | +2 wisdom, +1 charisma | 10 | anyone | — | Adapted |
+| Courtier | +2 charisma, +1 intelligence | 50 | anyone | — | Adapted |
+| Demagogue | +5 charisma, +2 wisdom | 75 | anyone | — | Adapted |
+| Diplomat | +3 charisma, +1 intelligence | 75 | anyone | — | Adapted |
+| Judge | +4 wisdom, +3 intelligence, +2 charisma | 70 | anyone | — | Adapted |
+| Magistrate | +4 intelligence, +3 wisdom, +2 charisma | 80 | anyone | — | Adapted |
+| Noble | +1 strength, +1 intelligence, +2 charisma, −1 constitution | 50 | anyone | — | Adapted |
+| Politician | +4 charisma, +2 intelligence | 100 | anyone | — | Adapted |
+| Quaestor | +3 intelligence, +2 wisdom, +2 charisma | 50 | anyone | — | Adapted |
+| Revolutionary | +3 charisma, +1 wisdom | 25 | anyone | — | Adapted |
+| Royalty | +3 charisma, +2 intelligence, +1 wisdom, −2 strength | 1000 | anyone | — | Adapted |
+| Tax collector | +4 charisma, +2 intelligence | 70 | anyone | — | Adapted |
+| Tribune | +2 strength, +2 constitution, +2 intelligence, +2 wisdom, +2 charisma | 100 | anyone | — | Adapted |
+
+### The margins
+
+Brings stealth, and knows someone who hears news at an inn.
+
+| Background | Qualities | Gold | For | Brings | Status |
+|---|---|---|---|---|---|
+| Caitiff | +3 dexterity, +2 constitution | 10 | anyone | Stealth | Adapted |
+| Drone | +2 constitution, +1 wisdom | 0 | anyone | Stealth | Adapted |
+| Escaped slave | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
+| Exile | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
+| Experimental subject | +2 intelligence, +1 dexterity | 0 | anyone | Stealth | Adapted |
+| Mutant | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
+| Outcast | +2 dexterity, +2 constitution, +1 wisdom | 5 | anyone | Stealth | Adapted |
+| Plague survivor | +3 constitution, +1 wisdom | 5 | anyone | Stealth | Adapted |
+| Prisoner | +2 constitution, +1 wisdom | 0 | anyone | Stealth | Adapted |
+| Refugee | +2 wisdom, +1 charisma | 5 | anyone | Stealth | Adapted |
+| Thrall | +2 strength, +2 constitution | 0 | anyone | Stealth | Adapted |
+| Wretch | +2 constitution, +1 wisdom | 0 | anyone | Stealth | Adapted |
+
+## Skills
+
+Kyr does not roll for a skill. A company either has someone who brings it, and can do what needs it, or does not. The way that needs it says so. Searching is the exception: the company's best searcher takes 10 on Orsino's check (Wisdom modifier and search bonuses, against 15).
+
+### Woodcraft
+
+*Kyr* · `skill:woodcraft`
+
+- Brought by: Ranger, Wild country backgrounds
+
+Reading animals and wild country: tracks, warning signs, a safe approach.
+
+### Lockwork
+
+*Adapted* · `skill:lockwork`
+
+- Brought by: Thief, Locks and mechanisms backgrounds
+
+Opening locks without their keys.
+
+### Trapwork
+
+*Adapted* · `skill:trapwork`
+
+- Brought by: Thief
+
+Finding and disarming traps.
+
+### Mending
+
+*Kyr* · `skill:mending`
+
+- Brought by: Cleric, Monk, Healing backgrounds
+
+Setting bones and binding wounds.
+
+### Wayfinding
+
+*Kyr* · `skill:wayfinding`
+
+- Brought by: The roads backgrounds
+
+Knowing a region's roads before walking them.
+
+### Digging
+
+*Kyr* · `skill:digging`
+
+- Brought by: Stone and earth backgrounds
+
+Moving earth and stone quickly and safely.
+
+### Climbing
+
+*Kyr* · `skill:climbing`
+
+- Brought by: Monk, The water backgrounds, Climber's harness
+
+Using climbing routes with the right equipment.
+
+### Reading the dead
+
+*Kyr* · `skill:reading_the_dead`
+
+- Brought by: Lantern of names
+
+Seeing the names and markings that keepers of the dead wrote in consecrated light.
+
+### Stealth
+
+*Kyr* · `skill:stealth`
+
+- Brought by: Thief, The shadows backgrounds, The margins backgrounds
+
+Moving unseen and unheard: slipping past a watcher, a guardian or a beast without a fight.
+
+### Lore
+
+*Kyr* · `skill:lore`
+
+- Brought by: Mage, Bard, Learning backgrounds, The stage backgrounds
+
+Old histories, scripts and the workings of magic: reading what others only see.
+
+### Rites of the dead
+
+*Kyr* · `skill:rites`
+
+- Brought by: Cleric, The faith backgrounds
+
+The prayers and forms that give the dead rest; what keeps the unquiet in their graves.
+
+### Brawn
+
+*Kyr* · `skill:brawn`
+
+- Brought by: Warrior, Arms backgrounds
+
+Strength used with judgement: lifting a fallen weight clear, wrenching a lock off its hasp, holding a door.
+
+### Light
+
+*Kyr* · `skill:light`
+
+- Brought by: Jar of moonlight
+
+Carrying a light that shows the way in unlit places.
+
+### Sunlight
+
+*Kyr* · `skill:sunlight`
+
+- Brought by: Jar of noonlight, The First Light
+
+Carrying daylight itself: it shows the way where other light dies, and things of the dark cannot bear it.
+
+## Traits
+
+What a companion is born with or has become. An ancestry gives its lineage traits; some backgrounds and feats give character traits.
+
+### Lineage
+
+#### Fast Learner
+
+*Not playable · lineage trait* · `trait:adaptable`
+
+- Ancestry: Human
+
+> You acquire new skills rapidly.
+
+*Not playable — xpMultiplier: Kyr does not execute this Orsino effect yet.*
+
+#### Graceful
+
+*Faithful · lineage trait* · `trait:agile`
+
+- Ancestry: Elf
+
+1 harder to hit, +1 to magic saves.
+
+> You move with an otherworldly grace.
+
+#### Inquisitive Mind
+
+*Not playable · lineage trait* · `trait:curious`
+
+- Ancestry: gnome
+
+> +4 to examine checks, +10% XP gain.
+
+*Not playable — xpMultiplier: Kyr does not execute this Orsino effect yet.*
+
+*Left out — examineBonus: Kyr skill checks are deterministic.*
+
+#### Faerie Charm
+
+*Faithful · lineage trait* · `trait:enchanting`
+
+- Ancestry: fae
+
+Faerie Charm: what they cast lasts 1 turn longer.
+
+> Status effects last 1 extra turn.
+
+#### Berserker Rage
+
+*Faithful · lineage trait* · `trait:fierce`
+
+- Ancestry: orc
+
++1 damage.
+
+> +1 bonus damage on all attacks.
+
+#### Tinker
+
+*Not playable · lineage trait* · `trait:inventive`
+
+- Ancestry: gnome
+
+> You make the most out of your resources.
+
+*Not playable — consumableMultiplier: Kyr does not execute this Orsino effect yet.*
+
+#### Not How I Remember It
+
+*Not playable · lineage trait* · `trait:lucky`
+
+- Ancestry: halfling
+
+> You reroll a natural 1 on any roll.
+
+*Not playable — rerollNaturalOnes: Kyr does not execute this Orsino effect yet.*
+
+#### Ethereal Form
+
+*Faithful · lineage trait* · `trait:mysterious`
+
+- Ancestry: fae
+
+1 harder to hit, immune to charm.
+
+> You gain +1 AC and immunity to charm effects.
+
+#### Small and Quick
+
+*Faithful · lineage trait* · `trait:nimble`
+
+- Ancestry: halfling
+
+2 harder to hit, +2 evasion.
+
+> Improve AC by 2 and gain +2 bonus to evasion.
+
+#### Keen Senses
+
+*Adapted · lineage trait* · `trait:perceptive`
+
+- Ancestry: Elf
+
+Keen Senses: +4 to searching.
+
+> +4 to search checks.
+
+#### Dread Fortitude
+
+*Faithful · lineage trait* · `trait:resilient`
+
+- Ancestry: orc
+
++10 to death saves, resists 10% of necrotic.
+
+> Gain +10 to save vs death and 10% resistance to necrotic damage.
+
+#### Stout Constitution
+
+*Faithful · lineage trait* · `trait:sturdy`
+
+- Ancestry: Dwarf
+
++1 to poison saves, +1 to disease saves, +1 to death saves, +1 to magic saves, +1 to insanity saves, +1 to charm saves, +1 to fear saves, +1 to stun saves, +1 to will saves, resists 50% of poison.
+
+> Gain +1 to all saving throws.
+
+#### Enduring
+
+*Faithful · lineage trait* · `trait:tough`
+
+- Ancestry: Dwarf
+
+Enduring: +2 hit points each level.
+
+> +2 HP per level.
+
+#### Jack of All Trades
+
+*Adapted · lineage trait* · `trait:versatile`
+
+- Ancestry: Human
+
+Jack of All Trades: +1 to searching.
+
+> +1 to all skill checks outside combat.
+
+*Left out — examineBonus: Kyr skill checks are deterministic.*
+
+*Left out — pickLockBonus: Kyr skill checks are deterministic.*
+
+*Left out — disarmTrapBonus: Kyr skill checks are deterministic.*
+
+*Left out — gatherInformationBonus: Kyr skill checks are deterministic.*
+
+### Character
+
+#### Bravery
+
+*Faithful · character trait* · `trait:brave`
+
++2 evasion, +3 to fear saves, +2 to charm saves.
+
+> This creature possesses unwavering courage, granting it enhanced resilience against fear and mind-affecting effects.
+
+#### Compassionate Heart
+
+*Faithful · character trait* · `trait:compassion`
+
++1d4 healing, +2 to fear saves, charisma +2.
+
+> This creature possesses a compassionate heart, granting it enhanced healing abilities and empathy towards others.
+
+#### Disciplined Mind
+
+*Faithful · character trait* · `trait:discipline`
+
++1 to every roll, +2 to magic saves, +2 to insanity saves.
+
+> This creature has a focused and disciplined mind, granting it increased concentration and resistance to distractions.
+
+#### Disciplined
+
+*Faithful · character trait* · `trait:disciplined`
+
++1 to hit, +1 damage, +3 evasion, +2 to magic saves.
+
+> This creature has a disciplined mind and body, granting it enhanced focus and resilience.
+
+#### Favored
+
+*Faithful · character trait* · `trait:favored`
+
++3 evasion, +2 to every roll, +2 to death saves, resists 10% of all.
+
+> This creature is favored by fate, granting it enhanced luck and resilience.
+
+#### Formidable
+
+*Faithful · character trait* · `trait:formidable`
+
++3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
+
+> This creature is particularly tough, granting it additional resilience in combat.
+
+#### Strong Willed
+
+*Faithful · character trait* · `trait:strong_willed`
+
++1 to hit, +3 to magic saves, +2 to insanity saves.
+
+> This creature has a formidable mind, granting it increased resistance to mental manipulation and magical effects.
+
+#### Toughness
+
+*Faithful · character trait* · `trait:toughness`
+
+1 harder to hit, +2 to death saves, resists 10% of all.
+
+> This creature has an exceptional constitution, granting it increased durability and resilience.
+
+#### Wisdom
+
+*Adapted · character trait* · `trait:wise`
+
++2 to insanity saves, wisdom +2.
+
+Wisdom: +2 to insanity saves, wisdom +2, +3 to searching.
+
+> This creature possesses great wisdom, granting it enhanced perception and insight.
+
+*Left out — examineBonus: Kyr skill checks are deterministic.*
+
+## Company formations
+
+A company whose three members are of the named callings, or the named ancestries, is recognised as a formation when it sets out. Every member holds it for good. Each named calling or ancestry is needed as many times as it is named.
+
+### Academy
+
+*Faithful · company formation* · `trait:academician`
+
+- Formed by: Mage, Mage, Mage (callings)
+
+Arcane Insight: each spell cast against enemies also does 1d3 true damage to all of them.
+
+### Human Accord
+
+*Adapted · company formation* · `trait:accordant`
+
+- Formed by: Human, Human, Human (ancestries)
+
+Cosmopolitan: +2 to searching, in a town.
+
+*Left out — gatherInformationBonus: Kyr skill checks are deterministic.*
+
+*Left out — examineBonus: Kyr skill checks are deterministic.*
+
+### Venturing Guild
+
+*Adapted · company formation* · `trait:adventurer`
+
+- Formed by: Warrior, Mage, Cleric (callings)
+
+Lisan Al-Gaib: +2 to hit, +1 to searching, in desert.
+
+### Dwarf Clan
+
+*Adapted · company formation* · `trait:deepfolk`
+
+- Formed by: Dwarf, Dwarf, Dwarf (ancestries)
+
+Stonecunning: +1 to searching, in the dark.
+
+### Elven Tribe
+
+*Adapted · company formation* · `trait:elvenkin`
+
+- Formed by: Elf, Elf, Elf (ancestries)
+
+Wildwood Grace: +1 to searching, in forest.
+
+### Free Fellowship
+
+*Adapted · company formation* · `trait:fellowship`
+
+- Formed by: Human, Elf, Dwarf (ancestries)
+
+Geas of Inquiry: +5 to searching.
+
+*Left out — examineBonus: Kyr skill checks are deterministic.*
+
+*Left out — gatherInformationBonus: Kyr skill checks are deterministic.*
+
+### Fey Court
+
+*Unreachable · company formation* · `trait:feywild`
+
+- Formed by: fae, fae, fae (ancestries)
+
+Fortunate Fairy: +1 to every roll.
+
+*Not every one of its ancestries can be chosen by players.*
+
+### Foundry
+
+*Unreachable · company formation* · `trait:foundrywork`
+
+- Formed by: gnome, gnome, gnome (ancestries)
+
+Jury Rigging: 1 more common supplies from a good search.
+
+*Not every one of its ancestries can be chosen by players.*
+
+### Thieves' Guild
+
+*Faithful · company formation* · `trait:guild`
+
+- Formed by: Thief, Thief, Thief (callings)
+
+Coordinated Strike: backstab does half again as much damage.
+
+Master Thieves: half again as much coin from everything.
+
+### War Horde
+
+*Unreachable · company formation* · `trait:hordeling`
+
+- Formed by: orc, orc, orc (ancestries)
+
+Blood Frenzy: blood frenzy after each kill.
+
+*Not every one of its ancestries can be chosen by players.*
+
+### Oligarchy
+
+*Adapted · company formation* · `trait:oligarch`
+
+- Formed by: Warrior, Cleric, Thief (callings)
+
+Corruption: +10 to searching, in a town.
+
+Bountiful Spoils: 2d6 gold pieces for each kill (a coin for every ten), 3d8 experience for each kill.
+
+*Left out — examineBonus: Kyr skill checks are deterministic.*
+
+### Halfling Band
+
+*Unreachable · company formation* · `trait:perinath`
+
+- Formed by: halfling, halfling, halfling (ancestries)
+
+Moral Economy: +1d3 healing.
+
+*Not every one of its ancestries can be chosen by players.*
+
+### Clerical Synod
+
+*Faithful · company formation* · `trait:synodist`
+
+- Formed by: Cleric, Cleric, Cleric (callings)
+
+Herbal Remedies: +1d4 healing.
+
+### Troupe
+
+*Faithful · company formation* · `trait:tragedian`
+
+- Formed by: Bard, Bard, Bard (callings)
+
+Resonant Harmony: what they cast lasts 1 turn longer.
+
+### War Band
+
+*Faithful · company formation* · `trait:warbander`
+
+- Formed by: Warrior, Warrior, Warrior (callings)
+
+Battle Hardened: +1 hit point each level.
+
+Martial Focus: +1 to hit.
+
+### Circle
+
+*Not playable · company formation* · `trait:wildfolk`
+
+- Formed by: Ranger, Ranger, Ranger (callings)
+
+Natural Sympathy: no effect Kyr plays.
+
+*Not playable — summonAnimalBonus: Kyr does not execute this Orsino effect yet.*
+
+## Equipment
+
+Each thing is carried by one companion. A weapon or armour works only for a calling proficient with its kind and weight.
+
+### Weapons
+
+| Weapon | Damage | Type | Kind | Weight | Notes | Status |
+|---|---|---|---|---|---|---|
+| battleaxe | 1d8 | slashing | axe | heavy |  | Faithful |
+| bec de corbin | 1d8+1 | piercing | polearm | heavy |  | Faithful |
+| broadsword | 2d4 | slashing | blade | medium |  | Faithful |
+| claymore | 2d4 | slashing | blade | heavy |  | Faithful |
+| club | 1d4 | bludgeoning | club | light |  | Faithful |
+| composite bow | 1d6 | piercing | bow | medium | missile | Faithful |
+| cutlass | 1d6 | slashing | blade | light |  | Faithful |
+| dagger | 1d4 | piercing | blade | light |  | Faithful |
+| dart | 1d3 | piercing | dart | light | missile | Faithful |
+| falchion | 2d4 | slashing | blade | medium |  | Faithful |
+| glaive | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
+| greatclub | 1d8+2 | bludgeoning | club | heavy |  | Faithful |
+| greatsword | 1d10 | slashing | blade | heavy |  | Faithful |
+| halberd | 1d10 | slashing | polearm | heavy |  | Faithful |
+| handaxe | 1d6 | slashing | axe | light |  | Faithful |
+| heavy chain | 1d8+2 | slashing | whip | heavy |  | Faithful |
+| heavy crossbow | 1d6+1 | piercing | crossbow | heavy | missile | Faithful |
+| heavy flail | 1d6+1 | bludgeoning | flail | heavy |  | Faithful |
+| heavy mace | 1d6+1 | bludgeoning | mace | heavy |  | Faithful |
+| heavy pick | 1d6+1 | piercing | pick | heavy |  | Faithful |
+| heavy warhammer | 1d6+1 | bludgeoning | warhammer | heavy |  | Faithful |
+| javelin | 1d6 | piercing | polearm | light | sets against a charge | Faithful |
+| katana | 1d8+1 | slashing | blade | medium |  | Faithful |
+| kusarigama | 1d6+2 | slashing | polearm | medium |  | Faithful |
+| lance | 2d4+1 | piercing | polearm | heavy | sets against a charge | Faithful |
+| light chain | 1d6+2 | slashing | whip | medium |  | Faithful |
+| light crossbow | 1d4+1 | piercing | crossbow | light | missile | Faithful |
+| light flail | 1d4+1 | bludgeoning | flail | light |  | Faithful |
+| light mace | 1d4+1 | bludgeoning | mace | light |  | Faithful |
+| light pick | 1d4+1 | piercing | pick | light |  | Faithful |
+| light warhammer | 1d4+1 | bludgeoning | warhammer | light |  | Faithful |
+| longbow | 1d6 | piercing | bow | medium | missile | Faithful |
+| longsword | 1d8 | slashing | blade | medium |  | Faithful |
+| Longsword of Flames | 1d8 | piercing |  |  |  | Faithful |
+| morningstar | 2d4 | piercing | morningstar | medium |  | Faithful |
+| naginata | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
+| nunchaku | 1d6+2 | bludgeoning | club | light |  | Faithful |
+| pike | 1d10+1 | piercing | polearm | heavy | sets against a charge | Faithful |
+| pole arm | 1d6+1 | piercing | polearm | medium | sets against a charge | Faithful |
+| quarterstaff | 1d6+2 | bludgeoning | staff | medium |  | Faithful |
+| rapier | 1d6+2 | piercing | blade | light |  | Faithful |
+| scimitar | 1d8 | slashing | blade | medium |  | Faithful |
+| scythe | 2d4+1 | slashing | polearm | medium | sets against a charge | Faithful |
+| shortbow | 1d4 | piercing | bow | light | missile | Faithful |
+| shortsword | 1d6 | slashing | blade | light |  | Faithful |
+| shuriken | 1d4+2 | piercing | shuriken | light | missile | Faithful |
+| sling | 1d4 | bludgeoning | sling | light | missile | Faithful |
+| spear | 1d6 | piercing | spear | light | sets against a charge | Faithful |
+| staff | 1d6 | bludgeoning | staff | medium |  | Faithful |
+| trident | 1d6+1 | piercing | trident | medium | sets against a charge | Faithful |
+| voulge | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
+| wakizashi | 1d6+1 | slashing | blade | light |  | Faithful |
+| Warden's blade | 1d6 | slashing | blade | light |  | Kyr |
+| whip | 1d4+2 | slashing | whip | light |  | Faithful |
+
+### Armour
+
+| Armour | AC | Weight | Type | Status |
+|---|---|---|---|---|
+| Banded Mail | 6 | heavy | metal | Faithful |
+| Chain Mail | 5 | heavy | metal | Faithful |
+| Chitin Armor | 2 | medium | inherent | Faithful |
+| Clothing | 0 | light | cloth | Faithful |
+| Feather Armor | -1 | light | inherent | Faithful |
+| Fur Armor | 0 | light | inherent | Faithful |
+| Hide Armor | 1 | light | leather | Faithful |
+| Leather Armor | 2 | light | leather | Faithful |
+| Plate Mail | 7 | heavy | metal | Faithful |
+| Ring Mail | 3 | medium | metal | Faithful |
+| Scale Mail | 4 | medium | metal | Faithful |
+| Shell Armor | 4 | heavy | inherent | Faithful |
+| Spine Armor | 1 | medium | inherent | Faithful |
+| Splint Mail | 6 | heavy | metal | Faithful |
+| Studded Leather Armor | 3 | medium | leather | Faithful |
+
+### Gear, tools, consumables and treasure
+
+#### Coil of rope
+
+*Adapted · gear* · `item:rope`
+
+- Worth: 1
+
+> A length of sturdy rope for climbing, tying, or securing items.
+
+*Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Crowbar
+
+*Adapted · tool* · `item:crowbar`
+
+- Worth: 2
+
+> A sturdy crowbar for prying open doors or crates.
+
+*Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Ten-foot pole
+
+*Kyr · gear* · `item:pole`
+
+- Worth: 1
+
+> A long ash pole, iron-shod at one end. For testing floors, prodding what should not be touched, and reaching what should not be reached for.
+
+#### Sack of sand
+
+*Kyr · gear* · `item:sandbag`
+
+> A tied sack of dry sand, about as heavy as a small child. Useless, until it is not.
+
+#### Thieves' tools
+
+*Adapted · tool* · `item:thieves_tools`
+
+- Worth: 25
+
+> A set of tools for picking locks and disarming traps.
+
+*Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Shovel
+
+*Adapted · tool* · `item:shovel`
+
+- Worth: 3
+
+> A sturdy shovel for digging or moving earth.
+
+*Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Bell
+
+*Adapted · gear* · `item:bell`
+
+- Worth: 1
+
+> A small bell that can be used to signal others or scare off wildlife.
+
+*Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Map of the district
+
+*Adapted · gear* · `item:map`
+
+- Worth: 5
+
+> A hand-drawn map of the local roads and landmarks.
+
+*Adapted: Starting gear of the explorer; absent from Orsino's gear catalog.*
+
+#### Bandages
+
+*Adapted · consumable* · `item:bandages`
+
+- Worth: 1
+
+Used: Heal one ally for 1d4 + 1 (2–5).
+
+> Clean linen for binding wounds. One use.
+
+*Adapted: Starting gear of the medic; absent from Orsino's gear catalog.*
+
+#### Healing herbs
+
+*Adapted · consumable* · `item:herbs`
+
+- Worth: 2
+
+Used: Heal one ally for 1d6 (1–6).
+
+> A twist of dried herbs for a poultice. One use.
+
+*Adapted: Starting gear of the medic; absent from Orsino's gear catalog.*
+
+#### Antidote
+
+*Adapted · consumable* · `item:antidote`
+
+Used: End poisoned on one ally.
+
+> A single dose removes the poisoned condition from a living companion.
+
+*Adapted: Orsino removes the status named Poison; Kyr removes poisoned.*
+
+#### Minor healing potion
+
+*Adapted · consumable* · `item:healingdraught`
+
+Used: Heal one ally for 2d4 + 2 (4–10).
+
+> A single dose restores 2d4 + 2 health to a living companion.
+
+*Adapted: Exact 2d4 + 2 healing.*
+
+#### Fireproof salve
+
+*Adapted · consumable* · `item:fireproof_salve`
+
+Used: One ally gains fireproof for 10 turns.
+
+> A clay pot of ash-and-lanolin salve. Smeared on skin and clothing, it makes fire do half its harm for a while.
+
+*Adapted: A Kyr preparation of Orsino's fireproof; lasts ten of the wearer's combat turns.*
+
+#### Prepared yarrow poultice
+
+*Kyr · consumable* · `item:yarrow_poultice`
+
+Used: End bleeding on one ally; heal one ally for 1d3 (1–3).
+
+> Crushed yarrow bound in a cloth. It stops bleeding and eases a small wound.
+
+#### Foundry ward focus
+
+*Adapted · equipment* · `item:warding_focus`
+
+- Worn: focus
+
+Lets its bearer use Fire ward.
+
+> A copper warding focus. A companion who knows how can raise a ward against fire with it.
+
+*Adapted: Kyr implement that grants the fire ward technique.*
+
+#### Ashwood ward charm
+
+*Kyr · equipment* · `item:ashwood_charm`
+
+- Worn: charm
+
+takes 1 less damage per hit.
+
++3 to every save.
+
+> A mortuary charm of ashwood and bronze wire, left on an offering tray. Whoever wears it turns aside harm and resists what would overcome them.
+
+#### Lantern of names
+
+*Kyr · equipment* · `item:lantern_of_names`
+
+- Worn: light
+
+Brings Reading the dead to whoever carries it equipped.
+
+> A hooded lantern whose consecrated flame shows the names and markings the keepers wrote in light.
+
+#### Climber's harness
+
+*Kyr · tool* · `item:climbing_harness`
+
+- Worn: tool
+
+Brings Climbing to whoever carries it equipped.
+
+> A rope, pitons and a fitted harness.
+
+#### Bronze bearing
+
+*Kyr · treasure* · `item:bronze_bearing`
+
+- Worth: 12
+
+> A heavy bronze bearing from old foundry machinery: valuable to a salvager, sacred to nobody.
+
+#### Burial register
+
+*Kyr · gear* · `item:burial_register`
+
+- Worth: 2
+
+> A waxed register of the named dead, in a keeper's careful hand.
+
+#### Grave rings
+
+*Kyr · treasure* · `item:grave_rings`
+
+- Worth: 15
+
+> Rings, brooches and coffin buckles taken from the dead, threaded on a grave-cord.
+
+#### Chapel plate
+
+*Kyr · treasure* · `item:chapel_plate`
+
+- Worth: 24
+
+> A garrison chapel's silver: a censer, a paten and a cup, black with tarnish.
+
+#### Jade idol
+
+*Kyr · treasure* · `item:jade_idol`
+
+- Worth: 30
+
+> A squat idol of green jade with a hollow belly and an expression of polite disappointment.
+
+#### Iron cell key
+
+*Kyr · gear* · `item:cell_key`
+
+> A heavy iron key on a loop of grave-cord.
+
+#### Torch
+
+*Adapted · gear* · `item:torch`
+
+- Worth: 1
+
+Used: You gain torchlit for 1 hour.
+
+> A pitch-soaked torch. Lit, it burns for about an hour and lights the dark; it also sets dry things burning.
+
+*Adapted: Orsino's torch is a light source with a duration. Kyr gives it meaning through world rules: changes that need fire.*
+
+#### Jar of noonlight
+
+*Kyr · equipment* · `item:noonlight`
+
+- Worth: 40
+- Worn: light
+
+Brings Sunlight to whoever carries it equipped.
+
+> A stoppered jar of thick old glass, full of the light of a summer noon. It does not flicker, and things that hate the day hate it.
+
+#### Jar of moonlight
+
+*Kyr · equipment* · `item:moonlight`
+
+- Worth: 20
+- Worn: light
+
+Brings Light to whoever carries it equipped.
+
+> A jar of cold, steady silver light. It shows shapes, not colours, and never goes out.
+
+#### The First Light
+
+*Kyr · equipment* · `item:first_light`
+
+- Worth: 120
+- Worn: light
+
+Brings Sunlight to whoever carries it equipped.
+
+> The Lamplighters' mother-jar, as big as a child, warm to the touch: the first noon they ever bottled, kept to light the beacon.
+
+#### Toll silver
+
+*Kyr · treasure* · `item:toll_silver`
+
+- Worth: 40
+
+> A sack of mixed coin and hack-silver: a season of the Toll.
+
+#### Gilded crown
+
+*Kyr · treasure* · `item:gilt_crown`
+
+- Worth: 2
+
+> A heavy crown worked with lamps and gilded thick. It is heavier than gold should be.
+
+#### Gilded sceptre
+
+*Kyr · treasure* · `item:gilt_sceptre`
+
+- Worth: 1
+
+> A sceptre topped with a gilded lamp, heavy in the hand.
+
+#### Sun-disc
+
+*Kyr · treasure* · `item:sun_disc`
+
+- Worth: 50
+
+> A disc of beaten gold as wide as a shield, worked with rays, that catches any light and throws it back.
+
+## Combat
+
+A fight begins when someone sets on someone else: the company, or anything it meets. Each round every creature still standing rolls initiative (d20, plus its Dexterity modifier and any initiative bonus), and acts in that order. Conditions without a clock tick down as each round begins.
+
+To hit, roll d20 at or above THAC0, less the defender's armour class, less your to-hit (Strength modifier, or Dexterity with a missile weapon, plus to-hit bonuses). A natural 1 always misses; a 20, less any critical range bonus, is a critical. A defender with evasion then rolls d20 against 20 less its evasion to turn the hit aside. Armour class descends: 10, less the armour's value, less Dexterity modifier, plus armour class effects.
+
+Each creature has one action a turn. Haste adds one; slow takes one away, but never the last. A confused creature falls on something it could do, at random. A charmed creature takes its own side for the enemy; a dominated one answers to the other side.
+
+Some abilities must be prepared: Charge needs a turn of preparation, after which it is the only thing the warrior may do; Backstab needs the thief hidden. Some creatures wind up a great blow a turn ahead, and the company sees it coming; a stun loses the blow.
+
+Brought to nothing, a creature saves against death (DC 25). It stays at 1 hit point if it succeeds, and falls if it does not. A companion who falls may not get up. Fleeing is the whole company's: an even chance, and the fight ends.
+
+| Level | 1 | 3 | 5 | 7 | 9 | 11 | 13 | 15 | 17 | 19 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| THAC0 | 20 | 19 | 18 | 17 | 16 | 15 | 14 | 13 | 12 | 11 |
+| Highest spell level | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+
+## Magic
+
+Arcane spells are a mage's or a bard's; divine spells a cleric's. A caster knows the spells of their specialization (a school, or a domain) and prepares some of them in slots by spell level. Casting a spell of first level or more spends a slot; cantrips cost nothing. A night's rest under a roof readies every slot. Preparing a different spell takes an hour, and is ready at once if its slot has not been spent.
+
+Kyr's slot tables run to character level 10, so no caster yet reaches beyond level 5 spells. Higher spells are listed, and marked unreachable.
+
+### Mage: spell slots
+
+| Level | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|
+| 1 | 1 |
+| 2 | 2 |
+| 3 | 2 | 1 |
+| 4 | 2 | 2 |
+| 5 | 2 | 2 | 1 |
+| 6 | 2 | 2 | 2 |
+| 7 | 3 | 2 | 2 | 1 |
+| 8 | 3 | 3 | 2 | 2 |
+| 9 | 3 | 3 | 3 | 2 | 1 |
+| 10 | 3 | 3 | 3 | 3 | 2 |
+
+### Cleric: spell slots
+
+| Level | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|
+| 1 | 1 |
+| 2 | 2 |
+| 3 | 2 | 1 |
+| 4 | 2 | 2 |
+| 5 | 2 | 2 | 1 |
+| 6 | 2 | 2 | 2 |
+| 7 | 3 | 2 | 2 | 1 |
+| 8 | 3 | 3 | 2 | 2 |
+| 9 | 3 | 3 | 3 | 2 | 1 |
+| 10 | 3 | 3 | 3 | 3 | 2 |
+
+### Bard: spell slots
+
+| Level | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|
+| 1 | 1 |
+| 2 | 2 |
+| 3 | 2 | 1 |
+| 4 | 3 | 1 |
+| 5 | 3 | 2 |
+| 6 | 3 | 2 | 1 |
+| 7 | 3 | 3 | 1 |
+| 8 | 3 | 3 | 2 |
+| 9 | 3 | 3 | 2 | 1 |
+| 10 | 3 | 3 | 3 | 1 |
+
+### Arcane spells
+
+#### Cantrips
+
+##### Animate Animal
+
+*Not playable · cantrip arcane spell, necromancy* · `ability:animate_animal`
+
+> Bring a dead animal back to life to serve you.
+
+*Not playable — effect:resurrect: Effect resurrect is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Cold Snap
+
+*Faithful · cantrip arcane spell, conjuration* · `ability:coldsnap`
+
+1d4 (1–4) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it). (a cantrip, at will) Level 0 arcane spell. Frozen: dexterity −5, cannot act.
+
+> Release a burst of cold energy from your hands.
+
+##### Dancing Lights
+
+*Faithful · cantrip arcane spell, illusion* · `ability:dancing_lights`
+
+Every enemy gains distracted for 3 turns (a will save against 15 + level + bonusSpellDC avoids it); every enemy gains blinded for 3 turns (a magic save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 arcane spell. Distracted: −1 to hit, −1 damage, −5 evasion. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Create small lights that hover and move.
+
+##### Frostbite
+
+*Faithful · cantrip arcane spell, evocation* · `ability:frostbite`
+
+1d4 (1–4) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it). (a cantrip, at will) Level 0 arcane spell. Frozen: dexterity −5, cannot act.
+
+> A chilling blast of cold air.
+
+##### Ghost Touch
+
+*Faithful · cantrip arcane spell, transmutation* · `ability:ghost_touch`
+
+You gain ghost touch for 3 turns. (a cantrip, at will) Level 0 arcane spell.
+
+> Induce necrosis with your touch.
+
+##### Minor Distraction
+
+*Faithful · cantrip arcane spell, enchantment* · `ability:minor_distract`
+
+One enemy gains distracted for 1 turn (a will save against 12 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 arcane spell. Distracted: −1 to hit, −1 damage, −5 evasion.
+
+> Distract an enemy, giving them a -2 penalty to attack rolls for 1 round.
+
+##### Minor Foretelling
+
+*Not playable · cantrip arcane spell, divination* · `ability:minor_foretelling`
+
+> Gain insight into future events, granting advantage on upcoming rolls.
+
+*Not playable — status:focus: Applies focus, which Kyr cannot execute.*
+
+##### Minor Image
+
+*Not playable · cantrip arcane spell, illusion* · `ability:minor_image`
+
+> Create an illusory creature to distract or deceive.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Minor Ward
+
+*Faithful · cantrip arcane spell, abjuration* · `ability:minor_ward`
+
+You gain minor warded for 10 turns. (a cantrip, at will) Level 0 arcane spell. Minor Warded: +1 to magic saves, resists 25% of force.
+
+> Create a small magical barrier to protect against harm.
+
+##### Scald
+
+*Faithful · cantrip arcane spell, evocation* · `ability:scald`
+
+1d4 (1–4) fire damage to one enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it); one enemy gains scalded for 3 turns (a fortitude save against 14 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn. Scalded: −1 to every roll.
+
+> Blast an enemy with superheated steam.
+
+##### Shock Pulse
+
+*Not playable · cantrip arcane spell, evocation* · `ability:shock_pulse`
+
+> Release a pulse of electrical energy that arcs to additional targets.
+
+*Not playable — effect:damage: Cascading damage is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Soot Cloud
+
+*Faithful · cantrip arcane spell, conjuration* · `ability:soot_cloud`
+
+End  on every enemy. (a cantrip, at will) Level 0 arcane spell.
+
+> Create a cloud of soot that reveals hidden or invisible creatures.
+
+#### Level 1
+
+##### Acid Arrow
+
+*Faithful · level 1 arcane spell, conjuration* · `ability:acid_arrow`
+
+1d4 (1–4) acid damage to one enemy (may cause acid burn: a fortitude save against 15 avoids it). (a first-level slot) Level 1 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
+
+> An arrow of acid leaps from your hand.
+
+##### Arcane Ward
+
+*Faithful · level 1 arcane spell, abjuration* · `ability:ward`
+
+One ally gains warded for 20 turns. (a first-level slot) Level 1 arcane spell. Warded: +1 to magic saves, resists 15% of fire, resists 15% of cold, resists 15% of lightning, resists 50% of force.
+
+> Conjure a magical absorption ward.
+
+##### Blur
+
+*Faithful · level 1 arcane spell, illusion* · `ability:blur`
+
+You gain blurred for 3 turns. (a first-level slot) Level 1 arcane spell. Blurred: 1 harder to hit, +10 evasion, +2 to magic saves.
+
+> You are out of focus, making it harder for enemies to hit you.
+
+##### Charm Person
+
+*Faithful · level 1 arcane spell, enchantment* · `ability:charm`
+
+One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+
+> Charm an enemy, making them friendly towards you.
+
+##### Drench
+
+*Faithful · level 1 arcane spell, transmutation* · `ability:drench`
+
+One enemy gains drenched for 3 turns (a reflex save against 10 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold.
+
+> Drench an enemy, reducing their attack rolls by 2 for 3 rounds.
+
+##### Firebolt
+
+*Faithful · level 1 arcane spell, evocation* · `ability:firebolt`
+
+1d8 (1–8) fire damage to one enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a first-level slot) Level 1 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+> A small bolt of fire shoots from your fingertips.
+
+##### Hex
+
+*Faithful · level 1 arcane spell, necromancy* · `ability:hex`
+
+One enemy gains hexed for 3 turns (a will save against 13 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell. Hexed: −2 to every roll, −2 to every save.
+
+> Curse an enemy, causing misfortune.
+
+##### Light
+
+*Kyr · level 1 arcane spell, evocation* · `ability:conjure_light`
+
+One ally gains lit for 2 hours. (a first-level slot) Level 1 arcane spell.
+
+> A small steady light that hangs over a companion's shoulder for two hours.
+
+##### Mage Armor
+
+*Faithful · level 1 arcane spell, abjuration* · `ability:armor`
+
+You gain mage-armored for 20 turns. (a first-level slot) Level 1 arcane spell. Mage-Armored: 4 harder to hit.
+
+> Arcane force wraps around you, providing magical protection.
+
+##### Magic Missile
+
+*Not playable · level 1 arcane spell, evocation* · `ability:magic_missile`
+
+> Fire three magical bolts that automatically hit and deal 1d3 damage each (more bolts and damage at higher levels).
+
+*Not playable — target: Target randomEnemies, 2 + round(#level/2) is not a Kyr target.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Second Sight
+
+*Not playable · level 1 arcane spell, divination* · `ability:second_sight`
+
+> For a moment, perceive the true nature of things, gaining enhanced evasion and accuracy.
+
+*Not playable — status:second_sight: Applies second_sight, which Kyr cannot execute.*
+
+##### Shrieking Missile
+
+*Faithful · level 1 arcane spell, necromancy* · `ability:shrieking_missile`
+
+1d3 + level necrotic damage to one enemy (may cause diseased: a disease save against 15 avoids it); one enemy gains frightened for 3 turns (a will save against 14 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+> Fire a missile that emits a horrifying shriek.
+
+##### Siphon Life
+
+*Faithful · level 1 arcane spell, necromancy* · `ability:siphon_life`
+
+Drain 1d6 (1–6) health from one enemy (halved if resisted). (a first-level slot) Level 1 arcane spell.
+
+> Drain life energy from an enemy.
+
+##### Spark
+
+*Faithful · level 1 arcane spell, evocation* · `ability:spark`
+
+2d6 (2–12) lightning damage to one enemy (halved if resisted; may cause paralyzed: a paralyze save against 15 avoids it). (a first-level slot) Level 1 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+> A small jolt of electricity.
+
+##### Summon Vermin
+
+*Not playable · level 1 arcane spell, conjuration* · `ability:summon_vermin`
+
+> Summon a swarm of vermin to harass your enemies.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Thunderclap
+
+*Faithful · level 1 arcane spell, evocation* · `ability:thunderclap`
+
+1d3 (1–3) sonic damage to every enemy (halved if resisted; may cause deafened: a fortitude save against 15 avoids it; may cause migraine: a magic save against 15 avoids it); every enemy gains deafened for 5 turns (a fortitude save against 13 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic.
+
+> Create a burst of thunderous sound that damages and deafens enemies nearby.
+
+#### Level 2
+
+##### Acid Spray
+
+*Faithful · level 2 arcane spell, conjuration* · `ability:acid_spray`
+
+3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
+
+> Spray a cone of acid at your foes.
+
+##### Augury
+
+*Faithful · level 2 arcane spell, divination* · `ability:augury`
+
+You gain augured for 3 turns; you gain sage's insight for 3 turns. (a second-level slot) Level 2 arcane spell. Augured: +5 initiative, +2 to every roll, +2 to every save. Sage's Insight: +2 to every roll, +3 to every save, intelligence +4.
+
+> Receive a cryptic omen that grants you augmented perception and insight.
+
+##### Burning Hands
+
+*Faithful · level 2 arcane spell, evocation* · `ability:burning_hands`
+
+2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+> Unleash a cone of fire, dealing 1d6 damage to all enemies in the area.
+
+##### Chill Blood
+
+*Faithful · level 2 arcane spell, necromancy* · `ability:chill_blood`
+
+One enemy gains slow for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it); 3d3 + floor((level / 2)) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5. Frozen: dexterity −5, cannot act.
+
+> Touch an enemy to slow their movements for 3 rounds.
+
+##### Dispel Magic
+
+*Not playable · level 2 arcane spell, abjuration* · `ability:dispel_magic`
+
+> Remove all effects.
+
+*Not playable — target: Target self, ally, enemy is not a Kyr target.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Knock
+
+*Kyr · level 2 arcane spell, transmutation* · `ability:knock`
+
+One ally gains unbarring for 1 hour. (a second-level slot) Level 2 arcane spell.
+
+> For an hour, locks and bars open at the caster's touch.
+
+##### Magebane
+
+*Not playable · level 2 arcane spell, abjuration* · `ability:magebane`
+
+> Create an aura that harms enemy spellcasters when they cast spells.
+
+*Not playable — status:magebane: Applies magebane, which Kyr cannot execute.*
+
+##### Mind Blank
+
+*Faithful · level 2 arcane spell, divination* · `ability:mind_blank`
+
+One ally gains mind blank for 10 turns. (a second-level slot) Level 2 arcane spell. Mind Blank: +2 to will saves, resists 50% of psychic, immune to charm, immune to insanity, immune to fear, immune to sleep.
+
+> Protect your mind from mental intrusion and detection for 10 minutes.
+
+##### Mind Melt
+
+*Faithful · level 2 arcane spell, enchantment* · `ability:psionic_blast`
+
+2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+
+> Invade minds of all enemies, dealing 1d6 psychic damage and stunning them.
+
+##### Mirror Image
+
+*Faithful · level 2 arcane spell, illusion* · `ability:mirror_image`
+
+You gain mirror images for 3 turns. (a second-level slot) Level 2 arcane spell. Mirror Images: 2 harder to hit, +15 evasion, +2 to every save.
+
+> Illusory duplicates confound attackers
+
+##### Paralyzing Touch
+
+*Faithful · level 2 arcane spell, necromancy* · `ability:paralyzing_touch`
+
+One enemy gains paralyzed for 3 turns (a paralyze save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+> Touch an enemy to paralyze them for 2 rounds.
+
+##### Prismatic Spray
+
+*Not playable · level 2 arcane spell, evocation* · `ability:prismatic_spray`
+
+> A dazzling array of multicolored beams springs from your hand.
+
+*Not playable — target: Target randomEnemies, =7 + round(#level / 2) is not a Kyr target.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Ray of Frost
+
+*Faithful · level 2 arcane spell, evocation* · `ability:ray_of_frost`
+
+2d6 (2–12) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Frozen: dexterity −5, cannot act.
+
+> Fire a dazzling blue ray of cold energy at a target.
+
+##### Shocking Grasp
+
+*Faithful · level 2 arcane spell, evocation* · `ability:shocking_grasp`
+
+2d6 (2–12) lightning damage to one enemy (may cause paralyzed: a paralyze save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+> Deliver a jolt of electricity.
+
+##### Slow
+
+*Faithful · level 2 arcane spell, transmutation* · `ability:slow`
+
+Every enemy gains slow for 4 turns (a reflex save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5.
+
+> Reduce the speed of your foes.
+
+##### Summon Monster I
+
+*Not playable · level 2 arcane spell, conjuration* · `ability:summon_monster`
+
+> Summon a random monster (beast or fey type) to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Weakness
+
+*Faithful · level 2 arcane spell, necromancy* · `ability:weakness`
+
+One enemy gains weakened for 3 turns (a fortitude save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Weakened: −2 damage, strength −2.
+
+> Sap the strength of an enemy, reducing their damage output.
+
+#### Level 3
+
+##### Animate Dead
+
+*Not playable · level 3 arcane spell, necromancy* · `ability:animate_dead`
+
+> Bind souls to your service.
+
+*Not playable — effect:resurrect: Effect resurrect is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Cause Blindness
+
+*Faithful · level 3 arcane spell, necromancy* · `ability:cause_blindness`
+
+One enemy gains blinded for 5 turns (a fortitude save against 14 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Blind an enemy.
+
+##### Confusion
+
+*Faithful · level 3 arcane spell, illusion* · `ability:confusion`
+
+One enemy gains confused for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell.
+
+> Confuse an enemy, causing them to act randomly.
+
+##### Dismal Ray
+
+*Faithful · level 3 arcane spell, necromancy* · `ability:dismal_ray`
+
+One enemy gains weakened for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it); one enemy gains despair for 3 turns (a will save against 15 + level + bonusSpellDC avoids it); 3d6 (3–18) necrotic damage to one enemy (may cause diseased: a disease save against 15 avoids it). (a third-level slot) Level 3 arcane spell. Weakened: −2 damage, strength −2. Despair: −2 to hit, −2 damage, −2 to every save, charisma −2. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> A black energy ray weakens an enemy.
+
+##### Electric Arc
+
+*Not playable · level 3 arcane spell, evocation* · `ability:electric_arc`
+
+> An arc of electricity jumps to multiple targets.
+
+*Not playable — effect:damage: Cascading damage is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Fly
+
+*Faithful · level 3 arcane spell, transmutation* · `ability:flight`
+
+One ally gains flight for 3 turns. (a third-level slot) Level 3 arcane spell. Flight: 5 harder to hit, +20 evasion.
+
+> Grant the ability to fly for a short duration.
+
+##### Ice Bolt
+
+*Faithful · level 3 arcane spell, evocation* · `ability:ice_bolt`
+
+2d12 (2–24) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it). (a third-level slot) Level 3 arcane spell. Frozen: dexterity −5, cannot act.
+
+> A bolt of freezing ice shoots from your fingertips.
+
+##### Major Ward
+
+*Faithful · level 3 arcane spell, abjuration* · `ability:major_ward`
+
+You gain major warded for 3 turns. (a third-level slot) Level 3 arcane spell. Major Warded: +1 to every save, +2 to magic saves, resists 25% of fire, resists 25% of cold, resists 25% of lightning, resists 75% of force, resists 25% of acid, resists 25% of sonic, resists 25% of necrotic.
+
+> Create a powerful magical ward that absorbs a significant amount of damage.
+
+##### Mind Reading
+
+*Not playable · level 3 arcane spell, divination* · `ability:mind_reading`
+
+> Read the surface thoughts of a target creature for a short duration.
+
+*Not playable — status:mind_reading: Applies mind_reading, which Kyr cannot execute.*
+
+##### Obscuring Mist
+
+*Faithful · level 3 arcane spell, conjuration* · `ability:obscuring_mist`
+
+You gain hidden for 5 turns. (a third-level slot) Level 3 arcane spell. Hidden: 4 harder to hit, +10 evasion.
+
+> Create a mist that obscures vision.
+
+##### Pain
+
+*Faithful · level 3 arcane spell, necromancy* · `ability:pain`
+
+2d6 (2–12) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains agony for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Insane: −1 to every roll, −2 to will saves. Agony: intelligence −1, wisdom −1, takes 2d4 (2–8) necrotic damage each turn.
+
+> Inflict intense pain on an enemy, causing ongoing damage.
+
+##### Sandstorm
+
+*Faithful · level 3 arcane spell, evocation* · `ability:sandstorm`
+
+3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains blinded for 3 turns (a fortitude save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Create a swirling sandstorm that damages and blinds enemies within it for 3 rounds.
+
+##### Silence
+
+*Faithful · level 3 arcane spell, illusion* · `ability:silence`
+
+Every enemy gains silence for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Silence: cannot cast spells.
+
+> Create an area of silence, preventing spellcasting for 3 rounds.
+
+##### Sleep
+
+*Faithful · level 3 arcane spell, enchantment* · `ability:sleep`
+
+Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+
+> Lull enemies into a magical slumber.
+
+##### Sound Lance
+
+*Faithful · level 3 arcane spell, evocation* · `ability:sound_lance`
+
+2d10 (2–20) sonic damage to one enemy (halved if resisted; may cause deafened: a fortitude save against 15 avoids it; may cause migraine: a magic save against 15 avoids it). (a third-level slot) Level 3 arcane spell. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic.
+
+> A concentrated blast of noise explodes from your hand.
+
+##### Summon Monster II
+
+*Not playable · level 3 arcane spell, conjuration* · `ability:summon_monster_ii`
+
+> Summon a more powerful random monster (construct, giant, or demon) to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+#### Level 4
+
+##### Disruption
+
+*Faithful · level 4 arcane spell, abjuration* · `ability:disruption`
+
+One ally gains disrupting for 3 turns. (a fourth-level slot) Level 4 arcane spell.
+
+> Imbue a weapon with disruptive energy especially harmful to undead and constructs.
+
+##### Distraction
+
+*Faithful · level 4 arcane spell, enchantment* · `ability:distraction`
+
+One enemy gains distracted for 3 turns (a will save against 14 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Distracted: −1 to hit, −1 damage, −5 evasion.
+
+> Greatly distract an enemy, giving them a -4 penalty to attack rolls for 3 rounds.
+
+##### Earthquake
+
+*Faithful · level 4 arcane spell, evocation* · `ability:earthquake`
+
+3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a stun save against 12 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+> Cause the ground to shake.
+
+##### Enlarge
+
+*Faithful · level 4 arcane spell, transmutation* · `ability:enlarge`
+
+One ally gains enlarged for 3 turns. (a fourth-level slot) Level 4 arcane spell. Enlarged: +1 to hit, 1 easier to hit, +1d4 damage, −5 evasion, strength +4.
+
+> Increase an ally's size and strength.
+
+##### False Life
+
+*Faithful · level 4 arcane spell, necromancy* · `ability:false_life`
+
+You gain false life for 3 turns. (a fourth-level slot) Level 4 arcane spell.
+
+> Grant yourself temporary hit points.
+
+##### Fireball
+
+*Faithful · level 4 arcane spell, evocation* · `ability:fireball`
+
+6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a fourth-level slot) Level 4 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+> Hurl a destructive ball of energy that explodes in a fiery blast.
+
+##### Foretelling
+
+*Not playable · level 4 arcane spell, divination* · `ability:foretelling`
+
+> Gain profound insight into future events, granting significant advantage on upcoming rolls.
+
+*Not playable — status:major_focus: Applies major_focus, which Kyr cannot execute.*
+
+*Not playable — status:major_insight: Applies major_insight, which Kyr cannot execute.*
+
+##### Lightning Bolt
+
+*Not playable · level 4 arcane spell, evocation* · `ability:lightning_bolt`
+
+> Strike random enemies with lightning.
+
+*Not playable — target: Target randomEnemies, 2 is not a Kyr target.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Major Image
+
+*Not playable · level 4 arcane spell, illusion* · `ability:image`
+
+> Create a large, detailed illusory creature to deceive or distract.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Major Weakness
+
+*Faithful · level 4 arcane spell, necromancy* · `ability:major_weakness`
+
+One enemy gains major weakened for 3 turns (a fortitude save against 20 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Major Weakened: −4 damage, strength −4.
+
+> Greatly reduce an enemy's damage output.
+
+##### Scourge
+
+*Faithful · level 4 arcane spell, necromancy* · `ability:scourge`
+
+4d6 (4–24) necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); one enemy gains diseased for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Inflict necrotic damage and disease upon an enemy.
+
+##### True Seeing
+
+*Not playable · level 4 arcane spell, divination* · `ability:true_sight`
+
+> See through illusions, invisibility, and magical darkness for 10 minutes.
+
+*Not playable — status:truesight: Applies truesight, which Kyr cannot execute.*
+
+#### Level 5
+
+##### Chain Lightning
+
+*Not playable · level 5 arcane spell, evocation* · `ability:chain_lightning`
+
+> Strike multiple enemies with lightning.
+
+*Not playable — effect:damage: Cascading damage is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Chaos Bolt
+
+*Not playable · level 5 arcane spell, evocation* · `ability:chaos_bolt`
+
+> Hurl a bolt of chaotic energy that deals random types of damage.
+
+*Not playable — effect:randomEffect: Effect randomEffect is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Cone of Cold
+
+*Not playable · level 5 arcane spell, evocation* · `ability:cone_of_cold`
+
+> Blast enemies in a cone with intense cold.
+
+*Not playable — target: Target randomEnemies, =1d6 + floor(#level / 2) is not a Kyr target.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Disintegrate
+
+*Faithful · level 5 arcane spell, evocation* · `ability:disintegrate`
+
+10d6 (10–60) force damage to one enemy (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it). (a fifth-level slot) Level 5 arcane spell. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
+
+> A green ray that dematerializes living forms leaps from your fingertips.
+
+##### Dominate Person
+
+*Faithful · level 5 arcane spell, necromancy* · `ability:dominate_person`
+
+One enemy gains dominated for 10 turns (only humanoid creatures). (a fifth-level slot) Level 5 arcane spell.
+
+> Control the actions of a humanoid enemy.
+
+##### Glyph of Warding
+
+*Faithful · level 5 arcane spell, illusion* · `ability:glyph_of_warding`
+
+You gain warding glyph for 3 turns. (a fifth-level slot) Level 5 arcane spell.
+
+> Create a magical glyph that triggers a terrifying illusion when activated.
+
+##### Haste
+
+*Faithful · level 5 arcane spell, transmutation* · `ability:haste`
+
+One ally gains haste for 3 turns. (a fifth-level slot) Level 5 arcane spell. Haste: 2 harder to hit, +10 initiative, dexterity +4.
+
+> Increase an ally's speed.
+
+##### Insanity
+
+*Faithful · level 5 arcane spell, necromancy* · `ability:insanity`
+
+One enemy gains insane for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a fifth-level slot) Level 5 arcane spell. Insane: −1 to every roll, −2 to will saves.
+
+> Drive an enemy mad, causing them to act unpredictably.
+
+##### Pestilence
+
+*Faithful · level 5 arcane spell, necromancy* · `ability:pestilence`
+
+2d6 (2–12) necrotic damage to every enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); every enemy gains diseased for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). (a fifth-level slot) Level 5 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Unleash a deadly plague upon all enemies.
+
+##### Poison Cloud
+
+*Faithful · level 5 arcane spell, conjuration* · `ability:poison_cloud`
+
+3d4 + level poison damage to every enemy (may cause poison: a poison save against 15 avoids it). (a fifth-level slot) Level 5 arcane spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+> Release a cloud of toxic gas.
+
+##### Polymorph Other
+
+*Not playable · level 5 arcane spell, transmutation* · `ability:polymorph`
+
+> Transform an enemy into a harmless creature for a short duration.
+
+*Not playable — effect:recalculateHp: Effect recalculateHp is not supported.*
+
+*Not playable — status:polymorphed: Applies polymorphed, which Kyr cannot execute.*
+
+##### Psi Shield
+
+*Faithful · level 5 arcane spell, enchantment* · `ability:psi_shield`
+
+One ally gains mindproof for 3 turns. (a fifth-level slot) Level 5 arcane spell. Mindproof: resists 50% of psychic, immune to charm, immune to insanity, immune to fear, immune to sleep.
+
+> Create a mental shield that grants resistance to psychic damage.
+
+##### Reflection
+
+*Not playable · level 5 arcane spell, abjuration* · `ability:reflection`
+
+> Create a magical shield that reflects some incoming damage.
+
+*Not playable — status:reflect: Applies reflect, which Kyr cannot execute.*
+
+##### Revelation
+
+*Faithful · level 5 arcane spell, divination* · `ability:revelation`
+
+End  on every enemy. (a fifth-level slot) Level 5 arcane spell.
+
+> Unveil hidden truths, revealing invisible or disguised creatures and objects.
+
+##### Summon Monster III
+
+*Not playable · level 5 arcane spell, conjuration* · `ability:summon_monster_iii`
+
+> Summon a powerful random monster (demon or celestial) to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+#### Level 6
+
+##### Control Undead
+
+*Unreachable · level 6 arcane spell, necromancy* · `ability:control_undead`
+
+Every enemy gains charmed for 3 turns (only undead creatures). (a level 6-level slot) Level 6 arcane spell.
+
+> Take control of an undead creature.
+
+*No calling has a slot of level 6 yet.*
+
+##### Demorph
+
+*Unreachable · level 6 arcane spell, divination* · `ability:demorph`
+
+End  on one enemy. (a level 6-level slot) Level 6 arcane spell.
+
+> Force a shapeshifter to revert to its original form.
+
+*No calling has a slot of level 6 yet.*
+
+##### Dissolving Touch
+
+*Unreachable · level 6 arcane spell, conjuration* · `ability:dissolving_touch`
+
+4d6 (4–24) acid damage to one enemy (may cause acid burn: a fortitude save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
+
+> Your touch causes matter to dissolve away.
+
+*No calling has a slot of level 6 yet.*
+
+##### Fire Storm
+
+*Unreachable · level 6 arcane spell, evocation* · `ability:fire_storm`
+
+6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+
+> Produce a raging firestorm that engulfs enemies in flames.
+
+*No calling has a slot of level 6 yet.*
+
+##### Flesh to Stone
+
+*Unreachable · level 6 arcane spell, transmutation* · `ability:flesh_to_stone`
+
+One enemy gains petrified for 10 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act.
+
+> Turn an enemy to stone.
+
+*No calling has a slot of level 6 yet.*
+
+##### Gravity Crush
+
+*Unreachable · level 6 arcane spell, evocation* · `ability:gravity`
+
+10d6 (10–60) force damage to every enemy (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
+
+> Create a powerful gravitational collapse at a target location, damaging all enemies within the area.
+
+*No calling has a slot of level 6 yet.*
+
+##### Ice Storm
+
+*Unreachable · level 6 arcane spell, evocation* · `ability:ice_storm`
+
+4d12 (4–48) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); 1d8 (1–8) bludgeoning damage to every enemy (halved if resisted; may cause stunned: a stun save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Frozen: dexterity −5, cannot act. Stunned: −2 to every roll, cannot act.
+
+> Create a storm of ice and hail that damages enemies within the area.
+
+*No calling has a slot of level 6 yet.*
+
+##### Invisibility
+
+*Not playable · level 6 arcane spell, illusion* · `ability:invisibility`
+
+> Turn invisible for 5 rounds or until you attack or cast a spell.
+
+*Not playable — status:invisible: Applies invisible, which Kyr cannot execute.*
+
+##### Major Distraction
+
+*Unreachable · level 6 arcane spell, enchantment* · `ability:mass_distraction`
+
+Every enemy gains distracted for 5 turns (a will save against 16 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Distracted: −1 to hit, −1 damage, −5 evasion.
+
+> Severely distract enemies.
+
+*No calling has a slot of level 6 yet.*
+
+##### Mass Weakness
+
+*Unreachable · level 6 arcane spell, necromancy* · `ability:mass_weakness`
+
+Every enemy gains weakened for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Weakened: −2 damage, strength −2.
+
+> Reduce the damage output of multiple enemies.
+
+*No calling has a slot of level 6 yet.*
+
+##### Polar Ray
+
+*Unreachable · level 6 arcane spell, evocation* · `ability:polar_ray`
+
+6d8 (6–48) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Frozen: dexterity −5, cannot act.
+
+> Fire a beam of intense cold that can freeze enemies in place.
+
+*No calling has a slot of level 6 yet.*
+
+##### Quieten
+
+*Unreachable · level 6 arcane spell, abjuration* · `ability:quieten`
+
+Every enemy gains silence for 10 turns (a will save against 25 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Silence: cannot cast spells.
+
+> Create an area where sound is magically suppressed.
+
+*No calling has a slot of level 6 yet.*
+
+##### Stone to Flesh
+
+*Unreachable · level 6 arcane spell, transmutation* · `ability:stone_to_flesh`
+
+End  on one ally. (a level 6-level slot) Level 6 arcane spell.
+
+> Restore a petrified creature to flesh.
+
+*No calling has a slot of level 6 yet.*
+
+##### Summon Greater Elemental
+
+*Not playable · level 6 arcane spell, conjuration* · `ability:summon_greater_elemental`
+
+> Summon a powerful elemental to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Summon Monster IV
+
+*Not playable · level 6 arcane spell, conjuration* · `ability:summon_monster_iv`
+
+> Summon a mighty random construct or aberration to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+#### Level 7
+
+##### Contagion
+
+*Unreachable · level 7 arcane spell, necromancy* · `ability:contagion`
+
+6d8 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); every enemy gains diseased for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Infect enemies with a virulent disease that worsens over time.
+
+*No calling has a slot of level 7 yet.*
+
+##### Finger of Death
+
+*Not playable · level 7 arcane spell, necromancy* · `ability:finger_of_death`
+
+> Send negative energy that can instantly kill a creature.
+
+*Not playable — effect:kill: Effect kill is not supported.*
+
+##### Greater Augury
+
+*Not playable · level 7 arcane spell, divination* · `ability:greater_augury`
+
+> Receive a powerful omen that grants exceptional perception and insight.
+
+*Not playable — status:major_focus: Applies major_focus, which Kyr cannot execute.*
+
+*Not playable — status:major_insight: Applies major_insight, which Kyr cannot execute.*
+
+##### Mass Charm
+
+*Unreachable · level 7 arcane spell, enchantment* · `ability:mass_charm`
+
+Every enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 19 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 arcane spell.
+
+> Charm multiple humanoid enemies, making them friendly towards you.
+
+*No calling has a slot of level 7 yet.*
+
+##### Mass Confusion
+
+*Unreachable · level 7 arcane spell, illusion* · `ability:mass_confuse`
+
+Every enemy gains confused for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 arcane spell.
+
+> Confuse multiple enemies, causing them to act randomly.
+
+*No calling has a slot of level 7 yet.*
+
+##### Meteor Swarm
+
+*Not playable · level 7 arcane spell, evocation* · `ability:meteor_swarm`
+
+> Produces a swarm of meteors that strike multiple enemies, causing massive fire and bludgeoning damage.
+
+*Not playable — target: Target randomEnemies, =5 + floor(#level / 2) is not a Kyr target.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Plane Shift
+
+*Not playable · level 7 arcane spell, conjuration* · `ability:plane_shift`
+
+> Transport yourself and your party to another plane of existence.
+
+*Not playable — effect:planeshift: Effect planeshift is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Spellturning
+
+*Not playable · level 7 arcane spell, abjuration* · `ability:spellturning`
+
+> Create a magical barrier may reflect spells back to their caster.
+
+*Not playable — status:spellturn: Applies spellturn, which Kyr cannot execute.*
+
+##### Summon Monster V
+
+*Not playable · level 7 arcane spell, conjuration* · `ability:summon_monster_v`
+
+> Summon a champion random creature to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Warp Enemy
+
+*Not playable · level 7 arcane spell, transmutation* · `ability:warp`
+
+> Distort the fabric of reality around an enemy, causing unpredictable effects.
+
+*Not playable — effect:randomEffect: Effect randomEffect is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+#### Level 8
+
+##### Cathexis
+
+*Unreachable · level 8 arcane spell, necromancy* · `ability:cathexis`
+
+Drain 4d6 + level health from every enemy (halved if resisted). (a level 8-level slot) Level 8 arcane spell.
+
+> Drain the life force from multiple enemies to heal yourself.
+
+*No calling has a slot of level 8 yet.*
+
+##### Chaos Storm
+
+*Not playable · level 8 arcane spell, evocation* · `ability:chaos_storm`
+
+> Unleash a storm of chaotic energy that damages enemies with random types of damage.
+
+*Not playable — effect:randomEffect: Effect randomEffect is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Globe of Invulnerability
+
+*Not playable · level 8 arcane spell, abjuration* · `ability:invulnerability`
+
+> Become nearly impervious to all damage for a short duration.
+
+*Not playable — status:invulnerable: Applies invulnerable, which Kyr cannot execute.*
+
+##### Greater Contagion
+
+*Unreachable · level 8 arcane spell, necromancy* · `ability:greater_contagion`
+
+5d6 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); every enemy gains diseased for 3 turns (a fortitude save against 20 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Infect multiple enemies with a deadly disease that worsens rapidly.
+
+*No calling has a slot of level 8 yet.*
+
+##### Greater Distraction
+
+*Unreachable · level 8 arcane spell, enchantment* · `ability:greater_distraction`
+
+Every enemy gains severely distracted for 7 turns (a will save against 18 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 arcane spell. Severely Distracted: −2 to hit, −2 damage, −10 evasion, −1 to every roll.
+
+> Extremely distract enemies, giving them a -6 penalty to attack rolls for 5 rounds.
+
+*No calling has a slot of level 8 yet.*
+
+##### Major Reflection
+
+*Not playable · level 8 arcane spell, abjuration* · `ability:major_reflection`
+
+> Create a powerful magical shield that reflects a large portion of incoming damage.
+
+*Not playable — status:major_reflect: Applies major_reflect, which Kyr cannot execute.*
+
+##### Mass Mind Blank
+
+*Unreachable · level 8 arcane spell, divination* · `ability:mass_mind_blank`
+
+Every ally gains mind blank for 20 turns. (a level 8-level slot) Level 8 arcane spell. Mind Blank: +2 to will saves, resists 50% of psychic, immune to charm, immune to insanity, immune to fear, immune to sleep.
+
+> Protect your mind from all forms of mental intrusion and detection for 1 hour.
+
+*No calling has a slot of level 8 yet.*
+
+##### Maze
+
+*Not playable · level 8 arcane spell, conjuration* · `ability:maze`
+
+> Banish an enemy to a labyrinthine demiplane for up to 10 minutes.
+
+*Not playable — status:mazed: Applies mazed, which Kyr cannot execute.*
+
+*Not playable — condition:notTrait: Kyr does not check this ability condition.*
+
+##### Summon Monster VI
+
+*Not playable · level 8 arcane spell, conjuration* · `ability:summon_monster_vi`
+
+> Summon a epic random creature to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Symbol of Insanity
+
+*Unreachable · level 8 arcane spell, illusion* · `ability:symbol_of_insanity`
+
+Every enemy gains insane for 3 turns (a will save against 19 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 arcane spell. Insane: −1 to every roll, −2 to will saves.
+
+> Insanity-inducing symbol that affects all enemies within range.
+
+*No calling has a slot of level 8 yet.*
+
+##### Time Stop
+
+*Not playable · level 8 arcane spell, transmutation* · `ability:time_stop`
+
+> Stop time for everyone but yourself.
+
+*Not playable — status:timestopped: Applies timestopped, which Kyr cannot execute.*
+
+#### Level 9
+
+##### Death Wave
+
+*Unreachable · level 9 arcane spell, evocation* · `ability:death_wave`
+
+10d8 (10–80) necrotic damage to every enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a level 9-level slot) Level 9 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Emit a wave of necrotic energy that damages all enemies within range.
+
+*No calling has a slot of level 9 yet.*
+
+##### Foresight
+
+*Not playable · level 9 arcane spell, divination* · `ability:foresight`
+
+> Gain unparalleled insight into future events, granting near-perfect advantage on all rolls.
+
+*Not playable — status:major_focus: Applies major_focus, which Kyr cannot execute.*
+
+*Not playable — status:major_insight: Applies major_insight, which Kyr cannot execute.*
+
+##### Major False Life
+
+*Unreachable · level 9 arcane spell, necromancy* · `ability:major_false_life`
+
+You gain major false life for 3 turns. (a level 9-level slot) Level 9 arcane spell. Major False Life: +2 to death saves, resists 50% of necrotic.
+
+> Grant yourself a large amount of temporary hit points.
+
+*No calling has a slot of level 9 yet.*
+
+##### Mass Domination
+
+*Unreachable · level 9 arcane spell, enchantment* · `ability:mass_domination`
+
+Every enemy gains dominated for 3 turns (only humanoid creatures). (a level 9-level slot) Level 9 arcane spell.
+
+> Control the actions of multiple humanoid enemies.
+
+*No calling has a slot of level 9 yet.*
+
+##### Perfect Turning
+
+*Not playable · level 9 arcane spell, abjuration* · `ability:perfect_turning`
+
+> Create a magical barrier that reflects almost all spells back to their casters.
+
+*Not playable — status:major_spellturn: Applies major_spellturn, which Kyr cannot execute.*
+
+##### Shapechange
+
+*Not playable · level 9 arcane spell, transmutation* · `ability:shapechange`
+
+> Transform into a dragon.
+
+*Not playable — status:shapechanged: Applies shapechanged, which Kyr cannot execute.*
+
+##### Summon Monster VII
+
+*Not playable · level 9 arcane spell, conjuration* · `ability:summon_monster_vii`
+
+> Summon a legendary random creature to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Weird
+
+*Not playable · level 9 arcane spell, illusion* · `ability:weird`
+
+> Create phantasmal creatures that frighten enemies within range.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+### Divine spells
+
+#### Cantrips
+
+##### Cleanse
+
+*Faithful · cantrip divine spell, ocean domain* · `ability:cleanse`
+
+End  on one ally. (a cantrip, at will) Level 0 divine spell.
+
+> Purify an ally, removing toxins and pollutants.
+
+##### Cure Minor Wounds
+
+*Faithful · cantrip divine spell, life domain* · `ability:cure_minor`
+
+Heal one ally for 1d4 (1–4). (a cantrip, at will) Level 0 divine spell.
+
+> Bind minor injuries.
+
+##### Curse
+
+*Faithful · cantrip divine spell, death domain* · `ability:curse`
+
+One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+> Curse an enemy.
+
+##### Divine Favor
+
+*Faithful · cantrip divine spell, war domain* · `ability:divine_favor`
+
+You gain blessed for 3 turns; you gain keen weapon for 3 turns. (a cantrip, at will) Level 0 divine spell. Blessed: +1 to hit, +1 damage. Keen Weapon: +2 to hit, +2 damage.
+
+> Empower your weapon with divine energy.
+
+##### Gloom
+
+*Faithful · cantrip divine spell, darkness domain* · `ability:gloom`
+
+Every enemy gains despair for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Despair: −2 to hit, −2 damage, −2 to every save, charisma −2.
+
+> Envelop an area in magical darkness.
+
+##### Goodberry
+
+*Not playable · cantrip divine spell, nature domain* · `ability:goodberry`
+
+> Create magical berries that heal when eaten.
+
+*Not playable — effect:acquireItem: Effect acquireItem is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Gust
+
+*Faithful · cantrip divine spell, storm domain* · `ability:gust`
+
+1d2 + level sonic damage to one enemy (halved if resisted; may cause deafened: a fortitude save against 15 avoids it; may cause migraine: a magic save against 15 avoids it); 1 + level bludgeoning damage to one enemy (halved if resisted; may cause stunned: a stun save against 15 avoids it); one enemy gains prone for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+> Create a strong gust of wind that knocks back an enemy.
+
+##### Hold Animal
+
+*Faithful · cantrip divine spell, law domain* · `ability:hold_animal`
+
+One enemy gains paralyzed for 3 turns (only animal creatures; a paralyze save against 15 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+> Paralyze a small animal for a short duration.
+
+##### Ire
+
+*Faithful · cantrip divine spell, chaos domain* · `ability:ire`
+
+1d4 (1–4) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains mocked for 2 turns (a will save against 15 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Insane: −1 to every roll, −2 to will saves. Mocked: −1 to hit, −1 damage, −1 to every save.
+
+> Deal a tiny amount of damage and mock an enemy.
+
+##### Kindle
+
+*Faithful · cantrip divine spell, love domain* · `ability:kindle`
+
+Heal one ally for 1d3 + wisdom. (a cantrip, at will) Level 0 divine spell.
+
+> Heal for a small amount of health.
+
+##### Luminous Blade
+
+*Faithful · cantrip divine spell, war domain* · `ability:luminous_blade`
+
+You gain luminous blade for 3 turns. (a cantrip, at will) Level 0 divine spell.
+
+> Your weapon glows with radiant light, dealing extra damage to undead creatures.
+
+##### Luminous Touch
+
+*Faithful · cantrip divine spell, light domain* · `ability:luminous_touch`
+
+Heal one ally for 1d2 + level. (a cantrip, at will) Level 0 divine spell.
+
+> Heal a small amount of damage with a touch.
+
+##### Minor Drain
+
+*Faithful · cantrip divine spell, death domain* · `ability:minor_life_drain`
+
+Drain 1d4 (1–4) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a cantrip, at will) Level 0 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Drain a small amount of life from an enemy.
+
+##### Salt Spray
+
+*Faithful · cantrip divine spell, ocean domain* · `ability:salt_spray`
+
+1d3 (1–3) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); one enemy gains drenched for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold.
+
+> Spray a burst of salty water at an enemy.
+
+##### Sanctify
+
+*Faithful · cantrip divine spell, life domain* · `ability:sanctify`
+
+Heal every ally for 1d3 + level. (a cantrip, at will) Level 0 divine spell.
+
+> Cleanse the party of minor wounds.
+
+##### Shadow Mote
+
+*Faithful · cantrip divine spell, darkness domain* · `ability:shadow_mote`
+
+1d2 (1–2) necrotic damage to one enemy (may cause diseased: a disease save against 15 avoids it); 1d2 (1–2) psychic damage to one enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); 1d2 (1–2) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it). (a cantrip, at will) Level 0 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn. Insane: −1 to every roll, −2 to will saves. Frozen: dexterity −5, cannot act.
+
+> Hurl a mote of shadowy energy at an enemy.
+
+##### Static Shock
+
+*Not playable · cantrip divine spell, storm domain* · `ability:static_shock`
+
+> Deal a small amount of electric damage to an enemy.
+
+*Not playable — effect:damage: Cascading damage is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Sunmark
+
+*Faithful · cantrip divine spell, light domain* · `ability:sunmark`
+
+1d3 (1–3) radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it); one enemy gains sunmarked for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll. Sunmarked: −1 to magic saves, takes 25% more fire, takes 25% more radiant.
+
+> Light up an enemy with a radiant mark.
+
+##### Thorn Whip
+
+*Faithful · cantrip divine spell, nature domain* · `ability:thorn_whip`
+
+1d3 (1–3) piercing damage to one enemy (may cause bleeding: a bleed save against 15 avoids it); one enemy gains entangled for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Bleeding: takes 1d2 (1–2) bleed damage each turn. Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+
+> Create a whip of thorns to strike an enemy.
+
+##### Touch of Serenity
+
+*Faithful · cantrip divine spell, love domain* · `ability:touch_of_serenity`
+
+End  on one ally. (a cantrip, at will) Level 0 divine spell.
+
+> Calm an ally, removing minor negative effects.
+
+##### Toxic Spray
+
+*Faithful · cantrip divine spell, poison domain* · `ability:toxic_spray`
+
+1d4 (1–4) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it). (a cantrip, at will) Level 0 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+> Spray a small amount of poison at an enemy.
+
+#### Level 1
+
+##### Anoint
+
+*Faithful · level 1 divine spell, life domain* · `ability:anoint`
+
+Every ally gains anointed for 5 turns. (a first-level slot) Level 1 divine spell. Anointed: +1 to hit, +1 damage, +2 to every save, resists 50% of radiant.
+
+> You mark your allies with a holy symbol, granting them protection.
+
+##### Aquatic Bolt
+
+*Faithful · level 1 divine spell, ocean domain* · `ability:aqua_bolt`
+
+1d6 (1–6) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); one enemy gains drenched for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold.
+
+> Hurl a bolt of water at an enemy.
+
+##### Barkskin
+
+*Faithful · level 1 divine spell, nature domain* · `ability:barkskin`
+
+You gain barkskin for 3 turns. (a first-level slot) Level 1 divine spell. Barkskin: 2 harder to hit.
+
+> Your skin stiffens into tree-bark.
+
+##### Bless
+
+*Faithful · level 1 divine spell, life domain* · `ability:bless`
+
+One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+
+> Bless an ally, granting them a divine boon.
+
+##### Bolt
+
+*Not playable · level 1 divine spell, storm domain* · `ability:bolt`
+
+> Hurl a bolt of lightning at an enemy.
+
+*Not playable — effect:cast: Effect cast is not supported.*
+
+*Not playable — effect:damage: Cascading damage is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Confuse
+
+*Faithful · level 1 divine spell, chaos domain* · `ability:confuse`
+
+One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
+
+> Confuse an enemy, causing them to act erratically.
+
+##### Cure Light Wounds
+
+*Faithful · level 1 divine spell, life domain* · `ability:cure`
+
+Heal one ally for 1d8 (1–8). (a first-level slot) Level 1 divine spell.
+
+> Bind moderate injuries.
+
+##### Dark Bolt
+
+*Faithful · level 1 divine spell, death domain* · `ability:darkbolt`
+
+2d6 (2–12) necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a first-level slot) Level 1 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Hurl a bolt of shadowy energy at an enemy.
+
+##### Heat Drain
+
+*Faithful · level 1 divine spell, darkness domain* · `ability:heat_drain`
+
+2d4 (2–8) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it); one enemy gains slow for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Frozen: dexterity −5, cannot act. Slow: −10 initiative, dexterity −5.
+
+> Drain heat from an enemy, causing damage and slowing them.
+
+##### Protection from Evil
+
+*Faithful · level 1 divine spell, law domain* · `ability:protection_from_evil`
+
+One ally gains protected for 3 turns; one ally gains courage for 3 turns. (a first-level slot) Level 1 divine spell. Protected: resists 50% of necrotic, immune to charm. Courage: +2 to every save, immune to fear.
+
+> Grant immunity to charm and fear for 6 rounds.
+
+##### Pure Beam
+
+*Faithful · level 1 divine spell, light domain* · `ability:pure_beam`
+
+1d4 (1–4) radiant damage to one enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); 3d4 (3–12) radiant damage to one enemy (only undead creatures; halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> A beam of pure radiant energy that damages undead and evil creatures.
+
+##### Rejuvenate
+
+*Faithful · level 1 divine spell, love domain* · `ability:rejuvenate`
+
+Heal one ally for 1d8 + wisdom. (a first-level slot) Level 1 divine spell.
+
+> Heal a small amount of health for an ally.
+
+##### Remove Fear
+
+*Faithful · level 1 divine spell, life domain* · `ability:remove_fear`
+
+End  on one ally. (a first-level slot) Level 1 divine spell.
+
+> Calm a frightened ally.
+
+##### Shadow Cloak
+
+*Faithful · level 1 divine spell, darkness domain* · `ability:shadow_cloak`
+
+You gain hidden for 3 turns; you gain fox's cunning for 3 turns. (a first-level slot) Level 1 divine spell. Hidden: 4 harder to hit, +10 evasion. Fox's Cunning: +1 to every roll, intelligence +2.
+
+> Wrap yourself in shadows, increasing your stealth and cunning.
+
+##### Smite Evil
+
+*Faithful · level 1 divine spell, war domain* · `ability:smite`
+
+1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Smite an enemy.
+
+##### Tangling Vines
+
+*Faithful · level 1 divine spell, nature domain* · `ability:entangle`
+
+Every enemy gains entangled for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+
+> Summon vines to entangle your foes.
+
+##### Venomous Bite
+
+*Faithful · level 1 divine spell, poison domain* · `ability:venomous_bite`
+
+1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+> Deal poison damage to an enemy with a venomous strike.
+
+#### Level 2
+
+##### Calm Emotions
+
+*Faithful · level 2 divine spell, nature domain* · `ability:calm_emotions`
+
+Every enemy gains calm for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Calm: +1 to hit, +2 to will saves, immune to fear, immune to insanity.
+
+> Soothe strong emotions in a group of creatures.
+
+##### Chaotic Surge
+
+*Not playable · level 2 divine spell, chaos domain* · `ability:chaotic_surge`
+
+> Unleash a surge of chaotic energy that damages and disorients enemies.
+
+*Not playable — effect:randomEffect: Effect randomEffect is not supported.*
+
+##### Create Darkness
+
+*Faithful · level 2 divine spell, darkness domain* · `ability:create_darkness`
+
+Every enemy gains blinded for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Create an area of magical darkness that obscures vision.
+
+##### Create Poison
+
+*Not playable · level 2 divine spell, poison domain* · `ability:create_poison`
+
+> Create a vial of potent poison that can be applied to weapons.
+
+*Not playable — effect:acquireItem: Effect acquireItem is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Death Ward
+
+*Faithful · level 2 divine spell, life domain* · `ability:death_ward`
+
+One ally gains death ward for 3 turns. (a second-level slot) Level 2 divine spell. Death Ward: +5 to death saves.
+
+> Ward yourself or an ally against death.
+
+##### Healing Touch
+
+*Faithful · level 2 divine spell, nature domain* · `ability:healing_touch`
+
+Heal one ally for 1d8 + level. (a second-level slot) Level 2 divine spell.
+
+> Heal yourself or an ally with a touch.
+
+##### Hold Person
+
+*Faithful · level 2 divine spell, law domain* · `ability:hold_person`
+
+One enemy gains paralyzed for 3 turns (only humanoid creatures; a paralyze save against 20 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Paralyzed: strength −5, dexterity −5, cannot act.
+
+> Paralyze an enemy for 4 rounds.
+
+##### Holy Wrath
+
+*Faithful · level 2 divine spell, war domain* · `ability:holy_wrath`
+
+3d6 (3–18) radiant damage to every enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); every enemy gains stunned for 3 turns (a will save against 16 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act.
+
+> Unleash a burst of holy energy that damages and stuns enemies.
+
+##### Ion Shield
+
+*Not playable · level 2 divine spell, storm domain* · `ability:ion_shield`
+
+> Create a shield of ionized air that damages attackers.
+
+*Not playable — status:ion_shield: Applies ion_shield, which Kyr cannot execute.*
+
+##### Life Drain
+
+*Faithful · level 2 divine spell, death domain* · `ability:life_drain`
+
+Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Drain life from an enemy, healing yourself for damage dealt.
+
+##### Minor Restoration
+
+*Faithful · level 2 divine spell, life domain* · `ability:minor_restoration`
+
+End  on one ally. (a second-level slot) Level 2 divine spell.
+
+> Cure minor ailments.
+
+##### Prayer
+
+*Faithful · level 2 divine spell, life domain* · `ability:prayer`
+
+The whole company gains praying for 3 turns. (a second-level slot) Level 2 divine spell. Praying: +1 to hit, +2 healing, +2 to every save.
+
+> Bolster your team with a prayer.
+
+##### Protection from Darkness
+
+*Faithful · level 2 divine spell, light domain* · `ability:protection_from_darkness`
+
+One ally gains darkproof for 3 turns. (a second-level slot) Level 2 divine spell. Darkproof: resists 50% of necrotic, immune to charm, immune to fear, immune to sleep.
+
+> Ward yourself or an ally against dark forces.
+
+##### Protection from Fire
+
+*Faithful · level 2 divine spell, ocean domain* · `ability:protection_from_fire`
+
+One ally gains fireproof for 3 turns. (a second-level slot) Level 2 divine spell. Fireproof: resists 50% of fire.
+
+> Create a watery shield that reduces fire damage.
+
+##### Resist Fire
+
+*Faithful · level 2 divine spell, life domain* · `ability:resist_fire`
+
+One ally gains fireproof for 3 turns. (a second-level slot) Level 2 divine spell. Fireproof: resists 50% of fire.
+
+> Grant an ally resistance to fire damage for 5 rounds.
+
+##### Shadow Bind
+
+*Faithful · level 2 divine spell, darkness domain* · `ability:shadow_bind`
+
+One enemy gains entangled for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it); one enemy gains slow for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5. Slow: −10 initiative, dexterity −5.
+
+> Bind an enemy with shadowy tendrils.
+
+##### Shield of Faith
+
+*Faithful · level 2 divine spell, law domain* · `ability:shield`
+
+One ally gains shielded for 10 turns. (a second-level slot) Level 2 divine spell. Shielded: 1 harder to hit, +1 to magic saves.
+
+> Divine power protects you or an ally with a shimmering shield.
+
+##### Spike Growth
+
+*Faithful · level 2 divine spell, nature domain* · `ability:spike_growth`
+
+2d6 (2–12) piercing damage to every enemy (may cause bleeding: a bleed save against 15 avoids it); every enemy gains slow for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Bleeding: takes 1d2 (1–2) bleed damage each turn. Slow: −10 initiative, dexterity −5.
+
+> Cause the ground to sprout painful spikes.
+
+##### Sweet Whisper
+
+*Faithful · level 2 divine spell, love domain* · `ability:sweet_whisper`
+
+One enemy gains distracted for 4 turns (only humanoid creatures; a will save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Distracted: −1 to hit, −1 damage, −5 evasion.
+
+> Soothe an enemy, reducing their aggression.
+
+##### Terror
+
+*Faithful · level 2 divine spell, death domain* · `ability:terror`
+
+One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+> Frighten an enemy.
+
+#### Level 3
+
+##### Battle Cry
+
+*Faithful · level 3 divine spell, war domain* · `ability:battle_cry`
+
+Every ally gains inspired for 3 turns; every ally gains courage for 3 turns; every ally gains battlecry for 3 turns. (a third-level slot) Level 3 divine spell. Inspired: +2 to hit, +1 to every save. Courage: +2 to every save, immune to fear. Battlecry: +1d3 damage.
+
+> Inspire your allies with a mighty battle cry.
+
+##### Charming Glance
+
+*Faithful · level 3 divine spell, love domain* · `ability:charming_glance`
+
+One enemy gains charmed for 3 turns (only humanoid creatures; a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell.
+
+> Charm a humanoid enemy for a short duration.
+
+##### Cloudburst
+
+*Faithful · level 3 divine spell, storm domain* · `ability:cloudburst`
+
+Every enemy gains drenched for 8 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold.
+
+> Summon a storm cloud that drenches enemies in an area.
+
+##### Cold Embrace
+
+*Faithful · level 3 divine spell, darkness domain* · `ability:cold_embrace`
+
+2d6 (2–12) cold damage to every enemy (may cause frozen: a reflex save against 15 avoids it); every enemy gains slow for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Frozen: dexterity −5, cannot act. Slow: −10 initiative, dexterity −5.
+
+> Produce a chilling aura that damages nearby enemies.
+
+##### Consecrated Ground
+
+*Not playable · level 3 divine spell, law domain* · `ability:consecrated_ground`
+
+> Consecrate the ground, damaging enemies who attack or cast spells near you.
+
+*Not playable — status:consecrated: Applies consecrated, which Kyr cannot execute.*
+
+##### Cure Disease
+
+*Faithful · level 3 divine spell, life domain* · `ability:cure_disease`
+
+End  on one ally. (a third-level slot) Level 3 divine spell.
+
+> Cure an ally of disease.
+
+##### Cure Moderate Wounds
+
+*Faithful · level 3 divine spell, life domain* · `ability:cure_moderate`
+
+Heal one ally for 2d8 (2–16). (a third-level slot) Level 3 divine spell.
+
+> Bind moderate injuries.
+
+##### Dirge
+
+*Faithful · level 3 divine spell, death domain* · `ability:dirge`
+
+Every enemy gains weakened for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Weakened: −2 damage, strength −2.
+
+> A mournful song that weakens your enemies.
+
+##### Inflict Disease
+
+*Faithful · level 3 divine spell, poison domain* · `ability:inflict_disease`
+
+2d6 (2–12) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains diseased for 3 turns (a fortitude save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Poison: takes 1d4 (1–4) true damage each turn. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Inflict a minor disease on an enemy.
+
+##### Mad Whispers
+
+*Faithful · level 3 divine spell, chaos domain* · `ability:mad_whispers`
+
+1d12 (1–12) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains confused for 3 turns (a will save against 18 + level + bonusSpellDC avoids it); one enemy gains slow for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it); one enemy gains stunned for 3 turns (a will save against 18 + level + bonusSpellDC avoids it); one enemy gains distracted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Insane: −1 to every roll, −2 to will saves. Slow: −10 initiative, dexterity −5. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion.
+
+> Whisper maddening secrets to an enemy.
+
+##### Mass Curse
+
+*Faithful · level 3 divine spell, death domain* · `ability:mass_curse`
+
+Every enemy gains cursed for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+> Your venomous words fill your enemies with a sense of doom.
+
+##### Rally the Faithful
+
+*Faithful · level 3 divine spell, life domain* · `ability:rally`
+
+Heal every ally for 1d6 (1–6); every ally gains rallied for 3 turns. (a third-level slot) Level 3 divine spell. Rallied: +1 to hit, +1 to every save, constitution +2.
+
+> Restore your team's spirit.
+
+##### Snuff Life
+
+*Faithful · level 3 divine spell, darkness domain* · `ability:snuff`
+
+3d6 (3–18) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it). (a third-level slot) Level 3 divine spell. Frozen: dexterity −5, cannot act.
+
+> Attempt to snuff out the life force of an enemy.
+
+##### Stoneskin
+
+*Faithful · level 3 divine spell, nature domain* · `ability:stoneskin`
+
+You gain stoneskin for 3 turns. (a third-level slot) Level 3 divine spell. Stoneskin: 3 harder to hit.
+
+> Your skin hardens like stone.
+
+##### Summon Natural Guardian
+
+*Not playable · level 3 divine spell, nature domain* · `ability:summon_natural_guardian`
+
+> Summon a powerful natural guardian to aid you in battle.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Tidal Wave
+
+*Faithful · level 3 divine spell, ocean domain* · `ability:tidal_wave`
+
+1d10 (1–10) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); every enemy gains drenched for 6 turns (a magic save against 15 + level + bonusSpellDC avoids it); every enemy gains prone for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: dexterity −2, cannot act.
+
+> Summon a massive wave to crash down on your enemies.
+
+##### Turn Undead
+
+*Not playable · level 3 divine spell, light domain* · `ability:turn_undead`
+
+> The dead recoil from your holy presence.
+
+*Not playable — effect:flee: Effect flee is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+#### Level 4
+
+##### Agony
+
+*Faithful · level 4 divine spell, chaos domain* · `ability:agony`
+
+2d6 (2–12) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains agony for 3 turns (a will save against 20 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 divine spell. Insane: −1 to every roll, −2 to will saves. Agony: intelligence −1, wisdom −1, takes 2d4 (2–8) necrotic damage each turn.
+
+> Inflict intense pain on an enemy.
+
+##### Blade Barrier
+
+*Not playable · level 4 divine spell, law domain* · `ability:blade_barrier`
+
+> Create a wall of spinning blades that damages enemies passing through it.
+
+*Not playable — status:blade_barrier: Applies blade_barrier, which Kyr cannot execute.*
+
+##### Cure Serious Wounds
+
+*Faithful · level 4 divine spell, life domain* · `ability:cure_serious`
+
+Heal one ally for 3d8 (3–24). (a fourth-level slot) Level 4 divine spell.
+
+> Bind serious injuries.
+
+##### Daylight
+
+*Faithful · level 4 divine spell, light domain* · `ability:daylight`
+
+1d4 (1–4) radiant damage to every enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); end  on every enemy. (a fourth-level slot) Level 4 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Create a sphere of bright light.
+
+##### Death Touch
+
+*Faithful · level 4 divine spell, death domain* · `ability:deathtouch`
+
+3d6 (3–18) necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); one enemy gains cursed for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+> Touch an enemy to curse them.
+
+##### Flirt
+
+*Faithful · level 4 divine spell, love domain* · `ability:flirt`
+
+One enemy gains distracted for 6 turns (only humanoid creatures; a will save against 18 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 divine spell. Distracted: −1 to hit, −1 damage, −5 evasion.
+
+> Distract an enemy with a playful flirtation.
+
+##### Major Drain
+
+*Faithful · level 4 divine spell, death domain* · `ability:major_life_drain`
+
+Drain 3d6 (3–18) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a fourth-level slot) Level 4 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Drain a significant amount of life from an enemy.
+
+##### Minor Deflection
+
+*Not playable · level 4 divine spell, war domain* · `ability:minor_deflection`
+
+> Create a magical barrier that deflects incoming attacks and reflects a portion of damage back to attackers.
+
+*Not playable — status:minor_reflect: Applies minor_reflect, which Kyr cannot execute.*
+
+##### Neptune's Blessing
+
+*Faithful · level 4 divine spell, ocean domain* · `ability:neptunes_blessing`
+
+One ally gains courage for 3 turns; one ally gains bear's endurance for 3 turns; one ally gains blessed for 3 turns. (a fourth-level slot) Level 4 divine spell. Courage: +2 to every save, immune to fear. Bear's Endurance: constitution +2. Blessed: +1 to hit, +1 damage.
+
+> Bless an ally with the power of the ocean.
+
+##### Nightmare
+
+*Faithful · level 4 divine spell, darkness domain* · `ability:nightmare`
+
+One enemy gains frightened for 3 turns (a will save against 22 + level + bonusSpellDC avoids it); one enemy gains insane for 3 turns (a will save against 20 + level + bonusSpellDC avoids it); one enemy gains confused for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Insane: −1 to every roll, −2 to will saves.
+
+> Induce terrifying waking nightmares in an enemy.
+
+##### Raise Dead
+
+*Not playable · level 4 divine spell, life domain* · `ability:raise_dead`
+
+> Restore life to the dead.
+
+*Not playable — effect:resurrect: Effect resurrect is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Storm Wind
+
+*Faithful · level 4 divine spell, nature domain* · `ability:storm_wind`
+
+4d6 + level bludgeoning damage to every enemy (halved if resisted; may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 divine spell. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+> Summon a fierce wind to buffet your enemies.
+
+##### Thunderstorm
+
+*Not playable · level 4 divine spell, storm domain* · `ability:thunderstorm`
+
+> Create a thunderstorm that damages and deafens enemies in an area.
+
+*Not playable — effect:damage: Damage kind electric is not a Kyr damage type.*
+
+##### Toxicity
+
+*Not playable · level 4 divine spell, poison domain* · `ability:toxicity`
+
+> Increase the potency of poisons.
+
+*Not playable — status:toxicity: Applies toxicity, which Kyr cannot execute.*
+
+#### Level 5
+
+##### Abyssal Shield
+
+*Faithful · level 5 divine spell, darkness domain* · `ability:abyssal_shield`
+
+You gain shielded for 3 turns; you gain bear's endurance for 3 turns; you gain minor warded for 3 turns. (a fifth-level slot) Level 5 divine spell. Shielded: 1 harder to hit, +1 to magic saves. Bear's Endurance: constitution +2. Minor Warded: +1 to magic saves, resists 25% of force.
+
+> Surround yourself with a shield of dark energy.
+
+##### Charm Aura
+
+*Not playable · level 5 divine spell, love domain* · `ability:charm_aura`
+
+> Create an aura that and charms enemies who enter it.
+
+*Not playable — status:charming: Applies charming, which Kyr cannot execute.*
+
+##### Cloudkill
+
+*Faithful · level 5 divine spell, poison domain* · `ability:cloudkill`
+
+1d8 (1–8) poison damage to every enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); every enemy gains poison for 3 turns (a fortitude save against 14 + level + bonusSpellDC avoids it). (a fifth-level slot) Level 5 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+> Create a cloud of poisonous gas that damages enemies within it.
+
+##### Cold Fire
+
+*Faithful · level 5 divine spell, death domain* · `ability:cold_fire`
+
+4d6 (4–24) necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); one enemy gains slow for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it); one enemy gains frozen for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a fifth-level slot) Level 5 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn. Slow: −10 initiative, dexterity −5. Frozen: dexterity −5, cannot act.
+
+> Unleash a blast of chilling energy.
+
+##### Command
+
+*Not playable · level 5 divine spell, law domain* · `ability:command`
+
+> Give an instruction.
+
+*Not playable — effect:flee: Effect flee is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Greater Rejuvenate
+
+*Faithful · level 5 divine spell, love domain* · `ability:greater_rejuvenate`
+
+Heal one ally for 2d8 + wisdom. (a fifth-level slot) Level 5 divine spell.
+
+> Heal a large amount of health.
+
+##### Heal Ally
+
+*Faithful · level 5 divine spell, life domain* · `ability:heal`
+
+Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+
+> Offer restoration and cure ailments.
+
+##### Heartrend
+
+*Faithful · level 5 divine spell, chaos domain* · `ability:heartrend`
+
+3d6 (3–18) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains despair for 3 turns (a will save against 22 + level + bonusSpellDC avoids it); one enemy gains weakened for 3 turns (a will save against 18 + level + bonusSpellDC avoids it); one enemy gains distracted for 3 turns (a will save against 15 + level + bonusSpellDC avoids it); one enemy gains stunned for 3 turns (a will save against 13 + level + bonusSpellDC avoids it). (a fifth-level slot) Level 5 divine spell. Insane: −1 to every roll, −2 to will saves. Despair: −2 to hit, −2 damage, −2 to every save, charisma −2. Weakened: −2 damage, strength −2. Distracted: −1 to hit, −1 damage, −5 evasion. Stunned: −2 to every roll, cannot act.
+
+> Tear at the very soul of an enemy.
+
+##### Ice Shard
+
+*Faithful · level 5 divine spell, ocean domain* · `ability:ice_shard`
+
+3d10 (3–30) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); one enemy gains slow for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a fifth-level slot) Level 5 divine spell. Frozen: dexterity −5, cannot act. Slow: −10 initiative, dexterity −5.
+
+> Launch a shard of ice that damages and slows an enemy.
+
+##### Ion Burst
+
+*Not playable · level 5 divine spell, storm domain* · `ability:ion_burst`
+
+> Release a burst of ionized energy that damages and stuns an enemy.
+
+*Not playable — effect:damage: Damage kind electric is not a Kyr damage type.*
+
+##### Ironskin
+
+*Faithful · level 5 divine spell, nature domain* · `ability:ironskin`
+
+You gain ironskin for 3 turns. (a fifth-level slot) Level 5 divine spell. Ironskin: 5 harder to hit.
+
+> Your skin becomes as hard as iron.
+
+##### Pure Strike
+
+*Faithful · level 5 divine spell, war domain* · `ability:pure_strike`
+
+You gain pure strike for 3 turns. (a fifth-level slot) Level 5 divine spell. Pure Strike: +4 to hit, +4 damage.
+
+> Empower your weapon strikes with divine energy, increasing accuracy and damage.
+
+##### Sunburst
+
+*Faithful · level 5 divine spell, light domain* · `ability:sunburst`
+
+4d6 (4–24) radiant damage to every enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a fifth-level slot) Level 5 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> A brilliant burst of solar energy injures your foes.
+
+#### Level 6
+
+##### Cure Critical Wounds
+
+*Unreachable · level 6 divine spell, life domain* · `ability:cure_critical`
+
+Heal one ally for 4d8 (4–32). (a level 6-level slot) Level 6 divine spell.
+
+> Bind critical injuries.
+
+*No calling has a slot of level 6 yet.*
+
+##### Flood
+
+*Unreachable · level 6 divine spell, ocean domain* · `ability:flood`
+
+3d10 (3–30) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); every enemy gains drenched for 6 turns (a magic save against 15 + level + bonusSpellDC avoids it); every enemy gains slow for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, dexterity −5.
+
+> Summon a flood that engulfs your enemies, dealing damage and hindering their movement.
+
+*No calling has a slot of level 6 yet.*
+
+##### Harm
+
+*Unreachable · level 6 divine spell, death domain* · `ability:harm`
+
+6d6 + level × 2 necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a level 6-level slot) Level 6 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Inflict severe necrotic damage on an enemy.
+
+*No calling has a slot of level 6 yet.*
+
+##### Heteraeos
+
+*Not playable · level 6 divine spell, love domain* · `ability:heteraeos`
+
+> Transform an enemy into a harmless creature.
+
+*Not playable — effect:cast: Effect cast is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Judgment
+
+*Not playable · level 6 divine spell, law domain* · `ability:judgment`
+
+> Call down divine judgment on an enemy.
+
+*Not playable — status:marked_for_judgment: Applies marked_for_judgment, which Kyr cannot execute.*
+
+##### Major Deflection
+
+*Not playable · level 6 divine spell, war domain* · `ability:major_deflection`
+
+> Create a powerful magical barrier that greatly deflects incoming attacks and reflects a significant portion of damage back to attackers.
+
+*Not playable — status:reflect: Applies reflect, which Kyr cannot execute.*
+
+##### Overwhelming Chaos
+
+*Unreachable · level 6 divine spell, chaos domain* · `ability:overwhelming_chaos`
+
+4d6 (4–24) psychic damage to every enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains confused for 3 turns (a will save against 22 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Insane: −1 to every roll, −2 to will saves.
+
+> Unleash a torrent of chaotic energy that damages and confuses enemies.
+
+*No calling has a slot of level 6 yet.*
+
+##### Shadowfire
+
+*Unreachable · level 6 divine spell, darkness domain* · `ability:shadowfire`
+
+3d6 (3–18) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); 2d6 (2–12) necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); 1d6 (1–6) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it). (a level 6-level slot) Level 6 divine spell. Frozen: dexterity −5, cannot act. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn. Insane: −1 to every roll, −2 to will saves.
+
+> Unleash a blast of dark energy at an enemy.
+
+*No calling has a slot of level 6 yet.*
+
+##### Solar Flare
+
+*Unreachable · level 6 divine spell, light domain* · `ability:solar_flare`
+
+6d6 (6–36) radiant damage to one enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); one enemy gains blinded for 3 turns (a will save against 30 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Blaze a searing flare of sunlight at an enemy.
+
+*No calling has a slot of level 6 yet.*
+
+##### Summon Elemental
+
+*Not playable · level 6 divine spell, nature domain* · `ability:summon_elemental`
+
+> Summon a powerful elemental to fight by your side.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Thor's Fury
+
+*Not playable · level 6 divine spell, storm domain* · `ability:thors_fury`
+
+> Call down a massive lightning strike on an enemy.
+
+*Not playable — effect:damage: Damage kind electric is not a Kyr damage type.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Venom Burst
+
+*Unreachable · level 6 divine spell, poison domain* · `ability:venom_burst`
+
+2d8 (2–16) poison damage to every enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); every enemy gains poison for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+> Explode with venomous energy, damaging nearby enemies.
+
+*No calling has a slot of level 6 yet.*
+
+##### Vital Boost
+
+*Unreachable · level 6 divine spell, life domain* · `ability:vital_boost`
+
+One ally gains vital boost for 3 turns. (a level 6-level slot) Level 6 divine spell. Vital Boost: +2 to every save, constitution +4.
+
+> Temporarily enhance the vitality of an ally.
+
+*No calling has a slot of level 6 yet.*
+
+#### Level 7
+
+##### Cruel Will
+
+*Unreachable · level 7 divine spell, darkness domain* · `ability:cruel_will`
+
+One enemy gains dominated for 10 turns (a will save against 28 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell.
+
+> Overwhelm the mind of an enemy.
+
+*No calling has a slot of level 7 yet.*
+
+##### Destroy Undead
+
+*Unreachable · level 7 divine spell, war domain* · `ability:destroy_undead`
+
+5d6 (5–30) radiant damage to every enemy (only undead creatures; halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a level 7-level slot) Level 7 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Channel divine energy to destroy undead creatures.
+
+*No calling has a slot of level 7 yet.*
+
+##### Domination
+
+*Unreachable · level 7 divine spell, love domain* · `ability:domination`
+
+One enemy gains dominated for 3 turns (a will save against 25 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell.
+
+> Take control of an enemy's mind.
+
+*No calling has a slot of level 7 yet.*
+
+##### Electrostatic Field
+
+*Not playable · level 7 divine spell, storm domain* · `ability:electrostatic_field`
+
+> Surround yourself with an electrostatic field that damages nearby enemies.
+
+*Not playable — status:electrostatic_field: Applies electrostatic_field, which Kyr cannot execute.*
+
+##### Heart of the Wild
+
+*Unreachable · level 7 divine spell, nature domain* · `ability:heart_of_the_wild`
+
+You gain wildheart for 3 turns. (a level 7-level slot) Level 7 divine spell. Wildheart: +2 to hit, +2 damage, constitution +4, resists 50% of poison, resists 25% of acid, immune to disease.
+
+> Tap into the primal power of nature to bolster your abilities.
+
+*No calling has a slot of level 7 yet.*
+
+##### Holy
+
+*Unreachable · level 7 divine spell, law domain* · `ability:holy`
+
+3d6 + wisdom radiant damage to every enemy (may cause blinded: a reflex save against 15 avoids it); every enemy gains deafened for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic.
+
+> Smite your foes with holy energy.
+
+*No calling has a slot of level 7 yet.*
+
+##### Madness
+
+*Unreachable · level 7 divine spell, chaos domain* · `ability:madness`
+
+One enemy gains insane for 3 turns (a insanity save against 25 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Insane: −1 to every roll, −2 to will saves.
+
+> Drive an enemy insane.
+
+*No calling has a slot of level 7 yet.*
+
+##### Plague Wave
+
+*Unreachable · level 7 divine spell, poison domain* · `ability:plague_wave`
+
+4d8 (4–32) poison damage to every enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); every enemy gains diseased for 3 turns (a fortitude save against 20 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Poison: takes 1d4 (1–4) true damage each turn. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Send out a wave of plague that infects enemies.
+
+*No calling has a slot of level 7 yet.*
+
+##### Radiant Beam
+
+*Unreachable · level 7 divine spell, light domain* · `ability:radiant_beam`
+
+8d6 (8–48) radiant damage to one enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a level 7-level slot) Level 7 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Unleash a concentrated beam of radiant energy.
+
+*No calling has a slot of level 7 yet.*
+
+##### Resurrection
+
+*Not playable · level 7 divine spell, life domain* · `ability:resurrect`
+
+> It's alive!
+
+*Not playable — effect:resurrect: Effect resurrect is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Summon Lich
+
+*Not playable · level 7 divine spell, death domain* · `ability:summon_lich`
+
+> Summon a powerful lich to fight for you.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Tempest
+
+*Unreachable · level 7 divine spell, ocean domain* · `ability:tempest`
+
+4d10 + level cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); every enemy gains drenched for 8 turns (a magic save against 15 + level + bonusSpellDC avoids it); every enemy gains slow for 3 turns (a fortitude save against 20 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, dexterity −5.
+
+> Unleash a violent storm that damages and hinders your enemies.
+
+*No calling has a slot of level 7 yet.*
+
+#### Level 8
+
+##### Aegis of Faith
+
+*Not playable · level 8 divine spell, law domain* · `ability:aegis`
+
+> Ward against all effects.
+
+*Not playable — status:invulnerable: Applies invulnerable, which Kyr cannot execute.*
+
+##### Death
+
+*Not playable · level 8 divine spell, death domain* · `ability:death`
+
+> Utter a power word in the blackest of tongues.
+
+*Not playable — effect:kill: Effect kill is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Divine Champion
+
+*Unreachable · level 8 divine spell, war domain* · `ability:divine_champion`
+
+You gain raven's cunning for 3 turns; you gain sage's wisdom for 3 turns; you gain giant's strength for 3 turns; you gain mammoth's endurance for 3 turns; you gain heroism for 3 turns; you gain phoenix's splendor for 3 turns; you gain divine champion for 3 turns. (a level 8-level slot) Level 8 divine spell. Raven's Cunning: +2 to every roll, intelligence +4. Sage's Wisdom: +2 to every roll, +2 to every save, wisdom +4. Giant's Strength: +1d3 melee damage, strength +6. Mammoth's Endurance: constitution +6. Heroism: +2 to hit, +2 damage, +3 to every save, immune to fear. Phoenix's Splendor: +2 to hit, +1 damage, charisma +4. Divine Champion: +3 to hit, +3 damage, +3 to every save, immune to fear.
+
+> Transform into a divine champion, greatly enhancing your combat abilities.
+
+*No calling has a slot of level 8 yet.*
+
+##### Divine Power
+
+*Not playable · level 8 divine spell, law domain* · `ability:divine_power`
+
+> Empower yourself with divine attributes.
+
+*Not playable — status:major_insight: Applies major_insight, which Kyr cannot execute.*
+
+##### Doom Spiral
+
+*Unreachable · level 8 divine spell, chaos domain* · `ability:doom_spiral`
+
+6d6 (6–36) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains entangled for 3 turns (a reflex save against 24 + level + bonusSpellDC avoids it); one enemy gains confused for 3 turns (a will save against 22 + level + bonusSpellDC avoids it); one enemy gains fatigued for 3 turns (a sleep save against 20 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 divine spell. Insane: −1 to every roll, −2 to will saves. Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
+
+> Trap an enemy in a spiraling vortex of chaos.
+
+*No calling has a slot of level 8 yet.*
+
+##### Enlightenment
+
+*Unreachable · level 8 divine spell, light domain* · `ability:enlightenment`
+
+One ally gains enlightened for 3 turns. (a level 8-level slot) Level 8 divine spell. Enlightened: +2 to every roll, intelligence +4, wisdom +4.
+
+> Grant profound insight to yourself or an ally.
+
+*No calling has a slot of level 8 yet.*
+
+##### Greater Toxicity
+
+*Not playable · level 8 divine spell, poison domain* · `ability:greater_toxicity`
+
+> Greatly increase the potency of poisons.
+
+*Not playable — status:greater_toxicity: Applies greater_toxicity, which Kyr cannot execute.*
+
+##### Mass Heal
+
+*Unreachable · level 8 divine spell, life domain* · `ability:mass_heal`
+
+Heal every ally for 3d8 + level; end  on every ally. (a level 8-level slot) Level 8 divine spell.
+
+> Heal multiple allies at once.
+
+*No calling has a slot of level 8 yet.*
+
+##### Mass Rejuvenate
+
+*Unreachable · level 8 divine spell, love domain* · `ability:mass_rejuvenate`
+
+Heal every ally for 4d8 + wisdom. (a level 8-level slot) Level 8 divine spell.
+
+> Heal a massive amount of health for all allies.
+
+*No calling has a slot of level 8 yet.*
+
+##### Scaleskin
+
+*Unreachable · level 8 divine spell, nature domain* · `ability:scaleskin`
+
+You gain scaleskin for 3 turns. (a level 8-level slot) Level 8 divine spell. Scaleskin: 8 harder to hit, resists 25% of fire.
+
+> Your skin takes on the qualities of dragon scales.
+
+*No calling has a slot of level 8 yet.*
+
+##### Shadow Form
+
+*Not playable · level 8 divine spell, darkness domain* · `ability:shadow_form`
+
+> Transform into a being of shadow.
+
+*Not playable — status:spellturn: Applies spellturn, which Kyr cannot execute.*
+
+##### Storm Surge
+
+*Not playable · level 8 divine spell, storm domain* · `ability:stormsurge`
+
+> Unleash a powerful surge of storm energy that damages all enemies in an area.
+
+*Not playable — effect:damage: Damage kind electric is not a Kyr damage type.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+##### Zephyrwild
+
+*Not playable · level 8 divine spell, ocean domain* · `ability:zephyrwild`
+
+> Summon a swift wind to carry you and your allies swiftly across the battlefield.
+
+*Not playable — target: Target self, allies is not a Kyr target.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+#### Level 9
+
+##### Apocalypse
+
+*Unreachable · level 9 divine spell, death domain* · `ability:apocalypse`
+
+6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it); 6d6 (6–36) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); 6d6 (6–36) lightning damage to every enemy (halved if resisted; may cause paralyzed: a paralyze save against 15 avoids it); every enemy gains doomed for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Burning: takes 1d3 (1–3) fire damage each turn. Frozen: dexterity −5, cannot act. Paralyzed: strength −5, dexterity −5, cannot act. Doomed: strength −4, dexterity −4, constitution −4, intelligence −4, wisdom −4, charisma −4.
+
+> Unleash a cataclysmic storm of elemental fury upon all enemies.
+
+*No calling has a slot of level 9 yet.*
+
+##### Black Hole
+
+*Unreachable · level 9 divine spell, darkness domain* · `ability:black_hole`
+
+12d6 (12–72) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it). (a level 9-level slot) Level 9 divine spell. Frozen: dexterity −5, cannot act.
+
+> Create a devastating black hole that damages and pulls in enemies.
+
+*No calling has a slot of level 9 yet.*
+
+##### Death Fog
+
+*Not playable · level 9 divine spell, poison domain* · `ability:death_fog`
+
+> Create a deadly fog that severely poisons enemies within it.
+
+*Not playable — effect:kill: Effect kill is not supported.*
+
+##### Discordant Wave
+
+*Unreachable · level 9 divine spell, chaos domain* · `ability:discordant_wave`
+
+8d6 (8–48) psychic damage to every enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains insane for 3 turns (a will save against 28 + level + bonusSpellDC avoids it); every enemy gains confused for 3 turns (a will save against 25 + level + bonusSpellDC avoids it); every enemy gains stunned for 3 turns (a will save against 23 + level + bonusSpellDC avoids it); every enemy gains distracted for 3 turns (a will save against 20 + level + bonusSpellDC avoids it); every enemy gains doomed for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion. Doomed: strength −4, dexterity −4, constitution −4, intelligence −4, wisdom −4, charisma −4.
+
+> Release a wave of chaotic energy that wreaks havoc on all enemies.
+
+*No calling has a slot of level 9 yet.*
+
+##### Dust to Dust
+
+*Unreachable · level 9 divine spell, war domain* · `ability:dust_to_dust`
+
+10d6 (10–60) radiant damage to every enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); every enemy gains stunned for 3 turns (a will save against 20 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act.
+
+> Call upon the gods to strike down your enemies with overwhelming force.
+
+*No calling has a slot of level 9 yet.*
+
+##### Implosion
+
+*Unreachable · level 9 divine spell, law domain* · `ability:implosion`
+
+10d6 (10–60) force damage to one enemy (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it). (a level 9-level slot) Level 9 divine spell. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
+
+> Cause an enemy to implode from within.
+
+*No calling has a slot of level 9 yet.*
+
+##### Lovebomb
+
+*Unreachable · level 9 divine spell, love domain* · `ability:lovebomb`
+
+6d12 (6–72) psychic damage to every enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains charmed for 5 turns (only humanoid creatures; a will save against 30 + level + bonusSpellDC avoids it); every enemy gains distracted for 5 turns (a will save against 25 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Insane: −1 to every roll, −2 to will saves. Distracted: −1 to hit, −1 damage, −5 evasion.
+
+> Explode with overwhelming affection, incapacitating enemies.
+
+*No calling has a slot of level 9 yet.*
+
+##### Maelstrom
+
+*Not playable · level 9 divine spell, storm domain* · `ability:maelstrom`
+
+> Create a devastating maelstrom of storm energy that damages and stuns all enemies in an area.
+
+*Not playable — effect:damage: Damage kind electric is not a Kyr damage type.*
+
+##### Major Restoration
+
+*Unreachable · level 9 divine spell, life domain* · `ability:major_restoration`
+
+Heal one ally for 10d8 + level; end  on one ally. (a level 9-level slot) Level 9 divine spell.
+
+> Completely cure an ally of all ailments and restore vitality.
+
+*No calling has a slot of level 9 yet.*
+
+##### Ocean's Wrath
+
+*Unreachable · level 9 divine spell, ocean domain* · `ability:oceans_wrath`
+
+6d10 + level × 2 cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); every enemy gains drenched for 10 turns (a magic save against 15 + level + bonusSpellDC avoids it); every enemy gains prone for 3 turns (a fortitude save against 22 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: dexterity −2, cannot act.
+
+> Call upon the full fury of the ocean to devastate your enemies.
+
+*No calling has a slot of level 9 yet.*
+
+##### Steelskin
+
+*Unreachable · level 9 divine spell, nature domain* · `ability:steelskin`
+
+You gain steelskin for 3 turns. (a level 9-level slot) Level 9 divine spell. Steelskin: 10 harder to hit, resists 50% of piercing, resists 50% of slashing.
+
+> Your skin becomes as tough as steel.
+
+*No calling has a slot of level 9 yet.*
+
+##### Sunsphere
+
+*Unreachable · level 9 divine spell, light domain* · `ability:sunsphere`
+
+10d6 (10–60) radiant damage to every enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a level 9-level slot) Level 9 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Create a massive sphere of sunlight that damages enemies.
+
+*No calling has a slot of level 9 yet.*
+
+## Techniques
+
+Abilities that are not spells: a calling's, a feat's or an item's. They cost nothing but time, unless they say so.
+
+### Arrow Volley
+
+*Faithful · technique* · `ability:arrow_volley`
+
+3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a bleed save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+> Shoot a volley of arrows.
+
+### Backstab
+
+*Faithful · technique* · `ability:backstab`
+
+- Needs: the holder hidden
+
+End  on yourself; weapon attack against one enemy; 1d6 (1–6) piercing damage to one enemy (may cause bleeding: a bleed save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+> Attack an enemy from behind, dealing 1d6 extra damage on a successful hit.
+
+### Black Ritual
+
+*Not playable · technique* · `ability:black_ritual`
+
+- Not while: summoning
+
+> A profane ritual summons a monstrous undead creature to serve you.
+
+*Not playable — status:summoning: Applies summoning, which Kyr cannot execute.*
+
+### Bleat
+
+*Faithful · technique* · `ability:bleat`
+
+1 sonic damage to one enemy (may cause deafened: a fortitude save against 15 avoids it; may cause migraine: a magic save against 15 avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic.
+
+> A pathetic bleat that does minimal damage.
+
+### Call Animal Companion
+
+*Not playable · technique* · `ability:summon_animal`
+
+- Again after: 8 turns
+
+> A friendly animal comes to your aid in battle.
+
+*Not playable — effect:summon: Effect summon is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+### Chant
+
+*Not playable · technique* · `ability:chant`
+
+> Bolster yourself with a holy chant.
+
+*Not playable — status:chanting: Applies chanting, which Kyr cannot execute.*
+
+### Chaotic Hammer
+
+*Not playable · technique* · `ability:chaos_hammer`
+
+> Give yourself radiant status and deal damage to two enemies.
+
+*Not playable — effect:damage: Effect target enemy is not supported.*
+
+### Charge
+
+*Faithful · technique* · `ability:charge`
+
+- Needs: the holder preparing to charge
+
+End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+> Charge at an enemy, dealing 3d8+1 damage. Each level adds +1 to damage.
+
+### Cleave
+
+*Faithful · technique* · `ability:cleave`
+
+Weapon attack against one enemy, carrying a killing blow on to another.
+
+> Sweeping attack strikes an adjacent enemy if lethal damage is dealt.
+
+### Confound
+
+*Faithful · technique* · `ability:confound`
+
+One enemy gains confused for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+
+> Confuse an enemy, causing them to act erratically.
+
+### Countdown
+
+*Not playable · technique* · `ability:countdown`
+
+- Not while: ticking
+
+> Start a countdown that will detonate after 3 rounds.
+
+*Not playable — status:ticking: Applies ticking, which Kyr cannot execute.*
+
+### Deactivate Device
+
+*Not playable · technique* · `ability:disable`
+
+> Attempt to disable a mechanical trap or device.
+
+*Not playable — status:disabled: Applies disabled, which Kyr cannot execute.*
+
+### Defend
+
+*Faithful · technique* · `ability:defend`
+
+- Again after: 4 turns
+
+You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+> Take a defensive stance.
+
+### Detonation
+
+*Not playable · technique* · `ability:detonation`
+
+> A fiery explosion.
+
+*Not playable — effect:damage: Effect target enemies is not supported.*
+
+*Not playable — effect:kill: Effect kill is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+### Dig In
+
+*Faithful · technique* · `ability:dig_in`
+
+You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every save.
+
+> Brace yourself, gaining +2 AC and +2 to saving throws for 4 rounds.
+
+### Dirty Trick
+
+*Faithful · technique* · `ability:dirty_trick`
+
+One enemy gains blinded for 3 turns (a reflex save against 14 + level + bonusSpellDC avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+> Perform a dirty trick to blind or entangle an enemy, giving them -4 to hit for 2 rounds.
+
+### Dodge
+
+*Faithful · technique* · `ability:dodge`
+
+You gain dodging for 3 turns. Dodging: 2 harder to hit, +5 evasion.
+
+> Focus on dodging attacks, granting you evasion and enhanced AC.
+
+### Engulf
+
+*Faithful · technique* · `ability:engulf`
+
+One enemy gains engulfed for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn.
+
+> Absorb an enemy into the ooze, dealing 6d6 acid damage over 3 rounds.
+
+### Ensnare
+
+*Faithful · technique* · `ability:ensnare`
+
+One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+
+> Entangle an enemy with vines, reducing their speed and giving them -2 to hit for 3 rounds.
+
+### Fire ward
+
+*Adapted · technique* · `ability:fire_ward`
+
+One ally gains fireproof for 2 hours. Fireproof: resists 50% of fire.
+
+> Ward a companion against fire for about two hours.
+
+*Adapted: Kyr technique granted by a ward focus; applies fireproof on the world clock for twelve units.*
+
+### Flee
+
+*Adapted · technique* · `ability:flee`
+
+Try to escape the fight (an even chance).
+
+*Adapted: Orsino offers player-side combatants Flee every turn: an even chance (Math.random() < 0.5; Kyr rolls from the seeded stream) to end the fight. Orsino's monster Escape skill rolls a will save that, as written for fear effects, makes a successful save fail; Kyr uses the player rule for every creature that flees.*
+
+### Flurry of Blows
+
+*Faithful · technique* · `ability:flurry_of_blows`
+
+Weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy.
+
+> Deliver a rapid series of powerful strikes to an enemy.
+
+### Guard
+
+*Kyr · technique* · `ability:guard`
+
+One ally gains guarded for 2 turns.
+
+> Stand in front of a companion: until your next turn, blows aimed at them strike you.
+
+### Hide
+
+*Faithful · technique* · `ability:hide`
+
+You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+
+> Attempt to hide from enemies.
+
+### Hunter's Mark
+
+*Faithful · technique* · `ability:hunters_mark`
+
+One enemy gains hunting prey for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). Hunting Prey: 2 easier to hit.
+
+> Mark an enemy, giving them -2 AC and +1d4 damage from all attacks for 5 rounds.
+
+### Hymn of Valor
+
+*Faithful · technique* · `ability:hymn_of_valor`
+
+Every ally gains heroism for 3 turns. Heroism: +2 to hit, +2 damage, +3 to every save, immune to fear.
+
+> Sing a stirring hymn that bolsters your allies' courage.
+
+### Infect
+
+*Not playable · technique* · `ability:infect`
+
+> Infect an enemy with a virulent disease.
+
+*Not playable — effect:cast: Effect cast is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+### Inspire
+
+*Faithful · technique* · `ability:inspire`
+
+- Again after: 8 turns
+
+Every ally gains inspired for 3 turns. (usable again in 8 turns) Inspired: +2 to hit, +1 to every save.
+
+> Inspire your allies.
+
+### Major Inspire
+
+*Faithful · technique* · `ability:major_inspire`
+
+- Again after: 12 turns
+
+Every ally gains greatly inspired for 3 turns. (usable again in 12 turns) Greatly Inspired: +4 to hit, +2 damage, +2 to every save.
+
+> Greatly inspire your allies.
+
+### Meditate
+
+*Faithful · technique* · `ability:meditate`
+
+You gain meditating for 3 turns. Meditating: +2 to magic saves, resists 25% of force, cannot act, heal 1d2 + level each turn.
+
+> Enter a meditative state.
+
+### Melee Attack
+
+*Faithful · technique* · `ability:melee`
+
+Weapon attack against one enemy.
+
+> Use your primary weapon.
+
+### Overwatch
+
+*Not playable · technique* · `ability:overwatch`
+
+> Make an attack of opportunity against the first enemy that melee attacks you or an ally before your next turn.
+
+*Not playable — status:overwatch: Applies overwatch, which Kyr cannot execute.*
+
+### Poison Bite
+
+*Faithful · technique* · `ability:poison_bite`
+
+1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+
+> Bite an enemy, dealing 1d4 damage and poisoning them.
+
+### Poison Weapon
+
+*Faithful · technique* · `ability:poison_weapon`
+
+You gain poisoning blade for 3 turns.
+
+> Coat your weapon in poison for your next 2 attacks.
+
+### Prepare Charge
+
+*Faithful · technique* · `ability:prepare_charge`
+
+You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+
+> Prepare to charge on your next turn, gaining +2 to hit and +2 damage.
+
+### Rage
+
+*Faithful · technique* · `ability:enrage`
+
+You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+
+> Enter a frenzied state.
+
+### Ranged Attack
+
+*Faithful · technique* · `ability:ranged`
+
+Weapon attack against one enemy.
+
+> Fire your primary weapon.
+
+### Rapid Fire
+
+*Faithful · technique* · `ability:rapid_fire`
+
+Weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy.
+
+> Quickly fire your weapon multiple times in swift succession.
+
+### Rapid Strike
+
+*Faithful · technique* · `ability:rapid_strike`
+
+Weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy.
+
+> Quickly inflict damage.
+
+### Reckless Attack
+
+*Faithful · technique* · `ability:reckless_attack`
+
+Weapon attack against one enemy; weapon attack against one enemy; you gain reckless for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit.
+
+> Make a powerful double attack that deals +2 damage each, but you take -2 to hit and +2 AC for 2 rounds.
+
+### Riposte
+
+*Faithful · technique* · `ability:riposte`
+
+- Again after: 5 turns
+
+You gain riposting for 3 turns. (usable again in 5 turns) Riposting: 1 easier to hit, +3 evasion.
+
+> Next attack that misses you triggers a punishing counterattack.
+
+### Roundhouse Kick
+
+*Faithful · technique* · `ability:roundhouse`
+
+1d4 + 1 + round((level / 3)) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+> Make a powerful kick that strikes all enemies.
+
+### Scream
+
+*Faithful · technique* · `ability:fear`
+
+- Again after: 6 turns
+
+Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+> Let out a horrific scream.
+
+### Second Wind
+
+*Faithful · technique* · `ability:second_wind`
+
+Heal yourself for 1d10 + level.
+
+> Regain 1d10 + level hit points.
+
+### Sets Spear
+
+*Not playable · technique* · `ability:set_spear`
+
+- Needs: a weapon that sets against a charge
+
+> Brace your spear to intercept a charging enemy, dealing 3d8 damage and granting +4 to hit when they charge you next turn.
+
+*Not playable — status:braced: Applies braced, which Kyr cannot execute.*
+
+### Shield Bash
+
+*Faithful · technique* · `ability:shield_bash`
+
+- Again after: 4 turns
+
+1d6 (1–6) bludgeoning damage to one enemy (halved if resisted; may cause stunned: a stun save against 15 avoids it); one enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it). (usable again in 4 turns) Stunned: −2 to every roll, cannot act.
+
+> Bash an enemy with your shield, dealing 1d6 damage and stunning them for 1 turn.
+
+### Smash
+
+*Faithful · technique* · `ability:smash`
+
+2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+
+> Unleash a powerful blow.
+
+### Smoke Screen
+
+*Faithful · technique* · `ability:smoke_screen`
+
+The whole company gains hidden for 6 turns. Hidden: 4 harder to hit, +10 evasion.
+
+> Create a smoke screen that grants all allies within it evasion and 4 AC for 3 rounds.
+
+### Snipe
+
+*Faithful · technique* · `ability:snipe`
+
+Weapon attack against one enemy.
+
+> Take careful aim to strike a vital spot.
+
+### Spread Disease
+
+*Faithful · technique* · `ability:spread_disease`
+
+Every enemy gains diseased for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Spread a debilitating disease to all nearby enemies.
+
+### Stomp
+
+*Faithful · technique* · `ability:stomp`
+
+1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a reflex save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+
+> Stomp the ground, dealing 1d6 bludgeoning damage to all adjacent enemies and knocking them prone.
+
+### Sweeping Strike
+
+*Faithful · technique* · `ability:sweep`
+
+Weapon attack against one enemy; one enemy gains prone for 3 turns (a reflex save against 15 + level + bonusSpellDC avoids it). Prone: dexterity −2, cannot act.
+
+> Attempt to knock an enemy prone with a wide swing of your weapon.
+
+### Taunt
+
+*Faithful · technique* · `ability:taunt`
+
+One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+
+> Taunt an enemy, forcing them to target you on their next turn.
+
+### Trickfire
+
+*Faithful · technique* · `ability:trickfire`
+
+1d3 (1–3) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it); every enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). Burning: takes 1d3 (1–3) fire damage each turn.
+
+> Toss a firebomb that damages and confuses enemies.
+
+### Vexate
+
+*Not playable · technique* · `ability:vexate`
+
+> Cast a minor hex that irritates and distracts an enemy.
+
+*Not playable — effect:cast: Effect cast is not supported.*
+
+*Not playable — effects: No effect Kyr can execute.*
+
+### Vicious Mockery
+
+*Faithful · technique* · `ability:vicious_mockery`
+
+- Again after: 4 turns
+
+1d4 (1–4) psychic damage to one enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains mocked for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (usable again in 4 turns) Insane: −1 to every roll, −2 to will saves. Mocked: −1 to hit, −1 damage, −1 to every save.
+
+> Hurl a string of insults at an enemy.
+
+### Vigor Up
+
+*Faithful · technique* · `ability:vigor_up`
+
+You gain vigorous for 5 turns. Vigorous: +1 to hit, +1 damage, +1 to every save, constitution +2.
+
+> Boost your vitality, granting +2 to all healing received for the next 5 rounds.
+
+### Wait
+
+*Faithful · technique* · `ability:wait`
+
+.
+
+> Wait and do nothing this turn.
+
+### Whirlwind Attack
+
+*Faithful · technique* · `ability:whirlwind`
+
+- Again after: 6 turns
+
+Weapon attack against every enemy. (usable again in 6 turns)
+
+> Swing your weapon in a wide arc, attacking all enemies within reach.
+
+## Advancement
+
+Experience comes from what the company defeats (its kind's worth for each of its levels) and from what it resolves. A level is taken the next time the company rests under a roof.
+
+Each level rolls the calling's hit die and adds Constitution modifier (at least 1), gives a point to raise any quality, and a specialist caster a new spell of their tradition that they can cast. At levels 5, 10 and 15 a companion may take up one of their calling's feats.
+
+Kyr's experience table runs to level 10; Orsino's continues.
+
+| Level | Experience | Also |
+|---|---|---|
+| 2 | 1000 |  |
+| 3 | 3000 |  |
+| 4 | 6200 |  |
+| 5 | 10900 | a feat |
+| 6 | 17400 |  |
+| 7 | 26000 |  |
+| 8 | 37000 |  |
+| 9 | 50700 |  |
+| 10 | 67400 | a feat |
+
+## Feats
+
+Offered at levels 5, 10 and 15: a calling's feats of that level or below, not already held, and not ruled out by one held.
+
+### Savage Attacker
+
+*Adapted · Warrior feat* · `trait:barbarian`
+
+- Calling: Warrior
+- From level: 3
+- Rules out: Order of the Shield
+- Brings: Rage, Whirlwind Attack, Reckless Attack
+
+Savage Attacker: +2 to hit, +1d4 melee damage, with a melee weapon.
+
+> You fight with primal fury.
+
+*Left out — displayClass: Presentation only.*
+
+### Fearsome Shout
+
+*Faithful · Warrior feat* · `trait:battle_cry`
+
+- Calling: Warrior
+- From level: 1
+
+Fearsome Shout: battlecry after each kill.
+
+> You have an empowering battle cry.
+
+### Jester
+
+*Adapted · Bard feat* · `trait:jester`
+
+- Calling: Bard
+- From level: 3
+- Rules out: Warlord's Presence
+- Brings: Vicious Mockery, Confound, Dirty Trick
+
+Charisma +2.
+
+> You use humor to disarm and confuse your foes.
+
+*Left out — displayClass: Presentation only.*
+
+### Order of the Shield
+
+*Adapted · Warrior feat* · `trait:knight`
+
+- Calling: Warrior
+- From level: 3
+- Rules out: Savage Attacker
+- Brings: Taunt, Shield Bash, Overwatch (not playable)
+
+2 harder to hit, +2 to magic saves.
+
+Heavy Handed: +5 to hit, +1 damage, with a heavy weapon.
+
+> You are a disciplined defender.
+
+*Left out — displayClass: Presentation only.*
+
+### Focused Casting
+
+*Not playable · Mage feat* · `trait:mana_focusing`
+
+- Calling: Mage
+- From level: 1
+
+> Improve spell slots by 2.
+
+*Not playable — bonusSpellSlots: Kyr does not execute this Orsino effect yet.*
+
+### Animal Companion
+
+*Not playable · Ranger feat* · `trait:natural_bond`
+
+- Calling: Ranger
+- From level: 1
+
+> Summon an extra animal companion when you call one.
+
+*Not playable — summonAnimalBonus: Kyr does not execute this Orsino effect yet.*
+
+### Divine Favor
+
+*Faithful · Cleric feat* · `trait:piety`
+
+- Calling: Cleric
+- From level: 1
+
++1d4 healing.
+
+> +1d4 healing on all healing spells.
+
+### Rousing Performance
+
+*Faithful · Bard feat* · `trait:rhythm_rhyme`
+
+- Calling: Bard
+- From level: 1
+
+Rousing Performance: what they cast lasts 2 turns longer.
+
+> All status effects you apply last 2 additional turns.
+
+### Warlord's Presence
+
+*Not playable · Bard feat* · `trait:skald`
+
+- Calling: Bard
+- From level: 3
+- Rules out: Jester
+- Brings: Dirge, Battle Cry, Hymn of Valor
+
+> Your inspiring presence bolsters your allies.
+
+*Not playable — onCombatStart: Kyr does not execute this Orsino effect yet.*
+
+*Left out — displayClass: Presentation only.*
+
+### Silent Footsteps
+
+*Adapted · Thief feat* · `trait:stealthy`
+
+- Calling: Thief
+- From level: 1
+
+Silent Footsteps: backstab does 1.25× damage.
+
+> You are adept at moving silently and picking locks.
+
+*Left out — pickLockBonus: Kyr skill checks are deterministic.*
+
+## Conditions
+
+What a creature can be under, from a spell, a blow, a trap or a lit torch. Kept by the creature until it lapses or is removed.
+
+### Acid Burn
+
+*Faithful · lasts the fight at most* · `condition:acid_burn`
+
+- Resisted by: a fortitude save
+
+Takes 1d6 (1–6) acid damage each turn.
+
+> Suffering from corrosive acid damage.
+
+### Acidproof
+
+*Faithful · lasts the fight at most* · `condition:acidproof`
+
+Resists 50% of acid.
+
+> Resistant to corrosion.
+
+### Agility
+
+*Faithful · lasts the fight at most* · `condition:agility`
+
++10 evasion, +5 initiative, dexterity +4.
+
+> Enhanced reflexes and nimbleness.
+
+### Agony
+
+*Faithful · lasts the fight at most* · `condition:agony`
+
+- Resisted by: a will save
+
+Intelligence −1, wisdom −1, takes 2d4 (2–8) necrotic damage each turn.
+
+> Wracked with intense pain.
+
+### Anointed
+
+*Faithful · lasts the fight at most* · `condition:anointed`
+
++1 to hit, +1 damage, +2 to every save, resists 50% of radiant.
+
+> Anointed with favor from above.
+
+### Archmage's Insight
+
+*Not playable · lasts the fight at most* · `condition:major_insight`
+
++3 to every roll, +5 to every save, intelligence +6.
+
+> Achieves unparalleled understanding and foresight.
+
+*Not playable — bonusSpellSlots: Kyr does not execute this Orsino effect yet.*
+
+### Armor Shred
+
+*Faithful · lasts the fight at most* · `condition:shred`
+
+- Resisted by: a reflex save
+
+2 easier to hit.
+
+> Armor compromised and less effective.
+
+### Asleep
+
+*Faithful · lasts the fight at most* · `condition:asleep`
+
+- Resisted by: a sleep save
+
+Cannot act.
+
+> In a deep slumber, unaware of surroundings.
+
+### Augured
+
+*Faithful · lasts the fight at most* · `condition:augured`
+
++5 initiative, +2 to every roll, +2 to every save.
+
+> Blessed with foresight and clarity of mind.
+
+### Barkskin
+
+*Faithful · lasts the fight at most* · `condition:barkskin`
+
+2 harder to hit.
+
+> Skin hardened like bark.
+
+### Battlecry
+
+*Faithful · lasts the fight at most* · `condition:battlecry`
+
++1d3 damage.
+
+> Letting out a fierce battlecry to intimidate foes.
+
+### Bear's Endurance
+
+*Faithful · lasts the fight at most* · `condition:endurance`
+
+Constitution +2.
+
+> Bolsters health and stamina.
+
+### Blade Barrier
+
+*Not playable · lasts the fight at most* · `condition:blade_barrier`
+
+> Blade Barrier
+
+*Not playable — onEnemyMelee: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Bleeding
+
+*Faithful · lasts the fight at most* · `condition:bleed`
+
+- Resisted by: a bleed save
+
+Takes 1d2 (1–2) bleed damage each turn.
+
+> Suffering from a grievous wound.
+
+### Bleeding
+
+*Kyr · lasts beyond a fight* · `condition:bleeding`
+
+- Resisted by: a bleed save
+
+Takes 1 bleed damage each turn.
+
+> A wound that keeps bleeding until it is bound.
+
+### Blessed
+
+*Faithful · lasts the fight at most* · `condition:blessed`
+
++1 to hit, +1 damage.
+
+> Favored by divine forces, gaining enhanced combat abilities.
+
+### Blinded
+
+*Faithful · lasts the fight at most* · `condition:blinded`
+
+- Resisted by: a reflex save
+
+−4 to hit, −10 evasion, −2 to every roll.
+
+> Unable to see.
+
+### Blood Frenzy
+
+*Faithful · lasts the fight at most* · `condition:bloodfrenzy`
+
++2 to hit, 2 easier to hit, +2 damage.
+
+> Entering a frenzied state after slaying an enemy.
+
+### Blurred
+
+*Faithful · lasts the fight at most* · `condition:blurred`
+
+1 harder to hit, +10 evasion, +2 to magic saves.
+
+> A shimmering distortion makes you harder to hit.
+
+### Braced
+
+*Not playable · lasts the fight at most* · `condition:braced`
+
+> Braced
+
+*Not playable — onEnemyCharge: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Bull's Strength
+
+*Faithful · lasts the fight at most* · `condition:strength`
+
+Strength +2.
+
+> Gains massive strength.
+
+### Burning
+
+*Faithful · lasts the fight at most* · `condition:burning`
+
+- Resisted by: a fortitude save
+
+Takes 1d3 (1–3) fire damage each turn.
+
+> Engulfed in flames.
+
+### Calm
+
+*Faithful · lasts the fight at most* · `condition:calm`
+
++1 to hit, +2 to will saves, immune to fear, immune to insanity.
+
+> At peace and untroubled by fear or madness.
+
+### Cat's Grace
+
+*Faithful · lasts the fight at most* · `condition:grace`
+
++5 evasion, dexterity +2.
+
+> Acquires finesse and agility.
+
+### Chanting
+
+*Not playable · lasts the fight at most* · `condition:chanting`
+
++2 to hit, +1 to every save, heal 1d3 + level each turn.
+
+> Singing to invoke magical prowess and healing.
+
+*Not playable — bonusSpellSlots: Kyr does not execute this Orsino effect yet.*
+
+### Charmed
+
+*Faithful · lasts the fight at most* · `condition:charmed`
+
+- Resisted by: a charm save
+
+> Exuding an aura of helpfulness.
+
+### Charming
+
+*Not playable · lasts the fight at most* · `condition:charming`
+
+Charisma +3, intelligence +2, wisdom +1.
+
+> Charming
+
+*Not playable — onEnemyAttack: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Clarity
+
+*Faithful · lasts the fight at most* · `condition:clarity`
+
++2 to every roll, immune to charm.
+
+> Sharpens the mind and focus.
+
+### Confused
+
+*Faithful · lasts the fight at most* · `condition:confused`
+
+- Resisted by: a will save
+
+> Unable to act rationally due to mental disturbance.
+
+### Consecrated
+
+*Not playable · lasts the fight at most* · `condition:consecrated`
+
+> Consecrated
+
+*Not playable — onEnemyOffensiveCasting: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — onEnemyAttack: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Courage
+
+*Faithful · lasts the fight at most* · `condition:courage`
+
++2 to every save, immune to fear.
+
+> Bolsters bravery and resolve.
+
+### Cursed
+
+*Faithful · lasts the fight at most* · `condition:cursed`
+
+- Resisted by: a will save
+
+Strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+
+> Afflicted by a malevolent doom.
+
+### Darkproof
+
+*Faithful · lasts the fight at most* · `condition:darkproof`
+
+Resists 50% of necrotic, immune to charm, immune to fear, immune to sleep.
+
+> Resistant to necrotic damage and control effects.
+
+### Deafened
+
+*Faithful · lasts the fight at most* · `condition:deafened`
+
+- Resisted by: a fortitude save
+
+−2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic.
+
+> Unable to hear.
+
+### Death Ward
+
+*Faithful · lasts the fight at most* · `condition:death_ward`
+
++5 to death saves.
+
+> Protected from death.
+
+### Defending
+
+*Faithful · lasts the fight at most* · `condition:defending`
+
+2 harder to hit.
+
+> Adapting a defensive stance.
+
+### Deflection
+
+*Faithful · lasts the fight at most* · `condition:deflection`
+
+3 harder to hit, +10 evasion.
+
+> Magically deflecting incoming attacks.
+
+### Despair
+
+*Faithful · lasts the fight at most* · `condition:despair`
+
+- Resisted by: a will save
+
+−2 to hit, −2 damage, −2 to every save, charisma −2.
+
+> Overcome with hopelessness.
+
+### Disabled
+
+*Not playable · lasts the fight at most* · `condition:disabled`
+
+Cannot act.
+
+> Completely unable to act.
+
+*Not playable — noStatusExpiry: Kyr does not execute this Orsino effect yet.*
+
+### Diseased
+
+*Faithful · lasts the fight at most* · `condition:disease`
+
+- Resisted by: a disease save
+
+−2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+> Afflicted with a debilitating disease.
+
+### Disrupting
+
+*Adapted · lasts the fight at most* · `condition:disrupting`
+
+> Disrupting
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Distracted
+
+*Faithful · lasts the fight at most* · `condition:distracted`
+
+- Resisted by: a will save
+
+−1 to hit, −1 damage, −5 evasion.
+
+> Easily diverted and unfocused.
+
+### Divine Champion
+
+*Faithful · lasts the fight at most* · `condition:divine_champion`
+
++3 to hit, +3 damage, +3 to every save, immune to fear.
+
+> Empowered by divine favor in combat.
+
+### Dodging
+
+*Faithful · lasts the fight at most* · `condition:dodge`
+
+2 harder to hit, +5 evasion.
+
+> Focusing on avoiding attacks.
+
+### Dominated
+
+*Faithful · lasts the fight at most* · `condition:dominated`
+
+- Resisted by: a charm save
+
+> Completely under another's control.
+
+### Doomed
+
+*Faithful · lasts the fight at most* · `condition:doom`
+
+Strength −4, dexterity −4, constitution −4, intelligence −4, wisdom −4, charisma −4.
+
+> Marked for inevitable demise.
+
+### Drenched
+
+*Faithful · lasts the fight at most* · `condition:drenched`
+
+−2 to hit, takes 100% more lightning, takes 200% more cold.
+
+> Soaked with water.
+
+### Dug In
+
+*Faithful · lasts the fight at most* · `condition:dug_in`
+
+−2 to hit, 2 harder to hit, +3 to every save.
+
+> Taking a fortified position.
+
+### Eagle's Splendor
+
+*Faithful · lasts the fight at most* · `condition:splendor`
+
++1 to hit, charisma +2.
+
+> Has a radiant presence and charm.
+
+### Electrostatic Field
+
+*Not playable · lasts the fight at most* · `condition:electrostatic_field`
+
+> Electrostatic Field
+
+*Not playable — onEnemyEnter: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Engulfed
+
+*Faithful · lasts the fight at most* · `condition:engulfed`
+
+- Resisted by: a reflex save
+
+Cannot act, takes 2d6 (2–12) acid damage each turn.
+
+> Surrounded by a harmful substance.
+
+### Enlarged
+
+*Faithful · lasts the fight at most* · `condition:enlarged`
+
++1 to hit, 1 easier to hit, +1d4 damage, −5 evasion, strength +4.
+
+> Increased in size, gaining strength and power.
+
+### Enlightened
+
+*Faithful · lasts the fight at most* · `condition:enlightened`
+
++2 to every roll, intelligence +4, wisdom +4.
+
+> Possessing profound understanding and insight.
+
+### Entangled
+
+*Faithful · lasts the fight at most* · `condition:entangled`
+
+- Resisted by: a reflex save
+
+−2 to hit, −5 evasion, −5 initiative, dexterity −5.
+
+> Restricted movement due to entangling effects.
+
+### False Life
+
+*Faithful · lasts the fight at most* · `condition:false_life`
+
+> Bolstered by unnatural vitality.
+
+### Fatigued
+
+*Faithful · lasts the fight at most* · `condition:fatigue`
+
+- Resisted by: a fortitude save
+
+−1 to every roll, strength −1, dexterity −1, constitution −1.
+
+> Exhausted and weakened.
+
+### Feebleminded
+
+*Not playable · lasts the fight at most* · `condition:feebleminded`
+
+- Resisted by: a will save
+
+−2 to every roll, intelligence −4, wisdom −4, charisma −4.
+
+> Suffering from severe cognitive impairment.
+
+*Not playable — mayUseItems: Kyr does not execute this Orsino effect yet.*
+
+### Fireproof
+
+*Adapted · lasts beyond a fight* · `condition:fireproof`
+
+Resists 50% of fire.
+
+> Fire does half its harm.
+
+*Adapted: Exact 50% fire resistance. It persists beyond an encounter for as long as the applying salve or ward says, and one source refreshes rather than stacks.*
+
+### Flight
+
+*Faithful · lasts the fight at most* · `condition:flight`
+
+5 harder to hit, +20 evasion.
+
+> Soaring through the air with ease.
+
+### Focus
+
+*Not playable · lasts the fight at most* · `condition:focus`
+
++2 to hit, +3 to magic saves.
+
+> Enhances concentration and spellcasting.
+
+*Not playable — bonusSpellSlots: Kyr does not execute this Orsino effect yet.*
+
+### Fox's Cunning
+
+*Faithful · lasts the fight at most* · `condition:cunning`
+
++1 to every roll, intelligence +2.
+
+> Becomes incredibly clever and quick-thinking.
+
+### Frightened
+
+*Faithful · lasts the fight at most* · `condition:fear`
+
+- Resisted by: a fear save
+
+−2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+
+> Overcome with fear and hesitation.
+
+### Frozen
+
+*Faithful · lasts the fight at most* · `condition:frozen`
+
+- Resisted by: a reflex save
+
+Dexterity −5, cannot act.
+
+> Encased in ice.
+
+### Ghost Touch
+
+*Faithful · lasts the fight at most* · `condition:ghost_touch`
+
+> Attacks pass through physical armor.
+
+### Giant's Strength
+
+*Faithful · lasts the fight at most* · `condition:major_strength`
+
++1d3 melee damage, strength +6.
+
+> Becomes mightily strong.
+
+### Greater Focus
+
+*Not playable · lasts the fight at most* · `condition:major_focus`
+
++4 to hit, +5 to magic saves.
+
+> Greatly enhances concentration and spellcasting.
+
+*Not playable — bonusSpellSlots: Kyr does not execute this Orsino effect yet.*
+
+### Greater Toxicity
+
+*Not playable · lasts the fight at most* · `condition:greater_toxicity`
+
+Immune to poison.
+
+> Greater Toxicity
+
+*Not playable — bonusPoisonDamage: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Greatly Inspired
+
+*Faithful · lasts the fight at most* · `condition:major_inspired`
+
++4 to hit, +2 damage, +2 to every save.
+
+> Overcome with powerful inspiration.
+
+### Guarded
+
+*Kyr · lasts the fight at most* · `condition:guarded`
+
+> Someone stands in front of them and takes the blows meant for them.
+
+### Haste
+
+*Faithful · lasts the fight at most* · `condition:haste`
+
+2 harder to hit, +10 initiative, dexterity +4.
+
+> Moving with supernatural speed.
+
+### Heroism
+
+*Faithful · lasts the fight at most* · `condition:major_courage`
+
++2 to hit, +2 damage, +3 to every save, immune to fear.
+
+> Fills with heroic valor.
+
+### Hexed
+
+*Faithful · lasts the fight at most* · `condition:hexed`
+
+−2 to every roll, −2 to every save.
+
+> Cursed with misfortune.
+
+### Hidden
+
+*Faithful · lasts the fight at most* · `condition:hidden`
+
+4 harder to hit, +10 evasion.
+
+> Concealed from enemies.
+
+### Hunting Prey
+
+*Faithful · lasts the fight at most* · `condition:prey`
+
+2 easier to hit.
+
+> Marked as a favored target.
+
+### In Maze
+
+*Not playable · lasts the fight at most* · `condition:mazed`
+
+Cannot act.
+
+> Trapped in a labyrinthine dimension.
+
+*Not playable — untargetable: Kyr does not execute this Orsino effect yet.*
+
+### Infected
+
+*Faithful · lasts the fight at most* · `condition:infected`
+
+- Resisted by: a disease save
+
+−1 to hit, −1 damage, −2 to every save, constitution −1.
+
+> Afflicted with a harmful infection.
+
+### Insane
+
+*Faithful · lasts the fight at most* · `condition:insane`
+
+- Resisted by: a insanity save
+
+−1 to every roll, −2 to will saves.
+
+> Mentally unstable and unpredictable.
+
+### Insight
+
+*Faithful · lasts the fight at most* · `condition:minor_insight`
+
++2 to every save.
+
+> Gains deep understanding and intuition.
+
+### Inspired
+
+*Faithful · lasts the fight at most* · `condition:inspired`
+
++2 to hit, +1 to every save.
+
+> Filled with inspiration and vigor.
+
+### Invisible
+
+*Not playable · lasts the fight at most* · `condition:invisible`
+
+> Unable to be seen by enemies.
+
+*Not playable — invisible: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — onOffensiveCasting: Kyr does not execute this Orsino effect yet.*
+
+### Invulnerable
+
+*Not playable · lasts the fight at most* · `condition:invulnerable`
+
+> Temporarily immune to harm.
+
+*Not playable — untargetable: Kyr does not execute this Orsino effect yet.*
+
+### Ion Shield
+
+*Not playable · lasts the fight at most* · `condition:ion_shield`
+
+> Ion Shield
+
+*Not playable — onAttacked: Damage kind electric is not a Kyr damage type.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Ironskin
+
+*Faithful · lasts the fight at most* · `condition:ironskin`
+
+5 harder to hit.
+
+> Skin as tough as iron.
+
+### Keen Senses
+
+*Faithful · lasts the fight at most* · `condition:keensense`
+
++2 to hit, +1 damage, +5 evasion, +1 to every save.
+
+> Heightened awareness and perception.
+
+### Keen Weapon
+
+*Faithful · lasts the fight at most* · `condition:keen`
+
++2 to hit, +2 damage.
+
+> Weapons are sharper and more precise.
+
+### Lightproof
+
+*Faithful · lasts the fight at most* · `condition:lightproof`
+
+Resists 50% of radiant.
+
+> Resistant to radiant damage.
+
+### Lit
+
+*Kyr · lasts beyond a fight* · `condition:lit`
+
+> A conjured light hangs over its bearer's shoulder for a while.
+
+### Luminous Blade
+
+*Adapted · lasts the fight at most* · `condition:luminous_blade`
+
+> Luminous Blade
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Mage-Armored
+
+*Faithful · lasts the fight at most* · `condition:mage_armored`
+
+4 harder to hit.
+
+> Protected by magical armor.
+
+### Magebane
+
+*Not playable · lasts the fight at most* · `condition:magebane`
+
+> Magebane
+
+*Not playable — onEnemyCasting: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Mageproof
+
+*Faithful · lasts the fight at most* · `condition:mageproof`
+
++2 to magic saves, resists 50% of force.
+
+> Resistant to force damage and magic.
+
+### Major Augured
+
+*Faithful · lasts the fight at most* · `condition:major_augured`
+
++10 initiative, +3 to every roll, +3 to every save, intelligence +4, wisdom +4.
+
+> Greatly enhanced foresight and mental clarity.
+
+### Major Deflection
+
+*Faithful · lasts the fight at most* · `condition:major_deflection`
+
+5 harder to hit, +15 evasion.
+
+> Greatly enhances ability to deflect attacks.
+
+### Major False Life
+
+*Faithful · lasts the fight at most* · `condition:major_false_life`
+
++2 to death saves, resists 50% of necrotic.
+
+> Greatly bolstered by unnatural vitality.
+
+### Major Reflect
+
+*Not playable · lasts the fight at most* · `condition:major_reflect`
+
+> Reflecting a large portion of damage back to attackers.
+
+*Not playable — reflectDamagePercent: Kyr does not execute this Orsino effect yet.*
+
+### Major Spellturn
+
+*Not playable · lasts the fight at most* · `condition:major_spellturn`
+
+> Greatly increases chance to reflect spells back at their casters.
+
+*Not playable — reflectSpellChance: Kyr does not execute this Orsino effect yet.*
+
+### Major Warded
+
+*Faithful · lasts the fight at most* · `condition:major_warded`
+
++1 to every save, +2 to magic saves, resists 25% of fire, resists 25% of cold, resists 25% of lightning, resists 75% of force, resists 25% of acid, resists 25% of sonic, resists 25% of necrotic.
+
+> A powerful magical ward providing significant protection.
+
+### Major Weakened
+
+*Faithful · lasts the fight at most* · `condition:major_weakened`
+
+- Resisted by: a fortitude save
+
+−4 damage, strength −4.
+
+> Severely sapped of strength and power.
+
+### Mammoth's Endurance
+
+*Faithful · lasts the fight at most* · `condition:major_endurance`
+
+Constitution +6.
+
+> Greatly enhances health and stamina.
+
+### Marked for Judgment
+
+*Not playable · lasts the fight at most* · `condition:marked_for_judgment`
+
+> Marked for Judgment
+
+*Not playable — onHeal: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Meditating
+
+*Faithful · lasts the fight at most* · `condition:meditating`
+
++2 to magic saves, resists 25% of force, cannot act, heal 1d2 + level each turn.
+
+> Gaining mental clarity and resistance.
+
+### Migraine
+
+*Faithful · lasts the fight at most* · `condition:migraine`
+
+Takes 200% more radiant, takes 200% more sonic.
+
+> Suffering from a severe headache.
+
+### Mind Blank
+
+*Faithful · lasts the fight at most* · `condition:mind_blank`
+
++2 to will saves, resists 50% of psychic, immune to charm, immune to insanity, immune to fear, immune to sleep.
+
+> Protected from mental influence and psychic damage.
+
+### Mind Reading
+
+*Not playable · lasts the fight at most* · `condition:mind_reading`
+
+> Mind Reading
+
+*Not playable — readThoughts: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Mindproof
+
+*Faithful · lasts the fight at most* · `condition:mindproof`
+
+Resists 50% of psychic, immune to charm, immune to insanity, immune to fear, immune to sleep.
+
+> Resistant to psychic damage and mental influence.
+
+### Minor Reflect
+
+*Not playable · lasts the fight at most* · `condition:minor_reflect`
+
+> Reflecting a small portion of damage back to attackers.
+
+*Not playable — reflectDamagePercent: Kyr does not execute this Orsino effect yet.*
+
+### Minor Warded
+
+*Faithful · lasts the fight at most* · `condition:minor_warded`
+
++1 to magic saves, resists 25% of force.
+
+> A minor magical ward providing protection.
+
+### Mirror Images
+
+*Faithful · lasts the fight at most* · `condition:mirror_images`
+
+2 harder to hit, +15 evasion, +2 to every save.
+
+> Illusory duplicates make you harder to hit.
+
+### Mocked
+
+*Faithful · lasts the fight at most* · `condition:mocked`
+
+- Resisted by: a will save
+
+−1 to hit, −1 damage, −1 to every save.
+
+> Distracted by jeers and taunts.
+
+### Naturality
+
+*Faithful · lasts the fight at most* · `condition:naturality`
+
++1 to every save, resists 50% of poison, resists 25% of acid, immune to disease.
+
+> In harmony with the world and its forces.
+
+### Oathbound
+
+*Not playable · lasts the fight at most* · `condition:oathbound`
+
++2 to hit, 2 harder to hit, +2 damage.
+
+> Bound by a sacred oath to protect allies.
+
+*Not playable — onEnemyMelee: Kyr does not execute this Orsino effect yet.*
+
+### Oiled
+
+*Faithful · lasts the fight at most* · `condition:oiled`
+
+Takes 200% more fire.
+
+> Covered in a flammable oil.
+
+### Overwatching
+
+*Not playable · lasts the fight at most* · `condition:overwatch`
+
++2 damage.
+
+> Ready to strike at any enemy that comes close.
+
+*Not playable — onEnemyMelee: Kyr does not execute this Orsino effect yet.*
+
+### Owl's Wisdom
+
+*Faithful · lasts the fight at most* · `condition:wisdom`
+
++1 to every save, wisdom +2.
+
+> Has keen insight and perception.
+
+### Paralyzed
+
+*Faithful · lasts the fight at most* · `condition:paralyzed`
+
+- Resisted by: a paralyze save
+
+Strength −5, dexterity −5, cannot act.
+
+> Unable to move or act.
+
+### Perfect Clarity
+
+*Faithful · lasts the fight at most* · `condition:major_clarity`
+
++3 to every roll, +2 to every save, intelligence +2, immune to charm, immune to insanity.
+
+> Achieves unparalleled mental sharpness and focus.
+
+### Petrified
+
+*Faithful · lasts the fight at most* · `condition:petrified`
+
+Immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act.
+
+> Turned to stone, completely immobile.
+
+### Phoenix's Splendor
+
+*Faithful · lasts the fight at most* · `condition:major_splendor`
+
++2 to hit, +1 damage, charisma +4.
+
+> Exudes an extraordinary aura of charisma and influence.
+
+### Poison
+
+*Faithful · lasts the fight at most* · `condition:poison`
+
+- Resisted by: a poison save
+
+Takes 1d4 (1–4) true damage each turn.
+
+> Poisoned and suffering its effects.
+
+### Poisoned
+
+*Kyr · lasts beyond a fight* · `condition:poisoned`
+
+- Resisted by: a poison save
+
+Takes 2 poison damage each turn.
+
+> Poison works through the body, hurting a little at a time until it is cured.
+
+### poisoning blade
+
+*Adapted · lasts the fight at most* · `condition:poisoning_blade`
+
+> poisoning blade
+
+*Left out — consumeOn: Orsino declares consumeOn but never executes it; the status lasts its duration.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Polymorphed
+
+*Not playable · lasts the fight at most* · `condition:polymorphed`
+
+> Polymorphed
+
+*Not playable — displayName: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — attackDie: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — effectiveStats: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — effectiveAbilities: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — mayUseItems: Kyr does not execute this Orsino effect yet.*
+
+*Left out — displayClass: Presentation only.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Praying
+
+*Faithful · lasts the fight at most* · `condition:praying`
+
++1 to hit, +2 healing, +2 to every save.
+
+> Engaged in a prayer, gaining divine favor.
+
+### Preparing to Charge
+
+*Adapted · lasts the fight at most* · `condition:preparing_to_charge`
+
+- Compels: Charge
+
++2 to hit, +2 damage.
+
+> Preparing to Charge
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Prone
+
+*Faithful · lasts the fight at most* · `condition:prone`
+
+Dexterity −2, cannot act.
+
+> Lying on the ground, vulnerable to attacks.
+
+### Protected
+
+*Faithful · lasts the fight at most* · `condition:protected`
+
+Resists 50% of necrotic, immune to charm.
+
+> Protected from necrotic damage and charm effects.
+
+### Pure Strike
+
+*Faithful · lasts the fight at most* · `condition:pure_strike`
+
++4 to hit, +4 damage.
+
+> Attacks are precise and unerring.
+
+### Raging
+
+*Faithful · lasts the fight at most* · `condition:rage`
+
++1 to hit, 3 easier to hit, +2 damage.
+
+> Utterly overcome with fury.
+
+### Rallied
+
+*Faithful · lasts the fight at most* · `condition:rallied`
+
++1 to hit, +1 to every save, constitution +2.
+
+> Bolstered by determination and courage.
+
+### Raven's Cunning
+
+*Faithful · lasts the fight at most* · `condition:major_cunning`
+
++2 to every roll, intelligence +4.
+
+> Attains exceptional intellect and wit.
+
+### Reckless
+
+*Faithful · lasts the fight at most* · `condition:reckless`
+
+−2 to hit, 2 easier to hit.
+
+> Throwing caution to the wind.
+
+### Reflect
+
+*Not playable · lasts the fight at most* · `condition:reflect`
+
+> Reflecting a portion of damage back to attackers.
+
+*Not playable — reflectDamagePercent: Kyr does not execute this Orsino effect yet.*
+
+### Riposting
+
+*Faithful · lasts the fight at most* · `condition:riposte`
+
+1 easier to hit, +3 evasion.
+
+> Punishing missed attacks.
+
+### Sage's Insight
+
+*Faithful · lasts the fight at most* · `condition:insight`
+
++2 to every roll, +3 to every save, intelligence +4.
+
+> Attains profound wisdom and clarity.
+
+### Sage's Wisdom
+
+*Faithful · lasts the fight at most* · `condition:major_wisdom`
+
++2 to every roll, +2 to every save, wisdom +4.
+
+> Possesses extraordinary insight and perception.
+
+### Scalded
+
+*Faithful · lasts the fight at most* · `condition:scalded`
+
+- Resisted by: a fortitude save
+
+−1 to every roll.
+
+> Scalded
+
+### Scaleskin
+
+*Faithful · lasts the fight at most* · `condition:scaleskin`
+
+8 harder to hit, resists 25% of fire.
+
+> Skin as impervious as dragon scales.
+
+### Second Sight
+
+*Not playable · lasts the fight at most* · `condition:second_sight`
+
++5 to hit, +10 evasion.
+
+> Second Sight
+
+*Not playable — seeInvisible: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Severely Distracted
+
+*Faithful · lasts the fight at most* · `condition:major_distracted`
+
+- Resisted by: a will save
+
+−2 to hit, −2 damage, −10 evasion, −1 to every roll.
+
+> Extremely unfocused and unable to concentrate.
+
+### shapechanged
+
+*Not playable · lasts the fight at most* · `condition:shapechanged`
+
+> shapechanged
+
+*Not playable — displayName: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — effectiveStats: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — effectiveWeapon: Kyr does not execute this Orsino effect yet.*
+
+*Left out — displayClass: Presentation only.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Shielded
+
+*Faithful · lasts the fight at most* · `condition:shielded`
+
+1 harder to hit, +1 to magic saves.
+
+> Protected by a magical shield.
+
+### Silence
+
+*Faithful · lasts the fight at most* · `condition:silence`
+
+- Resisted by: a will save
+
+Cannot cast spells.
+
+> Unable to cast spells.
+
+### Slimed
+
+*Faithful · lasts the fight at most* · `condition:slimed`
+
+Takes 200% more acid.
+
+> Covered in a slimy substance.
+
+### Slow
+
+*Faithful · lasts the fight at most* · `condition:slow`
+
+- Resisted by: a reflex save
+
+−10 initiative, dexterity −5.
+
+> Movement and actions are severely hindered.
+
+### Soundproof
+
+*Faithful · lasts the fight at most* · `condition:soundproof`
+
+Resists 50% of sonic.
+
+> Resistant to sound.
+
+### Spellturn
+
+*Not playable · lasts the fight at most* · `condition:spellturn`
+
+> Reflecting spells back at their casters.
+
+*Not playable — reflectSpellChance: Kyr does not execute this Orsino effect yet.*
+
+### Steelskin
+
+*Faithful · lasts the fight at most* · `condition:steelskin`
+
+10 harder to hit, resists 50% of piercing, resists 50% of slashing.
+
+> Skin as impenetrable as steel.
+
+### Stoneskin
+
+*Faithful · lasts the fight at most* · `condition:stoneskin`
+
+3 harder to hit.
+
+> Skin as hard as stone.
+
+### Stormproof
+
+*Faithful · lasts the fight at most* · `condition:stormproof`
+
+Resists 50% of lightning.
+
+> Resistant to lightning damage.
+
+### Stunned
+
+*Faithful · lasts the fight at most* · `condition:stun`
+
+- Resisted by: a stun save
+
+−2 to every roll, cannot act.
+
+> Dazed and unable to act.
+
+### Summoning
+
+*Not playable · lasts the fight at most* · `condition:summoning`
+
+> Summoning
+
+*Not playable — onExpire: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Sunmarked
+
+*Faithful · lasts the fight at most* · `condition:sunmarked`
+
+−1 to magic saves, takes 25% more fire, takes 25% more radiant.
+
+> Marked by radiant energy, vulnerable to sunlight.
+
+### Taunted
+
+*Faithful · lasts the fight at most* · `condition:taunted`
+
+- Resisted by: a will save
+
+> Compelled to attack the taunter if able.
+
+### Thirst
+
+*Faithful · lasts the fight at most* · `condition:thirst`
+
+−1 to every save, constitution −2, takes 100% more fire.
+
+> Dehydrated and weakened.
+
+### Ticking
+
+*Not playable · lasts the fight at most* · `condition:ticking`
+
+> Ticking
+
+*Not playable — onExpire: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Time Stopped
+
+*Not playable · lasts the fight at most* · `condition:timestopped`
+
+> Completely outside the flow of time.
+
+*Not playable — extraTurns: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — triggerReactions: Kyr does not execute this Orsino effect yet.*
+
+### Time Walk
+
+*Not playable · lasts the fight at most* · `condition:timewalk`
+
+5 harder to hit, +20 evasion.
+
+> Temporarily stepping outside the flow of time.
+
+*Not playable — untargetable: Kyr does not execute this Orsino effect yet.*
+
+### Torchlit
+
+*Kyr · lasts beyond a fight* · `condition:torchlit`
+
+> Carrying a burning torch: light against the dark, and fire to hand.
+
+### Toxicity
+
+*Not playable · lasts the fight at most* · `condition:toxicity`
+
+Immune to poison.
+
+> Toxicity
+
+*Not playable — bonusPoisonDamage: Kyr does not execute this Orsino effect yet.*
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### True Sight
+
+*Not playable · lasts the fight at most* · `condition:truesight`
+
+> Seeing through illusions and invisibility.
+
+*Not playable — seeInvisible: Kyr does not execute this Orsino effect yet.*
+
+### Unbarring
+
+*Kyr · lasts beyond a fight* · `condition:unbarring`
+
+> Locks open at a touch for a while.
+
+### Vigorous
+
+*Faithful · lasts the fight at most* · `condition:vigor`
+
++1 to hit, +1 damage, +1 to every save, constitution +2.
+
+> Filled with vitality and energy.
+
+### Vital Boost
+
+*Faithful · lasts the fight at most* · `condition:vital_boost`
+
++2 to every save, constitution +4.
+
+> Enhanced vitality and life force.
+
+### Warded
+
+*Faithful · lasts the fight at most* · `condition:warded`
+
++1 to magic saves, resists 15% of fire, resists 15% of cold, resists 15% of lightning, resists 50% of force.
+
+> A magical ward providing protection.
+
+### Warding Glyph
+
+*Adapted · lasts the fight at most* · `condition:warding_glyph`
+
+> Warding Glyph
+
+*Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Waterproof
+
+*Faithful · lasts the fight at most* · `condition:waterproof`
+
+Resists 50% of cold.
+
+> Resistant to cold damage.
+
+### Wayfarer's guard
+
+*Kyr · lasts beyond a fight* · `condition:wayfarer_guard`
+
++2 to every save.
+
+> Veyra watches over the traveller: saves come easier.
+
+### Weakened
+
+*Faithful · lasts the fight at most* · `condition:weakened`
+
+- Resisted by: a fortitude save
+
+−2 damage, strength −2.
+
+> Sapped of strength and power.
+
+### Wildheart
+
+*Faithful · lasts the fight at most* · `condition:wildheart`
+
++2 to hit, +2 damage, constitution +4, resists 50% of poison, resists 25% of acid, immune to disease.
+
+> In tune with nature, gaining its resilience.
+
+## Appendix: Orsino's peoples and skills
+
+Orsino's ancestries and skills, with how much of each Kyr holds.
+
+### Ancestries
+
+25 in Orsino; 4 held by Kyr.
+
+| Name | Qualities | In Kyr |
+|---|---|---|
+| Birdfolk | str -2, dex +2, con -1, int +2, wis +1, cha +2 | — |
+| Bugbear | str +3, dex +1, con +2, int -2, wis -2, cha -2 | — |
+| Catfolk | str -1, dex +4, con -1, int +1, wis +1, cha +1 | — |
+| Draconic | str +2, dex +1, con +1, int -1, wis +2, cha -1 | — |
+| Duergar | str +2, dex -2, con +3, int -2, wis -2, cha -2 | — |
+| Dwarf | str +1, dex -1, con +2, int +1, wis +2, cha -1 | faithful |
+| Elf | str -1, dex +2, con -1, int +1, wis +2, cha +1 | faithful |
+| Fae | str -2, dex +2, con -2, int +2, wis +1, cha +3 | — |
+| Giant | str +4, dex -2, con +4, int -3, wis -2, cha -4 | — |
+| Gnoll | str +2, dex +1, con +1, int -2, wis -3, cha -1 | — |
+| Gnome | str -1, dex +1, con -1, int +2, wis +1, cha 0 | — |
+| Goblin | str -2, dex +2, con -1, int +1, wis -1, cha -2 | faithful |
+| Half elf | str 0, dex +1, con 0, int +1, wis +1, cha +2 | — |
+| Half orc | str +2, dex -1, con +1, int -1, wis +2, cha +1 | — |
+| Halfling | str -1, dex +2, con -2, int +1, wis -1, cha +1 | — |
+| Human | str +1, dex +1, con +1, int +1, wis +1, cha +1 | faithful |
+| Insectoid | str -3, dex +2, con +1, int -1, wis +1, cha -1 | — |
+| Kobold | str -3, dex +2, con -1, int +1, wis -1, cha -2 | — |
+| Lizardfolk | str +1, dex +1, con +2, int -1, wis -1, cha -1 | — |
+| Ogre | str +3, dex -2, con +2, int -2, wis -2, cha -3 | — |
+| Orc | str +2, dex +1, con +1, int -1, wis -2, cha -1 | — |
+| Sylph | str -2, dex +3, con -2, int +2, wis +1, cha +2 | — |
+| Tiefling | str +1, dex -1, con -1, int +2, wis -1, cha +2 | — |
+| Troll | str +3, dex -1, con +3, int -2, wis -2, cha -3 | — |
+| Undine | str -3, dex -2, con +2, int +1, wis +3, cha +1 | — |
+
+### Skills and techniques
+
+57 in Orsino; 56 held by Kyr.
+
+| Name | Does | In Kyr |
+|---|---|---|
+| Arrow Volley | Shoot a volley of arrows. | faithful |
+| Backstab | Attack an enemy from behind, dealing 1d6 extra damage on a successful hit. | faithful |
+| Black Ritual | A profane ritual summons a monstrous undead creature to serve you. | represented |
+| Bleat | A pathetic bleat that does minimal damage. | faithful |
+| Chaotic Hammer | Give yourself radiant status and deal damage to two enemies. | represented |
+| Charge | Charge at an enemy, dealing 3d8+1 damage. Each level adds +1 to damage. | faithful |
+| Cleave | Sweeping attack strikes an adjacent enemy if lethal damage is dealt. | faithful |
+| Confound | Confuse an enemy, causing them to act erratically. | faithful |
+| Countdown | Start a countdown that will detonate after 3 rounds. | represented |
+| Defend | Take a defensive stance. | faithful |
+| Detonation | A fiery explosion. | represented |
+| Dig In | Brace yourself, gaining +2 AC and +2 to saving throws for 4 rounds. | faithful |
+| Dirty Trick | Perform a dirty trick to blind or entangle an enemy, giving them -4 to hit for 2 rounds. | faithful |
+| Deactivate Device | Attempt to disable a mechanical trap or device. | represented |
+| Dodge | Focus on dodging attacks, granting you evasion and enhanced AC. | faithful |
+| Engulf | Absorb an enemy into the ooze, dealing 6d6 acid damage over 3 rounds. | faithful |
+| Rage | Enter a frenzied state. | faithful |
+| Ensnare | Entangle an enemy with vines, reducing their speed and giving them -2 to hit for 3 rounds. | faithful |
+| Scream | Let out a horrific scream. | faithful |
+| Escape | Run away! | represented |
+| Flurry of Blows | Deliver a rapid series of powerful strikes to an enemy. | faithful |
+| Hide | Attempt to hide from enemies. | faithful |
+| Hunter's Mark | Mark an enemy, giving them -2 AC and +1d4 damage from all attacks for 5 rounds. | faithful |
+| Hymn of Valor | Sing a stirring hymn that bolsters your allies' courage. | faithful |
+| Infect | Infect an enemy with a virulent disease. | represented |
+| Inflict Disease | Inflict a debilitating disease on a foe. | — |
+| Inspire | Inspire your allies. | faithful |
+| Major Inspire | Greatly inspire your allies. | faithful |
+| Maul | Make a powerful attack that deals 1d6 + strength modifier extra damage and inflicts Bleed on a successful hit. | represented |
+| Melee Attack | Use your primary weapon. | faithful |
+| Overwatch | Make an attack of opportunity against the first enemy that melee attacks you or an ally before your next turn. | represented |
+| Poison Bite | Bite an enemy, dealing 1d4 damage and poisoning them. | faithful |
+| Poison Weapon | Coat your weapon in poison for your next 2 attacks. | adapted |
+| Prepare Charge | Prepare to charge on your next turn, gaining +2 to hit and +2 damage. | adapted |
+| Ranged Attack | Fire your primary weapon. | faithful |
+| Rapid Fire | Quickly fire your weapon multiple times in swift succession. | faithful |
+| Rapid Strike | Quickly inflict damage. | faithful |
+| Reckless Attack | Make a powerful double attack that deals +2 damage each, but you take -2 to hit and +2 AC for 2 rounds. | faithful |
+| Riposte | Next attack that misses you triggers a punishing counterattack. | faithful |
+| Roundhouse Kick | Make a powerful kick that strikes all enemies. | faithful |
+| Second Wind | Regain 1d10 + level hit points. | faithful |
+| Sets Spear | Brace your spear to intercept a charging enemy, dealing 3d8 damage and granting +4 to hit when they charge you next turn. | represented |
+| Shield Bash | Bash an enemy with your shield, dealing 1d6 damage and stunning them for 1 turn. | faithful |
+| Smash | Unleash a powerful blow. | faithful |
+| Smoke Screen | Create a smoke screen that grants all allies within it evasion and 4 AC for 3 rounds. | faithful |
+| Snipe | Take careful aim to strike a vital spot. | faithful |
+| Spread Disease | Spread a debilitating disease to all nearby enemies. | faithful |
+| Stomp | Stomp the ground, dealing 1d6 bludgeoning damage to all adjacent enemies and knocking them prone. | faithful |
+| Call Animal Companion | A friendly animal comes to your aid in battle. | represented |
+| Sweeping Strike | Attempt to knock an enemy prone with a wide swing of your weapon. | faithful |
+| Taunt | Taunt an enemy, forcing them to target you on their next turn. | faithful |
+| Trickfire | Toss a firebomb that damages and confuses enemies. | faithful |
+| Vexate | Cast a minor hex that irritates and distracts an enemy. | represented |
+| Vicious Mockery | Hurl a string of insults at an enemy. | faithful |
+| Vigor Up | Boost your vitality, granting +2 to all healing received for the next 5 rounds. | faithful |
+| Wait | Wait and do nothing this turn. | faithful |
+| Whirlwind Attack | Swing your weapon in a wide arc, attacking all enemies within reach. | faithful |
+
