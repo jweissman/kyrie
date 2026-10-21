@@ -50,8 +50,8 @@ class Journey {
     'tower__why', 'tower__send_away', 'go(tower__crypt_steps,tower__crypt)', 'go(tower__well,east__tower_foot)',
     'go(east__tower_lane,east__holt_green)', 'go(east__landing_lane,east__landing)',
     'go(east__ferry_crossing,march__quay)', 'go(march__shrine_door,march__shrine)', 'tower__graves'];
-  static async start() {
-    const members = companies.companies.find(c => c.id === 'fellowship')!.members as CreatureGenerationContext[];
+  static async start(company = 'fellowship') {
+    const members = companies.companies.find(c => c.id === company)!.members as CreatureGenerationContext[];
     return PlaySession.start('data/campaigns/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
   }
   static async walk(s: PlaySession, commands: readonly string[]) { for (const c of commands) { await s.perform(c); } }
@@ -91,6 +91,18 @@ describe('the Serewater March, three expeditions with one company', () => {
     expect(Journey.experience(s)).toEqual([2000, 2000, 2000]);
     expect(s.campaign.events.every(e => !e.combat.some(x => x.type === 'initiative'))).toBe(true);
   }, 120000);
+  it('a company without brawn, locks or woodcraft rescues Pell another way, and it costs them their food', async () => {
+    // The pilgrims (cleric, monk, bard) climb the hoist side, dig Pell out by hand, and toss the hound their ration.
+    const s = await Journey.start('pilgrims');
+    await Journey.walk(s, ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
+      'go(hill__yard_track,hill__yard)', 'go(hill__climbing_scar,hill__hoist)', 'rescue__dig_free(party,hill__hoist)',
+      'lead(rescue__guest)', 'change_thing_paying(hill__hound_feed)', 'go(hill__hoist_passage,hill__gallery)',
+      'go(hill__gallery_steps,hill__workshop)', 'go(hill__workshop_door,hill__vestibule)', 'go(hill__arch,hill__yard)',
+      'go(hill__yard_track,march__ridge)', 'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)',
+      'rescue__thanks_escorted']);
+    expect(Journey.outcome(s, 'rescue')).toBe('success');
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(0);
+  }, 60000);
   it('while the lantern burns the dead walk down to Brackenholt at night, and each dawn another grave is open', async () => {
     const s = await Journey.start();
     await Journey.walk(s, [...Journey.hill, 'go(march__ferry_door,march__quay)', 'go(east__ferry_crossing,east__landing)',
