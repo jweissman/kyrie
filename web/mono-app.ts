@@ -52,17 +52,12 @@ export class MonoApp {
         note: 'Deem draws a region (its towns, people, faith and wild places) and situates authored adventures in it.',
         detail: 'Three settlements and three adventures · seed “thorn”' }];
   }
+  static readonly companies = (partyExamples as { companies: { id: string; label: string; note: string;
+    members: CreatureGenerationContext[] }[] }).companies;
   static preset(id: string): CreatureGenerationContext[] {
-    const backgrounds: Record<string, string[]> = { fellowship: ['hunter', 'locksmith', 'medic'],
-      company: ['locksmith', 'soldier', 'caravaner'] };
-    const examples = partyExamples as Record<string, CreatureGenerationContext[]>;
-    return structuredClone(examples[id] ?? partyExamples.fellowship)
-      .map((p, i) => ({ ...p, ...(backgrounds[id]?.[i] ? { backgroundId: backgrounds[id][i] } : {}) }));
+    return structuredClone((this.companies.find(c => c.id === id) ?? this.companies[0]!).members);
   }
-  static readonly presets = [
-    { id: 'fellowship', label: 'Fellowship: ranger, warrior, cleric', note: 'Elen the elf hunter, Bran the human locksmith-warrior, Dori the dwarf medic. Steady.' },
-    { id: 'company', label: 'Hired company: thief, warrior, mage', note: 'Nell the thief, Bran the soldier, a mage with a caravaner’s roads. Quick and fragile.' },
-  ];
+  static readonly presets = MonoApp.companies.map(({ id, label, note }) => ({ id, label, note }));
   boot() {
     this.root.addEventListener('click', e => { void this.click(e); });
     this.root.addEventListener('change', e => this.change(e));
@@ -172,7 +167,8 @@ export class MonoApp {
     if (this.mode === 'create') {
       const campaign = this.world?.campaign
         ?? JSON.parse(Scenarios.files[this.manifest] ?? '{"name":"A generated region"}') as CampaignManifest;
-      return MonoScreens.create(this.draft, this.error, campaign, MonoApp.presets);
+      return MonoScreens.create(this.draft, this.error, campaign,
+        { presets: MonoApp.presets, generated: !!this.world });
     }
     const saved = this.saved ? this.summary(this.saved) : undefined;
     return MonoScreens.title({ ...this.opening, ...(saved ? { saved } : {}) }, this.error);

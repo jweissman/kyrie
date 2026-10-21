@@ -11,7 +11,7 @@ Kyr {
   PassageKind = "is" ident
   PassagePart = "one" "way" -- oneway
               | "hidden" "until" ident -- hidden
-              | "needing" ident -- needs
+              | "needing" ident ("or" ident)* -- needs
               | "taking" integer timeUnit -- taking
   timeUnit = "minutes" | "minute" | "hours" | "hour" | "days" | "day"
   Thing = "Thing" ident string ThingSite ThingKind? "{" ThingPart* "}"
@@ -22,7 +22,7 @@ Kyr {
   StatePart = "State" ident StateFlag* string "."
   StateFlag = "blocking" | "dangerous"
   ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? "."
-  ChangeNeeds = "needing" ident
+  ChangeNeeds = "needing" ident ("or" ident)*
   ChangeAfter = "after" "learning" ident
   ChangeConsumes = "consuming" ident
   HurtsPart = "Hurts" "with" ident "when" ident "then" ident "."

@@ -4,6 +4,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity woodcraft: capability "Woodcraft". Entity mending: capability "Mending".
   Entity lockwork: capability "Lockwork". Entity trapwork: capability "Trapwork".
   Entity wayfinding: capability "Wayfinding". Entity digging: capability "Digging".
+  Entity brawn: capability "Brawn". Entity stealth: capability "Stealth".
+  Entity lore: capability "Lore". Entity rites: capability "Rites of the dead".
+  Entity climbing: capability "Climbing".
   Relation at(entity, place) exclusive.
   Relation able(group). Relation dead(group). Relation distinct(group, group).
   Relation closed(place). Relation indoors(place). Relation settled(place).

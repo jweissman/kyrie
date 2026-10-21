@@ -7,7 +7,8 @@ import { FictionalTime } from '../presentation/fictional-time';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
-import { ChoiceGrouping, type Grouped } from './choice-grouping';
+import { SkillReading } from '../presentation/skill-reading';
+import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model';
@@ -19,7 +20,7 @@ export class ScreenModel {
   static build(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world;
     const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
-    const creatures = campaign.state.creatures;
+    const creatures = campaign.readout.creatures;
     const names = new Map(campaign.module.entities.map(e =>
       [e.id, creatures.find(c => e.creatureId && c.id === e.creatureId)?.name ?? ObservationText.label(world, e.id)]));
     const priced = world.module.measures.some(m => m.name === 'price');
@@ -30,7 +31,14 @@ export class ScreenModel {
     const fees = new Map([
       ...campaign.module.entities.filter(e => e.type === 'service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
       ...world.snapshot.measures.filter(m => m.call.name === 'goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const)]);
-    const grouped = ChoiceGrouping.group(PlayerView.choices(campaign), { present, names, prices, passageOf, fees });
+    // Who makes each skilled choice possible, and what the company could do with a skill nobody in it has.
+    const reading = SkillReading.read(campaign);
+    const commands: Row[] = [
+      ...PlayerView.choices(campaign).map(r => ({ ...r,
+        ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
+      ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
+        wanting: `Needs ${w.name.toLowerCase()}: no one in the company has it.` }))];
+    const grouped = ChoiceGrouping.group(commands, { present, names, prices, passageOf, fees });
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
@@ -155,7 +163,7 @@ export class ScreenModel {
   }
   // Each overlay and what it actually contributed, so a player can see why a companion can do something.
   private static overlays(campaign: Campaign, id: string) {
-    const c = campaign.state.creatures.find(x => x.id === id);
+    const c = campaign.readout.creatures.find(x => x.id === id);
     if (!c) { return []; }
     const all = Overlays.contributions(c);
     return Overlays.of(c).map(([oid, o]) => ({ id: oid, name: o.name, role: o.role,
@@ -163,7 +171,7 @@ export class ScreenModel {
         : x.kind === 'gear' ? ItemCatalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
   }
   private static items(campaign: Campaign, grouped: Grouped, entities: Map<string, Entity>): ItemRow[] {
-    const state = campaign.state;
+    const state = campaign.readout;
     return state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c => (c.state.inventory ?? []).map(i => {
       const d = ItemCatalog.get(i.definition);
       return { id: i.id, name: entities.get(i.id)?.name ?? d.name, kind: d.name, description: d.description,

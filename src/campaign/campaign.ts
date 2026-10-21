@@ -220,6 +220,8 @@ export class Campaign implements TickHost {
       ...(this.definition ? { outcomes: Progression.outcomes(this.world, this.definition),
         developments: Object.entries(this.observations).map(([id, elapsed]) => ({ id, elapsed })) } : {}) };
   }
+  // What presentation reads many times a turn, without the copies state makes. Never change it.
+  get readout() { return { ...this.current as Readonly<typeof this.current>, creatures: this.creatures.live }; }
   private get party(): Fighter[] {
     return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters'));
   }

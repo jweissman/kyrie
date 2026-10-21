@@ -65,7 +65,11 @@
         "orsino": "class:warrior",
         "fidelity": "faithful",
         "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots."
-      }
+      },
+      "skills": [
+        "brawn"
+      ],
+      "practice": "Takes and deals the most harm and wears any armour. Brawn: lifts what has fallen and wrenches what is stuck."
     },
     "mage": {
       "name": "Mage",
@@ -191,7 +195,11 @@
             2
           ]
         ]
-      }
+      },
+      "skills": [
+        "lore"
+      ],
+      "practice": "Few hit points and no armour, but prepared spells that can turn a fight. Lore: reads old scripts and the workings of magic."
     },
     "thief": {
       "name": "Thief",
@@ -217,8 +225,9 @@
       ],
       "playable": true,
       "skills": [
+        "lockwork",
         "trapwork",
-        "lockwork"
+        "stealth"
       ],
       "weapons": [
         "dagger",
@@ -270,7 +279,8 @@
         "orsino": "class:thief",
         "fidelity": "faithful",
         "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the trapwork, lockwork skill for its deterministic world actions."
-      }
+      },
+      "practice": "Light armour and a quick blade. Picks locks, finds and pins traps, and slips past watchers unseen."
     },
     "cleric": {
       "name": "Cleric",
@@ -289,7 +299,8 @@
       ],
       "playable": true,
       "skills": [
-        "mending"
+        "mending",
+        "rites"
       ],
       "specializations": [
         "vitalist",
@@ -419,7 +430,8 @@
             2
           ]
         ]
-      }
+      },
+      "practice": "Prayers that heal and protect. Mends wounds outside a fight and knows the rites that put the dead to rest."
     },
     "bard": {
       "name": "Bard",
@@ -498,8 +510,58 @@
       },
       "spellcasting": {
         "attribute": "charisma",
-        "slots": [[1], [2], [2, 1], [3, 1], [3, 2], [3, 2, 1], [3, 3, 1], [3, 3, 2], [3, 3, 2, 1], [3, 3, 3, 1]]
-      }
+        "slots": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            2,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            3,
+            3,
+            3,
+            1
+          ]
+        ]
+      },
+      "skills": [
+        "lore"
+      ],
+      "practice": "A few spells, a steady voice and lore: songs and histories that remember what others forget."
     },
     "ranger": {
       "name": "Ranger",
@@ -578,7 +640,8 @@
         "orsino": "class:ranger",
         "fidelity": "faithful",
         "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the woodcraft skill for its deterministic world actions."
-      }
+      },
+      "practice": "Bow and spear, and woodcraft: reads beasts and wild country, and knows the safe way past them."
     },
     "monk": {
       "name": "Monk",
@@ -601,6 +664,7 @@
       ],
       "playable": true,
       "skills": [
+        "climbing",
         "mending"
       ],
       "specializations": [
@@ -650,7 +714,8 @@
         "orsino": "class:monk",
         "fidelity": "faithful",
         "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the mending skill for its deterministic world actions."
-      }
+      },
+      "practice": "Unarmoured and quick. Climbs where others need a rope, and mends wounds."
     },
     "commoner": {
       "name": "Commoner",
@@ -705,7 +770,8 @@
       "source": {
         "kyr": true,
         "notes": "Ordinary life rather than a calling, open to every ancestry. Orsino has no commoner class."
-      }
+      },
+      "practice": "No calling."
     }
   }
 }

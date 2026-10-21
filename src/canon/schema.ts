@@ -59,6 +59,8 @@ export interface Proficiencies { all?: true; kinds?: string[]; weights?: string[
 export interface CharacterClass {
   name: string; description: string; hitDie: number; attributes: Partial<Record<Attribute, number>>; gold: number;
   abilities: string[]; playable?: boolean; adventuring?: false; skills?: string[];
+  // What the calling means in play, in a sentence or two for the player choosing it.
+  practice?: string;
   specializations?: string[]; weapons: string[]; armor: string[]; startingGear?: string[];
   proficiencies: {
     weapons: Proficiencies; armor: Proficiencies; items?: Proficiencies & { withoutTradition?: string };

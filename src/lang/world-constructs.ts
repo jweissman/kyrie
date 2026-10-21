@@ -2,7 +2,7 @@ import type { Anchor, Change, Module, Predicate } from './module';
 
 export interface StateSpec { id: string; flags: string[]; text: string }
 export interface ChangeSpec {
-  id: string; label: string; from: string; to: string; needs?: string; after?: string; consumes?: string;
+  id: string; label: string; from: string; to: string; needs?: string[]; after?: string; consumes?: string;
 }
 export interface ThingSpec {
   id: string; name: string; type: string; site?: { anchor: 'at' | 'on'; id: string };
@@ -10,7 +10,7 @@ export interface ThingSpec {
   guards?: string[];
 }
 export interface PassageSpec {
-  id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string;
+  id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
   kind?: string; ticks?: number;
 }
 export interface EventSpec {
@@ -32,7 +32,7 @@ export class WorldConstructs {
     this.assert(module, 'connects', p.id, p.sides[0], p.sides[1]);
     if (!p.oneWay) { this.assert(module, 'connects', p.id, p.sides[1], p.sides[0]); }
     if (p.hidden) { this.assert(module, 'revealedBy', p.id, p.hidden); }
-    if (p.needs) { this.assert(module, 'needs', p.id, p.needs); }
+    for (const need of p.needs ?? []) { this.assert(module, 'needs', p.id, need); }
     const kind = p.kind ?? 'passage';
     if (!this.wayKinds.includes(kind)) { throw new Error(`Unknown passage kind ${kind} for ${p.id}`); }
     this.entity(module, `way_${kind}`, 'waykind', kind);
@@ -111,7 +111,7 @@ export class WorldConstructs {
       this.assert(module, 'changeOf', id, t.id);
       this.assert(module, 'changeFrom', id, c.from);
       this.assert(module, 'changeTo', id, c.to);
-      if (c.needs) { this.assert(module, 'needs', id, c.needs); }
+      for (const need of c.needs ?? []) { this.assert(module, 'needs', id, need); }
       if (c.after) { this.assert(module, 'changeKnows', id, c.after); }
       if (c.consumes) { this.assert(module, 'consumes', id, c.consumes); }
     }

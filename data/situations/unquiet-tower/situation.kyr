@@ -18,8 +18,8 @@ Module unquiet_tower "The unquiet tower" {
   Place crypt "the crypt under the tower" is room within inside at 0, 1.
   Passage door "the iron-bound door" is door between outside and hall.
   Passage stair "the turning stair" is stair between hall and study.
-  Passage well "the old well shaft" is shaft between outside and crypt needing rope.
-  Passage postern "a barred postern low in the wall" is door between outside and crypt needing lockwork.
+  Passage well "the old well shaft" is shaft between outside and crypt needing rope or climbing.
+  Passage postern "a barred postern low in the wall" is door between outside and crypt needing lockwork or brawn.
   Passage crypt_steps "the crypt steps" is steps between crypt and study.
 
   Person necromancer "Someone" at study {
@@ -31,12 +31,21 @@ Module unquiet_tower "The unquiet tower" {
     Role "a risen corpse". Species revenant. Numbers 2.
     State shambling blocking "Dead folk in grave-clothes stand at the foot of {stair}, swaying, and turn their faces to you.".
     State fallen "Grave-clothes and bones lie in heaps at the foot of {stair}.".
+    State laid "The dead lie in a row at the foot of {stair}, hands folded, faces covered. They do not stir.".
     Guards stair.
+    Change lay_to_rest "Say the rites of the dead over {self}" from shambling to laid needing rites.
   }
   Thing lantern "the bone lantern" at study {
     State lit "A lantern of yellowed bone hangs over the table. It burns with a cold green flame, and the room smells of the grave.".
     State broken "Shards of bone and a dead wick lie under the table.".
     Change smash "Smash the bone lantern" from lit to broken.
+  }
+  Action read_sigils(actor: group, spot: place) "Read the sigils cut into {lantern}" {
+    Description "Someone who knows the workings of magic can tell what the lantern does without anyone's notes.".
+    Requires able(actor) and at(actor, spot) and at(lantern, spot) and state(lantern, lit) and capable(actor, lore)
+      and not knows(actor, binding).
+    On success { Assert knows(actor, binding). }
+    Result "The sigils are a binding, crudely cut and strong: the flame holds the dead it has raised, and nothing else does. Put it out and they are only bones.".
   }
   Discovery binding "The bone lantern holds the risen dead to the tower. Its flame is the only thing that moves them." {
     Source daybook "a daybook in a cramped hand" at study readable by party.
@@ -50,6 +59,7 @@ Module unquiet_tower "The unquiet tower" {
   Observe well_head at outside when true "Behind the tower, a well-head is half buried in nettles.".
   Observe postern_look at outside when true "Low in the wall is a postern, barred from within, with an old lock on it.".
 
+  Rule rested when state(risen, laid) and not peaceable(risen) { Assert peaceable(risen). }
   Event release near lantern when state(lantern, broken) and not ended(necromancer) "The green flame goes out. Somewhere below, things fall to the floor, and {necromancer} cries out as if struck." then {
     Assert ended(necromancer). Assert state(risen, fallen). Assert peaceable(risen). Assert state(necromancer, broken). Assert peaceable(necromancer).
   }

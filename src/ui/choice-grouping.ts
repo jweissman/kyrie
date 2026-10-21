@@ -12,6 +12,8 @@ export interface Grouped {
   exits: Map<string, ExitActs>; targets: Map<string, Act[]>; items: Map<string, Act[]>;
   members: Map<string, Act[]>; camp: Act[]; unplaced: Act[];
 }
+// A legal command, or one the company could make with a skill it lacks (wanting says which), and who it needs.
+export interface Row { choice: PublicChoice; action: Operator; wanting?: string; by?: string[] }
 export interface GroupingContext {
   names: Map<string, string>; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
   fees?: Map<string, number>; several?: Set<string>;
@@ -35,6 +37,7 @@ export class ChoiceGrouping {
     part_ways: { slot: 'target', param: 'companion', path: ['Let them make their own way'] },
     walk: { slot: 'exit', param: 'destination', path: ['Walk'] },
     cross: { slot: 'exit', param: 'destination', path: ['Go past {defender}'], passage: 'guarded', via: '{defender}' },
+    slip_past: { slot: 'exit', param: 'destination', path: ['Slip past {gatekeeper}'], passage: 'guarded', via: '{gatekeeper}' },
     passage: { slot: 'exit', param: 'destination', path: ['Take the concealed way'], passage: 'hidden' },
     climb: { slot: 'exit', param: 'destination', path: ['Climb, roped to {bearer}'], passage: 'climb', via: '{kit}' },
     cleared_passage: { slot: 'exit', param: 'destination', path: ['Cross the spent {trap}'], passage: 'hazard' },
@@ -86,7 +89,7 @@ export class ChoiceGrouping {
     eat: { slot: 'camp', path: ['Eat a ration'] },
     rest: { slot: 'camp', path: ['Rest six hours'] },
   };
-  static group(rows: { choice: PublicChoice; action: Operator }[], context: GroupingContext): Grouped {
+  static group(rows: Row[], context: GroupingContext): Grouped {
     const out: Grouped = { exits: new Map(), targets: new Map(), items: new Map(), members: new Map(),
       camp: [], unplaced: [] };
     // A place reached by more than one way offers each by name: a shaft needing rope, a postern needing a picked lock.
@@ -101,10 +104,10 @@ export class ChoiceGrouping {
     for (const row of rows) { this.place(out, row, { ...context, several }); }
     return out;
   }
-  private static place(out: Grouped, row: { choice: PublicChoice; action: Operator }, context: GroupingContext) {
+  private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
-    const leaf = { command: choice.id, minutes: choice.time * 10,
-      ...(action.description ? { about: action.description } : {}) };
+    const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes: choice.time * 10,
+      ...(action.description ? { about: action.description } : {}), ...(row.by?.length ? { by: row.by } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {};
     if (action.movement) {
       const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';
@@ -139,8 +142,7 @@ export class ChoiceGrouping {
     else if (rule.slot === 'member' && subject) { this.insert(this.slot(out.members, subject), path, risky); }
     else { this.insert(out.camp, path, risky); }
   }
-  private static fallback(out: Grouped, row: { choice: PublicChoice; action: Operator }, context: GroupingContext,
-    leaf: Pick<Act, 'command' | 'minutes' | 'about'>) {
+  private static fallback(out: Grouped, row: Row, context: GroupingContext, leaf: Partial<Act>) {
     const changed = [...row.action.success].flatMap(c => c.call.args).find(id => context.present.has(id));
     const subject = changed ?? Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.present.has(v))?.[1];

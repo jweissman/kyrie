@@ -83,6 +83,15 @@ Module caught_below "Someone caught below" {
       Assert freedBy(guest, actor). Assert acceptsEscort(guest, actor). }
     Result "{lifter} gets a shoulder under {rack} and heaves. It comes up, then the grip slips and it crashes down on its side. {guest} screams; the leg is broken.".
   }
+  Action lift_free(actor: group, lifter: member, spot: place) "Lift {rack} clear, slow and steady; {lifter} takes the weight" {
+    Description "Someone strong enough to hold the weight while it is eased off, rather than heaved.".
+    Requires able(actor) and at(actor, spot) and at(rack, spot) and state(rack, pinning) and memberOf(lifter, actor)
+      and awake(lifter) and capable(actor, brawn).
+    Time 1.
+    On success { Assert state(rack, propped). Assert state(guest, hurt). Retract hobbled(guest).
+      Assert freedBy(guest, actor). Assert acceptsEscort(guest, actor). }
+    Result "{lifter} squats, gets both hands under {rack} and straightens, slowly. It comes up level and stays up, and {guest} slides the leg out: bruised and cut, but whole.".
+  }
   Action set_leg(actor: group, spot: place) "Set and bind {guest}'s broken leg" {
     Requires able(actor) and at(actor, spot) and at(guest, spot) and state(guest, lame)
       and capable(actor, mending).

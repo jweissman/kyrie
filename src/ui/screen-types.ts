@@ -8,6 +8,8 @@ export interface Act {
   key: string; label: string; command?: string; minutes?: number; risk?: boolean; children?: Act[];
   // What the action's author says it means, shown before it is chosen.
   about?: string;
+  // Who in the company makes it possible (the one with the skill it needs), or why it cannot be done.
+  by?: string[]; disabled?: string;
 }
 export interface PlaceRef { id: string; name: string; kind: string }
 export interface ExitRow {

@@ -5,6 +5,7 @@ import { MonoMap } from './mono-map';
 import { MonoRender, type MonoState } from './mono-render';
 import { Canon } from '../src/canon/canon';
 import { Overlays } from '../src/overlays';
+import { CompanyPreview } from '../src/presentation/company-preview';
 
 export interface Draft { seed: string; party: CreatureGenerationContext[] }
 export interface CampaignCard { id: string; title: string; note: string; detail: string; recommended?: boolean }
@@ -103,25 +104,34 @@ export class MonoScreens {
     return `<label>Specialization <select data-field="specialization" data-index="${i}">${this.options(options, p.traits?.[0] ?? '')}</select></label>`;
   }
   static create(draft: Draft, error: string, campaign: { name: string; pitch?: { heading: string; text: string } },
-    presets: { id: string; label: string; note: string }[]): string {
+    options: { presets: { id: string; label: string; note: string }[]; generated: boolean }): string {
+    const { presets, generated } = options;
     const races = Content.playableRaces as string[], classes = Content.playableClasses as string[];
     const backgrounds = Object.keys(Overlays.catalog).filter(id => Overlays.has(id, 'background'));
     const rows = draft.party.map((p, i) => {
-      const klass = Canon.classes[Canon.resolve('classes', p.classId ?? '')];
-      return `<fieldset class="companion" data-companion="${i}"><legend>${Html.escape(p.name ?? `Companion ${i + 1}`)}</legend>`
+      // Old friends who pass on news are placed by a generated region; an authored campaign has its own people.
+      const view = { ...CompanyPreview.member(p), ...(generated ? {} : { contact: undefined }) };
+      const brings = view.skills.map(k => `${k.name} <small>(${Html.escape(k.from)})</small>`).join(', ');
+      return `<fieldset class="companion" data-companion="${i}"><legend>${Html.escape(p.name || `Companion ${i + 1}`)}</legend>`
         + `<label>Name <input data-field="name" data-index="${i}" maxlength="40" value="${Html.escape(p.name ?? '')}"></label>`
         + `<label>Ancestry <select data-field="raceId" data-index="${i}">${this.options(races.map(id => [id, Content.races[id as keyof typeof Content.races]?.name ?? id]), p.raceId ?? '')}</select></label>`
         + `<label>Calling <select data-field="classId" data-index="${i}">${this.options(classes.map(id => [id, Content.classes[id as keyof typeof Content.classes]?.name ?? id]), p.classId ?? '')}</select></label>`
         + this.specialization(p, i)
         + `<label>Background <select data-field="backgroundId" data-index="${i}">${this.options([['', 'None'], ...backgrounds.map(id => [id, Overlays.get(id).name])], p.backgroundId ?? '')}</select></label>`
-        + `<p class="muted">${Html.escape([klass?.description ?? '', MonoScreens.background(p.backgroundId)].filter(Boolean).join(' '))}</p></fieldset>`;
+        + `<div class="practice"><p>${Html.escape(view.practice)}</p>`
+        + `${brings ? `<p><b>Brings</b> ${brings}</p>` : ''}${view.gear.length ? `<p><b>Carries</b> ${Html.escape(view.gear.join(', '))}</p>` : ''}`
+        + `${view.contact ? `<p><b>Knows</b> ${Html.escape(view.contact)}</p>` : ''}${view.requires ? `<p class="warn">${Html.escape(view.requires)}</p>` : ''}</div></fieldset>`;
     }).join('');
     const pitch = campaign.pitch ?? { heading: campaign.name, text: 'Choose three companions.' };
-    const ready = presets.map(p => Html.button(p.label, 'preset', { id: p.id, title: p.note })).join(' ');
+    const ready = presets.map(p => `<li>${Html.button(p.label, 'preset', { id: p.id })}<small>${Html.escape(p.note)}</small></li>`).join('');
+    const company = CompanyPreview.company(draft.party);
+    const can = company.covered.map(c => `<li><b>${Html.escape(c.name)}</b> ${Html.escape(c.who.join(', '))}</li>`).join('');
     return `<div class="frame" data-mode="create"><header class="bar top"><b class="brand">${Html.escape(campaign.name)}</b>`
       + `<nav class="path">Form a company of three</nav><time></time></header>`
       + `<main class="screen create"><section class="pane scene"><h1>${Html.escape(pitch.heading)}</h1><div class="prose"><p>${Html.escape(pitch.text)}</p></div>`
-      + `<h3>A ready company</h3><p class="presets">${ready}</p>`
+      + `<h3>A ready company</h3><ul class="presets">${ready}</ul>`
+      + `<h3>What this company can do</h3><ul class="covered">${can}</ul>`
+      + `${company.missing.length ? `<p class="muted">No one has ${Html.escape(company.missing.join(', '))}.</p>` : ''}`
       + `<label class="seed">Seed (the same seed makes the same draws) <input data-field="seed" value="${Html.escape(draft.seed)}"></label></section>`
       + `<section class="pane companions" data-region="companions">${rows}</section></main>`
       + `<footer class="bar keys">${Html.button('Set out', 'start', { class: 'primary' }, '<kbd>⏎</kbd>')}${Html.button('Choose another campaign', 'campaigns')}</footer>`

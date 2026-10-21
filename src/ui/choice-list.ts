@@ -68,7 +68,8 @@ export class ChoiceList {
       const c = this.choice(a, id, 'way');
       const how = this.moves(a) && !a.label.startsWith('Go by ') ? label : a.label.startsWith('Go by ') ? `${label}, ${a.label.slice(3)}`
         : `${label} — ${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}`;
-      return { ...c, label: how, about: c.about ?? about, ...(note && !c.children ? { note } : {}) };
+      const told = c.disabled ? c.note : [c.note, e.visited ? '' : 'new'].filter(Boolean).join(' · ');
+      return { ...c, label: how, about: c.about ?? about, ...(told && !c.children ? { note: told } : {}) };
     });
   }
   private static moves(a: Act): boolean { return a.label === 'Go' || a.label === 'Walk'; }
@@ -111,10 +112,12 @@ export class ChoiceList {
       return { id, label: a.label, tone, children: a.children.map(c => this.choice(c, id, tone)),
         ...(a.about ? { about: a.about } : {}), ...(a.risk ? { risk: true } : {}) };
     }
-    const note = [a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : ''].filter(Boolean).join(' · ');
+    // A skilled choice names who does it; one the company cannot make says what it needs.
+    const note = a.disabled ? 'no one can' : [a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : '', a.by?.join(', ') ?? '']
+      .filter(Boolean).join(' · ');
     return { id, label: a.label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(a.about ? { about: a.about } : {}),
-      ...(a.risk ? { risk: true } : {}) };
+      ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}) };
   }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {

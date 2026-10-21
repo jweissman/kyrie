@@ -1,36 +1,25 @@
 {
-  "fellowship": [
-    {
-      "name": "Elen",
-      "raceId": "elf",
-      "classId": "ranger"
-    },
-    {
-      "name": "Bran",
-      "raceId": "human",
-      "classId": "warrior"
-    },
-    {
-      "name": "Dori",
-      "raceId": "dwarf",
-      "classId": "cleric"
-    }
-  ],
-  "company": [
-    {
-      "name": "Nell",
-      "raceId": "human",
-      "classId": "thief"
-    },
-    {
-      "name": "Bran",
-      "raceId": "human",
-      "classId": "warrior"
-    },
-    {
-      "name": "Mira",
-      "raceId": "human",
-      "classId": "mage"
-    }
+  "about": "Ready companies offered at the start of a campaign. Each is a different way through the same troubles.",
+  "companies": [
+    { "id": "fellowship", "label": "The fellowship", "note": "Ranger, warrior and cleric: reads beasts, picks locks, mends wounds and lays the dead to rest. Steady.",
+      "members": [
+        { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+        { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"] },
+        { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"] } ] },
+    { "id": "delvers", "label": "Delvers", "note": "Thief, warrior and mage: locks, traps, brawn, digging and lore, with spells to end a fight. No healer.",
+      "members": [
+        { "name": "Nell", "raceId": "human", "classId": "thief", "backgroundId": "burglar" },
+        { "name": "Hulda", "raceId": "dwarf", "classId": "warrior", "backgroundId": "miner" },
+        { "name": "Ivo", "raceId": "human", "classId": "mage", "backgroundId": "scholar" } ] },
+    { "id": "pilgrims", "label": "Pilgrims", "note": "Cleric, monk and bard: healing, the rites of the dead, climbing and lore. Gentle with beasts only by luck.",
+      "members": [
+        { "name": "Anwen", "raceId": "human", "classId": "cleric", "backgroundId": "acolyte" },
+        { "name": "Tobin", "raceId": "human", "classId": "monk", "backgroundId": "mendicant" },
+        { "name": "Lark", "raceId": "elf", "classId": "bard", "backgroundId": "minstrel" } ] },
+    { "id": "outriders", "label": "Outriders", "note": "Ranger, thief and warrior: tracking, stealth, locks and brawn. Quick and quiet; no spells at all.",
+      "members": [
+        { "name": "Rook", "raceId": "elf", "classId": "ranger", "backgroundId": "tracker" },
+        { "name": "Moss", "raceId": "human", "classId": "thief", "backgroundId": "outlaw" },
+        { "name": "Garran", "raceId": "human", "classId": "warrior", "backgroundId": "soldier" } ] }
   ]
 }

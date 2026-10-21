@@ -19,8 +19,9 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query informedFor(a: group, c: change) means not changeKnows(c, ?f) or (changeKnows(c, ?f) and knows(a, ?f)).
   Query visibleTo(w: passage, a: group) means not revealedBy(w, ?f) or (revealedBy(w, ?f) and knows(a, ?f))
     or (revealedBy(w, ?g) and following(a, ?l) and knows(?l, ?g)).
-  Query obstructed(w: passage) means (on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s))
-    or (guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t)).
+  Query barred(w: passage) means on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s).
+  Query watched(w: passage) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t).
+  Query obstructed(w: passage) means barred(w) or watched(w).
   Query hazardous(w: passage) means on(?h, w) and state(?h, ?s) and harmsWhen(?h, ?s).
   Query mobile(a: group) means not hobbled(a) or following(a, ?l).
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
@@ -36,6 +37,15 @@ Module world_passages "Passages, obstacles and the condition of things" {
     Time travelTime(way).
     On success { Assert at(actor, destination). }
     Seen "{actor} takes {way} toward {destination}.".
+  }
+  Action slip_past(actor: group, way: passage, origin: place, destination: place, gatekeeper: group) "Slip past {gatekeeper} by {way}" {
+    Description "Someone who moves quietly takes the company past a watcher without a fight or a bargain. The watcher stays where it is, and will be there on the way back.".
+    Requires able(actor) and at(actor, origin) and connects(way, origin, destination) and guards(gatekeeper, way)
+      and able(gatekeeper) and state(gatekeeper, ?t) and blocksWhen(gatekeeper, ?t) and capable(actor, stealth)
+      and visibleTo(way, actor) and not barred(way) and not hazardous(way) and equippedFor(actor, way) and mobile(actor).
+    Time travelTime(way).
+    On success { Assert at(actor, destination). }
+    Result "One at a time, keeping low and downwind, you slip past {gatekeeper}.".
   }
   Action risk(actor: group, way: passage, origin: place, destination: place, trap: entity, blow: hazard, after: condition, victim: member) "Risk {trap}; {victim} goes first" {
     Requires able(actor) and at(actor, origin) and connects(way, origin, destination) and on(trap, way)

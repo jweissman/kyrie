@@ -6,7 +6,7 @@ Module censer_hill "Censer Hill" {
   Place causeway "The low approach" is room.
   Entity register_survives: fact "The register of the dead survives".
   Entity custody_writ: fact "A custody writ".
-  Entity climbing: capability "Climbing". Entity reading_the_dead: capability "Reading the dead".
+  Entity reading_the_dead: capability "Reading the dead".
 
   Place censer_hill "Censer Hill foundry" is site within march at 2, 1.
   Place works "The bell foundry" is level within censer_hill.
@@ -116,6 +116,7 @@ Module censer_hill "Censer Hill" {
     State locked blocking "A rusted padlock holds the stores door shut.".
     State open "The stores door stands open; its padlock hangs from the hasp.".
     Change pick "Pick the stores padlock" from locked to open needing lockwork.
+    Change wrench "Wrench the padlock's hasp out of the rotten door" from locked to open needing brawn.
   }
 
   Hazard counterweight_drop "The hoist counterweight" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
@@ -181,6 +182,14 @@ Module censer_hill "Censer Hill" {
   Initially Assert established(stair_known). Initially Assert at(lantern_letters, name_room). Initially Assert intact(lantern_letters).
   Initially Assert reveals(lantern_letters, stair_known). Initially Assert mayExamine(party, lantern_letters).
   Rule lit_letters when at(party, name_room) and capable(party, reading_the_dead) { Assert noticeable(lantern_letters). }
+  Action puzzle_script(actor: group, spot: place) "Puzzle out the compact's old script on the rear wall" {
+    Description "Someone who reads old hands can make out what the faint lettering says, without the lantern's light.".
+    Requires able(actor) and at(actor, spot) and at(lantern_letters, spot) and capable(actor, lore)
+      and not knows(actor, stair_known).
+    Time 2.
+    On success { Assert knows(actor, stair_known). }
+    Result "Letter by letter, in the old compact hand: the names of the sheltered dead, and among them a line that is not a name. It says the stair behind the shelves goes down to the family crypt.".
+  }
   Rule dark_letters when not capable(party, reading_the_dead) { Retract noticeable(lantern_letters). }
 
   Observe yard_scene at yard when true "Rusting tram rails cross an ash-grown yard. A roofless arch opens into the upper works. A surveyor's scratches mark a climb up the hoist side; without a proper harness it is too exposed.".

@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 767 represented or better; 548 executable or better; 16 play-validated; 2239 feasible.
+2651 entries in 79 families. 779 represented or better; 560 executable or better; 16 play-validated; 2239 feasible.
 
 ## By family
 
@@ -16,7 +16,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 |---|---|---:|---:|---:|---:|---:|
 | character | alignment | 9 | 0 | 0 | 0 | 0 |
 | character | ancestry | 25 | 0 | 4 | 0 | 25 |
-| character | background | 215 | 0 | 7 | 5 | 215 |
+| character | background | 215 | 0 | 19 | 5 | 215 |
 | character | class | 7 | 7 | 0 | 0 | 0 |
 | character | nobility | 3 | 0 | 0 | 0 | 0 |
 | character | trait | 100 | 33 | 67 | 0 | 68 |
@@ -215,6 +215,18 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `background:herbalist` | `background:herbalist` | play-validated | adapted | Exact Wis +2, Int +1. Used as a profession. |
 | `background:priest` | `background:priest` | executable | adapted | Exact Wis +3, Cha +2. Used as a profession. |
 | `background:boatman` | `background:boatman` | executable | adapted | Exact Str +2, Con +1. Used as a profession with a routine only; Kyr has no ferry service yet. |
+| `background:tracker` | `background:tracker` | executable | adapted | Exact Wis +4, Dex +2; 40 gold becomes 4 coin, and the ranger requirement. |
+| `background:burglar` | `background:burglar` | executable | adapted | Exact Dex +5, Cha +2; 40 gold becomes 4 coin, and the thief requirement. |
+| `background:outlaw` | `background:outlaw` | executable | adapted | Exact Dex +3, Str +1; 15 gold becomes 2 coin, and the thief requirement. |
+| `background:smith` | `background:smith` | executable | adapted | Exact Str +3, Con +2; 30 gold becomes 3 coin. |
+| `background:scholar` | `background:scholar` | executable | adapted | Exact Int +2, Wis +1, Cha -1; 5 gold becomes 0 coin. |
+| `background:archaeologist` | `background:archaeologist` | executable | adapted | Exact Int +3, Wis +2; 30 gold becomes 3 coin. |
+| `background:sailor` | `background:sailor` | executable | adapted | Exact Dex +2, Con +1, Str +1; 20 gold becomes 2 coin. |
+| `background:minstrel` | `background:minstrel` | executable | adapted | Exact Cha +3, Dex +2; 30 gold becomes 3 coin, and the bard requirement. |
+| `background:forester` | `background:forester` | executable | adapted | Exact Wis +2, Dex +1; 15 gold becomes 2 coin. |
+| `background:apothecary` | `background:apothecary` | executable | adapted | Exact Int +3, Wis +3; 30 gold becomes 3 coin. |
+| `background:mendicant` | `background:mendicant` | executable | adapted | Exact Wis +3, Dex +2, Con +1; 30 gold becomes 3 coin, and the monk requirement. |
+| `background:arcanist` | `background:arcanist` | executable | adapted | Exact Int +5, Wis +1; 70 gold becomes 7 coin, and the mage requirement. |
 | `gear:rope` | `item:rope` | play-validated | adapted | Orsino's rope has a description and price only. Kyr gives it meaning through passage requirements. |
 | `gear:torch` | `item:torch` | represented | adapted | Orsino's torch is a light source with a duration. Kyr gives it meaning through changes that need fire; it does not burn down. |
 | `gear:crowbar` | `item:crowbar` | play-validated | adapted | Kyr gives it meaning: it opens obstacles that need a bar. |

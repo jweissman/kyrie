@@ -30,6 +30,8 @@ export class CreatureStore {
   }
   get hasActiveLeases(): boolean { return this.leases.size > 0; }
   get snapshot(): Creature[] { return structuredClone([...this.records.values()]); }
+  // The live records, for reading only: no copy is made, so a caller must never change them.
+  get live(): readonly Creature[] { return [...this.records.values()]; }
   acquire(ids: string[]): CreatureLease {
     if (new Set(ids).size !== ids.length) { throw new Error('Duplicate encounter creature'); }
     const creatures = ids.map(id => this.get(id));

@@ -41,9 +41,10 @@ export class Operators {
   }
   // Operators whose preconditions hold, in schema order and then binding order. With an actor, only actions that
   // actor performs: schemas whose actor parameter it may bind.
-  applicable(world: World, actor?: string): Operator[] {
+  applicable(world: World, actor?: string, only?: Set<string>): Operator[] {
     const out: Operator[] = [];
     for (const schema of this.schemas.values()) {
+      if (only && !only.has(schema.id)) { continue; }
       const parameters = schema.parameters ?? [];
       if (actor !== undefined && !parameters.some(p => p.name === 'actor')) { continue; }
       if (actor !== undefined && !ActionSchemas.mayAct(schema, actor, this.actors)) { continue; }

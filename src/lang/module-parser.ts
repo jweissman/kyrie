@@ -17,7 +17,7 @@ export class ModuleParser {
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
     PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_at: ModuleParser.Site,
     ThingSite_on: ModuleParser.Site, ThingKind: ModuleParser.ThingKind, StatePart: ModuleParser.StatePart,
-    ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.Second, ChangeAfter: ModuleParser.Third,
+    ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.ChangeNeeds, ChangeAfter: ModuleParser.Third,
     ChangeConsumes: ModuleParser.Second, HurtsPart: ModuleParser.HurtsPart, GuardsPart: ModuleParser.GuardsPart,
     Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
     Anchor_at: ModuleParser.Anchor,
@@ -165,7 +165,13 @@ export class ModuleParser {
   }
   static OneWay(_one: Node, _way: Node) { return { oneWay: true }; }
   static Hidden(_hidden: Node, _until: Node, fact: Node) { return { hidden: fact.sourceString }; }
-  static Needs(_needing: Node, kind: Node) { return { needs: kind.sourceString }; }
+  // "needing rope or climbing": any one of them will do.
+  static Needs(_needing: Node, kind: Node, _ors: Node, more: Node) {
+    return { needs: [kind.sourceString, ...more.children.map(n => n.sourceString)] };
+  }
+  static ChangeNeeds(_needing: Node, kind: Node, _ors: Node, more: Node) {
+    return [kind.sourceString, ...more.children.map(n => n.sourceString)];
+  }
   static Thing(_t: Node, id: Node, name: Node, site: Node, kind: Node, _open: Node, parts: Node, _close: Node): Field {
     const spec: ThingSpec = { id: id.sourceString, name: ModuleParser.ast(name) as string,
       type: kind.children.length ? ModuleParser.ast(kind.children[0]!) as string : 'thing',
@@ -187,8 +193,9 @@ export class ModuleParser {
   }
   static ChangePart(_c: Node, id: Node, label: Node, _from: Node, from: Node, _to: Node, to: Node, needs: Node,
     after: Node, consumes: Node, _dot: Node): Field {
-    const [n, a, c] = [needs, after, consumes].map(node => node.children.length ?
+    const [a, c] = [after, consumes].map(node => node.children.length ?
       ModuleParser.ast(node.children[0]!) as string : undefined);
+    const n = needs.children.length ? ModuleParser.ast(needs.children[0]!) as unknown as string[] : undefined;
     return { field: 'change', value: { id: id.sourceString, label: ModuleParser.ast(label), from: from.sourceString,
       to: to.sourceString, ...(n ? { needs: n } : {}), ...(a ? { after: a } : {}), ...(c ? { consumes: c } : {}) } };
   }

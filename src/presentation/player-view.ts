@@ -220,7 +220,7 @@ export class PlayerView {
   }
   private static entity(campaign: Campaign, world: World, e: Entity): PresentEntity {
     if (e.type === 'group') {
-      const ids = campaign.state.inhabitants[e.id] ?? [], creatures = campaign.state.creatures;
+      const read = campaign.readout, ids = read.inhabitants[e.id] ?? [], creatures = read.creatures;
       const activity = this.activity(campaign, world, e.id), condition = this.condition(world, e.id);
       return { id: e.id, name: e.name, type: e.type, ...(activity ? { activity } : {}),
         ...(condition ? { condition } : {}),
@@ -268,7 +268,7 @@ export class PlayerView {
     for (const c of campaign.module.initial) {
       if (c.kind === 'assert' && c.call.name === 'at') { at.set(c.call.args[0]!, c.call.args[1]!); }
     }
-    const names = { combatants: campaign.state.creatures.map(c => CombatProjection.fighter(c, 'fighters')),
+    const names = { combatants: campaign.readout.creatures.map(c => CombatProjection.fighter(c, 'fighters')),
       turn: 0, actor: '', outcome: null };
     const deadlines = campaign.installations.filter(m => m.deadline !== undefined);
     let previous = 0;

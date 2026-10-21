@@ -60,6 +60,34 @@
       "source": {
         "kyr": true
       }
+    },
+    "stealth": {
+      "name": "Stealth",
+      "description": "Moving unseen and unheard: slipping past a watcher, a guardian or a beast without a fight.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "lore": {
+      "name": "Lore",
+      "description": "Old histories, scripts and the workings of magic: reading what others only see.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "rites": {
+      "name": "Rites of the dead",
+      "description": "The prayers and forms that give the dead rest; what keeps the unquiet in their graves.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "brawn": {
+      "name": "Brawn",
+      "description": "Strength used with judgement: lifting a fallen weight clear, wrenching a lock off its hasp, holding a door.",
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

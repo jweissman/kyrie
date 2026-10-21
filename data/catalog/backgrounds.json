@@ -218,8 +218,11 @@
       "source": {
         "orsino": "background:acolyte",
         "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds an old friend at a shrine who hears what the faithful say."
-      }
+        "notes": "Orsino gives stats and gold; Kyr adds the rites of the dead and an old friend at a shrine who hears what the faithful say."
+      },
+      "skills": [
+        "rites"
+      ]
     },
     "soldier": {
       "name": "Soldier",
@@ -238,8 +241,11 @@
       "source": {
         "orsino": "background:soldier",
         "fidelity": "adapted",
-        "notes": "Orsino gives stats, gold and the warrior requirement; Kyr adds an old comrade keeping an inn."
-      }
+        "notes": "Orsino gives stats, gold and the warrior requirement; Kyr adds brawn and an old comrade keeping an inn."
+      },
+      "skills": [
+        "brawn"
+      ]
     },
     "caravaner": {
       "name": "Caravaner",
@@ -260,6 +266,288 @@
         "orsino": "background:caravaner",
         "fidelity": "adapted",
         "notes": "Orsino gives stats and gold; Kyr adds wayfinding (roads known before they are walked) and a driver on the road who passes news on."
+      }
+    },
+    "tracker": {
+      "name": "Tracker",
+      "use": "background",
+      "attributes": {
+        "wisdom": 4,
+        "dexterity": 2
+      },
+      "gold": 40,
+      "requiredClass": "ranger",
+      "skills": [
+        "woodcraft",
+        "stealth"
+      ],
+      "contact": {
+        "channel": "road",
+        "text": "{contact} and {member} once trailed a stolen flock across three valleys."
+      },
+      "source": {
+        "orsino": "background:tracker",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds woodcraft and stealth: reading sign and moving unseen."
+      }
+    },
+    "burglar": {
+      "name": "Burglar",
+      "use": "background",
+      "attributes": {
+        "dexterity": 5,
+        "charisma": 2
+      },
+      "gold": 40,
+      "requiredClass": "thief",
+      "skills": [
+        "stealth"
+      ],
+      "contact": {
+        "channel": "market",
+        "text": "{contact} has bought things from {member} before and never asked where they came from."
+      },
+      "source": {
+        "orsino": "background:burglar",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds stealth and a fence among the traders."
+      }
+    },
+    "outlaw": {
+      "name": "Outlaw",
+      "use": "background",
+      "attributes": {
+        "dexterity": 3,
+        "strength": 1
+      },
+      "gold": 15,
+      "requiredClass": "thief",
+      "skills": [
+        "stealth"
+      ],
+      "gear": [
+        "dagger"
+      ],
+      "contact": {
+        "channel": "road",
+        "text": "{contact} hid {member} from the reeve one winter and never said a word."
+      },
+      "source": {
+        "orsino": "background:outlaw",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds stealth, a dagger and a friend on the road."
+      }
+    },
+    "smith": {
+      "name": "Smith",
+      "use": "background",
+      "attributes": {
+        "strength": 3,
+        "constitution": 2
+      },
+      "gold": 30,
+      "skills": [
+        "brawn"
+      ],
+      "gear": [
+        "crowbar"
+      ],
+      "contact": {
+        "channel": "market",
+        "text": "{contact} buys {member}'s ironwork and pays on the nail."
+      },
+      "source": {
+        "orsino": "background:smith",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds brawn and a pry bar."
+      }
+    },
+    "scholar": {
+      "name": "Scholar",
+      "use": "background",
+      "attributes": {
+        "intelligence": 2,
+        "wisdom": 1,
+        "charisma": -1
+      },
+      "gold": 5,
+      "skills": [
+        "lore"
+      ],
+      "contact": {
+        "channel": "temple",
+        "text": "{contact} once lent {member} a book they never asked to have back."
+      },
+      "source": {
+        "orsino": "background:scholar",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds lore: old scripts, histories and the workings of magic."
+      }
+    },
+    "archaeologist": {
+      "name": "Archaeologist",
+      "use": "background",
+      "attributes": {
+        "intelligence": 3,
+        "wisdom": 2
+      },
+      "gold": 30,
+      "skills": [
+        "lore",
+        "digging"
+      ],
+      "gear": [
+        "shovel"
+      ],
+      "contact": {
+        "channel": "tavern",
+        "text": "{contact} sold {member} a map of a barrow that turned out to be real."
+      },
+      "source": {
+        "orsino": "background:archaeologist",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds lore, digging and a shovel."
+      }
+    },
+    "sailor": {
+      "name": "Sailor",
+      "use": "background",
+      "attributes": {
+        "dexterity": 2,
+        "constitution": 1,
+        "strength": 1
+      },
+      "gold": 20,
+      "skills": [
+        "climbing"
+      ],
+      "gear": [
+        "rope"
+      ],
+      "contact": {
+        "channel": "road",
+        "text": "{contact} and {member} worked the same barges, years back."
+      },
+      "source": {
+        "orsino": "background:sailor",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds climbing (rigging and rock alike) and a coil of rope."
+      }
+    },
+    "minstrel": {
+      "name": "Minstrel",
+      "use": "background",
+      "attributes": {
+        "charisma": 3,
+        "dexterity": 2
+      },
+      "gold": 30,
+      "requiredClass": "bard",
+      "skills": [
+        "lore"
+      ],
+      "contact": {
+        "channel": "tavern",
+        "text": "{contact} has heard {member} sing and still pours them a cup for it."
+      },
+      "source": {
+        "orsino": "background:minstrel",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds lore (the songs remember) and a welcome in taprooms."
+      }
+    },
+    "forester": {
+      "name": "Forester",
+      "use": "background",
+      "attributes": {
+        "wisdom": 2,
+        "dexterity": 1
+      },
+      "gold": 15,
+      "skills": [
+        "woodcraft"
+      ],
+      "gear": [
+        "handaxe"
+      ],
+      "contact": {
+        "channel": "road",
+        "text": "{contact} and {member} cut timber in the same holt one summer."
+      },
+      "source": {
+        "orsino": "background:forester",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds woodcraft and a handaxe."
+      }
+    },
+    "apothecary": {
+      "name": "Apothecary",
+      "use": "background",
+      "attributes": {
+        "intelligence": 3,
+        "wisdom": 3
+      },
+      "gold": 30,
+      "skills": [
+        "mending"
+      ],
+      "gear": [
+        "antidote",
+        "herbs"
+      ],
+      "contact": {
+        "channel": "market",
+        "text": "{contact} trades in the same simples {member} does."
+      },
+      "source": {
+        "orsino": "background:apothecary",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold; Kyr adds mending, an antidote and herbs."
+      }
+    },
+    "mendicant": {
+      "name": "Mendicant",
+      "use": "background",
+      "attributes": {
+        "wisdom": 3,
+        "dexterity": 2,
+        "constitution": 1
+      },
+      "gold": 30,
+      "requiredClass": "monk",
+      "skills": [
+        "climbing"
+      ],
+      "contact": {
+        "channel": "temple",
+        "text": "{contact} fed {member} at a shrine door through a hard winter."
+      },
+      "source": {
+        "orsino": "background:mendicant",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds climbing and a welcome at shrines."
+      }
+    },
+    "arcanist": {
+      "name": "Arcanist",
+      "use": "background",
+      "attributes": {
+        "intelligence": 5,
+        "wisdom": 1
+      },
+      "gold": 70,
+      "requiredClass": "mage",
+      "skills": [
+        "lore"
+      ],
+      "contact": {
+        "channel": "temple",
+        "text": "{contact} keeps a library {member} was once allowed to use."
+      },
+      "source": {
+        "orsino": "background:arcanist",
+        "fidelity": "adapted",
+        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds lore."
       }
     }
   }

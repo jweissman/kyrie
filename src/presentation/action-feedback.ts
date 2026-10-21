@@ -17,7 +17,7 @@ export class ActionFeedbackView {
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action)!;
-    const names = { combatants: campaign.state.creatures.map(c => CombatProjection.fighter(c, 'fighters')),
+    const names = { combatants: campaign.readout.creatures.map(c => CombatProjection.fighter(c, 'fighters')),
       turn: 0, actor: '', outcome: null };
     const combat = event.combat.filter(e => e.type !== 'action' && !('amount' in e && e.amount === 0 && e.type !== 'damage')
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))

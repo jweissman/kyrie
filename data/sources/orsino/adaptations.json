@@ -102,6 +102,7 @@
       "fidelity": "adapted",
       "note": "Exact Wis +2, Int +1; 5 gold becomes 1 coin.",
       "adds": [
+        "rites of the dead skill",
         "a contact at a shrine who hears temple news"
       ],
       "evidence": [
@@ -117,6 +118,7 @@
       "fidelity": "adapted",
       "note": "Exact Str +2, Con +1, Dex +1, 20 gold becomes 2 coin, and the warrior requirement.",
       "adds": [
+        "brawn skill",
         "an old comrade keeping an inn, who hears taproom news"
       ],
       "evidence": [
@@ -195,6 +197,207 @@
       "note": "Exact Str +2, Con +1. Used as a profession with a routine only; Kyr has no ferry service yet.",
       "adds": [
         "routine"
+      ]
+    },
+    {
+      "orsino": "background:tracker",
+      "kyr": [
+        "background:tracker"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Wis +4, Dex +2; 40 gold becomes 4 coin, and the ranger requirement.",
+      "adds": [
+        "woodcraft skill",
+        "stealth skill",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:burglar",
+      "kyr": [
+        "background:burglar"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Dex +5, Cha +2; 40 gold becomes 4 coin, and the thief requirement.",
+      "adds": [
+        "stealth skill",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:outlaw",
+      "kyr": [
+        "background:outlaw"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Dex +3, Str +1; 15 gold becomes 2 coin, and the thief requirement.",
+      "adds": [
+        "stealth skill",
+        "dagger from the gear catalog",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:smith",
+      "kyr": [
+        "background:smith"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Str +3, Con +2; 30 gold becomes 3 coin.",
+      "adds": [
+        "brawn skill",
+        "crowbar from the gear catalog",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:scholar",
+      "kyr": [
+        "background:scholar"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Int +2, Wis +1, Cha -1; 5 gold becomes 0 coin.",
+      "adds": [
+        "lore skill",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:archaeologist",
+      "kyr": [
+        "background:archaeologist"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Int +3, Wis +2; 30 gold becomes 3 coin.",
+      "adds": [
+        "lore skill",
+        "digging skill",
+        "shovel from the gear catalog",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:sailor",
+      "kyr": [
+        "background:sailor"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Dex +2, Con +1, Str +1; 20 gold becomes 2 coin.",
+      "adds": [
+        "climbing skill",
+        "rope from the gear catalog",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:minstrel",
+      "kyr": [
+        "background:minstrel"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Cha +3, Dex +2; 30 gold becomes 3 coin, and the bard requirement.",
+      "adds": [
+        "lore skill",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:forester",
+      "kyr": [
+        "background:forester"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Wis +2, Dex +1; 15 gold becomes 2 coin.",
+      "adds": [
+        "woodcraft skill",
+        "handaxe from the gear catalog",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:apothecary",
+      "kyr": [
+        "background:apothecary"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Int +3, Wis +3; 30 gold becomes 3 coin.",
+      "adds": [
+        "mending skill",
+        "antidote from the gear catalog",
+        "herbs from the gear catalog",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:mendicant",
+      "kyr": [
+        "background:mendicant"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Wis +3, Dex +2, Con +1; 30 gold becomes 3 coin, and the monk requirement.",
+      "adds": [
+        "climbing skill",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
+      ]
+    },
+    {
+      "orsino": "background:arcanist",
+      "kyr": [
+        "background:arcanist"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "Exact Int +5, Wis +1; 70 gold becomes 7 coin, and the mage requirement.",
+      "adds": [
+        "lore skill",
+        "a contact in generated regions who passes on news of their channel"
+      ],
+      "evidence": [
+        "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
     {

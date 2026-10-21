@@ -13,7 +13,7 @@ Module silkholme "Silkholme sink" {
 
   Passage sink_path "the sink path" is path between ridge and lip taking 30 minutes.
   Passage terrace_steps "the terrace steps" is path between lip and frames.
-  Passage shaft "the sink shaft" is climb between lip and cave needing rope.
+  Passage shaft "the sink shaft" is climb between lip and cave needing rope or climbing.
   Passage seep "the seep crawl" is crawl between frames and cave taking 1 hour.
   Passage web_gallery "the web gallery" is passage between cave and nest.
 
