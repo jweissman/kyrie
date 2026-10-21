@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "source": "site.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "varrow", "barrows", "barrow_lights", "appraiser"],
+  "roles": { "party": { "type": "group" }, "varrow": { "type": "place" }, "barrows": { "type": "place" },
+    "barrow_lights": { "type": "fact" }, "appraiser": { "type": "group" } },
+  "exports": {
+    "site": "tombs", "antechamber": "antechamber", "gilded": "gilded", "ossuary": "ossuary", "true_tomb": "true_tomb",
+    "tallowmen": "tallowmen", "warden": "warden", "lead_known": "lead_known", "image_known": "image_known",
+    "rule": "lamplighters_rule", "slot_known": "slot_known"
+  }
+}

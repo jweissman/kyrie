@@ -1,0 +1,145 @@
+Module candle_tombs "The Candle Tombs" {
+  Description "Under Two Barrows on the Varrow road, the Lamplighters buried their dead with candles that were never to go out. A gilded tomb waits for the greedy near the top; the Lamp-Father lies below it, under his own image. The lights seen at night are the Tallow Warden, still relighting the candles; the dead sleep while a light burns at the threshold.".
+  Entity party: group "Your company".
+  Place varrow "The region" is region.
+  Place barrows "The barrows" is room.
+  Entity barrow_lights: fact "Lights are seen at the barrows at night.".
+  Entity appraiser: group "Someone who knows gold".
+
+  Place tombs "the Candle Tombs" is site within varrow at 1, 2.
+  Place passages "The barrow passages" is level within tombs.
+  Place deep "The deep tombs" is level within tombs.
+  Place antechamber "the antechamber of candles" is room within passages at 0, 0.
+  Place processional "the processional way" is room within passages at 1, 0.
+  Place gilded "the gilded tomb" is room within passages at 2, 0.
+  Place ossuary "the ossuary" is room within deep at 1, 1.
+  Place workroom "the Warden's workroom" is room within deep at 0, 1.
+  Place true_tomb "the Lamp-Father's tomb" is room within deep at 2, 1.
+  Place far_barrow "inside the far barrow" is room within passages at 3, 0.
+  Initially Assert unlit(antechamber). Initially Assert unlit(processional). Initially Assert unlit(gilded).
+  Initially Assert unlit(ossuary). Initially Assert unlit(workroom). Initially Assert unlit(true_tomb). Initially Assert unlit(far_barrow).
+
+  // The slot in the nearer barrow, under the brambles; a stair from the gilded tomb that only the Lamp-Father's
+  // image hides; the weeping slope down to the ossuary; and the dead door out through the far barrow, which opens
+  // only from inside.
+  Passage slot "the slot in the nearer barrow" is crawl between barrows and antechamber hidden until slot_known.
+  Passage way_in "the low arch" is arch between antechamber and processional.
+  Passage gilt_door "the gilded door" is door between processional and gilded.
+  Passage weeping "the weeping slope" is passage between processional and ossuary taking 20 minutes.
+  Passage warden_way "a door hung with tallow drippings" is doorway between ossuary and workroom.
+  Passage under_image "the stair beneath the Lamp-Father's image" is stair between gilded and true_tomb hidden until image_known.
+  Passage bone_arch "the arch of skulls" is arch between ossuary and true_tomb.
+  Passage rising "the rising passage" is stair between true_tomb and far_barrow.
+  Passage dead_door "the dead door" is door between far_barrow and barrows one way.
+  Discovery slot_known "In the nearer of Two Barrows, behind the brambles, a slot low in the side goes into the mound." {
+    Found by searching barrows "Behind the brambles on the nearer barrow, a slot in the turf, edged with stone, just wide enough to crawl into.".
+  }
+  Observe slot_glimpsed at barrows when dark() and knows(party, barrow_lights) and not knows(party, slot_known) "Low on the nearer barrow, behind the brambles, a light moves and goes out: there is a hole there." teaches slot_known.
+
+  Observe ante_scene at antechamber when true "A small round chamber lined with niches, and in every niche the stub of a candle, cold. Over the arch beyond, cut deep: LIGHT ONE AND PASS.".
+  Observe proc_scene at processional when true "A long passage with alcoves down both sides, and in each alcove a shape wrapped in wax like a candle, lying on its back. Halfway along, the floor dips into a slope that shines.".
+  Observe gilded_scene at gilded when true "A tomb that glitters: gilded walls, a gilded sarcophagus, and on it the image of a man in a crown with one hand pointing at his feet. Grave goods are heaped round it: cups, a sceptre, a crown.".
+  Observe ossuary_scene at ossuary when true "A low hall of bones, stacked in walls, every skull with a candle-stub on its crown. Some of the candles are new.".
+  Observe workroom_scene at workroom when true "Tallow vats, wick-cord on spools, moulds, and a stool worn hollow. It smells of mutton fat and old prayers.".
+  Observe true_scene at true_tomb when true "A plain stone room, and a plain stone coffin with a name on it, and above the coffin a disc of beaten gold as wide as a shield, catching your light.".
+  Observe far_scene at far_barrow when true "The inside of the far barrow: a short passage up to a stone door, with a ring on this side.".
+
+  // The rite at the threshold: a candle lit in the antechamber keeps the dead asleep for three hours.
+  Thing threshold "the threshold niche" at antechamber {
+    State dark_niche "One niche by the arch is empty, with a candle-spike in it.".
+    State alight "A candle burns in the threshold niche.".
+    Change light "Light a candle in the threshold niche" from dark_niche to alight needing flame.
+  }
+  Measure candle(entity). Measure stirring(entity). Relation timed(entity).
+  Rule candle_set when state(threshold, alight) and not timed(threshold) { Set candle(threshold) to 18. Assert timed(threshold). }
+  Rule candle_burns when state(threshold, alight) and candle(threshold) >= 1 { Decrease candle(threshold) by 1. }
+  Rule candle_out at antechamber when state(threshold, alight) and timed(threshold) and candle(threshold) <= 0
+    says "The candle in the threshold niche gutters and goes out." { Assert state(threshold, dark_niche). Retract timed(threshold). }
+  // Each watch spent below the antechamber with no candle alight stirs the dead; so does taking from them.
+  Rule unlit_stirs when state(threshold, dark_niche) and (at(party, processional) or at(party, gilded) or at(party, ossuary)
+    or at(party, workroom) or at(party, true_tomb)) { Increase stirring(tombs) by 1. }
+  Rule robbing_stirs when robbed(tombs) and not counted(tombs) { Increase stirring(tombs) by 3. Assert counted(tombs). }
+  Relation robbed(entity). Relation counted(entity). Relation restless(entity).
+  Rule the_dead_wake when stirring(tombs) >= 6 and not restless(tombs)
+    says "All down the processional way, wax cracks. Something sits up in an alcove, and then something else." {
+    Assert restless(tombs). Assert state(tallowmen, risen).
+  }
+  Person tallowmen "the tallowmen" at processional {
+    Role "the Lamplighters' dead, wrapped in wax". Species revenant. Numbers 3.
+    State sleeping "The wax-wrapped dead lie in their alcoves.".
+    State risen "The dead are up out of their alcoves, wax cracking off them in flakes, and they are looking for whoever is in the dark with them.".
+    Uses go, assail. Plans 6 steps.
+  }
+  Pursuit hunt for tallowmen "hunting the living through the tombs" priority 20 when state(tallowmen, risen)
+    and (at(party, antechamber) or at(party, processional) or at(party, gilded) or at(party, ossuary) or at(party, workroom)
+      or at(party, true_tomb) or at(party, far_barrow)) seeks assails(tallowmen, party).
+  Rule tallowmen_rise when state(tallowmen, risen) and together(tallowmen, party) and able(tallowmen)
+    says "The tallowmen come at you with their wax hands out." { Assert assails(tallowmen, party). }
+  Rule dead_lie_down when restless(tombs) and state(threshold, alight) and not together(tallowmen, party) {
+    Retract restless(tombs). Set stirring(tombs) to 0. Assert state(tallowmen, sleeping). Assert at(tallowmen, processional).
+  }
+
+  // The weeping slope: tallow from a hundred years of candles. Roped, it can be walked; unroped, someone slides.
+  Hazard slide "The weeping slope" means "Deal (1d6) physical damage to ally unless dexterity save against (13).".
+  Thing slope "the weeping slope" on weeping {
+    State slick dangerous "The floor goes down in a long slope glazed with old tallow, shining like ice.".
+    State held "A rope runs down the weeping slope from an iron ring; holding it, the slope can be walked.".
+    Hurts with slide when slick then slick.
+  }
+  Thing anchor "an iron ring at the top of the slope" at processional {
+    State bare "An iron ring is set in the wall at the top of the slope.".
+    State roped "A rope runs from the iron ring down the weeping slope.".
+    Change rope "Tie a rope to the ring and let it down the slope" from bare to roped consuming rope.
+  }
+  Rule slope_roped when state(anchor, roped) and state(slope, slick) { Assert state(slope, held). }
+  Rule slope_state when state(anchor, bare) and state(slope, held) { Assert state(slope, slick). }
+
+  // The gilded tomb is a lie: gilt over lead. The image points down to the truth.
+  Thing image "the Lamp-Father's image" at gilded {
+    Holds.
+    State still "The image of the Lamp-Father lies on the sarcophagus, crowned, one finger pointing down at his feet.".
+    State turned "The image has turned on a pivot, and under where it lay a stair goes down.".
+  }
+  Item crown "the gilded crown" is gilt_crown in image.
+  Item sceptre "a gilded sceptre" is gilt_sceptre in image.
+  Observe lead_tell near image when tried(image, looking) "Close to, the crown's gilt is rubbed through at the brow, and it is grey underneath. The sceptre too. Everything here is gilded lead." teaches lead_known.
+  Observe pointing near image when tried(image, looking) "The image's pointing finger is worn bright, as if it had been pressed many times." teaches image_known.
+  Entity lead_known: fact "The grave goods of the gilded tomb under Two Barrows are gilded lead: a show for robbers.".
+  Entity image_known: fact "The Lamp-Father's image in the gilded tomb turns when its pointing hand is pushed, and a stair goes down beneath it to his true tomb.".
+  Initially Assert established(lead_known). Initially Assert established(image_known).
+  Rule image_turns when tried(image, pushing) and state(image, still) says "The image turns on a pivot with a grinding sigh." {
+    Assert state(image, turned).
+  }
+  Observe stair_shown near image when state(image, turned) "Under where the image lay, a stair goes down into the dark." teaches image_known.
+  Thing image_slab "the image over the stair" on under_image is scenery {
+    State shut blocking "The image lies over the stair.".
+    State open "The stair beneath the image stands open.".
+  }
+  Rule stair_opens when state(image, turned) and state(image_slab, shut) { Assert state(image_slab, open). }
+  Rule gilt_taken when not inside(crown, image) and not robbed(tombs) { Assert robbed(tombs). }
+
+  // The true tomb: the Lamp-Father's name, his sun-disc, and the Lamplighters' Rule cut into the coffin's lid.
+  Thing disc_hook "the hook over the coffin" at true_tomb {
+    Holds.
+  }
+  Item disc "the Lamp-Father's sun-disc" is sun_disc in disc_hook.
+  Rule disc_taken when not inside(disc, disc_hook) and not robbed(tombs) { Assert robbed(tombs). }
+  Discovery lamplighters_rule "The Lamplighters' Rule: light kept too long in the dark sours, and soured light eats light. The First Light was laid down to burn it out again, set in the beacon's cradle where the mirrors could carry it down the shaft." {
+    Source coffin_lid "the words cut into the coffin's lid" at true_tomb readable by party.
+  }
+
+  // The Tallow Warden: the lights at the barrows. It minds the candles, and anyone who puts them out.
+  Person warden "the Tallow Warden" at workroom {
+    Role "the last of the Lamplighters' sextons, dead and still working". Species revenant. Level 2. Peaceable.
+    State working "A figure in a wax-stiff cassock moves from skull to skull with a taper, lighting candles. It does not look at you.".
+  }
+  Rule warden_walks when dark() and at(warden, workroom) and dice(clock) <= 10 { Assert at(warden, barrows). }
+  Rule warden_returns when at(warden, barrows) and not dark() { Assert at(warden, workroom). }
+  Observe warden_out at barrows when at(warden, barrows) "A figure in a stiff cassock walks the barrows with a taper, bending to the turf here and there as if lighting candles nobody can see." teaches barrow_lights.
+  // Iselde, who knows gold, can tell lead from it at a glance.
+  Topic appraisal with appraiser "Show the gilded crown to someone who knows gold" when holding(actor, gilt_crown) once {
+    Says "She weighs it in her hand and doesn't bother with the touchstone. 'Lead,' she says. 'Gilded lead, and good work, a hundred years old. Somebody wanted robbers to go home happy. I'll give you two crowns for it as a curiosity.'".
+    On discuss { Assert knows(actor, lead_known). }
+  }
+  Goal false.
+}

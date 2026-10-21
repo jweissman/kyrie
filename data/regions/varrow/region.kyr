@@ -130,7 +130,10 @@ Module varrow "The Varrow" {
   Person iselde "Iselde Vane" at goldsmith {
     Role "goldsmith". Ancestry human. Peaceable.
     Buys grave_rings for 12 coin. Buys chapel_plate for 18 coin. Buys jade_idol for 25 coin. Buys bronze_bearing for 8 coin.
+    Buys toll_silver for 35 coin. Buys sun_disc for 45 coin. Buys gilt_crown for 2 coin. Buys gilt_sceptre for 1 coin.
+    Buys noonlight for 30 coin. Buys moonlight for 12 coin. Buys first_light for 90 coin.
   }
+  Initially Set quantity(iselde, gold) to 300.
   Person ash "Mother Ash" at lamp_temple {
     Role "keeper of the Kindly Lamp". Ancestry human. Calling cleric. Level 4. Profession priest. Peaceable.
     Offers healing "the lamp's oil on every wound, and a prayer" for 3 coin.

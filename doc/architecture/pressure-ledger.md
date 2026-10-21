@@ -42,6 +42,7 @@ situation has been played in the browser. Before/after examples sit with the cha
 | 26 | A visitor admitted to the brigand queen who must touch nothing on the way; robbed, she remembers | Tolerance, guests and grudges had no words; guards either blocked or did not | 1, 4 |
 | 27 | Darkness that eats light, a lamp-tender that attacks whoever it finds unlit, and hounds that flee from sunlight | Unlit places and light only | 1, 3 |
 | 28 | Outlaws who step out of the trees and demand road-money: pay, turn out an empty purse, fight, or run under their arrows | Someone could fall on the company, but not stop it to talk | 3, 7 |
+| 30 | A gilded tomb that satisfies the greedy with gilt lead, the true tomb beneath it, and a rite that keeps the dead asleep while a candle burns | Containers, tries and hidden ways existed; nothing measured how long a light burns | 8 |
 | 29 | The same raiders' hold in another region: a cave of outlaws in the mountains, a ring-fort of hobs in the fen, each bound to a road and a settlement there | Scenarios placed by context; one fixed shape each | 6 |
 
 ## Progress
@@ -129,4 +130,20 @@ Walls (ruin)".
 `halts(x, company)` is the non-violent sibling of `assails`: it breaks off whatever the company was doing and leaves
 it facing x. The outlaws use it to stop travellers, then give them one watch to pay, show an empty purse, fight or
 run. Their patience rules come before the hold-up in the module so that they cannot fire in the same watch as it.
+
+### The Candle Tombs (October 21): row 13 closed in content, row 30 is design
+
+The burial labyrinth under Two Barrows (`data/sites/candle-tombs`) needed no new machinery. Everything in it is a
+thing with states, a try, a hidden way, a measure and a few rules:
+
+- The gilded tomb's crown is gilt lead. A close look says so, its description says it is "heavier than gold should
+  be", and Iselde pays two crowns for it.
+- The Lamp-Father's image hides the stair to his true tomb, and its worn pointing finger is the clue.
+- A candle lit in the threshold niche burns for three hours (a measure counted down each watch). While it burns,
+  the dead sleep. Each watch spent below without it stirs them, and robbing them stirs them more.
+- The weeping slope is a risk, unless a rope is tied to the ring at its top (`consuming rope`: the rope stays there).
+- The dead door out through the far barrow opens one way.
+
+This is row 8 of the categories ("shallow design despite adequate machinery") turned around: the depth came from
+the design, not from new language.
 

@@ -25,6 +25,17 @@
       }
     },
     {
+      "id": "tombs",
+      "bundle": "../sites/candle-tombs/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "varrow": "varrow.region",
+        "barrows": "varrow.barrows",
+        "barrow_lights": "varrow.barrow_lights",
+        "appraiser": "varrow.iselde"
+      }
+    },
+    {
       "kit": "../kits/raider-hold/kit.json",
       "id": "knot",
       "fix": {

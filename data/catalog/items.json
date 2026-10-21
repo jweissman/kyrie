@@ -362,6 +362,33 @@
       "source": {
         "kyr": true
       }
+    },
+    "gilt_crown": {
+      "name": "Gilded crown",
+      "category": "treasure",
+      "description": "A heavy crown worked with lamps and gilded thick. It is heavier than gold should be.",
+      "value": 2,
+      "source": {
+        "kyr": true
+      }
+    },
+    "gilt_sceptre": {
+      "name": "Gilded sceptre",
+      "category": "treasure",
+      "description": "A sceptre topped with a gilded lamp, heavy in the hand.",
+      "value": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "sun_disc": {
+      "name": "Sun-disc",
+      "category": "treasure",
+      "description": "A disc of beaten gold as wide as a shield, worked with rays, that catches any light and throws it back.",
+      "value": 50,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }
