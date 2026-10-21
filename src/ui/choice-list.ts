@@ -38,7 +38,9 @@ export class ChoiceList {
     return screen.items.filter(i => i.light).flatMap(i => {
       const own = i.acts.flatMap(a => a.children ?? [a]).find(a => a.command && a.label.includes(i.ownerName))
         ?? i.acts.find(a => a.command);
-      const name = /^(the|a|an) /i.test(i.name) ? i.name.toLowerCase() : `a ${i.name.toLowerCase()}`;
+      // "a torch", "the lantern", but "Garth's spare torch" as it is named.
+      const name = /^(the|a|an) /i.test(i.name) ? i.name.toLowerCase() : /^[A-Z]\w*'s /.test(i.name) ? i.name
+        : `a ${i.name.toLowerCase()}`;
       return own?.command ? [{ id: `light:${i.id}`, label: `${i.ownerName}: light ${name}`, tone: 'item' as const,
         command: own.command, about: i.description }] : [];
     }).filter((c, n, all) => all.findIndex(o => o.label === c.label) === n);
@@ -131,9 +133,11 @@ export class ChoiceList {
   static choice(a: Act, prefix: string, tone: Tone): Choice {
     const id = `${prefix}/${a.key}`;
     if (a.children?.length === 1) {
-      // A list of one is no choice: "Take › for Bran" is "Take for Bran".
+      // A list of one is no choice: "Take › for Bran" is "Take for Bran", and "Lift it › Bran takes the weight"
+      // is "Lift it — Bran takes the weight".
       const only = this.choice(a.children[0]!, id, tone);
-      return { ...only, id, label: `${a.label} ${only.label}` };
+      const runs = /\b(on|for|to|with|by|at|from|into)$/i.test(a.label) || !/^[A-Z]/.test(only.label);
+      return { ...only, id, label: `${a.label}${runs ? ' ' : ' — '}${only.label}` };
     }
     if (a.children) {
       return { id, label: a.label, tone, children: a.children.map(c => this.choice(c, id, tone)),

@@ -36,6 +36,10 @@ export class CampaignTick {
       night.push({ kind: 'set', call: ModuleWriter.call('untilLight', 'clock'),
         value: ModuleWriter.number(FictionalTime.untilLight(elapsed)) });
     }
+    if (world.module.measures.some(m => m.name === 'untilMorning')) {
+      night.push({ kind: 'set', call: ModuleWriter.call('untilMorning', 'clock'),
+        value: ModuleWriter.number(FictionalTime.untilMorning(elapsed)) });
+    }
     return [{ kind: 'set', call: ModuleWriter.call('watch', 'clock'), value: ModuleWriter.number(elapsed) }, ...night];
   }
   static npcs(host: TickHost, decisions: TickDecision[]) {

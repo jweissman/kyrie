@@ -21,6 +21,12 @@ export class FictionalTime {
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;
     return Math.ceil(((6 * 60 - minutes + 1440) % 1440) / this.minutesPerTick);
   }
+  // Watches of a night's sleep from this one: until seven in the morning when that is six to eighteen hours off
+  // (a bed taken in the afternoon or the small hours), otherwise eight hours.
+  static untilMorning(tick: number): number {
+    const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440, wake = (7 * 60 - minutes + 1440) % 1440;
+    return Math.ceil((wake >= 360 && wake <= 1080 ? wake : 480) / this.minutesPerTick);
+  }
   static duration(ticks: number): string {
     const minutes = ticks * this.minutesPerTick;
     return minutes >= 60 ? `${Math.floor(minutes / 60)}h${minutes % 60 ? ` ${minutes % 60}m` : ''}` : `${minutes} min`;

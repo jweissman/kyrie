@@ -18,7 +18,7 @@ import { Advancement } from '../rules/advancement';
 export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
-    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable'];
+    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -38,6 +38,14 @@ export class CreatureFacts {
         for (const capability of capabilities) {
           changes.push({ kind: PartyCapabilities.has(capability.id, members) ? 'assert' : 'retract',
             call: ModuleWriter.call('capable', actor.id, capability.id) });
+        }
+      }
+      if (has.has('brings')) {
+        for (const c of members) {
+          for (const capability of capabilities) {
+            changes.push({ kind: PartyCapabilities.brings(capability.id, c) ? 'assert' : 'retract',
+              call: ModuleWriter.call('brings', references.get(c.id)!, capability.id) });
+          }
         }
       }
       if (has.has('memberOf')) {
