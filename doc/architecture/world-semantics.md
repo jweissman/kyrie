@@ -25,9 +25,9 @@ to be said in the framework's terms, so that any module can read it:
 - a place robbed (`losses`);
 - a stronghold left empty (`vacant`).
 
-`bun bin/kyrie.ts lint` counts every relation a campaign module declares for itself (`campaign-vocabulary`). That
-count is the measure of how much is still scenario-local. Mission 6 brought it from 101 to 92. The table below says
-where the rest stands.
+`bun bin/kyrie.ts lint --verbose` lists every relation a campaign module declares for itself (`campaign-vocabulary`).
+That list is the measure of how much is still scenario-local. Mission 6 brought it from 97 (at the end of mission 5)
+to 88. The table below says where the rest stands.
 
 ## The Varrow, as one causal web
 
@@ -102,9 +102,9 @@ What remains local, and why:
 | Module | Local relations | Judgement |
 |---|---|---|
 | Lanthorn | `passing`, `guest`, `admitted`, `shotAt`, `hailed`, `laden`, `earned`, `lifted`, `kindled`, `taken`, `pathSeen`, `gloom` | The Lanthorn's own mechanisms and custom; `lifted(toll)` is a historical fact the reeve's bounty reads. `earned` should become a general record of who did what. |
-| Hob folk | `freed`, `quiet`, `paid`, `rung`, `shame` | Captives coming home (`freed`) duplicate the Lanthorn's Tamsin and caught-below's guest: next to become a shared homecoming. Tribute (`paid`) duplicates the outlaws' road-money. |
+| Hob folk | `freed`, `quiet`, `paid`, `rung`, `shame` | The boy's homecoming is now the shared `brought_home` rule (`home`, `thanks`, `cameHome`, `grateful` in `world_people`); `freed` remains only as the event's marker. Tribute (`paid`) duplicates the outlaws' road-money. |
 | Outlaws | `quiet`, `demanding`, `impatient`, `dueling`, `ended`, `paidUp` | Road-money is now visible as `tolls`; the hold-up exchange is theirs. |
-| Situations (brood, caught-below, dragon roost, den, salvage, tower) | `asked`, `thanked`, `grateful`, `returned`, `escortedHome`, `reunited`, `raidAt`, `lost`, `robbed`, `looted` | The largest remaining duplication: captives, thanks and raids each have three or four versions. Raids should increase `losses`. Rescues should use one homecoming rule. |
+| Situations (brood, caught-below, dragon roost, den, salvage, tower) | `asked`, `thanked`, `returned`, `escortedHome`, `reunited`, `raidAt`, `lost`, `robbed`, `looted` | Caught Below now uses the shared `freedBy` and `grateful`. Its reunion with a relative is its own. Thanks and raids still have several versions; raids should increase `losses`. |
 | Candle Tombs, Brimming, Hush | `candle`, `stirring`, `timed`, `robbed`, `counted`, `restless`, `returned`, `jars_lost`, `refused`, `shamed` | Mostly the sites' own mechanisms. |
 
 ## Limits

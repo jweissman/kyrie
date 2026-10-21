@@ -236,9 +236,11 @@ Module lanthorn "The Lanthorn" {
   }
   Rule tamsin_follows when state(tamsin, freed) and not acceptsEscort(tamsin, party)
     says "Tamsin looks at the door, and at you. 'Take me home,' she says. 'Skerry. Please.'" { Assert acceptsEscort(tamsin, party). }
-  Rule tamsin_home when at(tamsin, home_town) and following(tamsin, party) and not lifted(captivity)
+  // Skerry takes her back, and gives the company what it can (the homecoming is people's, in world_people).
+  Initially Assert home(tamsin, home_town). Initially Set thanks(tamsin) to 10.
+  Rule tamsin_home when cameHome(tamsin) and not lifted(captivity)
     says "Tamsin runs the last stretch. Somebody in Skerry screams her name, and then everybody is shouting." {
-    Retract following(tamsin, party). Assert lifted(captivity). Increase quantity(party, gold) by 10.
+    Assert lifted(captivity).
   }
   Entity captivity: fact "Tamsin's captivity in the Lanthorn's kitchen.".
   Initially Assert serves(wardens, ninefingers). Initially Assert serves(crew, ninefingers). Initially Assert serves(coll, ninefingers).

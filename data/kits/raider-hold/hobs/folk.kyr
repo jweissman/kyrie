@@ -62,9 +62,10 @@ Module hob_folk "Hobs" {
   }
   Rule boy_follows when state(captive, loose) and not acceptsEscort(captive, party)
     says "The boy grabs your sleeve. 'Take me home?'" { Assert acceptsEscort(captive, party). }
-  Rule boy_home when at(captive, town) and following(captive, party) and not freed(captive)
+  Initially Assert home(captive, town). Initially Set thanks(captive) to 8.
+  Rule boy_home when cameHome(captive) and not freed(captive)
     says "The boy's mother sees him from a doorway and comes running with her apron over her mouth." {
-    Retract following(captive, party). Assert freed(captive). Increase quantity(party, gold) by 8.
+    Assert freed(captive).
   }
   Relation freed(group).
 

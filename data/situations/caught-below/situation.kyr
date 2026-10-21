@@ -9,8 +9,8 @@ Module caught_below "Someone caught below" {
   Entity closing_way: passage "The short way".
   Item bar "a pry bar" is crowbar at tool_room.
   Measure closesAt(entity).
-  Relation asked(group, group). Relation freedBy(group, group). Relation escortedHome(group, group).
-  Relation returned(group). Relation grateful(group, group). Relation reunited(group).
+  Relation asked(group, group). Relation escortedHome(group, group).
+  Relation returned(group). Relation reunited(group).
 
   Person guest "Someone" at captive_room {
     Role "missing". Uses go. Plans 14 steps. Peaceable.

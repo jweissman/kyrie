@@ -1,5 +1,14 @@
 Module world_people "Company and intention" {
   Relation acceptsEscort(group, group). Relation dismissed(group, group).
+  // Someone taken from home: who set them free, where home is, and what their people will give whoever brings them
+  // back. Brought home by a company they are home, and grateful to it, and the thanks are paid.
+  Relation freedBy(group, group). Relation home(group, place). Relation cameHome(group). Relation grateful(group, group).
+  Measure thanks(group).
+  Rule brought_home when following(?person, ?company) and home(?person, ?place) and at(?person, ?place)
+    and not cameHome(?person) {
+    Retract following(?person, ?company). Assert cameHome(?person). Assert grateful(?person, ?company).
+    Increase quantity(?company, gold) by thanks(?person).
+  }
   Goal false.
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
     Requires able(actor) and able(companion) and distinct(actor, companion) and at(actor, site)
