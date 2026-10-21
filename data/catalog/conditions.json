@@ -154,7 +154,8 @@
       "source": {
         "kyr": true,
         "notes": "A place law, as Orsino's planes carry global effects every resident holds (planeModifiers.globalEffects): fire resisted by half, healing two less, will saves two worse."
-      }
+      },
+      "law": true
     },
     "beacon_law": {
       "name": "Under the beacon",
@@ -169,7 +170,8 @@
       "source": {
         "kyr": true,
         "notes": "The law of the Unlit where Lampfall's beacon has been relit."
-      }
+      },
+      "law": true
     }
   }
 }

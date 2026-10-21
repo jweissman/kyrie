@@ -15,6 +15,7 @@ export class ConditionSense {
     return score > 0 ? 'help' : score < 0 ? 'hurt' : 'neutral';
   }
   static helps(id: string): boolean { return this.tone(id) === 'help'; }
+  static law(id: string): boolean { return !!Canon.conditions[Canon.resolve('conditions', id)]?.law; }
   static name(id: string): string { return Canon.conditions[Canon.resolve('conditions', id)]?.name ?? id; }
   private static sum(r?: Record<string, number>): number {
     return Object.values(r ?? {}).reduce((a, b) => a + Math.sign(b), 0);

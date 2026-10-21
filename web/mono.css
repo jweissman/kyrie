@@ -70,6 +70,9 @@ button.primary kbd { color: var(--amber-ink); background: transparent; border-co
 .entry { position: relative; margin-top: 1.2rem; padding-top: 0.95rem; border-top: 1px solid var(--rule); max-width: 66ch; }
 .entry.latest { animation: rise 0.35s ease-out; }
 .entry time { position: absolute; right: 0; top: 0.95rem; color: var(--faint); font-size: var(--s-1); }
+/* An entry that opens with what was told, not with what was done, keeps its time above the words. */
+.entry:not(:has(.said)) time { position: static; display: block; text-align: right; margin-bottom: 0.2rem; }
+.scene-head .law { margin-top: 0.35rem; color: var(--violet); font: italic var(--s0)/1.45 var(--prose); max-width: 70ch; }
 .said { color: var(--amber); margin: 0 7ch 0.45rem 0; font-size: var(--s0); }
 .said span { color: var(--faint); margin-right: 0.4ch; }
 .entry.tone-fight .said, .entry.tone-fail .said { color: var(--rose); }

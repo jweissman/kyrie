@@ -24,6 +24,8 @@ export interface Condition {
   duration?: number;
   // The save category a debuff applying this condition uses when the ability names none.
   saveKind?: string;
+  // A place's law, held by everyone in a fight there (a plane's): told once for the fight, not worn by each.
+  law?: true;
   // Orsino's compelNextMove and forceTarget: the holder must use that ability, or target whoever applied it.
   compel?: string; forceTarget?: true;
   // Whoever applied it stands in front of its holder: a blow aimed at the holder strikes them instead.

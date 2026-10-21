@@ -1,5 +1,6 @@
 import { MechanicsText } from '../presentation/mechanics-text';
 import { Effects } from '../effects';
+import { Canon } from '../canon/canon';
 import { Content } from '../content';
 import { ConditionSense } from '../presentation/condition-sense';
 import type { Battle } from '../battle';
@@ -28,6 +29,8 @@ export class CombatModel {
           ready: (actor?.ready ?? []).flat().filter(id => id === c.ability.id).length } } : {}),
         targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [] })),
       order: (state.order ?? []).map(id => this.name(state, id)),
+      laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
+        .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
       log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
       exchanges: this.exchanges([...prior, ...battle.events], state).slice(-12),
     };
@@ -46,10 +49,12 @@ export class CombatModel {
   private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
     const race = Content.races[f.raceId as keyof typeof Content.races]?.name ?? f.raceId;
     const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
+    const worn = f.statuses.filter(s => !ConditionSense.law(s.id));
     return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,
       mana: f.mana, maxMana: f.maxMana, ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
-      statuses: f.statuses.filter(s => !ConditionSense.helps(s.id)).map(s => ConditionSense.name(s.id)),
-      boons: f.statuses.filter(s => ConditionSense.helps(s.id)).map(s => ConditionSense.name(s.id)),
+      // A place's law is everyone's and is told once for the fight, not worn by each.
+      statuses: worn.filter(s => !ConditionSense.helps(s.id)).map(s => ConditionSense.name(s.id)),
+      boons: worn.filter(s => ConditionSense.helps(s.id)).map(s => ConditionSense.name(s.id)),
       acting: f.id === state.actor,
       down: f.hp === 0, ...f.team === 'fighters' ? {} : this.reading(f, state) };
   }

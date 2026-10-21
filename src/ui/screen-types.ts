@@ -83,6 +83,8 @@ export interface CombatScreen {
     spell?: { level: number; ready: number }; targets: { id: string; name: string; against?: string }[] }[];
   // Who is still to act this round, in order, the one acting first.
   order: string[];
+  // The laws of the place the fight is fought in, held by everyone in it.
+  laws?: { name: string; text: string }[];
   log: string[]; exchanges: string[][];
 }
 export interface CombatantRow {

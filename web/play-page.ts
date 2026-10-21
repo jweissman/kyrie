@@ -76,7 +76,8 @@ export class PlayPage {
       + '<span></span><span></span><span></span></p>' : '';
     return `<section class="page fight" data-region="page"><header class="scene-head"><h1>${begun} at ${Html.escape(place)}</h1>`
       + `<p class="where">${Html.escape(s.screen?.clock ?? '')}${c.order.length > 1 && !c.outcome
-        ? ` · after ${Html.escape(c.order[0]!)}: ${c.order.slice(1).map(n => Html.escape(n)).join(', ')}` : ''}</p></header>`
+        ? ` · after ${Html.escape(c.order[0]!)}: ${c.order.slice(1).map(n => Html.escape(n)).join(', ')}` : ''}</p>`
+      + `${(c.laws ?? []).map(l => `<p class="law">${Html.escape(l.name)}: ${Html.escape(l.text)}</p>`).join('')}</header>`
       + `<div class="transcript" data-region="battle-log" aria-live="polite">${opening}${blows}${waiting}</div>`
       + `${PlayMenu.render(s, turn)}</section>`;
   }

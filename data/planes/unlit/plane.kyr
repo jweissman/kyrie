@@ -150,6 +150,11 @@ Module unlit "The Unlit" {
   Item vault_moon "a jar of moonlight" is moonlight in vault_racks.
   Item last_light "the Last Light of Lampfall" is first_light in vault_racks.
   Item regalia "the Lamplighters' regalia" is hollow_regalia at ledger_hall.
+  // Whatever was agreed, his order's regalia taken from under his pen ends it.
+  Rule regalia_stolen when holding(party, hollow_regalia) and together(hollow, party) and able(hollow)
+    and not assails(hollow, party) says "The pen stops. 'That,' says the Hollow Warden, 'was never in the ledger.' He stands." {
+    Retract tolerates(hollow, party). Assert assails(hollow, party).
+  }
   Observe vault_guarded at jar_vault when able(hollow) and not tolerates(hollow, party) "Every jar on the racks has a line in the ledger, and you can feel the ledger knowing you are here.".
   Rule vault_robbed when at(party, jar_vault) and able(hollow) and not tolerates(hollow, party) and not warned(hollow, party)
     and not assails(hollow, party) says "Out in the hall the pen stops." {
