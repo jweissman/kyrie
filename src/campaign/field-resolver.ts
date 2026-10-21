@@ -6,6 +6,7 @@ import type { World } from '../lang/world';
 import type { CombatEvent } from '../model';
 import { FieldUse } from './field-use';
 import { Items } from './items';
+import { Environment } from './environment';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 
@@ -28,13 +29,18 @@ export class FieldResolver {
       return FieldUse.perform(creatures, [call.args[1]!], { ability: call.args[0]!, caster: call.args[1]!,
         target: call.args[1]!, seed, service: 'reward' });
     }
-    if (['prepare', 'improve', 'learn'].includes(call.name)) { return FieldUse.study(creatures, call.name, call.args); }
+    if (['prepare', 'improve', 'learn', 'feat'].includes(call.name)) { return FieldUse.study(creatures, call.name, call.args); }
     if (call.name === 'invoke') {
       return FieldUse.perform(creatures, [call.args[1]!, call.args[2]!],
         { ability: call.args[0]!, caster: call.args[1]!, target: call.args[2]!, seed });
     }
     if (call.name === 'purchase') { this.purchase(call, host); return this.take(call, host); }
     if (call.name === 'acquire') { return this.take(call, host); }
+    if (call.name === 'rummage') {
+      const actor = host.actors.find(a => a.id === call.args[0]);
+      const environment = actor && Environment.of(host.world, actor.id);
+      return actor ? Items.rummage(creatures, actor.members, { seed: `${seed}:rummage`, ...environment ? { at: { environment } } : {} }) : [];
+    }
     return this.items(action, call, host);
   }
   private static items(action: Operator, call: Call, host: FieldHost): CombatEvent[] {

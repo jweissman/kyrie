@@ -10,6 +10,7 @@ Module varrow "The Varrow" {
   Place fell "Hushing Fell" is wilderness within varrow at 4, 0.
   Place heights "the Skerry heights" is wilderness within varrow at 4, 1.
   Place skerry "Skerry" is settlement within varrow at 5, 1.
+  Initially Assert terrain(varrow, mountain). Initially Assert terrain(downs, hills). Initially Assert terrain(lowroad, hills).
 
   Place wheatsheaf_house "The Wheatsheaf" is building within hollin.
   Place chandlery_house "Ottar's chandlery" is building within hollin.

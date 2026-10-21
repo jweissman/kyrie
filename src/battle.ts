@@ -46,10 +46,11 @@ export class Battle {
     this.commit();
   }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
-    options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number }): Battle {
+    options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string }): Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
-      const combatants = participants.map((p, i) => CombatProjection.fighter(lease.creatures[i]!, p.team));
+      const combatants = participants.map((p, i) => ({ ...CombatProjection.fighter(lease.creatures[i]!, p.team),
+        ...options.environment ? { environment: options.environment } : {} }));
       return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities },
         options.seed, options.maxTurns ?? 500, lease);
     } catch (error) { lease.release(); throw error; }
@@ -113,6 +114,7 @@ export class Battle {
       && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(actor.level)
       && !(a.spell && m.noSpellcasting)
       && (!a.requires?.status || actor.statuses.some(s => s.id === a.requires!.status))
+      && (!a.requires?.notStatus || !actor.statuses.some(s => s.id === a.requires!.notStatus))
       && (!a.requires?.interceptWeapon || actor.equipment?.weapon?.intercept === true));
     const compel = actor.statuses.map(s => Effects.status(s.id).compel).find(c => c && usable.some(a => a.id === c));
     return compel ? usable.filter(a => a.id === compel) : usable;

@@ -54,8 +54,10 @@ export class Discovery {
   private static found(context: { observations: Observation[] }, definition: DiscoveryDefinition) {
     for (const [i, f] of (definition.found ?? []).entries()) {
       const searched: Predicate = ModuleWriter.call('searched', 'party', f.place);
-      const when: Predicate = f.with ? { kind: 'and', left: searched, right: ModuleWriter.call('capable', 'party', f.with) }
-        : searched;
+      // A company keen enough at searching finds it without the skill.
+      const skilled: Predicate | undefined = f.with ? { kind: 'or', left: ModuleWriter.call('capable', 'party', f.with),
+        right: ModuleWriter.call('capable', 'party', 'perception') } : undefined;
+      const when: Predicate = skilled ? { kind: 'and', left: searched, right: skilled } : searched;
       context.observations.push({ id: `${definition.id}__found${i ? i + 1 : ''}`, place: f.place, anchor: 'at', when,
         text: f.text ?? definition.text, teaches: definition.id });
     }

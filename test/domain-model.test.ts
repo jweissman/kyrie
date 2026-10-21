@@ -7,6 +7,7 @@ import { CanonValidation } from '../src/canon/canon-validation';
 import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
 import { Effects } from '../src/effects';
+import { ItemCatalog } from '../src/item-catalog';
 import { Expressions } from '../src/expressions';
 import { ModuleParser } from '../src/lang/module-parser';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -120,7 +121,11 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     const knight = Probe.creature('dame', { classId: 'warrior', raceId: 'human', traits: ['knight', 'brave'], level: 3 });
     const fighter = CombatProjection.fighter(knight, 'fighters');
     expect(Effects.saveModifier(fighter, 'magic')).toBe(2);
-    expect(Effects.modifiers(fighter)).toMatchObject({ toHit: 5, ac: -2 });
+    // Order of the Shield always; Heavy Handed's +5 to hit only with a heavy weapon in hand.
+    const wielding = (id: string) => ({ ...fighter,
+      equipment: { ...fighter.equipment!, weapon: ItemCatalog.weapon(id) } });
+    expect([Effects.modifiers(wielding('dagger')).toHit, Effects.modifiers(wielding('greatsword')).toHit,
+      Effects.modifiers(wielding('greatsword')).ac]).toEqual([undefined, 5, -2]);
     expect(() => Probe.creature('squire', { classId: 'warrior', raceId: 'human', traits: ['knight', 'brave'] }))
       .toThrow('level 3');
   });

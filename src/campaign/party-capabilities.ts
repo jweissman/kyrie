@@ -3,19 +3,30 @@ import { ItemCatalog } from '../item-catalog';
 import type { Creature } from '../creature';
 import { Overlays } from '../overlays';
 import { Effects } from '../effects';
+import type { PerkContext } from '../rules/perks';
+import { Searching } from '../rules/searching';
 
 // Who in a company can bring a skill to bear: a living, acting member whose background, class or equipped item
 // grants it. Each grant is declared on the granting entry in the catalog.
 export class PartyCapabilities {
-  static has(id: string, creatures: Creature[]): boolean { return this.providers(id, creatures).length > 0; }
-  // Whether this one companion brings the skill: by background, class, an equipped item or a condition held.
-  static brings(id: string, c: Creature): boolean {
+  // A member with an eye for searching (Orsino's check taken at 10) finds what would otherwise need a skill.
+  static readonly keen = 'perception';
+  static has(id: string, creatures: Creature[], at: PerkContext = {}): boolean {
+    return this.providers(id, creatures, at).length > 0;
+  }
+  // Whether this one companion brings the skill: by background, class, an equipped item, a condition or a perk held.
+  static brings(id: string, c: Creature, at: PerkContext = {}): boolean {
     if (c.state.hp === 0 || c.state.conditions.some(s => Effects.skips(s.id))) { return false; }
     return Overlays.skills(c).includes(id) || (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id)
       || (c.state.inventory ?? []).some(i => i.equipped && ItemCatalog.get(i.definition).capability === id)
-      || c.state.conditions.some(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes(id));
+      || c.state.conditions.some(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes(id))
+      || (id === this.keen && Searching.finds(c, at));
   }
-  static providers(id: string, creatures: Creature[]): Creature[] {
+  static providers(id: string, creatures: Creature[], at: PerkContext = {}): Creature[] {
+    if (id === this.keen) {
+      const searcher = Searching.searcher(creatures, at);
+      return searcher && this.brings(id, searcher, at) ? [searcher] : [];
+    }
     const alive = creatures.filter(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id)));
     const trained = alive.find(c => Overlays.skills(c).includes(id));
     if (trained) { return [trained]; }

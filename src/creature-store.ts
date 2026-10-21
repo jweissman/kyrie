@@ -1,3 +1,4 @@
+import { Canon } from './canon/canon';
 import { Spellcasting } from './rules/spellcasting';
 import { CreatureSchema, type Creature } from './creature';
 import { CreatureLease } from './creature-lease';
@@ -41,8 +42,9 @@ export class CreatureStore {
     this.leases.set(lease, [...ids]);
     return lease;
   }
-  // Advancement may change a creature's level, maximum health and spell slots, and raise its qualities by the
-  // points it spends; nothing else may alter what was generated.
+  // Advancement may change a creature's level, maximum health and spell slots, raise its qualities by the points it
+  // spends, and add the feats it spends a feat on with the abilities they grant; nothing else may alter what was
+  // generated.
   commit(lease: CreatureLease, next: Creature[], options: { advancement?: boolean } = {}) {
     const ids = this.leases.get(lease);
     if (!ids) { throw new Error('Encounter lease is closed'); }
@@ -71,13 +73,22 @@ export class CreatureStore {
   private static kept(base: Creature['base'], options: { advancement?: boolean }) {
     if (!options.advancement) { return base; }
     const qualities = Object.fromEntries(CreatureSchema.attributes.map(k => [k, 0]));
-    return { ...base, level: 0, maxHp: 0, maxSlots: [], ...qualities };
+    return { ...base, level: 0, maxHp: 0, maxSlots: [], abilities: [], ...qualities };
   }
-  // Qualities only rise, and by no more than the points of advance spent.
+  // Qualities only rise, and by no more than the points of advance spent; feats are only added, one for each feat
+  // spent, and abilities only by what those feats grant.
   private static spent(previous: Creature, next: Creature): boolean {
     const raised = CreatureSchema.attributes.map(k => next.base[k] - previous.base[k]);
     const points = (previous.state.advances?.qualities ?? 0) - (next.state.advances?.qualities ?? 0);
-    return raised.every(n => n >= 0) && raised.reduce((a, b) => a + b, 0) <= Math.max(0, points);
+    const taken = (next.traits ?? []).filter(t => !(previous.traits ?? []).includes(t));
+    const feats = (previous.state.advances?.feats ?? 0) - (next.state.advances?.feats ?? 0);
+    const granted = new Set([...previous.base.abilities,
+      ...taken.flatMap(t => Canon.traits[t]?.grants?.abilities ?? [])]);
+    return raised.every(n => n >= 0) && raised.reduce((a, b) => a + b, 0) <= Math.max(0, points)
+      && (previous.traits ?? []).every(t => next.traits?.includes(t)) && taken.length <= Math.max(0, feats)
+      && taken.every(t => Canon.traits[t]?.category === 'feat')
+      && previous.base.abilities.every(a => next.base.abilities.includes(a))
+      && next.base.abilities.every(a => granted.has(a));
   }
   release(lease: CreatureLease) {
     const ids = this.leases.get(lease);

@@ -27,9 +27,33 @@ export interface Condition {
   grants?: string[]; begins?: string; ends?: string;
 }
 export type TraitCategory = 'lineage' | 'nature' | 'affinity' | 'character' | 'feat' | 'party' | 'specialization';
+// What happens when something occurs to a perk's holder: Orsino's onKill, onLevelUp and onOffensiveCasting.
+export interface Triggers {
+  onKill?: { gold?: string; experience?: string; status?: string }[];
+  onLevelUp?: { maxHp: number }[];
+  onOffensiveCasting?: { amount: string; damageType: string }[];
+}
+// Standing bonuses a perk gives outside the modifier vocabulary: longer statuses the holder applies, more gold from
+// every source, extra finds when searching, more damage from one ability, sharper searching.
+export interface Bonuses {
+  spellDuration?: number; goldMultiplier?: number; loot?: number; abilityDamage?: Record<string, number>;
+  search?: number;
+}
+// One of a trait's statuses (Orsino's trait.statuses): its modifiers, triggers and bonuses, and where or with what it
+// holds (Orsino's whileEnvironment and condition.weapon).
+export interface Perk {
+  name: string; description: string; modifiers: Modifiers; triggers?: Triggers; bonuses?: Bonuses;
+  environment?: string; weapon?: { type?: string; weight?: string };
+}
 export interface Trait {
   name: string; category: TraitCategory; description?: string; modifiers: Modifiers;
-  requires?: { ancestry?: string; class?: string; classes?: string[]; level?: number; ancestries?: string[] };
+  requires?: { ancestry?: string; class?: string; classes?: string[]; level?: number; ancestries?: string[];
+    // A party trait's formation: the classes, or the ancestries, a company must count among its members.
+    company?: { classes?: string[]; ancestries?: string[] } };
+  // The trait's statuses, when any is conditional or does more than modify (a party trait always lists them).
+  perks?: Perk[];
+  // Traits a creature holding this one may not also take (Orsino's incompatibleWith: a knight is no barbarian).
+  excludes?: string[];
   spellAccess?: { tradition: 'arcane' | 'divine'; school?: string; domain?: string };
   grants?: { abilities?: string[] }; omits?: Omissions; unsupported?: Omissions; source: Source;
 }
@@ -45,7 +69,8 @@ export interface Ability {
   level?: number;
   // Orsino's spell save: offensive spells whose damage halves or negates give each target a save first.
   resist?: { kind: string; difficulty: string };
-  requires?: { status?: string; interceptWeapon?: true };
+  // A status the user must hold (Charge needs Preparing to Charge), or must not (a countdown not already ticking).
+  requires?: { status?: string; notStatus?: string; interceptWeapon?: true };
   unsupported?: Omissions; source?: Source;
 }
 export interface Ancestry {

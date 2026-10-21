@@ -2,6 +2,7 @@ import { Spellcasting } from './rules/spellcasting';
 import { Content } from './content';
 import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
+import { Perks } from './rules/perks';
 import type { Condition, Hooks } from './canon/schema';
 import type { Effect } from './lang/parse';
 import type { Expressions } from './expressions';
@@ -39,7 +40,9 @@ export class Effects {
   static modifiers(fighter: Fighter): Modifiers {
     const conditions = [...new Set(fighter.statuses.map(s => s.id))].map(id => Effects.status(id).modifiers);
     const kind = Canon.isSpecies(fighter.raceId) ? Canon.creature(fighter.raceId).resistances : undefined;
-    return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits).modifiers,
+    const at = { ...fighter.environment ? { environment: fighter.environment } : {},
+      ...fighter.equipment?.weapon ? { weapon: fighter.equipment.weapon } : {} };
+    return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits, at).modifiers,
       fighter.equipment?.modifiers ?? {}, ...kind ? [{ resistances: kind }] : []]);
   }
   static hooks(fighter: Fighter, key: keyof Hooks): Effect[] {
@@ -113,7 +116,7 @@ export class Effects {
     }
     if (effect.kind === 'apply') { Effects.status(effect.status); }
     // Removing a status Kyr cannot execute is harmless: nothing can hold it.
-    if (effect.kind === 'remove' && !Canon.conditions[Canon.resolve('conditions', effect.status)]) {
+    if (effect.kind === 'remove' && !effect.pattern && !Canon.conditions[Canon.resolve('conditions', effect.status)]) {
       throw new Error(`Unknown status ${effect.status}`);
     }
     if (effect.kind === 'apply' && effect.clock !== undefined
@@ -272,13 +275,15 @@ export class Effects {
         break;
       case 'kill': if (target.hp > 0) { Effects.hp(target, target.hp, context); } break;
       case 'apply': Effects.condition(effect, target, context); break;
-      case 'remove':
-        // Removing what a creature does not have is not news.
-        if (target.statuses.some(s => s.id === effect.status)) {
-          target.statuses = target.statuses.filter(s => s.id !== effect.status);
-          Effects.detail(context, target, { type: 'remove', detail: effect.status });
-        }
+      case 'remove': {
+        // Removing what a creature does not have is not news. A pattern removes every condition whose name it matches.
+        const pattern = effect.pattern ? new RegExp(`^(${effect.pattern})$`, 'i') : undefined;
+        const removed = target.statuses.filter(s => pattern ? pattern.test(Effects.status(s.id).name)
+          : s.id === effect.status);
+        target.statuses = target.statuses.filter(s => !removed.includes(s));
+        for (const s of removed) { Effects.detail(context, target, { type: 'remove', detail: s.id }); }
         break;
+      }
       case 'gain': Effects.gain(effect, target, rolled, context); break;
       case 'learn':
         if (!target.abilities.includes(effect.ability)) { target.abilities.push(effect.ability); }
@@ -314,7 +319,10 @@ export class Effects {
       || (status.stacking === 'source-refresh' && s.source !== context.source?.id));
     const pool = status.modifiers.tempHp && context.expressions
       ? context.expressions.number(status.modifiers.tempHp, context.actor ? Effects.context(context.actor) : {}) : 0;
-    target.statuses.push({ id: effect.status, remaining: effect.duration,
+    // A perk can make every status its holder applies last longer (a troupe's resonant harmony).
+    const longer = context.actor ? Perks.bonus(context.actor.traits, 'spellDuration',
+      context.actor.environment ? { environment: context.actor.environment } : {}) : 0;
+    target.statuses.push({ id: effect.status, remaining: effect.duration + longer,
       ...effect.clock ? { clock: effect.clock } : {},
       ...context.source ? { source: context.source.id } : {}, ...context.actor ? { by: context.actor.id } : {},
       ...pool ? { tempHp: pool } : {} });

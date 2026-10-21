@@ -3,6 +3,8 @@ import { FantasyRules } from '../fantasy-rules';
 
 export interface WeaponProfile {
   id: string; name: string; damage: string; type: string; missile?: boolean; intercept?: boolean; natural?: boolean;
+  // Light, medium or heavy: what a perk for a kind of weapon (a knight's heavy hand) reads.
+  weight?: string;
 }
 // What the attack roll reads about one combatant: level, effective scores, equipment and gathered modifiers.
 export interface Combatant {

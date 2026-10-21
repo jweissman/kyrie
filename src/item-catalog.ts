@@ -23,6 +23,7 @@ export class ItemCatalog {
     const w = this.get(id).weapon;
     if (!w) { throw new Error(`${id} is not a weapon`); }
     return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
+      ...w.weight ? { weight: w.weight } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
       ...w.natural ? { natural: true } : {} };
   }

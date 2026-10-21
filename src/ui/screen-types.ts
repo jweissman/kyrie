@@ -52,6 +52,8 @@ export interface Screen {
   purse: { coin: number; rations: number; other: string[] };
   // What the company knows, newest first, each with how it came to know it ("Agnes told you", "you saw it") and when.
   knowledge: { text: string; how: string }[]; deadlines: string[]; capabilities: string[];
+  // The formations the company makes (Orsino's party traits), and what each perk does.
+  formations: { name: string; perks: string[] }[];
   // Lines of this scene the company has not seen before, at a place it has been before: what has changed.
   fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];

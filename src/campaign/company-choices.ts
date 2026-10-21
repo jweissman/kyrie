@@ -1,6 +1,7 @@
 import { Content, type CreatureGenerationContext } from '../content';
 import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
+import { Formations } from '../rules/formations';
 
 // The companions chosen at character creation, checked and written into the first module's company.
 export class CompanyChoices {
@@ -10,6 +11,8 @@ export class CompanyChoices {
     if (new Set(party.map(c => c.name?.trim().toLowerCase())).size !== party.length) {
       throw new Error('Give each companion a distinct name');
     }
+    // What the company forms together (Orsino's assignPartyPassives), held by every member.
+    const formations = Formations.recognize(party.map(c => ({ raceId: c.raceId, classId: Creation.classId(c.classId ?? '') })));
     party.forEach((context, i) => {
       const entry = draft.instance.campaign!.creatures.find(c => c.id === player.members[i])!;
       if (!context.name?.trim() || context.name.length > 40 || !context.raceId || !context.classId
@@ -21,6 +24,7 @@ export class CompanyChoices {
         classId: Creation.classId(context.classId), level: entry.context.level ?? 1,
         ...(context.backgroundId ? { backgroundId: context.backgroundId } : {}),
         ...(context.traits ? { traits: [...context.traits] } : {}),
+        ...(formations.length ? { formations } : {}),
         ...(context.spells ? { spells: [...context.spells] } : {}),
         ...(context.weapon ? { weapon: context.weapon } : {}),
         ...(context.armor ? { armor: context.armor } : {}) };

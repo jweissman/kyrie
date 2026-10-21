@@ -25,13 +25,33 @@
    }
   },
   "academician": {
-   "name": "Arcane Insight",
+   "name": "Academy",
    "category": "party",
-   "description": "Whenever you cast an offensive spell, add an additional 1d3 true damage to the spell.",
+   "description": "Arcane Insight: Whenever you cast an offensive spell, add an additional 1d3 true damage to the spell.",
    "modifiers": {},
-   "requires": {},
-   "unsupported": {
-    "onOffensiveCasting": "Kyr does not execute this Orsino effect yet."
+   "perks": [
+    {
+     "name": "Arcane Insight",
+     "description": "Whenever you cast an offensive spell, add an additional 1d3 true damage to the spell.",
+     "modifiers": {},
+     "triggers": {
+      "onOffensiveCasting": [
+       {
+        "amount": "1d3",
+        "damageType": "true"
+       }
+      ]
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "mage",
+      "mage",
+      "mage"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:academician",
@@ -39,13 +59,31 @@
    }
   },
   "accordant": {
-   "name": "Cosmopolitan",
+   "name": "Human Accord",
    "category": "party",
-   "description": "You are adept at navigating the city.",
+   "description": "Cosmopolitan: You are adept at navigating the city.",
    "modifiers": {},
-   "requires": {},
+   "perks": [
+    {
+     "name": "Cosmopolitan",
+     "description": "You are adept at navigating the city.",
+     "modifiers": {},
+     "bonuses": {
+      "search": 2
+     },
+     "environment": "urban"
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "human",
+      "human",
+      "human"
+     ]
+    }
+   },
    "omits": {
-    "searchBonus": "Kyr skill checks are deterministic.",
     "gatherInformationBonus": "Kyr skill checks are deterministic.",
     "examineBonus": "Kyr skill checks are deterministic."
    },
@@ -71,15 +109,31 @@
    }
   },
   "adventurer": {
-   "name": "Lisan Al-Gaib",
+   "name": "Venturing Guild",
    "category": "party",
-   "description": "You are adept at navigating the sandsea.",
-   "modifiers": {
-    "toHit": 2
-   },
-   "requires": {},
-   "omits": {
-    "searchBonus": "Kyr skill checks are deterministic."
+   "description": "Lisan Al-Gaib: You are adept at navigating the sandsea.",
+   "modifiers": {},
+   "perks": [
+    {
+     "name": "Lisan Al-Gaib",
+     "description": "You are adept at navigating the sandsea.",
+     "modifiers": {
+      "toHit": 2
+     },
+     "bonuses": {
+      "search": 1
+     },
+     "environment": "desert"
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "warrior",
+      "mage",
+      "cleric"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:adventurer",
@@ -155,11 +209,22 @@
    "name": "Savage Attacker",
    "category": "feat",
    "description": "You fight with primal fury.",
-   "modifiers": {
-    "toHit": 2,
-    "bonusMeleeDamage": "1d4"
-   },
+   "modifiers": {},
+   "perks": [
+    {
+     "name": "Savage Attacker",
+     "description": "You fight with primal fury.",
+     "modifiers": {
+      "toHit": 2,
+      "bonusMeleeDamage": "1d4"
+     },
+     "weapon": {
+      "type": "melee"
+     }
+    }
+   ],
    "requires": {
+    "class": "warrior",
     "level": 3
    },
    "grants": {
@@ -169,6 +234,9 @@
      "reckless_attack"
     ]
    },
+   "excludes": [
+    "knight"
+   ],
    "omits": {
     "displayClass": "Presentation only."
    },
@@ -182,11 +250,23 @@
    "category": "feat",
    "description": "You have an empowering battle cry.",
    "modifiers": {},
+   "perks": [
+    {
+     "name": "Fearsome Shout",
+     "description": "You have an empowering battle cry.",
+     "modifiers": {},
+     "triggers": {
+      "onKill": [
+       {
+        "status": "battlecry"
+       }
+      ]
+     }
+    }
+   ],
    "requires": {
+    "class": "warrior",
     "level": 1
-   },
-   "unsupported": {
-    "onKill": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "trait:battle_cry",
@@ -398,13 +478,29 @@
    }
   },
   "deepfolk": {
-   "name": "Stonecunning",
+   "name": "Dwarf Clan",
    "category": "party",
-   "description": "Gain +1 to search when underground.",
+   "description": "Stonecunning: Gain +1 to search when underground.",
    "modifiers": {},
-   "requires": {},
-   "omits": {
-    "searchBonus": "Kyr skill checks are deterministic."
+   "perks": [
+    {
+     "name": "Stonecunning",
+     "description": "Gain +1 to search when underground.",
+     "modifiers": {},
+     "bonuses": {
+      "search": 1
+     },
+     "environment": "cave"
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "dwarf",
+      "dwarf",
+      "dwarf"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:deepfolk",
@@ -511,13 +607,29 @@
    }
   },
   "elvenkin": {
-   "name": "Wildwood Grace",
+   "name": "Elven Tribe",
    "category": "party",
-   "description": "Gain +1 to search when in a forest environment.",
+   "description": "Wildwood Grace: Gain +1 to search when in a forest environment.",
    "modifiers": {},
-   "requires": {},
-   "omits": {
-    "searchBonus": "Kyr skill checks are deterministic."
+   "perks": [
+    {
+     "name": "Wildwood Grace",
+     "description": "Gain +1 to search when in a forest environment.",
+     "modifiers": {},
+     "bonuses": {
+      "search": 1
+     },
+     "environment": "forest"
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "elf",
+      "elf",
+      "elf"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:elvenkin",
@@ -546,11 +658,18 @@
    "category": "lineage",
    "description": "Status effects last 1 extra turn.",
    "modifiers": {},
+   "perks": [
+    {
+     "name": "Faerie Charm",
+     "description": "Status effects last 1 extra turn.",
+     "modifiers": {},
+     "bonuses": {
+      "spellDuration": 1
+     }
+    }
+   ],
    "requires": {
     "ancestry": "fae"
-   },
-   "unsupported": {
-    "spellDurationBonus": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "trait:enchanting",
@@ -594,14 +713,31 @@
    }
   },
   "fellowship": {
-   "name": "Geas of Inquiry",
+   "name": "Free Fellowship",
    "category": "party",
-   "description": "Gain +5 to investigation skill checks.",
+   "description": "Geas of Inquiry: Gain +5 to investigation skill checks.",
    "modifiers": {},
-   "requires": {},
+   "perks": [
+    {
+     "name": "Geas of Inquiry",
+     "description": "Gain +5 to investigation skill checks.",
+     "modifiers": {},
+     "bonuses": {
+      "search": 5
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "human",
+      "elf",
+      "dwarf"
+     ]
+    }
+   },
    "omits": {
     "examineBonus": "Kyr skill checks are deterministic.",
-    "searchBonus": "Kyr skill checks are deterministic.",
     "gatherInformationBonus": "Kyr skill checks are deterministic."
    },
    "source": {
@@ -610,13 +746,30 @@
    }
   },
   "feywild": {
-   "name": "Fortunate Fairy",
+   "name": "Fey Court",
    "category": "party",
-   "description": "Gain +1 to all rolls.",
+   "description": "Fortunate Fairy: Gain +1 to all rolls.",
    "modifiers": {
     "allRolls": 1
    },
-   "requires": {},
+   "perks": [
+    {
+     "name": "Fortunate Fairy",
+     "description": "Gain +1 to all rolls.",
+     "modifiers": {
+      "allRolls": 1
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "fae",
+      "fae",
+      "fae"
+     ]
+    }
+   },
    "source": {
     "orsino": "trait:feywild",
     "fidelity": "faithful"
@@ -744,13 +897,28 @@
    }
   },
   "foundrywork": {
-   "name": "Jury Rigging",
+   "name": "Foundry",
    "category": "party",
-   "description": "Find extra consumables when searching (+1 items found).",
+   "description": "Jury Rigging: Find extra consumables when searching (+1 items found).",
    "modifiers": {},
-   "requires": {},
-   "unsupported": {
-    "lootBonus": "Kyr does not execute this Orsino effect yet."
+   "perks": [
+    {
+     "name": "Jury Rigging",
+     "description": "Find extra consumables when searching (+1 items found).",
+     "modifiers": {},
+     "bonuses": {
+      "loot": 1
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "gnome",
+      "gnome",
+      "gnome"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:foundrywork",
@@ -775,14 +943,38 @@
    }
   },
   "guild": {
-   "name": "Coordinated Strike",
+   "name": "Thieves' Guild",
    "category": "party",
-   "description": "Backstab damage increased by 50%.",
+   "description": "Coordinated Strike: Backstab damage increased by 50%. Master Thieves: +50% gold from all sources.",
    "modifiers": {},
-   "requires": {},
-   "unsupported": {
-    "backstabMultiplier": "Kyr does not execute this Orsino effect yet.",
-    "goldMultiplier": "Kyr does not execute this Orsino effect yet."
+   "perks": [
+    {
+     "name": "Coordinated Strike",
+     "description": "Backstab damage increased by 50%.",
+     "modifiers": {},
+     "bonuses": {
+      "abilityDamage": {
+       "backstab": 1.5
+      }
+     }
+    },
+    {
+     "name": "Master Thieves",
+     "description": "+50% gold from all sources.",
+     "modifiers": {},
+     "bonuses": {
+      "goldMultiplier": 1.5
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "thief",
+      "thief",
+      "thief"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:guild",
@@ -790,13 +982,32 @@
    }
   },
   "hordeling": {
-   "name": "Blood Frenzy",
+   "name": "War Horde",
    "category": "party",
-   "description": "Gain +1d4 damage for a turn after kill.",
+   "description": "Blood Frenzy: Gain +1d4 damage for a turn after kill.",
    "modifiers": {},
-   "requires": {},
-   "unsupported": {
-    "onKill": "Kyr does not execute this Orsino effect yet."
+   "perks": [
+    {
+     "name": "Blood Frenzy",
+     "description": "Gain +1d4 damage for a turn after kill.",
+     "modifiers": {},
+     "triggers": {
+      "onKill": [
+       {
+        "status": "bloodfrenzy"
+       }
+      ]
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "orc",
+      "orc",
+      "orc"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:hordeling",
@@ -952,6 +1163,7 @@
     }
    },
    "requires": {
+    "class": "bard",
     "level": 3
    },
    "grants": {
@@ -961,6 +1173,9 @@
      "dirty_trick"
     ]
    },
+   "excludes": [
+    "skald"
+   ],
    "omits": {
     "displayClass": "Presentation only."
    },
@@ -977,11 +1192,33 @@
     "ac": -2,
     "saves": {
      "magic": 2
-    },
-    "toHit": 5,
-    "bonusDamage": 1
+    }
    },
+   "perks": [
+    {
+     "name": "Order of the Shield",
+     "description": "You are a disciplined defender.",
+     "modifiers": {
+      "ac": -2,
+      "saves": {
+       "magic": 2
+      }
+     }
+    },
+    {
+     "name": "Heavy Handed",
+     "description": "You are proficient with heavy weaponry.",
+     "modifiers": {
+      "toHit": 5,
+      "bonusDamage": 1
+     },
+     "weapon": {
+      "weight": "heavy"
+     }
+    }
+   ],
    "requires": {
+    "class": "warrior",
     "level": 3
    },
    "grants": {
@@ -991,6 +1228,9 @@
      "overwatch"
     ]
    },
+   "excludes": [
+    "barbarian"
+   ],
    "omits": {
     "displayClass": "Presentation only."
    },
@@ -1038,6 +1278,7 @@
    "description": "Improve spell slots by 2.",
    "modifiers": {},
    "requires": {
+    "class": "mage",
     "level": 1
    },
    "unsupported": {
@@ -1072,6 +1313,7 @@
    "description": "Summon an extra animal companion when you call one.",
    "modifiers": {},
    "requires": {
+    "class": "ranger",
     "level": 1
    },
    "unsupported": {
@@ -1150,17 +1392,47 @@
    }
   },
   "oligarch": {
-   "name": "Corruption",
+   "name": "Oligarchy",
    "category": "party",
-   "description": "Gain +10 to investigation checks when in a city environment.",
+   "description": "Corruption: Gain +10 to investigation checks when in a city environment. Bountiful Spoils: Receive 2d6 bonus gold and 3d8 XP per kill.",
    "modifiers": {},
-   "requires": {},
-   "omits": {
-    "searchBonus": "Kyr skill checks are deterministic.",
-    "examineBonus": "Kyr skill checks are deterministic."
+   "perks": [
+    {
+     "name": "Corruption",
+     "description": "Gain +10 to investigation checks when in a city environment.",
+     "modifiers": {},
+     "bonuses": {
+      "search": 10
+     },
+     "environment": "urban"
+    },
+    {
+     "name": "Bountiful Spoils",
+     "description": "Receive 2d6 bonus gold and 3d8 XP per kill.",
+     "modifiers": {},
+     "triggers": {
+      "onKill": [
+       {
+        "gold": "2d6"
+       },
+       {
+        "experience": "3d8"
+       }
+      ]
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "warrior",
+      "cleric",
+      "thief"
+     ]
+    }
    },
-   "unsupported": {
-    "onKill": "Kyr does not execute this Orsino effect yet."
+   "omits": {
+    "examineBonus": "Kyr skill checks are deterministic."
    },
    "source": {
     "orsino": "trait:oligarch",
@@ -1191,11 +1463,18 @@
    "category": "lineage",
    "description": "+4 to search checks.",
    "modifiers": {},
+   "perks": [
+    {
+     "name": "Keen Senses",
+     "description": "+4 to search checks.",
+     "modifiers": {},
+     "bonuses": {
+      "search": 4
+     }
+    }
+   ],
    "requires": {
     "ancestry": "elf"
-   },
-   "omits": {
-    "searchBonus": "Kyr skill checks are deterministic."
    },
    "source": {
     "orsino": "trait:perceptive",
@@ -1203,13 +1482,30 @@
    }
   },
   "perinath": {
-   "name": "Moral Economy",
+   "name": "Halfling Band",
    "category": "party",
-   "description": "When you heal an ally, heal yourself for 1d3 as well.",
+   "description": "Moral Economy: When you heal an ally, heal yourself for 1d3 as well.",
    "modifiers": {
     "bonusHealing": "1d3"
    },
-   "requires": {},
+   "perks": [
+    {
+     "name": "Moral Economy",
+     "description": "When you heal an ally, heal yourself for 1d3 as well.",
+     "modifiers": {
+      "bonusHealing": "1d3"
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "ancestries": [
+      "halfling",
+      "halfling",
+      "halfling"
+     ]
+    }
+   },
    "source": {
     "orsino": "trait:perinath",
     "fidelity": "faithful"
@@ -1223,6 +1519,7 @@
     "bonusHealing": "1d4"
    },
    "requires": {
+    "class": "cleric",
     "level": 1
    },
    "source": {
@@ -1292,11 +1589,19 @@
    "category": "feat",
    "description": "All status effects you apply last 2 additional turns.",
    "modifiers": {},
+   "perks": [
+    {
+     "name": "Rousing Performance",
+     "description": "All status effects you apply last 2 additional turns.",
+     "modifiers": {},
+     "bonuses": {
+      "spellDuration": 2
+     }
+    }
+   ],
    "requires": {
+    "class": "bard",
     "level": 1
-   },
-   "unsupported": {
-    "spellDurationBonus": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "trait:rhythm_rhyme",
@@ -1326,6 +1631,7 @@
    "description": "Your inspiring presence bolsters your allies.",
    "modifiers": {},
    "requires": {
+    "class": "bard",
     "level": 3
    },
    "grants": {
@@ -1335,6 +1641,9 @@
      "hymn_of_valor"
     ]
    },
+   "excludes": [
+    "jester"
+   ],
    "omits": {
     "displayClass": "Presentation only."
    },
@@ -1369,14 +1678,24 @@
    "category": "feat",
    "description": "You are adept at moving silently and picking locks.",
    "modifiers": {},
+   "perks": [
+    {
+     "name": "Silent Footsteps",
+     "description": "You are adept at moving silently and picking locks.",
+     "modifiers": {},
+     "bonuses": {
+      "abilityDamage": {
+       "backstab": 1.25
+      }
+     }
+    }
+   ],
    "requires": {
+    "class": "thief",
     "level": 1
    },
    "omits": {
     "pickLockBonus": "Kyr skill checks are deterministic."
-   },
-   "unsupported": {
-    "backstabMultiplier": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "trait:stealthy",
@@ -1445,13 +1764,30 @@
    }
   },
   "synodist": {
-   "name": "Herbal Remedies",
+   "name": "Clerical Synod",
    "category": "party",
-   "description": "Whenever you heal, add an additional 1d4 HP.",
+   "description": "Herbal Remedies: Whenever you heal, add an additional 1d4 HP.",
    "modifiers": {
     "bonusHealing": "1d4"
    },
-   "requires": {},
+   "perks": [
+    {
+     "name": "Herbal Remedies",
+     "description": "Whenever you heal, add an additional 1d4 HP.",
+     "modifiers": {
+      "bonusHealing": "1d4"
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "cleric",
+      "cleric",
+      "cleric"
+     ]
+    }
+   },
    "source": {
     "orsino": "trait:synodist",
     "fidelity": "faithful"
@@ -1462,11 +1798,22 @@
    "category": "lineage",
    "description": "+2 HP per level.",
    "modifiers": {},
+   "perks": [
+    {
+     "name": "Enduring",
+     "description": "+2 HP per level.",
+     "modifiers": {},
+     "triggers": {
+      "onLevelUp": [
+       {
+        "maxHp": 2
+       }
+      ]
+     }
+    }
+   ],
    "requires": {
     "ancestry": "dwarf"
-   },
-   "unsupported": {
-    "onLevelUp": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "trait:tough",
@@ -1492,13 +1839,28 @@
    }
   },
   "tragedian": {
-   "name": "Resonant Harmony",
+   "name": "Troupe",
    "category": "party",
-   "description": "All status effects you apply last 1 additional turn.",
+   "description": "Resonant Harmony: All status effects you apply last 1 additional turn.",
    "modifiers": {},
-   "requires": {},
-   "unsupported": {
-    "spellDurationBonus": "Kyr does not execute this Orsino effect yet."
+   "perks": [
+    {
+     "name": "Resonant Harmony",
+     "description": "All status effects you apply last 1 additional turn.",
+     "modifiers": {},
+     "bonuses": {
+      "spellDuration": 1
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "bard",
+      "bard",
+      "bard"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:tragedian",
@@ -1564,11 +1926,20 @@
    "category": "lineage",
    "description": "+1 to all skill checks outside combat.",
    "modifiers": {},
+   "perks": [
+    {
+     "name": "Jack of All Trades",
+     "description": "+1 to all skill checks outside combat.",
+     "modifiers": {},
+     "bonuses": {
+      "search": 1
+     }
+    }
+   ],
    "requires": {
     "ancestry": "human"
    },
    "omits": {
-    "searchBonus": "Kyr skill checks are deterministic.",
     "examineBonus": "Kyr skill checks are deterministic.",
     "pickLockBonus": "Kyr skill checks are deterministic.",
     "disarmTrapBonus": "Kyr skill checks are deterministic.",
@@ -1614,15 +1985,41 @@
    }
   },
   "warbander": {
-   "name": "Battle Hardened",
+   "name": "War Band",
    "category": "party",
-   "description": "Gain an extra 1 HP whenever you level up.",
+   "description": "Battle Hardened: Gain an extra 1 HP whenever you level up. Martial Focus: Gain +1 to hit",
    "modifiers": {
     "toHit": 1
    },
-   "requires": {},
-   "unsupported": {
-    "onLevelUp": "Kyr does not execute this Orsino effect yet."
+   "perks": [
+    {
+     "name": "Battle Hardened",
+     "description": "Gain an extra 1 HP whenever you level up.",
+     "modifiers": {},
+     "triggers": {
+      "onLevelUp": [
+       {
+        "maxHp": 1
+       }
+      ]
+     }
+    },
+    {
+     "name": "Martial Focus",
+     "description": "Gain +1 to hit",
+     "modifiers": {
+      "toHit": 1
+     }
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "warrior",
+      "warrior",
+      "warrior"
+     ]
+    }
    },
    "source": {
     "orsino": "trait:warbander",
@@ -1715,11 +2112,26 @@
    }
   },
   "wildfolk": {
-   "name": "Natural Sympathy",
+   "name": "Circle",
    "category": "party",
-   "description": "Summon stronger animal companions (+1 to rolls on animal summoning table).",
+   "description": "Natural Sympathy: Summon stronger animal companions (+1 to rolls on animal summoning table).",
    "modifiers": {},
-   "requires": {},
+   "perks": [
+    {
+     "name": "Natural Sympathy",
+     "description": "Summon stronger animal companions (+1 to rolls on animal summoning table).",
+     "modifiers": {}
+    }
+   ],
+   "requires": {
+    "company": {
+     "classes": [
+      "ranger",
+      "ranger",
+      "ranger"
+     ]
+    }
+   },
    "unsupported": {
     "summonAnimalBonus": "Kyr does not execute this Orsino effect yet."
    },
@@ -1740,8 +2152,24 @@
      "wisdom": 2
     }
    },
+   "perks": [
+    {
+     "name": "Wisdom",
+     "description": "This creature possesses great wisdom, granting it enhanced perception and insight.",
+     "modifiers": {
+      "attributes": {
+       "wisdom": 2
+      },
+      "saves": {
+       "insanity": 2
+      }
+     },
+     "bonuses": {
+      "search": 3
+     }
+    }
+   ],
    "omits": {
-    "searchBonus": "Kyr skill checks are deterministic.",
     "examineBonus": "Kyr skill checks are deterministic."
    },
    "source": {

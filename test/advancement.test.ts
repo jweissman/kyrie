@@ -120,3 +120,41 @@ describe('a level gained', () => {
     expect(after.some(id => id.startsWith('learn_spell('))).toBe(false);
   }, 60000);
 });
+
+describe('a feat at the fifth level', () => {
+  it('is offered from the calling\'s feats, and one rules another out, as Orsino\'s are', () => {
+    const w = new Content('feat').createCreature('w', { raceId: 'human', classId: 'warrior', level: 4 });
+    w.state.experience = Advancement.threshold(5);
+    Advancement.train(w, 'feat');
+    expect(w.state.advances?.feats).toBe(1);
+    expect(Advancement.feats(w).sort()).toEqual(['barbarian', 'battle_cry', 'knight']);
+    Advancement.feat(w, 'barbarian');
+    expect([w.state.advances?.feats, Advancement.feats(w)]).toEqual([0, []]);
+    // A barbarian is no knight: at the tenth level only the battle cry is left to take.
+    expect(Advancement.offered(w)).toEqual(['battle_cry']);
+    expect(w.base.abilities).toContain('reckless_attack');
+    expect(() => new Content('both').createCreature('k', { raceId: 'human', classId: 'warrior', level: 3,
+      traits: ['knight', 'barbarian'] })).toThrow('rules out');
+  });
+  it('is taken in the field: after a night under a roof, the warrior takes up a feat', async () => {
+    const companies = (await import('../data/campaigns/companies.json')).default;
+    const members = companies.companies.find(c => c.id === 'delvers')!.members;
+    const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'feats', NodeBundleSource.shared,
+      members);
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const lease = store.acquire(s.campaign.state.partyIds);
+    try {
+      lease.creatures.forEach(c => { c.state.experience = Advancement.threshold(5); });
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    await s.perform('go(march__oar_door,march__taproom)');
+    await s.perform('take_lodging(march__maud_lodging,march__maud)');
+    const warrior = s.campaign.state.creatures.find(c => s.campaign.state.partyIds.includes(c.id) && c.classId === 'warrior')!;
+    const ref = `march__member_${warrior.id.replace(/^march__/, '')}`;
+    const feats = PlayerView.choices(s.campaign).map(c => c.choice.id).filter(id => id.startsWith(`take_feat(${ref},`));
+    expect(feats.sort()).toEqual([`take_feat(${ref},barbarian)`, `take_feat(${ref},battle_cry)`, `take_feat(${ref},knight)`]);
+    await s.perform(`take_feat(${ref},knight)`);
+    expect(s.campaign.state.creatures.find(c => c.id === warrior.id)!.traits).toContain('knight');
+    expect(PlayerView.choices(s.campaign).some(c => c.choice.id.startsWith(`take_feat(${ref},`))).toBe(false);
+  }, 60000);
+});

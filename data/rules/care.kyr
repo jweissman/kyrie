@@ -8,6 +8,7 @@ Module care "Rest, mending and lessons" {
   Entity strength: quality "Strength". Entity dexterity: quality "Dexterity". Entity constitution: quality "Constitution".
   Entity intelligence: quality "Intelligence". Entity wisdom: quality "Wisdom". Entity charisma: quality "Charisma".
   Relation improvable(member). Relation learnable(member, ability).
+  Kind feat. Relation featOpen(member, feat).
   Relation memberOf(member, group).
   Relation fieldUsable(ability).
   Relation awake(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
@@ -39,6 +40,12 @@ Module care "Rest, mending and lessons" {
     Requires able(actor) and memberOf(member, actor) and awake(member) and learnable(member, spell).
     Resolve learn(member, spell).
     Result "{member} learns {spell}.".
+  }
+  Action take_feat(actor: group, member: member, choice: feat) "Have {member} take up {choice}" {
+    Description "At the fifth, tenth and fifteenth levels a companion takes up one of their calling's feats. Some rule others out: a knight is no barbarian.".
+    Requires able(actor) and memberOf(member, actor) and awake(member) and featOpen(member, choice).
+    Resolve feat(member, choice).
+    Result "{member} takes up {choice}.".
   }
   Action rest(actor: group, site: place) "Rest and recover at {site}" {
     Description "Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.".

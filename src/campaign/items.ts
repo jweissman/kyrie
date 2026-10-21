@@ -5,6 +5,8 @@ import { AbilityUse } from '../ability-use';
 import { CombatProjection } from '../combat-projection';
 import { Content } from '../content';
 import { Expressions } from '../expressions';
+import { Perks, type PerkContext } from '../rules/perks';
+import { Searching } from '../rules/searching';
 import { Effects, type EffectContext } from '../effects';
 import { parseAbility, type ArenaAbility } from '../lang/parse';
 import type { CreatureStore } from '../creature-store';
@@ -29,6 +31,22 @@ export class Items {
       lease.commit(lease.creatures);
       return [{ type: 'gain', turn: 0, actor: owner, target: owner, detail: label ?? ItemCatalog.get(definition).name, amount: 1 }];
     } finally { lease.release(); }
+  }
+  // A search by a company with a perk for finds (a foundry's jury-rigging) turns up an extra consumable for whichever
+  // living member carries least: Orsino's lootBonus.
+  // Orsino's loot bonus: a search that finds what is hidden also turns up that many common consumables, which the
+  // searcher keeps. Kyr's searcher is the member with the best eye, and finds only if its check, taken at 10, passes.
+  static rummage(store: CreatureStore, members: string[], options: { seed: string; at?: PerkContext }): CombatEvent[] {
+    const searcher = Searching.searcher(members.map(id => store.get(id)), options.at);
+    const finds = searcher && Searching.finds(searcher, options.at) ? Perks.bonus(searcher.traits, 'loot', options.at) : 0;
+    if (!finds) { return []; }
+    const pool = Object.entries(Canon.items).filter(([, d]) => d.category === 'consumable').map(([k]) => k).sort();
+    const roll = new Expressions(options.seed), events: CombatEvent[] = [];
+    for (let n = 0; n < finds; n++) {
+      const definition = pool[roll.number(`1d${pool.length}`) - 1]!;
+      events.push(...this.take(store, searcher!.id, { id: `${searcher!.id}__found_${roll.number('1d1000000')}`, definition }));
+    }
+    return events;
   }
   static equip(store: CreatureStore, owner: string, id: string, label?: string): CombatEvent[] {
     const lease = store.acquire([owner]);

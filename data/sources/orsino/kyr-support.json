@@ -63,7 +63,7 @@
   ],
   "effect:attack": [
    "faithful",
-   "Fighting.attack: THAC0 \u2212 AC \u2212 to-hit, natural 1 misses, critical range, evasion; weapon die + critical + STR/DEX modifier; hooks. Spillover rolls its next target from the seeded stream."
+   "Fighting.attack: THAC0 − AC − to-hit, natural 1 misses, critical range, evasion; weapon die + critical + STR/DEX modifier; hooks. Spillover rolls its next target from the seeded stream."
   ],
   "effect:drain": [
    "adapted",
@@ -655,7 +655,7 @@
   ],
   "modifier:evasion": [
    "faithful",
-   "A hit is evaded on d20 \u2265 20 \u2212 evasion."
+   "A hit is evaded on d20 ≥ 20 − evasion."
   ],
   "modifier:allRolls": [
    "adapted",
@@ -876,6 +876,42 @@
   "damage:bleed": [
    "faithful",
    "As fire."
+  ],
+  "modifier:onOffensiveCasting": [
+   "adapted",
+   "A trait perk's offensive-casting damage (an academy's 1d3 true damage) lands on each enemy an offensive spell touched; a status carrying it is not executed yet."
+  ],
+  "modifier:searchBonus": [
+   "adapted",
+   "Orsino rolls d20 + Wisdom modifier + search bonus against 15 for one member. Kyr does not roll a search: the member with the best eye takes 10, and if that reaches 15 the company finds what would otherwise need a named skill to notice (a gully path without woodcraft). Environment-bound bonuses count only there."
+  ],
+  "modifier:onKill": [
+   "faithful",
+   "For each enemy the holder kills: gold and experience to the killer, or a status on them (a war horde's blood frenzy)."
+  ],
+  "modifier:spellDurationBonus": [
+   "faithful",
+   "Every status the holder applies lasts that many turns (or watches) longer."
+  ],
+  "modifier:lootBonus": [
+   "adapted",
+   "Orsino adds that many common consumables to a successful search's stash. Kyr gives them to the searcher when its search, taken at 10, succeeds."
+  ],
+  "modifier:backstabMultiplier": [
+   "faithful",
+   "Multiplies the damage of the holder's backstab."
+  ],
+  "modifier:goldMultiplier": [
+   "faithful",
+   "Multiplies the gold the holder's company gains from every source: sales, rewards and kills."
+  ],
+  "effect:upgrade": [
+   "faithful",
+   "Orsino's level-up upgrade of maximum hit points, added when the holder gains a level."
+  ],
+  "modifier:onLevelUp": [
+   "faithful",
+   "Runs when the holder gains a level (a war band's extra hit point)."
   ]
  }
 }

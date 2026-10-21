@@ -1,6 +1,9 @@
 import { parseAbility, type Amount, type ArenaAbility } from '../lang/parse';
 import { Canon, type Family } from './canon';
-import type { Ability, Condition, Hooks, ItemKind, Modifiers, WeaponStats } from './schema';
+import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats } from './schema';
+
+// Where a perk is asked about: the holder's environment, and the weapon it wields.
+export interface PerkAt { environment?: string; weapon?: { weight?: string; missile?: boolean } }
 
 export interface RuntimeItem {
   name: string; description: string; slot?: string; capability?: string; ability?: string; use?: string;
@@ -56,13 +59,23 @@ export class CanonRuntime {
       ...i.use ? { use: i.use } : {} } as RuntimeItem]));
     return this.withAliases('items', own);
   }
-  // The permanent modifiers and hooks of the traits a creature holds.
-  static passives(traits: string[] = []): { modifiers: Modifiers[]; hooks: Hooks[] } {
+  // The permanent modifiers and hooks of the traits a creature holds, with the perks that hold only somewhere (in a
+  // forest) or with something (a heavy weapon) when they do.
+  static passives(traits: string[] = [], at: PerkAt = {}): { modifiers: Modifiers[]; hooks: Hooks[] } {
     const held = [...new Set(traits.map(id => Canon.resolve('traits', id)))].map(id => {
       const t = Canon.traits[id];
       if (!t) { throw new Error(`Unknown trait ${id}`); }
       return t;
     });
-    return { modifiers: held.map(t => t.modifiers), hooks: [] };
+    const conditional = held.flatMap(t => (t.perks ?? [])
+      .filter(p => (p.environment || p.weapon) && this.holds(p, at)));
+    return { modifiers: [...held.map(t => t.modifiers), ...conditional.map(p => p.modifiers)], hooks: [] };
+  }
+  // Whether a conditional perk holds: its environment is where the holder is; its weapon is the kind wielded (Orsino
+  // declares a melee condition but checks only weight; Kyr checks both).
+  static holds(perk: Perk, at: PerkAt): boolean {
+    if (perk.environment && perk.environment !== at.environment) { return false; }
+    if (perk.weapon?.weight && perk.weapon.weight !== at.weapon?.weight) { return false; }
+    return !(perk.weapon?.type === 'melee' && at.weapon?.missile);
   }
 }

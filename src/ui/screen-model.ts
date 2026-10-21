@@ -15,6 +15,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model';
 import { Carriers } from './carriers';
 import { Overlays } from '../overlays';
+import { PerkText } from '../presentation/perk-text';
 import type { ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -69,6 +70,7 @@ export class ScreenModel {
       knowledge: this.knowledge(view),
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
+      formations: this.formations(campaign),
       objectives: (view.objectives ?? []).map(o => FictionalTime.prose(o.text)),
       ...new ChartModel(world, view.actor, entities).build(visited, here),
       expedition: this.expedition(world, view.actor, view.elapsed),
@@ -110,7 +112,14 @@ export class ScreenModel {
   }
   // What a spell or technique does, in its own words and then in the rules' terms.
   static tell(this: void, id: string): string | undefined {
-    const ability = Content.abilities.find(a => a.id === id);
+    const ability = Content.abilities.find(a => a.id === id), feat = Canon.traits[id];
+    // A feat: what each of its perks does, and the abilities it brings.
+    if (!ability && feat?.category === 'feat') {
+      const perks = (feat.perks ?? [{ name: feat.name, description: '', modifiers: feat.modifiers }]).map(p => PerkText.of(p));
+      const brings = (feat.grants?.abilities ?? []).map(a => Content.abilities.find(x => x.id === a)?.name)
+        .filter(Boolean);
+      return [...perks, brings.length ? `Brings ${brings.join(', ')}.` : ''].filter(Boolean).join(' ');
+    }
     if (!ability) { return undefined; }
     const prose = Canon.abilities[id]?.effects ? ability.description : '';
     return [prose, MechanicsText.full(ability)].filter(Boolean).join(' ');
@@ -185,6 +194,12 @@ export class ScreenModel {
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...(note ? { note } : {}), acts };
+  }
+  // The formations the company was formed as: every member holds them, so the first living one says.
+  private static formations(campaign: Campaign): Screen['formations'] {
+    const ids = campaign.readout.partyIds, member = campaign.readout.creatures.find(c => ids.includes(c.id));
+    return (member?.traits ?? []).map(id => Canon.traits[Canon.resolve('traits', id)]).filter(t => t?.category === 'party')
+      .map(t => ({ name: t!.name, perks: (t!.perks ?? []).map(p => PerkText.of(p)) }));
   }
   private static party(view: PlayerSnapshot, campaign: Campaign, grouped: Grouped): MemberRow[] {
     const entities = campaign.module.entities;

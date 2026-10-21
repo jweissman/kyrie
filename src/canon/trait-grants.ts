@@ -26,6 +26,13 @@ export class TraitGrants {
     }
     return trait;
   }
+  // The party traits a company forms, held by each member; anything else named here is refused.
+  static formations(ids: string[] = []): string[] {
+    for (const id of ids) {
+      if (Canon.traits[id]?.category !== 'party') { throw new Error(`${id} is not a party formation`); }
+    }
+    return ids;
+  }
   static choose(creature: Creature, chosen: string[] = [], chooser: Chooser): string[] {
     const ids = chosen.map(t => Canon.resolve('traits', t));
     const choices = Creation.classOf(creature.classId)?.specializations ?? [];
@@ -37,6 +44,8 @@ export class TraitGrants {
         // A feat's own requirements (checked above) bound it; Orsino offers feats as level-up choices.
       } else { throw new Error(`${creature.id}: ${id} is a ${trait.category} trait, which is not chosen`); }
     }
+    const ruled = ids.find(id => Canon.traits[id]?.excludes?.some(x => ids.includes(x)));
+    if (ruled) { throw new Error(`${creature.id}: ${ruled} rules out ${Canon.traits[ruled]!.excludes!.find(x => ids.includes(x))}`); }
     const specializations = ids.filter(id => choices.includes(id));
     if (specializations.length > 1) { throw new Error(`${creature.id}: choose one specialization`); }
     if (choices.length && !specializations.length) {

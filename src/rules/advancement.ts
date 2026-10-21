@@ -5,6 +5,7 @@ import { Spellcasting } from './spellcasting';
 import { RandomStreams } from '../random-streams';
 import { CreatureSchema, type Attribute, type Creature } from '../creature';
 import { Creation } from './creation';
+import { Perks } from './perks';
 import type { CombatEvent } from '../model';
 
 interface Table {
@@ -35,7 +36,9 @@ export class Advancement {
       const level = ++creature.base.level;
       const die = Canon.classes[creature.classId ?? '']?.hitDie ?? 6;
       const roll = new Expressions(RandomStreams.key(seed, 'advance', creature.id, level)).number(`1d${die}`);
-      const gained = Math.max(1, roll + Fighting.statMod(creature.base.constitution));
+      // Perks for levelling (a war band's battle hardening) add to what the die gives.
+      const gained = Math.max(1, roll + Fighting.statMod(creature.base.constitution))
+        + Perks.triggers(creature.traits, 'onLevelUp').reduce((sum, t) => sum + t.maxHp, 0);
       creature.base.maxHp += gained; creature.state.hp += gained;
       const slots = Spellcasting.table(creature.classId, level, creature.base);
       if (slots.length) {
@@ -50,6 +53,10 @@ export class Advancement {
       const advances = creature.state.advances ??= { qualities: 0, spells: 0 };
       advances.qualities++;
       if (this.specialist(creature)) { advances.spells++; }
+      // Orsino's feat at every fifth level short of twentieth, when the class has one left to offer.
+      if (level % 5 === 0 && level < 20 && this.offered(creature).length) {
+        advances.feats = (advances.feats ?? 0) + 1;
+      }
       events.push({ type: 'gain', turn: 0, actor: creature.id, target: creature.id, detail: `level ${level}`, amount: gained });
     }
     return events;
@@ -66,6 +73,26 @@ export class Advancement {
     const known = new Set([...creature.base.abilities, ...creature.state.learnedAbilities]);
     return Array.from({ length: Fighting.maxSpellLevel(creature.base.level) }, (_, i) =>
       Creation.spellbook(spec.spellAccess!.tradition, i + 1)).flat().filter(id => !known.has(id));
+  }
+  // The feats a companion with one to take may choose: its class's, of its level or below, not held, and not one
+  // that a held feat rules out (a knight is no barbarian), as Orsino's featsForCombatant.
+  static feats(creature: Creature): string[] {
+    return creature.state.advances?.feats && creature.state.hp > 0 ? this.offered(creature) : [];
+  }
+  static offered(creature: Creature): string[] {
+    const held = creature.traits ?? [];
+    return Object.entries(Canon.traits).filter(([id, t]) => t.category === 'feat' && !t.unsupported
+      && t.requires?.class === creature.classId && (t.requires?.level ?? 1) <= creature.base.level && !held.includes(id)
+      && !(t.excludes ?? []).some(x => held.includes(x)) && !held.some(h => Canon.traits[h]?.excludes?.includes(id)))
+      .map(([id]) => id);
+  }
+  // Takes a feat: the trait, and the abilities it grants.
+  static feat(creature: Creature, id: string) {
+    if (!this.feats(creature).includes(id)) { throw new Error(`${creature.id} cannot take ${id}`); }
+    creature.traits = [...creature.traits ?? [], id];
+    creature.base.abilities = [...new Set([...creature.base.abilities, ...(Canon.traits[id]!.grants?.abilities ?? [])
+      .filter(a => Creation.executable(a))])];
+    creature.state.advances!.feats!--;
   }
   static improve(creature: Creature, quality: Attribute) {
     const advances = creature.state.advances;

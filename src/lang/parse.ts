@@ -15,7 +15,8 @@ type EffectBody =
   | { kind: 'drain'; amount: Amount; damageType?: string; target: Target }
   | { kind: 'defend' | 'flee'; target: 'self' }
   | { kind: 'apply'; status: string; duration: number; clock?: 'owner-turn' | 'world-time' | 'until-removed'; target: Target }
-  | { kind: 'remove'; status: string; target: Target }
+  // pattern: Orsino's removeStatus, a case-insensitive pattern over condition names ("hidden|invisible", ".*").
+  | { kind: 'remove'; status: string; target: Target; pattern?: string }
   | { kind: 'kill'; target: Target }
   | { kind: 'gain'; amount: Amount; resource: Resource; target: Target }
   | { kind: 'learn'; ability: string; target: Target }
@@ -33,7 +34,7 @@ export interface ArenaAbility {
   spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string };
   level?: number;
   resist?: { kind: string; difficulty: Amount };
-  requires?: { status?: string; interceptWeapon?: true };
+  requires?: { status?: string; notStatus?: string; interceptWeapon?: true };
   // Wound up for a turn before it lands; a creature stunned in between loses it.
   windup?: string;
 }

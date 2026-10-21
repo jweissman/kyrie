@@ -58,7 +58,12 @@ export class MonoScreens {
       + `${MonoRender.bar('HP', m.hp, m.maxHp, 'hp')}${MonoRender.slots(m)}<div class="attrs">${attrs}</div>`
       + `${this.prepared(m)}<div class="cols"><div><h3>Abilities and spells known</h3><ul>${abilities}</ul></div><div><h3>Carried</h3><ul>${gear || '<li class="muted">Nothing</li>'}</ul>`
       + `<h3>Where they come from</h3><ul>${(m.overlays ?? []).map(o => `<li><b>${Html.escape(o.name)}</b> <small>${Html.escape(o.role)}</small><br><small>${o.grants.map(g => Html.escape(g)).join(' · ')}</small></li>`).join('') || '<li class="muted">Nothing recorded</li>'}</ul>`
-      + `<h3>What the company can do</h3><ul>${screen.capabilities.map(c => `<li>${Html.escape(c)}</li>`).join('') || '<li class="muted">Nothing special</li>'}</ul></div></div></section></main>`;
+      + `<h3>What the company can do</h3><ul>${screen.capabilities.map(c => `<li>${Html.escape(c)}</li>`).join('') || '<li class="muted">Nothing special</li>'}</ul>`
+      + `${screen.formations.length ? `<h3>Together</h3><ul>${this.formations(screen.formations)}</ul>` : ''}</div></div></section></main>`;
+  }
+  static formations(list: { name: string; perks: string[]; needs?: string }[]): string {
+    return list.map(f => `<li><b>${Html.escape(f.name)}</b>${f.needs ? ` <small>${Html.escape(f.needs)}</small>` : ''}`
+      + `${f.perks.map(p => `<br><small>${Html.escape(p)}</small>`).join('')}</li>`).join('');
   }
   // What a caster has prepared today, level by level: ● ready to cast, ○ already spent until the next rest.
   static prepared(m: { spells?: { level: number; name: string; ready: boolean }[] }): string {
@@ -138,7 +143,7 @@ export class MonoScreens {
     }).join('');
     const pitch = campaign.pitch ?? { heading: campaign.name, text: 'Choose three companions.' };
     const ready = presets.map(p => `<li>${Html.button(p.label, 'preset', { id: p.id })}<small>${Html.escape(p.note)}</small></li>`).join('');
-    const company = CompanyPreview.company(draft.party);
+    const company = CompanyPreview.company(draft.party), together = CompanyPreview.formations(draft.party);
     const can = company.covered.map(c => `<li><b>${Html.escape(c.name)}</b> ${Html.escape(c.who.join(', '))}</li>`).join('');
     return `<div class="frame" data-mode="create"><header class="bar top"><b class="brand">${Html.escape(campaign.name)}</b>`
       + `<nav class="path">Form a company of three</nav><time></time></header>`
@@ -146,6 +151,10 @@ export class MonoScreens {
       + `<h3>A ready company</h3><ul class="presets">${ready}</ul>`
       + `<h3>What this company can do</h3><ul class="covered">${can}</ul>`
       + `${company.missing.length ? `<p class="muted">No one has ${Html.escape(company.missing.join(', '))}.</p>` : ''}`
+      + `${together.formed.length ? `<h3>Together they make</h3><ul class="formations">${this.formations(together.formed)}</ul>` : ''}`
+      + `${together.near.length ? `<h3>One change away</h3><ul class="formations near">${this.formations(together.near.slice(0, 3))}</ul>` : ''}`
+      + `${[...together.formed, ...together.near].some(f => f.perks.some(p => p.includes('searching')))
+        ? '<p class="muted">A search turns up what would take a skill to notice when the best searcher\'s 10, Wisdom modifier and searching reach 15.</p>' : ''}`
       + `<label class="seed">Seed (the same seed makes the same draws) <input data-field="seed" value="${Html.escape(draft.seed)}"></label></section>`
       + `<section class="pane companions" data-region="companions">${rows}</section></main>`
       + `<footer class="bar keys">${Html.button('Set out', 'start', { class: 'primary' }, '<kbd>⏎</kbd>')}${Html.button('Choose another campaign', 'campaigns')}</footer>`

@@ -7,6 +7,8 @@ import type { Fighter } from './model';
 import { Fighting } from './rules/fighting';
 import type { Hooks } from './canon/schema';
 import { Canon } from './canon/canon';
+import { Perks } from './rules/perks';
+import { PerkTriggers } from './rules/perk-triggers';
 
 export class AbilityUse {
   // Category saves follow Orsino's handleSave: d20 (with allRolls) + the category's attribute modifier + level +
@@ -81,7 +83,7 @@ export class AbilityUse {
       }
     }
     let applied = 0, failed = 0;
-    const touched = new Set<string>();
+    const touched = new Set<string>(), alive = new Set(context.fighters.filter(f => f.hp > 0).map(f => f.id));
     for (const effect of effects) {
       const targets = AbilityUse.targets(effect, targetId, expressions, context);
       let success = ['defend', 'flee', 'travel'].includes(effect.kind) && !targets.length;
@@ -95,6 +97,7 @@ export class AbilityUse {
       }
       if (!success) { break; }
     }
+    if (applied) { PerkTriggers.after(ability, actor, alive, context); }
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
   }
@@ -121,7 +124,10 @@ export class AbilityUse {
     if (effect.kind === 'apply' && effect.save && options.resisted) { return false; }
     let took: 'full' | 'partial' = 'full';
     const values = actor ? Effects.context(actor) : context.values ?? {};
-    let amount = 'amount' in effect ? expressions.amount(effect.amount, values) : 0;
+    // A perk can make one ability hit harder (a thieves' guild's backstab).
+    const harder = actor && options.ability && (effect.kind === 'damage' || effect.kind === 'drain')
+      ? Perks.abilityDamage(actor.traits, options.ability) : 1;
+    let amount = 'amount' in effect ? Math.floor(expressions.amount(effect.amount, values) * harder) : 0;
     const rolled = amount;
     if (options.resisted && effect.onResist) {
       if (effect.onResist === 'negate') { return false; }

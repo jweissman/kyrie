@@ -28,7 +28,7 @@ import { Planner, type Operator } from './planner';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
 import { CampaignTick } from './campaign-tick';
-import { WatchLoop, type WatchHost } from './watch-loop';
+import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
@@ -237,7 +237,7 @@ export class Campaign implements WatchHost {
     return Battle.encounter(this.creatures, [
       ...(attacker?.members ?? this.current.partyIds).map(creatureId => ({ creatureId, team: 'fighters' as const })),
       ...this.current.inhabitants[group]!.map(creatureId => ({ creatureId, team: 'goblins' as const })),
-    ], { seed });
+    ], { seed, environment: Environment.of(this.world, this.playerActor) });
   }
 
   private action(id: string): Operator {

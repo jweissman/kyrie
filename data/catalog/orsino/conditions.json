@@ -924,7 +924,8 @@
     "onAttack": [
      {
       "kind": "remove",
-      "status": "hidden",
+      "status": "",
+      "pattern": "Hidden",
       "target": "enemy"
      }
     ]
@@ -1013,7 +1014,8 @@
     "onAttack": [
      {
       "kind": "remove",
-      "status": "invisible",
+      "status": "",
+      "pattern": "Invisible",
       "target": "enemy"
      }
     ]

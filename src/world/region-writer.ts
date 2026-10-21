@@ -38,7 +38,7 @@ export class RegionWriter {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(`Module ${this.id} ${q(region.name)} {`,
       `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country of ${region.ancestry} settlements, where people keep the faith of ${region.deity}.${this.meaning(region)}`)}.`,
-      `  Place region ${q(region.name)} is region.`,
+      `  Place region ${q(region.name)} is region.`, `  Initially Assert terrain(region, ${region.terrain}).`,
       `  Place wilds ${q(`the ${this.terrain(region.terrain)} of ${region.name}`)} is wilderness within region at 0, 2.`);
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through wild country, by a stretch where travellers can be met or waylaid.

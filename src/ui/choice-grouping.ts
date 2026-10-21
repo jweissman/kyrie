@@ -111,6 +111,7 @@ export class ChoiceGrouping {
       tells: 'incoming' },
     raise_quality: { slot: 'member', param: 'member', path: ['Advance', 'Raise a quality', '{quality}'] },
     learn_spell: { slot: 'member', param: 'member', path: ['Advance', 'Learn a spell', '{spell}'], tells: 'spell' },
+    take_feat: { slot: 'member', param: 'member', path: ['Advance', 'Take up a feat', '{choice}'], tells: 'choice' },
     wait: { slot: 'camp', path: ['Wait a while'] },
     wait_hour: { slot: 'camp', path: ['Wait an hour'] },
     wait_for_light: { slot: 'camp', path: ['Wait until first light'] },

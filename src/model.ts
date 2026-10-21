@@ -23,6 +23,8 @@ export interface Fighter {
   statuses: ConditionInstance[];
   // Every trait the creature holds: birth or nature traits and the ones it chose.
   traits?: string[];
+  // Where it fights (urban, forest, cave...), for perks that hold only there.
+  environment?: string;
   // Successful category saves in this encounter; Orsino fails a fourth success of one category automatically.
   saved?: Record<string, number>;
   cooldowns: Record<string, number>;

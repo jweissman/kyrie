@@ -1,4 +1,5 @@
 import { Advancement } from '../rules/advancement';
+import { Canon } from '../canon/canon';
 import type { CampaignActor } from './definition';
 import { ModuleWriter } from '../lang/module-writer';
 import type { World } from '../lang/world';
@@ -71,10 +72,13 @@ export class FieldUse {
     const [member, choice] = args as [string, string], lease = store.acquire([member]);
     try {
       const c = lease.creatures[0]!;
-      if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else { Advancement.learn(c, choice); }
+      if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else if (name === 'feat') {
+        Advancement.feat(c, choice);
+      } else { Advancement.learn(c, choice); }
       lease.commit([c], { advancement: true });
       const what = name === 'improve' ? `${choice.charAt(0).toUpperCase()}${choice.slice(1)} is now ${c.base[choice as Attribute]}`
-        : `${Content.abilities.find(a => a.id === choice)?.name ?? choice} learned`;
+        : name === 'feat' ? `${Canon.traits[choice]?.name ?? choice} taken up`
+          : `${Content.abilities.find(a => a.id === choice)?.name ?? choice} learned`;
       return [{ type: 'gain', turn: 0, actor: member, target: member, detail: what }];
     } finally { lease.release(); }
   }

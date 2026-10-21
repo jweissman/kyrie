@@ -14,17 +14,20 @@ import type { CampaignActor } from './definition';
 import type { Creature } from '../creature';
 import { PartyCapabilities } from './party-capabilities';
 import { Advancement } from '../rules/advancement';
+import { Perks, type PerkContext } from '../rules/perks';
+import { Environment } from './environment';
 
 type Entity = Module['entities'][number];
 interface Scope {
   has: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
-  capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>;
+  capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; at?: PerkContext;
 }
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
-    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings'];
+    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings',
+    'featOpen'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -32,11 +35,12 @@ export class CreatureFacts {
   static project(world: World, actors: CampaignActor[], store: CreatureStore): World {
     const scope = this.scope(world), changes: Change[] = [];
     for (const actor of actors) {
-      const members = actor.members.map(id => store.get(id));
-      changes.push(...this.group(actor, members, scope));
+      const members = actor.members.map(id => store.get(id)), environment = Environment.of(world, actor.id);
+      changes.push(...this.group(actor, members, { ...scope, ...environment ? { at: { environment } } : {} }));
       if (scope.has.has('memberOf')) { for (const c of members) { changes.push(...this.member(c, actor.id, scope)); } }
       if (scope.has.has('swappable')) { changes.push(...this.swaps(world, members, scope.references, scope.abilityIds)); }
       if (scope.has.has('learnable')) { changes.push(...this.lessons(world, members, scope.references)); }
+      if (scope.has.has('featOpen')) { changes.push(...this.feats(world, members, scope.references)); }
     }
     const different = changes.filter(c => c.kind === 'assert' ? !world.test(c.call) :
       c.kind === 'retract' ? world.test(c.call) :
@@ -57,16 +61,16 @@ export class CreatureFacts {
   }
   // What the company as a whole can do and is: its skills, who brings each, whether it can act, and its coin.
   private static group(actor: CampaignActor, members: Creature[], scope: Scope): Change[] {
-    const changes: Change[] = [], { has, capabilities, references } = scope;
+    const changes: Change[] = [], { has, capabilities, references, at } = scope;
     if (has.has('capable')) {
       for (const capability of capabilities) {
-        changes.push({ kind: PartyCapabilities.has(capability.id, members) ? 'assert' : 'retract',
+        changes.push({ kind: PartyCapabilities.has(capability.id, members, at) ? 'assert' : 'retract',
           call: ModuleWriter.call('capable', actor.id, capability.id) });
       }
     }
     for (const c of has.has('brings') ? members : []) {
       for (const capability of capabilities) {
-        changes.push({ kind: PartyCapabilities.brings(capability.id, c) ? 'assert' : 'retract',
+        changes.push({ kind: PartyCapabilities.brings(capability.id, c, at) ? 'assert' : 'retract',
           call: ModuleWriter.call('brings', references.get(c.id)!, capability.id) });
       }
     }
@@ -150,12 +154,19 @@ export class CreatureFacts {
   }
   // The spells each caster with a level's spell to spend may learn, written as the whole set.
   private static lessons(world: World, members: Creature[], references: Map<string, string>): Change[] {
-    const refs = new Set(members.map(c => references.get(c.id)!));
-    const desired = new Set(members.flatMap(c => Advancement.learnable(c).map(id => `${references.get(c.id)!}|${id}`)));
-    const present = world.snapshot.relations.filter(r => r.name === 'learnable' && refs.has(r.args[0]!));
+    return this.choices(world, 'learnable', members.map(c => [references.get(c.id)!, Advancement.learnable(c)]));
+  }
+  // The feats each companion with one to take may choose.
+  private static feats(world: World, members: Creature[], references: Map<string, string>): Change[] {
+    return this.choices(world, 'featOpen', members.map(c => [references.get(c.id)!, Advancement.feats(c)]));
+  }
+  private static choices(world: World, relation: string, open: [string, string[]][]): Change[] {
+    const refs = new Set(open.map(([ref]) => ref));
+    const desired = new Set(open.flatMap(([ref, ids]) => ids.map(id => `${ref}|${id}`)));
+    const present = world.snapshot.relations.filter(r => r.name === relation && refs.has(r.args[0]!));
     return [...present.filter(r => !desired.has(r.args.join('|')))
-      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('learnable', ...r.args) })),
-    ...[...desired].map(key => ({ kind: 'assert' as const, call: ModuleWriter.call('learnable', ...key.split('|')) }))];
+      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call(relation, ...r.args) })),
+    ...[...desired].map(key => ({ kind: 'assert' as const, call: ModuleWriter.call(relation, ...key.split('|')) }))];
   }
   static initialize(world: World, actors: CampaignActor[], store: CreatureStore) {
     for (const actor of actors) {
@@ -177,7 +188,8 @@ export class CreatureFacts {
     try {
       for (const { actor, delta } of changed) {
         const members = actor.members.map(id => lease.creatures.find(c => c.id === id)!);
-        if (delta > 0) { members[0]!.state.gold += delta; }
+        // More gold from every source for a company with a perk for it (a thieves' guild's).
+        if (delta > 0) { members[0]!.state.gold += Math.floor(delta * Perks.bonus(members[0]!.traits, 'goldMultiplier')); }
         else {
           let remaining = -delta;
           for (const c of members) {

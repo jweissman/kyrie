@@ -71,10 +71,9 @@ export class OrsinoEffects {
         if (save.save && !this.vocabulary.saveKinds.includes(save.save.kind)) { return `Unknown save ${save.save.kind}.`; }
         return [{ kind: 'apply', status, duration, target, ...save, ...extra } as Effect];
       }
-      case 'removeStatus': {
-        const ids = String(raw.statusName).split('|').map(n => this.status(n, from)).filter((id): id is string => !!id);
-        return ids.map(status => ({ kind: 'remove' as const, status, target, ...extra }) as Effect);
-      }
+      // Orsino removes, by a case-insensitive pattern over names, every active status that matches; Kyr does the same.
+      case 'removeStatus':
+        return [{ kind: 'remove' as const, status: '', pattern: String(raw.statusName), target, ...extra } as Effect];
       default: return `Effect ${String(raw.type)} is not supported.`;
     }
   }

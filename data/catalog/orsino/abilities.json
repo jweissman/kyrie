@@ -29,7 +29,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "hidden",
+     "status": "",
+     "pattern": "Hidden",
      "target": "self"
     },
     {
@@ -67,9 +68,11 @@
     }
    ],
    "level": 0,
+   "requires": {
+    "notStatus": "summoning"
+   },
    "unsupported": {
-    "status:summoning": "Applies summoning, which Kyr cannot execute.",
-    "condition:notStatus": "Kyr does not check this ability condition."
+    "status:summoning": "Applies summoning, which Kyr cannot execute."
    },
    "source": {
     "orsino": "ability:black_ritual",
@@ -122,6 +125,12 @@
    "description": "Charge at an enemy, dealing 3d8+1 damage. Each level adds +1 to damage.",
    "effects": [
     {
+     "kind": "remove",
+     "status": "",
+     "pattern": "Preparing to Charge",
+     "target": "self"
+    },
+    {
      "kind": "damage",
      "amount": {
       "kind": "deem",
@@ -131,6 +140,9 @@
      "target": "enemy"
     }
    ],
+   "requires": {
+    "status": "preparing_to_charge"
+   },
    "source": {
     "orsino": "ability:charge",
     "fidelity": "faithful"
@@ -191,9 +203,11 @@
      "target": "self"
     }
    ],
+   "requires": {
+    "notStatus": "ticking"
+   },
    "unsupported": {
-    "status:ticking": "Applies ticking, which Kyr cannot execute.",
-    "condition:notStatus": "Kyr does not check this ability condition."
+    "status:ticking": "Applies ticking, which Kyr cannot execute."
    },
    "source": {
     "orsino": "ability:countdown",
@@ -1845,15 +1859,19 @@
    "name": "Demorph",
    "kind": "spell",
    "description": "Force a shapeshifter to revert to its original form.",
-   "effects": [],
+   "effects": [
+    {
+     "kind": "remove",
+     "status": "",
+     "pattern": "polymorphed|shapechanged",
+     "target": "enemy"
+    }
+   ],
    "cost": 1,
    "spell": {
     "tradition": "arcane",
     "level": 6,
     "school": "divination"
-   },
-   "unsupported": {
-    "effects": "No effect Kyr can execute."
    },
    "source": {
     "orsino": "arcaneSpell:demorph",
@@ -3962,12 +3980,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "hidden",
-     "target": "enemies"
-    },
-    {
-     "kind": "remove",
-     "status": "invisible",
+     "status": "",
+     "pattern": "hidden|invisible|disguised",
      "target": "enemies"
     }
    ],
@@ -4377,12 +4391,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "hidden",
-     "target": "enemies"
-    },
-    {
-     "kind": "remove",
-     "status": "invisible",
+     "status": "",
+     "pattern": "hidden|invisible",
      "target": "enemies"
     }
    ],
@@ -4492,7 +4502,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "petrified",
+     "status": "",
+     "pattern": "Petrified",
      "target": "ally"
     }
    ],
@@ -5456,12 +5467,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "poison",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "disease",
+     "status": "",
+     "pattern": "poison|diseased",
      "target": "ally"
     }
    ],
@@ -5871,7 +5878,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "disease",
+     "status": "",
+     "pattern": "disease",
      "target": "ally"
     }
    ],
@@ -6039,7 +6047,8 @@
     },
     {
      "kind": "remove",
-     "status": "hidden",
+     "status": "",
+     "pattern": "Hidden",
      "target": "enemies"
     }
    ],
@@ -6994,32 +7003,8 @@
     },
     {
      "kind": "remove",
-     "status": "disease",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "poison",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "cursed",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "blinded",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "slow",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "paralyzed",
+     "status": "",
+     "pattern": "diseased|poison|cursed|blinded|slow|paralyzed",
      "target": "ally"
     }
    ],
@@ -8076,42 +8061,8 @@
     },
     {
      "kind": "remove",
-     "status": "disease",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "poison",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "cursed",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "blinded",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "slow",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "paralyzed",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "fatigue",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "deafened",
+     "status": "",
+     "pattern": "diseased|poison|cursed|blinded|slow|paralyzed|fatigued|deafened",
      "target": "ally"
     }
    ],
@@ -8171,32 +8122,8 @@
     },
     {
      "kind": "remove",
-     "status": "disease",
-     "target": "allies"
-    },
-    {
-     "kind": "remove",
-     "status": "poison",
-     "target": "allies"
-    },
-    {
-     "kind": "remove",
-     "status": "cursed",
-     "target": "allies"
-    },
-    {
-     "kind": "remove",
-     "status": "blinded",
-     "target": "allies"
-    },
-    {
-     "kind": "remove",
-     "status": "slow",
-     "target": "allies"
-    },
-    {
-     "kind": "remove",
-     "status": "paralyzed",
+     "status": "",
+     "pattern": "diseased|poison|cursed|blinded|slow|paralyzed",
      "target": "allies"
     }
    ],
@@ -8324,17 +8251,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "poison",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "cursed",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "blinded",
+     "status": "",
+     "pattern": "poison|cursed|blinded",
      "target": "ally"
     }
    ],
@@ -8869,7 +8787,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "fear",
+     "status": "",
+     "pattern": "fear",
      "target": "ally"
     }
    ],
@@ -9975,27 +9894,8 @@
    "effects": [
     {
      "kind": "remove",
-     "status": "fear",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "distracted",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "weakened",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "fatigue",
-     "target": "ally"
-    },
-    {
-     "kind": "remove",
-     "status": "slow",
+     "status": "",
+     "pattern": "frightened|distracted|weakened|fatigued|slow",
      "target": "ally"
     }
    ],

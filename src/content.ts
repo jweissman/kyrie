@@ -28,6 +28,8 @@ export type RaceId = string;
 export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   raceId?: RaceId; classId?: ClassId; level?: number; population?: 'any' | 'pc' | 'monster';
   name?: string; abilities?: string[]; backgroundId?: string; professionId?: string; traits?: string[];
+  // The party traits the companion's company forms (a Clerical Synod), recognized when the company is formed.
+  formations?: string[];
   spells?: string[]; gear?: string[]; weapon?: string; armor?: string;
   // An NPC prepares a sample of its spells (Orsino's enemy casters) instead of making a player's picks.
   family?: string;
@@ -155,7 +157,8 @@ export class Content {
     for (const key of CreatureSchema.attributes) {
       if (context[key] !== undefined) { creature.base[key] = context[key]!; }
     }
-    creature.traits = [...new Set([...chassis.traits, ...TraitGrants.choose(creature, context.traits, stream('traits'))])];
+    creature.traits = [...new Set([...chassis.traits, ...TraitGrants.choose(creature, context.traits, stream('traits')),
+      ...TraitGrants.formations(context.formations)])];
     const granted = TraitGrants.abilities(creature, { spells: context.spells, prepared: context.prepared }, stream('spells'));
     creature.base.abilities = [...new Set([...chassis.abilities, ...granted,
       ...context.abilities ?? []])].filter(a => Creation.executable(a));

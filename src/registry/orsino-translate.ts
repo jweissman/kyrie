@@ -1,5 +1,5 @@
 import type { Effect, Target } from '../lang/parse';
-import type { Ability, Condition, Hooks, ItemKind, Omissions, Trait } from '../canon/schema';
+import type { Ability, Bonuses, Condition, Hooks, ItemKind, Omissions, Perk, Trait, Triggers } from '../canon/schema';
 import { ModifierSet, type Modifiers } from '../rules/modifiers';
 import type { RegistryEntry } from './orsino-extract';
 import { OrsinoEffects, type Vocabulary } from './orsino-effects';
@@ -149,13 +149,29 @@ export class OrsinoTranslate {
     if (!condition || typeof condition !== 'object') { return undefined; }
     const c = condition as Raw, out: NonNullable<Ability['requires']> = {};
     for (const [key, value] of Object.entries(c)) {
-      if (key === 'status') { const id = this.statusId(value, 'condition'); if (id) { out.status = id; } }
+      const id = key === 'status' || key === 'notStatus' ? this.statusId(value, 'condition') : undefined;
+      if ((key === 'status' || key === 'notStatus') && id) { out[key] = id; }
+      else if (key === 'status' || key === 'notStatus') {
+        unsupported[`condition:${key}`] = `Names ${String(value)}, which Kyr has no condition for.`;
+      }
       else if (key === 'hasInterceptWeapon' && value === true) { out.interceptWeapon = true; }
       else { unsupported[`condition:${key}`] = 'Kyr does not check this ability condition.'; }
     }
     return Object.keys(out).length ? out : undefined;
   }
+  // Every status an ability defines inline (Prepare Charge's "Preparing to Charge") is registered before any ability is
+  // translated, so an ability that requires or removes one (Charge) finds it whatever order they come in.
+  private prescan() {
+    for (const e of this.family('ability', 'arcaneSpell', 'divineSpell').filter(x => !x.shadowedBy)) {
+      for (const raw of ((e.definition as Raw).effects ?? []) as Raw[]) {
+        if ((raw.type === 'buff' || raw.type === 'debuff') && raw.status && typeof raw.status === 'object') {
+          this.statusId(raw.status, e.id);
+        }
+      }
+    }
+  }
   abilities(): Record<string, Ability> {
+    this.prescan();
     return Object.fromEntries(this.family('ability', 'arcaneSpell', 'divineSpell').filter(e => !e.shadowedBy)
       .map(e => [e.key, this.ability(e)]));
   }
@@ -180,32 +196,103 @@ export class OrsinoTranslate {
     }
     return out;
   }
+  // One trait status as a perk: the keys Kyr executes as triggers or bonuses, then the rest as modifiers, and where or
+  // with what it holds.
+  private perk(status: Raw, from: string): { perk: Perk; omits: Omissions; unsupported: Omissions; hooked: boolean } {
+    const effect = { ...(status.effect ?? {}) as Raw }, triggers: Triggers = {}, bonuses: Bonuses = {};
+    const unsupported: Omissions = {};
+    for (const [key, value] of Object.entries(effect)) {
+      const handled = Array.isArray(value) ? this.trigger(key, value as Raw[], triggers)
+        : typeof value === 'number' ? this.bonus(key, value, bonuses) : undefined;
+      if (handled === undefined) { continue; }
+      if (!handled) { unsupported[key] = `Kyr does not execute this ${key} effect.`; }
+      delete effect[key];
+    }
+    const t = this.modifiers(effect, from), weapon = ((status.condition ?? {}) as Raw).weapon as Raw | undefined;
+    const perk: Perk = { name: String(status.name), description: String(status.description ?? status.name),
+      modifiers: t.modifiers, ...Object.keys(triggers).length ? { triggers } : {},
+      ...Object.keys(bonuses).length ? { bonuses } : {},
+      ...typeof status.whileEnvironment === 'string' ? { environment: status.whileEnvironment } : {},
+      ...weapon ? { weapon: { ...weapon.type ? { type: String(weapon.type) } : {},
+        ...weapon.weight ? { weight: String(weapon.weight) } : {} } } : {} };
+    return { perk, omits: t.omits, unsupported: { ...t.unsupported, ...unsupported },
+      hooked: !!(Object.keys(t.hooks).length || t.compel || t.forceTarget) };
+  }
+  // A list of trigger effects: true if Kyr executes every one, false if not, undefined if the key is no trigger.
+  private trigger(key: string, list: Raw[], triggers: Triggers): boolean | undefined {
+    switch (key) {
+      case 'onKill': return list.every(raw => this.onKill(raw, triggers));
+      case 'onLevelUp': return list.every(raw => this.onLevelUp(raw, triggers));
+      case 'onOffensiveCasting': return list.every(raw => this.onCasting(raw, triggers));
+      default: return undefined;
+    }
+  }
+  private bonus(key: string, value: number, bonuses: Bonuses): true | undefined {
+    switch (key) {
+      case 'spellDurationBonus': bonuses.spellDuration = value; return true;
+      case 'goldMultiplier': bonuses.goldMultiplier = value; return true;
+      case 'lootBonus': bonuses.loot = value; return true;
+      case 'searchBonus': bonuses.search = value; return true;
+      case 'backstabMultiplier': bonuses.abilityDamage = { ...bonuses.abilityDamage, backstab: value }; return true;
+      default: return undefined;
+    }
+  }
+  private onKill(raw: Raw, triggers: Triggers): boolean {
+    const list = triggers.onKill ??= [];
+    if (raw.type === 'gold') { list.push({ gold: OrsinoEffects.expression(raw.amount) }); return true; }
+    if (raw.type === 'xp') { list.push({ experience: OrsinoEffects.expression(raw.amount) }); return true; }
+    const status = raw.type === 'buff' ? this.statusId(raw.status, 'onKill') : undefined;
+    if (status) { list.push({ status }); return true; }
+    return false;
+  }
+  private onLevelUp(raw: Raw, triggers: Triggers): boolean {
+    if (raw.type !== 'upgrade' || raw.stat !== 'maxHp') { return false; }
+    (triggers.onLevelUp ??= []).push({ maxHp: Number(raw.amount) });
+    return true;
+  }
+  private onCasting(raw: Raw, triggers: Triggers): boolean {
+    const type = String(raw.damageType ?? raw.kind ?? 'true');
+    if (raw.type !== 'damage' || !this.vocabulary.damageTypes.includes(type)) { return false; }
+    (triggers.onOffensiveCasting ??= []).push({ amount: OrsinoEffects.expression(raw.amount), damageType: type });
+    return true;
+  }
   traits(): Record<string, Trait> {
     const category: Record<string, Trait['category']> = { racial: 'lineage', character: 'character', school: 'specialization',
       domain: 'specialization', feat: 'feat', party: 'party', template: 'nature', elemental: 'affinity', divine: 'affinity' };
     const out: Record<string, Trait> = {};
     for (const e of this.family('trait')) {
-      const d = e.definition as Raw, statuses = (d.statuses ?? []) as Raw[];
-      const parts = statuses.map(s => this.modifiers((s.effect ?? {}) as Raw, e.id));
+      const d = e.definition as Raw, statuses = (d.statuses ?? []) as Raw[], party = d.type === 'party';
+      const parts = statuses.map(s => this.perk(s, e.id));
       const unsupported = Object.assign({}, ...parts.map(p => p.unsupported)) as Omissions;
       const omits = Object.assign({}, ...parts.map(p => p.omits)) as Omissions;
-      if (parts.some(p => Object.keys(p.hooks).length || p.compel || p.forceTarget)) {
-        unsupported.statuses = 'Trait statuses with hooks or compulsion are not executed.';
-      }
-      const r = (d.requirements ?? {}) as Raw;
+      if (parts.some(p => p.hooked)) { unsupported.statuses = 'Trait statuses with hooks or compulsion are not executed.'; }
+      const perks = parts.map(p => p.perk), always = perks.filter(p => !p.environment && !p.weapon);
+      const listed = party || perks.some(p => p.environment || p.weapon || p.triggers || p.bonuses);
       const tradition = (d.spellbooks as string[] | undefined)?.[0];
-      out[e.key] = { name: String(statuses[0]?.name ?? d.name ?? e.key), category: category[String(d.type)] ?? 'feat',
-        description: String(statuses[0]?.description ?? d.description ?? ''),
-        modifiers: ModifierSet.sum(parts.map(p => p.modifiers)),
-        ...Object.keys(r).length ? { requires: { ...r.race ? { ancestry: String(r.race) } : {},
-          ...r.classes ? { classes: r.classes as string[] } : {}, ...r.level ? { level: Number(r.level) } : {} } } : {},
+      out[e.key] = { name: party ? String(d.description) : String(statuses[0]?.name ?? d.name ?? e.key),
+        category: category[String(d.type)] ?? 'feat',
+        description: party ? perks.map(p => `${p.name}: ${p.description}`).join(' ')
+          : String(statuses[0]?.description ?? d.description ?? ''),
+        modifiers: ModifierSet.sum(always.map(p => p.modifiers)), ...listed ? { perks } : {},
+        ...this.traitRequires((d.requirements ?? {}) as Raw),
         ...tradition ? { spellAccess: { tradition: tradition as 'arcane' | 'divine',
           ...d.school ? { school: String(d.school) } : {}, ...d.domain ? { domain: String(d.domain) } : {} } } : {},
         ...d.abilities ? { grants: { abilities: d.abilities as string[] } } : {},
+        ...Array.isArray(d.incompatibleWith) ? { excludes: (d.incompatibleWith as string[]).map(String) } : {},
         ...Object.keys(omits).length ? { omits } : {}, ...Object.keys(unsupported).length ? { unsupported } : {},
-        source: { orsino: e.id, fidelity: Object.keys(omits).length ? 'adapted' : 'faithful' } };
+        source: { orsino: e.id,
+          fidelity: Object.keys(omits).length || perks.some(p => p.environment || p.bonuses?.search) ? 'adapted' : 'faithful' } };
     }
     return out;
+  }
+  // A trait's requirements: a character's ancestry, classes and level, or a party's formation of classes or ancestries.
+  private traitRequires(r: Raw): Pick<Trait, 'requires'> {
+    const requires: NonNullable<Trait['requires']> = { ...r.race ? { ancestry: String(r.race) } : {},
+      ...r.class ? { class: String(r.class) } : {},
+      ...r.classes ? { classes: r.classes as string[] } : {}, ...r.level ? { level: Number(r.level) } : {},
+      ...r.formation ? { company: { classes: (r.formation as string[]).map(String) } } : {},
+      ...r.races ? { company: { ancestries: (r.races as string[]).map(String) } } : {} };
+    return Object.keys(requires).length ? { requires } : {};
   }
   // A domain's shrine blessing (Orsino's deityBlessings table), keyed by domain.
   blessings(): Record<string, Blessing> {

@@ -7,7 +7,11 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity brawn: capability "Brawn". Entity stealth: capability "Stealth".
   Entity lore: capability "Lore". Entity rites: capability "Rites of the dead".
   Entity climbing: capability "Climbing". Entity light: capability "Light". Entity flame: capability "Flame".
-  Entity sunlight: capability "Sunlight".
+  Entity sunlight: capability "Sunlight". Entity perception: capability "Keen eyes".
+  // The lie of the land a region is: what a party's perks of place (an elven tribe in a forest) answer to.
+  Kind terrainkind. Relation terrain(place, terrainkind).
+  Entity forest: terrainkind "forest". Entity marsh: terrainkind "marsh". Entity mountain: terrainkind "mountain".
+  Entity frost: terrainkind "frost". Entity desert: terrainkind "desert". Entity hills: terrainkind "hills".
   Relation at(entity, place) exclusive.
   Relation able(group). Relation dead(group). Relation distinct(group, group).
   Relation closed(place). Relation indoors(place). Relation settled(place).
