@@ -30,7 +30,8 @@ describe('generated places are named in their folk\'s tongue', () => {
   });
   it('is the same name for the same seed', async () => {
     const [a, b] = await Promise.all([1, 2].map(() => WorldAssembler.assemble('thorn', NodeBundleSource.shared,
-      { region: { terrain: 'mountain' } })));
+      { region: { terrain: 'mountain' } }))) as [Awaited<ReturnType<typeof WorldAssembler.assemble>>,
+      Awaited<ReturnType<typeof WorldAssembler.assemble>>];
     expect(a.report.region.settlements.map(s => s.name)).toEqual(b.report.region.settlements.map(s => s.name));
     const first = a.report.region.settlements[0]!;
     expect(first).toMatchObject({ name: 'Chealdholm', gloss: 'cold hill' });

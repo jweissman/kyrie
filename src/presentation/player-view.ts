@@ -309,7 +309,8 @@ export class PlayerView {
         entries.push({ at: m.deadline!, kind: 'world', detail: [],
           text: `Deadline reached: ${m.pressures.map(id => labels.get(id) ?? id).join(', ')} (${m.name})` });
       }
-      for (const o of event.perceptions ?? []) {
+      // The chronicle is what happened; what places and people look like is the scene's to tell.
+      for (const o of (event.perceptions ?? []).filter(p => p.kind !== 'observation')) {
         if (!perceived.has(`${o.id}:${o.text}`)) {
           perceived.add(`${o.id}:${o.text}`);
           entries.push({ at: event.elapsed, kind: o.kind, text: o.text, detail: [] });
