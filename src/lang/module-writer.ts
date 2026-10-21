@@ -46,7 +46,7 @@ export class ModuleWriter {
     const declared = new Set([...(module.people ?? []).map(p => p.id), module.company?.id]);
     for (const entity of module.entities.filter(e => !declared.has(e.id))) { lines.push(ModuleWriter.entity(entity)); }
     for (const p of module.pursuits ?? []) {
-      lines.push(`  Pursuit ${p.id} for ${p.actor}${p.label ? ` ${JSON.stringify(p.label)}` : ''} priority ${p.priority} when ${ModuleWriter.predicate(p.when)} seeks ${ModuleWriter.predicate(p.target)}.`);
+      lines.push(`  Pursuit ${p.id} for ${p.actor}${p.label ? ` ${JSON.stringify(p.label)}` : ''} priority ${p.priority} when ${ModuleWriter.predicate(p.when)} seeks ${ModuleWriter.predicate(p.target)}${p.using?.length ? ` using ${p.using.join(', ')}` : ''}.`);
     }
     for (const rule of module.rules ?? []) {
       const anchor = rule.place ? ` ${rule.anchor ?? 'at'} ${rule.place}` : '';
@@ -112,6 +112,7 @@ export class ModuleWriter {
       p.creature ? `Creature ${Object.entries(p.creature).map(([k, v]) => `${k} ${v}`).join(', ')}.` : '',
       p.count && p.count !== 1 ? `Numbers ${p.count}.` : '',
       p.names?.length ? `Called ${p.names.map(n => JSON.stringify(n)).join(', ')}.` : '',
+      ...(p.wants ?? []).map(w => `Wants ${w}.`),
       !species && authored.has('raceId') ? `Ancestry ${p.raceId}.` : '',
       !species && authored.has('classId') ? `Calling ${p.classId}.` : '', authored.has('level') ? `Level ${p.level}.` : '',
       ...(p.traits ?? []).map(t => `Trait ${t}.`), ...(p.gear ?? []).map(g => `Carries ${g}.`),

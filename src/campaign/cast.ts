@@ -94,7 +94,7 @@ export class Cast {
   // Catalog item kinds referenced by facts exist as canonical entities without a separate declaration.
   static itemKinds(module: Module) {
     for (const c of module.initial) {
-      const kind = c.kind === 'assert' && ['itemKind', 'needs'].includes(c.call.name) ? c.call.args[1] : undefined;
+      const kind = c.kind === 'assert' && ['itemKind', 'needs', 'wants'].includes(c.call.name) ? c.call.args[1] : undefined;
       if (kind && ItemCatalog.definitions[kind] && !module.entities.some(e => e.id === kind)) {
         module.entities.push({ id: kind, type: 'itemkind', name: ItemCatalog.get(kind).name });
       }

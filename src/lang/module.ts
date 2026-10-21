@@ -31,6 +31,8 @@ export interface Operator {
 }
 export interface Pursuit {
   id: string; actor: string; label?: string; priority: number; when: Predicate; target: Predicate;
+  // The actions the actor may use in this pursuit, beyond those its own declaration gives it.
+  using?: string[];
 }
 export type Anchor = 'at' | 'near' | 'beside';
 export interface WorldRule {
@@ -42,7 +44,7 @@ export interface Person { role?: string; id: string; name: string; place: string
   level: number; actions: string[]; horizon?: number;
   // creature: constraints for the Deem creature generator; count: how many creatures the group has (default 1);
   // names: what each of them is called, in order.
-  creature?: Record<string, string | number>; count?: number; names?: string[];
+  creature?: Record<string, string | number>; count?: number; names?: string[]; wants?: string[];
   authored?: string[]; professionId?: string; backgroundId?: string; traits?: string[]; gear?: string[];
   offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[] }
 export interface CompanyDeclaration { id: string; name: string; size: number; place: string }

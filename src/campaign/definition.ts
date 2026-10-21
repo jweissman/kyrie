@@ -21,6 +21,8 @@ export interface CampaignDefinition {
   creatures: { id: string; context: CreatureGenerationContext; gold: number; seed?: string;
     provenance?: Record<string, 'authored' | 'generated' | 'default'> }[];
   conflicts?: string[];
+  // Pursuits (and the actions for them) given to an actor another installation declared.
+  extensions?: { actor: string; goals: CampaignGoal[]; actions: string[] }[];
   outcomes: { id: string; predicate: Predicate }[];
   pressures: { id: string; at: number; measure: { kind: 'call'; name: string; args: string[] }; required: number }[];
 }

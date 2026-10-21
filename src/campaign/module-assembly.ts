@@ -50,7 +50,9 @@ export class ModuleAssembly {
     this.references(module, cast);
     const order = [...manifest.actors.order, ...(company ? [company.actor] : []), ...people];
     const actors = this.actors(order, module);
+    const extensions = this.extensions(module, actors);
     const definition: CampaignDefinition = { actors, ...(conflicts.length ? { conflicts } : {}),
+      ...(extensions.length ? { extensions } : {}),
       creatures: structuredClone(cast),
       pressures: manifest.pressure ? [structuredClone(manifest.pressure)] : [],
       outcomes: manifest.outcomes.map(outcome => ({ ...outcome,
@@ -71,7 +73,10 @@ export class ModuleAssembly {
     const compiler = new ModuleCompiler(RuntimeCapabilities.signatures);
     const instance = compiler.instantiate(module, seed);
     for (const p of instance.module.pursuits ?? []) {
-      const goal = definition.actors.find(a => a.id === p.actor)!.goals.find(g => g.id === p.id)!;
+      const owner = definition.actors.find(a => a.id === p.actor)
+        ?? definition.extensions?.find(e => e.actor === p.actor);
+      const goals = owner!.goals;
+      const goal = goals.find(g => g.id === p.id)!;
       goal.when = p.when; goal.target = p.target;
     }
     Discovery.validate(instance.module, new World(instance.module, instance.world), manifest.imports);
@@ -170,12 +175,28 @@ export class ModuleAssembly {
         }
       }
     }
-    for (const p of module.pursuits ?? []) {
-      const actor = actors.find(a => a.id === p.actor);
-      if (!actor || actor.goals.some(g => g.id === p.id)) { throw new Error(`Invalid pursuit controller ${p.actor}`); }
+    for (const p of (module.pursuits ?? []).filter(p => actors.some(a => a.id === p.actor))) {
+      const actor = actors.find(a => a.id === p.actor)!;
+      if (actor.goals.some(g => g.id === p.id)) { throw new Error(`Invalid pursuit controller ${p.actor}`); }
       actor.goals.push({ id: p.id, priority: p.priority, when: p.when, target: p.target });
+      actor.actions.push(...(p.using ?? []).filter(id => !actor.actions.includes(id)));
     }
     return actors;
+  }
+  // A pursuit for someone this module does not declare (an imported person) extends that person when the module is
+  // installed: they take up the goal and may use the actions it names.
+  private static extensions(module: Module, actors: CampaignActor[]): NonNullable<CampaignDefinition['extensions']> {
+    const out: NonNullable<CampaignDefinition['extensions']> = [];
+    for (const p of (module.pursuits ?? []).filter(p => !actors.some(a => a.id === p.actor))) {
+      if (!module.entities.some(e => e.id === p.actor && e.type === 'group')) {
+        throw new Error(`Invalid pursuit controller ${p.actor}`);
+      }
+      let extension = out.find(e => e.actor === p.actor);
+      if (!extension) { extension = { actor: p.actor, goals: [], actions: [] }; out.push(extension); }
+      extension.goals.push({ id: p.id, priority: p.priority, when: p.when, target: p.target });
+      extension.actions.push(...(p.using ?? []).filter(id => !extension.actions.includes(id)));
+    }
+    return out;
   }
   private static generatedItems(module: Module, items: Record<string, string>) {
     for (const [id, kind] of Object.entries(items)) {

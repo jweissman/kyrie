@@ -7,6 +7,7 @@ import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature
 import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } from './world-constructs';
 import { ItemCatalog } from '../item-catalog';
 import { PersonParser } from './person-parser';
+import { StatementParser } from './statement-parser';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -28,33 +29,34 @@ export class ModuleParser {
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PersonProfession: PersonParser.PersonProfession,
     PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
-    SellsPart: ModuleParser.SellsPart, Time_fixed: ModuleParser.Time, Time_measured: ModuleParser.Duration,
+    SellsPart: ModuleParser.SellsPart, Time_fixed: StatementParser.Time, Time_measured: StatementParser.Duration,
     Exit: ModuleParser.Exit, ExitDoor: ModuleParser.ExitDoor, ExitKnowledge: ModuleParser.ExitKnowledge,
     Person: ModuleParser.Person, PersonRole: PersonParser.PersonRole,
     PersonRace: PersonParser.PersonRace, PersonClass: PersonParser.PersonClass,
     PersonLevel: PersonParser.PersonLevel, PersonSpecies: PersonParser.PersonSpecies,
     PersonCreature: PersonParser.PersonCreature, PersonCount: PersonParser.PersonCount,
     PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
-    HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses,
+    HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,
     Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
     Information: ModuleParser.Information, KnownBy: ModuleParser.KnownBy, DeniedBy: ModuleParser.DeniedBy,
     InformationSource: ModuleParser.InformationSource, Speakers: ModuleParser.Speakers,
     Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: ModuleParser.Speaker,
-    WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, MemberBinding: ModuleParser.MemberBinding,
-    Kind: ModuleParser.Kind, Relation: ModuleParser.Relation, Measure: ModuleParser.Measure,
-    Query: ModuleParser.Query, Parameter: ModuleParser.Parameter, Entity: ModuleParser.Entity,
-    Initial: ModuleParser.Initial, Goal: ModuleParser.Goal, Budget: ModuleParser.Budget,
-    Description: ModuleParser.Description, ActionParameters: ModuleParser.ActionParameters,
-    Action: ModuleParser.Action, Requires: ModuleParser.Requires,
-    Success: ModuleParser.Success, Failure: ModuleParser.Failure, Cost: ModuleParser.Cost,
-    Resolve: ModuleParser.Resolve, ChangeStatement: ModuleParser.ChangeStatement,
-    Assert: ModuleParser.Assert, Retract: ModuleParser.Retract, Set: ModuleParser.Set,
-    Increase: ModuleParser.Increase, Decrease: ModuleParser.Decrease,
-    Or_binary: ModuleParser.Or, And_binary: ModuleParser.And,
-    Unary_not: ModuleParser.Not, Unary_group: ModuleParser.Group,
-    Unary_true: ModuleParser.True, Unary_false: ModuleParser.False,
-    Comparison: ModuleParser.Comparison, Call: ModuleParser.Call,
-    expression: ModuleParser.Expression, integer: ModuleParser.Integer, string: ModuleParser.String,
+    WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, PursuitUsing: ModuleParser.PursuitUsing,
+    MemberBinding: StatementParser.MemberBinding,
+    Kind: StatementParser.Kind, Relation: ModuleParser.Relation, Measure: ModuleParser.Measure,
+    Query: ModuleParser.Query, Parameter: StatementParser.Parameter, Entity: ModuleParser.Entity,
+    Initial: StatementParser.Initial, Goal: StatementParser.Goal, Budget: StatementParser.Budget,
+    Description: StatementParser.Description, ActionParameters: StatementParser.ActionParameters,
+    Action: ModuleParser.Action, Requires: StatementParser.Requires,
+    Success: ModuleParser.Success, Failure: ModuleParser.Failure, Cost: StatementParser.Cost,
+    Resolve: StatementParser.Resolve, ChangeStatement: StatementParser.ChangeStatement,
+    Assert: StatementParser.Assert, Retract: StatementParser.Retract, Set: StatementParser.Set,
+    Increase: StatementParser.Increase, Decrease: StatementParser.Decrease,
+    Or_binary: StatementParser.Or, And_binary: StatementParser.And,
+    Unary_not: StatementParser.Not, Unary_group: StatementParser.Group,
+    Unary_true: StatementParser.True, Unary_false: StatementParser.False,
+    Comparison: StatementParser.Comparison, Call: StatementParser.Call,
+    expression: StatementParser.Expression, integer: StatementParser.Integer, string: StatementParser.String,
   });
   static parse(text: string): Module {
     const match = ModuleParser.grammar.match(text);
@@ -66,7 +68,7 @@ export class ModuleParser {
     if (match.failed()) { throw new Error(`Invalid predicate: ${match.message}`); }
     return ModuleParser.semantics(match).ast() as Predicate;
   }
-  private static list(node: ohm.Node): unknown[] {
+  static list(node: ohm.Node): unknown[] {
     const values: unknown[] = [];
     for (const child of node.asIteration().children) { values.push(ModuleParser.ast(child)); }
     return values;
@@ -287,12 +289,15 @@ export class ModuleParser {
       ...(speakers.children.length ? { speakers: ModuleParser.ast(speakers.children[0]!) } : {}),
       ...(destructible.children.length ? { destructible: true } : {}) } };
   }
+  // A pursuit may name the actions its actor uses for it, and may be given to someone another module declared.
   static Pursuit(_pursuit: Node, id: Node, _for: Node, actor: Node, label: Node, _priority: Node, priority: Node,
-    _when: Node, when: Node, _seeks: Node, target: Node, _dot: Node): Field {
+    _when: Node, when: Node, _seeks: Node, target: Node, using: Node, _dot: Node): Field {
     return { field: 'pursuit', value: { id: id.sourceString, actor: actor.sourceString,
       ...(label.children.length ? { label: ModuleParser.ast(label.children[0]!) } : {}),
-      priority: Number(priority.sourceString), when: ModuleParser.ast(when), target: ModuleParser.ast(target) } };
+      priority: Number(priority.sourceString), when: ModuleParser.ast(when), target: ModuleParser.ast(target),
+      ...(using.children.length ? { using: ModuleParser.ast(using.children[0]!) } : {}) } };
   }
+  static PursuitUsing(_using: Node, ids: Node) { return ids.asIteration().children.map(ModuleParser.text); }
   static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, says: Node, _open: Node,
     changes: Node, _close: Node): Field {
     const where = anchor.children.length ?
@@ -307,7 +312,6 @@ export class ModuleParser {
     return { field: 'observation', value: { id: id.sourceString, place: where.id,
       ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text) } };
   }
-  static Kind(_kind: Node, name: Node, _dot: Node): Field { return { field: 'kind', value: name.sourceString }; }
   static Relation(_relation: Node, name: Node, _open: Node, types: Node,
     _close: Node, exclusive: Node, _dot: Node): Field {
     return { field: 'relation', value: { name: name.sourceString,
@@ -322,19 +326,9 @@ export class ModuleParser {
     return { field: 'query', value: { name: name.sourceString, parameters: ModuleParser.list(parameters),
       body: ModuleParser.ast(predicate) } };
   }
-  static Parameter(name: Node, _colon: Node, type: Node) {
-    return { name: name.sourceString, type: type.sourceString };
-  }
   static Entity(_entity: Node, id: Node, _colon: Node, type: Node, name: Node, binding: Node, _dot: Node): Field {
     return { field: 'entity', value: { id: id.sourceString, type: type.sourceString, name: ModuleParser.ast(name),
       ...(binding.children.length ? { creatureId: ModuleParser.ast(binding.children[0]!) } : {}) } };
-  }
-  static MemberBinding(_bound: Node, _to: Node, id: Node): string { return id.sourceString; }
-  static Initial(_initial: Node, change: Node, _dot: Node): Field { return { field: 'initial', value: ModuleParser.ast(change) }; }
-  static Goal(_goal: Node, predicate: Node, _dot: Node): Field { return { field: 'goal', value: ModuleParser.ast(predicate) }; }
-  static Budget(_budget: Node, value: Node, _dot: Node): Field { return { field: 'budget', value: ModuleParser.ast(value) }; }
-  static Description(_description: Node, value: Node, _dot: Node): Field {
-    return { field: 'description', value: ModuleParser.ast(value) };
   }
   static Action(_action: Node, id: Node, parameters: Node, name: Node, _open: Node, parts: Node, _close: Node): Field {
     const action: Operator = { id: id.sourceString, name: ModuleParser.ast(name) as string, description: '',
@@ -351,53 +345,12 @@ export class ModuleParser {
     }
     return { field: 'action', value: action };
   }
-  static ActionParameters(_open: Node, parameters: Node, _close: Node) { return ModuleParser.list(parameters); }
-  static Requires(_requires: Node, predicate: Node, _dot: Node): Field {
-    return { field: 'requires', value: ModuleParser.ast(predicate) };
-  }
   static Success(_on: Node, _success: Node, _open: Node, changes: Node, _close: Node): Field {
     return { field: 'success', value: ModuleParser.list(changes) };
   }
   static Failure(_on: Node, _failure: Node, _open: Node, changes: Node, _close: Node): Field {
     return { field: 'failure', value: ModuleParser.list(changes) };
   }
-  static Cost(_cost: Node, value: Node, _dot: Node): Field {
-    return { field: 'cost', value: Number(value.sourceString) };
-  }
-  static Time(_time: Node, value: Node, _dot: Node): Field {
-    return { field: 'time', value: Number(value.sourceString) };
-  }
-  static Duration(_time: Node, call: Node, _dot: Node): Field { return { field: 'duration', value: ModuleParser.ast(call) }; }
-  static Resolve(_resolve: Node, call: Node, _dot: Node): Field { return { field: 'resolve', value: ModuleParser.ast(call) }; }
-  static ChangeStatement(change: Node, _dot: Node) { return ModuleParser.ast(change); }
-  static Assert(_assert: Node, call: Node) { return { kind: 'assert', call: ModuleParser.ast(call) }; }
-  static Retract(_retract: Node, call: Node) { return { kind: 'retract', call: ModuleParser.ast(call) }; }
-  static Set(_set: Node, call: Node, _to: Node, value: Node) {
-    return { kind: 'set', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
-  }
-  static Increase(_increase: Node, call: Node, _by: Node, value: Node) {
-    return { kind: 'increase', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
-  }
-  static Decrease(_decrease: Node, call: Node, _by: Node, value: Node) {
-    return { kind: 'decrease', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
-  }
-  static Or(left: Node, _or: Node, right: Node) { return { kind: 'or', left: ModuleParser.ast(left), right: ModuleParser.ast(right) }; }
-  static And(left: Node, _and: Node, right: Node) { return { kind: 'and', left: ModuleParser.ast(left), right: ModuleParser.ast(right) }; }
-  static Not(_not: Node, value: Node) { return { kind: 'not', value: ModuleParser.ast(value) }; }
-  static Group(_open: Node, value: Node, _close: Node) { return ModuleParser.ast(value); }
-  static True(_true: Node) { return { kind: 'boolean', value: true }; }
-  static False(_false: Node) { return { kind: 'boolean', value: false }; }
-  static Comparison(left: Node, operator: Node, right: Node) {
-    return { kind: 'compare', left: ModuleParser.ast(left), right: ModuleParser.ast(right), operator: operator.sourceString };
-  }
-  static Call(name: Node, _open: Node, args: Node, _close: Node) {
-    return { kind: 'call', name: name.sourceString, args: args.asIteration().children.map(ModuleParser.text) };
-  }
-  static Expression(_open: Node, parts: Node, _close: Node) {
-    return { kind: 'deem', expression: parts.sourceString.trim() };
-  }
-  static Integer(this: Node, _digits: Node) { return { kind: 'number', value: Number(this.sourceString) }; }
-  static String(this: Node, _open: Node, _chars: Node, _close: Node) { return JSON.parse(this.sourceString) as string; }
   static ast(node: Node): unknown { return (node as AstNode).ast(); }
   static text(node: ohm.Node): string { return node.sourceString; }
 }

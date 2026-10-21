@@ -13,6 +13,18 @@ import { Content } from '../content';
 import { Discovery } from '../information/discovery';
 
 export class ModuleInstallations {
+  // Actors another installation declared take up the goals and actions this one gives them.
+  private static extended(actors: CampaignActor[], extensions: NonNullable<CampaignDefinition['extensions']>) {
+    const out = structuredClone(actors);
+    for (const e of extensions) {
+      const actor = out.find(a => a.id === e.actor);
+      if (!actor || actor.player) { throw new Error(`An extended pursuit needs an installed person: ${e.actor}`); }
+      if (e.goals.some(g => actor.goals.some(o => o.id === g.id))) { throw new Error(`Duplicate pursuit for ${e.actor}`); }
+      actor.goals.push(...structuredClone(e.goals));
+      actor.actions.push(...e.actions.filter(id => !actor.actions.includes(id)));
+    }
+    return out;
+  }
   // The people a new installation brings, made and placed in the store, with the facts about them projected into
   // its world; every goal they pursue is checked against that world before it is accepted.
   static populate(next: Instance, existing: CampaignActor[], creatures: CreatureStore) {
@@ -94,7 +106,7 @@ export class ModuleInstallations {
     const conflicts = [...(prior?.conflicts ?? []), ...(addition.conflicts ?? [])];
     const definition: CampaignDefinition = { schemas, ...(conflicts.length ? { conflicts } : {}),
       installations: [...(prior?.installations ?? []), ModuleNamespace.record(draft, elapsed)],
-      actors: [...(prior?.actors ?? []), ...addition.actors],
+      actors: this.extended([...(prior?.actors ?? []), ...addition.actors], addition.extensions ?? []),
       creatures: [...(prior?.creatures ?? []), ...addition.creatures],
       pressures: [...(prior?.pressures ?? []), ...addition.pressures.map(p => ({ ...p, at: elapsed + p.at }))],
       outcomes: [...(prior?.outcomes ?? []), ...addition.outcomes.map(o => ({ ...o, id: `${draft.id}.${o.id}` }))] };

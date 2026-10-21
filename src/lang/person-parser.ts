@@ -21,6 +21,7 @@ export class PersonParser {
       if (part.field === 'offers' || part.field === 'sells') {
         ((p as unknown as Record<string, unknown[]>)[part.field] ??= []).push(part.value); continue;
       }
+      if (part.field === 'wants') { (p.wants ??= []).push(part.value as string); continue; }
       if (part.field === 'traits' || part.field === 'gear') {
         const list = ((p as unknown as Record<string, string[]>)[part.field] ??= []);
         list.push(part.value as string);
@@ -68,6 +69,8 @@ export class PersonParser {
     return { field: 'names', value: list.asIteration().children.map(c => ModuleParser.ast(c) as string) };
   }
   static PersonTrait(_t: Node, id: Node, _dot: Node): Field { return { field: 'traits', value: id.sourceString }; }
+  // A kind of thing the person will take when it is given to them (a lost register, a dead ewe).
+  static PersonWants(_w: Node, id: Node, _dot: Node): Field { return { field: 'wants', value: id.sourceString }; }
   static PersonCarries(_c: Node, id: Node, _dot: Node): Field { return { field: 'gear', value: id.sourceString }; }
   static PersonHorizon(_p: Node, n: Node, _steps: Node, _dot: Node): Field {
     return { field: 'horizon', value: Number(n.sourceString) };
@@ -98,6 +101,9 @@ export class PersonParser {
     module.entities.push({ id: p.id, name: named, type: 'group' });
     module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [p.id, p.place] } });
     if (peaceable) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'peaceable', args: [p.id] } }); }
+    for (const kind of p.wants ?? []) {
+      module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'wants', args: [p.id, kind] } });
+    }
     WorldConstructs.states(module, spec, { kind: 'near', id: p.id });
   }
   static company(module: Module, c: NonNullable<Module['company']>) {

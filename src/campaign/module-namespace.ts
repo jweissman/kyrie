@@ -105,7 +105,11 @@ export class ModuleNamespace {
         text: this.text(o.text) })),
       initial: original.initial.map(c => this.change(c)), goal: this.predicate(original.goal),
       actions: definition.schemas!.map(a => this.action(a)) };
-    const campaign: CampaignDefinition = { schemas: module.actions, actors,
+    const extensions = definition.extensions?.map(e => ({ actor: this.entities[e.actor]!,
+      actions: e.actions.map(id => this.rules.actions.some(a => a.id === id) ? id : `${this.bindings.id}__${id}`),
+      goals: e.goals.map(g => ({ ...g, id: `${this.bindings.id}.${g.id}`, when: this.predicate(g.when),
+        target: this.predicate(g.target) })) }));
+    const campaign: CampaignDefinition = { schemas: module.actions, actors, ...(extensions ? { extensions } : {}),
       ...(definition.conflicts ? { conflicts: definition.conflicts.map(c => `${this.bindings.id}: ${c}`) } : {}),
       creatures: definition.creatures.map(c => ({ ...c, id: `${this.bindings.id}__${c.id}`,
         seed: `${this.bindings.seed}:creature:${c.id}` })),

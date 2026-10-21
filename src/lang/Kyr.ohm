@@ -38,7 +38,7 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart
+  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart
   PersonProfession = "Profession" ident "."
   PersonBackground = "Background" ident "."
   OffersPart = "Offers" ident string "for" integer "coin" "."
@@ -52,6 +52,7 @@ Kyr {
   CreatureParam = ident (ident | integer)
   PersonCount = "Numbers" integer "."
   PersonCalled = "Called" NonemptyListOf<string, ","> "."
+  PersonWants = "Wants" ident "."
   PersonTrait = "Trait" ident "."
   PersonCarries = "Carries" ident "."
   PersonClass = ("Class" | "Calling") ident "."
@@ -69,7 +70,8 @@ Kyr {
   InformationSource = "Source" ident string "at" ident "readable" "by" NonemptyListOf<ident, ","> Speakers? Destructible? "."
   Speakers = "spoken" "by" NonemptyListOf<ident, ",">
   Destructible = "destructible"
-  Pursuit = "Pursuit" ident "for" ident string? "priority" integer "when" Predicate "seeks" Predicate "."
+  Pursuit = "Pursuit" ident "for" ident string? "priority" integer "when" Predicate "seeks" Predicate PursuitUsing? "."
+  PursuitUsing = "using" NonemptyListOf<ident, ",">
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? "{" ChangeStatement* "}"
   RuleSays = "says" string
   Observation = "Observe" ident Anchor "when" Predicate string "."
