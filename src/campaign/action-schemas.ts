@@ -77,7 +77,7 @@ export class ActionSchemas {
     return { ...body, id: `${action.id}(${args.join(',')})`, schema: action.id, bindings,
       actor: bindings.actor, name: action.speaker || this.placeholders(action.name).length
         || action.parameters.every(p => p.name === 'actor') ? action.name.replace(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g,
-          (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name) : `${action.name} (${args.join(', ')})`,
+          (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name) : `${action.name} (${this.named(action, bindings, labels)})`,
       requires: this.predicate(action.requires, bindings),
       ...(action.report ? { report: this.text(action.report, bindings) } : {}),
       ...(action.seen ? { seen: this.text(action.seen, bindings) } : {}),
@@ -85,6 +85,10 @@ export class ActionSchemas {
       failure: action.failure.map(c => this.change(c, bindings)),
       ...(action.resolve ? { resolve: this.call(action.resolve, bindings) } : {}),
       ...(action.duration ? { duration: this.call(action.duration, bindings) } : {}) };
+  }
+  // A label that names none of its parameters is told apart by what they are bound to, by name, less the actor.
+  private static named(action: Operator, bindings: Record<string, string>, labels: Map<string, string>): string {
+    return (action.parameters ?? []).filter(p => p.name !== 'actor').map(p => labels.get(bindings[p.name]!) ?? bindings[p.name]).join(', ');
   }
   private static constantTruth(p: Predicate, binding: Record<string, string>, context: {
     parameters: Set<string>; constants: Set<string>; facts: Set<string>;

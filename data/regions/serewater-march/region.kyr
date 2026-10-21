@@ -65,7 +65,7 @@ Module serewater_march "The Serewater March" {
     Says "'I take the flock round by Reedwake now,' says Tam. 'There's a sow bear and her grown cub in the bracken on the holt way, and they don't move for anybody. Smoke shifts a bear if you know how to lay it. I don't.'".
   }
   Topic nera_preparation with nera "Ask Nera how to prepare" when true {
-    Says "'Plan your way back before you go down,' says Nera. 'Maud's pallets are two coin. I sell what I have, and when it is gone it is gone. Antidote treats poison, not a crushed skull. Take a line; there are clefts in that hill that strength alone won't get you across.'".
+    Says "'Plan your way back before you go down,' says Nera. 'Maud's beds are three coin, supper with it. I sell what I have, and when it is gone it is gone. Antidote treats poison, not a crushed skull. Take a line; there are clefts in that hill that strength alone won't get you across.'".
   }
   Topic nera_interest with nera "Ask why the town cares about Censer Hill" when true {
     Says "'Bronze buys work; washed-out bones buy grief. The foundry served three settlements once, and the refuge under it sheltered all of them in the great flood. Some of them are still down there. Ask at the shrine before you treat everything under that hill as salvage.'".

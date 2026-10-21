@@ -24,6 +24,10 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Action wait(actor: group) "Wait a while" {
     Requires able(actor). Time 1.
   }
+  Action wait_hour(actor: group) "Wait an hour" {
+    Requires able(actor). Time 6.
+    Result "An hour passes.".
+  }
   Measure untilLight(clock). Measure untilMorning(clock).
   Action wait_for_light(actor: group) "Wait until first light" {
     Requires able(actor) and dark(). Time untilLight(clock).

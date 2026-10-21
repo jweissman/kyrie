@@ -93,6 +93,7 @@ export class ChoiceGrouping {
     raise_quality: { slot: 'member', param: 'member', path: ['Advance', 'Raise a quality', '{quality}'] },
     learn_spell: { slot: 'member', param: 'member', path: ['Advance', 'Learn a spell', '{spell}'], tells: 'spell' },
     wait: { slot: 'camp', path: ['Wait a while'] },
+    wait_hour: { slot: 'camp', path: ['Wait an hour'] },
     wait_for_light: { slot: 'camp', path: ['Wait until first light'] },
     eat: { slot: 'camp', path: ['Eat a ration'] },
     rest: { slot: 'camp', path: ['Rest six hours'] },

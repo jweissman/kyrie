@@ -47,7 +47,7 @@ Module march_word "Word around the March" {
     On discuss { Assert knows(actor, lights). }
   }
   Topic agnes_graves with agnes "Ask Agnes what happened in the churchyard" when true once {
-    Says "'Five graves open, and the earth thrown out, not in,' says Agnes. 'I filled them myself, years back. The dead climbed out, and they went up the lane to the tower. I saw the last of them go.' Her hands will not keep still.".
+    Says "'Five graves open when I first went out, and the earth thrown out, not in,' says Agnes. 'I filled them myself, years back. The dead climbed out, and they went up the lane to the tower. I saw the last of them go.' Her hands will not keep still.".
     On discuss { Assert knows(actor, graves). Assert knows(actor, lights). }
   }
   Topic cutter_well with cutter "Ask Wat about the tower" when true once {

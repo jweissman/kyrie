@@ -185,9 +185,9 @@ Module censer_hill "Censer Hill" {
   Initially Assert established(stair_known). Initially Assert at(lantern_letters, name_room). Initially Assert intact(lantern_letters).
   Initially Assert reveals(lantern_letters, stair_known). Initially Assert mayExamine(party, lantern_letters).
   Rule lit_letters when at(party, name_room) and capable(party, reading_the_dead) { Assert noticeable(lantern_letters). }
-  Action puzzle_script(actor: group, spot: place) "Puzzle out the compact's old script on the rear wall" {
+  Action puzzle_script(actor: group) "Puzzle out the compact's old script on the rear wall" {
     Description "Someone who reads old hands can make out what the faint lettering says, without the lantern's light.".
-    Requires able(actor) and at(actor, spot) and at(lantern_letters, spot) and capable(actor, lore)
+    Requires able(actor) and at(actor, name_room) and at(lantern_letters, name_room) and capable(actor, lore)
       and not knows(actor, stair_known).
     Time 2.
     On success { Assert knows(actor, stair_known). }

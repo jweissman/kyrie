@@ -16,7 +16,7 @@ export class ActionPresentation {
       action.movement || ['travel', 'walk', 'cross', 'passage', 'climb', 'risk_passage',
         'cleared_passage', 'escort'].includes(kind) ? 'travel' :
         ['rest', 'field_spell', 'eat'].includes(kind) ? 'care' : ['learn_reward', 'take_item', 'buy_item'].includes(kind) ? 'reward' :
-          encounter ? 'combat' : kind === 'wait' ? 'wait' : kind === 'examine' ? 'investigate' : 'interact';
+          encounter ? 'combat' : kind === 'wait' || kind === 'wait_hour' ? 'wait' : kind === 'examine' ? 'investigate' : 'interact';
     const detail = { ...(this.interaction(action) ? { interaction: this.interaction(action) } : {}),
       targets: [...new Set([...(Object.entries(action.bindings ?? {}).filter(([key]) => key !== 'actor'
         && schema?.parameters?.find(p => p.name === key)?.type !== 'fact')
