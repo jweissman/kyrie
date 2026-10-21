@@ -3,8 +3,8 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Campaign } from '../src/campaign/campaign';
 
 // Generates a region from a seed, selects and situates scenarios, and loads the result as a campaign.
-// Usage: bun bin/world.ts <seed> [--json] [--terrain forest|marsh|mountain|frost]
-class WorldTool {
+// Usage: kyrie world <seed> [--json] [--terrain forest|marsh|mountain|frost]
+export class WorldTool {
   static describe(report: WorldReport): string[] {
     const r = report.region, lines = [`${r.name}: ${r.terrain}, ${r.ancestry}, faith of ${r.deity} (${r.domain})`];
     for (const s of r.settlements) { lines.push(`  ${s.id} ${s.name} (${s.size}; ${s.trade}); inn: ${s.inn}`); }
@@ -18,14 +18,15 @@ class WorldTool {
     }
     return lines;
   }
+  static async main(args: string[]) {
+    const seed = args.find(a => !a.startsWith('--')) ?? 'kyr', terrain = args[args.indexOf('--terrain') + 1];
+    const world = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+      args.includes('--terrain') ? { region: { terrain: terrain! } } : {});
+    if (args.includes('--json')) { console.log(JSON.stringify(world.report, null, 2)); return; }
+    console.log(WorldTool.describe(world.report).join('\n'));
+    const t = performance.now(), campaign = await Campaign.load(world.path, seed, world.source);
+    console.log(`Loaded in ${Math.round(performance.now() - t)} ms: ${campaign.module.entities.length} entities, `
+      + `${campaign.installations.length} modules installed.`);
+  }
 }
-const args = process.argv.slice(2), seed = args.find(a => !a.startsWith('--')) ?? 'kyr';
-const terrain = args[args.indexOf('--terrain') + 1];
-const world = await WorldAssembler.assemble(seed, NodeBundleSource.shared, args.includes('--terrain') ? { region: { terrain: terrain! } } : {});
-if (args.includes('--json')) { console.log(JSON.stringify(world.report, null, 2)); }
-else {
-  console.log(WorldTool.describe(world.report).join('\n'));
-  const t = performance.now(), campaign = await Campaign.load(world.path, seed, world.source);
-  console.log(`Loaded in ${Math.round(performance.now() - t)} ms: ${campaign.module.entities.length} entities, `
-    + `${campaign.installations.length} modules installed.`);
-}
+if (import.meta.main) { await WorldTool.main(process.argv.slice(2)); }

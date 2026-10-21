@@ -40,11 +40,20 @@ Every region, site, institution and situation is a directory with a `module.json
 
 ## Current composition
 
-- `campaigns/serewater-march.campaign.json`: `regions/serewater-march` → `institutions/keepers-of-names` →
-  `sites/censer-hill` → `situations/caught-below` + `situations/salvage-rights`.
+- `campaigns/serewater-march.campaign.json`, the recommended campaign and the testbed for play across expeditions:
+  `regions/serewater-march` (Reedwake, Chalkcross, the downs) → `institutions/keepers-of-names` →
+  `sites/censer-hill` → `situations/caught-below` + `situations/salvage-rights` → `regions/brackenholt` (the far
+  bank, the holt and its bears, Holt tower's foot) → `sites/silkholme` → `situations/brood-hollow` →
+  `situations/unquiet-tower` → `regions/march-word` (who knows what, and says it, across the three settlements).
+  `test/march-journey.test.ts` walks its three expeditions.
+- `campaigns/silkholme.campaign.json`: the Silkholme expedition alone (one short session).
 - `campaigns/skellfold.campaign.json`: `sites/skellfold` (hamlet, fellside and quarry in one module) →
-  `situations/caught-below` + `situations/salvage-rights`.
+  `situations/caught-below` + `situations/salvage-rights`, the same rescue in a quarry.
 - `campaigns/red-crag.campaign.json`: `sites/thrale` (village and crag in one module) → `situations/dragon-roost`.
+- `campaigns/companies.json`: the ready companies on the creation screen.
+- `scenarios/`: the library a generated region draws its adventures from (`library.json`, one
+  `*.scenario.json` per situation: the contexts it fits, the places it needs, how word of it spreads). See
+  [generated regions](../doc/architecture/generated-worlds.md).
 
 Skellfold and Thrale still combine their region and site in one module.
 

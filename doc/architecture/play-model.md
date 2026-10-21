@@ -129,9 +129,14 @@ and an author can add or replace offers on any person.
 
 ### Progression
 
-Unchanged in this program and recorded as unresolved: experience from encounters (`encounterXp`) and lessons bought
-with experience (`train`). Overlays are the new source of character difference at creation: attributes, coin, gear
-and skills from Orsino backgrounds. They do not yet advance with play.
+Old-school, after Orsino. Experience comes from defeated creatures (`encounterXp`, or the creature's kind and level)
+and from resolving a module (its manifest's `experience`, awarded only when the company resolves it, not when someone
+else does). A level is taken at the next sheltered rest once its threshold is reached (1,000 for level 2, 3,000 for
+level 3): the class hit die plus Constitution, the caster's slot table, and the level's advances: a point to raise
+any quality, and for a specialist caster a spell of its tradition to learn (`raise_quality`, `learn_spell`). Spells
+are prepared in slots and recovered by rest (`prepare_spell` takes an hour). Overlays remain the source of
+difference at creation: attributes, coin, gear and skills from Orsino backgrounds. The older `train` lesson, bought
+with experience, is still in the rules but no content offers it.
 
 ### NPC agency
 

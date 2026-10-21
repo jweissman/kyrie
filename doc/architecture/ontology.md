@@ -1,9 +1,9 @@
 # The canonical vocabulary of a Kyr world
 
 This document defines the small set of concepts every Kyr world is built from, who owns each piece of mutable
-state, and how Kyr, DEEM, Orsino, situations, campaigns and clients divide the work. The audit that motivated it is
-[audit.md](audit.md); the staged plan is [migration.md](migration.md); the author-facing guide is
-[doc/authoring/guide.md](../authoring/guide.md).
+state, and how Kyr, DEEM, Orsino, situations, campaigns and clients divide the work. The audit that motivated it
+and its staged migration plan were carried out and removed (see [legacy-material.md](../archive/legacy-material.md));
+the author-facing guide is [doc/authoring/guide.md](../authoring/guide.md).
 
 ## Design rule
 

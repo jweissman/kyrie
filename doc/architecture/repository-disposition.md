@@ -1,5 +1,9 @@
 # Checkpoint A: repository audit and disposition
 
+> **Historical.** This audit was acted on: the legacy material was removed on 19 October 2026 (see
+> [legacy-material.md](../archive/legacy-material.md)), and `data/` now has the layout described in
+> [data/README.md](../../data/README.md). The tables below describe the repository as it was then.
+
 19 October 2026, against commit `fbd3741`. This document proposes the target organization of `data/`. Nothing has
 been moved yet. Section 7 lists the decisions that need review before the destructive steps.
 

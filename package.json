@@ -26,7 +26,7 @@
     "test:fast": "bun test --parallel --path-ignore-patterns='test/deem-choice-space.test.ts'",
     "test:changed": "bun test --parallel --changed",
     "typecheck": "tsc --noEmit && tsc --noEmit -p web",
-    "play": "bun run bin/kyrie.ts play",
+    "play": "bun run bin/kyrie.ts campaign data/campaigns/serewater-march.campaign.json",
     "kyrie": "bun run bin/kyrie.ts",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",

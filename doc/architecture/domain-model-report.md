@@ -53,8 +53,9 @@ longsword_of_flames.`. Modules declare `Hazard id "name" means "<effect>".`, a m
 resolved by the same `AbilityUse` pipeline. No second executor exists: [CanonRuntime](../../src/canon/canon-runtime.ts)
 lowers canonical entries into the shapes `Content`, `Effects`, `ItemCatalog` and `Overlays` already used.
 
-**Quarantine.** [data/legacy](../../data/legacy) holds material that only legacy campaigns and recorded histories
-use. Lint reports any use of it, and recommended campaigns have none.
+**Quarantine.** `data/legacy` (removed with the legacy campaigns on 19 October 2026; see
+[legacy-material.md](../archive/legacy-material.md)) held material that only legacy campaigns and recorded histories
+used; recommended campaigns never used it.
 
 ## 3. Replaced and retired
 

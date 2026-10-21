@@ -111,4 +111,5 @@ Inspected checkout: `/home/jweissman/work/orsino`, revision `4cb27ce68cb204a82c6
 
 Orsino `src/orsino/rules/Fighting.ts` uses level-sensitive THAC0, defender AC/Dexterity, its own statMod and critical bonus (not a simple doubled damage roll). `Commands.ts` has broader defenses. Those mechanics remain incomplete. There is no claim of full class, equipment or monster parity.
 
-See [the actual client history](../playtests/command-contract/transcript.md), [resolution trace](../playtests/command-contract/trace.json), [browser/replay verification](../playtests/command-contract/verification.json), and [playtest account](../playtests/command-contract/README.md).
+The client history, resolution trace, browser/replay verification and playtest account recorded for this contract
+were removed with the legacy clients in October 2026; they remain in git history (`git show c125f9c^:doc/playtests/command-contract/README.md`).
