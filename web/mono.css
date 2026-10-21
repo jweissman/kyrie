@@ -106,6 +106,9 @@ ul { list-style: none; margin: 0; padding: 0; }
 .scene.battle h1 { color: var(--creature); }
 .stakes { color: var(--dim); font-size: 0.92em; border-left: 2px solid var(--creature); padding-left: 1ch; max-width: 74ch; }
 .sides h2 + .fighter { margin-top: 0.2em; }
+.sides .order { color: var(--dim); font-size: 0.9em; margin: 0 0 0.5em; }
+.fighter .intent { color: var(--creature); font-size: 0.92em; }
+.fighter .defenses { color: var(--faint); font-size: 0.88em; }
 .sides h2:not(:first-child) { position: static; margin-top: 0.9em; }
 .battle-log p { margin: 0 0 0.12em; }
 .battle-log .exchange { margin: 0 0 0.6em; padding-left: 0.8ch; border-left: 2px solid var(--sel); }

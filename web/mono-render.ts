@@ -106,7 +106,8 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   static combatant(c: CombatantRow): string {
     const statuses = c.down ? 'down' : [...new Set(c.statuses)].join(' · ');
     return `<div class="fighter${c.acting ? ' acting' : ''}${c.down ? ' down' : ''}" data-fighter="${Html.escape(c.id)}"><div class="who"><b>${c.acting ? '▶ ' : ''}${Html.escape(c.name)}</b><span>${Html.escape(c.line)}</span></div>`
-      + `${this.bar('HP', c.hp, c.maxHp, 'hp')}${this.slots(c)}${statuses ? `<div class="cond">${Html.escape(statuses)}</div>` : ''}</div>`;
+      + `${this.bar('HP', c.hp, c.maxHp, 'hp')}${this.slots(c)}${statuses ? `<div class="cond">${Html.escape(statuses)}</div>` : ''}`
+      + `${c.intent && !c.down ? `<div class="intent">⚑ ${Html.escape(c.intent)}</div>` : ''}${c.defenses && !c.down ? `<div class="defenses">${Html.escape(c.defenses)}</div>` : ''}</div>`;
   }
   // A fight in its place: where it is, who stands on each side, whose turn it is, what they can do, and what just
   // happened, newest first.
@@ -116,7 +117,8 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     const scene = `<section class="pane scene battle" data-region="scene"><h1>${place ? `A fight at ${Html.escape(place)}` : 'A fight'}</h1>`
       + `${s.screen?.prose[0] ? `<p class="where">${Html.escape(s.screen.prose[0])}</p>` : ''}`
       + `<p class="stakes">Anyone brought to nothing must save against death. Withdrawing ends the fight for the whole company.</p></section>`;
-    const sides = `<section class="pane sides" data-region="sides"><h2>Against you</h2>${c.foes.map(f => this.combatant(f)).join('')}`
+    const order = c.order.length && !c.outcome ? `<p class="order" data-id="order">This round: ${c.order.map((n, i) => Html.escape(i ? n : `▶ ${n}`)).join(' · ')}</p>` : '';
+    const sides = `<section class="pane sides" data-region="sides">${order}<h2>Against you</h2>${c.foes.map(f => this.combatant(f)).join('')}`
       + `<h2>Your company</h2>${c.allies.map(f => this.combatant(f)).join('')}</section>`;
     const log = `<section class="pane battle-log" data-region="battle-log" aria-live="polite"><h2>Blow by blow</h2>${c.exchanges.slice(-8).reverse().map((g, i) => `<div class="exchange${i ? ' old' : ''}">${g.map(l => `<p>${Html.escape(l)}</p>`).join('')}</div>`).join('')}</section>`;
     return `<main class="screen combat">${scene}${sides}${this.choices(s, turn)}${log}</main>`;

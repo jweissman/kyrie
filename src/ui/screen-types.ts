@@ -67,11 +67,15 @@ export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;
   foes: CombatantRow[]; allies: CombatantRow[];
   abilities: { id: string; name: string; text: string; cost: number; price: string; cooldown: number; scope: string;
-    spell?: { level: number; ready: number }; targets: { id: string; name: string }[] }[];
+    spell?: { level: number; ready: number }; targets: { id: string; name: string; against?: string }[] }[];
+  // Who is still to act this round, in order, the one acting first.
+  order: string[];
   log: string[]; exchanges: string[][];
 }
 export interface CombatantRow {
   id: string; name: string; line: string; hp: number; maxHp: number; mana: number; maxMana: number;
   slots?: number[]; maxSlots?: number[];
   statuses: string[]; acting: boolean; down: boolean;
+  // For a foe: what it means to do this round, and the damage it shrugs off or fears.
+  intent?: string; defenses?: string;
 }

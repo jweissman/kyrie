@@ -2,7 +2,9 @@ import { MechanicsText } from '../presentation/mechanics-text';
 import { Effects } from '../effects';
 import { Content } from '../content';
 import type { Battle } from '../battle';
-import type { BattleState, CombatEvent } from '../model';
+import { Fighting } from '../rules/fighting';
+import type { BattleState, CombatEvent, Fighter } from '../model';
+import type { ArenaAbility } from '../lang/parse';
 import { CombatChoices } from './combat-choices';
 import { CombatPresenter } from './combat-presenter';
 import type { CombatantRow, CombatScreen } from './screen-types';
@@ -23,8 +25,8 @@ export class CombatModel {
         cooldown: c.ability.cooldown ?? 0, scope: c.scope,
         ...(c.ability.spell ? { spell: { level: c.ability.spell.level,
           ready: (actor?.ready ?? []).flat().filter(id => id === c.ability.id).length } } : {}),
-        targets: c.requiresTarget ? c.commands.map(cmd => ({ id: cmd.target,
-          name: state.combatants.find(f => f.id === cmd.target)?.name ?? cmd.target })) : [] })),
+        targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [] })),
+      order: (state.order ?? []).map(id => this.name(state, id)),
       log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
       exchanges: this.exchanges([...prior, ...battle.events], state).slice(-12),
     };
@@ -46,13 +48,57 @@ export class CombatModel {
     return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,
       mana: f.mana, maxMana: f.maxMana, ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
       statuses: f.statuses.map(s => s.id), acting: f.id === state.actor,
-      down: f.hp === 0 };
+      down: f.hp === 0, ...f.team === 'fighters' ? {} : this.reading(f, state) };
+  }
+  // What the company can read off a foe: what it means to do this round, and what it shrugs off or fears.
+  private static reading(f: Fighter, state: BattleState): Pick<CombatantRow, 'intent' | 'defenses'> {
+    const intent = this.intent(f, state), defenses = this.defenses(f);
+    return { ...intent ? { intent } : {}, ...defenses ? { defenses } : {} };
+  }
+  // The blow a foe declared as the round began, one it starts winding up, or a wound-up blow about to land. A foe
+  // that has acted this round shows only a blow it is still winding up.
+  private static intent(f: Fighter, state: BattleState): string | undefined {
+    const pending = (state.order ?? []).includes(f.id), shown = pending ? state.intents?.[f.id] : f.windup;
+    if (!shown || f.hp === 0) { return undefined; }
+    const ability = Content.abilities.find(a => a.id === shown.ability), name = ability?.name ?? shown.ability;
+    const target = shown.target && shown.target !== f.id ? ` → ${this.name(state, shown.target)}` : '';
+    if (!pending) { return `winding up ${name}${target}`; }
+    if (f.windup) { return `lands ${name}${target}`; }
+    return `${ability?.windup ? 'winds up ' : ''}${name}${target}`;
+  }
+  private static defenses(f: Fighter): string {
+    const r = Effects.modifiers(f).resistances ?? {}, all = Object.entries(r);
+    return ([['immune to', all.filter(([, v]) => v >= 1)], ['resists', all.filter(([, v]) => v > 0 && v < 1)],
+      ['vulnerable to', all.filter(([, v]) => v < 0)]] as const)
+      .filter(([, kinds]) => kinds.length).map(([verb, kinds]) => `${verb} ${kinds.map(([k]) => k).join(', ')}`)
+      .join(' · ');
+  }
+  // A target as an ability would meet it: its name, and whether it is immune to, resists or is vulnerable to the
+  // damage the ability deals.
+  private static target(ability: ArenaAbility, actor: Fighter, id: string, state: BattleState) {
+    const target = state.combatants.find(f => f.id === id);
+    const types = ability.effects.flatMap(e => e.kind === 'damage' || e.kind === 'drain' ? [e.damageType ?? 'necrotic']
+      : e.kind === 'attack' ? [actor.equipment.weapon.type] : []);
+    const defender = target && Effects.modifiers(target), physical = Content.rules.physicalDamage;
+    const strongest = (defender ? types.map(t => Fighting.mitigate(0, t, { bonus: 0, defender, physical }).resistance)
+      : []).sort((a, b) => Math.abs(b) - Math.abs(a))[0] ?? 0;
+    const against = strongest >= 1 ? 'immune' : strongest > 0 ? 'resists' : strongest < 0 ? 'vulnerable' : '';
+    return { id, name: target?.name ?? id, ...against ? { against } : {} };
   }
   private static name(state: BattleState, id: string): string {
     return state.combatants.find(f => f.id === id)?.name ?? id;
   }
   // Readable consequences first; the dice arithmetic stays available in the developer chronicle.
   static line(e: CombatEvent, state: BattleState): string {
+    const line = this.said(e, state);
+    return line && line.charAt(0).toUpperCase() + line.slice(1);
+  }
+  private static said(e: CombatEvent, state: BattleState): string {
+    if (e.type === 'attack') {
+      const verb = e.success ? e.critical ? 'critically hits' : 'hits' : e.evaded ? 'is evaded by' : 'misses';
+      return `${this.name(state, e.actor)} ${verb} ${this.name(state, e.target)} (rolled ${e.die}, needed ${e.need}).`;
+    }
+    if (e.type === 'initiative') { return `The order: ${e.order.map(o => this.name(state, o.id)).join(', ')}.`; }
     if (e.type === 'damage') {
       const kind = e.damageType ? ` ${e.damageType}` : '';
       const resistance = e.modifiers?.resistance ?? 0;

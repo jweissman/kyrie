@@ -197,13 +197,13 @@ export class ChoiceList {
     const fighters = [...c.foes, ...c.allies];
     // With only one possible target there is nothing to choose: the choice names it and acts at once.
     if (a.targets.length === 1) {
-      const t = a.targets[0]!;
-      return { ...base, label: `${a.name} → ${t.name}`, command: `${a.id}>${t.id}` };
+      const t = a.targets[0]!, joined = [base.note, t.against].filter(Boolean).join(' · ');
+      return { ...base, label: `${a.name} → ${t.name}`, command: `${a.id}>${t.id}`, ...joined ? { note: joined } : {} };
     }
     return { ...base, children: a.targets.map(t => {
       const f = fighters.find(x => x.id === t.id);
-      return { id: `ability:${a.id}/${t.id}`, label: t.name, tone, command: `${a.id}>${t.id}`,
-        ...(f ? { note: `${f.hp}/${f.maxHp}${f.statuses.length ? ` · ${[...new Set(f.statuses)].join(', ')}` : ''}` } : {}) };
+      const note = [f && `${f.hp}/${f.maxHp}`, ...new Set(f?.statuses ?? []), t.against].filter(Boolean).join(' · ');
+      return { id: `ability:${a.id}/${t.id}`, label: t.name, tone, command: `${a.id}>${t.id}`, ...note ? { note } : {} };
     }) };
   }
   // Every choice in a list of sections, in display order (what digits and arrow keys walk through).
