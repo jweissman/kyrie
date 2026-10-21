@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "source": "conflict.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "necromancer",
+    "risen",
+    "keeper",
+    "sexton",
+    "custodian",
+    "lantern",
+    "register",
+    "study",
+    "churchyard",
+    "green",
+    "shrine",
+    "refuge",
+    "founders",
+    "court",
+    "lit",
+    "ridge",
+    "ridge_track",
+    "drove_road"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "necromancer": {
+      "type": "group"
+    },
+    "risen": {
+      "type": "group"
+    },
+    "keeper": {
+      "type": "group"
+    },
+    "sexton": {
+      "type": "group"
+    },
+    "custodian": {
+      "type": "group"
+    },
+    "lantern": {
+      "type": "thing"
+    },
+    "register": {
+      "type": "item"
+    },
+    "study": {
+      "type": "place"
+    },
+    "churchyard": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    },
+    "shrine": {
+      "type": "place"
+    },
+    "refuge": {
+      "type": "place"
+    },
+    "founders": {
+      "type": "place"
+    },
+    "court": {
+      "type": "place"
+    },
+    "lit": {
+      "type": "condition"
+    },
+    "ridge": {
+      "type": "place"
+    },
+    "ridge_track": {
+      "type": "passage"
+    },
+    "drove_road": {
+      "type": "passage"
+    }
+  },
+  "exports": {
+    "gravewarden": "gravewarden",
+    "compact": "compact",
+    "digger": "digger"
+  }
+}

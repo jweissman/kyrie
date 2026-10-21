@@ -4,6 +4,7 @@ Module belongings "What the company carries" {
   Relation forSale(item). Relation soldBy(item, group) exclusive. Relation wearable(itemkind). Relation consumable(itemkind).
   Relation canTrain(member, ability). Relation teaches(group, ability).
   Relation proficient(member, itemkind).
+  Relation wants(group, itemkind).
   Measure price(item).
   Goal false.
   Action take_item(actor: group, find: item, form: itemkind, recipient: member, site: place) "Collect {find} for {recipient}" {
@@ -38,6 +39,15 @@ Module belongings "What the company carries" {
       and not ownedItem(cargo, recipient) and awake(recipient) and ownedItem(cargo, carrier).
     Resolve transfer_item(cargo, carrier, recipient).
     Result "{carrier} hands {cargo} to {recipient}.".
+  }
+  Action give(actor: group, gift: item, form: itemkind, carrier: member, recipient: group, site: place) "Give {gift} to {recipient}" {
+    Description "Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.".
+    Requires able(actor) and at(actor, site) and able(recipient) and at(recipient, site) and distinct(actor, recipient)
+      and memberOf(carrier, actor) and awake(carrier) and ownedItem(gift, carrier) and itemKind(gift, form)
+      and wants(recipient, form).
+    Resolve drop(gift, carrier).
+    On success { Assert keeps(recipient, gift). }
+    Result "{carrier} gives {gift} to {recipient}.".
   }
   Action put_item(actor: group, cargo: item, carrier: member, site: place) "Set down {cargo}" {
     Requires able(actor) and at(actor, site) and memberOf(carrier, actor) and awake(carrier) and ownedItem(cargo, carrier).

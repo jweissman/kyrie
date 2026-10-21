@@ -1,0 +1,19 @@
+Module dominion "Who holds what, and how a power's agents go about the land" {
+  Kind byway.
+  Relation holds(group, place). Relation keeps(group, entity). Relation covets(group, entity).
+  Relation bywayFrom(byway, place). Relation bywayTo(byway, place). Measure bywayTime(byway).
+  Relation knowsWay(group, byway). Relation travelling(group, byway).
+  Query keepsKind(g: group, k: itemkind) means keeps(g, ?i) and itemKind(?i, k).
+  Goal false.
+  Action depart(actor: group, way: byway, origin: place, destination: place) "Set out by {way} toward {destination}" {
+    Description "Someone who knows the land's old ways leaves for a distant place, and is out of sight until they arrive.".
+    Requires able(actor) and knowsWay(actor, way) and at(actor, origin) and bywayFrom(way, origin)
+      and bywayTo(way, destination).
+    On success { Retract at(actor, origin). Assert travelling(actor, way). }
+  }
+  Action arrive(actor: group, way: byway, destination: place) "Come by {way} to {destination}" {
+    Requires travelling(actor, way) and bywayTo(way, destination).
+    Time bywayTime(way).
+    On success { Retract travelling(actor, way). Assert at(actor, destination). }
+  }
+}

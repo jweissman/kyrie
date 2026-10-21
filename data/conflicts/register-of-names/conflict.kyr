@@ -1,0 +1,179 @@
+Module rising "The register of names" {
+  Description "Sorgen, who once served the keepers' shrine, keeps the dead he raised in a lonely tower. With the keepers' lost register he could call up every named dead of the old compact. The race for it, what his servants do while the company is elsewhere, and what the keepers do about it.".
+  Entity party: group "Your company".
+  Entity necromancer: group "The necromancer". Entity risen: group "The risen dead". Entity keeper: group "The Keeper of Names".
+  Entity sexton: group "The sexton". Entity custodian: group "The guardian of the named dead".
+  Entity lantern: thing "The lantern that binds the risen".
+  Entity register: item "The keepers' register of the dead". Entity lit: condition "burning".
+  Place study "The necromancer's study" is room. Place churchyard "The village churchyard" is room.
+  Place green "The village green" is room. Place shrine "The keepers' shrine" is room.
+  Place refuge "Where the register lies" is room. Place founders "Where the compact's founders lie" is room.
+  Place court "The court before the vault" is room. Place ridge "The high road over the downs" is room.
+  Entity ridge_track: passage "The track down from the ridge". Entity drove_road: passage "The drove road along the ridge".
+
+  Relation slumbers(group, place). Relation sought(group, entity). Relation chanting(group). Relation disturbed(place).
+  Relation fled(group). Relation ransacked(place). Relation dropped(entity). Relation bought(group).
+  Relation foundWanting(group, entity).
+  Entity register_matters: fact "Whoever holds the keepers' register can call the named dead of the compact by name. It was lost in the flood refuge under Censer Hill.".
+  Initially Assert established(register_matters).
+
+  Place below_yews "under the biggest yew" is room. Place below_plinths "beneath the founders' plinths" is room.
+  Person gravewarden "the Gravewarden" at below_yews {
+    Role "the first warden of the churchyard, raised in his grave-mail". Species revenant. Level 3.
+    State standing blocking "A tall dead man in rusted grave-mail stands among the stones with a sexton's spade in his hands, watching the lychgate.".
+  }
+  Person compact "the compact's dead" at below_plinths {
+    Role "the founders of the flood compact, raised by name". Species revenant. Level 2. Numbers 3.
+    Called "the Reedwake founder", "the Chalkcross founder", "the Brackenholt founder".
+    State walking blocking "Dead folk in rotted burial linen stand among the plinths, turning their heads as one toward any light.".
+  }
+  Person digger "Corvin" at study {
+    Role "the necromancer's digger". Ancestry human. Calling thief. Level 2.
+    State working "{digger} sits on a coffin lid with a shuttered lantern and an empty sack, waiting for orders.".
+    Uses depart, arrive, take_up, search_in_vain, hand_over, steal. Plans 8 steps.
+  }
+  Initially Assert serves(digger, necromancer). Initially Assert serves(risen, necromancer).
+  Initially Assert covets(necromancer, register).
+  Initially Assert slumbers(gravewarden, churchyard). Initially Assert slumbers(compact, founders).
+  Initially Assert state(gravewarden, standing). Initially Assert state(compact, walking). Initially Assert state(digger, working).
+  Entity river_down: byway "the smugglers' path down the river". Entity river_up: byway "the smugglers' path home".
+  Entity downs_down: byway "the old corpse road over the downs". Entity downs_up: byway "the corpse road home".
+  Entity reeds_down: byway "the reed channels down to Reedwake". Entity reeds_up: byway "the reed channels home".
+  Initially Assert bywayFrom(reeds_down, study). Initially Assert bywayTo(reeds_down, shrine).
+  Initially Assert bywayFrom(reeds_up, shrine). Initially Assert bywayTo(reeds_up, study).
+  Initially Set bywayTime(reeds_down) to 42. Initially Set bywayTime(reeds_up) to 42.
+  Initially Assert knowsWay(digger, reeds_down). Initially Assert knowsWay(digger, reeds_up).
+  Initially Assert bywayFrom(river_down, study). Initially Assert bywayTo(river_down, refuge).
+  Initially Assert bywayFrom(river_up, refuge). Initially Assert bywayTo(river_up, study).
+  Initially Assert bywayFrom(downs_down, study). Initially Assert bywayTo(downs_down, founders).
+  Initially Assert bywayFrom(downs_up, founders). Initially Assert bywayTo(downs_up, study).
+  Initially Set bywayTime(river_down) to 48. Initially Set bywayTime(river_up) to 48.
+  Initially Set bywayTime(downs_down) to 36. Initially Set bywayTime(downs_up) to 36.
+  Initially Assert knowsWay(digger, river_down). Initially Assert knowsWay(digger, river_up).
+  Initially Assert knowsWay(necromancer, downs_down). Initially Assert knowsWay(necromancer, downs_up).
+
+  Action raise_warden(actor: group, sleeper: group, ground: place) "Call {sleeper} up out of {ground}" {
+    Description "From his study, by the bone lantern's light, the necromancer calls up a named dead man from a grave he knows.".
+    Requires able(actor) and at(actor, study) and state(lantern, lit) and dark() and slumbers(sleeper, ground)
+      and distinct(sleeper, compact).
+    Time 6.
+    On success { Retract slumbers(sleeper, ground). Assert at(sleeper, ground). Assert serves(sleeper, actor).
+      Assert holds(actor, ground). }
+  }
+  Action send_for(actor: group, agent: group, thing: item) "Send {agent} for {thing}" {
+    Requires able(actor) and at(actor, study) and at(agent, study) and serves(agent, actor) and covets(actor, thing)
+      and not keeps(actor, thing) and not sought(agent, thing).
+    On success { Assert sought(agent, thing). }
+  }
+  Action take_up(actor: group, thing: item, site: place) "Take {thing} away" {
+    Description "An agent who was sent for something takes it from where it lies.".
+    Requires able(actor) and at(actor, site) and at(thing, site) and sought(actor, thing).
+    Time 6.
+    On success { Retract at(thing, site). Assert keeps(actor, thing). Assert ransacked(site). }
+    On failure { Assert ransacked(site). }
+  }
+  Action search_in_vain(actor: group, thing: item, site: place) "Search for {thing} where it was" {
+    Description "An agent sent for something goes through the place it should be, and it is not there.".
+    Requires able(actor) and at(actor, site) and sought(actor, thing) and bywayTo(?way, site) and not at(thing, site)
+      and not ransacked(site).
+    Time 6.
+    On success { Assert ransacked(site). Assert foundWanting(actor, thing). }
+  }
+  Action hand_over(actor: group, master: group, thing: item, site: place) "Hand {thing} to {master}" {
+    Requires able(actor) and at(actor, site) and at(master, site) and serves(actor, master) and keeps(actor, thing).
+    On success { Retract keeps(actor, thing). Assert keeps(master, thing). Retract sought(actor, thing). }
+  }
+  Action begin_rite(actor: group, ground: place) "Begin to read the named dead up out of {ground}" {
+    Requires able(actor) and at(actor, ground) and keeps(actor, register) and slumbers(compact, ground) and dark()
+      and not chanting(actor) and not disturbed(ground).
+    On success { Assert chanting(actor). Retract unlit(ground). }
+  }
+  Action complete_rite(actor: group, ground: place) "Read the named dead up out of {ground}" {
+    Description "Name by name from the keepers' register, the necromancer calls the compact's founders out of their rest.".
+    Requires able(actor) and at(actor, ground) and chanting(actor) and keeps(actor, register)
+      and slumbers(compact, ground) and not disturbed(ground).
+    Time 12.
+    On success { Retract chanting(actor). Retract slumbers(compact, ground). Assert at(compact, ground).
+      Assert serves(compact, actor). Assert holds(actor, ground). Assert unlit(ground). }
+    On failure { Retract chanting(actor). Assert disturbed(ground). Assert unlit(ground). }
+  }
+  Action steal(actor: group, thing: item, owner: group, site: place) "Steal {thing} from {owner}" {
+    Description "An agent sent for something takes it from whoever keeps it, at night, when there is no stranger about to see.".
+    Requires able(actor) and at(actor, site) and at(owner, site) and keeps(owner, thing) and sought(actor, thing)
+      and dark() and not at(party, site).
+    Time 3.
+    On success { Retract keeps(owner, thing). Assert keeps(actor, thing). }
+  }
+  Action keep_custody(actor: group, ground: place) "Speak the rites of the dead over {ground}" {
+    Description "Someone who keeps the rites lays the named dead to rest where they lie, so that no one can call them up; if someone is calling them now, the call breaks.".
+    Requires able(actor) and at(actor, ground) and capable(actor, rites) and slumbers(compact, ground) and not disturbed(ground).
+    Time 2.
+    On success { Assert disturbed(ground). }
+    Result "The old words of the keepers fill the gallery. The plinths settle with a sound like a door shutting; whatever lies under them is at rest, and will stay so.".
+  }
+  Rule dropped_here when dropped(?x) and keeps(?g, ?x) and at(?g, ?p) { Retract keeps(?g, ?x). Retract dropped(?x). Assert at(?x, ?p). }
+  Rule churchyard_freed when holds(necromancer, churchyard) and dead(gravewarden) { Retract holds(necromancer, churchyard). }
+  Rule sexton_returns when fled(sexton) and not holds(necromancer, churchyard) and at(sexton, shrine) and not dark() { Retract at(sexton, shrine). Assert at(sexton, green). Retract fled(sexton). }
+
+  Pursuit warden for necromancer "calling up the churchyard's first warden" priority 30 when slumbers(gravewarden, churchyard) and dark() seeks holds(necromancer, churchyard) using raise_warden.
+  Pursuit register for necromancer "sending for the keepers' register" priority 20 when not keeps(necromancer, register) and at(register, refuge) and not sought(digger, register) seeks sought(digger, register) using send_for.
+  Pursuit theft for necromancer "sending for the register the keepers took back" priority 20 when keeps(keeper, register) and not sought(digger, register) seeks sought(digger, register) using send_for.
+  Rule told_wanting when foundWanting(digger, register) and at(digger, study) { Retract foundWanting(digger, register). Retract sought(digger, register). }
+  Pursuit rite for necromancer "reading the compact's dead up by name" priority 25 when keeps(necromancer, register) and slumbers(compact, founders) and not disturbed(founders) and (at(necromancer, founders) or untilLight(clock) >= 42) seeks holds(necromancer, founders) using depart, arrive, begin_rite, complete_rite.
+  Pursuit home for necromancer "going back to his work" priority 5 when not at(necromancer, study) and not chanting(necromancer) seeks at(necromancer, study) using depart, arrive.
+  Pursuit fetch for digger "fetching the register for {necromancer}" priority 20 when sought(digger, register) and at(register, refuge) seeks keeps(necromancer, register).
+  Pursuit look for digger "looking for the register where it was" priority 15 when sought(digger, register) and at(digger, refuge) and not ransacked(refuge) seeks ransacked(refuge).
+  Pursuit lurk for digger "going by night to where {keeper} keeps the register" priority 20 when sought(digger, register) and keeps(keeper, register) and not at(digger, shrine) and untilLight(clock) >= 45 seeks at(digger, shrine).
+  Pursuit thieve for digger "stealing the register from {keeper}" priority 21 when sought(digger, register) and keeps(keeper, register) and at(digger, shrine) seeks keeps(necromancer, register).
+  Pursuit bring for digger "bringing the register to {necromancer}" priority 25 when keeps(digger, register) seeks keeps(necromancer, register).
+  Pursuit back for digger "going back to {necromancer}" priority 5 when not at(digger, study) and not keeps(digger, register) and serves(digger, necromancer) and not (at(digger, shrine) and dark() and keeps(keeper, register)) seeks at(digger, study).
+
+  Rule sexton_flees when holds(necromancer, churchyard) and at(sexton, green) and not fled(sexton) { Retract at(sexton, green). Assert at(sexton, shrine). Assert fled(sexton). }
+  Rule spoils when keeps(?g, ?x) and dead(?g) and at(?g, ?p) { Retract keeps(?g, ?x). Assert at(?x, ?p). }
+  Rule patrol at ridge when dark() and holds(necromancer, founders) and able(compact) and at(compact, founders)
+    says "Something comes up onto the ridge out of the dark: dead folk in burial linen, walking the old roads in a line." {
+    Retract at(compact, founders). Assert at(compact, ridge). Assert guards(compact, ridge_track). Assert guards(compact, drove_road).
+  }
+  Rule patrol_ends at ridge when not dark() and at(compact, ridge)
+    says "At first light the dead in burial linen turn off the roads and walk down toward Censer Hill." {
+    Retract at(compact, ridge). Assert at(compact, founders). Retract guards(compact, ridge_track). Retract guards(compact, drove_road).
+  }
+  Observe roads_held at ridge when at(compact, ridge) "Dead folk in burial linen stand across the drove road and the ridge track, swaying, their faces turned to the lights below.".
+  Observe roads_by_day at ridge when holds(necromancer, founders) and able(compact) and not at(compact, ridge) "The turf along the drove road is trodden flat in a line, as if many people had walked it barefoot in the night.".
+  Observe plinth_dead at founders when at(compact, founders) "The founders' plinths stand empty, and the founders stand among them.".
+  Observe custodian_still at court when holds(necromancer, founders) and able(compact) and able(custodian) "The Custodian stands motionless before the vault gate. Its charges walk past it in the dark, and it does not strike its own dead.".
+  Objective roads when holds(necromancer, founders) and able(compact) and knows(party, register_matters) "The compact's dead walk the downs at night, across the drove road and the ridge track.".
+
+
+  Observe yard_held at churchyard when holds(necromancer, churchyard) and able(gravewarden) "Fresh earth lies thrown out of the deepest grave under the yew, as if something had climbed out of it from below.".
+  Observe yard_freed at churchyard when holds(necromancer, churchyard) and dead(gravewarden) "Rusted grave-mail lies across the deepest grave. The churchyard is quiet.".
+  Observe green_fear at green when holds(necromancer, churchyard) and able(gravewarden) "The lychgate hangs open. The sexton's cottage by it is shut up and dark.".
+  Observe refuge_robbed at refuge when ransacked(refuge) "The waxed shelves have been gone through by someone in a hurry. Muddy boot prints lead to the back of the room and stop at the wall.".
+  Observe rite_seen near necromancer when chanting(necromancer) "Corpse-candles burn on the founders' plinths. {necromancer} stands among them with the keepers' register open in his hands, reading names into the dark, and something under the plinths answers each one.".
+  Observe plinths_empty at founders when holds(necromancer, founders) and able(compact) and not at(compact, founders) "The founders' plinths stand empty. Burial linen trails from them across the floor toward the chalk passage.".
+  Observe rite_broken at founders when disturbed(founders) and slumbers(compact, founders) "The founders' plinths are cracked through, and a smell of old earth hangs in the air. Whatever was called here did not come.".
+  Observe sexton_here near sexton when fled(sexton) "{sexton} sits on the shrine steps in a shawl over her nightgown, as if she had run all the way.".
+
+  Topic digger_asked with digger "Ask {digger} what he is doing here" when able(digger) once {
+    Says "'Digging,' says {digger}, and shows you an empty sack. 'For a man who pays in silver and does not ask where I have been. You don't want to know him.' He keeps one hand on his knife.".
+  }
+  Topic digger_bought with digger "Offer {digger} ten coin to leave what he carries and go" when keeps(digger, register) and quantity(party, gold) >= 10 and not bought(digger) once {
+    Says "{digger} weighs the purse, then the register, then you. 'He'd have my eyes for this,' he says, and sets the register down on the floor. 'He'll have to find me first.' He is gone before the coins stop ringing.".
+    On discuss { Decrease quantity(party, gold) by 10. Increase quantity(digger, gold) by 10. Assert dropped(register).
+      Assert bought(digger). Retract serves(digger, necromancer). Retract sought(digger, register). }
+  }
+  Topic keeper_watch with keeper "Ask {keeper} whether the register is safe here" when keeps(keeper, register) once {
+    Says "'Safe from honest folk,' says {keeper}. 'He sent someone for it once. He will send them again, by night, when the shrine is empty but for me.' He looks at the dark corners of the porch.".
+  }
+  Topic sexton_tells with sexton "Ask {sexton} what happened" when fled(sexton) once {
+    Says "'He came up out of the old warden's grave,' says {sexton}. 'The first warden, that we buried in his mail when my grandmother was a girl. He walked to the lychgate and stood there with my spade, and I ran. He is not like the others. He looks at you.'".
+  }
+  Topic keeper_fears with keeper "Ask {keeper} what the necromancer could do with the register" when not keeps(keeper, register) and not keeps(necromancer, register) once {
+    Says "'With the register in his hands he would not need to dig,' says {keeper}. 'He could stand among the compact's founders and call them up by name, every one, and they would answer him. Find it before he does. It was lost in the flood refuge under Censer Hill.'".
+    On discuss { Assert knows(actor, register_matters). }
+  }
+  Objective race when not keeps(keeper, register) and not keeps(necromancer, register) and knows(party, register_matters) "Whoever holds the keepers' register can call the named dead of the compact by name. It was lost in the flood refuge under Censer Hill.".
+  Objective lost when keeps(necromancer, register) and slumbers(compact, founders) and not disturbed(founders) "The necromancer has the keepers' register. Next he will want to stand among the compact's founders and read them up.".
+  Objective risen_compact when holds(necromancer, founders) and able(compact) "The compact's founders walk under Censer Hill, called up by name from the keepers' register.".
+  Goal false.
+}

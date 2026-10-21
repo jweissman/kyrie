@@ -17,6 +17,7 @@ Module brackenholt "Brackenholt and the holt" {
   Place den_clearing "the bear clearing" is room within holt at 1, 0.
   Place holt_edge "the edge of the holt" is room within holt at 2, 0.
   Place tower_foot "Holt tower" is room within holt at 0, 1.
+  Place churchyard "Brackenholt churchyard" is room within brackenholt at 2, 0.
 
   Passage ferry_crossing "Wren's ferry" is ferry between quay and landing taking 30 minutes.
   Passage landing_lane "the landing lane" is path between landing and holt_green.
@@ -25,6 +26,7 @@ Module brackenholt "Brackenholt and the holt" {
   Passage holt_mid "the holt way through the bracken" is path between holt_edge and den_clearing taking 30 minutes.
   Passage holt_east "the holt way into Brackenholt" is path between den_clearing and holt_green taking 1 hour.
   Passage tower_lane "the lane up to the tower" is track between holt_green and tower_foot taking 30 minutes.
+  Passage lychgate "the lychgate" is gate between holt_green and churchyard.
 
   Thing ferry "Wren's ferry" on ferry_crossing {
     State tied blocking "Wren's ferry is tied up at the quay steps. Nobody else will take it out while its keeper waits for news.".
@@ -65,5 +67,6 @@ Module brackenholt "Brackenholt and the holt" {
   Observe edge_scene at holt_edge when true "Bracken shoulder-high under old oaks. The holt way dips toward the river; a clawed oak shows where something big has scratched.".
   Observe clearing_scene at den_clearing when true "A clearing of flattened bracken, bones, and a strong animal smell.".
   Observe tower_foot_scene at tower_foot when true "The lane ends in nettles under Holt tower. Oaks crowd the walls.".
+  Observe churchyard_scene at churchyard when true "Old yews lean over stones that lean every way. The oldest graves, under the biggest yew, are cut deeper than the rest.".
   Goal false.
 }

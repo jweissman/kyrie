@@ -74,6 +74,7 @@ export class ChoiceGrouping {
     put: { slot: 'target', param: 'store', path: ['Deposit {goods}'] },
     fulfill_job: { slot: 'target', param: 'store', path: ['Deliver {goods}'] },
     learn_reward: { slot: 'target', param: 'gift', path: ['Accept', '{recipient}'] },
+    give: { slot: 'target', param: 'recipient', path: ['Give {gift}'] },
     open_door: { slot: 'target', param: 'door', path: ['Open'] },
     close_door: { slot: 'target', param: 'door', path: ['Close'] },
     unlock_door: { slot: 'target', param: 'door', path: ['Unlock with {key}'] },

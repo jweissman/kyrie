@@ -43,6 +43,11 @@
     "closing": "culvert",
     "prize_room": "hoist",
     "sanctum": "vault",
-    "stair_known": "stair_known"
+    "stair_known": "stair_known",
+    "register": "register_copy",
+    "refuge": "name_room",
+    "founders": "founders",
+    "custodian": "custodian",
+    "court": "court"
   }
 }

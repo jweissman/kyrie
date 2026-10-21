@@ -16,6 +16,8 @@
     "shrine": "shrine",
     "office": "salvage_office",
     "high_road": "ridge",
+    "ridge_track": "ridge_track",
+    "drove_road": "drove_road",
     "low_road": "causeway",
     "downs": "downs",
     "floodplain": "reedlands",

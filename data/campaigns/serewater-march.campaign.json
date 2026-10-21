@@ -140,6 +140,31 @@
         "quarrel": "brood.quarrel",
         "over": "brood.over"
       }
+    },
+    {
+      "id": "rising",
+      "bundle": "../conflicts/register-of-names/module.json",
+      "imports": {
+        "party": "march.party",
+        "necromancer": "tower.necromancer",
+        "risen": "tower.risen",
+        "keeper": "keepers.keeper",
+        "sexton": "east.agnes",
+        "custodian": "hill.custodian",
+        "lantern": "tower.lantern",
+        "register": "hill.register",
+        "study": "tower.study",
+        "churchyard": "east.churchyard",
+        "green": "east.green",
+        "shrine": "march.shrine",
+        "refuge": "hill.refuge",
+        "founders": "hill.founders",
+        "court": "hill.court",
+        "lit": "tower.lantern_lit",
+        "ridge": "march.high_road",
+        "ridge_track": "march.ridge_track",
+        "drove_road": "march.drove_road"
+      }
     }
   ],
   "party": [

@@ -11,6 +11,12 @@ Module keepers_of_names "The Keepers of Names" {
   Person keeper "Iven" at shrine {
     Role "keeper of names". Ancestry human. Calling cleric. Trait vitalist. Level 3. Profession priest. Peaceable.
     Offers healing "clean linen and a keeper's prayer" for 2 coin.
+    Wants burial_register.
+  }
+  Event register_home near keeper when keepsKind(keeper, burial_register) "{keeper} takes the waxed register in both hands and turns its pages as if they might come apart. 'Every family number,' he says. 'You have brought them home.' He lays it on the bare shelf of the keepers' altar.".
+  Topic custody_given with keeper "Ask {keeper} what the register means for the dead below" when keepsKind(keeper, burial_register) and not knows(actor, custody_writ) once {
+    Says "'While the keepers hold the register, the named dead are in our custody, and no one can call them by name,' says {keeper}. He writes, seals the page and gives it to you. 'A custody writ. It lets you go among them below, supervised. Show it to what guards them.'".
+    On discuss { Assert knows(keeper, register_survives). Retract assumesFalse(keeper, register_survives). Assert knows(actor, custody_writ). }
   }
   Initially Assert assumesFalse(keeper, register_survives).
 
@@ -25,7 +31,8 @@ Module keepers_of_names "The Keepers of Names" {
     Says "'You carry the keepers' writ,' says {keeper}. 'Carry it honestly.'".
   }
 
-  Observe keepers_shrine at shrine when not knows(keeper, register_survives) "One altar is the Keeper of Names'. Its shelf, where the register should lie, is bare; {keeper} has been rewriting the name slips from memory.".
-  Observe keepers_restored at shrine when knows(keeper, register_survives) "The keepers' altar has fresh slips pinned to it, copied from an account of the surviving register.".
+  Observe keepers_shrine at shrine when not knows(keeper, register_survives) and not keepsKind(keeper, burial_register) "One altar is the Keeper of Names'. Its shelf, where the register should lie, is bare; {keeper} has been rewriting the name slips from memory.".
+  Observe keepers_restored at shrine when knows(keeper, register_survives) and not keepsKind(keeper, burial_register) "The keepers' altar has fresh slips pinned to it, copied from an account of the surviving register.".
+  Observe keepers_held at shrine when keepsKind(keeper, burial_register) "The waxed register lies open on the keepers' altar, weighted at the corners with river stones.".
   Goal false.
 }

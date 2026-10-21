@@ -40,7 +40,13 @@
     "tower": "tower",
     "lights": "lights",
     "graves": "graves",
-    "old_well": "old_well"
+    "old_well": "old_well",
+    "necromancer": "necromancer",
+    "risen": "risen",
+    "lantern": "lantern",
+    "study": "study",
+    "hall": "hall",
+    "lantern_lit": "lit"
   },
   "generation": {
     "type": "unquiet_tower",

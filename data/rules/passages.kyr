@@ -23,12 +23,14 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query watched(w: passage) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t)
     and at(?g, ?p) and connects(w, ?p, ?q).
   Query obstructed(w: passage) means barred(w) or watched(w).
+  Query watchedAgainst(w: passage, a: group) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t)
+    and at(?g, ?p) and connects(w, ?p, ?q) and not allied(?g, a).
   Query hazardous(w: passage) means on(?h, w) and state(?h, ?s) and harmsWhen(?h, ?s).
   Query mobile(a: group) means not hobbled(a) or following(a, ?l).
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
   Query reaches(a: group, t: entity) means (at(a, ?p) and at(t, ?p)) or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
     or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r)).
-  Query passable(w: passage, a: group) means visibleTo(w, a) and not obstructed(w) and not hazardous(w)
+  Query passable(w: passage, a: group) means visibleTo(w, a) and not barred(w) and not watchedAgainst(w, a) and not hazardous(w)
     and equippedFor(a, w).
   Goal false.
 
