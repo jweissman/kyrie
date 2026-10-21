@@ -99,6 +99,31 @@ describe('the register of names: a power that acts while the company is elsewher
     await March.until(s, 200);
     expect(March.where(s, 'east__agnes')).toBe('east__holt_green');
   }, 120000);
+  it('Iven sends to the Ecumenon; the warden who comes to hallow the churchyard is driven off while the first warden stands', async () => {
+    const s = await March.start();
+    await March.until(s, 300);
+    const done = March.decisions(s).filter(d => d.actor === 'rising__hale' || d.actor === 'keepers__keeper')
+      .map(d => `${d.goal} ${d.action.split('(')[0]}`);
+    expect(done).toEqual(expect.arrayContaining(['rising.summon rising__send_word', 'come depart', 'hallowing depart',
+      'obstructed rising__hallow']));
+    expect([March.where(s, 'rising__hale'), March.fact(s, 'rising__hurt', 'rising__hale'),
+      March.fact(s, 'rising__hallowed', 'east__churchyard')]).toEqual(['march__shrine', true, false]);
+  }, 120000);
+  it('with the first warden laid by name, the Ecumenon\'s warden hallows the churchyard', async () => {
+    const s = await March.start();
+    await March.walk(s, ['go(march__shop_door,march__shop_floor)', 'buy_item(march__nera_torch_1,march__member_party_3)',
+      'go(march__shop_door,march__quay)']);
+    await March.until(s, 140);
+    March.put(s, 'tower__ossuary');
+    await March.walk(s, ['use_item(march__nera_torch_1,march__member_party_3)', 'take_item(tower__rings,march__member_party_1)']);
+    March.put(s, 'march__shrine');
+    await March.walk(s, ['give(tower__rings,east__agnes)', 'rising__iron_band']);
+    March.put(s, 'east__churchyard');
+    await s.perform('change_thing(rising__gravewarden_name_him)');
+    await March.until(s, 220);
+    expect([March.fact(s, 'rising__hallowed', 'east__churchyard'), March.fact(s, 'rising__hurt', 'rising__hale')])
+      .toEqual([true, false]);
+  }, 120000);
   it('a company that takes the register first leaves Corvin nothing to find, and the compact sleeps on', async () => {
     const s = await March.start();
     await March.walk(s, [...March.refuge, 'take_item(hill__register_copy,march__member_party_1)']);

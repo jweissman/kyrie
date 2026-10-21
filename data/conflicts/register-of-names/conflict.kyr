@@ -26,6 +26,7 @@ Module rising "The register of names" {
   Initially Assert established(register_matters).
 
   Place below_yews "under the biggest yew" is room. Place below_plinths "beneath the founders' plinths" is room.
+  Place wexcombe "the Ecumenon's house at Wexcombe" is room.
   Person gravewarden "the Gravewarden" at below_yews {
     Role "the first warden of the churchyard, raised in his grave-mail". Species revenant. Level 3.
     State standing blocking "A tall dead man in rusted grave-mail stands among the stones with a sexton's spade in his hands, watching the lychgate.".
@@ -44,6 +45,53 @@ Module rising "The register of names" {
     On discuss { Assert knows(actor, warden_name). }
   }
   Rule warden_rests when state(gravewarden, laid) and not peaceable(gravewarden) { Assert peaceable(gravewarden). }
+
+  // The keepers' answer: Iven, told by Agnes that the churchyard has fallen, sends to the Ecumenon, and a warden of
+  // theirs comes to hallow it. The first warden will not let her finish while he stands; driven off, she mends and
+  // tries again. Hallowed ground cannot be called up again.
+  Person hale "Sister Hale" at wexcombe {
+    Role "a warden of the Ecumenon". Ancestry human. Calling cleric. Level 3. Peaceable.
+    Uses depart, arrive, hallow. Plans 6 steps.
+  }
+  Relation summoned(group). Relation hallowed(place). Relation hurt(group). Relation drivenOff(group). Measure mendsAt(entity).
+  Entity high_road: byway "the high road from Wexcombe". Entity crossing_over: byway "Wren's ferry and the lane to the churchyard".
+  Entity crossing_back: byway "the lane and the ferry back to Reedwake".
+  Initially Assert bywayFrom(high_road, wexcombe). Initially Assert bywayTo(high_road, shrine). Initially Set bywayTime(high_road) to 72.
+  Initially Assert bywayFrom(crossing_over, shrine). Initially Assert bywayTo(crossing_over, churchyard). Initially Set bywayTime(crossing_over) to 8.
+  Initially Assert bywayFrom(crossing_back, churchyard). Initially Assert bywayTo(crossing_back, shrine). Initially Set bywayTime(crossing_back) to 8.
+  Initially Assert knowsWay(hale, high_road). Initially Assert knowsWay(hale, crossing_over). Initially Assert knowsWay(hale, crossing_back).
+  Action send_word(actor: group, warden: group) "Send to the Ecumenon for {warden}" {
+    Requires able(actor) and at(actor, shrine) and at(sexton, shrine) and fled(sexton) and not summoned(warden) and distinct(actor, warden).
+    On success { Assert summoned(warden). }
+  }
+  Action hallow(actor: group, ground: place) "Hallow {ground} and lay its dead" {
+    Description "Salt, water and the old words, said at every grave; what lies there is laid, and nothing can be called up out of hallowed ground again.".
+    Requires able(actor) and at(actor, ground) and summoned(actor) and not hurt(actor) and not hallowed(ground) and at(gravewarden, ground).
+    Time 12.
+    On success { Assert hallowed(ground). Assert state(gravewarden, laid). }
+    On failure { Assert hurt(actor). }
+  }
+  Action drive_off(actor: group, intruder: group, ground: place) "Drive {intruder} out of {ground}" {
+    Requires able(actor) and at(actor, ground) and at(intruder, ground) and distinct(actor, intruder) and state(actor, standing)
+      and summoned(intruder).
+    Time 2.
+    On success { Retract at(intruder, ground). Assert at(intruder, shrine). Assert drivenOff(intruder). }
+  }
+  Pursuit summon for keeper "sending to the Ecumenon for help" priority 20 when at(sexton, shrine) and fled(sexton) and not summoned(hale) seeks summoned(hale) using send_word.
+  Pursuit come for hale "coming to the March at the keepers' call" priority 20 when summoned(hale) and at(hale, wexcombe) seeks at(hale, shrine).
+  Pursuit hallowing for hale "hallowing Brackenholt churchyard" priority 25 when summoned(hale) and not hurt(hale) and not hallowed(churchyard) and not at(hale, wexcombe) seeks hallowed(churchyard).
+  Pursuit yard for gravewarden "keeping the churchyard" priority 30 when at(hale, churchyard) and state(gravewarden, standing) seeks drivenOff(hale) using drive_off.
+  Rule bruised when drivenOff(hale) and not hurt(hale) { Assert hurt(hale). Set mendsAt(hale) to watch(clock). Increase mendsAt(hale) by 288. }
+  Rule mends when hurt(hale) and watch(clock) >= mendsAt(hale) { Retract hurt(hale). Retract drivenOff(hale). }
+  Observe hale_hurt near hale when hurt(hale) "{hale} sits by the font with her arm bound up, grey in the face. Her salt-bag lies spilled beside her.".
+  Observe hale_ready near hale when not hurt(hale) and not hallowed(churchyard) "{hale} has her salt-bag over her shoulder and her boots still muddy from the high road.".
+  Observe yard_hallowed at churchyard when hallowed(churchyard) "Salt lies along the churchyard wall, and a new cross of green wood stands over the oldest grave.".
+  Topic hale_purpose with hale "Ask {hale} what she has come to do" when not hurt(hale) and not hallowed(churchyard) {
+    Says "'Hallow the churchyard at Brackenholt and lay what was called out of it,' says {hale}. 'Nothing comes up out of hallowed ground. Whatever stands among the stones there will not want me to finish, so I will not be long about it.'".
+  }
+  Topic hale_hurt_talk with hale "Ask {hale} what happened" when hurt(hale) {
+    Says "'He stood over me with the spade until I went,' says {hale}. 'He did not strike. He did not have to. I will go back when I can lift my arm; or if someone keeps him busy while I work, sooner.'".
+  }
   Person compact "the compact's dead" at below_plinths {
     Role "the founders of the flood compact, raised by name". Species revenant. Level 2. Numbers 3.
     Called "the Reedwake founder", "the Chalkcross founder", "the Brackenholt founder".

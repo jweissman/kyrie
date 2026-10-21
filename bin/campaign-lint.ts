@@ -77,7 +77,10 @@ export class CampaignLint {
         if (reached.has(from!) && !reached.has(to!)) { reached.add(to!); grew = true; }
       }
     }
-    for (const p of this.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && !reached.has(e.id))) {
+    // A room with no way in or out at all is off-stage by design: where the dead sleep, where a power's agents set out.
+    const joined = new Set(connects.flatMap(c => [c.args[1]!, c.args[2]!]));
+    for (const p of this.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && !reached.has(e.id)
+      && joined.has(e.id))) {
       this.add('warning', 'geography', `${p.id} cannot be reached from where the company starts`);
     }
   }
