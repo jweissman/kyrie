@@ -44,6 +44,7 @@ export class CombatPresenter {
       case 'windup': return `${actor} ${event.detail}, ready to strike ${target} next turn.`;
       case 'interrupt': return `${actor} loses the ${event.detail.toLowerCase()} it was gathering.`;
       case 'skip': return `${actor} cannot act.`;
+      case 'random': return `${actor} is not in their right mind, and does whatever comes first.`;
       case 'attack': return `${actor} ${event.success ? event.critical ? 'critically hits' : 'hits' : event.evaded
         ? 'is evaded by' : 'misses'} ${target} (d20 ${event.die}, needing ${event.need}: THAC0 less AC ${event.armorClass}`
         + ` less to-hit ${event.toHit}).`;

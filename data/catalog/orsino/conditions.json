@@ -287,11 +287,10 @@
    "name": "Charmed",
    "description": "Exuding an aura of helpfulness.",
    "lifetime": "encounter",
-   "modifiers": {},
-   "saveKind": "charm",
-   "unsupported": {
-    "changeAllegiance": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "changeAllegiance": true
    },
+   "saveKind": "charm",
    "source": {
     "orsino": "status:charmed",
     "fidelity": "faithful"
@@ -316,12 +315,11 @@
    "name": "Confused",
    "description": "Unable to act rationally due to mental disturbance.",
    "lifetime": "encounter",
-   "modifiers": {},
+   "modifiers": {
+    "randomActions": true
+   },
    "trigger": "psychic",
    "saveKind": "will",
-   "unsupported": {
-    "randomActions": "Kyr does not execute this Orsino effect yet."
-   },
    "source": {
     "orsino": "status:confused",
     "fidelity": "faithful"
@@ -561,12 +559,11 @@
    "name": "Dominated",
    "description": "Completely under another's control.",
    "lifetime": "encounter",
-   "modifiers": {},
-   "saveKind": "charm",
-   "unsupported": {
-    "changeAllegiance": "Kyr does not execute this Orsino effect yet.",
-    "controlledActions": "Kyr does not execute this Orsino effect yet."
+   "modifiers": {
+    "changeAllegiance": true,
+    "controlledActions": true
    },
+   "saveKind": "charm",
    "source": {
     "orsino": "status:dominated",
     "fidelity": "faithful"
@@ -889,10 +886,8 @@
      "dexterity": 4
     },
     "initiative": 10,
+    "extraAttacksPerTurn": 1,
     "ac": -2
-   },
-   "unsupported": {
-    "extraAttacksPerTurn": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "status:haste",
@@ -959,6 +954,7 @@
    "description": "Mentally unstable and unpredictable.",
    "lifetime": "encounter",
    "modifiers": {
+    "randomActions": true,
     "allRolls": -1,
     "saves": {
      "will": -2
@@ -966,9 +962,6 @@
    },
    "trigger": "psychic",
    "saveKind": "insanity",
-   "unsupported": {
-    "randomActions": "Kyr does not execute this Orsino effect yet."
-   },
    "source": {
     "orsino": "status:insane",
     "fidelity": "faithful"
@@ -1989,12 +1982,10 @@
     "attributes": {
      "dexterity": -5
     },
-    "initiative": -10
+    "initiative": -10,
+    "extraAttacksPerTurn": -1
    },
    "saveKind": "reflex",
-   "unsupported": {
-    "extraAttacksPerTurn": "Kyr does not execute this Orsino effect yet."
-   },
    "source": {
     "orsino": "status:slow",
     "fidelity": "faithful"
@@ -2194,11 +2185,11 @@
    "lifetime": "encounter",
    "modifiers": {
     "ac": -5,
-    "evasion": 20
+    "evasion": 20,
+    "extraAttacksPerTurn": 4
    },
    "unsupported": {
-    "untargetable": "Kyr does not execute this Orsino effect yet.",
-    "extraAttacksPerTurn": "Kyr does not execute this Orsino effect yet."
+    "untargetable": "Kyr does not execute this Orsino effect yet."
    },
    "source": {
     "orsino": "status:timewalk",

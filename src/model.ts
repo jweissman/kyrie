@@ -48,7 +48,7 @@ export type CombatEvent = (
   | { type: 'save'; turn: number; actor: string; target: string; rolled: number; difficulty: number; success: boolean;
     stat?: string; die?: number; modifier?: number; kind?: string; level?: number; bonus?: number;
     immune?: boolean; limit?: boolean }
-  | { type: 'defend' | 'death' | 'skip'; turn: number; actor: string }
+  | { type: 'defend' | 'death' | 'skip' | 'random'; turn: number; actor: string }
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
   | { type: 'intercept'; turn: number; actor: string; target: string }
   | { type: 'windup' | 'interrupt'; turn: number; actor: string; target: string; detail: string }

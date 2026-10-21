@@ -24,7 +24,8 @@ const OMITTED: Record<string, string> = {
   disarmTrapBonus: 'Kyr skill checks are deterministic.', gatherInformationBonus: 'Kyr skill checks are deterministic.',
 };
 const NUMERIC = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncrease', 'initiative', 'allRolls',
-  'saveVersusAll', 'bonusSpellDC'] as const;
+  'saveVersusAll', 'bonusSpellDC', 'extraAttacksPerTurn'] as const;
+const FLAGS = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance', 'controlledActions'] as const;
 const DICE = ['bonusDamage', 'bonusMeleeDamage', 'bonusHealing'] as const;
 const ATTRIBUTES: Record<string, string> = { str: 'strength', dex: 'dexterity', con: 'constitution',
   int: 'intelligence', wis: 'wisdom', cha: 'charisma' };
@@ -73,8 +74,8 @@ export class OrsinoTranslate {
       } else if (key.startsWith('resist') && (kind === 'all' || this.vocabulary.damageTypes.includes(kind))
         && typeof value === 'number') {
         (m.resistances ??= {})[kind] = value;
-      } else if ((key === 'noActions' || key === 'noSpellcasting') && value === true) {
-        m[key] = true;
+      } else if ((FLAGS as readonly string[]).includes(key) && value === true) {
+        m[key as typeof FLAGS[number]] = true;
       } else if (key === 'tempHp' && (typeof value === 'number' || typeof value === 'string')) {
         m.tempHp = OrsinoEffects.expression(value);
       } else if (key === 'onTurnEnd' && Array.isArray(value)) {

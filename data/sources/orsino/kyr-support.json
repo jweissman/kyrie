@@ -912,6 +912,22 @@
   "modifier:onLevelUp": [
    "faithful",
    "Runs when the holder gains a level (a war band's extra hit point)."
+  ],
+  "modifier:extraAttacksPerTurn": [
+   "faithful",
+   "Actions a turn are one plus the extra, never fewer than one (Orsino’s attacksPerTurn for a creature with one attack); a hasted creature acts twice before its turn ends."
+  ],
+  "modifier:randomActions": [
+   "faithful",
+   "The creature falls on one of the things it could do, at random, whoever controls it."
+  ],
+  "modifier:changeAllegiance": [
+   "faithful",
+   "The creature takes its own side for enemies and the other side for friends; to everyone else it is still on the side it began on, and a turned companion is no longer the player’s to command."
+  ],
+  "modifier:controlledActions": [
+   "faithful",
+   "Control passes to the other side: a dominated foe is the player’s to command, and a dominated companion is not."
   ]
  }
 }

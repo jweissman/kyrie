@@ -14,17 +14,23 @@ export interface Modifiers {
   saveVersusAll?: number; saves?: Record<string, number>; attributes?: Partial<Record<Attribute, number>>;
   resistances?: Record<string, number>; immune?: string[]; noActions?: boolean; noSpellcasting?: boolean;
   bonusHealing?: Dice; bonusSpellDC?: number; tempHp?: string; onTurnEnd?: Periodic[];
+  // Orsino's turn structure: actions a turn beyond the one (haste +1, slow −1, never fewer than one); acting at random
+  // (confused); taking the other side (charmed); and control passing to the other side (dominated).
+  extraAttacksPerTurn?: number; randomActions?: boolean; changeAllegiance?: boolean; controlledActions?: boolean;
 }
 export type DiceModifier = 'bonusDamage' | 'bonusMeleeDamage' | 'bonusHealing';
 export type NumericModifier = 'toHit' | 'ac' | 'evasion' | 'damageReduction' | 'criticalRangeIncrease' | 'initiative'
-  | 'allRolls' | 'saveVersusAll' | 'bonusSpellDC';
+  | 'allRolls' | 'saveVersusAll' | 'bonusSpellDC' | 'extraAttacksPerTurn';
+export type FlagModifier = 'noActions' | 'noSpellcasting' | 'randomActions' | 'changeAllegiance' | 'controlledActions';
 
 export class ModifierSet {
   static readonly numeric: NumericModifier[] = ['toHit', 'ac', 'evasion', 'damageReduction', 'criticalRangeIncrease',
-    'initiative', 'allRolls', 'saveVersusAll', 'bonusSpellDC'];
+    'initiative', 'allRolls', 'saveVersusAll', 'bonusSpellDC', 'extraAttacksPerTurn'];
   static readonly dice: DiceModifier[] = ['bonusDamage', 'bonusMeleeDamage', 'bonusHealing'];
-  static readonly keys = [...ModifierSet.numeric, ...ModifierSet.dice, 'saves', 'attributes', 'resistances', 'immune', 'noActions',
-    'noSpellcasting', 'tempHp', 'onTurnEnd'];
+  static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
+    'controlledActions'];
+  static readonly keys = [...ModifierSet.numeric, ...ModifierSet.dice, ...ModifierSet.flags, 'saves', 'attributes',
+    'resistances', 'immune', 'tempHp', 'onTurnEnd'];
   // Orsino's gatherEffects: numbers add, maps add per key, flags and lists accumulate.
   static sum(list: Modifiers[]): Modifiers {
     const out: Modifiers = {};
@@ -45,8 +51,7 @@ export class ModifierSet {
         }
       }
       if (m.immune?.length) { out.immune = [...new Set([...out.immune ?? [], ...m.immune])]; }
-      if (m.noActions) { out.noActions = true; }
-      if (m.noSpellcasting) { out.noSpellcasting = true; }
+      for (const key of ModifierSet.flags) { if (m[key]) { out[key] = true; } }
       if (m.onTurnEnd?.length) { out.onTurnEnd = [...out.onTurnEnd ?? [], ...m.onTurnEnd]; }
     }
     return out;

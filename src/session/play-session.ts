@@ -63,12 +63,13 @@ export class PlaySession {
         while (!battle.state.outcome) {
           const actor = battle.state.combatants.find(f => f.id === battle.state.actor)!;
           const legal = battle.legalCommands();
-          const chosen = actor.team === 'fighters' ? await controller(battle) : battle.chosen();
+          const player = battle.playerControls(actor.id);
+          const chosen = player ? await controller(battle) : battle.chosen();
           if (!legal.some(c => c.actor === chosen.actor && c.ability === chosen.ability
             && c.target === chosen.target)) {
             throw new Error('Illegal combat command');
           }
-          if (actor.team === 'fighters') { combat.push({ ...chosen }); }
+          if (player) { combat.push({ ...chosen }); }
           battle.step(chosen);
         }
       });

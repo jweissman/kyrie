@@ -14,13 +14,13 @@ import type { CombatantRow, CombatScreen } from './screen-types';
 export class CombatModel {
   static build(battle: Battle, prior: CombatEvent[] = []): CombatScreen {
     const state = battle.state, actor = state.combatants.find(f => f.id === state.actor);
-    const ours = actor?.team === 'fighters';
+    const ours = !!actor && battle.playerControls(actor.id);
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), Content.abilities) : [];
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
       foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state)),
       allies: state.combatants.filter(f => f.team === 'fighters').map(f => this.row(f, state)),
-      abilities: choices.map(c => ({ id: c.ability.id, name: c.ability.name,
+      abilities: choices.map(c => ({ id: c.ability.id, name: this.named(c.ability, actor),
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
         cooldown: c.ability.cooldown ?? 0, scope: c.scope,
@@ -63,7 +63,8 @@ export class CombatModel {
   private static intent(f: Fighter, state: BattleState): string | undefined {
     const pending = (state.order ?? []).includes(f.id), shown = pending ? state.intents?.[f.id] : f.windup;
     if (!shown || f.hp === 0) { return undefined; }
-    const ability = Content.abilities.find(a => a.id === shown.ability), name = ability?.name ?? shown.ability;
+    const ability = Content.abilities.find(a => a.id === shown.ability);
+    const name = ability ? this.named(ability, f) : shown.ability;
     const target = shown.target && shown.target !== f.id ? ` → ${this.name(state, shown.target)}` : '';
     if (!pending) { return `winding up ${name}${target}`; }
     if (f.windup) { return `lands ${name}${target}`; }
@@ -117,11 +118,29 @@ export class CombatModel {
       const against = e.kind && e.kind !== e.stat ? ` the ${e.kind} save` : '';
       return `${this.name(state, e.target)} ${e.success ? 'resists' : 'fails to resist'}${against} (${e.stat ?? 'save'} ${e.rolled} vs ${e.difficulty}).`;
     }
-    if (e.type === 'action' && e.source?.kind !== 'trap') {
-      const ability = Content.abilities.find(a => a.id === e.command.ability)?.name ?? e.command.ability;
-      const target = e.command.target && e.command.target !== e.command.actor ? ` → ${this.name(state, e.command.target)}` : '';
-      return `${this.name(state, e.command.actor)}: ${ability}${target}`;
-    }
+    if (e.type === 'action' && e.source?.kind !== 'trap') { return this.act(e.command, state); }
     return CombatPresenter.format(e, state);
+  }
+  // What someone did, as a sentence: "Nell strikes at Nettle with the dagger", "Hulda uses Cleave on Gristle".
+  private static act(command: { actor: string; ability: string; target?: string }, state: BattleState): string {
+    const actor = state.combatants.find(f => f.id === command.actor), name = this.name(state, command.actor);
+    const target = command.target && command.target !== command.actor ? this.name(state, command.target) : '';
+    const weapon = this.weapon(actor);
+    if (command.ability === 'melee') { return `${name} strikes at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
+    if (command.ability === 'ranged') { return `${name} shoots at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
+    const ability = Content.abilities.find(a => a.id === command.ability)?.name ?? command.ability;
+    return `${name} uses ${ability}${target ? ` on ${target}` : ''}`;
+  }
+  private static weapon(f?: Fighter): string {
+    const w = f?.equipment?.weapon;
+    return w && !w.natural ? w.name.toLowerCase() : '';
+  }
+  // The plain attacks are named for the weapon in hand.
+  private static named(ability: { id: string; name: string }, actor?: Fighter): string {
+    const weapon = this.weapon(actor), natural = actor?.equipment?.weapon?.natural ? actor.equipment.weapon.name : '';
+    // A beast's own weapon is its attack: Bite, Claws.
+    if (natural && ability.id === 'melee') { return natural.charAt(0).toUpperCase() + natural.slice(1); }
+    if (!weapon) { return ability.name; }
+    return ability.id === 'melee' ? `Strike with the ${weapon}` : ability.id === 'ranged' ? `Shoot with the ${weapon}` : ability.name;
   }
 }

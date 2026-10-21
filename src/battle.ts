@@ -26,6 +26,10 @@ export class Battle {
   private history: CombatEvent[] = [];
   // What each creature on the other side means to do this round, decided as the round begins.
   private intents = new Map<string, Command>();
+  // Actions left in the current turn (Orsino's attacksPerTurn with extraAttacksPerTurn), and the one thing a creature
+  // acting at random has fallen on doing.
+  private actions = 1;
+  private impulse?: Command;
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
     this.fighters = structuredClone(scenario.combatants);
@@ -121,7 +125,25 @@ export class Battle {
   }
   legalCommands(): Command[] {
     if (this.outcome) { return []; }
+    if (this.impulse?.actor === this.actor().id) { return [{ ...this.impulse }]; }
     return this.commandsFor(this.actor());
+  }
+  // Orsino's control: the company commands its own unless they are turned (charmed); domination hands control to the
+  // other side, so a dominated foe is the company's to command and a dominated companion is not.
+  playerControls(id: string): boolean {
+    const f = this.fighters.find(x => x.id === id);
+    if (!f) { return false; }
+    const m = Effects.modifiers(f);
+    return (f.team === 'fighters' && !m.changeAllegiance) !== !!m.controlledActions;
+  }
+  // A creature acting at random (Orsino's randomActions) falls on one of the things it could do.
+  private impulsive(actor: Fighter) {
+    delete this.impulse;
+    if (!Effects.modifiers(actor).randomActions) { return; }
+    const legal = this.commandsFor(actor);
+    if (!legal.length) { return; }
+    this.impulse = legal[this.expressions.number(`1d${legal.length}`) - 1]!;
+    this.history.push({ type: 'random', turn: this.turn, actor: actor.id });
   }
   // The automatic choice for whoever acts now: a creature carries out the intent it declared when the round began
   // if it still can (its target may have fallen, or it may be compelled), and otherwise does the best it can.
@@ -181,6 +203,12 @@ export class Battle {
     AbilityUse.perform(ability, command.target, this.expressions, context);
     if (context.retreat || context.location) { this.finish('escaped', 'retreat', { actor: actor.id, team: actor.team }); }
     else { this.finishIfEliminated(); }
+    // A creature with actions left this turn (hasted) acts again before its turn ends.
+    if (!this.outcome && actor.hp > 0 && --this.actions > 0 && !actor.statuses.some(s => Effects.skips(s.id))) {
+      this.impulsive(actor);
+      this.commit();
+      return structuredClone(this.history.slice(start));
+    }
     if (!this.outcome) { this.endTurn(actor); }
     if (!this.outcome) { this.advance(); }
     this.commit();
@@ -231,7 +259,11 @@ export class Battle {
       this.standDown(actor);
       this.finishIfEliminated();
       if (this.outcome) { return; }
-      if (actor.hp > 0 && !actor.statuses.some(s => Effects.skips(s.id))) { return; }
+      if (actor.hp > 0 && !actor.statuses.some(s => Effects.skips(s.id))) {
+        this.actions = Math.max(1, 1 + (Effects.modifiers(actor).extraAttacksPerTurn ?? 0));
+        this.impulsive(actor);
+        return;
+      }
       // A creature that loses its turn loses the blow it was winding up.
       if (actor.windup) {
         this.history.push({ type: 'interrupt', turn: this.turn, actor: actor.id, target: actor.windup.target,

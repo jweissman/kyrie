@@ -54,7 +54,7 @@ describe('Orsino registry', () => {
   it('judges rule features conservatively: anything not declared is unsupported', () => {
     expect(OrsinoRegistry.judge('modifier:toHit').judgement).toBe('faithful');
     expect(OrsinoRegistry.judge('modifier:resistFire').judgement).toBe('faithful');
-    expect(OrsinoRegistry.judge('modifier:extraAttacksPerTurn').judgement).toBe('unsupported');
+    expect(OrsinoRegistry.judge('modifier:extraTurns').judgement).toBe('unsupported');
     expect(OrsinoRegistry.judge('an:invented feature').judgement).toBe('unsupported');
   });
 

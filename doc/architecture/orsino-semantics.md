@@ -120,24 +120,23 @@ Three of Orsino's ten feats do not execute:
 - Animal Companion needs summoning.
 - Warlord's Presence needs `onCombatStart`.
 
-## Turn structure: incomplete
+## Turn structure
 
-The following Orsino rules shape a turn. None is executed yet, so every status that depends on one is refused,
-not approximated.
-
-| Rule | Orsino | Kyr now | Blocks |
+| Rule | Orsino | Kyr | Status |
 |---|---|---|---|
-| `extraAttacksPerTurn` | actions per turn = the creature's attacks + extra, never fewer than one (Haste +1, Slow −1) | one action per turn | haste, slow (12 abilities) |
-| `extraTurns` | the whole turn again | none | 1 status |
-| `randomActions` | a random action from the valid ones, for player and enemy alike | none | confused (10 abilities) |
-| `changeAllegiance` | allies and enemies swap for targeting; a player character so affected is no longer under the player's control | none | charmed (6), dominated (4) |
-| `controlledActions` | control flips: a dominated enemy is under the player's control | none | dominated |
-| summoning | `summon` adds combatants for the encounter | none | 16 abilities, 1 formation, 1 feat |
-| `cast` / `onExpire` | an effect casts another ability | none | 20 entries |
-| reactions (`onEnemyCharge`, `onEnemyMelee`, `onEnemyAttack`, `onAttacked`, `reflect*`) | hooks run on another creature's action | `onAttack` hooks only | about 15 entries |
+| `extraAttacksPerTurn` | actions per turn = the creature's attacks + extra, never fewer than one | the same, for creatures of one attack; a hasted creature acts twice before its turn ends | Faithful (`test/turn-structure.test.ts`) |
+| `randomActions` | a random action from the valid ones, for player and enemy alike | the creature falls on one of its legal commands; the player is offered only that one, and the log says why | Faithful |
+| `changeAllegiance` | the creature's allies and enemies swap; a player character so affected is no longer player-controlled | the same: only the turned creature's own view flips | Faithful |
+| `controlledActions` | control flips to the other side | the same: a dominated foe is the player's to command | Faithful |
+| `extraTurns` | the whole turn again | none | Incomplete (1 status) |
+| multi-attack monsters (`monsterAttacksPerTurn`) | a monster's base attacks | one | Incomplete (10 monster classes) |
+| summoning | `summon` adds combatants for the encounter | none | Incomplete: 16 abilities, 1 formation, 1 feat |
+| `cast` / `onExpire` | an effect casts another ability | none | Incomplete: 20 entries |
+| reactions (`onEnemyCharge`, `onEnemyMelee`, `onEnemyAttack`, `onAttacked`, `reflect*`) | hooks run on another creature's action | `onAttack` hooks only | Incomplete: about 15 entries |
 
-In all, 127 of 340 catalogued abilities and 41 of 162 conditions do not execute. Each refuses itself in the catalog
-(`unsupported`) and is never offered, so no ability is offered in a form different from Orsino's.
+With these, haste, slow, confusion, insanity, charm and domination run. 92 of 340 catalogued abilities and 35 of
+162 conditions do not execute; before the turn structure the counts were 127 and 41. Each refuses itself in the
+catalog (`unsupported`) and is never offered, so no ability is offered in a form different from Orsino's.
 
 ## Ancestry, class, background and equipment
 
