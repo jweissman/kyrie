@@ -145,7 +145,7 @@ Module unlit "The Unlit" {
   Thing vault_racks "the vault racks" at jar_vault {
     Holds.
   }
-  Item vault_noon "a jar of noonlight, still burning" is noonlight in vault_racks.
+  Item vault_noon "a burning jar of noonlight" is noonlight in vault_racks.
   Item vault_noon_two "a second jar of noonlight" is noonlight in vault_racks.
   Item vault_moon "a jar of moonlight" is moonlight in vault_racks.
   Item last_light "the Last Light of Lampfall" is first_light in vault_racks.
@@ -159,6 +159,14 @@ Module unlit "The Unlit" {
   Rule vault_robbed when at(party, jar_vault) and able(hollow) and not tolerates(hollow, party) and not warned(hollow, party)
     and not assails(hollow, party) says "Out in the hall the pen stops." {
     Assert at(hollow, jar_vault). Assert assails(hollow, party).
+  }
+  // The Last Light is the ledger's first line: whatever was paid for passage, he comes for whoever takes it.
+  Relation in_lampfall(place).
+  Initially Assert in_lampfall(gate_ward). Initially Assert in_lampfall(ledger_hall). Initially Assert in_lampfall(jar_vault).
+  Initially Assert in_lampfall(beacon_room).
+  Rule last_light_taken when holding(party, first_light) and able(hollow) and at(party, ?p) and in_lampfall(?p)
+    and not assails(hollow, party) says "Far off in the ledger hall a pen stops, and a chair scrapes." {
+    Retract tolerates(hollow, party). Assert at(hollow, ?p). Assert assails(hollow, party).
   }
 
   // Lampfall's beacon: a Last Light in its cradle relights it, and the Unlit's law changes where the light reaches.

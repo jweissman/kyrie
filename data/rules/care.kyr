@@ -22,7 +22,7 @@ Module care "Rest, mending and lessons" {
     Requires able(actor) and at(actor, site) and memberOf(caster, actor) and memberOf(recipient, actor)
       and fieldUsable(technique) and awake(caster) and awake(recipient) and canCast(caster, technique) and treatable(recipient, technique).
     Resolve invoke(technique, caster, recipient).
-    Result "{caster} tends {recipient} with {technique}.".
+    Result "{caster} uses {technique} on {recipient}.".
   }
   Action prepare_spell(actor: group, caster: member, tier: circle, outgoing: ability, incoming: ability) "Have {caster} prepare {incoming} in place of {outgoing}, in a {tier}" {
     Description "An hour of study or prayer. A spell prepared in a slot still ready can be cast at once; in a slot already spent, after the next rest.".
