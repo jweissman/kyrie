@@ -30,7 +30,7 @@ Module caught_below "Someone caught below" {
   Hazard heave_strain "The strain of heaving" means "Deal (1d4) physical damage to ally.".
   Thing rack "the fallen weight" at captive_room {
     State pinning "{rack} lies across the floor where it fell, wedged against the wall.".
-    State propped "{rack} has been levered up and wedged on a lump of stone; there is space beneath it now.".
+    State propped "{rack} has been raised and wedged on a lump of stone; there is space beneath it now.".
     State dug "{rack} lies where it fell, but a hollow has been scraped out of the floor beneath one end.".
     State toppled "{rack} lies tipped on its side against the wall, one end split where it dropped.".
   }
@@ -39,7 +39,7 @@ Module caught_below "Someone caught below" {
     State closed blocking "{water} has closed {closing_way}.".
   }
 
-  Event worried near relative when together(party, relative) and state(relative, waiting) and not reunited(guest) and not asked(relative, party) "{relative} hurries over to you. 'Are you going up to {workings}? Have you seen {guest}?'".
+  Event worried near relative when together(party, relative) and state(relative, waiting) and not reunited(guest) and not following(guest, party) and not asked(relative, party) "{relative} hurries over to you. 'Are you going up to {workings}? Have you seen {guest}?'".
   Event cry near guest when state(guest, pinned) and together(party, guest) "A voice from low down in the dark: 'Here! Over here. Mind {rack}; it's on my leg. Don't just haul on it. Something cracked when it came down.'".
   Event closing beside closing_way when watch(clock) >= closesAt(water) "{water} closes over {closing_way}. That way is shut now." then { Assert state(water, closed). }
   Rule escorted when together(guest, relative) and following(guest, party) and not reunited(guest) { Assert escortedHome(guest, party). }
@@ -86,7 +86,7 @@ Module caught_below "Someone caught below" {
   Action lift_free(actor: group, lifter: member, spot: place) "Lift {rack} clear, slow and steady; {lifter} takes the weight" {
     Description "Someone strong enough to hold the weight while it is eased off, rather than heaved.".
     Requires able(actor) and at(actor, spot) and at(rack, spot) and state(rack, pinning) and memberOf(lifter, actor)
-      and awake(lifter) and capable(actor, brawn).
+      and awake(lifter) and brings(lifter, brawn).
     Time 1.
     On success { Assert state(rack, propped). Assert state(guest, hurt). Retract hobbled(guest).
       Assert freedBy(guest, actor). Assert acceptsEscort(guest, actor). }

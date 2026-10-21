@@ -5,6 +5,7 @@ Module march_word "Word around the March" {
   Entity hedda: group "Hedda". Entity tam: group "Tam".
   Entity osric: group "Osric". Entity agnes: group "Agnes". Entity cutter: group "Wat".
   Entity ewes: fact "The ewes taken on the ridge". Entity no_silk: fact "Odile has no silk".
+  Entity quarrel: thing "The quarrel over the brood". Entity over: condition "over".
   Entity lights: fact "The light in Holt tower". Entity graves: fact "The opened graves". Entity old_well: fact "The old well".
   Entity well: passage "The old well shaft".
   Entity stair_known: fact "The keepers' stair".
@@ -17,39 +18,39 @@ Module march_word "Word around the March" {
   Initially Assert knows(cutter, old_well). Initially Assert knows(iven, stair_known).
   Initially Assert revealedBy(well, old_well).
 
-  Topic maud_lights with maud "Ask Maud what the bargemen are saying" when not knows(actor, lights) {
+  Topic maud_lights with maud "Ask Maud what the bargemen are saying" when true once {
     Says "'That there's a light again in Holt tower over Brackenholt,' says Maud, 'green as a drowned man, and the Brackenholt folk keep to their doors after dark. Wren's ferry is the way across, when Wren's minded to take it.'".
     On discuss { Assert knows(actor, lights). }
   }
-  Topic nera_silk with nera "Ask Nera why there is no silk on her shelves" when not knows(actor, no_silk) {
+  Topic nera_silk with nera "Ask Nera why there is no silk on her shelves" when not state(quarrel, over) once {
     Says "'Odile hasn't sent down a hank in a week,' says Nera. 'She winds it at Silkholme, the sink up on the downs past the ridge. Something's wrong with her spiders, or with Garth's sheep, depending who you ask.'".
     On discuss { Assert knows(actor, no_silk). }
   }
-  Topic iven_graves with iven "Ask Iven what troubles the keepers" when not knows(actor, graves) {
+  Topic iven_graves with iven "Ask Iven what troubles the keepers" when true once {
     Says "{iven} lowers his voice. 'Graves opened in Brackenholt churchyard, and the dead gone out of them. Not robbed: gone. I had an acolyte once who wanted to know what the dead would say if they could be made to speak. He left this shrine years ago, and they say he keeps Holt tower now.'".
     On discuss { Assert knows(actor, graves). }
   }
-  Topic iven_stair with iven "Ask Iven, as one who keeps the rites, how the keepers went down to their dead" when capable(actor, rites) and not knows(actor, stair_known) {
+  Topic iven_stair with iven "Ask Iven, as one who keeps the rites, how the keepers went down to their dead" when capable(actor, rites) and not knows(actor, stair_known) once {
     Says "{iven} studies the one among you who knows the rites, then nods. 'Then you will go down as we did. Behind the shelves in the name room there is a stair the keepers cut, down to the family crypt. We did not carry our dead through the bronze court.'".
     On discuss { Assert knows(actor, stair_known). }
   }
-  Topic hedda_ewes with hedda "Ask Hedda about Garth's flock" when not knows(actor, ewes) {
+  Topic hedda_ewes with hedda "Ask Hedda about Garth's flock" when not state(quarrel, over) once {
     Says "'A ewe a night off the ridge,' says Hedda, 'and Garth swearing it's Odile's spiders up out of Silkholme. He's got pitch and a torch ready. If he goes down that sink with fire there'll be no silk on the downs again.'".
     On discuss { Assert knows(actor, ewes). }
   }
-  Topic tam_ewes with tam "Ask Tam what is taking the sheep" when not knows(actor, ewes) {
+  Topic tam_ewes with tam "Ask Tam what is taking the sheep" when not state(quarrel, over) once {
     Says "'Not wolves,' says Tam. 'Wolves leave a mess. Garth's ewes are just gone off the ridge in the night, and threads on the thorn in the morning like grey hair.'".
     On discuss { Assert knows(actor, ewes). }
   }
-  Topic osric_lights with osric "Ask Osric about the light up the lane" when not knows(actor, lights) {
+  Topic osric_lights with osric "Ask Osric about the light up the lane" when true once {
     Says "'Green, and only after dark,' says Osric. 'And things walk the lane under it that have no business walking. I've barred the shutters. Ask Agnes; she keeps the churchyard.'".
     On discuss { Assert knows(actor, lights). }
   }
-  Topic agnes_graves with agnes "Ask Agnes what happened in the churchyard" when not knows(actor, graves) {
+  Topic agnes_graves with agnes "Ask Agnes what happened in the churchyard" when true once {
     Says "'Five graves open, and the earth thrown out, not in,' says Agnes. 'I filled them myself, years back. The dead climbed out, and they went up the lane to the tower. I saw the last of them go.' Her hands will not keep still.".
     On discuss { Assert knows(actor, graves). Assert knows(actor, lights). }
   }
-  Topic cutter_well with cutter "Ask Wat about the tower" when not knows(actor, old_well) {
+  Topic cutter_well with cutter "Ask Wat about the tower" when true once {
     Says "'The front door's iron and the stair inside is full of what walked up the lane,' says Wat. 'But my grandfather cut the oak for that tower, and there's an old well behind it the builders used, that runs down into the cellars. A rope gets you down.'".
     On discuss { Assert knows(actor, old_well). }
   }

@@ -25,7 +25,9 @@
     "well",
     "tower_foot",
     "ridge",
-    "stair_known"
+    "stair_known",
+    "quarrel",
+    "over"
   ],
   "roles": {
     "party": {
@@ -81,6 +83,12 @@
     },
     "stair_known": {
       "type": "fact"
+    },
+    "quarrel": {
+      "type": "thing"
+    },
+    "over": {
+      "type": "condition"
     }
   }
 }

@@ -53,9 +53,13 @@ describe('experience for a module someone else resolves', () => {
   it('is not the company\'s: a shepherd who burns out the nest while the company sleeps in town earns it nothing', async () => {
     const world = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(world.path, 'thorn', world.source);
-    for (const c of ['go(region__s1_inn_door,region__s1_taproom)', 'ask(region__s1_innkeeper,word1__h1_s1_innkeeper)',
-      'take_lodging(region__s1_innkeeper_lodging,region__s1_innkeeper)', 'take_lodging(region__s1_innkeeper_lodging,region__s1_innkeeper)']) {
+    for (const c of ['go(region__s1_inn_door,region__s1_taproom)', 'ask(region__s1_innkeeper,word1__h1_s1_innkeeper)']) {
       await s.perform(c);
+    }
+    // Garth goes for his fire after a second night of losing ewes; the company sleeps in town until he has.
+    for (let night = 0; night < 5 && s.campaign.state.modules?.find(m => m.id === 'brood')?.outcome
+      !== 'success'; night++) {
+      await s.perform('take_lodging(region__s1_innkeeper_lodging,region__s1_innkeeper)');
     }
     expect(s.campaign.state.modules?.find(m => m.id === 'brood')).toMatchObject({ outcome: 'success' });
     expect(s.campaign.state.creatures.filter(c => c.id.includes('party')).map(c => c.state.experience)).toEqual([0, 0, 0]);

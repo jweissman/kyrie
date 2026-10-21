@@ -136,7 +136,9 @@
         "well": "tower.well",
         "tower_foot": "east.tower_foot",
         "ridge": "march.high_road",
-        "stair_known": "hill.stair_known"
+        "stair_known": "hill.stair_known",
+        "quarrel": "brood.quarrel",
+        "over": "brood.over"
       }
     }
   ],

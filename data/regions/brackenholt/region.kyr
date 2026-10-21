@@ -16,7 +16,7 @@ Module brackenholt "Brackenholt and the holt" {
   Place holly_room "the Holly Bush taproom" is room within holly_bush at 1, 1.
   Place den_clearing "the bear clearing" is room within holt at 1, 0.
   Place holt_edge "the edge of the holt" is room within holt at 2, 0.
-  Place tower_foot "Below Holt tower" is room within holt at 0, 1.
+  Place tower_foot "Holt tower" is room within holt at 0, 1.
 
   Passage ferry_crossing "Wren's ferry" is ferry between quay and landing taking 30 minutes.
   Passage landing_lane "the landing lane" is path between landing and holt_green.

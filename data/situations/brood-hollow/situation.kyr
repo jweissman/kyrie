@@ -63,7 +63,7 @@ Module brood_hollow "A brood under the hill" {
     says "Something pale comes over the ridge in the dark. In the morning there is one ewe fewer." {
     Increase lost(garth) by 1. Increase raidAt(brood) by 144.
   }
-  Rule fury when lost(garth) >= 2 and state(garth, worried) and not quieted(brood) { Assert state(garth, angry). }
+  Rule fury when lost(garth) >= 3 and state(garth, worried) and not quieted(brood) { Assert state(garth, angry). }
   Event spark beside web_way when exposedTo(nest, fire) and state(webs, whole) "Fire catches the silk." then { Assert state(webs, burnt). }
   Event blaze beside web_way when state(webs, burnt) and not scattered(brood) "Fire runs up the silk into the nest. Spiders boil out of the dark and away down the cracks in the chalk; the brood-mother follows them. Smoke pours up the seep." then {
     Assert scattered(brood). Assert quieted(brood). Assert state(frames, ruined). Assert state(odile, bitter).
@@ -87,7 +87,7 @@ Module brood_hollow "A brood under the hill" {
   Pursuit tend for garth "tending his flock" priority 10 when true seeks at(garth, pasture).
 
   Topic complaint with garth "Ask {garth} what is wrong" when not quieted(brood) {
-    Says "'Something comes up out of {hollow} at night and takes a ewe,' says {garth}. 'I've lost {lost(garth)} to them so far. It's the spiders: {odile}'s precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it.'".
+    Says "'Something comes up out of {hollow} at night and takes a ewe,' says {garth}. 'I've lost {lost(garth)} to them so far. It's the spiders: {odile}'s precious spiders. Burn them out and I'll give you eight coin. There's my spare torch by the fold; take it. Another night or two of this and I'll go down there with fire myself.'".
     On discuss { Assert asked(garth, party). }
   }
   Topic carcass with garth "Ask {garth} for the ewe that was killed" when asked(odile, party) and not quieted(brood) and quantity(party, ewe) < 1 once {
@@ -124,6 +124,9 @@ Module brood_hollow "A brood under the hill" {
   Entity ewes: fact "Something comes up out of the ground by {pasture} at night and takes a ewe from {garth}'s flock. {garth} means to burn it out.".
   Entity no_silk: fact "{odile}, who winds silk at the sink by {pasture}, has had none for a week, and is frightened for her spiders.".
   Initially Assert established(ewes). Initially Assert established(no_silk).
+  Entity quarrel: thing "the quarrel over the brood". Entity open: condition "open". Entity over: condition "over".
+  Initially Assert state(quarrel, open).
+  Rule quarrel_over when quieted(brood) and state(quarrel, open) { Assert state(quarrel, over). }
   Initially Assert knows(garth, ewes). Initially Assert knows(odile, no_silk).
   Observe silk_news at gossip when sated(brood) and state(garth, easy) and not dark() "Someone is showing off a scarf of grey silk from {hollow}. '{odile}'s frames are full again,' she says.".
   Observe smoke_news at gossip when scattered(brood) and state(frames, ruined) and not dark() "People here still talk about the smoke over {pasture}, and how Odile's frames went up with the spiders.".

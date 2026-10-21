@@ -55,15 +55,20 @@ describe('Silkholme: one quarrel, several ways through it', () => {
     expect(Sink.state(s, 'brood__odile')).toBe('brood__bitter');
     expect(s.campaign.events.at(-1)!.perceptions!.map(p => p.text).join(' ')).toContain('Fire runs up the silk');
   }, 120000);
-  it('left alone, Garth loses another ewe and burns Silkholme himself', async () => {
+  it('left alone, Garth loses a ewe a night, and after the second night burns Silkholme himself', async () => {
     const s = await Sink.play(...Sink.ridge);
+    const lost = () => s.campaign.world.number(ModuleWriter.call('brood__lost', 'brood__garth'));
     while (s.campaign.state.elapsed < 100) { await s.perform('wait'); }
+    // The first night costs him a ewe; he is worried, not yet angry.
+    expect([lost(), Sink.state(s, 'brood__garth'), Sink.state(s, 'brood__webs')])
+      .toEqual([2, 'brood__worried', 'brood__whole']);
+    while (s.campaign.state.elapsed < 260) { await s.perform('wait'); }
     expect(Sink.state(s, 'brood__webs')).toBe('brood__burnt');
     expect(s.campaign.events.flatMap(e => e.npc ?? []).some(d => d.actor === 'brood__garth'
       && d.action.startsWith('change_thing(brood__garth,brood__webs_burn'))).toBe(true);
     expect(Sink.state(s, 'brood__odile')).toBe('brood__bitter');
-    while (s.campaign.state.elapsed < 240) { await s.perform('wait'); }
-    expect(s.campaign.world.number(ModuleWriter.call('brood__lost', 'brood__garth'))).toBe(2);
+    while (s.campaign.state.elapsed < 400) { await s.perform('wait'); }
+    expect(lost()).toBe(3);
   }, 120000);
   it('the brood is three spiders in one fight; killing them leaves Odile grieving', async () => {
     const s = await Sink.play(...Sink.ridge, ...Sink.down, 'change_thing(brood__webs_hack)', 'go(sink__web_gallery,sink__nest)');

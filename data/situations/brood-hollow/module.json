@@ -50,7 +50,9 @@
   },
   "exports": {
     "ewes": "ewes",
-    "no_silk": "no_silk"
+    "no_silk": "no_silk",
+    "quarrel": "quarrel",
+    "over": "over"
   },
   "experience": 500
 }
