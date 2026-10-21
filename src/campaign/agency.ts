@@ -17,8 +17,9 @@ export class Agency {
       .map(({ order: _order, ...goal }) => goal);
   }
   // Combat success branches and another actor's choices are not predictions available to this planner.
+  // Only the actor's own actions are grounded: a person who uses four actions is not offered the whole world's.
   private static allowed(world: World, actor: CampaignActor, operators: Operators): Operator[] {
-    return operators.applicable(world, actor.id).filter(a => actor.actions.includes(a.schema ?? a.id) && !a.resolve);
+    return operators.applicable(world, actor.id, new Set(actor.actions)).filter(a => !a.resolve);
   }
   private static plan(world: World, actor: CampaignActor, operators: Operators, goal: GoalAssessment) {
     const target = actor.goals.find(g => g.id === goal.id)!.target;

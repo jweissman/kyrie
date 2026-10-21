@@ -18,7 +18,7 @@ export interface TickHost {
   readonly operators: Operators;
   readonly tickState: { definition: CampaignDefinition; creatures: CreatureStore;
     current: { elapsed: number; world: WorldState; pending?: Record<string, PendingAction> } };
-  applyAction(action: Operator): void; refreshProjection(): void; recordObservations(): void;
+  applyAction(action: Operator, success?: boolean): void; refreshProjection(): void; recordObservations(): void;
 }
 export interface TickDecision {
   actor: string; goal: string; action: string; plan: string[]; elapsed: number; changes: string[];
@@ -51,7 +51,10 @@ export class CampaignTick {
         if (current.elapsed < pending.until) { continue; }
         delete current.pending![actor.id];
         const action = host.operators.get(pending.action);
+        // An undertaking whose conditions no longer hold when its time is up is obstructed: its authored failure
+        // (the aftermath of a broken rite, a wasted journey) happens instead.
         if (action && Planner.applicable(host.world, action)) { this.act(host, decisions, { actor: actor.id, goal: 'continuing', action, plan: [] }); }
+        else if (action) { this.act(host, decisions, { actor: actor.id, goal: 'obstructed', action, plan: [] }, false); }
         continue;
       }
       const choice = Agency.choose(host.world, actor, host.operators);
@@ -66,9 +69,9 @@ export class CampaignTick {
     }
   }
   private static act(host: TickHost, decisions: TickDecision[],
-    d: { actor: string; goal: string; action: Operator; plan: string[] }) {
+    d: { actor: string; goal: string; action: Operator; plan: string[] }, success = true) {
     const prior = host.world;
-    host.applyAction(d.action);
+    host.applyAction(d.action, success);
     decisions.push({ actor: d.actor, goal: d.goal, action: d.action.id, plan: d.plan,
       elapsed: host.tickState.current.elapsed, changes: this.diff(prior, host.world) });
     host.recordObservations();

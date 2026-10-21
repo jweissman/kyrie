@@ -379,7 +379,7 @@ export class Campaign implements TickHost {
       actors: this.definition?.actors ?? [], seed: this.randomSeed(action, 'field') });
   }
   get tickState() { return { definition: this.definition!, creatures: this.creatures, current: this.current }; }
-  applyAction(action: Operator) { this.apply(action, true); }
+  applyAction(action: Operator, success = true) { this.apply(action, success); }
   refreshProjection() { this.refresh(); }
   recordObservations() { this.observe(); }
   private apply(action: Operator, success: boolean) {
