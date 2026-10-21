@@ -35,7 +35,7 @@ Module brackenholt "Brackenholt and the holt" {
   }
 
   Person bears "the bears of the holt" at den_clearing {
-    Role "a sow bear and her grown cub". Species bear. Numbers 2.
+    Role "a sow bear and her grown cub". Species bear. Numbers 2. Called "the sow", "the cub".
     State denning blocking "A sow bear and her grown cub have denned in the bracken across the holt way. The sow rises on her hind legs and blows at you.".
     State gone "Trampled bracken and the smell of old smoke where the bears denned. The holt way is clear.".
     Guards holt_mid. Guards holt_east.

@@ -2,7 +2,7 @@ import { ItemCatalog } from '../item-catalog';
 import { Overlays } from '../overlays';
 import { WorldConstructs } from '../lang/world-constructs';
 import { ModuleWriter } from '../lang/module-writer';
-import type { CreatureGenerationContext } from '../content';
+import { Content, type CreatureGenerationContext } from '../content';
 import type { Module, Person } from '../lang/module';
 
 export type Provenance = Record<string, 'authored' | 'generated' | 'default'>;
@@ -45,12 +45,19 @@ export class Cast {
   // Every creature of a person's group: one unless the person Numbers more. Each has its own identity and draws.
   static group(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember[] {
     const first = this.person(p, generated, conflicts), count = p.count ?? 1;
+    if (p.names && p.names.length !== count) { throw new Error(`${p.id}: Called names ${p.names.length} of ${count}`); }
     if (count === 1) { return [first]; }
-    // Members of a group are told apart by their role and number: "Cave spider 2".
-    const role = typeof generated.role === 'string' ? generated.role : p.role;
-    const kind = (role ?? p.name).replace(/^(a|an|the) /i, '');
     return Array.from({ length: count }, (_, i) => ({ ...structuredClone(first), id: i ? `${first.id}_${i + 1}` : first.id,
-      context: { ...structuredClone(first.context), name: `${kind.charAt(0).toUpperCase()}${kind.slice(1)} ${i + 1}` } }));
+      context: { ...structuredClone(first.context), name: p.names?.[i] ?? this.numbered(p, generated, i) } }));
+  }
+  // Members of a group no one has named are told apart by their role and number ("Cave spider 2"), or, when the
+  // role describes the whole group ("a sow bear and her grown cub"), by their kind ("Bear 2").
+  private static numbered(p: Person, generated: Record<string, unknown>, i: number): string {
+    const role = typeof generated.role === 'string' ? generated.role : p.role;
+    const species = Content.races[p.raceId as keyof typeof Content.races]?.name;
+    const kind = !role || / and |,/.test(role) ? species ?? p.name : role;
+    const bare = kind.replace(/^(a|an|the) /i, '');
+    return `${bare.charAt(0).toUpperCase()}${bare.slice(1)} ${i + 1}`;
   }
   // What a profession means for a person in the world: what they offer, and where they spend their day.
   static professions(module: Module, people: Person[]) {

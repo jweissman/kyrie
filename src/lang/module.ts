@@ -40,8 +40,9 @@ export interface Observation { id: string; place: string; anchor?: Anchor; when:
 export interface Objective { id: string; when: Predicate; text: string }
 export interface Person { role?: string; id: string; name: string; place: string; raceId?: string; classId?: string;
   level: number; actions: string[]; horizon?: number;
-  // creature: constraints for the Deem creature generator; count: how many creatures the group has (default 1).
-  creature?: Record<string, string | number>; count?: number;
+  // creature: constraints for the Deem creature generator; count: how many creatures the group has (default 1);
+  // names: what each of them is called, in order.
+  creature?: Record<string, string | number>; count?: number; names?: string[];
   authored?: string[]; professionId?: string; backgroundId?: string; traits?: string[]; gear?: string[];
   offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[] }
 export interface CompanyDeclaration { id: string; name: string; size: number; place: string }

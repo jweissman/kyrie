@@ -109,6 +109,7 @@ export class ModuleWriter {
     return [p.role ? `Role ${JSON.stringify(p.role)}.` : '', species ? `Species ${p.raceId}.` : '',
       p.creature ? `Creature ${Object.entries(p.creature).map(([k, v]) => `${k} ${v}`).join(', ')}.` : '',
       p.count && p.count !== 1 ? `Numbers ${p.count}.` : '',
+      p.names?.length ? `Called ${p.names.map(n => JSON.stringify(n)).join(', ')}.` : '',
       !species && authored.has('raceId') ? `Ancestry ${p.raceId}.` : '',
       !species && authored.has('classId') ? `Calling ${p.classId}.` : '', authored.has('level') ? `Level ${p.level}.` : '',
       ...(p.traits ?? []).map(t => `Trait ${t}.`), ...(p.gear ?? []).map(g => `Carries ${g}.`),

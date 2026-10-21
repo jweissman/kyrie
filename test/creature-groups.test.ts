@@ -11,6 +11,8 @@ const site = `Module brood_site "A webbed cave" {
   Person brood "the spider brood" at nest { Role "a cave spider". Creature body cave_spider. Numbers 3. }
   Person mother "the brood-mother" at nest { Role "the brood-mother". Creature body cave_spider. Level 3. }
   Person drake "a drake" at nest { Creature lineage green, maturity wyrmling. }
+  Person bears "the bears" at nest { Role "a sow bear and her cub". Species bear. Numbers 2. Called "the sow", "the cub". }
+  Person wolves "the wolves" at nest { Role "a grey wolf and her mate". Species wolf. Numbers 2. }
   Goal false.
 }`;
 class Brood {
@@ -29,7 +31,9 @@ it('a person may be a numbered group of creatures composed by the Deem generator
   const npcs = c.state.creatures.filter(x => !x.id.includes('party'));
   expect(npcs.map(x => [x.name, x.raceId, x.base.level])).toEqual([
     ['Cave spider 1', 'cave_spider', 1], ['Cave spider 2', 'cave_spider', 1], ['Cave spider 3', 'cave_spider', 1],
-    ['the brood-mother', 'cave_spider', 3], ['a drake', 'dragon', 1]]);
+    ['the brood-mother', 'cave_spider', 3], ['a drake', 'dragon', 1], ['the sow', 'bear', 1], ['the cub', 'bear', 1],
+    // A role that describes the whole group does not name each member; their kind does.
+    ['Wolf 1', 'wolf', 1], ['Wolf 2', 'wolf', 1]]);
   expect(npcs.find(x => x.raceId === 'dragon')!.traits).toContain('poison_lineage');
   const attack = c.available().find(a => a.resolve?.name === 'combat' && a.resolve.args[0] === 'cave__brood')!;
   const battle = c.encounterBattle(attack.id);
@@ -37,9 +41,10 @@ it('a person may be a numbered group of creatures composed by the Deem generator
     .toEqual(['Cave spider 1', 'Cave spider 2', 'Cave spider 3']);
 }, 60000);
 
-it('writes Creature and Numbers back as authored', () => {
+it('writes Creature, Numbers and Called back as authored', () => {
   const again = ModuleParser.parse(ModuleWriter.write(ModuleParser.parse(site)));
-  expect(again.people!.map(p => [p.id, p.creature, p.count])).toEqual([
-    ['brood', { body: 'cave_spider' }, 3], ['mother', { body: 'cave_spider' }, undefined],
-    ['drake', { lineage: 'green', maturity: 'wyrmling' }, undefined]]);
+  expect(again.people!.map(p => [p.id, p.creature, p.count, p.names])).toEqual([
+    ['brood', { body: 'cave_spider' }, 3, undefined], ['mother', { body: 'cave_spider' }, undefined, undefined],
+    ['drake', { lineage: 'green', maturity: 'wyrmling' }, undefined, undefined],
+    ['bears', undefined, 2, ['the sow', 'the cub']], ['wolves', undefined, 2, undefined]]);
 });

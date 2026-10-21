@@ -34,6 +34,7 @@ export class ModuleParser {
     PersonRace: ModuleParser.PersonRace, PersonClass: ModuleParser.PersonClass,
     PersonLevel: ModuleParser.PersonLevel, PersonSpecies: ModuleParser.PersonSpecies,
     PersonCreature: ModuleParser.PersonCreature, PersonCount: ModuleParser.PersonCount,
+    PersonCalled: ModuleParser.PersonCalled,
     PersonTrait: ModuleParser.PersonTrait, PersonCarries: ModuleParser.PersonCarries,
     HazardDecl: ModuleParser.HazardDecl, PersonUses: ModuleParser.PersonUses,
     Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
@@ -285,6 +286,10 @@ export class ModuleParser {
     return { field: 'creature', value: Object.fromEntries(params) };
   }
   static PersonCount(_n: Node, n: Node, _dot: Node): Field { return { field: 'count', value: Number(n.sourceString) }; }
+  // What each member of a numbered group is called, in order: "the sow", "her cub".
+  static PersonCalled(_c: Node, list: Node, _dot: Node): Field {
+    return { field: 'names', value: list.asIteration().children.map(c => ModuleParser.ast(c) as string) };
+  }
   static PersonTrait(_t: Node, id: Node, _dot: Node): Field { return { field: 'traits', value: id.sourceString }; }
   static PersonCarries(_c: Node, id: Node, _dot: Node): Field { return { field: 'gear', value: id.sourceString }; }
   // A mechanism of this place: its effect is written in the Kyr effect language and belongs to this module only.
