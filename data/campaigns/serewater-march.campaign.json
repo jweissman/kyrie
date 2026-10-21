@@ -135,7 +135,8 @@
         "old_well": "tower.old_well",
         "well": "tower.well",
         "tower_foot": "east.tower_foot",
-        "ridge": "march.high_road"
+        "ridge": "march.high_road",
+        "stair_known": "hill.stair_known"
       }
     }
   ],

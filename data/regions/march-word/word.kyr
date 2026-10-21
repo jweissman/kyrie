@@ -7,13 +7,14 @@ Module march_word "Word around the March" {
   Entity ewes: fact "The ewes taken on the ridge". Entity no_silk: fact "Odile has no silk".
   Entity lights: fact "The light in Holt tower". Entity graves: fact "The opened graves". Entity old_well: fact "The old well".
   Entity well: passage "The old well shaft".
+  Entity stair_known: fact "The keepers' stair".
   Place tower_foot "Below the tower" is room.
   Place ridge "The ridge" is room.
 
   Initially Assert knows(maud, lights). Initially Assert knows(nera, no_silk). Initially Assert knows(iven, graves).
   Initially Assert knows(hedda, ewes). Initially Assert knows(tam, ewes).
   Initially Assert knows(osric, lights). Initially Assert knows(agnes, graves). Initially Assert knows(agnes, lights).
-  Initially Assert knows(cutter, old_well).
+  Initially Assert knows(cutter, old_well). Initially Assert knows(iven, stair_known).
   Initially Assert revealedBy(well, old_well).
 
   Topic maud_lights with maud "Ask Maud what the bargemen are saying" when not knows(actor, lights) {
@@ -27,6 +28,10 @@ Module march_word "Word around the March" {
   Topic iven_graves with iven "Ask Iven what troubles the keepers" when not knows(actor, graves) {
     Says "{iven} lowers his voice. 'Graves opened in Brackenholt churchyard, and the dead gone out of them. Not robbed: gone. I had an acolyte once who wanted to know what the dead would say if they could be made to speak. He left this shrine years ago, and they say he keeps Holt tower now.'".
     On discuss { Assert knows(actor, graves). }
+  }
+  Topic iven_stair with iven "Ask Iven, as one who keeps the rites, how the keepers went down to their dead" when capable(actor, rites) and not knows(actor, stair_known) {
+    Says "{iven} studies the one among you who knows the rites, then nods. 'Then you will go down as we did. Behind the shelves in the name room there is a stair the keepers cut, down to the family crypt. We did not carry our dead through the bronze court.'".
+    On discuss { Assert knows(actor, stair_known). }
   }
   Topic hedda_ewes with hedda "Ask Hedda about Garth's flock" when not knows(actor, ewes) {
     Says "'A ewe a night off the ridge,' says Hedda, 'and Garth swearing it's Odile's spiders up out of Silkholme. He's got pitch and a torch ready. If he goes down that sink with fire there'll be no silk on the downs again.'".

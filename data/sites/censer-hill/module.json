@@ -42,6 +42,7 @@
     "tools": "stores",
     "closing": "culvert",
     "prize_room": "hoist",
-    "sanctum": "vault"
+    "sanctum": "vault",
+    "stair_known": "stair_known"
   }
 }

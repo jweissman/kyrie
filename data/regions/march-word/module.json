@@ -8,15 +8,79 @@
     "party"
   ],
   "imports": [
-    "party", "maud", "nera", "iven", "hedda", "tam", "osric", "agnes", "cutter",
-    "ewes", "no_silk", "lights", "graves", "old_well", "well", "tower_foot", "ridge"
+    "party",
+    "maud",
+    "nera",
+    "iven",
+    "hedda",
+    "tam",
+    "osric",
+    "agnes",
+    "cutter",
+    "ewes",
+    "no_silk",
+    "lights",
+    "graves",
+    "old_well",
+    "well",
+    "tower_foot",
+    "ridge",
+    "stair_known"
   ],
   "roles": {
-    "party": { "type": "group" }, "maud": { "type": "group" }, "nera": { "type": "group" },
-    "iven": { "type": "group" }, "hedda": { "type": "group" }, "tam": { "type": "group" },
-    "osric": { "type": "group" }, "agnes": { "type": "group" }, "cutter": { "type": "group" },
-    "ewes": { "type": "fact" }, "no_silk": { "type": "fact" }, "lights": { "type": "fact" },
-    "graves": { "type": "fact" }, "old_well": { "type": "fact" }, "well": { "type": "passage" },
-    "tower_foot": { "type": "place" }, "ridge": { "type": "place" }
+    "party": {
+      "type": "group"
+    },
+    "maud": {
+      "type": "group"
+    },
+    "nera": {
+      "type": "group"
+    },
+    "iven": {
+      "type": "group"
+    },
+    "hedda": {
+      "type": "group"
+    },
+    "tam": {
+      "type": "group"
+    },
+    "osric": {
+      "type": "group"
+    },
+    "agnes": {
+      "type": "group"
+    },
+    "cutter": {
+      "type": "group"
+    },
+    "ewes": {
+      "type": "fact"
+    },
+    "no_silk": {
+      "type": "fact"
+    },
+    "lights": {
+      "type": "fact"
+    },
+    "graves": {
+      "type": "fact"
+    },
+    "old_well": {
+      "type": "fact"
+    },
+    "well": {
+      "type": "passage"
+    },
+    "tower_foot": {
+      "type": "place"
+    },
+    "ridge": {
+      "type": "place"
+    },
+    "stair_known": {
+      "type": "fact"
+    }
   }
 }
