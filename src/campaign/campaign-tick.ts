@@ -88,29 +88,29 @@ export class CampaignTick {
   static rules(host: TickHost, happenings: Happening[]) {
     const { definition, creatures, current } = host.tickState;
     for (const rule of host.module.rules ?? []) {
-      for (const effects of this.instances(rule, host.world)) {
+      for (const [effects, binding] of this.instances(rule, host.world)) {
         const prior = host.world, next = prior.apply(effects);
         CreatureFacts.commitMoney(prior, next, definition.actors, creatures);
         current.world = next.snapshot;
         const player = host.playerActor;
         if (rule.say && player && next.test(ModuleWriter.call('able', player))
           && (!rule.place || LocalObservations.perceives(next, player, rule.place, rule.anchor))) {
-          happenings.push({ id: rule.id, text: ObservationText.render(rule.say, next), kind: 'event' });
+          happenings.push({ id: rule.id, text: ObservationText.render(rule.say, next, true, binding), kind: 'event' });
         }
       }
     }
   }
   // The effect lists a rule contributes now: none, one, or one per satisfying binding of its ?variables.
-  static instances(rule: WorldRule, world: World): Change[][] {
-    if (!World.variables(rule.when)) { return world.test(rule.when) ? [rule.effects] : []; }
-    const seen = new Set<string>(), result: Change[][] = [];
+  static instances(rule: WorldRule, world: World): [Change[], Record<string, string>][] {
+    if (!World.variables(rule.when)) { return world.test(rule.when) ? [[rule.effects, {}]] : []; }
+    const seen = new Set<string>(), result: [Change[], Record<string, string>][] = [];
     for (const b of world.solve(rule.when, {})) {
       const key = JSON.stringify(Object.entries(b).sort());
       if (seen.has(key)) { continue; }
       seen.add(key);
-      result.push(rule.effects.map(c => 'value' in c && c.value.kind === 'call'
+      result.push([rule.effects.map(c => 'value' in c && c.value.kind === 'call'
         ? { ...c, call: this.bind(c.call, b), value: this.bind(c.value, b) }
-        : { ...c, call: this.bind(c.call, b) }) as Change[]);
+        : { ...c, call: this.bind(c.call, b) }) as Change[], b]);
     }
     return result;
   }

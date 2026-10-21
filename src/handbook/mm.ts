@@ -35,8 +35,10 @@ export class MonsterManual {
     const sections = types.map((type): Section => ({ id: `species-${type}`, title: `${HandbookText.capital(type)}s`,
       entries: Object.keys(Canon.species).filter(id => (Canon.creature(id).type ?? 'monster') === type)
         .sort((a, b) => Canon.creature(a).name.localeCompare(Canon.creature(b).name)).map(id => this.creature(id)) }));
-    return { id: 'species', title: 'Creatures', intro: ['Each kind, with what it fights with, by type. Temperament and '
-      + 'habitat say what it is like and where it is met; neither yet decides what it does.'], sections };
+    return { id: 'species', title: 'Creatures', intro: ['Each kind, with what it fights with, by type. Habitat says where '
+      + 'it is met. Temperament says how it meets a company that comes where it lives (the inhabitants rules in the '
+      + 'Dungeon Master\'s Guide): it warns, bargains, keeps its post, strikes from hiding, falls on you at once, or '
+      + 'slinks away, in the words the place gives it.'], sections };
   }
   static hitPoints(st: NonNullable<ReturnType<typeof Canon.creature>['statistics']>): string {
     if (st.hitPoints) { return `${st.hitPoints}`; }
@@ -48,10 +50,6 @@ export class MonsterManual {
     const weapon = st ? Canon.items[st.weapon] : undefined, armor = st?.armor ? Canon.items[st.armor] : undefined;
     const worth = s.worth ? `${s.worth.base ? `${s.worth.base} + ` : ''}${s.worth.perLevel} experience a level`
       : `${Advancement.table.species[s.type ?? ''] ?? Advancement.table.species.monster!} experience a level`;
-    if (s.temperament) {
-      this.problems.push({ book: 'mm', entry: `species:${id}`, kind: 'descriptive',
-        text: `Temperament "${s.temperament}" is read by nothing in play.` });
-    }
     const facts: [string, string][] = [['Type', `${s.type ?? '—'} (${s.kind ?? 'monster'})`],
       ...st ? [['Hit points', MonsterManual.hitPoints(st)] as [string, string],
         ...st.actions && st.actions > 1 ? [['Actions a turn', String(st.actions)] as [string, string]] : [],

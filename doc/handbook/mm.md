@@ -8,7 +8,7 @@ A species acts as many times a turn as its kind does: most once, an owlbear or a
 
 ## Creatures
 
-Each kind, with what it fights with, by type. Temperament and habitat say what it is like and where it is met; neither yet decides what it does.
+Each kind, with what it fights with, by type. Habitat says where it is met. Temperament says how it meets a company that comes where it lives (the inhabitants rules in the Dungeon Master's Guide): it warns, bargains, keeps its post, strikes from hiding, falls on you at once, or slinks away, in the words the place gives it.
 
 ### Aberrations
 

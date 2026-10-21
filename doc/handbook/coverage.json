@@ -997,7 +997,7 @@
     "faithful": 124,
     "adapted": 8,
     "represented": 18,
-    "kyr": 83,
+    "kyr": 104,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 342
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 74,
+      "kyr": 95,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -8559,6 +8559,153 @@
    "section": "world-rules/rules-dominion"
   },
   {
+   "id": "rule:inhabitants.temperament",
+   "title": "temperament",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.lair",
+   "title": "lair, refuge",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.warning",
+   "title": "warning, onslaught, flinch",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.fears",
+   "title": "fears, tribute",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.patience",
+   "title": "patience",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_shies",
+   "title": "temper_shies",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_yields",
+   "title": "temper_yields",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_falls_back",
+   "title": "temper_falls_back",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_rallies",
+   "title": "temper_rallies",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_closes",
+   "title": "temper_closes",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_defends",
+   "title": "temper_defends",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_waits",
+   "title": "temper_waits",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_let_go",
+   "title": "temper_let_go",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_warns",
+   "title": "temper_warns",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_falls_on",
+   "title": "temper_falls_on",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_springs",
+   "title": "temper_springs",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_spotted",
+   "title": "temper_spotted",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_keeps_post",
+   "title": "temper_keeps_post",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_cornered",
+   "title": "temper_cornered",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_slinks",
+   "title": "temper_slinks",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.pay_tribute",
+   "title": "pay tribute",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:world_needs.meal",
    "title": "meal",
    "status": "kyr",
@@ -15161,72 +15308,6 @@
   }
  ],
  "problems": [
-  {
-   "book": "mm",
-   "entry": "species:bear",
-   "kind": "descriptive",
-   "text": "Temperament \"defensive\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:cave_spider",
-   "kind": "descriptive",
-   "text": "Temperament \"ambush\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:cave_hound",
-   "kind": "descriptive",
-   "text": "Temperament \"territorial\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:frost_wolf",
-   "kind": "descriptive",
-   "text": "Temperament \"wary\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:boar",
-   "kind": "descriptive",
-   "text": "Temperament \"territorial\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:wolf",
-   "kind": "descriptive",
-   "text": "Temperament \"wary\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:golem",
-   "kind": "descriptive",
-   "text": "Temperament \"obedient\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:iron_golem",
-   "kind": "descriptive",
-   "text": "Temperament \"obedient\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:dragon",
-   "kind": "descriptive",
-   "text": "Temperament \"proud\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:red_dragon",
-   "kind": "descriptive",
-   "text": "Temperament \"proud\" is read by nothing in play."
-  },
-  {
-   "book": "mm",
-   "entry": "species:bone_hound",
-   "kind": "descriptive",
-   "text": "Temperament \"territorial\" is read by nothing in play."
-  },
   {
    "book": "phb",
    "entry": "trait:feywild",

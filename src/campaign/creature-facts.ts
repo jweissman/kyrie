@@ -1,3 +1,4 @@
+import { Canon } from '../canon/canon';
 import { Spellcasting } from '../rules/spellcasting';
 import { ItemCatalog } from '../item-catalog';
 import { Fighting } from '../rules/fighting';
@@ -27,7 +28,7 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings',
-    'featOpen'];
+    'featOpen', 'temperament'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -41,11 +42,21 @@ export class CreatureFacts {
       if (scope.has.has('swappable')) { changes.push(...this.swaps(world, members, scope.references, scope.abilityIds)); }
       if (scope.has.has('learnable')) { changes.push(...this.lessons(world, members, scope.references)); }
       if (scope.has.has('featOpen')) { changes.push(...this.feats(world, members, scope.references)); }
+      if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members)); }
     }
     const different = changes.filter(c => c.kind === 'assert' ? !world.test(c.call) :
       c.kind === 'retract' ? world.test(c.call) :
         'value' in c && c.value.kind !== 'call' && World.literal(c.value) !== world.number(c.call));
     return different.length ? world.apply(different) : world;
+  }
+  // A group of one species takes its species' temperament, unless the place has given it one.
+  private static temperament(world: World, group: string, members: Creature[]): Change[] {
+    const kinds = new Set(members.map(c => Canon.isSpecies(c.raceId)
+      ? Canon.creature(c.raceId).temperament : undefined));
+    const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined;
+    if (kinds.size !== 1 || !kind || !world.module.entities.some(e => e.id === kind && e.type === 'temperament')
+      || world.test(ModuleWriter.call('temperament', group, '?t'))) { return []; }
+    return [{ kind: 'assert', call: ModuleWriter.call('temperament', group, kind) }];
   }
   // What the world declares that the projection writes about: which relations it has, and its capabilities,
   // items, item kinds, member bindings and abilities.

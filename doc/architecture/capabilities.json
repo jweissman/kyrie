@@ -160,10 +160,10 @@
       ],
       "orsino": "10 monster classes (stat line, weapon, hide, up to three attacks a turn, worth, gold) × 40 types × 31 aspects × 8 ranks, 44 animals, 17 elementals, dragons by colour, golems by substance, 89 kinds of person by trade.",
       "faithful": "Resistances and vulnerabilities, natural weapons and hides, creature traits such as flying and formidable, and Orsino's bestiary composed by its own template: 39 monster types by class, 16 elementals by element and 38 animals by kind, with each class's actions a turn (an owlbear's two, a dragon's three), growth with level (qualities by round(level / 8), hit points by three a level) and worth (class experience + 50 a level).",
-      "adapted": "Kyr's hand-made species (wolves, boars, the bear, the dragon) roll their qualities instead of using Orsino's stat line; a generated species keeps only the abilities and traits Kyr can play and names the rest; the gold a kill was worth is not carried.",
+      "adapted": "Kyr's hand-made species (wolves, boars, the bear, the dragon) roll their qualities instead of using Orsino's stat line; a generated species keeps only the abilities and traits Kyr can play and names the rest; the gold a kill was worth is not carried. Temperament acts through the inhabitants rules only where a place gives the creature its words (its warning, onslaught, flinch or plea).",
       "dataOnly": "Ranks (which change nothing in Orsino either), the 31 aspects, the golem substances and dragon colours Kyr has not taken, and Orsino's 89 kinds of person by trade.",
-      "missing": "Temperament and habitat are recorded but read by nothing in play, so creatures do not yet warn, bargain, retreat or pursue by their nature; aspects; most generated creatures are not yet placed in any world.",
-      "abstractions": "OrsinoBestiary (bun bin/orsino-registry.ts bestiary) composes species from the registry; species statistics carry actions, growth and worth; temperament as rules by which an inhabitant answers intrusion is still to come.",
+      "missing": "Aspects; most generated creatures are not yet placed in any world; pursuit beyond a creature's own ground is authored per place.",
+      "abstractions": "OrsinoBestiary composes species from the registry; species statistics carry actions, growth and worth; the inhabitants rules read temperament (warn, bargain for tribute, keep a post, strike from ambush unless keen eyes spot it, slink away, fight when cornered, flee what it fears, yield when beaten, rally the next day).",
       "browser": "Foes show their condition and wind-ups; the Monster Manual describes every species by type, with what each leaves out."
     },
     {
@@ -228,10 +228,10 @@
     },
     {
       "rank": 2,
-      "title": "Creatures were fourteen hand-made species acting once a turn; their temperament is still read by nothing",
-      "unlocks": "Orsino's bestiary (93 species) with actions a turn and growth; inhabitants that answer intrusion still to come",
+      "title": "Creatures were fourteen hand-made species acting once a turn, and their temperament was read by nothing",
+      "unlocks": "Orsino's bestiary (93 species) with actions a turn and growth; inhabitants that warn, bargain, keep posts, ambush, slink, fear, yield and rally",
       "cycle": 2,
-      "state": "partly addressed"
+      "state": "addressed"
     },
     {
       "rank": 3,

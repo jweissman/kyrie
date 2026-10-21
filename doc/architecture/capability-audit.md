@@ -12,7 +12,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Summoning, transformation, domination, movement, divination and travel | 35 faithful, 1 adapted, 16 not playable, 10 orsino data only |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 122 adapted, 9 represented, 19 kyr, 5 not playable, 154 orsino data only |
 | Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 20 kyr, 141 orsino data only |
-| Environment, world and planar rules | 74 kyr, 190 orsino data only |
+| Environment, world and planar rules | 95 kyr, 190 orsino data only |
 | Content authoring and generation | 9 kyr |
 
 ## Ancestries, callings, backgrounds and formations
@@ -143,13 +143,13 @@ Entries: 105 faithful, 122 adapted, 9 represented, 19 kyr, 5 not playable, 154 o
 
 **What Kyr implements faithfully.** Resistances and vulnerabilities, natural weapons and hides, creature traits such as flying and formidable, and Orsino's bestiary composed by its own template: 39 monster types by class, 16 elementals by element and 38 animals by kind, with each class's actions a turn (an owlbear's two, a dragon's three), growth with level (qualities by round(level / 8), hit points by three a level) and worth (class experience + 50 a level).
 
-**What Kyr deliberately adapts.** Kyr's hand-made species (wolves, boars, the bear, the dragon) roll their qualities instead of using Orsino's stat line; a generated species keeps only the abilities and traits Kyr can play and names the rest; the gold a kill was worth is not carried.
+**What Kyr deliberately adapts.** Kyr's hand-made species (wolves, boars, the bear, the dragon) roll their qualities instead of using Orsino's stat line; a generated species keeps only the abilities and traits Kyr can play and names the rest; the gold a kill was worth is not carried. Temperament acts through the inhabitants rules only where a place gives the creature its words (its warning, onslaught, flinch or plea).
 
 **What is data only.** Ranks (which change nothing in Orsino either), the 31 aspects, the golem substances and dragon colours Kyr has not taken, and Orsino's 89 kinds of person by trade.
 
-**What is missing or wrong.** Temperament and habitat are recorded but read by nothing in play, so creatures do not yet warn, bargain, retreat or pursue by their nature; aspects; most generated creatures are not yet placed in any world.
+**What is missing or wrong.** Aspects; most generated creatures are not yet placed in any world; pursuit beyond a creature's own ground is authored per place.
 
-**What abstractions are needed.** OrsinoBestiary (bun bin/orsino-registry.ts bestiary) composes species from the registry; species statistics carry actions, growth and worth; temperament as rules by which an inhabitant answers intrusion is still to come.
+**What abstractions are needed.** OrsinoBestiary composes species from the registry; species statistics carry actions, growth and worth; the inhabitants rules read temperament (warn, bargain for tribute, keep a post, strike from ambush unless keen eyes spot it, slink away, fight when cornered, flee what it fears, yield when beaten, rally the next day).
 
 **Whether the browser makes it understandable.** Foes show their condition and wind-ups; the Monster Manual describes every species by type, with what each leaves out.
 
@@ -177,7 +177,7 @@ Handbook sections: `phb:equipment`, `dmg:orsino-world/orsino-equipment`, `dmg:or
 
 ## Environment, world and planar rules
 
-Entries: 74 kyr, 190 orsino data only.
+Entries: 95 kyr, 190 orsino data only.
 
 **What Orsino defines.** Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.
 
@@ -220,7 +220,7 @@ Handbook sections: `dmg:making-worlds`, `dmg:campaigns`, `mm:generated`.
 | Rank | Deficiency | Unlocks | Cycle | State |
 |---:|---|---|---:|---|
 | 1 | Progression stopped at level 10 | 56 spells of levels 6–9, feats at 15, levels 11–20; now reached, with calling features for every calling | 4 | addressed |
-| 2 | Creatures were fourteen hand-made species acting once a turn; their temperament is still read by nothing | Orsino's bestiary (93 species) with actions a turn and growth; inhabitants that answer intrusion still to come | 2 | partly addressed |
+| 2 | Creatures were fourteen hand-made species acting once a turn, and their temperament was read by nothing | Orsino's bestiary (93 species) with actions a turn and growth; inhabitants that warn, bargain, keep posts, ambush, slink, fear, yield and rally | 2 | addressed |
 | 3 | Summoning had no ownership, limit or generated creatures | 12 summoning abilities now play; aspect summons (images, the weird) still do not | 3 | addressed |
 | 4 | No reactions to what an enemy does | overwatch, blade barrier, braced spears, magebane, consecrated ground, charm aura now play; reflection and spell turning do not | 3 | addressed |
 | 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm now play; prismatic spray waits on cycling effects | 3 | addressed |

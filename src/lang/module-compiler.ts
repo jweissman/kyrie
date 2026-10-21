@@ -63,7 +63,13 @@ export class ModuleCompiler {
     for (const r of module.rules ?? []) {
       this.predicate(module, r.when);
       if (r.place) { this.anchor(module, r.place, r.anchor); }
-      if (r.say) { this.text(module, r.say); }
+      if (r.say) {
+        this.text(module, r.say);
+        const named = JSON.stringify(r.when);
+        for (const v of ObservationText.variables(r.say).filter(v => !named.includes(`"${v}"`))) {
+          throw new Error(`Rule ${r.id} speaks of ${v}, which its condition does not bind`);
+        }
+      }
       r.effects.forEach(c => this.change(module, c));
       if (r.effects.some(c => ['able', 'dead', 'watch', 'dark', 'untilLight', 'untilMorning', 'dice', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
         throw new Error('Rules cannot change canonical projections, clocks, records or discovery knowledge');

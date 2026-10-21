@@ -546,6 +546,210 @@ Also kept, without comment: exposedTo.
 |---|---|---|---|---|---|
 | 1 | 1 | 0 | 0 | 0 | 0 |
 
+### How creatures that live somewhere answer those who come into it
+
+Also kept, without comment: plea, warned, yielded, warnsFirst.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 1 | 11 | 2 | 1 | 15 | 1 |
+
+#### temperament
+
+*Kyr · kind* · `rule:inhabitants.temperament`
+
+A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one keeps its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge. A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
+
+#### lair, refuge
+
+*Kyr · relation(group, place); relation(group, place)* · `rule:inhabitants.lair`
+
+Where it lives and what it defends; where it goes when beaten or frightened off.
+
+#### warning, onslaught, flinch
+
+*Kyr · relation(group, entity); relation(group, entity); relation(group, entity)* · `rule:inhabitants.warning`
+
+What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
+
+#### fears, tribute
+
+*Kyr · relation(group, capability); measure(group)* · `rule:inhabitants.fears`
+
+What drives it off (sunlight, flame), and the price a proud one names.
+
+#### patience
+
+*Kyr · measure(group)* · `rule:inhabitants.patience`
+
+Watches it waits, once it has warned, before it comes at whoever stays.
+
+#### temper_shies
+
+*Kyr · rule* · `rule:inhabitants.temper_shies`
+
+Fear comes first: whatever it fears, brought into its presence, drives it back to its refuge.
+
+Says: "{?f}"
+
+> When: fears(?g, ?k); company(?c); together(?g, ?c); capable(?c, ?k); able(?g); refuge(?g, ?r); not (at(?g, ?r)); flinch(?g, ?f)
+
+> Then: Assert at(?g, ?r). Retract assails(?g, ?c). Retract warned(?g, ?c).
+
+#### temper_yields
+
+*Kyr · rule* · `rule:inhabitants.temper_yields`
+
+Beaten, it may beg; then it goes back to its refuge, and comes out again the next day.
+
+Says: "{?p}"
+
+> When: routed(?g); company(?c); together(?g, ?c); able(?g); plea(?g, ?p); not (yielded(?g, ?c))
+
+> Then: Assert yielded(?g, ?c). Assert tolerates(?g, ?c). Retract assails(?g, ?c).
+
+#### temper_falls_back
+
+*Kyr · rule* · `rule:inhabitants.temper_falls_back`
+
+> When: routed(?g); refuge(?g, ?r); not (at(?g, ?r))
+
+> Then: Assert at(?g, ?r).
+
+#### temper_rallies
+
+*Kyr · rule* · `rule:inhabitants.temper_rallies`
+
+> When: routed(?g); refuge(?g, ?r); at(?g, ?r); untilLight(clock) == 1
+
+> Then: Retract routed(?g).
+
+#### temper_closes
+
+*Kyr · rule* · `rule:inhabitants.temper_closes`
+
+A warning spent: whoever stayed is fallen on (for a defensive one, only in its lair).
+
+Says: "{?o}"
+
+> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= 0; not (temperament(?g, temper_defensive)); onslaught(?g, ?o)
+
+> Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
+
+#### temper_defends
+
+*Kyr · rule* · `rule:inhabitants.temper_defends`
+
+Says: "{?o}"
+
+> When: warned(?g, ?c); temperament(?g, temper_defensive); lair(?g, ?l); at(?c, ?l); at(?g, ?l); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= 0; onslaught(?g, ?o)
+
+> Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
+
+#### temper_waits
+
+*Kyr · rule* · `rule:inhabitants.temper_waits`
+
+> When: warned(?g, ?c); together(?g, ?c); patience(?g) > 0
+
+> Then: Decrease patience(?g) by 1.
+
+#### temper_let_go
+
+*Kyr · rule* · `rule:inhabitants.temper_let_go`
+
+> When: warned(?g, ?c); not (together(?g, ?c))
+
+> Then: Retract warned(?g, ?c).
+
+#### temper_warns
+
+*Kyr · rule* · `rule:inhabitants.temper_warns`
+
+The first meeting.
+
+Says: "{?w}"
+
+> When: temperament(?g, ?t); warnsFirst(?t); company(?c); confronts(?g, ?c); not (warned(?g, ?c)); warning(?g, ?w)
+
+> Then: Assert warned(?g, ?c). Set patience(?g) to 1.
+
+#### temper_falls_on
+
+*Kyr · rule* · `rule:inhabitants.temper_falls_on`
+
+Says: "{?o}"
+
+> When: temperament(?g, temper_savage); company(?c); confronts(?g, ?c); onslaught(?g, ?o)
+
+> Then: Assert assails(?g, ?c).
+
+#### temper_springs
+
+*Kyr · rule* · `rule:inhabitants.temper_springs`
+
+Says: "{?o}"
+
+> When: temperament(?g, temper_ambush); company(?c); confronts(?g, ?c); not (capable(?c, perception)); not (warned(?g, ?c)); onslaught(?g, ?o)
+
+> Then: Assert assails(?g, ?c).
+
+#### temper_spotted
+
+*Kyr · rule* · `rule:inhabitants.temper_spotted`
+
+Says: "{?w}"
+
+> When: temperament(?g, temper_ambush); company(?c); confronts(?g, ?c); capable(?c, perception); not (warned(?g, ?c)); warning(?g, ?w)
+
+> Then: Assert warned(?g, ?c). Set patience(?g) to 1.
+
+#### temper_keeps_post
+
+*Kyr · rule* · `rule:inhabitants.temper_keeps_post`
+
+Says: "{?o}"
+
+> When: temperament(?g, temper_obedient); company(?c); confronts(?g, ?c); lair(?g, ?p); at(?g, ?p); onslaught(?g, ?o)
+
+> Then: Assert assails(?g, ?c).
+
+#### temper_cornered
+
+*Kyr · rule* · `rule:inhabitants.temper_cornered`
+
+Says: "{?o}"
+
+> When: temperament(?g, temper_wary); company(?c); confronts(?g, ?c); refuge(?g, ?r); at(?g, ?r); onslaught(?g, ?o)
+
+> Then: Assert assails(?g, ?c).
+
+#### temper_slinks
+
+*Kyr · rule* · `rule:inhabitants.temper_slinks`
+
+Says: "{?f}"
+
+> When: temperament(?g, temper_wary); company(?c); confronts(?g, ?c); refuge(?g, ?r); not (at(?g, ?r)); flinch(?g, ?f)
+
+> Then: Assert at(?g, ?r).
+
+#### pay tribute
+
+*Kyr · action (group, group, place)* · `rule:inhabitants.pay_tribute`
+
+- Shown as: Give {lord} what it asks
+- Takes: 10 minutes
+- Costs: 1
+
+A proud creature's price, paid: it lets the company be.
+
+A proud creature names a price for letting you pass; paid, it keeps its word.
+
+> Needs: able(actor); company(actor); at(actor, site); at(lord, site); warned(lord, actor); temperament(lord, temper_proud); quantity(actor, gold) >= tribute(lord)
+
+> Then: Decrease quantity(actor, gold) by tribute(lord). Increase quantity(lord, gold) by tribute(lord). Assert tolerates(lord, actor). Retract warned(lord, actor).
+
 ### Food
 
 Also kept, without comment: eats, hungry, nextMeal.
