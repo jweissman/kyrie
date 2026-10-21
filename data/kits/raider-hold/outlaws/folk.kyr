@@ -42,8 +42,13 @@ Module outlaw_folk "Outlaws" {
   Item purse "a fat purse of road-money" is toll_silver in chest.
   Item seal "a signet ring with the arms cut off it" is grave_rings in chest.
 
-  Relation quiet(group). Relation roused(entity). Relation demanding(group). Relation impatient(group).
-  Relation dueling(group). Relation ended(group). Relation tithed(place).
+  Relation quiet(group). Relation demanding(group). Relation impatient(group).
+  Relation dueling(group). Relation ended(group).
+  // Sir Hamo's men take road-money on the road they watch, until the band is ended; and they are the men he would
+  // put in any castle that stood empty.
+  Initially Assert posts(band, hamo).
+  Initially Assert tolls(band, road).
+  Rule road_freed when ended(band) and tolls(band, road) { Retract tolls(band, road). }
   Place gone "away over the hills" is room.
   // By day on the road: the band steps out and demands road-money; whoever runs is shot at, whoever waits is robbed.
   Hazard arrows "A volley of arrows" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
@@ -77,22 +82,21 @@ Module outlaw_folk "Outlaws" {
   Relation paidUp(group).
   Rule toll_paid_once when paidUp(party) and not at(party, road) { Retract paidUp(party). Retract tolerates(band, party). }
   // The market: when they are short, they ride in at noon and take a tithe.
-  Measure tithes(place).
   Rule tithe when untilLight(clock) == 40 and dice(clock) <= 20 and able(band) and at(band, yard) and not quiet(band)
-    and not ended(band) { Increase tithes(town) by 1. }
-  Observe tithed_once at town when tithes(town) >= 1 "Sir Hamo's men rode into the market at noon and took a tithe of everything on the stalls, with the reeve standing by because there was nothing he could do.".
+    and not ended(band) { Increase losses(town) by 1. }
+  Observe tithed_once at town when losses(town) >= 1 "Sir Hamo's men rode into the market at noon and took a tithe of everything on the stalls, with the reeve standing by because there was nothing he could do.".
   // The sentry's horn rouses the hold when anyone comes up uninvited; the band comes to the way in.
-  Rule horn when (at(party, outside) or at(party, bolt)) and able(sentry) and not tolerates(band, party) and not roused(hamo)
-    and dice(clock) <= 50 says "A horn sounds above you, two long notes." { Assert roused(hamo). }
-  Rule caught_prying when tolerates(band, party) and not roused(hamo) and (at(party, store) or at(party, pens) or at(party, den))
+  Rule horn when (at(party, outside) or at(party, bolt)) and able(sentry) and not tolerates(band, party) and not alarmed(hamo)
+    and dice(clock) <= 50 says "A horn sounds above you, two long notes." { Assert alarmed(hamo). }
+  Rule caught_prying when tolerates(band, party) and not alarmed(hamo) and (at(party, store) or at(party, pens) or at(party, den))
     and not dueling(hamo) and ((capable(party, stealth) and dice(clock) <= 15) or (not capable(party, stealth) and dice(clock) <= 50))
-    says "'Hoy! Hands where I can see them!' Bows come up all round you." { Assert roused(hamo). Retract tolerates(band, party). }
-  Rule band_turn_out when roused(hamo) and together(band, party) and not tolerates(band, party) and able(band)
+    says "'Hoy! Hands where I can see them!' Bows come up all round you." { Assert alarmed(hamo). Retract tolerates(band, party). }
+  Rule band_turn_out when alarmed(hamo) and together(band, party) and not tolerates(band, party) and able(band)
     says "Sir Hamo's men come at you with swords out." { Assert assails(band, party). }
   Action hail(actor: group, site: place) "Hail the outlaws and ask for Sir Hamo" {
     Description "Stand where they can see you with your hands empty. Outlaws who were once a knight's men still know how a parley goes.".
     Requires able(actor) and at(actor, site) and connects(gate, site, ?in) and at(band, ?in) and able(band)
-      and not roused(hamo) and not tolerates(band, actor) and not ended(band).
+      and not alarmed(hamo) and not tolerates(band, actor) and not ended(band).
     Time 3.
     On success { Assert tolerates(band, actor). Assert tolerates(sentry, actor). Assert tolerates(hamo, actor). }
     Result "A long wait, and then Long Peter waves you up. 'Sir Hamo will see you. Keep your hands where we can see them.'".

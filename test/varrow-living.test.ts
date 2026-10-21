@@ -12,17 +12,17 @@ describe('the valley without the company', () => {
     const s = await PlaySession.start('data/campaigns/varrow.campaign.json', 'living', NodeBundleSource.shared);
     const fact = (name: string, ...args: string[]) => s.campaign.world.test(ModuleWriter.call(name, ...args));
     const number = (name: string, ...args: string[]) => s.campaign.world.number(ModuleWriter.call(name, ...args));
-    let supplied = false, provisions = number('lanthorn__provisions', 'lanthorn__lanthorn');
+    let supplied = false, provisions = number('quantity', 'lanthorn__ninefingers', 'rations');
     for (let day = 0; day < 21; day++) {
       for (let h = 0; h < 24; h++) { await s.perform('wait_hour'); }
-      const now = number('lanthorn__provisions', 'lanthorn__lanthorn');
+      const now = number('quantity', 'lanthorn__ninefingers', 'rations');
       supplied ||= now > provisions;
       provisions = now;
     }
     // The crew ate and were resupplied, by the carters from the ford or from Skerry by force.
     expect(supplied).toBe(true);
     // The hobs were at the ford's farms.
-    expect(number('knotFolk__losses', 'varrow__ford_green')).toBeGreaterThan(0);
+    expect(number('losses', 'varrow__ford_green')).toBeGreaterThan(0);
     // The dark spread up through the Wick, reached the chapter house, and the crew ran.
     expect([fact('lightless', 'lanthorn__bottle_cellar'), fact('lightless', 'lanthorn__chapter_house'),
       fact('lanthorn__lifted', 'lanthorn__toll'), fact('lanthorn__earned', 'party')]).toEqual([true, true, true, false]);

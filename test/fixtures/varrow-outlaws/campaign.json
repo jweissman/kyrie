@@ -11,6 +11,17 @@
       "bundle": "../../../data/regions/varrow/module.json"
     },
     {
+      "kit": "../../../data/kits/raider-hold/kit.json",
+      "id": "fell",
+      "fix": {
+        "approach": "varrow.stair_foot",
+        "road": "varrow.switchbacks",
+        "prey": "varrow.ford_green",
+        "hold": "cave",
+        "folk": "outlaws"
+      }
+    },
+    {
       "id": "lanthorn",
       "bundle": "../../../data/sites/lanthorn/module.json",
       "imports": {
@@ -20,10 +31,14 @@
         "gap_far": "varrow.gap_far",
         "shoulder": "varrow.shoulder",
         "home_town": "varrow.square",
-        "supplier": "varrow.ford_green",
+        "supplier": "varrow.heron",
         "lamps": "varrow.temple",
         "reeve": "varrow.garrow",
-        "bounty": "varrow.bounty"
+        "bounty": "varrow.bounty",
+        "provider": "varrow.bryony",
+        "cairn_field": "varrow.cairn_field",
+        "skerry_road": "varrow.skerry_road",
+        "claimant": "fellFolk.chief"
       }
     },
     {
@@ -49,17 +64,6 @@
         "glooms": "lanthorn.glooms",
         "unlight": "lanthorn.unlight",
         "ravening": "lanthorn.ravening"
-      }
-    },
-    {
-      "kit": "../../../data/kits/raider-hold/kit.json",
-      "id": "fell",
-      "fix": {
-        "approach": "varrow.stair_foot",
-        "road": "varrow.switchbacks",
-        "prey": "varrow.ford_green",
-        "hold": "cave",
-        "folk": "outlaws"
       }
     }
   ],

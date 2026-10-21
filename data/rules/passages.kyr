@@ -66,6 +66,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
     Description "Someone who moves quietly takes the company past a watcher without a fight or a bargain. The watcher stays where it is, and will be there on the way back.".
     Requires able(actor) and at(actor, origin) and connects(way, origin, destination) and guards(gatekeeper, way)
       and able(gatekeeper) and state(gatekeeper, ?t) and blocksWhen(gatekeeper, ?t) and not tolerates(gatekeeper, actor)
+      and (at(gatekeeper, origin) or at(gatekeeper, destination))
       and capable(actor, stealth)
       and visibleTo(way, actor) and not barred(way) and not hazardous(way) and equippedFor(actor, way) and mobile(actor).
     Time travelTime(way).

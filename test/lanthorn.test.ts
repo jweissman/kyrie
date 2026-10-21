@@ -61,7 +61,7 @@ describe('the Toll', () => {
     const [, , pick] = await Lanthorn.walk(s, ['lanthorn__pay_toll', 'go(lanthorn__outer_gate',
       'change_thing(lanthorn__guard_lock_pick']);
     expect(pick!.prelude?.response).toContain('gate wardens come at you');
-    expect(Lanthorn.fact(s, 'lanthorn__roused', 'lanthorn__lanthorn')).toBe(true);
+    expect(Lanthorn.fact(s, 'alarmed', 'lanthorn__ninefingers')).toBe(true);
   }, 60000);
   it('takes a company that asks for an audience up to Ninefingers, who names her price', async () => {
     const s = await Lanthorn.start();
@@ -95,16 +95,18 @@ describe('the crew', () => {
   it('send the carters down to Crake\'s Ford when the store runs low, and bring meal back up', async () => {
     const s = await Lanthorn.start('d');
     for (let h = 0; h < 60; h++) { await s.perform('wait_hour'); }
-    expect(s.campaign.world.number(ModuleWriter.call('lanthorn__provisions', 'lanthorn__lanthorn'))).toBeGreaterThan(2);
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'lanthorn__ninefingers', 'rations'))).toBeGreaterThan(2);
+    // The meal came off the Heron's shelf, and the crew owe for it.
+    expect(s.campaign.world.number(ModuleWriter.call('owes', 'lanthorn__ninefingers', 'varrow__bryony'))).toBeGreaterThanOrEqual(8);
   }, 120000);
   it('go down to Skerry and rob it when the store is empty', async () => {
     const s = await Lanthorn.start('d');
-    Lanthorn.set(s, { kind: 'set', call: ModuleWriter.call('lanthorn__provisions', 'lanthorn__lanthorn'), value: ModuleWriter.number(0) },
+    Lanthorn.set(s, { kind: 'set', call: ModuleWriter.call('quantity', 'lanthorn__ninefingers', 'rations'), value: ModuleWriter.number(0) },
       { kind: 'retract', call: ModuleWriter.call('able', 'lanthorn__carters') });
     let robbed = false;
     for (let h = 0; h < 12 && !robbed; h++) {
       await s.perform('wait_hour');
-      robbed = Lanthorn.fact(s, 'lanthorn__plundered', 'varrow__square');
+      robbed = s.campaign.world.number(ModuleWriter.call('losses', 'varrow__square')) >= 3;
     }
     expect(robbed).toBe(true);
   }, 120000);

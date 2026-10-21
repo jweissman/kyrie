@@ -11,6 +11,17 @@
       "bundle": "../regions/varrow/module.json"
     },
     {
+      "kit": "../kits/raider-hold/kit.json",
+      "id": "knot",
+      "fix": {
+        "approach": "varrow.knot_foot",
+        "road": "varrow.barrows",
+        "prey": "varrow.ford_green",
+        "hold": "ringfort",
+        "folk": "hobs"
+      }
+    },
+    {
       "id": "lanthorn",
       "bundle": "../sites/lanthorn/module.json",
       "imports": {
@@ -20,10 +31,14 @@
         "gap_far": "varrow.gap_far",
         "shoulder": "varrow.shoulder",
         "home_town": "varrow.square",
-        "supplier": "varrow.ford_green",
+        "supplier": "varrow.heron",
         "lamps": "varrow.temple",
         "reeve": "varrow.garrow",
-        "bounty": "varrow.bounty"
+        "bounty": "varrow.bounty",
+        "provider": "varrow.bryony",
+        "cairn_field": "varrow.cairn_field",
+        "claimant": "knotFolk.chief",
+        "skerry_road": "varrow.skerry_road"
       }
     },
     {
@@ -49,17 +64,6 @@
         "glooms": "lanthorn.glooms",
         "unlight": "lanthorn.unlight",
         "ravening": "lanthorn.ravening"
-      }
-    },
-    {
-      "kit": "../kits/raider-hold/kit.json",
-      "id": "knot",
-      "fix": {
-        "approach": "varrow.knot_foot",
-        "road": "varrow.barrows",
-        "prey": "varrow.ford_green",
-        "hold": "ringfort",
-        "folk": "hobs"
       }
     },
     {

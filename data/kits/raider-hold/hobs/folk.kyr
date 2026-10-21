@@ -69,8 +69,10 @@ Module hob_folk "Hobs" {
   Relation freed(group).
 
   // At night on the road: the raiding party waits beside it and falls on whoever passes.
-  Relation quiet(group). Relation roused(entity). Relation paid(group). Relation rung(place).
-  Measure shame(group). Measure losses(place).
+  Relation quiet(group). Relation paid(group). Relation rung(place).
+  Measure shame(group).
+  // The raiding party is the band the Gaffer sends to hold anything the hobs take.
+  Initially Assert posts(raiders, gaffer).
   Rule waylay when at(party, road) and dark() and dice(clock) <= 4 and at(raiders, hall) and able(raiders)
     and not quiet(raiders) and not tolerates(raiders, party)
     says "Shapes rise out of the dark beside the road: hobs, grinning, with cudgels and a sack for whatever you are carrying." {
@@ -86,7 +88,7 @@ Module hob_folk "Hobs" {
   // The farms: on a dark night the raiders go out to the settlement and take what they can carry.
   Rule raid when untilLight(clock) == 4 and dice(clock) <= 25 and able(raiders) and at(raiders, hall) and not quiet(raiders)
     and not at(party, town) { Increase losses(town) by 1. }
-  Rule spite when roused(gaffer) and untilLight(clock) == 4 and able(raiders) and not quiet(raiders) and not at(party, town) {
+  Rule spite when alarmed(gaffer) and untilLight(clock) == 4 and able(raiders) and not quiet(raiders) and not at(party, town) {
     Increase losses(town) by 1.
   }
   Observe raided at town when losses(town) >= 1 and losses(town) <= 2 "Hobs were at the farms again in the night: a ewe gone, a hen-house kicked in, and little muddy footprints on a windowsill.".
@@ -104,11 +106,11 @@ Module hob_folk "Hobs" {
   Rule new_raiders when not able(raiders) and able(watchers) and state(watchers, watching) and untilLight(clock) == 1
     and not paid(gaffer) { Assert state(watchers, roving). }
   // Trouble at the hold rouses it: the raiding party comes for whoever is inside.
-  Rule alarm when (routed(watchers) or not able(watchers) or not able(gaffer)) and not roused(gaffer) { Assert roused(gaffer). }
-  Pursuit defend for raiders "turning out to defend the hold" priority 30 when roused(gaffer) and not quiet(raiders)
+  Rule alarm when (routed(watchers) or not able(watchers) or not able(gaffer)) and not alarmed(gaffer) { Assert alarmed(gaffer). }
+  Pursuit defend for raiders "turning out to defend the hold" priority 30 when alarmed(gaffer) and not quiet(raiders)
     and (at(party, yard) or at(party, hall) or at(party, den) or at(party, pens) or at(party, lookout))
     seeks assails(raiders, party).
-  Rule gaffer_fights when together(gaffer, party) and able(gaffer) and roused(gaffer) and not tolerates(gaffer, party)
+  Rule gaffer_fights when together(gaffer, party) and able(gaffer) and alarmed(gaffer) and not tolerates(gaffer, party)
     says "The Gaffer comes off his fleeces with a knife in each hand, cackling." { Assert assails(gaffer, party). }
 
   // A bell rung where hobs are, or within earshot of them, sends them running out of the back way.
@@ -134,15 +136,15 @@ Module hob_folk "Hobs" {
   Action parley(actor: group, site: place) "Call to the hobs for a parley" {
     Description "Stand where they can see you, empty-handed, and ask to talk to whoever is in charge.".
     Requires able(actor) and at(actor, site) and connects(gate, site, ?in) and at(watchers, ?in) and able(watchers)
-      and state(watchers, watching) and not roused(gaffer) and not tolerates(watchers, actor).
+      and state(watchers, watching) and not alarmed(gaffer) and not tolerates(watchers, actor).
     Time 3.
     On success { Assert tolerates(watchers, actor). Assert tolerates(raiders, actor). Assert tolerates(gaffer, actor). }
     Result "There is a lot of giggling. Then Snig sticks his head out. 'Gaffer says come in and wipe your feet. Don't touch nothing.'".
   }
-  Rule caught_thieving when tolerates(gaffer, party) and not roused(gaffer) and (at(party, store) or at(party, pens))
+  Rule caught_thieving when tolerates(gaffer, party) and not alarmed(gaffer) and (at(party, store) or at(party, pens))
     and ((capable(party, stealth) and dice(clock) <= 15) or (not capable(party, stealth) and dice(clock) <= 50))
-    says "'OI!' A hob in the doorway points at you with his whole arm. 'THIEVES!'" { Assert roused(gaffer). }
-  Rule truce_broken when roused(gaffer) and tolerates(watchers, party) {
+    says "'OI!' A hob in the doorway points at you with his whole arm. 'THIEVES!'" { Assert alarmed(gaffer). }
+  Rule truce_broken when alarmed(gaffer) and tolerates(watchers, party) {
     Retract tolerates(watchers, party). Retract tolerates(raiders, party). Retract tolerates(gaffer, party).
   }
   Topic gaffer_terms with gaffer "Ask the Gaffer what it would take to leave the farms alone" when tolerates(gaffer, party) once {

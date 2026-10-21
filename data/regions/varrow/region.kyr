@@ -109,7 +109,8 @@ Module varrow "The Varrow" {
   Observe fog_high at cairn when state(sky, fog) "The cairn looms out of fog. Below, nothing; above, nothing.".
 
   // Hollin.
-  Observe market_scene at market when true "Hollin market: carts, a wool-cross, a well with a stone roof. Wagons for the Gap stand loaded and going nowhere; their drivers argue about the Toll.".
+  Observe market_scene at market when tolls(?collector, toll_gate) "Hollin market: carts, a wool-cross, a well with a stone roof. Wagons for the Gap stand loaded and going nowhere; their drivers argue about the Toll.".
+  Observe market_open at market when not tolls(?collector, toll_gate) "Hollin market: carts, a wool-cross, a well with a stone roof. Grain wagons are going out on the valley road toward the Gap, one after another.".
   Observe wheatsheaf_scene at wheatsheaf when true "A long low taproom smelling of beer and wet wool. A board by the hearth lists the Toll in chalk, and someone has added a rude drawing.".
   Observe chandlery_scene at chandlery when true "Coils of rope, poles in a rack, lamp-oil in stone jars and sacks of hard bread.".
   Observe goldsmith_scene at goldsmith when true "A narrow counting-room with a barred window, a balance under a glass bell, and a stone for testing gold.".
@@ -135,6 +136,10 @@ Module varrow "The Varrow" {
     Buys noonlight for 30 coin. Buys moonlight for 12 coin. Buys first_light for 90 coin.
   }
   Initially Set quantity(iselde, gold) to 300.
+  // Iselde's coin comes from Skerry's silver. While the Gap is tolled none comes down, and what she spends stays spent.
+  Rule silver_comes when untilLight(clock) == 1 and not tolls(?collector, toll_gate) and quantity(iselde, gold) < 300 {
+    Increase quantity(iselde, gold) by 30.
+  }
   Person ash "Mother Ash" at lamp_temple {
     Role "keeper of the Kindly Lamp". Ancestry human. Calling cleric. Level 4. Profession priest. Peaceable.
     Offers healing "the lamp's oil on every wound, and a prayer" for 3 coin.
@@ -142,7 +147,7 @@ Module varrow "The Varrow" {
   Person garrow "Aldous Garrow" at reeve_hall {
     Role "reeve of Hollin". Ancestry human. Peaceable.
   }
-  Topic wenna_toll with wenna "Ask Wenna about the Toll" when true {
+  Topic wenna_toll with wenna "Ask Wenna about the Toll" when tolls(?collector, toll_gate) {
     Says "'Ninefingers,' says Wenna, and spits in the fire. 'Ottilie Ninefingers and forty cut-throats, sitting in the old Lanthorn at the top of the Gap, and every cart that goes over pays her two crowns a wheel. Skerry's starving and we're drowning in unsold grain. The reeve's offering money to whoever shifts her.'".
   }
   Topic wenna_barrows with wenna "Ask Wenna what is said on the road" when true once {
@@ -177,6 +182,11 @@ Module varrow "The Varrow" {
     Role "keeper of the Heron and Eel". Profession innkeeper. Peaceable.
     Sells rations for 2 coin from 4.
   }
+  // The Heron's meal comes off the ford's own farms, a sack a day; farms that have been robbed send nothing.
+  Rule ford_bakes when untilLight(clock) == 1 and quantity(bryony, rations) < 8 and losses(ford_green) < 3 {
+    Increase quantity(bryony, rations) by 1.
+  }
+  Observe heron_bare at heron when quantity(bryony, rations) <= 0 "The meal bin behind the bar stands open and empty.".
   Person jory "Jory" at smithy {
     Role "smith of Crake's Ford". Ancestry human. Peaceable.
     Sells pole for 1 coin from 1.
@@ -207,7 +217,8 @@ Module varrow "The Varrow" {
   // The Gap road.
   Observe switchbacks_scene at switchbacks when true "The road climbs in switchbacks above the river. A cairn of white stones stands by a gully where the road turns for the third time.".
   Observe cairn_scene at cairn when not state(sky, fog) "A wayside cairn of offerings: pins, buttons, a doll's shoe. Above, the road makes its last pull to the Gap, and the Lanthorn stands over it, black against the sky.".
-  Observe toll_scene at toll_gate when true "The road runs straight into a gatehouse built across the Gap. The gate is shut. A board nailed to it reads TOLL: TWO CROWNS A WHEEL, TWO A HEAD, BY ORDER, and someone has scratched a ninth finger on the drawn hand.".
+  Observe toll_scene at toll_gate when tolls(?collector, toll_gate) "The road runs straight into a gatehouse built across the Gap. The gate is shut. A board nailed to it reads TOLL: TWO CROWNS A WHEEL, TWO A HEAD, BY ORDER, and someone has scratched a ninth finger on the drawn hand.".
+  Observe gate_scene at toll_gate when not tolls(?collector, toll_gate) "The road runs straight into a gatehouse built across the Gap.".
 
   // Hushing Fell and the heights.
   Observe shoulder_scene at shoulder when true "The shoulder of Hushing Fell: rock and old snow, and the whole Varrow laid out below. Up the fell, a stair has been cut into the rock, going up into cloud. A bell sounds from somewhere above, once.".
@@ -216,7 +227,8 @@ Module varrow "The Varrow" {
   Observe cairn_field_scene at cairn_field when true "A field of cairns, hundreds, each one a miner's grave. The road to Skerry runs between them.".
 
   // Skerry.
-  Observe square_scene at square when true "Skerry square: grey stone houses round a mine head with a great wheel. Everyone is thin. A queue at the Assay waits to sell silver nobody can carry down to Hollin.".
+  Observe square_scene at square when tolls(?collector, toll_gate) "Skerry square: grey stone houses round a mine head with a great wheel. Everyone is thin. A queue at the Assay waits to sell silver nobody can carry down to Hollin.".
+  Observe square_open at square when not tolls(?collector, toll_gate) "Skerry square: grey stone houses round a mine head with a great wheel. Silver goes down the Gap road in carts and grain comes up, and the Assay has a queue of carters.".
   Observe pick_scene at pick_inn when true "Miners' lamps hang over every table; half of them are out.".
   Observe assay_scene at assay when true "Scales, ingots stacked like bread, and an assayer who has not been paid in coin since summer.".
   Observe mine_head_scene at mine_head when true "The mine head: the wheel, the cage, and a cold breath coming up the shaft. A notice says DEEP GALLERIES CLOSED.".
@@ -228,6 +240,12 @@ Module varrow "The Varrow" {
     Role "keeper of the Lamp and Pick". Profession innkeeper. Peaceable.
     Sells rations for 3 coin from 3.
     Sells torch for 1 coin from 4.
+  }
+  // Skerry eats Hollin's grain. Tolled, it comes dear and seldom; open, the Gap brings it up every day.
+  Rule skerry_dear when tolls(?collector, toll_gate) and goodsPrice(keld, rations) < 3 { Set goodsPrice(keld, rations) to 3. }
+  Rule skerry_fed when not tolls(?collector, toll_gate) and goodsPrice(keld, rations) > 2 { Set goodsPrice(keld, rations) to 2. }
+  Rule grain_comes when untilLight(clock) == 1 and not tolls(?collector, toll_gate) and quantity(keld, rations) < 8 {
+    Increase quantity(keld, rations) by 2.
   }
   Topic hest_deep with hest "Ask Captain Hest about the deep galleries" when true once {
     Says "'We broke through into caves in the spring,' says Hest. 'Big ones, with folk in them: the Glimmerkin, little lantern-eyed people, who trade us light in jars. Then the lamps started going out in the deep galleries. Not blown out: eaten. You can watch a flame get smaller and smaller as if something was drinking it. I closed the deep galleries after two men went down and only their lamps came back, cold.'".

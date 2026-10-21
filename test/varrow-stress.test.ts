@@ -64,7 +64,7 @@ describe('coming back after doing something', () => {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('state', 'lanthorn__strongbox', 'lanthorn__open') }]));
     await s.perform('wait');
-    expect([Push.fact(s, 'lanthorn__roused', 'lanthorn__lanthorn'), Push.fact(s, 'lanthorn__wanted', 'party')])
+    expect([Push.fact(s, 'alarmed', 'lanthorn__ninefingers'), Push.fact(s, 'hostile', 'lanthorn__ninefingers', 'party')])
       .toEqual([true, true]);
     // Saved and loaded; days later, back at the gate.
     const back = PlaySession.resume(structuredClone(s.checkpoint()));

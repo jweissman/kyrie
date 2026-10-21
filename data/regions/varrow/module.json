@@ -59,7 +59,8 @@
     "barrow_lights": "barrow_lights",
     "goat_path_known": "goat_path_known",
     "hob_knot_known": "hob_knot_known",
-    "drove_track": "drove_track"
+    "drove_track": "drove_track",
+    "skerry_road": "skerry_road"
   },
   "assembly": {
     "commitments": [

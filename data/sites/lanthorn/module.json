@@ -17,7 +17,11 @@
     "supplier",
     "lamps",
     "reeve",
-    "bounty"
+    "bounty",
+    "provider",
+    "cairn_field",
+    "claimant",
+    "skerry_road"
   ],
   "roles": {
     "party": {
@@ -49,6 +53,18 @@
     },
     "bounty": {
       "type": "fact"
+    },
+    "provider": {
+      "type": "group"
+    },
+    "cairn_field": {
+      "type": "place"
+    },
+    "claimant": {
+      "type": "group"
+    },
+    "skerry_road": {
+      "type": "passage"
     }
   },
   "exports": {
@@ -79,7 +95,8 @@
     "wick_stair_known": "wick_stair_known",
     "nine_bargain": "nine_bargain",
     "carters": "carters",
-    "ravening": "ravening"
+    "ravening": "ravening",
+    "lookouts": "lookouts"
   },
   "experience": 800
 }
