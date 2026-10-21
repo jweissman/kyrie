@@ -102,11 +102,11 @@ describe('the register of names: a power that acts while the company is elsewher
   it('Iven sends to the Ecumenon; the warden who comes to hallow the churchyard is driven off while the first warden stands', async () => {
     const s = await March.start();
     await March.until(s, 300);
-    const done = March.decisions(s).filter(d => d.actor === 'rising__hale' || d.actor === 'keepers__keeper')
+    const done = March.decisions(s).filter(d => d.actor === 'rising__morwen' || d.actor === 'keepers__keeper')
       .map(d => `${d.goal} ${d.action.split('(')[0]}`);
     expect(done).toEqual(expect.arrayContaining(['rising.summon rising__send_word', 'come depart', 'hallowing depart',
       'obstructed rising__hallow']));
-    expect([March.where(s, 'rising__hale'), March.fact(s, 'rising__hurt', 'rising__hale'),
+    expect([March.where(s, 'rising__morwen'), March.fact(s, 'rising__hurt', 'rising__morwen'),
       March.fact(s, 'rising__hallowed', 'east__churchyard')]).toEqual(['march__shrine', true, false]);
   }, 120000);
   it('with the first warden laid by name, the Ecumenon\'s warden hallows the churchyard', async () => {
@@ -121,7 +121,7 @@ describe('the register of names: a power that acts while the company is elsewher
     March.put(s, 'east__churchyard');
     await s.perform('change_thing(rising__gravewarden_name_him)');
     await March.until(s, 220);
-    expect([March.fact(s, 'rising__hallowed', 'east__churchyard'), March.fact(s, 'rising__hurt', 'rising__hale')])
+    expect([March.fact(s, 'rising__hallowed', 'east__churchyard'), March.fact(s, 'rising__hurt', 'rising__morwen')])
       .toEqual([true, false]);
   }, 120000);
   it('a company that takes the register first leaves Corvin nothing to find, and the compact sleeps on', async () => {

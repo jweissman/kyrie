@@ -49,7 +49,7 @@ Module rising "The register of names" {
   // The keepers' answer: Iven, told by Agnes that the churchyard has fallen, sends to the Ecumenon, and a warden of
   // theirs comes to hallow it. The first warden will not let her finish while he stands; driven off, she mends and
   // tries again. Hallowed ground cannot be called up again.
-  Person hale "Sister Hale" at wexcombe {
+  Person morwen "Sister Morwen" at wexcombe {
     Role "a warden of the Ecumenon". Ancestry human. Calling cleric. Level 3. Peaceable.
     Uses depart, arrive, hallow. Plans 6 steps.
   }
@@ -59,7 +59,7 @@ Module rising "The register of names" {
   Initially Assert bywayFrom(high_road, wexcombe). Initially Assert bywayTo(high_road, shrine). Initially Set bywayTime(high_road) to 72.
   Initially Assert bywayFrom(crossing_over, shrine). Initially Assert bywayTo(crossing_over, churchyard). Initially Set bywayTime(crossing_over) to 8.
   Initially Assert bywayFrom(crossing_back, churchyard). Initially Assert bywayTo(crossing_back, shrine). Initially Set bywayTime(crossing_back) to 8.
-  Initially Assert knowsWay(hale, high_road). Initially Assert knowsWay(hale, crossing_over). Initially Assert knowsWay(hale, crossing_back).
+  Initially Assert knowsWay(morwen, high_road). Initially Assert knowsWay(morwen, crossing_over). Initially Assert knowsWay(morwen, crossing_back).
   Action send_word(actor: group, warden: group) "Send to the Ecumenon for {warden}" {
     Requires able(actor) and at(actor, shrine) and at(sexton, shrine) and fled(sexton) and not summoned(warden) and distinct(actor, warden).
     On success { Assert summoned(warden). }
@@ -77,20 +77,20 @@ Module rising "The register of names" {
     Time 2.
     On success { Retract at(intruder, ground). Assert at(intruder, shrine). Assert drivenOff(intruder). }
   }
-  Pursuit summon for keeper "sending to the Ecumenon for help" priority 20 when at(sexton, shrine) and fled(sexton) and not summoned(hale) seeks summoned(hale) using send_word.
-  Pursuit come for hale "coming to the March at the keepers' call" priority 20 when summoned(hale) and at(hale, wexcombe) seeks at(hale, shrine).
-  Pursuit hallowing for hale "hallowing Brackenholt churchyard" priority 25 when summoned(hale) and not hurt(hale) and not hallowed(churchyard) and not at(hale, wexcombe) seeks hallowed(churchyard).
-  Pursuit yard for gravewarden "keeping the churchyard" priority 30 when at(hale, churchyard) and state(gravewarden, standing) seeks drivenOff(hale) using drive_off.
-  Rule bruised when drivenOff(hale) and not hurt(hale) { Assert hurt(hale). Set mendsAt(hale) to watch(clock). Increase mendsAt(hale) by 288. }
-  Rule mends when hurt(hale) and watch(clock) >= mendsAt(hale) { Retract hurt(hale). Retract drivenOff(hale). }
-  Observe hale_hurt near hale when hurt(hale) "{hale} sits by the font with her arm bound up, grey in the face. Her salt-bag lies spilled beside her.".
-  Observe hale_ready near hale when not hurt(hale) and not hallowed(churchyard) "{hale} has her salt-bag over her shoulder and her boots still muddy from the high road.".
+  Pursuit summon for keeper "sending to the Ecumenon for help" priority 20 when at(sexton, shrine) and fled(sexton) and not summoned(morwen) seeks summoned(morwen) using send_word.
+  Pursuit come for morwen "coming to the March at the keepers' call" priority 20 when summoned(morwen) and at(morwen, wexcombe) seeks at(morwen, shrine).
+  Pursuit hallowing for morwen "hallowing Brackenholt churchyard" priority 25 when summoned(morwen) and not hurt(morwen) and not hallowed(churchyard) and not at(morwen, wexcombe) seeks hallowed(churchyard).
+  Pursuit yard for gravewarden "keeping the churchyard" priority 30 when at(morwen, churchyard) and state(gravewarden, standing) seeks drivenOff(morwen) using drive_off.
+  Rule bruised when drivenOff(morwen) and not hurt(morwen) { Assert hurt(morwen). Set mendsAt(morwen) to watch(clock). Increase mendsAt(morwen) by 288. }
+  Rule mends when hurt(morwen) and watch(clock) >= mendsAt(morwen) { Retract hurt(morwen). Retract drivenOff(morwen). }
+  Observe morwen_hurt near morwen when hurt(morwen) "{morwen} sits by the font with her arm bound up, grey in the face. Her salt-bag lies spilled beside her.".
+  Observe morwen_ready near morwen when not hurt(morwen) and not hallowed(churchyard) "{morwen} has her salt-bag over her shoulder and her boots still muddy from the high road.".
   Observe yard_hallowed at churchyard when hallowed(churchyard) "Salt lies along the churchyard wall, and a new cross of green wood stands over the oldest grave.".
-  Topic hale_purpose with hale "Ask {hale} what she has come to do" when not hurt(hale) and not hallowed(churchyard) {
-    Says "'Hallow the churchyard at Brackenholt and lay what was called out of it,' says {hale}. 'Nothing comes up out of hallowed ground. Whatever stands among the stones there will not want me to finish, so I will not be long about it.'".
+  Topic morwen_purpose with morwen "Ask {morwen} what she has come to do" when not hurt(morwen) and not hallowed(churchyard) {
+    Says "'Hallow the churchyard at Brackenholt and lay what was called out of it,' says {morwen}. 'Nothing comes up out of hallowed ground. Whatever stands among the stones there will not want me to finish, so I will not be long about it.'".
   }
-  Topic hale_hurt_talk with hale "Ask {hale} what happened" when hurt(hale) {
-    Says "'He stood over me with the spade until I went,' says {hale}. 'He did not strike. He did not have to. I will go back when I can lift my arm; or if someone keeps him busy while I work, sooner.'".
+  Topic morwen_hurt_talk with morwen "Ask {morwen} what happened" when hurt(morwen) {
+    Says "'He stood over me with the spade until I went,' says {morwen}. 'He did not strike. He did not have to. I will go back when I can lift my arm; or if someone keeps him busy while I work, sooner.'".
   }
   Person compact "the compact's dead" at below_plinths {
     Role "the founders of the flood compact, raised by name". Species revenant. Level 2. Numbers 3.
