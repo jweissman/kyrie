@@ -31,8 +31,8 @@ export class LocalObservations {
     return near;
   }
   // Whether something is perceived at all: what is hidden until a fact is known is not, until then.
-  static noticed(world: World, entity: string, actor: string): boolean {
-    if (!world.module.queries.some(q => q.name === 'noticed')) { return true; }
+  static noticed(world: World, entity: string | undefined, actor: string): boolean {
+    if (!entity || !world.module.queries.some(q => q.name === 'noticed')) { return true; }
     return world.test(ModuleWriter.call('noticed', entity, actor));
   }
   // Inside an open container that stands at the place.
@@ -45,7 +45,7 @@ export class LocalObservations {
   // What the place itself is like comes first, then who and what is about in it.
   static read(world: World, actor: string): { id: string; text: string }[] {
     const seen = (world.module.observations ?? []).filter(o => this.perceives(world, actor, o.place, o.anchor)
-      && world.test(o.when) && (o.anchor !== 'near' || this.noticed(world, o.place, actor)));
+      && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor));
     return [...seen.filter(o => (o.anchor ?? 'at') === 'at'), ...seen.filter(o => (o.anchor ?? 'at') !== 'at')]
       .map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }));
   }

@@ -1,5 +1,7 @@
 import type { Operators } from './operators';
 import { FictionalTime } from '../presentation/fictional-time';
+import { Expressions } from '../expressions';
+import { RandomStreams } from '../random-streams';
 import { Agency } from './agency';
 import { ActionTime } from './action-time';
 import { CreatureFacts } from './creature-facts';
@@ -29,8 +31,10 @@ export type Happening = { id: string; text: string; kind: 'event' };
 // One watch of the world after the player's action: every NPC acts or continues what it is doing, then each rule
 // fires once in authored order. A rule with ?variables fires once for every binding that satisfies it.
 export class CampaignTick {
-  // The clock after a watch passes: its reading, and dark() from nine in the evening until six in the morning.
-  static clock(world: World, elapsed: number): Change[] {
+  // The clock after a watch passes: its reading, dark() from nine in the evening until six in the morning, and the
+  // watch's die (dice(clock), 1 to 100, drawn from the campaign's seed) for whatever is left to chance: a wandering
+  // band on a road, the weather turning.
+  static clock(world: World, { elapsed, seed }: { elapsed: number; seed: string }): Change[] {
     const night: Change[] = world.module.relations.some(r => r.name === 'dark')
       ? [{ kind: FictionalTime.dark(elapsed) ? 'assert' : 'retract', call: ModuleWriter.call('dark') }] : [];
     if (world.module.measures.some(m => m.name === 'untilLight')) {
@@ -40,6 +44,10 @@ export class CampaignTick {
     if (world.module.measures.some(m => m.name === 'untilMorning')) {
       night.push({ kind: 'set', call: ModuleWriter.call('untilMorning', 'clock'),
         value: ModuleWriter.number(FictionalTime.untilMorning(elapsed)) });
+    }
+    if (world.module.measures.some(m => m.name === 'dice')) {
+      night.push({ kind: 'set', call: ModuleWriter.call('dice', 'clock'),
+        value: ModuleWriter.number(new Expressions(RandomStreams.key(seed, 'dice', elapsed)).number('1d100')) });
     }
     return [{ kind: 'set', call: ModuleWriter.call('watch', 'clock'), value: ModuleWriter.number(elapsed) }, ...night];
   }

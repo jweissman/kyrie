@@ -326,12 +326,14 @@ export class ModuleParser {
       effects: ModuleParser.list(changes), ...(where ? { place: where.id, anchor: where.kind } : {}),
       ...(says.children.length ? { say: ModuleParser.ast(says.children[0]!) } : {}) } };
   }
-  // An observation may teach a fact: what the company sees here, it knows from then on.
-  static Observation(_observe: Node, id: Node, anchor: Node, _when: Node, predicate: Node,
+  // An observation may teach a fact: what the company sees here, it knows from then on. One "of" an entity is not
+  // perceived while the company has not noticed that entity.
+  static Observation(_observe: Node, id: Node, anchor: Node, about: Node, _when: Node, predicate: Node,
     text: Node, teaches: Node, _dot: Node): Field {
     const where = ModuleParser.ast(anchor) as { kind: string; id: string };
     return { field: 'observation', value: { id: id.sourceString, place: where.id,
       ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text),
+      ...(about.children.length ? { about: about.children[0]!.children[1]!.sourceString } : {}),
       ...(teaches.children.length ? { teaches: teaches.children[0]!.children[1]!.sourceString } : {}) } };
   }
   static Relation(_relation: Node, name: Node, _open: Node, types: Node,

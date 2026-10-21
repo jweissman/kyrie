@@ -44,6 +44,8 @@ export interface WorldRule {
 }
 export interface Observation {
   id: string; place: string; anchor?: Anchor; when: Predicate; text: string; teaches?: string;
+  // The entity described, which is not perceived while the company has not noticed it.
+  about?: string;
 }
 export interface Objective { id: string; when: Predicate; text: string }
 export interface Person { role?: string; id: string; name: string; place: string; raceId?: string; classId?: string;

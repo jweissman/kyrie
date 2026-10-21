@@ -109,7 +109,7 @@ export class WorldConstructs {
       if (s.flags.includes('dangerous')) { this.assert(module, 'harmsWhen', t.id, s.id); }
       if (s.flags.includes('closed')) { this.assert(module, 'closesWhen', t.id, s.id); }
       if (s.text) {
-        (module.observations ??= []).push({ id: `${t.id}__${s.id}`, place: anchor.id, anchor: anchor.kind,
+        (module.observations ??= []).push({ id: `${t.id}__${s.id}`, place: anchor.id, anchor: anchor.kind, about: t.id,
           when: t.type === 'group' ? { kind: 'and',
             left: { kind: 'call', name: 'able', args: [t.id] },
             right: { kind: 'call', name: 'state', args: [t.id, s.id] } }
@@ -141,7 +141,7 @@ export class WorldConstructs {
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
     // Anything a company can handle can be tried: looked over closely, prodded, pried at, burned, listened at.
-    if (t.type !== 'group') { this.assert(module, 'probeable', t.id); }
+    if (t.type !== 'group' && t.type !== 'scenery') { this.assert(module, 'probeable', t.id); }
     this.states(module, t, t.site.anchor === 'on' ? { kind: 'beside', id: t.site.id } : { kind: 'near', id: t.id });
   }
   // An event happens once, when its condition first holds, and is perceived only by those at its anchor.

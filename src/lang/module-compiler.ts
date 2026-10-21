@@ -65,7 +65,7 @@ export class ModuleCompiler {
       if (r.place) { this.anchor(module, r.place, r.anchor); }
       if (r.say) { this.text(module, r.say); }
       r.effects.forEach(c => this.change(module, c));
-      if (r.effects.some(c => ['able', 'dead', 'watch', 'dark', 'untilLight', 'untilMorning', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
+      if (r.effects.some(c => ['able', 'dead', 'watch', 'dark', 'untilLight', 'untilMorning', 'dice', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
         throw new Error('Rules cannot change canonical projections, clocks, records or discovery knowledge');
       }
     }
@@ -75,6 +75,7 @@ export class ModuleCompiler {
       this.predicate(module, o.when);
       this.text(module, o.text);
       if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
+      if (o.about && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
     }
     ModuleCompiler.unique((module.objectives ?? []).map(o => o.id), 'objective');
     for (const o of module.objectives ?? []) { this.predicate(module, o.when); this.text(module, o.text); }

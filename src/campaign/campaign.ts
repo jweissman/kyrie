@@ -377,7 +377,7 @@ export class Campaign implements WatchHost {
     this.current.elapsed++;
     if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
       { world: this.world, actors: this.definition?.actors ?? [], player: this.playerActor })) { this.refresh(); }
-    if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current.elapsed))); }
+    if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current))); }
   }
   settleWatch(combat: CombatEvent[]) {
     this.commit(Progression.check(this.world, this.definition!, this.current.elapsed));

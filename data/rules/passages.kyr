@@ -1,5 +1,7 @@
 Module world_passages "Passages, obstacles and the condition of things" {
   Kind passage. Kind condition. Kind change. Kind thing. Kind waykind. Kind hazard.
+  // What is seen and changes but is not handled: the weather, a river, a beacon on a far hill.
+  Kind scenery.
   Relation passageKind(passage, waykind). Measure travelTime(passage).
   Relation connects(passage, place, place).
   Relation on(entity, passage).
@@ -35,8 +37,11 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query mobile(a: group) means not hobbled(a) or following(a, ?l).
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
   Query shut(c: entity) means state(c, ?s) and closesWhen(c, ?s).
-  // A thing hidden until something is known is not there, for a company that does not know it.
-  Query noticed(x: entity, a: group) means not revealedBy(x, ?f) or (revealedBy(x, ?f) and knows(a, ?f)).
+  // A thing hidden until something is known is not there, for a company that does not know it; nor is a thing on a way
+  // the company does not know of.
+  Query onHiddenWay(x: entity, a: group) means on(x, ?w) and not visibleTo(?w, a).
+  Query noticed(x: entity, a: group) means (not revealedBy(x, ?f) or (revealedBy(x, ?f) and knows(a, ?f)))
+    and not onHiddenWay(x, a).
   Query reaches(a: group, t: entity) means noticed(t, a) and ((at(a, ?p) and at(t, ?p))
     or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
     or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r))
