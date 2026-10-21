@@ -16,12 +16,12 @@ export class Binder {
   private checks = 0;
   private readonly parsed = new Map<string, Predicate>();
   constructor(private readonly ledger: Ledger, private readonly trace: Trace) {}
-  bind(slots: Record<string, SlotSpec>, at: { fixed: Record<string, string>; step: string; seed: string }):
-    { bindings: Record<string, string> } | { refused: string } {
+  bind(slots: Record<string, SlotSpec>, at: { fixed: Record<string, string>; step: string; seed: string;
+    given?: Record<string, string> }): { bindings: Record<string, string> } | { refused: string } {
     this.checks = 0;
-    const search: Search = { slots: Object.entries(slots), ...at };
+    const search: Search = { slots: Object.entries(slots), fixed: at.fixed, step: at.step, seed: at.seed };
     let refused = 'no candidates';
-    const found = this.from(0, {}, search, why => { refused = why; });
+    const found = this.from(0, { ...at.given }, search, why => { refused = why; });
     if (!found) { return { refused }; }
     return { bindings: Object.fromEntries(Object.entries(found).map(([k, v]) => [k.slice(1), v])) };
   }

@@ -351,7 +351,7 @@ Module lanthorn "The Lanthorn" {
   Rule nine_goes when keeps(ninefingers, ?jar) and itemKind(?jar, first_light) and not at(ninefingers, south)
     says "Ninefingers wraps the First Light in her cloak like a baby. By evening the crew have packed the goats, and the Lanthorn's gate stands open and nobody in it." {
     Assert at(ninefingers, south). Assert at(crew, south). Assert at(wardens, south). Assert at(coll, south).
-    Assert state(portcullis, up). Assert lifted(toll).
+    Assert state(portcullis, up). Assert lifted(toll). Assert earned(party).
   }
   Entity toll: fact "Ninefingers' Toll on the Gap road.".
   Rule unheld when lifted(toll) and holds(ninefingers, ?p) { Retract holds(ninefingers, ?p). }
@@ -359,8 +359,11 @@ Module lanthorn "The Lanthorn" {
     says "Without Ninefingers the crew quarrel all night over her strongbox and her boots, and by morning they have gone over the Gap in three directions." {
     Assert at(crew, south). Assert at(wardens, south). Assert at(coll, south). Assert at(carters, south). Assert lifted(toll).
   }
-  Rule broken when not able(ninefingers) and not able(crew) and not lifted(toll) { Assert lifted(toll). }
-  Topic claim_bounty with reeve "Tell the reeve the Toll is ended" when lifted(toll) and knows(actor, bounty) once {
+  Rule broken when not able(ninefingers) and not able(crew) and not lifted(toll) { Assert lifted(toll). Assert earned(party). }
+  // Only the company that ended the Toll is paid for it: not the dark, not a crew that ran from it.
+  Relation earned(group).
+  Rule chief_fell when not able(ninefingers) and not earned(party) { Assert earned(party). }
+  Topic claim_bounty with reeve "Tell the reeve the Toll is ended" when lifted(toll) and earned(actor) and knows(actor, bounty) once {
     Says "Garrow goes to the window, as if he could see the Gap from it, and then counts fifty crowns out of a strongbox onto the ledger without a word. Then he shakes your hand for rather a long time.".
     On discuss { Increase quantity(actor, gold) by 50. }
   }

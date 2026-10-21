@@ -125,7 +125,8 @@
         "chest": "hold.chest",
         "heap": "hold.heap",
         "backway_known": "hold.backway_known",
-        "town": "?prey"
+        "town": "?prey",
+        "chapel": "?chapel"
       }
     },
     {

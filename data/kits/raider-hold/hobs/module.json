@@ -22,7 +22,8 @@
     "bolt",
     "chest",
     "heap",
-    "backway_known"
+    "backway_known",
+    "chapel"
   ],
   "roles": {
     "party": {
@@ -68,6 +69,9 @@
       "type": "fact"
     },
     "town": {
+      "type": "place"
+    },
+    "chapel": {
       "type": "place"
     }
   },

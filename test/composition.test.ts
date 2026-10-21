@@ -37,6 +37,14 @@ describe('composing kits', () => {
     expect(m.modules.map(x => x.id)).toEqual(expect.arrayContaining(['knotHold', 'knotFolk']));
     expect(m.composition!.ledger.holds('ambushes', 'knot__band', 'varrow__barrows')).toBe(true);
   }, 60000);
+  it('binds what a proposal implies even when the author fixed the proposal: the settlement the hobs robbed of its bell', async () => {
+    const m = await ModuleBundle.campaign(Compose.varrow, NodeBundleSource.shared, 'varrow');
+    const placement = m.composition!.placements[0]!;
+    expect(placement.bindings.chapel).toBe('varrow__market');
+    expect(m.composition!.trace.text().join('\n')).toMatch(/chapel = varrow__market \(score \d+, of \d+ considered\)/);
+    const s = await PlaySession.start(Compose.varrow, 'varrow', NodeBundleSource.shared);
+    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('The bell is gone from its frame');
+  }, 60000);
   it('refuses a fixing that breaks a hard requirement, and names it', async () => {
     const { path, source } = await Compose.variant({ id: 'bad', fix: { approach: 'varrow.market' } });
     await expect(ModuleBundle.campaign(path, source, 'varrow')).rejects.toThrow(/approach.*varrow__market.*does not meet/);

@@ -11,6 +11,7 @@ Module hob_folk "Hobs" {
   Place store "The store" is room.
   Place lookout "The lookout" is room.
   Place bolt "Where the back way comes out" is room.
+  Place chapel "Where they stole the bell" is room.
   Entity gate: passage "The way in".
   Entity chest: thing "The chief's chest".
   Entity heap: thing "The plunder".
@@ -47,6 +48,7 @@ Module hob_folk "Hobs" {
   Item chalice "a stolen chalice" is chapel_plate in chest.
   Item rings "a string of rings off the dead" is grave_rings in heap.
 
+  Observe empty_frame at chapel when not freed(captive) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit, and nobody has gone after it.".
   Observe clappers at outside when true "Up on the hold, things hang where anyone coming can see them: among them bells, every one with its clapper torn out.".
   // What the boy knows: the back way out, and what the hobs are afraid of.
   Entity bell_dread: fact "Hobs cannot abide the sound of a bell: ring one where they are and they run.".

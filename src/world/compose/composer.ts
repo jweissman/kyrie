@@ -6,7 +6,7 @@ import { RandomStreams } from '../../random-streams';
 import { Binder } from './binder';
 import { Geography } from './geography';
 import type { Ledger } from './ledger';
-import type { Kit, KitModule } from './kit';
+import type { Kit, KitModule, SlotSpec } from './kit';
 import { Proposer } from './proposer';
 import { Trace } from './trace';
 
@@ -40,19 +40,42 @@ export class Composer {
     const bound = this.binder.bind(kit.manifest.slots, { fixed: slots, step, seed: RandomStreams.key(seed, 'compose', step) });
     if ('refused' in bound) { this.trace.add({ step, kind: 'refused', reason: bound.refused }); return undefined; }
     const bindings = Object.fromEntries(Object.entries(bound.bindings).map(([k, v]) => [`?${k}`, v]));
-    const choices: Record<string, string> = {};
-    for (const [dimension, spec] of Object.entries(kit.manifest.proposals ?? {})) {
-      const proposed = this.proposer.propose({ kit, dimension, spec, context: { ...this.options.context, ...choices } },
-        { bindings, step, seed: RandomStreams.key(seed, 'compose', step, dimension), ...(fix[dimension] ? { fixed: fix[dimension] } : {}) });
-      if ('refused' in proposed) { this.trace.add({ step, kind: 'refused', reason: proposed.refused }); return undefined; }
-      choices[dimension] = proposed.key;
-    }
+    const choices = this.choose(kit, { step, fix: slots, dimensions: fix, bindings });
+    if (!choices) { return undefined; }
+    const named = Object.fromEntries(Object.entries(bindings).map(([k, v]) => [k.slice(1), v]));
     const entities = { ...Object.fromEntries(this.minted(kit).map(name => [name, `${request.id}__${name}`])) };
     this.establish(kit, { step, bindings, choices, entities });
     const modules = kit.manifest.modules.filter(m => Object.entries(m.when ?? {}).every(([d, v]) => choices[d] === v))
-      .map(m => this.request(m, { kit, request, bindings: bound.bindings, choices }));
+      .map(m => this.request(m, { kit, request, bindings: named, choices }));
     for (const m of modules) { this.trace.add({ step, kind: 'module', id: m.id, bundle: m.bundle }); }
-    return { kit: kit.manifest.id, id: request.id, bindings: bound.bindings, choices, entities, modules };
+    return { kit: kit.manifest.id, id: request.id, bindings: named, choices, entities, modules };
+  }
+  // Deem's proposal for each dimension in turn. A proposal that implies more (a chapel the hobs robbed) is accepted
+  // only if what it implies can be bound now; those bindings join the placement's.
+  private choose(kit: Kit, at: { step: string; fix: Record<string, string>; dimensions: Record<string, string>;
+    bindings: Record<string, string> }): Record<string, string> | undefined {
+    const { step, bindings } = at, choices: Record<string, string> = {};
+    for (const [dimension, spec] of Object.entries(kit.manifest.proposals ?? {})) {
+      const implied: Record<string, string> = {};
+      const imply = this.imply.bind(this, { step, fix: at.fix, given: bindings, into: implied,
+        seed: RandomStreams.key(this.options.seed, 'compose', step, dimension, 'implies') });
+      const proposed = this.proposer.propose({ kit, dimension, spec, context: { ...this.options.context, ...choices } },
+        { bindings, step, seed: RandomStreams.key(this.options.seed, 'compose', step, dimension), implied: imply,
+          ...(at.dimensions[dimension] ? { fixed: at.dimensions[dimension] } : {}) });
+      if ('refused' in proposed) { this.trace.add({ step, kind: 'refused', reason: proposed.refused }); return undefined; }
+      choices[dimension] = proposed.key;
+      Object.assign(bindings, implied);
+    }
+    return choices;
+  }
+  // Binds what a proposed row implies, into the given record; the reason it cannot, if it cannot.
+  private imply(at: { step: string; fix: Record<string, string>; given: Record<string, string>; seed: string;
+    into: Record<string, string> }, slots: Record<string, SlotSpec>): string | undefined {
+    for (const k of Object.keys(at.into)) { delete at.into[k]; }
+    const bound = this.binder.bind(slots, { fixed: at.fix, step: at.step, given: at.given, seed: at.seed });
+    if ('refused' in bound) { return `it implies what cannot be: ${bound.refused}`; }
+    for (const k of Object.keys(slots)) { at.into[`?${k}`] = bound.bindings[k]!; }
+    return undefined;
   }
   // A kit module's installation id: the placement's id and the module's (knot and hold make knotHold).
   static install(placement: string, module: string): string {

@@ -29,6 +29,10 @@ what it establishes, and the modules it installs.
 - **Proposals** are dimensions Deem fills: a weighted draw from the kit's table for the region's context (its
   terrain). A row may carry `_requires`, Kyr predicates over the bound slots. A row whose requirements fail is
   refused and the draw is made again without it, so each row is considered at most once.
+- **Implications** come with a proposal: a row may name more slots (`_implies`) that must be bound, against what is
+  committed, before the row is accepted. Hobs imply the settlement whose bell they stole. If nothing can be that
+  settlement, the hobs are refused and Deem's next proposal is weighed. Implied slots join the placement's bindings
+  and can be imported by its modules.
 - **Provides** are the facts a placement commits, with `?slot`, `#dimension` and `@entity` filled in.
 - **Modules** are installed when their `when` matches the proposals. Their imports name slots, `@party`,
   `@region`, or each other's exports. The raider-hold kit's hold modules (ring-fort, cave) and folk modules (hobs,
