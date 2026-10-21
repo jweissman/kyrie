@@ -42,5 +42,6 @@
     "type": "salvage_rights",
     "templates": "templates.json",
     "tables": "tables.json"
-  }
+  },
+  "experience": 300
 }

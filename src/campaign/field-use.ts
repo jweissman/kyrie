@@ -11,6 +11,7 @@ import { AbilityUse } from '../ability-use';
 import { Expressions } from '../expressions';
 import type { CreatureStore } from '../creature-store';
 import type { CombatEvent } from '../model';
+import type { Attribute } from '../creature';
 
 export class FieldUse {
   // Experience for a won encounter: its authored value, or what its creatures are worth (Advancement.worth).
@@ -63,6 +64,19 @@ export class FieldUse {
       lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
     } finally { lease.release(); }
     return true;
+  }
+  // What a companion does with study: prepare a spell, or spend a level's advance on a quality or a new spell.
+  static study(store: CreatureStore, name: string, args: string[]): CombatEvent[] {
+    if (name === 'prepare') { return this.prepare(store, args as [string, string, string, string]); }
+    const [member, choice] = args as [string, string], lease = store.acquire([member]);
+    try {
+      const c = lease.creatures[0]!;
+      if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else { Advancement.learn(c, choice); }
+      lease.commit([c], { advancement: true });
+      const what = name === 'improve' ? `${choice.charAt(0).toUpperCase()}${choice.slice(1)} is now ${c.base[choice as Attribute]}`
+        : `${Content.abilities.find(a => a.id === choice)?.name ?? choice} learned`;
+      return [{ type: 'gain', turn: 0, actor: member, target: member, detail: what }];
+    } finally { lease.release(); }
   }
   // A caster prepares a different spell in a slot; ready at once if that slot was not yet spent.
   static prepare(store: CreatureStore, args: [string, string, string, string]): CombatEvent[] {

@@ -12,12 +12,13 @@ import { World } from '../lang/world';
 import type { CampaignActor } from './definition';
 import type { Creature } from '../creature';
 import { PartyCapabilities } from './party-capabilities';
+import { Advancement } from '../rules/advancement';
 
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
-    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company'];
+    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -84,6 +85,13 @@ export class CreatureFacts {
         }
       }
       if (has.has('swappable')) { changes.push(...this.swaps(world, members, references, abilityIds)); }
+      if (has.has('learnable')) { changes.push(...this.lessons(world, members, references)); }
+      if (has.has('improvable')) {
+        for (const c of members) {
+          const open = c.state.hp > 0 && (c.state.advances?.qualities ?? 0) > 0;
+          changes.push({ kind: open ? 'assert' : 'retract', call: ModuleWriter.call('improvable', references.get(c.id)!) });
+        }
+      }
       if (has.has('company')) { changes.push({ kind: actor.player ? 'assert' : 'retract', call: ModuleWriter.call('company', actor.id) }); }
       const alive = members.some(c => c.state.hp > 0);
       const able = members.some(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id)));
@@ -120,6 +128,15 @@ export class CreatureFacts {
     return [...present.filter(r => !desired.has(r.args.join('|')))
       .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('swappable', ...r.args) })),
     ...[...desired.values()].map(args => ({ kind: 'assert' as const, call: ModuleWriter.call('swappable', ...args) }))];
+  }
+  // The spells each caster with a level's spell to spend may learn, written as the whole set.
+  private static lessons(world: World, members: Creature[], references: Map<string, string>): Change[] {
+    const refs = new Set(members.map(c => references.get(c.id)!));
+    const desired = new Set(members.flatMap(c => Advancement.learnable(c).map(id => `${references.get(c.id)!}|${id}`)));
+    const present = world.snapshot.relations.filter(r => r.name === 'learnable' && refs.has(r.args[0]!));
+    return [...present.filter(r => !desired.has(r.args.join('|')))
+      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('learnable', ...r.args) })),
+    ...[...desired].map(key => ({ kind: 'assert' as const, call: ModuleWriter.call('learnable', ...key.split('|')) }))];
   }
   static initialize(world: World, actors: CampaignActor[], store: CreatureStore) {
     for (const actor of actors) {

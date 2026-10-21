@@ -44,9 +44,18 @@ export class ChoiceList {
     }).filter((c, n, all) => all.findIndex(o => o.label === c.label) === n);
   }
   // A caster's spells can be prepared from wherever the company is: an hour of study or prayer.
+  // What a companion can do with study: spend a level gained, or prepare a different spell.
   private static preparing(screen: Screen): Choice[] {
-    return screen.party.flatMap(m => m.acts.filter(a => a.label === 'Prepare spells')
-      .map(a => ({ ...this.choice(a, `prepare:${m.id}`, 'spell'), label: `${m.name}: prepare spells` })));
+    return screen.party.flatMap(m => m.acts.filter(a => ['Advance', 'Prepare spells'].includes(a.label))
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map(a => this.scored({ ...this.choice(a, `${a.label === 'Advance' ? 'advance' : 'prepare'}:${m.id}`, 'spell'),
+        label: `${m.name}: ${a.label.toLowerCase()}` }, m)));
+  }
+  // A quality to raise says what it is now and what it would be.
+  private static scored(c: Choice, m: Screen['party'][number]): Choice {
+    const score = m.attributes[c.label.toLowerCase()];
+    const note = score !== undefined && !c.children ? { note: `${score} → ${score + 1}` } : {};
+    return { ...c, ...note, ...(c.children ? { children: c.children.map(k => this.scored(k, m)) } : {}) };
   }
   static subject(t: TargetRow): Section {
     const tone: Tone = t.kind === 'person' ? 'person' : t.kind === 'creature' ? 'creature' : 'thing';

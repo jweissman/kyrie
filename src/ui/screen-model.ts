@@ -38,7 +38,7 @@ export class ScreenModel {
         ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
       ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
         wanting: `Needs ${w.name.toLowerCase()}: no one in the company has it.` }))];
-    const grouped = ChoiceGrouping.group(commands, { present, names, prices, passageOf, fees });
+    const grouped = ChoiceGrouping.group(commands, { present, names, prices, passageOf, fees, tell: ScreenModel.tell });
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
@@ -72,6 +72,13 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
+  }
+  // What a spell or technique does, in its own words and then in the rules' terms.
+  static tell(this: void, id: string): string | undefined {
+    const ability = Content.abilities.find(a => a.id === id);
+    if (!ability) { return undefined; }
+    const prose = Canon.abilities[id]?.effects ? ability.description : '';
+    return [prose, MechanicsText.full(ability)].filter(Boolean).join(' ');
   }
   // Things standing on a passage from here (a door, a ladder) are acted on from that exit.
   private static passageOf(world: Campaign['world'], here: string): Map<string, string> {

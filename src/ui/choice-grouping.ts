@@ -7,6 +7,8 @@ type Slot = 'exit' | 'target' | 'item' | 'member' | 'camp';
 interface Rule {
   slot: Slot; param?: string; path: string[]; passage?: Passage; via?: string; risk?: boolean;
   also?: { param: string; path: string[] };
+  // The binding whose own account (a spell's) is what the choice means, rather than the action's description.
+  tells?: string;
 }
 export interface Grouped {
   exits: Map<string, ExitActs>; targets: Map<string, Act[]>; items: Map<string, Act[]>;
@@ -17,6 +19,7 @@ export interface Row { choice: PublicChoice; action: Operator; wanting?: string;
 export interface GroupingContext {
   names: Map<string, string>; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
   fees?: Map<string, number>; several?: Set<string>;
+  tell?: (id: string) => string | undefined;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -84,7 +87,10 @@ export class ChoiceGrouping {
     transfer_item: { slot: 'item', param: 'cargo', path: ['Give to', '{recipient}'] },
     put_item: { slot: 'item', param: 'cargo', path: ['Set down here'] },
     field_spell: { slot: 'member', param: 'caster', path: ['{technique}', 'on {recipient}'] },
-    prepare_spell: { slot: 'member', param: 'caster', path: ['Prepare spells', 'In place of {outgoing} ({tier})', '{incoming}'] },
+    prepare_spell: { slot: 'member', param: 'caster', path: ['Prepare spells', 'In place of {outgoing} ({tier})', '{incoming}'],
+      tells: 'incoming' },
+    raise_quality: { slot: 'member', param: 'member', path: ['Advance', 'Raise a quality', '{quality}'] },
+    learn_spell: { slot: 'member', param: 'member', path: ['Advance', 'Learn a spell', '{spell}'], tells: 'spell' },
     wait: { slot: 'camp', path: ['Wait a while'] },
     wait_for_light: { slot: 'camp', path: ['Wait until first light'] },
     eat: { slot: 'camp', path: ['Eat a ration'] },
@@ -122,6 +128,8 @@ export class ChoiceGrouping {
     if (action.speaker) { this.insert(this.slot(out.targets, action.speaker), ['Talk', choice.name], leaf); return; }
     const rule = this.rules[schema];
     if (!rule) { this.fallback(out, row, context, leaf); return; }
+    const told = rule.tells && b[rule.tells] ? context.tell?.(b[rule.tells]!) : undefined;
+    if (told) { leaf.about = told; }
     const data = { choice: choice.name, b, context };
     const path = rule.path.map(text => this.fill(text, data));
     if (rule.slot === 'exit' && path.length === 1 && b.way && context.several?.has(b.destination ?? '')) {

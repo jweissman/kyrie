@@ -41,8 +41,8 @@ export class CreatureStore {
     this.leases.set(lease, [...ids]);
     return lease;
   }
-  // Advancement may change a creature's level, maximum health and spell slots; nothing else may alter what was
-  // generated.
+  // Advancement may change a creature's level, maximum health and spell slots, and raise its qualities by the
+  // points it spends; nothing else may alter what was generated.
   commit(lease: CreatureLease, next: Creature[], options: { advancement?: boolean } = {}) {
     const ids = this.leases.get(lease);
     if (!ids) { throw new Error('Encounter lease is closed'); }
@@ -54,7 +54,7 @@ export class CreatureStore {
       if (!Equality.deep(CreatureStore.kept(c.base, options), CreatureStore.kept(previous.base, options))
         || c.base.level < previous.base.level
         || c.name !== previous.name || c.classId !== previous.classId || c.raceId !== previous.raceId
-        || c.backgroundId !== previous.backgroundId) {
+        || c.backgroundId !== previous.backgroundId || (options.advancement && !CreatureStore.spent(previous, c))) {
         throw new Error('Combat cannot replace generated characteristics');
       }
     });
@@ -69,7 +69,15 @@ export class CreatureStore {
     this.revision++;
   }
   private static kept(base: Creature['base'], options: { advancement?: boolean }) {
-    return options.advancement ? { ...base, level: 0, maxHp: 0, maxSlots: [] } : base;
+    if (!options.advancement) { return base; }
+    const qualities = Object.fromEntries(CreatureSchema.attributes.map(k => [k, 0]));
+    return { ...base, level: 0, maxHp: 0, maxSlots: [], ...qualities };
+  }
+  // Qualities only rise, and by no more than the points of advance spent.
+  private static spent(previous: Creature, next: Creature): boolean {
+    const raised = CreatureSchema.attributes.map(k => next.base[k] - previous.base[k]);
+    const points = (previous.state.advances?.qualities ?? 0) - (next.state.advances?.qualities ?? 0);
+    return raised.every(n => n >= 0) && raised.reduce((a, b) => a + b, 0) <= Math.max(0, points);
   }
   release(lease: CreatureLease) {
     const ids = this.leases.get(lease);

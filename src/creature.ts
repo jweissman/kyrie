@@ -22,6 +22,8 @@ export interface Creature {
     hp: number; mana: number; gold: number; experience: number; slots?: number[];
     // The spell prepared in each slot, by spell level, and those of them not yet cast (see Spellcasting).
     prepared?: string[][]; ready?: string[][];
+    // What levels gained have still to be spent: points of quality to raise, and spells to learn.
+    advances?: { qualities: number; spells: number };
     learnedAbilities: string[]; conditions: ConditionInstance[]; inventory?: ItemInstance[];
   };
 }
@@ -58,6 +60,10 @@ export class CreatureSchema {
       || prepared.some((p, i) => p.length > most[i]! || ready[i]!.length !== left[i]
         || ready[i]!.some(id => ready[i]!.filter(x => x === id).length > p.filter(x => x === id).length)))) {
       throw new Error(`Invalid prepared spells: ${creature.id}`);
+    }
+    const advances = creature.state.advances;
+    if (advances && ![advances.qualities, advances.spells].every(n => Number.isSafeInteger(n) && n >= 0)) {
+      throw new Error(`Invalid advances: ${creature.id}`);
     }
     const inventory = creature.state.inventory ?? [];
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition

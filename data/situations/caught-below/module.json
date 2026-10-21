@@ -50,5 +50,6 @@
   "exports": {
     "missing": "guest",
     "waiting": "relative"
-  }
+  },
+  "experience": 400
 }

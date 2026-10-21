@@ -4,6 +4,10 @@ Module care "Rest, mending and lessons" {
   Entity circle_3: circle "third-level slot". Entity circle_4: circle "fourth-level slot".
   Entity circle_5: circle "fifth-level slot".
   Relation swappable(member, circle, ability, ability).
+  Kind quality.
+  Entity strength: quality "Strength". Entity dexterity: quality "Dexterity". Entity constitution: quality "Constitution".
+  Entity intelligence: quality "Intelligence". Entity wisdom: quality "Wisdom". Entity charisma: quality "Charisma".
+  Relation improvable(member). Relation learnable(member, ability).
   Relation memberOf(member, group).
   Relation fieldUsable(ability).
   Relation awake(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
@@ -23,6 +27,18 @@ Module care "Rest, mending and lessons" {
     Time 6.
     Resolve prepare(caster, tier, outgoing, incoming).
     Result "{caster} spends an hour over {incoming}.".
+  }
+  Action raise_quality(actor: group, member: member, quality: quality) "Have {member} raise {quality}" {
+    Description "Each level gained lets a companion raise one quality by a point. Strength lands blows and Dexterity turns them; Constitution adds hit points at the next level; Intelligence, Wisdom or Charisma feeds a caster's spells.".
+    Requires able(actor) and memberOf(member, actor) and awake(member) and improvable(member).
+    Resolve improve(member, quality).
+    Result "{member} grows in {quality}.".
+  }
+  Action learn_spell(actor: group, member: member, spell: ability) "Have {member} learn {spell}" {
+    Description "Each level gained lets a caster add a spell of their tradition, of a level they can cast, to what they know. It can be prepared from then on.".
+    Requires able(actor) and memberOf(member, actor) and awake(member) and learnable(member, spell).
+    Resolve learn(member, spell).
+    Result "{member} learns {spell}.".
   }
   Action rest(actor: group, site: place) "Rest and recover at {site}" {
     Description "Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.".
