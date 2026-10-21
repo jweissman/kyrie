@@ -80,7 +80,8 @@ declared intents, guarding and wind-ups. `bin/kyrie.ts` is the one executable; t
 development tools (benchmarks, recorders, Orsino registry generation, Deem proofs), and `scripts/` holds the
 playtest server and driver used to play the browser client by label.
 
-Recorded play: [Silkholme](doc/playtests/silkholme-2026-10-20/README.md),
+Recorded play: [the March's three expeditions](doc/playtests/march-2026-10-20/README.md),
+[Silkholme](doc/playtests/silkholme-2026-10-20/README.md),
 [a generated region](doc/playtests/rededge-2026-10-20/README.md), [the Red Crag](doc/playtests/red-crag/README.md).
 What was removed in the October 2026 consolidation, and the fiction worth reusing from it:
 [doc/archive/legacy-material.md](doc/archive/legacy-material.md).
