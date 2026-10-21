@@ -235,9 +235,9 @@ button.primary kbd { color: var(--amber-ink); background: transparent; border-co
 .known li { font: var(--s1)/1.5 var(--prose); color: var(--ink); margin-bottom: 0.55rem; max-width: 62ch; }
 .known .how { display: block; font: italic var(--s-1)/1.4 var(--mono); color: var(--dim); }
 .wants li { font: var(--s1)/1.5 var(--prose); border-left: 2px solid var(--gold); padding-left: 1ch; margin-bottom: 0.5rem; }
-.chronicle li { display: grid; grid-template-columns: 15ch minmax(0, 1fr); gap: 1.4ch; padding: 0.2rem 0;
+.chronicle li { display: grid; grid-template-columns: 17ch minmax(0, 1fr); gap: 1.4ch; padding: 0.2rem 0;
   border-bottom: 1px dotted var(--rule); color: var(--ink-2); }
-.chronicle time { color: var(--faint); }
+.chronicle time { color: var(--faint); white-space: nowrap; }
 .save { margin-top: 1.4rem; display: flex; gap: 1ch; flex-wrap: wrap; }
 .save button, .presets button { background: var(--well); border: 1px solid var(--rule-2); padding: 0.3em 1.2ch; border-radius: 3px;
   cursor: pointer; color: var(--ink-2); }

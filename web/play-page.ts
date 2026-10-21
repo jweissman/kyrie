@@ -13,7 +13,7 @@ export class PlayPage {
     const entries = s.history ? s.log : PlayTranscript.here(s.log, screen.place.id);
     return `<section class="page explore" data-region="page">${this.head(screen)}`
       + `<div class="transcript" data-region="transcript">${s.history ? this.history(entries) : this.now(screen)}`
-      + `${s.history ? '' : entries.map((e, i) => this.entry(e, i === entries.length - 1)).join('')}`
+      + `${s.history ? '' : entries.map((e, i) => this.entry(this.unsaid(e, screen), i === entries.length - 1)).join('')}`
       + `${this.doing(s)}</div>${PlayMenu.render(s, s.history ? 'History · H to close' : 'What now?')}</section>`;
   }
   static head(screen: Screen): string {
@@ -26,6 +26,10 @@ export class PlayPage {
   private static now(screen: Screen): string {
     return `<div class="now prose">${screen.prose.map(p => screen.fresh.includes(p)
       ? `<p class="new"><b class="tag">new</b> ${Html.escape(p)}</p>` : `<p>${Html.escape(p)}</p>`).join('')}</div>`;
+  }
+  // What the place's description says now is said there; an entry does not tell it again.
+  private static unsaid(e: Entry, screen: Screen): Entry {
+    return { ...e, lines: e.lines.filter(l => !screen.prose.includes(l)) };
   }
   static entry(e: Entry, latest: boolean): string {
     const said = e.said ? `<p class="said"><span aria-hidden="true">›</span> ${Html.escape(e.said)}</p>` : '';

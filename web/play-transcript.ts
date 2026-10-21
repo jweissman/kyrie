@@ -22,11 +22,16 @@ export class PlayTranscript {
       fight ? event.combat.filter(e => e.type === 'action').length : 0);
     const said = told.join(' ');
     const notes = [...f.resources.map(r => this.resource(r)),
-      ...f.discoveries.filter(d => !said.includes(d)).map(d => `Noted: ${d}`)];
+      ...f.discoveries.filter(d => !said.includes(d)).map(d => `◆ In the journal: ${this.gist(d)}`)];
     return { at: f.time.split(' · ').at(-1)!, elapsed: c.elapsed, place: c.place, placeName: c.placeName,
       ...(c.moved ? { arrival: true } : {}), ...(plain ? {} : { said: c.said }),
       lines: told, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
       title: plain ? `→ ${c.placeName}` : c.said };
+  }
+  // The first clause of a fact, enough to recognise it by: "Ninefingers will let the company come and go…".
+  static gist(fact: string): string {
+    const words = fact.split(/\s+/), clause = fact.split(/[,;:.]/)[0]!;
+    return clause.split(/\s+/).length <= 9 ? clause : `${words.slice(0, 9).join(' ')}…`;
   }
   // "Coin: 22 → 21" reads "−1 coin (21 left)".
   static resource(line: string): string {

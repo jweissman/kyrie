@@ -64,8 +64,9 @@ export class PlayViews {
   // what is pressing; and everything that has happened so far.
   private static journal(s: PlayState): string {
     const screen = s.screen!;
-    const seen = screen.knowledge.filter(k => !/told you|said|heard/i.test(k.how));
-    const heard = screen.knowledge.filter(k => /told you|said|heard/i.test(k.how));
+    const facts = screen.knowledge.filter(k => !screen.objectives.includes(k.text));
+    const seen = facts.filter(k => !/told you|said|heard/i.test(k.how));
+    const heard = facts.filter(k => /told you|said|heard/i.test(k.how));
     const known = `<div class="known">${this.facts('Seen for yourselves', seen)}${this.facts('Heard from others', heard)}</div>`;
     const wants = screen.objectives.length ? `<ul class="wants">${screen.objectives.map(o => `<li>${Html.escape(o)}</li>`).join('')}</ul>`
       : '<p class="none">Nobody has asked anything of you yet. Listen in the taprooms and at the shrine.</p>';

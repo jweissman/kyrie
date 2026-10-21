@@ -60,7 +60,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
     On success { Assert assails(actor, prey). }
   }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
-    Description "A fight goes on until one side is down or runs. Anyone brought to nothing must save against death, and may not get up.".
+    Description "Once it starts it goes on until one side is down or runs, and whoever falls may not get up.".
     Requires able(actor) and able(opponent) and distinct(actor, opponent) and at(actor, site) and reaches(actor, opponent)
       and not peaceable(opponent).
     Resolve combat(opponent).
