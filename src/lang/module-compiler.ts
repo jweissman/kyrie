@@ -89,6 +89,7 @@ export class ModuleCompiler {
       if (this.type(module, p.name)) { throw new Error(`Parameter shadows entity ${p.name}`); }
     });
     this.predicate(module, action.requires, bindings);
+    if (action.interrupt) { this.predicate(module, action.interrupt, bindings); }
     [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
     if (action.speaker && !module.entities.some(e => e.id === action.speaker && e.type === 'group')) {
       throw new Error(`Unknown topic speaker ${action.speaker}`);
@@ -117,7 +118,10 @@ export class ModuleCompiler {
     for (const o of module.objectives ?? []) { o.when = this.resolvePredicate(o.when, expressions); }
     module.goal = this.resolvePredicate(module.goal, expressions);
     for (const query of module.queries) { query.body = this.resolvePredicate(query.body, expressions); }
-    for (const action of module.actions) { action.requires = this.resolvePredicate(action.requires, expressions); }
+    for (const action of module.actions) {
+      action.requires = this.resolvePredicate(action.requires, expressions);
+      if (action.interrupt) { action.interrupt = this.resolvePredicate(action.interrupt, expressions); }
+    }
     const world = new World(module).apply(module.initial);
     return { module, world: world.snapshot, budget: World.literal(module.budget) };
   }

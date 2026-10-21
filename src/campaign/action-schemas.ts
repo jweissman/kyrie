@@ -79,6 +79,7 @@ export class ActionSchemas {
         || action.parameters.every(p => p.name === 'actor') ? action.name.replace(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g,
           (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name) : `${action.name} (${this.named(action, bindings, labels)})`,
       requires: this.predicate(action.requires, bindings),
+      ...(action.interrupt ? { interrupt: this.predicate(action.interrupt, bindings) } : {}),
       ...(action.report ? { report: this.text(action.report, bindings) } : {}),
       ...(action.seen ? { seen: this.text(action.seen, bindings) } : {}),
       success: action.success.map(c => this.change(c, bindings)),

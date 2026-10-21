@@ -16,6 +16,11 @@ class March {
     'change_thing(hill__padlock_pick)', 'go(hill__stores_door,hill__stores)', 'go(hill__dry_stair,hill__hall)',
     'use_item(march__nera_torch_1,march__member_party_3)', 'go(hill__kitchen_door,hill__kitchen)',
     'examine(hill__crock_label)', 'risk(hill__crock,march__member_party_2)'];
+  // From the name room, with the register, back to the Reedwake shrine.
+  static readonly take = [...March.refuge, 'take_item(hill__register_copy,march__member_party_1)', 'go(hill__name_way,hill__kitchen)',
+    'go(hill__kitchen_door,hill__hall)', 'go(hill__dry_stair,hill__stores)', 'go(hill__stores_door,hill__workshop)',
+    'go(hill__workshop_door,hill__vestibule)', 'go(hill__arch,hill__yard)', 'go(hill__yard_track,march__ridge)',
+    'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)', 'go(march__shrine_door,march__shrine)'];
   static async start() {
     const members = companies.companies.find(c => c.id === 'fellowship')!.members as CreatureGenerationContext[];
     return PlaySession.start('data/campaigns/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
@@ -64,12 +69,8 @@ describe('the register of names: a power that acts while the company is elsewher
       .toEqual(['rising__below_plinths', true]);
   }, 120000);
   it('given back to Iven, the register is held until Corvin comes by night; a company keeping watch catches him', async () => {
-    const take = [...March.refuge, 'take_item(hill__register_copy,march__member_party_1)', 'go(hill__name_way,hill__kitchen)',
-      'go(hill__kitchen_door,hill__hall)', 'go(hill__dry_stair,hill__stores)', 'go(hill__stores_door,hill__workshop)',
-      'go(hill__workshop_door,hill__vestibule)', 'go(hill__arch,hill__yard)', 'go(hill__yard_track,march__ridge)',
-      'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)', 'go(march__shrine_door,march__shrine)'];
     const s = await March.start();
-    await March.walk(s, take);
+    await March.walk(s, March.take);
     expect(March.legal(s)).toContain('give(hill__register_copy,keepers__keeper)');
     await s.perform('give(hill__register_copy,keepers__keeper)');
     expect(March.fact(s, 'keeps', 'keepers__keeper', 'hill__register_copy')).toBe(true);
@@ -81,6 +82,20 @@ describe('the register of names: a power that acts while the company is elsewher
     await March.until(s, 270);
     expect(March.where(s, 'rising__digger')).toBe('march__shrine');
     expect(March.fact(s, 'keeps', 'keepers__keeper', 'hill__register_copy')).toBe(true);
+    expect(March.legal(s)).toContain('attack(rising__digger)');
+  }, 120000);
+  it('a company waiting out the night in the shrine is roused when Corvin comes for the register', async () => {
+    const s = await March.start();
+    await March.walk(s, [...March.take, 'give(hill__register_copy,keepers__keeper)']);
+    // Waiting an hour at a time by day and until first light by night: a long wait breaks off when someone arrives.
+    let roused = '';
+    for (let i = 0; i < 80 && !roused; i++) {
+      const event = await s.perform(March.legal(s).includes('wait_for_light') ? 'wait_for_light' : 'wait_hour');
+      if (event.response?.startsWith('You are interrupted')) { roused = event.response; }
+    }
+    expect(roused).toContain('Corvin');
+    expect([March.where(s, 'rising__digger'), March.fact(s, 'keeps', 'keepers__keeper', 'hill__register_copy')])
+      .toEqual(['march__shrine', true]);
     expect(March.legal(s)).toContain('attack(rising__digger)');
   }, 120000);
   it('the rites spoken over the founders\' plinths first leave nothing for Sorgen to call up', async () => {

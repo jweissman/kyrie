@@ -112,7 +112,7 @@ Module rising "The register of names" {
   Action keep_custody(actor: group, ground: place) "Speak the rites of the dead over {ground}" {
     Description "Someone who keeps the rites lays the named dead to rest where they lie, so that no one can call them up; if someone is calling them now, the call breaks.".
     Requires able(actor) and at(actor, ground) and capable(actor, rites) and slumbers(compact, ground) and not disturbed(ground).
-    Time 2.
+    Time 2. Interrupted when threatened(actor).
     On success { Assert disturbed(ground). }
     Result "The old words of the keepers fill the gallery. The plinths settle with a sound like a door shutting; whatever lies under them is at rest, and will stay so.".
   }

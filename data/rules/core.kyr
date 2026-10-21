@@ -21,16 +21,19 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Query benighted(a: group) means company(a) and at(a, ?p) and unlit(?p) and not capable(a, light).
   Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
   Goal false.
+  // Someone who means the company no good where it is: a long wait or a rest is broken off when one arrives.
+  Query threatened(a: group) means at(a, ?p) and at(?o, ?p) and able(?o) and distinct(?o, a) and not peaceable(?o)
+    and not allied(?o, a).
   Action wait(actor: group) "Wait a while" {
     Requires able(actor). Time 1.
   }
   Action wait_hour(actor: group) "Wait an hour" {
-    Requires able(actor). Time 6.
+    Requires able(actor). Time 6. Interrupted when threatened(actor).
     Result "An hour passes.".
   }
   Measure untilLight(clock). Measure untilMorning(clock).
   Action wait_for_light(actor: group) "Wait until first light" {
-    Requires able(actor) and dark(). Time untilLight(clock).
+    Requires able(actor) and dark(). Time untilLight(clock). Interrupted when threatened(actor).
     Result "The sky greys, then lightens. It is morning.".
   }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {

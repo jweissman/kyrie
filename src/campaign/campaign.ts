@@ -29,6 +29,7 @@ import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
 import { ActionTime } from './action-time';
 import { CampaignTick, type TickDecision, type TickHost } from './campaign-tick';
+import { Interruption } from './interruption';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
@@ -134,7 +135,7 @@ export class Campaign implements TickHost {
     this.updateOutcome();
   }
   private installBoundary() {
-    if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between campaign commands'); }
+    if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between commands'); }
   }
   get installations(): InstalledModule[] { return structuredClone(this.definition?.installations ?? []); }
   get schemas(): Operator[] { return structuredClone(this.definition?.schemas ?? []); }
@@ -286,8 +287,9 @@ export class Campaign implements TickHost {
     let success = held && CommandResolutions.survived(action,
       this.creatures.snapshot, this.definition?.actors, this.module.entities);
     const causal = this.module.relations.some(r => r.name === 'witnessedAttack');
-    const before = this.world;
-    this.apply(action, success);
+    // An activity that can be interrupted takes effect when it has run its course; anything else takes effect now.
+    const before = this.world, deferred = !!action.interrupt;
+    if (!deferred) { this.apply(action, success); }
     if (this.definition) { this.refresh(); }
     this.commit(Aftermath.record(before, this.world, action, combat));
     this.resolutions(combat, true);
@@ -295,8 +297,10 @@ export class Campaign implements TickHost {
     if (!success && action.resolve?.name === 'expose') {
       response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
     }
-    const { npc, happenings } = this.pass(action, before, combat);
-    if (!this.shelter(action, combat)) {
+    const { npc, happenings, interrupted } = this.pass(action, before, combat);
+    if (deferred) { success &&= !interrupted; this.apply(action, success); }
+    if (interrupted) { response = interrupted; }
+    if (!interrupted && !this.shelter(action, combat)) {
       success = false;
       response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.';
     }
@@ -341,7 +345,9 @@ export class Campaign implements TickHost {
   // The command's time passes a watch at a time: conditions run out, people act, rules fire, modules progress.
   private pass(action: Operator, before: World, combat: CombatEvent[]) {
     const npc: NpcDecision[] = [], happenings: { id: string; text: string; kind: 'event' }[] = [];
-    for (let tick = 0; tick < ActionTime.of(action, before); tick++) {
+    const player = this.playerActor, watch = Interruption.begin(this.world, action, player, this.current.elapsed);
+    let why: string | undefined;
+    for (let tick = 0; tick < ActionTime.of(action, before) && !why; tick++) {
       this.current.elapsed++;
       if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
         { world: this.world, actors: this.definition?.actors ?? [], player: this.playerActor })) { this.refresh(); }
@@ -353,8 +359,10 @@ export class Campaign implements TickHost {
         this.resolutions(combat, false);
         this.observe();
       }
+      why = watch && Interruption.check(watch, this.world, player!, happenings);
     }
-    return { npc, happenings };
+    const interrupted = watch && why ? Interruption.told(watch, why, this.current.elapsed) : undefined;
+    return { npc, happenings, interrupted };
   }
   // A rest recovers the company at its end, if the shelter is still safe; whether it was.
   private shelter(action: Operator, combat: CombatEvent[]): boolean {
@@ -407,7 +415,5 @@ export class Campaign implements TickHost {
   }
   // Campaigns are open-ended: installed situations report outcomes; the campaign itself does not end.
   private updateOutcome() { this.current.outcome = 'active'; this.observe(); }
-  static autofight(battle: Battle) {
-    while (!battle.state.outcome) { battle.step(battle.chosen()); }
-  }
+  static autofight(battle: Battle) { while (!battle.state.outcome) { battle.step(battle.chosen()); } }
 }

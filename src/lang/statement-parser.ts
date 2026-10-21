@@ -18,6 +18,9 @@ export class StatementParser {
   }
   static Duration(_time: Node, call: Node, _dot: Node): Field { return { field: 'duration', value: ModuleParser.ast(call) }; }
   static Resolve(_resolve: Node, call: Node, _dot: Node): Field { return { field: 'resolve', value: ModuleParser.ast(call) }; }
+  static Interruption(_interrupted: Node, _when: Node, predicate: Node, _dot: Node): Field {
+    return { field: 'interrupt', value: ModuleParser.ast(predicate) };
+  }
   static ChangeStatement(change: Node, _dot: Node) { return ModuleParser.ast(change); }
   static Assert(_assert: Node, call: Node) { return { kind: 'assert', call: ModuleParser.ast(call) }; }
   static Retract(_retract: Node, call: Node) { return { kind: 'retract', call: ModuleParser.ast(call) }; }

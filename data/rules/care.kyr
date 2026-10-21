@@ -43,7 +43,7 @@ Module care "Rest, mending and lessons" {
   Action rest(actor: group, site: place) "Rest and recover at {site}" {
     Description "Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.".
     Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) >= 1.
-    Time 36. Resolve recover(actor).
+    Time 36. Resolve recover(actor). Interrupted when threatened(actor).
     On success { Decrease quantity(actor, rations) by 1. }
     Result "You eat, bind your hurts and sleep for six hours.".
   }

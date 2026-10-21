@@ -28,7 +28,7 @@ Module world_services "Lodging, goods and camping" {
   }
   Action camp(actor: group, site: place) "Make camp at {site}" {
     Requires able(actor) and at(actor, site) and not indoors(site) and not settled(site) and not hungry(actor).
-    Time untilMorning(clock). Resolve rough(actor).
+    Time untilMorning(clock). Resolve rough(actor). Interrupted when threatened(actor).
     Result "You find what shelter there is, and sleep in turns.".
   }
 }
