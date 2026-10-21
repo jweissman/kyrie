@@ -91,4 +91,19 @@ describe('the Serewater March, three expeditions with one company', () => {
     expect(Journey.experience(s)).toEqual([2000, 2000, 2000]);
     expect(s.campaign.events.every(e => !e.combat.some(x => x.type === 'initiative'))).toBe(true);
   }, 120000);
+  it('while the lantern burns the dead walk down to Brackenholt at night, and each dawn another grave is open', async () => {
+    const s = await Journey.start();
+    await Journey.walk(s, [...Journey.hill, 'go(march__ferry_door,march__quay)', 'go(east__ferry_crossing,east__landing)',
+      'go(east__landing_lane,east__holt_green)']);
+    const opened = () => s.campaign.world.number(ModuleWriter.call('tower__opened', 'tower__churchyard'));
+    expect([Journey.test(s, 'at', 'tower__risen', 'tower__hall'), opened()]).toEqual([true, 5]);
+    while (!Journey.test(s, 'dark')) { await s.perform('wait'); }
+    // On the green after dark: the dead stand about it, and nobody stands at the foot of the tower stair.
+    expect(Journey.test(s, 'at', 'tower__risen', 'east__holt_green')).toBe(true);
+    expect(Journey.test(s, 'watched', 'tower__stair')).toBe(false);
+    expect(PlayerView.choices(s.campaign).map(c => c.choice.id)).toContain('attack(tower__risen)');
+    await s.perform('wait_for_light');
+    expect([Journey.test(s, 'at', 'tower__risen', 'tower__hall'), Journey.test(s, 'watched', 'tower__stair'), opened()])
+      .toEqual([true, true, 6]);
+  }, 120000);
 });

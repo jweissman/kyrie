@@ -30,7 +30,7 @@ Module unquiet_tower "The unquiet tower" {
   }
   Person risen "the risen dead" at hall {
     Role "a risen corpse". Species revenant. Numbers 2.
-    State shambling blocking "Dead folk in grave-clothes stand at the foot of {stair}, swaying, and turn their faces to you.".
+    State shambling blocking "Dead folk in grave-clothes stand swaying, and turn their faces to you.".
     State fallen "Grave-clothes and bones lie in heaps at the foot of {stair}.".
     State laid "The dead lie in a row at the foot of {stair}, hands folded, faces covered. They do not stir.".
     Guards stair.
@@ -61,6 +61,19 @@ Module unquiet_tower "The unquiet tower" {
   Observe postern_look at outside when true "Low in the wall is a postern, barred from within, with an old lock on it.".
 
   Rule rested when state(risen, laid) and not peaceable(risen) { Assert peaceable(risen). }
+  Observe hall_dead at hall when at(risen, hall) and state(risen, shambling) "The dead stand at the foot of {stair}.".
+  Observe hall_empty at hall when not at(risen, hall) and state(risen, shambling) "Earth and grave-cloth threads lie at the foot of {stair}; whatever stood here has gone out.".
+
+  Measure opened(entity). Entity churchyard: thing "the churchyard".
+  Initially Set opened(churchyard) to 5.
+  Rule walk at gossip when dark() and state(lantern, lit) and state(risen, shambling) and at(risen, hall)
+    says "Something comes down the lane in the dark: dead folk in grave-clothes, who stand about the green, swaying." {
+    Retract at(risen, hall). Assert at(risen, gossip).
+  }
+  Rule dawn at gossip when not dark() and at(risen, gossip)
+    says "At first light the dead shuffle back up the lane to the tower. In the churchyard another grave stands open." {
+    Retract at(risen, gossip). Assert at(risen, hall). Increase opened(churchyard) by 1.
+  }
   Event release near lantern when state(lantern, broken) and not ended(necromancer) "The green flame goes out. Somewhere below, things fall to the floor, and {necromancer} cries out as if struck." then {
     Assert ended(necromancer). Assert state(risen, fallen). Assert peaceable(risen). Assert state(necromancer, broken). Assert peaceable(necromancer).
   }
@@ -87,8 +100,8 @@ Module unquiet_tower "The unquiet tower" {
   Entity graves: fact "Graves have been opened in the churchyard and the dead taken. An acolyte who left {shrine} years ago lives in {outside} now.".
   Entity old_well: fact "There is an old well behind {outside} that runs down into the cellars. The builders used it.".
   Initially Assert established(lights). Initially Assert established(graves). Initially Assert established(old_well).
-  Objective rumoured when (knows(party, lights) or knows(party, graves)) and not knows(party, binding) and not ended(necromancer) "Something is wrong at {outside}: lights at night, and the churchyard's dead taken.".
-  Objective tower when not ended(necromancer) and knows(party, binding) "The bone lantern in the tower holds the risen dead.".
+  Objective rumoured when (knows(party, lights) or knows(party, graves)) and not knows(party, binding) and not ended(necromancer) "Something is wrong at {outside}: lights at night, and the churchyard's dead taken; {opened(churchyard)} graves stand open, and the dead walk at night.".
+  Objective tower when not ended(necromancer) and knows(party, binding) "The bone lantern in the tower holds the risen dead. {opened(churchyard)} graves stand open, and each night they walk, another.".
   Objective report when ended(necromancer) and not thanked(keeper, party) "The dead in the tower are still. {keeper} will want to know.".
   Goal ended(necromancer).
 }

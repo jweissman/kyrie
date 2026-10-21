@@ -20,7 +20,8 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query visibleTo(w: passage, a: group) means not revealedBy(w, ?f) or (revealedBy(w, ?f) and knows(a, ?f))
     or (revealedBy(w, ?g) and following(a, ?l) and knows(?l, ?g)).
   Query barred(w: passage) means on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s).
-  Query watched(w: passage) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t).
+  Query watched(w: passage) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t)
+    and at(?g, ?p) and connects(w, ?p, ?q).
   Query obstructed(w: passage) means barred(w) or watched(w).
   Query hazardous(w: passage) means on(?h, w) and state(?h, ?s) and harmsWhen(?h, ?s).
   Query mobile(a: group) means not hobbled(a) or following(a, ?l).
