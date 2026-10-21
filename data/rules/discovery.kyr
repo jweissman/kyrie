@@ -13,6 +13,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   Relation toldBy(group, group, fact).
   Relation publicPlace(place).
   Relation testimony(group, source).
+  Relation witnessed(group, fact).
   Goal false.
   Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
     Requires able(actor) and at(actor, site) and at(witness, site) and not benighted(actor)

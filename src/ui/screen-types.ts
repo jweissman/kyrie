@@ -48,7 +48,8 @@ export interface Screen {
   exits: ExitRow[]; people: TargetRow[]; things: TargetRow[];
   party: MemberRow[]; items: ItemRow[]; camp: Act[];
   purse: { coin: number; rations: number; other: string[] };
-  knowledge: string[]; deadlines: string[]; capabilities: string[];
+  // What the company knows, newest first, each with how it came to know it ("Agnes told you", "you saw it") and when.
+  knowledge: { text: string; how: string }[]; deadlines: string[]; capabilities: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
   chart?: Chart; region?: RegionChart; objectives: string[];
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; nextMeal?: string };

@@ -254,8 +254,16 @@ export class ModuleParser {
       description: '', speaker: who,
       report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
-      success: effects.children.length ? ModuleParser.ast(effects.children[0]!) : [], failure: [], cost: 1, time: 1,
-      ...(once.children.length ? { once: true } : {}) } };
+      success: ModuleParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
+        who),
+      failure: [], cost: 1, time: 1, ...(once.children.length ? { once: true } : {}) } };
+  }
+  // What a topic teaches the company it learns from the speaker: each fact it comes to know is also told by them.
+  static told(changes: Change[], speaker: string): Change[] {
+    return changes.flatMap(c => c.kind === 'assert' && c.call.name === 'knows' && c.call.args[0] === 'actor'
+      ? [c, { kind: 'assert' as const,
+        call: { kind: 'call' as const, name: 'toldBy', args: ['actor', speaker, c.call.args[1]!] } }]
+      : [c]);
   }
   static Information(_discovery: Node, id: Node, text: Node, _open: Node, parts: Node, _close: Node): Field {
     const definition: DiscoveryDefinition = { id: id.sourceString,
@@ -306,11 +314,13 @@ export class ModuleParser {
       effects: ModuleParser.list(changes), ...(where ? { place: where.id, anchor: where.kind } : {}),
       ...(says.children.length ? { say: ModuleParser.ast(says.children[0]!) } : {}) } };
   }
+  // An observation may teach a fact: what the company sees here, it knows from then on.
   static Observation(_observe: Node, id: Node, anchor: Node, _when: Node, predicate: Node,
-    text: Node, _dot: Node): Field {
+    text: Node, teaches: Node, _dot: Node): Field {
     const where = ModuleParser.ast(anchor) as { kind: string; id: string };
     return { field: 'observation', value: { id: id.sourceString, place: where.id,
-      ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text) } };
+      ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text),
+      ...(teaches.children.length ? { teaches: teaches.children[0]!.children[1]!.sourceString } : {}) } };
   }
   static Relation(_relation: Node, name: Node, _open: Node, types: Node,
     _close: Node, exclusive: Node, _dot: Node): Field {

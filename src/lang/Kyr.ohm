@@ -74,7 +74,8 @@ Kyr {
   PursuitUsing = "using" NonemptyListOf<ident, ",">
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? "{" ChangeStatement* "}"
   RuleSays = "says" string
-  Observation = "Observe" ident Anchor "when" Predicate string "."
+  Observation = "Observe" ident Anchor "when" Predicate string ObservationTeaches? "."
+  ObservationTeaches = "teaches" ident
   Kind = "Kind" ident "."
   Relation = "Relation" ident "(" ListOf<ident, ","> ")" exclusive? "."
   Measure = "Measure" ident "(" ListOf<ident, ","> ")" "."

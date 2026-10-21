@@ -74,6 +74,7 @@ export class ModuleCompiler {
       this.anchor(module, o.place, o.anchor);
       this.predicate(module, o.when);
       this.text(module, o.text);
+      if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
     }
     ModuleCompiler.unique((module.objectives ?? []).map(o => o.id), 'objective');
     for (const o of module.objectives ?? []) { this.predicate(module, o.when); this.text(module, o.text); }

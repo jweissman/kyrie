@@ -38,7 +38,9 @@ export type Anchor = 'at' | 'near' | 'beside';
 export interface WorldRule {
   id: string; when: Predicate; effects: Change[]; say?: string; place?: string; anchor?: Anchor;
 }
-export interface Observation { id: string; place: string; anchor?: Anchor; when: Predicate; text: string }
+export interface Observation {
+  id: string; place: string; anchor?: Anchor; when: Predicate; text: string; teaches?: string;
+}
 export interface Objective { id: string; when: Predicate; text: string }
 export interface Person { role?: string; id: string; name: string; place: string; raceId?: string; classId?: string;
   level: number; actions: string[]; horizon?: number;

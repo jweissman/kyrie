@@ -14,6 +14,11 @@ Module rising "The register of names" {
   Relation slumbers(group, place). Relation sought(group, entity). Relation chanting(group). Relation disturbed(place).
   Relation fled(group). Relation ransacked(place). Relation dropped(entity). Relation bought(group).
   Relation foundWanting(group, entity).
+  Entity churchyard_fallen: fact "Brackenholt churchyard is held by a dead man in grave-mail, the churchyard's first warden, called up out of his grave.".
+  Entity register_taken: fact "Someone has taken the keepers' register from the flood refuge under Censer Hill, and left by no door.".
+  Entity rite_seen_fact: fact "Sorgen reads the dead up by name from the keepers' register, among the founders' plinths, by night.".
+  Entity compact_risen: fact "The founders of the old compact walk again under Censer Hill, called up by name.".
+  Entity roads_walked: fact "The compact's dead walk the downs by night, across the drove road and the ridge track.".
   Entity register_matters: fact "Whoever holds the keepers' register can call the named dead of the compact by name. It was lost in the flood refuge under Censer Hill.".
   Initially Assert established(register_matters).
 
@@ -138,19 +143,19 @@ Module rising "The register of names" {
     says "At first light the dead in burial linen turn off the roads and walk down toward Censer Hill." {
     Retract at(compact, ridge). Assert at(compact, founders). Retract guards(compact, ridge_track). Retract guards(compact, drove_road).
   }
-  Observe roads_held at ridge when at(compact, ridge) "Dead folk in burial linen stand across the drove road and the ridge track, swaying, their faces turned to the lights below.".
-  Observe roads_by_day at ridge when holds(necromancer, founders) and able(compact) and not at(compact, ridge) "The turf along the drove road is trodden flat in a line, as if many people had walked it barefoot in the night.".
-  Observe plinth_dead at founders when at(compact, founders) "The founders' plinths stand empty, and the founders stand among them.".
+  Observe roads_held at ridge when at(compact, ridge) "Dead folk in burial linen stand across the drove road and the ridge track, swaying, their faces turned to the lights below." teaches roads_walked.
+  Observe roads_by_day at ridge when holds(necromancer, founders) and able(compact) and not at(compact, ridge) "The turf along the drove road is trodden flat in a line, as if many people had walked it barefoot in the night." teaches roads_walked.
+  Observe plinth_dead at founders when at(compact, founders) "The founders' plinths stand empty, and the founders stand among them." teaches compact_risen.
   Observe custodian_still at court when holds(necromancer, founders) and able(compact) and able(custodian) "The Custodian stands motionless before the vault gate. Its charges walk past it in the dark, and it does not strike its own dead.".
-  Objective roads when holds(necromancer, founders) and able(compact) and knows(party, register_matters) "The compact's dead walk the downs at night, across the drove road and the ridge track.".
+  Objective roads when knows(party, roads_walked) and able(compact) "The compact's dead walk the downs at night, across the drove road and the ridge track.".
 
 
-  Observe yard_held at churchyard when holds(necromancer, churchyard) and able(gravewarden) "Fresh earth lies thrown out of the deepest grave under the yew, as if something had climbed out of it from below.".
+  Observe yard_held at churchyard when holds(necromancer, churchyard) and able(gravewarden) "Fresh earth lies thrown out of the deepest grave under the yew, as if something had climbed out of it from below." teaches churchyard_fallen.
   Observe yard_freed at churchyard when holds(necromancer, churchyard) and dead(gravewarden) "Rusted grave-mail lies across the deepest grave. The churchyard is quiet.".
-  Observe green_fear at green when holds(necromancer, churchyard) and able(gravewarden) "The lychgate hangs open. The sexton's cottage by it is shut up and dark.".
-  Observe refuge_robbed at refuge when ransacked(refuge) "The waxed shelves have been gone through by someone in a hurry. Muddy boot prints lead to the back of the room and stop at the wall.".
-  Observe rite_seen near necromancer when chanting(necromancer) "Corpse-candles burn on the founders' plinths. {necromancer} stands among them with the keepers' register open in his hands, reading names into the dark, and something under the plinths answers each one.".
-  Observe plinths_empty at founders when holds(necromancer, founders) and able(compact) and not at(compact, founders) "The founders' plinths stand empty. Burial linen trails from them across the floor toward the chalk passage.".
+  Observe green_fear at green when holds(necromancer, churchyard) and able(gravewarden) "The lychgate hangs open, and someone tall stands among the stones beyond it. The sexton's cottage by it is shut up and dark." teaches churchyard_fallen.
+  Observe refuge_robbed at refuge when ransacked(refuge) and not at(register, refuge) "The waxed shelves have been gone through by someone in a hurry. Muddy boot prints lead to the back of the room and stop at the wall." teaches register_taken.
+  Observe rite_seen near necromancer when chanting(necromancer) "Corpse-candles burn on the founders' plinths. {necromancer} stands among them with the keepers' register open in his hands, reading names into the dark, and something under the plinths answers each one." teaches rite_seen_fact.
+  Observe plinths_empty at founders when holds(necromancer, founders) and able(compact) and not at(compact, founders) "The founders' plinths stand empty. Burial linen trails from them across the floor toward the chalk passage." teaches compact_risen.
   Observe rite_broken at founders when disturbed(founders) and slumbers(compact, founders) "The founders' plinths are cracked through, and a smell of old earth hangs in the air. Whatever was called here did not come.".
   Observe sexton_here near sexton when fled(sexton) "{sexton} sits on the shrine steps in a shawl over her nightgown, as if she had run all the way.".
 
@@ -165,15 +170,19 @@ Module rising "The register of names" {
   Topic keeper_watch with keeper "Ask {keeper} whether the register is safe here" when keeps(keeper, register) once {
     Says "'Safe from honest folk,' says {keeper}. 'He sent someone for it once. He will send them again, by night, when the shrine is empty but for me.' He looks at the dark corners of the porch.".
   }
-  Topic sexton_tells with sexton "Ask {sexton} what happened" when fled(sexton) once {
+  Topic sexton_tells with sexton "Ask {sexton} why she ran" when fled(sexton) once {
     Says "'He came up out of the old warden's grave,' says {sexton}. 'The first warden, that we buried in his mail when my grandmother was a girl. He walked to the lychgate and stood there with my spade, and I ran. He is not like the others. He looks at you.'".
+    On discuss { Assert knows(actor, churchyard_fallen). }
   }
-  Topic keeper_fears with keeper "Ask {keeper} what the necromancer could do with the register" when not keeps(keeper, register) and not keeps(necromancer, register) once {
+  Topic keeper_fears with keeper "Ask {keeper} what the necromancer could do with the register" when not keeps(keeper, register) once {
     Says "'With the register in his hands he would not need to dig,' says {keeper}. 'He could stand among the compact's founders and call them up by name, every one, and they would answer him. Find it before he does. It was lost in the flood refuge under Censer Hill.'".
     On discuss { Assert knows(actor, register_matters). }
   }
-  Objective race when not keeps(keeper, register) and not keeps(necromancer, register) and knows(party, register_matters) "Whoever holds the keepers' register can call the named dead of the compact by name. It was lost in the flood refuge under Censer Hill.".
-  Objective lost when keeps(necromancer, register) and slumbers(compact, founders) and not disturbed(founders) "The necromancer has the keepers' register. Next he will want to stand among the compact's founders and read them up.".
-  Objective risen_compact when holds(necromancer, founders) and able(compact) "The compact's founders walk under Censer Hill, called up by name from the keepers' register.".
+  // What the company is after follows from what it knows, never from what has happened out of its sight.
+  Query carrying(g: group, i: item) means memberOf(?m, g) and ownedItem(i, ?m).
+  Objective race when knows(party, register_matters) and not knows(party, register_taken) and not keeps(keeper, register) and not carrying(party, register) "Whoever holds the keepers' register can call the named dead of the compact by name. It was lost in the flood refuge under Censer Hill.".
+  Objective home when knows(party, register_matters) and carrying(party, register) "The keepers' register is in your pack, and {keeper} waits for it at the Reedwake shrine.".
+  Objective lost when knows(party, register_taken) and not keeps(keeper, register) and not carrying(party, register) and not knows(party, compact_risen) "Someone went through the flood refuge before you and took the keepers' register.".
+  Objective risen_compact when knows(party, compact_risen) and able(compact) "The compact's founders walk under Censer Hill, called up by name from the keepers' register.".
   Goal false.
 }

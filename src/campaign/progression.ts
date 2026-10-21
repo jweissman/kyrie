@@ -5,8 +5,19 @@ import { World } from '../lang/world';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Change } from '../lang/module';
 import type { CampaignDefinition, InstalledModule } from './definition';
+import type { ModuleStatus } from './campaign-types';
 
 export class Progression {
+  // Each installed module's standing: failed by an unmet pressure, succeeded by its goal, or still active.
+  static statuses(installations: InstalledModule[], world: World,
+    observations: Record<string, number>): ModuleStatus[] {
+    return installations.map(m => ({ id: m.id, name: m.name, installedAt: m.installedAt, deadline: m.deadline,
+      outcome: m.pressures.some(id => world.number(ModuleWriter.call('deficit', id)) > 0) ? 'failure' as const
+        : world.test(m.goal) ? 'success' as const : 'active' as const,
+      outcomes: Object.fromEntries(m.outcomes.map(o => [o.id, world.test(o.predicate)])),
+      developments: m.outcomes.filter(o => observations[`${m.id}.${o.id}`] !== undefined)
+        .map(o => ({ id: o.id, elapsed: observations[`${m.id}.${o.id}`]! })) }));
+  }
   static check(world: World, definition: CampaignDefinition, elapsed: number): World {
     const changes: Change[] = [];
     for (const pressure of definition.pressures) {

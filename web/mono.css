@@ -279,3 +279,7 @@ input:focus, select:focus, button:focus-visible { outline: 1px solid var(--sel);
   .legend, .map .map-scale, .chart.regional { display: none; }
   .mark { font-size: 2em; }
 }
+.known li, .aims li { margin-bottom: 0.45em; }
+.aims li { color: var(--person); padding-left: 2ch; text-indent: -2ch; }
+.aims li::before { content: '◆ '; }
+.known .how { display: block; color: var(--faint); font-size: 0.85em; }

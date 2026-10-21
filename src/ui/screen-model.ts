@@ -62,7 +62,7 @@ export class ScreenModel {
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
           .map(r => `${r.amount} ${r.name}`) },
-      knowledge: view.knowledge.map(k => k.text),
+      knowledge: this.knowledge(view),
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       objectives: (view.objectives ?? []).map(o => FictionalTime.prose(o.text)),
@@ -73,6 +73,13 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
+  }
+  // What the company knows, newest first, with how it knows it: seen, found in something, or told by someone.
+  private static knowledge(view: PlayerSnapshot): Screen['knowledge'] {
+    return [...view.knowledge].sort((a, b) => (b.at ?? -1) - (a.at ?? -1)).map(k => ({
+      text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
+        : k.source === 'heard' ? `${k.from ?? 'someone'} told you` : '',
+      k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', ') }));
   }
   // What a spell or technique does, in its own words and then in the rules' terms.
   static tell(this: void, id: string): string | undefined {

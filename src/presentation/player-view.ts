@@ -44,7 +44,9 @@ export interface PlayerSnapshot {
     equipped: boolean; slot?: string; effects: string[] }[];
   carried?: { id: string; name: string }[];
   holdings: { text: string; value: number }[]; facts: string[];
-  knowledge: { id: string; text: string }[]; assumptions: { id: string; text: string }[];
+  // What the company knows, and how: seen with its own eyes, found in a source, or heard from someone; and when.
+  knowledge: { id: string; text: string; source?: 'seen' | 'found' | 'heard'; from?: string; at?: number }[];
+  assumptions: { id: string; text: string }[];
   deadlines: { situation: string; pressure: string; at: number; passed: boolean }[];
   capabilities?: { name: string; providers: string[] }[];
   choices: PublicChoice[];
@@ -101,6 +103,25 @@ export class PlayerView {
       && ways.includes(r.args[0]) && r.args[1] === here) && world.module.queries.some(q => q.name === 'watched')
       && ways.some(w => world.test(ModuleWriter.call('watched', w!)));
   }
+  private static knowledge(campaign: Campaign, actor: string, labels: Map<string, string>): PlayerSnapshot['knowledge'] {
+    const world = campaign.world, relations = world.snapshot.relations;
+    const learned = new Map<string, number>();
+    for (const e of campaign.events) {
+      for (const c of e.changes) {
+        const m = /^\+ knows\(([^,]+), ([^)]+)\)$/.exec(c);
+        if (m && m[1] === actor && !learned.has(m[2]!)) { learned.set(m[2]!, e.elapsed); }
+      }
+    }
+    return campaign.module.entities.filter(e => e.type === 'fact' && this.test(world, 'knows', actor, e.id)).map(e => {
+      const told = relations.find(r => r.name === 'toldBy' && r.args[0] === actor && r.args[2] === e.id);
+      const found = relations.find(r => r.name === 'learnedFrom' && r.args[0] === actor && r.args[2] === e.id);
+      const seen = this.test(world, 'witnessed', actor, e.id);
+      const source = seen ? 'seen' as const : found ? 'found' as const : told ? 'heard' as const : undefined;
+      const from = found ? labels.get(found.args[1]!) : told ? labels.get(told.args[1]!) : undefined;
+      return { id: e.id, text: ObservationText.render(e.name, world), ...source ? { source } : {},
+        ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
+    });
+  }
   static observe(campaign: Campaign): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
     const entities = campaign.module.entities, state = campaign.state;
@@ -146,8 +167,7 @@ export class PlayerView {
         .map(m => ({ text: m.call.args.length > 1 ? `${m.call.name}: ${this.rest(m.call, labels)}` : m.call.name, value: m.value })),
       facts: world.snapshot.relations.filter(r => r.args[0] === actor && !this.ownHidden.includes(r.name))
         .map(r => r.args.length > 1 ? `${r.name}: ${this.rest(r, labels)}` : r.name).sort(),
-      knowledge: entities.filter(e => e.type === 'fact' && this.test(world, 'knows', actor, e.id))
-        .map(e => ({ id: e.id, text: ObservationText.render(e.name, world) })),
+      knowledge: this.knowledge(campaign, actor, labels),
       assumptions: entities.filter(e => e.type === 'fact' && this.test(world, 'assumesFalse', actor, e.id))
         .map(e => ({ id: e.id, text: ObservationText.render(e.name, world) })),
       deadlines: campaign.installations.filter(m => m.deadline !== undefined).flatMap(m => m.pressures.map(id => ({

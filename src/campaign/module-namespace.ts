@@ -102,7 +102,7 @@ export class ModuleNamespace {
         when: this.predicate(o.when), text: this.text(o.text) })),
       observations: original.observations?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
         place: this.entities[o.place]!, when: this.predicate(o.when),
-        text: this.text(o.text) })),
+        text: this.text(o.text), ...(o.teaches ? { teaches: this.entities[o.teaches]! } : {}) })),
       initial: original.initial.map(c => this.change(c)), goal: this.predicate(original.goal),
       actions: definition.schemas!.map(a => this.action(a)) };
     const extensions = definition.extensions?.map(e => ({ actor: this.entities[e.actor]!,

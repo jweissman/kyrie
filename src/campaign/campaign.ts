@@ -31,7 +31,7 @@ import { ActionTime } from './action-time';
 import { CampaignTick, type TickDecision, type TickHost } from './campaign-tick';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
-import type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
+import type { CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 export class Campaign implements TickHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -137,14 +137,6 @@ export class Campaign implements TickHost {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between campaign commands'); }
   }
   get installations(): InstalledModule[] { return structuredClone(this.definition?.installations ?? []); }
-  private moduleStatuses(): ModuleStatus[] {
-    return this.installations.map(m => ({ id: m.id, name: m.name, installedAt: m.installedAt, deadline: m.deadline,
-      outcome: m.pressures.some(id => this.world.number(ModuleWriter.call('deficit', id)) > 0) ? 'failure' :
-        this.world.test(m.goal) ? 'success' : 'active',
-      outcomes: Object.fromEntries(m.outcomes.map(o => [o.id, this.world.test(o.predicate)])),
-      developments: m.outcomes.filter(o => this.observations[`${m.id}.${o.id}`] !== undefined)
-        .map(o => ({ id: o.id, elapsed: this.observations[`${m.id}.${o.id}`]! })) }));
-  }
   get schemas(): Operator[] { return structuredClone(this.definition?.schemas ?? []); }
   get actors(): CampaignActor[] { return structuredClone(this.definition?.actors ?? []); }
   explain() {
@@ -172,7 +164,8 @@ export class Campaign implements TickHost {
   }
   get state(): CampaignState {
     return { ...structuredClone(this.current), party: this.party, creatures: this.creatures.snapshot,
-      ...(this.definition?.installations ? { modules: this.moduleStatuses() } : {}),
+      ...(this.definition?.installations
+        ? { modules: Progression.statuses(this.installations, this.world, this.observations) } : {}),
       ...(this.definition ? { outcomes: Progression.outcomes(this.world, this.definition),
         developments: Object.entries(this.observations).map(([id, elapsed]) => ({ id, elapsed })) } : {}) };
   }
@@ -327,7 +320,9 @@ export class Campaign implements TickHost {
         { events: combat, success, sequence: this.log.length });
     }
     const perceptions = Perceptions.after(this.module, { before, after, player: this.playerActor, happenings });
-    if (perceptions) { event.perceptions = perceptions; }
+    const seen = Perceptions.witness(this.module, this.world, this.playerActor, perceptions);
+    if (seen.changes.length) { this.commit(this.world.apply(seen.changes)); }
+    if (perceptions) { event.perceptions = [...perceptions, ...seen.told]; }
     this.log.push(event);
     return structuredClone(event);
   }

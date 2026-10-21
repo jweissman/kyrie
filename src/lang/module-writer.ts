@@ -55,7 +55,7 @@ export class ModuleWriter {
       lines.push('  }');
     }
     for (const o of module.observations ?? []) {
-      lines.push(`  Observe ${o.id} ${o.anchor ?? 'at'} ${o.place} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}.`);
+      lines.push(`  Observe ${o.id} ${o.anchor ?? 'at'} ${o.place} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}${o.teaches ? ` teaches ${o.teaches}` : ''}.`);
     }
     for (const o of module.objectives ?? []) {
       lines.push(`  Objective ${o.id} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}.`);

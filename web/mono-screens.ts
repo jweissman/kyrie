@@ -71,10 +71,15 @@ export class MonoScreens {
   static journal(s: MonoState): string {
     const screen = s.screen!;
     return `<main class="screen journal"><section class="pane knowledge" data-region="knowledge"><h2>Journal</h2><h3>In hand</h3>`
-      + `${this.list(screen.objectives ?? [], 'Nothing in hand. Listen in the taprooms and at the shrine.')}<h3>What you know</h3>${this.list(screen.knowledge, 'Nothing learned yet.')}`
+      + `${this.list(screen.objectives ?? [], 'Nothing in hand. Listen in the taprooms and at the shrine.', 'aims')}<h3>What you know</h3>${this.known(screen.knowledge)}`
       + `<h3>Deadlines</h3>${this.list(screen.deadlines, 'No deadline anyone has told you of.')}`
       + `<p class="save-actions">${Html.button('Download a save file', 'export')} ${Html.button('Back to the title', 'title')}</p></section>`
       + `<section class="pane chronicle" data-region="chronicle"><h2>Chronicle</h2>${this.chronicle(s.chronicle.slice(-80).reverse())}</section></main>`;
+  }
+  // Each thing known, with how it came to be known: what was seen, what was found, what someone said.
+  static known(entries: { text: string; how: string }[]): string {
+    if (!entries.length) { return '<p class="muted">Nothing learned yet.</p>'; }
+    return `<ul class="known">${entries.map(k => `<li>${Html.escape(k.text)}${k.how ? ` <span class="how">${Html.escape(k.how)}</span>` : ''}</li>`).join('')}</ul>`;
   }
   static map(s: MonoState): string {
     const screen = s.screen!;
@@ -96,8 +101,9 @@ export class MonoScreens {
       o.requiredClass ? `${o.requiredClass}s only` : ''].filter(Boolean);
     return parts.length ? `${parts.join('; ')}.` : '';
   }
-  static list(items: string[], empty: string): string {
-    return items.length ? `<ul>${items.map(i => `<li>${Html.escape(i)}</li>`).join('')}</ul>` : `<p class="muted">${empty}</p>`;
+  static list(items: string[], empty: string, kind = ''): string {
+    return items.length ? `<ul${kind ? ` class="${kind}"` : ''}>${items.map(i => `<li>${Html.escape(i)}</li>`).join('')}</ul>`
+      : `<p class="muted">${empty}</p>`;
   }
   static options(entries: string[][], value: string): string {
     return entries.map(([id, name]) => `<option value="${Html.escape(id)}"${id === value ? ' selected' : ''}>${Html.escape(name)}</option>`).join('');
