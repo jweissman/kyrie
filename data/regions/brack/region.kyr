@@ -33,7 +33,7 @@ Module brack "Brack" {
   Place hall_cellar "the Charter's cellar" is room within hall_under at 3, 1.
   Initially Assert unlit(hall_cellar). Initially Assert unlit(strongroom).
 
-  Passage salt_road "the salt road down the Varrow to the sea" is road between hollin_market and pans taking 14 hours.
+  Passage salt_road "the salt road" is road between hollin_market and pans taking 14 hours.
   Passage pans_road "the causeway across the pans" is causeway between pans and landgate taking 2 hours.
   Passage gate_street "the Landgate street" is road between landgate and quays.
   Passage hill_steps "the steps up Temple Hill" is steps between landgate and temple_hill.

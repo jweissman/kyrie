@@ -55,7 +55,8 @@ export interface Screen {
   party: MemberRow[]; items: ItemRow[]; camp: Act[];
   purse: { coin: number; rations: number; other: string[] };
   // What the company knows, newest first, each with how it came to know it ("Agnes told you", "you saw it") and when.
-  knowledge: { text: string; how: string }[]; deadlines: string[]; capabilities: string[];
+  // What the company knows, and how sure it can be: seen or found for itself, heard and since borne out, or only heard.
+  knowledge: { text: string; how: string; kind: 'seen' | 'confirmed' | 'reported' }[]; deadlines: string[]; capabilities: string[];
   // The formations the company makes (Orsino's party traits), and what each perk does.
   formations: { name: string; perks: string[] }[];
   // Merchants here: what each sells, at what price and stock, and what each buys.

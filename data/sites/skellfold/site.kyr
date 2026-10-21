@@ -27,8 +27,8 @@ Module skellfold "Skellfold and the high quarry" {
   Passage drift_seal "the sealed drift" is drift between lower_gallery and drowned_drift.
   Passage beck_path "the path along the beck" is path between green and lane_foot taking 30 minutes.
   Passage beck_lane "the beck lane" is track between lane_foot and quarry_floor taking 30 minutes.
-  Passage fell_climb "the climb up to the fell track" is path between green and fell_track taking 1 hour.
-  Passage fell_descent "the fell track down to the quarry" is track between fell_track and quarry_floor taking 1 hour.
+  Passage fell_climb "the fell climb" is path between green and fell_track taking 1 hour.
+  Passage fell_descent "the quarry track" is track between fell_track and quarry_floor taking 1 hour.
   Passage smithy_door "the smithy door" is door between quarry_floor and smithy.
   Passage adit_mouth "the adit" is tunnel between quarry_floor and adit.
   Passage gallery_way "the upper gallery passage" is tunnel between adit and upper_gallery.

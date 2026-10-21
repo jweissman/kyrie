@@ -88,7 +88,8 @@ export class ScreenModel {
     return [...view.knowledge].sort((a, b) => (b.at ?? -1) - (a.at ?? -1)).map(k => ({
       text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
         : k.source === 'heard' ? `${k.from ?? 'someone'} told you` : '',
-      k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', ') }));
+      k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', '),
+      kind: k.confirmed ? 'confirmed' as const : k.source === 'heard' ? 'reported' as const : 'seen' as const }));
   }
   // The scene's lines: what the place is like (and what is going on in it), and what each person or thing here looks
   // like now, told with them. Lines the company has not seen before at a place it has seen before are fresh.

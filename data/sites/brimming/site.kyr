@@ -28,9 +28,9 @@ Module brimming "The Brimming" {
   Passage cage "the deep cage" is shaft between mine_head and deep_gallery taking 20 minutes.
   Passage gallery_way "the deep gallery" is passage between deep_gallery and breakthrough taking 20 minutes.
   Passage ladder_way "the Glimmerkin's ladder" is ladder between breakthrough and market.
-  Passage hall_arch "the arch to the Wick-Mother's hall" is arch between market and mother_hall.
-  Passage farm_way "the low way to the farm" is passage between market and farm.
-  Passage shore_way "the way down to the shore" is passage between market and lake_shore.
+  Passage hall_arch "the Wick-Mother's arch" is arch between market and mother_hall.
+  Passage farm_way "the low farm way" is passage between market and farm.
+  Passage shore_way "the shore path" is passage between market and lake_shore.
   Passage lake "the still lake" is ferry between lake_shore and far_shore taking 30 minutes.
   Passage reach_way "a cleft in the rock" is passage between far_shore and dark_reach.
   Passage up_crack "the crack going up" is climb between dark_reach and crack_foot taking 1 hour needing climbing or rope.

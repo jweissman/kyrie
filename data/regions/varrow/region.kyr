@@ -57,19 +57,19 @@ Module varrow "The Varrow" {
   Passage reeve_door "the reeve's door" is door between reeve_hall and market.
   Passage valley_road "the Varrow road" is road between market and barrows taking 3 hours.
   Passage river_road "the river road" is road between barrows and alders taking 1 hour.
-  Passage alder_lane "the lane to the ford" is road between alders and ford_green taking 1 hour.
+  Passage alder_lane "the ford lane" is road between alders and ford_green taking 1 hour.
   Passage heron_door "the Heron's door" is door between heron and ford_green.
   Passage smithy_door "the smithy door" is doorway between smithy and ford_green.
   Passage the_ford "the ford" is ford between ford_green and far_bank taking 30 minutes.
   Passage downs_track "the drove track onto the downs" is track between ford_green and drove_track taking 1 hour.
-  Passage stone_path "the path to the stones" is path between drove_track and stones taking 1 hour.
+  Passage stone_path "the stone path" is path between drove_track and stones taking 1 hour.
   Passage knot_path "the path below the ring-fort" is path between stones and knot_foot taking 30 minutes hidden until hob_knot_known.
   Passage gap_road "the Gap road" is road between far_bank and switchbacks taking 2 hours.
   Passage cairn_road "the road past the cairn" is road between switchbacks and cairn taking 1 hour.
-  Passage toll_road "the last pull to the Toll" is road between cairn and toll_gate taking 1 hour.
+  Passage toll_road "the last pull" is road between cairn and toll_gate taking 1 hour.
   Passage goat_path "the goat path over the shoulder" is climb between switchbacks and shoulder taking 3 hours hidden until goat_path_known needing climbing or rope.
-  Passage shoulder_down "the scree down to the cairn field" is path between shoulder and cairn_field taking 2 hours.
-  Passage stair_path "the path to the pilgrims' stair" is path between shoulder and stair_foot taking 1 hour.
+  Passage shoulder_down "the scree slope" is path between shoulder and cairn_field taking 2 hours.
+  Passage stair_path "the pilgrims' path" is path between shoulder and stair_foot taking 1 hour.
   Passage heights_road "the heights road" is road between gap_far and cairn_field taking 1 hour.
   Passage skerry_road "the road down into Skerry" is road between cairn_field and square taking 1 hour.
   Passage pick_door "the Lamp and Pick's door" is door between pick_inn and square.
@@ -217,7 +217,7 @@ Module varrow "The Varrow" {
   // The Gap road.
   Observe switchbacks_scene at switchbacks when true "The road climbs in switchbacks above the river. A cairn of white stones stands by a gully where the road turns for the third time.".
   Observe cairn_scene at cairn when not state(sky, fog) "A wayside cairn of offerings: pins, buttons, a doll's shoe. Above, the road makes its last pull to the Gap, and the Lanthorn stands over it, black against the sky.".
-  Observe toll_scene at toll_gate when tolls(?collector, toll_gate) "The road runs straight into a gatehouse built across the Gap. The gate is shut. A board nailed to it reads TOLL: TWO CROWNS A WHEEL, TWO A HEAD, BY ORDER, and someone has scratched a ninth finger on the drawn hand.".
+  Observe toll_scene at toll_gate when tolls(?collector, toll_gate) "The road runs straight into a gatehouse built across the Gap. A board nailed to the gate reads TOLL: TWO CROWNS A WHEEL, TWO A HEAD, BY ORDER, and someone has scratched a ninth finger on the drawn hand.".
   Observe gate_scene at toll_gate when not tolls(?collector, toll_gate) "The road runs straight into a gatehouse built across the Gap.".
 
   // Hushing Fell and the heights.

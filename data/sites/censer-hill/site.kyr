@@ -36,7 +36,7 @@ Module censer_hill "Censer Hill" {
   Initially Assert unlit(hall). Initially Assert unlit(landing). Initially Assert unlit(kitchen). Initially Assert unlit(name_room).
   Initially Assert unlit(sluice). Initially Assert unlit(lower). Initially Assert unlit(crypt). Initially Assert unlit(court).
   Initially Assert unlit(vault). Initially Assert unlit(founders). Initially Assert unlit(chalk).
-  Passage yard_track "the track up to the yard" is track between ridge and yard taking 30 minutes.
+  Passage yard_track "the yard track" is track between ridge and yard taking 30 minutes.
   Passage low_path "the low path through the reeds" is path between causeway and drain_mouth taking 30 minutes.
   Passage arch "the roofless arch" is arch between yard and vestibule.
   Passage culvert "the drain culvert" is culvert between drain_mouth and workshop.
@@ -52,7 +52,7 @@ Module censer_hill "Censer Hill" {
   Passage hoist_shaft "the hoist shaft" is shaft between hoist and landing.
   Passage landing_crawl "the landing crawl" is crawl between landing and hall.
   Passage kitchen_door "the kitchen doorway" is doorway between hall and kitchen.
-  Passage name_way "the passage to the name room" between kitchen and name_room.
+  Passage name_way "the name-room passage" between kitchen and name_room.
   Passage sluice_arch "the sluice arch" is arch between hall and sluice.
   Passage limestone_stair "the limestone stair" is stair between sluice and lower taking 10 minutes.
   Passage hidden_stair "the concealed stair" is stair between name_room and crypt hidden until stair_known.

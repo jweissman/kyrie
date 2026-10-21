@@ -67,7 +67,7 @@ Module lanthorn "The Lanthorn" {
   Passage beacon_chain "the beacon chain" is climb between shoulder and lantern taking 1 hour hidden until chain_known needing climbing or rope.
   Passage well "the court well" is shaft between court and cistern needing rope or climbing.
   Passage wick_stair "the Lamplighters' stair" is stair between chapter_house and stair_foot hidden until wick_stair_known.
-  Passage works_arch "the arch to the lamp-works" is arch between stair_foot and lamp_works.
+  Passage works_arch "the lamp-works arch" is arch between stair_foot and lamp_works.
   Passage cistern_walk "the cistern walk" is passage between stair_foot and cistern.
   Passage glass_door "the glass-house door" is doorway between lamp_works and glasshouse.
   Passage cellar_steps "the cellar steps" is steps between lamp_works and bottle_cellar.

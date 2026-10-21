@@ -60,14 +60,14 @@ export class PlayViews {
         + 'it, hand it over or set it down.' : 'The company carries nothing yet.'}</p></div></article>`;
     return `<div class="split">${PlayMenu.render(s, 'What the company carries')}${detail}</div>`;
   }
-  // What the company knows, split by how: seen with its own eyes, or heard from someone; what people want of it;
-  // what is pressing; and everything that has happened so far.
+  // What the company knows, split by how sure it can be: seen or found for itself, heard and since borne out, or only
+  // heard, which may not be so; what people want of it; what is pressing; and everything that has happened so far.
   private static journal(s: PlayState): string {
     const screen = s.screen!;
     const facts = screen.knowledge.filter(k => !screen.objectives.includes(k.text));
-    const seen = facts.filter(k => !/told you|said|heard/i.test(k.how));
-    const heard = facts.filter(k => /told you|said|heard/i.test(k.how));
-    const known = `<div class="known">${this.facts('Seen for yourselves', seen)}${this.facts('Heard from others', heard)}</div>`;
+    const known = `<div class="known">${this.facts('Seen for yourselves', facts.filter(k => k.kind === 'seen'))}`
+      + `${this.facts('Heard, and since seen for yourselves', facts.filter(k => k.kind === 'confirmed'))}`
+      + `${this.facts('Heard, not yet seen for yourselves', facts.filter(k => k.kind === 'reported'))}</div>`;
     const wants = screen.objectives.length ? `<ul class="wants">${screen.objectives.map(o => `<li>${Html.escape(o)}</li>`).join('')}</ul>`
       : '<p class="none">Nobody has asked anything of you yet. Listen in the taprooms and at the shrine.</p>';
     const deadlines = screen.deadlines.length ? `<ul>${screen.deadlines.map(d => `<li>${Html.escape(d)}</li>`).join('')}</ul>`

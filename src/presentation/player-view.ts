@@ -49,7 +49,9 @@ export interface PlayerSnapshot {
   carried?: { id: string; name: string }[];
   holdings: { text: string; value: number }[]; facts: string[];
   // What the company knows, and how: seen with its own eyes, found in a source, or heard from someone; and when.
-  knowledge: { id: string; text: string; source?: 'seen' | 'found' | 'heard'; from?: string; at?: number }[];
+  knowledge: { id: string; text: string; source?: 'seen' | 'found' | 'heard'; from?: string; at?: number;
+    // Heard from someone, and since seen or found for itself: a report borne out.
+    confirmed?: true }[];
   assumptions: { id: string; text: string }[];
   deadlines: { situation: string; pressure: string; at: number; passed: boolean }[];
   capabilities?: { name: string; providers: string[] }[];
@@ -123,6 +125,7 @@ export class PlayerView {
       const source = seen ? 'seen' as const : found ? 'found' as const : told ? 'heard' as const : undefined;
       const from = found ? labels.get(found.args[1]!) : told ? labels.get(told.args[1]!) : undefined;
       return { id: e.id, text: ObservationText.render(e.name, world), ...source ? { source } : {},
+        ...told && (seen || found) ? { confirmed: true as const } : {},
         ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
     });
   }

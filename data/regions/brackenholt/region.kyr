@@ -25,7 +25,7 @@ Module brackenholt "Brackenholt and the holt" {
   Passage holt_west "the holt way down from the downs" is path between cross_green and holt_edge taking 1 hour.
   Passage holt_mid "the holt way through the bracken" is path between holt_edge and den_clearing taking 30 minutes.
   Passage holt_east "the holt way into Brackenholt" is path between den_clearing and holt_green taking 1 hour.
-  Passage tower_lane "the lane up to the tower" is track between holt_green and tower_foot taking 30 minutes.
+  Passage tower_lane "the tower lane" is track between holt_green and tower_foot taking 30 minutes.
   Passage lychgate "the lychgate" is gate between holt_green and churchyard.
 
   Thing ferry "Wren's ferry" on ferry_crossing {

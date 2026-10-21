@@ -52,9 +52,9 @@ Module unlit "The Unlit" {
   Passage cinder_way "the slope of the cinder hollow" is path between ash_road and cinders taking 1 hour.
   Passage mere_way "the mere path" is path between cinders and mere_edge taking 1 hour.
   Passage shore_walk "the shore of the Ash Mere" is path between mere_edge and drowned_stair taking 1 hour.
-  Passage arch_way "the way to the Arch" is road between ash_road and arch taking 2 hours.
+  Passage arch_way "the Arch road" is road between ash_road and arch taking 2 hours.
   Passage door_walk "the walk under the Arch" is path between arch and lamp_door taking 30 minutes.
-  Passage lampfall_way "the causeway to Lampfall" is causeway between ash_road and gate_ward taking 1 hour.
+  Passage lampfall_way "Lampfall's causeway" is causeway between ash_road and gate_ward taking 1 hour.
   Passage keep_door "the keep door" is door between gate_ward and ledger_hall.
   Passage vault_door "the vault door" is door between ledger_hall and jar_vault.
   Passage beacon_stair "the beacon stair" is stair between ledger_hall and beacon_room.
