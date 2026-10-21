@@ -43,10 +43,11 @@ export class PlayRail {
     return `<p class="hp${low}" role="meter" aria-label="health" aria-valuenow="${value}" aria-valuemax="${max}">`
       + `<span class="cells">${'█'.repeat(filled)}<i>${'░'.repeat(cells - filled)}</i></span><span class="v">${value}/${max}</span></p>`;
   }
+  static readonly numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
   // Spell slots by level, a filled pip for each still ready: I ●●○ II ●.
   static slots(m: { slots?: number[]; maxSlots?: number[] }): string {
     if (!m.maxSlots?.length) { return ''; }
-    return `<p class="slots" aria-label="spell slots">${m.maxSlots.map((most, i) => `<span>${['I', 'II', 'III', 'IV', 'V'][i]}`
+    return `<p class="slots" aria-label="spell slots">${m.maxSlots.map((most, i) => `<span>${PlayRail.numerals[i]}`
       + ` ${'●'.repeat(m.slots?.[i] ?? 0)}<i>${'○'.repeat(Math.max(0, most - (m.slots?.[i] ?? 0)))}</i></span>`).join('')}</p>`;
   }
   private static foe(f: CombatantRow): string {

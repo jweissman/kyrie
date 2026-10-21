@@ -4,6 +4,7 @@ import { CreatureDefinition } from '../src/creature-definition';
 import { Content } from '../src/content';
 import { CombatProjection } from '../src/combat-projection';
 import { Effects } from '../src/effects';
+import { Waiting } from './support/waiting';
 import { Battle } from '../src/battle';
 import type { CombatEvent } from '../src/model';
 
@@ -18,7 +19,7 @@ describe('generative kernel: executable dimensions', () => {
         const ability = Content.abilities.find(a => a.id === f.abilities.find(a => a.startsWith('breathe_')))!;
         const battle = new Battle({ id: 'breath', combatants: [f, ...targets], abilities: Content.abilities }, 'breath');
         while (battle.state.actor !== f.id && !battle.state.outcome) {
-          battle.step(battle.legalCommands().find(c => c.ability === 'defend') ?? battle.legalCommands()[0]!);
+          battle.step(Waiting.turn(battle));
         }
         expect(battle.legalCommands().some(c => c.ability === ability.id)).toBe(true);
         battle.step(battle.legalCommands().find(c => c.ability === ability.id)!);
@@ -93,7 +94,7 @@ describe('Deem is the compositional creature generator', () => {
       { raceId: 'human', classId: 'warrior', level: 10 }), 'fighters'));
     const battle = new Battle({ id: 'blue-proof', combatants: [dragon, ...targets], abilities: Content.abilities }, 'blue-proof');
     while (battle.state.actor !== dragon.id && !battle.state.outcome) {
-      battle.step(battle.legalCommands().find(c => c.ability === 'defend')!);
+      battle.step(Waiting.turn(battle));
     }
     battle.step(battle.legalCommands().find(c => c.ability === 'breathe_lightning')!);
     expect(battle.events.filter(e => e.type === 'damage' && e.damageType === 'lightning')).toHaveLength(2);
@@ -111,7 +112,7 @@ describe('generated bodies retain distinct combat behavior', () => {
       const target = CombatProjection.fighter(new Content('target').createCreature('target',
         { raceId: 'human', classId: 'warrior', level: 10 }), 'goblins');
       const battle = new Battle({ id: 'attacks', combatants: [actor, target], abilities: Content.abilities }, 'attacks');
-      while (battle.state.actor !== actor.id) { battle.step(battle.legalCommands().find(c => c.ability === 'defend')!); }
+      while (battle.state.actor !== actor.id) { battle.step(Waiting.turn(battle)); }
       const command = battle.legalCommands().find(c => c.ability === (family === 'animal' ? 'melee' : 'ranged'))!;
       expect(command).toBeDefined();
       battle.step(command);
@@ -130,7 +131,7 @@ describe('generated definition persistence', () => {
     const store = new CreatureStore([dragon, target]);
     const battle = Battle.encounter(store, [{ creatureId: 'blue', team: 'fighters' },
       { creatureId: 'target', team: 'goblins' }], { seed: 'persistent' });
-    while (battle.state.actor !== 'blue') { battle.step(battle.legalCommands().find(c => c.ability === 'defend')!); }
+    while (battle.state.actor !== 'blue') { battle.step(Waiting.turn(battle)); }
     battle.step(battle.legalCommands().find(c => c.ability === 'breathe_lightning')!);
     battle.close();
     expect(store.get('target').state.hp).toBeLessThan(target.state.hp);

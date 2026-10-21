@@ -8,6 +8,7 @@ import { OrsinoAppendix } from './orsino-appendix';
 import { PlayersHandbook } from './phb';
 import { MonsterManual } from './mm';
 import { DungeonMastersGuide } from './dmg';
+import { Progression } from './progression';
 
 export interface Placed { id: string; title: string; status: Status; book: Book['id']; section: string }
 export interface Coverage {
@@ -29,7 +30,7 @@ export class Handbooks {
       CatalogLedger.combined(Handbooks.read(root, 'data/sources/orsino/adaptations.json') as Ledger));
     const appendix = new OrsinoAppendix(this.registry), mm = new MonsterManual(appendix);
     this.books = [new PlayersHandbook(appendix).book(), new DungeonMastersGuide(appendix, root).book(), mm.book()];
-    this.problems.push(...mm.problems, ...this.audit());
+    this.problems.push(...mm.problems, ...Progression.problems(), ...this.audit());
   }
   static read(root: string, path: string): unknown { return JSON.parse(readFileSync(join(root, path), 'utf8')); }
   static entries(sections: Section[], book: Book['id'], path = ''): Placed[] {

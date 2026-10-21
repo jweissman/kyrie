@@ -44,12 +44,12 @@
         "phb:magic"
       ],
       "orsino": "Experience to any level (50L³ + 150L² + 300L − 600), a quality point a level, a new spell for specialists, feats at 5, 10 and 15, an epic note at 20; spell levels to 9 as caster level rises.",
-      "faithful": "The experience formula to level 10, quality points, specialist spells, feats at 5 and 10, the death save and THAC0 by level.",
-      "adapted": "A level is taken at the next sheltered rest.",
-      "dataOnly": "Levels 11 to 20 and every slot row past class level 10.",
-      "missing": "Slot tables stop at class level 10, so spells of levels 6 to 9 are unreachable and no level past 10 exists. Feats at 15 cannot be reached. Of ten feats, three are not playable.",
-      "abstractions": "Slot tables and thresholds that run to 20 as data; a test party at levels 1, 5, 10 and 15; a way to start a campaign with an experienced company.",
-      "browser": "Advancement is announced and applied at rest; there is no view of what the next level brings."
+      "faithful": "Orsino's experience formula to level 20, a quality point and a rolled hit die every level, a new spell of the tradition for specialists up to half their level rounded up, feats at 5, 10 and 15, THAC0 and saves by level.",
+      "adapted": "Slots by spell level, prepared at rest, in place of Orsino's single pool (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + Wisdom; bard 3 + level + Charisma); they reach Orsino's spell levels, a ninth-level spell at 17, and bards seventh at 18. A level is taken at the next sheltered rest. Kyr adds calling features: techniques and calling traits at set levels (a warrior's Rapid Strike at 7 and a second action at 13, a ranger's Arrow Volley at 7), so that every calling gains something in kind at least every three levels.",
+      "dataOnly": "Nothing of the levels themselves. Three of Orsino's ten feats (Mana Focusing, Natural Bond, Skald) cannot be played.",
+      "missing": "Feats are few: a mage or a ranger has none it can take, and most warriors have none left at 15. No epic play past 20.",
+      "abstractions": "Calling features as data (level, techniques, calling traits) applied the same way at creation and at training, and allowed by the store's advancement guard; the playable feats wait on bonus spell slots, summoning bonuses and combat-start hooks.",
+      "browser": "Each companion's sheet says what the next level brings in kind; the handbook tables each calling level by level, and the audit reports any stretch of four levels that brings nothing new."
     },
     {
       "id": "timing",
@@ -221,63 +221,73 @@
   "deficiencies": [
     {
       "rank": 1,
-      "title": "Progression stops at level 10",
-      "unlocks": "56 spells of levels 6–9, feats at 15, levels 11–20",
-      "cycle": 4
+      "title": "Progression stopped at level 10",
+      "unlocks": "56 spells of levels 6–9, feats at 15, levels 11–20; now reached, with calling features for every calling",
+      "cycle": 4,
+      "state": "addressed"
     },
     {
       "rank": 2,
       "title": "Creatures are fourteen hand-made species, one attack a turn, and their temperament is read by nothing",
       "unlocks": "Orsino's bestiary through the monster template; multi-attack; inhabitants that answer intrusion",
-      "cycle": 2
+      "cycle": 2,
+      "state": "open"
     },
     {
       "rank": 3,
       "title": "Summoning has no ownership, lifetime or dismissal, and cannot call a generated creature",
       "unlocks": "16 summoning abilities, 27 companions, conjured guardians",
-      "cycle": 3
+      "cycle": 3,
+      "state": "open"
     },
     {
       "rank": 4,
       "title": "No reactions to what an enemy does",
       "unlocks": "32 statuses (overwatch, braced, reflect, spellturn …), reactive magic items",
-      "cycle": 3
+      "cycle": 3,
+      "state": "open"
     },
     {
       "rank": 5,
       "title": "No random multi-target spells",
       "unlocks": "magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray",
-      "cycle": 3
+      "cycle": 3,
+      "state": "open"
     },
     {
       "rank": 6,
       "title": "No planes, place laws or magical travel",
       "unlocks": "10 planes, planeshift, teleport, a planar adventure",
-      "cycle": 5
+      "cycle": 5,
+      "state": "open"
     },
     {
       "rank": 7,
       "title": "Cast, random effect, resurrect and kill effects",
       "unlocks": "20 entries that cast, 6 that randomize, 8 that resurrect or kill",
-      "cycle": 3
+      "cycle": 3,
+      "state": "open"
     },
     {
       "rank": 8,
       "title": "Items are mostly Orsino data",
       "unlocks": "60 gear, 42 magic items, 22 consumables",
-      "cycle": 2
+      "cycle": 2,
+      "state": "open"
     },
     {
       "rank": 9,
       "title": "Electric damage is not a Kyr damage kind",
       "unlocks": "11 spells and weapons",
-      "cycle": 3
+      "cycle": 3,
+      "state": "open"
     },
     {
       "rank": 10,
       "title": "No city, no institutions as kits",
       "unlocks": "urban investigation, negotiation and patronage",
-      "cycle": 5
+      "cycle": 5,
+      "state": "open"
     }
   ]
 }

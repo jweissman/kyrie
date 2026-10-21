@@ -10,7 +10,8 @@ export class CanonValidation {
     'aberration', 'celestial', 'fey', 'spirit'];
   static readonly schools = ['abjuration', 'conjuration', 'divination', 'enchantment', 'evocation', 'illusion',
     'necromancy', 'transmutation'];
-  static readonly traitCategories = ['lineage', 'nature', 'affinity', 'character', 'feat', 'party', 'specialization'];
+  static readonly traitCategories = ['lineage', 'nature', 'affinity', 'character', 'feat', 'party', 'specialization',
+    'calling'];
   static readonly itemCategories = ['weapon', 'armor', 'tool', 'gear', 'consumable', 'equipment', 'treasure'];
   private problems: string[] = [];
   static problems(): string[] {
@@ -86,10 +87,22 @@ export class CanonValidation {
       this.resistances(where, s.resistances);
     }
   }
+  // A calling's features come at distinct levels from 2 to 20, in order, with executable techniques and calling traits.
+  private features(where: string, features: { level: number; abilities?: string[]; traits?: string[] }[]) {
+    features.forEach((f, i) => {
+      if (f.level < 2 || f.level > 20 || (i && f.level <= features[i - 1]!.level)) { this.fail(where, `feature at level ${f.level}`); }
+      (f.abilities ?? []).forEach(a => this.ability(where, a, ['technique']));
+      for (const a of (f.abilities ?? []).filter(a => Canon.abilities[a]?.unsupported)) { this.fail(where, `${a} cannot be played`); }
+      for (const t of (f.traits ?? []).filter(t => Canon.traits[t]?.category !== 'calling')) {
+        this.fail(where, `${t} is not a calling trait`);
+      }
+    });
+  }
   private classes() {
     for (const [id, c] of Object.entries(Canon.classes)) {
       const where = `class ${id}`;
       c.abilities.forEach(a => this.ability(where, a, ['technique', 'spell']));
+      this.features(where, c.features ?? []);
       for (const s of (c.skills ?? []).filter(s => !Canon.skills[s])) { this.fail(where, `grants unknown skill ${s}`); }
       for (const s of c.specializations ?? []) {
         const t = Canon.traits[s];

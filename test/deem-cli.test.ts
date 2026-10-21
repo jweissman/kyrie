@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { runGeneration, type DeemValue } from 'deem';
 import { CreatureDefinition } from '../src/creature-definition';
 import { CombatProjection } from '../src/combat-projection';
+import { Waiting } from './support/waiting';
 import { Battle } from '../src/battle';
 import { Canon } from '../src/canon/canon';
 import { Creation } from '../src/rules/creation';
@@ -35,7 +36,7 @@ class Cli {
     const other = CombatProjection.fighter(new Content('target').createCreature('target',
       { raceId: 'human', classId: 'warrior', level: 20 }), 'goblins');
     const battle = new Battle({ id: 'cli', combatants: [actor, other], abilities: Content.abilities }, 'cli');
-    while (battle.state.actor !== actor.id) { battle.step(battle.legalCommands().find(c => c.ability === 'defend')!); }
+    while (battle.state.actor !== actor.id) { battle.step(Waiting.turn(battle)); }
     const requested = capability === 'attack' ? actor.equipment.weapon.missile ? 'ranged' : 'melee' : capability;
     const command = battle.legalCommands().find(c => c.ability === requested);
     expect(command).toBeDefined();

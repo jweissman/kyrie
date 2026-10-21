@@ -26,7 +26,7 @@ export interface Condition {
   // when it runs out.
   grants?: string[]; begins?: string; ends?: string;
 }
-export type TraitCategory = 'lineage' | 'nature' | 'affinity' | 'character' | 'feat' | 'party' | 'specialization';
+export type TraitCategory = 'lineage' | 'nature' | 'affinity' | 'character' | 'feat' | 'party' | 'specialization' | 'calling';
 // What happens when something occurs to a perk's holder: Orsino's onKill, onLevelUp and onOffensiveCasting.
 export interface Triggers {
   onKill?: { gold?: string; experience?: string; status?: string }[];
@@ -94,6 +94,8 @@ export interface CharacterClass {
   // What the calling means in play, in a sentence or two for the player choosing it.
   practice?: string;
   specializations?: string[]; weapons: string[]; armor: string[]; startingGear?: string[];
+  // What the calling brings at later levels: techniques learned and calling traits taken (Kyr's own progression).
+  features?: CallingFeature[];
   proficiencies: {
     weapons: Proficiencies; armor: Proficiencies; items?: Proficiencies & { withoutTradition?: string };
   };
@@ -104,6 +106,7 @@ export interface CharacterClass {
   spellcasting?: { attribute: Attribute; slots: number[][] };
   omits?: Omissions; source: Source;
 }
+export interface CallingFeature { level: number; abilities?: string[]; traits?: string[] }
 export interface Background {
   name: string; use: 'background' | 'profession'; attributes: Partial<Record<Attribute, number>>; gold: number;
   requiredClass?: string; skills?: string[]; gear?: string[]; offers?: { kind: string; text: string; fee: number }[];

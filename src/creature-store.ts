@@ -1,3 +1,4 @@
+import { Creation } from './rules/creation';
 import { Canon } from './canon/canon';
 import { Spellcasting } from './rules/spellcasting';
 import { CreatureSchema, type Creature } from './creature';
@@ -76,13 +77,14 @@ export class CreatureStore {
     return { ...base, level: 0, maxHp: 0, maxSlots: [], abilities: [], ...qualities };
   }
   // Qualities only rise, and by no more than the points of advance spent; feats are only added, one for each feat
-  // spent, and abilities only by what those feats grant.
+  // spent; abilities and traits only by what those feats grant and the calling brings at the levels gained.
   private static spent(previous: Creature, next: Creature): boolean {
     const raised = CreatureSchema.attributes.map(k => next.base[k] - previous.base[k]);
     const points = (previous.state.advances?.qualities ?? 0) - (next.state.advances?.qualities ?? 0);
-    const taken = (next.traits ?? []).filter(t => !(previous.traits ?? []).includes(t));
+    const features = Creation.features(next.classId, previous.base.level, next.base.level);
+    const taken = (next.traits ?? []).filter(t => !(previous.traits ?? []).includes(t) && !features.traits.includes(t));
     const feats = (previous.state.advances?.feats ?? 0) - (next.state.advances?.feats ?? 0);
-    const granted = new Set([...previous.base.abilities,
+    const granted = new Set([...previous.base.abilities, ...features.abilities,
       ...taken.flatMap(t => Canon.traits[t]?.grants?.abilities ?? [])]);
     return raised.every(n => n >= 0) && raised.reduce((a, b) => a + b, 0) <= Math.max(0, points)
       && (previous.traits ?? []).every(t => next.traits?.includes(t)) && taken.length <= Math.max(0, feats)

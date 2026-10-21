@@ -20,9 +20,9 @@ export class PlayViews {
     return `<div class="split">${PlayMenu.render(s, 'The company')}${m ? this.sheet(m, screen) : ''}</div>`;
   }
   private static sheet(m: MemberRow, screen: Screen): string {
-    const next = Advancement.threshold(m.level + 1);
-    const progress = next <= m.experience ? `ready for level ${m.level + 1}: a night under a roof`
-      : `${m.experience} of ${next} experience to level ${m.level + 1}`;
+    const next = Advancement.threshold(m.level + 1), brings = m.next?.length ? `, which brings ${m.next.join(', ')}` : '';
+    const progress = next === Infinity ? 'the highest level' : next <= m.experience
+      ? `ready for level ${m.level + 1}${brings}: a night under a roof` : `${m.experience} of ${next} experience to level ${m.level + 1}${brings}`;
     const attrs = Object.entries(m.attributes).map(([k, v]) => `<span><abbr title="${k}">${k.slice(0, 3)}</abbr><b>${v}</b></span>`).join('');
     const abilities = m.abilities.map(a => `<li><b>${Html.escape(a.name)}</b>${a.price ? ` <small>${Html.escape(a.price)}</small>` : ''}`
       + `<p>${Html.escape(a.text)}</p></li>`).join('');
@@ -46,7 +46,7 @@ export class PlayViews {
   private static prepared(m: MemberRow): string {
     if (!m.spells?.length) { return ''; }
     const levels = [...new Set(m.spells.map(x => x.level))];
-    return `<h3>Prepared today</h3><ul class="prepared">${levels.map(l => `<li><b>${['I', 'II', 'III', 'IV', 'V'][l - 1]}</b> `
+    return `<h3>Prepared today</h3><ul class="prepared">${levels.map(l => `<li><b>${PlayRail.numerals[l - 1]}</b> `
       + m.spells!.filter(x => x.level === l).map(x => `<span class="${x.ready ? 'ready' : 'spent'}">${x.ready ? '●' : '○'} `
         + `${Html.escape(x.name)}</span>`).join(' ') + '</li>').join('')}</ul>`;
   }

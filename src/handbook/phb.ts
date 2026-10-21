@@ -24,7 +24,9 @@ export class PlayersHandbook {
     return { id: 'traits', title: 'Traits', intro: ['What a companion is born with or has become. An ancestry gives its '
       + 'lineage traits; some backgrounds and feats give character traits.'],
     sections: [{ id: 'traits-lineage', title: 'Lineage', entries: PlayersHandbook.category('lineage') },
-      { id: 'traits-character', title: 'Character', entries: PlayersHandbook.category('character') }] };
+      { id: 'traits-character', title: 'Character', entries: PlayersHandbook.category('character') },
+      { id: 'traits-calling', title: 'Calling', intro: ['What a calling brings at later levels (Kyr\'s own progression).'],
+        entries: PlayersHandbook.category('calling') }] };
   }
   static category(category: string): Entry[] {
     return Object.entries(Canon.traits).filter(([, t]) => t.category === category)

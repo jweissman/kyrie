@@ -11,7 +11,7 @@ export class OrsinoReferences {
     'removeStatus', 'upgrade', 'gold', 'xp', 'resurrect', 'kill', 'randomEffect', 'cycleEffects', 'learn',
     'grantPassive', 'teleport', 'planeshift', 'recalculateHp', 'acquireItem']);
   private static readonly flags = ['saveForHalf', 'saveNegates', 'cascade', 'spillover', 'chance', 'condition',
-    'randomEffects', 'cycledEffects', 'applyTraits', 'saveDC', 'succeedDC', 'hpPercent'];
+    'randomEffects', 'cycledEffects', 'applyTraits', 'saveDC', 'succeedDC', 'hpPercent', 'bonusDamage', 'healCaster'];
   // Orsino merges abilities.json and then abilities/*.json; a later definition replaces an earlier one.
   private static readonly abilities = ['divineSpell', 'arcaneSpell', 'ability'];
   private static readonly tableRefs: Record<string, string[]> = {

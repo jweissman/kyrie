@@ -61,7 +61,9 @@ class ChoiceProof {
       { raceId: 'human', classId: 'warrior', level: 20 }), 'goblins');
     const battle = new Battle({ id: 'choices', combatants: [actor, target], abilities: Content.abilities }, 'choices');
     while (battle.state.actor !== actor.id && !battle.state.outcome) {
-      battle.step(battle.legalCommands().find(c => c.ability === 'defend')!);
+      // The target stands by: it defends, or with defend recharging (a veteran acts twice) tends to itself.
+      const legal = battle.legalCommands();
+      battle.step(legal.find(c => c.ability === 'defend') ?? legal.find(c => c.target === c.actor) ?? legal[0]!);
     }
     const action = raw.abilities.find((a: string) => a.startsWith('breathe_'))
       ?? (actor.equipment.weapon.missile ? 'ranged' : 'melee');

@@ -85,6 +85,84 @@
       "source": {
         "kyr": true
       }
+    },
+    "weapon_master": {
+      "name": "Weapon master",
+      "category": "calling",
+      "description": "Knows where a blow should land: a critical on 19 or 20.",
+      "modifiers": {
+        "criticalRangeIncrease": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "veteran": {
+      "name": "Veteran",
+      "category": "calling",
+      "description": "Has fought long enough to do two things in the time others do one: a second action each turn.",
+      "modifiers": {
+        "extraAttacksPerTurn": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "unbroken": {
+      "name": "Unbroken",
+      "category": "calling",
+      "description": "Shrugs off what would fell another: 2 less damage from every blow.",
+      "modifiers": {
+        "damageReduction": 2
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "slippery": {
+      "name": "Slippery",
+      "category": "calling",
+      "description": "Never quite where the blow falls: evasion 2.",
+      "modifiers": {
+        "evasion": 2
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "killing_eye": {
+      "name": "Killing eye",
+      "category": "calling",
+      "description": "Sees the gap in any guard: a critical on 18 to 20.",
+      "modifiers": {
+        "criticalRangeIncrease": 2
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "fleet": {
+      "name": "Fleet",
+      "category": "calling",
+      "description": "Moves before others have thought to: +2 initiative and evasion 1.",
+      "modifiers": {
+        "initiative": 2,
+        "evasion": 1
+      },
+      "source": {
+        "kyr": true
+      }
+    },
+    "diamond_body": {
+      "name": "Diamond body",
+      "category": "calling",
+      "description": "Mind and body schooled against harm: +2 to every save.",
+      "modifiers": {
+        "saveVersusAll": 2
+      },
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

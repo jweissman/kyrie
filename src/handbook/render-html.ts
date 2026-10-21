@@ -103,8 +103,8 @@ export class HandbookHtml {
         + `</summary><dl>${CapabilityAudit.questions.map(([k, q]) => `<dt>${q}</dt><dd>${HandbookHtml.esc(f[k] as string)}</dd>`)
           .join('')}</dl></details>`;
     }).join('');
-    const ranked = this.table({ head: ['Rank', 'Deficiency', 'Unlocks', 'Cycle'],
-      rows: this.audit.deficiencies.map(d => [String(d.rank), d.title, d.unlocks, String(d.cycle)]) });
+    const ranked = this.table({ head: ['Rank', 'Deficiency', 'Unlocks', 'Cycle', 'State'],
+      rows: this.audit.deficiencies.map(d => [String(d.rank), d.title, d.unlocks, String(d.cycle), d.state]) });
     return `<section class="sec"><h2>Capability audit</h2><p class="intro">${HandbookHtml.esc(this.audit.about)}</p>`
       + `${families}<h3>Deficiencies, ranked</h3>${ranked}</section>`;
   }

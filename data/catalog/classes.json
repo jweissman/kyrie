@@ -1,5 +1,5 @@
 {
-  "about": "Classes: adventuring callings a member of an ancestry can take, with Orsino's chassis. hitDie and attributes add to the rolled character (Orsino's classModifier overlay); abilities are known from creation (melee or ranged is added from the equipped weapon); weapons and armor are the starting tables; proficiencies bound what can be equipped; specializations are the trait choices (a mage school, a cleric domain, a warrior disposition), chosen at creation; spellcasting gives a caster's slots by level (a B/X-style table; one more first-level slot for a casting attribute of 14 or more); a class without it casts no levelled spells.",
+  "about": "Classes: adventuring callings a member of an ancestry can take, with Orsino's chassis. hitDie and attributes add to the rolled character (Orsino's classModifier overlay); abilities are known from creation (melee or ranged is added from the equipped weapon); weapons and armor are the starting tables; proficiencies bound what can be equipped; specializations are the trait choices (a mage school, a cleric domain, a warrior disposition), chosen at creation; spellcasting gives a caster's slots by spell level for each character level to 20 (an old-school table that reaches Orsino's spell levels; one more first-level slot for a casting attribute of 14 or more); slots is Orsino's single pool, kept for reference; a class without it casts no levelled spells. features are what a calling brings at later levels (techniques it learns and calling traits it takes), Kyr's own progression from executable Orsino techniques and modifiers.",
   "classes": {
     "warrior": {
       "name": "Warrior",
@@ -39,6 +39,38 @@
         "plate",
         "scale",
         "chainmail"
+      ],
+      "features": [
+        {
+          "level": 3,
+          "abilities": [
+            "dig_in"
+          ]
+        },
+        {
+          "level": 7,
+          "abilities": [
+            "rapid_strike"
+          ]
+        },
+        {
+          "level": 9,
+          "traits": [
+            "weapon_master"
+          ]
+        },
+        {
+          "level": 13,
+          "traits": [
+            "veteran"
+          ]
+        },
+        {
+          "level": 17,
+          "traits": [
+            "unbroken"
+          ]
+        }
       ],
       "startingGear": [
         "torch",
@@ -140,8 +172,8 @@
       },
       "source": {
         "orsino": "class:mage",
-        "fidelity": "faithful",
-        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots."
+        "fidelity": "adapted",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18."
       },
       "spellcasting": {
         "attribute": "intelligence",
@@ -195,6 +227,104 @@
             3,
             3,
             2
+          ],
+          [
+            4,
+            3,
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            3,
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            4,
+            4,
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            5,
+            4,
+            4,
+            4,
+            4,
+            3,
+            2,
+            1
+          ],
+          [
+            5,
+            5,
+            4,
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            5,
+            5,
+            5,
+            4,
+            4,
+            4,
+            3,
+            2,
+            1
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            5,
+            4,
+            4,
+            3,
+            2
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            4,
+            3,
+            3
           ]
         ]
       },
@@ -239,6 +369,38 @@
       "armor": [
         "leather",
         "studded"
+      ],
+      "features": [
+        {
+          "level": 3,
+          "abilities": [
+            "hide"
+          ]
+        },
+        {
+          "level": 7,
+          "traits": [
+            "slippery"
+          ]
+        },
+        {
+          "level": 11,
+          "abilities": [
+            "rapid_strike"
+          ]
+        },
+        {
+          "level": 13,
+          "traits": [
+            "killing_eye"
+          ]
+        },
+        {
+          "level": 17,
+          "traits": [
+            "veteran"
+          ]
+        }
       ],
       "startingGear": [
         "thieves_tools"
@@ -375,8 +537,8 @@
       },
       "source": {
         "orsino": "class:cleric",
-        "fidelity": "faithful",
-        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the mending skill for its deterministic world actions."
+        "fidelity": "adapted",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Kyr adds the mending skill for its deterministic world actions. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18."
       },
       "spellcasting": {
         "attribute": "wisdom",
@@ -430,6 +592,104 @@
             3,
             3,
             2
+          ],
+          [
+            4,
+            3,
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            3,
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            4,
+            4,
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            5,
+            4,
+            4,
+            4,
+            4,
+            3,
+            2,
+            1
+          ],
+          [
+            5,
+            5,
+            4,
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            5,
+            5,
+            5,
+            4,
+            4,
+            4,
+            3,
+            2,
+            1
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            5,
+            4,
+            4,
+            3,
+            2
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            4,
+            3,
+            3
           ]
         ]
       },
@@ -464,6 +724,14 @@
         "leather",
         "cloth",
         "studded"
+      ],
+      "features": [
+        {
+          "level": 9,
+          "abilities": [
+            "major_inspire"
+          ]
+        }
       ],
       "startingGear": [
         "musical_instrument"
@@ -507,8 +775,8 @@
       },
       "source": {
         "orsino": "class:bard",
-        "fidelity": "faithful",
-        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots."
+        "fidelity": "adapted",
+        "notes": "Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18."
       },
       "spellcasting": {
         "attribute": "charisma",
@@ -557,6 +825,84 @@
             3,
             3,
             1
+          ],
+          [
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            4,
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            4,
+            3,
+            2,
+            1
+          ],
+          [
+            5,
+            4,
+            4,
+            3,
+            3,
+            2
+          ],
+          [
+            5,
+            4,
+            4,
+            3,
+            3,
+            2,
+            1
+          ],
+          [
+            5,
+            5,
+            4,
+            4,
+            3,
+            2,
+            1
+          ],
+          [
+            5,
+            5,
+            4,
+            4,
+            3,
+            3,
+            2
           ]
         ]
       },
@@ -599,6 +945,38 @@
         "chainmail",
         "studded",
         "scale"
+      ],
+      "features": [
+        {
+          "level": 3,
+          "abilities": [
+            "hide"
+          ]
+        },
+        {
+          "level": 7,
+          "abilities": [
+            "arrow_volley"
+          ]
+        },
+        {
+          "level": 10,
+          "traits": [
+            "weapon_master"
+          ]
+        },
+        {
+          "level": 13,
+          "abilities": [
+            "rapid_fire"
+          ]
+        },
+        {
+          "level": 17,
+          "traits": [
+            "veteran"
+          ]
+        }
       ],
       "startingGear": [
         "rations",
@@ -679,6 +1057,38 @@
       ],
       "armor": [
         "cloth"
+      ],
+      "features": [
+        {
+          "level": 3,
+          "traits": [
+            "fleet"
+          ]
+        },
+        {
+          "level": 7,
+          "abilities": [
+            "rapid_strike"
+          ]
+        },
+        {
+          "level": 11,
+          "traits": [
+            "diamond_body"
+          ]
+        },
+        {
+          "level": 13,
+          "traits": [
+            "veteran"
+          ]
+        },
+        {
+          "level": 17,
+          "traits": [
+            "unbroken"
+          ]
+        }
       ],
       "startingGear": [
         "robe",

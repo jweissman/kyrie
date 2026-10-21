@@ -70,7 +70,7 @@
     }
   },
   "advancement": {
-    "about": "Experience to reach each level from 2 (Orsino's CharacterRecord.xpForLevel: 50L^3 + 150L^2 + 300L - 600), and the experience a defeated creature is worth per level when no encounter value is authored (Orsino's monsterXp and npcXp).",
+    "about": "Experience to reach each level from 2 to 20 (Orsino's CharacterRecord.xpForLevel: 50L^3 + 150L^2 + 300L - 600), and the experience a defeated creature is worth per level when no encounter value is authored (Orsino's monsterXp and npcXp).",
     "thresholds": [
       1000,
       3000,
@@ -80,7 +80,17 @@
       26000,
       37000,
       50700,
-      67400
+      67400,
+      87400,
+      111000,
+      138500,
+      170200,
+      206400,
+      247400,
+      293500,
+      345000,
+      402200,
+      465400
     ],
     "species": {
       "beast": 150,

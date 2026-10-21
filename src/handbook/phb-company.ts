@@ -25,10 +25,13 @@ export class CompanyChapters {
       facts: [['Hit die', `d${c.hitDie}`], ['Qualities', HandbookText.attributes(c.attributes)], ['Gold', `${c.gold}`],
         ['Weapons', HandbookText.proficiency(c.proficiencies.weapons)], ['Armour', HandbookText.proficiency(c.proficiencies.armor)],
         ...c.skills?.length ? [['Skills', c.skills.map(s => Canon.skills[s]?.name ?? s).join(', ')] as [string, string]] : [],
-        ...c.specializations?.length ? [['Specializations', c.specializations.map(s => Canon.traits[s]?.name ?? s).join(', ')] as [string, string]] : []],
+        ...c.specializations?.length ? [['Specializations', c.specializations.map(s => Canon.traits[s]?.name ?? s).join(', ')] as [string, string]] : [],
+        ...c.features?.length ? [['Later', c.features.map(f => `${f.level}: ${[...(f.abilities ?? []).map(a => HandbookText.ability(a)),
+          ...(f.traits ?? []).map(t => Canon.traits[t]?.name ?? t)].join(', ')}`).join('; ')] as [string, string]] : []],
       rules: [...c.practice ? [c.practice] : [], ...c.abilities.map(a => `Begins knowing ${HandbookText.ability(a)}.`)],
       text: [c.description], notes: HandbookStatus.notes(c),
-      refs: [...c.abilities.map(a => `ability:${a}`), ...(c.specializations ?? []).map(s => `trait:${s}`)] }));
+      refs: [...c.abilities.map(a => `ability:${a}`), ...(c.specializations ?? []).map(s => `trait:${s}`),
+        ...(c.features ?? []).flatMap(f => [...(f.abilities ?? []).map(a => `ability:${a}`), ...(f.traits ?? []).map(t => `trait:${t}`)])] }));
     const specializations = Object.entries(Canon.traits).filter(([, t]) => t.category === 'specialization')
       .map(([id, t]) => this.trait(id, t.name, 'specialization'));
     return { id: 'callings', title: 'Callings', intro: ['A calling is what a companion does in a fight and on the road: '

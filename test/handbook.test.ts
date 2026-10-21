@@ -33,13 +33,12 @@ describe('the handbooks', () => {
     }
     expect(index.get('species:wolf')!.status).toBe(HandbookStatus.of(Canon.species.wolf!));
   });
-  it('mark spells above every calling\'s slots unreachable and report them', () => {
-    const reach = PlayChapters.reach();
-    const beyond = Object.entries(Canon.abilities)
-      .filter(([, a]) => a.spell && a.spell.level > reach && !a.unsupported);
-    expect(beyond.length).toBeGreaterThan(0);
-    for (const [id] of beyond) { expect(index.get(`ability:${id}`)!.status).toBe('unreachable'); }
-    expect(coverage.problems.filter(p => p.kind === 'unreachable' && p.entry.startsWith('ability:')).length).toBe(beyond.length);
+  it('reach ninth-level spells, and would mark a spell above every calling\'s slots unreachable', () => {
+    expect(PlayChapters.reach()).toBe(9);
+    expect(coverage.problems.filter(p => p.kind === 'unreachable' && p.entry.startsWith('ability:'))).toEqual([]);
+    expect(PlayChapters.spell('death_wave', 8).status).toBe('unreachable');
+    expect(PlayChapters.spell('weird', 8).status).toBe('unsupported');
+    expect(PlayChapters.spell('fireball', 3).status).toBe('unreachable');
   });
   it('point only at entries some book has', () => {
     expect(coverage.problems.filter(p => p.kind === 'missing reference')).toEqual([]);

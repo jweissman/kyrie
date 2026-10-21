@@ -49,6 +49,7 @@ export class Advancement {
         creature.state.ready = creature.state.prepared!.map(p => [...p]);
         creature.state.slots = creature.state.ready.map(r => r.length);
       }
+      events.push(...this.features(creature, level));
       // Orsino's level-up choices: a point of any quality, and for a specialist caster a new spell.
       const advances = creature.state.advances ??= { qualities: 0, spells: 0 };
       advances.qualities++;
@@ -61,6 +62,25 @@ export class Advancement {
     }
     return events;
   }
+  // What the next level brings in kind, besides the hit die and the quality point: the calling's techniques and
+  // traits, and a new level of spells.
+  static next(classId: string | undefined, level: number): string[] {
+    if (level >= this.table.thresholds.length + 1) { return []; }
+    const features = Creation.features(classId, level, level + 1);
+    const [now, then] = [level, level + 1].map(l => Spellcasting.table(classId, l, {}).length);
+    return [...features.abilities.map(a => Canon.abilities[a]?.name ?? a),
+      ...features.traits.map(t => Canon.traits[t]?.name ?? t), ...then! > now! ? [`spells of level ${then}`] : []];
+  }
+  // The calling's features for a level just reached: techniques learned, calling traits taken.
+  static features(creature: Creature, level: number): CombatEvent[] {
+    const due = Creation.features(creature.classId, level - 1, level);
+    const learned = due.abilities.filter(a => Creation.executable(a) && !creature.base.abilities.includes(a));
+    creature.base.abilities = [...creature.base.abilities, ...learned];
+    const taken = due.traits.filter(t => !(creature.traits ?? []).includes(t));
+    creature.traits = [...creature.traits ?? [], ...taken];
+    return [...learned.map(a => Canon.abilities[a]!.name), ...taken.map(t => Canon.traits[t]!.name)].map(detail =>
+      ({ type: 'learn' as const, turn: 0, actor: creature.id, target: creature.id, detail }));
+  }
   static specialist(creature: Creature) {
     return (creature.traits ?? []).map(id => Canon.traits[id]).find(t => t?.spellAccess);
   }
@@ -71,7 +91,10 @@ export class Advancement {
     const spec = this.specialist(creature);
     if (!spec || !creature.state.advances?.spells || creature.state.hp === 0) { return []; }
     const known = new Set([...creature.base.abilities, ...creature.state.learnedAbilities]);
-    return Array.from({ length: Fighting.maxSpellLevel(creature.base.level) }, (_, i) =>
+    // A spell of a level the caster has no slot for is no choice at all: Orsino's reach, within the slot table's.
+    const reach = Math.min(Fighting.maxSpellLevel(creature.base.level),
+      Spellcasting.table(creature.classId, creature.base.level, creature.base).length);
+    return Array.from({ length: reach }, (_, i) =>
       Creation.spellbook(spec.spellAccess!.tradition, i + 1)).flat().filter(id => !known.has(id));
   }
   // The feats a companion with one to take may choose: its class's, of its level or below, not held, and not one

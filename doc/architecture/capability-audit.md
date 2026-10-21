@@ -4,12 +4,12 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 
 | Family | Entries |
 |---|---|
-| Ancestries, callings, backgrounds and formations | 37 faithful, 244 adapted, 1 kyr, 5 not playable, 4 unreachable, 21 orsino data only |
-| Character creation | 11 faithful, 21 adapted, 1 kyr |
-| Progression, feats and high levels | 149 faithful, 4 adapted, 2 kyr, 83 not playable, 56 unreachable |
+| Ancestries, callings, backgrounds and formations | 34 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 21 orsino data only |
+| Character creation | 8 faithful, 24 adapted, 1 kyr |
+| Progression, feats and high levels | 205 faithful, 4 adapted, 2 kyr, 83 not playable |
 | Action timing, reactions, conditions, costs and targeting | 166 faithful, 8 adapted, 8 kyr, 46 not playable |
-| Spells: traditions, slots, durations and unusual magic | 146 faithful, 2 kyr, 80 not playable, 56 unreachable |
-| Summoning, transformation, domination, movement, divination and travel | 7 faithful, 1 adapted, 37 not playable, 7 unreachable, 10 orsino data only |
+| Spells: traditions, slots, durations and unusual magic | 202 faithful, 2 kyr, 80 not playable |
+| Summoning, transformation, domination, movement, divination and travel | 14 faithful, 1 adapted, 37 not playable, 10 orsino data only |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 27 faithful, 14 adapted, 9 represented, 19 kyr, 5 not playable, 247 orsino data only |
 | Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 20 kyr, 141 orsino data only |
 | Environment, world and planar rules | 74 kyr, 190 orsino data only |
@@ -17,7 +17,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 
 ## Ancestries, callings, backgrounds and formations
 
-Entries: 37 faithful, 244 adapted, 1 kyr, 5 not playable, 4 unreachable, 21 orsino data only.
+Entries: 34 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 21 orsino data only.
 
 **What Orsino defines.** 25 ancestries (racialModifier, occupationOptions, traits), 7 classes with classModifier gear, gold and proficiencies, 215 backgrounds, 16 party traits recognised from the company's make-up.
 
@@ -37,7 +37,7 @@ Handbook sections: `phb:ancestries`, `phb:callings`, `phb:backgrounds`, `phb:tra
 
 ## Character creation
 
-Entries: 11 faithful, 21 adapted, 1 kyr.
+Entries: 8 faithful, 24 adapted, 1 kyr.
 
 **What Orsino defines.** CharacterRecord and the pc template: 3d6 attributes with racial and class modifiers, hit die plus positive Constitution, starting spells for casters, class gear and gold.
 
@@ -57,21 +57,21 @@ Handbook sections: `phb:callings`, `phb:ancestries`.
 
 ## Progression, feats and high levels
 
-Entries: 149 faithful, 4 adapted, 2 kyr, 83 not playable, 56 unreachable.
+Entries: 205 faithful, 4 adapted, 2 kyr, 83 not playable.
 
 **What Orsino defines.** Experience to any level (50L³ + 150L² + 300L − 600), a quality point a level, a new spell for specialists, feats at 5, 10 and 15, an epic note at 20; spell levels to 9 as caster level rises.
 
-**What Kyr implements faithfully.** The experience formula to level 10, quality points, specialist spells, feats at 5 and 10, the death save and THAC0 by level.
+**What Kyr implements faithfully.** Orsino's experience formula to level 20, a quality point and a rolled hit die every level, a new spell of the tradition for specialists up to half their level rounded up, feats at 5, 10 and 15, THAC0 and saves by level.
 
-**What Kyr deliberately adapts.** A level is taken at the next sheltered rest.
+**What Kyr deliberately adapts.** Slots by spell level, prepared at rest, in place of Orsino's single pool (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + Wisdom; bard 3 + level + Charisma); they reach Orsino's spell levels, a ninth-level spell at 17, and bards seventh at 18. A level is taken at the next sheltered rest. Kyr adds calling features: techniques and calling traits at set levels (a warrior's Rapid Strike at 7 and a second action at 13, a ranger's Arrow Volley at 7), so that every calling gains something in kind at least every three levels.
 
-**What is data only.** Levels 11 to 20 and every slot row past class level 10.
+**What is data only.** Nothing of the levels themselves. Three of Orsino's ten feats (Mana Focusing, Natural Bond, Skald) cannot be played.
 
-**What is missing or wrong.** Slot tables stop at class level 10, so spells of levels 6 to 9 are unreachable and no level past 10 exists. Feats at 15 cannot be reached. Of ten feats, three are not playable.
+**What is missing or wrong.** Feats are few: a mage or a ranger has none it can take, and most warriors have none left at 15. No epic play past 20.
 
-**What abstractions are needed.** Slot tables and thresholds that run to 20 as data; a test party at levels 1, 5, 10 and 15; a way to start a campaign with an experienced company.
+**What abstractions are needed.** Calling features as data (level, techniques, calling traits) applied the same way at creation and at training, and allowed by the store's advancement guard; the playable feats wait on bonus spell slots, summoning bonuses and combat-start hooks.
 
-**Whether the browser makes it understandable.** Advancement is announced and applied at rest; there is no view of what the next level brings.
+**Whether the browser makes it understandable.** Each companion's sheet says what the next level brings in kind; the handbook tables each calling level by level, and the audit reports any stretch of four levels that brings nothing new.
 
 Handbook sections: `phb:advancement`, `phb:feats`, `phb:magic`.
 
@@ -97,7 +97,7 @@ Handbook sections: `phb:combat`, `phb:conditions`, `phb:techniques`.
 
 ## Spells: traditions, slots, durations and unusual magic
 
-Entries: 146 faithful, 2 kyr, 80 not playable, 56 unreachable.
+Entries: 202 faithful, 2 kyr, 80 not playable.
 
 **What Orsino defines.** 131 arcane and 154 divine spells across levels 0 to 9, schools and domains, slot tables, spell saves and durations, and spells that summon, cast other spells, choose an effect at random, resurrect, kill outright or shift planes.
 
@@ -117,7 +117,7 @@ Handbook sections: `phb:magic`.
 
 ## Summoning, transformation, domination, movement, divination and travel
 
-Entries: 7 faithful, 1 adapted, 37 not playable, 7 unreachable, 10 orsino data only.
+Entries: 14 faithful, 1 adapted, 37 not playable, 10 orsino data only.
 
 **What Orsino defines.** Summon creatures by kind or generated template, polymorph and shapechange, charm and dominate, flee, teleport and planeshift, divination that reveals.
 
@@ -217,15 +217,15 @@ Handbook sections: `dmg:making-worlds`, `dmg:campaigns`, `mm:generated`.
 
 ## Deficiencies, ranked by what fixing them unlocks
 
-| Rank | Deficiency | Unlocks | Cycle |
-|---:|---|---|---:|
-| 1 | Progression stops at level 10 | 56 spells of levels 6–9, feats at 15, levels 11–20 | 4 |
-| 2 | Creatures are fourteen hand-made species, one attack a turn, and their temperament is read by nothing | Orsino's bestiary through the monster template; multi-attack; inhabitants that answer intrusion | 2 |
-| 3 | Summoning has no ownership, lifetime or dismissal, and cannot call a generated creature | 16 summoning abilities, 27 companions, conjured guardians | 3 |
-| 4 | No reactions to what an enemy does | 32 statuses (overwatch, braced, reflect, spellturn …), reactive magic items | 3 |
-| 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray | 3 |
-| 6 | No planes, place laws or magical travel | 10 planes, planeshift, teleport, a planar adventure | 5 |
-| 7 | Cast, random effect, resurrect and kill effects | 20 entries that cast, 6 that randomize, 8 that resurrect or kill | 3 |
-| 8 | Items are mostly Orsino data | 60 gear, 42 magic items, 22 consumables | 2 |
-| 9 | Electric damage is not a Kyr damage kind | 11 spells and weapons | 3 |
-| 10 | No city, no institutions as kits | urban investigation, negotiation and patronage | 5 |
+| Rank | Deficiency | Unlocks | Cycle | State |
+|---:|---|---|---:|---|
+| 1 | Progression stopped at level 10 | 56 spells of levels 6–9, feats at 15, levels 11–20; now reached, with calling features for every calling | 4 | addressed |
+| 2 | Creatures are fourteen hand-made species, one attack a turn, and their temperament is read by nothing | Orsino's bestiary through the monster template; multi-attack; inhabitants that answer intrusion | 2 | open |
+| 3 | Summoning has no ownership, lifetime or dismissal, and cannot call a generated creature | 16 summoning abilities, 27 companions, conjured guardians | 3 | open |
+| 4 | No reactions to what an enemy does | 32 statuses (overwatch, braced, reflect, spellturn …), reactive magic items | 3 | open |
+| 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm, prismatic spray | 3 | open |
+| 6 | No planes, place laws or magical travel | 10 planes, planeshift, teleport, a planar adventure | 5 | open |
+| 7 | Cast, random effect, resurrect and kill effects | 20 entries that cast, 6 that randomize, 8 that resurrect or kill | 3 | open |
+| 8 | Items are mostly Orsino data | 60 gear, 42 magic items, 22 consumables | 2 | open |
+| 9 | Electric damage is not a Kyr damage kind | 11 spells and weapons | 3 | open |
+| 10 | No city, no institutions as kits | urban investigation, negotiation and patronage | 5 | open |

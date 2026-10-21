@@ -798,12 +798,12 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 462,
-    "adapted": 273,
+    "faithful": 515,
+    "adapted": 276,
     "represented": 12,
-    "kyr": 43,
+    "kyr": 50,
     "unsupported": 134,
-    "unreachable": 60,
+    "unreachable": 4,
     "data-only": 22
    },
    "sections": [
@@ -824,8 +824,8 @@
      "id": "callings",
      "title": "Callings",
      "counts": {
-      "faithful": 7,
-      "adapted": 21,
+      "faithful": 4,
+      "adapted": 24,
       "represented": 0,
       "kyr": 0,
       "unsupported": 0,
@@ -866,7 +866,7 @@
       "faithful": 16,
       "adapted": 3,
       "represented": 0,
-      "kyr": 0,
+      "kyr": 7,
       "unsupported": 4,
       "unreachable": 0,
       "data-only": 0
@@ -915,12 +915,12 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 146,
+      "faithful": 202,
       "adapted": 0,
       "represented": 0,
       "kyr": 2,
       "unsupported": 80,
-      "unreachable": 56,
+      "unreachable": 0,
       "data-only": 0
      }
     },
@@ -1183,7 +1183,7 @@
   {
    "id": "class:mage",
    "title": "Mage",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "callings"
   },
@@ -1197,14 +1197,14 @@
   {
    "id": "class:cleric",
    "title": "Cleric",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "callings"
   },
   {
    "id": "class:bard",
    "title": "Bard",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "callings"
   },
@@ -3134,6 +3134,55 @@
    "section": "traits/traits-character"
   },
   {
+   "id": "trait:weapon_master",
+   "title": "Weapon master",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-calling"
+  },
+  {
+   "id": "trait:veteran",
+   "title": "Veteran",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-calling"
+  },
+  {
+   "id": "trait:unbroken",
+   "title": "Unbroken",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-calling"
+  },
+  {
+   "id": "trait:slippery",
+   "title": "Slippery",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-calling"
+  },
+  {
+   "id": "trait:killing_eye",
+   "title": "Killing eye",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-calling"
+  },
+  {
+   "id": "trait:fleet",
+   "title": "Fleet",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-calling"
+  },
+  {
+   "id": "trait:diamond_body",
+   "title": "Diamond body",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-calling"
+  },
+  {
    "id": "trait:academician",
    "title": "Academy",
    "status": "faithful",
@@ -4571,49 +4620,49 @@
   {
    "id": "ability:control_undead",
    "title": "Control Undead",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:demorph",
    "title": "Demorph",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:dissolving_touch",
    "title": "Dissolving Touch",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:fire_storm",
    "title": "Fire Storm",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:flesh_to_stone",
    "title": "Flesh to Stone",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:gravity",
    "title": "Gravity Crush",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:ice_storm",
    "title": "Ice Storm",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
@@ -4627,35 +4676,35 @@
   {
    "id": "ability:mass_distraction",
    "title": "Major Distraction",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:mass_weakness",
    "title": "Mass Weakness",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:polar_ray",
    "title": "Polar Ray",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:quieten",
    "title": "Quieten",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:stone_to_flesh",
    "title": "Stone to Flesh",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-6"
   },
@@ -4676,7 +4725,7 @@
   {
    "id": "ability:contagion",
    "title": "Contagion",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-7"
   },
@@ -4697,14 +4746,14 @@
   {
    "id": "ability:mass_charm",
    "title": "Mass Charm",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-7"
   },
   {
    "id": "ability:mass_confuse",
    "title": "Mass Confusion",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-7"
   },
@@ -4746,7 +4795,7 @@
   {
    "id": "ability:cathexis",
    "title": "Cathexis",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-8"
   },
@@ -4767,14 +4816,14 @@
   {
    "id": "ability:greater_contagion",
    "title": "Greater Contagion",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-8"
   },
   {
    "id": "ability:greater_distraction",
    "title": "Greater Distraction",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-8"
   },
@@ -4788,7 +4837,7 @@
   {
    "id": "ability:mass_mind_blank",
    "title": "Mass Mind Blank",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-8"
   },
@@ -4809,7 +4858,7 @@
   {
    "id": "ability:symbol_of_insanity",
    "title": "Symbol of Insanity",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-8"
   },
@@ -4823,7 +4872,7 @@
   {
    "id": "ability:death_wave",
    "title": "Death Wave",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-9"
   },
@@ -4837,14 +4886,14 @@
   {
    "id": "ability:major_false_life",
    "title": "Major False Life",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-9"
   },
   {
    "id": "ability:mass_domination",
    "title": "Mass Domination",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-9"
   },
@@ -5593,21 +5642,21 @@
   {
    "id": "ability:cure_critical",
    "title": "Cure Critical Wounds",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:flood",
    "title": "Flood",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:harm",
    "title": "Harm",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
@@ -5635,21 +5684,21 @@
   {
    "id": "ability:overwhelming_chaos",
    "title": "Overwhelming Chaos",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:shadowfire",
    "title": "Shadowfire",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:solar_flare",
    "title": "Solar Flare",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
@@ -5670,35 +5719,35 @@
   {
    "id": "ability:venom_burst",
    "title": "Venom Burst",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:vital_boost",
    "title": "Vital Boost",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:cruel_will",
    "title": "Cruel Will",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
   {
    "id": "ability:destroy_undead",
    "title": "Destroy Undead",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
   {
    "id": "ability:domination",
    "title": "Domination",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
@@ -5712,35 +5761,35 @@
   {
    "id": "ability:heart_of_the_wild",
    "title": "Heart of the Wild",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
   {
    "id": "ability:holy",
    "title": "Holy",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
   {
    "id": "ability:madness",
    "title": "Madness",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
   {
    "id": "ability:plague_wave",
    "title": "Plague Wave",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
   {
    "id": "ability:radiant_beam",
    "title": "Radiant Beam",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
@@ -5761,7 +5810,7 @@
   {
    "id": "ability:tempest",
    "title": "Tempest",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
@@ -5782,7 +5831,7 @@
   {
    "id": "ability:divine_champion",
    "title": "Divine Champion",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },
@@ -5796,14 +5845,14 @@
   {
    "id": "ability:doom_spiral",
    "title": "Doom Spiral",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },
   {
    "id": "ability:enlightenment",
    "title": "Enlightenment",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },
@@ -5817,21 +5866,21 @@
   {
    "id": "ability:mass_heal",
    "title": "Mass Heal",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },
   {
    "id": "ability:mass_rejuvenate",
    "title": "Mass Rejuvenate",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },
   {
    "id": "ability:scaleskin",
    "title": "Scaleskin",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },
@@ -5859,14 +5908,14 @@
   {
    "id": "ability:apocalypse",
    "title": "Apocalypse",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
   {
    "id": "ability:black_hole",
    "title": "Black Hole",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
@@ -5880,28 +5929,28 @@
   {
    "id": "ability:discordant_wave",
    "title": "Discordant Wave",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
   {
    "id": "ability:dust_to_dust",
    "title": "Dust to Dust",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
   {
    "id": "ability:implosion",
    "title": "Implosion",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
   {
    "id": "ability:lovebomb",
    "title": "Lovebomb",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
@@ -5915,28 +5964,28 @@
   {
    "id": "ability:major_restoration",
    "title": "Major Restoration",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
   {
    "id": "ability:oceans_wrath",
    "title": "Ocean's Wrath",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
   {
    "id": "ability:steelskin",
    "title": "Steelskin",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
   {
    "id": "ability:sunsphere",
    "title": "Sunsphere",
-   "status": "unreachable",
+   "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-9"
   },
@@ -14543,342 +14592,6 @@
    "entry": "trait:perinath",
    "kind": "unreachable",
    "text": "Not every one of its ancestries can be chosen by players."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:control_undead",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:demorph",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:dissolving_touch",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:fire_storm",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:flesh_to_stone",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:gravity",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:ice_storm",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_distraction",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_weakness",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:polar_ray",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:quieten",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:stone_to_flesh",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:contagion",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_charm",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_confuse",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:cathexis",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:greater_contagion",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:greater_distraction",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_mind_blank",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:symbol_of_insanity",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:death_wave",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:major_false_life",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_domination",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:cure_critical",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:flood",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:harm",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:overwhelming_chaos",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:shadowfire",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:solar_flare",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:venom_burst",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:vital_boost",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 6 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:cruel_will",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:destroy_undead",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:domination",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:heart_of_the_wild",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:holy",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:madness",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:plague_wave",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:radiant_beam",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:tempest",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 7 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:divine_champion",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:doom_spiral",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:enlightenment",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_heal",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:mass_rejuvenate",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:scaleskin",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 8 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:apocalypse",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:black_hole",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:discordant_wave",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:dust_to_dust",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:implosion",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:lovebomb",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:major_restoration",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:oceans_wrath",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:steelskin",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
-  },
-  {
-   "book": "phb",
-   "entry": "ability:sunsphere",
-   "kind": "unreachable",
-   "text": "No calling has a slot of level 9 yet."
   }
  ]
 }

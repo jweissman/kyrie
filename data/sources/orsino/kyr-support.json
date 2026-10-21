@@ -928,6 +928,14 @@
   "modifier:controlledActions": [
    "faithful",
    "Control passes to the other side: a dominated foe is the player’s to command, and a dominated companion is not."
+  ],
+  "flag:bonusDamage": [
+   "cosmetic",
+   "Orsino's attack effect does not read it (Ability.handleSingleEffect calls attack() with the user, the target and spillover only), so Snipe hits as a plain weapon attack in Orsino and in Kyr; its description promises more than either game does."
+  ],
+  "flag:healCaster": [
+   "cosmetic",
+   "Orsino's drain always heals the caster by the damage dealt; the flag is not read."
   ]
  }
 }

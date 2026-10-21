@@ -6,6 +6,7 @@ import { MechanicsText } from '../presentation/mechanics-text';
 import { HandbookStatus, type Entry, type Section, type Status } from './model';
 import { HandbookText } from './text';
 import { CompanyChapters } from './phb-company';
+import { Progression } from './progression';
 
 // The Player's Handbook, second part: how a fight goes, magic, advancement, feats and conditions. Numbers come from
 // the rule code; ability and condition text comes from their typed mechanics.
@@ -53,8 +54,9 @@ export class PlayChapters {
         + '(a school, or a domain) and prepares some of them in slots by spell level. Casting a spell of first level or more '
         + 'spends a slot; cantrips cost nothing. A night\'s rest under a roof readies every slot. Preparing a different spell '
         + 'takes an hour, and is ready at once if its slot has not been spent.',
-      `Kyr's slot tables run to character level 10, so no caster yet reaches beyond level ${reach} spells. Higher spells `
-        + 'are listed, and marked unreachable.'],
+      `Kyr's slot tables run to character level ${Math.max(...casters.map(([, c]) => c.spellcasting!.slots.length))}, and `
+        + `reach spells of level ${reach}: Orsino's reach, half the caster's level rounded up. A spell of a level no `
+        + 'calling has a slot for would be marked unreachable.'],
     sections: [...tables, ...traditions] };
   }
   static spell(id: string, reach: number): Entry {
@@ -94,8 +96,12 @@ export class PlayChapters {
       'Each level rolls the calling\'s hit die and adds Constitution modifier (at least 1), gives a point to raise any '
         + 'quality, and a specialist caster a new spell of their tradition that they can cast. At levels 5, 10 and 15 a '
         + 'companion may take up one of their calling\'s feats.',
-      `Kyr's experience table runs to level ${Advancement.table.thresholds.length + 1}; Orsino's continues.`],
-    table: { head: ['Level', 'Experience', 'Also'], rows } };
+      'Each calling also brings something new in kind at some levels: a technique learned, a calling trait taken, a '
+        + 'new level of spells. These are Kyr\'s own progression, made from Orsino\'s techniques and modifiers; the '
+        + 'tables below give each calling\'s, level by level.',
+      `Kyr's experience table runs to level ${Advancement.table.thresholds.length + 1}, as Orsino's does for feats.`],
+    table: { head: ['Level', 'Experience', 'Also'], rows },
+    sections: Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id]) => Progression.section(id)) };
   }
   static feats(): Section {
     const entries = Object.entries(Canon.traits).filter(([, t]) => t.category === 'feat')

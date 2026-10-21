@@ -9,7 +9,7 @@ export interface Family {
   orsino: string; faithful: string; adapted: string; dataOnly: string;
   missing: string; abstractions: string; browser: string;
 }
-export interface Deficiency { rank: number; title: string; unlocks: string; cycle: number }
+export interface Deficiency { rank: number; title: string; unlocks: string; cycle: number; state: 'open' | 'addressed' }
 export interface Audit { about: string; families: Family[]; deficiencies: Deficiency[] }
 
 // The capability audit: judgements written by hand in doc/architecture/capabilities.json, counts read from the books.
@@ -42,7 +42,7 @@ export class CapabilityAudit {
     return ['# Capability audit', '', audit.about, '',
       '| Family | Entries |', '|---|---|', ...audit.families.map(f => `| ${f.title} | ${this.line(this.counts(f, coverage))} |`), '',
       ...families, '## Deficiencies, ranked by what fixing them unlocks', '',
-      '| Rank | Deficiency | Unlocks | Cycle |', '|---:|---|---|---:|',
-      ...audit.deficiencies.map(d => `| ${d.rank} | ${d.title} | ${d.unlocks} | ${d.cycle} |`), ''].join('\n');
+      '| Rank | Deficiency | Unlocks | Cycle | State |', '|---:|---|---|---:|---|',
+      ...audit.deficiencies.map(d => `| ${d.rank} | ${d.title} | ${d.unlocks} | ${d.cycle} | ${d.state} |`), ''].join('\n');
   }
 }

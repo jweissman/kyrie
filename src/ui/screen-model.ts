@@ -1,5 +1,6 @@
 import { MechanicsText } from '../presentation/mechanics-text';
 import { ConditionSense } from '../presentation/condition-sense';
+import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon';
 import { Content } from '../content';
 import { ItemCatalog } from '../item-catalog';
@@ -214,7 +215,7 @@ export class ScreenModel {
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),
-        experience: m.experience, gold: m.gold,
+        experience: m.experience, gold: m.gold, next: Advancement.next(m.classId, m.level),
         conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)),
         boons: m.conditions.filter(c => this.boon(c))
           .map(c => `${this.condition(c)}${m.lasting?.[c] ? ` · ${FictionalTime.duration(m.lasting[c])} left` : ''}`),

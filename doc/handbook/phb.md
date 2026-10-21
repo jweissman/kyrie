@@ -92,6 +92,7 @@ A calling is what a companion does in a fight and on the road: their hit die, th
 - Armour: all
 - Skills: Brawn
 - Specializations: Toughness, Bravery, Strong Willed
+- Later: 3: Dig In; 7: Rapid Strike; 9: Weapon master; 13: Veteran; 17: Unbroken
 
 Takes and deals the most harm and wears any armour. Brawn: lifts what has fallen and wrenches what is stuck.
 
@@ -119,7 +120,7 @@ Begins knowing Sweeping Strike.
 
 ### Mage
 
-*Faithful · calling; casts with intelligence* · `class:mage`
+*Adapted · calling; casts with intelligence* · `class:mage`
 
 - Hit die: d4
 - Qualities: −2 strength, +1 dexterity, −1 constitution, +3 intelligence, +1 wisdom
@@ -137,6 +138,8 @@ Begins knowing Light.
 
 > Mages are masters of arcane magic, wielding powerful spells to manipulate the forces of the world.
 
+*Adapted: Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18.*
+
 ### Thief
 
 *Faithful · calling* · `class:thief`
@@ -147,6 +150,7 @@ Begins knowing Light.
 - Weapons: blade, bow, crossbow, dart, sling (light, medium)
 - Armour: leather (light)
 - Skills: Lockwork, Trapwork, Stealth
+- Later: 3: Hide; 7: Slippery; 11: Rapid Strike; 13: Killing eye; 17: Veteran
 
 Light armour and a quick blade. Picks locks, finds and pins traps, and slips past watchers unseen.
 
@@ -168,7 +172,7 @@ Begins knowing Deactivate Device (not playable).
 
 ### Cleric
 
-*Faithful · calling; casts with wisdom* · `class:cleric`
+*Adapted · calling; casts with wisdom* · `class:cleric`
 
 - Hit die: d8
 - Qualities: +1 strength, −1 dexterity, +1 constitution, +2 wisdom, +1 charisma
@@ -184,9 +188,11 @@ Begins knowing Defend.
 
 > Clerics are divine spellcasters who draw power from their faith to heal allies and smite foes.
 
+*Adapted: Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Kyr adds the mending skill for its deterministic world actions. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18.*
+
 ### Bard
 
-*Faithful · calling; casts with charisma* · `class:bard`
+*Adapted · calling; casts with charisma* · `class:bard`
 
 - Hit die: d6
 - Qualities: +1 dexterity, +1 intelligence, +1 wisdom, +3 charisma
@@ -194,6 +200,7 @@ Begins knowing Defend.
 - Weapons: blade, bow, crossbow, staff, light_mace (light)
 - Armour: leather, cloth (light)
 - Skills: Lore
+- Later: 9: Major Inspire
 
 A few spells, a steady voice and lore: songs and histories that remember what others forget.
 
@@ -211,6 +218,8 @@ Begins knowing Riposte.
 
 > Bards are charismatic performers who inspire allies and confound enemies through music and magic.
 
+*Adapted: Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18.*
+
 ### Ranger
 
 *Faithful · calling* · `class:ranger`
@@ -221,6 +230,7 @@ Begins knowing Riposte.
 - Weapons: blade, bow, crossbow, polearm (light, medium)
 - Armour: all
 - Skills: Woodcraft
+- Later: 3: Hide; 7: Arrow Volley; 10: Weapon master; 13: Rapid Fire; 17: Veteran
 
 Bow and spear, and woodcraft: reads beasts and wild country, and knows the safe way past them.
 
@@ -247,6 +257,7 @@ Begins knowing Ensnare.
 - Armour: cloth (light)
 - Skills: Climbing, Mending
 - Specializations: Wisdom, Compassionate Heart, Disciplined Mind
+- Later: 3: Fleet; 7: Rapid Strike; 11: Diamond body; 13: Veteran; 17: Unbroken
 
 Unarmoured and quick. Climbs where others need a rope, and mends wounds.
 
@@ -1145,6 +1156,60 @@ Wisdom: +2 to insanity saves, wisdom +2, +3 to searching.
 
 *Left out — examineBonus: Kyr skill checks are deterministic.*
 
+### Calling
+
+What a calling brings at later levels (Kyr's own progression).
+
+#### Weapon master
+
+*Kyr · calling trait* · `trait:weapon_master`
+
+> Knows where a blow should land: a critical on 19 or 20.
+
+#### Veteran
+
+*Kyr · calling trait* · `trait:veteran`
+
+> Has fought long enough to do two things in the time others do one: a second action each turn.
+
+#### Unbroken
+
+*Kyr · calling trait* · `trait:unbroken`
+
+Takes 2 less damage per hit.
+
+> Shrugs off what would fell another: 2 less damage from every blow.
+
+#### Slippery
+
+*Kyr · calling trait* · `trait:slippery`
+
++2 evasion.
+
+> Never quite where the blow falls: evasion 2.
+
+#### Killing eye
+
+*Kyr · calling trait* · `trait:killing_eye`
+
+> Sees the gap in any guard: a critical on 18 to 20.
+
+#### Fleet
+
+*Kyr · calling trait* · `trait:fleet`
+
++1 evasion, +2 initiative.
+
+> Moves before others have thought to: +2 initiative and evasion 1.
+
+#### Diamond body
+
+*Kyr · calling trait* · `trait:diamond_body`
+
++2 to every save.
+
+> Mind and body schooled against harm: +2 to every save.
+
 ## Company formations
 
 A company whose three members are of the named callings, or the named ancestries, is recognised as a formation when it sets out. Every member holds it for good. Each named calling or ancestry is needed as many times as it is named.
@@ -1712,12 +1777,12 @@ Brought to nothing, a creature saves against death (DC 25). It stays at 1 hit po
 
 Arcane spells are a mage's or a bard's; divine spells a cleric's. A caster knows the spells of their specialization (a school, or a domain) and prepares some of them in slots by spell level. Casting a spell of first level or more spends a slot; cantrips cost nothing. A night's rest under a roof readies every slot. Preparing a different spell takes an hour, and is ready at once if its slot has not been spent.
 
-Kyr's slot tables run to character level 10, so no caster yet reaches beyond level 5 spells. Higher spells are listed, and marked unreachable.
+Kyr's slot tables run to character level 20, and reach spells of level 9: Orsino's reach, half the caster's level rounded up. A spell of a level no calling has a slot for would be marked unreachable.
 
 ### Mage: spell slots
 
-| Level | 1 | 2 | 3 | 4 | 5 |
-|---|---|---|---|---|---|
+| Level | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|---|---|
 | 1 | 1 |
 | 2 | 2 |
 | 3 | 2 | 1 |
@@ -1728,11 +1793,21 @@ Kyr's slot tables run to character level 10, so no caster yet reaches beyond lev
 | 8 | 3 | 3 | 2 | 2 |
 | 9 | 3 | 3 | 3 | 2 | 1 |
 | 10 | 3 | 3 | 3 | 3 | 2 |
+| 11 | 4 | 3 | 3 | 3 | 2 | 1 |
+| 12 | 4 | 4 | 3 | 3 | 3 | 2 |
+| 13 | 4 | 4 | 4 | 3 | 3 | 2 | 1 |
+| 14 | 4 | 4 | 4 | 4 | 3 | 3 | 2 |
+| 15 | 5 | 4 | 4 | 4 | 4 | 3 | 2 | 1 |
+| 16 | 5 | 5 | 4 | 4 | 4 | 3 | 3 | 2 |
+| 17 | 5 | 5 | 5 | 4 | 4 | 4 | 3 | 2 | 1 |
+| 18 | 5 | 5 | 5 | 5 | 4 | 4 | 3 | 3 | 2 |
+| 19 | 5 | 5 | 5 | 5 | 5 | 4 | 4 | 3 | 2 |
+| 20 | 5 | 5 | 5 | 5 | 5 | 5 | 4 | 3 | 3 |
 
 ### Cleric: spell slots
 
-| Level | 1 | 2 | 3 | 4 | 5 |
-|---|---|---|---|---|---|
+| Level | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|---|---|
 | 1 | 1 |
 | 2 | 2 |
 | 3 | 2 | 1 |
@@ -1743,11 +1818,21 @@ Kyr's slot tables run to character level 10, so no caster yet reaches beyond lev
 | 8 | 3 | 3 | 2 | 2 |
 | 9 | 3 | 3 | 3 | 2 | 1 |
 | 10 | 3 | 3 | 3 | 3 | 2 |
+| 11 | 4 | 3 | 3 | 3 | 2 | 1 |
+| 12 | 4 | 4 | 3 | 3 | 3 | 2 |
+| 13 | 4 | 4 | 4 | 3 | 3 | 2 | 1 |
+| 14 | 4 | 4 | 4 | 4 | 3 | 3 | 2 |
+| 15 | 5 | 4 | 4 | 4 | 4 | 3 | 2 | 1 |
+| 16 | 5 | 5 | 4 | 4 | 4 | 3 | 3 | 2 |
+| 17 | 5 | 5 | 5 | 4 | 4 | 4 | 3 | 2 | 1 |
+| 18 | 5 | 5 | 5 | 5 | 4 | 4 | 3 | 3 | 2 |
+| 19 | 5 | 5 | 5 | 5 | 5 | 4 | 4 | 3 | 2 |
+| 20 | 5 | 5 | 5 | 5 | 5 | 5 | 4 | 3 | 3 |
 
 ### Bard: spell slots
 
-| Level | 1 | 2 | 3 | 4 |
-|---|---|---|---|---|
+| Level | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|---|---|---|---|---|---|---|---|
 | 1 | 1 |
 | 2 | 2 |
 | 3 | 2 | 1 |
@@ -1758,6 +1843,16 @@ Kyr's slot tables run to character level 10, so no caster yet reaches beyond lev
 | 8 | 3 | 3 | 2 |
 | 9 | 3 | 3 | 2 | 1 |
 | 10 | 3 | 3 | 3 | 1 |
+| 11 | 4 | 3 | 3 | 2 |
+| 12 | 4 | 3 | 3 | 2 | 1 |
+| 13 | 4 | 4 | 3 | 2 | 1 |
+| 14 | 4 | 4 | 3 | 3 | 2 |
+| 15 | 4 | 4 | 3 | 3 | 2 | 1 |
+| 16 | 4 | 4 | 4 | 3 | 2 | 1 |
+| 17 | 5 | 4 | 4 | 3 | 3 | 2 |
+| 18 | 5 | 4 | 4 | 3 | 3 | 2 | 1 |
+| 19 | 5 | 5 | 4 | 4 | 3 | 2 | 1 |
+| 20 | 5 | 5 | 4 | 4 | 3 | 3 | 2 |
 
 ### Arcane spells
 
@@ -2519,73 +2614,59 @@ End  on every enemy. (a fifth-level slot) Level 5 arcane spell.
 
 ##### Control Undead
 
-*Unreachable · level 6 arcane spell, necromancy* · `ability:control_undead`
+*Faithful · level 6 arcane spell, necromancy* · `ability:control_undead`
 
 Every enemy gains charmed for 3 turns (only undead creatures). (a level 6-level slot) Level 6 arcane spell.
 
 > Take control of an undead creature.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Demorph
 
-*Unreachable · level 6 arcane spell, divination* · `ability:demorph`
+*Faithful · level 6 arcane spell, divination* · `ability:demorph`
 
 End  on one enemy. (a level 6-level slot) Level 6 arcane spell.
 
 > Force a shapeshifter to revert to its original form.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Dissolving Touch
 
-*Unreachable · level 6 arcane spell, conjuration* · `ability:dissolving_touch`
+*Faithful · level 6 arcane spell, conjuration* · `ability:dissolving_touch`
 
 4d6 (4–24) acid damage to one enemy (may cause acid burn: a fortitude save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
 
 > Your touch causes matter to dissolve away.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Fire Storm
 
-*Unreachable · level 6 arcane spell, evocation* · `ability:fire_storm`
+*Faithful · level 6 arcane spell, evocation* · `ability:fire_storm`
 
 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
 
 > Produce a raging firestorm that engulfs enemies in flames.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Flesh to Stone
 
-*Unreachable · level 6 arcane spell, transmutation* · `ability:flesh_to_stone`
+*Faithful · level 6 arcane spell, transmutation* · `ability:flesh_to_stone`
 
 One enemy gains petrified for 10 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act.
 
 > Turn an enemy to stone.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Gravity Crush
 
-*Unreachable · level 6 arcane spell, evocation* · `ability:gravity`
+*Faithful · level 6 arcane spell, evocation* · `ability:gravity`
 
 10d6 (10–60) force damage to every enemy (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
 
 > Create a powerful gravitational collapse at a target location, damaging all enemies within the area.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Ice Storm
 
-*Unreachable · level 6 arcane spell, evocation* · `ability:ice_storm`
+*Faithful · level 6 arcane spell, evocation* · `ability:ice_storm`
 
 4d12 (4–48) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); 1d8 (1–8) bludgeoning damage to every enemy (halved if resisted; may cause stunned: a stun save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Frozen: dexterity −5, cannot act. Stunned: −2 to every roll, cannot act.
 
 > Create a storm of ice and hail that damages enemies within the area.
-
-*No calling has a slot of level 6 yet.*
 
 ##### Invisibility
 
@@ -2597,53 +2678,43 @@ One enemy gains petrified for 10 turns (a fortitude save against 18 + level + bo
 
 ##### Major Distraction
 
-*Unreachable · level 6 arcane spell, enchantment* · `ability:mass_distraction`
+*Faithful · level 6 arcane spell, enchantment* · `ability:mass_distraction`
 
 Every enemy gains distracted for 5 turns (a will save against 16 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Distracted: −1 to hit, −1 damage, −5 evasion.
 
 > Severely distract enemies.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Mass Weakness
 
-*Unreachable · level 6 arcane spell, necromancy* · `ability:mass_weakness`
+*Faithful · level 6 arcane spell, necromancy* · `ability:mass_weakness`
 
 Every enemy gains weakened for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Weakened: −2 damage, strength −2.
 
 > Reduce the damage output of multiple enemies.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Polar Ray
 
-*Unreachable · level 6 arcane spell, evocation* · `ability:polar_ray`
+*Faithful · level 6 arcane spell, evocation* · `ability:polar_ray`
 
 6d8 (6–48) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it). (a level 6-level slot) Level 6 arcane spell. Frozen: dexterity −5, cannot act.
 
 > Fire a beam of intense cold that can freeze enemies in place.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Quieten
 
-*Unreachable · level 6 arcane spell, abjuration* · `ability:quieten`
+*Faithful · level 6 arcane spell, abjuration* · `ability:quieten`
 
 Every enemy gains silence for 10 turns (a will save against 25 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 arcane spell. Silence: cannot cast spells.
 
 > Create an area where sound is magically suppressed.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Stone to Flesh
 
-*Unreachable · level 6 arcane spell, transmutation* · `ability:stone_to_flesh`
+*Faithful · level 6 arcane spell, transmutation* · `ability:stone_to_flesh`
 
 End  on one ally. (a level 6-level slot) Level 6 arcane spell.
 
 > Restore a petrified creature to flesh.
-
-*No calling has a slot of level 6 yet.*
 
 ##### Summon Greater Elemental
 
@@ -2669,13 +2740,11 @@ End  on one ally. (a level 6-level slot) Level 6 arcane spell.
 
 ##### Contagion
 
-*Unreachable · level 7 arcane spell, necromancy* · `ability:contagion`
+*Faithful · level 7 arcane spell, necromancy* · `ability:contagion`
 
 6d8 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); every enemy gains diseased for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
 
 > Infect enemies with a virulent disease that worsens over time.
-
-*No calling has a slot of level 7 yet.*
 
 ##### Finger of Death
 
@@ -2697,23 +2766,19 @@ End  on one ally. (a level 6-level slot) Level 6 arcane spell.
 
 ##### Mass Charm
 
-*Unreachable · level 7 arcane spell, enchantment* · `ability:mass_charm`
+*Faithful · level 7 arcane spell, enchantment* · `ability:mass_charm`
 
 Every enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 19 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 arcane spell.
 
 > Charm multiple humanoid enemies, making them friendly towards you.
 
-*No calling has a slot of level 7 yet.*
-
 ##### Mass Confusion
 
-*Unreachable · level 7 arcane spell, illusion* · `ability:mass_confuse`
+*Faithful · level 7 arcane spell, illusion* · `ability:mass_confuse`
 
 Every enemy gains confused for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 arcane spell.
 
 > Confuse multiple enemies, causing them to act randomly.
-
-*No calling has a slot of level 7 yet.*
 
 ##### Meteor Swarm
 
@@ -2767,13 +2832,11 @@ Every enemy gains confused for 3 turns (a will save against 18 + level + bonusSp
 
 ##### Cathexis
 
-*Unreachable · level 8 arcane spell, necromancy* · `ability:cathexis`
+*Faithful · level 8 arcane spell, necromancy* · `ability:cathexis`
 
 Drain 4d6 + level health from every enemy (halved if resisted). (a level 8-level slot) Level 8 arcane spell.
 
 > Drain the life force from multiple enemies to heal yourself.
-
-*No calling has a slot of level 8 yet.*
 
 ##### Chaos Storm
 
@@ -2795,23 +2858,19 @@ Drain 4d6 + level health from every enemy (halved if resisted). (a level 8-level
 
 ##### Greater Contagion
 
-*Unreachable · level 8 arcane spell, necromancy* · `ability:greater_contagion`
+*Faithful · level 8 arcane spell, necromancy* · `ability:greater_contagion`
 
 5d6 + level necrotic damage to every enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); every enemy gains diseased for 3 turns (a fortitude save against 20 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
 
 > Infect multiple enemies with a deadly disease that worsens rapidly.
 
-*No calling has a slot of level 8 yet.*
-
 ##### Greater Distraction
 
-*Unreachable · level 8 arcane spell, enchantment* · `ability:greater_distraction`
+*Faithful · level 8 arcane spell, enchantment* · `ability:greater_distraction`
 
 Every enemy gains severely distracted for 7 turns (a will save against 18 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 arcane spell. Severely Distracted: −2 to hit, −2 damage, −10 evasion, −1 to every roll.
 
 > Extremely distract enemies, giving them a -6 penalty to attack rolls for 5 rounds.
-
-*No calling has a slot of level 8 yet.*
 
 ##### Major Reflection
 
@@ -2823,13 +2882,11 @@ Every enemy gains severely distracted for 7 turns (a will save against 18 + leve
 
 ##### Mass Mind Blank
 
-*Unreachable · level 8 arcane spell, divination* · `ability:mass_mind_blank`
+*Faithful · level 8 arcane spell, divination* · `ability:mass_mind_blank`
 
 Every ally gains mind blank for 20 turns. (a level 8-level slot) Level 8 arcane spell. Mind Blank: +2 to will saves, resists 50% of psychic, immune to charm, immune to insanity, immune to fear, immune to sleep.
 
 > Protect your mind from all forms of mental intrusion and detection for 1 hour.
-
-*No calling has a slot of level 8 yet.*
 
 ##### Maze
 
@@ -2853,13 +2910,11 @@ Every ally gains mind blank for 20 turns. (a level 8-level slot) Level 8 arcane 
 
 ##### Symbol of Insanity
 
-*Unreachable · level 8 arcane spell, illusion* · `ability:symbol_of_insanity`
+*Faithful · level 8 arcane spell, illusion* · `ability:symbol_of_insanity`
 
 Every enemy gains insane for 3 turns (a will save against 19 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 arcane spell. Insane: −1 to every roll, −2 to will saves.
 
 > Insanity-inducing symbol that affects all enemies within range.
-
-*No calling has a slot of level 8 yet.*
 
 ##### Time Stop
 
@@ -2873,13 +2928,11 @@ Every enemy gains insane for 3 turns (a will save against 19 + level + bonusSpel
 
 ##### Death Wave
 
-*Unreachable · level 9 arcane spell, evocation* · `ability:death_wave`
+*Faithful · level 9 arcane spell, evocation* · `ability:death_wave`
 
 10d8 (10–80) necrotic damage to every enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a level 9-level slot) Level 9 arcane spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
 
 > Emit a wave of necrotic energy that damages all enemies within range.
-
-*No calling has a slot of level 9 yet.*
 
 ##### Foresight
 
@@ -2893,23 +2946,19 @@ Every enemy gains insane for 3 turns (a will save against 19 + level + bonusSpel
 
 ##### Major False Life
 
-*Unreachable · level 9 arcane spell, necromancy* · `ability:major_false_life`
+*Faithful · level 9 arcane spell, necromancy* · `ability:major_false_life`
 
 You gain major false life for 3 turns. (a level 9-level slot) Level 9 arcane spell. Major False Life: +2 to death saves, resists 50% of necrotic.
 
 > Grant yourself a large amount of temporary hit points.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Mass Domination
 
-*Unreachable · level 9 arcane spell, enchantment* · `ability:mass_domination`
+*Faithful · level 9 arcane spell, enchantment* · `ability:mass_domination`
 
 Every enemy gains dominated for 3 turns (only humanoid creatures). (a level 9-level slot) Level 9 arcane spell.
 
 > Control the actions of multiple humanoid enemies.
-
-*No calling has a slot of level 9 yet.*
 
 ##### Perfect Turning
 
@@ -3799,33 +3848,27 @@ You gain pure strike for 3 turns. (a fifth-level slot) Level 5 divine spell. Pur
 
 ##### Cure Critical Wounds
 
-*Unreachable · level 6 divine spell, life domain* · `ability:cure_critical`
+*Faithful · level 6 divine spell, life domain* · `ability:cure_critical`
 
 Heal one ally for 4d8 (4–32). (a level 6-level slot) Level 6 divine spell.
 
 > Bind critical injuries.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Flood
 
-*Unreachable · level 6 divine spell, ocean domain* · `ability:flood`
+*Faithful · level 6 divine spell, ocean domain* · `ability:flood`
 
 3d10 (3–30) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); every enemy gains drenched for 6 turns (a magic save against 15 + level + bonusSpellDC avoids it); every enemy gains slow for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, dexterity −5.
 
 > Summon a flood that engulfs your enemies, dealing damage and hindering their movement.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Harm
 
-*Unreachable · level 6 divine spell, death domain* · `ability:harm`
+*Faithful · level 6 divine spell, death domain* · `ability:harm`
 
 6d6 + level × 2 necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a level 6-level slot) Level 6 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
 
 > Inflict severe necrotic damage on an enemy.
-
-*No calling has a slot of level 6 yet.*
 
 ##### Heteraeos
 
@@ -3855,33 +3898,27 @@ Heal one ally for 4d8 (4–32). (a level 6-level slot) Level 6 divine spell.
 
 ##### Overwhelming Chaos
 
-*Unreachable · level 6 divine spell, chaos domain* · `ability:overwhelming_chaos`
+*Faithful · level 6 divine spell, chaos domain* · `ability:overwhelming_chaos`
 
 4d6 (4–24) psychic damage to every enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains confused for 3 turns (a will save against 22 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Insane: −1 to every roll, −2 to will saves.
 
 > Unleash a torrent of chaotic energy that damages and confuses enemies.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Shadowfire
 
-*Unreachable · level 6 divine spell, darkness domain* · `ability:shadowfire`
+*Faithful · level 6 divine spell, darkness domain* · `ability:shadowfire`
 
 3d6 (3–18) cold damage to one enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); 2d6 (2–12) necrotic damage to one enemy (halved if resisted; may cause diseased: a disease save against 15 avoids it); 1d6 (1–6) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it). (a level 6-level slot) Level 6 divine spell. Frozen: dexterity −5, cannot act. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn. Insane: −1 to every roll, −2 to will saves.
 
 > Unleash a blast of dark energy at an enemy.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Solar Flare
 
-*Unreachable · level 6 divine spell, light domain* · `ability:solar_flare`
+*Faithful · level 6 divine spell, light domain* · `ability:solar_flare`
 
 6d6 (6–36) radiant damage to one enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); one enemy gains blinded for 3 turns (a will save against 30 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
 
 > Blaze a searing flare of sunlight at an enemy.
-
-*No calling has a slot of level 6 yet.*
 
 ##### Summon Elemental
 
@@ -3905,55 +3942,45 @@ Heal one ally for 4d8 (4–32). (a level 6-level slot) Level 6 divine spell.
 
 ##### Venom Burst
 
-*Unreachable · level 6 divine spell, poison domain* · `ability:venom_burst`
+*Faithful · level 6 divine spell, poison domain* · `ability:venom_burst`
 
 2d8 (2–16) poison damage to every enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); every enemy gains poison for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 6-level slot) Level 6 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
 
 > Explode with venomous energy, damaging nearby enemies.
 
-*No calling has a slot of level 6 yet.*
-
 ##### Vital Boost
 
-*Unreachable · level 6 divine spell, life domain* · `ability:vital_boost`
+*Faithful · level 6 divine spell, life domain* · `ability:vital_boost`
 
 One ally gains vital boost for 3 turns. (a level 6-level slot) Level 6 divine spell. Vital Boost: +2 to every save, constitution +4.
 
 > Temporarily enhance the vitality of an ally.
 
-*No calling has a slot of level 6 yet.*
-
 #### Level 7
 
 ##### Cruel Will
 
-*Unreachable · level 7 divine spell, darkness domain* · `ability:cruel_will`
+*Faithful · level 7 divine spell, darkness domain* · `ability:cruel_will`
 
 One enemy gains dominated for 10 turns (a will save against 28 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell.
 
 > Overwhelm the mind of an enemy.
 
-*No calling has a slot of level 7 yet.*
-
 ##### Destroy Undead
 
-*Unreachable · level 7 divine spell, war domain* · `ability:destroy_undead`
+*Faithful · level 7 divine spell, war domain* · `ability:destroy_undead`
 
 5d6 (5–30) radiant damage to every enemy (only undead creatures; halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a level 7-level slot) Level 7 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
 
 > Channel divine energy to destroy undead creatures.
 
-*No calling has a slot of level 7 yet.*
-
 ##### Domination
 
-*Unreachable · level 7 divine spell, love domain* · `ability:domination`
+*Faithful · level 7 divine spell, love domain* · `ability:domination`
 
 One enemy gains dominated for 3 turns (a will save against 25 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell.
 
 > Take control of an enemy's mind.
-
-*No calling has a slot of level 7 yet.*
 
 ##### Electrostatic Field
 
@@ -3965,53 +3992,43 @@ One enemy gains dominated for 3 turns (a will save against 25 + level + bonusSpe
 
 ##### Heart of the Wild
 
-*Unreachable · level 7 divine spell, nature domain* · `ability:heart_of_the_wild`
+*Faithful · level 7 divine spell, nature domain* · `ability:heart_of_the_wild`
 
 You gain wildheart for 3 turns. (a level 7-level slot) Level 7 divine spell. Wildheart: +2 to hit, +2 damage, constitution +4, resists 50% of poison, resists 25% of acid, immune to disease.
 
 > Tap into the primal power of nature to bolster your abilities.
 
-*No calling has a slot of level 7 yet.*
-
 ##### Holy
 
-*Unreachable · level 7 divine spell, law domain* · `ability:holy`
+*Faithful · level 7 divine spell, law domain* · `ability:holy`
 
 3d6 + wisdom radiant damage to every enemy (may cause blinded: a reflex save against 15 avoids it); every enemy gains deafened for 3 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic.
 
 > Smite your foes with holy energy.
 
-*No calling has a slot of level 7 yet.*
-
 ##### Madness
 
-*Unreachable · level 7 divine spell, chaos domain* · `ability:madness`
+*Faithful · level 7 divine spell, chaos domain* · `ability:madness`
 
 One enemy gains insane for 3 turns (a insanity save against 25 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Insane: −1 to every roll, −2 to will saves.
 
 > Drive an enemy insane.
 
-*No calling has a slot of level 7 yet.*
-
 ##### Plague Wave
 
-*Unreachable · level 7 divine spell, poison domain* · `ability:plague_wave`
+*Faithful · level 7 divine spell, poison domain* · `ability:plague_wave`
 
 4d8 (4–32) poison damage to every enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); every enemy gains diseased for 3 turns (a fortitude save against 20 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Poison: takes 1d4 (1–4) true damage each turn. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
 
 > Send out a wave of plague that infects enemies.
 
-*No calling has a slot of level 7 yet.*
-
 ##### Radiant Beam
 
-*Unreachable · level 7 divine spell, light domain* · `ability:radiant_beam`
+*Faithful · level 7 divine spell, light domain* · `ability:radiant_beam`
 
 8d6 (8–48) radiant damage to one enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a level 7-level slot) Level 7 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
 
 > Unleash a concentrated beam of radiant energy.
-
-*No calling has a slot of level 7 yet.*
 
 ##### Resurrection
 
@@ -4035,13 +4052,11 @@ One enemy gains insane for 3 turns (a insanity save against 25 + level + bonusSp
 
 ##### Tempest
 
-*Unreachable · level 7 divine spell, ocean domain* · `ability:tempest`
+*Faithful · level 7 divine spell, ocean domain* · `ability:tempest`
 
 4d10 + level cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); every enemy gains drenched for 8 turns (a magic save against 15 + level + bonusSpellDC avoids it); every enemy gains slow for 3 turns (a fortitude save against 20 + level + bonusSpellDC avoids it). (a level 7-level slot) Level 7 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, dexterity −5.
 
 > Unleash a violent storm that damages and hinders your enemies.
-
-*No calling has a slot of level 7 yet.*
 
 #### Level 8
 
@@ -4065,13 +4080,11 @@ One enemy gains insane for 3 turns (a insanity save against 25 + level + bonusSp
 
 ##### Divine Champion
 
-*Unreachable · level 8 divine spell, war domain* · `ability:divine_champion`
+*Faithful · level 8 divine spell, war domain* · `ability:divine_champion`
 
 You gain raven's cunning for 3 turns; you gain sage's wisdom for 3 turns; you gain giant's strength for 3 turns; you gain mammoth's endurance for 3 turns; you gain heroism for 3 turns; you gain phoenix's splendor for 3 turns; you gain divine champion for 3 turns. (a level 8-level slot) Level 8 divine spell. Raven's Cunning: +2 to every roll, intelligence +4. Sage's Wisdom: +2 to every roll, +2 to every save, wisdom +4. Giant's Strength: +1d3 melee damage, strength +6. Mammoth's Endurance: constitution +6. Heroism: +2 to hit, +2 damage, +3 to every save, immune to fear. Phoenix's Splendor: +2 to hit, +1 damage, charisma +4. Divine Champion: +3 to hit, +3 damage, +3 to every save, immune to fear.
 
 > Transform into a divine champion, greatly enhancing your combat abilities.
-
-*No calling has a slot of level 8 yet.*
 
 ##### Divine Power
 
@@ -4083,23 +4096,19 @@ You gain raven's cunning for 3 turns; you gain sage's wisdom for 3 turns; you ga
 
 ##### Doom Spiral
 
-*Unreachable · level 8 divine spell, chaos domain* · `ability:doom_spiral`
+*Faithful · level 8 divine spell, chaos domain* · `ability:doom_spiral`
 
 6d6 (6–36) psychic damage to one enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); one enemy gains entangled for 3 turns (a reflex save against 24 + level + bonusSpellDC avoids it); one enemy gains confused for 3 turns (a will save against 22 + level + bonusSpellDC avoids it); one enemy gains fatigued for 3 turns (a sleep save against 20 + level + bonusSpellDC avoids it). (a level 8-level slot) Level 8 divine spell. Insane: −1 to every roll, −2 to will saves. Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
 
 > Trap an enemy in a spiraling vortex of chaos.
 
-*No calling has a slot of level 8 yet.*
-
 ##### Enlightenment
 
-*Unreachable · level 8 divine spell, light domain* · `ability:enlightenment`
+*Faithful · level 8 divine spell, light domain* · `ability:enlightenment`
 
 One ally gains enlightened for 3 turns. (a level 8-level slot) Level 8 divine spell. Enlightened: +2 to every roll, intelligence +4, wisdom +4.
 
 > Grant profound insight to yourself or an ally.
-
-*No calling has a slot of level 8 yet.*
 
 ##### Greater Toxicity
 
@@ -4111,33 +4120,27 @@ One ally gains enlightened for 3 turns. (a level 8-level slot) Level 8 divine sp
 
 ##### Mass Heal
 
-*Unreachable · level 8 divine spell, life domain* · `ability:mass_heal`
+*Faithful · level 8 divine spell, life domain* · `ability:mass_heal`
 
 Heal every ally for 3d8 + level; end  on every ally. (a level 8-level slot) Level 8 divine spell.
 
 > Heal multiple allies at once.
 
-*No calling has a slot of level 8 yet.*
-
 ##### Mass Rejuvenate
 
-*Unreachable · level 8 divine spell, love domain* · `ability:mass_rejuvenate`
+*Faithful · level 8 divine spell, love domain* · `ability:mass_rejuvenate`
 
 Heal every ally for 4d8 + wisdom. (a level 8-level slot) Level 8 divine spell.
 
 > Heal a massive amount of health for all allies.
 
-*No calling has a slot of level 8 yet.*
-
 ##### Scaleskin
 
-*Unreachable · level 8 divine spell, nature domain* · `ability:scaleskin`
+*Faithful · level 8 divine spell, nature domain* · `ability:scaleskin`
 
 You gain scaleskin for 3 turns. (a level 8-level slot) Level 8 divine spell. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 > Your skin takes on the qualities of dragon scales.
-
-*No calling has a slot of level 8 yet.*
 
 ##### Shadow Form
 
@@ -4171,23 +4174,19 @@ You gain scaleskin for 3 turns. (a level 8-level slot) Level 8 divine spell. Sca
 
 ##### Apocalypse
 
-*Unreachable · level 9 divine spell, death domain* · `ability:apocalypse`
+*Faithful · level 9 divine spell, death domain* · `ability:apocalypse`
 
 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it); 6d6 (6–36) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); 6d6 (6–36) lightning damage to every enemy (halved if resisted; may cause paralyzed: a paralyze save against 15 avoids it); every enemy gains doomed for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Burning: takes 1d3 (1–3) fire damage each turn. Frozen: dexterity −5, cannot act. Paralyzed: strength −5, dexterity −5, cannot act. Doomed: strength −4, dexterity −4, constitution −4, intelligence −4, wisdom −4, charisma −4.
 
 > Unleash a cataclysmic storm of elemental fury upon all enemies.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Black Hole
 
-*Unreachable · level 9 divine spell, darkness domain* · `ability:black_hole`
+*Faithful · level 9 divine spell, darkness domain* · `ability:black_hole`
 
 12d6 (12–72) cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it). (a level 9-level slot) Level 9 divine spell. Frozen: dexterity −5, cannot act.
 
 > Create a devastating black hole that damages and pulls in enemies.
-
-*No calling has a slot of level 9 yet.*
 
 ##### Death Fog
 
@@ -4199,43 +4198,35 @@ You gain scaleskin for 3 turns. (a level 8-level slot) Level 8 divine spell. Sca
 
 ##### Discordant Wave
 
-*Unreachable · level 9 divine spell, chaos domain* · `ability:discordant_wave`
+*Faithful · level 9 divine spell, chaos domain* · `ability:discordant_wave`
 
 8d6 (8–48) psychic damage to every enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains insane for 3 turns (a will save against 28 + level + bonusSpellDC avoids it); every enemy gains confused for 3 turns (a will save against 25 + level + bonusSpellDC avoids it); every enemy gains stunned for 3 turns (a will save against 23 + level + bonusSpellDC avoids it); every enemy gains distracted for 3 turns (a will save against 20 + level + bonusSpellDC avoids it); every enemy gains doomed for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion. Doomed: strength −4, dexterity −4, constitution −4, intelligence −4, wisdom −4, charisma −4.
 
 > Release a wave of chaotic energy that wreaks havoc on all enemies.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Dust to Dust
 
-*Unreachable · level 9 divine spell, war domain* · `ability:dust_to_dust`
+*Faithful · level 9 divine spell, war domain* · `ability:dust_to_dust`
 
 10d6 (10–60) radiant damage to every enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); every enemy gains stunned for 3 turns (a will save against 20 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act.
 
 > Call upon the gods to strike down your enemies with overwhelming force.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Implosion
 
-*Unreachable · level 9 divine spell, law domain* · `ability:implosion`
+*Faithful · level 9 divine spell, law domain* · `ability:implosion`
 
 10d6 (10–60) force damage to one enemy (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it). (a level 9-level slot) Level 9 divine spell. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
 
 > Cause an enemy to implode from within.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Lovebomb
 
-*Unreachable · level 9 divine spell, love domain* · `ability:lovebomb`
+*Faithful · level 9 divine spell, love domain* · `ability:lovebomb`
 
 6d12 (6–72) psychic damage to every enemy (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains charmed for 5 turns (only humanoid creatures; a will save against 30 + level + bonusSpellDC avoids it); every enemy gains distracted for 5 turns (a will save against 25 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Insane: −1 to every roll, −2 to will saves. Distracted: −1 to hit, −1 damage, −5 evasion.
 
 > Explode with overwhelming affection, incapacitating enemies.
-
-*No calling has a slot of level 9 yet.*
 
 ##### Maelstrom
 
@@ -4247,43 +4238,35 @@ You gain scaleskin for 3 turns. (a level 8-level slot) Level 8 divine spell. Sca
 
 ##### Major Restoration
 
-*Unreachable · level 9 divine spell, life domain* · `ability:major_restoration`
+*Faithful · level 9 divine spell, life domain* · `ability:major_restoration`
 
 Heal one ally for 10d8 + level; end  on one ally. (a level 9-level slot) Level 9 divine spell.
 
 > Completely cure an ally of all ailments and restore vitality.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Ocean's Wrath
 
-*Unreachable · level 9 divine spell, ocean domain* · `ability:oceans_wrath`
+*Faithful · level 9 divine spell, ocean domain* · `ability:oceans_wrath`
 
 6d10 + level × 2 cold damage to every enemy (halved if resisted; may cause frozen: a reflex save against 15 avoids it); every enemy gains drenched for 10 turns (a magic save against 15 + level + bonusSpellDC avoids it); every enemy gains prone for 3 turns (a fortitude save against 22 + level + bonusSpellDC avoids it). (a level 9-level slot) Level 9 divine spell. Frozen: dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: dexterity −2, cannot act.
 
 > Call upon the full fury of the ocean to devastate your enemies.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Steelskin
 
-*Unreachable · level 9 divine spell, nature domain* · `ability:steelskin`
+*Faithful · level 9 divine spell, nature domain* · `ability:steelskin`
 
 You gain steelskin for 3 turns. (a level 9-level slot) Level 9 divine spell. Steelskin: 10 harder to hit, resists 50% of piercing, resists 50% of slashing.
 
 > Your skin becomes as tough as steel.
 
-*No calling has a slot of level 9 yet.*
-
 ##### Sunsphere
 
-*Unreachable · level 9 divine spell, light domain* · `ability:sunsphere`
+*Faithful · level 9 divine spell, light domain* · `ability:sunsphere`
 
 10d6 (10–60) radiant damage to every enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a level 9-level slot) Level 9 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
 
 > Create a massive sphere of sunlight that damages enemies.
-
-*No calling has a slot of level 9 yet.*
 
 ## Techniques
 
@@ -4807,7 +4790,9 @@ Experience comes from what the company defeats (its kind's worth for each of its
 
 Each level rolls the calling's hit die and adds Constitution modifier (at least 1), gives a point to raise any quality, and a specialist caster a new spell of their tradition that they can cast. At levels 5, 10 and 15 a companion may take up one of their calling's feats.
 
-Kyr's experience table runs to level 10; Orsino's continues.
+Each calling also brings something new in kind at some levels: a technique learned, a calling trait taken, a new level of spells. These are Kyr's own progression, made from Orsino's techniques and modifiers; the tables below give each calling's, level by level.
+
+Kyr's experience table runs to level 20, as Orsino's does for feats.
 
 | Level | Experience | Also |
 |---|---|---|
@@ -4820,6 +4805,191 @@ Kyr's experience table runs to level 10; Orsino's continues.
 | 8 | 37000 |  |
 | 9 | 50700 |  |
 | 10 | 67400 | a feat |
+| 11 | 87400 |  |
+| 12 | 111000 |  |
+| 13 | 138500 |  |
+| 14 | 170200 |  |
+| 15 | 206400 | a feat |
+| 16 | 247400 |  |
+| 17 | 293500 |  |
+| 18 | 345000 |  |
+| 19 | 402200 |  |
+| 20 | 465400 | a feat |
+
+### Warrior
+
+| Level | Experience | THAC0 | New in kind |
+|---|---|---|---|
+| 1 | 0 | 20 | — |
+| 2 | 1000 | 19 | — |
+| 3 | 3000 | 19 | Dig In |
+| 4 | 6200 | 18 | — |
+| 5 | 10900 | 18 | a feat (Savage Attacker, or another) |
+| 6 | 17400 | 17 | — |
+| 7 | 26000 | 17 | Rapid Strike |
+| 8 | 37000 | 16 | — |
+| 9 | 50700 | 16 | Weapon master |
+| 10 | 67400 | 15 | a feat (Fearsome Shout, or another) |
+| 11 | 87400 | 15 | — |
+| 12 | 111000 | 14 | — |
+| 13 | 138500 | 14 | Veteran |
+| 14 | 170200 | 13 | — |
+| 15 | 206400 | 13 | — |
+| 16 | 247400 | 12 | — |
+| 17 | 293500 | 12 | Unbroken |
+| 18 | 345000 | 11 | — |
+| 19 | 402200 | 11 | — |
+| 20 | 465400 | 10 | — |
+
+### Mage
+
+| Level | Experience | THAC0 | Slots | New in kind |
+|---|---|---|---|---|
+| 1 | 0 | 20 | 1 | level 1 spells |
+| 2 | 1000 | 19 | 2 | — |
+| 3 | 3000 | 19 | 2/1 | level 2 spells |
+| 4 | 6200 | 18 | 2/2 | — |
+| 5 | 10900 | 18 | 2/2/1 | level 3 spells |
+| 6 | 17400 | 17 | 2/2/2 | — |
+| 7 | 26000 | 17 | 3/2/2/1 | level 4 spells |
+| 8 | 37000 | 16 | 3/3/2/2 | — |
+| 9 | 50700 | 16 | 3/3/3/2/1 | level 5 spells |
+| 10 | 67400 | 15 | 3/3/3/3/2 | — |
+| 11 | 87400 | 15 | 4/3/3/3/2/1 | level 6 spells |
+| 12 | 111000 | 14 | 4/4/3/3/3/2 | — |
+| 13 | 138500 | 14 | 4/4/4/3/3/2/1 | level 7 spells |
+| 14 | 170200 | 13 | 4/4/4/4/3/3/2 | — |
+| 15 | 206400 | 13 | 5/4/4/4/4/3/2/1 | level 8 spells |
+| 16 | 247400 | 12 | 5/5/4/4/4/3/3/2 | — |
+| 17 | 293500 | 12 | 5/5/5/4/4/4/3/2/1 | level 9 spells |
+| 18 | 345000 | 11 | 5/5/5/5/4/4/3/3/2 | — |
+| 19 | 402200 | 11 | 5/5/5/5/5/4/4/3/2 | — |
+| 20 | 465400 | 10 | 5/5/5/5/5/5/4/3/3 | — |
+
+### Thief
+
+| Level | Experience | THAC0 | New in kind |
+|---|---|---|---|
+| 1 | 0 | 20 | — |
+| 2 | 1000 | 19 | — |
+| 3 | 3000 | 19 | Hide |
+| 4 | 6200 | 18 | — |
+| 5 | 10900 | 18 | a feat (Silent Footsteps, or another) |
+| 6 | 17400 | 17 | — |
+| 7 | 26000 | 17 | Slippery |
+| 8 | 37000 | 16 | — |
+| 9 | 50700 | 16 | — |
+| 10 | 67400 | 15 | — |
+| 11 | 87400 | 15 | Rapid Strike |
+| 12 | 111000 | 14 | — |
+| 13 | 138500 | 14 | Killing eye |
+| 14 | 170200 | 13 | — |
+| 15 | 206400 | 13 | — |
+| 16 | 247400 | 12 | — |
+| 17 | 293500 | 12 | Veteran |
+| 18 | 345000 | 11 | — |
+| 19 | 402200 | 11 | — |
+| 20 | 465400 | 10 | — |
+
+### Cleric
+
+| Level | Experience | THAC0 | Slots | New in kind |
+|---|---|---|---|---|
+| 1 | 0 | 20 | 1 | level 1 spells |
+| 2 | 1000 | 19 | 2 | — |
+| 3 | 3000 | 19 | 2/1 | level 2 spells |
+| 4 | 6200 | 18 | 2/2 | — |
+| 5 | 10900 | 18 | 2/2/1 | level 3 spells; a feat (Divine Favor, or another) |
+| 6 | 17400 | 17 | 2/2/2 | — |
+| 7 | 26000 | 17 | 3/2/2/1 | level 4 spells |
+| 8 | 37000 | 16 | 3/3/2/2 | — |
+| 9 | 50700 | 16 | 3/3/3/2/1 | level 5 spells |
+| 10 | 67400 | 15 | 3/3/3/3/2 | — |
+| 11 | 87400 | 15 | 4/3/3/3/2/1 | level 6 spells |
+| 12 | 111000 | 14 | 4/4/3/3/3/2 | — |
+| 13 | 138500 | 14 | 4/4/4/3/3/2/1 | level 7 spells |
+| 14 | 170200 | 13 | 4/4/4/4/3/3/2 | — |
+| 15 | 206400 | 13 | 5/4/4/4/4/3/2/1 | level 8 spells |
+| 16 | 247400 | 12 | 5/5/4/4/4/3/3/2 | — |
+| 17 | 293500 | 12 | 5/5/5/4/4/4/3/2/1 | level 9 spells |
+| 18 | 345000 | 11 | 5/5/5/5/4/4/3/3/2 | — |
+| 19 | 402200 | 11 | 5/5/5/5/5/4/4/3/2 | — |
+| 20 | 465400 | 10 | 5/5/5/5/5/5/4/3/3 | — |
+
+### Bard
+
+| Level | Experience | THAC0 | Slots | New in kind |
+|---|---|---|---|---|
+| 1 | 0 | 20 | 1 | level 1 spells |
+| 2 | 1000 | 19 | 2 | — |
+| 3 | 3000 | 19 | 2/1 | level 2 spells |
+| 4 | 6200 | 18 | 3/1 | — |
+| 5 | 10900 | 18 | 3/2 | a feat (Jester, or another) |
+| 6 | 17400 | 17 | 3/2/1 | level 3 spells |
+| 7 | 26000 | 17 | 3/3/1 | — |
+| 8 | 37000 | 16 | 3/3/2 | — |
+| 9 | 50700 | 16 | 3/3/2/1 | Major Inspire; level 4 spells |
+| 10 | 67400 | 15 | 3/3/3/1 | a feat (Rousing Performance, or another) |
+| 11 | 87400 | 15 | 4/3/3/2 | — |
+| 12 | 111000 | 14 | 4/3/3/2/1 | level 5 spells |
+| 13 | 138500 | 14 | 4/4/3/2/1 | — |
+| 14 | 170200 | 13 | 4/4/3/3/2 | — |
+| 15 | 206400 | 13 | 4/4/3/3/2/1 | level 6 spells |
+| 16 | 247400 | 12 | 4/4/4/3/2/1 | — |
+| 17 | 293500 | 12 | 5/4/4/3/3/2 | — |
+| 18 | 345000 | 11 | 5/4/4/3/3/2/1 | level 7 spells |
+| 19 | 402200 | 11 | 5/5/4/4/3/2/1 | — |
+| 20 | 465400 | 10 | 5/5/4/4/3/3/2 | — |
+
+### Ranger
+
+| Level | Experience | THAC0 | New in kind |
+|---|---|---|---|
+| 1 | 0 | 20 | — |
+| 2 | 1000 | 19 | — |
+| 3 | 3000 | 19 | Hide |
+| 4 | 6200 | 18 | — |
+| 5 | 10900 | 18 | — |
+| 6 | 17400 | 17 | — |
+| 7 | 26000 | 17 | Arrow Volley |
+| 8 | 37000 | 16 | — |
+| 9 | 50700 | 16 | — |
+| 10 | 67400 | 15 | Weapon master |
+| 11 | 87400 | 15 | — |
+| 12 | 111000 | 14 | — |
+| 13 | 138500 | 14 | Rapid Fire |
+| 14 | 170200 | 13 | — |
+| 15 | 206400 | 13 | — |
+| 16 | 247400 | 12 | — |
+| 17 | 293500 | 12 | Veteran |
+| 18 | 345000 | 11 | — |
+| 19 | 402200 | 11 | — |
+| 20 | 465400 | 10 | — |
+
+### Monk
+
+| Level | Experience | THAC0 | New in kind |
+|---|---|---|---|
+| 1 | 0 | 20 | — |
+| 2 | 1000 | 19 | — |
+| 3 | 3000 | 19 | Fleet |
+| 4 | 6200 | 18 | — |
+| 5 | 10900 | 18 | — |
+| 6 | 17400 | 17 | — |
+| 7 | 26000 | 17 | Rapid Strike |
+| 8 | 37000 | 16 | — |
+| 9 | 50700 | 16 | — |
+| 10 | 67400 | 15 | — |
+| 11 | 87400 | 15 | Diamond body |
+| 12 | 111000 | 14 | — |
+| 13 | 138500 | 14 | Veteran |
+| 14 | 170200 | 13 | — |
+| 15 | 206400 | 13 | — |
+| 16 | 247400 | 12 | — |
+| 17 | 293500 | 12 | Unbroken |
+| 18 | 345000 | 11 | — |
+| 19 | 402200 | 11 | — |
+| 20 | 465400 | 10 | — |
 
 ## Feats
 

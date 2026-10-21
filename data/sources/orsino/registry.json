@@ -2262,6 +2262,7 @@
    "features": [
     "effect:attack",
     "effect:debuff",
+    "flag:bonusDamage",
     "target:enemy",
     "target:self"
    ]
@@ -2592,6 +2593,7 @@
    "references": [],
    "features": [
     "effect:attack",
+    "flag:bonusDamage",
     "target:enemy"
    ]
   },
@@ -7177,6 +7179,7 @@
    "references": [],
    "features": [
     "effect:drain",
+    "flag:healCaster",
     "flag:saveForHalf",
     "target:enemies"
    ]

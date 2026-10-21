@@ -37,6 +37,8 @@ export interface MemberRow {
   // Spells by level: each prepared one, and whether it is still ready to cast.
   spells?: { level: number; name: string; ready: boolean }[];
   experience: number; gold: number;
+  // What the next level brings in kind (a technique, a calling trait, a new level of spells), if anything.
+  next?: string[];
   // Conditions that harm by name, and those that help (a lit torch) apart.
   conditions: string[]; boons?: string[];
   abilities: { id: string; name: string; text: string; cost: number; price: string }[];

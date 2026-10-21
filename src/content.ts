@@ -142,8 +142,8 @@ export class Content {
     const kind = ancestry?.nameGroup ?? (Object.hasOwn(tables.forename.groups, raceId) ? raceId : 'hero');
     const generated = { ...stream('attributes').generate('attributes'),
       name: String(stream('name').generate('creature_name', { kind }).name) };
-    const chassis = Creation.chassis(raceId, classId);
     const level = context.level ?? (species ? Canon.creature(raceId).statistics?.level : undefined) ?? 1;
+    const chassis = Creation.chassis(raceId, classId, level);
     const scores = Object.fromEntries(CreatureSchema.attributes.map(key => [key, Math.max(1,
       (chassis.fixed?.[key] ?? Content.score(generated, key)) + (chassis.attributes[key] ?? 0))]));
     const creature: Creature = { id, name: context.name ?? String(generated.name), raceId,

@@ -14,8 +14,14 @@ export class Creation {
     return id ? Canon.classes[Canon.resolve('classes', id)] : undefined;
   }
   static classId(id: string): string { return Canon.resolve('classes', id); }
-  // A person's chassis comes from its ancestry and class; a species creature's from its own statistics.
-  static chassis(raceId: string, classId?: string): Chassis {
+  // What a calling brings at the levels after `from` up to `to`: the techniques it learns and the traits it takes.
+  static features(classId: string | undefined, from: number, to: number): { abilities: string[]; traits: string[] } {
+    const due = (this.classOf(classId)?.features ?? []).filter(f => f.level > from && f.level <= to);
+    return { abilities: due.flatMap(f => f.abilities ?? []), traits: due.flatMap(f => f.traits ?? []) };
+  }
+  // A person's chassis comes from its ancestry, its class and the class's features to its level; a species
+  // creature's from its own statistics.
+  static chassis(raceId: string, classId?: string, level = 1): Chassis {
     if (Canon.isSpecies(raceId)) {
       const s = Canon.creature(raceId), st = s.statistics!;
       return { hitDie: st.hitDie, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],
@@ -29,8 +35,9 @@ export class Creation {
     for (const [k, v] of Object.entries(c.attributes)) {
       attributes[k as Attribute] = (attributes[k as Attribute] ?? 0) + v;
     }
-    return { hitDie: c.hitDie, attributes, abilities: c.abilities, traits: a.traits, weapons: c.weapons,
-      armor: c.armor };
+    const features = this.features(classId, 0, level);
+    return { hitDie: c.hitDie, attributes, abilities: [...c.abilities, ...features.abilities],
+      traits: [...a.traits, ...features.traits], weapons: c.weapons, armor: c.armor };
   }
   // A level-1 character has its hit die plus its positive CON modifier (the pc template). A creature made above level 1
   // uses Orsino's NPC formula: max(2, round(hitDie + (level − 1) × hitDie / 2 + statMod(con))).
