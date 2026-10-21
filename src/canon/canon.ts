@@ -16,8 +16,10 @@ import orsinoConditions from '../../data/catalog/orsino/conditions.json';
 import orsinoItems from '../../data/catalog/orsino/items.json';
 import orsinoTraits from '../../data/catalog/orsino/traits.json';
 import orsinoBlessings from '../../data/catalog/orsino/blessings.json';
+import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
+import { BackgroundCatalog, type BackgroundTables, type CompiledBackground } from './background-catalog';
 import type {
-  Ability, Ancestry, Background, CharacterClass, Condition, Deity, Domain, ItemKind, Organism, Procedure, Skill,
+  Ability, Ancestry, CharacterClass, Condition, Deity, Domain, ItemKind, Organism, Procedure, Skill,
   Source, Species, Trait,
 } from './schema';
 
@@ -52,7 +54,6 @@ export class Canon {
   static readonly ancestries = ancestries.ancestries as unknown as Record<string, Ancestry>;
   static readonly species = species.species as unknown as Record<string, Species>;
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
-  static readonly backgrounds = backgrounds.backgrounds as unknown as Record<string, Background>;
   static readonly skills = skills.skills as unknown as Record<string, Skill>;
   static readonly items = Canon.merge<ItemKind>('item', orsinoItems.items, items.items);
   // A domain's blessing is Orsino's, generated; the domain itself (name, alignment, spell domain) is hand-written.
@@ -64,6 +65,11 @@ export class Canon {
   static readonly organisms = organisms.organisms as unknown as Record<string, Organism>;
   static readonly aliases = aliases as unknown as Record<Family, Record<string, string>>;
   static resolve(family: Family, id: string): string { return this.aliases[family]?.[id] ?? id; }
+  // Orsino's background rows composed with Kyr's background kinds (see BackgroundCatalog).
+  static readonly backgrounds: Record<string, CompiledBackground> = BackgroundCatalog.compile(
+    orsinoBackgrounds.backgrounds,
+    backgrounds as unknown as BackgroundTables, id => Object.hasOwn(Canon.items, Canon.resolve('items', id)));
+  static readonly backgroundKinds = (backgrounds as unknown as BackgroundTables).backgroundKindMeaning.groups;
   // A species with variantOf is its base with the variant's declared fields laid over it. Cycles are errors.
   static creature(id: string, seen: string[] = []): Species {
     const own = this.species[id];

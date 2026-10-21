@@ -108,6 +108,8 @@ export interface Background {
   name: string; use: 'background' | 'profession'; attributes: Partial<Record<Attribute, number>>; gold: number;
   requiredClass?: string; skills?: string[]; gear?: string[]; offers?: { kind: string; text: string; fee: number }[];
   routine?: string; contact?: { channel: 'tavern' | 'temple' | 'market' | 'road'; text: string }; source: Source;
+  // The kind of background it is (wild country, the roads, a trade), and Orsino gear Kyr does not have.
+  kind?: string; omits?: Omissions;
 }
 export interface Skill { name: string; description: string; source: Source }
 export interface WeaponStats {

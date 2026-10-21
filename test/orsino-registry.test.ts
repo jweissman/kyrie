@@ -69,7 +69,8 @@ describe('Orsino registry', () => {
       }
     }
     expect(registry.status('background:hunter')).toBe('play-validated');
-    expect(registry.status('background:noble')).toBe('catalogued');
+    // Every background is compiled from Orsino's row and its kind; the noble is no longer only catalogued.
+    expect(registry.status('background:noble')).toBe('executable');
   });
 
   it('links every canonical entry that cites Orsino to a ledger record, and every link back to its citation', () => {

@@ -5,6 +5,7 @@ import placeTables from '../data/generation/tables/places.json';
 import creatureTemplates from '../data/generation/templates/creatures.json';
 import dragonTemplates from '../data/generation/templates/dragons.json';
 import placeTemplates from '../data/generation/templates/places.json';
+import backgroundTables from '../data/catalog/backgrounds.json';
 
 // Kyr's Deem setting, split by domain (creatures, dragons, names, places) as the Deem CLI reads the folder: each
 // file adds tables or templates, and no name may be defined twice.
@@ -19,8 +20,16 @@ export class GenerationSetting {
     }
     return merged as T;
   }
+  // The background tables are the catalog's own (what each kind of background means), so templates can draw a
+  // background of a kind: lookup(backgroundKind, wild).
   static readonly tables = GenerationSetting.merge<Record<string, unknown>>(creatureTables, dragonTables, nameTables,
-    placeTables) as typeof creatureTables & typeof dragonTables & typeof nameTables & typeof placeTables;
+    placeTables, GenerationSetting.tablesOf(backgroundTables)) as typeof creatureTables & typeof dragonTables
+    & typeof nameTables & typeof placeTables;
+  static tablesOf<T extends { about?: string }>(file: T): Omit<T, 'about'> {
+    const tables = { ...file };
+    delete tables.about;
+    return tables;
+  }
   static readonly templates = GenerationSetting.merge<Record<string, unknown>>(creatureTemplates, dragonTemplates,
     placeTemplates) as typeof creatureTemplates & typeof dragonTemplates & typeof placeTemplates;
 }

@@ -113,6 +113,17 @@ export class MonoScreens {
   static options(entries: string[][], value: string): string {
     return entries.map(([id, name]) => `<option value="${Html.escape(id)}"${id === value ? ' selected' : ''}>${Html.escape(name)}</option>`).join('');
   }
+  // Backgrounds grouped by kind (wild country, the roads, a trade), those for another calling left out unless chosen.
+  static backgrounds(ids: string[], p: Draft['party'][number]): string {
+    const open = ids.filter(id => id === p.backgroundId || !Canon.backgrounds[id]?.requiredClass
+      || Canon.backgrounds[id]!.requiredClass === Canon.resolve('classes', p.classId ?? ''));
+    const kinds = Object.keys(Canon.backgroundKinds)
+      .filter(kind => open.some(id => Canon.backgrounds[id]!.kind === kind));
+    return this.options([['', 'None']], p.backgroundId ?? '') + kinds.map(kind => `<optgroup label="${Html.escape(
+      Canon.backgroundKinds[kind]?.name ?? kind)}">${this.options(open.filter(id => Canon.backgrounds[id]!.kind === kind)
+      .sort((a, b) => Overlays.get(a).name.localeCompare(Overlays.get(b).name)).map(id => [id, Overlays.get(id).name]),
+    p.backgroundId ?? '')}</optgroup>`).join('');
+  }
   // Orsino's trait choice for the class (a mage school, a cleric domain, a warrior's disposition), when it has one.
   static specialization(p: Draft['party'][number], i: number): string {
     const choices = Canon.classes[Canon.resolve('classes', p.classId ?? '')]?.specializations ?? [];
@@ -136,7 +147,7 @@ export class MonoScreens {
         + `<label>Ancestry <select data-field="raceId" data-index="${i}">${this.options(races.map(id => [id, Content.races[id as keyof typeof Content.races]?.name ?? id]), p.raceId ?? '')}</select></label>`
         + `<label>Calling <select data-field="classId" data-index="${i}">${this.options(classes.map(id => [id, Content.classes[id as keyof typeof Content.classes]?.name ?? id]), p.classId ?? '')}</select></label>`
         + this.specialization(p, i)
-        + `<label>Background <select data-field="backgroundId" data-index="${i}">${this.options([['', 'None'], ...backgrounds.map(id => [id, Overlays.get(id).name])], p.backgroundId ?? '')}</select></label>`
+        + `<label>Background <select data-field="backgroundId" data-index="${i}">${this.backgrounds(backgrounds, p)}</select></label>`
         + `<div class="practice"><p>${Html.escape(view.practice)}</p>`
         + `${brings ? `<p><b>Brings</b> ${brings}</p>` : ''}${view.gear.length ? `<p><b>Carries</b> ${Html.escape(view.gear.join(', '))}</p>` : ''}`
         + `${view.contact ? `<p><b>Knows</b> ${Html.escape(view.contact)}</p>` : ''}${view.requires ? `<p class="warn">${Html.escape(view.requires)}</p>` : ''}</div></fieldset>`;

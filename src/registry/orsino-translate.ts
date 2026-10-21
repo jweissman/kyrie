@@ -10,7 +10,12 @@ export interface Blessing {
 }
 export interface Generated {
   conditions: Record<string, Condition>; abilities: Record<string, Ability>; items: Record<string, ItemKind>;
-  traits: Record<string, Trait>; blessings: Record<string, Blessing>;
+  traits: Record<string, Trait>; blessings: Record<string, Blessing>; backgrounds: Record<string, OrsinoBackground>;
+}
+// A row of Orsino's backgroundModifier: what a background adds to the scores, the gold it starts with, the class it
+// is for, and the gear it carries (Orsino's item ids). What it means in a Kyr world is composed in data/catalog.
+export interface OrsinoBackground {
+  attributes: Record<string, number>; gold: number; requiredClass?: string; gear?: string[]; source: { orsino: string };
 }
 // Orsino effect keys Kyr leaves out on purpose, with the reason. Every other unknown key is unsupported.
 const OMITTED: Record<string, string> = {
@@ -305,6 +310,18 @@ export class OrsinoTranslate {
           ? { unsupported: { ...t.unsupported } } : {}, source: { orsino: e.id } }]];
     }));
   }
+  backgrounds(): Record<string, OrsinoBackground> {
+    const scores: Record<string, string> = { str: 'strength', dex: 'dexterity', con: 'constitution', int: 'intelligence',
+      wis: 'wisdom', cha: 'charisma' };
+    return Object.fromEntries(this.family('background').map(e => {
+      const row = e.definition as Raw;
+      const attributes = Object.fromEntries(Object.entries(row).filter(([k, v]) => scores[k] && typeof v === 'number')
+        .map(([k, v]) => [scores[k]!, v as number]));
+      return [e.key, { attributes, gold: Number(row.gp ?? 0),
+        ...typeof row.requiredClass === 'string' ? { requiredClass: row.requiredClass } : {},
+        ...Array.isArray(row.startingGear) ? { gear: row.startingGear as string[] } : {}, source: { orsino: e.id } }];
+    }));
+  }
   // Abilities and item kinds share one canonical entity namespace in Kyr modules, and conditions and traits must stay
   // distinguishable; an Orsino item or trait whose key is taken (hide, cursed) takes a suffix and keeps its source.
   generate(): Generated {
@@ -319,6 +336,6 @@ export class OrsinoTranslate {
         item.unsupported = { type: `Damage kind ${item.weapon.type} is not an Orsino damage kind.` };
       }
     }
-    return { abilities, conditions, items, traits, blessings: this.blessings() };
+    return { abilities, conditions, items, traits, blessings: this.blessings(), backgrounds: this.backgrounds() };
   }
 }

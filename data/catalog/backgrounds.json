@@ -1,553 +1,284 @@
 {
-  "about": "Backgrounds: where a person comes from (use background) or what they do for a living (use profession). attributes and gold are Orsino's; skills, gear, offers, routine and contact (an old acquaintance somewhere in a generated region, who hears news through a channel and passes it on) are what the background means in a Kyr world. gold is in Orsino gold pieces; Kyr pays one coin per ten.",
-  "backgrounds": {
-    "hunter": {
-      "name": "Hunter",
-      "use": "background",
-      "attributes": {
-        "dexterity": 2,
-        "wisdom": 1,
-        "constitution": 1
-      },
-      "gold": 15,
-      "requiredClass": "ranger",
-      "skills": [
-        "woodcraft"
+  "about": "Backgrounds and professions as Deem tables. Orsino's backgroundModifier (data/catalog/orsino/backgrounds.json, generated) gives each one its scores, gold, class and gear; these tables say what it means in a Kyr world. backgroundKind puts every Orsino background in one kind; backgroundKindMeaning gives a kind's skills, gear and the channel an old acquaintance hears news through (the n-th background of a kind takes the kind's n-th contact line, round again); backgroundOverlay changes one background where it differs from its kind. Compiled into the catalog by BackgroundCatalog.",
+  "backgroundKind": {
+    "discriminator": "kind",
+    "groups": {
+      "wild": [
+        "hunter", "tracker", "forester", "woodcutter", "gameskeeper", "skinner", "animal_handler", "horsebreaker",
+        "herdsman", "zoologist", "badger", "archer", "sharpshooter", "scout", "monster_hunter", "tribesman",
+        "botanist"
       ],
-      "gear": [
-        "rope"
+      "roads": [
+        "explorer", "caravaner", "pathfinder", "cartographer", "messenger", "runner", "wayfarer", "nomad",
+        "outlander", "drifter", "vagabond", "cart_driver", "trader", "herald"
       ],
-      "contact": {
-        "channel": "road",
-        "text": "{contact} and {member} hunted the same hills for a season."
-      },
-      "source": {
-        "orsino": "background:hunter",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold only; Kyr adds woodcraft (reading animals) and a coil of rope."
-      }
-    },
-    "medic": {
-      "name": "Medic",
-      "use": "background",
-      "attributes": {
-        "wisdom": 2,
-        "intelligence": 2
-      },
-      "gold": 20,
-      "requiredClass": "cleric",
-      "skills": [
-        "mending"
+      "mechanisms": ["locksmith", "artificer", "tinker", "inventor", "engineer", "toymaker", "bellwright"],
+      "shadows": [
+        "burglar", "cutpurse", "pickpocket", "spy", "assassin", "smuggler", "saboteur", "cardsharp", "gambler",
+        "poisoner", "thug", "bandit", "outlaw", "raider", "criminal"
       ],
-      "gear": [
-        "bandages",
-        "herbs"
+      "healing": [
+        "medic", "nurse", "doctor", "physician", "apothecary", "herbalist", "pharmacist", "plague_doctor",
+        "alchemist"
       ],
-      "contact": {
-        "channel": "temple",
-        "text": "{contact} and {member} nursed the sick together through a hard winter."
-      },
-      "source": {
-        "orsino": "background:medic",
-        "fidelity": "adapted",
-        "notes": "Orsino starting gear \"bandages\" and \"herbs\" are not in its gear catalog; Kyr defines them. Mending sets bones and binds wounds."
-      }
-    },
-    "locksmith": {
-      "name": "Locksmith",
-      "use": "background",
-      "attributes": {
-        "dexterity": 4,
-        "intelligence": 2
-      },
-      "gold": 40,
-      "skills": [
-        "lockwork"
+      "faith": [
+        "acolyte", "priest", "abbot", "missionary", "templar", "witch_hunter", "inquisitor", "cultist", "archon",
+        "vampire_hunter", "hermit", "mendicant", "ascetic"
       ],
-      "gear": [
-        "thieves_tools"
+      "learning": [
+        "scholar", "sage", "archivist", "historian", "librarian", "scribe", "philosopher", "astronomer",
+        "arcanist", "mystic", "invoker", "witch", "rhetorician", "secretkeeper", "parchment_maker",
+        "fortuneteller", "apprentice", "advisor", "vizier", "archaeologist", "architect"
       ],
-      "contact": {
-        "channel": "market",
-        "text": "{contact} once bought {member}'s work and asked no questions about it."
-      },
-      "source": {
-        "orsino": "background:locksmith",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds lockwork (Orsino pickLock skill) and thieves' tools from the Orsino gear catalog."
-      }
-    },
-    "explorer": {
-      "name": "Explorer",
-      "use": "background",
-      "attributes": {
-        "dexterity": 2,
-        "wisdom": 1
-      },
-      "gold": 15,
-      "requiredClass": "ranger",
-      "skills": [
-        "wayfinding"
+      "earth": [
+        "miner", "prospector", "geologist", "dungeon_delver", "treasure_hunter", "scavenger", "bricklayer",
+        "stone_mason", "stonecarver", "gardener", "laborer", "peon"
       ],
-      "gear": [
-        "map"
+      "arms": [
+        "soldier", "guard", "mercenary", "sellsword", "champion", "errant", "praetor", "warlord", "squire",
+        "swashbuckler", "gladiator", "juggernaut", "athlete", "blacksmith", "smith", "coppersmith", "roustabout",
+        "deserter", "bounty_hunter", "executioner", "warden", "dragon_slayer", "yeoman", "folk_hero"
       ],
-      "contact": {
-        "channel": "road",
-        "text": "{contact} walked a surveyor's road with {member} years ago."
-      },
-      "source": {
-        "orsino": "background:explorer",
-        "fidelity": "adapted",
-        "notes": "Orsino starting gear \"map\"; Kyr gives the map meaning: a company with wayfinding knows the region's roads before walking them."
-      }
-    },
-    "miner": {
-      "name": "Miner",
-      "use": "background",
-      "attributes": {
-        "constitution": 2,
-        "strength": 1
-      },
-      "gold": 15,
-      "skills": [
-        "digging"
+      "water": ["sailor", "boatman", "fisherman", "shipwright", "ship_captain", "pirate", "navigator"],
+      "stage": [
+        "minstrel", "comedian", "dancer", "entertainer", "fabulist", "harlequin", "orator", "performer",
+        "playwright", "poet", "singer", "storyteller", "tragedian", "troubadour", "virtuoso", "juggler",
+        "jacanape", "town_crier", "courtesan"
       ],
-      "gear": [
-        "shovel"
+      "trade": [
+        "baker", "brewer", "chef", "mealman", "miller", "mill_worker", "potter", "weaver", "thatcher",
+        "wheelwright", "woodworker", "glassblower", "jewelcrafter", "diamantaire", "appraiser", "artisan",
+        "artist", "craftsman", "fletcher", "winemaker", "street_vendor", "lamp_lighter", "waterbearer",
+        "innkeeper", "merchant", "factotum", "servant", "hireling", "farmer", "orchardist", "quartermaster"
       ],
-      "contact": {
-        "channel": "tavern",
-        "text": "{contact} worked the same seam as {member} before taking the inn."
-      },
-      "source": {
-        "orsino": "background:miner",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds digging (faster earth-moving) and a shovel from the Orsino gear catalog."
-      }
-    },
-    "innkeeper": {
-      "name": "Innkeeper",
-      "use": "profession",
-      "attributes": {
-        "charisma": 2,
-        "wisdom": 1
-      },
-      "gold": 25,
-      "offers": [
-        {
-          "kind": "lodging",
-          "text": "a bed and supper",
-          "fee": 3
-        }
+      "court": [
+        "courtier", "diplomat", "judge", "magistrate", "politician", "quaestor", "tax_collector", "tribune",
+        "beadle", "noble", "aristocrat", "royalty", "demagogue", "revolutionary"
       ],
-      "routine": "keeping the inn",
-      "source": {
-        "orsino": "background:innkeeper",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr makes the profession offer lodging and keep its owner at their workplace."
-      }
-    },
-    "herbalist": {
-      "name": "Herbalist",
-      "use": "profession",
-      "attributes": {
-        "wisdom": 2,
-        "intelligence": 1
-      },
-      "gold": 15,
-      "skills": [
-        "mending"
-      ],
-      "routine": "minding the shop",
-      "source": {
-        "orsino": "background:herbalist",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds mending and a routine. What the herbalist sells is authored per person."
-      }
-    },
-    "priest": {
-      "name": "Priest",
-      "use": "profession",
-      "attributes": {
-        "wisdom": 3,
-        "charisma": 2
-      },
-      "gold": 30,
-      "offers": [
-        {
-          "kind": "healing",
-          "text": "the shrine's care for the wounded",
-          "fee": 2
-        }
-      ],
-      "routine": "tending the shrine",
-      "source": {
-        "orsino": "background:priest",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr makes the profession offer healing."
-      }
-    },
-    "boatman": {
-      "name": "Boatman",
-      "use": "profession",
-      "attributes": {
-        "strength": 2,
-        "constitution": 1
-      },
-      "gold": 10,
-      "routine": "watching the river",
-      "source": {
-        "orsino": "background:boatman",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr gives a routine only (no ferry service yet)."
-      }
-    },
-    "acolyte": {
-      "name": "Acolyte",
-      "use": "background",
-      "attributes": {
-        "wisdom": 2,
-        "intelligence": 1
-      },
-      "gold": 5,
-      "contact": {
-        "channel": "temple",
-        "text": "{contact} and {member} kept the same altar as novices."
-      },
-      "source": {
-        "orsino": "background:acolyte",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds the rites of the dead and an old friend at a shrine who hears what the faithful say."
-      },
-      "skills": [
-        "rites"
+      "margins": [
+        "caitiff", "escaped_slave", "exile", "experimental_subject", "mutant", "outcast", "prisoner", "wretch",
+        "drone", "refugee", "plague_survivor", "thrall"
       ]
-    },
-    "soldier": {
-      "name": "Soldier",
-      "use": "background",
-      "attributes": {
-        "strength": 2,
-        "constitution": 1,
-        "dexterity": 1
-      },
-      "gold": 20,
-      "requiredClass": "warrior",
-      "contact": {
-        "channel": "tavern",
-        "text": "{contact} served in the same company as {member}."
-      },
-      "source": {
-        "orsino": "background:soldier",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats, gold and the warrior requirement; Kyr adds brawn and an old comrade keeping an inn."
-      },
-      "skills": [
-        "brawn"
-      ]
-    },
-    "caravaner": {
-      "name": "Caravaner",
-      "use": "background",
-      "attributes": {
-        "wisdom": 2,
-        "constitution": 1
-      },
-      "gold": 15,
-      "skills": [
-        "wayfinding"
-      ],
-      "contact": {
+    }
+  },
+  "backgroundKindMeaning": {
+    "discriminator": "kind",
+    "groups": {
+      "wild": {
+        "name": "Wild country",
+        "skills": ["woodcraft"],
         "channel": "road",
-        "text": "{contact} drove the same caravan road as {member}."
+        "contacts": [
+          "{contact} and {member} hunted the same hills for a season.",
+          "{contact} and {member} once sat out three days of snow in the same bothy.",
+          "{contact} buys skins from {member} and pays fair for them."
+        ]
       },
-      "source": {
-        "orsino": "background:caravaner",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds wayfinding (roads known before they are walked) and a driver on the road who passes news on."
-      }
-    },
-    "tracker": {
-      "name": "Tracker",
-      "use": "background",
-      "attributes": {
-        "wisdom": 4,
-        "dexterity": 2
-      },
-      "gold": 40,
-      "requiredClass": "ranger",
-      "skills": [
-        "woodcraft",
-        "stealth"
-      ],
-      "contact": {
+      "roads": {
+        "name": "The roads",
+        "skills": ["wayfinding"],
         "channel": "road",
-        "text": "{contact} and {member} once trailed a stolen flock across three valleys."
+        "contacts": [
+          "{contact} walked a surveyor's road with {member} years ago.",
+          "{contact} drove the same caravan road as {member}.",
+          "{contact} and {member} shared a waystation fire through a whole wet autumn."
+        ]
       },
-      "source": {
-        "orsino": "background:tracker",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds woodcraft and stealth: reading sign and moving unseen."
-      }
-    },
-    "burglar": {
-      "name": "Burglar",
-      "use": "background",
-      "attributes": {
-        "dexterity": 5,
-        "charisma": 2
-      },
-      "gold": 40,
-      "requiredClass": "thief",
-      "skills": [
-        "stealth"
-      ],
-      "contact": {
+      "mechanisms": {
+        "name": "Locks and mechanisms",
+        "skills": ["lockwork"],
         "channel": "market",
-        "text": "{contact} has bought things from {member} before and never asked where they came from."
+        "contacts": [
+          "{contact} once bought {member}'s work and asked no questions about it.",
+          "{contact} still has a lock {member} made, and shows it to people."
+        ]
       },
-      "source": {
-        "orsino": "background:burglar",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds stealth and a fence among the traders."
-      }
-    },
-    "outlaw": {
-      "name": "Outlaw",
-      "use": "background",
-      "attributes": {
-        "dexterity": 3,
-        "strength": 1
-      },
-      "gold": 15,
-      "requiredClass": "thief",
-      "skills": [
-        "stealth"
-      ],
-      "gear": [
-        "dagger"
-      ],
-      "contact": {
-        "channel": "road",
-        "text": "{contact} hid {member} from the reeve one winter and never said a word."
-      },
-      "source": {
-        "orsino": "background:outlaw",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds stealth, a dagger and a friend on the road."
-      }
-    },
-    "smith": {
-      "name": "Smith",
-      "use": "background",
-      "attributes": {
-        "strength": 3,
-        "constitution": 2
-      },
-      "gold": 30,
-      "skills": [
-        "brawn"
-      ],
-      "gear": [
-        "crowbar"
-      ],
-      "contact": {
+      "shadows": {
+        "name": "The shadows",
+        "skills": ["stealth"],
         "channel": "market",
-        "text": "{contact} buys {member}'s ironwork and pays on the nail."
+        "contacts": [
+          "{contact} has bought things from {member} before and never asked where they came from.",
+          "{contact} owes {member} a favour from a night neither of them talks about."
+        ]
       },
-      "source": {
-        "orsino": "background:smith",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds brawn and a pry bar."
-      }
-    },
-    "scholar": {
-      "name": "Scholar",
-      "use": "background",
-      "attributes": {
-        "intelligence": 2,
-        "wisdom": 1,
-        "charisma": -1
-      },
-      "gold": 5,
-      "skills": [
-        "lore"
-      ],
-      "contact": {
+      "healing": {
+        "name": "Healing",
+        "skills": ["mending"],
         "channel": "temple",
-        "text": "{contact} once lent {member} a book they never asked to have back."
+        "contacts": [
+          "{contact} and {member} nursed the sick together through a hard winter.",
+          "{contact} learned to set a bone from watching {member} do it."
+        ]
       },
-      "source": {
-        "orsino": "background:scholar",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds lore: old scripts, histories and the workings of magic."
-      }
-    },
-    "archaeologist": {
-      "name": "Archaeologist",
-      "use": "background",
-      "attributes": {
-        "intelligence": 3,
-        "wisdom": 2
+      "faith": {
+        "name": "The faith",
+        "skills": ["rites"],
+        "channel": "temple",
+        "contacts": [
+          "{contact} and {member} kept the same altar as novices.",
+          "{contact} fed {member} at a shrine door through a hard winter."
+        ]
       },
-      "gold": 30,
-      "skills": [
-        "lore",
-        "digging"
-      ],
-      "gear": [
-        "shovel"
-      ],
-      "contact": {
+      "learning": {
+        "name": "Learning",
+        "skills": ["lore"],
+        "channel": "temple",
+        "contacts": [
+          "{contact} once lent {member} a book they never asked to have back.",
+          "{contact} keeps a library {member} was once allowed to use."
+        ]
+      },
+      "earth": {
+        "name": "Stone and earth",
+        "skills": ["digging"],
+        "gear": ["shovel"],
         "channel": "tavern",
-        "text": "{contact} sold {member} a map of a barrow that turned out to be real."
+        "contacts": [
+          "{contact} worked the same seam as {member} before taking the inn.",
+          "{contact} sold {member} a map of a barrow that turned out to be real."
+        ]
       },
-      "source": {
-        "orsino": "background:archaeologist",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds lore, digging and a shovel."
-      }
-    },
-    "sailor": {
-      "name": "Sailor",
-      "use": "background",
-      "attributes": {
-        "dexterity": 2,
-        "constitution": 1,
-        "strength": 1
-      },
-      "gold": 20,
-      "skills": [
-        "climbing"
-      ],
-      "gear": [
-        "rope"
-      ],
-      "contact": {
-        "channel": "road",
-        "text": "{contact} and {member} worked the same barges, years back."
-      },
-      "source": {
-        "orsino": "background:sailor",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds climbing (rigging and rock alike) and a coil of rope."
-      }
-    },
-    "minstrel": {
-      "name": "Minstrel",
-      "use": "background",
-      "attributes": {
-        "charisma": 3,
-        "dexterity": 2
-      },
-      "gold": 30,
-      "requiredClass": "bard",
-      "skills": [
-        "lore"
-      ],
-      "contact": {
+      "arms": {
+        "name": "Arms",
+        "skills": ["brawn"],
         "channel": "tavern",
-        "text": "{contact} has heard {member} sing and still pours them a cup for it."
+        "contacts": [
+          "{contact} served in the same company as {member}.",
+          "{contact} once carried {member} off a field, and has never let them forget it."
+        ]
       },
-      "source": {
-        "orsino": "background:minstrel",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds lore (the songs remember) and a welcome in taprooms."
-      }
-    },
-    "forester": {
-      "name": "Forester",
-      "use": "background",
-      "attributes": {
-        "wisdom": 2,
-        "dexterity": 1
-      },
-      "gold": 15,
-      "skills": [
-        "woodcraft"
-      ],
-      "gear": [
-        "handaxe"
-      ],
-      "contact": {
+      "water": {
+        "name": "The water",
+        "skills": ["climbing"],
+        "gear": ["rope"],
         "channel": "road",
-        "text": "{contact} and {member} cut timber in the same holt one summer."
+        "contacts": [
+          "{contact} and {member} worked the same barges, years back.",
+          "{contact} once pulled {member} out of a river in spate."
+        ]
       },
-      "source": {
-        "orsino": "background:forester",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds woodcraft and a handaxe."
-      }
-    },
-    "apothecary": {
-      "name": "Apothecary",
-      "use": "background",
-      "attributes": {
-        "intelligence": 3,
-        "wisdom": 3
+      "stage": {
+        "name": "The stage",
+        "skills": ["lore"],
+        "channel": "tavern",
+        "contacts": [
+          "{contact} has heard {member} sing and still pours them a cup for it.",
+          "{contact} once hired {member} for a week and paid for two."
+        ]
       },
-      "gold": 30,
-      "skills": [
-        "mending"
-      ],
-      "gear": [
-        "antidote",
-        "herbs"
-      ],
-      "contact": {
+      "trade": {
+        "name": "A trade",
         "channel": "market",
-        "text": "{contact} trades in the same simples {member} does."
+        "contacts": [
+          "{contact} buys {member}'s work and pays on the nail.",
+          "{contact} and {member} kept stalls side by side for a season."
+        ]
       },
-      "source": {
-        "orsino": "background:apothecary",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold; Kyr adds mending, an antidote and herbs."
+      "court": {
+        "name": "Courts and offices",
+        "channel": "market",
+        "contacts": [
+          "{contact} once supplied {member}'s household and remembers the name.",
+          "{contact} stood in a long queue behind {member} at the assizes and heard everything."
+        ]
+      },
+      "margins": {
+        "name": "The margins",
+        "skills": ["stealth"],
+        "channel": "tavern",
+        "contacts": [
+          "{contact} hid {member} once, when it mattered, and never said a word.",
+          "{contact} knew {member} when neither of them had a name worth giving."
+        ]
       }
-    },
-    "mendicant": {
-      "name": "Mendicant",
-      "use": "background",
-      "attributes": {
-        "wisdom": 3,
-        "dexterity": 2,
-        "constitution": 1
+    }
+  },
+  "backgroundOverlay": {
+    "discriminator": "background",
+    "groups": {
+      "hunter": {
+        "gear": ["rope"]
       },
-      "gold": 30,
-      "requiredClass": "monk",
-      "skills": [
-        "climbing"
-      ],
-      "contact": {
-        "channel": "temple",
-        "text": "{contact} fed {member} at a shrine door through a hard winter."
+      "tracker": {
+        "skills": ["woodcraft", "stealth"],
+        "contact": "{contact} and {member} once trailed a stolen flock across three valleys."
       },
-      "source": {
-        "orsino": "background:mendicant",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds climbing and a welcome at shrines."
-      }
-    },
-    "arcanist": {
-      "name": "Arcanist",
-      "use": "background",
-      "attributes": {
-        "intelligence": 5,
-        "wisdom": 1
+      "forester": {
+        "gear": ["handaxe"],
+        "contact": "{contact} and {member} cut timber in the same holt one summer."
       },
-      "gold": 70,
-      "requiredClass": "mage",
-      "skills": [
-        "lore"
-      ],
-      "contact": {
-        "channel": "temple",
-        "text": "{contact} keeps a library {member} was once allowed to use."
+      "caravaner": {
+        "contact": "{contact} drove the same caravan road as {member}."
       },
-      "source": {
-        "orsino": "background:arcanist",
-        "fidelity": "adapted",
-        "notes": "Orsino gives stats and gold and the class requirement; Kyr adds lore."
+      "locksmith": {
+        "gear": ["thieves_tools"]
+      },
+      "criminal": {
+        "skills": ["stealth", "lockwork"]
+      },
+      "outlaw": {
+        "channel": "road",
+        "contact": "{contact} hid {member} from the reeve one winter and never said a word."
+      },
+      "apothecary": {
+        "gear": ["antidote", "herbs"],
+        "channel": "market",
+        "contact": "{contact} trades in the same simples {member} does."
+      },
+      "herbalist": {
+        "use": "profession",
+        "routine": "minding the shop"
+      },
+      "priest": {
+        "use": "profession",
+        "skills": [],
+        "routine": "tending the shrine",
+        "offers": [
+          {
+            "kind": "healing",
+            "text": "the shrine's care for the wounded",
+            "fee": 2
+          }
+        ]
+      },
+      "innkeeper": {
+        "use": "profession",
+        "routine": "keeping the inn",
+        "offers": [
+          {
+            "kind": "lodging",
+            "text": "a bed and supper",
+            "fee": 3
+          }
+        ]
+      },
+      "boatman": {
+        "use": "profession",
+        "skills": [],
+        "gear": [],
+        "routine": "watching the river"
+      },
+      "smith": {
+        "gear": ["crowbar"],
+        "channel": "market",
+        "contact": "{contact} buys {member}'s ironwork and pays on the nail."
+      },
+      "archaeologist": {
+        "skills": ["lore", "digging"],
+        "gear": ["shovel"],
+        "channel": "tavern",
+        "contact": "{contact} sold {member} a map of a barrow that turned out to be real."
+      },
+      "mendicant": {
+        "skills": ["climbing"],
+        "contact": "{contact} fed {member} at a shrine door through a hard winter."
+      },
+      "ascetic": {
+        "skills": ["climbing"]
+      },
+      "arcanist": {
+        "contact": "{contact} keeps a library {member} was once allowed to use."
       }
     }
   }
