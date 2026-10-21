@@ -33,6 +33,9 @@ Module censer_hill "Censer Hill" {
   Place founders "Founders' gallery" is room within ossuary at 2, 1.
   Place chalk "Chalk fault" is room within ossuary at 2, 0.
 
+  Initially Assert unlit(hall). Initially Assert unlit(landing). Initially Assert unlit(kitchen). Initially Assert unlit(name_room).
+  Initially Assert unlit(sluice). Initially Assert unlit(lower). Initially Assert unlit(crypt). Initially Assert unlit(court).
+  Initially Assert unlit(vault). Initially Assert unlit(founders). Initially Assert unlit(chalk).
   Passage yard_track "the track up to the yard" is track between ridge and yard taking 30 minutes.
   Passage low_path "the low path through the reeds" is path between causeway and drain_mouth taking 30 minutes.
   Passage arch "the roofless arch" is arch between yard and vestibule.

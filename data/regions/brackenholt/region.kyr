@@ -46,6 +46,7 @@ Module brackenholt "Brackenholt and the holt" {
   Person osric "Osric" at holly_room {
     Role "landlord of the Holly Bush". Profession innkeeper. Peaceable.
     Sells rations for 2 coin from 6.
+    Sells torch for 1 coin from 4.
   }
   Person agnes "Agnes" at holt_green {
     Role "sexton of Brackenholt". Ancestry human. Peaceable.

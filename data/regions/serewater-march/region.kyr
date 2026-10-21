@@ -46,12 +46,14 @@ Module serewater_march "The Serewater March" {
     Sells rations for 2 coin from 6.
     Sells bandages for 1 coin from 3.
     Sells rope for 1 coin from 2.
+    Sells torch for 1 coin from 6.
     Sells antidote for 3 coin from 2.
     Sells healingdraught for 3 coin from 1.
   }
   Person hedda "Hedda" at fold_room {
     Role "alewife of the Fold". Profession innkeeper. Peaceable.
     Sells rations for 2 coin from 4.
+    Sells torch for 1 coin from 3.
   }
   Person tam "Tam" at cross_green {
     Role "drover". Ancestry human. Peaceable.

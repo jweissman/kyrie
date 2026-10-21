@@ -32,7 +32,8 @@ describe('advancement', () => {
   it('resolving a module is worth its declared experience, once; a night under a roof brings the level', async () => {
     const s = await PlaySession.start('data/campaigns/silkholme.campaign.json', 'advance', NodeBundleSource.shared);
     for (const c of ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
-      'take_item(brood__spare_torch,march__member_party_2)', 'go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)']) {
+      'take_item(brood__spare_torch,march__member_party_2)', 'go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)',
+      'use_item(brood__spare_torch,march__member_party_2)']) {
       await s.perform(c);
     }
     const burn = await s.perform('change_thing(brood__webs_burn)');

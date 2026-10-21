@@ -60,13 +60,13 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Action change_thing(actor: group, how: change, thing: entity, origin: condition, result: condition) "{how}" {
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
-      and not dead(thing) and not consumes(how, ?g).
+      and not dead(thing) and not benighted(actor) and not consumes(how, ?g).
     On success { Assert state(thing, result). }
   }
   Action change_thing_paying(actor: group, how: change, thing: entity, origin: condition, result: condition, spent: good) "{how}" {
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
-      and not dead(thing) and consumes(how, spent) and quantity(actor, spent) >= 1.
+      and not dead(thing) and not benighted(actor) and consumes(how, spent) and quantity(actor, spent) >= 1.
     On success { Assert state(thing, result). Decrease quantity(actor, spent) by 1. }
   }
 }

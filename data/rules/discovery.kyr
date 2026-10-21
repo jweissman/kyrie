@@ -15,7 +15,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   Relation testimony(group, source).
   Goal false.
   Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
-    Requires able(actor) and at(actor, site) and at(witness, site)
+    Requires able(actor) and at(actor, site) and at(witness, site) and not benighted(actor)
       and noticeable(witness) and intact(witness) and mayExamine(actor, witness)
       and reveals(witness, statement) and established(statement) and not learnedFrom(actor, witness, statement).
     On success {

@@ -7,7 +7,7 @@ KyrAbilities <: Kyr {
   Damage = "Deal" Amount DamageType "damage" "to" Target
   Healing = "Heal" Amount "health" "to" Target
   Defend = "Defend"
-  Apply = "Apply" ident "to" Target "for" integer Turns
+  Apply = "Apply" ident "to" Target "for" integer Span
   Remove = "Remove" ident "from" Target
   Drain = "Drain" Amount "health" "from" Target
   Revive = "Revive" Target "with" Amount "health"
@@ -17,7 +17,9 @@ KyrAbilities <: Kyr {
   Learn = "Teach" ident "to" Target
   Summon = "Summon" ident "for" Target
   Travel = "Travel" "to" ident
+  Span = Turns | Hours
   Turns = "turns" | "turn"
+  Hours = "hours" | "hour"
   Amount = expression | integer
   DamageType = ident
   Target = "dead ally" | "random enemy" | "enemies" | "allies" | "party" | "enemy" | "ally" | "self" | "all"

@@ -95,6 +95,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .meter.slots { grid-template-columns: auto 1fr; } .meter.slots .cells { letter-spacing: 0; color: var(--mana); display: flex; gap: 0 1.2ch; flex-wrap: wrap; }
 .meter .v { color: var(--dim); text-align: right; }
 .cond { color: var(--danger); font-size: 0.9em; }
+.boon { color: var(--person); font-size: 0.9em; }
 .member.dead, .fighter.down { opacity: 0.45; }
 .fighter.acting { border-left: 2px solid var(--sel); padding-left: 1ch; margin-left: -1.2ch; }
 .fighter.acting .who b { color: var(--sel); }

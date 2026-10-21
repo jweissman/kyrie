@@ -49,6 +49,7 @@ export class ScreenModel {
       title: view.title, clock: FictionalTime.at(view.elapsed), elapsed: view.elapsed, running: view.running,
       path: here ? passages.path(here) : [], place: passages.place(here),
       prose: view.observations.map(o => FictionalTime.prose(o.text)),
+      dark: view.observations.some(o => o.id === 'darkness'),
       exits: here ? passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited }) : [],
       people: rows.filter(r => r.kind === 'person' || r.kind === 'creature'),
@@ -154,7 +155,9 @@ export class ScreenModel {
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),
-        experience: m.experience, gold: m.gold, conditions: m.conditions,
+        experience: m.experience, gold: m.gold,
+        conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)),
+        boons: m.conditions.filter(c => this.boon(c)).map(c => this.condition(c)),
         abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))
           .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
             text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),
@@ -180,13 +183,21 @@ export class ScreenModel {
       grants: all.filter(x => x.source === oid).map(x => x.kind === 'skill' ? `${campaign.module.entities.find(e => e.id === x.value)?.name ?? x.value} (skill)`
         : x.kind === 'gear' ? ItemCatalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
   }
+  private static condition(id: string): string { return Canon.conditions[Canon.resolve('conditions', id)]?.name ?? id; }
+  // A condition that brings something to the company (light, a flame) is a help, not a hurt.
+  private static boon(id: string): boolean { return !!Canon.conditions[Canon.resolve('conditions', id)]?.grants?.length; }
+  // A thing whose use brings light: its effect applies a condition that grants it (a torch, a lantern).
+  private static lights(use?: string): boolean {
+    const status = use && /^Apply (\w+) to/.exec(use)?.[1];
+    return !!status && !!Canon.conditions[Canon.resolve('conditions', status)]?.grants?.includes('light');
+  }
   private static items(campaign: Campaign, grouped: Grouped, entities: Map<string, Entity>): ItemRow[] {
     const state = campaign.readout;
     return state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c => (c.state.inventory ?? []).map(i => {
       const d = ItemCatalog.get(i.definition);
       return { id: i.id, name: entities.get(i.id)?.name ?? d.name, kind: d.name, description: d.description,
         owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...(d.slot ? { slot: d.slot } : {}),
-        acts: grouped.items.get(i.id) ?? [] };
+        ...(this.lights(d.use) ? { light: true } : {}), acts: grouped.items.get(i.id) ?? [] };
     }));
   }
 }

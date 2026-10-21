@@ -26,10 +26,22 @@ export class ChoiceList {
     return [
       ...[...screen.people, ...things].map(t => this.subject(t)),
       ...(screen.exits.length ? [this.ways(screen.exits)] : []),
-      ...(screen.camp.length || screen.unplaced.length || this.preparing(screen).length ? [{ id: 'company',
+      ...(screen.camp.length || screen.unplaced.length || this.preparing(screen).length || this.lighting(screen).length ? [{ id: 'company',
         title: 'The company', tone: 'company' as const, glyph: '○',
-        choices: [...this.flatten([...screen.camp, ...screen.unplaced], 'company', 'company'), ...this.preparing(screen)] }] : []),
+        choices: [...this.lighting(screen), ...this.flatten([...screen.camp, ...screen.unplaced], 'company', 'company'),
+          ...this.preparing(screen)] }] : []),
     ];
+  }
+  // In the dark, whoever carries a light can light it: the first thing anyone would do.
+  private static lighting(screen: Screen): Choice[] {
+    if (!screen.dark) { return []; }
+    return screen.items.filter(i => i.light).flatMap(i => {
+      const own = i.acts.flatMap(a => a.children ?? [a]).find(a => a.command && a.label.includes(i.ownerName))
+        ?? i.acts.find(a => a.command);
+      const name = /^(the|a|an) /i.test(i.name) ? i.name.toLowerCase() : `a ${i.name.toLowerCase()}`;
+      return own?.command ? [{ id: `light:${i.id}`, label: `${i.ownerName}: light ${name}`, tone: 'item' as const,
+        command: own.command, about: i.description }] : [];
+    }).filter((c, n, all) => all.findIndex(o => o.label === c.label) === n);
   }
   // A caster's spells can be prepared from wherever the company is: an hour of study or prayer.
   private static preparing(screen: Screen): Choice[] {

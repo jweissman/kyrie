@@ -9,8 +9,20 @@ class March {
   static readonly skellfold = 'data/campaigns/skellfold.campaign.json';
   static async start(manifest: string, ...commands: string[]) {
     const s = await PlaySession.start(manifest, 'serewater', NodeBundleSource.shared);
-    for (const c of commands) { await s.perform(c); }
+    for (const c of commands) { await this.perform(s, c); }
     return s;
+  }
+  // Torches from Nera, carried by Elen; the refuge and the ossuary are dark.
+  static readonly torches = ['go(march__shop_door,march__shop_floor)', 'buy_item(march__nera_torch_1,march__member_party_1)',
+    'buy_item(march__nera_torch_2,march__member_party_1)', 'buy_item(march__nera_torch_3,march__member_party_1)',
+    'go(march__shop_door,march__quay)'];
+  // A player in the dark lights the next torch when a step needs seeing.
+  static async perform(s: PlaySession, command: string) {
+    if (!this.legal(s).includes(command) && this.fact(s, 'benighted', 'party')) {
+      const torch = this.legal(s).find(c => c.startsWith('use_item(march__nera_torch_'));
+      if (torch) { await s.perform(torch); }
+    }
+    return s.perform(command);
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
   static fact(s: PlaySession, name: string, ...args: string[]) {
@@ -20,7 +32,7 @@ class March {
     return s.campaign.world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === id)?.args[1];
   }
   // Over the ridge, through the upper works and down the dry stair, into the refuge's name room.
-  static readonly toNameRoom = ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
+  static readonly toNameRoom = [...March.torches, 'go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
     'go(hill__yard_track,hill__yard)', 'go(hill__arch,hill__vestibule)', 'go(hill__workshop_door,hill__workshop)',
     'change_thing(hill__padlock_pick)', 'go(hill__stores_door,hill__stores)',
     'take_item(hill__line_cache,march__member_party_1)', 'equip_item(hill__line_cache,march__member_party_1)',
@@ -47,7 +59,7 @@ describe('Censer Hill, reconstructed', () => {
   it('needs the lantern of names to read the concealed stair', async () => {
     const dark = await March.start(March.manifest, ...March.toNameRoom);
     expect(March.legal(dark)).not.toContain('examine(hill__lantern_letters)');
-    await dark.perform(March.lantern[0]!); await dark.perform(March.lantern[1]!);
+    await March.perform(dark, March.lantern[0]!); await March.perform(dark, March.lantern[1]!);
     expect(March.legal(dark)).toContain('examine(hill__lantern_letters)');
     expect(March.legal(dark).some(c => c.includes('hidden_stair'))).toBe(false);
     await dark.perform('examine(hill__lantern_letters)');
@@ -58,8 +70,8 @@ describe('Censer Hill, reconstructed', () => {
       'examine(hill__lantern_letters)', 'go(hill__hidden_stair,hill__crypt)', 'go(hill__court_arch,hill__court)');
     expect(March.legal(s)).not.toContain('change_thing(hill__custodian_admit)');
     expect(March.legal(s)).not.toContain('go(hill__vault_gate,hill__vault)');
-    await s.perform('go(hill__court_arch,hill__crypt)');
-    for (const c of March.outByChalk.slice(2)) { await s.perform(c); }
+    await March.perform(s, 'go(hill__court_arch,hill__crypt)');
+    for (const c of March.outByChalk.slice(2)) { await March.perform(s, c); }
     expect(March.legal(s)).toContain('keepers__writ');
     await s.perform('keepers__writ');
     expect(March.fact(s, 'knows', 'party', 'keepers__custody_writ')).toBe(true);
@@ -67,7 +79,7 @@ describe('Censer Hill, reconstructed', () => {
     for (const c of ['go(march__shrine_door,march__quay)', 'go(march__causeway_path,march__causeway)',
       'go(hill__low_path,hill__drain_mouth)', 'go(hill__chalk_fault,hill__chalk)', 'go(hill__chalk_passage,hill__founders)',
       'go(hill__cleft,hill__crypt)', 'go(hill__court_arch,hill__court)', 'change_thing(hill__custodian_admit)',
-      'go(hill__vault_gate,hill__vault)']) { await s.perform(c); }
+      'go(hill__vault_gate,hill__vault)']) { await March.perform(s, c); }
     expect(March.where(s, 'party')).toBe('hill__vault');
     expect(March.fact(s, 'able', 'hill__custodian')).toBe(true);
     expect(s.campaign.events.some(e => e.action.startsWith('attack'))).toBe(false);

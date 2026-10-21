@@ -61,7 +61,7 @@ export class MonoApp {
   boot() {
     this.root.addEventListener('click', e => { void this.click(e); });
     this.root.addEventListener('change', e => this.change(e));
-    this.root.addEventListener('mouseover', e => this.hover(e));
+    this.root.addEventListener('mousemove', e => this.hover(e));
     document.addEventListener('keydown', e => { void this.keydown(e); });
     window.addEventListener('resize', () => this.render());
     this.saved = this.read();
@@ -313,7 +313,12 @@ export class MonoApp {
     if (this.mode === 'combat') { return; }
     this.mode = mode; this.reset(); this.render();
   }
+  // Only a mouse that moves takes the highlight: a page redrawn under a resting pointer must not undo the keys.
+  private pointer = { x: -1, y: -1 };
   private hover(e: Event) {
+    const { clientX: x, clientY: y } = e as MouseEvent;
+    if (x === this.pointer.x && y === this.pointer.y) { return; }
+    this.pointer = { x, y };
     const el = (e.target as HTMLElement).closest<HTMLElement>('[data-action="choice"]');
     if (!el || this.state.narrow) { return; }
     const i = Number(el.dataset.index);

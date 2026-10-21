@@ -66,6 +66,37 @@
       "source": {
         "kyr": true
       }
+    },
+    "lit": {
+      "name": "Lit",
+      "description": "A conjured light hangs over its bearer's shoulder for a while.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "grants": [
+        "light"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's light: while it lasts, the company can see in unlit places."
+      },
+      "ends": "The light over {target}'s shoulder fades.",
+      "begins": "A small steady light kindles over {target}'s shoulder."
+    },
+    "torchlit": {
+      "name": "Torchlit",
+      "description": "Carrying a burning torch: light against the dark, and fire to hand.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "grants": [
+        "light",
+        "flame"
+      ],
+      "begins": "{target} lights a torch.",
+      "ends": "{target}'s torch gutters out.",
+      "source": {
+        "kyr": true,
+        "notes": "A torch burns about an hour: light in unlit places, and a flame for what needs burning."
+      }
     }
   }
 }

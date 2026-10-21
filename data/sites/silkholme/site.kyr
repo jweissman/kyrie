@@ -10,6 +10,7 @@ Module silkholme "Silkholme sink" {
   Place caves "The caves below" is level within silkholme.
   Place cave "the lower cave" is room within caves at 0, 1.
   Place nest "the nest" is room within caves at 1, 1.
+  Initially Assert unlit(cave). Initially Assert unlit(nest).
 
   Passage sink_path "the sink path" is path between ridge and lip taking 30 minutes.
   Passage terrace_steps "the terrace steps" is path between lip and frames.

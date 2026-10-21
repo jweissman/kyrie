@@ -51,7 +51,7 @@ Module brood_hollow "A brood under the hill" {
     State cut "A ragged hole has been hacked through the silk in {web_way}.".
     State burnt "Black threads curl from the walls of {web_way}. The air stinks of burnt hair.".
     Change hack "Hack a way through the webs" from whole to cut.
-    Change burn "Put a torch to the webs" from whole to burnt needing torch.
+    Change burn "Put a torch to the webs" from whole to burnt needing torch or flame.
   }
   Thing frames "the silk frames" at workroom {
     State idle "The frames stand empty. There has been no silk to wind for a week.".

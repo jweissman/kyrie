@@ -216,6 +216,21 @@
       "source": {
         "kyr": true
       }
+    },
+    "conjure_light": {
+      "name": "Light",
+      "kind": "spell",
+      "description": "A small steady light that hangs over a companion's shoulder for two hours.",
+      "effect": "Apply lit to ally for 2 hours.",
+      "spell": {
+        "tradition": "arcane",
+        "level": 1,
+        "school": "evocation"
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The old-school Light spell, which Orsino's catalog lacks; every mage learns it as an apprentice."
+      }
     }
   }
 }

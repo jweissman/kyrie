@@ -24,6 +24,8 @@ export interface TargetRow {
 export interface ItemRow {
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;
   equipped: boolean; slot?: string; acts: Act[];
+  // Using it brings light.
+  light?: boolean;
 }
 export interface MemberRow {
   id: string; ref?: string; name: string; line: string; background?: string; level: number;
@@ -31,7 +33,9 @@ export interface MemberRow {
   // Spells by level: each prepared one, and whether it is still ready to cast.
   spells?: { level: number; name: string; ready: boolean }[];
   experience: number; gold: number;
-  conditions: string[]; abilities: { id: string; name: string; text: string; cost: number; price: string }[];
+  // Conditions that harm by name, and those that help (a lit torch) apart.
+  conditions: string[]; boons?: string[];
+  abilities: { id: string; name: string; text: string; cost: number; price: string }[];
   attributes: Record<string, number>; acts: Act[];
   overlays?: { id: string; name: string; role: string; grants: string[] }[];
 }
@@ -39,6 +43,8 @@ export interface LogEntry { at: string; title: string; lines: string[]; tone: 'a
 export interface Screen {
   title: string; clock: string; elapsed: number; running: boolean;
   path: PlaceRef[]; place: PlaceRef; prose: string[];
+  // The company stands in the dark without a light.
+  dark?: boolean;
   exits: ExitRow[]; people: TargetRow[]; things: TargetRow[];
   party: MemberRow[]; items: ItemRow[]; camp: Act[];
   purse: { coin: number; rations: number; other: string[] };

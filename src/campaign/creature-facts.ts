@@ -17,7 +17,7 @@ import { PartyCapabilities } from './party-capabilities';
 export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
-    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable'];
+    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -84,6 +84,7 @@ export class CreatureFacts {
         }
       }
       if (has.has('swappable')) { changes.push(...this.swaps(world, members, references, abilityIds)); }
+      if (has.has('company')) { changes.push({ kind: actor.player ? 'assert' : 'retract', call: ModuleWriter.call('company', actor.id) }); }
       const alive = members.some(c => c.state.hp > 0);
       const able = members.some(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id)));
       for (const [name, active] of [['able', able], ['dead', !alive]] as const) {

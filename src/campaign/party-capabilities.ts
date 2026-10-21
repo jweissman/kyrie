@@ -14,6 +14,9 @@ export class PartyCapabilities {
     if (trained) { return [trained]; }
     const specialist = alive.find(c => (c.state.inventory ?? []).some(i => i.equipped
       && ItemCatalog.get(i.definition).capability === id) || (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id));
-    return specialist ? [specialist] : [];
+    if (specialist) { return [specialist]; }
+    // A condition can bring a capability while it lasts: whoever holds the lit torch brings light.
+    const holder = alive.find(c => c.state.conditions.some(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes(id)));
+    return holder ? [holder] : [];
   }
 }

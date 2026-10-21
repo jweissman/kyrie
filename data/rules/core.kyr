@@ -6,7 +6,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity wayfinding: capability "Wayfinding". Entity digging: capability "Digging".
   Entity brawn: capability "Brawn". Entity stealth: capability "Stealth".
   Entity lore: capability "Lore". Entity rites: capability "Rites of the dead".
-  Entity climbing: capability "Climbing".
+  Entity climbing: capability "Climbing". Entity light: capability "Light". Entity flame: capability "Flame".
   Relation at(entity, place) exclusive.
   Relation able(group). Relation dead(group). Relation distinct(group, group).
   Relation closed(place). Relation indoors(place). Relation settled(place).
@@ -15,6 +15,8 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation witnessedAttack(group, group, group).
   Relation refusesService(group, group).
   Relation capable(group, capability).
+  Relation unlit(place). Relation company(group).
+  Query benighted(a: group) means company(a) and at(a, ?p) and unlit(?p) and not capable(a, light).
   Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
   Goal false.
   Action wait(actor: group) "Wait a while" {

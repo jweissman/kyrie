@@ -108,10 +108,12 @@ export class AbilityParser {
     target: ohm.Node,
     _for: ohm.Node,
     duration: ohm.Node,
-    _turns: ohm.Node,
+    span: ohm.Node,
   ): Effect {
+    // "for 3 turns" counts the owner's turns in a fight; "for 1 hour" runs on the world clock, six watches an hour.
+    const hours = span.sourceString.startsWith('hour');
     return { kind: 'apply', status: status.sourceString, target: target.sourceString as Target,
-      duration: Number(duration.sourceString) };
+      duration: Number(duration.sourceString) * (hours ? 6 : 1), ...(hours ? { clock: 'world-time' as const } : {}) };
   }
   static Remove(_remove: ohm.Node, status: ohm.Node, _from: ohm.Node, target: ohm.Node): Effect {
     return { kind: 'remove', status: status.sourceString, target: target.sourceString as Target };

@@ -84,7 +84,8 @@
       },
       "gold": 50,
       "abilities": [
-        "defend"
+        "defend",
+        "conjure_light"
       ],
       "playable": true,
       "specializations": [

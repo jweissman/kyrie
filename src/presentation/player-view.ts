@@ -61,6 +61,8 @@ export interface ChronicleEntry { at: number; kind: 'player' | 'npc' | 'world' |
 // legal commands, its own declared effects and combats, NPC actions at its location, and public deadlines.
 export class PlayerView {
   private static readonly ownHidden = ['at', 'distinct', 'knows', 'assumesFalse', 'mayExamine', 'operates', 'able', 'unladen', 'capable'];
+  static readonly darkness = { id: 'darkness',
+    text: 'It is pitch dark. You can feel the way you came and hear your own breathing; without a light you can see nothing here, and do nothing that needs seeing.' };
   static supported(campaign: Campaign): boolean { return campaign.persistent && !!campaign.playerActor; }
   private static actor(campaign: Campaign): string {
     if (!this.supported(campaign)) { throw new Error('No player view for this campaign'); }
@@ -97,6 +99,7 @@ export class PlayerView {
     const entities = campaign.module.entities, state = campaign.state;
     const location = entities.find(e => e.type === 'place' && this.test(world, 'at', actor, e.id));
     const perceiving = this.test(world, 'able', actor), discovery = Discovery.supported(campaign.module);
+    const dark = !!location && this.test(world, 'unlit', location.id) && !this.test(world, 'capable', actor, 'light');
     const situations = campaign.installations.length ?
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];
@@ -105,8 +108,10 @@ export class PlayerView {
       ...(location ? { location: { id: location.id, name: location.name, ...metadata.get(location.id),
         ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
       ...(location?.space ? { spatial: this.spatial(campaign, actor, location, publicChoices) } : {}),
-      observations: perceiving && location ? LocalObservations.read(world, actor) : [],
+      // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
+      observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
       present: entities.filter(e => perceiving && location && e.id !== actor && e.type !== 'place'
+        && (!dark || e.type === 'group')
         && (this.test(world, 'at', e.id, location.id) || this.test(world, 'mounted', e.id, location.id)
           || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id)))
         && (e.type !== 'source' || !discovery || (this.test(world, 'noticeable', e.id) && !this.spoken(world, e.id))))

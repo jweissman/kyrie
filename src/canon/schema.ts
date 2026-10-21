@@ -20,6 +20,9 @@ export interface Condition {
   // Orsino's compelNextMove and forceTarget: the holder must use that ability, or target whoever applied it.
   compel?: string; forceTarget?: true;
   stacking?: 'source-refresh'; omits?: Omissions; unsupported?: Omissions; source?: Source;
+  // A capability its holder brings to the company while it lasts (a lit torch brings light), and what is said
+  // when it runs out.
+  grants?: string[]; begins?: string; ends?: string;
 }
 export type TraitCategory = 'lineage' | 'nature' | 'affinity' | 'character' | 'feat' | 'party' | 'specialization';
 export interface Trait {

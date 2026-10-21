@@ -62,8 +62,10 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   static scene(screen: Screen, last?: LogEntry): string {
     const where = screen.path.slice(0, -1).reverse().slice(0, 2).map(p => Html.escape(p.name)).join(' · ');
     const purpose = screen.objectives.map(o => `<p class="objective" data-id="objective">◆ ${Html.escape(o)}</p>`).join('');
-    const response = last && last.lines.length && !last.title.startsWith('→')
-      ? `<div class="response tone-${last.tone}" data-id="response"><h3>${Html.escape(last.title)}</h3>${last.lines.slice(0, 8).map(l => `<p>${Html.escape(l)}</p>`).join('')}</div>` : '';
+    // What just happened, less anything the scene already says.
+    const lines = last?.lines.filter(l => !screen.prose.includes(l)) ?? [];
+    const response = last && lines.length && !last.title.startsWith('→')
+      ? `<div class="response tone-${last.tone}" data-id="response"><h3>${Html.escape(last.title)}</h3>${lines.slice(0, 8).map(l => `<p>${Html.escape(l)}</p>`).join('')}</div>` : '';
     return `<section class="pane scene" data-region="scene"><h1 data-id="place">${Html.escape(this.title(screen.place.name))}</h1>`
       + `<p class="where">${where}</p>${purpose}`
       + `<div class="prose">${screen.prose.map(p => `<p>${Html.escape(p)}</p>`).join('')}</div>${response}</section>`;
@@ -78,7 +80,8 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   static member(m: MemberRow): string {
     return `<div class="member${m.hp ? '' : ' dead'}" data-member="${Html.escape(m.id)}"><div class="who"><b>${Html.escape(m.name)}</b><span>${Html.escape(m.line)} · ${m.level}</span></div>`
       + `${this.bar('HP', m.hp, m.maxHp, 'hp')}${m.maxMana ? this.bar('MP', m.mana, m.maxMana, 'mp') : ''}${this.slots(m)}`
-      + `${m.conditions.length ? `<div class="cond">${m.conditions.map(c => Html.escape(c)).join(' · ')}</div>` : ''}</div>`;
+      + `${m.conditions.length ? `<div class="cond">${m.conditions.map(c => Html.escape(c)).join(' · ')}</div>` : ''}`
+      + `${m.boons?.length ? `<div class="boon">${m.boons.map(c => Html.escape(c)).join(' · ')}</div>` : ''}</div>`;
   }
   // Spell slots by level: "I ●●○ II ●", a filled pip for each slot not yet spent.
   static slots(m: { slots?: number[]; maxSlots?: number[] }): string {

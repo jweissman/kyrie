@@ -1,8 +1,13 @@
 import { FictionalTime } from '../presentation/fictional-time';
 import { Content } from '../content';
+import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';
 
 export class CombatPresenter {
+  // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
+  static told(id: string, when: 'begins' | 'ends'): string | undefined {
+    return Canon.conditions[Canon.resolve('conditions', id)]?.[when];
+  }
   static format(event: CombatEvent, state: BattleState): string {
     const actor = 'actor' in event ? state.combatants.find(f => f.id === event.actor)?.name ?? event.actor : '';
     const target = 'target' in event ? state.combatants.find(f => f.id === event.target)?.name ?? event.target : '';
@@ -40,11 +45,12 @@ export class CombatPresenter {
         return `${target} ${event.success ? 'passes' : 'fails'} the ${event.kind ?? event.stat ?? ''} save (${terms} `
           + `against ${event.difficulty}${event.limit ? '; three saves already made' : ''}).`;
       }
-      case 'status': return `${target} gains ${event.detail} `
+      case 'status': if (this.told(event.detail, 'begins')) { return this.told(event.detail, 'begins')!.replace('{target}', target); }
+        return `${target} gains ${event.detail} `
         + (event.clock === 'until-removed' ? 'until removed.' : event.clock === 'world-time'
           ? `for ${FictionalTime.duration(event.amount ?? 0)}.` : `for ${event.amount ?? 0} turns.`);
       case 'remove': return `${target} loses ${event.detail}.`;
-      case 'expire': return `${target}'s ${event.detail} expires.`;
+      case 'expire': return this.told(event.detail, 'ends')?.replace('{target}', target) ?? `${target}'s ${event.detail} expires.`;
       case 'revive': return `${target} returns with ${event.amount ?? 0} HP.`;
       case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.`
         : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`

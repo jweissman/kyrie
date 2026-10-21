@@ -7,7 +7,7 @@ Module belongings "What the company carries" {
   Measure price(item).
   Goal false.
   Action take_item(actor: group, find: item, form: itemkind, recipient: member, site: place) "Collect {find} for {recipient}" {
-    Requires able(actor) and at(actor, site) and at(find, site) and not forSale(find)
+    Requires able(actor) and at(actor, site) and at(find, site) and not forSale(find) and not benighted(actor)
       and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient).
     Resolve acquire(find, form, recipient).
     On success { Retract at(find, site). }
@@ -31,7 +31,7 @@ Module belongings "What the company carries" {
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
       and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form).
     Resolve consume(dose, carrier, recipient).
-    Result "{recipient} takes {dose}.".
+    Result "{carrier} uses {dose}.".
   }
   Action transfer_item(actor: group, cargo: item, carrier: member, recipient: member) "Give {cargo} to {recipient}" {
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor)

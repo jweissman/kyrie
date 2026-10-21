@@ -16,6 +16,7 @@ Module unquiet_tower "The unquiet tower" {
   Place hall "the tower hall" is room within inside at 0, 0.
   Place study "the study at the top" is room within top at 1, 0.
   Place crypt "the crypt under the tower" is room within inside at 0, 1.
+  Initially Assert unlit(crypt).
   Passage door "the iron-bound door" is door between outside and hall.
   Passage stair "the turning stair" is stair between hall and study.
   Passage well "the old well shaft" is shaft between outside and crypt needing rope or climbing.
