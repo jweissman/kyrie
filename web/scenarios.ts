@@ -9,8 +9,8 @@ export class Scenarios {
   static readonly files: Record<string, string> = bundled;
   static readonly list: ScenarioEntry[] = [
     { manifest: 'data/campaigns/serewater-march.campaign.json', title: 'The Serewater March', seed: 'serewater',
-      note: 'Reedwake on the river, the derelict foundry on Censer Hill and its ossuary: a missing surveyor, a salvage permit, and the keepers of the dead.',
-      detail: 'A river town and a three-level dungeon · several expeditions', recommended: true },
+      note: 'Three settlements share the March and its troubles: a surveyor missing under Censer Hill, something taking Garth\'s ewes off the ridge, and a green light in Holt tower across the river.',
+      detail: 'Three settlements, a foundry, a sink and a tower · three expeditions or more', recommended: true },
     { manifest: 'data/campaigns/silkholme.campaign.json', title: 'Silkholme', seed: 'silk',
       note: 'Spiders under the chalk ridge: a shepherd losing ewes, and a silk-gatherer who lives by them.',
       detail: 'One short expedition · an hour of play' },

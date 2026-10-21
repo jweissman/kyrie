@@ -77,9 +77,9 @@ export class MonoMap {
   static pane(chart: Chart | undefined, fallback: { name: string; here: boolean; visited: boolean }[],
     region?: RegionChart, size: 'small' | 'large' = 'small'): string {
     const legend = '<p class="legend"><span class="k open">—</span>open <span class="k blocked">—</span>shut <span class="k guarded">—</span>guarded <span class="k hazard">—</span>danger <span class="k unexplored">- -</span>not yet walked</p>';
-    const regional = region ? `<h3 class="map-scale">Region</h3>${this.region(region)}` : '';
+    const regional = region ? `<div class="scale"><h3 class="map-scale">Region</h3>${this.region(region)}</div>` : '';
     const narrow = typeof matchMedia === 'function' && matchMedia('(max-width: 719px)').matches;
-    const body = chart ? `${this.svg(chart, narrow)}${regional}${legend}`
+    const body = chart ? `<div class="charts"><div class="scale here">${this.svg(chart, narrow)}</div>${regional}</div>${legend}`
       : `<ul class="placelist">${fallback.filter(p => p.visited || p.here)
         .map(p => `<li${p.here ? ' class="here"' : ''}>${p.here ? '◎' : '·'} ${Html.escape(p.name)}</li>`).join('')}</ul>`;
     return `<section class="pane map ${size}" data-region="map" aria-label="Map"><h2>Map</h2>${body}</section>`;

@@ -81,7 +81,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 .crumbs { color: var(--sel); margin: 0 0 0.5em; }
 .detail { color: var(--dim); border-top: 1px solid var(--line); margin: 0.6em 0 0; padding-top: 0.5em; min-height: 3em; max-width: 74ch; }
 .choices.pane { display: flex; flex-direction: column; }
-.choices.pane > ul { flex: 1 1 auto; }
+.choices.pane > * { flex-shrink: 0; }
+.choices.pane > ul { flex: 1 0 auto; }
 
 /* The company. */
 .member, .fighter { margin-bottom: 0.65em; }
@@ -123,8 +124,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 .party { grid-area: party; } .detail.pane { grid-area: detail; } .sheet { grid-area: sheet; } .sides { grid-area: sides; }
 .battle-log { grid-area: log; } .chronicle { grid-area: chronicle; } .knowledge { grid-area: knowledge; }
 .companions { grid-area: companions; display: grid; gap: 0.8em; align-content: start; }
-.screen.explore { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); grid-template-rows: minmax(0, auto) minmax(0, 1fr) auto; grid-template-areas: "scene map" "choices map" "choices party"; }
-.screen.explore .scene { max-height: 44vh; }
+/* What is here and what to do about it side by side; where it is and who is going below. */
+.screen.explore { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 0.75fr); grid-template-areas: "scene choices" "map party"; }
 .screen.combat { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) minmax(0, 0.6fr); grid-template-areas: "scene choices" "sides choices" "log log"; }
 .screen.pack { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "choices detail" "choices party"; }
 .screen.company-sheet { grid-template-columns: minmax(26ch, 0.7fr) minmax(0, 2fr); grid-template-areas: "choices sheet"; }
@@ -213,7 +214,15 @@ input:focus, select:focus, button:focus-visible { outline: 1px solid var(--sel);
 .legend .k.guarded { color: var(--creature); } .legend .k.unexplored { color: var(--dim); }
 .placelist li.here { color: var(--sel); }
 .map-scale { margin: 0.4em 0 0; font-size: 0.8em; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
-.chart.regional { flex: 0 0 auto; height: 7.5em; }
+/* Where the company stands, and the region it is in: side by side in a wide pane, one above the other in a tall one. */
+.map .charts { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 2ch; }
+.map .scale { display: flex; flex-direction: column; min-height: 0; }
+.map.large .charts { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+.chart.regional { flex: 1 1 auto; min-height: 7.5em; }
+@media (min-width: 1500px) {
+  .map .charts { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+  .chart.regional { flex: 0 0 auto; height: 7.5em; }
+}
 .map.large .chart.regional { height: 12em; }
 .chart .area-node circle { fill: var(--pane); stroke: var(--dim); stroke-width: 2; }
 .chart .area-node.here circle { fill: var(--sel); stroke: var(--sel); }
