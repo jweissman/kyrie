@@ -96,7 +96,8 @@ export class ModuleNamespace {
       pursuits: original.pursuits?.map(p => ({ ...p, actor: this.entities[p.actor]!,
         ...(p.label ? { label: this.text(p.label) } : {}),
         when: this.predicate(p.when), target: this.predicate(p.target) })),
-      rules: original.rules?.map(r => ({ ...r, id: `${this.bindings.id}__${r.id}`,
+      // A rule of the shared rules modules is the world's, not the installation's: it keeps its id and is joined once.
+      rules: original.rules?.map(r => ({ ...r, id: this.rules.rules?.some(s => s.id === r.id) ? r.id : `${this.bindings.id}__${r.id}`,
         when: this.predicate(r.when), effects: r.effects.map(c => this.change(c)),
         ...(r.place ? { place: this.entities[r.place] ?? r.place } : {}),
         ...(r.say ? { say: this.text(r.say) } : {}) })),

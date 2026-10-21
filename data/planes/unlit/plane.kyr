@@ -49,7 +49,7 @@ Module unlit "The Unlit" {
   Passage drowned_way "the drowned stair" is portal between far_shore and drowned_stair taking 2 hours hidden until mere_way_known.
 
   Passage ash_way "the ash road" is road between veil_foot and ash_road taking 2 hours.
-  Passage cinder_way "the slope down into the cinders" is path between ash_road and cinders taking 1 hour.
+  Passage cinder_way "the slope of the cinder hollow" is path between ash_road and cinders taking 1 hour.
   Passage mere_way "the mere path" is path between cinders and mere_edge taking 1 hour.
   Passage shore_walk "the shore of the Ash Mere" is path between mere_edge and drowned_stair taking 1 hour.
   Passage arch_way "the way to the Arch" is road between ash_road and arch taking 2 hours.
@@ -135,7 +135,7 @@ Module unlit "The Unlit" {
   }
   Relation paid_in_light(group).
   Topic hollow_door with hollow "Ask the Hollow Warden about the way to the sea" when tolerates(hollow, party) once {
-    Says "'The Lamplighters had a door for every beacon,' says the Hollow Warden. 'The Lanthorn's, which you came by. The one under the lake. And the one past the Arch, to the hall in Brack where they kept the Charter. The Watcher keeps it for them still, and lets by only the seal.'".
+    Says "'The Lamplighters had a door for every beacon,' says the Hollow Warden. 'The Lanthorn's, under its deep cellar. The one under the lake. And the one past the Arch, to the hall in Brack where they kept the Charter. The Watcher keeps it for them still, and lets by only the seal.'".
     On discuss { Assert knows(actor, brack_door_known). }
   }
   Entity brack_door_known: fact "Past the Arch of Ways in the Unlit stands the Lamplighters' door to their hall in Brack, kept by the Watcher, who lets by only those carrying the Charter's seal.".

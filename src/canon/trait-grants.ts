@@ -63,6 +63,12 @@ export class TraitGrants {
     const spells = !specialist ? [] : how.prepared && !how.spells
       ? SpellSelection.prepare(specialist, creature.base.level, pick)
       : SpellSelection.choose(specialist, how.spells, pick, creature.id);
+    // A specialist made above first level has learnt a spell at each level since, as one trained to it would have
+    // (unless its author chose its spells).
+    if (specialist && !how.prepared && !how.spells && creature.base.level > 1) {
+      const who = { level: creature.base.level, classId: creature.classId };
+      spells.push(...SpellSelection.grown(specialist, who, spells, pick));
+    }
     return [...traits.flatMap(t => t.grants?.abilities ?? []), ...spells];
   }
 }

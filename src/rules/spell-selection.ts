@@ -1,6 +1,7 @@
 import { Canon } from '../canon/canon';
 import type { Trait } from '../canon/schema';
 import { Creation } from './creation';
+import { Spellcasting } from './spellcasting';
 
 export interface SpellPlan {
   cantrips: string[]; levels: { level: number; count: number; restricted: string[]; open: string[] }[];
@@ -36,6 +37,20 @@ export class SpellSelection {
       }
     }
     return [...plan.cantrips, ...out];
+  }
+  // The spells a specialist learns at each level from second to its own (Orsino's levelUp): one a level, of its
+  // tradition, of a spell level it has a slot for then.
+  static grown(spec: Trait, who: { level: number; classId?: string }, known: string[],
+    pick: (options: string[]) => string): string[] {
+    const out: string[] = [];
+    for (let level = 2; level <= who.level; level++) {
+      const reach = Math.min(Math.ceil(level / 2), Spellcasting.table(who.classId, level, {}).length);
+      const tradition = spec.spellAccess!.tradition;
+      const options = Array.from({ length: reach }, (_, i) => Creation.spellbook(tradition, i + 1)).flat()
+        .filter(id => !known.includes(id) && !out.includes(id));
+      if (options.length) { out.push(pick(options)); }
+    }
+    return out;
   }
   // Orsino's enemy casters (Combat.setUp): every cantrip of the tradition, then min(6, 2 + ⌈level / 2⌉) spells drawn
   // from those of the school or domain up to the highest castable level.

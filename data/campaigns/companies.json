@@ -20,6 +20,11 @@
       "members": [
         { "name": "Rook", "raceId": "elf", "classId": "ranger", "backgroundId": "tracker" },
         { "name": "Moss", "raceId": "human", "classId": "thief", "backgroundId": "outlaw" },
-        { "name": "Garran", "raceId": "human", "classId": "warrior", "backgroundId": "soldier" } ] }
+        { "name": "Garran", "raceId": "human", "classId": "warrior", "backgroundId": "soldier" } ] },
+    { "id": "veterans", "label": "Old hands", "note": "Warrior, cleric and mage of twelfth level, back in the Varrow after twenty years, with a jar of noonlight between them. For the high country: Brack, the deeps and the Unlit.",
+      "members": [
+        { "name": "Aldric", "raceId": "human", "classId": "warrior", "backgroundId": "soldier", "level": 12 },
+        { "name": "Sister Wren", "raceId": "dwarf", "classId": "cleric", "backgroundId": "acolyte", "level": 12, "traits": ["vitalist"], "gear": ["noonlight"] },
+        { "name": "Maeve", "raceId": "elf", "classId": "mage", "backgroundId": "scholar", "level": 12, "traits": ["evoker"] } ] }
   ]
 }

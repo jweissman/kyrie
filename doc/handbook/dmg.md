@@ -178,7 +178,7 @@ Use a known healing, cleansing or persistent ward ability outside combat. Its no
 
 *Kyr · action (group, member, circle, ability, ability)* · `rule:care.prepare_spell`
 
-- Shown as: Have {caster} prepare {incoming} in place of {outgoing}
+- Shown as: Have {caster} prepare {incoming} in place of {outgoing}, in a {tier}
 - Takes: 60 minutes
 - Costs: 1
 
@@ -672,13 +672,13 @@ Says: "{?o}"
 
 *Kyr · rule* · `rule:inhabitants.temper_warns`
 
-The first meeting.
+The first meeting: a warning stops the company where it stands, whatever it was doing, and it must answer.
 
 Says: "{?w}"
 
 > When: temperament(?g, ?t); warnsFirst(?t); company(?c); confronts(?g, ?c); not (warned(?g, ?c)); warning(?g, ?w)
 
-> Then: Assert warned(?g, ?c). Set patience(?g) to 1.
+> Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
 
 #### temper_falls_on
 
@@ -708,7 +708,7 @@ Says: "{?w}"
 
 > When: temperament(?g, temper_ambush); company(?c); confronts(?g, ?c); capable(?c, perception); not (warned(?g, ?c)); warning(?g, ?w)
 
-> Then: Assert warned(?g, ?c). Set patience(?g) to 1.
+> Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
 
 #### temper_keeps_post
 

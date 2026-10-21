@@ -90,7 +90,7 @@ export class ModuleInstallations {
       measures: this.union(base?.measures ?? [], incoming.measures, s => s.name),
       queries: this.union(base?.queries ?? [], incoming.queries, q => q.name),
       pursuits: [...(base?.pursuits ?? []), ...(incoming.pursuits ?? [])],
-      rules: [...(base?.rules ?? []), ...(incoming.rules ?? [])],
+      rules: this.union(base?.rules ?? [], incoming.rules ?? [], r => r.id),
       observations: [...(base?.observations ?? []), ...(incoming.observations ?? [])],
       objectives: [...(base?.objectives ?? []), ...(incoming.objectives ?? [])],
       initial: [...(base?.initial ?? []), ...incoming.initial], actions: schemas,

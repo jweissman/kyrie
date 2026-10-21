@@ -31,7 +31,8 @@ export class WatchLoop {
         // Someone falling on the company stops whatever it was doing, interruptible or not.
         const foe = Engagement.foe(host), halted = foe ? undefined : Engagement.halt(host);
         if (foe) { return { npc, happenings, interrupted: Engagement.told(host, foe) }; }
-        if (halted) { return { npc, happenings, interrupted: happenings.at(-1)?.text ?? halted }; }
+        // What stopped it is told once, among what happened; the response says only that it was stopped.
+        if (halted) { return { npc, happenings, interrupted: halted }; }
       }
       why = watch && Interruption.check(watch, host.world, player!, happenings);
     }

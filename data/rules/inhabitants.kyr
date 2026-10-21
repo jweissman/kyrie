@@ -49,10 +49,10 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   }
   Rule temper_waits when warned(?g, ?c) and together(?g, ?c) and patience(?g) > 0 { Decrease patience(?g) by 1. }
   Rule temper_let_go when warned(?g, ?c) and not together(?g, ?c) { Retract warned(?g, ?c). }
-  // The first meeting.
+  // The first meeting: a warning stops the company where it stands, whatever it was doing, and it must answer.
   Rule temper_warns when temperament(?g, ?t) and warnsFirst(?t) and company(?c) and confronts(?g, ?c) and not warned(?g, ?c)
     and warning(?g, ?w) says "{?w}" {
-    Assert warned(?g, ?c). Set patience(?g) to 1.
+    Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
   }
   Relation warnsFirst(temperament).
   Initially Assert warnsFirst(temper_territorial). Initially Assert warnsFirst(temper_defensive).
@@ -69,7 +69,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Rule temper_spotted when temperament(?g, temper_ambush) and company(?c) and confronts(?g, ?c)
     and capable(?c, perception) and not warned(?g, ?c)
     and warning(?g, ?w) says "{?w}" {
-    Assert warned(?g, ?c). Set patience(?g) to 1.
+    Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
   }
   Rule temper_keeps_post when temperament(?g, temper_obedient) and company(?c) and confronts(?g, ?c)
     and lair(?g, ?p) and at(?g, ?p)

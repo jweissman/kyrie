@@ -2,6 +2,7 @@ import { Content, type CreatureGenerationContext } from '../content';
 import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
 import { Formations } from '../rules/formations';
+import { Canon } from '../canon/canon';
 
 // The companions chosen at character creation, checked and written into the first module's company.
 export class CompanyChoices {
@@ -20,8 +21,17 @@ export class CompanyChoices {
         || !Content.playableClasses.includes(Creation.classId(context.classId))) {
         throw new Error('Choose a name, playable ancestry and class for every companion');
       }
+      // An experienced company (a preset of old hands) may begin above first level, and with gear from the catalog.
+      const level = context.level;
+      if (level !== undefined && (!Number.isInteger(level) || level < 1 || level > 20)) {
+        throw new Error('A companion begins at a level from 1 to 20');
+      }
+      if ((context.gear ?? []).some(g => !Canon.items[Canon.resolve('items', g)])) {
+        throw new Error('Unknown starting gear');
+      }
       entry.context = { name: context.name.trim(), raceId: context.raceId,
-        classId: Creation.classId(context.classId), level: entry.context.level ?? 1,
+        classId: Creation.classId(context.classId), level: context.level ?? entry.context.level ?? 1,
+        ...(context.gear?.length ? { gear: [...context.gear] } : {}),
         ...(context.backgroundId ? { backgroundId: context.backgroundId } : {}),
         ...(context.traits ? { traits: [...context.traits] } : {}),
         ...(formations.length ? { formations } : {}),

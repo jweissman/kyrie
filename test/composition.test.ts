@@ -124,7 +124,7 @@ describe('the raider-hold kit in play', () => {
     let stopped;
     for (let h = 0; h < 10 && !stopped; h++) {
       const e = await s.perform('wait_hour');
-      if (e.response?.includes('Road-money')) { stopped = e; }
+      if ([e.response, ...(e.perceptions ?? []).map(p => p.text)].join(' ').includes('Road-money')) { stopped = e; }
     }
     expect(stopped).toBeDefined();
     const pay = Compose.legal(s).find(c => c.startsWith('fellFolk__pay_road_money'))!;
