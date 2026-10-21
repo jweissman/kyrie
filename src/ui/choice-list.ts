@@ -26,9 +26,15 @@ export class ChoiceList {
     return [
       ...[...screen.people, ...things].map(t => this.subject(t)),
       ...(screen.exits.length ? [this.ways(screen.exits)] : []),
-      ...(screen.camp.length || screen.unplaced.length ? [{ id: 'company', title: 'The company', tone: 'company' as const,
-        glyph: '○', choices: this.flatten([...screen.camp, ...screen.unplaced], 'company', 'company') }] : []),
+      ...(screen.camp.length || screen.unplaced.length || this.preparing(screen).length ? [{ id: 'company',
+        title: 'The company', tone: 'company' as const, glyph: '○',
+        choices: [...this.flatten([...screen.camp, ...screen.unplaced], 'company', 'company'), ...this.preparing(screen)] }] : []),
     ];
+  }
+  // A caster's spells can be prepared from wherever the company is: an hour of study or prayer.
+  private static preparing(screen: Screen): Choice[] {
+    return screen.party.flatMap(m => m.acts.filter(a => a.label === 'Prepare spells')
+      .map(a => ({ ...this.choice(a, `prepare:${m.id}`, 'spell'), label: `${m.name}: prepare spells` })));
   }
   static subject(t: TargetRow): Section {
     const tone: Tone = t.kind === 'person' ? 'person' : t.kind === 'creature' ? 'creature' : 'thing';
@@ -171,7 +177,9 @@ export class ChoiceList {
   }
   private static ability(a: CombatScreen['abilities'][number], c: CombatScreen): Choice {
     const tone: Tone = a.spell ? 'spell' : 'ability';
-    const note = [a.price, a.targets.length ? '' : a.scope === 'self' ? 'self' : a.scope].filter(Boolean).join(' · ');
+    // A levelled spell says how many castings are ready; a cantrip, that it is free.
+    const cost = a.spell && a.spell.level > 0 ? `${a.spell.ready} ready` : a.price;
+    const note = [cost, a.targets.length ? '' : a.scope === 'self' ? 'self' : a.scope].filter(Boolean).join(' · ');
     const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}) };
     if (!a.targets.length) { return { ...base, command: `${a.id}>` }; }
     const fighters = [...c.foes, ...c.allies];

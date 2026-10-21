@@ -20,6 +20,8 @@ export interface Creature {
   };
   state: {
     hp: number; mana: number; gold: number; experience: number; slots?: number[];
+    // The spell prepared in each slot, by spell level, and those of them not yet cast (see Spellcasting).
+    prepared?: string[][]; ready?: string[][];
     learnedAbilities: string[]; conditions: ConditionInstance[]; inventory?: ItemInstance[];
   };
 }
@@ -50,6 +52,13 @@ export class CreatureSchema {
     const most = creature.base.maxSlots ?? [], left = creature.state.slots ?? [];
     if (most.length !== left.length || [...most, ...left].some(n => !Number.isSafeInteger(n) || n < 0)
       || left.some((n, i) => n > most[i]!)) { throw new Error(`Invalid spell slots: ${creature.id}`); }
+    // Each level's ready spells are some of the spells prepared in it, one per unspent slot.
+    const prepared = creature.state.prepared, ready = creature.state.ready;
+    if (prepared && (!ready || prepared.length !== most.length || ready.length !== most.length
+      || prepared.some((p, i) => p.length > most[i]! || ready[i]!.length !== left[i]
+        || ready[i]!.some(id => ready[i]!.filter(x => x === id).length > p.filter(x => x === id).length)))) {
+      throw new Error(`Invalid prepared spells: ${creature.id}`);
+    }
     const inventory = creature.state.inventory ?? [];
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition
       || (i.equipped !== undefined && typeof i.equipped !== 'boolean'))

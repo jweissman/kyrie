@@ -1,5 +1,9 @@
 Module care "Rest, mending and lessons" {
-  Kind member. Kind ability. Kind reward.
+  Kind member. Kind ability. Kind reward. Kind circle.
+  Entity circle_1: circle "first-level slot". Entity circle_2: circle "second-level slot".
+  Entity circle_3: circle "third-level slot". Entity circle_4: circle "fourth-level slot".
+  Entity circle_5: circle "fifth-level slot".
+  Relation swappable(member, circle, ability, ability).
   Relation memberOf(member, group).
   Relation fieldUsable(ability).
   Relation awake(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
@@ -12,6 +16,13 @@ Module care "Rest, mending and lessons" {
       and fieldUsable(technique) and awake(caster) and awake(recipient) and canCast(caster, technique) and treatable(recipient, technique).
     Resolve invoke(technique, caster, recipient).
     Result "{caster} tends {recipient} with {technique}.".
+  }
+  Action prepare_spell(actor: group, caster: member, tier: circle, outgoing: ability, incoming: ability) "Have {caster} prepare {incoming} in place of {outgoing}" {
+    Description "An hour of study or prayer. A spell prepared in a slot still ready can be cast at once; in a slot already spent, after the next rest.".
+    Requires able(actor) and memberOf(caster, actor) and awake(caster) and swappable(caster, tier, outgoing, incoming).
+    Time 6.
+    Resolve prepare(caster, tier, outgoing, incoming).
+    Result "{caster} spends an hour over {incoming}.".
   }
   Action rest(actor: group, site: place) "Rest and recover at {site}" {
     Description "Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.".

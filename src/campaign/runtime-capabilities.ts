@@ -17,5 +17,6 @@ export class RuntimeCapabilities {
     { name: 'recover', types: ['group'], exclusive: false },
     { name: 'rough', types: ['group'], exclusive: false },
     { name: 'reward', types: ['ability', 'member'], exclusive: false },
+    { name: 'prepare', types: ['member', 'circle', 'ability', 'ability'], exclusive: false },
   ];
 }

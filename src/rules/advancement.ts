@@ -38,9 +38,12 @@ export class Advancement {
       creature.base.maxHp += gained; creature.state.hp += gained;
       const slots = Spellcasting.table(creature.classId, level, creature.base);
       if (slots.length) {
-        const before = creature.base.maxSlots ?? [];
-        creature.state.slots = slots.map((n, i) => (creature.state.slots?.[i] ?? 0) + n - (before[i] ?? 0));
+        // A level is taken at rest, with every slot ready; new slots are prepared with what the caster knows.
+        creature.state.slots = [...slots];
         creature.base.maxSlots = slots;
+        Spellcasting.equip(creature);
+        creature.state.ready = creature.state.prepared!.map(p => [...p]);
+        creature.state.slots = creature.state.ready.map(r => r.length);
       }
       events.push({ type: 'gain', turn: 0, actor: creature.id, target: creature.id, detail: `level ${level}`, amount: gained });
     }

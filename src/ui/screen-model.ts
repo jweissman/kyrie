@@ -153,12 +153,22 @@ export class ScreenModel {
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
+        ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),
         experience: m.experience, gold: m.gold, conditions: m.conditions,
         abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))
           .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
             text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),
         attributes: m.attributes ?? {}, acts: ref ? grouped.members.get(ref) ?? [] : [],
         overlays: this.overlays(campaign, m.id) };
+    });
+  }
+  // Each prepared spell by level, the ready ones first, as the company sheet lists them.
+  private static prepared(prepared: string[][], ready: string[][]) {
+    return prepared.flatMap((spells, i) => {
+      const left = [...ready[i] ?? []];
+      return spells.map(id => ({ level: i + 1, name: Content.abilities.find(a => a.id === id)?.name ?? id,
+        ready: left.includes(id) && left.splice(left.indexOf(id), 1).length > 0 }))
+        .sort((a, b) => Number(b.ready) - Number(a.ready));
     });
   }
   // Each overlay and what it actually contributed, so a player can see why a companion can do something.

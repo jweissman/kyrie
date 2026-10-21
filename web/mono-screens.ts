@@ -56,9 +56,17 @@ export class MonoScreens {
     return `<main class="screen company-sheet">${MonoRender.choices(s, 'The company')}<section class="pane sheet" data-region="sheet"><h1>${Html.escape(m.name)}</h1>`
       + `<p class="where">${Html.escape(m.line)} · level ${m.level}${m.background ? ` · ${Html.escape(m.background)}` : ''} · ${progress} · ${m.gold} coin</p>`
       + `${MonoRender.bar('HP', m.hp, m.maxHp, 'hp')}${MonoRender.slots(m)}<div class="attrs">${attrs}</div>`
-      + `<div class="cols"><div><h3>Abilities and spells</h3><ul>${abilities}</ul></div><div><h3>Carried</h3><ul>${gear || '<li class="muted">Nothing</li>'}</ul>`
+      + `${this.prepared(m)}<div class="cols"><div><h3>Abilities and spells known</h3><ul>${abilities}</ul></div><div><h3>Carried</h3><ul>${gear || '<li class="muted">Nothing</li>'}</ul>`
       + `<h3>Where they come from</h3><ul>${(m.overlays ?? []).map(o => `<li><b>${Html.escape(o.name)}</b> <small>${Html.escape(o.role)}</small><br><small>${o.grants.map(g => Html.escape(g)).join(' · ')}</small></li>`).join('') || '<li class="muted">Nothing recorded</li>'}</ul>`
       + `<h3>What the company can do</h3><ul>${screen.capabilities.map(c => `<li>${Html.escape(c)}</li>`).join('') || '<li class="muted">Nothing special</li>'}</ul></div></div></section></main>`;
+  }
+  // What a caster has prepared today, level by level: ● ready to cast, ○ already spent until the next rest.
+  static prepared(m: { spells?: { level: number; name: string; ready: boolean }[] }): string {
+    if (!m.spells?.length) { return ''; }
+    const levels = [...new Set(m.spells.map(x => x.level))];
+    return `<h3>Prepared today</h3><ul class="prepared">${levels.map(l => `<li><b>${['I', 'II', 'III', 'IV', 'V'][l - 1]}</b> `
+      + m.spells!.filter(x => x.level === l).map(x => `<span class="${x.ready ? 'ready' : 'spent'}">${x.ready ? '●' : '○'} ${Html.escape(x.name)}</span>`).join(' ')
+      + '</li>').join('')}</ul><p class="muted">Rest under a roof readies every slot. Preparing another spell takes an hour.</p>`;
   }
   static journal(s: MonoState): string {
     const screen = s.screen!;

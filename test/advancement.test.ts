@@ -17,13 +17,15 @@ describe('advancement', () => {
     const make = () => new Content('train').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'],
       spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'], wisdom: 14 });
     const dori = make(), hp = dori.base.maxHp;
-    dori.state.experience = 3000; dori.state.slots = [0];
+    dori.state.experience = 3000;
     const events = Advancement.train(dori, 'seed');
     expect(events.map(e => e.type === 'gain' && e.detail)).toEqual(['level 2', 'level 3']);
     expect(dori.base.level).toBe(3);
     expect(dori.base.maxHp).toBeGreaterThan(hp + 1);
-    expect([dori.base.maxSlots, dori.state.slots]).toEqual([[3, 1], [1, 1]]);
-    const again = make(); again.state.experience = 3000; again.state.slots = [0];
+    // A level is taken at rest: every slot is ready, and the new second-level slot holds a second-level prayer.
+    expect([dori.base.maxSlots, dori.state.slots]).toEqual([[3, 1], [3, 1]]);
+    expect(dori.state.prepared).toEqual([['cure', 'bless', 'anoint'], ['prayer']]);
+    const again = make(); again.state.experience = 3000;
     Advancement.train(again, 'seed');
     expect(again.base.maxHp).toBe(dori.base.maxHp);
   });

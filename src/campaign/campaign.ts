@@ -432,6 +432,7 @@ export class Campaign implements TickHost {
       return FieldUse.perform(this.creatures, [call.args[1]!], { ability: call.args[0]!, caster: call.args[1]!,
         target: call.args[1]!, seed, service: 'reward' });
     }
+    if (call.name === 'prepare') { return FieldUse.prepare(this.creatures, call.args as [string, string, string, string]); }
     if (call.name === 'invoke') {
       return FieldUse.perform(this.creatures, [call.args[1]!, call.args[2]!],
         { ability: call.args[0]!, caster: call.args[1]!, target: call.args[2]!, seed });

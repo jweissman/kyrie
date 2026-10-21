@@ -35,7 +35,7 @@ export class AbilityUse {
     if (!actor && (ability.cost || ability.effects.some(e => ['defend', 'flee', 'drain', 'summon', 'travel', 'attack']
       .includes(e.kind) || e.target === 'self'))) { throw new Error('This ability requires a creature actor'); }
     if (actor ? !Spellcasting.affordable(actor, ability) : (ability.cost ?? 0) > 0) {
-      throw new Error(Spellcasting.needsSlot(ability) ? 'No spell slot of that level is free' : 'Insufficient mana');
+      throw new Error(Spellcasting.needsSlot(ability) ? `No ready slot holds ${ability.id}` : 'Insufficient mana');
     }
   }
   private static targets(effect: Effect, targetId: string, expressions: Expressions,

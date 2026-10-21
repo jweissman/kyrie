@@ -18,6 +18,8 @@ export class CombatProjection {
         wisdom: fighter.wisdom, charisma: fighter.charisma },
       state: { hp: fighter.hp, mana: fighter.mana, gold: fighter.gold, experience: fighter.experience,
         ...(fighter.slots ? { slots: [...fighter.slots] } : {}),
+        ...(fighter.prepared
+          ? { prepared: structuredClone(fighter.prepared), ready: structuredClone(fighter.ready ?? []) } : {}),
         learnedAbilities: fighter.abilities.filter(id => !(original?.base.abilities ?? fighter.abilities).includes(id)
           && !(original && ItemCatalog.abilities(original)[id]
             && !original.state.learnedAbilities.includes(id))),
@@ -30,6 +32,8 @@ export class CombatProjection {
       ...creature.classId ? { classId: creature.classId } : {},
       ...structuredClone(creature.base), hp: creature.state.hp, mana: creature.state.mana,
       ...(creature.state.slots ? { slots: [...creature.state.slots] } : {}),
+      ...(creature.state.prepared ? { prepared: structuredClone(creature.state.prepared),
+        ready: structuredClone(creature.state.ready ?? []) } : {}),
       gold: creature.state.gold, experience: creature.state.experience,
       abilities: [...new Set([...creature.base.abilities, ...creature.state.learnedAbilities,
         ...Object.keys(sources)])],

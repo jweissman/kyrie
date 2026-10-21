@@ -168,6 +168,9 @@ input, select { background: var(--bg); border: 1px solid var(--line); padding: 0
 input:focus, select:focus, button:focus-visible { outline: 1px solid var(--sel); outline-offset: 1px; }
 
 /* Secondary screens. */
+.prepared li { margin-bottom: 0.3em; }
+.prepared b { color: var(--mana); margin-right: 1ch; }
+.prepared span { margin-right: 2ch; } .prepared .spent { color: var(--faint); } .prepared .ready { color: var(--ink); }
 .attrs { display: flex; flex-wrap: wrap; gap: 0.3em 2.5ch; margin: 0.6em 0; color: var(--dim); }
 .attrs abbr { text-decoration: none; color: var(--faint); }
 .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4ch; }

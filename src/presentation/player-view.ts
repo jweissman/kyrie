@@ -24,6 +24,7 @@ export interface SceneMetadata { kind?: string; zone?: string; zoneId?: string; 
 export interface PartyMember {
   id: string; name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number;
   mana: number; maxMana: number; slots?: number[]; maxSlots?: number[]; gold: number; experience: number;
+  prepared?: string[][]; ready?: string[][];
   conditions: string[];
   abilities?: string[]; attributes?: Record<string, number>; backgroundId?: string;
 }
@@ -120,6 +121,7 @@ export class PlayerView {
         backgroundId: state.creatures.find(c => c.id === f.id)?.backgroundId,
         hp: f.hp, maxHp: f.maxHp, mana: f.mana, maxMana: f.maxMana, gold: f.gold, experience: f.experience,
         ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
+        ...(f.prepared ? { prepared: structuredClone(f.prepared), ready: structuredClone(f.ready ?? []) } : {}),
         conditions: f.statuses.map(s => s.id), abilities: [...f.abilities],
         attributes: { strength: f.strength, dexterity: f.dexterity, constitution: f.constitution,
           intelligence: f.intelligence, wisdom: f.wisdom, charisma: f.charisma } })),

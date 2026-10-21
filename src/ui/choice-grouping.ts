@@ -84,6 +84,7 @@ export class ChoiceGrouping {
     transfer_item: { slot: 'item', param: 'cargo', path: ['Give to', '{recipient}'] },
     put_item: { slot: 'item', param: 'cargo', path: ['Set down here'] },
     field_spell: { slot: 'member', param: 'caster', path: ['{technique}', 'on {recipient}'] },
+    prepare_spell: { slot: 'member', param: 'caster', path: ['Prepare spells', 'In place of {outgoing} ({tier})', '{incoming}'] },
     wait: { slot: 'camp', path: ['Wait a while'] },
     wait_for_light: { slot: 'camp', path: ['Wait until first light'] },
     eat: { slot: 'camp', path: ['Eat a ration'] },

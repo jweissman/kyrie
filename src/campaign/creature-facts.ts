@@ -10,13 +10,14 @@ import { ModuleWriter } from '../lang/module-writer';
 import type { Change } from '../lang/module';
 import { World } from '../lang/world';
 import type { CampaignActor } from './definition';
+import type { Creature } from '../creature';
 import { PartyCapabilities } from './party-capabilities';
 
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
-    'treatable', 'canCast', 'able', 'dead', 'quantity'];
+    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -82,6 +83,7 @@ export class CreatureFacts {
           }
         }
       }
+      if (has.has('swappable')) { changes.push(...this.swaps(world, members, references, abilityIds)); }
       const alive = members.some(c => c.state.hp > 0);
       const able = members.some(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id)));
       for (const [name, active] of [['able', able], ['dead', !alive]] as const) {
@@ -94,6 +96,29 @@ export class CreatureFacts {
       c.kind === 'retract' ? world.test(c.call) :
         'value' in c && c.value.kind !== 'call' && World.literal(c.value) !== world.number(c.call));
     return different.length ? world.apply(different) : world;
+  }
+  // The spells each caster could prepare in place of one it has prepared: a known spell, castable at its level,
+  // of the slot's level or lower. Written as the whole set, so a swap no longer possible is retracted.
+  private static swaps(world: World, members: Creature[], references: Map<string, string>,
+    abilities: Set<string>): Change[] {
+    const refs = new Set(members.map(c => references.get(c.id)!)), desired = new Map<string, string[]>();
+    for (const c of members) {
+      const reference = references.get(c.id)!;
+      const known = Spellcasting.known(c).filter(id => abilities.has(id)
+        && Spellcasting.levelOf(id) <= Fighting.maxSpellLevel(c.base.level));
+      (c.state.prepared ?? []).forEach((slots, i) => {
+        for (const outgoing of new Set(slots)) {
+          for (const incoming of known.filter(id => id !== outgoing && Spellcasting.levelOf(id) <= i + 1)) {
+            const args = [reference, `circle_${i + 1}`, outgoing, incoming];
+            desired.set(args.join('|'), args);
+          }
+        }
+      });
+    }
+    const present = world.snapshot.relations.filter(r => r.name === 'swappable' && refs.has(r.args[0]!));
+    return [...present.filter(r => !desired.has(r.args.join('|')))
+      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('swappable', ...r.args) })),
+    ...[...desired.values()].map(args => ({ kind: 'assert' as const, call: ModuleWriter.call('swappable', ...args) }))];
   }
   static initialize(world: World, actors: CampaignActor[], store: CreatureStore) {
     for (const actor of actors) {

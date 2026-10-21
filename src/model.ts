@@ -14,6 +14,8 @@ export interface Fighter {
   strength: number; speed: number; level: number; abilities: string[];
   raceId: string; classId?: string; dexterity: number; intelligence: number; wisdom: number;
   constitution: number; charisma: number; mana: number; maxMana: number; maxSlots?: number[]; slots?: number[];
+  // The spell prepared in each slot, by spell level, and those of them not yet cast.
+  prepared?: string[][]; ready?: string[][];
   gold: number; experience: number;
   abilitySources?: Record<string, { id: string; kind: 'item'; name: string }>;
   // The wielded (or natural) weapon, worn armour's ac, and equipped items' modifiers and hooks.

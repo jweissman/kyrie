@@ -3,6 +3,7 @@ import type { CampaignActor } from './definition';
 import { ModuleWriter } from '../lang/module-writer';
 import type { World } from '../lang/world';
 import { Content } from '../content';
+import { Spellcasting } from '../rules/spellcasting';
 import { CombatProjection } from '../combat-projection';
 import { Effects } from '../effects';
 import { Fighting } from '../rules/fighting';
@@ -62,6 +63,18 @@ export class FieldUse {
       lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
     } finally { lease.release(); }
     return true;
+  }
+  // A caster prepares a different spell in a slot; ready at once if that slot was not yet spent.
+  static prepare(store: CreatureStore, args: [string, string, string, string]): CombatEvent[] {
+    const [caster, tier, outgoing, incoming] = args;
+    const index = Number(tier.split('_')[1]) - 1, lease = store.acquire([caster]);
+    try {
+      const c = lease.creatures[0]!, name = Content.abilities.find(a => a.id === incoming)?.name ?? incoming;
+      const now = Spellcasting.prepare(c.state, index, outgoing, incoming);
+      lease.commit([c]);
+      return [{ type: 'gain', turn: 0, actor: caster, target: caster,
+        detail: now ? `${name} is ready` : `${name} will be ready after the next rest` }];
+    } finally { lease.release(); }
   }
   static safe(id: string): boolean {
     const ability = Content.abilities.find(a => a.id === id);

@@ -1,3 +1,4 @@
+import { Spellcasting } from '../src/rules/spellcasting';
 import { expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
@@ -109,6 +110,7 @@ it('preserves a timed spell through field use and consumes its duration only at 
   const hero = content.createCreature('hero', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level: 3,
     spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'] });
   const enemy = content.createCreature('enemy', { raceId: 'goblin', classId: 'thief' });
+  Spellcasting.prepare(hero.state, 1, 'prayer', 'resist_fire');
   const store = new CreatureStore([hero, enemy]);
   FieldUse.perform(store, ['hero'], { ability: 'resist_fire', caster: 'hero', target: 'hero', seed: 'cast' });
   // Orsino's buff lasts three rounds unless the spell says otherwise; a second-level spell spends a second-level slot.

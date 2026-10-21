@@ -1,3 +1,4 @@
+import { Spellcasting } from '../src/rules/spellcasting';
 import { describe, expect, it } from 'bun:test';
 import snapshot from '../data/sources/orsino/registry.json';
 import { AbilityUse } from '../src/ability-use';
@@ -128,6 +129,7 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     const elder = Probe.creature('elder', { classId: 'cleric', raceId: 'dwarf', traits: ['vitalist'], level: 3,
       spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'] });
     const ally = Probe.creature('ally', { classId: 'warrior', raceId: 'human', traits: ['brave'] });
+    Spellcasting.prepare(elder.state, 1, 'prayer', 'resist_fire');
     const { recipient } = Probe.cast(elder, 'resist_fire', ally);
     expect(recipient.statuses.map(s => s.id)).toEqual(['fireproof']);
     expect(Effects.modifiers(recipient).resistances?.fire).toBe(0.5);
