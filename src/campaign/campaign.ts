@@ -1,12 +1,12 @@
 import { RandomStreams } from '../random-streams';
-import { CommandResolutions, type CommandResolution } from './command-resolution';
+import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath';
-import { Items } from './items';
 import { FieldUse } from './field-use';
+import { FieldResolver } from './field-resolver';
 import { ObservationText } from '../lang/observation-text';
 import { Operators } from './operators';
 import { CompanyChoices } from './company-choices';
-import { LocalObservations } from '../presentation/local-observations';
+import { Perceptions } from './perceptions';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations';
@@ -19,47 +19,19 @@ import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
 import { LoadCache } from './load-cache';
 import { CombatProjection } from '../combat-projection';
-import type { Creature } from '../creature';
 import { Battle } from '../arena';
 import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model';
-import type { Call, Instance, Module, WorldState } from '../lang/module';
+import type { Instance, Module, WorldState } from '../lang/module';
 import { World } from '../lang/world';
 import { Planner, type Operator } from './planner';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
 import { ActionTime } from './action-time';
-import { CampaignTick, type PendingAction, type TickDecision, type TickHost } from './campaign-tick';
+import { CampaignTick, type TickDecision, type TickHost } from './campaign-tick';
 
-export interface ModuleStatus {
-  id: string; name: string; installedAt: number; deadline?: number;
-  outcome: 'active' | 'success' | 'failure'; outcomes: Record<string, boolean>;
-  developments: { id: string; elapsed: number }[];
-}
-export interface CampaignState {
-  seed: string; world: WorldState; party: Fighter[]; creatures: Creature[];
-  partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
-  outcome: 'active' | 'success' | 'failure';
-  modules?: ModuleStatus[];
-  outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];
-  pending?: Record<string, PendingAction>;
-}
-export interface NpcDecision {
-  actor: string; goal: string; action: string; plan: string[]; elapsed?: number; changes?: string[];
-}
-export interface CampaignSave {
-  actionFormat?: 'schemas';
-  version: 1; module: Module; definition?: CampaignDefinition; state: Omit<CampaignState, 'party' | 'creatures'>;
-  creatures: Creature[]; events: CampaignEvent[]; encounter: number;
-  observations: Record<string, number>;
-}
-export interface CampaignEvent {
-  resolution?: CommandResolution;
-  action: string; elapsed: number; changes: string[];
-  result: 'success' | 'failure'; combat: CombatEvent[]; npc?: NpcDecision[];
-  response?: string;
-  perceptions?: { id: string; text: string; kind: 'observation' | 'discovery' | 'event' }[];
-}
+export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
+import type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 export class Campaign implements TickHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -155,22 +127,7 @@ export class Campaign implements TickHost {
     Overlays.declareGear(draft.instance);
     const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world,
       budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed);
-    const actors = next.campaign!.actors.filter(a => !this.definition!.actors.some(old => old.id === a.id));
-    const added = next.campaign!.creatures.filter(c => !this.creatures.snapshot.some(old => old.id === c.id));
-    const store = new CreatureStore([...this.creatures.snapshot, ...added.map(entry => {
-      const creature = new Content(entry.seed!).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
-      creature.state.gold += entry.gold;
-      return creature;
-    })]);
-    CreatureFacts.initialize(new World(next.module, next.world), actors, store);
-    const world = CreatureFacts.project(new World(next.module, next.world), next.campaign!.actors, store);
-    Progression.outcomes(world, next.campaign!);
-    for (const actor of next.campaign!.actors) {
-      for (const goal of actor.goals) {
-        world.test(goal.when); world.test(goal.target);
-        if (goal.urgent) { world.test(goal.urgent.when); }
-      }
-    }
+    const { actors, store, world } = ModuleInstallations.populate(next, this.definition.actors, this.creatures);
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
     this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
@@ -280,8 +237,7 @@ export class Campaign implements TickHost {
   encounterBattle(actionId: string): Battle {
     const action = this.operator(actionId);
     if (action?.resolve?.name !== 'combat') { throw new Error('Action does not resolve a combat encounter'); }
-    const seed = this.randomSeed(action, 'combat');
-    const group = action.resolve.args[0]!;
+    const seed = this.randomSeed(action, 'combat'), group = action.resolve.args[0]!;
     const attacker = action.actor && this.definition ?
       this.definition.actors.find(a => a.id === action.actor) : undefined;
     return Battle.encounter(this.creatures, [
@@ -331,18 +287,10 @@ export class Campaign implements TickHost {
   private complete(action: Operator, checkpoint: ReturnType<Campaign['checkpoint']>, battle?: Battle): CampaignEvent {
     if (battle && !battle.state.outcome) { throw new Error('Encounter must finish before campaign resolution'); }
     const combat = battle?.events ?? [];
-    const won = battle?.state.outcome === 'fighters' || combat.some(e => e.type === 'end' && e.fled?.team === 'goblins');
-    if (won && action.resolve?.name === 'combat') {
-      const opponent = action.resolve.args[0]!;
-      FieldUse.award(this.creatures, this.current.partyIds, this.world,
-        { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
-    }
-    if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name)) {
-      combat.push(...this.field(action));
-    }
-    const held = battle?.state.outcome === 'fighters'
-      || battle?.events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
-    let success = (!battle || !!held) && CommandResolutions.survived(action,
+    this.settle(action, battle, combat);
+    const held = !battle || battle.state.outcome === 'fighters'
+      || battle.events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
+    let success = held && CommandResolutions.survived(action,
       this.creatures.snapshot, this.definition?.actors, this.module.entities);
     const causal = this.module.relations.some(r => r.name === 'witnessedAttack');
     const before = this.world;
@@ -354,6 +302,49 @@ export class Campaign implements TickHost {
     if (!success && action.resolve?.name === 'expose') {
       response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
     }
+    const { npc, happenings } = this.pass(action, before, combat);
+    if (!this.shelter(action, combat)) {
+      success = false;
+      response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.';
+    }
+    if (success && !CommandResolutions.survived(action, this.creatures.snapshot,
+      this.definition?.actors, this.module.entities)) {
+      success = false;
+      response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.';
+    }
+    this.resolutions(combat, false);
+    const after = this.world;
+    if (action.resolve) { this.encounter++; }
+    this.updateOutcome();
+    const event: CampaignEvent = { action: action.id, elapsed: this.current.elapsed, result: success ? 'success' : 'failure',
+      changes: CampaignTick.diff(before, after), combat: combat.filter(e => e.visibility !== 'private'),
+      ...(response ? { response } : {}),
+      ...(this.definition ? { npc } : {}) };
+    if (causal) {
+      event.resolution = CommandResolutions.receipt(action,
+        { creatures: checkpoint.creatures, world: checkpoint.current.world, elapsed: checkpoint.current.elapsed },
+        { creatures: this.creatures.snapshot, world: this.current.world, elapsed: this.current.elapsed },
+        { events: combat, success, sequence: this.log.length });
+    }
+    const perceptions = Perceptions.after(this.module, { before, after, player: this.playerActor, happenings });
+    if (perceptions) { event.perceptions = perceptions; }
+    this.log.push(event);
+    return structuredClone(event);
+  }
+  // A fight won is worth its experience; what the command resolves (other than a fight or a rest) happens now.
+  private settle(action: Operator, battle: Battle | undefined, combat: CombatEvent[]) {
+    const won = battle?.state.outcome === 'fighters' || combat.some(e => e.type === 'end' && e.fled?.team === 'goblins');
+    if (won && action.resolve?.name === 'combat') {
+      const opponent = action.resolve.args[0]!;
+      FieldUse.award(this.creatures, this.current.partyIds, this.world,
+        { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
+    }
+    if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name)) {
+      combat.push(...this.field(action));
+    }
+  }
+  // The command's time passes a watch at a time: conditions run out, people act, rules fire, modules progress.
+  private pass(action: Operator, before: World, combat: CombatEvent[]) {
     const npc: NpcDecision[] = [], happenings: { id: string; text: string; kind: 'event' }[] = [];
     for (let tick = 0; tick < ActionTime.of(action, before); tick++) {
       this.current.elapsed++;
@@ -368,112 +359,24 @@ export class Campaign implements TickHost {
         this.observe();
       }
     }
-    if (action.resolve?.name === 'recover' || action.resolve?.name === 'rough') {
-      const shelter = action.bindings?.site;
-      const safe = shelter && (action.schema !== 'rest' || this.world.test(ModuleWriter.call('restful', shelter)))
-        && !this.world.test(ModuleWriter.call('closed', shelter));
-      if (safe) { combat.push(...this.field(action)); this.refresh(); }
-      else {
-        success = false;
-        response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.';
-      }
-    }
-    if (success && !CommandResolutions.survived(action, this.creatures.snapshot,
-      this.definition?.actors, this.module.entities)) {
-      success = false;
-      response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.';
-    }
-    this.resolutions(combat, false);
-    const after = this.world;
-    if (action.resolve) { this.encounter++; }
-    this.updateOutcome();
-    const event: CampaignEvent = { action: action.id, elapsed: this.current.elapsed, result: success ? 'success' : 'failure',
-      changes: Campaign.diff(before, after), combat: combat.filter(e => e.visibility !== 'private'),
-      ...(response ? { response } : {}),
-      ...(this.definition ? { npc } : {}) };
-    if (causal) {
-      event.resolution = CommandResolutions.receipt(action,
-        { creatures: checkpoint.creatures, world: checkpoint.current.world, elapsed: checkpoint.current.elapsed },
-        { creatures: this.creatures.snapshot, world: this.current.world, elapsed: this.current.elapsed },
-        { events: combat, success, sequence: this.log.length });
-    }
-    const player = this.playerActor;
-    if (player && (this.module.observations?.length || happenings.length) && after.test(ModuleWriter.call('able', player))) {
-      event.perceptions = [...happenings,
-        ...LocalObservations.read(after, player).map(o => ({ ...o, kind: 'observation' as const })),
-        // Only what this action taught: a fact already known is not discovered again.
-        ...after.snapshot.relations.filter(r => r.name === 'knows' && r.args[0] === player
-          && !before.test(ModuleWriter.call('knows', player, r.args[1]!))).map(r => ({
-          id: r.args[1]!, text: ObservationText.render(this.module.entities.find(e => e.id === r.args[1])!.name, after),
-          kind: 'discovery' as const })),
-      ];
-    }
-    this.log.push(event);
-    return structuredClone(event);
+    return { npc, happenings };
+  }
+  // A rest recovers the company at its end, if the shelter is still safe; whether it was.
+  private shelter(action: Operator, combat: CombatEvent[]): boolean {
+    if (action.resolve?.name !== 'recover' && action.resolve?.name !== 'rough') { return true; }
+    const site = action.bindings?.site;
+    const safe = !!site && (action.schema !== 'rest' || this.world.test(ModuleWriter.call('restful', site)))
+      && !this.world.test(ModuleWriter.call('closed', site));
+    if (safe) { combat.push(...this.field(action)); this.refresh(); }
+    return safe;
   }
   private randomSeed(action: Operator, domain: string): string {
     return RandomStreams.command(this.current.seed, domain, { installations: this.definition?.installations,
       operator: this.operator.bind(this), history: this.log }, action);
   }
   private field(action: Operator): CombatEvent[] {
-    const call = structuredClone(action.resolve!);
-    call.args = call.args.map(id => this.module.entities.find(e => e.id === id)?.creatureId ?? id);
-    const seed = this.randomSeed(action, 'field');
-    if (call.name === 'recover' || call.name === 'rough') {
-      const actor = this.definition!.actors.find(a => a.id === call.args[0])!;
-      const caster = actor.members.find(id => this.creatures.get(id).state.hp > 0)!;
-      const rested = FieldUse.perform(this.creatures, actor.members, { ability: call.name === 'rough' ? 'rough_rest'
-        : 'camp_recovery', caster, target: caster, seed, service: 'recover' });
-      // A night under a roof is also when a companion takes in what they have learned.
-      return call.name === 'recover' ? [...rested, ...FieldUse.train(this.creatures, actor.members, seed)] : rested;
-    }
-    if (call.name === 'reward') {
-      return FieldUse.perform(this.creatures, [call.args[1]!], { ability: call.args[0]!, caster: call.args[1]!,
-        target: call.args[1]!, seed, service: 'reward' });
-    }
-    if (['prepare', 'improve', 'learn'].includes(call.name)) { return FieldUse.study(this.creatures, call.name, call.args); }
-    if (call.name === 'invoke') {
-      return FieldUse.perform(this.creatures, [call.args[1]!, call.args[2]!],
-        { ability: call.args[0]!, caster: call.args[1]!, target: call.args[2]!, seed });
-    }
-    if (call.name === 'purchase') {
-      const buyer = this.definition!.actors.find(a => a.id === call.args[3])!;
-      const price = this.world.number(ModuleWriter.call('price', call.args[0]!));
-      const seller = this.definition!.actors.find(a => a.id === call.args[4])!;
-      if (!seller || seller.id === buyer.id) { throw new Error('Purchase needs a distinct merchant'); }
-      const lease = this.creatures.acquire([...buyer.members, seller.members[0]!]);
-      try {
-        let due = price;
-        for (const c of lease.creatures.filter(c => buyer.members.includes(c.id))) {
-          const paid = Math.min(due, c.state.gold); c.state.gold -= paid; due -= paid;
-        }
-        if (due || price < 0) { throw new Error('Insufficient currency or invalid item price'); }
-        lease.creatures.find(c => c.id === seller.members[0])!.state.gold += price;
-        lease.commit(lease.creatures);
-      } finally { lease.release(); }
-      return this.take(call);
-    }
-    if (call.name === 'acquire') { return this.take(call); }
-    if (call.name === 'bless') { return Items.bless(this.creatures,
-      { source: call.args[0]!, deity: call.args[1]!, target: call.args[2]!, seed }); }
-    if (call.name === 'equip') { return Items.equip(this.creatures, call.args[1]!, call.args[0]!, this.label(call.args[0]!)); }
-    if (call.name === 'consume') { return Items.consume(this.creatures,
-      { owner: call.args[1]!, target: call.args[2]!, id: call.args[0]!, seed }); }
-    if (call.name === 'expose') { return Items.expose(this.creatures,
-      { target: call.args[1]!, ability: call.args[0]!, entities: this.module.entities, source: action.schema === 'risk' ? action.bindings?.trap ?? action.id : action.id, seed }); }
-    if (call.name === 'train') { return Items.train(this.creatures, call.args[1]!, call.args[0]!); }
-    if (call.name === 'transfer_item') {
-      const moved = { id: call.args[0]!, label: this.label(call.args[0]!) };
-      return Items.transfer(this.creatures, moved, call.args[1]!, call.args[2]!);
-    }
-    if (call.name === 'drop') { return Items.drop(this.creatures, call.args[1]!, call.args[0]!, this.label(call.args[0]!)); }
-    throw new Error(`Unsupported resolver ${call.name}`);
-  }
-  private static diff(before: World, after: World): string[] { return CampaignTick.diff(before, after); }
-  private label(id: string): string { return ObservationText.label(this.world, id); }
-  private take(call: Call): CombatEvent[] {
-    const [id, definition, owner] = call.args as [string, string, string];
-    return Items.take(this.creatures, owner, { id, definition, label: this.label(id) });
+    return FieldResolver.resolve(action, { module: this.module, creatures: this.creatures, world: this.world,
+      actors: this.definition?.actors ?? [], seed: this.randomSeed(action, 'field') });
   }
   get tickState() { return { definition: this.definition!, creatures: this.creatures, current: this.current }; }
   applyAction(action: Operator) { this.apply(action, true); }

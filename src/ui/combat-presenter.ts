@@ -8,6 +8,24 @@ export class CombatPresenter {
   static told(id: string, when: 'begins' | 'ends'): string | undefined {
     return Canon.conditions[Canon.resolve('conditions', id)]?.[when];
   }
+  // The dice behind a blow, for the chronicle: the roll, then each adjustment.
+  private static damage(event: Extract<CombatEvent, { type: 'damage' | 'heal' }>, target: string): string {
+    const m = event.modifiers;
+    const parts = m ? [m.critical ? `critical +${m.critical}` : '', m.halfSave ? 'save halves' : '',
+      m.bonus ? `bonus ${m.bonus >= 0 ? '+' : ''}${m.bonus}` : '',
+      m.resistance ? `resistance ${Math.round(m.resistance * 100)}%` : '', m.reduction ? `reduction ${m.reduction}` : '',
+      m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
+    const calculation = [`roll ${event.rolled}`, ...parts].join(', ');
+    return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${event.hp} HP; ${calculation}).`;
+  }
+  private static save(event: Extract<CombatEvent, { type: 'save' }>, target: string): string {
+    if (event.immune) { return `${target} is immune (${event.kind}).`; }
+    const terms = event.die === undefined ? `${event.rolled}` : [`d20 ${event.die}`, `${event.stat} ${event.modifier}`,
+      ...event.level !== undefined ? [`level ${event.level}`] : [], ...event.bonus ? [`bonus ${event.bonus}`] : []]
+      .join(' + ') + ` = ${event.rolled}`;
+    return `${target} ${event.success ? 'passes' : 'fails'} the ${event.kind ?? event.stat ?? ''} save (${terms} `
+      + `against ${event.difficulty}${event.limit ? '; three saves already made' : ''}).`;
+  }
   static format(event: CombatEvent, state: BattleState): string {
     const actor = 'actor' in event ? state.combatants.find(f => f.id === event.actor)?.name ?? event.actor : '';
     const target = 'target' in event ? state.combatants.find(f => f.id === event.target)?.name ?? event.target : '';
@@ -18,15 +36,7 @@ export class CombatPresenter {
         if (event.source?.kind === 'trap') { return `${event.source.name ?? ability} triggers.`; }
         return `${name} uses ${event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;
       }
-      case 'damage': {
-        const m = event.modifiers;
-        const parts = m ? [m.critical ? `critical +${m.critical}` : '', m.halfSave ? 'save halves' : '',
-          m.bonus ? `bonus ${m.bonus >= 0 ? '+' : ''}${m.bonus}` : '',
-          m.resistance ? `resistance ${Math.round(m.resistance * 100)}%` : '', m.reduction ? `reduction ${m.reduction}` : '',
-          m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
-        const calculation = [`roll ${event.rolled}`, ...parts].join(', ');
-        return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${event.hp} HP; ${calculation}).`;
-      }
+      case 'damage': return this.damage(event, target);
       case 'heal': return `${target} recovers ${event.amount} HP (${event.hp} HP).`;
       case 'death': return `${actor} falls.`;
       case 'defend': return `${actor} guards.`;
@@ -40,14 +50,7 @@ export class CombatPresenter {
       case 'flee': return event.success ? `${actor} gets away.` : `${actor} tries to get away, and cannot.`;
       case 'initiative': return `Initiative: ${event.order.map(o => `${state.combatants.find(f => f.id === o.id)?.name ?? o.id}`
         + ` ${o.roll}`).join(', ')}.`;
-      case 'save': {
-        if (event.immune) { return `${target} is immune (${event.kind}).`; }
-        const terms = event.die === undefined ? `${event.rolled}` : [`d20 ${event.die}`, `${event.stat} ${event.modifier}`,
-          ...event.level !== undefined ? [`level ${event.level}`] : [], ...event.bonus ? [`bonus ${event.bonus}`] : []]
-          .join(' + ') + ` = ${event.rolled}`;
-        return `${target} ${event.success ? 'passes' : 'fails'} the ${event.kind ?? event.stat ?? ''} save (${terms} `
-          + `against ${event.difficulty}${event.limit ? '; three saves already made' : ''}).`;
-      }
+      case 'save': return this.save(event, target);
       case 'status': if (this.told(event.detail, 'begins')) { return this.told(event.detail, 'begins')!.replace('{target}', target); }
         return `${target} gains ${event.detail} `
         + (event.clock === 'until-removed' ? 'until removed.' : event.clock === 'world-time'

@@ -5,10 +5,35 @@ import { ModuleWriter } from '../lang/module-writer';
 import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
-import type { CampaignDefinition } from './definition';
+import type { CampaignActor, CampaignDefinition } from './definition';
+import { CreatureStore } from '../creature-store';
+import { CreatureFacts } from './creature-facts';
+import { Progression } from './progression';
+import { Content } from '../content';
 import { Discovery } from '../information/discovery';
 
 export class ModuleInstallations {
+  // The people a new installation brings, made and placed in the store, with the facts about them projected into
+  // its world; every goal they pursue is checked against that world before it is accepted.
+  static populate(next: Instance, existing: CampaignActor[], creatures: CreatureStore) {
+    const actors = next.campaign!.actors.filter(a => !existing.some(old => old.id === a.id));
+    const added = next.campaign!.creatures.filter(c => !creatures.snapshot.some(old => old.id === c.id));
+    const store = new CreatureStore([...creatures.snapshot, ...added.map(entry => {
+      const creature = new Content(entry.seed!).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
+      creature.state.gold += entry.gold;
+      return creature;
+    })]);
+    CreatureFacts.initialize(new World(next.module, next.world), actors, store);
+    const world = CreatureFacts.project(new World(next.module, next.world), next.campaign!.actors, store);
+    Progression.outcomes(world, next.campaign!);
+    for (const actor of next.campaign!.actors) {
+      for (const goal of actor.goals) {
+        world.test(goal.when); world.test(goal.target);
+        if (goal.urgent) { world.test(goal.urgent.when); }
+      }
+    }
+    return { actors, store, world };
+  }
   private static union<T>(left: T[], right: T[], key: (value: T) => string): T[] {
     const result = structuredClone(left);
     for (const value of right) {
@@ -20,42 +45,52 @@ export class ModuleInstallations {
     }
     return result;
   }
-  static prepare(base: Instance | undefined, draft: ModuleDraft, elapsed: number): Instance {
-    const incoming = structuredClone(draft.instance), addition = incoming.campaign!;
-    const prior = base?.campaign;
-    if (prior?.installations?.some(m => m.id === draft.id)) { throw new Error('Module already installed'); }
-    const existing = base?.module.entities ?? [];
-    for (const entity of incoming.module.entities) {
+  // An installation brings its own entities (an import must match the type it names; only canonical ones may be
+  // declared twice, identically) and may not reset imported or campaign-owned state.
+  private static admit(existing: Module['entities'], incoming: Module, draft: ModuleDraft) {
+    for (const entity of incoming.entities) {
       const previous = existing.find(e => e.id === entity.id);
       if (draft.imports.includes(entity.id)) {
         if (!previous || previous.type !== entity.type) { throw new Error(`Invalid typed import ${entity.id}`); }
       } else if (previous && !(ModuleNamespace.canonical.includes(entity.type)
         && JSON.stringify(previous) === JSON.stringify(entity))) { throw new Error(`Duplicate entity ${entity.id}`); }
     }
-    for (const change of incoming.module.initial) {
+    for (const change of incoming.initial) {
       const imported = draft.imports.includes(change.call.args[0]!);
-      const relation = incoming.module.relations.find(r => r.name === change.call.name);
+      const relation = incoming.relations.find(r => r.name === change.call.name);
       if ((imported && (change.kind !== 'assert' || relation?.exclusive || (relation?.types.length ?? 0) < 2))
         || ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
           'awake', 'needsCare', 'canCast', 'treatable', 'proficient'].includes(change.call.name)) {
         throw new Error('Module initialization cannot reset imported or campaign-owned state');
       }
     }
-    const entities = [...existing, ...incoming.module.entities.filter(e => !draft.imports.includes(e.id)
+  }
+  // The campaign module with an installation joined to it.
+  private static joined(base: Module | undefined, incoming: Module, draft: ModuleDraft,
+    schemas: Module['actions']): Module {
+    const existing = base?.entities ?? [];
+    const entities = [...existing, ...incoming.entities.filter(e => !draft.imports.includes(e.id)
       && !existing.some(old => old.id === e.id))];
-    const schemas = this.union(prior?.schemas ?? [], addition.schemas!, a => a.id);
-    const module: Module = { ...incoming.module, id: 'campaign', name: base?.module.name ?? 'Campaign',
-      description: base?.module.description ?? 'Installed situations share this persistent world.',
-      entities, kinds: [...new Set([...(base?.module.kinds ?? []), ...incoming.module.kinds])],
-      relations: this.union(base?.module.relations ?? [], incoming.module.relations, s => s.name),
-      measures: this.union(base?.module.measures ?? [], incoming.module.measures, s => s.name),
-      queries: this.union(base?.module.queries ?? [], incoming.module.queries, q => q.name),
-      pursuits: [...(base?.module.pursuits ?? []), ...(incoming.module.pursuits ?? [])],
-      rules: [...(base?.module.rules ?? []), ...(incoming.module.rules ?? [])],
-      observations: [...(base?.module.observations ?? []), ...(incoming.module.observations ?? [])],
-      objectives: [...(base?.module.objectives ?? []), ...(incoming.module.objectives ?? [])],
-      initial: [...(base?.module.initial ?? []), ...incoming.module.initial], actions: schemas,
+    return { ...incoming, id: 'campaign', name: base?.name ?? 'Campaign',
+      description: base?.description ?? 'Installed situations share this persistent world.',
+      entities, kinds: [...new Set([...(base?.kinds ?? []), ...incoming.kinds])],
+      relations: this.union(base?.relations ?? [], incoming.relations, s => s.name),
+      measures: this.union(base?.measures ?? [], incoming.measures, s => s.name),
+      queries: this.union(base?.queries ?? [], incoming.queries, q => q.name),
+      pursuits: [...(base?.pursuits ?? []), ...(incoming.pursuits ?? [])],
+      rules: [...(base?.rules ?? []), ...(incoming.rules ?? [])],
+      observations: [...(base?.observations ?? []), ...(incoming.observations ?? [])],
+      objectives: [...(base?.objectives ?? []), ...(incoming.objectives ?? [])],
+      initial: [...(base?.initial ?? []), ...incoming.initial], actions: schemas,
       goal: { kind: 'boolean', value: false }, budget: ModuleWriter.number(0) };
+  }
+  static prepare(base: Instance | undefined, draft: ModuleDraft, elapsed: number): Instance {
+    const incoming = structuredClone(draft.instance), addition = incoming.campaign!;
+    const prior = base?.campaign;
+    if (prior?.installations?.some(m => m.id === draft.id)) { throw new Error('Module already installed'); }
+    this.admit(base?.module.entities ?? [], incoming.module, draft);
+    const schemas = this.union(prior?.schemas ?? [], addition.schemas!, a => a.id);
+    const module = this.joined(base?.module, incoming.module, draft, schemas);
     const conflicts = [...(prior?.conflicts ?? []), ...(addition.conflicts ?? [])];
     const definition: CampaignDefinition = { schemas, ...(conflicts.length ? { conflicts } : {}),
       installations: [...(prior?.installations ?? []), ModuleNamespace.record(draft, elapsed)],

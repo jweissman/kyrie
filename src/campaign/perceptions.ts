@@ -1,0 +1,23 @@
+import { LocalObservations } from '../presentation/local-observations';
+import { ObservationText } from '../lang/observation-text';
+import { ModuleWriter } from '../lang/module-writer';
+import type { Module } from '../lang/module';
+import type { World } from '../lang/world';
+import type { CampaignEvent } from './campaign-types';
+
+// What the player's company perceives after a command: what happened near it, what its place is now like, and
+// what it learned by this command (a fact already known is not discovered again).
+export class Perceptions {
+  static after(module: Module, seen: { before: World; after: World; player: string | undefined;
+    happenings: { id: string; text: string; kind: 'event' }[] }): CampaignEvent['perceptions'] {
+    const { before, after, player, happenings } = seen;
+    if (!player || !(module.observations?.length || happenings.length)
+      || !after.test(ModuleWriter.call('able', player))) { return undefined; }
+    return [...happenings,
+      ...LocalObservations.read(after, player).map(o => ({ ...o, kind: 'observation' as const })),
+      ...after.snapshot.relations.filter(r => r.name === 'knows' && r.args[0] === player
+        && !before.test(ModuleWriter.call('knows', player, r.args[1]!))).map(r => ({
+        id: r.args[1]!, text: ObservationText.render(module.entities.find(e => e.id === r.args[1])!.name, after),
+        kind: 'discovery' as const }))];
+  }
+}

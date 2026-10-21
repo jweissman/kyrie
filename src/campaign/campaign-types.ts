@@ -1,0 +1,37 @@
+import type { CommandResolution } from './command-resolution';
+import type { CampaignDefinition } from './definition';
+import type { Creature } from '../creature';
+import type { Fighter, CombatEvent } from '../model';
+import type { Module, WorldState } from '../lang/module';
+import type { PendingAction } from './campaign-tick';
+
+// What a campaign is and leaves behind: its state, its save, and the record of each command.
+export interface ModuleStatus {
+  id: string; name: string; installedAt: number; deadline?: number;
+  outcome: 'active' | 'success' | 'failure'; outcomes: Record<string, boolean>;
+  developments: { id: string; elapsed: number }[];
+}
+export interface CampaignState {
+  seed: string; world: WorldState; party: Fighter[]; creatures: Creature[];
+  partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
+  outcome: 'active' | 'success' | 'failure';
+  modules?: ModuleStatus[];
+  outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];
+  pending?: Record<string, PendingAction>;
+}
+export interface NpcDecision {
+  actor: string; goal: string; action: string; plan: string[]; elapsed?: number; changes?: string[];
+}
+export interface CampaignSave {
+  actionFormat?: 'schemas';
+  version: 1; module: Module; definition?: CampaignDefinition; state: Omit<CampaignState, 'party' | 'creatures'>;
+  creatures: Creature[]; events: CampaignEvent[]; encounter: number;
+  observations: Record<string, number>;
+}
+export interface CampaignEvent {
+  resolution?: CommandResolution;
+  action: string; elapsed: number; changes: string[];
+  result: 'success' | 'failure'; combat: CombatEvent[]; npc?: NpcDecision[];
+  response?: string;
+  perceptions?: { id: string; text: string; kind: 'observation' | 'discovery' | 'event' }[];
+}

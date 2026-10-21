@@ -279,17 +279,7 @@ export class Effects {
           Effects.detail(context, target, { type: 'remove', detail: effect.status });
         }
         break;
-      case 'gain': {
-        if (effect.resource === 'slots') {
-          const restored = Spellcasting.restore(target, rolled);
-          if (restored) { Effects.detail(context, target, { type: 'gain', detail: 'spell slots', amount: restored }); }
-          break;
-        }
-        const amount = effect.resource === 'mana' ? Math.min(rolled, target.maxMana - target.mana) : rolled;
-        target[effect.resource] += amount;
-        if (amount) { Effects.detail(context, target, { type: 'gain', detail: effect.resource, amount }); }
-        break;
-      }
+      case 'gain': Effects.gain(effect, target, rolled, context); break;
       case 'learn':
         if (!target.abilities.includes(effect.ability)) { target.abilities.push(effect.ability); }
         Effects.detail(context, target, { type: 'learn', detail: effect.ability });
@@ -303,6 +293,18 @@ export class Effects {
       }
       case 'travel': context.location = effect.location; Effects.detail(context, target, { type: 'travel', detail: effect.location }); break;
     }
+  }
+  // Spell slots made ready again, mana up to its maximum, or coin and experience.
+  private static gain(effect: Extract<Effect, { kind: 'gain' }>, target: Fighter, rolled: number,
+    context: EffectContext) {
+    if (effect.resource === 'slots') {
+      const restored = Spellcasting.restore(target, rolled);
+      if (restored) { Effects.detail(context, target, { type: 'gain', detail: 'spell slots', amount: restored }); }
+      return;
+    }
+    const amount = effect.resource === 'mana' ? Math.min(rolled, target.maxMana - target.mana) : rolled;
+    target[effect.resource] += amount;
+    if (amount) { Effects.detail(context, target, { type: 'gain', detail: effect.resource, amount }); }
   }
   // Commands.handleStatusEffect: a reapplied status replaces the old one; temporary hit points are rolled now.
   static condition(effect: Extract<Effect, { kind: 'apply' }>, target: Fighter, context: EffectContext) {

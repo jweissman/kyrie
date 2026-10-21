@@ -10,7 +10,7 @@ import { ModuleCompiler } from '../lang/module-compiler';
 import { ModuleWriter } from '../lang/module-writer';
 import { Cast } from './cast';
 import type { CampaignActor, CampaignDefinition } from './definition';
-import type { Instance, Operator, Module } from '../lang/module';
+import type { Instance, Operator, Module, Person } from '../lang/module';
 
 interface GoalSource {
   id: string; when: string; target: string; priority: number; urgent?: { when: string; priority: number };
@@ -37,51 +37,18 @@ export type AdventureManifest = SituationManifest;
 export class ModuleAssembly {
   static compose(situationSource: string, rulesSource: string, manifest: AdventureManifest, seed: string): Instance {
     const situation = ModuleParser.parse(situationSource), rules = ModuleParser.parse(rulesSource);
-    const information = Discovery.describe(manifest.information ?? []);
-    if (manifest.discoveries?.some(b => information.entities.some(e => e.id === b.source))) {
-      throw new Error('Source configured by both information and legacy discoveries');
-    }
-    const module = { ...situation, name: manifest.name ? `${situation.name}: ${manifest.name}` : situation.name,
-      kinds: [...rules.kinds, ...situation.kinds], relations: [...rules.relations, ...situation.relations],
-      measures: [...rules.measures, ...situation.measures], queries: [...rules.queries, ...situation.queries],
-      entities: [...rules.entities, ...situation.entities, ...information.entities],
-      actions: [...rules.actions, ...situation.actions],
-      pursuits: [...(rules.pursuits ?? []), ...(situation.pursuits ?? [])],
-      rules: [...(rules.rules ?? []), ...(situation.rules ?? [])],
-      observations: [...(rules.observations ?? []), ...(situation.observations ?? [])],
-      objectives: [...(rules.objectives ?? []), ...(situation.objectives ?? [])],
-      initial: [...rules.initial, ...situation.initial, ...information.initial,
-        ...Discovery.lower(manifest.discoveries ?? []),
-        ...(manifest.facts ?? []).map(row => ({ kind: 'assert' as const, call: ModuleWriter.call(row.name, ...row.args) })),
-        ...manifest.initial.map(row => ({
-        kind: 'set' as const, call: ModuleWriter.call(row.name, ...row.args), value: ModuleWriter.number(row.value),
-      }))], budget: manifest.pressure ? ModuleWriter.number(manifest.pressure.at) : situation.budget };
+    const module = this.joined(situation, rules, manifest);
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
-    const conflicts: string[] = [];
-    const groups = (situation.people ?? []).map(p =>
-      Cast.group(p, manifest.casting?.[p.id] as Record<string, unknown> | undefined, conflicts));
-    const generatedPeople = groups.flat();
-    const company = Cast.company(module);
-    const peopleActors = (situation.people ?? []).map((p, i) => ({ id: p.id, members: groups[i]!.map(m => m.id),
-      horizon: p.horizon ?? 4, actions: p.actions, goals: [] }));
-    for (const p of situation.people ?? []) {
-      const name = manifest.casting?.[p.id]?.name;
-      if (name) { module.entities.find(e => e.id === p.id)!.name = p.role ? `${name}, ${p.role}` : name; }
-    }
-    if (company && manifest.actors.order.some(a => a.player)) { throw new Error('Declare the company once: in the module or the party table'); }
-    if (Object.keys(manifest.casting ?? {}).some(id => !situation.people?.some(p => p.id === id))) {
-      throw new Error('Generated casting names an undeclared Person');
-    }
+    const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
     delete module.people;
-    const cast = [...manifest.creatures, ...(company?.creatures ?? []), ...generatedPeople];
     if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
       throw new Error('Member state is inferred from the canonical cast; do not initialize it manually');
     }
     this.generatedItems(module, manifest.items ?? {});
     this.itemTraits(module);
     this.references(module, cast);
-    const order = [...manifest.actors.order, ...(company ? [company.actor] : []), ...peopleActors];
+    const order = [...manifest.actors.order, ...(company ? [company.actor] : []), ...people];
     const actors = this.actors(order, module);
     const definition: CampaignDefinition = { actors, ...(conflicts.length ? { conflicts } : {}),
       creatures: structuredClone(cast),
@@ -101,8 +68,7 @@ export class ModuleAssembly {
         }
       }
     }
-    const capabilities = RuntimeCapabilities.signatures;
-    const compiler = new ModuleCompiler(capabilities);
+    const compiler = new ModuleCompiler(RuntimeCapabilities.signatures);
     const instance = compiler.instantiate(module, seed);
     for (const p of instance.module.pursuits ?? []) {
       const goal = definition.actors.find(a => a.id === p.actor)!.goals.find(g => g.id === p.id)!;
@@ -110,6 +76,54 @@ export class ModuleAssembly {
     }
     Discovery.validate(instance.module, new World(instance.module, instance.world), manifest.imports);
     definition.schemas = structuredClone(instance.module.actions);
+    this.readOnly(instance, definition, compiler);
+    return { ...instance, campaign: definition };
+  }
+  // A situation joined to its ruleset, with its information, discoveries and generated facts and measures.
+  private static joined(situation: Module, rules: Module, manifest: AdventureManifest): Module {
+    const information = Discovery.describe(manifest.information ?? []);
+    if (manifest.discoveries?.some(b => information.entities.some(e => e.id === b.source))) {
+      throw new Error('Source configured by both information and legacy discoveries');
+    }
+    return { ...situation, name: manifest.name ? `${situation.name}: ${manifest.name}` : situation.name,
+      kinds: [...rules.kinds, ...situation.kinds], relations: [...rules.relations, ...situation.relations],
+      measures: [...rules.measures, ...situation.measures], queries: [...rules.queries, ...situation.queries],
+      entities: [...rules.entities, ...situation.entities, ...information.entities],
+      actions: [...rules.actions, ...situation.actions],
+      pursuits: [...(rules.pursuits ?? []), ...(situation.pursuits ?? [])],
+      rules: [...(rules.rules ?? []), ...(situation.rules ?? [])],
+      observations: [...(rules.observations ?? []), ...(situation.observations ?? [])],
+      objectives: [...(rules.objectives ?? []), ...(situation.objectives ?? [])],
+      initial: [...rules.initial, ...situation.initial, ...information.initial,
+        ...Discovery.lower(manifest.discoveries ?? []),
+        ...(manifest.facts ?? []).map(row => ({ kind: 'assert' as const, call: ModuleWriter.call(row.name, ...row.args) })),
+        ...manifest.initial.map(row => ({
+        kind: 'set' as const, call: ModuleWriter.call(row.name, ...row.args), value: ModuleWriter.number(row.value),
+      }))], budget: manifest.pressure ? ModuleWriter.number(manifest.pressure.at) : situation.budget };
+  }
+  // Who is in the module: the manifest's creatures, the company, and each declared person's group, named as
+  // generation cast them; and a controller for each person.
+  private static people(module: Module, people: Person[], manifest: AdventureManifest) {
+    const conflicts: string[] = [];
+    const groups = people.map(p => Cast.group(p, manifest.casting?.[p.id] as Record<string, unknown> | undefined,
+      conflicts));
+    const company = Cast.company(module);
+    const actors = people.map((p, i) => ({ id: p.id, members: groups[i]!.map(m => m.id),
+      horizon: p.horizon ?? 4, actions: p.actions, goals: [] }));
+    for (const p of people) {
+      const name = manifest.casting?.[p.id]?.name;
+      if (name) { module.entities.find(e => e.id === p.id)!.name = p.role ? `${name}, ${p.role}` : name; }
+    }
+    if (company && manifest.actors.order.some(a => a.player)) { throw new Error('Declare the company once: in the module or the party table'); }
+    if (Object.keys(manifest.casting ?? {}).some(id => !people.some(p => p.id === id))) {
+      throw new Error('Generated casting names an undeclared Person');
+    }
+    return { cast: [...manifest.creatures, ...(company?.creatures ?? []), ...groups.flat()], conflicts, company,
+      people: actors };
+  }
+  // Nothing a module does may write what the campaign projects or keeps: creatures' facts, the clock, records and
+  // pressures; and every pressure, outcome and goal must be a well-formed predicate over the module.
+  private static readOnly(instance: Instance, definition: CampaignDefinition, compiler: ModuleCompiler) {
     if (instance.module.actions.some(a => [...a.success, ...a.failure].some(c =>
       ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
         'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name)))) {
@@ -122,13 +136,14 @@ export class ModuleAssembly {
     for (const pressure of definition.pressures) {
       compiler.validate({ ...instance.module, goal: { kind: 'compare', operator: '>=',
         left: pressure.measure, right: ModuleWriter.number(0) } });
-      if (!module.entities.some(e => e.id === pressure.id && e.type === 'pressure')) { throw new Error('Unknown pressure'); }
+      if (!instance.module.entities.some(e => e.id === pressure.id && e.type === 'pressure')) {
+        throw new Error('Unknown pressure');
+      }
     }
-    for (const p of [...definition.outcomes.map(o => o.predicate), ...actors.flatMap(a =>
+    for (const p of [...definition.outcomes.map(o => o.predicate), ...definition.actors.flatMap(a =>
       a.goals.flatMap(g => [g.when, g.target, ...(g.urgent ? [g.urgent.when] : [])]))]) {
       compiler.validate({ ...instance.module, goal: p });
     }
-    return { ...instance, campaign: definition };
   }
   // Controllers for the manifest's actors, the company and declared people, with their goals and pursuits.
   private static actors(order: AdventureManifest['actors']['order'], module: Module): CampaignActor[] {

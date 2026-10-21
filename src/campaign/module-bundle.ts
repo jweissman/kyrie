@@ -8,6 +8,7 @@ import { ModuleAssembly, type AdventureManifest } from './module-assembly';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
+import type { Module } from '../lang/module';
 
 export interface BundleRequest {
   id: string; bundle: string; imports?: Record<string, string>; context?: Record<string, DeemValue>;
@@ -58,6 +59,39 @@ export class ModuleBundle {
     return new Content(`${seed}:situation`, setting).generate(manifest.generation.type,
       { ...manifest.generation.context, ...context }) as unknown as AdventureManifest;
   }
+  // Several parsed sources as one module: the first's identity, everything each declares.
+  private static merge(modules: Module[]): Module {
+    return { ...modules[0]!, kinds: modules.flatMap(m => m.kinds), entities: modules.flatMap(m => m.entities),
+      relations: modules.flatMap(m => m.relations), measures: modules.flatMap(m => m.measures),
+      queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
+      actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
+      pursuits: modules.flatMap(m => m.pursuits ?? []), rules: modules.flatMap(m => m.rules ?? []),
+      observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []) };
+  }
+  // Each declared import bound to an entity another installation exports; globals keep their own names.
+  private static imports(manifest: BundleManifest, request: BundleRequest, installed: InstalledModule[] | undefined,
+    module: Module): Record<string, string> {
+    const imports: Record<string, string> = {};
+    if (Object.keys(request.imports ?? {}).some(key => !manifest.imports?.includes(key))) {
+      throw new Error('Undeclared module import');
+    }
+    for (const name of manifest.imports ?? []) {
+      const reference = request.imports?.[name];
+      const [owner, exported, extra] = reference?.split('.') ?? [];
+      const id = installed?.find(m => m.id === owner)?.exports[exported ?? ''];
+      if (!id || extra || !module.entities.some(e => e.id === name)) {
+        throw new Error(`Unresolved module import ${name}: ${reference ?? 'missing'}`);
+      }
+      imports[name] = id;
+    }
+    for (const name of manifest.globals ?? []) {
+      if ((imports[name] && imports[name] !== name) || !module.entities.some(e => e.id === name)) {
+        throw new Error(`Invalid global declaration ${name}`);
+      }
+      if (installed?.some(m => Object.values(m.exports).includes(name))) { imports[name] = name; }
+    }
+    return imports;
+  }
   static async load(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number;
   }, source: BundleSource): Promise<ModuleDraft> {
@@ -80,44 +114,11 @@ export class ModuleBundle {
     const seed = RandomStreams.key(options.seed, 'module', ModuleParser.parse(texts[0]!).id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
-    const rules = rulePaths.map((_, i) => ModuleParser.parse(texts[situationPaths.length + i]!));
-    const combined = { ...rules[0]!, kinds: rules.flatMap(r => r.kinds),
-      relations: rules.flatMap(r => r.relations), measures: rules.flatMap(r => r.measures),
-      queries: rules.flatMap(r => r.queries), entities: rules.flatMap(r => r.entities),
-      pursuits: rules.flatMap(r => r.pursuits ?? []),
-      rules: rules.flatMap(r => r.rules ?? []),
-      observations: rules.flatMap(r => r.observations ?? []), objectives: rules.flatMap(r => r.objectives ?? []),
-      initial: rules.flatMap(r => r.initial), actions: rules.flatMap(r => r.actions) };
-    const situations = situationPaths.map((_, i) => ModuleParser.parse(texts[i]!));
-    const composed = { ...situations[0]!,
-      kinds: situations.flatMap(m => m.kinds), entities: situations.flatMap(m => m.entities),
-      relations: situations.flatMap(m => m.relations), measures: situations.flatMap(m => m.measures),
-      queries: situations.flatMap(m => m.queries), initial: situations.flatMap(m => m.initial),
-      actions: situations.flatMap(m => m.actions), people: situations.flatMap(m => m.people ?? []),
-      pursuits: situations.flatMap(m => m.pursuits ?? []), rules: situations.flatMap(m => m.rules ?? []),
-      observations: situations.flatMap(m => m.observations ?? []),
-      objectives: situations.flatMap(m => m.objectives ?? []) };
+    const combined = this.merge(rulePaths.map((_, i) => ModuleParser.parse(texts[situationPaths.length + i]!)));
+    const composed = this.merge(situationPaths.map((_, i) => ModuleParser.parse(texts[i]!)));
     const instance = ModuleAssembly.compose(ModuleWriter.write(composed),
       ModuleWriter.write(combined), generated, seed);
-    const imports: Record<string, string> = {};
-    if (Object.keys(request.imports ?? {}).some(key => !manifest.imports?.includes(key))) {
-      throw new Error('Undeclared module import');
-    }
-    for (const name of manifest.imports ?? []) {
-      const reference = request.imports?.[name];
-      const [owner, exported, extra] = reference?.split('.') ?? [];
-      const id = options.installed?.find(m => m.id === owner)?.exports[exported ?? ''];
-      if (!id || extra || !instance.module.entities.some(e => e.id === name)) {
-        throw new Error(`Unresolved module import ${name}: ${reference ?? 'missing'}`);
-      }
-      imports[name] = id;
-    }
-    for (const name of manifest.globals ?? []) {
-      if ((imports[name] && imports[name] !== name) || !instance.module.entities.some(e => e.id === name)) {
-        throw new Error(`Invalid global declaration ${name}`);
-      }
-      if (options.installed?.some(m => Object.values(m.exports).includes(name))) { imports[name] = name; }
-    }
+    const imports = this.imports(manifest, request, options.installed, instance.module);
     const draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
       imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
     draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
