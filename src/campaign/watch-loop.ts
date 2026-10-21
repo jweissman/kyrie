@@ -29,8 +29,9 @@ export class WatchLoop {
         Consequences.strike(host, combat);
         host.settleWatch(combat);
         // Someone falling on the company stops whatever it was doing, interruptible or not.
-        const foe = Engagement.foe(host);
+        const foe = Engagement.foe(host), halted = foe ? undefined : Engagement.halt(host);
         if (foe) { return { npc, happenings, interrupted: Engagement.told(host, foe) }; }
+        if (halted) { return { npc, happenings, interrupted: happenings.at(-1)?.text ?? halted }; }
       }
       why = watch && Interruption.check(watch, host.world, player!, happenings);
     }

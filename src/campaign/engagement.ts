@@ -22,6 +22,17 @@ export class Engagement {
       && world.test(ModuleWriter.call('able', r.args[0]!)) && world.test(ModuleWriter.call('at', r.args[0]!, here ?? '')))
       ?.args[0];
   }
+  // Someone who has stopped the company where it is, if anyone: the stop is spent once it has been told.
+  static halt(host: TickHost): string | undefined {
+    const player = host.playerActor, world = host.world;
+    if (!player || !world.module.relations.some(r => r.name === 'halts')) { return undefined; }
+    const here = world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === player)?.args[1] ?? '';
+    const stop = world.snapshot.relations.find(r => r.name === 'halts' && r.args[1] === player
+      && world.test(ModuleWriter.call('able', r.args[0]!)) && world.test(ModuleWriter.call('at', r.args[0]!, here)));
+    if (!stop) { return undefined; }
+    host.commitWorld(world.apply([{ kind: 'retract', call: ModuleWriter.call('halts', ...stop.args) }]));
+    return this.told(host, stop.args[0]!).replace(/ (comes|come) at you!$/, (_, v: string) => ` ${v === 'come' ? 'stop' : 'stops'} you.`);
+  }
   // "The gate sentry comes at you!": the name without its role, and the verb for how many they are.
   static told(host: TickHost, foe: string): string {
     const name = (host.world.module.entities.find(e => e.id === foe)?.name ?? foe).split(', ')[0]!;

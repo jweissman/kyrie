@@ -25,6 +25,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation tolerates(group, group).
   // Someone falling on another: on the company, it starts a fight there and then.
   Relation assails(group, group).
+  // Someone stopping another where they stand (a challenge, a hold-up): on the company, whatever it was doing is
+  // broken off, and it must deal with them.
+  Relation halts(group, group).
   Query benighted(a: group) means company(a) and at(a, ?p) and not capable(a, sunlight)
     and ((unlit(?p) and not capable(a, light)) or lightless(?p)).
   Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
