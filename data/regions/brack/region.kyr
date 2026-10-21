@@ -1,0 +1,232 @@
+Module brack "Brack" {
+  Description "The port at the mouth of the Varrow, two days down the salt road from Hollin: salt pans, quays, and the Salt Exchange that buys whatever the valley sends down, Skerry's silver above all. The Lamplighters kept their Charter here, in a hall on the harbour, and a few of them still do.".
+  Entity party: group "Your company".
+  // Where Brack touches the Varrow and the Unlit: the salt road from Hollin, the Gap the Exchange cares about, and
+  // the Lamplighters' door on the far side of the dark.
+  Place hollin_market "Hollin market" is room.
+  Place toll_gate "The road below the Lanthorn's gate" is room.
+  Place gate_passage "The Lanthorn's gate passage" is room.
+  Place lamp_door "The Lamplighters' door in the Unlit" is room.
+  Entity unlight: scenery "The Unlight". Entity unlight_gone: condition "gone".
+  Entity brack_door_known: fact "The Lamplighters' door past the Arch of Ways opens on Brack.".
+
+  Place saltmouth "the Saltmouth" is region.
+  Place brack "Brack" is settlement within saltmouth at 1, 1.
+  Place road_down "the salt road" is wilderness within saltmouth at 0, 1.
+  Place exchange_house "the Salt Exchange" is building within brack.
+  Place hall_house "the Charter's hall" is building within brack.
+  Place gull_house "the Gull and Anchor" is building within brack.
+  Place temple_house "the mother-temple of the Kindly Lamp" is building within brack.
+  Place hall_under "the hall's undercroft" is level within hall_house.
+  Place pans "the salt pans" is room within road_down at 0, 0.
+  Place landgate "the Landgate" is room within brack at 0, 1.
+  Place quays "the Saltquays" is room within brack at 1, 1.
+  Place warrens "the Warrens" is room within brack at 1, 2.
+  Place temple_hill "Temple Hill" is room within brack at 0, 0.
+  Place exchange_floor "the Exchange floor" is room within exchange_house at 2, 1.
+  Place counting_house "the counting-house" is room within exchange_house at 3, 1.
+  Place strongroom "the strongroom" is room within exchange_house at 3, 2.
+  Place gull "the Gull's taproom" is room within gull_house at 1, 0.
+  Place temple "the mother-temple" is room within temple_house at 0, 0.
+  Place hall_porch "the Charter's porch" is room within hall_house at 2, 0.
+  Place archive "the Charter's archive" is room within hall_house at 3, 0.
+  Place hall_cellar "the Charter's cellar" is room within hall_under at 3, 1.
+  Initially Assert unlit(hall_cellar). Initially Assert unlit(strongroom).
+
+  Passage salt_road "the salt road down the Varrow to the sea" is road between hollin_market and pans taking 14 hours.
+  Passage pans_road "the causeway across the pans" is causeway between pans and landgate taking 2 hours.
+  Passage gate_street "the Landgate street" is road between landgate and quays.
+  Passage hill_steps "the steps up Temple Hill" is steps between landgate and temple_hill.
+  Passage warren_alley "the alleys into the Warrens" is path between quays and warrens.
+  Passage exchange_doors "the Exchange's doors" is door between quays and exchange_floor.
+  Passage counting_door "the counting-house door" is door between exchange_floor and counting_house.
+  Passage strong_door "the strongroom door" is door between counting_house and strongroom.
+  Passage gull_door "the Gull's door" is door between gull and quays.
+  Passage temple_door "the temple door" is doorway between temple and temple_hill.
+  Passage hall_door "the Charter's door" is door between hall_porch and quays.
+  Passage archive_door "the archive door" is door between hall_porch and archive.
+  Passage cellar_stair "the cellar stair" is stair between archive and hall_cellar.
+  // The Lamplighters' door: from the Charter's cellar into the Unlit, past the Arch of Ways, for whoever has heard of it.
+  Passage lamp_way "the Lamplighters' door" is portal between hall_cellar and lamp_door taking 1 hour hidden until brack_door_known.
+
+  Observe pans_scene at pans when true "Salt pans, square and shining, going out to the sea on both sides of a raised causeway. Brack is at the end of it: a wall, a gate, and a harbour full of masts.".
+  Observe gate_scene at landgate when true "The Landgate: a stone arch with the Watch's lantern over it, and a board of tolls and permissions as long as a sermon.".
+  Observe quay_scene at quays when true "The Saltquays: ships tied up three deep, barrows of salt, gulls, and the Salt Exchange's front of grey stone with its doors open onto the water.".
+  Observe warren_scene at warrens when true "The Warrens: lanes too narrow for a cart, washing across them, and doorways with someone in every one, watching.".
+  Observe hill_scene at temple_hill when true "Temple Hill looks over the whole harbour. On top, the mother-temple of the Kindly Lamp, all lamps and no images, like Mother Ash's in Hollin but forty times the size.".
+  Observe floor_scene at exchange_floor when true "The Exchange floor: a hall of slates chalked with prices, factors shouting, and a great balance in the middle with a clerk on a stool beside it.".
+  Observe counting_scene at counting_house when true "The counting-house: desks, ledgers on chains, and a door bound in iron at the back.".
+  Observe strong_scene at strongroom when true "The strongroom: chests, a strong-box for every factor, and a shelf of ledgers bound in black.".
+  Observe gull_scene at gull when true "A taproom full of sailors and salt-carters. Everyone here has an opinion about the Exchange.".
+  Observe temple_scene at temple when true "Lamps on chains, lamps in niches, lamps in a great iron wheel like Hollin's, and a priest moving among them with a taper.".
+  Observe porch_scene at hall_porch when true "The Charter's porch: a brass lamp-and-hand over the door, gone green, and a bench where an old man sits with a ledger.".
+  Observe archive_scene at archive when true "The Charter's archive: shelves of the Lamplighters' ledgers, maps of beacons that stood from the Thrumm to the sea, and dust.".
+  Observe cellar_scene at hall_cellar when true "The Charter's cellar: racks of empty jars, and at the back an oak door bound in iron, with a brass lamp-and-hand on it, set in the rock.".
+
+  // The Exchange and the Gap: silver is dear in Brack while the Gap is tolled, and Hollin's unsold grain comes down
+  // the salt road and is cheap. Open, silver comes down and grain goes up.
+  Observe floor_tolled at exchange_floor when tolls(?collector, toll_gate) "The slate for Skerry silver reads high and rising, and the one for Hollin grain reads lower than anyone here remembers.".
+  Observe floor_open at exchange_floor when not tolls(?collector, toll_gate) "Skerry silver is coming down the salt road in carts again; its slate has fallen by half, and the grain-factors are buying for the hill towns.".
+
+  // The Watch: strangers come in at the Landgate, and need the Watch's leave to be in the Exchange or the Charter's
+  // hall after dark.
+  Person morrow "Sergeant Morrow" at landgate {
+    Role "sergeant of the Harbour Watch at the Landgate". Ancestry human. Calling warrior. Level 5. Peaceable.
+  }
+  Relation passed(group).
+  Action buy_papers(actor: group, site: place) "Pay Sergeant Morrow two coin for a stranger's pass" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(morrow, site) and not passed(actor)
+      and quantity(actor, gold) >= 2.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(morrow, gold) by 2. Assert passed(actor). }
+    Result "Morrow writes your names in his book slowly, spelling them wrong, and hands you a wooden tally with the Watch's lantern burned into it.".
+  }
+  Person night_watch "the Harbour Watch" at quays {
+    Role "the Watch on the quays after dark". Ancestry human. Calling warrior. Level 4. Numbers 4.
+  }
+  Relation challenged(group).
+  Rule watch_challenges when dark() and together(night_watch, party) and not passed(party) and not challenged(party)
+    and not tolerates(night_watch, party)
+    says "A lantern swings up in your faces. 'Stranger's tally,' says the Watch, 'or the lock-up till morning.'" {
+    Assert challenged(party). Assert halts(night_watch, party).
+  }
+  Rule watch_waves when together(night_watch, party) and passed(party) and halts(night_watch, party) { Retract halts(night_watch, party). }
+  Rule watch_forgets when not together(night_watch, party) and challenged(party) { Retract challenged(party). }
+  Rule watch_shuts when dark() and passed(party) and at(party, warrens) { Retract passed(party). }
+
+  // The Salt Exchange: Dame Ysolde Marrick, who keeps it, and Corvin Hale, her factor for silver, who has been paying
+  // Ninefingers to hold the Gap so that Skerry's silver comes to Brack cheap through his own agents and to no one else.
+  Person marrick "Dame Ysolde Marrick" at exchange_floor {
+    Role "warden of the Salt Exchange". Ancestry human. Calling bard. Level 7. Peaceable.
+  }
+  Person hale "Corvin Hale" at counting_house {
+    Role "the Exchange's factor for silver". Ancestry human. Calling thief. Level 6. Peaceable.
+    Buys toll_silver for 30 coin. Buys sun_disc for 50 coin. Buys hollow_regalia for 120 coin.
+  }
+  Initially Set quantity(hale, gold) to 400.
+  Person pim "Pim" at counting_house {
+    Role "a clerk of the counting-house". Ancestry human. Peaceable.
+  }
+  Person exchange_guards "the Exchange's guards" at exchange_floor {
+    Role "the Exchange's hired swords". Ancestry human. Calling warrior. Level 5. Numbers 4.
+  }
+  Initially Assert serves(exchange_guards, hale). Initially Assert posts(exchange_guards, hale).
+  // What Hale wants: the Lanthorn's gate, if it is ever left empty, and the Toll for himself.
+  Initially Assert covets(hale, gate_passage).
+  Relation exposed(group).
+  Rule hale_tolls when holds(hale, gate_passage) and able(exchange_guards) and not exposed(hale) and not tolls(exchange_guards, toll_gate)
+    says "Word comes down the salt road: the Exchange's guards have moved into the Lanthorn, and there is a toll on the Gap again, with the Exchange's seal on the board." {
+    Assert tolls(exchange_guards, toll_gate). Assert at(exchange_guards, gate_passage).
+  }
+  Rule hale_falls when exposed(hale) and tolls(exchange_guards, toll_gate) { Retract tolls(exchange_guards, toll_gate). }
+  Rule hale_unwanted when exposed(hale) and covets(hale, gate_passage) { Retract covets(hale, gate_passage). }
+
+  Entity toll_bought: fact "Corvin Hale, the Salt Exchange's factor for silver, has paid Ninefingers every month since spring to hold the Gap, so that Skerry's silver comes to Brack cheap through his agents and to nobody else.".
+  Initially Assert established(toll_bought).
+  Item black_ledger "a ledger bound in black" is exchange_ledger at strongroom.
+  Observe ledger_read at strongroom when holding(party, exchange_ledger) "The black ledger is in a clerk's hand, and it is plain enough: forty crowns a month, out of the strongroom, to 'O.N., at the Gap'. The signature under every entry is Corvin Hale's." teaches toll_bought.
+  // Pim knows, and is afraid, and would like to be paid for being afraid.
+  Topic pim_nerves with pim "Ask Pim what is wrong" when true once {
+    Says "Pim looks at the strongroom door and then at you. 'Nothing,' he says. 'Only some ledgers aren't kept on the chains, and some are kept in black, and I'd not like to be the one who shows anyone which.'".
+  }
+  Action bribe_pim(actor: group, site: place) "Pay Pim ten coin to leave the strongroom key on his desk" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(pim, site) and quantity(actor, gold) >= 10
+      and state(strong_lock, locked).
+    On success { Decrease quantity(actor, gold) by 10. Increase quantity(pim, gold) by 10. Assert state(strong_lock, open). }
+    Result "Pim pockets the coins without looking at them, and goes out for some air, and the key is on his desk.".
+  }
+  Thing strong_lock "the strongroom lock" on strong_door {
+    State locked blocking "The strongroom door is shut and locked: iron, with a lock the size of a book.".
+    State open "The strongroom door stands open.".
+    Change pick "Pick the strongroom lock" from locked to open needing lockwork.
+  }
+  // Infiltration: at night the Exchange is shut and guarded; the Warrens know a way in over the roofs.
+  Thing exchange_shutters "the Exchange's shutters" on exchange_doors {
+    State open "The Exchange's doors stand open onto the quay.".
+    State barred blocking "The Exchange's doors are barred for the night.".
+  }
+  Rule exchange_shuts when dark() and state(exchange_shutters, open) and not at(party, exchange_floor) and not at(party, counting_house)
+    and not at(party, strongroom) { Assert state(exchange_shutters, barred). }
+  Rule exchange_opens when not dark() and state(exchange_shutters, barred) { Assert state(exchange_shutters, open). }
+  Person quill "Nan Quill" at warrens {
+    Role "a fence, and fixer of the Gutter-Guild". Ancestry human. Calling thief. Level 6. Peaceable.
+    Buys grave_rings for 13 coin. Buys chapel_plate for 20 coin. Buys jade_idol for 28 coin. Buys hollow_regalia for 150 coin.
+    Buys exchange_ledger for 40 coin.
+  }
+  Initially Set quantity(quill, gold) to 250.
+  Entity roof_way_known: fact "From the Warrens a way goes over the roofs and down a chimney into the Exchange's counting-house, when the Exchange is shut.".
+  Initially Assert established(roof_way_known).
+  Topic quill_roofs with quill "Ask Nan Quill how a body gets into the Exchange at night" when true once {
+    Says "'Over the roofs,' says Nan, 'from my back yard to the Exchange's chimney, and down into the counting-house. Hale's strongroom you'll need a picklock for, or Pim, who's for sale. And bring me whatever you find in black; I've buyers who'd pay to see Hale sweat.'".
+    On discuss { Assert knows(actor, roof_way_known). }
+  }
+  Passage roof_way "the way over the roofs" is climb between warrens and counting_house taking 1 hour hidden until roof_way_known needing climbing or rope.
+
+  // Negotiation: confront Hale with what you know, and take his money; or take it to Marrick.
+  Relation hush_paid(group).
+  Topic hale_confronted with hale "Tell Corvin Hale what you know about the Toll" when knows(actor, toll_bought) and not exposed(hale) and not hush_paid(actor) once {
+    Says "Hale goes very still, then smiles, and reaches for his strong-box. 'A hundred crowns,' he says, 'and you never read anything, and Dame Marrick hears nothing. Think what the Gap is to you, and what a hundred crowns is.'".
+  }
+  Action take_hush(actor: group, site: place) "Take Corvin Hale's hundred crowns to keep quiet" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hale, site) and knows(actor, toll_bought)
+      and not exposed(hale) and not hush_paid(actor) and quantity(hale, gold) >= 100.
+    On success { Decrease quantity(hale, gold) by 100. Increase quantity(actor, gold) by 100. Assert hush_paid(actor). }
+    Result "Hale counts it out in silver. Skerry silver.".
+  }
+  Topic marrick_told with marrick "Tell Dame Marrick what her factor has been paying for" when knows(actor, toll_bought) and not exposed(hale) once {
+    Says "Dame Marrick reads the black ledger to the last line without a word, closes it, and sends for the Watch. 'The Exchange buys,' she says. 'It does not hire cut-throats to make the price. Hale is done. And you are owed: name the Exchange your friend, and it will be one.'".
+    On discuss { Assert exposed(hale). Assert patron(marrick, actor). Assert at(hale, landgate). Assert peaceable(hale). }
+  }
+  Relation patron(group, group).
+  Rule patron_pays when patron(marrick, party) and not rewarded(party) says "A clerk of the Exchange finds you with a purse of eighty crowns, and Dame Marrick's compliments." {
+    Assert rewarded(party). Increase quantity(party, gold) by 80.
+  }
+  Relation rewarded(group).
+  // A friend of the Exchange, with the Gap open, sends grain up the river to Hollin.
+  Person ferro "Captain Ferro" at quays {
+    Role "master of a grain barge". Ancestry human. Peaceable.
+  }
+  Relation barges_up(group).
+  Topic ferro_grain with ferro "Ask Captain Ferro to take grain up the Varrow" when patron(marrick, actor) and not tolls(?collector, toll_gate) once {
+    Says "'With the Exchange's writ and the Gap open?' says Ferro. 'I'll have three barges at Hollin's quay by the end of the week, and the hill towns eating by the next.'".
+    On discuss { Assert barges_up(ferro). }
+  }
+
+  // The Charter: what is left of the Lamplighters. Warden Sabelle Orme will make the company the Charter's friends,
+  // with the seal that the Lamplighters' old doors answer to, for the Lanthorn's Unlight burnt out, or Lampfall's
+  // regalia brought home.
+  Person orme "Warden Sabelle Orme" at hall_porch {
+    Role "warden of the Lamplighters' Charter". Ancestry human. Calling cleric. Level 9. Peaceable.
+    Offers healing "the Charter's salves, and an hour by the hall fire" for 5 coin.
+  }
+  Person tobit "Tobit" at archive {
+    Role "the Charter's archivist". Ancestry human. Calling mage. Level 6. Peaceable.
+  }
+  Thing archive_lock "the archive door's lock" on archive_door {
+    State locked blocking "The archive door is locked, and Warden Orme keeps the key.".
+    State open "The archive door stands open.".
+    Change pick "Pick the archive lock" from locked to open needing lockwork.
+  }
+  Relation chartered(group).
+  Topic orme_charter with orme "Ask Warden Orme about the Lamplighters" when true once {
+    Says "'We kept the light,' says Warden Orme, 'from the Thrumm to the sea, beacon by beacon, and laid down what we did not burn in the cellars of the world, where light keeps. Then the cellars soured, and the last warden of Lampfall shut the doors with the light inside. We are seven now, and we keep the ledgers, and nobody listens. Burn out the dark under the Lanthorn, or bring me Lampfall's regalia out of the Unlit, and the Charter will call you friends.'".
+  }
+  Topic orme_lanthorn with orme "Tell Warden Orme the Unlight under the Lanthorn is gone" when state(unlight, unlight_gone) and not chartered(actor) once {
+    Says "Warden Orme closes her eyes for a long moment. 'Then the beacon burns at the Gap again,' she says. 'Take this. Our doors know it.' It is a brass seal on a chain, a lamp with a hand round it.".
+    On discuss { Assert chartered(actor). Assert state(archive_lock, open). }
+  }
+  Item charter_seal "a Lamplighters' seal" is lamplighter_seal at hall_porch hidden until charter_friends.
+  Entity charter_friends: fact "Warden Orme has given the company the Charter's seal, which the Lamplighters' old doors answer to.".
+  Initially Assert established(charter_friends).
+  Observe seal_given at hall_porch when chartered(party) "Warden Orme's seal lies on the bench beside her ledger, waiting for you to take it." teaches charter_friends.
+  Rule regalia_home when holding(party, hollow_regalia) and at(party, hall_porch) and not chartered(party)
+    says "Warden Orme stands up when she sees the chain of lamps in your hands, and her ledger falls off her knee. 'Lampfall,' she says. 'You went to Lampfall.'" {
+    Assert chartered(party). Assert state(archive_lock, open).
+  }
+  Topic tobit_doors with tobit "Ask Tobit about the Lamplighters' doors" when true once {
+    Says "'Three doors,' says Tobit, and finds the map without looking. 'One under every beacon's cellar: the Lanthorn's, the one under the Glimmerkin's lake, and ours, below this floor. They all open on the same country, the Unlit, and in it past the Arch of Ways is our door's other side, kept by a thing the Charter set there that answers only to the seal.'".
+    On discuss { Assert knows(actor, brack_door_known). }
+  }
+  Objective exchange_secret when knows(party, toll_bought) "Corvin Hale, the Salt Exchange's factor, has been paying Ninefingers to hold the Gap.".
+  Objective charter_door when chartered(party) and knows(party, brack_door_known) "The Charter's seal opens the Lamplighters' door below their hall in Brack, into the Unlit.".
+  Goal exposed(hale) or chartered(party).
+}

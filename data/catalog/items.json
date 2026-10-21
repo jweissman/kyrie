@@ -389,6 +389,33 @@
       "source": {
         "kyr": true
       }
+    },
+    "lamplighter_seal": {
+      "name": "Lamplighters' seal",
+      "category": "gear",
+      "description": "A brass seal on a chain, a lamp with a hand closed round it: the Charter's mark, which the old doors of the Lamplighters still answer to.",
+      "value": 10,
+      "source": {
+        "kyr": true
+      }
+    },
+    "exchange_ledger": {
+      "name": "The Exchange's black ledger",
+      "category": "treasure",
+      "description": "A slim ledger bound in black calf, in a clerk's hand: sums paid out of the Salt Exchange's strongroom to 'O.N., at the Gap', every month since the spring.",
+      "value": 2,
+      "source": {
+        "kyr": true
+      }
+    },
+    "hollow_regalia": {
+      "name": "The Lamplighters' regalia",
+      "category": "treasure",
+      "description": "A chain of office in white gold, each link a little lamp, taken from the last Warden of Lampfall by the thing that keeps his hall.",
+      "value": 160,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

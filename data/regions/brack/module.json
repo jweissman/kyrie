@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "source": "region.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "hollin_market",
+    "toll_gate",
+    "gate_passage",
+    "lamp_door",
+    "unlight",
+    "unlight_gone",
+    "brack_door_known"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "hollin_market": {
+      "type": "place"
+    },
+    "toll_gate": {
+      "type": "place"
+    },
+    "gate_passage": {
+      "type": "place"
+    },
+    "lamp_door": {
+      "type": "place"
+    },
+    "unlight": {
+      "type": "scenery"
+    },
+    "unlight_gone": {
+      "type": "condition"
+    },
+    "brack_door_known": {
+      "type": "fact"
+    }
+  },
+  "exports": {
+    "region": "saltmouth",
+    "brack": "brack",
+    "landgate": "landgate",
+    "hale": "hale",
+    "marrick": "marrick",
+    "exchange_guards": "exchange_guards"
+  },
+  "experience": 300
+}

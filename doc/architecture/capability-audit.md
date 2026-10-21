@@ -7,12 +7,12 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Ancestries, callings, backgrounds and formations | 34 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 21 orsino data only |
 | Character creation | 8 faithful, 24 adapted, 1 kyr |
 | Progression, feats and high levels | 242 faithful, 8 adapted, 2 kyr, 42 not playable |
-| Action timing, reactions, conditions, costs and targeting | 175 faithful, 17 adapted, 9 kyr, 28 not playable |
+| Action timing, reactions, conditions, costs and targeting | 175 faithful, 17 adapted, 11 kyr, 28 not playable |
 | Spells: traditions, slots, durations and unusual magic | 239 faithful, 4 adapted, 2 kyr, 39 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 35 faithful, 1 adapted, 16 not playable, 10 orsino data only |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 122 adapted, 9 represented, 19 kyr, 5 not playable, 154 orsino data only |
-| Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 20 kyr, 141 orsino data only |
-| Environment, world and planar rules | 95 kyr, 190 orsino data only |
+| Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 23 kyr, 141 orsino data only |
+| Environment, world and planar rules | 96 kyr, 190 orsino data only |
 | Content authoring and generation | 9 kyr |
 
 ## Ancestries, callings, backgrounds and formations
@@ -77,7 +77,7 @@ Handbook sections: `phb:advancement`, `phb:feats`, `phb:magic`.
 
 ## Action timing, reactions, conditions, costs and targeting
 
-Entries: 175 faithful, 17 adapted, 9 kyr, 28 not playable.
+Entries: 175 faithful, 17 adapted, 11 kyr, 28 not playable.
 
 **What Orsino defines.** Initiative each round, actions a turn, haste and slow, preparation (Charge), compelled moves, wound-up blows, reactions on being attacked, on an enemy's melee, attack, cast or charge, on combat start, on a status expiring, on healing and on a kill; random multi-target spells.
 
@@ -157,7 +157,7 @@ Handbook sections: `mm:species`, `mm:natural-abilities`, `mm:creature-traits`, `
 
 ## Equipment, treasure and magic items
 
-Entries: 69 faithful, 20 adapted, 1 represented, 20 kyr, 141 orsino data only.
+Entries: 69 faithful, 20 adapted, 1 represented, 23 kyr, 141 orsino data only.
 
 **What Orsino defines.** 83 weapons, 15 armours, 68 pieces of gear, 48 magic items, 28 consumables, treasure tiers by depth.
 
@@ -177,21 +177,21 @@ Handbook sections: `phb:equipment`, `dmg:orsino-world/orsino-equipment`, `dmg:or
 
 ## Environment, world and planar rules
 
-Entries: 95 kyr, 190 orsino data only.
+Entries: 96 kyr, 190 orsino data only.
 
 **What Orsino defines.** Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.
 
-**What Kyr implements faithfully.** Terrain perks (an elven tribe in a forest), searching by taking 10 against 15.
+**What Kyr implements faithfully.** Terrain perks (an elven tribe in a forest), searching by taking 10 against 15, and planes as Orsino has them: a plane is a place whose laws every creature in it holds, as Orsino's planeModifiers.globalEffects are a residency passive (the Unlit's law halves fire, slows healing and weakens will).
 
-**What Kyr deliberately adapts.** Time, light, weather, passages, obstacles, lodging, food, dominion and people are Kyr's own world rules, written in Kyr and listed in the guide.
+**What Kyr deliberately adapts.** Time, light, weather, passages, obstacles, lodging, food, dominion, people and inhabitants are Kyr's own world rules, written in Kyr and listed in the guide. A plane's law is a catalog condition a place names; it holds in every fight fought there and can change (relighting Lampfall's beacon replaces the Unlit's law with its own). Travel between planes is by portal, a passage with an access condition (knowledge, sunlight, a seal), not Orsino's planeshift.
 
-**What is data only.** All ten planes, all traps and wonders.
+**What is data only.** Orsino's ten planes, its traps and its wonders.
 
-**What is missing or wrong.** Planes as places with laws; a law that changes magic or combat for everyone in a place; traps and wonders as generated content.
+**What is missing or wrong.** Planeshift and teleport as spells; generated traps and wonders.
 
-**What abstractions are needed.** A place's laws as modifiers every creature there holds while it is there (Orsino's residency passive), applied through the same condition machinery; travel between planes as a passage whose access is a condition.
+**What abstractions are needed.** law(place, law) collected up the containment chain; portals as passages with access conditions; a rule's instances re-checked one by one so two powers cannot both take one fortress.
 
-**Whether the browser makes it understandable.** The map shows places and ways; nothing yet shows a place's laws.
+**Whether the browser makes it understandable.** The map draws one region (or plane) at a time and shows ways out to others; a place's laws are not yet shown before a fight.
 
 Handbook sections: `dmg:world-rules`, `dmg:orsino-world/orsino-plane`, `dmg:orsino-world/orsino-trap`, `dmg:orsino-world/orsino-wonder`.
 
@@ -203,13 +203,13 @@ Entries: 9 kyr.
 
 **What Kyr implements faithfully.** Deem as the generator; creature generation by family, terrain and adaptation; dragons by lineage and maturity.
 
-**What Kyr deliberately adapts.** Worlds are assembled from a region's geography and kits whose slots, proposals and provided facts are checked; every choice is recorded.
+**What Kyr deliberately adapts.** Worlds are assembled from a region's geography and kits whose slots, proposals and provided facts are checked; campaigns install regions, sites, planes, institutions and kits that reach one another only through imported entities (a place, a group, a fact).
 
 **What is data only.** Dungeon and room generation, settlements and shops by size, traps, wonders.
 
-**What is missing or wrong.** Institutions and planes as kits; a city; a layered situation web that spans levels of play.
+**What is missing or wrong.** Dungeon and room generation from Orsino's tables; generated planes and cities.
 
-**What abstractions are needed.** Kits that bring sites, institutions and planes with the facts they must preserve.
+**What abstractions are needed.** The same shared vocabulary serves authored and generated content: the Varrow's toll rules answer whichever power tolls the Gap (Ninefingers, or Brack's Exchange once it takes the empty Lanthorn), with no rule naming the Exchange.
 
 **Whether the browser makes it understandable.** Generated worlds play like authored ones.
 
@@ -224,8 +224,8 @@ Handbook sections: `dmg:making-worlds`, `dmg:campaigns`, `mm:generated`.
 | 3 | Summoning had no ownership, limit or generated creatures | 12 summoning abilities now play; aspect summons (images, the weird) still do not | 3 | addressed |
 | 4 | No reactions to what an enemy does | overwatch, blade barrier, braced spears, magebane, consecrated ground, charm aura now play; reflection and spell turning do not | 3 | addressed |
 | 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm now play; prismatic spray waits on cycling effects | 3 | addressed |
-| 6 | No planes, place laws or magical travel | 10 planes, planeshift, teleport, a planar adventure | 5 | open |
+| 6 | No planes, place laws or travel between worlds | the Unlit, a plane with laws, three portals and a law a company can change; Orsino's planes and planeshift remain data | 5 | partly addressed |
 | 7 | Cast, random, cycling, resurrect, kill and flee effects | chaos bolt, warp, prismatic spray, raise dead, animate dead, death, command, turn undead now play; 43 abilities still do not | 3 | addressed |
 | 8 | Items are mostly Orsino data | 60 gear, 42 magic items, 22 consumables | 2 | open |
 | 9 | Electric damage is not a Kyr damage kind | 11 spells and weapons | 3 | addressed |
-| 10 | No city, no institutions as kits | urban investigation, negotiation and patronage | 5 | open |
+| 10 | No city, no institutions as kits | Brack: districts, the Watch's permissions, the Salt Exchange's secret, the Charter's patronage, and city and valley acting on each other; institutions are not yet kits | 5 | partly addressed |

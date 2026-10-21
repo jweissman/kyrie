@@ -81,6 +81,31 @@
         "watchers": "knotFolk.watchers",
         "bell_dread": "knotFolk.bell_dread"
       }
+    },
+    {
+      "id": "unlit",
+      "bundle": "../planes/unlit/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "deep_cellar": "lanthorn.deep_cellar",
+        "far_shore": "brimming.far_shore",
+        "unlight": "lanthorn.unlight",
+        "unlight_gone": "lanthorn.unlight_gone"
+      }
+    },
+    {
+      "id": "brack",
+      "bundle": "../regions/brack/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "hollin_market": "varrow.market",
+        "toll_gate": "varrow.toll_gate",
+        "gate_passage": "lanthorn.gate_passage",
+        "lamp_door": "unlit.lamp_door",
+        "unlight": "lanthorn.unlight",
+        "unlight_gone": "lanthorn.unlight_gone",
+        "brack_door_known": "unlit.brack_door_known"
+      }
     }
   ],
   "party": [

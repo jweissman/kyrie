@@ -89,6 +89,9 @@ export class CampaignTick {
     const { definition, creatures, current } = host.tickState;
     for (const rule of host.module.rules ?? []) {
       for (const [effects, binding] of this.instances(rule, host.world)) {
+        // Each instance fires only if its condition still holds after those before it (two powers cannot both seize
+        // the one stronghold left vacant).
+        if (Object.keys(binding).length && !host.world.test(rule.when, binding)) { continue; }
         const prior = host.world, next = prior.apply(effects);
         CreatureFacts.commitMoney(prior, next, definition.actors, creatures);
         current.world = next.snapshot;

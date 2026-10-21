@@ -55,11 +55,17 @@ export class Battle {
     this.commit();
   }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
-    options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string }): Battle {
+    options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[] }):
+    Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
-      const combatants = participants.map((p, i) => ({ ...CombatProjection.fighter(lease.creatures[i]!, p.team),
-        ...options.environment ? { environment: options.environment } : {} }));
+      // The laws of the place hold for everyone in the fight, for as long as it lasts.
+      const laws = (options.laws ?? []).filter(id => Canon.conditions[id]).map(id => ({ id, remaining: 1, clock: 'until-removed' as const }));
+      const combatants = participants.map((p, i) => {
+        const f = CombatProjection.fighter(lease.creatures[i]!, p.team);
+        return { ...f, statuses: [...f.statuses, ...laws.filter(l => !f.statuses.some(s => s.id === l.id))],
+          ...options.environment ? { environment: options.environment } : {} };
+      });
       return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities },
         options.seed, options.maxTurns ?? 500, lease);
     } catch (error) { lease.release(); throw error; }

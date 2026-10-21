@@ -1756,6 +1756,30 @@ Brings Sunlight to whoever carries it equipped.
 
 > A disc of beaten gold as wide as a shield, worked with rays, that catches any light and throws it back.
 
+#### Lamplighters' seal
+
+*Kyr · gear* · `item:lamplighter_seal`
+
+- Worth: 10
+
+> A brass seal on a chain, a lamp with a hand closed round it: the Charter's mark, which the old doors of the Lamplighters still answer to.
+
+#### The Exchange's black ledger
+
+*Kyr · treasure* · `item:exchange_ledger`
+
+- Worth: 2
+
+> A slim ledger bound in black calf, in a clerk's hand: sums paid out of the Salt Exchange's strongroom to 'O.N., at the Gap', every month since the spring.
+
+#### The Lamplighters' regalia
+
+*Kyr · treasure* · `item:hollow_regalia`
+
+- Worth: 160
+
+> A chain of office in white gold, each link a little lamp, taken from the last Warden of Lampfall by the thing that keeps his hall.
+
 ## Combat
 
 A fight begins when someone sets on someone else: the company, or anything it meets. Each round every creature still standing rolls initiative (d20, plus its Dexterity modifier and any initiative bonus), and acts in that order. Conditions without a clock tick down as each round begins.
@@ -6403,6 +6427,14 @@ Resists 50% of lightning.
 
 > Compelled to attack the taunter if able.
 
+### The Unlit's law
+
+*Kyr · lasts the fight at most* · `condition:unlit_law`
+
++-2 healing, −2 to will saves, resists 50% of fire.
+
+> In the Unlit fire burns small and cold, wounds close slowly, and fear comes easily.
+
 ### Thirst
 
 *Faithful · lasts the fight at most* · `condition:thirst`
@@ -6470,6 +6502,14 @@ Immune to poison.
 *Kyr · lasts beyond a fight* · `condition:unbarring`
 
 > Locks open at a touch for a while.
+
+### Under the beacon
+
+*Kyr · lasts the fight at most* · `condition:beacon_law`
+
++2 healing, +2 to will saves.
+
+> Lampfall's beacon burns: in its light the dead are slow and the living steady.
 
 ### Vigorous
 

@@ -194,12 +194,12 @@
         "dmg:orsino-world/orsino-wonder"
       ],
       "orsino": "Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.",
-      "faithful": "Terrain perks (an elven tribe in a forest), searching by taking 10 against 15.",
-      "adapted": "Time, light, weather, passages, obstacles, lodging, food, dominion and people are Kyr's own world rules, written in Kyr and listed in the guide.",
-      "dataOnly": "All ten planes, all traps and wonders.",
-      "missing": "Planes as places with laws; a law that changes magic or combat for everyone in a place; traps and wonders as generated content.",
-      "abstractions": "A place's laws as modifiers every creature there holds while it is there (Orsino's residency passive), applied through the same condition machinery; travel between planes as a passage whose access is a condition.",
-      "browser": "The map shows places and ways; nothing yet shows a place's laws."
+      "faithful": "Terrain perks (an elven tribe in a forest), searching by taking 10 against 15, and planes as Orsino has them: a plane is a place whose laws every creature in it holds, as Orsino's planeModifiers.globalEffects are a residency passive (the Unlit's law halves fire, slows healing and weakens will).",
+      "adapted": "Time, light, weather, passages, obstacles, lodging, food, dominion, people and inhabitants are Kyr's own world rules, written in Kyr and listed in the guide. A plane's law is a catalog condition a place names; it holds in every fight fought there and can change (relighting Lampfall's beacon replaces the Unlit's law with its own). Travel between planes is by portal, a passage with an access condition (knowledge, sunlight, a seal), not Orsino's planeshift.",
+      "dataOnly": "Orsino's ten planes, its traps and its wonders.",
+      "missing": "Planeshift and teleport as spells; generated traps and wonders.",
+      "abstractions": "law(place, law) collected up the containment chain; portals as passages with access conditions; a rule's instances re-checked one by one so two powers cannot both take one fortress.",
+      "browser": "The map draws one region (or plane) at a time and shows ways out to others; a place's laws are not yet shown before a fight."
     },
     {
       "id": "authoring",
@@ -211,10 +211,10 @@
       ],
       "orsino": "Deem tables and templates generate creatures, dungeons, rooms, settlements, shops and treasure; the books are generated from the same tables.",
       "faithful": "Deem as the generator; creature generation by family, terrain and adaptation; dragons by lineage and maturity.",
-      "adapted": "Worlds are assembled from a region's geography and kits whose slots, proposals and provided facts are checked; every choice is recorded.",
+      "adapted": "Worlds are assembled from a region's geography and kits whose slots, proposals and provided facts are checked; campaigns install regions, sites, planes, institutions and kits that reach one another only through imported entities (a place, a group, a fact).",
       "dataOnly": "Dungeon and room generation, settlements and shops by size, traps, wonders.",
-      "missing": "Institutions and planes as kits; a city; a layered situation web that spans levels of play.",
-      "abstractions": "Kits that bring sites, institutions and planes with the facts they must preserve.",
+      "missing": "Dungeon and room generation from Orsino's tables; generated planes and cities.",
+      "abstractions": "The same shared vocabulary serves authored and generated content: the Varrow's toll rules answer whichever power tolls the Gap (Ninefingers, or Brack's Exchange once it takes the empty Lanthorn), with no rule naming the Exchange.",
       "browser": "Generated worlds play like authored ones."
     }
   ],
@@ -256,10 +256,10 @@
     },
     {
       "rank": 6,
-      "title": "No planes, place laws or magical travel",
-      "unlocks": "10 planes, planeshift, teleport, a planar adventure",
+      "title": "No planes, place laws or travel between worlds",
+      "unlocks": "the Unlit, a plane with laws, three portals and a law a company can change; Orsino's planes and planeshift remain data",
       "cycle": 5,
-      "state": "open"
+      "state": "partly addressed"
     },
     {
       "rank": 7,
@@ -285,9 +285,9 @@
     {
       "rank": 10,
       "title": "No city, no institutions as kits",
-      "unlocks": "urban investigation, negotiation and patronage",
+      "unlocks": "Brack: districts, the Watch's permissions, the Salt Exchange's secret, the Charter's patronage, and city and valley acting on each other; institutions are not yet kits",
       "cycle": 5,
-      "state": "open"
+      "state": "partly addressed"
     }
   ]
 }

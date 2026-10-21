@@ -92,10 +92,15 @@ export class ChartModel {
     areas.set(a.id, row);
     return a.id;
   }
+  // The region a place lies in (or the plane, for a place in one with no region): one region is drawn at a time.
+  private regionOf(id: string | undefined): string | undefined {
+    return id ? Spatial.ancestry(this.entities, id).find(e => ['region', 'plane'].includes(e.space!.kind))?.id : undefined;
+  }
   private region(ways: WayInfo[], visited: Set<string>, here?: string): { region?: RegionChart } {
     const areas = new Map<string, RegionChart['areas'][number]>(), edges = new Map<string, RegionChart['edges'][number]>();
-    for (const v of visited) { this.mark(areas, v, visited, here); }
-    for (const w of ways) {
+    const home = this.regionOf(here);
+    for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }
+    for (const w of ways.filter(x => this.regionOf(x.from) === home && this.regionOf(x.to) === home)) {
       const a = this.mark(areas, w.from, visited, here), b = this.mark(areas, w.to, visited, here);
       if (!a || !b || a === b) { continue; }
       const key = [a, b].sort().join('|');

@@ -137,6 +137,39 @@
         "kyr": true,
         "notes": "Orsino's flee effect (Ability.handleSingleEffect) gives its target this status, {flee: true}, for two turns; Combat removes a fleeing enemy when the next round begins."
       }
+    },
+    "unlit_law": {
+      "name": "The Unlit's law",
+      "description": "In the Unlit fire burns small and cold, wounds close slowly, and fear comes easily.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "resistances": {
+          "fire": 0.5
+        },
+        "bonusHealing": -2,
+        "saves": {
+          "will": -2
+        }
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A place law, as Orsino's planes carry global effects every resident holds (planeModifiers.globalEffects): fire resisted by half, healing two less, will saves two worse."
+      }
+    },
+    "beacon_law": {
+      "name": "Under the beacon",
+      "description": "Lampfall's beacon burns: in its light the dead are slow and the living steady.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "saves": {
+          "will": 2
+        },
+        "bonusHealing": 2
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The law of the Unlit where Lampfall's beacon has been relit."
+      }
     }
   }
 }

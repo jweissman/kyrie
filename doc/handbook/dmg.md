@@ -262,13 +262,19 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 22 | 6 | 3 | 0 | 5 |
+| 7 | 23 | 6 | 3 | 0 | 5 |
 
 #### terrainkind, terrain
 
 *Kyr · kind; relation(place, terrainkind)* · `rule:world_core.terrainkind`
 
 The lie of the land a region is: what a party's perks of place (an elven tribe in a forest) answer to.
+
+#### law, law
+
+*Kyr · kind; relation(place, law)* · `rule:world_core.law`
+
+A place's law: everyone in it, or anywhere within it, fights under that condition (a plane where fire burns small, a temple where no blade is drawn). The law names a catalog condition.
 
 #### lightless
 
@@ -1169,7 +1175,7 @@ The worlds that ship with the game.
 
 *Kyr* · `campaign:varrow`
 
-- Regions and sites: varrow, lanthorn, tombs, brimming, hush
+- Regions and sites: varrow, lanthorn, tombs, brimming, hush, unlit, brack
 - Kits placed: knot, price
 
 > The Gap is shut. Ottilie Ninefingers holds the old Lanthorn at the head of the valley and tolls every cart that climbs to it, so Hollin's grain rots and Skerry's miners go hungry. The reeve will pay to see her gone. The Lanthorn is the least of what the Varrow hides. Choose three companions.

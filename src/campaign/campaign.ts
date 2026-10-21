@@ -237,7 +237,7 @@ export class Campaign implements WatchHost {
     return Battle.encounter(this.creatures, [
       ...(attacker?.members ?? this.current.partyIds).map(creatureId => ({ creatureId, team: 'fighters' as const })),
       ...this.current.inhabitants[group]!.map(creatureId => ({ creatureId, team: 'goblins' as const })),
-    ], { seed, environment: Environment.of(this.world, this.playerActor) });
+    ], { seed, ...Environment.encounter(this.world, this.playerActor) });
   }
 
   private action(id: string): Operator {

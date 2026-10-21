@@ -801,7 +801,7 @@
     "faithful": 566,
     "adapted": 292,
     "represented": 4,
-    "kyr": 51,
+    "kyr": 56,
     "unsupported": 75,
     "unreachable": 4,
     "data-only": 22
@@ -892,7 +892,7 @@
       "faithful": 68,
       "adapted": 13,
       "represented": 0,
-      "kyr": 20,
+      "kyr": 23,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -970,7 +970,7 @@
       "faithful": 123,
       "adapted": 15,
       "represented": 0,
-      "kyr": 8,
+      "kyr": 10,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 124,
     "adapted": 8,
     "represented": 18,
-    "kyr": 104,
+    "kyr": 105,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 342
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 95,
+      "kyr": 96,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -3997,6 +3997,27 @@
   {
    "id": "item:sun_disc",
    "title": "Sun-disc",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lamplighter_seal",
+   "title": "Lamplighters' seal",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:exchange_ledger",
+   "title": "The Exchange's black ledger",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hollow_regalia",
+   "title": "The Lamplighters' regalia",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
@@ -7551,6 +7572,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:unlit_law",
+   "title": "The Unlit's law",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:thirst",
    "title": "Thirst",
    "status": "faithful",
@@ -7602,6 +7630,13 @@
   {
    "id": "condition:unbarring",
    "title": "Unbarring",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:beacon_law",
+   "title": "Under the beacon",
    "status": "kyr",
    "book": "phb",
    "section": "conditions"
@@ -8365,6 +8400,13 @@
   {
    "id": "rule:world_core.terrainkind",
    "title": "terrainkind, terrain",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.law",
+   "title": "law, law",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"

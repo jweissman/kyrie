@@ -23,6 +23,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation serves(group, group).
   Query allied(a: group, b: group) means serves(a, b) or serves(b, a) or (serves(a, ?m) and serves(b, ?m)).
   Relation unlit(place). Relation company(group).
+  // A place's law: everyone in it, or anywhere within it, fights under that condition (a plane where fire burns
+  // small, a temple where no blade is drawn). The law names a catalog condition.
+  Kind law. Relation law(place, law).
   // A place where light dies: only sunlight shows anything there.
   Relation lightless(place).
   // One who lets another be: does not bar its way or fall on it (a toll paid, a bribe taken, recruits believed).
