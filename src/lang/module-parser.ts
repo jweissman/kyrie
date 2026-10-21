@@ -3,9 +3,10 @@ import { Spatial } from '../spatial';
 import { Discovery, type DiscoveryDefinition } from '../information/discovery';
 import * as ohm from 'ohm-js';
 import source from './Kyr.ohm' with { type: 'text' };
-import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature, Person } from './module';
+import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature } from './module';
 import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } from './world-constructs';
 import { ItemCatalog } from '../item-catalog';
+import { PersonParser } from './person-parser';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -20,32 +21,28 @@ export class ModuleParser {
     ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.ChangeNeeds, ChangeAfter: ModuleParser.Third,
     ChangeConsumes: ModuleParser.Second, HurtsPart: ModuleParser.HurtsPart, GuardsPart: ModuleParser.GuardsPart,
     Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
-    Anchor_at: ModuleParser.Anchor,
-    Anchor_near: ModuleParser.Anchor, Anchor_beside: ModuleParser.Anchor, Objective: ModuleParser.Objective,
-    PersonHorizon: ModuleParser.PersonHorizon, PersonPeaceable: ModuleParser.PersonPeaceable,
+    Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ModuleParser.Anchor,
+    Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
+    PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
     RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: ModuleParser.TopicOnce,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
-    PassagePart_taking: ModuleParser.Taking, PersonProfession: ModuleParser.PersonProfession,
-    PersonBackground: ModuleParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
-    SellsPart: ModuleParser.SellsPart,
-    Time_fixed: ModuleParser.Time, Time_measured: ModuleParser.Duration,
+    PassagePart_taking: ModuleParser.Taking, PersonProfession: PersonParser.PersonProfession,
+    PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
+    SellsPart: ModuleParser.SellsPart, Time_fixed: ModuleParser.Time, Time_measured: ModuleParser.Duration,
     Exit: ModuleParser.Exit, ExitDoor: ModuleParser.ExitDoor, ExitKnowledge: ModuleParser.ExitKnowledge,
-    Person: ModuleParser.Person, PersonRole: ModuleParser.PersonRole,
-    PersonRace: ModuleParser.PersonRace, PersonClass: ModuleParser.PersonClass,
-    PersonLevel: ModuleParser.PersonLevel, PersonSpecies: ModuleParser.PersonSpecies,
-    PersonCreature: ModuleParser.PersonCreature, PersonCount: ModuleParser.PersonCount,
-    PersonCalled: ModuleParser.PersonCalled,
-    PersonTrait: ModuleParser.PersonTrait, PersonCarries: ModuleParser.PersonCarries,
-    HazardDecl: ModuleParser.HazardDecl, PersonUses: ModuleParser.PersonUses,
+    Person: ModuleParser.Person, PersonRole: PersonParser.PersonRole,
+    PersonRace: PersonParser.PersonRace, PersonClass: PersonParser.PersonClass,
+    PersonLevel: PersonParser.PersonLevel, PersonSpecies: PersonParser.PersonSpecies,
+    PersonCreature: PersonParser.PersonCreature, PersonCount: PersonParser.PersonCount,
+    PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
+    HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses,
     Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
-    Speaker: ModuleParser.Speaker,
     Information: ModuleParser.Information, KnownBy: ModuleParser.KnownBy, DeniedBy: ModuleParser.DeniedBy,
     InformationSource: ModuleParser.InformationSource, Speakers: ModuleParser.Speakers,
-    Module: ModuleParser.Module, Observation: ModuleParser.Observation,
-    WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit,
+    Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: ModuleParser.Speaker,
+    WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, MemberBinding: ModuleParser.MemberBinding,
     Kind: ModuleParser.Kind, Relation: ModuleParser.Relation, Measure: ModuleParser.Measure,
     Query: ModuleParser.Query, Parameter: ModuleParser.Parameter, Entity: ModuleParser.Entity,
-    MemberBinding: ModuleParser.MemberBinding,
     Initial: ModuleParser.Initial, Goal: ModuleParser.Goal, Budget: ModuleParser.Budget,
     Description: ModuleParser.Description, ActionParameters: ModuleParser.ActionParameters,
     Action: ModuleParser.Action, Requires: ModuleParser.Requires,
@@ -74,6 +71,22 @@ export class ModuleParser {
     for (const child of node.asIteration().children) { values.push(ModuleParser.ast(child)); }
     return values;
   }
+  // Ohm calls an action with one node per element of its rule; these take the elements that matter to PersonParser.
+  static Person(_p: Node, id: Node, name: Node, _at: Node, place: Node, _open: Node, parts: Node, _close: Node) {
+    return PersonParser.person(id, name, place, parts);
+  }
+  static OffersPart(_o: Node, kind: Node, text: Node, _for: Node, fee: Node, _coin: Node, _dot: Node) {
+    return PersonParser.offers(kind, text, fee);
+  }
+  static SellsPart(_s: Node, what: Node, _for: Node, fee: Node, _coin: Node, _from: Node, stock: Node, _dot: Node) {
+    return PersonParser.sells(what, fee, stock);
+  }
+  // A spatial exit is an entity and the action that takes it.
+  private static exit(module: Module, entity: Module['entities'][number]) {
+    module.entities.push(entity);
+    const lowered = Spatial.lowerExit(entity);
+    module.initial.push(...lowered.initial); module.actions.push(lowered.action);
+  }
   static Module(_module: Node, id: Node, name: Node, _open: Node, declarations: Node, _close: Node): Module {
     const module: Module = { id: id.sourceString, name: ModuleParser.ast(name) as string, description: '', kinds: [],
       entities: [], relations: [], measures: [], queries: [], initial: [], actions: [],
@@ -83,42 +96,16 @@ export class ModuleParser {
     for (const child of declarations.children) {
       const { field, value } = ModuleParser.ast(child) as Field;
       switch (field) {
-        case 'person': {
-          const { spec, peaceable, ...p } = value as Person & { spec: ThingSpec; peaceable?: boolean };
-          (module.people ??= []).push(p);
-          WorldConstructs.offers(module, p, kind => ItemCatalog.definitions[kind]?.name);
-          // A person's role follows their name ("Garth, shepherd"), unless it only repeats it, or it is what each
-          // of a numbered group is ("a cave spider") rather than the group ("a sow bear and her grown cub").
-          const each = (p.count ?? 1) > 1 && !/ and |,/.test(p.role ?? '');
-          const named = p.role && !each && p.role.toLowerCase() !== p.name.toLowerCase() ? `${p.name}, ${p.role}` : p.name;
-          module.entities.push({ id: p.id, name: named, type: 'group' });
-          module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [p.id, p.place] } });
-          if (peaceable) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'peaceable', args: [p.id] } }); }
-          WorldConstructs.states(module, spec, { kind: 'near', id: p.id });
-          break;
-        }
+        case 'person': PersonParser.declare(module, value); break;
         case 'passage': WorldConstructs.passage(module, value as PassageSpec); break;
-        case 'company': {
-          const c = value as NonNullable<Module['company']>;
-          if (module.company) { throw new Error('A module declares at most one company'); }
-          module.company = c;
-          module.entities.push({ id: c.id, type: 'group', name: c.name });
-          module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [c.id, c.place] } });
-          break;
-        }
+        case 'company': PersonParser.company(module, value as NonNullable<Module['company']>); break;
         case 'item': WorldConstructs.item(module, value as { id: string; name?: string; kind: string; place: string },
           ItemCatalog.definitions[(value as { kind: string }).kind]?.name); break;
         case 'thing': WorldConstructs.thing(module, value as ThingSpec); break;
         case 'event': WorldConstructs.event(module, value as EventSpec); break;
         case 'objective': (module.objectives ??= []).push(value as NonNullable<Module['objectives']>[number]); break;
         case 'place': case 'hazard': module.entities.push(value as Module['entities'][number]); break;
-        case 'exit': {
-          const entity = value as Module['entities'][number];
-          module.entities.push(entity);
-          const lowered = Spatial.lowerExit(entity);
-          module.initial.push(...lowered.initial); module.actions.push(lowered.action);
-          break;
-        }
+        case 'exit': ModuleParser.exit(module, value as Module['entities'][number]); break;
         case 'information': information.push(value as DiscoveryDefinition); break;
         case 'pursuit': (module.pursuits ??= []).push(value as NonNullable<Module['pursuits']>[number]); break;
         case 'rule': (module.rules ??= []).push(value as NonNullable<Module['rules']>[number]); break;
@@ -182,7 +169,7 @@ export class ModuleParser {
     for (const part of parts.children) { ModuleParser.thingPart(spec, ModuleParser.ast(part) as Field); }
     return { field: 'thing', value: spec };
   }
-  private static thingPart(spec: ThingSpec, part: Field) {
+  static thingPart(spec: ThingSpec, part: Field) {
     if (part.field === 'state') { spec.states.push(part.value as ThingSpec['states'][number]); }
     else if (part.field === 'change') { spec.changes.push(part.value as ThingSpec['changes'][number]); }
     else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
@@ -221,10 +208,6 @@ export class ModuleParser {
   static Objective(_o: Node, id: Node, _when: Node, when: Node, text: Node, _dot: Node): Field {
     return { field: 'objective', value: { id: id.sourceString, when: ModuleParser.ast(when), text: ModuleParser.ast(text) } };
   }
-  static PersonHorizon(_p: Node, n: Node, _steps: Node, _dot: Node): Field {
-    return { field: 'horizon', value: Number(n.sourceString) };
-  }
-  static PersonPeaceable(_p: Node, _dot: Node): Field { return { field: 'peaceable', value: true }; }
   static Seen(_s: Node, text: Node, _dot: Node): Field { return { field: 'seen', value: ModuleParser.ast(text) }; }
   static TopicOnce(_once: Node) { return true; }
   static Exit(_e: Node, id: Node, name: Node, _from: Node, origin: Node, _to: Node, destination: Node,
@@ -236,78 +219,11 @@ export class ModuleParser {
   }
   static ExitDoor(_through: Node, door: Node): string { return door.sourceString; }
   static ExitKnowledge(_known: Node, _by: Node, knowledge: Node): string { return knowledge.sourceString; }
-  static Person(_p: Node, id: Node, name: Node, _at: Node, place: Node, _open: Node, parts: Node, _close: Node): Field {
-    const p: Person = { id: id.sourceString, name: ModuleParser.ast(name) as string, place: place.sourceString,
-      raceId: 'human', classId: 'commoner', level: 1, actions: [] };
-    const spec: ThingSpec = { id: p.id, name: p.name, type: 'group', states: [], changes: [] };
-    const seen = new Set<string>(), authored: string[] = [];
-    for (const node of parts.children) {
-      const part = ModuleParser.ast(node) as Field;
-      if (['state', 'change', 'hurts', 'guards'].includes(part.field)) { ModuleParser.thingPart(spec, part); continue; }
-      if (part.field === 'offers' || part.field === 'sells') {
-        ((p as unknown as Record<string, unknown[]>)[part.field] ??= []).push(part.value); continue;
-      }
-      if (part.field === 'traits' || part.field === 'gear') {
-        const list = ((p as unknown as Record<string, string[]>)[part.field] ??= []);
-        list.push(part.value as string);
-        if (!authored.includes(part.field)) { authored.push(part.field); }
-        continue;
-      }
-      if (part.field === 'species' || part.field === 'creature') {
-        if (seen.has('raceId') || seen.has('classId')) { throw new Error(`${p.id}: a species has no ancestry or calling`); }
-        if (part.field === 'creature') {
-          p.creature = part.value as Record<string, string | number>;
-          delete p.raceId; delete p.classId;
-          seen.add('raceId'); seen.add('classId'); continue;
-        }
-        p.raceId = part.value as string; delete p.classId;
-        authored.push('raceId'); seen.add('raceId'); seen.add('classId');
-        continue;
-      }
-      if (['raceId', 'classId'].includes(part.field) && seen.has(part.field)) {
-        throw new Error(`${p.id}: a species has no ancestry or calling`);
-      }
-      if (['raceId', 'classId', 'level', 'professionId', 'backgroundId'].includes(part.field)) { authored.push(part.field); }
-      if (seen.has(part.field)) { throw new Error(`Duplicate Person field ${part.field} for ${p.id}`); }
-      seen.add(part.field); Object.assign(p, { [part.field]: part.value });
-    }
-    return { field: 'person', value: { ...p, ...(authored.length ? { authored } : {}), spec } };
-  }
-  static PersonRole(_r: Node, text: Node, _dot: Node): Field {
-    return { field: 'role', value: ModuleParser.ast(text) };
-  }
-  static PersonRace(_r: Node, id: Node, _dot: Node): Field { return { field: 'raceId', value: id.sourceString }; }
-  static PersonClass(_c: Node, id: Node, _dot: Node): Field { return { field: 'classId', value: id.sourceString }; }
-  static PersonSpecies(_s: Node, id: Node, _dot: Node): Field { return { field: 'species', value: id.sourceString }; }
-  static PersonCreature(_c: Node, list: Node, _dot: Node): Field {
-    const params = list.asIteration().children.map(c => {
-      const [name, value] = c.children as [Node, Node];
-      const text = value.sourceString;
-      return [name.sourceString, /^\d+$/.test(text) ? Number(text) : text] as const;
-    });
-    return { field: 'creature', value: Object.fromEntries(params) };
-  }
-  static PersonCount(_n: Node, n: Node, _dot: Node): Field { return { field: 'count', value: Number(n.sourceString) }; }
-  // What each member of a numbered group is called, in order: "the sow", "her cub".
-  static PersonCalled(_c: Node, list: Node, _dot: Node): Field {
-    return { field: 'names', value: list.asIteration().children.map(c => ModuleParser.ast(c) as string) };
-  }
-  static PersonTrait(_t: Node, id: Node, _dot: Node): Field { return { field: 'traits', value: id.sourceString }; }
-  static PersonCarries(_c: Node, id: Node, _dot: Node): Field { return { field: 'gear', value: id.sourceString }; }
   // A mechanism of this place: its effect is written in the Kyr effect language and belongs to this module only.
   static HazardDecl(_h: Node, id: Node, name: Node, _means: Node, effect: Node, _dot: Node): Field {
     const text = ModuleParser.ast(effect) as string;
     parseAbility(id.sourceString, ModuleParser.ast(name) as string, text);
     return { field: 'hazard', value: { id: id.sourceString, type: 'hazard', name: ModuleParser.ast(name), effect: text } };
-  }
-  static PersonProfession(_p: Node, id: Node, _dot: Node): Field { return { field: 'professionId', value: id.sourceString }; }
-  static PersonBackground(_p: Node, id: Node, _dot: Node): Field { return { field: 'backgroundId', value: id.sourceString }; }
-  static OffersPart(_o: Node, kind: Node, text: Node, _for: Node, fee: Node, _coin: Node, _dot: Node): Field {
-    return { field: 'offers', value: { kind: kind.sourceString, text: ModuleParser.ast(text), fee: Number(fee.sourceString) } };
-  }
-  static SellsPart(_s: Node, what: Node, _for: Node, fee: Node, _coin: Node, _from: Node, stock: Node,
-    _dot: Node): Field {
-    return { field: 'sells', value: { what: what.sourceString, fee: Number(fee.sourceString), stock: Number(stock.sourceString) } };
   }
   static Company(_c: Node, id: Node, name: Node, _of: Node, size: Node, _at: Node, place: Node, _dot: Node): Field {
     return { field: 'company', value: { id: id.sourceString, name: ModuleParser.ast(name), size: Number(size.sourceString),
@@ -320,10 +236,6 @@ export class ModuleParser {
   static Taking(_t: Node, amount: Node, unit: Node) {
     const n = Number(amount.sourceString), u = unit.sourceString;
     return { ticks: Math.max(1, u.startsWith('minute') ? Math.ceil(n / 10) : u.startsWith('hour') ? n * 6 : n * 144) };
-  }
-  static PersonLevel(_l: Node, n: Node, _dot: Node): Field { return { field: 'level', value: Number(n.sourceString) }; }
-  static PersonUses(_u: Node, ids: Node, _dot: Node): Field {
-    return { field: 'actions', value: ids.asIteration().children.map(ModuleParser.text) };
   }
   static Speaker(_s: Node, id: Node, _dot: Node): Field { return { field: 'speaker', value: id.sourceString }; }
   static Result(_r: Node, text: Node, _dot: Node): Field {
@@ -486,6 +398,6 @@ export class ModuleParser {
   }
   static Integer(this: Node, _digits: Node) { return { kind: 'number', value: Number(this.sourceString) }; }
   static String(this: Node, _open: Node, _chars: Node, _close: Node) { return JSON.parse(this.sourceString) as string; }
-  private static ast(node: Node): unknown { return (node as AstNode).ast(); }
-  private static text(node: ohm.Node): string { return node.sourceString; }
+  static ast(node: Node): unknown { return (node as AstNode).ast(); }
+  static text(node: ohm.Node): string { return node.sourceString; }
 }

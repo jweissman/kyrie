@@ -30,6 +30,15 @@ export class ModuleCompiler {
       }
     }
     ModuleCompiler.unique(module.entities.filter(e => e.creatureId).map(e => e.creatureId!), 'creature binding');
+    this.signaturesOf(module);
+    this.behaviours(module);
+    this.number(module.budget);
+    this.predicate(module, module.goal);
+    module.initial.forEach(change => this.change(module, change));
+    module.actions.forEach(action => this.action(module, action));
+  }
+  // Relations, measures and queries: well-typed, and no query defined in terms of itself.
+  private signaturesOf(module: Module) {
     for (const signature of [...module.relations, ...module.measures]) {
       signature.types.forEach(type => this.kind(module, type));
       if (signature.exclusive && signature.types.length < 2) { throw new Error('Exclusive relation needs at least two arguments'); }
@@ -41,6 +50,9 @@ export class ModuleCompiler {
       this.predicate(module, query.body, bindings);
       this.acyclic(module, query.name, []);
     }
+  }
+  // What the world does on its own: people's pursuits, rules, and what is observed and wanted.
+  private behaviours(module: Module) {
     ModuleCompiler.unique((module.pursuits ?? []).map(p => `${p.actor}:${p.id}`), 'pursuit');
     for (const p of module.pursuits ?? []) {
       if (!module.entities.some(e => e.id === p.actor && e.type === 'group')
@@ -65,28 +77,25 @@ export class ModuleCompiler {
     }
     ModuleCompiler.unique((module.objectives ?? []).map(o => o.id), 'objective');
     for (const o of module.objectives ?? []) { this.predicate(module, o.when); this.text(module, o.text); }
-    this.number(module.budget);
-    this.predicate(module, module.goal);
-    module.initial.forEach(change => this.change(module, change));
-    for (const action of module.actions) {
-      if (!Number.isSafeInteger(action.cost) || action.cost < 0
-        || !Number.isSafeInteger(action.time) || action.time < 1) { throw new Error(`Invalid cost/time for ${action.id}`); }
-      const bindings = Object.fromEntries((action.parameters ?? []).map(p => [p.name, p.type]));
-      ModuleCompiler.unique((action.parameters ?? []).map(p => p.name), 'action parameter');
-      (action.parameters ?? []).forEach(p => {
-        this.kind(module, p.type);
-        if (this.type(module, p.name)) { throw new Error(`Parameter shadows entity ${p.name}`); }
-      });
-      this.predicate(module, action.requires, bindings);
-      [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
-      if (action.speaker && !module.entities.some(e => e.id === action.speaker && e.type === 'group')) {
-        throw new Error(`Unknown topic speaker ${action.speaker}`);
-      }
-      this.text(module, action.report ?? '', bindings);
-      this.text(module, action.seen ?? '', bindings);
-      if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
-      if (action.duration) { this.call(module, action.duration, module.measures, bindings); }
+  }
+  private action(module: Module, action: Module['actions'][number]) {
+    if (!Number.isSafeInteger(action.cost) || action.cost < 0
+      || !Number.isSafeInteger(action.time) || action.time < 1) { throw new Error(`Invalid cost/time for ${action.id}`); }
+    const bindings = Object.fromEntries((action.parameters ?? []).map(p => [p.name, p.type]));
+    ModuleCompiler.unique((action.parameters ?? []).map(p => p.name), 'action parameter');
+    (action.parameters ?? []).forEach(p => {
+      this.kind(module, p.type);
+      if (this.type(module, p.name)) { throw new Error(`Parameter shadows entity ${p.name}`); }
+    });
+    this.predicate(module, action.requires, bindings);
+    [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
+    if (action.speaker && !module.entities.some(e => e.id === action.speaker && e.type === 'group')) {
+      throw new Error(`Unknown topic speaker ${action.speaker}`);
     }
+    this.text(module, action.report ?? '', bindings);
+    this.text(module, action.seen ?? '', bindings);
+    if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
+    if (action.duration) { this.call(module, action.duration, module.measures, bindings); }
   }
   instantiate(definition: Module, seed: string): Instance {
     this.validate(definition);

@@ -1,4 +1,4 @@
-import type { Call, Change, Module, NumberValue, Person, Predicate, Value } from './module';
+import type { Call, Change, Module, NumberValue, Operator, Person, Predicate, Value } from './module';
 import { World } from './world';
 
 export class ModuleWriter {
@@ -44,20 +44,7 @@ export class ModuleWriter {
     }
     for (const p of module.people ?? []) { lines.push(`  Person ${p.id} ${JSON.stringify(p.name)} at ${p.place} { ${ModuleWriter.person(p)} }`); }
     const declared = new Set([...(module.people ?? []).map(p => p.id), module.company?.id]);
-    for (const entity of module.entities.filter(e => !declared.has(e.id))) {
-      if (entity.space) {
-        const grid = entity.space.grid ? ` at ${entity.space.grid[0]}, ${entity.space.grid[1]}` : '';
-        lines.push(`  Place ${entity.id} ${JSON.stringify(entity.name)} is ${entity.space.kind}${entity.space.parent ? ` within ${entity.space.parent}` : ''}${grid}.`);
-      }
-      else if (entity.exit) {
-        const e = entity.exit;
-        lines.push(`  Exit ${entity.id} ${JSON.stringify(entity.name)} from ${e.origin} to ${e.destination} by ${e.mode}${e.door ? ` through ${e.door}` : ''}${e.knowledge ? ` known by ${e.knowledge}` : ''}.`);
-      }
-      else if (entity.type === 'hazard' && entity.effect) {
-        lines.push(`  Hazard ${entity.id} ${JSON.stringify(entity.name)} means ${JSON.stringify(entity.effect)}.`);
-      }
-      else { lines.push(`  Entity ${entity.id}: ${entity.type} ${JSON.stringify(entity.name)}${entity.creatureId ? ` bound to ${entity.creatureId}` : ''}.`); }
-    }
+    for (const entity of module.entities.filter(e => !declared.has(e.id))) { lines.push(ModuleWriter.entity(entity)); }
     for (const p of module.pursuits ?? []) {
       lines.push(`  Pursuit ${p.id} for ${p.actor}${p.label ? ` ${JSON.stringify(p.label)}` : ''} priority ${p.priority} when ${ModuleWriter.predicate(p.when)} seeks ${ModuleWriter.predicate(p.target)}.`);
     }
@@ -80,26 +67,41 @@ export class ModuleWriter {
       && module.people?.some(p => p.id === c.call.args[0] && p.place === c.call.args[1])))) { lines.push(`  Initially ${ModuleWriter.change(change)}`); }
     lines.push(`  Budget ${ModuleWriter.value(module.budget)}.`, `  Goal ${ModuleWriter.predicate(module.goal)}.`);
     for (const action of module.actions.filter(a => !a.movement && !a.searchPlace)) {
-      const parameters = action.parameters ? `(${action.parameters.map(p => `${p.name}: ${p.type}`).join(', ')})` : '';
-      lines.push('', `  Action ${action.id}${parameters} ${JSON.stringify(action.name)} {`,
-        `    Description ${JSON.stringify(action.description)}.`,
-        `    Requires ${ModuleWriter.predicate(action.requires)}.`,
-        `    Cost ${action.cost}. Time ${action.duration ? World.format(action.duration) : action.time}.`);
-      if (action.report) { lines.push(`    Result ${JSON.stringify(action.report)}.`); }
-      if (action.seen) { lines.push(`    Seen ${JSON.stringify(action.seen)}.`); }
-      if (action.speaker) { lines.push(`    Speaker ${action.speaker}.`); }
-      if (action.resolve) { lines.push(`    Resolve ${World.format(action.resolve)}.`); }
-      lines.push('    On success {');
-      action.success.forEach(change => lines.push(`      ${ModuleWriter.change(change)}`));
-      lines.push('    }');
-      if (action.failure.length) {
-        lines.push('    On failure {');
-        action.failure.forEach(change => lines.push(`      ${ModuleWriter.change(change)}`));
-        lines.push('    }');
-      }
-      lines.push('  }');
+      lines.push('', ...ModuleWriter.action(action));
     }
     return `${lines.join('\n')}\n}\n`;
+  }
+  // A place, an exit, a hazard or a plain entity, as its own declaration.
+  private static entity(entity: Module['entities'][number]): string {
+    if (entity.space) {
+      const grid = entity.space.grid ? ` at ${entity.space.grid[0]}, ${entity.space.grid[1]}` : '';
+      return `  Place ${entity.id} ${JSON.stringify(entity.name)} is ${entity.space.kind}${entity.space.parent ? ` within ${entity.space.parent}` : ''}${grid}.`;
+    }
+    if (entity.exit) {
+      const e = entity.exit;
+      return `  Exit ${entity.id} ${JSON.stringify(entity.name)} from ${e.origin} to ${e.destination} by ${e.mode}${e.door ? ` through ${e.door}` : ''}${e.knowledge ? ` known by ${e.knowledge}` : ''}.`;
+    }
+    if (entity.type === 'hazard' && entity.effect) {
+      return `  Hazard ${entity.id} ${JSON.stringify(entity.name)} means ${JSON.stringify(entity.effect)}.`;
+    }
+    return `  Entity ${entity.id}: ${entity.type} ${JSON.stringify(entity.name)}${entity.creatureId ? ` bound to ${entity.creatureId}` : ''}.`;
+  }
+  private static action(action: Operator): string[] {
+    const parameters = action.parameters ? `(${action.parameters.map(p => `${p.name}: ${p.type}`).join(', ')})` : '';
+    const lines = [`  Action ${action.id}${parameters} ${JSON.stringify(action.name)} {`,
+      `    Description ${JSON.stringify(action.description)}.`,
+      `    Requires ${ModuleWriter.predicate(action.requires)}.`,
+      `    Cost ${action.cost}. Time ${action.duration ? World.format(action.duration) : action.time}.`];
+    if (action.report) { lines.push(`    Result ${JSON.stringify(action.report)}.`); }
+    if (action.seen) { lines.push(`    Seen ${JSON.stringify(action.seen)}.`); }
+    if (action.speaker) { lines.push(`    Speaker ${action.speaker}.`); }
+    if (action.resolve) { lines.push(`    Resolve ${World.format(action.resolve)}.`); }
+    lines.push('    On success {', ...action.success.map(change => `      ${ModuleWriter.change(change)}`), '    }');
+    if (action.failure.length) {
+      lines.push('    On failure {', ...action.failure.map(change => `      ${ModuleWriter.change(change)}`), '    }');
+    }
+    lines.push('  }');
+    return lines;
   }
   // Only authored identity is written back, so a reparse cannot turn a default into an authored value.
   static person(p: Person): string {
