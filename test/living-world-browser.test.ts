@@ -81,6 +81,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the March as a living world, in a r
     // Out by the gate the company opened, to the Holly Bush for the night.
     await Living.walk(d, 'cistern', 'crypt', 'hall', 'bailey', 'tower_foot', 'holt_green', 'holly_room');
     await d.do('osric', 'Take a bed');
+    // Saved as it goes: a reloaded page continues the same company, at the same place and hour.
+    const [place, clock] = [(await d.inspect()).place?.id, await page.textContent('[data-id="clock"]')];
+    await page.reload();
+    await d.click('[data-action="continue"]');
+    await page.waitForSelector('[data-mode="explore"]');
+    expect([(await d.inspect()).place?.id, await page.textContent('[data-id="clock"]')]).toEqual([place, clock]);
     await Living.buyTorches(d, 'osric');
     await Living.walk(d, 'holt_green');
     // Exercise 5, someone acting while the company was elsewhere: overnight the churchyard fell, and the green says

@@ -46,6 +46,15 @@ describe('Holt keep', () => {
     await s.perform('go(tower__gate,east__tower_foot)');
     expect(Keep.legal(s)).toContain('go(tower__gate,tower__bailey)');
   }, 60000);
+  it('lets a company that climbs come over the breach into the bailey, where a locksmith would take the postern', async () => {
+    const pilgrims = await Keep.start('pilgrims');
+    expect([Keep.legal(pilgrims).includes('go(tower__breach,tower__bailey)'),
+      Keep.legal(pilgrims).includes('go(tower__postern,tower__crypt)')]).toEqual([true, false]);
+    await pilgrims.perform('go(tower__breach,tower__bailey)');
+    // Over the wall they are in the bailey, with the tower door ahead and no way to wind the gate.
+    expect([Keep.legal(pilgrims).includes('go(tower__door,tower__hall)'),
+      Keep.legal(pilgrims).some(c => c.startsWith('change_thing(tower__winch'))]).toEqual([true, false]);
+  }, 60000);
   it('hides its back stair until someone finds the worn steps behind a niche', async () => {
     const s = await Keep.start();
     await Keep.walk(s, Keep.crypt);
