@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'bun:test';
 import { buildSetting, Generator, Template, type DeemValue } from 'deem';
-import tables from '../data/generation/tables/deem.tables.json';
-import templates from '../data/generation/templates/deem.templates.json';
 import { Creation } from '../src/rules/creation';
 import { Fighting } from '../src/rules/fighting';
 import { Canon } from '../src/canon/canon';
 import { Content } from '../src/content';
 import { CombatProjection } from '../src/combat-projection';
 import { Battle } from '../src/battle';
+import { GenerationSetting } from '../src/generation-setting';
+const { tables, templates } = GenerationSetting;
 
 class Stats {
   static setting = buildSetting(tables as unknown as Parameters<typeof buildSetting>[0], templates);

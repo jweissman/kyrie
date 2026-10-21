@@ -13,6 +13,15 @@ class Worlds {
 }
 
 describe('a generated region with situated scenarios', () => {
+  it('carries what Deem drew into play: a keep in marsh country stands drowned, and its well is shut', async () => {
+    const flooded = async (terrain: string) => {
+      const world = await Worlds.assemble('m1', terrain);
+      const s = await PlaySession.start(world.path, 'm1', world.source);
+      await s.perform('wait');
+      return s.campaign.world.test(ModuleWriter.call('state', 'tower__well_water', 'tower__flooded'));
+    };
+    expect([await flooded('marsh'), await flooded('mountain')]).toEqual([true, false]);
+  }, 120000);
   it('is deterministic in its seed', async () => {
     const [a, b] = await Promise.all([Worlds.assemble('stable', 'mountain'), Worlds.assemble('stable', 'mountain')]);
     expect(a.report).toEqual(b.report);

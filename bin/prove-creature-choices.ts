@@ -1,12 +1,12 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import templates from '../data/generation/templates/deem.templates.json';
-import tables from '../data/generation/tables/deem.tables.json';
 import { CreatureDefinition } from '../src/creature-definition';
 import { Canon } from '../src/canon/canon';
 import { CombatProjection } from '../src/combat-projection';
 import { Battle } from '../src/battle';
 import { Content } from '../src/content';
+import { GenerationSetting } from '../src/generation-setting';
+const { tables, templates } = GenerationSetting;
 
 // CLI fixtures and assertions only: selection and composition remain in the checked-in Deem grammar.
 class ChoiceProof {
@@ -85,7 +85,7 @@ class ChoiceProof {
           && k.raceId === raw.raceId && (!('body' in k) || k.body === raw.body)) as Record<string, any>;
         this.require(kind, `Missing eligibility row for ${raw.name}`);
         this.require(kind._adaptations[raw.adaptation], 'Adaptation is incompatible with the body');
-        if (raw.classId) { this.require(kind._classes[raw.classId], 'Class is outside the compatible pool'); }
+        if (raw.classId) { this.require(kind._classIds[raw.classId], 'Class is outside the compatible pool'); }
         if (raw.role) { this.require(kind._roles[raw.role], 'Role is outside the compatible pool'); }
         const context = (this.contexts as Record<string, Record<string, string | number>>)[id]!;
         const terrain = context.terrain as string | undefined;

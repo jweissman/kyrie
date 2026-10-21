@@ -1,11 +1,12 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { DeemValue } from 'deem';
-import templates from '../data/generation/templates/deem.templates.json';
 import { Content } from '../src/content';
 import { CreatureDefinition } from '../src/creature-definition';
 import { CombatProjection } from '../src/combat-projection';
 import { Battle } from '../src/battle';
+import { GenerationSetting } from '../src/generation-setting';
+const { templates } = GenerationSetting;
 
 // Test configurations and combat commands, not creature definitions. The shell smoke test invokes the actual CLI.
 class Proof {

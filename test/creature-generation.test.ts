@@ -2,7 +2,8 @@ import { describe, expect, it } from 'bun:test';
 import { Content, type CreatureGenerationContext } from '../src/content';
 import { Canon } from '../src/canon/canon';
 import { Creation } from '../src/rules/creation';
-import templates from '../data/generation/templates/deem.templates.json';
+import { GenerationSetting } from '../src/generation-setting';
+const { templates } = GenerationSetting;
 
 describe('compositional creature generation', () => {
   it('uses one constructor for explicit PCs, requested goblins and procedural monsters', () => {

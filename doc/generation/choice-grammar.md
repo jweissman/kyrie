@@ -76,6 +76,40 @@ The dependency changes are applied in the sibling Deem checkout and captured in 
 
 The library tests cover contextual filtering, nested lookup, candidate binding, multiplicity weights, no-match errors and numeric scoped parameters. The inherited-context/weighted-table facilities already existed; no replacement generation engine was needed. Deem uses single-quoted predicate strings without interpolation; double-quoted strings interpolate `#variables`. Parenthesize compound conditions, especially negation, under its existing operator precedence.
 
+## Constraints by name, and the setting by domain (October 2026)
+
+Two later Deem builtins (Deem commit b68b174) name the idioms every selection predicate used to spell out:
+`fits(row, name...)` holds when, for each named dimension the context defines, the row's field of that name
+equals it or its `_<name>s` map holds it; `owns(table, group)` holds when the group holds every dimension the
+context asks for. A kind's selection went from
+
+```
+'dig(#__it, "_terrains", #terrain) && (defined("body") ? dig(#__it, "body") == #body : true)
+  && (defined("raceId") ? dig(#__it, "raceId") == #raceId : true) && (defined("classId") ? dig(#__it, "_classes", #classId) : true) && …'
+'count(definedOf(except(gatherEntries(creatureDimensions, "default"), gatherEntries(creatureDimensions, #__it)))) == 0'
+```
+
+to
+
+```
+'fits(#__it, "terrain", "body", "raceId", "classId") && …'
+'owns(creatureDimensions, #__it)'
+```
+
+The kinds' class pools are named `_classIds` so that `fits` reads them like `_terrains` and `_roles`. The
+dispatcher's expression went from 719 characters to 346. Only the adaptation-by-terrain check, a two-key table, is
+still spelled out.
+
+The setting is split by domain: `data/generation/tables/{creatures,dragons,names,places}.json` and
+`data/generation/templates/{creatures,dragons,places}.json`. Deem's CLI reads a scenario's folder when it has no
+single `deem.tables.json` (Deem commit 967deac), and Kyr merges the same files in `src/generation-setting.ts`; a
+name defined twice is an error either way. `bun bin/deem-bench.ts` times a cold CLI start, warm generation by
+family, tracing and serialization separately.
+
+One chain from generated context into play: the unquiet tower's look is drawn from its terrain
+(`towerStyle`), and a keep drawn in marsh country stands drowned, so black water fills its well and the way in
+that rumours speak of is shut (`test/world-assembly.test.ts`).
+
 ## Declarative content and weights
 
 `creatureFamilyPool` contains terrain-specific frequency lists of category names. Its unrestricted pool weights animal 5, humanoid 5, dragon 1 and construct 1. These are content frequencies, not combat-balance claims. Family eligibility rows own species/ancestry habitats and compatible class/adaptation/role pools. A body selected for a context must have an appropriate adaptation; for example a frost-terrain bear cannot take its neutral forest/mountain profile. A blue lineage excludes forest. Incompatible scoped requests throw through `select`, rather than silently accepting lookup's first-row fallback.

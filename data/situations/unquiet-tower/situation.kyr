@@ -53,6 +53,13 @@ Module unquiet_tower "The unquiet tower" {
   Passage cistern_steps "the cistern steps" is steps between crypt and cistern.
   Passage drift "the flooded drift" is crawl between cistern and strongroom.
 
+  // What Deem drew for the keep's look reaches play: a keep generated in marsh country stands drowned, and black
+  // water fills its well, so the rumoured way in is shut.
+  Thing well_water "the well shaft" on well {
+    State dry "Old iron rungs go down the well shaft into the dark.".
+    State flooded blocking "Black water stands in the well shaft a few feet below the lip. Nobody is going down that way.".
+  }
+  Rule well_floods when looks(tower, drowned) and state(well_water, dry) { Assert state(well_water, flooded). }
   Thing portcullis "the portcullis" on gate {
     State down blocking "A rusted portcullis hangs across the gate passage, a foot short of the ground.".
     State raised "The portcullis is wound up into its slot. The gate passage is open.".

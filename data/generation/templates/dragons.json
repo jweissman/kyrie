@@ -1,0 +1,24 @@
+{
+  "dragon": {
+    "__no_id": true,
+    ">family": "dragon",
+    "terrain": "any",
+    "_kind": "=select(creatureKinds, dragon, 'fits(#__it, \"terrain\", \"body\", \"raceId\") && (defined(\"adaptation\") ? dig(#__it, \"_adaptationTerrains\", #adaptation, #terrain) : true)')",
+    "_lineage": "=select(dragonLineage, defined('lineage') ? #lineage : default, 'fits(#__it, \"terrain\")')",
+    "lineage": "=dig(#_lineage, '_key')",
+    "_maturity": "=select(dragonMaturity, defined('maturity') ? #maturity : default)",
+    "maturity": "=dig(#_maturity, '_key')",
+    "body": "=dig(#_kind, 'body')",
+    "_body": "=gen('_dragon_body')",
+    "*creature": "=gen('_creature_complete')"
+  },
+  "_dragon_body": {
+    "__no_id": true,
+    "classId": "",
+    ">level": 0,
+    "*body": "=lookup(creatureBody, dragon)",
+    "*lineage": "=#_lineage",
+    "*maturity": "=#_maturity",
+    "name": "=capitalize(#maturity) + ' ' + #lineage + ' dragon'"
+  }
+}

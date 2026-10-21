@@ -9,7 +9,8 @@ import { CreatureSchema, type Attribute } from '../src/creature';
 import { RandomStreams } from '../src/random-streams';
 import { Expressions } from '../src/expressions';
 import { FantasyRules } from '../src/fantasy-rules';
-import templates from '../data/generation/templates/deem.templates.json';
+import { GenerationSetting } from '../src/generation-setting';
+const { templates } = GenerationSetting;
 
 class AttributesTest {
   static cli(options: Parameters<typeof runGeneration>[0]) {

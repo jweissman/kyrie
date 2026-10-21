@@ -1,0 +1,196 @@
+{
+  "dragonLineage": {
+    "groups": {
+      "red": [
+        {
+          "abilities": [
+            "breathe_fire"
+          ],
+          "traits": [
+            "fire_lineage"
+          ],
+          "trace": [
+            "lineage:red"
+          ],
+          "_key": "red",
+          "_terrains": {
+            "mountain": true,
+            "cave": true,
+            "desert": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ],
+      "blue": [
+        {
+          "abilities": [
+            "breathe_lightning"
+          ],
+          "traits": [
+            "lightning_lineage"
+          ],
+          "trace": [
+            "lineage:blue"
+          ],
+          "_key": "blue",
+          "_terrains": {
+            "desert": true,
+            "mountain": true,
+            "any": true
+          }
+        }
+      ],
+      "white": [
+        {
+          "abilities": [
+            "breathe_cold"
+          ],
+          "traits": [
+            "cold_lineage"
+          ],
+          "trace": [
+            "lineage:white"
+          ],
+          "_key": "white",
+          "_terrains": {
+            "frost": true,
+            "mountain": true,
+            "any": true
+          }
+        }
+      ],
+      "black": [
+        {
+          "abilities": [
+            "breathe_acid"
+          ],
+          "traits": [
+            "acid_lineage"
+          ],
+          "trace": [
+            "lineage:black"
+          ],
+          "_key": "black",
+          "_terrains": {
+            "marsh": true,
+            "cave": true,
+            "any": true
+          }
+        }
+      ],
+      "copper": [
+        {
+          "abilities": [
+            "breathe_acid"
+          ],
+          "traits": [
+            "acid_lineage"
+          ],
+          "trace": [
+            "lineage:copper"
+          ],
+          "_key": "copper",
+          "_terrains": {
+            "forest": true,
+            "mountain": true,
+            "ruins": true,
+            "any": true
+          }
+        }
+      ],
+      "green": [
+        {
+          "abilities": [
+            "breathe_poison"
+          ],
+          "traits": [
+            "poison_lineage"
+          ],
+          "trace": [
+            "lineage:green"
+          ],
+          "_key": "green",
+          "_terrains": {
+            "forest": true,
+            "marsh": true,
+            "any": true
+          }
+        }
+      ]
+    },
+    "discriminator": "lineage"
+  },
+  "dragonMaturity": {
+    "groups": {
+      "wyrmling": [
+        {
+          "__weight": 3,
+          "level": 1,
+          "trace": [
+            "maturity:wyrmling"
+          ],
+          "strength": -18,
+          "dexterity": -18,
+          "constitution": -18,
+          "intelligence": -18,
+          "wisdom": -18,
+          "charisma": -18,
+          "hpBonus": -83,
+          "_key": "wyrmling"
+        }
+      ],
+      "young": [
+        {
+          "__weight": 4,
+          "level": 3,
+          "trace": [
+            "maturity:young"
+          ],
+          "strength": -12,
+          "dexterity": -12,
+          "constitution": -12,
+          "intelligence": -12,
+          "wisdom": -12,
+          "charisma": -12,
+          "hpBonus": -63,
+          "_key": "young"
+        }
+      ],
+      "adult": [
+        {
+          "__weight": 2,
+          "level": 6,
+          "trace": [
+            "maturity:adult"
+          ],
+          "strength": 0,
+          "dexterity": 0,
+          "constitution": 0,
+          "intelligence": 0,
+          "wisdom": 0,
+          "charisma": 0,
+          "hpBonus": 0,
+          "_key": "adult"
+        }
+      ],
+      "ancient": [
+        {
+          "level": 12,
+          "trace": [
+            "maturity:ancient"
+          ],
+          "strength": 6,
+          "dexterity": 6,
+          "constitution": 6,
+          "intelligence": 6,
+          "wisdom": 6,
+          "charisma": 6,
+          "hpBonus": 81,
+          "_key": "ancient"
+        }
+      ]
+    },
+    "discriminator": "maturity"
+  }
+}

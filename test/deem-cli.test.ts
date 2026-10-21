@@ -3,8 +3,6 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { runGeneration, type DeemValue } from 'deem';
-import templates from '../data/generation/templates/deem.templates.json';
-import tables from '../data/generation/tables/deem.tables.json';
 import { CreatureDefinition } from '../src/creature-definition';
 import { CombatProjection } from '../src/combat-projection';
 import { Battle } from '../src/battle';
@@ -13,6 +11,8 @@ import { Creation } from '../src/rules/creation';
 import { Effects } from '../src/effects';
 import additions from '../doc/generation/authoring-additions.json';
 import { Content } from '../src/content';
+import { GenerationSetting } from '../src/generation-setting';
+const { tables, templates } = GenerationSetting;
 
 class Cli {
   static run(args: string[]): Record<string, DeemValue> {

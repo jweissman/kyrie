@@ -1,8 +1,6 @@
 import { Spellcasting } from './rules/spellcasting';
 import { buildSetting, Generator, Template } from 'deem';
 import type { DeemValue } from 'deem';
-import tables from '../data/generation/tables/deem.tables.json';
-import templates from '../data/generation/templates/deem.templates.json';
 import { Expressions } from './expressions';
 import { Effects } from './effects';
 import { FantasyRules } from './fantasy-rules';
@@ -19,6 +17,8 @@ import { Creation } from './rules/creation';
 import { RandomStreams } from './random-streams';
 import { Fighting } from './rules/fighting';
 import type { Fighter } from './model';
+import { GenerationSetting } from './generation-setting';
+const { tables, templates } = GenerationSetting;
 
 const rules = Canon.rules;
 export type ClassId = string;
