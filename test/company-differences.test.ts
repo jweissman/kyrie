@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList, type Choice } from '../src/ui/choice-list';
 import companies from '../data/campaigns/companies.json';
-import type { CreatureGenerationContext } from '../src/content';
+import { Content, type CreatureGenerationContext } from '../src/content';
 
 class Companies {
   static party(id: string): CreatureGenerationContext[] {
@@ -42,4 +42,18 @@ describe('different companies, different ways through', () => {
     expect(Companies.find(pilgrims, pick)?.disabled).toContain('Needs lockwork');
     expect(Companies.find(pilgrims, wrench)?.disabled).toContain('Needs brawn');
   }, 60000);
+});
+
+describe('every ready company', () => {
+  it('can be made under any seed: what a background gives and what a calling draws never collide', () => {
+    for (const company of companies.companies) {
+      for (const seed of ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8']) {
+        const drawn = new Content(seed);
+        for (const m of company.members as CreatureGenerationContext[]) {
+          const c = drawn.createCreature(`${company.id}_${m.name!.toLowerCase()}`, m);
+          expect(new Set(c.state.inventory!.map(i => i.id)).size).toBe(c.state.inventory!.length);
+        }
+      }
+    }
+  });
 });

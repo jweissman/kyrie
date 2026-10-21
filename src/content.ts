@@ -184,7 +184,10 @@ export class Content {
     const kind = choice ?? authored ?? (table.length ? new Content(RandomStreams.key(this.seed, table === chassis.weapons ? 'weapon' : 'armor', randomIdentity), this.setting).pick([...table]) : undefined);
       if (!kind || Canon.items[kind]?.weapon?.natural) { continue; }
       if (!Canon.items[kind]) { throw new Error(`${creature.id}: unknown starting equipment ${kind}`); }
-      inventory.push({ id: Overlays.gearId(creature.id, kind), definition: kind, equipped: true });
+      // A background that already gave one (an outlaw's dagger) has it in hand: there is one of each kind.
+      const id = Overlays.gearId(creature.id, kind), held = inventory.find(i => i.id === id);
+      if (held) { held.equipped = true; continue; }
+      inventory.push({ id, definition: kind, equipped: true });
     }
   }
   private static score(generated: Record<string, DeemValue>, key: string): number {
