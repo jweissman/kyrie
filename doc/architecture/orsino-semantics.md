@@ -105,38 +105,58 @@ Test: `test/formations.test.ts`, "keeps Charge out of reach until a warrior has 
 
 | Rule | Orsino | Kyr | Status |
 |---|---|---|---|
-| Experience curve | table | same table | Faithful (`advancement.test.ts`) |
+| Experience curve | `xpForLevel` (50L³ + 150L² + 300L − 600), unbounded | the same formula, to level 20 | Faithful (`advancement.test.ts`) |
 | Hit points | hit die + Constitution modifier, at least 1 | same, plus `onLevelUp` perks | Faithful |
 | Qualities | a point of any quality per level | `raise_quality`, spent in the field | Faithful |
-| Spells | a specialist picks a new spell of its school or domain | of its tradition | Adapted (documented in `Advancement.learnable`) |
-| Feats | at levels 5, 10 and 15: a class feat of that level or below, not held, not ruled out by one held | the same: `take_feat` is offered after the level is taken under a roof; granted abilities are added; the store refuses any other change | Faithful |
-| Exclusive feats at creation | `incompatibleWith` | refused at creation ("rules out") | Faithful |
+| Spells | a specialist picks a new spell of its school or domain, up to half its level rounded up | of its tradition, and never of a level it has no slot for | Adapted (`Advancement.learnable`) |
+| Spell slots | one pool (mage 6 + level + 2 × INT modifier; cleric 4 + level + WIS; bard 3 + level + CHA), any spell up to ⌈L/2⌉ | slots by spell level to class level 20, prepared at rest, reaching the same spell levels: sixth at 11, ninth at 17; bards seventh at 18 | Adapted (`classes.json` notes) |
+| Feats | at levels 5, 10 and 15 | the same | Faithful |
+| Calling features | none beyond ability level gates | techniques and calling traits at set levels (Rapid Strike, Arrow Volley, a second action at 13 or 17), so every calling gains something new at least every three levels | Kyr's own (`progression.test.ts`) |
+| Made at a level | an NPC's chassis | a companion made at a level holds what one trained to it holds, and a specialist knows a spell for each level since | Kyr's own |
 
-Tests: `test/advancement.test.ts`, "a feat at the fifth level".
-
-Three of Orsino's ten feats do not execute:
-
-- Focused Casting needs `bonusSpellSlots`.
-- Animal Companion needs summoning.
-- Warlord's Presence needs `onCombatStart`.
+Three of Orsino's ten feats still do not execute: Focused Casting (`bonusSpellSlots`), Animal Companion (a
+summoning bonus) and Warlord's Presence (its trait statuses).
 
 ## Turn structure
 
 | Rule | Orsino | Kyr | Status |
 |---|---|---|---|
-| `extraAttacksPerTurn` | actions per turn = the creature's attacks + extra, never fewer than one | the same, for creatures of one attack; a hasted creature acts twice before its turn ends | Faithful (`test/turn-structure.test.ts`) |
-| `randomActions` | a random action from the valid ones, for player and enemy alike | the creature falls on one of its legal commands; the player is offered only that one, and the log says why | Faithful |
-| `changeAllegiance` | the creature's allies and enemies swap; a player character so affected is no longer player-controlled | the same: only the turned creature's own view flips | Faithful |
-| `controlledActions` | control flips to the other side | the same: a dominated foe is the player's to command | Faithful |
-| `extraTurns` | the whole turn again | none | Incomplete (1 status) |
-| multi-attack monsters (`monsterAttacksPerTurn`) | a monster's base attacks | one | Incomplete (10 monster classes) |
-| summoning | `summon` adds combatants for the encounter | none | Incomplete: 16 abilities, 1 formation, 1 feat |
-| `cast` / `onExpire` | an effect casts another ability | none | Incomplete: 20 entries |
-| reactions (`onEnemyCharge`, `onEnemyMelee`, `onEnemyAttack`, `onAttacked`, `reflect*`) | hooks run on another creature's action | `onAttack` hooks only | Incomplete: about 15 entries |
+| `extraAttacksPerTurn` | actions a turn = the creature's attacks + extra, at least one | the same, with a species' own actions | Faithful (`turn-structure.test.ts`) |
+| `monsterAttacksPerTurn` | a monster class's actions a turn (an owlbear's two, a dragon's three) | the species statistic `actions` | Faithful (`summoning.test.ts`) |
+| `randomActions`, `changeAllegiance`, `controlledActions` | confusion, charm, domination | the same | Faithful |
+| `extraTurns` | the whole turn again | none | Incomplete (time stop) |
 
-With these, haste, slow, confusion, insanity, charm and domination run. 92 of 340 catalogued abilities and 35 of
-162 conditions do not execute; before the turn structure the counts were 127 and 41. Each refuses itself in the
-catalog (`unsupported`) and is never offered, so no ability is offered in a form different from Orsino's.
+## Effects and targets (mission 7)
+
+| Rule | Orsino | Kyr | Status |
+|---|---|---|---|
+| `randomEnemies` | distinct living enemies, the count read with `parseInt` | distinct living enemies drawn once from the seed for all of a spell's effects and saves; the count evaluated as written | Adapted: `parseInt` reads "2 + round(#level/2)" as 2 and "=1d6 + …" as nothing |
+| `summon` | creatures by template, owned by the summoner, at most 3 + ⌊level/3⌋, the oldest sent back; gone when the fight ends | the same, by species, animal kind, ancestry companions, monster class, element or type | Adapted: Kyr draws one kind from all the named classes at once |
+| `cast` | another ability performed at no slot cost | the same; an ability casting an unplayable one is unplayable | Faithful |
+| `randomEffect`, `cycleEffects` | one effect at random; the next in turn | from the seed; the cycle kept per caster | Faithful; cycle adapted |
+| `resurrect` | a fallen ally back with `hpPercent` and `applyTraits` | the same | Faithful |
+| `kill` | the target falls; the declared save is never rolled | the declared save is rolled, as a debuff's | Adapted |
+| `flee` (on another) | save or flee; a fleeing foe leaves at the next round | the same; it leaves alive, with what it summoned | Faithful |
+| Reactions | `onEnemy<Ability>`, `onEnemy<EffectType>`, casting reactions, `onExpire`, `onHeal`, `onCombatStart` | the same keys, run before the provoking effect lands; a reaction sets off no other | Faithful (`reactions.test.ts`) |
+| Electric damage | dealt by content, resisted by no rule | a damage kind resisted only by resistance to all | Faithful |
+
+43 of 354 abilities and 24 of 172 conditions still do not execute; at the start of mission 7 the counts were 89
+and 35. Each refuses itself in the catalog and is never offered.
+
+## The bestiary
+
+`bun bin/orsino-registry.ts bestiary` composes Kyr species from Orsino's monster template (`OrsinoMonsters`): 39
+monster types by class, 16 elementals by element and 38 animals by kind. Each species grows with level as the
+template does: attributes by round(level / 8), and hit points by the class line + CON modifier + 3 a level. Each has
+the class's actions a turn and is worth the class's experience + 50 a level. What Kyr cannot play is named in
+`omits`. A hand-written species that names the same Orsino source stands in place of the generated one.
+
+## Planes
+
+Orsino's planes carry `globalEffects` that every resident holds. In Kyr a place may declare `law(place, law)`, where
+the law names a catalog condition; everyone in a fight there holds it. Planes are places of kind `plane`, reached by
+portals: passages with access conditions (knowledge, sunlight, a seal). Orsino's ten planes and planeshift remain
+data.
 
 ## Ancestry, class, background and equipment
 

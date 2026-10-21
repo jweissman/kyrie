@@ -118,6 +118,43 @@ at the same price from the same stock, whatever the place was.
 The settlement template draws `merchantType` with one `lookup`. `RegionWriter` writes each person's `Sells` and
 `Buys` lines from the row. Adding a kind of merchant is one row, and adding a trade is one entry.
 
+## Inhabitants, laws and portals (mission 7)
+
+A creature that lives somewhere is given a temperament. The shared rules in `data/rules/inhabitants.kyr` then decide
+how it meets a company. Groups of one species take the species' temperament; a place may set any group's
+(`temper_territorial`, `temper_defensive`, `temper_proud`, `temper_savage`, `temper_ambush`, `temper_obedient`,
+`temper_wary`). The place supplies what the rules need:
+
+```
+Person mouther "the thing under the Mere" at mere_edge { Role "a mouth in the dust". Species mouther. Level 10. }
+Initially Assert temperament(mouther, temper_ambush).
+Initially Assert warning(mouther, mouther_seen). Initially Assert onslaught(mouther, mouther_rises).
+Entity mouther_seen: fact "The dust at the Mere's edge breathes in, and out… it has noticed you.".
+Entity mouther_rises: fact "The dust at your feet opens into a mouth.".
+```
+
+- `lair(group, place)`: what a defensive or obedient creature defends.
+- `refuge(group, place)`: where a wary, frightened or beaten creature goes.
+- `fears(group, capability)` and `flinch(group, text)`: what drives it off, and what is said when it goes.
+- `plea(group, text)`: what a beaten creature says when it yields.
+- `tribute(group)`: the price a proud creature names. The shared action *Give {lord} what it asks* pays it.
+
+A creature that has not been given its words does nothing by temperament. A warning stops the company where it
+stands; the next thing the company does there uses up the creature's patience.
+
+A place's **law** is a catalog condition (mark it `"law": true`) that everyone in a fight there holds:
+`Initially Assert law(unlit, unlit_law).` A rule may change it, as relighting Lampfall's beacon does.
+
+A **portal** is a passage between planes, with whatever access conditions the place needs:
+`Passage veil "the veil under the deep cellar" is portal between deep_cellar and veil_foot taking 1 hour hidden until
+veil_known needing sunlight.` A thing on the passage can bar it until something holds (the Unlight gone).
+
+A rule may name what its condition bound: `Rule … when … and warning(?g, ?w) says "{?w}"` speaks the text bound to
+`?w`. The compiler refuses a variable the condition does not bind.
+
+Passage names should point no way ("the ford lane", not "the lane to the ford"), because each passage is walked
+both ways and its label already names where it leads.
+
 ## What is still written by hand, and why
 
 | Content | Where | Why it is not a table yet |

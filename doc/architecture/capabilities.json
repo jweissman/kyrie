@@ -63,7 +63,7 @@
       "faithful": "Initiative, THAC0 against descending armour class, criticals, evasion, saves with the three-successes rule, the death save, haste and slow, confusion, charm and domination, preparation and compelled moves, conditions that tick and lapse, recharge, and reactions: a status answers an enemy's named ability (overwatch and blade barrier to a melee blow, a braced spear to a charge), any attack (charm aura, consecrated ground) or any casting (magebane), before the deed lands; what lapses can act (a countdown detonates, a black ritual raises a lich), and a healer's own statuses answer its healing.",
       "adapted": "Wind-ups are shown to the company a turn ahead; fleeing is the whole company's; a reaction never sets off another.",
       "dataOnly": "Extra turns and turning off reactions (time stop), reflection and spell turning, untargetability, invisibility and the sight that sees through it.",
-      "missing": "Twenty-four statuses still cannot be applied (reflect, spell turning, invisible, untargetable, polymorphed and others) and with them the abilities that apply them.",
+      "missing": "Twenty-four statuses still cannot be applied: reflection and spell turning, invisibility and the sight that sees through it, untargetability, time stop's extra turns, polymorph; with them the abilities that apply them.",
       "abstractions": "Reflection and spell turning as reactions to being struck or targeted; invisibility as a targeting rule with a perception that defeats it.",
       "browser": "A fight tells each reaction as it happens (\"the warden answers the wolf\"); it does not yet show which statuses are waiting to answer."
     },

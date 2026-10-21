@@ -87,7 +87,7 @@ Entries: 175 faithful, 17 adapted, 11 kyr, 28 not playable.
 
 **What is data only.** Extra turns and turning off reactions (time stop), reflection and spell turning, untargetability, invisibility and the sight that sees through it.
 
-**What is missing or wrong.** Twenty-four statuses still cannot be applied (reflect, spell turning, invisible, untargetable, polymorphed and others) and with them the abilities that apply them.
+**What is missing or wrong.** Twenty-four statuses still cannot be applied: reflection and spell turning, invisibility and the sight that sees through it, untargetability, time stop's extra turns, polymorph; with them the abilities that apply them.
 
 **What abstractions are needed.** Reflection and spell turning as reactions to being struck or targeted; invisibility as a targeting rule with a perception that defeats it.
 
