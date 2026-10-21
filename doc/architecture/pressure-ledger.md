@@ -171,3 +171,24 @@ the other side: a later structure built on an earlier one's commitments, with no
 assembler asks Deem for a site only when the first refusal is for a place off the roads. A bounty refused for want
 of raiders is not helped by a site, and is left out until the raiders are placed.
 
+## Where the rows stand (end of October 21)
+
+| Rows | Standing |
+|---|---|
+| 1, 2, 3, 4 | Machinery and content: the strongroom fixture; the Lanthorn's strongbox and false step; the Candle Tombs' image, slope and threshold. Row 3's "a fall may separate" is not done: a company is one group. |
+| 5, 6, 18, 28 | Machinery and content: the Toll, the audience, wardens who shoot through the grille, the crew's hunt, hobs that waylay, outlaws who stop travellers. |
+| 7, 27 | Machinery and content: lightless places, sunlight, the Tender and the glooms. Creeping past with a covered lantern is not modelled. |
+| 8, 9 | Content: Holt keep's sluice; the Lanthorn's cistern and overflow; the basket lift, the boat, the deep cage, the beacon chain. |
+| 12 | Partly: the sun-door opens to sunlight. There is no mirror to bounce it. |
+| 13, 30 | Content: the gilded tomb. |
+| 15, 23 | Machinery and content: the carters, the robbery of Skerry when the store is empty, the crew's flight from the dark, the leaderless crew scattering. |
+| 16 | Content: the Toll lifted three ways (bargain, chief fallen, the dark), each with its consequences; prices in Skerry do not yet fall. |
+| 17, 20 | Machinery and content: weather, the goat path, the chain. |
+| 22, 29 | Machinery: the composition layer, two kits, implications, kits on kits, site requests to Deem. |
+| 24, 25, 26 | Machinery: keyholders, items used up, tolerance, guests, grudges. |
+| 10, 11, 14, 19, 21 | Open: nobody lies (row 10), no false scales or haggling (11), no lever puzzle (14), no surrender or capture (19). Appraisal exists only as a topic and a price (21). |
+
+About a hundred vocabulary warnings remain from `kyrie lint`. Most are module-local relations (an alarm, a store of
+provisions, guests, grudges) that several modules now each name for themselves, and they are candidates for shared
+vocabulary.
+
