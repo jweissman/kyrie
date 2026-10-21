@@ -16,7 +16,9 @@ class Companies {
     for (const c of commands) { await s.perform(c); }
     return ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)));
   }
-  static find(choices: Choice[], label: string): Choice | undefined { return choices.find(c => c.label.startsWith(label)); }
+  static find(choices: Choice[], label: string): Choice | undefined {
+    return choices.find(c => c.label.startsWith(label));
+  }
 }
 
 describe('different companies, different ways through', () => {
