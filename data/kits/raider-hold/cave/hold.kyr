@@ -45,6 +45,7 @@ Module cave_hold "A cave hold" {
   Discovery backway_known "The smoke-hole in the cave's roof is a chimney that comes out on the hillside above; a climber could go up or down it." {
     Found by searching cavern "Up the smoke-hole there is daylight, and a crack worn by hands and feet: a chimney, and someone climbs it.".
     Found by searching outside with woodcraft "Up the hillside, smoke comes out of a hole among the rocks, and there is a goat-track to it.".
+    Found by searching hillside "Among the rocks the smoke comes out of a crack you could climb down, with a rope or a good grip.".
   }
   Goal false.
 }

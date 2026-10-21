@@ -20,7 +20,7 @@ Module outlaw_folk "Outlaws" {
     Role "a lookout with a horn". Ancestry human. Calling ranger. Level 1.
     State watching "A lean outlaw sits up where he can see the road, with a horn on a cord round his neck.".
   }
-  Person band "Sir Hamo's men" at hall {
+  Person band "Sir Hamo's men" at yard {
     Role "outlaws who rob the road for Sir Hamo". Ancestry human. Calling warrior. Level 1. Numbers 4.
     Called "Long Peter", "Ada Marl", "the Weasel", "Simkin".
     Guards gate.
@@ -53,14 +53,14 @@ Module outlaw_folk "Outlaws" {
     Retract demanding(band). Retract impatient(band). Assert assails(band, party).
   }
   Rule growing_impatient when demanding(band) and together(band, party) and not impatient(band) { Assert impatient(band). }
-  Rule hold_up when at(party, road) and not dark() and dice(clock) <= 6 and at(band, hall) and able(band)
+  Rule hold_up when at(party, road) and not dark() and dice(clock) <= 6 and at(band, yard) and able(band)
     and not quiet(band) and not tolerates(band, party) and not ended(band)
     says "Men step out of the trees on both sides of the road with bows drawn. 'Stand,' says one. 'Road-money, in Sir Hamo's name: five crowns, or we take it off your bodies.'" {
     Assert at(band, road). Assert halts(band, party). Assert demanding(band).
   }
   Rule shot_running when demanding(band) and not together(band, party) and able(band)
     says "Arrows hiss past you as you go. Behind you someone laughs." {
-    Retract demanding(band). Retract impatient(band). Assert strikes(arrows, party). Assert at(band, hall).
+    Retract demanding(band). Retract impatient(band). Assert strikes(arrows, party). Assert at(band, yard).
   }
   Action pay_road_money(actor: group, site: place) "Pay Sir Hamo's road-money, five coin" {
     Requires able(actor) and at(actor, site) and at(band, site) and demanding(band) and quantity(actor, gold) >= 5.
@@ -73,12 +73,12 @@ Module outlaw_folk "Outlaws" {
     On success { Retract demanding(band). Retract impatient(band). Assert tolerates(band, actor). Assert paidUp(actor). }
     Result "They look at the purse, and at you, and Ada Marl laughs so hard she has to sit down. 'Go on,' says Long Peter. 'Sir Hamo doesn't rob the poor. Much.'".
   }
-  Rule band_home when able(band) and at(band, road) and not together(band, party) and not demanding(band) { Assert at(band, hall). }
+  Rule band_home when able(band) and at(band, road) and not together(band, party) and not demanding(band) { Assert at(band, yard). }
   Relation paidUp(group).
   Rule toll_paid_once when paidUp(party) and not at(party, road) { Retract paidUp(party). Retract tolerates(band, party). }
   // The market: when they are short, they ride in at noon and take a tithe.
   Measure tithes(place).
-  Rule tithe when untilLight(clock) == 40 and dice(clock) <= 20 and able(band) and at(band, hall) and not quiet(band)
+  Rule tithe when untilLight(clock) == 40 and dice(clock) <= 20 and able(band) and at(band, yard) and not quiet(band)
     and not ended(band) { Increase tithes(town) by 1. }
   Observe tithed_once at town when tithes(town) >= 1 "Sir Hamo's men rode into the market at noon and took a tithe of everything on the stalls, with the reeve standing by because there was nothing he could do.".
   // The sentry's horn rouses the hold when anyone comes up uninvited; the band comes to the way in.
