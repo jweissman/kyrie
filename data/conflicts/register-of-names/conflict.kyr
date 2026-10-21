@@ -5,6 +5,8 @@ Module rising "The register of names" {
   Entity sexton: group "The sexton". Entity custodian: group "The guardian of the named dead".
   Entity lantern: thing "The lantern that binds the risen".
   Entity register: item "The keepers' register of the dead". Entity lit: condition "burning".
+  Entity sister: group "The one he raised first". Entity empty: condition "empty". Entity named: condition "named".
+  Entity broken: condition "broken". Place roof "Where the land can be seen from" is room.
   Place study "The necromancer's study" is room. Place churchyard "The village churchyard" is room.
   Place green "The village green" is room. Place shrine "The keepers' shrine" is room.
   Place refuge "Where the register lies" is room. Place founders "Where the compact's founders lie" is room.
@@ -109,6 +111,12 @@ Module rising "The register of names" {
     Time 3.
     On success { Retract keeps(owner, thing). Assert keeps(actor, thing). }
   }
+  Action call_by_name(actor: group, dead: group) "Call {dead} back by the name in the register" {
+    Description "With the name the keepers wrote, the necromancer gives the one he raised first back her voice.".
+    Requires able(actor) and at(actor, study) and keeps(actor, register) and state(dead, empty) and distinct(dead, actor).
+    Time 6.
+    On success { Assert state(dead, named). }
+  }
   Action keep_custody(actor: group, ground: place) "Speak the rites of the dead over {ground}" {
     Description "Someone who keeps the rites lays the named dead to rest where they lie, so that no one can call them up; if someone is calling them now, the call breaks.".
     Requires able(actor) and at(actor, ground) and capable(actor, rites) and slumbers(compact, ground) and not disturbed(ground).
@@ -120,11 +128,18 @@ Module rising "The register of names" {
   Rule churchyard_freed when holds(necromancer, churchyard) and dead(gravewarden) { Retract holds(necromancer, churchyard). }
   Rule sexton_returns when fled(sexton) and not holds(necromancer, churchyard) and at(sexton, shrine) and not dark() { Retract at(sexton, shrine). Assert at(sexton, green). Retract fled(sexton). }
 
-  Pursuit warden for necromancer "calling up the churchyard's first warden" priority 30 when slumbers(gravewarden, churchyard) and dark() seeks holds(necromancer, churchyard) using raise_warden.
-  Pursuit register for necromancer "sending for the keepers' register" priority 20 when not keeps(necromancer, register) and at(register, refuge) and not sought(digger, register) seeks sought(digger, register) using send_for.
-  Pursuit theft for necromancer "sending for the register the keepers took back" priority 20 when keeps(keeper, register) and not sought(digger, register) seeks sought(digger, register) using send_for.
+  Query scheming(n: group) means able(n) and not state(n, broken).
+  Pursuit naming for necromancer "calling his sister back by her name" priority 27 when scheming(necromancer) and keeps(necromancer, register) and state(sister, empty) seeks state(sister, named) using call_by_name.
+  Pursuit warden for necromancer "calling up the churchyard's first warden" priority 30 when scheming(necromancer) and slumbers(gravewarden, churchyard) and dark() seeks holds(necromancer, churchyard) using raise_warden.
+  Pursuit register for necromancer "sending for the keepers' register" priority 20 when scheming(necromancer) and not keeps(necromancer, register) and at(register, refuge) and not sought(digger, register) seeks sought(digger, register) using send_for.
+  Pursuit theft for necromancer "sending for the register the keepers took back" priority 20 when scheming(necromancer) and keeps(keeper, register) and not sought(digger, register) seeks sought(digger, register) using send_for.
+  Rule digger_quits when state(necromancer, broken) and serves(digger, necromancer) { Retract serves(digger, necromancer). Retract sought(digger, register). }
+  Rule digger_leaves at study when state(necromancer, broken) and at(digger, study) and not keeps(digger, register)
+    says "{digger} looks at his master on the floor, picks up his sack, and goes down the back stair without a word." {
+    Retract at(digger, study).
+  }
   Rule told_wanting when foundWanting(digger, register) and at(digger, study) { Retract foundWanting(digger, register). Retract sought(digger, register). }
-  Pursuit rite for necromancer "reading the compact's dead up by name" priority 25 when keeps(necromancer, register) and slumbers(compact, founders) and not disturbed(founders) and (at(necromancer, founders) or untilLight(clock) >= 42) seeks holds(necromancer, founders) using depart, arrive, begin_rite, complete_rite.
+  Pursuit rite for necromancer "reading the compact's dead up by name" priority 25 when scheming(necromancer) and keeps(necromancer, register) and slumbers(compact, founders) and not disturbed(founders) and (at(necromancer, founders) or untilLight(clock) >= 42) seeks holds(necromancer, founders) using depart, arrive, begin_rite, complete_rite.
   Pursuit home for necromancer "going back to his work" priority 5 when not at(necromancer, study) and not chanting(necromancer) seeks at(necromancer, study) using depart, arrive.
   Pursuit fetch for digger "fetching the register for {necromancer}" priority 20 when sought(digger, register) and at(register, refuge) seeks keeps(necromancer, register).
   Pursuit look for digger "looking for the register where it was" priority 15 when sought(digger, register) and at(digger, refuge) and not ransacked(refuge) seeks ransacked(refuge).
@@ -157,6 +172,9 @@ Module rising "The register of names" {
   Observe rite_seen near necromancer when chanting(necromancer) "Corpse-candles burn on the founders' plinths. {necromancer} stands among them with the keepers' register open in his hands, reading names into the dark, and something under the plinths answers each one." teaches rite_seen_fact.
   Observe plinths_empty at founders when holds(necromancer, founders) and able(compact) and not at(compact, founders) "The founders' plinths stand empty. Burial linen trails from them across the floor toward the chalk passage." teaches compact_risen.
   Observe rite_broken at founders when disturbed(founders) and slumbers(compact, founders) "The founders' plinths are cracked through, and a smell of old earth hangs in the air. Whatever was called here did not come.".
+  Observe yard_from_roof at roof when holds(necromancer, churchyard) and able(gravewarden) "Across the oaks, in Brackenholt churchyard, something tall in old mail stands among the stones under the yew, facing the lychgate." teaches churchyard_fallen.
+  Observe ridge_from_roof at roof when at(compact, ridge) "Far off along the downs, a line of pale figures walks the ridge road in the dark." teaches roads_walked.
+  Observe her_voice at roof when state(sister, named) "From somewhere far below, through the stone, a girl's voice is saying something over and over.".
   Observe sexton_here near sexton when fled(sexton) "{sexton} sits on the shrine steps in a shawl over her nightgown, as if she had run all the way.".
 
   Topic digger_asked with digger "Ask {digger} what he is doing here" when able(digger) once {

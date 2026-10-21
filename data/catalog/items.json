@@ -249,6 +249,33 @@
         "kyr": true
       }
     },
+    "grave_rings": {
+      "name": "Grave rings",
+      "category": "treasure",
+      "description": "Rings, brooches and coffin buckles taken from the dead, threaded on a grave-cord.",
+      "value": 15,
+      "source": {
+        "kyr": true
+      }
+    },
+    "chapel_plate": {
+      "name": "Chapel plate",
+      "category": "treasure",
+      "description": "A garrison chapel's silver: a censer, a paten and a cup, black with tarnish.",
+      "value": 24,
+      "source": {
+        "kyr": true
+      }
+    },
+    "cell_key": {
+      "name": "Iron cell key",
+      "category": "gear",
+      "description": "A heavy iron key on a loop of grave-cord.",
+      "value": 0,
+      "source": {
+        "kyr": true
+      }
+    },
     "torch": {
       "name": "Torch",
       "category": "gear",

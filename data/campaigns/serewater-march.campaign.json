@@ -163,7 +163,12 @@
         "lit": "tower.lantern_lit",
         "ridge": "march.high_road",
         "ridge_track": "march.ridge_track",
-        "drove_road": "march.drove_road"
+        "drove_road": "march.drove_road",
+        "sister": "tower.sister",
+        "empty": "tower.maren_empty",
+        "named": "tower.maren_named",
+        "broken": "tower.necromancer_broken",
+        "roof": "tower.roof"
       }
     }
   ],

@@ -46,7 +46,14 @@
     "lantern": "lantern",
     "study": "study",
     "hall": "hall",
-    "lantern_lit": "lit"
+    "lantern_lit": "lit",
+    "roof": "roof",
+    "sister": "maren",
+    "maren_named": "named",
+    "necromancer_broken": "broken",
+    "cell": "cell",
+    "crypt": "crypt",
+    "maren_empty": "empty"
   },
   "generation": {
     "type": "unquiet_tower",

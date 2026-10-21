@@ -1,5 +1,5 @@
 Module unquiet_tower "The unquiet tower" {
-  Description "Someone who once served at the shrine has taken a lonely tower and is raising the dead from the churchyard. Fight through the risen, find the back way in, or break what holds them.".
+  Description "Someone who once served at the shrine has taken an old keep and is raising the dead from the churchyard, for the sake of one of them. Fight through the risen, find the back ways in, break what holds them, or give the one he wanted back her rest.".
   Entity party: group "Your company".
   Place land "The region" is region.
   Place outside "Below the tower" is room.
@@ -10,18 +10,69 @@ Module unquiet_tower "The unquiet tower" {
   Kind style. Entity drowned: style "drowned". Entity ivied: style "ivied". Entity bare: style "bare".
   Relation looks(place, style). Relation ended(group). Relation spared(group). Relation thanked(group, group).
 
+  // The keep: a walled bailey with a chapel and a stable, the tower on its north side (hall, library, study, roof),
+  // and under it the old garrison's undercroft, where the necromancer keeps what matters to him.
   Place tower "The tower" is site within land at 6, 2.
+  Place ward "The bailey" is level within tower.
   Place inside "Inside the tower" is level within tower.
+  Place upper "The library floor" is level within tower.
   Place top "The top of the tower" is level within tower.
-  Place hall "the tower hall" is room within inside at 0, 0.
+  Place leads "The roof" is level within tower.
+  Place under "Under the tower" is level within tower.
+  Place chapel "the garrison chapel" is room within ward at 0, 0.
+  Place bailey "the bailey" is room within ward at 1, 0.
+  Place stable "the old stable" is room within ward at 2, 0.
+  Place hall "the tower hall" is room within inside at 1, 0.
+  Place library "the library" is room within upper at 1, 0.
   Place study "the study at the top" is room within top at 1, 0.
-  Place crypt "the crypt under the tower" is room within inside at 0, 1.
-  Initially Assert unlit(crypt).
-  Passage door "the iron-bound door" is door between outside and hall.
-  Passage stair "the turning stair" is stair between hall and study.
+  Place roof "the tower roof" is room within leads at 1, 0.
+  Place ossuary "the bone store" is room within under at 0, 0.
+  Place crypt "the crypt under the tower" is room within under at 1, 0.
+  Place cell "the sealed cell" is room within under at 2, 0.
+  Place strongroom "the garrison strongroom" is room within under at 0, 1.
+  Place cistern "the drowned cellar" is room within under at 1, 1.
+  Initially Assert unlit(crypt). Initially Assert unlit(ossuary). Initially Assert unlit(cell).
+  Initially Assert unlit(cistern). Initially Assert unlit(strongroom).
+
+  // Ways in: the gate (its portcullis down until someone inside winds it up), a breach for climbers, the old well
+  // into the crypt, and the postern. Ways up: the turning stair the risen hold, or the back stair from the crypt.
+  Passage gate "the gate passage" is gate between outside and bailey.
+  Passage breach "a breach in the curtain wall" is climb between outside and bailey needing climbing.
   Passage well "the old well shaft" is shaft between outside and crypt needing rope or climbing.
   Passage postern "a barred postern low in the wall" is door between outside and crypt needing lockwork or brawn.
-  Passage crypt_steps "the crypt steps" is steps between crypt and study.
+  Passage chapel_arch "the chapel arch" is arch between bailey and chapel.
+  Passage stable_door "the stable door" is door between bailey and stable.
+  Passage door "the iron-bound door" is door between bailey and hall.
+  Passage stair "the turning stair" is stair between hall and library.
+  Passage undercroft_steps "the undercroft steps" is steps between hall and crypt.
+  Passage broken_stair "the broken upper stair" is climb between library and study needing climbing.
+  Passage crypt_steps "the back stair in the wall" is stair between crypt and study hidden until back_stair.
+  Passage hatch "the roof hatch" is ladder between study and roof.
+  Passage bone_arch "the bone arch" is arch between crypt and ossuary.
+  Passage cell_door "the cell door" is door between crypt and cell needing cell_key.
+  Passage cistern_steps "the cistern steps" is steps between crypt and cistern.
+  Passage drift "the flooded drift" is crawl between cistern and strongroom.
+
+  Thing portcullis "the portcullis" on gate {
+    State down blocking "A rusted portcullis hangs across the gate passage, a foot short of the ground.".
+    State raised "The portcullis is wound up into its slot. The gate passage is open.".
+  }
+  Thing winch "the gate winch" at bailey {
+    State slack "Inside the gate, a winch drum stands under a hood of rotten boards, its chain slack to the portcullis.".
+    State wound "The gate winch is wound tight and pinned.".
+    Change wind "Wind the gate winch and pin it" from slack to wound needing brawn.
+    Change lever "Lever the winch round a notch at a time with a bar" from slack to wound needing crowbar.
+  }
+  Rule gate_up when state(winch, wound) and state(portcullis, down) { Assert state(portcullis, raised). }
+
+  Hazard black_water "Black water" means "Deal (1d6) physical damage to ally unless constitution save against (12).".
+  Thing flood "the black water in the drift" on drift {
+    State deep dangerous "Black water fills the drift to within a hand of its roof. Whoever goes through goes under.".
+    State lined "A line runs through the black water from end to end. Anyone can haul through on it now, holding their breath.".
+    State drained "The drift is drained to a mud floor, slick and stinking.".
+    Change drain "Open the old sluice and let the drift drain" from deep to drained after learning sluice_known.
+    Hurts with black_water when deep then lined.
+  }
 
   Person necromancer "Someone" at study {
     Role "necromancer". Level 3.
@@ -33,14 +84,52 @@ Module unquiet_tower "The unquiet tower" {
     State shambling blocking "Dead folk in grave-clothes stand swaying, and turn their faces to you.".
     State fallen "Grave-clothes and bones lie in heaps at the foot of {stair}.".
     State laid "The dead lie in a row at the foot of {stair}, hands folded, faces covered. They do not stir.".
-    Guards stair.
+    Guards stair. Guards undercroft_steps.
     Change lay_to_rest "Say the rites of the dead over {self}" from shambling to laid needing rites.
   }
+  Person hound "the knitted hound" at ossuary {
+    Role "the necromancer's watchdog". Species bone_hound. Level 2.
+    State guarding blocking "Something the shape of a hound stands in the bone arch, made of many dead men's bones wired together. It has no eyes, and it turns its head to follow you.".
+    State gnawing "The knitted hound lies in the bone store with a thighbone between its paws, worrying at it.".
+    State fallen "A heap of wired bones lies in the bone arch.".
+    Guards bone_arch.
+    Change bone "Toss {self} a thighbone from the niches, the way you would a dog" from guarding to gnawing needing woodcraft.
+  }
+  Initially Set encounterXp(hound) to 25.
+  Person maren "the drowned girl" at cell {
+    Role "the necromancer's drowned sister". Species revenant. Level 1. Peaceable.
+    State empty "A girl in a wet shift sits on a stone bench. Water runs from her hair without end. She turns her head toward you and says nothing.".
+    State named "The drowned girl sits forward on the bench and looks at you. Her lips move, and this time words come.".
+    State resting "The drowned girl lies on the bench with her hands folded. Her hair has dried.".
+    Change lay "Say the rites of the dead over {self}" from empty to resting needing rites.
+    Change lay_named "Say the rites of the dead over {self}, as she asks" from named to resting needing rites.
+  }
+  Person captain "the kneeling shape" at chapel {
+    Role "the garrison's last captain". Species wisp. Peaceable.
+    State kneeling "A pale shape in a surcoat kneels at the chapel altar with its head bowed, and does not look round.".
+    State gone "The chapel is empty. Rain has found the altar.".
+  }
+  Rule captain_rests when state(captain, gone) and at(captain, chapel) { Retract at(captain, chapel). }
+
   Thing lantern "the bone lantern" at study {
     State lit "A lantern of yellowed bone hangs over the table. It burns with a cold green flame, and the room smells of the grave.".
     State broken "Shards of bone and a dead wick lie under the table.".
     Change smash "Smash the bone lantern" from lit to broken.
   }
+  Thing chest "the pay chest" at strongroom {
+    State shut "An iron-bound pay chest stands against the wall, its lock rusted solid.".
+    State open "The pay chest stands open and empty.".
+    Change force "Lever the pay chest open" from shut to open needing crowbar.
+    Change smash "Break the pay chest's rotten hinges" from shut to open needing brawn.
+  }
+  Event pay near chest when state(chest, open) "Under a rotten cloth lies the garrison's last pay: twenty-five old crowns, still bright." then {
+    Increase quantity(party, gold) by 25.
+  }
+  Item key "the necromancer's iron key" is cell_key at study.
+  Item rings "a cord of grave rings" is grave_rings at ossuary.
+  Item plate "the chapel's silver" is chapel_plate at strongroom.
+  Item mail "the garrison sergeant's mail" is chainmail at strongroom.
+
   Action read_sigils(actor: group, spot: place) "Read the sigils cut into {lantern}" {
     Description "Someone who knows the workings of magic can tell what the lantern does without anyone's notes.".
     Requires able(actor) and at(actor, spot) and at(lantern, spot) and state(lantern, lit) and capable(actor, lore)
@@ -51,14 +140,55 @@ Module unquiet_tower "The unquiet tower" {
   Discovery binding "The bone lantern holds the risen dead to the tower. Its flame is the only thing that moves them." {
     Source daybook "a daybook in a cramped hand" at study readable by party.
   }
+  Discovery sister "{necromancer}'s sister drowned in the spring flood. He raised her, but she came back empty: the dead answer only to the names the keepers wrote, and hers is in the keepers' lost register. He keeps her in a sealed cell under the tower." {
+    Source letters "a bundle of letters in a girl's hand, and his notes on each" at library readable by party.
+  }
+  Discovery back_stair "A back stair climbs inside the tower wall from the crypt to the study at the top." {
+    Source worn_steps "boot-worn steps behind an empty burial niche" at crypt readable by party.
+  }
+  Discovery captain_name "The garrison's last captain was Edric Hale. The roll says he died at the Holt and lies in its chapel." {
+    Source roll "the garrison roll, in a cracked binding" at library readable by party.
+  }
+  Discovery sluice_known "A sluice under the cistern steps drains the flooded drift to the garrison strongroom." {
+    Source plan "a garrison plan of the undercroft, nailed inside the stable door" at stable readable by party.
+  }
 
-  Observe drowned_look at outside when looks(tower, drowned) "The tower stands with its feet in black water. Weed hangs from its lower windows.".
-  Observe ivied_look at outside when looks(tower, ivied) "Ivy has taken the tower to its roof. A light burns behind the ivy at the top.".
-  Observe bare_look at outside when looks(tower, bare) "The tower is bare stone, cracked by frost. A light burns at the top.".
+  Topic captain_ask with captain "Speak to the kneeling shape" when state(captain, kneeling) {
+    Says "The shape does not look round. 'We held the Holt,' it says, like wind in a chimney. 'We held it. Who calls the roll now?'".
+  }
+  Topic captain_named with captain "Call the captain by his name, Edric Hale" when state(captain, kneeling) and knows(actor, captain_name) once {
+    Says "The shape lifts its head at its name. 'Present,' it says. 'The pay is in the strongroom, and the silver; the drift floods, but the sluice under the cistern steps still turns. Take it. There is no one left to pay.' Then it is not there.".
+    On discuss { Assert knows(actor, sluice_known). Assert state(captain, gone). }
+  }
+  Topic maren_asks with maren "Ask the drowned girl what she wants" when state(maren, named) once {
+    Says "'He called me by my name and I came,' she says, 'and it is cold, and I am so tired. Tell him to let me go. Or let me go yourselves.'".
+    On discuss { Assert knows(actor, let_go). }
+  }
+  Entity let_go: fact "{necromancer}'s sister, called back by her name, asks to be let go.".
+  Topic tell_him with necromancer "Tell {necromancer} what his sister asked" when knows(actor, let_go) and state(maren, named) and not ended(necromancer) once {
+    Says "{necromancer} stands very still. Then he takes the bone lantern down from its hook and pinches out the flame with his fingers, and does not seem to feel it. 'Then I will,' he says.".
+    On discuss { Assert state(lantern, broken). }
+  }
+
+  Observe drowned_look at outside when looks(tower, drowned) "The keep stands with its feet in black water. Weed hangs from the tower's lower windows.".
+  Observe ivied_look at outside when looks(tower, ivied) "Ivy has taken the keep's walls and the tower to its roof. A light burns behind the ivy at the top.".
+  Observe bare_look at outside when looks(tower, bare) "The keep is bare stone, cracked by frost. A light burns at the top of its tower.".
+  Observe walls_look at outside when true "To one side of the gate the curtain wall has slumped into a breach of loose stone.".
+  Observe well_head at outside when true "Behind the keep, a well-head is half buried in nettles.".
+  Observe postern_look at outside when true "Low in the tower's footing is a postern, barred from within, with an old lock on it.".
+  Observe bailey_scene at bailey when true "Nettles and fallen slates fill the bailey. The tower rises on the north side; its iron-bound door is ajar. The chapel is roofless; the stable leans.".
+  Observe bailey_tracks at bailey when state(risen, shambling) "Bare footprints in the mud run between the tower door and the gate, many of them, all ways.".
+  Observe chapel_scene at chapel when true "Rain has come through the chapel roof for years. The floor slabs over the garrison's dead have been prised up and set back crooked.".
+  Observe stable_scene at stable when true "A handcart with a broken wheel, shovels, and sacks of churchyard earth. Someone has slept here on straw, and gone.".
+  Observe hall_scene at hall when true "Coffin-boards lean against the walls, and the floor is gritty with churchyard earth. A stair turns up; steps go down to the undercroft.".
+  Observe library_scene at library when true "Shelves of damp books, most of them the garrison's, some of them his. A table under the window is covered in letters. The stair above has fallen; the broken flight hangs out of the wall.".
+  Observe study_scene at study when true "The study fills the top of the tower. A ladder goes up to a hatch in the roof.".
+  Observe roof_scene at roof when true "Wind, slates and a low parapet. The whole March lies below: the river, the reed-beds, the downs, Brackenholt's roofs under its smoke.".
   Observe crypt_look at crypt when true "Burial niches line the walls. Most stand empty, and the earth under them is freshly turned.".
-  Observe dark_hall at hall when true "Coffin-boards lean against the walls, and the floor is gritty with churchyard earth.".
-  Observe well_head at outside when true "Behind the tower, a well-head is half buried in nettles.".
-  Observe postern_look at outside when true "Low in the wall is a postern, barred from within, with an old lock on it.".
+  Observe ossuary_scene at ossuary when true "Bones sorted by kind into heaps: skulls, long bones, small bones in baskets. Someone has worked here a long time.".
+  Observe cell_scene at cell when true "A stone cell with a bench, a pail, and a blanket nobody has used. The walls weep.".
+  Observe cistern_scene at cistern when true "Steps go down into a vaulted cistern. At the far end a low drift runs off under the bailey, and water stands in it.".
+  Observe strongroom_scene at strongroom when true "A barrel-vaulted room with racks for spears and a bench for the paymaster. The garrison left in a hurry and never came back.".
 
   Rule rested when state(risen, laid) and not peaceable(risen) { Assert peaceable(risen). }
   Observe hall_dead at hall when at(risen, hall) and state(risen, shambling) "The dead stand at the foot of {stair}.".
@@ -74,15 +204,27 @@ Module unquiet_tower "The unquiet tower" {
     says "At first light the dead shuffle back up the lane to the tower. In the churchyard another grave stands open." {
     Retract at(risen, gossip). Assert at(risen, hall). Increase opened(churchyard) by 1.
   }
+  // Given her rest, the one he did all this for is gone, and he has no reason to keep the rest.
+  Event sister_rests near maren when state(maren, resting) and not ended(necromancer) "The water stops running from the drowned girl's hair. Far above, someone cries out once, and a green light goes out in the tower." then {
+    Assert state(lantern, broken).
+  }
   Event release near lantern when state(lantern, broken) and not ended(necromancer) "The green flame goes out. Somewhere below, things fall to the floor, and {necromancer} cries out as if struck." then {
     Assert ended(necromancer). Assert state(risen, fallen). Assert peaceable(risen). Assert state(necromancer, broken). Assert peaceable(necromancer).
+    Assert state(hound, fallen). Assert peaceable(hound).
   }
   Event slain at study when dead(necromancer) and not ended(necromancer) "With {necromancer} dead, the lantern gutters out, and the risen fall where they stand." then {
     Assert ended(necromancer). Assert state(lantern, broken). Assert state(risen, fallen). Assert peaceable(risen).
+    Assert state(hound, fallen). Assert peaceable(hound).
   }
 
   Topic why with necromancer "Ask {necromancer} who he was raising" when state(necromancer, broken) and not spared(necromancer) {
     Says "'My sister,' says {necromancer}. 'She drowned the spring I left {shrine}. I only wanted to ask her one thing. The others came up with her.' He will not look at you.".
+  }
+  Topic about_her_named with necromancer "Ask {necromancer} about his sister" when knows(actor, sister) and state(necromancer, working) and state(maren, named) {
+    Says "{necromancer} does not look up. 'She has her name back,' he says. 'She talks now. She talks all the time.' His pen has stopped moving. 'Leave her be.'".
+  }
+  Topic about_her with necromancer "Ask {necromancer} about his sister" when knows(actor, sister) and state(necromancer, working) and state(maren, empty) {
+    Says "{necromancer} looks up for the first time. 'She came back with nothing in her,' he says. 'No name, no voice. The keepers wrote her name in their register and lost it in the flood with her. Find me that book and I will give her back herself. Get in my way and I will give you to her.'".
   }
   Topic send_away with necromancer "Tell {necromancer} to leave and never come back" when state(necromancer, broken) and not spared(necromancer) once {
     Says "{necromancer} gathers a coat and a satchel and goes down the stair without a word.".
@@ -102,6 +244,7 @@ Module unquiet_tower "The unquiet tower" {
   Initially Assert established(lights). Initially Assert established(graves). Initially Assert established(old_well).
   Objective rumoured when (knows(party, lights) or knows(party, graves)) and not knows(party, binding) and not ended(necromancer) "Something is wrong at {outside}: lights at night, and the churchyard's dead taken; {opened(churchyard)} graves stand open, and the dead walk at night.".
   Objective tower when not ended(necromancer) and knows(party, binding) "The bone lantern in the tower holds the risen dead. {opened(churchyard)} graves stand open, and each night they walk, another.".
+  Objective her when knows(party, sister) and not state(maren, resting) and not ended(necromancer) "{necromancer} keeps his drowned sister in a sealed cell under the tower. Everything he does, he does for her.".
   Objective report when ended(necromancer) and not thanked(keeper, party) "The dead in the tower are still. {keeper} will want to know.".
   Goal ended(necromancer).
 }

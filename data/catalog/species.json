@@ -349,6 +349,31 @@
         "fidelity": "adapted",
         "notes": "Orsino's spider: bite and chitin. Kyr enlarges it to a cave hunter, rolls its attributes and gives it Orsino's venomous bite and ensnare."
       }
+    },
+    "bone_hound": {
+      "name": "Knitted bone hound",
+      "type": "undead",
+      "kind": "monster",
+      "description": "A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "spine"
+      },
+      "abilities": [
+        "rending_bite"
+      ],
+      "resistances": {
+        "radiant": -1,
+        "fire": -0.5
+      },
+      "temperament": "territorial",
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: a necromancer's watchdog for Holt keep's bone store."
+      }
     }
   }
 }

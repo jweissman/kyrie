@@ -46,7 +46,7 @@ class Journey {
     'go(east__landing_lane,east__holt_green)', 'go(east__holly_door,east__holly_room)', 'word__cutter_well',
     'word__osric_lights', 'go(east__holly_door,east__holt_green)', 'go(east__tower_lane,east__tower_foot)',
     'go(tower__well,tower__crypt)', 'use_item(march__nera_torch_1,march__member_party_3)',
-    'go(tower__crypt_steps,tower__study)', 'examine(tower__daybook)', 'change_thing(tower__lantern_smash)',
+    'examine(tower__worn_steps)', 'go(tower__crypt_steps,tower__study)', 'examine(tower__daybook)', 'change_thing(tower__lantern_smash)',
     'tower__why', 'tower__send_away', 'go(tower__crypt_steps,tower__crypt)', 'go(tower__well,east__tower_foot)',
     'go(east__tower_lane,east__holt_green)', 'go(east__landing_lane,east__landing)',
     'go(east__ferry_crossing,march__quay)', 'go(march__shrine_door,march__shrine)', 'tower__graves'];

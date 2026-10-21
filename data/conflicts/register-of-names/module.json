@@ -26,7 +26,12 @@
     "lit",
     "ridge",
     "ridge_track",
-    "drove_road"
+    "drove_road",
+    "sister",
+    "empty",
+    "named",
+    "broken",
+    "roof"
   ],
   "roles": {
     "party": {
@@ -85,6 +90,21 @@
     },
     "drove_road": {
       "type": "passage"
+    },
+    "sister": {
+      "type": "group"
+    },
+    "empty": {
+      "type": "condition"
+    },
+    "named": {
+      "type": "condition"
+    },
+    "broken": {
+      "type": "condition"
+    },
+    "roof": {
+      "type": "place"
     }
   },
   "exports": {

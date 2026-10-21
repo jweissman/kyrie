@@ -47,6 +47,8 @@ describe('the register of names: a power that acts while the company is elsewher
     // Corvin went down the smugglers' path for the register and brought it back to his master.
     expect(March.fact(s, 'keeps', 'tower__necromancer', 'hill__register_copy')).toBe(true);
     expect(March.fact(s, 'rising__ransacked', 'hill__name_room')).toBe(true);
+    // With the register in his hands, the first thing he did was call his sister back by her name.
+    expect(March.fact(s, 'state', 'tower__maren', 'tower__named')).toBe(true);
     await March.until(s, 340);
     // Night two: Sorgen walked the corpse road and read the compact's founders up by name.
     expect([March.where(s, 'rising__compact'), March.where(s, 'tower__necromancer')]).toEqual(['hill__founders', 'tower__study']);
@@ -54,6 +56,20 @@ describe('the register of names: a power that acts while the company is elsewher
     // Night three: the founders walk the downs, across both roads off the ridge.
     expect(March.where(s, 'rising__compact')).toBe('march__ridge');
     expect([March.fact(s, 'watched', 'march__drove_road'), March.fact(s, 'watched', 'march__ridge_track')]).toEqual([true, true]);
+  }, 120000);
+  it('Sorgen broken after the founders rise ends his schemes, but the founders still walk the roads', async () => {
+    const s = await March.start();
+    await March.until(s, 340);
+    expect(March.where(s, 'tower__necromancer')).toBe('tower__study');
+    const world = s.campaign.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', 'march__quay') },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', 'tower__study') }]);
+    (s.campaign as unknown as { commit(w: unknown): void }).commit(world);
+    await s.perform('change_thing(tower__lantern_smash)');
+    expect([March.fact(s, 'tower__ended', 'tower__necromancer'), March.fact(s, 'serves', 'rising__digger', 'tower__necromancer')])
+      .toEqual([true, false]);
+    await March.until(s, 400);
+    expect(March.where(s, 'rising__compact')).toBe('march__ridge');
+    expect(March.fact(s, 'watched', 'march__drove_road')).toBe(true);
   }, 120000);
   it('a company that takes the register first leaves Corvin nothing to find, and the compact sleeps on', async () => {
     const s = await March.start();
