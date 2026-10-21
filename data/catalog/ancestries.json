@@ -124,6 +124,32 @@
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino marks goblins evil and not a player race."
       }
+    },
+    "glimmerkin": {
+      "name": "Glimmerkin",
+      "description": "A small, soft-footed person of the deep caves, with eyes that shine like a cat's in lamplight and a trader's patience.",
+      "nameGroup": "glimmerkin",
+      "classes": [
+        "thief",
+        "ranger",
+        "commoner",
+        "mage"
+      ],
+      "attributes": {
+        "strength": -2,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 1,
+        "wisdom": 1,
+        "charisma": -1
+      },
+      "traits": [
+        "humanoid"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's cave traders of the Varrow, who keep and sell bottled light. Not a player ancestry."
+      }
     }
   }
 }

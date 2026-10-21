@@ -1,0 +1,90 @@
+Module hush "The House of the Hush" {
+  Description "A house of silent brothers and sisters high on Hushing Fell, reached by a pilgrims' stair of three thousand steps or by a basket the Hushed winch up the cliff for those they will receive. They keep the Waking Bell, which has not been rung in a hundred years, a chronicle of everything the Varrow has done, and an infirmary. Nobody speaks inside their walls.".
+  Entity party: group "Your company".
+  Place varrow "The region" is region.
+  Place stair_foot "The foot of the pilgrims' stair" is room.
+  Entity raiders: group "The hobs' raiding party".
+  Entity watchers: group "The hobs on the gate".
+  Entity bell_dread: fact "What frightens hobs".
+
+  Place house "the House of the Hush" is site within varrow at 5, 0.
+  Place heights "The house on the cliff" is level within house.
+  Place gate_court "the gate court" is room within heights at 0, 1.
+  Place cloister "the cloister" is room within heights at 1, 1.
+  Place scriptorium "the scriptorium" is room within heights at 1, 0.
+  Place infirmary "the infirmary" is room within heights at 2, 1.
+  Place bell_tower "the bell tower" is room within heights at 1, 2.
+  Place stair_top "the top of the pilgrims' stair" is room within heights at 0, 2.
+  Initially Assert indoors(scriptorium). Initially Assert indoors(infirmary). Initially Assert settled(gate_court).
+  Initially Assert settled(cloister).
+
+  // Three thousand steps, or the basket.
+  Passage pilgrims_stair "the pilgrims' stair" is stair between stair_foot and stair_top taking 4 hours.
+  Passage top_gate "the house gate" is gate between stair_top and gate_court.
+  Passage basket_lift "the basket lift" is shaft between stair_foot and gate_court taking 30 minutes.
+  Passage cloister_way "the cloister walk" is passage between gate_court and cloister.
+  Passage scriptorium_door "the scriptorium door" is door between cloister and scriptorium.
+  Passage infirmary_door "the infirmary door" is door between cloister and infirmary.
+  Passage tower_stair "the bell-tower steps" is steps between cloister and bell_tower.
+
+  Observe court_scene at gate_court when true "A walled court on a ledge of the fell, so high that clouds go past below it. A brother in grey works the great winch of the basket lift. Nobody says anything; a slate hangs by the gate on a string, with chalk.".
+  Observe cloister_scene at cloister when true "A cloister round a garden of stones raked into lines. Brothers and sisters in grey pass with their hands in their sleeves. The only sound is the wind.".
+  Observe scriptorium_scene at scriptorium when true "Shelves of chronicles going back further than the Lanthorn: everything anyone in the Varrow has done that the Hushed heard of, written down.".
+  Observe infirmary_scene at infirmary when true "Clean beds, herbs drying, and a sister who looks at your wounds and then at you, and points at a bed.".
+  Observe tower_scene at bell_tower when true "A bell as big as a cart hangs in an open tower, green with age. A rope hangs from it, tied up out of reach with a knot nobody has untied in a hundred years.".
+  Observe top_scene at stair_top when true "The top of the stair, and the house's gate standing open.".
+
+  // The basket: ring at the post below, and if they will have you, they winch you up.
+  Thing basket "the basket" on basket_lift is scenery {
+    State above blocking "The basket hangs at the top of the cliff, out of reach.".
+    State waiting "The basket waits at the bottom of the cliff, for whoever is let up.".
+  }
+  Action ring_for_basket(actor: group, site: place) "Ring the little bell at the post" {
+    Description "Somebody up there will look down. If they will have you, the basket comes.".
+    Requires able(actor) and at(actor, site) and connects(basket_lift, site, gate_court) and state(basket, above) and not refused(actor).
+    Time 3.
+    On success { Assert state(basket, waiting). }
+    Result "A long time later a face looks over the edge of the cloud, far up. Then the basket comes down, creaking, on its rope.".
+  }
+  Relation refused(group). Relation shamed(group).
+  Rule basket_up when state(basket, waiting) and not at(party, stair_foot) and not at(party, gate_court) { Assert state(basket, above). }
+  Rule basket_used when state(basket, waiting) and at(party, gate_court) { Assert state(basket, above). }
+
+  // A house of silence: everything is said on the slate. The Abbess answers in chalk.
+  Person abbess "Mother Quill" at scriptorium {
+    Role "the Abbess of the Hush". Ancestry human. Calling cleric. Level 5. Peaceable.
+    State writing "The Abbess writes in a chronicle, fast, without looking up, and holds out a slate to you with her other hand.".
+  }
+  Person sister "Sister Fen" at infirmary {
+    Role "the infirmarer". Ancestry human. Calling cleric. Level 3. Peaceable.
+    Offers healing "a clean bed, her herbs, and silence" for 0 coin.
+  }
+  Entity chronicle_lanthorn: fact "The Hush's chronicle: the Lamplighters laid down the First Light under the deep cellar, behind a sun-door that opens only to noon; when soured light ate their beacon, the last of them sealed the door and walked into the dark with their lamps.".
+  Entity chronicle_bell: fact "The Hush's chronicle: the Waking Bell was cast to ring the hobs off the fell, and once did; it is tied because, rung, it is heard from Hollin to Skerry, and wakes everything that sleeps.".
+  Initially Assert established(chronicle_lanthorn). Initially Assert established(chronicle_bell).
+  Topic slate_lanthorn with abbess "Write on the slate: what happened to the Lamplighters?" when true once {
+    Says "Mother Quill reads the slate, wipes it with her sleeve, and writes for a long time. Then she turns a chronicle round and puts her finger on a page.".
+    On discuss { Assert knows(actor, chronicle_lanthorn). }
+  }
+  Topic slate_bell with abbess "Write on the slate: what is the great bell for?" when true once {
+    Says "She writes one word, KNOWN, and underlines it, and then shows you the page.".
+    On discuss { Assert knows(actor, chronicle_bell). Assert knows(actor, bell_dread). }
+  }
+
+  // The Waking Bell: untie it and ring it, and every hob on the fell runs for a month, and the house never lets you
+  // back in.
+  Thing waking_bell "the Waking Bell" at bell_tower {
+    State tied "The great bell's rope is tied up out of reach.".
+    State loosed "The great bell's rope hangs free.".
+    State rung "The great bell is still humming.".
+    Change untie "Climb up and untie the bell-rope" from tied to loosed needing climbing.
+    Change ring "Ring the Waking Bell" from loosed to rung.
+  }
+  Rule bell_heard when state(waking_bell, rung) and not shamed(party)
+    says "BONG. The sound goes out over the whole Varrow, and comes back off the mountains, and goes out again. Every brother and sister in the house stands still and looks at you." {
+    Assert shamed(party). Assert refused(party). Assert routed(raiders). Assert routed(watchers).
+  }
+  Rule shown_out when shamed(party) and (at(party, cloister) or at(party, scriptorium) or at(party, infirmary))
+    says "Two brothers take you each by an elbow, without a word, and walk you to the gate." { Assert at(party, stair_top). }
+  Goal knows(party, chronicle_lanthorn).
+}

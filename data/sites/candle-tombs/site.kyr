@@ -141,5 +141,5 @@ Module candle_tombs "The Candle Tombs" {
     Says "She weighs it in her hand and doesn't bother with the touchstone. 'Lead,' she says. 'Gilded lead, and good work, a hundred years old. Somebody wanted robbers to go home happy. I'll give you two crowns for it as a curiosity.'".
     On discuss { Assert knows(actor, lead_known). }
   }
-  Goal false.
+  Goal knows(party, lamplighters_rule).
 }

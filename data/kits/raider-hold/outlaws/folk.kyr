@@ -36,7 +36,9 @@ Module outlaw_folk "Outlaws" {
     State held "A fat man in a good coat gone shabby sits in the pens with a chain on his leg, writing a letter to his wife about the ransom for the ninth time.".
     State loose "Odo the mercer is loose, and talking about what he will do to Sir Hamo when he has his lawyers.".
     Change unchain "Strike off the mercer's chain" from held to loose needing brawn or lockwork.
+    Uses go. Plans 12 steps.
   }
+  Pursuit stay_close for mercer "keeping close to you" priority 30 when following(mercer, party) seeks together(mercer, party).
   Item purse "a fat purse of road-money" is toll_silver in chest.
   Item seal "a signet ring with the arms cut off it" is grave_rings in chest.
 
@@ -122,5 +124,5 @@ Module outlaw_folk "Outlaws" {
     says "Odo counts out ten crowns into your hand from a purse he had sewn into his coat all along." {
     Retract following(mercer, party). Assert ended(mercer). Increase quantity(party, gold) by 10.
   }
-  Goal false.
+  Goal ended(band) or ended(mercer).
 }

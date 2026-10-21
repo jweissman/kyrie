@@ -8,6 +8,8 @@ Module lanthorn "The Lanthorn" {
   Place home_town "The town beyond" is room.
   Place supplier "Where the crew buy on credit" is room.
   Place lamps "The temple of lamps" is room.
+  Entity reeve: group "The reeve who wants the Toll ended".
+  Entity bounty: fact "The reeve's bounty on the Toll".
 
   Place lanthorn "the Lanthorn" is site within varrow at 3, 0.
   Place gatehouse "The gatehouse" is level within lanthorn.
@@ -131,8 +133,13 @@ Module lanthorn "The Lanthorn" {
   // Rob her and she remembers: the wardens shoot on sight.
   Relation wanted(group).
   Rule marked when roused(lanthorn) and not wanted(party) and not lifted(toll) { Assert wanted(party). }
+  Hazard bolts "Crossbow bolts through the grille" means "Deal (1d8) physical damage to ally unless dexterity save against (13).".
+  Relation shotAt(group).
   Rule shot_at when wanted(party) and at(party, ?post) and tollAt(wardens, ?post) and able(wardens) and not lifted(toll)
-    and not sworn(party) says "A crossbow bolt cracks off the stones by your feet. 'That's them!'" { Assert assails(wardens, party). }
+    and not sworn(party) and not shotAt(party) says "A crossbow bolt cracks off the stones by your feet. 'That's them!'" {
+    Assert strikes(bolts, party). Assert shotAt(party).
+  }
+  Rule shot_reset when shotAt(party) and not at(party, toll_gate) and not at(party, gap_far) { Retract shotAt(party). }
   Thing gate_bar "the outer gate" on outer_gate is scenery {
     State barred blocking "The outer gate is shut and barred on the inside; there is a grille in it at head height.".
     State open "The outer gate stands open.".
@@ -211,7 +218,9 @@ Module lanthorn "The Lanthorn" {
     State chained "A thin girl in a sacking apron scours pots at the trough, with a chain from her ankle to the hearth-iron.".
     State freed "Tamsin sits by the hearth with her ankle free, rubbing it.".
     Change unchain "Strike off Tamsin's chain" from chained to freed needing brawn or lockwork.
+    Uses go. Plans 12 steps.
   }
+  Pursuit stay_close for tamsin "keeping close to you" priority 30 when following(tamsin, party) seeks together(tamsin, party).
   Topic tamsin_below with tamsin "Ask Tamsin about the cellars" when true once {
     Says "'They won't go below,' Tamsin whispers. 'Not since Wat went down the stair behind the counterweight, in the chapter house, and came back up white as milk with his torch out and wouldn't say what he saw. There's something that walks about down there and clicks.'".
     On discuss { Assert knows(actor, wick_stair_known). }
@@ -346,6 +355,15 @@ Module lanthorn "The Lanthorn" {
   }
   Entity toll: fact "Ninefingers' Toll on the Gap road.".
   Rule unheld when lifted(toll) and holds(ninefingers, ?p) { Retract holds(ninefingers, ?p). }
+  Rule leaderless when not able(ninefingers) and able(crew) and not lifted(toll) and untilLight(clock) == 1
+    says "Without Ninefingers the crew quarrel all night over her strongbox and her boots, and by morning they have gone over the Gap in three directions." {
+    Assert at(crew, south). Assert at(wardens, south). Assert at(coll, south). Assert at(carters, south). Assert lifted(toll).
+  }
+  Rule broken when not able(ninefingers) and not able(crew) and not lifted(toll) { Assert lifted(toll). }
+  Topic claim_bounty with reeve "Tell the reeve the Toll is ended" when lifted(toll) and knows(actor, bounty) once {
+    Says "Garrow goes to the window, as if he could see the Gap from it, and then counts fifty crowns out of a strongbox onto the ledger without a word. Then he shakes your hand for rather a long time.".
+    On discuss { Increase quantity(actor, gold) by 50. }
+  }
   Relation lifted(entity).
 
   Thing strongbox "Ninefingers' strongbox" at solar {
@@ -508,5 +526,5 @@ Module lanthorn "The Lanthorn" {
     Change open "Hold noonlight to the hollow in the sun-door" from sealed to open needing sunlight.
   }
   Item first "the First Light" is first_light at first_vault.
-  Goal false.
+  Goal lifted(toll) or kindled(beacon).
 }

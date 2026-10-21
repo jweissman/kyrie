@@ -21,7 +21,34 @@
         "shoulder": "varrow.shoulder",
         "home_town": "varrow.square",
         "supplier": "varrow.ford_green",
-        "lamps": "varrow.temple"
+        "lamps": "varrow.temple",
+        "reeve": "varrow.garrow",
+        "bounty": "varrow.bounty"
+      }
+    },
+    {
+      "id": "tombs",
+      "bundle": "../../../data/sites/candle-tombs/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "varrow": "varrow.region",
+        "barrows": "varrow.barrows",
+        "barrow_lights": "varrow.barrow_lights",
+        "appraiser": "varrow.iselde"
+      }
+    },
+    {
+      "id": "brimming",
+      "bundle": "../../../data/sites/brimming/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "varrow": "varrow.region",
+        "mine_head": "varrow.mine_head",
+        "crack_foot": "lanthorn.crack_foot",
+        "hest": "varrow.hest",
+        "glooms": "lanthorn.glooms",
+        "unlight": "lanthorn.unlight",
+        "ravening": "lanthorn.ravening"
       }
     },
     {

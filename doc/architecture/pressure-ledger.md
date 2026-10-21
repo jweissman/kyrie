@@ -147,3 +147,19 @@ thing with states, a try, a hidden way, a measure and a few rules:
 This is row 8 of the categories ("shallow design despite adequate machinery") turned around: the depth came from
 the design, not from new language.
 
+### The Brimming and the House of the Hush (October 21): row 9 closed in content
+
+Conveyances needed no new machinery either. Each is a scenery thing on a way, blocking in one state, and an action
+that sets the other:
+
+- the House of the Hush's basket lift comes down when the company rings at the post below, if the house will
+  have it;
+- Spill's boat crosses the Brimming's still lake for two coin;
+- the Skerry mine's deep cage is chained until Captain Hest lowers the company, or a thief picks the padlock.
+
+The Brimming is the Lanthorn's fifth way in, up the crack from beyond the lake, and its Glimmerkin are a second
+source of noonlight (one jar, for 45 coin) besides the Lanthorn's racks. While the Unlight ravens, its hounds come
+down the crack at night: the Glimmerkin lose jars, and a company on the far shore meets them. The Waking Bell in
+the Hush routs the Hob-Knot's hobs (the Hush imports them), and the house never lets the ringers back in. The
+Glimmerkin are a new, non-playable ancestry: one catalog entry and a name list.
+

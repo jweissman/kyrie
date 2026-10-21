@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "source": "site.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "varrow",
+    "stair_foot",
+    "raiders",
+    "watchers",
+    "bell_dread"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "varrow": {
+      "type": "place"
+    },
+    "stair_foot": {
+      "type": "place"
+    },
+    "raiders": {
+      "type": "group"
+    },
+    "watchers": {
+      "type": "group"
+    },
+    "bell_dread": {
+      "type": "fact"
+    }
+  },
+  "exports": {
+    "site": "house",
+    "abbess": "abbess",
+    "gate_court": "gate_court",
+    "chronicle": "chronicle_lanthorn"
+  },
+  "experience": 100
+}

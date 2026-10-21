@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "source": "site.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "varrow",
+    "mine_head",
+    "crack_foot",
+    "hest",
+    "glooms",
+    "unlight",
+    "ravening"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "varrow": {
+      "type": "place"
+    },
+    "mine_head": {
+      "type": "place"
+    },
+    "crack_foot": {
+      "type": "place"
+    },
+    "hest": {
+      "type": "group"
+    },
+    "glooms": {
+      "type": "group"
+    },
+    "unlight": {
+      "type": "scenery"
+    },
+    "ravening": {
+      "type": "condition"
+    }
+  },
+  "exports": {
+    "site": "brimming",
+    "market": "market",
+    "mother": "mother",
+    "traders": "traders",
+    "dark_comes": "dark_comes",
+    "far_shore": "far_shore"
+  },
+  "experience": 300
+}

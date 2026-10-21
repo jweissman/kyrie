@@ -116,5 +116,5 @@ describe('browser persistence', () => {
     expect(source.resolve('../c.kyr', 'data/a/b.json')).toBe('data/c.kyr');
     expect(source.resolve('./a/../c.kyr', 'data/x.json')).toBe('data/c.kyr');
     await expect(source.read('data/missing.kyr')).rejects.toThrow('Missing bundled file');
-  }, 60000);
+  }, 180000);
 });

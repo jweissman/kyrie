@@ -40,7 +40,9 @@ Module hob_folk "Hobs" {
     State penned "A boy sits among the stolen sheep with his hands tied, trying not to cry.".
     State loose "The shepherd's boy rubs his wrists and looks at the way out.".
     Change untie "Untie the shepherd's boy" from penned to loose.
+    Uses go. Plans 12 steps.
   }
+  Pursuit stay_close for captive "keeping close to you" priority 30 when following(captive, party) seeks together(captive, party).
   Item handbell "a chapel handbell, wrapped in sacking" is bell in heap.
   Item chalice "a stolen chalice" is chapel_plate in chest.
   Item rings "a string of rings off the dead" is grave_rings in heap.
@@ -150,5 +152,5 @@ Module hob_folk "Hobs" {
   }
   Rule peace_wears when paid(gaffer) and untilLight(clock) == 1 and shame(raiders) >= 1 { Decrease shame(raiders) by 1. }
   Rule peace_ends when paid(gaffer) and shame(raiders) <= 0 { Retract paid(gaffer). }
-  Goal false.
+  Goal not able(gaffer) or routed(gaffer) or paid(gaffer) or freed(captive).
 }

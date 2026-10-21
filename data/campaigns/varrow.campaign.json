@@ -21,7 +21,9 @@
         "shoulder": "varrow.shoulder",
         "home_town": "varrow.square",
         "supplier": "varrow.ford_green",
-        "lamps": "varrow.temple"
+        "lamps": "varrow.temple",
+        "reeve": "varrow.garrow",
+        "bounty": "varrow.bounty"
       }
     },
     {
@@ -36,6 +38,20 @@
       }
     },
     {
+      "id": "brimming",
+      "bundle": "../sites/brimming/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "varrow": "varrow.region",
+        "mine_head": "varrow.mine_head",
+        "crack_foot": "lanthorn.crack_foot",
+        "hest": "varrow.hest",
+        "glooms": "lanthorn.glooms",
+        "unlight": "lanthorn.unlight",
+        "ravening": "lanthorn.ravening"
+      }
+    },
+    {
       "kit": "../kits/raider-hold/kit.json",
       "id": "knot",
       "fix": {
@@ -44,6 +60,18 @@
         "prey": "varrow.ford_green",
         "hold": "ringfort",
         "folk": "hobs"
+      }
+    },
+    {
+      "id": "hush",
+      "bundle": "../sites/hush/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "varrow": "varrow.region",
+        "stair_foot": "varrow.stair_foot",
+        "raiders": "knotFolk.raiders",
+        "watchers": "knotFolk.watchers",
+        "bell_dread": "knotFolk.bell_dread"
       }
     }
   ],

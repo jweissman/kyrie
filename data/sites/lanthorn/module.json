@@ -15,7 +15,9 @@
     "shoulder",
     "home_town",
     "supplier",
-    "lamps"
+    "lamps",
+    "reeve",
+    "bounty"
   ],
   "roles": {
     "party": {
@@ -41,6 +43,12 @@
     },
     "lamps": {
       "type": "place"
+    },
+    "reeve": {
+      "type": "group"
+    },
+    "bounty": {
+      "type": "fact"
     }
   },
   "exports": {
@@ -70,6 +78,8 @@
     "chain_known": "chain_known",
     "wick_stair_known": "wick_stair_known",
     "nine_bargain": "nine_bargain",
-    "carters": "carters"
-  }
+    "carters": "carters",
+    "ravening": "ravening"
+  },
+  "experience": 800
 }
