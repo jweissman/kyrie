@@ -15,9 +15,10 @@ export class MonoLog {
       event.prelude.response ?? ''] : [];
     const lines = [...ambush,
       ...(plain ? [] : [f.result]),
-      ...f.resources, ...f.discoveries.filter(d => !f.result.includes(d)).map(d => `Learned: ${d}`),
-      ...f.immediate.map(l => l.replace(/^You witness: /, '')),
-      ...(context.moved ? [] : f.observations), ...f.events,
+      ...f.resources, ...f.immediate.map(l => l.replace(/^You witness: /, '')),
+      // What was seen, then what it taught.
+      ...(context.moved ? [] : f.observations),
+      ...f.discoveries.filter(d => !f.result.includes(d)).map(d => `Learned: ${d}`), ...f.events,
     ];
     const title = plain ? `→ ${context.arrived}` : context.subject ? `${context.subject}: ${context.title}` : context.title;
     const told = Narration.tidy([...new Set(lines.filter(Boolean))], fight ? event.combat.filter(e => e.type === 'action').length : 0);

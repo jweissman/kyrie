@@ -37,7 +37,7 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
     Result "You push at {target}, then pull.".
   }
   Action listen(actor: group, target: entity, site: place) "Listen at {target}" {
-    Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target)
+    Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
       and not tried(target, listening).
     On success { Assert tried(target, listening). }
     Result "You put an ear to {target}, and hold your breath.".

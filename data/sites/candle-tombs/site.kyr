@@ -46,17 +46,17 @@ Module candle_tombs "The Candle Tombs" {
 
   // The rite at the threshold: a candle lit in the antechamber keeps the dead asleep for three hours.
   Thing threshold "the threshold niche" at antechamber {
-    State dark_niche "One niche by the arch is empty, with a candle-spike in it.".
+    State empty "One niche by the arch is empty, with a candle-spike in it.".
     State alight "A candle burns in the threshold niche.".
-    Change light "Light a candle in the threshold niche" from dark_niche to alight needing flame.
+    Change light "Light a candle in the threshold niche" from empty to alight needing flame.
   }
   Measure candle(entity). Measure stirring(entity). Relation timed(entity).
   Rule candle_set when state(threshold, alight) and not timed(threshold) { Set candle(threshold) to 18. Assert timed(threshold). }
   Rule candle_burns when state(threshold, alight) and candle(threshold) >= 1 { Decrease candle(threshold) by 1. }
   Rule candle_out at antechamber when state(threshold, alight) and timed(threshold) and candle(threshold) <= 0
-    says "The candle in the threshold niche gutters and goes out." { Assert state(threshold, dark_niche). Retract timed(threshold). }
+    says "The candle in the threshold niche gutters and goes out." { Assert state(threshold, empty). Retract timed(threshold). }
   // Each watch spent below the antechamber with no candle alight stirs the dead; so does taking from them.
-  Rule unlit_stirs when state(threshold, dark_niche) and (at(party, processional) or at(party, gilded) or at(party, ossuary)
+  Rule unlit_stirs when state(threshold, empty) and (at(party, processional) or at(party, gilded) or at(party, ossuary)
     or at(party, workroom) or at(party, true_tomb)) { Increase stirring(tombs) by 1. }
   Rule robbing_stirs when robbed(tombs) and not counted(tombs) { Increase stirring(tombs) by 3. Assert counted(tombs). }
   Relation robbed(entity). Relation counted(entity). Relation restless(entity).
