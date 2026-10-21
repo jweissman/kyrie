@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "source": "site.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "varrow",
+    "toll_gate",
+    "gap_far",
+    "shoulder",
+    "home_town",
+    "supplier",
+    "lamps"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "varrow": {
+      "type": "place"
+    },
+    "toll_gate": {
+      "type": "place"
+    },
+    "gap_far": {
+      "type": "place"
+    },
+    "shoulder": {
+      "type": "place"
+    },
+    "home_town": {
+      "type": "place"
+    },
+    "supplier": {
+      "type": "place"
+    },
+    "lamps": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "site": "lanthorn",
+    "gate_passage": "gate_passage",
+    "court": "court",
+    "chapter_house": "chapter_house",
+    "solar": "solar",
+    "lantern": "lantern",
+    "stair_foot": "stair_foot",
+    "bottle_cellar": "bottle_cellar",
+    "deep_cellar": "deep_cellar",
+    "crack_foot": "crack_foot",
+    "gorge": "gorge",
+    "wardens": "wardens",
+    "crew": "crew",
+    "coll": "coll",
+    "ninefingers": "ninefingers",
+    "tamsin": "tamsin",
+    "tender": "tender",
+    "glooms": "glooms",
+    "unlight": "unlight",
+    "beacon": "beacon",
+    "toll": "toll",
+    "roused": "lanthorn",
+    "south": "south",
+    "chain_known": "chain_known",
+    "wick_stair_known": "wick_stair_known",
+    "nine_bargain": "nine_bargain",
+    "carters": "carters"
+  }
+}

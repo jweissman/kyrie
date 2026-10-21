@@ -36,6 +36,11 @@ situation has been played in the browser. Before/after examples sit with the cha
 | 20 | A shepherd's path learned in an inn; a shortcut found by leaving the road | Hidden passages revealed by facts; no off-road exploration | 6, 7 |
 | 21 | Loot that must be appraised; hot goods a fence pays less for; an heir who wants the heirloom back | Fixed buyers; no appraisal | 1, 3 |
 | 22 | A generated region that needs a power to threaten its pass, and a power whose needs imply a stronghold, a supply route and a people to raid | One-way generation; scenarios placed by context only | 6 |
+| 23 | Carters who walk a day down the valley for meal and back, every few days, unless the ford is in spate | NPC plans of a dozen steps never found: the planner told states apart by the hour they were reached | 3 |
+| 24 | A door the brigands open with their own key and the company must pick, break or be let through | A blocking thing stopped everyone, its owners too | 1, 3 |
+| 25 | A jar of noonlight poured out on the dark, and gone; the same jar is what the brigand queen wants | Changes could spend goods, not use up an item | 3, 4 |
+| 26 | A visitor admitted to the brigand queen who must touch nothing on the way; robbed, she remembers | Tolerance, guests and grudges had no words; guards either blocked or did not | 1, 4 |
+| 27 | Darkness that eats light, a lamp-tender that attacks whoever it finds unlit, and hounds that flee from sunlight | Unlit places and light only | 1, 3 |
 
 ## Progress
 
@@ -72,4 +77,31 @@ way), snows over the goat path and lengthens the Gap road (`Set travelTime(gap_r
 snow could only be a fixed obstacle; now it is six rules over one sky, and the same seed gives the same weather.
 The goat path is a way hidden until known: Jory tells of it at the smithy, or a woodsman finds it by searching the
 switchbacks. A thing on a way nobody knows of is not noticed, so the snow on the goat path does not give it away.
+
+### The Lanthorn (October 21): rows 5, 7, 12, 15, 23–27 have machinery and content
+
+The Varrow's citadel (`data/sites/lanthorn`) is six levels and five ways in: the gate, a postern barred inside, a
+chain from the fell to the top of the tower, the cistern's flooded overflow, and the crack below the cellars. What it
+needed of the language was small and general:
+
+- `tolerates(x, company)`: one who lets the company be does not bar its way, fall on it, or break its rest. A toll
+  paid, an audience granted and a bargain kept are each one fact, and taking them back is retracting it.
+- `keyholder(x, thing)`: a barred door does not bar its keyholder or those who serve them. Before, the carters could
+  not leave their own gate.
+- `lightless(place)` and `sunlight`: a place where ordinary light dies; only sunlight shows anything there.
+  `benighted` now covers both, so the Tender's rule ("falls on whoever it finds unlit") and the glooms' are one line.
+- `consuming <item kind>` on a change: the jar of noonlight is used up scorching the Unlight. Before:
+
+      Change scorch "Unstop the noonlight at the Unlight" from ravening to scorched needing sunlight.  // jar kept
+
+  After, the same jar cannot also be given to Ninefingers, which is the choice:
+
+      Change scorch "Unstop the noonlight at the Unlight" from ravening to scorched consuming noonlight.
+
+- The NPC planner kept states apart by the hour they were reached, so a twelve-step journey exhausted its budget of
+  2000 nodes; without a deadline it now keys by the world alone, and the carters' day-long round trip plans at once.
+
+The Lanthorn still names sixteen relations of its own (`roused`, `guest`, `wanted`, `provisions`, `laden`, `gloom`,
+`kindled`, ...). Several (an alarm, a store of provisions, carrying supplies, guests, a grudge) belong to any
+stronghold; they are the first candidates for shared vocabulary when the stronghold becomes a reusable kit.
 

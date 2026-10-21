@@ -314,6 +314,54 @@
         "notes": "Orsino's torch is a light source with a duration. Kyr gives it meaning through world rules: changes that need fire."
       },
       "use": "Apply torchlit to self for 1 hour."
+    },
+    "noonlight": {
+      "name": "Jar of noonlight",
+      "category": "equipment",
+      "description": "A stoppered jar of thick old glass, full of the light of a summer noon. It does not flicker, and things that hate the day hate it.",
+      "slot": "light",
+      "grants": {
+        "skill": "sunlight"
+      },
+      "value": 40,
+      "source": {
+        "kyr": true
+      }
+    },
+    "moonlight": {
+      "name": "Jar of moonlight",
+      "category": "equipment",
+      "description": "A jar of cold, steady silver light. It shows shapes, not colours, and never goes out.",
+      "slot": "light",
+      "grants": {
+        "skill": "light"
+      },
+      "value": 20,
+      "source": {
+        "kyr": true
+      }
+    },
+    "first_light": {
+      "name": "The First Light",
+      "category": "equipment",
+      "description": "The Lamplighters' mother-jar, as big as a child, warm to the touch: the first noon they ever bottled, kept to light the beacon.",
+      "slot": "light",
+      "grants": {
+        "skill": "sunlight"
+      },
+      "value": 120,
+      "source": {
+        "kyr": true
+      }
+    },
+    "toll_silver": {
+      "name": "Toll silver",
+      "category": "treasure",
+      "description": "A sack of mixed coin and hack-silver: a season of the Toll.",
+      "value": 40,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

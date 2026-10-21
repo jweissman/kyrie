@@ -249,6 +249,45 @@ world turns the hazard on one member. From `test/fixtures/strongroom`:
   Rule ceiling_falls when state(ceiling, poised) and not inside(?weight, plate) { … Assert strikes(falling_stone, party). }
 ```
 
+### Chance, weather and the dark
+
+`dice(clock)` is a die from 1 to 100 thrown every watch from the campaign's seed; a rule that reads it is how a
+world leaves something to chance (a band on the road at night, the weather turning). Weather is a `scenery` entity
+whose state other things follow by rules; scenery has states and descriptions but is not offered to be tried. A
+thing on a way the company does not know of is not noticed, so it does not give the way away. From
+`data/regions/varrow`:
+
+```text
+  Entity sky: scenery "the sky over the Varrow".
+  Rule rain_comes when untilLight(clock) == 1 and state(sky, fair) and dice(clock) <= 25 { Assert state(sky, rain). }
+  Thing spate "the Varrow at the ford" on the_ford is scenery {
+    State fordable "The Varrow runs knee-deep and clear over the ford stones.".
+    State swollen blocking "The Varrow is in spate, brown and loud, over the ford stones. Nobody crosses today.".
+  }
+  Rule ford_swells when state(sky, rain) and state(spate, fordable) { Assert state(spate, swollen). }
+  Rule gap_slow when state(sky, rain) { Set travelTime(gap_road) to 18. }
+  Rule raiders_on_road when at(party, barrows) and (dark() or state(sky, fog)) and dice(clock) <= 3 and … {
+    Assert at(raiders, barrows). Assert assails(raiders, party). }
+```
+
+`lightless(place)` is a place where light dies: only a company with `sunlight` sees there, and `benighted(company)`
+covers it as well as an unlit place without a light. A change can be `consuming` a kind of item, which uses one up.
+
+### Tolerance, keys and guests
+
+`tolerates(x, company)` means x lets the company be: it does not bar the company's way, fall on it, or break its
+rest. A toll, a bribe, an audience or a bargain is a rule or action that asserts it, and a betrayal retracts it.
+`keyholder(x, thing)` lets x, and whoever serves x, through a way that thing bars. From `data/sites/lanthorn`:
+
+```text
+  Action pay_toll(actor: group, site: place) "Pay the wardens the Toll, six coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and tollAt(wardens, site) and able(wardens)
+      and state(wardens, watching) and not tolerates(wardens, actor) and quantity(actor, gold) >= 6.
+    On success { Decrease quantity(actor, gold) by 6. Assert tolerates(wardens, actor). } }
+  Initially Assert keyholder(ninefingers, gate_bar). Initially Assert serves(carters, ninefingers).
+  Change scorch "Unstop the noonlight at the Unlight" from ravening to scorched consuming noonlight.
+```
+
 ## 6. Descriptions and goal
 
 An observation describes a place while its condition holds. Write what the company sees; leave out how the game
