@@ -11,14 +11,16 @@ export class Perceptions {
   // Seeing is knowing: each perceived observation that teaches a fact the company did not know is committed as known
   // and witnessed, and told as a discovery.
   static witness(module: Module, world: World, player: string | undefined, seen: CampaignEvent['perceptions']) {
-    if (!player || !seen) { return { changes: [], told: [] }; }
+    if (!player || !seen) { return { changes: [], told: [], noted: [] }; }
     const ids = new Set(seen.filter(p => p.kind === 'observation').map(p => p.id));
     const facts = [...new Set((module.observations ?? []).filter(o => o.teaches && ids.has(o.id)
       && !world.test(ModuleWriter.call('knows', player, o.teaches))).map(o => o.teaches!))];
     return { changes: facts.flatMap(f => [{ kind: 'assert' as const, call: ModuleWriter.call('knows', player, f) },
       { kind: 'assert' as const, call: ModuleWriter.call('witnessed', player, f) }]),
     told: facts.map(f => ({ id: f, kind: 'discovery' as const,
-      text: ObservationText.render(module.entities.find(e => e.id === f)!.name, world) })) };
+      text: ObservationText.render(module.entities.find(e => e.id === f)!.name, world) })),
+    // How the event's changes record it, so the journal can say when it was seen.
+    noted: facts.map(f => `+ knows(${player}, ${f})`) };
   }
   static after(module: Module, seen: { before: World; after: World; player: string | undefined;
     happenings: { id: string; text: string; kind: 'event' }[] }): CampaignEvent['perceptions'] {

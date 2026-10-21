@@ -13,6 +13,7 @@ import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model';
+import { Carriers } from './carriers';
 import { Overlays } from '../overlays';
 import type { ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
@@ -39,7 +40,8 @@ export class ScreenModel {
         ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
       ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
         wanting: `Needs ${w.name.toLowerCase()}: no one in the company has it.` }))];
-    const grouped = ChoiceGrouping.group(commands, { present, names, prices, passageOf, fees, tell: ScreenModel.tell });
+    const grouped = ChoiceGrouping.group(commands, { present, names, prices, passageOf, fees, tell: ScreenModel.tell,
+      ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
@@ -87,19 +89,24 @@ export class ScreenModel {
   // like now, told with them. Lines the company has not seen before at a place it has seen before are fresh.
   private static scene(campaign: Campaign, view: PlayerSnapshot, present: Set<string>) {
     const defs = new Map((campaign.module.observations ?? []).map(o => [o.id, o]));
-    const prose: string[] = [], says = new Map<string, string[]>();
-    for (const o of view.observations) {
-      const def = defs.get(o.id), text = FictionalTime.prose(o.text);
-      if (def?.anchor === 'near' && present.has(def.place)) { says.set(def.place, [...says.get(def.place) ?? [], text]); }
-      else { prose.push(text); }
-    }
     const events = campaign.events, last = events.at(-1);
     const before = new Set(events.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.id)));
     const here = view.location?.id;
     const known = here !== undefined && [...before].some(id => defs.get(id)?.place === here && !defs.get(id)?.anchor);
     const fresh = known ? (last?.perceptions ?? []).filter(p => p.kind === 'observation' && !before.has(p.id))
       .map(p => FictionalTime.prose(p.text)) : [];
-    return { prose, says, fresh };
+    // Lines one installation tells about the place run on as one paragraph; what is new stands on its own.
+    const paragraphs: { text: string; from: string; fresh: boolean }[] = [], says = new Map<string, string[]>();
+    for (const o of view.observations) {
+      const def = defs.get(o.id), text = FictionalTime.prose(o.text);
+      if (def?.anchor === 'near' && present.has(def.place)) { says.set(def.place, [...says.get(def.place) ?? [], text]); continue; }
+      // Only what describes the place itself runs on; a thing or person seen from here keeps its own paragraph.
+      const own = def && (!def.anchor || def.anchor === 'at') && def.place === here;
+      const from = own && o.id.includes('__') ? o.id.split('__')[0]! : '', prior = paragraphs.at(-1), isFresh = fresh.includes(text);
+      if (prior && from && prior.from === from && !prior.fresh && !isFresh) { prior.text = `${prior.text} ${text}`; }
+      else { paragraphs.push({ text, from, fresh: isFresh }); }
+    }
+    return { prose: paragraphs.map(p => p.text), says, fresh };
   }
   // What a spell or technique does, in its own words and then in the rules' terms.
   static tell(this: void, id: string): string | undefined {
@@ -174,7 +181,7 @@ export class ScreenModel {
     const coin = counted ? w.number(ModuleWriter.call('quantity', p.id, 'gold')) : 0;
     const food = counted ? w.number(ModuleWriter.call('quantity', p.id, 'rations')) : 0;
     const forSale = w.module.relations.some(r => r.name === 'forSale') && w.test(ModuleWriter.call('forSale', p.id));
-    const note = p.condition ? p.condition : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : 'can be read')
+    const note = p.condition ? p.condition : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...(note ? { note } : {}), acts };

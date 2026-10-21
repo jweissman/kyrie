@@ -32,7 +32,6 @@ Module belongings "What the company carries" {
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
       and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form).
     Resolve consume(dose, carrier, recipient).
-    Result "{carrier} uses {dose}.".
   }
   Action transfer_item(actor: group, cargo: item, carrier: member, recipient: member) "Give {cargo} to {recipient}" {
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor)

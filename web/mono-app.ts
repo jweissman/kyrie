@@ -274,7 +274,7 @@ export class MonoApp {
     const plain = context.move && context.moved && event.result === 'success';
     const lines = [
       ...(plain ? [] : [f.result]),
-      ...f.resources, ...f.discoveries.map(d => `Learned: ${d}`),
+      ...f.resources, ...f.discoveries.filter(d => !f.result.includes(d)).map(d => `Learned: ${d}`),
       ...f.immediate.map(l => l.replace(/^You witness: /, '')),
       ...(context.moved ? [] : f.observations), ...f.events,
     ];

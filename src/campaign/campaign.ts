@@ -325,7 +325,7 @@ export class Campaign implements TickHost {
     }
     const perceptions = Perceptions.after(this.module, { before, after, player: this.playerActor, happenings });
     const seen = Perceptions.witness(this.module, this.world, this.playerActor, perceptions);
-    if (seen.changes.length) { this.commit(this.world.apply(seen.changes)); }
+    if (seen.changes.length) { this.commit(this.world.apply(seen.changes)); event.changes.push(...seen.noted); }
     if (perceptions) { event.perceptions = [...perceptions, ...seen.told]; }
     this.log.push(event);
     return structuredClone(event);

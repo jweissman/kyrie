@@ -47,7 +47,7 @@ export class CaughtJourney {
     await d.do('boar', 'Read');
     await this.walk(d, 'drain_mouth', 'workshop');
     await this.through(d, 'stores');
-    await d.do('rescue__bar', 'Take', 'for Bran');
+    await d.do('rescue__bar', 'Take');
     await this.walk(d, 'workshop', 'gallery');
     await shot('05-hound');
     await d.do('hound', 'Approach');
@@ -80,8 +80,8 @@ export class CaughtJourney {
     await d.do('rescue__relative', 'Ask Marrit what is wrong');
     await shot('01-marrit');
     await this.walk(d, 'lane_foot', 'quarry_floor', 'smithy');
-    await d.do('rescue__bar', 'Take', 'for Bran');
-    await d.do('coil', 'Take', 'for Elen');
+    await d.do('rescue__bar', 'Take');
+    await d.do('coil', 'Take');
     await this.walk(d, 'quarry_floor', 'adit', 'upper_gallery');
     await shot('02-ladder');
     await d.go('lower_gallery', 'Lash');

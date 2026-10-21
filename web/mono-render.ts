@@ -63,7 +63,8 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     const where = screen.path.slice(0, -1).reverse().slice(0, 2).map(p => Html.escape(p.name)).join(' · ');
     const purpose = screen.objectives.map(o => `<p class="objective" data-id="objective">◆ ${Html.escape(o)}</p>`).join('');
     // What just happened, less anything the scene already says.
-    const lines = last?.lines.filter(l => !screen.prose.includes(l)) ?? [];
+    const told = [...screen.prose, ...[...screen.people, ...screen.things].flatMap(t => t.says ?? [])];
+    const lines = last?.lines.filter(l => !told.some(p => p.includes(l))) ?? [];
     const response = last && lines.length && !last.title.startsWith('→')
       ? `<div class="response tone-${last.tone}" data-id="response"><h3>${Html.escape(last.title)}</h3>${lines.slice(0, 8).map(l => `<p>${Html.escape(l)}</p>`).join('')}</div>` : '';
     // What has changed at a place the company has been before is marked, so a return reads as news.

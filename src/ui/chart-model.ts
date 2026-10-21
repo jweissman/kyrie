@@ -15,6 +15,12 @@ export class ChartModel {
   area(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).find(e => ChartModel.areaKinds.includes(e.space!.kind));
   }
+  // What the local chart draws: the level of a site the company is on (each level has its own grid), else its area.
+  private floor(id: string): Entity | undefined {
+    const line = Spatial.ancestry(this.entities, id), area = this.area(id);
+    const level = line.find(e => e.space!.kind === 'level');
+    return level && (!area || line.indexOf(level) < line.indexOf(area)) ? level : area;
+  }
   // On the region chart a site in open country is part of that country, not an area of its own.
   private regionalArea(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).findLast(e => ChartModel.areaKinds.includes(e.space!.kind));
@@ -36,10 +42,10 @@ export class ChartModel {
   }
   build(visited: Set<string>, here: string): { chart?: Chart; region?: RegionChart } {
     if (!this.world.module.relations.some(r => r.name === 'connects')) { return {}; }
-    const ways = this.ways(visited), home = this.area(here);
+    const ways = this.ways(visited), home = this.floor(here);
     const known = new Set([...visited, ...ways.map(w => w.to), ...ways.map(w => w.from)]);
     const local = [...known].map(id => this.entities.get(id)!)
-      .filter(e => e?.space?.grid && this.area(e.id)?.id === home?.id);
+      .filter(e => e?.space?.grid && this.floor(e.id)?.id === home?.id);
     const places: Chart['places'] = local.map(e => ({ id: e.id, name: e.name, x: e.space!.grid![0], y: e.space!.grid![1],
       visited: visited.has(e.id), here: e.id === here, area: this.entities.get(e.space!.parent ?? '')?.name ?? '' }));
     const edges: Chart['edges'] = [], seen = new Set<string>();
@@ -49,14 +55,15 @@ export class ChartModel {
       if (seen.has(key) || (!a && !b)) { continue; }
       seen.add(key);
       if (a && b) { edges.push(this.edge(w, visited)); continue; }
-      const inside = (a ?? b)!, outside = a ? w.to : w.from, there = this.area(outside);
+      const inside = (a ?? b)!, outside = a ? w.to : w.from, there = this.floor(outside);
       const id = `beyond:${outside}`;
       if (!places.some(p => p.id === id)) {
         const [dx, dy] = this.direction(home, there);
         let step = 1;
         while (places.some(p => p.x === inside.x + dx * step && p.y === inside.y + dy * step)) { step++; }
-        // A way out to a settlement is named for it; one out into open country, for the place it reaches.
-        const open = !there || ['wilderness', 'region'].includes(there.space?.kind ?? '');
+        // A way out to a settlement is named for it; one out into open country or into a site, for the place it
+        // reaches (the crypt, the bailey), since a site has more than one door.
+        const open = !there || ['wilderness', 'region', 'site', 'level'].includes(there.space?.kind ?? '');
         const name = (open ? this.entities.get(outside)?.name : there.name) ?? outside;
         places.push({ id, name, x: inside.x + dx * step,
           y: inside.y + dy * step, visited: false, here: false, area: '', external: true });

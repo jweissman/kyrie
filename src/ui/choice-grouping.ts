@@ -20,6 +20,8 @@ export interface GroupingContext {
   names: Map<string, string>; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
   fees?: Map<string, number>; several?: Set<string>;
   tell?: (id: string) => string | undefined;
+  // Who takes an item the company picks up or buys; the other hands are not offered.
+  carrier?: (item: string) => string | undefined;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -135,6 +137,10 @@ export class ChoiceGrouping {
     if (told) { leaf.about = told; }
     const data = { choice: choice.name, b, context };
     const path = rule.path.map(text => this.fill(text, data));
+    if (rule.path.at(-1) === 'for {recipient}' && b.find && b.recipient && context.carrier?.(b.find)) {
+      if (context.carrier(b.find) !== b.recipient) { return; }
+      path.pop(); leaf.by = [context.names.get(b.recipient) ?? b.recipient];
+    }
     if (rule.slot === 'exit' && path.length === 1 && b.way && context.several?.has(b.destination ?? '')) {
       path[0] = `${path[0]} by ${context.names.get(b.way) ?? b.way}`;
     }
