@@ -107,6 +107,7 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     const statuses = c.down ? 'down' : [...new Set(c.statuses)].join(' · ');
     return `<div class="fighter${c.acting ? ' acting' : ''}${c.down ? ' down' : ''}" data-fighter="${Html.escape(c.id)}"><div class="who"><b>${c.acting ? '▶ ' : ''}${Html.escape(c.name)}</b><span>${Html.escape(c.line)}</span></div>`
       + `${this.bar('HP', c.hp, c.maxHp, 'hp')}${this.slots(c)}${statuses ? `<div class="cond">${Html.escape(statuses)}</div>` : ''}`
+      + `${c.boons?.length && !c.down ? `<div class="boon">${Html.escape([...new Set(c.boons)].join(' · '))}</div>` : ''}`
       + `${c.intent && !c.down ? `<div class="intent">⚑ ${Html.escape(c.intent)}</div>` : ''}${c.defenses && !c.down ? `<div class="defenses">${Html.escape(c.defenses)}</div>` : ''}</div>`;
   }
   // A fight in its place: where it is, who stands on each side, whose turn it is, what they can do, and what just

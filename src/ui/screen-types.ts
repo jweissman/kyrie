@@ -75,7 +75,8 @@ export interface CombatScreen {
 export interface CombatantRow {
   id: string; name: string; line: string; hp: number; maxHp: number; mana: number; maxMana: number;
   slots?: number[]; maxSlots?: number[];
-  statuses: string[]; acting: boolean; down: boolean;
+  // Conditions by name: those that hurt, and those that help (a guard, a blessing).
+  statuses: string[]; boons?: string[]; acting: boolean; down: boolean;
   // For a foe: what it means to do this round, and the damage it shrugs off or fears.
   intent?: string; defenses?: string;
 }

@@ -1,4 +1,5 @@
 import { MechanicsText } from '../presentation/mechanics-text';
+import { ConditionSense } from '../presentation/condition-sense';
 import { Canon } from '../canon/canon';
 import { Content } from '../content';
 import { ItemCatalog } from '../item-catalog';
@@ -191,8 +192,8 @@ export class ScreenModel {
         : x.kind === 'gear' ? ItemCatalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
   }
   private static condition(id: string): string { return Canon.conditions[Canon.resolve('conditions', id)]?.name ?? id; }
-  // A condition that brings something to the company (light, a flame) is a help, not a hurt.
-  private static boon(id: string): boolean { return !!Canon.conditions[Canon.resolve('conditions', id)]?.grants?.length; }
+  // A condition that helps (a lit torch, a blessing, a ward) is told apart from one that hurts.
+  private static boon(id: string): boolean { return ConditionSense.helps(id); }
   // A thing whose use brings light: its effect applies a condition that grants it (a torch, a lantern).
   private static lights(use?: string): boolean {
     const status = use && /^Apply (\w+) to/.exec(use)?.[1];

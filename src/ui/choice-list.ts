@@ -64,8 +64,10 @@ export class ChoiceList {
     const glyph = t.state ? '✝' : tone === 'person' ? '☺' : tone === 'creature' ? '◆' : t.kind === 'feature' ? '▣' : '·';
     const note = [t.activity ?? t.note, t.state === 'dead' ? 'dead' : t.state ? 'down' : ''].filter(Boolean).join(' · ');
     const about = [t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : ''].filter(Boolean).join(' ');
+    // A fight or a risk comes after the gentler ways with the same subject, so Enter on arrival is never a blow.
+    const choices = this.flatten(t.acts, t.id, tone);
     return { id: t.id, title: t.name, tone, glyph, ...(note ? { note } : {}), ...(about ? { about } : {}),
-      choices: this.flatten(t.acts, t.id, tone) };
+      choices: [...choices.filter(c => !c.risk), ...choices.filter(c => c.risk)] };
   }
   static ways(exits: ExitRow[]): Section {
     const labels = exits.map(e => this.wayLabel(e));
