@@ -18,6 +18,8 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation serves(group, group).
   Query allied(a: group, b: group) means serves(a, b) or serves(b, a) or (serves(a, ?m) and serves(b, ?m)).
   Relation unlit(place). Relation company(group).
+  // Someone falling on another: on the company, it starts a fight there and then.
+  Relation assails(group, group).
   Query benighted(a: group) means company(a) and at(a, ?p) and unlit(?p) and not capable(a, light).
   Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
   Goal false.
@@ -35,6 +37,12 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Action wait_for_light(actor: group) "Wait until first light" {
     Requires able(actor) and dark(). Time untilLight(clock). Interrupted when threatened(actor).
     Result "The sky greys, then lightens. It is morning.".
+  }
+  Action assail(actor: group, prey: group, site: place) "Fall on {prey}" {
+    Description "Someone who means harm closes and attacks.".
+    Requires able(actor) and at(actor, site) and at(prey, site) and able(prey) and distinct(actor, prey)
+      and not peaceable(actor) and not allied(actor, prey) and not company(actor).
+    On success { Assert assails(actor, prey). }
   }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
     Description "A fight goes on until one side is down or runs. Anyone brought to nothing must save against death, and may not get up.".

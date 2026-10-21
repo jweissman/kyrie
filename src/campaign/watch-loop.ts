@@ -1,6 +1,7 @@
 import { ActionTime } from './action-time';
 import { CampaignTick, type Happening, type TickDecision, type TickHost } from './campaign-tick';
 import { Consequences } from './consequences';
+import { Engagement } from './engagement';
 import { Interruption } from './interruption';
 import type { Operator } from '../lang/module';
 import type { World } from '../lang/world';
@@ -27,6 +28,9 @@ export class WatchLoop {
         CampaignTick.rules(host, happenings);
         Consequences.strike(host, combat);
         host.settleWatch(combat);
+        // Someone falling on the company stops whatever it was doing, interruptible or not.
+        const foe = Engagement.foe(host);
+        if (foe) { return { npc, happenings, interrupted: Engagement.told(host, foe) }; }
       }
       why = watch && Interruption.check(watch, host.world, player!, happenings);
     }

@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "source": "site.kyr",
+  "rules": ["world"],
+  "globals": ["party"]
+}

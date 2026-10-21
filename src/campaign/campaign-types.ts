@@ -34,4 +34,6 @@ export interface CampaignEvent {
   result: 'success' | 'failure'; combat: CombatEvent[]; npc?: NpcDecision[];
   response?: string;
   perceptions?: { id: string; text: string; kind: 'observation' | 'discovery' | 'event' }[];
+  // A fight the company was drawn into: what it had been doing when it was fallen on, and where it ran to, if it ran.
+  prelude?: { action: string; response?: string; perceptions?: CampaignEvent['perceptions'] }; fledTo?: string;
 }

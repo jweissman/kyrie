@@ -86,10 +86,11 @@ export class ChoiceList {
   private static way(e: ExitRow, label: string): Choice[] {
     const about = this.wayAbout(e), id = e.id, minutes = this.longest(e.acts);
     const note = [minutes > 10 ? this.minutes(minutes) : '', e.visited ? '' : 'unvisited'].filter(Boolean).join(' · ');
-    if (!e.acts.length) {
-      return [{ id, label, tone: 'way', disabled: e.blocked ?? 'Not possible from here right now.', about,
-        note: 'barred' }];
-    }
+    const barred: Choice = { id, label, tone: 'way', disabled: e.blocked ?? 'Not possible from here right now.', about,
+      note: 'barred' };
+    if (!e.acts.length) { return [barred]; }
+    // A way that is barred says so, even when there is something to try on what bars it.
+    if (e.blocked && !e.acts.some(a => this.moves(a))) { return [barred, ...this.tries(e, label, about)]; }
     // A way with one thing to do, and that thing is to go, is just the way; anything else (open the door, risk the
     // pit) is said, so a choice never pretends to lead somewhere it does not.
     const only = e.acts.length === 1 && !e.acts[0]!.children && this.moves(e.acts[0]!) ? e.acts[0]! : undefined;
@@ -98,7 +99,11 @@ export class ChoiceList {
         ...(note ? { note } : {}), ...(only.minutes ? { minutes: only.minutes } : {}),
         ...(only.risk ? { risk: true } : {}) }];
     }
-    // Several ways to act on one passage (go by the shaft or the postern; risk the pit or disarm it) each stand alone.
+    return this.tries(e, label, about);
+  }
+  // Several ways to act on one passage (go by the shaft or the postern; risk the pit or disarm it) each stand alone.
+  private static tries(e: ExitRow, label: string, about: string): Choice[] {
+    const id = e.id;
     return e.acts.map(a => {
       const c = this.choice(a, id, 'way');
       const how = this.moves(a) && !a.label.startsWith('Go by ') ? label : a.label.startsWith('Go by ') ? `${label}, ${a.label.slice(3)}`

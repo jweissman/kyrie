@@ -29,6 +29,7 @@ import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
 import { CampaignTick } from './campaign-tick';
 import { WatchLoop, type WatchHost } from './watch-loop';
+import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent } from './campaign-types';
@@ -251,7 +252,11 @@ export class Campaign implements WatchHost {
     try {
       battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
       if (battle) { play(battle); }
-      return this.complete(action, checkpoint, battle);
+      const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
+      if (!assault) { return event; }
+      battle = this.encounterBattle(assault.id); play(battle);
+      const fight = this.complete(assault, this.checkpoint(), battle);
+      return Engagement.after(this, event, fight, assault.bindings!.opponent!);
     } catch (error) { this.rollback(battle, checkpoint); throw error; }
     finally { this.executing = false; }
   }
@@ -262,7 +267,11 @@ export class Campaign implements WatchHost {
     try {
       battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
       if (battle) { await play(battle); }
-      return this.complete(action, checkpoint, battle);
+      const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
+      if (!assault) { return event; }
+      battle = this.encounterBattle(assault.id); await play(battle);
+      const fight = this.complete(assault, this.checkpoint(), battle);
+      return Engagement.after(this, event, fight, assault.bindings!.opponent!);
     } catch (error) { this.rollback(battle, checkpoint); throw error; }
     finally { this.executing = false; }
   }
@@ -363,6 +372,7 @@ export class Campaign implements WatchHost {
   refreshProjection() { this.refresh(); }
   recordObservations() { this.observe(); }
   commitWorld(world: World) { this.commit(world); }
+  amend(event: CampaignEvent) { this.log[this.log.length - 1] = structuredClone(event); }
   advanceWatch(combat: CombatEvent[]) {
     this.current.elapsed++;
     if (FieldUse.advance(this.creatures, this.current.elapsed, combat,

@@ -9,6 +9,8 @@ interface Rule {
   also?: { param: string; path: string[] };
   // The binding whose own account (a spell's) is what the choice means, rather than the action's description.
   tells?: string;
+  // The path when the subject stands on a way rather than in the place: tries gather under one entry per thing.
+  onWay?: string[];
 }
 export interface Grouped {
   exits: Map<string, ExitActs>; targets: Map<string, Act[]>; items: Map<string, Act[]>;
@@ -80,12 +82,16 @@ export class ChoiceGrouping {
     take_out: { slot: 'target', param: 'find', path: ['Take out of {box}', 'for {recipient}'] },
     put_in: { slot: 'target', param: 'box', path: ['Put in', '{cargo}'] },
     search: { slot: 'camp', path: ['Search here'] },
-    look_closely: { slot: 'target', param: 'target', path: ['Look closely'] },
-    prod: { slot: 'target', param: 'target', path: ['Try', 'Prod it with the pole'] },
-    pry: { slot: 'target', param: 'target', path: ['Try', 'Pry at it with the bar'] },
-    burn: { slot: 'target', param: 'target', path: ['Try', 'Hold a flame to it'] },
-    push: { slot: 'target', param: 'target', path: ['Try', 'Push and pull at it'] },
-    listen: { slot: 'target', param: 'target', path: ['Try', 'Listen at it'] },
+    look_closely: { slot: 'target', param: 'target', path: ['Look closely'], onWay: ['Look at {target}', 'Look closely'] },
+    prod: { slot: 'target', param: 'target', path: ['Try', 'Prod it with the pole'],
+      onWay: ['Look at {target}', 'Prod it with the pole'] },
+    pry: { slot: 'target', param: 'target', path: ['Try', 'Pry at it with the bar'],
+      onWay: ['Look at {target}', 'Pry at it with the bar'] },
+    burn: { slot: 'target', param: 'target', path: ['Try', 'Hold a flame to it'],
+      onWay: ['Look at {target}', 'Hold a flame to it'] },
+    push: { slot: 'target', param: 'target', path: ['Try', 'Push and pull at it'],
+      onWay: ['Look at {target}', 'Push and pull at it'] },
+    listen: { slot: 'target', param: 'target', path: ['Try', 'Listen at it'], onWay: ['Look at {target}', 'Listen at it'] },
     sell: { slot: 'target', param: 'buyer', path: ['Sell {ware}'] },
     open_door: { slot: 'target', param: 'door', path: ['Open'] },
     close_door: { slot: 'target', param: 'door', path: ['Close'] },
@@ -163,7 +169,8 @@ export class ChoiceGrouping {
       this.exit(out, subject, { acts: [], path, leaf: risky, ...(rule.passage ? { passage: rule.passage } : {}),
         ...(rule.via ? { via: this.fill(rule.via, data) } : {}) });
     } else if (rule.slot === 'target' && subject && context.passageOf.has(subject)) {
-      this.exit(out, context.passageOf.get(subject)!, { acts: [], path, leaf: risky });
+      const way = rule.onWay ? rule.onWay.map(t => this.fill(t, data)) : path;
+      this.exit(out, context.passageOf.get(subject)!, { acts: [], path: way, leaf: risky });
     } else if (rule.slot === 'target' && subject) { this.insert(this.slot(out.targets, subject), path, risky); }
     else if (rule.slot === 'item' && subject) { this.insert(this.slot(out.items, subject), path, risky); }
     else if (rule.slot === 'member' && subject) { this.insert(this.slot(out.members, subject), path, risky); }

@@ -4,21 +4,20 @@ import type { CampaignManifest } from '../src/campaign/module-bundle';
 import partyExamples from '../data/campaigns/companies.json';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
-import { ActionFeedbackView, type ActionFeedback } from '../src/presentation/action-feedback';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { FictionalTime } from '../src/presentation/fictional-time';
-import { Narration } from '../src/presentation/narration';
 import { ScreenModel } from '../src/ui/screen-model';
 import { CombatModel } from '../src/ui/combat-model';
 import { ChoiceList, type Choice, type Section } from '../src/ui/choice-list';
 import { Tactics } from '../src/tactics';
 import type { Battle } from '../src/battle';
-import type { CampaignEvent } from '../src/campaign/campaign';
 import type { CreatureGenerationContext } from '../src/content';
 import type { Command } from '../src/model';
 import type { LogEntry, Screen } from '../src/ui/screen-types';
 import { Scenarios } from './scenarios';
 import { MonoRender, type Mode, type MonoState } from './mono-render';
 import { MonoScreens, type Draft, type Opening } from './mono-screens';
+import { MonoLog } from './mono-log';
 
 interface Saved { checkpoint: Parameters<typeof PlaySession.resume>[0]; log?: LogEntry[] }
 
@@ -259,7 +258,8 @@ export class MonoApp {
       const event = await this.session.perform(command, this.controller);
       const feedback = ActionFeedbackView.read(campaign, event, before);
       const moved = before.location?.id !== PlayerView.observe(campaign).location?.id;
-      this.record(event, feedback, { ...context, moved });
+      this.log.push(MonoLog.entry(event, feedback,
+        { ...context, moved, arrived: PlayerView.observe(campaign).location?.name ?? '' }));
       if (this.mode === 'combat') { this.mode = 'explore'; }
       this.reset();
       this.persist();
@@ -267,21 +267,6 @@ export class MonoApp {
       this.error = error instanceof Error ? error.message : String(error);
       this.turn = undefined; if (this.mode === 'combat') { this.mode = 'explore'; }
     } finally { this.pending = false; this.render(); }
-  }
-  private record(event: CampaignEvent, f: ActionFeedback, context: { title: string; subject: string; move: boolean;
-    moved: boolean }) {
-    const fight = event.combat.some(e => e.type === 'end');
-    const plain = context.move && context.moved && event.result === 'success';
-    const lines = [
-      ...(plain ? [] : [f.result]),
-      ...f.resources, ...f.discoveries.filter(d => !f.result.includes(d)).map(d => `Learned: ${d}`),
-      ...f.immediate.map(l => l.replace(/^You witness: /, '')),
-      ...(context.moved ? [] : f.observations), ...f.events,
-    ];
-    const arrived = PlayerView.observe(this.session!.campaign).location?.name ?? '';
-    const title = plain ? `→ ${arrived}` : context.subject ? `${context.subject}: ${context.title}` : context.title;
-    const told = Narration.tidy([...new Set(lines.filter(Boolean))], fight ? event.combat.filter(e => e.type === 'action').length : 0);
-    this.log.push({ at: f.time, title, lines: told, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' });
   }
   private async keydown(e: KeyboardEvent) {
     const target = e.target as HTMLElement;

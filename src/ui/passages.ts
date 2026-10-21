@@ -124,7 +124,7 @@ export class Passages {
       merged.set(destination, { destination, passage: g.passage ?? prior?.passage ?? 'open',
         ...(prior?.way ? { way: prior.way } : {}), ...(prior?.hazard ? { hazard: prior.hazard } : {}),
         ...(g.via ?? prior?.via ? { via: g.via ?? prior?.via } : {}), ...(prior?.name ? { name: prior.name } : {}),
-        ...(prior?.mode ? { mode: prior.mode } : {}) });
+        ...(prior?.mode ? { mode: prior.mode } : {}), ...(prior?.blocked ? { blocked: prior.blocked } : {}) });
     }
     return [...merged.values()].map(k => this.row(here, k, grouped.get(k.destination)?.acts ?? [], options.visited))
       .sort((a, b) => Number(!!a.blocked) - Number(!!b.blocked) || Passages.order(a) - Passages.order(b)
@@ -136,7 +136,7 @@ export class Passages {
     return { id: `exit:${k.destination}`, kind: 'exit', name: k.name ?? this.place(k.destination).name,
       destination: this.place(k.destination), transition, passage: k.passage,
       ...(scope ? { scope } : {}), ...(k.via ? { via: k.via } : {}),
-      ...(acts.length ? {} : { blocked: k.blocked ?? 'Not possible from here right now.' }),
+      ...(acts.length && !k.blocked ? {} : { blocked: k.blocked ?? 'Not possible from here right now.' }),
       ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard } : {}),
       visited: visited.has(k.destination), acts };
   }

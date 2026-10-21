@@ -1,0 +1,34 @@
+Module watch_house "The watch-house" {
+  Description "A walled watch-house: a sentry on the gate who falls on anyone who comes in without the word, and a patrol that hunts intruders through the yard.".
+  Place compound "The watch-house" is site.
+  Place lane "the lane outside" is room within compound at 0, 0.
+  Place gatehouse "the gatehouse" is room within compound at 1, 0.
+  Place yard "the yard" is room within compound at 2, 0.
+  Place barracks "the barracks" is room within compound at 2, 1.
+  Passage gate "the gate" is gate between lane and gatehouse.
+  Passage arch "the inner arch" is arch between gatehouse and yard.
+  Passage barracks_door "the barracks door" is door between yard and barracks.
+
+  Company party "Your company" of 3 at lane.
+  Initially Set quantity(party, gold) to 5. Initially Set quantity(party, rations) to 1.
+
+  Entity password: fact "The watch-word at the gate is 'Lantern'.".
+  Initially Assert established(password).
+  Person sentry "the gate sentry" at gatehouse {
+    Role "a sentry". Ancestry human. Calling warrior. Level 1.
+    State watching "A sentry leans on a spear in the gatehouse, watching the lane.".
+  }
+  // Trespass: the sentry falls on anyone who comes through the gate without the word.
+  Rule challenge when at(party, gatehouse) and at(sentry, gatehouse) and able(sentry) and not knows(party, password)
+    says "The sentry levels his spear. 'Word?' he says, and when none comes, he comes at you." {
+    Assert assails(sentry, party).
+  }
+  Person patrol "the yard patrol" at barracks {
+    Role "two watchmen". Ancestry human. Calling warrior. Level 1. Numbers 2.
+    State walking "Two watchmen with cudgels walk the yard.".
+    Uses go, assail. Plans 4 steps.
+  }
+  // The patrol hunts intruders who have got past the gate.
+  Pursuit hunt for patrol "hunting the intruders" priority 20 when at(party, yard) or at(party, barracks) seeks assails(patrol, party).
+  Goal false.
+}

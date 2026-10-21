@@ -52,3 +52,13 @@ is fourteen lines, and its needle, the alcove behind the map, the pit under the 
 are all the same few relations. The idol swap needed no special case: anything put on the plate keeps the ceiling
 up, because the rule asks only whether something is inside it.
 
+
+### People who fall on the company (October 21): rows 5, 6, 18 have machinery
+
+A fact `assails(x, company)` (asserted by a trespass rule, or by an NPC's `assail` action, which patrols and hunters
+can plan with) stops whatever the company is doing, interruptible or not, and the fight that follows is the standard
+attack, fought there and then and recorded in the same transcript step, so replays reproduce it. A company that
+runs is put back where it came from; the assault is spent either way. Before, a sentry could only block a way; now
+`test/fixtures/watch-house` has a sentry who challenges anyone without the watch-word and a patrol that hunts
+intruders through the yard, each one rule or one pursuit long. A barred way now says it is barred even when there
+is something to try on what bars it, and tries on a thing that stands on a way gather under one entry for it.

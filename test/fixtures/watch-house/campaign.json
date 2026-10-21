@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "The watch-house (test fixture)",
+  "modules": [{ "id": "world", "bundle": "module.json" }],
+  "party": [
+    { "name": "Rook", "raceId": "elf", "classId": "ranger", "backgroundId": "tracker" },
+    { "name": "Moss", "raceId": "human", "classId": "thief", "backgroundId": "outlaw" },
+    { "name": "Garran", "raceId": "human", "classId": "warrior", "backgroundId": "soldier" }
+  ]
+}
