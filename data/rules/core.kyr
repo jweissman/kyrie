@@ -14,7 +14,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation dark().
   Relation witnessedAttack(group, group, group).
   Relation refusesService(group, group).
-  Relation capable(group, capability).
+  Relation capable(group, capability). Relation brings(member, capability).
   Relation unlit(place). Relation company(group).
   Query benighted(a: group) means company(a) and at(a, ?p) and unlit(?p) and not capable(a, light).
   Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
@@ -22,7 +22,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Action wait(actor: group) "Wait a while" {
     Requires able(actor). Time 1.
   }
-  Measure untilLight(clock).
+  Measure untilLight(clock). Measure untilMorning(clock).
   Action wait_for_light(actor: group) "Wait until first light" {
     Requires able(actor) and dark(). Time untilLight(clock).
     Result "The sky greys, then lightens. It is morning.".
