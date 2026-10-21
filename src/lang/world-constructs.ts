@@ -1,4 +1,5 @@
 import type { Anchor, Change, Module, Predicate } from './module';
+import { ItemCatalog } from '../item-catalog';
 
 export interface StateSpec { id: string; flags: string[]; text: string }
 export interface ChangeSpec {
@@ -125,7 +126,10 @@ export class WorldConstructs {
       this.assert(module, 'changeTo', id, c.to);
       for (const need of c.needs ?? []) { this.assert(module, 'needs', id, need); }
       if (c.after) { this.assert(module, 'changeKnows', id, c.after); }
-      if (c.consumes) { this.assert(module, 'consumes', id, c.consumes); }
+      // Consuming a good spends some of the company's stock; consuming a kind of item uses one up.
+      const spent = c.consumes ? ItemCatalog.definitions[c.consumes]?.name : undefined;
+      if (spent) { this.entity(module, c.consumes!, 'itemkind', spent); this.assert(module, 'spends', id, c.consumes!); }
+      else if (c.consumes) { this.assert(module, 'consumes', id, c.consumes); }
     }
     if (t.hurts) {
       this.assert(module, 'harmsWhen', t.id, t.hurts.when);

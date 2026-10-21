@@ -124,12 +124,17 @@ export class PlayerView {
         ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
     });
   }
+  // Unable to see here: an unlit place without a light, or one where light dies, without sunlight.
+  private static benighted(world: World, actor: string, place: string): boolean {
+    return world.module.queries.some(q => q.name === 'benighted') ? world.test(ModuleWriter.call('benighted', actor))
+      : this.test(world, 'unlit', place) && !this.test(world, 'capable', actor, 'light');
+  }
   static observe(campaign: Campaign): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
     const entities = campaign.module.entities, state = campaign.state;
     const location = entities.find(e => e.type === 'place' && this.test(world, 'at', actor, e.id));
     const perceiving = this.test(world, 'able', actor), discovery = Discovery.supported(campaign.module);
-    const dark = !!location && this.test(world, 'unlit', location.id) && !this.test(world, 'capable', actor, 'light');
+    const dark = !!location && this.benighted(world, actor, location.id);
     const situations = campaign.installations.length ?
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];

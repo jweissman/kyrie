@@ -4,13 +4,13 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
   Entity pushing: verb "pushed and pulled". Entity listening: verb "listened at".
   // Anything that can be handled can be tried; what it does when tried is the author's (an observation, an event,
   // a rule on tried). A try that finds nothing says so; offering it never reveals anything.
-  Initially Assert needs(prodding, pole). Initially Assert needs(prying, crowbar). Initially Assert needs(burning, light).
+  Initially Assert needs(prodding, pole). Initially Assert needs(prying, crowbar). Initially Assert needs(burning, flame).
   Goal false.
   Action look_closely(actor: group, target: entity, site: place) "Look closely at {target}" {
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
       and not tried(target, looking).
     On success { Assert tried(target, looking). }
-    Result "You look {target} over closely.".
+    Result "You look closely at {target}.".
   }
   Action prod(actor: group, target: entity, site: place) "Prod {target} with the pole" {
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
@@ -40,6 +40,6 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target)
       and not tried(target, listening).
     On success { Assert tried(target, listening). }
-    Result "You put an ear to {target} and hold your breath.".
+    Result "You put an ear to {target}, and hold your breath.".
   }
 }

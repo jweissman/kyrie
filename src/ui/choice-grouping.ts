@@ -36,6 +36,7 @@ export class ChoiceGrouping {
       via: '{trap}', risk: true },
     change_thing: { slot: 'target', param: 'thing', path: ['{how}'] },
     change_thing_paying: { slot: 'target', param: 'thing', path: ['{how}'] },
+    change_thing_spending: { slot: 'target', param: 'thing', path: ['{how}', 'using {carrier}\'s {spent}'] },
     lead: { slot: 'target', param: 'companion', path: ['Ask them to come with you'] },
     buy_goods: { slot: 'target', param: 'seller', path: ['Buy', 'one {goods} — {goodsfee} coin'] },
     take_lodging: { slot: 'target', param: 'host', path: ['Take {service} — {fee} coin'] },

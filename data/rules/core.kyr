@@ -7,6 +7,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity brawn: capability "Brawn". Entity stealth: capability "Stealth".
   Entity lore: capability "Lore". Entity rites: capability "Rites of the dead".
   Entity climbing: capability "Climbing". Entity light: capability "Light". Entity flame: capability "Flame".
+  Entity sunlight: capability "Sunlight".
   Relation at(entity, place) exclusive.
   Relation able(group). Relation dead(group). Relation distinct(group, group).
   Relation closed(place). Relation indoors(place). Relation settled(place).
@@ -18,14 +19,19 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation serves(group, group).
   Query allied(a: group, b: group) means serves(a, b) or serves(b, a) or (serves(a, ?m) and serves(b, ?m)).
   Relation unlit(place). Relation company(group).
+  // A place where light dies: only sunlight shows anything there.
+  Relation lightless(place).
+  // One who lets another be: does not bar its way or fall on it (a toll paid, a bribe taken, recruits believed).
+  Relation tolerates(group, group).
   // Someone falling on another: on the company, it starts a fight there and then.
   Relation assails(group, group).
-  Query benighted(a: group) means company(a) and at(a, ?p) and unlit(?p) and not capable(a, light).
+  Query benighted(a: group) means company(a) and at(a, ?p) and not capable(a, sunlight)
+    and ((unlit(?p) and not capable(a, light)) or lightless(?p)).
   Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
   Goal false.
   // Someone who means the company no good where it is: a long wait or a rest is broken off when one arrives.
   Query threatened(a: group) means at(a, ?p) and at(?o, ?p) and able(?o) and distinct(?o, a) and not peaceable(?o)
-    and not allied(?o, a).
+    and not allied(?o, a) and not tolerates(?o, a).
   Action wait(actor: group) "Wait a while" {
     Requires able(actor). Time 1.
   }
@@ -43,7 +49,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Action assail(actor: group, prey: group, site: place) "Fall on {prey}" {
     Description "Someone who means harm closes and attacks.".
     Requires able(actor) and at(actor, site) and at(prey, site) and able(prey) and distinct(actor, prey)
-      and not peaceable(actor) and not allied(actor, prey) and not company(actor).
+      and not peaceable(actor) and not allied(actor, prey) and not tolerates(actor, prey) and not company(actor).
     On success { Assert assails(actor, prey). }
   }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {

@@ -23,7 +23,8 @@ export class Planner {
     while (frontier.length && expanded < options.maxNodes) {
       frontier.sort((a, b) => a.cost - b.cost);
       const node = frontier.shift()!;
-      const key = `${node.world.key()};${node.time}`;
+      // Without a deadline, when a state is reached does not matter: the cheapest way there is the one kept.
+      const key = Number.isFinite(options.timeRemaining) ? `${node.world.key()};${node.time}` : node.world.key();
       if ((visited.get(key) ?? Infinity) <= node.cost) { continue; }
       visited.set(key, node.cost);
       expanded++;

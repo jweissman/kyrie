@@ -18,7 +18,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Kind verb. Relation probeable(entity). Relation tried(entity, verb).
   Relation needs(entity, entity).
   Relation changeOf(change, entity). Relation changeFrom(change, condition). Relation changeTo(change, condition).
-  Relation changeKnows(change, fact). Relation consumes(change, good).
+  Relation changeKnows(change, fact). Relation consumes(change, good). Relation spends(change, itemkind).
   Relation hobbled(group).
   Relation following(group, group).
   Query holding(a: group, k: itemkind) means memberOf(?m, a) and ownedItem(?i, ?m) and itemKind(?i, k).
@@ -28,11 +28,15 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query visibleTo(w: passage, a: group) means not revealedBy(w, ?f) or (revealedBy(w, ?f) and knows(a, ?f))
     or (revealedBy(w, ?g) and following(a, ?l) and knows(?l, ?g)).
   Query barred(w: passage) means on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s).
+  // Who holds the key to what bars a way, and those who serve them, go through it as if it were open.
+  Relation keyholder(group, entity).
+  Query opens(a: group, o: entity) means keyholder(a, o) or (serves(a, ?m) and keyholder(?m, o)).
+  Query barredFor(w: passage, a: group) means on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s) and not opens(a, ?o).
   Query watched(w: passage) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t)
     and at(?g, ?p) and connects(w, ?p, ?q).
   Query obstructed(w: passage) means barred(w) or watched(w).
   Query watchedAgainst(w: passage, a: group) means guards(?g, w) and able(?g) and state(?g, ?t) and blocksWhen(?g, ?t)
-    and at(?g, ?p) and connects(w, ?p, ?q) and not allied(?g, a).
+    and at(?g, ?p) and connects(w, ?p, ?q) and not allied(?g, a) and not tolerates(?g, a).
   Query hazardous(w: passage) means on(?h, w) and state(?h, ?s) and harmsWhen(?h, ?s).
   Query mobile(a: group) means not hobbled(a) or following(a, ?l).
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
@@ -46,7 +50,8 @@ Module world_passages "Passages, obstacles and the condition of things" {
     or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
     or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r))
     or (at(a, ?h) and inside(t, ?c) and at(?c, ?h) and not shut(?c))).
-  Query passable(w: passage, a: group) means visibleTo(w, a) and not barred(w) and not watchedAgainst(w, a) and not hazardous(w)
+  Query passable(w: passage, a: group) means visibleTo(w, a) and not barredFor(w, a) and not watchedAgainst(w, a)
+    and not hazardous(w)
     and equippedFor(a, w).
   Goal false.
 
@@ -60,7 +65,8 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Action slip_past(actor: group, way: passage, origin: place, destination: place, gatekeeper: group) "Slip past {gatekeeper} by {way}" {
     Description "Someone who moves quietly takes the company past a watcher without a fight or a bargain. The watcher stays where it is, and will be there on the way back.".
     Requires able(actor) and at(actor, origin) and connects(way, origin, destination) and guards(gatekeeper, way)
-      and able(gatekeeper) and state(gatekeeper, ?t) and blocksWhen(gatekeeper, ?t) and capable(actor, stealth)
+      and able(gatekeeper) and state(gatekeeper, ?t) and blocksWhen(gatekeeper, ?t) and not tolerates(gatekeeper, actor)
+      and capable(actor, stealth)
       and visibleTo(way, actor) and not barred(way) and not hazardous(way) and equippedFor(actor, way) and mobile(actor).
     Time travelTime(way).
     On success { Assert at(actor, destination). }
@@ -79,7 +85,16 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Action change_thing(actor: group, how: change, thing: entity, origin: condition, result: condition) "{how}" {
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
-      and not dead(thing) and not benighted(actor) and not consumes(how, ?g).
+      and not dead(thing) and not benighted(actor) and not consumes(how, ?g) and not spends(how, ?k).
+    On success { Assert state(thing, result). }
+  }
+  Action change_thing_spending(actor: group, how: change, thing: entity, origin: condition, result: condition, spent: item, form: itemkind, carrier: member) "{how}, using {carrier}'s {spent}" {
+    Description "What it takes is used up doing it.".
+    Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
+      and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
+      and not dead(thing) and not benighted(actor) and spends(how, form) and memberOf(carrier, actor) and awake(carrier)
+      and ownedItem(spent, carrier) and itemKind(spent, form).
+    Resolve drop(spent, carrier).
     On success { Assert state(thing, result). }
   }
   Action change_thing_paying(actor: group, how: change, thing: entity, origin: condition, result: condition, spent: good) "{how}" {

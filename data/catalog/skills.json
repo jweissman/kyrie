@@ -88,6 +88,20 @@
       "source": {
         "kyr": true
       }
+    },
+    "light": {
+      "name": "Light",
+      "description": "Carrying a light that shows the way in unlit places.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "sunlight": {
+      "name": "Sunlight",
+      "description": "Carrying daylight itself: it shows the way where other light dies, and things of the dark cannot bear it.",
+      "source": {
+        "kyr": true
+      }
     }
   }
 }
