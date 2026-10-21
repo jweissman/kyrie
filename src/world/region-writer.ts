@@ -1,12 +1,14 @@
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
 // entity it writes is exported under its own id, so scenarios bind to it like any other module.
-export interface Settlement {
+// A generated name: what it is made of, and what it means in which tongue (see PlaceNames).
+interface Naming { feature?: string; affix?: string; gloss?: string; tongue?: string }
+export interface Settlement extends Naming {
   id: string; name: string; size: string; trade: string; inn: string;
   innkeeper: string; priest: string; merchant: string; traveller: string; calling: string;
 }
-export interface Site { id: string; kind: string; name: string; hours: number; near?: string }
-export interface Region {
+export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string }
+export interface Region extends Naming {
   name: string; terrain: string; ancestry: string; domain: string; deity: string;
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };
 }
@@ -35,7 +37,7 @@ export class RegionWriter {
   static source(region: Region, company: { size: number; contacts: Contact[] } = { size: 3, contacts: [] }): string {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(`Module ${this.id} ${q(region.name)} {`,
-      `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country of ${region.ancestry} settlements, where people keep the faith of ${region.deity}.`)}.`,
+      `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country of ${region.ancestry} settlements, where people keep the faith of ${region.deity}.${this.meaning(region)}`)}.`,
       `  Place region ${q(region.name)} is region.`,
       `  Place wilds ${q(`the ${this.terrain(region.terrain)} of ${region.name}`)} is wilderness within region at 0, 2.`);
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
@@ -75,7 +77,7 @@ export class RegionWriter {
       `  Person ${s.id}_merchant ${q(s.merchant)} at ${s.id}_shop { Role "outfitter". Profession herbalist. Peaceable. `
         + 'Sells rations for 2 coin from 6. Sells rope for 1 coin from 3. Sells torch for 1 coin from 3. Sells bandages for 1 coin from 3. Sells antidote for 3 coin from 1. }',
       `  Person ${s.id}_traveller ${q(s.traveller)} at ${s.id}_taproom { Role ${q(s.calling)}. Peaceable. }`,
-      `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${s.name} is a ${s.size} of ${region.ancestry} folk that lives by ${s.trade}. Smoke rises from ${s.inn}; the shrine of ${region.deity} stands open across the green.`)}.`,
+      `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${s.name} is a ${s.size} of ${region.ancestry} folk that lives by ${s.trade}.${this.meaning(s)} Smoke rises from ${s.inn}; the shrine of ${region.deity} stands open across the green.`)}.`,
       `  Observe ${s.id}_night at ${s.id}_green when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
       `  Observe ${s.id}_tap at ${s.id}_taproom when true ${q(`Benches, a long table, a fire. People who work ${s.trade} drink here.`)}.`,
       `  Observe ${s.id}_holy at ${s.id}_shrine when true ${q(`An altar to ${region.deity}, keeper of ${region.domain}. Offerings of ${s.trade} lie before it.`)}.`,
@@ -90,7 +92,11 @@ export class RegionWriter {
       ruin: 'Fallen walls in rough grass; someone built here once.', tower: 'A lone tower stands above the land.',
       grove: 'Old trees crowd close, and the light under them is green.', bog: 'Black water between tussocks; the path is a line of stakes.',
       mine: 'Spoil heaps and a timbered adit.', sinkhole: 'Grass runs to the edge of a round pit in the ground.' };
-    return `${site.name}. ${looks[site.kind] ?? ''} ${this.terrain(region.terrain) === 'fen' ? 'Reeds hiss in the wind.' : ''}`.trim();
+    return `${site.name}.${this.meaning(site)} ${looks[site.kind] ?? ''} ${this.terrain(region.terrain) === 'fen' ? 'Reeds hiss in the wind.' : ''}`.trim();
+  }
+  // What a name means, when it was given in the folk's own tongue: " The name is Westron for “cold hill”."
+  private static meaning(place: { gloss?: string; tongue?: string }): string {
+    return place.gloss && place.tongue ? ` The name is ${place.tongue} for “${place.gloss}”.` : '';
   }
   // The module manifest: the world rules, and every place and person exported under its own id.
   static manifest(region: Region): object {

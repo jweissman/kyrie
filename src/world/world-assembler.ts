@@ -6,6 +6,7 @@ import type { BundleRequest } from '../campaign/module-bundle';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Expressions } from '../expressions';
 import { Overlays } from '../overlays';
+import { PlaceNames } from './place-names';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
@@ -49,8 +50,8 @@ export class WorldAssembler {
   static async assemble(seed: string, base: BundleSource, options: {
     library?: string; scenarios?: number; region?: Record<string, DeemValue>; party?: CreatureGenerationContext[];
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
-    const region = new Content(RandomStreams.key(seed, 'world', 'region'))
-      .generate('region', options.region ?? {}) as unknown as Region;
+    const region = PlaceNames.render(new Content(RandomStreams.key(seed, 'world', 'region'))
+      .generate('region', options.region ?? {}) as unknown as Region);
     const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const eligibility = library.map(e => this.fits(e.manifest, context, region));

@@ -182,12 +182,16 @@
     "settlements": "=genList(settlement, 3)",
     "sites": "=genList(site, 3)",
     "wonder": "=gen(wonder)",
-    "name": "=capitalize(lookup(placeFeature, #terrain)) + lookup(regionAffix, #terrain)"
+    "feature": "=lookup(placeFeature, #terrain)",
+    "affix": "=lookup(regionAffix, #terrain)",
+    "name": "=capitalize(#feature) + #affix"
   },
   "settlement": {
     "__no_id": true,
     "id": "='s' + (#_index + 1)",
-    "name": "=capitalize(lookup(placeFeature, #terrain) + lookup(placeAffix, #terrain))",
+    "feature": "=lookup(placeFeature, #terrain)",
+    "affix": "=lookup(placeAffix, #terrain)",
+    "name": "=capitalize(#feature + #affix)",
     "size": "=lookup(settlementSize, #_index == 0 ? 'first' : 'other')",
     "trade": "=lookup(regionTrade, #terrain)",
     "inn": "='the ' + capitalize(lookup(innAdjective, default)) + ' ' + capitalize(lookup(innObject, default))",
@@ -202,7 +206,9 @@
     "id": "='w' + (defined('_index') ? #_index + 1 : 0)",
     "_kind": "=select(siteKind, #terrain, 'defined(\"kind\") ? dig(#__it, \"_key\") == #kind : true')",
     "kind": "=dig(#_kind, '_key')",
-    "name": "=capitalize(lookup(placeFeature, #terrain)) + ' ' + capitalize(lookup(siteNoun, #kind))",
+    "feature": "=lookup(placeFeature, #terrain)",
+    "affix": "=lookup(siteNoun, #kind)",
+    "name": "=capitalize(#feature) + ' ' + capitalize(#affix)",
     "hours": "=1d2"
   },
   "wonder": {

@@ -17,6 +17,7 @@
   "dependencies": {
     "deem": "file:../deem",
     "eslint": "^10.13.0",
+    "languages": "file:../languages",
     "ohm-js": "^17.5.0"
   },
   "scripts": {
