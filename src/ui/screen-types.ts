@@ -20,6 +20,8 @@ export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
   // What a group is, seen from outside: how many of what, how seasoned, how hurt.
   look?: string; state?: 'dead' | 'down'; acts: Act[];
+  // What can be seen of them now ("Wren stands with one hand shading her eyes"), told with them, not in the prose.
+  says?: string[];
 }
 export interface ItemRow {
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;
@@ -50,6 +52,8 @@ export interface Screen {
   purse: { coin: number; rations: number; other: string[] };
   // What the company knows, newest first, each with how it came to know it ("Agnes told you", "you saw it") and when.
   knowledge: { text: string; how: string }[]; deadlines: string[]; capabilities: string[];
+  // Lines of this scene the company has not seen before, at a place it has been before: what has changed.
+  fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
   chart?: Chart; region?: RegionChart; objectives: string[];
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; nextMeal?: string };

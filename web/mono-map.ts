@@ -20,7 +20,7 @@ export class MonoMap {
     }
     return lines.map(l => this.short(l, width));
   }
-  static svg(chart: Chart, near = false): string {
+  static svg(chart: Chart, near?: { x: number; y: number }): string {
     const { w, h, node } = this.cell;
     const xs = chart.places.map(p => p.x), ys = chart.places.map(p => p.y);
     const [minX, minY] = [Math.min(...xs), Math.min(...ys)];
@@ -45,16 +45,22 @@ export class MonoMap {
           .map((l, i, all) => `<tspan x="${c.cx}" dy="${i === 0 ? (all.length === 1 ? 5 : -3) : 16}">${Html.escape(l)}</tspan>`).join('')}</text>`
         + `${p.here ? `<circle cx="${c.cx - node.w / 2 + 2}" cy="${c.cy - node.h / 2 + 2}" r="5"/>` : ''}<title>${Html.escape(p.name)}</title></g>`;
     }).join('');
-    const box = near ? this.near(chart, at) : `-4 -4 ${width + 8} ${height + 8}`;
-    return `<svg class="chart" role="img" aria-label="Map of the places you know" viewBox="${box}" preserveAspectRatio="xMidYMid meet">`
-      + `<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>`
-      + `${areas}${edges}${nodes}</svg>`;
+    const here = chart.places.find(p => p.here) ?? chart.places[0]!;
+    const [x0, x1] = near ? this.window(here.x - minX, near.x, width / w) : [0, width / w];
+    const [y0, y1] = near ? this.window(here.y - minY, near.y, height / h) : [0, height / h];
+    const box = [x0 * w - 4, y0 * h - 4, (x1 - x0) * w + 8, (y1 - y0) * h + 8];
+    // What lies outside the window is not drawn in the margins the pane leaves around it.
+    return `<svg class="chart" role="img" aria-label="Map of the places you know" viewBox="${box.join(' ')}" preserveAspectRatio="xMidYMid meet">`
+      + `<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>`
+      + `<clipPath id="window"><rect x="${box[0]}" y="${box[1]}" width="${box[2]}" height="${box[3]}"/></clipPath></defs>`
+      + `<g clip-path="url(#window)">${areas}${edges}${nodes}</g></svg>`;
   }
-  // A small screen shows the cells around the company at a readable size rather than the whole site shrunk.
-  static near(chart: Chart, at: Map<string, { cx: number; cy: number }>): string {
-    const here = chart.places.find(p => p.here), c = here ? at.get(here.id)! : at.values().next().value!;
-    const { w, h } = this.cell, span = { x: w * 2.4, y: h * 1.6 };
-    return `${c.cx - span.x / 2} ${c.cy - span.y / 2} ${span.x} ${span.y}`;
+  // A small pane shows whole cells around the company at a readable size rather than the whole site shrunk: so many
+  // columns (or rows), as nearly centred on where it stands as the site allows.
+  static window(at: number, cells: number, extent: number): [number, number] {
+    if (cells >= extent) { return [0, extent]; }
+    const start = Math.min(Math.max(at - Math.floor((cells - 1) / 2), 0), extent - cells);
+    return [start, start + cells];
   }
   // The region as areas and the routes between them; a separate, smaller drawing so scale is never mixed.
   static region(region: RegionChart): string {
@@ -79,7 +85,8 @@ export class MonoMap {
     const legend = '<p class="legend"><span class="k open">—</span>open <span class="k blocked">—</span>shut <span class="k guarded">—</span>guarded <span class="k hazard">—</span>danger <span class="k unexplored">- -</span>not yet walked</p>';
     const regional = region ? `<div class="scale"><h3 class="map-scale">Region</h3>${this.region(region)}</div>` : '';
     const narrow = typeof matchMedia === 'function' && matchMedia('(max-width: 719px)').matches;
-    const body = chart ? `<div class="charts"><div class="scale here">${this.svg(chart, narrow)}</div>${regional}</div>${legend}`
+    const near = narrow ? { x: 3, y: 2 } : size === 'small' ? { x: 4, y: 3 } : undefined;
+    const body = chart ? `<div class="charts"><div class="scale here">${this.svg(chart, near)}</div>${regional}</div>${legend}`
       : `<ul class="placelist">${fallback.filter(p => p.visited || p.here)
         .map(p => `<li${p.here ? ' class="here"' : ''}>${p.here ? '◎' : '·'} ${Html.escape(p.name)}</li>`).join('')}</ul>`;
     return `<section class="pane map ${size}" data-region="map" aria-label="Map"><h2>Map</h2>${body}</section>`;

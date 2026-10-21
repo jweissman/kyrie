@@ -124,8 +124,23 @@ ul { list-style: none; margin: 0; padding: 0; }
 .party { grid-area: party; } .detail.pane { grid-area: detail; } .sheet { grid-area: sheet; } .sides { grid-area: sides; }
 .battle-log { grid-area: log; } .chronicle { grid-area: chronicle; } .knowledge { grid-area: knowledge; }
 .companions { grid-area: companions; display: grid; gap: 0.8em; align-content: start; }
-/* What is here and what to do about it side by side; where it is and who is going below. */
-.screen.explore { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 0.75fr); grid-template-areas: "scene choices" "map party"; }
+/* Exploring: one column to read and act in, top to bottom (where you are, what just happened, what you can do), and
+   one beside it to keep your bearings (the map, the company). */
+.screen.explore { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); grid-template-areas: "stage side"; }
+.stage { grid-area: stage; }
+.stage .response { scroll-margin-top: 0.9em; }
+.stage .choices { margin-top: 1.1em; }
+.stage .choices > h2 { margin: 0 0 0.5em; padding: 0.3em 0; font-size: 0.8em; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); border-bottom: 1px solid var(--line); }
+.side { grid-area: side; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 1em; min-height: 0; min-width: 0; }
+.side > * { grid-area: auto; }
+/* The company beside the map: a line each, with spells and troubles under it. */
+.side .member { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 0 2ch; align-items: baseline; margin-bottom: 0.35em; }
+.side .member > .who { grid-column: 1; justify-content: flex-start; overflow: hidden; white-space: nowrap; }
+.side .member > .who span { overflow: hidden; text-overflow: ellipsis; }
+.side .member > .meter { grid-column: 2; }
+.side .member > .slots, .side .member > .cond, .side .member > .boon { grid-column: 1 / -1; padding-left: 2ch; }
+.prose p.new, .look.new { border-left: 2px solid var(--sel); padding-left: 1ch; margin-left: -1.2ch; }
+.tag { color: var(--sel); font-size: 0.78em; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; margin-right: 0.6ch; }
 .screen.combat { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) minmax(0, 0.6fr); grid-template-areas: "scene choices" "sides choices" "log log"; }
 .screen.pack { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "choices detail" "choices party"; }
 .screen.company-sheet { grid-template-columns: minmax(26ch, 0.7fr) minmax(0, 2fr); grid-template-areas: "choices sheet"; }
@@ -134,8 +149,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .screen.create { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr); grid-template-areas: "scene companions"; }
 .screen.fallen { grid-template-columns: minmax(0, 70ch); justify-content: center; align-content: center; }
 @media (min-width: 1500px) {
-  .screen.explore { grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "scene choices map" "scene choices party"; }
-  .screen.explore .scene { max-height: none; }
+  .screen.explore { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
 }
 
 /* The opening. */
@@ -214,15 +228,10 @@ input:focus, select:focus, button:focus-visible { outline: 1px solid var(--sel);
 .legend .k.guarded { color: var(--creature); } .legend .k.unexplored { color: var(--dim); }
 .placelist li.here { color: var(--sel); }
 .map-scale { margin: 0.4em 0 0; font-size: 0.8em; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
-/* Where the company stands, and the region it is in: side by side in a wide pane, one above the other in a tall one. */
-.map .charts { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 2ch; }
+/* Where the company stands, and below it the region it is in. */
+.map .charts { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 0.3em 2ch; }
 .map .scale { display: flex; flex-direction: column; min-height: 0; }
-.map.large .charts { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
-.chart.regional { flex: 1 1 auto; min-height: 7.5em; }
-@media (min-width: 1500px) {
-  .map .charts { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
-  .chart.regional { flex: 0 0 auto; height: 7.5em; }
-}
+.chart.regional { flex: 0 0 auto; height: 7em; }
 .map.large .chart.regional { height: 12em; }
 .chart .area-node circle { fill: var(--pane); stroke: var(--dim); stroke-width: 2; }
 .chart .area-node.here circle { fill: var(--sel); stroke: var(--sel); }
@@ -243,8 +252,7 @@ input:focus, select:focus, button:focus-visible { outline: 1px solid var(--sel);
 .strip.expanded ol { height: min(60dvh, 40em); }
 
 @media (max-width: 1099px) {
-  .screen.explore { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 0.8fr); grid-template-areas: "scene choices" "map party"; }
-  .screen.explore .scene { max-height: none; }
+  .screen.explore { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
   .screen.combat { grid-template-areas: "scene choices" "sides choices" "log log"; }
   .screen.create { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "scene" "companions"; }
 }
@@ -253,8 +261,9 @@ input:focus, select:focus, button:focus-visible { outline: 1px solid var(--sel);
   .bar { padding: 0.35em 1ch; }
   .path, .hint { display: none; }
   .screen { padding: 0.6em 1ch 0.5em; gap: 0.6em; }
-  .screen.explore { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 0.8fr) minmax(0, 1.2fr); grid-template-areas: "party" "scene" "choices"; }
+  .screen.explore { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "side" "stage"; }
   .screen.explore .map { display: none; }
+  .side { grid-template-rows: auto; }
   .party { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1ch; font-size: 0.9em; padding-bottom: 0.3em; }
   .party > h2 { display: none; }
   .party .purse { grid-column: 1 / -1; }

@@ -37,17 +37,17 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
   }
   // The list of things to do. Section headings say who or what the choices are about; each choice does what it says
   // (or opens a short list, marked ▸). The highlighted choice is explained underneath.
-  static choices(s: MonoState, title: string): string {
+  static choices(s: MonoState, title: string, inline = false): string {
     const crumbs = s.trail.length ? `<p class="crumbs">${s.trail.map(c => Html.escape(c.label)).join(' › ')} <span class="muted">· Esc to go back</span></p>` : '';
     const counter = { n: 0 };
     const lists = s.trail.length ? `<ul role="list">${s.level.map(c => this.choice(c, s.cursor, counter)).join('')}</ul>`
       : s.sections.map(sec => `<li class="section ${sec.tone}" role="presentation"><span class="g">${sec.glyph}</span><b>${Html.escape(sec.title)}</b>${sec.note ? `<span class="note">${Html.escape(sec.note)}</span>` : ''}</li>`
-        + (sec.about && sec.tone !== 'way' ? `<li class="look" role="presentation">${Html.escape(sec.about)}</li>` : '')
+        + (sec.about && sec.tone !== 'way' ? `<li class="look${sec.fresh ? ' new' : ''}" role="presentation">${sec.fresh ? '<b class="tag">new</b> ' : ''}${Html.escape(sec.about)}</li>` : '')
         + (sec.choices.length ? sec.choices.map(c => this.choice(c, s.cursor, counter)).join('') : '<li class="none">Nothing to do with them now.</li>')).join('');
     const chosen = s.level[s.cursor];
     const detail = chosen ? [chosen.disabled, chosen.about].filter(Boolean)[0] ?? '' : '';
     const body = s.trail.length ? lists : `<ul role="list">${lists || '<li class="none">Nothing to do here.</li>'}</ul>`;
-    return `<section class="pane choices" data-region="choices" aria-label="${Html.escape(title)}"><h2>${Html.escape(title)}</h2>${crumbs}${body}`
+    return `<section class="${inline ? '' : 'pane '}choices" data-region="choices" aria-label="${Html.escape(title)}"><h2>${Html.escape(title)}</h2>${crumbs}${body}`
       + `<p class="detail" data-id="detail">${Html.escape(detail)}</p></section>`;
   }
   // One choice as a button: its number (the first nine can be chosen with a digit), what it does, and its cost.
@@ -66,9 +66,12 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     const lines = last?.lines.filter(l => !screen.prose.includes(l)) ?? [];
     const response = last && lines.length && !last.title.startsWith('→')
       ? `<div class="response tone-${last.tone}" data-id="response"><h3>${Html.escape(last.title)}</h3>${lines.slice(0, 8).map(l => `<p>${Html.escape(l)}</p>`).join('')}</div>` : '';
-    return `<section class="pane scene" data-region="scene"><h1 data-id="place">${Html.escape(this.title(screen.place.name))}</h1>`
+    // What has changed at a place the company has been before is marked, so a return reads as news.
+    const prose = screen.prose.map(p => screen.fresh.includes(p)
+      ? `<p class="new"><b class="tag">new</b> ${Html.escape(p)}</p>` : `<p>${Html.escape(p)}</p>`).join('');
+    return `<section class="scene" data-region="scene"><h1 data-id="place">${Html.escape(this.title(screen.place.name))}</h1>`
       + `<p class="where">${where}</p>${purpose}`
-      + `<div class="prose">${screen.prose.map(p => `<p>${Html.escape(p)}</p>`).join('')}</div>${response}</section>`;
+      + `<div class="prose">${prose}</div>${response}</section>`;
   }
   static party(screen: Screen): string {
     const meal = screen.expedition.hungry ? '<b class="hungry">hungry</b>'
@@ -100,8 +103,11 @@ ${s.mode === 'combat' ? '' : MonoStrip.render(s.log, s.history)}
     if (!screen.running) {
       return `<main class="screen fallen"><section class="pane scene"><h1>The company has fallen</h1><p>No companion survives. The history stays saved; a new company can set out from the title screen.</p>${Html.button('Begin again', 'new', { class: 'primary' })}</section></main>`;
     }
-    return `<main class="screen explore">${this.scene(screen, s.log.at(-1))}${this.choices(s, 'What will you do?')}`
-      + `${MonoMap.pane(screen.chart, screen.map, screen.region)}${this.party(screen)}</main>`;
+    // One column to read and act in (where you are, what just happened, what you can do), and one to keep your
+    // bearings: the map and the company.
+    return `<main class="screen explore"><section class="pane stage" data-region="stage">${this.scene(screen, s.log.at(-1))}`
+      + `${this.choices(s, 'What will you do?', true)}</section><aside class="side">`
+      + `${MonoMap.pane(screen.chart, screen.map, screen.region)}${this.party(screen)}</aside></main>`;
   }
   static combatant(c: CombatantRow): string {
     const statuses = c.down ? 'down' : [...new Set(c.statuses)].join(' · ');

@@ -10,6 +10,8 @@ export interface Choice {
 }
 // What the choices are about: a person, a creature, a thing, the ways out, the company itself.
 export interface Section {
+  // Something about the subject the company has not seen before, at a place it has been before.
+  fresh?: boolean;
   id: string; title: string; tone: Tone; glyph: string; note?: string; about?: string; choices: Choice[];
 }
 
@@ -24,7 +26,7 @@ export class ChoiceList {
     const merchants = screen.people.some(p => p.acts.some(a => a.label === 'Buy'));
     const things = screen.things.filter(t => !(merchants && t.acts.length && t.acts.every(a => a.label.startsWith('Buy from'))));
     return [
-      ...[...screen.people, ...things].map(t => this.subject(t)),
+      ...[...screen.people, ...things].map(t => this.subject(t, screen.fresh)),
       ...(screen.exits.length ? [this.ways(screen.exits)] : []),
       ...(screen.camp.length || screen.unplaced.length || this.preparing(screen).length || this.lighting(screen).length ? [{ id: 'company',
         title: 'The company', tone: 'company' as const, glyph: '○',
@@ -59,14 +61,16 @@ export class ChoiceList {
     const note = score !== undefined && !c.children ? { note: `${score} → ${score + 1}` } : {};
     return { ...c, ...note, ...(c.children ? { children: c.children.map(k => this.scored(k, m)) } : {}) };
   }
-  static subject(t: TargetRow): Section {
+  static subject(t: TargetRow, fresh: string[] = []): Section {
     const tone: Tone = t.kind === 'person' ? 'person' : t.kind === 'creature' ? 'creature' : 'thing';
     const glyph = t.state ? '✝' : tone === 'person' ? '☺' : tone === 'creature' ? '◆' : t.kind === 'feature' ? '▣' : '·';
     const note = [t.activity ?? t.note, t.state === 'dead' ? 'dead' : t.state ? 'down' : ''].filter(Boolean).join(' · ');
-    const about = [t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : ''].filter(Boolean).join(' ');
+    const about = [...t.says ?? [], t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : '']
+      .filter(Boolean).join(' ');
     // A fight or a risk comes after the gentler ways with the same subject, so Enter on arrival is never a blow.
     const choices = this.flatten(t.acts, t.id, tone);
     return { id: t.id, title: t.name, tone, glyph, ...(note ? { note } : {}), ...(about ? { about } : {}),
+      ...(t.says?.some(x => fresh.includes(x)) ? { fresh: true } : {}),
       choices: [...choices.filter(c => !c.risk), ...choices.filter(c => c.risk)] };
   }
   static ways(exits: ExitRow[]): Section {
@@ -81,7 +85,7 @@ export class ChoiceList {
   }
   private static way(e: ExitRow, label: string): Choice[] {
     const about = this.wayAbout(e), id = e.id, minutes = this.longest(e.acts);
-    const note = [minutes > 10 ? this.minutes(minutes) : '', e.visited ? '' : 'new'].filter(Boolean).join(' · ');
+    const note = [minutes > 10 ? this.minutes(minutes) : '', e.visited ? '' : 'unvisited'].filter(Boolean).join(' · ');
     if (!e.acts.length) {
       return [{ id, label, tone: 'way', disabled: e.blocked ?? 'Not possible from here right now.', about,
         note: 'barred' }];
@@ -99,7 +103,7 @@ export class ChoiceList {
       const c = this.choice(a, id, 'way');
       const how = this.moves(a) && !a.label.startsWith('Go by ') ? label : a.label.startsWith('Go by ') ? `${label}, ${a.label.slice(3)}`
         : `${label} — ${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}`;
-      const told = c.disabled ? c.note : [c.note, e.visited ? '' : 'new'].filter(Boolean).join(' · ');
+      const told = c.disabled ? c.note : [c.note, e.visited ? '' : 'unvisited'].filter(Boolean).join(' · ');
       return { ...c, label: how, about: c.about ?? about, ...(told && !c.children ? { note: told } : {}) };
     });
   }

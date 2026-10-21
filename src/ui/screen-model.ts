@@ -45,11 +45,13 @@ export class ScreenModel {
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
     const unclaimed = new Map(grouped.targets);
     view.present.forEach(p => unclaimed.delete(p.id));
-    const rows = this.stack(view.present.map(p => this.target(p, grouped, world)));
+    const scene = this.scene(campaign, view, present);
+    const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
+      ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {} })));
     return {
       title: view.title, clock: FictionalTime.at(view.elapsed), elapsed: view.elapsed, running: view.running,
       path: here ? passages.path(here) : [], place: passages.place(here),
-      prose: view.observations.map(o => FictionalTime.prose(o.text)),
+      prose: scene.prose, fresh: scene.fresh,
       dark: view.observations.some(o => o.id === 'darkness'),
       exits: here ? passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited }) : [],
@@ -80,6 +82,24 @@ export class ScreenModel {
       text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
         : k.source === 'heard' ? `${k.from ?? 'someone'} told you` : '',
       k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', ') }));
+  }
+  // The scene's lines: what the place is like (and what is going on in it), and what each person or thing here looks
+  // like now, told with them. Lines the company has not seen before at a place it has seen before are fresh.
+  private static scene(campaign: Campaign, view: PlayerSnapshot, present: Set<string>) {
+    const defs = new Map((campaign.module.observations ?? []).map(o => [o.id, o]));
+    const prose: string[] = [], says = new Map<string, string[]>();
+    for (const o of view.observations) {
+      const def = defs.get(o.id), text = FictionalTime.prose(o.text);
+      if (def?.anchor === 'near' && present.has(def.place)) { says.set(def.place, [...says.get(def.place) ?? [], text]); }
+      else { prose.push(text); }
+    }
+    const events = campaign.events, last = events.at(-1);
+    const before = new Set(events.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.id)));
+    const here = view.location?.id;
+    const known = here !== undefined && [...before].some(id => defs.get(id)?.place === here && !defs.get(id)?.anchor);
+    const fresh = known ? (last?.perceptions ?? []).filter(p => p.kind === 'observation' && !before.has(p.id))
+      .map(p => FictionalTime.prose(p.text)) : [];
+    return { prose, says, fresh };
   }
   // What a spell or technique does, in its own words and then in the rules' terms.
   static tell(this: void, id: string): string | undefined {

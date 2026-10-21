@@ -160,11 +160,22 @@ export class MonoApp {
     const body = this.mode === 'combat' && s.combat ? MonoRender.combat(s) : this.mode === 'pack' ? MonoScreens.pack(s)
       : this.mode === 'party' ? MonoScreens.sheet(s) : this.mode === 'journal' ? MonoScreens.journal(s)
         : this.mode === 'map' ? MonoScreens.map(s) : MonoRender.explore(s);
-    this.root.innerHTML = MonoRender.frame(s, body);
-    this.root.querySelector('.choice.sel')?.scrollIntoView({ block: 'nearest' });
-    // What just happened is read where the scene ends, just above the choices.
-    const scene = this.root.querySelector('.scene');
-    if (scene && this.root.querySelector('.response')) { scene.scrollTop = scene.scrollHeight; }
+    this.redraw(MonoRender.frame(s, body));
+  }
+  // Redrawing the same screen leaves each pane where it was. Something new that happened is read from its start,
+  // just above what can be done next; a new place is read from the top.
+  private shown = 0;
+  private redraw(html: string) {
+    const was = this.root.querySelector<HTMLElement>('.frame')?.dataset.mode;
+    const kept = new Map([...this.root.querySelectorAll<HTMLElement>('[data-region]')].map(el => [el.dataset.region, el.scrollTop]));
+    const fresh = this.log.length !== this.shown; this.shown = this.log.length;
+    this.root.innerHTML = html;
+    if (was === this.mode && !fresh) {
+      for (const el of this.root.querySelectorAll<HTMLElement>('[data-region]')) { el.scrollTop = kept.get(el.dataset.region) ?? 0; }
+    }
+    const response = fresh ? this.root.querySelector('.stage .response') : null;
+    if (response) { response.scrollIntoView({ block: 'start' }); }
+    else { this.root.querySelector('.choice.sel')?.scrollIntoView({ block: 'nearest' }); }
     const strip = this.root.querySelector('.strip ol');
     if (strip) { strip.scrollTop = strip.scrollHeight; }
   }
