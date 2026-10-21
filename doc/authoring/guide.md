@@ -189,6 +189,41 @@ who will say it. A passage hidden until a fact is known appears on the map once 
   }
 ```
 
+A scene can teach what it shows. `teaches` makes seeing it knowing it, and the journal will say "you saw it":
+
+```text
+  Observe yard_held at churchyard when holds(necromancer, churchyard) "Fresh earth lies thrown out of the deepest grave under the yew." teaches churchyard_fallen.
+```
+
+Condition objectives on what the company knows, not on what has happened where it cannot see.
+
+### Asking, giving, selling, waiting
+
+Standard actions cover the usual exchanges, so a module says what a person wants and how they react, not how
+the handing over works. Before, a salvager paid for her bearing with a bespoke action:
+
+```text
+  Action deliver_prize(actor: group, carrier: member, site: place) "Hand {prize} to {salvager}" {
+    Requires able(actor) and at(actor, site) and at(salvager, site) and memberOf(carrier, actor) and awake(carrier)
+      and ownedItem(prize, carrier) and not departed(salvager) and watch(clock) < expiresAt(permit).
+    Resolve drop(prize, carrier).
+    On success { Assert delivered(prize). Decrease quantity(salvager, gold) by 6. Increase quantity(actor, gold) by 6. }
+    Result "{salvager} hefts {prize}, checks the stamp against {permit}, and counts six coins into your hand.".
+  }
+```
+
+Now she buys it like anyone buys anything, and reacts to having it (these snippets are from other modules, not
+Thornmere):
+
+```text
+  Person salvager "Someone" at station { Role "salvager". Buys bronze_bearing for 6 coin. }
+  Event paid near salvager when keeps(salvager, prize) "{salvager} hefts {prize}, checks the stamp against {permit}, and counts six coins into your hand." then { Assert delivered(prize). }
+```
+
+`Wants burial_register.` makes the standard `give` available to that person; `Buys … for … coin.` the standard
+`sell`. A long activity that someone arriving should break off says so: `Interrupted when threatened(actor).` Its
+time passes a watch at a time, and its success applies only if it runs its course.
+
 ## 6. Descriptions and goal
 
 An observation describes a place while its condition holds. Write what the company sees; leave out how the game

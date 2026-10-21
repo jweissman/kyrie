@@ -44,6 +44,11 @@ serially and in parallel with the original timeout limits.
 | 23-command rescue-and-lodging session | 26.0 s | 0.65 s, **byte-identical canonical output** |
 | 200 arena encounters | 3.9 s | 1.35 s |
 
+October 21, 2026, after the register-of-names conflict and Holt keep (3,509 facts, 116 schemas, 74 rules, five powers
+planning): a watch costs about 10 ms when nobody is planning, and a power's first long plan once costs more (Corvin's
+eight-step errand, about 130 ms). Measured: load 3.2 s (first), 5 ms (again); choices 39 ms; an hour's walk 224 ms;
+one watch 49 ms; six watches 203 ms; camp 486 ms; save and restore 87 ms (a 1 MB save).
+
 ## What was wrong
 
 Costs were not proportional to relevant work. Every one of these traversed or copied unrelated state:

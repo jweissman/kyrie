@@ -18,7 +18,10 @@ open site/mono.html    # or serve site/ anywhere; the whole game runs in the pag
 
 The title screen begins a new campaign or loads a saved file. **The Serewater March** is the one to start with:
 three settlements share a river valley and their troubles: a surveyor missing under Censer Hill, something taking a
-shepherd's ewes off the chalk ridge, and a green light in Holt tower across the river. Form a company (or take a
+shepherd's ewes off the chalk ridge, and a green light in Holt tower across the river. The necromancer in the tower
+does not wait for the company: from the first morning he sends his digger for the keepers' lost register, calls the
+churchyard's dead out of their graves, and reads up the founders of the old compact, while the keepers send for
+help of their own; what he did is found in the world, not announced. Form a company (or take a
 ready one); who they are decides what they can do and which ways open. Each trouble is an expedition; each can be
 fought, talked down, gone round or left to others, and each changes what comes after (bring the surveyor home and
 the ferry runs). The other entries are shorter: Silkholme, Skellfold, the Red Crag, and **a generated region**, in
@@ -48,6 +51,8 @@ combat, and identity-keyed randomness so the same seed and choices always give t
   owns each mutable fact, and space, time, food, rest, services and people's agency.
 - [Domain model](doc/architecture/domain-model.md): ancestries, species, classes, traits, abilities, conditions,
   backgrounds and skills, one catalog each in [data/catalog](data/catalog).
+- [The living world](doc/architecture/living-world.md): powers that act while the company is elsewhere, how the
+  March's conflict is built from ordinary actions, and what the company finds out and how.
 - [Generated regions](doc/architecture/generated-worlds.md): how a region is drawn and adventures are situated in it.
 - [Orsino coverage](doc/architecture/orsino-coverage.md): what of Orsino's 2,651 definitions Kyr represents, and how
   faithfully (generated from the ledger; see [the checkpoint](doc/architecture/orsino-checkpoint.md)).
@@ -75,12 +80,15 @@ bun run test:fast        # everything but the long Deem choice-space proof
 KYRIE_BROWSER=1 bun test ./test/caught-below-browser.test.ts   # real-browser journeys (Playwright Chromium)
 ```
 
-`test/march-journey.test.ts` plays the March's three expeditions end to end; `test/encounters.test.ts` covers
-declared intents, guarding and wind-ups. `bin/kyrie.ts` is the one executable; the other files in `bin/` are
+`test/march-journey.test.ts` plays the March's three expeditions end to end; `test/conflict.test.ts` the necromancer's
+operations and what disrupts them; `test/holt-keep.test.ts` the keep; `test/encounters.test.ts` declared intents,
+guarding and wind-ups. `KYRIE_BROWSER=1 bun test ./test/living-world-browser.test.ts` plays the keep and the register
+by keys in a real browser. `bun bin/deem-bench.ts` times Deem generation. `bin/kyrie.ts` is the one executable; the other files in `bin/` are
 development tools (benchmarks, recorders, Orsino registry generation, Deem proofs), and `scripts/` holds the
 playtest server and driver used to play the browser client by label.
 
-Recorded play: [the March's three expeditions](doc/playtests/march-2026-10-20/README.md),
+Recorded play: [the March as a living world](doc/playtests/living-world-2026-10-21/README.md),
+[the March's three expeditions](doc/playtests/march-2026-10-20/README.md),
 [Silkholme](doc/playtests/silkholme-2026-10-20/README.md),
 [a generated region](doc/playtests/rededge-2026-10-20/README.md), [the Red Crag](doc/playtests/red-crag/README.md).
 What was removed in the October 2026 consolidation, and the fiction worth reusing from it:
