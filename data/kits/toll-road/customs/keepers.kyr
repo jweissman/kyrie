@@ -1,0 +1,64 @@
+Module toll_customs "Customs-men on the road" {
+  Description "A lord's customs-men, keeping his toll on the road: a small fee, collected by right, and the law behind it. They pay for their bread at the inn, and take a cartload at a time, so there is less for everyone else. Run their toll or raise a hand to them, and the settlement they answer to will not serve you.".
+  Entity party: group "Your company".
+  Place post "The road they keep" is room.
+  Place market "The settlement they answer to" is room.
+  Entity provider: group "Who sells them bread".
+
+  Person chief "the toll-reeve" at post {
+    Role "the lord's toll-reeve". Ancestry human. Calling warrior. Level 2.
+    State watching "A man in a good grey coat sits at a trestle by a bar across the road, with a ledger and a strongbox.".
+  }
+  Person keepers "the customs-men" at post {
+    Role "the lord's customs-men". Ancestry human. Calling warrior. Level 1. Numbers 2.
+    Called "Fenn", "Garrick".
+    Uses go, assail. Plans 6 steps.
+    State idle "Two men in the lord's livery lean on the bar across the road.".
+  }
+  Initially Assert serves(keepers, chief). Initially Assert holds(chief, post). Initially Assert posts(keepers, chief).
+  Initially Assert tolls(keepers, post).
+  Initially Set quantity(chief, rations) to 4.
+
+  // The toll: three coin, by right, written in the ledger. Running it is breaking the lord's law.
+  Relation stopped(group).
+  Rule stops when at(party, post) and tolls(keepers, post) and able(keepers) and not tolerates(keepers, party)
+    and not stopped(party) and not hostile(chief, party)
+    says "The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'" {
+    Assert stopped(party).
+  }
+  Action pay_toll(actor: group, site: place) "Pay the lord's toll, three coin" {
+    Description "Three coin, written in the ledger. The bar goes up.".
+    Requires able(actor) and company(actor) and at(actor, site) and tolls(keepers, site) and at(keepers, site)
+      and able(keepers) and not tolerates(keepers, actor) and quantity(actor, gold) >= 3.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(chief, gold) by 3. Assert tolerates(keepers, actor).
+      Assert tolerates(chief, actor). }
+    Result "The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.".
+  }
+  // Running the toll, or turning on the lord's men, puts the company outside the law the settlement keeps.
+  Rule ran_toll when stopped(party) and not at(party, post) and not tolerates(keepers, party) and tolls(keepers, post) {
+    Retract stopped(party). Assert hostile(chief, party). Assert refusesService(provider, party).
+  }
+  Rule paid_once when tolerates(keepers, party) and not at(party, post) {
+    Retract tolerates(keepers, party). Retract tolerates(chief, party). Retract stopped(party).
+  }
+  Rule outlawed when (routed(chief) or not able(chief) or routed(keepers)) and not refusesService(provider, party)
+    says "Word goes down the road ahead of you: the lord's toll-house has been attacked." {
+    Assert refusesService(provider, party). Assert hostile(chief, party).
+  }
+  Rule set_on when at(party, post) and hostile(chief, party) and able(keepers) and not routed(keepers) and tolls(keepers, post)
+    says "'Outlaws!' The customs-men draw their swords." {
+    Assert assails(keepers, party).
+  }
+  Observe outlawed_at_inn at market when refusesService(provider, party) "The door of the inn is barred against you, and someone inside says the lord's name loudly.".
+
+  // Bread, paid for: they take a cartload when they run low, and there is that much less in the inn.
+  Rule eats when untilLight(clock) == 1 and quantity(chief, rations) >= 1 and able(keepers) { Decrease quantity(chief, rations) by 1. }
+  Rule buys when untilLight(clock) == 2 and quantity(chief, rations) <= 1 and quantity(provider, rations) >= 3 and able(keepers) {
+    Decrease quantity(provider, rations) by 3. Increase quantity(chief, rations) by 3. Increase quantity(provider, gold) by 6.
+  }
+
+  Rule broken when (not able(chief) or routed(chief)) and tolls(keepers, post) {
+    Retract tolls(keepers, post). Retract holds(chief, post).
+  }
+  Goal not tolls(keepers, post).
+}

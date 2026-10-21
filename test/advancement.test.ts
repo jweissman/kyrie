@@ -6,6 +6,7 @@ import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import type { CreatureStore } from '../src/creature-store';
+import { GeneratedWorld } from './support/generated';
 
 describe('advancement', () => {
   it('follows Orsino\'s experience curve and values creatures by kind and level', () => {
@@ -53,9 +54,9 @@ describe('experience for a module someone else resolves', () => {
   it('is not the company\'s: a shepherd who burns out the nest while the company sleeps in town earns it nothing', async () => {
     const world = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(world.path, 'thorn', world.source);
-    for (const c of ['go(region__s1_inn_door,region__s1_taproom)', 'ask(region__s1_innkeeper,word1__h1_s1_innkeeper)']) {
-      await s.perform(c);
-    }
+    const brood = world.report.placements.find(p => p.scenario === 'brood-hollow')!;
+    await GeneratedWorld.hear(s, brood, world.report.placements.indexOf(brood) + 1);
+    GeneratedWorld.put(s, 's1_taproom');
     // Garth goes for his fire after a second night of losing ewes; the company sleeps in town until he has.
     for (let night = 0; night < 5 && s.campaign.state.modules?.find(m => m.id === 'brood')?.outcome
       !== 'success'; night++) {

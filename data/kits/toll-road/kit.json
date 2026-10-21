@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "id": "toll_road",
+  "name": "A toll on a road",
+  "about": "A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.",
+  "slots": {
+    "post": {
+      "is": "waypoint(?post) and onRoad(?post)",
+      "requires": [
+        "free(?post)"
+      ],
+      "prefers": [
+        {
+          "when": "chokepoint(?post)",
+          "weight": 2
+        },
+        {
+          "when": "landmark(?post)",
+          "weight": 1
+        }
+      ]
+    },
+    "market": {
+      "is": "square(?town, ?market)",
+      "requires": [
+        "hours(?market, ?post) <= 4"
+      ],
+      "prefers": [
+        {
+          "when": "hours(?market, ?post) <= 2",
+          "weight": 2
+        }
+      ]
+    },
+    "provider": {
+      "is": "keeper(?provider, ?market)"
+    }
+  },
+  "proposals": {
+    "keepers": {
+      "table": "toll_keepers",
+      "by": "terrain"
+    }
+  },
+  "provides": [
+    "power(@toll)",
+    "holds(@toll, ?post)",
+    "tolls(@toll, ?post)",
+    "buysFrom(@toll, ?market)",
+    "chief(@toll, $keepers.chief)",
+    "band(@toll, $keepers.band)"
+  ],
+  "claims": [
+    "post"
+  ],
+  "tables": "tables.json",
+  "modules": [
+    {
+      "id": "keepers",
+      "when": {
+        "keepers": "deserters"
+      },
+      "bundle": "deserters/module.json",
+      "imports": {
+        "party": "@party",
+        "post": "?post",
+        "market": "?market",
+        "provider": "?provider"
+      }
+    },
+    {
+      "id": "keepers",
+      "when": {
+        "keepers": "customs"
+      },
+      "bundle": "customs/module.json",
+      "imports": {
+        "party": "@party",
+        "post": "?post",
+        "market": "?market",
+        "provider": "?provider"
+      }
+    }
+  ]
+}

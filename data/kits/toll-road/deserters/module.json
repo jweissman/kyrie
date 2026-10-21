@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "source": "keepers.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "post", "market", "provider"],
+  "roles": {
+    "party": { "type": "group" },
+    "post": { "type": "place" },
+    "market": { "type": "place" },
+    "provider": { "type": "group" }
+  },
+  "exports": { "chief": "chief", "band": "keepers" },
+  "experience": 300
+}

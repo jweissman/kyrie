@@ -1,3 +1,4 @@
+import { GenerationSetting } from '../generation-setting';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
 // entity it writes is exported under its own id, so scenarios bind to it like any other module.
@@ -6,6 +7,15 @@ interface Naming { feature?: string; affix?: string; gloss?: string; tongue?: st
 export interface Settlement extends Naming {
   id: string; name: string; size: string; trade: string; inn: string;
   innkeeper: string; priest: string; merchant: string; traveller: string; calling: string;
+  // What kind of merchant the settlement's trade supports (a smith where tin is mined, a salter where salt is
+  // boiled): a row of the Deem table merchantType, which says what they stock and buy.
+  merchantType?: string;
+}
+interface MerchantType { role: string; profession?: string; shop: string; stock: [string, number, number][];
+  buys: [string, number][] }
+interface Tables {
+  merchantType: { groups: Record<string, MerchantType> };
+  innStock: { groups: Record<string, { price: number; stock: number }> };
 }
 export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string }
 export interface Region extends Naming {
@@ -49,6 +59,7 @@ export class RegionWriter {
         `  Passage road_${from.id}_${s.id}_on ${q(`the road on to ${s.name}`)} is road between ${way} and ${s.id}_green taking 1 hour.`,
         `  Observe ${way}_scene at ${way} when true ${q(`The road between ${from.name} and ${s.name}, with ${this.terrain(region.terrain)} country close on either side.`)}.`);
     });
+    region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     region.sites.forEach((site, i) => {
       const town = this.near(region, site);
       lines.push(`  Place ${site.id} ${q(site.name)} is room within wilds at ${i}, 0.`,
@@ -72,20 +83,55 @@ export class RegionWriter {
       `  Place ${s.id}_inn ${q(s.inn)} is building within ${s.id}.`,
       `  Place ${s.id}_taproom ${q(`the taproom of ${s.inn}`)} is room within ${s.id}_inn at 1, 0.`,
       `  Place ${s.id}_shrine ${q(`the shrine of ${region.deity}`)} is room within ${s.id} at 0, 1.`,
-      `  Place ${s.id}_shop ${q(`${s.merchant}'s shop`)} is room within ${s.id} at 2, 1.`,
+      `  Place ${s.id}_shop ${q(`${s.merchant}'s ${this.trade(s).shop}`)} is room within ${s.id} at 2, 1.`,
       `  Passage ${s.id}_inn_door ${q(`the door of ${s.inn}`)} is door between ${s.id}_taproom and ${s.id}_green.`,
       `  Passage ${s.id}_shrine_door ${q(`the shrine porch in ${s.name}`)} is doorway between ${s.id}_shrine and ${s.id}_green.`,
       `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`,
-      `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${s.id}_taproom { Role "innkeeper". Profession innkeeper. Peaceable. Sells rations for 2 coin from 6. }`,
+      `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${s.id}_taproom { Role "innkeeper". Profession innkeeper. Peaceable. ${this.inn(s)} }`,
       `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${region.deity}`)}. Profession priest. Peaceable. }`,
-      `  Person ${s.id}_merchant ${q(s.merchant)} at ${s.id}_shop { Role "outfitter". Profession herbalist. Peaceable. `
-        + 'Sells rations for 2 coin from 6. Sells rope for 1 coin from 3. Sells torch for 1 coin from 3. Sells bandages for 1 coin from 3. Sells antidote for 3 coin from 1. }',
+      this.merchant(s),
       `  Person ${s.id}_traveller ${q(s.traveller)} at ${s.id}_taproom { Role ${q(s.calling)}. Peaceable. }`,
       `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${s.name} is a ${s.size} of ${region.ancestry} folk that lives by ${s.trade}.${this.meaning(s)} Smoke rises from ${s.inn}; the shrine of ${region.deity} stands open across the green.`)}.`,
       `  Observe ${s.id}_night at ${s.id}_green when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
       `  Observe ${s.id}_tap at ${s.id}_taproom when true ${q(`Benches, a long table, a fire. People who work ${s.trade} drink here.`)}.`,
       `  Observe ${s.id}_holy at ${s.id}_shrine when true ${q(`An altar to ${region.deity}, keeper of ${region.domain}. Offerings of ${s.trade} lie before it.`)}.`,
     ];
+  }
+  // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy.
+  private static trade(s: Settlement): MerchantType {
+    const types = (GenerationSetting.tables as unknown as Tables).merchantType;
+    return types.groups[s.merchantType ?? 'chandler'] ?? types.groups.chandler!;
+  }
+  private static merchant(s: Settlement): string {
+    const t = this.trade(s);
+    const sells = t.stock.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
+    const buys = t.buys.map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
+    return `  Person ${s.id}_merchant ${JSON.stringify(s.merchant)} at ${s.id}_shop { Role ${JSON.stringify(t.role)}.`
+      + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable. ${sells}${buys ? ` ${buys}` : ''} }`;
+  }
+  // Trade comes and goes by the roads. While anyone tolls a road into a settlement its inn's meal is dearer and
+  // is not made good; when the roads are open, and the farms have not been robbed, the inn restocks a sack a day.
+  private static economy(s: Settlement, region: Region): string[] {
+    const ways = region.settlements.slice(1).map((t, i) => [region.settlements[i]!.id, t.id])
+      .filter(([a, b]) => a === s.id || b === s.id).map(([a, b]) => `${a}_${b}_way`);
+    if (!ways.length) { return []; }
+    const { price, stock } = this.stock(s), keeper = `${s.id}_innkeeper`;
+    const tolled = ways.map(w => `tolls(?collector, ${w})`).join(' or ');
+    const open = ways.map(w => `not tolls(?collector, ${w})`).join(' and ');
+    return [`  Rule ${s.id}_dear when (${tolled}) and goodsPrice(${keeper}, rations) < ${price + 1} {`
+      + ` Set goodsPrice(${keeper}, rations) to ${price + 1}. }`,
+    `  Rule ${s.id}_cheap when ${open} and goodsPrice(${keeper}, rations) > ${price} { Set goodsPrice(${keeper}, rations) to ${price}. }`,
+    `  Rule ${s.id}_restock when untilLight(clock) == 1 and ${open} and losses(${s.id}_green) < 3`
+      + ` and quantity(${keeper}, rations) < ${stock} { Increase quantity(${keeper}, rations) by 1. }`,
+    `  Observe ${s.id}_tolled at ${s.id}_taproom when ${tolled} ${JSON.stringify(`Carters at the bar grumble about the toll on the road; the meal is dearer for it, and there is less of it.`)}.`];
+  }
+  private static stock(s: Settlement): { price: number; stock: number } {
+    return (GenerationSetting.tables as unknown as Tables).innStock.groups[s.size] ?? { price: 2, stock: 6 };
+  }
+  // An inn sells what a place of its size can spare: plenty in a town, a little in a hamlet, dearer.
+  private static inn(s: Settlement): string {
+    const stock = this.stock(s);
+    return `Sells rations for ${stock.price} coin from ${stock.stock}.`;
   }
   static terrain(t: string): string {
     return ({ forest: 'forest', marsh: 'fen', mountain: 'upland', frost: 'frozen', desert: 'desert' } as Record<string, string>)[t] ?? t;
@@ -110,6 +156,7 @@ export class RegionWriter {
       `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`]), ...ways];
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]),
+      ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
     return { version: 1, source: 'region.kyr', rules: ['world', 'elements'], globals: ['party'],
       exports: Object.fromEntries(ids.map(id => [id, id])), assembly: { commitments } };

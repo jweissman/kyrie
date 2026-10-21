@@ -1,0 +1,21 @@
+{
+  "toll_keepers": {
+    "discriminator": "terrain",
+    "groups": {
+      "mountain": [
+        { "_key": "deserters", "__weight": 2, "_why": "deserters from a war over the mountains, holding a pass" },
+        { "_key": "customs", "_why": "a lord's customs-men at a bridge" }
+      ],
+      "frost": [
+        { "_key": "deserters", "_why": "deserters wintering by the road" }
+      ],
+      "forest": [
+        { "_key": "customs", "__weight": 2, "_why": "a lord's customs-men at the edge of his forest" },
+        { "_key": "deserters", "_why": "deserters camped in the trees by the road" }
+      ],
+      "marsh": [
+        { "_key": "customs", "_why": "a lord's customs-men at the causeway" }
+      ]
+    }
+  }
+}

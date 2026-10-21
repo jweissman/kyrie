@@ -1,9 +1,13 @@
 {
-  "about": "A frontier region: besides the troubles its scenarios bring, a band that lives by raiding its roads and farms, and a settlement that has put a price on it. Kits listed here are placed into every generated region that uses this framework, in order, composed with the campaign's seed when it loads.",
+  "about": "A frontier region: besides the troubles its scenarios bring, a band that lives by raiding its roads and farms, another that has made a road its own and tolls it, and a settlement that has put a price on one of them. Kits listed here are placed into every generated region that uses this framework, in order, composed with the campaign's seed when it loads.",
   "kits": [
     {
       "kit": "../kits/raider-hold/kit.json",
       "id": "raiders"
+    },
+    {
+      "kit": "../kits/toll-road/kit.json",
+      "id": "toll"
     },
     {
       "kit": "../kits/bounty/kit.json",

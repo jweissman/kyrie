@@ -4,6 +4,8 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { RegionWriter } from '../src/world/region-writer';
+import { GeneratedWorld } from './support/generated';
 
 class Worlds {
   static assemble(seed: string, terrain?: string) {
@@ -51,16 +53,15 @@ describe('a generated region with situated scenarios', () => {
   it('keeps a scenario out of sight until the company hears of it, then opens the way', async () => {
     const world = await Worlds.assemble('thorn', 'mountain');
     const s = await PlaySession.start(world.path, 'thorn', world.source);
-    const way = 'go(sink__sink_path,sink__lip)', approach = world.report.placements[0]!.bindings.approach!;
-    await s.perform(`go(region__s1_inn_door,region__s1_taproom)`);
-    const ask = Worlds.ids(s).find(id => id.startsWith('ask(') && id.includes('word1__h1'))!;
-    expect(ask).toBeDefined();
-    await s.perform('go(region__s1_inn_door,region__s1_green)');
-    await s.perform(`go(region__${approach}_track,region__${approach})`);
+    const way = 'go(sink__sink_path,sink__lip)', brood = world.report.placements[0]!;
+    // At the sinkhole before anyone has said a word of it: the way down is not there to be taken.
+    GeneratedWorld.put(s, brood.bindings.approach!);
+    await s.perform('wait');
     expect(Worlds.ids(s)).not.toContain(way);
-    for (const c of [`go(region__${approach}_track,region__s1_green)`, 'go(region__s1_inn_door,region__s1_taproom)', ask,
-      'go(region__s1_inn_door,region__s1_green)', `go(region__${approach}_track,region__${approach})`]) { await s.perform(c); }
+    await GeneratedWorld.hear(s, brood, 1);
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'brood__ewes'))).toBe(true);
+    GeneratedWorld.put(s, brood.bindings.approach!);
+    await s.perform('wait');
     expect(Worlds.ids(s)).toContain(way);
   }, 60000);
   it('assembles and loads across seeds and terrains', async () => {
@@ -89,11 +90,11 @@ describe('backgrounds in a generated region', () => {
   }, 60000);
   it('let a hunter drive the beasts from a den: the den is resolved and searched, with no foes killed', async () => {
     const world = await Worlds.assemble('thorn', 'mountain'), s = await PlaySession.start(world.path, 'thorn', world.source);
-    const den = world.report.placements.find(p => p.scenario === 'den')!.bindings.den!;
-    for (const c of ['go(region__road_s1_s2,region__s1_s2_way)', 'go(region__road_s1_s2_on,region__s2_green)',
-      'go(region__s2_inn_door,region__s2_taproom)',
-      'ask(region__s2_traveller,word3__h1_s2_traveller)', 'go(region__s2_inn_door,region__s2_green)',
-      `go(region__${den}_track,region__${den})`, `den__smoke_out(party,region__${den})`]) { await s.perform(c); }
+    const placement = world.report.placements.find(p => p.scenario === 'den')!, den = placement.bindings.den!;
+    await GeneratedWorld.hear(s, placement, world.report.placements.indexOf(placement) + 1);
+    const town = RegionWriter.near(world.report.region, world.report.region.sites.find(w => w.id === den)!).id;
+    GeneratedWorld.put(s, `${town}_green`);
+    for (const c of [`go(region__${den}_track,region__${den})`, `den__smoke_out(party,region__${den})`]) { await s.perform(c); }
     expect(s.campaign.world.test(ModuleWriter.call('dead', 'den__beasts'))).toBe(false);
     expect(Worlds.ids(s)).toContain(`den__plunder(party,region__${den})`);
     expect(s.campaign.state.creatures.find(c => c.id === 'region__party_1')!.state.experience).toBe(200);

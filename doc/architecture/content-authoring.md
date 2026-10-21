@@ -102,11 +102,27 @@ One mechanism (`Formations`, `Perks`, `PerkTriggers`) recognizes all fifteen exe
 named in code. Player-facing text is generated from the perk's semantics (`PerkText`), so the words are the rule.
 See `orsino-semantics.md`.
 
+## Merchants and inns in generated settlements
+
+**Before.** Every generated settlement had the same "outfitter", selling the same five things. Its inn sold rations
+at the same price from the same stock, whatever the place was.
+
+**After.** `data/generation/tables/trade.json` holds three Deem tables:
+
+| Table | What it says | Example |
+|---|---|---|
+| `tradeMerchant` | which kind of merchant a settlement's trade supports | slate and tin a smith, salt and eels a salter, furs a furrier, honey and peat a herb-wife |
+| `merchantType` | what each kind sells (price and stock), what it buys, and what its shop is called | `smith`: crowbars, shovels and poles from a forge; buys bronze bearings and grave rings |
+| `innStock` | how much meal an inn can spare, by the settlement's size | a town 8 at 2 coin; a hamlet 3 at 3 coin |
+
+The settlement template draws `merchantType` with one `lookup`. `RegionWriter` writes each person's `Sells` and
+`Buys` lines from the row. Adding a kind of merchant is one row, and adding a trade is one entry.
+
 ## What is still written by hand, and why
 
 | Content | Where | Why it is not a table yet |
 |---|---|---|
 | Ancestries (25 in Orsino, 3 playable) | `data/catalog/ancestries.json` | few enough to read whole; Orsino's ancestry traits are generated |
 | Classes (7) | `data/catalog/classes.json` | Kyr adds practice text and skills per class; Orsino's `classModifier` gear and gold are not yet imported |
-| Merchant stocks | per-person `Sells` lines in region modules | next: stocks by profile (an outfitter, a chandler), so a settlement's shops come from what the settlement is |
+| Merchant stocks in authored regions | per-person `Sells` lines (Ottar, Bryony, Keld) | authored people are individuals; generated ones come from `merchantType` |
 | Creature families | Deem tables already (`data/generation/tables/creatures.json`) | — |

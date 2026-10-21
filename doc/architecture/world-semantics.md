@@ -68,6 +68,29 @@ Each link below is a shared fact. No module names another's internal state.
 `test/varrow-world.test.ts` plays each link: the supply with and without the Heron bought up, the road tolled and
 open, the path seen and watched, and the Lanthorn emptied and taken.
 
+## The same web in generated worlds
+
+The frontier framework places a third kit in every generated region: `toll-road`.
+
+1. A band takes a stretch of road between two settlements and `tolls` it.
+2. It buys its bread at the nearest inn, either on `credit`, running up `owes`, or for coin.
+3. When the inn has none to sell, it takes it, which adds to `losses` at that settlement.
+
+The region's own rules read the same facts. Every settlement whose road is tolled pays a coin more for its inn's
+meal and is not restocked. A settlement whose farms have been robbed is not restocked either.
+
+Deem proposes who keeps the toll, by terrain:
+
+- **Deserters** charge six coin. They remember a company that runs the toll and set on it next time.
+- **A lord's customs-men** charge three coin by right. Running their toll, or raising a hand to them, gets the
+  company refused at the inn of the settlement they answer to.
+
+Either way, the bounty kit may then put a price on the toll band rather than on the raiders.
+
+The composed campaigns differ in their merchants (by each settlement's trade), in which road is tolled and by whom,
+in which raiders hold what, and in who is wanted by whom. `test/generated-economy.test.ts` checks four seeds for
+four different shapes, and plays a toll from both sides: stopped, run, remembered, and the inn bought out and robbed.
+
 ## Audit: scenario-local state
 
 Before mission 6 the Lanthorn declared its own alarm (`roused`), standing (`wanted`, `sworn`), toll (`tollAt`),
@@ -86,8 +109,10 @@ What remains local, and why:
 
 ## Limits
 
-- The claimant is bound by the campaign author, not yet chosen by the assembler for generated worlds. Kits do not
-  yet support an optional slot for "a nearby stronghold".
+- The Lanthorn's claimant is bound by the campaign author. Kits do not yet support an optional slot for "a nearby
+  stronghold", so the assembler cannot yet choose a claimant in generated worlds.
+- Kits cannot vary what they provide by variant, so neither toll band is recorded as raiding its market, even though
+  the deserters do take bread from an inn they have bought empty.
 - When the hobs hold the Lanthorn, they hold it and guard it, but they do not yet raid from it, and the Toll does
   not return under them.
 - What the Lanthorn's crew owe the Heron is never collected. A debt that is never paid changes nothing yet but a

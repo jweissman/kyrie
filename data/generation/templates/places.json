@@ -20,6 +20,7 @@
     "name": "=capitalize(#feature + #affix)",
     "size": "=lookup(settlementSize, #_index == 0 ? 'first' : 'other')",
     "trade": "=lookup(regionTrade, #terrain)",
+    "merchantType": "=lookup(tradeMerchant, #trade)",
     "inn": "='the ' + capitalize(lookup(innAdjective, default)) + ' ' + capitalize(lookup(innObject, default))",
     "innkeeper": "=lookup(townsfolkName, #ancestry)",
     "priest": "=lookup(townsfolkName, #ancestry)",

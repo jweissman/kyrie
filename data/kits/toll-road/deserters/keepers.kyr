@@ -1,0 +1,67 @@
+Module toll_deserters "Deserters on the road" {
+  Description "Deserters from a war nobody here remembers, who have made a stretch of road theirs. They stop whoever comes and take a toll, eat a ration a night, and buy their bread on credit from an inn that cannot refuse them. When the inn has nothing to sell, they come and take it.".
+  Entity party: group "Your company".
+  Place post "The road they keep" is room.
+  Place market "The settlement they buy from" is room.
+  Entity provider: group "Who sells them bread on credit".
+
+  Person chief "Sergeant Mawr" at post {
+    Role "who keeps the toll". Ancestry human. Calling warrior. Level 2.
+    State watching "A big man in a mended red coat sits on a milestone with a pike across his knees, watching the road both ways.".
+  }
+  Person keepers "the deserters" at post {
+    Role "deserters from a war nobody here remembers". Ancestry human. Calling warrior. Level 1. Numbers 3.
+    Called "Dobbin", "Hask", "Long Tam".
+    Uses go, assail. Plans 6 steps.
+    State idle "Three men in the rags of a uniform lean on pikes by a fire at the roadside.".
+  }
+  Initially Assert serves(keepers, chief). Initially Assert holds(chief, post). Initially Assert posts(keepers, chief).
+  Initially Assert tolls(keepers, post). Initially Assert credit(chief, provider).
+  Initially Set quantity(chief, rations) to 3.
+
+  // The toll: six coin for the company, paid at the post, good for one passing. Walk on without paying and they
+  // remember you.
+  Relation stopped(group).
+  Rule stops when at(party, post) and tolls(keepers, post) and able(keepers) and not routed(keepers)
+    and not tolerates(keepers, party) and not stopped(party) and not hostile(chief, party)
+    says "Pikes come down across the road. 'Toll,' says the sergeant, not getting up. 'Six coin, the lot of you. There's a war on.'" {
+    Assert stopped(party).
+  }
+  Action pay_toll(actor: group, site: place) "Pay the deserters' toll, six coin" {
+    Description "Six coin, and the pikes go up. Next time, they will want it again.".
+    Requires able(actor) and company(actor) and at(actor, site) and tolls(keepers, site) and at(keepers, site)
+      and able(keepers) and not tolerates(keepers, actor) and quantity(actor, gold) >= 6.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(chief, gold) by 6. Assert tolerates(keepers, actor).
+      Assert tolerates(chief, actor). }
+    Result "The sergeant bites a coin, spits, and waves you through. 'Mind how you go.'".
+  }
+  Rule ran_toll when stopped(party) and not at(party, post) and not tolerates(keepers, party) and tolls(keepers, post) {
+    Retract stopped(party). Assert hostile(chief, party).
+  }
+  Rule paid_once when tolerates(keepers, party) and not at(party, post) {
+    Retract tolerates(keepers, party). Retract tolerates(chief, party). Retract stopped(party).
+  }
+  Rule set_on when at(party, post) and hostile(chief, party) and able(keepers) and not routed(keepers) and tolls(keepers, post)
+    says "'That's them that ran the toll!' The deserters come off the fire with their pikes." {
+    Assert assails(keepers, party).
+  }
+
+  // Bread on credit: a ration a night, bought two at a time from the inn. An inn with none to sell is robbed.
+  Rule eats when untilLight(clock) == 1 and quantity(chief, rations) >= 1 and able(keepers) { Decrease quantity(chief, rations) by 1. }
+  Rule buys when untilLight(clock) == 2 and quantity(chief, rations) <= 1 and quantity(provider, rations) >= 2 and able(keepers) {
+    Decrease quantity(provider, rations) by 2. Increase quantity(chief, rations) by 2. Increase owes(chief, provider) by 4.
+  }
+  Rule takes when untilLight(clock) == 2 and quantity(chief, rations) <= 0 and quantity(provider, rations) <= 1 and able(keepers) {
+    Increase losses(market) by 2. Increase quantity(chief, rations) by 3.
+  }
+  Observe robbed at market when losses(market) >= 2 "The deserters came down in the night for bread, and when there was none to sell they took what they found.".
+  Topic credit with provider "Ask what the deserters owe" when owes(chief, provider) >= 4 {
+    Says "'Owe? They tell me to write it down, so I write it down.' A slate full of marks. 'When the war's over, they say. What war?'".
+  }
+
+  // With the sergeant gone the toll goes too: the rest of them drift off up the road.
+  Rule broken when (not able(chief) or routed(chief)) and tolls(keepers, post) says "Without the sergeant the deserters stand about a while, then shoulder their pikes and go off up the road." {
+    Retract tolls(keepers, post). Assert routed(keepers). Retract holds(chief, post).
+  }
+  Goal not tolls(keepers, post).
+}
