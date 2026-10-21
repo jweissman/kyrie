@@ -18,6 +18,7 @@ Module elders_patron "The elders' price" {
     On discuss { Assert knows(actor, price). }
   }
   Relation met(entity).
+  Objective band_price when knows(party, price) and not thanked(elders) "The elders will pay twenty-five crowns to see the raiders' band broken.".
   Rule band_broken when (not able(band) or routed(band)) and not met(price) { Assert met(price). }
   Topic claim with elders "Tell the elders the band is broken" when met(price) and knows(actor, price) once {
     Says "The elders count out the coins on the well's lid, slowly, arguing about one of them. Then the oldest shakes your hand and says you will not pay for a meal here again.".

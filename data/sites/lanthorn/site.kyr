@@ -108,9 +108,10 @@ Module lanthorn "The Lanthorn" {
   // A visitor who asks for Ninefingers is taken up to her, and must touch nothing on the way.
   Relation guest(group).
   Action ask_audience(actor: group, site: place) "Ask the wardens for a word with Ninefingers" {
-    Description "They will fetch her answer. If she will see you, they will take you up through the gatehouse and across the court to her tower.".
+    Description "They will fetch her answer. If she will see you, they will take you up through the gatehouse and across the court to her tower. Not at night: she sleeps.".
     Requires able(actor) and company(actor) and at(actor, site) and tollAt(wardens, site) and able(wardens)
-      and state(wardens, watching) and not roused(lanthorn) and not guest(actor) and not sworn(actor) and not wanted(actor).
+      and state(wardens, watching) and not roused(lanthorn) and not guest(actor) and not sworn(actor) and not wanted(actor)
+      and not dark().
     Time 3.
     On success { Assert guest(actor). Assert tolerates(wardens, actor). Assert tolerates(coll, actor). Assert tolerates(crew, actor).
       Assert state(guard_lock, open). }
@@ -334,10 +335,11 @@ Module lanthorn "The Lanthorn" {
     and able(ninefingers) and not lifted(toll) says "'COLL!' Ninefingers comes over the table at you." {
     Assert roused(lanthorn). Assert assails(ninefingers, party).
   }
-  Topic nine_toll with ninefingers "Ask Ninefingers to lift the Toll" when true once {
+  Topic nine_toll with ninefingers "Ask Ninefingers to lift the Toll" when state(ninefingers, holding) once {
     Says "'Lift it?' Ninefingers laughs. 'The Toll's my living. Find me a better one.' She taps the floor with her boot. 'There's a better one under us, if my lads had the stomach for it. The Lamplighters bottled light and sold it to kings, and the cellars are full of it. Bring me a jar of noonlight and I'll believe you can bring me more. Bring me the big one they kept for the beacon, and I'll take my lads and go somewhere warm, and you can have your road.'".
     On discuss { Assert knows(actor, nine_bargain). }
   }
+  Objective deal when knows(party, nine_bargain) and not lifted(toll) "Ninefingers will lift the Toll for the company for a jar of noonlight, and leave the Gap for the First Light.".
   Entity nine_bargain: fact "Ninefingers will let the company come and go for a jar of noonlight from the Lanthorn's cellars, and will leave the Lanthorn for good for the First Light, the great jar the Lamplighters kept for the beacon.".
   Initially Assert established(nine_bargain).
   Rule nine_pleased when keeps(ninefingers, ?jar) and itemKind(?jar, noonlight) and not sworn(party)

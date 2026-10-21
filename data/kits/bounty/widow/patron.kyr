@@ -15,6 +15,7 @@ Module widow_patron "A widow's price" {
     On discuss { Assert knows(actor, price). }
   }
   Relation met(entity).
+  Objective chief_price when knows(party, price) and not knows(party, paid_out) "A widow will pay her savings to see the raiders' chief dead or run off.".
   Rule chief_gone when (not able(chief) or routed(chief)) and not met(price) { Assert met(price). }
   Item ring "her son's ring" is grave_rings at town hidden until paid_out.
   Entity paid_out: fact "The widow has paid the company her savings and her son's ring.".
