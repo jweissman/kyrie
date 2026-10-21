@@ -10,9 +10,13 @@ Module dragon_roost "A dragon on the crag" {
   Entity lair_mouth: passage "The way into the lair".
   Measure leavesAt(entity). Measure returnsAt(entity). Measure raidAt(entity).
   Relation placated(group). Relation robbed(group). Relation wrathful(group). Relation rung(group).
+  // What the dragon costs the country while it is let be: a sheep from the flock each time it comes back from the
+  // hunt; when the flock is gone, cattle off the green; and then nobody sleeps under thatch.
+  Entity flock: thing "the village flock". Measure head(entity). Relation stripped(place).
+  Initially Set head(flock) to 8.
 
   Person dragon "the dragon" at roost {
-    Role "a red dragon". Species red_dragon. Level 1.
+    Role "a red dragon, grown". Species red_dragon. Level 6.
     State roosting blocking "{dragon} lies coiled across {lair_mouth}, one eye open, smoke curling from its nostrils.".
     State away "{dragon} circles low over {hunting_ground}, hunting.".
     State placated "{dragon} has drawn its tail aside from {lair_mouth} and watches you with something like amusement.".
@@ -41,9 +45,22 @@ Module dragon_roost "A dragon on the crag" {
     Assert at(dragon, hunting_ground). Assert state(dragon, away). Increase leavesAt(dragon) by 144.
   }
   Rule returns near dragon when at(dragon, hunting_ground) and able(dragon) and watch(clock) >= returnsAt(dragon)
+    and not placated(dragon)
     says "{dragon} beats up from {hunting_ground}, something limp in its claws, and makes for the crag." {
+    Assert at(dragon, roost). Assert state(dragon, roosting). Increase returnsAt(dragon) by 144. Decrease head(flock) by 1.
+  }
+  Rule returns_paid near dragon when at(dragon, hunting_ground) and able(dragon) and watch(clock) >= returnsAt(dragon)
+    and placated(dragon)
+    says "{dragon} beats up from the far fells with a wild goat in its claws, and makes for the crag." {
     Assert at(dragon, roost). Assert state(dragon, roosting). Increase returnsAt(dragon) by 144.
   }
+  Event cattle at village when head(flock) <= 0 and able(dragon) and not placated(dragon) and not stripped(village) "{dragon} comes down on {village} in the grey before dawn and takes a cow off the green, while the whole village watches from behind its shutters. Doors are being nailed shut." then {
+    Assert stripped(village). Set raidAt(dragon) to watch(clock). Increase raidAt(dragon) by 36. Assert wrathful(dragon).
+  }
+  Observe tally at hunting_ground when head(flock) > 0 and not placated(dragon) "Fresh notches on the tally post: {head(flock)} sheep left of the village flock, and the dragon takes one each time it comes back from the hunt.".
+  Observe tally_spared at hunting_ground when placated(dragon) and head(flock) > 0 "{head(flock)} sheep are left, and since the tribute the dragon hunts the far fells instead.".
+  Observe tally_gone at hunting_ground when head(flock) <= 0 "The fold is empty. The last of the flock went up the crag in the dragon's claws.".
+  Observe shuttered at village when stripped(village) "Shutters nailed shut, cattle penned in the chapel yard, and nobody on the green.".
   Rule settled when placated(dragon) and state(dragon, roosting) { Assert state(dragon, placated). }
   Rule theft when not at(chapel_bell, lair) and not placated(dragon) and not robbed(dragon) { Assert robbed(dragon). }
   Event wrath near dragon when robbed(dragon) and at(dragon, roost) and able(dragon) and not wrathful(dragon) "{dragon} noses through its hoard, then rears back and screams. Fire splashes across the stone." then {

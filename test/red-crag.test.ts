@@ -169,6 +169,25 @@ describe('the Red Crag in play', () => {
     expect(RedCragHistories.state(s, 'roost__barn')).toBe('roost__standing');
   }, 60000);
 
+  it('left alone, the dragon eats the flock a sheep a hunt, then comes down for the cattle and burns the barn', async () => {
+    const s = await RedCragHistories.start();
+    const head = () => s.campaign.world.number({ kind: 'call', name: 'roost__head', args: ['roost__flock'] });
+    expect(head()).toBe(8);
+    const day = s.campaign.state.elapsed;
+    while (RedCragHistories.state(s, 'roost__barn') === 'roost__standing' && s.campaign.state.elapsed < day + 144 * 11) {
+      await s.perform('wait_hour');
+    }
+    expect(head()).toBeLessThanOrEqual(0);
+    expect([s.campaign.world.test({ kind: 'call', name: 'roost__stripped', args: ['world__green'] }),
+      RedCragHistories.state(s, 'roost__barn')]).toEqual([true, 'roost__burnt']);
+  }, 180000);
+  it('paid, the dragon hunts the far fells and the flock is spared', async () => {
+    const s = await RedCragHistories.play('tribute');
+    const head = () => s.campaign.world.number({ kind: 'call', name: 'roost__head', args: ['roost__flock'] });
+    const before = head();
+    for (let i = 0; i < 24 * 3; i++) { await s.perform('wait_hour'); }
+    expect(head()).toBe(before);
+  }, 180000);
   it('replays the recorded histories to the same canonical state', async () => {
     for (const history of ['fire', 'tribute'] as const) {
       const recorded = JSON.parse(readFileSync(`doc/playtests/red-crag/${history}.transcript.json`, 'utf8')) as Transcript;
