@@ -116,7 +116,7 @@
     "guarded": {
       "name": "Guarded",
       "description": "Someone stands in front of them and takes the blows meant for them.",
-      "begins": "Until the next round is out, blows aimed at {target} meet their guard instead.",
+      "begins": "Until their guard acts again, blows aimed at {target} meet the guard instead.",
       "ends": "{target} is no longer guarded.",
       "lifetime": "encounter",
       "modifiers": {},

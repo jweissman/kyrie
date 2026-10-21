@@ -251,7 +251,7 @@
     "guard": {
       "name": "Guard",
       "kind": "technique",
-      "description": "Stand in front of a companion: until the next round is over, blows aimed at them strike you.",
+      "description": "Stand in front of a companion: until your next turn, blows aimed at them strike you.",
       "effect": "Apply guarded to ally for 2 turns.",
       "source": {
         "kyr": true,

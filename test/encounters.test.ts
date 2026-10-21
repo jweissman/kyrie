@@ -45,6 +45,10 @@ describe('encounters you can read and answer', () => {
           expect(blow.some(e => e.type === 'intercept' && e.actor === 'bran' && e.target === 'dori')).toBe(true);
           expect(blow.some(e => (e.type === 'damage' || e.type === 'attack') && 'target' in e && e.target === 'dori'))
             .toBe(false);
+          // The guard stands until Bran's own next turn, and no longer.
+          while (battle.state.actor !== 'bran' && !battle.state.outcome) { battle.step(battle.chosen()); }
+          const dori = battle.state.combatants.find(c => c.id === 'dori')!;
+          if (!battle.state.outcome) { expect(dori.statuses.map(x => x.id)).not.toContain('guarded'); }
           return;
         }
         // The company holds back, so the fight lasts long enough to see the bear choose.

@@ -226,6 +226,7 @@ export class Battle {
     while (!this.outcome) {
       const actor = this.actor();
       for (const id of Object.keys(actor.cooldowns)) { actor.cooldowns[id] = Math.max(0, actor.cooldowns[id]! - 1); }
+      this.standDown(actor);
       this.finishIfEliminated();
       if (this.outcome) { return; }
       if (actor.hp > 0 && !actor.statuses.some(s => Effects.skips(s.id))) { return; }
@@ -243,6 +244,16 @@ export class Battle {
         this.turn++;
       } while (this.actor().hp === 0);
     }
+  }
+  // A guard stands over a companion until the guard's own next turn.
+  private standDown(guard: Fighter) {
+    for (const f of this.fighters) {
+      f.statuses.filter(s => Battle.guarding(s, guard)).forEach(s => { s.remaining = 0; });
+      Effects.expire(f, s => Battle.guarding(s, guard), this.context());
+    }
+  }
+  private static guarding(s: Fighter['statuses'][number], guard: Fighter): boolean {
+    return s.by === guard.id && Effects.status(s.id).guard === true;
   }
   private finishIfEliminated() {
     const teams = new Set(this.fighters.filter(f => f.hp > 0).map(f => f.team));
