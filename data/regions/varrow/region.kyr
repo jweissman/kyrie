@@ -232,25 +232,5 @@ Module varrow "The Varrow" {
   Entity lamps_eaten: fact "In the deep galleries of the Skerry mine, lamps go out as if something drinks the flame; two miners were lost there.".
   Initially Assert established(lamps_eaten).
 
-  // The road by night: Hob raiders come up out of the gorse on the Varrow road and on the downs.
-  Place gorse_beyond "the gorse beyond the road" is room within lowroad.
-  Person raiders "Hob raiders" at gorse_beyond {
-    Role "a raiding band of the Hob-Knot". Ancestry goblin. Calling thief. Level 1. Numbers 3.
-    Called "Nettle", "Gristle", "Old Burdock".
-    State prowling "Three Hobs in leather and tin, grinning, with cudgels and an empty sack.".
-  }
-  Rule raiders_on_road when at(party, barrows) and (dark() or state(sky, fog)) and dice(clock) <= 3
-    and at(raiders, gorse_beyond) and able(raiders) and not routed(raiders)
-    says "Shapes rise out of the gorse beside the road: Hob raiders, grinning, with cudgels and a sack for whatever you are carrying." {
-    Assert at(raiders, barrows). Assert assails(raiders, party).
-  }
-  Rule raiders_on_downs when at(party, drove_track) and (dark() or state(sky, fog)) and dice(clock) <= 6
-    and at(raiders, gorse_beyond) and able(raiders) and not routed(raiders)
-    says "Something whistles in the gorse, and is answered. Hob raiders come up out of the heather on every side." {
-    Assert at(raiders, drove_track). Assert assails(raiders, party).
-  }
-  Rule raiders_go when able(raiders) and not at(raiders, gorse_beyond) and not together(raiders, party) {
-    Assert at(raiders, gorse_beyond).
-  }
   Goal false.
 }

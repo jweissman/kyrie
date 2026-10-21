@@ -41,6 +41,8 @@ situation has been played in the browser. Before/after examples sit with the cha
 | 25 | A jar of noonlight poured out on the dark, and gone; the same jar is what the brigand queen wants | Changes could spend goods, not use up an item | 3, 4 |
 | 26 | A visitor admitted to the brigand queen who must touch nothing on the way; robbed, she remembers | Tolerance, guests and grudges had no words; guards either blocked or did not | 1, 4 |
 | 27 | Darkness that eats light, a lamp-tender that attacks whoever it finds unlit, and hounds that flee from sunlight | Unlit places and light only | 1, 3 |
+| 28 | Outlaws who step out of the trees and demand road-money: pay, turn out an empty purse, fight, or run under their arrows | Someone could fall on the company, but not stop it to talk | 3, 7 |
+| 29 | The same raiders' hold in another region: a cave of outlaws in the mountains, a ring-fort of hobs in the fen, each bound to a road and a settlement there | Scenarios placed by context; one fixed shape each | 6 |
 
 ## Progress
 
@@ -104,4 +106,27 @@ needed of the language was small and general:
 The Lanthorn still names sixteen relations of its own (`roused`, `guest`, `wanted`, `provisions`, `laden`, `gloom`,
 `kindled`, ...). Several (an alarm, a store of provisions, carrying supplies, guests, a grudge) belong to any
 stronghold; they are the first candidates for shared vocabulary when the stronghold becomes a reusable kit.
+
+### Composition (October 21): rows 22, 28, 29 have machinery; the assembler places kits
+
+The assembler now keeps a ledger of commitments in a Kyr vocabulary of its own (`data/assembly/vocabulary.kyr`),
+read from region modules (authored or generated) and added to by kit placements, never rewritten
+(`doc/architecture/composition.md`). A kit declares slots with hard requirements and weighted preferences, which
+are Kyr predicates over the ledger. It also declares dimensions that Deem proposes from the kit's tables, checked
+against what is committed, and the facts and modules each placement establishes. The first kit, the raiders' hold
+(`data/kits/raider-hold`), has two hold shapes (ring-fort, cave) and two folk (hobs, outlaws) behind one role
+interface, so any hold houses any folk.
+
+Before, the Varrow's raiders were nine lines of region rules with nowhere to live. Now the Hob-Knot is one manifest
+entry, `{ "kit": "../kits/raider-hold/kit.json", "id": "knot", "fix": { ... } }`. It brings a ring-fort with a
+souterrain, a Gaffer who takes tribute, a captive who knows the hobs' fear of bells, and a stolen bell in their own
+plunder. In a generated region the same kit binds itself to a site off the roads, a road stretch and a settlement
+within reach, and Deem decides who the raiders are and what their hold is. When the region's scenarios have taken
+every site, the assembler asks Deem's site generator for another and composes again, at most twice. It records the
+request, for example "raiders: nothing can be approach: every candidate fails a requirement; Deem proposes Fen
+Walls (ruin)".
+
+`halts(x, company)` is the non-violent sibling of `assails`: it breaks off whatever the company was doing and leaves
+it facing x. The outlaws use it to stop travellers, then give them one watch to pay, show an empty purse, fight or
+run. Their patience rules come before the hold-up in the module so that they cannot fire in the same watch as it.
 

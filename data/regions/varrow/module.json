@@ -53,12 +53,69 @@
     "jory": "jory",
     "hest": "hest",
     "keld": "keld",
-    "raiders": "raiders",
     "bounty": "bounty",
     "dimming": "dimming",
     "lamps_eaten": "lamps_eaten",
     "barrow_lights": "barrow_lights",
     "goat_path_known": "goat_path_known",
-    "hob_knot_known": "hob_knot_known"
+    "hob_knot_known": "hob_knot_known",
+    "drove_track": "drove_track"
+  },
+  "assembly": {
+    "commitments": [
+      [
+        "terrain",
+        "region",
+        "mountain"
+      ],
+      [
+        "landmark",
+        "barrows"
+      ],
+      [
+        "landmark",
+        "stones"
+      ],
+      [
+        "landmark",
+        "cairn"
+      ],
+      [
+        "chokepoint",
+        "toll_gate"
+      ],
+      [
+        "landmark",
+        "cairn_field"
+      ],
+      [
+        "onRoad",
+        "barrows"
+      ],
+      [
+        "onRoad",
+        "alders"
+      ],
+      [
+        "onRoad",
+        "switchbacks"
+      ],
+      [
+        "onRoad",
+        "cairn"
+      ],
+      [
+        "onRoad",
+        "toll_gate"
+      ],
+      [
+        "onRoad",
+        "gap_far"
+      ],
+      [
+        "onRoad",
+        "cairn_field"
+      ]
+    ]
   }
 }

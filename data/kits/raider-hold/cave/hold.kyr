@@ -1,0 +1,50 @@
+Module cave_hold "A cave hold" {
+  Description "A cave in a hillside behind a screen of brambles: a mouth where the watch sits, a smoky cavern, a ledge up a notched log where the chief sleeps, a pit for captives, a dry side-cave for plunder, a crack that looks out over the road, and a chimney that comes out on the hillside above.".
+  Entity party: group "Your company".
+  Place land "The region" is region.
+  Place outside "The approach" is room.
+
+  Place lair "the cave" is site within land.
+  Place mouth "the cave mouth" is room within lair at 0, 1.
+  Place cavern "the smoky cavern" is room within lair at 1, 1.
+  Place ledge "the high ledge" is room within lair at 1, 0.
+  Place pit "the captives' pit" is room within lair at 2, 1.
+  Place cache "a dry side-cave" is room within lair at 2, 0.
+  Place crack "the spy-crack" is room within lair at 0, 0.
+  Place hillside "the hillside above the cave" is room within lair at 1, 2.
+  Initially Assert unlit(pit). Initially Assert unlit(cache). Initially Assert unlit(crack). Initially Assert indoors(cavern).
+
+  Passage brambles "the brambles across the cave mouth" is passage between outside and mouth taking 10 minutes.
+  Passage cave_throat "the throat of the cave" is passage between mouth and cavern.
+  Passage notched_log "a notched log up to the ledge" is climb between cavern and ledge.
+  Passage pit_rope "a rope ladder down into the pit" is climb between cavern and pit.
+  Passage cache_crawl "a crawl into the side-cave" is crawl between cavern and cache.
+  Passage crack_way "a cleft in the wall" is passage between mouth and crack.
+  Passage chimney "the chimney" is climb between cavern and hillside taking 30 minutes hidden until backway_known needing climbing or rope.
+  Passage hill_path "a goat-track down the hillside" is path between hillside and outside taking 20 minutes.
+
+  Observe mouth_scene at mouth when true "The cave mouth, behind its brambles: a fire-blackened ceiling, gnawed bones, and a stool for whoever keeps watch.".
+  Observe cavern_scene at cavern when true "A big smoky cavern with a fire in the middle and the smoke going up into a black hole in the roof. A notched log leans against the wall up to a ledge; a rope ladder hangs into a pit.".
+  Observe ledge_scene at ledge when true "A ledge high in the cavern wall, out of the smoke: a bed of skins, and a chest.".
+  Observe pit_scene at pit when true "A pit with sheer sides and a muck floor. You would not climb out of it without the rope.".
+  Observe cache_scene at cache when true "A dry side-cave stacked with plunder.".
+  Observe crack_scene at crack when true "A cleft in the rock that looks straight down on the road below.".
+  Observe hillside_scene at hillside when true "The open hillside above the cave. Smoke comes out of a hole among the rocks.".
+  Observe chimney_hint at cavern when not knows(party, backway_known) "The smoke goes up the hole in the roof as if it had somewhere to go.".
+
+  Thing chest "a chest on the ledge" at ledge {
+    Holds.
+    State locked closed "A chest stands on the ledge, locked.".
+    State open "The chest on the ledge stands open.".
+    Change pick "Pick the chest's lock" from locked to open needing lockwork.
+    Change smash "Break the chest open" from locked to open needing brawn.
+  }
+  Thing heap "a heap of plunder" at cache {
+    Holds.
+  }
+  Discovery backway_known "The smoke-hole in the cave's roof is a chimney that comes out on the hillside above; a climber could go up or down it." {
+    Found by searching cavern "Up the smoke-hole there is daylight, and a crack worn by hands and feet: a chimney, and someone climbs it.".
+    Found by searching outside with woodcraft "Up the hillside, smoke comes out of a hole among the rocks, and there is a goat-track to it.".
+  }
+  Goal false.
+}

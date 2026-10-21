@@ -1,0 +1,6 @@
+{
+  "about": "A frontier region: besides the troubles its scenarios bring, a band that lives by raiding its roads and farms. Kits listed here are placed into every generated region that uses this framework, composed with the campaign's seed when it loads.",
+  "kits": [
+    { "kit": "../kits/raider-hold/kit.json", "id": "raiders" }
+  ]
+}

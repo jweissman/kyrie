@@ -1,0 +1,126 @@
+Module outlaw_folk "Outlaws" {
+  Description "Outlaws under Sir Hamo Ashdown, a knight who lost his lands and his name in somebody else's war. They hold up travellers on the road by day for road-money, take a tithe from the market when they please, keep a mercer for ransom, and will not refuse a challenge to single combat.".
+  Entity party: group "Your company".
+  Place outside "The approach" is room.
+  Place road "The road they watch" is room.
+  Place town "The settlement they tithe" is room.
+  Place yard "Inside the gate" is room.
+  Place hall "The hall" is room.
+  Place den "The chief's place" is room.
+  Place pens "The pens" is room.
+  Place store "The store" is room.
+  Place lookout "The lookout" is room.
+  Place bolt "Where the back way comes out" is room.
+  Entity gate: passage "The way in".
+  Entity chest: thing "The chief's chest".
+  Entity heap: thing "The plunder".
+  Entity backway_known: fact "The back way out of the hold".
+
+  Person sentry "the outlaws' sentry" at lookout {
+    Role "a lookout with a horn". Ancestry human. Calling ranger. Level 1.
+    State watching "A lean outlaw sits up where he can see the road, with a horn on a cord round his neck.".
+  }
+  Person band "Sir Hamo's men" at hall {
+    Role "outlaws who rob the road for Sir Hamo". Ancestry human. Calling warrior. Level 1. Numbers 4.
+    Called "Long Peter", "Ada Marl", "the Weasel", "Simkin".
+    Guards gate.
+    State keeping blocking "Sir Hamo's men lounge about with their bows strung, and one of them always has an eye on the way in.".
+  }
+  Person hamo "Sir Hamo Ashdown" at den {
+    Role "a knight without lands, who leads the outlaws". Ancestry human. Calling warrior. Level 3.
+    State brooding "Sir Hamo sits on a saddle by the fire, mending a bridle he has no horse for. His surcoat was blue once, with something on it that has been cut away.".
+  }
+  Initially Assert serves(sentry, hamo). Initially Assert serves(band, hamo).
+  Person mercer "Odo the mercer" at pens {
+    Role "a wool mercer held for ransom". Ancestry human. Calling commoner. Level 1. Peaceable.
+    State held "A fat man in a good coat gone shabby sits in the pens with a chain on his leg, writing a letter to his wife about the ransom for the ninth time.".
+    State loose "Odo the mercer is loose, and talking about what he will do to Sir Hamo when he has his lawyers.".
+    Change unchain "Strike off the mercer's chain" from held to loose needing brawn or lockwork.
+  }
+  Item purse "a fat purse of road-money" is toll_silver in chest.
+  Item seal "a signet ring with the arms cut off it" is grave_rings in chest.
+
+  Relation quiet(group). Relation roused(entity). Relation demanding(group). Relation impatient(group).
+  Relation dueling(group). Relation ended(group). Relation tithed(place).
+  Place gone "away over the hills" is room.
+  // By day on the road: the band steps out and demands road-money; whoever runs is shot at, whoever waits is robbed.
+  Hazard arrows "A volley of arrows" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  // Rules fire in order each watch: patience runs out a watch after it is tried, never in the watch of the hold-up.
+  Rule loses_patience when demanding(band) and together(band, party) and impatient(band)
+    says "'Have it your way,' says Long Peter, and draws." {
+    Retract demanding(band). Retract impatient(band). Assert assails(band, party).
+  }
+  Rule growing_impatient when demanding(band) and together(band, party) and not impatient(band) { Assert impatient(band). }
+  Rule hold_up when at(party, road) and not dark() and dice(clock) <= 6 and at(band, hall) and able(band)
+    and not quiet(band) and not tolerates(band, party) and not ended(band)
+    says "Men step out of the trees on both sides of the road with bows drawn. 'Stand,' says one. 'Road-money, in Sir Hamo's name: five crowns, or we take it off your bodies.'" {
+    Assert at(band, road). Assert halts(band, party). Assert demanding(band).
+  }
+  Rule shot_running when demanding(band) and not together(band, party) and able(band)
+    says "Arrows hiss past you as you go. Behind you someone laughs." {
+    Retract demanding(band). Retract impatient(band). Assert strikes(arrows, party). Assert at(band, hall).
+  }
+  Action pay_road_money(actor: group, site: place) "Pay Sir Hamo's road-money, five coin" {
+    Requires able(actor) and at(actor, site) and at(band, site) and demanding(band) and quantity(actor, gold) >= 5.
+    On success { Decrease quantity(actor, gold) by 5. Retract demanding(band). Retract impatient(band). Assert tolerates(band, actor).
+      Assert paidUp(actor). }
+    Result "Long Peter weighs the coins in his palm, bows like a courtier, and the men melt back into the trees.".
+  }
+  Action show_empty_purse(actor: group, site: place) "Turn out your empty purse" {
+    Requires able(actor) and at(actor, site) and at(band, site) and demanding(band) and quantity(actor, gold) <= 4.
+    On success { Retract demanding(band). Retract impatient(band). Assert tolerates(band, actor). Assert paidUp(actor). }
+    Result "They look at the purse, and at you, and Ada Marl laughs so hard she has to sit down. 'Go on,' says Long Peter. 'Sir Hamo doesn't rob the poor. Much.'".
+  }
+  Rule band_home when able(band) and at(band, road) and not together(band, party) and not demanding(band) { Assert at(band, hall). }
+  Relation paidUp(group).
+  Rule toll_paid_once when paidUp(party) and not at(party, road) { Retract paidUp(party). Retract tolerates(band, party). }
+  // The market: when they are short, they ride in at noon and take a tithe.
+  Measure tithes(place).
+  Rule tithe when untilLight(clock) == 40 and dice(clock) <= 20 and able(band) and at(band, hall) and not quiet(band)
+    and not ended(band) { Increase tithes(town) by 1. }
+  Observe tithed_once at town when tithes(town) >= 1 "Sir Hamo's men rode into the market at noon and took a tithe of everything on the stalls, with the reeve standing by because there was nothing he could do.".
+  // The sentry's horn rouses the hold when anyone comes up uninvited; the band comes to the way in.
+  Rule horn when (at(party, outside) or at(party, bolt)) and able(sentry) and not tolerates(band, party) and not roused(hamo)
+    and dice(clock) <= 50 says "A horn sounds above you, two long notes." { Assert roused(hamo). }
+  Rule caught_prying when tolerates(band, party) and not roused(hamo) and (at(party, store) or at(party, pens) or at(party, den))
+    and not dueling(hamo) and ((capable(party, stealth) and dice(clock) <= 15) or (not capable(party, stealth) and dice(clock) <= 50))
+    says "'Hoy! Hands where I can see them!' Bows come up all round you." { Assert roused(hamo). Retract tolerates(band, party). }
+  Rule band_turn_out when roused(hamo) and together(band, party) and not tolerates(band, party) and able(band)
+    says "Sir Hamo's men come at you with swords out." { Assert assails(band, party). }
+  Action hail(actor: group, site: place) "Hail the outlaws and ask for Sir Hamo" {
+    Description "Stand where they can see you with your hands empty. Outlaws who were once a knight's men still know how a parley goes.".
+    Requires able(actor) and at(actor, site) and connects(gate, site, ?in) and at(band, ?in) and able(band)
+      and not roused(hamo) and not tolerates(band, actor) and not ended(band).
+    Time 3.
+    On success { Assert tolerates(band, actor). Assert tolerates(sentry, actor). Assert tolerates(hamo, actor). }
+    Result "A long wait, and then Long Peter waves you up. 'Sir Hamo will see you. Keep your hands where we can see them.'".
+  }
+  // A challenge to single combat: Sir Hamo will not refuse one, and his men will not interfere.
+  Action challenge(actor: group, site: place) "Challenge Sir Hamo to single combat" {
+    Description "Call it out where his men can hear. A knight who refuses a challenge is no knight, and he knows it.".
+    Requires able(actor) and at(actor, site) and able(hamo) and not dueling(hamo) and not ended(band)
+      and (at(hamo, site) or (connects(gate, site, ?in) and at(band, ?in))).
+    On success { Assert dueling(hamo). Assert tolerates(band, actor). Assert at(hamo, site). Assert assails(hamo, actor). }
+    Result "Sir Hamo comes out with his sword and a dented shield. 'Very well,' he says. His men make a ring.".
+  }
+  Rule hamo_falls when dueling(hamo) and (not able(hamo) or routed(hamo)) and not ended(band)
+    says "Sir Hamo is down. His men look at each other, and at you, and one by one they unstring their bows and go off over the hills." {
+    Assert ended(band). Assert at(band, gone). Assert at(sentry, gone). Retract dueling(hamo).
+  }
+  Rule hamo_wins when dueling(hamo) and able(hamo) and not together(hamo, party) {
+    Retract dueling(hamo). Retract tolerates(band, party). Assert at(hamo, den).
+  }
+  Topic hamo_tale with hamo "Ask Sir Hamo how a knight came to rob the road" when tolerates(band, party) once {
+    Says "'The same way anyone does,' says Sir Hamo. 'I backed the wrong lord in a war that was none of my making, and the right one took my lands and gave them to his steward. I could starve with my name, or eat without it.' He goes back to mending the bridle. 'Beat me fairly and my men will go. They're tired of this too.'".
+  }
+  Topic odo_ransom with mercer "Ask the mercer about the outlaws" when true once {
+    Says "'Forty crowns, they want,' says Odo. 'My wife will pay it, the dear woman, if they don't cut my ears off first. Sir Hamo won't let them. He's soft, for a cutthroat. There's a way out the back they use when the reeve's men come; I heard them laughing about it.'".
+  }
+  Rule odo_follows when state(mercer, loose) and not acceptsEscort(mercer, party)
+    says "'Get me to a road,' says Odo, 'and there's money in it.'" { Assert acceptsEscort(mercer, party). }
+  Rule odo_home when at(mercer, town) and following(mercer, party) and not ended(mercer)
+    says "Odo counts out ten crowns into your hand from a purse he had sewn into his coat all along." {
+    Retract following(mercer, party). Assert ended(mercer). Increase quantity(party, gold) by 10.
+  }
+  Goal false.
+}

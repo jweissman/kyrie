@@ -1,0 +1,154 @@
+Module hob_folk "Hobs" {
+  Description "Hobs: small, quick, spiteful people who live by robbing the roads at night and the farms when they are hungry. They laugh while they rob, ransom what they cannot eat, and cannot abide the sound of a bell.".
+  Entity party: group "Your company".
+  Place outside "The approach" is room.
+  Place road "The road they watch" is room.
+  Place town "The settlement they rob" is room.
+  Place yard "Inside the gate" is room.
+  Place hall "The hall" is room.
+  Place den "The chief's place" is room.
+  Place pens "The pens" is room.
+  Place store "The store" is room.
+  Place lookout "The lookout" is room.
+  Place bolt "Where the back way comes out" is room.
+  Entity gate: passage "The way in".
+  Entity chest: thing "The chief's chest".
+  Entity heap: thing "The plunder".
+  Entity backway_known: fact "The back way out of the hold".
+
+  Person watchers "the hobs on the gate" at yard {
+    Role "two hobs keeping the way in". Ancestry goblin. Calling thief. Level 1. Numbers 2.
+    Called "Snig", "Tatterlip".
+    Guards gate.
+    State watching blocking "Two hobs squat just inside the way in, dicing with knucklebones and watching who comes.".
+    State roving "The hobs who kept the gate have gone out raiding themselves; the way in is unwatched.".
+  }
+  Person raiders "the raiding party" at hall {
+    Role "hobs who go out on the roads at night". Ancestry goblin. Calling thief. Level 1. Numbers 3.
+    Called "Nettle", "Gristle", "Old Burdock".
+    Uses go, assail. Plans 6 steps.
+    State idle "Three hobs sharpen cudgels by the fire and argue about whose turn it is to carry the sack.".
+  }
+  Person gaffer "the Gaffer" at den {
+    Role "chief of the hobs". Ancestry goblin. Calling thief. Level 3.
+    Wants grave_rings. Wants chapel_plate. Wants jade_idol. Wants toll_silver. Wants bronze_bearing.
+    State presiding "The Gaffer sits on a heap of stolen fleeces in a bishop's mitre and somebody's spectacles, and watches you with very bright eyes.".
+  }
+  Initially Assert serves(watchers, gaffer). Initially Assert serves(raiders, gaffer).
+  Person captive "the shepherd's boy" at pens {
+    Role "a boy taken off the farms". Ancestry human. Calling commoner. Level 1. Peaceable.
+    State penned "A boy sits among the stolen sheep with his hands tied, trying not to cry.".
+    State loose "The shepherd's boy rubs his wrists and looks at the way out.".
+    Change untie "Untie the shepherd's boy" from penned to loose.
+  }
+  Item handbell "a chapel handbell, wrapped in sacking" is bell in heap.
+  Item chalice "a stolen chalice" is chapel_plate in chest.
+  Item rings "a string of rings off the dead" is grave_rings in heap.
+
+  Observe clappers at outside when true "Up on the hold, things hang where anyone coming can see them: among them bells, every one with its clapper torn out.".
+  // What the boy knows: the back way out, and what the hobs are afraid of.
+  Entity bell_dread: fact "Hobs cannot abide the sound of a bell: ring one where they are and they run.".
+  Initially Assert established(bell_dread).
+  Topic boy_bells with captive "Ask the shepherd's boy about the hobs" when true once {
+    Says "'They stole the bell off our chapel,' the boy whispers, 'and then they wouldn't touch it. Burdock wrapped it in a sack with his eyes shut. They can't stand bells. Our priest used to ring them off the farms, before.'".
+    On discuss { Assert knows(actor, bell_dread). }
+  }
+  Topic boy_way with captive "Ask the shepherd's boy how the hobs come and go" when true once {
+    Says "'There's a back way,' he says. 'I've seen them go out of it with sacks and come in without. I don't know where it comes out.'".
+  }
+  Rule boy_follows when state(captive, loose) and not acceptsEscort(captive, party)
+    says "The boy grabs your sleeve. 'Take me home?'" { Assert acceptsEscort(captive, party). }
+  Rule boy_home when at(captive, town) and following(captive, party) and not freed(captive)
+    says "The boy's mother sees him from a doorway and comes running with her apron over her mouth." {
+    Retract following(captive, party). Assert freed(captive). Increase quantity(party, gold) by 8.
+  }
+  Relation freed(group).
+
+  // At night on the road: the raiding party waits beside it and falls on whoever passes.
+  Relation quiet(group). Relation roused(entity). Relation paid(group). Relation rung(place).
+  Measure shame(group). Measure losses(place).
+  Rule waylay when at(party, road) and dark() and dice(clock) <= 4 and at(raiders, hall) and able(raiders)
+    and not quiet(raiders) and not tolerates(raiders, party)
+    says "Shapes rise out of the dark beside the road: hobs, grinning, with cudgels and a sack for whatever you are carrying." {
+    Assert at(raiders, road). Assert assails(raiders, party).
+  }
+  Rule waylay_watch when at(party, road) and dark() and dice(clock) <= 4 and state(watchers, roving) and able(watchers)
+    and at(watchers, yard) and not tolerates(watchers, party)
+    says "Two hobs drop out of a tree onto the road in front of you, and two more behind." {
+    Assert at(watchers, road). Assert assails(watchers, party).
+  }
+  Rule raiders_home when able(raiders) and at(raiders, road) and not together(raiders, party) { Assert at(raiders, hall). }
+  Rule watchers_home when able(watchers) and at(watchers, road) and not together(watchers, party) { Assert at(watchers, yard). }
+  // The farms: on a dark night the raiders go out to the settlement and take what they can carry.
+  Rule raid when untilLight(clock) == 4 and dice(clock) <= 25 and able(raiders) and at(raiders, hall) and not quiet(raiders)
+    and not at(party, town) { Increase losses(town) by 1. }
+  Rule spite when roused(gaffer) and untilLight(clock) == 4 and able(raiders) and not quiet(raiders) and not at(party, town) {
+    Increase losses(town) by 1.
+  }
+  Observe raided at town when losses(town) >= 1 and losses(town) <= 2 "Hobs were at the farms again in the night: a ewe gone, a hen-house kicked in, and little muddy footprints on a windowsill.".
+  Observe raided_hard at town when losses(town) >= 3 "The farms round about have been robbed night after night. People are sleeping in their byres with pitchforks, and talking about leaving.".
+  // A raiding party that was beaten stays home three nights; if it is gone, the gate-hobs take to the road instead.
+  Rule lie_low when routed(raiders) and able(raiders) and not quiet(raiders) {
+    Assert quiet(raiders). Set shame(raiders) to 3. Assert at(raiders, hall).
+  }
+  Rule lick_wounds when quiet(raiders) and not paid(gaffer) and untilLight(clock) == 1 and shame(raiders) >= 1 {
+    Decrease shame(raiders) by 1.
+  }
+  Rule recovered when quiet(raiders) and not paid(gaffer) and shame(raiders) <= 0 {
+    Retract quiet(raiders). Retract routed(raiders).
+  }
+  Rule new_raiders when not able(raiders) and able(watchers) and state(watchers, watching) and untilLight(clock) == 1
+    and not paid(gaffer) { Assert state(watchers, roving). }
+  // Trouble at the hold rouses it: the raiding party comes for whoever is inside.
+  Rule alarm when (routed(watchers) or not able(watchers) or not able(gaffer)) and not roused(gaffer) { Assert roused(gaffer). }
+  Pursuit defend for raiders "turning out to defend the hold" priority 30 when roused(gaffer) and not quiet(raiders)
+    and (at(party, yard) or at(party, hall) or at(party, den) or at(party, pens) or at(party, lookout))
+    seeks assails(raiders, party).
+  Rule gaffer_fights when together(gaffer, party) and able(gaffer) and roused(gaffer) and not tolerates(gaffer, party)
+    says "The Gaffer comes off his fleeces with a knife in each hand, cackling." { Assert assails(gaffer, party). }
+
+  // A bell rung where hobs are, or within earshot of them, sends them running out of the back way.
+  Action ring_bell(actor: group, site: place) "Ring the bell" {
+    Description "Swing it hard. Whatever is within earshot will hear it.".
+    Requires able(actor) and at(actor, site) and holding(actor, bell) and not rung(site).
+    On success { Assert rung(site). }
+    Result "The bell's voice goes out over everything.".
+  }
+  Rule bell_watchers when rung(?p) and able(watchers) and not routed(watchers) and (at(watchers, ?p) or (connects(?w, ?p, ?q) and at(watchers, ?q)))
+    says "The hobs clap their hands over their ears and run, howling, the way hobs run from a bell." {
+    Assert routed(watchers). Retract state(watchers, watching). Assert at(watchers, bolt).
+  }
+  Rule bell_raiders when rung(?p) and able(raiders) and not routed(raiders) and (at(raiders, ?p) or (connects(?w, ?p, ?q) and at(raiders, ?q)))
+    says "Somewhere close a hob shrieks, and feet go scrabbling away." { Assert routed(raiders). Assert at(raiders, bolt). }
+  Rule bell_gaffer when rung(?p) and able(gaffer) and (at(gaffer, ?p) or (connects(?w, ?p, ?q) and at(gaffer, ?q)))
+    and not routed(gaffer) says "The Gaffer screams like a kettle and goes out of the back way with his mitre over his ears." {
+    Assert routed(gaffer). Assert at(gaffer, bolt).
+  }
+  Rule bell_fades when rung(?p) { Retract rung(?p). }
+
+  // A parley at the way in; and treasure for the Gaffer buys the farms a month's peace.
+  Action parley(actor: group, site: place) "Call to the hobs for a parley" {
+    Description "Stand where they can see you, empty-handed, and ask to talk to whoever is in charge.".
+    Requires able(actor) and at(actor, site) and connects(gate, site, ?in) and at(watchers, ?in) and able(watchers)
+      and state(watchers, watching) and not roused(gaffer) and not tolerates(watchers, actor).
+    Time 3.
+    On success { Assert tolerates(watchers, actor). Assert tolerates(raiders, actor). Assert tolerates(gaffer, actor). }
+    Result "There is a lot of giggling. Then Snig sticks his head out. 'Gaffer says come in and wipe your feet. Don't touch nothing.'".
+  }
+  Rule caught_thieving when tolerates(gaffer, party) and not roused(gaffer) and (at(party, store) or at(party, pens))
+    and ((capable(party, stealth) and dice(clock) <= 15) or (not capable(party, stealth) and dice(clock) <= 50))
+    says "'OI!' A hob in the doorway points at you with his whole arm. 'THIEVES!'" { Assert roused(gaffer). }
+  Rule truce_broken when roused(gaffer) and tolerates(watchers, party) {
+    Retract tolerates(watchers, party). Retract tolerates(raiders, party). Retract tolerates(gaffer, party).
+  }
+  Topic gaffer_terms with gaffer "Ask the Gaffer what it would take to leave the farms alone" when tolerates(gaffer, party) once {
+    Says "The Gaffer takes off his spectacles and polishes them on his beard. 'Shiny things,' he says. 'A ring, a cup, a pretty. Give the Gaffer something he likes and the farms can sleep. For a month, say. A month is a long time for a hob.'".
+  }
+  Rule tribute when keeps(gaffer, ?gift) and not paid(gaffer)
+    says "The Gaffer bites it, holds it to the light and bites it again. 'The farms can sleep,' he says. 'A month.'" {
+    Assert paid(gaffer). Assert quiet(raiders). Set shame(raiders) to 30.
+  }
+  Rule peace_wears when paid(gaffer) and untilLight(clock) == 1 and shame(raiders) >= 1 { Decrease shame(raiders) by 1. }
+  Rule peace_ends when paid(gaffer) and shame(raiders) <= 0 { Retract paid(gaffer). }
+  Goal false.
+}

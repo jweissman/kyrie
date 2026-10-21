@@ -90,7 +90,8 @@ describe('backgrounds in a generated region', () => {
   it('let a hunter drive the beasts from a den: the den is resolved and searched, with no foes killed', async () => {
     const world = await Worlds.assemble('thorn', 'mountain'), s = await PlaySession.start(world.path, 'thorn', world.source);
     const den = world.report.placements.find(p => p.scenario === 'den')!.bindings.den!;
-    for (const c of ['go(region__road_s1_s2,region__s2_green)', 'go(region__s2_inn_door,region__s2_taproom)',
+    for (const c of ['go(region__road_s1_s2,region__s1_s2_way)', 'go(region__road_s1_s2_on,region__s2_green)',
+      'go(region__s2_inn_door,region__s2_taproom)',
       'ask(region__s2_traveller,word3__h1_s2_traveller)', 'go(region__s2_inn_door,region__s2_green)',
       `go(region__${den}_track,region__${den})`, `den__smoke_out(party,region__${den})`]) { await s.perform(c); }
     expect(s.campaign.world.test(ModuleWriter.call('dead', 'den__beasts'))).toBe(false);

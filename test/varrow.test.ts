@@ -88,7 +88,7 @@ describe('raiders on the road', () => {
     await Varrow.walk(s, ['go(varrow__valley_road']);
     let event;
     for (let hour = 0; hour < 24 && !event?.prelude; hour++) { event = await s.perform('wait_hour'); }
-    expect(event?.prelude?.response).toContain('Hob raiders');
+    expect(event?.prelude?.response).toContain('raiding party');
     expect(event?.combat.some(e => e.type === 'end')).toBe(true);
   }, 120000);
   it('stay in the gorse by day in clear weather', async () => {

@@ -23,6 +23,17 @@
         "supplier": "varrow.ford_green",
         "lamps": "varrow.temple"
       }
+    },
+    {
+      "kit": "../kits/raider-hold/kit.json",
+      "id": "knot",
+      "fix": {
+        "approach": "varrow.knot_foot",
+        "road": "varrow.barrows",
+        "prey": "varrow.ford_green",
+        "hold": "ringfort",
+        "folk": "hobs"
+      }
     }
   ],
   "party": [

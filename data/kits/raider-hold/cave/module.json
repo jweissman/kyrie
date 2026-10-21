@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "source": "hold.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "land", "outside"],
+  "roles": { "party": { "type": "group" }, "land": { "type": "place" }, "outside": { "type": "place" } },
+  "exports": {
+    "site": "lair", "gate": "brambles", "yard": "mouth", "hall": "cavern", "den": "ledge", "pens": "pit", "store": "cache",
+    "lookout": "crack", "bolt": "hillside", "chest": "chest", "heap": "heap", "backway_known": "backway_known"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "source": "folk.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "outside",
+    "road",
+    "town",
+    "gate",
+    "yard",
+    "hall",
+    "den",
+    "pens",
+    "store",
+    "lookout",
+    "bolt",
+    "chest",
+    "heap",
+    "backway_known"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "outside": {
+      "type": "place"
+    },
+    "road": {
+      "type": "place"
+    },
+    "gate": {
+      "type": "passage"
+    },
+    "yard": {
+      "type": "place"
+    },
+    "hall": {
+      "type": "place"
+    },
+    "den": {
+      "type": "place"
+    },
+    "pens": {
+      "type": "place"
+    },
+    "store": {
+      "type": "place"
+    },
+    "lookout": {
+      "type": "place"
+    },
+    "bolt": {
+      "type": "place"
+    },
+    "chest": {
+      "type": "thing"
+    },
+    "heap": {
+      "type": "thing"
+    },
+    "backway_known": {
+      "type": "fact"
+    },
+    "town": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "watchers": "sentry",
+    "raiders": "band",
+    "chief": "hamo",
+    "captive": "mercer",
+    "roused": "hamo"
+  }
+}

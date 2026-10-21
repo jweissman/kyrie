@@ -41,9 +41,13 @@ export class RegionWriter {
       `  Place region ${q(region.name)} is region.`,
       `  Place wilds ${q(`the ${this.terrain(region.terrain)} of ${region.name}`)} is wilderness within region at 0, 2.`);
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
+    // Each road runs through wild country, by a stretch where travellers can be met or waylaid.
     region.settlements.slice(1).forEach((s, i) => {
-      const from = region.settlements[i]!;
-      lines.push(`  Passage road_${from.id}_${s.id} ${q(`the road from ${from.name} to ${s.name}`)} is road between ${from.id}_green and ${s.id}_green taking 2 hours.`);
+      const from = region.settlements[i]!, way = `${from.id}_${s.id}_way`;
+      lines.push(`  Place ${way} ${q(`the road between ${from.name} and ${s.name}`)} is room within wilds at ${i}, 1.`,
+        `  Passage road_${from.id}_${s.id} ${q(`the road from ${from.name} to ${s.name}`)} is road between ${from.id}_green and ${way} taking 1 hour.`,
+        `  Passage road_${from.id}_${s.id}_on ${q(`the road on to ${s.name}`)} is road between ${way} and ${s.id}_green taking 1 hour.`,
+        `  Observe ${way}_scene at ${way} when true ${q(`The road between ${from.name} and ${s.name}, with ${this.terrain(region.terrain)} country close on either side.`)}.`);
     });
     region.sites.forEach((site, i) => {
       const town = this.near(region, site);
@@ -98,12 +102,16 @@ export class RegionWriter {
   private static meaning(place: { gloss?: string; tongue?: string }): string {
     return place.gloss && place.tongue ? ` The name is ${place.tongue} for “${place.gloss}”.` : '';
   }
-  // The module manifest: the world rules, and every place and person exported under its own id.
-  static manifest(region: Region): object {
+  // The module manifest: the world rules, every place and person exported under its own id, and what the assembler
+  // is told about it: the terrain, which rooms are on the roads, what kind each site is and which a scenario took.
+  static manifest(region: Region, taken: Record<string, string> = {}): object {
+    const ways = region.settlements.slice(1).map((s, i) => `${region.settlements[i]!.id}_${s.id}_way`);
     const ids = ['party', 'region', 'wilds', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
       `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
-    ...region.sites.flatMap(w => [w.id, `${w.id}_track`])];
+    ...region.sites.flatMap(w => [w.id, `${w.id}_track`]), ...ways];
+    const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]),
+      ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
     return { version: 1, source: 'region.kyr', rules: ['world', 'elements'], globals: ['party'],
-      exports: Object.fromEntries(ids.map(id => [id, id])) };
+      exports: Object.fromEntries(ids.map(id => [id, id])), assembly: { commitments } };
   }
 }

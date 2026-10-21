@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "id": "raider_hold",
+  "name": "A raiders' hold",
+  "about": "A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.",
+  "slots": {
+    "approach": {
+      "is": "waypoint(?approach)",
+      "requires": [
+        "free(?approach)",
+        "not landmark(?approach)",
+        "not chokepoint(?approach)",
+        "not onRoad(?approach)"
+      ],
+      "prefers": [
+        {
+          "when": "square(?town, ?near) and hours(?approach, ?near) <= 3",
+          "weight": 1
+        },
+        {
+          "when": "siteKind(?approach, cave) or siteKind(?approach, ruin) or siteKind(?approach, barrow)",
+          "weight": 1
+        }
+      ]
+    },
+    "road": {
+      "is": "waypoint(?road) and onRoad(?road)",
+      "requires": [
+        "free(?road)",
+        "hours(?road, ?approach) >= 1",
+        "hours(?road, ?approach) <= 6"
+      ],
+      "prefers": [
+        {
+          "when": "landmark(?road)",
+          "weight": 2
+        },
+        {
+          "when": "hours(?road, ?approach) <= 3",
+          "weight": 1
+        }
+      ]
+    },
+    "prey": {
+      "is": "square(?town, ?prey)",
+      "requires": [
+        "hours(?prey, ?approach) <= 8"
+      ],
+      "prefers": [
+        {
+          "when": "hours(?prey, ?approach) <= 4",
+          "weight": 2
+        },
+        {
+          "when": "hours(?prey, ?road) <= 3",
+          "weight": 1
+        }
+      ]
+    }
+  },
+  "proposals": {
+    "hold": {
+      "table": "raider_hold_shape",
+      "by": "terrain"
+    },
+    "folk": {
+      "table": "raider_hold_folk",
+      "by": "terrain"
+    }
+  },
+  "provides": [
+    "power(@band)",
+    "folk(@band, #folk)",
+    "holds(@band, ?approach)",
+    "ambushes(@band, ?road)",
+    "raids(@band, ?prey)"
+  ],
+  "claims": [
+    "approach"
+  ],
+  "tables": "tables.json",
+  "modules": [
+    {
+      "id": "hold",
+      "when": {
+        "hold": "ringfort"
+      },
+      "bundle": "ringfort/module.json",
+      "imports": {
+        "party": "@party",
+        "land": "@region",
+        "outside": "?approach"
+      }
+    },
+    {
+      "id": "hold",
+      "when": {
+        "hold": "cave"
+      },
+      "bundle": "cave/module.json",
+      "imports": {
+        "party": "@party",
+        "land": "@region",
+        "outside": "?approach"
+      }
+    },
+    {
+      "id": "folk",
+      "when": {
+        "folk": "hobs"
+      },
+      "bundle": "hobs/module.json",
+      "imports": {
+        "party": "@party",
+        "outside": "?approach",
+        "road": "?road",
+        "gate": "hold.gate",
+        "yard": "hold.yard",
+        "hall": "hold.hall",
+        "den": "hold.den",
+        "pens": "hold.pens",
+        "store": "hold.store",
+        "lookout": "hold.lookout",
+        "bolt": "hold.bolt",
+        "chest": "hold.chest",
+        "heap": "hold.heap",
+        "backway_known": "hold.backway_known",
+        "town": "?prey"
+      }
+    },
+    {
+      "id": "folk",
+      "when": {
+        "folk": "outlaws"
+      },
+      "bundle": "outlaws/module.json",
+      "imports": {
+        "party": "@party",
+        "outside": "?approach",
+        "road": "?road",
+        "gate": "hold.gate",
+        "yard": "hold.yard",
+        "hall": "hold.hall",
+        "den": "hold.den",
+        "pens": "hold.pens",
+        "store": "hold.store",
+        "lookout": "hold.lookout",
+        "bolt": "hold.bolt",
+        "chest": "hold.chest",
+        "heap": "hold.heap",
+        "backway_known": "hold.backway_known",
+        "town": "?prey"
+      }
+    }
+  ]
+}

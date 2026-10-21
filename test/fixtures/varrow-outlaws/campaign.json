@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "name": "The Varrow, with outlaws on the fell",
+  "pitch": {
+    "heading": "A company for the Varrow",
+    "text": "The Gap is shut. Ottilie Ninefingers holds the old Lanthorn at the head of the valley and tolls every cart that climbs to it, so Hollin's grain rots and Skerry's miners go hungry. The reeve will pay to see her gone. The Lanthorn is the least of what the Varrow hides. Choose three companions."
+  },
+  "modules": [
+    {
+      "id": "varrow",
+      "bundle": "../../../data/regions/varrow/module.json"
+    },
+    {
+      "id": "lanthorn",
+      "bundle": "../../../data/sites/lanthorn/module.json",
+      "imports": {
+        "party": "varrow.party",
+        "varrow": "varrow.region",
+        "toll_gate": "varrow.toll_gate",
+        "gap_far": "varrow.gap_far",
+        "shoulder": "varrow.shoulder",
+        "home_town": "varrow.square",
+        "supplier": "varrow.ford_green",
+        "lamps": "varrow.temple"
+      }
+    },
+    {
+      "kit": "../../../data/kits/raider-hold/kit.json",
+      "id": "fell",
+      "fix": {
+        "approach": "varrow.stair_foot",
+        "road": "varrow.switchbacks",
+        "prey": "varrow.ford_green",
+        "hold": "cave",
+        "folk": "outlaws"
+      }
+    }
+  ],
+  "party": [
+    {
+      "name": "Nell",
+      "raceId": "human",
+      "classId": "thief",
+      "backgroundId": "burglar"
+    },
+    {
+      "name": "Hulda",
+      "raceId": "dwarf",
+      "classId": "warrior",
+      "backgroundId": "miner"
+    },
+    {
+      "name": "Ivo",
+      "raceId": "human",
+      "classId": "mage",
+      "backgroundId": "scholar"
+    }
+  ]
+}

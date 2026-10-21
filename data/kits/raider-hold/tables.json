@@ -1,0 +1,31 @@
+{
+  "raider_hold_shape": {
+    "discriminator": "terrain",
+    "groups": {
+      "mountain": [
+        { "_key": "cave", "__weight": 3, "_why": "a cave in the hillside, with a chimney out the top" },
+        { "_key": "ringfort", "_why": "an old earth ring on a spur" }
+      ],
+      "frost": [ { "_key": "cave", "_why": "a cave out of the wind" } ],
+      "forest": [
+        { "_key": "ringfort", "__weight": 2, "_why": "an earth ring in a clearing, stakes on the bank" },
+        { "_key": "cave", "_why": "a cave under a crag in the trees" }
+      ],
+      "marsh": [ { "_key": "ringfort", "_why": "a ring of earth on the only dry rise for a mile" } ],
+      "default": [
+        { "_key": "ringfort", "_why": "an old earth ring on a hill" },
+        { "_key": "cave", "_why": "a cave in a hillside" }
+      ]
+    }
+  },
+  "raider_hold_folk": {
+    "discriminator": "terrain",
+    "groups": {
+      "default": [
+        { "_key": "hobs", "__weight": 2, "_why": "hobs, who raid by night and cannot abide a bell" },
+        { "_key": "outlaws", "_requires": ["hours(?road, ?prey) <= 4"],
+          "_why": "outlaws under a knight who lost his lands, who rob the road by day and will answer a challenge" }
+      ]
+    }
+  }
+}

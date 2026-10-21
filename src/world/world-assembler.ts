@@ -8,6 +8,7 @@ import { Expressions } from '../expressions';
 import { Overlays } from '../overlays';
 import { PlaceNames } from './place-names';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
+import { Composition, type KitEntry } from './compose/composition';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
 // way in that stays hidden until someone hears of it, and what people say about it.
@@ -28,6 +29,8 @@ export interface Placement {
 export interface WorldReport {
   seed: string; region: Region; context: Record<string, string>;
   eligibility: { scenario: string; fits: boolean; why?: string }[]; placements: Placement[]; contacts: Contact[];
+  // What the assembler asked Deem for when a kit could not be placed in the region as first generated.
+  requests: string[];
 }
 interface Entry { path: string; manifest: ScenarioManifest }
 
@@ -49,6 +52,7 @@ export class WorldAssembler {
       spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'] }];
   static async assemble(seed: string, base: BundleSource, options: {
     library?: string; scenarios?: number; region?: Record<string, DeemValue>; party?: CreatureGenerationContext[];
+    framework?: string | null;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = PlaceNames.render(new Content(RandomStreams.key(seed, 'world', 'region'))
       .generate('region', options.region ?? {}) as unknown as Region);
@@ -67,10 +71,8 @@ export class WorldAssembler {
     }
     const party = options.party ?? this.party, contacts = this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
-    const files: Record<string, string> = {
-      [`${root}/region/module.json`]: JSON.stringify(RegionWriter.manifest(region)),
-      [`${root}/region/region.kyr`]: RegionWriter.source(region, { size: party.length, contacts }) };
-    const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: `${root}/region/module.json` }];
+    const files: Record<string, string> = {};
+    const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
       modules.push(...this.requests(entry, placement, base, context));
@@ -82,13 +84,56 @@ export class WorldAssembler {
       }
     });
     const path = base.resolve(`${root}.campaign.json`);
-    files[path] = JSON.stringify({ version: 1, name: region.name, modules, party,
+    const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
+    const requests = await this.settle(framework, { base, files, root, region, placements, modules, seed,
+      company: { size: party.length, contacts } });
+    const kits = framework.map(k => ({ ...k, optional: true }));
+    files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       pitch: { heading: `A company in ${region.name}`, text: `${region.name} is ${RegionWriter.terrain(region.terrain)} `
         + `country of ${region.ancestry} settlements under ${region.deity}. Nobody hires a company for nothing: listen `
         + 'in the taprooms, at the shrines and on the roads, and go where the trouble is. Choose three companions.' } });
     return { path, source: new OverlayBundleSource(base, files),
-      report: { seed, region, context, placements, contacts,
+      report: { seed, region, context, placements, contacts, requests,
         eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
+  }
+  static readonly frontier = 'data/frameworks/frontier.json';
+  // Writes the region and composes the framework's kits against it. A kit refused for want of a place gets one more
+  // site from Deem's site generator, and the region is written again: at most twice. Kits still refused are left out
+  // of the world (they are optional there), and the trace says why.
+  private static async settle(kits: KitEntry[], at: { base: BundleSource; files: Record<string, string>; root: string;
+    region: Region; placements: Placement[]; modules: BundleRequest[]; seed: string;
+    company: { size: number; contacts: Contact[] } }): Promise<string[]> {
+    const { base, files, root, region, seed } = at, asked: string[] = [];
+    for (let attempt = 0; ; attempt++) {
+      files[`${root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(at.placements)));
+      files[`${root}/region/region.kyr`] = RegionWriter.source(region, at.company);
+      if (!kits.length || attempt === 2) { return asked; }
+      const modules = at.modules.map(m => ({ ...m, bundle: base.resolve(m.bundle) }));
+      const composed = await Composition.expand([...modules, ...kits.map(k => ({ ...k, optional: true }))],
+        { seed, source: new OverlayBundleSource(base, files) });
+      const short = composed.refused.filter(r => /nothing can be/.test(r.reason));
+      if (!short.length) { return asked; }
+      for (const refusal of short) {
+        const site = this.anySite(region, RandomStreams.key(seed, 'world', 'kit-site', refusal.id, attempt));
+        site.near = region.settlements[region.sites.length % region.settlements.length]!.id;
+        region.sites.push(site);
+        asked.push(`${refusal.id}: ${refusal.reason}; Deem proposes ${site.name} (${site.kind})`);
+      }
+    }
+  }
+  private static anySite(region: Region, seed: string): Site {
+    const site = new Content(seed).generate('site', { terrain: region.terrain }) as unknown as Site;
+    return { ...site, id: `w${region.sites.length + 1}` };
+  }
+  // A framework's kits, with their paths made absolute, to be composed into the campaign when it loads.
+  private static async framework(base: BundleSource, file: string): Promise<KitEntry[]> {
+    const path = base.resolve(file), framework = JSON.parse(await base.read(path)) as { kits: KitEntry[] };
+    return framework.kits.map(k => ({ ...k, kit: base.resolve(k.kit, path) }));
+  }
+  // The sites scenarios have taken, which no kit may also take.
+  private static taken(placements: Placement[]): Record<string, string> {
+    return Object.fromEntries(placements.flatMap(p => p.generated.concat(Object.values(p.bindings))
+      .filter(id => /^w\d+$/.test(id)).map(id => [id, p.scenario.replace(/[^A-Za-z0-9]/g, '_')])));
   }
   // Each member whose background brings a contact knows someone of that channel in one of the region's settlements.
   private static contacts(region: Region, party: CreatureGenerationContext[], seed: string): Contact[] {

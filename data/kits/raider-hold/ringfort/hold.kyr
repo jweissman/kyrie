@@ -1,0 +1,53 @@
+Module ringfort "A ring-fort" {
+  Description "An old earth ring on a rise: a ditch and a bank topped with stakes, a stake gate, a yard, a long hall roofed with turf over a store-pit, a lookout mound, and a souterrain from the pit that comes out among the gorse below.".
+  Entity party: group "Your company".
+  Place land "The region" is region.
+  Place outside "The approach" is room.
+
+  Place fort "the ring-fort" is site within land.
+  Place under "Under the hall" is level within fort.
+  Place ditch "the ditch under the bank" is room within fort at 0, 2.
+  Place yard "the yard inside the ring" is room within fort at 1, 1.
+  Place hall "the long hall" is room within fort at 1, 0.
+  Place den "the far end of the hall" is room within fort at 2, 0.
+  Place pens "the pens" is room within fort at 2, 1.
+  Place mound "the lookout mound" is room within fort at 0, 1.
+  Place gorse "a hole among the gorse" is room within fort at 2, 2.
+  Place pit "the store-pit" is room within under at 1, 0.
+  Initially Assert unlit(pit). Initially Assert indoors(hall). Initially Assert indoors(den).
+
+  Passage bank_path "the path up the bank" is path between outside and ditch taking 20 minutes.
+  Passage stake_gate "the stake gate" is gate between ditch and yard.
+  Passage hall_door "the hall door" is door between yard and hall.
+  Passage hide_curtain "a curtain of hides" is doorway between hall and den.
+  Passage pen_hurdle "the pen hurdle" is gate between yard and pens.
+  Passage mound_steps "the steps up the mound" is steps between yard and mound.
+  Passage pit_ladder "the ladder down into the store-pit" is ladder between hall and pit.
+  Passage souterrain "the souterrain" is crawl between pit and gorse taking 30 minutes hidden until backway_known.
+  Passage gorse_path "a way out through the gorse" is path between gorse and outside taking 20 minutes hidden until backway_known.
+
+  Observe ditch_scene at ditch when true "A deep ditch under a bank of turf, and along the top of the bank a fence of stakes as tall as a man. Things hang from the stakes and turn in the wind: bones, rags, a doll.".
+  Observe yard_scene at yard when true "The yard inside the ring is trodden mud, with a long turf-roofed hall, a hurdle pen, and a mound with a lookout's seat on top.".
+  Observe hall_scene at hall when true "The long hall is low and smoky, with a fire in a pit down the middle and sleeping-straw along the walls. A ladder goes down through a hole in the floor at one end.".
+  Observe den_scene at den when true "The far end of the hall, behind hides: a heap of fleeces like a throne, and a chest.".
+  Observe pens_scene at pens when true "Hurdle pens, mucky, full of somebody else's sheep.".
+  Observe mound_scene at mound when true "From the top of the mound you can see the road for miles, and anyone on it.".
+  Observe pit_scene at pit when true "A pit under the hall, roofed with timber, full of plunder. In the far wall a low stone-lined passage goes off into the dark, and a draught comes down it that smells of gorse.".
+  Observe gorse_scene at gorse when true "A hole among the gorse below the ring, half hidden, worn smooth at the lip.".
+
+  Thing chest "a chest under the fleeces" at den {
+    Holds.
+    State locked closed "The chest under the fleeces is locked, with a padlock as big as a fist.".
+    State open "The chest under the fleeces stands open.".
+    Change pick "Pick the chest's padlock" from locked to open needing lockwork.
+    Change smash "Smash the chest's padlock" from locked to open needing brawn.
+  }
+  Thing heap "a heap of plunder" at pit {
+    Holds.
+  }
+  Discovery backway_known "A passage leaves the ring-fort's store-pit and comes out in a hole among the gorse below the ring." {
+    Found by searching pit "The draught comes from a souterrain, a stone-lined crawl going off under the bank.".
+    Found by searching outside with woodcraft "Among the gorse below the ring, a hole worn smooth at the lip, and the smell of smoke coming out of it.".
+  }
+  Goal false.
+}
