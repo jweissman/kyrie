@@ -29,7 +29,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query mobile(a: group) means not hobbled(a) or following(a, ?l).
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
   Query reaches(a: group, t: entity) means (at(a, ?p) and at(t, ?p)) or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
-    or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r)).
+    or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r)).
   Query passable(w: passage, a: group) means visibleTo(w, a) and not barred(w) and not watchedAgainst(w, a) and not hazardous(w)
     and equippedFor(a, w).
   Goal false.

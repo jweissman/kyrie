@@ -7,10 +7,10 @@ export class Narration {
         `${verb === 'passes' ? 'resists' : 'fails to resist'} (${stat})`)));
     if (clean.some(l => /wins the encounter/.test(l))) { clean = clean.filter(l => l !== 'Your company prevails.'); }
     clean = this.shared(clean);
-    // "Elen takes the silver." says it already: "Elen gains 1 the silver." adds nothing.
+    // "Elen takes the silver." or "Nera hands Torch to Elen." says it already: "Elen gains 1 Torch." adds nothing.
     clean = clean.filter(l => {
       const m = /^(.+) gains 1 (.+)\.$/.exec(l);
-      return !m || !clean.some(o => o.startsWith(`${m[1]} takes ${m[2]}`));
+      return !m || !clean.some(o => o !== l && o.includes(m[1]!) && o.includes(m[2]!));
     });
     if (!blows || clean.length <= 6) { return clean; }
     const key = clean.filter(l => /falls|wins|withdraw|defeated|experience|dies|reaches level|flees|gets away/.test(l));
