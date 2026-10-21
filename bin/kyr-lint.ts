@@ -15,7 +15,7 @@ export class KyrLint {
   static readonly root = resolve(import.meta.dir, '..');
   static readonly recommended = ['data/campaigns/serewater-march.campaign.json', 'data/campaigns/skellfold.campaign.json',
     'data/campaigns/silkholme.campaign.json',
-    'data/campaigns/red-crag.campaign.json'];
+    'data/campaigns/red-crag.campaign.json', 'data/campaigns/varrow.campaign.json'];
   static walk(dir: string, keep: (file: string) => boolean): string[] {
     return readdirSync(dir).flatMap(f => {
       const p = join(dir, f);

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "name": "The Varrow",
+  "pitch": {
+    "heading": "A company for the Varrow",
+    "text": "The Gap is shut. Ottilie Ninefingers holds the old Lanthorn at the head of the valley and tolls every cart that climbs to it, so Hollin's grain rots and Skerry's miners go hungry. The reeve will pay to see her gone. The Lanthorn is the least of what the Varrow hides. Choose three companions."
+  },
+  "modules": [
+    {
+      "id": "varrow",
+      "bundle": "../regions/varrow/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Nell",
+      "raceId": "human",
+      "classId": "thief",
+      "backgroundId": "burglar"
+    },
+    {
+      "name": "Hulda",
+      "raceId": "dwarf",
+      "classId": "warrior",
+      "backgroundId": "miner"
+    },
+    {
+      "name": "Ivo",
+      "raceId": "human",
+      "classId": "mage",
+      "backgroundId": "scholar"
+    }
+  ]
+}

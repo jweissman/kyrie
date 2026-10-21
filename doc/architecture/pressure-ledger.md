@@ -62,3 +62,14 @@ runs is put back where it came from; the assault is spent either way. Before, a 
 `test/fixtures/watch-house` has a sentry who challenges anyone without the watch-word and a patrol that hunts
 intruders through the yard, each one rule or one pursuit long. A barred way now says it is barred even when there
 is something to try on what bars it, and tries on a thing that stands on a way gather under one entry for it.
+
+### The Varrow road (October 21): rows 17, 18, 20 have machinery and content
+
+A die thrown every watch (`dice(clock)`, from the campaign's seed) is all the chance a world needs: the Varrow's
+weather turns before dawn on it, and Hob raiders come up out of the gorse on it at night or in fog. Weather is a
+`scenery` entity whose state other things follow by ordinary rules: rain swells the ford (a blocking state on the
+way), snows over the goat path and lengthens the Gap road (`Set travelTime(gap_road) to 18`). Before, a pass in
+snow could only be a fixed obstacle; now it is six rules over one sky, and the same seed gives the same weather.
+The goat path is a way hidden until known: Jory tells of it at the smithy, or a woodsman finds it by searching the
+switchbacks. A thing on a way nobody knows of is not noticed, so the snow on the goat path does not give it away.
+
