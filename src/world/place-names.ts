@@ -94,6 +94,10 @@ export class PlaceNames {
     return !!c.name && at.taken.every(t => !RegionLand.confusable(c.name!, t))
       && !at.parts.has(`${prefix}${c.affix}`) && !at.parts.has(`${prefix}of:${c.feature}`);
   }
+  // What a drawn region will be called, in its own folk's tongue (for the folk of the region next to it).
+  static regionName(region: Region): string {
+    return this.named(region, this.tongues[region.ancestry] ?? 'westron').name ?? region.name;
+  }
   private static named(place: { feature?: string; affix?: string }, tongue: string): Partial<Named> {
     // A part drawn twice ("fen" and "fen") is said once.
     const parts = [...new Set([place.feature, place.affix])];

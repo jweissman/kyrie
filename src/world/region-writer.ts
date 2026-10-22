@@ -8,7 +8,9 @@ import { RegionRecruits } from './region-recruits';
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionZones } from './region-zones';
+import { RegionBorders } from './region-borders';
 import type { Atlas } from './land/atlas';
+import type { Side } from './land/borders';
 import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
 import type { CalendarStart } from '../presentation/calendar';
@@ -50,6 +52,8 @@ export interface Region extends Naming {
   atlas?: Atlas;
   // Who made things in it before its folk, what they made, and who came after (see Histories).
   history?: History;
+  // Where it lies in its world, and what the folk call the country beyond each of its borders (see WorldGrid).
+  at?: [number, number]; beyond?: Partial<Record<Side, { name: string; terrain: string }>>;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
@@ -78,7 +82,8 @@ export class RegionWriter {
   }
   // The settlement each site is reached from: the one it names, or one by turns.
   static near(region: Region, site: Site): Settlement { return RegionGeography.near(region, site); }
-  static source(region: Region, company: { size: number; contacts: Contact[] } = { size: 3, contacts: [] },
+  // A region beyond the first (company null) has no company of its own: the one company comes to it from the others.
+  static source(region: Region, company: { size: number; contacts: Contact[] } | null = { size: 3, contacts: [] },
     taken: Record<string, string> = {}): string {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(`Module ${this.id} ${q(region.name)} {`,
@@ -87,10 +92,12 @@ export class RegionWriter {
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
-    lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionSites.lines(region, taken),
+    lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionBorders.lines(region),
+      ...RegionSites.lines(region, taken),
       ...RegionWorks.lines(region, taken),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
+    if (!company) { lines.push('  Entity party: group "Your company".', '  Goal false.', '}'); return lines.join('\n'); }
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
     lines.push(`  Company party "Your company" of ${company.size} at ${region.settlements[0]!.id}_green.`,
       '  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.', '  Goal false.', '}');
@@ -167,13 +174,15 @@ export class RegionWriter {
   private static meaning(place: { gloss?: string; tongue?: string }): string { return RegionGeography.meaning(place); }
   // The module manifest: the world rules, every place and person exported under its own id, and what the assembler
   // is told about it: the terrain, which rooms are on the roads, what kind each site is and which a scenario took.
-  static manifest(region: Region, taken: Record<string, string> = {}): object {
+  // A region beyond the first imports the one company from the first.
+  static manifest(region: Region, taken: Record<string, string> = {}, beyond = false): object {
     const roads = RegionGeography.roads(region), ways = roads.map(r => r.way);
     const zones = RegionGeography.atlas(region).zones;
     const ids = ['party', 'region', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
       `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`]), ...ways, ...roads.map(r => r.land),
-    ...zones.flatMap(z => [z.id, ...z.parts.map((_, i) => RegionZones.room(z, i))])];
+    ...zones.flatMap(z => [z.id, ...z.parts.map((_, i) => RegionZones.room(z, i))]),
+    ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`])];
     // A site's land is the wild country it stands in, or its own stretch of open country.
     const lands = region.sites.map(w => [`${w.id}_land`, w.zone ?? `${w.id}_land`]);
     // A ford, a bridge and a pass are where a road can be held; a road through a wood and the edge of wild country
@@ -185,6 +194,7 @@ export class RegionWriter {
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
     return { version: 1, source: 'region.kyr', rules: ['world', 'elements', 'devotion'], globals: ['party'],
+      ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
       exports: Object.fromEntries([...ids.map(id => [id, id]), ...lands]), assembly: { commitments },
       chart: this.chart(region, roads) };
   }
@@ -193,10 +203,12 @@ export class RegionWriter {
     const atlas = RegionGeography.atlas(region), glyphs: Record<string, string> = { sea: '~', lake: 'o', fen: ',',
       meadow: '.', wood: 'w', heath: 'h', fell: 'f', peak: 'p' };
     return { width: atlas.land.width, height: atlas.land.height, cover: atlas.land.cover.map(c => glyphs[c]).join(''),
-      rivers: atlas.rivers.map(r => r.cells), roads: Object.fromEntries(roads.map(r => [r.way, r.route.cells])),
+      rivers: atlas.rivers.map(r => r.cells), roads: Object.fromEntries([...roads.map(r => [r.way, r.route.cells]),
+        ...atlas.borders.map(b => [RegionBorders.room(b), b.road.cells])]),
       parts: Object.fromEntries(atlas.zones.flatMap(z => z.parts.map((cells, i) => [RegionZones.room(z, i), cells]))),
       places: Object.fromEntries([...region.settlements.map(s => [s.id, s.cell]),
         ...region.sites.filter(w => w.cell !== undefined).map(w => [w.id, w.cell]),
+        ...atlas.borders.map(b => [RegionBorders.room(b), b.cell]),
         ...atlas.zones.map(z => [z.id, z.centres[0]])]) };
   }
 }

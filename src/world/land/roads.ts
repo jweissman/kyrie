@@ -85,7 +85,7 @@ export class Roads {
     const river = Terrain.river(land, to) !== undefined && Terrain.river(land, from) === undefined ? 0.8 : 0;
     return (hours + climb + river) * (built.has(to) ? 0.6 : 1);
   }
-  private static road(land: Land, from: number, to: number, cells: number[]): Road {
+  static road(land: Land, from: number, to: number, cells: number[]): Road {
     const crossings: Crossing[] = [], biggest = Math.max(1, ...land.water.rivers.map(r => r.flow));
     for (let i = 1; i < cells.length - 1; i++) {
       const river = Terrain.river(land, cells[i]!);

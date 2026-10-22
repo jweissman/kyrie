@@ -9,6 +9,8 @@ import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
+import { Frontier } from '../../src/world/frontier';
+import { Scenarios } from '../scenarios';
 import { PlayTranscript } from './transcript';
 import type { Entry, Frame, Member, Message, Request } from './protocol';
 
@@ -18,6 +20,8 @@ interface Saved { checkpoint: SessionCheckpoint; log?: Entry[] }
 // frame: everything the page draws. A fight pauses on each of the company's turns until the page sends a choice.
 export class EngineHost {
   private session?: PlaySession;
+  // A generated world goes on past its edges: the country beyond is drawn when the company first comes to one.
+  private frontier?: Frontier;
   private log: Entry[] = [];
   private opening: string[] = [];
   private screen?: Screen;
@@ -43,6 +47,7 @@ export class EngineHost {
     const origin = await this.creation.origin(r.campaign, r.seed, r.party, r.terrain);
     this.post({ kind: 'progress', stage: 'Placing its people' });
     this.session = await PlaySession.start(origin.path, r.seed, origin.source, r.party);
+    this.frontier = r.campaign === Creation.generated ? new Frontier(r.seed, Scenarios.source()) : undefined;
     this.log = []; this.opening = []; this.screen = undefined;
     return this.settled();
   }
@@ -51,6 +56,8 @@ export class EngineHost {
     const parsed = JSON.parse(text) as Saved | SessionCheckpoint;
     const saved: Saved = 'checkpoint' in parsed ? parsed : { checkpoint: parsed };
     this.session = PlaySession.resume(saved.checkpoint);
+    const t = saved.checkpoint.transcript;
+    this.frontier = Frontier.generated(t.scenario) ? new Frontier(t.seed, Scenarios.source()) : undefined;
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
     this.opening = []; this.screen = undefined;
     return this.settled();
@@ -65,6 +72,8 @@ export class EngineHost {
       const moved = before.location?.id !== after.location?.id;
       this.log.push(PlayTranscript.entry(event, feedback, { ...context, id: this.next(), moved,
         place: after.location?.id ?? '', placeName: after.location?.name ?? '', elapsed: event.elapsed }));
+      // Coming to a march-stone draws the country beyond it, the first time: a second or two, once.
+      if (this.frontier) { await this.frontier.expand(campaign); }
     } finally { this.turn = undefined; this.opening = []; }
     return this.settled();
   }

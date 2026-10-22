@@ -15,11 +15,11 @@ import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 import type { KitEntry } from './compose/composition';
-import { Atlases, type Atlas } from './land/atlas';
+import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
+import { WorldGrid } from './world-grid';
+import { Livelihoods } from './livelihoods';
 import './region-works';
-import type { Seat as Seated } from './land/settling';
-import type { Settlement } from './region-writer';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
 // way in that stays hidden until someone hears of it, and what people say about it.
@@ -40,12 +40,14 @@ export interface ScenarioManifest {
 export interface Placement {
   scenario: string; instance: string; bindings: Record<string, string>; generated: string[];
   modules: string[]; carriers: Record<string, string[]>;
+  // The region module it is set in (see WorldGrid): "region" for the first.
+  rid: string;
 }
 export interface WorldReport {
   seed: string; region: Region; context: Record<string, string>;
   eligibility: { scenario: string; fits: boolean; why?: string }[]; placements: Placement[]; contacts: Contact[];
 }
-interface Entry { path: string; manifest: ScenarioManifest }
+export interface Entry { path: string; manifest: ScenarioManifest }
 
 // Builds a playable campaign from a seed: Deem generates the region; scenarios are selected by the contexts they
 // declare (a Deem select over the library); each is bound to the region's places, given any sites it needs, and
@@ -68,43 +70,17 @@ export class WorldAssembler {
     party?: CreatureGenerationContext[];
     framework?: string | null;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
-    const drawn = new Content(RandomStreams.key(seed, 'world', 'region')).generate('region', options.region ?? {}) as unknown as Region;
-    const region = PlaceNames.render(RegionPeoples.settle(this.lay(drawn, seed), RandomStreams.key(seed, 'world')));
+    const region = this.region(seed, [0, 0], options.region);
     const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
-    const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
-    const eligibility = library.map(e => this.fits(e.manifest, context, region));
-    const placements: Placement[] = [], claimed = new Set<string>(), count = new Map<string, number>();
-    // Adventures in the wild places first, then what is going on in the settlements.
-    for (const [kind, rounds] of [['adventure', options.scenarios ?? 3], ['town', options.towns ?? 2]] as const) {
-      for (let round = 0; round < rounds; round++) {
-        const open = library.filter((e, i) => (e.manifest.kind ?? 'adventure') === kind && eligibility[i]!.fits
-          && (count.get(e.manifest.id) ?? 0) < (e.manifest.instances ?? 1)
-          && this.placeable(e.manifest, region, claimed));
-        const stream = RandomStreams.key(seed, 'world', kind === 'town' ? 'town' : 'scenario', round);
-        const chosen = this.choose(open, context, stream);
-        if (!chosen) { break; }
-        const n = (count.get(chosen.manifest.id) ?? 0) + 1;
-        count.set(chosen.manifest.id, n);
-        placements.push(this.place(chosen.manifest, { n, region, claimed, seed }));
-      }
-    }
+    const { context, eligibility, placements } = this.settle(region, library,
+      { seed, rid: RegionWriter.id, rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [] });
     const party = options.party ?? this.party, contacts = this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {};
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
-    placements.forEach((placement, i) => {
-      const entry = library.find(e => e.manifest.id === placement.scenario)!;
-      modules.push(...this.requests(entry, placement, base, { ...context, ...this.wild(placement, region),
-        ...this.folk(placement, region) }));
-      const word = this.word(entry.manifest, placement, { region, contacts });
-      if (word) {
-        files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
-        files[`${root}/word-${placement.instance}/word.kyr`] = word.source;
-        modules.push({ id: `word${i + 1}`, bundle: `${root}/word-${placement.instance}/module.json`, imports: word.imports });
-      }
-    });
+    this.spread(placements, { library, base, region, contacts, context, files, root, modules });
     this.arrival(region, { size: party.length, contacts }, { files, root, modules });
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
@@ -120,12 +96,80 @@ export class WorldAssembler {
       report: { seed, region, context, placements, contacts,
         eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
   }
+  // The country beyond a border, drawn the first time a company goes there (see Frontier): a region of its own where
+  // it lies in the world, with its own scenarios (none placed anywhere already), and no company of its own. The
+  // names of the regions already drawn on either side are as they are, not as they would have been drawn.
+  static async beyond(seed: string, base: BundleSource, at: { x: number; y: number; calendar?: Region['calendar'];
+    exclude: string[]; named?: Region['beyond'] }): Promise<{ requests: BundleRequest[]; source: BundleSource; region: Region }> {
+    const rid = WorldGrid.id(at.x, at.y), region = this.region(seed, [at.x, at.y]);
+    region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar;
+    const library = await this.library(base, 'data/scenarios/library.json');
+    const { context, placements } = this.settle(region, library,
+      { seed: WorldGrid.seed(seed, at.x, at.y), rid, rounds: [3, 2], exclude: at.exclude });
+    const root = `world-${seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world'}/${rid}`;
+    const files: Record<string, string> = {};
+    const modules: BundleRequest[] = [{ id: rid, bundle: base.resolve(`${root}/region/module.json`),
+      imports: { party: `${RegionWriter.id}.party` } }];
+    this.spread(placements, { library, base, region, contacts: [], context, files, root, modules });
+    files[`${root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(placements), true));
+    files[`${root}/region/region.kyr`] = RegionWriter.source(region, null, this.taken(placements));
+    return { requests: modules, source: new OverlayBundleSource(base, files), region };
+  }
+  // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
+  private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>): Region {
+    const own = WorldGrid.seed(seed, ...at);
+    const d = new Content(RandomStreams.key(own, 'world', 'region')).generate('region', drawn ?? {}) as unknown as Region;
+    return { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own), RandomStreams.key(own, 'world'))), at,
+      beyond: WorldGrid.beyond(seed, at) };
+  }
+  // The scenarios a region is given: adventures in the wild places first, then what is going on in the
+  // settlements; none placed elsewhere in the world already.
+  private static settle(region: Region, library: Entry[], at: { seed: string; rid: string; rounds: [number, number];
+    exclude: string[] }) {
+    const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
+    const eligibility = library.map(e => this.fits(e.manifest, context, region));
+    const placements: Placement[] = [], claimed = new Set<string>();
+    const count = new Map<string, number>(at.exclude.map(id => [id, Infinity]));
+    for (const [kind, rounds] of [['adventure', at.rounds[0]], ['town', at.rounds[1]]] as const) {
+      for (let round = 0; round < rounds; round++) {
+        const open = library.filter((e, i) => (e.manifest.kind ?? 'adventure') === kind && eligibility[i]!.fits
+          && (count.get(e.manifest.id) ?? 0) < (e.manifest.instances ?? 1)
+          && this.placeable(e.manifest, region, claimed));
+        const chosen = this.choose(open, context, RandomStreams.key(at.seed, 'world', kind === 'town' ? 'town' : 'scenario', round));
+        if (!chosen) { break; }
+        const n = (count.get(chosen.manifest.id) ?? 0) + 1;
+        count.set(chosen.manifest.id, n);
+        placements.push(this.place(chosen.manifest, { n, region, claimed, seed: at.seed, rid: at.rid }));
+      }
+    }
+    return { context, eligibility, placements };
+  }
+  // Each placement's modules, and the module that spreads word of it.
+  private static spread(placements: Placement[], at: { library: Entry[]; base: BundleSource; region: Region;
+    contacts: Contact[]; context: Record<string, string>; files: Record<string, string>; root: string;
+    modules: BundleRequest[] }) {
+    const { library, base, region, context, files, root, modules } = at;
+    placements.forEach((placement, i) => {
+      const entry = library.find(e => e.manifest.id === placement.scenario)!;
+      modules.push(...this.requests(entry, placement, base, { ...context, ...this.wild(placement, region),
+        ...this.folk(placement, region) }));
+      const word = this.word(entry.manifest, placement, { region, contacts: at.contacts });
+      if (word) {
+        files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
+        files[`${root}/word-${placement.instance}/word.kyr`] = word.source;
+        modules.push({ id: `${this.prefix(placement.rid)}word${i + 1}`,
+          bundle: `${root}/word-${placement.instance}/module.json`, imports: word.imports });
+      }
+    });
+  }
+  // What a region's modules' ids begin with: nothing for the first, "x1y0" for the one east of it.
+  static prefix(rid: string): string { return rid === RegionWriter.id ? '' : rid; }
   // A region drawn by Deem laid on land of its own: its atlas, its settlements where people settled, and its sites
   // where each kind can stand (those that can stand nowhere left out).
   static lay(drawn: Region, seed: string): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
       { tongue: PlaceNames.tongues[drawn.ancestry] ?? 'westron', taken: [drawn.name] });
-    const region = this.seat(drawn, atlas, seed);
+    const region = Livelihoods.seat(drawn, atlas, seed);
     const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas);
     // The region's sites are its makers' works, where their art put them.
     region.history = history;
@@ -133,34 +177,6 @@ export class WorldAssembler {
       gloss: w.old.gloss, tongue: w.old.tongue, cell: w.cell, ...w.zone ? { zone: w.zone, part: w.part } : {},
       work: { plan: w.plan, art: w.art } }));
     return region;
-  }
-  // The region's settlements where its atlas settled people, the first the town; each lives by what lies around it.
-  private static seat(region: Region, atlas: Atlas, seed: string): Region {
-    const used = new Set<string>();
-    const settlements = atlas.seats.map((seat, i) => {
-      const drawn = region.settlements[i] ?? new Content(RandomStreams.key(seed, 'world', 'settlement', i))
-        .generate('settlement', { terrain: region.terrain, ancestry: region.ancestry, _index: i }) as unknown as Settlement;
-      return { ...drawn, id: `s${i + 1}`, size: seat.size, cell: seat.cell, ...this.livelihood(region, seat, { drawn, used }) };
-    });
-    return { ...region, atlas, settlements };
-  }
-  // What a settlement lives by, from what lies around it: the sea, a fen, the fells, woods, moor or fields.
-  static readonly livelihoods: Record<string, Partial<Record<Seated['lie'][number], string>>> = {
-    forest: { harbour: 'salt', coast: 'salt', fen: 'reed', fells: 'slate', woods: 'timber', heath: 'honey', meadows: 'honey' },
-    marsh: { harbour: 'salt', coast: 'salt', fen: 'eels', fells: 'slate', woods: 'charcoal', meadows: 'reed' },
-    mountain: { harbour: 'salt', coast: 'salt', fen: 'peat', fells: 'tin', woods: 'charcoal', heath: 'wool', meadows: 'wool' },
-    frost: { harbour: 'whale oil', coast: 'whale oil', fen: 'peat', fells: 'slate', woods: 'furs', heath: 'furs' } };
-  // The most telling of what lies around it (the sea before the fen, the fen before the fells, the fells before the
-  // woods), and one its neighbours do not already live by when it can.
-  private static livelihood(region: Region, seat: Seated, at: { drawn: Settlement; used: Set<string> }):
-    Pick<Settlement, 'trade' | 'merchantType'> {
-    const table = this.livelihoods[region.terrain] ?? {};
-    const fits = (Object.keys(table) as Seated['lie'][number][]).filter(l => seat.lie.includes(l)).map(l => table[l]!);
-    const trade = fits.find(t => !at.used.has(t)) ?? fits[0] ?? at.drawn.trade;
-    at.used.add(trade);
-    const merchants = (GenerationSetting.tables as unknown as { tradeMerchant: { groups: Record<string, string[]> } })
-      .tradeMerchant.groups[trade];
-    return { trade, merchantType: merchants?.[0] ?? at.drawn.merchantType ?? 'chandler' };
   }
   // A site's cell in the region's land, by what kind of site it is; one that can stand nowhere is left out.
   private static situate(region: Region, site: Site, key: string): boolean {
@@ -210,7 +226,7 @@ export class WorldAssembler {
         text: `${tie.text.replaceAll('{contact}', `{${carrier}}`).replaceAll('{member}', name)} ${this.heard[tie.channel]}` }];
     });
   }
-  private static async library(base: BundleSource, index: string): Promise<Entry[]> {
+  static async library(base: BundleSource, index: string): Promise<Entry[]> {
     const path = base.resolve(index);
     const list = JSON.parse(await base.read(path)) as { scenarios: string[] };
     return Promise.all(list.scenarios.map(async file => {
@@ -263,9 +279,9 @@ export class WorldAssembler {
   // Binds each place a scenario needs: a free region site of a kind it accepts (or a newly generated one), or the
   // settlement nearest one of those sites.
   private static place(s: ScenarioManifest,
-    at: { n: number; region: Region; claimed: Set<string>; seed: string }): Placement {
-    const { n, region, claimed, seed } = at;
-    const instance = `${s.id.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`, bindings: Record<string, string> = {};
+    at: { n: number; region: Region; claimed: Set<string>; seed: string; rid: string }): Placement {
+    const { n, region, claimed, seed } = at, prefix = this.prefix(at.rid);
+    const instance = `${prefix}${s.id.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`, bindings: Record<string, string> = {};
     const generated: string[] = [];
     for (const [role, need] of Object.entries(s.places)) {
       if (need.site) {
@@ -288,8 +304,8 @@ export class WorldAssembler {
         if (road) { bindings[role] = road.way; }
       }
     }
-    return { scenario: s.id, instance, bindings, generated, carriers: {},
-      modules: s.modules.map(m => this.install(m.id, n)) };
+    return { scenario: s.id, instance, bindings, generated, carriers: {}, rid: at.rid,
+      modules: s.modules.map(m => `${prefix}${this.install(m.id, n)}`) };
   }
   // The settlement a scenario is set in: the one nearest a site it took, any one no other has taken, or the first.
   private static town(need: string, at: { region: Region; bindings: Record<string, string>; claimed: Set<string>;
@@ -311,13 +327,14 @@ export class WorldAssembler {
   private static ref(value: string, placement: Placement): string {
     if (!value.startsWith('@')) {
       const [module, name] = value.split('.') as [string, string];
-      return `${this.install(module, Number(placement.instance.match(/\d+$/)?.[0] ?? 1))}.${name}`;
+      return `${this.prefix(placement.rid)}${this.install(module, Number(placement.instance.match(/\d+$/)?.[0] ?? 1))}.${name}`;
     }
     const [role, part] = value.slice(1).split('.') as [string, string | undefined];
-    if (['party', 'region'].includes(role)) { return `${RegionWriter.id}.${role}`; }
+    if (role === 'party') { return `${RegionWriter.id}.party`; }
+    if (role === 'region') { return `${placement.rid}.region`; }
     const bound = placement.bindings[role];
     if (!bound) { throw new Error(`Scenario reference ${value} names no bound place`); }
-    return `${RegionWriter.id}.${part ? `${bound}_${part}` : bound}`;
+    return `${placement.rid}.${part ? `${bound}_${part}` : bound}`;
   }
   private static requests(entry: Entry, placement: Placement, base: BundleSource,
     context: Record<string, DeemValue>): BundleRequest[] {
@@ -357,7 +374,7 @@ export class WorldAssembler {
       const local = `at_${role}`;
       if (!at.declared.has(local)) {
         at.lines.push(`  Place ${local} "Where it is" is room.`);
-        at.imports[local] = `${RegionWriter.id}.${id}`; at.declared.add(local);
+        at.imports[local] = `${placement.rid}.${id}`; at.declared.add(local);
       }
       return `{${local}}`;
     });
@@ -403,7 +420,7 @@ export class WorldAssembler {
           lines.push(`  Entity ${carrier}: group "Someone".`); carriers.add(carrier);
           if (!carriers.has(room)) { lines.push(`  Place ${room} "Where they are" is room.`); carriers.add(room); }
         }
-        imports[carrier] = `${RegionWriter.id}.${carrier}`; imports[room] = `${RegionWriter.id}.${room}`;
+        imports[carrier] = `${placement.rid}.${carrier}`; imports[room] = `${placement.rid}.${room}`;
         lines.push(`  Entity ${topic}: source ${q(this.named(hook.topic, placement, { lines, imports, declared: carriers }))}.`,
           `  Initially Assert knows(${carrier}, ${fact}). Initially Assert testimony(${carrier}, ${topic}).`,
           `  Initially Assert reveals(${topic}, ${fact}). Initially Assert noticeable(${topic}).`,

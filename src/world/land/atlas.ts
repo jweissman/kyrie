@@ -1,6 +1,7 @@
 import { Draw } from './draw';
 import { LandNames, type Feature, type Naming } from './land-names';
 import { Roads, type Road } from './roads';
+import { Borders, type Border } from './borders';
 import { Settling, type Seat } from './settling';
 import { Terrain, type Land } from './terrain';
 import { Zones, type Zone } from './zones';
@@ -13,7 +14,8 @@ export interface Way extends Road { id: string; start: number; end: number; pass
 export interface Spot { cell: number; zone?: string; part?: number }
 // A region's geography: its land, where people live and the roads between them, its rivers, lakes and wild country,
 // all named.
-export interface Atlas { land: Land; seats: Seat[]; ways: Way[]; rivers: Water[]; lakes: Water[]; zones: Wilds[] }
+export interface Atlas { land: Land; seats: Seat[]; ways: Way[]; rivers: Water[]; lakes: Water[]; zones: Wilds[];
+  borders: Border[] }
 
 export class Atlases {
   static make(key: string, terrain: string, at: { tongue: string; taken: string[] }): Atlas {
@@ -33,7 +35,8 @@ export class Atlases {
       return { ...r, id: `r${i + 1}`, start, end, ...r.pass !== undefined && land.cover[r.pass] !== 'meadow'
         ? { over: this.name(names, 'pass', `pass${i}`) } : {} };
     });
-    return { land, seats, ways, rivers, lakes, zones: wilds };
+    const borders = Borders.make(land, seats, new Set(roads.flatMap(r => r.cells)));
+    return { land, seats, ways, rivers, lakes, zones: wilds, borders };
   }
   private static name(at: { key: string; tongue: string; taken: string[] }, feature: Feature, id: string,
     word?: string): Naming {

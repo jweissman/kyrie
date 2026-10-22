@@ -175,6 +175,8 @@ export class Campaign implements WatchHost {
   // The log, the action schemas and the company as it would fight, likewise without copies. Never change them.
   get history(): readonly CampaignEvent[] { return this.log; }
   get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
+  // The ids of the modules installed in the campaign, in the order they were installed.
+  get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
   get fighters(): Fighter[] { return this.party; }
   private get party(): Fighter[] {
     return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters'));
