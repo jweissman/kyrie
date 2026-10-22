@@ -7,6 +7,7 @@ import { World } from '../lang/world';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { CampaignActor, CampaignDefinition } from './definition';
 import { CreatureStore } from '../creature-store';
+import { Membership } from './membership';
 import { CreatureFacts } from './creature-facts';
 import { Progression } from './progression';
 import { Content } from '../content';
@@ -26,9 +27,11 @@ export class ModuleInstallations {
     return out;
   }
   // The people a new installation brings, made and placed in the store, with the facts about them projected into
-  // its world; every goal they pursue is checked against that world before it is accepted.
-  static populate(next: Instance, existing: CampaignActor[], creatures: CreatureStore) {
-    const had = new Set(existing.map(a => a.id)), held = new Set(creatures.live.map(c => c.id));
+  // its world: everyone's as they stand now, after any have joined the company or left it (see Membership). Every
+  // goal they pursue is checked against that world before it is accepted.
+  static populate(next: Instance, creatures: CreatureStore, current: Parameters<typeof Membership.live>[1]) {
+    const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
+    const live = Membership.live(next.campaign!.actors, current).actors;
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
     const added = next.campaign!.creatures.filter(c => !held.has(c.id));
     const store = new CreatureStore([...creatures.snapshot, ...added.map(entry => {
@@ -37,7 +40,7 @@ export class ModuleInstallations {
       return creature;
     })]);
     CreatureFacts.initialize(new World(next.module, next.world), actors, store);
-    const world = CreatureFacts.project(new World(next.module, next.world), next.campaign!.actors, store);
+    const world = CreatureFacts.project(new World(next.module, next.world), live, store);
     Progression.outcomes(world, next.campaign!);
     for (const actor of next.campaign!.actors) {
       for (const goal of actor.goals) {

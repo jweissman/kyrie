@@ -6,6 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { CreatureStore } from '../src/creature-store';
 import { GeneratedWorld } from './support/generated';
+import { Frontier } from '../src/world/frontier';
 
 // A companion who falls is dead, and rest does not mend death. Their gear can be taken from them; and a town's priest
 // can call them back (Orsino's Raise Dead) for a night's vigil and a great price, with half their health.
@@ -60,6 +61,12 @@ describe('a fallen companion', () => {
     // Kept and opened again, the company is still the two of them.
     const back = PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint())));
     expect(back.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
+    // Nor does she come back when the country beyond is drawn and installed.
+    GeneratedWorld.put(s, 'edge_east');
+    await s.perform('wait');
+    expect(await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign)).toBeDefined();
+    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
+    expect(Fallen.choice(s, /Elen/)).toBeUndefined();
   }, 60000);
   it('is not raised by a village priest', async () => {
     const { w, s } = await Fallen.start(), village = w.report.region.settlements.find(t => t.size !== 'town')!;

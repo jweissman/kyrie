@@ -133,7 +133,7 @@ export class Campaign implements WatchHost {
     Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
     const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world,
       budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed);
-    const { actors, store, world } = ModuleInstallations.populate(next, this.definition.actors, this.creatures);
+    const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current);
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
     this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
