@@ -1,0 +1,47 @@
+Module quarrel "The boundary stones" {
+  Description "The innkeeper and the merchant have not spoken since the spring, when the stones between the inn's garden and the merchant's yard moved a stride in the night. The priest knows where they stood, and will not say so to the merchant's face: the merchant gives the most at the shrine.".
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place taproom "The taproom" is room.
+  Place shop "The shop" is room.
+  Place shrine "The shrine" is room.
+  Entity keeper: group "The innkeeper".
+  Entity trader: group "The merchant".
+  Entity priest: group "The priest".
+  Relation restored(group). Relation bought(group).
+  Entity feud: fact "The innkeeper and the merchant have not spoken since the boundary stones moved.".
+  Initially Assert established(feud).
+
+  Place garden "the inn's back garden" is room within town at 1, 2.
+  Passage back_door "the back door of the inn" is door between taproom and garden.
+  Observe garden_scene at garden when not restored(trader) "Cabbages, a hen-house, a washing line. A row of white stones runs across the bottom of the garden, freshly set, a stride inside the hedge.".
+  Observe garden_settled at garden when restored(trader) "The white stones are back in their old holes along the hedge.".
+  Discovery holes "The boundary stones were dug up and set a stride into the inn's garden: their old holes are still there, under the grass by the hedge." {
+    Found by searching garden "Under the grass along the hedge, your heel finds the old holes: square, stone-sided, a stride outside the new row. The stones were moved.".
+  }
+
+  Topic keeper_stones with keeper "Ask {keeper} about the stones" when not restored(trader) once {
+    Says "'Moved in the night,' says {keeper}, wiping the same cup. 'A stride of my garden, and the well with it. Ask the priest. Ask anyone. Nobody will say it to {trader}.'".
+  }
+  Topic trader_stones with trader "Ask {trader} about the stones" when not restored(trader) and not bought(actor) once {
+    Says "'{keeper} drinks and dreams,' says {trader}. 'Those stones are where my father set them.' Then, lower: 'If anyone asks, you saw nothing. Five coin for your trouble.'".
+  }
+  Topic trader_bribe with trader "Take {trader}'s five coin and say nothing" when not restored(trader) and not bought(actor) {
+    Says "{trader} counts the coins into your hand. By evening the whole town knows you took them.".
+    On discuss { Increase quantity(actor, gold) by 5. Assert bought(actor). Assert refusesService(keeper, actor). }
+  }
+  Topic trader_holes with trader "Tell {trader} about the old holes under the grass" when knows(actor, holes) and not restored(trader) and not bought(actor) once {
+    Says "{trader} goes red, then white. 'All right,' {trader} says. 'All right. I will set them back, and pay for the cabbages.'".
+    On discuss { Assert restored(trader). }
+  }
+  Topic priest_stones with priest "Ask {priest} about the stones" when not restored(trader) once {
+    Says "'They were moved in the spring,' says {priest}. 'I married {keeper}'s parents in that garden; I know where the stones stood. But {trader} gives the most at the shrine, and I have a roof to mend.'".
+  }
+  Topic keeper_thanks with keeper "Tell {keeper} the stones are going back" when restored(trader) and not bought(actor) once {
+    Says "{keeper} puts down the cup. 'Then supper is on the house tonight, and the night after.' And the coin you have spent at the bar comes back across it.".
+    On discuss { Increase quantity(actor, gold) by 6. }
+  }
+
+  Objective stones when knows(party, feud) and not restored(trader) and not bought(party) "The innkeeper and the merchant are at odds over the boundary stones behind the inn.".
+  Goal restored(trader).
+}

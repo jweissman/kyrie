@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "green", "road"],
+  "roles": {
+    "party": { "type": "group" },
+    "green": { "type": "place" },
+    "road": { "type": "place" }
+  },
+  "generation": { "type": "fever", "templates": "templates.json", "tables": "../drover/tables.json" },
+  "exports": { "sick": "sick" },
+  "experience": 100
+}

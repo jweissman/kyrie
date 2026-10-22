@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "oldcoin",
+  "name": "The stranger who pays in old coin",
+  "kind": "town",
+  "instances": 1,
+  "weight": 2,
+  "places": {
+    "ruin": { "site": ["ruin", "tower", "barrow"] },
+    "town": { "settlement": "near:ruin" }
+  },
+  "modules": [
+    {
+      "id": "oldcoin",
+      "bundle": "../goings-on/oldcoin/module.json",
+      "imports": { "party": "@party", "taproom": "@town.taproom", "ruin": "@ruin", "named": "@ruin.named" }
+    }
+  ],
+  "hooks": [
+    { "fact": "oldcoin.coin_talk", "topic": "the stranger who pays in old coin at {town}", "channels": ["tavern", "market"], "opens": false }
+  ]
+}

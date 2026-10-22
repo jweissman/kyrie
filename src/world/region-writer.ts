@@ -4,6 +4,7 @@ import { RegionGeography } from './region-geography';
 import { RegionPeoples } from './region-peoples';
 import { RegionFaith } from './region-faith';
 import { RegionSites } from './region-sites';
+import { RegionRecruits } from './region-recruits';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
 // entity it writes is exported under its own id, so scenarios bind to it like any other module.
@@ -37,6 +38,8 @@ export interface Carrier { id: string; settlement: string; channel: 'tavern' | '
 // anywhere in the region, and who is introduced where they are found.
 export interface Contact {
   member: string; background: string; channel: Carrier['channel']; carrier: string; room: string; text: string;
+  // What the contact has heard that brought the member here: a rumour of one of the region's troubles.
+  concern?: string;
 }
 
 export class RegionWriter {
@@ -67,6 +70,7 @@ export class RegionWriter {
     lines.push(...RegionGeography.lines(region), ...RegionSites.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
+    lines.push(...RegionRecruits.arrival(region, company));
     const wonderSite = region.sites[0];
     if (wonderSite) {
       lines.push(`  Observe wonder at ${wonderSite.id} when true ${q(`Nearby you find ${region.wonder.description.replace(/\.$/, '')}. Nobody in ${region.settlements[0]!.name} can say why.`)}.`);
@@ -90,7 +94,7 @@ export class RegionWriter {
       `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${s.id}_taproom { Role "innkeeper". ${this.of(s, 'innkeeper', region)} Profession innkeeper. Peaceable. ${this.inn(s)} }`,
       `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable. }`,
       this.merchant(s, region),
-      `  Person ${s.id}_traveller ${q(s.traveller)} at ${s.id}_taproom { Role ${q(s.calling)}. ${this.of(s, 'traveller', region)} Peaceable. }`,
+      ...RegionRecruits.traveller(s, i, region),
       `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${RegionPeoples.told(s)}${this.meaning(s)} ${RegionGeography.placement(region, i)}Smoke rises from ${s.inn}; the shrine of ${cult.name} stands open across the green.`)}.`,
       `  Observe ${s.id}_night at ${s.id}_green when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
       `  Observe ${s.id}_tap at ${s.id}_taproom when true ${q(`Benches, a long table, a fire. People who work ${s.trade} drink here.`)}.`,
@@ -146,7 +150,8 @@ export class RegionWriter {
     const roads = RegionGeography.roads(region), ways = roads.map(r => r.way), extras = RegionGeography.extras(region);
     const ids = ['party', 'region', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
       `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
-    ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_land`]), ...ways, ...roads.map(r => r.land), ...extras];
+    ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_land`, `${w.id}_named`]), ...ways,
+    ...roads.map(r => r.land), ...extras];
     // A ford, a causeway and a pass are where a road can be held; a wood, a summit and a mere's shore are known to all.
     const held = roads.filter(r => r.form && r.form.form !== 'wood').map(r => ['chokepoint', r.way]);
     const known = [...roads.filter(r => r.form?.form === 'wood').map(r => r.way), ...extras.filter(e => e !== 'lake_land')]

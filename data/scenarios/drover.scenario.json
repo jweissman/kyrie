@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "id": "drover",
+  "name": "The drover who did not come home",
+  "kind": "town",
+  "instances": 1,
+  "weight": 3,
+  "places": {
+    "town": {
+      "settlement": "any"
+    },
+    "road": {
+      "way": "near:town"
+    }
+  },
+  "modules": [
+    {
+      "id": "drover",
+      "bundle": "../goings-on/drover/module.json",
+      "imports": {
+        "party": "@party",
+        "green": "@town.green",
+        "taproom": "@town.taproom",
+        "road": "@road"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "fact": "drover.missing",
+      "topic": "the drover who did not come home to {town}",
+      "channels": [
+        "tavern",
+        "road",
+        "temple"
+      ],
+      "opens": false
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "goingsOnCalling": { "discriminator": "folk", "groups": {
+    "human": ["warrior"], "elf": ["ranger"], "dwarf": ["warrior"], "halfling": ["warrior"], "gnome": ["thief"],
+    "half_elf": ["ranger"], "half_orc": ["warrior"], "lizardfolk": ["warrior"], "catfolk": ["ranger"],
+    "sylph": ["mage"], "undine": ["cleric"], "birdfolk": ["ranger"], "fae": ["bard"]
+  } }
+}

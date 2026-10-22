@@ -14,6 +14,8 @@ export interface ModuleStatus {
 export interface CampaignState {
   seed: string; world: WorldState; party: Fighter[]; creatures: Creature[];
   partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
+  // Who has joined the company, and which company: their own group is empty from then on.
+  enlisted?: Record<string, string>;
   outcome: 'active' | 'success' | 'failure';
   modules?: ModuleStatus[];
   outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];

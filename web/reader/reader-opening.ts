@@ -57,6 +57,8 @@ export class ReaderOpening {
     this.app.setState({ party });
     if (field !== 'name') { void this.preview(party); }
   }
+  // In a generated region a company may set out as one, and find the rest on the road.
+  readonly alone = () => { this.preset(this.app.state.party.slice(0, 1)); };
   readonly begin = () => { void this.setOut(); };
   async setOut() {
     const s = this.app.state;

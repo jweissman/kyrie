@@ -23,6 +23,9 @@ export class CompanyPage {
               {catalog.presets.map(p => (
                 <button type="button" key={p.id} data-action="preset" data-id={p.id} title={p.note}
                   onClick={CompanyPage.preset.bind(null, app)}>{p.label}</button>))}
+              {setting.generated && s.party.length > 1 && <button type="button" data-action="alone"
+                title="Set out with only the first of them, and find companions on the way"
+                onClick={app.opening.alone}>Go alone</button>}
             </p>
             <ol className="companions">
               {s.party.map((m, i) => <CompanionCard.View key={i} app={app} index={i} member={m}

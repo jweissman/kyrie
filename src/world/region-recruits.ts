@@ -1,0 +1,46 @@
+import { Canon } from '../canon/canon';
+import type { Contact, Region, Settlement } from './region-writer';
+
+// Who in a generated region would go along with a company: the traveller at each inn, whose calling is a class (a
+// drover can fight, a pilgrim pray, a tinker open locks). Asked what brings them there, they say, and that they would
+// travel with a company for a few coins and their keep; then they can be asked to join. The first settlement's is the
+// cheapest, so a company of one is never long alone.
+export class RegionRecruits {
+  static readonly classes: Record<string, string> = { drover: 'warrior', tinker: 'thief', pilgrim: 'cleric',
+    pedlar: 'bard', 'charcoal-burner': 'ranger', 'eel-catcher': 'ranger', trapper: 'ranger' };
+  static readonly brings: Record<string, string> = {
+    drover: 'Took a drove over the hills and came back with nothing but blisters and the price of a bed.',
+    tinker: 'Mending pots. There are more locks than pots in this country, and they pay better.',
+    pilgrim: 'I walk from shrine to shrine. The gods have not said where to stop.',
+    pedlar: 'Ribbons, pins and news. The news sells best.',
+    'charcoal-burner': 'The burn is done and the charcoal sold. I have a month before the next.',
+    'eel-catcher': 'The eels are not running. Nothing is, this season.',
+    trapper: 'The furs are sold, and the snow is late.' };
+  // Why the company has come, said when it arrives: each member an old acquaintance sent word to, and what of; a
+  // company of one is told that the travellers at the inns are looking for work. Nothing is a task: it is what they
+  // came for.
+  static arrival(region: Region, company: { size: number; contacts: Contact[] }): string[] {
+    const town = region.settlements[0]!, said = company.contacts.map(c => {
+      const s = region.settlements.find(x => c.carrier.startsWith(`${x.id}_`));
+      const who = `{${c.carrier}}, the ${c.carrier.replace(/^s\d+_/, '')} at ${s?.name ?? town.name}`;
+      return c.concern ? `${c.member} came because ${who}, sent word of ${c.concern}.`
+        : `${c.member} came to see ${who}, an old friend.`;
+    });
+    if (company.size === 1) {
+      said.push(`You have come alone. The travellers at the inns of ${region.name} are looking for work, and one of them might come with you.`);
+    }
+    return said.length ? [`  Observe arrival at ${town.id}_green when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`] : [];
+  }
+  static traveller(s: Settlement, i: number, region: Region): string[] {
+    const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;
+    const allowed = Canon.ancestries[ancestry]?.classes ?? ['commoner'];
+    const wanted = this.classes[s.calling], calling = wanted && allowed.includes(wanted) ? wanted
+      : allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'commoner';
+    const hire = 3 + i, brings = this.brings[s.calling] ?? 'Passing through, like everyone.';
+    return [`  Person ${id} ${q(s.traveller)} at ${s.id}_taproom { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable. }`,
+      `  Initially Set hire(${id}) to ${hire}.`,
+      `  Topic ${id}_brings with ${id} ${q(`Ask {${id}} what brings them to ${s.name}`)} when true once {`,
+      `    Says ${q(`'${brings}' {${id}} looks you over. 'If you are going anywhere, I would come along. ${hire} coin, and my keep.'`)}.`,
+      `    On discuss { Assert willing(${id}, actor). }`, '  }'];
+  }
+}

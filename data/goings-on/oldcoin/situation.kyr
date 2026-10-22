@@ -1,0 +1,28 @@
+Module oldcoin "The stranger who pays in old coin" {
+  Description "A stranger at the inn pays for everything in coin nobody has seen before: thin, old, stamped with letters in the old script. They have come to read what is cut on the old places, and will pay to be taken to one.".
+  Entity party: group "Your company".
+  Place taproom "The taproom" is room.
+  Place ruin "The old place" is room.
+  Entity named: fact "The old place's name".
+  Relation read(group). Relation asked(group).
+  Entity coin_talk: fact "A stranger at the inn pays in old coin, and asks the way to {ruin}.".
+  Initially Assert established(coin_talk).
+
+  Person scholar "The stranger" at taproom { Role "a scholar of the old tongue, who pays in old coin". Calling mage. Peaceable. }
+  Initially Assert acceptsEscort(scholar, party). Initially Assert home(scholar, ruin). Initially Set thanks(scholar) to 10.
+  Observe coin at taproom when at(scholar, taproom) "At a table by the window {scholar} turns a thin old coin over and over in their fingers, and looks up whenever the door opens.".
+
+  Topic scholar_coin with scholar "Ask {scholar} about the old coin" when not asked(scholar) once {
+    Says "'Old as the stones,' says {scholar}. 'It still buys a bed. I came to read the names cut on the old places, before the frost has them. I want to go to {ruin}, and I would rather not go alone. Ten of these when we get there.' They push a coin across the table: it is stamped with a crown and a single word in the old script.".
+    On discuss { Assert asked(scholar). }
+  }
+  // Brought to the old place, the scholar reads what is cut there: its name, and what it was.
+  Discovery history "What the old place was: built by the old kingdom, whose coin still turns up in the plough, and named in its tongue; left empty when the kingdom fell.".
+  Topic scholar_reads with scholar "Ask {scholar} to read the stones" when cameHome(scholar) and not read(scholar) once {
+    Says "{scholar} goes straight to the cut stones and reads them aloud, slowly, a finger under each letter. 'The old kingdom built this,' they say. 'Look: the same crown as the coin. There are more of these,' they say, looking round at the country. 'I could keep reading with you, if you are going on. No hire: I have the coin.'".
+    On discuss { Assert read(scholar). Assert knows(actor, named). Assert knows(actor, history). Assert willing(scholar, actor). }
+  }
+
+  Objective escort when asked(scholar) and not read(scholar) "{scholar} wants to be taken to {ruin}.".
+  Goal read(scholar).
+}

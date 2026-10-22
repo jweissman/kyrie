@@ -1,0 +1,16 @@
+{
+  "fever": {
+    "__no_id": true,
+    "folk": "human",
+    "name": "A fever on the green",
+    "creatures": [],
+    "actors": { "order": [] },
+    "initial": [],
+    "outcomes": [{ "id": "mended", "predicate": "mended(mother)" }],
+    "casting": "=gen(fever_casting)"
+  },
+  "fever_casting": { "__no_id": true, "mother": "=gen(fever_mother)", "sister": "=gen(fever_sister)" },
+  "fever_mother": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk" },
+  "fever_sister": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk",
+    "classId": "=lookup(goingsOnCalling, #folk)" }
+}

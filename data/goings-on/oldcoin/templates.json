@@ -1,0 +1,14 @@
+{
+  "oldcoin": {
+    "__no_id": true,
+    "name": "The stranger who pays in old coin",
+    "creatures": [],
+    "actors": { "order": [] },
+    "initial": [],
+    "outcomes": [{ "id": "read", "predicate": "read(scholar)" }],
+    "casting": "=gen(oldcoin_casting)"
+  },
+  "oldcoin_casting": { "__no_id": true, "scholar": "=gen(oldcoin_scholar)" },
+  "oldcoin_scholar": { "__no_id": true, "_folk": "=lookup(scholarFolk, default)", ">name": "=lookup(townsfolkName, #_folk)",
+    "raceId": "=#_folk" }
+}

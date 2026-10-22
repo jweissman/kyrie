@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "green", "taproom", "road"],
+  "roles": {
+    "party": { "type": "group" },
+    "green": { "type": "place" },
+    "taproom": { "type": "place" },
+    "road": { "type": "place" }
+  },
+  "generation": { "type": "drover", "templates": "templates.json", "tables": "tables.json" },
+  "exports": { "missing": "missing" },
+  "experience": 100
+}

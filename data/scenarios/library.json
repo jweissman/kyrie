@@ -3,6 +3,10 @@
   "scenarios": [
     "brood-hollow.scenario.json",
     "den.scenario.json",
-    "unquiet-tower.scenario.json"
+    "unquiet-tower.scenario.json",
+    "drover.scenario.json",
+    "fever.scenario.json",
+    "oldcoin.scenario.json",
+    "quarrel.scenario.json"
   ]
 }

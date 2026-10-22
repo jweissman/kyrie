@@ -1,0 +1,3 @@
+{
+  "scholarFolk": { "discriminator": "any", "groups": { "default": ["human", "elf", "gnome", "half_elf"] } }
+}

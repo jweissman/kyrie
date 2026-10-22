@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "taproom", "ruin", "named"],
+  "roles": {
+    "party": { "type": "group" },
+    "taproom": { "type": "place" },
+    "ruin": { "type": "place" },
+    "named": { "type": "fact" }
+  },
+  "generation": { "type": "oldcoin", "templates": "templates.json", "tables": "tables.json" },
+  "exports": { "coin_talk": "coin_talk" },
+  "experience": 100
+}

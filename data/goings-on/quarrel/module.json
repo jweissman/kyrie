@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "town", "taproom", "shop", "shrine", "keeper", "trader", "priest"],
+  "roles": {
+    "party": { "type": "group" },
+    "town": { "type": "place" },
+    "taproom": { "type": "place" },
+    "shop": { "type": "place" },
+    "shrine": { "type": "place" },
+    "keeper": { "type": "group" },
+    "trader": { "type": "group" },
+    "priest": { "type": "group" }
+  },
+  "exports": { "feud": "feud" },
+  "experience": 100
+}

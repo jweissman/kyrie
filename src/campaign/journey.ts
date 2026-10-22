@@ -29,6 +29,18 @@ export class Journey {
       && relations.some(a => a.name === 'at' && a.args[0] === r.args[0] && a.args[1] === origin)).map(r => r.args[0]!);
     return { actor: player, origin, destination, ...way ? { way } : {}, followers };
   }
+  // A move too short to be a journey still takes along whoever is following the company from where it stood.
+  static along(before: World, after: World, player: string | undefined): World {
+    const from = player && this.where(before, player), to = player && this.where(after, player);
+    if (!player || !from || !to || from === to) { return after; }
+    const followers = before.snapshot.relations.filter(r => r.name === 'following' && r.args[1] === player
+      && this.where(before, r.args[0]!) === from && this.where(after, r.args[0]!) === from).map(r => r.args[0]!);
+    return followers.length
+      ? after.apply(followers.flatMap(g => [this.at('retract', g, from), this.at('assert', g, to)])) : after;
+  }
+  private static where(world: World, group: string): string | undefined {
+    return world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === group)?.args[1];
+  }
   static depart(world: World, leg: Leg): World {
     return world.apply([...[leg.actor, ...leg.followers].map(g => this.at('retract', g, leg.origin)),
       ...this.travelling(world, leg, 'assert')]);

@@ -17,6 +17,8 @@ import type { InstalledModule, CampaignActor, CampaignDefinition } from './defin
 import { ModuleWriter } from '../lang/module-writer';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
+import { Membership, type LiveCache } from './membership';
+import { CampaignPlan } from './campaign-plan';
 import { LoadCache } from './load-cache';
 import { CombatProjection } from '../combat-projection';
 import { Battle } from '../arena';
@@ -24,7 +26,7 @@ import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model';
 import type { Instance, Module, WorldState } from '../lang/module';
 import { World } from '../lang/world';
-import { Planner, type Operator } from './planner';
+import type { Operator } from './planner';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
 import { CampaignTick } from './campaign-tick';
@@ -58,7 +60,7 @@ export class Campaign implements WatchHost {
       }
       new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module);
       if (this.definition) {
-        const projected = CreatureFacts.project(this.world, this.definition.actors, this.creatures);
+        const projected = CreatureFacts.project(this.world, this.live, this.creatures);
         if (projected.key() !== this.world.key()) { throw new Error('Inconsistent saved creature facts'); }
       }
       return;
@@ -144,7 +146,7 @@ export class Campaign implements WatchHost {
   get actors(): CampaignActor[] { return structuredClone(this.definition?.actors ?? []); }
   explain() {
     if (!this.definition || this.executing) { return []; }
-    return this.definition.actors.filter(a => !a.player)
+    return this.live.filter(a => !a.player && a.members.length)
       .map(actor => Agency.explain(this.world, actor, this.operators));
   }
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
@@ -215,27 +217,12 @@ export class Campaign implements WatchHost {
     this.applicable = { world, player, actions };
     return structuredClone(actions);
   }
-  plan(moduleId?: string) {
-    if (!this.persistent && this.current.outcome === 'failure') { return null; }
-    const player = this.definition?.actors.find(actor => actor.player);
-    const installed = moduleId ? this.installations.find(m => m.id === moduleId) :
-      this.installations.find(m => !this.world.test(m.goal));
-    if (moduleId && !installed) { throw new Error('Unknown module'); }
-    return Planner.search(this.world, installed?.goal ?? this.module.goal, this.moves.bind(this, player), {
-      maxNodes: 2000,
-      timeRemaining: (installed ? installed.deadline ?? Infinity : this.current.deadline) - this.current.elapsed,
-    });
-  }
-  private moves(player: CampaignActor | undefined, world: World): Operator[] {
-    return this.operators.applicable(world, player?.id).filter(a => !player || (!a.resolve
-      && (player.allActions || player.actions.includes(a.schema ?? a.id))));
-  }
+  plan(moduleId?: string) { return CampaignPlan.plan(this, moduleId); }
   encounterBattle(actionId: string): Battle {
     const action = this.operator(actionId);
     if (action?.resolve?.name !== 'combat') { throw new Error('Action does not resolve a combat encounter'); }
     const seed = this.randomSeed(action, 'combat'), group = action.resolve.args[0]!;
-    const attacker = action.actor && this.definition ?
-      this.definition.actors.find(a => a.id === action.actor) : undefined;
+    const attacker = action.actor && this.definition ? this.live.find(a => a.id === action.actor) : undefined;
     return Battle.encounter(this.creatures, [
       ...(attacker?.members ?? this.current.partyIds).map(creatureId => ({ creatureId, team: 'fighters' as const })),
       ...this.current.inhabitants[group]!.map(creatureId => ({ creatureId, team: 'goblins' as const })),
@@ -295,7 +282,7 @@ export class Campaign implements WatchHost {
     const held = !battle || battle.state.outcome === 'fighters'
       || battle.events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
     let success = held && CommandResolutions.survived(action,
-      this.creatures.snapshot, this.definition?.actors, this.module.entities);
+      this.creatures.snapshot, this.definition && this.live, this.module.entities);
     const causal = this.module.relations.some(r => r.name === 'witnessedAttack');
     // An activity that can be interrupted takes effect when it has run its course, a journey when the company
     // arrives, anything else at once.
@@ -315,7 +302,7 @@ export class Campaign implements WatchHost {
     if (leg) { success &&= Journey.landed(this, action, leg, 'turned' in pass); }
     if (interrupted) { response = interrupted; }
     if (!interrupted && !this.shelter(action, combat)) { success = false; response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.'; }
-    const standing = CommandResolutions.survived(action, this.creatures.snapshot, this.definition?.actors,
+    const standing = CommandResolutions.survived(action, this.creatures.snapshot, this.definition && this.live,
       this.module.entities);
     if (success && !standing) { success = false; response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.'; }
     this.resolutions(combat, false);
@@ -347,9 +334,21 @@ export class Campaign implements WatchHost {
       FieldUse.award(this.creatures, this.current.partyIds, this.world,
         { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
     }
+    if (action.resolve?.name === 'enlist') {
+      this.commit(Membership.enlist({ current: this.current, company: this.playerActor, module: this.module,
+        world: this.world }, action.resolve.args[0]!, action.resolve.args[1]!));
+      this.refresh(); return;
+    }
     if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name)) {
       combat.push(...this.field(action));
     }
+  }
+  // The actors as they stand, after anyone has joined the company (see Membership).
+  private liveCache?: LiveCache;
+  private get live(): CampaignActor[] {
+    const { actors, cache } = Membership.live(this.definition?.actors ?? [], this.current, this.liveCache);
+    this.liveCache = cache;
+    return actors;
   }
   // A rest recovers the company at its end, if the shelter is still safe; whether it was.
   private shelter(action: Operator, combat: CombatEvent[]): boolean {
@@ -366,9 +365,10 @@ export class Campaign implements WatchHost {
   }
   private field(action: Operator): CombatEvent[] {
     return FieldResolver.resolve(action, { module: this.module, creatures: this.creatures, world: this.world,
-      actors: this.definition?.actors ?? [], seed: this.randomSeed(action, 'field') });
+      actors: this.live, seed: this.randomSeed(action, 'field') });
   }
-  get tickState() { return { definition: this.definition!, creatures: this.creatures, current: this.current }; }
+  get tickState() { return { definition: { ...this.definition!, actors: this.live }, creatures: this.creatures,
+    current: this.current }; }
   applyAction(action: Operator, success = true) { this.apply(action, success); }
   refreshProjection() { this.refresh(); }
   recordObservations() { this.observe(); }
@@ -377,7 +377,7 @@ export class Campaign implements WatchHost {
   advanceWatch(combat: CombatEvent[]) {
     this.current.elapsed++;
     if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
-      { world: this.world, actors: this.definition?.actors ?? [], player: this.playerActor })) { this.refresh(); }
+      { world: this.world, actors: this.live, player: this.playerActor })) { this.refresh(); }
     if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current))); }
   }
   settleWatch(combat: CombatEvent[]) {
@@ -386,8 +386,9 @@ export class Campaign implements WatchHost {
     this.observe();
   }
   private apply(action: Operator, success: boolean) {
-    const before = this.world, after = before.apply(success ? action.success : action.failure);
-    if (this.definition) { CreatureFacts.commitMoney(before, after, this.definition.actors, this.creatures); }
+    const before = this.world;
+    const after = Journey.along(before, before.apply(success ? action.success : action.failure), this.playerActor);
+    if (this.definition) { CreatureFacts.commitMoney(before, after, this.live, this.creatures); }
     this.commit(after);
   }
   // Experience changes what members may train; the facts must agree with the store before anything is saved.
@@ -401,7 +402,7 @@ export class Campaign implements WatchHost {
   private projected?: { store: CreatureStore; stamp: string; actors: CampaignActor[]; module: Module };
   private refresh() {
     if (!this.definition) { return; }
-    const p = this.projected, { creatures: store, definition: { actors } } = this;
+    const p = this.projected, store = this.creatures, actors = this.live;
     if (p?.store === store && p.actors === actors && p.module === this.module
       && p.stamp === CreatureFacts.stamp(this.world, store)) { return; }
     this.commit(CreatureFacts.project(this.world, actors, store));

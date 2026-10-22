@@ -11,6 +11,7 @@ import { PlaceNames } from './place-names';
 import { RegionPeoples } from './region-peoples';
 import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
+import { RegionSites } from './region-sites';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 import { Composition, type KitEntry } from './compose/composition';
 import { Kits } from './compose/kit';
@@ -19,8 +20,12 @@ import { Kits } from './compose/kit';
 // way in that stays hidden until someone hears of it, and what people say about it.
 export interface ScenarioManifest {
   version: 1; id: string; name: string; instances?: number; weight?: number;
+  // An adventure in a wild place (the default) or what is going on in a settlement (town).
+  kind?: 'adventure' | 'town';
   context?: Record<string, string[]>;
-  places: Record<string, { site?: string[]; settlement?: string }>;
+  // A place a scenario needs: a site of some kind, a settlement (near:role, any, or the first), or the stretch of road
+  // out of a settlement (near:role).
+  places: Record<string, { site?: string[]; settlement?: string; way?: string }>;
   modules: { id: string; bundle: string; imports: Record<string, string>; context?: Record<string, DeemValue> }[];
   route?: string;
   // A hook is a fact the scenario establishes (module.export) that people pass on through some channels; unless it
@@ -56,7 +61,8 @@ export class WorldAssembler {
     { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic', traits: ['vitalist'],
       spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'] }];
   static async assemble(seed: string, base: BundleSource, options: {
-    library?: string; scenarios?: number; region?: Record<string, DeemValue>; party?: CreatureGenerationContext[];
+    library?: string; scenarios?: number; towns?: number; region?: Record<string, DeemValue>;
+    party?: CreatureGenerationContext[];
     framework?: string | null;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const drawn = new Content(RandomStreams.key(seed, 'world', 'region')).generate('region', options.region ?? {});
@@ -65,14 +71,19 @@ export class WorldAssembler {
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const eligibility = library.map(e => this.fits(e.manifest, context, region));
     const placements: Placement[] = [], claimed = new Set<string>(), count = new Map<string, number>();
-    for (let round = 0; round < (options.scenarios ?? 3); round++) {
-      const open = library.filter((e, i) => eligibility[i]!.fits && (count.get(e.manifest.id) ?? 0)
-        < (e.manifest.instances ?? 1) && this.placeable(e.manifest, region, claimed));
-      const chosen = this.choose(open, context, RandomStreams.key(seed, 'world', 'scenario', round));
-      if (!chosen) { break; }
-      const n = (count.get(chosen.manifest.id) ?? 0) + 1;
-      count.set(chosen.manifest.id, n);
-      placements.push(this.place(chosen.manifest, { n, region, claimed, seed }));
+    // Adventures in the wild places first, then what is going on in the settlements.
+    for (const [kind, rounds] of [['adventure', options.scenarios ?? 3], ['town', options.towns ?? 2]] as const) {
+      for (let round = 0; round < rounds; round++) {
+        const open = library.filter((e, i) => (e.manifest.kind ?? 'adventure') === kind && eligibility[i]!.fits
+          && (count.get(e.manifest.id) ?? 0) < (e.manifest.instances ?? 1)
+          && this.placeable(e.manifest, region, claimed));
+        const stream = RandomStreams.key(seed, 'world', kind === 'town' ? 'town' : 'scenario', round);
+        const chosen = this.choose(open, context, stream);
+        if (!chosen) { break; }
+        const n = (count.get(chosen.manifest.id) ?? 0) + 1;
+        count.set(chosen.manifest.id, n);
+        placements.push(this.place(chosen.manifest, { n, region, claimed, seed }));
+      }
     }
     const party = options.party ?? this.party, contacts = this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
@@ -80,7 +91,8 @@ export class WorldAssembler {
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
-      modules.push(...this.requests(entry, placement, base, { ...context, ...this.wild(placement, region) }));
+      modules.push(...this.requests(entry, placement, base, { ...context, ...this.wild(placement, region),
+        ...this.folk(placement, region) }));
       const word = this.word(entry.manifest, placement, { region, contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
@@ -221,13 +233,28 @@ export class WorldAssembler {
         }
         claimed.add(site.id); bindings[role] = site.id;
       } else if (need.settlement) {
-        const near = need.settlement.startsWith('near:')
-          ? region.sites.find(w => w.id === bindings[need.settlement!.slice(5)]) : undefined;
-        bindings[role] = near ? RegionWriter.near(region, near).id : region.settlements[0]!.id;
+        bindings[role] = this.town(need.settlement, { region, bindings, claimed,
+          key: RandomStreams.key(seed, 'world', 'town', instance, role) });
+      } else if (need.way) {
+        const town = bindings[need.way.replace(/^near:/, '')];
+        const road = RegionGeography.roads(region).find(r => r.from.id === town || r.to.id === town);
+        if (road) { bindings[role] = road.way; }
       }
     }
     return { scenario: s.id, instance, bindings, generated, carriers: {},
       modules: s.modules.map(m => this.install(m.id, n)) };
+  }
+  // The settlement a scenario is set in: the one nearest a site it took, any one no other has taken, or the first.
+  private static town(need: string, at: { region: Region; bindings: Record<string, string>; claimed: Set<string>;
+    key: string }): string {
+    const { region, bindings, claimed } = at;
+    const near = need.startsWith('near:') ? region.sites.find(w => w.id === bindings[need.slice(5)]) : undefined;
+    if (near) { return RegionWriter.near(region, near).id; }
+    if (need !== 'any') { return region.settlements[0]!.id; }
+    const open = region.settlements.filter(t => !claimed.has(t.id));
+    const town = open.length ? open[new Expressions(at.key).number(`1d${open.length}`) - 1]! : region.settlements[0]!;
+    claimed.add(town.id);
+    return town.id;
   }
   private static install(module: string, n: number): string {
     return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`;
@@ -252,6 +279,11 @@ export class WorldAssembler {
       imports: Object.fromEntries(Object.entries(m.imports).map(([name, value]) => [name, this.ref(value, placement)])),
       context: { ...context, ...m.context } }));
   }
+  // The people of the settlement a placement is set in, for its modules to name their own people by.
+  private static folk(placement: Placement, region: Region): Record<string, DeemValue> {
+    const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
+    return town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {};
+  }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.
   private static wild(placement: Placement, region: Region): Record<string, DeemValue> {
@@ -260,6 +292,13 @@ export class WorldAssembler {
     const beast = site && RegionEcology.den(region, RegionEcology.habitat(region, site, seat?.form?.form));
     return beast ? { beast: beast.species, beastCount: beast.count, beastLabel: beast.label, beastRole: beast.role,
       beastNature: beast.nature } : {};
+  }
+  // A hook's topic as a stranger would say it, with each place it names as it looks: "trouble at the fallen walls".
+  private static plainly(text: string, placement: Placement, region: Region): string {
+    return text.replace(/\{(\w+)\}/g, (whole, role: string) => {
+      const id = placement.bindings[role], site = region.sites.find(w => w.id === id);
+      return site ? RegionSites.seen[site.kind] ?? whole : region.settlements.find(t => t.id === id)?.name ?? whole;
+    });
   }
   // A hook's topic names the places it is about by role: {den} becomes a reference to the bound place, so it is said
   // as the company knows it (a grassed mound, until someone names it).
@@ -285,7 +324,8 @@ export class WorldAssembler {
     const q = JSON.stringify;
     const firstSite = Object.entries(s.places).find(([, p]) => p.site)?.[0];
     const site = region.sites.find(w => w.id === placement.bindings[firstSite ?? '']);
-    const home = site ? RegionWriter.near(region, site) : region.settlements[0]!;
+    const home = site ? RegionWriter.near(region, site)
+      : region.settlements.find(t => Object.values(placement.bindings).includes(t.id)) ?? region.settlements[0]!;
     const towns = [home, region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!];
     const imports: Record<string, string> = { party: `${RegionWriter.id}.party` }, lines: string[] = [];
     lines.push(`Module word_${placement.instance} ${q(`Word of ${s.name}`)} {`, '  Entity party: group "Your company".');
@@ -302,7 +342,10 @@ export class WorldAssembler {
       for (const town of new Set(towns)) {
         for (const channel of hook.channels) { tellers.set(`${town.id}_${this.speakers[channel]}`, `${town.id}_${this.rooms[channel]}`); }
       }
-      for (const c of contacts.filter(c => hook.channels.includes(c.channel))) { tellers.set(c.carrier, c.room); }
+      for (const c of contacts.filter(c => hook.channels.includes(c.channel))) {
+        tellers.set(c.carrier, c.room);
+        c.concern ??= this.plainly(hook.topic, placement, region);
+      }
       for (const [carrier, room] of tellers) {
         const topic = `${fact}_${carrier}`;
         if (!carriers.has(carrier)) {

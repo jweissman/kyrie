@@ -1,0 +1,16 @@
+{
+  "drover": {
+    "__no_id": true,
+    "folk": "human",
+    "name": "The drover who did not come home",
+    "creatures": [],
+    "actors": { "order": [] },
+    "initial": [],
+    "outcomes": [{ "id": "told", "predicate": "told(wife)" }],
+    "casting": "=gen(drover_casting)"
+  },
+  "drover_casting": { "__no_id": true, "wife": "=gen(drover_wife)", "son": "=gen(drover_son)" },
+  "drover_wife": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk" },
+  "drover_son": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk",
+    "classId": "=lookup(goingsOnCalling, #folk)" }
+}

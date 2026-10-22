@@ -1020,7 +1020,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 6 | 1 | 0 | 1 | 2 |
+| 0 | 7 | 2 | 0 | 1 | 3 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1035,6 +1035,26 @@ Someone taken from home: who set them free, where home is, and what their people
 > When: following(?person, ?company); home(?person, ?place); at(?person, ?place); not (cameHome(?person))
 
 > Then: Retract following(?person, ?company). Assert cameHome(?person). Assert grateful(?person, ?company). Increase quantity(?company, gold) by thanks(?person).
+
+#### willing, hire
+
+*Kyr · relation(group, group); measure(group)* · `rule:world_people.willing`
+
+Someone who would join the company, once they are willing, for their hire (which may be nothing).
+
+#### recruit
+
+*Kyr · action (group, group, place)* · `rule:world_people.recruit`
+
+- Shown as: Ask {recruit} to join the company
+- Takes: 10 minutes
+- Costs: 1
+
+They come into the company as one of you: they fight beside you, and what they can do the company can. Their hire is paid first, if they ask one.
+
+> Needs: able(actor); company(actor); able(recruit); distinct(actor, recruit); at(actor, site); at(recruit, site); willing(recruit, actor); quantity(actor, gold) >= hire(recruit)
+
+> Then: Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site).
 
 #### lead
 

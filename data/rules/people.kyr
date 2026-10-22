@@ -9,7 +9,17 @@ Module world_people "Company and intention" {
     Retract following(?person, ?company). Assert cameHome(?person). Assert grateful(?person, ?company).
     Increase quantity(?company, gold) by thanks(?person).
   }
+  // Someone who would join the company, once they are willing, for their hire (which may be nothing).
+  Relation willing(group, group). Measure hire(group).
   Goal false.
+  Action recruit(actor: group, recruit: group, site: place) "Ask {recruit} to join the company" {
+    Description "They come into the company as one of you: they fight beside you, and what they can do the company can. Their hire is paid first, if they ask one.".
+    Requires able(actor) and company(actor) and able(recruit) and distinct(actor, recruit) and at(actor, site)
+      and at(recruit, site) and willing(recruit, actor) and quantity(actor, gold) >= hire(recruit).
+    Resolve enlist(recruit, actor).
+    On success { Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site). }
+    Result "{recruit} shakes on it, and is one of you.".
+  }
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
     Requires able(actor) and able(companion) and distinct(actor, companion) and at(actor, site)
       and at(companion, site) and acceptsEscort(companion, actor) and not following(companion, actor).
