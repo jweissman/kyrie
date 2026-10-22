@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>C. The chart: talk</title><style>
+@font-face { font-family: 'Alegreya'; src: url(../../../../web/reader/fonts/alegreya.woff2) format('woff2'); font-weight: 400 900; }
+@font-face { font-family: 'Alegreya'; font-style: italic; src: url(../../../../web/reader/fonts/alegreya-italic.woff2) format('woff2'); font-weight: 400 900; }
+@font-face { font-family: 'Alegreya SC'; src: url(../../../../web/reader/fonts/alegreya-sc.woff2) format('woff2'); font-weight: 500; }
+@font-face { font-family: 'Alegreya Sans'; src: url(../../../../web/reader/fonts/alegreya-sans.woff2) format('woff2'); font-weight: 400; }
+:root { --paper: #f3ede2; --ink: #2b241d; --soft: #6a5c4d; --faint: #9a8b79; --rule: #d9cdb9; --accent: #8a3a17;
+  --wood: #c9cdb3; --wood-edge: #a9ae8c; --water: #c9d6dc; --water-edge: #8aa3b0; --road: #7c6a55; }
+* { box-sizing: border-box; } html, body { margin: 0; height: 100%; }
+body { background: var(--paper); color: var(--ink); font: 19px/1.62 'Alegreya', Georgia, serif;
+  font-kerning: normal; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+p { margin: 0 0 .9em; hyphens: auto; text-wrap: pretty; }
+.table { position: relative; height: 100%; overflow: hidden; background: #efe8da; }
+svg.chart { position: absolute; inset: 0; width: 100%; height: 100%; }
+.card { position: absolute; left: 2rem; bottom: 2rem; width: min(30rem, calc(100% - 4rem)); max-height: calc(100% - 4rem); overflow: auto; background: rgba(246,241,231,.96); border: 1px solid var(--rule); border-radius: 6px; padding: 1.4rem 1.6rem 1rem; box-shadow: 0 10px 30px rgba(60,40,20,.12); font-size: 17px; }
+.head { font: 500 12px 'Alegreya SC'; letter-spacing: .14em; color: var(--faint); text-transform: lowercase; margin-bottom: .8rem; }
+h1.chapter, h1.place { font: 500 1.35rem/1.2 'Alegreya SC'; margin: 0 0 .6rem; text-transform: lowercase; }
+.exchange { margin-top: .8rem; } .said { font-style: italic; color: var(--soft); font-size: .9rem; } .speech { padding-left: .9rem; border-left: 2px solid var(--rule); }
+ol.choices { list-style: none; margin: .6rem 0 0; padding: 0; border-top: 1px solid var(--rule); padding-top: .6rem; }
+.choices button { all: unset; display: flex; gap: .6rem; width: 100%; padding: .16rem 0; color: var(--accent); }
+.choices .n { font: 12px 'Alegreya Sans'; color: var(--faint); width: .8rem; } .choices .l { flex: 1; } .choices .note { font: 13px 'Alegreya Sans'; color: var(--faint); }</style></head><body><div class="table"><svg class="chart" viewBox="0 0 900 640" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Merscfaenn">
+  <path d="M0 0 L230 0 C250 90 210 160 250 240 C290 320 230 420 270 520 C290 580 250 620 260 640 L0 640Z" fill="var(--water)" stroke="var(--water-edge)" stroke-width="1.2"/>
+  <path d="M430 210 C470 160 580 150 650 180 C720 210 760 280 730 350 C700 420 610 440 540 420 C470 400 420 350 415 300 C412 260 415 230 430 210Z" fill="var(--wood)" stroke="var(--wood-edge)" stroke-width="1.4" opacity=".8"/>
+  <path d="M600 520 C640 500 700 505 740 530 C770 550 760 590 720 600 C670 612 620 600 600 580 C585 565 588 530 600 520Z" fill="var(--water)" stroke="var(--water-edge)"/>
+  <path d="M330 318 C400 316 460 312 512 300 C580 285 650 270 780 240" fill="none" stroke="var(--road)" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M330 318 C300 380 290 460 300 560" fill="none" stroke="var(--road)" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+  <path d="M292 352 C305 340 318 328 330 318" fill="none" stroke="var(--road)" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>
+  <circle cx="330" cy="318" r="10" fill="var(--paper)" stroke="var(--road)" stroke-width="1.8"/>
+  <circle cx="780" cy="240" r="7" fill="var(--paper)" stroke="var(--road)" stroke-width="1.6"/>
+  <text x="300" y="300" text-anchor="end" font-variant="small-caps" font-size="22" letter-spacing="2" fill="var(--ink)">murkstede</text>
+  <text x="792" y="226" font-variant="small-caps" font-size="18" letter-spacing="1.5" fill="var(--soft)">meóswaeter</text>
+  <text x="560" y="390" font-style="italic" font-size="22" letter-spacing="3" fill="#8b9070">Eikwudu</text>
+  <text x="60" y="200" font-style="italic" font-size="20" fill="var(--water-edge)">the fen</text>
+  <circle cx="330" cy="318" r="8" fill="var(--accent)" stroke="var(--paper)" stroke-width="3"/>
+</svg><div class="card"><div class="head">Murkstede · Evening</div><h1 class="place">The taproom of the Lucky Phoenix</h1>
+  <p class="">Salt-boilers at the long table, still white to the elbow. The fire has been let go low. Your mother is at the hearth with her back to the room.</p>
+  
+  <div class="exchange"><p class="said">You ask her where he was going.</p><p class="speech">‘Meóswaeter, with the reed-cutters’ salt,’ she says, and keeps her eyes on the pot. ‘Three days there and back, the way he goes. The dog came home on the fourth, lame in the off foot.’</p><p class="speech">She wipes her hands, though they are dry. ‘Eamon says the road’s been bad past the mound since the spring. Nobody will go and look.’</p></div><ol class="choices "><li><button><span class="n">1</span><span class="l">Ask what is wrong with the road past the mound</span></button></li><li><button><span class="n">2</span><span class="l">Ask where the dog is</span></button></li><li><button><span class="n">3</span><span class="l">Tell her you will go and look</span></button></li><li><button><span class="n">4</span><span class="l">Speak to Eamon at the bar</span></button></li><li><button><span class="n">5</span><span class="l">Go out onto the green</span></button></li></ol></div></div></body></html>

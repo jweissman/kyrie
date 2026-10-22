@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>B. The folio: arrival</title><style>
+@font-face { font-family: 'Alegreya'; src: url(../../../../web/reader/fonts/alegreya.woff2) format('woff2'); font-weight: 400 900; }
+@font-face { font-family: 'Alegreya'; font-style: italic; src: url(../../../../web/reader/fonts/alegreya-italic.woff2) format('woff2'); font-weight: 400 900; }
+@font-face { font-family: 'Alegreya SC'; src: url(../../../../web/reader/fonts/alegreya-sc.woff2) format('woff2'); font-weight: 500; }
+@font-face { font-family: 'Alegreya Sans'; src: url(../../../../web/reader/fonts/alegreya-sans.woff2) format('woff2'); font-weight: 400; }
+:root { --paper: #f3ede2; --ink: #2b241d; --soft: #6a5c4d; --faint: #9a8b79; --rule: #d9cdb9; --accent: #8a3a17;
+  --wood: #c9cdb3; --wood-edge: #a9ae8c; --water: #c9d6dc; --water-edge: #8aa3b0; --road: #7c6a55; }
+* { box-sizing: border-box; } html, body { margin: 0; height: 100%; }
+body { background: var(--paper); color: var(--ink); font: 19px/1.62 'Alegreya', Georgia, serif;
+  font-kerning: normal; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+p { margin: 0 0 .9em; hyphens: auto; text-wrap: pretty; }
+.spread { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
+.verso, .recto { padding: 2.6rem 2.6rem 2rem; }
+.verso { background: linear-gradient(to left, rgba(60,40,20,.07), transparent 2.2rem), var(--paper); }
+.recto { background: linear-gradient(to right, rgba(60,40,20,.09), transparent 2.6rem), #f6f1e7; display: flex; flex-direction: column; }
+.head { font: 500 13px/1 'Alegreya SC'; letter-spacing: .14em; color: var(--faint); margin-bottom: 2rem; text-transform: lowercase; display: flex; justify-content: space-between; }
+h1.chapter { font: italic 400 2rem/1.1 'Alegreya'; margin: 0 0 1.1rem; }
+h1.place { font: 500 1.45rem/1.2 'Alegreya SC'; margin: 0 0 1rem; text-transform: lowercase; letter-spacing: .03em; }
+.exchange { margin-top: 1.3rem; } .said { font-style: italic; color: var(--soft); font-size: .95rem; margin-bottom: .5rem; }
+.speech { padding-left: 1rem; border-left: 2px solid var(--rule); }
+.group { margin-bottom: 1rem; } .label { font: 500 12px 'Alegreya SC'; letter-spacing: .16em; color: var(--faint); margin: 0 0 .2rem; text-transform: lowercase; }
+ol.choices { list-style: none; margin: 0; padding: 0; }
+.choices button { all: unset; display: flex; gap: .7rem; align-items: baseline; width: 100%; padding: .22rem .5rem; margin-left: -.5rem; border-radius: 3px; color: var(--accent); }
+.group:first-of-type li:first-child button { background: #e8dfcf; }
+.choices .n { font: 12px 'Alegreya Sans'; color: var(--faint); width: .8rem; text-align: right; } .choices .l { flex: 1; } .choices .note { font: 14px 'Alegreya Sans'; color: var(--faint); }
+.where { margin: .4rem 0 1.2rem; } .company { margin-top: auto; font: 15px 'Alegreya Sans'; color: var(--soft); border-top: 1px solid var(--rule); padding-top: .7rem; display: flex; justify-content: space-between; }
+@media (max-aspect-ratio: 1/1) { .spread { grid-template-columns: 1fr; } .recto { background: #f6f1e7; } }</style></head><body><div class="spread"><div class="verso"><div class="head"><span>Merscfaenn</span><span>Evening, late summer</span></div><h1 class="chapter">Coming home</h1>
+  <p class="">The causeway runs on its piles across the last of the fen, and at the end of it is Murkstede: salt-houses black with tar, boats drawn up on the landing, one lit window in the inn.</p><p class="">You have been three years on the other side of the hills, hiring out with the droves. Your mother’s letter took a week to find you. Your father went out on the Meóswaeter road with the cart, it said, and did not come back.</p>
+  <p class="presence">A boy is sitting on the causeway rail with a spear across his knees. It takes you a moment to know him. Amrod is taller by a head, and he has your father’s old spear.</p>
+  </div><div class="recto"><div class="head"><span>what you might do</span></div><div class="group"><p class="label">Speak</p><ol class="choices"><li><button><span class="n">1</span><span class="l">Speak to Amrod</span></button></li></ol></div><div class="group"><p class="label">Look</p><ol class="choices"><li><button><span class="n">2</span><span class="l">Look at the spear</span></button></li></ol></div><div class="group"><p class="label">Go</p><ol class="choices"><li><button><span class="n">3</span><span class="l">Go on to the inn, to your mother</span><span class="note">a few minutes</span></button></li></ol></div><div class="group"><p class="label">Yourself</p><ol class="choices"><li><button><span class="n">4</span><span class="l">What you carry</span></button></li></ol></div><div class="where"><svg viewBox="0 0 300 170" width="300" height="170" role="img" aria-label="The causeway into Murkstede">
+  <path d="M0 30 C60 40 80 90 70 170 L0 170Z" fill="var(--water)" stroke="var(--water-edge)" stroke-width="1"/>
+  <path d="M40 150 C90 130 150 110 210 92" fill="none" stroke="var(--road)" stroke-width="2.4" stroke-dasharray="1 5" stroke-linecap="round"/>
+  <circle cx="210" cy="90" r="9" fill="none" stroke="var(--road)" stroke-width="1.6"/><circle cx="210" cy="90" r="2.5" fill="var(--road)"/>
+  <circle cx="150" cy="112" r="5" fill="var(--accent)" stroke="var(--paper)" stroke-width="2"/>
+  <text x="222" y="86" font-variant="small-caps" font-size="15" letter-spacing="1.5" fill="var(--ink)">murkstede</text>
+  <text x="14" y="70" font-style="italic" font-size="13" fill="var(--water-edge)">the fen</text>
+</svg></div><div class="company"><span>Wenna · unhurt</span><span>14 coin · bread for two days</span></div></div></div></body></html>
