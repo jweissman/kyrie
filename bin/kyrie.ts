@@ -14,6 +14,7 @@ import { Canon } from '../src/canon/canon';
 import { batch } from '../src/arena';
 import { PlaySession, type Transcript } from '../src/session/play-session';
 import { KyrLint } from './kyr-lint';
+import { Preview } from './preview';
 import { WorldTool } from './world';
 
 class Terminal {
@@ -130,6 +131,7 @@ class Terminal {
 const [mode = 'help', path = '', argument] = process.argv.slice(2);
 switch (mode) {
   case 'lint': process.exitCode = await KyrLint.main(process.argv.slice(3)); break;
+  case 'preview': await Preview.main(process.argv.slice(3)); break;
   case 'world': await WorldTool.main(process.argv.slice(3)); break;
   case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); break;
   case 'replay': {
@@ -152,5 +154,6 @@ switch (mode) {
   case 'batch': console.log(JSON.stringify(batch(Number(argument ?? path ?? 1000), 'arena'), null, 2)); break;
   default: console.log('kyrie campaign <campaign.json> [seed] | resume <save.json> | replay <transcript.json>\n'
     + 'kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | lint [campaign.json] [--inventory]\n'
+    + 'kyrie preview <campaign.json> [--port 8080]\n'
     + 'kyrie ancestries | species | classes | abilities | validate | batch [count]');
 }

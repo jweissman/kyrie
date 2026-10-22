@@ -1,5 +1,5 @@
 import { AssetCatalog } from './asset-catalog';
-import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import type { PluginBuilder } from 'bun';
 import { Handbooks } from '../src/handbook/handbooks';
@@ -25,10 +25,11 @@ export class SiteBuild {
   }
   // The engine runs in a worker. It is built first and handed to the page's script as text, so the page can start
   // it from a blob, which works from file:// as well as from a server.
-  // A build for browser tests also carries the test fixtures, so a test can play one; the bundle on disk does not.
-  static async engine(minify: boolean, fixtures = false): Promise<string> {
+  // A build for browser tests also carries the test fixtures, so a test can play one, and an author's preview carries
+  // the campaign's own directory; the bundle on disk carries data/ alone.
+  static async engine(minify: boolean, dirs: string[] = []): Promise<string> {
     await AssetCatalog.write(this.root);
-    const files = fixtures ? await AssetCatalog.files(this.root, ['data', 'test/fixtures']) : undefined;
+    const files = dirs.length ? await AssetCatalog.files(this.root, ['data', ...dirs]) : undefined;
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/engine/engine-worker.ts')], target: 'browser',
       format: 'iife', minify, plugins: [{ name: 'single-ohm', setup: SiteBuild.singleOhm },
         ...files ? [{ name: 'fixtures', setup: SiteBuild.fixtures.bind(SiteBuild, files) }] : []],
@@ -39,8 +40,8 @@ export class SiteBuild {
   static fixtures(files: Record<string, string>, build: PluginBuilder) {
     build.onLoad({ filter: /bundles\.generated\.json$/ }, () => ({ contents: JSON.stringify(files), loader: 'json' }));
   }
-  static async reader(out: string, minify = true, fixtures = false) {
-    const engine = await this.engine(minify, fixtures);
+  static async reader(out: string, minify = true, dirs: string[] = []) {
+    const engine = await this.engine(minify, dirs);
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/reader/reader-main.tsx')], target: 'browser',
       format: 'iife', outdir: out, naming: 'mono.js', minify, sourcemap: minify ? 'linked' : 'none',
       define: { 'process.env.NODE_ENV': '"production"' },
@@ -56,13 +57,26 @@ export class SiteBuild {
   static async site(out: string, options: { fixtures?: boolean } = {}) {
     await rm(out, { recursive: true, force: true });
     await mkdir(out, { recursive: true });
-    const size = await this.reader(out, true, !!options.fixtures);
-    for (const name of ['index.html', 'mono.html']) { await cp(join(this.root, 'web/reader/index.html'), join(out, name)); }
-    await cp(join(this.root, 'web/reader/reader.css'), join(out, 'reader.css'));
-    await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });
+    const size = await this.reader(out, true, options.fixtures ? ['test/fixtures'] : []);
+    await this.page(out, '');
     await writeFile(join(out, '.nojekyll'), '');
     await HandbookPublisher.html(new Handbooks(this.root), join(out, 'handbook'));
     return size;
+  }
+  // An author's preview: the reader unminified, with the campaign's directories, and a page that reloads itself when
+  // the preview server says it has built again.
+  static async preview(out: string, dirs: string[]) {
+    await mkdir(out, { recursive: true });
+    await this.reader(out, false, dirs);
+    await this.page(out, '<script>(function(){var seen;setInterval(function(){fetch("__stamp").then(function(r){'
+      + 'return r.text();}).then(function(t){if(seen&&t&&t!==seen){location.reload();}seen=t||seen;})'
+      + '.catch(function(){});},1000);})();</script>');
+  }
+  private static async page(out: string, script: string) {
+    const html = (await readFile(join(this.root, 'web/reader/index.html'), 'utf8')).replace('</body>', `${script}</body>`);
+    for (const name of ['index.html', 'mono.html']) { await writeFile(join(out, name), html); }
+    await cp(join(this.root, 'web/reader/reader.css'), join(out, 'reader.css'));
+    await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });
   }
   static async serve(out: string, request: Request): Promise<Response> {
     const path = resolve(out, new URL(request.url).pathname.replace(/^\/+/, '') || 'index.html');

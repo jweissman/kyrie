@@ -51,7 +51,8 @@ export class PersonParser {
     return { field: 'person', value: { ...p, ...(authored.length ? { authored } : {}), spec, manner } };
   }
   // How a creature meets a company, said with it: its temperament, its words (a warning, an onslaught, a flinch, a
-  // plea) and its haunts (where its lair and refuge are, what it fears), for the inhabitants rules.
+  // plea, and what it says on seeing what is its own, or its master's, in the company's hands) and its haunts (where
+  // its lair and refuge are, what it fears), for the inhabitants and belongings rules.
   static PersonTemperament(_t: Node, id: Node, _dot: Node): Field { return { field: 'temperament', value: id.sourceString }; }
   static PersonWords(word: Node, text: Node, _dot: Node): Field {
     return { field: 'words', value: { kind: word.sourceString, text: ModuleParser.ast(text) as string } };
@@ -60,7 +61,7 @@ export class PersonParser {
     return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
   }
   static readonly manners: Record<string, string> = { Warns: 'warning', Comes: 'onslaught', Flinches: 'flinch',
-    Pleads: 'plea', Lair: 'lair', Refuge: 'refuge', Fears: 'fears' };
+    Pleads: 'plea', Objects: 'objection', Lair: 'lair', Refuge: 'refuge', Fears: 'fears' };
   private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {
     if (temperament) { PersonParser.fact(module, 'temperament', id, `temper_${temperament}`); }
     for (const m of manner) {

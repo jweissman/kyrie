@@ -26,6 +26,7 @@ Module longman "The Long Man" {
   Place undercroft "the Hall's undercroft" is level within hall.
   Place yard "the Hall yard" is room within merrow at 1, 0.
   Place study "the steward's study" is room within hall_floor at 0, 0.
+  Place chamber "the steward's bedchamber" is room within hall_floor at 1, 0.
   Place cellar "the Hall cellar" is room within undercroft at 2, 0.
   Place race "the mill race" is room within merrow at 2, 1.
   Place low_field "the low field" is room within fields at 0, 1.
@@ -44,6 +45,7 @@ Module longman "The Long Man" {
   Passage reeve_door "Gammer Coller's door" is door between green and reeve_room.
   Passage hall_lane "the Hall lane" is road between green and yard taking 30 minutes.
   Passage study_door "the study door" is door between yard and study.
+  Passage chamber_door "the bedchamber door" is door between study and chamber.
   Passage cellar_stair "the cellar stair" is stair between yard and cellar.
   Passage dyke_path "the dyke path" is path between green and low_field taking 20 minutes.
   Passage spring_path "the spring path" is path between low_field and springs taking 20 minutes.
@@ -67,6 +69,7 @@ Module longman "The Long Man" {
   Observe yard_scene at yard when true "A cobbled yard under the north end of the Long Man, where the ridge rises behind the Hall like a wall behind a house.".
   Observe yard_smashed at yard when state(cart, smashed) "Something walked through the yard gate without opening it.".
   Observe study_scene at study when true "A steward's study: a fire, a desk heaped with bills, and the Hall's accounts in a row of ledgers.".
+  Observe chamber_scene at chamber when true "A narrow bedchamber over the yard, with a cold grate, a washstand, and a bed with curtains of faded green.".
   Observe cellar_scene at cellar when true "The Hall cellar is old at the back, older than the Hall: walls of smooth grey stone, fitted without mortar. Barrels stand along them, and a heavy door has been set into a hole broken through the back wall.".
   Observe field_scene at low_field when not drowned(low_field) "A low field of black earth under the Long Man. The furrows hold water, and the grass is the bright green of a meadow that is turning into a bog.".
   Observe field_drowned at low_field when drowned(low_field) "The low field is under a hand's depth of water. The furrows are gone; reeds are coming up through it.".
@@ -78,10 +81,13 @@ Module longman "The Long Man" {
   // The people of Merrow, and what they want.
   Person venn "Aldous Venn" at study {
     Role "steward of the Hall". Ancestry human. Peaceable.
+    Objects "Venn sees {?i} in your hands, and his face changes. 'That belongs to the Hall,' he says. 'Give it here.'".
   }
   Person dunnet "Dunnet" at yard {
     Role "foreman at the Hall". Ancestry human. Calling warrior. Peaceable.
+    Objects "Dunnet looks at {?i}, and at you, and goes in to the steward without a word. The study door bangs.".
   }
+  Initially Assert serves(dunnet, venn).
   Person ysolt "Mother Ysolt" at nave {
     Role "priest of the Chapel of the Ford". Ancestry human. Calling cleric. Peaceable.
   }
@@ -90,6 +96,7 @@ Module longman "The Long Man" {
   }
   Person nell "Gammer Coller" at reeve_room {
     Role "the dyke-reeve". Ancestry human. Peaceable.
+    Objects "'That is the reeve's rod,' says Gammer Coller, very quietly. 'It is not yours, and it is not mine to lose. Put it back.'".
   }
   Person martin "Martin Pask" at taproom {
     Role "landlord of the Drowned Ox". Profession innkeeper. Peaceable.
@@ -125,26 +132,25 @@ Module longman "The Long Man" {
     State smashed "The cart lies on its side with its wheels smashed and its tarpaulin torn.".
     Change uncover "Untie the tarpaulin on the cart" from covered to uncovered.
   }
-  // What the steward's men see, the steward hears.
-  Rule dunnet_sees_cart when state(cart, uncovered) and together(dunnet, party) and not noticedCart(dunnet) says "'That's the steward's,' says Dunnet, and comes over, not quickly. 'You'll want to ask him before you go in there.'" { Assert noticedCart(dunnet). }
-  Rule dunnet_tells when holding(party, bell_teeth) and noticedCart(dunnet) and not exposed(venn) and not hostile(venn, party) and at(dunnet, yard) says "Dunnet goes in to the steward, and the study door bangs." { Assert hostile(venn, party). }
+  // The bronze is the steward's, he says, and his foreman says so first.
+  Rule dunnet_sees_cart when state(cart, uncovered) and together(dunnet, party) and serves(dunnet, venn) and not noticedCart(dunnet) says "'That's the steward's,' says Dunnet, and comes over, not quickly. 'You'll want to ask him before you go in there.'" { Assert noticedCart(dunnet). }
   Relation noticedCart(group).
-  Item teeth "a sack of bell-teeth" is bell_teeth in cart.
+  Item teeth "a sack of bell-teeth" is bell_teeth in cart owned by venn.
   Thing cellar_chest "a barrel by the cellar's back wall" at cellar {
     Holds.
   }
   // The grate key is on the steward's belt by day, and on its hook by the study door while he sleeps; he lends it
-  // to whoever takes his forty crowns.
+  // to whoever takes his forty crowns. He sleeps after supper, in the room behind the study.
+  Rule venn_retires when dark() and at(venn, study) and able(venn) { Assert at(venn, chamber). }
+  Rule venn_rises when not dark() and at(venn, chamber) and able(venn) { Assert at(venn, study). }
   Thing key_hook "the hook by the study door" at study {
     Holds.
     State worn closed "The steward wears a big iron key on his belt.".
     State hung "A big iron key hangs on the hook by the study door.".
   }
-  Item key "the steward's iron key" is cell_key in key_hook.
-  Rule venn_sleeps when dark() and state(key_hook, worn) and not lentKey(venn) { Assert state(key_hook, hung). }
-  Rule venn_wakes when not dark() and state(key_hook, hung) and not lentKey(venn) and inside(key, key_hook) { Assert state(key_hook, worn). }
-  Relation lentKey(group).
-  Rule venn_misses_key when holding(party, cell_key) and together(venn, party) and not lentKey(venn) says "Venn's hand goes to his belt, and his face changes. 'That is the Hall's key,' he says. 'Give it here.'" { Assert hostile(venn, party). }
+  Item key "the steward's iron key" is cell_key in key_hook owned by venn.
+  Rule venn_sleeps when dark() and state(key_hook, worn) and not lends(venn, key, ?c) { Assert state(key_hook, hung). }
+  Rule venn_wakes when not dark() and state(key_hook, hung) and not lends(venn, key, ?c) and inside(key, key_hook) { Assert state(key_hook, worn). }
   Discovery ledger_known "Venn's ledger: twelve bronze teeth sold to Cass Rowell of the barge Heron this year, at eight crowns the tooth, against a debt of sixty crowns, with more to come." {
     Source ledger "the steward's ledger" at study readable by party.
     Known by venn.
@@ -157,7 +163,7 @@ Module longman "The Long Man" {
   // Venn hides the bronze in the cellar at nightfall on the first day, and loads it onto the barge when it comes.
   Rule teeth_hidden when watch(clock) >= 60 and inside(teeth, cart) { Retract inside(teeth, cart). Assert inside(teeth, cellar_chest). }
   // Loaded, the teeth are Cass's: on her deck at the landing, hers to sell back, and gone downriver when she goes.
-  Rule teeth_loaded when at(cass, landing) and inside(teeth, cellar_chest) { Retract inside(teeth, cellar_chest). Assert at(teeth, landing). Assert aboard(teeth). }
+  Rule teeth_loaded when at(cass, landing) and inside(teeth, cellar_chest) { Retract inside(teeth, cellar_chest). Retract owns(venn, teeth). Assert at(teeth, landing). Assert aboard(teeth). }
   Relation aboard(item).
   Rule cass_wants when aboard(teeth) and at(teeth, landing) and not forSale(teeth) { Assert forSale(teeth). Assert soldBy(teeth, cass). Set price(teeth) to 12. }
   Rule teeth_sail when aboard(teeth) and at(teeth, landing) and at(cass, downriver) { Assert at(teeth, downriver). }
@@ -175,18 +181,21 @@ Module longman "The Long Man" {
     Description "He is owed three months, and the steward will not pay.".
     Requires able(actor) and company(actor) and at(actor, site) and at(dunnet, site) and quantity(actor, gold) >= 3
       and not promisedDoor(dunnet).
-    On success { Decrease quantity(actor, gold) by 3. Increase quantity(dunnet, gold) by 3. Assert promisedDoor(dunnet). }
+    On success {
+      Decrease quantity(actor, gold) by 3. Increase quantity(dunnet, gold) by 3. Assert promisedDoor(dunnet).
+      Retract serves(dunnet, venn).
+    }
     Result "Dunnet counts the coins twice. 'The steward sleeps after supper,' he says, low. 'The bar comes off the cellar door at dark, and goes back on at cockcrow. That's all. I never saw you.'".
   }
   Rule door_unbarred when promisedDoor(dunnet) and dark() and state(cellar_door, barred) { Assert state(cellar_door, unbarred). }
   Rule door_rebarred when promisedDoor(dunnet) and not dark() and state(cellar_door, unbarred) and not at(party, cellar) { Assert state(cellar_door, barred). }
 
   // Venn: what he says, and what he pays.
-  Topic venn_bounty with venn "Ask Aldous Venn about the Mower" when not exposed(venn) {
+  Topic venn_bounty with venn "Ask Aldous Venn about the Mower" when not exposed(venn) and not hostile(venn, actor) {
     Says "'The Mower,' says Venn, and smiles as if it were a joke between gentlemen. 'The Long Man's ghost. It walks the crest at night and frightens the parish, and now it has taken to coming down into my yard. Forty crowns, and you may keep the mask it wears to show for it; Mother Ysolt will want to bury it.' He unhooks a big iron key from his belt and hangs it by the door. 'It lies up inside the hill by day, the men say. That key opens the grate at the Hollow Door.'".
-    On discuss { Assert knows(actor, bounty_known). Assert lentKey(venn). Assert state(key_hook, hung). }
+    On discuss { Assert knows(actor, bounty_known). Assert lends(venn, key, actor). Assert state(key_hook, hung). }
   }
-  Topic venn_bronze with venn "Ask Aldous Venn what was in the cart" when knows(actor, ledger_known) and not exposed(venn) {
+  Topic venn_bronze with venn "Ask Aldous Venn what was in the cart" when knows(actor, ledger_known) and not exposed(venn) and not hostile(venn, actor) {
     Says "Venn's smile stays where it is, but his eyes go to the ledgers. 'Old metal,' he says. 'Lumber from the Long Folk's mill under the hill. The estate has debts, and the hill is the estate's.' He spreads his hands. 'Nobody in Merrow ever had a use for it.'".
   }
   Relation exposed(group).
@@ -242,14 +251,10 @@ Module longman "The Long Man" {
   }
   Topic nell_lend with nell "Ask Gammer Coller for the loan of her rod" when knows(actor, mower_keeps) and at(rod, reeve_room) {
     Says "She listens without a word while you tell her what the Mower does. Then she lays the rod on the table. 'I always thought it walked like a reeve,' she says. 'Bring it back.'".
-    On discuss { Assert lent(rod). }
+    On discuss { Assert lends(nell, rod, actor). }
   }
-  Relation lent(entity).
-  Rule nell_sees_rod when holding(party, sluice_rod) and together(nell, party) and not lent(rod) and not angered(nell) says "'That is the reeve's rod,' says Gammer Coller, very quietly. 'It is not yours, and it is not mine to lose. Put it back.'" { Assert angered(nell). }
-  Relation angered(group).
-  Item rod "the dyke-reeve's rod" is sluice_rod at reeve_room hidden until rod_seen.
-  Entity rod_seen: fact "Gammer Coller keeps an old rod shod in notched bronze, the dyke-reeve's rod, by her door.".
-  Initially Assert established(rod_seen).
+  Item rod "the dyke-reeve's rod" is sluice_rod at reeve_room hidden until rod_seen owned by nell.
+  Discovery rod_seen "Gammer Coller keeps an old rod shod in notched bronze, the dyke-reeve's rod, by her door.".
 
   // Cass Rowell's barge, the Heron: up the beck at noon on the second day, away at dusk.
   Person cass "Cass Rowell" at downriver {
@@ -274,8 +279,7 @@ Module longman "The Long Man" {
   Thing grate "the iron grate" on culvert {
     State locked blocking "The iron grate is locked with a padlock the size of a loaf.".
     State open "The iron grate stands open on its hinges.".
-    Change unlock "Unlock the grate with the steward's key" from locked to open needing cell_key.
+    Change unlock "Unlock the grate with the steward's key" from locked to open needing key.
   }
   Initially Assert keyholder(venn, grate).
-  Goal false.
 }

@@ -28,13 +28,11 @@ Module longman "The Long Man" {
   Observe socket_seen at water_house when knows(party, rod_seen) "In the hub of the great wheel is a socket, square, its edges notched in a close pattern: the pattern on the shoe of Gammer Coller's rod." teaches rod_fits.
   Observe street_scene at drowned_street when true "A street of houses of grey stone with their roofs on, silted to the windows, shining with water. The doors are tall and narrow. On the lintel of every one the same short row of notches.".
 
-  Entity rod_fits: fact "The square socket in the hub of the Water-House wheel is notched to the pattern of the dyke-reeve's rod: the rod is a key to it.".
-  Initially Assert established(rod_fits).
+  Discovery rod_fits "The square socket in the hub of the Water-House wheel is notched to the pattern of the dyke-reeve's rod: the rod is a key to it.".
   Discovery hesk_known "The words cut round the Water-House wall, read: WE GAVE THE LOW HOUSES TO THE WATER, SO THAT THE FIELDS WOULD BE DRY. WE WILL KEEP THE WALL AS WE KEPT THE HOUSES." {
     Found by searching water_house with lore "The notches round the walls are writing, the writing of the Mower's breastplate. Round and round the room, as near as it can be read: WE GAVE THE LOW HOUSES TO THE WATER, SO THAT THE FIELDS WOULD BE DRY. WE WILL KEEP THE WALL AS WE KEPT THE HOUSES.".
   }
-  Entity town_known: fact "Under Hollow Water stands a town of the people who built the Long Man, drowned by its own builders.".
-  Initially Assert established(town_known).
+  Discovery town_known "Under Hollow Water stands a town of the people who built the Long Man, drowned by its own builders.".
   Observe street_teaches at drowned_street when true "Whoever lived here walked out of these doors uphill, and let the water in after them." teaches town_known.
 
   // The master wheel: worked with the rod, it draws the lake down by a man's height in two hours.
@@ -54,14 +52,13 @@ Module longman "The Long Man" {
   // The Old Jack keeps the deep water.
   Person jack "the Old Jack" at deep {
     Role "a pike as long as the punt". Species great_pike. Level 4.
+    Temperament ambush.
+    Warns "A shadow longer than the punt turns under the water, slowly, and comes up beneath you. It has seen you see it.".
+    Comes "The water opens beside the punt, and the Old Jack comes up out of it with its mouth wide.".
   }
-  Initially Assert temperament(jack, temper_ambush). Initially Assert warning(jack, jack_seen). Initially Assert onslaught(jack, jack_strikes).
-  Entity jack_seen: fact "A shadow longer than the punt turns under the water, slowly, and comes up beneath you. It has seen you see it.".
-  Entity jack_strikes: fact "The water opens beside the punt, and the Old Jack comes up out of it with its mouth wide.".
 
   // What the company is asked, and what it comes to see it must do.
   Objective lay_mower when knows(party, bounty_known) and not paidBounty(venn) and able(mower) and not knows(party, mower_keeps) "Aldous Venn will pay forty crowns for the Mower's mask.".
   Objective keep_wall when knows(party, teeth_taken) and knows(party, wall_known) and not state(leak_gate, mended) and not drawn(hollow) and not broke(long_man) "The Long Man is leaking where its bronze was taken, and the storm is coming.".
   Objective warn_merrow when knows(party, notches_known) and not convinced(ysolt) and not broke(long_man) "If the Long Man goes, the water will come over the chapel roof. Someone should tell Mother Ysolt.".
-  Goal false.
 }

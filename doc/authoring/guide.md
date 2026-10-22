@@ -149,12 +149,49 @@ The catalogs live in `data/catalog`, one file per concept: `ancestries`, `specie
 `backgrounds`, `abilities`, `conditions`, `items`, `skills`, `religion`, `organisms` and `rules`. Use the plain
 identifiers you find there. Former identifiers still resolve through `aliases.json`, but lint reports them.
 
+### How a creature meets you
+
+A creature that is not `Peaceable` meets a company that comes where it lives by its **temperament**:
+
+- **territorial**: warns, then comes at whoever stays;
+- **defensive**: warns, and fights only in its lair;
+- **savage**: comes at once;
+- **ambush**: strikes, unless a watchful company sees it first;
+- **wary**: slips away to its refuge, and fights only when cornered there;
+- **obedient**: keeps its post;
+- **proud**: names a price.
+
+A species has its own temperament, and a monster without one takes its type's: a beast is territorial, the undead
+savage. A person can be given a temperament, and its own words, in its declaration. From *The Long Man*
+([data/adventures/the-long-man](../../data/adventures/the-long-man)):
+
+```text
+  Person wet "the Wet" at leak {
+    Role "a heaving mass of wet clay". Species mud_elemental. Level 5.
+    Temperament territorial.
+    Warns "At the far end of the wet gallery the floor heaves, and a shape stands up out of the clay, streaming, as tall as a door.".
+    Comes "The Wet comes down the gallery at you, faster than mud should.".
+  }
+```
+
+The words are:
+
+- `Warns` and `Comes`: its warning and its onslaught;
+- `Flinches` and `Pleads`: what it does when it is frightened off, and when it is beaten;
+- `Lair`, `Refuge` and `Fears`: where it holds, where it runs, and what drives it there (`Fears sunlight.`);
+- `Objects`: what a person says on seeing what is theirs in the company's hands (see "Whose things are", below).
+
+A creature given no words is told in plain ones: "A grey wolf stands its ground and watches you. It will not have
+you here for long."
+
 ## 4. Things with states
 
 A thing stands at a place or on a passage, and is in exactly one state at a time. Each state has the description the
-player sees while it holds. A `blocking` state closes the passage the thing is on, and a `dangerous` state hurts
-whoever crosses. A `Change` moves the thing from one state to another; it can need a skill or an item kind, or consume
-a good. You never write a separate scene line saying the gate is open: the gate's state says it.
+player sees while it holds; the description of the state a change leads to is what the player is told when they make
+it. A `blocking` state closes the passage the thing is on, and a `dangerous` state hurts whoever crosses. A `Change`
+moves the thing from one state to another. It can need a skill, an item kind or one particular item, or consume a
+good, and `at` a place it can be made from there alone. You never write a separate scene line saying the gate is
+open: the gate's state says it.
 
 ```kyr
   Thing grille "the rusted grille" on ossuary_arch {
@@ -164,6 +201,24 @@ a good. You never write a separate scene line saying the gate is open: the gate'
     Change pick "Pick the grille's lock" from shut to open needing lockwork.
   }
   Item lever "a sexton's bar" is crowbar at nave.
+```
+
+A key that opens one lock and no other, and a bar on one side of a door, from the counting-house fixture
+([test/fixtures/counting-house](../../test/fixtures/counting-house)). A rusty key of the same kind lies in the street
+and does not open the strongroom, and from the yard the bar cannot be reached:
+
+```text
+  Item brass_key "the strongroom key" is cell_key in coat owned by pim.
+  Thing strong_lock "the strongroom lock" on strong_door {
+    State locked blocking "The strongroom door is locked.".
+    State open "The strongroom door stands open.".
+    Change unlock "Unlock the strongroom door" from locked to open needing brass_key.
+  }
+  Thing back_bar "the bar on the back door" on back_door {
+    State barred blocking "The back door is barred.".
+    State unbarred "The back door is unbarred.".
+    Change lift "Lift the bar off the back door" from barred to unbarred at office.
+  }
 ```
 
 A mechanism of your site is a **Hazard**, written in the same effect language as abilities. It belongs to your
@@ -187,6 +242,14 @@ who will say it. A passage hidden until a fact is known appears on the map once 
   Discovery chute_known "A bone chute drops from the ossuary to the strand; the sexton's ledger marks it." {
     Source ledger "the sexton's ledger" at porch readable by party.
   }
+```
+
+A discovery need not have a source. What people know, or a scene shows, is a discovery with nothing to read: `Known
+by` says who knows it already, and a topic, a scene or a rule teaches it.
+
+```text
+  Discovery strongroom_rumour "The strongroom holds the factor's black ledger." { Known by porter. }
+  Discovery wall_known "The Long Man is a wall: it holds Hollow Water back from the dale, and the beck comes through it by a culvert.".
 ```
 
 A scene can teach what it shows. `teaches` makes seeing it knowing it, and the journal will say "you saw it":
@@ -254,8 +317,8 @@ world turns the hazard on one member. From `test/fixtures/strongroom`:
 `dice(clock)` is a die from 1 to 100 thrown every watch from the campaign's seed; a rule that reads it is how a
 world leaves something to chance (a band on the road at night, the weather turning). Weather is a `scenery` entity
 whose state other things follow by rules; scenery has states and descriptions but is not offered to be tried. A
-thing on a way the company does not know of is not noticed, so it does not give the way away. From
-`data/regions/varrow`:
+thing on a way the company does not know of is not noticed, so it does not give the way away. From the Varrow, a
+region since retired (it is in the history before commit e4b485b):
 
 ```text
   Entity sky: scenery "the sky over the Varrow".
@@ -277,7 +340,7 @@ covers it as well as an unlit place without a light. A change can be `consuming`
 
 `tolerates(x, company)` means x lets the company be: it does not bar the company's way, fall on it, or break its
 rest. A toll, a bribe, an audience or a bargain is a rule or action that asserts it, and a betrayal retracts it.
-`keyholder(x, thing)` lets x, and whoever serves x, through a way that thing bars. From `data/sites/lanthorn`:
+`keyholder(x, thing)` lets x, and whoever serves x, through a way that thing bars. From the Lanthorn, also retired:
 
 ```text
   Action pay_toll(actor: group, site: place) "Pay the wardens the Toll, six coin" {
@@ -288,10 +351,39 @@ rest. A toll, a bribe, an audience or a bargain is a rule or action that asserts
   Change scorch "Unstop the noonlight at the Unlight" from ravening to scorched consuming noonlight.
 ```
 
-## 6. Descriptions and goal
+### Whose things are
+
+An item can be someone's: `owned by pim`. When the company carries it where its owner can see, the owner objects,
+once, and is hostile to the company after. Someone who `serves` the owner goes to tell them. Lending excuses it: a
+topic or an action that asserts `lends(pim, brass_key, actor)` lets the company carry the thing in front of anyone. A
+person's `Objects "…"` is what they say, with `{?i}` for the thing they saw. Without it they say "That is mine." From
+the counting-house fixture:
+
+```text
+  Person porter "the porter" at office {
+    Role "the counting-house porter". Ancestry human. Peaceable.
+    Objects "The porter looks at {?i} in your hands, and at you, and goes out without a word to find Pim.".
+  }
+  Initially Assert serves(porter, pim).
+  Item brass_key "the strongroom key" is cell_key in coat owned by pim.
+  Action bribe_pim(actor: group, site: place) "Pay Pim ten coin to leave the key on his desk and go out for air" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(pim, site) and quantity(actor, gold) >= 10
+      and inside(brass_key, coat).
+    On success {
+      Decrease quantity(actor, gold) by 10. Increase quantity(pim, gold) by 10.
+      Retract inside(brass_key, coat). Assert inside(brass_key, desk). Assert lends(pim, brass_key, actor). Assert at(pim, street).
+    }
+    Result "Pim looks at the coins, and at the door, and puts the key on his desk and goes out for some air.".
+  }
+```
+
+A servant bought off stops serving: in *The Long Man*, paying Dunnet's wages retracts `serves(dunnet, venn)`.
+
+## 6. Descriptions
 
 An observation describes a place while its condition holds. Write what the company sees; leave out how the game
-works. `kyrie lint` reports text that explains the implementation ("persists", "the engine", "flag").
+works. `kyrie lint` reports text that explains the implementation ("persists", "the engine", "flag"). A module needs
+no `Goal`: objectives say what the company is trying to do.
 
 ```kyr
   Observe green_scene at green when true "Cottages lean around a muddy green. The Heron's sign hangs over one door, and Osk's chandlery smells of tar and candles.".
@@ -303,7 +395,6 @@ works. `kyrie lint` reports text that explains the implementation ("persists", "
   Observe nave_scene at nave when true "Knee-deep water fills the nave. Steps go down at the far end.".
   Observe stair_scene at stair_foot when true "Dry air, and the smell of old bone.".
   Observe ossuary_scene at ossuary when true "Shelves of skulls, and a square black opening in the floor.".
-  Goal false.
 }
 ```
 
@@ -367,3 +458,20 @@ Lint reports identity conflicts, places outside the containment tree, passages w
 duplicate passages, passage kinds that contradict their ends, rooms the company cannot reach, actions with no
 possible target, items of unknown kinds, and prose that explains the implementation. A recommended world has no
 findings.
+
+A module that does not load says where, and what else has the name:
+
+```text
+test/fixtures/counting-house/site.kyr:5: Duplicate entity marsh
+  'marsh' is already declared by the shared rules at data/rules/core.kyr:13; choose another name
+```
+
+To see your world while you write it:
+
+```
+bun bin/kyrie.ts preview path/to/your.campaign.json
+```
+
+This lints the campaign, builds the reader with it, and serves it at `http://localhost:8080/?campaign=…`. Each time a
+file is saved it lints and builds again, and the open page reloads. A module that does not load is reported, and the
+page keeps the last build that did.

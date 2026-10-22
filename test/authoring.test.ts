@@ -72,6 +72,20 @@ describe('the clerk and the key', () => {
     expect(House.holds(s, 'hostile', 'world__pim', 'party')).toBe(true);
     expect(House.holds(s, 'objected', 'world__pim', 'world__brass_key')).toBe(true);
   });
+  it('lets the porter object in his own words while his master is out', async () => {
+    const s = await House.start();
+    await House.act(s, 'go(world__front_door,world__office)');
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'world__pim', 'world__street') },
+      { kind: 'retract', call: ModuleWriter.call('inside', 'world__brass_key', 'world__coat') },
+      { kind: 'assert', call: ModuleWriter.call('inside', 'world__brass_key', 'world__desk') }]));
+    const taken = await House.act(s, 'take_out(world__brass_key');
+    expect(House.said(taken)).toContain('The porter looks at the strongroom key in your hands');
+    expect(House.holds(s, 'hostile', 'world__pim', 'party')).toBe(true);
+  });
+});
+
+describe('the counting-house\'s back door, its dog and its porter', () => {
   it('lets the back door\'s bar be lifted only from the office side', async () => {
     const s = await House.start();
     await House.act(s, 'go(world__front_door,world__office)');
@@ -111,7 +125,7 @@ describe('what an author is told when a module does not load', () => {
   });
   it('says when the author has given one name to two things', async () => {
     const message = await House.broken(t => t.replace('State open', 'State yard').replace('to open needing', 'to yard needing'));
-    expect(message).toContain(`'yard' names two things, at ${House.site}:8 and ${House.site}:38`);
+    expect(message).toContain(`'yard' names two things, at ${House.site}:8 and ${House.site}:41`);
   });
   it('puts a syntax error at its file, line and column', async () => {
     const message = await House.broken(t => t.replace('Peaceable. }', 'Peaceable }'));

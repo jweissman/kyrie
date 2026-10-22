@@ -14,7 +14,10 @@ Module counting_house "A counting-house with a strongroom" {
 
   // The clerk keeps the key in his coat. Paid, he leaves it on his desk, lends it, and goes out for air.
   Person pim "Pim" at office { Role "a clerk". Ancestry human. Peaceable. }
-  Person porter "the porter" at office { Role "the counting-house porter". Ancestry human. Peaceable. }
+  Person porter "the porter" at office {
+    Role "the counting-house porter". Ancestry human. Peaceable.
+    Objects "The porter looks at {?i} in your hands, and at you, and goes out without a word to find Pim.".
+  }
   Initially Assert serves(porter, pim).
   Thing coat "Pim's coat" at office {
     Holds.

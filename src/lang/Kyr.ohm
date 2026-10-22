@@ -47,7 +47,7 @@ Kyr {
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
   PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonWords | PersonHaunt
   PersonTemperament = "Temperament" ident "."
-  PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads") string "."
+  PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads" | "Objects") string "."
   PersonHaunt = ("Lair" | "Refuge" | "Fears") ident "."
   PersonProfession = "Profession" ident "."
   PersonBackground = "Background" ident "."

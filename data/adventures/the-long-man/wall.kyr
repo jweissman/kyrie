@@ -26,15 +26,11 @@ Module longman "The Long Man" {
   Passage gauge_shaft "the gauge shaft" is shaft between shaft_foot and gauge_head taking 30 minutes needing climbing or rope.
   Passage sinkhole "the sinkhole" is climb between crest and leak taking 20 minutes needing rope.
 
+  // The bar is on the cellar side: only someone in the cellar can lift it.
   Thing cellar_door "the door in the broken wall" on broken_wall {
     State barred blocking "A heavy door closes the hole broken through the wall, barred on the cellar side.".
-    State unbarred "The door in the broken wall stands with its bar off.".
-  }
-  // The bar is on the cellar side: only someone in the cellar can lift it.
-  Action lift_bar(actor: group, site: place) "Lift the oak bar off the door in the broken wall" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar) and state(cellar_door, barred).
-    On success { Assert state(cellar_door, unbarred). }
-    Result "The bar comes off its brackets with a groan, and cold, dry air comes round the door.".
+    State unbarred "The bar is off the door in the broken wall, and cold, dry air comes round its edges.".
+    Change lift "Lift the oak bar off the door in the broken wall" from barred to unbarred at cellar.
   }
   Initially Assert keyholder(venn, cellar_door).
 
@@ -68,8 +64,7 @@ Module longman "The Long Man" {
   Discovery keeper_named "The notches on the Mower's breastplate, read: KEEPER OF THE WALL." {
     Found by searching rest with lore "The notches on the Mower's breastplate are writing, the same writing as on the walls. It says, as near as it can be read: KEEPER OF THE WALL.".
   }
-  Entity mower_keeps: fact "The Mower keeps the Long Man: it cuts every sapling on the crest before its roots can crack the wall, and it goes after bronze taken from its wheels.".
-  Initially Assert established(mower_keeps).
+  Discovery mower_keeps "The Mower keeps the Long Man: it cuts every sapling on the crest before its roots can crack the wall, and it goes after bronze taken from its wheels.".
   // Given back its bronze, it fits the teeth to the leak gate's wheel that night, and closes the gate.
   Event mower_mends near mower when keeps(mower, teeth) and not state(leak_gate, mended) "The Mower takes the sack of teeth in both hands, turns, and walks away into the hill. Some time later, deep inside the Long Man, something heavy closes with a sound like a bell." then {
     Assert state(leak_gate, mended).
@@ -95,10 +90,10 @@ Module longman "The Long Man" {
   }
   Person wet "the Wet" at leak {
     Role "a heaving mass of wet clay". Species mud_elemental. Level 5.
+    Temperament territorial.
+    Warns "At the far end of the wet gallery the floor heaves, and a shape stands up out of the clay, streaming, as tall as a door.".
+    Comes "The Wet comes down the gallery at you, faster than mud should.".
   }
-  Initially Assert temperament(wet, temper_territorial). Initially Assert warning(wet, wet_rises). Initially Assert onslaught(wet, wet_comes).
-  Entity wet_rises: fact "At the far end of the wet gallery the floor heaves, and a shape stands up out of the clay, streaming, as tall as a door.".
-  Entity wet_comes: fact "The Wet comes down the gallery at you, faster than mud should.".
   Rule wet_slumps at leak when state(leak_gate, mended) and at(wet, leak) says "The Wet sags, and sags, and is a heap of clay on the floor, and then is only floor." { Assert at(wet, core). }
 
   // The sluice: the bottom gate under the chamber. Opened, it fills the culvert and runs the beck high.
@@ -120,12 +115,10 @@ Module longman "The Long Man" {
   Discovery notches_known "The notches on the font are water heights, like the notches down the gauge shaft: the same cuts, the same spacing. The highest notch on the font is level with the chapel's roof-beam." {
     Source shaft_notches "the notches down the gauge shaft" at shaft_foot readable by party.
   }
-  Entity wall_known: fact "The Long Man is a wall: it holds Hollow Water back from the dale, and the beck comes through it by a culvert.".
-  Initially Assert established(wall_known).
+  Discovery wall_known "The Long Man is a wall: it holds Hollow Water back from the dale, and the beck comes through it by a culvert.".
   Observe sluice_teaches at sluice when true "Above the grating the wheels and the culvert make plain what the Long Man is: not a barrow, a wall, with a lake behind it and a sluice through it." teaches wall_known.
   Observe teeth_missing at leak when not state(leak_gate, mended) "Fresh bright scars ring the empty sockets, where a bar has been used." teaches teeth_taken.
-  Entity teeth_taken: fact "Twelve bronze teeth have been prised out of the wheel of the shutter that should close the leak in the Long Man.".
-  Initially Assert established(teeth_taken).
+  Discovery teeth_taken "Twelve bronze teeth have been prised out of the wheel of the shutter that should close the leak in the Long Man.".
 
   // The storm comes on the third day; two hours after midnight the Long Man breaks, unless its leak is shut or the
   // lake is drawn down.
@@ -149,5 +142,4 @@ Module longman "The Long Man" {
   Relation lostToWater(group).
   Rule folk_lost when broke(long_man) and at(folk, green) { Assert lostToWater(folk). Assert at(folk, core). }
   Observe folk_saved at yard when at(folk, yard) and broke(long_man) "Merrow stands in the Hall yard in the rain, and looks down the lane at where it lived.".
-  Goal false.
 }

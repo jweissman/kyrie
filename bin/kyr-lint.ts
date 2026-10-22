@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path';
 import { ModuleParser } from '../src/lang/module-parser';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import type { BundleSource } from '../src/campaign/bundle-source';
 import { CampaignLint } from './campaign-lint';
 import type { Module } from '../src/lang/module';
 
@@ -66,8 +67,9 @@ export class KyrLint {
     return [...where].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
       .map(([name, files]) => `${String(files.length).padStart(3)}  ${name}  ${files.join(', ')}`);
   }
-  static async campaign(path: string): Promise<Finding[]> {
-    const lint = new CampaignLint(path, await PlaySession.start(path, 'lint', NodeBundleSource.shared));
+  // A source of its own for a process that reads files that change (the preview), since loads are kept per source.
+  static async campaign(path: string, source: BundleSource = NodeBundleSource.shared): Promise<Finding[]> {
+    const lint = new CampaignLint(path, await PlaySession.start(path, 'lint', source));
     lint.identity(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
     lint.applicability(); lint.items(); lint.prose(); lint.domain();
     return lint.findings;
@@ -76,7 +78,9 @@ export class KyrLint {
     const results: Record<string, Finding[]> = { vocabulary: this.vocabulary() };
     for (const path of paths.length ? paths : this.campaigns()) {
       try { results[path] = await this.campaign(path); }
-      catch (e) { results[path] = [{ level: 'error', check: 'load', where: path, message: String(e).slice(0, 200) }]; }
+      catch (e) {
+        results[path] = [{ level: 'error', check: 'load', where: path, message: (e instanceof Error ? e.message : String(e)).slice(0, 800) }];
+      }
     }
     return results;
   }
