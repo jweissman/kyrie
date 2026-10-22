@@ -1,0 +1,185 @@
+{
+  "regionClimate": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "temperate",
+        "temperate",
+        "temperate",
+        "tropical"
+      ],
+      "marsh": [
+        "temperate",
+        "tropical",
+        "tropical",
+        "humid"
+      ],
+      "mountain": [
+        "cold",
+        "temperate",
+        "temperate",
+        "arid"
+      ],
+      "frost": [
+        "cold",
+        "cold",
+        "temperate"
+      ]
+    }
+  },
+  "climateWeather": {
+    "discriminator": "climate",
+    "groups": {
+      "arid": [
+        "sunny",
+        "sunny",
+        "windy",
+        "dusty",
+        "hot"
+      ],
+      "coastal": [
+        "windy",
+        "foggy",
+        "sunny",
+        "rainy",
+        "cloudy",
+        "fair"
+      ],
+      "cold": [
+        "snowy",
+        "cloudy",
+        "windy",
+        "cold",
+        "foggy",
+        "sunny"
+      ],
+      "humid": [
+        "rainy",
+        "cloudy",
+        "foggy",
+        "sunny",
+        "stormy"
+      ],
+      "polar": [
+        "snowy",
+        "windy",
+        "foggy",
+        "cloudy",
+        "cold",
+        "freezing"
+      ],
+      "temperate": [
+        "sunny",
+        "fair",
+        "cloudy",
+        "rainy",
+        "windy",
+        "foggy"
+      ],
+      "tropical": [
+        "sunny",
+        "sunny",
+        "fair",
+        "rainy",
+        "humid",
+        "stormy"
+      ],
+      "unpredictable": [
+        "stormy",
+        "windy",
+        "rainy",
+        "foggy",
+        "cloudy"
+      ],
+      "volcanic": [
+        "ashfall",
+        "smoky",
+        "hot",
+        "cloudy",
+        "windy"
+      ]
+    }
+  },
+  "skyLine": {
+    "discriminator": "weather",
+    "groups": {
+      "sunny": [
+        "sun",
+        "The sun is warm, and the shadows are short."
+      ],
+      "fair": [
+        "fair",
+        "A fair day, with a light wind."
+      ],
+      "cloudy": [
+        "cloud",
+        "Low cloud sits on the hills."
+      ],
+      "rainy": [
+        "rain",
+        "Rain drives across in grey sheets, and every rut is a stream."
+      ],
+      "windy": [
+        "wind",
+        "A hard wind pulls at cloaks and doors."
+      ],
+      "foggy": [
+        "fog",
+        "Fog lies thick; the far side of things is gone."
+      ],
+      "snowy": [
+        "snow",
+        "Snow comes down slow and thick, and muffles everything."
+      ],
+      "cold": [
+        "cold",
+        "A raw cold gets in at every gap."
+      ],
+      "stormy": [
+        "storm",
+        "A storm is blowing: rain like thrown gravel, and thunder in the hills."
+      ],
+      "humid": [
+        "close",
+        "The air is close and wet, and the flies are bad."
+      ],
+      "hot": [
+        "heat",
+        "The heat lies on the land like a hand."
+      ],
+      "dusty": [
+        "dust",
+        "Dust blows along the road in little whirls."
+      ],
+      "freezing": [
+        "hard frost",
+        "A hard frost: the puddles are iron, and breath hangs in the air."
+      ],
+      "ashfall": [
+        "ash",
+        "Ash sifts down out of a brown sky."
+      ],
+      "smoky": [
+        "smoke",
+        "Smoke hangs in the air, from somewhere."
+      ]
+    }
+  },
+  "seasonLine": {
+    "discriminator": "season",
+    "groups": {
+      "spring": [
+        "Lambs cry in the home fields, and the ground is soft from the thaw."
+      ],
+      "summer": [
+        "Haymakers are out in the meadows, and the hedges are white with dust."
+      ],
+      "autumn": [
+        "The harvest is coming in, and the evenings draw in early."
+      ],
+      "winter": [
+        "Woodsmoke hangs low over the roofs, and the fields are bare."
+      ]
+    }
+  }
+}

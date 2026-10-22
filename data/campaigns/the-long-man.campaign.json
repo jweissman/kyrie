@@ -1,6 +1,7 @@
 {
   "version": 1,
   "name": "The Long Man",
+  "calendar": { "year": 1312, "month": 8, "day": 17 },
   "pitch": {
     "heading": "A company for Merrowdale",
     "text": "At the head of Merrowdale a long green ridge lies across the valley, and the village under it says a giant king is buried there. Something tall walks its crest at night. The steward of the Hall has posted forty crowns for whoever will lay it, and the autumn storm is three days off. Choose three companions."

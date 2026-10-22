@@ -118,7 +118,7 @@ export class Campaign implements WatchHost {
         campaign = new Campaign(seed, ModuleInstallations.prepare(undefined, draft, 0));
       }
     }
-    campaign!.compiled.name = manifest.name;
+    campaign!.compiled.name = manifest.name; if (manifest.calendar) { campaign!.current.calendar = manifest.calendar; }
     return campaign!;
   }
   async install(request: BundleRequest, source: BundleSource): Promise<void> {

@@ -67,6 +67,8 @@ export class WorldAssembler {
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const drawn = new Content(RandomStreams.key(seed, 'world', 'region')).generate('region', options.region ?? {});
     const region = PlaceNames.render(RegionPeoples.settle(drawn as unknown as Region, RandomStreams.key(seed, 'world')));
+    const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
+    region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const eligibility = library.map(e => this.fits(e.manifest, context, region));
@@ -106,6 +108,7 @@ export class WorldAssembler {
       company: { size: party.length, contacts } });
     const kits = framework.map(k => ({ ...k, optional: true }));
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
+      calendar: region.calendar,
       pitch: { heading: `A company in ${region.name}`, text: `${region.name} is ${RegionWriter.terrain(region.terrain)} `
         + `country, home to ${RegionWriter.peoples(region)}, who keep the faith of ${region.deity}. Nobody hires a `
         + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '

@@ -3,6 +3,7 @@ import type { ReaderApp } from './reader-app';
 import type { View } from './menu-model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Words } from './words';
+import { FictionalTime } from '../../src/presentation/fictional-time';
 
 // The line above the page: the campaign, what can be opened beside the page (the company, what it carries, the
 // journal, the whole map, the story so far), and the time of day as people say it (the hour for whoever looks
@@ -21,9 +22,18 @@ export class TopLine {
           <button type="button" data-action="history" aria-pressed={s.history}
             onClick={TopLine.story.bind(null, app)}>Story</button>
         </nav>}
-        <time data-id="clock" title={screen.clock}>{Words.daytime(screen.elapsed)}</time>
+        <time data-id="clock" title={TopLine.closer(screen)}>{TopLine.when(screen)}</time>
       </header>
     );
+  }
+  // "Morning · 20 Leaffall · rain" when the campaign keeps a calendar, else "Morning, the first day".
+  static when(screen: Screen): string {
+    if (!screen.date) { return Words.daytime(screen.elapsed); }
+    return [Words.upper(FictionalTime.part(screen.elapsed)), screen.date.short, screen.weather].filter(Boolean).join(' · ');
+  }
+  // The hour and the date in full, for whoever looks closer.
+  static closer(screen: Screen): string {
+    return screen.date ? `${screen.clock}: ${screen.date.long}` : screen.clock;
   }
   private static open(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
     app.show(e.currentTarget.dataset.view as View);

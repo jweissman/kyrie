@@ -50,6 +50,8 @@ export interface MemberRow {
 export interface LogEntry { at: string; title: string; lines: string[]; tone: 'act' | 'fight' | 'note' | 'fail' }
 export interface Screen {
   title: string; clock: string; elapsed: number; running: boolean;
+  // The day as the calendar has it ("20 Leaffall", and in full with the season), and the weather, when known.
+  date?: { short: string; long: string }; weather?: string;
   path: PlaceRef[]; place: PlaceRef; prose: string[];
   // The company stands in the dark without a light.
   dark?: boolean;

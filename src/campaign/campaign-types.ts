@@ -1,3 +1,4 @@
+import type { CalendarStart } from '../presentation/calendar';
 import type { CommandResolution } from './command-resolution';
 import type { CampaignDefinition } from './definition';
 import type { Creature } from '../creature';
@@ -16,6 +17,8 @@ export interface CampaignState {
   partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
   // Who has joined the company, and which company: their own group is empty from then on.
   enlisted?: Record<string, string>;
+  // The date the campaign began on, when its manifest gives one (see Calendar).
+  calendar?: CalendarStart;
   outcome: 'active' | 'success' | 'failure';
   modules?: ModuleStatus[];
   outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];

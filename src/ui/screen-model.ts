@@ -7,6 +7,7 @@ import { Content } from '../content';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../presentation/fictional-time';
+import { Calendar } from '../presentation/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
@@ -23,6 +24,13 @@ import type { ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
 export class ScreenModel {
+  // The date by the campaign's calendar, and the weather by the sky of the region the company is in.
+  private static when(campaign: Campaign, elapsed: number): Pick<Screen, 'date' | 'weather'> {
+    const start = campaign.readout.calendar, world = campaign.world;
+    const sky = world.snapshot.relations.find(r => r.name === 'state' && /(^|__)sky$/.test(r.args[0]!))?.args[1];
+    return { ...start ? { date: { short: Calendar.short(start, elapsed), long: Calendar.long(start, elapsed) } } : {},
+      ...sky ? { weather: sky.replace(/^.*__/, '').replace(/^weather_/, '') } : {} };
+  }
   static build(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world;
     const entities = ObservationText.presented(world);
@@ -56,7 +64,7 @@ export class ScreenModel {
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {} })));
     return {
       title: view.title, clock: FictionalTime.at(view.elapsed), elapsed: view.elapsed, running: view.running,
-      path: here ? passages.path(here) : [], place: passages.place(here),
+      ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
       prose: scene.prose, fresh: scene.fresh,
       dark: view.observations.some(o => o.id === 'darkness'),
       exits: here ? passages.exits(here, grouped.exits,

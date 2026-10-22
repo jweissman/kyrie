@@ -5,6 +5,8 @@ import { RegionPeoples } from './region-peoples';
 import { RegionFaith } from './region-faith';
 import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
+import { RegionWeather } from './region-weather';
+import type { CalendarStart } from '../presentation/calendar';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
 // entity it writes is exported under its own id, so scenarios bind to it like any other module.
@@ -31,6 +33,8 @@ export interface Region extends Naming {
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };
   // The region's named land (see RegionLand): its river, lake, peak, pass or wood. Its peoples, majority first.
   land?: Landmark[]; peoples?: string[];
+  // The day the company arrives, which decides the season and each day's weather (see RegionWeather).
+  calendar?: CalendarStart;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
@@ -67,7 +71,8 @@ export class RegionWriter {
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
-    lines.push(...RegionGeography.lines(region), ...RegionSites.lines(region));
+    lines.push(...RegionGeography.lines(region), ...RegionSites.lines(region),
+      ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
     lines.push(...RegionRecruits.arrival(region, company));

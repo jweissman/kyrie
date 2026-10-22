@@ -6,6 +6,8 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { PlayerView } from '../src/presentation/player-view';
+import { ScreenModel } from '../src/ui/screen-model';
 
 // A generated region's names and land: no two places so alike a traveller could take one for the other, and a river,
 // a pass and a peak that are places on the way, not words in a description.
@@ -76,3 +78,22 @@ describe('a generated region lies on real land', () => {
     expect(s.campaign.state.party.some(m => m.hp < m.maxHp) || /cold/i.test(said)).toBe(true);
   }, 60000);
 });
+
+describe('a generated region keeps a calendar and weather', () => {
+  it('raises its river over the ford the day after rain, so it can only be risked until it falls', async () => {
+    // Thorn: rain on the second day; the Deopstrēam is up on the third, down on the fourth.
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared);
+    const s = await PlaySession.start(w.path, 'thorn', w.source);
+    // Watched from Meósdael's bank: a toll band holds the ford's other end.
+    Land.put(s, 'region__s2_green');
+    const crossing = () => PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => /Deopstrēam/.test(n));
+    while (s.campaign.state.elapsed < 290) { await s.perform('wait_hour'); }
+    expect(s.campaign.world.test(ModuleWriter.call('state', 'region__river_water', 'region__spate'))).toBe(true);
+    expect(crossing().some(n => n.startsWith('Risk the Deopstrēam'))).toBe(true);
+    expect(crossing().some(n => n.startsWith('Take the ford of the Deopstrēam'))).toBe(false);
+    while (s.campaign.state.elapsed < 430) { await s.perform('wait_hour'); }
+    expect(crossing().some(n => n.startsWith('Take the ford of the Deopstrēam'))).toBe(true);
+    expect(ScreenModel.build(s.campaign).date?.long).toMatch(/of the Sun and Moon; (spring|summer|autumn|winter)$/);
+  }, 60000);
+});
+

@@ -57,6 +57,7 @@ export class RegionMap {
           );
         })}
         {region.areas.map(a => RegionMap.area(a, at.get(a.id)!))}
+        {RegionMap.fog(box)}
       </svg>
     );
   }
@@ -79,6 +80,17 @@ export class RegionMap {
         <defs><pattern id={`terrain-${terrain}`} width={112} height={112} patternUnits="userSpaceOnUse">
           <path d={marks[terrain]} /></pattern></defs>
         <rect x={box[0]} y={box[1]} width={box[2]} height={box[3]} fill={`url(#terrain-${terrain})`} />
+      </g>
+    );
+  }
+  // Beyond what the company knows the land fades out: the map is of what has been found, not of everything.
+  private static fog(box: number[]) {
+    return (
+      <g className="fog" aria-hidden>
+        <defs><radialGradient id="region-fog" cx="50%" cy="50%" r="62%">
+          <stop offset="78%" stopColor="var(--paper)" stopOpacity={0} />
+          <stop offset="100%" stopColor="var(--paper)" stopOpacity={0.85} /></radialGradient></defs>
+        <rect x={box[0]} y={box[1]} width={box[2]} height={box[3]} fill="url(#region-fog)" pointerEvents="none" />
       </g>
     );
   }
