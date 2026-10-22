@@ -379,6 +379,30 @@
         "kyr": true,
         "notes": "Kyr's own: a necromancer's watchdog for Holt keep's bone store."
       }
+    },
+    "great_pike": {
+      "name": "Great pike",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "rending_bite"
+      ],
+      "temperament": "ambush",
+      "habitats": [
+        "riverbank"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: the Old Jack of Hollow Water."
+      }
     }
   }
 }

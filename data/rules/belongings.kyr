@@ -20,7 +20,7 @@ Module belongings "What the company carries" {
       and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient).
     Resolve acquire(find, form, recipient).
     On success { Retract inside(find, box). }
-    Result "{recipient} takes {find} out of {box}.".
+    Result "{recipient} takes {find} from {box}.".
   }
   Action put_in(actor: group, cargo: item, carrier: member, box: thing, site: place) "Put {cargo} in {box}" {
     Description "Set it in, on or into the thing, where it stays until someone takes it out.".

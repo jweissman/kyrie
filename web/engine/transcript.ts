@@ -17,8 +17,9 @@ export class PlayTranscript {
     // Fallen on: what was seen and said as it happened comes before how the fight went.
     const ambush = event.prelude ? [...(event.prelude.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       event.prelude.response ?? ''] : [];
+    // "Bran: set down a sack of bell-teeth." is how an item leaves a hand; the action says how it went.
     const lines = [...ambush, ...(plain ? [] : [f.result]),
-      ...f.immediate.map(l => l.replace(/^You witness: /, '')),
+      ...f.immediate.map(l => l.replace(/^You witness: /, '')).filter(l => !/^[^:]+: set down /.test(l)),
       ...(c.moved ? [] : f.observations), ...f.events];
     const told = Narration.tidy([...new Set(lines.filter(Boolean))],
       fight ? event.combat.filter(e => e.type === 'action').length : 0);

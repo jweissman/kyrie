@@ -416,6 +416,33 @@
       "source": {
         "kyr": true
       }
+    },
+    "bell_teeth": {
+      "name": "Bell-teeth",
+      "category": "treasure",
+      "description": "Teeth of old bronze, each the size of a fist and shaped like a small bell, prised out of a wheel of grey stone. Worth good money to a barge-master.",
+      "value": 8,
+      "source": {
+        "kyr": true
+      }
+    },
+    "sluice_rod": {
+      "name": "Notched rod",
+      "category": "tool",
+      "description": "A staff of black wood shod at both ends in bronze, the bronze notched along its edge in a close, careful pattern.",
+      "value": 1,
+      "source": {
+        "kyr": true
+      }
+    },
+    "keeper_mask": {
+      "name": "Grey mask",
+      "category": "treasure",
+      "description": "A smooth face of grey fired clay, without eyes or mouth, with a single notch where a brow would be. It rings when it is struck.",
+      "value": 4,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

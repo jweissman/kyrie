@@ -1,4 +1,3 @@
-import { FictionalTime } from '../presentation/fictional-time';
 import type { Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 
@@ -16,16 +15,15 @@ export class Interruption {
   static check(watch: Watch, world: World, player: string, happenings: { text: string }[]): string | undefined {
     if (happenings.length > watch.heard) { return happenings.at(-1)!.text; }
     if (watch.held || !world.test(watch.predicate)) { return undefined; }
+    // Who has come, by name without the role: "The Mower comes where you are."
     const names = [...this.present(world, player)].filter(id => !watch.present.has(id))
-      .map(id => world.module.entities.find(e => e.id === id)?.name ?? id);
+      .map(id => (world.module.entities.find(e => e.id === id)?.name ?? id).split(', ')[0]!);
     if (!names.length) { return 'Something changes where you are.'; }
-    // "Corvin, the necromancer's digger, comes": a name with a role after it is closed by a comma.
-    const who = `${names.join(' and ')}${names.at(-1)!.includes(', ') ? ',' : ''}`;
-    return `${who} ${names.length === 1 ? 'comes' : 'come'} where you are.`;
+    const who = names.join(' and ');
+    return `${who.charAt(0).toUpperCase()}${who.slice(1)} ${names.length === 1 ? 'comes' : 'come'} where you are.`;
   }
-  static told(watch: Watch, why: string, elapsed: number): string {
-    return `You are interrupted after ${FictionalTime.duration(elapsed - watch.started)}. ${why}`;
-  }
+  // What broke off a long activity is what is told; the time it ran is the clock's to say.
+  static told(_watch: Watch, why: string, _elapsed: number): string { return why; }
   // The other groups where the company is.
   private static present(world: World, player: string): Set<string> {
     const rel = world.snapshot.relations, here = rel.find(r => r.name === 'at' && r.args[0] === player)?.args[1];

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "source": ["dale.kyr", "wall.kyr", "water.kyr"],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "dale",
+    "green": "green"
+  }
+}

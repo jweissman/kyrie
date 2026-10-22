@@ -19,13 +19,19 @@ export class EntryView {
     );
   }
   static readonly Memo = memo(EntryView.View);
-  // What the page tells for where the company is: everything since it last arrived here.
+  // What the page tells for where the company is: everything since it last arrived here, with a run of waits in
+  // which nothing happened told once.
   static here(log: Entry[], place: string): Entry[] {
     let start = log.length;
     while (start > 0 && log[start - 1]!.place === place) {
       start--;
       if (log[start]!.arrival) { break; }
     }
-    return log.slice(start);
+    return log.slice(start).filter((e, i, all) => !(EntryView.quiet(e) && all[i + 1] && EntryView.quiet(all[i + 1]!)));
+  }
+  static readonly passing = ['An hour passes.', 'You remain here while time passes.'];
+  // A wait in which nothing happened but the time.
+  static quiet(e: Entry): boolean {
+    return /^Wait /.test(e.said ?? '') && e.lines.every(l => EntryView.passing.includes(l));
   }
 }

@@ -68,8 +68,12 @@ export class ModuleBundle {
       { ...manifest.generation.context, ...context }) as unknown as AdventureManifest;
   }
   // Several parsed sources as one module: the first's identity, everything each declares.
+  // Several files of one module, joined. What each file declares for itself as it is read (a way's kind, a thing's
+  // state) is declared once; anything else declared twice is still an error.
   private static merge(modules: Module[]): Module {
-    return { ...modules[0]!, kinds: modules.flatMap(m => m.kinds), entities: modules.flatMap(m => m.entities),
+    const entities = modules.flatMap(m => m.entities).filter((e, i, all) => all.findIndex(o => o.id === e.id
+      && JSON.stringify(o) === JSON.stringify(e)) === i);
+    return { ...modules[0]!, kinds: [...new Set(modules.flatMap(m => m.kinds))], entities,
       relations: modules.flatMap(m => m.relations), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),

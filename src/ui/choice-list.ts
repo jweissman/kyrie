@@ -78,7 +78,7 @@ export class ChoiceList {
     // Two ways into the same enclosure (a tower by its door and by its well) are told apart by where they arrive.
     const twice = new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
     const choices = exits.flatMap((e, i) => {
-      const label = twice.has(labels[i]!) ? `${labels[i]}: ${e.destination.name}` : labels[i]!;
+      const label = twice.has(labels[i]!) ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}` : labels[i]!;
       return this.way(e, label);
     });
     return { id: 'ways', title: 'Ways on', tone: 'way', glyph: '→', choices };

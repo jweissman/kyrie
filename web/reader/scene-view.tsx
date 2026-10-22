@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { Entry } from '../engine/protocol';
 import type { Screen, TargetRow } from '../../src/ui/screen-types';
 import { EntryView } from './entry-view';
@@ -8,17 +8,19 @@ import { Words } from './words';
 // company came. A new place is a new page; a place returned to marks what has changed.
 export class SceneView {
   static View({ screen, entries }: { screen: Screen; entries: Entry[] }) {
-    const here = EntryView.here(entries, screen.place.id);
+    const here = EntryView.here(entries, screen.place.id), present = SceneView.present(screen);
+    // What the page already says of the place and who is in it, an entry does not say again.
+    const told = useMemo(() => [...screen.prose, ...present], [screen.prose, present.join('\n')]);
     return (
       <section className="scene" key={screen.place.id} aria-label={screen.place.name}>
         <SceneView.Head screen={screen} />
-        <SceneView.Prose prose={screen.prose} fresh={screen.fresh} present={SceneView.present(screen).join(' ')} />
-        {here.map((e, i) => <EntryView.Memo key={e.id} entry={e} latest={i === here.length - 1} prose={screen.prose} />)}
+        <SceneView.Prose prose={screen.prose} fresh={screen.fresh} present={present.join(' ')} />
+        {here.map((e, i) => <EntryView.Memo key={e.id} entry={e} latest={i === here.length - 1} prose={told} />)}
       </section>
     );
   }
   static Head({ screen }: { screen: Screen }) {
-    const where = screen.path.slice(0, -1).reverse().slice(0, 2).map(p => p.name).join(', ');
+    const where = [...new Set(screen.path.slice(0, -1).reverse().map(p => p.name))].slice(0, 2).join(', ');
     return (
       <header className="scene-head">
         <h1 data-id="place">{Words.upper(screen.place.name)}</h1>

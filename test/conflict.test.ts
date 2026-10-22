@@ -160,7 +160,8 @@ describe('the register of names: a power that acts while the company is elsewher
     let roused = '';
     for (let i = 0; i < 80 && !roused; i++) {
       const event = await s.perform(March.legal(s).includes('wait_for_light') ? 'wait_for_light' : 'wait_hour');
-      if (event.response?.startsWith('You are interrupted')) { roused = event.response; }
+      // A wait broken off fails, and says what broke it off.
+      if (event.result === 'failure' && event.response) { roused = event.response; }
     }
     expect(roused).toContain('Corvin');
     expect([March.where(s, 'rising__digger'), March.fact(s, 'keeps', 'keepers__keeper', 'hill__register_copy')])

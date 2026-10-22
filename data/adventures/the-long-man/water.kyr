@@ -1,0 +1,67 @@
+Module longman "The Long Man" {
+  Description "Hollow Water: the lake behind the Long Man, the Water-House on its island, and the town under it.".
+
+  Place lakeshore "the lakeshore" is room within hollow at 0, 1.
+  Place deep "the deep water" is room within hollow at 1, 1.
+  Place water_house "the Water-House" is room within hollow at 2, 0.
+  Place drowned_street "the drowned street" is room within hollow at 2, 1.
+
+  Passage lake_face "the lake face of the Long Man" is path between crest and lakeshore taking 20 minutes.
+  Passage punt_way "out on Hollow Water" is ferry between lakeshore and deep taking 30 minutes.
+  Passage island_way "the island landing" is ferry between deep and water_house taking 30 minutes.
+  Passage house_steps "the steps below the Water-House" is steps between water_house and drowned_street.
+
+  Thing punt "an old punt" on punt_way {
+    State beached blocking "An old punt lies drawn up in the reeds, grey with weather, its pole across the thwarts.".
+    State afloat "The punt rides at the edge of the reeds.".
+    Change launch "Push the punt off the reeds" from beached to afloat needing brawn.
+  }
+  Thing steps_water "the water over the steps" on house_steps is scenery {
+    State under blocking "Below the Water-House door, steps go down into the lake, and the lake closes over them.".
+    State drawn "The steps go down from the Water-House door into a street of grey houses, wet and shining.".
+  }
+
+  Observe shore_scene at lakeshore when not drawn(hollow) "Reeds, and black water going away to the hills, so still it holds the sky. The cold comes off it like a cellar's. Far out, a square tower stands up out of the lake on an island no bigger than a barn.".
+  Observe shore_drawn at lakeshore when drawn(hollow) "The lake has drawn back from the reeds a long stone's throw, leaving mud, and the stumps of trees older than any in the dale.".
+  Observe deep_scene at deep when true "Out on the water the punt pole finds no bottom. The water is cold enough to ache, and too clear: far down, something pale, like a roof.".
+  Observe house_scene at water_house when true "One room, square and tall, of the same grey stone as the Long Man. In the middle of the floor stands a wheel of grey stone on an axle as thick as a man, and round the walls, in rows from floor to ceiling, notches.".
+  Observe socket_seen at water_house when knows(party, rod_seen) "In the hub of the great wheel is a socket, square, its edges notched in a close pattern: the pattern on the shoe of Gammer Coller's rod." teaches rod_fits.
+  Observe street_scene at drowned_street when true "A street of houses of grey stone with their roofs on, silted to the windows, shining with water. The doors are tall and narrow. On the lintel of every one the same short row of notches.".
+
+  Entity rod_fits: fact "The square socket in the hub of the Water-House wheel is notched to the pattern of the dyke-reeve's rod: the rod is a key to it.".
+  Initially Assert established(rod_fits).
+  Discovery hesk_known "The words cut round the Water-House wall, read: WE GAVE THE LOW HOUSES TO THE WATER, SO THAT THE FIELDS WOULD BE DRY. WE WILL KEEP THE WALL AS WE KEPT THE HOUSES." {
+    Found by searching water_house with lore "The notches round the walls are writing, the writing of the Mower's breastplate. Round and round the room, as near as it can be read: WE GAVE THE LOW HOUSES TO THE WATER, SO THAT THE FIELDS WOULD BE DRY. WE WILL KEEP THE WALL AS WE KEPT THE HOUSES.".
+  }
+  Entity town_known: fact "Under Hollow Water stands a town of the people who built the Long Man, drowned by its own builders.".
+  Initially Assert established(town_known).
+  Observe street_teaches at drowned_street when true "Whoever lived here walked out of these doors uphill, and let the water in after them." teaches town_known.
+
+  // The master wheel: worked with the rod, it draws the lake down by a man's height in two hours.
+  Thing wheel "the great wheel" at water_house {
+    State set "The great wheel stands with its square socket uppermost.".
+    State turned "The great wheel has been turned its full round; somewhere below, water is going out with a long sigh.".
+    Change turn "Set the rod in the socket and turn the great wheel" from set to turned needing sluice_rod.
+  }
+  Measure drawsAt(place).
+  Rule draw_begins when state(wheel, turned) and drawsAt(hollow) == 0 { Set drawsAt(hollow) to watch(clock). Increase drawsAt(hollow) by 12. }
+  Rule lake_drawn when state(wheel, turned) and drawsAt(hollow) > 0 and watch(clock) >= drawsAt(hollow) and not drawn(hollow)
+    says "Hollow Water goes down. It goes down the lake face of the Long Man a man's height, and the beck below the wall goes up the dale brown and roaring." {
+    Assert drawn(hollow). Assert state(steps_water, drawn). Assert drowned(low_field). Assert drowned(millhouse).
+  }
+  Observe mill_drowned at millhouse when drowned(millhouse) "The beck has come in through the millhouse door. The wheel has stopped, jammed with branches, and Hob Teller is standing in his own millpond to the knees.".
+
+  // The Old Jack keeps the deep water.
+  Person jack "the Old Jack" at deep {
+    Role "a pike as long as the punt". Species great_pike. Level 4.
+  }
+  Initially Assert temperament(jack, temper_ambush). Initially Assert warning(jack, jack_seen). Initially Assert onslaught(jack, jack_strikes).
+  Entity jack_seen: fact "A shadow longer than the punt turns under the water, slowly, and comes up beneath you. It has seen you see it.".
+  Entity jack_strikes: fact "The water opens beside the punt, and the Old Jack comes up out of it with its mouth wide.".
+
+  // What the company is asked, and what it comes to see it must do.
+  Objective lay_mower when knows(party, bounty_known) and not paidBounty(venn) and able(mower) and not knows(party, mower_keeps) "Aldous Venn will pay forty crowns for the Mower's mask.".
+  Objective keep_wall when knows(party, teeth_taken) and knows(party, wall_known) and not state(leak_gate, mended) and not drawn(hollow) and not broke(long_man) "The Long Man is leaking where its bronze was taken, and the storm is coming.".
+  Objective warn_merrow when knows(party, notches_known) and not convinced(ysolt) and not broke(long_man) "If the Long Man goes, the water will come over the chapel roof. Someone should tell Mother Ysolt.".
+  Goal false.
+}

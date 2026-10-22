@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "The Long Man",
+  "pitch": {
+    "heading": "A company for Merrowdale",
+    "text": "At the head of Merrowdale a long green ridge lies across the valley, and the village under it says a giant king is buried there. Something tall walks its crest at night. The steward of the Hall has posted forty crowns for whoever will lay it, and the autumn storm is three days off. Choose three companions."
+  },
+  "modules": [
+    { "id": "longman", "bundle": "../adventures/the-long-man/module.json" }
+  ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"] },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"] }
+  ]
+}

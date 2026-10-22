@@ -26,8 +26,10 @@ export class RegionMap {
     const width = (Math.max(...xs) - minX) * w, height = (Math.max(...ys) - minY) * h;
     const at = new Map(region.areas.map(a => [a.id, { x: (a.x - minX) * w, y: (a.y - minY) * h }]));
     const from = travel && region.within[travel.from], to = travel && region.within[travel.to];
-    // Drawn tight around what is known, with room for the names, so the land fills the space it has.
-    const box = [-130, -70, width + 260, height + 150];
+    // Drawn tight around what is known, with room for the names, so the land fills the space it has; but never so
+    // close that two known places fill the whole pane.
+    const [w0, h0] = [Math.max(width + 260, 820), Math.max(height + 150, 560)];
+    const box = [-130 - (w0 - width - 260) / 2, -70 - (h0 - height - 150) / 2, w0, h0];
     return (
       <svg className="region" viewBox={box.join(' ')} role="img"
         aria-label="The region as far as you know it" preserveAspectRatio="xMidYMid meet">
@@ -37,9 +39,9 @@ export class RegionMap {
           const [name, time] = [e.label.split(' · ')[0]!, e.label.split(' · ').at(-1)!];
           return (
             <g key={`${e.from}|${e.to}`} className={`route ${e.status}${going ? ' going' : ''}`}>
-              <path id={`route-${e.from}-${e.to}`} d={d} />
-              <text className="route-label" dy={-6}><textPath href={`#route-${e.from}-${e.to}`} startOffset="50%"
-                textAnchor="middle">{name.replace(/^the /, '')} · {time}</textPath></text>
+              <path id={`route-${e.from}-${e.to}`} d={d}><title>{name} · {time}</title></path>
+              <text className="route-label" dy={-7}><textPath href={`#route-${e.from}-${e.to}`} startOffset="50%"
+                textAnchor="middle">{time}</textPath></text>
               {going && <circle className="traveller" r={7}><animateMotion dur="1.6s" fill="freeze"
                 path={RegionMap.curve(a, b, e.from + e.to, from === e.to)} /></circle>}
             </g>

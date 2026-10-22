@@ -36,7 +36,8 @@ export class WatchLoop {
         const foe = Engagement.foe(host), halted = foe ? undefined : Engagement.halt(host);
         if (foe) { return { npc, happenings, interrupted: Engagement.told(host, foe) }; }
         // What stopped it is told once, among what happened; the response says only that it was stopped.
-        if (halted) { return { npc, happenings, interrupted: halted }; }
+        // A warning given as the company is stopped is what stopped it: it is told once, not 'X stops you' as well.
+        if (halted) { return { npc, happenings, interrupted: happenings.at(-1)?.text ?? halted }; }
         if (journey && tick < watches - 1 && !Journey.open(host.world, journey.leg)) {
           host.commitWorld(Journey.back(host.world, journey.leg));
           return { npc, happenings, interrupted: Journey.told(host.world, journey.leg), turned: true };
