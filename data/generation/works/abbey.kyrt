@@ -6,6 +6,7 @@
 @seen a roofless abbey
 @names cross, rest, bell, haven
 @danger 1
+@lair cloister
 --- outside
   Observe {w}_abbey_seen at {w} when true "The church stands roofless at the bottom of the valley, its tall windows empty, its tower cut off at the bell-stage. Round it the walls of the cloister and the brothers' buildings make a square of grey stone among the nettles.".
   Observe {w}_cut at {w} when true "Over the gatehouse arch, in the kingdom's letters, a line from the order's rule, and the house's name: {oldup}." teaches {w}_named.

@@ -5,6 +5,7 @@
 @seen a smooth doorway in a crag
 @names hill, keep, gate, arch
 @danger 2
+@lair hall
 --- outside
   Observe {w}_crag_seen at {w} when true "A doorway opens in the face of a crag, round-headed and smooth as poured wax, with no mark of a tool anywhere on it. Wind across it makes a low note that comes and goes.".
   Observe {w}_cut at {w} when true "Over the doorway, letters flow into the stone rather than being cut in it, in the old script: {oldup}." teaches {w}_named.

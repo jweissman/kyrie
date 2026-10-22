@@ -6,6 +6,7 @@
 @seen a broken keep
 @names keep, hold, gate, watch
 @danger 2
+@lair bailey
 --- outside
   Observe {w}_keep_seen at {w} when true "A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road.".
   Observe {w}_arms at {w} when true "Over the gate a shield is cut in the stone, a tower with a star over it, and under the shield the keep's name in the kingdom's letters, which anyone who reads at all can read: {oldup}." teaches {w}_named.

@@ -5,6 +5,7 @@
 @seen a round tower
 @names watch, tower, view, spire
 @danger 2
+@lair floor
 --- outside
   Observe {w}_tower_seen at {w} when true "A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop.".
   Observe {w}_cut at {w} when true "Round the doorway, cut in the old script so large it can be read from the ground: {oldup}." teaches {w}_named.

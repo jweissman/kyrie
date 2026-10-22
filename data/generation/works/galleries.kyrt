@@ -5,6 +5,7 @@
 @seen a timbered adit
 @names hold, gate, deep, mountain, keep
 @danger 2
+@lair head
 --- outside
   Observe {w}_adit_seen at {w} when true "An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago.".
   Observe {w}_cut at {w} when true "A name is cut in the lintel beam, in the old script, with a hammer and a star beside it: {oldup}." teaches {w}_named.

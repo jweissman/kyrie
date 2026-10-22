@@ -6,6 +6,7 @@
 @seen a square doorway in a hillside
 @names keep, pool, lake, watch, fountain
 @danger 1
+@lair hall
 --- outside
   Observe {w}_door_seen at {w} when true "A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water.".
   Observe {w}_cut at {w} when true "Letters are cut deep in the lintel, in a script older than the folk's: {oldup}." teaches {w}_named.

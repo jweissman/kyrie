@@ -15,6 +15,8 @@ export interface WorkPlan {
   names: string[]; danger: number; sections: PlanSection[];
   // The greatest of its makers' works in a region (@great): hidden from the folk, found by knowing the makers' story.
   great?: boolean;
+  // The room of it (@lair) where whatever moves in when it stands empty makes its den (see RegionRenewal).
+  lair?: string;
 }
 
 // Works are written as Kyr templates (data/generation/works/*.kyrt): a few header lines, then sections. The base
@@ -61,6 +63,7 @@ export class WorkPlans {
       case 'seen': plan.seen = value; break;
       case 'danger': plan.danger = Number(value); break;
       case 'great': plan.great = value === 'yes'; break;
+      case 'lair': plan.lair = value; break;
       case 'names': plan.names = value.split(',').map(p => p.trim()); break;
       default: throw new Error(`Unknown work plan field @${name}`);
     }

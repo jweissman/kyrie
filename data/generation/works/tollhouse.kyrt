@@ -6,6 +6,7 @@
 @seen a toll-house by the water
 @names port, ford, gate, bridge
 @danger 1
+@lair store
 --- outside
   Observe {w}_house_seen at {w} when true "A tall house of dressed stone stands with its feet in the water, a warehouse behind it under a broken roof. Iron rings for mooring are set in its river wall, and the stumps of a jetty stand out into the stream.".
   Observe {w}_cut at {w} when true "Over the door a carved board, the paint long gone from the letters but the letters still deep: {oldup}, and under it, BY RIGHT OF THE PRINCES OF {kingdomup}." teaches {w}_named.

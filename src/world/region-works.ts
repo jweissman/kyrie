@@ -15,6 +15,7 @@ import { Histories, type History, type Work } from './history/histories';
 import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
+import { RegionRenewal } from './region-renewal';
 import { Draw } from './land/draw';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
@@ -39,7 +40,8 @@ export class RegionWorks {
       const values = this.values(region, site, work);
       const sections = WorkPlans.choose(plan, `${region.name}:${work.id}:${work.plan}`, values)
         .filter(s => s.group === 'outside' || !taken[site.id]);
-      return sections.flatMap(s => WorkPlans.fill(s.lines, values));
+      return [...sections.flatMap(s => WorkPlans.fill(s.lines, values)),
+        ...taken[site.id] ? [] : RegionRenewal.work(region, site, { plan, sections, values })];
     })];
   }
   // What a work's plan is given to say: the work's ids and names, its makers, and the kingdom after them.
@@ -115,9 +117,10 @@ export class RegionWorks {
   // after them. Knowing the whole story of the first makers shows where the greatest of their works here lies.
   private static facts(region: Region): string[] {
     const history = region.history!, q = JSON.stringify, first = history.makers[0]!, s = history.successors;
-    const lines = history.makers.flatMap((m, i) => [`  Discovery history_${m.art} ${q(i ? `${m.epithet.replace(/^t/, 'T')} made things in this country too, before the folk. ${m.craft} ${m.belief}`
+    const lines = [...RegionRenewal.lines()];
+    lines.push(...history.makers.flatMap((m, i) => [`  Discovery history_${m.art} ${q(i ? `${m.epithet.replace(/^t/, 'T')} made things in this country too, before the folk. ${m.craft} ${m.belief}`
       : `Before the folk came, ${m.epithet} held this country. ${m.craft} ${m.belief}`)}.`,
-    `  Discovery history_${m.art}_fate ${q(`How ${m.epithet} ended: ${m.fate}`)}.`]);
+    `  Discovery history_${m.art}_fate ${q(`How ${m.epithet} ended: ${m.fate}`)}.`]));
     lines.push(`  Discovery history_successors ${q(`After ${first.epithet} came the kingdom of ${s.name}, where the power lay with ${s.were}. It fell to ${s.fall}.`)}.`);
     const great = region.sites.find(x => x.work?.great);
     const seat = great && RegionGeography.seats(region).find(x => x.site === great);
