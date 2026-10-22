@@ -1,6 +1,7 @@
 Module world_services "Lodging, goods and camping" {
   Kind service. Kind servicekind.
   Entity lodging: servicekind "Lodging". Entity healing: servicekind "Healing". Entity passage_fare: servicekind "Passage".
+  Entity raising: servicekind "Raising the dead".
   Relation offers(group, service). Relation serviceOf(service, servicekind). Relation sells(group, good).
   Measure fee(service). Measure goodsPrice(group, good).
   Goal false.
@@ -18,6 +19,17 @@ Module world_services "Lodging, goods and camping" {
     Time 6. Resolve recover(actor).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service). }
     Result "{healer} cleans and dresses every wound in the company.".
+  }
+  // A priest who can call the dead back (Orsino's Raise Dead) does it at the shrine, for a great price, through a
+  // night's vigil: the companion comes back weak, with half their health, and what killed them gone.
+  Action take_raising(actor: group, healer: group, service: service, lost: member, site: place) "Ask {healer} to raise {lost} from the dead" {
+    Description "A night's vigil at the shrine, and the price of it. They come back with half their health.".
+    Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)
+      and not refusesService(healer, actor) and offers(healer, service) and serviceOf(service, raising)
+      and memberOf(lost, actor) and fallen(lost) and quantity(actor, gold) >= fee(service).
+    Time untilMorning(clock). Resolve raise(lost).
+    On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service). }
+    Result "{healer} keeps the vigil over {lost} all night, and at first light {lost} draws a breath, and then another.".
   }
   Action buy_goods(actor: group, seller: group, goods: good, site: place) "Buy one {goods} from {seller}" {
     Requires able(actor) and able(seller) and distinct(actor, seller) and at(actor, site) and at(seller, site)

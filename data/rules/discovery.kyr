@@ -41,7 +41,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     Requires able(actor) and able(informant) and distinct(actor, informant)
       and at(actor, site) and at(informant, site) and testimony(informant, topic)
       and reveals(topic, statement) and noticeable(topic)
-      and knows(informant, statement) and established(statement) and not toldBy(actor, informant, statement).
+      and knows(informant, statement) and established(statement) and not knows(actor, statement).
     On success {
       Assert knows(actor, statement). Retract assumesFalse(actor, statement).
       Assert toldBy(actor, informant, statement).

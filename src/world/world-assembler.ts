@@ -343,8 +343,8 @@ export class WorldAssembler {
   // A hook's topic as a stranger would say it, with each place it names as it looks: "trouble at the fallen walls".
   private static plainly(text: string, placement: Placement, region: Region): string {
     return text.replace(/\{(\w+)\}/g, (whole, role: string) => {
-      const id = placement.bindings[role], site = region.sites.find(w => w.id === id);
-      return site ? RegionSites.seen[site.kind] ?? whole : region.settlements.find(t => t.id === id)?.name ?? whole;
+      const id = placement.bindings[role], seat = RegionGeography.seats(region).find(x => x.site.id === id);
+      return seat ? RegionSites.seenAs(seat, region) : region.settlements.find(t => t.id === id)?.name ?? whole;
     });
   }
   // A hook's topic names the places it is about by role: {den} becomes a reference to the bound place, so it is said

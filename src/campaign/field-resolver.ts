@@ -25,6 +25,7 @@ export class FieldResolver {
       // A night under a roof is also when a companion takes in what they have learned.
       return call.name === 'recover' ? [...rested, ...FieldUse.train(creatures, actor.members, seed)] : rested;
     }
+    if (call.name === 'raise') { return FieldUse.raise(creatures, call.args[0]!); }
     if (call.name === 'reward') {
       return FieldUse.perform(creatures, [call.args[1]!], { ability: call.args[0]!, caster: call.args[1]!,
         target: call.args[1]!, seed, service: 'reward' });

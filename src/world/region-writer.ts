@@ -109,7 +109,8 @@ export class RegionWriter {
       `  Passage ${s.id}_shrine_door ${q(`the shrine porch in ${s.name}`)} is doorway between ${s.id}_shrine and ${s.id}_green.`,
       `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`,
       `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${s.id}_taproom { Role "innkeeper". ${this.of(s, 'innkeeper', region)} Profession innkeeper. Peaceable. ${this.inn(s)} }`,
-      `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable. }`,
+      // Only a town's priest has the learning to call the dead back.
+      `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin.' : ''} }`,
       this.merchant(s, region),
       ...RegionRecruits.traveller(s, i, region),
       `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${RegionPeoples.told(s)}${this.meaning(s)} ${RegionGeography.placement(region, i)}Smoke rises from ${s.inn}; the shrine of ${cult.name} stands open across the green.`)}.`,
@@ -132,10 +133,11 @@ export class RegionWriter {
     const sells = t.stock.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
     const buys = t.buys.map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
     // Every merchant deals in valuables too, as far as their purse goes: a town's goes further than a hamlet's.
-    const purse = ({ town: 400, village: 120 } as Record<string, number>)[s.size] ?? 40;
+    const purse = ({ town: 1000, village: 200 } as Record<string, number>)[s.size] ?? 60;
     return `  Person ${s.id}_merchant ${JSON.stringify(s.merchant)} at ${s.id}_shop { Role ${JSON.stringify(t.role)}. ${this.of(s, 'merchant', region)}`
       + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable. ${sells}${buys ? ` ${buys}` : ''} }\n`
-      + `  Initially Assert buysValuables(${s.id}_merchant). Initially Set quantity(${s.id}_merchant, gold) to ${purse}.`;
+      + `  Initially Assert buysValuables(${s.id}_merchant). Initially Set purse(${s.id}_merchant) to ${purse}.`
+      + ` Initially Set quantity(${s.id}_merchant, gold) to ${purse}.`;
   }
   // Trade comes and goes by the roads. While anyone tolls a road into a settlement its inn's meal is dearer and
   // is not made good; when the roads are open, and the farms have not been robbed, the inn restocks a sack a day.

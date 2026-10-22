@@ -17,6 +17,7 @@ export class RuntimeCapabilities {
     { name: 'enlist', types: ['group', 'group'], exclusive: false },
     { name: 'invoke', types: ['ability', 'member', 'member'], exclusive: false },
     { name: 'recover', types: ['group'], exclusive: false },
+    { name: 'raise', types: ['member'], exclusive: false },
     { name: 'rough', types: ['group'], exclusive: false },
     { name: 'rummage', types: ['group'], exclusive: false },
     { name: 'reward', types: ['ability', 'member'], exclusive: false },

@@ -63,6 +63,15 @@ export class RegionZones {
     fen: { edge: 'the edge of {zone}', deep: 'out in {zone}', heart: 'the middle of {zone}' },
     heath: { edge: 'the foot of {zone}', deep: 'up on {zone}', heart: 'the top of {zone}' },
     fell: { edge: 'the foot of {zone}', deep: 'high on {zone}', heart: 'the roof of {zone}' } };
+  // Where in a wild country something stands, as people say it: deep in Bruinforwest, at the foot of Hartholt.
+  static where(zone: Wilds, part: number): string {
+    return this.at[zone.wild][this.role(zone, part) as 'edge'].replace('{zone}', zone.naming.name);
+  }
+  static readonly at: Record<Wild, Record<'edge' | 'deep' | 'heart', string>> = {
+    wood: { edge: 'at the edge of {zone}', deep: 'deep in {zone}', heart: 'in the heart of {zone}' },
+    fen: { edge: 'at the edge of {zone}', deep: 'out in {zone}', heart: 'in the middle of {zone}' },
+    heath: { edge: 'at the foot of {zone}', deep: 'up on {zone}', heart: 'on the top of {zone}' },
+    fell: { edge: 'at the foot of {zone}', deep: 'high on {zone}', heart: 'on the roof of {zone}' } };
   static readonly into: Record<Wild, string> = { wood: 'the path into {zone}', fen: 'the stakes out into {zone}',
     heath: 'the track up onto {zone}', fell: 'the path up onto {zone}' };
   static readonly inward: Record<Wild, string> = { wood: 'a deer-track further in', fen: 'a way between the reed-beds',

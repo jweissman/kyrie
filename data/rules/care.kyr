@@ -13,7 +13,7 @@ Module care "Rest, mending and lessons" {
   Kind feat. Relation featOpen(member, feat).
   Relation memberOf(member, group).
   Relation fieldUsable(ability).
-  Relation awake(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
+  Relation awake(member). Relation fallen(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
   Relation restful(place). Relation offeredAt(reward, place). Relation giftEffect(reward, ability).
   Relation rewardFor(reward, fact). Relation claimed(reward).
   Goal false.

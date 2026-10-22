@@ -33,6 +33,20 @@ export class FieldUse {
     } finally { lease.release(); }
     return events;
   }
+  // A companion raised from the dead (Orsino's Raise Dead, at a shrine): back with its share of their health, and
+  // whatever killed them gone.
+  static raise(store: CreatureStore, id: string): CombatEvent[] {
+    const lease = store.acquire([id]);
+    try {
+      const c = lease.creatures[0]!;
+      if (c.state.hp > 0) { return []; }
+      const revive = Content.abilities.find(a => a.id === 'raise_dead')?.effects.find(e => e.kind === 'revive');
+      const percent = revive && 'percent' in revive ? revive.percent ?? 50 : 50;
+      c.state.hp = Math.max(1, Math.floor(percent / 100 * c.base.maxHp)); c.state.conditions = [];
+      lease.commit([c]);
+      return [{ type: 'revive', turn: 0, actor: id, target: id, detail: 'returned to life', amount: c.state.hp }];
+    } finally { lease.release(); }
+  }
   static grant(store: CreatureStore, party: string[], amount: number, events: CombatEvent[]) {
     if (amount <= 0) { return; }
     const lease = store.acquire(party.filter(id => store.get(id).state.hp > 0));

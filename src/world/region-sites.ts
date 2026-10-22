@@ -24,6 +24,20 @@ export class RegionSites {
   // Where an old site carries its name.
   static readonly cut: Record<string, string> = { tower: 'Over the door, cut in the old script',
     barrow: 'On the stone across the entrance, in the old script', ruin: 'On a fallen lintel, in the old script' };
+  // What a site is called until its name is known: how it looks, and, where the region has others that look the
+  // same, where it is (a grassed mound north of Faennslím; a cave in the hillside deep in Bruinforwest).
+  static seenAs(seat: Seat, region: Region): string {
+    const { site } = seat, seen = this.seen[site.kind] ?? 'a place';
+    const like = region.sites.filter(s => s !== site && (this.seen[s.kind] ?? 'a place') === seen);
+    if (!like.length) { return seen; }
+    const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
+    if (zone) {
+      return like.some(s => s.zone === zone.id) ? `${seen} ${RegionZones.where(zone, site.part ?? 0)}`
+        : `${seen} in ${zone.naming.name}`;
+    }
+    const side = RegionGeography.compass(RegionGeography.spot(region, seat.town.cell!), seat.spot);
+    return `${seen} ${side === 'here' ? 'near' : `${side} of`} ${seat.town.name}`;
+  }
   static lines(region: Region, taken: Record<string, string> = {}): string[] {
     return RegionGeography.seats(region).flatMap(seat => this.seat(seat, region, !!taken[seat.site.id]));
   }
@@ -49,7 +63,7 @@ export class RegionSites {
   }
   // The site's place and the track to it.
   private static stand(seat: Seat, region: Region, at: { where: string; hidden: boolean }): string[] {
-    const q = JSON.stringify, { site } = seat, id = site.id, seen = this.seen[site.kind] ?? 'a place';
+    const q = JSON.stringify, { site } = seat, id = site.id, seen = this.seenAs(seat, region);
     const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone), { where, hidden } = at;
     if (zone) {
       const from = RegionZones.room(zone, site.part ?? 0);

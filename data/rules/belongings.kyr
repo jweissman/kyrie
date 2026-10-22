@@ -9,6 +9,11 @@ Module belongings "What the company carries" {
   // treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and
   // sold is the company's experience, the first time it is sold: its worth, to each who brought it.
   Measure worth(itemkind). Relation buysValuables(group). Relation realized(item). Relation valuable(itemkind).
+  // How much coin a dealer keeps in the house: what they pay out, trade brings back by the next morning.
+  Measure purse(group). Relation appraised(item, group).
+  Rule purse_refilled when untilLight(clock) == 1 and purse(?m) > quantity(?m, gold) {
+    Set quantity(?m, gold) to purse(?m).
+  }
   // Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it
   // unlent, says so once, in their own words if they have them ("Objects" in a person), and is not the company's
   // friend after.
@@ -73,10 +78,17 @@ Module belongings "What the company carries" {
     Resolve consume(dose, carrier, recipient).
   }
   Action transfer_item(actor: group, cargo: item, carrier: member, recipient: member) "Give {cargo} to {recipient}" {
-    Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor)
+    Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
       and not ownedItem(cargo, recipient) and awake(recipient) and ownedItem(cargo, carrier).
     Resolve transfer_item(cargo, carrier, recipient).
     Result "{carrier} hands {cargo} to {recipient}.".
+  }
+  // What a companion who has fallen, or cannot stir, was carrying, the others can take.
+  Action take_from(actor: group, cargo: item, carrier: member, recipient: member) "Take {cargo} from {carrier} for {recipient}" {
+    Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and not awake(carrier)
+      and awake(recipient) and ownedItem(cargo, carrier).
+    Resolve transfer_item(cargo, carrier, recipient).
+    Result "{recipient} takes {cargo} from {carrier}.".
   }
   Action give(actor: group, gift: item, form: itemkind, carrier: member, recipient: group, site: place) "Give {gift} to {recipient}" {
     Description "Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.".
@@ -107,6 +119,26 @@ Module belongings "What the company carries" {
     On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by worth(form).
       Increase quantity(actor, gold) by worth(form). }
     Result "{buyer} turns {ware} over in the light, names a price, and counts out the coin.".
+  }
+  // A dealer without the coin for a treasure still says what it is worth, and whether to wait or go elsewhere.
+  Action appraise(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Show {ware} to {buyer}" {
+    Description "Someone who deals in valuables says what a thing is worth, when they have not the coin for it.".
+    Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
+      and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
+      and buysValuables(buyer) and valuable(form) and worth(form) >= 1 and pays(buyer, form) < 1
+      and quantity(buyer, gold) < worth(form) and purse(buyer) >= worth(form) and not appraised(ware, buyer)
+      and not refusesService(buyer, actor).
+    On success { Assert appraised(ware, buyer). }
+    Result "{buyer} turns {ware} over in the light, and hands it back. 'Worth {worth(form)} coin, that. I have not got it in the house today; come back in the morning.'".
+  }
+  Action appraise_beyond(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Show {ware} to {buyer}" {
+    Description "Someone who deals in valuables says what a thing is worth, when it is worth more than they ever have.".
+    Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
+      and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
+      and buysValuables(buyer) and valuable(form) and worth(form) >= 1 and pays(buyer, form) < 1
+      and purse(buyer) < worth(form) and not appraised(ware, buyer) and not refusesService(buyer, actor).
+    On success { Assert appraised(ware, buyer). }
+    Result "{buyer} turns {ware} over in the light for a long time, and hands it back. 'Worth {worth(form)} coin, that, and there is not that much in this place. Take it to a town.'".
   }
   Action put_item(actor: group, cargo: item, carrier: member, site: place) "Set down {cargo}" {
     Requires able(actor) and at(actor, site) and memberOf(carrier, actor) and awake(carrier) and ownedItem(cargo, carrier).

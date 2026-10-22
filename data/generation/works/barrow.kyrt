@@ -48,6 +48,7 @@
   Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 1.
   Passage {w}_robbers "the robbers' shaft" is shaft between {w}_shaft_top and {w}_right needing rope or climbing.
   Passage {w}_hole "the hole in the top of the mound" is path between {w} and {w}_shaft_top.
+  Observe {w}_hole_scene at {w}_shaft_top when true "A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.".
 --- successors reburied 1
   Observe {w}_reburied at {w}_left when true "Later bones lie in the north chamber too, wrapped in cloth that has rotted to threads: the kingdom of {successors} buried their own here, among the old dead, for luck.".
 --- successors forgotten 1

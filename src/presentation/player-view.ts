@@ -72,7 +72,7 @@ export interface ChronicleEntry { at: number; kind: 'player' | 'npc' | 'world' |
 export class PlayerView {
   private static readonly ownHidden = ['at', 'distinct', 'knows', 'assumesFalse', 'mayExamine', 'operates', 'able', 'unladen', 'capable'];
   static readonly darkness = { id: 'darkness',
-    text: 'It is pitch dark. You can feel the way you came and hear your own breathing; without a light you can see nothing here, and do nothing that needs seeing.' };
+    text: 'It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.' };
   static supported(campaign: Campaign): boolean { return campaign.persistent && !!campaign.playerActor; }
   private static actor(campaign: Campaign): string {
     if (!this.supported(campaign)) { throw new Error('No player view for this campaign'); }

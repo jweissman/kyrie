@@ -28,7 +28,7 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings',
-    'featOpen', 'temperament'];
+    'featOpen', 'temperament', 'fallen'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -124,6 +124,7 @@ export class CreatureFacts {
     changes.push({ kind: ready ? 'assert' : 'retract', call: ModuleWriter.call('awake', reference) });
     changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
       call: ModuleWriter.call('needsCare', reference) });
+    if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }
     for (const item of has.has('ownedItem') ? items : []) {
       const owned = c.state.inventory?.find(i => i.id === item.id);
       changes.push({ kind: owned ? 'assert' : 'retract', call: ModuleWriter.call('ownedItem', item.id, reference) });
