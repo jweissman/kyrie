@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": { "lib": ["ESNext", "DOM", "DOM.Iterable"] },
-  "include": ["./**/*.ts", "../src/lang/ohm.d.ts"],
+  "include": ["./**/*.ts", "./**/*.tsx", "../src/lang/ohm.d.ts"],
   "exclude": []
 }

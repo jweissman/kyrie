@@ -39,6 +39,8 @@ export interface MemberRow {
   experience: number; gold: number;
   // What the next level brings in kind (a technique, a calling trait, a new level of spells), if anything.
   next?: string[];
+  // How far they are from it, in a sentence.
+  progress?: string;
   // Conditions that harm by name, and those that help (a lit torch) apart.
   conditions: string[]; boons?: string[];
   abilities: { id: string; name: string; text: string; cost: number; price: string }[];
@@ -74,8 +76,10 @@ export interface Chart {
   edges: { id: string; name: string; from: string; to: string; status: string; oneWay: boolean; explored: boolean }[];
 }
 export interface RegionChart {
-  areas: { id: string; name: string; x: number; y: number; visited: boolean; here: boolean }[];
+  areas: { id: string; name: string; kind: string; x: number; y: number; visited: boolean; here: boolean }[];
   edges: { from: string; to: string; label: string; status: string }[];
+  // The area each known place lies in, so a journey to a place can be drawn between areas.
+  within: Record<string, string>;
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;
@@ -86,7 +90,8 @@ export interface CombatScreen {
   order: string[];
   // The laws of the place the fight is fought in, held by everyone in it.
   laws?: { name: string; text: string }[];
-  log: string[]; exchanges: string[][];
+  // Each exchange (someone acts, and what follows) told as the company saw it, with the dice behind it.
+  log: string[]; exchanges: { text: string; detail: string }[];
 }
 export interface CombatantRow {
   id: string; name: string; line: string; hp: number; maxHp: number; mana: number; maxMana: number;

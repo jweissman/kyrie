@@ -23,12 +23,37 @@ export class SiteBuild {
     if (!result.success) { throw new AggregateError(result.logs, `Browser build failed for ${entry}`); }
     return result.outputs.reduce((sum, o) => sum + o.size, 0);
   }
+  // The engine runs in a worker. It is built first and handed to the page's script as text, so the page can start
+  // it from a blob, which works from file:// as well as from a server.
+  static async engine(minify: boolean): Promise<string> {
+    await AssetCatalog.write(this.root);
+    const result = await Bun.build({ entrypoints: [join(this.root, 'web/engine/engine-worker.ts')], target: 'browser',
+      format: 'iife', minify, plugins: [{ name: 'single-ohm', setup: SiteBuild.singleOhm }],
+      define: { 'process.env.NODE_ENV': '"production"' } });
+    if (!result.success) { throw new AggregateError(result.logs, 'Engine build failed'); }
+    return result.outputs[0]!.text();
+  }
+  static async reader(out: string, minify = true) {
+    const engine = await this.engine(minify);
+    const result = await Bun.build({ entrypoints: [join(this.root, 'web/reader/reader-main.tsx')], target: 'browser',
+      format: 'iife', outdir: out, naming: 'mono.js', minify, sourcemap: minify ? 'linked' : 'none',
+      define: { 'process.env.NODE_ENV': '"production"' },
+      plugins: [{ name: 'engine-source', setup: SiteBuild.embed.bind(SiteBuild, engine) }] });
+    if (!result.success) { throw new AggregateError(result.logs, 'Reader build failed'); }
+    return result.outputs.reduce((sum, o) => sum + o.size, 0);
+  }
+  static embed(engine: string, build: PluginBuilder) {
+    build.onResolve({ filter: /^kyrie:engine$/ }, () => ({ path: 'kyrie:engine', namespace: 'kyrie' }));
+    build.onLoad({ filter: /.*/, namespace: 'kyrie' },
+      () => ({ contents: `export default ${JSON.stringify(engine)};`, loader: 'js' }));
+  }
   static async site(out: string) {
     await rm(out, { recursive: true, force: true });
     await mkdir(out, { recursive: true });
-    const size = await this.bundle('web/mono-main.ts', out, 'mono.js');
-    for (const file of ['mono.html', 'mono.css']) { await cp(join(this.root, 'web', file), join(out, file)); }
-    await cp(join(this.root, 'web/mono.html'), join(out, 'index.html'));
+    const size = await this.reader(out);
+    for (const name of ['index.html', 'mono.html']) { await cp(join(this.root, 'web/reader/index.html'), join(out, name)); }
+    await cp(join(this.root, 'web/reader/reader.css'), join(out, 'reader.css'));
+    await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });
     await writeFile(join(out, '.nojekyll'), '');
     await HandbookPublisher.html(new Handbooks(this.root), join(out, 'handbook'));
     return size;

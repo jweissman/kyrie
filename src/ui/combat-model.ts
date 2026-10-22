@@ -9,6 +9,7 @@ import type { BattleState, CombatEvent, Fighter } from '../model';
 import type { ArenaAbility } from '../lang/parse';
 import { CombatChoices } from './combat-choices';
 import { CombatPresenter } from './combat-presenter';
+import { CombatTelling } from './combat-telling';
 import type { CombatantRow, CombatScreen } from './screen-types';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only.
@@ -32,19 +33,8 @@ export class CombatModel {
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
         .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
       log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
-      exchanges: this.exchanges([...prior, ...battle.events], state).slice(-12),
+      exchanges: CombatTelling.exchanges([...prior, ...battle.events], state).slice(-12),
     };
-  }
-  // The log in causal groups: each action (or initiative roll) with everything it caused, in the order it happened.
-  static exchanges(events: CombatEvent[], state: BattleState): string[][] {
-    const groups: string[][] = [];
-    for (const e of events) {
-      const line = this.line(e, state);
-      if (!line) { continue; }
-      if (e.type === 'action' || e.type === 'initiative' || !groups.length) { groups.push([line]); }
-      else { groups.at(-1)!.push(line); }
-    }
-    return groups;
   }
   private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
     const race = Content.races[f.raceId as keyof typeof Content.races]?.name ?? f.raceId;

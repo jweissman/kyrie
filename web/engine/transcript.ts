@@ -1,9 +1,11 @@
-import { Narration } from '../src/presentation/narration';
-import type { ActionFeedback } from '../src/presentation/action-feedback';
-import type { CampaignEvent } from '../src/campaign/campaign';
-import type { Entry } from './play-types';
+import { Narration } from '../../src/presentation/narration';
+import type { ActionFeedback } from '../../src/presentation/action-feedback';
+import type { CampaignEvent } from '../../src/campaign/campaign';
+import type { Entry } from './protocol';
 
-export interface Said { said: string; move: boolean; moved: boolean; place: string; placeName: string; elapsed: number }
+export interface Said {
+  id: number; said: string; move: boolean; moved: boolean; place: string; placeName: string; elapsed: number;
+}
 
 // What a command leaves on the page. The page echoes what the company did, then tells what came of it, once: a
 // thing learned is noted in the margin rather than told twice, coin spent is a note, and a walk from one room to
@@ -23,7 +25,7 @@ export class PlayTranscript {
     const said = told.join(' ');
     const notes = [...f.resources.map(r => this.resource(r)),
       ...f.discoveries.filter(d => !said.includes(d)).map(d => `◆ In the journal: ${this.gist(d)}`)];
-    return { at: f.time.split(' · ').at(-1)!, elapsed: c.elapsed, place: c.place, placeName: c.placeName,
+    return { id: c.id, at: f.time.split(' · ').at(-1)!, elapsed: c.elapsed, place: c.place, placeName: c.placeName,
       ...(c.moved ? { arrival: true } : {}), ...(plain ? {} : { said: c.said }),
       lines: told, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
       title: plain ? `→ ${c.placeName}` : c.said };

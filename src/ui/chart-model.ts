@@ -86,12 +86,14 @@ export class ChartModel {
   private mark(areas: Map<string, RegionChart['areas'][number]>, id: string, visited: Set<string>, here?: string) {
     const a = this.regionalArea(id);
     if (!a?.space?.grid) { return undefined; }
-    const row = areas.get(a.id)
-      ?? { id: a.id, name: a.name, x: a.space.grid[0], y: a.space.grid[1], visited: false, here: a.id === here };
+    const row = areas.get(a.id) ?? { id: a.id, name: a.name, kind: a.space.kind, x: a.space.grid[0],
+      y: a.space.grid[1], visited: false, here: a.id === here };
     row.visited ||= visited.has(id);
     areas.set(a.id, row);
+    this.within.set(id, a.id);
     return a.id;
   }
+  private readonly within = new Map<string, string>();
   // The region a place lies in (or the plane, for a place in one with no region): one region is drawn at a time.
   private regionOf(id: string | undefined): string | undefined {
     return id ? Spatial.ancestry(this.entities, id).find(e => ['region', 'plane'].includes(e.space!.kind))?.id : undefined;
@@ -106,6 +108,7 @@ export class ChartModel {
       const key = [a, b].sort().join('|');
       if (!edges.has(key)) { edges.set(key, { from: a, to: b, label: `${w.name} · ${this.duration(w.passage)}`, status: w.status }); }
     }
-    return areas.size > 1 ? { region: { areas: [...areas.values()], edges: [...edges.values()] } } : {};
+    return areas.size > 1 ? { region: { areas: [...areas.values()], edges: [...edges.values()],
+      within: Object.fromEntries(this.within) } } : {};
   }
 }

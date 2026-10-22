@@ -12,9 +12,9 @@ export class Narration {
       const m = /^(.+) gains 1 (.+)\.$/.exec(l);
       return !m || !clean.some(o => o !== l && o.includes(m[1]!) && o.includes(m[2]!));
     });
+    // A fight was told blow by blow as it happened; afterwards only how it turned out is told again.
     if (!blows || clean.length <= 6) { return clean; }
-    const key = clean.filter(l => /falls|wins|withdraw|defeated|experience|dies|reaches level|flees|gets away/.test(l));
-    return [`${blows} blow${blows === 1 ? '' : 's'} over the fight; the journal keeps every one.`, ...key];
+    return clean.filter(l => /falls|wins|withdraw|defeated|experience|dies|reaches level|flees|gets away/.test(l));
   }
   static sentence(line: string): string { return line.charAt(0).toUpperCase() + line.slice(1); }
   // "Elen gains 10 experience. Bran gains 10 experience." → "Elen and Bran each gain 10 experience."
