@@ -29,7 +29,7 @@ export class EntryView {
     }
     return log.slice(start).filter((e, i, all) => !(EntryView.quiet(e) && all[i + 1] && EntryView.quiet(all[i + 1]!)));
   }
-  static readonly passing = ['An hour passes.', 'You remain here while time passes.'];
+  static readonly passing = ['An hour passes.', 'Time passes.'];
   // A wait in which nothing happened but the time.
   static quiet(e: Entry): boolean {
     return /^Wait /.test(e.said ?? '') && e.lines.every(l => EntryView.passing.includes(l));

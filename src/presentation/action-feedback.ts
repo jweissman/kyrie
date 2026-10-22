@@ -38,10 +38,10 @@ export class ActionFeedbackView {
       && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');
     const nothing = quiet ? ` ${action.schema === 'search' ? 'You find nothing out of the ordinary.' : 'Nothing comes of it.'}` : '';
     const result = event.response ? `${event.response}${nothing}` : battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
-      learned.length ? `You learn: ${learned.map(k => k.text).join(' ')}` :
+      learned.length ? learned.map(k => k.text).join(' ') :
         before.location?.id !== after.location?.id ? `You arrive at ${after.location?.name}.` :
           combat.length ? '' :
-            action.schema === 'wait' ? 'You remain here while time passes.' :
+            action.schema === 'wait' ? 'Time passes.' :
               changed[0] ? FictionalTime.prose(changed[0].text) : 'You carry out the action.');
     const resources = [...new Set([...(before.resources ?? []).map(r => r.id),
       ...(after.resources ?? []).map(r => r.id)])]

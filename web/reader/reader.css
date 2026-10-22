@@ -290,7 +290,8 @@ a { color: var(--accent); }
   .choice { padding: .32rem .5rem; }
   .backdrop .inset { display: none; }
   .mark { font-size: 4.4rem; }
-  .top-line { flex-wrap: wrap; gap: .6rem 0; }
+  .top-line { flex-wrap: wrap; gap: .6rem 0; background: var(--paper); box-shadow: 0 10px 12px -8px var(--paper);
+    padding-bottom: .7rem; margin-bottom: 1rem; }
   .top-line .campaign { display: none; }
   .top-line .views { margin: 0 auto 0 0; gap: .85rem; }
   .backdrop { opacity: .08; }

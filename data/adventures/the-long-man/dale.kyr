@@ -100,21 +100,21 @@ Module longman "The Long Man" {
     Role "villagers". Ancestry human. Numbers 4. Peaceable.
   }
   Observe folk_here at green when at(folk, green) and not storming() "A few people are at the well, and stop talking to watch you come.".
-  Topic folk_long_man with folk "Ask the people at the well about the Long Man" when true {
+  Topic folk_long_man with folk "Ask the people at the well about the Long Man" when true once {
     Says "'The Long Man's barrow,' says a woman with a basket of eggs. 'There's a giant king under it, that the Long Folk buried with his gold. You don't go up there after dark.' She nods at the ridge. 'The Mower walks.'".
   }
-  Topic folk_mower with folk "Ask the people at the well about the Mower" when true {
+  Topic folk_mower with folk "Ask the people at the well about the Mower" when true once {
     Says "'Grey,' says a boy, before anyone can stop him, 'and taller than the chapel door. It came down onto the green last week and stood looking at the springs half the night, and Hob Teller hid in his own millpond.' His mother cuffs him, not hard.".
   }
-  Topic folk_venn with folk "Ask the people at the well about the steward" when true {
+  Topic folk_venn with folk "Ask the people at the well about the steward" when true once {
     Says "They look at one another. 'Owes money downriver, they say,' says the woman with the eggs. 'The barge comes up for his old metal. He'll have put that notice up because the Mower knocked his cart about.'".
   }
-  Topic martin_news with martin "Ask Martin Pask what is new in Merrow" when true {
+  Topic martin_news with martin "Ask Martin Pask what is new in Merrow" when true once {
     Says "'Storm coming,' says Martin, wiping a pot. 'Three days, Gammer Coller says, and she's never been wrong in my life. And the Heron's due up the beck tomorrow noon for the steward's cart. Cass Rowell drinks here.' He sets the pot down. 'If you're going after the Mower, the steward's your man. I'd want paying first.'".
   }
 
   // The steward's notice, the steward's bronze, and the steward's key.
-  Discovery bounty_known "Aldous Venn, steward of the Hall, will pay forty crowns to whoever lays the Mower that walks the Long Man." {
+  Discovery bounty_known "The notice on the Ox's door, in a clerk's hand: WHOEVER LAYS THE MOWER THAT WALKS THE LONG MAN SHALL HAVE FORTY CROWNS OF THE STEWARD. A. VENN, FOR THE LORD." {
     Source notice "the steward's notice on the Ox's door" at green readable by party.
     Known by venn.
   }
@@ -164,7 +164,7 @@ Module longman "The Long Man" {
 
   // Dunnet is owed his wages, and is frightened of what is behind the cellar door.
   Relation promisedDoor(group).
-  Topic dunnet_fear with dunnet "Ask Dunnet about the Mower" when true {
+  Topic dunnet_fear with dunnet "Ask Dunnet about the Mower" when true once {
     Says "Dunnet looks at the hill. 'It's not the Mower I mind,' he says. 'It's what's in the wet tunnel. It stood up out of the floor at Pell and me, all mud, and came after us. I'm not going back through that door, not for the steward, not for anyone.'".
   }
   Topic dunnet_door with dunnet "Ask Dunnet what is behind the cellar door" when knows(actor, cellar_known) or state(cellar_door, barred) {
@@ -224,19 +224,19 @@ Module longman "The Long Man" {
   }
   Rule hob_staunches when confessed(hob) and state(cuts, open) and untilLight(clock) == 1 { Assert state(cuts, staunched). }
   Thing cuts "the cuts at the springs" at springs {
-    State open "Where the springs come out of the turf, the edges are cut clean and square, as if with a spade, and the water pours through the cuts.".
+    State open "The springs pour out of the turf, cold and clear, more water than a few springs ought to give.".
     State staunched "The cuts at the springs have been staked and packed with clay. The water seeps instead of pouring.".
-    Change staunch "Stake the spade-cuts and pack them with clay" from open to staunched needing digging or shovel.
+    Change staunch "Stake the spade-cuts and pack them with clay" from open to staunched needing digging or shovel after learning cuts_known.
   }
   Discovery cuts_known "Someone has cut the Weeping Springs wider with a spade, this year: the edges are still square." {
     Found by searching springs "Under the water the turf is cut in clean square bites, too regular for water to have made. A spade did this, not long ago.".
   }
 
   // Gammer Coller and her rod.
-  Topic nell_rhyme with nell "Ask Gammer Coller about the Mower" when true {
+  Topic nell_rhyme with nell "Ask Gammer Coller about the Mower" when true once {
     Says "'There's a rhyme,' says Gammer Coller. 'When the Mower walks the crown, keep the willow-roots cut down. When the Mower walks the green, the water's coming in between. When the Mower walks by day, Merrow, take your bed away.' She pokes the fire. 'It's been walking the green this month. Nobody asked me.'".
   }
-  Topic nell_rod with nell "Ask Gammer Coller about the rod by her door" when true {
+  Topic nell_rod with nell "Ask Gammer Coller about the rod by her door" when true once {
     Says "'The dyke-reeve's rod,' she says, and takes it down: black wood, with notched bronze on both ends. 'Every reeve has had it since there were reeves. You measure a ditch with it.' She runs her thumb along the notches. 'Not that the notches match any measure I know.'".
     On discuss { Assert knows(actor, rod_seen). }
   }
@@ -266,7 +266,7 @@ Module longman "The Long Man" {
   Rule cass_comes when watch(clock) >= 168 and watch(clock) < 204 and at(cass, downriver) { Assert at(cass, landing). Assert at(hands, landing). Assert at(hold, landing). }
   Rule cass_goes when watch(clock) >= 204 and at(cass, landing) and able(cass) { Assert at(cass, downriver). Assert at(hands, downriver). Assert at(hold, downriver). }
   Observe heron_scene at landing when at(cass, landing) "The barge Heron lies at the landing, low in the water, with a brown sail furled and two bargemen sitting on the hatch.".
-  Topic cass_trade with cass "Ask Cass Rowell what she is carrying" when true {
+  Topic cass_trade with cass "Ask Cass Rowell what she is carrying" when true once {
     Says "'Whatever pays,' says Cass. 'Wool down, iron up. Bronze, when the steward has it. He owes me sixty crowns and pays me in old teeth.' She looks you over. 'If you've teeth to sell, I buy at eight. If you want them back, they cost twelve. That's trade.'".
   }
 

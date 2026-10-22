@@ -47,17 +47,24 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (page && frame && prev.frame !== frame) {
       if (!prev.frame || prev.frame.screen.place.id !== frame.screen.place.id || !!prev.frame.combat !== !!frame.combat) {
         page.scrollTo({ top: 0 });
-      } else {
-        const latest = page.querySelector<HTMLElement>('.entry.latest, .exchange:last-child');
-        const top = latest?.getBoundingClientRect().top ?? 0;
-        if (latest && (top > innerHeight * 0.6 || top < 0)) { page.scrollBy({ top: top - 96, behavior: 'smooth' }); }
-      }
+      } else { ReaderApp.reveal(page); }
     }
     if (prev.cursor !== this.state.cursor && !this.state.hovered) {
       const chosen = document.querySelector<HTMLElement>(`.choices [data-index="${this.state.cursor}"]`);
       chosen?.focus({ preventScroll: true });
       chosen?.scrollIntoView({ block: 'nearest' });
     }
+  }
+  // Something new at the same place: the new text and the choices after it in view together if they fit, the new
+  // text at the top of the page if they do not.
+  static reveal(page: HTMLElement) {
+    const latest = page.querySelector<HTMLElement>('.entry.latest, .exchange:last-child');
+    const menu = page.querySelector<HTMLElement>('.choices');
+    if (!latest || !menu) { return; }
+    const view = page.getBoundingClientRect(), top = latest.getBoundingClientRect().top - view.top;
+    const bottom = menu.getBoundingClientRect().bottom - view.top, room = page.clientHeight - 96 - 72;
+    const by = bottom - top <= room ? Math.max(0, bottom - (page.clientHeight - 72)) : top - 96;
+    if (Math.abs(by) > 4) { page.scrollBy({ top: by, behavior: 'smooth' }); }
   }
   private listen(message: Message) {
     if (message.kind === 'saved') {
