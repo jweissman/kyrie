@@ -116,8 +116,9 @@ export class RegionWriter {
       `  Passage ${s.id}_shrine_door ${q(`the shrine porch in ${s.name}`)} is doorway between ${s.id}_shrine and ${s.id}_green.`,
       `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`,
       `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${s.id}_taproom { Role "innkeeper". ${this.of(s, 'innkeeper', region)} Profession innkeeper. Peaceable. ${this.inn(s)} }`,
-      // Only a town's priest has the learning to call the dead back.
-      `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin.' : ''} }`,
+      // Only a town's priest has the learning to call the dead back, and keeps a copy of the old orders' glossary of
+      // the old script, for whoever would read the makers' stones.
+      `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin. Sells old_glossary for 80 coin from 1.' : ''} }`,
       this.merchant(s, region),
       ...RegionRecruits.traveller(s, i, region),
       `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${RegionPeoples.told(s)}${this.meaning(s)} ${RegionGeography.placement(region, i)}Smoke rises from ${s.inn}; the shrine of ${cult.name} stands open across the green.`)}.`,
