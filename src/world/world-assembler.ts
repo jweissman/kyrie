@@ -12,6 +12,7 @@ import { RegionPeoples } from './region-peoples';
 import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
+import { RegionRecruits } from './region-recruits';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 import { Composition, type KitEntry } from './compose/composition';
 import { Kits } from './compose/kit';
@@ -102,6 +103,7 @@ export class WorldAssembler {
         modules.push({ id: `word${i + 1}`, bundle: `${root}/word-${placement.instance}/module.json`, imports: word.imports });
       }
     });
+    this.arrival(region, { size: party.length, contacts }, { files, root, modules });
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
     const requests = await this.settle(framework, { base, files, root, region, placements, modules, seed,
@@ -116,6 +118,15 @@ export class WorldAssembler {
     return { path, source: new OverlayBundleSource(base, files),
       report: { seed, region, context, placements, contacts, requests,
         eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
+  }
+  // Why the company came, written as a module of its own (see RegionRecruits.arrival).
+  private static arrival(region: Region, company: { size: number; contacts: Contact[] },
+    at: { files: Record<string, string>; root: string; modules: BundleRequest[] }) {
+    const arrival = RegionRecruits.arrival(region, company);
+    if (!arrival) { return; }
+    at.files[`${at.root}/arrival/module.json`] = JSON.stringify(arrival.manifest);
+    at.files[`${at.root}/arrival/arrival.kyr`] = arrival.source;
+    at.modules.push({ id: 'arrival', bundle: `${at.root}/arrival/module.json`, imports: arrival.imports });
   }
   static readonly frontier = 'data/frameworks/frontier.json';
   // Writes the region and composes the framework's kits against it. A kit refused for want of a place gets one more

@@ -75,7 +75,6 @@ export class RegionWriter {
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
-    lines.push(...RegionRecruits.arrival(region, company));
     const wonderSite = region.sites[0];
     if (wonderSite) {
       lines.push(`  Observe wonder at ${wonderSite.id} when true ${q(`Nearby you find ${region.wonder.description.replace(/\.$/, '')}. Nobody in ${region.settlements[0]!.name} can say why.`)}.`);

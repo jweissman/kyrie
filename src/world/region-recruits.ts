@@ -16,20 +16,27 @@ export class RegionRecruits {
     'charcoal-burner': 'The burn is done and the charcoal sold. I have a month before the next.',
     'eel-catcher': 'The eels are not running. Nothing is, this season.',
     trapper: 'The furs are sold, and the snow is late.' };
-  // Why the company has come, said when it arrives: each member an old acquaintance sent word to, and what of; a
-  // company of one is told that the travellers at the inns are looking for work. Nothing is a task: it is what they
-  // came for.
-  static arrival(region: Region, company: { size: number; contacts: Contact[] }): string[] {
-    const town = region.settlements[0]!, said = company.contacts.map(c => {
+  // Why the company has come, said as it arrives, as a module of its own so it stands apart from the town: each
+  // member an old acquaintance sent word to, and what of; a company of one is told that the travellers at the inns are
+  // looking for work. Nothing is a task: it is what they came for.
+  static arrival(region: Region, company: { size: number; contacts: Contact[] }) {
+    const town = region.settlements[0]!, imports: Record<string, string> = { party: 'region.party', green: `region.${town.id}_green` };
+    const said = company.contacts.map((c, i) => {
       const s = region.settlements.find(x => c.carrier.startsWith(`${x.id}_`));
-      const who = `{${c.carrier}}, the ${c.carrier.replace(/^s\d+_/, '')} at ${s?.name ?? town.name}`;
+      imports[`c${i + 1}`] = `region.${c.carrier}`;
+      const who = `{c${i + 1}}, the ${c.carrier.replace(/^s\d+_/, '')} at ${s?.name ?? town.name}`;
       return c.concern ? `${c.member} came because ${who}, sent word of ${c.concern}.`
         : `${c.member} came to see ${who}, an old friend.`;
     });
     if (company.size === 1) {
       said.push(`You have come alone. The travellers at the inns of ${region.name} are looking for work, and one of them might come with you.`);
     }
-    return said.length ? [`  Observe arrival at ${town.id}_green when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`] : [];
+    if (!said.length) { return undefined; }
+    const names = Object.keys(imports), source = ['Module arrival "Why the company came" {', '  Entity party: group "Your company".',
+      '  Place green "Where they arrive" is room.', ...names.filter(n => /^c\d+$/.test(n)).map(n => `  Entity ${n}: group "Someone".`),
+      `  Observe arrival at green when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`, '  Goal false.', '}'].join('\n');
+    return { source, imports, manifest: { version: 1, source: 'arrival.kyr', rules: ['world'], globals: ['party'],
+      imports: names, roles: Object.fromEntries(names.map(n => [n, { type: n === 'green' ? 'place' : 'group' }])) } };
   }
   static traveller(s: Settlement, i: number, region: Region): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;

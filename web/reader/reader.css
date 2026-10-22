@@ -326,6 +326,7 @@ a { color: var(--accent); }
     padding-bottom: .7rem; margin-bottom: 1rem; }
   .top-line .campaign { display: none; }
   .top-line .views { margin: 0 auto 0 0; gap: .85rem; }
+  .top-line time { margin-left: 0; }
   .backdrop { opacity: .08; }
   .reader.travelling .backdrop { opacity: .2; transform: none; }
   /* A fight on a phone: the foes stay at the head of the page; the fight so far folds under the turn. */
