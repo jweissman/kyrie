@@ -3,6 +3,11 @@ import type { RegionChart } from '../../src/ui/screen-types';
 import type { Travel } from './reader-app';
 
 interface Point { x: number; y: number }
+interface Box { x0: number; y0: number; x1: number; y1: number }
+// Where each name on the map goes (below its mark, above it, to its right or left, or nowhere), and which routes'
+// times show.
+interface Spot { dx: number; dy: number; anchor: 'middle' | 'start' | 'end' }
+interface Labels { areas: Map<string, Spot | undefined>; routes: Set<string> }
 type Land = NonNullable<RegionChart['land']>;
 
 // A region drawn on its own land: only the cells the company knows, each marked for what covers it (trees, fell,
@@ -18,6 +23,7 @@ export class LandMap {
     const from = travel && region.within[travel.from], to = travel && region.within[travel.to];
     const box = large ? LandMap.whole(land) : LandMap.around(at.get(region.areas.find(a => a.here)?.id ?? '')
       ?? LandMap.point(land.known[0]! % land.width, Math.floor(land.known[0]! / land.width)));
+    const labels = LandMap.labels(region, at);
     return (
       <svg className="region landed" viewBox={box.join(' ')} role="img" aria-label="The region as far as you know it"
         preserveAspectRatio="xMidYMid meet" {...large ? { width: box[2]! * 0.62, height: box[3]! * 0.62 } : {}}>
@@ -42,16 +48,52 @@ export class LandMap {
           return (
             <g key={`${e.from}|${e.to}`} className={`route ${e.status}${going ? ' going' : ''}`}>
               <path id={`route-${e.from}-${e.to}`} d={`M${a.x},${a.y} L${b.x},${b.y}`}><title>{e.label}</title></path>
-              <text className="route-label" dy={-7}><textPath href={`#route-${e.from}-${e.to}`} startOffset="50%"
-                textAnchor="middle">{time}</textPath></text>
+              {labels.routes.has(`${e.from}|${e.to}`) && <text className="route-label" dy={-7}>
+                <textPath href={`#route-${e.from}-${e.to}`} startOffset="50%" textAnchor="middle">{time}</textPath></text>}
               {going && <circle className="traveller" r={7}><animateMotion dur="1.6s" fill="freeze"
                 path={from === e.to ? `M${b.x},${b.y} L${a.x},${a.y}` : `M${a.x},${a.y} L${b.x},${b.y}`} /></circle>}
             </g>
           );
         })}
-        {region.areas.map(a => LandMap.area(a, at.get(a.id)!))}
+        {region.areas.map(a => LandMap.area(a, at.get(a.id)!, labels.areas.get(a.id)))}
       </svg>
     );
+  }
+  // Names that would cross one another are not all written: the company's place first, then settlements, sites and
+  // the rest, each under its mark or else over it, or (its name still on hover) not at all; then the routes' times
+  // where they have room.
+  private static labels(region: RegionChart, at: Map<string, Point>): Labels {
+    const taken: Box[] = [], areas = new Map<string, Spot | undefined>(), routes = new Set<string>();
+    for (const a of [...region.areas].sort((p, q) => LandMap.rank(p) - LandMap.rank(q))) {
+      const p = at.get(a.id)!, under = a.kind === 'settlement' ? 34 : 26, width = a.name.length * 11 + 10;
+      taken.push(LandMap.box(p.x, p.y - 4, 30, 30));
+      const spots: Spot[] = [{ dx: 0, dy: under, anchor: 'middle' }, { dx: 0, dy: 4 - under, anchor: 'middle' },
+        { dx: 20, dy: 7, anchor: 'start' }, { dx: -20, dy: 7, anchor: 'end' }];
+      const spot = spots.find(s => LandMap.free(taken, LandMap.label(p, s, width)));
+      areas.set(a.id, spot);
+      if (spot) { taken.push(LandMap.label(p, spot, width)); }
+    }
+    for (const e of region.edges) {
+      const a = at.get(e.from), b = at.get(e.to);
+      if (!a || !b) { continue; }
+      const label = LandMap.box((a.x + b.x) / 2, (a.y + b.y) / 2 - 10, e.label.split(' · ').at(-1)!.length * 10 + 8, 24);
+      if (LandMap.free(taken, label)) { taken.push(label); routes.add(`${e.from}|${e.to}`); }
+    }
+    return { areas, routes };
+  }
+  // The box a name takes, written at a spot by its mark.
+  private static label(p: Point, s: Spot, width: number): Box {
+    const x = s.anchor === 'start' ? p.x + s.dx + width / 2 : s.anchor === 'end' ? p.x + s.dx - width / 2 : p.x;
+    return LandMap.box(x, p.y + s.dy - 8, width, 26);
+  }
+  private static rank(a: RegionChart['areas'][number]): number {
+    return a.here ? 0 : a.kind === 'settlement' ? 1 : a.kind === 'site' ? 2 : 3;
+  }
+  private static box(x: number, y: number, width: number, height: number): Box {
+    return { x0: x - width / 2, y0: y - height / 2, x1: x + width / 2, y1: y + height / 2 };
+  }
+  private static free(taken: Box[], b: Box): boolean {
+    return taken.every(t => b.x1 <= t.x0 || b.x0 >= t.x1 || b.y1 <= t.y0 || b.y0 >= t.y1);
   }
   // All the land the company knows, with a cell's margin.
   private static whole(land: Land): number[] {
@@ -111,7 +153,7 @@ export class LandMap {
       default: return [];
     }
   }
-  private static area(a: RegionChart['areas'][number], c: Point) {
+  private static area(a: RegionChart['areas'][number], c: Point, spot: Spot | undefined) {
     const mark = a.kind === 'settlement' ? <g className="glyph" transform="scale(1.1)">{[-12, 0, 12].map((x, i) =>
       <path key={x} d={`M${x - 5},${i === 1 ? -2 : 3} l5,-6 l5,6 v8 h-10 z`} />)}</g>
       : a.kind === 'site' ? <g className="glyph"><path d="M-9,10 v-13 a9,9 0 0 1 12,-7 M9,10 v-10 M-13,10 h26" /></g>
@@ -121,7 +163,8 @@ export class LandMap {
         transform={`translate(${c.x},${c.y})`} {...a.here ? { 'aria-current': 'location' } : {}}>
         {mark}
         {a.here && <circle className="company" r={8} />}
-        <text className="area-name" y={a.kind === 'settlement' ? 34 : 26} textAnchor="middle">{a.name}</text>
+        {spot ? <text className="area-name" x={spot.dx} y={spot.dy} textAnchor={spot.anchor}>{a.name}</text>
+          : <title>{a.name}</title>}
       </g>
     );
   }

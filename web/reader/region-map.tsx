@@ -21,7 +21,8 @@ export class RegionMap {
         {region?.land ? <LandMap.View region={region} travel={travel} large={large} />
           : region ? <RegionMap.Region region={region} travel={travel} large={large} /> : screen.chart
           ? <RegionMap.Local chart={screen.chart} /> : null}
-        {large && region && screen.chart && <div className="inset"><RegionMap.Local chart={screen.chart} /></div>}
+        {large && region && screen.chart && screen.path.some(p => ['site', 'level'].includes(p.kind))
+          && <div className="inset"><RegionMap.Local chart={screen.chart} /></div>}
       </div>
     );
   }

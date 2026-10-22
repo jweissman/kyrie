@@ -50,7 +50,11 @@ export class ActionFeedbackView {
         return (a?.amount ?? 0) === (b?.amount ?? 0) ? [] :
           [`${a?.name ?? b?.name}: ${a?.amount ?? 0} → ${b?.amount ?? 0}`];
       });
-    return { resources, attempt: action.name, result: FictionalTime.prose(result),
+    // What the company did, in the words it was offered in (a name it learns by doing it is not echoed back), where
+    // the offer was one; several offered under one id (buy it for one of the company or another) say it as done.
+    const offered = before.choices.filter(c => c.id === event.action);
+    return { resources, attempt: offered.length === 1 ? offered[0]!.name : action.name,
+      result: FictionalTime.prose(result),
       time: `${FictionalTime.duration(event.elapsed - before.elapsed)} · ${FictionalTime.at(event.elapsed)}`,
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],

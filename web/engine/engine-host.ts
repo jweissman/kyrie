@@ -126,7 +126,9 @@ export class EngineHost {
   private frame(): Frame {
     const session = this.session!, campaign = session.campaign;
     this.screen ??= ScreenModel.build(campaign);
-    return { title: this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
+    // A generated world is named on the page for the region the company is in, as it goes on past the first.
+    const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
+    return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       ...this.turn ? { combat: CombatModel.build(this.turn.battle) } : {},
       opening: this.opening.filter(Boolean),
       chronicle: PlayerView.chronicle(campaign)

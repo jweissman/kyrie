@@ -46,7 +46,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('The Long Man in the browser', () =>
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await Merrow.act(d, '^To Merrow green', '^Into the Drowned Ox', '^Buy › ^A torch');
-    expect(await page.textContent('.entry.latest .said')).toBe('You buy a torch for Elen.');
+    // A bought torch goes to whoever already carries one: Bran, the warrior, who set out with one.
+    expect(await page.textContent('.entry.latest .said')).toBe('You buy a torch for Bran.');
     expect(await page.textContent('.entry.latest .told')).toContain('takes a torch');
     expect(await Merrow.highlighted(page)).toBe(1);
     await d.mode('i');
