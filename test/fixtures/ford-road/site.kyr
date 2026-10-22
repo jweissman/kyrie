@@ -1,0 +1,36 @@
+Module ford_road "A road, a ford and a tidal causeway" {
+  Description "A test fixture for journeys: an hour's road to a ford where a wolf keeps its ground, and an hour's causeway that the tide covers at the ninth watch.".
+  Place country "The fixture country" is region.
+  Place village "the village" is settlement within country at 0, 0.
+  Place fen "the fen" is wilderness within country at 1, 0.
+  Place isle "the isle" is settlement within country at 2, 0.
+  Place green "the village green" is room within village at 0, 0.
+  Place ford "the ford" is room within fen at 0, 0.
+  Place mill "the tide mill" is room within isle at 0, 0.
+  Place copse "the copse" is room within village at 0, 1.
+  Passage road "the marsh road" is road between green and ford taking 1 hour.
+  Passage causeway "the tidal causeway" is causeway between ford and mill taking 1 hour.
+  Passage lane "the copse lane" is path between green and copse taking 30 minutes.
+  Thing tide "the tide" on causeway {
+    State out "The tide is out, and the causeway runs dry across the flats.".
+    State in blocking "The tide is in over the causeway.".
+  }
+  Rule tide_comes when watch(clock) >= 9 and state(tide, out) { Assert state(tide, in). }
+  Company party "The company" of 2 at green.
+  Initially Set quantity(party, gold) to 4. Initially Set quantity(party, rations) to 1.
+  Person wolf "a grey wolf" at ford { Role "a wolf that keeps the ford". Species wolf. }
+  Initially Assert temperament(wolf, temper_territorial). Initially Assert warning(wolf, wolf_warns).
+  Initially Assert onslaught(wolf, wolf_comes).
+  Entity wolf_warns: fact "A grey wolf stands up out of the reeds at the water's edge, hackles high, and does not move.".
+  Entity wolf_comes: fact "The wolf comes at you out of the reeds.".
+  Person dog "a wild dog" at copse { Role "a dog gone wild". Species wolf. }
+  Initially Assert temperament(dog, temper_savage). Initially Assert onslaught(dog, dog_comes).
+  Entity dog_comes: fact "A wild dog comes out of the hazel at a run, low and silent.".
+  Relation seenOnRoad(group).
+  Rule road_seen when enRoute(?c, road) and not seenOnRoad(?c) { Assert seenOnRoad(?c). }
+  Observe green_scene at green when true "Geese on the green.".
+  Observe ford_scene at ford when true "Reeds, and the water running over stones.".
+  Observe mill_scene at mill when true "A mill whose wheel turns with the tide.".
+  Observe copse_scene at copse when true "Hazel, and a path trodden by something on four legs.".
+  Goal false.
+}

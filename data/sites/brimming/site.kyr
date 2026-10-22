@@ -88,7 +88,7 @@ Module brimming "The Brimming" {
     On success { Decrease quantity(actor, gold) by 2. Increase quantity(ferryman, gold) by 2. Assert state(boat, poled). }
     Result "Spill counts the coins twice and pushes off. The boat makes no sound at all on the still water.".
   }
-  Rule boat_back when state(boat, poled) and not at(party, lake_shore) and not at(party, far_shore) { Assert state(boat, moored). }
+  Rule boat_back when state(boat, poled) and not at(party, lake_shore) and not at(party, far_shore) and not enRoute(party, lake) { Assert state(boat, moored). }
 
   Entity dark_comes: fact "At night the dark comes down the crack from the Lanthorn into the Brimming, and drinks the Glimmerkin's jars; three lamp-keepers have gone into it and not come back.".
   Initially Assert established(dark_comes).

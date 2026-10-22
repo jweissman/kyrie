@@ -30,6 +30,8 @@ import { Overlays } from '../overlays';
 import { CampaignTick } from './campaign-tick';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Engagement } from './engagement';
+import { Journey, type Leg } from './journey';
+import { ActionTime } from './action-time';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent } from './campaign-types';
@@ -295,9 +297,12 @@ export class Campaign implements WatchHost {
     let success = held && CommandResolutions.survived(action,
       this.creatures.snapshot, this.definition?.actors, this.module.entities);
     const causal = this.module.relations.some(r => r.name === 'witnessedAttack');
-    // An activity that can be interrupted takes effect when it has run its course; anything else takes effect now.
-    const before = this.world, deferred = !!action.interrupt;
+    // An activity that can be interrupted takes effect when it has run its course, a journey when the company
+    // arrives, anything else at once.
+    const before = this.world, leg = success ? Journey.of(before, action, this.playerActor,
+      ActionTime.of(action, before)) : undefined, deferred = !!action.interrupt || !!leg;
     if (!deferred) { this.apply(action, success); }
+    if (leg) { this.commit(Journey.depart(this.world, leg)); }
     if (this.definition) { this.refresh(); }
     this.commit(Aftermath.record(before, this.world, action, combat));
     this.resolutions(combat, true);
@@ -305,8 +310,10 @@ export class Campaign implements WatchHost {
     if (!success && action.resolve?.name === 'expose') {
       response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
     }
-    const { npc, happenings, interrupted } = WatchLoop.pass(this, action, before, combat);
-    if (deferred) { success &&= !interrupted; this.apply(action, success); }
+    const pass = WatchLoop.pass(this, action, before, combat, leg && { leg, arrive: this.arrive.bind(this, action, leg) });
+    const { npc, happenings, interrupted } = pass;
+    if (deferred && !leg) { success &&= !interrupted; this.apply(action, success); }
+    if (leg) { success &&= this.landed(action, leg, 'turned' in pass); }
     if (interrupted) { response = interrupted; }
     if (!interrupted && !this.shelter(action, combat)) {
       success = false;
@@ -383,6 +390,17 @@ export class Campaign implements WatchHost {
     this.commit(Progression.check(this.world, this.definition!, this.current.elapsed));
     this.resolutions(combat, false);
     this.observe();
+  }
+  private arrive(action: Operator, leg: Leg) {
+    this.commit(Journey.arrived(this.world, leg));
+    this.apply(action, true);
+    if (this.definition) { this.refresh(); }
+  }
+  // A journey turned back did not arrive; one cut short by anything else ends where it was going.
+  private landed(action: Operator, leg: Leg, turned: boolean): boolean {
+    if (turned) { return false; }
+    if (!this.world.snapshot.relations.some(r => r.name === 'at' && r.args[0] === leg.actor)) { this.arrive(action, leg); }
+    return true;
   }
   private apply(action: Operator, success: boolean) {
     const before = this.world, after = before.apply(success ? action.success : action.failure);

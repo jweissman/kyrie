@@ -47,7 +47,8 @@ Module hush "The House of the Hush" {
     Result "A long time later a face looks over the edge of the cloud, far up. Then the basket comes down, creaking, on its rope.".
   }
   Relation refused(group). Relation shamed(group).
-  Rule basket_up when state(basket, waiting) and not at(party, stair_foot) and not at(party, gate_court) { Assert state(basket, above). }
+  Rule basket_up when state(basket, waiting) and not at(party, stair_foot) and not at(party, gate_court)
+    and not enRoute(party, basket_lift) { Assert state(basket, above). }
   Rule basket_used when state(basket, waiting) and at(party, gate_court) { Assert state(basket, above). }
 
   // A house of silence: everything is said on the slate. The Abbess answers in chalk.

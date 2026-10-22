@@ -34,7 +34,7 @@ describe('time follows distance', () => {
     await s.perform('go(hill__low_path,hill__drain_mouth)');
     expect(s.campaign.state.elapsed - before).toBe(3);
   }, 30000);
-  it('a person walking an hour-long road arrives an hour later, not at once', async () => {
+  it('a person following the company walks an hour-long road with it, and arrives when it does', async () => {
     const s = await Trip.start('go(march__causeway_path,march__causeway)', 'change_thing(hill__boar_pass)', 'go(hill__low_path,hill__drain_mouth)',
       'go(hill__culvert,hill__workshop)', 'change_thing(hill__padlock_pick)', 'go(hill__stores_door,hill__stores)',
       'take_item(rescue__bar,march__member_party_2)', 'go(hill__stores_door,hill__workshop)', 'go(hill__gallery_steps,hill__gallery)',
@@ -43,9 +43,8 @@ describe('time follows distance', () => {
       'go(hill__culvert,hill__drain_mouth)', 'go(hill__low_path,march__causeway)');
     const before = s.campaign.state.elapsed;
     await s.perform('go(march__causeway_path,march__quay)');
-    const arrival = s.campaign.events.at(-1)!.npc!.find(d => d.actor === 'rescue__guest')!;
-    expect(arrival.elapsed).toBe(before + 6);
-    expect(arrival.goal).toBe('continuing');
+    const guest = s.campaign.world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === 'rescue__guest');
+    expect([s.campaign.state.elapsed, guest?.args[1]]).toEqual([before + 6, 'march__quay']);
   }, 60000);
 });
 
