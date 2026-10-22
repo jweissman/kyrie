@@ -28,13 +28,6 @@
           "nature": "wild"
         },
         {
-          "_key": "owlbear",
-          "count": 1,
-          "label": "the owlbear",
-          "role": "an owlbear",
-          "nature": "wild"
-        },
-        {
           "_key": "cave_spider",
           "count": 2,
           "label": "the spiders",
@@ -43,14 +36,6 @@
         }
       ],
       "grove": [
-        {
-          "_key": "owlbear",
-          "__weight": 2,
-          "count": 1,
-          "label": "the owlbear",
-          "role": "an owlbear",
-          "nature": "wild"
-        },
         {
           "_key": "boar",
           "__weight": 2,
@@ -150,13 +135,6 @@
           "nature": "wild"
         },
         {
-          "_key": "owlbear",
-          "count": 1,
-          "label": "the owlbear",
-          "role": "an owlbear",
-          "nature": "wild"
-        },
-        {
           "_key": "cave_hound",
           "count": 2,
           "label": "the hounds",
@@ -168,8 +146,8 @@
         {
           "_key": "frost_wolf",
           "__weight": 3,
-          "count": 2,
-          "label": "the white wolves",
+          "count": 1,
+          "label": "the white wolf",
           "role": "a frost wolf",
           "nature": "wild"
         },
@@ -211,13 +189,6 @@
           "count": 2,
           "label": "the hounds",
           "role": "a cave hound",
-          "nature": "wild"
-        },
-        {
-          "_key": "owlbear",
-          "count": 1,
-          "label": "the owlbear",
-          "role": "an owlbear",
           "nature": "wild"
         }
       ],
@@ -265,13 +236,6 @@
           "count": 2,
           "label": "the wolves",
           "role": "a wolf",
-          "nature": "wild"
-        },
-        {
-          "_key": "owlbear",
-          "count": 1,
-          "label": "the owlbear",
-          "role": "an owlbear",
           "nature": "wild"
         },
         {
