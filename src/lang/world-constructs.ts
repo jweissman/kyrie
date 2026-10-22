@@ -1,3 +1,4 @@
+import { ItemNames } from '../item-names';
 import type { Anchor, Change, Module, Predicate } from './module';
 import { ItemCatalog } from '../item-catalog';
 
@@ -52,7 +53,7 @@ export class WorldConstructs {
   static item(module: Module, i: { id: string; name?: string; kind: string; place: string; inside?: boolean;
     hidden?: string; owner?: string }, kindName?: string) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }
-    module.entities.push({ id: i.id, type: 'item', name: i.name ?? kindName });
+    module.entities.push({ id: i.id, type: 'item', name: i.name ?? ItemNames.called(kindName) });
     this.entity(module, i.kind, 'itemkind', kindName);
     this.assert(module, 'itemKind', i.id, i.kind);
     this.assert(module, i.inside ? 'inside' : 'at', i.id, i.place);
@@ -90,7 +91,7 @@ export class WorldConstructs {
       this.entity(module, s.what, 'itemkind', kindName);
       for (let n = 1; n <= s.stock; n++) {
         const id = `${p.id}_${s.what}_${n}`;
-        module.entities.push({ id, type: 'item', name: kindName });
+        module.entities.push({ id, type: 'item', name: ItemNames.called(kindName) });
         this.assert(module, 'itemKind', id, s.what); this.assert(module, 'at', id, p.place);
         this.assert(module, 'forSale', id); this.assert(module, 'soldBy', id, p.id);
         module.initial.push({ kind: 'set', call: { kind: 'call', name: 'price', args: [id] }, value: { kind: 'number', value: s.fee } });

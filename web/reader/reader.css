@@ -44,7 +44,7 @@ a { color: var(--accent); }
   scrollbar-width: thin; scrollbar-color: var(--rule) transparent; z-index: 1; }
 .column > * { max-width: var(--measure); }
 .top-line { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: baseline;
-  padding: 1.5rem 0 .9rem; margin-bottom: 1.4rem; background: linear-gradient(var(--paper) 70%, transparent);
+  padding: 1.5rem 0 .9rem; margin-bottom: 1.4rem; background: var(--paper); box-shadow: 0 10px 12px -8px var(--paper);
   font: 500 12px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
 .top-line .campaign { all: unset; cursor: pointer; }
 .top-line .campaign:hover { color: var(--soft); }
@@ -89,7 +89,7 @@ a { color: var(--accent); }
 .choice .note { font: 13px/1 var(--sans); color: var(--faint); white-space: nowrap; }
 .choice .risk-mark { color: var(--bad); font-weight: 500; }
 .choice .more { color: var(--faint); }
-.choice:hover, .choice.sel { background: var(--sel); }
+.choice.hov, .choice.sel { background: var(--sel); }
 .choice:focus-visible { outline: none; background: var(--sel); box-shadow: inset 2px 0 0 var(--accent); }
 .choice.disabled { color: var(--faint); cursor: default; }
 .choice.disabled .l { text-decoration: line-through; text-decoration-color: var(--rule); }
@@ -100,7 +100,7 @@ a { color: var(--accent); }
 .group.opened .crumbs { position: static; width: auto; text-align: left; padding: 0 0 .3rem; }
 .group.opened .back { all: unset; cursor: pointer; color: var(--soft); }
 .group.opened .back::before { content: '‹ '; }
-.gloss { min-height: 3.2em; margin: .9rem 0 0; font-style: italic; color: var(--soft); font-size: .93rem; line-height: 1.55; }
+.gloss { min-height: 4.7em; margin: .9rem 0 0; font-style: italic; color: var(--soft); font-size: .93rem; line-height: 1.55; }
 .none { color: var(--faint); font-style: italic; }
 .again { margin-top: 2rem; }
 
@@ -179,6 +179,7 @@ a { color: var(--accent); }
 .details .close { position: absolute; top: 1.4rem; right: 1.6rem; all: unset; cursor: pointer; font: 12px var(--sans);
   letter-spacing: .1em; color: var(--faint); border: 1px solid var(--rule); border-radius: 3px; padding: .15rem .45rem; }
 .details .close { position: absolute; top: 1.4rem; right: 1.6rem; }
+.details.inline { display: none; }
 .sheet { max-width: 34rem; }
 .sheet h1 { font: 500 1.8rem/1.2 var(--caps); margin: 0; }
 .sheet .where { margin: .15rem 0; font-style: italic; color: var(--soft); font-size: .95rem; }
@@ -195,9 +196,6 @@ a { color: var(--accent); }
 .sheet ul, .sheet ol { padding-left: 1.1rem; margin: 0; }
 .journal .kind { font-style: italic; color: var(--soft); margin: .6rem 0 .2rem; }
 .journal .how { color: var(--faint); font-size: .88rem; }
-.journal .chronicle { list-style: none; padding: 0; }
-.journal .chronicle li { margin: 0 0 .4rem; color: var(--soft); }
-.journal .chronicle time { display: block; font: 12px var(--sans); color: var(--faint); }
 .journal .save { margin-top: 2rem; display: flex; gap: .8rem; flex-wrap: wrap; }
 
 .help { position: fixed; z-index: 30; right: 2rem; bottom: 4rem; padding: 1.2rem 1.5rem; background: var(--panel);
@@ -276,10 +274,12 @@ a { color: var(--accent); }
   .column > * { max-width: none; }
   .aside { position: fixed; inset: 0; z-index: 0; border: 0; pointer-events: none; }
   .backdrop { opacity: .14; padding: 1rem; }
-  .reader.travelling .aside { z-index: 4; }
-  .reader.travelling .backdrop { opacity: .95; background: var(--paper); }
-  .aside.view-company, .aside.view-pack, .aside.view-journal, .aside.view-map { z-index: 10; pointer-events: auto;
-    top: 4.9rem; border-top: 1px solid var(--rule); }
+  .aside.view-map { z-index: 10; pointer-events: auto; top: 4.9rem; border-top: 1px solid var(--rule); }
+  .aside .details { display: none; }
+  .details.inline { display: block; position: static; padding: 0 0 1.2rem; background: none; overflow: visible; }
+  .details.inline .close { position: static; float: right; }
+  .reader.view-company .column > .scene, .reader.view-pack .column > .scene,
+  .reader.view-journal .column > .scene { display: none; }
   .aside.view-map .backdrop { opacity: 1; background: var(--paper); }
   .details { padding: 1.6rem 1.25rem 6rem; }
   .details .close { top: .9rem; }
@@ -295,6 +295,7 @@ a { color: var(--accent); }
   .top-line .campaign { display: none; }
   .top-line .views { margin: 0 auto 0 0; gap: .85rem; }
   .backdrop { opacity: .08; }
+  .reader.travelling .backdrop { opacity: .2; transform: none; }
 }
 @media (hover: none) { .choice .n { visibility: hidden; flex-basis: 0; } }
 @media (min-width: 1800px) { :root { --measure: 38rem; --gutter: 11rem; } body { font-size: 20px; } }

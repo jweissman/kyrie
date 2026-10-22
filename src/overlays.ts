@@ -1,3 +1,4 @@
+import { ItemNames } from './item-names';
 import { Canon } from './canon/canon';
 import { ItemCatalog } from './item-catalog';
 import type { Attribute, Creature } from './creature';
@@ -109,7 +110,7 @@ export class Overlays {
           if (!module.entities.some(e => e.id === kind)) {
             module.entities.push({ id: kind, type: 'itemkind', name: ItemCatalog.get(kind).name });
           }
-          module.entities.push({ id, type: 'item', name: ItemCatalog.get(kind).name });
+          module.entities.push({ id, type: 'item', name: ItemNames.called(ItemCatalog.get(kind).name) });
           module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'itemKind', args: [id, kind] } });
         }
       }

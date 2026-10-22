@@ -181,7 +181,7 @@ export class ChoiceList {
   }
   private static item(i: ItemRow): Choice {
     const note = i.equipped ? `in use${i.slot ? ` · ${i.slot}` : ''}` : i.slot ?? '';
-    const base = { id: i.id, label: i.name, tone: 'item' as const, about: `${i.description}${i.equipped ? ' In use.' : ''}`,
+    const base = { id: i.id, label: this.upper(i.name), tone: 'item' as const, about: `${i.description}${i.equipped ? ' In use.' : ''}`,
       ...(note ? { note } : {}) };
     return i.acts.length ? { ...base, children: this.flatten(i.acts, i.id, 'item') } : base;
   }

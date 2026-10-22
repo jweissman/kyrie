@@ -25,7 +25,23 @@ export class MonoDriver {
     await this.page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
       .kyrieMono.inspect().pending, null, { timeout: 60000 });
   }
-  async click(selector: string) { this.presses++; await this.page.click(selector); await this.settle(); }
+  // A phone is touched: a tap, which leaves no pointer hovering where it was, made as a finger would, once what it
+  // is aimed at has been scrolled to the middle of the screen and has stopped moving.
+  async click(selector: string) {
+    this.presses++;
+    if (this.pointer) {
+      await this.page.locator(selector).evaluate(e => e.scrollIntoView({ block: 'center' }));
+      await this.still();
+      await this.page.tap(selector);
+    } else { await this.page.click(selector); }
+    await this.settle();
+  }
+  still() {
+    return this.page.waitForFunction(() => new Promise<boolean>(done => {
+      const page = document.getElementById('page'), top = page?.scrollTop;
+      requestAnimationFrame(() => requestAnimationFrame(() => done(page?.scrollTop === top)));
+    }), null, { timeout: 10000 });
+  }
   // Does a choice on show, found by a predicate; arrows bring the highlight to it, then Enter does it.
   async pick(test: (c: ChoiceShape) => boolean, what: string) {
     const state = await this.inspect();

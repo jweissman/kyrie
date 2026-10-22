@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import type { MouseEvent, PointerEvent } from 'react';
 import type { Choice, Section } from '../../src/ui/choice-list';
 import type { ReaderApp } from './reader-app';
 import { Words } from './words';
@@ -15,7 +15,7 @@ export class ChoiceMenu {
       : menu.sections.filter(sec => sec.choices.length).map(sec => ChoiceMenu.group(app, sec, counter));
     return (
       <nav className={`choices${s.pending ? ' busy' : ''}`} data-region="choices" aria-label={title}
-        onMouseLeave={ChoiceMenu.leave.bind(null, app)}>
+        onPointerLeave={ChoiceMenu.leave.bind(null, app)}>
         {groups.length ? groups : <p className="none">Nothing to do here.</p>}
         <p className="gloss" data-id="detail" aria-live="polite">{gloss}</p>
       </nav>
@@ -48,13 +48,14 @@ export class ChoiceMenu {
   }
   private static choice(app: ReaderApp, c: Choice, counter: { n: number }) {
     const i = counter.n++, selected = i === app.state.cursor;
-    const classes = ['choice', `tone-${c.tone}`, selected ? 'sel' : '', c.risk ? 'risk' : '',
+    const classes = ['choice', `tone-${c.tone}`, selected ? 'sel' : '', c.id === app.state.hovered ? 'hov' : '',
+      c.risk ? 'risk' : '',
       c.disabled ? 'disabled' : '', c.children ? 'opens' : ''].filter(Boolean).join(' ');
     return (
       <li key={c.id}>
         <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i}
           aria-current={selected} aria-disabled={c.disabled ? true : undefined}
-          onClick={ChoiceMenu.click.bind(null, app)} onMouseEnter={ChoiceMenu.enter.bind(null, app)}>
+          onClick={ChoiceMenu.click.bind(null, app)} onPointerEnter={ChoiceMenu.enter.bind(null, app)}>
           <kbd className="n">{i < 9 ? i + 1 : ''}</kbd>
           <span className="l">{c.label}</span>
           {(c.note || c.risk) && <span className="note">{c.note}{c.risk && <b className="risk-mark"> risky</b>}</span>}
@@ -67,8 +68,12 @@ export class ChoiceMenu {
     const i = Number(e.currentTarget.dataset.index), choice = app.menu.level[i];
     if (choice) { app.setState({ cursor: i }); app.choose(choice); }
   }
-  private static enter(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
-    app.hover(e.currentTarget.dataset.choice);
+  private static enter(app: ReaderApp, e: PointerEvent<HTMLButtonElement>) {
+    if (e.pointerType === 'mouse') { app.hover(e.currentTarget.dataset.choice); }
   }
-  private static leave(app: ReaderApp) { app.hover(undefined); }
+  // Only a mouse leaving the list ends a hover: a finger lifting from the glass is not one, and redrawing the gloss
+  // between a tap and its click would move the list under the finger.
+  private static leave(app: ReaderApp, e: PointerEvent<HTMLElement>) {
+    if (e.pointerType === 'mouse') { app.hover(undefined); }
+  }
 }

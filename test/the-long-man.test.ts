@@ -77,7 +77,7 @@ describe('The Long Man', () => {
   }, 180000);
   it('gets Merrow up the hill when Mother Ysolt has been shown what the notches on her font are', async () => {
     const s = await Dale.start();
-    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox', '^Buy › Torch', '^Out to Merrow green', '^To the Hall yard',
+    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox', '^Buy › A torch', '^Out to Merrow green', '^To the Hall yard',
       '^Into the steward', 'Ask Aldous Venn about the Mower', '^Take from the hook', '^Out to the Hall yard', '^To the crest',
       '^To the gauge stone', '^Into the galleries', 'light', '^Read the notches', '^To the grey gallery', '^To the sluice',
       'unlock the grate', '^To the Hollow Door$', '^To the Weeping Springs', '^To the low field', '^To Merrow green',

@@ -1,3 +1,4 @@
+import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
@@ -87,7 +88,7 @@ export class ScreenModel {
   private static knowledge(view: PlayerSnapshot): Screen['knowledge'] {
     return [...view.knowledge].sort((a, b) => (b.at ?? -1) - (a.at ?? -1)).map(k => ({
       text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
-        : k.source === 'heard' ? `${k.from ?? 'someone'} told you` : '',
+        : k.source === 'heard' ? `${k.from ?? 'someone'}${k.from?.includes(', ') ? ',' : ''} told you` : '',
       k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', '),
       kind: k.confirmed ? 'confirmed' as const : k.source === 'heard' ? 'reported' as const : 'seen' as const }));
   }
@@ -265,7 +266,8 @@ export class ScreenModel {
     const state = campaign.readout;
     return state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c => (c.state.inventory ?? []).map(i => {
       const d = ItemCatalog.get(i.definition);
-      return { id: i.id, name: entities.get(i.id)?.name ?? d.name, kind: d.name, description: d.description,
+      return { id: i.id, name: entities.get(i.id)?.name ?? ItemNames.called(d.name), kind: d.name,
+        description: d.description,
         owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...(d.slot ? { slot: d.slot } : {}),
         ...(this.lights(d.use) ? { light: true } : {}), acts: grouped.items.get(i.id) ?? [] };
     }));

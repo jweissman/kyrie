@@ -33,6 +33,12 @@ export class Engagement {
     host.commitWorld(world.apply([{ kind: 'retract', call: ModuleWriter.call('halts', ...stop.args) }]));
     return this.told(host, stop.args[0]!).replace(/ (comes|come) at you!$/, (_, v: string) => ` ${v === 'come' ? 'stop' : 'stops'} you.`);
   }
+  // How the company learns it is set upon: in the assailant's own words, if they were just told ("The Wet comes down
+  // the gallery at you"), or plainly.
+  static announced(host: TickHost, foe: string, told: { text: string }[]): string {
+    const name = (host.world.module.entities.find(e => e.id === foe)?.name ?? foe).split(', ')[0]!.toLowerCase();
+    return told.find(h => h.text.toLowerCase().includes(name))?.text ?? this.told(host, foe);
+  }
   // "The gate sentry comes at you!": the name without its role, and the verb for how many they are.
   static told(host: TickHost, foe: string): string {
     const name = (host.world.module.entities.find(e => e.id === foe)?.name ?? foe).split(', ')[0]!;

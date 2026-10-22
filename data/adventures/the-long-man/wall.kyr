@@ -18,7 +18,7 @@ Module longman "The Long Man" {
   Passage valley_face "the valley face" is path between crest and springs taking 20 minutes.
   Passage crest_walk "the crest" is path between crest and gauge_head taking 10 minutes.
   Passage culvert "the culvert" is culvert between hollow_door and sluice taking 10 minutes.
-  Passage broken_wall "the broken wall" is doorway between cellar and gallery.
+  Passage broken_wall "the broken wall" is doorway between cellar and gallery hidden until cellar_known.
   Passage sluice_way "the sluice passage" is passage between gallery and sluice.
   Passage niche_way "the keeper's passage" is passage between gallery and rest.
   Passage wet_way "the wet passage" is passage between gallery and leak.
@@ -41,8 +41,8 @@ Module longman "The Long Man" {
   Observe gallery_scene at gallery when true "A tunnel lined with smooth grey stone, tall and narrow, as if cut for something taller than a man. The air is dry and still. Ways go off to either hand.".
   Observe sluice_scene at sluice when true "A chamber over the culvert, where the beck runs loud below an iron grating. Two great wheels of grey stone stand on their edges, set round with teeth of green bronze, and a third, smaller, works the shutter of the bottom sluice.".
   Observe rest_scene at rest when true "A niche in the gallery wall, taller than two men, with a ledge of grey stone at the back and tools laid on it in order: blades, hooks, a stone trowel, all of the same grey. Notches run in close rows up the walls.".
-  Observe leak_scene at leak when not state(leak_gate, mended) "Water comes through a crack in the inner face of the gallery, a sheet of it, and runs away under the floor. A shutter of bronze teeth hangs half across the crack on a wheel with twelve empty sockets in its rim.".
-  Observe leak_mended at leak when state(leak_gate, mended) "The bronze shutter is closed across the crack, every socket of its wheel filled. The wall of the gallery is wet, and no more.".
+  Observe leak_scene at leak when not state(leak_gate, mended) "Water comes through a crack in the inner face of the gallery, a sheet of it, and runs away under the floor.".
+  Observe leak_mended at leak when state(leak_gate, mended) "The wall of the gallery is wet, and no more.".
   Observe shaft_scene at shaft_foot when true "The bottom of a square shaft. Notches climb its four edges up into the dark, and the stone of the shaft-side toward the lake sweats.".
 
   // The Mower: it stands in its niche by day and walks the crest by night, and goes after its bronze.
@@ -76,7 +76,7 @@ Module longman "The Long Man" {
   Thing leak_gate "the bronze shutter" at leak {
     State jammed "A shutter of bronze teeth hangs half across the crack, on a wheel with twelve empty sockets.".
     State fitted "The bronze teeth are back in the shutter's wheel; it hangs open, ready to be turned.".
-    State mended "The shutter is closed across the crack.".
+    State mended "The bronze shutter is closed across the crack, every socket of its wheel filled.".
     Change heave "Heave the shutter's wheel round and close it" from fitted to mended needing brawn.
   }
   Action fit_teeth(actor: group, carrier: member, site: place) "Fit the bell-teeth back into the shutter's wheel" {
@@ -117,7 +117,7 @@ Module longman "The Long Man" {
   }
   Discovery wall_known "The Long Man is a wall: it holds Hollow Water back from the dale, and the beck comes through it by a culvert.".
   Observe sluice_teaches at sluice when true "Above the grating the wheels and the culvert make plain what the Long Man is: not a barrow, a wall, with a lake behind it and a sluice through it." teaches wall_known.
-  Observe teeth_missing at leak when not state(leak_gate, mended) "Fresh bright scars ring the empty sockets, where a bar has been used." teaches teeth_taken.
+  Observe teeth_missing at leak when not state(leak_gate, mended) "Fresh bright scars on the stone by the crack show where a bar has been used, and lately." teaches teeth_taken.
   Discovery teeth_taken "Twelve bronze teeth have been prised out of the wheel of the shutter that should close the leak in the Long Man.".
 
   // The storm comes on the third day; two hours after midnight the Long Man breaks, unless its leak is shut or the

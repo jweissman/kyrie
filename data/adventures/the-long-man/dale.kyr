@@ -70,7 +70,7 @@ Module longman "The Long Man" {
   Observe yard_smashed at yard when state(cart, smashed) "Something walked through the yard gate without opening it.".
   Observe study_scene at study when true "A steward's study: a fire, a desk heaped with bills, and the Hall's accounts in a row of ledgers.".
   Observe chamber_scene at chamber when true "A narrow bedchamber over the yard, with a cold grate, a washstand, and a bed with curtains of faded green.".
-  Observe cellar_scene at cellar when true "The Hall cellar is old at the back, older than the Hall: walls of smooth grey stone, fitted without mortar. Barrels stand along them, and a heavy door has been set into a hole broken through the back wall.".
+  Observe cellar_scene at cellar when true "The Hall cellar is old at the back, older than the Hall: walls of smooth grey stone, fitted without mortar. Barrels stand along them, and the air at the back is colder than a cellar's should be.".
   Observe field_scene at low_field when not drowned(low_field) "A low field of black earth under the Long Man. The furrows hold water, and the grass is the bright green of a meadow that is turning into a bog.".
   Observe field_drowned at low_field when drowned(low_field) "The low field is under a hand's depth of water. The furrows are gone; reeds are coming up through it.".
   Observe springs_scene at springs when true "At the foot of the Long Man a row of small springs comes out of the turf, clear and very cold. They run into a ditch that runs to the mill.".
@@ -157,6 +157,7 @@ Module longman "The Long Man" {
   }
   Discovery cellar_known "Behind a barrel in the Hall cellar, a door has been set into a hole broken through the old grey wall, into the inside of the Long Man." {
     Found by searching cellar "Behind the last barrel the old wall has been broken through, and a heavy new door set into the hole. Cold, dry air comes round its edges.".
+    Found by searching gallery "Low in the gallery wall an old breach has been fitted with a heavy new door. It does not give: it is barred from the other side.".
     Known by venn, dunnet.
   }
 
@@ -198,7 +199,15 @@ Module longman "The Long Man" {
   Topic venn_bronze with venn "Ask Aldous Venn what was in the cart" when knows(actor, ledger_known) and not exposed(venn) and not hostile(venn, actor) {
     Says "Venn's smile stays where it is, but his eyes go to the ledgers. 'Old metal,' he says. 'Lumber from the Long Folk's mill under the hill. The estate has debts, and the hill is the estate's.' He spreads his hands. 'Nobody in Merrow ever had a use for it.'".
   }
+  // Shown his own ledger beside what the bronze held shut, he gives up the key, and then the dale.
+  Topic venn_shown with venn "Show Aldous Venn his own ledger, and tell him what the bronze held shut" when knows(actor, ledger_known) and knows(actor, teeth_taken) and not exposed(venn) {
+    Says "Venn reads his own hand as if a stranger had written it. 'A sluice,' he says. 'Old metal off a sluice.' He sits down. 'Sixty crowns, and a letter from the Lord every week asking where they are.' He unhooks the iron key from his belt and hangs it by the door, and does not look at it. 'Take it. Do what you like with the hill.' When you go out he is writing, fast, to Cass Rowell.".
+    On discuss { Assert exposed(venn). Assert lends(venn, key, actor). Assert state(key_hook, hung). }
+  }
   Relation exposed(group).
+  Rule venn_flees when exposed(venn) and at(cass, landing) and able(venn) and not at(venn, landing) and not at(venn, downriver) { Assert at(venn, landing). }
+  Rule venn_sails when exposed(venn) and at(venn, landing) and at(cass, downriver) { Assert at(venn, downriver). }
+  Observe venn_waits at landing when exposed(venn) and at(venn, landing) "Aldous Venn sits on the Heron's hatch with a valise on his knees, and does not look up at the hill.".
   Action claim_bounty(actor: group, carrier: member, site: place) "Show Aldous Venn the Mower's mask" {
     Requires able(actor) and company(actor) and at(actor, site) and at(venn, site) and memberOf(carrier, actor)
       and ownedItem(mask, carrier) and not paidBounty(venn).

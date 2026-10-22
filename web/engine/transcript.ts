@@ -23,13 +23,13 @@ export class PlayTranscript {
       ...(c.moved ? [] : f.observations), ...f.events];
     const told = Narration.tidy([...new Set(lines.filter(Boolean))],
       fight ? event.combat.filter(e => e.type === 'action').length : 0);
-    const said = told.join(' ');
+    const said = told.join(' '), echo = c.said.includes(' › ') ? f.attempt : c.said;
     const notes = [...f.resources.map(r => this.resource(r)),
       ...f.discoveries.filter(d => !said.includes(d)).map(d => `◆ In the journal: ${this.gist(d)}`)];
     return { id: c.id, at: f.time.split(' · ').at(-1)!, elapsed: c.elapsed, place: c.place, placeName: c.placeName,
-      ...(c.moved ? { arrival: true } : {}), ...(plain ? {} : { said: c.said }),
+      ...(c.moved ? { arrival: true } : {}), ...(plain ? {} : { said: echo }),
       lines: told, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
-      title: plain ? `→ ${c.placeName}` : c.said };
+      title: plain ? `→ ${c.placeName}` : echo };
   }
   // The first clause of a fact, enough to recognise it by: "Ninefingers will let the company come and go…".
   static gist(fact: string): string {

@@ -79,7 +79,7 @@ export class EngineHost {
     const last = this.session?.campaign.events.at(-1);
     const seen = [...(last?.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       ...(last?.response ? [last.response] : [])];
-    return seen.length ? seen : [''];
+    return seen.length ? [...new Set(seen)] : [''];
   }
   // The companion's choice, as one of the commands the fight allows them now; none, and they fight on their own.
   private fight(choice?: string) {

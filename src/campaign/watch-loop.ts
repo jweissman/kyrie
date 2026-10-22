@@ -28,13 +28,14 @@ export class WatchLoop {
       if (journey && tick === watches - 1) { journey.arrive(); }
       host.advanceWatch(combat);
       if (host.persistent) {
+        const said = happenings.length;
         CampaignTick.npcs(host, npc);
         CampaignTick.rules(host, happenings);
         Consequences.strike(host, combat);
         host.settleWatch(combat);
         // Someone falling on the company stops whatever it was doing, interruptible or not.
         const foe = Engagement.foe(host), halted = foe ? undefined : Engagement.halt(host);
-        if (foe) { return { npc, happenings, interrupted: Engagement.told(host, foe) }; }
+        if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings.slice(said)) }; }
         // What stopped it is told once, among what happened; the response says only that it was stopped.
         // A warning given as the company is stopped is what stopped it: it is told once, not 'X stops you' as well.
         if (halted) { return { npc, happenings, interrupted: happenings.at(-1)?.text ?? halted }; }

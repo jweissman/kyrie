@@ -22,7 +22,7 @@ class Reading {
       const watch = new MutationObserver(m => { changes += m.length; });
       watch.observe(document.querySelector('.scene')!, { childList: true, subtree: true, characterData: true, attributes: true });
       for (const b of Array.from(document.querySelectorAll<HTMLElement>('[data-action="choice"]'))) {
-        b.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        b.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse' }));
         await new Promise(r => setTimeout(r, 15));
       }
       watch.disconnect();
@@ -80,11 +80,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     for (const shop of ['rolled', 'THAC0', 'needed', 'The order:', 'journal keeps every one', 'Learned:']) {
       expect([shop, fought.includes(shop)]).toEqual([shop, false]);
     }
-    // What is asked for opens beside the page, and Esc closes it.
+    // What is asked for opens beside the page (on a phone, at the head of it), and Esc closes it.
     await d.mode('c');
-    expect(await page.locator('.details.view-company .sheet h1').count()).toBe(1);
+    expect(await page.locator('.details.view-company .sheet h1:visible').count()).toBe(1);
     await d.mode('j');
-    expect(await page.locator('.details.view-journal').count()).toBe(1);
+    expect(await page.locator('.details.view-journal:visible').count()).toBe(1);
     await page.keyboard.press('Escape');
     expect(await page.locator('.details').count()).toBe(0);
     expect((await MonoBrowser.metrics(page)).scroll).toBe(false);

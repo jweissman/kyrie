@@ -3,18 +3,20 @@ import type { Frame } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
 import { Words } from './words';
 
-// What the company is and has, shown beside the page when asked for: a companion's sheet, a thing carried, or the
-// journal (what the company knows and how sure it can be, what people want of it, and everything so far).
+// What the company is and has, shown beside the page when asked for (on a narrow screen, at the head of the page):
+// a companion's sheet, a thing carried, or the journal (what people want of the company, and what it knows and how
+// sure it can be). The story so far has its own page.
 export class DetailsPane {
   static readonly numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
-  static View({ app }: { app: ReaderApp }) {
+  static View({ app, inline }: { app: ReaderApp; inline?: boolean }) {
     const s = app.state, frame = s.frame!, screen = frame.screen;
     const shown = app.menu.level.find(c => c.id === s.hovered) ?? app.menu.level[s.cursor];
     const body = s.view === 'company' ? DetailsPane.sheet(screen.party.find(m => m.id === (shown?.id ?? s.member))
       ?? screen.party.find(m => m.id === s.member) ?? screen.party[0]!, screen)
       : s.view === 'pack' ? DetailsPane.thing(screen, shown?.id) : DetailsPane.journal(app, frame);
     return (
-      <section className={`details view-${s.view}`} data-region="details" aria-label={s.view}>
+      <section className={`details view-${s.view}${inline ? ' inline' : ''}`} {...inline ? {} : { 'data-region': 'details' }}
+        aria-label={s.view}>
         <button type="button" className="close" onClick={app.back} aria-label="Close">Esc</button>
         {body}
       </section>
@@ -27,7 +29,7 @@ export class DetailsPane {
         <h1>{m.name}</h1>
         <p className="where">{m.line}, level {m.level}{m.background ? `, once a ${m.background.toLowerCase()}` : ''}</p>
         <p className="where">{m.progress}</p>
-        <p className="health">{m.hp} of {m.maxHp}{m.conditions.length > 0 && `, ${m.conditions.join(', ')}`}
+        <p className="health">{m.hp} of {m.maxHp} hit points{m.conditions.length > 0 && `, ${m.conditions.join(', ')}`}
           {(m.boons ?? []).length > 0 && ` · ${m.boons!.join(', ')}`}</p>
         <p className="attrs">{Object.entries(m.attributes).map(([k, v]) => <span key={k} title={k}>
           {k.slice(0, 3)} <b>{v}</b></span>)}</p>
@@ -39,7 +41,7 @@ export class DetailsPane {
         <dl className="abilities">{m.abilities.map(a => <div key={a.id}><dt>{a.name}{a.price && <small> {a.price}</small>}</dt>
           <dd>{a.text}</dd></div>)}</dl>
         <h3>Carries</h3>
-        <p>{gear.length ? gear.map(i => `${i.name}${i.equipped ? ' (in use)' : ''}`).join(', ') : 'Nothing.'}</p>
+        <p>{gear.length ? Words.upper(gear.map(i => `${i.name}${i.equipped ? ' (in use)' : ''}`).join(', ')) : 'Nothing.'}</p>
         {(m.overlays ?? []).length > 0 && <><h3>Where they come from</h3>{m.overlays!.map(o =>
           <p key={o.id}><b>{o.name}</b> <small>{o.role}</small>: {o.grants.join(', ')}</p>)}</>}
         {screen.capabilities.length > 0 && <><h3>The company can</h3><p>{screen.capabilities.join('; ')}.</p></>}
@@ -54,8 +56,9 @@ export class DetailsPane {
     }
     return (
       <article className="sheet">
-        <h1>{Words.upper(item.name)}</h1>
-        <p className="where">{item.kind}, carried by {item.ownerName}{item.equipped ? ', in use' : ''}</p>
+        <h1>{Words.upper(item.name.replace(/^(a|an|some) /i, ''))}</h1>
+        <p className="where">{item.kind.toLowerCase() === item.name.replace(/^(a|an|some|the) /i, '').toLowerCase() ? 'Carried'
+          : `${item.kind}, carried`} by {item.ownerName}{item.equipped ? ', in use' : ''}</p>
         <p>{item.description}</p>
       </article>
     );
@@ -78,9 +81,6 @@ export class DetailsPane {
             <ul>{list.map(k => <li key={k.text}>{k.text}{k.how && <span className="how"> {k.how}</span>}</li>)}</ul></div>
             : null;
         })}</div>
-        <h3>So far</h3>
-        <ol className="chronicle">{frame.chronicle.slice(-60).reverse().map((e, i) => <li key={i}><time>{e.at}</time>
-          {e.text}</li>)}</ol>
         <p className="save">
           <button type="button" data-action="export" onClick={app.download}>Download a save file</button>{' '}
           <button type="button" data-action="title" onClick={app.opening.title}>Back to the title</button>

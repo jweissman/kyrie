@@ -26,7 +26,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     }
   }
   Action tell(actor: group, recipient: group, statement: fact, site: place) "Tell {recipient}: {statement}" {
-    Result "You explain what the evidence establishes. The listener accepts your account and sets aside a conflicting assumption; their next choices remain their own.".
+    Result "{recipient} hears you out, and believes you.".
     Requires able(actor) and able(recipient) and distinct(actor, recipient)
       and at(actor, site) and at(recipient, site) and trusts(recipient, actor)
       and knows(actor, statement) and established(statement) and not toldBy(recipient, actor, statement).
@@ -37,7 +37,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   }
   Action ask(actor: group, informant: group, topic: source, statement: fact, site: place) "Ask {informant} about {topic}" {
     Result "{informant} tells you what they have heard about {topic}.".
-    Description "Ask about an offered topic. The speaker shares an established fact they actually know.".
+    Description "They tell you what they know of it.".
     Requires able(actor) and able(informant) and distinct(actor, informant)
       and at(actor, site) and at(informant, site) and testimony(informant, topic)
       and reveals(topic, statement) and noticeable(topic)
@@ -55,7 +55,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     Result "You go over {site} carefully.".
   }
   Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {
-    Result "You destroy this source of evidence. Existing knowledge and other sources remain.".
+    Result "You destroy {witness}.".
     Requires able(actor) and at(actor, site) and at(witness, site)
       and noticeable(witness) and intact(witness) and destructible(witness).
     On success { Retract intact(witness). }

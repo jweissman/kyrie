@@ -11,7 +11,7 @@ export class MenuModel {
   static build(frame: Frame | undefined, view: View, trail: string[]): Menu {
     const sections = !frame ? [] : frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : view === 'company' ? ChoiceList.party(frame.screen)
-        : view === 'here' ? ChoiceList.explore(frame.screen) : [];
+        : ChoiceList.explore(frame.screen);
     const opened: Choice[] = [];
     for (const id of trail) {
       const found = ChoiceList.find(sections, id);

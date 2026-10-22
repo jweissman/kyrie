@@ -13,22 +13,22 @@ export class RegionMap {
     const region = screen.region;
     return (
       <div className={`backdrop${large ? ' large' : ''}${travel ? ' journey' : ''}`} aria-hidden={!large}>
-        {region ? <RegionMap.Region region={region} travel={travel} /> : screen.chart
+        {region ? <RegionMap.Region region={region} travel={travel} large={large} /> : screen.chart
           ? <RegionMap.Local chart={screen.chart} /> : null}
         {large && region && screen.chart && <div className="inset"><RegionMap.Local chart={screen.chart} /></div>}
       </div>
     );
   }
   static readonly Region = memo(RegionMap.region);
-  private static region({ region, travel }: { region: RegionChart; travel?: Travel }) {
+  private static region({ region, travel, large }: { region: RegionChart; travel?: Travel; large: boolean }) {
     const { w, h } = RegionMap.cell, xs = region.areas.map(a => a.x), ys = region.areas.map(a => a.y);
     const [minX, minY] = [Math.min(...xs), Math.min(...ys)];
     const width = (Math.max(...xs) - minX) * w, height = (Math.max(...ys) - minY) * h;
     const at = new Map(region.areas.map(a => [a.id, { x: (a.x - minX) * w, y: (a.y - minY) * h }]));
     const from = travel && region.within[travel.from], to = travel && region.within[travel.to];
-    // Drawn tight around what is known, with room for the names, so the land fills the space it has; but never so
-    // close that two known places fill the whole pane.
-    const [w0, h0] = [Math.max(width + 260, 820), Math.max(height + 150, 560)];
+    // Drawn tight around what is known, with room for the names, so the land fills the space it has; but behind the
+    // page, never so close that two known places fill the whole pane.
+    const [w0, h0] = [Math.max(width + 260, large ? 560 : 820), Math.max(height + 150, large ? 400 : 560)];
     const box = [-130 - (w0 - width - 260) / 2, -70 - (h0 - height - 150) / 2, w0, h0];
     return (
       <svg className="region" viewBox={box.join(' ')} role="img"

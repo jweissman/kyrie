@@ -49,7 +49,9 @@ export class Creation {
       .filter(Boolean).join('; ');
   }
   setting(campaign: string): Setting {
-    const manifest = JSON.parse(Scenarios.files[campaign] ?? '{}') as Partial<CampaignManifest>;
+    const file = Scenarios.files[campaign];
+    if (!file) { throw new Error(`There is no campaign called ${campaign}.`); }
+    const manifest = JSON.parse(file) as Partial<CampaignManifest>;
     const title = manifest.name ?? 'Kyr';
     return { title, pitch: manifest.pitch ?? { heading: title, text: 'Choose three companions.' },
       party: structuredClone(manifest.party ?? Creation.preset('fellowship')), generated: false };

@@ -38,7 +38,7 @@ export class ChoiceGrouping {
     change_thing_paying: { slot: 'target', param: 'thing', path: ['{how}'] },
     change_thing_spending: { slot: 'target', param: 'thing', path: ['{how}', 'using {carrier}\'s {spent}'] },
     lead: { slot: 'target', param: 'companion', path: ['Ask them to come with you'] },
-    buy_goods: { slot: 'target', param: 'seller', path: ['Buy', 'one {goods} — {goodsfee} coin'] },
+    buy_goods: { slot: 'target', param: 'seller', path: ['Buy', 'A {goods} — {goodsfee} coin'] },
     take_lodging: { slot: 'target', param: 'host', path: ['Take {service} — {fee} coin'] },
     take_healing: { slot: 'target', param: 'healer', path: ['Ask for {service} — {fee} coin'] },
     camp: { slot: 'camp', path: ['Make camp for the night'] },
@@ -187,7 +187,12 @@ export class ChoiceGrouping {
     if (subject) { this.insert(this.slot(out.targets, subject), path, leaf); }
     else { this.insert(out.camp, path, leaf); }
   }
+  // A label that starts with a name starts with a capital: "A torch — 1 coin".
   private static fill(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {
+    const filled = this.filled(text, data);
+    return text.startsWith('{') ? filled.charAt(0).toUpperCase() + filled.slice(1) : filled;
+  }
+  private static filled(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {
     return text.replace(/\{(\w+)\}/g, (_, key: string) => key === 'choice' ? data.choice :
       key === 'price' ? String(data.context.prices.get(data.b.find ?? '') ?? 0) :
       key === 'fee' ? String(data.context.fees?.get(data.b.service ?? '') ?? 0) :

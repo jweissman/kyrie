@@ -24,7 +24,7 @@ Module world_services "Lodging, goods and camping" {
       and not refusesService(seller, actor) and sells(seller, goods) and quantity(seller, goods) >= 1 and quantity(actor, gold) >= goodsPrice(seller, goods).
     On success { Decrease quantity(actor, gold) by goodsPrice(seller, goods). Increase quantity(seller, gold) by goodsPrice(seller, goods).
       Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1. }
-    Result "{seller} counts the coins and hands over one {goods}.".
+    Result "{seller} counts the coins and hands over a {goods}.".
   }
   Action camp(actor: group, site: place) "Make camp at {site}" {
     Requires able(actor) and at(actor, site) and not indoors(site) and not settled(site) and not hungry(actor).

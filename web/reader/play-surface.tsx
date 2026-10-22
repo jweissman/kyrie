@@ -19,14 +19,16 @@ export class PlaySurface {
     journal: 'What now?', map: 'What now?' };
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, screen = frame.screen, combat = frame.combat;
+    const sheet = ['company', 'pack', 'journal'].includes(s.view) && !combat;
     const mode = combat ? 'combat' : { here: 'explore', company: 'party', pack: 'pack', journal: 'journal', map: 'map' }[s.view];
     const page = combat ? <FightView.View combat={combat} opening={frame.opening} place={screen.place.name} />
       : s.history ? <PlaySurface.History entries={frame.entries} /> : <SceneView.View screen={screen} entries={frame.entries} />;
     return (
-      <div className={`reader${s.pending?.travel ? ' travelling' : ''}`} data-mode={mode}
+      <div className={`reader view-${s.view}${s.pending?.travel ? ' travelling' : ''}`} data-mode={mode}
         aria-busy={s.pending ? true : undefined}>
         <main className="column" id="page">
           <TopLine.View app={app} title={frame.title} screen={screen} />
+          {sheet && <DetailsPane.View app={app} inline />}
           {screen.running ? page : <PlaySurface.Fallen />}
           {s.pending && <PlaySurface.Doing said={s.pending.said} travel={s.pending.travel} fight={!!combat} />}
           {screen.running && <ChoiceMenu.View app={app} title={combat ? `${combat.actorName}’s turn`
@@ -36,7 +38,7 @@ export class PlaySurface {
         </main>
         <aside className={`aside view-${s.view}`}>
           <RegionMap.View screen={screen} travel={s.pending?.travel} large={s.view === 'map'} />
-          {['company', 'pack', 'journal'].includes(s.view) && !combat && <DetailsPane.View app={app} />}
+          {sheet && <DetailsPane.View app={app} />}
         </aside>
         <PartyStrip.View app={app} screen={screen} combat={combat} />
         {s.help && <PlaySurface.Help />}

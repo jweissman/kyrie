@@ -55,7 +55,7 @@ Module belongings "What the company carries" {
       and able(merchant) and not refusesService(merchant, actor) and at(merchant, site) and distinct(actor, merchant) and quantity(actor, gold) >= price(find).
     Resolve purchase(find, form, recipient, actor, merchant).
     On success { Retract at(find, site). Retract forSale(find). }
-    Result "{merchant} takes the money and hands it to {recipient}.".
+    Result "{recipient} pays {merchant}, and takes {find}.".
   }
   Action equip_item(actor: group, tool: item, form: itemkind, wearer: member) "Equip {tool} on {wearer}" {
     Requires able(actor) and memberOf(wearer, actor) and awake(wearer) and ownedItem(tool, wearer)
@@ -91,7 +91,7 @@ Module belongings "What the company carries" {
     Resolve drop(ware, carrier).
     On success { Assert keeps(buyer, ware). Decrease quantity(buyer, gold) by pays(buyer, form).
       Increase quantity(actor, gold) by pays(buyer, form). }
-    Result "{buyer} pays for {ware}.".
+    Result "{buyer} takes {ware}, and counts out the coin for it.".
   }
   Action put_item(actor: group, cargo: item, carrier: member, site: place) "Set down {cargo}" {
     Requires able(actor) and at(actor, site) and memberOf(carrier, actor) and awake(carrier) and ownedItem(cargo, carrier).
