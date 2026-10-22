@@ -8,6 +8,7 @@ import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { CampaignActor, CampaignDefinition } from './definition';
 import { CreatureStore } from '../creature-store';
 import { Membership } from './membership';
+import { ClockShift } from './clock-shift';
 import { CreatureFacts } from './creature-facts';
 import { Progression } from './progression';
 import { Content } from '../content';
@@ -105,6 +106,7 @@ export class ModuleInstallations {
   }
   static prepare(base: Instance | undefined, draft: ModuleDraft, elapsed: number): Instance {
     const incoming = structuredClone(draft.instance), addition = incoming.campaign!;
+    ClockShift.apply(incoming.module, addition.schemas!, draft.id, elapsed);
     const prior = base?.campaign;
     if (prior?.installations?.some(m => m.id === draft.id)) { throw new Error('Module already installed'); }
     this.admit(base?.module.entities ?? [], incoming.module, draft);
