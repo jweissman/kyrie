@@ -11,7 +11,7 @@ Module belongings "What the company carries" {
   Measure worth(itemkind). Relation buysValuables(group). Relation realized(item). Relation valuable(itemkind).
   // How much coin a dealer keeps in the house: what they pay out, trade brings back by the next morning.
   Measure purse(group). Relation appraised(item, group).
-  Rule purse_refilled when untilLight(clock) == 1 and purse(?m) > quantity(?m, gold) {
+  Rule purse_refilled when untilLight(clock) == 1 and buysValuables(?m) and purse(?m) > quantity(?m, gold) {
     Set quantity(?m, gold) to purse(?m).
   }
   // Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it

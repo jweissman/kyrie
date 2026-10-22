@@ -5,6 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Canon } from '../src/canon/canon';
+import type { CreatureStore } from '../src/creature-store';
 import { GeneratedWorld } from './support/generated';
 
 // Treasure as Orsino has it and old games paid for it: a makers' work holds things of worth (Orsino's junk and gems),
@@ -15,6 +16,13 @@ class Hoard {
   static async start() {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { scenarios: 0, towns: 0, framework: null });
     return { w, s: await PlaySession.start(w.path, 'a1', w.source) };
+  }
+  // The grave-goods of a1's barrow, in Elen's hands.
+  static async goods(s: PlaySession, barrow: string) {
+    GeneratedWorld.put(s, `${barrow}_right`);
+    await s.perform('wait');
+    await Hoard.choose(s, /^Use a torch on /);
+    await Hoard.choose(s, /^Collect .* for Elen$/);
   }
   static choose(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
@@ -43,5 +51,23 @@ describe('treasure', () => {
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + worth);
     expect(s.campaign.state.party.map(m => m.experience)).toEqual(experience.map(x => x + worth));
     expect(s.campaign.world.test(ModuleWriter.call('realized', `region__${barrow.id}_goods`))).toBe(true);
+  }, 60000);
+  it('is worth coming back for in the morning, when a dealer has not the coin today', async () => {
+    const { w, s } = await Hoard.start(), region = w.report.region, town = region.settlements[0]!.id;
+    await Hoard.goods(s, region.sites.find(x => x.work?.plan === 'barrow')!.id);
+    const c = s.campaign as unknown as { creatures: CreatureStore;
+      tickState: { definition: { actors: { id: string; members: string[] }[] } } };
+    const lease = c.creatures.acquire(c.tickState.definition.actors.find(a => a.id === `region__${town}_merchant`)!.members);
+    try { lease.creatures[0]!.state.gold = 0; lease.commit(lease.creatures); } finally { lease.release(); }
+    GeneratedWorld.put(s, `${town}_shop`);
+    await s.perform('wait');
+    const shown = await Hoard.choose(s, /^Show .* to /);
+    expect(shown.response).toContain('come back in the morning');
+    for (let h = 0; h < 30 && !PlayerView.choices(s.campaign).some(x => /^Sell .* to /.test(x.choice.name)); h++) {
+      await s.perform('wait_hour');
+    }
+    const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
+    await Hoard.choose(s, /^Sell .* to /);
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeGreaterThan(gold);
   }, 60000);
 });

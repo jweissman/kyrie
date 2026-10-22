@@ -113,6 +113,8 @@ describe('authoring errors the new constructs make detectable', () => {
     ['text naming an entity that does not exist', 'Place a "A" is room. Observe o at a when true "{ghost} waits.".', 'unknown entity {ghost}'],
     ['a claim beside something that is not a passage', 'Place a "A" is room. Observe o beside a when true "Here.".', 'beside anchor a'],
     ['an event near nothing', 'Place a "A" is room. Event e near nobody when true "Hi.".', 'near anchor nobody'],
+    ['a rule comparing what nothing binds', 'Measure size(group). Rule r when size(?g) > 1 { Set size(?g) to 1. }',
+      'Rule r compares ?g, which nothing in its condition binds'],
   ])('rejects %s when compiling', (_label, body, message) => {
     expect(() => new ModuleCompiler().validate(Source.module(body))).toThrow(message);
   });

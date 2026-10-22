@@ -65,7 +65,7 @@ export class ModuleCompiler {
     }
     ModuleCompiler.unique((module.rules ?? []).map(r => r.id), 'rule');
     for (const r of module.rules ?? []) {
-      this.predicate(module, r.when);
+      this.predicate(module, r.when); ModuleCompiler.bound(`Rule ${r.id}`, r.when);
       if (r.place) { this.anchor(module, r.place, r.anchor); }
       if (r.say) {
         this.text(module, r.say);
@@ -82,7 +82,7 @@ export class ModuleCompiler {
     ModuleCompiler.unique((module.observations ?? []).map(o => o.id), 'observation');
     for (const o of module.observations ?? []) {
       this.anchor(module, o.place, o.anchor);
-      this.predicate(module, o.when);
+      this.predicate(module, o.when); ModuleCompiler.bound(`Observation ${o.id}`, o.when);
       this.text(module, o.text);
       if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
       if (o.about && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
@@ -214,6 +214,24 @@ export class ModuleCompiler {
       if (change.value.kind === 'call') { this.call(module, change.value, module.measures, bindings); }
       else { this.number(change.value); }
     }
+  }
+  // A condition that compares ?variables nothing in it binds is never true: the comparison reads nothing. Alone,
+  // "purse(?m) > quantity(?m, gold)" is false for every dealer; "buysValuables(?m) and purse(?m) > …" binds them.
+  private static bound(id: string, when: Predicate) {
+    const seen = { bound: new Set<string>(), compared: new Set<string>() };
+    this.variables(when, seen, true);
+    const loose = [...seen.compared].filter(v => !seen.bound.has(v));
+    if (loose.length) { throw new Error(`${id} compares ${loose.join(', ')}, which nothing in its condition binds`); }
+  }
+  private static variables(p: Predicate, seen: { bound: Set<string>; compared: Set<string> }, positive: boolean) {
+    if (p.kind === 'call' && positive) { for (const a of p.args.filter(a => a.startsWith('?'))) { seen.bound.add(a); } }
+    if (p.kind === 'compare') {
+      for (const v of [p.left, p.right]) {
+        if (v.kind === 'call') { for (const a of v.args.filter(a => a.startsWith('?'))) { seen.compared.add(a); } }
+      }
+    }
+    if (p.kind === 'and' || p.kind === 'or') { this.variables(p.left, seen, positive); this.variables(p.right, seen, positive); }
+    if (p.kind === 'not') { this.variables(p.value, seen, false); }
   }
   private acyclic(module: Module, name: string, stack: string[]) {
     if (stack.includes(name)) { throw new Error(`Recursive query ${[...stack, name].join(' -> ')}`); }
