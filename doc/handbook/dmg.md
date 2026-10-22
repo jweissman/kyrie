@@ -8,11 +8,57 @@ Time passes in watches of ten minutes. A rule fires as soon as its condition hol
 
 ### What the company carries
 
-Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, pays, price.
+Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, objection, pays, price.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 11 | 2 | 0 | 0 | 11 |
+| 2 | 15 | 2 | 1 | 4 | 11 |
+
+#### owns, lends, objected
+
+*Kyr · relation(group, item); relation(group, item, group); relation(group, item)* · `rule:belongings.owns`
+
+Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it unlent, says so once, in their own words if they have them ("Objects" in a person), and is not the company's friend after.
+
+#### owner_objects
+
+*Kyr · rule* · `rule:belongings.owner_objects`
+
+Says: "{?o} sees {?i} in your hands. 'That is mine.'"
+
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); together(?o, ?c); able(?o); not (objection(?o, ?w))
+
+> Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
+
+#### owner_objects_aloud
+
+*Kyr · rule* · `rule:belongings.owner_objects_aloud`
+
+Says: "{?w}"
+
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); together(?o, ?c); able(?o); objection(?o, ?w)
+
+> Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
+
+#### servant_objects
+
+*Kyr · rule* · `rule:belongings.servant_objects`
+
+Says: "{?s} sees {?i} in your hands, and goes to tell {?o}."
+
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); together(?s, ?c); able(?s); not (objection(?s, ?w))
+
+> Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
+
+#### servant_objects_aloud
+
+*Kyr · rule* · `rule:belongings.servant_objects_aloud`
+
+Says: "{?w}"
+
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); together(?s, ?c); able(?s); objection(?s, ?w)
+
+> Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
 #### take item
 
@@ -168,7 +214,7 @@ Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf
 - Takes: 10 minutes
 - Costs: 1
 
-Use a known healing, cleansing or persistent ward ability outside combat. Its normal mana cost is paid; combat cooldowns do not apply.
+A healing, a cleansing or a ward, used between fights, for its usual cost in mana.
 
 > Needs: able(actor); at(actor, site); memberOf(caster, actor); memberOf(recipient, actor); fieldUsable(technique); awake(caster); awake(recipient); canCast(caster, technique); treatable(recipient, technique)
 
@@ -238,7 +284,7 @@ At the fifth, tenth and fifteenth levels a companion takes up one of their calli
 - Takes: 360 minutes
 - Costs: 1
 
-Spend six hours and one shared ration at a safe shelter. Living companions recover HP and mana; bleeding is treated. Poison and death remain. Other people and deadlines continue.
+Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison and death are not mended. The world does not wait while you sleep.
 
 > Needs: able(actor); at(actor, site); restful(site); quantity(actor, rations) >= 1
 
@@ -422,7 +468,7 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 - Takes: 10 minutes
 - Costs: 1
 
-Ask about an offered topic. The speaker shares an established fact they actually know.
+They tell you what they know of it.
 
 > Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (toldBy(actor, informant, statement))
 
@@ -792,7 +838,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 26 | 1 | 19 | 0 | 6 |
+| 8 | 27 | 1 | 21 | 0 | 6 |
 
 #### scenery
 
@@ -817,6 +863,24 @@ A hazard that strikes a company: the world turns it on one of its members (a tra
 *Kyr · kind; relation(entity); relation(entity, verb)* · `rule:world_passages.verb`
 
 What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
+
+#### changeAt
+
+*Kyr · relation(change, place)* · `rule:world_passages.changeAt`
+
+A change only one side reaches (the bar on the cellar side of a door) is made from that place.
+
+#### carries
+
+*Kyr · query(a: group, i: entity)* · `rule:world_passages.carries`
+
+Carrying a particular thing: this key, not any key.
+
+#### meets
+
+*Kyr · query(a: group, n: entity)* · `rule:world_passages.meets`
+
+What a way or a change needs: a skill, a kind of thing, or one particular thing.
 
 #### keyholder
 
@@ -876,7 +940,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
 
 > Then: Assert state(thing, result).
 
@@ -890,7 +954,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 What it takes is used up doing it.
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
 
 > Then: Assert state(thing, result).
 
@@ -902,7 +966,7 @@ What it takes is used up doing it.
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
 
 > Then: Assert state(thing, result). Decrease quantity(actor, spent) by 1.
 
@@ -1140,6 +1204,15 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 ## Campaigns
 
 The worlds that ship with the game.
+
+### The Long Man
+
+*Kyr* · `campaign:the-long-man`
+
+- Regions and sites: longman
+- Kits placed: —
+
+> At the head of Merrowdale a long green ridge lies across the valley, and the village under it says a giant king is buried there. Something tall walks its crest at night. The steward of the Hall has posted forty crowns for whoever will lay it, and the autumn storm is three days off. Choose three companions.
 
 ## Appendix: Orsino's world material
 

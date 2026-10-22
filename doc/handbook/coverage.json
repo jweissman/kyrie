@@ -801,7 +801,7 @@
     "faithful": 566,
     "adapted": 292,
     "represented": 4,
-    "kyr": 56,
+    "kyr": 59,
     "unsupported": 75,
     "unreachable": 4,
     "data-only": 22
@@ -892,7 +892,7 @@
       "faithful": 68,
       "adapted": 13,
       "represented": 0,
-      "kyr": 23,
+      "kyr": 26,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 124,
     "adapted": 8,
     "represented": 18,
-    "kyr": 101,
+    "kyr": 110,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 342
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 97,
+      "kyr": 105,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 0,
+      "kyr": 1,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 122,
     "represented": 9,
-    "kyr": 19,
+    "kyr": 20,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 154
@@ -1076,7 +1076,7 @@
       "faithful": 40,
       "adapted": 64,
       "represented": 0,
-      "kyr": 3,
+      "kyr": 4,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -4018,6 +4018,27 @@
   {
    "id": "item:hollow_regalia",
    "title": "The Lamplighters' regalia",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bell_teeth",
+   "title": "Bell-teeth",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sluice_rod",
+   "title": "Notched rod",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:keeper_mask",
+   "title": "Grey mask",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
@@ -8272,6 +8293,41 @@
    "section": "orsino-company/orsino-ability"
   },
   {
+   "id": "rule:belongings.owns",
+   "title": "owns, lends, objected",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.owner_objects",
+   "title": "owner_objects",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.owner_objects_aloud",
+   "title": "owner_objects_aloud",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.servant_objects",
+   "title": "servant_objects",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.servant_objects_aloud",
+   "title": "servant_objects_aloud",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.take_item",
    "title": "take item",
    "status": "kyr",
@@ -8797,6 +8853,27 @@
    "section": "world-rules/rules-passages"
   },
   {
+   "id": "rule:world_passages.changeAt",
+   "title": "changeAt",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.carries",
+   "title": "carries",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.meets",
+   "title": "meets",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
    "id": "rule:world_passages.keyholder",
    "title": "keyholder",
    "status": "kyr",
@@ -8977,6 +9054,13 @@
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/frameworks"
+  },
+  {
+   "id": "campaign:the-long-man",
+   "title": "The Long Man",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
   },
   {
    "id": "orsino:plane:Arcadia",
@@ -12587,6 +12671,13 @@
    "id": "species:goat",
    "title": "Goat",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:great_pike",
+   "title": "Great pike",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },

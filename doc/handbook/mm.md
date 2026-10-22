@@ -532,6 +532,23 @@ Flee: Try to escape the fight (an even chance).
 
 > A sure-footed and hardy herbivore with a curious nature.
 
+#### Great pike
+
+*Kyr · beast* · `species:great_pike`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: ambush
+- Found in: riverbank
+- Worth: 150 experience a level
+
+Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+
+> A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.
+
 #### Hawk
 
 *Faithful · beast* · `species:hawk`

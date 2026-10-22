@@ -1780,6 +1780,30 @@ Brings Sunlight to whoever carries it equipped.
 
 > A chain of office in white gold, each link a little lamp, taken from the last Warden of Lampfall by the thing that keeps his hall.
 
+#### Bell-teeth
+
+*Kyr · treasure* · `item:bell_teeth`
+
+- Worth: 8
+
+> Teeth of old bronze, each the size of a fist and shaped like a small bell, prised out of a wheel of grey stone. Worth good money to a barge-master.
+
+#### Notched rod
+
+*Kyr · tool* · `item:sluice_rod`
+
+- Worth: 1
+
+> A staff of black wood shod at both ends in bronze, the bronze notched along its edge in a close, careful pattern.
+
+#### Grey mask
+
+*Kyr · treasure* · `item:keeper_mask`
+
+- Worth: 4
+
+> A smooth face of grey fired clay, without eyes or mouth, with a single notch where a brow would be. It rings when it is struck.
+
 ## Combat
 
 A fight begins when someone sets on someone else: the company, or anything it meets. Each round every creature still standing rolls initiative (d20, plus its Dexterity modifier and any initiative bonus), and acts in that order. Conditions without a clock tick down as each round begins.
