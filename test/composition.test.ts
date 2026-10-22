@@ -9,6 +9,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Composition } from '../src/world/compose/composition';
 import { WorldAssembler } from '../src/world/world-assembler';
+import type { CreatureStore } from '../src/creature-store';
 
 // The assembler as a partner to Deem: kits (data/kits/raider-hold, data/kits/bounty) placed into an authored region
 // (test/fixtures/fells), with slots fixed by an author or bound by requirement and preference, dimensions proposed by
@@ -135,6 +136,25 @@ describe('the raider-hold kit in play', () => {
     const paid = await s.perform(pay);
     expect(paid.combat).toHaveLength(0);
     expect(s.campaign.world.test(ModuleWriter.call('tolerates', 'fellFolk__band', 'party'))).toBe(true);
+  }, 60000);
+  it('lets a demand die with the men who made it', async () => {
+    const s = await PlaySession.start(Compose.outlaws, 'a', NodeBundleSource.shared);
+    Compose.put(s, 'fells__alders');
+    const demanding = () => s.campaign.world.test(ModuleWriter.call('fellFolk__demanding', 'fellFolk__band'));
+    for (let h = 0; h < 10 && !demanding(); h++) { await s.perform('wait_hour'); }
+    expect(demanding()).toBe(true);
+    const c = s.campaign as unknown as { creatures: CreatureStore;
+      tickState: { definition: { actors: { id: string; members: string[] }[] } } };
+    const band = c.tickState.definition.actors.find(a => a.id === 'fellFolk__band')!, lease = c.creatures.acquire(band.members);
+    try {
+      for (const m of lease.creatures) { m.state.hp = 0; }
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    const told: string[] = [];
+    for (let w = 0; w < 3; w++) { told.push(...((await s.perform('wait')).perceptions ?? []).map(p => p.text)); }
+    expect(told.join(' ')).not.toContain('Have it your way');
+    expect(demanding()).toBe(false);
+    expect(Compose.legal(s).some(id => id.startsWith('fellFolk__pay_road_money'))).toBe(false);
   }, 60000);
 });
 

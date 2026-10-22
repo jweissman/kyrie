@@ -53,11 +53,13 @@ Module outlaw_folk "Outlaws" {
   // By day on the road: the band steps out and demands road-money; whoever runs is shot at, whoever waits is robbed.
   Hazard arrows "A volley of arrows" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
   // Rules fire in order each watch: patience runs out a watch after it is tried, never in the watch of the hold-up.
-  Rule loses_patience when demanding(band) and together(band, party) and impatient(band)
+  // A demand dies with the men who made it.
+  Rule loses_patience when demanding(band) and together(band, party) and impatient(band) and able(band)
     says "'Have it your way,' says Long Peter, and draws." {
     Retract demanding(band). Retract impatient(band). Assert assails(band, party).
   }
-  Rule growing_impatient when demanding(band) and together(band, party) and not impatient(band) { Assert impatient(band). }
+  Rule growing_impatient when demanding(band) and together(band, party) and not impatient(band) and able(band) { Assert impatient(band). }
+  Rule demand_dropped when demanding(band) and not able(band) { Retract demanding(band). Retract impatient(band). }
   Rule hold_up when at(party, road) and not dark() and dice(clock) <= 6 and at(band, yard) and able(band)
     and not quiet(band) and not tolerates(band, party) and not ended(band)
     says "Men step out of the trees on both sides of the road with bows drawn. 'Stand,' says one. 'Road-money, in Sir Hamo's name: five crowns, or we take it off your bodies.'" {
