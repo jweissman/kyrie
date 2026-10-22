@@ -48,6 +48,12 @@ describe('a generated region keeps its places apart', () => {
     expect(new Set(named.settlements.map(s => s.affix)).size).toBe(3);
     expect(new Set(named.settlements.map(s => s.feature)).size).toBe(3);
   });
+  // d4's greatest singing hall could be called only what was like the Stone-Singers' own name or already taken.
+  it('gives no two works one name, even when every name a work could have is like another', async () => {
+    const w = await WorldAssembler.assemble('d4', NodeBundleSource.shared, { scenarios: 0, towns: 0, framework: null });
+    const works = w.report.region.history!.works.map(x => x.old.name);
+    expect(new Set(works).size).toBe(works.length);
+  }, 60000);
 });
 
 describe('a generated region lies on real land', () => {

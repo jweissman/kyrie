@@ -111,9 +111,11 @@ export class Histories {
       try { return [{ modifier: m, word: w, name: dictionary.translate(m as never, w as never).trim() }]; }
       catch { return []; }
     });
-    // A short name before a long one: the folk wear long ones down to nothing.
+    // A short name before a long one: the folk wear long ones down to nothing. If every name is like another, one
+    // that is at least not the same (d4's two singing halls were both Carmencollis).
     const free = named.filter(n => names.every(t => !RegionLand.confusable(n.name, t)));
-    const chosen = free.find(n => n.name.length <= 13) ?? free[0] ?? named[0]!;
+    const chosen = free.find(n => n.name.length <= 13) ?? free[0] ?? named.find(n => !names.includes(n.name))
+      ?? named[0]!;
     names.push(chosen.name);
     return { name: chosen.name, gloss: `${chosen.modifier} ${chosen.word}`, tongue: dictionary.name,
       modifier: chosen.modifier, word: chosen.word };
