@@ -1064,6 +1064,22 @@
   "modifier:onEnemyOffensiveCasting": [
    "faithful",
    "Reactions.cast: after an enemy casts a spell aimed at its enemies."
+  ],
+  "field:masterGear.effect": [
+   "adapted",
+   "What using the gear does, as Kyr's effects (an ale heals)."
+  ],
+  "modifier:onCombatStart": [
+   "faithful",
+   "Battle runs onCombatStart hooks when a fight begins, as Orsino's Combat.setUp does."
+  ],
+  "field:masterEquipment.ac": [
+   "faithful",
+   "The armour class of magic body armour, as armour."
+  ],
+  "field:masterEquipment.weight": [
+   "faithful",
+   "The weight of magic body armour, as armour."
   ]
  }
 }

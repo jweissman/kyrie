@@ -6,6 +6,9 @@ import singing from '../../data/generation/works/singing_hall.kyrt' with { type:
 import { Histories, type History, type Work } from './history/histories';
 import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
+import { Draw } from './land/draw';
+import { Canon } from '../canon/canon';
+import { ItemNames } from '../item-names';
 import type { Region, Site } from './region-writer';
 
 // The makers' works in a generated region, as Kyr, from their plans (data/generation/works). Every work has its
@@ -37,7 +40,18 @@ export class RegionWorks {
       land: zone ?? `${site.id}_land`, x: String(zone ? site.part ?? 0 : 1), y: String(zone ? 3 : 2),
       epithet: makers.epithet, craft: makers.craft, belief: makers.belief, fate: makers.fate,
       successors: history.successors.name, deity: region.deity, bound: this.bound(region, site),
-      ...twin ? this.twin(region, site, twin) : {} };
+      ...this.treasure(work), ...twin ? this.twin(region, site, twin) : {} };
+  }
+  // The treasure a work holds, from its makers' (Orsino's junk and gems): a common thing and a rich one, by kind and
+  // by name, drawn for the work.
+  private static treasure(work: Work): Record<string, string> {
+    const lists = Histories.arts[work.art]?.treasure ?? { common: ['simple_ring'], rich: ['moonstone'] };
+    const draw = new Draw(`${work.id}:${work.old.name}:treasure`);
+    const common = draw.pick(lists.common), rich = draw.pick(lists.rich);
+    return { common, commonname: this.called(common), rich, richname: this.called(rich) };
+  }
+  private static called(id: string): string {
+    return ItemNames.called(Canon.items[id]?.name ?? id.replace(/_/g, ' '));
   }
   // Which way the old bound runs past a work near the region's edge: along that edge.
   private static bound(region: Region, site: Site): string {

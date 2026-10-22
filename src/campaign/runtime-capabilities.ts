@@ -11,6 +11,7 @@ export class RuntimeCapabilities {
       { name: 'train', types: ['ability', 'member'] },
       { name: 'transfer_item', types: ['item', 'member', 'member'] },
       { name: 'drop', types: ['item', 'member'] },
+      { name: 'realize', types: ['item', 'member', 'group'] },
     ].map(s => ({ ...s, exclusive: false })),
     { name: 'combat', types: ['group'], exclusive: false },
     { name: 'enlist', types: ['group', 'group'], exclusive: false },

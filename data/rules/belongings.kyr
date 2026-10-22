@@ -5,6 +5,10 @@ Module belongings "What the company carries" {
   Relation canTrain(member, ability). Relation teaches(group, ability).
   Relation proficient(member, itemkind).
   Relation wants(group, itemkind). Measure pays(group, itemkind).
+  // What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any
+  // treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and
+  // sold is the company's experience, the first time it is sold: its worth, to each who brought it.
+  Measure worth(itemkind). Relation buysValuables(group). Relation realized(item). Relation valuable(itemkind).
   // Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it
   // unlent, says so once, in their own words if they have them ("Objects" in a person), and is not the company's
   // friend after.
@@ -92,6 +96,17 @@ Module belongings "What the company carries" {
     On success { Assert keeps(buyer, ware). Decrease quantity(buyer, gold) by pays(buyer, form).
       Increase quantity(actor, gold) by pays(buyer, form). }
     Result "{buyer} takes {ware}, and counts out the coin for it.".
+  }
+  Action sell_valuable(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Sell {ware} to {buyer}" {
+    Description "Someone who deals in valuables pays what a thing is worth, if they have the coin. The first time a treasure is sold, what it is worth is experience for each of the company.".
+    Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
+      and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
+      and buysValuables(buyer) and valuable(form) and worth(form) >= 1 and pays(buyer, form) < 1
+      and quantity(buyer, gold) >= worth(form) and not refusesService(buyer, actor).
+    Resolve realize(ware, carrier, actor).
+    On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by worth(form).
+      Increase quantity(actor, gold) by worth(form). }
+    Result "{buyer} turns {ware} over in the light, names a price, and counts out the coin.".
   }
   Action put_item(actor: group, cargo: item, carrier: member, site: place) "Set down {cargo}" {
     Requires able(actor) and at(actor, site) and memberOf(carrier, actor) and awake(carrier) and ownedItem(cargo, carrier).

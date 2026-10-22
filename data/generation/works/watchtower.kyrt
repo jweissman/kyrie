@@ -37,7 +37,7 @@
   }
   Observe {w}_tablets_learned at {w}_undercroft when state({w}_tablets, read) "{fate}" teaches history_fate.
   Observe {w}_ring_learned at {w}_top when state({w}_ring, set) "{craft} {belief}" teaches history_makers.
-  Item {w}_plate "a bronze sighting-plate" is chapel_plate at {w}_undercroft.
+  Item {w}_plate "{richname}" is {rich} at {w}_undercroft.
 --- sight twin 1 if twin
   Observe {w}_sightline at {w}_top when state({w}_ring, set) "Through the sighting-holes, on a height to the {twinside}, there is another tower: {twinname}. The ring was made to see it." teaches {twin}_found.
   Observe {w}_sightname at {w}_top when state({w}_ring, set) "The mark cut beside that sight-line names it." teaches {twin}_named.

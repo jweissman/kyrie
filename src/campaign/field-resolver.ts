@@ -60,7 +60,19 @@ export class FieldResolver {
       return Items.transfer(creatures, { id: call.args[0]!, label }, call.args[1]!, call.args[2]!);
     }
     if (call.name === 'drop') { return Items.drop(creatures, call.args[1]!, call.args[0]!, label); }
+    if (call.name === 'realize') { return this.realize(call, host, label); }
     throw new Error(`Unsupported resolver ${call.name}`);
+  }
+  // A treasure handed over for its worth: the first time it is sold, what it is worth is experience for each of the
+  // company who brought it home.
+  private static realize(call: Call, host: FieldHost, label: string): CombatEvent[] {
+    const [item, carrier, group] = call.args as [string, string, string], world = host.world;
+    const events = Items.drop(host.creatures, carrier, item, label);
+    if (world.test(ModuleWriter.call('realized', item))) { return events; }
+    const kind = world.one('itemKind', item), worth = kind ? world.number(ModuleWriter.call('worth', kind)) : 0;
+    const members = host.actors.find(a => a.id === group)?.members ?? [];
+    FieldUse.grant(host.creatures, members, worth, events);
+    return events;
   }
   // The buyer's members pay the price between them, and the seller is paid it.
   private static purchase(call: Call, host: FieldHost) {

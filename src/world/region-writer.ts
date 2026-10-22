@@ -131,8 +131,11 @@ export class RegionWriter {
     const t = this.trade(s);
     const sells = t.stock.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
     const buys = t.buys.map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
+    // Every merchant deals in valuables too, as far as their purse goes: a town's goes further than a hamlet's.
+    const purse = ({ town: 400, village: 120 } as Record<string, number>)[s.size] ?? 40;
     return `  Person ${s.id}_merchant ${JSON.stringify(s.merchant)} at ${s.id}_shop { Role ${JSON.stringify(t.role)}. ${this.of(s, 'merchant', region)}`
-      + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable. ${sells}${buys ? ` ${buys}` : ''} }`;
+      + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable. ${sells}${buys ? ` ${buys}` : ''} }\n`
+      + `  Initially Assert buysValuables(${s.id}_merchant). Initially Set quantity(${s.id}_merchant, gold) to ${purse}.`;
   }
   // Trade comes and goes by the roads. While anyone tolls a road into a settlement its inn's meal is dearer and
   // is not made good; when the roads are open, and the farms have not been robbed, the inn restocks a sack a day.

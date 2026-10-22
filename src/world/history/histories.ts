@@ -11,6 +11,8 @@ import { Wearing } from './wearing';
 interface Art {
   epithet: string; self: [string, string][]; terrains: Record<string, number>; plans: string[]; craft: string;
   belief: string; fates: string[]; said: string[]; modifiers: string[];
+  // What its works hold for whoever finds it: Orsino's treasure, common and rich.
+  treasure: { common: string[]; rich: string[] };
 }
 // The people who first made things in a region: by what art, what they held true, and how they ended.
 export interface Makers { art: string; epithet: string; self: Naming; craft: string; belief: string; fate: string;

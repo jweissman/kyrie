@@ -12,7 +12,13 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 15 | 2 | 1 | 4 | 11 |
+| 2 | 18 | 3 | 1 | 4 | 12 |
+
+#### worth, buysValuables, realized, valuable
+
+*Kyr · measure(itemkind); relation(group); relation(item); relation(itemkind)* · `rule:belongings.worth`
+
+What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and sold is the company's experience, the first time it is sold: its worth, to each who brought it.
 
 #### owns, lends, objected
 
@@ -174,6 +180,20 @@ Someone who buys this kind of thing pays what they said they would, if they have
 
 > Then: Assert keeps(buyer, ware). Decrease quantity(buyer, gold) by pays(buyer, form). Increase quantity(actor, gold) by pays(buyer, form).
 
+#### sell valuable
+
+*Kyr · action (group, item, itemkind, member, group, place)* · `rule:belongings.sell_valuable`
+
+- Shown as: Sell {ware} to {buyer}
+- Takes: 10 minutes
+- Costs: 1
+
+Someone who deals in valuables pays what a thing is worth, if they have the coin. The first time a treasure is sold, what it is worth is experience for each of the company.
+
+> Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); buysValuables(buyer); valuable(form); worth(form) >= 1; pays(buyer, form) < 1; quantity(buyer, gold) >= worth(form); not (refusesService(buyer, actor))
+
+> Then: Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by worth(form). Increase quantity(actor, gold) by worth(form).
+
 #### put item
 
 *Kyr · action (group, item, member, place)* · `rule:belongings.put_item`
@@ -304,11 +324,11 @@ Six hours and a ration, somewhere safe. The living get their strength and mana b
 
 ### Bodies, places, time and the shared catalog
 
-Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, quantity, watch, encounterXp, untilLight, untilMorning.
+Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 25 | 6 | 3 | 0 | 5 |
+| 8 | 25 | 8 | 3 | 0 | 7 |
 
 #### terrainkind, terrain
 
@@ -403,6 +423,32 @@ A die thrown each watch, 1 to 100, for what is left to chance.
 - Costs: 1
 
 > Needs: able(actor); dark()
+
+> Then: nothing changes
+
+#### wait for dark
+
+*Kyr · action (group)* · `rule:world_core.wait_for_dark`
+
+- Shown as: Wait until dark
+- Takes: the untilDark of the way
+- Costs: 1
+
+> Needs: able(actor); not (dark())
+
+> Then: nothing changes
+
+#### wait watch
+
+*Kyr · action (group)* · `rule:world_core.wait_watch`
+
+- Shown as: Wait and watch
+- Takes: the untilTurn of the way
+- Costs: 1
+
+Until someone comes or goes, or something changes here; or until the day turns.
+
+> Needs: able(actor)
 
 > Then: nothing changes
 
@@ -1625,168 +1671,168 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 ### Magic items
 
-48 in Orsino; 1 held by Kyr.
+48 in Orsino; 48 held by Kyr.
 
 | Name | Kind | Rarity | Does | In Kyr |
 |---|---|---|---|---|
-| Aegis of Eternity | shield | legendary | ac -6 resistAll 0.3 onAttacked [{"type":"damage","amount":"2d6","kind":"true","target":"attacker"}] | — |
-| Aeon Stone | orbital | legendary | onCombatStart [{"type":"buff","status":"haste","target":"self"}] onAttacked [{"type":"debuff","status":"slow","target":"attacker","saveDC":35}] | — |
-| Amulet of Focus | amulet | rare | int 3 wis 3 bonusSpellDC 2 | — |
-| Amulet of Health | amulet | uncommon | con 2 | — |
-| Amulet of Protection | amulet | legendary | ac -2 resistAll 0.1 | — |
-| Amulet of Vitality | amulet | — | con 1 | — |
-| Angelmail | body | legendary | ac -4 resistRadiant 0.5 onAttacked [{"type":"damage","amount":"1d8","kind":"radiant","target":"attacker"}] | — |
-| Arcane Conduit | weapon | legendary | bonusSpellDC 5 int 5 | — |
-| Belt of Giant Strength | belt | rare | str 6 | — |
-| Bolt Blade | weapon | rare | onAttackHit [{"type":"damage","amount":"1d6","kind":"lightning","target":"target"}] | — |
-| Bone Armor | body | rare | resistNecrotic 0.4 onAttacked [{"type":"damage","amount":"1d3","kind":"necrotic","target":"attacker"}] | — |
-| Boots of Swiftness | boots | uncommon | dex 2 | — |
-| Censer of Consecration | special | rare | bonusSpellDC 3 wis 3 onCombatStart [{"type":"cast","spellName":"consecrated_ground","target":"self"}] | — |
-| Cloak of Invisibility | cloak | legendary | onCombatStart [{"type":"buff","status":"invisible","target":"self"}] | — |
-| Cloak of Protection | cloak | common | ac -1 saveVersusAll 1 | — |
-| Crown of Insight | helm | legendary | wis 4 | — |
-| Darkwood Staff | weapon | rare | bonusSpellDC 2 int 2 | — |
-| Dragonhelm | helm | legendary | ac -3 resistFire 0.5 onAttacked [{"type":"damage","amount":"1d6","kind":"fire","target":"attacker"}] | — |
-| Dun Rìerdan Waystone | amulet | rare | con 2 resistAll 0.05 revealLocation dun_ri | — |
-| Galvorn Mail | body | legendary | ac -5 resistAll 0.2 | — |
-| Gloves of Dexterity | gloves | uncommon | dex 1 | — |
-| Helm of Intellect | helm | uncommon | int 2 | — |
-| Helm of the Stars | helm | rare | str 1 dex 1 con 1 int 1 wis 1 cha 1 | — |
-| Ironglass Dagger | dagger | common | bonusDamage 1d2 | — |
+| Aegis of Eternity | shield | legendary | ac -6 resistAll 0.3 onAttacked [{"type":"damage","amount":"2d6","kind":"true","target":"attacker"}] | faithful |
+| Aeon Stone | orbital | legendary | onCombatStart [{"type":"buff","status":"haste","target":"self"}] onAttacked [{"type":"debuff","status":"slow","target":"attacker","saveDC":35}] | faithful |
+| Amulet of Focus | amulet | rare | int 3 wis 3 bonusSpellDC 2 | faithful |
+| Amulet of Health | amulet | uncommon | con 2 | faithful |
+| Amulet of Protection | amulet | legendary | ac -2 resistAll 0.1 | faithful |
+| Amulet of Vitality | amulet | — | con 1 | faithful |
+| Angelmail | body | legendary | ac -4 resistRadiant 0.5 onAttacked [{"type":"damage","amount":"1d8","kind":"radiant","target":"attacker"}] | faithful |
+| Arcane Conduit | weapon | legendary | bonusSpellDC 5 int 5 | represented |
+| Belt of Giant Strength | belt | rare | str 6 | faithful |
+| Bolt Blade | weapon | rare | onAttackHit [{"type":"damage","amount":"1d6","kind":"lightning","target":"target"}] | faithful |
+| Bone Armor | body | rare | resistNecrotic 0.4 onAttacked [{"type":"damage","amount":"1d3","kind":"necrotic","target":"attacker"}] | faithful |
+| Boots of Swiftness | boots | uncommon | dex 2 | faithful |
+| Censer of Consecration | special | rare | bonusSpellDC 3 wis 3 onCombatStart [{"type":"cast","spellName":"consecrated_ground","target":"self"}] | faithful |
+| Cloak of Invisibility | cloak | legendary | onCombatStart [{"type":"buff","status":"invisible","target":"self"}] | faithful |
+| Cloak of Protection | cloak | common | ac -1 saveVersusAll 1 | faithful |
+| Crown of Insight | helm | legendary | wis 4 | faithful |
+| Darkwood Staff | weapon | rare | bonusSpellDC 2 int 2 | represented |
+| Dragonhelm | helm | legendary | ac -3 resistFire 0.5 onAttacked [{"type":"damage","amount":"1d6","kind":"fire","target":"attacker"}] | faithful |
+| Dun Rìerdan Waystone | amulet | rare | con 2 resistAll 0.05 revealLocation dun_ri | represented |
+| Galvorn Mail | body | legendary | ac -5 resistAll 0.2 | faithful |
+| Gloves of Dexterity | gloves | uncommon | dex 1 | faithful |
+| Helm of Intellect | helm | uncommon | int 2 | faithful |
+| Helm of the Stars | helm | rare | str 1 dex 1 con 1 int 1 wis 1 cha 1 | faithful |
+| Ironglass Dagger | dagger | common | bonusDamage 1d2 | faithful |
 | Longsword of Flames | weapon | rare | onAttackHit [{"type":"damage","amount":"1d6","kind":"fire","target":"target"}] | faithful |
-| Mantle of Charisma | cloak | uncommon | cha 4 | — |
-| Phoenix Talon | weapon | legendary | onAttackHit [{"type":"damage","amount":"=3d6","kind":"fire","target":"target"},{"type":"heal","amount":"=1d8","target":"self"}] | — |
-| Ring of Major Protection | ring | legendary | ac -3 | — |
-| Ring of Minor Protection | ring | uncommon | ac -1 | — |
-| Ring of Minor Strength | ring | — | str 1 | — |
-| Ring of Perfect Turning | ring | legendary | resistAll 0.5 reflectSpellChance 0.75 | — |
-| Ring of Protection | ring | rare | ac -2 | — |
-| Ring of Regeneration | ring | legendary | onTurnEnd [{"type":"heal","amount":"=1d2-1"}] | — |
-| Ring of Spell Turning | ring | legendary | reflectSpellChance 0.5 resistAll 0.2 saveVersusMagic 4 onSaveVersusMagic [{"type":"damage","amount":"=1d6","target":"attacker","kind":"true"}] | — |
-| Ring of Strength | ring | uncommon | str 2 | — |
-| Ring of the Firmament | ring | rare | resistFire 0.5 resistCold 0.5 resistLightning 0.5 | — |
-| Ring of Thorns | ring | rare | onAttacked [{"type":"attack","target":"attacker","kind":"force"}] | — |
-| Ring of True Sight | ring | legendary | seeInvisible true | — |
-| Robe of Elvenkind | body | rare | dex 2 evasion 10 onAttacked [{"type":"debuff","status":"blinded","target":"attacker","saveDC":25},{"type":"debuff","status":"slow","target":"attacker","saveDC":25}] | — |
-| Robe of the Archmagi | body | legendary | int 4 wis 4 bonusSpellDC 4 resistAll 0.15 | — |
-| Silvered Bracers | bracers | common | ac -1 | — |
-| Singing Stone | amulet | uncommon | bonusSpellDC 1 bonusSpellDamage 1 | — |
-| Staff of Power | weapon | legendary | bonusSpellDC 6 int 6 onAttackHit [{"type":"damage","amount":"=3d6","kind":"force","target":"target"}] | — |
-| Staff of the Necromancer | weapon | legendary | bonusSpellDC 5 int 5 onAttackHit [{"type":"damage","amount":"=2d6","kind":"necrotic","target":"target"}] | — |
-| Sword of Ages | weapon | legendary | onAttackHit [{"type":"damage","amount":"=1d4+1","kind":"true","target":"target"},{"type":"debuff","status":"weakened","target":"target","saveDC":30}] | — |
-| Sword of Goblinkind | weapon | rare | dex 3 int 3 onAttackHit [{"type":"debuff","status":"confused","target":"target","saveDC":20}] | — |
-| Tirion's Fury | weapon | legendary | onAttackHit [{"type":"damage","amount":"=2d6+2","kind":"true","target":"target"},{"type":"debuff","status":"stun","target":"target","saveDC":35}] | — |
-| Wardstone | amulet | rare | onCombatStart [{"type":"buff","status":"warded"}] | — |
+| Mantle of Charisma | cloak | uncommon | cha 4 | faithful |
+| Phoenix Talon | weapon | legendary | onAttackHit [{"type":"damage","amount":"=3d6","kind":"fire","target":"target"},{"type":"heal","amount":"=1d8","target":"self"}] | represented |
+| Ring of Major Protection | ring | legendary | ac -3 | faithful |
+| Ring of Minor Protection | ring | uncommon | ac -1 | faithful |
+| Ring of Minor Strength | ring | — | str 1 | faithful |
+| Ring of Perfect Turning | ring | legendary | resistAll 0.5 reflectSpellChance 0.75 | represented |
+| Ring of Protection | ring | rare | ac -2 | faithful |
+| Ring of Regeneration | ring | legendary | onTurnEnd [{"type":"heal","amount":"=1d2-1"}] | faithful |
+| Ring of Spell Turning | ring | legendary | reflectSpellChance 0.5 resistAll 0.2 saveVersusMagic 4 onSaveVersusMagic [{"type":"damage","amount":"=1d6","target":"attacker","kind":"true"}] | represented |
+| Ring of Strength | ring | uncommon | str 2 | faithful |
+| Ring of the Firmament | ring | rare | resistFire 0.5 resistCold 0.5 resistLightning 0.5 | faithful |
+| Ring of Thorns | ring | rare | onAttacked [{"type":"attack","target":"attacker","kind":"force"}] | faithful |
+| Ring of True Sight | ring | legendary | seeInvisible true | represented |
+| Robe of Elvenkind | body | rare | dex 2 evasion 10 onAttacked [{"type":"debuff","status":"blinded","target":"attacker","saveDC":25},{"type":"debuff","status":"slow","target":"attacker","saveDC":25}] | faithful |
+| Robe of the Archmagi | body | legendary | int 4 wis 4 bonusSpellDC 4 resistAll 0.15 | faithful |
+| Silvered Bracers | bracers | common | ac -1 | faithful |
+| Singing Stone | amulet | uncommon | bonusSpellDC 1 bonusSpellDamage 1 | represented |
+| Staff of Power | weapon | legendary | bonusSpellDC 6 int 6 onAttackHit [{"type":"damage","amount":"=3d6","kind":"force","target":"target"}] | represented |
+| Staff of the Necromancer | weapon | legendary | bonusSpellDC 5 int 5 onAttackHit [{"type":"damage","amount":"=2d6","kind":"necrotic","target":"target"}] | represented |
+| Sword of Ages | weapon | legendary | onAttackHit [{"type":"damage","amount":"=1d4+1","kind":"true","target":"target"},{"type":"debuff","status":"weakened","target":"target","saveDC":30}] | faithful |
+| Sword of Goblinkind | weapon | rare | dex 3 int 3 onAttackHit [{"type":"debuff","status":"confused","target":"target","saveDC":20}] | faithful |
+| Tirion's Fury | weapon | legendary | onAttackHit [{"type":"damage","amount":"=2d6+2","kind":"true","target":"target"},{"type":"debuff","status":"stun","target":"target","saveDC":35}] | faithful |
+| Wardstone | amulet | rare | onCombatStart [{"type":"buff","status":"warded"}] | faithful |
 
 ### Consumables
 
-28 in Orsino; 2 held by Kyr.
+28 in Orsino; 28 held by Kyr.
 
 | Name | Kind | Does | In Kyr |
 |---|---|---|---|
-| Alchemist's Fire | flask | type damage amount 1d6 kind fire | — |
+| Alchemist's Fire | flask | type damage amount 1d6 kind fire | represented |
 | Antidote | potion | type removeStatus statusName Poison | adapted |
-| Cloudberry | food | type heal amount 1d4+1 | — |
-| Comfrey | herb | type heal amount 2d4; type removeStatus statusName Bleeding | — |
-| Dandelion | herb | type heal amount 1d3; type removeStatus statusName Poison | — |
-| Deck of Multiplicity | special | type randomEffect randomEffects [{"description":"Ace of Clubs","type":"buff","status":"haste","target":"self"},{"description":"King of Clubs","type":"buff","status":"scaleskin","target":"self"},{"description":"Dame of Clubs","type":"buff","status":"major_strength","target":"self"},{"description":"Jack of Clubs","type":"buff","status":"wisdom","target":"self"},{"description":"Ten of Clubs","type":"buff","status":"clarity","target":"self"},{"description":"Nine of Clubs","type":"buff","status":"focus","target":"self"},{"description":"Eight of Clubs","type":"buff","status":"rage","target":"self"},{"description":"Seven of Clubs","type":"buff","status":"steelskin","target":"self"},{"description":"Six of Clubs","type":"buff","status":"strength","target":"self"},{"description":"Five of Clubs","type":"buff","status":"ironskin","target":"self"},{"description":"Four of Clubs","type":"buff","status":"cunning","target":"self"},{"description":"Three of Clubs","type":"buff","status":"splendor","target":"self"},{"description":"Two of Clubs","type":"buff","status":"courage","target":"self"},{"description":"One of Clubs","type":"buff","status":"barkskin","target":"self"},{"description":"Ace of Coins","type":"cast","spellName":"death"},{"description":"King of Coins","type":"cast","spellName":"disintegrate"},{"description":"Dame of Coins","type":"cast","spellName":"flesh_to_stone"},{"description":"Jack of Coins","type":"cast","spellName":"meteor_swarm"},{"description":"Ten of Coins","type":"cast","spellName":"polymorph"},{"description":"Nine of Coins","type":"cast","spellName":"sandstorm"},{"description":"Eight of Coins","type":"cast","spellName":"chain_lightning"},{"description":"Seven of Coins","type":"cast","spellName":"ice_storm"},{"description":"Six of Coins","type":"cast","spellName":"fire_storm"},{"description":"Five of Coins","type":"cast","spellName":"cone_of_cold"},{"description":"Four of Coins","type":"cast","spellName":"dispel_magic"},{"description":"Three of Coins","type":"cast","spellName":"lightning_bolt"},{"description":"Two of Coins","type":"cast","spellName":"fireball"},{"description":"One of Coins","type":"cast","spellName":"ice_bolt"},{"description":"Ace of Swords","type":"damage","amount":"1d100","kind":"radiant"},{"description":"King of Swords","type":"damage","amount":"1d60","kind":"psychic"},{"description":"Dame of Swords","type":"damage","amount":"1d20","kind":"true"},{"description":"Jack of Swords","type":"damage","amount":"1d12","kind":"acid"},{"description":"Ten of Swords","type":"damage","amount":"1d10","kind":"sonic"},{"description":"Nine of Swords","type":"damage","amount":"2d8","kind":"poison"},{"description":"Eight of Swords","type":"damage","amount":"2d8","kind":"cold"},{"description":"Seven of Swords","type":"damage","amount":"3d6","kind":"fire"},{"description":"Six of Swords","type":"damage","amount":"3d6","kind":"necrotic"},{"description":"Five of Swords","type":"damage","amount":"3d6","kind":"lightning"},{"description":"Four of Swords","type":"damage","amount":"4d4","kind":"force"},{"description":"Three of Swords","type":"damage","amount":"4d3","kind":"slashing"},{"description":"Two of Swords","type":"damage","amount":"6d2","kind":"piercing"},{"description":"One of Swords","type":"damage","amount":"8d2","kind":"bludgeoning"},{"description":"Ace of Cups","type":"debuff","status":"asleep","saveDC":30},{"description":"King of Cups","type":"debuff","status":"confused","saveDC":30},{"description":"Dame of Cups","type":"debuff","status":"fatigue","saveDC":30},{"description":"Jack of Cups","type":"debuff","status":"fear","saveDC":30},{"description":"Ten of Cups","type":"debuff","status":"slow","saveDC":30},{"description":"Nine of Cups","type":"debuff","status":"weakened","saveDC":30},{"description":"Eight of Cups","type":"debuff","status":"feebleminded","saveDC":30},{"description":"Seven of Cups","type":"debuff","status":"petrified","saveDC":30},{"description":"Six of Cups","type":"debuff","status":"charmed","saveDC":30},{"description":"Five of Cups","type":"debuff","status":"blinded","saveDC":30},{"description":"Four of Cups","type":"debuff","status":"deafened","saveDC":30},{"description":"Three of Cups","type":"debuff","status":"paralyzed","saveDC":30},{"description":"Two of Cups","type":"debuff","status":"poison","saveDC":30},{"description":"One of Cups","type":"debuff","status":"silence","saveDC":30},{"description":"Ace of Hearts","type":"heal","amount":"3d20","target":"self"},{"description":"King of Hearts","type":"heal","amount":"4d12","target":"self"},{"description":"Dame of Hearts","type":"heal","amount":"4d10","target":"self"},{"description":"Jack of Hearts","type":"heal","amount":"4d8","target":"self"},{"description":"Ten of Hearts","type":"heal","amount":"3d8","target":"self"},{"description":"Nine of Hearts","type":"heal","amount":"4d6","target":"self"},{"description":"Eight of Hearts","type":"heal","amount":"5d4","target":"self"},{"description":"Seven of Hearts","type":"heal","amount":"6d3","target":"self"},{"description":"Six of Hearts","type":"heal","amount":"8d2","target":"self"},{"description":"Five of Hearts","type":"heal","amount":"14","target":"self"},{"description":"Four of Hearts","type":"heal","amount":"10","target":"self"},{"description":"Three of Hearts","type":"heal","amount":"9","target":"self"},{"description":"Two of Hearts","type":"heal","amount":"8","target":"self"},{"description":"One of Hearts","type":"heal","amount":"6","target":"self"},{"description":"Ace of Shields","type":"summon","creature":"dragon"},{"description":"King of Shields","type":"summon","creature":"pc"},{"description":"Dame of Shields","type":"summon","creature":"monster","options":{"_class":"elemental"}},{"description":"Jack of Shields","type":"summon","creature":"monster","options":{"_class":"aberration"}},{"description":"Ten of Shields","type":"summon","creature":"monster","options":{"_class":"fey"}},{"description":"Nine of Shields","type":"summon","creature":"monster","options":{"_class":"demon"}},{"description":"Eight of Shields","type":"summon","creature":"monster","options":{"_class":"giant"}},{"description":"Seven of Shields","type":"summon","creature":"monster","options":{"_class":"celestial"}},{"description":"Six of Shields","type":"summon","creature":"monster","options":{"_class":"construct"}},{"description":"Five of Shields","type":"summon","creature":"monster","options":{"_class":"beast"}},{"description":"Four of Shields","type":"summon","creature":"npc","options":{"race":"human"}},{"description":"Three of Shields","type":"summon","creature":"npc","options":{"race":"elf"}},{"description":"Two of Shields","type":"summon","creature":"npc","options":{"race":"dwarf"}},{"description":"One of Shields","type":"summon","creature":"animal"}] | — |
-| Elixir of Strength | potion | type buff status strength | — |
-| First Aid Kit | kit | type heal amount 1d4+1; type removeStatus statusName Bleeding | — |
-| Foxglove | herb | type heal amount 1d4+2; type removeStatus statusName Poison\|Fatigue\|Weakened | — |
-| Goodberry | food | type heal amount 1d4+1 | — |
-| Potion of Healing | potion | type heal amount 3d4+3 | — |
-| Heather | herb | type heal amount 1d3+1; type removeStatus statusName Fatigue | — |
-| Kingsfoil | herb | type heal amount 2d4+2; type removeStatus statusName Poison | — |
-| Major Potion of Healing | potion | type heal amount 4d4+4 | — |
+| Cloudberry | food | type heal amount 1d4+1 | faithful |
+| Comfrey | herb | type heal amount 2d4; type removeStatus statusName Bleeding | faithful |
+| Dandelion | herb | type heal amount 1d3; type removeStatus statusName Poison | faithful |
+| Deck of Multiplicity | special | type randomEffect randomEffects [{"description":"Ace of Clubs","type":"buff","status":"haste","target":"self"},{"description":"King of Clubs","type":"buff","status":"scaleskin","target":"self"},{"description":"Dame of Clubs","type":"buff","status":"major_strength","target":"self"},{"description":"Jack of Clubs","type":"buff","status":"wisdom","target":"self"},{"description":"Ten of Clubs","type":"buff","status":"clarity","target":"self"},{"description":"Nine of Clubs","type":"buff","status":"focus","target":"self"},{"description":"Eight of Clubs","type":"buff","status":"rage","target":"self"},{"description":"Seven of Clubs","type":"buff","status":"steelskin","target":"self"},{"description":"Six of Clubs","type":"buff","status":"strength","target":"self"},{"description":"Five of Clubs","type":"buff","status":"ironskin","target":"self"},{"description":"Four of Clubs","type":"buff","status":"cunning","target":"self"},{"description":"Three of Clubs","type":"buff","status":"splendor","target":"self"},{"description":"Two of Clubs","type":"buff","status":"courage","target":"self"},{"description":"One of Clubs","type":"buff","status":"barkskin","target":"self"},{"description":"Ace of Coins","type":"cast","spellName":"death"},{"description":"King of Coins","type":"cast","spellName":"disintegrate"},{"description":"Dame of Coins","type":"cast","spellName":"flesh_to_stone"},{"description":"Jack of Coins","type":"cast","spellName":"meteor_swarm"},{"description":"Ten of Coins","type":"cast","spellName":"polymorph"},{"description":"Nine of Coins","type":"cast","spellName":"sandstorm"},{"description":"Eight of Coins","type":"cast","spellName":"chain_lightning"},{"description":"Seven of Coins","type":"cast","spellName":"ice_storm"},{"description":"Six of Coins","type":"cast","spellName":"fire_storm"},{"description":"Five of Coins","type":"cast","spellName":"cone_of_cold"},{"description":"Four of Coins","type":"cast","spellName":"dispel_magic"},{"description":"Three of Coins","type":"cast","spellName":"lightning_bolt"},{"description":"Two of Coins","type":"cast","spellName":"fireball"},{"description":"One of Coins","type":"cast","spellName":"ice_bolt"},{"description":"Ace of Swords","type":"damage","amount":"1d100","kind":"radiant"},{"description":"King of Swords","type":"damage","amount":"1d60","kind":"psychic"},{"description":"Dame of Swords","type":"damage","amount":"1d20","kind":"true"},{"description":"Jack of Swords","type":"damage","amount":"1d12","kind":"acid"},{"description":"Ten of Swords","type":"damage","amount":"1d10","kind":"sonic"},{"description":"Nine of Swords","type":"damage","amount":"2d8","kind":"poison"},{"description":"Eight of Swords","type":"damage","amount":"2d8","kind":"cold"},{"description":"Seven of Swords","type":"damage","amount":"3d6","kind":"fire"},{"description":"Six of Swords","type":"damage","amount":"3d6","kind":"necrotic"},{"description":"Five of Swords","type":"damage","amount":"3d6","kind":"lightning"},{"description":"Four of Swords","type":"damage","amount":"4d4","kind":"force"},{"description":"Three of Swords","type":"damage","amount":"4d3","kind":"slashing"},{"description":"Two of Swords","type":"damage","amount":"6d2","kind":"piercing"},{"description":"One of Swords","type":"damage","amount":"8d2","kind":"bludgeoning"},{"description":"Ace of Cups","type":"debuff","status":"asleep","saveDC":30},{"description":"King of Cups","type":"debuff","status":"confused","saveDC":30},{"description":"Dame of Cups","type":"debuff","status":"fatigue","saveDC":30},{"description":"Jack of Cups","type":"debuff","status":"fear","saveDC":30},{"description":"Ten of Cups","type":"debuff","status":"slow","saveDC":30},{"description":"Nine of Cups","type":"debuff","status":"weakened","saveDC":30},{"description":"Eight of Cups","type":"debuff","status":"feebleminded","saveDC":30},{"description":"Seven of Cups","type":"debuff","status":"petrified","saveDC":30},{"description":"Six of Cups","type":"debuff","status":"charmed","saveDC":30},{"description":"Five of Cups","type":"debuff","status":"blinded","saveDC":30},{"description":"Four of Cups","type":"debuff","status":"deafened","saveDC":30},{"description":"Three of Cups","type":"debuff","status":"paralyzed","saveDC":30},{"description":"Two of Cups","type":"debuff","status":"poison","saveDC":30},{"description":"One of Cups","type":"debuff","status":"silence","saveDC":30},{"description":"Ace of Hearts","type":"heal","amount":"3d20","target":"self"},{"description":"King of Hearts","type":"heal","amount":"4d12","target":"self"},{"description":"Dame of Hearts","type":"heal","amount":"4d10","target":"self"},{"description":"Jack of Hearts","type":"heal","amount":"4d8","target":"self"},{"description":"Ten of Hearts","type":"heal","amount":"3d8","target":"self"},{"description":"Nine of Hearts","type":"heal","amount":"4d6","target":"self"},{"description":"Eight of Hearts","type":"heal","amount":"5d4","target":"self"},{"description":"Seven of Hearts","type":"heal","amount":"6d3","target":"self"},{"description":"Six of Hearts","type":"heal","amount":"8d2","target":"self"},{"description":"Five of Hearts","type":"heal","amount":"14","target":"self"},{"description":"Four of Hearts","type":"heal","amount":"10","target":"self"},{"description":"Three of Hearts","type":"heal","amount":"9","target":"self"},{"description":"Two of Hearts","type":"heal","amount":"8","target":"self"},{"description":"One of Hearts","type":"heal","amount":"6","target":"self"},{"description":"Ace of Shields","type":"summon","creature":"dragon"},{"description":"King of Shields","type":"summon","creature":"pc"},{"description":"Dame of Shields","type":"summon","creature":"monster","options":{"_class":"elemental"}},{"description":"Jack of Shields","type":"summon","creature":"monster","options":{"_class":"aberration"}},{"description":"Ten of Shields","type":"summon","creature":"monster","options":{"_class":"fey"}},{"description":"Nine of Shields","type":"summon","creature":"monster","options":{"_class":"demon"}},{"description":"Eight of Shields","type":"summon","creature":"monster","options":{"_class":"giant"}},{"description":"Seven of Shields","type":"summon","creature":"monster","options":{"_class":"celestial"}},{"description":"Six of Shields","type":"summon","creature":"monster","options":{"_class":"construct"}},{"description":"Five of Shields","type":"summon","creature":"monster","options":{"_class":"beast"}},{"description":"Four of Shields","type":"summon","creature":"npc","options":{"race":"human"}},{"description":"Three of Shields","type":"summon","creature":"npc","options":{"race":"elf"}},{"description":"Two of Shields","type":"summon","creature":"npc","options":{"race":"dwarf"}},{"description":"One of Shields","type":"summon","creature":"animal"}] | represented |
+| Elixir of Strength | potion | type buff status strength | faithful |
+| First Aid Kit | kit | type heal amount 1d4+1; type removeStatus statusName Bleeding | faithful |
+| Foxglove | herb | type heal amount 1d4+2; type removeStatus statusName Poison\|Fatigue\|Weakened | represented |
+| Goodberry | food | type heal amount 1d4+1 | faithful |
+| Potion of Healing | potion | type heal amount 3d4+3 | faithful |
+| Heather | herb | type heal amount 1d3+1; type removeStatus statusName Fatigue | faithful |
+| Kingsfoil | herb | type heal amount 2d4+2; type removeStatus statusName Poison | faithful |
+| Major Potion of Healing | potion | type heal amount 4d4+4 | faithful |
 | Minor Potion of Healing | potion | type heal amount 2d4+2 | adapted |
-| Flask of Oil | flask | type debuff status oiled saveDC 25 | — |
-| Potion of Barkskin | potion | type cast spellName Barkskin | — |
-| Rashers of Bacon | food | type heal amount 1d3 | — |
-| Scroll of Apocalypse | scroll | type cast spellName Apocalypse | — |
-| Scroll of Cure Disease | scroll | type removeStatus statusName Disease | — |
-| Scroll of Domination | scroll | type cast spellName dominate_person | — |
-| Scroll of Fireball | scroll | type cast spellName Fireball | — |
-| Scroll of Shapechange | scroll | type cast spellName shapechange | — |
-| Wand of Cure Minor Wounds | wand | type cast spellName Cure Minor Wounds | — |
-| Wand of Magic Missile | wand | type cast spellName Magic Missile | — |
-| Wand of Paralyzing Touch | wand | type cast spellName Paralyzing Touch | — |
-| Wand of Polymorph | wand | type cast spellName Polymorph Other | — |
-| Wand of Wonder | wand | type randomEffect randomEffects [{"type":"cast","spellName":"magic_missile"},{"type":"cast","spellName":"fireball"},{"type":"cast","spellName":"lightning_bolt"},{"type":"cast","spellName":"cone_of_cold"},{"type":"cast","spellName":"invisibility","target":"self"},{"type":"cast","spellName":"flight","target":"self"},{"type":"cast","spellName":"heal","target":"self"},{"type":"cast","spellName":"summon_monster"},{"type":"cast","spellName":"summon_elemental"}] | — |
+| Flask of Oil | flask | type debuff status oiled saveDC 25 | represented |
+| Potion of Barkskin | potion | type cast spellName Barkskin | represented |
+| Rashers of Bacon | food | type heal amount 1d3 | faithful |
+| Scroll of Apocalypse | scroll | type cast spellName Apocalypse | represented |
+| Scroll of Cure Disease | scroll | type removeStatus statusName Disease | faithful |
+| Scroll of Domination | scroll | type cast spellName dominate_person | represented |
+| Scroll of Fireball | scroll | type cast spellName Fireball | represented |
+| Scroll of Shapechange | scroll | type cast spellName shapechange | represented |
+| Wand of Cure Minor Wounds | wand | type cast spellName Cure Minor Wounds | represented |
+| Wand of Magic Missile | wand | type cast spellName Magic Missile | represented |
+| Wand of Paralyzing Touch | wand | type cast spellName Paralyzing Touch | represented |
+| Wand of Polymorph | wand | type cast spellName Polymorph Other | represented |
+| Wand of Wonder | wand | type randomEffect randomEffects [{"type":"cast","spellName":"magic_missile"},{"type":"cast","spellName":"fireball"},{"type":"cast","spellName":"lightning_bolt"},{"type":"cast","spellName":"cone_of_cold"},{"type":"cast","spellName":"invisibility","target":"self"},{"type":"cast","spellName":"flight","target":"self"},{"type":"cast","spellName":"heal","target":"self"},{"type":"cast","spellName":"summon_monster"},{"type":"cast","spellName":"summon_elemental"}] | represented |
 
 ### Gear
 
-68 in Orsino; 6 held by Kyr.
+68 in Orsino; 67 held by Kyr.
 
 | Name | Worth | Does | In Kyr |
 |---|---|---|---|
-| Ale | 2 | type heal amount 3d4 | — |
-| Backpack | 5 | A sturdy backpack for carrying your gear on your adventures. | — |
-| Barrel | 10 | A large barrel for storing liquids or bulk goods. | — |
-| Bedroll | 1 | A comfortable bedroll for sleeping outdoors. | — |
+| Ale | 2 | type heal amount 3d4 | faithful |
+| Backpack | 5 | A sturdy backpack for carrying your gear on your adventures. | adapted |
+| Barrel | 10 | A large barrel for storing liquids or bulk goods. | adapted |
+| Bedroll | 1 | A comfortable bedroll for sleeping outdoors. | faithful |
 | Bell | 1 | A small bell that can be used to signal others or scare off wildlife. | adapted |
-| Blanket | 1 | A warm blanket for cold nights around the campfire. | — |
-| Boots | 2 | A sturdy pair of boots for trekking through rough terrain. | — |
-| Box | 3 | A sturdy box for storing small items and valuables. | — |
-| Bracers | 4 | A pair of leather bracers for protecting your forearms in combat. | — |
-| Caltrops | 1 | A bag of caltrops that can be scattered on the ground to slow down pursuers. | — |
-| Candle | 1 | A simple wax candle that provides light in dark places. | — |
-| Canvas | 2 | A roll of canvas for making tents, sails, or other fabric items. | — |
-| Chain | 5 | A length of sturdy chain for securing items or climbing. | — |
-| Chalk | 1 | A piece of chalk for marking walls or drawing maps. | — |
-| Cloak | 3 | A warm cloak for protection against the elements. | — |
-| Cloak pin | 2 | A pin for securing a cloak in place. | — |
+| Blanket | 1 | A warm blanket for cold nights around the campfire. | faithful |
+| Boots | 2 | A sturdy pair of boots for trekking through rough terrain. | faithful |
+| Box | 3 | A sturdy box for storing small items and valuables. | adapted |
+| Bracers | 4 | A pair of leather bracers for protecting your forearms in combat. | faithful |
+| Caltrops | 1 | A bag of caltrops that can be scattered on the ground to slow down pursuers. | faithful |
+| Candle | 1 | A simple wax candle that provides light in dark places. | adapted |
+| Canvas | 2 | A roll of canvas for making tents, sails, or other fabric items. | faithful |
+| Chain | 5 | A length of sturdy chain for securing items or climbing. | faithful |
+| Chalk | 1 | A piece of chalk for marking walls or drawing maps. | faithful |
+| Cloak | 3 | A warm cloak for protection against the elements. | faithful |
+| Cloak pin | 2 | A pin for securing a cloak in place. | faithful |
 | Crowbar | 2 | A sturdy crowbar for prying open doors or crates. | adapted |
-| Dice | 1 | A set of dice for gambling or passing the time. | — |
-| Doublet | 3 | A stylish doublet for formal occasions or impressing nobles. | — |
-| Firewood | 1 | A bundle of firewood for starting campfires. | — |
-| Fish hook | 1 | A sharp fish hook for catching fish. | — |
-| Fishing net | 3 | A sturdy fishing net for catching multiple fish at once. | — |
-| Flask | 1 | A small flask for carrying liquids. | — |
-| Flint and steel | 2 | A flint and steel for starting fires. | — |
-| Gloves | 2 | A pair of gloves for protecting your hands. | — |
-| Gown | 3 | An elegant gown for formal occasions. | — |
-| Hammer | 2 | A sturdy hammer for driving nails or breaking objects. | — |
-| Holy symbol | 5 | A holy symbol for religious ceremonies or warding off evil. | — |
-| Holy water | 25 | type damage kind radiant amount 2d6 condition {"trait":"undead"} | — |
-| Hose | 2 | A length of hose for carrying water or other liquids. | — |
-| Iron spikes | 1 | A set of iron spikes for securing tents or climbing walls. | — |
-| Ladder | 4 | A portable ladder for reaching high places. | — |
-| Lamp | 3 | An oil lamp that provides light in dark places. | — |
-| Lantern | 7 | A lantern that provides bright light for extended periods. | — |
-| Lock | 10 | A sturdy lock for securing doors or chests. | — |
-| Manacles | 8 | A pair of manacles for restraining prisoners. | — |
-| Mirror | 5 | A small mirror for signaling or personal grooming. | — |
-| Musical instrument | 10 | A musical instrument for entertainment or rituals. | — |
-| Needle and thread | 1 | A needle and thread for repairing clothing or gear. | — |
-| Piton | 1 | A metal spike for anchoring ropes in rock or ice. | — |
-| Pole | 2 | A long pole for support or investigation. | — |
-| Pot | 3 | A cooking pot for preparing meals while traveling. | — |
-| Pouch | 2 | A small pouch for carrying personal items. | — |
-| Quill | 1 | A feather quill for writing or drawing. | — |
-| Quiver | 3 | A quiver for holding arrows or bolts. | — |
+| Dice | 1 | A set of dice for gambling or passing the time. | faithful |
+| Doublet | 3 | A stylish doublet for formal occasions or impressing nobles. | faithful |
+| Firewood | 1 | A bundle of firewood for starting campfires. | faithful |
+| Fish hook | 1 | A sharp fish hook for catching fish. | faithful |
+| Fishing net | 3 | A sturdy fishing net for catching multiple fish at once. | faithful |
+| Flask | 1 | A small flask for carrying liquids. | adapted |
+| Flint and steel | 2 | A flint and steel for starting fires. | faithful |
+| Gloves | 2 | A pair of gloves for protecting your hands. | faithful |
+| Gown | 3 | An elegant gown for formal occasions. | faithful |
+| Hammer | 2 | A sturdy hammer for driving nails or breaking objects. | faithful |
+| Holy symbol | 5 | A holy symbol for religious ceremonies or warding off evil. | faithful |
+| Holy water | 25 | type damage kind radiant amount 2d6 condition {"trait":"undead"} | represented |
+| Hose | 2 | A length of hose for carrying water or other liquids. | faithful |
+| Iron spikes | 1 | A set of iron spikes for securing tents or climbing walls. | faithful |
+| Ladder | 4 | A portable ladder for reaching high places. | faithful |
+| Lamp | 3 | An oil lamp that provides light in dark places. | adapted |
+| Lantern | 7 | A lantern that provides bright light for extended periods. | adapted |
+| Lock | 10 | A sturdy lock for securing doors or chests. | faithful |
+| Manacles | 8 | A pair of manacles for restraining prisoners. | faithful |
+| Mirror | 5 | A small mirror for signaling or personal grooming. | faithful |
+| Musical instrument | 10 | A musical instrument for entertainment or rituals. | faithful |
+| Needle and thread | 1 | A needle and thread for repairing clothing or gear. | faithful |
+| Piton | 1 | A metal spike for anchoring ropes in rock or ice. | faithful |
+| Pole | 2 | A long pole for support or investigation. | faithful |
+| Pot | 3 | A cooking pot for preparing meals while traveling. | adapted |
+| Pouch | 2 | A small pouch for carrying personal items. | adapted |
+| Quill | 1 | A feather quill for writing or drawing. | faithful |
+| Quiver | 3 | A quiver for holding arrows or bolts. | adapted |
 | Rations | 2 | type heal amount 1d4 | — |
-| Robe | 4 | A flowing robe for wizards or priests. | — |
+| Robe | 4 | A flowing robe for wizards or priests. | faithful |
 | Rope | 1 | A length of sturdy rope for climbing, tying, or securing items. | adapted |
-| Sack | 2 | A large sack for carrying bulky items. | — |
-| Satchel | 3 | A small satchel for carrying books or scrolls. | — |
-| Scrollcase | 2 | A protective case for carrying scrolls or maps. | — |
-| Shoes | 2 | A comfortable pair of shoes for everyday wear. | — |
+| Sack | 2 | A large sack for carrying bulky items. | adapted |
+| Satchel | 3 | A small satchel for carrying books or scrolls. | adapted |
+| Scrollcase | 2 | A protective case for carrying scrolls or maps. | adapted |
+| Shoes | 2 | A comfortable pair of shoes for everyday wear. | faithful |
 | Shovel | 3 | A sturdy shovel for digging or moving earth. | adapted |
-| Signal whistle | 1 | A whistle for signaling allies or alerting to danger. | — |
-| Skillet | 2 | A cast iron skillet for cooking meals over a campfire. | — |
-| Soap | 1 | A bar of soap for personal hygiene while traveling. | — |
-| Spellbook | 15 | A book containing spells and magical knowledge for wizards. | — |
-| Tent | 10 | A portable tent for shelter while camping outdoors. | — |
+| Signal whistle | 1 | A whistle for signaling allies or alerting to danger. | faithful |
+| Skillet | 2 | A cast iron skillet for cooking meals over a campfire. | faithful |
+| Soap | 1 | A bar of soap for personal hygiene while traveling. | faithful |
+| Spellbook | 15 | A book containing spells and magical knowledge for wizards. | faithful |
+| Tent | 10 | A portable tent for shelter while camping outdoors. | faithful |
 | Thieves tools | 25 | A set of tools for picking locks and disarming traps. | adapted |
 | Torch | 1 | A wooden torch that provides light and can be used as a weapon. | represented |
-| Tunic | 2 | A simple tunic for everyday wear. | — |
-| Twine | 1 | A ball of twine for tying or binding objects. | — |
-| Vellum | 3 | A sheet of vellum for writing or drawing. | — |
-| Vinegar | 2 | type heal amount 1d4 | — |
-| Waterskin | 2 | A waterskin for carrying fresh water on long journeys. | — |
-| Whetstone | 1 | A whetstone for sharpening blades and tools. | — |
-| Wind chime | 3 | A decorative wind chime that produces soothing sounds when the wind blows. | — |
-| Wine | 3 | type heal amount 2d4 | — |
+| Tunic | 2 | A simple tunic for everyday wear. | faithful |
+| Twine | 1 | A ball of twine for tying or binding objects. | faithful |
+| Vellum | 3 | A sheet of vellum for writing or drawing. | faithful |
+| Vinegar | 2 | type heal amount 1d4 | faithful |
+| Waterskin | 2 | A waterskin for carrying fresh water on long journeys. | adapted |
+| Whetstone | 1 | A whetstone for sharpening blades and tools. | faithful |
+| Wind chime | 3 | A decorative wind chime that produces soothing sounds when the wind blows. | faithful |
+| Wine | 3 | type heal amount 2d4 | faithful |
 
 ### Statuses
 

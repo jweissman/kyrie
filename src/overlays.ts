@@ -105,6 +105,19 @@ export class Overlays {
     return this.contributions(c).filter(x => x.kind === 'skill').map(x => x.value);
   }
   // Gear exists in the world as item entities so that rules can see who holds what.
+  // What each kind of treasure a module knows of is worth (its catalog value), so that whoever deals in valuables
+  // will pay it: set once, by the module that first names the kind.
+  static declareWorth(instance: Instance) {
+    const module = instance.module;
+    if (!module.measures.some(m => m.name === 'worth')) { return; }
+    for (const e of module.entities.filter(x => x.type === 'itemkind')) {
+      const item = Canon.items[e.id];
+      if (item?.category !== 'treasure' || !item.value) { continue; }
+      module.initial.push({ kind: 'set', call: { kind: 'call', name: 'worth', args: [e.id] },
+        value: { kind: 'number', value: item.value } },
+      { kind: 'assert', call: { kind: 'call', name: 'valuable', args: [e.id] } });
+    }
+  }
   static declareGear(instance: Instance) {
     const module = instance.module;
     for (const c of instance.campaign?.creatures ?? []) {

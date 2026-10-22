@@ -1578,6 +1578,3386 @@
     "orsino": "armor:studded",
     "fidelity": "faithful"
    }
+  },
+  "ancient_crown": {
+   "name": "Ancient crown",
+   "category": "treasure",
+   "description": "An ancient crown rumored to have belonged to a long-lost king.",
+   "value": 250,
+   "source": {
+    "orsino": "junk:ancient_crown",
+    "fidelity": "faithful"
+   }
+  },
+  "ancient_map": {
+   "name": "Ancient map",
+   "category": "treasure",
+   "description": "A weathered map showing forgotten lands and hidden treasures.",
+   "value": 75,
+   "source": {
+    "orsino": "junk:ancient_map",
+    "fidelity": "faithful"
+   }
+  },
+  "ancient_orrery": {
+   "name": "Ancient orrery",
+   "category": "treasure",
+   "description": "A complex orrery that models the movements of celestial bodies.",
+   "value": 500,
+   "source": {
+    "orsino": "junk:ancient_orrery",
+    "fidelity": "faithful"
+   }
+  },
+  "ancient_tome": {
+   "name": "Ancient tome",
+   "category": "treasure",
+   "description": "An ancient tome filled with cryptic writings and illustrations.",
+   "value": 40,
+   "source": {
+    "orsino": "junk:ancient_tome",
+    "fidelity": "faithful"
+   }
+  },
+  "antique_compass": {
+   "name": "Antique compass",
+   "category": "treasure",
+   "description": "An antique compass that always points true north.",
+   "value": 60,
+   "source": {
+    "orsino": "junk:antique_compass",
+    "fidelity": "faithful"
+   }
+  },
+  "broken_crown": {
+   "name": "Broken crown",
+   "category": "treasure",
+   "description": "Missing several jewels and tarnished with age.",
+   "value": 25,
+   "source": {
+    "orsino": "junk:broken_crown",
+    "fidelity": "faithful"
+   }
+  },
+  "broken_dagger": {
+   "name": "Broken dagger",
+   "category": "treasure",
+   "description": "A broken dagger with a dull blade and a cracked handle.",
+   "value": 2,
+   "source": {
+    "orsino": "junk:broken_dagger",
+    "fidelity": "faithful"
+   }
+  },
+  "broken_flute": {
+   "name": "Broken flute",
+   "category": "treasure",
+   "description": "A cracked wooden flute, hand-carved with delicate patterns.",
+   "value": 15,
+   "source": {
+    "orsino": "junk:broken_flute",
+    "fidelity": "faithful"
+   }
+  },
+  "broken_pipe": {
+   "name": "Broken pipe",
+   "category": "treasure",
+   "description": "A broken smoking pipe, missing its bowl.",
+   "value": 1,
+   "source": {
+    "orsino": "junk:broken_pipe",
+    "fidelity": "faithful"
+   }
+  },
+  "broken_scepter": {
+   "name": "Broken scepter",
+   "category": "treasure",
+   "description": "A broken scepter, its head shattered and its shaft cracked.",
+   "value": 30,
+   "source": {
+    "orsino": "junk:broken_scepter",
+    "fidelity": "faithful"
+   }
+  },
+  "bronze_bracelet": {
+   "name": "Bronze bracelet",
+   "category": "treasure",
+   "description": "A bronze bracelet with intricate designs etched into its surface.",
+   "value": 8,
+   "source": {
+    "orsino": "junk:bronze_bracelet",
+    "fidelity": "faithful"
+   }
+  },
+  "bronze_statue": {
+   "name": "Bronze statue",
+   "category": "treasure",
+   "description": "A small statue made of bronze, depicting a forgotten deity.",
+   "value": 10,
+   "source": {
+    "orsino": "junk:bronze_statue",
+    "fidelity": "faithful"
+   }
+  },
+  "celestial_chart": {
+   "name": "Celestial chart",
+   "category": "treasure",
+   "description": "An ancient chart mapping the stars and constellations.",
+   "value": 300,
+   "source": {
+    "orsino": "junk:celestial_chart",
+    "fidelity": "faithful"
+   }
+  },
+  "cloth_pouch": {
+   "name": "Cloth pouch",
+   "category": "treasure",
+   "description": "A small cloth pouch, frayed at the edges.",
+   "value": 1,
+   "source": {
+    "orsino": "junk:cloth_pouch",
+    "fidelity": "faithful"
+   }
+  },
+  "cloth_tunic": {
+   "name": "Cloth tunic",
+   "category": "treasure",
+   "description": "A simple cloth tunic, worn and faded.",
+   "value": 3,
+   "source": {
+    "orsino": "junk:cloth_tunic",
+    "fidelity": "faithful"
+   }
+  },
+  "crystal_eye": {
+   "name": "Crystal eye",
+   "category": "treasure",
+   "description": "A mystical crystal eye that seems to watch those who hold it.",
+   "value": 600,
+   "source": {
+    "orsino": "junk:crystal_eye",
+    "fidelity": "faithful"
+   }
+  },
+  "crystal_orb": {
+   "name": "Crystal orb",
+   "category": "treasure",
+   "description": "A small crystalline sphere that glimmers faintly in the light.",
+   "value": 100,
+   "source": {
+    "orsino": "junk:crystal_orb",
+    "fidelity": "faithful"
+   }
+  },
+  "diamond_eye": {
+   "name": "Diamond eye",
+   "category": "treasure",
+   "description": "A flawless diamond shaped like an eye, rumored to possess mystical properties.",
+   "value": 20000,
+   "source": {
+    "orsino": "junk:diamond_eye",
+    "fidelity": "faithful"
+   }
+  },
+  "diamond_necklace": {
+   "name": "Diamond necklace",
+   "category": "treasure",
+   "description": "A necklace adorned with a single, flawless diamond.",
+   "value": 10000,
+   "source": {
+    "orsino": "junk:diamond_necklace",
+    "fidelity": "faithful"
+   }
+  },
+  "divine_scepter": {
+   "name": "Divine scepter",
+   "category": "treasure",
+   "description": "A scepter imbued with divine power, radiating holy energy.",
+   "value": 1000,
+   "source": {
+    "orsino": "junk:divine_scepter",
+    "fidelity": "faithful"
+   }
+  },
+  "diviners_eye": {
+   "name": "Diviners eye",
+   "category": "treasure",
+   "description": "A mystical eye that grants visions of distant places and hidden truths.",
+   "value": 5000,
+   "source": {
+    "orsino": "junk:diviners_eye",
+    "fidelity": "faithful"
+   }
+  },
+  "dowsing_rod": {
+   "name": "Dowsing rod",
+   "category": "treasure",
+   "description": "A simple dowsing rod made of wood, used for locating water or minerals.",
+   "value": 12,
+   "source": {
+    "orsino": "junk:dowsing_rod",
+    "fidelity": "faithful"
+   }
+  },
+  "dragons_egg": {
+   "name": "Dragons egg",
+   "category": "treasure",
+   "description": "A rare and valuable dragon's egg, warm to the touch.",
+   "value": 2000,
+   "source": {
+    "orsino": "junk:dragons_egg",
+    "fidelity": "faithful"
+   }
+  },
+  "dragons_tooth": {
+   "name": "Dragons tooth",
+   "category": "treasure",
+   "description": "A large tooth from a dragon, sharp and slightly curved.",
+   "value": 150,
+   "source": {
+    "orsino": "junk:dragons_tooth",
+    "fidelity": "faithful"
+   }
+  },
+  "eternal_flame": {
+   "name": "Eternal flame",
+   "category": "treasure",
+   "description": "A small, ever-burning flame contained within a glass orb.",
+   "value": 4000,
+   "source": {
+    "orsino": "junk:eternal_flame",
+    "fidelity": "faithful"
+   }
+  },
+  "faded_map": {
+   "name": "Faded map",
+   "category": "treasure",
+   "description": "A faded map with barely visible markings and torn edges.",
+   "value": 10,
+   "source": {
+    "orsino": "junk:faded_map",
+    "fidelity": "faithful"
+   }
+  },
+  "faded_painting": {
+   "name": "Faded painting",
+   "category": "treasure",
+   "description": "A faded painting on canvas, its colors dulled by time.",
+   "value": 12,
+   "source": {
+    "orsino": "junk:faded_painting",
+    "fidelity": "faithful"
+   }
+  },
+  "faded_tome": {
+   "name": "Faded tome",
+   "category": "treasure",
+   "description": "A faded tome with yellowed pages and a cracked spine.",
+   "value": 20,
+   "source": {
+    "orsino": "junk:faded_tome",
+    "fidelity": "faithful"
+   }
+  },
+  "fallen_star": {
+   "name": "Fallen star",
+   "category": "treasure",
+   "description": "A fragment of a fallen star, radiating a faint magical aura.",
+   "value": 500,
+   "source": {
+    "orsino": "junk:fallen_star",
+    "fidelity": "faithful"
+   }
+  },
+  "golden_idol": {
+   "name": "Golden idol",
+   "category": "treasure",
+   "description": "A small idol made of pure gold, intricately crafted.",
+   "value": 400,
+   "source": {
+    "orsino": "junk:golden_idol",
+    "fidelity": "faithful"
+   }
+  },
+  "hand_mirror": {
+   "name": "Hand mirror",
+   "category": "treasure",
+   "description": "A small hand mirror with a cracked glass surface.",
+   "value": 2,
+   "source": {
+    "orsino": "junk:hand_mirror",
+    "fidelity": "faithful"
+   }
+  },
+  "intelligent_book": {
+   "name": "Intelligent book",
+   "category": "treasure",
+   "description": "A book that possesses its own consciousness and can communicate with its reader.",
+   "value": 3000,
+   "source": {
+    "orsino": "junk:intelligent_book",
+    "fidelity": "faithful"
+   }
+  },
+  "intelligent_painting": {
+   "name": "Intelligent painting",
+   "category": "treasure",
+   "description": "A painting that seems to change and shift when observed closely.",
+   "value": 2500,
+   "source": {
+    "orsino": "junk:intelligent_painting",
+    "fidelity": "faithful"
+   }
+  },
+  "iron_figurine": {
+   "name": "Iron figurine",
+   "category": "treasure",
+   "description": "A small iron figurine, rusted and pitted with age.",
+   "value": 4,
+   "source": {
+    "orsino": "junk:iron_figurine",
+    "fidelity": "faithful"
+   }
+  },
+  "iron_idol": {
+   "name": "Iron idol",
+   "category": "treasure",
+   "description": "A small idol carved from iron, depicting a warrior deity.",
+   "value": 20,
+   "source": {
+    "orsino": "junk:iron_idol",
+    "fidelity": "faithful"
+   }
+  },
+  "iron_torc": {
+   "name": "Iron torc",
+   "category": "treasure",
+   "description": "A simple iron torc, slightly bent and rusted.",
+   "value": 4,
+   "source": {
+    "orsino": "junk:iron_torc",
+    "fidelity": "faithful"
+   }
+  },
+  "jeweled_box": {
+   "name": "Jeweled box",
+   "category": "treasure",
+   "description": "A small empty box encrusted with jewels, its lid slightly ajar.",
+   "value": 150,
+   "source": {
+    "orsino": "junk:jeweled_box",
+    "fidelity": "faithful"
+   }
+  },
+  "jeweled_crown": {
+   "name": "Jeweled crown",
+   "category": "treasure",
+   "description": "A small crown adorned with semi-precious stones.",
+   "value": 80,
+   "source": {
+    "orsino": "junk:jeweled_crown",
+    "fidelity": "faithful"
+   }
+  },
+  "jeweled_dagger": {
+   "name": "Jeweled dagger",
+   "category": "treasure",
+   "description": "A dagger with a hilt encrusted with precious gems.",
+   "value": 300,
+   "source": {
+    "orsino": "junk:jeweled_dagger",
+    "fidelity": "faithful"
+   }
+  },
+  "jeweled_statue": {
+   "name": "Jeweled statue",
+   "category": "treasure",
+   "description": "A statue encrusted with precious jewels, depicting a legendary figure.",
+   "value": 1200,
+   "source": {
+    "orsino": "junk:jeweled_statue",
+    "fidelity": "faithful"
+   }
+  },
+  "jeweled_torc": {
+   "name": "Jeweled torc",
+   "category": "treasure",
+   "description": "A torc adorned with precious jewels as balustrades.",
+   "value": 500,
+   "source": {
+    "orsino": "junk:jeweled_torc",
+    "fidelity": "faithful"
+   }
+  },
+  "jeweled_zodiac": {
+   "name": "Jeweled zodiac",
+   "category": "treasure",
+   "description": "A decorative zodiac made of precious jewels.",
+   "value": 1500,
+   "source": {
+    "orsino": "junk:jeweled_zodiac",
+    "fidelity": "faithful"
+   }
+  },
+  "kraken_claw": {
+   "name": "Kraken claw",
+   "category": "treasure",
+   "description": "A massive claw from a kraken, still dripping with seawater.",
+   "value": 800,
+   "source": {
+    "orsino": "junk:kraken_claw",
+    "fidelity": "faithful"
+   }
+  },
+  "lensing_crystal": {
+   "name": "Lensing crystal",
+   "category": "treasure",
+   "description": "A cracked lens that once belonged to a powerful magnifying glass.",
+   "value": 18,
+   "source": {
+    "orsino": "junk:lensing_crystal",
+    "fidelity": "faithful"
+   }
+  },
+  "lost_tome": {
+   "name": "Lost tome",
+   "category": "treasure",
+   "description": "A lost tome containing forgotten knowledge and secrets.",
+   "value": 350,
+   "source": {
+    "orsino": "junk:lost_tome",
+    "fidelity": "faithful"
+   }
+  },
+  "music_box": {
+   "name": "Music box",
+   "category": "treasure",
+   "description": "A beautifully crafted music box that plays a haunting melody.",
+   "value": 50,
+   "source": {
+    "orsino": "junk:music_box",
+    "fidelity": "faithful"
+   }
+  },
+  "opalescent_skull": {
+   "name": "Opalescent skull",
+   "category": "treasure",
+   "description": "A skull made of opalescent material, shimmering with various colors.",
+   "value": 2500,
+   "source": {
+    "orsino": "junk:opalescent_skull",
+    "fidelity": "faithful"
+   }
+  },
+  "philosophers_stone": {
+   "name": "Philosophers stone",
+   "category": "treasure",
+   "description": "A legendary stone said to have the power to transmute base metals into gold.",
+   "value": 10000,
+   "source": {
+    "orsino": "junk:philosophers_stone",
+    "fidelity": "faithful"
+   }
+  },
+  "phoenix_feather": {
+   "name": "Phoenix feather",
+   "category": "treasure",
+   "description": "A rare feather from a phoenix, said to have healing properties.",
+   "value": 700,
+   "source": {
+    "orsino": "junk:phoenix_feather",
+    "fidelity": "faithful"
+   }
+  },
+  "priceless_painting": {
+   "name": "Priceless painting",
+   "category": "treasure",
+   "description": "A priceless painting by a renowned artist, its value immeasurable.",
+   "value": 1000,
+   "source": {
+    "orsino": "junk:priceless_painting",
+    "fidelity": "faithful"
+   }
+  },
+  "royal_crown": {
+   "name": "Royal crown",
+   "category": "treasure",
+   "description": "An ornate crown once worn by royalty, studded with precious gems.",
+   "value": 500,
+   "source": {
+    "orsino": "junk:royal_crown",
+    "fidelity": "faithful"
+   }
+  },
+  "royal_scepter": {
+   "name": "Royal scepter",
+   "category": "treasure",
+   "description": "An ornate scepter once wielded by royalty, encrusted with jewels.",
+   "value": 150,
+   "source": {
+    "orsino": "junk:royal_scepter",
+    "fidelity": "faithful"
+   }
+  },
+  "sacred_idol": {
+   "name": "Sacred idol",
+   "category": "treasure",
+   "description": "A sacred idol revered by an ancient civilization.",
+   "value": 3000,
+   "source": {
+    "orsino": "junk:sacred_idol",
+    "fidelity": "faithful"
+   }
+  },
+  "simple_ring": {
+   "name": "Simple ring",
+   "category": "treasure",
+   "description": "A simple iron ring, slightly bent out of shape.",
+   "value": 5,
+   "source": {
+    "orsino": "junk:simple_ring",
+    "fidelity": "faithful"
+   }
+  },
+  "smoking_pipe": {
+   "name": "Smoking pipe",
+   "category": "treasure",
+   "description": "A well-used smoking pipe made of clay, with a few chips and cracks.",
+   "value": 7,
+   "source": {
+    "orsino": "junk:smoking_pipe",
+    "fidelity": "faithful"
+   }
+  },
+  "soul_gem": {
+   "name": "Soul gem",
+   "category": "treasure",
+   "description": "A gem that contains a trapped soul, pulsating with dark energy.",
+   "value": 1000,
+   "source": {
+    "orsino": "junk:soul_gem",
+    "fidelity": "faithful"
+   }
+  },
+  "steel_coin": {
+   "name": "Steel coin",
+   "category": "treasure",
+   "description": "A dull steel coin, worn smooth from years of handling.",
+   "value": 3,
+   "source": {
+    "orsino": "junk:steel_coin",
+    "fidelity": "faithful"
+   }
+  },
+  "steel_torc": {
+   "name": "Steel torc",
+   "category": "treasure",
+   "description": "A simple steel torc, slightly bent and tarnished.",
+   "value": 7,
+   "source": {
+    "orsino": "junk:steel_torc",
+    "fidelity": "faithful"
+   }
+  },
+  "tattered_map": {
+   "name": "Tattered map",
+   "category": "treasure",
+   "description": "A tattered map with faded markings and torn edges.",
+   "value": 3,
+   "source": {
+    "orsino": "junk:tattered_map",
+    "fidelity": "faithful"
+   }
+  },
+  "tattered_tome": {
+   "name": "Tattered tome",
+   "category": "treasure",
+   "description": "A tattered tome with frayed pages and a broken spine.",
+   "value": 15,
+   "source": {
+    "orsino": "junk:tattered_tome",
+    "fidelity": "faithful"
+   }
+  },
+  "titan_statue": {
+   "name": "Titan statue",
+   "category": "treasure",
+   "description": "A massive statue carved from stone, depicting a titan of old.",
+   "value": 800,
+   "source": {
+    "orsino": "junk:titan_statue",
+    "fidelity": "faithful"
+   }
+  },
+  "triskelion_amulet": {
+   "name": "Triskelion amulet",
+   "category": "treasure",
+   "description": "An amulet bearing a spiraling symbol with threefold symmetry, made of bronze.",
+   "value": 6,
+   "source": {
+    "orsino": "junk:triskelion_amulet",
+    "fidelity": "faithful"
+   }
+  },
+  "unholy_symbol": {
+   "name": "Unholy symbol",
+   "category": "treasure",
+   "description": "A profane icon associated with forbidden rituals.",
+   "value": 75,
+   "source": {
+    "orsino": "junk:unholy_symbol",
+    "fidelity": "faithful"
+   }
+  },
+  "unusual_seashell": {
+   "name": "Unusual seashell",
+   "category": "treasure",
+   "description": "A large seashell with an unusual spiral pattern and iridescent sheen.",
+   "value": 25,
+   "source": {
+    "orsino": "junk:unusual_seashell",
+    "fidelity": "faithful"
+   }
+  },
+  "vial_of_phoenix_tears": {
+   "name": "Vial of phoenix tears",
+   "category": "treasure",
+   "description": "A small vial containing the tears of a phoenix, known for their healing properties.",
+   "value": 1500,
+   "source": {
+    "orsino": "junk:vial_of_phoenix_tears",
+    "fidelity": "faithful"
+   }
+  },
+  "vial_of_unicorn_blood": {
+   "name": "Vial of unicorn blood",
+   "category": "treasure",
+   "description": "A small vial containing the blood of a unicorn, prized for its magical properties.",
+   "value": 1800,
+   "source": {
+    "orsino": "junk:vial_of_unicorn_blood",
+    "fidelity": "faithful"
+   }
+  },
+  "wooden_bowl": {
+   "name": "Wooden bowl",
+   "category": "treasure",
+   "description": "A simple wooden bowl, chipped and worn from use.",
+   "value": 1,
+   "source": {
+    "orsino": "junk:wooden_bowl",
+    "fidelity": "faithful"
+   }
+  },
+  "wooden_figurine": {
+   "name": "Wooden figurine",
+   "category": "treasure",
+   "description": "A small wooden figurine, roughly carved and unfinished.",
+   "value": 2,
+   "source": {
+    "orsino": "junk:wooden_figurine",
+    "fidelity": "faithful"
+   }
+  },
+  "wooden_idol": {
+   "name": "Wooden idol",
+   "category": "treasure",
+   "description": "A small idol carved from wood, depicting a nature deity.",
+   "value": 15,
+   "source": {
+    "orsino": "junk:wooden_idol",
+    "fidelity": "faithful"
+   }
+  },
+  "zodiac_medallion": {
+   "name": "Zodiac medallion",
+   "category": "treasure",
+   "description": "A medallion inscribed with zodiac symbols, made of silver.",
+   "value": 20,
+   "source": {
+    "orsino": "junk:zodiac_medallion",
+    "fidelity": "faithful"
+   }
+  },
+  "zoological_manual": {
+   "name": "Zoological manual",
+   "category": "treasure",
+   "description": "A detailed manual describing various fantastical creatures.",
+   "value": 40,
+   "source": {
+    "orsino": "junk:zoological_manual",
+    "fidelity": "faithful"
+   }
+  },
+  "agate": {
+   "name": "Agate",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: agate.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "carnelian": {
+   "name": "Carnelian",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: carnelian.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "jasper": {
+   "name": "Jasper",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: jasper.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "moonstone": {
+   "name": "Moonstone",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: moonstone.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "onyx": {
+   "name": "Onyx",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: onyx.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "quartz": {
+   "name": "Quartz",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: quartz.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "tiger_eye": {
+   "name": "Tiger eye",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: tiger eye.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "turquoise": {
+   "name": "Turquoise",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: turquoise.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "chrysoberyl": {
+   "name": "Chrysoberyl",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: chrysoberyl.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "citrine": {
+   "name": "Citrine",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: citrine.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "fluorite": {
+   "name": "Fluorite",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: fluorite.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "hematite": {
+   "name": "Hematite",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: hematite.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "iolite": {
+   "name": "Iolite",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: iolite.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "jade": {
+   "name": "Jade",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: jade.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "lapis_lazuli": {
+   "name": "Lapis lazuli",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: lapis lazuli.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "malachite": {
+   "name": "Malachite",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: malachite.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "obsidian": {
+   "name": "Obsidian",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: obsidian.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "pyrite": {
+   "name": "Pyrite",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: pyrite.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "rose_quartz": {
+   "name": "Rose quartz",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: rose quartz.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "smoky_quartz": {
+   "name": "Smoky quartz",
+   "category": "treasure",
+   "description": "A common gemstone, cut and polished: smoky quartz.",
+   "value": 15,
+   "source": {
+    "orsino": "gem:common",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "diamond": {
+   "name": "Diamond",
+   "category": "treasure",
+   "description": "A legendary gemstone, cut and polished: diamond.",
+   "value": 2500,
+   "source": {
+    "orsino": "gem:legendary",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "black_opal": {
+   "name": "Black opal",
+   "category": "treasure",
+   "description": "A legendary gemstone, cut and polished: black opal.",
+   "value": 2500,
+   "source": {
+    "orsino": "gem:legendary",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "star_ruby": {
+   "name": "Star ruby",
+   "category": "treasure",
+   "description": "A legendary gemstone, cut and polished: star ruby.",
+   "value": 2500,
+   "source": {
+    "orsino": "gem:legendary",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "blue_diamond": {
+   "name": "Blue diamond",
+   "category": "treasure",
+   "description": "A legendary gemstone, cut and polished: blue diamond.",
+   "value": 2500,
+   "source": {
+    "orsino": "gem:legendary",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "fire_opal": {
+   "name": "Fire opal",
+   "category": "treasure",
+   "description": "A legendary gemstone, cut and polished: fire opal.",
+   "value": 2500,
+   "source": {
+    "orsino": "gem:legendary",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "aquamarine": {
+   "name": "Aquamarine",
+   "category": "treasure",
+   "description": "A rare gemstone, cut and polished: aquamarine.",
+   "value": 250,
+   "source": {
+    "orsino": "gem:rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "emerald": {
+   "name": "Emerald",
+   "category": "treasure",
+   "description": "A rare gemstone, cut and polished: emerald.",
+   "value": 250,
+   "source": {
+    "orsino": "gem:rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "ruby": {
+   "name": "Ruby",
+   "category": "treasure",
+   "description": "A rare gemstone, cut and polished: ruby.",
+   "value": 250,
+   "source": {
+    "orsino": "gem:rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "sapphire": {
+   "name": "Sapphire",
+   "category": "treasure",
+   "description": "A rare gemstone, cut and polished: sapphire.",
+   "value": 250,
+   "source": {
+    "orsino": "gem:rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "tanzanite": {
+   "name": "Tanzanite",
+   "category": "treasure",
+   "description": "A rare gemstone, cut and polished: tanzanite.",
+   "value": 250,
+   "source": {
+    "orsino": "gem:rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "spinel_red": {
+   "name": "Spinel red",
+   "category": "treasure",
+   "description": "A rare gemstone, cut and polished: spinel red.",
+   "value": 250,
+   "source": {
+    "orsino": "gem:rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "amethyst": {
+   "name": "Amethyst",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: amethyst.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "garnet": {
+   "name": "Garnet",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: garnet.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "peridot": {
+   "name": "Peridot",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: peridot.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "topaz": {
+   "name": "Topaz",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: topaz.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "zircon": {
+   "name": "Zircon",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: zircon.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "spinel": {
+   "name": "Spinel",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: spinel.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "tourmaline": {
+   "name": "Tourmaline",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: tourmaline.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "alexandrite": {
+   "name": "Alexandrite",
+   "category": "treasure",
+   "description": "A uncommon gemstone, cut and polished: alexandrite.",
+   "value": 60,
+   "source": {
+    "orsino": "gem:uncommon",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "black_diamond": {
+   "name": "Black diamond",
+   "category": "treasure",
+   "description": "A very rare gemstone, cut and polished: black diamond.",
+   "value": 800,
+   "source": {
+    "orsino": "gem:very_rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "red_diamond": {
+   "name": "Red diamond",
+   "category": "treasure",
+   "description": "A very rare gemstone, cut and polished: red diamond.",
+   "value": 800,
+   "source": {
+    "orsino": "gem:very_rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "musgravite": {
+   "name": "Musgravite",
+   "category": "treasure",
+   "description": "A very rare gemstone, cut and polished: musgravite.",
+   "value": 800,
+   "source": {
+    "orsino": "gem:very_rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "painite": {
+   "name": "Painite",
+   "category": "treasure",
+   "description": "A very rare gemstone, cut and polished: painite.",
+   "value": 800,
+   "source": {
+    "orsino": "gem:very_rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "grandidierite": {
+   "name": "Grandidierite",
+   "category": "treasure",
+   "description": "A very rare gemstone, cut and polished: grandidierite.",
+   "value": 800,
+   "source": {
+    "orsino": "gem:very_rare",
+    "fidelity": "adapted",
+    "notes": "Orsino lists its gems by tier without a price; each tier is given a worth here."
+   }
+  },
+  "ale": {
+   "name": "Ale",
+   "category": "consumable",
+   "description": "A mug of frothy ale to quench your thirst after a long day of adventuring.",
+   "value": 2,
+   "use": "Heal (3d4) health to ally.",
+   "source": {
+    "orsino": "gear:ale",
+    "fidelity": "faithful"
+   }
+  },
+  "backpack": {
+   "name": "Backpack",
+   "category": "gear",
+   "description": "A sturdy backpack for carrying your gear on your adventures.",
+   "value": 5,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:backpack",
+    "fidelity": "adapted"
+   }
+  },
+  "barrel": {
+   "name": "Barrel",
+   "category": "gear",
+   "description": "A large barrel for storing liquids or bulk goods.",
+   "value": 10,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:barrel",
+    "fidelity": "adapted"
+   }
+  },
+  "bedroll": {
+   "name": "Bedroll",
+   "category": "gear",
+   "description": "A comfortable bedroll for sleeping outdoors.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:bedroll",
+    "fidelity": "faithful"
+   }
+  },
+  "bell": {
+   "name": "Bell",
+   "category": "tool",
+   "description": "A small bell that can be used to signal others or scare off wildlife.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:bell",
+    "fidelity": "faithful"
+   }
+  },
+  "blanket": {
+   "name": "Blanket",
+   "category": "gear",
+   "description": "A warm blanket for cold nights around the campfire.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:blanket",
+    "fidelity": "faithful"
+   }
+  },
+  "boots": {
+   "name": "Boots",
+   "category": "gear",
+   "description": "A sturdy pair of boots for trekking through rough terrain.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:boots",
+    "fidelity": "faithful"
+   }
+  },
+  "box": {
+   "name": "Box",
+   "category": "gear",
+   "description": "A sturdy box for storing small items and valuables.",
+   "value": 3,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:box",
+    "fidelity": "adapted"
+   }
+  },
+  "bracers": {
+   "name": "Bracers",
+   "category": "gear",
+   "description": "A pair of leather bracers for protecting your forearms in combat.",
+   "value": 4,
+   "source": {
+    "orsino": "gear:bracers",
+    "fidelity": "faithful"
+   }
+  },
+  "caltrops": {
+   "name": "Caltrops",
+   "category": "tool",
+   "description": "A bag of caltrops that can be scattered on the ground to slow down pursuers.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:caltrops",
+    "fidelity": "faithful"
+   }
+  },
+  "candle": {
+   "name": "Candle",
+   "category": "equipment",
+   "description": "A simple wax candle that provides light in dark places.",
+   "slot": "light",
+   "grants": {
+    "skill": "light"
+   },
+   "value": 1,
+   "omits": {
+    "field:masterGear.duration": "A Kyr light does not burn down by itself."
+   },
+   "source": {
+    "orsino": "gear:candle",
+    "fidelity": "adapted"
+   }
+  },
+  "canvas": {
+   "name": "Canvas",
+   "category": "tool",
+   "description": "A roll of canvas for making tents, sails, or other fabric items.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:canvas",
+    "fidelity": "faithful"
+   }
+  },
+  "chain": {
+   "name": "Chain",
+   "category": "tool",
+   "description": "A length of sturdy chain for securing items or climbing.",
+   "value": 5,
+   "source": {
+    "orsino": "gear:chain",
+    "fidelity": "faithful"
+   }
+  },
+  "chalk": {
+   "name": "Chalk",
+   "category": "tool",
+   "description": "A piece of chalk for marking walls or drawing maps.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:chalk",
+    "fidelity": "faithful"
+   }
+  },
+  "cloak": {
+   "name": "Cloak",
+   "category": "gear",
+   "description": "A warm cloak for protection against the elements.",
+   "value": 3,
+   "source": {
+    "orsino": "gear:cloak",
+    "fidelity": "faithful"
+   }
+  },
+  "cloak_pin": {
+   "name": "Cloak pin",
+   "category": "tool",
+   "description": "A pin for securing a cloak in place.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:cloak_pin",
+    "fidelity": "faithful"
+   }
+  },
+  "crowbar": {
+   "name": "Crowbar",
+   "category": "tool",
+   "description": "A sturdy crowbar for prying open doors or crates.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:crowbar",
+    "fidelity": "faithful"
+   }
+  },
+  "dice": {
+   "name": "Dice",
+   "category": "tool",
+   "description": "A set of dice for gambling or passing the time.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:dice",
+    "fidelity": "faithful"
+   }
+  },
+  "doublet": {
+   "name": "Doublet",
+   "category": "gear",
+   "description": "A stylish doublet for formal occasions or impressing nobles.",
+   "value": 3,
+   "source": {
+    "orsino": "gear:doublet",
+    "fidelity": "faithful"
+   }
+  },
+  "firewood": {
+   "name": "Firewood",
+   "category": "gear",
+   "description": "A bundle of firewood for starting campfires.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:firewood",
+    "fidelity": "faithful"
+   }
+  },
+  "fish_hook": {
+   "name": "Fish hook",
+   "category": "tool",
+   "description": "A sharp fish hook for catching fish.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:fish_hook",
+    "fidelity": "faithful"
+   }
+  },
+  "fishing_net": {
+   "name": "Fishing net",
+   "category": "tool",
+   "description": "A sturdy fishing net for catching multiple fish at once.",
+   "value": 3,
+   "source": {
+    "orsino": "gear:fishing_net",
+    "fidelity": "faithful"
+   }
+  },
+  "flask": {
+   "name": "Flask",
+   "category": "gear",
+   "description": "A small flask for carrying liquids.",
+   "value": 1,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:flask",
+    "fidelity": "adapted"
+   }
+  },
+  "flint_and_steel": {
+   "name": "Flint and steel",
+   "category": "tool",
+   "description": "A flint and steel for starting fires.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:flint_and_steel",
+    "fidelity": "faithful"
+   }
+  },
+  "gloves": {
+   "name": "Gloves",
+   "category": "gear",
+   "description": "A pair of gloves for protecting your hands.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:gloves",
+    "fidelity": "faithful"
+   }
+  },
+  "gown": {
+   "name": "Gown",
+   "category": "gear",
+   "description": "An elegant gown for formal occasions.",
+   "value": 3,
+   "source": {
+    "orsino": "gear:gown",
+    "fidelity": "faithful"
+   }
+  },
+  "hammer": {
+   "name": "Hammer",
+   "category": "tool",
+   "description": "A sturdy hammer for driving nails or breaking objects.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:hammer",
+    "fidelity": "faithful"
+   }
+  },
+  "holy_symbol": {
+   "name": "Holy symbol",
+   "category": "tool",
+   "description": "A holy symbol for religious ceremonies or warding off evil.",
+   "value": 5,
+   "source": {
+    "orsino": "gear:holy_symbol",
+    "fidelity": "faithful"
+   }
+  },
+  "holy_water": {
+   "name": "Holy water",
+   "category": "gear",
+   "description": "A vial of holy water that can harm undead creatures.",
+   "value": 25,
+   "unsupported": {
+    "use": "Kyr cannot use a damage effect from an item."
+   },
+   "source": {
+    "orsino": "gear:holy_water",
+    "fidelity": "adapted"
+   }
+  },
+  "hose": {
+   "name": "Hose",
+   "category": "tool",
+   "description": "A length of hose for carrying water or other liquids.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:hose",
+    "fidelity": "faithful"
+   }
+  },
+  "iron_spikes": {
+   "name": "Iron spikes",
+   "category": "tool",
+   "description": "A set of iron spikes for securing tents or climbing walls.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:iron_spikes",
+    "fidelity": "faithful"
+   }
+  },
+  "ladder": {
+   "name": "Ladder",
+   "category": "tool",
+   "description": "A portable ladder for reaching high places.",
+   "value": 4,
+   "source": {
+    "orsino": "gear:ladder",
+    "fidelity": "faithful"
+   }
+  },
+  "lamp": {
+   "name": "Lamp",
+   "category": "equipment",
+   "description": "An oil lamp that provides light in dark places.",
+   "slot": "light",
+   "grants": {
+    "skill": "light"
+   },
+   "value": 3,
+   "omits": {
+    "field:masterGear.duration": "A Kyr light does not burn down by itself."
+   },
+   "source": {
+    "orsino": "gear:lamp",
+    "fidelity": "adapted"
+   }
+  },
+  "lantern": {
+   "name": "Lantern",
+   "category": "equipment",
+   "description": "A lantern that provides bright light for extended periods.",
+   "slot": "light",
+   "grants": {
+    "skill": "light"
+   },
+   "value": 7,
+   "omits": {
+    "field:masterGear.duration": "A Kyr light does not burn down by itself."
+   },
+   "source": {
+    "orsino": "gear:lantern",
+    "fidelity": "adapted"
+   }
+  },
+  "lock": {
+   "name": "Lock",
+   "category": "tool",
+   "description": "A sturdy lock for securing doors or chests.",
+   "value": 10,
+   "source": {
+    "orsino": "gear:lock",
+    "fidelity": "faithful"
+   }
+  },
+  "manacles": {
+   "name": "Manacles",
+   "category": "tool",
+   "description": "A pair of manacles for restraining prisoners.",
+   "value": 8,
+   "source": {
+    "orsino": "gear:manacles",
+    "fidelity": "faithful"
+   }
+  },
+  "mirror": {
+   "name": "Mirror",
+   "category": "tool",
+   "description": "A small mirror for signaling or personal grooming.",
+   "value": 5,
+   "source": {
+    "orsino": "gear:mirror",
+    "fidelity": "faithful"
+   }
+  },
+  "musical_instrument": {
+   "name": "Musical instrument",
+   "category": "tool",
+   "description": "A musical instrument for entertainment or rituals.",
+   "value": 10,
+   "source": {
+    "orsino": "gear:musical_instrument",
+    "fidelity": "faithful"
+   }
+  },
+  "needle_and_thread": {
+   "name": "Needle and thread",
+   "category": "tool",
+   "description": "A needle and thread for repairing clothing or gear.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:needle_and_thread",
+    "fidelity": "faithful"
+   }
+  },
+  "piton": {
+   "name": "Piton",
+   "category": "tool",
+   "description": "A metal spike for anchoring ropes in rock or ice.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:piton",
+    "fidelity": "faithful"
+   }
+  },
+  "pole": {
+   "name": "Pole",
+   "category": "tool",
+   "description": "A long pole for support or investigation.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:pole",
+    "fidelity": "faithful"
+   }
+  },
+  "pot": {
+   "name": "Pot",
+   "category": "gear",
+   "description": "A cooking pot for preparing meals while traveling.",
+   "value": 3,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:pot",
+    "fidelity": "adapted"
+   }
+  },
+  "pouch": {
+   "name": "Pouch",
+   "category": "gear",
+   "description": "A small pouch for carrying personal items.",
+   "value": 2,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:pouch",
+    "fidelity": "adapted"
+   }
+  },
+  "quill": {
+   "name": "Quill",
+   "category": "tool",
+   "description": "A feather quill for writing or drawing.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:quill",
+    "fidelity": "faithful"
+   }
+  },
+  "quiver": {
+   "name": "Quiver",
+   "category": "gear",
+   "description": "A quiver for holding arrows or bolts.",
+   "value": 3,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:quiver",
+    "fidelity": "adapted"
+   }
+  },
+  "robe": {
+   "name": "Robe",
+   "category": "gear",
+   "description": "A flowing robe for wizards or priests.",
+   "value": 4,
+   "source": {
+    "orsino": "gear:robe",
+    "fidelity": "faithful"
+   }
+  },
+  "rope": {
+   "name": "Rope",
+   "category": "tool",
+   "description": "A length of sturdy rope for climbing, tying, or securing items.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:rope",
+    "fidelity": "faithful"
+   }
+  },
+  "sack": {
+   "name": "Sack",
+   "category": "gear",
+   "description": "A large sack for carrying bulky items.",
+   "value": 2,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:sack",
+    "fidelity": "adapted"
+   }
+  },
+  "satchel": {
+   "name": "Satchel",
+   "category": "gear",
+   "description": "A small satchel for carrying books or scrolls.",
+   "value": 3,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:satchel",
+    "fidelity": "adapted"
+   }
+  },
+  "scrollcase": {
+   "name": "Scrollcase",
+   "category": "gear",
+   "description": "A protective case for carrying scrolls or maps.",
+   "value": 2,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:scrollcase",
+    "fidelity": "adapted"
+   }
+  },
+  "shoes": {
+   "name": "Shoes",
+   "category": "gear",
+   "description": "A comfortable pair of shoes for everyday wear.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:shoes",
+    "fidelity": "faithful"
+   }
+  },
+  "shovel": {
+   "name": "Shovel",
+   "category": "tool",
+   "description": "A sturdy shovel for digging or moving earth.",
+   "value": 3,
+   "source": {
+    "orsino": "gear:shovel",
+    "fidelity": "faithful"
+   }
+  },
+  "signal_whistle": {
+   "name": "Signal whistle",
+   "category": "tool",
+   "description": "A whistle for signaling allies or alerting to danger.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:signal_whistle",
+    "fidelity": "faithful"
+   }
+  },
+  "skillet": {
+   "name": "Skillet",
+   "category": "tool",
+   "description": "A cast iron skillet for cooking meals over a campfire.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:skillet",
+    "fidelity": "faithful"
+   }
+  },
+  "soap": {
+   "name": "Soap",
+   "category": "tool",
+   "description": "A bar of soap for personal hygiene while traveling.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:soap",
+    "fidelity": "faithful"
+   }
+  },
+  "spellbook": {
+   "name": "Spellbook",
+   "category": "tool",
+   "description": "A book containing spells and magical knowledge for wizards.",
+   "value": 15,
+   "source": {
+    "orsino": "gear:spellbook",
+    "fidelity": "faithful"
+   }
+  },
+  "tent": {
+   "name": "Tent",
+   "category": "gear",
+   "description": "A portable tent for shelter while camping outdoors.",
+   "value": 10,
+   "source": {
+    "orsino": "gear:tent",
+    "fidelity": "faithful"
+   }
+  },
+  "thieves_tools": {
+   "name": "Thieves tools",
+   "category": "tool",
+   "description": "A set of tools for picking locks and disarming traps.",
+   "value": 25,
+   "source": {
+    "orsino": "gear:thieves_tools",
+    "fidelity": "faithful"
+   }
+  },
+  "torch": {
+   "name": "Torch",
+   "category": "equipment",
+   "description": "A wooden torch that provides light and can be used as a weapon.",
+   "slot": "light",
+   "grants": {
+    "skill": "light"
+   },
+   "value": 1,
+   "omits": {
+    "field:masterGear.duration": "A Kyr light does not burn down by itself."
+   },
+   "source": {
+    "orsino": "gear:torch",
+    "fidelity": "adapted"
+   }
+  },
+  "tunic": {
+   "name": "Tunic",
+   "category": "gear",
+   "description": "A simple tunic for everyday wear.",
+   "value": 2,
+   "source": {
+    "orsino": "gear:tunic",
+    "fidelity": "faithful"
+   }
+  },
+  "twine": {
+   "name": "Twine",
+   "category": "tool",
+   "description": "A ball of twine for tying or binding objects.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:twine",
+    "fidelity": "faithful"
+   }
+  },
+  "vellum": {
+   "name": "Vellum",
+   "category": "tool",
+   "description": "A sheet of vellum for writing or drawing.",
+   "value": 3,
+   "source": {
+    "orsino": "gear:vellum",
+    "fidelity": "faithful"
+   }
+  },
+  "vinegar": {
+   "name": "Vinegar",
+   "category": "consumable",
+   "description": "A bottle of vinegar for cooking or cleaning wounds.",
+   "value": 2,
+   "use": "Heal (1d4) health to ally.",
+   "source": {
+    "orsino": "gear:vinegar",
+    "fidelity": "faithful"
+   }
+  },
+  "waterskin": {
+   "name": "Waterskin",
+   "category": "gear",
+   "description": "A waterskin for carrying fresh water on long journeys.",
+   "value": 2,
+   "omits": {
+    "field:masterGear.capacity": "Kyr does not count what a container holds."
+   },
+   "source": {
+    "orsino": "gear:waterskin",
+    "fidelity": "adapted"
+   }
+  },
+  "whetstone": {
+   "name": "Whetstone",
+   "category": "tool",
+   "description": "A whetstone for sharpening blades and tools.",
+   "value": 1,
+   "source": {
+    "orsino": "gear:whetstone",
+    "fidelity": "faithful"
+   }
+  },
+  "wind_chime": {
+   "name": "Wind chime",
+   "category": "tool",
+   "description": "A decorative wind chime that produces soothing sounds when the wind blows.",
+   "value": 3,
+   "source": {
+    "orsino": "gear:wind_chime",
+    "fidelity": "faithful"
+   }
+  },
+  "wine": {
+   "name": "Wine",
+   "category": "consumable",
+   "description": "A bottle of fine wine to celebrate a successful adventure.",
+   "value": 3,
+   "use": "Heal (2d4) health to ally.",
+   "source": {
+    "orsino": "gear:wine",
+    "fidelity": "faithful"
+   }
+  },
+  "alchemist_fire": {
+   "name": "Alchemist's Fire",
+   "category": "gear",
+   "description": "A sticky, flammable substance that ignites when exposed to air.",
+   "value": 18,
+   "unsupported": {
+    "use": "Kyr cannot use a damage effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:alchemist_fire",
+    "fidelity": "adapted"
+   }
+  },
+  "antidote": {
+   "name": "Antidote",
+   "category": "consumable",
+   "description": "A small vial of clear liquid that neutralizes poison when consumed.",
+   "value": 30,
+   "use": "Remove poison from ally.",
+   "source": {
+    "orsino": "consumable:antidote",
+    "fidelity": "faithful"
+   }
+  },
+  "cloudberry": {
+   "name": "Cloudberry",
+   "category": "consumable",
+   "description": "A rare berry that grows in cold, mountainous regions. It has a sweet and tangy flavor and is said to have mild healing properties.",
+   "value": 20,
+   "use": "Heal (1d4+1) health to ally.",
+   "source": {
+    "orsino": "consumable:cloudberry",
+    "fidelity": "faithful"
+   }
+  },
+  "comfrey": {
+   "name": "Comfrey",
+   "category": "consumable",
+   "description": "A leafy herb known for its ability to promote rapid healing of wounds and broken bones.",
+   "value": 40,
+   "use": "Heal (2d4) health to ally. Remove bleed from ally.",
+   "source": {
+    "orsino": "consumable:comfrey",
+    "fidelity": "faithful"
+   }
+  },
+  "dandelion": {
+   "name": "Dandelion",
+   "category": "consumable",
+   "description": "A common herb known for its detoxifying properties. It can be used to create a tea that helps cleanse the body of toxins.",
+   "value": 10,
+   "use": "Heal (1d3) health to ally. Remove poison from ally.",
+   "source": {
+    "orsino": "consumable:dandelion",
+    "fidelity": "faithful"
+   }
+  },
+  "deck_of_multiplicity": {
+   "name": "Deck of Multiplicity",
+   "category": "gear",
+   "description": "A magical deck of cards with many uses.",
+   "value": 5000,
+   "unsupported": {
+    "use": "A summon aimed at ally is not supported."
+   },
+   "source": {
+    "orsino": "consumable:deck_of_multiplicity",
+    "fidelity": "adapted"
+   }
+  },
+  "elixir_of_strength": {
+   "name": "Elixir of Strength",
+   "category": "consumable",
+   "description": "A potent brew that temporarily enhances the drinker's physical strength.",
+   "value": 100,
+   "use": "Apply strength to ally for 3 turns.",
+   "source": {
+    "orsino": "consumable:elixir_of_strength",
+    "fidelity": "faithful"
+   }
+  },
+  "first_aid_kit": {
+   "name": "First Aid Kit",
+   "category": "consumable",
+   "description": "A small kit containing bandages and salves for treating minor wounds.",
+   "value": 25,
+   "use": "Heal (1d4+1) health to ally. Remove bleed from ally.",
+   "source": {
+    "orsino": "consumable:first_aid_kit",
+    "fidelity": "faithful"
+   }
+  },
+  "foxglove": {
+   "name": "Foxglove",
+   "category": "gear",
+   "description": "A beautiful but poisonous flower. When prepared correctly, it can be used to create a potent healing salve.",
+   "value": 50,
+   "unsupported": {
+    "use": "Kyr cannot use a remove effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:foxglove",
+    "fidelity": "adapted"
+   }
+  },
+  "goodberry_consumable": {
+   "name": "Goodberry",
+   "category": "consumable",
+   "description": "A small, red berry that provides nourishment and minor healing when consumed.",
+   "value": 10,
+   "use": "Heal (1d4+1) health to ally.",
+   "source": {
+    "orsino": "consumable:goodberry",
+    "fidelity": "faithful"
+   }
+  },
+  "healing_potion": {
+   "name": "Potion of Healing",
+   "category": "consumable",
+   "description": "A vial of shimmering red liquid that restores a moderate amount of health when consumed.",
+   "value": 40,
+   "use": "Heal (3d4+3) health to ally.",
+   "source": {
+    "orsino": "consumable:healing_potion",
+    "fidelity": "faithful"
+   }
+  },
+  "heather": {
+   "name": "Heather",
+   "category": "consumable",
+   "description": "A fragrant herb that can be brewed into a tea to soothe aches and pains.",
+   "value": 15,
+   "use": "Heal (1d3+1) health to ally. Remove fatigue from ally.",
+   "source": {
+    "orsino": "consumable:heather",
+    "fidelity": "faithful"
+   }
+  },
+  "kingsfoil": {
+   "name": "Kingsfoil",
+   "category": "consumable",
+   "description": "A three-leaf herb known also as Aelvenroot, prized for its potent healing properties when brewed into a tea or poultice.",
+   "value": 75,
+   "use": "Heal (2d4+2) health to ally. Remove poison from ally.",
+   "source": {
+    "orsino": "consumable:kingsfoil",
+    "fidelity": "faithful"
+   }
+  },
+  "major_healing_potion": {
+   "name": "Major Potion of Healing",
+   "category": "consumable",
+   "description": "A vial of glowing red liquid that restores a significant amount of health when consumed.",
+   "value": 120,
+   "use": "Heal (4d4+4) health to ally.",
+   "source": {
+    "orsino": "consumable:major_healing_potion",
+    "fidelity": "faithful"
+   }
+  },
+  "minor_healing_potion": {
+   "name": "Minor Potion of Healing",
+   "category": "consumable",
+   "description": "A vial of glittering red liquid that restores health when consumed.",
+   "value": 15,
+   "use": "Heal (2d4+2) health to ally.",
+   "source": {
+    "orsino": "consumable:minor_healing_potion",
+    "fidelity": "faithful"
+   }
+  },
+  "oil_flask": {
+   "name": "Flask of Oil",
+   "category": "gear",
+   "description": "A flask of slippery oil that can be thrown onto a surface or creature to make it more vulnerable to fire.",
+   "value": 20,
+   "unsupported": {
+    "use": "Kyr cannot use a apply effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:oil_flask",
+    "fidelity": "adapted"
+   }
+  },
+  "potion_of_barkskin": {
+   "name": "Potion of Barkskin",
+   "category": "gear",
+   "description": "A vial of thick, green liquid that hardens the drinker's skin, providing additional protection.",
+   "value": 120,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:potion_of_barkskin",
+    "fidelity": "adapted"
+   }
+  },
+  "rashers": {
+   "name": "Rashers of Bacon",
+   "category": "consumable",
+   "description": "Cured strips of pork that can be cooked and eaten for sustenance.",
+   "value": 5,
+   "use": "Heal (1d3) health to ally.",
+   "source": {
+    "orsino": "consumable:rashers",
+    "fidelity": "faithful"
+   }
+  },
+  "scroll_of_apocalypse": {
+   "name": "Scroll of Apocalypse",
+   "category": "gear",
+   "description": "An ancient scroll that unleashes catastrophic energy upon all enemies in the area.",
+   "value": 2000,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:scroll_of_apocalypse",
+    "fidelity": "adapted"
+   }
+  },
+  "scroll_of_cure_disease": {
+   "name": "Scroll of Cure Disease",
+   "category": "consumable",
+   "description": "A magical scroll that can cure a target of any disease afflicting them.",
+   "value": 150,
+   "use": "Remove disease from ally.",
+   "source": {
+    "orsino": "consumable:scroll_of_cure_disease",
+    "fidelity": "faithful"
+   }
+  },
+  "scroll_of_domination": {
+   "name": "Scroll of Domination",
+   "category": "gear",
+   "description": "A magical scroll that allows the caster to control the mind of a target creature.",
+   "value": 100,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:scroll_of_domination",
+    "fidelity": "adapted"
+   }
+  },
+  "scroll_of_fireball": {
+   "name": "Scroll of Fireball",
+   "category": "gear",
+   "description": "A magical scroll that allows the caster to unleash a fiery explosion at a target location.",
+   "value": 200,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:scroll_of_fireball",
+    "fidelity": "adapted"
+   }
+  },
+  "scroll_of_shapechange": {
+   "name": "Scroll of Shapechange",
+   "category": "gear",
+   "description": "A powerful scroll that allows the caster to transform into a fearsome dragon.",
+   "value": 1500,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:scroll_of_shapechange",
+    "fidelity": "adapted"
+   }
+  },
+  "wand_of_cure_minor_wounds": {
+   "name": "Wand of Cure Minor Wounds",
+   "category": "gear",
+   "description": "A slender wand that can channel healing energy to mend minor wounds.",
+   "value": 100,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:wand_of_cure_minor_wounds",
+    "fidelity": "adapted"
+   }
+  },
+  "wand_of_magic_missile": {
+   "name": "Wand of Magic Missile",
+   "category": "gear",
+   "description": "A slender wand that can fire magical darts of force energy at a target.",
+   "value": 250,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:wand_of_magic_missile",
+    "fidelity": "adapted"
+   }
+  },
+  "wand_of_paralyzing_touch": {
+   "name": "Wand of Paralyzing Touch",
+   "category": "gear",
+   "description": "A slender wand that can deliver a paralyzing touch to a target.",
+   "value": 150,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:wand_of_paralyzing_touch",
+    "fidelity": "adapted"
+   }
+  },
+  "wand_of_polymorph": {
+   "name": "Wand of Polymorph",
+   "category": "gear",
+   "description": "A slender wand that can transform a target into a different creature.",
+   "value": 250,
+   "unsupported": {
+    "use": "Kyr cannot use a cast effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:wand_of_polymorph",
+    "fidelity": "adapted"
+   }
+  },
+  "wand_of_wonder": {
+   "name": "Wand of Wonder",
+   "category": "gear",
+   "description": "A whimsical wand that produces random magical effects when used.",
+   "value": 500,
+   "unsupported": {
+    "use": "Kyr cannot use a random effect from an item."
+   },
+   "source": {
+    "orsino": "consumable:wand_of_wonder",
+    "fidelity": "adapted"
+   }
+  },
+  "aegis_of_eternity": {
+   "name": "Aegis of Eternity",
+   "category": "equipment",
+   "description": "An indestructible shield that grants unparalleled protection.",
+   "value": 10000,
+   "slot": "shield",
+   "modifiers": {
+    "ac": -6,
+    "resistances": {
+     "all": 0.3
+    }
+   },
+   "hooks": {
+    "onAttacked": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "2d6"
+      },
+      "damageType": "true",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:aegis_of_eternity",
+    "fidelity": "faithful"
+   }
+  },
+  "aeon_stone": {
+   "name": "Aeon Stone",
+   "category": "equipment",
+   "description": "A mystical stone that grants the bearer control over time itself.",
+   "value": 15000,
+   "slot": "charm",
+   "hooks": {
+    "onCombatStart": [
+     {
+      "kind": "apply",
+      "status": "haste",
+      "duration": 3,
+      "target": "self"
+     }
+    ],
+    "onAttacked": [
+     {
+      "kind": "apply",
+      "status": "slow",
+      "duration": 3,
+      "target": "enemy",
+      "save": {
+       "kind": "reflex",
+       "difficulty": {
+        "kind": "deem",
+        "expression": "35 + #level + #bonusSpellDC"
+       }
+      }
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:aeon_stone",
+    "fidelity": "faithful"
+   }
+  },
+  "amulet_of_focus": {
+   "name": "Amulet of Focus",
+   "category": "equipment",
+   "description": "A powerful amulet that enhances the wearer's magical abilities.",
+   "value": 600,
+   "slot": "neck",
+   "modifiers": {
+    "attributes": {
+     "intelligence": 3,
+     "wisdom": 3
+    },
+    "bonusSpellDC": 2
+   },
+   "source": {
+    "orsino": "equipment:amulet_of_focus",
+    "fidelity": "faithful"
+   }
+  },
+  "amulet_of_health": {
+   "name": "Amulet of Health",
+   "category": "equipment",
+   "description": "A mystical amulet that bolsters the wearer's vitality.",
+   "value": 120,
+   "slot": "neck",
+   "modifiers": {
+    "attributes": {
+     "constitution": 2
+    }
+   },
+   "source": {
+    "orsino": "equipment:amulet_of_health",
+    "fidelity": "faithful"
+   }
+  },
+  "amulet_of_protection": {
+   "name": "Amulet of Protection",
+   "category": "equipment",
+   "description": "A protective amulet that increases the wearer's defenses.",
+   "value": 1200,
+   "slot": "neck",
+   "modifiers": {
+    "ac": -2,
+    "resistances": {
+     "all": 0.1
+    }
+   },
+   "source": {
+    "orsino": "equipment:amulet_of_protection",
+    "fidelity": "faithful"
+   }
+  },
+  "amulet_of_vitality": {
+   "name": "Amulet of Vitality",
+   "category": "equipment",
+   "description": "A minor health charm",
+   "value": 50,
+   "slot": "neck",
+   "modifiers": {
+    "attributes": {
+     "constitution": 1
+    }
+   },
+   "source": {
+    "orsino": "equipment:amulet_of_vitality",
+    "fidelity": "faithful"
+   }
+  },
+  "angelmail": {
+   "name": "Angelmail",
+   "category": "equipment",
+   "description": "A radiant suit of armor that provides divine protection to the wearer.",
+   "value": 4500,
+   "slot": "body",
+   "modifiers": {
+    "ac": -4,
+    "resistances": {
+     "radiant": 0.5
+    }
+   },
+   "hooks": {
+    "onAttacked": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d8"
+      },
+      "damageType": "radiant",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:angelmail",
+    "fidelity": "faithful"
+   }
+  },
+  "arcane_conduit": {
+   "name": "Arcane Conduit",
+   "category": "weapon",
+   "description": "A staff that amplifies the wielder's magical power to extraordinary levels.",
+   "value": 12000,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "2d8",
+    "type": "equipment"
+   },
+   "modifiers": {
+    "bonusSpellDC": 5,
+    "attributes": {
+     "intelligence": 5
+    }
+   },
+   "source": {
+    "orsino": "equipment:arcane_conduit",
+    "fidelity": "faithful"
+   },
+   "unsupported": {
+    "type": "Damage kind equipment is not an Orsino damage kind."
+   }
+  },
+  "belt_of_giant_strength": {
+   "name": "Belt of Giant Strength",
+   "category": "equipment",
+   "description": "A sturdy belt that enhances the wearer's physical strength.",
+   "value": 2500,
+   "slot": "waist",
+   "modifiers": {
+    "attributes": {
+     "strength": 6
+    }
+   },
+   "source": {
+    "orsino": "equipment:belt_of_giant_strength",
+    "fidelity": "faithful"
+   }
+  },
+  "bolt_blade": {
+   "name": "Bolt Blade",
+   "category": "weapon",
+   "description": "A sleek blade that crackles with electrical energy, shocking enemies on hit.",
+   "value": 900,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "1d8",
+    "type": "slashing"
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d6"
+      },
+      "damageType": "lightning",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:bolt_blade",
+    "fidelity": "faithful"
+   }
+  },
+  "bone_armor": {
+   "name": "Bone Armor",
+   "category": "armor",
+   "description": "Armor crafted from the bones of ancient creatures, offering unique protection.",
+   "value": 700,
+   "slot": "body",
+   "armor": {
+    "ac": 5,
+    "weight": "heavy",
+    "type": "magic"
+   },
+   "modifiers": {
+    "resistances": {
+     "necrotic": 0.4
+    }
+   },
+   "hooks": {
+    "onAttacked": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d3"
+      },
+      "damageType": "necrotic",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:bone_armor",
+    "fidelity": "faithful"
+   }
+  },
+  "boots_of_swiftness": {
+   "name": "Boots of Swiftness",
+   "category": "equipment",
+   "description": "Lightweight boots that increase the wearer's agility.",
+   "value": 200,
+   "slot": "feet",
+   "modifiers": {
+    "attributes": {
+     "dexterity": 2
+    }
+   },
+   "source": {
+    "orsino": "equipment:boots_of_swiftness",
+    "fidelity": "faithful"
+   }
+  },
+  "censer_of_consecration": {
+   "name": "Censer of Consecration",
+   "category": "equipment",
+   "description": "A holy censer that empowers divine magic.",
+   "value": 750,
+   "slot": "charm",
+   "modifiers": {
+    "bonusSpellDC": 3,
+    "attributes": {
+     "wisdom": 3
+    }
+   },
+   "hooks": {
+    "onCombatStart": [
+     {
+      "kind": "cast",
+      "ability": "consecrated_ground",
+      "target": "self"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:censer_of_consecration",
+    "fidelity": "faithful"
+   }
+  },
+  "cloak_of_invisibility": {
+   "name": "Cloak of Invisibility",
+   "category": "equipment",
+   "description": "A magical cloak that renders the wearer invisible.",
+   "value": 25000,
+   "slot": "cloak",
+   "hooks": {
+    "onCombatStart": [
+     {
+      "kind": "apply",
+      "status": "invisible",
+      "duration": 3,
+      "target": "self"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:cloak_of_invisibility",
+    "fidelity": "faithful"
+   }
+  },
+  "cloak_of_protection": {
+   "name": "Cloak of Protection",
+   "category": "equipment",
+   "description": "A magical cloak that provides a small boost to the wearer's defenses.",
+   "value": 100,
+   "slot": "cloak",
+   "modifiers": {
+    "ac": -1,
+    "saveVersusAll": 1
+   },
+   "source": {
+    "orsino": "equipment:cloak_of_protection",
+    "fidelity": "faithful"
+   }
+  },
+  "crown_of_insight": {
+   "name": "Crown of Insight",
+   "category": "equipment",
+   "description": "An ornate crown that enhances the wearer's wisdom.",
+   "value": 1000,
+   "slot": "head",
+   "modifiers": {
+    "attributes": {
+     "wisdom": 4
+    }
+   },
+   "source": {
+    "orsino": "equipment:crown_of_insight",
+    "fidelity": "faithful"
+   }
+  },
+  "darkwood_staff": {
+   "name": "Darkwood Staff",
+   "category": "weapon",
+   "description": "A staff made from darkwood, enhancing the wielder's spellcasting abilities.",
+   "value": 1200,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "1d6",
+    "type": "equipment"
+   },
+   "modifiers": {
+    "bonusSpellDC": 2,
+    "attributes": {
+     "intelligence": 2
+    }
+   },
+   "source": {
+    "orsino": "equipment:darkwood_staff",
+    "fidelity": "faithful"
+   },
+   "unsupported": {
+    "type": "Damage kind equipment is not an Orsino damage kind."
+   }
+  },
+  "dragonhelm": {
+   "name": "Dragonhelm",
+   "category": "equipment",
+   "description": "A helm forged from dragon scales, providing exceptional protection.",
+   "value": 3000,
+   "slot": "head",
+   "modifiers": {
+    "ac": -3,
+    "resistances": {
+     "fire": 0.5
+    }
+   },
+   "hooks": {
+    "onAttacked": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d6"
+      },
+      "damageType": "fire",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:dragonhelm",
+    "fidelity": "faithful"
+   }
+  },
+  "dun_rierdan_waystone": {
+   "name": "Dun Rìerdan Waystone",
+   "category": "equipment",
+   "description": "An ancient waystone that enhances the traveler's endurance and resilience. When in proximity it may point the way to Dun Rì, the city of seven towers.",
+   "value": 500,
+   "slot": "neck",
+   "modifiers": {
+    "attributes": {
+     "constitution": 2
+    },
+    "resistances": {
+     "all": 0.05
+    }
+   },
+   "unsupported": {
+    "revealLocation": "Kyr does not execute this Orsino effect yet."
+   },
+   "source": {
+    "orsino": "equipment:dun_rierdan_waystone",
+    "fidelity": "adapted"
+   }
+  },
+  "galvorn_mail": {
+   "name": "Galvorn Mail",
+   "category": "equipment",
+   "description": "A suit of mail armor made from the rare and nearly indestructible galvorn metal.",
+   "value": 4000,
+   "slot": "body",
+   "modifiers": {
+    "ac": -5,
+    "resistances": {
+     "all": 0.2
+    }
+   },
+   "source": {
+    "orsino": "equipment:galvorn_mail",
+    "fidelity": "faithful"
+   }
+  },
+  "gloves_of_dexterity": {
+   "name": "Gloves of Dexterity",
+   "category": "equipment",
+   "description": "Fine gloves that enhance the wearer's dexterity.",
+   "value": 50,
+   "slot": "hands",
+   "modifiers": {
+    "attributes": {
+     "dexterity": 1
+    }
+   },
+   "source": {
+    "orsino": "equipment:gloves_of_dexterity",
+    "fidelity": "faithful"
+   }
+  },
+  "helm_of_intellect": {
+   "name": "Helm of Intellect",
+   "category": "equipment",
+   "description": "A finely crafted helm that sharpens the wearer's mind.",
+   "value": 150,
+   "slot": "head",
+   "modifiers": {
+    "attributes": {
+     "intelligence": 2
+    }
+   },
+   "source": {
+    "orsino": "equipment:helm_of_intellect",
+    "fidelity": "faithful"
+   }
+  },
+  "helm_of_the_stars": {
+   "name": "Helm of the Stars",
+   "category": "equipment",
+   "description": "A mystical helm that enhances all senses of the wearer.",
+   "value": 400,
+   "slot": "head",
+   "modifiers": {
+    "attributes": {
+     "strength": 1,
+     "dexterity": 1,
+     "constitution": 1,
+     "intelligence": 1,
+     "wisdom": 1,
+     "charisma": 1
+    }
+   },
+   "source": {
+    "orsino": "equipment:helm_of_the_stars",
+    "fidelity": "faithful"
+   }
+  },
+  "ironglass_dagger": {
+   "name": "Ironglass Dagger",
+   "category": "weapon",
+   "description": "A dagger forged from rare ironglass, known for its sharpness and durability.",
+   "value": 150,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "1d4",
+    "type": "piercing",
+    "kind": "blade",
+    "weight": "light"
+   },
+   "modifiers": {
+    "bonusDamage": "1d2"
+   },
+   "source": {
+    "orsino": "equipment:ironglass_dagger",
+    "fidelity": "faithful"
+   }
+  },
+  "longsword_of_flames": {
+   "name": "Longsword of Flames",
+   "category": "weapon",
+   "description": "A longsword engulfed in magical flames, dealing extra fire damage on hit.",
+   "value": 800,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "1d8",
+    "type": "piercing"
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d6"
+      },
+      "damageType": "fire",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:longsword_of_flames",
+    "fidelity": "faithful"
+   }
+  },
+  "mantle_of_charisma": {
+   "name": "Mantle of Charisma",
+   "category": "equipment",
+   "description": "An elegant mantle that enhances the wearer's charisma.",
+   "value": 200,
+   "slot": "cloak",
+   "modifiers": {
+    "attributes": {
+     "charisma": 4
+    }
+   },
+   "source": {
+    "orsino": "equipment:mantle_of_charisma",
+    "fidelity": "faithful"
+   }
+  },
+  "phoenix_talon": {
+   "name": "Phoenix Talon",
+   "category": "weapon",
+   "description": "A rare and powerful talon from a phoenix, imbued with fiery magic.",
+   "value": 15000,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "2d8",
+    "type": "equipment"
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "3d6"
+      },
+      "damageType": "fire",
+      "target": "enemy"
+     },
+     {
+      "kind": "heal",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d8"
+      },
+      "target": "self"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:phoenix_talon",
+    "fidelity": "faithful"
+   },
+   "unsupported": {
+    "type": "Damage kind equipment is not an Orsino damage kind."
+   }
+  },
+  "ring_of_major_protection": {
+   "name": "Ring of Major Protection",
+   "category": "equipment",
+   "description": "A powerful ring that provides significant protection to the wearer.",
+   "value": 1000,
+   "slot": "ring",
+   "modifiers": {
+    "ac": -3
+   },
+   "source": {
+    "orsino": "equipment:ring_of_major_protection",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_minor_protection": {
+   "name": "Ring of Minor Protection",
+   "category": "equipment",
+   "description": "A simple enchanted ring providing slight protection",
+   "value": 50,
+   "slot": "ring",
+   "modifiers": {
+    "ac": -1
+   },
+   "source": {
+    "orsino": "equipment:ring_of_minor_protection",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_minor_strength": {
+   "name": "Ring of Minor Strength",
+   "category": "equipment",
+   "description": "A simple enchanted ring providing slight strength boost",
+   "value": 50,
+   "slot": "ring",
+   "modifiers": {
+    "attributes": {
+     "strength": 1
+    }
+   },
+   "source": {
+    "orsino": "equipment:ring_of_minor_strength",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_perfect_turning": {
+   "name": "Ring of Perfect Turning",
+   "category": "equipment",
+   "description": "Grants high resistance to all damage types, and good chance to reflect spells back to caster.",
+   "value": 2000,
+   "slot": "ring",
+   "modifiers": {
+    "resistances": {
+     "all": 0.5
+    }
+   },
+   "unsupported": {
+    "reflectSpellChance": "Kyr does not execute this Orsino effect yet."
+   },
+   "source": {
+    "orsino": "equipment:ring_of_perfect_turning",
+    "fidelity": "adapted"
+   }
+  },
+  "ring_of_protection": {
+   "name": "Ring of Protection",
+   "category": "equipment",
+   "description": "A magical ring that grants the wearer enhanced protection.",
+   "value": 300,
+   "slot": "ring",
+   "modifiers": {
+    "ac": -2
+   },
+   "source": {
+    "orsino": "equipment:ring_of_protection",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_regeneration": {
+   "name": "Ring of Regeneration",
+   "category": "equipment",
+   "description": "A mystical ring that slowly heals the wearer over time.",
+   "value": 800,
+   "slot": "ring",
+   "modifiers": {
+    "onTurnEnd": [
+     {
+      "kind": "heal",
+      "amount": "1d2-1"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:ring_of_regeneration",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_spell_turning": {
+   "name": "Ring of Spell Turning",
+   "category": "equipment",
+   "description": "Improve all resistances and inflict damage back to caster on spell saves.",
+   "value": 1200,
+   "slot": "ring",
+   "modifiers": {
+    "resistances": {
+     "all": 0.2
+    },
+    "saves": {
+     "magic": 4
+    }
+   },
+   "unsupported": {
+    "reflectSpellChance": "Kyr does not execute this Orsino effect yet.",
+    "onSaveVersusMagic": "Kyr does not execute this Orsino effect yet."
+   },
+   "source": {
+    "orsino": "equipment:ring_of_spell_turning",
+    "fidelity": "adapted"
+   }
+  },
+  "ring_of_strength": {
+   "name": "Ring of Strength",
+   "category": "equipment",
+   "description": "A magical ring that enhances the wearer's physical strength.",
+   "value": 150,
+   "slot": "ring",
+   "modifiers": {
+    "attributes": {
+     "strength": 2
+    }
+   },
+   "source": {
+    "orsino": "equipment:ring_of_strength",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_the_firmament": {
+   "name": "Ring of the Firmament",
+   "category": "equipment",
+   "description": "A celestial ring that grants the wearer resistance to elemental damage.",
+   "value": 500,
+   "slot": "ring",
+   "modifiers": {
+    "resistances": {
+     "fire": 0.5,
+     "cold": 0.5,
+     "lightning": 0.5
+    }
+   },
+   "source": {
+    "orsino": "equipment:ring_of_the_firmament",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_thorns": {
+   "name": "Ring of Thorns",
+   "category": "equipment",
+   "description": "A magical ring that grants the wearer the ability to counterattack.",
+   "value": 400,
+   "slot": "ring",
+   "hooks": {
+    "onAttacked": [
+     {
+      "kind": "attack",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:ring_of_thorns",
+    "fidelity": "faithful"
+   }
+  },
+  "ring_of_true_sight": {
+   "name": "Ring of True Sight",
+   "category": "equipment",
+   "description": "A magical ring that allows the wearer to see through illusions and invisibility.",
+   "value": 1500,
+   "slot": "ring",
+   "unsupported": {
+    "seeInvisible": "Kyr does not execute this Orsino effect yet."
+   },
+   "source": {
+    "orsino": "equipment:ring_of_true_sight",
+    "fidelity": "adapted"
+   }
+  },
+  "robe_of_elvenkind": {
+   "name": "Robe of Elvenkind",
+   "category": "equipment",
+   "description": "A finely crafted robe imbued with a protective aura that enhances the wearer's agility.",
+   "value": 700,
+   "slot": "body",
+   "modifiers": {
+    "attributes": {
+     "dexterity": 2
+    },
+    "evasion": 10
+   },
+   "hooks": {
+    "onAttacked": [
+     {
+      "kind": "apply",
+      "status": "blinded",
+      "duration": 3,
+      "target": "enemy",
+      "save": {
+       "kind": "reflex",
+       "difficulty": {
+        "kind": "deem",
+        "expression": "25 + #level + #bonusSpellDC"
+       }
+      }
+     },
+     {
+      "kind": "apply",
+      "status": "slow",
+      "duration": 3,
+      "target": "enemy",
+      "save": {
+       "kind": "reflex",
+       "difficulty": {
+        "kind": "deem",
+        "expression": "25 + #level + #bonusSpellDC"
+       }
+      }
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:robe_of_elvenkind",
+    "fidelity": "faithful"
+   }
+  },
+  "robe_of_the_archmagi": {
+   "name": "Robe of the Archmagi",
+   "category": "armor",
+   "description": "A legendary robe that enhances the wearer's magical prowess.",
+   "value": 8000,
+   "slot": "body",
+   "armor": {
+    "ac": 3,
+    "weight": "light",
+    "type": "magic"
+   },
+   "modifiers": {
+    "attributes": {
+     "intelligence": 4,
+     "wisdom": 4
+    },
+    "bonusSpellDC": 4,
+    "resistances": {
+     "all": 0.15
+    }
+   },
+   "source": {
+    "orsino": "equipment:robe_of_the_archmagi",
+    "fidelity": "faithful"
+   }
+  },
+  "silvered_bracers": {
+   "name": "Silvered Bracers",
+   "category": "equipment",
+   "description": "A pair of bracers made of silver, offering minor protection against attacks.",
+   "value": 80,
+   "slot": "arms",
+   "modifiers": {
+    "ac": -1
+   },
+   "source": {
+    "orsino": "equipment:silvered_bracers",
+    "fidelity": "faithful"
+   }
+  },
+  "singing_stone": {
+   "name": "Singing Stone",
+   "category": "equipment",
+   "description": "A mystical stone that emits a soothing melody when held.",
+   "value": 200,
+   "slot": "neck",
+   "modifiers": {
+    "bonusSpellDC": 1
+   },
+   "unsupported": {
+    "bonusSpellDamage": "Kyr does not execute this Orsino effect yet."
+   },
+   "source": {
+    "orsino": "equipment:singing_stone",
+    "fidelity": "adapted"
+   }
+  },
+  "staff_of_power": {
+   "name": "Staff of Power",
+   "category": "weapon",
+   "description": "A legendary staff that channels immense magical energy.",
+   "value": 20000,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "2d10",
+    "type": "equipment"
+   },
+   "modifiers": {
+    "bonusSpellDC": 6,
+    "attributes": {
+     "intelligence": 6
+    }
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "3d6"
+      },
+      "damageType": "force",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:staff_of_power",
+    "fidelity": "faithful"
+   },
+   "unsupported": {
+    "type": "Damage kind equipment is not an Orsino damage kind."
+   }
+  },
+  "staff_of_the_necromancer": {
+   "name": "Staff of the Necromancer",
+   "category": "weapon",
+   "description": "A dark staff that empowers necromantic magic.",
+   "value": 9000,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "2d6",
+    "type": "equipment"
+   },
+   "modifiers": {
+    "bonusSpellDC": 5,
+    "attributes": {
+     "intelligence": 5
+    }
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "2d6"
+      },
+      "damageType": "necrotic",
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:staff_of_the_necromancer",
+    "fidelity": "faithful"
+   },
+   "unsupported": {
+    "type": "Damage kind equipment is not an Orsino damage kind."
+   }
+  },
+  "sword_of_ages": {
+   "name": "Sword of Ages",
+   "category": "weapon",
+   "description": "An ancient sword of immense power.",
+   "value": 5000,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "1d10",
+    "type": "slashing"
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "1d4+1"
+      },
+      "damageType": "true",
+      "target": "enemy"
+     },
+     {
+      "kind": "apply",
+      "status": "weakened",
+      "duration": 3,
+      "target": "enemy",
+      "save": {
+       "kind": "fortitude",
+       "difficulty": {
+        "kind": "deem",
+        "expression": "30 + #level + #bonusSpellDC"
+       }
+      }
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:sword_of_ages",
+    "fidelity": "faithful"
+   }
+  },
+  "sword_of_goblinkind": {
+   "name": "Sword of Goblinkind",
+   "category": "weapon",
+   "description": "A mischievous sword that enhances the wielder's cunning and agility.",
+   "value": 600,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "1d8",
+    "type": "slashing"
+   },
+   "modifiers": {
+    "attributes": {
+     "dexterity": 3,
+     "intelligence": 3
+    }
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "apply",
+      "status": "confused",
+      "duration": 3,
+      "target": "enemy",
+      "save": {
+       "kind": "will",
+       "difficulty": {
+        "kind": "deem",
+        "expression": "20 + #level + #bonusSpellDC"
+       }
+      }
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:sword_of_goblinkind",
+    "fidelity": "faithful"
+   }
+  },
+  "tirions_fury": {
+   "name": "Tirion's Fury",
+   "category": "weapon",
+   "description": "A legendary sword imbued with the wrath of a fallen hero.",
+   "value": 8000,
+   "slot": "weapon",
+   "weapon": {
+    "damage": "2d6",
+    "type": "slashing"
+   },
+   "hooks": {
+    "onAttackHit": [
+     {
+      "kind": "damage",
+      "amount": {
+       "kind": "deem",
+       "expression": "2d6+2"
+      },
+      "damageType": "true",
+      "target": "enemy"
+     },
+     {
+      "kind": "apply",
+      "status": "stun",
+      "duration": 3,
+      "target": "enemy",
+      "save": {
+       "kind": "stun",
+       "difficulty": {
+        "kind": "deem",
+        "expression": "35 + #level + #bonusSpellDC"
+       }
+      }
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:tirions_fury",
+    "fidelity": "faithful"
+   }
+  },
+  "wardstone": {
+   "name": "Wardstone",
+   "category": "equipment",
+   "description": "A mystical stone that provides a protective barrier to the bearer.",
+   "value": 600,
+   "slot": "neck",
+   "hooks": {
+    "onCombatStart": [
+     {
+      "kind": "apply",
+      "status": "warded",
+      "duration": 3,
+      "target": "enemy"
+     }
+    ]
+   },
+   "source": {
+    "orsino": "equipment:wardstone",
+    "fidelity": "faithful"
+   }
   }
  }
 }

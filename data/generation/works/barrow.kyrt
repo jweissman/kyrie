@@ -41,8 +41,8 @@
   }
   Rule {w}_walk when dark() and state({w}_seal, rolled) and at({w}_dead, {w}_end) and able({w}_dead) says "Out on the land, under the dark, something comes out of the barrow and goes along the old bound, as it used to." { Retract at({w}_dead, {w}_end). Assert at({w}_dead, {w}). }
   Rule {w}_back when not dark() and at({w}_dead, {w}) and able({w}_dead) { Retract at({w}_dead, {w}). Assert at({w}_dead, {w}_end). }
-  Item {w}_flute "a flute of bone" is grave_rings at {w}_end.
-  Item {w}_goods "grave-goods from the sealed pots" is grave_rings at {w}_right.
+  Item {w}_flute "{commonname}" is {common} at {w}_end.
+  Item {w}_goods "{richname}" is {rich} at {w}_right.
 --- successors robbed 2
   Observe {w}_robbed at {w}_right when true "The kingdom of {successors} knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.".
   Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 1.

@@ -147,9 +147,9 @@
     "concept": "equipment",
     "total": 28,
     "feasible": 22,
-    "catalogued": 26,
-    "represented": 0,
-    "executable": 0,
+    "catalogued": 0,
+    "represented": 14,
+    "executable": 12,
     "play-validated": 2
    },
    {
@@ -266,10 +266,10 @@
     "family": "equipment",
     "concept": "equipment",
     "total": 48,
-    "feasible": 36,
-    "catalogued": 47,
-    "represented": 0,
-    "executable": 0,
+    "feasible": 42,
+    "catalogued": 0,
+    "represented": 10,
+    "executable": 37,
     "play-validated": 1
    },
    {
@@ -286,10 +286,10 @@
     "family": "gear",
     "concept": "equipment",
     "total": 68,
-    "feasible": 48,
-    "catalogued": 62,
-    "represented": 1,
-    "executable": 2,
+    "feasible": 53,
+    "catalogued": 1,
+    "represented": 2,
+    "executable": 62,
     "play-validated": 3
    },
    {
@@ -297,9 +297,9 @@
     "concept": "equipment",
     "total": 5,
     "feasible": 5,
-    "catalogued": 5,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 5,
     "play-validated": 0
    },
    {
@@ -317,9 +317,9 @@
     "concept": "equipment",
     "total": 71,
     "feasible": 71,
-    "catalogued": 71,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 71,
     "play-validated": 0
    },
    {
@@ -696,7 +696,7 @@
     "family": "trait",
     "concept": "character",
     "total": 100,
-    "feasible": 83,
+    "feasible": 84,
     "catalogued": 0,
     "represented": 22,
     "executable": 78,
@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 586,
-    "adapted": 292,
+    "faithful": 752,
+    "adapted": 351,
     "represented": 4,
-    "kyr": 75,
-    "unsupported": 75,
+    "kyr": 74,
+    "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
    },
@@ -889,11 +889,11 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 68,
-      "adapted": 13,
+      "faithful": 234,
+      "adapted": 72,
       "represented": 0,
-      "kyr": 27,
-      "unsupported": 0,
+      "kyr": 26,
+      "unsupported": 25,
       "unreachable": 0,
       "data-only": 0
      }
@@ -994,13 +994,13 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 124,
-    "adapted": 8,
-    "represented": 18,
-    "kyr": 116,
+    "faithful": 219,
+    "adapted": 22,
+    "represented": 43,
+    "kyr": 120,
     "unsupported": 0,
     "unreachable": 0,
-    "data-only": 342
+    "data-only": 208
    },
    "sections": [
     {
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 111,
+      "kyr": 115,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1046,13 +1046,13 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 124,
-      "adapted": 8,
-      "represented": 18,
+      "faithful": 219,
+      "adapted": 22,
+      "represented": 43,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 342
+      "data-only": 208
      }
     }
    ]
@@ -3365,6 +3365,13 @@
    "section": "formations"
   },
   {
+   "id": "item:arcane_conduit",
+   "title": "Arcane Conduit",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
    "id": "item:battleaxe",
    "title": "battleaxe",
    "status": "faithful",
@@ -3374,6 +3381,13 @@
   {
    "id": "item:bec_de_corbin",
    "title": "bec de corbin",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:bolt_blade",
+   "title": "Bolt Blade",
    "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
@@ -3417,6 +3431,13 @@
    "id": "item:dagger",
    "title": "dagger",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:darkwood_staff",
+   "title": "Darkwood Staff",
+   "status": "unsupported",
    "book": "phb",
    "section": "equipment/weapons"
   },
@@ -3507,6 +3528,13 @@
   {
    "id": "item:heavy_warhammer",
    "title": "heavy warhammer",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:ironglass_dagger",
+   "title": "Ironglass Dagger",
    "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
@@ -3624,6 +3652,13 @@
    "section": "equipment/weapons"
   },
   {
+   "id": "item:phoenix_talon",
+   "title": "Phoenix Talon",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
    "id": "item:pike",
    "title": "pike",
    "status": "faithful",
@@ -3703,6 +3738,41 @@
   {
    "id": "item:staff",
    "title": "staff",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:staff_of_power",
+   "title": "Staff of Power",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:staff_of_the_necromancer",
+   "title": "Staff of the Necromancer",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:sword_of_ages",
+   "title": "Sword of Ages",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:sword_of_goblinkind",
+   "title": "Sword of Goblinkind",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:tirions_fury",
+   "title": "Tirion's Fury",
    "status": "faithful",
    "book": "phb",
    "section": "equipment/weapons"
@@ -3848,9 +3918,933 @@
    "section": "equipment/armour"
   },
   {
-   "id": "item:rope",
-   "title": "Coil of rope",
+   "id": "item:bone_armor",
+   "title": "Bone Armor",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:robe_of_the_archmagi",
+   "title": "Robe of the Archmagi",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:ancient_crown",
+   "title": "Ancient crown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ancient_map",
+   "title": "Ancient map",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ancient_orrery",
+   "title": "Ancient orrery",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ancient_tome",
+   "title": "Ancient tome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:antique_compass",
+   "title": "Antique compass",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_crown",
+   "title": "Broken crown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_dagger",
+   "title": "Broken dagger",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_flute",
+   "title": "Broken flute",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_pipe",
+   "title": "Broken pipe",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:broken_scepter",
+   "title": "Broken scepter",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bronze_bracelet",
+   "title": "Bronze bracelet",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bronze_statue",
+   "title": "Bronze statue",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:celestial_chart",
+   "title": "Celestial chart",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloth_pouch",
+   "title": "Cloth pouch",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloth_tunic",
+   "title": "Cloth tunic",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:crystal_eye",
+   "title": "Crystal eye",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:crystal_orb",
+   "title": "Crystal orb",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diamond_eye",
+   "title": "Diamond eye",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diamond_necklace",
+   "title": "Diamond necklace",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:divine_scepter",
+   "title": "Divine scepter",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diviners_eye",
+   "title": "Diviners eye",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dowsing_rod",
+   "title": "Dowsing rod",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dragons_egg",
+   "title": "Dragons egg",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dragons_tooth",
+   "title": "Dragons tooth",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:eternal_flame",
+   "title": "Eternal flame",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:faded_map",
+   "title": "Faded map",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:faded_painting",
+   "title": "Faded painting",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:faded_tome",
+   "title": "Faded tome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fallen_star",
+   "title": "Fallen star",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:golden_idol",
+   "title": "Golden idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hand_mirror",
+   "title": "Hand mirror",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:intelligent_book",
+   "title": "Intelligent book",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:intelligent_painting",
+   "title": "Intelligent painting",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iron_figurine",
+   "title": "Iron figurine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iron_idol",
+   "title": "Iron idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iron_torc",
+   "title": "Iron torc",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_box",
+   "title": "Jeweled box",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_crown",
+   "title": "Jeweled crown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_dagger",
+   "title": "Jeweled dagger",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_statue",
+   "title": "Jeweled statue",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_torc",
+   "title": "Jeweled torc",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jeweled_zodiac",
+   "title": "Jeweled zodiac",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:kraken_claw",
+   "title": "Kraken claw",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lensing_crystal",
+   "title": "Lensing crystal",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lost_tome",
+   "title": "Lost tome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:music_box",
+   "title": "Music box",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:opalescent_skull",
+   "title": "Opalescent skull",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:philosophers_stone",
+   "title": "Philosophers stone",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:phoenix_feather",
+   "title": "Phoenix feather",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:priceless_painting",
+   "title": "Priceless painting",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:royal_crown",
+   "title": "Royal crown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:royal_scepter",
+   "title": "Royal scepter",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sacred_idol",
+   "title": "Sacred idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:simple_ring",
+   "title": "Simple ring",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:smoking_pipe",
+   "title": "Smoking pipe",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:soul_gem",
+   "title": "Soul gem",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:steel_coin",
+   "title": "Steel coin",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:steel_torc",
+   "title": "Steel torc",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tattered_map",
+   "title": "Tattered map",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tattered_tome",
+   "title": "Tattered tome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:titan_statue",
+   "title": "Titan statue",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:triskelion_amulet",
+   "title": "Triskelion amulet",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:unholy_symbol",
+   "title": "Unholy symbol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:unusual_seashell",
+   "title": "Unusual seashell",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:vial_of_phoenix_tears",
+   "title": "Vial of phoenix tears",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:vial_of_unicorn_blood",
+   "title": "Vial of unicorn blood",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wooden_bowl",
+   "title": "Wooden bowl",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wooden_figurine",
+   "title": "Wooden figurine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wooden_idol",
+   "title": "Wooden idol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:zodiac_medallion",
+   "title": "Zodiac medallion",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:zoological_manual",
+   "title": "Zoological manual",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:agate",
+   "title": "Agate",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:carnelian",
+   "title": "Carnelian",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jasper",
+   "title": "Jasper",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:moonstone",
+   "title": "Moonstone",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:onyx",
+   "title": "Onyx",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:quartz",
+   "title": "Quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tiger_eye",
+   "title": "Tiger eye",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:turquoise",
+   "title": "Turquoise",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:chrysoberyl",
+   "title": "Chrysoberyl",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:citrine",
+   "title": "Citrine",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fluorite",
+   "title": "Fluorite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hematite",
+   "title": "Hematite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iolite",
+   "title": "Iolite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:jade",
+   "title": "Jade",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lapis_lazuli",
+   "title": "Lapis lazuli",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:malachite",
+   "title": "Malachite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:obsidian",
+   "title": "Obsidian",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pyrite",
+   "title": "Pyrite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:rose_quartz",
+   "title": "Rose quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:smoky_quartz",
+   "title": "Smoky quartz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:diamond",
+   "title": "Diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:black_opal",
+   "title": "Black opal",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:star_ruby",
+   "title": "Star ruby",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:blue_diamond",
+   "title": "Blue diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fire_opal",
+   "title": "Fire opal",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:aquamarine",
+   "title": "Aquamarine",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:emerald",
+   "title": "Emerald",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ruby",
+   "title": "Ruby",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sapphire",
+   "title": "Sapphire",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tanzanite",
+   "title": "Tanzanite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:spinel_red",
+   "title": "Spinel red",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:amethyst",
+   "title": "Amethyst",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:garnet",
+   "title": "Garnet",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:peridot",
+   "title": "Peridot",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:topaz",
+   "title": "Topaz",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:zircon",
+   "title": "Zircon",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:spinel",
+   "title": "Spinel",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tourmaline",
+   "title": "Tourmaline",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:alexandrite",
+   "title": "Alexandrite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:black_diamond",
+   "title": "Black diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:red_diamond",
+   "title": "Red diamond",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:musgravite",
+   "title": "Musgravite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:painite",
+   "title": "Painite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:grandidierite",
+   "title": "Grandidierite",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ale",
+   "title": "Ale",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:backpack",
+   "title": "Backpack",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:barrel",
+   "title": "Barrel",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bedroll",
+   "title": "Bedroll",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bell",
+   "title": "Bell",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:blanket",
+   "title": "Blanket",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:boots",
+   "title": "Boots",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:box",
+   "title": "Box",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bracers",
+   "title": "Bracers",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:caltrops",
+   "title": "Caltrops",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:candle",
+   "title": "Candle",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:canvas",
+   "title": "Canvas",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:chain",
+   "title": "Chain",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:chalk",
+   "title": "Chalk",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloak",
+   "title": "Cloak",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloak_pin",
+   "title": "Cloak pin",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -3862,23 +4856,240 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:dice",
+   "title": "Dice",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:doublet",
+   "title": "Doublet",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:firewood",
+   "title": "Firewood",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fish_hook",
+   "title": "Fish hook",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fishing_net",
+   "title": "Fishing net",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:flask",
+   "title": "Flask",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:flint_and_steel",
+   "title": "Flint and steel",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:gloves",
+   "title": "Gloves",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:gown",
+   "title": "Gown",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hammer",
+   "title": "Hammer",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:holy_symbol",
+   "title": "Holy symbol",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:holy_water",
+   "title": "Holy water",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:hose",
+   "title": "Hose",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:iron_spikes",
+   "title": "Iron spikes",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ladder",
+   "title": "Ladder",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lamp",
+   "title": "Lamp",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lantern",
+   "title": "Lantern",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lock",
+   "title": "Lock",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:manacles",
+   "title": "Manacles",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:mirror",
+   "title": "Mirror",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:musical_instrument",
+   "title": "Musical instrument",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:needle_and_thread",
+   "title": "Needle and thread",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:piton",
+   "title": "Piton",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:pole",
    "title": "Ten-foot pole",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:sandbag",
-   "title": "Sack of sand",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:thieves_tools",
-   "title": "Thieves' tools",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pot",
+   "title": "Pot",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pouch",
+   "title": "Pouch",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:quill",
+   "title": "Quill",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:quiver",
+   "title": "Quiver",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:robe",
+   "title": "Robe",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:rope",
+   "title": "Coil of rope",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sack",
+   "title": "Sack",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:satchel",
+   "title": "Satchel",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scrollcase",
+   "title": "Scrollcase",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:shoes",
+   "title": "Shoes",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -3890,9 +5101,555 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:bell",
-   "title": "Bell",
+   "id": "item:signal_whistle",
+   "title": "Signal whistle",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:skillet",
+   "title": "Skillet",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:soap",
+   "title": "Soap",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:spellbook",
+   "title": "Spellbook",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tent",
+   "title": "Tent",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:thieves_tools",
+   "title": "Thieves' tools",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:torch",
+   "title": "Torch",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tunic",
+   "title": "Tunic",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:twine",
+   "title": "Twine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:vellum",
+   "title": "Vellum",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:vinegar",
+   "title": "Vinegar",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:waterskin",
+   "title": "Waterskin",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:whetstone",
+   "title": "Whetstone",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wind_chime",
+   "title": "Wind chime",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wine",
+   "title": "Wine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:alchemist_fire",
+   "title": "Alchemist's Fire",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:antidote",
+   "title": "Antidote",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloudberry",
+   "title": "Cloudberry",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:comfrey",
+   "title": "Comfrey",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dandelion",
+   "title": "Dandelion",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:deck_of_multiplicity",
+   "title": "Deck of Multiplicity",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:elixir_of_strength",
+   "title": "Elixir of Strength",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:first_aid_kit",
+   "title": "First Aid Kit",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:foxglove",
+   "title": "Foxglove",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:goodberry_consumable",
+   "title": "Goodberry",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:healing_potion",
+   "title": "Potion of Healing",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:heather",
+   "title": "Heather",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:kingsfoil",
+   "title": "Kingsfoil",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:major_healing_potion",
+   "title": "Major Potion of Healing",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:minor_healing_potion",
+   "title": "Minor Potion of Healing",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:oil_flask",
+   "title": "Flask of Oil",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:potion_of_barkskin",
+   "title": "Potion of Barkskin",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:rashers",
+   "title": "Rashers of Bacon",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_apocalypse",
+   "title": "Scroll of Apocalypse",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_cure_disease",
+   "title": "Scroll of Cure Disease",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_domination",
+   "title": "Scroll of Domination",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_fireball",
+   "title": "Scroll of Fireball",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_shapechange",
+   "title": "Scroll of Shapechange",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_cure_minor_wounds",
+   "title": "Wand of Cure Minor Wounds",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_magic_missile",
+   "title": "Wand of Magic Missile",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_paralyzing_touch",
+   "title": "Wand of Paralyzing Touch",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_polymorph",
+   "title": "Wand of Polymorph",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wand_of_wonder",
+   "title": "Wand of Wonder",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:aegis_of_eternity",
+   "title": "Aegis of Eternity",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:aeon_stone",
+   "title": "Aeon Stone",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:amulet_of_focus",
+   "title": "Amulet of Focus",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:amulet_of_health",
+   "title": "Amulet of Health",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:amulet_of_protection",
+   "title": "Amulet of Protection",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:amulet_of_vitality",
+   "title": "Amulet of Vitality",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:angelmail",
+   "title": "Angelmail",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:belt_of_giant_strength",
+   "title": "Belt of Giant Strength",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:boots_of_swiftness",
+   "title": "Boots of Swiftness",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:censer_of_consecration",
+   "title": "Censer of Consecration",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloak_of_invisibility",
+   "title": "Cloak of Invisibility",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cloak_of_protection",
+   "title": "Cloak of Protection",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:crown_of_insight",
+   "title": "Crown of Insight",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dragonhelm",
+   "title": "Dragonhelm",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dun_rierdan_waystone",
+   "title": "Dun Rìerdan Waystone",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:galvorn_mail",
+   "title": "Galvorn Mail",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:gloves_of_dexterity",
+   "title": "Gloves of Dexterity",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:helm_of_intellect",
+   "title": "Helm of Intellect",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:helm_of_the_stars",
+   "title": "Helm of the Stars",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:mantle_of_charisma",
+   "title": "Mantle of Charisma",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_major_protection",
+   "title": "Ring of Major Protection",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_minor_protection",
+   "title": "Ring of Minor Protection",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_minor_strength",
+   "title": "Ring of Minor Strength",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_perfect_turning",
+   "title": "Ring of Perfect Turning",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_protection",
+   "title": "Ring of Protection",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_regeneration",
+   "title": "Ring of Regeneration",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_spell_turning",
+   "title": "Ring of Spell Turning",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_strength",
+   "title": "Ring of Strength",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_the_firmament",
+   "title": "Ring of the Firmament",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_thorns",
+   "title": "Ring of Thorns",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ring_of_true_sight",
+   "title": "Ring of True Sight",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:robe_of_elvenkind",
+   "title": "Robe of Elvenkind",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:silvered_bracers",
+   "title": "Silvered Bracers",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:singing_stone",
+   "title": "Singing Stone",
+   "status": "unsupported",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:wardstone",
+   "title": "Wardstone",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sandbag",
+   "title": "Sack of sand",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -3913,13 +5670,6 @@
   {
    "id": "item:herbs",
    "title": "Healing herbs",
-   "status": "adapted",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:antidote",
-   "title": "Antidote",
    "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
@@ -4012,13 +5762,6 @@
    "id": "item:cell_key",
    "title": "Iron cell key",
    "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:torch",
-   "title": "Torch",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8475,6 +10218,13 @@
    "section": "orsino-company/orsino-ability"
   },
   {
+   "id": "rule:belongings.worth",
+   "title": "worth, buysValuables, realized, valuable",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.owns",
    "title": "owns, lends, objected",
    "status": "kyr",
@@ -8568,6 +10318,13 @@
   {
    "id": "rule:belongings.sell",
    "title": "sell",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.sell_valuable",
+   "title": "sell valuable",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -8722,6 +10479,20 @@
   {
    "id": "rule:world_core.wait_for_light",
    "title": "wait for light",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.wait_for_dark",
+   "title": "wait for dark",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.wait_watch",
+   "title": "wait watch",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -10661,168 +12432,168 @@
   {
    "id": "orsino:equipment:aegis_of_eternity",
    "title": "Aegis of Eternity",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:aeon_stone",
    "title": "Aeon Stone",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:amulet_of_focus",
    "title": "Amulet of Focus",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:amulet_of_health",
    "title": "Amulet of Health",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:amulet_of_protection",
    "title": "Amulet of Protection",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:amulet_of_vitality",
    "title": "Amulet of Vitality",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:angelmail",
    "title": "Angelmail",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:arcane_conduit",
    "title": "Arcane Conduit",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:belt_of_giant_strength",
    "title": "Belt of Giant Strength",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:bolt_blade",
    "title": "Bolt Blade",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:bone_armor",
    "title": "Bone Armor",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:boots_of_swiftness",
    "title": "Boots of Swiftness",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:censer_of_consecration",
    "title": "Censer of Consecration",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:cloak_of_invisibility",
    "title": "Cloak of Invisibility",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:cloak_of_protection",
    "title": "Cloak of Protection",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:crown_of_insight",
    "title": "Crown of Insight",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:darkwood_staff",
    "title": "Darkwood Staff",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:dragonhelm",
    "title": "Dragonhelm",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:dun_rierdan_waystone",
    "title": "Dun Rìerdan Waystone",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:galvorn_mail",
    "title": "Galvorn Mail",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:gloves_of_dexterity",
    "title": "Gloves of Dexterity",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:helm_of_intellect",
    "title": "Helm of Intellect",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:helm_of_the_stars",
    "title": "Helm of the Stars",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ironglass_dagger",
    "title": "Ironglass Dagger",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
@@ -10836,168 +12607,168 @@
   {
    "id": "orsino:equipment:mantle_of_charisma",
    "title": "Mantle of Charisma",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:phoenix_talon",
    "title": "Phoenix Talon",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_major_protection",
    "title": "Ring of Major Protection",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_minor_protection",
    "title": "Ring of Minor Protection",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_minor_strength",
    "title": "Ring of Minor Strength",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_perfect_turning",
    "title": "Ring of Perfect Turning",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_protection",
    "title": "Ring of Protection",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_regeneration",
    "title": "Ring of Regeneration",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_spell_turning",
    "title": "Ring of Spell Turning",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_strength",
    "title": "Ring of Strength",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_the_firmament",
    "title": "Ring of the Firmament",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_thorns",
    "title": "Ring of Thorns",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:ring_of_true_sight",
    "title": "Ring of True Sight",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:robe_of_elvenkind",
    "title": "Robe of Elvenkind",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:robe_of_the_archmagi",
    "title": "Robe of the Archmagi",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:silvered_bracers",
    "title": "Silvered Bracers",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:singing_stone",
    "title": "Singing Stone",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:staff_of_power",
    "title": "Staff of Power",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:staff_of_the_necromancer",
    "title": "Staff of the Necromancer",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:sword_of_ages",
    "title": "Sword of Ages",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:sword_of_goblinkind",
    "title": "Sword of Goblinkind",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:tirions_fury",
    "title": "Tirion's Fury",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:equipment:wardstone",
    "title": "Wardstone",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-equipment"
   },
   {
    "id": "orsino:consumable:alchemist_fire",
    "title": "Alchemist's Fire",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
@@ -11011,84 +12782,84 @@
   {
    "id": "orsino:consumable:cloudberry",
    "title": "Cloudberry",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:comfrey",
    "title": "Comfrey",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:dandelion",
    "title": "Dandelion",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:deck_of_multiplicity",
    "title": "Deck of Multiplicity",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:elixir_of_strength",
    "title": "Elixir of Strength",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:first_aid_kit",
    "title": "First Aid Kit",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:foxglove",
    "title": "Foxglove",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:goodberry",
    "title": "Goodberry",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:healing_potion",
    "title": "Potion of Healing",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:heather",
    "title": "Heather",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:kingsfoil",
    "title": "Kingsfoil",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:major_healing_potion",
    "title": "Major Potion of Healing",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
@@ -11102,119 +12873,119 @@
   {
    "id": "orsino:consumable:oil_flask",
    "title": "Flask of Oil",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:potion_of_barkskin",
    "title": "Potion of Barkskin",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:rashers",
    "title": "Rashers of Bacon",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:scroll_of_apocalypse",
    "title": "Scroll of Apocalypse",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:scroll_of_cure_disease",
    "title": "Scroll of Cure Disease",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:scroll_of_domination",
    "title": "Scroll of Domination",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:scroll_of_fireball",
    "title": "Scroll of Fireball",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:scroll_of_shapechange",
    "title": "Scroll of Shapechange",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:wand_of_cure_minor_wounds",
    "title": "Wand of Cure Minor Wounds",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:wand_of_magic_missile",
    "title": "Wand of Magic Missile",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:wand_of_paralyzing_touch",
    "title": "Wand of Paralyzing Touch",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:wand_of_polymorph",
    "title": "Wand of Polymorph",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:consumable:wand_of_wonder",
    "title": "Wand of Wonder",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
   {
    "id": "orsino:gear:ale",
    "title": "Ale",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:backpack",
    "title": "Backpack",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:barrel",
    "title": "Barrel",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:bedroll",
    "title": "Bedroll",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -11228,77 +12999,77 @@
   {
    "id": "orsino:gear:blanket",
    "title": "Blanket",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:boots",
    "title": "Boots",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:box",
    "title": "Box",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:bracers",
    "title": "Bracers",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:caltrops",
    "title": "Caltrops",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:candle",
    "title": "Candle",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:canvas",
    "title": "Canvas",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:chain",
    "title": "Chain",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:chalk",
    "title": "Chalk",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:cloak",
    "title": "Cloak",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:cloak_pin",
    "title": "Cloak pin",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -11312,196 +13083,196 @@
   {
    "id": "orsino:gear:dice",
    "title": "Dice",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:doublet",
    "title": "Doublet",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:firewood",
    "title": "Firewood",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:fish_hook",
    "title": "Fish hook",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:fishing_net",
    "title": "Fishing net",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:flask",
    "title": "Flask",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:flint_and_steel",
    "title": "Flint and steel",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:gloves",
    "title": "Gloves",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:gown",
    "title": "Gown",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:hammer",
    "title": "Hammer",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:holy_symbol",
    "title": "Holy symbol",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:holy_water",
    "title": "Holy water",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:hose",
    "title": "Hose",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:iron_spikes",
    "title": "Iron spikes",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:ladder",
    "title": "Ladder",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:lamp",
    "title": "Lamp",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:lantern",
    "title": "Lantern",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:lock",
    "title": "Lock",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:manacles",
    "title": "Manacles",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:mirror",
    "title": "Mirror",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:musical_instrument",
    "title": "Musical instrument",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:needle_and_thread",
    "title": "Needle and thread",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:piton",
    "title": "Piton",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:pole",
    "title": "Pole",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:pot",
    "title": "Pot",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:pouch",
    "title": "Pouch",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:quill",
    "title": "Quill",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:quiver",
    "title": "Quiver",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -11515,7 +13286,7 @@
   {
    "id": "orsino:gear:robe",
    "title": "Robe",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -11529,28 +13300,28 @@
   {
    "id": "orsino:gear:sack",
    "title": "Sack",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:satchel",
    "title": "Satchel",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:scrollcase",
    "title": "Scrollcase",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:shoes",
    "title": "Shoes",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -11564,35 +13335,35 @@
   {
    "id": "orsino:gear:signal_whistle",
    "title": "Signal whistle",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:skillet",
    "title": "Skillet",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:soap",
    "title": "Soap",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:spellbook",
    "title": "Spellbook",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:tent",
    "title": "Tent",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -11613,56 +13384,56 @@
   {
    "id": "orsino:gear:tunic",
    "title": "Tunic",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:twine",
    "title": "Twine",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:vellum",
    "title": "Vellum",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:vinegar",
    "title": "Vinegar",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:waterskin",
    "title": "Waterskin",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:whetstone",
    "title": "Whetstone",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:wind_chime",
    "title": "Wind chime",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:wine",
    "title": "Wine",
-   "status": "data-only",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },

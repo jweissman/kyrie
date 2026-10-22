@@ -46,11 +46,11 @@
     Change read "Read the marks on the pillar" from unread to read needing lore.
   }
   Observe {w}_marks_learned at {w}_hall when state({w}_marks, read) "{craft} {belief}" teaches history_makers.
-  Item {w}_votive "a jade figure from the basin" is jade_idol at {w}_head.
+  Item {w}_votive "{richname}" is {rich} at {w}_head.
   Observe {w}_head_votive at {w}_head when true "Things glint in the bottom of the basin: offerings, left for the springs by people who meant them.".
 --- successors shrine 2
-  Observe {w}_shrine at {w}_stair when true "Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the kingdom of {successors} kept the springs holy after the Wardens were gone. Old coins lie green on the altar.".
-  Item {w}_coins "coins from the stair altar" is toll_silver at {w}_stair.
+  Observe {w}_shrine at {w}_stair when true "Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the kingdom of {successors} kept the springs holy after the Wardens were gone. Offerings lie green on the altar.".
+  Item {w}_coins "{commonname}" is {common} at {w}_stair.
 --- successors well 1
   Observe {w}_well at {w}_hall when true "A shaft has been cut down through the roof of the hall from above, and a rotten rope hangs out of it into the water: the kingdom of {successors} drew their water here.".
 --- successors forgotten 1

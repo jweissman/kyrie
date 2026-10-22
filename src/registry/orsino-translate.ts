@@ -2,6 +2,7 @@ import type { Amount, Effect, Target } from '../lang/parse';
 import type { Ability, Bonuses, Condition, HookKey, Hooks, ItemKind, Omissions, Perk, Trait, Triggers } from '../canon/schema';
 import { ModifierSet, type Modifiers } from '../rules/modifiers';
 import type { RegistryEntry } from './orsino-extract';
+import { OrsinoGoods } from './orsino-goods';
 import { OrsinoEffects, type Vocabulary } from './orsino-effects';
 
 type Raw = Record<string, unknown>;
@@ -229,8 +230,11 @@ export class OrsinoTranslate {
         armor: { ac: Number(d.ac), weight: String(d.weight), type: String(d.type) },
         source: { orsino: e.id, fidelity: 'faithful' } };
     }
-    return out;
+    return { ...out, ...new OrsinoGoods(this.entries, { modifiers: this.modifiers.bind(this),
+      effect: this.itemEffect.bind(this), status: this.statusId.bind(this), weapons: out }).items() };
   }
+  // What using an item does to the one it is used on.
+  private itemEffect(raw: Raw, from: string) { return this.effects.effect(raw, 'ally', from); }
   // One trait status as a perk: the keys Kyr executes as triggers or bonuses, then the rest as modifiers, and where or
   // with what it holds.
   private perk(status: Raw, from: string): { perk: Perk; omits: Omissions; unsupported: Omissions; hooked: boolean } {

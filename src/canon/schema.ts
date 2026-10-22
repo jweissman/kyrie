@@ -141,6 +141,8 @@ export interface ItemKind {
   description: string; value?: number; slot?: string; use?: string; modifiers?: Modifiers;
   weapon?: WeaponStats; armor?: ArmorStats; hooks?: Hooks;
   grants?: { ability?: string; skill?: string }; unsupported?: Omissions; source: Source;
+  // What of the source a generated item leaves out, and why (a container's capacity: Kyr does not count it).
+  omits?: Omissions;
 }
 export interface Domain {
   name: string; alignment: 'good' | 'neutral' | 'evil'; description?: string; spellDomain?: string;

@@ -696,7 +696,7 @@ Brings lockwork, and knows someone who hears news at a market.
 | Inventor | +4 intelligence, +2 dexterity | 50 | anyone | Lockwork | Adapted |
 | Locksmith | +4 dexterity, +2 intelligence | 40 | anyone | Lockwork, Thieves' tools | Adapted |
 | Tinker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork | Adapted |
-| Toymaker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork | Adapted |
+| Toymaker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork, Firewood | Adapted |
 
 ### The shadows
 
@@ -750,11 +750,11 @@ Brings rites of the dead, and knows someone who hears news at a shrine.
 | Hermit | +2 constitution, +1 wisdom, −2 charisma | 5 | anyone | Rites of the dead | Adapted |
 | Inquisitor | +3 intelligence, +4 wisdom, +3 charisma | 70 | anyone | Rites of the dead | Adapted |
 | Mendicant | +3 wisdom, +2 dexterity, +1 constitution | 30 | Monk | Climbing | Adapted |
-| Missionary | +3 wisdom, +2 charisma | 20 | Cleric | Rites of the dead | Adapted |
+| Missionary | +3 wisdom, +2 charisma | 20 | Cleric | Rites of the dead, Holy symbol | Adapted |
 | Priest | +3 wisdom, +2 charisma | 30 | anyone | — | Adapted |
 | Templar | +3 strength, +3 constitution, +3 wisdom, +2 charisma | 80 | Cleric | Rites of the dead | Adapted |
-| Vampire hunter | +3 strength, +3 dexterity, +2 constitution, +2 wisdom, +1 charisma | 50 | anyone | Rites of the dead | Adapted |
-| Witch hunter | +2 strength, +2 dexterity, +2 constitution, +2 intelligence, +3 wisdom, +1 charisma | 40 | Cleric | Rites of the dead | Adapted |
+| Vampire hunter | +3 strength, +3 dexterity, +2 constitution, +2 wisdom, +1 charisma | 50 | anyone | Rites of the dead, Holy water | Adapted |
+| Witch hunter | +2 strength, +2 dexterity, +2 constitution, +2 intelligence, +3 wisdom, +1 charisma | 40 | Cleric | Rites of the dead, Holy symbol | Adapted |
 
 ### Learning
 
@@ -782,7 +782,7 @@ Brings lore, and knows someone who hears news at a shrine.
 | Scribe | +2 intelligence, +1 dexterity | 15 | anyone | Lore | Adapted |
 | Secretkeeper | +3 dexterity, +2 intelligence, +1 wisdom | 40 | anyone | Lore | Adapted |
 | Vizier | +5 intelligence, +3 wisdom, +4 charisma | 150 | anyone | Lore | Adapted |
-| Witch | +3 intelligence, +3 wisdom, +2 charisma | 20 | Mage | Lore | Adapted |
+| Witch | +3 intelligence, +3 wisdom, +2 charisma | 20 | Mage | Lore, Kingsfoil | Adapted |
 
 ### Stone and earth
 
@@ -811,7 +811,7 @@ Brings brawn, and knows someone who hears news at an inn.
 |---|---|---|---|---|---|
 | Athlete | +2 strength, +2 dexterity, +1 constitution | 10 | anyone | Brawn | Adapted |
 | Blacksmith | +2 strength, +1 constitution, +1 dexterity | 25 | anyone | Brawn | Adapted |
-| Bounty hunter | +2 dexterity, +2 wisdom | 25 | anyone | Brawn, Coil of rope | Adapted |
+| Bounty hunter | +2 dexterity, +2 wisdom | 25 | anyone | Brawn, Coil of rope, Manacles | Adapted |
 | Champion | +4 strength, +3 constitution, +2 dexterity, +1 wisdom, +2 charisma | 50 | Warrior | Brawn | Adapted |
 | Coppersmith | +3 dexterity, +1 intelligence | 25 | anyone | Brawn | Adapted |
 | Deserter | +2 dexterity, +1 constitution | 10 | anyone | Brawn | Adapted |
@@ -865,7 +865,7 @@ Brings lore, and knows someone who hears news at an inn.
 | Minstrel | +3 charisma, +2 dexterity | 30 | Bard | Lore | Adapted |
 | Orator | +5 charisma, +3 intelligence | 90 | Bard | Lore | Adapted |
 | Performer | +3 charisma, +2 dexterity | 30 | Bard | Lore | Adapted |
-| Playwright | +5 charisma, +4 intelligence | 70 | Bard | Lore | Adapted |
+| Playwright | +5 charisma, +4 intelligence | 70 | Bard | Lore, Quill | Adapted |
 | Poet | +3 charisma, +1 intelligence | 25 | Bard | Lore | Adapted |
 | Singer | +2 charisma, +1 wisdom | 25 | Bard | Lore | Adapted |
 | Storyteller | +3 charisma, +2 intelligence | 30 | Bard | Lore | Adapted |
@@ -1056,7 +1056,7 @@ Strength used with judgement: lifting a fallen weight clear, wrenching a lock of
 
 *Kyr* · `skill:light`
 
-- Brought by: Jar of moonlight
+- Brought by: Candle, Lamp, Lantern, Jar of moonlight
 
 Carrying a light that shows the way in unlit places.
 
@@ -1522,14 +1522,17 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 | Weapon | Damage | Type | Kind | Weight | Notes | Status |
 |---|---|---|---|---|---|---|
+| Arcane Conduit | 2d8 | equipment |  |  |  | Not playable |
 | battleaxe | 1d8 | slashing | axe | heavy |  | Faithful |
 | bec de corbin | 1d8+1 | piercing | polearm | heavy |  | Faithful |
+| Bolt Blade | 1d8 | slashing |  |  |  | Faithful |
 | broadsword | 2d4 | slashing | blade | medium |  | Faithful |
 | claymore | 2d4 | slashing | blade | heavy |  | Faithful |
 | club | 1d4 | bludgeoning | club | light |  | Faithful |
 | composite bow | 1d6 | piercing | bow | medium | missile | Faithful |
 | cutlass | 1d6 | slashing | blade | light |  | Faithful |
 | dagger | 1d4 | piercing | blade | light |  | Faithful |
+| Darkwood Staff | 1d6 | equipment |  |  |  | Not playable |
 | dart | 1d3 | piercing | dart | light | missile | Faithful |
 | falchion | 2d4 | slashing | blade | medium |  | Faithful |
 | glaive | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
@@ -1543,6 +1546,7 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | heavy mace | 1d6+1 | bludgeoning | mace | heavy |  | Faithful |
 | heavy pick | 1d6+1 | piercing | pick | heavy |  | Faithful |
 | heavy warhammer | 1d6+1 | bludgeoning | warhammer | heavy |  | Faithful |
+| Ironglass Dagger | 1d4 | piercing | blade | light |  | Faithful |
 | javelin | 1d6 | piercing | polearm | light | sets against a charge | Faithful |
 | katana | 1d8+1 | slashing | blade | medium |  | Faithful |
 | kusarigama | 1d6+2 | slashing | polearm | medium |  | Faithful |
@@ -1559,6 +1563,7 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | morningstar | 2d4 | piercing | morningstar | medium |  | Faithful |
 | naginata | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
 | nunchaku | 1d6+2 | bludgeoning | club | light |  | Faithful |
+| Phoenix Talon | 2d8 | equipment |  |  |  | Not playable |
 | pike | 1d10+1 | piercing | polearm | heavy | sets against a charge | Faithful |
 | pole arm | 1d6+1 | piercing | polearm | medium | sets against a charge | Faithful |
 | quarterstaff | 1d6+2 | bludgeoning | staff | medium |  | Faithful |
@@ -1571,6 +1576,11 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | sling | 1d4 | bludgeoning | sling | light | missile | Faithful |
 | spear | 1d6 | piercing | spear | light | sets against a charge | Faithful |
 | staff | 1d6 | bludgeoning | staff | medium |  | Faithful |
+| Staff of Power | 2d10 | equipment |  |  |  | Not playable |
+| Staff of the Necromancer | 2d6 | equipment |  |  |  | Not playable |
+| Sword of Ages | 1d10 | slashing |  |  |  | Faithful |
+| Sword of Goblinkind | 1d8 | slashing |  |  |  | Faithful |
+| Tirion's Fury | 2d6 | slashing |  |  |  | Faithful |
 | trident | 1d6+1 | piercing | trident | medium | sets against a charge | Faithful |
 | voulge | 1d10+1 | slashing | polearm | heavy | sets against a charge | Faithful |
 | wakizashi | 1d6+1 | slashing | blade | light |  | Faithful |
@@ -1596,18 +1606,1161 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | Spine Armor | 1 | medium | inherent | Faithful |
 | Splint Mail | 6 | heavy | metal | Faithful |
 | Studded Leather Armor | 3 | medium | leather | Faithful |
+| Bone Armor | 5 | heavy | magic | Faithful |
+| Robe of the Archmagi | 3 | light | magic | Faithful |
 
 ### Gear, tools, consumables and treasure
 
-#### Coil of rope
+#### Ancient crown
 
-*Adapted · gear* · `item:rope`
+*Faithful · treasure* · `item:ancient_crown`
+
+- Worth: 250
+
+> An ancient crown rumored to have belonged to a long-lost king.
+
+#### Ancient map
+
+*Faithful · treasure* · `item:ancient_map`
+
+- Worth: 75
+
+> A weathered map showing forgotten lands and hidden treasures.
+
+#### Ancient orrery
+
+*Faithful · treasure* · `item:ancient_orrery`
+
+- Worth: 500
+
+> A complex orrery that models the movements of celestial bodies.
+
+#### Ancient tome
+
+*Faithful · treasure* · `item:ancient_tome`
+
+- Worth: 40
+
+> An ancient tome filled with cryptic writings and illustrations.
+
+#### Antique compass
+
+*Faithful · treasure* · `item:antique_compass`
+
+- Worth: 60
+
+> An antique compass that always points true north.
+
+#### Broken crown
+
+*Faithful · treasure* · `item:broken_crown`
+
+- Worth: 25
+
+> Missing several jewels and tarnished with age.
+
+#### Broken dagger
+
+*Faithful · treasure* · `item:broken_dagger`
+
+- Worth: 2
+
+> A broken dagger with a dull blade and a cracked handle.
+
+#### Broken flute
+
+*Faithful · treasure* · `item:broken_flute`
+
+- Worth: 15
+
+> A cracked wooden flute, hand-carved with delicate patterns.
+
+#### Broken pipe
+
+*Faithful · treasure* · `item:broken_pipe`
 
 - Worth: 1
 
-> A length of sturdy rope for climbing, tying, or securing items.
+> A broken smoking pipe, missing its bowl.
+
+#### Broken scepter
+
+*Faithful · treasure* · `item:broken_scepter`
+
+- Worth: 30
+
+> A broken scepter, its head shattered and its shaft cracked.
+
+#### Bronze bracelet
+
+*Faithful · treasure* · `item:bronze_bracelet`
+
+- Worth: 8
+
+> A bronze bracelet with intricate designs etched into its surface.
+
+#### Bronze statue
+
+*Faithful · treasure* · `item:bronze_statue`
+
+- Worth: 10
+
+> A small statue made of bronze, depicting a forgotten deity.
+
+#### Celestial chart
+
+*Faithful · treasure* · `item:celestial_chart`
+
+- Worth: 300
+
+> An ancient chart mapping the stars and constellations.
+
+#### Cloth pouch
+
+*Faithful · treasure* · `item:cloth_pouch`
+
+- Worth: 1
+
+> A small cloth pouch, frayed at the edges.
+
+#### Cloth tunic
+
+*Faithful · treasure* · `item:cloth_tunic`
+
+- Worth: 3
+
+> A simple cloth tunic, worn and faded.
+
+#### Crystal eye
+
+*Faithful · treasure* · `item:crystal_eye`
+
+- Worth: 600
+
+> A mystical crystal eye that seems to watch those who hold it.
+
+#### Crystal orb
+
+*Faithful · treasure* · `item:crystal_orb`
+
+- Worth: 100
+
+> A small crystalline sphere that glimmers faintly in the light.
+
+#### Diamond eye
+
+*Faithful · treasure* · `item:diamond_eye`
+
+- Worth: 20000
+
+> A flawless diamond shaped like an eye, rumored to possess mystical properties.
+
+#### Diamond necklace
+
+*Faithful · treasure* · `item:diamond_necklace`
+
+- Worth: 10000
+
+> A necklace adorned with a single, flawless diamond.
+
+#### Divine scepter
+
+*Faithful · treasure* · `item:divine_scepter`
+
+- Worth: 1000
+
+> A scepter imbued with divine power, radiating holy energy.
+
+#### Diviners eye
+
+*Faithful · treasure* · `item:diviners_eye`
+
+- Worth: 5000
+
+> A mystical eye that grants visions of distant places and hidden truths.
+
+#### Dowsing rod
+
+*Faithful · treasure* · `item:dowsing_rod`
+
+- Worth: 12
+
+> A simple dowsing rod made of wood, used for locating water or minerals.
+
+#### Dragons egg
+
+*Faithful · treasure* · `item:dragons_egg`
+
+- Worth: 2000
+
+> A rare and valuable dragon's egg, warm to the touch.
+
+#### Dragons tooth
+
+*Faithful · treasure* · `item:dragons_tooth`
+
+- Worth: 150
+
+> A large tooth from a dragon, sharp and slightly curved.
+
+#### Eternal flame
+
+*Faithful · treasure* · `item:eternal_flame`
+
+- Worth: 4000
+
+> A small, ever-burning flame contained within a glass orb.
+
+#### Faded map
+
+*Faithful · treasure* · `item:faded_map`
+
+- Worth: 10
+
+> A faded map with barely visible markings and torn edges.
+
+#### Faded painting
+
+*Faithful · treasure* · `item:faded_painting`
+
+- Worth: 12
+
+> A faded painting on canvas, its colors dulled by time.
+
+#### Faded tome
+
+*Faithful · treasure* · `item:faded_tome`
+
+- Worth: 20
+
+> A faded tome with yellowed pages and a cracked spine.
+
+#### Fallen star
+
+*Faithful · treasure* · `item:fallen_star`
+
+- Worth: 500
+
+> A fragment of a fallen star, radiating a faint magical aura.
+
+#### Golden idol
+
+*Faithful · treasure* · `item:golden_idol`
+
+- Worth: 400
+
+> A small idol made of pure gold, intricately crafted.
+
+#### Hand mirror
+
+*Faithful · treasure* · `item:hand_mirror`
+
+- Worth: 2
+
+> A small hand mirror with a cracked glass surface.
+
+#### Intelligent book
+
+*Faithful · treasure* · `item:intelligent_book`
+
+- Worth: 3000
+
+> A book that possesses its own consciousness and can communicate with its reader.
+
+#### Intelligent painting
+
+*Faithful · treasure* · `item:intelligent_painting`
+
+- Worth: 2500
+
+> A painting that seems to change and shift when observed closely.
+
+#### Iron figurine
+
+*Faithful · treasure* · `item:iron_figurine`
+
+- Worth: 4
+
+> A small iron figurine, rusted and pitted with age.
+
+#### Iron idol
+
+*Faithful · treasure* · `item:iron_idol`
+
+- Worth: 20
+
+> A small idol carved from iron, depicting a warrior deity.
+
+#### Iron torc
+
+*Faithful · treasure* · `item:iron_torc`
+
+- Worth: 4
+
+> A simple iron torc, slightly bent and rusted.
+
+#### Jeweled box
+
+*Faithful · treasure* · `item:jeweled_box`
+
+- Worth: 150
+
+> A small empty box encrusted with jewels, its lid slightly ajar.
+
+#### Jeweled crown
+
+*Faithful · treasure* · `item:jeweled_crown`
+
+- Worth: 80
+
+> A small crown adorned with semi-precious stones.
+
+#### Jeweled dagger
+
+*Faithful · treasure* · `item:jeweled_dagger`
+
+- Worth: 300
+
+> A dagger with a hilt encrusted with precious gems.
+
+#### Jeweled statue
+
+*Faithful · treasure* · `item:jeweled_statue`
+
+- Worth: 1200
+
+> A statue encrusted with precious jewels, depicting a legendary figure.
+
+#### Jeweled torc
+
+*Faithful · treasure* · `item:jeweled_torc`
+
+- Worth: 500
+
+> A torc adorned with precious jewels as balustrades.
+
+#### Jeweled zodiac
+
+*Faithful · treasure* · `item:jeweled_zodiac`
+
+- Worth: 1500
+
+> A decorative zodiac made of precious jewels.
+
+#### Kraken claw
+
+*Faithful · treasure* · `item:kraken_claw`
+
+- Worth: 800
+
+> A massive claw from a kraken, still dripping with seawater.
+
+#### Lensing crystal
+
+*Faithful · treasure* · `item:lensing_crystal`
+
+- Worth: 18
+
+> A cracked lens that once belonged to a powerful magnifying glass.
+
+#### Lost tome
+
+*Faithful · treasure* · `item:lost_tome`
+
+- Worth: 350
+
+> A lost tome containing forgotten knowledge and secrets.
+
+#### Music box
+
+*Faithful · treasure* · `item:music_box`
+
+- Worth: 50
+
+> A beautifully crafted music box that plays a haunting melody.
+
+#### Opalescent skull
+
+*Faithful · treasure* · `item:opalescent_skull`
+
+- Worth: 2500
+
+> A skull made of opalescent material, shimmering with various colors.
+
+#### Philosophers stone
+
+*Faithful · treasure* · `item:philosophers_stone`
+
+- Worth: 10000
+
+> A legendary stone said to have the power to transmute base metals into gold.
+
+#### Phoenix feather
+
+*Faithful · treasure* · `item:phoenix_feather`
+
+- Worth: 700
+
+> A rare feather from a phoenix, said to have healing properties.
+
+#### Priceless painting
+
+*Faithful · treasure* · `item:priceless_painting`
+
+- Worth: 1000
+
+> A priceless painting by a renowned artist, its value immeasurable.
+
+#### Royal crown
+
+*Faithful · treasure* · `item:royal_crown`
+
+- Worth: 500
+
+> An ornate crown once worn by royalty, studded with precious gems.
+
+#### Royal scepter
+
+*Faithful · treasure* · `item:royal_scepter`
+
+- Worth: 150
+
+> An ornate scepter once wielded by royalty, encrusted with jewels.
+
+#### Sacred idol
+
+*Faithful · treasure* · `item:sacred_idol`
+
+- Worth: 3000
+
+> A sacred idol revered by an ancient civilization.
+
+#### Simple ring
+
+*Faithful · treasure* · `item:simple_ring`
+
+- Worth: 5
+
+> A simple iron ring, slightly bent out of shape.
+
+#### Smoking pipe
+
+*Faithful · treasure* · `item:smoking_pipe`
+
+- Worth: 7
+
+> A well-used smoking pipe made of clay, with a few chips and cracks.
+
+#### Soul gem
+
+*Faithful · treasure* · `item:soul_gem`
+
+- Worth: 1000
+
+> A gem that contains a trapped soul, pulsating with dark energy.
+
+#### Steel coin
+
+*Faithful · treasure* · `item:steel_coin`
+
+- Worth: 3
+
+> A dull steel coin, worn smooth from years of handling.
+
+#### Steel torc
+
+*Faithful · treasure* · `item:steel_torc`
+
+- Worth: 7
+
+> A simple steel torc, slightly bent and tarnished.
+
+#### Tattered map
+
+*Faithful · treasure* · `item:tattered_map`
+
+- Worth: 3
+
+> A tattered map with faded markings and torn edges.
+
+#### Tattered tome
+
+*Faithful · treasure* · `item:tattered_tome`
+
+- Worth: 15
+
+> A tattered tome with frayed pages and a broken spine.
+
+#### Titan statue
+
+*Faithful · treasure* · `item:titan_statue`
+
+- Worth: 800
+
+> A massive statue carved from stone, depicting a titan of old.
+
+#### Triskelion amulet
+
+*Faithful · treasure* · `item:triskelion_amulet`
+
+- Worth: 6
+
+> An amulet bearing a spiraling symbol with threefold symmetry, made of bronze.
+
+#### Unholy symbol
+
+*Faithful · treasure* · `item:unholy_symbol`
+
+- Worth: 75
+
+> A profane icon associated with forbidden rituals.
+
+#### Unusual seashell
+
+*Faithful · treasure* · `item:unusual_seashell`
+
+- Worth: 25
+
+> A large seashell with an unusual spiral pattern and iridescent sheen.
+
+#### Vial of phoenix tears
+
+*Faithful · treasure* · `item:vial_of_phoenix_tears`
+
+- Worth: 1500
+
+> A small vial containing the tears of a phoenix, known for their healing properties.
+
+#### Vial of unicorn blood
+
+*Faithful · treasure* · `item:vial_of_unicorn_blood`
+
+- Worth: 1800
+
+> A small vial containing the blood of a unicorn, prized for its magical properties.
+
+#### Wooden bowl
+
+*Faithful · treasure* · `item:wooden_bowl`
+
+- Worth: 1
+
+> A simple wooden bowl, chipped and worn from use.
+
+#### Wooden figurine
+
+*Faithful · treasure* · `item:wooden_figurine`
+
+- Worth: 2
+
+> A small wooden figurine, roughly carved and unfinished.
+
+#### Wooden idol
+
+*Faithful · treasure* · `item:wooden_idol`
+
+- Worth: 15
+
+> A small idol carved from wood, depicting a nature deity.
+
+#### Zodiac medallion
+
+*Faithful · treasure* · `item:zodiac_medallion`
+
+- Worth: 20
+
+> A medallion inscribed with zodiac symbols, made of silver.
+
+#### Zoological manual
+
+*Faithful · treasure* · `item:zoological_manual`
+
+- Worth: 40
+
+> A detailed manual describing various fantastical creatures.
+
+#### Agate
+
+*Adapted · treasure* · `item:agate`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: agate.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Carnelian
+
+*Adapted · treasure* · `item:carnelian`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: carnelian.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Jasper
+
+*Adapted · treasure* · `item:jasper`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: jasper.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Moonstone
+
+*Adapted · treasure* · `item:moonstone`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: moonstone.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Onyx
+
+*Adapted · treasure* · `item:onyx`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: onyx.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Quartz
+
+*Adapted · treasure* · `item:quartz`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: quartz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Tiger eye
+
+*Adapted · treasure* · `item:tiger_eye`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: tiger eye.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Turquoise
+
+*Adapted · treasure* · `item:turquoise`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: turquoise.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Chrysoberyl
+
+*Adapted · treasure* · `item:chrysoberyl`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: chrysoberyl.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Citrine
+
+*Adapted · treasure* · `item:citrine`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: citrine.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Fluorite
+
+*Adapted · treasure* · `item:fluorite`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: fluorite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Hematite
+
+*Adapted · treasure* · `item:hematite`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: hematite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Iolite
+
+*Adapted · treasure* · `item:iolite`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: iolite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Jade
+
+*Adapted · treasure* · `item:jade`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: jade.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Lapis lazuli
+
+*Adapted · treasure* · `item:lapis_lazuli`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: lapis lazuli.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Malachite
+
+*Adapted · treasure* · `item:malachite`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: malachite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Obsidian
+
+*Adapted · treasure* · `item:obsidian`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: obsidian.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Pyrite
+
+*Adapted · treasure* · `item:pyrite`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: pyrite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Rose quartz
+
+*Adapted · treasure* · `item:rose_quartz`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: rose quartz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Smoky quartz
+
+*Adapted · treasure* · `item:smoky_quartz`
+
+- Worth: 15
+
+> A common gemstone, cut and polished: smoky quartz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Diamond
+
+*Adapted · treasure* · `item:diamond`
+
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Black opal
+
+*Adapted · treasure* · `item:black_opal`
+
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: black opal.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Star ruby
+
+*Adapted · treasure* · `item:star_ruby`
+
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: star ruby.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Blue diamond
+
+*Adapted · treasure* · `item:blue_diamond`
+
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: blue diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Fire opal
+
+*Adapted · treasure* · `item:fire_opal`
+
+- Worth: 2500
+
+> A legendary gemstone, cut and polished: fire opal.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Aquamarine
+
+*Adapted · treasure* · `item:aquamarine`
+
+- Worth: 250
+
+> A rare gemstone, cut and polished: aquamarine.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Emerald
+
+*Adapted · treasure* · `item:emerald`
+
+- Worth: 250
+
+> A rare gemstone, cut and polished: emerald.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Ruby
+
+*Adapted · treasure* · `item:ruby`
+
+- Worth: 250
+
+> A rare gemstone, cut and polished: ruby.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Sapphire
+
+*Adapted · treasure* · `item:sapphire`
+
+- Worth: 250
+
+> A rare gemstone, cut and polished: sapphire.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Tanzanite
+
+*Adapted · treasure* · `item:tanzanite`
+
+- Worth: 250
+
+> A rare gemstone, cut and polished: tanzanite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Spinel red
+
+*Adapted · treasure* · `item:spinel_red`
+
+- Worth: 250
+
+> A rare gemstone, cut and polished: spinel red.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Amethyst
+
+*Adapted · treasure* · `item:amethyst`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: amethyst.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Garnet
+
+*Adapted · treasure* · `item:garnet`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: garnet.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Peridot
+
+*Adapted · treasure* · `item:peridot`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: peridot.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Topaz
+
+*Adapted · treasure* · `item:topaz`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: topaz.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Zircon
+
+*Adapted · treasure* · `item:zircon`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: zircon.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Spinel
+
+*Adapted · treasure* · `item:spinel`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: spinel.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Tourmaline
+
+*Adapted · treasure* · `item:tourmaline`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: tourmaline.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Alexandrite
+
+*Adapted · treasure* · `item:alexandrite`
+
+- Worth: 60
+
+> A uncommon gemstone, cut and polished: alexandrite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Black diamond
+
+*Adapted · treasure* · `item:black_diamond`
+
+- Worth: 800
+
+> A very rare gemstone, cut and polished: black diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Red diamond
+
+*Adapted · treasure* · `item:red_diamond`
+
+- Worth: 800
+
+> A very rare gemstone, cut and polished: red diamond.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Musgravite
+
+*Adapted · treasure* · `item:musgravite`
+
+- Worth: 800
+
+> A very rare gemstone, cut and polished: musgravite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Painite
+
+*Adapted · treasure* · `item:painite`
+
+- Worth: 800
+
+> A very rare gemstone, cut and polished: painite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Grandidierite
+
+*Adapted · treasure* · `item:grandidierite`
+
+- Worth: 800
+
+> A very rare gemstone, cut and polished: grandidierite.
+
+*Adapted: Orsino lists its gems by tier without a price; each tier is given a worth here.*
+
+#### Ale
+
+*Faithful · consumable* · `item:ale`
+
+- Worth: 2
+
+Used: Heal one ally for 3d4 (3–12).
+
+> A mug of frothy ale to quench your thirst after a long day of adventuring.
+
+#### Backpack
+
+*Adapted · gear* · `item:backpack`
+
+- Worth: 5
+
+> A sturdy backpack for carrying your gear on your adventures.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Barrel
+
+*Adapted · gear* · `item:barrel`
+
+- Worth: 10
+
+> A large barrel for storing liquids or bulk goods.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Bedroll
+
+*Faithful · gear* · `item:bedroll`
+
+- Worth: 1
+
+> A comfortable bedroll for sleeping outdoors.
+
+#### Bell
+
+*Adapted · gear* · `item:bell`
+
+- Worth: 1
+
+> A small bell that can be used to signal others or scare off wildlife.
 
 *Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Blanket
+
+*Faithful · gear* · `item:blanket`
+
+- Worth: 1
+
+> A warm blanket for cold nights around the campfire.
+
+#### Boots
+
+*Faithful · gear* · `item:boots`
+
+- Worth: 2
+
+> A sturdy pair of boots for trekking through rough terrain.
+
+#### Box
+
+*Adapted · gear* · `item:box`
+
+- Worth: 3
+
+> A sturdy box for storing small items and valuables.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Bracers
+
+*Faithful · gear* · `item:bracers`
+
+- Worth: 4
+
+> A pair of leather bracers for protecting your forearms in combat.
+
+#### Caltrops
+
+*Faithful · tool* · `item:caltrops`
+
+- Worth: 1
+
+> A bag of caltrops that can be scattered on the ground to slow down pursuers.
+
+#### Candle
+
+*Adapted · equipment* · `item:candle`
+
+- Worth: 1
+- Worn: light
+
+Brings Light to whoever carries it equipped.
+
+> A simple wax candle that provides light in dark places.
+
+*Left out — field:masterGear.duration: A Kyr light does not burn down by itself.*
+
+#### Canvas
+
+*Faithful · tool* · `item:canvas`
+
+- Worth: 2
+
+> A roll of canvas for making tents, sails, or other fabric items.
+
+#### Chain
+
+*Faithful · tool* · `item:chain`
+
+- Worth: 5
+
+> A length of sturdy chain for securing items or climbing.
+
+#### Chalk
+
+*Faithful · tool* · `item:chalk`
+
+- Worth: 1
+
+> A piece of chalk for marking walls or drawing maps.
+
+#### Cloak
+
+*Faithful · gear* · `item:cloak`
+
+- Worth: 3
+
+> A warm cloak for protection against the elements.
+
+#### Cloak pin
+
+*Faithful · tool* · `item:cloak_pin`
+
+- Worth: 2
+
+> A pin for securing a cloak in place.
 
 #### Crowbar
 
@@ -1619,29 +2772,307 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 *Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
 
+#### Dice
+
+*Faithful · tool* · `item:dice`
+
+- Worth: 1
+
+> A set of dice for gambling or passing the time.
+
+#### Doublet
+
+*Faithful · gear* · `item:doublet`
+
+- Worth: 3
+
+> A stylish doublet for formal occasions or impressing nobles.
+
+#### Firewood
+
+*Faithful · gear* · `item:firewood`
+
+- Worth: 1
+
+> A bundle of firewood for starting campfires.
+
+#### Fish hook
+
+*Faithful · tool* · `item:fish_hook`
+
+- Worth: 1
+
+> A sharp fish hook for catching fish.
+
+#### Fishing net
+
+*Faithful · tool* · `item:fishing_net`
+
+- Worth: 3
+
+> A sturdy fishing net for catching multiple fish at once.
+
+#### Flask
+
+*Adapted · gear* · `item:flask`
+
+- Worth: 1
+
+> A small flask for carrying liquids.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Flint and steel
+
+*Faithful · tool* · `item:flint_and_steel`
+
+- Worth: 2
+
+> A flint and steel for starting fires.
+
+#### Gloves
+
+*Faithful · gear* · `item:gloves`
+
+- Worth: 2
+
+> A pair of gloves for protecting your hands.
+
+#### Gown
+
+*Faithful · gear* · `item:gown`
+
+- Worth: 3
+
+> An elegant gown for formal occasions.
+
+#### Hammer
+
+*Faithful · tool* · `item:hammer`
+
+- Worth: 2
+
+> A sturdy hammer for driving nails or breaking objects.
+
+#### Holy symbol
+
+*Faithful · tool* · `item:holy_symbol`
+
+- Worth: 5
+
+> A holy symbol for religious ceremonies or warding off evil.
+
+#### Holy water
+
+*Not playable · gear* · `item:holy_water`
+
+- Worth: 25
+
+> A vial of holy water that can harm undead creatures.
+
+*Not playable — use: Kyr cannot use a damage effect from an item.*
+
+#### Hose
+
+*Faithful · tool* · `item:hose`
+
+- Worth: 2
+
+> A length of hose for carrying water or other liquids.
+
+#### Iron spikes
+
+*Faithful · tool* · `item:iron_spikes`
+
+- Worth: 1
+
+> A set of iron spikes for securing tents or climbing walls.
+
+#### Ladder
+
+*Faithful · tool* · `item:ladder`
+
+- Worth: 4
+
+> A portable ladder for reaching high places.
+
+#### Lamp
+
+*Adapted · equipment* · `item:lamp`
+
+- Worth: 3
+- Worn: light
+
+Brings Light to whoever carries it equipped.
+
+> An oil lamp that provides light in dark places.
+
+*Left out — field:masterGear.duration: A Kyr light does not burn down by itself.*
+
+#### Lantern
+
+*Adapted · equipment* · `item:lantern`
+
+- Worth: 7
+- Worn: light
+
+Brings Light to whoever carries it equipped.
+
+> A lantern that provides bright light for extended periods.
+
+*Left out — field:masterGear.duration: A Kyr light does not burn down by itself.*
+
+#### Lock
+
+*Faithful · tool* · `item:lock`
+
+- Worth: 10
+
+> A sturdy lock for securing doors or chests.
+
+#### Manacles
+
+*Faithful · tool* · `item:manacles`
+
+- Worth: 8
+
+> A pair of manacles for restraining prisoners.
+
+#### Mirror
+
+*Faithful · tool* · `item:mirror`
+
+- Worth: 5
+
+> A small mirror for signaling or personal grooming.
+
+#### Musical instrument
+
+*Faithful · tool* · `item:musical_instrument`
+
+- Worth: 10
+
+> A musical instrument for entertainment or rituals.
+
+#### Needle and thread
+
+*Faithful · tool* · `item:needle_and_thread`
+
+- Worth: 1
+
+> A needle and thread for repairing clothing or gear.
+
+#### Piton
+
+*Faithful · tool* · `item:piton`
+
+- Worth: 1
+
+> A metal spike for anchoring ropes in rock or ice.
+
 #### Ten-foot pole
 
-*Kyr · gear* · `item:pole`
+*Adapted · gear* · `item:pole`
 
 - Worth: 1
 
 > A long ash pole, iron-shod at one end. For testing floors, prodding what should not be touched, and reaching what should not be reached for.
 
-#### Sack of sand
+*Adapted: Orsino's pole, given the length and the uses Kyr's tries ask of it.*
 
-*Kyr · gear* · `item:sandbag`
+#### Pot
 
-> A tied sack of dry sand, about as heavy as a small child. Useless, until it is not.
+*Adapted · gear* · `item:pot`
 
-#### Thieves' tools
+- Worth: 3
 
-*Adapted · tool* · `item:thieves_tools`
+> A cooking pot for preparing meals while traveling.
 
-- Worth: 25
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
 
-> A set of tools for picking locks and disarming traps.
+#### Pouch
+
+*Adapted · gear* · `item:pouch`
+
+- Worth: 2
+
+> A small pouch for carrying personal items.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Quill
+
+*Faithful · tool* · `item:quill`
+
+- Worth: 1
+
+> A feather quill for writing or drawing.
+
+#### Quiver
+
+*Adapted · gear* · `item:quiver`
+
+- Worth: 3
+
+> A quiver for holding arrows or bolts.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Robe
+
+*Faithful · gear* · `item:robe`
+
+- Worth: 4
+
+> A flowing robe for wizards or priests.
+
+#### Coil of rope
+
+*Adapted · gear* · `item:rope`
+
+- Worth: 1
+
+> A length of sturdy rope for climbing, tying, or securing items.
 
 *Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Sack
+
+*Adapted · gear* · `item:sack`
+
+- Worth: 2
+
+> A large sack for carrying bulky items.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Satchel
+
+*Adapted · gear* · `item:satchel`
+
+- Worth: 3
+
+> A small satchel for carrying books or scrolls.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Scrollcase
+
+*Adapted · gear* · `item:scrollcase`
+
+- Worth: 2
+
+> A protective case for carrying scrolls or maps.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Shoes
+
+*Faithful · gear* · `item:shoes`
+
+- Worth: 2
+
+> A comfortable pair of shoes for everyday wear.
 
 #### Shovel
 
@@ -1653,15 +3084,842 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 *Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
 
-#### Bell
+#### Signal whistle
 
-*Adapted · gear* · `item:bell`
+*Faithful · tool* · `item:signal_whistle`
 
 - Worth: 1
 
-> A small bell that can be used to signal others or scare off wildlife.
+> A whistle for signaling allies or alerting to danger.
+
+#### Skillet
+
+*Faithful · tool* · `item:skillet`
+
+- Worth: 2
+
+> A cast iron skillet for cooking meals over a campfire.
+
+#### Soap
+
+*Faithful · tool* · `item:soap`
+
+- Worth: 1
+
+> A bar of soap for personal hygiene while traveling.
+
+#### Spellbook
+
+*Faithful · tool* · `item:spellbook`
+
+- Worth: 15
+
+> A book containing spells and magical knowledge for wizards.
+
+#### Tent
+
+*Faithful · gear* · `item:tent`
+
+- Worth: 10
+
+> A portable tent for shelter while camping outdoors.
+
+#### Thieves' tools
+
+*Adapted · tool* · `item:thieves_tools`
+
+- Worth: 25
+
+> A set of tools for picking locks and disarming traps.
 
 *Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+
+#### Torch
+
+*Adapted · gear* · `item:torch`
+
+- Worth: 1
+
+Used: You gain torchlit for 1 hour.
+
+> A pitch-soaked torch. Lit, it burns for about an hour and lights the dark; it also sets dry things burning.
+
+*Adapted: Orsino's torch is a light source with a duration. Kyr gives it meaning through world rules: changes that need fire.*
+
+#### Tunic
+
+*Faithful · gear* · `item:tunic`
+
+- Worth: 2
+
+> A simple tunic for everyday wear.
+
+#### Twine
+
+*Faithful · tool* · `item:twine`
+
+- Worth: 1
+
+> A ball of twine for tying or binding objects.
+
+#### Vellum
+
+*Faithful · tool* · `item:vellum`
+
+- Worth: 3
+
+> A sheet of vellum for writing or drawing.
+
+#### Vinegar
+
+*Faithful · consumable* · `item:vinegar`
+
+- Worth: 2
+
+Used: Heal one ally for 1d4 (1–4).
+
+> A bottle of vinegar for cooking or cleaning wounds.
+
+#### Waterskin
+
+*Adapted · gear* · `item:waterskin`
+
+- Worth: 2
+
+> A waterskin for carrying fresh water on long journeys.
+
+*Left out — field:masterGear.capacity: Kyr does not count what a container holds.*
+
+#### Whetstone
+
+*Faithful · tool* · `item:whetstone`
+
+- Worth: 1
+
+> A whetstone for sharpening blades and tools.
+
+#### Wind chime
+
+*Faithful · tool* · `item:wind_chime`
+
+- Worth: 3
+
+> A decorative wind chime that produces soothing sounds when the wind blows.
+
+#### Wine
+
+*Faithful · consumable* · `item:wine`
+
+- Worth: 3
+
+Used: Heal one ally for 2d4 (2–8).
+
+> A bottle of fine wine to celebrate a successful adventure.
+
+#### Alchemist's Fire
+
+*Not playable · gear* · `item:alchemist_fire`
+
+- Worth: 18
+
+> A sticky, flammable substance that ignites when exposed to air.
+
+*Not playable — use: Kyr cannot use a damage effect from an item.*
+
+#### Antidote
+
+*Adapted · consumable* · `item:antidote`
+
+Used: End poisoned on one ally.
+
+> A single dose removes the poisoned condition from a living companion.
+
+*Adapted: Orsino removes the status named Poison; Kyr removes poisoned.*
+
+#### Cloudberry
+
+*Faithful · consumable* · `item:cloudberry`
+
+- Worth: 20
+
+Used: Heal one ally for 1d4 + 1 (2–5).
+
+> A rare berry that grows in cold, mountainous regions. It has a sweet and tangy flavor and is said to have mild healing properties.
+
+#### Comfrey
+
+*Faithful · consumable* · `item:comfrey`
+
+- Worth: 40
+
+Used: Heal one ally for 2d4 (2–8); end bleeding on one ally.
+
+> A leafy herb known for its ability to promote rapid healing of wounds and broken bones.
+
+#### Dandelion
+
+*Faithful · consumable* · `item:dandelion`
+
+- Worth: 10
+
+Used: Heal one ally for 1d3 (1–3); end poison on one ally.
+
+> A common herb known for its detoxifying properties. It can be used to create a tea that helps cleanse the body of toxins.
+
+#### Deck of Multiplicity
+
+*Not playable · gear* · `item:deck_of_multiplicity`
+
+- Worth: 5000
+
+> A magical deck of cards with many uses.
+
+*Not playable — use: A summon aimed at ally is not supported.*
+
+#### Elixir of Strength
+
+*Faithful · consumable* · `item:elixir_of_strength`
+
+- Worth: 100
+
+Used: One ally gains bull's strength for 3 turns.
+
+> A potent brew that temporarily enhances the drinker's physical strength.
+
+#### First Aid Kit
+
+*Faithful · consumable* · `item:first_aid_kit`
+
+- Worth: 25
+
+Used: Heal one ally for 1d4 + 1 (2–5); end bleeding on one ally.
+
+> A small kit containing bandages and salves for treating minor wounds.
+
+#### Foxglove
+
+*Not playable · gear* · `item:foxglove`
+
+- Worth: 50
+
+> A beautiful but poisonous flower. When prepared correctly, it can be used to create a potent healing salve.
+
+*Not playable — use: Kyr cannot use a remove effect from an item.*
+
+#### Goodberry
+
+*Faithful · consumable* · `item:goodberry_consumable`
+
+- Worth: 10
+
+Used: Heal one ally for 1d4 + 1 (2–5).
+
+> A small, red berry that provides nourishment and minor healing when consumed.
+
+#### Potion of Healing
+
+*Faithful · consumable* · `item:healing_potion`
+
+- Worth: 40
+
+Used: Heal one ally for 3d4 + 3 (6–15).
+
+> A vial of shimmering red liquid that restores a moderate amount of health when consumed.
+
+#### Heather
+
+*Faithful · consumable* · `item:heather`
+
+- Worth: 15
+
+Used: Heal one ally for 1d3 + 1 (2–4); end fatigued on one ally.
+
+> A fragrant herb that can be brewed into a tea to soothe aches and pains.
+
+#### Kingsfoil
+
+*Faithful · consumable* · `item:kingsfoil`
+
+- Worth: 75
+
+Used: Heal one ally for 2d4 + 2 (4–10); end poison on one ally.
+
+> A three-leaf herb known also as Aelvenroot, prized for its potent healing properties when brewed into a tea or poultice.
+
+#### Major Potion of Healing
+
+*Faithful · consumable* · `item:major_healing_potion`
+
+- Worth: 120
+
+Used: Heal one ally for 4d4 + 4 (8–20).
+
+> A vial of glowing red liquid that restores a significant amount of health when consumed.
+
+#### Minor Potion of Healing
+
+*Faithful · consumable* · `item:minor_healing_potion`
+
+- Worth: 15
+
+Used: Heal one ally for 2d4 + 2 (4–10).
+
+> A vial of glittering red liquid that restores health when consumed.
+
+#### Flask of Oil
+
+*Not playable · gear* · `item:oil_flask`
+
+- Worth: 20
+
+> A flask of slippery oil that can be thrown onto a surface or creature to make it more vulnerable to fire.
+
+*Not playable — use: Kyr cannot use a apply effect from an item.*
+
+#### Potion of Barkskin
+
+*Not playable · gear* · `item:potion_of_barkskin`
+
+- Worth: 120
+
+> A vial of thick, green liquid that hardens the drinker's skin, providing additional protection.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Rashers of Bacon
+
+*Faithful · consumable* · `item:rashers`
+
+- Worth: 5
+
+Used: Heal one ally for 1d3 (1–3).
+
+> Cured strips of pork that can be cooked and eaten for sustenance.
+
+#### Scroll of Apocalypse
+
+*Not playable · gear* · `item:scroll_of_apocalypse`
+
+- Worth: 2000
+
+> An ancient scroll that unleashes catastrophic energy upon all enemies in the area.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Scroll of Cure Disease
+
+*Faithful · consumable* · `item:scroll_of_cure_disease`
+
+- Worth: 150
+
+Used: End diseased on one ally.
+
+> A magical scroll that can cure a target of any disease afflicting them.
+
+#### Scroll of Domination
+
+*Not playable · gear* · `item:scroll_of_domination`
+
+- Worth: 100
+
+> A magical scroll that allows the caster to control the mind of a target creature.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Scroll of Fireball
+
+*Not playable · gear* · `item:scroll_of_fireball`
+
+- Worth: 200
+
+> A magical scroll that allows the caster to unleash a fiery explosion at a target location.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Scroll of Shapechange
+
+*Not playable · gear* · `item:scroll_of_shapechange`
+
+- Worth: 1500
+
+> A powerful scroll that allows the caster to transform into a fearsome dragon.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Wand of Cure Minor Wounds
+
+*Not playable · gear* · `item:wand_of_cure_minor_wounds`
+
+- Worth: 100
+
+> A slender wand that can channel healing energy to mend minor wounds.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Wand of Magic Missile
+
+*Not playable · gear* · `item:wand_of_magic_missile`
+
+- Worth: 250
+
+> A slender wand that can fire magical darts of force energy at a target.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Wand of Paralyzing Touch
+
+*Not playable · gear* · `item:wand_of_paralyzing_touch`
+
+- Worth: 150
+
+> A slender wand that can deliver a paralyzing touch to a target.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Wand of Polymorph
+
+*Not playable · gear* · `item:wand_of_polymorph`
+
+- Worth: 250
+
+> A slender wand that can transform a target into a different creature.
+
+*Not playable — use: Kyr cannot use a cast effect from an item.*
+
+#### Wand of Wonder
+
+*Not playable · gear* · `item:wand_of_wonder`
+
+- Worth: 500
+
+> A whimsical wand that produces random magical effects when used.
+
+*Not playable — use: Kyr cannot use a random effect from an item.*
+
+#### Aegis of Eternity
+
+*Faithful · equipment* · `item:aegis_of_eternity`
+
+- Worth: 10000
+- Worn: shield
+
+6 harder to hit.
+
+resists 30% of all.
+
+> An indestructible shield that grants unparalleled protection.
+
+#### Aeon Stone
+
+*Faithful · equipment* · `item:aeon_stone`
+
+- Worth: 15000
+- Worn: charm
+
+> A mystical stone that grants the bearer control over time itself.
+
+#### Amulet of Focus
+
+*Faithful · equipment* · `item:amulet_of_focus`
+
+- Worth: 600
+- Worn: neck
+
+intelligence +3.
+
+wisdom +3.
+
+> A powerful amulet that enhances the wearer's magical abilities.
+
+#### Amulet of Health
+
+*Faithful · equipment* · `item:amulet_of_health`
+
+- Worth: 120
+- Worn: neck
+
+constitution +2.
+
+> A mystical amulet that bolsters the wearer's vitality.
+
+#### Amulet of Protection
+
+*Faithful · equipment* · `item:amulet_of_protection`
+
+- Worth: 1200
+- Worn: neck
+
+2 harder to hit.
+
+resists 10% of all.
+
+> A protective amulet that increases the wearer's defenses.
+
+#### Amulet of Vitality
+
+*Faithful · equipment* · `item:amulet_of_vitality`
+
+- Worth: 50
+- Worn: neck
+
+constitution +1.
+
+> A minor health charm
+
+#### Angelmail
+
+*Faithful · equipment* · `item:angelmail`
+
+- Worth: 4500
+- Worn: body
+
+4 harder to hit.
+
+resists 50% of radiant.
+
+> A radiant suit of armor that provides divine protection to the wearer.
+
+#### Belt of Giant Strength
+
+*Faithful · equipment* · `item:belt_of_giant_strength`
+
+- Worth: 2500
+- Worn: waist
+
+strength +6.
+
+> A sturdy belt that enhances the wearer's physical strength.
+
+#### Boots of Swiftness
+
+*Faithful · equipment* · `item:boots_of_swiftness`
+
+- Worth: 200
+- Worn: feet
+
+dexterity +2.
+
+> Lightweight boots that increase the wearer's agility.
+
+#### Censer of Consecration
+
+*Faithful · equipment* · `item:censer_of_consecration`
+
+- Worth: 750
+- Worn: charm
+
+wisdom +3.
+
+> A holy censer that empowers divine magic.
+
+#### Cloak of Invisibility
+
+*Faithful · equipment* · `item:cloak_of_invisibility`
+
+- Worth: 25000
+- Worn: cloak
+
+> A magical cloak that renders the wearer invisible.
+
+#### Cloak of Protection
+
+*Faithful · equipment* · `item:cloak_of_protection`
+
+- Worth: 100
+- Worn: cloak
+
+1 harder to hit.
+
++1 to every save.
+
+> A magical cloak that provides a small boost to the wearer's defenses.
+
+#### Crown of Insight
+
+*Faithful · equipment* · `item:crown_of_insight`
+
+- Worth: 1000
+- Worn: head
+
+wisdom +4.
+
+> An ornate crown that enhances the wearer's wisdom.
+
+#### Dragonhelm
+
+*Faithful · equipment* · `item:dragonhelm`
+
+- Worth: 3000
+- Worn: head
+
+3 harder to hit.
+
+resists 50% of fire.
+
+> A helm forged from dragon scales, providing exceptional protection.
+
+#### Dun Rìerdan Waystone
+
+*Not playable · equipment* · `item:dun_rierdan_waystone`
+
+- Worth: 500
+- Worn: neck
+
+constitution +2.
+
+resists 5% of all.
+
+> An ancient waystone that enhances the traveler's endurance and resilience. When in proximity it may point the way to Dun Rì, the city of seven towers.
+
+*Not playable — revealLocation: Kyr does not execute this Orsino effect yet.*
+
+#### Galvorn Mail
+
+*Faithful · equipment* · `item:galvorn_mail`
+
+- Worth: 4000
+- Worn: body
+
+5 harder to hit.
+
+resists 20% of all.
+
+> A suit of mail armor made from the rare and nearly indestructible galvorn metal.
+
+#### Gloves of Dexterity
+
+*Faithful · equipment* · `item:gloves_of_dexterity`
+
+- Worth: 50
+- Worn: hands
+
+dexterity +1.
+
+> Fine gloves that enhance the wearer's dexterity.
+
+#### Helm of Intellect
+
+*Faithful · equipment* · `item:helm_of_intellect`
+
+- Worth: 150
+- Worn: head
+
+intelligence +2.
+
+> A finely crafted helm that sharpens the wearer's mind.
+
+#### Helm of the Stars
+
+*Faithful · equipment* · `item:helm_of_the_stars`
+
+- Worth: 400
+- Worn: head
+
+strength +1.
+
+dexterity +1.
+
+constitution +1.
+
+intelligence +1.
+
+wisdom +1.
+
+charisma +1.
+
+> A mystical helm that enhances all senses of the wearer.
+
+#### Mantle of Charisma
+
+*Faithful · equipment* · `item:mantle_of_charisma`
+
+- Worth: 200
+- Worn: cloak
+
+charisma +4.
+
+> An elegant mantle that enhances the wearer's charisma.
+
+#### Ring of Major Protection
+
+*Faithful · equipment* · `item:ring_of_major_protection`
+
+- Worth: 1000
+- Worn: ring
+
+3 harder to hit.
+
+> A powerful ring that provides significant protection to the wearer.
+
+#### Ring of Minor Protection
+
+*Faithful · equipment* · `item:ring_of_minor_protection`
+
+- Worth: 50
+- Worn: ring
+
+1 harder to hit.
+
+> A simple enchanted ring providing slight protection
+
+#### Ring of Minor Strength
+
+*Faithful · equipment* · `item:ring_of_minor_strength`
+
+- Worth: 50
+- Worn: ring
+
+strength +1.
+
+> A simple enchanted ring providing slight strength boost
+
+#### Ring of Perfect Turning
+
+*Not playable · equipment* · `item:ring_of_perfect_turning`
+
+- Worth: 2000
+- Worn: ring
+
+resists 50% of all.
+
+> Grants high resistance to all damage types, and good chance to reflect spells back to caster.
+
+*Not playable — reflectSpellChance: Kyr does not execute this Orsino effect yet.*
+
+#### Ring of Protection
+
+*Faithful · equipment* · `item:ring_of_protection`
+
+- Worth: 300
+- Worn: ring
+
+2 harder to hit.
+
+> A magical ring that grants the wearer enhanced protection.
+
+#### Ring of Regeneration
+
+*Faithful · equipment* · `item:ring_of_regeneration`
+
+- Worth: 800
+- Worn: ring
+
+heal 1d2 - 1 (0–1) each turn.
+
+> A mystical ring that slowly heals the wearer over time.
+
+#### Ring of Spell Turning
+
+*Not playable · equipment* · `item:ring_of_spell_turning`
+
+- Worth: 1200
+- Worn: ring
+
++4 to magic saves.
+
+resists 20% of all.
+
+> Improve all resistances and inflict damage back to caster on spell saves.
+
+*Not playable — reflectSpellChance: Kyr does not execute this Orsino effect yet.*
+
+*Not playable — onSaveVersusMagic: Kyr does not execute this Orsino effect yet.*
+
+#### Ring of Strength
+
+*Faithful · equipment* · `item:ring_of_strength`
+
+- Worth: 150
+- Worn: ring
+
+strength +2.
+
+> A magical ring that enhances the wearer's physical strength.
+
+#### Ring of the Firmament
+
+*Faithful · equipment* · `item:ring_of_the_firmament`
+
+- Worth: 500
+- Worn: ring
+
+resists 50% of fire.
+
+resists 50% of cold.
+
+resists 50% of lightning.
+
+> A celestial ring that grants the wearer resistance to elemental damage.
+
+#### Ring of Thorns
+
+*Faithful · equipment* · `item:ring_of_thorns`
+
+- Worth: 400
+- Worn: ring
+
+> A magical ring that grants the wearer the ability to counterattack.
+
+#### Ring of True Sight
+
+*Not playable · equipment* · `item:ring_of_true_sight`
+
+- Worth: 1500
+- Worn: ring
+
+> A magical ring that allows the wearer to see through illusions and invisibility.
+
+*Not playable — seeInvisible: Kyr does not execute this Orsino effect yet.*
+
+#### Robe of Elvenkind
+
+*Faithful · equipment* · `item:robe_of_elvenkind`
+
+- Worth: 700
+- Worn: body
+
++10 evasion.
+
+dexterity +2.
+
+> A finely crafted robe imbued with a protective aura that enhances the wearer's agility.
+
+#### Silvered Bracers
+
+*Faithful · equipment* · `item:silvered_bracers`
+
+- Worth: 80
+- Worn: arms
+
+1 harder to hit.
+
+> A pair of bracers made of silver, offering minor protection against attacks.
+
+#### Singing Stone
+
+*Not playable · equipment* · `item:singing_stone`
+
+- Worth: 200
+- Worn: neck
+
+> A mystical stone that emits a soothing melody when held.
+
+*Not playable — bonusSpellDamage: Kyr does not execute this Orsino effect yet.*
+
+#### Wardstone
+
+*Faithful · equipment* · `item:wardstone`
+
+- Worth: 600
+- Worn: neck
+
+> A mystical stone that provides a protective barrier to the bearer.
+
+#### Sack of sand
+
+*Kyr · gear* · `item:sandbag`
+
+> A tied sack of dry sand, about as heavy as a small child. Useless, until it is not.
 
 #### Map of the district
 
@@ -1696,16 +3954,6 @@ Used: Heal one ally for 1d6 (1–6).
 > A twist of dried herbs for a poultice. One use.
 
 *Adapted: Starting gear of the medic; absent from Orsino's gear catalog.*
-
-#### Antidote
-
-*Adapted · consumable* · `item:antidote`
-
-Used: End poisoned on one ally.
-
-> A single dose removes the poisoned condition from a living companion.
-
-*Adapted: Orsino removes the status named Poison; Kyr removes poisoned.*
 
 #### Minor healing potion
 
@@ -1824,18 +4072,6 @@ Brings Climbing to whoever carries it equipped.
 *Kyr · gear* · `item:cell_key`
 
 > A heavy iron key on a loop of grave-cord.
-
-#### Torch
-
-*Adapted · gear* · `item:torch`
-
-- Worth: 1
-
-Used: You gain torchlit for 1 hour.
-
-> A pitch-soaked torch. Lit, it burns for about an hour and lights the dark; it also sets dry things burning.
-
-*Adapted: Orsino's torch is a light source with a duration. Kyr gives it meaning through world rules: changes that need fire.*
 
 #### Jar of noonlight
 
@@ -2906,7 +5142,7 @@ End  on one ally. (a sixth-level slot) Level 6 arcane spell.
 
 *Faithful · level 6 arcane spell, conjuration* · `ability:summon_greater_elemental`
 
-Call one of: air elemental, ash elemental, crystal elemental, dust elemental, earth elemental, fire elemental, ice elemental, jewel elemental, lava elemental, mephit, mud elemental, salt elemental, sand elemental, smoke elemental, steam elemental, storm elemental, water elemental, wood elemental, of level 10, to fight for you until the fight ends. (a sixth-level slot) Level 6 arcane spell.
+Call one of: air elemental, ash elemental, crystal elemental, dust elemental, earth elemental, fire elemental, ice elemental, jewel elemental, lava elemental, mephit, mud elemental, salt elemental, sand elemental, slump, smoke elemental, steam elemental, storm elemental, water elemental, wood elemental, of level 10, to fight for you until the fight ends. (a sixth-level slot) Level 6 arcane spell.
 
 > Summon a powerful elemental to fight for you.
 

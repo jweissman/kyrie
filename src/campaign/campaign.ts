@@ -115,7 +115,7 @@ export class Campaign implements WatchHost {
       else {
         const draft = await ModuleBundle.load(request, { seed }, source);
         if (party) { CompanyChoices.apply(draft, party); }
-        Overlays.declareGear(draft.instance);
+        Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
         campaign = new Campaign(seed, ModuleInstallations.prepare(undefined, draft, 0));
       }
     }
@@ -130,7 +130,7 @@ export class Campaign implements WatchHost {
       elapsed: this.current.elapsed, installed: this.definition.installations }, source);
     this.installBoundary();
     if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
-    Overlays.declareGear(draft.instance);
+    Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
     const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world,
       budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed);
     const { actors, store, world } = ModuleInstallations.populate(next, this.definition.actors, this.creatures);

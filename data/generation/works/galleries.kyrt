@@ -70,8 +70,8 @@
   Rule {w}_loosed when state({w}_bars, lifted) and at({w}_cold, {w}_beyond) says "The iron door swings open of its own weight, and the cold comes out of the dark behind it, and has a shape." { Retract at({w}_cold, {w}_beyond). Assert at({w}_cold, {w}_door_room). }
   Initially Assert unlit({w}_beyond).
   Observe {w}_beyond_scene at {w}_beyond when true "A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm.".
-  Item {w}_deep_ore "an ingot of star-iron, frosted white" is bronze_bearing at {w}_beyond.
-  Item {w}_ore "a lump of pale star-iron" is bronze_bearing at {w}_vein.
+  Item {w}_deep_ore "{richname}" is {rich} at {w}_beyond.
+  Item {w}_ore "{commonname}" is {common} at {w}_vein.
 --- successors miners 2
   Observe {w}_miners at {w}_adit when true "Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of {successors} took what it could reach. A crowbar lies where one of them left it.".
   Item {w}_crowbar "a miner's crowbar" is crowbar at {w}_adit.

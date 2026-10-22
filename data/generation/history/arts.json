@@ -46,7 +46,22 @@
         "cold",
         "pale",
         "moon"
-      ]
+      ],
+      "treasure": {
+        "common": [
+          "moonstone",
+          "simple_ring",
+          "bronze_bracelet",
+          "unusual_seashell",
+          "quartz"
+        ],
+        "rich": [
+          "aquamarine",
+          "crystal_orb",
+          "jeweled_box",
+          "music_box"
+        ]
+      }
     },
     "deep": {
       "epithet": "the Delvers",
@@ -91,7 +106,22 @@
         "tin",
         "dark",
         "stone"
-      ]
+      ],
+      "treasure": {
+        "common": [
+          "hematite",
+          "pyrite",
+          "iron_figurine",
+          "steel_torc",
+          "obsidian"
+        ],
+        "rich": [
+          "garnet",
+          "topaz",
+          "jeweled_dagger",
+          "jeweled_torc"
+        ]
+      }
     },
     "sky": {
       "epithet": "the Star-Readers",
@@ -136,7 +166,20 @@
         "moon",
         "sun",
         "light"
-      ]
+      ],
+      "treasure": {
+        "common": [
+          "zodiac_medallion",
+          "lensing_crystal",
+          "faded_map",
+          "antique_compass"
+        ],
+        "rich": [
+          "celestial_chart",
+          "ancient_map",
+          "crystal_orb"
+        ]
+      }
     },
     "bone": {
       "epithet": "the Barrow-Kin",
@@ -181,7 +224,21 @@
         "night",
         "stone",
         "gloom"
-      ]
+      ],
+      "treasure": {
+        "common": [
+          "bronze_bracelet",
+          "iron_torc",
+          "steel_torc",
+          "wooden_idol",
+          "broken_flute"
+        ],
+        "rich": [
+          "broken_crown",
+          "ancient_crown",
+          "jeweled_torc"
+        ]
+      }
     },
     "stone": {
       "epithet": "the Stone-Singers",
@@ -226,7 +283,20 @@
         "silence",
         "speech",
         "dream"
-      ]
+      ],
+      "treasure": {
+        "common": [
+          "rose_quartz",
+          "jasper",
+          "fluorite",
+          "malachite"
+        ],
+        "rich": [
+          "amethyst",
+          "tourmaline",
+          "crystal_eye"
+        ]
+      }
     }
   },
   "successors": {

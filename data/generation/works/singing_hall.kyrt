@@ -32,7 +32,7 @@
   }
   Observe {w}_figures_learned at {w}_inner when state({w}_figures, heard) "{fate}" teaches history_fate.
   Observe {w}_hall_learned at {w}_hall when state({w}_door, open) "{craft} {belief}" teaches history_makers.
-  Item {w}_crystal "a shard of singing crystal" is jade_idol at {w}_inner.
+  Item {w}_crystal "{richname}" is {rich} at {w}_inner.
 --- successors fold 2
   Observe {w}_fold at {w}_porch when true "Shepherds of the kingdom of {successors} used the porch as a fold; hurdles of rotten hazel still stand across it, and the floor is soft with old dung.".
 --- successors chapel 1

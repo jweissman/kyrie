@@ -29,7 +29,9 @@
       "description": "A long ash pole, iron-shod at one end. For testing floors, prodding what should not be touched, and reaching what should not be reached for.",
       "value": 1,
       "source": {
-        "kyr": true
+        "orsino": "gear:pole",
+        "fidelity": "adapted",
+        "notes": "Orsino's pole, given the length and the uses Kyr's tries ask of it."
       }
     },
     "sandbag": {
