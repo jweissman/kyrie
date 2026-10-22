@@ -18,8 +18,8 @@ export interface WatchHost extends TickHost {
 // the company happens to it, modules progress; an activity that can be interrupted stops when something does.
 export class WatchLoop {
   // On a journey, every watch but the last is spent on the way; the company arrives for the last.
-  static pass(host: WatchHost, action: Operator, before: World, combat: CombatEvent[],
-    journey?: { leg: Leg; arrive: () => void }) {
+  static pass(host: WatchHost, action: Operator,
+    { before, combat, journey }: { before: World; combat: CombatEvent[]; journey?: { leg: Leg; arrive: () => void } }) {
     const npc: TickDecision[] = [], happenings: Happening[] = [];
     const player = host.playerActor, watches = ActionTime.of(action, before);
     const watch = Interruption.begin(host.world, action, player, host.tickState.current.elapsed);

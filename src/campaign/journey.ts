@@ -3,6 +3,11 @@ import type { Change, Operator } from '../lang/module';
 import type { World } from '../lang/world';
 
 export interface Leg { actor: string; origin: string; destination: string; way?: string; followers: string[] }
+// What a journey needs of the campaign it is made in.
+export interface JourneyHost {
+  readonly world: World;
+  commitWorld(world: World): void; applyAction(action: Operator, success?: boolean): void; refreshProjection(): void;
+}
 
 // A command that takes the company from where it stands to somewhere else, and takes more than one watch to do it.
 // The company sets out at once, with whoever is following it, and is on the way while the time passes: nothing at
@@ -49,6 +54,20 @@ export class Journey {
   private static travelling(world: World, leg: Leg, kind: 'assert' | 'retract'): Change[] {
     return leg.way && world.module.relations.some(r => r.name === 'enRoute')
       ? [{ kind, call: ModuleWriter.call('enRoute', leg.actor, leg.way) }] : [];
+  }
+  // The company comes where it was going, with its followers, and the command takes effect.
+  static arrive(host: JourneyHost, action: Operator, leg: Leg) {
+    host.commitWorld(this.arrived(host.world, leg));
+    host.applyAction(action, true);
+    host.refreshProjection();
+  }
+  // A journey turned back did not arrive; one cut short by anything else ends where it was going.
+  static landed(host: JourneyHost, action: Operator, leg: Leg, turned: boolean): boolean {
+    if (turned) { return false; }
+    if (!host.world.snapshot.relations.some(r => r.name === 'at' && r.args[0] === leg.actor)) {
+      this.arrive(host, action, leg);
+    }
+    return true;
   }
   static told(world: World, leg: Leg): string {
     const name = world.module.entities.find(e => e.id === leg.origin)?.name ?? leg.origin;

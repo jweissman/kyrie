@@ -30,7 +30,7 @@ import { Overlays } from '../overlays';
 import { CampaignTick } from './campaign-tick';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Engagement } from './engagement';
-import { Journey, type Leg } from './journey';
+import { Journey } from './journey';
 import { ActionTime } from './action-time';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
@@ -307,23 +307,17 @@ export class Campaign implements WatchHost {
     this.commit(Aftermath.record(before, this.world, action, combat));
     this.resolutions(combat, true);
     let response = success && action.report ? ObservationText.render(action.report, this.world) : undefined;
-    if (!success && action.resolve?.name === 'expose') {
-      response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
-    }
-    const pass = WatchLoop.pass(this, action, before, combat, leg && { leg, arrive: this.arrive.bind(this, action, leg) });
+    if (!success && action.resolve?.name === 'expose') { response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.'; }
+    const pass = WatchLoop.pass(this, action,
+      { before, combat, ...leg ? { journey: { leg, arrive: Journey.arrive.bind(Journey, this, action, leg) } } : {} });
     const { npc, happenings, interrupted } = pass;
     if (deferred && !leg) { success &&= !interrupted; this.apply(action, success); }
-    if (leg) { success &&= this.landed(action, leg, 'turned' in pass); }
+    if (leg) { success &&= Journey.landed(this, action, leg, 'turned' in pass); }
     if (interrupted) { response = interrupted; }
-    if (!interrupted && !this.shelter(action, combat)) {
-      success = false;
-      response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.';
-    }
-    if (success && !CommandResolutions.survived(action, this.creatures.snapshot,
-      this.definition?.actors, this.module.entities)) {
-      success = false;
-      response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.';
-    }
+    if (!interrupted && !this.shelter(action, combat)) { success = false; response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.'; }
+    const standing = CommandResolutions.survived(action, this.creatures.snapshot, this.definition?.actors,
+      this.module.entities);
+    if (success && !standing) { success = false; response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.'; }
     this.resolutions(combat, false);
     const after = this.world;
     if (action.resolve) { this.encounter++; }
@@ -390,17 +384,6 @@ export class Campaign implements WatchHost {
     this.commit(Progression.check(this.world, this.definition!, this.current.elapsed));
     this.resolutions(combat, false);
     this.observe();
-  }
-  private arrive(action: Operator, leg: Leg) {
-    this.commit(Journey.arrived(this.world, leg));
-    this.apply(action, true);
-    if (this.definition) { this.refresh(); }
-  }
-  // A journey turned back did not arrive; one cut short by anything else ends where it was going.
-  private landed(action: Operator, leg: Leg, turned: boolean): boolean {
-    if (turned) { return false; }
-    if (!this.world.snapshot.relations.some(r => r.name === 'at' && r.args[0] === leg.actor)) { this.arrive(action, leg); }
-    return true;
   }
   private apply(action: Operator, success: boolean) {
     const before = this.world, after = before.apply(success ? action.success : action.failure);
