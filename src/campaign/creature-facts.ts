@@ -54,7 +54,7 @@ export class CreatureFacts {
   // plain words of its temperament.
   private static temperament(world: World, group: string, members: Creature[]): Change[] {
     const kinds = new Set(members.map(c => Canon.temperament(c.raceId)));
-    const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, relations = world.snapshot.relations;
+    const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, relations = world.view.relations;
     const given = relations.find(r => r.name === 'temperament' && r.args[0] === group)?.args[1];
     const own = kinds.size === 1 && kind && world.module.entities.some(e => e.id === kind && e.type === 'temperament');
     const temper = given ?? (own ? kind : undefined);
@@ -170,7 +170,7 @@ export class CreatureFacts {
         }
       });
     }
-    const present = world.snapshot.relations.filter(r => r.name === 'swappable' && refs.has(r.args[0]!));
+    const present = world.related('swappable').filter(r => refs.has(r.args[0]!));
     return [...present.filter(r => !desired.has(r.args.join('|')))
       .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('swappable', ...r.args) })),
     ...[...desired.values()].map(args => ({ kind: 'assert' as const, call: ModuleWriter.call('swappable', ...args) }))];
@@ -186,7 +186,7 @@ export class CreatureFacts {
   private static choices(world: World, relation: string, open: [string, string[]][]): Change[] {
     const refs = new Set(open.map(([ref]) => ref));
     const desired = new Set(open.flatMap(([ref, ids]) => ids.map(id => `${ref}|${id}`)));
-    const present = world.snapshot.relations.filter(r => r.name === relation && refs.has(r.args[0]!));
+    const present = world.related(relation).filter(r => refs.has(r.args[0]!));
     return [...present.filter(r => !desired.has(r.args.join('|')))
       .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call(relation, ...r.args) })),
     ...[...desired].map(key => ({ kind: 'assert' as const, call: ModuleWriter.call(relation, ...key.split('|')) }))];

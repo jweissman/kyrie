@@ -95,7 +95,7 @@ export class Discovery {
   static validate(module: Module, world: World, imported: string[] = []) {
     if (!this.supported(module)) { return; }
     for (const source of module.entities.filter(e => e.type === 'source')) {
-      const facts = world.snapshot.relations.filter(r => r.name === 'reveals' && r.args[0] === source.id);
+      const facts = world.related('reveals', source.id);
       const locations = module.initial.filter(c => c.kind === 'assert' && c.call.name === 'at'
         && c.call.args[0] === source.id).map(c => c.call.args[1]);
       if (facts.length !== 1 || new Set(locations).size !== 1) {
@@ -106,7 +106,7 @@ export class Discovery {
       }
     }
     // An imported fact is established, or not, in the module that declares it.
-    for (const relation of world.snapshot.relations.filter(r => r.name === 'knows' && !imported.includes(r.args[1]!))) {
+    for (const relation of world.related('knows').filter(r => !imported.includes(r.args[1]!))) {
       if (!world.test(ModuleWriter.call('established', relation.args[1]!))
         || world.test(ModuleWriter.call('assumesFalse', ...relation.args))) {
         throw new Error('Invalid initial knowledge');

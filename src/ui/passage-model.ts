@@ -23,7 +23,7 @@ export class PassageModel {
     return parts.reduce((left, right) => ({ kind: 'and', left, right }));
   }
   describe(id: string): string | undefined {
-    const state = this.world.snapshot.relations.find(r => r.name === 'state' && r.args[0] === id)?.args[1];
+    const state = this.world.one('state', id);
     const o = this.world.module.observations?.find(x => x.when.kind === 'call' && x.when.name === 'state'
       && x.when.args[0] === id && x.when.args[1] === state);
     return o ? ObservationText.render(o.text, this.world) : undefined;
@@ -32,7 +32,7 @@ export class PassageModel {
   visible(passage: string): boolean { return this.world.test(this.call('visibleTo', passage, this.actor)); }
   ways(from: string): WayInfo[] {
     if (!this.supported()) { return []; }
-    return this.world.snapshot.relations.filter(r => r.name === 'connects' && r.args[1] === from && this.visible(r.args[0]!))
+    return this.world.related('connects').filter(r => r.args[1] === from && this.visible(r.args[0]!))
       .map(r => this.way(r.args[0]!, from, r.args[2]!));
   }
   private way(passage: string, from: string, to: string): WayInfo {

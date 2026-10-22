@@ -27,7 +27,7 @@ export class ScreenModel {
   // The date by the campaign's calendar, and the weather by the sky of the region the company is in.
   private static when(campaign: Campaign, elapsed: number): Pick<Screen, 'date' | 'weather'> {
     const start = campaign.readout.calendar, world = campaign.world;
-    const sky = world.snapshot.relations.find(r => r.name === 'state' && /(^|__)sky$/.test(r.args[0]!))?.args[1];
+    const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1];
     return { ...start ? { date: { short: Calendar.short(start, elapsed), long: Calendar.long(start, elapsed) } } : {},
       ...sky ? { weather: sky.replace(/^.*__/, '').replace(/^weather_/, '') } : {} };
   }
@@ -44,7 +44,7 @@ export class ScreenModel {
     const passageOf = this.passageOf(world, view.location?.id ?? '');
     const fees = new Map([
       ...campaign.module.entities.filter(e => e.type === 'service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
-      ...world.snapshot.measures.filter(m => m.call.name === 'goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const)]);
+      ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const)]);
     // Who makes each skilled choice possible, and what the company could do with a skill nobody in it has.
     const reading = SkillReading.read(campaign);
     const commands: Row[] = [
@@ -104,7 +104,7 @@ export class ScreenModel {
   // like now, told with them. Lines the company has not seen before at a place it has seen before are fresh.
   private static scene(campaign: Campaign, view: PlayerSnapshot, present: Set<string>) {
     const defs = new Map((campaign.module.observations ?? []).map(o => [o.id, o]));
-    const events = campaign.events, last = events.at(-1);
+    const events = campaign.history, last = events.at(-1);
     const before = new Set(events.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.id)));
     const here = view.location?.id;
     const known = here !== undefined && [...before].some(id => defs.get(id)?.place === here && !defs.get(id)?.anchor);
@@ -141,8 +141,8 @@ export class ScreenModel {
   private static passageOf(world: Campaign['world'], here: string): Map<string, string> {
     const result = new Map<string, string>();
     if (!world.module.relations.some(r => r.name === 'on')) { return result; }
-    for (const on of world.snapshot.relations.filter(r => r.name === 'on')) {
-      const way = world.snapshot.relations.find(r => r.name === 'connects' && r.args[0] === on.args[1] && r.args[1] === here);
+    for (const on of world.related('on')) {
+      const way = world.related('connects', on.args[1]).find(r => r.args[1] === here);
       if (way) { result.set(on.args[0]!, way.args[2]!); }
     }
     return result;

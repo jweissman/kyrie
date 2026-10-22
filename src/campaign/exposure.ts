@@ -13,7 +13,7 @@ export class Exposure {
     if (!after.module.relations.some(r => r.name === 'exposedTo') || action.resolve?.name !== 'combat' || !action.actor) {
       return after;
     }
-    const place = before.snapshot.relations.find(r => r.name === 'at' && r.args[0] === action.actor)?.args[1];
+    const place = before.one('at', action.actor);
     if (!place) { return after; }
     const elements = new Set(events.flatMap(e => {
       const ability = e.type === 'action' ? Content.abilities.find(a => a.id === e.command.ability) : undefined;

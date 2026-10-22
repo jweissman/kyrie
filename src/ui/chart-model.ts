@@ -29,7 +29,7 @@ export class ChartModel {
     const model = new PassageModel(this.world, this.actor, this.entities);
     const seen = [...visited].flatMap(from => model.ways(from));
     if (!this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return seen; }
-    const relations = this.world.snapshot.relations;
+    const relations = this.world.view.relations;
     const mapped = relations.filter(r => r.name === 'passageKind' && ChartModel.regional.includes(r.args[1]!))
       .flatMap(r => relations.filter(c => c.name === 'connects' && c.args[0] === r.args[0]))
       .filter(c => model.visible(c.args[0]!))
@@ -96,7 +96,7 @@ export class ChartModel {
   private readonly within = new Map<string, string>();
   // What land an area is (landform: land_river…), or a region's terrain, when the world says.
   private form(id: string, relation: 'landform' | 'terrain'): { form?: string } {
-    const f = this.world.snapshot.relations.find(r => r.name === relation && r.args[0] === id)?.args[1];
+    const f = this.world.one(relation, id);
     return f ? { form: f.replace(/^.*__/, '').replace(/^land_/, '') } : {};
   }
   // The region a place lies in (or the plane, for a place in one with no region): one region is drawn at a time.

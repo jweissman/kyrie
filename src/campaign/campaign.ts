@@ -10,7 +10,6 @@ import { Perceptions } from './perceptions';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations';
-import { Agency } from './agency';
 import { CreatureFacts } from './creature-facts';
 import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition } from './definition';
@@ -144,11 +143,6 @@ export class Campaign implements WatchHost {
   get installations(): InstalledModule[] { return structuredClone(this.definition?.installations ?? []); }
   get schemas(): Operator[] { return structuredClone(this.definition?.schemas ?? []); }
   get actors(): CampaignActor[] { return structuredClone(this.definition?.actors ?? []); }
-  explain() {
-    if (!this.definition || this.executing) { return []; }
-    return this.live.filter(a => !a.player && a.members.length)
-      .map(actor => Agency.explain(this.world, actor, this.operators));
-  }
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
   get persistent(): boolean { return !!this.definition; }
   get running(): boolean {
@@ -176,9 +170,14 @@ export class Campaign implements WatchHost {
   }
   // What presentation reads many times a turn, without the copies state makes. Never change it.
   get readout() { return { ...this.current as Readonly<typeof this.current>, creatures: this.creatures.live }; }
+  // The log, the action schemas and the company as it would fight, likewise without copies. Never change them.
+  get history(): readonly CampaignEvent[] { return this.log; }
+  get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
+  get fighters(): Fighter[] { return this.party; }
   private get party(): Fighter[] {
     return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters'));
   }
+
   get events(): CampaignEvent[] { return structuredClone(this.log); }
   // Worlds are immutable; one is built per distinct state object (and module) rather than per access.
   private viewed?: { state: WorldState; module: Module; world: World };
@@ -207,15 +206,17 @@ export class Campaign implements WatchHost {
     return operators;
   }
   operator(id: string): Operator | undefined { return this.operators.get(id); }
-  available(): Operator[] {
+  available(): Operator[] { return structuredClone(this.offered()) as Operator[]; }
+  // The actions open to the player now, worked out once for this world: to read without copying. Never change them.
+  offered(): readonly Operator[] {
     if (!this.running || this.executing) { return []; }
     const player = this.definition?.actors.find(a => a.player), world = this.world;
     const memo = this.applicable;
-    if (memo?.world === world && memo.player === player) { return structuredClone(memo.actions); }
+    if (memo?.world === world && memo.player === player) { return memo.actions; }
     const actions = this.operators.applicable(world, player?.id)
       .filter(action => !player || player.allActions || player.actions.includes(action.schema ?? action.id));
     this.applicable = { world, player, actions };
-    return structuredClone(actions);
+    return actions;
   }
   plan(moduleId?: string) { return CampaignPlan.plan(this, moduleId); }
   encounterBattle(actionId: string): Battle {
@@ -230,7 +231,7 @@ export class Campaign implements WatchHost {
   }
 
   private action(id: string): Operator {
-    const action = this.available().find(candidate => candidate.id === id);
+    const action = structuredClone(this.offered().find(candidate => candidate.id === id));
     if (!action) { throw new Error(`Unavailable campaign action: ${id}`); }
     return action;
   }

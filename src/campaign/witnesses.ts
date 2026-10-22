@@ -6,7 +6,7 @@ import type { CombatEvent } from '../model';
 // Bounded direct perception: present at the attempt, alive at commit, not a participant. No offscreen hearsay.
 export class Witnesses {
   private static members(world: World, group: string) {
-    return world.snapshot.relations.filter(r => r.name === 'memberOf' && r.args[1] === group)
+    return world.related('memberOf').filter(r => r.args[1] === group)
       .map(r => world.module.entities.find(e => e.id === r.args[0])?.creatureId);
   }
   static record(before: World, after: World, action: Operator, events: CombatEvent[]): World {
@@ -17,7 +17,7 @@ export class Witnesses {
     if (!events.some(e => e.type === 'damage' && attackers.includes(e.actor) && defenders.includes(e.target))) {
       return after;
     }
-    const location = before.snapshot.relations.find(r => r.name === 'at' && r.args[0] === actor)?.args[1];
+    const location = before.one('at', actor);
     if (!location) { return after; }
     const witnesses = before.module.entities.filter(e => e.type === 'group' && e.id !== actor && e.id !== opponent
       && before.test(ModuleWriter.call('at', e.id, location)) && before.test(ModuleWriter.call('able', e.id))

@@ -11,7 +11,7 @@ export class Environment {
   // The laws of where an actor stands: every law of its place and of each place it is within (a plane's, a
   // temple's), as the catalog conditions they name.
   static laws(world: World, actor: string | undefined): string[] {
-    const rel = world.snapshot.relations, entities = world.module.entities;
+    const rel = world.view.relations, entities = world.module.entities;
     const here = actor && rel.find(r => r.name === 'at' && r.args[0] === actor)?.args[1];
     const laws: string[] = [];
     for (let p: string | undefined = here || undefined; p; p = entities.find(e => e.id === p)?.space?.parent) {
@@ -20,7 +20,7 @@ export class Environment {
     return [...new Set(laws)];
   }
   static of(world: World, actor: string | undefined): string | undefined {
-    const rel = world.snapshot.relations, entities = world.module.entities;
+    const rel = world.view.relations, entities = world.module.entities;
     const here = actor && rel.find(r => r.name === 'at' && r.args[0] === actor)?.args[1];
     if (!here) { return undefined; }
     const chain: string[] = [];

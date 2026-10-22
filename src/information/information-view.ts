@@ -20,7 +20,7 @@ export class InformationView {
     return world.test(ModuleWriter.call(name, ...args));
   }
   private static choices(campaign: Campaign): { public: InformationChoice; action: Operator }[] {
-    return ActionPresentation.choices(campaign.available(), campaign.schemas)
+    return ActionPresentation.choices(campaign.offered(), campaign.schemaList)
       .map(({ choice, action }) => ({ public: { id: choice.id, name: choice.name, time: choice.time }, action }));
   }
   static observe(campaign: Campaign): InformationSnapshot {

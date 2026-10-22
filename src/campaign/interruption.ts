@@ -26,7 +26,7 @@ export class Interruption {
   static told(_watch: Watch, why: string, _elapsed: number): string { return why; }
   // The other groups where the company is.
   private static present(world: World, player: string): Set<string> {
-    const rel = world.snapshot.relations, here = rel.find(r => r.name === 'at' && r.args[0] === player)?.args[1];
+    const rel = world.view.relations, here = world.one('at', player);
     const groups = new Set(world.module.entities.filter(e => e.type === 'group').map(e => e.id));
     return new Set(rel.filter(r => r.name === 'at' && r.args[1] === here && r.args[0] !== player
       && groups.has(r.args[0]!)).map(r => r.args[0]!));

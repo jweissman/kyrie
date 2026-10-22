@@ -29,8 +29,8 @@ export class Perceptions {
       || !after.test(ModuleWriter.call('able', player))) { return undefined; }
     return [...happenings,
       ...LocalObservations.read(after, player).map(o => ({ ...o, kind: 'observation' as const })),
-      ...after.snapshot.relations.filter(r => r.name === 'knows' && r.args[0] === player
-        && !before.test(ModuleWriter.call('knows', player, r.args[1]!))).map(r => ({
+      ...after.related('knows', player).filter(r =>
+         !before.test(ModuleWriter.call('knows', player, r.args[1]!))).map(r => ({
         id: r.args[1]!, text: ObservationText.render(module.entities.find(e => e.id === r.args[1])!.name, after),
         kind: 'discovery' as const }))];
   }

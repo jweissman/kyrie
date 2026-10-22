@@ -37,14 +37,16 @@ export class LocalObservations {
   }
   // Inside an open container that stands at the place.
   static within(world: World, entity: string, place: string): boolean {
-    if (!world.module.relations.some(r => r.name === 'inside')) { return false; }
-    return world.test({ kind: 'and', left: ModuleWriter.call('inside', entity, '?box'),
-      right: { kind: 'and', left: ModuleWriter.call('at', '?box', place),
-        right: { kind: 'not', value: ModuleWriter.call('shut', '?box') } } });
+    if (!world.relates('inside')) { return false; }
+    return world.related('inside', entity).some(r => world.test(ModuleWriter.call('at', r.args[1]!, place))
+      && !world.test(ModuleWriter.call('shut', r.args[1]!)));
   }
   // What the place itself is like comes first, then who and what is about in it.
   static read(world: World, actor: string): { id: string; text: string }[] {
-    const seen = (world.module.observations ?? []).filter(o => this.perceives(world, actor, o.place, o.anchor)
+    // Most observations are of a place: only this one's need a closer look.
+    const here = world.one('at', actor);
+    const seen = (world.module.observations ?? []).filter(o => ((o.anchor ?? 'at') !== 'at' || o.place === here)
+      && this.perceives(world, actor, o.place, o.anchor)
       && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor));
     return [...seen.filter(o => (o.anchor ?? 'at') === 'at'), ...seen.filter(o => (o.anchor ?? 'at') !== 'at')]
       .map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }));

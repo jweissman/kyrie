@@ -40,7 +40,7 @@ export class SkillReading {
   }
   // The things at the company's place, the ways out of it and what is on or guards them, and their changes.
   private static near(campaign: Campaign, actor: string): Set<string> {
-    const rel = campaign.world.snapshot.relations, here = rel.find(r => r.name === 'at' && r.args[0] === actor)?.args[1];
+    const rel = campaign.world.view.relations, here = campaign.world.one('at', actor);
     const ways = new Set(rel.filter(r => r.name === 'connects' && r.args[1] === here).map(r => r.args[0]!));
     const things = new Set([...rel.filter(r => r.name === 'at' && r.args[1] === here).map(r => r.args[0]!),
       ...rel.filter(r => (r.name === 'on' || r.name === 'guards') && ways.has(r.args[1]!)).map(r => r.args[0]!)]);
@@ -55,9 +55,9 @@ export class SkillReading {
     if (!actor) { return { uses, wanting }; }
     const { named, needing } = this.shape(campaign);
     const live = campaign.readout, creatures = live.creatures.filter(c => live.partyIds.includes(c.id));
-    const needs = world.snapshot.relations.filter(r => r.name === 'needs');
+    const needs = world.related('needs');
     // Who does a skilled choice: the providers of the skill it names, or of what its thing or way needs.
-    for (const op of campaign.available()) {
+    for (const op of campaign.offered()) {
       const schema = op.schema ?? op.id, bound = Object.values(op.bindings ?? {});
       const skills = [...[...named].filter(([, ids]) => ids.has(schema)).map(([skill]) => skill),
         ...(needing.has(schema) || schema === 'go'
@@ -68,7 +68,7 @@ export class SkillReading {
     }
     // What a skill nobody has would open here: the schemas that could ask for it, in a world where the company has it.
     // Only needs of what is near the company count: the things here, the ways out, and what stands on them.
-    const legal = new Set(campaign.available().map(a => a.id)), near = this.near(campaign, actor);
+    const legal = new Set(campaign.offered().map(a => a.id)), near = this.near(campaign, actor);
     const nearNeeds = needs.filter(r => near.has(r.args[0]!));
     const lacking = campaign.module.entities.filter(e => e.type === 'capability' && !this.has(campaign, actor, e.id));
     for (const skill of lacking) {

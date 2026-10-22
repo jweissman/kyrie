@@ -51,7 +51,7 @@ export class ActionSchemas {
       ...module.actions.flatMap(a => [...a.success, ...a.failure].map(c => c.call.name)),
       ...(module.rules ?? []).flatMap(r => r.effects.map(c => c.call.name))]);
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));
-    const facts = new Set(new World(module).apply(module.initial).snapshot.relations.map(c => ActionSchemas.key(c)));
+    const facts = new Set(new World(module).apply(module.initial).view.relations.map(c => ActionSchemas.key(c)));
     return { constants, facts };
   }
   private static bindings(module: Module, action: Operator, context: { constants: Set<string>; facts: Set<string>;

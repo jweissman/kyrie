@@ -30,9 +30,20 @@ export class ObservationText {
   static scope(text: string, transform: (call: Call) => Call, id?: (value: string) => string): string {
     return this.map(text, call => `{${World.format(transform(call))}}`, value => `{${id ? id(value) : value}}`);
   }
+  // A module's entities by id, indexed once per entity list (rebuilt if the list grows).
+  private static readonly indexes = new WeakMap<Entity[], { size: number; byId: Map<string, Entity> }>();
+  static entity(world: World, id: string): Entity | undefined {
+    const entities = world.module.entities;
+    let index = this.indexes.get(entities);
+    if (!index || index.size !== entities.length) {
+      index = { size: entities.length, byId: new Map(entities.map(e => [e.id, e])) };
+      this.indexes.set(entities, index);
+    }
+    return index.byId.get(id);
+  }
   // An entity's name, which may itself name others, or what the rule speaking of it bound ("{?g} stands its ground").
   static label(world: World, id: string, binding: Record<string, string> = {}): string {
-    const entity = world.module.entities.find(e => e.id === id);
+    const entity = this.entity(world, id);
     if (!entity) { return id; }
     const name = entity.type === 'group' ? entity.name.split(', ')[0]! : this.known(world, entity);
     return name.includes('{') ? this.map(name, call => World.format(call),
@@ -42,14 +53,21 @@ export class ObservationText {
   // no company (an author's check) knows every name.
   static known(world: World, entity: Entity): string {
     if (!entity.alias) { return entity.name; }
-    const company = world.snapshot.relations.find(r => r.name === 'company')?.args[0];
+    const company = world.related('company')[0]?.args[0];
     return !company || world.test(ModuleWriter.call('knows', company, entity.alias.until)) ? entity.name
       : entity.alias.name;
   }
   // The entities as the company would name them: aliases until known, and names with references rendered.
+  // A world never changes, so what it presents is worked out once.
+  private static readonly presentations = new WeakMap<World, Map<string, Entity>>();
   static presented(world: World): Map<string, Entity> {
-    return new Map(world.module.entities.map(e => [e.id, e.alias || (e.type !== 'group' && e.name.includes('{'))
-      ? { ...e, name: this.label(world, e.id) } : e]));
+    let presented = this.presentations.get(world);
+    if (!presented) {
+      presented = new Map(world.module.entities.map(e => [e.id, e.alias || (e.type !== 'group' && e.name.includes('{'))
+        ? { ...e, name: this.label(world, e.id) } : e]));
+      this.presentations.set(world, presented);
+    }
+    return presented;
   }
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
     const rendered = this.map(text, call => String(world.number(call)),

@@ -4,6 +4,7 @@ import { PartyCapabilities } from '../campaign/party-capabilities';
 import { LocalObservations } from './local-observations';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { Call, Change, Entity, MovementMode } from '../lang/module';
+import type { Operator } from '../campaign/planner';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
 import { Discovery } from '../information/discovery';
@@ -11,6 +12,7 @@ import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ObservationText } from '../lang/observation-text';
+import { VisitedPlaces } from './visited-places';
 import { Agency } from '../campaign/agency';
 import { ActionTime } from '../campaign/action-time';
 
@@ -76,19 +78,34 @@ export class PlayerView {
     if (!this.supported(campaign)) { throw new Error('No player view for this campaign'); }
     return campaign.playerActor!;
   }
+  private static readonly named = new WeakMap<World, Map<string, string>>();
   private static labels(campaign: Campaign): Map<string, string> {
-    return new Map([...ObservationText.presented(campaign.world)].map(([id, e]) => [id, e.name]));
+    const world = campaign.world;
+    let labels = this.named.get(world);
+    if (!labels) {
+      labels = new Map([...ObservationText.presented(world)].map(([id, e]) => [id, e.name]));
+      this.named.set(world, labels);
+    }
+    return labels;
   }
   // A topic someone can be asked about is spoken, not a thing lying in the room.
   private static spoken(world: World, source: string): boolean {
-    return world.snapshot.relations.some(r => r.name === 'testimony' && r.args[1] === source);
+    return world.related('testimony').some(r => r.args[1] === source);
   }
   private static test(world: World, name: string, ...args: string[]): boolean {
-    return world.module.relations.some(r => r.name === name) && world.test(ModuleWriter.call(name, ...args));
+    return world.relates(name) && world.test(ModuleWriter.call(name, ...args));
   }
-  static choices(campaign: Campaign) {
+  // The choices are worked out once for each list of actions on offer; each caller gets its own rows.
+  private static readonly listed = new WeakMap<readonly Operator[], ReturnType<typeof PlayerView.list>>();
+  static choices(campaign: Campaign): ReturnType<typeof PlayerView.list> {
+    const offered = campaign.offered();
+    let rows = this.listed.get(offered);
+    if (!rows) { rows = this.list(campaign, offered); this.listed.set(offered, rows); }
+    return rows.map(row => ({ ...row, choice: { ...row.choice } }));
+  }
+  private static list(campaign: Campaign, offered: readonly Operator[]) {
     const world = campaign.world, unnamed = this.unnamed(world);
-    return ActionPresentation.choices(campaign.available(), campaign.schemas).map(row => {
+    return ActionPresentation.choices(offered, campaign.schemaList).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
       // Choices are grounded with every place's name; one the company has not learned is said as it is seen.
       for (const [name, alias] of unnamed) { row.choice.name = row.choice.name.replaceAll(name, alias); }
@@ -113,25 +130,41 @@ export class PlayerView {
     if (!match) { throw new Error(`Unavailable command: ${command}`); }
     return match.action.id;
   }
+  // The entities a relation holds between the actor and, in the module's order.
+  private static about(world: World, relation: string, actor: string, entities: Entity[]): Entity[] {
+    const related = new Set(world.related(relation, actor).map(r => r.args[1]));
+    return related.size ? entities.filter(e => related.has(e.id)) : [];
+  }
+  // What could be present at a place, to be looked at more closely: whatever is at it or mounted there, any door,
+  // anyone guarding a way, and anything inside something.
+  private static nearby(world: World, place: string): Set<string> {
+    const near = new Set<string>();
+    for (const name of ['at', 'mounted']) {
+      for (const r of world.related(name)) { if (r.args[1] === place) { near.add(r.args[0]!); } }
+    }
+    for (const name of ['guards', 'inside']) { for (const r of world.related(name)) { near.add(r.args[0]!); } }
+    for (const e of world.module.entities) { if (e.type === 'door') { near.add(e.id); } }
+    return near;
+  }
   // Someone who stands across a way out of here, barring it, is met from this side of it.
   private static guarding(world: Campaign['world'], id: string, here: string): boolean {
-    const ways = world.snapshot.relations.filter(r => r.name === 'guards' && r.args[0] === id).map(r => r.args[1]);
-    return ways.length > 0 && this.test(world, 'able', id) && world.snapshot.relations.some(r => r.name === 'connects'
-      && ways.includes(r.args[0]) && r.args[1] === here) && world.module.queries.some(q => q.name === 'watched')
+    const ways = world.related('guards', id).map(r => r.args[1]);
+    return ways.length > 0 && this.test(world, 'able', id) && world.related('connects').some(r =>
+      ways.includes(r.args[0]) && r.args[1] === here) && world.module.queries.some(q => q.name === 'watched')
       && ways.some(w => world.test(ModuleWriter.call('watched', w!)));
   }
   private static knowledge(campaign: Campaign, actor: string, labels: Map<string, string>): PlayerSnapshot['knowledge'] {
-    const world = campaign.world, relations = world.snapshot.relations;
+    const world = campaign.world;
     const learned = new Map<string, number>();
-    for (const e of campaign.events) {
+    for (const e of campaign.history) {
       for (const c of e.changes) {
         const m = /^\+ knows\(([^,]+), ([^)]+)\)$/.exec(c);
         if (m && m[1] === actor && !learned.has(m[2]!)) { learned.set(m[2]!, e.elapsed); }
       }
     }
-    return campaign.module.entities.filter(e => e.type === 'fact' && this.test(world, 'knows', actor, e.id)).map(e => {
-      const told = relations.find(r => r.name === 'toldBy' && r.args[0] === actor && r.args[2] === e.id);
-      const found = relations.find(r => r.name === 'learnedFrom' && r.args[0] === actor && r.args[2] === e.id);
+    return this.about(world, 'knows', actor, campaign.module.entities).map(e => {
+      const told = world.related('toldBy', actor).find(r => r.args[2] === e.id);
+      const found = world.related('learnedFrom', actor).find(r => r.args[2] === e.id);
       const seen = this.test(world, 'witnessed', actor, e.id);
       const source = seen ? 'seen' as const : found ? 'found' as const : told ? 'heard' as const : undefined;
       const from = found ? labels.get(found.args[1]!) : told ? labels.get(told.args[1]!) : undefined;
@@ -152,14 +185,17 @@ export class PlayerView {
   }
   static observe(campaign: Campaign): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
-    const entities = campaign.module.entities, state = campaign.state;
-    const location = entities.find(e => e.type === 'place' && this.test(world, 'at', actor, e.id));
+    const entities = campaign.module.entities, read = campaign.readout;
+    const state = { elapsed: read.elapsed, creatures: read.creatures, partyIds: read.partyIds };
+    const at = world.one('at', actor), place = at === undefined ? undefined : ObservationText.entity(world, at);
+    const location = place?.type === 'place' ? place : undefined;
     const perceiving = this.test(world, 'able', actor), discovery = Discovery.supported(campaign.module);
     const dark = !!location && this.benighted(world, actor, location.id);
     const situations = campaign.installations.length ?
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];
     const publicChoices = this.choices(campaign), metadata = this.metadata(world, labels);
+    const nearby = location ? this.nearby(world, location.id) : new Set<string>();
     return { actor, title: campaign.module.name, situations, elapsed: state.elapsed, running: campaign.running,
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
         ...metadata.get(location.id), ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
@@ -167,7 +203,7 @@ export class PlayerView {
       // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
       observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
       present: entities.filter(e => perceiving && location && e.id !== actor && e.type !== 'place'
-        && (!dark || e.type === 'group') && LocalObservations.noticed(world, e.id, actor)
+        && (!dark || e.type === 'group') && nearby.has(e.id) && LocalObservations.noticed(world, e.id, actor)
         && (this.test(world, 'at', e.id, location.id) || this.test(world, 'mounted', e.id, location.id)
           || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id))
           || (e.type === 'group' && this.guarding(world, e.id, location.id))
@@ -180,29 +216,21 @@ export class PlayerView {
         return { id: i.id, name: d.name, description: d.description, owner: c.name, equipped: !!i.equipped,
           ...(d.slot ? { slot: d.slot } : {}), effects: [d.use ?? d.description] };
       })),
-      party: state.party.map(f => ({ id: f.id, name: f.name, raceId: f.raceId, classId: f.classId, level: f.level,
-        backgroundId: state.creatures.find(c => c.id === f.id)?.backgroundId,
-        hp: f.hp, maxHp: f.maxHp, mana: f.mana, maxMana: f.maxMana, gold: f.gold, experience: f.experience,
-        ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
-        ...(f.prepared ? { prepared: structuredClone(f.prepared), ready: structuredClone(f.ready ?? []) } : {}),
-        conditions: f.statuses.map(s => s.id), ...PlayerView.lasting(f.statuses), abilities: [...f.abilities],
-        attributes: { strength: f.strength, dexterity: f.dexterity, constitution: f.constitution,
-          intelligence: f.intelligence, wisdom: f.wisdom, charisma: f.charisma } })),
-      resources: world.snapshot.measures.filter(m => m.call.name === 'quantity' && m.call.args[0] === actor)
+      party: this.members(campaign),
+      resources: world.measured('quantity').filter(m => m.call.args[0] === actor)
         .map(m => ({ id: m.call.args[1]!, name: labels.get(m.call.args[1]!) ?? m.call.args[1]!, amount: m.value })),
-      carried: world.snapshot.relations.filter(r => r.name === 'carrying' && r.args[0] === actor)
+      carried: world.related('carrying', actor)
         .map(r => ({ id: r.args[1]!, name: labels.get(r.args[1]!) ?? r.args[1]! })),
-      holdings: world.snapshot.measures.filter(m => m.call.args[0] === actor)
-        .map(m => ({ text: m.call.args.length > 1 ? `${m.call.name}: ${this.rest(m.call, labels)}` : m.call.name, value: m.value })),
-      facts: world.snapshot.relations.filter(r => r.args[0] === actor && !this.ownHidden.includes(r.name))
+      holdings: world.view.measures.filter(m => m.call.args[0] === actor).map(m => ({
+        text: m.call.args.length > 1 ? `${m.call.name}: ${this.rest(m.call, labels)}` : m.call.name, value: m.value })),
+      facts: world.view.relations.filter(r => r.args[0] === actor && !this.ownHidden.includes(r.name))
         .map(r => r.args.length > 1 ? `${r.name}: ${this.rest(r, labels)}` : r.name).sort(),
       knowledge: this.knowledge(campaign, actor, labels),
-      assumptions: entities.filter(e => e.type === 'fact' && this.test(world, 'assumesFalse', actor, e.id))
+      assumptions: this.about(world, 'assumesFalse', actor, entities)
         .map(e => ({ id: e.id, text: ObservationText.render(e.name, world) })),
       deadlines: campaign.installations.filter(m => m.deadline !== undefined).flatMap(m => m.pressures.map(id => ({
         situation: m.name, pressure: labels.get(id) ?? id, at: m.deadline!, passed: state.elapsed >= m.deadline! }))),
-      capabilities: campaign.module.entities.filter(e => e.type === 'capability'
-        && this.test(world, 'capable', actor, e.id)).map(e => ({ name: e.name,
+      capabilities: this.about(world, 'capable', actor, entities).map(e => ({ name: e.name,
         providers: PartyCapabilities.providers(e.id, state.creatures.filter(c => state.partyIds.includes(c.id)))
           .map(c => `${c.name} (${c.raceId} ${c.classId})`) })),
       choices: publicChoices.map(c => c.choice),
@@ -211,19 +239,22 @@ export class PlayerView {
         : [] } : {}),
       map: this.map(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };
   }
+  // The company as the page shows it: each member's standing, spells, conditions, abilities and qualities.
+  private static members(campaign: Campaign): PlayerSnapshot['party'] {
+    const creatures = campaign.readout.creatures;
+    return campaign.fighters.map(f => ({ id: f.id, name: f.name, raceId: f.raceId, classId: f.classId, level: f.level,
+      backgroundId: creatures.find(c => c.id === f.id)?.backgroundId,
+      hp: f.hp, maxHp: f.maxHp, mana: f.mana, maxMana: f.maxMana, gold: f.gold, experience: f.experience,
+      ...(f.maxSlots ? { slots: [...f.slots ?? []], maxSlots: [...f.maxSlots] } : {}),
+      ...(f.prepared ? { prepared: structuredClone(f.prepared), ready: structuredClone(f.ready ?? []) } : {}),
+      conditions: f.statuses.map(s => s.id), ...PlayerView.lasting(f.statuses), abilities: [...f.abilities],
+      attributes: { strength: f.strength, dexterity: f.dexterity, constitution: f.constitution,
+        intelligence: f.intelligence, wisdom: f.wisdom, charisma: f.charisma } }));
+  }
   private static map(campaign: Campaign, actor: string, routes: { bindings?: Record<string, string> }[]):
     PlayerSnapshot['map'] {
-    const visited = new Set<string>();
-    for (const c of campaign.module.initial) {
-      if (c.kind === 'assert' && c.call.name === 'at' && c.call.args[0] === actor) { visited.add(c.call.args[1]!); }
-    }
-    const at = new Map<string, string>();
-    for (const event of campaign.events) {
-      this.moves(event.changes, at);
-      if (at.has(actor)) { visited.add(at.get(actor)!); }
-    }
-    const world = campaign.world;
-    const links = world.snapshot.relations.flatMap(r => {
+    const visited = VisitedPlaces.of(campaign, actor), world = campaign.world;
+    const links = world.view.relations.flatMap(r => {
       const from = ['gate', 'hazardPassage'].includes(r.name) ? r.args[1] : r.args[0];
       const to = ['gate', 'hazardPassage'].includes(r.name) ? r.args[2] : r.args[1];
       if (!['route', 'gate', 'footway', 'informedPassage', 'climbingPassage', 'hazardPassage'].includes(r.name) || !from || !to
@@ -232,7 +263,7 @@ export class PlayerView {
       }
       return [{ from, to }];
     });
-    const here = world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === actor)?.args[1];
+    const here = world.one('at', actor);
     links.push(...campaign.module.entities.filter(e => e.exit
       && visited.has(e.exit.origin) && Spatial.visible(world, actor, e))
       .map(e => ({ from: e.exit!.origin, to: e.exit!.destination })));
@@ -261,7 +292,7 @@ export class PlayerView {
         ...(selected ? { command: selected.choice.id } : {}), ...(barrier ? { barrier } : {}),
         ...(reason ? { reason } : {}) };
     });
-    const lastMove = [...campaign.events].reverse()
+    const lastMove = [...campaign.history].reverse()
       .find(event => event.changes.includes(`+ at(${actor}, ${location.id})`));
     const action = lastMove ? campaign.operator(lastMove.action) : undefined;
     const movement = action?.movement;
@@ -269,7 +300,7 @@ export class PlayerView {
       name: entities.get(movement.origin)?.name ?? movement.origin, mode: movement.mode } } : {}) };
   }
   private static metadata(world: World, labels: Map<string, string>): Map<string, SceneMetadata> {
-    const relations = world.snapshot.relations;
+    const relations = world.view.relations;
     const classes = new Map(relations.filter(r =>
       ['townDistrict', 'wildernessDistrict', 'undergroundDistrict'].includes(r.name))
       .map(r => [r.args[0]!, r.name === 'townDistrict' ? 'town' as const :
@@ -294,14 +325,14 @@ export class PlayerView {
           !this.test(world, 'able', e.id) ? { state: 'incapacitated' as const } : {}) };
     }
     const condition = this.condition(world, e.id);
-    const box = world.snapshot.relations.find(r => r.name === 'inside' && r.args[0] === e.id)?.args[1];
+    const box = world.one('inside', e.id);
     return { id: e.id, name: e.name, type: e.type, ...(condition ? { condition } : {}),
       ...(box ? { within: ObservationText.label(world, box) } : {}),
       ...(e.type === 'source' ? { intact: this.test(world, 'intact', e.id) } : {}) };
   }
   private static condition(world: World, id: string): string | undefined {
     if (this.test(world, 'routed', id)) { return 'routed'; }
-    const state = world.snapshot.relations.find(r => r.name === 'state' && r.args[0] === id)?.args[1];
+    const state = world.one('state', id);
     return state ? world.module.entities.find(e => e.id === state)?.name : undefined;
   }
   // What a person in view is evidently trying to do: the label of the goal their next choice would serve.
@@ -319,14 +350,6 @@ export class PlayerView {
     const call = { ...change.call, args: change.call.args.map(id => labels.get(id) ?? id) };
     return ModuleWriter.change({ ...change, call } as Change);
   }
-  private static moves(changes: string[] | undefined, at: Map<string, string>) {
-    for (const line of changes ?? []) {
-      const match = /^([+-]) at\(([^,]+), ([^)]+)\)$/.exec(line);
-      if (!match) { continue; }
-      if (match[1] === '+') { at.set(match[2]!, match[3]!); }
-      else if (at.get(match[2]!) === match[3]) { at.delete(match[2]!); }
-    }
-  }
   // Rebuilt from the authoritative event log, so it is identical after save/restore and in every host.
   static chronicle(campaign: Campaign): ChronicleEntry[] {
     const actor = this.actor(campaign), labels = this.labels(campaign), entries: ChronicleEntry[] = [];
@@ -339,13 +362,13 @@ export class PlayerView {
     const deadlines = campaign.installations.filter(m => m.deadline !== undefined);
     let previous = 0;
     const perceived = new Set<string>();
-    for (const event of campaign.events) {
+    for (const event of campaign.history) {
       entries.push(this.playerEntry(campaign, event, previous, { labels, names }));
-      this.moves(event.changes.filter(line => line.includes(`at(${actor}, `)), at);
+      VisitedPlaces.moves(event.changes.filter(line => line.includes(`at(${actor}, `)), at);
       const here = at.get(actor);
       for (const decision of event.npc ?? []) {
         const before = at.get(decision.actor);
-        this.moves(decision.changes, at);
+        VisitedPlaces.moves(decision.changes, at);
         const bindings = Object.values(campaign.operator(decision.action)?.bindings ?? {});
         if (here && (before === here || at.get(decision.actor) === here || bindings.includes(here))) {
           const act = campaign.operator(decision.action);
@@ -355,7 +378,7 @@ export class PlayerView {
               : `${labels.get(decision.actor) ?? decision.actor}: ${name}`, detail: [] });
         }
       }
-      this.moves(event.changes, at);
+      VisitedPlaces.moves(event.changes, at);
       for (const m of deadlines.filter(m => m.deadline! > previous && m.deadline! <= event.elapsed)) {
         entries.push({ at: m.deadline!, kind: 'world', detail: [],
           text: `Deadline reached: ${m.pressures.map(id => labels.get(id) ?? id).join(', ')} (${m.name})` });

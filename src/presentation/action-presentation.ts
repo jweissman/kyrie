@@ -8,7 +8,7 @@ export interface PublicChoice {
 }
 // Author label templates name the parameters a player may see; the rest stay implied by the situation.
 export class ActionPresentation {
-  static present(action: Operator, schemas: Operator[]): PublicChoice {
+  static present(action: Operator, schemas: readonly Operator[]): PublicChoice {
     const schema = schemas.find(s => s.id === action.schema);
     const encounter = action.resolve?.name === 'combat', time = action.time;
     const kind = action.schema ?? action.id;
@@ -44,7 +44,8 @@ export class ActionPresentation {
     if (action.searchPlace) { return 'search'; }
     return undefined;
   }
-  static choices(available: Operator[], schemas: Operator[]): { choice: PublicChoice; action: Operator }[] {
+  static choices(available: readonly Operator[],
+    schemas: readonly Operator[]): { choice: PublicChoice; action: Operator }[] {
     const choices = available.map(action => ({ choice: this.present(action, schemas), action }));
     if (new Set(choices.map(c => c.choice.id)).size !== choices.length) {
       throw new Error('Ambiguous public command: an action label hides a parameter that distinguishes choices');

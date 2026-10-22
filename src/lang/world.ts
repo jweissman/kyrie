@@ -20,6 +20,10 @@ export class World {
   private static writes = 0;
   private memoKey?: string;
   private memoSnapshot?: WorldState;
+  // Read-only views by relation name (and first argument), and of measures by name, built on first use.
+  private lists = new Map<string, Call[]>();
+  private firsts = new Map<string, Map<string, Call[]>>();
+  private amounts = new Map<string, Measure[]>();
   private static readonly open = new WeakMap<object, boolean>();
   private static readonly signatures = new WeakMap<Module, Signatures>();
   constructor(readonly module: Module, state: WorldState = { relations: [], measures: [] }) {
@@ -34,14 +38,47 @@ export class World {
     (next as { module: Module }).module = from.module;
     next.facts = new Map(from.facts); next.quantities = new Map(from.quantities);
     next.byName = new Map(from.byName); next.owned = new Set(); next.stamps = new Map(from.stamps);
+    next.lists = new Map(); next.firsts = new Map(); next.amounts = new Map();
     return next;
   }
   private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
+  // Every fact and measure, as the world holds them: for reading only (`snapshot` is a copy to keep or change).
+  get view(): Readonly<WorldState> {
+    this.memoSnapshot ??= { relations: [...this.facts.values()], measures: [...this.quantities.values()] };
+    return this.memoSnapshot;
+  }
   get snapshot(): WorldState {
     this.memoSnapshot ??= { relations: [...this.facts.values()], measures: [...this.quantities.values()] };
     return { relations: this.memoSnapshot.relations.map(World.copy),
       measures: this.memoSnapshot.measures.map(m => ({ call: World.copy(m.call), value: m.value })) };
   }
+  // The facts of one relation (with this first argument, if given), as the world holds them: for reading only. Far
+  // cheaper than `snapshot`, which copies every fact.
+  related(name: string, first?: string): readonly Call[] {
+    let list = this.lists.get(name);
+    if (!list) { list = [...this.byName.get(name)?.values() ?? []]; this.lists.set(name, list); }
+    if (first === undefined) { return list; }
+    let index = this.firsts.get(name);
+    if (!index) {
+      index = new Map();
+      for (const call of list) {
+        const at = index.get(call.args[0]!);
+        if (at) { at.push(call); } else { index.set(call.args[0]!, [call]); }
+      }
+      this.firsts.set(name, index);
+    }
+    return index.get(first) ?? [];
+  }
+  // The other party of a fact that relates this one to one other (`at(party, ?)`): the first, if there are several.
+  one(name: string, first: string): string | undefined { return this.related(name, first)[0]?.args[1]; }
+  // Every value of one measure, as the world holds them: for reading only.
+  measured(name: string): readonly Measure[] {
+    let list = this.amounts.get(name);
+    if (!list) { list = [...this.quantities.values()].filter(m => m.call.name === name); this.amounts.set(name, list); }
+    return list;
+  }
+  // Whether the module declares this relation.
+  relates(name: string): boolean { return World.index(this.module).relations.has(name); }
   // Whether the fact with this key (see `key`) currently holds.
   holds(key: string): boolean { return this.facts.has(key); }
   static key(call: Call): string { return JSON.stringify([call.name, ...call.args]); }
@@ -186,6 +223,7 @@ export class World {
   stamp(name: string): number { return this.stamps.get(name) ?? 0; }
   private change(change: Change) {
     this.memoKey = undefined; this.memoSnapshot = undefined;
+    this.lists.delete(change.call.name); this.firsts.delete(change.call.name); this.amounts.delete(change.call.name);
     this.stamps.set(change.call.name, ++World.writes);
     const key = World.key(change.call);
     if (change.kind === 'assert' || change.kind === 'retract') {

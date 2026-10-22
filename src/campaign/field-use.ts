@@ -51,7 +51,7 @@ export class FieldUse {
     const lease = store.acquire(ids);
     try {
       const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
-      const place = scene?.world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === scene.player)?.args[1];
+      const place = scene?.player ? scene.world.one('at', scene.player) : undefined;
       const visible = scene?.actors.filter(a => a.id === scene.player || (place
         && scene.world.test(ModuleWriter.call('at', a.id, place)))).flatMap(a => a.members);
       for (const target of fighters) {

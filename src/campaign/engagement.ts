@@ -17,8 +17,8 @@ export class Engagement {
   static foe(host: TickHost): string | undefined {
     const player = host.playerActor, world = host.world;
     if (!player || !world.module.relations.some(r => r.name === 'assails')) { return undefined; }
-    const here = world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === player)?.args[1];
-    return world.snapshot.relations.find(r => r.name === 'assails' && r.args[1] === player
+    const here = world.one('at', player);
+    return world.related('assails').find(r => r.args[1] === player
       && world.test(ModuleWriter.call('able', r.args[0]!)) && world.test(ModuleWriter.call('at', r.args[0]!, here ?? '')))
       ?.args[0];
   }
@@ -26,8 +26,8 @@ export class Engagement {
   static halt(host: TickHost): string | undefined {
     const player = host.playerActor, world = host.world;
     if (!player || !world.module.relations.some(r => r.name === 'halts')) { return undefined; }
-    const here = world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === player)?.args[1] ?? '';
-    const stop = world.snapshot.relations.find(r => r.name === 'halts' && r.args[1] === player
+    const here = world.one('at', player) ?? '';
+    const stop = world.related('halts').find(r => r.args[1] === player
       && world.test(ModuleWriter.call('able', r.args[0]!)) && world.test(ModuleWriter.call('at', r.args[0]!, here)));
     if (!stop) { return undefined; }
     host.commitWorld(world.apply([{ kind: 'retract', call: ModuleWriter.call('halts', ...stop.args) }]));
@@ -49,7 +49,7 @@ export class Engagement {
   static assault(host: EngagementHost): Operator | undefined {
     const foe = this.foe(host), player = host.playerActor;
     if (!foe || !player) { return undefined; }
-    const here = host.world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === player)?.args[1];
+    const here = host.world.one('at', player);
     return host.operator(`attack(${player},${foe},${here})`);
   }
   // The assault is over: it no longer stands, and a company that ran from it goes back the way it came.
@@ -57,7 +57,7 @@ export class Engagement {
     const player = host.playerActor!, world = host.world;
     const changes: Change[] = [{ kind: 'retract', call: ModuleWriter.call('assails', foe, player) }];
     const ran = fight.combat.some(e => e.type === 'end' && e.outcome === 'escaped' && e.fled?.team !== 'goblins');
-    const here = world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === player)?.args[1];
+    const here = world.one('at', player);
     const back = ran ? this.cameFrom(host.events, player, here) : undefined;
     if (back && here) {
       changes.push({ kind: 'retract', call: ModuleWriter.call('at', player, here) },

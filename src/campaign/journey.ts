@@ -16,7 +16,7 @@ export interface JourneyHost {
 export class Journey {
   static of(world: World, action: Operator, player: string | undefined, watches: number): Leg | undefined {
     if (!player || watches < 2) { return undefined; }
-    const relations = world.snapshot.relations;
+    const relations = world.view.relations;
     const origin = relations.find(r => r.name === 'at' && r.args[0] === player)?.args[1];
     const destination = action.success.find(c => c.kind === 'assert' && c.call.name === 'at'
       && c.call.args[0] === player)?.call.args[1];
@@ -33,13 +33,13 @@ export class Journey {
   static along(before: World, after: World, player: string | undefined): World {
     const from = player && this.where(before, player), to = player && this.where(after, player);
     if (!player || !from || !to || from === to) { return after; }
-    const followers = before.snapshot.relations.filter(r => r.name === 'following' && r.args[1] === player
+    const followers = before.related('following').filter(r => r.args[1] === player
       && this.where(before, r.args[0]!) === from && this.where(after, r.args[0]!) === from).map(r => r.args[0]!);
     return followers.length
       ? after.apply(followers.flatMap(g => [this.at('retract', g, from), this.at('assert', g, to)])) : after;
   }
   private static where(world: World, group: string): string | undefined {
-    return world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === group)?.args[1];
+    return world.one('at', group);
   }
   static depart(world: World, leg: Leg): World {
     return world.apply([...[leg.actor, ...leg.followers].map(g => this.at('retract', g, leg.origin)),
@@ -76,7 +76,7 @@ export class Journey {
   // A journey turned back did not arrive; one cut short by anything else ends where it was going.
   static landed(host: JourneyHost, action: Operator, leg: Leg, turned: boolean): boolean {
     if (turned) { return false; }
-    if (!host.world.snapshot.relations.some(r => r.name === 'at' && r.args[0] === leg.actor)) {
+    if (!host.world.related('at', leg.actor).length) {
       this.arrive(host, action, leg);
     }
     return true;

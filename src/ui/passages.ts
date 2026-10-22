@@ -20,7 +20,7 @@ export class Passages {
   private has(name: string, ...args: string[]): boolean {
     return this.world.module.relations.some(r => r.name === name) && this.world.test(ModuleWriter.call(name, ...args));
   }
-  private relations(name: string) { return this.world.snapshot.relations.filter(r => r.name === name); }
+  private relations(name: string) { return this.world.related(name); }
   place(id: string): PlaceRef {
     const e = this.entities.get(id);
     return { id, name: e?.name ?? id, kind: e?.space?.kind ?? 'place' };

@@ -9,7 +9,7 @@ import type { TickHost } from './campaign-tick';
 // turned on one of its members, chosen by the seeded stream, and then forgotten.
 export class Consequences {
   static strike(host: TickHost, combat: CombatEvent[]): boolean {
-    const struck = host.world.snapshot.relations.filter(r => r.name === 'strikes');
+    const struck = host.world.related('strikes');
     if (!struck.length) { return false; }
     const { definition, creatures, current } = host.tickState;
     for (const [hazard, group] of struck.map(r => r.args as [string, string])) {
