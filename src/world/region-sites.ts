@@ -53,7 +53,8 @@ export class RegionSites {
   private static seat(seat: Seat, region: Region, claimed: boolean): string[] {
     const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
     const where = this.where(seat, region), seen = this.look(site), called = this.seenAs(seat, region);
-    const way = called === seen ? `${seen} in ${where}` : called, hidden = !claimed && (site.part ?? 0) > 0;
+    const way = called === seen ? `${seen} in ${where}` : called, great = !!site.work?.great;
+    const hidden = great || (!claimed && (site.part ?? 0) > 0);
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Observe ${id}_scene at ${id} when true ${q(this.scene(seat, region))}.`,
@@ -63,7 +64,7 @@ export class RegionSites {
         `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
         `    On discuss { Assert knows(actor, ${id}_named).${hidden ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }']];
     // Every site's way can be learned; one deep in wild country can also be found by searching where it starts.
-    lines.push(hidden ? `  Discovery ${id}_found ${q(`The way to ${way}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`
+    lines.push(hidden && !great ? `  Discovery ${id}_found ${q(`The way to ${way}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`
       : `  Discovery ${id}_found ${q(`The way to ${way}.`)}.`);
     if (this.cut[site.kind] && !site.work) {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);
@@ -82,7 +83,7 @@ export class RegionSites {
     const [x, y] = seat.spot, start = this.start(seat, region);
     return [`  Place ${seat.land} ${q(where)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(site.name)} is room within ${seat.land} at 1, 1 seen as ${q(seen)} until ${id}_named.`,
-      `  Passage ${id}_track ${q(`the track to {${id}}`)} is track between ${start.from} and ${id} taking ${RegionRoads.time(start.minutes)}.`];
+      `  Passage ${id}_track ${q(`the track to {${id}}`)} is track between ${start.from} and ${id} taking ${RegionRoads.time(start.minutes)}${hidden ? ` hidden until ${id}_found` : ''}.`];
   }
   // Which of the sites in the same part of the same wild country this is, for its place on the chart.
   private static rank(region: Region, seat: Seat): number {

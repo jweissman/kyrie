@@ -45,7 +45,7 @@
     State read "Each mark is the height the water stood in a year the {epithet} kept it, and the word beside it is the year's name. There are hundreds. The last mark is the highest, and has no word.".
     Change read "Read the marks on the pillar" from unread to read needing lore.
   }
-  Observe {w}_marks_learned at {w}_hall when state({w}_marks, read) "{craft} {belief}" teaches history_makers.
+  Observe {w}_marks_learned at {w}_hall when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.
   Item {w}_votive "{richname}" is {rich} at {w}_head.
   Observe {w}_head_votive at {w}_head when true "Things glint in the bottom of the basin: offerings, left for the springs by people who meant them.".
 --- successors shrine 2

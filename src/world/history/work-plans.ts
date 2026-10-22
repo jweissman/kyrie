@@ -13,6 +13,8 @@ export interface WorkPlan {
   id: string; about: string; art: string; kind: string; ground: Cover[]; near?: string; seen: string;
   // What its makers named works of its kind: a noun to go with the art's own words ("pool"), or a pair ("deep/pool").
   names: string[]; danger: number; sections: PlanSection[];
+  // The greatest of its makers' works in a region (@great): hidden from the folk, found by knowing the makers' story.
+  great?: boolean;
 }
 
 // Works are written as Kyr templates (data/generation/works/*.kyrt): a few header lines, then sections. The base
@@ -58,6 +60,7 @@ export class WorkPlans {
       case 'near': plan.near = value; break;
       case 'seen': plan.seen = value; break;
       case 'danger': plan.danger = Number(value); break;
+      case 'great': plan.great = value === 'yes'; break;
       case 'names': plan.names = value.split(',').map(p => p.trim()); break;
       default: throw new Error(`Unknown work plan field @${name}`);
     }

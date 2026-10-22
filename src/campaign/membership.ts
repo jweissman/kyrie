@@ -4,7 +4,8 @@ import type { World } from '../lang/world';
 import type { CampaignActor } from './definition';
 
 export interface LiveCache { base: CampaignActor[]; key: string; actors: CampaignActor[] }
-interface Current { partyIds: string[]; inhabitants: Record<string, string[]>; enlisted?: Record<string, string> }
+interface Current { partyIds: string[]; inhabitants: Record<string, string[]>; enlisted?: Record<string, string>;
+  released?: string[] }
 
 // Who is in each group as play goes on. A campaign's actors are fixed when it loads; someone who joins the company
 // moves their creatures into it, and their own group is left empty. Until anyone joins, the actors are the
@@ -13,7 +14,7 @@ export class Membership {
   static live(base: CampaignActor[], current: Current,
     cache?: LiveCache): { actors: CampaignActor[]; cache?: LiveCache } {
     const enlisted = current.enlisted ?? {};
-    if (!Object.keys(enlisted).length) { return { actors: base }; }
+    if (!Object.keys(enlisted).length && !current.released?.length) { return { actors: base }; }
     const key = current.partyIds.join();
     if (cache?.base === base && cache.key === key) { return { actors: cache.actors, cache }; }
     const actors = base.map(a => a.player ? { ...a, members: [...current.partyIds] }
@@ -32,5 +33,15 @@ export class Membership {
     const references = members.flatMap(id => at.module.entities.filter(e => e.creatureId === id).map(e => e.id));
     return at.world.apply(references.map(r => ({ kind: 'retract' as const,
       call: ModuleWriter.call('memberOf', r, recruit) })));
+  }
+  // A companion laid to rest leaves the company for good: they are no longer one of its members.
+  static release(at: { current: Current; company?: string; module: Module; world: World }, reference: string): World {
+    const { current } = at, member = at.module.entities.find(e => e.id === reference)?.creatureId;
+    if (!member || !at.company || !current.partyIds.includes(member)) { throw new Error(`${reference} is not in the company`); }
+    current.partyIds = current.partyIds.filter(id => id !== member);
+    current.inhabitants[at.company] = [...current.partyIds];
+    current.released = [...current.released ?? [], member];
+    return at.world.apply(['memberOf', 'fallen', 'awake', 'needsCare'].map(name => ({ kind: 'retract' as const,
+      call: name === 'memberOf' ? ModuleWriter.call(name, reference, at.company!) : ModuleWriter.call(name, reference) })));
   }
 }

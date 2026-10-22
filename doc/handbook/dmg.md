@@ -282,7 +282,7 @@ Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 16 | 0 | 0 | 0 | 7 |
+| 6 | 16 | 0 | 0 | 0 | 8 |
 
 #### field spell
 
@@ -351,6 +351,22 @@ Each level gained lets a caster add a spell of their tradition, of a level they 
 At the fifth, tenth and fifteenth levels a companion takes up one of their calling's feats. Some rule others out: a knight is no barbarian.
 
 > Needs: able(actor); memberOf(member, actor); awake(member); featOpen(member, choice)
+
+> Then: nothing changes
+
+#### bury companion
+
+*Kyr · action (group, member, place)* · `rule:care.bury_companion`
+
+- Shown as: Lay {lost} to rest
+- Takes: 60 minutes
+- Costs: 1
+
+The dead the company cannot have raised it lays to rest, and goes on without them.
+
+A grave dug and words said over it: an hour. They leave the company, and what they carried goes with them.
+
+> Needs: able(actor); at(actor, site); memberOf(lost, actor); fallen(lost); not (indoors(site))
 
 > Then: nothing changes
 

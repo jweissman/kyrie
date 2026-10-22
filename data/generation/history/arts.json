@@ -60,6 +60,9 @@
           "crystal_orb",
           "jeweled_box",
           "music_box"
+        ],
+        "great": [
+          "kraken_claw"
         ]
       }
     },
@@ -120,6 +123,9 @@
           "topaz",
           "jeweled_dagger",
           "jeweled_torc"
+        ],
+        "great": [
+          "fallen_star"
         ]
       }
     },
@@ -178,6 +184,9 @@
           "celestial_chart",
           "ancient_map",
           "crystal_orb"
+        ],
+        "great": [
+          "ancient_orrery"
         ]
       }
     },
@@ -237,6 +246,9 @@
           "broken_crown",
           "ancient_crown",
           "jeweled_torc"
+        ],
+        "great": [
+          "royal_crown"
         ]
       }
     },
@@ -295,6 +307,9 @@
           "amethyst",
           "tourmaline",
           "crystal_eye"
+        ],
+        "great": [
+          "titan_statue"
         ]
       }
     }

@@ -1,0 +1,54 @@
+# great_singing_hall: the Stone-Singers' choir, the greatest of their halls, where the last of them sang.
+@art stone
+@kind cave
+@ground fell peak wood heath
+@seen a cliff cut into a face
+@names song/hill, great/song, high/song, song/hall
+@danger 3
+@great yes
+--- outside
+  Observe {w}_face at {w} when true "The whole face of a cliff has been sung into a face: a woman's, with her eyes shut and her mouth open, as high as a tower. Her mouth is the door. Wind going into it makes a note so low you feel it in your teeth rather than hear it.".
+  Observe {w}_cut at {w} when true "Along the brow of the great face the letters of the old script flow into the stone: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_throat "the throat" is room within {w}_site at 0, 0.
+  Place {w}_masks "the hall of masks" is room within {w}_site at 1, 0.
+  Place {w}_choir "the choir" is room within {w}_site at 2, 0.
+  Place {w}_unfinished "the unfinished hall" is room within {w}_site at 2, 1.
+  Place {w}_heart "the heart of the hill" is room within {w}_site at 3, 0.
+  Passage {w}_in "the mouth" is doorway between {w} and {w}_throat.
+  Passage {w}_on "the long rising passage" is passage between {w}_throat and {w}_masks.
+  Passage {w}_choir_door "a doorway of notes" is door between {w}_masks and {w}_choir.
+  Passage {w}_aside "a rough opening" is crawl between {w}_choir and {w}_unfinished.
+  Passage {w}_deep "the last door" is door between {w}_choir and {w}_heart.
+  Initially Assert unlit({w}_masks). Initially Assert unlit({w}_choir). Initially Assert unlit({w}_unfinished).
+  Initially Assert unlit({w}_heart).
+  Observe {w}_throat_scene at {w}_throat when true "Inside the mouth the stone is smooth as glass and rises, ribbed like a throat. The note of the wind is everywhere here, inside you as much as outside.".
+  Observe {w}_masks_scene at {w}_masks when true "A long hall lined on both sides with faces sung into the stone, one for each of the Singers who sang here: hundreds, each different, each with its mouth open on a different note.".
+  Thing {w}_notes "the doorway of notes" on {w}_choir_door {
+    State closed blocking "The far end of the hall is a door of stone without a seam, cut across with lines of notes in the old script's way of writing song.".
+    State open "The door of notes has rolled back into the rock.".
+    Change sing "Sing the notes cut on the door" from closed to open needing lore.
+    Change chant "Chant the rites the Singers used to open their dead's doors" from closed to open needing rites.
+  }
+  Observe {w}_choir_scene at {w}_choir when true "The choir is a hall so tall your light does not find its roof. Its walls are people: hundreds of the Singers half out of the stone or half into it, standing in ranks as a choir stands, their mouths open. The air hums.".
+  Observe {w}_unfinished_scene at {w}_unfinished when true "A hall that was never finished: half of it smooth and sung, half of it raw rock, and on the line between them, tools of bone laid down in a row, as if the singers meant to come back after a rest.".
+  Observe {w}_heart_scene at {w}_heart when true "The heart of the hill is a small round room, warm, and in the middle of it the last of the Singers sits on a block of stone, her eyes shut, her mouth open, more stone than flesh.".
+  Thing {w}_last "the last singer" at {w}_heart {
+    State singing "The last singer's mouth is open on a note too low to hear. The stone of her is warm to the touch.".
+    State heard "The last singer's note has stopped. The stone of her is cold.".
+    Change listen "Put your hand on the last singer and listen" from singing to heard.
+  }
+  Person {w}_warden "the choir's warden" at {w}_choir {
+    Role "stone the Singers sang to keep the choir, which still keeps it". Species earth_elemental. Level 5. Temperament territorial. Lair {w}_choir.
+    Warns "One of the figures in the wall steps out of it. It has no face, only the smooth place where the Singers had not finished it, and it turns that toward you.".
+  }
+  Item {w}_titan "{greatname}" is {great} at {w}_heart.
+  Item {w}_crystal "{richname}" is {rich} at {w}_choir.
+  Item {w}_tool "{commonname}" is {common} at {w}_unfinished.
+--- end failed 1 if fatea
+  Observe {w}_end_failed at {w}_heart when state({w}_last, heard) "Under your hand the note comes up through the stone into you, and you hear it, and it is not a note: it is a voice, very slow, saying one thing. We could not hold it. We could not hold it. We could not hold it." teaches {w}_end.
+  Discovery {w}_end "The last of the Stone-Singers sat down at the heart of their greatest hall when the singing failed, and held the note as long as she could. She could not hold it, she says.".
+--- end sung 1 if fateb
+  Observe {w}_end_sung at {w}_heart when state({w}_last, heard) "Under your hand the note comes up through the stone into you, and you hear it: all the voices of the choir at once, very far off, singing, not dead, not living, in the stone. One of them, nearer, says: you came to listen. Good. Stay a little." teaches {w}_end.
+  Discovery {w}_end "The Stone-Singers sang themselves into the stone of their halls, and in the greatest of them they are singing still. One of them spoke to you.".

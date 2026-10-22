@@ -42,7 +42,12 @@ describe('the later kingdom\'s works', () => {
     await Later.choose(s, /^Take the brothers' glossary .* out of the book-press for Elen$/);
     await Later.choose(s, /^Equip the brothers' glossary .* on Elen$/);
     await Later.choose(s, /^Read the copied inscriptions/);
-    expect([Later.knows(s, 'history_makers'), Later.knows(s, 'history_fate')]).toEqual([true, true]);
+    const first = w.report.region.history!.makers[0]!.art;
+    expect([Later.knows(s, `history_${first}`), Later.knows(s, `history_${first}_fate`)]).toEqual([true, true]);
+    // The whole story of the first makers shows the way to the greatest of their works, which no one told of.
+    const great = w.report.region.sites.find(x => x.work?.great)!;
+    await s.perform('wait');
+    expect(Later.knows(s, `${great.id}_found`)).toBe(true);
   }, 60000);
   it('a keep\'s roll tells how the kingdom fell, and its wall shows the way to another site', async () => {
     const { w, s } = await Later.start('ash'), keep = w.report.region.sites.find(x => x.work?.plan === 'keep')!;

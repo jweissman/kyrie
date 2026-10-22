@@ -10,6 +10,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
 import { RegionGeography } from '../src/world/region-geography';
 import { RegionWeather } from '../src/world/region-weather';
+import { Histories } from '../src/world/history/histories';
 import { Atlases } from '../src/world/land/atlas';
 
 // A generated region's names and land: no two places so alike a traveller could take one for the other, and a river,
@@ -86,10 +87,21 @@ describe('a generated region lies on real land', () => {
       { id: 'w1', kind: 'cave', name: 'Fern Cave', hours: 1 }, { id: 'w2', kind: 'mine', name: 'Old Delf', hours: 1 },
       { id: 'w3', kind: 'barrow', name: 'Long Howe', hours: 1 }] }, 'fells'));
     const cover = region.atlas!.land.cover, source = RegionWriter.source(region);
-    for (const site of region.sites) { expect(Atlases.grounds[site.kind]).toContain(cover[site.cell!]!); }
-    for (const site of region.sites.filter(w => (w.part ?? 0) > 0)) {
+    // A work stands on its plan's ground; the greatest of them anywhere dry, if its own ground is taken.
+    for (const site of region.sites.filter(w => !w.work?.great)) {
+      const ground = site.work ? Histories.plan(site.work.plan).ground : Atlases.grounds[site.kind];
+      expect(ground).toContain(cover[site.cell!]!);
+    }
+    for (const site of region.sites.filter(w => (w.part ?? 0) > 0 && !w.work?.great)) {
       expect(source).toContain(`hidden until ${site.id}_found`);
       expect(source).toMatch(new RegExp(`Discovery ${site.id}_found "[^"]+" \\{ Found by searching `));
+    }
+    // The greatest is out of sight until its makers' story is known: no search finds it.
+    const great = region.sites.filter(w => w.work?.great);
+    expect(great.length).toBe(1);
+    for (const site of great) {
+      expect(source).toContain(`hidden until ${site.id}_found`);
+      expect(source).not.toMatch(new RegExp(`Discovery ${site.id}_found "[^"]+" \\{ Found by searching `));
     }
   });
   it('is cold on the pass after dark, once a night', async () => {

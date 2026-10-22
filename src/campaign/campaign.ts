@@ -178,9 +178,7 @@ export class Campaign implements WatchHost {
   // The ids of the modules installed in the campaign, in the order they were installed.
   get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
   get fighters(): Fighter[] { return this.party; }
-  private get party(): Fighter[] {
-    return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters'));
-  }
+  private get party(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters')); }
 
   get events(): CampaignEvent[] { return structuredClone(this.log); }
   // Worlds are immutable; one is built per distinct state object (and module) rather than per access.
@@ -339,9 +337,10 @@ export class Campaign implements WatchHost {
       FieldUse.award(this.creatures, this.current.partyIds, this.world,
         { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
     }
-    if (action.resolve?.name === 'enlist') {
-      this.commit(Membership.enlist({ current: this.current, company: this.playerActor, module: this.module,
-        world: this.world }, action.resolve.args[0]!, action.resolve.args[1]!));
+    if (action.resolve?.name === 'enlist' || action.resolve?.name === 'inter') {
+      const at = { current: this.current, company: this.playerActor, module: this.module, world: this.world };
+      this.commit(action.resolve.name === 'enlist' ? Membership.enlist(at, action.resolve.args[0]!, action.resolve.args[1]!)
+        : Membership.release(at, action.resolve.args[0]!));
       this.refresh(); return;
     }
     if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name)) {

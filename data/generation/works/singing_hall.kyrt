@@ -30,8 +30,8 @@
     State heard "Put your ear to the stone of the figures, and you hear it: very far off, very faint, singing.".
     Change listen "Lay an ear against the stone" from silent to heard.
   }
-  Observe {w}_figures_learned at {w}_inner when state({w}_figures, heard) "{fate}" teaches history_fate.
-  Observe {w}_hall_learned at {w}_hall when state({w}_door, open) "{craft} {belief}" teaches history_makers.
+  Observe {w}_figures_learned at {w}_inner when state({w}_figures, heard) "{fate}" teaches {fatefact}.
+  Observe {w}_hall_learned at {w}_hall when state({w}_door, open) "{craft} {belief}" teaches {makersfact}.
   Item {w}_crystal "{richname}" is {rich} at {w}_inner.
 --- successors fold 2
   Observe {w}_fold at {w}_porch when true "Shepherds of the kingdom of {successors} used the porch as a fold; hurdles of rotten hazel still stand across it, and the floor is soft with old dung.".

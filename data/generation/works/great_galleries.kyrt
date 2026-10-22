@@ -1,0 +1,55 @@
+# great_galleries: the Delvers' great shaft and the forge at the bottom of it, where they meant to stand beside the smith.
+@art deep
+@kind mine
+@ground fell peak heath
+@seen a great pit in the fellside with a wheel over it
+@names deep/hold, star/hold, great/forge, deep/forge
+@danger 3
+@great yes
+--- outside
+  Observe {w}_pit at {w} when true "A pit opens in the fellside, square, wider than a barn, going straight down. Over it on legs of black iron stands a wheel as big as a mill's, and chains as thick as a man's arm go down from it out of sight. Warm air comes up out of the pit, smelling of iron.".
+  Observe {w}_cut at {w} when true "On the iron of the great wheel's hub, cast in the old script and polished by a thousand years of wind: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_head "the pit-head" is room within {w}_site at 0, 0.
+  Place {w}_floor "the pit floor" is room within {w}_site at 0, 1.
+  Place {w}_forge "the great forge" is room within {w}_site at 1, 1.
+  Place {w}_moulds "the hall of moulds" is room within {w}_site at 1, 2.
+  Place {w}_vein "the star-iron vein" is room within {w}_site at 2, 1.
+  Place {w}_deepest "the deepest gallery" is room within {w}_site at 3, 1.
+  Passage {w}_edge "the lip of the pit" is path between {w} and {w}_head.
+  Passage {w}_cage "the great cage" is shaft between {w}_head and {w}_floor.
+  Passage {w}_hearth "the forge arch" is arch between {w}_floor and {w}_forge.
+  Passage {w}_side "a side door" is door between {w}_forge and {w}_moulds.
+  Passage {w}_ore "the ore-way" is passage between {w}_forge and {w}_vein.
+  Passage {w}_down "the last of the galleries" is passage between {w}_vein and {w}_deepest.
+  Initially Assert unlit({w}_floor). Initially Assert unlit({w}_moulds).
+  Initially Assert unlit({w}_vein). Initially Assert unlit({w}_deepest).
+  Observe {w}_head_scene at {w}_head when true "Under the wheel a cage of iron hangs at the lip of the pit, big enough for a wagon and its team. A lever stands by it, and beside the lever a counterweight of stone the size of a house hangs in its own shaft.".
+  Thing {w}_brake "the cage's brake" on {w}_cage {
+    State locked blocking "The cage hangs on its chains, held by an iron brake as thick as a tree, rusted shut.".
+    State loose "The brake is off. The cage rides the great pit on its chains, and the counterweight goes up as it goes down.".
+    Change free "Free the brake and ride the cage down" from locked to loose needing brawn or crowbar.
+  }
+  Observe {w}_floor_scene at {w}_floor when true "The floor of the pit, a long way down. The square of sky overhead is the size of a hand. Galleries go off on every side, and from one of them comes a red light that is not your own.".
+  Observe {w}_forge_scene at {w}_forge when true "A hall cut out of the rock round a forge so great that the anvil is a block of iron you could lie on. The fire in the forge is still alight, low and red, after a thousand years, with nothing to feed it.".
+  Observe {w}_moulds_scene at {w}_moulds when true "A hall of moulds in fired clay, racked to the roof: moulds for tools, for blades, for wheels, for things that have no name. The biggest is the shape of a man.".
+  Observe {w}_vein_scene at {w}_vein when true "The gallery follows a vein of pale metal as thick as a man, glinting in your light like frost on a window: star-iron, the Delvers called it. Their picks have followed it a long way down.".
+  Person {w}_smith "the forge's keeper" at {w}_forge {
+    Role "a man of iron the Delvers made at the great forge, which keeps it still". Species iron_golem. Level 5. Temperament territorial. Lair {w}_forge.
+    Warns "The figure you took for a statue by the anvil straightens, iron grinding on iron, and lifts a hammer from the forge-fire, red to the haft.".
+  }
+  Thing {w}_anvil "the great anvil" at {w}_forge {
+    State unread "Letters are cut round the great anvil's foot in the old script.".
+    State read "Round the anvil's foot: HERE WE STOOD BESIDE THE SMITH. HE DID NOT TURN HIS HEAD.".
+    Change read "Read the letters round the anvil" from unread to read needing lore.
+  }
+  Item {w}_star "{greatname}" is {great} at {w}_vein.
+  Item {w}_blade "{richname}" is {rich} at {w}_moulds.
+  Item {w}_left "{commonname}" is {common} at {w}_floor.
+--- end walled 1 if fatea
+  Observe {w}_doors at {w}_deepest when true "The deepest gallery ends at three iron doors, one behind another, the outermost barred, every bar welded to its hasp. The air by them is cold enough to burn. On the outermost, in the old script, cut deep: IT IS AWAKE. WE ARE GOING UP. DO NOT COME DOWN." teaches {w}_end.
+  Discovery {w}_end "Under the Delvers' great forge, below the last of the star-iron, is something cold and awake, behind three iron doors they welded shut before they left the fells.".
+--- end fought 1 if fateb
+  Observe {w}_fought at {w}_deepest when true "The deepest gallery is where it ended: the last of the star-iron, and round it the bones of Delvers, a great many, killed with picks and hammers and their own blades, every one facing the vein." teaches {w}_end.
+  Discovery {w}_end "When the star-iron gave out, the last of the Delvers fought over the last of it in the deepest gallery under their great forge, and none of them came up.".

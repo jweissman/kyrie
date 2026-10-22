@@ -6,6 +6,11 @@ import singing from '../../data/generation/works/singing_hall.kyrt' with { type:
 import keep from '../../data/generation/works/keep.kyrt' with { type: 'text' };
 import abbey from '../../data/generation/works/abbey.kyrt' with { type: 'text' };
 import tollhouse from '../../data/generation/works/tollhouse.kyrt' with { type: 'text' };
+import greatBarrow from '../../data/generation/works/great_barrow.kyrt' with { type: 'text' };
+import greatCistern from '../../data/generation/works/great_cistern.kyrt' with { type: 'text' };
+import greatGalleries from '../../data/generation/works/great_galleries.kyrt' with { type: 'text' };
+import greatHall from '../../data/generation/works/great_singing_hall.kyrt' with { type: 'text' };
+import greatTower from '../../data/generation/works/great_watchtower.kyrt' with { type: 'text' };
 import { Histories, type History, type Work } from './history/histories';
 import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
@@ -21,14 +26,15 @@ import type { Region, Site } from './region-writer';
 // it; one a scenario has taken is the scenario's to fill. The region's history is a set of facts the works teach to
 // whoever can read them.
 export class RegionWorks {
-  static readonly texts = [cistern, galleries, watchtower, barrow, singing, keep, abbey, tollhouse];
+  static readonly texts = [cistern, galleries, watchtower, barrow, singing, keep, abbey, tollhouse, greatBarrow,
+    greatCistern, greatGalleries, greatHall, greatTower];
   static {
     for (const text of this.texts) { Histories.register(text); }
   }
   static lines(region: Region, taken: Record<string, string> = {}): string[] {
     const history = region.history;
     if (!history) { return []; }
-    return [...this.facts(history), ...region.sites.filter(s => s.work).flatMap(site => {
+    return [...this.facts(region), ...region.sites.filter(s => s.work).flatMap(site => {
       const work = history.works.find(w => w.id === site.id)!, plan = Histories.plan(work.plan);
       const values = this.values(region, site, work);
       const sections = WorkPlans.choose(plan, `${region.name}:${work.id}:${work.plan}`, values)
@@ -39,12 +45,17 @@ export class RegionWorks {
   // What a work's plan is given to say: the work's ids and names, its makers, and the kingdom after them.
   private static values(region: Region, site: Site, work: Work): Record<string, string> {
     const history = region.history!, makers = history.makers.find(m => m.art === work.art) ?? history.makers[0]!;
+    // What reading a work teaches: its own makers' story; the later kingdom's works keep the first makers'.
+    const facts = { makersfact: `history_${makers.art}`, fatefact: `history_${makers.art}_fate`,
+      // Which of its art's two ends its makers came to (fatea, fateb), for the sections that show it.
+      [`fate${'ab'[Math.max(0, Histories.arts[makers.art]?.fates.indexOf(makers.fate) ?? 0)]}`]: 'yes' };
     const zone = site.zone, twin = region.sites.find(s => s !== site && s.work?.plan === work.plan);
     return { w: site.id, name: site.name, old: work.old.name, oldup: work.old.name.toUpperCase(), gloss: work.old.gloss,
       land: zone ?? `${site.id}_land`, x: String(zone ? site.part ?? 0 : 1), y: String(zone ? 3 : 2),
       epithet: makers.epithet, craft: makers.craft, belief: makers.belief, fate: makers.fate,
       successors: history.successors.name, deity: region.deity, bound: this.bound(region, site),
-      ...this.kingdom(history), ...this.treasure(work), ...this.tellers(region, site), ...this.sight(region, site),
+      ...facts, ...this.kingdom(history), ...this.treasure(work), ...this.tellers(region, site),
+      ...this.sight(region, site),
       ...twin ? this.twin(region, site, twin) : {} };
   }
   // The kingdom after the makers, as its own works tell it: its name, what it was, and how it fell (fallplague,
@@ -78,8 +89,9 @@ export class RegionWorks {
     const lists = Histories.arts[work.art]?.treasure ?? Histories.kinds.find(k => k.id === work.art)?.treasure
       ?? { common: ['simple_ring'], rich: ['moonstone'] };
     const draw = new Draw(`${work.id}:${work.old.name}:treasure`);
-    const common = draw.pick(lists.common), rich = draw.pick(lists.rich);
-    return { common, commonname: this.called(common), rich, richname: this.called(rich),
+    const common = draw.pick(lists.common), rich = draw.pick(lists.rich), great = lists.great?.[0] ?? rich;
+    return { common, commonname: this.called(common), rich, richname: this.called(rich), great,
+      greatname: this.called(great),
       premium: String(2 * this.worth(common)), richpremium: String(Math.round(1.5 * this.worth(rich))) };
   }
   private static worth(id: string): number { return Canon.items[id]?.value ?? 10;
@@ -99,11 +111,19 @@ export class RegionWorks {
       RegionGeography.spot(region, twin.cell!));
     return { twin: twin.id, twinname: twin.name, twinside: side };
   }
-  // The region's history as facts: who its makers were and what they held, how they ended, and who came after.
-  private static facts(history: History): string[] {
-    const q = JSON.stringify, first = history.makers[0]!, s = history.successors;
-    return [`  Discovery history_makers ${q(`Before the folk came, ${first.epithet} held this country. ${first.craft} ${first.belief}`)}.`,
-      `  Discovery history_fate ${q(`How ${first.epithet} ended: ${first.fate}`)}.`,
-      `  Discovery history_successors ${q(`After ${first.epithet} came the kingdom of ${s.name}, where the power lay with ${s.were}. It fell to ${s.fall}.`)}.`];
+  // The region's history as facts: who each people of makers were and what they held, how each ended, and who came
+  // after them. Knowing the whole story of the first makers shows where the greatest of their works here lies.
+  private static facts(region: Region): string[] {
+    const history = region.history!, q = JSON.stringify, first = history.makers[0]!, s = history.successors;
+    const lines = history.makers.flatMap((m, i) => [`  Discovery history_${m.art} ${q(i ? `${m.epithet.replace(/^t/, 'T')} made things in this country too, before the folk. ${m.craft} ${m.belief}`
+      : `Before the folk came, ${m.epithet} held this country. ${m.craft} ${m.belief}`)}.`,
+    `  Discovery history_${m.art}_fate ${q(`How ${m.epithet} ended: ${m.fate}`)}.`]);
+    lines.push(`  Discovery history_successors ${q(`After ${first.epithet} came the kingdom of ${s.name}, where the power lay with ${s.were}. It fell to ${s.fall}.`)}.`);
+    const great = region.sites.find(x => x.work?.great);
+    const seat = great && RegionGeography.seats(region).find(x => x.site === great);
+    if (great && seat) {
+      lines.push(`  Observe ${great.id}_revealed near party when knows(party, history_${first.art}) and knows(party, history_${first.art}_fate) and not knows(party, ${great.id}_found) ${q(`With the story of ${first.epithet} whole, one thing in it stands out that no single stone says: where they went at the end. Every inscription that speaks of it points the same way, to ${RegionSites.where(seat, region)}.`)} teaches ${great.id}_found.`);
+    }
+    return lines;
   }
 }

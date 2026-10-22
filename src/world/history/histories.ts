@@ -12,7 +12,7 @@ interface Art {
   epithet: string; self: [string, string][]; terrains: Record<string, number>; plans: string[]; craft: string;
   belief: string; fates: string[]; said: string[]; modifiers: string[];
   // What its works hold for whoever finds it: Orsino's treasure, common and rich.
-  treasure: { common: string[]; rich: string[] };
+  treasure: { common: string[]; rich: string[]; great?: string[] };
 }
 // The people who first made things in a region: by what art, what they held true, and how they ended.
 export interface Makers { art: string; epithet: string; self: Naming; craft: string; belief: string; fate: string;
@@ -23,11 +23,11 @@ export interface Successors { name: string; gloss: string; kind: string; were: s
 // What a later kingdom built, and what it left: the plan its works follow, the words its names are made of, and
 // its treasure.
 interface Kind { id: string; were: string; made: string; plans: string[]; modifiers: string[];
-  treasure: { common: string[]; rich: string[] } }
+  treasure: { common: string[]; rich: string[]; great?: string[] } }
 // One of the makers' works, or the later kingdom's: its plan, where it stands, the name cut over it (the makers' in
 // the old tongue, the kingdom's in the folk's), and the name the folk have worn it down to.
 export interface Work { id: string; plan: string; art: string; cell: number; zone?: string; part?: number;
-  old: Naming; worn: string; later?: boolean }
+  old: Naming; worn: string; later?: boolean; great?: boolean }
 export interface History { makers: Makers[]; successors: Successors; works: Work[] }
 
 // A region's past, as far as it shows in the land: the makers whose works stand in it, placed where their art would
@@ -61,7 +61,7 @@ export class Histories {
     const taken: number[] = [];
     names.push(successors.name);
     for (const [i, maker] of makers.entries()) {
-      const plans = this.arts[maker.art]!.plans.filter(p => this.plans.has(p));
+      const plans = this.arts[maker.art]!.plans.filter(p => this.plans.has(p) && !this.plans.get(p)!.great);
       for (const id of i === 0 ? plans : plans.slice(0, 1)) {
         for (let n = 0; n < (i === 0 ? this.counts[id] ?? 1 : Math.min(2, this.counts[id] ?? 1)); n++) {
           const same = works.filter(w => w.plan === id).map(w => w.cell);
@@ -80,6 +80,10 @@ export class Histories {
       const work = this.work(atlas, { plan: this.plan(id), key: `${key}:work:${works.length}`, taken, names, same });
       if (work) { works.push({ ...work, id: `w${works.length + 1}`, later: true }); }
     }
+    // The greatest of the first makers' works here, deep in the wild country, where the folk do not go.
+    const great = [...this.plans.values()].find(p => p.great && p.art === makers[0]!.art);
+    const work = great && this.work(atlas, { plan: great, key: `${key}:work:great`, taken, names, same: [] });
+    if (work) { works.push({ ...work, id: `w${works.length + 1}`, great: true }); }
     return { makers, successors, works };
   }
   // The art of a region's makers, weighed by its terrain; another than one already drawn.
@@ -120,7 +124,7 @@ export class Histories {
     const { plan, key, taken } = at, draw = new Draw(key), land = atlas.land;
     const blocked = [...atlas.seats.map(s => s.cell), ...taken];
     // Works of a kind stand well apart: two towers in sight of each other, not side by side.
-    const open = land.cover.map((cover, c) => ({ c, rank: plan.ground.indexOf(cover) }))
+    const open = land.cover.map((cover, c) => ({ c, rank: this.rank(plan, cover) }))
       .filter(({ c, rank }) => rank >= 0 && blocked.every(b => Terrain.distance(land, b, c) >= 2)
         && at.same.every(b => Terrain.distance(land, b, c) >= 4))
       .map(({ c, rank }) => ({ c, score: -2 * rank + this.suits(atlas, plan, { c, taken }) + draw.next() * 1.5 }))
@@ -138,6 +142,12 @@ export class Histories {
     return { plan: plan.id, art: plan.art, cell, ...zone ? { zone: zone.id, part } : {},
       old, worn: kind ? old.name : Wearing.wear(old.name) };
   }
+  // How far down its plan's list of ground a cover is (-1: it cannot stand there). A great work stands somewhere
+  // whatever the land: on its own ground if any is free, else on any dry ground.
+  private static rank(plan: WorkPlan, cover: string): number {
+    const i = plan.ground.indexOf(cover as WorkPlan['ground'][number]);
+    return i >= 0 ? i : plan.great && !['sea', 'lake'].includes(cover) ? plan.ground.length + 1 : -1;
+  }
   // How well a cell suits a plan: by a river if it wants one, high if it is a tower, near the region's bounds if it
   // is a barrow; deeper in wild country; away from other works of the same kind.
   private static suits(atlas: Atlas, plan: WorkPlan, at: { c: number; taken: number[] }): number {
@@ -147,7 +157,9 @@ export class Histories {
     const zone = atlas.zones.find(z => z.cells.includes(c)), part = zone?.parts.findIndex(p => p.includes(c)) ?? -1;
     const crowd = at.taken.filter(t => zone?.cells.includes(t)).length;
     const road = plan.near === 'road' && atlas.ways.some(r => r.cells.some(n => Terrain.distance(land, n, c) <= 1));
+    const heart = !!zone && part > 0 && part === zone.parts.length - 1;
     return (plan.near === 'river' && river ? 3 : 0) + (road ? 3 : 0) + (plan.kind === 'tower' ? 4 * land.heights[c]! : 0)
+      + (plan.great ? (heart ? 6 : zone ? 2 : 0) : 0)
       + (plan.kind === 'barrow' ? Math.max(0, 3 - edge) : 0) + Math.min(2, part + 0.5) - 1.5 * crowd;
   }
 }

@@ -35,8 +35,8 @@
     State read "A count of days, kept night by night for a thousand years. Toward the end, two hands at once, a day apart, each scoring out the other's.".
     Change read "Read the tablets" from unread to read needing lore.
   }
-  Observe {w}_tablets_learned at {w}_undercroft when state({w}_tablets, read) "{fate}" teaches history_fate.
-  Observe {w}_ring_learned at {w}_top when state({w}_ring, set) "{craft} {belief}" teaches history_makers.
+  Observe {w}_tablets_learned at {w}_undercroft when state({w}_tablets, read) "{fate}" teaches {fatefact}.
+  Observe {w}_ring_learned at {w}_top when state({w}_ring, set) "{craft} {belief}" teaches {makersfact}.
   Item {w}_plate "{richname}" is {rich} at {w}_undercroft.
 --- sight twin 1 if twin
   Observe {w}_sightline at {w}_top when state({w}_ring, set) "Through the sighting-holes, on a height to the {twinside}, there is another tower: {twinname}. The ring was made to see it." teaches {twin}_found.

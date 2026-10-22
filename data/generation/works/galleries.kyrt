@@ -63,7 +63,8 @@
     State read "A tally of star-iron, cart by cart, for a hundred years; then a gap; then, cut deep and crooked: WE HAVE SHUT IT IN. DO NOT LET IT OUT.".
     Change read "Read the tally on the wall" from unread to read needing lore.
   }
-  Observe {w}_tally_learned at {w}_dressing when state({w}_tally, read) "{craft} {fate}" teaches history_makers.
+  Observe {w}_tally_learned at {w}_dressing when state({w}_tally, read) "{craft}" teaches {makersfact}.
+  Observe {w}_tally_fate at {w}_dressing when state({w}_tally, read) "{fate}" teaches {fatefact}.
   Person {w}_cold "the cold below" at {w}_beyond {
     Role "something that was walled up behind the iron door, and is not dead". Species ice_elemental. Level 5. Temperament savage. Lair {w}_beyond.
   }

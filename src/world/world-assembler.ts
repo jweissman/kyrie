@@ -118,7 +118,7 @@ export class WorldAssembler {
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
   private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>): Region {
     const own = WorldGrid.seed(seed, ...at);
-    const d = new Content(RandomStreams.key(own, 'world', 'region')).generate('region', drawn ?? {}) as unknown as Region;
+    const d = WorldGrid.drawn(seed, ...at, drawn);
     return { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed), RandomStreams.key(own, 'world'))), at,
       beyond: WorldGrid.beyond(seed, at) };
   }
@@ -176,7 +176,7 @@ export class WorldAssembler {
     region.history = history;
     region.sites = history.works.map(w => ({ id: w.id, kind: Histories.plan(w.plan).kind, name: w.worn, hours: 1,
       gloss: w.old.gloss, tongue: w.old.tongue, cell: w.cell, ...w.zone ? { zone: w.zone, part: w.part } : {},
-      work: { plan: w.plan, art: w.art } }));
+      work: { plan: w.plan, art: w.art, ...w.great ? { great: true } : {} } }));
     return region;
   }
   // A site's cell in the region's land, by what kind of site it is; one that can stand nowhere is left out.

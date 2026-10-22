@@ -1,0 +1,73 @@
+# great_barrow: the great howe where the Barrow-Kin laid their kings, and at the end the last of their own.
+@art bone
+@kind barrow
+@ground heath meadow fell wood
+@seen a great howe ringed with stones
+@names king/mound, great/mound, king/rest, high/rest
+@danger 3
+@great yes
+--- outside
+  Observe {w}_howe at {w} when true "A howe three times the size of any other in the country lies along the ridge, steep-sided and green, ringed at its foot by standing stones taller than a man on a horse. Inside the ring nothing grazes. The grass there is long and grey, and it does not move in the wind.".
+  Observe {w}_cut at {w} when true "On the lintel of the entrance, cut deep in the old script and filled with something dark: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_forecourt "the forecourt" is room within {w}_site at 0, 1.
+  Place {w}_kings "the gallery of kings" is room within {w}_site at 1, 1.
+  Place {w}_horses "the horse-hall" is room within {w}_site at 1, 0.
+  Place {w}_flutes "the chamber of flutes" is room within {w}_site at 2, 1.
+  Place {w}_throne "the high chamber" is room within {w}_site at 3, 1.
+  Place {w}_last "the room behind the seat" is room within {w}_site at 3, 2.
+  Passage {w}_ring "the way through the ring" is path between {w} and {w}_forecourt.
+  Passage {w}_door "the great door" is passage between {w}_forecourt and {w}_kings.
+  Passage {w}_stalls "a side passage" is passage between {w}_kings and {w}_horses.
+  Passage {w}_on "the gallery's end" is passage between {w}_kings and {w}_flutes.
+  Passage {w}_high "the steps up" is steps between {w}_flutes and {w}_throne.
+  Passage {w}_behind "the way behind the seat" is crawl between {w}_throne and {w}_last.
+  Initially Assert unlit({w}_kings). Initially Assert unlit({w}_horses). Initially Assert unlit({w}_flutes).
+  Initially Assert unlit({w}_throne). Initially Assert unlit({w}_last).
+  Observe {w}_forecourt_scene at {w}_forecourt when true "A forecourt paved with flat stones, open to the sky, walled by the howe's horns of piled stone. The bones of oxen lie along its walls, where feasts were left for the dead. At the back is a door of three great stones: two uprights, and a lintel.".
+  Thing {w}_seal "the great seal-stone" on {w}_door {
+    State set blocking "A round stone twice the height of a man fills the door, in a groove cut for it. Its face has been worn smooth by hands.".
+    State rolled "The great seal-stone stands rolled aside in its groove, and the dark of the howe breathes out past it.".
+    Change roll "Put your shoulders to the great seal-stone and roll it aside" from set to rolled needing brawn.
+    Change rite "Speak the rites of the dead at the seal-stone, and ask to be let in" from set to rolled needing rites.
+  }
+  Observe {w}_kings_scene at {w}_kings when true "A long gallery of great stones roofed with greater. Along both walls, in niches, the kings of the Barrow-Kin sit as they were set, their skulls bowed over their knees. There are dozens. The newest are nearest the door.".
+  Observe {w}_horses_scene at {w}_horses when true "A low hall to one side, and in it horses: the skeletons of horses, lying in rows on their sides in harness, as they were killed, the bronze of their bits green in the dust.".
+  Observe {w}_flutes_scene at {w}_flutes when true "A round chamber whose walls are set with bones of the arm and the leg, cut and bored, hundreds of them: flutes. Air moves through the howe from somewhere, and they sound, faintly, all the time, too low to call a note.".
+  Thing {w}_pipes "the flutes in the wall" at {w}_flutes {
+    State murmuring "The flutes in the wall murmur, too low to call a note.".
+    State answered "The flutes have fallen silent. The silence is worse.".
+    Change play "Play a flute as the Barrow-Kin did, and listen" from murmuring to answered needing rites or lore.
+  }
+  Observe {w}_throne_scene at {w}_throne when true "The high chamber is the heart of the howe. On a seat of stone at its end sits a king larger than the others, in a cloak gone to dust, a crown on his skull, his hands on a sword across his knees. Behind the seat a single stone makes the wall.".
+  Person {w}_king "the barrow-king" at {w}_throne {
+    Role "the last king of the Barrow-Kin, who keeps the last of the bound". Species revenant. Level 5. Temperament territorial. Lair {w}_throne.
+    Warns "The king on the seat lifts his skull from his chest. Something in the dark of his eyes finds you, and he stands, and the sword comes up.".
+  }
+  Person {w}_household "the king's household" at {w}_kings {
+    Role "the dead of the king's household, who sit along the gallery". Species ghoul. Numbers 3. Level 2. Temperament obedient. Lair {w}_kings.
+    Warns "Along the gallery the seated dead turn their heads toward you, one after another, all the way to the end.".
+  }
+  Initially Assert serves({w}_household, {w}_king).
+  Item {w}_crown "{greatname}" is {great} at {w}_throne.
+  Item {w}_harness "{richname}" is {rich} at {w}_horses.
+  Item {w}_grave "{commonname}" is {common} at {w}_kings.
+--- end sealed 1 if fatea
+  Thing {w}_lastseal "the stone behind the seat" on {w}_behind {
+    State set blocking "The stone behind the seat is cut with a seal, the old script running round it in a ring. There is no groove and no handle: it was set from the other side.".
+    State broken "The stone behind the seat has been broken through.".
+    Change break "Break through the stone behind the seat" from set to broken needing brawn or digging.
+  }
+  Observe {w}_last_sealed at {w}_last when true "In the little room beyond, the last of the Barrow-Kin lie together on the floor, a dozen of them, old and young, their arms about each other as they lay down. On the back of the stone they set behind them, cut by someone working in the dark: WE HAVE KEPT THE BOUND AS LONG AS THERE WERE LIVING TO KEEP IT FOR. NOW WE ARE THE BOUND." teaches {w}_end.
+  Discovery {w}_end "The last of the Barrow-Kin went into their great howe of their own will and sealed it from inside. They are the bound now, they wrote.".
+  Observe {w}_flutes_sealed at {w}_flutes when state({w}_pipes, answered) "Through the flutes, very faint, the sound of many people breathing slowly together, as if asleep. Then one voice, near your ear: 'Who keeps the bound now?'".
+--- end broken 1 if fateb
+  Observe {w}_robbers at {w}_throne when true "Before the seat lie the bones of a dozen men in iron caps, with picks and sacks, where the king met them.".
+  Observe {w}_last_broken at {w}_last when true "The stone into the little room was broken through from this side, with picks, and the room beyond is empty. On every wall, cut deep in the old script, three words over and over: LET THEM WALK." teaches {w}_end.
+  Discovery {w}_end "The strangers who broke the barrows found the great howe too, and broke into its last room, and let out what was kept there. The king killed them; what they let out walked.".
+  Observe {w}_flutes_broken at {w}_flutes when state({w}_pipes, answered) "Through the flutes a voice, near and very angry: 'They opened the last room. Who keeps the bound now? Who keeps the bound?'".
+--- present quiet 1
+  Observe {w}_quiet at {w}_forecourt when true "Nothing has come in through the ring of stones in a very long time: not a hare, not a bird.".
+--- present crows 1
+  Observe {w}_crows at {w}_forecourt when true "Crows sit along every stone of the ring, facing inward, and none of them makes a sound.".

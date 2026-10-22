@@ -51,8 +51,8 @@
     State read "The brothers went out to every old stone in the country and copied what was cut there, and worked out what the old script said. Their notes run all over the margins, arguing with each other.".
     Change read "Read the copied inscriptions" from unread to read needing lore.
   }
-  Observe {w}_copies_learned at {w}_scriptorium when state({w}_copies, read) "With the glossary beside them the copies make sense, and the brothers' notes argue their way to who the old people were, and how they ended." teaches history_makers.
-  Observe {w}_copies_fate at {w}_scriptorium when state({w}_copies, read) "One leaf, copied from a stone the brothers marked as the oldest they found, is the old people's own account of their end." teaches history_fate.
+  Observe {w}_copies_learned at {w}_scriptorium when state({w}_copies, read) "With the glossary beside them the copies make sense, and the brothers' notes argue their way to who the old people were, and how they ended." teaches {makersfact}.
+  Observe {w}_copies_fate at {w}_scriptorium when state({w}_copies, read) "One leaf, copied from a stone the brothers marked as the oldest they found, is the old people's own account of their end." teaches {fatefact}.
 --- fall plague 1 if fallplague
   Observe {w}_plague at {w}_cloister when true "The garth was dug for graves, row on row, until there was no more room in it and the last of them were laid in the walks. There are no names on any of them.".
   Observe {w}_last_plague at {w}_chapter when state({w}_chronicle, read) "The last hand writes that the brothers took in the sick from the river villages, as the rule bids. Then that they buried them. Then the brothers' own names, one under another, in a hand that gets smaller. The last name has no hand after it to write it.".
@@ -85,7 +85,7 @@
   }
   Topic {w}_hermit_makers with {w}_hermit "Ask {{w}_hermit} about the old people" when true once {
     Says "'{craft} {belief}' {{w}_hermit} pokes the fire. 'So the brothers worked out, from the stones. They thought the old people were wiser than any since. I think they were only older.'".
-    On discuss { Assert knows(actor, history_makers). }
+    On discuss { Assert knows(actor, {makersfact}). }
   }
 --- present wisps 1
   Person {w}_wisps "lights in the cloister" at {w}_cloister {

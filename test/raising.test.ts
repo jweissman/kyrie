@@ -48,6 +48,19 @@ describe('a fallen companion', () => {
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold - 300);
     expect(Fallen.choice(s, /^Ask .* to raise Elen/)).toBeUndefined();
   }, 60000);
+  it('can be laid to rest, and leaves the company', async () => {
+    const { w, s } = await Fallen.start(), town = w.report.region.settlements[0]!;
+    GeneratedWorld.put(s, `${town.id}_green`);
+    await s.perform('wait');
+    const rest = Fallen.choice(s, /^Lay Elen to rest$/)!;
+    expect(rest).toBeDefined();
+    await s.perform(rest.choice.id);
+    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
+    expect(Fallen.choice(s, /Elen/)).toBeUndefined();
+    // Kept and opened again, the company is still the two of them.
+    const back = PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint())));
+    expect(back.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
+  }, 60000);
   it('is not raised by a village priest', async () => {
     const { w, s } = await Fallen.start(), village = w.report.region.settlements.find(t => t.size !== 'town')!;
     GeneratedWorld.put(s, `${village.id}_shrine`);

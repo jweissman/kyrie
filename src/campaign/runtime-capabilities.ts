@@ -15,6 +15,7 @@ export class RuntimeCapabilities {
     ].map(s => ({ ...s, exclusive: false })),
     { name: 'combat', types: ['group'], exclusive: false },
     { name: 'enlist', types: ['group', 'group'], exclusive: false },
+    { name: 'inter', types: ['member'], exclusive: false },
     { name: 'invoke', types: ['ability', 'member', 'member'], exclusive: false },
     { name: 'recover', types: ['group'], exclusive: false },
     { name: 'raise', types: ['member'], exclusive: false },

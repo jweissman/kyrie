@@ -1,0 +1,52 @@
+# great_watchtower: the Star-Readers' first tower, where the count of days began, with the great orrery at its top.
+@art sky
+@kind tower
+@ground peak fell heath
+@seen a tower taller than any other
+@names first/tower, high/tower, star/watch, sky/spire
+@danger 3
+@great yes
+--- outside
+  Observe {w}_tower at {w} when true "A tower stands on the highest ground for miles, twice the height of any other the Star-Readers raised and whole to its top, where something of bronze catches the light. The stair to its door goes round the outside, cut into the wall.".
+  Observe {w}_cut at {w} when true "Over the door, in the old script, a single line, and under it a mark like the sun with a notch cut in it: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_door "the door-stage" is room within {w}_site at 0, 3.
+  Place {w}_count "the hall of the count" is room within {w}_site at 0, 2.
+  Place {w}_beacon "the beacon-stage" is room within {w}_site at 0, 1.
+  Place {w}_orrery "the orrery" is room within {w}_site at 0, 0.
+  Passage {w}_outer "the stair round the outside" is steps between {w} and {w}_door.
+  Passage {w}_up "the stair in the wall" is stair between {w}_door and {w}_count.
+  Passage {w}_higher "the stair on up" is stair between {w}_count and {w}_beacon.
+  Passage {w}_top "the last stair" is ladder between {w}_beacon and {w}_orrery.
+  Observe {w}_door_scene at {w}_door when true "Inside the door, a round room with nothing in it but a stair going up inside the wall and a well going down into the dark.".
+  Observe {w}_count_scene at {w}_count when true "A round hall lined from floor to roof with tablets of stone in racks, each cut close with marks: the count of days, night by night, from the first night to the last. It goes round the walls in a spiral, upward.".
+  Observe {w}_beacon_scene at {w}_beacon when true "An open stage under the top of the tower, with a great iron basin in the middle of it, black inside, and wood stacked by it long ago that has gone to dust.".
+  Observe {w}_orrery_scene at {w}_orrery when true "At the top of the tower, under the sky, stands the orrery: rings within rings of bronze, the stars and the wandering lights on them, set on one pivot, and a handle to turn the year.".
+  Thing {w}_fire "the beacon" at {w}_beacon {
+    State out "The beacon has been cold a very long time.".
+    State lit "The beacon burns in its basin, and the top of the tower is a lamp for the whole country.".
+    Change light "Build a fire in the beacon and light it" from out to lit needing flame or torch.
+  }
+  Thing {w}_rings "the orrery" at {w}_orrery {
+    State still "The orrery stands still, set to a night a thousand years gone.".
+    State turned "The orrery has been turned on to tonight, and its rings show this year's sky as the Star-Readers counted it.".
+    Change turn "Turn the orrery on to tonight, by the count" from still to turned needing lore.
+  }
+  Person {w}_reckoner "the last reckoner" at {w}_count {
+    Role "the last of the Star-Readers, still at the count, who has not noticed that he is dead". Species spirit. Level 5. Temperament territorial. Lair {w}_count.
+    Warns "Between the racks a figure in a long coat is cutting a mark in a tablet, very slowly. It stops, and turns, and you can see the racks through it. 'You have made me lose my place,' it says.".
+  }
+  Item {w}_orrery_piece "{greatname}" is {great} at {w}_orrery.
+  Item {w}_chart "{richname}" is {rich} at {w}_count.
+  Item {w}_lens "{commonname}" is {common} at {w}_door.
+--- end war 1 if fatea
+  Observe {w}_burnt at {w}_count when true "Half the racks have been burned, and the tablets in them split by the heat. On the other half, the count goes on alone for a year, and then stops: a tablet is cut with two marks for one night, and scored through.".
+  Observe {w}_end_war at {w}_orrery when state({w}_rings, turned) "Turned on to tonight the orrery shows it plainly, what no one at the other towers could see: the count was a day out, and it was this tower's count. This tower was wrong. Someone has scratched that, very small, on the bronze: WE WERE WRONG." teaches {w}_end.
+  Discovery {w}_end "The war of the reckonings began over a day: the first tower's count and the others' were a day apart. At the top of the first tower the orrery shows it was the first tower that was wrong.".
+--- end dark 1 if fateb
+  Observe {w}_cold at {w}_beacon when state({w}_fire, out) "Round the rim of the basin, cut in the old script, the names of towers, from the coast inland, each struck through, the last not struck through but not finished either.".
+  Observe {w}_end_dark at {w}_orrery when state({w}_rings, turned) "Turned on to tonight the orrery shows the sky as it was the winter the fires went out, and you see why: a wandering light that is not on any other ring, coming in from the sea, closer every night. It is on the rings now. It has been coming ever since." teaches {w}_end.
+  Discovery {w}_end "The winter the Star-Readers' fires went out, a wandering light was coming in from the sea that is on no other count. The orrery at the top of the first tower still follows it. It is still coming.".
+--- sight far 1 if sight
+  Observe {w}_far at {w}_orrery when true "From the top of the first tower you can see the whole country: far off to the {sightside}, {sightseen}." teaches {sight}_found.

@@ -1,3 +1,4 @@
+import type { DeemValue } from 'deem';
 import { Content } from '../content';
 import { RandomStreams } from '../random-streams';
 import { Borders, type Side } from './land/borders';
@@ -20,9 +21,27 @@ export class WorldGrid {
     return [x + dx, y + dy];
   }
   // A region as Deem draws it, before its land is laid: enough to know what it is called and what country it is.
-  static drawn(seed: string, x: number, y: number, terrain?: string): Region {
-    return new Content(RandomStreams.key(this.seed(seed, x, y), 'world', 'region'))
-      .generate('region', terrain ? { terrain } : {}) as unknown as Region;
+  // No region is called what a neighbour is called: where its first draw would be, it is drawn again (the same way
+  // on every load, as its neighbours' first draws never change).
+  static drawn(seed: string, x: number, y: number, given: Record<string, DeemValue> = {}): Region {
+    const near = Borders.sides.map(side => PlaceNames.regionName(this.first(seed, this.next([x, y], side))));
+    for (let salt = 0; salt < 6; salt++) {
+      const region = this.first(seed, [x, y], salt, given);
+      if (!near.includes(PlaceNames.regionName(region))) { return region; }
+    }
+    return this.first(seed, [x, y], 0, given);
+  }
+  private static readonly draws = new Map<string, Region>();
+  private static first(seed: string, [x, y]: [number, number], salt = 0,
+    given: Record<string, DeemValue> = {}): Region {
+    const key = `${this.seed(seed, x, y)}:${salt}:${JSON.stringify(given)}`;
+    let region = this.draws.get(key);
+    if (!region) {
+      region = new Content(RandomStreams.key(this.seed(seed, x, y), 'world', 'region', ...salt ? [salt] : []))
+        .generate('region', given) as unknown as Region;
+      this.draws.set(key, region);
+    }
+    return structuredClone(region);
   }
   // What the folk of a region call the country beyond each of its borders, and what kind of country it is.
   static beyond(seed: string, at: [number, number]): Region['beyond'] {

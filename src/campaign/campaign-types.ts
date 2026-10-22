@@ -17,6 +17,8 @@ export interface CampaignState {
   partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
   // Who has joined the company, and which company: their own group is empty from then on.
   enlisted?: Record<string, string>;
+  // Companions laid to rest, who have left the company for good.
+  released?: string[];
   // The date the campaign began on, when its manifest gives one (see Calendar).
   calendar?: CalendarStart;
   outcome: 'active' | 'success' | 'failure';

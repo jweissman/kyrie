@@ -49,6 +49,13 @@ Module care "Rest, mending and lessons" {
     Resolve feat(member, choice).
     Result "{member} takes up {choice}.".
   }
+  // The dead the company cannot have raised it lays to rest, and goes on without them.
+  Action bury_companion(actor: group, lost: member, site: place) "Lay {lost} to rest" {
+    Description "A grave dug and words said over it: an hour. They leave the company, and what they carried goes with them.".
+    Requires able(actor) and at(actor, site) and memberOf(lost, actor) and fallen(lost) and not indoors(site).
+    Time 6. Resolve inter(lost).
+    Result "You dig a grave for {lost} and lay them in it, and say what can be said over them. Then you go on without them.".
+  }
   Action rest(actor: group, site: place) "Rest and recover at {site}" {
     Description "Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison and death are not mended. The world does not wait while you sleep.".
     Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) >= 1.

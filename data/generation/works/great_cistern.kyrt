@@ -1,0 +1,64 @@
+# great_cistern: the Water-Wardens' dam, the mere behind it, and the hall under the mere where they read still water.
+@art water
+@kind cave
+@ground fell heath wood fen
+@near river
+@seen a dam of dressed stone across a valley
+@names water/keep, still/water, deep/water, great/pool
+@danger 3
+@great yes
+--- outside
+  Observe {w}_dam at {w} when true "A wall of dressed stone closes the valley from side to side, higher than a church tower, without a crack in it. Behind it lies a long black mere that does not ripple. Water comes out at the dam's foot through one small arch, and that is the river.".
+  Observe {w}_cut at {w} when true "Along the crest of the dam runs a line of the old script, each letter as tall as a man, to be read from the far side of the valley: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_crest "the crest of the dam" is room within {w}_site at 0, 0.
+  Place {w}_tower "the gate-tower" is room within {w}_site at 1, 0.
+  Place {w}_face "the stair down the mere's side" is room within {w}_site at 1, 1.
+  Place {w}_street "the drowned street" is room within {w}_site at 2, 1.
+  Place {w}_hall "the hall of still water" is room within {w}_site at 3, 1.
+  Place {w}_vault "the wardens' vault" is room within {w}_site at 3, 2.
+  Passage {w}_up "the steps cut up the end of the dam" is steps between {w} and {w}_crest.
+  Passage {w}_along "the walk along the crest" is passage between {w}_crest and {w}_tower.
+  Passage {w}_down "the stair down the dam's inner face" is stair between {w}_tower and {w}_face.
+  Passage {w}_into "the bottom of the stair" is steps between {w}_face and {w}_street.
+  Passage {w}_to_hall "the street's end" is passage between {w}_street and {w}_hall.
+  Passage {w}_under "a door under the basin" is door between {w}_hall and {w}_vault.
+  Initially Assert unlit({w}_vault).
+  Observe {w}_crest_scene at {w}_crest when true "The crest of the dam is a road wide enough for a cart, paved, with a parapet on the mere side. On one hand the valley falls away to the river; on the other the black water lies a foot below the parapet, so still it holds the sky.".
+  Observe {w}_tower_scene at {w}_tower when true "A tower stands out from the middle of the dam into the mere. Inside, three wheels of bronze, each as tall as two men, stand in a row on the floor, their shafts going down into the stone. A stair goes down the inside wall toward the water.".
+  Thing {w}_gates "the great gates" at {w}_tower {
+    State shut "The three wheels are turned hard round to the left, and green with age where they meet the floor.".
+    State open "The three wheels have been wound round to the right as far as they go.".
+    Change wind "Wind the three great wheels round, one after another" from shut to open needing brawn or crowbar.
+  }
+  Thing {w}_mere "the black water" on {w}_into is scenery {
+    State full blocking "The stair goes down the dam's inner face and into the black water, and on down out of sight.".
+    State low "The mere has gone down. The stair runs on down the wet face of the dam, between ribbons of weed, to a street of houses at the bottom of the valley.".
+  }
+  Rule {w}_drains when state({w}_gates, open) and state({w}_mere, full) says "Far down in the dam something gives with a sound like a bell, and then the roar begins: the mere going out of the valley through gates nobody has opened in a thousand years. When at last it stops, there are houses where the water was." { Assert state({w}_mere, low). }
+  Observe {w}_face_scene at {w}_face when true "A landing on the stair, cut into the inner face of the dam. The stone here is as true as the day it was laid. Below, the valley.".
+  Observe {w}_street_scene at {w}_street when true "A street of stone houses at the bottom of the valley, roofs gone, doors standing, everything grey with silt and hung with weed that is already drying in the air. Fish flap in the gutters.".
+  Observe {w}_hall_scene at {w}_hall when true "At the street's end a round hall stands under a dome of glass so thick it is green, and in the middle of the floor a basin of white stone, as wide as a pond, with a rim cut all round with marks. The water in it is perfectly still.".
+  Thing {w}_basin "the basin of still water" at {w}_hall {
+    State unread "The water in the basin is so still it does not seem to be water.".
+    State read "You see what the Wardens saw when they looked: not your own face, but country, far off, as the crow flies, and what is moving in it.".
+    Change read "Read the still water, by the marks round the rim" from unread to read needing lore.
+  }
+  Person {w}_keeper "the keeper of the mere" at {w}_street {
+    Role "the water the Wardens set to keep their valley, which did not go out with the rest". Species water_elemental. Level 5. Temperament territorial. Lair {w}_street.
+    Warns "The water in the gutters of the street runs together, and stands up, and is taller than you, and has a face that is only the street seen through it.".
+  }
+  Item {w}_claw "{greatname}" is {great} at {w}_vault.
+  Item {w}_offering "{richname}" is {rich} at {w}_hall.
+  Item {w}_left "{commonname}" is {common} at {w}_street.
+--- end drowned 1 if fatea
+  Observe {w}_drowned at {w}_street when state({w}_mere, low) "The street is full of the dead, and of their arms: spears and shields of a make nobody has seen in this country, and among them, unarmed, the Wardens, in their long coats, lying where the water came on them all together.".
+  Observe {w}_end_drowned at {w}_hall when state({w}_basin, read) "Then the water in the basin shows you the valley, as it was: an army in the street, and the Wardens on the dam, and one of them putting a hand to the first wheel, and looking down at the basin, at you, before he turns it." teaches {w}_end.
+  Discovery {w}_end "The Wardens' last war ended at their great dam: they let their enemies into the valley, and shut the gates, and drowned it, and themselves in it. One of them looked into the still water before he turned the wheel.".
+--- end dry 1 if fateb
+  Observe {w}_left_whole at {w}_street when state({w}_mere, low) "Every door in the street stands open, and the houses were left in order: pots on the hearths, beds made, tools on their hooks. Nothing was taken. Whoever lived here went out with nothing in their hands.".
+  Observe {w}_end_dry at {w}_hall when state({w}_basin, read) "The water in the basin shows you a dry river-bed, and people walking down it in a long line, slowly, carrying nothing, not looking back; and then, for a moment, the same river-bed, and you in it. Then nothing. Cut into the rim, newer than the rest: IT SHOWS NOTHING NOW." teaches {w}_end.
+  Discovery {w}_end "When the still water stopped showing the Wardens what was coming, they left their valley in order, carrying nothing, and walked away down the dry river. The water shows nothing now, someone cut in its rim, but it showed you something.".
+--- vision far 1 if sight
+  Observe {w}_vision at {w}_hall when state({w}_basin, read) "In the still water, far off to the {sightside}, as the crow flies: {sightseen}, and the way to it." teaches {sight}_found.
