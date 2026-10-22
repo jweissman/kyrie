@@ -64,9 +64,12 @@ export type Request =
   | { kind: 'fight'; choice?: string }
   | { kind: 'checkpoint' };
 export interface Envelope { id: number; request: Request }
+// What a kept game says about itself on the title: the campaign, where the company is, when, and who.
+export interface SaveSummary { title: string; where: string; when: string; company: string }
 export type Message =
   | { kind: 'reply'; id: number; value?: unknown; error?: string }
   | { kind: 'frame'; frame: Frame }
-  // The game to keep in this browser, once a command is done (sent after its frame, so play does not wait on it).
-  | { kind: 'saved'; save: string }
+  // The game to keep in this browser, once a command is done (sent after its frame, so play does not wait on it):
+  // packed small (see SaveCodec), with what the title page says of it.
+  | { kind: 'saved'; save: string; summary: SaveSummary }
   | { kind: 'progress'; stage: string };

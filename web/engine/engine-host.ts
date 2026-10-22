@@ -12,7 +12,8 @@ import { Creation } from './creation';
 import { Frontier } from '../../src/world/frontier';
 import { Scenarios } from '../scenarios';
 import { PlayTranscript } from './transcript';
-import type { Entry, Frame, Member, Message, Request } from './protocol';
+import type { Entry, Frame, Member, Message, Request, SaveSummary } from './protocol';
+import { SaveCodec } from './save-codec';
 
 interface Saved { checkpoint: SessionCheckpoint; log?: Entry[] }
 
@@ -51,9 +52,9 @@ export class EngineHost {
     this.log = []; this.opening = []; this.screen = undefined;
     return this.settled();
   }
-  // A game kept in this browser, or a save file: a checkpoint, with or without the page's telling of it.
-  private resume(text: string): Frame {
-    const parsed = JSON.parse(text) as Saved | SessionCheckpoint;
+  // A game kept in this browser (packed), or a save file: a checkpoint, with or without the page's telling of it.
+  private async resume(text: string): Promise<Frame> {
+    const parsed = JSON.parse(await SaveCodec.unpack(text)) as Saved | SessionCheckpoint;
     const saved: Saved = 'checkpoint' in parsed ? parsed : { checkpoint: parsed };
     this.session = PlaySession.resume(saved.checkpoint);
     const t = saved.checkpoint.transcript;
@@ -106,12 +107,21 @@ export class EngineHost {
   private settled(): Frame {
     this.screen = ScreenModel.build(this.session!.campaign);
     const frame = this.frame();
-    setTimeout(this.keep.bind(this), 0);
+    setTimeout(() => { void this.keep(); }, 0);
     return frame;
   }
-  private keep() {
+  private async keep() {
     if (!this.session || this.turn) { return; }
-    this.post({ kind: 'saved', save: JSON.stringify({ checkpoint: this.session.checkpoint(), log: this.log.slice(-80) }) });
+    try {
+      const save = JSON.stringify({ checkpoint: this.session.checkpoint(), log: this.log.slice(-80) });
+      this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary() });
+    } catch { /* a command began before the game could be kept; it is kept after that one */ }
+  }
+  private summary(): SaveSummary {
+    const campaign = this.session!.campaign, place = PlayerView.observe(campaign).location?.name ?? '';
+    return { title: campaign.module.name.split(': ')[0]!, where: place.charAt(0).toUpperCase() + place.slice(1),
+      when: FictionalTime.at(campaign.state.elapsed),
+      company: campaign.state.party.map(m => m.name).filter(Boolean).join(', ') };
   }
   private frame(): Frame {
     const session = this.session!, campaign = session.campaign;
