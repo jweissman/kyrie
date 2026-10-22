@@ -22,6 +22,7 @@ export class PartyStrip {
             <span className="bar" aria-hidden="true"><i style={{ width: `${r.maxHp ? (r.hp / r.maxHp) * 100 : 0}%` }} /></span>
             {combat ? <span className="hp">{r.hp}/{r.maxHp}</span>
               : r.hp < r.maxHp && <span className="hp">{Words.hurt(r.hp, r.maxHp)}</span>}
+            {combat && PartyStrip.took(app, r) > 0 && <span className="took" key={r.hp}>−{PartyStrip.took(app, r)}</span>}
             {r.conditions.length > 0 && <span className="cond">{[...new Set(r.conditions)].join(', ').toLowerCase()}</span>}
           </button>
         ))}
@@ -30,6 +31,8 @@ export class PartyStrip {
       </footer>
     );
   }
+  // What the blows since the company last chose took from a companion.
+  private static took(app: ReaderApp, r: Row): number { return (app.state.fight?.hp[r.id] ?? r.hp) - r.hp; }
   private static open(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
     app.setState({ member: e.currentTarget.dataset.member! });
     if (app.state.view !== 'company') { app.show('company'); }

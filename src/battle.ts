@@ -221,8 +221,9 @@ export class Battle {
     AbilityUse.perform(ability, command.target, this.expressions, context);
     if (context.retreat || context.location) { this.finish('escaped', 'retreat', { actor: actor.id, team: actor.team }); }
     else { this.finishIfEliminated(); }
-    // A creature with actions left this turn (hasted) acts again before its turn ends.
-    if (!this.outcome && actor.hp > 0 && --this.actions > 0 && !actor.statuses.some(s => Effects.skips(s.id))) {
+    // A creature with actions left this turn (hasted) acts again before its turn ends, if it has anything to do.
+    if (!this.outcome && actor.hp > 0 && --this.actions > 0 && !actor.statuses.some(s => Effects.skips(s.id))
+      && this.commandsFor(actor).length) {
       this.impulsive(actor);
       this.commit();
       return structuredClone(this.history.slice(start));

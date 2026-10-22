@@ -3,7 +3,8 @@ import { ConditionSense } from '../presentation/condition-sense';
 import { CombatPresenter } from './combat-presenter';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 
-export interface Telling { text: string; detail: string }
+// One exchange: what was told, the dice behind it, the round it fell in, and who acted (if anyone did).
+export interface Telling { text: string; detail: string; round: number; actor?: string }
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 
@@ -12,18 +13,21 @@ type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 // looks closer, and nothing is said that a watcher could not see.
 export class CombatTelling {
   static exchanges(events: CombatEvent[], state: BattleState): Telling[] {
-    const groups: CombatEvent[][] = [];
+    const groups: { round: number; events: CombatEvent[] }[] = [];
+    let round = 0;
     for (const e of events) {
-      if (e.type === 'initiative') { continue; }
-      if (e.type === 'action' || !groups.length) { groups.push([e]); } else { groups.at(-1)!.push(e); }
+      if (e.type === 'initiative') { round++; continue; }
+      if (e.type === 'action' || !groups.length) { groups.push({ round: Math.max(1, round), events: [e] }); }
+      else { groups.at(-1)!.events.push(e); }
     }
-    return groups.map(g => this.tell(g, state)).filter(t => t.text);
+    return groups.map(g => this.tell(g.events, g.round, state)).filter(t => t.text);
   }
-  private static tell(group: CombatEvent[], state: BattleState): Telling {
+  private static tell(group: CombatEvent[], round: number, state: BattleState): Telling {
     const told = new CombatTelling(state), [first, ...rest] = group;
     const sentences = first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group);
     return { text: sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
-      detail: group.map(e => CombatPresenter.format(e, state)).filter(l => !l.startsWith('Initiative')).join(' ') };
+      detail: group.map(e => CombatPresenter.format(e, state)).filter(l => !l.startsWith('Initiative')).join(' '),
+      round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
   }
   private constructor(private readonly state: BattleState) {}
   private fighter(id: string): Fighter | undefined {
@@ -73,8 +77,7 @@ export class CombatTelling {
       case 'damage': return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
         : `${this.name(e.target)} takes ${e.amount}${e.damageType ? ` ${e.damageType}` : ''}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
-      case 'save': return e.success && !e.immune ? `${this.name(e.target)} shakes it off.`
-        : e.immune ? `${this.name(e.target)} is untouched by it.` : undefined;
+      case 'save': return this.saved(e);
       case 'status': return this.condition(e.target, e.detail);
       case 'death': return `${this.name(e.actor)} falls.`;
       case 'defend': return `${this.name(e.actor)} stands on guard.`;
@@ -83,6 +86,15 @@ export class CombatTelling {
       case 'end': case 'attack': case 'action': case 'initiative': case 'remove': return undefined;
       default: return CombatPresenter.format(e, this.state);
     }
+  }
+  // A save that held: what it held against, when the blow would have left a condition ("shrugs off the bleeding").
+  private saved(e: Of<'save'>): string | undefined {
+    const who = this.name(e.target), what = e.against ? ConditionSense.name(e.against).toLowerCase() : '';
+    // "stunned", "bleeding" are states one is or is not in; "armor shred" is a thing one takes or shrugs off.
+    const state = /(ed|ing)$/.test(what.split(' ')[0] ?? '');
+    if (e.immune) { return !what ? `${who} is untouched by it.` : state ? `${who} cannot be ${what}.` : `${who} cannot suffer ${what}.`; }
+    if (!e.success) { return undefined; }
+    return !what ? `${who} shakes it off.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
   }
   // "The boar is bleeding", in the condition's own words when it has them.
   private condition(target: string, id: string): string {

@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 122,
     "represented": 9,
-    "kyr": 20,
+    "kyr": 21,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 154
@@ -1076,7 +1076,7 @@
       "faithful": 40,
       "adapted": 64,
       "represented": 0,
-      "kyr": 4,
+      "kyr": 5,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -13098,6 +13098,13 @@
    "id": "species:sand_elemental",
    "title": "Sand elemental",
    "status": "adapted",
+   "book": "mm",
+   "section": "species/species-elemental"
+  },
+  {
+   "id": "species:slump",
+   "title": "Slump",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-elemental"
   },

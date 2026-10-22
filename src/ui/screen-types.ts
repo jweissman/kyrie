@@ -83,15 +83,20 @@ export interface RegionChart {
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;
+  // The round the fight is in: each begins with everyone's order drawn again.
+  round: number;
   foes: CombatantRow[]; allies: CombatantRow[];
   abilities: { id: string; name: string; text: string; cost: number; price: string; cooldown: number; scope: string;
-    spell?: { level: number; ready: number }; targets: { id: string; name: string; against?: string }[] }[];
+    spell?: { level: number; ready: number };
+    // Each target, with how it takes the ability's damage, and for a blow, the chance it lands.
+    targets: { id: string; name: string; against?: string; odds?: number }[] }[];
   // Who is still to act this round, in order, the one acting first.
   order: string[];
   // The laws of the place the fight is fought in, held by everyone in it.
   laws?: { name: string; text: string }[];
-  // Each exchange (someone acts, and what follows) told as the company saw it, with the dice behind it.
-  log: string[]; exchanges: { text: string; detail: string }[];
+  // Each exchange (someone acts, and what follows) told as the company saw it, with the dice behind it, numbered from
+  // the start of the fight, with its round and who acted.
+  log: string[]; exchanges: { n: number; text: string; detail: string; round: number; actor?: string }[];
 }
 export interface CombatantRow {
   id: string; name: string; line: string; hp: number; maxHp: number; mana: number; maxMana: number;

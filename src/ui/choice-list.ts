@@ -230,15 +230,27 @@ export class ChoiceList {
     const fighters = [...c.foes, ...c.allies];
     // With only one possible target there is nothing to choose: the choice names it and acts at once.
     if (a.targets.length === 1) {
-      const t = a.targets[0]!, joined = [base.note, t.against].filter(Boolean).join(' · ');
+      const t = a.targets[0]!, joined = [this.odds(t.odds), base.note, t.against].filter(Boolean).join(' · ');
       return { ...base, label: `${a.name} → ${t.name}`, command: `${a.id}>${t.id}`, ...joined ? { note: joined } : {} };
     }
     return { ...base, children: a.targets.map(t => {
       const f = fighters.find(x => x.id === t.id);
-      const note = [f && `${f.hp}/${f.maxHp}`, ...new Set(f?.statuses ?? []), t.against].filter(Boolean).join(' · ');
+      const note = [this.odds(t.odds), f && `${f.hp}/${f.maxHp}`, ...new Set(f?.statuses ?? []), t.against]
+        .filter(Boolean).join(' · ');
       return { id: `ability:${a.id}/${t.id}`, label: t.name, tone, command: `${a.id}>${t.id}`, ...note ? { note } : {} };
     }) };
   }
+  // A blow's chance as people put it: "1 in 4", "2 in 3", "almost always".
+  static odds(p?: number): string {
+    if (p === undefined) { return ''; }
+    if (p >= 0.93) { return 'almost always'; }
+    if (p <= 0.07) { return 'almost never'; }
+    const fractions: [number, number][] = [[1, 10], [1, 6], [1, 5], [1, 4], [1, 3], [2, 5], [1, 2], [3, 5], [2, 3],
+      [3, 4], [4, 5], [9, 10]];
+    const [a, b] = fractions.reduce((best, f) => this.off(f, p) < this.off(best, p) ? f : best);
+    return `${a} in ${b}`;
+  }
+  private static off(f: [number, number], p: number): number { return Math.abs(f[0] / f[1] - p); }
   // Every choice in a list of sections, in display order (what digits and arrow keys walk through).
   static all(sections: Section[]): Choice[] { return sections.flatMap(s => s.choices); }
   static find(sections: Section[], id: string): Choice | undefined { return this.walk(this.all(sections), id); }

@@ -16,12 +16,16 @@ import { PlaySurface } from './play-surface';
 export type Phase = 'title' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey the page shows while the engine works it out: from where, to where, by what way and how long.
 export interface Travel { from: string; to: string; way: string; minutes: number }
+// Where the company last chose in a fight: how many exchanges had been told, and how each fighter then stood, so the
+// page can show what happened since and what each blow took.
+export interface FightMark { seen: number; hp: Record<string, number>; first: boolean }
 export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   frame?: Frame; view: View; cursor: number; trail: string[]; hovered?: string; member: string;
   // A command under way: what the company is doing, and the journey if it is one.
   pending?: { said: string; travel?: Travel };
+  fight?: FightMark;
   stage: string; error: string; history: boolean; help: boolean;
 }
 
@@ -46,7 +50,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   override componentDidUpdate(_props: unknown, prev: AppState) {
     const page = document.getElementById('page'), frame = this.state.frame;
     if (page && frame && prev.frame !== frame) {
-      if (!prev.frame || prev.frame.screen.place.id !== frame.screen.place.id || !!prev.frame.combat !== !!frame.combat) {
+      // A fight keeps its foes and its choices where they are: it never scrolls away from them.
+      if (!prev.frame || frame.combat || prev.frame.screen.place.id !== frame.screen.place.id || !!prev.frame.combat) {
         page.scrollTo({ top: 0 });
       } else { ReaderApp.reveal(page); }
     }
@@ -73,7 +78,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       if (saved) { this.setState({ saved }); }
     } else if (message.kind === 'progress') { this.setState({ stage: message.stage }); }
     else if (message.kind === 'frame') {
-      this.setState({ frame: message.frame, pending: undefined, cursor: 0, trail: [], hovered: undefined });
+      const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
+        : { seen: 0, hp: {}, first: true } : undefined;
+      this.setState({ frame: message.frame, pending: undefined, cursor: 0, trail: [], hovered: undefined, fight });
     }
   }
   private built?: { frame?: Frame; view: View; trail: string[]; menu: Menu };
@@ -92,7 +99,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
     const said = [...this.menu.trail.map(c => c.label), choice.label].join(' › ');
     if (frame.combat) {
-      this.setState({ pending: { said } });
+      this.setState({ pending: { said }, fight: ReaderApp.mark(frame) });
       this.engine.request({ kind: 'fight', choice: choice.command }).catch(this.failed);
       return;
     }
@@ -108,9 +115,15 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // Let the companion whose turn it is fight this turn on their own.
   readonly auto = () => {
     if (!this.state.frame?.combat?.ours || this.state.pending) { return; }
-    this.setState({ pending: { said: 'Fighting on' } });
+    this.setState({ pending: { said: 'Fighting on' }, fight: ReaderApp.mark(this.state.frame) });
     void this.engine.request({ kind: 'fight' });
   };
+  // The fight as it stands when the company chooses: what has been told, and everyone's health.
+  private static mark(frame: Frame): FightMark {
+    const c = frame.combat!;
+    return { seen: (c.exchanges.at(-1)?.n ?? -1) + 1, first: false,
+      hp: Object.fromEntries([...c.foes, ...c.allies].map(f => [f.id, f.hp])) };
+  }
   private readonly failed = (error: unknown) => {
     this.setState({ pending: undefined, error: error instanceof Error ? error.message : String(error) });
   };

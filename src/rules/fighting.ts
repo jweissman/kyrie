@@ -48,6 +48,21 @@ export class Fighting {
     }
     return result;
   }
+  // The chance an attack lands, before the die is thrown: the d20 (with allRolls) at or above the need and not a 1,
+  // and then not evaded. What the company sees on a blow it could strike.
+  static chance(attacker: Combatant, defender: Combatant): number {
+    const missile = attacker.weapon.missile === true;
+    const toHit = this.statMod(missile ? attacker.dexterity : attacker.strength) + (attacker.modifiers.toHit ?? 0);
+    const need = this.thac0(attacker.level) - this.armorClass(defender) - toHit;
+    const evasion = defender.modifiers.evasion ?? 0;
+    let hits = 0, evades = 0;
+    for (let r = 1; r <= 20; r++) {
+      const die = Math.max(1, r + (attacker.modifiers.allRolls ?? 0));
+      if (die > 1 && die >= need) { hits++; }
+      if (evasion && Math.max(1, r + (defender.modifiers.allRolls ?? 0)) >= 20 - evasion) { evades++; }
+    }
+    return (hits / 20) * (1 - evades / 20);
+  }
   // Weapon damage after the die: a critical adds max(1, round(damage × 0.2 × max(1, ⌊level / 5⌋))), then the positive
   // STR (melee) or DEX (missile) modifier, then bonusMeleeDamage for melee weapons (Commands.handleAttack).
   // meleeBonus is the attacker's rolled bonusMeleeDamage, which only a melee weapon adds.

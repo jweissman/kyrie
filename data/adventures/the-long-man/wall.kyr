@@ -99,7 +99,7 @@ Module longman "The Long Man" {
     Result "One by one the teeth go into their sockets, and each one rings as it seats. When the twelfth is in, the wheel turns a finger's width under your hand.".
   }
   Person wet "the Wet" at leak {
-    Role "a heaving mass of wet clay". Species mud_elemental. Level 5.
+    Role "a heaving mass of wet clay". Species slump. Level 5.
     Temperament territorial.
     Warns "At the far end of the wet gallery the floor heaves, and a shape stands up out of the clay, streaming, as tall as a door.".
     Comes "The Wet comes down the gallery at you, faster than mud should.".

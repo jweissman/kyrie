@@ -1930,6 +1930,26 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 
 *Adapted: Composed by OrsinoMonsters (elemental class, Elemental type, sand, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Slump
+
+*Kyr · elemental* · `species:slump`
+
+- Type: elemental (monster)
+- Hit points: d12 a level
+- Actions a turn: 2
+- Qualities: +18 strength, +6 dexterity, +18 constitution, +3 intelligence, +8 wisdom, +3 charisma
+- Attack: slam, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: territorial
+- Found in: marsh, riverbank, cave
+- Worth: 200 experience a level
+
+Slow: Every enemy gains slow for 4 turns (a reflex save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5.
+
+Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
+
+> Clay that water has worked loose and set moving: slow, heavy, and hard to hurt with a blunt blow. It holds its ground, and falls back into mud when the water leaves it.
+
 #### Smoke elemental
 
 *Adapted · elemental* · `species:smoke_elemental`

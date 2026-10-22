@@ -51,7 +51,9 @@ export type CombatEvent = (
   | { type: 'flee'; turn: number; actor: string; success: boolean }
   | { type: 'save'; turn: number; actor: string; target: string; rolled: number; difficulty: number; success: boolean;
     stat?: string; die?: number; modifier?: number; kind?: string; level?: number; bonus?: number;
-    immune?: boolean; limit?: boolean }
+    immune?: boolean; limit?: boolean;
+    // The condition a blow would have left, when the save is against one (a slash's shred, a stab's bleeding).
+    against?: string }
   | { type: 'defend' | 'death' | 'skip' | 'random'; turn: number; actor: string }
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
   | { type: 'intercept'; turn: number; actor: string; target: string }

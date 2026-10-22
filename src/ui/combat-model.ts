@@ -33,7 +33,8 @@ export class CombatModel {
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
         .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
       log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
-      exchanges: CombatTelling.exchanges([...prior, ...battle.events], state).slice(-12),
+      round: [...prior, ...battle.events].filter(e => e.type === 'initiative').length,
+      exchanges: CombatTelling.exchanges([...prior, ...battle.events], state).map((t, n) => ({ n, ...t })),
     };
   }
   private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
@@ -82,7 +83,9 @@ export class CombatModel {
     const strongest = (defender ? types.map(t => Fighting.mitigate(0, t, { bonus: 0, defender, physical }).resistance)
       : []).sort((a, b) => Math.abs(b) - Math.abs(a))[0] ?? 0;
     const against = strongest >= 1 ? 'immune' : strongest > 0 ? 'resists' : strongest < 0 ? 'vulnerable' : '';
-    return { id, name: target?.name ?? id, ...against ? { against } : {} };
+    const blow = target && ability.effects.some(e => e.kind === 'attack');
+    const odds = blow ? Fighting.chance(Effects.combatant(actor), Effects.combatant(target)) : undefined;
+    return { id, name: target?.name ?? id, ...against ? { against } : {}, ...odds !== undefined ? { odds } : {} };
   }
   private static name(state: BattleState, id: string): string {
     return state.combatants.find(f => f.id === id)?.name ?? id;

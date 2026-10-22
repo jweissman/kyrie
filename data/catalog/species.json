@@ -380,6 +380,43 @@
         "notes": "Kyr's own: a necromancer's watchdog for Holt keep's bone store."
       }
     },
+    "slump": {
+      "name": "Slump",
+      "type": "elemental",
+      "kind": "monster",
+      "description": "Clay that water has worked loose and set moving: slow, heavy, and hard to hurt with a blunt blow. It holds its ground, and falls back into mud when the water leaves it.",
+      "statistics": {
+        "attributes": {
+          "strength": 18,
+          "dexterity": 6,
+          "constitution": 18,
+          "intelligence": 3,
+          "wisdom": 8,
+          "charisma": 3
+        },
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "slam",
+        "armor": "hide_armor",
+        "actions": 2
+      },
+      "abilities": [
+        "slow"
+      ],
+      "traits": [
+        "earth_affinity"
+      ],
+      "temperament": "territorial",
+      "habitats": [
+        "marsh",
+        "riverbank",
+        "cave"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: the Wet under the Long Man. Orsino's mud elemental is as quick as all its elementals (dexterity 19), which made a mass of wet clay nimbler than a cat and nearly impossible for a new company to strike."
+      }
+    },
     "great_pike": {
       "name": "Great pike",
       "type": "beast",

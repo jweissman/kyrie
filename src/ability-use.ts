@@ -13,6 +13,7 @@ import { Perks } from './rules/perks';
 import { PerkTriggers } from './rules/perk-triggers';
 
 export class AbilityUse {
+  static readonly weapon = ['melee', 'ranged'];
   // Category saves follow Orsino's handleSave: d20 (with allRolls) + the category's attribute modifier + level +
   // saveVersus<Category> + saveVersusAll ≥ DC; immunity succeeds; a fourth success in one category fails. Attribute
   // saves (a Kyr hazard's "dexterity save") add the attribute modifier and saveVersusAll.
@@ -80,7 +81,10 @@ export class AbilityUse {
       && !['defend', 'flee', 'travel'].includes(e.kind))) { throw new Error('No eligible ability target'); }
     if (actor && !context.free) {
       Spellcasting.spend(actor, ability);
-      actor.cooldowns[ability.id] = (ability.cooldown ?? 0) + 1;
+      // Not again this turn, or for its cooldown after; but a weapon strikes as often as its bearer has actions.
+      if (ability.cooldown || !AbilityUse.weapon.includes(ability.id)) {
+        actor.cooldowns[ability.id] = (ability.cooldown ?? 0) + 1;
+      }
     }
     context.events.push({ type: 'action', turn: context.turn,
       command: { actor: actor?.id ?? Effects.sourceId(context), ability: ability.id, target: chosenId },

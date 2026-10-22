@@ -4,6 +4,7 @@ import { ChoiceMenu } from './choice-menu';
 import { DetailsPane } from './details-pane';
 import { EntryView } from './entry-view';
 import { FightView } from './fight-view';
+import { FightLog } from './fight-log';
 import { PartyStrip } from './party-strip';
 import { RegionMap } from './region-map';
 import { SceneView } from './scene-view';
@@ -21,7 +22,7 @@ export class PlaySurface {
     const s = app.state, frame = s.frame!, screen = frame.screen, combat = frame.combat;
     const sheet = ['company', 'pack', 'journal'].includes(s.view) && !combat;
     const mode = combat ? 'combat' : { here: 'explore', company: 'party', pack: 'pack', journal: 'journal', map: 'map' }[s.view];
-    const page = combat ? <FightView.View combat={combat} opening={frame.opening} place={screen.place.name} />
+    const page = combat ? <FightView.View combat={combat} opening={frame.opening} place={screen.place.name} mark={s.fight} />
       : s.history ? <PlaySurface.History entries={frame.entries} /> : <SceneView.View screen={screen} entries={frame.entries} />;
     return (
       <div className={`reader view-${s.view}${s.pending?.travel ? ' travelling' : ''}`} data-mode={mode}
@@ -30,14 +31,15 @@ export class PlaySurface {
           <TopLine.View app={app} title={frame.title} screen={screen} />
           {sheet && <DetailsPane.View app={app} inline />}
           {screen.running ? page : <PlaySurface.Fallen />}
-          {s.pending && <PlaySurface.Doing said={s.pending.said} travel={s.pending.travel} fight={!!combat} />}
+          {s.pending && !combat && <PlaySurface.Doing said={s.pending.said} travel={s.pending.travel} fight={false} />}
           {screen.running && <ChoiceMenu.View app={app} title={combat ? `${combat.actorName}’s turn`
             : PlaySurface.titles[s.view]} />}
           {!screen.running && <p className="again"><button type="button" className="primary" data-action="new"
             onClick={app.opening.title}>Begin again</button></p>}
         </main>
         <aside className={`aside view-${s.view}`}>
-          <RegionMap.View screen={screen} travel={s.pending?.travel} large={s.view === 'map'} />
+          {combat ? <section className="fight-aside"><h2>The fight so far</h2><FightLog.Memo exchanges={combat.exchanges} />
+          </section> : <RegionMap.View screen={screen} travel={s.pending?.travel} large={s.view === 'map'} />}
           {sheet && <DetailsPane.View app={app} />}
         </aside>
         <PartyStrip.View app={app} screen={screen} combat={combat} />
