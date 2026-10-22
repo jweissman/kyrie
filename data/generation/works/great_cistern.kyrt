@@ -34,7 +34,7 @@
   }
   Thing {w}_mere "the black water" on {w}_into is scenery {
     State full blocking "The stair goes down the dam's inner face and into the black water, and on down out of sight.".
-    State low "The mere has gone down. The stair runs on down the wet face of the dam, between ribbons of weed, to a street of houses at the bottom of the valley.".
+    State low "The mere has gone down, and the stair down the dam's face stands out of it, wet and hung with weed, from the gate-tower to the valley floor.".
   }
   Rule {w}_drains when state({w}_gates, open) and state({w}_mere, full) says "Far down in the dam something gives with a sound like a bell, and then the roar begins: the mere going out of the valley through gates nobody has opened in a thousand years. When at last it stops, there are houses where the water was." { Assert state({w}_mere, low). }
   Observe {w}_face_scene at {w}_face when true "A landing on the stair, cut into the inner face of the dam. The stone here is as true as the day it was laid. Below, the valley.".
