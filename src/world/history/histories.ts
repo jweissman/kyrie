@@ -51,15 +51,16 @@ export class Histories {
     return plan;
   }
   // Which makers' works a region holds is its own, by its land; what each people called themselves and how they
-  // ended, and the kingdom that came after them, are its world's (drawn from `world`), the same in every region.
-  static make(key: string, terrain: string, atlas: Atlas, world = key): History {
-    const draw = new Draw(`${key}:history`), names: string[] = [];
+  // ended, and the kingdom that came after them, are its world's (drawn from `world`), the same in every region. Its
+  // works are not called what works elsewhere in the world already are (`taken`).
+  static make(key: string, terrain: string, atlas: Atlas, at: { world?: string; taken?: string[] } = {}): History {
+    const draw = new Draw(`${key}:history`), names: string[] = [], world = at.world ?? key;
     const first = this.art(draw, terrain), second = this.art(draw, terrain, first);
     const makers = [first, ...second ? [second] : []]
       .map(art => this.makers(art, new Draw(`${world}:history:${art}`), names));
     const successors = this.successors(new Draw(`${world}:history:successors`)), works: Work[] = [];
     const taken: number[] = [];
-    names.push(successors.name);
+    names.push(successors.name, ...at.taken ?? []);
     for (const [i, maker] of makers.entries()) {
       const plans = this.arts[maker.art]!.plans.filter(p => this.plans.has(p) && !this.plans.get(p)!.great);
       for (const id of i === 0 ? plans : plans.slice(0, 1)) {
@@ -113,13 +114,15 @@ export class Histories {
     });
     // A short name before a long one: the folk wear long ones down to nothing. If every name is like another, one
     // that is at least not the same (d4's two singing halls were both Carmencollis).
-    const free = named.filter(n => names.every(t => !RegionLand.confusable(n.name, t)));
-    const chosen = free.find(n => n.name.length <= 13) ?? free[0] ?? named.find(n => !names.includes(n.name))
-      ?? named[0]!;
+    const free = named.filter(n => this.forms(n.name).every(f => names.every(t => !RegionLand.confusable(f, t))));
+    const chosen = free.find(n => n.name.length <= 13) ?? free[0]
+      ?? named.find(n => this.forms(n.name).every(f => !names.includes(f))) ?? named[0]!;
     names.push(chosen.name);
     return { name: chosen.name, gloss: `${chosen.modifier} ${chosen.word}`, tongue: dictionary.name,
       modifier: chosen.modifier, word: chosen.word };
   }
+  // A name as it is cut and as the folk say it: works elsewhere in the world are known by what the folk say.
+  private static forms(name: string): string[] { return [name, Wearing.wear(name)]; }
   // A work where its plan can stand, named in the old tongue and worn down by the folk; none if nowhere suits it.
   private static work(atlas: Atlas, at: { plan: WorkPlan; key: string; taken: number[]; names: string[];
     same: number[] }): Omit<Work, 'id'> | undefined {

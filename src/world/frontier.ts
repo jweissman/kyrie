@@ -24,7 +24,7 @@ export class Frontier {
     let region: Region | undefined;
     if (!installed.has(rid)) {
       const beyond = await WorldAssembler.beyond(this.seed, this.base, { x, y, calendar: campaign.state.calendar,
-        exclude: await this.placed(installed), named: this.named(campaign, [x, y]) });
+        exclude: await this.placed(installed), named: this.named(campaign, [x, y]), taken: this.works(campaign) });
       for (const request of beyond.requests) { await campaign.install(request, beyond.source); }
       region = beyond.region;
     }
@@ -51,6 +51,10 @@ export class Frontier {
     const bare = new Set([...installed].map(id => id.replace(/^x(m?\d+)y(m?\d+)/, '').replace(/\d+$/, '')));
     return library.filter(e => e.manifest.modules.some(m => bare.has(m.id.replace(/[^A-Za-z0-9]/g, ''))))
       .map(e => e.manifest.id);
+  }
+  // What the works already drawn anywhere in the world are called (b2's eastern country had a second Caelumspir).
+  private works(campaign: Campaign): string[] {
+    return campaign.module.entities.filter(e => /__w\d+$/.test(e.id)).map(e => e.name);
   }
   // What the regions already drawn around a place in the world are really called, and what country they are.
   private named(campaign: Campaign, at: [number, number]): Region['beyond'] {

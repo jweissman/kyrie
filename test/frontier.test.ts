@@ -5,6 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { Frontier } from '../src/world/frontier';
 import { WorldGrid } from '../src/world/world-grid';
+import { RegionLand } from '../src/world/region-land';
 import { GeneratedWorld } from './support/generated';
 
 // A generated world goes on past the edges of its first region: an old road runs out to a march-stone on every side,
@@ -56,6 +57,10 @@ describe('the world beyond a region', () => {
     const there = s.campaign.installed.filter(id => /^x1y0./.test(id)).map(bare).filter(id => id !== 'word');
     expect(there.length).toBeGreaterThan(0);
     expect(there.filter(id => home.has(id))).toEqual([]);
+    // Nor is any work there called what one here is, or like it.
+    for (const site of drawn!.region!.sites.filter(x => x.work)) {
+      expect(w.report.region.sites.filter(x => x.work && RegionLand.confusable(x.name, site.name))).toEqual([]);
+    }
     await March.choose(s, /^Take the road across the march to the western edge of /);
     expect(s.campaign.world.one('at', 'party')).toBe('x1y0__edge_west');
     await March.choose(s, /^Take the old road west to /);

@@ -98,10 +98,12 @@ export class WorldAssembler {
   }
   // The country beyond a border, drawn the first time a company goes there (see Frontier): a region of its own where
   // it lies in the world, with its own scenarios (none placed anywhere already), and no company of its own. The
-  // names of the regions already drawn on either side are as they are, not as they would have been drawn.
+  // names of the regions already drawn on either side are as they are, not as they would have been drawn; its works
+  // are named apart from the works already drawn (`taken`).
   static async beyond(seed: string, base: BundleSource, at: { x: number; y: number; calendar?: Region['calendar'];
-    exclude: string[]; named?: Region['beyond'] }): Promise<{ requests: BundleRequest[]; source: BundleSource; region: Region }> {
-    const rid = WorldGrid.id(at.x, at.y), region = this.region(seed, [at.x, at.y]);
+    exclude: string[]; named?: Region['beyond']; taken?: string[] }):
+    Promise<{ requests: BundleRequest[]; source: BundleSource; region: Region }> {
+    const rid = WorldGrid.id(at.x, at.y), region = this.region(seed, [at.x, at.y], undefined, at.taken);
     region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar;
     const library = await this.library(base, 'data/scenarios/library.json');
     const { context, placements } = this.settle(region, library,
@@ -116,10 +118,11 @@ export class WorldAssembler {
     return { requests: modules, source: new OverlayBundleSource(base, files), region };
   }
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
-  private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>): Region {
+  private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>, taken: string[] = []):
+    Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = WorldGrid.drawn(seed, ...at, drawn);
-    return { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed), RandomStreams.key(own, 'world'))), at,
+    return { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))), at,
       beyond: WorldGrid.beyond(seed, at) };
   }
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
@@ -166,12 +169,12 @@ export class WorldAssembler {
   static prefix(rid: string): string { return rid === RegionWriter.id ? '' : rid; }
   // A region drawn by Deem laid on land of its own: its atlas, its settlements where people settled, and its sites
   // where each kind can stand (those that can stand nowhere left out).
-  static lay(drawn: Region, seed: string, world = seed): Region {
+  static lay(drawn: Region, seed: string, world = seed, taken: string[] = []): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
       { tongue: PlaceNames.tongues[drawn.ancestry] ?? 'westron', taken: [drawn.name] });
     const region = Livelihoods.seat(drawn, atlas, seed);
     const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas,
-      RandomStreams.key(world, 'world', 'history'));
+      { world: RandomStreams.key(world, 'world', 'history'), taken });
     // The region's sites are its makers' works, where their art put them.
     region.history = history;
     region.sites = history.works.map(w => ({ id: w.id, kind: Histories.plan(w.plan).kind, name: w.worn, hours: 1,
