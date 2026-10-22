@@ -10,7 +10,7 @@ class Sink {
     'go(march__shop_door,march__quay)', 'go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)'];
   static readonly down = ['go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)', 'use_item(march__nera_torch_1,march__member_party_1)'];
   static async play(...commands: string[]) {
-    const s = await PlaySession.start('data/campaigns/silkholme.campaign.json', 'silk', NodeBundleSource.shared);
+    const s = await PlaySession.start('test/fixtures/march/silkholme.campaign.json', 'silk', NodeBundleSource.shared);
     for (const c of commands) { await s.perform(c); }
     return s;
   }

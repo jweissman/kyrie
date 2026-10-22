@@ -1,0 +1,31 @@
+Module fells "The fells" {
+  Description "A test fixture region for composing kits: two settlements on a road, a barrow-mound on the road, and gorse country off it where a hold can stand.".
+  Place fells "The fells" is region.
+  Place dale "Dale" is settlement within fells at 0, 0.
+  Place lowroad "the low road" is wilderness within fells at 1, 0.
+  Place gorse "the gorse" is wilderness within fells at 1, 1.
+  Place fordton "Fordton" is settlement within fells at 2, 0.
+  Place market "Dale market" is room within dale at 0, 0.
+  Place barrows "the barrow-mound" is room within lowroad at 0, 0.
+  Place alders "the alder bend" is room within lowroad at 1, 0.
+  Place stones "the standing stones" is room within gorse at 0, 0.
+  Place knot_foot "the foot of the knoll" is room within gorse at 1, 0.
+  Place hollow "the hollow in the gorse" is room within gorse at 0, 1.
+  Place ford_green "Fordton green" is room within fordton at 0, 0.
+  Passage dale_road "the Dale road" is road between market and barrows taking 2 hours.
+  Passage bend_road "the bend road" is road between barrows and alders taking 1 hour.
+  Passage ford_road "the ford road" is road between alders and ford_green taking 1 hour.
+  Passage gorse_path "the gorse path" is path between barrows and stones taking 1 hour.
+  Passage knoll_path "the knoll path" is path between stones and knot_foot taking 1 hour.
+  Passage hollow_path "the hollow path" is path between stones and hollow taking 1 hour.
+  Company party "Your company" of 3 at market.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 3.
+  Observe market_scene at market when true "Stalls, and a bell-frame by the chapel door.".
+  Observe barrows_scene at barrows when true "A long mound beside the road.".
+  Observe alders_scene at alders when true "Alders where the road bends.".
+  Observe stones_scene at stones when true "Grey stones standing in the gorse.".
+  Observe knot_scene at knot_foot when true "A knoll, ringed with an old bank.".
+  Observe ford_scene at ford_green when true "A green by the ford.".
+  Observe hollow_scene at hollow when true "A hollow, out of the wind.".
+  Goal false.
+}

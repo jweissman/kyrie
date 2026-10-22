@@ -6,8 +6,8 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import type { CampaignEvent } from '../src/campaign/campaign';
 
 class Situation {
-  static readonly river = 'data/campaigns/serewater-march.campaign.json';
-  static readonly quarry = 'data/campaigns/skellfold.campaign.json';
+  static readonly river = 'test/fixtures/march/serewater-march.campaign.json';
+  static readonly quarry = 'test/fixtures/march/skellfold.campaign.json';
   static async start(manifest = Situation.river, ...commands: string[]) {
     const s = await PlaySession.start(manifest, 'serewater', NodeBundleSource.shared);
     for (const c of commands) { await s.perform(c); }

@@ -11,8 +11,8 @@ import { ModuleParser } from '../src/lang/module-parser';
 import type { Person } from '../src/lang/module';
 
 class Party {
-  static readonly river = 'data/campaigns/serewater-march.campaign.json';
-  static readonly quarry = 'data/campaigns/skellfold.campaign.json';
+  static readonly river = 'test/fixtures/march/serewater-march.campaign.json';
+  static readonly quarry = 'test/fixtures/march/skellfold.campaign.json';
   static start(manifest: string, party?: CreatureGenerationContext[]) {
     return PlaySession.start(manifest, 'overlays', NodeBundleSource.shared, party);
   }

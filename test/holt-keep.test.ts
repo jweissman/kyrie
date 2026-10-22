@@ -11,7 +11,7 @@ import type { CreatureGenerationContext } from '../src/content';
 class Keep {
   static async start(company = 'fellowship') {
     const members = companies.companies.find(c => c.id === company)!.members as CreatureGenerationContext[];
-    const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
     // Two of Nera's torches for Dori, then (as if the ferry had taken them across) to the foot of the tower.
     await this.walk(s, ['go(march__shop_door,march__shop_floor)', 'buy_item(march__nera_torch_1,march__member_party_3)',
       'buy_item(march__nera_torch_2,march__member_party_3)', 'go(march__shop_door,march__quay)']);

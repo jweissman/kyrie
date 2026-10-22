@@ -1,0 +1,25 @@
+Module proving "A gatehouse and a vault" {
+  Description "A test fixture for powers and laws: a gatehouse standing empty that a lord covets, with men posted to take it by night; and a vault under the law of the dead dark, with a ghoul in it.".
+  Place country "The fixture country" is region.
+  Place burgh "the burgh" is settlement within country at 0, 0.
+  Place pass "the pass" is wilderness within country at 1, 0.
+  Place hall "the lord's hall" is room within burgh at 0, 0.
+  Place gatehouse "the gatehouse" is room within pass at 0, 0.
+  Place vault "the vault" is room within pass at 1, 0.
+  Passage pass_road "the pass road" is road between hall and gatehouse taking 1 hour.
+  Passage vault_stair "the vault stair" is stair between gatehouse and vault.
+  Company party "The company" of 2 at hall.
+  Initially Set quantity(party, gold) to 4. Initially Set quantity(party, rations) to 3.
+  Person thane "the thane of the burgh" at hall { Role "a thane who wants the pass". Ancestry human. Peaceable. }
+  Person men "the lord's men" at hall { Role "men-at-arms". Ancestry human. Calling warrior. Numbers 3. Peaceable. }
+  Initially Assert serves(men, thane). Initially Assert posts(men, thane). Initially Assert covets(thane, gatehouse).
+  Initially Assert vacant(gatehouse).
+  Entity unlit_law: law "the dead dark".
+  Initially Assert law(vault, unlit_law).
+  Person ghoul "a ghoul" at vault { Role "a ghoul in the vault". Species ghoul. }
+  Observe hall_scene at hall when true "A long hall with a cold hearth.".
+  Observe gate_scene at gatehouse when true "An empty gatehouse across the pass.".
+  Observe held_scene at gatehouse when holds(thane, gatehouse) "The thane's banner hangs from the gatehouse.".
+  Observe vault_scene at vault when true "A vault where light does not carry.".
+  Goal false.
+}

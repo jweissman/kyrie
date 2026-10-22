@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "The fells, with hobs (test fixture)",
+  "modules": [
+    { "id": "fells", "bundle": "module.json" },
+    { "kit": "../../../data/kits/raider-hold/kit.json", "id": "knot",
+      "fix": { "approach": "fells.knot_foot", "road": "fells.barrows", "prey": "fells.ford_green", "hold": "ringfort",
+        "folk": "hobs" } },
+    { "kit": "../../../data/kits/bounty/kit.json", "id": "price" }
+  ],
+  "party": [
+    { "name": "Nell", "raceId": "human", "classId": "thief", "backgroundId": "burglar" },
+    { "name": "Hulda", "raceId": "dwarf", "classId": "warrior", "backgroundId": "miner" },
+    { "name": "Ivo", "raceId": "human", "classId": "mage", "backgroundId": "scholar" }
+  ]
+}

@@ -8,11 +8,11 @@
   "modules": [
     {
       "id": "march",
-      "bundle": "../regions/serewater-march/module.json"
+      "bundle": "regions/serewater-march/module.json"
     },
     {
       "id": "sink",
-      "bundle": "../sites/silkholme/module.json",
+      "bundle": "../../../data/sites/silkholme/module.json",
       "imports": {
         "party": "march.party",
         "march": "march.region",
@@ -21,7 +21,7 @@
     },
     {
       "id": "brood",
-      "bundle": "../situations/brood-hollow/module.json",
+      "bundle": "../../../data/situations/brood-hollow/module.json",
       "imports": {
         "party": "march.party",
         "hollow": "sink.site",

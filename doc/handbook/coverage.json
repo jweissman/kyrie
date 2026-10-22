@@ -997,7 +997,7 @@
     "faithful": 124,
     "adapted": 8,
     "represented": 18,
-    "kyr": 105,
+    "kyr": 101,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 342
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 96,
+      "kyr": 97,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 5,
+      "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -8440,6 +8440,13 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.enRoute",
+   "title": "enRoute",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.threatened",
    "title": "threatened",
    "status": "kyr",
@@ -8970,41 +8977,6 @@
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/frameworks"
-  },
-  {
-   "id": "campaign:red-crag",
-   "title": "The Red Crag — Thrale",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "campaigns"
-  },
-  {
-   "id": "campaign:serewater-march",
-   "title": "The Serewater March",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "campaigns"
-  },
-  {
-   "id": "campaign:silkholme",
-   "title": "Silkholme",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "campaigns"
-  },
-  {
-   "id": "campaign:skellfold",
-   "title": "Skellfold",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "campaigns"
-  },
-  {
-   "id": "campaign:varrow",
-   "title": "The Varrow",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "campaigns"
   },
   {
    "id": "orsino:plane:Arcadia",

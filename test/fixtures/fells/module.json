@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "source": "region.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "fells",
+    "dale": "dale",
+    "market": "market",
+    "lowroad": "lowroad",
+    "barrows": "barrows",
+    "alders": "alders",
+    "gorse": "gorse",
+    "stones": "stones",
+    "knot_foot": "knot_foot",
+    "hollow": "hollow",
+    "fordton": "fordton",
+    "ford_green": "ford_green"
+  },
+  "assembly": {
+    "commitments": [
+      ["terrain", "region", "mountain"],
+      ["landmark", "barrows"],
+      ["landmark", "stones"],
+      ["onRoad", "barrows"],
+      ["onRoad", "alders"]
+    ]
+  }
+}

@@ -19,7 +19,7 @@ import { parseAbility, type Effect } from '../src/lang/parse';
 
 class Causal {
   static async start() {
-    return PlaySession.start('data/campaigns/serewater-march.campaign.json', 'causal', NodeBundleSource.shared);
+    return PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'causal', NodeBundleSource.shared);
   }
   static async act(s: PlaySession, prefix: string) {
     const c = PlayerView.observe(s.campaign).choices.find(c => c.id.startsWith(prefix));

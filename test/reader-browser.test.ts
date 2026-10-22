@@ -40,7 +40,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-reader-'));
-    await SiteBuild.site(site);
+    await SiteBuild.site(site, { fixtures: true });
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
@@ -48,7 +48,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
   it.each([[1440, 900, false], [390, 844, true]] as const)('at %ix%i: reads, answers and keeps still', async (width, height,
     pointer) => {
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height },
-      { site, pointer, query: '?campaign=serewater-march' });
+      { site, pointer, query: '?campaign=test/fixtures/march/serewater-march.campaign.json' });
     await page.waitForSelector('[data-action="start"]');
     // Setting out is answered at once, before the world is built.
     await page.click('[data-action="start"]');

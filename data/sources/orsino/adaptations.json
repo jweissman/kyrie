@@ -16,7 +16,7 @@
       ],
       "evidence": [
         "test/caught-below.test.ts#change_thing(hill__hound_soothe)",
-        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"hunter\"",
+        "test/fixtures/march/serewater-march.campaign.json#\"backgroundId\": \"hunter\"",
         "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
@@ -36,7 +36,7 @@
       ],
       "evidence": [
         "test/caught-below.test.ts#rescue__set_leg(party,hill__gallery)",
-        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"medic\"",
+        "test/fixtures/march/serewater-march.campaign.json#\"backgroundId\": \"medic\"",
         "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
@@ -55,7 +55,7 @@
       ],
       "evidence": [
         "test/caught-below.test.ts#change_thing(hill__padlock_pick)",
-        "data/campaigns/serewater-march.campaign.json#\"backgroundId\": \"locksmith\"",
+        "test/fixtures/march/serewater-march.campaign.json#\"backgroundId\": \"locksmith\"",
         "test/world-assembly.test.ts#acquaintance who hears news"
       ]
     },
@@ -154,7 +154,7 @@
         "routine"
       ],
       "evidence": [
-        "data/regions/serewater-march/region.kyr#Profession innkeeper",
+        "test/fixtures/march/regions/serewater-march/region.kyr#Profession innkeeper",
         "test/expedition.test.ts#innkeeper"
       ]
     },
@@ -171,7 +171,7 @@
         "routine"
       ],
       "evidence": [
-        "data/regions/serewater-march/region.kyr#Profession herbalist"
+        "test/fixtures/march/regions/serewater-march/region.kyr#Profession herbalist"
       ]
     },
     {
@@ -409,7 +409,7 @@
       "fidelity": "adapted",
       "note": "Orsino's rope has a description and price only. Kyr gives it meaning through passage requirements.",
       "evidence": [
-        "data/regions/serewater-march/region.kyr#Sells rope"
+        "test/fixtures/march/regions/serewater-march/region.kyr#Sells rope"
       ]
     },
     {
@@ -467,7 +467,7 @@
       "fidelity": "faithful",
       "note": "A 1d8 piercing weapon whose onAttackHit hook deals 1d6 fire, as in Orsino.",
       "evidence": [
-        "data/sites/censer-hill/site.kyr#is longsword_of_flames at boiler"
+        "test/fixtures/march/sites/censer-hill/site.kyr#is longsword_of_flames at boiler"
       ]
     },
     {
@@ -529,7 +529,7 @@
         "field:monsterAbilities": "Partly. Melee with the colour's breath weapon becomes orsino_fire_breath. Maul (slow's attribute, initiative and extra-attack penalties; dice-based bleeding) and flight (an arcane spell) are not given."
       },
       "evidence": [
-        "data/situations/dragon-roost/situation.kyr#Species red_dragon"
+        "test/progression.test.ts#red_dragon"
       ]
     },
     {
@@ -608,9 +608,10 @@
       ],
       "support": "play-validated",
       "fidelity": "adapted",
-      "note": "Orsino's bell is a signalling tool with a price. In the Red Crag it is the stolen chapel bell.",
+      "note": "Orsino's bell is a signalling tool with a price. The raider-hold kit's hobs steal a settlement's chapel bell, and it drives them off their gate.",
       "evidence": [
-        "data/situations/dragon-roost/situation.kyr#is bell at lair",
+        "data/kits/raider-hold/hobs/folk.kyr#is bell in heap",
+        "test/composition.test.ts#stolen bell drive them off",
         "doc/playtests/red-crag/tribute.md#chapel bell"
       ]
     },
@@ -894,8 +895,7 @@
       "fidelity": "adapted",
       "note": "Exact 50% fire resistance. Duration and clock are set by what applies it.",
       "evidence": [
-        "test/command-contract.test.ts#fireproof",
-        "data/sites/thrale/site.kyr#fireproof_salve"
+        "test/command-contract.test.ts#fireproof"
       ]
     },
     {

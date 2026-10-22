@@ -1,0 +1,27 @@
+Module market_fixture "A market and a hill path" {
+  Description "A test fixture: a market with a chest that holds a jar, a goldsmith who buys it, and a hill where a goat path is found by searching with woodcraft.".
+  Place country "The fixture country" is region.
+  Place town "the town" is settlement within country at 0, 0.
+  Place downs "the downs" is wilderness within country at 1, 0.
+  Place market "the market" is room within town at 0, 0.
+  Place counting "the counting-room" is room within town at 1, 0.
+  Place switchbacks "the switchbacks" is room within downs at 0, 0.
+  Place shoulder "the shoulder" is room within downs at 1, 0.
+  Passage counting_door "the counting-room door" is door between market and counting.
+  Passage hill_road "the hill road" is road between market and switchbacks taking 1 hour.
+  Passage goat_path "the goat path" is path between switchbacks and shoulder taking 1 hour hidden until goat_path_known.
+  Company party "The company" of 3 at market.
+  Initially Set quantity(party, gold) to 10. Initially Set quantity(party, rations) to 3.
+  Thing chest "the chest" at market { Holds. }
+  Item jar "a jar of moonlight" is moonlight in chest.
+  Person vane "Iselde Vane" at counting { Role "goldsmith". Ancestry human. Peaceable. Buys moonlight for 12 coin. }
+  Initially Set quantity(vane, gold) to 100.
+  Discovery goat_path_known "A goat path climbs from the switchbacks over the shoulder of the hill." {
+    Found by searching switchbacks with woodcraft "Up the gully: droppings, and the scrape of boot-nails on bare rock.".
+  }
+  Observe market_scene at market when true "Stalls, and a chest by the well.".
+  Observe counting_scene at counting when true "A balance under a glass bell.".
+  Observe switchbacks_scene at switchbacks when true "The road turns on itself above a gully.".
+  Observe shoulder_scene at shoulder when true "Wind, and the whole valley below.".
+  Goal false.
+}

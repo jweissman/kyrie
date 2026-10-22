@@ -52,7 +52,7 @@ class Journey {
     'go(east__ferry_crossing,march__quay)', 'go(march__shrine_door,march__shrine)', 'tower__graves'];
   static async start(company = 'fellowship') {
     const members = companies.companies.find(c => c.id === company)!.members as CreatureGenerationContext[];
-    return PlaySession.start('data/campaigns/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
+    return PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
   }
   static async walk(s: PlaySession, commands: readonly string[]) { for (const c of commands) { await s.perform(c); } }
   static experience(s: PlaySession) {

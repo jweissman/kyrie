@@ -33,7 +33,7 @@ describe('advancement', () => {
     expect(again.base.maxHp).toBe(dori.base.maxHp);
   });
   it('resolving a module is worth its declared experience, once; a night under a roof brings the level', async () => {
-    const s = await PlaySession.start('data/campaigns/silkholme.campaign.json', 'advance', NodeBundleSource.shared);
+    const s = await PlaySession.start('test/fixtures/march/silkholme.campaign.json', 'advance', NodeBundleSource.shared);
     for (const c of ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
       'take_item(brood__spare_torch,march__member_party_2)', 'go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)',
       'use_item(brood__spare_torch,march__member_party_2)']) {
@@ -93,7 +93,7 @@ describe('a level gained', () => {
   it('is spent from the company: after a night at the Oar, the mage raises Intelligence and learns a spell', async () => {
     const companies = (await import('../data/campaigns/companies.json')).default;
     const members = companies.companies.find(c => c.id === 'delvers')!.members;
-    const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'levels', NodeBundleSource.shared,
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'levels', NodeBundleSource.shared,
       members);
     // As if the company had come back from Censer Hill with a thousand experience each.
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
@@ -140,7 +140,7 @@ describe('a feat at the fifth level', () => {
   it('is taken in the field: after a night under a roof, the warrior takes up a feat', async () => {
     const companies = (await import('../data/campaigns/companies.json')).default;
     const members = companies.companies.find(c => c.id === 'delvers')!.members;
-    const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'feats', NodeBundleSource.shared,
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'feats', NodeBundleSource.shared,
       members);
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
     const lease = store.acquire(s.campaign.state.partyIds);

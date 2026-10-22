@@ -8,11 +8,11 @@
   "modules": [
     {
       "id": "march",
-      "bundle": "../regions/serewater-march/module.json"
+      "bundle": "regions/serewater-march/module.json"
     },
     {
       "id": "keepers",
-      "bundle": "../institutions/keepers-of-names/module.json",
+      "bundle": "institutions/keepers-of-names/module.json",
       "imports": {
         "party": "march.party",
         "shrine": "march.shrine"
@@ -20,7 +20,7 @@
     },
     {
       "id": "hill",
-      "bundle": "../sites/censer-hill/module.json",
+      "bundle": "sites/censer-hill/module.json",
       "imports": {
         "party": "march.party",
         "march": "march.region",
@@ -32,7 +32,7 @@
     },
     {
       "id": "rescue",
-      "bundle": "../situations/caught-below/module.json",
+      "bundle": "../../../data/situations/caught-below/module.json",
       "context": {
         "setting": "river"
       },
@@ -48,7 +48,7 @@
     },
     {
       "id": "salvage",
-      "bundle": "../situations/salvage-rights/module.json",
+      "bundle": "situations/salvage-rights/module.json",
       "context": {
         "setting": "river"
       },
@@ -63,7 +63,7 @@
     },
     {
       "id": "east",
-      "bundle": "../regions/brackenholt/module.json",
+      "bundle": "regions/brackenholt/module.json",
       "imports": {
         "party": "march.party",
         "march": "march.region",
@@ -76,7 +76,7 @@
     },
     {
       "id": "sink",
-      "bundle": "../sites/silkholme/module.json",
+      "bundle": "../../../data/sites/silkholme/module.json",
       "imports": {
         "party": "march.party",
         "march": "march.downs",
@@ -85,7 +85,7 @@
     },
     {
       "id": "brood",
-      "bundle": "../situations/brood-hollow/module.json",
+      "bundle": "../../../data/situations/brood-hollow/module.json",
       "imports": {
         "party": "march.party",
         "hollow": "sink.site",
@@ -100,7 +100,7 @@
     },
     {
       "id": "tower",
-      "bundle": "../situations/unquiet-tower/module.json",
+      "bundle": "../../../data/situations/unquiet-tower/module.json",
       "context": {
         "ancestry": "human",
         "terrain": "forest",
@@ -117,7 +117,7 @@
     },
     {
       "id": "word",
-      "bundle": "../regions/march-word/module.json",
+      "bundle": "regions/march-word/module.json",
       "imports": {
         "party": "march.party",
         "maud": "march.maud",
@@ -143,7 +143,7 @@
     },
     {
       "id": "rising",
-      "bundle": "../conflicts/register-of-names/module.json",
+      "bundle": "conflicts/register-of-names/module.json",
       "imports": {
         "party": "march.party",
         "necromancer": "tower.necromancer",

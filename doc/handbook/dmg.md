@@ -262,7 +262,7 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 23 | 6 | 3 | 0 | 5 |
+| 7 | 24 | 6 | 3 | 0 | 5 |
 
 #### terrainkind, terrain
 
@@ -299,6 +299,12 @@ Someone falling on another: on the company, it starts a fight there and then.
 *Kyr · relation(group, group)* · `rule:world_core.halts`
 
 Someone stopping another where they stand (a challenge, a hold-up): on the company, whatever it was doing is broken off, and it must deal with them.
+
+#### enRoute
+
+*Kyr · relation(group, passage)* · `rule:world_core.enRoute`
+
+A company on the way, between where it set out and where it is going: enRoute(company, by this passage).
 
 #### threatened
 
@@ -588,7 +594,7 @@ What drives it off (sunlight, flame), and the price a proud one names.
 
 *Kyr · measure(group)* · `rule:inhabitants.patience`
 
-Watches it waits, once it has warned, before it comes at whoever stays.
+Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. Watches it waits, once it has warned, before it comes at whoever stays.
 
 #### temper_shies
 
@@ -1134,51 +1140,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 ## Campaigns
 
 The worlds that ship with the game.
-
-### The Red Crag — Thrale
-
-*Kyr* · `campaign:red-crag`
-
-- Regions and sites: world, roost
-- Kits placed: —
-
-> A dragon has taken the crag above a highland village, and with it the chapel bell. Choose three companions.
-
-### The Serewater March
-
-*Kyr* · `campaign:serewater-march`
-
-- Regions and sites: march, keepers, hill, rescue, salvage, east, sink, brood, tower, word, rising
-- Kits placed: —
-
-> Three settlements share the March and, under Censer Hill, their dead: Reedwake on the river, Chalkcross on the downs, Brackenholt across the water. A surveyor is missing under the hill this morning. Choose three companions; their ancestry, calling and background decide what they can do, and what doors open.
-
-### Silkholme
-
-*Kyr* · `campaign:silkholme`
-
-- Regions and sites: march, sink, brood
-- Kits placed: —
-
-> Something comes up out of Silkholme sink at night and takes a ewe from Garth's flock. Garth wants the hollow burned out; Odile, who gathers silk there, says that would be a crime. Choose three companions. Their ancestry, calling and background decide what they can do, and what doors open.
-
-### Skellfold
-
-*Kyr* · `campaign:skellfold`
-
-- Regions and sites: world, rescue, salvage
-- Kits placed: —
-
-> A quarry hamlet under the fell: someone has not come back from the workings, and a salvager wants what the dead were buried with. Choose three companions.
-
-### The Varrow
-
-*Kyr* · `campaign:varrow`
-
-- Regions and sites: varrow, lanthorn, tombs, brimming, hush, unlit, brack
-- Kits placed: knot, price
-
-> The Gap is shut. Ottilie Ninefingers holds the old Lanthorn at the head of the valley and tolls every cart that climbs to it, so Hollin's grain rots and Skerry's miners go hungry. The reeve will pay to see her gone. The Lanthorn is the least of what the Varrow hides. Choose three companions.
 
 ## Appendix: Orsino's world material
 

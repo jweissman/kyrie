@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "Proving (test fixture)",
+  "modules": [
+    { "id": "world", "bundle": "module.json" }
+  ],
+  "party": [
+    { "name": "Hal", "raceId": "human", "classId": "warrior" },
+    { "name": "Ide", "raceId": "dwarf", "classId": "cleric" }
+  ]
+}

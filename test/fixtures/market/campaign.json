@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "Market (test fixture)",
+  "modules": [
+    {
+      "id": "world",
+      "bundle": "module.json"
+    }
+  ]
+}

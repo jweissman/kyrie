@@ -12,7 +12,7 @@ class Bench {
     return result;
   }
   static async run() {
-    const campaign = 'data/campaigns/serewater-march.campaign.json';
+    const campaign = 'test/fixtures/march/serewater-march.campaign.json';
     await this.time('load (cold)', () => PlaySession.start(campaign, 'bench', NodeBundleSource.shared));
     const s = await this.time('load (warm)', () => PlaySession.start(campaign, 'bench', NodeBundleSource.shared));
     const choices = await this.time('choices', () => PlayerView.choices(s.campaign));

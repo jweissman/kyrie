@@ -23,7 +23,7 @@ class Party {
     return members.map(([raceId, classId], i) => ({ name: `Member ${i + 1}`, raceId, classId, backgroundId: 'scholar' }));
   }
   static start(party: CreatureGenerationContext[]) {
-    return PlaySession.start('data/campaigns/varrow.campaign.json', 'formations', NodeBundleSource.shared, party);
+    return PlaySession.start('test/fixtures/market/campaign.json', 'formations', NodeBundleSource.shared, party);
   }
   static change(s: PlaySession, kind: 'assert' | 'retract', name: string, ...args: string[]) {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
@@ -77,9 +77,9 @@ describe('a formation in play', () => {
     const search = async (party: CreatureGenerationContext[]) => {
       const s = await Party.start(party);
       expect(PartyCapabilities.has('woodcraft', Party.members(s))).toBe(false);
-      Party.change(s, 'assert', 'at', 'party', 'varrow__switchbacks');
-      await s.perform('search(varrow__switchbacks)');
-      return s.campaign.world.test(ModuleWriter.call('knows', 'party', 'varrow__goat_path_known'));
+      Party.change(s, 'assert', 'at', 'party', 'world__switchbacks');
+      await s.perform('search(world__switchbacks)');
+      return s.campaign.world.test(ModuleWriter.call('knows', 'party', 'world__goat_path_known'));
     };
     const plain = Party.of(['human', 'thief'], ['human', 'mage'], ['dwarf', 'warrior']);
     const fellowship = Party.of(['human', 'thief'], ['elf', 'mage'], ['dwarf', 'warrior']);
@@ -99,12 +99,10 @@ describe('a formation in play', () => {
     for (const party of [Party.of(['human', 'thief'], ['human', 'warrior'], ['human', 'thief']),
       Party.of(['human', 'thief'], ['elf', 'thief'], ['human', 'thief'])]) {
       const s = await Party.start(party);
-      Party.change(s, 'assert', 'at', 'party', 'lanthorn__bottle_cellar');
-      Party.change(s, 'retract', 'unlit', 'lanthorn__bottle_cellar');
-      await Party.choose(s, 'take_out(lanthorn__moon_jar,');
-      Party.change(s, 'assert', 'at', 'party', 'varrow__goldsmith');
+      await Party.choose(s, 'take_out(world__jar,');
+      Party.change(s, 'assert', 'at', 'party', 'world__counting');
       const gold = Party.gold(s);
-      await Party.choose(s, 'sell(lanthorn__moon_jar');
+      await Party.choose(s, 'sell(world__jar');
       sold.push(Party.gold(s) - gold);
     }
     expect(sold).toEqual([12, 18]);

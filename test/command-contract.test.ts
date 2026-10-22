@@ -31,7 +31,7 @@ class ContractProbe {
     cost: 1 };
   static { ContractProbe.weapon.effects.unshift({ kind: 'attack', target: 'enemy' }); }
   static async start() {
-    return PlaySession.start('data/campaigns/serewater-march.campaign.json', 'contract', NodeBundleSource.shared);
+    return PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'contract', NodeBundleSource.shared);
   }
 }
 

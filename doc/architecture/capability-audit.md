@@ -12,8 +12,8 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Summoning, transformation, domination, movement, divination and travel | 35 faithful, 1 adapted, 16 not playable, 10 orsino data only |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 122 adapted, 9 represented, 19 kyr, 5 not playable, 154 orsino data only |
 | Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 23 kyr, 141 orsino data only |
-| Environment, world and planar rules | 96 kyr, 190 orsino data only |
-| Content authoring and generation | 9 kyr |
+| Environment, world and planar rules | 97 kyr, 190 orsino data only |
+| Content authoring and generation | 4 kyr |
 
 ## Ancestries, callings, backgrounds and formations
 
@@ -177,13 +177,13 @@ Handbook sections: `phb:equipment`, `dmg:orsino-world/orsino-equipment`, `dmg:or
 
 ## Environment, world and planar rules
 
-Entries: 96 kyr, 190 orsino data only.
+Entries: 97 kyr, 190 orsino data only.
 
 **What Orsino defines.** Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.
 
-**What Kyr implements faithfully.** Terrain perks (an elven tribe in a forest), searching by taking 10 against 15, and planes as Orsino has them: a plane is a place whose laws every creature in it holds, as Orsino's planeModifiers.globalEffects are a residency passive (the Unlit's law halves fire, slows healing and weakens will).
+**What Kyr implements faithfully.** Terrain perks (an elven tribe in a forest), searching by taking 10 against 15, and planes as Orsino has them: a plane is a place whose laws every creature in it holds, as Orsino's planeModifiers.globalEffects are a residency passive (the dead dark halves fire, slows healing and weakens will; test/powers-and-laws.test.ts).
 
-**What Kyr deliberately adapts.** Time, light, weather, passages, obstacles, lodging, food, dominion, people and inhabitants are Kyr's own world rules, written in Kyr and listed in the guide. A plane's law is a catalog condition a place names; it holds in every fight fought there and can change (relighting Lampfall's beacon replaces the Unlit's law with its own). Travel between planes is by portal, a passage with an access condition (knowledge, sunlight, a seal), not Orsino's planeshift.
+**What Kyr deliberately adapts.** Time, light, weather, passages, obstacles, lodging, food, dominion, people and inhabitants are Kyr's own world rules, written in Kyr and listed in the guide. A plane's law is a catalog condition a place names; it holds in every fight fought there and a rule can change it. Travel between planes is by portal, a passage with an access condition (knowledge, sunlight, a seal), not Orsino's planeshift.
 
 **What is data only.** Orsino's ten planes, its traps and its wonders.
 
@@ -197,7 +197,7 @@ Handbook sections: `dmg:world-rules`, `dmg:orsino-world/orsino-plane`, `dmg:orsi
 
 ## Content authoring and generation
 
-Entries: 9 kyr.
+Entries: 4 kyr.
 
 **What Orsino defines.** Deem tables and templates generate creatures, dungeons, rooms, settlements, shops and treasure; the books are generated from the same tables.
 
@@ -209,7 +209,7 @@ Entries: 9 kyr.
 
 **What is missing or wrong.** Dungeon and room generation from Orsino's tables; generated planes and cities.
 
-**What abstractions are needed.** The same shared vocabulary serves authored and generated content: the Varrow's toll rules answer whichever power tolls the Gap (Ninefingers, or Brack's Exchange once it takes the empty Lanthorn), with no rule naming the Exchange.
+**What abstractions are needed.** The same shared vocabulary serves authored and generated content: a power takes a stronghold that stands empty, by night, with the men it posts, by the shared dominion rules, with nothing in the place's own rules naming it (test/fixtures/proving).
 
 **Whether the browser makes it understandable.** Generated worlds play like authored ones.
 
@@ -224,8 +224,8 @@ Handbook sections: `dmg:making-worlds`, `dmg:campaigns`, `mm:generated`.
 | 3 | Summoning had no ownership, limit or generated creatures | 12 summoning abilities now play; aspect summons (images, the weird) still do not | 3 | addressed |
 | 4 | No reactions to what an enemy does | overwatch, blade barrier, braced spears, magebane, consecrated ground, charm aura now play; reflection and spell turning do not | 3 | addressed |
 | 5 | No random multi-target spells | magic missile, lightning bolt, cone of cold, meteor swarm now play; prismatic spray waits on cycling effects | 3 | addressed |
-| 6 | No planes, place laws or travel between worlds | the Unlit, a plane with laws, three portals and a law a company can change; Orsino's planes and planeshift remain data | 5 | partly addressed |
+| 6 | No planes, place laws or travel between worlds | place laws and portals run (test/fixtures/proving); the Unlit, the plane that showed them in play, was retired with the old corpus in Mission 8; Orsino's planes and planeshift remain data | 5 | partly addressed |
 | 7 | Cast, random, cycling, resurrect, kill and flee effects | chaos bolt, warp, prismatic spray, raise dead, animate dead, death, command, turn undead now play; 43 abilities still do not | 3 | addressed |
 | 8 | Items are mostly Orsino data | 60 gear, 42 magic items, 22 consumables | 2 | open |
 | 9 | Electric damage is not a Kyr damage kind | 11 spells and weapons | 3 | addressed |
-| 10 | No city, no institutions as kits | Brack: districts, the Watch's permissions, the Salt Exchange's secret, the Charter's patronage, and city and valley acting on each other; institutions are not yet kits | 5 | partly addressed |
+| 10 | No city, no institutions as kits | the rules a city needs (permissions after dark, a power's patronage, prices that follow a road) run; Brack, the city that showed them, was retired with the old corpus in Mission 8; institutions are not yet kits | 5 | partly addressed |

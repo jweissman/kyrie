@@ -6,16 +6,20 @@ a campaign composes modules and binds their roles.
 | Directory | Holds | Authority |
 |---|---|---|
 | `catalog/` | The canonical fantasy domain: ancestries, species, classes, traits, abilities, conditions, items, backgrounds, skills, religion, organisms, vocabulary | Global. Read only through `src/canon`. Validated at load (`kyrie validate`). |
-| `rules/` | Kyr rule modules every world is written against (`core`, `passages`, `people`, `needs`, `services`, `discovery`, `care`, `belongings`, `dominion`; optional `elements`) | Global. A manifest names them in `rules`; `"world"` means the standard set. |
-| `regions/` | Settlements, wilderness and the routes between them: towns, roads, shops, inns, the company's starting place | Local to an installation. |
-| `sites/` | A substantial place to explore: levels, rooms, passages, hazards, guardians, discoveries | Local. Imports the region places it attaches to. |
-| `planes/` | A plane: regions and sites under another sky, the laws everyone in it fights under (`law(place, law)`), and the portals to it, with their access conditions | Local. Imports the places its doors open from; exports its doors and what is learnt of them. |
-| `institutions/` | An organization with members, holdings, obligations and the facts it controls (a burial society, a guild) | Local. Exports its people and the facts others can rely on. |
-| `situations/` | A reusable problem with roles (someone caught below, a salvage permit against the dead, a dragon's roost). Declares people, objectives and outcomes; imports every place it uses | Local. Must install in at least two settings. |
-| `conflicts/` | A regional struggle between powers that act while the company is elsewhere (the register of names). Directs people other modules declared, gives them operations with time and consequences, and leaves evidence | Local. Imports the people, places and things it fights over. |
-| `campaigns/` | `*.campaign.json`: which modules are installed, in what order, how their roles are bound, and the default company. `companies.json`: example parties | Composition only; no content. |
-| `generation/` | DEEM tables and templates, split by domain (`creatures`, `dragons`, `names`, `places`) | Global. |
+| `rules/` | Kyr rule modules every world is written against (`core`, `passages`, `people`, `needs`, `services`, `discovery`, `care`, `belongings`, `dominion`, `probing`, `inhabitants`; optional `elements`) | Global. A manifest names them in `rules`; `"world"` means the standard set. |
+| `campaigns/` | `*.campaign.json`: which modules are installed, in what order, how their roles are bound, and the default company. `companies.json`: the ready companies | Composition only; no content. |
+| `sites/`, `situations/` | The generator's library: a reusable problem with roles (someone caught below, a brood in a hollow, an unquiet tower, a den in the wild) and the sites some of them need | Local to an installation. A situation must install in at least two settings. |
+| `scenarios/`, `kits/`, `frameworks/` | How the world assembler places situations and kits in a generated region: what each needs, where it fits, how word of it travels | Global. |
+| `generation/`, `assembly/` | DEEM tables and templates by domain, and the assembler's own vocabulary | Global. |
 | `sources/orsino/` | The Orsino registry snapshot, Kyr's feature judgements and the adaptation ledger | Provenance only. Nothing at runtime reads it. |
+
+Regions, sites, planes, institutions and conflicts are written the same way wherever an adventure keeps them.
+
+**The old corpus is retired.** Mission 8 took the Varrow (with Brack, the Unlit, the Lanthorn, the Candle Tombs, the
+Brimming and the Hush), the Red Crag, Skellfold and the Serewater March out of the game. Their last versions are in
+the history at commit `b8b20e6` (`git show b8b20e6:data/regions/varrow/region.kyr`). The Serewater March and the modules it installs live on as a mechanical test bed in
+`test/fixtures/march`, because many rules tests still run on it; small purpose-built fixtures sit beside it in
+`test/fixtures`.
 
 ## A module
 

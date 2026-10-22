@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "The fells, with outlaws (test fixture)",
+  "modules": [
+    { "id": "fells", "bundle": "module.json" },
+    { "kit": "../../../data/kits/raider-hold/kit.json", "id": "fell",
+      "fix": { "approach": "fells.knot_foot", "road": "fells.alders", "prey": "fells.ford_green", "hold": "cave",
+        "folk": "outlaws" } }
+  ],
+  "party": [
+    { "name": "Nell", "raceId": "human", "classId": "thief", "backgroundId": "burglar" },
+    { "name": "Hulda", "raceId": "dwarf", "classId": "warrior", "backgroundId": "miner" },
+    { "name": "Ivo", "raceId": "human", "classId": "mage", "backgroundId": "scholar" }
+  ]
+}

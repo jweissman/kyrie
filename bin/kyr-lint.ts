@@ -13,9 +13,8 @@ export interface Finding { level: 'error' | 'warning'; check: string; where: str
 
 export class KyrLint {
   static readonly root = resolve(import.meta.dir, '..');
-  static readonly recommended = ['data/campaigns/serewater-march.campaign.json', 'data/campaigns/skellfold.campaign.json',
-    'data/campaigns/silkholme.campaign.json',
-    'data/campaigns/red-crag.campaign.json', 'data/campaigns/varrow.campaign.json'];
+  // Every campaign the game offers is held to the canonical vocabulary.
+  static get recommended(): string[] { return this.campaigns(); }
   static walk(dir: string, keep: (file: string) => boolean): string[] {
     return readdirSync(dir).flatMap(f => {
       const p = join(dir, f);

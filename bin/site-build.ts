@@ -25,16 +25,22 @@ export class SiteBuild {
   }
   // The engine runs in a worker. It is built first and handed to the page's script as text, so the page can start
   // it from a blob, which works from file:// as well as from a server.
-  static async engine(minify: boolean): Promise<string> {
+  // A build for browser tests also carries the test fixtures, so a test can play one; the bundle on disk does not.
+  static async engine(minify: boolean, fixtures = false): Promise<string> {
     await AssetCatalog.write(this.root);
+    const files = fixtures ? await AssetCatalog.files(this.root, ['data', 'test/fixtures']) : undefined;
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/engine/engine-worker.ts')], target: 'browser',
-      format: 'iife', minify, plugins: [{ name: 'single-ohm', setup: SiteBuild.singleOhm }],
+      format: 'iife', minify, plugins: [{ name: 'single-ohm', setup: SiteBuild.singleOhm },
+        ...files ? [{ name: 'fixtures', setup: SiteBuild.fixtures.bind(SiteBuild, files) }] : []],
       define: { 'process.env.NODE_ENV': '"production"' } });
     if (!result.success) { throw new AggregateError(result.logs, 'Engine build failed'); }
     return result.outputs[0]!.text();
   }
-  static async reader(out: string, minify = true) {
-    const engine = await this.engine(minify);
+  static fixtures(files: Record<string, string>, build: PluginBuilder) {
+    build.onLoad({ filter: /bundles\.generated\.json$/ }, () => ({ contents: JSON.stringify(files), loader: 'json' }));
+  }
+  static async reader(out: string, minify = true, fixtures = false) {
+    const engine = await this.engine(minify, fixtures);
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/reader/reader-main.tsx')], target: 'browser',
       format: 'iife', outdir: out, naming: 'mono.js', minify, sourcemap: minify ? 'linked' : 'none',
       define: { 'process.env.NODE_ENV': '"production"' },
@@ -47,10 +53,10 @@ export class SiteBuild {
     build.onLoad({ filter: /.*/, namespace: 'kyrie' },
       () => ({ contents: `export default ${JSON.stringify(engine)};`, loader: 'js' }));
   }
-  static async site(out: string) {
+  static async site(out: string, options: { fixtures?: boolean } = {}) {
     await rm(out, { recursive: true, force: true });
     await mkdir(out, { recursive: true });
-    const size = await this.reader(out);
+    const size = await this.reader(out, true, !!options.fixtures);
     for (const name of ['index.html', 'mono.html']) { await cp(join(this.root, 'web/reader/index.html'), join(out, name)); }
     await cp(join(this.root, 'web/reader/reader.css'), join(out, 'reader.css'));
     await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });

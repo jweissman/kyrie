@@ -23,7 +23,7 @@ class March {
     'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)', 'go(march__shrine_door,march__shrine)'];
   static async start() {
     const members = companies.companies.find(c => c.id === 'fellowship')!.members as CreatureGenerationContext[];
-    return PlaySession.start('data/campaigns/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
+    return PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
   }
   static async walk(s: PlaySession, commands: string[]) { for (const c of commands) { await s.perform(c); } }
   static async until(s: PlaySession, tick: number) { while (s.campaign.state.elapsed < tick) { await s.perform('wait'); } }

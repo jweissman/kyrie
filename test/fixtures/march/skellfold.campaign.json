@@ -8,11 +8,11 @@
   "modules": [
     {
       "id": "world",
-      "bundle": "../sites/skellfold/module.json"
+      "bundle": "sites/skellfold/module.json"
     },
     {
       "id": "rescue",
-      "bundle": "../situations/caught-below/module.json",
+      "bundle": "../../../data/situations/caught-below/module.json",
       "context": {
         "setting": "quarry"
       },
@@ -28,7 +28,7 @@
     },
     {
       "id": "salvage",
-      "bundle": "../situations/salvage-rights/module.json",
+      "bundle": "situations/salvage-rights/module.json",
       "context": {
         "setting": "quarry"
       },

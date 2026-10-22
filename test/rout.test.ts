@@ -19,7 +19,7 @@ class Rout {
 }
 
 it('an opponent that flees is reported as fleeing, is routed, and no longer holds its passage', async () => {
-  const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'rout', NodeBundleSource.shared);
+  const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'rout', NodeBundleSource.shared);
   for (const c of ['go(march__causeway_path,march__causeway)', 'change_thing(hill__boar_pass)',
     'go(hill__low_path,hill__drain_mouth)', 'go(hill__culvert,hill__workshop)', 'go(hill__gallery_steps,hill__gallery)']) {
     await s.perform(c);

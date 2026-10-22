@@ -8,17 +8,19 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { Composition } from '../src/world/compose/composition';
 import { WorldAssembler } from '../src/world/world-assembler';
 
-// The assembler as a partner to Deem: kits placed into the Varrow (data/kits/raider-hold), with slots fixed by an
-// author or bound by requirement and preference, dimensions proposed by Deem and checked against what is committed.
+// The assembler as a partner to Deem: kits (data/kits/raider-hold, data/kits/bounty) placed into an authored region
+// (test/fixtures/fells), with slots fixed by an author or bound by requirement and preference, dimensions proposed by
+// Deem and checked against what is committed.
 class Compose {
-  static readonly varrow = 'data/campaigns/varrow.campaign.json';
-  static readonly outlaws = 'test/fixtures/varrow-outlaws/campaign.json';
-  // The Varrow's manifest with its kit entry replaced, as an in-memory campaign.
+  static readonly fells = 'test/fixtures/fells/campaign.json';
+  static readonly outlaws = 'test/fixtures/fells/outlaws.campaign.json';
+  static readonly kit = '../../../data/kits/raider-hold/kit.json';
+  // The fells' manifest with its kit entry replaced, as an in-memory campaign.
   static async variant(kit: Record<string, unknown>) {
-    const source = NodeBundleSource.shared, path = source.resolve(this.varrow);
+    const source = NodeBundleSource.shared, path = source.resolve(this.fells);
     const manifest = JSON.parse(await source.read(path)) as { modules: Record<string, unknown>[] };
-    manifest.modules = [...manifest.modules.filter(m => !('kit' in m)), { kit: '../kits/raider-hold/kit.json', ...kit }];
-    const at = source.resolve('data/campaigns/varrow-variant.campaign.json');
+    manifest.modules = [...manifest.modules.filter(m => !('kit' in m)), { kit: this.kit, ...kit }];
+    const at = source.resolve('test/fixtures/fells/variant.campaign.json');
     return { path: at, source: new OverlayBundleSource(source, { [at]: JSON.stringify(manifest) }) };
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
@@ -29,25 +31,25 @@ class Compose {
 }
 
 describe('composing kits', () => {
-  it('builds the Varrow\'s Hob-Knot from the raider-hold kit with every slot and dimension fixed by its author', async () => {
-    const m = await ModuleBundle.campaign(Compose.varrow, NodeBundleSource.shared, 'varrow');
+  it('builds the fells\' Hob-Knot from the raider-hold kit with every slot and dimension fixed by its author', async () => {
+    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
     const text = m.composition!.trace.text().join('\n');
-    expect(text).toContain('approach = varrow__knot_foot (fixed)');
+    expect(text).toContain('approach = fells__knot_foot (fixed)');
     expect(text).toContain('folk: fixed hobs, accepted');
     expect(m.modules.map(x => x.id)).toEqual(expect.arrayContaining(['knotHold', 'knotFolk']));
-    expect(m.composition!.ledger.holds('ambushes', 'knot__band', 'varrow__barrows')).toBe(true);
+    expect(m.composition!.ledger.holds('ambushes', 'knot__band', 'fells__barrows')).toBe(true);
   }, 60000);
   it('binds what a proposal implies even when the author fixed the proposal: the settlement the hobs robbed of its bell', async () => {
-    const m = await ModuleBundle.campaign(Compose.varrow, NodeBundleSource.shared, 'varrow');
+    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
     const placement = m.composition!.placements[0]!;
-    expect(placement.bindings.chapel).toBe('varrow__market');
-    expect(m.composition!.trace.text().join('\n')).toMatch(/chapel = varrow__market \(score \d+, of \d+ considered\)/);
-    const s = await PlaySession.start(Compose.varrow, 'varrow', NodeBundleSource.shared);
+    expect(placement.bindings.chapel).toBe('fells__market');
+    expect(m.composition!.trace.text().join('\n')).toMatch(/chapel = fells__market \(score \d+, of \d+ considered\)/);
+    const s = await PlaySession.start(Compose.fells, 'fells', NodeBundleSource.shared);
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('The bell is gone from its frame');
   }, 60000);
   it('refuses a fixing that breaks a hard requirement, and names it', async () => {
-    const { path, source } = await Compose.variant({ id: 'bad', fix: { approach: 'varrow.market' } });
-    await expect(ModuleBundle.campaign(path, source, 'varrow')).rejects.toThrow(/approach.*varrow__market.*does not meet/);
+    const { path, source } = await Compose.variant({ id: 'bad', fix: { approach: 'fells.market' } });
+    await expect(ModuleBundle.campaign(path, source, 'fells')).rejects.toThrow(/approach.*fells__market.*does not meet/);
   }, 60000);
   it('binds open slots by requirement and preference, and Deem fills the dimensions, the same way for the same seed', async () => {
     const { path, source } = await Compose.variant({ id: 'open' });
@@ -64,13 +66,13 @@ describe('composing kits', () => {
     expect(a.composition!.trace.text().join('\n')).toMatch(/hold: Deem proposes (cave|ringfort), accepted/);
   }, 60000);
   it('places a kit into a campaign already under way, taking nothing already taken', async () => {
-    const s = await PlaySession.start(Compose.varrow, 'varrow', NodeBundleSource.shared);
+    const s = await PlaySession.start(Compose.fells, 'fells', NodeBundleSource.shared);
     await s.perform('wait_hour');
     const before = s.campaign.world.describe().filter(f => f.startsWith('at('));
-    const later = await Composition.introduce(NodeBundleSource.shared.resolve(Compose.varrow),
-      { kit: '../kits/raider-hold/kit.json', id: 'later' }, { seed: 'varrow', source: NodeBundleSource.shared });
+    const later = await Composition.introduce(NodeBundleSource.shared.resolve(Compose.fells),
+      { kit: Compose.kit, id: 'later' }, { seed: 'fells', source: NodeBundleSource.shared });
     expect(later.placement).toBeDefined();
-    expect(later.placement!.bindings.approach).not.toBe('varrow__knot_foot');
+    expect(later.placement!.bindings.approach).not.toBe('fells__knot_foot');
     for (const request of later.placement!.modules) { await s.campaign.install(request, NodeBundleSource.shared); }
     const after = s.campaign.world.describe().filter(f => f.startsWith('at('));
     expect(after).toEqual(expect.arrayContaining(before));
@@ -81,20 +83,20 @@ describe('composing kits', () => {
 
 describe('a kit that builds on another', () => {
   it('puts a price on the band an earlier placement put in the world, bound through the ledger', async () => {
-    const m = await ModuleBundle.campaign(Compose.varrow, NodeBundleSource.shared, 'varrow');
+    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
     const price = m.composition!.placements.find(p => p.kit === 'bounty')!;
-    expect(price.bindings).toEqual({ victim: 'varrow__ford_green', power: 'knot__band', chief: 'knotFolk__chief',
+    expect(price.bindings).toEqual({ victim: 'fells__ford_green', power: 'knot__band', chief: 'knotFolk__chief',
       band: 'knotFolk__raiders' });
     expect(m.modules.find(x => x.id === 'pricePatron')!.imports).toMatchObject({ chief: 'knotFolk.chief', band: 'knotFolk.raiders' });
   }, 60000);
   it('pays when the band is broken, whichever patron Deem proposed', async () => {
     for (const patron of ['widow', 'elders']) {
-      const source = NodeBundleSource.shared, path = source.resolve(Compose.varrow);
+      const source = NodeBundleSource.shared, path = source.resolve(Compose.fells);
       const manifest = JSON.parse(await source.read(path)) as { modules: Record<string, unknown>[] };
       manifest.modules = manifest.modules.map(x => x.id === 'price' ? { ...x, fix: { patron } } : x);
-      const at = source.resolve(`data/campaigns/varrow-${patron}.campaign.json`);
-      const s = await PlaySession.start(at, 'varrow', new OverlayBundleSource(source, { [at]: JSON.stringify(manifest) }));
-      Compose.put(s, 'varrow__ford_green');
+      const at = source.resolve(`test/fixtures/fells/fells-${patron}.campaign.json`);
+      const s = await PlaySession.start(at, 'fells', new OverlayBundleSource(source, { [at]: JSON.stringify(manifest) }));
+      Compose.put(s, 'fells__ford_green');
       await s.perform(Compose.legal(s).find(c => c.startsWith('pricePatron__offer'))!);
       const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
       c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('routed', 'knotFolk__raiders') },
@@ -109,9 +111,9 @@ describe('a kit that builds on another', () => {
 
 describe('the raider-hold kit in play', () => {
   it('lets the hobs\' own stolen bell drive them off their gate', async () => {
-    const s = await PlaySession.start(Compose.varrow, 'varrow', NodeBundleSource.shared);
+    const s = await PlaySession.start(Compose.fells, 'fells', NodeBundleSource.shared);
     Compose.put(s, 'knotHold__pit');
-    await s.perform('field_spell(varrow__member_party_3,conjure_light,varrow__member_party_3)');
+    await s.perform('field_spell(fells__member_party_3,conjure_light,fells__member_party_3)');
     await s.perform(Compose.legal(s).find(c => c.startsWith('take_out(knotFolk__handbell'))!);
     Compose.put(s, 'knotHold__ditch');
     const event = await s.perform(Compose.legal(s).find(c => c.startsWith('knotFolk__ring_bell'))!);
@@ -120,7 +122,7 @@ describe('the raider-hold kit in play', () => {
   }, 60000);
   it('has outlaws who stop a company on their road by day, and let it go for road-money', async () => {
     const s = await PlaySession.start(Compose.outlaws, 'a', NodeBundleSource.shared);
-    Compose.put(s, 'varrow__switchbacks');
+    Compose.put(s, 'fells__alders');
     let stopped;
     for (let h = 0; h < 10 && !stopped; h++) {
       const e = await s.perform('wait_hour');

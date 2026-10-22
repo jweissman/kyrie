@@ -5,11 +5,17 @@ import { join } from 'node:path';
 // engine directly, and the Orsino sources are only for the registry tools, so neither is bundled again.
 export class AssetCatalog {
   static readonly skipped = /^(catalog|sources)\//;
-  static async write(root: string) {
-    const paths = (await readdir(join(root, 'data'), { recursive: true }))
-      .filter(p => /\.(json|kyr)$/.test(p) && !AssetCatalog.skipped.test(p)).sort();
+  // The files under each directory, by repository path: data/, and for browser tests the fixtures too.
+  static async files(root: string, dirs = ['data']): Promise<Record<string, string>> {
     const files: Record<string, string> = {};
-    for (const path of paths) { files[`data/${path}`] = await readFile(join(root, 'data', path), 'utf8'); }
-    await writeFile(join(root, 'web/bundles.generated.json'), JSON.stringify(files));
+    for (const dir of dirs) {
+      const paths = (await readdir(join(root, dir), { recursive: true }))
+        .filter(p => /\.(json|kyr)$/.test(p) && !(dir === 'data' && AssetCatalog.skipped.test(p))).sort();
+      for (const path of paths) { files[`${dir}/${path}`] = await readFile(join(root, dir, path), 'utf8'); }
+    }
+    return files;
+  }
+  static async write(root: string) {
+    await writeFile(join(root, 'web/bundles.generated.json'), JSON.stringify(await this.files(root)));
   }
 }

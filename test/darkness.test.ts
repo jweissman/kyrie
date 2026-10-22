@@ -11,7 +11,7 @@ class Dark {
     'go(hill__yard_track,hill__yard)', 'go(hill__arch,hill__vestibule)', 'go(hill__workshop_door,hill__workshop)'];
   static async play(party: string, ...commands: string[]) {
     const members = companies.companies.find(c => c.id === party)!.members as CreatureGenerationContext[];
-    const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared,
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared,
       members);
     for (const c of commands) { await s.perform(c); }
     return s;

@@ -194,8 +194,8 @@
         "dmg:orsino-world/orsino-wonder"
       ],
       "orsino": "Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.",
-      "faithful": "Terrain perks (an elven tribe in a forest), searching by taking 10 against 15, and planes as Orsino has them: a plane is a place whose laws every creature in it holds, as Orsino's planeModifiers.globalEffects are a residency passive (the Unlit's law halves fire, slows healing and weakens will).",
-      "adapted": "Time, light, weather, passages, obstacles, lodging, food, dominion, people and inhabitants are Kyr's own world rules, written in Kyr and listed in the guide. A plane's law is a catalog condition a place names; it holds in every fight fought there and can change (relighting Lampfall's beacon replaces the Unlit's law with its own). Travel between planes is by portal, a passage with an access condition (knowledge, sunlight, a seal), not Orsino's planeshift.",
+      "faithful": "Terrain perks (an elven tribe in a forest), searching by taking 10 against 15, and planes as Orsino has them: a plane is a place whose laws every creature in it holds, as Orsino's planeModifiers.globalEffects are a residency passive (the dead dark halves fire, slows healing and weakens will; test/powers-and-laws.test.ts).",
+      "adapted": "Time, light, weather, passages, obstacles, lodging, food, dominion, people and inhabitants are Kyr's own world rules, written in Kyr and listed in the guide. A plane's law is a catalog condition a place names; it holds in every fight fought there and a rule can change it. Travel between planes is by portal, a passage with an access condition (knowledge, sunlight, a seal), not Orsino's planeshift.",
       "dataOnly": "Orsino's ten planes, its traps and its wonders.",
       "missing": "Planeshift and teleport as spells; generated traps and wonders.",
       "abstractions": "law(place, law) collected up the containment chain; portals as passages with access conditions; a rule's instances re-checked one by one so two powers cannot both take one fortress.",
@@ -214,7 +214,7 @@
       "adapted": "Worlds are assembled from a region's geography and kits whose slots, proposals and provided facts are checked; campaigns install regions, sites, planes, institutions and kits that reach one another only through imported entities (a place, a group, a fact).",
       "dataOnly": "Dungeon and room generation, settlements and shops by size, traps, wonders.",
       "missing": "Dungeon and room generation from Orsino's tables; generated planes and cities.",
-      "abstractions": "The same shared vocabulary serves authored and generated content: the Varrow's toll rules answer whichever power tolls the Gap (Ninefingers, or Brack's Exchange once it takes the empty Lanthorn), with no rule naming the Exchange.",
+      "abstractions": "The same shared vocabulary serves authored and generated content: a power takes a stronghold that stands empty, by night, with the men it posts, by the shared dominion rules, with nothing in the place's own rules naming it (test/fixtures/proving).",
       "browser": "Generated worlds play like authored ones."
     }
   ],
@@ -257,7 +257,7 @@
     {
       "rank": 6,
       "title": "No planes, place laws or travel between worlds",
-      "unlocks": "the Unlit, a plane with laws, three portals and a law a company can change; Orsino's planes and planeshift remain data",
+      "unlocks": "place laws and portals run (test/fixtures/proving); the Unlit, the plane that showed them in play, was retired with the old corpus in Mission 8; Orsino's planes and planeshift remain data",
       "cycle": 5,
       "state": "partly addressed"
     },
@@ -285,7 +285,7 @@
     {
       "rank": 10,
       "title": "No city, no institutions as kits",
-      "unlocks": "Brack: districts, the Watch's permissions, the Salt Exchange's secret, the Charter's patronage, and city and valley acting on each other; institutions are not yet kits",
+      "unlocks": "the rules a city needs (permissions after dark, a power's patronage, prices that follow a road) run; Brack, the city that showed them, was retired with the old corpus in Mission 8; institutions are not yet kits",
       "cycle": 5,
       "state": "partly addressed"
     }

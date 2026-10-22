@@ -11,7 +11,7 @@ class Companies {
     return companies.companies.find(c => c.id === id)!.members as CreatureGenerationContext[];
   }
   static async at(id: string, ...commands: string[]) {
-    const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared,
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared,
       this.party(id));
     for (const c of commands) { await s.perform(c); }
     return ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)));

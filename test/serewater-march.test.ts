@@ -5,8 +5,8 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 
 class March {
-  static readonly manifest = 'data/campaigns/serewater-march.campaign.json';
-  static readonly skellfold = 'data/campaigns/skellfold.campaign.json';
+  static readonly manifest = 'test/fixtures/march/serewater-march.campaign.json';
+  static readonly skellfold = 'test/fixtures/march/skellfold.campaign.json';
   static async start(manifest: string, ...commands: string[]) {
     const s = await PlaySession.start(manifest, 'serewater', NodeBundleSource.shared);
     for (const c of commands) { await this.perform(s, c); }

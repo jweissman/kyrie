@@ -6,7 +6,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 
 class Trip {
   static async start(...commands: string[]) {
-    const s = await PlaySession.start('data/campaigns/serewater-march.campaign.json', 'expedition', NodeBundleSource.shared);
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'expedition', NodeBundleSource.shared);
     for (const c of commands) { await s.perform(c); }
     return s;
   }
