@@ -23,8 +23,9 @@ export class Discovery {
         throw new Error('Unknown discovery field');
       }
       const known = definition.knownBy ?? [], denied = definition.deniedBy ?? [];
+      // A discovery may have no source at all: something people know (Known by), or a scene teaches.
       if (!this.actorList(known) || !this.actorList(denied) || known.some(a => denied.includes(a))
-        || !Array.isArray(definition.sources) || !(definition.sources.length || definition.found?.length)) {
+        || !Array.isArray(definition.sources)) {
         throw new Error('Invalid discovery knowledge or sources');
       }
       this.assert(context, 'established', definition.id);

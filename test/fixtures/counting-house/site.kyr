@@ -1,0 +1,61 @@
+Module counting_house "A counting-house with a strongroom" {
+  Description "A test fixture for the clerk and the key: a clerk with the strongroom key in his coat, a desk, a porter who serves him, a strongroom whose lock only that key opens, a back door barred on the inside, and a dog in the yard.".
+  Place country "The fixture country" is region.
+  Place town "the town" is settlement within country at 0, 0.
+  Place street "the street" is room within town at 0, 0.
+  Place office "the counting-house" is room within town at 1, 0.
+  Place strongroom "the strongroom" is room within town at 2, 0.
+  Place yard "the yard" is room within town at 1, 1.
+  Passage front_door "the front door" is door between street and office.
+  Passage strong_door "the strongroom door" is door between office and strongroom.
+  Passage back_door "the back door" is door between yard and office.
+  Company party "The company" of 2 at street.
+  Initially Set quantity(party, gold) to 20.
+
+  // The clerk keeps the key in his coat. Paid, he leaves it on his desk, lends it, and goes out for air.
+  Person pim "Pim" at office { Role "a clerk". Ancestry human. Peaceable. }
+  Person porter "the porter" at office { Role "the counting-house porter". Ancestry human. Peaceable. }
+  Initially Assert serves(porter, pim).
+  Thing coat "Pim's coat" at office {
+    Holds.
+    State buttoned closed "Pim's coat is buttoned to the throat.".
+  }
+  Thing desk "Pim's desk" at office { Holds. }
+  Item brass_key "the strongroom key" is cell_key in coat owned by pim.
+  Item spare_key "a rusty key" is cell_key at street.
+  Action bribe_pim(actor: group, site: place) "Pay Pim ten coin to leave the key on his desk and go out for air" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(pim, site) and quantity(actor, gold) >= 10
+      and inside(brass_key, coat).
+    On success {
+      Decrease quantity(actor, gold) by 10. Increase quantity(pim, gold) by 10.
+      Retract inside(brass_key, coat). Assert inside(brass_key, desk). Assert lends(pim, brass_key, actor). Assert at(pim, street).
+    }
+    Result "Pim looks at the coins, and at the door, and puts the key on his desk and goes out for some air.".
+  }
+  // The strongroom opens to its own key and to no other.
+  Thing strong_lock "the strongroom lock" on strong_door {
+    State locked blocking "The strongroom door is locked.".
+    State open "The strongroom door stands open.".
+    Change unlock "Unlock the strongroom door" from locked to open needing brass_key.
+  }
+  // The back door's bar is on the office side.
+  Thing back_bar "the bar on the back door" on back_door {
+    State barred blocking "The back door is barred.".
+    State unbarred "The back door is unbarred.".
+    Change lift "Lift the bar off the back door" from barred to unbarred at office.
+  }
+  Person dog "a yard dog" at yard {
+    Role "a dog that keeps the yard". Species wolf.
+    Temperament territorial. Warns "A big dog gets up from the yard's straw and stands stiff-legged, looking at you.". Comes "The yard dog comes at you.".
+  }
+  Discovery strongroom_rumour "The strongroom holds the factor's black ledger." { Known by porter. }
+  Discovery plain_fact "A fact taught by nothing but a topic.".
+  Topic porter_talk with porter "Ask the porter about the strongroom" when true once {
+    Says "'Ledgers,' says the porter. 'The black ones are the factor's.'".
+    On discuss { Assert knows(actor, strongroom_rumour). Assert knows(actor, plain_fact). }
+  }
+  Observe street_scene at street when true "A narrow street.".
+  Observe office_scene at office when true "Desks and ledgers.".
+  Observe strongroom_scene at strongroom when true "Chests and a shelf of black ledgers.".
+  Observe yard_scene at yard when true "A yard with straw.".
+}

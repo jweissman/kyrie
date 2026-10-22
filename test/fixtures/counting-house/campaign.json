@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "name": "Counting-house (test fixture)",
+  "modules": [ { "id": "world", "bundle": "module.json" } ],
+  "party": [
+    { "name": "Hal", "raceId": "human", "classId": "warrior" },
+    { "name": "Nell", "raceId": "human", "classId": "thief", "backgroundId": "burglar" }
+  ]
+}

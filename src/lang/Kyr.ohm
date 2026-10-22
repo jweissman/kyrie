@@ -5,10 +5,11 @@ Kyr {
   PlaceParent = "within" ident
   PlaceGrid = "at" integer "," integer
   Company = "Company" ident string "of" integer "at" ident "."
-  ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? "."
+  ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? ItemOwner? "."
   ItemPlace = "at" ident -- at
             | kwIn ident -- in
   Concealed = "hidden" "until" ident
+  ItemOwner = "owned" "by" ident
   HazardDecl = "Hazard" ident string "means" string "."
   Passage = "Passage" ident string PassageKind? "between" ident "and" ident PassagePart* "."
   PassageKind = "is" ident
@@ -26,10 +27,11 @@ Kyr {
   HoldsPart = "Holds" "."
   StatePart = "State" ident StateFlag* string "."
   StateFlag = "blocking" | "dangerous" | "closed"
-  ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? "."
+  ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? ChangeAt? "."
   ChangeNeeds = "needing" ident ("or" ident)*
   ChangeAfter = "after" "learning" ident
   ChangeConsumes = "consuming" ident
+  ChangeAt = "at" ident
   HurtsPart = "Hurts" "with" ident "when" ident "then" ident "."
   GuardsPart = "Guards" ident "."
   Event = "Event" ident Anchor? "when" Predicate string EventTail
@@ -43,7 +45,10 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart
+  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonWords | PersonHaunt
+  PersonTemperament = "Temperament" ident "."
+  PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads") string "."
+  PersonHaunt = ("Lair" | "Refuge" | "Fears") ident "."
   PersonProfession = "Profession" ident "."
   PersonBackground = "Background" ident "."
   OffersPart = "Offers" ident string "for" integer "coin" "."
@@ -69,7 +74,8 @@ Kyr {
   TopicEffects = "On" "discuss" "{" ChangeStatement* "}"
   Speaker = "Speaker" ident "."
   Result = "Result" string "."
-  Information = "Discovery" ident string "{" InformationPart* "}"
+  Information = "Discovery" ident string "{" InformationPart* "}" -- parts
+              | "Discovery" ident string "." -- plain
   InformationPart = KnownBy | DeniedBy | InformationSource | FoundBy
   FoundBy = "Found" "by" "searching" ident FoundWith? string? "."
   FoundWith = "with" ident

@@ -4,6 +4,8 @@ import { ItemCatalog } from '../item-catalog';
 export interface StateSpec { id: string; flags: string[]; text: string }
 export interface ChangeSpec {
   id: string; label: string; from: string; to: string; needs?: string[]; after?: string; consumes?: string;
+  // Where the change can be made from, when only one side reaches it (a bar on the cellar side of a door).
+  at?: string;
 }
 export interface ThingSpec {
   id: string; name: string; type: string; site?: { anchor: 'at' | 'on' | 'inside'; id: string };
@@ -48,13 +50,15 @@ export class WorldConstructs {
     'portal'];
   // An item instance with one name: the authored one, or its catalog kind's name.
   static item(module: Module, i: { id: string; name?: string; kind: string; place: string; inside?: boolean;
-    hidden?: string }, kindName?: string) {
+    hidden?: string; owner?: string }, kindName?: string) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }
     module.entities.push({ id: i.id, type: 'item', name: i.name ?? kindName });
     this.entity(module, i.kind, 'itemkind', kindName);
     this.assert(module, 'itemKind', i.id, i.kind);
     this.assert(module, i.inside ? 'inside' : 'at', i.id, i.place);
     if (i.hidden) { this.assert(module, 'revealedBy', i.id, i.hidden); }
+    // Whose it is: an owner who sees it in the company's hands, not lent, objects (belongings.kyr).
+    if (i.owner) { this.assert(module, 'owns', i.owner, i.id); }
   }
   // A person's offers and wares: services with fees, counted goods, or item instances of catalog kinds for sale.
   static offers(module: Module, p: { id: string; place: string; offers?: { kind: string; text: string; fee: number }[];
@@ -127,6 +131,7 @@ export class WorldConstructs {
       this.assert(module, 'changeTo', id, c.to);
       for (const need of c.needs ?? []) { this.assert(module, 'needs', id, need); }
       if (c.after) { this.assert(module, 'changeKnows', id, c.after); }
+      if (c.at) { this.assert(module, 'changeAt', id, c.at); }
       // Consuming a good spends some of the company's stock; consuming a kind of item uses one up.
       const spent = c.consumes ? ItemCatalog.definitions[c.consumes]?.name : undefined;
       if (spent) { this.entity(module, c.consumes!, 'itemkind', spent); this.assert(module, 'spends', id, c.consumes!); }

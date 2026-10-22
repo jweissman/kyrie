@@ -3,6 +3,7 @@ import { RoleRequirements, type RoleContract } from './role-requirements';
 import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
 import { ModuleParser } from '../lang/module-parser';
+import { Diagnostics, type SourceFile } from '../lang/diagnostics';
 import { ModuleAssembly, type AdventureManifest } from './module-assembly';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
@@ -67,9 +68,13 @@ export class ModuleBundle {
     return new Content(`${seed}:situation`, setting).generate(manifest.generation.type,
       { ...manifest.generation.context, ...context }) as unknown as AdventureManifest;
   }
-  // Several parsed sources as one module: the first's identity, everything each declares.
-  // Several files of one module, joined. What each file declares for itself as it is read (a way's kind, a thing's
-  // state) is declared once; anything else declared twice is still an error.
+  // One file, parsed, or the parser's complaint with the file's path and line.
+  private static parsed(file: SourceFile): Module {
+    try { return ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+  }
+  // Several files of one module, joined: the first's identity, everything each declares. What each file declares
+  // for itself as it is read (a way's kind, a thing's state) is declared once; anything else declared twice is still
+  // an error.
   private static merge(modules: Module[]): Module {
     const entities = modules.flatMap(m => m.entities).filter((e, i, all) => all.findIndex(o => o.id === e.id
       && JSON.stringify(o) === JSON.stringify(e)) === i);
@@ -116,22 +121,28 @@ export class ModuleBundle {
     const rulePaths = (typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules)
       .flatMap(r => ModuleBundle.ruleNames.includes(r) || r === 'world' ? (r === 'world' ? ModuleBundle.world : [r])
         .map(name => source.resolve(`data/rules/${name}.kyr`)) : [source.resolve(r, path)]);
-    const files = await Promise.allSettled([...situationPaths, ...rulePaths,
+    const settled = await Promise.allSettled([...situationPaths, ...rulePaths,
       manifest.generation?.tables, manifest.generation?.templates].map((p, i) => !p ? Promise.resolve('{}')
       : source.read(i < situationPaths.length + rulePaths.length ? p : source.resolve(p, path))));
-    const texts = files.map(result => {
+    const texts = settled.map(result => {
       if (result.status === 'rejected') { throw result.reason; }
       return result.value;
     });
-    const seed = RandomStreams.key(options.seed, 'module', ModuleParser.parse(texts[0]!).id, request.randomIdentity ?? '');
+    const files = [...situationPaths, ...rulePaths].map((p, i) => ({ path: p, text: texts[i]! }));
+    const seed = RandomStreams.key(options.seed, 'module', this.parsed(files[0]!).id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
-    const combined = this.merge(rulePaths.map((_, i) => ModuleParser.parse(texts[situationPaths.length + i]!)));
-    const composed = this.merge(situationPaths.map((_, i) => ModuleParser.parse(texts[i]!)));
-    const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);
-    const imports = this.imports(manifest, request, options.installed, instance.module);
-    const draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
-      imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
+    const combined = this.merge(files.slice(situationPaths.length).map(f => this.parsed(f)));
+    const composed = this.merge(files.slice(0, situationPaths.length).map(f => this.parsed(f)));
+    let draft: ModuleDraft, imports: Record<string, string>;
+    try {
+      const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);
+      imports = this.imports(manifest, request, options.installed, instance.module);
+      draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
+        imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
+    } catch (error) {
+      throw Diagnostics.explain(error, files.slice(0, situationPaths.length), files.slice(situationPaths.length));
+    }
     draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
     if (manifest.experience) { draft.experience = manifest.experience; }
     return draft;

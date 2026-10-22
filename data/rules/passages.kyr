@@ -18,11 +18,18 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Kind verb. Relation probeable(entity). Relation tried(entity, verb).
   Relation needs(entity, entity).
   Relation changeOf(change, entity). Relation changeFrom(change, condition). Relation changeTo(change, condition).
+  // A change only one side reaches (the bar on the cellar side of a door) is made from that place.
+  Relation changeAt(change, place).
+  Query placedFor(a: group, c: change) means not changeAt(c, ?p) or (changeAt(c, ?p) and at(a, ?p)).
   Relation changeKnows(change, fact). Relation consumes(change, good). Relation spends(change, itemkind).
   Relation hobbled(group).
   Relation following(group, group).
   Query holding(a: group, k: itemkind) means memberOf(?m, a) and ownedItem(?i, ?m) and itemKind(?i, k).
-  Query meets(a: group, n: entity) means capable(a, n) or holding(a, n) or (following(a, ?l) and holding(?l, n)).
+  // Carrying a particular thing: this key, not any key.
+  Query carries(a: group, i: entity) means memberOf(?m, a) and ownedItem(i, ?m).
+  // What a way or a change needs: a skill, a kind of thing, or one particular thing.
+  Query meets(a: group, n: entity) means capable(a, n) or holding(a, n) or carries(a, n)
+    or (following(a, ?l) and holding(?l, n)).
   Query equippedFor(a: group, x: entity) means not needs(x, ?n) or (needs(x, ?n) and meets(a, ?n)).
   Query informedFor(a: group, c: change) means not changeKnows(c, ?f) or (changeKnows(c, ?f) and knows(a, ?f)).
   Query visibleTo(w: passage, a: group) means not revealedBy(w, ?f) or (revealedBy(w, ?f) and knows(a, ?f))
@@ -86,14 +93,14 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Action change_thing(actor: group, how: change, thing: entity, origin: condition, result: condition) "{how}" {
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
-      and not dead(thing) and not benighted(actor) and not consumes(how, ?g) and not spends(how, ?k).
+      and placedFor(actor, how) and not dead(thing) and not benighted(actor) and not consumes(how, ?g) and not spends(how, ?k).
     On success { Assert state(thing, result). }
   }
   Action change_thing_spending(actor: group, how: change, thing: entity, origin: condition, result: condition, spent: item, form: itemkind, carrier: member) "{how}, using {carrier}'s {spent}" {
     Description "What it takes is used up doing it.".
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
-      and not dead(thing) and not benighted(actor) and spends(how, form) and memberOf(carrier, actor) and awake(carrier)
+      and placedFor(actor, how) and not dead(thing) and not benighted(actor) and spends(how, form) and memberOf(carrier, actor) and awake(carrier)
       and ownedItem(spent, carrier) and itemKind(spent, form).
     Resolve drop(spent, carrier).
     On success { Assert state(thing, result). }
@@ -101,7 +108,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Action change_thing_paying(actor: group, how: change, thing: entity, origin: condition, result: condition, spent: good) "{how}" {
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
-      and not dead(thing) and not benighted(actor) and consumes(how, spent) and quantity(actor, spent) >= 1.
+      and placedFor(actor, how) and not dead(thing) and not benighted(actor) and consumes(how, spent) and quantity(actor, spent) >= 1.
     On success { Assert state(thing, result). Decrease quantity(actor, spent) by 1. }
   }
 }

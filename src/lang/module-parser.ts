@@ -43,7 +43,10 @@ export class ModuleParser {
     PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
     HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,
     Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
-    Information: ModuleParser.Information, KnownBy: ModuleParser.KnownBy, DeniedBy: ModuleParser.DeniedBy,
+    Information_parts: ModuleParser.Information, Information_plain: ModuleParser.InformationPlain,
+    KnownBy: ModuleParser.KnownBy, ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
+    PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
+    PersonHaunt: PersonParser.PersonHaunt, DeniedBy: ModuleParser.DeniedBy,
     InformationSource: ModuleParser.InformationSource, Speakers: ModuleParser.Speakers,
     Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: ModuleParser.Speaker,
     WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, PursuitUsing: ModuleParser.PursuitUsing,
@@ -152,7 +155,8 @@ export class ModuleParser {
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
     Spatial.addEscorts(module); Spatial.addSearches(module);
-    if (!singleton.has('goal')) { throw new Error('Module needs a goal'); }
+    // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
+    // several files says it for all of them.
     return module;
   }
   static Place(_p: Node, id: Node, name: Node, _is: Node, kind: Node, parent: Node, grid: Node, _dot: Node): Field {
@@ -183,8 +187,9 @@ export class ModuleParser {
     return [kind.sourceString, ...more.children.map(n => n.sourceString)];
   }
   // Ohm calls an action with one node per element of its rule; these take the elements that matter to ObjectParser.
-  static ItemDecl(_i: Node, id: Node, name: Node, _is: Node, kind: Node, place: Node, concealed: Node, _dot: Node) {
-    return ObjectParser.item(id, name, kind, { place, concealed });
+  static ItemDecl(_i: Node, id: Node, name: Node, _is: Node, kind: Node, place: Node, concealed: Node, owner: Node,
+    _dot: Node) {
+    return ObjectParser.item(id, name, kind, { place, concealed, owner });
   }
   static Thing(_t: Node, id: Node, name: Node, site: Node, kind: Node, concealed: Node, _open: Node, parts: Node,
     _close: Node) {
@@ -207,12 +212,13 @@ export class ModuleParser {
       text: ModuleParser.ast(text) } };
   }
   static ChangePart(_c: Node, id: Node, label: Node, _from: Node, from: Node, _to: Node, to: Node, needs: Node,
-    after: Node, consumes: Node, _dot: Node): Field {
-    const [a, c] = [after, consumes].map(node => node.children.length ?
+    after: Node, consumes: Node, at: Node, _dot: Node): Field {
+    const [a, c, p] = [after, consumes, at].map(node => node.children.length ?
       ModuleParser.ast(node.children[0]!) as string : undefined);
     const n = needs.children.length ? ModuleParser.ast(needs.children[0]!) as unknown as string[] : undefined;
     return { field: 'change', value: { id: id.sourceString, label: ModuleParser.ast(label), from: from.sourceString,
-      to: to.sourceString, ...(n ? { needs: n } : {}), ...(a ? { after: a } : {}), ...(c ? { consumes: c } : {}) } };
+      to: to.sourceString, ...(n ? { needs: n } : {}), ...(a ? { after: a } : {}), ...(c ? { consumes: c } : {}),
+      ...(p ? { at: p } : {}) } };
   }
   static Second(_word: Node, value: Node) { return value.ctorName === 'string' ? ModuleParser.ast(value) : value.sourceString; }
   static Third(_a: Node, _b: Node, value: Node) { return value.sourceString; }
@@ -283,6 +289,10 @@ export class ModuleParser {
       ? [c, { kind: 'assert' as const,
         call: { kind: 'call' as const, name: 'toldBy', args: ['actor', speaker, c.call.args[1]!] } }]
       : [c]);
+  }
+  // A discovery with nothing to say of where it is learnt: something people know, or a scene teaches.
+  static InformationPlain(_discovery: Node, id: Node, text: Node, _dot: Node): Field {
+    return { field: 'information', value: { id: id.sourceString, text: ModuleParser.ast(text) as string, sources: [] } };
   }
   static Information(_discovery: Node, id: Node, text: Node, _open: Node, parts: Node, _close: Node): Field {
     const definition: DiscoveryDefinition = { id: id.sourceString,

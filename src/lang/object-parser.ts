@@ -8,11 +8,12 @@ type Field = { field: string; value: unknown };
 // perhaps hidden until something is known; a receptacle; a discovery found by searching a place.
 export class ObjectParser {
   // ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? "."
-  static item(id: Node, name: Node, kind: Node, where: { place: Node; concealed: Node }): Field {
-    const { place, concealed } = where, site = ModuleParser.ast(place) as { anchor: string; id: string };
+  static item(id: Node, name: Node, kind: Node, where: { place: Node; concealed: Node; owner: Node }): Field {
+    const { place, concealed, owner } = where, site = ModuleParser.ast(place) as { anchor: string; id: string };
     return { field: 'item', value: { id: id.sourceString, kind: kind.sourceString, place: site.id,
       ...(site.anchor === 'inside' ? { inside: true } : {}),
       ...(concealed.children.length ? { hidden: ModuleParser.ast(concealed.children[0]!) } : {}),
+      ...(owner.children.length ? { owner: ModuleParser.ast(owner.children[0]!) } : {}),
       ...(name.children.length ? { name: ModuleParser.ast(name.children[0]!) } : {}) } };
   }
   static At(_at: Node, id: Node) { return { anchor: 'at', id: id.sourceString }; }

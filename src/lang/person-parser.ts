@@ -6,6 +6,7 @@ import type { Module, Person } from './module';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
+interface Manner { kind: string; text: string }
 // The Person declaration of the Kyr grammar: who someone is (a role, an ancestry and calling or a species, how many
 // and what each is called, what they carry, offer and sell), and how they enter a module.
 export class PersonParser {
@@ -14,7 +15,7 @@ export class PersonParser {
     const p: Person = { id: id.sourceString, name: ModuleParser.ast(name) as string, place: place.sourceString,
       raceId: 'human', classId: 'commoner', level: 1, actions: [] };
     const spec: ThingSpec = { id: p.id, name: p.name, type: 'group', states: [], changes: [] };
-    const seen = new Set<string>(), authored: string[] = [];
+    const seen = new Set<string>(), authored: string[] = [], manner: Manner[] = [];
     for (const node of parts.children) {
       const part = ModuleParser.ast(node) as Field;
       if (['state', 'change', 'hurts', 'guards'].includes(part.field)) { ModuleParser.thingPart(spec, part); continue; }
@@ -22,6 +23,7 @@ export class PersonParser {
         ((p as unknown as Record<string, unknown[]>)[part.field] ??= []).push(part.value); continue;
       }
       if (part.field === 'wants') { (p.wants ??= []).push(part.value as string); continue; }
+      if (part.field === 'words' || part.field === 'haunt') { manner.push(part.value as Manner); continue; }
       if (part.field === 'traits' || part.field === 'gear') {
         const list = ((p as unknown as Record<string, string[]>)[part.field] ??= []);
         list.push(part.value as string);
@@ -46,7 +48,31 @@ export class PersonParser {
       if (seen.has(part.field)) { throw new Error(`Duplicate Person field ${part.field} for ${p.id}`); }
       seen.add(part.field); Object.assign(p, { [part.field]: part.value });
     }
-    return { field: 'person', value: { ...p, ...(authored.length ? { authored } : {}), spec } };
+    return { field: 'person', value: { ...p, ...(authored.length ? { authored } : {}), spec, manner } };
+  }
+  // How a creature meets a company, said with it: its temperament, its words (a warning, an onslaught, a flinch, a
+  // plea) and its haunts (where its lair and refuge are, what it fears), for the inhabitants rules.
+  static PersonTemperament(_t: Node, id: Node, _dot: Node): Field { return { field: 'temperament', value: id.sourceString }; }
+  static PersonWords(word: Node, text: Node, _dot: Node): Field {
+    return { field: 'words', value: { kind: word.sourceString, text: ModuleParser.ast(text) as string } };
+  }
+  static PersonHaunt(word: Node, id: Node, _dot: Node): Field {
+    return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
+  }
+  static readonly manners: Record<string, string> = { Warns: 'warning', Comes: 'onslaught', Flinches: 'flinch',
+    Pleads: 'plea', Lair: 'lair', Refuge: 'refuge', Fears: 'fears' };
+  private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {
+    if (temperament) { PersonParser.fact(module, 'temperament', id, `temper_${temperament}`); }
+    for (const m of manner) {
+      const relation = PersonParser.manners[m.kind]!;
+      if (['Lair', 'Refuge', 'Fears'].includes(m.kind)) { PersonParser.fact(module, relation, id, m.text); continue; }
+      const words = `${id}_${relation}`;
+      module.entities.push({ id: words, type: 'fact', name: m.text });
+      PersonParser.fact(module, relation, id, words);
+    }
+  }
+  private static fact(module: Module, name: string, ...args: string[]) {
+    module.initial.push({ kind: 'assert', call: { kind: 'call', name, args } });
   }
   static PersonRole(_r: Node, text: Node, _dot: Node): Field {
     return { field: 'role', value: ModuleParser.ast(text) };
@@ -91,8 +117,10 @@ export class PersonParser {
   }
   // A person enters a module as a group where they stand, named for their role, with their states told near them.
   static declare(module: Module, value: unknown) {
-    const { spec, peaceable, ...p } = value as Person & { spec: ThingSpec; peaceable?: boolean };
+    const { spec, peaceable, manner, temperament, ...p } = value as Person & { spec: ThingSpec; peaceable?: boolean;
+      manner: Manner[]; temperament?: string };
     (module.people ??= []).push(p);
+    PersonParser.manner(module, p.id, temperament, manner);
     WorldConstructs.offers(module, p, kind => ItemCatalog.definitions[kind]?.name);
     // A person's role follows their name ("Garth, shepherd"), unless it only repeats it, or it is what each
     // of a numbered group is ("a cave spider") rather than the group ("a sow bear and her grown cub").
