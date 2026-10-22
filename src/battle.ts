@@ -178,16 +178,22 @@ export class Battle {
   private winding(actor: Fighter, command: Command): boolean {
     return !!actor.windup && actor.windup.ability === command.ability && actor.windup.target === command.target;
   }
+  // Whom an effect can be aimed at, of the kind it needs when the whole ability needs one.
+  private reachable(effect: ArenaAbility['effects'][number], actor: Fighter, kind: boolean): Fighter[] {
+    return Targeting.candidates(effect.target, actor, this.fighters)
+      .filter(f => !kind || f.traits?.includes(effect.targetTrait!));
+  }
   private commandsFor(actor: Fighter): Command[] {
     const taunters = actor.statuses.filter(s => Effects.status(s.id).forceTarget && s.by)
       .map(s => s.by!).filter(id => this.fighters.some(f => f.id === id && f.hp > 0));
     const commands = this.usable(actor).flatMap(ability => {
       const selected = ability.effects.filter(effect => Targeting.selected(effect.target));
-      if (ability.effects.some(effect => !Targeting.candidates(effect.target, actor, this.fighters).length)) {
-        return [];
-      }
+      // An ability that only works on one kind of creature (charm on people, turn undead on the dead) is offered
+      // only against that kind, and not at all when there is none.
+      const kind = ability.effects.every(effect => effect.targetTrait);
+      if (ability.effects.some(effect => !this.reachable(effect, actor, kind).length)) { return []; }
       const targets = selected.length ? this.fighters.filter(target => selected.every(effect =>
-        Targeting.candidates(effect.target, actor, this.fighters).some(f => f.id === target.id))) : [actor];
+        this.reachable(effect, actor, kind).some(f => f.id === target.id))) : [actor];
       return targets.map(target => ({ actor: actor.id, ability: ability.id, target: target.id }));
     });
     const forced = commands.filter(c => taunters.includes(c.target));

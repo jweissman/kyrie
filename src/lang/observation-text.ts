@@ -29,14 +29,17 @@ export class ObservationText {
   static scope(text: string, transform: (call: Call) => Call, id?: (value: string) => string): string {
     return this.map(text, call => `{${World.format(transform(call))}}`, value => `{${id ? id(value) : value}}`);
   }
-  static label(world: World, id: string): string {
+  // An entity's name, which may itself name others, or what the rule speaking of it bound ("{?g} stands its ground").
+  static label(world: World, id: string, binding: Record<string, string> = {}): string {
     const entity = world.module.entities.find(e => e.id === id);
     if (!entity) { return id; }
     const name = entity.type === 'group' ? entity.name.split(', ')[0]! : entity.name;
-    return name.includes('{') ? this.map(name, call => World.format(call), ref => this.label(world, ref)) : name;
+    return name.includes('{') ? this.map(name, call => World.format(call),
+      ref => this.label(world, binding[ref] ?? ref, binding)) : name;
   }
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
-    const rendered = this.map(text, call => String(world.number(call)), id => this.label(world, binding[id] ?? id));
+    const rendered = this.map(text, call => String(world.number(call)),
+      id => this.label(world, binding[id] ?? id, binding));
     return capitalize ? this.sentences(rendered) : rendered;
   }
   // Names are lower-case nouns ("the rising river"); a sentence that starts with one is capitalized.

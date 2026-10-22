@@ -1,4 +1,9 @@
 {
+  "temperaments": {
+    "about": "How a monster meets a company that comes where it lives, when its species does not say (an animal without its own temperament has none): beasts and elementals hold their ground, the dead and demons fall on the living, aberrations lie in wait, constructs keep their posts, dragons name a price, the fey slip away, celestials defend.",
+    "beast": "territorial", "elemental": "territorial", "giant": "territorial", "undead": "savage", "demon": "savage",
+    "aberration": "ambush", "construct": "obedient", "dragon": "proud", "fey": "wary", "celestial": "defensive"
+  },
   "about": "Species: kinds of creature statted by their own nature rather than by an adventuring class. type is the creature classification; traits are nature traits that carry mechanics. statistics give the natural weapon and armour (Orsino weapon and armour entries), the hit die and a fixed or rolled stat line. A variant names its base species with variantOf and overrides only the fields it declares. A species creature has no class.",
   "species": {
     "wisp": {

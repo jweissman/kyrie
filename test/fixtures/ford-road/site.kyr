@@ -8,9 +8,11 @@ Module ford_road "A road, a ford and a tidal causeway" {
   Place ford "the ford" is room within fen at 0, 0.
   Place mill "the tide mill" is room within isle at 0, 0.
   Place copse "the copse" is room within village at 0, 1.
+  Place thicket "the thicket" is room within fen at 1, 0.
   Passage road "the marsh road" is road between green and ford taking 1 hour.
   Passage causeway "the tidal causeway" is causeway between ford and mill taking 1 hour.
   Passage lane "the copse lane" is path between green and copse taking 30 minutes.
+  Passage brake "the brake" is path between green and thicket taking 30 minutes.
   Thing tide "the tide" on causeway {
     State out "The tide is out, and the causeway runs dry across the flats.".
     State in blocking "The tide is in over the causeway.".
@@ -26,11 +28,14 @@ Module ford_road "A road, a ford and a tidal causeway" {
   Person dog "a wild dog" at copse { Role "a dog gone wild". Species wolf. }
   Initially Assert temperament(dog, temper_savage). Initially Assert onslaught(dog, dog_comes).
   Entity dog_comes: fact "A wild dog comes out of the hazel at a run, low and silent.".
+  Person brock "an old badger" at mill { Role "a badger under the mill". Species badger. }
+  Person owlbear "an owlbear" at thicket { Role "a beast of the thicket". Species owlbear. }
   Relation seenOnRoad(group).
   Rule road_seen when enRoute(?c, road) and not seenOnRoad(?c) { Assert seenOnRoad(?c). }
   Observe green_scene at green when true "Geese on the green.".
   Observe ford_scene at ford when true "Reeds, and the water running over stones.".
   Observe mill_scene at mill when true "A mill whose wheel turns with the tide.".
   Observe copse_scene at copse when true "Hazel, and a path trodden by something on four legs.".
+  Observe thicket_scene at thicket when true "Bramble and thorn, and feathers on the thorns.".
   Goal false.
 }

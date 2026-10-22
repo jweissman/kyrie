@@ -49,14 +49,26 @@ export class CreatureFacts {
         'value' in c && c.value.kind !== 'call' && World.literal(c.value) !== world.number(c.call));
     return different.length ? world.apply(different) : world;
   }
-  // A group of one species takes its species' temperament, unless the place has given it one.
+  // A group of one species takes its species' temperament, unless the place has given it one; and a group the place
+  // has given no words of its own (and whose meeting with the company it has not scripted in states) speaks in the
+  // plain words of its temperament.
   private static temperament(world: World, group: string, members: Creature[]): Change[] {
-    const kinds = new Set(members.map(c => Canon.isSpecies(c.raceId)
-      ? Canon.creature(c.raceId).temperament : undefined));
-    const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined;
-    if (kinds.size !== 1 || !kind || !world.module.entities.some(e => e.id === kind && e.type === 'temperament')
-      || world.test(ModuleWriter.call('temperament', group, '?t'))) { return []; }
-    return [{ kind: 'assert', call: ModuleWriter.call('temperament', group, kind) }];
+    const kinds = new Set(members.map(c => Canon.temperament(c.raceId)));
+    const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, relations = world.snapshot.relations;
+    const given = relations.find(r => r.name === 'temperament' && r.args[0] === group)?.args[1];
+    const own = kinds.size === 1 && kind && world.module.entities.some(e => e.id === kind && e.type === 'temperament');
+    const temper = given ?? (own ? kind : undefined);
+    if (!temper) { return []; }
+    const scripted = relations.some(r => r.name === 'state' && r.args[0] === group);
+    const words = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
+      // The shared words live in whichever installation joined the inhabitants rules first.
+      const plain = `${temper.replace(/^temper_/, 'temper_words_')}_${name}`;
+      const entity = world.module.entities.find(e => e.id === plain || e.id.endsWith(`__${plain}`));
+      return relations.some(r => r.name === name && r.args[0] === group) || !entity ? []
+        : [ModuleWriter.call(name, group, entity.id)];
+    });
+    return [...given ? [] : [ModuleWriter.call('temperament', group, temper)], ...words]
+      .map(call => ({ kind: 'assert' as const, call }));
   }
   // What the world declares that the projection writes about: which relations it has, and its capabilities,
   // items, item kinds, member bindings and abilities.

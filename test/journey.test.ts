@@ -44,6 +44,15 @@ describe('journeys', () => {
     expect(arrival.combat.some(e => e.type === 'end')).toBe(true);
     expect(Ford.said(arrival.prelude ?? {})).toContain('out of the hazel');
   });
+  it('gives a creature the place gave no words the plain words of its temperament', async () => {
+    const s = await Ford.start();
+    const arrival = await s.perform('go(world__brake,world__thicket)');
+    expect(Ford.said(arrival)).toContain('An owlbear stands its ground and watches you.');
+    expect(arrival.combat).toEqual([]);
+    const stayed = await s.perform('wait_hour');
+    expect(stayed.combat.some(e => e.type === 'end')).toBe(true);
+    expect(Ford.said(stayed.prelude ?? {})).toContain('An owlbear comes at you.');
+  });
   it('turns the company back when the way closes under it', async () => {
     const s = await Ford.start();
     await s.perform('go(world__road,world__ford)');

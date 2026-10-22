@@ -81,6 +81,13 @@ export class Canon {
     const { variantOf, ...changes } = own;
     return { ...this.creature(variantOf, [...seen, id]), ...changes, variantOf };
   }
+  // How a species meets a company: its own temperament, or for a monster the one its type has. An animal without
+  // its own (a hare, a moth) has none, and lets the company be.
+  static temperament(id: string): string | undefined {
+    if (!this.isSpecies(id)) { return undefined; }
+    const s = this.creature(id), byType = species.temperaments as Record<string, string>;
+    return s.temperament ?? (s.kind === 'monster' ? byType[s.type ?? ''] : undefined);
+  }
   static isAncestry(id: string): boolean { return Object.hasOwn(this.ancestries, id); }
   static isSpecies(id: string): boolean { return Object.hasOwn(this.species, id); }
 }

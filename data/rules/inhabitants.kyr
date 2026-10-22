@@ -18,6 +18,18 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // What drives it off (sunlight, flame), and the price a proud one names.
   Relation fears(group, capability). Measure tribute(group).
   Relation warned(group, group). Relation yielded(group, group).
+  // Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>.
+  Entity temper_words_territorial_warning: fact "{?g} stands its ground and watches you. It will not have you here for long.".
+  Entity temper_words_territorial_onslaught: fact "{?g} comes at you.".
+  Entity temper_words_defensive_warning: fact "{?g} will not let you come any nearer.".
+  Entity temper_words_defensive_onslaught: fact "{?g} comes at you to drive you off.".
+  Entity temper_words_savage_onslaught: fact "{?g} comes at you without a sound.".
+  Entity temper_words_ambush_warning: fact "Something is waiting here, and you see it before it moves: {?g}.".
+  Entity temper_words_ambush_onslaught: fact "{?g} springs out at you.".
+  Entity temper_words_obedient_onslaught: fact "{?g} comes at you, as it was made to.".
+  Entity temper_words_wary_flinch: fact "{?g} slips away from you.".
+  Entity temper_words_wary_onslaught: fact "Cornered, {?g} turns on you.".
+  Entity temper_words_proud_warning: fact "{?g} looks at you as if you owed it something.".
   // Watches it waits, once it has warned, before it comes at whoever stays.
   Measure patience(group).
   Query confronts(g: group, c: group) means together(g, c) and company(c) and able(g) and not routed(g)
