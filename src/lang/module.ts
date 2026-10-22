@@ -72,6 +72,14 @@ export interface Module {
   id: string; name: string; description: string; kinds: string[]; entities: Entity[];
   relations: Signature[]; measures: Signature[]; queries: Query[]; initial: Change[];
   goal: Predicate; actions: Operator[]; budget: NumberValue;
+  // The land of each region with one, by the region's id: what its map is drawn from.
+  charts?: Record<string, LandChart>;
+}
+// A region's land for its map: each cell's cover in one string (row by row), the cells of its rivers, of each road
+// (by its way), of each part of its wild country (by room), and the cell of each place on it.
+export interface LandChart {
+  width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
+  parts: Record<string, number[]>; places: Record<string, number>;
 }
 export interface WorldState {
   relations: Call[];

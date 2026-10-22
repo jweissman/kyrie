@@ -40,7 +40,8 @@ describe('a generated region is peopled', () => {
     expect(names[other.people!.innkeeper!]).toContain(other.innkeeper);
   });
   it('writes each townsperson as of their own people', () => {
-    const region = RegionPeoples.settle(Peopled.region(3), 'mix-3'), source = RegionWriter.source(region);
+    const region = RegionPeoples.settle(WorldAssembler.lay(Peopled.region(3), 'holt3'), 'mix-3');
+    const source = RegionWriter.source(region);
     const s = region.settlements[1]!;
     expect(source).toContain(`Person ${s.id}_innkeeper "${s.innkeeper}" at ${s.id}_taproom { Role "innkeeper". `
       + `Ancestry ${s.people!.innkeeper}.`);

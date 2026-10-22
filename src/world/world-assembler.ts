@@ -14,8 +14,10 @@ import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
-import { Composition, type KitEntry } from './compose/composition';
-import { Kits } from './compose/kit';
+import type { KitEntry } from './compose/composition';
+import { Atlases, type Atlas } from './land/atlas';
+import type { Seat as Seated } from './land/settling';
+import type { Settlement } from './region-writer';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
 // way in that stays hidden until someone hears of it, and what people say about it.
@@ -40,8 +42,6 @@ export interface Placement {
 export interface WorldReport {
   seed: string; region: Region; context: Record<string, string>;
   eligibility: { scenario: string; fits: boolean; why?: string }[]; placements: Placement[]; contacts: Contact[];
-  // What the assembler asked Deem for when a kit could not be placed in the region as first generated.
-  requests: string[];
 }
 interface Entry { path: string; manifest: ScenarioManifest }
 
@@ -66,8 +66,8 @@ export class WorldAssembler {
     party?: CreatureGenerationContext[];
     framework?: string | null;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
-    const drawn = new Content(RandomStreams.key(seed, 'world', 'region')).generate('region', options.region ?? {});
-    const region = PlaceNames.render(RegionPeoples.settle(drawn as unknown as Region, RandomStreams.key(seed, 'world')));
+    const drawn = new Content(RandomStreams.key(seed, 'world', 'region')).generate('region', options.region ?? {}) as unknown as Region;
+    const region = PlaceNames.render(RegionPeoples.settle(this.lay(drawn, seed), RandomStreams.key(seed, 'world')));
     const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
@@ -106,8 +106,7 @@ export class WorldAssembler {
     this.arrival(region, { size: party.length, contacts }, { files, root, modules });
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
-    const requests = await this.settle(framework, { base, files, root, region, placements, modules, seed,
-      company: { size: party.length, contacts } });
+    this.write(region, { files, root, placements, company: { size: party.length, contacts } });
     const kits = framework.map(k => ({ ...k, optional: true }));
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       calendar: region.calendar,
@@ -116,8 +115,54 @@ export class WorldAssembler {
         + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '
         + 'Choose three companions.' } });
     return { path, source: new OverlayBundleSource(base, files),
-      report: { seed, region, context, placements, contacts, requests,
+      report: { seed, region, context, placements, contacts,
         eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
+  }
+  // A region drawn by Deem laid on land of its own: its atlas, its settlements where people settled, and its sites
+  // where each kind can stand (those that can stand nowhere left out).
+  static lay(drawn: Region, seed: string): Region {
+    const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
+      { tongue: PlaceNames.tongues[drawn.ancestry] ?? 'westron', taken: [drawn.name] });
+    const region = this.seat(drawn, atlas, seed);
+    region.sites = region.sites.map(site => ({ ...site }))
+      .filter(site => this.situate(region, site, RandomStreams.key(seed, 'world', 'spot', site.id)));
+    return region;
+  }
+  // The region's settlements where its atlas settled people, the first the town; each lives by what lies around it.
+  private static seat(region: Region, atlas: Atlas, seed: string): Region {
+    const used = new Set<string>();
+    const settlements = atlas.seats.map((seat, i) => {
+      const drawn = region.settlements[i] ?? new Content(RandomStreams.key(seed, 'world', 'settlement', i))
+        .generate('settlement', { terrain: region.terrain, ancestry: region.ancestry, _index: i }) as unknown as Settlement;
+      return { ...drawn, id: `s${i + 1}`, size: seat.size, cell: seat.cell, ...this.livelihood(region, seat, { drawn, used }) };
+    });
+    return { ...region, atlas, settlements };
+  }
+  // What a settlement lives by, from what lies around it: the sea, a fen, the fells, woods, moor or fields.
+  static readonly livelihoods: Record<string, Partial<Record<Seated['lie'][number], string>>> = {
+    forest: { harbour: 'salt', coast: 'salt', fen: 'reed', fells: 'slate', woods: 'timber', heath: 'honey', meadows: 'honey' },
+    marsh: { harbour: 'salt', coast: 'salt', fen: 'eels', fells: 'slate', woods: 'charcoal', meadows: 'reed' },
+    mountain: { harbour: 'salt', coast: 'salt', fen: 'peat', fells: 'tin', woods: 'charcoal', heath: 'wool', meadows: 'wool' },
+    frost: { harbour: 'whale oil', coast: 'whale oil', fen: 'peat', fells: 'slate', woods: 'furs', heath: 'furs' } };
+  // The most telling of what lies around it (the sea before the fen, the fen before the fells, the fells before the
+  // woods), and one its neighbours do not already live by when it can.
+  private static livelihood(region: Region, seat: Seated, at: { drawn: Settlement; used: Set<string> }):
+    Pick<Settlement, 'trade' | 'merchantType'> {
+    const table = this.livelihoods[region.terrain] ?? {};
+    const fits = (Object.keys(table) as Seated['lie'][number][]).filter(l => seat.lie.includes(l)).map(l => table[l]!);
+    const trade = fits.find(t => !at.used.has(t)) ?? fits[0] ?? at.drawn.trade;
+    at.used.add(trade);
+    const merchants = (GenerationSetting.tables as unknown as { tradeMerchant: { groups: Record<string, string[]> } })
+      .tradeMerchant.groups[trade];
+    return { trade, merchantType: merchants?.[0] ?? at.drawn.merchantType ?? 'chandler' };
+  }
+  // A site's cell in the region's land, by what kind of site it is; one that can stand nowhere is left out.
+  private static situate(region: Region, site: Site, key: string): boolean {
+    const atlas = region.atlas!, taken = region.sites.filter(s => s !== site && s.cell !== undefined).map(s => s.cell!);
+    const spot = Atlases.place(atlas, site.kind, { key, taken });
+    if (!spot) { return false; }
+    Object.assign(site, spot);
+    return true;
   }
   // Why the company came, written as a module of its own (see RegionRecruits.arrival).
   private static arrival(region: Region, company: { size: number; contacts: Contact[] },
@@ -129,34 +174,13 @@ export class WorldAssembler {
     at.modules.push({ id: 'arrival', bundle: `${at.root}/arrival/module.json`, imports: arrival.imports });
   }
   static readonly frontier = 'data/frameworks/frontier.json';
-  // Writes the region and composes the framework's kits against it. A kit refused for want of a place gets one more
-  // site from Deem's site generator, and the region is written again: at most twice. Kits still refused are left out
-  // of the world (they are optional there), and the trace says why.
-  private static async settle(kits: KitEntry[], at: { base: BundleSource; files: Record<string, string>; root: string;
-    region: Region; placements: Placement[]; modules: BundleRequest[]; seed: string;
-    company: { size: number; contacts: Contact[] } }): Promise<string[]> {
-    const { base, files, root, region, seed } = at, asked: string[] = [];
-    for (let attempt = 0; ; attempt++) {
-      files[`${root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(at.placements)));
-      files[`${root}/region/region.kyr`] = RegionWriter.source(region, at.company);
-      if (!kits.length || attempt === 2) { return asked; }
-      const modules = at.modules.map(m => ({ ...m, bundle: base.resolve(m.bundle) }));
-      const composed = await Composition.expand([...modules, ...kits.map(k => ({ ...k, optional: true }))],
-        { seed, source: new OverlayBundleSource(base, files) });
-      // Only the first refusal can be helped: later kits may stand on what it would have placed. A site helps only
-      // a slot filled by a place off the roads.
-      const first = composed.refused[0], slot = first && /nothing can be (\w+)/.exec(first.reason)?.[1];
-      const kit = first ? await Kits.load(base, kits.find(k => k.id === first.id)!.kit) : undefined;
-      if (!first || !slot || !kit?.manifest.slots[slot]?.is.includes('waypoint(')) { return asked; }
-      const site = this.anySite(region, RandomStreams.key(seed, 'world', 'kit-site', first.id, attempt));
-      site.near = region.settlements[region.sites.length % region.settlements.length]!.id;
-      region.sites.push(site);
-      asked.push(`${first.id}: ${first.reason}; Deem proposes ${site.name} (${site.kind})`);
-    }
-  }
-  private static anySite(region: Region, seed: string): Site {
-    const site = new Content(seed).generate('site', { terrain: region.terrain }) as unknown as Site;
-    return PlaceNames.another(region, { ...site, id: `w${region.sites.length + 1}` }, seed);
+  // Writes the region, its module and its manifest. The framework's kits are composed against it as the campaign
+  // loads: wild country gives a kit the places off the roads it wants, and one refused all the same is left out of the
+  // world (they are optional there), the trace saying why.
+  private static write(region: Region, at: { files: Record<string, string>; root: string; placements: Placement[];
+    company: { size: number; contacts: Contact[] } }) {
+    at.files[`${at.root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(at.placements)));
+    at.files[`${at.root}/region/region.kyr`] = RegionWriter.source(region, at.company, this.taken(at.placements));
   }
   // A framework's kits, with their paths made absolute, to be composed into the campaign when it loads.
   private static async framework(base: BundleSource, file: string): Promise<KitEntry[]> {
@@ -242,7 +266,7 @@ export class WorldAssembler {
         if (!site) {
           const key = RandomStreams.key(seed, 'world', 'site', instance, role);
           site = PlaceNames.another(region, need.site.map(kind => this.newSite(region, kind, key)).find(Boolean)!, key);
-          site.near = region.settlements[region.sites.length % region.settlements.length]!.id;
+          this.situate(region, site, RandomStreams.key(seed, 'world', 'spot', instance, role));
           region.sites.push(site); generated.push(site.id);
         }
         claimed.add(site.id); bindings[role] = site.id;
@@ -330,7 +354,8 @@ export class WorldAssembler {
     });
   }
   // The module that spreads word of a placed scenario: each hook is an established fact, known to carriers in the
-  // settlement nearest it and the next one along, offered as something to ask about; any of them reveals the way in.
+  // settlement nearest it and its neighbour along the road, offered as something to ask about; any of them reveals
+  // the way in.
   private static word(s: ScenarioManifest, placement: Placement, at: { region: Region; contacts: Contact[] }) {
     const { region, contacts } = at;
     const hooks = s.hooks ?? [];
@@ -340,7 +365,10 @@ export class WorldAssembler {
     const site = region.sites.find(w => w.id === placement.bindings[firstSite ?? '']);
     const home = site ? RegionWriter.near(region, site)
       : region.settlements.find(t => Object.values(placement.bindings).includes(t.id)) ?? region.settlements[0]!;
-    const towns = [home, region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!];
+    // Word goes from the settlement nearest the trouble to its neighbour along the road.
+    const road = RegionGeography.roads(region).find(r => r.from.id === home.id || r.to.id === home.id);
+    const towns = [home, road ? (road.from.id === home.id ? road.to : road.from)
+      : region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!];
     const imports: Record<string, string> = { party: `${RegionWriter.id}.party` }, lines: string[] = [];
     lines.push(`Module word_${placement.instance} ${q(`Word of ${s.name}`)} {`, '  Entity party: group "Your company".');
     // Local names are prefixed so they cannot shadow a rule's parameter names (site, way…).

@@ -1,7 +1,8 @@
 import tongues from 'languages';
 import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
-import { RegionLand } from './region-land';
+import { RegionLand, type Landmark } from './region-land';
+import type { Naming } from './land/land-names';
 import type { Region, Site } from './region-writer';
 
 interface Named { name: string; feature?: string; affix?: string; gloss?: string; tongue?: string }
@@ -31,12 +32,26 @@ export class PlaceNames {
     const tables = GenerationSetting.tables as unknown as Tables;
     const features = tables.placeFeature.groups[region.terrain] ?? [];
     const affixes = tables.placeAffix.groups[region.terrain] ?? [];
-    const named = { ...region, ...this.named(region, tongue) }, taken = [named.name], parts = new Set<string>();
+    const named = { ...region, ...this.named(region, tongue) }, parts = new Set<string>();
+    const taken = [named.name, ...this.landmarks(region).map(l => l.name)];
     // A settlement is named in its own folk's tongue: a dwarf hold in human country has a Khuzdul name.
     const settlements = region.settlements.map(s => ({ ...s, ...this.distinct(s, this.tongues[s.folk ?? ''] ?? tongue,
       { taken, parts, rng, features, affixes, english: this.joined }) }));
     const sites = region.sites.map(s => this.site(s, { region: named, tongue, taken, parts, rng }));
-    return { ...named, settlements, sites, land: RegionLand.shape(region.terrain, tongue, `${seed}:land`, taken) };
+    return { ...named, settlements, sites, land: region.atlas ? this.landmarks(region)
+      : RegionLand.shape(region.terrain, tongue, `${seed}:land`, taken) };
+  }
+  // The land a region is known by, from its atlas: its great river and lake, its largest wood, the pass its roads
+  // climb, its highest peak.
+  static landmarks(region: Region): Landmark[] {
+    const atlas = region.atlas;
+    if (!atlas) { return []; }
+    const wood = atlas.zones.find(z => z.wild === 'wood'), pass = atlas.ways.find(w => w.over)?.over;
+    const peak = atlas.zones.find(z => z.peak)?.peak?.naming;
+    const found: [Landmark['form'], Naming | undefined][] = [['river', atlas.rivers[0]?.naming],
+      ['lake', atlas.lakes[0]?.naming], ['wood', wood?.naming], ['pass', pass], ['peak', peak]];
+    return found.filter((f): f is [Landmark['form'], Naming] => !!f[1])
+      .map(([form, n]) => ({ id: form, form, name: n.name, gloss: n.gloss, tongue: n.tongue, modifier: n.modifier }));
   }
   // A site named after the region was: one a scenario asked for, kept as distinct as the rest.
   static another(region: Region, site: Site, seed: string): Site {

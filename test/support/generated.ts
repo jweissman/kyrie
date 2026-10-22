@@ -12,6 +12,21 @@ export class GeneratedWorld {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${place}`) }]));
   }
+  // Walks the company to a place by the shortest way the world joins them, taking each way as the company can.
+  static async travel(s: PlaySession, place: string) {
+    const world = s.campaign.world, target = `region__${place}`, links = world.related('connects');
+    const start = world.one('at', 'party')!, came = new Map<string, [string, string]>([[start, ['', '']]]);
+    for (const queue = [start]; queue.length && !came.has(target);) {
+      const here = queue.shift()!;
+      for (const l of links.filter(r => r.args[1] === here && !came.has(r.args[2]!))) {
+        came.set(l.args[2]!, [here, l.args[0]!]); queue.push(l.args[2]!);
+      }
+    }
+    if (!came.has(target)) { throw new Error(`No way from ${start} to ${target}`); }
+    const steps: [string, string][] = [];
+    for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
+    for (const [passage, to] of steps) { await s.perform(`go(${passage},${to})`); }
+  }
   // The first person who carries word of a placement, and the room they are found in.
   static carrier(placement: Placement): { id: string; room: string } {
     const id = Object.values(placement.carriers).flat()[0]!;

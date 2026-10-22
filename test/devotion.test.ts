@@ -7,10 +7,12 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { Canon } from '../src/canon/canon';
 import { RegionFaith } from '../src/world/region-faith';
 import { GeneratedWorld } from './support/generated';
+import { RegionGeography } from '../src/world/region-geography';
 
 // A shrine as Orsino's shrine is: coin left and the observance kept, and the god's favour (its faith's blessing) goes
 // with the one it was asked for into their next ten turns of fighting; a good god heals a little, another hurts a
-// little. Once a day at each shrine. Thorn: Merscheald keeps Belenus (light); Wǽtwaeter, on the mere, Coventina.
+// little. Once a day at each shrine. Thorn: Merscheald keeps Belenus (light); Wǽtwaeter, by the ford of the Wīdex,
+// keeps Boann of the waters.
 class Shrine {
   static async start() {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared);
@@ -26,11 +28,17 @@ class Shrine {
 
 describe('a shrine in a generated region', () => {
   it('is a god of the land kept in a form, with a practice and a history', async () => {
-    const { w } = await Shrine.start(), cults = RegionFaith.cults(w.report.region);
-    expect(cults.map(c => [c.name, c.domain])).toEqual([['Belenus', 'light'], ['Belenus', 'light'],
-      ['Coventina', 'nature']]);
-    expect(cults[2]).toMatchObject({ title: 'Goddess of Nature', form: 'fountain' });
-    expect(cults[2]!.history).toContain('Wannclaene');
+    const { w } = await Shrine.start(), region = w.report.region, cults = RegionFaith.cults(region);
+    expect(cults[0]).toMatchObject({ name: 'Belenus', domain: 'light' });
+    // Wǽtwaeter's road fords the Wīdex, and it keeps the river's goddess.
+    const i = cults.findIndex(c => c.name !== 'Belenus'), town = region.settlements[i]!;
+    const river = RegionGeography.roads(region).find(r => r.form?.form === 'river'
+      && (r.from.id === town.id || r.to.id === town.id))!.form!.name;
+    expect(cults[i]).toMatchObject({ name: 'Boann', title: 'Goddess of Oceans', form: 'fountain' });
+    // Its history is the river's: how the shrine came to stand by the ford.
+    const told = RegionFaith.tables.shrineHistory.groups.river!.map(t => t.replaceAll('{land}', `the ${river}`)
+      .replaceAll('{town}', town.name).replaceAll('{country}', 'fen'));
+    expect(told).toContain(cults[i]!.history);
   }, 60000);
   it('gives the god\'s favour for an offering, once a day', async () => {
     const { s } = await Shrine.start();
@@ -51,11 +59,12 @@ describe('a shrine in a generated region', () => {
     expect(Shrine.offers(s)).toHaveLength(3);
   }, 60000);
   it('hurts a little at a god\'s shrine that is not good', async () => {
-    const { s } = await Shrine.start();
-    GeneratedWorld.put(s, 's3_shrine');
+    const { w, s } = await Shrine.start(), cults = RegionFaith.cults(w.report.region);
+    const i = cults.findIndex(c => Canon.domains[c.domain]?.alignment !== 'good');
+    GeneratedWorld.put(s, `${w.report.region.settlements[i]!.id}_shrine`);
     await s.perform('wait');
     const e = await Shrine.offer(s, 'member_party_2');
     expect((e.combat ?? []).some(x => x.type === 'damage' && x.target === 'region__party_2')).toBe(true);
-    expect(Shrine.member(s, 'region__party_2').state.conditions.map(c => c.id)).toContain('favor_nature');
+    expect(Shrine.member(s, 'region__party_2').state.conditions.map(c => c.id)).toContain(`favor_${cults[i]!.domain}`);
   }, 60000);
 });

@@ -97,6 +97,7 @@ export class ModuleInstallations {
       observations: [...(base?.observations ?? []), ...(incoming.observations ?? [])],
       objectives: [...(base?.objectives ?? []), ...(incoming.objectives ?? [])],
       initial: [...(base?.initial ?? []), ...incoming.initial], actions: schemas,
+      ...base?.charts || incoming.charts ? { charts: { ...base?.charts, ...incoming.charts } } : {},
       goal: { kind: 'boolean', value: false }, budget: ModuleWriter.number(0) };
   }
   static prepare(base: Instance | undefined, draft: ModuleDraft, elapsed: number): Instance {

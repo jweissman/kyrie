@@ -7,25 +7,32 @@ import { ObservationText } from '../src/lang/observation-text';
 import { ModuleParser } from '../src/lang/module-parser';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { GeneratedWorld } from './support/generated';
+import { RegionGeography } from '../src/world/region-geography';
 
 // A place is called what a stranger would call it (a lone tower, a grassed mound) until the company learns its name:
 // from the people who live near it, or from the name cut over the door of an old site. Thorn: Palusporta, Aenean for
-// "marsh gate", is fallen walls in the fen north of Merscheald, where the innkeeper Elinde knows its name.
+// "marsh gate", is fallen walls in a wood, and the innkeeper of the settlement nearest it knows its name.
 class Named {
+  static world?: Awaited<ReturnType<typeof WorldAssembler.assemble>>;
   static async start() {
-    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared);
+    const w = this.world ??= await WorldAssembler.assemble('thorn', NodeBundleSource.shared);
     return PlaySession.start(w.path, 'thorn', w.source);
+  }
+  // The settlement whose people know w1, and who keeps its inn.
+  static near() {
+    const region = this.world!.report.region;
+    return RegionGeography.near(region, region.sites.find(w => w.id === 'w1')!);
   }
   static names(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
 }
 
 describe('a place the company has not learned the name of', () => {
   it('is said as it is seen, in choices and in text, until someone names it', async () => {
-    const s = await Named.start();
-    GeneratedWorld.put(s, 's1_taproom');
+    const s = await Named.start(), town = Named.near();
+    GeneratedWorld.put(s, `${town.id}_taproom`);
     await s.perform('wait');
     expect(ObservationText.label(s.campaign.world, 'region__w1')).toBe('the fallen walls');
-    expect(Named.names(s)).toContain('Ask Elinde about the fallen walls');
+    expect(Named.names(s)).toContain(`Ask ${town.innkeeper} about the fallen walls`);
     expect(Named.names(s).some(n => n.includes('Palusporta'))).toBe(false);
     const e = await s.perform('region__w1_asked');
     expect([e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' ')).toContain('The old tongue: marsh gate.');

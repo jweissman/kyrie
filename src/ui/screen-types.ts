@@ -89,6 +89,10 @@ export interface RegionChart {
   edges: { from: string; to: string; label: string; status: string }[];
   // The area each known place lies in, so a journey to a place can be drawn between areas.
   within: Record<string, string>;
+  // The region's land, as far as the company knows it: every cell's cover, the rivers and the known roads' cells,
+  // and which cells it knows.
+  land?: { width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
+    known: number[] };
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;

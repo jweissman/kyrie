@@ -8,6 +8,9 @@ import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
+import { RegionGeography } from '../src/world/region-geography';
+import { RegionWeather } from '../src/world/region-weather';
+import { Atlases } from '../src/world/land/atlas';
 
 // A generated region's names and land: no two places so alike a traveller could take one for the other, and a river,
 // a pass and a peak that are places on the way, not words in a description.
@@ -48,27 +51,52 @@ describe('a generated region keeps its places apart', () => {
 });
 
 describe('a generated region lies on real land', () => {
-  it('fords its river on the first road and climbs its pass on the second, with its peak above', () => {
-    const region = PlaceNames.render(Land.region('mountain'), 'fells'), source = RegionWriter.source(region);
-    const [river, peak, pass] = ['river', 'peak', 'pass'].map(f => region.land!.find(l => l.form === f)!);
-    expect(source).toContain(`Passage road_s1_s2_on "the ford of the ${river!.name}" is ford between s1_s2_way and s2_green`);
-    expect(source).toMatch(/Passage road_s2_s3 "[^"]+" is road between s2_green and s2_s3_way taking 2 hours/);
-    expect(source).toContain(`Place summit "the top of ${peak!.name}" is room within s2_s3_land`);
-    expect(source).toContain(`Rule pass_night when at(party, s2_s3_way) and dark()`);
-    // The settlements stand along the road, west to east, with the land between them.
-    expect(source).toContain('is settlement within region at 8, 2.');
-    expect(source).toContain(`Place s2_s3_land "the ${pass!.name}" is wilderness within region at 6, 2.`);
-    // A ford and a pass are where a road can be held; a summit is known to everyone.
-    const { assembly } = RegionWriter.manifest(region) as { assembly: { commitments: string[][] } };
-    expect(assembly.commitments).toEqual(expect.arrayContaining([['chokepoint', 's1_s2_way'],
-      ['chokepoint', 's2_s3_way'], ['landmark', 'summit']]));
-    // From the summit the whole region can be seen where it lies, and the ford below.
-    expect(source).toMatch(/From the top of [^:]+: .*to the west.* winding down to its ford, west of you/);
+  it('drains its rivers downhill, settles its town by water, and joins every settlement by road', () => {
+    const region = PlaceNames.render(WorldAssembler.lay(Land.region('mountain'), 'fells')), atlas = region.atlas!;
+    // Each river runs from cell to cell the way its water drains, and every lake lies in a hollow.
+    for (const r of atlas.rivers) {
+      r.cells.slice(0, -1).forEach((c, i) => expect(atlas.land.water.to[c]).toBe(r.cells[i + 1]));
+    }
+    expect(atlas.seats[0]!.lie.some(l => ['river', 'coast', 'lake'].includes(l))).toBe(true);
+    const joined = new Set([0]);
+    for (let pass = 0; pass < atlas.ways.length; pass++) {
+      for (const w of atlas.ways.filter(x => joined.has(x.start) || joined.has(x.end))) {
+        joined.add(w.start); joined.add(w.end);
+      }
+    }
+    expect(joined.size).toBe(region.settlements.length);
+    // A road over the fells climbs a pass, cold after dark; one that fords a river can be swept by it.
+    const source = RegionWriter.source(region), roads = RegionGeography.roads(region);
+    for (const r of roads.filter(x => x.route.over)) { expect(source).toContain(`Rule ${r.way}_night when at(party, ${r.way}) and dark()`); }
+    for (const r of roads.filter(x => x.form?.form === 'river' && x.route.crossings[0]?.kind === 'ford')) {
+      expect(source).toContain(`Thing ${r.way}_water`);
+    }
+    // Fords, bridges and passes are where a road can be held; the edge of wild country is known to everyone.
+    const { assembly, chart } = RegionWriter.manifest(region) as { assembly: { commitments: string[][] };
+      chart: { cover: string } };
+    for (const r of roads.filter(x => x.form && x.form.form !== 'wood')) {
+      expect(assembly.commitments).toContainEqual(['chokepoint', r.way]);
+    }
+    for (const z of atlas.zones) { expect(assembly.commitments).toContainEqual(['landmark', `${z.id}_edge`]); }
+    // The map is drawn from the same land.
+    expect(chart.cover).toHaveLength(atlas.land.width * atlas.land.height);
+  });
+  it('puts each site where its kind can stand, and the deep ones out of sight until found or told of', () => {
+    const region = PlaceNames.render(WorldAssembler.lay({ ...Land.region('mountain'), sites: [
+      { id: 'w1', kind: 'cave', name: 'Fern Cave', hours: 1 }, { id: 'w2', kind: 'mine', name: 'Old Delf', hours: 1 },
+      { id: 'w3', kind: 'barrow', name: 'Long Howe', hours: 1 }] }, 'fells'));
+    const cover = region.atlas!.land.cover, source = RegionWriter.source(region);
+    for (const site of region.sites) { expect(Atlases.grounds[site.kind]).toContain(cover[site.cell!]!); }
+    for (const site of region.sites.filter(w => (w.part ?? 0) > 0)) {
+      expect(source).toContain(`hidden until ${site.id}_found`);
+      expect(source).toMatch(new RegExp(`Discovery ${site.id}_found "[^"]+" \\{ Found by searching `));
+    }
   });
   it('is cold on the pass after dark, once a night', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
+    const pass = RegionGeography.roads(w.report.region).find(r => r.route.over)!;
     const s = await PlaySession.start(w.path, 'thorn', w.source);
-    Land.put(s, 'region__s2_s3_way');
+    Land.put(s, `region__${pass.way}`);
     let said = '';
     while (s.campaign.state.elapsed < 90) {
       const e = await s.perform('wait_hour');
@@ -81,19 +109,19 @@ describe('a generated region lies on real land', () => {
 
 describe('a generated region keeps a calendar and weather', () => {
   it('raises its river over the ford the day after rain, so it can only be risked until it falls', async () => {
-    // Thorn: rain on the second day; the Deopstrēam is up on the third, down on the fourth.
-    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared);
-    const s = await PlaySession.start(w.path, 'thorn', w.source);
-    // Watched from Meósdael's bank: a toll band holds the ford's other end.
-    Land.put(s, 'region__s2_green');
-    const crossing = () => PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => /Deopstrēam/.test(n));
+    // Thorn: rain on the second day, so the ford is up on the third; sun on the third, so it is down on the fourth.
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared), region = w.report.region;
+    expect(RegionWeather.schedule(region, region.calendar!).slice(1, 3)).toEqual(['rainy', 'sunny']);
+    const ford = RegionGeography.roads(region).find(r => r.form?.form === 'river' && r.route.crossings[0]?.kind === 'ford')!;
+    const river = ford.form!.name, s = await PlaySession.start(w.path, 'thorn', w.source);
+    Land.put(s, `region__${ford.to.id}_green`);
+    const crossing = () => PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => n.includes(river));
     while (s.campaign.state.elapsed < 290) { await s.perform('wait_hour'); }
-    expect(s.campaign.world.test(ModuleWriter.call('state', 'region__river_water', 'region__spate'))).toBe(true);
-    expect(crossing().some(n => n.startsWith('Risk the Deopstrēam'))).toBe(true);
-    expect(crossing().some(n => n.startsWith('Take the ford of the Deopstrēam'))).toBe(false);
+    expect(s.campaign.world.test(ModuleWriter.call('state', `region__${ford.way}_water`, 'region__spate'))).toBe(true);
+    expect(crossing().some(n => n.startsWith(`Risk the ${river}`))).toBe(true);
+    expect(crossing().some(n => n.startsWith(`Take the ford of the ${river}`))).toBe(false);
     while (s.campaign.state.elapsed < 430) { await s.perform('wait_hour'); }
-    expect(crossing().some(n => n.startsWith('Take the ford of the Deopstrēam'))).toBe(true);
+    expect(crossing().some(n => n.startsWith(`Take the ford of the ${river}`))).toBe(true);
     expect(ScreenModel.build(s.campaign).date?.long).toMatch(/of the Sun and Moon; (spring|summer|autumn|winter)$/);
   }, 60000);
 });
-

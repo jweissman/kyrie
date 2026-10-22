@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'bun:test';
+import { RegionZones } from '../src/world/region-zones';
+import { RegionGeography } from '../src/world/region-geography';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
@@ -142,10 +144,13 @@ describe('kits in generated regions', () => {
     const manifest = await ModuleBundle.campaign(world.path, world.source, seed);
     return { world, placement: manifest.composition!.placements[0]! };
   }
-  it('asks Deem for one more site when the region\'s scenarios have taken every one the kit could use', async () => {
-    const { world, placement } = await generated('fen', 'marsh');
-    expect(world.report.requests[0]).toMatch(/raiders: .*nothing can be approach.*; Deem proposes .+ \(\w+\)/);
-    expect(placement.bindings.approach).toBe(`region__w${world.report.region.sites.length}`);
+  it('holds the raiders off the roads, at a site or in the depths of wild country', async () => {
+    const { world, placement } = await generated('fen', 'marsh'), region = world.report.region;
+    const approach = placement.bindings.approach!.replace('region__', '');
+    const off = [...region.sites.map(w => w.id), ...region.atlas!.zones.flatMap(z => z.parts.slice(1)
+      .map((_, i) => RegionZones.room(z, i + 1)))];
+    expect(off).toContain(approach);
+    expect(RegionGeography.roads(region).map(r => r.way)).not.toContain(approach);
     const s = await PlaySession.start(world.path, 'fen', world.source);
     expect(s.campaign.module.entities.some(e => e.id.startsWith('raidersFolk__'))).toBe(true);
   }, 120000);

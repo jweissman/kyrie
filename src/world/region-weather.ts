@@ -52,11 +52,11 @@ export class RegionWeather {
         + ` Assert state(${thing}, ${days[d]}). }`;
     });
   }
-  // The river is up the day after rain or a storm, and down again the day after that.
+  // The rivers are up the day after rain or a storm, and down again the day after that: at every ford.
   private static river(region: Region, days: string[]): string[] {
-    if (!RegionGeography.roads(region).some(r => r.form?.form === 'river')) { return []; }
-    return this.changes('river_water', days.map((_, d) => d > 0 && ['rainy', 'stormy'].includes(days[d - 1]!)
-      ? 'spate' : 'low'));
+    const spate = days.map((_, d) => d > 0 && ['rainy', 'stormy'].includes(days[d - 1]!) ? 'spate' : 'low');
+    return RegionGeography.roads(region).filter(r => r.form?.form === 'river' && r.route.crossings[0]?.kind === 'ford')
+      .flatMap(r => this.changes(`${r.way}_water`, spate));
   }
   // The weather on each green and road, by day; and the season on each green.
   private static seen(region: Region, start: CalendarStart, kinds: string[]): string[] {

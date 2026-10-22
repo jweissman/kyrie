@@ -90,7 +90,7 @@ describe('a stranger who pays in old coin', () => {
     await Town.act(s, /to come with you$/);
     await Town.act(s, /^Take the door of/);
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-    await s.perform(`go(region__${ruin}_track,region__${ruin})`);
+    await GeneratedWorld.travel(s, ruin);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 10);
     // The old place's name is cut over its door; what it was, the scholar reads.
     expect(ObservationText.label(s.campaign.world, `region__${ruin}`)).not.toMatch(/^(the|a) /);

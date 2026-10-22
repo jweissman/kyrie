@@ -183,6 +183,21 @@ a { color: var(--accent); }
 .region .area.lake .glyph path:first-child { fill: var(--water-faint); }
 .region .area.wood .glyph path { fill: var(--map-faint); }
 .region .area .company { fill: var(--accent); stroke: var(--paper); stroke-width: 2; }
+.region.landed .tile path { fill: none; stroke: var(--map-faint); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.region.landed .tile.wood path { fill: var(--map-faint); fill-opacity: .45; }
+.region.landed .tile.peak path, .region.landed .tile.fell path { stroke: var(--map); stroke-opacity: .6; }
+.region.landed .tile.water rect, .region.landed .tile.sea rect { fill: var(--water-faint); }
+.region.landed .tile.water path, .region.landed .tile.sea path, .region.landed .tile.fen path:last-child { stroke: var(--water); stroke-opacity: .5; }
+.region.landed .river-course { stroke-width: 6; opacity: .6; }
+.region.landed .river-course.lesser { stroke-width: 3.5; }
+.region.landed .road-course { fill: none; stroke: var(--map); stroke-width: 2.5; stroke-dasharray: 9 6; stroke-linecap: round; opacity: .55; }
+.region.landed .route path { stroke-opacity: 0; }
+.backdrop.large:has(svg.landed) { overflow: auto; place-items: start center; }
+.backdrop.large svg.landed { width: auto; height: auto; max-height: none; flex: none; }
+.region.landed .route.going path { stroke-opacity: 1; }
+.region.landed .area .spot { fill: var(--map); }
+.region.landed .area-name { font-size: 21px; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.region.landed .area.settlement .area-name { font-size: 22px; }
 .region .traveller { fill: var(--accent); stroke: var(--paper); stroke-width: 2.5; }
 .reader.travelling .region .area.here .company { opacity: 0; }
 .local .way { stroke: var(--map); stroke-width: 1.4; }

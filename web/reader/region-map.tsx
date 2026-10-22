@@ -1,6 +1,7 @@
 import { memo, useEffect, type CSSProperties } from 'react';
 import type { Chart, RegionChart, Screen } from '../../src/ui/screen-types';
 import type { Travel } from './reader-app';
+import { LandMap } from './land-map';
 
 interface Point { x: number; y: number }
 
@@ -13,11 +14,12 @@ export class RegionMap {
     const region = screen.region;
     // Opened on a phone, a wide region scrolls sideways at a scale that can be read, from where the company is.
     useEffect(() => {
-      if (large) { document.querySelector('.backdrop.large .area.here')?.scrollIntoView({ inline: 'center', block: 'nearest' }); }
+      if (large) { document.querySelector('.backdrop.large .area.here')?.scrollIntoView({ inline: 'center', block: 'center' }); }
     }, [large, region]);
     return (
       <div className={`backdrop${large ? ' large' : ''}${travel ? ' journey' : ''}`} aria-hidden={!large}>
-        {region ? <RegionMap.Region region={region} travel={travel} large={large} /> : screen.chart
+        {region?.land ? <LandMap.View region={region} travel={travel} large={large} />
+          : region ? <RegionMap.Region region={region} travel={travel} large={large} /> : screen.chart
           ? <RegionMap.Local chart={screen.chart} /> : null}
         {large && region && screen.chart && <div className="inset"><RegionMap.Local chart={screen.chart} /></div>}
       </div>

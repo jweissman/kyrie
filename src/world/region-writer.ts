@@ -6,6 +6,9 @@ import { RegionFaith } from './region-faith';
 import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
 import { RegionWeather } from './region-weather';
+import { RegionRoads } from './region-roads';
+import { RegionZones } from './region-zones';
+import type { Atlas } from './land/atlas';
 import type { CalendarStart } from '../presentation/calendar';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
@@ -20,6 +23,8 @@ export interface Settlement extends Naming {
   merchantType?: string;
   // Its folk, each of its people's ancestry, and how a lesser people came to live there (see RegionPeoples).
   folk?: string; people?: Partial<Record<'innkeeper' | 'priest' | 'merchant' | 'traveller', string>>; came?: string;
+  // The cell of the region's atlas it stands on.
+  cell?: number;
 }
 interface MerchantType { role: string; profession?: string; shop: string; stock: [string, number, number][];
   buys: [string, number][] }
@@ -27,7 +32,9 @@ interface Tables {
   merchantType: { groups: Record<string, MerchantType> };
   innStock: { groups: Record<string, { price: number; stock: number }> };
 }
-export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string }
+// A site: what it is and what it is called, and where: its cell, and the wild country (and part of it) it is in.
+export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string;
+  cell?: number; zone?: string; part?: number }
 export interface Region extends Naming {
   name: string; terrain: string; ancestry: string; domain: string; deity: string;
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };
@@ -35,6 +42,8 @@ export interface Region extends Naming {
   land?: Landmark[]; peoples?: string[];
   // The day the company arrives, which decides the season and each day's weather (see RegionWeather).
   calendar?: CalendarStart;
+  // Its land, settlements, roads and wild country (see Atlases).
+  atlas?: Atlas;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
@@ -63,7 +72,8 @@ export class RegionWriter {
   }
   // The settlement each site is reached from: the one it names, or one by turns.
   static near(region: Region, site: Site): Settlement { return RegionGeography.near(region, site); }
-  static source(region: Region, company: { size: number; contacts: Contact[] } = { size: 3, contacts: [] }): string {
+  static source(region: Region, company: { size: number; contacts: Contact[] } = { size: 3, contacts: [] },
+    taken: Record<string, string> = {}): string {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(`Module ${this.id} ${q(region.name)} {`,
       `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country, home to ${this.peoples(region)}, who keep the faith of ${region.deity}.${this.meaning(region)}`)}.`,
@@ -71,7 +81,7 @@ export class RegionWriter {
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
-    lines.push(...RegionGeography.lines(region), ...RegionSites.lines(region),
+    lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionSites.lines(region, taken),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
@@ -84,7 +94,7 @@ export class RegionWriter {
     return lines.join('\n');
   }
   private static settlement(s: Settlement, i: number, region: Region): string[] {
-    const q = JSON.stringify, [x, y] = RegionGeography.town(i), cult = RegionFaith.cults(region)[i]!;
+    const q = JSON.stringify, [x, y] = RegionGeography.town(region, i), cult = RegionFaith.cults(region)[i]!;
     return [
       `  Place ${s.id} ${q(s.name)} is settlement within region at ${x}, ${y}.`,
       `  Place ${s.id}_green ${q(`${s.name} green`)} is room within ${s.id} at 1, 1.`,
@@ -124,8 +134,7 @@ export class RegionWriter {
   // Trade comes and goes by the roads. While anyone tolls a road into a settlement its inn's meal is dearer and
   // is not made good; when the roads are open, and the farms have not been robbed, the inn restocks a sack a day.
   private static economy(s: Settlement, region: Region): string[] {
-    const ways = region.settlements.slice(1).map((t, i) => [region.settlements[i]!.id, t.id])
-      .filter(([a, b]) => a === s.id || b === s.id).map(([a, b]) => `${a}_${b}_way`);
+    const ways = RegionGeography.roads(region).filter(r => r.from.id === s.id || r.to.id === s.id).map(r => r.way);
     if (!ways.length) { return []; }
     const { price, stock } = this.stock(s), keeper = `${s.id}_innkeeper`;
     const tolled = ways.map(w => `tolls(?collector, ${w})`).join(' or ');
@@ -151,19 +160,35 @@ export class RegionWriter {
   // The module manifest: the world rules, every place and person exported under its own id, and what the assembler
   // is told about it: the terrain, which rooms are on the roads, what kind each site is and which a scenario took.
   static manifest(region: Region, taken: Record<string, string> = {}): object {
-    const roads = RegionGeography.roads(region), ways = roads.map(r => r.way), extras = RegionGeography.extras(region);
+    const roads = RegionGeography.roads(region), ways = roads.map(r => r.way);
+    const zones = RegionGeography.atlas(region).zones;
     const ids = ['party', 'region', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
       `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
-    ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_land`, `${w.id}_named`]), ...ways,
-    ...roads.map(r => r.land), ...extras];
-    // A ford, a causeway and a pass are where a road can be held; a wood, a summit and a mere's shore are known to all.
+    ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`]), ...ways, ...roads.map(r => r.land),
+    ...zones.flatMap(z => [z.id, ...z.parts.map((_, i) => RegionZones.room(z, i))])];
+    // A site's land is the wild country it stands in, or its own stretch of open country.
+    const lands = region.sites.map(w => [`${w.id}_land`, w.zone ?? `${w.id}_land`]);
+    // A ford, a bridge and a pass are where a road can be held; a road through a wood and the edge of wild country
+    // are known to all.
     const held = roads.filter(r => r.form && r.form.form !== 'wood').map(r => ['chokepoint', r.way]);
-    const known = [...roads.filter(r => r.form?.form === 'wood').map(r => r.way), ...extras.filter(e => e !== 'lake_land')]
+    const known = [...roads.filter(r => r.form?.form === 'wood').map(r => r.way), ...zones.map(z => RegionZones.room(z, 0))]
       .map(id => ['landmark', id]);
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
     return { version: 1, source: 'region.kyr', rules: ['world', 'elements', 'devotion'], globals: ['party'],
-      exports: Object.fromEntries(ids.map(id => [id, id])), assembly: { commitments } };
+      exports: Object.fromEntries([...ids.map(id => [id, id]), ...lands]), assembly: { commitments },
+      chart: this.chart(region, roads) };
+  }
+  // The region's land for its map: the cover of each cell, the rivers and roads, and the cell of each place on it.
+  private static chart(region: Region, roads: ReturnType<typeof RegionGeography.roads>): object {
+    const atlas = RegionGeography.atlas(region), glyphs: Record<string, string> = { sea: '~', lake: 'o', fen: ',',
+      meadow: '.', wood: 'w', heath: 'h', fell: 'f', peak: 'p' };
+    return { width: atlas.land.width, height: atlas.land.height, cover: atlas.land.cover.map(c => glyphs[c]).join(''),
+      rivers: atlas.rivers.map(r => r.cells), roads: Object.fromEntries(roads.map(r => [r.way, r.route.cells])),
+      parts: Object.fromEntries(atlas.zones.flatMap(z => z.parts.map((cells, i) => [RegionZones.room(z, i), cells]))),
+      places: Object.fromEntries([...region.settlements.map(s => [s.id, s.cell]),
+        ...region.sites.filter(w => w.cell !== undefined).map(w => [w.id, w.cell]),
+        ...atlas.zones.map(z => [z.id, z.centres[0]])]) };
   }
 }

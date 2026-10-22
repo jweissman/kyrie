@@ -24,7 +24,8 @@ describe('generated places are named in their folk\'s tongue', () => {
     expect(human.name).toBe('Frostwold');
     expect(human.sites[0]).toMatchObject({ gloss: 'fern cave', tongue: 'Westron' });
     // The meaning is told where the place is described.
-    expect(RegionWriter.source(human)).toContain('The name is Westron for “cold hill”.');
+    expect(RegionWriter.source(PlaceNames.render(WorldAssembler.lay(Regions.make('human'), 'frostwold'))))
+      .toContain('The name is Westron for “cold hill”.');
     const fen = PlaceNames.render({ ...Regions.make('human'), name: 'Fenfen', feature: 'fen', affix: 'fen' });
     expect([fen.name, fen.gloss]).toEqual(['Faenn', 'fen']);
   });

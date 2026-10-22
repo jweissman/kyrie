@@ -33,6 +33,8 @@ export interface BundleManifest {
   generation?: { type: string; context?: Record<string, DeemValue>; tables?: string; templates?: string };
   // Experience for each companion when the module's goal first holds.
   experience?: number;
+  // A region's land, for its map (see LandChart): its own ids, which installing it prefixes.
+  chart?: import('../lang/module').LandChart;
 }
 export class ModuleBundle {
   // Rule modules named in a manifest resolve to data/rules; "world" is the standard set every world uses.
@@ -120,6 +122,14 @@ export class ModuleBundle {
     }
     return imports;
   }
+  // A chart's places, roads and parts named as the installed module names them.
+  private static chart(chart: import('../lang/module').LandChart, id: string): import('../lang/module').LandChart {
+    return { ...chart, roads: this.scoped(chart.roads, id), parts: this.scoped(chart.parts, id),
+      places: this.scoped(chart.places, id) };
+  }
+  private static scoped<T>(o: Record<string, T>, id: string): Record<string, T> {
+    return Object.fromEntries(Object.entries(o).map(([k, v]) => [`${id}__${k}`, v]));
+  }
   static async load(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number;
   }, source: BundleSource): Promise<ModuleDraft> {
@@ -155,6 +165,7 @@ export class ModuleBundle {
       throw Diagnostics.explain(error, files.slice(0, situationPaths.length), files.slice(situationPaths.length));
     }
     draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
+    if (manifest.chart) { draft.instance.module.charts = { [`${request.id}__region`]: this.chart(manifest.chart, request.id) }; }
     if (manifest.experience) { draft.experience = manifest.experience; }
     return draft;
   }

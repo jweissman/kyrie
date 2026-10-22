@@ -4,7 +4,6 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { RegionWriter } from '../src/world/region-writer';
 import { GeneratedWorld } from './support/generated';
 
 class Worlds {
@@ -36,7 +35,9 @@ describe('a generated region with situated scenarios', () => {
     expect(fen.report.placements.some(p => p.scenario === 'brood-hollow')).toBe(false);
     const brood = upland.report.placements.filter(p => p.scenario === 'brood-hollow');
     expect(brood).toHaveLength(1);
-    const towns = new Set(brood[0]!.carriers['brood.ewes']!.map(c => c.split('_')[0]));
+    // Two towns, besides any member's old acquaintance, who hears such news wherever they live.
+    const contacts = new Set(upland.report.contacts.map(c => c.carrier));
+    const towns = new Set(brood[0]!.carriers['brood.ewes']!.filter(c => !contacts.has(c)).map(c => c.split('_')[0]));
     expect(towns.size).toBe(2);
     const claimed = upland.report.placements.flatMap(p => Object.entries(p.bindings).filter(([r]) => r !== 'town').map(([, v]) => v));
     expect(new Set(claimed).size).toBe(claimed.length);
@@ -92,8 +93,10 @@ describe('backgrounds in a generated region', () => {
     const world = await Worlds.assemble('thorn', 'mountain'), s = await PlaySession.start(world.path, 'thorn', world.source);
     const placement = world.report.placements.find(p => p.scenario === 'den')!, den = placement.bindings.den!;
     await GeneratedWorld.hear(s, placement, world.report.placements.indexOf(placement) + 1);
-    const town = RegionWriter.near(world.report.region, world.report.region.sites.find(w => w.id === den)!).id;
-    GeneratedWorld.put(s, `${town}_green`);
+    // The den's track starts where the den is reached from: the wild country it is in, or a road or settlement.
+    const start = s.campaign.world.related('connects').find(r => r.args[0] === `region__${den}_track`
+      && r.args[2] === `region__${den}`)!.args[1]!;
+    GeneratedWorld.put(s, start.replace('region__', ''));
     for (const c of [`go(region__${den}_track,region__${den})`, `den__smoke_out(party,region__${den})`]) { await s.perform(c); }
     expect(s.campaign.world.test(ModuleWriter.call('dead', 'den__beasts'))).toBe(false);
     expect(Worlds.ids(s)).toContain(`den__plunder(party,region__${den})`);
