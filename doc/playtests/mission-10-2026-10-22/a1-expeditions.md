@@ -1,0 +1,1088 @@
+# Merscfaenn (a1)
+*Day 1, 8:00 a.m. · Elen L1 11/11hp 0xp, Bran L1 14/14hp 0xp, Dori L1 9/9hp 0xp · 20 coin*
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d1 8a)
+- **Ask Eamon about trouble at a grassed mound north-east of Meóswaeter** (d1 8:10a) — Eamon tells you what they have heard about trouble at a grassed mound north-east of Meóswaeter. Folk who go out to a grassed mound north-east of Meóswaeter come back short of a sheep or a dog, or don't come back. Something has made its den there.
+- **Ask Eamon about the quarrel over the stones at Meóswaeter** (d1 8:20a) — Eamon tells you what they have heard about the quarrel over the stones at Meóswaeter. The innkeeper and the merchant have not spoken since the boundary stones moved.
+- **Ask Eamon about the drover who did not come home to Murkstede** (d1 8:30a) — Eamon tells you what they have heard about the drover who did not come home to Murkstede. A drover went out on the road from Murkstede green three days ago and did not come home. His dog did.
+- **Ask Cyril about the light in a lone tower** (d1 8:40a) — Cyril tells you what they have heard about the light in a lone tower. A green light burns at the top of a lone tower at night, and something walks the lane below it.
+- **Ask Cyril about the old well at a lone tower** (d1 8:50a) — Cyril tells you what they have heard about the old well at a lone tower. There is an old well behind a lone tower that runs down into the cellars. The builders used it.
+- **Ask Cyril about trouble at a grassed mound east of Wǽttún** (d1 9a) — Cyril tells you what they have heard about trouble at a grassed mound east of Wǽttún. Folk who go out to a grassed mound east of Wǽttún come back short of a sheep or a dog, or don't come back. Something has made its den there.
+- **Ask Cyril what brings them to Murkstede** (d1 9:10a) — 'I walk from shrine to shrine. The gods have not said where to stop.' Cyril looks you over. 'If you are going anywhere, I would come along. 3 coin, and my keep.'
+- **Ask Cyril to join the company** (d1 9:20a) — Cyril shakes on it, and is one of you.
+- **Ask Malachai about her husband** (d1 9:30a) — 'He went out with the cart three days back,' says Malachai, and keeps her eyes on the pot. 'The dog came home. He didn't.'
+- **Take the door of the Lucky Phoenix to Murkstede green** (d1 9:40a)
+- **Take the shrine porch in Murkstede to the shrine of Nodens** (d1 9:50a)
+- **Take the shrine porch in Murkstede to Murkstede green** (d1 10a)
+- **Take Mik's door to Mik's salt-house** (d1 10:10a)
+
+## Expedition 1: Paliduslac (cistern)
+*Day 1, 10:20 a.m. · Elen L1 11/11hp 0xp, Bran L1 14/14hp 0xp, Dori L1 9/9hp 0xp, Cyril L1 9/9hp 0xp · 17 coin*
+- **Buy a torch for Elen · 1 coin** (d1 10:20a) — Elen pays Mik, and takes a torch.
+- **Buy a torch for Elen · 1 coin** (d1 10:30a) — Elen pays Mik, and takes a torch.
+- **Buy a lantern for Elen · 7 coin** (d1 10:40a) — Elen pays Mik, and takes a lantern.
+- **Equip a lantern on Elen** (d1 10:50a) — Elen readies a lantern.
+- **Take Mik's door to Murkstede green** (d1 11a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d1 11:10a)
+- **Buy one ration from Eamon** (d1 11:20a) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d1 11:30a) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d1 11:40a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d1 11:50a–d1 1:10p)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d1 1:10p–d1 2:20p)
+- **Take the road from Meóswaeter to Glōmdael to the road between Meóswaeter and Glōmdael** (d1 2:20p–d1 4:20p)
+- **Take the path into Bruinforwest to the edge of Bruinforwest** (d1 4:20p–d1 5:20p)
+- **Take a deer-track further in to deep in Bruinforwest** (d1 5:20p–d1 6:50p)
+- **Take a deer-track further in to the heart of Bruinforwest** (d1 6:50p–d1 8:50p)
+- **Search the heart of Bruinforwest** (d1 8:50p–d1 9:10p) — You go over the heart of Bruinforwest carefully. The way to a square doorway in a hillside in Bruinforwest. The way to a roofless abbey in Bruinforwest.
+- **Take the track to a square doorway in a hillside in Bruinforwest to a square doorway in a hillside in Bruinforwest** (d1 9:10p–d1 10:10p) — Paliduslac: a square doorway in a hillside in Bruinforwest.
+  - *Paliduslac*: A fox crosses the way ahead and is gone. This is Paliduslac, as the folk call it. A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water. Letters are cut deep in the lintel, in a script older than the folk's: PALLIDUSLACUS.
+- **Take the square doorway to the long stair** (d1 10:10p)
+  - *the long stair*: A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in. Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the 
+- **Collect a moonstone for Elen** (d1 10:20p) — Elen takes a moonstone.
+- **Take the foot of the long stair to the pillared hall** (d1 10:30p)
+  - *the pillared hall*: Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed. Nothing moves in the water. Nothing has, for a long time. Black water stands in the hall to the springing of the arches, still as a floor. At its far end 
+- **Take the ledge along the wall to the wheel-room** (d1 10:40p)
+  - *the wheel-room*: A cell cut off the side of the hall, above a stone channel that runs away under the wall.
+- **Wind the sluice-wheel round** (d1 10:50p) — Deep in the hill a gate grinds open. The black water in the hall begins to fall, and goes on falling, and the hall fills with the sound of it.
+- **Take the ledge along the wall to the pillared hall** (d1 11p)
+- **Take the low arch to the spring-head** (d1 11:10p)
+  - *the spring-head*: A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves. Things glint in the bottom of the basin: offerings, left for the springs by people who meant them. The water has gone down out of the hall. Silt lies i
+- **Collect a jeweled box for Elen** (d1 11:20p) — Elen takes a jeweled box.
+- **Take the low arch to the pillared hall** (d1 11:30p)
+- **Take the foot of the long stair to the long stair** (d1 11:40p)
+- **Take the square doorway to Paliduslac** (d1 11:50p)
+  - *Paliduslac*: A fox crosses the way ahead and is gone. This is Paliduslac, as the folk call it. A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water. Letters are cut deep in the lintel, in a script older than the folk's: PALLIDUSLACUS.
+- **Take the square doorway to the long stair** (d2 12a)
+  - *the long stair*: A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in. Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the 
+- **Take the foot of the long stair to the pillared hall** (d2 12:10a)
+  - *the pillared hall*: Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed. Nothing moves in the water. Nothing has, for a long time. The water has gone down out of the hall. Silt lies in ridges between the pillars, and the low ar
+- **Take the ledge along the wall to the wheel-room** (d2 12:20a)
+  - *the wheel-room*: A cell cut off the side of the hall, above a stone channel that runs away under the wall.
+- **Take the ledge along the wall to the pillared hall** (d2 12:30a)
+- **Take the low arch to the spring-head** (d2 12:40a)
+  - *the spring-head*: A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves. Things glint in the bottom of the basin: offerings, left for the springs by people who meant them. The water has gone down out of the hall. Silt lies i
+- **Take the low arch to the pillared hall** (d2 12:50a)
+- **Take the foot of the long stair to the long stair** (d2 1a)
+- **Take the square doorway to Paliduslac** (d2 1:10a)
+  - *Paliduslac*: A fox crosses the way ahead and is gone. This is Paliduslac, as the folk call it. A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water. Letters are cut deep in the lintel, in a script older than the folk's: PALLIDUSLACUS.
+- **Take the square doorway to the long stair** (d2 1:20a)
+  - *the long stair*: A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in. Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the 
+- **Take the foot of the long stair to the pillared hall** (d2 1:30a)
+  - *the pillared hall*: Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed. Nothing moves in the water. Nothing has, for a long time. The water has gone down out of the hall. Silt lies in ridges between the pillars, and the low ar
+- **Take the ledge along the wall to the wheel-room** (d2 1:40a)
+  - *the wheel-room*: A cell cut off the side of the hall, above a stone channel that runs away under the wall.
+- **Take the ledge along the wall to the pillared hall** (d2 1:50a)
+- **Take the low arch to the spring-head** (d2 2a)
+  - *the spring-head*: A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves. Things glint in the bottom of the basin: offerings, left for the springs by people who meant them. The water has gone down out of the hall. Silt lies i
+- **Take the low arch to the pillared hall** (d2 2:10a)
+- **Take the foot of the long stair to the long stair** (d2 2:20a)
+- **Take the square doorway to Paliduslac** (d2 2:30a)
+- **Take the track to Paliduslac to the heart of Bruinforwest** (d2 2:40a–d2 3:40a)
+- **Take a deer-track further in to deep in Bruinforwest** (d2 3:40a–d2 5:40a)
+- **Take a deer-track further in to the edge of Bruinforwest** (d2 5:40a–d2 7:10a)
+- **Take the path into Bruinforwest to the road between Meóswaeter and Glōmdael** (d2 7:10a–d2 8:10a)
+- **Take the road from Meóswaeter to Glōmdael to Meóswaeter green** (d2 8:10a–d2 10:10a)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d2 10:10a–d2 11:20a)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d2 11:20a–d2 12:40p)
+- **Take Mik's door to Mik's salt-house** (d2 12:40p)
+- **Sell a jeweled box to Mik** (d2 12:50p) — Mik turns a jeweled box over in the light, names a price, and counts out the coin.
+- **Sell a moonstone to Mik** (d2 1p) — Mik turns a moonstone over in the light, names a price, and counts out the coin.
+- **Take Mik's door to Murkstede green** (d2 1:10p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d2 1:20p)
+- **Take a bed and supper from Eamon** (d2 1:30p–d3 7a) — You eat a hot supper and sleep long in a dry bed. Amrod has taken his father's old spear and gone out on the road alone. Nobody stopped him.
+*Day 3, 7:00 a.m. · Elen L1 11/11hp 165xp, Bran L1 14/14hp 165xp, Dori L1 9/9hp 165xp, Cyril L1 9/9hp 165xp · 166 coin*
+
+## Expedition 2: Wannhaff (abbey)
+*Day 3, 7:00 a.m. · Elen L1 11/11hp 165xp, Bran L1 14/14hp 165xp, Dori L1 9/9hp 165xp, Cyril L1 9/9hp 165xp · 166 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d3 7a)
+- **Take the shrine porch in Murkstede to the shrine of Nodens** (d3 7:10a)
+- **Buy a glossary of the old script for Elen · 80 coin** (d3 7:20a) — Elen pays Eogan, and takes a glossary of the old script.
+- **Equip a glossary of the old script on Elen** (d3 7:30a) — Elen readies a glossary of the old script.
+- **Take the shrine porch in Murkstede to Murkstede green** (d3 7:40a)
+- **Take Mik's door to Mik's salt-house** (d3 7:50a)
+- **Take Mik's door to Murkstede green** (d3 8a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d3 8:10a)
+- **Buy one ration from Eamon** (d3 8:20a) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d3 8:30a) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d3 8:40a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d3 8:50a–d3 10:10a)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d3 10:10a–d3 11:20a)
+- **Take the road from Meóswaeter to Glōmdael to the road between Meóswaeter and Glōmdael** (d3 11:20a–d3 1:20p)
+- **Take the path into Bruinforwest to the edge of Bruinforwest** (d3 1:20p–d3 2:20p)
+- **Take a deer-track further in to deep in Bruinforwest** (d3 2:20p–d3 3:50p)
+- **Take a deer-track further in to the heart of Bruinforwest** (d3 3:50p–d3 5:50p)
+- **Take the track to a roofless abbey to a roofless abbey** (d3 5:50p–d3 6:50p) — Wannhaff: a roofless abbey in Bruinforwest.
+  - *Wannhaff*: Deer go off between the trees without a sound. This is Wannhaff, as the folk call it. The church stands roofless at the bottom of the valley, its tall windows empty, its tower cut off at the bell-stage. Round it the walls of the cloister and the brothers' buildings make a square of grey stone among 
+- **Take the gatehouse arch to the gatehouse** (d3 6:50p)
+  - *the gatehouse*: The porter's lodge: a bench, a hatch to the road, a row of iron hooks for keys with no keys on them. Travellers were fed here, and taxed.
+- **Take the cloister door to the cloister** (d3 7p)
+  - *the cloister*: A square of covered walks round a garth gone to grass, a well in the middle under a stone hood. The walks' roofs have fallen, but the arcades still stand, and the brothers' benches along the walls.
+- **Take the processional door to the church** (d3 7:10p)
+  - *the church*: The church is open to the sky. Grass grows in the nave, and saplings in the aisles; at the east end the altar still stands on its steps, a single block of stone. In the floor before it are the abbots' grave-slabs, worn smooth by the brothers' knees. The church burned with its roof: the stones of the
+- **Take the processional door to the cloister** (d3 7:20p)
+- **Take the chapter house door to the chapter house** (d3 7:30p)
+  - *the chapter house*: A round room with a stone bench all the way round the wall, where the brothers sat to hear the rule and confess their faults. A lectern stands in the middle, and on it a great book under a skin of dust.
+- **Blow the dust off the chronicle and read it** (d3 7:40p) — After the Water-Wardens came the kingdom of Aergodríce, where the power lay with an order of monks who kept the old learning and the roads, and taxed both. It fell to raiders from over the sea, who came every summer until there was no one left to raid.
+- **Take the chapter house door to the cloister** (d3 7:50p)
+- **Take the cellar steps to the cellarium** (d3 8p)
+  - *the cellarium*: A vaulted cellar under the brothers' range, where the house kept its wine and its rents in kind. The barrels have long since rotted to hoops.
+- **Take the cellar steps to the cloister** (d3 8:10p)
+- **Take the processional door to the church** (d3 8:20p)
+- **Take the night stair to the scriptorium** (d3 8:30p)
+  - *the scriptorium*: A long room over the cloister walk, lit by a row of windows facing north for an even light. Sloping desks stand under them, ink dried black in the horns. At the end of the room stands a book-press, a tall cupboard of oak with iron bands.
+- **Pick the book-press's lock** (d3 8:40p)
+- **Read the copied inscriptions** (d3 8:50p) — Before the folk came, the Water-Wardens held this country. They dressed limestone so true it needed no mortar, cast sluice-gates of bronze as tall as a house, and ran lead pipes through the hills for miles. They held that water remembers: a valley kept under water could not be taken, and still water, rightly read, showed what was coming. How the Water-Wardens ended: A summer came when the springs 
+- **Take the brothers' glossary of the old script out of the book-press for Elen** (d3 9p) — Elen takes the brothers' glossary of the old script from the book-press. The way to a dam of dressed stone across a valley in Glōmmeós.
+- **Take a faded tome out of the book-press for Elen** (d3 9:10p) — Elen takes a faded tome from the book-press.
+- **Take the night stair to the church** (d3 9:20p)
+- **Take the processional door to the cloister** (d3 9:30p)
+- **Take the cloister door to the gatehouse** (d3 9:40p)
+- **Take the gatehouse arch to Wannhaff** (d3 9:50p)
+  - *Wannhaff*: Deer go off between the trees without a sound. This is Wannhaff, as the folk call it. The church stands roofless at the bottom of the valley, its tall windows empty, its tower cut off at the bell-stage. Round it the walls of the cloister and the brothers' buildings make a square of grey stone among 
+- **Take the gatehouse arch to the gatehouse** (d3 10p)
+  - *the gatehouse*: The porter's lodge: a bench, a hatch to the road, a row of iron hooks for keys with no keys on them. Travellers were fed here, and taxed.
+- **Take the cloister door to the cloister** (d3 10:10p)
+  - *the cloister*: A square of covered walks round a garth gone to grass, a well in the middle under a stone hood. The walks' roofs have fallen, but the arcades still stand, and the brothers' benches along the walls.
+- **Take the processional door to the church** (d3 10:20p)
+  - *the church*: The church is open to the sky. Grass grows in the nave, and saplings in the aisles; at the east end the altar still stands on its steps, a single block of stone. In the floor before it are the abbots' grave-slabs, worn smooth by the brothers' knees. The church burned with its roof: the stones of the
+- **Take the processional door to the cloister** (d3 10:30p)
+- **Take the chapter house door to the chapter house** (d3 10:40p)
+  - *the chapter house*: A round room with a stone bench all the way round the wall, where the brothers sat to hear the rule and confess their faults. A lectern stands in the middle, and on it a great book under a skin of dust. Read from the first page, the chronicle is the history of the kingdom the house served, as the br
+- **Take the chapter house door to the cloister** (d3 10:50p)
+- **Take the cellar steps to the cellarium** (d3 11p)
+  - *the cellarium*: A vaulted cellar under the brothers' range, where the house kept its wine and its rents in kind. The barrels have long since rotted to hoops.
+- **Take the cellar steps to the cloister** (d3 11:10p)
+- **Take the processional door to the church** (d3 11:20p)
+- **Take the night stair to the scriptorium** (d3 11:30p)
+  - *the scriptorium*: A long room over the cloister walk, lit by a row of windows facing north for an even light. Sloping desks stand under them, ink dried black in the horns. At the end of the room stands a book-press, a tall cupboard of oak with iron bands. With the glossary beside them the copies make sense, and the b
+- **Take the night stair to the church** (d3 11:40p)
+- **Take the processional door to the cloister** (d3 11:50p)
+- **Take the cloister door to the gatehouse** (d4 12a)
+- **Take the gatehouse arch to Wannhaff** (d4 12:10a)
+  - *Wannhaff*: Deer go off between the trees without a sound. This is Wannhaff, as the folk call it. The church stands roofless at the bottom of the valley, its tall windows empty, its tower cut off at the bell-stage. Round it the walls of the cloister and the brothers' buildings make a square of grey stone among 
+- **Take the gatehouse arch to the gatehouse** (d4 12:20a)
+  - *the gatehouse*: The porter's lodge: a bench, a hatch to the road, a row of iron hooks for keys with no keys on them. Travellers were fed here, and taxed.
+- **Take the cloister door to the cloister** (d4 12:30a)
+  - *the cloister*: A square of covered walks round a garth gone to grass, a well in the middle under a stone hood. The walks' roofs have fallen, but the arcades still stand, and the brothers' benches along the walls.
+- **Take the processional door to the church** (d4 12:40a)
+  - *the church*: The church is open to the sky. Grass grows in the nave, and saplings in the aisles; at the east end the altar still stands on its steps, a single block of stone. In the floor before it are the abbots' grave-slabs, worn smooth by the brothers' knees. The church burned with its roof: the stones of the
+- **Take the processional door to the cloister** (d4 12:50a)
+- **Take the chapter house door to the chapter house** (d4 1a)
+  - *the chapter house*: A round room with a stone bench all the way round the wall, where the brothers sat to hear the rule and confess their faults. A lectern stands in the middle, and on it a great book under a skin of dust. Read from the first page, the chronicle is the history of the kingdom the house served, as the br
+- **Take the chapter house door to the cloister** (d4 1:10a)
+- **Take the cellar steps to the cellarium** (d4 1:20a)
+  - *the cellarium*: A vaulted cellar under the brothers' range, where the house kept its wine and its rents in kind. The barrels have long since rotted to hoops.
+- **Take the cellar steps to the cloister** (d4 1:30a)
+- **Take the processional door to the church** (d4 1:40a)
+- **Take the night stair to the scriptorium** (d4 1:50a)
+  - *the scriptorium*: A long room over the cloister walk, lit by a row of windows facing north for an even light. Sloping desks stand under them, ink dried black in the horns. At the end of the room stands a book-press, a tall cupboard of oak with iron bands. With the glossary beside them the copies make sense, and the b
+- **Take the night stair to the church** (d4 2a)
+- **Take the processional door to the cloister** (d4 2:10a)
+- **Take the cloister door to the gatehouse** (d4 2:20a)
+- **Take the gatehouse arch to Wannhaff** (d4 2:30a)
+- **Take the track to Wannhaff to the heart of Bruinforwest** (d4 2:40a–d4 3:40a)
+- **Take a deer-track further in to deep in Bruinforwest** (d4 3:40a–d4 5:40a)
+- **Take a deer-track further in to the edge of Bruinforwest** (d4 5:40a–d4 7:10a)
+- **Take the path into Bruinforwest to the road between Meóswaeter and Glōmdael** (d4 7:10a–d4 8:10a)
+- **Take the road from Meóswaeter to Glōmdael to Meóswaeter green** (d4 8:10a–d4 10:10a)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d4 10:10a–d4 11:20a)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d4 11:20a–d4 12:40p)
+- **Take Mik's door to Mik's salt-house** (d4 12:40p)
+- **Sell a faded tome to Mik** (d4 12:50p) — Mik turns a faded tome over in the light, names a price, and counts out the coin.
+- **Take Mik's door to Murkstede green** (d4 1p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d4 1:10p)
+- **Take a bed and supper from Eamon** (d4 1:20p–d5 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 5, 7:00 a.m. · Elen L1 11/11hp 185xp, Bran L1 14/14hp 185xp, Dori L1 9/9hp 185xp, Cyril L1 9/9hp 185xp · 99 coin*
+
+## Expedition 3: Magnustagn (great_cistern)
+*Day 5, 7:00 a.m. · Elen L1 11/11hp 185xp, Bran L1 14/14hp 185xp, Dori L1 9/9hp 185xp, Cyril L1 9/9hp 185xp · 99 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d5 7a)
+- **Take Mik's door to Mik's salt-house** (d5 7:10a)
+- **Take Mik's door to Murkstede green** (d5 7:20a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d5 7:30a)
+- **Buy one ration from Eamon** (d5 7:40a) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d5 7:50a) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d5 8a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d5 8:10a–d5 9:30a)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d5 9:30a–d5 10:40a)
+- **Take the road from Meóswaeter to Faennslím to the road between Meóswaeter and Faennslím** (d5 10:40a–d5 12:10p)
+- **Take the road on to Faennslím to Faennslím green** (d5 12:10p–d5 1:30p)
+- **Take the stakes out into Glōmmeós to the edge of Glōmmeós** (d5 1:30p–d5 2:30p)
+- **Take a way between the reed-beds to out in Glōmmeós** (d5 2:30p–d5 4p)
+- **Take a way between the reed-beds to the middle of Glōmmeós** (d5 4p–d5 6p)
+- **Take the track to a dam of dressed stone across a valley to a dam of dressed stone across a valley** (d5 6p–d5 7p) — Magnustagn: a dam of dressed stone across a valley in Glōmmeós.
+  - *Magnustagn*: Reeds hiss in the wind. The frogs stop, all at once, and start again behind you. This is Magnustagn, as the folk call it. A wall of dressed stone closes the valley from side to side, higher than a church tower, without a crack in it. Behind it lies a long black mere that does not ripple. Water comes
+- **Take the steps cut up the end of the dam to the crest of the dam** (d5 7p)
+  - *the crest of the dam*: The crest of the dam is a road wide enough for a cart, paved, with a parapet on the mere side. On one hand the valley falls away to the river; on the other the black water lies a foot below the parapet, so still it holds the sky.
+- **Take the walk along the crest to the gate-tower** (d5 7:10p)
+  - *the gate-tower*: A tower stands out from the middle of the dam into the mere. Inside, three wheels of bronze, each as tall as two men, stand in a row on the floor, their shafts going down into the stone. A stair goes down the inside wall toward the water.
+- **Wind the three great wheels round, one after another** (d5 7:20p) — Far down in the dam something gives with a sound like a bell, and then the roar begins: the mere going out of the valley through gates nobody has opened in a thousand years. When at last it stops, there are houses where the water was.
+- **Take the stair down the dam's inner face to the stair down the mere's side** (d5 7:30p)
+  - *the stair down the mere's side*: A landing on the stair, cut into the inner face of the dam. The stone here is as true as the day it was laid. Below, the valley. The mere has gone down, and the stair down the dam's face stands out of it, wet and hung with weed, from the gate-tower to the valley floor.
+- **Take the bottom of the stair to the drowned street** (d5 7:40p) — The water in the gutters of the street runs together, and stands up, and is taller than you, and has a face that is only the street seen through it. The water in the gutters of the street runs together, and stands up, and is taller than you, and has a face that is only the street seen through it.
+  - *the drowned street*: A street of stone houses at the bottom of the valley, roofs gone, doors standing, everything grey with silt and hung with weed that is already drying in the air. Fish flap in the gutters. Every door in the street stands open, and the houses were left in order: pots on the hearths, beds made, tools o
+- **Attack the keeper of the mere** (d5 7:50p) [a fight: fighters; fell: w7_keeper_person]
+- **Collect an unusual seashell for Elen** (d5 8p) — Elen takes an unusual seashell.
+- **Take the street's end to the hall of still water** (d5 8:10p)
+  - *the hall of still water*: At the street's end a round hall stands under a dome of glass so thick it is green, and in the middle of the floor a basin of white stone, as wide as a pond, with a rim cut all round with marks. The water in it is perfectly still.
+- **Read the still water, by the marks round the rim** (d5 8:20p) — When the still water stopped showing the Wardens what was coming, they left their valley in order, carrying nothing, and walked away down the dry river. The water shows nothing now, someone cut in its rim, but it showed you something. The way to a lone tower in the fen east of Faennslím.
+- **Collect an aquamarine for Elen** (d5 8:30p) — Elen takes an aquamarine.
+- **Take a door under the basin to the wardens' vault** (d5 8:40p)
+  - *the wardens' vault*: Under the basin, a low room the water never reached, dry as a shut chest. Stone shelves run round it, bare but for the white rings where jars once stood, and one thing nobody came back for.
+- **Collect a kraken claw for Elen** (d5 8:50p) — Elen takes a kraken claw.
+- **Take a door under the basin to the hall of still water** (d5 9p)
+- **Take the street's end to the drowned street** (d5 9:10p)
+- **Take the bottom of the stair to the stair down the mere's side** (d5 9:20p)
+- **Take the stair down the dam's inner face to the gate-tower** (d5 9:30p)
+- **Take the walk along the crest to the crest of the dam** (d5 9:40p)
+- **Take the steps cut up the end of the dam to Magnustagn** (d5 9:50p)
+  - *Magnustagn*: Reeds hiss in the wind. The frogs stop, all at once, and start again behind you. This is Magnustagn, as the folk call it. A wall of dressed stone closes the valley from side to side, higher than a church tower, without a crack in it. Behind it lies a long black mere that does not ripple. Water comes
+- **Take the steps cut up the end of the dam to the crest of the dam** (d5 10p)
+  - *the crest of the dam*: The crest of the dam is a road wide enough for a cart, paved, with a parapet on the mere side. On one hand the valley falls away to the river; on the other the black water lies a foot below the parapet, so still it holds the sky.
+- **Take the walk along the crest to the gate-tower** (d5 10:10p)
+  - *the gate-tower*: A tower stands out from the middle of the dam into the mere. Inside, three wheels of bronze, each as tall as two men, stand in a row on the floor, their shafts going down into the stone. A stair goes down the inside wall toward the water.
+- **Take the stair down the dam's inner face to the stair down the mere's side** (d5 10:20p)
+  - *the stair down the mere's side*: A landing on the stair, cut into the inner face of the dam. The stone here is as true as the day it was laid. Below, the valley. The mere has gone down, and the stair down the dam's face stands out of it, wet and hung with weed, from the gate-tower to the valley floor.
+- **Take the bottom of the stair to the drowned street** (d5 10:30p)
+  - *the drowned street*: A street of stone houses at the bottom of the valley, roofs gone, doors standing, everything grey with silt and hung with weed that is already drying in the air. Fish flap in the gutters. Every door in the street stands open, and the houses were left in order: pots on the hearths, beds made, tools o
+- **Take the street's end to the hall of still water** (d5 10:40p)
+  - *the hall of still water*: At the street's end a round hall stands under a dome of glass so thick it is green, and in the middle of the floor a basin of white stone, as wide as a pond, with a rim cut all round with marks. The water in it is perfectly still. The water in the basin shows you a dry river-bed, and people walking 
+- **Take a door under the basin to the wardens' vault** (d5 10:50p)
+  - *the wardens' vault*: Under the basin, a low room the water never reached, dry as a shut chest. Stone shelves run round it, bare but for the white rings where jars once stood, and one thing nobody came back for.
+- **Take a door under the basin to the hall of still water** (d5 11p)
+- **Take the street's end to the drowned street** (d5 11:10p)
+- **Take the bottom of the stair to the stair down the mere's side** (d5 11:20p)
+- **Take the stair down the dam's inner face to the gate-tower** (d5 11:30p)
+- **Take the walk along the crest to the crest of the dam** (d5 11:40p)
+- **Take the steps cut up the end of the dam to Magnustagn** (d5 11:50p)
+  - *Magnustagn*: Reeds hiss in the wind. The frogs stop, all at once, and start again behind you. This is Magnustagn, as the folk call it. A wall of dressed stone closes the valley from side to side, higher than a church tower, without a crack in it. Behind it lies a long black mere that does not ripple. Water comes
+- **Take the steps cut up the end of the dam to the crest of the dam** (d6 12a)
+  - *the crest of the dam*: The crest of the dam is a road wide enough for a cart, paved, with a parapet on the mere side. On one hand the valley falls away to the river; on the other the black water lies a foot below the parapet, so still it holds the sky.
+- **Take the walk along the crest to the gate-tower** (d6 12:10a)
+  - *the gate-tower*: A tower stands out from the middle of the dam into the mere. Inside, three wheels of bronze, each as tall as two men, stand in a row on the floor, their shafts going down into the stone. A stair goes down the inside wall toward the water.
+- **Take the stair down the dam's inner face to the stair down the mere's side** (d6 12:20a)
+  - *the stair down the mere's side*: A landing on the stair, cut into the inner face of the dam. The stone here is as true as the day it was laid. Below, the valley. The mere has gone down, and the stair down the dam's face stands out of it, wet and hung with weed, from the gate-tower to the valley floor.
+- **Take the bottom of the stair to the drowned street** (d6 12:30a)
+  - *the drowned street*: A street of stone houses at the bottom of the valley, roofs gone, doors standing, everything grey with silt and hung with weed that is already drying in the air. Fish flap in the gutters. Every door in the street stands open, and the houses were left in order: pots on the hearths, beds made, tools o
+- **Take the street's end to the hall of still water** (d6 12:40a)
+  - *the hall of still water*: At the street's end a round hall stands under a dome of glass so thick it is green, and in the middle of the floor a basin of white stone, as wide as a pond, with a rim cut all round with marks. The water in it is perfectly still. The water in the basin shows you a dry river-bed, and people walking 
+- **Take a door under the basin to the wardens' vault** (d6 12:50a)
+  - *the wardens' vault*: Under the basin, a low room the water never reached, dry as a shut chest. Stone shelves run round it, bare but for the white rings where jars once stood, and one thing nobody came back for.
+- **Take a door under the basin to the hall of still water** (d6 1a)
+- **Take the street's end to the drowned street** (d6 1:10a)
+- **Take the bottom of the stair to the stair down the mere's side** (d6 1:20a)
+- **Take the stair down the dam's inner face to the gate-tower** (d6 1:30a)
+- **Take the walk along the crest to the crest of the dam** (d6 1:40a)
+- **Take the steps cut up the end of the dam to Magnustagn** (d6 1:50a)
+- **Take the track to Magnustagn to the middle of Glōmmeós** (d6 2a–d6 3a)
+- **Take a way between the reed-beds to out in Glōmmeós** (d6 3a–d6 5a)
+- **Take a way between the reed-beds to the edge of Glōmmeós** (d6 5a–d6 6:30a)
+- **Take the stakes out into Glōmmeós to Faennslím green** (d6 6:30a–d6 7:30a)
+- **Take the road on to Faennslím to the road between Meóswaeter and Faennslím** (d6 7:30a–d6 8:50a)
+- **Take the road from Meóswaeter to Faennslím to Meóswaeter green** (d6 8:50a–d6 10:20a)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d6 10:20a–d6 11:30a)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d6 11:30a–d6 12:50p)
+- **Take Mik's door to Mik's salt-house** (d6 12:50p)
+- **Sell a kraken claw to Mik** (d6 1p) — Mik turns a kraken claw over in the light, names a price, and counts out the coin.
+- **Sell an unusual seashell to Mik** (d6 1:10p) — Mik turns an unusual seashell over in the light, names a price, and counts out the coin.
+- **Show an aquamarine to Mik** (d6 1:20p) — Mik turns an aquamarine over in the light, and hands it back. 'Worth 250 coin, that. I have not got it in the house today; come back in the morning.'
+- **Take Mik's door to Murkstede green** (d6 1:30p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d6 1:40p)
+- **Take a bed and supper from Eamon** (d6 1:50p–d7 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 7, 7:00 a.m. · Elen L2 18/18hp 1460xp, Bran L2 22/22hp 1460xp, Dori L2 15/15hp 1460xp, Cyril L2 14/14hp 1460xp · 917 coin*
+
+## Expedition 4: Umidusspira (tower)
+*Day 7, 7:00 a.m. · Elen L2 18/18hp 1460xp, Bran L2 22/22hp 1460xp, Dori L2 15/15hp 1460xp, Cyril L2 14/14hp 1460xp · 917 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d7 7a)
+- **Take Mik's door to Mik's salt-house** (d7 7:10a)
+- **Take Mik's door to Murkstede green** (d7 7:20a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d7 7:30a)
+- **Buy one ration from Eamon** (d7 7:40a) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d7 7:50a) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d7 8a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d7 8:10a–d7 9:30a)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d7 9:30a–d7 10:40a)
+- **Take the road from Meóswaeter to Faennslím to the road between Meóswaeter and Faennslím** (d7 10:40a–d7 12:10p)
+- **Take the road on to Faennslím to Faennslím green** (d7 12:10p–d7 1:30p)
+- **Take the road from Faennslím down to the Deopex to the bridge over the Deopex** (d7 1:30p–d7 5p) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d7 5p) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the track to a lone tower to a lone tower** (d7 5:10p–d7 9:40p) — Umidusspira: a lone tower in the fen east of Faennslím. The name is Aenean, the old tongue, for “wet spire”.
+  - *Umidusspira*: A lone tower stands above the land. Reeds hiss in the wind. The frogs stop, all at once, and start again behind you. This is Umidusspira. The name is Aenean, the old tongue, for “wet spire”. Over the door, cut in the old script: UMIDUSSPIRA. The keep stands with its feet in black water. Weed hangs f
+- **Search Umidusspira** (d7 9:40p–d7 10p) — You go over Umidusspira carefully.
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- **Take a barred postern low in the wall to the crypt under the tower** (d7 10p)
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Black water stands in the well shaft a few feet below the lip. Nobody is going down that way.
+- **Attack the knitted hound** (d7 10:10p) [a fight: fighters; fell: hound_person]
+- **Take a barred postern low in the wall to Umidusspira** (d7 10:20p)
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- **Take a barred postern low in the wall to the crypt under the tower** (d7 10:30p)
+- **Search the crypt under the tower** (d7 10:40p–d7 11p) — You go over the crypt under the tower carefully.
+- (cannot take tower__crypt_steps from tower__crypt)
+- **Take the bone arch to the bone store** (d7 11p)
+  - *the bone store*: Bones sorted by kind into heaps: skulls, long bones, small bones in baskets. Someone has worked here a long time.
+- **Collect a cord of grave rings for Elen** (d7 11:10p) — Elen takes a cord of grave rings.
+- **Take the bone arch to the crypt under the tower** (d7 11:20p)
+- (cannot take tower__cell_door from tower__crypt)
+- **Take the cistern steps to the drowned cellar** (d7 11:30p)
+  - *the drowned cellar*: Steps go down into a vaulted cistern. At the far end a low drift runs off under the bailey, and water stands in it. Black water fills the drift to within a hand of its roof. Whoever goes through goes under.
+- **Take the cistern steps to the crypt under the tower** (d7 11:40p)
+- **Take the undercroft steps to the tower hall** (d7 11:50p)
+- **Take the turning stair to the library** (d8 12a)
+  - *the library*: Shelves of damp books, most of them the garrison's, some of them his. A table under the window is covered in letters. The stair above has fallen; the broken flight hangs out of the wall.
+- **Search the library** (d8 12:10a–d8 12:30a) — You go over the library carefully.
+- (cannot take tower__broken_stair from tower__library)
+- **Take the turning stair to the tower hall** (d8 12:30a)
+- **Take the undercroft steps to the crypt under the tower** (d8 12:40a)
+- **Take the cistern steps to the drowned cellar** (d8 12:50a)
+- **Search the drowned cellar** (d8 1a–d8 1:20a) — You go over the drowned cellar carefully.
+- (cannot take tower__drift from tower__cistern)
+- **Take the cistern steps to the crypt under the tower** (d8 1:20a)
+- **Take a barred postern low in the wall to Umidusspira** (d8 1:30a)
+  - *Umidusspira*: A lone tower stands above the land. Reeds hiss in the wind. The frogs stop, all at once, and start again behind you. This is Umidusspira. The name is Aenean, the old tongue, for “wet spire”. Over the door, cut in the old script: UMIDUSSPIRA. The keep stands with its feet in black water. Weed hangs f
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- **Take a barred postern low in the wall to the crypt under the tower** (d8 1:40a)
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Black water stands in the well shaft a few feet below the lip. Nobody is going down that way.
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Black water stands in the well shaft a few feet below the lip. Nobody is going down that way.
+- **Take a barred postern low in the wall to Umidusspira** (d8 1:50a)
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- **Take a barred postern low in the wall to the crypt under the tower** (d8 2a)
+- (cannot take tower__crypt_steps from tower__crypt)
+- **Take the bone arch to the bone store** (d8 2:10a)
+  - *the bone store*: Bones sorted by kind into heaps: skulls, long bones, small bones in baskets. Someone has worked here a long time.
+- **Take the bone arch to the crypt under the tower** (d8 2:20a)
+- (cannot take tower__cell_door from tower__crypt)
+- **Take the cistern steps to the drowned cellar** (d8 2:30a)
+  - *the drowned cellar*: Steps go down into a vaulted cistern. At the far end a low drift runs off under the bailey, and water stands in it. Black water fills the drift to within a hand of its roof. Whoever goes through goes under.
+- **Take the cistern steps to the crypt under the tower** (d8 2:40a)
+- **Take the undercroft steps to the tower hall** (d8 2:50a)
+- **Take the turning stair to the library** (d8 3a)
+  - *the library*: Shelves of damp books, most of them the garrison's, some of them his. A table under the window is covered in letters. The stair above has fallen; the broken flight hangs out of the wall.
+- (cannot take tower__broken_stair from tower__library)
+- **Take the turning stair to the tower hall** (d8 3:10a)
+- **Take the undercroft steps to the crypt under the tower** (d8 3:20a)
+- **Take the cistern steps to the drowned cellar** (d8 3:30a)
+- (cannot take tower__drift from tower__cistern)
+- **Take the cistern steps to the crypt under the tower** (d8 3:40a)
+- **Take a barred postern low in the wall to Umidusspira** (d8 3:50a)
+  - *Umidusspira*: A lone tower stands above the land. Reeds hiss in the wind. The frogs stop, all at once, and start again behind you. This is Umidusspira. The name is Aenean, the old tongue, for “wet spire”. Over the door, cut in the old script: UMIDUSSPIRA. The keep stands with its feet in black water. Weed hangs f
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- **Take a barred postern low in the wall to the crypt under the tower** (d8 4a)
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Black water stands in the well shaft a few feet below the lip. Nobody is going down that way.
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Black water stands in the well shaft a few feet below the lip. Nobody is going down that way.
+- **Take a barred postern low in the wall to Umidusspira** (d8 4:10a)
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- (cannot take tower__breach from region__w8)
+- **Take a barred postern low in the wall to the crypt under the tower** (d8 4:20a)
+- (cannot take tower__crypt_steps from tower__crypt)
+- **Take the bone arch to the bone store** (d8 4:30a)
+  - *the bone store*: Bones sorted by kind into heaps: skulls, long bones, small bones in baskets. Someone has worked here a long time.
+- **Take the bone arch to the crypt under the tower** (d8 4:40a)
+- (cannot take tower__cell_door from tower__crypt)
+- **Take the cistern steps to the drowned cellar** (d8 4:50a)
+  - *the drowned cellar*: Steps go down into a vaulted cistern. At the far end a low drift runs off under the bailey, and water stands in it. Black water fills the drift to within a hand of its roof. Whoever goes through goes under.
+- **Take the cistern steps to the crypt under the tower** (d8 5a)
+- **Take the undercroft steps to the tower hall** (d8 5:10a)
+- **Take the turning stair to the library** (d8 5:20a)
+  - *the library*: Shelves of damp books, most of them the garrison's, some of them his. A table under the window is covered in letters. The stair above has fallen; the broken flight hangs out of the wall.
+- (cannot take tower__broken_stair from tower__library)
+- **Take the turning stair to the tower hall** (d8 5:30a)
+- **Take the undercroft steps to the crypt under the tower** (d8 5:40a)
+- **Take the cistern steps to the drowned cellar** (d8 5:50a)
+- (cannot take tower__drift from tower__cistern)
+- **Take the cistern steps to the crypt under the tower** (d8 6a)
+- **Take a barred postern low in the wall to Umidusspira** (d8 6:10a)
+- **Take the track to Umidusspira to the bridge over the Deopex** (d8 6:20a–d8 10:50a) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d8 10:50a) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the road from Faennslím down to the Deopex to Faennslím green** (d8 11a–d8 2:30p)
+- **Take the road on to Faennslím to the road between Meóswaeter and Faennslím** (d8 2:30p–d8 3:50p)
+- **Take the road from Meóswaeter to Faennslím to Meóswaeter green** (d8 3:50p–d8 5:20p)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d8 5:20p–d8 6:30p)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d8 6:30p–d8 7:50p)
+- **Take Mik's door to Mik's salt-house** (d8 7:50p)
+- **Sell an aquamarine to Mik** (d8 8p) — Mik turns an aquamarine over in the light, names a price, and counts out the coin.
+- **Sell a cord of grave rings to Mik** (d8 8:10p) — Mik turns a cord of grave rings over in the light, names a price, and counts out the coin.
+- **Take Mik's door to Murkstede green** (d8 8:20p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d8 8:30p)
+- **Take a bed and supper from Eamon** (d8 8:40p–d9 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 9, 7:00 a.m. · Elen L2 18/18hp 1750xp, Bran L2 22/22hp 1750xp, Dori L2 15/15hp 1750xp, Cyril L2 14/14hp 1750xp · 1169 coin*
+
+## Expedition 5: Obscurusfons (cistern)
+*Day 9, 7:00 a.m. · Elen L2 18/18hp 1750xp, Bran L2 22/22hp 1750xp, Dori L2 15/15hp 1750xp, Cyril L2 14/14hp 1750xp · 1169 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d9 7a)
+- **Take Mik's door to Mik's salt-house** (d9 7:10a)
+- **Take Mik's door to Murkstede green** (d9 7:20a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d9 7:30a)
+- **Buy one ration from Eamon** (d9 7:40a) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d9 7:50a) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d9 8a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d9 8:10a–d9 9:30a)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d9 9:30a–d9 10:40a)
+- **Take the road from Meóswaeter to Glōmdael to the road between Meóswaeter and Glōmdael** (d9 10:40a–d9 12:40p)
+- **Take the path into Wychforwest to the edge of Wychforwest** (d9 12:40p–d9 1:40p)
+- **Take the track to a square doorway in a hillside in Wychforwest to a square doorway in a hillside in Wychforwest** (d9 1:40p–d9 2:40p) — Obscurusfons: a square doorway in a hillside in Wychforwest.
+  - *Obscurusfons*: Deer go off between the trees without a sound. This is Obscurusfons, as the folk call it. A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water. Letters are cut deep in the lintel, in a script older than the folk's: OBSCURUSFONS
+- **Read the letters over the door** (d9 2:40p)
+- **Take the square doorway to the long stair** (d9 2:50p)
+  - *the long stair*: A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in. Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the 
+- **Collect a simple ring for Elen** (d9 3p) — Elen takes a simple ring.
+- **Take the foot of the long stair to the pillared hall** (d9 3:10p)
+  - *the pillared hall*: Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed. Nothing moves in the water. Nothing has, for a long time. Black water stands in the hall to the springing of the arches, still as a floor. At its far end 
+- **Read the marks on the pillar** (d9 3:20p)
+- **Take the ledge along the wall to the wheel-room** (d9 3:30p)
+  - *the wheel-room*: A cell cut off the side of the hall, above a stone channel that runs away under the wall.
+- **Wind the sluice-wheel round** (d9 3:40p) — Deep in the hill a gate grinds open. The black water in the hall begins to fall, and goes on falling, and the hall fills with the sound of it.
+- **Take the ledge along the wall to the pillared hall** (d9 3:50p)
+- **Take the low arch to the spring-head** (d9 4p)
+  - *the spring-head*: A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves. Things glint in the bottom of the basin: offerings, left for the springs by people who meant them. The water has gone down out of the hall. Silt lies i
+- **Collect an aquamarine for Elen** (d9 4:10p) — Elen takes an aquamarine.
+- **Take the low arch to the pillared hall** (d9 4:20p)
+- **Take the foot of the long stair to the long stair** (d9 4:30p)
+- **Take the square doorway to Obscurusfons** (d9 4:40p)
+  - *Obscurusfons*: Deer go off between the trees without a sound. This is Obscurusfons, as the folk call it. A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water. Letters are cut deep in the lintel, in a script older than the folk's: OBSCURUSFONS
+- **Take the square doorway to the long stair** (d9 4:50p)
+  - *the long stair*: A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in. Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the 
+- **Take the foot of the long stair to the pillared hall** (d9 5p)
+  - *the pillared hall*: Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed. They dressed limestone so true it needed no mortar, cast sluice-gates of bronze as tall as a house, and ran lead pipes through the hills for miles. They h
+- **Take the ledge along the wall to the wheel-room** (d9 5:10p)
+  - *the wheel-room*: A cell cut off the side of the hall, above a stone channel that runs away under the wall.
+- **Take the ledge along the wall to the pillared hall** (d9 5:20p)
+- **Take the low arch to the spring-head** (d9 5:30p)
+  - *the spring-head*: A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves. Things glint in the bottom of the basin: offerings, left for the springs by people who meant them. The water has gone down out of the hall. Silt lies i
+- **Take the low arch to the pillared hall** (d9 5:40p)
+- **Take the foot of the long stair to the long stair** (d9 5:50p)
+- **Take the square doorway to Obscurusfons** (d9 6p)
+  - *Obscurusfons*: Deer go off between the trees without a sound. This is Obscurusfons, as the folk call it. A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water. Letters are cut deep in the lintel, in a script older than the folk's: OBSCURUSFONS
+- **Take the square doorway to the long stair** (d9 6:10p)
+  - *the long stair*: A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in. Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the 
+- **Take the foot of the long stair to the pillared hall** (d9 6:20p)
+  - *the pillared hall*: Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed. They dressed limestone so true it needed no mortar, cast sluice-gates of bronze as tall as a house, and ran lead pipes through the hills for miles. They h
+- **Take the ledge along the wall to the wheel-room** (d9 6:30p)
+  - *the wheel-room*: A cell cut off the side of the hall, above a stone channel that runs away under the wall.
+- **Take the ledge along the wall to the pillared hall** (d9 6:40p)
+- **Take the low arch to the spring-head** (d9 6:50p)
+  - *the spring-head*: A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves. Things glint in the bottom of the basin: offerings, left for the springs by people who meant them. The water has gone down out of the hall. Silt lies i
+- **Take the low arch to the pillared hall** (d9 7p)
+- **Take the foot of the long stair to the long stair** (d9 7:10p)
+- **Take the square doorway to Obscurusfons** (d9 7:20p)
+- **Take the track to Obscurusfons to the edge of Wychforwest** (d9 7:30p–d9 8:30p)
+- **Take the path into Wychforwest to the road between Meóswaeter and Glōmdael** (d9 8:30p–d9 9:30p)
+- **Take the road from Meóswaeter to Glōmdael to Meóswaeter green** (d9 9:30p–d9 11:30p)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d9 11:30p–d10 12:40a)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d10 12:40a–d10 2a)
+- **Take Mik's door to Mik's salt-house** (d10 2a)
+- **Sell an aquamarine to Mik** (d10 2:10a) — Mik turns an aquamarine over in the light, names a price, and counts out the coin.
+- **Sell a simple ring to Mik** (d10 2:20a) — Mik turns a simple ring over in the light, names a price, and counts out the coin.
+- **Take Mik's door to Murkstede green** (d10 2:30a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d10 2:40a)
+- **Take a bed and supper from Eamon** (d10 2:50a–d10 10:50a) — You eat a hot supper and sleep long in a dry bed.
+*Day 10, 10:50 a.m. · Elen L2 18/18hp 2005xp, Bran L2 22/22hp 2005xp, Dori L2 15/15hp 2005xp, Cyril L2 14/14hp 2005xp · 1417 coin*
+
+## Expedition 6: Nocswigil (barrow)
+*Day 10, 10:50 a.m. · Elen L2 18/18hp 2005xp, Bran L2 22/22hp 2005xp, Dori L2 15/15hp 2005xp, Cyril L2 14/14hp 2005xp · 1417 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d10 10:50a)
+- **Take Mik's door to Mik's salt-house** (d10 11a)
+- **Take Mik's door to Murkstede green** (d10 11:10a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d10 11:20a)
+- **Buy one ration from Eamon** (d10 11:30a) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d10 11:40a) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d10 11:50a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d10 12p–d10 1:20p)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d10 1:20p–d10 2:30p)
+- **Take the road from Meóswaeter to Faennslím to the road between Meóswaeter and Faennslím** (d10 2:30p–d10 4p)
+- **Take the road on to Faennslím to Faennslím green** (d10 4p–d10 5:20p)
+- **Take the road from Faennslím down to the Deopex to the bridge over the Deopex** (d10 5:20p–d10 8:50p) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d10 8:50p) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the bridge over the Deopex to Wǽttún green** (d10 9p–d11 12:20a)
+- **Take the track to a long mound east of Wǽttún to a long mound east of Wǽttún** (d11 12:20a–d11 4:20a) — Nocswigil: a long mound in the fen east of Wǽttún.
+  - *Nocswigil*: Owl pellets lie on the lintel stone. This is Nocswigil, as the folk call it. A long mound lies along the land, grassed over, higher at one end. At the high end a forecourt of standing stones faces the sunrise, and between the two tallest is the entrance, a low black square. On the stone across the e
+- **Read the marks on the seal-stone** (d11 4:20a) — The Barrow-Kin made things in this country too, before the folk. They laid their dead in long barrows along the bounds of their land, stone-chambered and turfed over, each with its seal-stone, and spoke with them through flutes of bone. They held that the dead keep the bounds of the land, and that a people with no barrows has no country.
+- **Roll the seal-stone aside** (d11 4:30a) — Out on the land, under the dark, something comes out of the barrow and goes along the old bound, as it used to.
+- **Take the low entrance to the stone passage** (d11 4:40a)
+  - *the stone passage*: A passage of great flat stones set on edge, roofed with more, so low you go bent. The floor is dry earth. It smells of nothing at all. Rats have been at the bones; their droppings are everywhere, and their eyes in the dark. The seal-stone has been rolled aside in its groove, and the way in stands op
+- **Take the low entrance to Nocswigil** (d11 4:50a)
+- **Take the hole in the top of the mound to the robbers' hole** (d11 5a)
+  - *the robbers' hole*: A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.
+- **Take the robbers' shaft to the south chamber** (d11 5:10a)
+- **Take the south opening to the stone passage** (d11 5:20a)
+- **Take the north opening to the north chamber** (d11 5:30a)
+  - *the north chamber*: A small chamber off the passage. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.
+- **Take the north opening to the stone passage** (d11 5:40a)
+- **Take the south opening to the south chamber** (d11 5:50a)
+  - *the south chamber*: A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed. The kingdom of Aergodríce knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.
+- **Collect an ancient crown for Elen** (d11 6a) — Elen takes an ancient crown.
+- **Take the south opening to the stone passage** (d11 6:10a)
+- **Take the end of the passage to the end chamber** (d11 6:20a–d11 6:40a) [a fight: fighters; fell: w3_dead_person, w3_dead_person_2]
+  - *the end chamber*: The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully. A flute of bone lies on the breastbone.
+- **Collect a broken flute for Elen** (d11 6:40a) — Elen takes a broken flute.
+- **Take the end of the passage to the stone passage** (d11 6:50a)
+- **Take the low entrance to Nocswigil** (d11 7a)
+  - *Nocswigil*: Owl pellets lie on the lintel stone. This is Nocswigil, as the folk call it. A long mound lies along the land, grassed over, higher at one end. At the high end a forecourt of standing stones faces the sunrise, and between the two tallest is the entrance, a low black square. On the stone across the e
+- **Take the low entrance to the stone passage** (d11 7:10a)
+  - *the stone passage*: A passage of great flat stones set on edge, roofed with more, so low you go bent. The floor is dry earth. It smells of nothing at all. Rats have been at the bones; their droppings are everywhere, and their eyes in the dark. The seal-stone has been rolled aside in its groove, and the way in stands op
+- **Take the low entrance to Nocswigil** (d11 7:20a)
+- **Take the hole in the top of the mound to the robbers' hole** (d11 7:30a)
+  - *the robbers' hole*: A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.
+- **Take the robbers' shaft to the south chamber** (d11 7:40a)
+- **Take the south opening to the stone passage** (d11 7:50a)
+- **Take the north opening to the north chamber** (d11 8a)
+  - *the north chamber*: A small chamber off the passage. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.
+- **Take the north opening to the stone passage** (d11 8:10a)
+- **Take the south opening to the south chamber** (d11 8:20a)
+  - *the south chamber*: A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed. The kingdom of Aergodríce knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.
+- **Take the south opening to the stone passage** (d11 8:30a)
+- **Take the end of the passage to the end chamber** (d11 8:40a)
+  - *the end chamber*: The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully. A flute of bone lies on the breastbone.
+- **Take the end of the passage to the stone passage** (d11 8:50a)
+- **Take the low entrance to Nocswigil** (d11 9a)
+  - *Nocswigil*: Owl pellets lie on the lintel stone. This is Nocswigil, as the folk call it. A long mound lies along the land, grassed over, higher at one end. At the high end a forecourt of standing stones faces the sunrise, and between the two tallest is the entrance, a low black square. On the stone across the e
+- **Take the low entrance to the stone passage** (d11 9:10a)
+  - *the stone passage*: A passage of great flat stones set on edge, roofed with more, so low you go bent. The floor is dry earth. It smells of nothing at all. Rats have been at the bones; their droppings are everywhere, and their eyes in the dark. The seal-stone has been rolled aside in its groove, and the way in stands op
+- **Take the low entrance to Nocswigil** (d11 9:20a)
+- **Take the hole in the top of the mound to the robbers' hole** (d11 9:30a)
+  - *the robbers' hole*: A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.
+- **Take the robbers' shaft to the south chamber** (d11 9:40a)
+- **Take the south opening to the stone passage** (d11 9:50a)
+- **Take the north opening to the north chamber** (d11 10a)
+  - *the north chamber*: A small chamber off the passage. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.
+- **Take the north opening to the stone passage** (d11 10:10a)
+- **Take the south opening to the south chamber** (d11 10:20a)
+  - *the south chamber*: A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed. The kingdom of Aergodríce knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.
+- **Take the south opening to the stone passage** (d11 10:30a)
+- **Take the end of the passage to the end chamber** (d11 10:40a)
+  - *the end chamber*: The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully. A flute of bone lies on the breastbone.
+- **Take the end of the passage to the stone passage** (d11 10:50a)
+- **Take the low entrance to Nocswigil** (d11 11a)
+- **Take the track to Nocswigil to Wǽttún green** (d11 11:10a–d11 3:10p)
+- **Take the bridge over the Deopex to the bridge over the Deopex** (d11 3:10p–d11 6:30p) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d11 6:30p) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the road from Faennslím down to the Deopex to Faennslím green** (d11 6:40p–d11 10:10p)
+- **Take the road on to Faennslím to the road between Meóswaeter and Faennslím** (d11 10:10p–d11 11:30p)
+- **Take the road from Meóswaeter to Faennslím to Meóswaeter green** (d11 11:30p–d12 1a)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d12 1a–d12 2:10a)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d12 2:10a–d12 3:30a)
+- **Take Mik's door to Mik's salt-house** (d12 3:30a)
+- **Sell a broken flute to Mik** (d12 3:40a) — Mik turns a broken flute over in the light, names a price, and counts out the coin.
+- **Sell an ancient crown to Mik** (d12 3:50a) — Mik turns an ancient crown over in the light, names a price, and counts out the coin.
+- **Take Mik's door to Murkstede green** (d12 4a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d12 4:10a)
+- **Take a bed and supper from Eamon** (d12 4:20a–d12 12:20p) — You eat a hot supper and sleep long in a dry bed.
+*Day 12, 12:20 p.m. · Elen L2 18/18hp 2970xp, Bran L2 22/22hp 2970xp, Dori L2 15/15hp 2970xp, Cyril L2 14/14hp 2970xp · 1669 coin*
+
+## Expedition 7: Lapisrechies (barrow)
+*Day 12, 12:20 p.m. · Elen L2 18/18hp 2970xp, Bran L2 22/22hp 2970xp, Dori L2 15/15hp 2970xp, Cyril L2 14/14hp 2970xp · 1669 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d12 12:20p)
+- **Take Mik's door to Mik's salt-house** (d12 12:30p)
+- **Take Mik's door to Murkstede green** (d12 12:40p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d12 12:50p)
+- **Buy one ration from Eamon** (d12 1p) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d12 1:10p) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d12 1:20p)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d12 1:30p–d12 2:50p)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d12 2:50p–d12 4p)
+- **Take the road from Meóswaeter to Faennslím to the road between Meóswaeter and Faennslím** (d12 4p–d12 5:30p)
+- **Take the track to a long mound north of Faennslím to a long mound north of Faennslím** (d12 5:30p–d12 6:30p) — A horn sounds above you, two long notes. Lapisrechies: a long mound in the fen north of Faennslím.
+  - *Lapisrechies*: Crows sit along the ridge of the mound, and do not fly. This is Lapisrechies, as the folk call it. A long mound lies along the land, grassed over, higher at one end. At the high end a forecourt of standing stones faces the sunrise, and between the two tallest is the entrance, a low black square. On 
+- **Read the marks on the seal-stone** (d12 6:30p)
+- **Roll the seal-stone aside** (d12 6:40p)
+- **Take the low entrance to the stone passage** (d12 6:50p)
+  - *the stone passage*: A passage of great flat stones set on edge, roofed with more, so low you go bent. The floor is dry earth. It smells of nothing at all. Rats have been at the bones; their droppings are everywhere, and their eyes in the dark. The seal-stone has been rolled aside in its groove, and the way in stands op
+- **Take the low entrance to Lapisrechies** (d12 7p)
+- **Take the hole in the top of the mound to the robbers' hole** (d12 7:10p)
+  - *the robbers' hole*: A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.
+- **Take the hole in the top of the mound to Lapisrechies** (d12 7:20p)
+- **Take the path up the bank to the ditch under the bank** (d12 7:30p–d12 7:50p)
+  - *the ditch under the bank*: A deep ditch under a bank of turf, and along the top of the bank a fence of stakes as tall as a man. Things hang from the stakes and turn in the wind: bones, rags, a doll.
+  - (leaving Sir Hamo's men alone: Elen reckons you would likely beat them, but someone could fall.)
+- **Take the path up the bank to Lapisrechies** (d12 7:50p–d12 8:10p)
+- **Search Lapisrechies** (d12 8:10p–d12 8:30p) — You go over Lapisrechies carefully. A passage leaves the ring-fort's store-pit and comes out in a hole among the gorse below the ring.
+- **Take a way out through the gorse to a hole among the gorse** (d12 8:30p–d12 8:50p)
+  - *a hole among the gorse*: A hole among the gorse below the ring, half hidden, worn smooth at the lip.
+- **Take a way out through the gorse to Lapisrechies** (d12 8:50p–d12 9:10p) — Out on the land, under the dark, something comes out of the barrow and goes along the old bound, as it used to.
+- **Take the low entrance to the stone passage** (d12 9:10p)
+- **Take the north opening to the north chamber** (d12 9:20p)
+  - *the north chamber*: A small chamber off the passage. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.
+- **Take the north opening to the stone passage** (d12 9:30p)
+- **Take the south opening to the south chamber** (d12 9:40p)
+  - *the south chamber*: A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed. The kingdom of Aergodríce knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.
+- **Collect a broken crown for Elen** (d12 9:50p) — Elen takes a broken crown.
+- **Take the south opening to the stone passage** (d12 10p)
+- **Take the end of the passage to the end chamber** (d12 10:10p)
+  - *the end chamber*: The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully. A flute of bone lies on the breastbone.
+- **Collect a bronze bracelet for Elen** (d12 10:20p) — Elen takes a bronze bracelet.
+- **Take the end of the passage to the stone passage** (d12 10:30p)
+- **Take the low entrance to Lapisrechies** (d12 10:40p)
+- **Take the path up the bank to the ditch under the bank** (d12 10:50p–d12 11:10p)
+- **Search the ditch under the bank** (d12 11:10p–d12 11:30p) — You go over the ditch under the bank carefully.
+- (cannot take raidersHold__stake_gate from raidersHold__ditch)
+- **Take the path up the bank to Lapisrechies** (d12 11:30p–d12 11:50p)
+- **Take a way out through the gorse to a hole among the gorse** (d12 11:50p–d13 12:10a)
+- **Take the souterrain to the store-pit** (d13 12:10a–d13 12:40a)
+  - *the store-pit*: A pit under the hall, roofed with timber, full of plunder. In the far wall a low stone-lined passage goes off into the dark, and a draught comes down it that smells of gorse.
+- **Take the ladder down into the store-pit to the long hall** (d13 12:40a)
+  - *the long hall*: The long hall is low and smoky, with a fire in a pit down the middle and sleeping-straw along the walls. A ladder goes down through a hole in the floor at one end.
+- **Take the hall door to the yard inside the ring** (d13 12:50a–d13 1:10a) [a fight: fighters; fell: band_person, band_person_3, party_1, band_person_2, band_person_4]
+- **Take a glossary of the old script from Elen for Bran** (d13 1:10a) — Bran takes a glossary of the old script from Elen.
+- **Take a torch from Elen for Bran** (d13 1:20a) — Bran takes a torch from Elen.
+- **Take a torch from Elen for Bran** (d13 1:30a) — Bran takes a torch from Elen.
+- **Take a lantern from Elen for Bran** (d13 1:40a) — Bran takes a lantern from Elen.
+- **Take a bronze bracelet from Elen for Bran** (d13 1:50a) — Bran takes a bronze bracelet from Elen.
+- **Take a broken crown from Elen for Bran** (d13 2a) — Bran takes a broken crown from Elen.
+- **Take the brothers' glossary of the old script from Elen for Bran** (d13 2:10a) — Bran takes the brothers' glossary of the old script from Elen.
+- **Take a coil of rope from Elen for Bran** (d13 2:20a) — Bran takes a coil of rope from Elen.
+- **Take a shortbow from Elen for Bran** (d13 2:30a) — Bran takes a shortbow from Elen.
+- **Take leather armor from Elen for Bran** (d13 2:40a) — Bran takes leather armor from Elen.
+- **Take a bedroll from Elen for Bran** (d13 2:50a) — Bran takes a bedroll from Elen.
+- **Take firewood from Elen for Bran** (d13 3a) — Bran takes firewood from Elen.
+- **Equip a lantern on Bran** (d13 3:10a) — Bran readies a lantern.
+- **Take the pen hurdle to the pens** (d13 3:20a)
+  - *the pens*: Hurdle pens, mucky, full of somebody else's sheep.
+- **Equip a glossary of the old script on Bran** (d13 3:30a) — Bran readies a glossary of the old script.
+- **Take the pen hurdle to the yard inside the ring** (d13 3:40a)
+- **Take the steps up the mound to the lookout mound** (d13 3:50a)
+  - *the lookout mound*: From the top of the mound you can see the road for miles, and anyone on it.
+- **Attack the outlaws' sentry** (d13 4a) [a fight: fighters; fell: sentry_person]
+- **Take a flask from Elen for Bran** (d13 4:10a) — Bran takes a flask from Elen.
+- **Take the steps up the mound to the yard inside the ring** (d13 4:20a)
+- **Take the hall door to the long hall** (d13 4:30a)
+- **Take a curtain of hides to the far end of the hall** (d13 4:40a)
+  - *the far end of the hall*: The far end of the hall, behind hides: a heap of fleeces like a throne, and a chest.
+- **Attack Sir Hamo Ashdown** (d13 4:50a) [a fight: fighters; fell: hamo_person]
+- **Pick the chest's padlock** (d13 5a)
+- **Take a fat purse of road-money out of a chest under the fleeces for Bran** (d13 5:10a) — Bran takes a fat purse of road-money from a chest under the fleeces.
+- **Take a signet ring with the arms cut off it out of a chest under the fleeces for Bran** (d13 5:20a) — Bran takes a signet ring with the arms cut off it from a chest under the fleeces.
+- **Take a curtain of hides to the long hall** (d13 5:30a)
+- **Take the hall door to the yard inside the ring** (d13 5:40a)
+- **Take the stake gate to the ditch under the bank** (d13 5:50a)
+- **Take the path up the bank to Lapisrechies** (d13 6a–d13 6:20a)
+  - *Lapisrechies*: Crows sit along the ridge of the mound, and do not fly. This is Lapisrechies, as the folk call it. A long mound lies along the land, grassed over, higher at one end. At the high end a forecourt of standing stones faces the sunrise, and between the two tallest is the entrance, a low black square. On 
+- **Take the low entrance to the stone passage** (d13 6:20a)
+  - *the stone passage*: A passage of great flat stones set on edge, roofed with more, so low you go bent. The floor is dry earth. It smells of nothing at all. Rats have been at the bones; their droppings are everywhere, and their eyes in the dark. The seal-stone has been rolled aside in its groove, and the way in stands op
+- **Take the low entrance to Lapisrechies** (d13 6:30a)
+- **Take the hole in the top of the mound to the robbers' hole** (d13 6:40a)
+  - *the robbers' hole*: A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.
+- **Take the hole in the top of the mound to Lapisrechies** (d13 6:50a)
+- **Take the path up the bank to the ditch under the bank** (d13 7a–d13 7:20a)
+  - *the ditch under the bank*: A deep ditch under a bank of turf, and along the top of the bank a fence of stakes as tall as a man. Things hang from the stakes and turn in the wind: bones, rags, a doll.
+- **Take the path up the bank to Lapisrechies** (d13 7:20a–d13 7:40a)
+- **Take a way out through the gorse to a hole among the gorse** (d13 7:40a–d13 8a)
+  - *a hole among the gorse*: A hole among the gorse below the ring, half hidden, worn smooth at the lip.
+- **Take a way out through the gorse to Lapisrechies** (d13 8a–d13 8:20a)
+- **Take the low entrance to the stone passage** (d13 8:20a)
+- **Take the north opening to the north chamber** (d13 8:30a)
+  - *the north chamber*: A small chamber off the passage. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.
+- **Take the north opening to the stone passage** (d13 8:40a)
+- **Take the south opening to the south chamber** (d13 8:50a)
+  - *the south chamber*: A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed. The kingdom of Aergodríce knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.
+- **Take the south opening to the stone passage** (d13 9a)
+- **Take the end of the passage to the end chamber** (d13 9:10a–d13 9:30a) [a fight: fighters; fell: w4_dead_person, w4_dead_person_2]
+  - *the end chamber*: The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully. A flute of bone lies on the breastbone.
+- **Take the end of the passage to the stone passage** (d13 9:30a)
+- **Take the low entrance to Lapisrechies** (d13 9:40a)
+- **Take the path up the bank to the ditch under the bank** (d13 9:50a–d13 10:10a)
+- **Take the stake gate to the yard inside the ring** (d13 10:10a)
+  - *the yard inside the ring*: The yard inside the ring is trodden mud, with a long turf-roofed hall, a hurdle pen, and a mound with a lookout's seat on top.
+- **Take the hall door to the long hall** (d13 10:20a)
+- **Take the ladder down into the store-pit to the store-pit** (d13 10:30a)
+  - *the store-pit*: A pit under the hall, roofed with timber, full of plunder. In the far wall a low stone-lined passage goes off into the dark, and a draught comes down it that smells of gorse.
+- **Take the ladder down into the store-pit to the long hall** (d13 10:40a)
+  - *the long hall*: The long hall is low and smoky, with a fire in a pit down the middle and sleeping-straw along the walls. A ladder goes down through a hole in the floor at one end.
+- **Take the hall door to the yard inside the ring** (d13 10:50a)
+- **Take the pen hurdle to the pens** (d13 11a)
+  - *the pens*: Hurdle pens, mucky, full of somebody else's sheep.
+- **Take the pen hurdle to the yard inside the ring** (d13 11:10a)
+- **Take the steps up the mound to the lookout mound** (d13 11:20a)
+  - *the lookout mound*: From the top of the mound you can see the road for miles, and anyone on it.
+- **Take the steps up the mound to the yard inside the ring** (d13 11:30a)
+- **Take the hall door to the long hall** (d13 11:40a)
+- **Take a curtain of hides to the far end of the hall** (d13 11:50a)
+  - *the far end of the hall*: The far end of the hall, behind hides: a heap of fleeces like a throne, and a chest.
+- **Take a curtain of hides to the long hall** (d13 12p)
+- **Take the hall door to the yard inside the ring** (d13 12:10p)
+- **Take the stake gate to the ditch under the bank** (d13 12:20p)
+- **Take the path up the bank to Lapisrechies** (d13 12:30p–d13 12:50p)
+  - *Lapisrechies*: Crows sit along the ridge of the mound, and do not fly. This is Lapisrechies, as the folk call it. A long mound lies along the land, grassed over, higher at one end. At the high end a forecourt of standing stones faces the sunrise, and between the two tallest is the entrance, a low black square. On 
+- **Take the low entrance to the stone passage** (d13 12:50p)
+  - *the stone passage*: A passage of great flat stones set on edge, roofed with more, so low you go bent. The floor is dry earth. It smells of nothing at all. Rats have been at the bones; their droppings are everywhere, and their eyes in the dark. The seal-stone has been rolled aside in its groove, and the way in stands op
+- **Take the low entrance to Lapisrechies** (d13 1p)
+- **Take the hole in the top of the mound to the robbers' hole** (d13 1:10p)
+  - *the robbers' hole*: A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.
+- **Take the hole in the top of the mound to Lapisrechies** (d13 1:20p)
+- **Take the path up the bank to the ditch under the bank** (d13 1:30p–d13 1:50p)
+  - *the ditch under the bank*: A deep ditch under a bank of turf, and along the top of the bank a fence of stakes as tall as a man. Things hang from the stakes and turn in the wind: bones, rags, a doll.
+- **Take the path up the bank to Lapisrechies** (d13 1:50p–d13 2:10p)
+- **Take a way out through the gorse to a hole among the gorse** (d13 2:10p–d13 2:30p)
+  - *a hole among the gorse*: A hole among the gorse below the ring, half hidden, worn smooth at the lip.
+- **Take a way out through the gorse to Lapisrechies** (d13 2:30p–d13 2:50p)
+- **Take the low entrance to the stone passage** (d13 2:50p)
+- **Take the north opening to the north chamber** (d13 3p)
+  - *the north chamber*: A small chamber off the passage. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.
+- **Take the north opening to the stone passage** (d13 3:10p)
+- **Take the south opening to the south chamber** (d13 3:20p)
+  - *the south chamber*: A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed. The kingdom of Aergodríce knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.
+- **Take the south opening to the stone passage** (d13 3:30p)
+- **Take the end of the passage to the end chamber** (d13 3:40p)
+  - *the end chamber*: The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully. A flute of bone lies on the breastbone.
+- **Take the end of the passage to the stone passage** (d13 3:50p)
+- **Take the low entrance to Lapisrechies** (d13 4p)
+- **Take the path up the bank to the ditch under the bank** (d13 4:10p–d13 4:30p)
+- **Take the stake gate to the yard inside the ring** (d13 4:30p)
+  - *the yard inside the ring*: The yard inside the ring is trodden mud, with a long turf-roofed hall, a hurdle pen, and a mound with a lookout's seat on top.
+- **Take the hall door to the long hall** (d13 4:40p)
+- **Take the ladder down into the store-pit to the store-pit** (d13 4:50p)
+  - *the store-pit*: A pit under the hall, roofed with timber, full of plunder. In the far wall a low stone-lined passage goes off into the dark, and a draught comes down it that smells of gorse.
+- **Take the ladder down into the store-pit to the long hall** (d13 5p)
+  - *the long hall*: The long hall is low and smoky, with a fire in a pit down the middle and sleeping-straw along the walls. A ladder goes down through a hole in the floor at one end.
+- **Take the hall door to the yard inside the ring** (d13 5:10p)
+- **Take the pen hurdle to the pens** (d13 5:20p)
+  - *the pens*: Hurdle pens, mucky, full of somebody else's sheep.
+- **Take the pen hurdle to the yard inside the ring** (d13 5:30p)
+- **Take the steps up the mound to the lookout mound** (d13 5:40p)
+  - *the lookout mound*: From the top of the mound you can see the road for miles, and anyone on it.
+- **Take the steps up the mound to the yard inside the ring** (d13 5:50p)
+- **Take the hall door to the long hall** (d13 6p)
+- **Take a curtain of hides to the far end of the hall** (d13 6:10p)
+  - *the far end of the hall*: The far end of the hall, behind hides: a heap of fleeces like a throne, and a chest.
+- **Take a curtain of hides to the long hall** (d13 6:20p)
+- **Take the hall door to the yard inside the ring** (d13 6:30p)
+- **Take the stake gate to the ditch under the bank** (d13 6:40p)
+- **Take the path up the bank to Lapisrechies** (d13 6:50p–d13 7:10p)
+- **Take the track to Lapisrechies to the road between Meóswaeter and Faennslím** (d13 7:10p–d13 8:10p)
+- **Take the road from Meóswaeter to Faennslím to Meóswaeter green** (d13 8:10p–d13 9:40p)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d13 9:40p–d13 10:50p)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d13 10:50p–d14 12:10a)
+- **Take Mik's door to Mik's salt-house** (d14 12:10a)
+- **Sell a bronze bracelet to Mik** (d14 12:20a) — Mik turns a bronze bracelet over in the light, names a price, and counts out the coin.
+- **Sell a broken crown to Mik** (d14 12:30a) — Mik turns a broken crown over in the light, names a price, and counts out the coin.
+- **Sell a fat purse of road-money to Mik** (d14 12:40a) — Mik turns a fat purse of road-money over in the light, names a price, and counts out the coin.
+- **Sell a signet ring with the arms cut off it to Mik** (d14 12:50a) — Mik turns a signet ring with the arms cut off it over in the light, names a price, and counts out the coin.
+- **Take Mik's door to Murkstede green** (d14 1a)
+- **Take the shrine porch in Murkstede to the shrine of Nodens** (d14 1:10a)
+- **Ask Eogan to raise Elen from the dead** (d14 1:20a–d14 9:20a) — Eogan keeps the vigil over Elen all night, and at first light Elen draws a breath, and then another.
+- **Take the shrine porch in Murkstede to Murkstede green** (d14 9:20a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d14 9:30a)
+- **Take a bed and supper from Eamon** (d14 9:40a–d14 5:40p) — You eat a hot supper and sleep long in a dry bed.
+*Day 14, 5:40 p.m. · Elen L2 18/18hp 2970xp, Bran L3 25/25hp 3998xp, Dori L3 19/19hp 3998xp, Cyril L3 16/16hp 3998xp · 1450 coin*
+
+## Expedition 8: Ísencepan (keep)
+*Day 14, 5:40 p.m. · Elen L2 18/18hp 2970xp, Bran L3 25/25hp 3998xp, Dori L3 19/19hp 3998xp, Cyril L3 16/16hp 3998xp · 1450 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d14 5:40p)
+- **Take Mik's door to Mik's salt-house** (d14 5:50p)
+- **Take Mik's door to Murkstede green** (d14 6p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d14 6:10p)
+- **Buy one ration from Eamon** (d14 6:20p) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d14 6:30p) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d14 6:40p)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d14 6:50p–d14 8:10p)
+- **Take the track to a broken keep to a broken keep** (d14 8:10p–d14 8:40p) — Ísencepan: a broken keep in the fen north-west of Meóswaeter.
+  - *Ísencepan*: A snake suns itself on a fallen stone. This is Ísencepan, as the folk call it. A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road. Over the
+- **Take the gate to the gate-passage** (d14 8:40p)
+  - *the gate-passage*: A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone. Names and tallies are scratched into the plaster where men waited out their watches. A portcullis of black iron is down across the inner arch, rusted into its grooves a hand's breadth of
+- **Heave the portcullis up and wedge it** (d14 8:50p)
+- **Collect a steel coin for Elen** (d14 9p) — Elen takes a steel coin.
+- **Take the inner arch to the bailey** (d14 9:10p) — Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall. Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall.
+  - *the bailey*: The bailey is grass and nettles round a well-head. Lean-to roofs once ran along the inside of the wall; their beam-holes are a row of black squares in the stone. The keep's hall steps go up on one side, and stone steps climb the curtain wall on the other. The portcullis is wedged up in its grooves w
+- **Attack the wolves** (d14 9:20p) [a fight: fighters; fell: w6_wolves_person, w6_wolves_person_2, w6_wolves_person_3]
+- **Take the hall steps to the great hall** (d14 9:30p)
+  - *the great hall*: The great hall fills the keep's first floor, open now to the sky where the floors above have fallen in. A hearth wide enough to stand in takes up one wall. A stair goes up inside the thickness of the other. The keep was burned from inside. The floors fell burning into the hall, and the stones of the
+- **Take the hall steps to the bailey** (d14 9:40p)
+- **Take the steps up to the wall to the wall-walk** (d14 9:50p) — The way to a grassed mound north-east of Meóswaeter.
+  - *the wall-walk*: From the wall-walk you can see the road for miles both ways, as the keep was built to: whoever came along it, the lord knew of it a morning before they arrived. Far off to the east the lord's men would have seen what you see now: a grassed mound north-east of Meóswaeter.
+- **Take the steps up to the wall to the bailey** (d14 10p)
+- **Take the undercroft door to the undercroft** (d14 10:10p)
+  - *the undercroft*: A vaulted undercroft under the bailey, dry and cold, where the keep kept its stores. Racks for barrels stand empty along the walls.
+- **Pick the strongbox's lock** (d14 10:20p)
+- **Take a jeweled dagger out of the lord's strongbox for Elen** (d14 10:30p) — Elen takes a jeweled dagger from the lord's strongbox.
+- **Take the undercroft door to the bailey** (d14 10:40p)
+- **Take the hall steps to the great hall** (d14 10:50p)
+- **Take the stair in the wall to the lord's chamber** (d14 11p)
+  - *the lord's chamber*: The lord's chamber has kept its roof. A bed-frame, a bench under the window, and an iron-bound chest that no one has managed to carry off.
+- **Untie the castle roll and read it** (d14 11:10p)
+- **Take the stair in the wall to the great hall** (d14 11:20p)
+- **Take the hall steps to the bailey** (d14 11:30p)
+- **Take a breach in the curtain wall to Ísencepan** (d14 11:40p)
+  - *Ísencepan*: A snake suns itself on a fallen stone. This is Ísencepan, as the folk call it. A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road. Over the
+- **Take the gate to the gate-passage** (d14 11:50p)
+  - *the gate-passage*: A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone. Names and tallies are scratched into the plaster where men waited out their watches. The portcullis is wedged up in its grooves with a beam, and the way into the bailey is open.
+- **Take the inner arch to the bailey** (d15 12a)
+  - *the bailey*: The bailey is grass and nettles round a well-head. Lean-to roofs once ran along the inside of the wall; their beam-holes are a row of black squares in the stone. The keep's hall steps go up on one side, and stone steps climb the curtain wall on the other. The portcullis is wedged up in its grooves w
+- **Take the hall steps to the great hall** (d15 12:10a)
+  - *the great hall*: The great hall fills the keep's first floor, open now to the sky where the floors above have fallen in. A hearth wide enough to stand in takes up one wall. A stair goes up inside the thickness of the other. The keep was burned from inside. The floors fell burning into the hall, and the stones of the
+- **Take the hall steps to the bailey** (d15 12:20a)
+- **Take the steps up to the wall to the wall-walk** (d15 12:30a)
+  - *the wall-walk*: From the wall-walk you can see the road for miles both ways, as the keep was built to: whoever came along it, the lord knew of it a morning before they arrived. Far off to the east the lord's men would have seen what you see now: a grassed mound north-east of Meóswaeter.
+- **Take the steps up to the wall to the bailey** (d15 12:40a)
+- **Take the undercroft door to the undercroft** (d15 12:50a)
+  - *the undercroft*: A vaulted undercroft under the bailey, dry and cold, where the keep kept its stores. Racks for barrels stand empty along the walls.
+- **Take the undercroft door to the bailey** (d15 1a)
+- **Take the hall steps to the great hall** (d15 1:10a)
+- **Take the stair in the wall to the lord's chamber** (d15 1:20a)
+  - *the lord's chamber*: The lord's chamber has kept its roof. A bed-frame, a bench under the window, and an iron-bound chest that no one has managed to carry off. The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom. The last lines are three words, over and ove
+- **Take the stair in the wall to the great hall** (d15 1:30a)
+- **Take the hall steps to the bailey** (d15 1:40a)
+- **Take a breach in the curtain wall to Ísencepan** (d15 1:50a)
+  - *Ísencepan*: A snake suns itself on a fallen stone. This is Ísencepan, as the folk call it. A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road. Over the
+- **Take the gate to the gate-passage** (d15 2a)
+  - *the gate-passage*: A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone. Names and tallies are scratched into the plaster where men waited out their watches. The portcullis is wedged up in its grooves with a beam, and the way into the bailey is open.
+- **Take the inner arch to the bailey** (d15 2:10a)
+  - *the bailey*: The bailey is grass and nettles round a well-head. Lean-to roofs once ran along the inside of the wall; their beam-holes are a row of black squares in the stone. The keep's hall steps go up on one side, and stone steps climb the curtain wall on the other. The portcullis is wedged up in its grooves w
+- **Take the hall steps to the great hall** (d15 2:20a)
+  - *the great hall*: The great hall fills the keep's first floor, open now to the sky where the floors above have fallen in. A hearth wide enough to stand in takes up one wall. A stair goes up inside the thickness of the other. The keep was burned from inside. The floors fell burning into the hall, and the stones of the
+- **Take the hall steps to the bailey** (d15 2:30a)
+- **Take the steps up to the wall to the wall-walk** (d15 2:40a)
+  - *the wall-walk*: From the wall-walk you can see the road for miles both ways, as the keep was built to: whoever came along it, the lord knew of it a morning before they arrived. Far off to the east the lord's men would have seen what you see now: a grassed mound north-east of Meóswaeter.
+- **Take the steps up to the wall to the bailey** (d15 2:50a)
+- **Take the undercroft door to the undercroft** (d15 3a)
+  - *the undercroft*: A vaulted undercroft under the bailey, dry and cold, where the keep kept its stores. Racks for barrels stand empty along the walls.
+- **Take the undercroft door to the bailey** (d15 3:10a)
+- **Take the hall steps to the great hall** (d15 3:20a)
+- **Take the stair in the wall to the lord's chamber** (d15 3:30a)
+  - *the lord's chamber*: The lord's chamber has kept its roof. A bed-frame, a bench under the window, and an iron-bound chest that no one has managed to carry off. The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom. The last lines are three words, over and ove
+- **Take the stair in the wall to the great hall** (d15 3:40a)
+- **Take the hall steps to the bailey** (d15 3:50a)
+- **Take a breach in the curtain wall to Ísencepan** (d15 4a)
+- **Take the track to Ísencepan to the road between Murkstede and Meóswaeter** (d15 4:10a–d15 4:40a)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d15 4:40a–d15 6a)
+- **Take Mik's door to Mik's salt-house** (d15 6a)
+- **Sell a jeweled dagger to Mik** (d15 6:10a) — Mik turns a jeweled dagger over in the light, names a price, and counts out the coin.
+- **Sell a steel coin to Mik** (d15 6:20a) — Mik turns a steel coin over in the light, names a price, and counts out the coin.
+- **Take Mik's door to Murkstede green** (d15 6:30a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d15 6:40a)
+- **Take a bed and supper from Eamon** (d15 6:50a–d15 2:50p) — You eat a hot supper and sleep long in a dry bed.
+*Day 15, 2:50 p.m. · Elen L3 22/22hp 3723xp, Bran L3 25/25hp 4751xp, Dori L3 19/19hp 4751xp, Cyril L3 16/16hp 4751xp · 1746 coin*
+
+## Expedition 9: Palustumulo (barrow)
+*Day 15, 2:50 p.m. · Elen L3 22/22hp 3723xp, Bran L3 25/25hp 4751xp, Dori L3 19/19hp 4751xp, Cyril L3 16/16hp 4751xp · 1746 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d15 2:50p)
+- **Take Mik's door to Mik's salt-house** (d15 3p)
+- **Take Mik's door to Murkstede green** (d15 3:10p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d15 3:20p)
+- **Buy one ration from Eamon** (d15 3:30p) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d15 3:40p) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d15 3:50p)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d15 4p–d15 5:20p)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d15 5:20p–d15 6:30p)
+- **Take the road from Meóswaeter to Faennslím to the road between Meóswaeter and Faennslím** (d15 6:30p–d15 8p)
+- **Take the track to a grassed mound north-east of Meóswaeter to a grassed mound north-east of Meóswaeter** (d15 8p–d15 8:30p) — Palustumulo: a grassed mound in the fen north-east of Meóswaeter. The name is Aenean, the old tongue, for “marsh mound”.
+  - *Palustumulo*: A long grassed mound with a stone-lined entrance. Owl pellets lie on the lintel stone. This is Palustumulo. The name is Aenean, the old tongue, for “marsh mound”. On the stone across the entrance, in the old script: PALUSTUMULO.
+- **Attack the ghoul** (d15 8:30p) [a fight: fighters; fell: beasts_person]
+  - *Palustumulo*: A long grassed mound with a stone-lined entrance. Owl pellets lie on the lintel stone. This is Palustumulo. The name is Aenean, the old tongue, for “marsh mound”. On the stone across the entrance, in the old script: PALUSTUMULO. Palustumulo is quiet now. Flies settle on what is left.
+  - *Palustumulo*: A long grassed mound with a stone-lined entrance. Owl pellets lie on the lintel stone. This is Palustumulo. The name is Aenean, the old tongue, for “marsh mound”. On the stone across the entrance, in the old script: PALUSTUMULO. Palustumulo is quiet now. Flies settle on what is left.
+- **Take the track to Palustumulo to the road between Meóswaeter and Faennslím** (d15 8:40p–d15 9:10p)
+- **Take the road from Meóswaeter to Faennslím to Meóswaeter green** (d15 9:10p–d15 10:40p)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d15 10:40p–d15 11:50p)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d15 11:50p–d16 1:10a)
+- **Take Mik's door to Mik's salt-house** (d16 1:10a)
+- **Take Mik's door to Murkstede green** (d16 1:20a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d16 1:30a)
+- **Take a bed and supper from Eamon** (d16 1:40a–d16 9:40a) — You eat a hot supper and sleep long in a dry bed.
+*Day 16, 9:40 a.m. · Elen L3 22/22hp 4273xp, Bran L3 25/25hp 5301xp, Dori L3 19/19hp 5301xp, Cyril L3 16/16hp 5301xp · 1739 coin*
+
+## Expedition 10: Gloom Howe (barrow)
+*Day 16, 9:40 a.m. · Elen L3 22/22hp 4273xp, Bran L3 25/25hp 5301xp, Dori L3 19/19hp 5301xp, Cyril L3 16/16hp 5301xp · 1739 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d16 9:40a)
+- **Take Mik's door to Mik's salt-house** (d16 9:50a)
+- **Take Mik's door to Murkstede green** (d16 10a)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d16 10:10a)
+- **Buy one ration from Eamon** (d16 10:20a) — Eamon counts the coins and hands over a ration.
+- **Buy one ration from Eamon** (d16 10:30a) — Eamon counts the coins and hands over a ration.
+- **Take the door of the Lucky Phoenix to Murkstede green** (d16 10:40a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d16 10:50a–d16 12:10p)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d16 12:10p–d16 1:20p)
+- **Take the road from Meóswaeter to Faennslím to the road between Meóswaeter and Faennslím** (d16 1:20p–d16 2:50p)
+- **Take the road on to Faennslím to Faennslím green** (d16 2:50p–d16 4:10p)
+- **Take the road from Faennslím down to the Deopex to the bridge over the Deopex** (d16 4:10p–d16 7:40p) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d16 7:40p) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the bridge over the Deopex to Wǽttún green** (d16 7:50p–d16 11:10p)
+- **Take the track to a grassed mound east of Wǽttún to a grassed mound east of Wǽttún** (d16 11:10p–d17 4:10a) — Gloom Howe: a grassed mound in the fen east of Wǽttún.
+  - *Gloom Howe*: A long grassed mound with a stone-lined entrance. Crows sit along the ridge of the mound, and do not fly. This is Gloom Howe. On the stone across the entrance, in the old script: GLOOM HOWE.
+- **Attack the ghoul** (d17 4:10a) [a fight: fighters; fell: beasts_person]
+  - *Gloom Howe*: A long grassed mound with a stone-lined entrance. Crows sit along the ridge of the mound, and do not fly. This is Gloom Howe. On the stone across the entrance, in the old script: GLOOM HOWE. Gloom Howe is quiet now. Flies settle on what is left.
+  - *Gloom Howe*: A long grassed mound with a stone-lined entrance. Crows sit along the ridge of the mound, and do not fly. This is Gloom Howe. On the stone across the entrance, in the old script: GLOOM HOWE. Gloom Howe is quiet now. Flies settle on what is left.
+- **Take the track to Gloom Howe to Wǽttún green** (d17 4:20a–d17 9:20a)
+- **Take the bridge over the Deopex to the bridge over the Deopex** (d17 9:20a–d17 12:40p) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d17 12:40p) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the road from Faennslím down to the Deopex to Faennslím green** (d17 12:50p–d17 4:20p)
+- **Take the road on to Faennslím to the road between Meóswaeter and Faennslím** (d17 4:20p–d17 5:40p)
+- **Take the road from Meóswaeter to Faennslím to Meóswaeter green** (d17 5:40p–d17 7:10p)
+- **Take the road on to Meóswaeter to the road between Murkstede and Meóswaeter** (d17 7:10p–d17 8:20p)
+- **Take the road from Murkstede to Meóswaeter to Murkstede green** (d17 8:20p–d17 9:40p)
+- **Take Mik's door to Mik's salt-house** (d17 9:40p)
+- **Take Mik's door to Murkstede green** (d17 9:50p)
+- **Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix** (d17 10p)
+- **Take a bed and supper from Eamon** (d17 10:10p–d18 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 18, 7:00 a.m. · Elen L3 22/22hp 4823xp, Bran L3 25/25hp 5851xp, Dori L3 19/19hp 5851xp, Cyril L3 16/16hp 5851xp · 1726 coin*
+- **Take the door of the Lucky Phoenix to Murkstede green** (d18 7a)
+- **Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter** (d18 7:10a–d18 8:30a)
+- **Take the road on to Meóswaeter to Meóswaeter green** (d18 8:30a–d18 9:40a)
+- **Take the road from Meóswaeter to Glōmdael to the road between Meóswaeter and Glōmdael** (d18 9:40a–d18 11:40a)
+- **Take the road on to Glōmdael to Glōmdael green** (d18 11:40a–d18 1:30p)
+- (the country beyond is drawn: Rindwudu, forest)
+- **Take the old road east to the eastern edge of Merscfaenn** (d18 1:30p–d18 6p)
+- **Take the road across the march to the western edge of Rindwudu** (d18 6p–d18 8p)
+
+# Into Rindwudu (x1y0)
+- **Take the old road west to Alaftaure green** (d18 8p–d18 11p)
+- **Take the ford of the Graegbrōc to the ford of the Graegbrōc** (d18 11p–d19 1:20a)
+- **Take the road from Rosglaed down to the Graegbrōc to Rosglaed green** (d19 1:20a–d19 3:50a)
+- **Take the road on to Rosglaed to the road between Lilieburg and Rosglaed** (d19 3:50a–d19 5:10a)
+- **Take the road from Lilieburg to Rosglaed to Lilieburg green** (d19 5:10a–d19 6:40a)
+- **Take the door of the Merry Rose to the taproom of the Merry Rose** (d19 6:40a)
+- **Ask Aiden about the ewes taken on a cave in the hillside** (d19 6:50a) — Aiden tells you what they have heard about the ewes taken on a cave in the hillside. Something comes up out of the ground by a cave in the hillside at night and takes a ewe from Garth's flock. Garth means to burn it out.
+- **Ask Aiden about the stranger who pays in old coin at Blóstmabearwas** (d19 7a) — Aiden tells you what they have heard about the stranger who pays in old coin at Blóstmabearwas. A stranger at the inn pays in old coin, and asks the way to the fallen walls.
+- **Ask Aiden about the sick child at Blóstmabearwas** (d19 7:10a) — Aiden tells you what they have heard about the sick child at Blóstmabearwas. A child on Blóstmabearwas green has a fever that will not break, and the herbs have run out.
+- **Ask Warryn what brings them to Lilieburg** (d19 7:20a) — 'Ribbons, pins and news. The news sells best.' Warryn looks you over. 'If you are going anywhere, I would come along. 3 coin, and my keep.'
+- **Ask Warryn to join the company** (d19 7:30a) — Warryn shakes on it, and is one of you.
+- **Take the door of the Merry Rose to Lilieburg green** (d19 7:40a)
+- **Take the shrine porch in Lilieburg to the shrine of Brigid** (d19 7:50a)
+- **Ask Iaric about the silk from the sink at a cave in the hillside** (d19 8a) — Iaric tells you what they have heard about the silk from the sink at a cave in the hillside. Odile, who winds silk at the sink by a cave in the hillside, has had none for a week, and is frightened for her spiders.
+- **Take the shrine porch in Lilieburg to Lilieburg green** (d19 8:10a)
+- **Take Zara's door to Zara's herb-shop** (d19 8:20a)
+
+## Expedition 11: Oratoport (singing_hall)
+*Day 19, 8:30 a.m. · Elen L3 22/22hp 4823xp, Bran L3 25/25hp 5851xp, Dori L3 19/19hp 5851xp, Cyril L3 16/16hp 5851xp, Warryn L1 6/6hp 0xp · 1723 coin*
+- **Take Zara's door to Lilieburg green** (d19 8:30a)
+- **Take the door of the Merry Rose to the taproom of the Merry Rose** (d19 8:40a)
+- **Buy one ration from Aiden** (d19 8:50a) — Aiden counts the coins and hands over a ration.
+- **Buy one ration from Aiden** (d19 9a) — Aiden counts the coins and hands over a ration.
+- **Take the door of the Merry Rose to Lilieburg green** (d19 9:10a)
+- **Take the road from Lilieburg to Rosglaed to the road between Lilieburg and Rosglaed** (d19 9:20a–d19 10:50a)
+- **Take the path up onto Albemunt to the foot of Albemunt** (d19 10:50a–d19 11:50a)
+- **Take a sheep-track higher up to the roof of Albemunt** (d19 11:50a–d19 12:50p)
+- **Search the roof of Albemunt** (d19 12:50p–d19 1:10p) — You go over the roof of Albemunt carefully. The way to a smooth doorway in a crag on the roof of Albemunt.
+- **Take the track to a smooth doorway in a crag on the roof of Albemunt to a smooth doorway in a crag on the roof of Albemunt** (d19 1:10p–d19 2:10p) — Oratoport: a smooth doorway in a crag in Albemunt.
+  - *Oratoport*: A raven keeps pace with you from cairn to cairn. This is Oratoport, as the folk call it. A doorway opens in the face of a crag, round-headed and smooth as poured wax, with no mark of a tool anywhere on it. Wind across it makes a low note that comes and goes. Over the doorway, letters flow into the s
+- **Take the smooth doorway to the smooth porch** (d19 2:10p)
+  - *the smooth porch*: The porch is a hollow in the rock as smooth as the inside of a shell. Your footsteps ring, and the ringing goes on after you stop. Bats hang from the dome of the porch, and stir and squeak as you come in.
+- **Take the round arch to the round hall** (d19 2:20p)
+  - *the round hall*: A round hall, domed, without a joint or a mark, the floor worn into a shallow bowl. Every sound you make comes back to you from everywhere at once, a little changed. Someone painted saints on the round hall's walls, long after the Singers: the kingdom of Aergodríce made a chapel of it. The paint has
+- **Sing the notes cut on the door** (d19 2:30p) — Before the folk came, the Stone-Singers held this country. They shaped stone by song: their halls are cut whole out of the living rock without a mark of chisel or a single joint, and their doors open to a note. They held that stone is song that has stopped, and that everything made can be sung back into what it was.
+- **Take the door of notes to the silent hall** (d19 2:40p)
+  - *the silent hall*: A long hall, colder than the rest. Along its walls figures stand half out of the stone, or half into it: men and women with their mouths open, as if they were singing when the stone closed over them. The stone door has rolled back into the rock, and the air from behind it is cold.
+- **Lay an ear against the stone** (d19 2:50p) — How the Stone-Singers ended: They sang the last of themselves into the stone of their hall, all of them at once, and the hall has been silent since.
+- **Collect an amethyst for Elen** (d19 3p) — Elen takes an amethyst. The way to a cliff cut into a face in Albemunt.
+- **Take the door of notes to the round hall** (d19 3:10p)
+- **Take the round arch to the smooth porch** (d19 3:20p)
+- **Take the smooth doorway to Oratoport** (d19 3:30p)
+  - *Oratoport*: A raven keeps pace with you from cairn to cairn. This is Oratoport, as the folk call it. A doorway opens in the face of a crag, round-headed and smooth as poured wax, with no mark of a tool anywhere on it. Wind across it makes a low note that comes and goes. Over the doorway, letters flow into the s
+- **Take the smooth doorway to the smooth porch** (d19 3:40p)
+  - *the smooth porch*: The porch is a hollow in the rock as smooth as the inside of a shell. Your footsteps ring, and the ringing goes on after you stop. Bats hang from the dome of the porch, and stir and squeak as you come in.
+- **Take the round arch to the round hall** (d19 3:50p)
+  - *the round hall*: A round hall, domed, without a joint or a mark, the floor worn into a shallow bowl. Every sound you make comes back to you from everywhere at once, a little changed. They shaped stone by song: their halls are cut whole out of the living rock without a mark of chisel or a single joint, and their door
+- **Take the door of notes to the silent hall** (d19 4p)
+  - *the silent hall*: A long hall, colder than the rest. Along its walls figures stand half out of the stone, or half into it: men and women with their mouths open, as if they were singing when the stone closed over them. They sang the last of themselves into the stone of their hall, all of them at once, and the hall has
+- **Take the door of notes to the round hall** (d19 4:10p)
+- **Take the round arch to the smooth porch** (d19 4:20p)
+- **Take the smooth doorway to Oratoport** (d19 4:30p)
+  - *Oratoport*: A raven keeps pace with you from cairn to cairn. This is Oratoport, as the folk call it. A doorway opens in the face of a crag, round-headed and smooth as poured wax, with no mark of a tool anywhere on it. Wind across it makes a low note that comes and goes. Over the doorway, letters flow into the s
+- **Take the smooth doorway to the smooth porch** (d19 4:40p)
+  - *the smooth porch*: The porch is a hollow in the rock as smooth as the inside of a shell. Your footsteps ring, and the ringing goes on after you stop. Bats hang from the dome of the porch, and stir and squeak as you come in.
+- **Take the round arch to the round hall** (d19 4:50p)
+  - *the round hall*: A round hall, domed, without a joint or a mark, the floor worn into a shallow bowl. Every sound you make comes back to you from everywhere at once, a little changed. They shaped stone by song: their halls are cut whole out of the living rock without a mark of chisel or a single joint, and their door
+- **Take the door of notes to the silent hall** (d19 5p)
+  - *the silent hall*: A long hall, colder than the rest. Along its walls figures stand half out of the stone, or half into it: men and women with their mouths open, as if they were singing when the stone closed over them. They sang the last of themselves into the stone of their hall, all of them at once, and the hall has
+- **Take the door of notes to the round hall** (d19 5:10p)
+- **Take the round arch to the smooth porch** (d19 5:20p)
+- **Take the smooth doorway to Oratoport** (d19 5:30p)
+- **Take the track to Oratoport to the roof of Albemunt** (d19 5:40p–d19 6:40p)
+- **Take a sheep-track higher up to the foot of Albemunt** (d19 6:40p–d19 7:40p)
+- **Take the path up onto Albemunt to the road between Lilieburg and Rosglaed** (d19 7:40p–d19 8:40p)
+- **Take the road from Lilieburg to Rosglaed to Lilieburg green** (d19 8:40p–d19 10:10p)
+- **Take Zara's door to Zara's herb-shop** (d19 10:10p)
+- **Sell an amethyst to Zara** (d19 10:20p) — Zara turns an amethyst over in the light, names a price, and counts out the coin.
+- **Take Zara's door to Lilieburg green** (d19 10:30p)
+- **Take the door of the Merry Rose to the taproom of the Merry Rose** (d19 10:40p)
+- **Take a bed and supper from Aiden** (d19 10:50p–d20 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 20, 7:00 a.m. · Elen L3 22/22hp 4883xp, Bran L3 25/25hp 5911xp, Dori L3 19/19hp 5911xp, Cyril L3 16/16hp 5911xp, Warryn L1 6/6hp 60xp · 1776 coin*
+
+## Expedition 12: Altuscarmen (great_singing_hall)
+*Day 20, 7:00 a.m. · Elen L3 22/22hp 4883xp, Bran L3 25/25hp 5911xp, Dori L3 19/19hp 5911xp, Cyril L3 16/16hp 5911xp, Warryn L1 6/6hp 60xp · 1776 coin*
+- **Take the door of the Merry Rose to Lilieburg green** (d20 7a)
+- **Take Zara's door to Zara's herb-shop** (d20 7:10a)
+- **Take Zara's door to Lilieburg green** (d20 7:20a)
+- **Take the door of the Merry Rose to the taproom of the Merry Rose** (d20 7:30a)
+- **Buy one ration from Aiden** (d20 7:40a) — Aiden counts the coins and hands over a ration.
+- **Buy one ration from Aiden** (d20 7:50a) — Aiden counts the coins and hands over a ration.
+- **Take the door of the Merry Rose to Lilieburg green** (d20 8a)
+- **Take the road from Lilieburg to Rosglaed to the road between Lilieburg and Rosglaed** (d20 8:10a–d20 9:40a)
+- **Take the path up onto Albemunt to the foot of Albemunt** (d20 9:40a–d20 10:40a) — In the morning the shrine bell is rung once, slowly. The child on the green has died.
+- **Take a sheep-track higher up to the roof of Albemunt** (d20 10:40a–d20 11:40a)
+- **Take the track to a cliff cut into a face to a cliff cut into a face** (d20 11:40a–d20 12:40p) — Altuscarmen: a cliff cut into a face in Albemunt.
+  - *Altuscarmen*: Wild goats stand on rock no goat should stand on. This is Altuscarmen, as the folk call it. The whole face of a cliff has been sung into a face: a woman's, with her eyes shut and her mouth open, as high as a tower. Her mouth is the door. Wind going into it makes a note so low you feel it in your tee
+- **Take the mouth to the throat** (d20 12:40p)
+  - *the throat*: Inside the mouth the stone is smooth as glass and rises, ribbed like a throat. The note of the wind is everywhere here, inside you as much as outside.
+- **Take the long rising passage to the hall of masks** (d20 12:50p)
+  - *the hall of masks*: A long hall lined on both sides with faces sung into the stone, one for each of the Singers who sang here: hundreds, each different, each with its mouth open on a different note. The far end of the hall is a door of stone without a seam, cut across with lines of notes in the old script's way of writ
+- **Sing the notes cut on the door** (d20 1p)
+- **Take a doorway of notes to the choir** (d20 1:10p) — One of the figures in the wall steps out of it. It has no face, only the smooth place where the Singers had not finished it, and it turns that toward you. One of the figures in the wall steps out of it. It has no face, only the smooth place where the Singers had not finished it, and it turns that toward you.
+  - *the choir*: The choir is a hall so tall your light does not find its roof. Its walls are people: hundreds of the Singers half out of the stone or half into it, standing in ranks as a choir stands, their mouths open. The air hums. The door of notes has rolled back into the rock.
+- **Attack the choir's warden** (d20 1:20p) [a fight: fighters; fell: s1_traveller_person, w7_warden_person]
+- **Take a dagger from Warryn for Elen** (d20 1:30p) — Elen takes a dagger from Warryn.
+- **Take leather armor from Warryn for Elen** (d20 1:40p) — Elen takes leather armor from Warryn.
+- **Take a musical instrument from Warryn for Elen** (d20 1:50p) — Elen takes a musical instrument from Warryn.
+- **Collect an amethyst for Elen** (d20 2p) — Elen takes an amethyst.
+- **Take a rough opening to the unfinished hall** (d20 2:10p)
+  - *the unfinished hall*: A hall that was never finished: half of it smooth and sung, half of it raw rock, and on the line between them, tools of bone laid down in a row, as if the singers meant to come back after a rest.
+- **Collect a rose quartz for Elen** (d20 2:20p) — Elen takes a rose quartz.
+- **Take a rough opening to the choir** (d20 2:30p)
+- **Take the last door to the heart of the hill** (d20 2:40p)
+  - *the heart of the hill*: The heart of the hill is a small round room, warm, and in the middle of it the last of the Singers sits on a block of stone, her eyes shut, her mouth open, more stone than flesh.
+- **Put your hand on the last singer and listen** (d20 2:50p) — The Stone-Singers sang themselves into the stone of their halls, and in the greatest of them they are singing still. One of them spoke to you.
+- **Collect a titan statue for Elen** (d20 3p) — Elen takes a titan statue.
+- **Take the last door to the choir** (d20 3:10p)
+- **Take a doorway of notes to the hall of masks** (d20 3:20p)
+- **Take the long rising passage to the throat** (d20 3:30p)
+- **Take the mouth to Altuscarmen** (d20 3:40p)
+  - *Altuscarmen*: Wild goats stand on rock no goat should stand on. This is Altuscarmen, as the folk call it. The whole face of a cliff has been sung into a face: a woman's, with her eyes shut and her mouth open, as high as a tower. Her mouth is the door. Wind going into it makes a note so low you feel it in your tee
+- **Take the mouth to the throat** (d20 3:50p)
+  - *the throat*: Inside the mouth the stone is smooth as glass and rises, ribbed like a throat. The note of the wind is everywhere here, inside you as much as outside.
+- **Take the long rising passage to the hall of masks** (d20 4p)
+  - *the hall of masks*: A long hall lined on both sides with faces sung into the stone, one for each of the Singers who sang here: hundreds, each different, each with its mouth open on a different note. The door of notes has rolled back into the rock.
+- **Take a doorway of notes to the choir** (d20 4:10p)
+  - *the choir*: The choir is a hall so tall your light does not find its roof. Its walls are people: hundreds of the Singers half out of the stone or half into it, standing in ranks as a choir stands, their mouths open. The air hums. The door of notes has rolled back into the rock.
+- **Take a rough opening to the unfinished hall** (d20 4:20p)
+  - *the unfinished hall*: A hall that was never finished: half of it smooth and sung, half of it raw rock, and on the line between them, tools of bone laid down in a row, as if the singers meant to come back after a rest.
+- **Take a rough opening to the choir** (d20 4:30p)
+- **Take the last door to the heart of the hill** (d20 4:40p)
+  - *the heart of the hill*: The heart of the hill is a small round room, warm, and in the middle of it the last of the Singers sits on a block of stone, her eyes shut, her mouth open, more stone than flesh. Under your hand the note comes up through the stone into you, and you hear it: all the voices of the choir at once, very 
+- **Take the last door to the choir** (d20 4:50p)
+- **Take a doorway of notes to the hall of masks** (d20 5p)
+- **Take the long rising passage to the throat** (d20 5:10p)
+- **Take the mouth to Altuscarmen** (d20 5:20p)
+  - *Altuscarmen*: Wild goats stand on rock no goat should stand on. This is Altuscarmen, as the folk call it. The whole face of a cliff has been sung into a face: a woman's, with her eyes shut and her mouth open, as high as a tower. Her mouth is the door. Wind going into it makes a note so low you feel it in your tee
+- **Take the mouth to the throat** (d20 5:30p)
+  - *the throat*: Inside the mouth the stone is smooth as glass and rises, ribbed like a throat. The note of the wind is everywhere here, inside you as much as outside.
+- **Take the long rising passage to the hall of masks** (d20 5:40p)
+  - *the hall of masks*: A long hall lined on both sides with faces sung into the stone, one for each of the Singers who sang here: hundreds, each different, each with its mouth open on a different note. The door of notes has rolled back into the rock.
+- **Take a doorway of notes to the choir** (d20 5:50p)
+  - *the choir*: The choir is a hall so tall your light does not find its roof. Its walls are people: hundreds of the Singers half out of the stone or half into it, standing in ranks as a choir stands, their mouths open. The air hums. The door of notes has rolled back into the rock.
+- **Take a rough opening to the unfinished hall** (d20 6p)
+  - *the unfinished hall*: A hall that was never finished: half of it smooth and sung, half of it raw rock, and on the line between them, tools of bone laid down in a row, as if the singers meant to come back after a rest.
+- **Take a rough opening to the choir** (d20 6:10p)
+- **Take the last door to the heart of the hill** (d20 6:20p)
+  - *the heart of the hill*: The heart of the hill is a small round room, warm, and in the middle of it the last of the Singers sits on a block of stone, her eyes shut, her mouth open, more stone than flesh. Under your hand the note comes up through the stone into you, and you hear it: all the voices of the choir at once, very 
+- **Take the last door to the choir** (d20 6:30p)
+- **Take a doorway of notes to the hall of masks** (d20 6:40p)
+- **Take the long rising passage to the throat** (d20 6:50p)
+- **Take the mouth to Altuscarmen** (d20 7p)
+- **Take the track to Altuscarmen to the roof of Albemunt** (d20 7:10p–d20 8:10p)
+- **Take a sheep-track higher up to the foot of Albemunt** (d20 8:10p–d20 9:10p)
+- **Take the path up onto Albemunt to the road between Lilieburg and Rosglaed** (d20 9:10p–d20 10:10p)
+- **Take the road from Lilieburg to Rosglaed to Lilieburg green** (d20 10:10p–d20 11:40p)
+- **Take Zara's door to Zara's herb-shop** (d20 11:40p)
+- **Sell a titan statue to Zara** (d20 11:50p) — Zara turns a titan statue over in the light, names a price, and counts out the coin.
+- **Sell an amethyst to Zara** (d21 12a) — Zara turns an amethyst over in the light, names a price, and counts out the coin.
+- **Sell a rose quartz to Zara** (d21 12:10a) — Zara turns a rose quartz over in the light, names a price, and counts out the coin.
+- **Take Zara's door to Lilieburg green** (d21 12:20a)
+- **Take the shrine porch in Lilieburg to the shrine of Brigid** (d21 12:30a)
+- **Ask Iaric to raise Warryn from the dead** (d21 12:40a–d21 7a) — Iaric keeps the vigil over Warryn all night, and at first light Warryn draws a breath, and then another.
+- **Take the shrine porch in Lilieburg to Lilieburg green** (d21 7a)
+- **Take the door of the Merry Rose to the taproom of the Merry Rose** (d21 7:10a)
+- **Take a bed and supper from Aiden** (d21 7:20a–d21 3:20p) — You eat a hot supper and sleep long in a dry bed.
+*Day 21, 3:20 p.m. · Elen L4 28/28hp 6208xp, Bran L4 35/35hp 7236xp, Dori L4 23/23hp 7236xp, Cyril L4 21/21hp 7236xp, Warryn L1 6/6hp 60xp · 2344 coin*

@@ -1,0 +1,1114 @@
+# Karkatzeh (b2)
+*Day 1, 8:00 a.m. · Elen L1 10/10hp 0xp, Bran L1 13/13hp 0xp, Dori L1 12/12hp 0xp · 20 coin*
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d1 8a)
+- **Ask Taklinn about the ewes taken on a pit in the ground** (d1 8:10a) — Taklinn tells you what they have heard about the ewes taken on a pit in the ground. Something comes up out of the ground by a pit in the ground at night and takes a ewe from Garth's flock. Garth means to burn it out.
+- **Ask Taklinn about the sick child at Barzelmizela** (d1 8:20a) — Taklinn tells you what they have heard about the sick child at Barzelmizela. A child on Barzelmizela green has a fever that will not break, and the herbs have run out.
+- **Ask Taklinn about the quarrel over the stones at Ramavor** (d1 8:30a) — Taklinn tells you what they have heard about the quarrel over the stones at Ramavor. The innkeeper and the merchant have not spoken since the boundary stones moved.
+- **Ask Gimgen about the light in a lone tower** (d1 8:40a) — Gimgen tells you what they have heard about the light in a lone tower. A green light burns at the top of a lone tower at night, and something walks the lane below it.
+- **Ask Gimgen about the old well at a lone tower** (d1 8:50a) — Gimgen tells you what they have heard about the old well at a lone tower. There is an old well behind a lone tower that runs down into the cellars. The builders used it.
+- **Ask Gimgen about trouble at a cave in the hillside** (d1 9a) — Gimgen tells you what they have heard about trouble at a cave in the hillside. Folk who go out to a cave in the hillside come back short of a sheep or a dog, or don't come back. Something has made its den there.
+- **Ask Gimgen what brings them to Ramavor** (d1 9:10a) — 'Mending pots. There are more locks than pots in this country, and they pay better.' Gimgen looks you over. 'If you are going anywhere, I would come along. 3 coin, and my keep.'
+- **Ask Gimgen to join the company** (d1 9:20a) — Gimgen shakes on it, and is one of you.
+- **Ask Taklinn about the stones** (d1 9:30a) — 'Moved in the night,' says Taklinn, wiping the same cup. 'A stride of my garden, and the well with it. Ask the priest. Ask anyone. Nobody will say it to Eberk.'
+- **Take the door of the Hidden Mask to Ramavor green** (d1 9:40a)
+- **Take the shrine porch in Ramavor to the shrine of Rhiannon** (d1 9:50a)
+- **Ask Orsik about the silk from the sink at a pit in the ground** (d1 10a) — Orsik tells you what they have heard about the silk from the sink at a pit in the ground. Odile, who winds silk at the sink by a pit in the ground, has had none for a week, and is frightened for her spiders.
+- **Ask Orsik about the stones** (d1 10:10a) — 'They were moved in the spring,' says Orsik. 'I married Taklinn's parents in that garden; I know where the stones stood. But Eberk gives the most at the shrine, and I have a roof to mend.'
+- **Take the shrine porch in Ramavor to Ramavor green** (d1 10:20a)
+- **Take Eberk's door to Eberk's forge** (d1 10:30a)
+- **Ask Eberk about the stones** (d1 10:40a) — 'Taklinn drinks and dreams,' says Eberk. 'Those stones are where my father set them.' Then, lower: 'If anyone asks, you saw nothing. Five coin for your trouble.'
+
+## Expedition 1: Stanumtener (galleries)
+*Day 1, 10:50 a.m. · Elen L1 10/10hp 0xp, Bran L1 13/13hp 0xp, Dori L1 12/12hp 0xp, Gimgen L1 13/13hp 0xp · 17 coin*
+- **Buy a torch for Elen · 1 coin** (d1 10:50a) — Elen pays Eberk, and takes a torch.
+- **Buy a torch for Elen · 1 coin** (d1 11a) — Elen pays Eberk, and takes a torch.
+- **Buy a lantern for Elen · 7 coin** (d1 11:10a) — Elen pays Eberk, and takes a lantern.
+- **Equip a lantern on Elen** (d1 11:20a) — Elen readies a lantern.
+- **Take Eberk's door to Ramavor green** (d1 11:30a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d1 11:40a)
+- **Buy one ration from Taklinn** (d1 11:50a) — Taklinn counts the coins and hands over a ration.
+- **Buy one ration from Taklinn** (d1 12p) — Taklinn counts the coins and hands over a ration.
+- **Take the door of the Hidden Mask to Ramavor green** (d1 12:10p)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d1 12:20p–d1 2:20p)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d1 2:20p–d1 4:10p)
+- **Take the path up onto Zhargeithhar to the foot of Zhargeithhar** (d1 4:10p–d1 5:10p)
+- **Take a sheep-track higher up to high on Zhargeithhar** (d1 5:10p–d1 7:10p)
+- **Take a sheep-track higher up to the roof of Zhargeithhar** (d1 7:10p–d1 8:40p)
+- **Search the roof of Zhargeithhar** (d1 8:40p–d1 9p) — You go over the roof of Zhargeithhar carefully. The way to the south-western timbered adit on the roof of Zhargeithhar. The way to the north-eastern timbered adit on the roof of Zhargeithhar. The way to a round tower on the roof of Zhargeithhar.
+- **Take the track to the south-western timbered adit on the roof of Zhargeithhar to the south-western timbered adit on the roof of Zhargeithhar** (d1 9p–d1 10p) — Stanumtener: a timbered adit in Zhargeithhar.
+  - *Stanumtener*: A raven keeps pace with you from cairn to cairn. This is Stanumtener, as the folk call it. An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago. A name is cut in the lintel beam, in the old script, with a hammer 
+- **Take the adit mouth to the adit gallery** (d1 10p)
+  - *the adit gallery*: Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry. Someone fitted an iron grille across the gallery here, and someone else broke it open; it hangs from one hinge. Scratched into the rock beside it, in the folk'
+- **Take the railed gallery to the lift-head** (d1 10:10p)
+  - *the lift-head*: The gallery ends at a square shaft going straight down into the dark. Over it hangs a frame of iron beams with a great wheel at the top, and chains running down. Somewhere below, water drips. Nothing else moves. The lift-cage is somewhere at the bottom of the shaft; its chains are rusted fast on the
+- **Break the rust off the wheel and wind the lift-cage up** (d1 10:20p)
+- **Take the side gallery to the fallen gallery** (d1 10:30p)
+  - *the fallen gallery*: A side gallery runs a little way and ends in a fall of rock from roof to floor. Cold air comes through the gaps. The fall fills the gallery; you could dig through it, with the means.
+- **Take the side gallery to the lift-head** (d1 10:40p)
+- **Take the lift shaft to the foot of the shaft** (d1 10:50p)
+  - *the foot of the shaft*: The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the lift shaft to the lift-head** (d1 11p)
+- **Take the side gallery to the fallen gallery** (d1 11:10p)
+- **Search the fallen gallery** (d1 11:20p–d1 11:40p) — You go over the fallen gallery carefully.
+- (cannot take region__w1_through from region__w1_fall)
+- **Take the side gallery to the lift-head** (d1 11:40p)
+- **Take the lift shaft to the foot of the shaft** (d1 11:50p)
+- **Take the low gallery to the dressing-hall** (d2 12a)
+  - *the dressing-hall*: A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.
+- **Take the last gallery to the end of the last gallery** (d2 12:10a)
+  - *the end of the last gallery*: The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath. Three great bars lie across the iron door in their hasps.
+- **Lift the bars off the iron door** (d2 12:20a) — The iron door swings open of its own weight, and the cold comes out of the dark behind it, and has a shape.
+- **Take the iron door to the dark behind the iron door** (d2 12:30a)
+  - *the dark behind the iron door*: A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm. The bars have been lifted from the iron door and stand against the wall.
+- **Collect a topaz for Elen** (d2 12:40a) — Elen takes a topaz.
+- **Take the iron door to the end of the last gallery** (d2 12:50a–d2 1:10a) [a fight: fighters; fell: party_1, w1_cold_person]
+- **Take a torch from Elen for Bran** (d2 1:10a) — Bran takes a torch from Elen.
+- **Take a torch from Elen for Bran** (d2 1:20a) — Bran takes a torch from Elen.
+- **Take a lantern from Elen for Bran** (d2 1:30a) — Bran takes a lantern from Elen.
+- **Take a topaz from Elen for Bran** (d2 1:40a) — Bran takes a topaz from Elen.
+- **Take a coil of rope from Elen for Bran** (d2 1:50a) — Bran takes a coil of rope from Elen.
+- **Take a longsword from Elen for Bran** (d2 2a) — Bran takes a longsword from Elen.
+- **Take scale mail from Elen for Bran** (d2 2:10a) — Bran takes scale mail from Elen.
+- **Take a bedroll from Elen for Bran** (d2 2:20a) — Bran takes a bedroll from Elen.
+- **Take firewood from Elen for Bran** (d2 2:30a) — Bran takes firewood from Elen.
+- **Take a flask from Elen for Bran** (d2 2:40a) — Bran takes a flask from Elen.
+- **Equip a lantern on Bran** (d2 2:50a) — Bran readies a lantern.
+- **Take the last gallery to the dressing-hall** (d2 3a)
+- **Take the low gallery to the foot of the shaft** (d2 3:10a)
+- **Take the lift shaft to the lift-head** (d2 3:20a)
+- **Take the railed gallery to the adit gallery** (d2 3:30a)
+- **Take the adit mouth to Stanumtener** (d2 3:40a)
+  - *Stanumtener*: A raven keeps pace with you from cairn to cairn. This is Stanumtener, as the folk call it. An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago. A name is cut in the lintel beam, in the old script, with a hammer 
+- **Take the adit mouth to the adit gallery** (d2 3:50a)
+  - *the adit gallery*: Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry. Someone fitted an iron grille across the gallery here, and someone else broke it open; it hangs from one hinge. Scratched into the rock beside it, in the folk'
+- **Take the railed gallery to the lift-head** (d2 4a)
+  - *the lift-head*: The gallery ends at a square shaft going straight down into the dark. Over it hangs a frame of iron beams with a great wheel at the top, and chains running down. Somewhere below, water drips. Nothing else moves. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it 
+- **Take the side gallery to the fallen gallery** (d2 4:10a)
+  - *the fallen gallery*: A side gallery runs a little way and ends in a fall of rock from roof to floor. Cold air comes through the gaps. The fall fills the gallery; you could dig through it, with the means.
+- **Take the side gallery to the lift-head** (d2 4:20a)
+- **Take the lift shaft to the foot of the shaft** (d2 4:30a)
+  - *the foot of the shaft*: The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the lift shaft to the lift-head** (d2 4:40a)
+- **Take the side gallery to the fallen gallery** (d2 4:50a)
+- (cannot take region__w1_through from region__w1_fall)
+- **Take the side gallery to the lift-head** (d2 5a)
+- **Take the lift shaft to the foot of the shaft** (d2 5:10a)
+- **Take the low gallery to the dressing-hall** (d2 5:20a)
+  - *the dressing-hall*: A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.
+- **Take the last gallery to the end of the last gallery** (d2 5:30a)
+  - *the end of the last gallery*: The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the dark behind the iron door** (d2 5:40a)
+  - *the dark behind the iron door*: A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the end of the last gallery** (d2 5:50a)
+- **Take the last gallery to the dressing-hall** (d2 6a)
+- **Take the low gallery to the foot of the shaft** (d2 6:10a)
+- **Take the lift shaft to the lift-head** (d2 6:20a)
+- **Take the railed gallery to the adit gallery** (d2 6:30a)
+- **Take the adit mouth to Stanumtener** (d2 6:40a)
+  - *Stanumtener*: A raven keeps pace with you from cairn to cairn. This is Stanumtener, as the folk call it. An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago. A name is cut in the lintel beam, in the old script, with a hammer 
+- **Take the adit mouth to the adit gallery** (d2 6:50a)
+  - *the adit gallery*: Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry. Someone fitted an iron grille across the gallery here, and someone else broke it open; it hangs from one hinge. Scratched into the rock beside it, in the folk'
+- **Take the railed gallery to the lift-head** (d2 7a)
+  - *the lift-head*: The gallery ends at a square shaft going straight down into the dark. Over it hangs a frame of iron beams with a great wheel at the top, and chains running down. Somewhere below, water drips. Nothing else moves. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it 
+- **Take the side gallery to the fallen gallery** (d2 7:10a)
+  - *the fallen gallery*: A side gallery runs a little way and ends in a fall of rock from roof to floor. Cold air comes through the gaps. The fall fills the gallery; you could dig through it, with the means.
+- **Take the side gallery to the lift-head** (d2 7:20a)
+- **Take the lift shaft to the foot of the shaft** (d2 7:30a)
+  - *the foot of the shaft*: The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the lift shaft to the lift-head** (d2 7:40a)
+- **Take the side gallery to the fallen gallery** (d2 7:50a)
+- (cannot take region__w1_through from region__w1_fall)
+- **Take the side gallery to the lift-head** (d2 8a)
+- **Take the lift shaft to the foot of the shaft** (d2 8:10a)
+- **Take the low gallery to the dressing-hall** (d2 8:20a)
+  - *the dressing-hall*: A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.
+- **Take the last gallery to the end of the last gallery** (d2 8:30a)
+  - *the end of the last gallery*: The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the dark behind the iron door** (d2 8:40a)
+  - *the dark behind the iron door*: A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the end of the last gallery** (d2 8:50a)
+- **Take the last gallery to the dressing-hall** (d2 9a)
+- **Take the low gallery to the foot of the shaft** (d2 9:10a)
+- **Take the lift shaft to the lift-head** (d2 9:20a)
+- **Take the railed gallery to the adit gallery** (d2 9:30a)
+- **Take the adit mouth to Stanumtener** (d2 9:40a)
+- **Take the track to Stanumtener to the roof of Zhargeithhar** (d2 9:50a–d2 10:50a)
+- **Take a sheep-track higher up to high on Zhargeithhar** (d2 10:50a–d2 12:20p)
+- **Take a sheep-track higher up to the foot of Zhargeithhar** (d2 12:20p–d2 2:20p)
+- **Take the path up onto Zhargeithhar to Barzelmizela green** (d2 2:20p–d2 3:20p)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d2 3:20p–d2 5:10p)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d2 5:10p–d2 7:10p)
+- **Take Eberk's door to Eberk's forge** (d2 7:10p)
+- **Sell a topaz to Eberk** (d2 7:20p) — Eberk turns a topaz over in the light, names a price, and counts out the coin.
+  - (Elen lies dead; not coin enough to have them raised)
+- **Take Eberk's door to Ramavor green** (d2 7:30p)
+- **Lay Elen to rest** (d2 7:40p–d2 8:40p) — You dig a grave for Elen and lay them in it, and say what can be said over them. Then you go on without them.
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d2 8:40p)
+- **Take a bed and supper from Taklinn** (d2 8:50p–d3 7a) — You eat a hot supper and sleep long in a dry bed. In the morning the shrine bell is rung once, slowly. The child on the green has died.
+*Day 3, 7:00 a.m. · Bran L1 13/13hp 510xp, Dori L1 12/12hp 510xp, Gimgen L1 13/13hp 510xp · 1 coin*
+
+## Expedition 2: Lapistener (galleries)
+*Day 3, 7:00 a.m. · Bran L1 13/13hp 510xp, Dori L1 12/12hp 510xp, Gimgen L1 13/13hp 510xp · 1 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d3 7a)
+- **Take Eberk's door to Eberk's forge** (d3 7:10a)
+- **Take Eberk's door to Ramavor green** (d3 7:20a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d3 7:30a)
+- **Take the door of the Hidden Mask to Ramavor green** (d3 7:40a)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d3 7:50a–d3 9:50a)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d3 9:50a–d3 11:40a)
+- **Take the path up onto Zhargeithhar to the foot of Zhargeithhar** (d3 11:40a–d3 12:40p)
+- **Take a sheep-track higher up to high on Zhargeithhar** (d3 12:40p–d3 2:40p)
+- **Take a sheep-track higher up to the roof of Zhargeithhar** (d3 2:40p–d3 4:10p)
+- **Take the track to the north-eastern timbered adit on the roof of Zhargeithhar to the north-eastern timbered adit on the roof of Zhargeithhar** (d3 4:10p–d3 5:10p) — Lapistener: a timbered adit in Zhargeithhar.
+  - *Lapistener*: An eagle turns far overhead. This is Lapistener, as the folk call it. An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago. A name is cut in the lintel beam, in the old script, with a hammer and a star beside it:
+- **Take the adit mouth to the adit gallery** (d3 5:10p) — The goblins slip away from you.
+  - *the adit gallery*: Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry. Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of Aergodríce took what it could reach. A 
+- **Collect a miner's crowbar for Bran** (d3 5:20p) — Bran takes a miner's crowbar.
+- **Take the railed gallery to the lift-head** (d3 5:30p)
+  - *the lift-head*: The gallery ends at a square shaft going straight down into the dark. Over it hangs a frame of iron beams with a great wheel at the top, and chains running down. The lift-cage is somewhere at the bottom of the shaft; its chains are rusted fast on the great wheel.
+- **Break the rust off the wheel and wind the lift-cage up** (d3 5:40p)
+- **Take the side gallery to the fallen gallery** (d3 5:50p–d3 6:10p) [a fight: fighters; fell: w2_goblins_person_3, w2_goblins_person, w2_goblins_person_2]
+  - *the fallen gallery*: A side gallery runs a little way and ends in a fall of rock from roof to floor. Cold air comes through the gaps. The fall fills the gallery; you could dig through it, with the means.
+- **Take the side gallery to the lift-head** (d3 6:10p)
+- **Take the lift shaft to the foot of the shaft** (d3 6:20p)
+  - *the foot of the shaft*: The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the lift shaft to the lift-head** (d3 6:30p)
+- **Take the side gallery to the fallen gallery** (d3 6:40p)
+- **Search the fallen gallery** (d3 6:50p–d3 7:10p) — You go over the fallen gallery carefully.
+- (cannot take region__w2_through from region__w2_fall)
+- **Take the side gallery to the lift-head** (d3 7:10p)
+- **Take the lift shaft to the foot of the shaft** (d3 7:20p)
+- **Take the low gallery to the dressing-hall** (d3 7:30p)
+  - *the dressing-hall*: A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.
+- **Take the last gallery to the end of the last gallery** (d3 7:40p)
+  - *the end of the last gallery*: The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath. Three great bars lie across the iron door in their hasps.
+- **Lift the bars off the iron door** (d3 7:50p) — The iron door swings open of its own weight, and the cold comes out of the dark behind it, and has a shape.
+- **Take the iron door to the dark behind the iron door** (d3 8p)
+  - *the dark behind the iron door*: A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm. The bars have been lifted from the iron door and stand against the wall.
+- **Collect a jeweled dagger for Bran** (d3 8:10p) — Bran takes a jeweled dagger.
+- **Take the iron door to the end of the last gallery** (d3 8:20p–d3 8:40p) [a fight: fighters; fell: party_3, w2_cold_person]
+- **Take bandages from Dori for Bran** (d3 8:40p) — Bran takes bandages from Dori.
+- **Take healing herbs from Dori for Bran** (d3 8:50p) — Bran takes healing herbs from Dori.
+- **Take a staff from Dori for Bran** (d3 9p) — Bran takes a staff from Dori.
+- **Take chain mail from Dori for Bran** (d3 9:10p) — Bran takes chain mail from Dori.
+- **Take a holy symbol from Dori for Bran** (d3 9:20p) — Bran takes a holy symbol from Dori.
+- **Take the last gallery to the dressing-hall** (d3 9:30p)
+- **Take the low gallery to the foot of the shaft** (d3 9:40p)
+- **Take the lift shaft to the lift-head** (d3 9:50p)
+- **Take the railed gallery to the adit gallery** (d3 10p)
+- **Take the adit mouth to Lapistener** (d3 10:10p)
+  - *Lapistener*: An eagle turns far overhead. This is Lapistener, as the folk call it. An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago. A name is cut in the lintel beam, in the old script, with a hammer and a star beside it:
+- **Take the adit mouth to the adit gallery** (d3 10:20p)
+  - *the adit gallery*: Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry. Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of Aergodríce took what it could reach. A 
+- **Take the railed gallery to the lift-head** (d3 10:30p)
+  - *the lift-head*: The gallery ends at a square shaft going straight down into the dark. Over it hangs a frame of iron beams with a great wheel at the top, and chains running down. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the side gallery to the fallen gallery** (d3 10:40p)
+  - *the fallen gallery*: A side gallery runs a little way and ends in a fall of rock from roof to floor. Cold air comes through the gaps. The fall fills the gallery; you could dig through it, with the means.
+- **Take the side gallery to the lift-head** (d3 10:50p)
+- **Take the lift shaft to the foot of the shaft** (d3 11p)
+  - *the foot of the shaft*: The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the lift shaft to the lift-head** (d3 11:10p)
+- **Take the side gallery to the fallen gallery** (d3 11:20p)
+- (cannot take region__w2_through from region__w2_fall)
+- **Take the side gallery to the lift-head** (d3 11:30p)
+- **Take the lift shaft to the foot of the shaft** (d3 11:40p)
+- **Take the low gallery to the dressing-hall** (d3 11:50p)
+  - *the dressing-hall*: A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.
+- **Take the last gallery to the end of the last gallery** (d4 12a)
+  - *the end of the last gallery*: The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the dark behind the iron door** (d4 12:10a)
+  - *the dark behind the iron door*: A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the end of the last gallery** (d4 12:20a)
+- **Take the last gallery to the dressing-hall** (d4 12:30a)
+- **Take the low gallery to the foot of the shaft** (d4 12:40a)
+- **Take the lift shaft to the lift-head** (d4 12:50a)
+- **Take the railed gallery to the adit gallery** (d4 1a)
+- **Take the adit mouth to Lapistener** (d4 1:10a)
+  - *Lapistener*: An eagle turns far overhead. This is Lapistener, as the folk call it. An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago. A name is cut in the lintel beam, in the old script, with a hammer and a star beside it:
+- **Take the adit mouth to the adit gallery** (d4 1:20a)
+  - *the adit gallery*: Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry. Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of Aergodríce took what it could reach. A 
+- **Take the railed gallery to the lift-head** (d4 1:30a)
+  - *the lift-head*: The gallery ends at a square shaft going straight down into the dark. Over it hangs a frame of iron beams with a great wheel at the top, and chains running down. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the side gallery to the fallen gallery** (d4 1:40a)
+  - *the fallen gallery*: A side gallery runs a little way and ends in a fall of rock from roof to floor. Cold air comes through the gaps. The fall fills the gallery; you could dig through it, with the means.
+- **Take the side gallery to the lift-head** (d4 1:50a)
+- **Take the lift shaft to the foot of the shaft** (d4 2a)
+  - *the foot of the shaft*: The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head. The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+- **Take the lift shaft to the lift-head** (d4 2:10a)
+- **Take the side gallery to the fallen gallery** (d4 2:20a)
+- (cannot take region__w2_through from region__w2_fall)
+- **Take the side gallery to the lift-head** (d4 2:30a)
+- **Take the lift shaft to the foot of the shaft** (d4 2:40a)
+- **Take the low gallery to the dressing-hall** (d4 2:50a)
+  - *the dressing-hall*: A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.
+- **Take the last gallery to the end of the last gallery** (d4 3a)
+  - *the end of the last gallery*: The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the dark behind the iron door** (d4 3:10a)
+  - *the dark behind the iron door*: A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm. The bars have been lifted from the iron door and stand against the wall.
+- **Take the iron door to the end of the last gallery** (d4 3:20a)
+- **Take the last gallery to the dressing-hall** (d4 3:30a)
+- **Take the low gallery to the foot of the shaft** (d4 3:40a)
+- **Take the lift shaft to the lift-head** (d4 3:50a)
+- **Take the railed gallery to the adit gallery** (d4 4a)
+- **Take the adit mouth to Lapistener** (d4 4:10a)
+- **Take the track to Lapistener to the roof of Zhargeithhar** (d4 4:20a–d4 5:20a)
+- **Take a sheep-track higher up to high on Zhargeithhar** (d4 5:20a–d4 6:50a)
+- **Take a sheep-track higher up to the foot of Zhargeithhar** (d4 6:50a–d4 8:50a)
+- **Take the path up onto Zhargeithhar to Barzelmizela green** (d4 8:50a–d4 9:50a)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d4 9:50a–d4 11:40a)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d4 11:40a–d4 1:40p)
+- **Take Eberk's door to Eberk's forge** (d4 1:40p)
+- **Sell a jeweled dagger to Eberk** (d4 1:50p) — Eberk turns a jeweled dagger over in the light, names a price, and counts out the coin.
+- **Take Eberk's door to Ramavor green** (d4 2p)
+- **Take the shrine porch in Ramavor to the shrine of Rhiannon** (d4 2:10p)
+- **Ask Orsik to raise Dori from the dead** (d4 2:20p–d5 7a) — Orsik keeps the vigil over Dori all night, and at first light Dori draws a breath, and then another.
+- **Take the shrine porch in Ramavor to Ramavor green** (d5 7a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d5 7:10a)
+*Day 5, 7:20 a.m. · Bran L1 13/13hp 1335xp, Dori L1 6/12hp 585xp, Gimgen L1 13/13hp 1335xp · 1 coin*
+
+## Expedition 3: Caelumspir (watchtower)
+*Day 5, 7:20 a.m. · Bran L1 13/13hp 1335xp, Dori L1 6/12hp 585xp, Gimgen L1 13/13hp 1335xp · 1 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d5 7:20a)
+- **Take Eberk's door to Eberk's forge** (d5 7:30a)
+- **Take Eberk's door to Ramavor green** (d5 7:40a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d5 7:50a)
+- **Take the door of the Hidden Mask to Ramavor green** (d5 8a)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d5 8:10a–d5 10:10a)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d5 10:10a–d5 12p)
+- **Take the path up onto Zhargeithhar to the foot of Zhargeithhar** (d5 12p–d5 1p)
+- **Take a sheep-track higher up to high on Zhargeithhar** (d5 1p–d5 3p)
+- **Take a sheep-track higher up to the roof of Zhargeithhar** (d5 3p–d5 4:30p)
+- **Take the track to a round tower on the roof of Zhargeithhar to a round tower on the roof of Zhargeithhar** (d5 4:30p–d5 5:30p) — Caelumspir: a round tower in Zhargeithhar.
+  - *Caelumspir*: A raven keeps pace with you from cairn to cairn. This is Caelumspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old scri
+- **Take the broken stair to the door to the floor of the tower** (d5 5:30p)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d5 5:40p)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d5 5:50p)
+- **Take the trapdoor in the floor to the undercroft** (d5 6p)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Collect an ancient map for Bran** (d5 6:10p) — Bran takes an ancient map.
+- **Take the trapdoor in the floor to the floor of the tower** (d5 6:20p)
+- **Take the stair in the wall to the ring-room** (d5 6:30p)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. Ravens sit on the broken wall and watch you without fear.
+- **Take the stair in the wall to the floor of the tower** (d5 6:40p)
+- **Take the broken stair to the door to Caelumspir** (d5 6:50p)
+  - *Caelumspir*: A raven keeps pace with you from cairn to cairn. This is Caelumspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old scri
+- **Take the broken stair to the door to the floor of the tower** (d5 7p)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d5 7:10p)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d5 7:20p)
+- **Take the trapdoor in the floor to the undercroft** (d5 7:30p)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Take the trapdoor in the floor to the floor of the tower** (d5 7:40p)
+- **Take the stair in the wall to the ring-room** (d5 7:50p)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. Ravens sit on the broken wall and watch you without fear.
+- **Take the stair in the wall to the floor of the tower** (d5 8p)
+- **Take the broken stair to the door to Caelumspir** (d5 8:10p)
+  - *Caelumspir*: A raven keeps pace with you from cairn to cairn. This is Caelumspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old scri
+- **Take the broken stair to the door to the floor of the tower** (d5 8:20p)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d5 8:30p)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d5 8:40p)
+- **Take the trapdoor in the floor to the undercroft** (d5 8:50p)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Take the trapdoor in the floor to the floor of the tower** (d5 9p)
+- **Take the stair in the wall to the ring-room** (d5 9:10p)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. Ravens sit on the broken wall and watch you without fear.
+- **Take the stair in the wall to the floor of the tower** (d5 9:20p)
+- **Take the broken stair to the door to Caelumspir** (d5 9:30p)
+- **Take the track to Caelumspir to the roof of Zhargeithhar** (d5 9:40p–d5 10:40p)
+- **Take a sheep-track higher up to high on Zhargeithhar** (d5 10:40p–d6 12:10a)
+- **Take a sheep-track higher up to the foot of Zhargeithhar** (d6 12:10a–d6 2:10a)
+- **Take the path up onto Zhargeithhar to Barzelmizela green** (d6 2:10a–d6 3:10a)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d6 3:10a–d6 5a) — Night comes down on the Telegavor, and the cold with it. There is no shelter, and nothing to burn.
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d6 5a–d6 7a)
+- **Take Eberk's door to Eberk's forge** (d6 7a)
+- **Sell an ancient map to Eberk** (d6 7:10a) — Eberk turns an ancient map over in the light, names a price, and counts out the coin.
+- **Take Eberk's door to Ramavor green** (d6 7:20a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d6 7:30a)
+- **Take a bed and supper from Taklinn** (d6 7:40a–d6 3:40p) — You eat a hot supper and sleep long in a dry bed.
+*Day 6, 3:40 p.m. · Bran L2 15/15hp 1410xp, Dori L1 12/12hp 660xp, Gimgen L2 25/25hp 1410xp · 73 coin*
+
+## Expedition 4: Steletur (watchtower)
+*Day 6, 3:40 p.m. · Bran L2 15/15hp 1410xp, Dori L1 12/12hp 660xp, Gimgen L2 25/25hp 1410xp · 73 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d6 3:40p)
+- **Take Eberk's door to Eberk's forge** (d6 3:50p)
+- **Take Eberk's door to Ramavor green** (d6 4p)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d6 4:10p)
+- **Buy one ration from Taklinn** (d6 4:20p) — Taklinn counts the coins and hands over a ration.
+- **Buy one ration from Taklinn** (d6 4:30p) — Taklinn counts the coins and hands over a ration.
+- **Take the door of the Hidden Mask to Ramavor green** (d6 4:40p)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d6 4:50p–d6 6:50p)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d6 6:50p–d6 8:40p)
+- **Take the path up onto Zhargeithhar to the foot of Zhargeithhar** (d6 8:40p–d6 9:40p)
+- **Take a sheep-track higher up to high on Zhargeithhar** (d6 9:40p–d6 11:40p)
+- **Search high on Zhargeithhar** (d6 11:40p–d7 12a) — You go over high on Zhargeithhar carefully. The way to a round tower high on Zhargeithhar.
+- **Take the track to a round tower high on Zhargeithhar to a round tower high on Zhargeithhar** (d7 12a–d7 1a) — Steletur: a round tower in Zhargeithhar.
+  - *Steletur*: An eagle turns far overhead. This is Steletur, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script so large it can be 
+- **Take the broken stair to the door to the floor of the tower** (d7 1a) — The lookouts stand their ground and watch you. They will not have you here for long. The lookouts stand their ground and watch you. They will not have you here for long.
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Attack the lookouts** (d7 1:10a) [a fight: fighters; fell: w4_lookouts_person, w4_lookouts_person_2]
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d7 1:20a)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d7 1:30a)
+- **Take the trapdoor in the floor to the undercroft** (d7 1:40a)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Collect a crystal orb for Bran** (d7 1:50a) — Bran takes a crystal orb.
+- **Take the trapdoor in the floor to the floor of the tower** (d7 2a)
+- **Take the stair in the wall to the ring-room** (d7 2:10a)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks.
+- **Take the stair in the wall to the floor of the tower** (d7 2:20a)
+- **Take the broken stair to the door to Steletur** (d7 2:30a)
+  - *Steletur*: An eagle turns far overhead. This is Steletur, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script so large it can be 
+- **Take the broken stair to the door to the floor of the tower** (d7 2:40a)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d7 2:50a)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d7 3a)
+- **Take the trapdoor in the floor to the undercroft** (d7 3:10a)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Take the trapdoor in the floor to the floor of the tower** (d7 3:20a)
+- **Take the stair in the wall to the ring-room** (d7 3:30a)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks.
+- **Take the stair in the wall to the floor of the tower** (d7 3:40a)
+- **Take the broken stair to the door to Steletur** (d7 3:50a)
+  - *Steletur*: An eagle turns far overhead. This is Steletur, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script so large it can be 
+- **Take the broken stair to the door to the floor of the tower** (d7 4a)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d7 4:10a)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d7 4:20a)
+- **Take the trapdoor in the floor to the undercroft** (d7 4:30a)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Take the trapdoor in the floor to the floor of the tower** (d7 4:40a)
+- **Take the stair in the wall to the ring-room** (d7 4:50a)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks.
+- **Take the stair in the wall to the floor of the tower** (d7 5a)
+- **Take the broken stair to the door to Steletur** (d7 5:10a)
+- **Take the track to Steletur to high on Zhargeithhar** (d7 5:20a–d7 6:20a)
+- **Take a sheep-track higher up to the foot of Zhargeithhar** (d7 6:20a–d7 8:20a)
+- **Take the path up onto Zhargeithhar to Barzelmizela green** (d7 8:20a–d7 9:20a)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d7 9:20a–d7 11:10a)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d7 11:10a–d7 1:10p)
+- **Take Eberk's door to Eberk's forge** (d7 1:10p)
+- **Sell a crystal orb to Eberk** (d7 1:20p) — Eberk turns a crystal orb over in the light, names a price, and counts out the coin.
+- **Take Eberk's door to Ramavor green** (d7 1:30p)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d7 1:40p)
+- **Take a bed and supper from Taklinn** (d7 1:50p–d8 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 8, 7:00 a.m. · Bran L2 15/15hp 1570xp, Dori L1 12/12hp 820xp, Gimgen L2 25/25hp 1570xp · 166 coin*
+
+## Expedition 5: Gefeohtcepan (keep)
+*Day 8, 7:00 a.m. · Bran L2 15/15hp 1570xp, Dori L1 12/12hp 820xp, Gimgen L2 25/25hp 1570xp · 166 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d8 7a)
+- **Take the shrine porch in Ramavor to the shrine of Rhiannon** (d8 7:10a)
+- **Buy a glossary of the old script for Bran · 80 coin** (d8 7:20a) — Bran pays Orsik, and takes a glossary of the old script.
+- **Equip a glossary of the old script on Bran** (d8 7:30a) — Bran readies a glossary of the old script.
+- **Take the shrine porch in Ramavor to Ramavor green** (d8 7:40a)
+- **Take Eberk's door to Eberk's forge** (d8 7:50a)
+- **Take Eberk's door to Ramavor green** (d8 8a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d8 8:10a)
+- **Buy one ration from Taklinn** (d8 8:20a) — Taklinn counts the coins and hands over a ration.
+- **Buy one ration from Taklinn** (d8 8:30a) — Taklinn counts the coins and hands over a ration.
+- **Take the door of the Hidden Mask to Ramavor green** (d8 8:40a)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d8 8:50a–d8 10:50a)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d8 10:50a–d8 12:40p)
+- **Take the road from Barzelmizela down to the Marirzerem to the ford of the Marirzerem** (d8 12:40p–d8 3p)
+- **Take the ford of the Marirzerem to Harrehes green** (d8 3p–d8 5:10p)
+- **Take the road from Harrehes down to the Baraznachal to the ford of the Baraznachal** (d8 5:10p–d8 8:10p) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d8 8:10p) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the track to a broken keep to a broken keep** (d8 8:20p–d8 8:50p) — Gefeohtcepan: a broken keep in the fells north-east of Shaygabar.
+  - *Gefeohtcepan*: A snake suns itself on a fallen stone. This is Gefeohtcepan, as the folk call it. A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road. Over 
+  - (leaving Sir Hamo's men alone: Bran reckons a fight with them could be lost.)
+- **Take the gate to the gate-passage** (d8 8:50p)
+  - *the gate-passage*: A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone. Names and tallies are scratched into the plaster where men waited out their watches. A portcullis of black iron is down across the inner arch, rusted into its grooves a hand's breadth of
+- **Heave the portcullis up and wedge it** (d8 9p)
+- **Collect a broken scepter for Bran** (d8 9:10p) — Bran takes a broken scepter.
+- **Take the inner arch to the bailey** (d8 9:20p) — Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall. Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall.
+  - *the bailey*: The bailey is grass and nettles round a well-head. Lean-to roofs once ran along the inside of the wall; their beam-holes are a row of black squares in the stone. The keep's hall steps go up on one side, and stone steps climb the curtain wall on the other. The portcullis is wedged up in its grooves w
+- **Attack the wolves** (d8 9:30p) [a fight: fighters; fell: w5_wolves_person, w5_wolves_person_3, w5_wolves_person_2]
+- **Take a breach in the curtain wall to Gefeohtcepan** (d8 9:40p)
+- **Search Gefeohtcepan** (d8 9:50p–d8 10:10p) — A horn sounds above you, two long notes. A horn sounds above you, two long notes.
+- (cannot take raidersHold__brambles from region__w5)
+- **Take a goat-track down the hillside to the hillside above the cave** (d8 10:10p–d8 10:30p)
+  - *the hillside above the cave*: The open hillside above the cave. Smoke comes out of a hole among the rocks.
+- **Take a goat-track down the hillside to Gefeohtcepan** (d8 10:30p–d8 10:50p)
+- **Take a breach in the curtain wall to the bailey** (d8 10:50p)
+- **Take the hall steps to the great hall** (d8 11p)
+  - *the great hall*: The great hall fills the keep's first floor, open now to the sky where the floors above have fallen in. A hearth wide enough to stand in takes up one wall. A stair goes up inside the thickness of the other. The long tables are still set out. On the benches and under them, and by the cold hearth, the
+- **Take the hall steps to the bailey** (d8 11:10p)
+- **Take the steps up to the wall to the wall-walk** (d8 11:20p) — The way to a cave in the hillside in Mashyaar.
+  - *the wall-walk*: From the wall-walk you can see the road for miles both ways, as the keep was built to: whoever came along it, the lord knew of it a morning before they arrived. Far off to the south-west the lord's men would have seen what you see now: a cave in the hillside.
+- **Take the steps up to the wall to the bailey** (d8 11:30p)
+- **Take the undercroft door to the undercroft** (d8 11:40p)
+  - *the undercroft*: A vaulted undercroft under the bailey, dry and cold, where the keep kept its stores. Racks for barrels stand empty along the walls.
+- **Pick the strongbox's lock** (d8 11:50p)
+- **Take a jeweled crown out of the lord's strongbox for Bran** (d9 12a) — Bran takes a jeweled crown from the lord's strongbox.
+- **Take the undercroft door to the bailey** (d9 12:10a)
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 12:20a)
+- **Search Gefeohtcepan** (d9 12:30a–d9 12:50a) — You go over Gefeohtcepan carefully. The smoke-hole in the cave's roof is a chimney that comes out on the hillside above; a climber could go up or down it.
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+- **Take a breach in the curtain wall to the bailey** (d9 12:50a)
+- **Take the hall steps to the great hall** (d9 1a)
+- **Take the stair in the wall to the lord's chamber** (d9 1:10a)
+  - *the lord's chamber*: The lord's chamber has kept its roof. A bed-frame, a bench under the window, and an iron-bound chest that no one has managed to carry off.
+- **Untie the castle roll and read it** (d9 1:20a) — After the Delvers came the kingdom of Aergodríce, where the power lay with warlords who built keeps on every height and fought one another for the roads. It fell to a plague that came up the river in a wool-ship and left whole villages empty.
+- **Take the stair in the wall to the great hall** (d9 1:30a)
+- **Take the hall steps to the bailey** (d9 1:40a)
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 1:50a)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+  - *Gefeohtcepan*: A snake suns itself on a fallen stone. This is Gefeohtcepan, as the folk call it. A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road. Over 
+  - (leaving Sir Hamo's men alone: Bran reckons they are more than the company can take.)
+- **Take the gate to the gate-passage** (d9 2a)
+  - *the gate-passage*: A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone. Names and tallies are scratched into the plaster where men waited out their watches. The portcullis is wedged up in its grooves with a beam, and the way into the bailey is open.
+- **Take the inner arch to the bailey** (d9 2:10a)
+  - *the bailey*: The bailey is grass and nettles round a well-head. Lean-to roofs once ran along the inside of the wall; their beam-holes are a row of black squares in the stone. The keep's hall steps go up on one side, and stone steps climb the curtain wall on the other. The portcullis is wedged up in its grooves w
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 2:20a)
+- (cannot take raidersHold__brambles from region__w5)
+- **Take a goat-track down the hillside to the hillside above the cave** (d9 2:30a–d9 2:50a)
+  - *the hillside above the cave*: The open hillside above the cave. Smoke comes out of a hole among the rocks.
+- **Take a goat-track down the hillside to Gefeohtcepan** (d9 2:50a–d9 3:10a)
+- **Take a breach in the curtain wall to the bailey** (d9 3:10a)
+- **Take the hall steps to the great hall** (d9 3:20a)
+  - *the great hall*: The great hall fills the keep's first floor, open now to the sky where the floors above have fallen in. A hearth wide enough to stand in takes up one wall. A stair goes up inside the thickness of the other. The long tables are still set out. On the benches and under them, and by the cold hearth, the
+- **Take the hall steps to the bailey** (d9 3:30a)
+- **Take the steps up to the wall to the wall-walk** (d9 3:40a)
+  - *the wall-walk*: From the wall-walk you can see the road for miles both ways, as the keep was built to: whoever came along it, the lord knew of it a morning before they arrived. Far off to the south-west the lord's men would have seen what you see now: a cave in the hillside.
+- **Take the steps up to the wall to the bailey** (d9 3:50a)
+- **Take the undercroft door to the undercroft** (d9 4a)
+  - *the undercroft*: A vaulted undercroft under the bailey, dry and cold, where the keep kept its stores. Racks for barrels stand empty along the walls.
+- **Take the undercroft door to the bailey** (d9 4:10a)
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 4:20a)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+- **Take a breach in the curtain wall to the bailey** (d9 4:30a)
+- **Take the hall steps to the great hall** (d9 4:40a)
+- **Take the stair in the wall to the lord's chamber** (d9 4:50a)
+  - *the lord's chamber*: The lord's chamber has kept its roof. A bed-frame, a bench under the window, and an iron-bound chest that no one has managed to carry off. The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom. The last entries are not dues. Down the marg
+- **Take the stair in the wall to the great hall** (d9 5a)
+- **Take the hall steps to the bailey** (d9 5:10a)
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 5:20a)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+  - *Gefeohtcepan*: A snake suns itself on a fallen stone. This is Gefeohtcepan, as the folk call it. A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road. Over 
+  - (leaving Sir Hamo's men alone: Bran reckons they are more than the company can take.)
+- **Take the gate to the gate-passage** (d9 5:30a)
+  - *the gate-passage*: A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone. Names and tallies are scratched into the plaster where men waited out their watches. The portcullis is wedged up in its grooves with a beam, and the way into the bailey is open.
+- **Take the inner arch to the bailey** (d9 5:40a)
+  - *the bailey*: The bailey is grass and nettles round a well-head. Lean-to roofs once ran along the inside of the wall; their beam-holes are a row of black squares in the stone. The keep's hall steps go up on one side, and stone steps climb the curtain wall on the other. The portcullis is wedged up in its grooves w
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 5:50a)
+- (cannot take raidersHold__brambles from region__w5)
+- **Take a goat-track down the hillside to the hillside above the cave** (d9 6a–d9 6:20a)
+  - *the hillside above the cave*: The open hillside above the cave. Smoke comes out of a hole among the rocks.
+- **Take a goat-track down the hillside to Gefeohtcepan** (d9 6:20a–d9 6:40a)
+- **Take a breach in the curtain wall to the bailey** (d9 6:40a)
+- **Take the hall steps to the great hall** (d9 6:50a)
+  - *the great hall*: The great hall fills the keep's first floor, open now to the sky where the floors above have fallen in. A hearth wide enough to stand in takes up one wall. A stair goes up inside the thickness of the other. The long tables are still set out. On the benches and under them, and by the cold hearth, the
+- **Take the hall steps to the bailey** (d9 7a)
+- **Take the steps up to the wall to the wall-walk** (d9 7:10a)
+  - *the wall-walk*: From the wall-walk you can see the road for miles both ways, as the keep was built to: whoever came along it, the lord knew of it a morning before they arrived. Far off to the south-west the lord's men would have seen what you see now: a cave in the hillside.
+- **Take the steps up to the wall to the bailey** (d9 7:20a)
+- **Take the undercroft door to the undercroft** (d9 7:30a)
+  - *the undercroft*: A vaulted undercroft under the bailey, dry and cold, where the keep kept its stores. Racks for barrels stand empty along the walls.
+- **Take the undercroft door to the bailey** (d9 7:40a)
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 7:50a)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+- **Take a breach in the curtain wall to the bailey** (d9 8a)
+- **Take the hall steps to the great hall** (d9 8:10a)
+- **Take the stair in the wall to the lord's chamber** (d9 8:20a)
+  - *the lord's chamber*: The lord's chamber has kept its roof. A bed-frame, a bench under the window, and an iron-bound chest that no one has managed to carry off. The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom. The last entries are not dues. Down the marg
+- **Take the stair in the wall to the great hall** (d9 8:30a)
+- **Take the hall steps to the bailey** (d9 8:40a)
+- **Take a breach in the curtain wall to Gefeohtcepan** (d9 8:50a)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+- (cannot take raidersHold__brambles from region__w5)
+- **Take the track to Gefeohtcepan to the ford of the Baraznachal** (d9 9a–d9 9:30a) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d9 9:30a) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the road from Harrehes down to the Baraznachal to Harrehes green** (d9 9:40a–d9 12:40p)
+- **Take the ford of the Marirzerem to the ford of the Marirzerem** (d9 12:40p–d9 2:50p)
+- **Take the road from Barzelmizela down to the Marirzerem to Barzelmizela green** (d9 2:50p–d9 5:10p)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d9 5:10p–d9 7p)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d9 7p–d9 9p)
+- **Take Eberk's door to Eberk's forge** (d9 9p)
+- **Sell a jeweled crown to Eberk** (d9 9:10p) — Eberk turns a jeweled crown over in the light, names a price, and counts out the coin.
+- **Sell a broken scepter to Eberk** (d9 9:20p) — Eberk turns a broken scepter over in the light, names a price, and counts out the coin.
+- **Take Eberk's door to Ramavor green** (d9 9:30p)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d9 9:40p)
+- **Ask Taklinn what is out at Stanumtener now** (d9 9:50p) — 'The spiders, that's what,' says Taklinn. 'Moved into Stanumtener while it stood empty, and nobody goes out that way now. Somebody cleared it out once. Somebody had better do it again.'
+- **Take a bed and supper from Taklinn** (d9 10p–d10 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 10, 7:00 a.m. · Bran L2 15/15hp 2130xp, Dori L2 23/23hp 1380xp, Gimgen L2 25/25hp 2130xp · 183 coin*
+
+## Expedition 6: Gold Hole (cave)
+*Day 10, 7:00 a.m. · Bran L2 15/15hp 2130xp, Dori L2 23/23hp 1380xp, Gimgen L2 25/25hp 2130xp · 183 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d10 7a)
+- **Take Eberk's door to Eberk's forge** (d10 7:10a)
+- **Take Eberk's door to Ramavor green** (d10 7:20a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d10 7:30a)
+- **Buy one ration from Taklinn** (d10 7:40a) — Taklinn counts the coins and hands over a ration.
+- **Buy one ration from Taklinn** (d10 7:50a) — Taklinn counts the coins and hands over a ration.
+- **Take the door of the Hidden Mask to Ramavor green** (d10 8a)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d10 8:10a–d10 10:10a)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d10 10:10a–d10 12p)
+- **Take the road from Barzelmizela down to the Marirzerem to the ford of the Marirzerem** (d10 12p–d10 2:20p)
+- **Take the ford of the Marirzerem to Harrehes green** (d10 2:20p–d10 4:30p)
+- **Take the road from Harrehes down to the Baraznachal to the ford of the Baraznachal** (d10 4:30p–d10 7:30p) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d10 7:30p) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the path into Mashyaar to the edge of Mashyaar** (d10 7:40p–d10 8:40p)
+- **Take a deer-track further in to the heart of Mashyaar** (d10 8:40p–d10 9:40p)
+- **Take the track to a cave in the hillside to a cave in the hillside** (d10 9:40p–d10 10:40p)
+  - *a cave in the hillside*: A dark mouth opens in the hillside. Deer go off between the trees without a sound.
+- **Attack the spiders** (d10 10:40p) [a fight: fighters; fell: beasts_person, beasts_person_2]
+  - *a cave in the hillside*: A dark mouth opens in the hillside. Deer go off between the trees without a sound. A cave in the hillside is quiet now. Flies settle on what is left.
+  - *a cave in the hillside*: A dark mouth opens in the hillside. Deer go off between the trees without a sound. A cave in the hillside is quiet now. Flies settle on what is left.
+- **Take the track to a cave in the hillside to the heart of Mashyaar** (d10 10:50p–d10 11:50p)
+- **Take a deer-track further in to the edge of Mashyaar** (d10 11:50p–d11 12:50a)
+- **Take the path into Mashyaar to the ford of the Baraznachal** (d11 12:50a–d11 1:50a) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d11 1:50a) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the road from Harrehes down to the Baraznachal to Harrehes green** (d11 2a–d11 5a)
+- **Take the ford of the Marirzerem to the ford of the Marirzerem** (d11 5a–d11 7:10a)
+- **Take the road from Barzelmizela down to the Marirzerem to Barzelmizela green** (d11 7:10a–d11 9:30a)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d11 9:30a–d11 11:20a)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d11 11:20a–d11 1:20p)
+- **Take Eberk's door to Eberk's forge** (d11 1:20p)
+- **Take Eberk's door to Ramavor green** (d11 1:30p)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d11 1:40p)
+- **Take a bed and supper from Taklinn** (d11 1:50p–d12 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 12, 7:00 a.m. · Bran L2 15/15hp 2630xp, Dori L2 23/23hp 1880xp, Gimgen L2 25/25hp 2630xp · 170 coin*
+
+## Expedition 7: Fyrsteport (tollhouse)
+*Day 12, 7:00 a.m. · Bran L2 15/15hp 2630xp, Dori L2 23/23hp 1880xp, Gimgen L2 25/25hp 2630xp · 170 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d12 7a)
+- **Take Eberk's door to Eberk's forge** (d12 7:10a)
+- **Take Eberk's door to Ramavor green** (d12 7:20a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d12 7:30a)
+- **Buy one ration from Taklinn** (d12 7:40a) — Taklinn counts the coins and hands over a ration.
+- **Buy one ration from Taklinn** (d12 7:50a) — Taklinn counts the coins and hands over a ration.
+- **Take the door of the Hidden Mask to Ramavor green** (d12 8a)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d12 8:10a–d12 10:10a)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d12 10:10a–d12 12p)
+- **Take the road from Barzelmizela down to the Marirzerem to the ford of the Marirzerem** (d12 12p–d12 2:20p)
+- **Take the ford of the Marirzerem to Harrehes green** (d12 2:20p–d12 4:30p)
+- **Take the path into Zavimchursha to the edge of Zavimchursha** (d12 4:30p–d12 5:30p)
+- **Take a deer-track further in to deep in Zavimchursha** (d12 5:30p–d12 7p)
+- **Take a deer-track further in to the heart of Zavimchursha** (d12 7p–d12 8p)
+- **Search the heart of Zavimchursha** (d12 8p–d12 8:20p) — You go over the heart of Zavimchursha carefully. The way to a toll-house by the water in Zavimchursha.
+- **Take the track to a toll-house by the water to a toll-house by the water** (d12 8:20p–d12 9:20p) — Fyrsteport: a toll-house by the water in Zavimchursha.
+  - *Fyrsteport*: Deer go off between the trees without a sound. This is Fyrsteport, as the folk call it. A tall house of dressed stone stands with its feet in the water, a warehouse behind it under a broken roof. Iron rings for mooring are set in its river wall, and the stumps of a jetty stand out into the stream. O
+- **Take the toll-house door to the toll-hall** (d12 9:20p)
+  - *the toll-hall*: The toll-hall: a long counter across the room, with a gate in it, and on the wall behind it a great board painted with the tariff. Benches for the boatmen waiting their turn.
+- **Read the tariff board** (d12 9:30p)
+- **Take the counter-gate to the counting-room** (d12 9:40p)
+  - *the counting-room*: A clerks' room behind the counter: high desks, a set of scales with its pans gone green, and pigeonholes stuffed with rotten paper. An iron door is set in the far wall. Pinned over the clerks' desks, an order in the kingdom's letters: by the princes' command, no wool-ship to be unloaded, nor any man
+- **Pick the strongroom door's lock** (d12 9:50p)
+- **Collect a smoking pipe for Bran** (d12 10p) — Bran takes a smoking pipe.
+- **Take the counter-gate to the toll-hall** (d12 10:10p)
+- **Take the warehouse doors to the warehouse** (d12 10:20p) — The bales move. Rats as big as cats come out of them, and more behind. The bales move. Rats as big as cats come out of them, and more behind.
+  - *the warehouse*: A warehouse under a broken roof, open to the weather at one end. Bales stand in rows, gone to grey felt, and a crane-arm hangs out over the water through a door in the river wall. The bales nearest the water-door are marked with a ship's mark and a date, and none of them was ever opened. Someone pai
+- **Attack the rats** (d12 10:30p) [a fight: fighters; fell: w6_rats_person, w6_rats_person_2, w6_rats_person_3, w6_rats_person_4]
+- **Take the warehouse doors to the toll-hall** (d12 10:40p)
+- **Take the counter-gate to the counting-room** (d12 10:50p)
+- **Take the strongroom door to the strongroom** (d12 11p)
+  - *the strongroom*: A room without a window, walled and vaulted in stone, with an iron chest bolted to the floor. The strongroom door stands open on its hinges.
+- **Pick the toll-chest's three locks** (d12 11:10p)
+- **Take a golden idol out of the toll-chest for Bran** (d12 11:20p) — Bran takes a golden idol from the toll-chest.
+- **Take the strongroom door to the counting-room** (d12 11:30p)
+- **Take the counter-gate to the toll-hall** (d12 11:40p)
+- **Take the warehouse doors to the warehouse** (d12 11:50p)
+- **Take the water-door to the water-stair** (d13 12a)
+  - *the water-stair*: Stone steps go down from the water-door into the river, green and slick below the waterline. The ribs of a sunken barge show through the water beside them.
+- **Search the water-stair** (d13 12:10a–d13 12:30a) — You go over the water-stair carefully. A culvert runs from the bonded cellar out under the river wall: goods could come and go by it without passing the counter.
+- **Take the culvert to the bonded cellar** (d13 12:30a)
+  - *the bonded cellar*: A long cellar under the warehouse, smelling of the river. Barrels lie on their sides in racks, every one stove in.
+- **Take the hatch to the cellar to the warehouse** (d13 12:40a)
+- **Take the warehouse doors to the toll-hall** (d13 12:50a)
+- **Take the toll-house door to Fyrsteport** (d13 1a)
+  - *Fyrsteport*: Deer go off between the trees without a sound. This is Fyrsteport, as the folk call it. A tall house of dressed stone stands with its feet in the water, a warehouse behind it under a broken roof. Iron rings for mooring are set in its river wall, and the stumps of a jetty stand out into the stream. O
+- **Take the toll-house door to the toll-hall** (d13 1:10a)
+  - *the toll-hall*: The toll-hall: a long counter across the room, with a gate in it, and on the wall behind it a great board painted with the tariff. Benches for the boatmen waiting their turn. Under the tariff, smaller, the princes' charter: whose river it was, and by what right.
+- **Take the counter-gate to the counting-room** (d13 1:20a)
+  - *the counting-room*: A clerks' room behind the counter: high desks, a set of scales with its pans gone green, and pigeonholes stuffed with rotten paper. An iron door is set in the far wall. Pinned over the clerks' desks, an order in the kingdom's letters: by the princes' command, no wool-ship to be unloaded, nor any man
+- **Take the counter-gate to the toll-hall** (d13 1:30a)
+- **Take the warehouse doors to the warehouse** (d13 1:40a)
+  - *the warehouse*: A warehouse under a broken roof, open to the weather at one end. Bales stand in rows, gone to grey felt, and a crane-arm hangs out over the water through a door in the river wall. The bales nearest the water-door are marked with a ship's mark and a date, and none of them was ever opened. Someone pai
+- **Take the warehouse doors to the toll-hall** (d13 1:50a)
+- **Take the counter-gate to the counting-room** (d13 2a)
+- **Take the strongroom door to the strongroom** (d13 2:10a)
+  - *the strongroom*: A room without a window, walled and vaulted in stone, with an iron chest bolted to the floor. The strongroom door stands open on its hinges.
+- **Take the strongroom door to the counting-room** (d13 2:20a)
+- **Take the counter-gate to the toll-hall** (d13 2:30a)
+- **Take the warehouse doors to the warehouse** (d13 2:40a)
+- **Take the water-door to the water-stair** (d13 2:50a)
+  - *the water-stair*: Stone steps go down from the water-door into the river, green and slick below the waterline. The ribs of a sunken barge show through the water beside them. Under the water-stair, at the waterline, a low arch goes back into the house's foundations.
+- **Take the culvert to the bonded cellar** (d13 3a)
+  - *the bonded cellar*: A long cellar under the warehouse, smelling of the river. Barrels lie on their sides in racks, every one stove in.
+- **Take the hatch to the cellar to the warehouse** (d13 3:10a)
+- **Take the warehouse doors to the toll-hall** (d13 3:20a)
+- **Take the toll-house door to Fyrsteport** (d13 3:30a)
+  - *Fyrsteport*: Deer go off between the trees without a sound. This is Fyrsteport, as the folk call it. A tall house of dressed stone stands with its feet in the water, a warehouse behind it under a broken roof. Iron rings for mooring are set in its river wall, and the stumps of a jetty stand out into the stream. O
+- **Take the toll-house door to the toll-hall** (d13 3:40a)
+  - *the toll-hall*: The toll-hall: a long counter across the room, with a gate in it, and on the wall behind it a great board painted with the tariff. Benches for the boatmen waiting their turn. Under the tariff, smaller, the princes' charter: whose river it was, and by what right.
+- **Take the counter-gate to the counting-room** (d13 3:50a)
+  - *the counting-room*: A clerks' room behind the counter: high desks, a set of scales with its pans gone green, and pigeonholes stuffed with rotten paper. An iron door is set in the far wall. Pinned over the clerks' desks, an order in the kingdom's letters: by the princes' command, no wool-ship to be unloaded, nor any man
+- **Take the counter-gate to the toll-hall** (d13 4a)
+- **Take the warehouse doors to the warehouse** (d13 4:10a)
+  - *the warehouse*: A warehouse under a broken roof, open to the weather at one end. Bales stand in rows, gone to grey felt, and a crane-arm hangs out over the water through a door in the river wall. The bales nearest the water-door are marked with a ship's mark and a date, and none of them was ever opened. Someone pai
+- **Take the warehouse doors to the toll-hall** (d13 4:20a)
+- **Take the counter-gate to the counting-room** (d13 4:30a)
+- **Take the strongroom door to the strongroom** (d13 4:40a)
+  - *the strongroom*: A room without a window, walled and vaulted in stone, with an iron chest bolted to the floor. The strongroom door stands open on its hinges.
+- **Take the strongroom door to the counting-room** (d13 4:50a)
+- **Take the counter-gate to the toll-hall** (d13 5a)
+- **Take the warehouse doors to the warehouse** (d13 5:10a)
+- **Take the water-door to the water-stair** (d13 5:20a)
+  - *the water-stair*: Stone steps go down from the water-door into the river, green and slick below the waterline. The ribs of a sunken barge show through the water beside them. Under the water-stair, at the waterline, a low arch goes back into the house's foundations.
+- **Take the culvert to the bonded cellar** (d13 5:30a)
+  - *the bonded cellar*: A long cellar under the warehouse, smelling of the river. Barrels lie on their sides in racks, every one stove in.
+- **Take the hatch to the cellar to the warehouse** (d13 5:40a)
+- **Take the warehouse doors to the toll-hall** (d13 5:50a)
+- **Take the toll-house door to Fyrsteport** (d13 6a)
+- **Take the track to Fyrsteport to the heart of Zavimchursha** (d13 6:10a–d13 7:10a)
+- **Take a deer-track further in to deep in Zavimchursha** (d13 7:10a–d13 8:10a)
+- **Take a deer-track further in to the edge of Zavimchursha** (d13 8:10a–d13 9:40a)
+- **Take the path into Zavimchursha to Harrehes green** (d13 9:40a–d13 10:40a)
+- **Take the ford of the Marirzerem to the ford of the Marirzerem** (d13 10:40a–d13 12:50p)
+- **Take the road from Barzelmizela down to the Marirzerem to Barzelmizela green** (d13 12:50p–d13 3:10p)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d13 3:10p–d13 5p)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d13 5p–d13 7p)
+- **Take Eberk's door to Eberk's forge** (d13 7p)
+- **Sell a golden idol to Eberk** (d13 7:10p) — Eberk turns a golden idol over in the light, names a price, and counts out the coin.
+- **Sell a smoking pipe to Eberk** (d13 7:20p) — Eberk turns a smoking pipe over in the light, names a price, and counts out the coin.
+- **Take Eberk's door to Ramavor green** (d13 7:30p)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d13 7:40p)
+- **Take a bed and supper from Taklinn** (d13 7:50p–d14 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 14, 7:00 a.m. · Bran L3 23/23hp 3077xp, Dori L2 23/23hp 2327xp, Gimgen L3 30/30hp 3077xp · 570 coin*
+
+## Expedition 8: Tin Sink (sinkhole)
+*Day 14, 7:00 a.m. · Bran L3 23/23hp 3077xp, Dori L2 23/23hp 2327xp, Gimgen L3 30/30hp 3077xp · 570 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d14 7a)
+- **Take Eberk's door to Eberk's forge** (d14 7:10a)
+- **Take Eberk's door to Ramavor green** (d14 7:20a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d14 7:30a)
+- **Buy one ration from Taklinn** (d14 7:40a) — Taklinn counts the coins and hands over a ration.
+- **Buy one ration from Taklinn** (d14 7:50a) — Taklinn counts the coins and hands over a ration.
+- **Take the door of the Hidden Mask to Ramavor green** (d14 8a)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d14 8:10a–d14 10:10a)
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d14 10:10a–d14 12p)
+- **Take the track to a pit in the ground to a pit in the ground** (d14 12p–d14 4:30p)
+  - *a pit in the ground*: Grass runs to the edge of a round pit in the ground. A centipede as long as a hand goes over the stones into the dark.
+- **Speak with Garth** (d14 4:30p) — 'Saw the smoke from here,' says Garth. 'Good riddance.' He counts out eight coins.
+- **Collect Garth's spare torch for Bran** (d14 4:40p) — Bran takes Garth's spare torch.
+- **Take the sink path to the lip of the sink** (d14 4:50p–d14 5:20p)
+  - *the lip of the sink*: The grass runs right to the edge and stops. Below, the chalk drops into a round shaft, white at the top and grey further down, and cool air comes up out of it.
+- **Take the terrace steps to the frame terrace** (d14 5:20p)
+  - *the frame terrace*: A ledge cut into the side of the sink, sheltered from the wind. A wet fissure at the back of the ledge breathes cave air.
+- **Speak with Odile** (d14 5:30p) — 'Twelve years,' says Odile. 'Twelve years I fed them.' She does not say anything else.
+- **Take the seep crawl to the lower cave** (d14 5:40p–d14 6:40p)
+  - *the lower cave*: Water drips from the chalk into shallow pools. Pale threads run along the walls towards a low arch, and every thread trembles a little. Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+- **Take the web gallery to the nest** (d14 6:40p)
+  - *the nest*: A high chamber, its roof lost in grey silk. Old husks of sheep and rabbits hang in the threads like washing. Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+- **Take the web gallery to the lower cave** (d14 6:50p)
+- **Take the sink shaft to the lip of the sink** (d14 7p)
+- **Take the sink path to a pit in the ground** (d14 7:10p–d14 7:40p)
+  - *a pit in the ground*: Grass runs to the edge of a round pit in the ground. A centipede as long as a hand goes over the stones into the dark.
+- **Take the sink path to the lip of the sink** (d14 7:40p–d14 8:10p)
+  - *the lip of the sink*: The grass runs right to the edge and stops. Below, the chalk drops into a round shaft, white at the top and grey further down, and cool air comes up out of it.
+- **Take the terrace steps to the frame terrace** (d14 8:10p)
+  - *the frame terrace*: A ledge cut into the side of the sink, sheltered from the wind. A wet fissure at the back of the ledge breathes cave air.
+- **Take the seep crawl to the lower cave** (d14 8:20p–d14 9:20p)
+  - *the lower cave*: Water drips from the chalk into shallow pools. Pale threads run along the walls towards a low arch, and every thread trembles a little. Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+- **Take the web gallery to the nest** (d14 9:20p)
+  - *the nest*: A high chamber, its roof lost in grey silk. Old husks of sheep and rabbits hang in the threads like washing. Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+- **Take the web gallery to the lower cave** (d14 9:30p)
+- **Take the sink shaft to the lip of the sink** (d14 9:40p)
+- **Take the sink path to a pit in the ground** (d14 9:50p–d14 10:20p)
+  - *a pit in the ground*: Grass runs to the edge of a round pit in the ground. A centipede as long as a hand goes over the stones into the dark.
+- **Take the sink path to the lip of the sink** (d14 10:20p–d14 10:50p)
+  - *the lip of the sink*: The grass runs right to the edge and stops. Below, the chalk drops into a round shaft, white at the top and grey further down, and cool air comes up out of it.
+- **Take the terrace steps to the frame terrace** (d14 10:50p)
+  - *the frame terrace*: A ledge cut into the side of the sink, sheltered from the wind. A wet fissure at the back of the ledge breathes cave air.
+- **Take the seep crawl to the lower cave** (d14 11p–d15 12a)
+  - *the lower cave*: Water drips from the chalk into shallow pools. Pale threads run along the walls towards a low arch, and every thread trembles a little. Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+- **Take the web gallery to the nest** (d15 12a)
+  - *the nest*: A high chamber, its roof lost in grey silk. Old husks of sheep and rabbits hang in the threads like washing. Black threads curl from the walls of the web gallery. The air stinks of burnt hair.
+- **Take the web gallery to the lower cave** (d15 12:10a)
+- **Take the sink shaft to the lip of the sink** (d15 12:20a)
+- **Take the sink path to a pit in the ground** (d15 12:30a–d15 1a)
+- **Take the track to a pit in the ground to Barzelmizela green** (d15 1a–d15 5:30a)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d15 5:30a–d15 7:20a)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d15 7:20a–d15 9:20a)
+- **Take Eberk's door to Eberk's forge** (d15 9:20a)
+- **Take Eberk's door to Ramavor green** (d15 9:30a)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d15 9:40a)
+- **Take a bed and supper from Taklinn** (d15 9:50a–d15 5:50p) — You eat a hot supper and sleep long in a dry bed.
+*Day 15, 5:50 p.m. · Bran L3 23/23hp 3077xp, Dori L2 23/23hp 2327xp, Gimgen L3 30/30hp 3077xp · 571 coin*
+
+## Expedition 9: Argentumturris (tower)
+*Day 15, 5:50 p.m. · Bran L3 23/23hp 3077xp, Dori L2 23/23hp 2327xp, Gimgen L3 30/30hp 3077xp · 571 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d15 5:50p)
+- **Take Eberk's door to Eberk's forge** (d15 6p)
+- **Take Eberk's door to Ramavor green** (d15 6:10p)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d15 6:20p)
+- **Buy one ration from Taklinn** (d15 6:30p) — Taklinn counts the coins and hands over a ration.
+- **Buy one ration from Taklinn** (d15 6:40p) — Taklinn counts the coins and hands over a ration.
+- **Take the door of the Hidden Mask to Ramavor green** (d15 6:50p)
+- **Take the road from Ramavor up to the Telegavor to the top of the Telegavor** (d15 7p–d15 9p) [a fight: unfinished] — Night comes down on the Telegavor, and the cold with it. There is no shelter, and nothing to burn.
+- **Take the road down from the Telegavor to Barzelmizela to Barzelmizela green** (d15 9p–d15 10:50p)
+- **Take the road from Barzelmizela down to the Marirzerem to the ford of the Marirzerem** (d15 10:50p–d16 1:10a) — Night comes down on the Muzgavor, and the cold with it. There is no shelter, and nothing to burn.
+- **Take the ford of the Marirzerem to Harrehes green** (d16 1:10a–d16 3:20a)
+- **Take the road from Harrehes down to the Baraznachal to the ford of the Baraznachal** (d16 3:20a–d16 6:20a) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d16 6:20a) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the ford of the Baraznachal to Shaygabar green** (d16 6:30a–d16 9:30a)
+- **Take the track to a lone tower to a lone tower** (d16 9:30a–d16 1:30p) — Argentumturris: a lone tower in the fells south of Shaygabar. The name is Aenean, the old tongue, for “silver tower”.
+  - *Argentumturris*: A lone tower stands above the land. A hawk hangs on the wind, then drops. This is Argentumturris. The name is Aenean, the old tongue, for “silver tower”. Over the door, cut in the old script: ARGENTUMTURRIS. The keep is bare stone, cracked by frost. A light burns at the top of its tower. To one side
+- **Search Argentumturris** (d16 1:30p–d16 1:50p) — You go over Argentumturris carefully.
+- (cannot take tower__breach from region__w9)
+- **Search a cave in the hillside for what was dragged in** (d16 1:50p–d16 2:10p) — Among the bones are coins and a broken buckle: 10 coin in all.
+- (cannot take tower__breach from region__w9)
+- **Take a barred postern low in the wall to the crypt under the tower** (d16 2:10p)
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Old iron rungs go down the well shaft into the dark.
+- **Attack the risen dead** (d16 2:20p) [a fight: fighters; fell: risen_person, risen_person_2]
+- **Attack the knitted hound** (d16 2:30p) [a fight: fighters; fell: hound_person]
+- **Take a barred postern low in the wall to Argentumturris** (d16 2:40p)
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- **Take a barred postern low in the wall to the crypt under the tower** (d16 2:50p)
+- **Search the crypt under the tower** (d16 3p–d16 3:20p) — You go over the crypt under the tower carefully.
+- (cannot take tower__crypt_steps from tower__crypt)
+- **Take the bone arch to the bone store** (d16 3:20p)
+  - *the bone store*: Bones sorted by kind into heaps: skulls, long bones, small bones in baskets. Someone has worked here a long time.
+- **Collect a cord of grave rings for Bran** (d16 3:30p) — Bran takes a cord of grave rings.
+- **Take the bone arch to the crypt under the tower** (d16 3:40p)
+- (cannot take tower__cell_door from tower__crypt)
+- **Take the cistern steps to the drowned cellar** (d16 3:50p)
+  - *the drowned cellar*: Steps go down into a vaulted cistern. At the far end a low drift runs off under the bailey, and water stands in it. Black water fills the drift to within a hand of its roof. Whoever goes through goes under.
+- **Take the cistern steps to the crypt under the tower** (d16 4p)
+- **Take the undercroft steps to the tower hall** (d16 4:10p)
+- **Take the turning stair to the library** (d16 4:20p)
+  - *the library*: Shelves of damp books, most of them the garrison's, some of them his. A table under the window is covered in letters. The stair above has fallen; the broken flight hangs out of the wall.
+- **Search the library** (d16 4:30p–d16 4:50p) — You go over the library carefully.
+- (cannot take tower__broken_stair from tower__library)
+- **Take the turning stair to the tower hall** (d16 4:50p)
+- **Take the undercroft steps to the crypt under the tower** (d16 5p)
+- **Take the cistern steps to the drowned cellar** (d16 5:10p)
+- **Search the drowned cellar** (d16 5:20p–d16 5:40p) — You go over the drowned cellar carefully.
+- (cannot take tower__drift from tower__cistern)
+- **Take the cistern steps to the crypt under the tower** (d16 5:40p)
+- **Take a barred postern low in the wall to Argentumturris** (d16 5:50p)
+  - *Argentumturris*: A lone tower stands above the land. A hawk hangs on the wind, then drops. This is Argentumturris. The name is Aenean, the old tongue, for “silver tower”. Over the door, cut in the old script: ARGENTUMTURRIS. The keep is bare stone, cracked by frost. A light burns at the top of its tower. To one side
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- **Take a barred postern low in the wall to the crypt under the tower** (d16 6p)
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Old iron rungs go down the well shaft into the dark.
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Old iron rungs go down the well shaft into the dark.
+- **Take a barred postern low in the wall to Argentumturris** (d16 6:10p)
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- **Take a barred postern low in the wall to the crypt under the tower** (d16 6:20p)
+- (cannot take tower__crypt_steps from tower__crypt)
+- **Take the bone arch to the bone store** (d16 6:30p)
+  - *the bone store*: Bones sorted by kind into heaps: skulls, long bones, small bones in baskets. Someone has worked here a long time.
+- **Take the bone arch to the crypt under the tower** (d16 6:40p)
+- (cannot take tower__cell_door from tower__crypt)
+- **Take the cistern steps to the drowned cellar** (d16 6:50p)
+  - *the drowned cellar*: Steps go down into a vaulted cistern. At the far end a low drift runs off under the bailey, and water stands in it. Black water fills the drift to within a hand of its roof. Whoever goes through goes under.
+- **Take the cistern steps to the crypt under the tower** (d16 7p)
+- **Take the undercroft steps to the tower hall** (d16 7:10p)
+- **Take the turning stair to the library** (d16 7:20p)
+  - *the library*: Shelves of damp books, most of them the garrison's, some of them his. A table under the window is covered in letters. The stair above has fallen; the broken flight hangs out of the wall.
+- (cannot take tower__broken_stair from tower__library)
+- **Take the turning stair to the tower hall** (d16 7:30p)
+- **Take the undercroft steps to the crypt under the tower** (d16 7:40p)
+- **Take the cistern steps to the drowned cellar** (d16 7:50p)
+- (cannot take tower__drift from tower__cistern)
+- **Take the cistern steps to the crypt under the tower** (d16 8p)
+- **Take a barred postern low in the wall to Argentumturris** (d16 8:10p)
+  - *Argentumturris*: A lone tower stands above the land. A hawk hangs on the wind, then drops. This is Argentumturris. The name is Aenean, the old tongue, for “silver tower”. Over the door, cut in the old script: ARGENTUMTURRIS. The keep is bare stone, cracked by frost. A light burns at the top of its tower. To one side
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- **Take a barred postern low in the wall to the crypt under the tower** (d16 8:20p)
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Old iron rungs go down the well shaft into the dark.
+  - *the crypt under the tower*: Burial niches line the walls. Most stand empty, and the earth under them is freshly turned. Old iron rungs go down the well shaft into the dark.
+- **Take a barred postern low in the wall to Argentumturris** (d16 8:30p)
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- (cannot take tower__breach from region__w9)
+- **Take a barred postern low in the wall to the crypt under the tower** (d16 8:40p)
+- (cannot take tower__crypt_steps from tower__crypt)
+- **Take the bone arch to the bone store** (d16 8:50p)
+  - *the bone store*: Bones sorted by kind into heaps: skulls, long bones, small bones in baskets. Someone has worked here a long time.
+- **Take the bone arch to the crypt under the tower** (d16 9p)
+- (cannot take tower__cell_door from tower__crypt)
+- **Take the cistern steps to the drowned cellar** (d16 9:10p)
+  - *the drowned cellar*: Steps go down into a vaulted cistern. At the far end a low drift runs off under the bailey, and water stands in it. Black water fills the drift to within a hand of its roof. Whoever goes through goes under.
+- **Take the cistern steps to the crypt under the tower** (d16 9:20p)
+- **Take the undercroft steps to the tower hall** (d16 9:30p)
+- **Take the turning stair to the library** (d16 9:40p)
+  - *the library*: Shelves of damp books, most of them the garrison's, some of them his. A table under the window is covered in letters. The stair above has fallen; the broken flight hangs out of the wall.
+- (cannot take tower__broken_stair from tower__library)
+- **Take the turning stair to the tower hall** (d16 9:50p)
+- **Take the undercroft steps to the crypt under the tower** (d16 10p)
+- **Take the cistern steps to the drowned cellar** (d16 10:10p)
+- (cannot take tower__drift from tower__cistern)
+- **Take the cistern steps to the crypt under the tower** (d16 10:20p)
+- **Take a barred postern low in the wall to Argentumturris** (d16 10:30p)
+- **Take the track to Argentumturris to Shaygabar green** (d16 10:40p–d17 2:40a)
+- **Take the ford of the Baraznachal to the ford of the Baraznachal** (d17 2:40a–d17 5:40a) — The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+- **Pay the lord's toll, three coin** (d17 5:40a) — The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+- **Take the road from Harrehes down to the Baraznachal to Harrehes green** (d17 5:50a–d17 8:50a)
+- **Take the ford of the Marirzerem to the ford of the Marirzerem** (d17 8:50a–d17 11a)
+- **Take the road from Barzelmizela down to the Marirzerem to Barzelmizela green** (d17 11a–d17 1:20p)
+- **Take the road down from the Telegavor to Barzelmizela to the top of the Telegavor** (d17 1:20p–d17 3:10p)
+- **Take the road from Ramavor up to the Telegavor to Ramavor green** (d17 3:10p–d17 5:10p)
+- **Take Eberk's door to Eberk's forge** (d17 5:10p)
+- **Sell a cord of grave rings to Eberk** (d17 5:20p) — Eberk takes a cord of grave rings, and counts out the coin for it.
+- **Take Eberk's door to Ramavor green** (d17 5:30p)
+- **Take the door of the Hidden Mask to the taproom of the Hidden Mask** (d17 5:40p)
+- **Take a bed and supper from Taklinn** (d17 5:50p–d18 7a) — You eat a hot supper and sleep long in a dry bed.
+*Day 18, 7:00 a.m. · Bran L3 23/23hp 3717xp, Dori L2 23/23hp 2967xp, Gimgen L3 30/30hp 3717xp · 574 coin*
+- **Take the door of the Hidden Mask to Ramavor green** (d18 7a)
+- (the country beyond is drawn: Rindwudu, forest)
+- **Take the old road east to the eastern edge of Karkatzeh** (d18 7:10a–d18 11a)
+- **Take the road across the march to the western edge of Rindwudu** (d18 11a–d18 1p)
+
+# Into Rindwudu (x1y0)
+- **Take the old road west to Rosglyn green** (d18 1p–d18 3:20p)
+- **Take the road on to Rosglyn to the road between Feaxburg and Rosglyn** (d18 3:20p–d18 4:30p)
+- **Take the road from Feaxburg to Rosglyn to Feaxburg green** (d18 4:30p–d18 5:40p)
+- **Take the road on to Feaxburg to the road between Lēafdaenu and Feaxburg** (d18 5:40p–d18 6:50p)
+- **Take the road from Lēafdaenu to Feaxburg to Lēafdaenu green** (d18 6:50p–d18 8:10p)
+- **Take the bridge over the Wīdstrēam to the bridge over the Wīdstrēam** (d18 8:10p–d18 11:40p)
+- **Take the road from Greneheald down to the Wīdstrēam to Greneheald green** (d18 11:40p–d19 3:10a)
+- **Take the door of the Stormy Unicorn to the taproom of the Stormy Unicorn** (d19 3:10a)
+- **Ask Dawn about the drover who did not come home to Greneheald** (d19 3:20a) — Dawn tells you what they have heard about the drover who did not come home to Greneheald. A drover went out on the road from Greneheald green three days ago and did not come home. His dog did.
+- **Ask Hilda what brings them to Greneheald** (d19 3:30a) — 'The burn is done and the charcoal sold. I have a month before the next.' Hilda looks you over. 'If you are going anywhere, I would come along. 3 coin, and my keep.'
+- **Ask Hilda to join the company** (d19 3:40a) — Hilda shakes on it, and is one of you.
+- **Ask Dawn about the old mounds** (d19 3:50a) — 'The howe at Nocswigil, out in the woods south-east of Greneheald,' says Dawn. 'Raised over a king, folk say, with his horse and his gold. They also say the dead in it sit up if you take so much as a pebble, so nobody has.' Nocswigil: a long mound in the woods south-east of Greneheald. The way to a long mound south-east of Greneheald.
+- **Ask Laban about her husband** (d19 4a) — 'He went out with the cart three days back,' says Laban, and keeps her eyes on the pot. 'The dog came home. He didn't.'
+- **Take the door of the Stormy Unicorn to Greneheald green** (d19 4:10a)
+- **Take the shrine porch in Greneheald to the shrine of Belenus** (d19 4:20a)
+- **Ask Ruven about the old towers** (d19 4:30a) — 'The old people counted the days from their towers,' says Ruven. 'There is one at Solwis, in the woods north-east of Greneheald. If anyone could bring back what they wrote there, we would know what they knew of the sky. I would pay well for it.' Solwis: a round tower in the woods north-east of Greneheald. The way to a round tower north-east of Greneheald.
+- **Take the shrine porch in Greneheald to Greneheald green** (d19 4:40a)
+- **Take Roscoe's door to Roscoe's wood-yard** (d19 4:50a)
+
+## Expedition 10: Solspir (watchtower)
+*Day 19, 5:00 a.m. · Bran L3 23/23hp 3717xp, Dori L2 23/23hp 2967xp, Gimgen L3 30/30hp 3717xp, Hilda L1 10/10hp 0xp · 571 coin*
+- **Buy a torch for Bran · 1 coin** (d19 5a) — Bran pays Roscoe, and takes a torch.
+- **Buy a torch for Bran · 1 coin** (d19 5:10a) — Bran pays Roscoe, and takes a torch.
+- **Buy a torch for Bran · 1 coin** (d19 5:20a) — Bran pays Roscoe, and takes a torch.
+- **Buy a lantern for Bran · 7 coin** (d19 5:30a) — Bran pays Roscoe, and takes a lantern.
+- **Equip a lantern on Bran** (d19 5:40a) — Bran readies a lantern.
+- **Take Roscoe's door to Greneheald green** (d19 5:50a)
+- **Take the door of the Stormy Unicorn to the taproom of the Stormy Unicorn** (d19 6a)
+- **Buy one ration from Dawn** (d19 6:10a) — Dawn counts the coins and hands over a ration.
+- **Buy one ration from Dawn** (d19 6:20a) — Dawn counts the coins and hands over a ration.
+- **Take the door of the Stormy Unicorn to Greneheald green** (d19 6:30a)
+- **Take the road from Greneheald down to the Wīdstrēam to the bridge over the Wīdstrēam** (d19 6:40a–d19 10:10a)
+- **Take the bridge over the Wīdstrēam to Lēafdaenu green** (d19 10:10a–d19 1:40p)
+- **Take the road from Lēafdaenu to Feaxburg to the road between Lēafdaenu and Feaxburg** (d19 1:40p–d19 3p)
+- **Take the road on to Feaxburg to Feaxburg green** (d19 3p–d19 4:10p)
+- **Take the road from Feaxburg to Rosglyn to the road between Feaxburg and Rosglyn** (d19 4:10p–d19 5:20p)
+- **Take the path up onto Genipfullmunt to the foot of Genipfullmunt** (d19 5:20p–d19 6:20p)
+- **Take the track to a round tower in Genipfullmunt to a round tower in Genipfullmunt** (d19 6:20p–d19 7:20p) — Solspir: a round tower in Genipfullmunt.
+  - *Solspir*: A raven keeps pace with you from cairn to cairn. This is Solspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script 
+- **Read the letters round the door** (d19 7:20p)
+- **Take the broken stair to the door to the floor of the tower** (d19 7:30p)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring. The floor is deep in the droppings of birds, and nothing else.
+- **Take the trapdoor in the floor to the undercroft** (d19 7:40p)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Read the tablets** (d19 7:50p) — How the Star-Readers ended: Two of their towers came to keep two counts, a day apart, and each called the other false. The war of the reckonings burned every tower but the ones that stand.
+- **Collect a crystal orb for Bran** (d19 8p) — Bran takes a crystal orb.
+- **Take the trapdoor in the floor to the floor of the tower** (d19 8:10p)
+- **Take the stair in the wall to the ring-room** (d19 8:20p) — A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back. A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back.
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks.
+  - (leaving the wyvern, a wyvern that nests in the ring of the tower, and hunts the heights alone: Bran reckons it is more than the company can take.)
+- **Set the bronze ring to its sight-line** (d19 8:30p) — Before the folk came, the Star-Readers held this country. They raised round towers on the heights, each in sight of the next, and set bronze rings in their tops to measure the sky; their count of days ran true for a thousand years. They held that every rite has its night, and that a people who lose the count of days lose the favour of the sky. The way to a round tower north of Greneheald. Lunaspir
+- **Take the stair in the wall to the floor of the tower** (d19 8:40p) — The way to a tower taller than any other in Genipfullmunt.
+- **Take the broken stair to the door to Solspir** (d19 8:50p) — Ithil has taken his father's old spear and gone out on the road alone. Nobody stopped him.
+  - *Solspir*: A raven keeps pace with you from cairn to cairn. This is Solspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script 
+- **Take the broken stair to the door to the floor of the tower** (d19 9p)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring. The floor is deep in the droppings of birds, and nothing else.
+- **Take the trapdoor in the floor to the undercroft** (d19 9:10p)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script. Two of their towers came to keep two counts, a day apart, and each called the other false. The war of the reckonings burned every tower but the ones that sta
+- **Take the trapdoor in the floor to the floor of the tower** (d19 9:20p)
+- **Take the stair in the wall to the ring-room** (d19 9:30p) — A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back. A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back.
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. They raised round towers on the heights, each in sight of the next, and set bronze rings in th
+  - (leaving the wyvern, a wyvern that nests in the ring of the tower, and hunts the heights alone: Bran reckons it is more than the company can take.)
+- **Take the stair in the wall to the floor of the tower** (d19 9:40p)
+- **Take the broken stair to the door to Solspir** (d19 9:50p)
+  - *Solspir*: A raven keeps pace with you from cairn to cairn. This is Solspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script 
+- **Take the broken stair to the door to the floor of the tower** (d19 10p)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring. The floor is deep in the droppings of birds, and nothing else.
+- **Take the trapdoor in the floor to the undercroft** (d19 10:10p)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script. Two of their towers came to keep two counts, a day apart, and each called the other false. The war of the reckonings burned every tower but the ones that sta
+- **Take the trapdoor in the floor to the floor of the tower** (d19 10:20p)
+- **Take the stair in the wall to the ring-room** (d19 10:30p) — A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back. A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back.
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. They raised round towers on the heights, each in sight of the next, and set bronze rings in th
+  - (leaving the wyvern, a wyvern that nests in the ring of the tower, and hunts the heights alone: Bran reckons it is more than the company can take.)
+- **Take the stair in the wall to the floor of the tower** (d19 10:40p)
+- **Take the broken stair to the door to Solspir** (d19 10:50p)
+- **Take the track to Solspir to the foot of Genipfullmunt** (d19 11p–d20 12a)
+- **Take the path up onto Genipfullmunt to the road between Feaxburg and Rosglyn** (d20 12a–d20 1a)
+- **Take the road from Feaxburg to Rosglyn to Feaxburg green** (d20 1a–d20 2:10a)
+- **Take the road on to Feaxburg to the road between Lēafdaenu and Feaxburg** (d20 2:10a–d20 3:20a)
+- **Take the road from Lēafdaenu to Feaxburg to Lēafdaenu green** (d20 3:20a–d20 4:40a)
+- **Take the bridge over the Wīdstrēam to the bridge over the Wīdstrēam** (d20 4:40a–d20 8:10a)
+- **Take the road from Greneheald down to the Wīdstrēam to Greneheald green** (d20 8:10a–d20 11:40a)
+- **Take Roscoe's door to Roscoe's wood-yard** (d20 11:40a)
+- **Sell a crystal orb to Roscoe** (d20 11:50a) — Roscoe turns a crystal orb over in the light, names a price, and counts out the coin.
+- **Take Roscoe's door to Greneheald green** (d20 12p)
+- **Take the door of the Stormy Unicorn to the taproom of the Stormy Unicorn** (d20 12:10p)
+- **Take a bed and supper from Dawn** (d20 12:20p–d20 8:20p) — You eat a hot supper and sleep long in a dry bed.
+*Day 20, 8:20 p.m. · Bran L3 23/23hp 3817xp, Dori L3 37/37hp 3067xp, Gimgen L3 30/30hp 3817xp, Hilda L1 10/10hp 100xp · 654 coin*
+
+## Expedition 11: Altustur (great_watchtower)
+*Day 20, 8:20 p.m. · Bran L3 23/23hp 3817xp, Dori L3 37/37hp 3067xp, Gimgen L3 30/30hp 3817xp, Hilda L1 10/10hp 100xp · 654 coin*
+- **Take the door of the Stormy Unicorn to Greneheald green** (d20 8:20p)
+- **Take Roscoe's door to Roscoe's wood-yard** (d20 8:30p)
+- **Buy a torch for Bran · 1 coin** (d20 8:40p) — Bran pays Roscoe, and takes a torch.
+- **Buy a torch for Bran · 1 coin** (d20 8:50p) — Bran pays Roscoe, and takes a torch.
+- **Buy a torch for Bran · 1 coin** (d20 9p) — Bran pays Roscoe, and takes a torch.
+- **Equip a lantern on Bran** (d20 9:10p) — Bran readies a lantern.
+- **Take Roscoe's door to Greneheald green** (d20 9:20p)
+- **Take the door of the Stormy Unicorn to the taproom of the Stormy Unicorn** (d20 9:30p)
+- **Buy one ration from Dawn** (d20 9:40p) — Dawn counts the coins and hands over a ration.
+- **Buy one ration from Dawn** (d20 9:50p) — Dawn counts the coins and hands over a ration.
+- **Take the door of the Stormy Unicorn to Greneheald green** (d20 10p)
+- **Take the road from Greneheald down to the Wīdstrēam to the bridge over the Wīdstrēam** (d20 10:10p–d21 1:40a)
+- **Take the bridge over the Wīdstrēam to Lēafdaenu green** (d21 1:40a–d21 5:10a)
+- **Take the road from Lēafdaenu to Feaxburg to the road between Lēafdaenu and Feaxburg** (d21 5:10a–d21 6:30a)
+- **Take the road on to Feaxburg to Feaxburg green** (d21 6:30a–d21 7:40a)
+- **Take the road from Feaxburg to Rosglyn to the road between Feaxburg and Rosglyn** (d21 7:40a–d21 8:50a)
+- **Take the path up onto Genipfullmunt to the foot of Genipfullmunt** (d21 8:50a–d21 9:50a)
+- **Take the track to a tower taller than any other to a tower taller than any other** (d21 9:50a–d21 10:50a) — Altustur: a tower taller than any other in Genipfullmunt.
+  - *Altustur*: Wild goats stand on rock no goat should stand on. This is Altustur, as the folk call it. A tower stands on the highest ground for miles, twice the height of any other the Star-Readers raised and whole to its top, where something of bronze catches the light. The stair to its door goes round the outsi
+- **Take the stair round the outside to the door-stage** (d21 10:50a)
+  - *the door-stage*: Inside the door, a round room with nothing in it but a stair going up inside the wall and a well going down into the dark.
+- **Collect a lensing crystal for Bran** (d21 11a) — Bran takes a lensing crystal.
+- **Take the stair in the wall to the hall of the count** (d21 11:10a) — Between the racks a figure in a long coat is cutting a mark in a tablet, very slowly. It stops, and turns, and you can see the racks through it. 'You have made me lose my place,' it says. Between the racks a figure in a long coat is cutting a mark in a tablet, very slowly. It stops, and turns, and you can see the racks through it. 'You have made me lose my place,' it says.
+  - *the hall of the count*: A round hall lined from floor to roof with tablets of stone in racks, each cut close with marks: the count of days, night by night, from the first night to the last. It goes round the walls in a spiral, upward. Half the racks have been burned, and the tablets in them split by the heat. On the other 
+- **Attack the last reckoner** (d21 11:20a) [a fight: fighters; fell: w8_reckoner_person]
+- **Collect a celestial chart for Bran** (d21 11:30a) — Bran takes a celestial chart.
+- **Take the stair on up to the beacon-stage** (d21 11:40a)
+  - *the beacon-stage*: An open stage under the top of the tower, with a great iron basin in the middle of it, black inside, and wood stacked by it long ago that has gone to dust.
+- **Build a fire in the beacon and light it** (d21 11:50a)
+- **Take the last stair to the orrery** (d21 12p) — The way to a round tower in Genipfullmunt.
+  - *the orrery*: At the top of the tower, under the sky, stands the orrery: rings within rings of bronze, the stars and the wandering lights on them, set on one pivot, and a handle to turn the year. From the top of the first tower you can see the whole country: far off to the south-east, a round tower in Genipfullmu
+- **Turn the orrery on to tonight, by the count** (d21 12:10p) — The war of the reckonings began over a day: the first tower's count and the others' were a day apart. At the top of the first tower the orrery shows it was the first tower that was wrong.
+- **Collect an ancient orrery for Bran** (d21 12:20p) — Bran takes an ancient orrery.
+- **Take the last stair to the beacon-stage** (d21 12:30p)
+- **Take the stair on up to the hall of the count** (d21 12:40p)
+- **Take the stair in the wall to the door-stage** (d21 12:50p)
+- **Take the stair round the outside to Altustur** (d21 1p)
+  - *Altustur*: Wild goats stand on rock no goat should stand on. This is Altustur, as the folk call it. A tower stands on the highest ground for miles, twice the height of any other the Star-Readers raised and whole to its top, where something of bronze catches the light. The stair to its door goes round the outsi
+- **Take the stair round the outside to the door-stage** (d21 1:10p)
+  - *the door-stage*: Inside the door, a round room with nothing in it but a stair going up inside the wall and a well going down into the dark.
+- **Take the stair in the wall to the hall of the count** (d21 1:20p)
+  - *the hall of the count*: A round hall lined from floor to roof with tablets of stone in racks, each cut close with marks: the count of days, night by night, from the first night to the last. It goes round the walls in a spiral, upward. Half the racks have been burned, and the tablets in them split by the heat. On the other 
+- **Take the stair on up to the beacon-stage** (d21 1:30p)
+  - *the beacon-stage*: An open stage under the top of the tower, with a great iron basin in the middle of it, black inside, and wood stacked by it long ago that has gone to dust.
+- **Take the last stair to the orrery** (d21 1:40p)
+  - *the orrery*: At the top of the tower, under the sky, stands the orrery: rings within rings of bronze, the stars and the wandering lights on them, set on one pivot, and a handle to turn the year. Turned on to tonight the orrery shows it plainly, what no one at the other towers could see: the count was a day out, 
+- **Take the last stair to the beacon-stage** (d21 1:50p)
+- **Take the stair on up to the hall of the count** (d21 2p)
+- **Take the stair in the wall to the door-stage** (d21 2:10p)
+- **Take the stair round the outside to Altustur** (d21 2:20p)
+  - *Altustur*: Wild goats stand on rock no goat should stand on. This is Altustur, as the folk call it. A tower stands on the highest ground for miles, twice the height of any other the Star-Readers raised and whole to its top, where something of bronze catches the light. The stair to its door goes round the outsi
+- **Take the stair round the outside to the door-stage** (d21 2:30p)
+  - *the door-stage*: Inside the door, a round room with nothing in it but a stair going up inside the wall and a well going down into the dark.
+- **Take the stair in the wall to the hall of the count** (d21 2:40p)
+  - *the hall of the count*: A round hall lined from floor to roof with tablets of stone in racks, each cut close with marks: the count of days, night by night, from the first night to the last. It goes round the walls in a spiral, upward. Half the racks have been burned, and the tablets in them split by the heat. On the other 
+- **Take the stair on up to the beacon-stage** (d21 2:50p)
+  - *the beacon-stage*: An open stage under the top of the tower, with a great iron basin in the middle of it, black inside, and wood stacked by it long ago that has gone to dust.
+- **Take the last stair to the orrery** (d21 3p)
+  - *the orrery*: At the top of the tower, under the sky, stands the orrery: rings within rings of bronze, the stars and the wandering lights on them, set on one pivot, and a handle to turn the year. Turned on to tonight the orrery shows it plainly, what no one at the other towers could see: the count was a day out, 
+- **Take the last stair to the beacon-stage** (d21 3:10p)
+- **Take the stair on up to the hall of the count** (d21 3:20p)
+- **Take the stair in the wall to the door-stage** (d21 3:30p)
+- **Take the stair round the outside to Altustur** (d21 3:40p)
+- **Take the track to Altustur to the foot of Genipfullmunt** (d21 3:50p–d21 4:50p)
+- **Take the path up onto Genipfullmunt to the road between Feaxburg and Rosglyn** (d21 4:50p–d21 5:50p)
+- **Take the road from Feaxburg to Rosglyn to Feaxburg green** (d21 5:50p–d21 7p)
+- **Take the road on to Feaxburg to the road between Lēafdaenu and Feaxburg** (d21 7p–d21 8:10p)
+- **Take the road from Lēafdaenu to Feaxburg to Lēafdaenu green** (d21 8:10p–d21 9:30p)
+- **Take the bridge over the Wīdstrēam to the bridge over the Wīdstrēam** (d21 9:30p–d22 1a)
+- **Take the road from Greneheald down to the Wīdstrēam to Greneheald green** (d22 1a–d22 4:30a)
+- **Take Roscoe's door to Roscoe's wood-yard** (d22 4:30a)
+- **Sell an ancient orrery to Roscoe** (d22 4:40a) — Roscoe turns an ancient orrery over in the light, names a price, and counts out the coin.
+- **Sell a celestial chart to Roscoe** (d22 4:50a) — Roscoe turns a celestial chart over in the light, names a price, and counts out the coin.
+- **Sell a lensing crystal to Roscoe** (d22 5a) — Roscoe turns a lensing crystal over in the light, names a price, and counts out the coin.
+- **Take Roscoe's door to Greneheald green** (d22 5:10a)
+- **Take the door of the Stormy Unicorn to the taproom of the Stormy Unicorn** (d22 5:20a)
+- **Take a bed and supper from Dawn** (d22 5:30a–d22 1:30p) — You eat a hot supper and sleep long in a dry bed.
+*Day 22, 1:30 p.m. · Bran L3 23/23hp 5185xp, Dori L3 37/37hp 4435xp, Gimgen L3 30/30hp 5185xp, Hilda L2 17/17hp 1468xp · 1462 coin*
+
+## Expedition 12: Lunaspir (watchtower)
+*Day 22, 1:30 p.m. · Bran L3 23/23hp 5185xp, Dori L3 37/37hp 4435xp, Gimgen L3 30/30hp 5185xp, Hilda L2 17/17hp 1468xp · 1462 coin*
+- **Take the door of the Stormy Unicorn to Greneheald green** (d22 1:30p)
+- **Take Roscoe's door to Roscoe's wood-yard** (d22 1:40p)
+- **Equip a lantern on Bran** (d22 1:50p) — Bran readies a lantern.
+- **Take Roscoe's door to Greneheald green** (d22 2p)
+- **Take the door of the Stormy Unicorn to the taproom of the Stormy Unicorn** (d22 2:10p)
+- **Buy one ration from Dawn** (d22 2:20p) — Dawn counts the coins and hands over a ration.
+- **Buy one ration from Dawn** (d22 2:30p) — Dawn counts the coins and hands over a ration.
+- **Take the door of the Stormy Unicorn to Greneheald green** (d22 2:40p)
+- **Take the track to Lunaspir to Lunaspir** (d22 2:50p–d22 10:20p)
+  - *Lunaspir*: Deer go off between the trees without a sound. This is Lunaspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script s
+- **Read the letters round the door** (d22 10:20p)
+- **Take the broken stair to the door to the floor of the tower** (d22 10:30p)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d22 10:40p)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d22 10:50p)
+- **Take the trapdoor in the floor to the undercroft** (d22 11p)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.
+- **Read the tablets** (d22 11:10p)
+- **Collect an ancient map for Bran** (d22 11:20p) — Bran takes an ancient map.
+- **Take the trapdoor in the floor to the floor of the tower** (d22 11:30p)
+- **Take the stair in the wall to the ring-room** (d22 11:40p)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. Ravens sit on the broken wall and watch you without fear.
+- **Set the bronze ring to its sight-line** (d22 11:50p)
+- **Take the stair in the wall to the floor of the tower** (d23 12a)
+- **Take the broken stair to the door to Lunaspir** (d23 12:10a)
+  - *Lunaspir*: Deer go off between the trees without a sound. This is Lunaspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script s
+- **Take the broken stair to the door to the floor of the tower** (d23 12:20a)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d23 12:30a)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d23 12:40a)
+- **Take the trapdoor in the floor to the undercroft** (d23 12:50a)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script. Two of their towers came to keep two counts, a day apart, and each called the other false. The war of the reckonings burned every tower but the ones that sta
+- **Take the trapdoor in the floor to the floor of the tower** (d23 1a)
+- **Take the stair in the wall to the ring-room** (d23 1:10a)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. They raised round towers on the heights, each in sight of the next, and set bronze rings in th
+- **Take the stair in the wall to the floor of the tower** (d23 1:20a)
+- **Take the broken stair to the door to Lunaspir** (d23 1:30a)
+  - *Lunaspir*: Deer go off between the trees without a sound. This is Lunaspir, as the folk call it. A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop. Round the doorway, cut in the old script s
+- **Take the broken stair to the door to the floor of the tower** (d23 1:40a)
+  - *the floor of the tower*: Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.
+- **Take a doorway knocked through the tower wall to the hall against the tower** (d23 1:50a)
+  - *the hall against the tower*: Against the foot of the tower the kingdom of Aergodríce built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.
+- **Take a doorway knocked through the tower wall to the floor of the tower** (d23 2a)
+- **Take the trapdoor in the floor to the undercroft** (d23 2:10a)
+  - *the undercroft*: A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script. Two of their towers came to keep two counts, a day apart, and each called the other false. The war of the reckonings burned every tower but the ones that sta
+- **Take the trapdoor in the floor to the floor of the tower** (d23 2:20a)
+- **Take the stair in the wall to the ring-room** (d23 2:30a)
+  - *the ring-room*: At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks. They raised round towers on the heights, each in sight of the next, and set bronze rings in th
+- **Take the stair in the wall to the floor of the tower** (d23 2:40a)
+- **Take the broken stair to the door to Lunaspir** (d23 2:50a)
+- **Take the track to Lunaspir to Greneheald green** (d23 3a–d23 10:30a)
+- **Take Roscoe's door to Roscoe's wood-yard** (d23 10:30a)
+- **Sell an ancient map to Roscoe** (d23 10:40a) — Roscoe turns an ancient map over in the light, names a price, and counts out the coin.
+- **Take Roscoe's door to Greneheald green** (d23 10:50a)
+- **Take the door of the Stormy Unicorn to the taproom of the Stormy Unicorn** (d23 11a)
+- **Take a bed and supper from Dawn** (d23 11:10a–d23 7:10p) — You eat a hot supper and sleep long in a dry bed.
+*Day 23, 7:10 p.m. · Bran L3 23/23hp 5260xp, Dori L3 37/37hp 4510xp, Gimgen L3 30/30hp 5260xp, Hilda L2 17/17hp 1543xp · 1530 coin*

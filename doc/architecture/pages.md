@@ -18,9 +18,10 @@ all three repositories. The first successful deploy was of 7c83327.
 
 ## Checked on the published site
 
-At iPad size (820×1180, touch, an iPad user agent) on 2026-10-22, against the deploy of 7c83327:
+At iPad size (820×1180, touch, an iPad user agent) on 2026-10-22, against the deploy of 7c83327, and again against
+the deploy of 82f62fe:
 
-- the title page is ready in 1.5 s, and a generated world (`?world=a1`) is drawn and started in 2.2 s;
+- the title page is ready in 1.5–1.6 s, and a generated world (`?world=a1`) is drawn and started in 2.2 s;
 - the first move takes about a quarter of a second; no page errors;
 - after a reload, the title offers to continue where the company was (the game kept in the browser, packed).
 
