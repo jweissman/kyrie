@@ -3,28 +3,41 @@ Module den "A den in the wild" {
   Entity party: group "Your company".
   Place den "The den" is room.
   Measure hoard(entity).
-  Relation looted(group). Relation driven(group).
+  Relation looted(group). Relation driven(group). Relation laid(group).
+  // What the den's beast is, besides a thing to fight: an animal that smoke will move (wild), the dead that the rites
+  // will lay down (unquiet), or neither (stubborn). Generation says which, with what it is and how many.
+  Relation wild(group). Relation unquiet(group). Relation stubborn(group).
   Person beasts "the beasts" at den {
-    Role "a beast". Creature terrain any. Numbers 2.
+    Role "a beast". Creature terrain any.
     State lurking "Eyes shine at the back of {den}. Bones lie scattered in front of it.".
   }
   Action smoke_out(actor: group, spot: place) "Smoke {beasts} out of {den} with green wood" {
     Description "Someone who knows animals can drive them off without a fight. They will not be dead, and you will not be paid for their hides.".
-    Requires able(actor) and at(actor, spot) and at(beasts, spot) and not dead(beasts) and capable(actor, woodcraft).
+    Requires able(actor) and at(actor, spot) and at(beasts, spot) and not dead(beasts) and wild(beasts)
+      and capable(actor, woodcraft).
     Time 6.
     On success { Assert driven(beasts). Assert peaceable(beasts). Retract at(beasts, spot). }
     Result "You build a smoky fire of green wood upwind of {den}. After an hour {beasts} break out of the far side and are gone up the hill.".
   }
+  Action lay_to_rest(actor: group, spot: place) "Say the rites of the dead over {den}" {
+    Description "Someone who knows the rites of the dead can say over the place what should have been said long ago. What walks there lies down and stays down, and nothing need be fought.".
+    Requires able(actor) and at(actor, spot) and at(beasts, spot) and not dead(beasts) and unquiet(beasts)
+      and capable(actor, rites).
+    Time 6.
+    On success { Assert laid(beasts). Assert peaceable(beasts). Retract at(beasts, spot). }
+    Result "You say the rites over {den}, all of them, slowly, as they were said once. Something in the dark goes still, and then there is nothing there at all.".
+  }
   Action plunder(actor: group, spot: place) "Search {den} for what was dragged in" {
-    Requires able(actor) and at(actor, spot) and (dead(beasts) or driven(beasts)) and not looted(actor).
+    Requires able(actor) and at(actor, spot) and (dead(beasts) or driven(beasts) or laid(beasts)) and not looted(actor).
     Time 2.
     On success { Increase quantity(actor, gold) by hoard(beasts). Assert looted(actor). }
     Result "Among the bones are coins and a broken buckle: {hoard(beasts)} coin in all.".
   }
   Observe cleared at den when dead(beasts) "{den} is quiet now. Flies settle on what is left.".
   Observe emptied at den when driven(beasts) "{den} is empty and still smells of smoke. Tracks lead away up the hill.".
+  Observe stilled at den when laid(beasts) "{den} is quiet, and the cold has gone out of it.".
   Entity rumour: fact "Folk who go out to {den} come back short of a sheep or a dog, or don't come back. Something has made its den there.".
   Initially Assert established(rumour).
-  Objective clear when knows(party, rumour) and not dead(beasts) and not driven(beasts) "{beasts} have a den at {den}.".
-  Goal dead(beasts) or driven(beasts).
+  Objective clear when knows(party, rumour) and not dead(beasts) and not driven(beasts) and not laid(beasts) "{beasts} have a den at {den}.".
+  Goal dead(beasts) or driven(beasts) or laid(beasts).
 }

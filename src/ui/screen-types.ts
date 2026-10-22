@@ -76,7 +76,11 @@ export interface Chart {
   edges: { id: string; name: string; from: string; to: string; status: string; oneWay: boolean; explored: boolean }[];
 }
 export interface RegionChart {
-  areas: { id: string; name: string; kind: string; x: number; y: number; visited: boolean; here: boolean }[];
+  // An area's form is the land it is, when its region says (river, wood, lake, pass, peak); the terrain is the
+  // region's own (forest, marsh, mountain, frost), which the chart is textured with.
+  areas: { id: string; name: string; kind: string; x: number; y: number; visited: boolean; here: boolean;
+    form?: string }[];
+  terrain?: string;
   edges: { from: string; to: string; label: string; status: string }[];
   // The area each known place lies in, so a journey to a place can be drawn between areas.
   within: Record<string, string>;

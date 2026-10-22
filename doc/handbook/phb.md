@@ -77,6 +77,152 @@ Enduring: +2 hit points each level.
 
 > A small, soft-footed person of the deep caves, with eyes that shine like a cat's in lamplight and a trader's patience.
 
+### Halfling
+
+*Faithful · not chosen by players* · `ancestry:halfling`
+
+- Qualities: −1 strength, +2 dexterity, −2 constitution, +1 intelligence, −1 wisdom, +1 charisma
+- Callings: Warrior, Thief, Bard, Commoner
+- Born with: Humanoid Traits, Small and Quick, Not How I Remember It
+
++1 to charm saves, +1 to fear saves.
+
+2 harder to hit, +2 evasion.
+
+> A small, nimble person of the pastoral country.
+
+### Gnome
+
+*Faithful · not chosen by players* · `ancestry:gnome`
+
+- Qualities: −1 strength, +1 dexterity, −1 constitution, +2 intelligence, +1 wisdom
+- Callings: Thief, Bard, Mage, Commoner
+- Born with: Humanoid Traits, Tinker, Inquisitive Mind
+- May not take: Necromancy Specialist, Abjuration Specialist, Conjuration Specialist, Divination Specialist, Enchantment Specialist, Evocation Specialist
+
++1 to charm saves, +1 to fear saves.
+
+> A small person, inventive and curious, with a knack for tinkering and illusion.
+
+### Half-elf
+
+*Faithful · not chosen by players* · `ancestry:half_elf`
+
+- Qualities: +1 dexterity, +1 intelligence, +1 wisdom, +2 charisma
+- Callings: Warrior, Mage, Thief, Cleric, Bard, Ranger, Monk, Commoner
+- Born with: Humanoid Traits, Graceful, Fast Learner
+
++1 to charm saves, +1 to fear saves.
+
+1 harder to hit, +1 to magic saves.
+
+> A person of human and elven blood, at home between the two peoples and a bridge between them.
+
+### Half-orc
+
+*Faithful · not chosen by players* · `ancestry:half_orc`
+
+- Qualities: +2 strength, −1 dexterity, +1 constitution, −1 intelligence, +2 wisdom, +1 charisma
+- Callings: Warrior, Thief, Ranger, Commoner
+- Born with: Humanoid Traits, Jack of All Trades, Berserker Rage
+
++1 to charm saves, +1 to fear saves.
+
+Jack of All Trades: +1 to searching.
+
++1 damage.
+
+> A person of orcish and human blood, strong and hardy, and often met with prejudice among humans.
+
+### Lizardfolk
+
+*Faithful · not chosen by players* · `ancestry:lizardfolk`
+
+- Qualities: +1 strength, +1 dexterity, +2 constitution, −1 intelligence, −1 wisdom, −1 charisma
+- Callings: Warrior, Ranger, Thief, Commoner
+- Born with: Humanoid Traits, Small and Quick, Inquisitive Mind
+
++1 to charm saves, +1 to fear saves.
+
+2 harder to hit, +2 evasion.
+
+> A reptilian person of the swamps and the water's edge.
+
+### Catfolk
+
+*Faithful · not chosen by players* · `ancestry:catfolk`
+
+- Qualities: −1 strength, +4 dexterity, −1 constitution, +1 intelligence, +1 wisdom, +1 charisma
+- Callings: Thief, Ranger, Bard, Commoner
+- Born with: Humanoid Traits, Graceful, Not How I Remember It
+
++1 to charm saves, +1 to fear saves.
+
+1 harder to hit, +1 to magic saves.
+
+> An agile, stealthy person with feline traits, often a hunter.
+
+### Sylph
+
+*Faithful · not chosen by players* · `ancestry:sylph`
+
+- Qualities: −2 strength, +3 dexterity, −2 constitution, +2 intelligence, +1 wisdom, +2 charisma
+- Callings: Mage, Cleric, Commoner
+- Born with: Humanoid Traits, Tinker, Ethereal Form
+
++1 to charm saves, +1 to fear saves.
+
+1 harder to hit, immune to charm.
+
+> An airy, elusive person of the winds and the high places.
+
+### Undine
+
+*Faithful · not chosen by players* · `ancestry:undine`
+
+- Qualities: −3 strength, −2 dexterity, +2 constitution, +1 intelligence, +3 wisdom, +1 charisma
+- Callings: Mage, Cleric, Commoner
+- Born with: Humanoid Traits, Keen Senses, Stout Constitution
+
++1 to charm saves, +1 to fear saves.
+
+Keen Senses: +4 to searching.
+
++1 to poison saves, +1 to disease saves, +1 to death saves, +1 to magic saves, +1 to insanity saves, +1 to charm saves, +1 to fear saves, +1 to stun saves, +1 to will saves, resists 50% of poison.
+
+> A person of the water, deeply bound to it and its mysteries.
+
+### Birdfolk
+
+*Faithful · not chosen by players* · `ancestry:birdfolk`
+
+- Qualities: −2 strength, +2 dexterity, −1 constitution, +2 intelligence, +1 wisdom, +2 charisma
+- Callings: Warrior, Ranger, Mage, Commoner
+- Born with: Humanoid Traits, Graceful, Inquisitive Mind
+
++1 to charm saves, +1 to fear saves.
+
+1 harder to hit, +1 to magic saves.
+
+> An avian person with keen eyes, who can glide on the wind.
+
+### Fae
+
+*Faithful · not chosen by players* · `ancestry:fae`
+
+- Qualities: −2 strength, +2 dexterity, −2 constitution, +2 intelligence, +1 wisdom, +3 charisma
+- Callings: Cleric, Thief, Bard, Mage, Commoner
+- Born with: Humanoid Traits, Ethereal Form, Faerie Charm
+- May not take: Deathspeaker, Warbringer, Necromancy Specialist, Abjuration Specialist, Conjuration Specialist, Divination Specialist, Evocation Specialist
+
++1 to charm saves, +1 to fear saves.
+
+1 harder to hit, immune to charm.
+
+Faerie Charm: what they cast lasts 1 turn longer.
+
+> A mystical person bound to the magic of the world, enigmatic and whimsical.
+
 ## Callings
 
 A calling is what a companion does in a fight and on the road: their hit die, the qualities it shapes, the arms they may bear and what they know from the start.
@@ -952,7 +1098,7 @@ What a companion is born with or has become. An ancestry gives its lineage trait
 
 *Not playable · lineage trait* · `trait:curious`
 
-- Ancestry: gnome
+- Ancestry: Gnome
 
 > +4 to examine checks, +10% XP gain.
 
@@ -964,7 +1110,7 @@ What a companion is born with or has become. An ancestry gives its lineage trait
 
 *Faithful · lineage trait* · `trait:enchanting`
 
-- Ancestry: fae
+- Ancestry: Fae
 
 Faerie Charm: what they cast lasts 1 turn longer.
 
@@ -984,7 +1130,7 @@ Faerie Charm: what they cast lasts 1 turn longer.
 
 *Not playable · lineage trait* · `trait:inventive`
 
-- Ancestry: gnome
+- Ancestry: Gnome
 
 > You make the most out of your resources.
 
@@ -994,7 +1140,7 @@ Faerie Charm: what they cast lasts 1 turn longer.
 
 *Not playable · lineage trait* · `trait:lucky`
 
-- Ancestry: halfling
+- Ancestry: Halfling
 
 > You reroll a natural 1 on any roll.
 
@@ -1004,7 +1150,7 @@ Faerie Charm: what they cast lasts 1 turn longer.
 
 *Faithful · lineage trait* · `trait:mysterious`
 
-- Ancestry: fae
+- Ancestry: Fae
 
 1 harder to hit, immune to charm.
 
@@ -1014,7 +1160,7 @@ Faerie Charm: what they cast lasts 1 turn longer.
 
 *Faithful · lineage trait* · `trait:nimble`
 
-- Ancestry: halfling
+- Ancestry: Halfling
 
 2 harder to hit, +2 evasion.
 
@@ -1274,7 +1420,7 @@ Geas of Inquiry: +5 to searching.
 
 *Unreachable · company formation* · `trait:feywild`
 
-- Formed by: fae, fae, fae (ancestries)
+- Formed by: Fae, Fae, Fae (ancestries)
 
 Fortunate Fairy: +1 to every roll.
 
@@ -1284,7 +1430,7 @@ Fortunate Fairy: +1 to every roll.
 
 *Unreachable · company formation* · `trait:foundrywork`
 
-- Formed by: gnome, gnome, gnome (ancestries)
+- Formed by: Gnome, Gnome, Gnome (ancestries)
 
 Jury Rigging: 1 more common supplies from a good search.
 
@@ -1326,7 +1472,7 @@ Bountiful Spoils: 2d6 gold pieces for each kill (a coin for every ten), 3d8 expe
 
 *Unreachable · company formation* · `trait:perinath`
 
-- Formed by: halfling, halfling, halfling (ancestries)
+- Formed by: Halfling, Halfling, Halfling (ancestries)
 
 Moral Economy: +1d3 healing.
 
@@ -6615,35 +6761,35 @@ Orsino's ancestries and skills, with how much of each Kyr holds.
 
 ### Ancestries
 
-25 in Orsino; 4 held by Kyr.
+25 in Orsino; 14 held by Kyr.
 
 | Name | Qualities | In Kyr |
 |---|---|---|
-| Birdfolk | str -2, dex +2, con -1, int +2, wis +1, cha +2 | — |
+| Birdfolk | str -2, dex +2, con -1, int +2, wis +1, cha +2 | faithful |
 | Bugbear | str +3, dex +1, con +2, int -2, wis -2, cha -2 | — |
-| Catfolk | str -1, dex +4, con -1, int +1, wis +1, cha +1 | — |
+| Catfolk | str -1, dex +4, con -1, int +1, wis +1, cha +1 | faithful |
 | Draconic | str +2, dex +1, con +1, int -1, wis +2, cha -1 | — |
 | Duergar | str +2, dex -2, con +3, int -2, wis -2, cha -2 | — |
 | Dwarf | str +1, dex -1, con +2, int +1, wis +2, cha -1 | faithful |
 | Elf | str -1, dex +2, con -1, int +1, wis +2, cha +1 | faithful |
-| Fae | str -2, dex +2, con -2, int +2, wis +1, cha +3 | — |
+| Fae | str -2, dex +2, con -2, int +2, wis +1, cha +3 | faithful |
 | Giant | str +4, dex -2, con +4, int -3, wis -2, cha -4 | — |
 | Gnoll | str +2, dex +1, con +1, int -2, wis -3, cha -1 | — |
-| Gnome | str -1, dex +1, con -1, int +2, wis +1, cha 0 | — |
+| Gnome | str -1, dex +1, con -1, int +2, wis +1, cha 0 | faithful |
 | Goblin | str -2, dex +2, con -1, int +1, wis -1, cha -2 | faithful |
-| Half elf | str 0, dex +1, con 0, int +1, wis +1, cha +2 | — |
-| Half orc | str +2, dex -1, con +1, int -1, wis +2, cha +1 | — |
-| Halfling | str -1, dex +2, con -2, int +1, wis -1, cha +1 | — |
+| Half elf | str 0, dex +1, con 0, int +1, wis +1, cha +2 | faithful |
+| Half orc | str +2, dex -1, con +1, int -1, wis +2, cha +1 | faithful |
+| Halfling | str -1, dex +2, con -2, int +1, wis -1, cha +1 | faithful |
 | Human | str +1, dex +1, con +1, int +1, wis +1, cha +1 | faithful |
 | Insectoid | str -3, dex +2, con +1, int -1, wis +1, cha -1 | — |
 | Kobold | str -3, dex +2, con -1, int +1, wis -1, cha -2 | — |
-| Lizardfolk | str +1, dex +1, con +2, int -1, wis -1, cha -1 | — |
+| Lizardfolk | str +1, dex +1, con +2, int -1, wis -1, cha -1 | faithful |
 | Ogre | str +3, dex -2, con +2, int -2, wis -2, cha -3 | — |
 | Orc | str +2, dex +1, con +1, int -1, wis -2, cha -1 | — |
-| Sylph | str -2, dex +3, con -2, int +2, wis +1, cha +2 | — |
+| Sylph | str -2, dex +3, con -2, int +2, wis +1, cha +2 | faithful |
 | Tiefling | str +1, dex -1, con -1, int +2, wis -1, cha +2 | — |
 | Troll | str +3, dex -1, con +3, int -2, wis -2, cha -3 | — |
-| Undine | str -3, dex -2, con +2, int +1, wis +3, cha +1 | — |
+| Undine | str -3, dex -2, con +2, int +1, wis +3, cha +1 | faithful |
 
 ### Skills and techniques
 

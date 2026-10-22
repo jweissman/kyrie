@@ -4,20 +4,20 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 
 | Family | Entries |
 |---|---|
-| Ancestries, callings, backgrounds and formations | 34 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 21 orsino data only |
-| Character creation | 8 faithful, 24 adapted, 1 kyr |
+| Ancestries, callings, backgrounds and formations | 54 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 11 orsino data only |
+| Character creation | 18 faithful, 24 adapted, 1 kyr |
 | Progression, feats and high levels | 242 faithful, 8 adapted, 2 kyr, 42 not playable |
 | Action timing, reactions, conditions, costs and targeting | 175 faithful, 17 adapted, 11 kyr, 28 not playable |
 | Spells: traditions, slots, durations and unusual magic | 239 faithful, 4 adapted, 2 kyr, 39 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 35 faithful, 1 adapted, 16 not playable, 10 orsino data only |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 122 adapted, 9 represented, 21 kyr, 5 not playable, 154 orsino data only |
 | Equipment, treasure and magic items | 69 faithful, 20 adapted, 1 represented, 27 kyr, 141 orsino data only |
-| Environment, world and planar rules | 105 kyr, 190 orsino data only |
+| Environment, world and planar rules | 106 kyr, 190 orsino data only |
 | Content authoring and generation | 5 kyr |
 
 ## Ancestries, callings, backgrounds and formations
 
-Entries: 34 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 21 orsino data only.
+Entries: 54 faithful, 247 adapted, 8 kyr, 5 not playable, 4 unreachable, 11 orsino data only.
 
 **What Orsino defines.** 25 ancestries (racialModifier, occupationOptions, traits), 7 classes with classModifier gear, gold and proficiencies, 215 backgrounds, 16 party traits recognised from the company's make-up.
 
@@ -37,7 +37,7 @@ Handbook sections: `phb:ancestries`, `phb:callings`, `phb:backgrounds`, `phb:tra
 
 ## Character creation
 
-Entries: 8 faithful, 24 adapted, 1 kyr.
+Entries: 18 faithful, 24 adapted, 1 kyr.
 
 **What Orsino defines.** CharacterRecord and the pc template: 3d6 attributes with racial and class modifiers, hit die plus positive Constitution, starting spells for casters, class gear and gold.
 
@@ -177,7 +177,7 @@ Handbook sections: `phb:equipment`, `dmg:orsino-world/orsino-equipment`, `dmg:or
 
 ## Environment, world and planar rules
 
-Entries: 105 kyr, 190 orsino data only.
+Entries: 106 kyr, 190 orsino data only.
 
 **What Orsino defines.** Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.
 

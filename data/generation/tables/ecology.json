@@ -1,0 +1,470 @@
+{
+  "denBeast": {
+    "discriminator": "habitat",
+    "groups": {
+      "wood": [
+        {
+          "_key": "wolf",
+          "__weight": 3,
+          "count": 2,
+          "label": "the wolves",
+          "role": "a wolf",
+          "nature": "wild"
+        },
+        {
+          "_key": "boar",
+          "__weight": 2,
+          "count": 2,
+          "label": "the boars",
+          "role": "a boar",
+          "nature": "wild"
+        },
+        {
+          "_key": "bear",
+          "__weight": 2,
+          "count": 1,
+          "label": "the bear",
+          "role": "a bear",
+          "nature": "wild"
+        },
+        {
+          "_key": "owlbear",
+          "count": 1,
+          "label": "the owlbear",
+          "role": "an owlbear",
+          "nature": "wild"
+        },
+        {
+          "_key": "cave_spider",
+          "count": 2,
+          "label": "the spiders",
+          "role": "a cave spider",
+          "nature": "wild"
+        }
+      ],
+      "grove": [
+        {
+          "_key": "owlbear",
+          "__weight": 2,
+          "count": 1,
+          "label": "the owlbear",
+          "role": "an owlbear",
+          "nature": "wild"
+        },
+        {
+          "_key": "boar",
+          "__weight": 2,
+          "count": 2,
+          "label": "the boars",
+          "role": "a boar",
+          "nature": "wild"
+        },
+        {
+          "_key": "bear",
+          "count": 1,
+          "label": "the bear",
+          "role": "a bear",
+          "nature": "wild"
+        }
+      ],
+      "river": [
+        {
+          "_key": "boar",
+          "__weight": 2,
+          "count": 2,
+          "label": "the boars",
+          "role": "a boar",
+          "nature": "wild"
+        },
+        {
+          "_key": "great_pike",
+          "count": 1,
+          "label": "the great pike",
+          "role": "a great pike",
+          "nature": "stubborn"
+        },
+        {
+          "_key": "slump",
+          "count": 1,
+          "label": "the slump",
+          "role": "a slump",
+          "nature": "stubborn"
+        }
+      ],
+      "lake": [
+        {
+          "_key": "great_pike",
+          "__weight": 2,
+          "count": 1,
+          "label": "the great pike",
+          "role": "a great pike",
+          "nature": "stubborn"
+        },
+        {
+          "_key": "slump",
+          "count": 1,
+          "label": "the slump",
+          "role": "a slump",
+          "nature": "stubborn"
+        }
+      ],
+      "fen": [
+        {
+          "_key": "slump",
+          "__weight": 2,
+          "count": 1,
+          "label": "the slump",
+          "role": "a slump",
+          "nature": "stubborn"
+        },
+        {
+          "_key": "boar",
+          "__weight": 2,
+          "count": 2,
+          "label": "the boars",
+          "role": "a boar",
+          "nature": "wild"
+        },
+        {
+          "_key": "ghoul",
+          "count": 1,
+          "label": "the ghoul",
+          "role": "a ghoul",
+          "nature": "unquiet"
+        }
+      ],
+      "fells": [
+        {
+          "_key": "wolf",
+          "__weight": 3,
+          "count": 2,
+          "label": "the wolves",
+          "role": "a wolf",
+          "nature": "wild"
+        },
+        {
+          "_key": "bear",
+          "count": 1,
+          "label": "the bear",
+          "role": "a bear",
+          "nature": "wild"
+        },
+        {
+          "_key": "owlbear",
+          "count": 1,
+          "label": "the owlbear",
+          "role": "an owlbear",
+          "nature": "wild"
+        },
+        {
+          "_key": "cave_hound",
+          "count": 2,
+          "label": "the hounds",
+          "role": "a cave hound",
+          "nature": "wild"
+        }
+      ],
+      "snow": [
+        {
+          "_key": "frost_wolf",
+          "__weight": 3,
+          "count": 2,
+          "label": "the white wolves",
+          "role": "a frost wolf",
+          "nature": "wild"
+        },
+        {
+          "_key": "wendigo",
+          "count": 1,
+          "label": "the wendigo",
+          "role": "a wendigo",
+          "nature": "stubborn"
+        },
+        {
+          "_key": "bear",
+          "count": 1,
+          "label": "the bear",
+          "role": "a bear",
+          "nature": "wild"
+        }
+      ],
+      "cave": [
+        {
+          "_key": "bear",
+          "__weight": 2,
+          "count": 1,
+          "label": "the bear",
+          "role": "a bear",
+          "nature": "wild"
+        },
+        {
+          "_key": "cave_spider",
+          "__weight": 2,
+          "count": 2,
+          "label": "the spiders",
+          "role": "a cave spider",
+          "nature": "wild"
+        },
+        {
+          "_key": "cave_hound",
+          "__weight": 2,
+          "count": 2,
+          "label": "the hounds",
+          "role": "a cave hound",
+          "nature": "wild"
+        },
+        {
+          "_key": "owlbear",
+          "count": 1,
+          "label": "the owlbear",
+          "role": "an owlbear",
+          "nature": "wild"
+        }
+      ],
+      "barrow": [
+        {
+          "_key": "ghoul",
+          "__weight": 3,
+          "count": 1,
+          "label": "the ghoul",
+          "role": "a ghoul",
+          "nature": "unquiet"
+        },
+        {
+          "_key": "wraith",
+          "count": 1,
+          "label": "the wraith",
+          "role": "a wraith",
+          "nature": "unquiet"
+        },
+        {
+          "_key": "bone_hound",
+          "count": 2,
+          "label": "the bone hounds",
+          "role": "a bone hound",
+          "nature": "unquiet"
+        }
+      ],
+      "ruin": [
+        {
+          "_key": "ghoul",
+          "count": 1,
+          "label": "the ghoul",
+          "role": "a ghoul",
+          "nature": "unquiet"
+        },
+        {
+          "_key": "cave_spider",
+          "count": 2,
+          "label": "the spiders",
+          "role": "a cave spider",
+          "nature": "wild"
+        },
+        {
+          "_key": "wolf",
+          "count": 2,
+          "label": "the wolves",
+          "role": "a wolf",
+          "nature": "wild"
+        },
+        {
+          "_key": "owlbear",
+          "count": 1,
+          "label": "the owlbear",
+          "role": "an owlbear",
+          "nature": "wild"
+        },
+        {
+          "_key": "bone_hound",
+          "count": 2,
+          "label": "the bone hounds",
+          "role": "a bone hound",
+          "nature": "unquiet"
+        }
+      ]
+    }
+  },
+  "wildSign": {
+    "discriminator": "habitat",
+    "groups": {
+      "wood": [
+        {
+          "_key": "deer",
+          "text": "Deer go off between the trees without a sound."
+        },
+        {
+          "_key": "squirrel",
+          "text": "A squirrel scolds you from a bough overhead."
+        },
+        {
+          "_key": "owl",
+          "text": "An owl watches from a hollow oak, and does not blink."
+        },
+        {
+          "_key": "fox",
+          "text": "A fox crosses the way ahead and is gone."
+        },
+        {
+          "_key": "stag",
+          "text": "A stag stands in a clearing, watching, before it turns away."
+        }
+      ],
+      "grove": [
+        {
+          "_key": "pixie",
+          "text": "Small lights move between the trunks, and there is laughter that is not quite birdsong."
+        },
+        {
+          "_key": "deer",
+          "text": "Deer lift their heads from the moss and watch you out of sight."
+        },
+        {
+          "_key": "owl",
+          "text": "An owl calls in daylight, which the old folk say is bad luck."
+        }
+      ],
+      "river": [
+        {
+          "_key": "otter",
+          "text": "An otter's head breaks the water downstream and is gone."
+        },
+        {
+          "_key": "dragonfly",
+          "text": "Dragonflies hang over the shallows."
+        },
+        {
+          "_key": "turtle",
+          "text": "A turtle slides off a stone into the water."
+        },
+        {
+          "_key": "frog",
+          "text": "Frogs fall silent along the bank as you come down to it."
+        }
+      ],
+      "lake": [
+        {
+          "_key": "frog",
+          "text": "Frogs fall silent along the shore as you pass."
+        },
+        {
+          "_key": "dragonfly",
+          "text": "Dragonflies hang over the reeds, blue and still."
+        },
+        {
+          "_key": "turtle",
+          "text": "Turtles sun themselves on a drowned log."
+        }
+      ],
+      "fen": [
+        {
+          "_key": "snake",
+          "text": "A snake swims across a channel with its head held up like a stick."
+        },
+        {
+          "_key": "frog",
+          "text": "The frogs stop, all at once, and start again behind you."
+        },
+        {
+          "_key": "crow",
+          "text": "Crows go up out of the reeds, complaining."
+        },
+        {
+          "_key": "lizard",
+          "text": "A lizard watches from a tussock, its throat pulsing."
+        }
+      ],
+      "fells": [
+        {
+          "_key": "goat",
+          "text": "Wild goats watch you from a ledge, chewing."
+        },
+        {
+          "_key": "raven",
+          "text": "Ravens tumble over the crags, calling."
+        },
+        {
+          "_key": "hawk",
+          "text": "A hawk hangs on the wind, then drops."
+        },
+        {
+          "_key": "rabbit",
+          "text": "Rabbits scatter from the turf by the road."
+        }
+      ],
+      "heights": [
+        {
+          "_key": "eagle",
+          "text": "An eagle turns far overhead."
+        },
+        {
+          "_key": "goat",
+          "text": "Wild goats stand on rock no goat should stand on."
+        },
+        {
+          "_key": "raven",
+          "text": "A raven keeps pace with you from cairn to cairn."
+        }
+      ],
+      "snow": [
+        {
+          "_key": "stoat",
+          "text": "A stoat in its winter white bounds across the snow."
+        },
+        {
+          "_key": "raven",
+          "text": "A raven sits on a drift, black as a hole in the world."
+        },
+        {
+          "_key": "hawk",
+          "text": "A hawk quarters the snowfield, low and slow."
+        }
+      ],
+      "cave": [
+        {
+          "_key": "bat",
+          "text": "Bats hang in the roof of the entrance, shifting."
+        },
+        {
+          "_key": "centipede",
+          "text": "A centipede as long as a hand goes over the stones into the dark."
+        },
+        {
+          "_key": "rat",
+          "text": "Rats have been at something just inside."
+        }
+      ],
+      "barrow": [
+        {
+          "_key": "crow",
+          "text": "Crows sit along the ridge of the mound, and do not fly."
+        },
+        {
+          "_key": "rat",
+          "text": "There are rat-runs in the turf of the mound."
+        },
+        {
+          "_key": "owl",
+          "text": "Owl pellets lie on the lintel stone."
+        }
+      ],
+      "ruin": [
+        {
+          "_key": "snake",
+          "text": "A snake suns itself on a fallen stone."
+        },
+        {
+          "_key": "crow",
+          "text": "Crows nest in the broken top of the wall."
+        },
+        {
+          "_key": "rat",
+          "text": "Rats run along the foot of the wall."
+        },
+        {
+          "_key": "owl",
+          "text": "An owl roosts where a roof-beam was."
+        }
+      ]
+    }
+  }
+}

@@ -3,6 +3,8 @@ import { Overlays } from '../overlays';
 import { WorldConstructs } from '../lang/world-constructs';
 import { ModuleWriter } from '../lang/module-writer';
 import { Content, type CreatureGenerationContext } from '../content';
+import { Canon } from '../canon/canon';
+import { GenerationSetting } from '../generation-setting';
 import type { Module, Person } from '../lang/module';
 
 export type Provenance = Record<string, 'authored' | 'generated' | 'default'>;
@@ -14,7 +16,7 @@ export class Cast {
   static readonly fields = ['raceId', 'classId', 'level', 'backgroundId', 'professionId', 'traits', 'gear'] as const;
   static person(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember {
     for (const key of Object.keys(generated)) {
-      if (!['name', 'parameters', 'role'].includes(key) && !(this.fields as readonly string[]).includes(key)) {
+      if (!['name', 'parameters', 'role', 'count'].includes(key) && !(this.fields as readonly string[]).includes(key)) {
         throw new Error(`Generated casting for ${p.id} sets ${key}, which is not a field of a person`);
       }
     }
@@ -33,18 +35,24 @@ export class Cast {
     }
     // People of a module are Orsino NPCs: they prepare spells rather than choosing them as a player character does.
     context.prepared = true;
-    // Creature constraints: generation may fill them in (a scenario's terrain or body); authored ones win.
+    // Creature constraints: generation may fill them in (a scenario's terrain or body); authored ones win. A species
+    // generation chose from the catalog (a den's owlbear) is the creature itself: the author's open constraints ("a
+    // creature of the terrain") are met by it, and Deem's creature generator, which does not know it, is not asked.
     const offered = Object.entries((generated.parameters ?? {}) as Record<string, unknown>)
       .filter(([, v]) => v != null);
     const parameters = { ...Object.fromEntries(offered), ...p.creature };
-    if (Object.keys(parameters).length) {
+    const chosen = typeof generated.raceId === 'string' && Canon.isSpecies(generated.raceId)
+      && !Object.hasOwn(GenerationSetting.tables.creatureBody.groups, generated.raceId);
+    if (Object.keys(parameters).length && !chosen) {
       context.parameters = parameters; provenance.parameters = p.creature ? 'authored' : 'generated';
     }
     return { id: `${p.id}_person`, context: context as CreatureGenerationContext, gold: 0, provenance };
   }
   // Every creature of a person's group: one unless the person Numbers more. Each has its own identity and draws.
   static group(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember[] {
-    const first = this.person(p, generated, conflicts), count = p.count ?? 1;
+    // How many: as the author numbered them, else as generation cast them (a den's one bear or two wolves), else one.
+    const first = this.person(p, generated, conflicts);
+    const count = p.count ?? (typeof generated.count === 'number' ? generated.count : 1);
     if (p.names && p.names.length !== count) { throw new Error(`${p.id}: Called names ${p.names.length} of ${count}`); }
     if (count === 1) { return [first]; }
     return Array.from({ length: count }, (_, i) => ({ ...structuredClone(first), id: i ? `${first.id}_${i + 1}` : first.id,

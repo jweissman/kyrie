@@ -8,14 +8,14 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 1063 represented or better; 948 executable or better; 16 play-validated; 2363 feasible.
+2651 entries in 79 families. 1073 represented or better; 958 executable or better; 16 play-validated; 2363 feasible.
 
 ## By family
 
 | Concept | Family | Entries | Represented | Executable | Play-validated | Feasible |
 |---|---|---:|---:|---:|---:|---:|
 | character | alignment | 9 | 0 | 0 | 0 | 0 |
-| character | ancestry | 25 | 0 | 4 | 0 | 25 |
+| character | ancestry | 25 | 0 | 14 | 0 | 25 |
 | character | background | 215 | 0 | 210 | 5 | 215 |
 | character | class | 7 | 7 | 0 | 0 | 0 |
 | character | nobility | 3 | 0 | 0 | 0 | 0 |
@@ -283,6 +283,16 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `ancestry:elf` | `ancestry:elf` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:dwarf` | `ancestry:dwarf` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `ancestry:goblin` | `ancestry:goblin` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:halfling` | `ancestry:halfling` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:gnome` | `ancestry:gnome` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:half_elf` | `ancestry:half_elf` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:half_orc` | `ancestry:half_orc` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:lizardfolk` | `ancestry:lizardfolk` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:catfolk` | `ancestry:catfolk` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:sylph` | `ancestry:sylph` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:undine` | `ancestry:undine` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:birdfolk` | `ancestry:birdfolk` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
+| `ancestry:fae` | `ancestry:fae` | executable | faithful | Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth. |
 | `animal:wolf` | `species:wolf` | represented | adapted | The natural weapon and armour are Orsino's; the species' attributes are rolled, and its Kyr abilities are its own. |
 | `monsterClass:undead` | `species:revenant` | represented | adapted | Kyr creature of the undead type. It does not carry Orsino's undead trait (its immunities); its resistances are Kyr's. |
 | `monsterClass:construct` | `species:bronze_construct` | represented | adapted | Kyr creature of the construct type. It does not carry Orsino's construct trait; its poison immunity and physical resistance are Kyr's. |

@@ -10,13 +10,14 @@
     "actors": {
       "order": []
     },
-    "casting": "=gen(den_casting)",
-    "labels": "=gen(den_labels)",
+    "casting": "=defined('beast') ? gen(den_species_casting) : gen(den_casting)",
+    "labels": "=defined('beast') ? gen(den_species_labels) : gen(den_labels)",
     "initial": "=concat(gen(den_hoard))",
+    "facts": "=concat(gen(den_nature))",
     "outcomes": [
       {
         "id": "cleared",
-        "predicate": "dead(beasts) or driven(beasts)"
+        "predicate": "dead(beasts) or driven(beasts) or laid(beasts)"
       }
     ]
   },
@@ -27,7 +28,8 @@
   "den_beast": {
     "__no_id": true,
     "role": "=#_family == 'animal' ? 'a ' + dig(#_creature, 'body') : 'an outlaw'",
-    "parameters": "=gen(den_constraints)"
+    "parameters": "=gen(den_constraints)",
+    "count": 2
   },
   "den_constraints": {
     "__no_id": true,
@@ -51,5 +53,26 @@
     "__no_id": true,
     "terrain": "=#terrain",
     "family": "=#_family"
+  },
+  "den_species_casting": {
+    "__no_id": true,
+    "beasts": "=gen(den_species_beast)"
+  },
+  "den_species_beast": {
+    "__no_id": true,
+    "role": "=#beastRole",
+    "raceId": "=#beast",
+    "count": "=#beastCount"
+  },
+  "den_species_labels": {
+    "__no_id": true,
+    "beasts": "=#beastLabel"
+  },
+  "den_nature": {
+    "__no_id": true,
+    ">name": "=defined('beastNature') ? #beastNature : (#_family == 'animal' ? 'wild' : 'stubborn')",
+    "args": [
+      "beasts"
+    ]
   }
 }

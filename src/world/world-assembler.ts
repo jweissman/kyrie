@@ -5,8 +5,12 @@ import type { BundleSource } from '../campaign/bundle-source';
 import type { BundleRequest } from '../campaign/module-bundle';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Expressions } from '../expressions';
+import { GenerationSetting } from '../generation-setting';
 import { Overlays } from '../overlays';
 import { PlaceNames } from './place-names';
+import { RegionPeoples } from './region-peoples';
+import { RegionEcology } from './region-ecology';
+import { RegionGeography } from './region-geography';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 import { Composition, type KitEntry } from './compose/composition';
 import { Kits } from './compose/kit';
@@ -55,8 +59,8 @@ export class WorldAssembler {
     library?: string; scenarios?: number; region?: Record<string, DeemValue>; party?: CreatureGenerationContext[];
     framework?: string | null;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
-    const region = PlaceNames.render(new Content(RandomStreams.key(seed, 'world', 'region'))
-      .generate('region', options.region ?? {}) as unknown as Region);
+    const drawn = new Content(RandomStreams.key(seed, 'world', 'region')).generate('region', options.region ?? {});
+    const region = PlaceNames.render(RegionPeoples.settle(drawn as unknown as Region, RandomStreams.key(seed, 'world')));
     const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const eligibility = library.map(e => this.fits(e.manifest, context, region));
@@ -76,7 +80,7 @@ export class WorldAssembler {
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
-      modules.push(...this.requests(entry, placement, base, context));
+      modules.push(...this.requests(entry, placement, base, { ...context, ...this.wild(placement, region) }));
       const word = this.word(entry.manifest, placement, { region, contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
@@ -91,8 +95,9 @@ export class WorldAssembler {
     const kits = framework.map(k => ({ ...k, optional: true }));
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       pitch: { heading: `A company in ${region.name}`, text: `${region.name} is ${RegionWriter.terrain(region.terrain)} `
-        + `country of ${region.ancestry} settlements under ${region.deity}. Nobody hires a company for nothing: listen `
-        + 'in the taprooms, at the shrines and on the roads, and go where the trouble is. Choose three companions.' } });
+        + `country, home to ${RegionWriter.peoples(region)}, who keep the faith of ${region.deity}. Nobody hires a `
+        + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '
+        + 'Choose three companions.' } });
     return { path, source: new OverlayBundleSource(base, files),
       report: { seed, region, context, placements, contacts, requests,
         eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
@@ -125,7 +130,7 @@ export class WorldAssembler {
   }
   private static anySite(region: Region, seed: string): Site {
     const site = new Content(seed).generate('site', { terrain: region.terrain }) as unknown as Site;
-    return { ...site, id: `w${region.sites.length + 1}` };
+    return PlaceNames.another(region, { ...site, id: `w${region.sites.length + 1}` }, seed);
   }
   // A framework's kits, with their paths made absolute, to be composed into the campaign when it loads.
   private static async framework(base: BundleSource, file: string): Promise<KitEntry[]> {
@@ -167,6 +172,9 @@ export class WorldAssembler {
   }
   // One weighted pick among scenarios whose declared contexts include the region's: a Deem select over a table.
   private static choose(open: Entry[], context: Record<string, string>, seed: string): Entry | undefined {
+    // Deem is asked only to weigh scenarios that fit; asked to choose among none, it complains before it fails.
+    open = open.filter(e => Object.entries(e.manifest.context ?? {})
+      .every(([k, v]) => !(k in context) || v.includes(context[k]!)));
     if (!open.length) { return undefined; }
     const keys = Object.keys(context);
     const rows = open.map(e => ({ _key: e.manifest.id,
@@ -187,6 +195,9 @@ export class WorldAssembler {
       region.sites.some(w => w.kind === kind && !claimed.has(w.id)) || this.newSite(region, kind, 'probe') !== undefined));
   }
   private static newSite(region: Region, kind: string, seed: string): Site | undefined {
+    const kinds = (GenerationSetting.tables as unknown as { siteKind: { groups: Record<string, { _key: string }[]> } })
+      .siteKind.groups[region.terrain] ?? [];
+    if (!kinds.some(k => k._key === kind)) { return undefined; }
     try {
       const site = new Content(seed).generate('site', { terrain: region.terrain, kind }) as unknown as Site;
       return { ...site, id: `w${region.sites.length + 1}` };
@@ -203,8 +214,8 @@ export class WorldAssembler {
       if (need.site) {
         let site = need.site.map(kind => region.sites.find(w => w.kind === kind && !claimed.has(w.id))).find(Boolean);
         if (!site) {
-          site = need.site.map(kind => this.newSite(region, kind, RandomStreams.key(seed, 'world', 'site', instance, role)))
-            .find(Boolean)!;
+          const key = RandomStreams.key(seed, 'world', 'site', instance, role);
+          site = PlaceNames.another(region, need.site.map(kind => this.newSite(region, kind, key)).find(Boolean)!, key);
           site.near = region.settlements[region.sites.length % region.settlements.length]!.id;
           region.sites.push(site); generated.push(site.id);
         }
@@ -221,25 +232,34 @@ export class WorldAssembler {
   private static install(module: string, n: number): string {
     return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`;
   }
-  // A scenario reference: @party, @region, @wilds (the open country sites stand in), @role, @role.part (a settlement's
-  // green, a site's track…), module.export.
+  // A scenario reference: @party, @region, @role, @role.part (a settlement's green, a site's track or the country it
+  // stands in…), module.export.
   private static ref(value: string, placement: Placement): string {
     if (!value.startsWith('@')) {
       const [module, name] = value.split('.') as [string, string];
       return `${this.install(module, Number(placement.instance.match(/\d+$/)?.[0] ?? 1))}.${name}`;
     }
     const [role, part] = value.slice(1).split('.') as [string, string | undefined];
-    if (['party', 'region', 'wilds'].includes(role)) { return `${RegionWriter.id}.${role}`; }
+    if (['party', 'region'].includes(role)) { return `${RegionWriter.id}.${role}`; }
     const bound = placement.bindings[role];
     if (!bound) { throw new Error(`Scenario reference ${value} names no bound place`); }
     return `${RegionWriter.id}.${part ? `${bound}_${part}` : bound}`;
   }
   private static requests(entry: Entry, placement: Placement, base: BundleSource,
-    context: Record<string, string>): BundleRequest[] {
+    context: Record<string, DeemValue>): BundleRequest[] {
     return entry.manifest.modules.map((m, i) => ({ id: placement.modules[i]!,
       bundle: base.resolve(m.bundle, entry.path),
       imports: Object.fromEntries(Object.entries(m.imports).map(([name, value]) => [name, this.ref(value, placement)])),
       context: { ...context, ...m.context } }));
+  }
+  // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
+  // modules, which use it (a den does) or not.
+  private static wild(placement: Placement, region: Region): Record<string, DeemValue> {
+    const site = region.sites.find(w => Object.values(placement.bindings).includes(w.id));
+    const seat = site && RegionGeography.seats(region).find(x => x.site === site);
+    const beast = site && RegionEcology.den(region, RegionEcology.habitat(region, site, seat?.form?.form));
+    return beast ? { beast: beast.species, beastCount: beast.count, beastLabel: beast.label, beastRole: beast.role,
+      beastNature: beast.nature } : {};
   }
   // A hook's topic names the places it is about by role: {den} becomes the bound place's generated name.
   private static named(text: string, placement: Placement, region: Region): string {

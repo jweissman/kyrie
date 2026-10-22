@@ -12,6 +12,11 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Kind terrainkind. Relation terrain(place, terrainkind).
   Entity forest: terrainkind "forest". Entity marsh: terrainkind "marsh". Entity mountain: terrainkind "mountain".
   Entity frost: terrainkind "frost". Entity desert: terrainkind "desert". Entity hills: terrainkind "hills".
+  // The land a stretch of country is (a river's vale, a wood, a mere, a pass): what a chart draws it as. The names
+  // are prefixed, as every module shares them and an author's own place may well be called "pass".
+  Kind landkind. Relation landform(place, landkind).
+  Entity land_river: landkind "river". Entity land_lake: landkind "lake". Entity land_peak: landkind "peak".
+  Entity land_pass: landkind "pass". Entity land_wood: landkind "wood".
   Relation at(entity, place) exclusive.
   Relation able(group). Relation dead(group). Relation distinct(group, group).
   Relation closed(place). Relation indoors(place). Relation settled(place).

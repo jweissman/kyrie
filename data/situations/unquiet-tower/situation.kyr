@@ -12,7 +12,7 @@ Module unquiet_tower "The unquiet tower" {
 
   // The keep: a walled bailey with a chapel and a stable, the tower on its north side (hall, library, study, roof),
   // and under it the old garrison's undercroft, where the necromancer keeps what matters to him.
-  Place tower "The tower" is site within land at 6, 2.
+  Place tower "The tower" is site within land at 2, 1.
   Place ward "The bailey" is level within tower.
   Place inside "Inside the tower" is level within tower.
   Place upper "The library floor" is level within tower.

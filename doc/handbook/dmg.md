@@ -308,13 +308,19 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 24 | 6 | 3 | 0 | 5 |
+| 8 | 25 | 6 | 3 | 0 | 5 |
 
 #### terrainkind, terrain
 
 *Kyr · kind; relation(place, terrainkind)* · `rule:world_core.terrainkind`
 
 The lie of the land a region is: what a party's perks of place (an elven tribe in a forest) answer to.
+
+#### landkind, landform
+
+*Kyr · kind; relation(place, landkind)* · `rule:world_core.landkind`
+
+The land a stretch of country is (a river's vale, a wood, a mere, a pass): what a chart draws it as. The names are prefixed, as every module shares them and an author's own place may well be called "pass".
 
 #### law, law
 

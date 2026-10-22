@@ -87,13 +87,18 @@ export class ChartModel {
     const a = this.regionalArea(id);
     if (!a?.space?.grid) { return undefined; }
     const row = areas.get(a.id) ?? { id: a.id, name: a.name, kind: a.space.kind, x: a.space.grid[0],
-      y: a.space.grid[1], visited: false, here: a.id === here };
+      y: a.space.grid[1], visited: false, here: a.id === here, ...this.form(a.id, 'landform') };
     row.visited ||= visited.has(id);
     areas.set(a.id, row);
     this.within.set(id, a.id);
     return a.id;
   }
   private readonly within = new Map<string, string>();
+  // What land an area is (landform: land_river…), or a region's terrain, when the world says.
+  private form(id: string, relation: 'landform' | 'terrain'): { form?: string } {
+    const f = this.world.snapshot.relations.find(r => r.name === relation && r.args[0] === id)?.args[1];
+    return f ? { form: f.replace(/^.*__/, '').replace(/^land_/, '') } : {};
+  }
   // The region a place lies in (or the plane, for a place in one with no region): one region is drawn at a time.
   private regionOf(id: string | undefined): string | undefined {
     return id ? Spatial.ancestry(this.entities, id).find(e => ['region', 'plane'].includes(e.space!.kind))?.id : undefined;
@@ -108,7 +113,8 @@ export class ChartModel {
       const key = [a, b].sort().join('|');
       if (!edges.has(key)) { edges.set(key, { from: a, to: b, label: `${w.name} · ${this.duration(w.passage)}`, status: w.status }); }
     }
+    const terrain = home ? this.form(home, 'terrain').form : undefined;
     return areas.size > 1 ? { region: { areas: [...areas.values()], edges: [...edges.values()],
-      within: Object.fromEntries(this.within) } } : {};
+      within: Object.fromEntries(this.within), ...terrain ? { terrain } : {} } } : {};
   }
 }

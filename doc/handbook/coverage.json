@@ -27,9 +27,9 @@
     "concept": "character",
     "total": 25,
     "feasible": 25,
-    "catalogued": 21,
+    "catalogued": 11,
     "represented": 0,
-    "executable": 4,
+    "executable": 14,
     "play-validated": 0
    },
    {
@@ -798,20 +798,20 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 566,
+    "faithful": 586,
     "adapted": 292,
     "represented": 4,
     "kyr": 60,
     "unsupported": 75,
     "unreachable": 4,
-    "data-only": 22
+    "data-only": 12
    },
    "sections": [
     {
      "id": "ancestries",
      "title": "Ancestries",
      "counts": {
-      "faithful": 4,
+      "faithful": 14,
       "adapted": 0,
       "represented": 0,
       "kyr": 1,
@@ -980,13 +980,13 @@
      "id": "orsino-company",
      "title": "Appendix: Orsino's peoples and skills",
      "counts": {
-      "faithful": 51,
+      "faithful": 61,
       "adapted": 5,
       "represented": 4,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 22
+      "data-only": 12
      }
     }
    ]
@@ -997,7 +997,7 @@
     "faithful": 124,
     "adapted": 8,
     "represented": 18,
-    "kyr": 110,
+    "kyr": 111,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 342
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 105,
+      "kyr": 106,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1170,6 +1170,76 @@
    "id": "ancestry:glimmerkin",
    "title": "Glimmerkin",
    "status": "kyr",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:halfling",
+   "title": "Halfling",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:gnome",
+   "title": "Gnome",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:half_elf",
+   "title": "Half-elf",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:half_orc",
+   "title": "Half-orc",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:lizardfolk",
+   "title": "Lizardfolk",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:catfolk",
+   "title": "Catfolk",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:sylph",
+   "title": "Sylph",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:undine",
+   "title": "Undine",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:birdfolk",
+   "title": "Birdfolk",
+   "status": "faithful",
+   "book": "phb",
+   "section": "ancestries"
+  },
+  {
+   "id": "ancestry:fae",
+   "title": "Fae",
+   "status": "faithful",
    "book": "phb",
    "section": "ancestries"
   },
@@ -7728,7 +7798,7 @@
   {
    "id": "orsino:ancestry:birdfolk",
    "title": "Birdfolk",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -7742,7 +7812,7 @@
   {
    "id": "orsino:ancestry:catfolk",
    "title": "Catfolk",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -7777,7 +7847,7 @@
   {
    "id": "orsino:ancestry:fae",
    "title": "Fae",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -7798,7 +7868,7 @@
   {
    "id": "orsino:ancestry:gnome",
    "title": "Gnome",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -7812,21 +7882,21 @@
   {
    "id": "orsino:ancestry:half_elf",
    "title": "Half elf",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
   {
    "id": "orsino:ancestry:half_orc",
    "title": "Half orc",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
   {
    "id": "orsino:ancestry:halfling",
    "title": "Halfling",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -7854,7 +7924,7 @@
   {
    "id": "orsino:ancestry:lizardfolk",
    "title": "Lizardfolk",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -7875,7 +7945,7 @@
   {
    "id": "orsino:ancestry:sylph",
    "title": "Sylph",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -7896,7 +7966,7 @@
   {
    "id": "orsino:ancestry:undine",
    "title": "Undine",
-   "status": "data-only",
+   "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ancestry"
   },
@@ -8463,6 +8533,13 @@
   {
    "id": "rule:world_core.terrainkind",
    "title": "terrainkind, terrain",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.landkind",
+   "title": "landkind, landform",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"

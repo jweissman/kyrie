@@ -463,19 +463,19 @@
     "discriminator": "kind",
     "groups": {
       "cave": [
-        "hole",
         "cave",
+        "hole",
         "delf"
       ],
       "barrow": [
+        "mound",
         "barrow",
-        "howe",
-        "low"
+        "howe"
       ],
       "ruin": [
-        "walls",
-        "stones",
-        "hall"
+        "stone",
+        "keep",
+        "gate"
       ],
       "tower": [
         "tower",
@@ -493,9 +493,9 @@
         "flow"
       ],
       "mine": [
+        "deep",
         "delving",
-        "workings",
-        "levels"
+        "workings"
       ],
       "sinkhole": [
         "sink",

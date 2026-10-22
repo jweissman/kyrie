@@ -31,7 +31,7 @@
       "bundle": "../situations/unquiet-tower/module.json",
       "imports": {
         "party": "@party",
-        "land": "@wilds",
+        "land": "@spire.land",
         "outside": "@spire",
         "shrine": "@town.shrine",
         "gossip": "@town.green",

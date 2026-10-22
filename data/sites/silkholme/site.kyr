@@ -4,7 +4,7 @@ Module silkholme "Silkholme sink" {
   Place march "The region" is region.
   Place ridge "The high approach" is room.
 
-  Place silkholme "Silkholme sink" is site within march at 3, 0.
+  Place silkholme "Silkholme sink" is site within march at 2, 1.
   Place lip "the lip of the sink" is room within silkholme at 0, 0.
   Place frames "the frame terrace" is room within silkholme at 1, 0.
   Place caves "The caves below" is level within silkholme.

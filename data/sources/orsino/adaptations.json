@@ -971,6 +971,96 @@
       "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
     },
     {
+      "orsino": "ancestry:halfling",
+      "kyr": [
+        "ancestry:halfling"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:gnome",
+      "kyr": [
+        "ancestry:gnome"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:half_elf",
+      "kyr": [
+        "ancestry:half_elf"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:half_orc",
+      "kyr": [
+        "ancestry:half_orc"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:lizardfolk",
+      "kyr": [
+        "ancestry:lizardfolk"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:catfolk",
+      "kyr": [
+        "ancestry:catfolk"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:sylph",
+      "kyr": [
+        "ancestry:sylph"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:undine",
+      "kyr": [
+        "ancestry:undine"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:birdfolk",
+      "kyr": [
+        "ancestry:birdfolk"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
+      "orsino": "ancestry:fae",
+      "kyr": [
+        "ancestry:fae"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "Attribute modifiers, class options, forbidden traits, and racial traits with humanoid given at birth."
+    },
+    {
       "orsino": "animal:wolf",
       "kyr": [
         "species:wolf"

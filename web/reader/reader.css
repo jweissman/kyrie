@@ -8,7 +8,7 @@
 :root {
   --paper: #f4eee3; --panel: #efe7d9; --ink: #2a231d; --soft: #5f5347; --faint: #75685a; --rule: #dacfbc;
   --accent: #8c3a14; --accent-ink: #fff8ef; --sel: #e8ddc9; --good: #5f7f45; --bad: #a3321f; --warn: #8a5e0f;
-  --map: #8a7864; --map-faint: #c6b9a5;
+  --map: #8a7864; --map-faint: #c6b9a5; --water: #5d7f99; --water-faint: #d3dde3;
   --serif: 'Alegreya', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --caps: 'Alegreya SC', 'Alegreya', Georgia, serif;
   --sans: 'Alegreya Sans', 'Gill Sans', 'Segoe UI', system-ui, sans-serif;
@@ -19,13 +19,13 @@
   :root:not([data-theme="light"]) {
     --paper: #15120f; --panel: #1c1814; --ink: #e8dfcf; --soft: #ad9e8a; --faint: #918371; --rule: #362e26;
     --accent: #e3a46b; --accent-ink: #1a140f; --sel: #2a231c; --good: #93b374; --bad: #e27c62; --warn: #d9a44a;
-    --map: #8f7d65; --map-faint: #4a4036; color-scheme: dark;
+    --map: #8f7d65; --map-faint: #4a4036; --water: #7d9fb8; --water-faint: #23303a; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #15120f; --panel: #1c1814; --ink: #e8dfcf; --soft: #ad9e8a; --faint: #918371; --rule: #362e26;
   --accent: #e3a46b; --accent-ink: #1a140f; --sel: #2a231c; --good: #93b374; --bad: #e27c62; --warn: #d9a44a;
-  --map: #8f7d65; --map-faint: #4a4036; color-scheme: dark;
+  --map: #8f7d65; --map-faint: #4a4036; --water: #7d9fb8; --water-faint: #23303a; color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -176,6 +176,12 @@ a { color: var(--accent); }
 .region .area.settlement .area-name { font: 500 27px var(--caps); }
 .region .area.wilderness .area-name, .region .area.site .area-name { font-style: italic; }
 .region .area.unknown { opacity: .55; }
+.region .terrain-texture path { fill: none; stroke: var(--map-faint); stroke-width: 1.3; stroke-linecap: round; }
+.region .river-course { fill: none; stroke: var(--water); stroke-width: 5; stroke-linecap: round; opacity: .55; }
+.region .area .glyph.land path { fill: var(--paper); }
+.region .area.river .glyph path, .region .area.lake .glyph path { stroke: var(--water); fill: none; }
+.region .area.lake .glyph path:first-child { fill: var(--water-faint); }
+.region .area.wood .glyph path { fill: var(--map-faint); }
 .region .area .company { fill: var(--accent); stroke: var(--paper); stroke-width: 2; }
 .region .traveller { fill: var(--accent); stroke: var(--paper); stroke-width: 2.5; }
 .reader.travelling .region .area.here .company { opacity: 0; }
@@ -305,7 +311,8 @@ a { color: var(--accent); }
   .details.inline .close { position: static; float: right; }
   .reader.view-company .column > .scene, .reader.view-pack .column > .scene,
   .reader.view-journal .column > .scene { display: none; }
-  .aside.view-map .backdrop { opacity: 1; background: var(--paper); }
+  .aside.view-map .backdrop { opacity: 1; background: var(--paper); overflow-x: auto; place-items: center start; }
+  .aside.view-map .backdrop svg.region { min-width: calc(var(--span, 2) * 3.4rem + 8rem); }
   .details { padding: 1.6rem 1.25rem 6rem; }
   .details .close { top: .9rem; }
   .group .label { position: static; width: auto; text-align: left; padding: 0 0 .15rem; }

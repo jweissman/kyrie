@@ -1,0 +1,235 @@
+{
+  "regionPeoples": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        {
+          "_key": "fieldfolk",
+          "__weight": 3,
+          "majority": "human",
+          "others": [
+            "halfling",
+            "half_elf"
+          ]
+        },
+        {
+          "_key": "tinkers",
+          "majority": "human",
+          "others": [
+            "gnome",
+            "elf"
+          ]
+        },
+        {
+          "_key": "eldwood",
+          "__weight": 2,
+          "majority": "elf",
+          "others": [
+            "half_elf",
+            "fae"
+          ]
+        },
+        {
+          "_key": "hunters",
+          "majority": "elf",
+          "others": [
+            "catfolk",
+            "human"
+          ]
+        }
+      ],
+      "marsh": [
+        {
+          "_key": "dykers",
+          "__weight": 3,
+          "majority": "human",
+          "others": [
+            "lizardfolk",
+            "halfling"
+          ]
+        },
+        {
+          "_key": "springs",
+          "majority": "human",
+          "others": [
+            "undine",
+            "half_elf"
+          ]
+        },
+        {
+          "_key": "reedhalls",
+          "majority": "elf",
+          "others": [
+            "lizardfolk",
+            "undine"
+          ]
+        }
+      ],
+      "mountain": [
+        {
+          "_key": "holds",
+          "__weight": 3,
+          "majority": "dwarf",
+          "others": [
+            "human",
+            "gnome"
+          ]
+        },
+        {
+          "_key": "eyries",
+          "majority": "dwarf",
+          "others": [
+            "gnome",
+            "birdfolk"
+          ]
+        },
+        {
+          "_key": "drovers",
+          "__weight": 2,
+          "majority": "human",
+          "others": [
+            "dwarf",
+            "half_orc"
+          ]
+        },
+        {
+          "_key": "pastures",
+          "majority": "human",
+          "others": [
+            "birdfolk",
+            "halfling"
+          ]
+        }
+      ],
+      "frost": [
+        {
+          "_key": "deephalls",
+          "__weight": 2,
+          "majority": "dwarf",
+          "others": [
+            "human",
+            "sylph"
+          ]
+        },
+        {
+          "_key": "steadings",
+          "__weight": 2,
+          "majority": "human",
+          "others": [
+            "dwarf",
+            "half_orc"
+          ]
+        },
+        {
+          "_key": "windward",
+          "majority": "human",
+          "others": [
+            "birdfolk",
+            "sylph"
+          ]
+        }
+      ]
+    }
+  },
+  "peopleCame": {
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "came with the road, and the road has kept them",
+        "came for the {trade} two lifetimes ago and built in timber, and have stayed"
+      ],
+      "elf": [
+        "were here before anyone, and say so",
+        "came down from older country when the trees there were cut, and have not forgiven it"
+      ],
+      "dwarf": [
+        "came for the {trade} and built in stone, and stayed when the seam ran thin",
+        "keep the old workings their grandfathers cut, and the grudges"
+      ],
+      "halfling": [
+        "came up the river with the honey carts in their grandmothers' time, and never went home",
+        "farm the bottom land, and feed half the region and are thanked by none of it"
+      ],
+      "gnome": [
+        "came to mend things for the {majority} folk, and found more to mend than they could finish",
+        "came for the {trade} and the quiet, and have filled the quiet with clocks"
+      ],
+      "half_elf": [
+        "are the children of the old woods and the new fields, at home in both and neither",
+        "were not wanted in either people's towns, so built their own"
+      ],
+      "half_orc": [
+        "are the grandchildren of raiders who came over the pass and stayed to farm",
+        "came as hired swords in a war nobody here remembers, and were paid in land"
+      ],
+      "lizardfolk": [
+        "were here before the dykes were cut, and keep to the water still",
+        "trade eels and reed with the {majority} folk and keep their own counsel"
+      ],
+      "undine": [
+        "keep the springs and the deep pools, and have always been here, they say",
+        "came up out of the water a long time ago, and go back to it to die"
+      ],
+      "catfolk": [
+        "hunt the deep woods and come in to trade pelts, and some have stayed",
+        "came following the deer, and stayed for the honey"
+      ],
+      "birdfolk": [
+        "nest on the heights and come down to trade when the weather turns",
+        "keep the high pastures, and see everything that moves on the roads"
+      ],
+      "sylph": [
+        "live where the wind does, and speak little to anyone",
+        "came on a storm, they say, and are waiting for another"
+      ],
+      "fae": [
+        "were here before there were roads, and do not say what they want",
+        "keep a bargain made with the first settlers, and remember its terms better than anyone"
+      ]
+    }
+  },
+  "folkWord": {
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "human folk"
+      ],
+      "elf": [
+        "elven folk"
+      ],
+      "dwarf": [
+        "dwarven folk"
+      ],
+      "halfling": [
+        "halflings"
+      ],
+      "gnome": [
+        "gnomes"
+      ],
+      "half_elf": [
+        "half-elves"
+      ],
+      "half_orc": [
+        "half-orcs"
+      ],
+      "lizardfolk": [
+        "lizardfolk"
+      ],
+      "undine": [
+        "undines"
+      ],
+      "catfolk": [
+        "catfolk"
+      ],
+      "birdfolk": [
+        "birdfolk"
+      ],
+      "sylph": [
+        "sylphs"
+      ],
+      "fae": [
+        "fae"
+      ]
+    }
+  }
+}

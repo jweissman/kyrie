@@ -150,6 +150,316 @@
         "kyr": true,
         "notes": "Kyr's cave traders of the Varrow, who keep and sell bottled light. Not a player ancestry."
       }
+    },
+    "halfling": {
+      "name": "Halfling",
+      "description": "A small, nimble person of the pastoral country.",
+      "nameGroup": "hero",
+      "classes": [
+        "warrior",
+        "thief",
+        "bard",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": -1,
+        "dexterity": 2,
+        "constitution": -2,
+        "intelligence": 1,
+        "wisdom": -1,
+        "charisma": 1
+      },
+      "traits": [
+        "humanoid",
+        "nimble",
+        "lucky"
+      ],
+      "source": {
+        "orsino": "ancestry:halfling",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "gnome": {
+      "name": "Gnome",
+      "description": "A small person, inventive and curious, with a knack for tinkering and illusion.",
+      "nameGroup": "hero",
+      "classes": [
+        "thief",
+        "bard",
+        "mage",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": -1,
+        "dexterity": 1,
+        "constitution": -1,
+        "intelligence": 2,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "traits": [
+        "humanoid",
+        "inventive",
+        "curious"
+      ],
+      "forbiddenTraits": [
+        "necromancer",
+        "abjurer",
+        "conjurer",
+        "diviner",
+        "enchanter",
+        "evoker"
+      ],
+      "source": {
+        "orsino": "ancestry:gnome",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "half_elf": {
+      "name": "Half-elf",
+      "description": "A person of human and elven blood, at home between the two peoples and a bridge between them.",
+      "nameGroup": "hero",
+      "classes": [
+        "warrior",
+        "mage",
+        "thief",
+        "cleric",
+        "bard",
+        "ranger",
+        "monk",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": 0,
+        "dexterity": 1,
+        "constitution": 0,
+        "intelligence": 1,
+        "wisdom": 1,
+        "charisma": 2
+      },
+      "traits": [
+        "humanoid",
+        "agile",
+        "adaptable"
+      ],
+      "source": {
+        "orsino": "ancestry:half_elf",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "half_orc": {
+      "name": "Half-orc",
+      "description": "A person of orcish and human blood, strong and hardy, and often met with prejudice among humans.",
+      "nameGroup": "hero",
+      "classes": [
+        "warrior",
+        "thief",
+        "ranger",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": 2,
+        "dexterity": -1,
+        "constitution": 1,
+        "intelligence": -1,
+        "wisdom": 2,
+        "charisma": 1
+      },
+      "traits": [
+        "humanoid",
+        "versatile",
+        "fierce"
+      ],
+      "source": {
+        "orsino": "ancestry:half_orc",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "lizardfolk": {
+      "name": "Lizardfolk",
+      "description": "A reptilian person of the swamps and the water's edge.",
+      "nameGroup": "hero",
+      "classes": [
+        "warrior",
+        "ranger",
+        "thief",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": 1,
+        "dexterity": 1,
+        "constitution": 2,
+        "intelligence": -1,
+        "wisdom": -1,
+        "charisma": -1
+      },
+      "traits": [
+        "humanoid",
+        "nimble",
+        "curious"
+      ],
+      "source": {
+        "orsino": "ancestry:lizardfolk",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "catfolk": {
+      "name": "Catfolk",
+      "description": "An agile, stealthy person with feline traits, often a hunter.",
+      "nameGroup": "hero",
+      "classes": [
+        "thief",
+        "ranger",
+        "bard",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": -1,
+        "dexterity": 4,
+        "constitution": -1,
+        "intelligence": 1,
+        "wisdom": 1,
+        "charisma": 1
+      },
+      "traits": [
+        "humanoid",
+        "agile",
+        "lucky"
+      ],
+      "source": {
+        "orsino": "ancestry:catfolk",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "sylph": {
+      "name": "Sylph",
+      "description": "An airy, elusive person of the winds and the high places.",
+      "nameGroup": "hero",
+      "classes": [
+        "mage",
+        "cleric",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": -2,
+        "dexterity": 3,
+        "constitution": -2,
+        "intelligence": 2,
+        "wisdom": 1,
+        "charisma": 2
+      },
+      "traits": [
+        "humanoid",
+        "inventive",
+        "mysterious"
+      ],
+      "source": {
+        "orsino": "ancestry:sylph",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "undine": {
+      "name": "Undine",
+      "description": "A person of the water, deeply bound to it and its mysteries.",
+      "nameGroup": "hero",
+      "classes": [
+        "mage",
+        "cleric",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": -3,
+        "dexterity": -2,
+        "constitution": 2,
+        "intelligence": 1,
+        "wisdom": 3,
+        "charisma": 1
+      },
+      "traits": [
+        "humanoid",
+        "perceptive",
+        "sturdy"
+      ],
+      "source": {
+        "orsino": "ancestry:undine",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "birdfolk": {
+      "name": "Birdfolk",
+      "description": "An avian person with keen eyes, who can glide on the wind.",
+      "nameGroup": "hero",
+      "classes": [
+        "warrior",
+        "ranger",
+        "mage",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": -2,
+        "dexterity": 2,
+        "constitution": -1,
+        "intelligence": 2,
+        "wisdom": 1,
+        "charisma": 2
+      },
+      "traits": [
+        "humanoid",
+        "agile",
+        "curious"
+      ],
+      "source": {
+        "orsino": "ancestry:birdfolk",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "fae": {
+      "name": "Fae",
+      "description": "A mystical person bound to the magic of the world, enigmatic and whimsical.",
+      "nameGroup": "hero",
+      "classes": [
+        "cleric",
+        "thief",
+        "bard",
+        "mage",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": -2,
+        "dexterity": 2,
+        "constitution": -2,
+        "intelligence": 2,
+        "wisdom": 1,
+        "charisma": 3
+      },
+      "traits": [
+        "humanoid",
+        "mysterious",
+        "enchanting"
+      ],
+      "forbiddenTraits": [
+        "deathspeaker",
+        "warbringer",
+        "necromancer",
+        "abjurer",
+        "conjurer",
+        "diviner",
+        "evoker"
+      ],
+      "source": {
+        "orsino": "ancestry:fae",
+        "fidelity": "faithful",
+        "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
     }
   }
 }
