@@ -29,7 +29,7 @@ Module longman "The Long Man" {
   // The bar is on the cellar side: only someone in the cellar can lift it.
   Thing cellar_door "the door in the broken wall" on broken_wall {
     State barred blocking "A heavy door closes the hole broken through the wall, barred on the cellar side.".
-    State unbarred "The bar is off the door in the broken wall, and cold, dry air comes round its edges.".
+    State unbarred "The bar is off the door in the broken wall, and it stands a hand's width open on the dark.".
     Change lift "Lift the oak bar off the door in the broken wall" from barred to unbarred at cellar.
   }
   Initially Assert keyholder(venn, cellar_door).

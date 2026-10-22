@@ -154,10 +154,14 @@ Module longman "The Long Man" {
     Holds.
     State worn closed "The steward wears a big iron key on his belt.".
     State hung "A big iron key hangs on the hook by the study door.".
+    State empty "Nothing hangs on the hook by the study door.".
   }
   Item key "the steward's iron key" is cell_key in key_hook owned by venn.
   Rule venn_sleeps when dark() and state(key_hook, worn) and not lends(venn, key, ?c) { Assert state(key_hook, hung). }
   Rule venn_wakes when not dark() and state(key_hook, hung) and not lends(venn, key, ?c) and inside(key, key_hook) { Assert state(key_hook, worn). }
+  // The hook says what hangs on it: once the key is gone, nothing does.
+  Rule hook_emptied when state(key_hook, hung) and not inside(key, key_hook) { Assert state(key_hook, empty). }
+  Rule hook_filled when state(key_hook, empty) and inside(key, key_hook) { Assert state(key_hook, hung). }
   Discovery ledger_known "Venn's ledger: twelve bronze teeth sold to Cass Rowell of the barge Heron this year, at eight crowns the tooth, against a debt of sixty crowns, with more to come." {
     Source ledger "the steward's ledger" at study readable by party.
     Known by venn.

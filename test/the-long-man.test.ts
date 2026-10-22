@@ -129,3 +129,32 @@ describe('The Long Man, its other endings', () => {
     expect(Dale.holds(s, 'at', 'longman__venn', 'longman__downriver')).toBe(true);
   }, 180000);
 });
+
+// What the dale's people do without being asked: each owner minds what is theirs, and a foreman can be bought.
+describe('The Long Man, its people unprompted', () => {
+  it('has Gammer Coller say so when her rod is taken without asking', async () => {
+    const s = await Dale.start();
+    const said = Dale.said(await Dale.act(s, '^To Merrow green', '^Into Gammer', 'about the rod', '^Take'));
+    expect(said).toContain("'That is the reeve's rod,'");
+    expect(Dale.holds(s, 'objected', 'longman__nell', 'longman__rod')).toBe(true);
+  }, 120000);
+  it('has Dunnet tell the steward of the bronze he sees the company carry, unless his wages were paid', async () => {
+    const told = await Dale.start();
+    expect(Dale.said(await Dale.act(told, '^To Merrow green', '^To the Hall yard', 'Untie the tarpaulin', '^Take from')))
+      .toContain('goes in to the steward');
+    expect(Dale.holds(told, 'hostile', 'longman__venn', 'party')).toBe(true);
+    const paid = await Dale.start();
+    expect(Dale.said(await Dale.act(paid, '^To Merrow green', '^To the Hall yard', 'Give Dunnet three coin',
+      'Untie the tarpaulin', '^Take from'))).not.toContain('goes in to the steward');
+    expect(Dale.holds(paid, 'hostile', 'longman__venn', 'party')).toBe(false);
+  }, 120000);
+  it('lets the key be lifted off its hook while the steward sleeps, and has his foreman see it go', async () => {
+    const s = await Dale.start();
+    await Dale.act(s, '^To Merrow green', '^To the Hall yard');
+    await Dale.until(s, 90);
+    expect(Dale.holds(s, 'at', 'longman__venn', 'longman__chamber')).toBe(true);
+    expect(Dale.said(await Dale.act(s, '^Into the steward', '^Take from the hook'))).not.toContain('Give it here');
+    expect(Dale.holds(s, 'state', 'longman__key_hook', 'longman__empty')).toBe(true);
+    expect(Dale.said(await Dale.act(s, '^Out to the Hall yard'))).toContain('goes in to the steward');
+  }, 180000);
+});
