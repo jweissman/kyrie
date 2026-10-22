@@ -2,7 +2,7 @@
 @art deep
 @kind mine
 @ground fell peak heath
-@seen a timbered adit in the fellside
+@seen a timbered adit
 @names hold, gate, deep, mountain, keep
 @danger 2
 --- outside
@@ -22,7 +22,7 @@
   Place {w}_fall "the fallen gallery" is room within {w}_works at 1, 1.
   Place {w}_foot "the foot of the shaft" is room within {w}_deep at 0, 0.
   Place {w}_dressing "the dressing-hall" is room within {w}_deep at 1, 0.
-  Place {w}_door_room "the iron door" is room within {w}_deep at 2, 0.
+  Place {w}_door_room "the end of the last gallery" is room within {w}_deep at 2, 0.
   Place {w}_vein "the pale vein" is room within {w}_works at 2, 1.
   Passage {w}_in "the adit mouth" is drift between {w} and {w}_adit.
   Passage {w}_on "the railed gallery" is passage between {w}_adit and {w}_head.

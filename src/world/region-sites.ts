@@ -1,4 +1,5 @@
 import { Terrain } from './land/terrain';
+import { Histories } from './history/histories';
 import { RegionEcology } from './region-ecology';
 import { RegionGeography, type Seat } from './region-geography';
 import { RegionRoads } from './region-roads';
@@ -27,24 +28,32 @@ export class RegionSites {
   // What a site is called until its name is known: how it looks, and, where the region has others that look the
   // same, where it is (a grassed mound north of Faennslím; a cave in the hillside deep in Bruinforwest).
   static seenAs(seat: Seat, region: Region): string {
-    const { site } = seat, seen = this.seen[site.kind] ?? 'a place';
-    const like = region.sites.filter(s => s !== site && (this.seen[s.kind] ?? 'a place') === seen);
+    const { site } = seat, seen = this.look(site);
+    const like = region.sites.filter(s => s !== site && this.look(s) === seen);
     if (!like.length) { return seen; }
     const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
     if (zone) {
-      return like.some(s => s.zone === zone.id) ? `${seen} ${RegionZones.where(zone, site.part ?? 0)}`
+      // Two alike in the same part of the same wild country: the eastern old workings, the western.
+      const twin = like.find(s => s.zone === zone.id && s.part === site.part);
+      const side = twin && RegionGeography.compass(RegionGeography.spot(region, twin.cell!), seat.spot);
+      const which = side && side !== 'here' ? seen.replace(/^(a|an|the) /, `the ${side}ern `) : seen;
+      return like.some(s => s.zone === zone.id) ? `${which} ${RegionZones.where(zone, site.part ?? 0)}`
         : `${seen} in ${zone.naming.name}`;
     }
     const side = RegionGeography.compass(RegionGeography.spot(region, seat.town.cell!), seat.spot);
     return `${seen} ${side === 'here' ? 'near' : `${side} of`} ${seat.town.name}`;
+  }
+  // How a site looks from outside: a makers' work as its plan says; anything else by its kind.
+  static look(site: Region['sites'][number]): string {
+    return site.work ? Histories.plan(site.work.plan).seen : this.seen[site.kind] ?? 'a place';
   }
   static lines(region: Region, taken: Record<string, string> = {}): string[] {
     return RegionGeography.seats(region).flatMap(seat => this.seat(seat, region, !!taken[seat.site.id]));
   }
   private static seat(seat: Seat, region: Region, claimed: boolean): string[] {
     const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
-    const where = this.where(seat, region), seen = this.seen[site.kind] ?? 'a place';
-    const hidden = !claimed && (site.part ?? 0) > 0;
+    const where = this.where(seat, region), seen = this.look(site), called = this.seenAs(seat, region);
+    const way = called === seen ? `${seen} in ${where}` : called, hidden = !claimed && (site.part ?? 0) > 0;
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Observe ${id}_scene at ${id} when true ${q(this.scene(seat, region))}.`,
@@ -54,8 +63,8 @@ export class RegionSites {
         `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
         `    On discuss { Assert knows(actor, ${id}_named).${hidden ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }']];
     // Every site's way can be learned; one deep in wild country can also be found by searching where it starts.
-    lines.push(hidden ? `  Discovery ${id}_found ${q(`The way to ${seen} in ${where}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`
-      : `  Discovery ${id}_found ${q(`The way to ${seen} in ${where}.`)}.`);
+    lines.push(hidden ? `  Discovery ${id}_found ${q(`The way to ${way}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`
+      : `  Discovery ${id}_found ${q(`The way to ${way}.`)}.`);
     if (this.cut[site.kind] && !site.work) {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);
     }
