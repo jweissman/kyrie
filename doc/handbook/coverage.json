@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 351,
     "represented": 4,
-    "kyr": 74,
+    "kyr": 75,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 234,
       "adapted": 72,
       "represented": 0,
-      "kyr": 26,
+      "kyr": 27,
       "unsupported": 25,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 120,
+    "kyr": 126,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 115,
+      "kyr": 121,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -5864,6 +5864,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:old_glossary",
+   "title": "Glossary of the old script",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "ability:animate_animal",
    "title": "Animate Animal",
    "status": "faithful",
@@ -10225,6 +10232,20 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.purse",
+   "title": "purse, appraised",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.purse_refilled",
+   "title": "purse_refilled",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.owns",
    "title": "owns, lends, objected",
    "status": "kyr",
@@ -10309,6 +10330,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.take_from",
+   "title": "take from",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.give",
    "title": "give",
    "status": "kyr",
@@ -10325,6 +10353,20 @@
   {
    "id": "rule:belongings.sell_valuable",
    "title": "sell valuable",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.appraise",
+   "title": "appraise",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.appraise_beyond",
+   "title": "appraise beyond",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -11004,6 +11046,13 @@
   {
    "id": "rule:world_services.take_healing",
    "title": "take healing",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.take_raising",
+   "title": "take raising",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"

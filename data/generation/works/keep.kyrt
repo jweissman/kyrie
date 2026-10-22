@@ -1,0 +1,90 @@
+# keep: a square keep on a rise over the road, raised by the warlords of the kingdom after the makers.
+@art warlords
+@kind ruin
+@ground heath meadow fell
+@near road
+@seen a broken keep
+@names keep, hold, gate, watch
+@danger 2
+--- outside
+  Observe {w}_keep_seen at {w} when true "A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road.".
+  Observe {w}_arms at {w} when true "Over the gate a shield is cut in the stone, a tower with a star over it, and under the shield the keep's name in the kingdom's letters, which anyone who reads at all can read: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_gate "the gate-passage" is room within {w}_site at 0, 1.
+  Place {w}_bailey "the bailey" is room within {w}_site at 1, 1.
+  Place {w}_hall "the great hall" is room within {w}_site at 1, 0.
+  Place {w}_solar "the lord's chamber" is room within {w}_site at 2, 0.
+  Place {w}_walk "the wall-walk" is room within {w}_site at 2, 1.
+  Place {w}_cellar "the undercroft" is room within {w}_site at 1, 2.
+  Passage {w}_in "the gate" is gate between {w} and {w}_gate.
+  Passage {w}_yard "the inner arch" is arch between {w}_gate and {w}_bailey.
+  Passage {w}_breach "a breach in the curtain wall" is climb between {w} and {w}_bailey needing climbing or rope.
+  Passage {w}_hall_steps "the hall steps" is steps between {w}_bailey and {w}_hall.
+  Passage {w}_solar_stair "the stair in the wall" is stair between {w}_hall and {w}_solar.
+  Passage {w}_walk_steps "the steps up to the wall" is steps between {w}_bailey and {w}_walk.
+  Passage {w}_cellar_door "the undercroft door" is door between {w}_bailey and {w}_cellar.
+  Initially Assert unlit({w}_cellar).
+  Thing {w}_portcullis "the portcullis" on {w}_yard {
+    State down blocking "A portcullis of black iron is down across the inner arch, rusted into its grooves a hand's breadth off the ground.".
+    State up "The portcullis is wedged up in its grooves with a beam, and the way into the bailey is open.".
+    Change heave "Heave the portcullis up and wedge it" from down to up needing brawn.
+  }
+  Observe {w}_gate_scene at {w}_gate when true "A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone. Names and tallies are scratched into the plaster where men waited out their watches.".
+  Observe {w}_bailey_scene at {w}_bailey when true "The bailey is grass and nettles round a well-head. Lean-to roofs once ran along the inside of the wall; their beam-holes are a row of black squares in the stone. The keep's hall steps go up on one side, and stone steps climb the curtain wall on the other.".
+  Observe {w}_hall_scene at {w}_hall when true "The great hall fills the keep's first floor, open now to the sky where the floors above have fallen in. A hearth wide enough to stand in takes up one wall. A stair goes up inside the thickness of the other.".
+  Observe {w}_solar_scene at {w}_solar when true "The lord's chamber has kept its roof. A bed-frame, a bench under the window, and an iron-bound chest that no one has managed to carry off.".
+  Observe {w}_cellar_scene at {w}_cellar when true "A vaulted undercroft under the bailey, dry and cold, where the keep kept its stores. Racks for barrels stand empty along the walls.".
+  Observe {w}_view at {w}_walk when true "From the wall-walk you can see the road for miles both ways, as the keep was built to: whoever came along it, the lord knew of it a morning before they arrived.".
+  Thing {w}_roll "the castle roll" at {w}_solar {
+    State shut "In the chest are rolls of vellum gone brown at the edges, tied with cord and sealed with the tower and star.".
+    State read "The roll counts the lord's men and what each owes him: so many spears, so many bushels, a horse at midsummer. The kingdom of {kingdom}, it begins, and the lord's name, and his lord's. The last entries are in another hand.".
+    Change read "Untie the castle roll and read it" from shut to read.
+  }
+  Observe {w}_roll_learned at {w}_solar when state({w}_roll, read) "The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom." teaches history_successors.
+  Thing {w}_strongbox "the lord's strongbox" at {w}_cellar {
+    Holds.
+    State locked closed "A strongbox of riveted iron is set into the floor of the undercroft, its lid locked down.".
+    State open "The lord's strongbox stands open.".
+    Change pick "Pick the strongbox's lock" from locked to open needing lockwork.
+    Change lever "Lever the strongbox open" from locked to open needing crowbar.
+  }
+  Item {w}_hoard "{richname}" is {rich} in {w}_strongbox.
+  Item {w}_dropped "{commonname}" is {common} at {w}_gate.
+--- fall plague 1 if fallplague
+  Observe {w}_plague at {w}_hall when true "The long tables are still set out. On the benches and under them, and by the cold hearth, the bones of the garrison lie where they sat down and did not get up. Someone chalked a cross on the hall door from the outside.".
+  Observe {w}_last_plague at {w}_solar when state({w}_roll, read) "The last entries are not dues. Down the margin, in a shaking hand, one word over and over, eleven times, each with a name: dead. The twelfth word is not finished.".
+--- fall winter 1 if fallwinter
+  Observe {w}_winter at {w}_hall when true "There is nothing of wood left in the hall: no table, no bench, no door. The great hearth is heaped with the ash of them, and a few bones lie close round it, as near to it as they could get.".
+  Observe {w}_last_winter at {w}_solar when state({w}_roll, read) "The last entries are a reckoning of grain, each week less, then of the horses, one by one, by name. Then nothing.".
+--- fall heirs 1 if fallheirs
+  Observe {w}_heirs at {w}_gate when true "The gate was forced. Its leaves lie split in the passage, and arrowheads are thick in the beams overhead, the shafts long rotted out of them.".
+  Observe {w}_last_heirs at {w}_solar when state({w}_roll, read) "The last roll is cut in two with a knife. On one half every man owes service to the lord's elder son; on the other, to the younger. Someone has struck out both.".
+--- fall raiders 1 if fallraiders
+  Observe {w}_raiders at {w}_hall when true "The keep was burned from inside. The floors fell burning into the hall, and the stones of the walls are reddened to a man's height with old fire.".
+  Observe {w}_last_raiders at {w}_solar when state({w}_roll, read) "The last lines are three words, over and over, in a hurried hand, a day apart: ships in sight. Then a day with no entry. Then no more days.".
+--- sight far 1 if sight
+  Observe {w}_far at {w}_walk when true "Far off to the {sightside} the lord's men would have seen what you see now: {sightseen}." teaches {sight}_found.
+--- present wolves 2
+  Person {w}_wolves "wolves" at {w}_bailey {
+    Role "a wolf pack that dens in the ruined guardrooms, and hunts the road". Species wolf. Numbers 3. Level 1. Temperament territorial. Lair {w}_bailey.
+    Warns "Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall.".
+  }
+--- present castellan 1
+  Person {w}_castellan "the last castellan" at {w}_hall {
+    Role "the keep's last castellan, who would not give up the keep, and has not". Species revenant. Level 3. Temperament territorial. Lair {w}_hall.
+    Warns "In the hall a man in rotted mail rises from the hearth-seat, and the cold of him reaches you across the floor. 'Who comes to the lord's hall?' His voice is dust.".
+  }
+--- present crows 1
+  Observe {w}_crows at {w}_hall when true "Crows have taken the hall. They lift off the walls all together as you come in, and settle again behind you.".
+--- hook toll 2
+  Topic {w}_hook with {keeper} "Ask {{keeper}} about the old keep" when not knows(actor, {w}_named) once {
+    Says "'{name}, on the rise over the road in {where},' says {{keeper}}. 'The old lords took their toll there, when there were lords. Folk say the last of them is still in it, counting what he is owed.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook seal 1
+  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old kingdom" when not knows(actor, {w}_named) once {
+    Says "'The kingdom of {kingdom} had a keep at {name}, in {where},' says {{merchant}}. 'Anything with their seal on it sells, to the right people. Bring me what you find there, and I will pay you better than its weight.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+  Initially Set pays({merchant}, {rich}) to {richpremium}. Initially Increase quantity({merchant}, gold) by {richpremium}.

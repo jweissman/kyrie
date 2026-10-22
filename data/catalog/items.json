@@ -454,6 +454,19 @@
       "source": {
         "kyr": true
       }
+    },
+    "old_glossary": {
+      "name": "Glossary of the old script",
+      "category": "equipment",
+      "description": "A fat book in wooden boards, in which brothers of a dead order wrote the old script's letters beside their own, and copied out whole inscriptions with what they meant. Carried and studied, it lets its reader make out the old script.",
+      "slot": "book",
+      "grants": {
+        "skill": "lore"
+      },
+      "value": 60,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

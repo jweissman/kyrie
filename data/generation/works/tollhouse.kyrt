@@ -1,0 +1,93 @@
+# tollhouse: a toll-house and bonded warehouse at a river crossing, where the merchant-princes taxed the river trade.
+@art princes
+@kind ruin
+@ground meadow wood fen heath
+@near river
+@seen a toll-house by the water
+@names port, ford, gate, bridge
+@danger 1
+--- outside
+  Observe {w}_house_seen at {w} when true "A tall house of dressed stone stands with its feet in the water, a warehouse behind it under a broken roof. Iron rings for mooring are set in its river wall, and the stumps of a jetty stand out into the stream.".
+  Observe {w}_cut at {w} when true "Over the door a carved board, the paint long gone from the letters but the letters still deep: {oldup}, and under it, BY RIGHT OF THE PRINCES OF {kingdomup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_hall "the toll-hall" is room within {w}_site at 0, 0.
+  Place {w}_counting "the counting-room" is room within {w}_site at 1, 0.
+  Place {w}_strong "the strongroom" is room within {w}_site at 2, 0.
+  Place {w}_store "the warehouse" is room within {w}_site at 0, 1.
+  Place {w}_quay "the water-stair" is room within {w}_site at 1, 1.
+  Place {w}_cellar "the bonded cellar" is room within {w}_site at 0, 2.
+  Passage {w}_in "the toll-house door" is door between {w} and {w}_hall.
+  Passage {w}_counter "the counter-gate" is gate between {w}_hall and {w}_counting.
+  Passage {w}_strong_door "the strongroom door" is door between {w}_counting and {w}_strong.
+  Passage {w}_store_door "the warehouse doors" is door between {w}_hall and {w}_store.
+  Passage {w}_quay_door "the water-door" is doorway between {w}_store and {w}_quay.
+  Passage {w}_cellar_trap "the hatch to the cellar" is ladder between {w}_store and {w}_cellar.
+  Passage {w}_culvert "the culvert" is culvert between {w}_cellar and {w}_quay hidden until {w}_culvert_found.
+  Initially Assert unlit({w}_strong). Initially Assert unlit({w}_cellar).
+  Discovery {w}_culvert_found "A culvert runs from the bonded cellar out under the river wall: goods could come and go by it without passing the counter." {
+    Found by searching {w}_cellar "Behind the rotten barrels at the river end of the cellar an arch is half full of silt, and the river's light comes through it.".
+    Found by searching {w}_quay "Under the water-stair, at the waterline, a low arch goes back into the house's foundations.".
+  }
+  Observe {w}_hall_scene at {w}_hall when true "The toll-hall: a long counter across the room, with a gate in it, and on the wall behind it a great board painted with the tariff. Benches for the boatmen waiting their turn.".
+  Observe {w}_counting_scene at {w}_counting when true "A clerks' room behind the counter: high desks, a set of scales with its pans gone green, and pigeonholes stuffed with rotten paper. An iron door is set in the far wall.".
+  Observe {w}_strong_scene at {w}_strong when true "A room without a window, walled and vaulted in stone, with an iron chest bolted to the floor.".
+  Observe {w}_store_scene at {w}_store when true "A warehouse under a broken roof, open to the weather at one end. Bales stand in rows, gone to grey felt, and a crane-arm hangs out over the water through a door in the river wall.".
+  Observe {w}_quay_scene at {w}_quay when true "Stone steps go down from the water-door into the river, green and slick below the waterline. The ribs of a sunken barge show through the water beside them.".
+  Observe {w}_cellar_scene at {w}_cellar when true "A long cellar under the warehouse, smelling of the river. Barrels lie on their sides in racks, every one stove in.".
+  Thing {w}_tariff "the tariff board" at {w}_hall {
+    State faded "The board behind the counter is painted in the kingdom's letters, column after column, faded but legible.".
+    State read "Wool, by the bale; salt, by the sack; wine, by the tun; slaves, by the head. Every boat on the river paid, going up and coming down, by right of the princes of {kingdom}.".
+    Change read "Read the tariff board" from faded to read.
+  }
+  Observe {w}_tariff_learned at {w}_hall when state({w}_tariff, read) "Under the tariff, smaller, the princes' charter: whose river it was, and by what right." teaches history_successors.
+  Thing {w}_chest "the toll-chest" at {w}_strong {
+    Holds.
+    State locked closed "The toll-chest is bolted to the floor and locked with three locks.".
+    State open "The toll-chest stands open.".
+    Change pick "Pick the toll-chest's three locks" from locked to open needing lockwork.
+    Change lever "Lever the toll-chest's lid off" from locked to open needing crowbar.
+  }
+  Thing {w}_iron_door "the strongroom door" on {w}_strong_door {
+    State shut blocking "The strongroom door is iron, and shut, and has no handle on this side; only a keyhole.".
+    State open "The strongroom door stands open on its hinges.".
+    Change pick "Pick the strongroom door's lock" from shut to open needing lockwork.
+    Change force "Force the strongroom door with a crowbar" from shut to open needing crowbar.
+  }
+  Item {w}_takings "{richname}" is {rich} in {w}_chest.
+  Item {w}_left "{commonname}" is {common} at {w}_counting.
+--- fall plague 1 if fallplague
+  Observe {w}_plague at {w}_store when true "The bales nearest the water-door are marked with a ship's mark and a date, and none of them was ever opened. Someone painted a red cross on the warehouse doors, and nailed them shut from the outside; the nails have rusted through.".
+  Observe {w}_last_plague at {w}_counting when true "Pinned over the clerks' desks, an order in the kingdom's letters: by the princes' command, no wool-ship to be unloaded, nor any man from one let ashore. The date on it is a week after the date on the bales.".
+--- fall winter 1 if fallwinter
+  Observe {w}_winter at {w}_quay when true "A row of boats lies on the bank above the water-stair, drawn up for the winter, as if the river had frozen and they had been hauled out of the ice, and nobody came back for them.".
+  Observe {w}_last_winter at {w}_counting when true "The last ledger lies open on a desk. Its last three pages are the same entry, a month apart: no boats.".
+--- fall heirs 1 if fallheirs
+  Observe {w}_heirs at {w}_hall when true "The tariff board has been painted over, half of it, with a different prince's name; and someone has scraped the new paint back off with a knife.".
+  Observe {w}_last_heirs at {w}_counting when true "The pigeonholes are full of writs: pay the toll to this heir, pay it to that one, on pain of the other's displeasure. The clerks seem to have stopped choosing.".
+--- fall raiders 1 if fallraiders
+  Observe {w}_raiders at {w}_quay when true "A chain as thick as a man's wrist runs from an iron post at the water-stair out into the river and down. It was stretched across the river once, to stop the ships. It did not.".
+  Observe {w}_last_raiders at {w}_store when true "The warehouse burned at its river end: the roof-beams there are charcoal, and the bales under them are ash in the shape of bales.".
+--- present smugglers 1
+  Person {w}_smugglers "river-smugglers" at {w}_cellar {
+    Role "smugglers who run goods past the tolls by the old culvert, and keep their store in the cellar". Ancestry human. Calling thief. Numbers 3. Level 2. Temperament wary. Lair {w}_cellar.
+    Warns "Someone hisses in the dark of the cellar, and three people stand up from behind the barrels with knives out. 'This is not your house.'".
+  }
+  Observe {w}_smugglers_sign at {w}_quay when true "Fresh rope is tied to one of the mooring-rings, and the steps are muddy with boots.".
+--- present rats 2
+  Person {w}_rats "rats" at {w}_store {
+    Role "rats as big as cats, that have the run of the warehouse". Species rat. Numbers 4. Level 1. Temperament territorial. Lair {w}_store.
+    Warns "The bales move. Rats as big as cats come out of them, and more behind.".
+  }
+--- present otters 1
+  Observe {w}_otters at {w}_quay when true "Otters have a holt among the barge-ribs; one watches you from the water, and goes under without a ripple.".
+--- hook strongroom 2
+  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old toll-house" when not knows(actor, {w}_named) once {
+    Says "'{name}, on the water in {where},' says {{merchant}}. 'The princes took their toll there, and the toll went into a strongroom, and nobody I ever heard of got the strongroom open. My grandfather tried, with a crowbar. He said the door laughed at him.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook lights 1
+  Topic {w}_hook with {teller} "Ask {{teller}} about the river" when not knows(actor, {w}_named) once {
+    Says "'There are lights on the water by {name} some nights, in {where},' says {{teller}}. 'Not ghosts. Ghosts do not row.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }

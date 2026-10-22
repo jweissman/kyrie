@@ -12,13 +12,27 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 18 | 3 | 1 | 4 | 12 |
+| 2 | 19 | 4 | 1 | 5 | 15 |
 
 #### worth, buysValuables, realized, valuable
 
 *Kyr · measure(itemkind); relation(group); relation(item); relation(itemkind)* · `rule:belongings.worth`
 
 What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and sold is the company's experience, the first time it is sold: its worth, to each who brought it.
+
+#### purse, appraised
+
+*Kyr · measure(group); relation(item, group)* · `rule:belongings.purse`
+
+How much coin a dealer keeps in the house: what they pay out, trade brings back by the next morning.
+
+#### purse_refilled
+
+*Kyr · rule* · `rule:belongings.purse_refilled`
+
+> When: untilLight(clock) == 1; purse(?m) > quantity(?m, gold)
+
+> Then: Set quantity(?m, gold) to purse(?m).
 
 #### owns, lends, objected
 
@@ -148,7 +162,21 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); not (ownedItem(cargo, recipient)); awake(recipient); ownedItem(cargo, carrier)
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); not (ownedItem(cargo, recipient)); awake(recipient); ownedItem(cargo, carrier)
+
+> Then: nothing changes
+
+#### take from
+
+*Kyr · action (group, item, member, member)* · `rule:belongings.take_from`
+
+- Shown as: Take {cargo} from {carrier} for {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+What a companion who has fallen, or cannot stir, was carrying, the others can take.
+
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); not (awake(carrier)); awake(recipient); ownedItem(cargo, carrier)
 
 > Then: nothing changes
 
@@ -178,7 +206,7 @@ Someone who buys this kind of thing pays what they said they would, if they have
 
 > Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); pays(buyer, form) >= 1; quantity(buyer, gold) >= pays(buyer, form); not (refusesService(buyer, actor))
 
-> Then: Assert keeps(buyer, ware). Decrease quantity(buyer, gold) by pays(buyer, form). Increase quantity(actor, gold) by pays(buyer, form).
+> Then: Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by pays(buyer, form). Increase quantity(actor, gold) by pays(buyer, form).
 
 #### sell valuable
 
@@ -193,6 +221,36 @@ Someone who deals in valuables pays what a thing is worth, if they have the coin
 > Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); buysValuables(buyer); valuable(form); worth(form) >= 1; pays(buyer, form) < 1; quantity(buyer, gold) >= worth(form); not (refusesService(buyer, actor))
 
 > Then: Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by worth(form). Increase quantity(actor, gold) by worth(form).
+
+#### appraise
+
+*Kyr · action (group, item, itemkind, member, group, place)* · `rule:belongings.appraise`
+
+- Shown as: Show {ware} to {buyer}
+- Takes: 10 minutes
+- Costs: 1
+
+A dealer without the coin for a treasure still says what it is worth, and whether to wait or go elsewhere.
+
+Someone who deals in valuables says what a thing is worth, when they have not the coin for it.
+
+> Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); buysValuables(buyer); valuable(form); worth(form) >= 1; pays(buyer, form) < 1; quantity(buyer, gold) < worth(form); purse(buyer) >= worth(form); not (appraised(ware, buyer)); not (refusesService(buyer, actor))
+
+> Then: Assert appraised(ware, buyer).
+
+#### appraise beyond
+
+*Kyr · action (group, item, itemkind, member, group, place)* · `rule:belongings.appraise_beyond`
+
+- Shown as: Show {ware} to {buyer}
+- Takes: 10 minutes
+- Costs: 1
+
+Someone who deals in valuables says what a thing is worth, when it is worth more than they ever have.
+
+> Needs: able(actor); at(actor, site); able(buyer); at(buyer, site); distinct(actor, buyer); memberOf(carrier, actor); awake(carrier); ownedItem(ware, carrier); itemKind(ware, form); buysValuables(buyer); valuable(form); worth(form) >= 1; pays(buyer, form) < 1; purse(buyer) < worth(form); not (appraised(ware, buyer)); not (refusesService(buyer, actor))
+
+> Then: Assert appraised(ware, buyer).
 
 #### put item
 
@@ -220,11 +278,11 @@ Someone who deals in valuables pays what a thing is worth, if they have the coin
 
 ### Rest, mending and lessons
 
-Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf, fieldUsable, awake, needsCare, canCast, treatable, restful, offeredAt, giftEffect, rewardFor, claimed.
+Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf, fieldUsable, awake, fallen, needsCare, canCast, treatable, restful, offeredAt, giftEffect, rewardFor, claimed.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 15 | 0 | 0 | 0 | 7 |
+| 6 | 16 | 0 | 0 | 0 | 7 |
 
 #### field spell
 
@@ -560,7 +618,7 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 They tell you what they know of it.
 
-> Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (toldBy(actor, informant, statement))
+> Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (knows(actor, statement))
 
 > Then: Assert knows(actor, statement). Retract assumesFalse(actor, statement). Assert toldBy(actor, informant, statement).
 
@@ -1212,7 +1270,7 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 3 | 2 | 0 | 0 | 4 |
+| 2 | 3 | 2 | 0 | 0 | 5 |
 
 #### take lodging
 
@@ -1235,6 +1293,22 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 - Costs: 1
 
 > Needs: able(actor); able(healer); distinct(actor, healer); at(actor, site); at(healer, site); not (refusesService(healer, actor)); offers(healer, service); serviceOf(service, healing); quantity(actor, gold) >= fee(service)
+
+> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service).
+
+#### take raising
+
+*Kyr · action (group, group, service, member, place)* · `rule:world_services.take_raising`
+
+- Shown as: Ask {healer} to raise {lost} from the dead
+- Takes: the untilMorning of the way
+- Costs: 1
+
+A priest who can call the dead back (Orsino's Raise Dead) does it at the shrine, for a great price, through a night's vigil: the companion comes back weak, with half their health, and what killed them gone.
+
+A night's vigil at the shrine, and the price of it. They come back with half their health.
+
+> Needs: able(actor); able(healer); distinct(actor, healer); at(actor, site); at(healer, site); not (refusesService(healer, actor)); offers(healer, service); serviceOf(service, raising); memberOf(lost, actor); fallen(lost); quantity(actor, gold) >= fee(service)
 
 > Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service).
 

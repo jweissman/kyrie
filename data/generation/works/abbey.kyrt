@@ -1,0 +1,106 @@
+# abbey: an abbey in a sheltered valley, where an order of the kingdom after the makers kept the old learning.
+@art abbots
+@kind ruin
+@ground meadow wood heath
+@near river
+@seen a roofless abbey
+@names cross, rest, bell, haven
+@danger 1
+--- outside
+  Observe {w}_abbey_seen at {w} when true "The church stands roofless at the bottom of the valley, its tall windows empty, its tower cut off at the bell-stage. Round it the walls of the cloister and the brothers' buildings make a square of grey stone among the nettles.".
+  Observe {w}_cut at {w} when true "Over the gatehouse arch, in the kingdom's letters, a line from the order's rule, and the house's name: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_lodge "the gatehouse" is room within {w}_site at 0, 1.
+  Place {w}_cloister "the cloister" is room within {w}_site at 1, 1.
+  Place {w}_church "the church" is room within {w}_site at 1, 0.
+  Place {w}_chapter "the chapter house" is room within {w}_site at 2, 1.
+  Place {w}_scriptorium "the scriptorium" is room within {w}_site at 2, 0.
+  Place {w}_cellar "the cellarium" is room within {w}_site at 1, 2.
+  Passage {w}_in "the gatehouse arch" is arch between {w} and {w}_lodge.
+  Passage {w}_walk "the cloister door" is door between {w}_lodge and {w}_cloister.
+  Passage {w}_nave "the processional door" is door between {w}_cloister and {w}_church.
+  Passage {w}_chapter_door "the chapter house door" is doorway between {w}_cloister and {w}_chapter.
+  Passage {w}_night_stair "the night stair" is stair between {w}_church and {w}_scriptorium.
+  Passage {w}_cellar_stair "the cellar steps" is steps between {w}_cloister and {w}_cellar.
+  Initially Assert unlit({w}_cellar).
+  Observe {w}_lodge_scene at {w}_lodge when true "The porter's lodge: a bench, a hatch to the road, a row of iron hooks for keys with no keys on them. Travellers were fed here, and taxed.".
+  Observe {w}_cloister_scene at {w}_cloister when true "A square of covered walks round a garth gone to grass, a well in the middle under a stone hood. The walks' roofs have fallen, but the arcades still stand, and the brothers' benches along the walls.".
+  Observe {w}_church_scene at {w}_church when true "The church is open to the sky. Grass grows in the nave, and saplings in the aisles; at the east end the altar still stands on its steps, a single block of stone. In the floor before it are the abbots' grave-slabs, worn smooth by the brothers' knees.".
+  Observe {w}_chapter_scene at {w}_chapter when true "A round room with a stone bench all the way round the wall, where the brothers sat to hear the rule and confess their faults. A lectern stands in the middle, and on it a great book under a skin of dust.".
+  Observe {w}_scriptorium_scene at {w}_scriptorium when true "A long room over the cloister walk, lit by a row of windows facing north for an even light. Sloping desks stand under them, ink dried black in the horns. At the end of the room stands a book-press, a tall cupboard of oak with iron bands.".
+  Observe {w}_cellar_scene at {w}_cellar when true "A vaulted cellar under the brothers' range, where the house kept its wine and its rents in kind. The barrels have long since rotted to hoops.".
+  Thing {w}_chronicle "the house chronicle" at {w}_chapter {
+    State dusty "A great book lies on the lectern, under a skin of dust.".
+    State read "The house's chronicle, in the kingdom's letters, a hand for every generation: abbots elected and buried, rents taken in, roads mended, the kingdom of {kingdom} and its lords. The last hand is not like the others.".
+    Change read "Blow the dust off the chronicle and read it" from dusty to read.
+  }
+  Observe {w}_chronicle_learned at {w}_chapter when state({w}_chronicle, read) "Read from the first page, the chronicle is the history of the kingdom the house served, as the brothers saw it." teaches history_successors.
+  Thing {w}_press "the book-press" at {w}_scriptorium {
+    Holds.
+    State locked closed "The book-press is locked, its iron bands sound. Through the gap between its doors you can see the spines of books.".
+    State open "The book-press stands open.".
+    Change pick "Pick the book-press's lock" from locked to open needing lockwork.
+    Change lever "Lever the book-press open" from locked to open needing crowbar.
+    Change break "Break the book-press's doors in" from locked to open needing brawn.
+  }
+  Item {w}_glossary "the brothers' glossary of the old script" is old_glossary in {w}_press.
+  Item {w}_books "{commonname}" is {common} in {w}_press.
+  Thing {w}_copies "the copied inscriptions" at {w}_scriptorium {
+    State unread "Loose leaves are pinned to the wall over the desks: rubbings and copies of inscriptions in the old script, from stones all over the country, with the brothers' notes in the margins.".
+    State read "The brothers went out to every old stone in the country and copied what was cut there, and worked out what the old script said. Their notes run all over the margins, arguing with each other.".
+    Change read "Read the copied inscriptions" from unread to read needing lore.
+  }
+  Observe {w}_copies_learned at {w}_scriptorium when state({w}_copies, read) "With the glossary beside them the copies make sense, and the brothers' notes argue their way to who the old people were, and how they ended." teaches history_makers.
+  Observe {w}_copies_fate at {w}_scriptorium when state({w}_copies, read) "One leaf, copied from a stone the brothers marked as the oldest they found, is the old people's own account of their end." teaches history_fate.
+--- fall plague 1 if fallplague
+  Observe {w}_plague at {w}_cloister when true "The garth was dug for graves, row on row, until there was no more room in it and the last of them were laid in the walks. There are no names on any of them.".
+  Observe {w}_last_plague at {w}_chapter when state({w}_chronicle, read) "The last hand writes that the brothers took in the sick from the river villages, as the rule bids. Then that they buried them. Then the brothers' own names, one under another, in a hand that gets smaller. The last name has no hand after it to write it.".
+  Item {w}_relic "{richname}" is {rich} at {w}_church.
+--- fall winter 1 if fallwinter
+  Observe {w}_winter at {w}_scriptorium when true "The shelves along the walls are empty. Black flakes in the hearth at the end of the room are what is left of the books.".
+  Observe {w}_last_winter at {w}_chapter when state({w}_chronicle, read) "The last hand writes of the third winter: that the river froze to the bottom, that the rents did not come, that the brothers burned the books one by one to live, the least needful first, and kept back the ones in the press to the very end.".
+  Item {w}_relic "{richname}" is {rich} at {w}_church.
+--- fall heirs 1 if fallheirs
+  Observe {w}_heirs at {w}_church when true "The altar has been stripped, and the abbots' slabs prised up and dropped back crooked. Whoever did it was looking for the house's plate.".
+  Observe {w}_last_heirs at {w}_chapter when state({w}_chronicle, read) "The last hand writes that the lord's sons both sent to the house for its plate, to pay their war, and that the abbot sent to neither, and had it hidden under the cellar floor; and that the younger son's men came.".
+  Item {w}_relic "{richname}" is {rich} at {w}_cellar hidden until {w}_plate_found.
+  Discovery {w}_plate_found "Under a flagstone of the cellar floor the abbot's plate was hidden, and has not been found." {
+    Found by searching {w}_cellar "One flagstone of the cellar floor rings hollow, and lifts.".
+  }
+--- fall raiders 1 if fallraiders
+  Observe {w}_raiders at {w}_church when true "The church burned with its roof: the stones of the arcade are cracked and reddened, and the lead of the windows lies melted in the grass.".
+  Observe {w}_last_raiders at {w}_chapter when state({w}_chronicle, read) "The last hand writes that the ships came up the river at midsummer, as every summer, and that this summer the brothers carried the house's plate down into the cellar and walled it in.".
+  Item {w}_relic "{richname}" is {rich} at {w}_cellar hidden until {w}_plate_found.
+  Discovery {w}_plate_found "Behind new stonework in the cellar the brothers walled in the house's plate." {
+    Found by searching {w}_cellar "One bay of the cellar wall is newer stone than the rest, laid without care, and it comes away.".
+  }
+--- present hermit 2
+  Person {w}_hermit "the hermit" at {w}_church {
+    Role "a hermit who lives in the ruined church, and has read every book the brothers left". Ancestry human. Profession priest. Level 2. Peaceable.
+  }
+  Observe {w}_hermit_seen at {w}_church when true "A lean-to of branches stands against the altar steps, and a fire is kept in a ring of stones in the nave.".
+  Topic {w}_hermit_tells with {w}_hermit "Ask {{w}_hermit} about the brothers" when true once {
+    Says "'They kept the old learning,' says {{w}_hermit}, 'which is to say, they went out to every stone in the country with ink and parchment and copied what was cut on it, and argued for three hundred years over what it meant. Their glossary is in the press in the scriptorium. With it you could read the old stones yourselves. I have, all of them, near enough.'".
+  }
+  Topic {w}_hermit_makers with {w}_hermit "Ask {{w}_hermit} about the old people" when true once {
+    Says "'{craft} {belief}' {{w}_hermit} pokes the fire. 'So the brothers worked out, from the stones. They thought the old people were wiser than any since. I think they were only older.'".
+    On discuss { Assert knows(actor, history_makers). }
+  }
+--- present wisps 1
+  Person {w}_wisps "lights in the cloister" at {w}_cloister {
+    Role "pale lights that go round and round the cloister walks, as the brothers did". Species wisp. Numbers 2. Level 1. Temperament wary. Lair {w}_cloister.
+    Warns "Two pale lights come along the cloister walk toward you, slowly, at the height a man carries a candle.".
+  }
+--- present rooks 1
+  Observe {w}_rooks at {w}_church when true "Rooks nest in the stump of the tower, and their racket fills the church.".
+--- hook learning 2
+  Topic {w}_hook with {priest} "Ask {{priest}} about the old order" when not knows(actor, {w}_named) once {
+    Says "'Before our time there was an order of brothers at {name}, in {where},' says {{priest}}. 'They kept the old learning, and could read the old script, they say. If their books are still there, they are worth more than anything else in the place.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook bells 1
+  Topic {w}_hook with {keeper} "Ask {{keeper}} about the ruined abbey" when not knows(actor, {w}_named) once {
+    Says "'{name}, down in {where},' says {{keeper}}. 'No bell in it these three hundred years, and yet on still nights you hear one, once, about midnight. My father heard it. I have not, and I do not want to.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }

@@ -1032,7 +1032,7 @@ Moving unseen and unheard: slipping past a watcher, a guardian or a beast withou
 
 *Kyr* · `skill:lore`
 
-- Brought by: Mage, Bard, Learning backgrounds, The stage backgrounds
+- Brought by: Mage, Bard, Learning backgrounds, The stage backgrounds, Glossary of the old script
 
 Old histories, scripts and the workings of magic: reading what others only see.
 
@@ -4193,6 +4193,17 @@ Brings Sunlight to whoever carries it equipped.
 - Worth: 4
 
 > A smooth face of grey fired clay, without eyes or mouth, with a single notch where a brow would be. It rings when it is struck.
+
+#### Glossary of the old script
+
+*Kyr · equipment* · `item:old_glossary`
+
+- Worth: 60
+- Worn: book
+
+Brings Lore to whoever carries it equipped.
+
+> A fat book in wooden boards, in which brothers of a dead order wrote the old script's letters beside their own, and copied out whole inscriptions with what they meant. Carried and studied, it lets its reader make out the old script.
 
 ## Combat
 

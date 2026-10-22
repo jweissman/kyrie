@@ -338,24 +338,108 @@
       {
         "id": "warlords",
         "were": "warlords who built keeps on every height and fought one another for the roads",
-        "made": "keeps and watch-posts"
+        "made": "keeps and watch-posts",
+        "plan": "keep",
+        "modifiers": [
+          "high",
+          "iron",
+          "red",
+          "black",
+          "stone",
+          "gray",
+          "dread",
+          "battle"
+        ],
+        "treasure": {
+          "common": [
+            "steel_coin",
+            "broken_dagger",
+            "iron_idol",
+            "broken_scepter"
+          ],
+          "rich": [
+            "jeweled_crown",
+            "royal_scepter",
+            "jeweled_dagger"
+          ]
+        }
       },
       {
         "id": "abbots",
         "were": "an order of monks who kept the old learning and the roads, and taxed both",
-        "made": "chapels, bridges and an abbey"
+        "made": "chapels, bridges and an abbey",
+        "plan": "abbey",
+        "modifiers": [
+          "holy",
+          "white",
+          "pale",
+          "golden",
+          "sweet",
+          "candle",
+          "light",
+          "divine"
+        ],
+        "treasure": {
+          "common": [
+            "faded_tome",
+            "tattered_tome",
+            "wooden_idol",
+            "bronze_statue"
+          ],
+          "rich": [
+            "ancient_tome",
+            "golden_idol",
+            "lost_tome"
+          ]
+        }
       },
       {
         "id": "princes",
         "were": "merchant-princes who grew rich on the river trade",
-        "made": "bridges, toll-houses and warehouses"
+        "made": "bridges, toll-houses and warehouses",
+        "plan": "tollhouse",
+        "modifiers": [
+          "gold",
+          "silver",
+          "salt",
+          "wine",
+          "wide",
+          "golden",
+          "treasure",
+          "prince"
+        ],
+        "treasure": {
+          "common": [
+            "steel_coin",
+            "hand_mirror",
+            "smoking_pipe",
+            "music_box"
+          ],
+          "rich": [
+            "jeweled_box",
+            "golden_idol",
+            "royal_crown"
+          ]
+        }
       }
     ],
     "falls": [
-      "a plague that came up the river in a wool-ship and left whole villages empty",
-      "a winter that lasted into the summer, three years together, and the famine after it",
-      "a war among their heirs that went on until there was nothing left to inherit",
-      "raiders from over the sea, who came every summer until there was no one left to raid"
+      {
+        "id": "plague",
+        "text": "a plague that came up the river in a wool-ship and left whole villages empty"
+      },
+      {
+        "id": "winter",
+        "text": "a winter that lasted into the summer, three years together, and the famine after it"
+      },
+      {
+        "id": "heirs",
+        "text": "a war among their heirs that went on until there was nothing left to inherit"
+      },
+      {
+        "id": "raiders",
+        "text": "raiders from over the sea, who came every summer until there was no one left to raid"
+      }
     ]
   }
 }

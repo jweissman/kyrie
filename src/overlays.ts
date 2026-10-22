@@ -87,8 +87,9 @@ export class Overlays {
   // every candidate is declared and only the drawn ones are ever owned.
   static startingCandidates(c: { raceId?: string; classId?: string; weapon?: string; armor?: string }): string[] {
     if (c.raceId && Canon.isSpecies(c.raceId)) { return []; }
-    const classes = c.classId ? [Canon.classes[Canon.resolve('classes', c.classId)]!]
-      : Object.values(Canon.classes).filter(k => k.adventuring !== false);
+    const named = c.classId ? Canon.classes[Canon.resolve('classes', c.classId)] : undefined;
+    if (c.classId && !named) { throw new Error(`No calling ${c.classId}: it is none of ${Object.keys(Canon.classes).join(', ')}`); }
+    const classes = named ? [named] : Object.values(Canon.classes).filter(k => k.adventuring !== false);
     const tables = [...c.weapon ? [c.weapon] : classes.flatMap(k => k.weapons),
       ...c.armor ? [c.armor] : classes.flatMap(k => k.armor)];
     return [...new Set(tables.filter(k => Canon.items[k] && !Canon.items[k]!.weapon?.natural))];
