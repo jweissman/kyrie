@@ -312,7 +312,7 @@ a { color: var(--accent); }
   .reader.view-company .column > .scene, .reader.view-pack .column > .scene,
   .reader.view-journal .column > .scene { display: none; }
   .aside.view-map .backdrop { opacity: 1; background: var(--paper); overflow-x: auto; place-items: center start; }
-  .aside.view-map .backdrop svg.region { min-width: calc(var(--span, 2) * 3.4rem + 8rem); }
+  .aside.view-map .backdrop svg.region { min-width: calc(var(--span, 2) * 3.4rem + 15rem); }
   .details { padding: 1.6rem 1.25rem 6rem; }
   .details .close { top: .9rem; }
   .group .label { position: static; width: auto; text-align: left; padding: 0 0 .15rem; }
