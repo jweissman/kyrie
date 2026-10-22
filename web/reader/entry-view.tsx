@@ -6,7 +6,8 @@ import { Words } from './words';
 // speech. An entry is drawn once and kept; nothing the player does afterwards redraws it.
 export class EntryView {
   static View({ entry, latest, prose }: { entry: Entry; latest: boolean; prose: string[] }) {
-    const lines = entry.lines.filter(l => !prose.includes(l));
+    // A line the page already says of the place, alone or within a paragraph, is not said again.
+    const lines = entry.lines.filter(l => !prose.some(p => p.includes(l)));
     if (!entry.said && !lines.length && !entry.notes.length) { return null; }
     return (
       <article className={`entry tone-${entry.tone}${latest ? ' latest' : ''}`} data-entry={entry.id}>

@@ -5,6 +5,8 @@ import type { Entry } from './protocol';
 
 export interface Said {
   id: number; said: string; move: boolean; moved: boolean; place: string; placeName: string; elapsed: number;
+  // The label leaves out what it is about ("Take", in a list headed by the thing): the action's own name says it.
+  named?: boolean;
 }
 
 // What a command leaves on the page. The page echoes what the company did, then tells what came of it, once: a
@@ -23,7 +25,7 @@ export class PlayTranscript {
       ...(c.moved ? [] : f.observations), ...f.events];
     const told = Narration.tidy([...new Set(lines.filter(Boolean))],
       fight ? event.combat.filter(e => e.type === 'action').length : 0);
-    const said = told.join(' '), echo = c.said.includes(' › ') ? f.attempt : c.said;
+    const said = told.join(' '), echo = c.named || c.said.includes(' › ') ? f.attempt : c.said;
     const notes = [...f.resources.map(r => this.resource(r)),
       ...f.discoveries.filter(d => !said.includes(d)).map(d => `◆ In the journal: ${this.gist(d)}`)];
     return { id: c.id, at: f.time.split(' · ').at(-1)!, elapsed: c.elapsed, place: c.place, placeName: c.placeName,

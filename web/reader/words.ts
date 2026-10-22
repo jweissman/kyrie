@@ -15,7 +15,9 @@ export class Words {
     'light', 'use', 'equip', 'make', 'rest', 'speak', 'follow', 'climb', 'examine', 'puzzle', 'turn', 'pin', 'lash',
     'brace', 'set', 'return', 'enter', 'leave', 'hide', 'bribe', 'offer', 'call', 'go', 'walk', 'lift', 'drop',
     'break', 'burn', 'listen', 'pry', 'push', 'prod', 'sleep', 'camp', 'hand', 'put', 'hire', 'eat', 'drink', 'pray',
-    'study', 'sneak', 'slip', 'risk', 'swim', 'wade', 'cross', 'dig', 'unlock', 'lock', 'cut', 'free', 'warn']);
+    'study', 'sneak', 'slip', 'risk', 'swim', 'wade', 'cross', 'dig', 'unlock', 'lock', 'cut', 'free', 'warn',
+    'collect', 'get', 'untie', 'tie', 'stake', 'heave', 'fit', 'lever', 'draw', 'ring', 'bury', 'claim', 'try', 'mend',
+    'raise', 'lower', 'unbar', 'fill', 'cover', 'uncover', 'strike', 'cast', 'prepare', 'learn', 'advance']);
   // A choice as the page echoes it: "Ask Wren what is wrong" is "You ask Wren what is wrong."
   static echo(label: string): string {
     const first = label.split(/\s/)[0]!.toLowerCase();

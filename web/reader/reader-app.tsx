@@ -6,6 +6,7 @@ import { MenuModel, type Menu, type View } from './menu-model';
 import { ReaderStore, type SavedGame } from './reader-store';
 import { ReaderKeys } from './reader-keys';
 import { ReaderOpening } from './reader-opening';
+import { Words } from './words';
 import { TitlePage } from './title-page';
 import { CampaignPage } from './campaign-page';
 import { CompanyPage } from './company-page';
@@ -95,8 +96,15 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       this.engine.request({ kind: 'fight', choice: choice.command }).catch(this.failed);
       return;
     }
-    void this.perform(choice, said);
+    void this.perform(choice, said, this.unnamed(choice));
   };
+  // A choice whose label leaves out what it is about ("Take", "Attack", in a list headed by the thing or the creature).
+  private unnamed(choice: Choice): boolean {
+    const section = this.menu.trail.length ? undefined : this.menu.sections.find(s => s.choices.some(c => c.id === choice.id));
+    if (!section || ['way', 'company'].includes(section.tone)) { return false; }
+    const subject = Words.short(section.title).replace(/^(a|an|the) /i, '').toLowerCase();
+    return !choice.label.toLowerCase().includes(subject);
+  }
   // Let the companion whose turn it is fight this turn on their own.
   readonly auto = () => {
     if (!this.state.frame?.combat?.ours || this.state.pending) { return; }
@@ -106,13 +114,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   private readonly failed = (error: unknown) => {
     this.setState({ pending: undefined, error: error instanceof Error ? error.message : String(error) });
   };
-  private async perform(choice: Choice, said: string) {
+  private async perform(choice: Choice, said: string, named: boolean) {
     const frame = this.state.frame!, travel = this.travel(choice, frame);
     this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '', history: false });
     const started = performance.now();
     try {
       const next = await this.engine.request<Frame>({ kind: 'perform', command: choice.command!, said,
-        move: choice.tone === 'way' });
+        move: choice.tone === 'way', named });
       // A journey is shown for long enough to be seen, whatever the engine took.
       if (travel) { await new Promise(r => setTimeout(r, Math.max(0, this.journey(travel) - performance.now() + started))); }
       this.setState({ frame: next, pending: undefined, cursor: 0, trail: [], hovered: undefined,

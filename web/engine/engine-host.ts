@@ -32,7 +32,8 @@ export class EngineHost {
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
       case 'resume': return this.resume(request.saved);
-      case 'perform': return this.perform(request.command, { said: request.said, move: request.move });
+      case 'perform': return this.perform(request.command, { said: request.said, move: request.move,
+        named: !!request.named });
       case 'fight': this.fight(request.choice); return null;
       case 'checkpoint': return this.session ? JSON.stringify(this.session.checkpoint()) : null;
     }
@@ -54,7 +55,7 @@ export class EngineHost {
     this.opening = []; this.screen = undefined;
     return this.settled();
   }
-  private async perform(command: string, context: { said: string; move: boolean }): Promise<Frame> {
+  private async perform(command: string, context: { said: string; move: boolean; named: boolean }): Promise<Frame> {
     const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
     const campaign = session.campaign, before = PlayerView.observe(campaign);

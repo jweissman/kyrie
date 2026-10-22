@@ -133,7 +133,7 @@ Module longman "The Long Man" {
   // The storm comes on the third day; two hours after midnight the Long Man breaks, unless its leak is shut or the
   // lake is drawn down.
   Relation storming(). Relation broke(place). Relation drowned(place). Relation drawn(place).
-  Rule storm_comes when watch(clock) >= 312 and not storming() says "The wind goes round to the north, and the rain comes in over the fell in grey ropes." { Assert storming(). }
+  Rule storm_comes when watch(clock) >= 312 and not storming() and not calm(long_man) says "The wind goes round to the north, and the rain comes in over the fell in grey ropes." { Assert storming(). }
   Observe storm_scene at crest when storming() "Rain drives across the crest. Hollow Water has come up the lake face of the Long Man, grey and heaving, nearer than it was.".
   Rule field_wets when watch(clock) >= 240 and not state(leak_gate, mended) and not drowned(low_field) { Assert drowned(low_field). }
   Rule long_man_breaks when watch(clock) >= 396 and not state(leak_gate, mended) and not drawn(hollow) and not broke(long_man)
@@ -152,4 +152,10 @@ Module longman "The Long Man" {
   Relation lostToWater(group).
   Rule folk_lost when broke(long_man) and at(folk, green) { Assert lostToWater(folk). Assert at(folk, core). }
   Observe folk_saved at yard when at(folk, yard) and broke(long_man) "Merrow stands in the Hall yard in the rain, and looks down the lane at where it lived.".
+  // The morning after the third night: the storm passes, and the dale is what the three days made it.
+  Relation calm(place).
+  Rule storm_passes when watch(clock) >= 432 and storming() says "The rain stops before dawn. The wind drops, and the dale lies under a washed, colourless sky." { Retract storming(). Assert calm(long_man). }
+  Observe after_mended at green when calm(long_man) and not broke(long_man) and not drawn(hollow) "The beck runs brown but low between its banks, and nobody on the green is talking about the Long Man. The springs at its foot, people say, have nearly stopped.".
+  Observe after_drawn at green when calm(long_man) and drawn(hollow) "Children stand on the dyke looking north, where the roofs of a grey town show above Hollow Water for the first time in a thousand years.".
+  Observe after_broken at yard when calm(long_man) and broke(long_man) "Below the Hall the dale is one brown water from the ridge to the willows. The Long Man has a gap in it a hundred yards wide, and the lake is going out through it.".
 }

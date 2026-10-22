@@ -59,7 +59,7 @@ export type Request =
   | { kind: 'preview'; party: Member[]; generated: boolean }
   | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string }
   | { kind: 'resume'; saved: string }
-  | { kind: 'perform'; command: string; said: string; move: boolean }
+  | { kind: 'perform'; command: string; said: string; move: boolean; named?: boolean }
   // A companion's choice in a fight ("ability>target"); none lets them fight this turn on their own.
   | { kind: 'fight'; choice?: string }
   | { kind: 'checkpoint' };
