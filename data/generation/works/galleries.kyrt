@@ -82,12 +82,12 @@
 --- successors forgotten 1
   Observe {w}_dust at {w}_adit when true "Nothing in the dust but the tracks of small animals.".
 --- present spiders 2
-  Person {w}_spiders "cave spiders" at {w}_head {
+  Person {w}_spiders "the cave spiders" at {w}_head {
     Role "spiders as big as a cat, nesting in the frame over the shaft". Species cave_spider. Numbers 3. Level 1. Temperament ambush.
     Comes "Something drops out of the iron frame overhead, and then another.".
   }
 --- present goblins 1
-  Person {w}_goblins "goblins" at {w}_adit {
+  Person {w}_goblins "the goblins" at {w}_adit {
     Role "a band of goblins who have made a home of the upper galleries". Ancestry goblin. Calling thief. Numbers 3. Temperament wary. Refuge {w}_fall.
   }
 --- present empty 2

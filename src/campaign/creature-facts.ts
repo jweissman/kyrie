@@ -61,10 +61,12 @@ export class CreatureFacts {
     const own = kinds.size === 1 && kind && words.has(kind);
     const temper = given ?? (own ? kind : undefined);
     if (!temper) { return []; }
-    const scripted = world.related('state', group).length > 0;
+    const scripted = world.related('state', group).length > 0, many = members.length > 1;
     const said = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
-      // The shared words live in whichever installation joined the inhabitants rules first.
-      const entity = words.get(`${temper.replace(/^temper_/, 'temper_words_')}_${name}`);
+      // The shared words live in whichever installation joined the inhabitants rules first. A band of more than one
+      // is spoken of as many ("the wolves come at you"), where the words differ.
+      const plain = `${temper.replace(/^temper_/, 'temper_words_')}_${name}`;
+      const entity = (many ? words.get(`${plain}_many`) : undefined) ?? words.get(plain);
       return world.related(name, group).length || !entity ? [] : [ModuleWriter.call(name, group, entity)];
     });
     return [...given ? [] : [ModuleWriter.call('temperament', group, temper)], ...said]

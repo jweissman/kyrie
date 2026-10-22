@@ -67,7 +67,7 @@
 --- sight far 1 if sight
   Observe {w}_far at {w}_walk when true "Far off to the {sightside} the lord's men would have seen what you see now: {sightseen}." teaches {sight}_found.
 --- present wolves 2
-  Person {w}_wolves "wolves" at {w}_bailey {
+  Person {w}_wolves "the wolves" at {w}_bailey {
     Role "a wolf pack that dens in the ruined guardrooms, and hunts the road". Species wolf. Numbers 3. Level 1. Temperament territorial. Lair {w}_bailey.
     Warns "Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall.".
   }

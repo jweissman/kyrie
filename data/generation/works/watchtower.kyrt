@@ -59,7 +59,7 @@
     Warns "A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back.".
   }
 --- present lookouts 1
-  Person {w}_lookouts "lookouts" at {w}_floor {
+  Person {w}_lookouts "the lookouts" at {w}_floor {
     Role "hard men who keep watch from the tower for someone who pays them". Ancestry human. Calling ranger. Numbers 2. Temperament territorial.
   }
 --- present ravens 2

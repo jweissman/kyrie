@@ -7,7 +7,8 @@ import type { CampaignEvent } from '../src/campaign/campaign-types';
 
 // Creatures that live somewhere answer those who come in by their temperament, through one shared rules module: a
 // defensive bear warns and fights for its den; wary wolves slip away and fight only when cornered; a proud drake names
-// a price; glooms fear sunlight. The words are the place's; the behaviour is the rules'.
+// a price; glooms fear sunlight. The words are the place's; the behaviour is the rules'. Rats the place gives no
+// words speak in the plain words of their temperament.
 const site = `Module den_site "A cave on the fell" {
   Place fell "The fell" is region.
   Place cave "The cave" is wilderness within fell.
@@ -18,6 +19,8 @@ const site = `Module den_site "A cave on the fell" {
   Passage way_in "the way in" is passage between mouth and den.
   Passage scramble "a scramble" is passage between den and ledge.
   Passage shelf_way "a crack in the rock" is passage between mouth and hoard.
+  Place warren "the rat-warren" is room within cave.
+  Passage burrow "a low burrow" is passage between mouth and warren.
   Company party "Party" of 3 at mouth.
   Initially Set quantity(party, gold) to 30.
   Person bear "the cave bear" at den { Role "a great bear". Species bear. }
@@ -33,6 +36,7 @@ const site = `Module den_site "A cave on the fell" {
   Entity drake_eats: fact "The drake has waited long enough.".
   Initially Assert lair(drake, hoard). Initially Assert warning(drake, drake_price). Initially Assert onslaught(drake, drake_eats).
   Initially Set tribute(drake) to 10.
+  Person rats "the rats" at warren { Species rat. Numbers 3. Temperament territorial. }
   Goal false.
 }`;
 class Den {
@@ -84,5 +88,10 @@ describe('inhabitants', () => {
     expect(Den.holds(c, 'tolerates', 'cave__drake', 'party')).toBe(true);
     const later = Den.act(c, l => l.startsWith('Wait a while'));
     expect(later.combat.length).toBe(0);
+  }, 60000);
+  it('speaks of a band the place gives no words of its own as many', async () => {
+    const c = await Den.load();
+    const enter = Den.act(c, l => l.includes('low burrow'));
+    expect(Den.said(enter)).toContain('The rats stand their ground and watch you. They will not have you here for long.');
   }, 60000);
 });

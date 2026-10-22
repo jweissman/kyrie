@@ -30,6 +30,17 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_wary_flinch: fact "{?g} slips away from you.".
   Entity temper_words_wary_onslaught: fact "Cornered, {?g} turns on you.".
   Entity temper_words_proud_warning: fact "{?g} looks at you as if you owed it something.".
+  // The same words for a band of more than one, where they differ.
+  Entity temper_words_territorial_warning_many: fact "{?g} stand their ground and watch you. They will not have you here for long.".
+  Entity temper_words_territorial_onslaught_many: fact "{?g} come at you.".
+  Entity temper_words_defensive_onslaught_many: fact "{?g} come at you to drive you off.".
+  Entity temper_words_savage_onslaught_many: fact "{?g} come at you without a sound.".
+  Entity temper_words_ambush_warning_many: fact "Something is waiting here, and you see them before they move: {?g}.".
+  Entity temper_words_ambush_onslaught_many: fact "{?g} spring out at you.".
+  Entity temper_words_obedient_onslaught_many: fact "{?g} come at you, as they were made to.".
+  Entity temper_words_wary_flinch_many: fact "{?g} slip away from you.".
+  Entity temper_words_wary_onslaught_many: fact "Cornered, {?g} turn on you.".
+  Entity temper_words_proud_warning_many: fact "{?g} look at you as if you owed them something.".
   // Watches it waits, once it has warned, before it comes at whoever stays.
   Measure patience(group).
   Query confronts(g: group, c: group) means together(g, c) and company(c) and able(g) and not routed(g)
