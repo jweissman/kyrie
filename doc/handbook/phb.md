@@ -5753,6 +5753,126 @@ Cannot act, takes 2d6 (2–12) acid damage each turn.
 
 > Exhausted and weakened.
 
+### Favour of chaos
+
+*Kyr · lasts beyond a fight* · `condition:favor_chaos`
+
++1d6 damage, charisma +2.
+
+> The favour of a god of chaos, asked for at a shrine.
+
+### Favour of darkness
+
+*Kyr · lasts beyond a fight* · `condition:favor_darkness`
+
+Resists 20% of necrotic.
+
+> The favour of a god of darkness, asked for at a shrine.
+
+### Favour of death
+
+*Kyr · lasts beyond a fight* · `condition:favor_death`
+
++1 to hit, +1d4 damage, resists 20% of necrotic.
+
+> The favour of a god of death, asked for at a shrine.
+
+### Favour of knowledge
+
+*Kyr · lasts beyond a fight* · `condition:favor_knowledge`
+
+Intelligence +2, wisdom +1.
+
+> The favour of a god of knowledge, asked for at a shrine.
+
+### Favour of life
+
+*Kyr · lasts beyond a fight* · `condition:favor_life`
+
++3 healing, immune to poison, immune to disease, heal 1d2 - 1 (0–1) each turn.
+
+> The favour of a god of life, asked for at a shrine.
+
+### Favour of light
+
+*Kyr · lasts beyond a fight* · `condition:favor_light`
+
++1 to hit, +2 healing.
+
+> The favour of a god of light, asked for at a shrine.
+
+### Favour of love
+
+*Kyr · lasts beyond a fight* · `condition:favor_love`
+
+Charisma +2, immune to charm.
+
+> The favour of a god of love, asked for at a shrine.
+
+### Favour of magic
+
+*Kyr · lasts beyond a fight* · `condition:favor_magic`
+
+Intelligence +1, wisdom +1.
+
+> The favour of a god of magic, asked for at a shrine.
+
+### Favour of nature
+
+*Kyr · lasts beyond a fight* · `condition:favor_nature`
+
+Dexterity +1, constitution +1.
+
+> The favour of a god of nature, asked for at a shrine.
+
+### Favour of oceans
+
+*Kyr · lasts beyond a fight* · `condition:favor_oceans`
+
+Constitution +2, resists 50% of cold.
+
+> The favour of a god of oceans, asked for at a shrine.
+
+### Favour of order
+
+*Kyr · lasts beyond a fight* · `condition:favor_order`
+
+1 harder to hit, wisdom +2, immune to fear.
+
+> The favour of a god of order, asked for at a shrine.
+
+### Favour of poison
+
+*Kyr · lasts beyond a fight* · `condition:favor_poison`
+
+Resists 50% of poison, immune to disease.
+
+> The favour of a god of poison, asked for at a shrine.
+
+### Favour of storms
+
+*Kyr · lasts beyond a fight* · `condition:favor_storms`
+
++1 damage, strength +1, dexterity +1.
+
+> The favour of a god of storms, asked for at a shrine.
+
+### Favour of trickery
+
+*Kyr · lasts beyond a fight* · `condition:favor_trickery`
+
+Dexterity +2, charisma +1.
+
+> The favour of a god of trickery, asked for at a shrine.
+
+### Favour of war
+
+*Kyr · lasts beyond a fight* · `condition:favor_war`
+
++2 damage, strength +1.
+
+> The favour of a god of war, asked for at a shrine.
+
 ### Feebleminded
 
 *Not playable · lasts the fight at most* · `condition:feebleminded`

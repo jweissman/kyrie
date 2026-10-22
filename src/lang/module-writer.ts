@@ -75,7 +75,8 @@ export class ModuleWriter {
   private static entity(entity: Module['entities'][number]): string {
     if (entity.space) {
       const grid = entity.space.grid ? ` at ${entity.space.grid[0]}, ${entity.space.grid[1]}` : '';
-      return `  Place ${entity.id} ${JSON.stringify(entity.name)} is ${entity.space.kind}${entity.space.parent ? ` within ${entity.space.parent}` : ''}${grid}.`;
+      const alias = entity.alias ? ` seen as ${JSON.stringify(entity.alias.name)} until ${entity.alias.until}` : '';
+      return `  Place ${entity.id} ${JSON.stringify(entity.name)} is ${entity.space.kind}${entity.space.parent ? ` within ${entity.space.parent}` : ''}${grid}${alias}.`;
     }
     if (entity.exit) {
       const e = entity.exit;

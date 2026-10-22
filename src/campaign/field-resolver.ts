@@ -46,7 +46,7 @@ export class FieldResolver {
   private static items(action: Operator, call: Call, host: FieldHost): CombatEvent[] {
     const { creatures, seed } = host, label = ObservationText.label(host.world, call.args[0]!);
     if (call.name === 'bless') { return Items.bless(creatures,
-      { source: call.args[0]!, deity: call.args[1]!, target: call.args[2]!, seed }); }
+      { source: call.args[0]!, faith: call.args[1]!, target: call.args[2]!, seed, name: label }); }
     if (call.name === 'equip') { return Items.equip(creatures, call.args[1]!, call.args[0]!, label); }
     if (call.name === 'consume') { return Items.consume(creatures,
       { owner: call.args[1]!, target: call.args[2]!, id: call.args[0]!, seed }); }

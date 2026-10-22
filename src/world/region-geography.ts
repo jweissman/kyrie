@@ -100,27 +100,11 @@ export class RegionGeography {
     const shore = this.mere(region) && !this.seats(region).some(s => s.form);
     return [...pass ? ['summit'] : [], ...shore ? ['lake_land', 'lake_shore'] : []];
   }
-  // The land, roads and sites of a region, as Kyr.
+  // The land and roads of a region, as Kyr; its sites are RegionSites'.
   static lines(region: Region): string[] {
-    const q = JSON.stringify, lines = this.roads(region).flatMap(r => this.road(r, region));
-    const seats = this.seats(region), mere = this.mere(region);
-    if (mere && !seats.some(s => s.form)) { lines.push(...this.shore(region, mere)); }
-    for (const seat of seats) {
-      const { site, town, land, spot: [x, y], form } = seat;
-      const name = form ? form.name : `the ${this.country[region.terrain] ?? 'country'} ${this.compass(this.town(region.settlements.indexOf(town)), seat.spot)} of ${town.name}`;
-      lines.push(`  Place ${land} ${q(name)} is wilderness within region at ${x}, ${y}.`,
-        `  Place ${site.id} ${q(site.name)} is room within ${land} at 1, 1.`,
-        `  Passage ${site.id}_track ${q(`the track to ${site.name}`)} is track between ${town.id}_green and ${site.id} taking ${site.hours} hour${site.hours === 1 ? '' : 's'}.`,
-        `  Observe ${site.id}_scene at ${site.id} when true ${q(this.site(seat, region))}.`);
-      if (form) { lines.push(`  Initially Assert landform(${land}, land_lake).`); }
-    }
+    const lines = this.roads(region).flatMap(r => this.road(r, region)), mere = this.mere(region);
+    if (mere && !this.seats(region).some(s => s.form)) { lines.push(...this.shore(region, mere)); }
     return lines;
-  }
-  private static site(seat: Seat, region: Region): string {
-    const { site, form } = seat, fen = region.terrain === 'marsh' ? ' Reeds hiss in the wind.' : '';
-    const shore = form ? ` It stands on the shore of ${form.name}, and the water laps at its foot.${this.meaning(form)}` : '';
-    const sign = RegionEcology.sign(RegionEcology.habitat(region, site, form?.form), site.id);
-    return `${site.name}.${this.meaning(site)} ${this.looks[site.kind] ?? ''}${shore}${fen} ${sign}`.trim();
   }
   // A forest's mere with no site by it still has a shore to walk to.
   private static shore(region: Region, mere: Landmark): string[] {

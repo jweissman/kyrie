@@ -2,6 +2,8 @@ import { GenerationSetting } from '../generation-setting';
 import type { Landmark } from './region-land';
 import { RegionGeography } from './region-geography';
 import { RegionPeoples } from './region-peoples';
+import { RegionFaith } from './region-faith';
+import { RegionSites } from './region-sites';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
 // entity it writes is exported under its own id, so scenarios bind to it like any other module.
@@ -62,7 +64,7 @@ export class RegionWriter {
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
-    lines.push(...RegionGeography.lines(region));
+    lines.push(...RegionGeography.lines(region), ...RegionSites.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
     const wonderSite = region.sites[0];
@@ -74,25 +76,25 @@ export class RegionWriter {
     return lines.join('\n');
   }
   private static settlement(s: Settlement, i: number, region: Region): string[] {
-    const q = JSON.stringify, [x, y] = RegionGeography.town(i);
+    const q = JSON.stringify, [x, y] = RegionGeography.town(i), cult = RegionFaith.cults(region)[i]!;
     return [
       `  Place ${s.id} ${q(s.name)} is settlement within region at ${x}, ${y}.`,
       `  Place ${s.id}_green ${q(`${s.name} green`)} is room within ${s.id} at 1, 1.`,
       `  Place ${s.id}_inn ${q(s.inn)} is building within ${s.id}.`,
       `  Place ${s.id}_taproom ${q(`the taproom of ${s.inn}`)} is room within ${s.id}_inn at 1, 0.`,
-      `  Place ${s.id}_shrine ${q(`the shrine of ${region.deity}`)} is room within ${s.id} at 0, 1.`,
+      `  Place ${s.id}_shrine ${q(`the shrine of ${cult.name}`)} is room within ${s.id} at 0, 1.`,
       `  Place ${s.id}_shop ${q(`${s.merchant}'s ${this.trade(s).shop}`)} is room within ${s.id} at 2, 1.`,
       `  Passage ${s.id}_inn_door ${q(`the door of ${s.inn}`)} is door between ${s.id}_taproom and ${s.id}_green.`,
       `  Passage ${s.id}_shrine_door ${q(`the shrine porch in ${s.name}`)} is doorway between ${s.id}_shrine and ${s.id}_green.`,
       `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`,
       `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${s.id}_taproom { Role "innkeeper". ${this.of(s, 'innkeeper', region)} Profession innkeeper. Peaceable. ${this.inn(s)} }`,
-      `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${region.deity}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable. }`,
+      `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable. }`,
       this.merchant(s, region),
       `  Person ${s.id}_traveller ${q(s.traveller)} at ${s.id}_taproom { Role ${q(s.calling)}. ${this.of(s, 'traveller', region)} Peaceable. }`,
-      `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${RegionPeoples.told(s)}${this.meaning(s)} ${RegionGeography.placement(region, i)}Smoke rises from ${s.inn}; the shrine of ${region.deity} stands open across the green.`)}.`,
+      `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${RegionPeoples.told(s)}${this.meaning(s)} ${RegionGeography.placement(region, i)}Smoke rises from ${s.inn}; the shrine of ${cult.name} stands open across the green.`)}.`,
       `  Observe ${s.id}_night at ${s.id}_green when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
       `  Observe ${s.id}_tap at ${s.id}_taproom when true ${q(`Benches, a long table, a fire. People who work ${s.trade} drink here.`)}.`,
-      `  Observe ${s.id}_holy at ${s.id}_shrine when true ${q(`An altar to ${region.deity}, keeper of ${region.domain}. Offerings of ${s.trade} lie before it.`)}.`,
+      ...RegionFaith.lines(s, cult),
     ];
   }
   // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy.
@@ -152,7 +154,7 @@ export class RegionWriter {
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
-    return { version: 1, source: 'region.kyr', rules: ['world', 'elements'], globals: ['party'],
+    return { version: 1, source: 'region.kyr', rules: ['world', 'elements', 'devotion'], globals: ['party'],
       exports: Object.fromEntries(ids.map(id => [id, id])), assembly: { commitments } };
   }
 }

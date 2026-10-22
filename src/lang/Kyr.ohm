@@ -1,9 +1,10 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
   Declaration = Kind | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Company | ItemDecl | HazardDecl
-  Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? "."
+  Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceAlias? "."
   PlaceParent = "within" ident
   PlaceGrid = "at" integer "," integer
+  PlaceAlias = "seen" "as" string "until" ident
   Company = "Company" ident string "of" integer "at" ident "."
   ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? ItemOwner? "."
   ItemPlace = "at" ident -- at

@@ -28,6 +28,10 @@ export class ModuleCompiler {
       if ((entity.type === 'member') !== !!entity.creatureId) {
         throw new Error(`Member reference ${entity.id} needs an explicit canonical creature binding`);
       }
+      // A place seen as something else until a fact is known needs that fact, or it is never named.
+      if (entity.alias && !module.entities.some(e => e.id === entity.alias!.until && e.type === 'fact')) {
+        throw new Error(`${entity.id} is seen as "${entity.alias.name}" until ${entity.alias.until}, which is not a fact`);
+      }
     }
     ModuleCompiler.unique(module.entities.filter(e => e.creatureId).map(e => e.creatureId!), 'creature binding');
     this.signaturesOf(module);

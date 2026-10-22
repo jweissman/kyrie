@@ -1,0 +1,25 @@
+Module world_devotion "Shrines, offerings and the favour of the gods" {
+  // A shrine is a thing kept for a god (an altar, a statue, a spring led into a basin), and a god is of a faith: a
+  // domain of Orsino's pantheon, whose blessing the god gives to those who keep the shrine's observance. The faith
+  // names are prefixed, as every module shares them and an author may well call a place "light".
+  Kind shrine. Kind faith.
+  Relation shrineOf(shrine, faith). Measure offering(shrine). Relation honored(group, shrine).
+  Entity faith_life: faith "life". Entity faith_light: faith "light". Entity faith_nature: faith "nature".
+  Entity faith_war: faith "war". Entity faith_knowledge: faith "knowledge". Entity faith_death: faith "death".
+  Entity faith_storms: faith "storms". Entity faith_order: faith "order". Entity faith_oceans: faith "the sea".
+  Entity faith_love: faith "love". Entity faith_magic: faith "magic". Entity faith_trickery: faith "trickery".
+  Entity faith_darkness: faith "darkness". Entity faith_chaos: faith "chaos". Entity faith_poison: faith "poison".
+  Goal false.
+  Action make_offering(actor: group, altar: shrine, devotion: faith, recipient: member, site: place) "Leave an offering for {recipient}" {
+    Description "Coin left at a shrine and its observance kept, as Orsino's shrines ask. A good god's favour heals a little and another's hurts a little; either goes with the one it was asked for into their next ten turns of fighting, with the blessing of the god's faith. Once a day at each shrine.".
+    Requires able(actor) and at(actor, site) and at(altar, site) and shrineOf(altar, devotion)
+      and memberOf(recipient, actor) and awake(recipient) and quantity(actor, gold) >= offering(altar)
+      and not honored(actor, altar).
+    Time 3.
+    Resolve bless(altar, devotion, recipient).
+    On success { Decrease quantity(actor, gold) by offering(altar). Assert honored(actor, altar). }
+    Result "You leave {offering(altar)} coin at {altar} and keep the observance.".
+  }
+  // An observance can be kept again the next day.
+  Rule devotion_renewed when untilLight(clock) == 1 and honored(?g, ?a) { Retract honored(?g, ?a). }
+}

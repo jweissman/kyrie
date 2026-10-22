@@ -1,5 +1,6 @@
 import { ModuleParser } from './module-parser';
-import type { Call } from './module';
+import type { Call, Entity } from './module';
+import { ModuleWriter } from './module-writer';
 import { World } from './world';
 
 // Authored text may reference numeric measures, `{quantity(party, gold)}`, and entities by id, `{guest}`. An entity
@@ -33,9 +34,22 @@ export class ObservationText {
   static label(world: World, id: string, binding: Record<string, string> = {}): string {
     const entity = world.module.entities.find(e => e.id === id);
     if (!entity) { return id; }
-    const name = entity.type === 'group' ? entity.name.split(', ')[0]! : entity.name;
+    const name = entity.type === 'group' ? entity.name.split(', ')[0]! : this.known(world, entity);
     return name.includes('{') ? this.map(name, call => World.format(call),
       ref => this.label(world, binding[ref] ?? ref, binding)) : name;
+  }
+  // A place's name if the company knows the fact that names it, else what it looks like to a stranger. A world with
+  // no company (an author's check) knows every name.
+  static known(world: World, entity: Entity): string {
+    if (!entity.alias) { return entity.name; }
+    const company = world.snapshot.relations.find(r => r.name === 'company')?.args[0];
+    return !company || world.test(ModuleWriter.call('knows', company, entity.alias.until)) ? entity.name
+      : entity.alias.name;
+  }
+  // The entities as the company would name them: aliases until known, and names with references rendered.
+  static presented(world: World): Map<string, Entity> {
+    return new Map(world.module.entities.map(e => [e.id, e.alias || (e.type !== 'group' && e.name.includes('{'))
+      ? { ...e, name: this.label(world, e.id) } : e]));
   }
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
     const rendered = this.map(text, call => String(world.number(call)),

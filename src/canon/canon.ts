@@ -50,7 +50,8 @@ export class Canon {
     saveKinds: Record<string, string>; saveLimit: number; procedures: Record<string, Procedure>;
   };
   static readonly abilities = Canon.merge<Ability>('ability', orsinoAbilities.abilities, abilities.abilities);
-  static readonly conditions = Canon.merge<Condition>('condition', orsinoConditions.conditions, conditions.conditions);
+  static readonly conditions = Canon.merge<Condition>('condition', orsinoConditions.conditions,
+    { ...conditions.conditions, ...Canon.favours() });
   static readonly traits = Canon.merge<Trait>('trait', orsinoTraits.traits, traits.traits);
   static readonly ancestries = ancestries.ancestries as unknown as Record<string, Ancestry>;
   static readonly species = Canon.merge<Species>('species', orsinoSpecies.species as unknown as Record<string, unknown>,
@@ -63,6 +64,20 @@ export class Canon {
     .map(([id, d]) => [id, { ...d, ...(orsinoBlessings.blessings as Record<string, Domain['blessing']>)[id]
       ? { blessing: (orsinoBlessings.blessings as Record<string, Domain['blessing']>)[id] } : {} }])) as Record<string, Domain>;
   static readonly deities = religion.deities as unknown as Record<string, Deity>;
+  // A god's favour from its shrine (Orsino's fxBuff "<deity>'s Favor"): the blessing of its faith's domain, carried
+  // through the recipient's fights for as many turns as the shrine gives. One condition for each domain with a
+  // blessing.
+  private static favours(): Record<string, unknown> {
+    const domains = religion.domains as unknown as Record<string, Domain>;
+    const blessings = orsinoBlessings.blessings as Record<string, Domain['blessing']>;
+    return Object.fromEntries(Object.entries(blessings).filter(([id]) => domains[id]).map(([id, b]) => [`favor_${id}`, {
+      name: `Favour of ${domains[id]!.name.toLowerCase()}`, lifetime: 'persistent', modifiers: b!.modifiers,
+      stacking: 'source-refresh', description: `The favour of a god of ${domains[id]!.name.toLowerCase()}, asked for at a shrine.`,
+      begins: `{target} goes out with the favour of ${domains[id]!.name.toLowerCase()}.`,
+      ends: `{target}'s favour of ${domains[id]!.name.toLowerCase()} fades.`,
+      source: { kyr: true, notes: `Orsino's shrine favour: the ${id} blessing of deityBlessings, for the turns the shrine gives.` },
+    }]));
+  }
   static readonly habitats = organisms.habitats as unknown as Record<string, { name: string; terrain?: string }>;
   static readonly organisms = organisms.organisms as unknown as Record<string, Organism>;
   static readonly aliases = aliases as unknown as Record<Family, Record<string, string>>;

@@ -77,7 +77,7 @@ export class PlayerView {
     return campaign.playerActor!;
   }
   private static labels(campaign: Campaign): Map<string, string> {
-    return new Map(campaign.module.entities.map(e => [e.id, e.name]));
+    return new Map([...ObservationText.presented(campaign.world)].map(([id, e]) => [id, e.name]));
   }
   // A topic someone can be asked about is spoken, not a thing lying in the room.
   private static spoken(world: World, source: string): boolean {
@@ -87,15 +87,26 @@ export class PlayerView {
     return world.module.relations.some(r => r.name === name) && world.test(ModuleWriter.call(name, ...args));
   }
   static choices(campaign: Campaign) {
-    const world = campaign.world;
+    const world = campaign.world, unnamed = this.unnamed(world);
     return ActionPresentation.choices(campaign.available(), campaign.schemas).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
+      // Choices are grounded with every place's name; one the company has not learned is said as it is seen.
+      for (const [name, alias] of unnamed) { row.choice.name = row.choice.name.replaceAll(name, alias); }
       if (row.action.resolve?.name === 'purchase') {
         const amount = campaign.world.number(ModuleWriter.call('price', row.action.resolve.args[0]!));
         row.choice.name += ` · ${amount} coin`;
       }
+      // An offering costs what its shrine asks.
+      if (row.action.resolve?.name === 'bless') {
+        row.choice.name += ` · ${world.number(ModuleWriter.call('offering', row.action.resolve.args[0]!))} coin`;
+      }
       return row;
     });
+  }
+  // The places whose names the company has not learned, by name, with what they are called until it does.
+  private static unnamed(world: Campaign['world']): Map<string, string> {
+    return new Map(world.module.entities.filter(e => e.alias && ObservationText.known(world, e) !== e.name)
+      .map(e => [e.name, e.alias!.name]));
   }
   static resolve(campaign: Campaign, command: string): string {
     const match = this.choices(campaign).find(c => c.choice.id === command);
@@ -150,8 +161,8 @@ export class PlayerView {
       [{ name: campaign.module.name, description: campaign.module.description }];
     const publicChoices = this.choices(campaign), metadata = this.metadata(world, labels);
     return { actor, title: campaign.module.name, situations, elapsed: state.elapsed, running: campaign.running,
-      ...(location ? { location: { id: location.id, name: location.name, ...metadata.get(location.id),
-        ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
+      ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
+        ...metadata.get(location.id), ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
       ...(location?.space ? { spatial: this.spatial(campaign, actor, location, publicChoices) } : {}),
       // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
       observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
@@ -236,7 +247,7 @@ export class PlayerView {
   }
   private static spatial(campaign: Campaign, actor: string, location: Entity,
     choices: ReturnType<typeof PlayerView.choices>): SpatialScene {
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e])), world = campaign.world;
+    const world = campaign.world, entities = ObservationText.presented(world);
     const ancestry = Spatial.ancestry(entities, location.id).reverse()
       .map(e => ({ id: e.id, name: e.name, kind: e.space!.kind }));
     const exits = campaign.module.entities.filter(e => e.exit?.origin === location.id

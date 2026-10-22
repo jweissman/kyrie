@@ -1,0 +1,207 @@
+{
+  "shrineForm": {
+    "discriminator": "domain",
+    "groups": {
+      "life": [
+        "altar",
+        "fountain",
+        "statue"
+      ],
+      "light": [
+        "altar",
+        "statue",
+        "obelisk"
+      ],
+      "nature": [
+        "fountain",
+        "statue",
+        "altar"
+      ],
+      "war": [
+        "statue",
+        "obelisk",
+        "relic"
+      ],
+      "knowledge": [
+        "mural",
+        "obelisk",
+        "altar"
+      ],
+      "death": [
+        "relic",
+        "mural",
+        "altar"
+      ],
+      "storms": [
+        "obelisk",
+        "statue",
+        "altar"
+      ],
+      "order": [
+        "obelisk",
+        "altar",
+        "mural"
+      ],
+      "oceans": [
+        "fountain",
+        "statue",
+        "relic"
+      ],
+      "default": [
+        "altar",
+        "statue",
+        "fountain",
+        "obelisk",
+        "mural",
+        "relic"
+      ]
+    }
+  },
+  "shrineLook": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "ancient",
+        "well-kept",
+        "ornate",
+        "simple",
+        "overgrown",
+        "hidden",
+        "cracked",
+        "humble"
+      ]
+    }
+  },
+  "shrineSeat": {
+    "discriminator": "form",
+    "groups": {
+      "altar": [
+        "a long stone under a roof of shingles",
+        "a slab of the old stone, worn hollow in the middle"
+      ],
+      "statue": [
+        "a figure of grey stone, taller than a man, its face worn smooth",
+        "a figure of black wood, rubbed bright at the knees"
+      ],
+      "fountain": [
+        "a spring led up into a basin of cut stone",
+        "a well-head with a carved lip, the water close under it"
+      ],
+      "obelisk": [
+        "a standing stone, squared and cut with lines",
+        "a pillar of the old stone, leaning a little"
+      ],
+      "mural": [
+        "a wall painted from end to end, the colours going",
+        "a painted wall under a deep eave, kept out of the weather"
+      ],
+      "relic": [
+        "a box of bronze on a stone shelf, with something in it",
+        "a niche in the wall, and in it a hand-bone wrapped in gold thread"
+      ]
+    }
+  },
+  "shrinePractice": {
+    "discriminator": "domain",
+    "groups": {
+      "life": [
+        "At first light the faithful bring a cup of milk and a heel of bread, and the priest gives them to whoever is hungry."
+      ],
+      "light": [
+        "A lamp burns before it day and night; at dusk the priest relights it from the inn's hearth."
+      ],
+      "nature": [
+        "Garlands of whatever is in flower hang on it, and are changed when they wilt."
+      ],
+      "war": [
+        "Those going out on the road lay their weapons before it, and take them up again blessed."
+      ],
+      "knowledge": [
+        "A name is cut for each child born here, and the names are read aloud at midsummer."
+      ],
+      "death": [
+        "The dead are carried past it on their way to the burying ground, and a coin is left for each."
+      ],
+      "storms": [
+        "Drovers leave a stone before it when they go up into the hills, and take one away when they come down."
+      ],
+      "order": [
+        "Quarrels are settled before it on the first day of the week, and the priest writes down what was agreed."
+      ],
+      "oceans": [
+        "Before a boat goes out a cup of its own bilge-water is poured over the stone."
+      ]
+    }
+  },
+  "shrineHistory": {
+    "discriminator": "land",
+    "groups": {
+      "river": [
+        "It was set up the year {land} took the old bridge, by those who were left on this bank.",
+        "The first ferryman set it up, and the fords were counted safe from that day."
+      ],
+      "pass": [
+        "It was set up after the winter {land} took a whole drove and the drovers with it.",
+        "Whoever comes down off {land} alive stops here first; it was set up for that."
+      ],
+      "wood": [
+        "It was set up after the fire in {land}, when the wind turned at the last.",
+        "It was cut from the first tree felled in {land}, to ask pardon of the rest."
+      ],
+      "lake": [
+        "It was set up the year {land} rose and did not go down again for a month.",
+        "The water of {land} was let into it on the day it was made, and is said never to have gone out."
+      ],
+      "default": [
+        "It is older than {town}: the first settlers found it standing in the {country} and built around it.",
+        "{town}'s first priest made it, and their name is cut on the back, worn almost away.",
+        "It was set up after the sickness, by those who were left, and the names of the dead are under it."
+      ]
+    }
+  },
+  "localCult": {
+    "discriminator": "land",
+    "groups": {
+      "river": [
+        {
+          "_key": "coventina",
+          "domain": "nature"
+        },
+        {
+          "_key": "boann",
+          "domain": "oceans"
+        }
+      ],
+      "lake": [
+        {
+          "_key": "nechtan",
+          "domain": "oceans"
+        },
+        {
+          "_key": "coventina",
+          "domain": "nature"
+        }
+      ],
+      "pass": [
+        {
+          "_key": "taranis",
+          "domain": "storms"
+        },
+        {
+          "_key": "nuada",
+          "domain": "storms"
+        }
+      ],
+      "wood": [
+        {
+          "_key": "cernunnos",
+          "domain": "nature"
+        },
+        {
+          "_key": "rhiannon",
+          "domain": "nature"
+        }
+      ]
+    }
+  }
+}

@@ -18,6 +18,8 @@ export interface ExitDefinition {
 export interface Entity {
   creatureId?: string; id: string; type: string; name: string; space?: PlaceDefinition; exit?: ExitDefinition;
   effect?: string;
+  // What a place is called by a company that does not know the fact naming it ("a lone tower").
+  alias?: { name: string; until: string };
 }
 export interface Signature { name: string; types: string[]; exclusive: boolean }
 export interface Query { name: string; parameters: { name: string; type: string }[]; body: Predicate }

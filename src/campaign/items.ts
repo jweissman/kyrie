@@ -101,14 +101,19 @@ export class Items {
     return this.resolve(store, { ids: options.targets, ability, actorId: options.source,
       targetId: options.targets[0]!, seed: options.seed, source: { id: options.source, kind: 'trap', name: ability.name } });
   }
-  static bless(store: CreatureStore, options: { target: string; source: string; deity: string; seed: string
-  }): CombatEvent[] {
-    const tradition = Canon.deities[options.deity];
-    if (!tradition?.blessing) { throw new Error('This deity has no executable shrine blessing'); }
-    const ability = Content.abilities.find(a => a.id === tradition.blessing!.id)!;
+  // A shrine's blessing, as Orsino's shrine gives it: a good god's heals a little and another's hurts a little (Orsino
+  // draws necrotic or radiant; Kyr gives the dark gods necrotic and the rest radiant), and the god's favour, the
+  // blessing of its faith's domain, goes with the one it was asked for into their next ten turns of fighting.
+  static bless(store: CreatureStore, options: { target: string; source: string; faith: string; seed: string;
+    name?: string }): CombatEvent[] {
+    const id = options.faith.replace(/^.*__/, '').replace(/^faith_/, ''), domain = Canon.domains[id];
+    if (!domain?.blessing) { throw new Error(`The faith of ${id} has no shrine blessing`); }
+    const touch = domain.alignment === 'good' ? 'Heal (1d3) health to ally.'
+      : `Deal (1d2) ${domain.alignment === 'evil' ? 'necrotic' : 'radiant'} damage to ally.`;
+    const ability = parseAbility(`favor_${id}`, `Favour of ${domain.name.toLowerCase()}`, `${touch} Apply favor_${id} to ally for 10 turns.`);
     return this.resolve(store, { ids: [options.target], ability, actorId: options.source,
       targetId: options.target, seed: options.seed,
-      source: { id: options.source, kind: 'shrine', name: tradition.name } });
+      source: { id: options.source, kind: 'shrine', name: options.name ?? domain.name } });
   }
   static transfer(store: CreatureStore, moved: ItemRef, owner: string, recipient: string): CombatEvent[] {
     const { id, label } = moved;

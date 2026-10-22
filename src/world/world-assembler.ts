@@ -261,11 +261,19 @@ export class WorldAssembler {
     return beast ? { beast: beast.species, beastCount: beast.count, beastLabel: beast.label, beastRole: beast.role,
       beastNature: beast.nature } : {};
   }
-  // A hook's topic names the places it is about by role: {den} becomes the bound place's generated name.
-  private static named(text: string, placement: Placement, region: Region): string {
+  // A hook's topic names the places it is about by role: {den} becomes a reference to the bound place, so it is said
+  // as the company knows it (a grassed mound, until someone names it).
+  private static named(text: string, placement: Placement,
+    at: { lines: string[]; imports: Record<string, string>; declared: Set<string> }): string {
     return text.replace(/\{(\w+)\}/g, (whole, role: string) => {
       const id = placement.bindings[role];
-      return [...region.sites, ...region.settlements].find(p => p.id === id)?.name ?? whole;
+      if (!id) { return whole; }
+      const local = `at_${role}`;
+      if (!at.declared.has(local)) {
+        at.lines.push(`  Place ${local} "Where it is" is room.`);
+        at.imports[local] = `${RegionWriter.id}.${id}`; at.declared.add(local);
+      }
+      return `{${local}}`;
     });
   }
   // The module that spreads word of a placed scenario: each hook is an established fact, known to carriers in the
@@ -302,7 +310,7 @@ export class WorldAssembler {
           if (!carriers.has(room)) { lines.push(`  Place ${room} "Where they are" is room.`); carriers.add(room); }
         }
         imports[carrier] = `${RegionWriter.id}.${carrier}`; imports[room] = `${RegionWriter.id}.${room}`;
-        lines.push(`  Entity ${topic}: source ${q(this.named(hook.topic, placement, region))}.`,
+        lines.push(`  Entity ${topic}: source ${q(this.named(hook.topic, placement, { lines, imports, declared: carriers }))}.`,
           `  Initially Assert knows(${carrier}, ${fact}). Initially Assert testimony(${carrier}, ${topic}).`,
           `  Initially Assert reveals(${topic}, ${fact}). Initially Assert noticeable(${topic}).`,
           `  Initially Assert at(${topic}, ${room}).`);
@@ -312,7 +320,7 @@ export class WorldAssembler {
     lines.push('  Goal false.', '}');
     const names = Object.keys(imports);
     const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : n === 'route_in' ? 'passage'
-      : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop)$/.test(n) ? 'place' : 'group' }]));
+      : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop)$|^at_/.test(n) ? 'place' : 'group' }]));
     return { source: lines.join('\n'), imports,
       manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }

@@ -801,7 +801,7 @@
     "faithful": 586,
     "adapted": 292,
     "represented": 4,
-    "kyr": 60,
+    "kyr": 75,
     "unsupported": 75,
     "unreachable": 4,
     "data-only": 12
@@ -970,7 +970,7 @@
       "faithful": 123,
       "adapted": 15,
       "represented": 0,
-      "kyr": 10,
+      "kyr": 25,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 124,
     "adapted": 8,
     "represented": 18,
-    "kyr": 111,
+    "kyr": 114,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 342
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 106,
+      "kyr": 109,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -6984,6 +6984,111 @@
    "section": "conditions"
   },
   {
+   "id": "condition:favor_chaos",
+   "title": "Favour of chaos",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_darkness",
+   "title": "Favour of darkness",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_death",
+   "title": "Favour of death",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_knowledge",
+   "title": "Favour of knowledge",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_life",
+   "title": "Favour of life",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_light",
+   "title": "Favour of light",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_love",
+   "title": "Favour of love",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_magic",
+   "title": "Favour of magic",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_nature",
+   "title": "Favour of nature",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_oceans",
+   "title": "Favour of oceans",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_order",
+   "title": "Favour of order",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_poison",
+   "title": "Favour of poison",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_storms",
+   "title": "Favour of storms",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_trickery",
+   "title": "Favour of trickery",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:favor_war",
+   "title": "Favour of war",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:feebleminded",
    "title": "Feebleminded",
    "status": "unsupported",
@@ -8634,6 +8739,27 @@
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_devotion.shrine",
+   "title": "shrine, faith",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-devotion"
+  },
+  {
+   "id": "rule:world_devotion.make_offering",
+   "title": "make offering",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-devotion"
+  },
+  {
+   "id": "rule:world_devotion.devotion_renewed",
+   "title": "devotion_renewed",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-devotion"
   },
   {
    "id": "rule:discovery_rules.examine",

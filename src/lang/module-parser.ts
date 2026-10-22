@@ -17,6 +17,7 @@ export class ModuleParser {
   private static readonly grammar = ohm.grammar(source);
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
+    PlaceAlias: ModuleParser.PlaceAlias,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
     PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
@@ -159,11 +160,17 @@ export class ModuleParser {
     // several files says it for all of them.
     return module;
   }
-  static Place(_p: Node, id: Node, name: Node, _is: Node, kind: Node, parent: Node, grid: Node, _dot: Node): Field {
+  static Place(_p: Node, id: Node, name: Node, _is: Node, kind: Node, parent: Node, grid: Node, alias: Node,
+    _dot: Node): Field {
     const space = { kind: kind.sourceString,
       ...(parent.children.length ? { parent: ModuleParser.ast(parent.children[0]!) } : {}),
       ...(grid.children.length ? { grid: ModuleParser.ast(grid.children[0]!) } : {}) };
-    return { field: 'place', value: { id: id.sourceString, name: ModuleParser.ast(name), type: 'place', space } };
+    return { field: 'place', value: { id: id.sourceString, name: ModuleParser.ast(name), type: 'place', space,
+      ...(alias.children.length ? { alias: ModuleParser.ast(alias.children[0]!) } : {}) } };
+  }
+  // What a place is called by those who do not know its name, until they learn a fact: "a lone tower".
+  static PlaceAlias(_seen: Node, _as: Node, name: Node, _until: Node, fact: Node): { name: string; until: string } {
+    return { name: ModuleParser.ast(name) as string, until: fact.sourceString };
   }
   static PlaceParent(_within: Node, parent: Node): string { return parent.sourceString; }
   static PlaceGrid(_at: Node, x: Node, _comma: Node, y: Node): [number, number] {

@@ -434,6 +434,44 @@ Once it starts it goes on until one side is down or runs, and whoever falls may 
 
 > Then: nothing changes
 
+### Shrines, offerings and the favour of the gods
+
+Also kept, without comment: shrineOf, honored, offering.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 2 | 2 | 1 | 0 | 1 | 1 |
+
+#### shrine, faith
+
+*Kyr · kind; kind* · `rule:world_devotion.shrine`
+
+A shrine is a thing kept for a god (an altar, a statue, a spring led into a basin), and a god is of a faith: a domain of Orsino's pantheon, whose blessing the god gives to those who keep the shrine's observance. The faith names are prefixed, as every module shares them and an author may well call a place "light".
+
+#### make offering
+
+*Kyr · action (group, shrine, faith, member, place)* · `rule:world_devotion.make_offering`
+
+- Shown as: Leave an offering for {recipient}
+- Takes: 30 minutes
+- Costs: 1
+
+Coin left at a shrine and its observance kept, as Orsino's shrines ask. A good god's favour heals a little and another's hurts a little; either goes with the one it was asked for into their next ten turns of fighting, with the blessing of the god's faith. Once a day at each shrine.
+
+> Needs: able(actor); at(actor, site); at(altar, site); shrineOf(altar, devotion); memberOf(recipient, actor); awake(recipient); quantity(actor, gold) >= offering(altar); not (honored(actor, altar))
+
+> Then: Decrease quantity(actor, gold) by offering(altar). Assert honored(actor, altar).
+
+#### devotion_renewed
+
+*Kyr · rule* · `rule:world_devotion.devotion_renewed`
+
+An observance can be kept again the next day.
+
+> When: untilLight(clock) == 1; honored(?g, ?a)
+
+> Then: Retract honored(?g, ?a).
+
 ### Reliable discovery and trusted reports
 
 Also kept, without comment: established, reveals, intact, noticeable, destructible, mayExamine, knows, assumesFalse, trusts, learnedFrom, toldBy, publicPlace, testimony, witnessed, searched.

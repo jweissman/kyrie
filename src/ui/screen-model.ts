@@ -25,7 +25,7 @@ import type { ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 export class ScreenModel {
   static build(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world;
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const entities = ObservationText.presented(world);
     const creatures = campaign.readout.creatures;
     const names = new Map(campaign.module.entities.map(e =>
       [e.id, creatures.find(c => e.creatureId && c.id === e.creatureId)?.name ?? ObservationText.label(world, e.id)]));
