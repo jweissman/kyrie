@@ -49,6 +49,7 @@
     Role "the water the Wardens set to keep their valley, which did not go out with the rest". Species water_elemental. Level 5. Temperament territorial. Lair {w}_street.
     Warns "The water in the gutters of the street runs together, and stands up, and is taller than you, and has a face that is only the street seen through it.".
   }
+  Observe {w}_vault_scene at {w}_vault when true "Under the basin, a low room the water never reached, dry as a shut chest. Stone shelves run round it, bare but for the white rings where jars once stood, and one thing nobody came back for.".
   Item {w}_claw "{greatname}" is {great} at {w}_vault.
   Item {w}_offering "{richname}" is {rich} at {w}_hall.
   Item {w}_left "{commonname}" is {common} at {w}_street.
