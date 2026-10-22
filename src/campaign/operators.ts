@@ -80,7 +80,10 @@ export class Operators {
   }
   private collect(p: Predicate, names: Set<string>, out: Call[]): Call[] {
     if (p.kind === 'and') { this.collect(p.left, names, out); this.collect(p.right, names, out); }
-    else if (p.kind === 'call' && this.relations.has(p.name) && p.args.some(a => names.has(a))) { out.push(p); }
+    // A computed comparison (distinct) only filters what the facts propose; it proposes nothing itself.
+    else if (p.kind === 'call' && p.name !== 'distinct' && this.relations.has(p.name) && p.args.some(a => names.has(a))) {
+      out.push(p);
+    }
     return out;
   }
   private static known(atom: Call, names: Set<string>, bound: Set<string>): number {

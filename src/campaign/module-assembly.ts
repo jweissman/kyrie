@@ -66,13 +66,6 @@ export class ModuleAssembly {
       if (!entity || typeof name !== 'string' || !name.length) { throw new Error('Invalid generated entity label'); }
       entity.name = name;
     }
-    for (const actor of actors) {
-      for (const other of actors) {
-        if (other.id !== actor.id) {
-          module.initial.push({ kind: 'assert', call: ModuleWriter.call('distinct', actor.id, other.id) });
-        }
-      }
-    }
     const compiler = new ModuleCompiler(RuntimeCapabilities.signatures);
     const instance = compiler.instantiate(module, seed);
     for (const p of instance.module.pursuits ?? []) {

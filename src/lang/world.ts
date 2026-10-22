@@ -97,6 +97,7 @@ export class World {
       return;
     }
     if (!signatures.relations.has(p.name)) { throw new Error(`Unknown predicate ${p.name}`); }
+    if (p.name === 'distinct') { throw new Error('distinct compares two bound parties'); }
     for (const fact of [...(this.byName.get(p.name)?.values() ?? [])]) {
       const next = { ...b };
       if (fact.args.every((value, i) => {
@@ -123,6 +124,8 @@ export class World {
           return this.test(query.body, argumentsByName);
         }
         if (!signatures.relations.has(call.name)) { throw new Error(`Unknown predicate ${call.name}`); }
+        // Two parties are distinct when they are not the same one: computed, not stored for every pair.
+        if (call.name === 'distinct') { return call.args[0] !== call.args[1]; }
         return this.facts.has(World.key(call));
       }
       case 'compare': {

@@ -28,8 +28,9 @@ export class ModuleInstallations {
   // The people a new installation brings, made and placed in the store, with the facts about them projected into
   // its world; every goal they pursue is checked against that world before it is accepted.
   static populate(next: Instance, existing: CampaignActor[], creatures: CreatureStore) {
-    const actors = next.campaign!.actors.filter(a => !existing.some(old => old.id === a.id));
-    const added = next.campaign!.creatures.filter(c => !creatures.snapshot.some(old => old.id === c.id));
+    const had = new Set(existing.map(a => a.id)), held = new Set(creatures.live.map(c => c.id));
+    const actors = next.campaign!.actors.filter(a => !had.has(a.id));
+    const added = next.campaign!.creatures.filter(c => !held.has(c.id));
     const store = new CreatureStore([...creatures.snapshot, ...added.map(entry => {
       const creature = new Content(entry.seed!).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
       creature.state.gold += entry.gold;
@@ -46,22 +47,25 @@ export class ModuleInstallations {
     }
     return { actors, store, world };
   }
+  // What two installations both declare must agree; each is kept once. Definitions are never changed after they are
+  // joined, so the result shares them rather than copying.
   private static union<T>(left: T[], right: T[], key: (value: T) => string): T[] {
-    const result = structuredClone(left);
+    const result = [...left], index = new Map(left.map(v => [key(v), v]));
     for (const value of right) {
-      const previous = result.find(v => key(v) === key(value));
-      if (previous && JSON.stringify(previous) !== JSON.stringify(value)) {
+      const previous = index.get(key(value));
+      if (previous && previous !== value && JSON.stringify(previous) !== JSON.stringify(value)) {
         throw new Error(`Conflicting shared definition ${key(value)}`);
       }
-      if (!previous) { result.push(structuredClone(value)); }
+      if (!previous) { result.push(value); index.set(key(value), value); }
     }
     return result;
   }
   // An installation brings its own entities (an import must match the type it names; only canonical ones may be
   // declared twice, identically) and may not reset imported or campaign-owned state.
   private static admit(existing: Module['entities'], incoming: Module, draft: ModuleDraft) {
+    const known = new Map(existing.map(e => [e.id, e]));
     for (const entity of incoming.entities) {
-      const previous = existing.find(e => e.id === entity.id);
+      const previous = known.get(entity.id);
       if (draft.imports.includes(entity.id)) {
         if (!previous || previous.type !== entity.type) { throw new Error(`Invalid typed import ${entity.id}`); }
       } else if (previous && !(ModuleNamespace.canonical.includes(entity.type)
@@ -80,9 +84,8 @@ export class ModuleInstallations {
   // The campaign module with an installation joined to it.
   private static joined(base: Module | undefined, incoming: Module, draft: ModuleDraft,
     schemas: Module['actions']): Module {
-    const existing = base?.entities ?? [];
-    const entities = [...existing, ...incoming.entities.filter(e => !draft.imports.includes(e.id)
-      && !existing.some(old => old.id === e.id))];
+    const existing = base?.entities ?? [], known = new Set(existing.map(e => e.id)), imports = new Set(draft.imports);
+    const entities = [...existing, ...incoming.entities.filter(e => !imports.has(e.id) && !known.has(e.id))];
     return { ...incoming, id: 'campaign', name: base?.name ?? 'Campaign',
       description: base?.description ?? 'Installed situations share this persistent world.',
       entities, kinds: [...new Set([...(base?.kinds ?? []), ...incoming.kinds])],
@@ -125,11 +128,7 @@ export class ModuleInstallations {
       throw new Error('Campaign rules require shared gold and clock entities');
     }
     compiler.validate(module);
-    const world = new World(module, base?.world).apply(incoming.module.initial);
-    const distinct = definition.actors.flatMap(a => definition.actors.filter(b => b.id !== a.id).map(b => ({
-      kind: 'assert' as const, call: ModuleWriter.call('distinct', a.id, b.id),
-    })));
-    const installed = world.apply(distinct);
+    const installed = new World(module, base?.world).apply(incoming.module.initial);
     Discovery.validate(module, installed);
     return { module, world: installed.snapshot, campaign: definition,
       budget: Math.max(0, ...definition.installations!.flatMap(m => m.deadline === undefined ? [] : [m.deadline])) };
