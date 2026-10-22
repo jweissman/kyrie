@@ -56,7 +56,9 @@ export class Atlases {
       .map(({ c, rank }) => ({ c, score: -rank * 2 + this.depth(atlas, c) + draw.next() * 1.5
         - 1.5 * ((this.within(atlas, c).zone && crowd.get(this.within(atlas, c).zone)) || 0) }))
       .sort((a, b) => b.score - a.score || a.c - b.c);
-    const best = open[0]?.c;
+    // Where no ground of its kind is free, a site stands on any dry ground there is (a tower on the meadow).
+    const best = open[0]?.c ?? (grounds.includes('meadow') ? undefined
+      : this.place(atlas, 'ruin', { key: `${at.key}:any`, taken: at.taken })?.cell);
     if (best === undefined) { return undefined; }
     at.taken.push(best);
     return { cell: best, ...this.within(atlas, best) };

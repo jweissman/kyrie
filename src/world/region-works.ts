@@ -6,6 +6,7 @@ import singing from '../../data/generation/works/singing_hall.kyrt' with { type:
 import { Histories, type History, type Work } from './history/histories';
 import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
+import { RegionSites } from './region-sites';
 import { Draw } from './land/draw';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
@@ -40,7 +41,17 @@ export class RegionWorks {
       land: zone ?? `${site.id}_land`, x: String(zone ? site.part ?? 0 : 1), y: String(zone ? 3 : 2),
       epithet: makers.epithet, craft: makers.craft, belief: makers.belief, fate: makers.fate,
       successors: history.successors.name, deity: region.deity, bound: this.bound(region, site),
-      ...this.treasure(work), ...twin ? this.twin(region, site, twin) : {} };
+      ...this.treasure(work), ...this.tellers(region, site), ...twin ? this.twin(region, site, twin) : {} };
+  }
+  // Who tells of a work: the people of the settlement nearest it (its innkeeper, priest and merchant), and the
+  // traveller of its neighbour along the road; and where it is, as they say it.
+  private static tellers(region: Region, site: Site): Record<string, string> {
+    const town = RegionGeography.near(region, site);
+    const road = RegionGeography.roads(region).find(r => r.from.id === town.id || r.to.id === town.id);
+    const next = road ? (road.from.id === town.id ? road.to : road.from) : town;
+    return { town: town.id, townname: town.name, keeper: `${town.id}_innkeeper`, priest: `${town.id}_priest`,
+      merchant: `${town.id}_merchant`, teller: `${next.id}_traveller`, nextname: next.name,
+      where: RegionSites.where(RegionGeography.seats(region).find(s => s.site === site)!, region) };
   }
   // The treasure a work holds, from its makers' (Orsino's junk and gems): a common thing and a rich one, by kind and
   // by name, drawn for the work.
@@ -48,7 +59,10 @@ export class RegionWorks {
     const lists = Histories.arts[work.art]?.treasure ?? { common: ['simple_ring'], rich: ['moonstone'] };
     const draw = new Draw(`${work.id}:${work.old.name}:treasure`);
     const common = draw.pick(lists.common), rich = draw.pick(lists.rich);
-    return { common, commonname: this.called(common), rich, richname: this.called(rich) };
+    return { common, commonname: this.called(common), rich, richname: this.called(rich),
+      premium: String(2 * this.worth(common)), richpremium: String(Math.round(1.5 * this.worth(rich))) };
+  }
+  private static worth(id: string): number { return Canon.items[id]?.value ?? 10;
   }
   private static called(id: string): string {
     return ItemNames.called(Canon.items[id]?.name ?? id.replace(/_/g, ' '));

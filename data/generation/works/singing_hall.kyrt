@@ -48,3 +48,13 @@
   Observe {w}_bats at {w}_porch when true "Bats hang from the dome of the porch, and stir and squeak as you come in.".
 --- present empty 1
   Observe {w}_still at {w}_hall when true "Nothing moves here but the echoes of yourselves.".
+--- hook song 2
+  Topic {w}_hook with {keeper} "Ask {{keeper}} about the cave that sings" when not knows(actor, {w}_named) once {
+    Says "'There is a doorway in a crag out in {where} that sings when the wind is in the north,' says {{keeper}}. '{name}, the old folk called it. Children dare each other to go in. None of them go far.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook echo 1
+  Topic {w}_hook with {teller} "Ask {{teller}} about the crags beyond {townname}" when not knows(actor, {w}_named) once {
+    Says "'Shout in {name}, in {where}, and something shouts back,' says {{teller}}. 'A breath after you, in a voice that is not yours. I did not stay to hear what it said.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }

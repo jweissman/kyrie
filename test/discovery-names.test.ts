@@ -30,14 +30,18 @@ class Named {
 
 describe('a place the company has not learned the name of', () => {
   it('is said as it is seen, in choices and in text, until someone names it', async () => {
-    const s = await Named.start(), town = Named.near(), site = Named.site(), seen = Named.seen(s);
-    GeneratedWorld.put(s, `${town.id}_taproom`);
-    await s.perform('wait');
+    // A work is told of by whoever its plan's hook gives it to: here, as anywhere, until then it is what it looks like.
+    const s = await Named.start(), site = Named.site(), seen = Named.seen(s);
+    const rooms = Named.world!.report.region.settlements.flatMap(t => ['taproom', 'shrine', 'shop'].map(r => `${t.id}_${r}`));
+    for (const room of rooms) {
+      GeneratedWorld.put(s, room);
+      await s.perform('wait');
+      if (PlayerView.choices(s.campaign).some(c => c.choice.id === 'region__w1_hook')) { break; }
+    }
     expect(ObservationText.label(s.campaign.world, 'region__w1')).toBe(seen);
-    expect(Named.names(s)).toContain(`Ask ${town.innkeeper} about ${seen}`);
     expect(Named.names(s).some(n => n.includes(site.name))).toBe(false);
-    const e = await s.perform('region__w1_asked');
-    expect([e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' ')).toContain(`'${site.name},'`);
+    const e = await s.perform('region__w1_hook');
+    expect([e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' ')).toContain(site.name);
     expect(ObservationText.label(s.campaign.world, 'region__w1')).toBe(site.name);
   }, 60000);
   it('is named by what is cut over the door of an old site, on arrival', async () => {

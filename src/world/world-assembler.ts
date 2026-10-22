@@ -248,7 +248,8 @@ export class WorldAssembler {
   }
   private static placeable(s: ScenarioManifest, region: Region, claimed: Set<string>): boolean {
     return Object.values(s.places).every(p => !p.site || p.site.some(kind =>
-      region.sites.some(w => w.kind === kind && !claimed.has(w.id)) || this.newSite(region, kind, 'probe') !== undefined));
+      region.sites.some(w => w.kind === kind && !claimed.has(w.id) && !w.work)
+        || this.newSite(region, kind, 'probe') !== undefined));
   }
   private static newSite(region: Region, kind: string, seed: string): Site | undefined {
     const kinds = (GenerationSetting.tables as unknown as { siteKind: { groups: Record<string, { _key: string }[]> } })
@@ -268,7 +269,9 @@ export class WorldAssembler {
     const generated: string[] = [];
     for (const [role, need] of Object.entries(s.places)) {
       if (need.site) {
-        let site = need.site.map(kind => region.sites.find(w => w.kind === kind && !claimed.has(w.id))).find(Boolean);
+        // A scenario takes a site of its own, never one of the makers' works, which are whole already.
+        let site = need.site.map(kind => region.sites.find(w => w.kind === kind && !claimed.has(w.id) && !w.work))
+          .find(Boolean);
         if (!site) {
           const key = RandomStreams.key(seed, 'world', 'site', instance, role);
           site = PlaceNames.another(region, need.site.map(kind => this.newSite(region, kind, key)).find(Boolean)!, key);

@@ -57,9 +57,9 @@ describe('a den holds what lives where it is', () => {
     expect(RegionEcology.habitat(region, { id: 'w1', kind: 'bog', name: 'Bog', hours: 1 })).toBe('fen');
   });
   it('lets a cleric lay a barrow\'s ghoul to rest, where smoke would not move it', async () => {
-    // b3: a forest region whose barrow holds a den of the unquiet dead.
-    const world = await WorldAssembler.assemble('b3', NodeBundleSource.shared), s = await PlaySession.start(world.path,
-      'b3', world.source);
+    // c2: a marsh region with a barrow that has become a den of the unquiet dead.
+    const world = await WorldAssembler.assemble('c2', NodeBundleSource.shared), s = await PlaySession.start(world.path,
+      'c2', world.source);
     const placement = world.report.placements.find(p => p.scenario === 'den'
       && world.report.region.sites.find(w => w.id === p.bindings.den)?.kind === 'barrow')!, den = placement.bindings.den!;
     const module = placement.modules[0]!;

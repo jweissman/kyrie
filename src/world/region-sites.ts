@@ -35,9 +35,10 @@ export class RegionSites {
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Observe ${id}_scene at ${id} when true ${q(this.scene(seat, region))}.`,
       `  Observe ${id}_known at ${id} when knows(party, ${id}_named) ${q(`This is ${site.name}${site.work ? ', as the folk call it' : ''}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
-      `  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
-      `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
-      `    On discuss { Assert knows(actor, ${id}_named).${hidden ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }'];
+      // A work's own people tell of it in its plan's words (RegionWorks); anything else, the innkeeper knows.
+      ...site.work ? [] : [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
+        `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
+        `    On discuss { Assert knows(actor, ${id}_named).${hidden ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }']];
     // Every site's way can be learned; one deep in wild country can also be found by searching where it starts.
     lines.push(hidden ? `  Discovery ${id}_found ${q(`The way to ${seen} in ${where}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`
       : `  Discovery ${id}_found ${q(`The way to ${seen} in ${where}.`)}.`);

@@ -56,3 +56,14 @@
   Observe {w}_rats at {w}_passage when true "Rats have been at the bones; their droppings are everywhere, and their eyes in the dark.".
 --- present quiet 2
   Observe {w}_quiet at {w}_passage when true "It is very quiet. Your breath is the loudest thing.".
+--- hook gold 2
+  Topic {w}_hook with {keeper} "Ask {{keeper}} about the old mounds" when not knows(actor, {w}_named) once {
+    Says "'The howe at {name}, out in {where},' says {{keeper}}. 'Raised over a king, folk say, with his horse and his gold. They also say the dead in it sit up if you take so much as a pebble, so nobody has.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook bound 1
+  Topic {w}_hook with {priest} "Ask {{priest}} about the old dead" when not knows(actor, {w}_named) once {
+    Says "'The howe at {name} keeps the old bound, out in {where},' says {{priest}}. 'The stone across its door was set there for a reason. If ever you hear it has been moved, come and tell me.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+  Objective {w}_unsealed when state({w}_seal, rolled) and knows(party, {w}_named) "The seal-stone of {name} has been rolled aside. The dead in it may walk at night.".

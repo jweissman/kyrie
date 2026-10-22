@@ -67,3 +67,13 @@
   }
 --- present empty 2
   Observe {w}_still at {w}_hall when true "Nothing moves in the water. Nothing has, for a long time.".
+--- hook gold 2
+  Topic {w}_hook with {keeper} "Ask {{keeper}} about the old wells" when not knows(actor, {w}_named) once {
+    Says "'The old wells?' {{keeper}} leans on the bar. 'A door in the hill out in {where}, and a stair going down further than anyone has followed it: {name}, we call it. Folk say the kings of old kept their gold down there under the water, where no thief would follow. Folk say a lot of things.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook springs 1
+  Topic {w}_hook with {priest} "Ask {{priest}} where the shrine's water comes from" when not knows(actor, {w}_named) once {
+    Says "'From the hill,' says {{priest}}. 'There is a door into it, out in {where}: {name}. The springs come up inside, and the old people held them there with gates of bronze. Nobody goes in now. Something lives in the water.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }

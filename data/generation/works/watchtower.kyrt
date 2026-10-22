@@ -63,3 +63,14 @@
   }
 --- present ravens 2
   Observe {w}_ravens at {w}_top when true "Ravens sit on the broken wall and watch you without fear.".
+--- hook light 2
+  Topic {w}_hook with {teller} "Ask {{teller}} about the towers on the heights" when not knows(actor, {w}_named) once {
+    Says "'{name}? The old tower in {where},' says {{teller}}. 'Coming home late you see a light in it some nights, high up, where nobody could get. The shepherds will not graze under it.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook reckoning 1
+  Topic {w}_hook with {priest} "Ask {{priest}} about the old towers" when not knows(actor, {w}_named) once {
+    Says "'The old people counted the days from their towers,' says {{priest}}. 'There is one at {name}, in {where}. If anyone could bring back what they wrote there, we would know what they knew of the sky. I would pay well for it.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+  Initially Set pays({priest}, {rich}) to {richpremium}. Initially Increase quantity({priest}, gold) by {richpremium}.

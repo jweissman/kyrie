@@ -70,14 +70,15 @@ describe('the Serewater March, three expeditions with one company', () => {
     await Journey.walk(s, Journey.hill);
     // Censer Hill: Pell lifted free and home, the bearing handed to Edda; and Wren's ferry runs.
     expect([Journey.outcome(s, 'rescue'), Journey.outcome(s, 'salvage')]).toEqual(['success', 'success']);
-    expect(Journey.experience(s)).toEqual([700, 700, 700]);
+    // The fights' experience, and the bronze bearing's worth for selling it to Edda.
+    expect(Journey.experience(s)).toEqual([712, 712, 712]);
     expect(Journey.test(s, 'state', 'east__ferry', 'east__running')).toBe(true);
     await Journey.walk(s, Journey.silkholme);
     // A bed at the Oar in the afternoon is a night's sleep: the company wakes at seven on the second day, and
     // Garth, two ewes down, has not yet gone for his fire. Fed, the brood is quiet and the rumours of it are done.
     expect(Journey.outcome(s, 'brood')).toBe('success');
     expect(Journey.test(s, 'state', 'brood__webs', 'brood__burnt')).toBe(false);
-    expect(Journey.experience(s)).toEqual([1200, 1200, 1200]);
+    expect(Journey.experience(s)).toEqual([1212, 1212, 1212]);
     await Journey.walk(s, Journey.rest);
     expect(s.campaign.state.party.map(f => f.level)).toEqual([2, 2, 2]);
     expect(FictionalTime.at(s.campaign.state.elapsed)).toMatch(/^Day 3, 7:/);
@@ -88,7 +89,7 @@ describe('the Serewater March, three expeditions with one company', () => {
     await Journey.walk(s, Journey.tower.slice(shop));
     // Holt tower by Wat's old well, a torch lit in the crypt, the lantern smashed: the tower module is resolved.
     expect(Journey.outcome(s, 'tower')).toBe('success');
-    expect(Journey.experience(s)).toEqual([2000, 2000, 2000]);
+    expect(Journey.experience(s)).toEqual([2012, 2012, 2012]);
     expect(s.campaign.events.every(e => !e.combat.some(x => x.type === 'initiative'))).toBe(true);
   }, 120000);
   it('a company without brawn, locks or woodcraft rescues Pell another way, and it costs them their food', async () => {

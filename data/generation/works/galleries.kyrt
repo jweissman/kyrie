@@ -90,3 +90,14 @@
   }
 --- present empty 2
   Observe {w}_quiet at {w}_head when true "Somewhere below, water drips. Nothing else moves.".
+--- hook ore 2
+  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old workings" when not knows(actor, {w}_named) once {
+    Says "'The Delvers' galleries at {name}, up in {where},' says {{merchant}}. 'Worked out, they say. They are not. Bring me what glints down there and I will pay you double what anyone in {townname} would.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+  Initially Set pays({merchant}, {common}) to {premium}.
+--- hook warning 1
+  Topic {w}_hook with {teller} "Ask {{teller}} about the fells above {townname}" when not knows(actor, {w}_named) once {
+    Says "'There are old workings up there in {where}: {name},' says {{teller}}. 'My grandfather went down them after the silver. He came back up, but he was never warm again, not in summer, not by the fire. Leave them be.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
