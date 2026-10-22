@@ -63,6 +63,16 @@ Module world_core "Bodies, places, time and the shared catalog" {
     Requires able(actor) and dark(). Time untilLight(clock). Interrupted when threatened(actor).
     Result "The sky greys, then lightens. It is morning.".
   }
+  Measure untilDark(clock). Measure untilTurn(clock).
+  Action wait_for_dark(actor: group) "Wait until dark" {
+    Requires able(actor) and not dark(). Time untilDark(clock). Interrupted when threatened(actor).
+    Result "The light goes. It is dark.".
+  }
+  Action wait_watch(actor: group) "Wait and watch" {
+    Description "Until someone comes or goes, or something changes here; or until the day turns.".
+    Requires able(actor). Time untilTurn(clock). Interrupted when threatened(actor). Watchful.
+    Result "Nothing comes, and nothing changes. The hours go by.".
+  }
   Action assail(actor: group, prey: group, site: place) "Fall on {prey}" {
     Description "Someone who means harm closes and attacks.".
     Requires able(actor) and at(actor, site) and at(prey, site) and able(prey) and distinct(actor, prey)

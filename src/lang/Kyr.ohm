@@ -105,8 +105,9 @@ Kyr {
   Description = "Description" string "."
   Action = "Action" ident ActionParameters? string "{" ActionPart* "}"
   ActionParameters = "(" ListOf<Parameter, ","> ")"
-  ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Speaker | Seen | Interruption
+  ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Speaker | Seen | Interruption | Watchful
   Interruption = "Interrupted" "when" Predicate "."
+  Watchful = "Watchful" "."
   Seen = "Seen" string "."
   Requires = "Requires" Predicate "."
   Success = "On" "success" "{" ChangeStatement* "}"

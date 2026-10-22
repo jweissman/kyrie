@@ -57,7 +57,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('The Long Man in the browser', () =>
       'lift the oak bar', '^To the grey gallery', 'light a torch', '^To the wet gallery');
     expect(Merrow.count(await Merrow.text(page), 'the floor heaves')).toBe(1);
     expect((await d.inspect()).mode).toBe('explore');
-    for (let i = 0; i < 4 && (await d.inspect()).mode !== 'combat'; i++) { await Merrow.act(d, '^Wait a while'); }
+    for (let i = 0; i < 4 && (await d.inspect()).mode !== 'combat'; i++) { await Merrow.act(d, '^Wait › ^A while'); }
     expect((await d.inspect()).mode).toBe('combat');
     const fight = await Merrow.text(page);
     expect([Merrow.count(fight, 'faster than mud should'), Merrow.count(fight, 'comes at you!')]).toEqual([1, 0]);

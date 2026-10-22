@@ -10,6 +10,7 @@ import type { ArenaAbility } from '../lang/parse';
 import { CombatChoices } from './combat-choices';
 import { CombatPresenter } from './combat-presenter';
 import { CombatTelling } from './combat-telling';
+import { Tactics } from '../tactics';
 import type { CombatantRow, CombatScreen } from './screen-types';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only.
@@ -26,6 +27,7 @@ export class CombatModel {
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
         cooldown: c.ability.cooldown ?? 0, scope: c.scope,
+        rank: Math.max(...c.commands.map(command => Tactics.score(state, command))),
         ...(c.ability.spell ? { spell: { level: c.ability.spell.level,
           ready: (actor?.ready ?? []).flat().filter(id => id === c.ability.id).length } } : {}),
         targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [] })),

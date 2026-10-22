@@ -98,6 +98,7 @@ export class ModuleWriter {
     if (action.speaker) { lines.push(`    Speaker ${action.speaker}.`); }
     if (action.resolve) { lines.push(`    Resolve ${World.format(action.resolve)}.`); }
     if (action.interrupt) { lines.push(`    Interrupted when ${ModuleWriter.predicate(action.interrupt)}.`); }
+    if (action.watchful) { lines.push('    Watchful.'); }
     lines.push('    On success {', ...action.success.map(change => `      ${ModuleWriter.change(change)}`), '    }');
     if (action.failure.length) {
       lines.push('    On failure {', ...action.failure.map(change => `      ${ModuleWriter.change(change)}`), '    }');

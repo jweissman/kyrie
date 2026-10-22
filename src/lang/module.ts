@@ -34,6 +34,8 @@ export interface Operator {
   // hold (having not held when it began) or something happens where the company is. Its success changes apply only
   // if it runs its course; if it is interrupted, its failure changes apply instead.
   interrupt?: Predicate;
+  // A watchful activity also stops when anyone comes or goes where the company is, or what it sees there changes.
+  watchful?: boolean;
 }
 export interface Pursuit {
   id: string; actor: string; label?: string; priority: number; when: Predicate; target: Predicate;

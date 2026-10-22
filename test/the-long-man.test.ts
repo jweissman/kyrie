@@ -30,7 +30,7 @@ class Dale {
   static async until(s: PlaySession, watch: number): Promise<string> {
     let said = '';
     while (s.campaign.state.elapsed < watch) {
-      const [e] = await this.act(s, '^Wait an hour');
+      const [e] = await this.act(s, '^Wait › An hour');
       said += ' ' + [...(e!.perceptions ?? []).map(p => p.text), e!.response ?? ''].join(' ');
     }
     return said;
@@ -48,7 +48,7 @@ describe('The Long Man', () => {
     const s = await Dale.start();
     await Dale.act(s, '^To Merrow green', '^To the Hall yard', '^To the crest');
     await Dale.until(s, 80);
-    await Dale.act(s, '^Wait a while');
+    await Dale.act(s, '^Wait › A while');
     expect(Dale.holds(s, 'knows', 'party', 'longman__mower_keeps')).toBe(true);
     await Dale.act(s, '^To the Hall yard');
     expect(await Dale.until(s, 100)).toContain('turns the cart over');
@@ -92,7 +92,7 @@ describe('The Long Man', () => {
     const s = await Dale.start();
     await Dale.act(s, '^To Merrow green', '^To the Hall yard', '^To the crest');
     await Dale.until(s, 80);
-    await Dale.act(s, '^Wait a while', '^To the Hall yard', '^To Merrow green', '^Into Gammer', 'about the rod',
+    await Dale.act(s, '^Wait › A while', '^To the Hall yard', '^To Merrow green', '^Into Gammer', 'about the rod',
       'for the loan', '^Take', '^Out to Merrow green', '^To the Hall yard', '^To the crest', '^To the lakeshore',
       'push the punt', '^To the deep water', '^To the Water-House');
     expect(Dale.holds(s, 'knows', 'party', 'longman__rod_fits')).toBe(true);
@@ -166,7 +166,7 @@ describe('The Long Man, deepened', () => {
     const s = await Dale.start();
     await Dale.act(s, '^To Merrow green', '^To the Hall yard', '^To the crest');
     await Dale.until(s, 80);
-    await Dale.act(s, '^Wait a while', '^To the Hall yard', '^To Merrow green', '^Into Gammer', 'about the rod',
+    await Dale.act(s, '^Wait › A while', '^To the Hall yard', '^To Merrow green', '^Into Gammer', 'about the rod',
       'for the loan', '^Take', '^Out to Merrow green', '^To the Hall yard', '^To the crest', '^To the lakeshore',
       'push the punt', '^To the deep water', '^To the Water-House', 'turn the great wheel');
     await Dale.until(s, s.campaign.state.elapsed + 14);

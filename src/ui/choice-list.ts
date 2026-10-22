@@ -65,14 +65,19 @@ export class ChoiceList {
     const tone: Tone = t.kind === 'person' ? 'person' : t.kind === 'creature' ? 'creature' : 'thing';
     const glyph = t.state ? '✝' : tone === 'person' ? '☺' : tone === 'creature' ? '◆' : t.kind === 'feature' ? '▣' : '·';
     const note = [t.activity ?? t.note, t.state === 'dead' ? 'dead' : t.state ? 'down' : ''].filter(Boolean).join(' · ');
-    const about = [...t.says ?? [], t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : '']
-      .filter(Boolean).join(' ');
-    // A fight or a risk comes after the gentler ways with the same subject, so Enter on arrival is never a blow.
-    const choices = this.flatten(t.acts, t.id, tone);
+    const about = [...t.says ?? [], t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : '',
+      t.reckoning?.text].filter(Boolean).join(' ');
+    // A fight or a risk comes after the gentler ways with the same subject, so Enter on arrival is never a blow; an
+    // attack says what the company makes of its chances.
+    const choices = this.flatten(t.acts, t.id, tone).map(c => c.label === 'Attack' && t.reckoning ? { ...c,
+      note: [c.note, this.chances[t.reckoning.danger]].filter(Boolean).join(' · '),
+      about: [c.about, t.reckoning.text].filter(Boolean).join(' ') } : c);
     return { id: t.id, title: t.name, tone, glyph, ...(note ? { note } : {}), ...(about ? { about } : {}),
       ...(t.says?.some(x => fresh.includes(x)) ? { fresh: true } : {}),
       choices: [...choices.filter(c => !c.risk), ...choices.filter(c => c.risk)] };
   }
+  static readonly chances: Record<NonNullable<TargetRow['reckoning']>['danger'], string> = { slight: 'easily won',
+    fair: 'should be won', hard: 'a hard fight', grave: 'could be lost', deadly: 'beyond you' };
   static ways(exits: ExitRow[]): Section {
     const labels = exits.map(e => this.wayLabel(e));
     // Two ways into the same enclosure (a tower by its door and by its well) are told apart by where they arrive.
@@ -204,12 +209,24 @@ export class ChoiceList {
     if (!c.ours || c.outcome) { return []; }
     const titles: Record<string, string> = { strike: 'Strike', abilities: 'Abilities', spells: 'Spells',
       other: 'Defend, wait or withdraw' };
-    return Object.entries(titles).map(([id, title]) => ({ id, title,
-      tone: id === 'spells' ? 'spell' as const : 'ability' as const, glyph: id === 'spells' ? '✦' : '⚔',
-      choices: c.abilities.filter(a => this.kind(a) === id)
+    return Object.entries(titles).map(([id, title]) => {
+      const list = c.abilities.filter(a => this.kind(a) === id)
         .sort((a, b) => (a.spell?.level ?? 0) - (b.spell?.level ?? 0)
-          || this.last.indexOf(a.id) - this.last.indexOf(b.id))
-        .map(a => this.ability(a, c)) })).filter(s => s.choices.length);
+          || this.last.indexOf(a.id) - this.last.indexOf(b.id));
+      return { id, title, tone: id === 'spells' ? 'spell' as const : 'ability' as const, glyph: id === 'spells' ? '✦' : '⚔',
+        choices: ['abilities', 'spells'].includes(id) ? this.fold(list, id, c) : list.map(a => this.ability(a, c)) };
+    }).filter(s => s.choices.length);
+  }
+  // A long list of abilities or spells shows the three that would do most good now, in their usual order, and folds
+  // the rest under one choice, a tap away.
+  private static fold(list: CombatScreen['abilities'], id: string, c: CombatScreen): Choice[] {
+    if (list.length <= 4) { return list.map(a => this.ability(a, c)); }
+    const best = new Set([...list].sort((a, b) => (b.rank ?? 0) - (a.rank ?? 0)).slice(0, 3));
+    const rest = list.filter(a => !best.has(a));
+    const tone: Tone = id === 'spells' ? 'spell' : 'ability';
+    return [...list.filter(a => best.has(a)).map(a => this.ability(a, c)),
+      { id: `more:${id}`, label: id === 'spells' ? 'Other spells' : 'Other abilities', tone,
+        note: `${rest.length} more`, children: rest.map(a => this.ability(a, c)) }];
   }
   private static readonly last = ['defend', 'wait', 'flee'];
   private static kind(a: CombatScreen['abilities'][number]): string {

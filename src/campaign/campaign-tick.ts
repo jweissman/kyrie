@@ -37,13 +37,14 @@ export class CampaignTick {
   static clock(world: World, { elapsed, seed }: { elapsed: number; seed: string }): Change[] {
     const night: Change[] = world.module.relations.some(r => r.name === 'dark')
       ? [{ kind: FictionalTime.dark(elapsed) ? 'assert' : 'retract', call: ModuleWriter.call('dark') }] : [];
-    if (world.module.measures.some(m => m.name === 'untilLight')) {
-      night.push({ kind: 'set', call: ModuleWriter.call('untilLight', 'clock'),
-        value: ModuleWriter.number(FictionalTime.untilLight(elapsed)) });
-    }
-    if (world.module.measures.some(m => m.name === 'untilMorning')) {
-      night.push({ kind: 'set', call: ModuleWriter.call('untilMorning', 'clock'),
-        value: ModuleWriter.number(FictionalTime.untilMorning(elapsed)) });
+    // How long until the hours a company waits for: first light, a night's sleep, dark, the day's next turn.
+    const until: [string, number][] = [['untilLight', FictionalTime.untilLight(elapsed)],
+      ['untilMorning', FictionalTime.untilMorning(elapsed)], ['untilDark', FictionalTime.untilDark(elapsed)],
+      ['untilTurn', FictionalTime.untilTurn(elapsed)]];
+    for (const [name, watches] of until) {
+      if (world.module.measures.some(m => m.name === name)) {
+        night.push({ kind: 'set', call: ModuleWriter.call(name, 'clock'), value: ModuleWriter.number(watches) });
+      }
     }
     if (world.module.measures.some(m => m.name === 'dice')) {
       night.push({ kind: 'set', call: ModuleWriter.call('dice', 'clock'),

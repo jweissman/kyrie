@@ -12,6 +12,7 @@ import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
 import { SkillReading } from '../presentation/skill-reading';
+import { DangerSense } from '../presentation/danger-sense';
 import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
@@ -34,9 +35,7 @@ export class ScreenModel {
   static build(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world;
     const entities = ObservationText.presented(world);
-    const creatures = campaign.readout.creatures;
-    const names = new Map(campaign.module.entities.map(e =>
-      [e.id, creatures.find(c => e.creatureId && c.id === e.creatureId)?.name ?? ObservationText.label(world, e.id)]));
+    const names = this.names(campaign);
     const priced = world.module.measures.some(m => m.name === 'price');
     const prices = new Map(campaign.module.entities.filter(e => priced && e.type === 'item')
       .map(e => [e.id, world.number(ModuleWriter.call('price', e.id))]));
@@ -61,7 +60,7 @@ export class ScreenModel {
     view.present.forEach(p => unclaimed.delete(p.id));
     const scene = this.scene(campaign, view, present);
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
-      ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {} })));
+      ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped) })));
     return {
       title: view.title, clock: FictionalTime.at(view.elapsed), elapsed: view.elapsed, running: view.running,
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
@@ -207,6 +206,18 @@ export class ScreenModel {
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...(note ? { note } : {}), acts };
+  }
+  // Every entity by the name the company knows it by: a member by their own name.
+  private static names(campaign: Campaign): Map<string, string> {
+    const world = campaign.world, byId = new Map(campaign.readout.creatures.map(c => [c.id, c]));
+    return new Map(campaign.module.entities.map(e =>
+      [e.id, (e.creatureId && byId.get(e.creatureId)?.name) || ObservationText.label(world, e.id)]));
+  }
+  // A group the company could attack is weighed up before it does.
+  private static reckoning(campaign: Campaign, id: string, grouped: Grouped): Pick<TargetRow, 'reckoning'> {
+    if (!(grouped.targets.get(id) ?? []).some(a => a.label === 'Attack')) { return {}; }
+    const reckoning = DangerSense.reckon(campaign, id);
+    return reckoning ? { reckoning } : {};
   }
   // The formations the company was formed as: every member holds them, so the first living one says.
   private static formations(campaign: Campaign): Screen['formations'] {

@@ -27,6 +27,18 @@ export class FictionalTime {
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440, wake = (7 * 60 - minutes + 1440) % 1440;
     return Math.ceil((wake >= 360 && wake <= 1080 ? wake : 480) / this.minutesPerTick);
   }
+  // Watches from this one until nine in the evening, while it is light.
+  static untilDark(tick: number): number {
+    if (this.dark(tick)) { return 0; }
+    const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;
+    return Math.ceil((21 * 60 - minutes) / this.minutesPerTick);
+  }
+  // Watches until the day next turns: first light, midday, evening or dark (six, twelve, six and nine o'clock).
+  static untilTurn(tick: number): number {
+    const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;
+    const next = [6, 12, 18, 21, 30].map(h => h * 60).find(m => m > minutes)!;
+    return Math.ceil((next - minutes) / this.minutesPerTick);
+  }
   static duration(ticks: number): string {
     const minutes = ticks * this.minutesPerTick;
     return minutes >= 60 ? `${Math.floor(minutes / 60)}h${minutes % 60 ? ` ${minutes % 60}m` : ''}` : `${minutes} min`;

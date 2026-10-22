@@ -36,7 +36,8 @@ export class Battle {
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
     this.fighters = structuredClone(scenario.combatants);
-    this.abilities = structuredClone(scenario.abilities);
+    // The catalog's abilities are never changed, so a fight over them reads them as they are; others are copied.
+    this.abilities = scenario.abilities === Content.abilities ? Content.abilities : structuredClone(scenario.abilities);
     try { this.validate(); } catch (error) { this.lease?.release(); throw error; }
     if (!this.lease) {
       const store = new CreatureStore(this.fighters.map(f => {

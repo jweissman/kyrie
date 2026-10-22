@@ -59,7 +59,7 @@ export class ModuleParser {
     Action: ModuleParser.Action, Requires: StatementParser.Requires,
     Success: ModuleParser.Success, Failure: ModuleParser.Failure, Cost: StatementParser.Cost,
     Resolve: StatementParser.Resolve, ChangeStatement: StatementParser.ChangeStatement,
-    Interruption: StatementParser.Interruption,
+    Interruption: StatementParser.Interruption, Watchful: StatementParser.Watchful,
     Assert: StatementParser.Assert, Retract: StatementParser.Retract, Set: StatementParser.Set,
     Increase: StatementParser.Increase, Decrease: StatementParser.Decrease,
     Or_binary: StatementParser.Or, And_binary: StatementParser.And,

@@ -79,6 +79,8 @@ export class Campaign implements WatchHost {
     for (const actor of this.definition.actors) { inhabitants[actor.id] = [...actor.members]; }
     this.current = { seed, world: structuredClone(instance.world), partyIds: [...player.members],
       inhabitants, elapsed: 0, deadline: instance.budget, outcome: 'active' };
+    // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
+    this.commit(this.world.apply(CampaignTick.clock(this.world, this.current)));
     CreatureFacts.initialize(this.world, this.definition.actors, this.creatures);
     this.refresh(); this.observe();
     this.updateOutcome();

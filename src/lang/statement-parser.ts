@@ -21,6 +21,7 @@ export class StatementParser {
   static Interruption(_interrupted: Node, _when: Node, predicate: Node, _dot: Node): Field {
     return { field: 'interrupt', value: ModuleParser.ast(predicate) };
   }
+  static Watchful(_watchful: Node, _dot: Node): Field { return { field: 'watchful', value: true }; }
   static ChangeStatement(change: Node, _dot: Node) { return ModuleParser.ast(change); }
   static Assert(_assert: Node, call: Node) { return { kind: 'assert', call: ModuleParser.ast(call) }; }
   static Retract(_retract: Node, call: Node) { return { kind: 'retract', call: ModuleParser.ast(call) }; }

@@ -1,4 +1,5 @@
 import type { Counter } from './trade-model';
+import type { Danger } from '../presentation/danger-sense';
 
 // Renderer-independent game screen contract. Every executable leaf carries a PlayerView command id; the client
 // never decides what is legal. Rows describe what the party can perceive at its current location.
@@ -24,6 +25,8 @@ export interface TargetRow {
   look?: string; state?: 'dead' | 'down'; acts: Act[];
   // What can be seen of them now ("Wren stands with one hand shading her eyes"), told with them, not in the prose.
   says?: string[];
+  // For those the company could fight: how the most seasoned member reckons a fight would go.
+  reckoning?: { danger: Danger; text: string };
 }
 export interface ItemRow {
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;
@@ -94,6 +97,8 @@ export interface CombatScreen {
   foes: CombatantRow[]; allies: CombatantRow[];
   abilities: { id: string; name: string; text: string; cost: number; price: string; cooldown: number; scope: string;
     spell?: { level: number; ready: number };
+    // How much good it would do now, as the game's own tactics weigh it: the best of its uses.
+    rank?: number;
     // Each target, with how it takes the ability's damage, and for a blow, the chance it lands.
     targets: { id: string; name: string; against?: string; odds?: number }[] }[];
   // Who is still to act this round, in order, the one acting first.
