@@ -59,7 +59,7 @@ Module longman "The Long Man" {
     Assert state(cart, smashed). Assert hunting(mower). Assert at(mower, yard).
   }
   Observe mower_crest at crest when dark() and at(mower, crest) "The Mower walks the crest, slowly, the length of it and back. Every few paces it stoops, and a long blade flicks, and something small falls." teaches mower_keeps.
-  Observe mower_resting at rest when at(mower, rest) "The Mower stands in its niche: a figure taller than two men, grey and too smooth, with its long arms at its sides and a face like a blank mask. It does not move. On its breastplate, in the light, a row of notches." .
+  Observe mower_resting at rest when at(mower, rest) and able(mower) "The Mower stands in its niche: a figure taller than two men, grey and too smooth, with its long arms at its sides and a face like a blank mask. It does not move. On its breastplate, in the light, a row of notches." .
   Observe mower_yard at yard when at(mower, yard) "The Mower stands in the yard by the overturned cart, its blank face turned toward the cellar." .
   Discovery keeper_named "The notches on the Mower's breastplate, read: KEEPER OF THE WALL." {
     Found by searching rest with lore "The notches on the Mower's breastplate are writing, the same writing as on the walls. It says, as near as it can be read: KEEPER OF THE WALL.".
@@ -71,6 +71,16 @@ Module longman "The Long Man" {
   }
   Item mask "the Mower's mask" is keeper_mask at core.
   Rule mower_falls when dead(mower) and at(mower, ?p) and at(mask, core) { Assert at(mask, ?p). }
+  // By day it stands still in its niche, and its face is a mask that a bar can lever off. That lays it, as Venn wants
+  // and Ysolt prays for; and then nobody keeps the wall.
+  Hazard unmasking "The mask levered off" means "Kill ally.".
+  Action unmask_mower(actor: group, site: place) "Get the bar under the Mower's face and lever it off" {
+    Description "By day it does not move. Whatever it is, its face is a mask, and a mask comes off.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(mower, site) and at(mower, rest) and able(mower)
+      and not dark() and holding(actor, crowbar) and not benighted(actor).
+    On success { Assert strikes(unmasking, mower). Retract at(mask, core). Assert at(mask, rest). }
+    Result "The bar goes in under the grey chin, and you lean on it. The mask comes away with a sound like a cracked bell, and the Mower folds down onto its ledge like a dropped coat, and is still.".
+  }
 
   // The leak gate, and what the leak has made of the clay.
   Thing leak_gate "the bronze shutter" at leak {

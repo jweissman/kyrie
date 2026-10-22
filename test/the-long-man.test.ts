@@ -104,3 +104,28 @@ describe('The Long Man', () => {
     expect(Dale.holds(s, 'longman__broke', 'longman__long_man')).toBe(false);
   }, 180000);
 });
+
+describe('The Long Man, its other endings', () => {
+  it('lays its keeper by day with the steward\'s own bar, and leaves the wall with nobody to keep it', async () => {
+    const s = await Dale.start();
+    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox', '^Buy › A torch', '^Out to Merrow green',
+      '^To the Hall yard', '^Into the Hall cellar', '^Take$', '^Search here', 'lift the oak bar', '^To the grey gallery',
+      'light', '^To the keeper\'s niche', 'Get the bar under', '^Take$');
+    expect(Dale.holds(s, 'dead', 'longman__mower')).toBe(true);
+    await Dale.act(s, '^To the grey gallery', '^To the Hall cellar', '^Out to the Hall yard', '^Into the steward',
+      'Show Aldous Venn the Mower\'s mask');
+    expect(Dale.holds(s, 'longman__paidBounty', 'longman__venn')).toBe(true);
+    await Dale.until(s, 400);
+    expect(Dale.holds(s, 'longman__broke', 'longman__long_man')).toBe(true);
+  }, 180000);
+  it('shows the steward his own ledger beside what the bronze held shut, and he leaves on the barge', async () => {
+    const s = await Dale.start();
+    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox', '^Buy › A torch', '^Out to Merrow green',
+      '^To the Hall yard', '^Into the steward', '^Read', '^Out to the Hall yard', '^Into the Hall cellar', '^Search here',
+      'lift the oak bar', '^To the grey gallery', 'light', '^To the wet gallery', '^To the grey gallery',
+      '^To the Hall cellar', '^Out to the Hall yard', '^Into the steward', 'Show Aldous Venn his own ledger');
+    expect(Dale.holds(s, 'longman__exposed', 'longman__venn')).toBe(true);
+    await Dale.until(s, 206);
+    expect(Dale.holds(s, 'at', 'longman__venn', 'longman__downriver')).toBe(true);
+  }, 180000);
+});

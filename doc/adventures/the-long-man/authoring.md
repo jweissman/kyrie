@@ -162,9 +162,20 @@ module that does not load is reported this way, and the page keeps the last buil
 - **A readable source cannot need a skill.** Only a search can (`Found by searching rest with lore`).
 - **New creatures and items go in the global catalogs.** The bell-teeth, the rod, the mask and the pike are entries in
   `data/catalog`, though only this dale has them.
-- **The steward's exposure is not written.** The design says that exposed, Venn tries to leave on Cass's barge. The
-  module declares `exposed(venn)`, gates two topics on it, and never asserts it.
 
-In numbers: three bespoke relations, three noticing rules, one bespoke action, six fact-and-assertion pairs, two
-creature-fact blocks and three goals were removed. One room, two rules and three people's words were added. The
-module went from 501 lines to 494, with more in it.
+In numbers, the rewrite removed:
+
+- three bespoke relations;
+- three noticing rules;
+- one bespoke action;
+- six fact-and-assertion pairs;
+- two creature-fact blocks;
+- three goals.
+
+It added one room, two rules and three people's words, and took the module from 501 lines to 494. The revisions
+after the browser pass came later and brought it to 520:
+
+- Venn's exposure;
+- laying the Mower by day with an iron bar from the cellar;
+- Ysolt burying its mask;
+- a cellar door found by searching.

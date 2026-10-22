@@ -71,6 +71,8 @@ Module longman "The Long Man" {
   Observe study_scene at study when true "A steward's study: a fire, a desk heaped with bills, and the Hall's accounts in a row of ledgers.".
   Observe chamber_scene at chamber when true "A narrow bedchamber over the yard, with a cold grate, a washstand, and a bed with curtains of faded green.".
   Observe cellar_scene at cellar when true "The Hall cellar is old at the back, older than the Hall: walls of smooth grey stone, fitted without mortar. Barrels stand along them, and the air at the back is colder than a cellar's should be.".
+  Item bar "an iron bar" is crowbar at cellar.
+  Observe bar_seen at cellar when at(bar, cellar) "An iron bar leans against the barrels, one end bright with scraped bronze.".
   Observe field_scene at low_field when not drowned(low_field) "A low field of black earth under the Long Man. The furrows hold water, and the grass is the bright green of a meadow that is turning into a bog.".
   Observe field_drowned at low_field when drowned(low_field) "The low field is under a hand's depth of water. The furrows are gone; reeds are coming up through it.".
   Observe springs_scene at springs when true "At the foot of the Long Man a row of small springs comes out of the turf, clear and very cold. They run into a ditch that runs to the mill.".
@@ -90,7 +92,12 @@ Module longman "The Long Man" {
   Initially Assert serves(dunnet, venn).
   Person ysolt "Mother Ysolt" at nave {
     Role "priest of the Chapel of the Ford". Ancestry human. Calling cleric. Peaceable.
+    Wants keeper_mask.
   }
+  Event mask_buried near ysolt when keeps(ysolt, mask) "Mother Ysolt takes the grey face in both hands and looks at it a long time. That evening she buries it in the chapel yard with the words for the dead, and rings the bell once." then {
+    Assert buried(mask).
+  }
+  Relation buried(item).
   Person hob "Hob Teller" at millhouse {
     Role "the miller". Ancestry human. Peaceable.
   }
