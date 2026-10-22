@@ -119,7 +119,7 @@ export class WorldAssembler {
   private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>): Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = new Content(RandomStreams.key(own, 'world', 'region')).generate('region', drawn ?? {}) as unknown as Region;
-    return { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own), RandomStreams.key(own, 'world'))), at,
+    return { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed), RandomStreams.key(own, 'world'))), at,
       beyond: WorldGrid.beyond(seed, at) };
   }
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
@@ -166,11 +166,12 @@ export class WorldAssembler {
   static prefix(rid: string): string { return rid === RegionWriter.id ? '' : rid; }
   // A region drawn by Deem laid on land of its own: its atlas, its settlements where people settled, and its sites
   // where each kind can stand (those that can stand nowhere left out).
-  static lay(drawn: Region, seed: string): Region {
+  static lay(drawn: Region, seed: string, world = seed): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
       { tongue: PlaceNames.tongues[drawn.ancestry] ?? 'westron', taken: [drawn.name] });
     const region = Livelihoods.seat(drawn, atlas, seed);
-    const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas);
+    const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas,
+      RandomStreams.key(world, 'world', 'history'));
     // The region's sites are its makers' works, where their art put them.
     region.history = history;
     region.sites = history.works.map(w => ({ id: w.id, kind: Histories.plan(w.plan).kind, name: w.worn, hours: 1,

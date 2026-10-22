@@ -42,6 +42,13 @@ describe('the world beyond a region', () => {
     expect(drawn!.region!.name).toBe(east.name);
     expect(s.campaign.installed).toContain('x1y0');
     expect(await frontier.expand(s.campaign)).toBeUndefined();
+    // One world, one history: the kingdom after the makers is the same on both sides of the march, and makers who
+    // worked in both ended the same way in both.
+    const past = w.report.region.history!, beyond = drawn!.region!.history!;
+    expect(beyond.successors.name).toBe(past.successors.name);
+    const shared = beyond.makers.filter(m => past.makers.some(h => h.art === m.art));
+    expect(shared.length).toBeGreaterThan(0);
+    expect(shared.map(m => m.fate)).toEqual(shared.map(m => past.makers.find(h => h.art === m.art)!.fate));
     // Nothing placed in the first region is placed again in the second.
     expect(drawn!.region!.sites.length).toBeGreaterThan(4);
     const bare = (id: string) => id.replace(/^x1y0/, '').replace(/\d+$/, '');

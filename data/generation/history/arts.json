@@ -339,7 +339,7 @@
         "id": "warlords",
         "were": "warlords who built keeps on every height and fought one another for the roads",
         "made": "keeps and watch-posts",
-        "plan": "keep",
+        "plans": ["keep", "tollhouse"],
         "modifiers": [
           "high",
           "iron",
@@ -368,7 +368,7 @@
         "id": "abbots",
         "were": "an order of monks who kept the old learning and the roads, and taxed both",
         "made": "chapels, bridges and an abbey",
-        "plan": "abbey",
+        "plans": ["abbey", "tollhouse", "keep"],
         "modifiers": [
           "holy",
           "white",
@@ -397,7 +397,7 @@
         "id": "princes",
         "were": "merchant-princes who grew rich on the river trade",
         "made": "bridges, toll-houses and warehouses",
-        "plan": "tollhouse",
+        "plans": ["tollhouse", "keep"],
         "modifiers": [
           "gold",
           "silver",

@@ -22,7 +22,7 @@ export interface Successors { name: string; gloss: string; kind: string; were: s
   fallen: string }
 // What a later kingdom built, and what it left: the plan its works follow, the words its names are made of, and
 // its treasure.
-interface Kind { id: string; were: string; made: string; plan: string; modifiers: string[];
+interface Kind { id: string; were: string; made: string; plans: string[]; modifiers: string[];
   treasure: { common: string[]; rich: string[] } }
 // One of the makers' works, or the later kingdom's: its plan, where it stands, the name cut over it (the makers' in
 // the old tongue, the kingdom's in the folk's), and the name the folk have worn it down to.
@@ -50,11 +50,15 @@ export class Histories {
     if (!plan) { throw new Error(`No work plan ${id}`); }
     return plan;
   }
-  static make(key: string, terrain: string, atlas: Atlas): History {
+  // Which makers' works a region holds is its own, by its land; what each people called themselves and how they
+  // ended, and the kingdom that came after them, are its world's (drawn from `world`), the same in every region.
+  static make(key: string, terrain: string, atlas: Atlas, world = key): History {
     const draw = new Draw(`${key}:history`), names: string[] = [];
     const first = this.art(draw, terrain), second = this.art(draw, terrain, first);
-    const makers = [first, ...second ? [second] : []].map(art => this.makers(art, draw, names));
-    const successors = this.successors(draw), works: Work[] = [], taken: number[] = [];
+    const makers = [first, ...second ? [second] : []]
+      .map(art => this.makers(art, new Draw(`${world}:history:${art}`), names));
+    const successors = this.successors(new Draw(`${world}:history:successors`)), works: Work[] = [];
+    const taken: number[] = [];
     names.push(successors.name);
     for (const [i, maker] of makers.entries()) {
       const plans = this.arts[maker.art]!.plans.filter(p => this.plans.has(p));
@@ -66,11 +70,14 @@ export class Histories {
         }
       }
     }
-    // What the kingdom after them built, and left when it fell.
+    // What the kingdom after them built here, and left when it fell: two of the kinds of work it made, its own kind
+    // the likelier.
     const kind = this.kinds.find(k => k.id === successors.kind);
-    for (let n = 0; kind && this.plans.has(kind.plan) && n < (this.counts[kind.plan] ?? 1); n++) {
-      const same = works.filter(w => w.plan === kind.plan).map(w => w.cell);
-      const work = this.work(atlas, { plan: this.plan(kind.plan), key: `${key}:work:${works.length}`, taken, names, same });
+    const plans = (kind?.plans ?? []).filter(p => this.plans.has(p)).map((p, i) => [p, i ? 1 : 2] as const);
+    for (let n = 0; n < 2 && plans.length; n++) {
+      const id = draw.weighted(plans), same = works.filter(w => w.plan === id).map(w => w.cell);
+      plans.splice(plans.findIndex(([p]) => p === id), 1);
+      const work = this.work(atlas, { plan: this.plan(id), key: `${key}:work:${works.length}`, taken, names, same });
       if (work) { works.push({ ...work, id: `w${works.length + 1}`, later: true }); }
     }
     return { makers, successors, works };
