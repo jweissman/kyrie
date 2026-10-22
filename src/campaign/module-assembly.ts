@@ -36,8 +36,10 @@ export type AdventureManifest = SituationManifest;
 
 // Combines declarative content and a reusable ruleset; contains no adventure-specific decisions.
 export class ModuleAssembly {
-  static compose(situationSource: string, rulesSource: string, manifest: AdventureManifest, seed: string): Instance {
-    const situation = ModuleParser.parse(situationSource), rules = ModuleParser.parse(rulesSource);
+  static compose(situationSource: string | Module, rulesSource: string | Module, manifest: AdventureManifest,
+    seed: string): Instance {
+    const situation = typeof situationSource === 'string' ? ModuleParser.parse(situationSource) : situationSource;
+    const rules = typeof rulesSource === 'string' ? ModuleParser.parse(rulesSource) : rulesSource;
     const module = this.joined(situation, rules, manifest);
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);

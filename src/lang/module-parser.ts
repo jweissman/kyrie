@@ -64,10 +64,18 @@ export class ModuleParser {
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     expression: StatementParser.Expression, integer: StatementParser.Integer, string: StatementParser.String,
   });
+  // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again
+  // and again; each caller gets its own copy of the remembered module.
+  private static readonly parsed = new Map<string, Module>();
   static parse(text: string): Module {
+    const known = ModuleParser.parsed.get(text);
+    if (known) { return structuredClone(known); }
     const match = ModuleParser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${match.message}`); }
-    return ModuleParser.semantics(match).ast() as Module;
+    const module = ModuleParser.semantics(match).ast() as Module;
+    if (ModuleParser.parsed.size >= 96) { ModuleParser.parsed.delete(ModuleParser.parsed.keys().next().value!); }
+    ModuleParser.parsed.set(text, structuredClone(module));
+    return module;
   }
   static predicate(text: string): Predicate {
     const match = ModuleParser.grammar.match(text, 'Predicate');

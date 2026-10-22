@@ -2,7 +2,6 @@ import type { DeemValue } from 'deem';
 import { RoleRequirements, type RoleContract } from './role-requirements';
 import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
-import { ModuleWriter } from '../lang/module-writer';
 import { ModuleParser } from '../lang/module-parser';
 import { ModuleAssembly, type AdventureManifest } from './module-assembly';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
@@ -125,8 +124,7 @@ export class ModuleBundle {
       { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
     const combined = this.merge(rulePaths.map((_, i) => ModuleParser.parse(texts[situationPaths.length + i]!)));
     const composed = this.merge(situationPaths.map((_, i) => ModuleParser.parse(texts[i]!)));
-    const instance = ModuleAssembly.compose(ModuleWriter.write(composed),
-      ModuleWriter.write(combined), generated, seed);
+    const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);
     const imports = this.imports(manifest, request, options.installed, instance.module);
     const draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
       imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
