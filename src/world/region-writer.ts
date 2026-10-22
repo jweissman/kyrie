@@ -9,6 +9,8 @@ import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionZones } from './region-zones';
 import type { Atlas } from './land/atlas';
+import type { History } from './history/histories';
+import { RegionWorks } from './region-works';
 import type { CalendarStart } from '../presentation/calendar';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
@@ -34,7 +36,9 @@ interface Tables {
 }
 // A site: what it is and what it is called, and where: its cell, and the wild country (and part of it) it is in.
 export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string;
-  cell?: number; zone?: string; part?: number }
+  cell?: number; zone?: string; part?: number;
+  // The makers' work it is, if it is one (see Histories): by which plan and art.
+  work?: { plan: string; art: string } }
 export interface Region extends Naming {
   name: string; terrain: string; ancestry: string; domain: string; deity: string;
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };
@@ -44,6 +48,8 @@ export interface Region extends Naming {
   calendar?: CalendarStart;
   // Its land, settlements, roads and wild country (see Atlases).
   atlas?: Atlas;
+  // Who made things in it before its folk, what they made, and who came after (see Histories).
+  history?: History;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
@@ -82,13 +88,10 @@ export class RegionWriter {
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
     lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionSites.lines(region, taken),
+      ...RegionWorks.lines(region, taken),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
-    const wonderSite = region.sites[0];
-    if (wonderSite) {
-      lines.push(`  Observe wonder at ${wonderSite.id} when true ${q(`Nearby you find ${region.wonder.description.replace(/\.$/, '')}. Nobody in ${region.settlements[0]!.name} can say why.`)}.`);
-    }
     lines.push(`  Company party "Your company" of ${company.size} at ${region.settlements[0]!.id}_green.`,
       '  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.', '  Goal false.', '}');
     return lines.join('\n');

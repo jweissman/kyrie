@@ -1,0 +1,50 @@
+# singing_hall: the Stone-Singers' hall, cut whole out of a cliff by song, with a door that opens to a note.
+@art stone
+@kind cave
+@ground fell peak wood heath
+@seen a smooth doorway in a crag
+@names hill, keep, gate, arch
+@danger 2
+--- outside
+  Observe {w}_crag_seen at {w} when true "A doorway opens in the face of a crag, round-headed and smooth as poured wax, with no mark of a tool anywhere on it. Wind across it makes a low note that comes and goes.".
+  Observe {w}_cut at {w} when true "Over the doorway, letters flow into the stone rather than being cut in it, in the old script: {oldup}." teaches {w}_named.
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_porch "the smooth porch" is room within {w}_site at 0, 0.
+  Place {w}_hall "the round hall" is room within {w}_site at 1, 0.
+  Place {w}_inner "the silent hall" is room within {w}_site at 2, 0.
+  Passage {w}_in "the smooth doorway" is doorway between {w} and {w}_porch.
+  Initially Assert unlit({w}_hall). Initially Assert unlit({w}_inner).
+  Passage {w}_through "the round arch" is arch between {w}_porch and {w}_hall.
+  Passage {w}_note "the door of notes" is door between {w}_hall and {w}_inner.
+  Observe {w}_porch_scene at {w}_porch when true "The porch is a hollow in the rock as smooth as the inside of a shell. Your footsteps ring, and the ringing goes on after you stop.".
+  Observe {w}_hall_scene at {w}_hall when true "A round hall, domed, without a joint or a mark, the floor worn into a shallow bowl. Every sound you make comes back to you from everywhere at once, a little changed.".
+  Observe {w}_inner_scene at {w}_inner when true "A long hall, colder than the rest. Along its walls figures stand half out of the stone, or half into it: men and women with their mouths open, as if they were singing when the stone closed over them.".
+  Thing {w}_door "the door of notes" on {w}_note {
+    State closed blocking "A round slab of stone without handle or hinge closes the far side of the hall. Lines of notes, in the old script's way of writing song, are cut across it.".
+    State open "The stone door has rolled back into the rock, and the air from behind it is cold.".
+    Change sing "Sing the notes cut on the door" from closed to open needing lore.
+  }
+  Thing {w}_figures "the figures in the stone" at {w}_inner {
+    State silent "The figures stand in the stone with their mouths open, silent.".
+    State heard "Put your ear to the stone of the figures, and you hear it: very far off, very faint, singing.".
+    Change listen "Lay an ear against the stone" from silent to heard.
+  }
+  Observe {w}_figures_learned at {w}_inner when state({w}_figures, heard) "{fate}" teaches history_fate.
+  Observe {w}_hall_learned at {w}_hall when state({w}_door, open) "{craft} {belief}" teaches history_makers.
+  Item {w}_crystal "a shard of singing crystal" is jade_idol at {w}_inner.
+--- successors fold 2
+  Observe {w}_fold at {w}_porch when true "Shepherds of the kingdom of {successors} used the porch as a fold; hurdles of rotten hazel still stand across it, and the floor is soft with old dung.".
+--- successors chapel 1
+  Observe {w}_chapel at {w}_hall when true "Someone painted saints on the round hall's walls, long after the Singers: the kingdom of {successors} made a chapel of it. The paint has flaked, and under it the stone is untouched.".
+--- successors forgotten 1
+  Observe {w}_empty at {w}_porch when true "Nothing has been brought in here, and nothing taken out.".
+--- present elemental 1
+  Person {w}_stone "the stone that moves" at {w}_hall {
+    Role "stone the Singers sang and could not stop: it moves, and does not know why". Species earth_elemental. Level 3. Temperament territorial. Lair {w}_hall.
+    Warns "The floor of the round hall heaves, and stands up, and is a shape like a man made of the hall.".
+  }
+--- present bats 2
+  Observe {w}_bats at {w}_porch when true "Bats hang from the dome of the porch, and stir and squeak as you come in.".
+--- present empty 1
+  Observe {w}_still at {w}_hall when true "Nothing moves here but the echoes of yourselves.".

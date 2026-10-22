@@ -1,0 +1,92 @@
+# galleries: the Delvers' galleries under the fells, where they followed the star-iron down and sealed what they found.
+@art deep
+@kind mine
+@ground fell peak heath
+@seen a timbered adit in the fellside
+@names hold, gate, deep, mountain, keep
+@danger 2
+--- outside
+  Observe {w}_adit_seen at {w} when true "An adit goes into the fellside, square and low, its frame of black oak beams. Spoil heaps run down the slope below it, grassed over long ago.".
+  Observe {w}_cut at {w} when true "A name is cut in the lintel beam, in the old script, with a hammer and a star beside it: {oldup}." teaches {w}_named.
+  Thing {w}_beam "the letters on the lintel beam" at {w} {
+    State unread "Letters are cut in the lintel beam in the old script, beside a hammer and a star.".
+    State read "{oldup}, the beam says, “{gloss}”; the hammer and the star were the Delvers' mark on whatever they claimed.".
+    Change read "Read the letters on the lintel beam" from unread to read needing lore.
+  }
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_works "the upper galleries" is level within {w}_site.
+  Place {w}_deep "the deep galleries" is level within {w}_site.
+  Place {w}_adit "the adit gallery" is room within {w}_works at 0, 0.
+  Place {w}_head "the lift-head" is room within {w}_works at 1, 0.
+  Place {w}_fall "the fallen gallery" is room within {w}_works at 1, 1.
+  Place {w}_foot "the foot of the shaft" is room within {w}_deep at 0, 0.
+  Place {w}_dressing "the dressing-hall" is room within {w}_deep at 1, 0.
+  Place {w}_door_room "the iron door" is room within {w}_deep at 2, 0.
+  Place {w}_vein "the pale vein" is room within {w}_works at 2, 1.
+  Passage {w}_in "the adit mouth" is drift between {w} and {w}_adit.
+  Passage {w}_on "the railed gallery" is passage between {w}_adit and {w}_head.
+  Passage {w}_side "the side gallery" is passage between {w}_head and {w}_fall.
+  Passage {w}_shaft "the lift shaft" is shaft between {w}_head and {w}_foot.
+  Passage {w}_low "the low gallery" is passage between {w}_foot and {w}_dressing.
+  Passage {w}_last "the last gallery" is passage between {w}_dressing and {w}_door_room.
+  Passage {w}_through "the gap in the fall" is crawl between {w}_fall and {w}_vein.
+  Observe {w}_adit_scene at {w}_adit when true "Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry.".
+  Observe {w}_head_scene at {w}_head when true "The gallery ends at a square shaft going straight down into the dark. Over it hangs a frame of iron beams with a great wheel at the top, and chains running down.".
+  Observe {w}_fall_scene at {w}_fall when true "A side gallery runs a little way and ends in a fall of rock from roof to floor. Cold air comes through the gaps.".
+  Observe {w}_foot_scene at {w}_foot when true "The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head.".
+  Observe {w}_dressing_scene at {w}_dressing when true "A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.".
+  Observe {w}_door_scene at {w}_door_room when true "The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath.".
+  Observe {w}_vein_scene at {w}_vein when true "Beyond the fall the gallery follows a vein of something pale through the rock, glinting where your light touches it.".
+  Thing {w}_cage "the iron lift-cage" on {w}_shaft {
+    State jammed blocking "The lift-cage is somewhere at the bottom of the shaft; its chains are rusted fast on the great wheel.".
+    State working "The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.".
+    Change free "Break the rust off the wheel and wind the lift-cage up" from jammed to working needing brawn.
+  }
+  Initially Assert unlit({w}_adit). Initially Assert unlit({w}_head). Initially Assert unlit({w}_fall).
+  Initially Assert unlit({w}_foot). Initially Assert unlit({w}_dressing). Initially Assert unlit({w}_door_room).
+  Initially Assert unlit({w}_vein).
+  Thing {w}_rubble "the fall of rock" on {w}_through {
+    State fallen blocking "The fall fills the gallery; you could dig through it, with the means.".
+    State dug "A gap has been dug through the fall, low enough to crawl.".
+    Change dig "Dig through the fall" from fallen to dug needing digging or shovel.
+  }
+  Place {w}_beyond "the dark behind the iron door" is room within {w}_deep at 3, 0.
+  Passage {w}_iron "the iron door" is door between {w}_door_room and {w}_beyond.
+  Thing {w}_bars "the bars across the iron door" on {w}_iron {
+    State set blocking "Three great bars lie across the iron door in their hasps.".
+    State lifted "The bars have been lifted from the iron door and stand against the wall.".
+    Change lift "Lift the bars off the iron door" from set to lifted needing brawn.
+  }
+  Thing {w}_tally "a tally cut in the wall" at {w}_dressing {
+    State unread "Columns of marks are cut in the wall by the furnace, in the old script, the last of them cut deeper than the rest.".
+    State read "A tally of star-iron, cart by cart, for a hundred years; then a gap; then, cut deep and crooked: WE HAVE SHUT IT IN. DO NOT LET IT OUT.".
+    Change read "Read the tally on the wall" from unread to read needing lore.
+  }
+  Observe {w}_tally_learned at {w}_dressing when state({w}_tally, read) "{craft} {fate}" teaches history_makers.
+  Person {w}_cold "the cold below" at {w}_beyond {
+    Role "something that was walled up behind the iron door, and is not dead". Species ice_elemental. Level 5. Temperament savage. Lair {w}_beyond.
+  }
+  Rule {w}_loosed when state({w}_bars, lifted) and at({w}_cold, {w}_beyond) says "The iron door swings open of its own weight, and the cold comes out of the dark behind it, and has a shape." { Retract at({w}_cold, {w}_beyond). Assert at({w}_cold, {w}_door_room). }
+  Initially Assert unlit({w}_beyond).
+  Observe {w}_beyond_scene at {w}_beyond when true "A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm.".
+  Item {w}_deep_ore "an ingot of star-iron, frosted white" is bronze_bearing at {w}_beyond.
+  Item {w}_ore "a lump of pale star-iron" is bronze_bearing at {w}_vein.
+--- successors miners 2
+  Observe {w}_miners at {w}_adit when true "Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of {successors} took what it could reach. A crowbar lies where one of them left it.".
+  Item {w}_crowbar "a miner's crowbar" is crowbar at {w}_adit.
+--- successors grille 1
+  Observe {w}_grille at {w}_adit when true "Someone fitted an iron grille across the gallery here, and someone else broke it open; it hangs from one hinge. Scratched into the rock beside it, in the folk's letters: KEEP OUT.".
+--- successors forgotten 1
+  Observe {w}_dust at {w}_adit when true "Nothing in the dust but the tracks of small animals.".
+--- present spiders 2
+  Person {w}_spiders "cave spiders" at {w}_head {
+    Role "spiders as big as a cat, nesting in the frame over the shaft". Species cave_spider. Numbers 3. Level 1. Temperament ambush.
+    Comes "Something drops out of the iron frame overhead, and then another.".
+  }
+--- present goblins 1
+  Person {w}_goblins "goblins" at {w}_adit {
+    Role "a band of goblins who have made a home of the upper galleries". Ancestry goblin. Calling thief. Numbers 3. Temperament wary. Refuge {w}_fall.
+  }
+--- present empty 2
+  Observe {w}_quiet at {w}_head when true "Somewhere below, water drips. Nothing else moves.".

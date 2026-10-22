@@ -16,6 +16,8 @@ import { RegionRecruits } from './region-recruits';
 import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
 import type { KitEntry } from './compose/composition';
 import { Atlases, type Atlas } from './land/atlas';
+import { Histories } from './history/histories';
+import './region-works';
 import type { Seat as Seated } from './land/settling';
 import type { Settlement } from './region-writer';
 
@@ -124,8 +126,12 @@ export class WorldAssembler {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
       { tongue: PlaceNames.tongues[drawn.ancestry] ?? 'westron', taken: [drawn.name] });
     const region = this.seat(drawn, atlas, seed);
-    region.sites = region.sites.map(site => ({ ...site }))
-      .filter(site => this.situate(region, site, RandomStreams.key(seed, 'world', 'spot', site.id)));
+    const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas);
+    // The region's sites are its makers' works, where their art put them.
+    region.history = history;
+    region.sites = history.works.map(w => ({ id: w.id, kind: Histories.plan(w.plan).kind, name: w.worn, hours: 1,
+      gloss: w.old.gloss, tongue: w.old.tongue, cell: w.cell, ...w.zone ? { zone: w.zone, part: w.part } : {},
+      work: { plan: w.plan, art: w.art } }));
     return region;
   }
   // The region's settlements where its atlas settled people, the first the town; each lives by what lies around it.

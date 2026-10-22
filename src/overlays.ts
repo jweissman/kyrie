@@ -76,6 +76,13 @@ export class Overlays {
       inventory.push({ id, definition: kind, ...free ? { equipped: true } : {} });
     }
   }
+  // What a person of a class carries from the start besides arms and armour, as Orsino's classes do (a warrior's
+  // torch and pole, a thief's tools): those the item catalog has.
+  static classGear(c: { raceId?: string; classId?: string }): string[] {
+    if (!c.classId || (c.raceId && Canon.isSpecies(c.raceId))) { return []; }
+    const klass = Canon.classes[Canon.resolve('classes', c.classId)];
+    return (klass?.startingGear ?? []).filter(k => Canon.items[k]);
+  }
   // The weapons and armour a person might start with: Orsino draws them from the class's tables during creation, so
   // every candidate is declared and only the drawn ones are ever owned.
   static startingCandidates(c: { raceId?: string; classId?: string; weapon?: string; armor?: string }): string[] {
@@ -102,7 +109,8 @@ export class Overlays {
     const module = instance.module;
     for (const c of instance.campaign?.creatures ?? []) {
       const carried = (c.context.gear ?? []).map(k => Canon.resolve('items', k));
-      const gear = [...this.of(c.context).map(([, o]) => o.gear ?? []), carried, this.startingCandidates(c.context)];
+      const gear = [...this.of(c.context).map(([, o]) => o.gear ?? []), carried, this.startingCandidates(c.context),
+        this.classGear(c.context)];
       for (const kinds of gear) {
         for (const kind of kinds) {
           const id = this.gearId(c.id, kind);

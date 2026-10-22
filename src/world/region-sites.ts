@@ -32,16 +32,16 @@ export class RegionSites {
     const where = this.where(seat, region), seen = this.seen[site.kind] ?? 'a place';
     const hidden = !claimed && (site.part ?? 0) > 0;
     const lines = [...this.stand(seat, region, { where, hidden }),
-      `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${RegionGeography.meaning(site)}`)}.`,
+      `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Observe ${id}_scene at ${id} when true ${q(this.scene(seat, region))}.`,
-      `  Observe ${id}_known at ${id} when knows(party, ${id}_named) ${q(`This is ${site.name}.${RegionGeography.meaning(site)}`)}.`,
+      `  Observe ${id}_known at ${id} when knows(party, ${id}_named) ${q(`This is ${site.name}${site.work ? ', as the folk call it' : ''}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
-      `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.said[site.kind] ?? ''}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
+      `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
       `    On discuss { Assert knows(actor, ${id}_named).${hidden ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }'];
-    if (hidden) {
-      lines.push(`  Discovery ${id}_found ${q(`The way to ${seen} in ${where}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`);
-    }
-    if (this.cut[site.kind]) {
+    // Every site's way can be learned; one deep in wild country can also be found by searching where it starts.
+    lines.push(hidden ? `  Discovery ${id}_found ${q(`The way to ${seen} in ${where}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`
+      : `  Discovery ${id}_found ${q(`The way to ${seen} in ${where}.`)}.`);
+    if (this.cut[site.kind] && !site.work) {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);
     }
     return lines;
@@ -85,11 +85,19 @@ export class RegionSites {
     const { site } = seat, zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
     const habitat = zone ? RegionZones.habitat[zone.wild] : RegionEcology.habitat(region, site);
     const fen = habitat === 'fen' ? ' Reeds hiss in the wind.' : '';
-    return `${RegionGeography.looks[site.kind] ?? ''}${fen} ${RegionEcology.sign(habitat, site.id)}`.trim();
+    // A work's plan says how it looks; the place around it is the region's.
+    const look = site.work ? '' : RegionGeography.looks[site.kind] ?? '';
+    return `${look}${fen} ${RegionEcology.sign(habitat, site.id)}`.trim();
+  }
+  // What the folk say of a site: of a work, what they say of its makers' works; of anything else, of its kind.
+  private static saying(region: Region, site: Region['sites'][number]): string {
+    const makers = site.work && region.history?.makers.find(m => m.art === site.work!.art);
+    return makers ? makers.said[Number(site.id.slice(1)) % makers.said.length]! : this.said[site.kind] ?? '';
   }
   // What a name means, as the people who say it would put it.
-  private static gloss(site: { gloss?: string; tongue?: string }): string {
+  private static gloss(site: { gloss?: string; tongue?: string; work?: object }): string {
     if (!site.gloss) { return ''; }
+    if (site.work) { return ' \'An old name; nobody knows what it means.\''; }
     return site.tongue === 'Aenean' ? ` 'The old tongue: ${site.gloss}.'` : ` 'It means ${site.gloss}.'`;
   }
 }

@@ -57,18 +57,19 @@ describe('a den holds what lives where it is', () => {
     expect(RegionEcology.habitat(region, { id: 'w1', kind: 'bog', name: 'Bog', hours: 1 })).toBe('fen');
   });
   it('lets a cleric lay a barrow\'s ghoul to rest, where smoke would not move it', async () => {
-    // a4: a frost region whose two barrows each hold a ghoul.
-    const world = await WorldAssembler.assemble('a4', NodeBundleSource.shared), s = await PlaySession.start(world.path,
-      'a4', world.source);
-    const placement = world.report.placements.find(p => p.scenario === 'den')!, den = placement.bindings.den!;
-    expect(s.campaign.state.creatures.find(c => c.id === 'den__beasts_person')?.raceId).toBe('ghoul');
+    // b3: a forest region whose barrow holds a den of the unquiet dead.
+    const world = await WorldAssembler.assemble('b3', NodeBundleSource.shared), s = await PlaySession.start(world.path,
+      'b3', world.source);
+    const placement = world.report.placements.find(p => p.scenario === 'den'
+      && world.report.region.sites.find(w => w.id === p.bindings.den)?.kind === 'barrow')!, den = placement.bindings.den!;
+    const module = placement.modules[0]!;
+    expect(s.campaign.state.creatures.find(c => c.id === `${module}__beasts_person`)?.raceId).toBe('ghoul');
     await GeneratedWorld.hear(s, placement, world.report.placements.indexOf(placement) + 1);
-    GeneratedWorld.put(s, den);
-    await s.perform('wait');
+    await GeneratedWorld.travel(s, den);
     const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
-    expect(ids).not.toContain(`den__smoke_out(party,region__${den})`);
-    await s.perform(`den__lay_to_rest(party,region__${den})`);
-    expect(s.campaign.world.test(ModuleWriter.call('den__laid', 'den__beasts'))).toBe(true);
-    expect(PlayerView.choices(s.campaign).map(c => c.choice.id)).toContain(`den__plunder(party,region__${den})`);
+    expect(ids).not.toContain(`${module}__smoke_out(party,region__${den})`);
+    await s.perform(`${module}__lay_to_rest(party,region__${den})`);
+    expect(s.campaign.world.test(ModuleWriter.call(`${module}__laid`, `${module}__beasts`))).toBe(true);
+    expect(PlayerView.choices(s.campaign).map(c => c.choice.id)).toContain(`${module}__plunder(party,region__${den})`);
   }, 60000);
 });

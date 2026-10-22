@@ -1,0 +1,69 @@
+# cistern: the Water-Wardens' cistern under a hill, where they held the springs and read the still water.
+@art water
+@kind cave
+@ground heath fell wood meadow
+@near river
+@seen a square doorway in a hillside
+@names keep, pool, lake, watch, fountain
+@danger 1
+--- outside
+  Observe {w}_door_seen at {w} when true "A square doorway goes into the hillside under a lintel of a single dressed stone. Cold air comes out of it, smelling of water.".
+  Observe {w}_cut at {w} when true "Letters are cut deep in the lintel, in a script older than the folk's: {oldup}." teaches {w}_named.
+  Thing {w}_lintel "the letters over the door" at {w} {
+    State unread "Letters are cut in the lintel stone in the old script. Someone who reads it could say what they mean.".
+    State read "{oldup}, the letters say: in the old tongue, “{gloss}”. The Water-Wardens named their works for what they kept.".
+    Change read "Read the letters over the door" from unread to read needing lore.
+  }
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
+  Place {w}_hall "the pillared hall" is room within {w}_site at 1, 0.
+  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1.
+  Place {w}_head "the spring-head" is room within {w}_site at 2, 0.
+  Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
+  Initially Assert unlit({w}_stair). Initially Assert unlit({w}_hall). Initially Assert unlit({w}_wheel_room).
+  Initially Assert unlit({w}_head).
+  Passage {w}_down "the foot of the long stair" is steps between {w}_stair and {w}_hall.
+  Passage {w}_ledge "the ledge along the wall" is passage between {w}_hall and {w}_wheel_room.
+  Passage {w}_arch "the low arch" is passage between {w}_hall and {w}_head.
+  Observe {w}_stair_scene at {w}_stair when true "A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in.".
+  Observe {w}_hall_scene at {w}_hall when true "Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed.".
+  Observe {w}_wheel_scene at {w}_wheel_room when true "A cell cut off the side of the hall, above a stone channel that runs away under the wall.".
+  Observe {w}_head_scene at {w}_head when true "A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves.".
+  Thing {w}_water "black water" on {w}_arch is scenery {
+    State flooded blocking "Black water stands in the hall to the springing of the arches, still as a floor. At its far end a low arch goes down under it.".
+    State drained "The water has gone down out of the hall. Silt lies in ridges between the pillars, and the low arch stands open, streaming.".
+  }
+  Thing {w}_wheel "the bronze sluice-wheel" at {w}_wheel_room {
+    State fast "A wheel of bronze as high as a man is set in the wall above the channel, green with age and fast in its seat.".
+    State turned "The bronze wheel has been wound round as far as it will go.".
+    Change wind "Wind the sluice-wheel round" from fast to turned needing brawn or crowbar.
+  }
+  Rule {w}_drains when state({w}_wheel, turned) and state({w}_water, flooded) says "Deep in the hill a gate grinds open. The black water in the hall begins to fall, and goes on falling, and the hall fills with the sound of it." { Assert state({w}_water, drained). }
+  Thing {w}_marks "marks cut up a pillar" at {w}_hall {
+    State unread "One pillar is cut with marks from the floor to as high as you can reach, each with a word beside it in the old script.".
+    State read "Each mark is the height the water stood in a year the {epithet} kept it, and the word beside it is the year's name. There are hundreds. The last mark is the highest, and has no word.".
+    Change read "Read the marks on the pillar" from unread to read needing lore.
+  }
+  Observe {w}_marks_learned at {w}_hall when state({w}_marks, read) "{craft} {belief}" teaches history_makers.
+  Item {w}_votive "a jade figure from the basin" is jade_idol at {w}_head.
+  Observe {w}_head_votive at {w}_head when true "Things glint in the bottom of the basin: offerings, left for the springs by people who meant them.".
+--- successors shrine 2
+  Observe {w}_shrine at {w}_stair when true "Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the kingdom of {successors} kept the springs holy after the Wardens were gone. Old coins lie green on the altar.".
+  Item {w}_coins "coins from the stair altar" is toll_silver at {w}_stair.
+--- successors well 1
+  Observe {w}_well at {w}_hall when true "A shaft has been cut down through the roof of the hall from above, and a rotten rope hangs out of it into the water: the kingdom of {successors} drew their water here.".
+--- successors forgotten 1
+  Observe {w}_forgotten at {w}_stair when true "Nobody has been down here in a long time. The dust on the treads has no footprints in it but the rats'.".
+--- present frogs 2
+  Person {w}_frogs "frogs as big as dogs" at {w}_hall {
+    Role "frogs as big as dogs, lying in the black water". Species frog. Numbers 3. Level 1. Temperament ambush.
+    Comes "The water between the pillars bursts open and something wet and heavy is on you.".
+  }
+--- present keeper 1
+  Person {w}_keeper "the wheel-keeper" at {w}_wheel_room {
+    Role "a figure of green bronze that stands beside the wheel, as it has stood for a thousand years". Species bronze_construct. Level 3. Temperament obedient. Lair {w}_wheel_room.
+    Warns "The bronze figure by the wheel turns its head toward you, slowly, with a sound like a door.".
+  }
+--- present empty 2
+  Observe {w}_still at {w}_hall when true "Nothing moves in the water. Nothing has, for a long time.".

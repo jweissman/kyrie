@@ -42,14 +42,15 @@ describe('a generated region with situated scenarios', () => {
     const claimed = upland.report.placements.flatMap(p => Object.entries(p.bindings).filter(([r]) => r !== 'town').map(([, v]) => v));
     expect(new Set(claimed).size).toBe(claimed.length);
   });
-  it('generates a site a scenario needs when the region has none free', async () => {
-    const world = await WorldAssembler.assemble('crowded', NodeBundleSource.shared, { region: { terrain: 'mountain',
-      sites: [{ id: 'w1', kind: 'tower', name: 'Iron Spire', hours: 1 }] } });
+  it('generates a site a scenario needs when no work of its kind stands free', async () => {
+    // b2: a mountain region of towers and galleries, with no cave or sinkhole for the brood.
+    const world = await WorldAssembler.assemble('b2', NodeBundleSource.shared);
     const brood = world.report.placements.find(p => p.scenario === 'brood-hollow')!;
     expect(brood.generated).toEqual([brood.bindings.approach!]);
-    expect(['cave', 'sinkhole']).toContain(world.report.region.sites.find(w => w.id === brood.bindings.approach)!.kind);
-    expect(world.report.placements.every(p => p.bindings.den !== 'w1')).toBe(true);
-    await PlaySession.start(world.path, 'crowded', world.source);
+    const site = world.report.region.sites.find(w => w.id === brood.bindings.approach)!;
+    expect(['cave', 'sinkhole']).toContain(site.kind);
+    expect([site.work, typeof site.cell]).toEqual([undefined, 'number']);
+    await PlaySession.start(world.path, 'b2', world.source);
   }, 60000);
   it('keeps a scenario out of sight until the company hears of it, then opens the way', async () => {
     const world = await Worlds.assemble('thorn', 'mountain');

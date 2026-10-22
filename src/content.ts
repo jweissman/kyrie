@@ -168,7 +168,7 @@ export class Content {
     Spellcasting.equip(creature);
     creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
     if (!species) { this.equip(creature, chassis, context, randomIdentity); }
-    Overlays.carry(creature, context.gear ?? []);
+    Overlays.carry(creature, [...context.gear ?? [], ...species ? [] : Overlays.classGear({ classId })]);
     CreatureSchema.validate(creature);
     return creature;
   }

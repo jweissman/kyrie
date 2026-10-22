@@ -37,7 +37,9 @@ export class PlaceNames {
     // A settlement is named in its own folk's tongue: a dwarf hold in human country has a Khuzdul name.
     const settlements = region.settlements.map(s => ({ ...s, ...this.distinct(s, this.tongues[s.folk ?? ''] ?? tongue,
       { taken, parts, rng, features, affixes, english: this.joined }) }));
-    const sites = region.sites.map(s => this.site(s, { region: named, tongue, taken, parts, rng }));
+    // A work keeps the name the folk wore it down to (see Histories); any other site is named here.
+    taken.push(...region.sites.filter(s => s.work).map(s => s.name));
+    const sites = region.sites.map(s => s.work ? s : this.site(s, { region: named, tongue, taken, parts, rng }));
     return { ...named, settlements, sites, land: region.atlas ? this.landmarks(region)
       : RegionLand.shape(region.terrain, tongue, `${seed}:land`, taken) };
   }

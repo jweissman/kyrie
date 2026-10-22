@@ -1,0 +1,291 @@
+{
+  "about": "The peoples who made things in a region before its folk came, each by its own art; and the kingdoms that came after them and made use of what they left. History.ts draws a region's makers by its terrain, places their works where the land suits them, and writes what is true of them, what the folk say instead, and what the works themselves show to whoever can read them.",
+  "arts": {
+    "water": {
+      "epithet": "the Water-Wardens",
+      "self": [
+        [
+          "water",
+          "watch"
+        ],
+        [
+          "deep",
+          "lake"
+        ],
+        [
+          "water",
+          "keep"
+        ]
+      ],
+      "terrains": {
+        "marsh": 4,
+        "forest": 2,
+        "mountain": 1,
+        "frost": 1
+      },
+      "plans": [
+        "cistern",
+        "weir"
+      ],
+      "craft": "They dressed limestone so true it needed no mortar, cast sluice-gates of bronze as tall as a house, and ran lead pipes through the hills for miles.",
+      "belief": "They held that water remembers: a valley kept under water could not be taken, and still water, rightly read, showed what was coming.",
+      "fates": [
+        "In their last war they shut every gate at once, and the valley drowned with their enemies in it, and with them.",
+        "A summer came when the springs failed and the still water showed them nothing. They opened every gate and went away down the dry river, and did not come back."
+      ],
+      "said": [
+        "Giants dug them, folk say, to drown the world, and the flood is only waiting.",
+        "Folk say the old wells are bottomless, and that a voice answers if you shout down one at midnight.",
+        "Folk say the kings of old kept their gold under water, where no thief would follow."
+      ],
+      "modifiers": [
+        "water",
+        "deep",
+        "silver",
+        "dark",
+        "cold",
+        "pale",
+        "moon"
+      ]
+    },
+    "deep": {
+      "epithet": "the Delvers",
+      "self": [
+        [
+          "deep",
+          "hold"
+        ],
+        [
+          "iron",
+          "mountain"
+        ],
+        [
+          "silver",
+          "hill"
+        ]
+      ],
+      "terrains": {
+        "mountain": 4,
+        "frost": 2,
+        "forest": 1,
+        "marsh": 0
+      },
+      "plans": [
+        "galleries"
+      ],
+      "craft": "They followed the veins of a pale ore they called star-iron into the roots of the fells, timbered their galleries with oak that has not rotted yet, and raised their ore in iron cages on counterweights.",
+      "belief": "They held that the earth's heart is a forge, and that whoever goes deep enough may stand beside the smith.",
+      "fates": [
+        "They went too deep. Their last gallery broke into something that was cold and awake, and they walled it up behind iron doors and left the fells to it.",
+        "The star-iron gave out, and they turned on one another for what was left; the galleries fell silent in a single winter."
+      ],
+      "said": [
+        "Folk say the old workings were dug by dwarves who never came up again.",
+        "Folk say you can hear hammers under the fells on a still night, and that it is bad luck to answer.",
+        "Folk say there is silver still down there, and a curse on the first to bring it out."
+      ],
+      "modifiers": [
+        "deep",
+        "iron",
+        "silver",
+        "tin",
+        "dark",
+        "stone"
+      ]
+    },
+    "sky": {
+      "epithet": "the Star-Readers",
+      "self": [
+        [
+          "stars",
+          "watch"
+        ],
+        [
+          "sky",
+          "tower"
+        ],
+        [
+          "high",
+          "view"
+        ]
+      ],
+      "terrains": {
+        "mountain": 3,
+        "frost": 3,
+        "forest": 1,
+        "marsh": 1
+      },
+      "plans": [
+        "watchtower"
+      ],
+      "craft": "They raised round towers on the heights, each in sight of the next, and set bronze rings in their tops to measure the sky; their count of days ran true for a thousand years.",
+      "belief": "They held that every rite has its night, and that a people who lose the count of days lose the favour of the sky.",
+      "fates": [
+        "Two of their towers came to keep two counts, a day apart, and each called the other false. The war of the reckonings burned every tower but the ones that stand.",
+        "One winter the fires on the towers went out one after another, from the coast inland, and no one has ever said why."
+      ],
+      "said": [
+        "Folk say the towers were built by a wizard who wanted to steal the stars.",
+        "Folk say a light still burns in the old towers on the longest night.",
+        "Folk say the towers are older than the hills, and were there when the hills were raised."
+      ],
+      "modifiers": [
+        "stars",
+        "sky",
+        "high",
+        "moon",
+        "sun",
+        "light"
+      ]
+    },
+    "bone": {
+      "epithet": "the Barrow-Kin",
+      "self": [
+        [
+          "earth",
+          "mound"
+        ],
+        [
+          "dark",
+          "rest"
+        ],
+        [
+          "silence",
+          "land"
+        ]
+      ],
+      "terrains": {
+        "marsh": 2,
+        "forest": 3,
+        "mountain": 1,
+        "frost": 2
+      },
+      "plans": [
+        "barrow"
+      ],
+      "craft": "They laid their dead in long barrows along the bounds of their land, stone-chambered and turfed over, each with its seal-stone, and spoke with them through flutes of bone.",
+      "belief": "They held that the dead keep the bounds of the land, and that a people with no barrows has no country.",
+      "fates": [
+        "There came a time when there was more land for the dead than for the living. The last of them went into the barrows of their own will, and the seal-stones were set from inside.",
+        "Strangers came who did not keep the bounds, and broke the barrows open for their gold, and the dead went out among the living. The Barrow-Kin did not outlast that year."
+      ],
+      "said": [
+        "Old dead. Folk say the howes were raised over kings, with their horses and their gold.",
+        "Folk say a mound-dweller sits up in the dark if you take so much as a pebble.",
+        "Folk say the bone-flutes they find in the fields will call the dead if you play them."
+      ],
+      "modifiers": [
+        "earth",
+        "dark",
+        "silence",
+        "night",
+        "stone",
+        "gloom"
+      ]
+    },
+    "stone": {
+      "epithet": "the Stone-Singers",
+      "self": [
+        [
+          "stone",
+          "song"
+        ],
+        [
+          "music",
+          "hill"
+        ],
+        [
+          "stone",
+          "speech"
+        ]
+      ],
+      "terrains": {
+        "mountain": 2,
+        "frost": 2,
+        "forest": 2,
+        "marsh": 1
+      },
+      "plans": [
+        "singing_hall"
+      ],
+      "craft": "They shaped stone by song: their halls are cut whole out of the living rock without a mark of chisel or a single joint, and their doors open to a note.",
+      "belief": "They held that stone is song that has stopped, and that everything made can be sung back into what it was.",
+      "fates": [
+        "Their singing failed them: a generation was born that could not hold the note, and the stone, unsung, cracked and fell, and they left the halls to it.",
+        "They sang the last of themselves into the stone of their hall, all of them at once, and the hall has been silent since."
+      ],
+      "said": [
+        "Folk say the smooth caves were made by the old gods, who melted the rock with their breath.",
+        "Folk say if you sing in the old halls you will hear someone singing back.",
+        "Folk say the old caves sing by themselves when a storm is coming."
+      ],
+      "modifiers": [
+        "stone",
+        "song",
+        "music",
+        "silence",
+        "speech",
+        "dream"
+      ]
+    }
+  },
+  "successors": {
+    "names": [
+      [
+        "iron",
+        "hold"
+      ],
+      [
+        "high",
+        "keep"
+      ],
+      [
+        "gold",
+        "realm"
+      ],
+      [
+        "red",
+        "watch"
+      ],
+      [
+        "silver",
+        "hold"
+      ],
+      [
+        "great",
+        "realm"
+      ],
+      [
+        "stone",
+        "keep"
+      ],
+      [
+        "white",
+        "realm"
+      ]
+    ],
+    "kinds": [
+      {
+        "id": "warlords",
+        "were": "warlords who built keeps on every height and fought one another for the roads",
+        "made": "keeps and watch-posts"
+      },
+      {
+        "id": "abbots",
+        "were": "an order of monks who kept the old learning and the roads, and taxed both",
+        "made": "chapels, bridges and an abbey"
+      },
+      {
+        "id": "princes",
+        "were": "merchant-princes who grew rich on the river trade",
+        "made": "bridges, toll-houses and warehouses"
+      }
+    ],
+    "falls": [
+      "a plague that came up the river in a wool-ship and left whole villages empty",
+      "a winter that lasted into the summer, three years together, and the famine after it",
+      "a war among their heirs that went on until there was nothing left to inherit",
+      "raiders from over the sea, who came every summer until there was no one left to raid"
+    ]
+  }
+}

@@ -27,8 +27,10 @@ export class Perceptions {
     const { before, after, player, happenings } = seen;
     if (!player || !(module.observations?.length || happenings.length)
       || !after.test(ModuleWriter.call('able', player))) { return undefined; }
+    // In the dark without a light, what a place looks like goes unseen (and what it would teach, unlearned).
+    const dark = module.queries.some(q => q.name === 'benighted') && after.test(ModuleWriter.call('benighted', player));
     return [...happenings,
-      ...LocalObservations.read(after, player).map(o => ({ ...o, kind: 'observation' as const })),
+      ...dark ? [] : LocalObservations.read(after, player).map(o => ({ ...o, kind: 'observation' as const })),
       ...after.related('knows', player).filter(r =>
          !before.test(ModuleWriter.call('knows', player, r.args[1]!))).map(r => ({
         id: r.args[1]!, text: ObservationText.render(module.entities.find(e => e.id === r.args[1])!.name, after),

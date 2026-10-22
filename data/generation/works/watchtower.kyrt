@@ -1,0 +1,65 @@
+# watchtower: a Star-Readers' tower on a height, where they measured the sky, in sight of the next tower.
+@art sky
+@kind tower
+@ground peak fell heath
+@seen a lone tower on the height
+@names watch, tower, view, spire
+@danger 2
+--- outside
+  Observe {w}_tower_seen at {w} when true "A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop.".
+  Observe {w}_cut at {w} when true "Round the doorway, cut in the old script so large it can be read from the ground: {oldup}." teaches {w}_named.
+  Thing {w}_door_letters "the letters round the door" at {w} {
+    State unread "Letters run round the doorway in the old script, each as long as a hand.".
+    State read "{oldup}: in the old tongue, “{gloss}”. Under it, smaller, a count of years.".
+    Change read "Read the letters round the door" from unread to read needing lore.
+  }
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_floor "the floor of the tower" is room within {w}_site at 0, 1.
+  Place {w}_undercroft "the undercroft" is room within {w}_site at 0, 2.
+  Place {w}_top "the ring-room" is room within {w}_site at 0, 0.
+  Passage {w}_up "the broken stair to the door" is steps between {w} and {w}_floor needing climbing or rope.
+  Passage {w}_down "the trapdoor in the floor" is ladder between {w}_floor and {w}_undercroft.
+  Initially Assert unlit({w}_undercroft).
+  Passage {w}_spiral "the stair in the wall" is stair between {w}_floor and {w}_top.
+  Observe {w}_floor_scene at {w}_floor when true "Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.".
+  Observe {w}_top_scene at {w}_top when true "At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks.".
+  Observe {w}_under_scene at {w}_undercroft when true "A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.".
+  Thing {w}_ring "the bronze ring" at {w}_top {
+    State idle "The bronze ring is turned to no part of the sky that means anything to you.".
+    State set "The bronze ring stands set to the sight-line its makers cut deepest.".
+    Change set "Set the bronze ring to its sight-line" from idle to set needing lore.
+  }
+  Thing {w}_tablets "the tablets in the racks" at {w}_undercroft {
+    State unread "Hundreds of tablets: the old script, close-cut, in columns.".
+    State read "A count of days, kept night by night for a thousand years. Toward the end, two hands at once, a day apart, each scoring out the other's.".
+    Change read "Read the tablets" from unread to read needing lore.
+  }
+  Observe {w}_tablets_learned at {w}_undercroft when state({w}_tablets, read) "{fate}" teaches history_fate.
+  Observe {w}_ring_learned at {w}_top when state({w}_ring, set) "{craft} {belief}" teaches history_makers.
+  Item {w}_plate "a bronze sighting-plate" is chapel_plate at {w}_undercroft.
+--- sight twin 1 if twin
+  Observe {w}_sightline at {w}_top when state({w}_ring, set) "Through the sighting-holes, on a height to the {twinside}, there is another tower: {twinname}. The ring was made to see it." teaches {twin}_found.
+  Observe {w}_sightname at {w}_top when state({w}_ring, set) "The mark cut beside that sight-line names it." teaches {twin}_named.
+--- sight alone 1 unless twin
+  Observe {w}_sightline at {w}_top when state({w}_ring, set) "The sight-line runs to a bare height far off. Whatever the ring was made to see there has fallen.".
+--- successors keep 2
+  Place {w}_hall "the hall against the tower" is room within {w}_site at 1, 1.
+  Passage {w}_hall_door "the door into the hall" is door between {w} and {w}_hall.
+  Passage {w}_hall_in "a doorway knocked through the tower wall" is doorway between {w}_hall and {w}_floor.
+  Observe {w}_hall_scene at {w}_hall when true "Against the foot of the tower the kingdom of {successors} built a hall of rough stone, its roof long gone, a hearth at one end black with old fires. They knocked a door through into the tower to save themselves the climb.".
+--- successors hermit 1
+  Observe {w}_hermit at {w}_floor when true "Someone lived here, after: a bed of bracken gone to dust, a wooden bowl, a cross of sticks tied with grass.".
+--- successors forgotten 1
+  Observe {w}_bare at {w}_floor when true "The floor is deep in the droppings of birds, and nothing else.".
+--- present wyvern 1
+  Person {w}_wyvern "the wyvern" at {w}_top {
+    Role "a wyvern that nests in the ring of the tower, and hunts the heights". Species wyvern. Level 4. Temperament territorial. Lair {w}_top.
+    Warns "A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back.".
+  }
+--- present lookouts 1
+  Person {w}_lookouts "lookouts" at {w}_floor {
+    Role "hard men who keep watch from the tower for someone who pays them". Ancestry human. Calling ranger. Numbers 2. Temperament territorial.
+  }
+--- present ravens 2
+  Observe {w}_ravens at {w}_top when true "Ravens sit on the broken wall and watch you without fear.".
