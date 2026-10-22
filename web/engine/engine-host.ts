@@ -118,10 +118,10 @@ export class EngineHost {
     } catch { /* a command began before the game could be kept; it is kept after that one */ }
   }
   private summary(): SaveSummary {
-    const campaign = this.session!.campaign, place = PlayerView.observe(campaign).location?.name ?? '';
+    const campaign = this.session!.campaign, place = this.screen?.place.name ?? '';
     return { title: campaign.module.name.split(': ')[0]!, where: place.charAt(0).toUpperCase() + place.slice(1),
-      when: FictionalTime.at(campaign.state.elapsed),
-      company: campaign.state.party.map(m => m.name).filter(Boolean).join(', ') };
+      when: FictionalTime.at(campaign.readout.elapsed),
+      company: campaign.fighters.map(m => m.name).filter(Boolean).join(', ') };
   }
   private frame(): Frame {
     const session = this.session!, campaign = session.campaign;

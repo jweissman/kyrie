@@ -36,7 +36,6 @@ import { ActionTime } from './action-time';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent } from './campaign-types';
-import type { CalendarStart } from '../presentation/calendar';
 export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -48,7 +47,7 @@ export class Campaign implements WatchHost {
   private observations: Record<string, number> = {};
   private executing = false;
   // A campaign is a composition of installed modules (see Campaign.load); restore() resumes a save.
-  constructor(seed: string, instance: Instance, saved?: CampaignSave, calendar?: CalendarStart) {
+  constructor(seed: string, instance: Instance, saved?: CampaignSave, calendar?: CampaignState['calendar']) {
     if (saved) {
       this.compiled = structuredClone(saved.module); this.definition = structuredClone(saved.definition);
       this.current = structuredClone(saved.state); this.creatures = new CreatureStore(saved.creatures);
@@ -184,8 +183,9 @@ export class Campaign implements WatchHost {
   get events(): CampaignEvent[] { return structuredClone(this.log); }
   // Worlds are immutable; one is built per distinct state object (and module) rather than per access.
   private viewed?: { state: WorldState; module: Module; world: World };
+  // The state kept is the world's own view of itself, not a copy: nothing changes a world's state in place.
   private commit(world: World) {
-    const state = world.snapshot;
+    const state = world.view as WorldState;
     this.current.world = state;
     this.viewed = { state, module: this.module, world };
   }
@@ -269,7 +269,8 @@ export class Campaign implements WatchHost {
     finally { this.executing = false; }
   }
   private checkpoint() {
-    return { creatures: this.creatures.snapshot, current: structuredClone(this.current),
+    const { world, ...rest } = this.current;
+    return { creatures: this.creatures.snapshot, current: { ...structuredClone(rest), world },
       observations: structuredClone(this.observations), events: this.log.length, encounter: this.encounter };
   }
   // A command that throws commits nothing: combat damage taken before the error is discarded with it.

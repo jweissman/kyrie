@@ -128,10 +128,5 @@ export class CampaignTick {
   private static bind(call: Call, binding: Record<string, string>): Call {
     return { ...call, args: call.args.map(a => binding[a] ?? a) };
   }
-  static diff(before: World, after: World): string[] {
-    const previous = before.describe(), next = after.describe();
-    const was = new Set(previous), is = new Set(next);
-    return [...previous.filter(s => !is.has(s)).map(s => `- ${s}`),
-      ...next.filter(s => !was.has(s)).map(s => `+ ${s}`)];
-  }
+  static diff(before: World, after: World): string[] { return after.changes(before); }
 }

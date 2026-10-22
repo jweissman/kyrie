@@ -18,6 +18,9 @@ export class World {
   // whether those names changed between two worlds.
   private stamps = new Map<string, number>();
   private static writes = 0;
+  // Which line of worlds this one is of: a world built from state starts one, and the worlds forked from it are of
+  // it; only between worlds of one line do stamps say what changed.
+  private lineage: object = {};
   private memoKey?: string;
   private memoSnapshot?: WorldState;
   // Read-only views by relation name (and first argument), and of measures by name, built on first use.
@@ -38,6 +41,7 @@ export class World {
     (next as { module: Module }).module = from.module;
     next.facts = new Map(from.facts); next.quantities = new Map(from.quantities);
     next.byName = new Map(from.byName); next.owned = new Set(); next.stamps = new Map(from.stamps);
+    next.lineage = from.lineage;
     next.lists = new Map(); next.firsts = new Map(); next.amounts = new Map();
     return next;
   }
@@ -135,15 +139,23 @@ export class World {
     }
     if (!signatures.relations.has(p.name)) { throw new Error(`Unknown predicate ${p.name}`); }
     if (p.name === 'distinct') { throw new Error('distinct compares two bound parties'); }
-    for (const fact of [...(this.byName.get(p.name)?.values() ?? [])]) {
-      const next = { ...b };
-      if (fact.args.every((value, i) => {
-        const arg = args[i]!;
-        if (!arg.startsWith('?')) { return arg === value; }
-        if (next[arg] !== undefined) { return next[arg] === value; }
-        next[arg] = value; return true;
-      })) { yield next; }
+    // By the first argument's index when it is known; a binding is copied only for a fact that matches.
+    const facts = args[0]!.startsWith('?') ? this.related(p.name) : this.related(p.name, args[0]!);
+    for (const fact of facts) {
+      const next = World.match(fact, args, b);
+      if (next) { yield next; }
     }
+  }
+  private static match(fact: Call, args: string[], b: Record<string, string>): Record<string, string> | undefined {
+    let next: Record<string, string> | undefined;
+    for (let i = 0; i < fact.args.length; i++) {
+      const arg = args[i]!, value = fact.args[i]!;
+      if (!arg.startsWith('?')) { if (arg !== value) { return undefined; } continue; }
+      const have = (next ?? b)[arg];
+      if (have !== undefined) { if (have !== value) { return undefined; } continue; }
+      next ??= { ...b }; next[arg] = value;
+    }
+    return next ?? b;
   }
   private closed(predicate: Predicate, bindings: Record<string, string> = {}): boolean {
     switch (predicate.kind) {
@@ -257,8 +269,19 @@ export class World {
       measures: [...this.quantities].map(([key, entry]) => [key, entry.value]).sort() });
     return this.memoKey;
   }
-  describe(): string[] {
-    return [...[...this.facts.values()].map(World.format),
-      ...[...this.quantities.values()].map(entry => `${World.format(entry.call)} = ${entry.value}`)].sort();
+  // Every fact and measure as a line, sorted; or only those of some names.
+  describe(names?: Set<string>): string[] {
+    const facts = names ? [...names].flatMap(n => [...this.byName.get(n)?.values() ?? []]) : [...this.facts.values()];
+    const measures = [...this.quantities.values()].filter(m => !names || names.has(m.call.name));
+    return [...facts.map(World.format), ...measures.map(entry => `${World.format(entry.call)} = ${entry.value}`)].sort();
+  }
+  // What changed from an earlier world to this one, as "- fact" and "+ fact" lines: of the same line, only what was
+  // written since is compared; of another, everything.
+  changes(from: World): string[] {
+    const names = from.lineage === this.lineage ? new Set([...this.stamps.keys(), ...from.stamps.keys()]
+      .filter(n => this.stamp(n) !== from.stamp(n))) : undefined;
+    const previous = from.describe(names), next = this.describe(names);
+    const was = new Set(previous), is = new Set(next);
+    return [...previous.filter(s => !is.has(s)).map(s => `- ${s}`), ...next.filter(s => !was.has(s)).map(s => `+ ${s}`)];
   }
 }

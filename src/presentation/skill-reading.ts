@@ -70,18 +70,27 @@ export class SkillReading {
     // Only needs of what is near the company count: the things here, the ways out, and what stands on them.
     const legal = new Set(campaign.offered().map(a => a.id)), near = this.near(campaign, actor);
     const nearNeeds = needs.filter(r => near.has(r.args[0]!));
-    const lacking = campaign.module.entities.filter(e => e.type === 'capability' && !this.has(campaign, actor, e.id));
-    for (const skill of lacking) {
-      const asked = nearNeeds.some(r => r.args[1] === skill.id);
-      const only = new Set([...named.get(skill.id) ?? [], ...asked ? needing : []]);
-      if (!only.size) { continue; }
-      const other = world.apply([{ kind: 'assert', call: ModuleWriter.call('capable', actor, skill.id) }]);
-      const gained = campaign.operators.applicable(other, actor, only).filter(op => !legal.has(op.id));
-      for (const row of ActionPresentation.choices(gained, campaign.schemas)) {
+    const lacking = campaign.module.entities.filter(e => e.type === 'capability' && !this.has(campaign, actor, e.id))
+      .map(skill => ({ skill, only: new Set([...named.get(skill.id) ?? [],
+        ...nearNeeds.some(r => r.args[1] === skill.id) ? needing : []]) })).filter(l => l.only.size);
+    if (!lacking.length) { return this.keep(campaign, { key, uses, wanting }); }
+    // Grounded once, as if the company had every skill it lacks; each choice that opens is kept for the one skill
+    // that opens it alone.
+    const all = world.apply(lacking.map(l => ({ kind: 'assert' as const,
+      call: ModuleWriter.call('capable', actor, l.skill.id) })));
+    const gained = campaign.operators.applicable(all, actor, new Set(lacking.flatMap(l => [...l.only])))
+      .filter(op => !legal.has(op.id));
+    for (const { skill, only } of lacking) {
+      const one = world.apply([{ kind: 'assert', call: ModuleWriter.call('capable', actor, skill.id) }]);
+      const opened = gained.filter(op => only.has(op.schema ?? op.id) && one.test(op.requires)
+        && one.admits(op.success));
+      for (const row of ActionPresentation.choices(opened, campaign.schemas)) {
         wanting.push({ ...row, skill: skill.id, name: skill.name });
       }
     }
-    const read = { key, uses, wanting };
+    return this.keep(campaign, { key, uses, wanting });
+  }
+  private static keep(campaign: Campaign, read: { key: string; uses: Map<string, string[]>; wanting: Wanting[] }) {
     this.cache.set(campaign, read);
     return read;
   }

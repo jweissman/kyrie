@@ -22,6 +22,8 @@ type Entity = Module['entities'][number];
 interface Scope {
   has: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
   capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; at?: PerkContext;
+  // The items there are, and what the world says now of each member, by relation (see `held`).
+  itemIds: Set<string>; held: Map<string, Map<string, Set<string>>>;
 }
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
@@ -44,8 +46,8 @@ export class CreatureFacts {
       if (scope.has.has('featOpen')) { changes.push(...this.feats(world, members, scope.references)); }
       if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members)); }
     }
-    const different = changes.filter(c => c.kind === 'assert' ? !world.test(c.call) :
-      c.kind === 'retract' ? world.test(c.call) :
+    const different = changes.filter(c => c.kind === 'assert' ? !world.holds(World.key(c.call)) :
+      c.kind === 'retract' ? world.holds(World.key(c.call)) :
         'value' in c && c.value.kind !== 'call' && World.literal(c.value) !== world.number(c.call));
     return different.length ? world.apply(different) : world;
   }
@@ -54,21 +56,34 @@ export class CreatureFacts {
   // plain words of its temperament.
   private static temperament(world: World, group: string, members: Creature[]): Change[] {
     const kinds = new Set(members.map(c => Canon.temperament(c.raceId)));
-    const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, relations = world.view.relations;
-    const given = relations.find(r => r.name === 'temperament' && r.args[0] === group)?.args[1];
-    const own = kinds.size === 1 && kind && world.module.entities.some(e => e.id === kind && e.type === 'temperament');
+    const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, words = this.words(world.module);
+    const given = world.one('temperament', group);
+    const own = kinds.size === 1 && kind && words.has(kind);
     const temper = given ?? (own ? kind : undefined);
     if (!temper) { return []; }
-    const scripted = relations.some(r => r.name === 'state' && r.args[0] === group);
-    const words = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
+    const scripted = world.related('state', group).length > 0;
+    const said = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
       // The shared words live in whichever installation joined the inhabitants rules first.
-      const plain = `${temper.replace(/^temper_/, 'temper_words_')}_${name}`;
-      const entity = world.module.entities.find(e => e.id === plain || e.id.endsWith(`__${plain}`));
-      return relations.some(r => r.name === name && r.args[0] === group) || !entity ? []
-        : [ModuleWriter.call(name, group, entity.id)];
+      const entity = words.get(`${temper.replace(/^temper_/, 'temper_words_')}_${name}`);
+      return world.related(name, group).length || !entity ? [] : [ModuleWriter.call(name, group, entity)];
     });
-    return [...given ? [] : [ModuleWriter.call('temperament', group, temper)], ...words]
+    return [...given ? [] : [ModuleWriter.call('temperament', group, temper)], ...said]
       .map(call => ({ kind: 'assert' as const, call }));
+  }
+  // The temperaments a module declares, and the plain words of each, by their unprefixed ids.
+  private static readonly worded = new WeakMap<Module, Map<string, string>>();
+  private static words(module: Module): Map<string, string> {
+    let words = this.worded.get(module);
+    if (!words) {
+      words = new Map();
+      for (const e of module.entities) {
+        const plain = e.id.replace(/^.*__/, '');
+        if (e.type === 'temperament' && e.id === plain) { words.set(e.id, e.id); }
+        if (plain.startsWith('temper_words_') && !words.has(plain)) { words.set(plain, e.id); }
+      }
+      this.worded.set(module, words);
+    }
+    return words;
   }
   // What the world declares that the projection writes about: which relations it has, and its capabilities,
   // items, item kinds, member bindings and abilities.
@@ -76,9 +91,18 @@ export class CreatureFacts {
     const { entities, relations } = world.module;
     const abilityIds = new Set(entities.filter(e => e.type === 'ability').map(e => e.id));
     const declared = Content.abilities.filter(a => abilityIds.has(a.id));
+    const items = entities.filter(e => e.type === 'item'), held = new Map<string, Map<string, Set<string>>>();
+    for (const [name, member] of Object.entries(this.sets).filter(([n]) => world.relates(n))) {
+      const byMember = new Map<string, Set<string>>();
+      for (const r of world.related(name)) {
+        const set = byMember.get(r.args[member]!) ?? new Set<string>();
+        set.add(r.args[1 - member]!); byMember.set(r.args[member]!, set);
+      }
+      held.set(name, byMember);
+    }
     return { has: new Set(relations.map(r => r.name)), abilityIds, declared,
       field: declared.filter(a => FieldUse.safe(a.id)),
-      capabilities: entities.filter(e => e.type === 'capability'), items: entities.filter(e => e.type === 'item'),
+      capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)), held,
       kinds: entities.filter(e => e.type === 'itemkind'),
       references: new Map(entities.filter(e => e.creatureId).map(e => [e.creatureId!, e.id])) };
   }
@@ -116,7 +140,7 @@ export class CreatureFacts {
   // One companion: whose they are, whether awake or hurt, what they own and wear and can wield, and what they could
   // be taught, could treat, and could cast now.
   private static member(c: Creature, actor: string, scope: Scope): Change[] {
-    const { has, items, kinds, references } = scope, changes: Change[] = [];
+    const { has, kinds, references } = scope, changes: Change[] = [];
     const reference = references.get(c.id);
     if (!reference) { throw new Error(`Missing canonical member binding for ${c.id}`); }
     const ready = c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id));
@@ -125,33 +149,46 @@ export class CreatureFacts {
     changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
       call: ModuleWriter.call('needsCare', reference) });
     if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }
-    for (const item of has.has('ownedItem') ? items : []) {
-      const owned = c.state.inventory?.find(i => i.id === item.id);
-      changes.push({ kind: owned ? 'assert' : 'retract', call: ModuleWriter.call('ownedItem', item.id, reference) });
-      changes.push({ kind: owned?.equipped ? 'assert' : 'retract', call: ModuleWriter.call('wearing', item.id, reference) });
+    // What a member owns and wears; the kinds they can use; what they could be taught; what they could treat, and
+    // cast now. Each is written as the whole set: what holds now, and the end of what held and no longer does.
+    if (has.has('ownedItem')) {
+      const mine = (c.state.inventory ?? []).filter(i => scope.itemIds.has(i.id));
+      changes.push(...this.set(scope, 'ownedItem', reference, mine.map(i => i.id)),
+        ...this.set(scope, 'wearing', reference, mine.filter(i => i.equipped).map(i => i.id)));
     }
-    for (const kind of has.has('proficient') ? kinds : []) {
-      changes.push({ kind: Creation.canEquip(c.classId, kind.id) ? 'assert' : 'retract',
-        call: ModuleWriter.call('proficient', reference, kind.id) });
+    if (has.has('proficient')) {
+      changes.push(...this.set(scope, 'proficient', reference, kinds.filter(k => Creation.canEquip(c.classId, k.id))
+        .map(k => k.id)));
     }
-    for (const a of has.has('canTrain') ? scope.declared : []) {
-      const eligible = ready && c.state.experience >= 20
-        && ![...c.base.abilities, ...c.state.learnedAbilities].includes(a.id);
-      changes.push({ kind: eligible ? 'assert' : 'retract', call: ModuleWriter.call('canTrain', reference, a.id) });
+    const learned = [...c.base.abilities, ...c.state.learnedAbilities];
+    if (has.has('canTrain')) {
+      changes.push(...this.set(scope, 'canTrain', reference, ready && c.state.experience >= 20
+        ? scope.declared.filter(a => !learned.includes(a.id)).map(a => a.id) : []));
     }
     for (const item of c.state.inventory ?? []) { ItemCatalog.get(item.definition); }
-    const known = new Set([...c.base.abilities, ...c.state.learnedAbilities, ...Object.keys(ItemCatalog.abilities(c))]);
-    for (const a of scope.field) {
-      const useful = a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
-        || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
-        || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status)));
-      changes.push({ kind: useful ? 'assert' : 'retract', call: ModuleWriter.call('treatable', reference, a.id) });
-      // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
-      const usable = ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
-        && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(c.base.level);
-      changes.push({ kind: usable ? 'assert' : 'retract', call: ModuleWriter.call('canCast', reference, a.id) });
-    }
+    const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c))]);
+    const useful = scope.field.filter(a => a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
+      || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
+      || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status))));
+    // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
+    const usable = scope.field.filter(a => ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
+      && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(c.base.level));
+    changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id)),
+      ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
     return changes;
+  }
+  // The relations the projection writes from a member to many things: item first for what a member owns or wears,
+  // the member first for the rest.
+  static readonly sets: Record<string, 0 | 1> = { ownedItem: 1, wearing: 1, proficient: 0, canTrain: 0, treatable: 0,
+    canCast: 0 };
+  private static set(scope: Scope, name: string, reference: string, now: string[]): Change[] {
+    const want = new Set(now);
+    return [...[...want].map(x => ({ kind: 'assert' as const, call: this.pair(name, reference, x) })),
+      ...[...scope.held.get(name)?.get(reference) ?? []].filter(x => !want.has(x))
+        .map(x => ({ kind: 'retract' as const, call: this.pair(name, reference, x) }))];
+  }
+  private static pair(name: string, reference: string, other: string) {
+    return this.sets[name] ? ModuleWriter.call(name, other, reference) : ModuleWriter.call(name, reference, other);
   }
   // The spells each caster could prepare in place of one it has prepared: a known spell, castable at its level,
   // of the slot's level or lower. Written as the whole set, so a swap no longer possible is retracted.
