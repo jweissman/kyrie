@@ -36,6 +36,7 @@ import { ActionTime } from './action-time';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent } from './campaign-types';
+import type { CalendarStart } from '../presentation/calendar';
 export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -47,7 +48,7 @@ export class Campaign implements WatchHost {
   private observations: Record<string, number> = {};
   private executing = false;
   // A campaign is a composition of installed modules (see Campaign.load); restore() resumes a save.
-  constructor(seed: string, instance: Instance, saved?: CampaignSave) {
+  constructor(seed: string, instance: Instance, saved?: CampaignSave, calendar?: CalendarStart) {
     if (saved) {
       this.compiled = structuredClone(saved.module); this.definition = structuredClone(saved.definition);
       this.current = structuredClone(saved.state); this.creatures = new CreatureStore(saved.creatures);
@@ -78,7 +79,7 @@ export class Campaign implements WatchHost {
     const inhabitants: Record<string, string[]> = {};
     for (const actor of this.definition.actors) { inhabitants[actor.id] = [...actor.members]; }
     this.current = { seed, world: structuredClone(instance.world), partyIds: [...player.members],
-      inhabitants, elapsed: 0, deadline: instance.budget, outcome: 'active' };
+      inhabitants, elapsed: 0, deadline: instance.budget, outcome: 'active', ...calendar ? { calendar } : {} };
     // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
     this.commit(this.world.apply(CampaignTick.clock(this.world, this.current)));
     CreatureFacts.initialize(this.world, this.definition.actors, this.creatures);
@@ -116,10 +117,10 @@ export class Campaign implements WatchHost {
         const draft = await ModuleBundle.load(request, { seed }, source);
         if (party) { CompanyChoices.apply(draft, party); }
         Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
-        campaign = new Campaign(seed, ModuleInstallations.prepare(undefined, draft, 0));
+        campaign = new Campaign(seed, ModuleInstallations.prepare(undefined, draft, 0), undefined, manifest.calendar);
       }
     }
-    campaign!.compiled.name = manifest.name; if (manifest.calendar) { campaign!.current.calendar = manifest.calendar; }
+    campaign!.compiled.name = manifest.name;
     return campaign!;
   }
   async install(request: BundleRequest, source: BundleSource): Promise<void> {

@@ -2,6 +2,7 @@ import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import { Calendar, type CalendarStart } from '../presentation/calendar';
 import { RegionGeography } from './region-geography';
+import { CampaignTick } from '../campaign/campaign-tick';
 import type { Region } from './region-writer';
 
 interface Tables {
@@ -9,62 +10,75 @@ interface Tables {
   skyLine: { groups: Record<string, [string, string]> }; seasonLine: { groups: Record<string, string[]> };
 }
 
-// A generated region's weather, day by day, from Orsino's climates: a region has a climate for its terrain
-// (terrainClimates) and each day draws weather from it (climateWeather), with snow for rain in a cold winter. The
-// sky changes at dawn. A river runs in spate the day after rain or a storm, and its ford can then only be risked;
-// the weather and the season are seen on the greens and the roads.
+// A generated region's weather, from Orsino's climates: a region has a climate for its terrain (terrainClimates)
+// whose weathers it has (climateWeather), with snow for rain in a cold winter and no frost in summer. The weather
+// goes on as long as the campaign does: at each first light the day's die decides whether the sky holds or turns,
+// and to what, weighted by the climate. A river runs in spate the day after rain or a storm, and its ford can then
+// only be risked; the weather is seen on the greens and the roads, and the season, as the calendar turns, on the
+// greens.
 export class RegionWeather {
-  static readonly days = 12;
   static get tables(): Tables { return GenerationSetting.tables as unknown as Tables; }
-  // Each day's weather, from the first.
-  static schedule(region: Region, start: CalendarStart): string[] {
-    const rng = new Expressions(`${region.name}:weather`);
-    const climates = this.tables.regionClimate.groups[region.terrain] ?? ['temperate'];
-    const climate = climates[rng.number(`1d${climates.length}`) - 1]!;
-    const kinds = this.tables.climateWeather.groups[climate] ?? ['fair'];
-    return Array.from({ length: this.days }, (_, d) => {
-      const kind = kinds[rng.number(`1d${kinds.length}`) - 1]!, season = Calendar.date(start, this.dawn(d + 1)).season;
-      return (climate === 'tropical' && kind === 'rainy' ? kind : this.seasonal[season]?.[kind]) ?? kind;
-    });
-  }
+  // Out of every hundred mornings, how many the sky holds as it was.
+  static readonly holds = 45;
   // What a climate's weather is in a season that will not have it: no close, fly-ridden days in winter, and snow
   // where it would have rained (except in a tropical one); no snow or frost in summer.
   static readonly seasonal: Record<string, Record<string, string>> = {
     winter: { rainy: 'snowy', humid: 'cold', hot: 'fair' }, summer: { snowy: 'rainy', freezing: 'fair', cold: 'fair' } };
-  // The watch at which day n begins its weather: six in the morning (the first day's is the start).
-  static dawn(n: number): number { return n <= 1 ? 0 : 144 * (n - 1) - 12; }
-  static lines(region: Region, start: CalendarStart): string[] {
-    const q = JSON.stringify, days = this.schedule(region, start), kinds = [...new Set(days)];
-    const sky = this.tables.skyLine.groups;
-    // The sky's states are named weather_rainy and so on, as "cold" and the like are the shared rules' own.
-    const lines = ['  Thing sky "the sky" at region is scenery {',
-      ...kinds.map(k => `    State weather_${k} ${q(sky[k]?.[1] ?? k)}.`), '  }'];
-    lines.push(...this.changes('sky', days.map(k => `weather_${k}`)), ...this.river(region, days),
-      ...this.seen(region, start, kinds));
-    return lines;
+  static climate(region: Region): string {
+    const rng = new Expressions(`${region.name}:weather`);
+    const climates = this.tables.regionClimate.groups[region.terrain] ?? ['temperate'];
+    return climates[rng.number(`1d${climates.length}`) - 1]!;
   }
-  // Rules that set a thing's state from day to day: each change holds from its dawn until the next change's.
-  private static changes(thing: string, days: string[]): string[] {
-    const at = days.map((k, d) => d > 0 && days[d - 1] !== k ? d : -1).filter(d => d > 0);
-    return at.map((d, i) => {
-      const until = at[i + 1] === undefined ? '' : ` and watch(clock) < ${this.dawn(at[i + 1]! + 1)}`;
-      return `  Rule ${thing}_${d + 1} when watch(clock) >= ${this.dawn(d + 1)}${until} and not state(${thing}, ${days[d]}) {`
-        + ` Assert state(${thing}, ${days[d]}). }`;
+  // What a kind of weather is in a season, in a climate.
+  static inSeason(kind: string, season: string, climate: string): string {
+    return (climate === 'tropical' && kind === 'rainy' ? kind : this.seasonal[season]?.[kind]) ?? kind;
+  }
+  static lines(region: Region, start: CalendarStart): string[] {
+    const q = JSON.stringify, climate = this.climate(region), sky = this.tables.skyLine.groups;
+    const kinds = this.tables.climateWeather.groups[climate] ?? ['fair'];
+    const first = this.inSeason(kinds[new Expressions(`${region.name}:weather:first`).number(`1d${kinds.length}`) - 1]!,
+      Calendar.date(start, 0).season, climate);
+    const all = [...new Set([first, ...CampaignTick.seasons.flatMap(season => kinds.map(k => this.inSeason(k, season,
+      climate)))])];
+    // The sky's states are named weather_rainy and so on, as "cold" and the like are the shared rules' own.
+    return ['  Thing sky "the sky" at region is scenery {', ...all.map(k => `    State weather_${k} ${q(sky[k]?.[1] ?? k)}.`),
+      '  }', ...this.river(region, all), ...this.turns(kinds, climate), ...this.seen(region, all)];
+  }
+  // At first light the sky turns, unless it holds: the rest of the die's hundred shared among the climate's
+  // weathers (a weather it has often holds more of it), each as it is in the season.
+  private static turns(kinds: string[], climate: string): string[] {
+    const span = (100 - this.holds) / kinds.length;
+    return kinds.flatMap((kind, i) => {
+      const lo = Math.floor(this.holds + span * i) + 1, hi = Math.floor(this.holds + span * (i + 1));
+      const when = `untilLight(clock) == 1 and dice(clock) >= ${lo} and dice(clock) <= ${hi}`;
+      const changed = CampaignTick.seasons.map((season, n) => ({ n: n + 1, k: this.inSeason(kind, season, climate) }))
+        .filter(x => x.k !== kind);
+      return [{ id: `sky_${i}`, also: changed.map(x => ` and season(clock) != ${x.n}`).join(''), k: kind },
+        ...changed.map(x => ({ id: `sky_${i}_${x.n}`, also: ` and season(clock) == ${x.n}`, k: x.k }))]
+        .map(r => `  Rule ${r.id} when ${when}${r.also} and not state(sky, weather_${r.k}) { Assert state(sky, weather_${r.k}). }`);
     });
   }
-  // The rivers are up the day after rain or a storm, and down again the day after that: at every ford.
-  private static river(region: Region, days: string[]): string[] {
-    const spate = days.map((_, d) => d > 0 && ['rainy', 'stormy'].includes(days[d - 1]!) ? 'spate' : 'low');
+  // The rivers are up the morning after rain or a storm, and down again the morning after that: at every ford.
+  // These come before the sky's turning, so they read the day that is ending.
+  private static river(region: Region, kinds: string[]): string[] {
+    const rains = kinds.filter(k => ['rainy', 'stormy'].includes(k)).map(k => `state(sky, weather_${k})`);
+    if (!rains.length) { return []; }
+    const wet = `(${rains.join(' or ')})`;
     return RegionGeography.roads(region).filter(r => r.form?.form === 'river' && r.route.crossings[0]?.kind === 'ford')
-      .flatMap(r => this.changes(`${r.way}_water`, spate));
+      .flatMap(r => [`  Rule ${r.way}_rises when untilLight(clock) == 1 and ${wet} and not state(${r.way}_water, spate) {`
+        + ` Assert state(${r.way}_water, spate). }`,
+      `  Rule ${r.way}_falls when untilLight(clock) == 1 and not ${wet} and state(${r.way}_water, spate) {`
+        + ` Assert state(${r.way}_water, low). }`]);
   }
-  // The weather on each green and road, by day; and the season on each green.
-  private static seen(region: Region, start: CalendarStart, kinds: string[]): string[] {
+  // The weather on each green and road; and on each green, the season as the calendar turns.
+  private static seen(region: Region, kinds: string[]): string[] {
     const q = JSON.stringify, sky = this.tables.skyLine.groups;
-    const season = this.tables.seasonLine.groups[Calendar.date(start, 0).season]?.[0];
     const rooms = [...region.settlements.map(s => `${s.id}_green`), ...RegionGeography.roads(region).map(r => r.way)];
     return [...rooms.flatMap(room => kinds.map(k =>
       `  Observe ${room}_sky_${k} at ${room} when state(sky, weather_${k}) and not dark() ${q(sky[k]?.[1] ?? '')}.`)),
-    ...season ? region.settlements.map(s => `  Observe ${s.id}_season at ${s.id}_green when not dark() ${q(season)}.`) : []];
+    ...region.settlements.flatMap(s => CampaignTick.seasons.flatMap((season, i) => {
+      const line = this.tables.seasonLine.groups[season]?.[0];
+      return line ? [`  Observe ${s.id}_season_${season} at ${s.id}_green when not dark() and season(clock) == ${i + 1} ${q(line)}.`] : [];
+    }))];
   }
 }

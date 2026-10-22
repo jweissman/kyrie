@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 127,
+    "kyr": 128,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 122,
+      "kyr": 123,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10521,6 +10521,13 @@
   {
    "id": "rule:world_core.dice",
    "title": "dice",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.season",
+   "title": "season",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"

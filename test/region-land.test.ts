@@ -9,7 +9,6 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
 import { RegionGeography } from '../src/world/region-geography';
-import { RegionWeather } from '../src/world/region-weather';
 import { Histories } from '../src/world/history/histories';
 import { Atlases } from '../src/world/land/atlas';
 
@@ -120,20 +119,31 @@ describe('a generated region lies on real land', () => {
 });
 
 describe('a generated region keeps a calendar and weather', () => {
-  it('raises its river over the ford the day after rain, so it can only be risked until it falls', async () => {
-    // Thorn: rain on the second day, so the ford is up on the third; sun on the third, so it is down on the fourth.
+  it('turns its weather at first light for as long as the campaign goes on, and raises its river after rain', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared), region = w.report.region;
-    expect(RegionWeather.schedule(region, region.calendar!).slice(1, 3)).toEqual(['rainy', 'sunny']);
     const ford = RegionGeography.roads(region).find(r => r.form?.form === 'river' && r.route.crossings[0]?.kind === 'ford')!;
     const river = ford.form!.name, s = await PlaySession.start(w.path, 'thorn', w.source);
     Land.put(s, `region__${ford.to.id}_green`);
-    const crossing = () => PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => n.includes(river));
-    while (s.campaign.state.elapsed < 290) { await s.perform('wait_hour'); }
-    expect(s.campaign.world.test(ModuleWriter.call('state', `region__${ford.way}_water`, 'region__spate'))).toBe(true);
-    expect(crossing().some(n => n.startsWith(`Risk the ${river}`))).toBe(true);
-    expect(crossing().some(n => n.startsWith(`Take the ford of the ${river}`))).toBe(false);
-    while (s.campaign.state.elapsed < 430) { await s.perform('wait_hour'); }
-    expect(crossing().some(n => n.startsWith(`Take the ford of the ${river}`))).toBe(true);
+    const sky = () => s.campaign.world.one('state', 'region__sky')!.replace(/^.*__weather_/, '');
+    const up = () => s.campaign.world.test(ModuleWriter.call('state', `region__${ford.way}_water`, 'region__spate'));
+    const days: { sky: string; up: boolean; risk: boolean }[] = [];
+    for (let day = 0; day < 20; day++) {
+      // To the morning after first light: 6 a.m. is the watch 144 n - 12 of day n.
+      while (s.campaign.state.elapsed < 144 * (day + 1) - 11) {
+        const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
+        await s.perform(['wait_for_light', 'wait_for_dark', 'wait_hour'].find(id => ids.includes(id))!);
+      }
+      const names = PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => n.includes(river));
+      days.push({ sky: sky(), up: up(), risk: names.some(n => n.startsWith(`Risk the ${river}`)) });
+    }
+    // The morning after a wet day the river is up, and its ford can only be risked; after a dry one it is down.
+    for (let d = 1; d < days.length; d++) {
+      expect(days[d]!.up).toBe(['rainy', 'stormy'].includes(days[d - 1]!.sky));
+      expect(days[d]!.risk).toBe(days[d]!.up);
+    }
+    expect(days.some(d => d.up)).toBe(true);
+    // The sky still turns after the first twelve days.
+    expect(new Set(days.slice(12).map(d => d.sky)).size).toBeGreaterThan(1);
     expect(ScreenModel.build(s.campaign).date?.long).toMatch(/of the Sun and Moon; (spring|summer|autumn|winter)$/);
-  }, 60000);
+  }, 120000);
 });

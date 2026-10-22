@@ -1,5 +1,6 @@
 import type { Operators } from './operators';
 import { FictionalTime } from '../presentation/fictional-time';
+import { Calendar, type CalendarStart } from '../presentation/calendar';
 import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
 import { Agency } from './agency';
@@ -34,7 +35,9 @@ export class CampaignTick {
   // The clock after a watch passes: its reading, dark() from nine in the evening until six in the morning, and the
   // watch's die (dice(clock), 1 to 100, drawn from the campaign's seed) for whatever is left to chance: a wandering
   // band on a road, the weather turning.
-  static clock(world: World, { elapsed, seed }: { elapsed: number; seed: string }): Change[] {
+  static readonly seasons = ['spring', 'summer', 'autumn', 'winter'];
+  static clock(world: World, { elapsed, seed, calendar }: { elapsed: number; seed: string; calendar?: CalendarStart }):
+    Change[] {
     const night: Change[] = world.module.relations.some(r => r.name === 'dark')
       ? [{ kind: FictionalTime.dark(elapsed) ? 'assert' : 'retract', call: ModuleWriter.call('dark') }] : [];
     // How long until the hours a company waits for: first light, a night's sleep, dark, the day's next turn.
@@ -45,6 +48,10 @@ export class CampaignTick {
       if (world.module.measures.some(m => m.name === name)) {
         night.push({ kind: 'set', call: ModuleWriter.call(name, 'clock'), value: ModuleWriter.number(watches) });
       }
+    }
+    if (calendar && world.module.measures.some(m => m.name === 'season')) {
+      night.push({ kind: 'set', call: ModuleWriter.call('season', 'clock'),
+        value: ModuleWriter.number(this.seasons.indexOf(Calendar.date(calendar, elapsed).season) + 1) });
     }
     if (world.module.measures.some(m => m.name === 'dice')) {
       night.push({ kind: 'set', call: ModuleWriter.call('dice', 'clock'),

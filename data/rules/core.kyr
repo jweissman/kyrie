@@ -59,6 +59,8 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Measure untilLight(clock). Measure untilMorning(clock).
   // A die thrown each watch, 1 to 100, for what is left to chance.
   Measure dice(clock).
+  // The season by the campaign's calendar, when it keeps one: 1 spring, 2 summer, 3 autumn, 4 winter (0: none).
+  Measure season(clock).
   Action wait_for_light(actor: group) "Wait until first light" {
     Requires able(actor) and dark(). Time untilLight(clock). Interrupted when threatened(actor).
     Result "The sky greys, then lightens. It is morning.".

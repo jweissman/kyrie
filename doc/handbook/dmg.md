@@ -402,7 +402,7 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 25 | 8 | 3 | 0 | 7 |
+| 8 | 25 | 9 | 3 | 0 | 7 |
 
 #### terrainkind, terrain
 
@@ -487,6 +487,12 @@ Someone who means the company no good where it is: a long wait or a rest is brok
 *Kyr · measure(clock)* · `rule:world_core.dice`
 
 A die thrown each watch, 1 to 100, for what is left to chance.
+
+#### season
+
+*Kyr · measure(clock)* · `rule:world_core.season`
+
+The season by the campaign's calendar, when it keeps one: 1 spring, 2 summer, 3 autumn, 4 winter (0: none).
 
 #### wait for light
 
