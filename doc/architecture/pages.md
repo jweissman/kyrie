@@ -1,8 +1,7 @@
 # Publishing Kyr on GitHub Pages
 
-The workflow `.github/workflows/pages.yml` builds the browser reader and deploys it to GitHub Pages on every push to
-`main`. As of 2026-10-22 the build half works end to end; the deploy half cannot, for a reason only the repository's
-owner can change.
+Kyr's browser reader is published at **https://jweissman.github.io/kyrie/** by the workflow
+`.github/workflows/pages.yml`, on every push to `main`. `?world=<seed>` starts a generated world directly.
 
 ## What the workflow does
 
@@ -13,30 +12,22 @@ owner can change.
    `frontier`), and builds the site with `bun run web:build` into `site/` (about 7 MB).
 3. Uploads `site/` as the Pages artifact and deploys it.
 
-The build was reproduced in a clean directory with fresh clones of all three repositories: the tests pass (11) and
-the site builds.
+Until 2026-10-22 every run failed at `bun install`: the `languages` package was never checked out, and one of the
+tests the workflow named no longer existed. Both are fixed, and the build was also reproduced from fresh clones of
+all three repositories. The first successful deploy was of 7c83327.
 
-## Why it is not published
+## Checked on the published site
 
-- **Pages is not enabled for the repository.** `gh api repos/jweissman/kyrie/pages` answers 404.
-- **The repository is private.** GitHub Pages for a private repository needs a paid plan (Pro, Team or Enterprise).
+At iPad size (820×1180, touch, an iPad user agent) on 2026-10-22, against the deploy of 7c83327:
 
-Until one of those changes, the deploy job fails after a successful build.
+- the title page is ready in 1.5 s, and a generated world (`?world=a1`) is drawn and started in 2.2 s;
+- the first move takes about a quarter of a second; no page errors;
+- after a reload, the title offers to continue where the company was (the game kept in the browser, packed).
 
-Earlier runs failed sooner, for reasons now fixed in the workflow: `languages` was never checked out (the build
-stopped at `bun install`), and one of the tests the workflow named no longer exists.
+This is Chromium with touch emulation, not Safari on an iPad: the gestures, Safari's own storage limits and its
+text rendering still want a real device.
 
-## What the owner can do
-
-Either:
-
-- make the repository public, or move it to a plan that allows Pages for private repositories; and then
-- in **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions**; and
-- re-run the **Pages** workflow (it has a manual trigger), or push to `main`.
-
-Optionally, set the repository variable `DEEM_REPOSITORY` to build against a fork of DEEM.
-
-## Trying it on an iPad meanwhile
+## Trying a build on an iPad before it is published
 
 Build the site and serve it on the local network:
 
@@ -46,5 +37,3 @@ bunx serve site            # or: python3 -m http.server --directory site 8080
 ```
 
 Then open `http://<this machine's address>:<port>/` on the iPad (the reader is the site's index page).
-`?world=<seed>` starts a generated world directly. A game in progress is kept in the browser (packed, see `web/engine/save-codec.ts`) and continues after a
-reload.
