@@ -87,6 +87,7 @@ Module longman "The Long Man" {
   }
   Person dunnet "Dunnet" at yard {
     Role "foreman at the Hall". Ancestry human. Calling warrior. Peaceable.
+    Wants bandages. Wants tin_lantern.
     Objects "Dunnet looks at {?i}, and at you, and goes in to the steward without a word. The study door bangs.".
   }
   Initially Assert serves(dunnet, venn).
@@ -94,8 +95,8 @@ Module longman "The Long Man" {
     Role "priest of the Chapel of the Ford". Ancestry human. Calling cleric. Peaceable.
     Wants keeper_mask.
   }
-  Event mask_buried near ysolt when keeps(ysolt, mask) "Mother Ysolt takes the grey face in both hands and looks at it a long time. That evening she buries it in the chapel yard with the words for the dead, and rings the bell once." then {
-    Assert buried(mask).
+  Event mask_buried near ysolt when keeps(ysolt, ?face) and itemKind(?face, keeper_mask) "Mother Ysolt takes the grey face in both hands and looks at it a long time. That evening she buries it in the chapel yard with the words for the dead, and rings the bell once." then {
+    Assert buried(?face).
   }
   Relation buried(item).
   Person hob "Hob Teller" at millhouse {
@@ -113,7 +114,7 @@ Module longman "The Long Man" {
   Person folk "the people of Merrow" at green {
     Role "villagers". Ancestry human. Numbers 4. Peaceable.
   }
-  Observe folk_here at green when at(folk, green) and not storming() "A few people are at the well, and stop talking to watch you come.".
+  Observe folk_here at green when at(folk, green) and not storming() and not dark() "A few people are at the well, and stop talking to watch you come.".
   Topic folk_long_man with folk "Ask the people at the well about the Long Man" when true once {
     Says "'The Long Man's barrow,' says a woman with a basket of eggs. 'There's a giant king under it, that the Long Folk buried with his gold. You don't go up there after dark.' She nods at the ridge. 'The Mower walks.'".
   }
@@ -179,7 +180,47 @@ Module longman "The Long Man" {
   Relation aboard(item).
   Rule cass_wants when aboard(teeth) and at(teeth, landing) and not forSale(teeth) { Assert forSale(teeth). Assert soldBy(teeth, cass). Set price(teeth) to 12. }
   Rule teeth_sail when aboard(teeth) and at(teeth, landing) and at(cass, downriver) { Assert at(teeth, downriver). }
+  // Told what the bronze held shut, Cass will not carry it: she leaves it on the landing and has the Hall's plate instead.
+  Topic cass_weir with cass "Tell Cass Rowell what the bronze was holding shut" when knows(actor, wall_known) and knows(actor, teeth_taken) and aboard(teeth) {
+    Says "Cass hears you out without a word, looking past you at the hill. 'My father was under a weir on the Lune when it went,' she says. 'I'll not carry one downriver in a sack.' She whistles, and one of her hands sets the sack down on the landing stones. 'The steward owes me sixty crowns. I'll have them in silver before dusk, or I'll have his plate.'".
+    On discuss { Retract aboard(teeth). Retract forSale(teeth). Retract soldBy(teeth, cass). Assert dunned(venn). }
+  }
+  Relation dunned(group). Relation ruined(group).
+  Rule venn_ruined when dunned(venn) and at(cass, downriver) and not ruined(venn) { Assert ruined(venn). }
+  Observe study_stripped at study when ruined(venn) "The dresser by the fire is bare: the Hall's plate has gone downriver on the Heron.".
+  // Cass drinks at the Ox for an hour while her hands load.
+  Rule cass_drinks when watch(clock) >= 186 and watch(clock) < 192 and at(cass, landing) { Assert at(cass, taproom). }
+  Rule cass_back when watch(clock) >= 192 and at(cass, taproom) { Assert at(cass, landing). }
+  // The Ox's cellar is the lowest in Merrow but the mill's: when the low field goes under, Martin bails.
+  Observe ox_bailing at taproom when drowned(low_field) and not drawn(hollow) and not broke(long_man) "Martin Pask is bailing his cellar by the bucket and swearing at the hill. 'Never in my life,' he says. 'Not once, not in a wet year.'".
+  Observe cass_at_ox at taproom when at(cass, taproom) "Cass Rowell sits alone by the fire with her boots on the fender, reading a letter and moving her lips.".
+  // Merrow's evenings are spent in the Ox, and its nights in its own beds.
+  Rule folk_evening when dark() and untilLight(clock) > 42 and at(folk, green) and not storming() and not lostToWater(folk) { Assert at(folk, taproom). }
+  Rule folk_bed when at(folk, taproom) and untilLight(clock) <= 42 { Assert at(folk, green). }
+  Observe green_night at green when dark() and not drowned(green) "The green is dark. Somebody's dog barks once.".
+  Observe ox_evening_first at taproom when at(folk, taproom) and watch(clock) < 144 "The taproom is full and loud. Everybody has an opinion about the steward's notice, and nobody means to go up the hill after dark to earn it.".
+  Observe ox_evening_second at taproom when at(folk, taproom) and watch(clock) >= 144 "The talk in the Ox is of the barge, and of the low field, where Ned Rook went in over his boots this afternoon by the springs, on ground that was dry at Lammas.".
+  // Hob walks up to the springs at dusk with his spade, and stands looking at the water.
+  Rule hob_walks when dark() and untilLight(clock) > 48 and at(hob, millhouse) and not confessed(hob) { Assert at(hob, springs). }
+  Rule hob_home when at(hob, springs) and untilLight(clock) <= 48 { Assert at(hob, millhouse). }
+  Observe hob_watching at springs when at(hob, springs) "Hob Teller stands at the springs in the dusk with a spade over his shoulder, looking at the water as a man looks at a debt.".
 
+
+  // Dunnet hurt: an arm bound properly buys what wages would.
+  Observe dunnet_sling at yard when hurt(dunnet) and at(dunnet, yard) "Dunnet sits on the mounting-block with his arm in a sling of sacking and his jaw set.".
+  Event dunnet_bound near dunnet when keeps(dunnet, ?b) and itemKind(?b, bandages) and hurt(dunnet) "Dunnet lets you set the arm and bind it, and only swears once. 'The bar comes off the cellar door at dark,' he says. 'For you. Not for him.'" then {
+    Retract hurt(dunnet). Assert promisedDoor(dunnet). Retract serves(dunnet, venn).
+  }
+  // Pell's lantern brought back: Dunnet tells it all, and then tells Mother Ysolt.
+  Event pell_told near dunnet when keeps(dunnet, lantern) "Dunnet turns the lantern over and over in his hands and wipes the glass with his thumb. 'Pell's,' he says. 'The steward told them Pell went down the river in the spring. He never. The clay stood up and took him while we had the teeth out, and I ran.' He gets up. 'I'm going to tell Mother Ysolt. Then they can all know.'" then {
+    Assert confessedPell(dunnet). Retract serves(dunnet, venn).
+  }
+  Relation confessedPell(group). Relation pellKnown().
+  // He goes down to the chapel at dusk, and by morning the whole parish has it.
+  Rule dunnet_to_chapel when confessedPell(dunnet) and dark() and at(dunnet, yard) { Assert at(dunnet, nave). }
+  Rule pell_known when confessedPell(dunnet) and at(dunnet, nave) and not pellKnown() { Assert pellKnown(). Assert exposed(venn). }
+  Observe dunnet_at_chapel at nave when at(dunnet, nave) "Dunnet sits on the bench by the font with Pell's lantern on his knees.".
+  Observe pell_mourned at green when pellKnown() and at(folk, green) and not dark() "At the well they are talking low about Pell, and nobody says the steward's name, and everyone means it.".
   // Dunnet is owed his wages, and is frightened of what is behind the cellar door.
   Relation promisedDoor(group).
   Topic dunnet_fear with dunnet "Ask Dunnet about the Mower" when true once {
@@ -199,8 +240,10 @@ Module longman "The Long Man" {
     }
     Result "Dunnet counts the coins twice. 'The steward sleeps after supper,' he says, low. 'The bar comes off the cellar door at dark, and goes back on at cockcrow. That's all. I never saw you.'".
   }
-  Rule door_unbarred when promisedDoor(dunnet) and dark() and state(cellar_door, barred) { Assert state(cellar_door, unbarred). }
-  Rule door_rebarred when promisedDoor(dunnet) and not dark() and state(cellar_door, unbarred) and not at(party, cellar) { Assert state(cellar_door, barred). }
+  // Dunnet takes the bar off at dark and puts it back at cockcrow; a bar the company lifted itself is its own affair.
+  Rule door_unbarred when promisedDoor(dunnet) and dark() and state(cellar_door, barred) { Assert state(cellar_door, unbarred). Assert dunnetsBar(cellar_door). }
+  Rule door_rebarred when dunnetsBar(cellar_door) and not dark() and state(cellar_door, unbarred) and not at(party, cellar) { Assert state(cellar_door, barred). Retract dunnetsBar(cellar_door). }
+  Relation dunnetsBar(entity).
 
   // Venn: what he says, and what he pays.
   Topic venn_bounty with venn "Ask Aldous Venn about the Mower" when not exposed(venn) and not hostile(venn, actor) {
@@ -219,9 +262,9 @@ Module longman "The Long Man" {
   Rule venn_flees when exposed(venn) and at(cass, landing) and able(venn) and not at(venn, landing) and not at(venn, downriver) { Assert at(venn, landing). }
   Rule venn_sails when exposed(venn) and at(venn, landing) and at(cass, downriver) { Assert at(venn, downriver). }
   Observe venn_waits at landing when exposed(venn) and at(venn, landing) "Aldous Venn sits on the Heron's hatch with a valise on his knees, and does not look up at the hill.".
-  Action claim_bounty(actor: group, carrier: member, site: place) "Show Aldous Venn the Mower's mask" {
+  Action claim_bounty(actor: group, carrier: member, face: item, site: place) "Show Aldous Venn the Mower's mask" {
     Requires able(actor) and company(actor) and at(actor, site) and at(venn, site) and memberOf(carrier, actor)
-      and ownedItem(mask, carrier) and not paidBounty(venn).
+      and ownedItem(face, carrier) and itemKind(face, keeper_mask) and not paidBounty(venn).
     On success { Decrease quantity(venn, gold) by 40. Increase quantity(actor, gold) by 40. Assert paidBounty(venn). }
     Result "Venn turns the grey face over in his hands, and for a moment he looks old. Then he counts out forty crowns, most of them in silver he has clearly borrowed. 'Merrow will sleep tonight,' he says.".
   }

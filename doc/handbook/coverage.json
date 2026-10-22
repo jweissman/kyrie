@@ -801,7 +801,7 @@
     "faithful": 566,
     "adapted": 292,
     "represented": 4,
-    "kyr": 59,
+    "kyr": 60,
     "unsupported": 75,
     "unreachable": 4,
     "data-only": 22
@@ -892,7 +892,7 @@
       "faithful": 68,
       "adapted": 13,
       "represented": 0,
-      "kyr": 26,
+      "kyr": 27,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -4032,6 +4032,13 @@
   {
    "id": "item:sluice_rod",
    "title": "Notched rod",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tin_lantern",
+   "title": "Tin lantern",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"

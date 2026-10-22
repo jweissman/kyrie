@@ -1796,6 +1796,14 @@ Brings Sunlight to whoever carries it equipped.
 
 > A staff of black wood shod at both ends in bronze, the bronze notched along its edge in a close, careful pattern.
 
+#### Tin lantern
+
+*Kyr · treasure* · `item:tin_lantern`
+
+- Worth: 1
+
+> A miner's lantern of tin with a horn window. This one's window is packed with clay, and it will not light.
+
 #### Grey mask
 
 *Kyr · treasure* · `item:keeper_mask`

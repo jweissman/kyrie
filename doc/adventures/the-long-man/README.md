@@ -245,3 +245,47 @@ smooth, grey and plain, and easy to miss. The prose keeps to what can be seen, h
 
 People speak briefly and about themselves. Nobody explains the Hesk; the Hesk explain themselves, in notches, to
 whoever can read them.
+
+## 11. What the dale was missing
+
+*Added after the first browser play, before any of it was written in Kyr.*
+
+Played through, the dale had strong bones and thin flesh. The drowned town rewarded the long way to it with a
+sentence. Pell, the man Dunnet went into the hill with, was a name in one line of talk. The barge-master came and
+went like a cart on a timetable. Merrow stood at its well all day and all night. None of these needs more topics or
+another ending. Each needs things in the world that were always there and that the company can find, handle, and
+use, and people who act on their own reasons.
+
+**The town under the lake.** When Hollow Water goes down a man's height, the top of the Hesk low town stands out of
+it: one street of tall narrow doors, silted to the sills. Three doors are worth opening.
+- *The street.* Over each lintel a short row of notches: the household's own last measure of the water.
+- *The face-house.* Here the Hesk fired their keepers' faces. A cold kiln; shelves of clay moulds, each the hollow of
+  a face; and in one mould a grey face, fired and never fitted. A keeper is woken by its face, and stopped by losing
+  it. The company now holds a second face. Venn wants a mask to show for his forty crowns, and Ysolt wants one to
+  bury, and neither of them can tell one grey face from another.
+- *The last house.* Its door is barred on the outside. Inside, a table is laid for a meal nobody ate, and down the
+  door-post runs a tally of days that stops at forty-one. On the sill sits a child's toy of weirstone, a little bell
+  that rings at a touch. The Hesk meant to come back. The last notches in the keeper's niche are the same count.
+
+**Pell.** Dunnet and Pell went into the wet gallery together for the teeth. The clay stood up, and Pell did not come
+out. Merrow believes Pell went downriver on the Heron in the spring, because Venn told it so. Dunnet knows better and
+drinks. Pell's lantern lies in the clay at the far end of the wet gallery, its glass packed with mud.
+- Brought back to Dunnet, the lantern breaks him: he tells the company everything.
+- After that, he will go and tell Mother Ysolt. The steward is exposed before his own parish without a ledger being
+  read.
+
+**Dunnet, hurt.** When the Mower turns the cart over at midnight, the flying shaft catches Dunnet in the yard and
+breaks his arm. On the second day he sits in the lean-to with his arm in a sling of sacking and a temper to match. A
+company that binds it properly has a friend: the cellar bar comes off for them at dark, and no wages need change
+hands.
+
+**Cass and the bronze.** Cass Rowell grew up on the river below a broken weir, and her father drowned when it went.
+Told what the bronze was holding shut, she will not carry it. She sets the sack down on the landing and goes up the
+lane to the Hall for her sixty crowns in silver. When Venn cannot find them, she takes the Hall's plate instead.
+After that Venn is ruined whatever the company does.
+
+**Merrow keeps its own hours.**
+- By day its people are at the well. At dusk they go into the Ox, and the talk there is of the day.
+- On the second day Cass drinks there for an hour before she sails.
+- Every evening Hob Teller walks up to the springs with his spade over his shoulder and stands looking at the water.
+  A company can find him there, guilty, before anyone has shown him anything.

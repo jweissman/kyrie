@@ -33,6 +33,15 @@ Module longman "The Long Man" {
     Change lift "Lift the oak bar off the door in the broken wall" from barred to unbarred at cellar.
   }
   Initially Assert keyholder(venn, cellar_door).
+  // Shut in behind a barred door, a company can always make itself heard: at a price.
+  Action hammer_door(actor: group, site: place) "Hammer on the door until someone in the cellar hears" {
+    Description "Somebody will come in the end. Everybody at the Hall will know who it was.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery) and state(cellar_door, barred)
+      and knows(actor, cellar_known).
+    Time 6.
+    On success { Assert state(cellar_door, unbarred). Assert hostile(venn, actor). }
+    Result "You hammer on the oak until your hands ache. At last the bar scrapes off its brackets, and Dunnet's face looks in at you, white. 'The steward will hear of this,' he says, and he is right.".
+  }
 
   Observe crest_scene at crest when not dark() "The crest of the Long Man is a dead-level walk of turf, wide as a lane. On one hand the dale falls away to Merrow's roofs; on the other, a long way down, lies Hollow Water, black and still, filling the valley to the hills. Nothing grows on the crest higher than a hand: every sapling has been cut off at the root, clean.".
   Observe crest_night at crest when dark() "By night the crest is a pale road between two darks: the dale's, with a few lights in it, and the lake's, with none.".
@@ -55,10 +64,12 @@ Module longman "The Long Man" {
   Relation hunting(group).
   // At midnight on the first night it comes down for the bronze that was in the cart, and finds the cart empty.
   Rule mower_hunts at yard when dark() and watch(clock) >= 96 and watch(clock) < 132 and state(cart, covered) and able(mower)
-    says "Something tall comes over the yard wall without climbing it. The Mower goes to the cart, tears the tarpaulin away, finds nothing, and turns the cart over as if it were a barrow." {
-    Assert state(cart, smashed). Assert hunting(mower). Assert at(mower, yard).
+    says "Something tall comes over the yard wall without climbing it. The Mower goes to the cart, tears the tarpaulin away, finds nothing, and turns the cart over as if it were a barrow. A shaft flies. Dunnet, who came out with a lantern, goes down with a cry." {
+    Assert state(cart, smashed). Assert hunting(mower). Assert at(mower, yard). Assert hurt(dunnet).
   }
+  Relation hurt(group).
   Observe mower_crest at crest when dark() and at(mower, crest) "The Mower walks the crest, slowly, the length of it and back. Every few paces it stoops, and a long blade flicks, and something small falls." teaches mower_keeps.
+  Observe count_matched at rest when knows(party, last_count) "The last row of notches on the niche wall is a count of days, and it stops at forty-one.".
   Observe mower_resting at rest when at(mower, rest) and able(mower) "The Mower stands in its niche: a figure taller than two men, grey and too smooth, with its long arms at its sides and a face like a blank mask. It does not move. On its breastplate, in the light, a row of notches." .
   Observe mower_yard at yard when at(mower, yard) "The Mower stands in the yard by the overturned cart, its blank face turned toward the cellar." .
   Discovery keeper_named "The notches on the Mower's breastplate, read: KEEPER OF THE WALL." {
@@ -104,6 +115,9 @@ Module longman "The Long Man" {
     Warns "At the far end of the wet gallery the floor heaves, and a shape stands up out of the clay, streaming, as tall as a door.".
     Comes "The Wet comes down the gallery at you, faster than mud should.".
   }
+  // What the Wet took: the man who went in with Dunnet for the teeth.
+  Item lantern "a miner's lantern" is tin_lantern at leak.
+  Observe pell_seen at leak when at(lantern, leak) "At the far end of the gallery, half sunk in the clay, a man's lantern lies on its side, its glass packed with mud.".
   Rule wet_slumps at leak when state(leak_gate, mended) and at(wet, leak) says "The Wet sags, and sags, and is a heap of clay on the floor, and then is only floor." { Assert at(wet, core). }
 
   // The sluice: the bottom gate under the chamber. Opened, it fills the culvert and runs the beck high.
@@ -150,7 +164,7 @@ Module longman "The Long Man" {
     Assert at(folk, yard). Assert at(ysolt, yard).
   }
   Relation lostToWater(group).
-  Rule folk_lost when broke(long_man) and at(folk, green) { Assert lostToWater(folk). Assert at(folk, core). }
+  Rule folk_lost when broke(long_man) and (at(folk, green) or at(folk, taproom)) { Assert lostToWater(folk). Assert at(folk, core). }
   Observe folk_saved at yard when at(folk, yard) and broke(long_man) "Merrow stands in the Hall yard in the rain, and looks down the lane at where it lived.".
   // The morning after the third night: the storm passes, and the dale is what the three days made it.
   Relation calm(place).

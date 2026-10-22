@@ -5,11 +5,15 @@ Module longman "The Long Man" {
   Place deep "the deep water" is room within hollow at 1, 1.
   Place water_house "the Water-House" is room within hollow at 2, 0.
   Place drowned_street "the drowned street" is room within hollow at 2, 1.
+  Place face_house "the face-house" is room within hollow at 3, 1.
+  Place last_house "the last house" is room within hollow at 2, 2.
 
   Passage lake_face "the lake face of the Long Man" is path between crest and lakeshore taking 20 minutes.
   Passage punt_way "out on Hollow Water" is ferry between lakeshore and deep taking 30 minutes.
   Passage island_way "the island landing" is ferry between deep and water_house taking 30 minutes.
   Passage house_steps "the steps below the Water-House" is steps between water_house and drowned_street.
+  Passage face_door "a tall narrow door" is doorway between drowned_street and face_house.
+  Passage last_door "a barred door" is door between drowned_street and last_house.
 
   Thing punt "an old punt" on punt_way {
     State beached blocking "An old punt lies drawn up in the reeds, grey with weather, its pole across the thwarts.".
@@ -26,7 +30,27 @@ Module longman "The Long Man" {
   Observe deep_scene at deep when true "Out on the water the punt pole finds no bottom. The water is cold enough to ache, and too clear: far down, something pale, like a roof.".
   Observe house_scene at water_house when true "One room, square and tall, of the same grey stone as the Long Man. In the middle of the floor stands a wheel of grey stone on an axle as thick as a man, and round the walls, in rows from floor to ceiling, notches.".
   Observe socket_seen at water_house when knows(party, rod_seen) "In the hub of the great wheel is a socket, square, its edges notched in a close pattern: the pattern on the shoe of Gammer Coller's rod." teaches rod_fits.
-  Observe street_scene at drowned_street when true "A street of houses of grey stone with their roofs on, silted to the windows, shining with water. The doors are tall and narrow. On the lintel of every one the same short row of notches.".
+  Observe street_scene at drowned_street when true "A street of houses of grey stone with their roofs on, silted to the sills and shining with water. The doors are tall and narrow, and over each one a short row of notches, a little higher or lower from door to door, as if each house had measured the water for itself.".
+  Observe face_house_scene at face_house when true "A long low room with a kiln at the far end, its mouth stopped with clay. Shelves run the length of both walls, and on them stand moulds of grey clay, each the hollow of a long, smooth face with no eyes.".
+  Discovery moulds_read "The keepers' faces were fired here in moulds and set on last. A keeper wakes when it is given its face, and stops when it loses it." {
+    Found by searching face_house "In the last mould on the last shelf lies a face already fired: grey, smooth, blind, never fitted to anything. Round the mould's rim runs a count of days in notches, the time it took to make.".
+  }
+  Item spare_face "a grey face, fired and never fitted" is keeper_mask at face_house hidden until moulds_read.
+  Thing last_bar "the bar across the last house's door" on last_door {
+    State barred blocking "A bar of black oak lies across the door in iron brackets, on the street side.".
+    State lifted "The oak bar leans against the wall beside the open door.".
+    Change lift "Lift the bar from the door" from barred to lifted at drowned_street.
+  }
+  Observe last_house_scene at last_house when true "One room. A table is laid for four, with bowls, a jug, and bread gone to grey stone. Nothing has been moved but by the water.".
+  Observe tally_seen at last_house when true "Down the door-post runs a tally of days, cut neat and even. It stops at forty-one." teaches last_count.
+  Discovery last_count "The last house of the drowned town was barred from outside, with its table laid for a meal. The tally of days on its door-post stops at forty-one, the same count as the last notches in the keeper's niche. The Hesk meant to come back.".
+  Thing toy_bell "a child's bell of weirstone" at last_house {
+    State still "On the sill sits a child's toy, a little bell of grey weirstone no bigger than a fist.".
+  }
+  Event bell_answered near toy_bell when tried(toy_bell, pushing) "It rings, clear and long. Far off, under the hill, something rings back, once." then {
+    Assert rung(toy_bell).
+  }
+  Relation rung(entity).
 
   Discovery rod_fits "The square socket in the hub of the Water-House wheel is notched to the pattern of the dyke-reeve's rod: the rod is a key to it.".
   Discovery hesk_known "The words cut round the Water-House wall, read: WE GAVE THE LOW HOUSES TO THE WATER, SO THAT THE FIELDS WOULD BE DRY. WE WILL KEEP THE WALL AS WE KEPT THE HOUSES." {

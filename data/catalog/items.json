@@ -435,6 +435,15 @@
         "kyr": true
       }
     },
+    "tin_lantern": {
+      "name": "Tin lantern",
+      "category": "treasure",
+      "description": "A miner's lantern of tin with a horn window. This one's window is packed with clay, and it will not light.",
+      "value": 1,
+      "source": {
+        "kyr": true
+      }
+    },
     "keeper_mask": {
       "name": "Grey mask",
       "category": "treasure",

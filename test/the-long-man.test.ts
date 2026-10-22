@@ -158,3 +158,53 @@ describe('The Long Man, its people unprompted', () => {
     expect(Dale.said(await Dale.act(s, '^Out to the Hall yard'))).toContain('goes in to the steward');
   }, 180000);
 });
+
+// What the dale was missing (README §11): a town under the lake with a second face in it, Pell's lantern, Dunnet's
+// arm, and a barge-master who will not carry a weir downriver.
+describe('The Long Man, deepened', () => {
+  it('raises the town under the lake, where a second face lies in its mould and buys the steward\'s bounty', async () => {
+    const s = await Dale.start();
+    await Dale.act(s, '^To Merrow green', '^To the Hall yard', '^To the crest');
+    await Dale.until(s, 80);
+    await Dale.act(s, '^Wait a while', '^To the Hall yard', '^To Merrow green', '^Into Gammer', 'about the rod',
+      'for the loan', '^Take', '^Out to Merrow green', '^To the Hall yard', '^To the crest', '^To the lakeshore',
+      'push the punt', '^To the deep water', '^To the Water-House', 'turn the great wheel');
+    await Dale.until(s, s.campaign.state.elapsed + 14);
+    await Dale.act(s, '^To the drowned street', '^To the face-house', '^Search here', '^Take$', '^To the drowned street',
+      'lift the bar', '^To the last house');
+    expect(Dale.holds(s, 'knows', 'party', 'longman__last_count')).toBe(true);
+    await Dale.act(s, '^To the drowned street', '^To the Water-House', '^To the deep water', '^To the lakeshore',
+      '^To the crest', '^To the Hall yard', '^Into the steward', 'Show Aldous Venn the Mower\'s mask');
+    expect(Dale.holds(s, 'longman__paidBounty', 'longman__venn')).toBe(true);
+    expect(Dale.holds(s, 'able', 'longman__mower')).toBe(true);
+  }, 240000);
+  it('brings Pell\'s lantern out of the wet gallery to Dunnet, who tells the parish by nightfall', async () => {
+    const s = await Dale.start();
+    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox', '^Buy › A torch', '^Out to Merrow green',
+      '^To the Hall yard', '^Into the Hall cellar', '^Search here', 'lift the oak bar', '^To the grey gallery', 'light',
+      '^To the wet gallery', '^Take$', '^To the grey gallery', '^To the Hall cellar', '^Out to the Hall yard');
+    expect(Dale.said(await Dale.act(s, 'Give a miner\'s lantern'))).toContain('The clay stood up and took him');
+    await Dale.until(s, 80);
+    expect(Dale.holds(s, 'longman__exposed', 'longman__venn')).toBe(true);
+  }, 180000);
+  it('breaks Dunnet\'s arm when the keeper turns the cart over, and makes a friend of whoever binds it', async () => {
+    const s = await Dale.start();
+    await Dale.act(s, '^To Merrow green', '^To the Hall yard');
+    await Dale.until(s, 100);
+    expect(Dale.holds(s, 'longman__hurt', 'longman__dunnet')).toBe(true);
+    expect(Dale.said(await Dale.act(s, 'Give bandages'))).toContain('For you. Not for him.');
+    expect(Dale.holds(s, 'longman__promisedDoor', 'longman__dunnet')).toBe(true);
+  }, 180000);
+  it('lets Cass Rowell, told what the bronze held shut, set it down on the landing and take the Hall\'s plate', async () => {
+    const s = await Dale.start();
+    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox', '^Buy › A torch', '^Out to Merrow green',
+      '^To the Hall yard', '^Into the Hall cellar', '^Search here', 'lift the oak bar', '^To the grey gallery', 'light',
+      '^To the sluice chamber', '^To the grey gallery', '^To the wet gallery', '^To the grey gallery', '^To the Hall cellar',
+      '^Out to the Hall yard', '^To Merrow green', '^To the low field', '^To the mill landing');
+    await Dale.until(s, 171);
+    await Dale.act(s, 'Tell Cass Rowell what the bronze', '^Take$');
+    expect(Dale.holds(s, 'longman__aboard', 'longman__teeth')).toBe(false);
+    await Dale.until(s, 210);
+    expect(Dale.holds(s, 'longman__ruined', 'longman__venn')).toBe(true);
+  }, 180000);
+});

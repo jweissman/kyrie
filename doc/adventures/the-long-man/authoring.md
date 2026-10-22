@@ -179,3 +179,15 @@ after the browser pass came later and brought it to 520:
 - laying the Mower by day with an iron bar from the cellar;
 - Ysolt burying its mask;
 - a cellar door found by searching.
+
+The second round (README §11) brought it to 611. Each addition is a thing in the world or a person acting on a
+reason, written in the conventions above rather than in new syntax:
+- the town under the lake: the face-house with a second face in its mould, the last house barred from outside, a
+  child's bell that is answered from under the hill;
+- Pell's lantern in the wet gallery, which Dunnet names;
+- Dunnet's arm, broken by the cart and bound by the company;
+- Cass setting the bronze down when she learns what it held shut;
+- Merrow's evenings in the Ox, Hob at the springs at dusk, and Martin bailing his cellar.
+
+The only new constructs these needed were a slow clay creature (the Wet's species) and a tin lantern in the catalogs:
+the same mismatch as row 5, twice more.
