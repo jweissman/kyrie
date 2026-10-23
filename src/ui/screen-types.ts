@@ -22,7 +22,7 @@ export interface ExitRow {
   scope?: string; via?: string; blocked?: string; visited: boolean; acts: Act[]; way?: string; hazard?: string;
 }
 export interface TargetRow {
-  id: string; kind: 'person' | 'creature' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
+  id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
   // What a group is, seen from outside: how many of what, how seasoned, how hurt.
   look?: string; state?: 'dead' | 'down'; acts: Act[];
   // What can be seen of them now ("Wren stands with one hand shading her eyes"), told with them, not in the prose.

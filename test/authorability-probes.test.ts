@@ -109,8 +109,10 @@ describe('Authorability probes', () => {
 
   it('K7: one led keeps his voice and follows through any door', async () => {
     const s = await Probe.start('company/company.campaign.json');
-    expect(Probe.choices(s).some(c => /Let them make their own way/.test(c.label))).toBe(true);
+    // Nobody can be let go who has not come.
+    expect(Probe.choices(s).some(c => /Let them make their own way/.test(c.label))).toBe(false);
     await Probe.act(s, 'Ask them to come with you');
+    expect(Probe.choices(s).some(c => /Let them make their own way/.test(c.label))).toBe(true);
     await Probe.act(s, 'To the glass bedroom');
     expect(Probe.choices(s).some(c => /Ask Tobu about his aunt/.test(c.label))).toBe(true);
     await Probe.act(s, 'Close your eyes in the bedroom');

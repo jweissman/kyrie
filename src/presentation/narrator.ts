@@ -169,12 +169,14 @@ export class Narrator {
     const fight = event.combat.some(e => e.type === 'end');
     // What the voice tables told of it (someone joining, a dog patted) stands for the bare result of the command.
     const voiced = (event.voiced ?? []).map(v => ({ text: v.text, kind: 'telling' as const }));
-    const bare = voiced.length && /^You (carry out|do) /.test(feedback.result ?? '');
+    // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
+    const bare = voiced.length && (/^You (carry out|do) /.test(feedback.result ?? '')
+      || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));
     const lines: ExchangeLine[] = [
       ...(spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : []),
-      ...voiced,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...feedback.events.map(text => ({ text, kind: 'event' as const })),
+      ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: fight ? 'fight' as const : 'event' as const })),
       ...(told.moved ? [] : feedback.observations.map(text => ({ text, kind: 'change' as const }))),
     // What someone says, whether answering or of their own accord (a companion's word on coming somewhere), is speech.

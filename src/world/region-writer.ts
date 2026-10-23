@@ -16,6 +16,9 @@ import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
 import { RegionFellows } from './region-fellows';
 import type { CalendarStart } from '../presentation/calendar';
+import { Communities } from './community/community';
+import { RegionGrowth } from './region-growth';
+import { CommunityWriter } from './community/community-writer';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
 // entity it writes is exported under its own id, so scenarios bind to it like any other module.
@@ -100,7 +103,8 @@ export class RegionWriter {
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
-    lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionBorders.lines(region),
+    lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionGrowth.lines(region),
+      ...RegionBorders.lines(region),
       ...RegionSites.lines(region, taken),
       ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
@@ -140,6 +144,8 @@ export class RegionWriter {
       `  Observe ${s.id}_tap at ${s.id}_taproom as fixture when true ${q(SettlementScenes.taproom(region, i))}.`,
       ...SettlementScenes.life(s) ? [`  Observe ${s.id}_life at ${s.id}_green as ambience when not dark() ${q(SettlementScenes.life(s)!)}.`] : [],
       ...RegionFaith.lines(s, cult),
+      // The people who live there, at their work and about the place, and its animals (see Communities).
+      ...CommunityWriter.lines(region, Communities.plan(region, s, this.trade(s).stock.map(([what]) => what))),
     ];
   }
   // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy.

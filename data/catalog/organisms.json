@@ -45,7 +45,10 @@
       "yields": "yarrow_poultice",
       "source": {
         "kyr": true
-      }
+      },
+      "gathered": "a handful of yarrow",
+      "count": 2,
+      "stand": "Yarrow grows in the grass at the wayside, flat white heads over feathery leaves: a soldier's herb, for cuts."
     },
     "alder": {
       "name": "Alder",
@@ -99,6 +102,55 @@
       "source": {
         "orsino": "animal:wolf",
         "fidelity": "adapted"
+      }
+    },
+    "willow": {
+      "name": "Willow",
+      "kind": "plant",
+      "habitats": [
+        "riverbank"
+      ],
+      "signs": "Grey-green leaves, long whippy shoots, and roots in the bank.",
+      "yields": "herbs",
+      "gathered": "some willow bark",
+      "count": 3,
+      "stand": "Willows lean out over the water here, grey-green, their roots in the bank and their long shoots trailing in the current.",
+      "source": {
+        "kyr": true,
+        "notes": "Willow bark breaks a fever; the herb-wives of every country know it."
+      }
+    },
+    "meadowsweet": {
+      "name": "Meadowsweet",
+      "kind": "plant",
+      "habitats": [
+        "riverbank",
+        "marsh"
+      ],
+      "signs": "Froth of cream flowers, smelling of almonds.",
+      "yields": "herbs",
+      "gathered": "a handful of meadowsweet",
+      "count": 2,
+      "stand": "Meadowsweet grows thick along the wet ground, a froth of cream flowers that smells of almonds and honey.",
+      "source": {
+        "kyr": true,
+        "notes": "For pain and the stomach; strewn on floors."
+      }
+    },
+    "sphagnum": {
+      "name": "Sphagnum moss",
+      "kind": "plant",
+      "habitats": [
+        "marsh"
+      ],
+      "signs": "Red and green moss in the wet hollows, holding water like a sponge.",
+      "yields": "bandages",
+      "gathered": "a wad of sphagnum moss",
+      "count": 3,
+      "stand": "Sphagnum moss lies in the wet hollows, red and green, holding water like a sponge: it binds a wound better than linen.",
+      "source": {
+        "kyr": true,
+        "notes": "Dried and packed into wounds, as field dressings have been."
       }
     }
   }

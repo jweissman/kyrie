@@ -55,18 +55,18 @@ describe('a drover who did not come home', () => {
 });
 
 describe('a fever on the green', () => {
-  it('breaks with willow bark from the road, and the sister will come with whoever brought it', async () => {
+  it('breaks with willow bark from the road by the water, and the sister will come with whoever brought it', async () => {
     const { w, s } = await Town.start(), placed = w.report.placements.find(p => p.scenario === 'fever')!;
     const { town, road } = placed.bindings as { town: string; road: string };
+    // The road the mother remembers runs by water, and willows grow there as she said, for anyone to gather.
     GeneratedWorld.put(s, road);
-    await s.perform('wait');
-    expect(Town.said(await Town.act(s, /^Search/))).toContain('bitter, good for a fever');
-    await Town.act(s, /^Collect a bundle of willow bark/);
+    expect(Town.said(await s.perform('wait'))).toContain('Willows lean out over the water');
+    await Town.act(s, /^Gather some willow bark/);
     GeneratedWorld.put(s, `${town}_green`);
     await s.perform('wait');
     const mother = ObservationText.label(s.campaign.world, 'fever__mother');
     expect(mother).not.toContain('fever');
-    expect(Town.said(await Town.act(s, new RegExp(`^Give a bundle of willow bark to ${mother}$`))))
+    expect(Town.said(await Town.act(s, new RegExp(`^Give some willow bark to ${mother}$`))))
       .toContain('By evening the fever has broken');
     expect(Town.said(await Town.act(s, /^Speak with/))).toContain('I will come');
     expect(PlayerView.choices(s.campaign).some(c => / to join the company$/.test(c.choice.name))).toBe(true);

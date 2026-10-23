@@ -12,6 +12,8 @@ Module world_people "Company and intention" {
   // Who someone is to the one who plays: family (kin), or someone expecting them with a letter or an errand (expects);
   // what they owe someone is dominion's owes. An origin says so at the outset; what people say and do follows it.
   Relation kin(group, group). Relation expects(group, group).
+  // What someone is to the one who plays, in the words the page names them by ("your brother"), where the origin says.
+  Relation kinship(group, entity).
   // Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has
   // joined it, who goes where it goes and can be talked to on the way.
   Relation willing(group, group). Measure hire(group). Relation travelsWith(group, group).
@@ -38,7 +40,14 @@ Module world_people "Company and intention" {
   }
   Action part_ways(actor: group, companion: group, site: place) "Let {companion} make their own way" {
     Requires able(actor) and able(companion) and at(actor, site) and at(companion, site)
-      and acceptsEscort(companion, actor) and not dismissed(companion, actor) and not hobbled(companion).
+      and acceptsEscort(companion, actor) and following(companion, actor) and not hobbled(companion).
     On success { Retract following(companion, actor). Assert dismissed(companion, actor). }
+  }
+  // Someone who would come with you, if you led them, can be told not to wait: they go their own way.
+  Action send_off(actor: group, companion: group, site: place) "Tell {companion} not to wait for you" {
+    Requires able(actor) and able(companion) and at(actor, site) and at(companion, site)
+      and acceptsEscort(companion, actor) and not following(companion, actor) and not dismissed(companion, actor)
+      and not hobbled(companion).
+    On success { Assert dismissed(companion, actor). }
   }
 }

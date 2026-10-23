@@ -20,6 +20,8 @@
     { "id": "join.fellow.grim", "when": { "bond": "fellow", "manner": ["grim", "stoic"] }, "text": "{Actor} considers you, then the road. 'As far as it suits us both.'" },
     { "id": "join.escort.1", "when": { "bond": "escort" }, "text": "{Actor} falls in beside you, keeping close." },
     { "id": "join.escort.2", "when": { "bond": "escort" }, "text": "{Actor} comes, and stays near enough to touch." },
+    { "id": "join.animal.1", "when": { "kind": "animal" }, "text": "{Actor} lets you take the end of {their} tether, and comes, complaining all the way." },
+    { "id": "join.animal.2", "when": { "kind": "animal" }, "text": "{Actor} decides you are worth following, for now." },
     { "id": "join.stranger.1", "when": { "bond": "stranger" }, "text": "{Actor} thinks about it, then nods. 'For a while, then.'" },
     { "id": "join.stranger.2", "when": { "bond": "stranger" }, "text": "'Why not,' says {actor}. 'It's not as if anything is keeping me here.'" }
   ]

@@ -1,0 +1,16 @@
+Module world_growing "What grows where, and what can be gathered from it" {
+  // A stand of something that grows (willows over the water, yarrow at the wayside), and what can be gathered from it
+  // there a little at a time: each crop an item of the kind it yields, until the stand is stripped.
+  Relation grows(scenery). Relation crop(item, scenery).
+  Goal false.
+  Action gather(actor: group, find: item, form: itemkind, stand: scenery, recipient: member, site: place) "Gather {find} for {recipient}" {
+    Description "Cut it, strip it or pick it, and carry it away: what grows wild is anyone's who takes the trouble.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(stand, site) and grows(stand)
+      and crop(find, stand) and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient)
+      and not benighted(actor).
+    Time 1.
+    Resolve acquire(find, form, recipient).
+    On success { Retract crop(find, stand). Retract inside(find, stand). }
+    Result "{recipient} gathers {find}.".
+  }
+}

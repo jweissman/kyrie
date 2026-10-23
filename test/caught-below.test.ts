@@ -91,7 +91,7 @@ describe('the rescued person has intentions, not a flag', () => {
     expect(Situation.fact(s, 'hobbled', 'rescue__guest')).toBe(false);
     await s.perform('wait');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__hoist');
-    await s.perform('part_ways(rescue__guest)');
+    await s.perform('send_off(rescue__guest)');
     await Situation.waitUntil(s, () => Situation.fact(s, 'rescue__returned', 'rescue__guest'));
     expect(Situation.where(s, 'rescue__guest')).toBe('march__ferry_room');
     expect(Situation.fact(s, 'rescue__escortedHome', 'rescue__guest', 'party')).toBe(false);
@@ -131,7 +131,7 @@ describe('the rescued person has intentions, not a flag', () => {
       'go(hill__culvert,hill__workshop)', 'go(hill__workshop_door,hill__vestibule)', 'examine(hill__survey_board)',
       'go(hill__workshop_door,hill__workshop)', 'change_thing(hill__padlock_pick)', 'go(hill__stores_door,hill__stores)',
       'take_item(rescue__bar,march__member_party_2)', 'go(hill__tram_crawl,hill__hoist)', 'rescue__lever_free(party,hill__hoist)',
-      'part_ways(rescue__guest)', 'wait');
+      'send_off(rescue__guest)', 'wait');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__hoist');
     expect(PlayerView.observe(s.campaign).present.find(p => p.id === 'rescue__guest')?.activity)
       .toBe('making for the ferry house, but no way is open to them');
@@ -197,7 +197,7 @@ describe('one situation, two places', () => {
     const q = await Situation.start(Situation.quarry, 'go(world__beck_path,world__lane_foot)', 'go(world__beck_lane,world__quarry_floor)',
       'go(world__smithy_door,world__smithy)', 'take_item(rescue__bar,world__member_party_2)', 'go(world__smithy_door,world__quarry_floor)',
       'go(world__adit_mouth,world__adit)', 'go(world__incline_way,world__incline_top)', 'go(world__tub_incline,world__lower_gallery)',
-      'rescue__lever_free(party,world__lower_gallery)', 'part_ways(rescue__guest)');
+      'rescue__lever_free(party,world__lower_gallery)', 'send_off(rescue__guest)');
     await Situation.waitUntil(q, () => Situation.fact(q, 'rescue__returned', 'rescue__guest'), 40);
     expect(Situation.where(q, 'rescue__guest')).toBe('world__cottage_room');
     expect(Situation.fact(q, 'rescue__reunited', 'rescue__guest')).toBe(true);

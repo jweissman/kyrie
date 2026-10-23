@@ -62,7 +62,7 @@ export class ChoiceList {
     return { ...c, ...note, ...(c.children ? { children: c.children.map(k => this.scored(k, m)) } : {}) };
   }
   static subject(t: TargetRow, fresh: string[] = []): Section {
-    const tone: Tone = t.kind === 'person' ? 'person' : t.kind === 'creature' ? 'creature' : 'thing';
+    const tone: Tone = t.kind === 'person' ? 'person' : ['creature', 'animal'].includes(t.kind) ? 'creature' : 'thing';
     const glyph = t.state ? '✝' : tone === 'person' ? '☺' : tone === 'creature' ? '◆' : t.kind === 'feature' ? '▣' : '·';
     const note = [t.activity ?? t.note, t.state === 'dead' ? 'dead' : t.state ? 'down' : ''].filter(Boolean).join(' · ');
     const about = [...t.says ?? [], t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : '',

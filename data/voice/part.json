@@ -9,6 +9,8 @@
     { "id": "part.fellow.1", "when": { "bond": "fellow" }, "text": "'Here's where I leave you,' says {actor}. 'Mind the road.'" },
     { "id": "part.fellow.2", "when": { "bond": "fellow" }, "text": "{Actor} lifts a hand, and is gone round the bend of the road." },
     { "id": "part.escort.1", "when": { "bond": "escort" }, "text": "{Actor} nods, and lets you go about your business." },
-    { "id": "part.stranger.1", "when": { "bond": "stranger" }, "text": "{Actor} goes {their} own way." }
+    { "id": "part.stranger.1", "when": { "bond": "stranger" }, "text": "{Actor} goes {their} own way." },
+    { "id": "part.animal.1", "when": { "kind": "animal" }, "text": "{Actor} wanders off after something more interesting." },
+    { "id": "part.animal.2", "when": { "kind": "animal" }, "text": "{Actor} stops, considers you, and goes back the way {they} came." }
   ]
 }

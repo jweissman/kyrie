@@ -29,7 +29,7 @@ export class MenuModel {
   }
   private static sections(scene: Scene): Section[] {
     return [...scene.subjects.map(s => ({ id: s.id, title: s.name, tone: s.kind === 'companion' ? 'person' as const
-      : s.kind, glyph: '·', choices: s.choices })),
+      : s.kind === 'animal' ? 'creature' as const : s.kind, glyph: '·', choices: s.choices })),
     ...this.way('ways', 'Go', scene.near), ...this.way('ways-out', 'Set out', scene.far),
     ...scene.you.length ? [{ id: 'company', title: 'Yourself', tone: 'company' as const, glyph: '○', choices: scene.you }] : []];
   }

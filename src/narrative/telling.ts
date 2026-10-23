@@ -18,7 +18,14 @@ export class Telling {
       .flatMap(e => e.voiced ?? []);
     const used = new Set(past.map(v => v.id)), pairs = new Set(past.map(v => `${v.kind}:${v.actor ?? ''}`));
     const petted = new Set(past.filter(v => v.kind === 'pet' || v.kind === 'greet').map(v => v.actor ?? ''));
+    // What the world has already said in its own words (a rule's thanks, a creature's warning) is not said again; and
+    // someone brought home is not told to have left.
+    const said = (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text).join(' ');
+    const home = new Set(event.changes.map(c => /^\+ cameHome\(([^)]*)\)$/.exec(c)?.[1]).filter(Boolean));
     const happenings = Happenings.read(event, company, petted).filter(h => this.priority[h.kind] !== undefined)
+      .filter(h => !(h.kind === 'part' && home.has(h.actor)))
+      .filter(h => !(['thank', 'turn', 'object'].includes(h.kind) && said.includes(this.called(campaign, h.actor ?? ''))))
+      .filter(h => !(h.kind === 'thank' && VoiceContext.species(campaign, h.actor ?? '')))
       .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!).slice(0, this.most);
     const told: Voiced[] = [];
     for (const h of happenings) {

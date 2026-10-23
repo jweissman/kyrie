@@ -3,7 +3,8 @@ import type { Screen } from './screen-types';
 
 // One subject on the page: someone or something here, with what can be done with it said beside it.
 export interface SceneSubject {
-  id: string; kind: 'creature' | 'person' | 'companion' | 'thing'; name: string; note?: string; about?: string;
+  id: string; kind: 'creature' | 'person' | 'animal' | 'companion' | 'thing'; name: string; note?: string;
+  about?: string;
   // How a fight with it would go, as the company reckons it, when it is one that might be fought.
   danger?: string; choices: Choice[];
 }
@@ -22,27 +23,37 @@ export class SceneModel {
     const companions = new Set(screen.people.filter(p => p.companion).map(p => p.id));
     const subjects = sections.filter(s => ['creature', 'person', 'thing'].includes(s.tone))
       .map(s => this.subject(s, companions, screen))
-      .filter(s => s.choices.length || s.kind === 'creature' || s.kind === 'companion');
-    const rank: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, thing: 2, companion: 3 };
+      .filter(s => s.choices.length || ['creature', 'animal', 'companion'].includes(s.kind));
+    const rank: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, animal: 2, thing: 3, companion: 4 };
     return { subjects: subjects.sort((a, b) => rank[a.kind] - rank[b.kind]),
       near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
       you: sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => !this.across(c))) };
   }
   private static subject(s: Section, companions: Set<string>, screen: Screen): SceneSubject {
     const row = [...screen.people, ...screen.things].find(t => t.id === s.id);
-    const kind = companions.has(s.id) ? 'companion' : s.tone as 'creature' | 'person' | 'thing';
+    const kind = companions.has(s.id) ? 'companion' : row?.kind === 'animal' ? 'animal'
+      : s.tone as 'creature' | 'person' | 'thing';
     const [name, ...role] = s.title.split(', ');
     const note = [role.join(', '), s.note].filter(Boolean).join(' · ');
     return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
-      choices: s.choices.map(c => this.bare(c, name!)) };
+      choices: s.choices.map(c => this.bare(c, name!)).map(c => kind === 'animal' ? this.led(c) : c) };
+  }
+  // An animal is led and let go, not asked.
+  private static led(c: Choice): Choice {
+    const words: Record<string, string> = { 'Ask them to come with you': 'Lead along', 'Let them make their own way': 'Let go' };
+    return words[c.label] ? { ...c, label: words[c.label]! } : c;
   }
   // Said beside its subject, a choice need not name it again: "Ask Wat about Father" under Wat is "Ask about Father";
   // "Take a coil of rope" under the rope is "Take".
   static bare(c: Choice, name: string): Choice {
     const short = name.replace(/^(a|an|the|some) /i, '');
-    const label = c.label.replace(new RegExp(`^(\\w+) ${this.escape(name)}\\b,? ?`), '$1 ')
-      .replace(new RegExp(`\\s(${this.escape(name)}|${this.escape(short)})$`, 'i'), '').trim();
+    const asked = c.label.replace(new RegExp(`^(\\w+) ${this.escape(name)}\\b,? ?`), '$1 ');
+    // "Make much of Fly" is "Make much of"; "Gather a wad of sphagnum moss" keeps what it gathers.
+    const tail = new RegExp(`\\s(${this.escape(name)}|${this.escape(short)})$`, 'i');
+    const cut = asked.replace(tail, '').trim();
+    const label = /\b(of|a|an|the|some|with|to|for|from|on|in|at|wad|handful|bundle)$/i.test(cut)
+      && !/^Make much of$/.test(cut) ? asked : cut;
     return { ...c, label: label || c.label,
       ...c.children ? { children: c.children.map(k => this.bare(k, name)) } : {} };
   }

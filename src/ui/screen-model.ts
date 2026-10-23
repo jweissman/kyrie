@@ -69,7 +69,7 @@ export class ScreenModel {
       dark: view.observations.some(o => o.id === 'darkness'),
       exits: here ? passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited }) : [],
-      people: [...rows.filter(r => r.kind === 'person' || r.kind === 'creature'), ...companions],
+      people: [...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions],
       things: rows.filter(r => r.kind === 'thing' || r.kind === 'feature'),
       party: this.party(view, campaign, grouped),
       items: this.items(campaign, grouped, entities),
@@ -202,12 +202,19 @@ export class ScreenModel {
       const playable = member && (!!Canon.ancestries[member.raceId]
         || (Content.playableRaces as string[]).includes(member.raceId));
       // A person's ancestry is in their look; their note is what is going on with them (a creature's, what it is).
-      const note = (p.state ? undefined : p.condition)
-        ?? (member && !playable ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);
+      // A creature that keeps the peace (a dog on a doorstep, a goat on a tether) is an animal about the place, not a
+      // danger; what it is, its role says.
+      const animal = !playable && w.test(ModuleWriter.call('peaceable', p.id));
+      const note = (p.state ? undefined : p.condition) ?? (member && !playable && !animal
+        ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined
         : this.look(p.members ?? []);
-      return { id: p.id, kind: playable ? 'person' : 'creature', name: p.name, ...(note ? { note } : {}),
+      // Family are named as what they are to you: "Ion, your brother", not "Ion, the drover's son".
+      const kinship = w.module.relations.some(r => r.name === 'kinship') ? w.one('kinship', p.id) : undefined;
+      const word = kinship && w.module.entities.find(e => e.id === kinship)?.name;
+      const name = word ? `${p.name.split(', ')[0]}, ${word}` : p.name;
+      return { id: p.id, kind: playable ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }
@@ -215,7 +222,8 @@ export class ScreenModel {
     const coin = counted ? w.number(ModuleWriter.call('quantity', p.id, 'gold')) : 0;
     const food = counted ? w.number(ModuleWriter.call('quantity', p.id, 'rations')) : 0;
     const forSale = w.module.relations.some(r => r.name === 'forSale') && w.test(ModuleWriter.call('forSale', p.id));
-    const note = p.condition ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'read')
+    // Something growing is told by how it grows (its description), not by the name of its state.
+    const note = p.condition && p.type !== 'scenery' ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...(note ? { note } : {}), acts };

@@ -44,6 +44,7 @@ export class CampaignTick {
     const until: [string, number][] = [['untilLight', FictionalTime.untilLight(elapsed)],
       ['untilMorning', FictionalTime.untilMorning(elapsed)], ['untilDark', FictionalTime.untilDark(elapsed)],
       ['untilTurn', FictionalTime.untilTurn(elapsed)]];
+    until.push(['hour', FictionalTime.hour(elapsed)], ['day', FictionalTime.day(elapsed)]);
     for (const [name, watches] of until) {
       if (world.module.measures.some(m => m.name === name)) {
         night.push({ kind: 'set', call: ModuleWriter.call(name, 'clock'), value: ModuleWriter.number(watches) });

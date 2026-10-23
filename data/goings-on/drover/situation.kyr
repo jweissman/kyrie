@@ -10,8 +10,14 @@ Module drover "The drover who did not come home" {
 
   Person wife "The drover's wife" at taproom { Role "the drover's wife, who cooks at the inn". Peaceable. }
   Person son "The drover's son" at green { Role "the drover's son, who wants to go after his father". Peaceable. }
-  Observe dog at green as sign when not told(wife) "A grey dog lies by the inn door with its head on its paws, watching the road.".
-  Observe dog_in at green when told(wife) "The grey dog has gone in to lie by the kitchen fire.".
+  // The dog that came home: a real dog, lame in the off forefoot, who lets anyone who is kind to her look at her; and
+  // whoever does sees where she has been.
+  Person dog "the grey dog" at green { Role "the drover's dog". Species dog. Pronouns she. Peaceable. }
+  Observe dog_waits near dog of dog when not told(wife) and at(dog, green) "A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.".
+  Observe dog_in near dog of dog when told(wife) and at(dog, taproom) "The grey dog lies by the kitchen fire with her chin on her paws.".
+  Rule dog_goes_in when told(wife) and at(dog, green) { Assert at(dog, taproom). }
+  Entity dog_mud: fact "The grey dog came home caked in black ditch-mud, the off forefoot cut as if on iron.".
+  Observe dog_tells near dog as sign when petted(dog, party) and not knows(party, found_cart) "Under your hand her coat is stiff with dried black mud to the belly: ditch-mud, not road dust, as if she had lain a long time somewhere low and wet. The pad of the off forefoot is cut clean across, the way iron cuts." teaches dog_mud.
   Observe ruts at road when not knows(party, found_cart) "Fresh ruts run off the edge of the road here, where the bank drops away.".
 
   Discovery found_cart "The drover's cart went off the road in the night. He is under it, a day or more dead, and whatever had the oxen dragged them off toward the hills." {

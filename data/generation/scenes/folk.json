@@ -1,0 +1,46 @@
+{
+  "about": "The names the folk of a country give their children, their households and their animals, by people and by the words they are spoken of in. Human names are the plain old names of a country that speaks Westron (some from Orsino's name tables, kept where they fit); other peoples' are their own. A household is called by its family name, or by its work or its place when it has none.",
+  "given": {
+    "human": {
+      "she": ["Agnes", "Alys", "Annis", "Avice", "Beatrix", "Bet", "Cecily", "Edith", "Edda", "Ebba", "Emmot", "Gytha", "Hawise", "Hild", "Isot", "Joan", "Letice", "Mabel", "Magot", "Marjory", "Maud", "Moll", "Nan", "Nest", "Petronel", "Rose", "Sabine", "Sibyl", "Wynn", "Aldith", "Leofrun", "Wulfrun", "Juliana", "Orabel", "Elswith", "Tilda", "Mildred", "Odile", "Alma", "Averil"],
+      "he": ["Alfric", "Aldred", "Ambrose", "Bartle", "Cuthbert", "Dunstan", "Edric", "Elfred", "Gamel", "Godwin", "Hamo", "Hankin", "Hob", "Hugh", "Jankin", "Lambert", "Leofric", "Martin", "Nicol", "Odo", "Osbert", "Oswy", "Piers", "Ralf", "Randal", "Robin", "Roger", "Saer", "Simkin", "Tam", "Thurstan", "Tibb", "Wat", "Wilkin", "Wulfstan", "Ulf", "Edwy", "Orm", "Baldric", "Aldous"],
+      "they": ["Ash", "Wren", "Robin", "Sparrow", "Hollin", "Merry", "Linden", "Fenn"]
+    },
+    "dwarf": {
+      "she": ["Brannoc", "Dagny", "Eldis", "Gunnvor", "Hulda", "Ingrid", "Kestra", "Thora", "Vistra", "Runa"],
+      "he": ["Adrik", "Baern", "Brottor", "Eberk", "Gardain", "Harbek", "Kildrak", "Morgran", "Rangrim", "Vondal"],
+      "they": ["Flint", "Cobble", "Tarn"]
+    },
+    "elf": {
+      "she": ["Adrie", "Birel", "Caelynn", "Ilanis", "Leshanna", "Mialee", "Naivara", "Sariel", "Thia", "Valanthe"],
+      "he": ["Aelar", "Beiro", "Carric", "Erevan", "Ivellios", "Laucian", "Peren", "Riardon", "Soveliss", "Thamior"],
+      "they": ["Ara", "Lia", "Rolen"]
+    },
+    "gnome": {
+      "she": ["Bimpnottin", "Caramip", "Ellyjobell", "Loopmottin", "Nissa", "Orla", "Roywyn", "Zanna"],
+      "he": ["Alston", "Boddynock", "Dimble", "Fonkin", "Glim", "Jebeddo", "Orryn", "Warryn"],
+      "they": ["Pip", "Tock", "Quill"]
+    },
+    "halfling": {
+      "she": ["Andry", "Bree", "Callie", "Cora", "Euphemia", "Kithri", "Lavinia", "Merla", "Seraphina", "Verna"],
+      "he": ["Alton", "Cade", "Eldon", "Garret", "Lyle", "Milo", "Osborn", "Perrin", "Roscoe", "Wellby"],
+      "they": ["Bramble", "Clover", "Tansy"]
+    }
+  },
+  "family": {
+    "human": ["Fennick", "Holt", "Marsh", "Ford", "Brook", "Thorne", "Ashby", "Crane", "Rook", "Wade", "Hale", "Pike", "Read", "Sallow", "Withy", "Tolley", "Gosling", "Hayward", "Underhill", "Attwell", "Bywater", "Ellery", "Godsell", "Hogg", "Lamb", "Notley", "Pendle", "Reeve", "Sedge", "Twelvetrees"],
+    "dwarf": ["Battlehammer", "Dankil", "Fireforge", "Gorunn", "Holderhek", "Loderr", "Rumnaheim", "Strakeln", "Torunn", "Ungart"],
+    "elf": ["Amakiir", "Galanodel", "Holimion", "Ilphelkiir", "Liadon", "Meliamne", "Siannodel", "Xiloscient"],
+    "gnome": ["Beren", "Daergel", "Folkor", "Garrick", "Nackle", "Murnig", "Ningel", "Raulnor", "Scheppen", "Timbers"],
+    "halfling": ["Brushgather", "Goodbarrel", "Greenbottle", "High-hill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble", "Underbough"]
+  },
+  "animal": {
+    "dog": ["Fly", "Moss", "Nell", "Tess", "Bess", "Glen", "Cap", "Gyp", "Patch", "Bracken", "Bran", "Bolt", "Ghost", "Storm", "Shadow", "Rough", "Floss", "Tib"],
+    "cat": ["Tib", "Grimalkin", "Smut", "Pudding", "Mouser", "Soot", "Tansy", "Ginger"],
+    "horse": ["Bayard", "Dobbin", "Dapple", "Blackie", "Bess", "Captain", "Hob"],
+    "goat": ["Nanny", "Gruff", "Bramble", "Ribbon"],
+    "cow": ["Daisy", "Clover", "Buttercup", "Bluebell", "Old Red"],
+    "pig": ["Hob", "Squealer", "Duchess", "Truffle"]
+  },
+  "source": { "orsino": "names:maleName,femaleName,androgynousName,companionName", "notes": "Orsino's dwarf, elf, gnome and halfling names and its hound and cat names, kept where they fit; human names written for a Westron-speaking country, Orsino's being of another world." }
+}

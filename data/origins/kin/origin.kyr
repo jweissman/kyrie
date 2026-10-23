@@ -4,6 +4,8 @@ Module origin "Coming home" {
   Entity wife: group "Your mother". Entity son: group "Your brother". Entity missing: fact "He did not come home".
   Place approach "The way in" is room.
   Initially Assert kin(party, wife). Initially Assert kin(party, son). Initially Assert knows(party, missing).
+  Entity called_mother: fact "your mother". Entity called_brother: fact "your brother".
+  Initially Assert kinship(wife, called_mother). Initially Assert kinship(son, called_brother).
   Observe arrival at approach as fixture when true "{scene}".
   Observe letter at approach as feature when true "You have been three years on the other side of the hills, hiring out with the droves. Your mother's letter took a week to find you. Your father went out on the road with the cart, it said, and did not come home.".
   Goal false.

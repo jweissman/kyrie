@@ -40,7 +40,7 @@ export interface BundleManifest {
 export class ModuleBundle {
   // Rule modules named in a manifest resolve to data/rules; "world" is the standard set every world uses.
   static readonly world = ['core', 'passages', 'people', 'needs', 'services', 'discovery', 'care', 'belongings',
-    'dominion', 'probing', 'inhabitants'];
+    'dominion', 'probing', 'inhabitants', 'growing'];
   static readonly ruleNames = [...ModuleBundle.world, 'elements', 'devotion'];
   private static strings(v: unknown, min = 0): boolean {
     return typeof v === 'string' || (Array.isArray(v) && v.length >= min && v.every(x => typeof x === 'string'));

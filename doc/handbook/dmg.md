@@ -408,7 +408,7 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 10 | 30 | 9 | 5 | 1 | 8 |
+| 10 | 30 | 11 | 5 | 1 | 8 |
 
 #### terrainkind, terrain
 
@@ -535,6 +535,12 @@ You cannot move. Time passes over you until you can.
 > Needs: able(actor)
 
 > Then: nothing changes
+
+#### hour, day
+
+*Kyr · measure(clock); measure(clock)* · `rule:world_core.hour`
+
+The hour of the day (0 to 23) and the day since the company came (1, 2…): what people's days are kept by.
 
 #### dice
 
@@ -827,6 +833,32 @@ Also kept, without comment: exposedTo.
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
 | 1 | 1 | 0 | 0 | 0 | 0 |
+
+### What grows where, and what can be gathered from it
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 0 | 2 | 0 | 0 | 0 | 1 |
+
+#### grows, crop
+
+*Kyr · relation(scenery); relation(item, scenery)* · `rule:world_growing.grows`
+
+A stand of something that grows (willows over the water, yarrow at the wayside), and what can be gathered from it there a little at a time: each crop an item of the kind it yields, until the stand is stripped.
+
+#### gather
+
+*Kyr · action (group, item, itemkind, scenery, member, place)* · `rule:world_growing.gather`
+
+- Shown as: Gather {find} for {recipient}
+- Takes: 10 minutes
+- Costs: 1
+
+Cut it, strip it or pick it, and carry it away: what grows wild is anyone's who takes the trouble.
+
+> Needs: able(actor); company(actor); at(actor, site); at(stand, site); grows(stand); crop(find, stand); itemKind(find, form); memberOf(recipient, actor); awake(recipient); not (benighted(actor))
+
+> Then: Retract crop(find, stand). Retract inside(find, stand).
 
 ### How creatures that live somewhere answer those who come into it
 
@@ -1232,7 +1264,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 14 | 3 | 0 | 2 | 3 |
+| 0 | 15 | 3 | 0 | 2 | 4 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1253,6 +1285,12 @@ Someone taken from home: who set them free, where home is, and what their people
 *Kyr · relation(group, group); relation(group, group)* · `rule:world_people.kin`
 
 Who someone is to the one who plays: family (kin), or someone expecting them with a letter or an errand (expects); what they owe someone is dominion's owes. An origin says so at the outset; what people say and do follows it.
+
+#### kinship
+
+*Kyr · relation(group, entity)* · `rule:world_people.kinship`
+
+What someone is to the one who plays, in the words the page names them by ("your brother"), where the origin says.
 
 #### willing, hire, travelsWith
 
@@ -1314,9 +1352,23 @@ They come with you from now on: they fight beside you, and what they can do, you
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); able(companion); at(actor, site); at(companion, site); acceptsEscort(companion, actor); not (dismissed(companion, actor)); not (hobbled(companion))
+> Needs: able(actor); able(companion); at(actor, site); at(companion, site); acceptsEscort(companion, actor); following(companion, actor); not (hobbled(companion))
 
 > Then: Retract following(companion, actor). Assert dismissed(companion, actor).
+
+#### send off
+
+*Kyr · action (group, group, place)* · `rule:world_people.send_off`
+
+- Shown as: Tell {companion} not to wait for you
+- Takes: 10 minutes
+- Costs: 1
+
+Someone who would come with you, if you led them, can be told not to wait: they go their own way.
+
+> Needs: able(actor); able(companion); at(actor, site); at(companion, site); acceptsEscort(companion, actor); not (following(companion, actor)); not (dismissed(companion, actor)); not (hobbled(companion))
+
+> Then: Assert dismissed(companion, actor).
 
 ### Trying things: looking closely, prodding, prying, burning, pushing, listening
 

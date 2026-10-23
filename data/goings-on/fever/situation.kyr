@@ -12,15 +12,13 @@ Module fever "A fever on the green" {
   Observe shutters at green when not mended(mother) and not lost(mother) "The shutters of one house on the green are drawn in daylight, and a woman stands in its door, watching the road.".
   Observe mended_scene at green when mended(mother) "The shutters of the house on the green are open, and a child's voice comes out of it, complaining.".
   Observe lost_scene at green when lost(mother) "The shutters of the house on the green stay drawn, and there are flowers on the step.".
-  Observe willows at road when not knows(party, bark_found) "Willows lean over the water below the road.".
-
-  Discovery bark_found "Willow bark breaks a fever; there is plenty below the road." {
-    Found by searching road "Below the road the willows grow thick along the water. The bark comes away in long strips: bitter, good for a fever.".
-  }
-  Item bark "a bundle of willow bark" is herbs at road hidden until bark_found.
+  // Willow bark breaks a fever. Where willows grow by the water the country itself says (growing.kyr): bark gathered
+  // from any of them will do, as will herbs bought anywhere.
+  Entity bark_lore: fact "Willow bark breaks a fever. Willows grow where there is water: by a river, a mere, a ditch.".
 
   Topic mother_child with mother "Ask {mother} about the child" when not mended(mother) and not lost(mother) once {
-    Says "'Three days,' says {mother}. 'Hot as a stone in the sun, and the herb-wife has nothing left. There were willows out on the road, by the water, when I was a girl.' She looks at you. 'I cannot leave her.'".
+    Says "'Three days,' says {mother}. 'Hot as a stone in the sun, and the herb-wife has nothing left. Willow bark would do it. There were willows out on the road, by the water, when I was a girl.' She looks at you. 'I cannot leave her.'".
+    On discuss { Assert knows(actor, bark_lore). }
   }
   // Whatever herbs are given her, she uses.
   Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). }
@@ -34,6 +32,6 @@ Module fever "A fever on the green" {
     Says "{sister} does not look up. 'You came through here,' she says. 'Everybody comes through here.'".
   }
 
-  Objective herbs when knows(party, sick) and not mended(mother) and not lost(mother) "A child on {green} has a fever; it needs herbs, or willow bark from the road.".
+  Objective herbs when knows(party, sick) and not mended(mother) and not lost(mother) "A child on {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
   Goal mended(mother).
 }

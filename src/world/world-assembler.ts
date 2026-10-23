@@ -1,3 +1,4 @@
+import { RegionGrowth } from './region-growth';
 import type { DeemValue } from 'deem';
 import { Content, type CreatureGenerationContext } from '../content';
 import { RandomStreams } from '../random-streams';
@@ -312,8 +313,11 @@ export class WorldAssembler {
         bindings[role] = this.town(need.settlement, { region, bindings, claimed,
           key: RandomStreams.key(seed, 'world', 'town', instance, role) });
       } else if (need.way) {
+        // The road out of the settlement, by the water if one runs by water: what happens on a road by a stream
+        // (a cart in the ditch, willows for a fever) is where people say it is.
         const town = bindings[need.way.replace(/^near:/, '')];
-        const road = RegionGeography.roads(region).find(r => r.from.id === town || r.to.id === town);
+        const roads = RegionGeography.roads(region).filter(r => r.from.id === town || r.to.id === town);
+        const road = roads.find(r => RegionGrowth.habitats(region, r.route.cells).has('riverbank')) ?? roads[0];
         if (road) { bindings[role] = road.way; }
       }
     }

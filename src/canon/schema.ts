@@ -155,5 +155,8 @@ export interface Deity {
 export interface Organism {
   name: string; kind: 'plant' | 'animal'; habitats: string[]; signs: string; species?: string; yields?: string;
   receptive?: boolean; source: Source;
+  // A plant that can be gathered: what a stand of it looks like where it grows, what is gathered from it (an item of
+  // the kind it yields), and how much a stand gives before it is stripped.
+  stand?: string; gathered?: string; count?: number;
 }
 export interface Procedure { name: string; effect: string; description: string }
