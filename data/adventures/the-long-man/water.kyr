@@ -46,6 +46,7 @@ Module longman "The Long Man" {
   Discovery last_count "The last house of the drowned town was barred from outside, with its table laid for a meal. The tally of days on its door-post stops at forty-one, the same count as the last notches in the keeper's niche. The Hesk meant to come back.".
   Thing toy_bell "a child's bell of weirstone" at last_house {
     State still "On the sill sits a child's toy, a little bell of grey weirstone no bigger than a fist.".
+    Tries pushing.
   }
   Event bell_answered near toy_bell when tried(toy_bell, pushing) "It rings, clear and long. Far off, under the hill, something rings back, once." then {
     Assert rung(toy_bell).

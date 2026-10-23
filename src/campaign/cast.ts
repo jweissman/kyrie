@@ -60,11 +60,12 @@ export class Cast {
       context: { ...structuredClone(first.context), name: p.names?.[i] ?? this.numbered(p, generated, i) } }));
   }
   // Members of a group no one has named are told apart by their role and number ("Cave spider 2"), or, when the
-  // role describes the whole group ("a sow bear and her grown cub"), by their kind ("Bear 2").
+  // role describes the whole group ("a sow bear and her grown cub", "goblins who have made a home of the upper
+  // galleries"), by their kind ("Bear 2", "Goblin 2").
   private static numbered(p: Person, generated: Record<string, unknown>, i: number): string {
     const role = typeof generated.role === 'string' ? generated.role : p.role;
     const species = Content.races[p.raceId as keyof typeof Content.races]?.name;
-    const kind = !role || / and |,/.test(role) ? species ?? p.name : role;
+    const kind = !role || / and |,/.test(role) || role.split(' ').length > 3 ? species ?? p.name : role;
     const bare = kind.replace(/^(a|an|the) /i, '');
     return `${bare.charAt(0).toUpperCase()}${bare.slice(1)} ${i + 1}`;
   }

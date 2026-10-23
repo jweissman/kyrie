@@ -117,6 +117,7 @@ export class ModuleCompiler {
       throw new Error(`Unknown topic speaker ${action.speaker}`);
     }
     this.text(module, action.report ?? '', bindings);
+    this.text(module, action.otherwise ?? '', bindings);
     this.text(module, action.seen ?? '', bindings);
     if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
     if (action.duration) { this.call(module, action.duration, module.measures, bindings); }

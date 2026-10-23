@@ -305,6 +305,41 @@
         "kyr": true
       }
     },
+    "lantern": {
+      "name": "Lantern",
+      "category": "equipment",
+      "description": "A hooded lantern of tin and horn. Filled with lamp oil and lit, it gives a steady light for six hours, and keeps it out of the wind.",
+      "value": 7,
+      "fuel": "lamp_oil",
+      "source": {
+        "orsino": "gear:lantern",
+        "fidelity": "adapted",
+        "notes": "Orsino's lantern lasts 24 where a torch lasts 4. A Kyr torch burns an hour, so a lantern burns six on a flask of oil, and is lit again with another."
+      }
+    },
+    "lamp_oil": {
+      "name": "Flask of lamp oil",
+      "category": "gear",
+      "description": "A stoppered flask of lamp oil: enough to keep a lantern burning six hours.",
+      "value": 1,
+      "use": "Apply lamplit to self for 6 hours.",
+      "source": {
+        "kyr": true,
+        "notes": "What a lantern burns (Orsino's lantern has a duration and no fuel; here the duration is in the flask)."
+      }
+    },
+    "candle": {
+      "name": "Candle",
+      "category": "gear",
+      "description": "A tallow candle. Lit, it burns about two hours: a small light, easily put out.",
+      "value": 1,
+      "use": "Apply candlelit to self for 2 hours.",
+      "source": {
+        "orsino": "gear:candle",
+        "fidelity": "adapted",
+        "notes": "Orsino's candle lasts 6 where a torch lasts 4: a Kyr hour and a half, burned in whole hours."
+      }
+    },
     "torch": {
       "name": "Torch",
       "category": "gear",

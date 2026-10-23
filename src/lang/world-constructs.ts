@@ -14,6 +14,8 @@ export interface ThingSpec {
   guards?: string[];
   // Not perceived or reachable until the company knows this fact; holds: things can be put inside it.
   hidden?: string; holds?: boolean;
+  // Ways of trying it its author offers besides those its look suits (Tries pushing: a bell can be rung).
+  tries?: string[];
 }
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
@@ -173,9 +175,22 @@ export class WorldConstructs {
     this.assert(module, t.site.anchor, t.id, t.site.id);
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
-    // Anything a company can handle can be tried: looked over closely, prodded, pried at, burned, listened at.
-    if (t.type !== 'group' && t.type !== 'scenery') { this.assert(module, 'probeable', t.id); }
+    // Anything a company can handle can be tried, in the ways that suit it.
+    if (t.type !== 'group' && t.type !== 'scenery') {
+      this.assert(module, 'probeable', t.id);
+      for (const verb of this.tries(t)) { this.assert(module, 'suits', t.id, verb); }
+    }
     this.states(module, t, t.site.anchor === 'on' ? { kind: 'beside', id: t.site.id } : { kind: 'near', id: t.id });
+  }
+  // How a thing may be tried, by what anyone can see of it, so that offering a try gives nothing away: anything can
+  // be looked at closely; a chest or a casket, or anything shut, prodded, pried at and listened at; a door, wall or
+  // grate across a way listened at, pushed and pried at; something set in a way (a plate, a wire, a loose stone)
+  // prodded from a pace off. Its author may offer more.
+  private static tries(t: ThingSpec): string[] {
+    const flags = new Set(t.states.flatMap(s => s.flags)), on = t.site?.anchor === 'on';
+    return [...new Set(['looking', ...t.holds || flags.has('closed') ? ['prodding', 'prying', 'listening'] : [],
+      ...on && flags.has('blocking') ? ['listening', 'pushing', 'prying'] : [],
+      ...on && (t.hurts || flags.has('dangerous')) ? ['prodding'] : [], ...t.tries ?? []])];
   }
   // An event happens once, when its condition first holds, and is perceived only by those at its anchor.
   static event(module: Module, e: EventSpec) {

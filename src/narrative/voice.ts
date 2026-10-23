@@ -35,14 +35,14 @@ export class Voice {
   }
   // Every line of a kind that fits a moment, closest fits first: those naming the most of it, then fewer. Who the
   // company is to someone counts for more than anything else a line names: a mother greets her child as a mother,
-  // whatever her manner.
+  // whatever her manner; and a temper (goblins wary of a stranger's light) counts for more again.
   static tiers(kind: string, context: Record<string, string>): VoiceLine[][] {
     const lines = (this.table(kind)?.lines ?? []).filter(l => l.id.startsWith(`${kind}.`) || this.table(kind)?.kinds.length === 1)
       .filter(l => this.matches(l, context));
     const sizes = [...new Set(lines.map(l => this.closeness(l)))].sort((a, b) => b - a);
     return sizes.map(n => lines.filter(l => this.closeness(l) === n));
   }
-  static readonly weights: Record<string, number> = { bond: 2 };
+  static readonly weights: Record<string, number> = { bond: 2, temper: 3 };
   private static closeness(line: VoiceLine): number {
     return Object.keys(line.when ?? {}).reduce((n, key) => n + (this.weights[key] ?? 1), 0);
   }

@@ -36,10 +36,12 @@ export class DeepPacing {
     const sequence = draw.pick(this.tables.sequences[draw.pick(this.flavors)]!);
     const groups = draw.shuffle(this.groups(purpose.dwellers, level.index));
     const elites = draw.shuffle(this.groups(purpose.elites ?? purpose.dwellers, level.index));
+    // The keeper's rooms are its own: nothing else lives where it does, or where it goes to ground.
+    const kept = new Set(['heart', purpose.keeper.refuge]);
     return order.map(({ room, way }, i) => {
       const guide = i === 0 ? 'entrance' : sequence[i % sequence.length]!, odds = this.tables.overlays[guide]!;
       const content: DeepContent = { room, guide };
-      if (draw.next() < odds.encounter && groups.length) {
+      if (draw.next() < odds.encounter && groups.length && !kept.has(room.role)) {
         content.dwellers = this.dwellers({ room, groups: odds.challenging ? elites : groups, depth: level.index, i },
           !!odds.challenging, draw);
       }

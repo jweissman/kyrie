@@ -2,8 +2,9 @@ Module belongings "What the company carries" {
   Kind item. Kind itemkind.
   Relation itemKind(item, itemkind). Relation ownedItem(item, member). Relation wearing(item, member).
   Relation forSale(item). Relation soldBy(item, group) exclusive. Relation wearable(itemkind). Relation consumable(itemkind).
-  // What is used by lighting it, on whoever carries it (a torch).
-  Relation lightsUp(itemkind).
+  // What is used by lighting it, on whoever carries it (a torch, a candle); what burns in something else, and what
+  // it burns in (lamp oil, in a lantern).
+  Relation lightsUp(itemkind). Relation burns(itemkind, itemkind). Relation fuel(itemkind).
   Relation canTrain(member, ability). Relation teaches(group, ability).
   Relation proficient(member, itemkind).
   Relation wants(group, itemkind). Measure pays(group, itemkind).
@@ -84,7 +85,8 @@ Module belongings "What the company carries" {
   Action use_item(actor: group, dose: item, form: itemkind, carrier: member, recipient: member) "Use {dose} on {recipient}" {
     Time 2 minutes.
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
-      and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form) and not lightsUp(form).
+      and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form) and not lightsUp(form)
+      and not fuel(form).
     Resolve consume(dose, carrier, recipient).
   }
   Action light_item(actor: group, dose: item, form: itemkind, carrier: member) "Light {dose}" {
@@ -93,6 +95,14 @@ Module belongings "What the company carries" {
       and itemKind(dose, form) and lightsUp(form).
     Resolve consume(dose, carrier, carrier).
     Result "{carrier} lights {dose}.".
+  }
+  // A lantern is filled and lit: the flask of oil is spent, and burns in it as long as the flask says.
+  Action light_lamp(actor: group, dose: item, form: itemkind, vessel: item, shape: itemkind, carrier: member) "Fill {vessel} and light it" {
+    Time 2 minutes.
+    Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(vessel, carrier)
+      and itemKind(vessel, shape) and burns(shape, form) and ownedItem(dose, carrier) and itemKind(dose, form).
+    Resolve consume(dose, carrier, carrier).
+    Result "{carrier} fills {vessel} and lights it.".
   }
   Action transfer_item(actor: group, cargo: item, carrier: member, recipient: member) "Give {cargo} to {recipient}" {
     Time 1 minute.

@@ -23,7 +23,7 @@ import { CombatProjection } from '../combat-projection';
 import { Battle } from '../arena';
 import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module, WorldState } from '../lang/module';
-import { World } from '../lang/world';
+import { World } from '../lang/world'; import { Checks } from '../rules/checks';
 import type { Operator } from './planner';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
@@ -289,7 +289,7 @@ export class Campaign implements WatchHost {
     this.settle(action, battle, combat);
     const held = !battle || battle.state.outcome === 'fighters'
       || battle.events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
-    let success = held && CommandResolutions.survived(action,
+    let success = held && Checks.passed(combat) && CommandResolutions.survived(action,
       this.creatures.snapshot, this.definition && this.live, this.module.entities);
     const causal = this.module.relations.some(r => r.name === 'witnessedAttack');
     // An activity that can be interrupted takes effect when it has run its course, a journey when the company
@@ -301,7 +301,8 @@ export class Campaign implements WatchHost {
     if (this.definition) { this.refresh(); }
     this.commit(Aftermath.record(before, this.world, action, combat));
     this.resolutions(combat, true);
-    let response = success && action.report ? ObservationText.render(action.report, this.world) : undefined;
+    const told = success ? action.report : action.otherwise;
+    let response = told ? ObservationText.render(told, this.world) : undefined;
     if (!success && action.resolve?.name === 'expose') { response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.'; }
     const pass = WatchLoop.pass(this, action,
       { before, combat, ...leg ? { journey: { leg, arrive: Journey.arrive.bind(Journey, this, action, leg) } } : {} });

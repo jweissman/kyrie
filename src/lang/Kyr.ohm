@@ -26,8 +26,9 @@ Kyr {
             | "on" ident -- on
             | kwIn ident -- in
   ThingKind = "is" ident
-  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart
+  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | TriesPart
   HoldsPart = "Holds" "."
+  TriesPart = "Tries" ident ("," ident)* "."
   StatePart = "State" ident StateFlag* string "."
   StateFlag = "blocking" | "dangerous" | "closed"
   ChangePart = "Change" ident string "from" ident "to" ident ChangeNeeds? ChangeAfter? ChangeConsumes? ChangeAt? "."
@@ -82,6 +83,7 @@ Kyr {
   TopicEffects = "On" "discuss" "{" ChangeStatement* "}"
   Speaker = "Speaker" ident "."
   Result = "Result" string "."
+  Otherwise = "Otherwise" string "."
   Information = "Discovery" ident string "{" InformationPart* "}" -- parts
               | "Discovery" ident string "." -- plain
   InformationPart = KnownBy | DeniedBy | InformationSource | FoundBy
@@ -128,7 +130,8 @@ Kyr {
   Description = "Description" string "."
   Action = "Action" ident ActionParameters? string "{" ActionPart* "}"
   ActionParameters = "(" ListOf<Parameter, ","> ")"
-  ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Speaker | Seen | Interruption | Watchful
+  ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Otherwise | Speaker | Seen
+    | Interruption | Watchful
   Interruption = "Interrupted" "when" Predicate "."
   Watchful = "Watchful" "."
   Seen = "Seen" string "."

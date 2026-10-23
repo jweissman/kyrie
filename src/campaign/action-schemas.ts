@@ -83,6 +83,7 @@ export class ActionSchemas {
       requires: this.predicate(action.requires, bindings),
       ...(action.interrupt ? { interrupt: this.predicate(action.interrupt, bindings) } : {}),
       ...(action.report ? { report: this.text(action.report, bindings) } : {}),
+      ...(action.otherwise ? { otherwise: this.text(action.otherwise, bindings) } : {}),
       ...(action.seen ? { seen: this.text(action.seen, bindings) } : {}),
       success: action.success.map(c => this.change(c, bindings)),
       failure: action.failure.map(c => this.change(c, bindings)),

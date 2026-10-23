@@ -28,8 +28,14 @@ export interface DeepPurpose {
   dwellers: { depth: number; groups: DeepGroup[] }[];
   // Who leads at a depth, or is worse than the rest: what an elite room holds.
   elites?: { depth: number; groups: DeepGroup[] }[];
-  keeper: DeepGroup & { level: number; words?: Record<string, string> };
-  objective: { item: string; kind: string; text: string };
+  // What keeps the bottom, too strong to fight when the site is first found: where it shrinks back to, and what it
+  // cannot bear.
+  keeper: DeepGroup & { level: number; words?: Record<string, string>; refuge?: string; fears?: string };
+  // What it cannot bear, and where the makers left it: an item in a room of a role, how it looks there, the words
+  // they cut about it (read with lore where they walled the way down), and what reading them tells.
+  bane?: { item: string; role: string; seen: string; cut: string; fact: string };
+  // What they died for: the thing at the bottom, what it is, what it is to bring it up, and how that is told.
+  objective: { item: string; kind: string; text: string; goal?: string; raised?: string };
   rumours: string[];
   // What it was dug or built for, left where it was got: so many of a local kind in rooms of these roles.
   ore?: { kind: string; name: string; roles: Record<string, number> };

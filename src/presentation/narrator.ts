@@ -153,12 +153,18 @@ export class Narrator {
   // Who and what is here: as they can be seen now, or simply who they are.
   private static presence(screen: Screen): string[] {
     const lines: string[] = [], named: string[] = [];
+    let many = false;
     for (const t of [...screen.people.filter(p => !p.companion), ...screen.things]) {
       if (t.says?.length) { lines.push(...t.says); continue; }
-      if (t.state) { lines.push(`${this.upper(this.short(t.name))} ${t.state === 'dead' ? 'lies dead' : 'is down'}.`); continue; }
-      if (t.kind === 'person') { named.push(this.who(t)); }
+      if (t.state) {
+        const lie = t.many ? (t.state === 'dead' ? 'lie dead' : 'are down') : t.state === 'dead' ? 'lies dead' : 'is down';
+        lines.push(`${this.upper(this.short(t.name))} ${lie}.`); continue;
+      }
+      if (t.kind === 'person') { named.push(this.who(t)); many ||= !!t.many; }
     }
-    if (named.length === 1) { lines.push(`${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} is here.`); }
+    if (named.length === 1) {
+      lines.push(`${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} ${many ? 'are' : 'is'} here.`);
+    }
     else if (named.length) { lines.push(`Here are ${named.slice(0, -1).join('; ')}; and ${named.at(-1)}.`); }
     // Two of a kind doing the same (two goats at one hedge) are told once.
     return lines.filter((l, i) => lines.indexOf(l) === i);

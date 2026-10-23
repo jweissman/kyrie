@@ -8,6 +8,11 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity lore: capability "Lore". Entity rites: capability "Rites of the dead".
   Entity climbing: capability "Climbing". Entity light: capability "Light". Entity flame: capability "Flame".
   Entity sunlight: capability "Sunlight". Entity perception: capability "Keen eyes".
+  Entity persuasion: capability "Persuasion". Entity deception: capability "Deception".
+  Entity intimidation: capability "Intimidation". Entity insight: capability "Insight".
+  // How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
+  Kind difficulty. Entity dc_easy: difficulty "easy". Entity dc_fair: difficulty "fair".
+  Entity dc_hard: difficulty "hard". Entity dc_formidable: difficulty "formidable".
   // The lie of the land a region is: what a party's perks of place (an elven tribe in a forest) answer to.
   Kind terrainkind. Relation terrain(place, terrainkind).
   Entity forest: terrainkind "forest". Entity marsh: terrainkind "marsh". Entity mountain: terrainkind "mountain".

@@ -21,7 +21,7 @@
     "groups": {
       "chandler": {
         "role": "chandler", "profession": "herbalist", "shop": "chandlery",
-        "stock": [["rations", 2, 6], ["rope", 1, 3], ["torch", 1, 4], ["lantern", 7, 2], ["pole", 1, 2], ["bandages", 1, 3]],
+        "stock": [["rations", 2, 6], ["rope", 1, 3], ["torch", 1, 4], ["lantern", 7, 2], ["lamp_oil", 1, 4], ["pole", 1, 2], ["bandages", 1, 3]],
         "buys": [["grave_rings", 8], ["chapel_plate", 12]]
       },
       "herbwife": {
@@ -31,7 +31,7 @@
       },
       "smith": {
         "role": "smith", "shop": "forge",
-        "stock": [["crowbar", 3, 2], ["shovel", 2, 2], ["pole", 1, 2], ["dagger", 2, 1], ["torch", 1, 2], ["lantern", 7, 1]],
+        "stock": [["crowbar", 3, 2], ["shovel", 2, 2], ["pole", 1, 2], ["dagger", 2, 1], ["torch", 1, 2], ["lantern", 7, 1], ["lamp_oil", 1, 3]],
         "buys": [["bronze_bearing", 10], ["grave_rings", 6]]
       },
       "salter": {

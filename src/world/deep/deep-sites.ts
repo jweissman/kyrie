@@ -23,10 +23,11 @@ export class DeepSites {
       `  Observe ${site.id}_outside at ${site.id} when true ${this.q(purpose.outside.replaceAll('{oldup}', values.oldup!))}`
         + ` teaches ${site.id}_named.`,
       ...this.places(layout), ...this.ways(layout, handled),
-      ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup! }),
+      ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
+        ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }),
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose })),
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...this.keeper(purpose, layout),
-      ...this.hooks(purpose, values)];
+      ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values)];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark.
   private static places(layout: DeepLayout): string[] {
@@ -71,12 +72,34 @@ export class DeepSites {
       (_, n) => `  Item ${r.id}_ore${n} ${this.q(ore.name)} is ${ore.kind} at ${r.id}.`));
   }
   // At the bottom: whatever the makers broke into, and what they died for, which it keeps.
+  // It shrinks back into its refuge from what it fears, and keeps the heart while it is there.
   private static keeper(purpose: DeepPurpose, layout: DeepLayout): string[] {
-    const heart = layout.levels.at(-1)!.rooms.find(r => r.role === 'heart') ?? layout.levels.at(-1)!.rooms.at(-1)!;
+    const bottom = layout.levels.at(-1)!.rooms, heart = bottom.find(r => r.role === 'heart') ?? bottom.at(-1)!;
     const q = this.q, k = purpose.keeper, id = `${layout.site}_keeper`, words = Object.entries(k.words ?? {})
       .map(([w, text]) => ` ${w} ${q(text)}.`).join('');
-    return [`  Person ${id} ${q(k.label)} at ${heart.id} { Role ${q(k.role)}. Species ${k.species}. Level ${k.level}. Temperament ${k.temperament}. Lair ${heart.id}.${words} }`,
+    const refuge = bottom.find(r => r.role === k.refuge);
+    const shrinks = refuge && k.fears ? ` Refuge ${refuge.id}. Fears ${k.fears}.` : '';
+    return [`  Person ${id} ${q(k.label)} at ${heart.id} { Role ${q(k.role)}. Species ${k.species}. Level ${k.level}.`
+      + ` Temperament ${k.temperament}. Lair ${heart.id}.${shrinks}${words} }`,
       `  Item ${layout.site}_heart ${q(purpose.objective.item)} is ${purpose.objective.kind} at ${heart.id}.`];
+  }
+  // Where the makers left what the keeper cannot bear, and what reading their words tells of it.
+  private static bane(purpose: DeepPurpose, layout: DeepLayout): string[] {
+    const b = purpose.bane, room = b && layout.levels.flatMap(l => l.rooms).find(r => r.role === b.role);
+    if (!b || !room) { return []; }
+    const q = this.q, id = `${layout.site}_bane`;
+    return [`  Entity ${id}: fact ${q(b.fact)}.`, `  Item ${id}_item ${q(DeepRooms.called(b.item))} is ${b.item} at ${room.id}.`,
+      `  Observe ${id}_seen at ${room.id} when at(${id}_item, ${room.id}) ${q(b.seen)}.`];
+  }
+  // Bringing up what they died for: to be done once its story is known, and told when it is done.
+  private static raised(purpose: DeepPurpose, layout: DeepLayout, values: Record<string, string>): string[] {
+    const o = purpose.objective, site = layout.site, q = this.q;
+    if (!o.goal || !o.raised) { return []; }
+    const [goal, raised] = [o.goal, o.raised].map(t => t.replaceAll('{name}', values.name!));
+    return [`  Entity ${site}_story: fact ${q(o.text)}.`, `  Relation ${site}_raised().`,
+      `  Objective ${site}_bring when knows(party, ${site}_story) and not ${site}_raised() ${q(goal)}.`,
+      `  Rule ${site}_brought when at(party, ${site}) and ownedItem(${site}_heart, ?m) and memberOf(?m, party)`
+        + ` and not ${site}_raised() says ${q(raised)} { Assert ${site}_raised(). }`];
   }
   // Who tells of it: the innkeeper and the merchant of the settlement nearest it, each in their own words, and the
   // merchant pays well for its ore.
@@ -87,7 +110,8 @@ export class DeepSites {
       `    Says ${q(`${first} {${values.keeper}} wipes the counter. 'It is out in ${values.where}. Go in daylight, and take more light than you think.'`)}.`,
       `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }',
       ...second ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} what the old workings are worth`)} when true once {`,
-        `    Says ${q(`${second} {${values.merchant}} turns a lump of something pale in his fingers. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'`)}.`, '  }'] : [],
+        `    Says ${q(`${second} {${values.merchant}} turns a lump of something pale in his fingers. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'`)}.`,
+        ...purpose.objective.goal ? [`    On discuss { Assert knows(actor, ${values.w}_story). }`] : [], '  }'] : [],
       `  Initially Set pays(${values.merchant}, star_iron) to 30.`];
   }
   // What a deep site holds that no catalog does: its ore, and what the makers died for.

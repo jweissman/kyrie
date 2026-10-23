@@ -22,6 +22,12 @@ export class ActionFeedbackView {
       return !!teaches && learned.includes(teaches);
     }).map(p => ({ id: p.id, text: p.text }));
   }
+  // How long it took, and the time it is now, to the minute.
+  private static time(before: PlayerSnapshot, after: { elapsed: number; minutes?: number }): string {
+    const spent = (after.elapsed - before.elapsed) * FictionalTime.minutesPerTick + (after.minutes ?? 0)
+      - (before.minutes ?? 0);
+    return `${FictionalTime.duration(0, spent)} · ${FictionalTime.at(after.elapsed, after.minutes)}`;
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action)!;
@@ -69,7 +75,7 @@ export class ActionFeedbackView {
     return { resources, attempt: offered.length === 1 ? offered[0]!.name
       : PlayerView.aliased(campaign.world, action.name, new Set(before.knowledge.map(k => k.id))),
       result: FictionalTime.prose(result),
-      time: `${FictionalTime.duration(event.elapsed - before.elapsed)} · ${FictionalTime.at(event.elapsed)}`,
+      time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
       discoveries: learned.map(k => k.text),

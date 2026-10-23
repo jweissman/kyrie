@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 361,
     "represented": 4,
-    "kyr": 76,
+    "kyr": 83,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -853,7 +853,7 @@
       "faithful": 0,
       "adapted": 2,
       "represented": 0,
-      "kyr": 12,
+      "kyr": 16,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -892,7 +892,7 @@
       "faithful": 234,
       "adapted": 72,
       "represented": 0,
-      "kyr": 27,
+      "kyr": 28,
       "unsupported": 25,
       "unreachable": 0,
       "data-only": 0
@@ -970,7 +970,7 @@
       "faithful": 123,
       "adapted": 25,
       "represented": 0,
-      "kyr": 26,
+      "kyr": 28,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 164,
+    "kyr": 169,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 159,
+      "kyr": 164,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -3038,6 +3038,34 @@
   {
    "id": "skill:sunlight",
    "title": "Sunlight",
+   "status": "kyr",
+   "book": "phb",
+   "section": "skills"
+  },
+  {
+   "id": "skill:persuasion",
+   "title": "Persuasion",
+   "status": "kyr",
+   "book": "phb",
+   "section": "skills"
+  },
+  {
+   "id": "skill:deception",
+   "title": "Deception",
+   "status": "kyr",
+   "book": "phb",
+   "section": "skills"
+  },
+  {
+   "id": "skill:intimidation",
+   "title": "Intimidation",
+   "status": "kyr",
+   "book": "phb",
+   "section": "skills"
+  },
+  {
+   "id": "skill:insight",
+   "title": "Insight",
    "status": "kyr",
    "book": "phb",
    "section": "skills"
@@ -5761,6 +5789,13 @@
   {
    "id": "item:cell_key",
    "title": "Iron cell key",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:lamp_oil",
+   "title": "Flask of lamp oil",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
@@ -8510,6 +8545,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:candlelit",
+   "title": "Candlelit",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:grace",
    "title": "Cat's Grace",
    "status": "faithful",
@@ -9073,6 +9115,13 @@
    "id": "condition:keen",
    "title": "Keen Weapon",
    "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:lamplit",
+   "title": "Lamplit",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },
@@ -10303,7 +10352,7 @@
   },
   {
    "id": "rule:belongings.lightsUp",
-   "title": "lightsUp",
+   "title": "lightsUp, burns, fuel",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -10416,6 +10465,13 @@
   {
    "id": "rule:belongings.light_item",
    "title": "light item",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.light_lamp",
+   "title": "light lamp",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -10545,6 +10601,13 @@
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-care"
+  },
+  {
+   "id": "rule:world_core.difficulty",
+   "title": "difficulty",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
   },
   {
    "id": "rule:world_core.terrainkind",
@@ -11058,6 +11121,27 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.hears",
+   "title": "hears, spokenTo",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.talk_round",
+   "title": "talk round",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.face_down",
+   "title": "face down",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.pay_tribute",
    "title": "pay tribute",
    "status": "kyr",
@@ -11129,7 +11213,7 @@
   },
   {
    "id": "rule:world_passages.verb",
-   "title": "verb, probeable, tried",
+   "title": "verb, probeable, suits, tried",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"

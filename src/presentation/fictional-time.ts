@@ -1,7 +1,8 @@
 export class FictionalTime {
   static readonly minutesPerTick = 10;
-  static at(tick: number): string {
-    const minutes = 8 * 60 + tick * this.minutesPerTick;
+  // The clock at a watch, and the minutes spent since it began (small things take minutes, not watches).
+  static at(tick: number, past = 0): string {
+    const minutes = 8 * 60 + tick * this.minutesPerTick + past;
     const day = Math.floor(minutes / 1440) + 1, hour = Math.floor(minutes / 60) % 24;
     return `Day ${day}, ${hour % 12 || 12}:${String(minutes % 60).padStart(2, '0')} ${hour < 12 ? 'a.m.' : 'p.m.'}`;
   }
@@ -42,8 +43,8 @@ export class FictionalTime {
     const next = [6, 12, 18, 21, 30].map(h => h * 60).find(m => m > minutes)!;
     return Math.ceil((next - minutes) / this.minutesPerTick);
   }
-  static duration(ticks: number): string {
-    const minutes = ticks * this.minutesPerTick;
+  static duration(ticks: number, past = 0): string {
+    const minutes = ticks * this.minutesPerTick + past;
     return minutes >= 60 ? `${Math.floor(minutes / 60)}h${minutes % 60 ? ` ${minutes % 60}m` : ''}` : `${minutes} min`;
   }
   // Time of day for prose: "11:20 a.m.", or "11:20 a.m. on day 2" after the first day.

@@ -25,6 +25,8 @@ export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
   // What a group is, seen from outside: how many of what, how seasoned, how hurt.
   look?: string; state?: 'dead' | 'down'; acts: Act[];
+  // More than one of them (the goblins), to be spoken of as they are.
+  many?: boolean;
   // What can be seen of them now ("Wren stands with one hand shading her eyes"), told with them, not in the prose.
   says?: string[];
   // For those the company could fight: how the most seasoned member reckons a fight would go.

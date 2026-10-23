@@ -224,13 +224,18 @@ export class ModuleAssembly {
       .map(c => c.call.args[1]!));
     for (const kind of kinds) {
       const definition = ItemCatalog.get(kind);
+      const fuel = [...kinds].some(k => ItemCatalog.get(k).fuel === kind);
       for (const name of [...(definition.slot ? ['wearable'] : []), ...(definition.use ? ['consumable'] : []),
-        ...(/^Apply torchlit to self/.test(definition.use ?? '') ? ['lightsUp'] : [])]) {
-        if (module.relations.some(r => r.name === name)
-          && !module.initial.some(c => c.kind === 'assert' && c.call.name === name && c.call.args[0] === kind)) {
-          module.initial.push({ kind: 'assert', call: ModuleWriter.call(name, kind) });
-        }
+        ...(/^Apply (torchlit|candlelit) to self/.test(definition.use ?? '') ? ['lightsUp'] : []), ...fuel ? ['fuel'] : []]) {
+        this.trait(module, name, kind);
       }
+      if (definition.fuel && kinds.has(definition.fuel)) { this.trait(module, 'burns', kind, definition.fuel); }
+    }
+  }
+  private static trait(module: Module, name: string, ...args: string[]) {
+    if (module.relations.some(r => r.name === name) && !module.initial.some(c => c.kind === 'assert'
+      && c.call.name === name && c.call.args.every((a, i) => a === args[i]))) {
+      module.initial.push({ kind: 'assert', call: ModuleWriter.call(name, ...args) });
     }
   }
   private static references(module: Module, cast: SituationManifest['creatures']) {

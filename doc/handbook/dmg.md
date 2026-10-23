@@ -12,13 +12,13 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 20 | 5 | 1 | 5 | 17 |
+| 2 | 22 | 5 | 1 | 5 | 18 |
 
-#### lightsUp
+#### lightsUp, burns, fuel
 
-*Kyr · relation(itemkind)* · `rule:belongings.lightsUp`
+*Kyr · relation(itemkind); relation(itemkind, itemkind); relation(itemkind)* · `rule:belongings.lightsUp`
 
-What is used by lighting it, on whoever carries it (a torch).
+What is used by lighting it, on whoever carries it (a torch, a candle); what burns in something else, and what it burns in (lamp oil, in a lantern).
 
 #### worth, buysValuables, realized, valuable
 
@@ -162,7 +162,7 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form); not (lightsUp(form))
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form); not (lightsUp(form)); not (fuel(form))
 
 > Then: nothing changes
 
@@ -175,6 +175,20 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Costs: 1
 
 > Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(dose, carrier); itemKind(dose, form); lightsUp(form)
+
+> Then: nothing changes
+
+#### light lamp
+
+*Kyr · action (group, item, itemkind, item, itemkind, member)* · `rule:belongings.light_lamp`
+
+- Shown as: Fill {vessel} and light it
+- Takes: 10 minutes
+- Costs: 1
+
+A lantern is filled and lit: the flask of oil is spent, and burns in it as long as the flask says.
+
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(vessel, carrier); itemKind(vessel, shape); burns(shape, form); ownedItem(dose, carrier); itemKind(dose, form)
 
 > Then: nothing changes
 
@@ -442,7 +456,13 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 12 | 32 | 11 | 5 | 1 | 8 |
+| 13 | 32 | 11 | 5 | 1 | 8 |
+
+#### difficulty
+
+*Kyr · kind* · `rule:world_core.difficulty`
+
+How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
 
 #### terrainkind, terrain
 
@@ -924,7 +944,7 @@ Also kept, without comment: plea, greeting, greeted, petted, warned, yielded, wa
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 14 | 2 | 1 | 16 | 2 |
+| 1 | 16 | 2 | 1 | 16 | 4 |
 
 #### temperament
 
@@ -1138,6 +1158,36 @@ Crouch down, hold out a hand, scratch behind its ears.
 
 > Then: Assert petted(animal, actor). Assert tolerates(animal, actor). Assert greeted(animal, actor).
 
+#### hears, spokenTo
+
+*Kyr · relation(temperament); relation(group, group)* · `rule:inhabitants.hears`
+
+Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you a moment to be gone, and then comes at you; faced down badly, it comes at you at once.
+
+#### talk round
+
+*Kyr · action (group, group, place)* · `rule:inhabitants.talk_round`
+
+- Shown as: Talk {hearers} into letting you be
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); company(actor); at(actor, site); at(hearers, site); able(hearers); talks(hearers); temperament(hearers, ?t); hears(?t); not (tolerates(hearers, actor)); not (assails(hearers, actor)); not (routed(hearers)); not (spokenTo(hearers, actor))
+
+> Then: Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor).
+
+#### face down
+
+*Kyr · action (group, group, place)* · `rule:inhabitants.face_down`
+
+- Shown as: Face {hearers} down
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); company(actor); at(actor, site); at(hearers, site); able(hearers); talks(hearers); temperament(hearers, ?t); hears(?t); not (tolerates(hearers, actor)); not (assails(hearers, actor)); not (routed(hearers)); not (spokenTo(hearers, actor))
+
+> Then: Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor).
+
 #### pay tribute
 
 *Kyr · action (group, group, place)* · `rule:inhabitants.pay_tribute`
@@ -1200,7 +1250,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 28 | 2 | 21 | 0 | 6 |
+| 8 | 29 | 2 | 21 | 0 | 6 |
 
 #### scenery
 
@@ -1232,9 +1282,9 @@ Containment: a thing or item inside another, reachable while that one is not shu
 
 A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls).
 
-#### verb, probeable, tried
+#### verb, probeable, suits, tried
 
-*Kyr · kind; relation(entity); relation(entity, verb)* · `rule:world_passages.verb`
+*Kyr · kind; relation(entity); relation(entity, verb); relation(entity, verb)* · `rule:world_passages.verb`
 
 What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
 
@@ -1522,9 +1572,9 @@ Go over and speak to them.
 - Takes: 10 minutes
 - Costs: 1
 
-Anything that can be handled can be tried; what it does when tried is the author's (an observation, an event, a rule on tried). A try that finds nothing says so; offering it never reveals anything.
+Anything that can be handled can be tried, in the ways its look suits (and any its author adds); what it does when tried is the author's (an observation, an event, a rule on tried). A try that finds nothing says so; offering it never reveals anything.
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); not (tried(target, looking))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, looking); not (tried(target, looking))
 
 > Then: Assert tried(target, looking).
 
@@ -1536,7 +1586,7 @@ Anything that can be handled can be tried; what it does when tried is the author
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prodding); not (tried(target, prodding))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prodding); suits(target, prodding); not (tried(target, prodding))
 
 > Then: Assert tried(target, prodding).
 
@@ -1548,7 +1598,7 @@ Anything that can be handled can be tried; what it does when tried is the author
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prying); not (tried(target, prying))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prying); suits(target, prying); not (tried(target, prying))
 
 > Then: Assert tried(target, prying).
 
@@ -1560,7 +1610,7 @@ Anything that can be handled can be tried; what it does when tried is the author
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); equippedFor(actor, burning); not (tried(target, burning))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); equippedFor(actor, burning); suits(target, burning); not (tried(target, burning))
 
 > Then: Assert tried(target, burning).
 
@@ -1572,7 +1622,7 @@ Anything that can be handled can be tried; what it does when tried is the author
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); not (tried(target, pushing))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, pushing); not (tried(target, pushing))
 
 > Then: Assert tried(target, pushing).
 
@@ -1584,7 +1634,7 @@ Anything that can be handled can be tried; what it does when tried is the author
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); not (tried(target, listening))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, listening); not (tried(target, listening))
 
 > Then: Assert tried(target, listening).
 

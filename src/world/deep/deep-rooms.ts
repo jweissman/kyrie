@@ -50,7 +50,7 @@ export class DeepRooms {
     const reward = tier.length ? draw.pick(tier) : undefined;
     return [`  Hazard ${id}_cold "the casket's breath" means "Deal (${this.breath[difficulty]}) cold damage to ally unless constitution save against (12).".`,
       `  Thing ${id} "the stone casket" at ${room} {`, '    Holds.',
-      `    State sealed closed ${q(`A casket of grey stone stands against the wall, its lid one piece with it. Words are cut across the lid in the old script, and under them, scratched in a later hand: '${riddle.question}' Below is a row of words, each with a hollow beside it for a finger.`)}.`,
+      `    State sealed closed ${q(`A casket of grey stone stands against the wall, its lid one piece with it. Words are cut across the lid in the old script, and under them, scratched in a later hand: '${riddle.question}' Below is a row of ${riddle.answer.length === 1 ? 'letters' : 'words'}, each with a hollow beside it for a finger.`)}.`,
       '    State open "The casket\'s lid has turned on a pivot you could not see, and stands open.".', '  }',
       ...reward ? [`  Item ${id}_gift ${q(this.called(reward))} is ${reward} in ${id}.`] : [],
       ...draw.shuffle([riddle.answer, ...wrong]).flatMap((word, n) => this.word({ id, room, word, n },
@@ -58,7 +58,7 @@ export class DeepRooms {
   }
   private static word(at: { id: string; room: string; word: string; n: number }, right: boolean): string[] {
     const q = this.q, { id, room, word, n } = at;
-    return [`  Action ${id}_word${n}(actor: group) ${q(`Press the word “${word}” on the casket`)} {`,
+    return [`  Action ${id}_word${n}(actor: group) ${q(`Press the ${word.length === 1 ? 'letter' : 'word'} “${word}” on the casket`)} {`,
       `    Requires able(actor) and at(actor, ${room}) and state(${id}, sealed) and not benighted(actor).`, '    Time 1.',
       right ? `    On success { Retract state(${id}, sealed). Assert state(${id}, open). }`
         : `    On success { Assert strikes(${id}_cold, actor). }`,

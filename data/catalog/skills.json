@@ -102,6 +102,34 @@
       "source": {
         "kyr": true
       }
+    },
+    "persuasion": {
+      "name": "Persuasion",
+      "description": "Talking people round: a bargain struck, a band talked out of a fight, a favour asked and given.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "deception": {
+      "name": "Deception",
+      "description": "Telling a lie that holds, and keeping a straight face while it is weighed.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "intimidation": {
+      "name": "Intimidation",
+      "description": "Making someone believe it would go badly for them, without having to show them.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "insight": {
+      "name": "Insight",
+      "description": "Reading what someone means from how they say it: a motive, a lie, a fear.",
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

@@ -11,7 +11,7 @@ describe('backgrounds compiled from Orsino\'s rows and Kyr\'s kinds', () => {
   it('has every one of Orsino\'s, each with Orsino\'s scores, gold and class', () => {
     expect(Object.keys(Canon.backgrounds)).toHaveLength(215);
     expect(Canon.backgrounds.champion).toMatchObject({ name: 'Champion', kind: 'arms', gold: 50, requiredClass: 'warrior',
-      attributes: { strength: 4, constitution: 3, dexterity: 2, wisdom: 1, charisma: 2 }, skills: ['brawn'] });
+      attributes: { strength: 4, constitution: 3, dexterity: 2, wisdom: 1, charisma: 2 }, skills: ['brawn', 'intimidation'] });
   });
   it('gives a background what its kind means in Kyr, unless an overlay says otherwise', () => {
     // A woodcutter is of the wild kind, and nothing more is said of it.

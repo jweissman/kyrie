@@ -1,5 +1,9 @@
 import type { DeepLayout, DeepLevel, DeepLink, DeepRoom } from './deep-layout';
 
+// What the makers cut where they walled the way down: the site's old name, their fate, what the keeper cannot bear,
+// and the fact reading it teaches.
+interface Words { fate: string; oldup: string; bane?: string; taught?: string }
+
 // The working parts of a deep site, as Kyr: each a thing with states and the changes that move it, and the ways and
 // rules that follow from it. A cage that runs only once its winding wheel is freed (and a chain to climb meanwhile);
 // a wall across a stair, with the makers' warning cut in it; a drowned level that drains only while a spring is
@@ -7,7 +11,7 @@ import type { DeepLayout, DeepLevel, DeepLink, DeepRoom } from './deep-layout';
 // found by the draft toward it, that is a second way out. Every one acts the same way in every site that has it.
 export class DeepMechanisms {
   static readonly q = JSON.stringify;
-  static lines(layout: DeepLayout, words: { fate: string; oldup: string }): string[] {
+  static lines(layout: DeepLayout, words: Words): string[] {
     return [...layout.links.flatMap(l => l.mechanism === 'winch' ? this.winch(l)
       : l.mechanism === 'seal' ? this.seal(l, words) : []),
     ...layout.levels.filter(l => l.flooded).flatMap(l => this.drowned(layout, l)), ...this.vent(layout)];
@@ -24,7 +28,7 @@ export class DeepMechanisms {
       `  Passage ${l.id} ${q(l.name)} is shaft between ${l.a} and ${l.b} taking ${l.minutes} minutes opening when state(${wheel}, turning) "The cage is at the bottom of the shaft, and the wheel that would bring it up will not turn.".`,
       `  Passage ${l.id}_chain "the chain, hand over hand" is climb between ${l.a} and ${l.b} taking 10 minutes needing climbing or rope.`];
   }
-  private static seal(l: DeepLink, words: { fate: string; oldup: string }): string[] {
+  private static seal(l: DeepLink, words: Words): string[] {
     const q = this.q, wall = `${l.id}_wall`, cut = `${l.id}_cut`;
     return [`  Passage ${l.id} ${q(l.name)} is stair between ${l.a} and ${l.b} taking ${l.minutes} minutes.`,
       `  Thing ${wall} "the wall across the stair" on ${l.id} {`,
@@ -33,8 +37,9 @@ export class DeepMechanisms {
       '    Change break "Break the wall down" from standing to broken needing brawn or crowbar.', '  }',
       `  Thing ${cut} "the words cut in the wall" at ${l.a} {`,
       `    State unread ${q(`Words are cut deep in the wall across the stair, in the old script. Someone who reads it could say what they mean.`)}.`,
-      `    State read ${q(`${words.oldup} SHUT THIS. WE WENT TOO FAR DOWN, AND WHAT WE FOUND WE LEFT THERE. ${words.fate.toUpperCase()}`)}.`,
-      '    Change read "Read what is cut in the wall" from unread to read needing lore.', '  }'];
+      `    State read ${q(`${words.oldup} SHUT THIS. WE WENT TOO FAR DOWN, AND WHAT WE FOUND WE LEFT THERE. ${words.fate.toUpperCase()}${words.bane ? ` ${words.bane}` : ''}`)}.`,
+      '    Change read "Read what is cut in the wall" from unread to read needing lore.', '  }',
+      ...words.taught ? [`  Observe ${cut}_told at ${l.a} when state(${cut}, read) and not knows(party, ${words.taught}) "Read aloud, the old words say plainly enough what the makers shut in below, and what it cannot bear." teaches ${words.taught}.`] : []];
   }
   // A drowned level: every way on it but the one into it is under water until the water is down; it goes down only
   // while the spring above runs down the race and the pump below draws it, a watch at a time.

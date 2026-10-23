@@ -128,6 +128,35 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     Time 0.
     On success { Assert petted(animal, actor). Assert tolerates(animal, actor). Assert greeted(animal, actor). }
   }
+  // Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from
+  // the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best
+  // at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you a moment to
+  // be gone, and then comes at you; faced down badly, it comes at you at once.
+  Relation hears(temperament). Relation spokenTo(group, group).
+  Initially Assert hears(temper_territorial). Initially Assert hears(temper_defensive).
+  Initially Assert hears(temper_wary). Initially Assert hears(temper_proud).
+  Action talk_round(actor: group, hearers: group, site: place) "Talk {hearers} into letting you be" {
+    Time 3 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hearers, site) and able(hearers) and talks(hearers)
+      and temperament(hearers, ?t) and hears(?t) and not tolerates(hearers, actor) and not assails(hearers, actor)
+      and not routed(hearers) and not spokenTo(hearers, actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). }
+    On failure { Assert spokenTo(hearers, actor). Assert warned(hearers, actor). Set patience(hearers) to 1. }
+    Result "{hearers} hear you out, and argue it among themselves, and in the end let you be.".
+    Otherwise "{hearers} hear you out, and like none of it. They will not stand for you here much longer.".
+  }
+  Action face_down(actor: group, hearers: group, site: place) "Face {hearers} down" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hearers, site) and able(hearers) and talks(hearers)
+      and temperament(hearers, ?t) and hears(?t) and not tolerates(hearers, actor) and not assails(hearers, actor)
+      and not routed(hearers) and not spokenTo(hearers, actor).
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). }
+    On failure { Assert spokenTo(hearers, actor). Assert assails(hearers, actor). }
+    Result "{hearers} weigh you, and look away first, and give you room.".
+    Otherwise "{hearers} weigh you, and do not like what they see, and come on.".
+  }
   // A proud creature's price, paid: it lets the company be.
   Action pay_tribute(actor: group, lord: group, site: place) "Give {lord} what it asks" {
     Time 2 minutes.

@@ -52,6 +52,7 @@ Module strongroom "The cartographer's strongroom" {
   // The map on the wall hides an alcove, which a search finds.
   Thing wall_map "a great map of the coast on the wall" at study {
     State hanging "A great map of the coast hangs from a rail along the study wall.".
+    Tries pushing.
   }
   Discovery alcove_known "Behind the hanging map, a low alcove is cut into the wall." {
     Found by searching study "Behind the hanging map, the wall gives way to a low alcove, just big enough to crawl into.".

@@ -19,7 +19,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
   // A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls).
   Relation strikes(hazard, group).
   // What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
-  Kind verb. Relation probeable(entity). Relation tried(entity, verb).
+  Kind verb. Relation probeable(entity). Relation suits(entity, verb). Relation tried(entity, verb).
   Relation needs(entity, entity).
   Relation changeOf(change, entity). Relation changeFrom(change, condition). Relation changeTo(change, condition).
   // A change only one side reaches (the bar on the cellar side of a door) is made from that place.

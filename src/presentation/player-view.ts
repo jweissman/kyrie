@@ -15,6 +15,7 @@ import { ObservationText } from '../lang/observation-text';
 import { VisitedPlaces } from './visited-places';
 import { Agency } from '../campaign/agency';
 import { ActionTime } from '../campaign/action-time';
+import { ChoiceWording } from './choice-wording';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -44,6 +45,8 @@ export interface PlayerSnapshot {
   spatial?: SpatialScene;
   actor: string; title: string; situations: { name: string; description: string }[];
   elapsed: number; running: boolean; location?: { id: string; name: string } & SceneMetadata;
+  // Minutes past the watch (fewer than ten).
+  minutes?: number;
   observations: { id: string; text: string }[];
   present: PresentEntity[]; party: PartyMember[];
   resources?: { id: string; name: string; amount: number }[];
@@ -106,20 +109,14 @@ export class PlayerView {
   }
   private static list(campaign: Campaign, offered: readonly Operator[]) {
     const world = campaign.world, unnamed = this.unnamed(world), actor = campaign.playerActor ?? '';
+    const here = ChoiceWording.here(campaign);
     // Nothing can be done to someone the company does not see.
     const visible = world.module.seen ? offered.filter(a => this.sees(world, actor, a)) : offered;
     return ActionPresentation.choices(visible, campaign.schemaList).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
       // Choices are grounded with every place's name; one the company has not learned is said as it is seen.
       for (const [name, alias] of unnamed) { row.choice.name = row.choice.name.replaceAll(name, alias); }
-      if (row.action.resolve?.name === 'purchase') {
-        const amount = campaign.world.number(ModuleWriter.call('price', row.action.resolve.args[0]!));
-        row.choice.name += ` · ${amount} coin`;
-      }
-      // An offering costs what its shrine asks.
-      if (row.action.resolve?.name === 'bless') {
-        row.choice.name += ` · ${world.number(ModuleWriter.call('offering', row.action.resolve.args[0]!))} coin`;
-      }
+      row.choice.name = ChoiceWording.word(campaign, row.action, { name: row.choice.name, ...here ? { here } : {} });
       return row;
     });
   }
@@ -211,6 +208,7 @@ export class PlayerView {
     const publicChoices = this.choices(campaign), metadata = this.metadata(world, labels);
     const nearby = location ? this.nearby(world, location.id) : new Set<string>();
     return { actor, title: campaign.module.name, situations, elapsed: state.elapsed, running: campaign.running,
+      ...read.minutes ? { minutes: read.minutes } : {},
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
         ...metadata.get(location.id), ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
       ...(location?.space ? { spatial: this.spatial(campaign, actor, location, publicChoices) } : {}),

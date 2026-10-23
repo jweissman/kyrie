@@ -28,6 +28,7 @@ export class ModuleParser {
     StatePart: ModuleParser.StatePart,
     ChangePart: ModuleParser.ChangePart, ChangeNeeds: ModuleParser.ChangeNeeds, ChangeAfter: ModuleParser.Third,
     ChangeConsumes: ModuleParser.Second, HurtsPart: ModuleParser.HurtsPart, GuardsPart: ModuleParser.GuardsPart,
+    TriesPart: ModuleParser.TriesPart,
     Event: ModuleParser.Event, EventTail_effects: ModuleParser.EventEffects, EventTail_plain: ModuleParser.EventPlain,
     Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ModuleParser.Anchor,
     Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
@@ -50,6 +51,7 @@ export class ModuleParser {
     PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
     HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,
     Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
+    Otherwise: ModuleParser.Otherwise,
     Information_parts: ModuleParser.Information, Information_plain: ModuleParser.InformationPlain,
     KnownBy: ModuleParser.KnownBy, ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
     PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
@@ -199,6 +201,7 @@ export class ModuleParser {
     else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
     else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
     else if (part.field === 'holds') { spec.holds = true; }
+    else if (part.field === 'tries') { spec.tries = [...spec.tries ?? [], ...part.value as string[]]; }
   }
   static Site(word: Node, id: Node) { return { anchor: word.sourceString, id: id.sourceString }; }
   static ThingKind(_is: Node, kind: Node) { return kind.sourceString; }
@@ -222,6 +225,9 @@ export class ModuleParser {
     return { field: 'hurts', value: { ability: ability.sourceString, when: when.sourceString, then: then.sourceString } };
   }
   static GuardsPart(_g: Node, way: Node, _dot: Node): Field { return { field: 'guards', value: way.sourceString }; }
+  static TriesPart(_t: Node, first: Node, _commas: Node, more: Node, _dot: Node): Field {
+    return { field: 'tries', value: [first.sourceString, ...more.children.map(n => n.sourceString)] };
+  }
   static Anchor(word: Node, id: Node) { return { kind: word.sourceString, id: id.sourceString }; }
   static Event(_e: Node, id: Node, anchor: Node, _when: Node, when: Node, text: Node, tail: Node): Field {
     return { field: 'event', value: { id: id.sourceString,
@@ -264,6 +270,9 @@ export class ModuleParser {
   static Speaker(_s: Node, id: Node, _dot: Node): Field { return { field: 'speaker', value: id.sourceString }; }
   static Result(_r: Node, text: Node, _dot: Node): Field {
     return { field: 'report', value: ModuleParser.ast(text) };
+  }
+  static Otherwise(_o: Node, text: Node, _dot: Node): Field {
+    return { field: 'otherwise', value: ModuleParser.ast(text) };
   }
   static TopicEffects(_on: Node, _discuss: Node, _open: Node, changes: Node, _close: Node): Change[] {
     return ModuleParser.list(changes) as Change[];

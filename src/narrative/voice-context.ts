@@ -18,6 +18,7 @@ export class VoiceContext {
     const place = world.one('at', company);
     return { bond: this.bond(campaign, actor, company), manner: this.manner(campaign, actor),
       pronoun: this.pronoun(campaign, actor, kind), kind, ...species ? { species: this.base(species) } : {},
+      ...this.temper(campaign, actor),
       time: world.test(ModuleWriter.call('dark')) ? 'night' : 'day',
       shelter: (place && Narrator.shelter(campaign, place)) ?? 'outdoors',
       moment: pairs.has(`${h.kind}:${actor}`) ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {} };
@@ -51,6 +52,11 @@ export class VoiceContext {
   private static holds(campaign: Campaign, name: string, ...args: string[]): boolean {
     return campaign.world.module.relations.some(r => r.name === name)
       && campaign.world.test(ModuleWriter.call(name, ...args));
+  }
+  // The temper a group has of its own (a place's dwellers: wary, territorial), which colours how it takes anything.
+  private static temper(campaign: Campaign, actor: string): { temper?: string } {
+    const temper = campaign.world.relates('temperament') ? campaign.world.one('temperament', actor) : undefined;
+    return temper ? { temper: temper.replace(/^(.*__)?temper_/, '') } : {};
   }
   // Their manner as the world says it; or one of Orsino's seven, the same one each time for the same person.
   static manner(campaign: Campaign, actor: string): string {

@@ -165,6 +165,12 @@
           "roles": [
             "?hollow"
           ]
+        },
+        {
+          "at": "heart",
+          "roles": [
+            "rift"
+          ]
         }
       ],
       "loops": []
@@ -479,6 +485,14 @@
         "A pocket of the cavern, low-roofed, where the floor is littered with the Delvers' things: picks, a dropped lamp, a cloak, set down neatly in a row."
       ]
     },
+    "rift": {
+      "names": [
+        "the rift"
+      ],
+      "scenes": [
+        "At the back of the cavern the floor opens in a crack you could walk into sideways, and it goes down, smooth-sided and faintly warm, further than anything the Delvers dug. A smell comes up it like the inside of a shell."
+      ]
+    },
     "heart": {
       "names": [
         "the heart of the vein"
@@ -578,7 +592,7 @@
           "species": "crystal_elemental",
           "count": 1,
           "label": "the shining one",
-          "role": "a thing of star-iron and light that walks the furnace hall",
+          "role": "a thing of star-iron and light that walks the drowned galleries",
           "temperament": "territorial"
         }
       ]
@@ -602,14 +616,26 @@
     "role": "what the Delvers broke into, which thinks",
     "level": 9,
     "temperament": "territorial",
+    "refuge": "rift",
+    "fears": "sunlight",
     "words": {
-      "Warns": "A pressure comes into your head, not quite a voice. It is aware of you, and it is not afraid."
+      "Warns": "A pressure comes into your head, not quite a voice. It is aware of you, and it is not afraid.",
+      "Flinches": "The light of a summer noon comes into the cavern with you, and the pressure in your head becomes a sound like a held breath let go. The thing in the vein draws back from the light, slowly, the way a tide goes out, into the rift at the back of the cavern."
     }
+  },
+  "bane": {
+    "item": "noonlight",
+    "role": "strongroom",
+    "seen": "On the top shelf, behind the balance, stands a jar of thick old glass stoppered with lead, and it is full of light: not lamplight, but daylight, the colour of noon.",
+    "cut": "IT CANNOT BEAR THE NOON. THE PAYMASTER KEEPS NOON IN A JAR.",
+    "fact": "What the Delvers walled in below their mine cannot bear the light of noon; their paymaster kept noon in a jar."
   },
   "objective": {
     "item": "the heart of the vein",
     "kind": "star_iron_heart",
-    "text": "The Delvers went down after the star-iron until their last gallery broke into the heart of the vein, and what lived in it. Whoever brings up the heart has what the Delvers died for."
+    "text": "The Delvers went down after the star-iron until their last gallery broke into the heart of the vein, and what lived in it. Whoever brings up the heart has what the Delvers died for.",
+    "goal": "Bring the heart of the vein up out of {name}, from below the Delvers' last gallery.",
+    "raised": "You come up out of {name} into the daylight with the heart of the vein, and it is heavier in the sun than it was in the dark, and it has stopped humming."
   },
   "rumours": [
     "'The Delvers' mine at {name}? There is still ore down there, they say, the pale kind. Nobody goes below the first level. The cage hangs in the shaft and the wheel will not turn.'",

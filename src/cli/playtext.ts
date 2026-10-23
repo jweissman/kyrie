@@ -8,7 +8,6 @@ import { PlayerView } from '../presentation/player-view';
 import { ScreenModel } from '../ui/screen-model';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { Narrator, type Leaf } from '../presentation/narrator';
-import { FictionalTime } from '../presentation/fictional-time';
 import { Expressions } from '../expressions';
 
 export class Playtext {
@@ -40,7 +39,7 @@ export class Playtext {
     const first = ScreenModel.build(s.campaign);
     const out = [`# ${world.report.region.name}: a walk of ${steps}`, '',
       `Seed \`${seed}\`, origin \`${origin}\`, calling \`${classId}\`. Written by \`bin/kyrie playtext\`.`, '',
-      ...this.page(Narrator.leaf(s.campaign, first), first.place.name, FictionalTime.at(first.elapsed))];
+      ...this.page(Narrator.leaf(s.campaign, first), first.place.name, first.clock)];
     for (let i = 0; i < Number(steps); i++) {
       const choices = PlayerView.choices(s.campaign).filter(c => !this.skip.test(c.choice.id))
         .flatMap(c => this.favoured.test(c.choice.id) ? [c, c, c] : [c]);
@@ -49,7 +48,7 @@ export class Playtext {
       const event = await s.perform(c.choice.id), feedback = ActionFeedbackView.read(s.campaign, event, before);
       const moved = before.location?.id !== s.campaign.world.one('at', 'party'), now = ScreenModel.build(s.campaign);
       out.push(`**${i + 1}. ${c.choice.name}**`, '', ...this.page(Narrator.leaf(s.campaign, now,
-        { event, feedback, said: c.choice.name, moved }), now.place.name, FictionalTime.at(now.elapsed)));
+        { event, feedback, said: c.choice.name, moved }), now.place.name, now.clock));
     }
     console.log(out.join('\n'));
   }

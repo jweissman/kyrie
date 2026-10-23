@@ -140,6 +140,8 @@ export interface ItemKind {
   name: string; category: 'weapon' | 'armor' | 'tool' | 'gear' | 'consumable' | 'equipment' | 'treasure';
   description: string; value?: number; slot?: string; use?: string; modifiers?: Modifiers;
   weapon?: WeaponStats; armor?: ArmorStats; hooks?: Hooks;
+  // What it burns, lit (a lantern burns lamp oil): an item kind whose use is the light it gives.
+  fuel?: string;
   grants?: { ability?: string; skill?: string }; unsupported?: Omissions; source: Source;
   // What of the source a generated item leaves out, and why (a container's capacity: Kyr does not count it).
   omits?: Omissions;

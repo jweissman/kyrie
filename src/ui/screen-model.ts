@@ -64,7 +64,8 @@ export class ScreenModel {
       ...along.has(p.id) ? { companion: true } : {},
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped) })));
     return {
-      title: view.title, clock: FictionalTime.at(view.elapsed), elapsed: view.elapsed, running: view.running,
+      title: view.title, clock: FictionalTime.at(view.elapsed, view.minutes), elapsed: view.elapsed,
+      running: view.running,
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
       prose: scene.prose, fresh: scene.fresh, observed: view.observations,
       dark: view.observations.some(o => o.id === 'darkness'),
@@ -86,7 +87,7 @@ export class ScreenModel {
       trade: here ? TradeModel.at(world, here, names) : [],
       objectives: (view.objectives ?? []).map(o => FictionalTime.prose(o.text)),
       ...new ChartModel(world, view.actor, entities).build(visited, here),
-      expedition: this.expedition(world, view.actor, view.elapsed),
+      expedition: this.expedition(world, view.actor, { elapsed: view.elapsed, minutes: view.minutes }),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
@@ -175,11 +176,11 @@ export class ScreenModel {
     return result;
   }
   // What a provisioning party plans around: the hour, whether it is light, food in hand, and when they next must eat.
-  private static expedition(world: Campaign['world'], actor: string, elapsed: number) {
-    const hour = (8 + Math.floor(elapsed / 6)) % 24;
+  private static expedition(world: Campaign['world'], actor: string, at: { elapsed: number; minutes?: number }) {
+    const elapsed = at.elapsed, hour = (8 + Math.floor(elapsed / 6)) % 24;
     const daylight = hour >= 6 && hour < 18 ? 'day' : hour >= 18 && hour < 21 ? 'evening' : 'night';
     const meal = world.module.measures.some(m => m.name === 'nextMeal') ? world.number(ModuleWriter.call('nextMeal', actor)) : 0;
-    return { time: FictionalTime.at(elapsed), daylight,
+    return { time: FictionalTime.at(elapsed, at.minutes), daylight,
       rations: world.module.measures.some(m => m.name === 'quantity') ? world.number(ModuleWriter.call('quantity', actor, 'rations')) : 0,
       hungry: world.module.relations.some(r => r.name === 'hungry') && world.test(ModuleWriter.call('hungry', actor)),
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
@@ -231,7 +232,7 @@ export class ScreenModel {
       const name = this.called(w, p.id, p.name);
       const portrait = playable ? this.portrait(w, p.id, member) : undefined;
       return { id: p.id, kind: playable ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
-        ...portrait ? { portrait } : {},
+        ...portrait ? { portrait } : {}, ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
         ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }

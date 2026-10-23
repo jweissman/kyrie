@@ -14,6 +14,8 @@ class Source {
   Relation revealedBy(passage, fact). Relation needs(entity, entity). Relation changeOf(change, entity).
   Relation changeFrom(change, condition). Relation changeTo(change, condition). Relation changeKnows(change, fact).
   Relation consumes(change, good). Relation knows(group, fact). Relation probeable(entity).
+  Kind verb. Relation suits(entity, verb). Entity looking: verb "looked over". Entity prodding: verb "prodded".
+  Entity prying: verb "pried at". Entity listening: verb "listened at". Entity pushing: verb "pushed".
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
   Query alone(a: group) means not (at(a, ?p) and at(?other, ?p) and distinctFrom(a, ?other)).
   Relation distinctFrom(group, group).`;
@@ -49,6 +51,9 @@ describe('first-class world declarations lower to ordinary facts', () => {
     expect(facts).toEqual(expect.arrayContaining(['on(ladder, shaft)', 'state(ladder, rotten)', 'harmsWhen(ladder, rotten)',
       'blocksWhen(ladder, broken)', 'hurtsWith(ladder, fall)', 'hurtsInto(ladder, broken)', 'changeOf(ladder_brace, ladder)',
       'changeFrom(ladder_brace, rotten)', 'changeTo(ladder_brace, braced)', 'needs(ladder_brace, rope)']));
+    // A ladder in a shaft, that can rot and break across it, can be looked at, listened at, pushed, pried at, prodded.
+    expect(facts.filter(f => f.startsWith('suits('))).toEqual(['suits(ladder, listening)', 'suits(ladder, looking)',
+      'suits(ladder, prodding)', 'suits(ladder, prying)', 'suits(ladder, pushing)']);
     expect(m.observations!.map(o => [o.id, o.anchor, o.place])).toEqual([['ladder__rotten', 'beside', 'shaft'],
       ['ladder__braced', 'beside', 'shaft'], ['ladder__broken', 'beside', 'shaft']]);
     expect(m.entities.find(e => e.id === 'ladder_brace')?.name).toBe('Brace {ladder}');

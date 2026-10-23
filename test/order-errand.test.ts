@@ -42,7 +42,7 @@ describe('the brothers\' errand', () => {
     // The way, as it was told: into the wild country and on from landmark to landmark, to where the track starts.
     const way = ScreenModel.build(s.campaign).knowledge.find(k => k.text.startsWith('The way to '))!;
     expect(way.kind).toBe('reported');
-    expect(way.text).toMatch(/: into .+ and on to the .+, where the track to it starts\.$/);
+    expect(way.text).toMatch(/: to .+, and on to the .+, where the track to it starts\.$/);
     const work = Errand.told(s);
     expect(ScreenModel.build(s.campaign).region?.land?.marks.some(m => m.id === work)).toBe(true);
     // The tablets under the tower are the old writing: read, they send you home with it.

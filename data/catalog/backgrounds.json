@@ -95,7 +95,7 @@
       },
       "shadows": {
         "name": "The shadows",
-        "skills": ["stealth"],
+        "skills": ["stealth", "deception"],
         "channel": "market",
         "contacts": [
           "{contact} has bought things from {member} before and never asked where they came from.",
@@ -113,7 +113,7 @@
       },
       "faith": {
         "name": "The faith",
-        "skills": ["rites"],
+        "skills": ["rites", "insight"],
         "channel": "temple",
         "contacts": [
           "{contact} and {member} kept the same altar as novices.",
@@ -141,7 +141,7 @@
       },
       "arms": {
         "name": "Arms",
-        "skills": ["brawn"],
+        "skills": ["brawn", "intimidation"],
         "channel": "tavern",
         "contacts": [
           "{contact} served in the same company as {member}.",
@@ -160,7 +160,7 @@
       },
       "stage": {
         "name": "The stage",
-        "skills": ["lore"],
+        "skills": ["lore", "deception"],
         "channel": "tavern",
         "contacts": [
           "{contact} has heard {member} sing and still pours them a cup for it.",
@@ -169,6 +169,7 @@
       },
       "trade": {
         "name": "A trade",
+        "skills": ["persuasion"],
         "channel": "market",
         "contacts": [
           "{contact} buys {member}'s work and pays on the nail.",
@@ -177,6 +178,7 @@
       },
       "court": {
         "name": "Courts and offices",
+        "skills": ["persuasion", "insight"],
         "channel": "market",
         "contacts": [
           "{contact} once supplied {member}'s household and remembers the name.",

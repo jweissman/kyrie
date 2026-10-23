@@ -170,6 +170,7 @@ export class CanonValidation {
       if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); }
       if (i.grants?.skill && !Canon.skills[i.grants.skill]) { this.fail(where, `grants unknown skill ${i.grants.skill}`); }
       if (i.category === 'consumable' && !i.use) { this.fail(where, 'a consumable needs a use'); }
+      if (i.fuel && !Canon.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }
       if (i.weapon && !i.unsupported && !Canon.rules.damageTypes.includes(i.weapon.type)) {
         this.fail(where, `unknown damage type ${i.weapon.type}`);
       }

@@ -26,6 +26,16 @@ export class CombatPresenter {
     return `${target} ${event.success ? 'passes' : 'fails'} the ${event.kind ?? event.stat ?? ''} save (${terms} `
       + `against ${event.difficulty}${event.limit ? '; three saves already made' : ''}).`;
   }
+  private static check(event: Extract<CombatEvent, { type: 'check' }>, actor: string): string {
+    if (!event.actor) { return `None of you can try it (${event.skill}).`; }
+    const terms = [`${event.stat} ${event.modifier}`, ...event.trained ? [`${event.skill} ${event.trained}`] : []];
+    if (event.unrolled) {
+      return `${actor} ${event.success ? 'needs no luck for it' : 'has no chance of it'} (${event.skill}: `
+        + `${event.success ? 'at worst' : 'at best'} ${event.rolled} against ${event.difficulty}).`;
+    }
+    return `${actor} ${event.success ? 'makes' : 'fails'} the ${event.skill} check (${[`d20 ${event.die}`, ...terms]
+      .join(' + ')} = ${event.rolled} against ${event.difficulty}).`;
+  }
   static format(event: CombatEvent, state: BattleState): string {
     const known = [...state.combatants, ...state.departed ?? []];
     const actor = 'actor' in event ? known.find(f => f.id === event.actor)?.name ?? event.actor : '';
@@ -53,6 +63,7 @@ export class CombatPresenter {
       case 'initiative': return `Initiative: ${event.order.map(o => `${state.combatants.find(f => f.id === o.id)?.name ?? o.id}`
         + ` ${o.roll}`).join(', ')}.`;
       case 'save': return this.save(event, target);
+      case 'check': return this.check(event, actor);
       case 'status': if (this.told(event.detail, 'begins')) { return this.told(event.detail, 'begins')!.replace('{target}', target); }
         return `${target} gains ${event.detail} `
         + (event.clock === 'until-removed' ? 'until removed.' : event.clock === 'world-time'

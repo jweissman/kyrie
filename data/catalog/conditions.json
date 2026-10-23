@@ -82,6 +82,38 @@
       "ends": "The light over {target}'s shoulder fades.",
       "begins": "A small steady light kindles over {target}'s shoulder."
     },
+    "lamplit": {
+      "name": "Lamplit",
+      "description": "Carrying a lit lantern: a steady light against the dark, and a flame to hand.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "grants": [
+        "light",
+        "flame"
+      ],
+      "begins": "{target} fills a lantern and lights it.",
+      "ends": "{target}'s lantern burns dry and goes out.",
+      "source": {
+        "kyr": true,
+        "notes": "A flask of oil burns six hours in a lantern."
+      }
+    },
+    "candlelit": {
+      "name": "Candlelit",
+      "description": "Carrying a lit candle: a small light against the dark.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "grants": [
+        "light",
+        "flame"
+      ],
+      "begins": "{target} lights a candle.",
+      "ends": "{target}'s candle burns down to nothing.",
+      "source": {
+        "kyr": true,
+        "notes": "A candle burns about two hours."
+      }
+    },
     "torchlit": {
       "name": "Torchlit",
       "description": "Carrying a burning torch: light against the dark, and fire to hand.",
