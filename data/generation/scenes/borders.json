@@ -1,0 +1,38 @@
+{
+  "about": "How the edge of a country is marked where an old road leaves it: by what the kingdom after the makers set at its bounds (by its kind: warlords, abbots, princes), and by the lie of the land (by terrain). A country's borders are drawn from both, each border its own, so that no two read alike. {region} is the country's name, {kingdom} the kingdom's; the sign of the country beyond is said after. Written by hand.",
+  "kingdom": {
+    "warlords": [
+      "The road passes a ruined watch-post on a knoll: four walls of a tower with no roof, an arrow-slit in each, and the stump of a beacon-post where the lords of {kingdom} watched their bounds.",
+      "Where the road leaves {region} it goes through a gap in an old bank and ditch, thrown up across the way by the lords of {kingdom}; the gate that hung in it is gone, but its posts stand."
+    ],
+    "abbots": [
+      "A wayside cross of the brothers of {kingdom} stands where the road leaves {region}, a cross cut in a pillar of old stone with the makers' marks still under it, and a dish at its foot for offerings.",
+      "At the edge of {region} the road goes past a hermit's cell built against a rock: one room, its door open, a bed of stone, and the brothers' sign cut over the lintel."
+    ],
+    "princes": [
+      "Where the road leaves {region} there is a toll-house with its windows out and a bar across the road, rotted through, that the merchant-princes of {kingdom} once let down at dusk.",
+      "A milestone stands by the road at the edge of {region}, cut with the merchant-princes' ship and the distances to places whose names have worn away."
+    ]
+  },
+  "terrain": {
+    "marsh": [
+      "The road comes to the edge of {region} on a causeway of logs, and a tall post stands in the water beside it with a fish-basket hung on it and a mark cut at the top, where the bounds were set.",
+      "At the edge of {region} a beacon stands on stilts above the reeds, a fire-basket rusted open at the top, so that the bounds could be found in fog."
+    ],
+    "forest": [
+      "At the edge of {region} the road goes between two great oaks blazed with the same sign, so old that the bark has grown over half of it.",
+      "Where the road leaves {region} a wooden post carved with faces stands in a clearing, grey as stone, the faces on the far side different from these."
+    ],
+    "mountain": [
+      "The road reaches the edge of {region} at a cairn on the top of a pass, every stone in it carried up by someone going over; you add one, as everyone does.",
+      "At the edge of {region} the road goes through a notch in the ridge, and a line of stones set on end crosses the notch from side to side."
+    ],
+    "frost": [
+      "At the edge of {region} a ring of stones stands half-buried in old snow beside the road, with one stone taller than the rest, its face toward this side.",
+      "Where the road leaves {region} there is a pole with a horse's skull on it, put up to say whose land this is, and a newer skull beside it."
+    ],
+    "plain": [
+      "A march-stone as tall as a man stands by the road where it leaves {region}. On this side it is cut with the sign of {region}; on the far side, with a sign you do not know."
+    ]
+  }
+}
