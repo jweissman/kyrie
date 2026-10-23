@@ -1,7 +1,7 @@
 import { LocalObservations } from '../presentation/local-observations';
 import { ObservationText } from '../lang/observation-text';
 import { ModuleWriter } from '../lang/module-writer';
-import type { Module } from '../lang/module';
+import type { Change, Module } from '../lang/module';
 import type { World } from '../lang/world';
 import type { CampaignEvent } from './campaign-types';
 
@@ -21,6 +21,26 @@ export class Perceptions {
       text: ObservationText.render(module.entities.find(e => e.id === f)!.name, world) })),
     // How the event's changes record it, so the journal can say when it was seen.
     noted: facts.map(f => `+ knows(${player}, ${f})`) };
+  }
+  // What the company perceives after a command, and learns by it, settled: what it learns may show it more (once
+  // the cart is found, the brother kneeling by it), and that is seen and learned in the same moment, a few times over
+  // at most. Each thing perceived is told once; everything learned is committed through commit.
+  static settle(module: Module, seen: { before: World; after: World; player: string | undefined;
+    happenings: { id: string; text: string; kind: 'event' }[] }, commit: (changes: Change[]) => World):
+    { perceptions: CampaignEvent['perceptions']; noted: string[] } {
+    let world = seen.after, perceived = this.after(module, seen);
+    const all = [...perceived ?? []], noted: string[] = [];
+    for (let pass = 0; perceived && pass < 3; pass++) {
+      const learned = this.witness(module, world, seen.player, perceived);
+      if (!learned.changes.length) { break; }
+      world = commit(learned.changes);
+      noted.push(...learned.noted);
+      all.push(...learned.told);
+      perceived = this.after(module, { ...seen, after: world, happenings: [] });
+      all.push(...(perceived ?? []).filter(p => !all.some(a => a.kind === p.kind && a.id === p.id)));
+    }
+    return { perceptions: all.length || perceived ? all.filter((p, i) => all.findIndex(a => a.kind === p.kind
+      && a.id === p.id) === i) : undefined, noted };
   }
   static after(module: Module, seen: { before: World; after: World; player: string | undefined;
     happenings: { id: string; text: string; kind: 'event' }[] }): CampaignEvent['perceptions'] {

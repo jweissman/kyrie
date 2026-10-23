@@ -60,15 +60,12 @@ export class RegionWorks {
       epithet: makers.epithet, craft: makers.craft, belief: makers.belief, fate: makers.fate,
       successors: history.successors.name, deity: region.deity, bound: this.bound(region, site),
       ...facts, ...this.kingdom(history), ...this.treasure(work), ...this.tellers(region, site),
-      ...this.sight(region, site), ...this.shape(region, site, work), ...this.sign(region, site, work),
+      ...this.sight(region, site), ...this.shape(region, site), ...this.sign(region, site, work),
       ...twin ? this.twin(region, site, twin) : {} };
   }
-  // Of the works of one plan in a country no two are laid out alike: each takes the next of its plan's shapes
-  // (shape0, shape1 or shape2 is set), from a start drawn for the country.
-  private static shape(region: Region, site: Site, work: Work): Record<string, string> {
-    const same = region.sites.filter(s => s.work?.plan === work.plan);
-    const start = new Draw(`${region.name}:${work.plan}:shapes`).int(3);
-    return { [`shape${(same.indexOf(site) + start) % 3}`]: 'yes' };
+  // Of the works of one plan in a country no two are laid out alike (shape0, shape1 or shape2 is set).
+  private static shape(region: Region, site: Site): Record<string, string> {
+    return { [`shape${RegionSites.shape(region, site)}`]: 'yes' };
   }
   // A lesser work of the art of the country's greatest work shows the way to it, in its makers' own way (a still
   // pool, a star in a bronze ring, a flute that is answered): greatart is set, with where the great work lies.
@@ -77,7 +74,7 @@ export class RegionWorks {
     const seat = great && RegionGeography.seats(region).find(x => x.site === great);
     if (!great || !seat || site.work?.great || great.work!.art !== work.art) { return {}; }
     return { greatart: 'yes', greatfound: `${great.id}_found`, greatwhere: RegionSites.where(seat, region),
-      greatwork: great.name, greatseen: Histories.plan(great.work!.plan).seen };
+      greatwork: great.name, greatseen: RegionSites.look(great, region) };
   }
   // The kingdom after the makers, as its own works tell it: its name, what it was, and how it fell (fallplague,
   // fallwinter, fallheirs or fallraiders is set, for the sections that show it).

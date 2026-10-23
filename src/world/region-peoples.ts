@@ -25,11 +25,15 @@ export class RegionPeoples {
     const rng = new Expressions(`${seed}:peoples`), mix = this.mix(region, rng);
     const peoples = [region.ancestry, ...mix.others.filter(o => o !== region.ancestry)];
     const folk = this.folk(region.settlements.length, peoples, rng), used = new Set<string>();
+    // Drawn on a stream of its own, so that who is he and who is she changes nothing else about a country.
+    const sexes = new Expressions(`${seed}:pronouns`);
     const settlements = region.settlements.map((s, i) => {
       const people = Object.fromEntries(this.roles.map(r => [r,
         rng.number('1d100') <= this.local[r] ? folk[i]! : this.pick(peoples, rng)])) as Record<Townsfolk, string>;
       const names = Object.fromEntries(this.roles.map(r => [r, this.name(people[r], used, rng)]));
-      return { ...s, ...names, folk: folk[i]!, people, ...folk[i] === region.ancestry ? {}
+      const pronouns = Object.fromEntries(['innkeeper', 'priest', 'merchant', 'traveller']
+        .map(r => [r, sexes.number('1d2') === 1 ? 'he' : 'she']));
+      return { ...s, ...names, folk: folk[i]!, people, pronouns, ...folk[i] === region.ancestry ? {}
         : { came: this.came(folk[i]!, { trade: s.trade, majority: region.ancestry }, rng) } };
     });
     return { ...region, peoples: [...new Set(folk.concat(peoples))], settlements };

@@ -216,13 +216,17 @@ export class ChoiceGrouping {
     const subject = changed ?? Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.present.has(v))?.[1];
     const path = row.choice.name.split('; ');
-    // An action about no one and nothing in view is something the company does here.
+    // One about something on a way out (the words of a speaking door) is done at that way; one about no one and
+    // nothing in view is something the company does here.
+    const onWay = Object.entries(row.action.bindings ?? {})
+      .find(([k, v]) => k !== 'actor' && k !== 'site' && context.passageOf.has(v))?.[1];
     if (subject) { this.insert(this.slot(out.targets, subject), path, leaf); }
+    else if (onWay) { this.exit(out, context.passageOf.get(onWay)!, { acts: [], path, leaf }); }
     else { this.insert(out.camp, path, leaf); }
   }
-  // A label that starts with a name starts with a capital: "A torch — 1 coin".
+  // A label that starts with a name starts with a capital: "A torch — 1 coin". A fee of nothing is not said.
   private static fill(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {
-    const filled = this.filled(text, data);
+    const filled = this.filled(text, data).replace(/ — 0 coin$/, '');
     return text.startsWith('{') ? filled.charAt(0).toUpperCase() + filled.slice(1) : filled;
   }
   private static filled(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {

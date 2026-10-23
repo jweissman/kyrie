@@ -1,4 +1,5 @@
 import { Narration } from '../../src/presentation/narration';
+import { Narrator } from '../../src/presentation/narrator';
 import type { ActionFeedback } from '../../src/presentation/action-feedback';
 import type { CampaignEvent } from '../../src/campaign/campaign';
 import type { Entry } from './protocol';
@@ -26,24 +27,12 @@ export class PlayTranscript {
     const told = Narration.tidy([...new Set(lines.filter(Boolean))],
       fight ? event.combat.filter(e => e.type === 'action').length : 0);
     const said = told.join(' '), echo = c.named || c.said.includes(' › ') ? f.attempt : c.said;
-    const notes = [...f.resources.map(r => this.resource(r)),
-      ...f.discoveries.filter(d => !said.includes(d)).map(d => `◆ In the journal: ${this.gist(d)}`)];
+    const notes = [...f.resources.map(r => Narrator.resource(r)),
+      ...f.discoveries.filter(d => !said.includes(d)).map(d => `◆ In the journal: ${Narrator.gist(d)}`)];
     return { id: c.id, at: f.time.split(' · ').at(-1)!, elapsed: c.elapsed, place: c.place, placeName: c.placeName,
       ...(c.moved ? { arrival: true } : {}), ...(plain ? {} : { said: echo }),
       lines: told, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
       title: plain ? `→ ${c.placeName}` : echo };
-  }
-  // The first clause of a fact, enough to recognise it by: "Ninefingers will let the company come and go…".
-  static gist(fact: string): string {
-    const words = fact.split(/\s+/), clause = fact.split(/[,;:.]/)[0]!;
-    return clause.split(/\s+/).length <= 9 ? clause : `${words.slice(0, 9).join(' ')}…`;
-  }
-  // "Coin: 22 → 21" reads "−1 coin (21 left)".
-  static resource(line: string): string {
-    const m = /^(.+): (\d+) → (\d+)$/.exec(line);
-    if (!m) { return line; }
-    const [, name, a, b] = m, delta = Number(b) - Number(a);
-    return `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${name!.toLowerCase()} (${b} now)`;
   }
   // The entries the page tells for where the company is: everything since it last arrived here.
   static here(log: Entry[], place: string): Entry[] {

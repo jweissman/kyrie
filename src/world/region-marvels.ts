@@ -10,11 +10,11 @@ import snares from '../../data/generation/scenes/snares.json';
 interface Piece { name: string; text: string; effect?: string; omits?: Record<string, string>; source: string }
 interface Trap extends Piece { mechanism: string; sign: string }
 // How a wonder stands in a country (data/generation/scenes/wonders.json): where, what it is called, how it is met,
-// what it does to whoever meets it, and how it is after.
-interface Met { where: 'wild' | 'within'; name: string; verb: string; taken: string; after: string }
+// how it looks before anyone meets it, what it does to whoever does, and how it is after.
+interface Met { where: 'wild' | 'within'; name: string; verb: string; seen: string; taken: string; after: string }
 type Wonder = [string, Piece & Met];
 // How a mechanism is understood and dealt with (data/generation/scenes/snares.json).
-interface Snare { seen: string; ways: { id: string; label: string; needing: string; to: string }[] }
+interface Snare { sign: string; seen: string; ways: { id: string; label: string; needing: string; to: string }[] }
 
 // Orsino's wonders and traps in a generated country (data/generation/scenes/orsino-world.json): a wonder or two deep
 // in its wild country, and within some of the makers' works, past their inner ways, things that do what Orsino says
@@ -52,11 +52,13 @@ export class RegionMarvels {
   }
   private static wonder([key, w]: Wonder, room: string): string[] {
     const q = JSON.stringify, id = `wonder_${key}`;
+    // How it looks is told with the place, until it is met: a wonder is the first thing anyone would see there.
     return [`  Hazard ${id}_power ${q(this.upper(w.name))} means ${q(w.effect!)}.`,
       `  Thing ${id} ${q(w.name)} at ${room} is scenery {`,
-      `    State unwoken ${q(`There is ${w.text} here.`)}.`,
+      `    State unwoken ${q(w.seen)}.`,
       `    State woken ${q(w.after)}.`,
       `    Change meet ${q(`${w.verb} ${w.name}`)} from unwoken to woken.`, '  }',
+      `  Observe ${id}_seen at ${room} when state(${id}, unwoken) ${q(w.seen)}.`,
       `  Relation ${id}_given().`,
       `  Rule ${id}_answers when state(${id}, woken) and not ${id}_given() says ${q(w.taken)} {`,
       `    Assert strikes(${id}_power, party). Assert ${id}_given(). }`];
@@ -70,7 +72,7 @@ export class RegionMarvels {
     return [`  Hazard ${site.id}_trap ${q(`the ${t.mechanism}`)} means ${q(t.effect!)}.`,
       `  Discovery ${id}_known ${q(how.seen)}.`,
       `  Thing ${id} ${q(`the ${t.mechanism}`)} on ${way} {`,
-      `    State primed dangerous ${q(`${this.upper(t.sign)}.`)}.`,
+      `    State primed dangerous ${q(how.sign)}.`,
       `    State sprung ${q(`The ${t.mechanism} has gone off, and is spent.`)}.`,
       `    State made_safe ${q(`The ${t.mechanism} is made safe. Whoever goes by now goes by unharmed.`)}.`,
       ...how.ways.map(w => `    Change ${w.id} ${q(w.label)} from primed to ${w.to} needing ${w.needing} after learning ${id}_known.`),

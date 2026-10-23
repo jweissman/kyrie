@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
+import type { Counter } from '../../../src/ui/trade-model';
 import type { ReaderApp } from '../reader-app';
 import type { TalkLine } from '../conversation';
 import { Typography } from '../../../src/presentation/typography';
@@ -21,8 +22,9 @@ export class TalkStage {
         <div className="dialogue">
           <Stage.Status frame={frame} extra={frame.screen.place.name} />
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} />
+          <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
           <ol className="replies" aria-label={`What you might say to ${name}`}>
-            {talk.replies.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}
+            {talk.replies.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
             <li className="leave"><Act.View choice={talk.leave} draw={draw}>
               <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></li>
           </ol>
@@ -60,11 +62,25 @@ export class TalkStage {
     );
   }
   // One thing to say, with its number; what it opens (what to buy, what to ask about) beneath it.
-  static Reply({ choice: c, draw }: { choice: Choice; draw: Draw }) {
+  // What someone who trades has on their side of the counter, whether or not you can afford it: each thing, its price
+  // and how many are left, what is beyond your purse quieter; and what they will buy, and for how much.
+  static Counter({ counter, coin }: { counter?: Counter; coin: number }) {
+    if (!counter) { return null; }
     return (
-      <li>
+      <div className="counter" aria-label="For sale">
+        {counter.sells.length > 0 && <ul>{counter.sells.map(g => <li key={g.name} className={g.price > coin ? 'dear' : undefined}>
+          {g.name}<small> · {g.price} coin{g.stock > 0 ? ` · ${g.stock} left` : ' · none left'}</small></li>)}</ul>}
+        {counter.buys.length > 0 && <p className="buys">Buys {counter.buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
+          .join(', ')}{counter.buys.length > 4 ? ', and more' : ''}.</p>}
+      </div>
+    );
+  }
+  // A question already put stays to be put again, quieter, and says so.
+  static Reply({ choice: c, draw, asked }: { choice: Choice; draw: Draw; asked?: boolean }) {
+    return (
+      <li className={asked ? 'asked' : undefined}>
         <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i>{Typography.curl(c.label)}
-          {c.note && <small> · {c.note}</small>}</Act.View>
+          {c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}</Act.View>
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}
           choice={k} draw={draw} />)}</ol>}
       </li>

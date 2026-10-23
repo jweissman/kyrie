@@ -12,6 +12,9 @@ Module world_people "Company and intention" {
   // Who someone is to the one who plays: family (kin), or someone expecting them with a letter or an errand (expects);
   // what they owe someone is dominion's owes. An origin says so at the outset; what people say and do follows it.
   Relation kin(group, group). Relation expects(group, group).
+  // The settlement the one who plays grew up in, where its people know them (neighbours, not strangers); and someone
+  // they owe money, until it is paid.
+  Relation homeOf(group, place). Relation inDebtTo(group, group).
   // What someone is to the one who plays, in the words the page names them by ("your brother"), where the origin says.
   Relation kinship(group, entity).
   // Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has

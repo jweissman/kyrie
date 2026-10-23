@@ -6,10 +6,10 @@ Module drover "The drover who did not come home" {
   Place road "The road" is room.
   Relation told(group). Relation gone(group).
   Entity missing: fact "A drover went out on the road from {green} three days ago and did not come home. His dog did.".
-  Initially Assert established(missing).
+  Initially Assert established(missing). Initially Assert staged(road, missing).
 
-  Person wife "The drover's wife" at taproom { Role "the drover's wife, who cooks at the inn". Peaceable. }
-  Person son "The drover's son" at green { Role "the drover's son, who wants to go after his father". Peaceable. }
+  Person wife "The drover's wife" at taproom { Role "the drover's wife, who cooks at the inn". Pronouns she. Peaceable. }
+  Person son "The drover's son" at green { Role "the drover's son, who wants to go after his father". Pronouns he. Peaceable. }
   // The dog that came home: a real dog, lame in the off forefoot, who lets anyone who is kind to her look at her; and
   // whoever does sees where she has been.
   Person dog "the grey dog" at green { Role "the drover's dog". Species dog. Pronouns she. Peaceable. }

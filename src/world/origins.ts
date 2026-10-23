@@ -110,7 +110,7 @@ export class Origins {
     const p = this.placed(placements, 'drover'), s = p && this.home(region, p.bindings.town ?? '');
     if (!p || !s) { return undefined; }
     const { start, approach } = this.arriving(region, s);
-    return { values: this.approach(region, s), start, imports: { approach,
+    return { values: this.approach(region, s), start, imports: { approach, home: [`region.${s.id}`, 'place'],
       wife: [`${p.instance}.wife`, 'group'], son: [`${p.instance}.son`, 'group'], missing: [`${p.instance}.missing`, 'fact'] } };
   }
   private static debt(region: Region): Bound | undefined {
@@ -142,7 +142,8 @@ export class Origins {
     return { values: { ...this.approach(region, s), work: work.name, cult: cult.name, where }, start: { place: `${s.id}_shrine` },
       imports: { shrine: [`region.${s.id}_shrine`, 'place'],
         priest: [`region.${s.id}_priest`, 'group'], named: [`region.${work.id}_named`, 'fact'],
-        found: [`region.${work.id}_found`, 'fact'], history: [`region.history_${makers.art}`, 'fact'] } };
+        found: [`region.${work.id}_found`, 'fact'], history: [`region.history_${makers.art}`, 'fact'],
+        fate: [`region.history_${makers.art}_fate`, 'fact'] } };
   }
   private static wanderer(region: Region): Bound | undefined {
     const s = region.settlements[0];

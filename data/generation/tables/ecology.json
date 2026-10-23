@@ -369,10 +369,42 @@
           "text": "A raven keeps pace with you from cairn to cairn."
         }
       ],
+      "heath": [
+        {
+          "_key": "grouse",
+          "text": "A grouse gets up out of the heather at your feet and goes off low, scolding."
+        },
+        {
+          "_key": "adder",
+          "text": "An adder lies across the warm stones of the road, and takes its time about leaving."
+        },
+        {
+          "_key": "curlew",
+          "text": "Somewhere out on the moor a curlew calls, and another answers."
+        },
+        {
+          "_key": "hare",
+          "text": "A hare sits up in the heather to watch you by, ears like two blades."
+        }
+      ],
+      "meadow": [
+        {
+          "_key": "lark",
+          "text": "A lark goes up singing out of the grass and does not stop."
+        },
+        {
+          "_key": "rook",
+          "text": "Rooks walk the furrows behind nobody, looking for what the plough turned up."
+        },
+        {
+          "_key": "fox",
+          "text": "A fox crosses the road ahead, unhurried, and goes through the hedge."
+        }
+      ],
       "snow": [
         {
           "_key": "stoat",
-          "text": "A stoat in its winter white bounds across the snow."
+          "text": "A stoat runs along the top of a wall of old snow, stops to look at you, and is gone."
         },
         {
           "_key": "raven",

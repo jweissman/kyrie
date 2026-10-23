@@ -24,7 +24,7 @@ export class PlaceStage {
     const people = scene.subjects.filter(x => x.kind === 'person'), creatures = scene.subjects.filter(x => x.kind === 'creature');
     const things = scene.subjects.filter(x => x.kind === 'thing');
     return (
-      <div className="field" id="page">
+      <div className={`field${PlaceStage.tall(doors) ? ' n-tall' : ''}`} id="page">
         <Stage.Status frame={frame} />
         <h1 className="place" data-id="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
         <Told.Place app={app} />
@@ -40,6 +40,11 @@ export class PlaceStage {
         <PlaceStage.Foot app={app} draw={draw} />
       </div>
     );
+  }
+  // A door in the north wall that says more than where it goes (by what way, how long; a trap to look at first)
+  // stands taller above the field than the field's margin allows, and the field makes room.
+  static tall(doors: Door[]): boolean {
+    return doors.some(d => d.side === 'n' && (d.choices.length > 1 || d.far));
   }
   // Each way's choices with the way they go through and the side it leaves by; a side's doors in the order they lie.
   static doors(screen: Screen, ways: Choice[]): Door[] {
@@ -70,26 +75,26 @@ export class PlaceStage {
   static readonly arrows: Record<Side, [string, string]> = { n: ['↑', '↑'], s: ['↓', '↓'], w: ['←', '⟵'], e: ['→', '⟶'] };
   // A way across the country says by what way and how long; a way about the place says nothing but where, unless
   // two go to the same place.
+  // A door that cannot simply be gone through (a trap on the way, a lock) is named for where it goes, and under that,
+  // each thing that might be tried at it.
   static DoorView({ door, at, draw, twin }: { door: Door; at: string; draw: Draw; twin: boolean }) {
-    const [first, ...rest] = door.choices, exit = door.exit;
-    const note = [door.far || twin ? exit.way : '', first!.note].filter(Boolean).join(' · ');
+    const [first, ...rest] = door.choices, exit = door.exit, tried = / — /.test(first!.label);
+    const note = [door.far || twin ? exit.way : '', tried ? '' : first!.note].filter(Boolean).join(' · ');
+    const head = <>
+      <span className="arrow" aria-hidden="true">{PlaceStage.arrows[door.side][door.far ? 1 : 0]}</span>
+      <span className="to">{Typography.curl(Words.upper(exit.destination.name))}</span>
+      {note && <small>{Typography.curl(note)}</small>}
+    </>;
     return (
       <div className={`door side-${door.side}${door.far ? ' far' : ''}`} style={{ ['--at' as string]: at }}
         data-exit={exit.id}>
-        <Act.View choice={first!} draw={draw} className="door-act">
-          <span className="arrow" aria-hidden="true">{PlaceStage.arrows[door.side][door.far ? 1 : 0]}</span>
-          <span className="to">{Typography.curl(Words.upper(PlaceStage.name(first!, exit)))}</span>
-          {note && <small>{Typography.curl(note)}</small>}
-        </Act.View>
-        {rest.map(c => <Act.View key={c.id} choice={c} draw={draw} className="door-also">
-          {Typography.curl(PlaceStage.also(c.label))}</Act.View>)}
+        {tried ? <div className="door-act door-head">{head}</div>
+          : <Act.View choice={first!} draw={draw} className="door-act">{head}</Act.View>}
+        {(tried ? door.choices : rest).map(c => <Act.View key={c.id} choice={c} draw={draw} className="door-also">
+          {Typography.curl(PlaceStage.also(c.label))}{c.disabled && <small className="why"> · {c.disabled}</small>}
+        </Act.View>)}
       </div>
     );
-  }
-  // A door is named for where it goes; one of several tries at it, for the try ("pick the lock").
-  private static name(c: Choice, exit: ExitRow): string {
-    const tried = / — (.+)$/.exec(c.label);
-    return tried ? `${exit.destination.name}: ${tried[1]}` : exit.destination.name;
   }
   private static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
   // Someone here: their painting, their name and what they are, and what they are doing; the whole of it is the way

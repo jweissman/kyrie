@@ -8,11 +8,14 @@ import { Words } from './words';
 // The map, in the world's place, with the ways still beside it. The country as far as you know it, drawn plainly: its
 // land in flat tones cell by cell, water in blue, roads in black and paths dashed, settlements as squares and other
 // places as rings, and you in red, with the way you came. Below it, the place you are in, room by room, when it has
-// rooms. Only what you have seen, or know the way to, is drawn; what you know only by name is grey.
+// rooms and is not wild country (which the land shows). Only what you have seen, or know the way to, is drawn; what
+// you know only by name is grey.
 export class MapView {
   static View({ app, screen }: { app: ReaderApp; screen: Screen }) {
     const came = MapView.came(app);
-    const region = screen.region, local = screen.chart && screen.chart.places.filter(p => !p.external).length > 1
+    // Wild country is drawn on the land itself, landmark by landmark; the rooms of a place are drawn below it.
+    const region = screen.region, wild = region?.land && region.areas.find(a => a.here)?.kind === 'wilderness';
+    const local = !wild && screen.chart && screen.chart.places.filter(p => !p.external).length > 1
       ? screen.chart : undefined;
     return (
       <article className="world-body map" data-region="map" aria-label="The map">
@@ -29,13 +32,16 @@ export class MapView {
     const entries = app.state.frame?.entries ?? [], here = app.state.frame?.screen.place.id;
     return [...entries].reverse().find(e => e.place && e.place !== here)?.place;
   }
+  // The country is drawn larger than its cells' own size, to be read at a glance on a wide page; on a narrow one it
+  // fits the page.
+  static readonly scale = 1.4;
   static readonly Region = memo(MapView.region);
   private static region({ region, came }: { region: RegionChart; came?: string }) {
     const d: Drawn = useMemo(() => region.land ? Atlas.draw(region, came) : Atlas.schematic(region, came), [region, came]);
     return (
       <figure className="atlas">
         <svg viewBox={d.box.join(' ')} role="img" aria-label="The country as far as you know it"
-          style={{ width: `${d.box[2]}px` }}>
+          style={{ width: `${Math.round(d.box[2]! * MapView.scale)}px` }}>
           {d.unknown.map((p, i) => <circle key={`u${i}`} className="unknown" cx={p.x} cy={p.y} r={1.1} />)}
           {d.cells.map(c => <rect key={c.i} className={`cell ${c.cover}`} x={c.x} y={c.y} width={c.s} height={c.s}
             style={{ fill: `var(--${c.cover})` }} />)}

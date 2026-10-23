@@ -668,7 +668,7 @@ A shrine is a thing kept for a god (an altar, a statue, a spring led into a basi
 
 *Kyr · action (group, shrine, faith, member, place)* · `rule:world_devotion.make_offering`
 
-- Shown as: Leave an offering for {recipient}
+- Shown as: Leave an offering, and ask the god's favour for {recipient}
 - Takes: 30 minutes
 - Costs: 1
 
@@ -694,7 +694,13 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 15 | 0 | 0 | 0 | 5 |
+| 2 | 16 | 0 | 0 | 0 | 5 |
+
+#### staged
+
+*Kyr · relation(place, fact)* · `rule:discovery_rules.staged`
+
+A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that could be taken for part of it happens there by chance (a carrier's wheel in the ditch).
 
 #### examine
 
@@ -1322,7 +1328,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 18 | 3 | 0 | 3 | 6 |
+| 0 | 20 | 3 | 0 | 3 | 6 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1343,6 +1349,12 @@ Someone taken from home: who set them free, where home is, and what their people
 *Kyr · relation(group, group); relation(group, group)* · `rule:world_people.kin`
 
 Who someone is to the one who plays: family (kin), or someone expecting them with a letter or an errand (expects); what they owe someone is dominion's owes. An origin says so at the outset; what people say and do follows it.
+
+#### homeOf, inDebtTo
+
+*Kyr · relation(group, place); relation(group, group)* · `rule:world_people.homeOf`
+
+The settlement the one who plays grew up in, where its people know them (neighbours, not strangers); and someone they owe money, until it is paid.
 
 #### kinship
 

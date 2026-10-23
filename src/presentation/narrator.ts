@@ -54,7 +54,9 @@ export class Narrator {
       && !echoed.has(Narration.sentence(l.text))), defs);
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
     const situation = this.paragraphs(credited, defs);
-    const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)));
+    // What a thing looks like is not told again with it when the place has just said it (a wonder, told as the place).
+    const placed = situation.join(' ');
+    const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     return this.set({
       situation, presence, changed,
@@ -205,8 +207,8 @@ export class Narrator {
       .filter(l => !(told.moved && /^You arrive at /.test(l.text)));
     // What was learned is noted, unless it has just been said.
     const said = new Set(unique.map(l => l.text));
-    const notes = [...feedback.resources, ...(spoken.length ? [] : feedback.discoveries.filter(d => !said.has(d))
-      .map(d => `Noted: ${this.gist(d)}`))];
+    const notes = [...feedback.resources.map(r => this.resource(r)), ...(spoken.length ? []
+      : feedback.discoveries.filter(d => !said.has(d)).map(d => `Noted: ${this.gist(d)}`))];
     return { ...told.said ? { said: told.said } : {}, lines: this.tidy(unique, fight), notes,
       tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
   }
@@ -227,9 +229,19 @@ export class Narrator {
     const lead = first!.replace(/\.$/, ',');
     return rest.length ? `‘${lead}’ says ${speaker}. ‘${rest.join(' ')}’` : `‘${lead}’ says ${speaker}.`;
   }
-  // The first clause of a fact, enough to recognise it by.
-  private static gist(fact: string): string {
-    const words = fact.split(/\s+/), clause = fact.split(/[,;:.]/)[0]!;
-    return clause.split(/\s+/).length <= 9 ? clause : `${words.slice(0, 9).join(' ')}…`;
+  // "Coin: 22 → 21" reads "−1 coin (21 now)".
+  static resource(line: string): string {
+    const m = /^(.+): (\d+) → (\d+)$/.exec(line);
+    if (!m) { return line; }
+    const [, name, a, b] = m, delta = Number(b) - Number(a);
+    return `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${name!.toLowerCase()} (${b} now)`;
   }
+  // What was learned, as much of it as can be acted on: its first sentence ("The way to the round tower on the
+  // Sharpmunt: north from the ford, then..."), or its first part when the sentence runs long, never cut mid-thought.
+  static gist(fact: string): string {
+    const sentence = fact.split(/(?<=[.!?])\s+/)[0]!.replace(/\.$/, ''), part = sentence.split(/[;:]\s/)[0]!;
+    return this.words(sentence) <= 30 ? sentence : this.words(part) <= 30 ? part
+      : `${sentence.split(/\s+/).slice(0, 24).join(' ')}…`;
+  }
+  private static words(text: string): number { return text.split(/\s+/).length; }
 }

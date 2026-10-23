@@ -5,7 +5,7 @@ Module origin "What is owed" {
   Entity creditor: group "The merchant". Entity loan: debt "What you owe".
   Kind debt. Measure owed(debt).
   Relation extended(group). Relation called(group). Relation squared(group).
-  Initially Set owed(loan) to 30.
+  Initially Set owed(loan) to 30. Initially Assert inDebtTo(party, creditor).
   Observe owed at shop as feature when owed(loan) > 0 and watch(clock) < 2 "You owe {creditor} thirty coin, for {lost} that went into the river at the ford last spring, oxen and all. He has been patient. He wrote to say that he would be patient until market day, ten days from now, and not after.".
   Observe sees near creditor when owed(loan) > 0 and watch(clock) < 2 "'{protagonist},' says {creditor}, and does not get up. 'Thirty coin, by market day. You'll have heard I said so.'".
   Topic promise with creditor "Tell {creditor} you will have it by market day" when owed(loan) > 0 and not called(actor) once {
@@ -17,14 +17,14 @@ Module origin "What is owed" {
   }
   Topic pay with creditor "Pay {creditor} what you owe" when owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {
     Says "{creditor} counts it twice, and sweeps it into the drawer. 'We're square,' he says, and for the first time he smiles. 'I didn't think you would.'".
-    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Assert squared(actor). }
+    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor). }
   }
   Rule called_in when owed(loan) > 0 and not called(party) and ((watch(clock) >= 1440 and not extended(party)) or watch(clock) >= 2160) says "Word has gone round {homename}: {creditor} has called in what you owe, and will not deal with you, nor will anyone who deals with him." {
     Assert called(party). Assert refusesService(creditor, party).
   }
   Topic pay_late with creditor "Pay {creditor} what you owe, late" when called(actor) and owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {
     Says "{creditor} takes it without a word, and without looking at you. It is paid. It is not forgotten.".
-    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Assert squared(actor). Retract refusesService(creditor, actor). }
+    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor). Retract refusesService(creditor, actor). }
   }
   Objective owing when owed(loan) > 0 and not called(party) "You owe {creditor} at {homename} {owed(loan)} coin, by market day.".
   Objective owing_late when owed(loan) > 0 and called(party) "{creditor} has called in what you owe him: {owed(loan)} coin.".

@@ -22,8 +22,8 @@ export class RegionRoads {
       `  Place ${way} ${q(n.way)} is room within ${land} at 1, 1.`,
       `  Passage road_${from.id}_${to.id} ${q(n.out)} is road between ${from.id}_green and ${way} taking ${out}.`,
       `  Passage road_${from.id}_${to.id}_on ${q(n.on)} is ${n.kind} between ${way} and ${to.id}_green taking ${on}.`,
-      `  Observe ${way}_scene at ${way} when true ${q(`${n.scene} ${RegionEcology.sign(form ? RegionEcology.forms[form.form]
-        ?? RegionEcology.country(region) : RegionEcology.country(region), way)}`.trim())}.`];
+      `  Observe ${way}_scene at ${way} when true ${q(`${n.scene} ${RegionEcology.sign(this.habitat(road, region), way)}`
+        .trim())}.`];
     if (form) { lines.push(`  Initially Assert landform(${land}, land_${form.form}).`); }
     if (form?.form === 'river' && road.route.crossings[0]?.kind === 'ford') { lines.push(...this.ford(road)); }
     if (road.route.over) { lines.push(...this.pass(road)); }
@@ -59,6 +59,11 @@ export class RegionRoads {
         on: `the road on to ${to.name}`, scene: draw.pick(this.open[this.ground(road, region)] ?? this.open.meadow!)
           .replaceAll('{from}', from.name).replaceAll('{to}', to.name) };
     }
+  }
+  // The kind of country a road's animals are of: its river, wood or pass's; else the ground it crosses.
+  private static habitat(road: Road, region: Region): string {
+    return (road.form ? RegionEcology.forms[road.form.form] : RegionEcology.grounds[this.ground(road, region)])
+      ?? RegionEcology.country(region);
   }
   // The ground most of a road crosses.
   private static ground(road: Road, region: Region): string {

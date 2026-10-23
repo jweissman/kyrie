@@ -12,7 +12,8 @@ import type { Voiced } from './telling';
 // way that takes half an hour or more is a journey; a sentence or two of it, never a wait.
 export class Journeys {
   static readonly skies: Record<string, string> = { rainy: 'rain', stormy: 'rain', cold: 'cold', freezing: 'cold',
-    snowy: 'cold', foggy: 'fog', windy: 'wind', dusty: 'wind' };
+    snowy: 'cold', foggy: 'fog', windy: 'wind', dusty: 'wind', cloudy: 'grey', hot: 'hot', humid: 'hot',
+    ashfall: 'ash', smoky: 'ash' };
   static tell(campaign: Campaign, event: CampaignEvent, used: Set<string>): Voiced[] {
     const m = /^go\(([^,]+),([^,]+),([^,]+),([^)]+)\)$/.exec(event.action), world = campaign.world;
     if (!m || event.result !== 'success') { return []; }
@@ -21,19 +22,26 @@ export class Journeys {
     if (ticks < 3) { return []; }
     const start = event.elapsed - ticks, chart = this.chart(campaign, from, to);
     const values = { from: Editor.called(campaign, this.settlement(campaign, from) ?? from),
-      to: Editor.called(campaign, this.settlement(campaign, to) ?? to) };
+      to: Editor.called(campaign, this.settlement(campaign, to) ?? to), way: this.way(campaign, way) };
     const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1]?.replace(/^.*weather_/, '');
     const kinds: [string, Record<string, string>][] = [
       ['journey-depart', { time: FictionalTime.part(start), sky: this.skies[sky ?? ''] ?? 'fair' }],
       ...chart ? [['journey-land', { land: this.land(chart, this.cells(chart, from, to)) }] as [string, Record<string, string>]] : [],
       ...!FictionalTime.dark(start) && FictionalTime.dark(event.elapsed) ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
       ...this.arrival(campaign, to, ticks)];
+    // The closest fit not yet said; a looser fit not yet said before a close one said again.
     return kinds.flatMap(([kind, context]) => {
-      const line = Editor.choose(Voice.fitting(kind, context), `${campaign.readout.seed}:${event.elapsed}:${kind}`, used);
+      const tiers = Voice.tiers(kind, context), pool = tiers.find(t => t.some(l => !used.has(l.id))) ?? tiers[0] ?? [];
+      const line = Editor.choose(pool, `${campaign.readout.seed}:${event.elapsed}:${kind}`, used);
       if (!line) { return []; }
-      used.add(line.id);
+      Editor.said(used, line.id);
       return [{ id: line.id, kind, text: Voice.render(line.text, { values }) }];
     }).slice(0, 3);
+  }
+  // What the way is to walk on: a road (and its bridges, fords and causeways), or a path.
+  private static way(campaign: Campaign, way: string): string {
+    const kind = campaign.world.one('passageKind', way)?.replace(/^.*way_/, '');
+    return !kind || ['road', 'bridge', 'ford', 'causeway', 'ferry'].includes(kind) ? 'road' : 'path';
   }
   // Coming in sight of a settlement, by its size; or, after a long day on the road, saying so.
   private static arrival(campaign: Campaign, to: string, ticks: number): [string, Record<string, string>][] {

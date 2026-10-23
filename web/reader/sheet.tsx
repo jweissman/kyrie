@@ -22,7 +22,7 @@ export class Sheet {
   private static journal(app: ReaderApp, frame: Frame) {
     const screen = frame.screen, facts = screen.knowledge.filter(k => !screen.objectives.includes(k.text));
     const kinds: [string, string][] = [['seen', 'Seen for yourself'], ['confirmed', 'Heard, and since seen'],
-      ['reported', 'Heard, not yet seen']];
+      ['reported', 'Heard, not yet seen'], ['known', 'Known before you set out']];
     return (
       <article className="journal" data-region="knowledge">
         <h2>Notes</h2>

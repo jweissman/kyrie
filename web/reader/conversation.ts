@@ -10,9 +10,11 @@ export interface TalkLine { kind: 'you' | 'speech' | 'telling' | 'event' | 'chan
 // Where the player's attention goes, and what a conversation keeps. Turning to someone, to a thing, away from a thing
 // or taking leave are choices like any other, known by their ids; whether attention holds after something is done is
 // the world's to say: it holds while the one spoken with (or the thing looked at) is still there, and the company has
-// not gone anywhere or come to blows.
+// not gone anywhere, come to blows, or slept the night (or half a day) away.
 export class Conversation {
   static readonly place: Attention = { kind: 'place' };
+  // Ten-minute turns: past six hours, whatever was being said is over.
+  static readonly night = 36;
   static turn(choice: Choice): Attention | undefined {
     const m = /^(.+)#(talk|look|leave|back)$/.exec(choice.id);
     if (!m) { return undefined; }
@@ -20,7 +22,8 @@ export class Conversation {
   }
   static holds(attention: Attention, before: Frame, after: Frame): Attention {
     if (attention.kind === 'place' || after.combat || !after.screen.running
-      || after.screen.place.id !== before.screen.place.id) { return this.place; }
+      || after.screen.place.id !== before.screen.place.id
+      || after.screen.elapsed - before.screen.elapsed >= this.night) { return this.place; }
     const scene = SceneModel.build(after.screen);
     const there = attention.kind === 'person' ? Attending.talk(scene, attention.id) : Attending.thing(scene, attention.id);
     return there ? attention : this.place;
@@ -31,7 +34,7 @@ export class Conversation {
     const exchange = frame.leaf.exchange;
     const you: TalkLine[] = /#talk$/.test(choice.id) ? [] : [{ kind: 'you', text: exchange?.said ?? said.split(' › ').at(-1)! }];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
-      ...(exchange?.notes ?? []).map(text => ({ kind: /→/.test(text) ? 'tally' as const : 'learned' as const,
+      ...(exchange?.notes ?? []).map(text => ({ kind: /^Noted: /.test(text) ? 'learned' as const : 'tally' as const,
         text: text.replace(/^Noted: /, '') }))];
   }
 }

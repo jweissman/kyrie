@@ -14,6 +14,8 @@
     { "id": "farewell.proud", "when": { "manner": "proud" }, "text": "{Actor} considers the conversation over some moments before you do." },
     { "id": "farewell.acerbic", "when": { "manner": "acerbic" }, "text": "‘Don’t let me keep you,’ says {actor}, who was not trying to." },
     { "id": "farewell.kin", "when": { "bond": "kin" }, "text": "‘Be careful,’ says {actor}. ‘I know you won’t, but be careful.’" },
-    { "id": "farewell.friend", "when": { "bond": "friend" }, "text": "{Actor} claps you on the shoulder. ‘You know where I am.’" }
+    { "id": "farewell.friend", "when": { "bond": "friend" }, "text": "{Actor} claps you on the shoulder. ‘You know where I am.’" },
+    { "id": "farewell.creditor", "when": { "bond": "creditor" }, "text": "‘Market day,’ says {actor}, to your back." },
+    { "id": "farewell.neighbour", "when": { "bond": "neighbour" }, "text": "‘Don’t be a stranger,’ says {actor}, ‘now you’re back.’" }
   ]
 }

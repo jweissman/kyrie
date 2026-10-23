@@ -57,11 +57,11 @@ export class ScreenModel {
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
-    const unclaimed = new Map(grouped.targets);
-    view.present.forEach(p => unclaimed.delete(p.id));
+    const unclaimed = new Map([...grouped.targets].filter(([id]) => !present.has(id)));
     const companions = this.companions(world, view.actor, unclaimed);
-    const scene = this.scene(campaign, view, present);
+    const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
+      ...along.has(p.id) ? { companion: true } : {},
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped) })));
     return {
       title: view.title, clock: FictionalTime.at(view.elapsed), elapsed: view.elapsed, running: view.running,
@@ -93,6 +93,17 @@ export class ScreenModel {
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
   }
+  // Whoever travels with the company is with it, not met where it is.
+  private static along(world: Campaign['world'], actor?: string): Set<string> {
+    return new Set(world.module.relations.some(r => r.name === 'travelsWith') && actor
+      ? world.related('travelsWith').filter(r => r.args[1] === actor).map(r => r.args[0]!) : []);
+  }
+  // Family are named as what they are to you: "Ion, your brother", not "Ion, the drover's son".
+  private static called(w: Campaign['world'], id: string, name: string): string {
+    const kinship = w.module.relations.some(r => r.name === 'kinship') ? w.one('kinship', id) : undefined;
+    const word = kinship && w.module.entities.find(e => e.id === kinship)?.name;
+    return word ? `${name.split(', ')[0]}, ${word}` : name;
+  }
   // Whoever has joined the company and has something to say: talked to wherever the company is. Their choices are
   // theirs, not left over among the company's own.
   private static companions(world: Campaign['world'], actor: string | undefined, unclaimed: Map<string, Act[]>): TargetRow[] {
@@ -100,16 +111,19 @@ export class ScreenModel {
     return world.related('travelsWith').filter(r => r.args[1] === actor && unclaimed.has(r.args[0]!)).map(r => {
       const id = r.args[0]!, acts = unclaimed.get(id)!;
       unclaimed.delete(id);
-      return { id, kind: 'person' as const, name: world.module.entities.find(e => e.id === id)?.name ?? id, acts, companion: true };
+      return { id, kind: 'person' as const, name: this.called(world, id, world.module.entities.find(e => e.id === id)?.name ?? id),
+        acts, companion: true };
     });
   }
-  // What the company knows, newest first, with how it knows it: seen, found in something, or told by someone.
+  // What the company knows, newest first, with how it knows it: seen, found in something, told by someone, or known
+  // before the story began (where the errand is bound: what the letter says).
   private static knowledge(view: PlayerSnapshot): Screen['knowledge'] {
     return [...view.knowledge].sort((a, b) => (b.at ?? -1) - (a.at ?? -1)).map(k => ({
       text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
         : k.source === 'heard' ? `${k.from ?? 'someone'}${k.from?.includes(', ') ? ',' : ''} told you` : '',
       k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', '),
-      kind: k.confirmed ? 'confirmed' as const : k.source === 'heard' ? 'reported' as const : 'seen' as const }));
+      kind: k.confirmed ? 'confirmed' as const : k.source === 'heard' ? 'reported' as const
+        : k.source ? 'seen' as const : 'known' as const }));
   }
   // The scene's lines: what the place is like (and what is going on in it), and what each person or thing here looks
   // like now, told with them. Lines the company has not seen before at a place it has seen before are fresh.
@@ -214,10 +228,7 @@ export class ScreenModel {
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined
         : this.look(p.members ?? []);
-      // Family are named as what they are to you: "Ion, your brother", not "Ion, the drover's son".
-      const kinship = w.module.relations.some(r => r.name === 'kinship') ? w.one('kinship', p.id) : undefined;
-      const word = kinship && w.module.entities.find(e => e.id === kinship)?.name;
-      const name = word ? `${p.name.split(', ')[0]}, ${word}` : p.name;
+      const name = this.called(w, p.id, p.name);
       const portrait = playable ? this.portrait(w, p.id, member) : undefined;
       return { id: p.id, kind: playable ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {},

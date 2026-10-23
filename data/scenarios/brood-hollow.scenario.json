@@ -51,7 +51,7 @@
   "hooks": [
     {
       "fact": "brood.ewes",
-      "topic": "the ewes taken on {approach}",
+      "topic": "the ewes taken near {approach}",
       "channels": [
         "tavern",
         "road"

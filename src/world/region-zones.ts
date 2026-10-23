@@ -221,6 +221,13 @@ export class RegionZones {
     fen: { edge: 'the edge of {zone}', deep: 'out in {zone}', heart: 'the middle of {zone}' },
     heath: { edge: 'the foot of {zone}', deep: 'up on {zone}', heart: 'the top of {zone}' },
     fell: { edge: 'the foot of {zone}', deep: 'high on {zone}', heart: 'the roof of {zone}' } };
+  // How to come to a part of a wild country, landmark by landmark, as someone who knows it would tell it: "into
+  // Sharpmunt and on to the tarn, then the crag".
+  static route(region: Region, zone: Wilds, part: number): string {
+    const marks = this.landmarks(region, zone).filter(l => !l.id.endsWith('_2') && !l.water && !l.side && l.part > 0)
+      .filter(l => l.part <= part).map(l => l.name);
+    return `into ${zone.naming.name}${marks.length ? ` and on to ${marks.join(', then ')}` : ''}`;
+  }
   // Where in a wild country something stands, as people say it: deep in Bruinforwest, at the foot of Hartholt.
   static where(zone: Wilds, part: number): string {
     return this.at[zone.wild][this.role(zone, part) as 'edge'].replace('{zone}', zone.naming.name);

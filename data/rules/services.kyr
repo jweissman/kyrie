@@ -11,7 +11,7 @@ Module world_services "Lodging, goods and camping" {
     Time untilMorning(clock). Resolve recover(actor).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service).
       Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to watch(clock). Retract weary(actor). }
-    Result "You eat a hot supper and sleep long in a dry bed.".
+    Result "You eat what is put in front of you, and sleep long, under a roof.".
   }
   Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}" {
     Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)
@@ -42,6 +42,6 @@ Module world_services "Lodging, goods and camping" {
     Requires able(actor) and at(actor, site) and not indoors(site) and not settled(site) and not hungry(actor).
     Time untilMorning(clock). Resolve rough(actor). Interrupted when threatened(actor).
     On success { Set lastSlept(actor) to watch(clock). Retract weary(actor). }
-    Result "You find what shelter there is, and sleep in turns.".
+    Result "You find what shelter there is, and sleep as well as you can, with one ear open.".
   }
 }

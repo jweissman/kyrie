@@ -129,6 +129,12 @@ export class PlayerView {
       .every(id => !seen[id] || LocalObservations.noticed(world, id, actor));
   }
   // The places whose names the company has not learned, by name, with what they are called until it does.
+  // Something said in the words the company had for things before it learned what they are called: what it knew
+  // then (the facts it knew, by id) decides, not what it knows now.
+  static aliased(world: Campaign['world'], text: string, knew: Set<string>): string {
+    return world.module.entities.filter(e => e.alias && !knew.has(e.alias.until))
+      .reduce((t, e) => t.replaceAll(e.name, e.alias!.name), text);
+  }
   private static unnamed(world: Campaign['world']): Map<string, string> {
     return new Map(world.module.entities.filter(e => e.alias && ObservationText.known(world, e) !== e.name)
       .map(e => [e.name, e.alias!.name]));

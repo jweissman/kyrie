@@ -7,10 +7,14 @@ export interface Reviewed { id: string; kind: string; when: string; readings: st
 // doubled, "they is"). For editors (bun bin/voice.ts review), and for the test that keeps the tables clean.
 export class VoiceReview {
   static readonly contexts: Speaking[] = [
-    { actor: 'Tobu', pronoun: 'he', target: 'the boar', place: 'the green', values: { from: 'Merscheald', to: 'Meósdael' } },
-    { actor: 'Edda', pronoun: 'she', target: 'the two goats', place: 'the ford', values: { from: 'Glōmstede', to: 'the mere' } },
-    { actor: 'Wren', pronoun: 'they', target: 'Aelfric', place: 'the taproom', values: { from: 'the fen', to: 'Murksīe' } },
-    { actor: 'the grey dog', pronoun: 'it', target: 'you', place: 'the yard', values: { from: 'the lane', to: 'the yard' } },
+    { actor: 'Tobu', pronoun: 'he', target: 'the boar', place: 'the green',
+      values: { from: 'Merscheald', to: 'Meósdael', way: 'road' } },
+    { actor: 'Edda', pronoun: 'she', target: 'the two goats', place: 'the ford',
+      values: { from: 'Glōmstede', to: 'the mere', way: 'path' } },
+    { actor: 'Wren', pronoun: 'they', target: 'Aelfric', place: 'the taproom',
+      values: { from: 'the fen', to: 'Murksīe', way: 'road' } },
+    { actor: 'the grey dog', pronoun: 'it', target: 'you', place: 'the yard',
+      values: { from: 'the lane', to: 'the yard', way: 'path' } },
   ];
   static review(kind?: string): Reviewed[] {
     return Voice.tables.flatMap(t => t.lines.map(line => ({ line, kind: line.id.split('.')[0] ?? t.kinds[0]! })))

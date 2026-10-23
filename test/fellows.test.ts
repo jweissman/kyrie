@@ -29,7 +29,7 @@ class Fellowship {
   static async hire(s: PlaySession, town: string, name: string) {
     GeneratedWorld.put(s, `${town}_taproom`);
     await s.perform('wait');
-    await this.take(s, new RegExp(`^Ask ${name} what brings them`));
+    await this.take(s, new RegExp(`^Ask ${name} what brings (him|her|them)`));
     await this.take(s, new RegExp(`^Ask ${name} to join the company`));
   }
   static async night(s: PlaySession) {

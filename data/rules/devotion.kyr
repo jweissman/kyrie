@@ -10,7 +10,7 @@ Module world_devotion "Shrines, offerings and the favour of the gods" {
   Entity faith_love: faith "love". Entity faith_magic: faith "magic". Entity faith_trickery: faith "trickery".
   Entity faith_darkness: faith "darkness". Entity faith_chaos: faith "chaos". Entity faith_poison: faith "poison".
   Goal false.
-  Action make_offering(actor: group, altar: shrine, devotion: faith, recipient: member, site: place) "Leave an offering for {recipient}" {
+  Action make_offering(actor: group, altar: shrine, devotion: faith, recipient: member, site: place) "Leave an offering, and ask the god's favour for {recipient}" {
     Description "Coin left at a shrine and its observance kept, as Orsino's shrines ask. A good god's favour heals a little and another's hurts a little; either goes with the one it was asked for into their next ten turns of fighting, with the blessing of the god's faith. Once a day at each shrine.".
     Requires able(actor) and at(actor, site) and at(altar, site) and shrineOf(altar, devotion)
       and memberOf(recipient, actor) and awake(recipient) and quantity(actor, gold) >= offering(altar)

@@ -80,7 +80,8 @@ export class CombatTelling {
   private consequence(e: CombatEvent): string | undefined {
     switch (e.type) {
       case 'damage': return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
-        : `${this.name(e.target)} takes ${e.amount}${e.damageType ? ` ${e.damageType}` : ''}.`;
+        : e.damageType && e.damageType !== 'physical' ? `${this.name(e.target)} takes ${e.amount} ${e.damageType} damage.`
+          : `${this.name(e.target)} is hurt, for ${e.amount}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
       case 'save': return this.saved(e);
       case 'status': return this.condition(e.target, e.detail);

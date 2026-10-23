@@ -91,7 +91,7 @@ export class RegionTraffic {
     const q = JSON.stringify, seat = RegionGeography.seats(region).find(x => !x.site.work?.great
       && [t.road.from.id, t.road.to.id].includes(x.town.id));
     if (!seat) { return []; }
-    const named = `${seat.site.id}_named`, look = RegionSites.look(seat.site), called = RegionSites.seenAs(seat, region);
+    const named = `${seat.site.id}_named`, look = RegionSites.look(seat.site, region), called = RegionSites.seenAs(seat, region);
     const words = { seen: called === look ? `${look} in ${RegionSites.where(seat, region)}` : called, near: seat.town.name };
     return [`  Topic ${t.id}_country with ${t.id} ${q(`Ask ${t.name} about the country off the road`)} when not knows(actor, ${named}) {`,
       `    Says ${q(this.say(t, t.draw.pick(tables.knows), words))}.`, `    On discuss { Assert knows(actor, ${named}). }`, '  }'];
@@ -108,7 +108,7 @@ export class RegionTraffic {
     if (!tr) { return []; }
     const way = t.road.way, id = t.id;
     return [`  Rule ${id}_trouble when at(${id}, ${way}) and hour(clock) >= 10 and hour(clock) < 13 and dice(clock) <= 15`
-      + ` and not inTrouble(${id}) and not helpedBy(${id}, party) { Assert inTrouble(${id}). }`,
+      + ` and not inTrouble(${id}) and not helpedBy(${id}, party) and not staged(${way}, ?story) { Assert inTrouble(${id}). }`,
     `  Observe ${id}_troubled near ${id} of ${id} when at(${id}, ${way}) and inTrouble(${id}) ${q(this.say(t, tr.seen, {}))}.`,
     `  Action ${id}_help(actor: group, site: place) ${q(this.say(t, tr.act, {}))} {`,
     `    Description ${q(tr.about)}.`,

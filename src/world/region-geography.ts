@@ -80,21 +80,23 @@ export class RegionGeography {
     if (!place.gloss || !place.tongue) { return ''; }
     return ` The name is ${place.tongue}${place.tongue === 'Aenean' ? ', the old tongue,' : ''} for “${place.gloss}”.`;
   }
-  // Where a settlement stands, and why there: "It grew up where the Albeex meets the Fiscstrēam." Told with its
-  // description, so the land is met before it is crossed.
-  static placement(region: Region, i: number): string {
+  // Where a settlement stands, said in one breath: "It grew up beside the Albeex, looking out over the Seolforclaene,
+  // with the fells at its back." Told with its description, so the land is met before it is crossed.
+  static placement(region: Region, i: number, shore = true): string {
     const atlas = this.atlas(region), seat = atlas.seats[i], s = region.settlements[i];
     if (!seat || !s) { return ''; }
     const near = [seat.cell, ...Terrain.neighbours(atlas.land, seat.cell)];
     const rivers = atlas.rivers.filter(r => r.cells.some(c => near.includes(c))).map(r => r.naming.name);
     const lake = atlas.lakes.find(l => l.cells.some(c => near.includes(c)));
-    const lines: string[] = [];
-    if (rivers.length > 1) { lines.push(`It grew up where the ${rivers[1]} runs into the ${rivers[0]}.`); }
-    else if (rivers.length) { lines.push(`It grew up beside the ${rivers[0]}.`); }
-    if (seat.lie.includes('harbour')) { lines.push('Boats are drawn up where the shore gives a landing.'); }
-    else if (seat.lie.includes('coast')) { lines.push('The sea is close; you can smell it.'); }
-    if (lake) { lines.push(`It looks out over ${lake.naming.name}.`); }
-    if (seat.lie.includes('fells')) { lines.push('The fells rise behind it.'); }
-    return lines.map(l => `${l} `).join('');
+    const where = rivers.length > 1 ? `where the ${rivers[1]} runs into the ${rivers[0]}`
+      : rivers.length ? `beside the ${rivers[0]}` : '';
+    const about = [lake ? `looking out over the ${lake.naming.name}` : '',
+      seat.lie.includes('fells') ? 'with the fells at its back' : ''].filter(Boolean);
+    const stands = where ? `It grew up ${where}` : about.length ? 'It stands' : '';
+    const coast = !shore ? '' : seat.lie.includes('harbour') ? 'Boats are drawn up where the shore gives a landing. '
+      : seat.lie.includes('coast') ? 'The sea is close; you can smell it. ' : '';
+    // "It stands with the fells at its back", without a pause; after where it grew up, each thing about it is one.
+    const said = where ? [stands, ...about].join(', ') : about.length ? `${stands} ${about.join(', ')}` : '';
+    return `${said ? `${said}. ` : ''}${coast}`;
   }
 }

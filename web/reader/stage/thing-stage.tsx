@@ -12,7 +12,11 @@ import { Told } from './told';
 export class ThingStage {
   static View({ app, examined }: { app: ReaderApp; examined: Examined }) {
     const s = app.state, frame = s.frame!, thing = examined.subject, draw = Act.draw(app), exchange = frame.leaf.exchange;
-    const told = exchange && !frame.leaf.moved && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
+    // What it now looks like is said once, as it is, not again as what came of the last thing done to it.
+    const seen = ThingStage.seen(frame.leaf.situation, thing.name, thing.about);
+    const said = new Set(seen.map(p => Typography.curl(p)));
+    const fresh = exchange && { ...exchange, lines: exchange.lines.filter(l => !said.has(Typography.curl(l.text))) };
+    const told = fresh && !frame.leaf.moved && (fresh.lines.length || fresh.notes.length) ? fresh : undefined;
     return (
       <div className="thing" id="page">
         <div className="face">
@@ -20,7 +24,7 @@ export class ThingStage {
           <p className="kicker">Looking at</p>
           <h1 className="n">{Typography.curl(Words.upper(thing.name))}</h1>
           {thing.note && <p className="r">{Typography.curl(thing.note)}</p>}
-          {ThingStage.seen(frame.leaf.situation, thing.name, thing.about).map((p, i) => <p key={i} className="seen">
+          {seen.map((p, i) => <p key={i} className="seen">
             {Typography.curl(p)}</p>)}
           {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} />}
         </div>
@@ -40,6 +44,6 @@ export class ThingStage {
   // What can be seen of it: what is said of it where it stands, and what the place says of it by name.
   static seen(situation: string[], name: string, about?: string): string[] {
     const bare = name.replace(/^(the|a|an|some) /i, '').toLowerCase();
-    return [...about ? [about] : [], ...situation.filter(p => p.toLowerCase().includes(bare) && p !== about)];
+    return [...about ? [about] : [], ...situation.filter(p => p.toLowerCase().includes(bare) && !(about && p.includes(about)))];
   }
 }

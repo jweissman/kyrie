@@ -50,6 +50,7 @@
 .stage .field { position: relative; margin: 66px clamp(150px, 13vw, 210px); min-height: calc(100dvh - 132px);
   background: var(--paper); outline: 1.5px solid var(--ink); padding: 40px clamp(28px, 3.4vw, 52px) 40px;
   display: flex; flex-direction: column; }
+.stage .field.n-tall { margin-top: 118px; min-height: calc(100dvh - 184px); }
 .stage .place { font: 600 clamp(42px, 5.4vw, 84px)/.95 var(--display); letter-spacing: -.035em; margin: 12px 0 20px;
   text-wrap: balance; }
 .stage .chapter { font: 500 15px/1.3 var(--display); color: var(--accent); margin: -8px 0 18px; letter-spacing: .02em; }
@@ -63,6 +64,7 @@
 .stage .happened .speech { font-style: normal; }
 .stage .happened .you { font: 500 14px/1.3 var(--display); letter-spacing: .02em; text-transform: none; color: var(--accent); }
 .stage .happened .notes { font: 500 14px/1.4 var(--display); font-style: normal; color: var(--accent); }
+.stage .happened .notes span { display: block; }
 .stage .happened.tone-fail p:not(.you) { color: var(--grey); }
 .stage .changed p { font-size: 18px; color: var(--grey); }
 
@@ -80,6 +82,8 @@
 .stage .fig-act.sel img, .stage .fig-act:focus-visible img { outline: 3px solid var(--accent); outline-offset: 4px; }
 .stage .fig-act.sel .n { color: var(--accent); }
 .stage .fig.dead img, .stage .fig.down img { filter: grayscale(1) brightness(.7); }
+/* After dark the faces are seen by what light there is. */
+.stage[data-light="night"] .fig img, .stage[data-light="dusk"] .fig img { filter: brightness(.78) saturate(.85); }
 .stage .threats { margin: 22px 0 6px; display: grid; gap: 14px; }
 .stage .threat { border-left: 4px solid var(--red); padding: 4px 0 4px 18px; max-width: 40em; }
 .stage .threat .n { font: 600 22px/1.2 var(--display); margin: 0 0 4px; }
@@ -105,7 +109,9 @@
 .stage .door-act.sel .arrow { color: inherit; }
 .stage .door-act[aria-disabled="true"] { color: var(--faint); }
 .stage .door-also { display: block; font-size: 13.5px; margin: 0 0 0 4px; color: var(--grey); }
-.stage .door.side-n, .stage .door.side-s { left: var(--at); max-width: 260px; text-align: center; }
+.stage .door-also.shut { color: var(--faint); cursor: default; } .stage .door-also .why { font-size: 12.5px; }
+.stage .door.side-n, .stage .door.side-s { left: var(--at); max-width: 320px; text-align: center; }
+.stage .door .door-head { cursor: default; } .stage .door .door-head:hover .to { text-decoration: none; }
 .stage .door.side-n { top: 0; transform: translate(-50%, calc(-100% - 4px)); }
 .stage .door.side-s { top: 100%; transform: translate(-50%, 4px); }
 .stage .door.side-n::after, .stage .door.side-s::after { content: ''; position: absolute; left: 50%; width: 46px; margin-left: -23px;
@@ -168,6 +174,12 @@
 .stage .line.tally { font: 400 14px/1.4 var(--display); color: var(--grey); margin-top: -10px; }
 .stage .line.learned b { display: block; color: var(--accent); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
   margin-bottom: 4px; }
+.stage .counter { max-width: 36em; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--hair); }
+.stage .counter ul { list-style: none; margin: 0; padding: 0; columns: 2 16em; column-gap: 28px; }
+.stage .counter li { font: 500 15px/1.5 var(--display); break-inside: avoid; }
+.stage .counter li small { color: var(--grey); font-weight: 400; }
+.stage .counter li.dear { color: var(--faint); }
+.stage .counter .buys { font: 400 14px/1.45 var(--display); color: var(--grey); margin: 8px 0 0; }
 .stage .replies { list-style: none; padding: 16px 0 0; margin: 12px 0 0; border-top: 2px solid var(--ink); max-width: 36em; }
 .stage .replies .act { all: unset; box-sizing: border-box; display: block; cursor: pointer; font: 500 18.5px/1.4 var(--display);
   padding: 8px 10px; margin-left: -10px; }
@@ -177,6 +189,7 @@
 .stage .replies .act.sel i { color: inherit; }
 .stage .replies .act[aria-disabled="true"] { color: var(--faint); }
 .stage .replies .leave .act { color: var(--grey); }
+.stage .replies .asked .act:not(.sel) { color: var(--grey); }
 .stage .replies .opened-list { list-style: none; margin: 2px 0 8px 30px; padding-left: 14px; }
 
 /* ---- One thing, looked at: dark, the thing large, what can be done with it beside. ---- */
@@ -206,7 +219,9 @@
   border-right: 2px solid var(--ink); background: linear-gradient(var(--ink), var(--ink)) 0 50% / 100% 2px no-repeat; }
 .stage .strip .band { position: absolute; top: 0; height: 30px; opacity: .9; }
 .stage .strip .band em { position: absolute; top: 38px; left: 0; font: 500 10.5px var(--display); font-style: normal;
-  letter-spacing: .14em; text-transform: uppercase; color: var(--grey); white-space: nowrap; }
+  letter-spacing: .14em; text-transform: uppercase; color: var(--grey); white-space: nowrap;
+  /* A band's name stays within its band: a narrow one is named as far as it has room, not over the next. */
+  max-width: calc(100% - 6px); overflow: hidden; text-overflow: clip; }
 .stage .band.c-fen { background: #c9d6c2; } .stage .band.c-wood { background: #a6b995; } .stage .band.c-heath { background: #cdb99c; }
 .stage .band.c-fell { background: #bcb3a1; } .stage .band.c-peak { background: #9d978a; } .stage .band.c-shore { background: #c2d3dc; }
 .stage .band.c-lake { background: #b6cdda; } .stage .band.c-ford { background: #9fbcd8; } .stage .band.c-open { background: #dcd6c0; }
@@ -282,11 +297,12 @@
 /* ---- Narrower: the field loses its side margins first, then its walls. ---- */
 @media (max-width: 1100px) {
   .stage .field { margin: 44px 130px; }
+  .stage .field.n-tall { margin-top: 112px; }
   .stage .door.side-w, .stage .door.side-e { width: 118px; }
   .stage .fig { width: 160px; } .stage .fig img, .stage .fig .blank { width: 160px; height: 208px; }
 }
 @media (max-width: 860px) {
-  .stage .field { margin: 0; outline: 0; min-height: 100dvh; padding: 22px 16px 28px; }
+  .stage .field, .stage .field.n-tall { margin: 0; outline: 0; min-height: 100dvh; padding: 22px 16px 28px; }
   .stage .doors { order: 1; margin: 30px 0 0; border-top: 2px solid var(--ink); padding-top: 10px; display: grid; gap: 2px; }
   .stage .doors .door { position: static; transform: none; width: auto; max-width: none; background: none; text-align: left; }
   .stage .door::after { display: none; }

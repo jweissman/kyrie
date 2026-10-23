@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 160,
+    "kyr": 162,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 155,
+      "kyr": 157,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10750,6 +10750,13 @@
    "section": "world-rules/rules-devotion"
   },
   {
+   "id": "rule:discovery_rules.staged",
+   "title": "staged",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-discovery"
+  },
+  {
    "id": "rule:discovery_rules.examine",
    "title": "examine",
    "status": "kyr",
@@ -11207,6 +11214,13 @@
   {
    "id": "rule:world_people.kin",
    "title": "kin, expects",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.homeOf",
+   "title": "homeOf, inDebtTo",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-people"

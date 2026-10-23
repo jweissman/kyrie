@@ -48,7 +48,7 @@ export class Atlas {
     const glosses = Object.entries(land.glosses).map(([id, gloss]) => [places.find(p => p.id === id)?.name
       ?? region.areas.find(a => a.id === id)?.name ?? '', gloss] as [string, string]).filter(([n]) => n);
     const rivers = land.rivers.map(r => this.line(r.filter(c => known.has(c)), W));
-    return { box, cells, unknown, zones: this.zoned(zones, labels), rivers,
+    return { box, cells, unknown, zones: this.zoned(zones, labels, [...places, ...here ? [here] : []]), rivers,
       roads, paths, places, labels, ...here ? { here } : {}, glosses };
   }
   // A country with no land drawn for it (an authored one): its places where its author set them, joined by the ways
@@ -123,12 +123,16 @@ export class Atlas {
   }
   // The name of wild country, written across it where it does not cross a place's name: a little below its middle,
   // or above.
-  private static zoned(zones: Drawn['zones'], labels: Drawn['labels']): Drawn['zones'] {
+  // A stretch of wild country's name, set across it where it crosses no place's name and no mark (the company's own
+  // among them).
+  private static zoned(zones: Drawn['zones'], labels: Drawn['labels'], marks: Pt[]): Drawn['zones'] {
     return zones.flatMap(z => {
       const w = z.name.length * 13 * 0.9;
       for (const dy of [26, -22, 48, -44]) {
         const box = [z.x - w / 2, z.y + dy - 14, z.x + w / 2, z.y + dy + 2];
-        const crossed = labels.some(l => {
+        const marked = marks.some(m => box[0]! < m.x + 12 && box[2]! > m.x - 12
+          && box[1]! < m.y + 12 && box[3]! > m.y - 12);
+        const crossed = marked || labels.some(l => {
           const lw = l.text.length * 9;
           const left = l.anchor === 'start' ? l.x : l.anchor === 'end' ? l.x - lw : l.x - lw / 2;
           return box[0]! < left + lw && box[2]! > left && box[1]! < l.y + 3 && box[3]! > l.y - 14;

@@ -32,7 +32,8 @@ export interface Setting {
 
 // The choices a company is made from, read from the same catalogs the game runs on.
 export interface Catalog {
-  ancestries: { id: string; name: string; text: string }[];
+  // Each people, and the callings open to it (an elf is no cleric).
+  ancestries: { id: string; name: string; text: string; callings: string[] }[];
   callings: { id: string; name: string; text: string; specializations: { id: string; name: string }[] }[];
   backgrounds: { id: string; name: string; kind: string; text: string; calling?: string }[];
   kinds: { id: string; name: string }[];

@@ -1,5 +1,5 @@
 {
-  "about": "Someone joins the company: what they say or do, by what they are to the one who plays (bond: kin, friend, hire, fellow, escort, stranger) and, where it shows, their manner. A line that names more of the moment is chosen over one that names less. A person's own words (Joins \"...\" in Kyr) are said instead.",
+  "about": "Someone joins the company: what they say or do, by what they are to the one who plays (bond: kin, expected, friend, hire, escort, fellow, stranger) and, where it shows, their manner. A line that names more of the moment is chosen over one that names less. A person's own words (Joins \"...\" in Kyr) are said instead.",
   "kinds": ["join"],
   "lines": [
     { "id": "join.kin.1", "when": { "bond": "kin" }, "text": "{Actor} is already reaching for {their} coat. 'I was going to go anyway,' {actor} says. 'Now I don't have to go alone.'" },

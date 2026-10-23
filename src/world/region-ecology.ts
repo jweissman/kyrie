@@ -25,6 +25,9 @@ export class RegionEcology {
     ruin: 'ruin', grove: 'grove', bog: 'fen' };
   static readonly forms: Record<string, string> = { river: 'river', lake: 'lake', wood: 'wood', pass: 'heights',
     peak: 'heights' };
+  // The ground an open road crosses, as the kind of country its animals are of: a moor road has the moor's.
+  static readonly grounds: Record<string, string> = { meadow: 'meadow', heath: 'heath', wood: 'wood', fen: 'fen',
+    fell: 'fells' };
   static get tables(): Tables { return GenerationSetting.tables as unknown as Tables; }
   static country(region: Region): string { return this.terrain[region.terrain] ?? 'fells'; }
   // The kind of country a site stands in: what it is, or the region's own when that says nothing (a tower).

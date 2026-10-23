@@ -1,3 +1,4 @@
+import { Draw } from './land/draw';
 import { Terrain } from './land/terrain';
 import { Histories } from './history/histories';
 import { RegionEcology } from './region-ecology';
@@ -28,8 +29,8 @@ export class RegionSites {
   // What a site is called until its name is known: how it looks, and, where the region has others that look the
   // same, where it is (a grassed mound north of Faennslím; a cave in the hillside deep in Bruinforwest).
   static seenAs(seat: Seat, region: Region): string {
-    const { site } = seat, seen = this.look(site);
-    const like = region.sites.filter(s => s !== site && this.look(s) === seen);
+    const { site } = seat, seen = this.look(site, region);
+    const like = region.sites.filter(s => s !== site && this.look(s, region) === seen);
     if (!like.length) { return seen; }
     const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
     if (zone) {
@@ -43,30 +44,43 @@ export class RegionSites {
     const side = RegionGeography.compass(RegionGeography.spot(region, seat.town.cell!), seat.spot);
     return `${seen} ${side === 'here' ? 'near' : `${side} of`} ${seat.town.name}`;
   }
-  // How a site looks from outside: a makers' work as its plan says; anything else by its kind.
-  static look(site: Region['sites'][number]): string {
-    return site.work ? Histories.plan(site.work.plan).seen : this.seen[site.kind] ?? 'a place';
+  // How a site looks from outside: a makers' work as its plan says, in the shape it has; anything else by its kind.
+  static look(site: Region['sites'][number], region: Region): string {
+    if (!site.work) { return this.seen[site.kind] ?? 'a place'; }
+    const plan = Histories.plan(site.work.plan);
+    return plan.looks?.[this.shape(region, site)] ?? plan.seen;
+  }
+  // Of the works of one plan in a country no two are laid out alike: each has the next of its plan's three shapes,
+  // from a start drawn for the country.
+  static shape(region: Region, site: Region['sites'][number]): number {
+    const same = region.sites.filter(s => s.work?.plan === site.work!.plan);
+    return (same.indexOf(site) + new Draw(`${region.name}:${site.work!.plan}:shapes`).int(3)) % 3;
   }
   static lines(region: Region, taken: Record<string, string> = {}): string[] {
     return RegionGeography.seats(region).flatMap(seat => this.seat(seat, region, !!taken[seat.site.id]));
   }
   private static seat(seat: Seat, region: Region, claimed: boolean): string[] {
     const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
-    const where = this.where(seat, region), seen = this.look(site), called = this.seenAs(seat, region);
+    const where = this.where(seat, region), seen = this.look(site, region), called = this.seenAs(seat, region);
     const way = called === seen ? `${seen} in ${where}` : called, great = !!site.work?.great;
     const hidden = great || (!claimed && (site.part ?? 0) > 0);
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       // A work's own plan says how it looks; what is said here of it is the life of the place, told after.
       `  Observe ${id}_scene at ${id}${site.work ? ' as ambience' : ''} when true ${q(this.scene(seat, region))}.`,
-      `  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${this.worn(region, site) ? ', as the folk call it' : ''}.`)}.`,
+      // Where the name is cut over the door, the stone says it; elsewhere the place is known for what it is called.
+      ...this.cut[site.kind] && !site.work ? [] : [`  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${this.worn(region, site) ? ', as the folk call it' : ''}.`)}.`],
       // A work's own people tell of it in its plan's words (RegionWorks); anything else, the innkeeper knows.
       ...site.work ? [] : [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
         `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
         `    On discuss { Assert knows(actor, ${id}_named).${hidden ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }']];
-    // Every site's way can be learned; one deep in wild country can also be found by searching where it starts.
-    lines.push(hidden && !great ? `  Discovery ${id}_found ${q(`The way to ${way}.`)} { Found by searching ${RegionZones.room(RegionGeography.atlas(region).zones.find(z => z.id === site.zone)!, site.part!)}. }`
-      : `  Discovery ${id}_found ${q(`The way to ${way}.`)}.`);
+    // Every site's way can be learned, told landmark by landmark where it is in wild country; one deep in wild country
+    // can also be found by searching where it starts.
+    const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
+    const told = zone ? `The way to ${way}: ${RegionZones.route(region, zone, site.part ?? 0)}, where the track to it starts.`
+      : `The way to ${way}.`;
+    lines.push(hidden && !great ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)}. }`
+      : `  Discovery ${id}_found ${q(told)}.`);
     if (this.cut[site.kind] && !site.work) {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);
     }

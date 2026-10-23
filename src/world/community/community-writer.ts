@@ -123,13 +123,13 @@ export class CommunityWriter {
       const goat = c.animals.find(a => a.id === concern.animal)!;
       const road = this.strayRoad(region, s.id);
       const where = road ? road.way : `${s.id}_green`, other = road ? (road.from.id === s.id ? road.to : road.from).name : '';
-      return [`  Person ${goat.id} ${q(goat.name)} at ${where} { Role ${q(`${r.name}'s goat, loose, with a broken tether`)}. Species goat. Pronouns she. Peaceable. }`,
+      return [`  Person ${goat.id} ${q(goat.name)} at ${where} { Role ${q(`${r.name}'s goat`)}. Species goat. Pronouns she. Peaceable. }`,
         `  Observe ${goat.id}_seen near ${goat.id} of ${goat.id} when at(${goat.id}, ${where}) ${q(`A goat with a broken tether is cropping the verge, with her whole attention.`)}.`,
         `  Initially Assert home(${goat.id}, ${s.id}_green). Initially Assert acceptsEscort(${goat.id}, party).`,
         `  Topic ${r.id}_goat with ${r.id} ${q(`Ask ${r.name} what the matter is`)} when not cameHome(${goat.id}) once {`,
         `    Says ${q(`'${goat.name} has had her tether through again,' says ${r.name}. '${road ? `She'll be off up the road to ${other}, eating somebody's hedge` : 'She will be in somebody\'s garden'}. If you see her, bring her home. She comes for anyone who walks like they mean it.'`)}.`, '  }',
         `  Rule ${goat.id}_thanks when cameHome(${goat.id}) and not grateful(${r.id}, party) says ${q(`${r.name} catches ${goat.name}'s broken tether and ties it twice. 'Thank you. Here.' A coin, warm from a pocket.`)} {`,
-        `    Assert grateful(${r.id}, party). Increase quantity(party, gold) by 1. }`];
+        `    Assert grateful(${r.id}, party). Increase quantity(party, gold) by 1. Retract acceptsEscort(${goat.id}, party). }`];
     }
     return [`  Initially Assert wants(${r.id}, ${concern.wants}).`,
       `  Topic ${r.id}_wants with ${r.id} ${q(`Ask ${r.name} what the matter is`)} when not grateful(${r.id}, party) once {`,

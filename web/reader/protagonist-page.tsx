@@ -22,7 +22,9 @@ export class ProtagonistPage {
             <label>People<select value={member.raceId} data-field="raceId" onChange={ProtagonistPage.change.bind(null, app)}>
               {catalog.ancestries.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}</select></label>
             <label>Calling<select value={member.classId} data-field="classId" onChange={ProtagonistPage.change.bind(null, app)}>
-              {catalog.callings.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+              {catalog.callings.map(c => <option key={c.id} value={c.id}
+                disabled={!ProtagonistPage.open(people, c.id)}>{ProtagonistPage.calling(c.name, people, c.id)}</option>)}
+            </select></label>
           </section>
           <p className="what">{[people?.text, calling?.text].filter(Boolean).join(' ')}</p>
           <p className="label">Why you have come</p>
@@ -39,6 +41,16 @@ export class ProtagonistPage {
         <Toast.View app={app} />
       </div>
     );
+  }
+  // A calling as offered: "Cleric (not for an elf)", when it is not open to the people chosen.
+  private static calling(name: string, people: { name: string; callings: string[] } | undefined, id: string): string {
+    if (this.open(people, id)) { return name; }
+    const who = people!.name.toLowerCase();
+    return `${name} (not for ${/^[aeiou]/.test(who) ? 'an' : 'a'} ${who})`;
+  }
+  // Whether a people may follow a calling.
+  private static open(people: { callings: string[] } | undefined, calling: string): boolean {
+    return !people || people.callings.includes(calling);
   }
   private static change(app: ReaderApp, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     app.opening.edit(0, e.currentTarget.dataset.field!, e.currentTarget.value);

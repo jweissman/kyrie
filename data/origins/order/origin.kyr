@@ -3,18 +3,23 @@ Module origin "The brothers' errand" {
   Entity party: group "You".
   Place shrine "The shrine" is room.
   Entity priest: group "The priest". Entity named: fact "Where it is". Entity history: fact "Who made it".
+  Entity fate: fact "How they ended".
   Entity found: fact "The way there".
   Relation delivered(group). Relation copied(group).
+  // The bed the priest gives, once the letter is read: lodging for nothing, for as long as the errand lasts.
+  Entity bed: service "the bed in the back". Initially Assert serviceOf(bed, lodging). Initially Set fee(bed) to 0.
   Initially Assert expects(priest, party). Initially Assert knows(party, named).
   Observe letter at shrine as feature when expects(priest, party) "You have the letter inside your coat: from the brothers of your order, over the hills, to the priest of {cult} at {homename}, asking that {protagonist}, who reads the old script, be given a bed and shown the way to {work}. There is writing there that the order has heard of for a hundred years and never seen copied.".
   Topic give_letter with priest "Give {priest} the brothers' letter" when expects(priest, actor) once {
     Says "{priest} reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: it is out in {where}, and I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight.'".
-    On discuss { Retract expects(priest, actor). Assert delivered(actor). Assert knows(actor, found). }
+    On discuss { Retract expects(priest, actor). Assert delivered(actor). Assert knows(actor, found). Assert offers(priest, bed). }
   }
-  Topic show_copies with priest "Show {priest} what you copied at {work}" when knows(actor, history) and delivered(actor) and not copied(actor) once {
+  Topic show_copies with priest "Show {priest} what you copied at {work}" when (knows(actor, history) or knows(actor, fate)) and delivered(actor) and not copied(actor) once {
     Says "{priest} turns the pages slowly, and is a long time saying anything. 'So that is who they were,' {priest} says at last. 'The brothers will want this.' Coin is pressed into your hand for the road: the order pays its debts, even through other people's purses.".
     On discuss { Assert copied(actor). Increase quantity(actor, gold) by 40. }
   }
-  Objective errand when not copied(party) "The brothers want the old writing at {work} copied.".
+  // Whatever the makers cut there of themselves is the old writing: how they lived, or how they ended.
+  Objective errand when not copied(party) and not knows(party, history) and not knows(party, fate) "The brothers want the old writing at {work} copied.".
+  Objective errand_home when not copied(party) and (knows(party, history) or knows(party, fate)) "You have copied the old writing at {work}. {priest} at {homename} should see it.".
   Goal false.
 }

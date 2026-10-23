@@ -1,7 +1,8 @@
 {
-  "about": "How each of Orsino's trap mechanisms (orsino-world.json) is understood and dealt with in a generated work: what looking closely at it shows, and the ways of making it safe, each with what it needs. Written by hand: Orsino gives a trap's mechanism and what it does, not how it is found out or got past.",
+  "about": "How each of Orsino's trap mechanisms (orsino-world.json) is understood and dealt with in a generated work: what is noticed of it in passing (sign), what looking closely at it shows (seen), and the ways of making it safe, each with what it needs. Written by hand: Orsino gives a trap's mechanism and what it does, not how it is found out or got past.",
   "mechanisms": {
     "pressure plate": {
+      "sign": "One flag of the floor across the way is not quite level with the others, and there is no dust in the crack round it.",
       "seen": "One flag of the floor sits a finger's breadth proud of the rest, with no dust in the crack round it. A foot's weight on it would set off whatever it is joined to; so would any weight.",
       "ways": [
         { "id": "spring", "label": "Lean on the plate with the pole, standing well back", "needing": "pole", "to": "sprung" },
@@ -9,6 +10,7 @@
       ]
     },
     "tripwire": {
+      "sign": "Something catches the light low across the way: a wire, at the height of an ankle.",
       "seen": "The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.",
       "ways": [
         { "id": "spring", "label": "Hook the wire with the pole and pull, from well back", "needing": "pole", "to": "sprung" },
@@ -16,6 +18,7 @@
       ]
     },
     "hidden switch": {
+      "sign": "The wall here is carved all over, and the carving is thickest where the way is narrowest.",
       "seen": "Among the carvings is one that is not carved but set in, a boss that would go in under a hand. It sits where a hand leaning on the wall would find it, at the narrowest place.",
       "ways": [
         { "id": "spring", "label": "Push the switch in with the pole's end, standing clear", "needing": "pole", "to": "sprung" },
@@ -23,6 +26,7 @@
       ]
     },
     "arcane glyph": {
+      "sign": "A glyph is cut in the wall beside the way, and it shimmers faintly, as if it had only just been written.",
       "seen": "The glyph is a word, written to be read by whoever passes it; reading it is what sets it off. Someone who knew the letters could unsay it.",
       "ways": [
         { "id": "unsay", "label": "Unsay the glyph, letter by letter", "needing": "lore", "to": "made_safe" },
@@ -30,6 +34,7 @@
       ]
     },
     "magical rune": {
+      "sign": "A rune is laid in the floor across the way, its lines lit with a dull glow that comes and goes, slow as breathing.",
       "seen": "The rune is laid in the floor where a foot must cross it. It is waiting for weight, or warmth; it cannot tell the one from the other.",
       "ways": [
         { "id": "unsay", "label": "Break the rune's lines with the right words", "needing": "lore", "to": "made_safe" },
@@ -37,6 +42,7 @@
       ]
     },
     "enchanted object": {
+      "sign": "Something stands in the way that has no business there: an ordinary-looking thing that hums when you come near it.",
       "seen": "The thing is set exactly where anyone going through must brush against it. Whatever is in it wants touching; it would go off for a stick as well as a hand.",
       "ways": [
         { "id": "spring", "label": "Knock it over with the pole, from well back", "needing": "pole", "to": "sprung" },

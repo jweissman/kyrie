@@ -30,6 +30,8 @@ export interface Settlement extends Naming {
   merchantType?: string;
   // Its folk, each of its people's ancestry, and how a lesser people came to live there (see RegionPeoples).
   folk?: string; people?: Partial<Record<'innkeeper' | 'priest' | 'merchant' | 'traveller', string>>; came?: string;
+  // Whether each of its innkeeper, priest, merchant and traveller is he or she, drawn apart from all else about them.
+  pronouns?: Partial<Record<'innkeeper' | 'priest' | 'merchant' | 'traveller', string>>;
   // The cell of the region's atlas it stands on.
   cell?: number;
 }

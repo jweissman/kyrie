@@ -23,7 +23,9 @@ export class Creation {
     const backgrounds = Object.keys(Overlays.catalog).filter(id => Overlays.has(id, 'background'));
     return {
       ancestries: (Content.playableRaces as string[]).map(id => ({ id, name: Canon.ancestries[id]?.name ?? id,
-        text: Canon.ancestries[id]?.description ?? '' })),
+        text: Canon.ancestries[id]?.description ?? '',
+        callings: (Content.playableClasses as string[])
+          .filter(c => Canon.ancestries[id]?.classes.includes(c) ?? true) })),
       callings: (Content.playableClasses as string[]).map(id => {
         const c = Canon.classes[Canon.resolve('classes', id)];
         return { id, name: c?.name ?? id, text: c?.practice ?? c?.description ?? '',

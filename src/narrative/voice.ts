@@ -29,12 +29,22 @@ export class Voice {
   private static readonly byKind = new Map(Voice.tables.flatMap(t => t.kinds.map(k => [k, t] as const)));
   static table(kind: string): VoiceTable | undefined { return this.byKind.get(kind); }
   // The lines of a kind that fit a moment: every key a line names must be one of the moment's values for it; a line
-  // that names more of the moment is the better fit, and is chosen over those that fit only loosely.
+  // that names more of the moment is the better fit, and is chosen over those that fit only loosely (see tiers).
   static fitting(kind: string, context: Record<string, string>): VoiceLine[] {
+    return this.tiers(kind, context)[0] ?? [];
+  }
+  // Every line of a kind that fits a moment, closest fits first: those naming the most of it, then fewer. Who the
+  // company is to someone counts for more than anything else a line names: a mother greets her child as a mother,
+  // whatever her manner.
+  static tiers(kind: string, context: Record<string, string>): VoiceLine[][] {
     const lines = (this.table(kind)?.lines ?? []).filter(l => l.id.startsWith(`${kind}.`) || this.table(kind)?.kinds.length === 1)
       .filter(l => this.matches(l, context));
-    const best = Math.max(0, ...lines.map(l => Object.keys(l.when ?? {}).length));
-    return lines.filter(l => Object.keys(l.when ?? {}).length === best);
+    const sizes = [...new Set(lines.map(l => this.closeness(l)))].sort((a, b) => b - a);
+    return sizes.map(n => lines.filter(l => this.closeness(l) === n));
+  }
+  static readonly weights: Record<string, number> = { bond: 2 };
+  private static closeness(line: VoiceLine): number {
+    return Object.keys(line.when ?? {}).reduce((n, key) => n + (this.weights[key] ?? 1), 0);
   }
   static matches(line: VoiceLine, context: Record<string, string>): boolean {
     return Object.entries(line.when ?? {}).every(([key, want]) => {

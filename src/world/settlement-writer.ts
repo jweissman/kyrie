@@ -88,7 +88,7 @@ export class SettlementWriter {
     const at = f.keeping === 'none' ? `${s.id}_green` : `${s.id}_taproom`;
     const work = f.keeping === 'inn' ? 'Profession innkeeper.'
       : `Background ${k.background}. Offers lodging ${q(k.lodging![0])} for ${k.lodging![1]} coin.`;
-    return `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${at} { Role ${q(Foundings.fill(k.role, this.words(s)))}. ${this.of(s, 'innkeeper', region)} ${work} Peaceable. `
+    return `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${at} { Role ${q(Foundings.fill(k.role, this.words(s)))}. ${this.of(s, 'innkeeper', region)} ${work} Peaceable.${this.pronoun(s, 'innkeeper', f)} `
       + `Sells rations for ${stock.price} coin from ${f.keeping === 'none' ? Math.min(2, stock.stock) : stock.stock}. }`;
   }
   // Only a town's priest has the learning to call the dead back, and keeps a copy of the old orders' glossary of the
@@ -96,7 +96,7 @@ export class SettlementWriter {
   private static priest(s: Settlement, f: Founding, at: { region: Region; cult: Cult }): string {
     const q = this.q, { region, cult } = at, h = Foundings.table.holy[f.holy];
     const where = f.holy === 'wayside' ? `${s.id}_green` : `${s.id}_shrine`;
-    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
+    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
   }
   // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy: in a shop,
   // or at their own door on the heart.
@@ -108,7 +108,7 @@ export class SettlementWriter {
     const purse = ({ town: 1000, village: 200 } as Record<string, number>)[s.size] ?? 60;
     const role = f.selling === 'shop' ? t.role : Foundings.fill(Foundings.table.selling.door.role, { role: t.role });
     return `  Person ${s.id}_merchant ${q(s.merchant)} at ${s.id}_${f.selling === 'shop' ? 'shop' : 'green'} { Role ${q(role)}. ${this.of(s, 'merchant', region)}`
-      + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable. ${sells}${buys ? ` ${buys}` : ''} }\n`
+      + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable.${this.pronoun(s, 'merchant', f)} ${sells}${buys ? ` ${buys}` : ''} }\n`
       + `  Initially Assert buysValuables(${s.id}_merchant). Initially Set purse(${s.id}_merchant) to ${purse}.`
       + ` Initially Set quantity(${s.id}_merchant, gold) to ${purse}.`;
   }
@@ -116,6 +116,13 @@ export class SettlementWriter {
   static trade(s: Settlement): MerchantType {
     const types = (GenerationSetting.tables as unknown as Tables).merchantType;
     return types.groups[s.merchantType ?? 'chandler'] ?? types.groups.chandler!;
+  }
+  // Whether a townsperson is he or she, as drawn, unless their place says (a guest-master or a prior of a brothers'
+  // house is a brother; a herb-wife is a wife).
+  private static pronoun(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant', f: Founding): string {
+    const said = role === 'innkeeper' && f.keeping === 'guesthouse' ? 'he' : role === 'priest' && f.holy === 'chapel' ? 'he'
+      : role === 'merchant' && s.merchantType === 'herbwife' ? 'she' : s.pronouns?.[role];
+    return said ? ` Pronouns ${said}.` : '';
   }
   // A townsperson's people, as a Person says it.
   private static of(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller', region: Region): string {

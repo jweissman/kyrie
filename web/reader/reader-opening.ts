@@ -52,7 +52,10 @@ export class ReaderOpening {
     else if (field === 'backgroundId' && !value) { delete member.backgroundId; }
     else {
       (member as unknown as Record<string, string>)[field] = value;
-      if (field === 'classId') { delete member.traits; delete member.spells; }
+      // A people takes only the callings open to it: one that is not takes the first that is.
+      const open = this.app.state.catalog?.ancestries.find(a => a.id === member.raceId)?.callings;
+      if (field === 'raceId' && open?.length && !open.includes(member.classId ?? '')) { member.classId = open[0]!; }
+      if (field === 'classId' || field === 'raceId') { delete member.traits; delete member.spells; }
     }
     this.app.setState({ party });
     if (field !== 'name') { void this.preview(party); }

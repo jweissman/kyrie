@@ -35,9 +35,9 @@ export interface AppState {
   // Whether the keys are being used: only then is the choice they are on shown.
   keyed?: boolean;
   pending?: { said: string; travel?: Travel };
-  // What the player is attending to (the place, someone spoken with, one thing looked at), and what has been said in
-  // the conversation under way.
-  attention: Attention; talk: TalkLine[];
+  // What the player is attending to (the place, someone spoken with, one thing looked at), what has been said in
+  // the conversation under way, and which of its questions have been put already.
+  attention: Attention; talk: TalkLine[]; asked: string[];
   fight?: FightMark;
   stage: string; error: string; help: boolean;
 }
@@ -51,7 +51,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   override state: AppState = ReaderApp.initial(ReaderStore.read());
   private static initial(saved?: SavedGame): AppState {
     return { phase: 'title', campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0, open: [],
-      attention: Conversation.place, talk: [],
+      attention: Conversation.place, talk: [], asked: [],
       member: '', stage: '', error: '', help: false, ...saved ? { saved } : {} };
   }
   override componentDidMount() {
@@ -84,7 +84,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true } : undefined;
       this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight,
-        attention: Conversation.place, talk: [] });
+        attention: Conversation.place, talk: [], asked: [] });
     }
   }
   private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; menu: Menu };
@@ -123,7 +123,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     // A conversation opens on what they were doing when the company came over.
     const doing = attention.kind === 'person' ? this.menu.scene?.subjects.find(x => x.id === attention.id)?.says?.[0] : undefined;
     this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false,
-      talk: attention.kind !== 'person' ? this.state.talk : doing ? [{ kind: 'telling', text: doing }] : [] });
+      talk: attention.kind !== 'person' ? this.state.talk : doing ? [{ kind: 'telling', text: doing }] : [], asked: [] });
     if (choice.command) { void this.perform(choice, choice.label, attention); }
   }
   // Let the companion whose turn it is fight this turn on their own.
@@ -147,9 +147,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const next = await this.engine.request<Frame>({ kind: 'perform', command: choice.command!, said,
         move: choice.tone === 'way', named: choice.tone !== 'way' });
       const attention = Conversation.holds(turning ?? this.state.attention, frame, next);
-      const talk = attention.kind === 'person' ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
+      const person = attention.kind === 'person';
+      const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
       this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next, attention), hovered: undefined,
-        view: this.state.view === 'map' ? 'map' : 'here', stage: '', attention, talk });
+        view: this.state.view === 'map' ? 'map' : 'here', stage: '', attention, talk,
+        asked: person && !turning ? [...this.state.asked, choice.id] : [] });
     } catch (error) { this.failed(error); }
   }
   // A conversation goes on: what was open with someone (what to buy from them) stays open, if they are still there

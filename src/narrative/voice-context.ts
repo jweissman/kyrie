@@ -22,15 +22,31 @@ export class VoiceContext {
       shelter: (place && Narrator.shelter(campaign, place)) ?? 'outdoors',
       moment: pairs.has(`${h.kind}:${actor}`) ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {} };
   }
-  // Family first; then someone expecting the one who plays, someone paid to come, a traveller of the country who
-  // would come for nothing, someone being seen home, or a stranger.
+  // Family first; then someone the one who plays has come to with a letter or an errand (who has not met them),
+  // someone they owe, someone they have done a good turn, someone paid to come, someone being seen home, a traveller
+  // of the country who would come for nothing, someone of the place they grew up in, or a stranger. An animal is
+  // never family, expected, a creditor, a friend or a neighbour, however glad of you it is: those are said in words.
   static bond(campaign: Campaign, actor: string, company: string): string {
-    if (this.holds(campaign, 'kin', company, actor) || this.holds(campaign, 'kin', actor, company)) { return 'kin'; }
-    if (this.holds(campaign, 'expects', actor, company)) { return 'friend'; }
+    const person = !this.species(campaign, actor);
+    if (person && (this.holds(campaign, 'kin', company, actor) || this.holds(campaign, 'kin', actor, company))) { return 'kin'; }
+    if (person && this.holds(campaign, 'expects', actor, company)) { return 'expected'; }
+    if (person && this.holds(campaign, 'inDebtTo', company, actor)) { return 'creditor'; }
+    if (person && this.holds(campaign, 'grateful', actor, company)) { return 'friend'; }
     if (campaign.world.number(ModuleWriter.call('hire', actor)) > 0) { return 'hire'; }
     if (this.holds(campaign, 'acceptsEscort', actor, company)) { return 'escort'; }
     const traveller = campaign.module.entities.find(e => e.id === actor)?.name.includes(', ') && /_traveller$/.test(actor);
-    return traveller ? 'fellow' : 'stranger';
+    if (traveller) { return 'fellow'; }
+    return person && this.neighbour(campaign, actor, company) ? 'neighbour' : 'stranger';
+  }
+  // Someone of the settlement the one who plays grew up in, met there.
+  private static neighbour(campaign: Campaign, actor: string, company: string): boolean {
+    const home = campaign.world.module.relations.some(r => r.name === 'homeOf')
+      && campaign.world.related('homeOf').find(r => r.args[0] === company)?.args[1];
+    const entities = campaign.module.entities;
+    for (let at = campaign.world.one('at', actor); home && at; at = entities.find(e => e.id === at)?.space?.parent) {
+      if (at === home) { return true; }
+    }
+    return false;
   }
   private static holds(campaign: Campaign, name: string, ...args: string[]): boolean {
     return campaign.world.module.relations.some(r => r.name === name)

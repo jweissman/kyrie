@@ -15,6 +15,13 @@ export class ActionFeedbackView {
     const member = before.party.find(p => p.id === target);
     return !!member && !member.conditions.includes(status);
   }
+  private static taught(campaign: Campaign, event: CampaignEvent, learned: string[]): { id: string; text: string }[] {
+    const observations = campaign.module.observations ?? [];
+    return (event.perceptions ?? []).filter(p => p.kind === 'observation').filter(p => {
+      const teaches = observations.find(o => o.id === p.id.split('@')[0])?.teaches;
+      return !!teaches && learned.includes(teaches);
+    }).map(p => ({ id: p.id, text: p.text }));
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action)!;
@@ -24,7 +31,11 @@ export class ActionFeedbackView {
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
       .map(e => CombatPresenter.format(e, names));
     const learned = after.knowledge.filter(k => !before.knowledge.some(b => b.id === k.id));
-    const changed = after.observations.filter(o => !before.observations.some(b => b.id === o.id && b.text === o.text));
+    // What taught the company something is what it saw, though once it knows, the place no longer shows it so.
+    const taught = ActionFeedbackView.taught(campaign, event, learned.map(k => k.id))
+      .filter(t => !before.observations.some(b => b.text === t.text));
+    const changed = [...taught, ...after.observations.filter(o => !taught.some(t => t.text === o.text)
+      && !before.observations.some(b => b.id === o.id && b.text === o.text))];
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
     const ended = event.combat.find(e => e.type === 'end');
     const fallen = after.party.filter(p => p.hp === 0 && before.party.some(b => b.id === p.id && b.hp > 0));
@@ -55,7 +66,8 @@ export class ActionFeedbackView {
     // What the company did, in the words it was offered in (a name it learns by doing it is not echoed back), where
     // the offer was one; several offered under one id (buy it for one of the company or another) say it as done.
     const offered = before.choices.filter(c => c.id === event.action);
-    return { resources, attempt: offered.length === 1 ? offered[0]!.name : action.name,
+    return { resources, attempt: offered.length === 1 ? offered[0]!.name
+      : PlayerView.aliased(campaign.world, action.name, new Set(before.knowledge.map(k => k.id))),
       result: FictionalTime.prose(result),
       time: `${FictionalTime.duration(event.elapsed - before.elapsed)} · ${FictionalTime.at(event.elapsed)}`,
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'

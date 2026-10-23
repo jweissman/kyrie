@@ -60,9 +60,11 @@ export class RegionRecruits {
     const wanted = this.classes[s.calling], calling = wanted && allowed.includes(wanted) ? wanted
       : allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'commoner';
     const hire = 3 + i, brings = this.brings[s.calling] ?? 'Passing through, like everyone.';
-    return [`  Person ${id} ${q(s.traveller)} at ${at} { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable. }`,
+    const pronoun = s.pronouns?.traveller, them = { he: 'him', she: 'her' }[pronoun ?? ''] ?? 'them';
+    return [`  Person ${id} ${q(s.traveller)} at ${at} { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable.`
+      + `${pronoun ? ` Pronouns ${pronoun}.` : ''} }`,
       `  Initially Set hire(${id}) to ${hire}.`,
-      `  Topic ${id}_brings with ${id} ${q(`Ask {${id}} what brings them to ${s.name}`)} when true once {`,
+      `  Topic ${id}_brings with ${id} ${q(`Ask {${id}} what brings ${them} to ${s.name}`)} when true once {`,
       `    Says ${q(`'${brings}' {${id}} looks you over. 'If you are going anywhere, I would come along. ${hire} coin, and my keep.'`)}.`,
       `    On discuss { Assert willing(${id}, actor). }`, '  }'];
   }

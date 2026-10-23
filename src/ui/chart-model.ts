@@ -26,11 +26,16 @@ export class ChartModel {
   private regionalArea(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).findLast(e => ChartModel.areaKinds.includes(e.space!.kind));
   }
+  // The ways the company has walked from, the ways it has been told of (a track hidden until its way is known, once
+  // someone has told it), and with wayfinding every road and path of the country.
   private ways(visited: Set<string>): WayInfo[] {
-    const model = new PassageModel(this.world, this.actor, this.entities);
-    const seen = [...visited].flatMap(from => model.ways(from));
+    const model = new PassageModel(this.world, this.actor, this.entities), relations = this.world.view.relations;
+    const told = relations.filter(r => r.name === 'revealedBy'
+      && this.world.test(ModuleWriter.call('knows', this.actor, r.args[1]!)))
+      .flatMap(r => relations.filter(c => c.name === 'connects' && c.args[0] === r.args[0]))
+      .flatMap(c => model.ways(c.args[1]!).filter(w => w.passage === c.args[0] && w.to === c.args[2]));
+    const seen = [...[...visited].flatMap(from => model.ways(from)), ...told];
     if (!this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return seen; }
-    const relations = this.world.view.relations;
     const mapped = relations.filter(r => r.name === 'passageKind' && ChartModel.regional.includes(r.args[1]!))
       .flatMap(r => relations.filter(c => c.name === 'connects' && c.args[0] === r.args[0]))
       .filter(c => model.visible(c.args[0]!))
@@ -103,6 +108,17 @@ export class ChartModel {
   private regionOf(id: string | undefined): string | undefined {
     return id ? Spatial.ancestry(this.entities, id).find(e => ['region', 'plane'].includes(e.space!.kind))?.id : undefined;
   }
+  private told(passage: string): boolean {
+    return this.world.related('revealedBy').some(r => r.args[0] === passage
+      && this.world.test(ModuleWriter.call('knows', this.actor, r.args[1]!)));
+  }
+  private trail(edges: Map<string, RegionChart['edges'][number]>, w: WayInfo, land: LandModel) {
+    const key = [w.from, w.to].sort().join('|'), course = land.course(w.from, w.to);
+    if (course && !edges.has(key)) {
+      edges.set(key, { from: w.from, to: w.to, label: `${w.name} · ${this.duration(w.passage)}`, status: w.status,
+        ...course });
+    }
+  }
   private region(ways: WayInfo[], visited: Set<string>, place: string): { region?: RegionChart } {
     const areas = new Map<string, RegionChart['areas'][number]>(), edges = new Map<string, RegionChart['edges'][number]>();
     const here = this.regionalArea(place)?.id, home = this.regionOf(here);
@@ -111,6 +127,11 @@ export class ChartModel {
     for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }
     for (const w of ways.filter(x => this.regionOf(x.from) === home && this.regionOf(x.to) === home)) {
       const a = this.mark(areas, w.from, visited, here), b = this.mark(areas, w.to, visited, here);
+      // A trail within a stretch of wild country is drawn on the land too, from landmark to landmark, once the company
+      // has walked from either end of it or been told it (not merely for knowing the country's roads).
+      if (a && a === b && land && (visited.has(w.from) || visited.has(w.to) || this.told(w.passage))) {
+        this.trail(edges, w, land);
+      }
       if (!a || !b || a === b) { continue; }
       const key = [a, b].sort().join('|');
       if (!edges.has(key)) {

@@ -59,7 +59,8 @@ export class SceneModel {
     // "Make much of Fly" is "Make much of"; "Gather a wad of sphagnum moss" keeps what it gathers.
     const tail = new RegExp(`\\s(${this.escape(name)}|${this.escape(short)})$`, 'i');
     const cut = asked.replace(tail, '').trim();
-    const label = /\b(of|a|an|the|some|with|to|for|from|on|in|at|wad|handful|bundle)$/i.test(cut)
+    const dangling = /\b(of|a|an|the|some|with|to|for|from|on|in|at|over|under|into|about|past|wad|handful|bundle)$/i;
+    const label = dangling.test(cut)
       && !/^Make much of$/.test(cut) ? asked : cut;
     return { ...c, label: label || c.label,
       ...c.children ? { children: c.children.map(k => this.bare(k, name)) } : {} };

@@ -39,25 +39,27 @@ export class Attending {
   private static replies(choices: Choice[]): Choice[] {
     return choices.filter(c => !this.talking.test(c.command ?? '') && !this.leaving.test(c.command ?? ''));
   }
-  // A thing looked at: what can be done with it, by kind of doing.
-  static readonly kinds: [string, RegExp][] = [['Look', /^(look_closely|listen|examine)\(/],
-    ['Handle', /^(push|prod|pry|burn)\(/],
-    ['Work it', /^(change_thing|open_door|close_door|unlock_door|pick_door|disable|shut|open|take_control)\w*\(/],
+  // A thing looked at: what can be done with it, by kind of doing. What it is for comes first (reading what is cut
+  // on it, setting it, opening it: anything its author gave it is that), then what can be taken from it, then the
+  // trying anything might be given (looking closer, listening, prodding), and going through it anyway, last.
+  static readonly kinds: [string, RegExp][] = [
     ['Take', /^(take_item|take_out|gather|collect|salvage_coin|forage|put_in)\(/],
+    ['Look', /^(look_closely|listen|examine)\(/],
+    ['Handle', /^(push|prod|pry|burn)\(/],
     ['Go through it anyway', /^(risk|attack|destroy_source)\(/]];
   static thing(scene: Scene, id: string): Examined | undefined {
     const subject = scene.subjects.find(s => s.id === id);
     if (!subject) { return undefined; }
     const choices = subject.choices.flatMap(c => c.children && !c.command && !c.children.some(k => k.children)
       && /^(Examine|Look at)/.test(c.label) ? c.children : [c]);
-    const titles = [...this.kinds.map(([t]) => t), 'Other'];
+    const titles = ['Work it', ...this.kinds.map(([t]) => t)];
     return { subject, back: { id: `${id}#back`, label: 'Back', tone: 'thing' },
       groups: titles.map(title => ({ title, choices: choices.filter(c => this.kindOf(c) === title) }))
         .filter(g => g.choices.length) };
   }
   private static kindOf(c: Choice): string {
     const command = c.command ?? this.all(c.children ?? []).find(k => k.command)?.command ?? '';
-    return this.kinds.find(([, re]) => re.test(command))?.[0] ?? 'Other';
+    return this.kinds.find(([, re]) => re.test(command))?.[0] ?? 'Work it';
   }
   static all(choices: Choice[]): Choice[] {
     return choices.flatMap(c => [c, ...this.all(c.children ?? [])]);

@@ -11,6 +11,8 @@ export interface PlanSection {
 // what lives there now) a choice of sections.
 export interface WorkPlan {
   id: string; about: string; art: string; kind: string; ground: Cover[]; near?: string; seen: string;
+  // How it looks from outside in each of its shapes, when that differs (@seen a round tower | a square tower | …).
+  looks?: string[];
   // What its makers named works of its kind: a noun to go with the art's own words ("pool"), or a pair ("deep/pool").
   names: string[]; danger: number; sections: PlanSection[];
   // The greatest of its makers' works in a region (@great): hidden from the folk, found by knowing the makers' story.
@@ -60,7 +62,12 @@ export class WorkPlans {
       case 'kind': plan.kind = value; break;
       case 'ground': plan.ground = value.split(/\s+/) as Cover[]; break;
       case 'near': plan.near = value; break;
-      case 'seen': plan.seen = value; break;
+      case 'seen': {
+        const looks = value.split('|').map(l => l.trim());
+        plan.seen = looks[0];
+        if (looks.length > 1) { plan.looks = looks; }
+        break;
+      }
       case 'danger': plan.danger = Number(value); break;
       case 'great': plan.great = value === 'yes'; break;
       case 'lair': plan.lair = value; break;

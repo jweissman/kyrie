@@ -17,7 +17,9 @@ export class SettlementScenes {
     const both = f.kind === 'farm' && f.keeping === 'inn' && f.holy === 'shrine';
     const inn = both ? SettlementScenes.upper(this.nth(region, i, tables.inn, 'inn').replace('{inn}', SettlementScenes.inline(s.inn))
       .replace('{cult}', cult)) : '';
-    return [first, RegionGeography.placement(region, i).trim(), inn].filter(Boolean).join(' ');
+    // A harbour or a fishing hamlet has already said what its shore is.
+    const placed = RegionGeography.placement(region, i, !['harbour', 'fishing'].includes(f.kind)).trim();
+    return [first, placed, inn].filter(Boolean).join(' ');
   }
   private static farm(region: Region, i: number): string {
     const s = region.settlements[i]!, trade = tables.trade as Record<string, string>;

@@ -327,10 +327,9 @@ export class Campaign implements WatchHost {
         { creatures: this.creatures.snapshot, world: this.current.world, elapsed: this.current.elapsed },
         { events: combat, success, sequence: this.log.length });
     }
-    const perceptions = Perceptions.after(this.module, { before, after, player: this.playerActor, happenings });
-    const seen = Perceptions.witness(this.module, this.world, this.playerActor, perceptions);
-    if (seen.changes.length) { this.commit(this.world.apply(seen.changes)); event.changes.push(...seen.noted); }
-    if (perceptions) { event.perceptions = [...perceptions, ...seen.told]; }
+    const seen = Perceptions.settle(this.module, { before, after, player: this.playerActor, happenings },
+      changes => { this.commit(this.world.apply(changes)); return this.world; });
+    event.changes.push(...seen.noted); if (seen.perceptions) { event.perceptions = seen.perceptions; }
     this.log.push(event);
     return structuredClone(event);
   }

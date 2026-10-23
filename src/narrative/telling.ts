@@ -19,7 +19,7 @@ export class Telling {
   static tell(campaign: Campaign, event: CampaignEvent): Voiced[] {
     const company = campaign.playerActor ?? 'party', past = campaign.history.filter(e => e !== event)
       .flatMap(e => e.voiced ?? []);
-    const used = new Set(past.map(v => v.id)), pairs = new Set(past.map(v => `${v.kind}:${v.actor ?? ''}`));
+    const used = Editor.recency(past.map(v => v.id)), pairs = new Set(past.map(v => `${v.kind}:${v.actor ?? ''}`));
     const petted = new Set(past.filter(v => v.kind === 'pet' || v.kind === 'greet').map(v => v.actor ?? ''));
     // What the world has already said in its own words (a rule's thanks, a creature's warning) is not said again; and
     // someone brought home is not told to have left.
@@ -39,7 +39,7 @@ export class Telling {
     for (const h of happenings) {
       const said = this.say(campaign, h, { used, pairs,
         key: `${campaign.readout.seed}:${event.elapsed}:${h.kind}:${h.actor ?? ''}` });
-      if (said) { told.push(said); used.add(said.id); }
+      if (said) { told.push(said); Editor.said(used, said.id); }
     }
     return told;
   }

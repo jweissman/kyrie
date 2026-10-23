@@ -15,6 +15,9 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   Relation testimony(group, source).
   Relation witnessed(group, fact).
   Relation searched(group, place).
+  // A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that
+  // could be taken for part of it happens there by chance (a carrier's wheel in the ditch).
+  Relation staged(place, fact).
   Goal false.
   Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
     Requires able(actor) and at(actor, site) and at(witness, site) and not benighted(actor)
@@ -52,7 +55,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     Requires able(actor) and at(actor, site) and not benighted(actor) and not searched(actor, site).
     Time 2. Resolve rummage(actor). Interrupted when threatened(actor).
     On success { Assert searched(actor, site). }
-    Result "You go over {site} carefully.".
+    Result "You search {site} with care, a little at a time.".
   }
   Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {
     Result "You destroy {witness}.".
