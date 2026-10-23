@@ -15,6 +15,7 @@ import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
+import { Countries } from './countries';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { Origins } from './origins';
 import type { KitEntry } from './compose/composition';
@@ -97,7 +98,7 @@ export class WorldAssembler {
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
     this.write(region, { files, root, placements, company: { size: party.length, contacts,
       ...told ? { start: told.start, coin: told.coin } : {} } });
-    if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region/region.kyr`); }
+    if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }
     const kits = framework.map(k => ({ ...k, optional: true }));
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       calendar: region.calendar,
@@ -126,8 +127,7 @@ export class WorldAssembler {
     const modules: BundleRequest[] = [{ id: rid, bundle: base.resolve(`${root}/region/module.json`),
       imports: { party: `${RegionWriter.id}.party` } }];
     this.spread(placements, { library, base, region, contacts: [], context, files, root, modules });
-    files[`${root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(placements), true));
-    files[`${root}/region/region.kyr`] = RegionWriter.source(region, null, this.taken(placements));
+    RegionWriter.write(files, root, region, { company: null, taken: this.taken(placements), beyond: true });
     return { requests: modules, source: new OverlayBundleSource(base, files), region };
   }
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
@@ -135,8 +135,10 @@ export class WorldAssembler {
     Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = WorldGrid.drawn(seed, ...at, drawn);
-    return { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))), at,
-      beyond: WorldGrid.beyond(seed, at) };
+    const region = { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))),
+      at, beyond: WorldGrid.beyond(seed, at) };
+    // The first country knows what authored country lies beyond it; one drawn later is told by the frontier.
+    return at[0] === 0 && at[1] === 0 ? { ...region, beyond: Countries.beyond(region) } : region;
   }
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
   // settlements; none placed elsewhere in the world already.
@@ -218,9 +220,7 @@ export class WorldAssembler {
   // world (they are optional there), the trace saying why.
   private static write(region: Region, at: { files: Record<string, string>; root: string; placements: Placement[];
     company: Company }) {
-    at.files[`${at.root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(at.placements),
-      false, at.company));
-    at.files[`${at.root}/region/region.kyr`] = RegionWriter.source(region, at.company, this.taken(at.placements));
+    RegionWriter.write(at.files, at.root, region, { company: at.company, taken: this.taken(at.placements) });
   }
   // A framework's kits, with their paths made absolute, to be composed into the campaign when it loads.
   private static async framework(base: BundleSource, file: string): Promise<KitEntry[]> {

@@ -97,8 +97,29 @@ export class RegionWriter {
   // A region beyond the first (company null) has no company of its own: the one company comes to it from the others.
   static source(region: Region, company: Company | null = { size: 3, contacts: [] },
     taken: Record<string, string> = {}): string {
+    return [`Module ${this.id} ${JSON.stringify(region.name)} {`, ...this.body(region, taken), ...this.company(region, company),
+      '}'].join('\n');
+  }
+  // The same, as the files of one module: the country in parts small enough to be read one at a time, then who
+  // comes into it in a file of its own, so that the country reads the same whoever comes (see ModuleBundle.warm).
+  static files(region: Region, company: Company | null, taken: Record<string, string> = {}): Record<string, string> {
+    const head = `Module ${this.id} ${JSON.stringify(region.name)} {`, parts: string[][] = [[]];
+    let depth = 0, size = 0;
+    for (const line of this.body(region, taken)) {
+      if (depth === 0 && size > 40000) { parts.push([]); size = 0; }
+      parts.at(-1)!.push(line); size += line.length;
+      depth += RegionWriter.braces(line);
+    }
+    return Object.fromEntries([...parts.map((lines, i) => [i ? `region-${i + 1}.kyr` : 'region.kyr',
+      [head, ...lines, '}'].join('\n')]), ['company.kyr', [head, ...this.company(region, company), '}'].join('\n')]]);
+  }
+  // How many blocks a line opens, less those it closes, outside its quoted text.
+  private static braces(line: string): number {
+    return [...line.replace(/"(?:[^"\\]|\\.)*"/g, '')].reduce((n, c) => n + (c === '{' ? 1 : c === '}' ? -1 : 0), 0);
+  }
+  private static body(region: Region, taken: Record<string, string>): string[] {
     const q = JSON.stringify, lines: string[] = [];
-    lines.push(`Module ${this.id} ${q(region.name)} {`,
+    lines.push(
       `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country, home to ${this.peoples(region)}, who keep the faith of ${region.deity}.${this.meaning(region)}`)}.`,
       `  Place region ${q(region.name)} is region.`, `  Initially Assert terrain(region, ${region.terrain}).`);
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
@@ -111,7 +132,12 @@ export class RegionWriter {
       ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
-    if (!company) { lines.push('  Entity party: group "Your company".', '  Goal false.', '}'); return lines.join('\n'); }
+    return lines;
+  }
+  // Who comes into the country, and where: a region beyond the first has no company of its own.
+  private static company(region: Region, company: Company | null): string[] {
+    const q = JSON.stringify, lines: string[] = [];
+    if (!company) { return ['  Entity party: group "Your company".', '  Goal false.']; }
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
     // One protagonist begins where their origin says: a room of a settlement, or the way into it.
     const a = company.start?.approach;
@@ -120,8 +146,8 @@ export class RegionWriter {
         `  Passage ${a.settlement}_approach_way ${q(a.way)} is road between ${a.settlement}_approach and ${a.settlement}_green taking 10 minutes.`);
     }
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
-      `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.', '}');
-    return lines.join('\n');
+      `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');
+    return lines;
   }
   private static settlement(s: Settlement, i: number, region: Region): string[] {
     const q = JSON.stringify, [x, y] = RegionGeography.town(region, i), cult = RegionFaith.cults(region)[i]!;
@@ -200,7 +226,16 @@ export class RegionWriter {
   // The module manifest: the world rules, every place and person exported under its own id, and what the assembler
   // is told about it: the terrain, which rooms are on the roads, what kind each site is and which a scenario took.
   // A region beyond the first imports the one company from the first.
-  static manifest(region: Region, taken: Record<string, string> = {}, beyond = false, company?: Company): object {
+  // The region's module written into a world's files: its manifest and its parts.
+  static write(files: Record<string, string>, root: string, region: Region,
+    at: { company: Company | null; taken: Record<string, string>; beyond?: boolean }) {
+    const parts = this.files(region, at.company, at.taken);
+    files[`${root}/region/module.json`] = JSON.stringify(this.manifest(region, at.taken, at.beyond,
+      { ...at.company ? { company: at.company } : {}, sources: Object.keys(parts) }));
+    for (const [name, text] of Object.entries(parts)) { files[`${root}/region/${name}`] = text; }
+  }
+  static manifest(region: Region, taken: Record<string, string> = {}, beyond = false,
+    { company, sources = ['region.kyr'] }: { company?: Company; sources?: string[] } = {}): object {
     const roads = RegionGeography.roads(region), ways = roads.map(r => r.way);
     const zones = RegionGeography.atlas(region).zones;
     const ids = ['party', 'region', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
@@ -221,7 +256,7 @@ export class RegionWriter {
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
-    return { version: 1, source: 'region.kyr', rules: ['world', 'elements', 'devotion'], globals: ['party'],
+    return { version: 1, source: sources, rules: ['world', 'elements', 'devotion'], globals: ['party'],
       ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
       exports: Object.fromEntries([...ids.map(id => [id, id]), ...lands]), assembly: { commitments },
       chart: this.chart(region, roads) };

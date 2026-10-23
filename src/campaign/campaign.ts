@@ -148,12 +148,13 @@ export class Campaign implements WatchHost {
     return this.party.some(c => c.hp > 0) && (this.persistent || this.current.outcome === 'active');
   }
   // A save holds action schemas; operators are grounded on demand, so every save is compact.
-  save(_compact = false): CampaignSave {
+  // A save is a copy, unless it is to be written out at once (live): then it is the campaign itself, not to be kept.
+  save(_compact = false, live = false): CampaignSave {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
-    return structuredClone({ version: 1, actionFormat: 'schemas' as const, module: this.module,
-      definition: this.definition, state: this.current,
-      creatures: this.creatures.snapshot, events: this.log, encounter: this.encounter,
-      observations: this.observations });
+    const save = { version: 1 as const, actionFormat: 'schemas' as const, module: this.module, definition: this.definition,
+      state: this.current, creatures: this.creatures.snapshot, events: this.log, encounter: this.encounter,
+      observations: this.observations };
+    return live ? save : structuredClone(save);
   }
   static restore(saved: CampaignSave): Campaign {
     if (saved.version !== 1) { throw new Error('Unsupported campaign save'); }

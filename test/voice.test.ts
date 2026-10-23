@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Voice } from '../src/narrative/voice';
+import { VoiceReview } from '../src/narrative/voice-review';
 import type { CampaignEvent } from '../src/campaign/campaign-types';
 
 // The household: you come home to the farm; the dog meets you in the yard; your brother is in the kitchen and will
@@ -82,6 +83,11 @@ describe('The voice tables', () => {
         expect(text).not.toMatch(/[{}[\]|]/);
       }
     }
+  });
+  it('no line reads wrong as told: no doubled word, verb out of agreement, stray space or sentence left open', () => {
+    expect(VoiceReview.review().filter(r => r.faults.length).map(r => `${r.id}: ${r.faults.join('; ')}`)).toEqual([]);
+    expect(VoiceReview.faults('Wren swears under their their breath ,and they is gone')).toEqual(['a word doubled: their their',
+      'a verb that does not agree', 'a space out of place', 'no end to the sentence']);
   });
 });
 

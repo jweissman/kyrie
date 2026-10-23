@@ -4,10 +4,12 @@
 //   bun bin/voice.ts show [kind]          every table, or one kind: each line with the moments it is chosen in
 //   bun bin/voice.ts moments <kind> k=v…  which lines a moment would choose among, best fit first, and how it reads
 //   bun bin/voice.ts coverage             each kind's contexts: which have lines of their own and which fall back
+//   bun bin/voice.ts review [kind]        each line as it reads of he, she, they and it, with what reads wrong marked
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Voice, type VoiceLine, type VoiceTable } from '../src/narrative/voice';
 import { VoiceCoverage } from '../src/narrative/voice-coverage';
+import { VoiceReview } from '../src/narrative/voice-review';
 
 class VoiceTool {
   static readonly root = resolve(import.meta.dir, '..');
@@ -65,10 +67,19 @@ class VoiceTool {
     for (const l of lines) { console.log(`- [${l.id}] ${Voice.render(l.text, { actor: 'Tobu', target: 'the boar', pronoun: 'he' })}`); }
   }
   static coverage() { for (const row of VoiceCoverage.report()) { console.log(row); } }
+  static review(kind?: string) {
+    const rows = VoiceReview.review(kind);
+    for (const r of rows) {
+      console.log(`\n[${r.id}] (${r.when})${r.faults.length ? `  ✗ ${r.faults.join('; ')}` : ''}`);
+      for (const reading of r.readings) { console.log(`    ${reading}`); }
+    }
+    console.log(`\n${rows.length} lines; ${rows.filter(r => r.faults.length).length} read wrong.`);
+  }
 }
 
 const [command = 'show', ...rest] = process.argv.slice(2);
 if (command === 'orsino') { VoiceTool.orsino(); }
 else if (command === 'moments') { VoiceTool.moments(rest[0]!, rest.slice(1)); }
 else if (command === 'coverage') { VoiceTool.coverage(); }
+else if (command === 'review') { VoiceTool.review(rest[0]); }
 else { VoiceTool.show(rest[0]); }

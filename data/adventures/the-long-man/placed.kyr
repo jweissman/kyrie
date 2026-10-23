@@ -1,0 +1,4 @@
+Module longman "The Long Man" {
+  // The dale as a country beyond a march: the company that comes up the south road is the world's own.
+  Entity party: group "Your company".
+}

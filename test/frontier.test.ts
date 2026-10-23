@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { Frontier } from '../src/world/frontier';
+import { Countries } from '../src/world/countries';
 import { WorldGrid } from '../src/world/world-grid';
 import { RegionLand } from '../src/world/region-land';
 import { GeneratedWorld } from './support/generated';
@@ -71,4 +72,22 @@ describe('the world beyond a region', () => {
     expect(PlayerView.choices(back.campaign).some(c => /^Take the door of /.test(c.choice.name))).toBe(true);
     expect(back.campaign.module.entities.find(e => e.id === 'x1y0__region')?.name).toBe(east.name);
   }, 120000);
+  it('holds an authored country where it fits: the Long Man beyond the north march of an upland country, once', async () => {
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
+    const s = await PlaySession.start(w.path, 'thorn', w.source), frontier = new Frontier('thorn', NodeBundleSource.shared);
+    expect(w.report.region.beyond!.north!.name).toBe('Merrowdale');
+    await GeneratedWorld.travel(s, 'edge_north');
+    const elapsed = s.campaign.state.elapsed, drawn = await frontier.expand(s.campaign);
+    expect(drawn!.region).toBeUndefined();
+    expect(s.campaign.module.entities.some(e => e.id === `${drawn!.rid}__long_man`)).toBe(true);
+    await March.choose(s, /road across the march/);
+    expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__road_end`);
+    // Its three days run from when it is reached, not from when the world began.
+    const storm = s.campaign.module.rules!.find(r => r.id === `${drawn!.rid}__storm_comes`)!;
+    expect(JSON.stringify(storm.when)).toContain(`"value":${312 + elapsed}`);
+    // Placed once: another upland country's north march leads into a country of its own.
+    expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`))))
+      .toBeUndefined();
+  }, 120000);
 });
+

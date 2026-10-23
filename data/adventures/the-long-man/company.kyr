@@ -1,0 +1,4 @@
+Module longman "The Long Man" {
+  Company party "Your company" of 3 at road_end.
+  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.
+}

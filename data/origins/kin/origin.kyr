@@ -7,6 +7,6 @@ Module origin "Coming home" {
   Entity called_mother: fact "your mother". Entity called_brother: fact "your brother".
   Initially Assert kinship(wife, called_mother). Initially Assert kinship(son, called_brother).
   Observe arrival at approach as fixture when true "{scene}".
-  Observe letter at approach as feature when true "You have been three years on the other side of the hills, hiring out with the droves. Your mother's letter took a week to find you. Your father went out on the road with the cart, it said, and did not come home.".
+  Observe letter at approach as feature when watch(clock) < 1 "You have been three years on the other side of the hills, hiring out with the droves. Your mother's letter took a week to find you. Your father went out on the road with the cart, it said, and did not come home.".
   Goal false.
 }

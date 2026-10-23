@@ -90,9 +90,11 @@ export class ModuleBundle {
   // for itself as it is read (a way's kind, a thing's state) is declared once; anything else declared twice is still
   // an error.
   private static merge(modules: Module[]): Module {
-    const entities = modules.flatMap(m => m.entities).filter((e, i, all) => all.findIndex(o => o.id === e.id
-      && JSON.stringify(o) === JSON.stringify(e)) === i);
-    return { ...modules[0]!, kinds: [...new Set(modules.flatMap(m => m.kinds))], entities,
+    const seen = new Set<string>(), entities = modules.flatMap(m => m.entities)
+      .filter(e => seen.size < seen.add(`${e.id}\u0000${JSON.stringify(e)}`).size);
+    const company = modules.find(m => m.company)?.company;
+    return { ...modules[0]!, ...company ? { company } : {}, entities,
+      kinds: [...new Set(modules.flatMap(m => m.kinds))],
       relations: modules.flatMap(m => m.relations), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
@@ -132,6 +134,26 @@ export class ModuleBundle {
   private static scoped<T>(o: Record<string, T>, id: string): Record<string, T> {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [`${id}__${k}`, v]));
   }
+  // Reads and parses a module's files ahead of its loading (a country while its protagonist is chosen), one file at a
+  // time with a pause between, so that whatever else is asked meanwhile is answered; its loading then finds them.
+  static async warm(path: string, source: BundleSource): Promise<void> {
+    const manifest = JSON.parse(await source.read(path)) as BundleManifest;
+    const { situations, rules } = this.paths(manifest, path, source);
+    for (const file of [...situations, ...rules]) {
+      const text = await source.read(file);
+      if (!this.parses.has(text)) {
+        try { this.parses.set(text, ModuleParser.parse(text)); } catch { /* said when it is loaded */ }
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
+    }
+  }
+  private static paths(manifest: BundleManifest, path: string, source: BundleSource) {
+    return { situations: (typeof manifest.source === 'string' ? [manifest.source] : manifest.source)
+      .map(p => source.resolve(p, path)),
+    rules: (typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules)
+      .flatMap(r => ModuleBundle.ruleNames.includes(r) || r === 'world' ? (r === 'world' ? ModuleBundle.world : [r])
+        .map(name => source.resolve(`data/rules/${name}.kyr`)) : [source.resolve(r, path)]) };
+  }
   static async load(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number;
   }, source: BundleSource): Promise<ModuleDraft> {
@@ -139,11 +161,7 @@ export class ModuleBundle {
     const path = source.resolve(request.bundle);
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     ModuleBundle.check(manifest);
-    const situationPaths = (typeof manifest.source === 'string' ? [manifest.source] : manifest.source)
-      .map(p => source.resolve(p, path));
-    const rulePaths = (typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules)
-      .flatMap(r => ModuleBundle.ruleNames.includes(r) || r === 'world' ? (r === 'world' ? ModuleBundle.world : [r])
-        .map(name => source.resolve(`data/rules/${name}.kyr`)) : [source.resolve(r, path)]);
+    const { situations: situationPaths, rules: rulePaths } = this.paths(manifest, path, source);
     const settled = await Promise.allSettled([...situationPaths, ...rulePaths,
       manifest.generation?.tables, manifest.generation?.templates].map((p, i) => !p ? Promise.resolve('{}')
       : source.read(i < situationPaths.length + rulePaths.length ? p : source.resolve(p, path))));

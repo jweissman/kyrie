@@ -30,7 +30,7 @@ export class ModuleCompiler {
         throw new Error(`Member reference ${entity.id} needs an explicit canonical creature binding`);
       }
       // A place seen as something else until a fact is known needs that fact, or it is never named.
-      if (entity.alias && !module.entities.some(e => e.id === entity.alias!.until && e.type === 'fact')) {
+      if (entity.alias && this.type(module, entity.alias.until) !== 'fact') {
         throw new Error(`${entity.id} is seen as "${entity.alias.name}" until ${entity.alias.until}, which is not a fact`);
       }
     }
@@ -163,7 +163,7 @@ export class ModuleCompiler {
     }
   }
   private anchor(module: Module, id: string, anchor: string | undefined) {
-    const type = module.entities.find(e => e.id === id)?.type;
+    const type = this.type(module, id);
     const ok = anchor === 'near' ? !!type : anchor === 'beside' ? type === 'passage' : type === 'place';
     if (!ok) { throw new Error(anchor && anchor !== 'at' ? `Unknown ${anchor} anchor ${id}` : `Unknown observation place ${id}`); }
   }

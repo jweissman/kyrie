@@ -1,0 +1,18 @@
+{
+  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts).",
+  "countries": [
+    {
+      "id": "longman",
+      "bundle": "the-long-man/placed.json",
+      "entry": "road_end",
+      "marker": "long_man",
+      "side": "north",
+      "beside": [
+        "mountain",
+        "forest"
+      ],
+      "name": "Merrowdale",
+      "terrain": "mountain"
+    }
+  ]
+}

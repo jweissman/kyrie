@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": [
+    "dale.kyr",
+    "wall.kyr",
+    "water.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "dale",
+    "green": "green",
+    "road_end": "road_end"
+  }
+}

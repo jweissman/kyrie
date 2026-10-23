@@ -1,6 +1,11 @@
 {
   "version": 1,
-  "source": ["dale.kyr", "wall.kyr", "water.kyr"],
+  "source": [
+    "dale.kyr",
+    "wall.kyr",
+    "water.kyr",
+    "company.kyr"
+  ],
   "rules": [
     "world"
   ],

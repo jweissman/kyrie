@@ -4,7 +4,8 @@ import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Borders, type Side } from './land/borders';
 import { WorldAssembler } from './world-assembler';
 import { WorldGrid } from './world-grid';
-import type { Region } from './region-writer';
+import { RegionWriter, type Region } from './region-writer';
+import { Countries, type Country } from './countries';
 
 // A generated world goes on past the edges of the region a company starts in. Each region's roads run out to a
 // march-stone on every side; the first time a company stands at one, the country beyond is drawn (from the world's
@@ -29,18 +30,35 @@ export class Frontier {
     const side = at[2] as Side, [x, y] = WorldGrid.next(here, side), rid = WorldGrid.id(x, y);
     const link = `link${[at[1]!, rid].sort().join('')}`, installed = new Set(campaign.installed);
     if (installed.has(link)) { return undefined; }
-    let region: Region | undefined;
+    // An authored country is reached by its own road in, and by no other.
+    let region: Region | undefined, country = this.holds(campaign, rid);
+    if (country && country.side !== side) { return undefined; }
     if (!installed.has(rid)) {
-      const beyond = await WorldAssembler.beyond(this.seed, this.base, { x, y, calendar: campaign.state.calendar,
-        exclude: await this.placed(installed), named: this.named(campaign, [x, y]), taken: this.works(campaign) });
-      for (const request of beyond.requests) { await campaign.install(request, beyond.source); }
-      region = beyond.region;
+      country = this.fits(campaign, at[1]!, side);
+      if (country) {
+        await campaign.install({ id: rid, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
+          imports: { party: `${RegionWriter.id}.party` } }, this.base);
+      } else {
+        const beyond = await WorldAssembler.beyond(this.seed, this.base, { x, y, calendar: campaign.state.calendar,
+          exclude: await this.placed(installed), named: this.named(campaign, [x, y]), taken: this.works(campaign) });
+        for (const request of beyond.requests) { await campaign.install(request, beyond.source); }
+        region = beyond.region;
+      }
     }
-    const files = this.road(link);
+    const files = this.road(link), there = country ? country.entry : `edge_${Borders.opposite[side]}`;
     await campaign.install({ id: link, bundle: `${link}/module.json`, imports: {
-      here: `${at[1]!}.edge_${side}`, there: `${rid}.edge_${Borders.opposite[side]}` } },
+      here: `${at[1]!}.edge_${side}`, there: `${rid}.${there}` } },
     new OverlayBundleSource(this.base, files));
     return { rid, ...region ? { region } : {} };
+  }
+  // The authored country a region already installed is, if it is one.
+  private holds(campaign: Campaign, rid: string): Country | undefined {
+    return Countries.list.find(c => campaign.module.entities.some(e => e.id === `${rid}__${c.marker}`));
+  }
+  // The authored country that fits beyond this march, if one does and is not in the world already.
+  private fits(campaign: Campaign, here: string, side: Side): Country | undefined {
+    const terrain = campaign.world.one('terrain', `${here}__region`)?.replace(/^.*__/, '') ?? '';
+    return Countries.fits(terrain, side, c => campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)));
   }
   // Whether a campaign is a generated world (its manifest is one the assembler wrote), which can go on past its edges.
   static generated(scenario: string): boolean { return /(^|\/)world-[^/]*\.campaign\.json$/.test(scenario); }
@@ -70,7 +88,8 @@ export class Frontier {
     return Object.fromEntries(Borders.sides.flatMap(side => {
       const rid = WorldGrid.id(...WorldGrid.next(at, side)), entity = `${rid}__region`;
       const name = campaign.module.entities.find(e => e.id === entity)?.name;
-      const terrain = world.one('terrain', entity)?.replace(/^.*__/, '');
+      const terrain = world.one('terrain', entity)?.replace(/^.*__/, ''), held = this.holds(campaign, rid);
+      if (held) { return [[side, { name: held.name, terrain: held.terrain }]]; }
       return installed.has(rid) && name && terrain ? [[side, { name, terrain }]] : [];
     }));
   }

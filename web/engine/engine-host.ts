@@ -50,7 +50,7 @@ export class EngineHost {
       case 'perform': return this.perform(request.command, { said: request.said, move: request.move,
         named: !!request.named });
       case 'fight': this.fight(request.choice); return null;
-      case 'checkpoint': return this.session ? JSON.stringify(this.session.checkpoint()) : null;
+      case 'checkpoint': return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
     }
   }
   private async begin(r: { campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
@@ -140,7 +140,7 @@ export class EngineHost {
   private async keep() {
     if (!this.session || this.turn) { return; }
     try {
-      const save = JSON.stringify({ checkpoint: this.session.checkpoint(), log: this.log.slice(-80) });
+      const save = JSON.stringify({ checkpoint: this.session.checkpoint(true), log: this.log.slice(-80) });
       this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary() });
     } catch { /* a command began before the game could be kept; it is kept after that one */ }
   }

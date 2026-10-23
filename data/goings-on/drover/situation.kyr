@@ -17,7 +17,8 @@ Module drover "The drover who did not come home" {
   Observe dog_in near dog of dog when told(wife) and at(dog, taproom) "The grey dog lies by the kitchen fire with her chin on her paws.".
   Rule dog_goes_in when told(wife) and at(dog, green) { Assert at(dog, taproom). }
   Entity dog_mud: fact "The grey dog came home caked in black ditch-mud, the off forefoot cut as if on iron.".
-  Observe dog_tells near dog as sign when petted(dog, party) and not knows(party, found_cart) "Under your hand her coat is stiff with dried black mud to the belly: ditch-mud, not road dust, as if she had lain a long time somewhere low and wet. The pad of the off forefoot is cut clean across, the way iron cuts." teaches dog_mud.
+  Observe dog_tells near dog as sign when petted(dog, party) and not knows(party, dog_mud) "Under your hand her coat is stiff with dried black mud to the belly: ditch-mud, not road dust, as if she had lain a long time somewhere low and wet. The pad of the off forefoot is cut clean across, the way iron cuts." teaches dog_mud.
+  Observe dog_muddy near dog of dog as sign when knows(party, dog_mud) and not knows(party, found_cart) "Her coat is stiff with black ditch-mud to the belly.".
   Observe ruts at road when not knows(party, found_cart) "Fresh ruts run off the edge of the road here, where the bank drops away.".
 
   Discovery found_cart "The drover's cart went off the road in the night. He is under it, a day or more dead, and whatever had the oxen dragged them off toward the hills." {

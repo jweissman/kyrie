@@ -87,7 +87,7 @@ describe('backgrounds in a generated region', () => {
     const temple = world.report.placements.flatMap(p => Object.values(p.carriers).flat());
     expect(temple).toContain(ada!.carrier);
     await PlaySession.start(world.path, 'thorn', world.source, party);
-    const region = await world.source.read(world.path.replace('.campaign.json', '/region/region.kyr'));
+    const region = await world.source.read(world.path.replace('.campaign.json', '/region/company.kyr'));
     expect(region).toContain(`{${ada!.carrier}} and Ada nursed the sick together`);
   }, 60000);
   it('let a hunter drive the beasts from a den: the den is resolved and searched, with no foes killed', async () => {

@@ -54,8 +54,8 @@ Module longman "The Long Man" {
   Passage wall_foot "the foot of the wall" is path between springs and hollow_door taking 20 minutes.
   Passage door_path "the beck side" is path between landing and hollow_door taking 20 minutes.
 
-  Company party "Your company" of 3 at road_end.
-  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.
+  // Who comes up the south road: a company of its own (company.kyr) when the dale is a campaign, the world's company
+  // when it is a country reached across a march (placed.kyr).
 
   Observe road_scene at road_end when true "The south road comes up out of the willows into a dale of black, wet-smelling earth. At its head a long green ridge lies across the valley, dead straight, like a sleeper under a blanket. A village of grey stone sits below it with its back to the hill.".
   Observe green_scene at green when not drowned(green) "A green with a well and a lime tree, and grey houses with their backs to the hill. The chapel stands at the low end by the beck; the Drowned Ox faces it across the grass. Up the lane, the Hall's roofs show at the north end of the Long Man.".

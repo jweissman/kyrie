@@ -85,7 +85,8 @@ export class CommunityWriter {
   private static animal(a: Animal): string[] {
     const q = this.q;
     return [`  Person ${a.id} ${q(a.name)} at ${a.at} { Role ${q(a.role)}. Species ${a.species}. Pronouns ${a.pronoun}. Peaceable. }`,
-      ...a.seen ? [`  Observe ${a.id}_seen near ${a.id} of ${a.id} when at(${a.id}, ${a.at}) ${q(this.said(a.seen, a, ''))}.`] : []];
+      ...a.seen ? [`  Observe ${a.id}_seen near ${a.id} of ${a.id} when at(${a.id}, ${a.at})${a.night ? ' and not dark()' : ''} ${q(this.said(a.seen, a, ''))}.`] : [],
+      ...a.night ? [`  Observe ${a.id}_dark near ${a.id} of ${a.id} when at(${a.id}, ${a.at}) and dark() ${q(this.said(a.night, a, ''))}.`] : []];
   }
   // The road a settlement's strayed animal is up: each settlement its own, so that two goats are not on one road.
   private static strayRoad(region: Region, id: string) {
@@ -107,7 +108,7 @@ export class CommunityWriter {
       const road = this.strayRoad(region, s.id);
       const where = road ? road.way : `${s.id}_green`, other = road ? (road.from.id === s.id ? road.to : road.from).name : '';
       return [`  Person ${goat.id} ${q(goat.name)} at ${where} { Role ${q(`${r.name}'s goat, loose, with a broken tether`)}. Species goat. Pronouns she. Peaceable. }`,
-        `  Observe ${goat.id}_seen near ${goat.id} of ${goat.id} when at(${goat.id}, ${where}) ${q(`A goat with a broken tether is eating the hedge, with her whole attention.`)}.`,
+        `  Observe ${goat.id}_seen near ${goat.id} of ${goat.id} when at(${goat.id}, ${where}) ${q(`A goat with a broken tether is cropping the verge, with her whole attention.`)}.`,
         `  Initially Assert home(${goat.id}, ${s.id}_green). Initially Assert acceptsEscort(${goat.id}, party).`,
         `  Topic ${r.id}_goat with ${r.id} ${q(`Ask ${r.name} what the matter is`)} when not cameHome(${goat.id}) once {`,
         `    Says ${q(`'${goat.name} has had her tether through again,' says ${r.name}. '${road ? `She'll be off up the road to ${other}, eating somebody's hedge` : 'She will be in somebody\'s garden'}. If you see her, bring her home. She comes for anyone who walks like they mean it.'`)}.`, '  }',

@@ -51,8 +51,9 @@ export class PlaySession {
       complete: this.complete };
   }
   get acting(): boolean { return this.busy; }
-  checkpoint(): SessionCheckpoint {
-    return { version: 1, transcript: this.transcript, save: this.campaign.save(true) };
+  // live: to be written out at once, so not copied (see Campaign.save).
+  checkpoint(live = false): SessionCheckpoint {
+    return { version: 1, transcript: this.transcript, save: this.campaign.save(true, live) };
   }
   async perform(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
     if (this.busy) { throw new Error('A command is already in progress'); }

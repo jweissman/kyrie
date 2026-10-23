@@ -6,7 +6,7 @@ import { Overlays } from '../../src/overlays';
 import { CompanyPreview } from '../../src/presentation/company-preview';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import type { BundleSource } from '../../src/campaign/bundle-source';
-import type { CampaignManifest } from '../../src/campaign/module-bundle';
+import { ModuleBundle, type CampaignManifest } from '../../src/campaign/module-bundle';
 import { Scenarios } from '../scenarios';
 import { Origins } from '../../src/world/origins';
 import type { Catalog, CompanyView, Member, Setting } from './protocol';
@@ -70,12 +70,21 @@ export class Creation {
         ...at.memorial ? { memorial: at.memorial } : {} });
     const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
     this.assembled = { seed, ...terrain ? { terrain } : {}, path: world.path, source: world.source, campaign };
+    // While the protagonist is chosen, the country is read: it is the same whoever comes into it.
+    if (!party) { setTimeout(() => void Creation.warm(world.path, world.source), 200); }
     const title = campaign.name, region = world.report.region;
     const origins = Origins.choices(await Origins.load(Scenarios.source()), region, world.report.placements);
     return { title, generated: true, origins,
       pitch: { heading: `Who comes to ${title}?`, text: `${title} is ${Creation.country(region.terrain)} country. `
         + 'You come into it alone, for a reason of your own; whoever goes with you, you will meet on the way.' },
       party: [Creation.protagonist(region.ancestry)] };
+  }
+  // The country first, then what is set in it.
+  private static async warm(path: string, source: BundleSource) {
+    const campaign = JSON.parse(await source.read(path)) as CampaignManifest;
+    const bundles = campaign.modules.flatMap(m => 'bundle' in m ? [String(m.bundle)] : [])
+      .sort((a, b) => Number(/\/region\//.test(b)) - Number(/\/region\//.test(a)));
+    for (const bundle of bundles) { await ModuleBundle.warm(source.resolve(bundle, path), source); }
   }
   static country(terrain: string): string {
     return ({ marsh: 'fen', forest: 'forest', mountain: 'high', frost: 'cold northern' } as Record<string, string>)[terrain] ?? terrain;

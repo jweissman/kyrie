@@ -51,6 +51,7 @@ export class RegionGrowth {
   }
   static lines(region: Region): string[] {
     const q = JSON.stringify, lines: string[] = [];
+    const roads = new Set(RegionGeography.roads(region).map(r => r.way));
     for (const place of this.places(region)) {
       const habitats = this.habitats(region, place.cells);
       const here = this.plants.map(id => [id, Canon.organisms[id]!] as [string, Organism])
@@ -58,7 +59,9 @@ export class RegionGrowth {
       for (const [id, o] of here) {
         const stand = `${place.id}_${id}`;
         lines.push(`  Thing ${stand} ${q(`the ${o.name.toLowerCase()}`)} at ${place.id} is scenery {`,
-          `    State growing ${q(o.stand!)}.`, '  }', `  Initially Assert grows(${stand}).`,
+          // A stand by a road is somewhere along it, not wherever the road is seen from.
+          `    State growing ${q(roads.has(place.id) ? o.stand!.replace(/ here\b/, ' along the road') : o.stand!)}.`, '  }',
+          `  Initially Assert grows(${stand}).`,
           `  Discovery ${stand}_hid ${q(`What grows at ${place.id} is gathered, not found.`)}.`);
         for (let n = 1; n <= (o.count ?? 1); n++) {
           lines.push(`  Item ${stand}_${n} ${q(o.gathered!)} is ${o.yields} in ${stand} hidden until ${stand}_hid.`,

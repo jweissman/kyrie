@@ -74,8 +74,13 @@ export class Composition {
   static async region(ledger: Ledger, entry: BundleRequest, source: BundleSource): Promise<void> {
     const manifest = JSON.parse(await source.read(entry.bundle)) as BundleManifest & { assembly?: AssemblyNote };
     if (!manifest.assembly) { return; }
-    const file = Array.isArray(manifest.source) ? manifest.source[0]! : manifest.source;
-    const module = ModuleParser.parse(await source.read(source.resolve(file, entry.bundle)));
+    // A module in several files (a generated region) is read whole: its places and ways are in all of them.
+    const files = Array.isArray(manifest.source) ? manifest.source : [manifest.source];
+    const texts = await Promise.all(files.map(f => source.read(source.resolve(f, entry.bundle))));
+    const parts = texts.map(text => ModuleParser.parse(text));
+    const company = parts.find(m => m.company)?.company;
+    const module = { ...parts[0]!, ...company ? { company } : {}, entities: parts.flatMap(m => m.entities),
+      initial: parts.flatMap(m => m.initial) };
     Geography.read(ledger, { install: entry.id, module, exports: manifest.exports ?? {},
       ...(manifest.assembly.commitments ? { commitments: manifest.assembly.commitments } : {}) });
   }

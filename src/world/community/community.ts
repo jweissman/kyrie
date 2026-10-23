@@ -24,7 +24,9 @@ export interface Resident {
   kin?: { to: string; as: string };
 }
 export interface Animal { id: string; species: string; name: string; pronoun: 'he' | 'she' | 'it'; household?: string;
-  role: string; at: string; seen: string }
+  role: string; at: string; seen: string;
+  // How it is seen after dark, when that is not how it is seen by day (a cat in the sun).
+  night?: string }
 export interface Workplace { id: string; name: string; scene: string; indoors: boolean }
 // A small trouble of one household that a stranger could help with: a goat got out, a thing they lack.
 export interface Concern { kind: 'strayed' | 'wants'; resident: string; animal?: string; wants?: string }
@@ -133,7 +135,8 @@ export class Communities {
       const r = draw.pick(residents);
       out.push({ id: `${s.id}_cat`, species: 'cat', name: this.animalName('cat', draw), pronoun: 'she', household: r.household,
         role: `the ${r.family}s' cat`, at: `${s.id}_green`,
-        seen: '{Name}, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.' });
+        seen: '{Name}, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.',
+        night: 'Two green eyes on a wall-top are {Name}, the cat, who sees you better than you see her.' });
     }
     return out;
   }
