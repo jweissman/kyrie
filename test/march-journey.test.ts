@@ -100,7 +100,8 @@ describe('the Serewater March, three expeditions with one company', () => {
       'lead(rescue__guest)', 'change_thing_paying(hill__hound_feed)', 'go(hill__hoist_passage,hill__gallery)',
       'go(hill__gallery_steps,hill__workshop)', 'go(hill__workshop_door,hill__vestibule)', 'go(hill__arch,hill__yard)',
       'go(hill__yard_track,march__ridge)', 'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)',
-      'rescue__thanks_escorted']);
+      'rescue__thanks_escorted', 'wait']);
+    // A word takes no time; the relative takes Pell home while the company waits.
     expect(Journey.outcome(s, 'rescue')).toBe('success');
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(0);
   }, 60000);

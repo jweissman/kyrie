@@ -42,7 +42,7 @@ export class Battle {
     if (!this.lease) {
       const store = new CreatureStore(this.fighters.map(f => {
         const creature = CombatProjection.creature(f);
-        creature.state.conditions = creature.state.conditions.filter(c => Effects.status(c.id).lifetime === 'persistent');
+        creature.state.conditions = creature.state.conditions.filter(c => Effects.lasting(c));
         return creature;
       }));
       this.lease = store.acquire(this.fighters.map(f => f.id));
@@ -80,7 +80,7 @@ export class Battle {
     const creatures = this.lease.creatures.map(original => {
       const fighter = [...this.fighters, ...this.departed].find(f => f.id === original.id)!;
       const creature = CombatProjection.creature(fighter, original);
-      creature.state.conditions = creature.state.conditions.filter(c => Effects.status(c.id).lifetime === 'persistent');
+      creature.state.conditions = creature.state.conditions.filter(c => Effects.lasting(c));
       return creature;
     });
     this.lease.commit(creatures);

@@ -1,0 +1,10 @@
+Module unbound "A query asked about someone unknown" {
+  Place hall "a hall" is site.
+  Place room1 "a room" is room within hall at 0, 0.
+  Company party "You" of 1 at room1.
+  Relation watcher(group).
+  Query looks(w: group, p: place) means watcher(w) and at(w, p).
+  Query held(p: place) means looks(?w, p).
+  Relation grew(place).
+  Rule grows when not held(room1) and not grew(room1) { Assert grew(room1). }
+}

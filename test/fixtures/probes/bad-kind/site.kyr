@@ -1,0 +1,6 @@
+Module badkind "A kind like nothing there is" {
+  Place field "a field" is wilderness.
+  Place barley "the barley" is room within field at 0, 0.
+  Kind wyrd "a wyrd thing" like nothing_at_all worth 2.
+  Company party "You" of 1 at barley.
+}

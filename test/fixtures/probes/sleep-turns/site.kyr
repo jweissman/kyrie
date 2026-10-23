@@ -1,0 +1,8 @@
+Module sleepturns "The same song, for three turns" {
+  Place hall "a hall" is site.
+  Place room1 "the choir room" is room within hall at 0, 0.
+  Company party "You" of 1 at room1.
+  Hazard lullaby "the lullaby" means "Apply asleep to ally for 3 turns unless wisdom save against (40).".
+  Relation sung(group).
+  Rule sings when at(party, room1) and not sung(party) { Assert strikes(lullaby, party). Assert sung(party). }
+}

@@ -3,12 +3,13 @@ import { Spatial } from '../spatial';
 import { Discovery, type DiscoveryDefinition } from '../information/discovery';
 import * as ohm from 'ohm-js';
 import source from './Kyr.ohm' with { type: 'text' };
-import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature } from './module';
-import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } from './world-constructs';
-import { ItemCatalog } from '../item-catalog';
+import type { Change, Module, Operator, Predicate } from './module';
+import type { PassageSpec, ThingSpec } from './world-constructs';
 import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
+import { CatalogParser } from './catalog-parser';
+import { ModuleDeclarations } from './module-declarations';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -69,6 +70,7 @@ export class ModuleParser {
     Unary_true: StatementParser.True, Unary_false: StatementParser.False,
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     expression: StatementParser.Expression, integer: StatementParser.Integer, string: StatementParser.String,
+    ...CatalogParser.actions,
   });
   // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again
   // and again; each caller gets its own copy of the remembered module.
@@ -106,54 +108,18 @@ export class ModuleParser {
   static BuysPart(_b: Node, what: Node, _for: Node, fee: Node, _coin: Node, _dot: Node) {
     return { field: 'buys', value: { what: what.sourceString, fee: Number(fee.sourceString) } };
   }
-  // A spatial exit is an entity and the action that takes it.
-  private static exit(module: Module, entity: Module['entities'][number]) {
-    module.entities.push(entity);
-    const lowered = Spatial.lowerExit(entity);
-    module.initial.push(...lowered.initial); module.actions.push(lowered.action);
-  }
   static Module(_module: Node, id: Node, name: Node, _open: Node, declarations: Node, _close: Node): Module {
     const module: Module = { id: id.sourceString, name: ModuleParser.ast(name) as string, description: '', kinds: [],
       entities: [], relations: [], measures: [], queries: [], initial: [], actions: [],
       goal: { kind: 'boolean', value: false }, budget: { kind: 'number', value: 10 } };
     const information: DiscoveryDefinition[] = [];
     const singleton = new Set<string>();
-    for (const child of declarations.children) {
-      const { field, value } = ModuleParser.ast(child) as Field;
-      switch (field) {
-        case 'person': PersonParser.declare(module, value); break;
-        case 'passage': WorldConstructs.passage(module, value as PassageSpec); break;
-        case 'company': PersonParser.company(module, value as NonNullable<Module['company']>); break;
-        case 'item': WorldConstructs.item(module, value as { id: string; name?: string; kind: string; place: string },
-          ItemCatalog.definitions[(value as { kind: string }).kind]?.name); break;
-        case 'thing': WorldConstructs.thing(module, value as ThingSpec); break;
-        case 'event': WorldConstructs.event(module, value as EventSpec); break;
-        case 'objective': (module.objectives ??= []).push(value as NonNullable<Module['objectives']>[number]); break;
-        case 'place': case 'hazard': module.entities.push(value as Module['entities'][number]); break;
-        case 'exit': ModuleParser.exit(module, value as Module['entities'][number]); break;
-        case 'information': information.push(value as DiscoveryDefinition); break;
-        case 'pursuit': (module.pursuits ??= []).push(value as NonNullable<Module['pursuits']>[number]); break;
-        case 'rule': (module.rules ??= []).push(value as NonNullable<Module['rules']>[number]); break;
-        case 'observation': (module.observations ??= []).push(value as NonNullable<Module['observations']>[number]); break;
-        case 'kind': module.kinds.push(value as string); break;
-        case 'relation': module.relations.push(value as Signature); break;
-        case 'measure': module.measures.push(value as Signature); break;
-        case 'query': module.queries.push(value as Query); break;
-        case 'entity': module.entities.push(value as Module['entities'][number]); break;
-        case 'initial': module.initial.push(value as Change); break;
-        case 'action': {
-          const { once, ...action } = value as Operator & { once?: boolean };
-          if (once) { WorldConstructs.once(module, action); }
-          module.actions.push(action); break;
-        }
-        default:
-          if (singleton.has(field)) { throw new Error(`Duplicate module field ${field}`); }
-          singleton.add(field);
-          if (field === 'goal') { module.goal = value as Predicate; }
-          if (field === 'budget') { module.budget = value as NumberValue; }
-          if (field === 'description') { module.description = value as string; }
-      }
-    }
+    // A module's own kinds come first, wherever they are written, so that its items and people may be of them.
+    const fields = declarations.children.map(child => ModuleParser.located(child,
+      () => ModuleParser.ast(child) as Field));
+    CatalogParser.declare(module, fields, (i, run) => ModuleParser.located(declarations.children[i]!, run));
+    fields.forEach((f, i) => ModuleParser.located(declarations.children[i]!,
+      () => ModuleDeclarations.declare(module, f, { information, singleton })));
     const expanded = Discovery.describe(information);
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
@@ -161,6 +127,15 @@ export class ModuleParser {
     // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
     // several files says it for all of them.
     return module;
+  }
+  // An error in a declaration, said with the line and column it begins at.
+  static located<T>(node: Node, run: () => T): T {
+    try { return run(); } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (/^Line \d+, col \d+: /.test(message)) { throw error; }
+      const at = node.source.getLineAndColumn();
+      throw new Error(`Line ${at.lineNum}, col ${at.colNum}: ${message}`);
+    }
   }
   static Place(_p: Node, id: Node, name: Node, _is: Node, kind: Node, parent: Node, grid: Node, shelter: Node,
     alias: Node, _dot: Node): Field {
@@ -286,16 +261,18 @@ export class ModuleParser {
     condition: Node, once: Node, _open: Node, _says: Node, response: Node, _dot: Node, effects: Node,
     _close: Node): Field {
     const who = speaker.sourceString;
+    // Someone who has joined the company is still themselves: what could be put to them where they were can be put to
+    // them on the way.
     const text = travelling.children.length
       ? `able(actor) and distinct(actor, ${who}) and at(actor, site) and travelsWith(${who}, actor)`
-      : `able(actor) and able(${who}) and distinct(actor, ${who}) and at(actor, site) and at(${who}, site)`;
+      : `able(actor) and distinct(actor, ${who}) and at(actor, site) and ((able(${who}) and at(${who}, site)) or travelsWith(${who}, actor))`;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title),
       description: '', speaker: who,
       report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
       success: ModuleParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
         who),
-      failure: [], cost: 1, time: 1, ...(once.children.length ? { once: true } : {}) } };
+      failure: [], cost: 1, time: 0, ...(once.children.length ? { once: true } : {}) } };
   }
   // What a topic teaches the company it learns from the speaker: each fact it comes to know is also told by them.
   static told(changes: Change[], speaker: string): Change[] {

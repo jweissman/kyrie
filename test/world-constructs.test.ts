@@ -93,10 +93,12 @@ describe('existential variables', () => {
     expect(world.test(ModuleWriter.call('alone', 'x'))).toBe(false);
     expect([...world.solve(ModuleWriter.call('at', '?who', 'a'), {})].map(b => b['?who']).sort()).toEqual(['x', 'y']);
   });
-  it('refuses to call a query with an unbound variable', () => {
+  it('answers a query asked of someone not yet known, binding them', () => {
     const m = Source.module(`Place a "A" is room. Entity x: group "X". Initially Assert at(x, a).`);
-    expect(() => new World(m).apply(m.initial).test({ kind: 'and', left: ModuleWriter.call('at', '?g', 'a'),
-      right: ModuleWriter.call('together', '?h', '?g') })).toThrow('needs bound arguments');
+    const world = new World(m).apply(m.initial), asked = { kind: 'and' as const,
+      left: ModuleWriter.call('at', '?g', 'a'), right: ModuleWriter.call('together', '?h', '?g') };
+    expect(world.test(asked)).toBe(true);
+    expect([...world.solve(asked, {})].map(b => b['?h'])).toEqual(['x']);
   });
 });
 

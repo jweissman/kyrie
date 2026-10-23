@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: local-kind", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

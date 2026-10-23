@@ -97,7 +97,7 @@ export class ModuleCompiler {
   }
   private action(module: Module, action: Module['actions'][number]) {
     if (!Number.isSafeInteger(action.cost) || action.cost < 0
-      || !Number.isSafeInteger(action.time) || action.time < 1) { throw new Error(`Invalid cost/time for ${action.id}`); }
+      || !Number.isSafeInteger(action.time) || action.time < 0) { throw new Error(`Invalid cost/time for ${action.id}`); }
     const bindings = Object.fromEntries((action.parameters ?? []).map(p => [p.name, p.type]));
     ModuleCompiler.unique((action.parameters ?? []).map(p => p.name), 'action parameter');
     (action.parameters ?? []).forEach(p => {
@@ -207,9 +207,8 @@ export class ModuleCompiler {
     else { this.number(value); }
   }
   private number(value: NumberValue) {
-    if (value.kind === 'number' && (!Number.isSafeInteger(value.value) || value.value < 0)) {
-      throw new Error('Module numbers must be nonnegative safe integers');
-    }
+    // Numbers are whole: a written one is never negative, but a kind may weigh less than nothing (selm).
+    if (value.kind === 'number' && !Number.isSafeInteger(value.value)) { throw new Error('Module numbers must be safe integers'); }
     if (value.kind === 'deem' && Deem.grammar.match(value.expression).failed()) { throw new Error('Invalid Deem expression'); }
   }
   private change(module: Module, change: Change, bindings: Record<string, string> = {}) {

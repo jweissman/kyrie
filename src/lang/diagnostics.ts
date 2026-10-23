@@ -17,9 +17,9 @@ export class Diagnostics {
   // A parse error in one file, said with that file's path.
   static parse(error: unknown, path: string): Error {
     const message = error instanceof Error ? error.message : String(error);
-    const at = /Line (\d+), col (\d+)/.exec(message);
-    const file = this.short(path);
-    return new Error(at ? `${file}:${at[1]}:${at[2]}: ${message}` : `${file}: ${message}`);
+    const at = /Line (\d+), col (\d+)(: )?/.exec(message);
+    const file = this.short(path), bare = at?.[3] ? message.replace(at[0], '') : message;
+    return new Error(at ? `${file}:${at[1]}:${at[2]}: ${bare}` : `${file}: ${message}`);
   }
   // The names an error is about: "Duplicate entity a, b", "Parameter shadows entity x", "Invalid argument x in …",
   // "Text names unknown entity {x}", "Unknown predicate x".

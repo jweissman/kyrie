@@ -1,0 +1,31 @@
+Module company "Who comes with you, who stays, and who sleeps" {
+  Place field "Haddo's barley" is wilderness.
+  Place barley "the flattened barley" is room within field at 0, 0.
+  Place bedroom "the glass bedroom" is room within field at 1, 0 indoors.
+  Place keel "the Keel" is site.
+  Place long_hall "the Long Hall" is room within keel at 0, 0.
+  Passage small_door "the small door" is door between barley and bedroom.
+  Company party "You" of 1 at barley.
+
+  Person tobu "Tobu" at barley {
+    Role "Kezu's sister's boy, seventeen". Ancestry human. Peaceable.
+  }
+  Initially Assert acceptsEscort(tobu, party).
+  Topic tobu_aunt with tobu "Ask Tobu about his aunt" when true {
+    Says "'She closed her eyes,' says Tobu. 'On purpose.'".
+  }
+  Action go_up(actor: group, site: place) "Close your eyes in the bedroom and step through the door behind you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bedroom).
+    On success { Assert at(actor, long_hall). }
+    Result "When you open your eyes the light comes from below.".
+  }
+  // The Choir: a lullaby that puts listeners to sleep.
+  Hazard lullaby "the Choir's lullaby" means "Apply asleep to ally for 3 turns unless wisdom save against (40).".
+  Thing choir "forty glass cradles" at long_hall {
+    State humming "Forty glass cradles in a row hum one lullaby in one voice.".
+  }
+  Rule choir_sings when at(party, long_hall) and state(choir, humming) { Assert strikes(lullaby, party). }
+  Observe bedroom_scene at bedroom when true "A bed the size of a hay wagon.".
+  Observe barley_scene at barley when true "Barley lies flat in a line to a room of green glass.".
+  Observe hall_scene at long_hall when true "A hallway as long as a field.".
+}

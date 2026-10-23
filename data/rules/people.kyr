@@ -27,7 +27,7 @@ Module world_people "Company and intention" {
     Resolve enlist(recruit, actor).
     On success { Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site).
       Assert travelsWith(recruit, actor). }
-    Result "{recruit} shakes on it, and is one of you.".
+    Result "{recruit} is with you now.".
   }
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
     Requires able(actor) and able(companion) and distinct(actor, companion) and at(actor, site)

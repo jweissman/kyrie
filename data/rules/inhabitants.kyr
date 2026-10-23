@@ -9,12 +9,16 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_wary: temperament "wary". Entity temper_ambush: temperament "ambush".
   Entity temper_proud: temperament "proud".
   Entity temper_obedient: temperament "obedient". Entity temper_savage: temperament "savage".
+  // A tame creature (a dog, a horse, a cat about a house) knows people: it comes to see who you are, and lets you
+  // make much of it.
+  Entity temper_tame: temperament "tame".
   Relation temperament(group, temperament).
   // Where it lives and what it defends; where it goes when beaten or frightened off.
   Relation lair(group, place). Relation refuge(group, place).
   // What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
   Relation warning(group, entity). Relation onslaught(group, entity). Relation flinch(group, entity).
-  Relation plea(group, entity).
+  Relation plea(group, entity). Relation greeting(group, entity).
+  Relation greeted(group, group). Relation petted(group, group).
   // What drives it off (sunlight, flame), and the price a proud one names.
   Relation fears(group, capability). Measure tribute(group).
   Relation warned(group, group). Relation yielded(group, group).
@@ -30,6 +34,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_wary_flinch: fact "{?g} slips away from you.".
   Entity temper_words_wary_onslaught: fact "Cornered, {?g} turns on you.".
   Entity temper_words_proud_warning: fact "{?g} looks at you as if you owed it something.".
+  Entity temper_words_tame_greeting: fact "{?g} gets up and comes to see who you are, and puts its nose in your hand.".
+  Entity temper_words_tame_greeting_many: fact "{?g} come to see who you are, and put their noses in your hands.".
   // The same words for a band of more than one, where they differ.
   Entity temper_words_territorial_warning_many: fact "{?g} stand their ground and watch you. They will not have you here for long.".
   Entity temper_words_territorial_onslaught_many: fact "{?g} come at you.".
@@ -109,7 +115,20 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     and flinch(?g, ?f) says "{?f}" {
     Assert at(?g, ?r).
   }
+  // A tame one greets whoever comes, once, if it is awake.
+  Rule temper_greets when temperament(?g, temper_tame) and company(?c) and together(?g, ?c) and alert(?g)
+    and not greeted(?g, ?c) and not hostile(?g, ?c) and greeting(?g, ?w) says "{?w}" {
+    Assert greeted(?g, ?c). Assert tolerates(?g, ?c).
+  }
   Goal false.
+  // A tame creature lets itself be made much of, by anyone it has not taken against.
+  Action pet(actor: group, animal: group, site: place) "Make much of {animal}" {
+    Description "Crouch down, hold out a hand, scratch behind its ears.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(animal, site) and temperament(animal, temper_tame)
+      and able(animal) and not hostile(animal, actor).
+    On success { Assert petted(animal, actor). Assert tolerates(animal, actor). Assert greeted(animal, actor). }
+    Result "{animal} leans into your hand.".
+  }
   // A proud creature's price, paid: it lets the company be.
   Action pay_tribute(actor: group, lord: group, site: place) "Give {lord} what it asks" {
     Description "A proud creature names a price for letting you pass; paid, it keeps its word.".

@@ -1,0 +1,2 @@
+{ "version": 1, "name": "Probe: company", "modules": [ { "id": "c", "bundle": "module.json" } ],
+  "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

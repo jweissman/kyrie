@@ -1,0 +1,7 @@
+Module place "A room that uses the law of attention" {
+  Place hall "a hall" is site.
+  Place room1 "the choir room" is room within hall at 0, 0.
+  Company party "You" of 1 at room1.
+  Initially Assert held(room1).
+  Observe room1_scene at room1 when held(room1) "The room is held: nothing in it moves while anyone watches.".
+}

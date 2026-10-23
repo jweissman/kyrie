@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 128,
+    "kyr": 140,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 123,
+      "kyr": 135,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 122,
     "represented": 9,
-    "kyr": 21,
+    "kyr": 28,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 154
@@ -1076,7 +1076,7 @@
       "faithful": 40,
       "adapted": 64,
       "represented": 0,
-      "kyr": 5,
+      "kyr": 12,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10232,6 +10232,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.mass",
+   "title": "mass",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.purse",
    "title": "purse, appraised",
    "status": "kyr",
@@ -10456,6 +10463,20 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.been",
+   "title": "been",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.been_there",
+   "title": "been_there",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.law",
    "title": "law, law",
    "status": "kyr",
@@ -10498,6 +10519,20 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.asleep",
+   "title": "asleep",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.unseen",
+   "title": "unseen",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.threatened",
    "title": "threatened",
    "status": "kyr",
@@ -10507,6 +10542,13 @@
   {
    "id": "rule:world_core.wait",
    "title": "wait",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.lie_still",
+   "title": "lie still",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -10708,6 +10750,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.temperament",
+   "title": "temperament",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.lair",
    "title": "lair, refuge",
    "status": "kyr",
@@ -10836,6 +10885,20 @@
   {
    "id": "rule:inhabitants.temper_slinks",
    "title": "temper_slinks",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_greets",
+   "title": "temper_greets",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.pet",
+   "title": "pet",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
@@ -10981,8 +11044,29 @@
    "section": "world-rules/rules-people"
   },
   {
+   "id": "rule:world_people.kin",
+   "title": "kin, expects",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
    "id": "rule:world_people.willing",
-   "title": "willing, hire",
+   "title": "willing, hire, travelsWith",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.fellow",
+   "title": "fellow, confided, hushed",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.hush_lifts",
+   "title": "hush_lifts",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-people"
@@ -14628,6 +14712,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:cat",
+   "title": "Cat",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:cave_spider",
    "title": "Cave spider",
    "status": "adapted",
@@ -14649,6 +14740,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:cow",
+   "title": "Cow",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:crocodile",
    "title": "Crocodile",
    "status": "faithful",
@@ -14666,6 +14764,13 @@
    "id": "species:deer",
    "title": "Deer",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:dog",
+   "title": "Dog",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -14754,6 +14859,20 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:hen",
+   "title": "Hen",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:horse",
+   "title": "Horse",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:hummingbird",
    "title": "Hummingbird",
    "status": "faithful",
@@ -14838,6 +14957,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:pig",
+   "title": "Pig",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:pony",
    "title": "Pony",
    "status": "faithful",
@@ -14876,6 +15002,13 @@
    "id": "species:raven",
    "title": "Raven",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:sheep",
+   "title": "Sheep",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },

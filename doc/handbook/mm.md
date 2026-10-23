@@ -243,6 +243,23 @@ Flee: Try to escape the fight (an even chance).
 
 > A delicate insect with colorful wings. Its flight is graceful and mesmerizing.
 
+#### Cat
+
+*Kyr · beast* · `species:cat`
+
+- Type: beast (animal)
+- Hit points: d2 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Fur Armor, armour 0
+- Temperament: tame
+- Found in: settlement
+- Worth: 150 experience a level
+
+Flee: Try to escape the fight (an even chance).
+
+> A cat about the house: it keeps the mice down and goes where it likes.
+
 #### Cave spider
 
 *Adapted · beast* · `species:cave_spider`
@@ -317,6 +334,23 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 *Adapted: Composed by OrsinoMonsters (beast class, Chimera type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Cow
+
+*Kyr · beast* · `species:cow`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: horns, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: tame
+- Found in: settlement, meadow
+- Worth: 150 experience a level
+
+Flee: Try to escape the fight (an even chance).
+
+> A milk cow, slow and certain.
+
 #### Crocodile
 
 *Faithful · beast* · `species:crocodile`
@@ -367,6 +401,23 @@ Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 ha
 Flee: Try to escape the fight (an even chance).
 
 > A graceful herbivore with exquisite agility and keen senses.
+
+#### Dog
+
+*Kyr · a feral cave hound, altered* · `species:dog`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Fur Armor, armour 0
+- Temperament: tame
+- Found in: settlement, meadow, upland
+- Worth: 150 experience a level
+
+Flee: Try to escape the fight (an even chance).
+
+> A working dog of a farm, a drove or an inn: it knows people, and keeps an eye on what is theirs.
 
 #### Dragonfly
 
@@ -582,6 +633,40 @@ Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 ha
 Flee: Try to escape the fight (an even chance).
 
 > A small mammal covered in spines. When threatened it exhibits its defensive curling behavior.
+
+#### Hen
+
+*Kyr · beast* · `species:hen`
+
+- Type: beast (animal)
+- Hit points: d1 a level
+- Qualities: rolled (3d6 each)
+- Attack: beak, 1d4 piercing
+- Hide: Feather Armor, armour -1
+- Temperament: tame
+- Found in: settlement
+- Worth: 150 experience a level
+
+Flee: Try to escape the fight (an even chance).
+
+> A hen scratching about a yard.
+
+#### Horse
+
+*Kyr · beast* · `species:horse`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: kick, 1d2 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: tame
+- Found in: settlement, meadow
+- Worth: 150 experience a level
+
+Flee: Try to escape the fight (an even chance).
+
+> A horse broken to saddle or to the cart.
 
 #### Hummingbird
 
@@ -821,6 +906,23 @@ Flee: Try to escape the fight (an even chance).
 
 > A sleek and stealthy big cat with great agility and hunting prowess.
 
+#### Pig
+
+*Kyr · beast* · `species:pig`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: tusks, 1d8 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: tame
+- Found in: settlement, woodland
+- Worth: 150 experience a level
+
+Flee: Try to escape the fight (an even chance).
+
+> A pig in its sty, or rooting in the wood under the swineherd's eye.
+
 #### Pony
 
 *Faithful · beast* · `species:pony`
@@ -922,6 +1024,23 @@ Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 ha
 Flee: Try to escape the fight (an even chance).
 
 > A highly intelligent bird with exceptional problem-solving skills and adaptability.
+
+#### Sheep
+
+*Kyr · beast* · `species:sheep`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: headbutt, 1d4 bludgeoning
+- Hide: Fur Armor, armour 0
+- Temperament: tame
+- Found in: settlement, upland, meadow
+- Worth: 150 experience a level
+
+Flee: Try to escape the fight (an even chance).
+
+> A sheep of the hill flocks, in its heavy coat.
 
 #### Snake
 

@@ -179,8 +179,13 @@ export class Items {
         const owner = next.find(c => c.id === actorId)!;
         owner.state.inventory = owner.state.inventory!.filter(i => i.id !== consumed);
       }
-      // Field durations are not silently counted as elapsed world time: only persistent attachments survive.
-      next.forEach(c => { c.state.conditions = c.state.conditions.filter(s => Effects.status(s.id).lifetime === 'persistent'); });
+      // Outside a fight there are no turns. What takes someone out of it (asleep, held, stunned) lasts as many
+      // watches of the world's clock as it would have lasted turns, and wears off as time passes; what only matters
+      // blow by blow (a bleed, a sting's poison) ends with the moment, as at the end of a fight.
+      next.forEach(c => {
+        c.state.conditions = c.state.conditions.filter(s => Effects.lasting(s) || Effects.skips(s.id))
+          .map(s => Effects.lasting(s) ? s : { ...s, clock: 'world-time' as const });
+      });
       lease.commit(next);
       return context.events;
     } finally { lease.release(); }

@@ -35,7 +35,7 @@ describe('a company that takes on someone it meets', () => {
     expect(c.available().some(a => a.name === 'Ask Rook to join the company')).toBe(false);
     const ask = c.available().find(a => a.name === 'Ask Tam to join the company')!;
     const e = c.execute(ask.id);
-    expect(e.response).toBe('Tam shakes on it, and is one of you.');
+    expect(e.response).toBe('Tam is with you now.');
     expect(c.state.party.map(m => m.name)).toEqual([expect.any(String), 'Tam']);
     expect(c.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(2);
     expect(c.world.test(ModuleWriter.call('memberOf', 'inn__member_tam_person', 'party'))).toBe(true);

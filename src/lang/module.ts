@@ -84,6 +84,8 @@ export interface Module {
   goal: Predicate; actions: Operator[]; budget: NumberValue;
   // The land of each region with one, by the region's id: what its map is drawn from.
   charts?: Record<string, LandChart>;
+  // The kinds of thing and of creature the module declares for itself (see LocalKinds).
+  catalog?: import('../canon/local-catalog').LocalCatalog;
 }
 // A region's land for its map: each cell's cover in one string (row by row), the cells of its rivers, of each road
 // (by its way), of each part of its wild country (by room), the cell of each place on it, and what its names mean.

@@ -1,5 +1,6 @@
 import type { DeemValue } from 'deem';
 import { RoleRequirements, type RoleContract } from './role-requirements';
+import { LocalKinds } from '../canon/local-catalog';
 import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
 import { ModuleParser } from '../lang/module-parser';
@@ -96,7 +97,8 @@ export class ModuleBundle {
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
       pursuits: modules.flatMap(m => m.pursuits ?? []), rules: modules.flatMap(m => m.rules ?? []),
-      observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []) };
+      observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []),
+      ...LocalKinds.merge(...modules.map(m => m.catalog)) };
   }
   // Each declared import bound to an entity another installation exports; globals keep their own names.
   private static imports(manifest: BundleManifest, request: BundleRequest, installed: InstalledModule[] | undefined,

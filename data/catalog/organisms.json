@@ -27,6 +27,9 @@
     "cave": {
       "name": "Cave",
       "terrain": "cave"
+    },
+    "settlement": {
+      "name": "Farm and settlement"
     }
   },
   "organisms": {

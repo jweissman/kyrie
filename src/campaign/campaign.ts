@@ -31,7 +31,7 @@ import { Overlays } from '../overlays';
 import { CampaignTick } from './campaign-tick';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Engagement } from './engagement';
-import { Journey } from './journey';
+import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
 import { ActionTime } from './action-time';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
@@ -52,7 +52,7 @@ export class Campaign implements WatchHost {
       this.compiled = structuredClone(saved.module); this.definition = structuredClone(saved.definition);
       this.current = structuredClone(saved.state); this.creatures = new CreatureStore(saved.creatures);
       this.log = structuredClone(saved.events); this.encounter = saved.encounter;
-      this.observations = structuredClone(saved.observations);
+      this.observations = structuredClone(saved.observations); LocalKinds.install(saved.module.catalog);
       // A save from before demand grounding holds grounded actions; its schemas are in the definition.
       if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
         this.compiled.actions = this.definition.schemas;

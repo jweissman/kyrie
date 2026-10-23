@@ -105,6 +105,173 @@
         "notes": "Orsino's boar: tusks and hide. Kyr rolls its attributes and gives it the Kyr rending bite."
       }
     },
+    "dog": {
+      "variantOf": "cave_hound",
+      "name": "Dog",
+      "description": "A working dog of a farm, a drove or an inn: it knows people, and keeps an eye on what is theirs.",
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "tame",
+      "habitats": [
+        "settlement",
+        "meadow",
+        "upland"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Orsino's hound (as the feral cave hound has it), kept: the same bite and fur, tame, without the rending bite."
+      }
+    },
+    "cat": {
+      "name": "Cat",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A cat about the house: it keeps the mice down and goes where it likes.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 2,
+        "primary": "constitution",
+        "weapon": "claws",
+        "armor": "fur"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "tame",
+      "habitats": [
+        "settlement"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A Kyr domestic animal; Orsino has none."
+      }
+    },
+    "horse": {
+      "name": "Horse",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A horse broken to saddle or to the cart.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "constitution",
+        "weapon": "kick",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "tame",
+      "habitats": [
+        "settlement",
+        "meadow"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A Kyr domestic animal; Orsino's horse is a wonder's form, not a beast."
+      }
+    },
+    "sheep": {
+      "name": "Sheep",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A sheep of the hill flocks, in its heavy coat.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "constitution",
+        "weapon": "headbutt",
+        "armor": "fur"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "tame",
+      "habitats": [
+        "settlement",
+        "upland",
+        "meadow"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A Kyr domestic animal."
+      }
+    },
+    "hen": {
+      "name": "Hen",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A hen scratching about a yard.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 1,
+        "primary": "constitution",
+        "weapon": "beak",
+        "armor": "feathers"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "tame",
+      "habitats": [
+        "settlement"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A Kyr domestic animal."
+      }
+    },
+    "pig": {
+      "name": "Pig",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A pig in its sty, or rooting in the wood under the swineherd's eye.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "constitution",
+        "weapon": "tusks",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "tame",
+      "habitats": [
+        "settlement",
+        "woodland"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A Kyr domestic animal."
+      }
+    },
+    "cow": {
+      "name": "Cow",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A milk cow, slow and certain.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "constitution",
+        "weapon": "horns",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "temperament": "tame",
+      "habitats": [
+        "settlement",
+        "meadow"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "A Kyr domestic animal."
+      }
+    },
     "cave_hound": {
       "name": "Feral cave hound",
       "type": "beast",

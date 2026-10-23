@@ -58,11 +58,13 @@ export class CreatureFacts {
     const kinds = new Set(members.map(c => Canon.temperament(c.raceId)));
     const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, words = this.words(world.module);
     const given = world.one('temperament', group);
-    const own = kinds.size === 1 && kind && words.has(kind);
+    // One the place has made peaceable keeps the peace, whatever its kind would do; a tame kind is peaceable anyway.
+    const peaceable = world.holds(World.key(ModuleWriter.call('peaceable', group))) && kind !== 'temper_tame';
+    const own = kinds.size === 1 && kind && words.has(kind) && !peaceable;
     const temper = given ?? (own ? kind : undefined);
     if (!temper) { return []; }
     const scripted = world.related('state', group).length > 0, many = members.length > 1;
-    const said = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
+    const said = scripted ? [] : (['warning', 'onslaught', 'flinch', 'greeting'] as const).flatMap(name => {
       // The shared words live in whichever installation joined the inhabitants rules first. A band of more than one
       // is spoken of as many ("the wolves come at you"), where the words differ.
       const plain = `${temper.replace(/^temper_/, 'temper_words_')}_${name}`;

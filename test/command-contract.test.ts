@@ -75,10 +75,6 @@ it('rejects invalid definitions and unbound areas before spending mana or emitti
   ctx.recipients = [ctx.actor!];
   expect(() => AbilityUse.perform(ContractProbe.weapon, 'enemy', new Expressions('area'), ctx)).toThrow('No eligible');
   expect(ctx.actor).toEqual(before); expect(ctx.events).toEqual([]);
-  expect(() => AbilityUse.perform({ ...ContractProbe.weapon, effects: [{ kind: 'apply',
-    target: 'self', status: 'stun', duration: 2, clock: 'world-time' }] }, 'hero', new Expressions('untimed'), ctx))
-    .toThrow('needs persistent lifetime');
-  expect(ctx.actor).toEqual(before); expect(ctx.events).toEqual([]);
 });
 
 it('uses typed source-only damage for world-time conditions and expires them exactly once', () => {

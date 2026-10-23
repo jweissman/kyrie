@@ -9,29 +9,31 @@ Module belongings "What the company carries" {
   // treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and
   // sold is the company's experience, the first time it is sold: its worth, to each who brought it.
   Measure worth(itemkind). Relation buysValuables(group). Relation realized(item). Relation valuable(itemkind).
+  // What a kind of thing weighs, where it says (a module's own kind, "weighing 2"); selm weighs less than nothing.
+  Measure mass(itemkind).
   // How much coin a dealer keeps in the house: what they pay out, trade brings back by the next morning.
   Measure purse(group). Relation appraised(item, group).
   Rule purse_refilled when untilLight(clock) == 1 and buysValuables(?m) and purse(?m) > quantity(?m, gold) {
     Set quantity(?m, gold) to purse(?m).
   }
   // Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it
-  // unlent, says so once, in their own words if they have them ("Objects" in a person), and is not the company's
-  // friend after.
+  // unlent (awake, and there to see it), says so once, in their own words if they have them ("Objects" in a person),
+  // and is not the company's friend after. One asleep sees nothing.
   Relation owns(group, item). Relation lends(group, item, group). Relation objected(group, item).
   Relation objection(group, entity).
   Query unlent(o: group, i: item, c: group) means carries(c, i) and not lends(o, i, c) and not objected(o, i).
-  Rule owner_objects when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and together(?o, ?c) and able(?o)
+  Rule owner_objects when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and perceives(?o, ?c)
     and not objection(?o, ?w) says "{?o} sees {?i} in your hands. 'That is mine.'" {
     Assert objected(?o, ?i). Assert hostile(?o, ?c).
   }
-  Rule owner_objects_aloud when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and together(?o, ?c) and able(?o)
+  Rule owner_objects_aloud when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and perceives(?o, ?c)
     and objection(?o, ?w) says "{?w}" { Assert objected(?o, ?i). Assert hostile(?o, ?c). }
-  Rule servant_objects when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and serves(?s, ?o) and together(?s, ?c)
-    and able(?s) and not objection(?s, ?w) says "{?s} sees {?i} in your hands, and goes to tell {?o}." {
+  Rule servant_objects when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and serves(?s, ?o) and perceives(?s, ?c)
+    and not objection(?s, ?w) says "{?s} sees {?i} in your hands, and goes to tell {?o}." {
     Assert objected(?o, ?i). Assert hostile(?o, ?c).
   }
   Rule servant_objects_aloud when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and serves(?s, ?o)
-    and together(?s, ?c) and able(?s) and objection(?s, ?w) says "{?w}" { Assert objected(?o, ?i). Assert hostile(?o, ?c). }
+    and perceives(?s, ?c) and objection(?s, ?w) says "{?w}" { Assert objected(?o, ?i). Assert hostile(?o, ?c). }
   Measure price(item).
   Goal false.
   Action take_item(actor: group, find: item, form: itemkind, recipient: member, site: place) "Collect {find} for {recipient}" {

@@ -1,0 +1,3 @@
+Module law "The law of attention, as a module others could use" {
+  Relation held(place).
+}

@@ -1,0 +1,63 @@
+Module house "One house in two places" {
+  Place field "Haddo's barley" is wilderness.
+  Place annex "the Annex" is building within field.
+  Place keel "the Keel" is site.
+  Place barley "the flattened barley" is room within field at 0, 0.
+  Place bedroom "the glass bedroom" is room within annex at 1, 0.
+  Place coats_low "the hall of coats" is room within annex at 2, 0.
+  Place coats_high "the hall of coats" is room within keel at 0, 0.
+  Place long_hall "the Long Hall" is room within keel at 1, 0.
+  Passage small_door "the small door" is door between barley and bedroom.
+  Passage coats_door "the door into the hall of coats" is door between bedroom and coats_low.
+  Passage coats_door_up "the door into the hall of coats" is door between bedroom and coats_high one way.
+  Passage hall_door "the far door" is door between coats_high and long_hall.
+  // A door that is not there until the house grows one.
+  Passage budded "a new door" is door between long_hall and barley hidden until budded_known.
+
+  Company party "You" of 1 at barley.
+
+  // Who attends to a room: the company, awake and able to see; a watcher posted there; a lit lamp set down.
+  Relation watcher(group). Relation lit(entity). Relation copyOf(place, place). Relation houseRoom(place).
+  Query attended(p: place) means (company(?c) and at(?c, p) and alert(?c) and not benighted(?c))
+    or (watcher(?w) and at(?w, p) and alert(?w)) or (lit(?l) and at(?l, p)).
+  Initially Assert copyOf(coats_low, coats_high). Initially Assert copyOf(coats_high, coats_low).
+  Initially Assert houseRoom(bedroom). Initially Assert houseRoom(coats_low). Initially Assert houseRoom(coats_high). Initially Assert houseRoom(long_hall).
+  Person watchers "Cobble Ring's watchers" at coats_low {
+    Role "four watchers on stools". Ancestry human. Numbers 4. Peaceable.
+  }
+  Initially Assert watcher(watchers).
+
+  // The door into the hall of coats is shut to ordinary going; it opens only behind your back.
+  Thing coats_leaf "the door into the hall of coats" on coats_door {
+    State shut blocking "A tall glass door, shut.".
+  }
+  Thing coats_leaf_up "the door into the hall of coats" on coats_door_up {
+    State shut blocking "A tall glass door, shut.".
+  }
+  Action turn_back(actor: group, way: passage, origin: place, there: place) "Turn your back on the door into the hall of coats, and step through when it opens" {
+    Requires able(actor) and company(actor) and at(actor, origin) and connects(way, origin, there) and copyOf(there, ?other)
+      and not attended(there) and attended(?other).
+    On success { Assert at(actor, there). }
+    Result "Behind you the glass sighs. You step back through without looking, and turn.".
+  }
+
+  // Growth: an unwatched room changes on a 1 in 6, by its own die each watch.
+  Measure size(place). Measure phase(place).
+  Initially Set phase(bedroom) to 0. Initially Set phase(coats_low) to 17. Initially Set phase(coats_high) to 33. Initially Set phase(long_hall) to 50.
+  Rule grows when houseRoom(?p) and not attended(?p) and dice(?p) <= 17 { Increase size(?p) by 1. }
+
+  // A door buds in the Long Hall when it has grown twice; the company learns it on seeing it.
+  Relation hasBud(place).
+  Rule bud when size(long_hall) >= 2 and not hasBud(long_hall) { Assert hasBud(long_hall). }
+  Discovery budded_known "A new door has grown in the Long Hall, low in the glass.".
+  Observe bud_seen at long_hall when hasBud(long_hall) "Low in the glass wall there is a door that was not there before." teaches budded_known.
+  // Can a rule make a way where there was none?
+  Passage nowhere "a crack in the glass" is crawl between long_hall and coats_high.
+  Rule cracks when size(coats_high) >= 3 { Retract connects(nowhere, long_hall, coats_high). Retract connects(nowhere, coats_high, long_hall). }
+
+  Observe barley_scene at barley when true "Barley lies flat in a line to a room of green glass.".
+  Observe bedroom_scene at bedroom when true "A bed the size of a hay wagon.".
+  Observe coats_scene at coats_low when true "Coats on hooks at the height of a barn roof.".
+  Observe coats_high_scene at coats_high when true "Coats on hooks at the height of a barn roof. The light through the glass is grey and comes from below.".
+  Observe hall_scene at long_hall when true "A hallway as long as a field, with doors on both sides.".
+}

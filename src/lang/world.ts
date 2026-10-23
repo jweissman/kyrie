@@ -106,7 +106,21 @@ export class World {
     if (value.kind === 'number') { return value.value; }
     if (value.kind === 'deem') { throw new Error('Deem module values must be instantiated before execution'); }
     if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
-    return this.quantities.get(World.key(this.bind(value, bindings)))?.value ?? 0;
+    const call = this.bind(value, bindings);
+    if (call.name === 'dice' && call.args[0] !== 'clock') { return this.die(call.args[0]!); }
+    return this.quantities.get(World.key(call))?.value ?? 0;
+  }
+  // Each thing's own die for the watch, 1 to 100 (dice(?room)): drawn from the watch's die and the thing's name, so
+  // that two rooms, or two people, left to chance in the same watch do not come out alike, and the same watch comes
+  // out the same way again.
+  private die(of: string): number {
+    let hash = 2166136261;
+    const key = `${this.reading('dice')}:${this.reading('watch')}:${of}`;
+    for (let i = 0; i < key.length; i++) { hash = Math.imul(hash ^ key.charCodeAt(i), 16777619); }
+    return ((hash >>> 0) % 100) + 1;
+  }
+  private reading(name: string): number {
+    return this.quantities.get(World.key({ kind: 'call', name, args: ['clock'] }))?.value ?? 0;
   }
   // A predicate may contain existential variables (?name). Closed predicates keep the direct evaluator.
   test(predicate: Predicate, bindings: Record<string, string> = {}): boolean {
@@ -131,9 +145,9 @@ export class World {
       default: if (this.closed(p, b)) { yield b; } return;
     }
     const args = p.args.map(a => b[a] ?? a);
-    const signatures = World.index(this.module);
-    if (signatures.queries.has(p.name) || !args.some(a => a.startsWith('?'))) {
-      if (args.some(a => a.startsWith('?'))) { throw new Error(`Query ${p.name} needs bound arguments`); }
+    const signatures = World.index(this.module), query = signatures.queries.get(p.name);
+    if (query && args.some(a => a.startsWith('?'))) { yield* this.ask(query, args, b); return; }
+    if (query || !args.some(a => a.startsWith('?'))) {
       if (this.closed({ ...p, args }, {})) { yield b; }
       return;
     }
@@ -144,6 +158,26 @@ export class World {
     for (const fact of facts) {
       const next = World.match(fact, args, b);
       if (next) { yield next; }
+    }
+  }
+  // A query asked of someone not yet known ("held(p) means looks(?w, p)"): each binding of its body that satisfies it,
+  // with the asker's variables bound to what the query's parameters came to be.
+  private *ask(query: Module['queries'][number], args: string[], b: Record<string, string>):
+    Generator<Record<string, string>> {
+    const inner: Record<string, string> = {}, back: [string, string][] = [];
+    query.parameters.forEach((parameter, i) => {
+      const arg = args[i]!, local = `?${query.name}.${parameter.name}`;
+      if (!arg.startsWith('?')) { inner[parameter.name] = arg; return; }
+      inner[parameter.name] = local;
+      back.push([arg, local]);
+    });
+    for (const found of this.solve(query.body, inner)) {
+      let next = b;
+      for (const [outer, local] of back) {
+        const value = found[local];
+        if (value !== undefined && !value.startsWith('?')) { next = { ...next, [outer]: value }; }
+      }
+      yield next;
     }
   }
   private static match(fact: Call, args: string[], b: Record<string, string>): Record<string, string> | undefined {
@@ -256,7 +290,10 @@ export class World {
     const amount = change.value.kind === 'call' ? this.number(change.value) : World.literal(change.value);
     const previous = this.number(change.call);
     const value = change.kind === 'set' ? amount : change.kind === 'increase' ? previous + amount : previous - amount;
-    if (!Number.isSafeInteger(value) || value < 0) { throw new Error(`Invalid quantity for ${World.format(change.call)}`); }
+    // A count never goes below nothing; a quantity set outright may (selm weighs less than nothing).
+    if (!Number.isSafeInteger(value) || (value < 0 && change.kind !== 'set')) {
+      throw new Error(`Invalid quantity for ${World.format(change.call)}`);
+    }
     this.quantities.delete(key);
     if (value !== 0) { this.quantities.set(key, { call: World.copy(change.call), value }); }
   }

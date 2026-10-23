@@ -1,0 +1,8 @@
+Module localkind "A thing of this adventure's own" {
+  Place field "a field" is wilderness.
+  Place barley "the barley" is room within field at 0, 0.
+  Company party "You" of 1 at barley.
+  // An item of a kind only this adventure has: what it is, what it is worth, what it weighs.
+  Kind dreg_ox "a little ox of dreg, on a cord" is treasure worth 2 weighing 1.
+  Item ox "a little ox of dreg, on a cord" is dreg_ox at barley.
+}

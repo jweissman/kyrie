@@ -1,0 +1,22 @@
+Module selm "Star-stone falls upward" {
+  Place flutes "the Flutes" is wilderness.
+  Place bore "the mouth of Flute 114" is room within flutes at 0, 0.
+  Place sky "the sky" is room within flutes at 1, 0.
+  Company party "You" of 1 at bore.
+  // Selm: star-stone, which falls upward. A pack with selm in it weighs less.
+  Kind selm_stone "a fist of selm" is treasure worth 12 weighing -2.
+  Item nugget "a fist of selm" is selm_stone at bore.
+  Relation selm(item). Relation netted(item).
+  Initially Assert selm(nugget).
+  // Freed and unnetted, selm goes up until something catches it: setting it down loses it.
+  Rule selm_rises when selm(?s) and at(?s, ?p) and not netted(?s) and not at(?s, sky)
+    says "The selm leaves your hand going up, at the pace of a thrown stone, and does not come down." { Assert at(?s, sky). }
+  Thing net "a net of cord hung with bells over the bore" at bore {
+    Holds.
+    State hung "A net of cord hung with bells is staked over the bore mouth.".
+  }
+  Rule net_holds when selm(?s) and inside(?s, net) and not netted(?s) { Assert netted(?s). }
+  // What selm is for: a pack with selm in it weighs less.
+  Observe bore_scene at bore when true "A bore as wide as a well goes straight down into the ground. Wind across it makes a low chord.".
+  Observe sky_scene at sky when true "Sky.".
+}

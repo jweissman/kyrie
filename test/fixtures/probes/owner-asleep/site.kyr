@@ -1,0 +1,12 @@
+Module ownerasleep "A teacher's cup, taken while she sleeps" {
+  Place ring "a town" is settlement.
+  Place house "her house" is building within ring.
+  Place bedroom "her sleeping-room" is room within house at 0, 0.
+  Company party "You" of 1 at bedroom.
+  Person kezu "Kezu" at bedroom {
+    Role "your teacher, asleep". Ancestry human. Peaceable.
+  }
+  Initially Assert asleep(kezu).
+  Initially Assert expects(kezu, party).
+  Item cup "a cracked orange cup" is bell at bedroom owned by kezu.
+}

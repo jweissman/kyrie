@@ -1,3 +1,4 @@
+import { LocalKinds } from '../canon/local-catalog';
 import { Spatial } from '../spatial';
 import { Canon } from '../canon/canon';
 import { RuntimeCapabilities } from './runtime-capabilities';
@@ -95,6 +96,7 @@ export class ModuleAssembly {
       rules: [...(rules.rules ?? []), ...(situation.rules ?? [])],
       observations: [...(rules.observations ?? []), ...(situation.observations ?? [])],
       objectives: [...(rules.objectives ?? []), ...(situation.objectives ?? [])],
+      ...LocalKinds.merge(rules.catalog, situation.catalog),
       initial: [...rules.initial, ...situation.initial, ...information.initial,
         ...Discovery.lower(manifest.discoveries ?? []),
         ...(manifest.facts ?? []).map(row => ({ kind: 'assert' as const, call: ModuleWriter.call(row.name, ...row.args) })),

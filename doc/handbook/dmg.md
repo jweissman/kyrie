@@ -12,13 +12,19 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 19 | 4 | 1 | 5 | 15 |
+| 2 | 19 | 5 | 1 | 5 | 15 |
 
 #### worth, buysValuables, realized, valuable
 
 *Kyr · measure(itemkind); relation(group); relation(item); relation(itemkind)* · `rule:belongings.worth`
 
 What a kind of thing is worth (its catalog value), and those who deal in valuables: a merchant who buys any treasure brought in, at its worth, if they have the coin (as Orsino's shops buy junk). Treasure brought home and sold is the company's experience, the first time it is sold: its worth, to each who brought it.
+
+#### mass
+
+*Kyr · measure(itemkind)* · `rule:belongings.mass`
+
+What a kind of thing weighs, where it says (a module's own kind, "weighing 2"); selm weighs less than nothing.
 
 #### purse, appraised
 
@@ -30,7 +36,7 @@ How much coin a dealer keeps in the house: what they pay out, trade brings back 
 
 *Kyr · rule* · `rule:belongings.purse_refilled`
 
-> When: untilLight(clock) == 1; purse(?m) > quantity(?m, gold)
+> When: untilLight(clock) == 1; buysValuables(?m); purse(?m) > quantity(?m, gold)
 
 > Then: Set quantity(?m, gold) to purse(?m).
 
@@ -38,7 +44,7 @@ How much coin a dealer keeps in the house: what they pay out, trade brings back 
 
 *Kyr · relation(group, item); relation(group, item, group); relation(group, item)* · `rule:belongings.owns`
 
-Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it unlent, says so once, in their own words if they have them ("Objects" in a person), and is not the company's friend after.
+Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it unlent (awake, and there to see it), says so once, in their own words if they have them ("Objects" in a person), and is not the company's friend after. One asleep sees nothing.
 
 #### owner_objects
 
@@ -46,7 +52,7 @@ Whose a thing is, and to whom they have lent it. An owner, or one who serves the
 
 Says: "{?o} sees {?i} in your hands. 'That is mine.'"
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); together(?o, ?c); able(?o); not (objection(?o, ?w))
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); perceives(?o, ?c); not (objection(?o, ?w))
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
@@ -56,7 +62,7 @@ Says: "{?o} sees {?i} in your hands. 'That is mine.'"
 
 Says: "{?w}"
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); together(?o, ?c); able(?o); objection(?o, ?w)
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); perceives(?o, ?c); objection(?o, ?w)
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
@@ -66,7 +72,7 @@ Says: "{?w}"
 
 Says: "{?s} sees {?i} in your hands, and goes to tell {?o}."
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); together(?s, ?c); able(?s); not (objection(?s, ?w))
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); perceives(?s, ?c); not (objection(?s, ?w))
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
@@ -76,7 +82,7 @@ Says: "{?s} sees {?i} in your hands, and goes to tell {?o}."
 
 Says: "{?w}"
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); together(?s, ?c); able(?s); objection(?s, ?w)
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); perceives(?s, ?c); objection(?s, ?w)
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
@@ -402,7 +408,7 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 25 | 9 | 3 | 0 | 7 |
+| 8 | 28 | 9 | 5 | 1 | 8 |
 
 #### terrainkind, terrain
 
@@ -415,6 +421,20 @@ The lie of the land a region is: what a party's perks of place (an elven tribe i
 *Kyr · kind; relation(place, landkind)* · `rule:world_core.landkind`
 
 The land a stretch of country is (a river's vale, a wood, a mere, a pass): what a chart draws it as. The names are prefixed, as every module shares them and an author's own place may well be called "pass".
+
+#### been
+
+*Kyr · relation(group, place)* · `rule:world_core.been`
+
+Where a company has been: once it has stood somewhere, it knows the place and can find it again.
+
+#### been_there
+
+*Kyr · rule* · `rule:world_core.been_there`
+
+> When: company(?c); at(?c, ?p); not (been(?c, ?p))
+
+> Then: Assert been(?c, ?p).
 
 #### law, law
 
@@ -452,6 +472,18 @@ Someone stopping another where they stand (a challenge, a hold-up): on the compa
 
 A company on the way, between where it set out and where it is going: enRoute(company, by this passage).
 
+#### asleep
+
+*Kyr · relation(group)* · `rule:world_core.asleep`
+
+Who is awake to the world. A group that the day's round or a spell has put to sleep sees nothing that happens.
+
+#### unseen
+
+*Kyr · relation(group, group)* · `rule:world_core.unseen`
+
+Whether one would see what another does where both are: awake, there, and not hidden from them.
+
 #### threatened
 
 *Kyr · query(a: group)* · `rule:world_core.threatened`
@@ -470,6 +502,22 @@ Someone who means the company no good where it is: a long wait or a rest is brok
 
 > Then: nothing changes
 
+#### lie still
+
+*Kyr · action (group)* · `rule:world_core.lie_still`
+
+- Shown as: Lie as you are
+- Takes: 10 minutes
+- Costs: 1
+
+A company that cannot move (all of it asleep, or held fast) can only lie as it is until it can.
+
+You cannot move. Time passes over you until you can.
+
+> Needs: company(actor); not (able(actor)); not (dead(actor))
+
+> Then: nothing changes
+
 #### wait hour
 
 *Kyr · action (group)* · `rule:world_core.wait_hour`
@@ -484,9 +532,9 @@ Someone who means the company no good where it is: a long wait or a rest is brok
 
 #### dice
 
-*Kyr · measure(clock)* · `rule:world_core.dice`
+*Kyr · measure(entity)* · `rule:world_core.dice`
 
-A die thrown each watch, 1 to 100, for what is left to chance.
+A die thrown each watch, 1 to 100, for what is left to chance: dice(clock) for the world, and dice(x) for each thing's own, so that what is left to chance in two places, or for two people, does not fall out alike.
 
 #### season
 
@@ -776,17 +824,23 @@ Also kept, without comment: exposedTo.
 
 ### How creatures that live somewhere answer those who come into it
 
-Also kept, without comment: plea, warned, yielded, warnsFirst.
+Also kept, without comment: plea, greeting, greeted, petted, warned, yielded, warnsFirst.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 11 | 2 | 1 | 15 | 1 |
+| 1 | 14 | 2 | 1 | 16 | 2 |
 
 #### temperament
 
 *Kyr · kind* · `rule:inhabitants.temperament`
 
 A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one keeps its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge. A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
+
+#### temperament
+
+*Kyr · relation(group, temperament)* · `rule:inhabitants.temperament`
+
+A tame creature (a dog, a horse, a cat about a house) knows people: it comes to see who you are, and lets you make much of it.
 
 #### lair, refuge
 
@@ -810,7 +864,7 @@ What drives it off (sunlight, flame), and the price a proud one names.
 
 *Kyr · measure(group)* · `rule:inhabitants.patience`
 
-Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. Watches it waits, once it has warned, before it comes at whoever stays.
+Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. The same words for a band of more than one, where they differ. Watches it waits, once it has warned, before it comes at whoever stays.
 
 #### temper_shies
 
@@ -961,6 +1015,34 @@ Says: "{?f}"
 > When: temperament(?g, temper_wary); company(?c); confronts(?g, ?c); refuge(?g, ?r); not (at(?g, ?r)); flinch(?g, ?f)
 
 > Then: Assert at(?g, ?r).
+
+#### temper_greets
+
+*Kyr · rule* · `rule:inhabitants.temper_greets`
+
+A tame one greets whoever comes, once, if it is awake.
+
+Says: "{?w}"
+
+> When: temperament(?g, temper_tame); company(?c); together(?g, ?c); alert(?g); not (greeted(?g, ?c)); not (hostile(?g, ?c)); greeting(?g, ?w)
+
+> Then: Assert greeted(?g, ?c). Assert tolerates(?g, ?c).
+
+#### pet
+
+*Kyr · action (group, group, place)* · `rule:inhabitants.pet`
+
+- Shown as: Make much of {animal}
+- Takes: 10 minutes
+- Costs: 1
+
+A tame creature lets itself be made much of, by anyone it has not taken against.
+
+Crouch down, hold out a hand, scratch behind its ears.
+
+> Needs: able(actor); company(actor); at(actor, site); at(animal, site); temperament(animal, temper_tame); able(animal); not (hostile(animal, actor))
+
+> Then: Assert petted(animal, actor). Assert tolerates(animal, actor). Assert greeted(animal, actor).
 
 #### pay tribute
 
@@ -1146,7 +1228,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 7 | 2 | 0 | 1 | 3 |
+| 0 | 12 | 3 | 0 | 2 | 3 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1162,11 +1244,31 @@ Someone taken from home: who set them free, where home is, and what their people
 
 > Then: Retract following(?person, ?company). Assert cameHome(?person). Assert grateful(?person, ?company). Increase quantity(?company, gold) by thanks(?person).
 
-#### willing, hire
+#### kin, expects
 
-*Kyr · relation(group, group); measure(group)* · `rule:world_people.willing`
+*Kyr · relation(group, group); relation(group, group)* · `rule:world_people.kin`
 
-Someone who would join the company, once they are willing, for their hire (which may be nothing).
+Who someone is to the one who plays: family (kin), or someone expecting them with a letter or an errand (expects); what they owe someone is dominion's owes. An origin says so at the outset; what people say and do follows it.
+
+#### willing, hire, travelsWith
+
+*Kyr · relation(group, group); measure(group); relation(group, group)* · `rule:world_people.willing`
+
+Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has joined it, who goes where it goes and can be talked to on the way.
+
+#### fellow, confided, hushed
+
+*Kyr · relation(member); measure(group); relation(group)* · `rule:world_people.fellow`
+
+A traveller of the country who has joined (a fellow, as against the one who plays): how much of their own story they have told, and whether they have told some tonight. A story is told a part a night.
+
+#### hush_lifts
+
+*Kyr · rule* · `rule:world_people.hush_lifts`
+
+> When: hushed(?c); not (dark())
+
+> Then: Retract hushed(?c).
 
 #### recruit
 
@@ -1180,7 +1282,7 @@ They come into the company as one of you: they fight beside you, and what they c
 
 > Needs: able(actor); company(actor); able(recruit); distinct(actor, recruit); at(actor, site); at(recruit, site); willing(recruit, actor); quantity(actor, gold) >= hire(recruit)
 
-> Then: Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site).
+> Then: Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site). Assert travelsWith(recruit, actor).
 
 #### lead
 

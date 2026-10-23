@@ -42,6 +42,11 @@ export class Effects {
     return condition;
   }
   // Orsino's noActions: the holder loses its turn.
+  // Whether a condition outlasts a fight: one that lasts until it is lifted (a curse, a disease), or one that runs on
+  // the world's clock or until removed, however it would last in a fight (asleep for an hour).
+  static lasting(s: { id: string; clock?: string }): boolean {
+    return s.clock === 'world-time' || s.clock === 'until-removed' || Effects.status(s.id).lifetime === 'persistent';
+  }
   static skips(id: string): boolean { return Effects.status(id).modifiers.noActions === true; }
   // Orsino's gatherEffects: conditions held, the traits the creature has, its equipment and its kind's resistances.
   static modifiers(fighter: Fighter): Modifiers {
@@ -129,10 +134,6 @@ export class Effects {
     }
     if (effect.kind === 'apply' && effect.clock !== undefined
       && !['owner-turn', 'world-time', 'until-removed'].includes(effect.clock)) { throw new Error('Unknown condition clock'); }
-    if (effect.kind === 'apply' && effect.clock && effect.clock !== 'owner-turn'
-      && Effects.status(effect.status).lifetime !== 'persistent') {
-      throw new Error('A world-time or until-removed condition needs persistent lifetime');
-    }
     if (effect.kind === 'apply' && (!Number.isSafeInteger(effect.duration) || effect.duration < 1)) {
       throw new Error('Status duration must be positive');
     }

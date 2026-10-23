@@ -24,6 +24,12 @@ export class WatchLoop {
     const player = host.playerActor, watches = ActionTime.of(action, before);
     const watch = Interruption.begin(host.world, action, player, host.tickState.current.elapsed);
     let why: string | undefined;
+    // Something done in no time at all (a word, a pat on the head) takes no watch, but the world still answers it.
+    if (!watches && host.persistent) {
+      CampaignTick.rules(host, happenings);
+      const foe = Engagement.foe(host);
+      if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
+    }
     for (let tick = 0; tick < watches && !why; tick++) {
       if (journey && tick === watches - 1) { journey.arrive(); }
       host.advanceWatch(combat);

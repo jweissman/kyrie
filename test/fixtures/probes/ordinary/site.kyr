@@ -1,0 +1,27 @@
+Module ordinary "Ordinary things in a crater-town" {
+  Place ring "Cobble Ring" is settlement.
+  Place hall "the sleeping-hall" is building within ring.
+  Place rim "the rim path" is room within ring at 0, 0.
+  Place hall_floor "the common sleeping-hall" is room within hall at 1, 0.
+  Passage hall_door "the hall door" is door between rim and hall_floor.
+
+  Company party "You" of 1 at rim.
+
+  Person bolt "Bolt" at hall_floor {
+    Role "the hall's old dog, asleep across the door". Species cave_hound. Peaceable.
+  }
+  Person tobu "Tobu" at rim {
+    Role "Kezu's sister's boy". Ancestry human. Peaceable.
+  }
+  Person kezu "Kezu" at hall_floor {
+    Role "watch-keeper of Cobble Ring". Ancestry human. Peaceable.
+  }
+  Initially Assert kin(tobu, kezu).
+  Initially Assert willing(tobu, party).
+  Topic tobu_aunt with tobu "Ask Tobu about his aunt" when true {
+    Says "'She closed her eyes,' says Tobu. 'On purpose.'".
+  }
+  Item ox "a little ox of dreg, on a cord" is bell at hall_floor.
+  Observe rim_scene at rim when true "Houses face inward round the pond, each with a lit loft on the rim side.".
+  Observe hall_scene at hall_floor when true "Thirty beds, four stools, and a dog across the door.".
+}

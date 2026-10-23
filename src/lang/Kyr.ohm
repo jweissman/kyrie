@@ -1,6 +1,6 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
-  Declaration = Kind | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Company | ItemDecl | HazardDecl
+  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Company | ItemDecl | HazardDecl
   Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceAlias? "."
   PlaceShelter = "outdoors" | "indoors" | "underground"
   PlaceParent = "within" ident
@@ -97,6 +97,20 @@ Kyr {
   ObservationBy = "noticed" "by" ident
   ObservationTeaches = "teaches" ident
   Kind = "Kind" ident "."
+  LocalKind = "Kind" ident string KindBody
+  KindBody = KindBase KindPart* "."
+  KindBase = "is" ident -- is
+           | "like" ident -- like
+  KindPart = "worth" integer -- worth
+           | "weighing" signed -- weighing
+           | "described" string -- described
+  LocalSpecies = "Species" ident string SpeciesBody
+  SpeciesBody = "like" ident SpeciesPart* "."
+  SpeciesPart = "tame" -- tame
+              | "temperament" ident -- temperament
+              | "described" string -- described
+              | "living" "in" NonemptyListOf<ident, ","> -- living
+  signed = "-"? digit+
   Relation = "Relation" ident "(" ListOf<ident, ","> ")" exclusive? "."
   Measure = "Measure" ident "(" ListOf<ident, ","> ")" "."
   Query = "Query" ident "(" ListOf<Parameter, ","> ")" "means" Predicate "."

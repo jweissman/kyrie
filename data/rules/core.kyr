@@ -47,6 +47,12 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation enRoute(group, passage).
   Query benighted(a: group) means company(a) and at(a, ?p) and not capable(a, sunlight)
     and ((unlit(?p) and not capable(a, light)) or lightless(?p)).
+  // Who is awake to the world. A group that the day's round or a spell has put to sleep sees nothing that happens.
+  Relation asleep(group).
+  Query alert(g: group) means able(g) and not asleep(g).
+  // Whether one would see what another does where both are: awake, there, and not hidden from them.
+  Relation unseen(group, group).
+  Query perceives(o: group, s: group) means at(o, ?p) and at(s, ?p) and alert(o) and not unseen(s, o).
   Measure quantity(entity, good). Measure watch(clock). Measure encounterXp(group).
   Goal false.
   // Someone who means the company no good where it is: a long wait or a rest is broken off when one arrives.
@@ -55,13 +61,19 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Action wait(actor: group) "Wait a while" {
     Requires able(actor). Time 1.
   }
+  // A company that cannot move (all of it asleep, or held fast) can only lie as it is until it can.
+  Action lie_still(actor: group) "Lie as you are" {
+    Description "You cannot move. Time passes over you until you can.".
+    Requires company(actor) and not able(actor) and not dead(actor). Time 1.
+  }
   Action wait_hour(actor: group) "Wait an hour" {
     Requires able(actor). Time 6. Interrupted when threatened(actor).
     Result "An hour passes.".
   }
   Measure untilLight(clock). Measure untilMorning(clock).
-  // A die thrown each watch, 1 to 100, for what is left to chance.
-  Measure dice(clock).
+  // A die thrown each watch, 1 to 100, for what is left to chance: dice(clock) for the world, and dice(x) for each
+  // thing's own, so that what is left to chance in two places, or for two people, does not fall out alike.
+  Measure dice(entity).
   // The season by the campaign's calendar, when it keeps one: 1 spring, 2 summer, 3 autumn, 4 winter (0: none).
   Measure season(clock).
   Action wait_for_light(actor: group) "Wait until first light" {

@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: shared law", "modules": [ { "id": "site", "bundle": "place/module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }
