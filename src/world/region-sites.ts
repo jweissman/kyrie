@@ -58,7 +58,7 @@ export class RegionSites {
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Observe ${id}_scene at ${id} when true ${q(this.scene(seat, region))}.`,
-      `  Observe ${id}_known at ${id} when knows(party, ${id}_named) ${q(`This is ${site.name}${site.work ? ', as the folk call it' : ''}.`)}.`,
+      `  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${site.work ? ', as the folk call it' : ''}.`)}.`,
       // A work's own people tell of it in its plan's words (RegionWorks); anything else, the innkeeper knows.
       ...site.work ? [] : [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
         `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,

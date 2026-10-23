@@ -105,11 +105,13 @@
     Role "frogs as big as dogs, lying in the black water". Species frog. Numbers 3. Level 1. Temperament ambush.
     Comes "The water between the pillars bursts open and something wet and heavy is on you.".
   }
+  Observe {w}_spawn at {w} as sign noticed by woodcraft when able({w}_frogs) "Frog-spawn lies in the wet by the doorway, every egg the size of a fist, and something heavy has worn a slide in the mud going in.".
 --- present keeper 1
   Person {w}_keeper "the wheel-keeper" at {w}_wheel_room {
     Role "a figure of green bronze that stands beside the wheel, as it has stood for a thousand years". Species bronze_construct. Level 3. Temperament obedient. Lair {w}_wheel_room.
     Warns "The bronze figure by the wheel turns its head toward you, slowly, with a sound like a door.".
   }
+  Observe {w}_wardmark at {w} as sign noticed by lore when able({w}_keeper) "Cut small under the letters on the lintel is one more word in the old script: KEPT. The Water-Wardens set it over a door when they left something below to keep the place.".
 --- present empty 2
   Observe {w}_still at {w}_hall when true "Nothing moves in the water. Nothing has, for a long time.".
 --- hook gold 2

@@ -40,12 +40,20 @@ export class Intentions {
     const choices = subjects.flatMap(s => {
       const open = s.choices.filter(c => !c.disabled);
       if (!open.length) { return []; }
-      if (open.length === 1) { return [{ ...open[0]!, ...this.about(s, open[0]!) }]; }
       const name = id === 'speak' ? s.title.split(', ')[0]! : ChoiceList.inline(s.title.split(', ')[0]!);
+      // One thing to do with it, said with what it is done to ("Take", for the coins on the altar, is "Take a handful
+      // of old coins").
+      const only = open[0]!;
+      const label = id === 'look' ? this.with(only.label, name) : only.label;
+      if (open.length === 1) { return [{ ...only, label, ...this.about(s, only) }]; }
       return [{ id: `${s.id}#${id}`, label: `${verb} ${name}`, tone: s.tone, children: s.choices,
         ...(s.note ? { note: s.note } : {}), ...(s.about ? { about: s.about } : {}) } satisfies Choice];
     });
     return choices.length ? [{ id, title, tone: subjects[0]!.tone, glyph: subjects[0]!.glyph, choices }] : [];
+  }
+  private static with(label: string, name: string): string {
+    const bare = name.replace(/^(a|an|the|some) /i, '').toLowerCase();
+    return label.toLowerCase().includes(bare) ? label : `${label} ${name}`;
   }
   private static about(s: Section, c: Choice): Partial<Choice> {
     const about = [c.about, s.about].filter(Boolean).join(' ');

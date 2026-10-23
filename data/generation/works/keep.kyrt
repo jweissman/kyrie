@@ -71,11 +71,13 @@
     Role "a wolf pack that dens in the ruined guardrooms, and hunts the road". Species wolf. Numbers 3. Level 1. Temperament territorial. Lair {w}_bailey.
     Warns "Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall.".
   }
+  Observe {w}_wolfsign at {w} as sign noticed by woodcraft when able({w}_wolves) "Wolf-sign all round the gate: scats, bones dragged out and left, and the deep prints of a big dog-wolf.".
 --- present castellan 1
   Person {w}_castellan "the last castellan" at {w}_hall {
     Role "the keep's last castellan, who would not give up the keep, and has not". Species revenant. Level 3. Temperament territorial. Lair {w}_hall.
     Warns "In the hall a man in rotted mail rises from the hearth-seat, and the cold of him reaches you across the floor. 'Who comes to the lord's hall?' His voice is dust.".
   }
+  Observe {w}_smoke at {w} as sign noticed by perception when able({w}_castellan) "A thread of smoke goes up from inside the walls. Somebody keeps a fire in there.".
 --- present crows 1
   Observe {w}_crows at {w}_hall when true "Crows have taken the hall. They lift off the walls all together as you come in, and settle again behind you.".
 --- hook toll 2

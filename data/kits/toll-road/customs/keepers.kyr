@@ -51,6 +51,30 @@ Module toll_customs "Customs-men on the road" {
   }
   Observe outlawed_at_inn at market when refusesService(provider, party) "The door of the inn is barred against you, and someone inside says the lord's name loudly.".
 
+  // And the lord answers. Riders go out to the settlement his toll answers to and wait there for whoever did it: they
+  // warn, and take the lord's fine if it is paid; otherwise they take the company, or try to.
+  Place hall "The lord's hall" is room.
+  Person riders "the lord's riders" at hall {
+    Role "the lord's riders, sent after whoever turned on his toll". Ancestry human. Calling warrior. Level 2. Numbers 3.
+    Called "Aldred", "Wace", "Hubert".
+    Temperament territorial.
+    Warns "Three riders in the lord's colours are waiting on the green. Their captain looks at you, and at a paper in his hand, and back at you. 'In the lord's name,' he says. 'Twenty coin for his toll-house, or you come with us.'".
+  }
+  Initially Assert serves(riders, chief).
+  Relation sent().
+  Rule sends when hostile(chief, party) and not sent() says "Behind you, word is going along the road: the lord is sending riders out to {market}, asking after a company that turned on his toll." {
+    Assert sent(). Retract at(riders, hall). Assert at(riders, market). Set patience(riders) to 2.
+  }
+  Action pay_fine(actor: group, site: place) "Pay the lord's fine, twenty coin" {
+    Description "The lord's riders take twenty coin for his toll-house, write you down, and go home; the settlement serves you again.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(riders, site) and able(riders) and hostile(chief, actor)
+      and quantity(actor, gold) >= 20.
+    On success { Decrease quantity(actor, gold) by 20. Increase quantity(chief, gold) by 20. Retract hostile(chief, actor).
+      Assert tolerates(riders, actor). Retract refusesService(provider, actor). Retract warned(riders, actor). Retract at(riders, site).
+      Assert at(riders, hall). }
+    Result "The captain counts it twice, writes in his book, and the riders turn their horses for home. Behind them the door of the inn is unbarred.".
+  }
+
   // Bread, paid for: they take a cartload when they run low, and there is that much less in the inn.
   Rule eats when untilLight(clock) == 1 and quantity(chief, rations) >= 1 and able(keepers) { Decrease quantity(chief, rations) by 1. }
   Rule buys when untilLight(clock) == 2 and quantity(chief, rations) <= 1 and quantity(provider, rations) >= 3 and able(keepers) {

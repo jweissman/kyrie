@@ -74,6 +74,7 @@
     Role "smugglers who run goods past the tolls by the old culvert, and keep their store in the cellar". Ancestry human. Calling thief. Numbers 3. Level 2. Temperament wary. Lair {w}_cellar.
     Warns "Someone hisses in the dark of the cellar, and three people stand up from behind the barrels with knives out. 'This is not your house.'".
   }
+  Observe {w}_boat at {w} as sign noticed by perception when able({w}_smugglers) "A boat is drawn up in the reeds below the water-stair, half hidden, its oars shipped and still wet.".
   Observe {w}_smugglers_sign at {w}_quay when true "Fresh rope is tied to one of the mooring-rings, and the steps are muddy with boots.".
 --- present rats 2
   Person {w}_rats "the rats" at {w}_store {

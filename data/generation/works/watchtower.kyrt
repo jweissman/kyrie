@@ -84,10 +84,12 @@
     Role "a wyvern that nests in the ring of the tower, and hunts the heights". Species wyvern. Level 4. Temperament territorial. Lair {w}_top.
     Warns "A wyvern lifts its head out of the ring of stones at the top of the tower and hisses, its tail curling over its back.".
   }
+  Observe {w}_kills at {w} as sign noticed by woodcraft when able({w}_wyvern) "Sheep bones lie scattered on the slope under the tower, cracked for the marrow, and some of them are fresh. Whatever eats here eats from above.".
 --- present lookouts 1
   Person {w}_lookouts "the lookouts" at {w}_floor {
     Role "hard men who keep watch from the tower for someone who pays them". Ancestry human. Calling ranger. Numbers 2. Temperament territorial.
   }
+  Observe {w}_watched at {w} as sign noticed by perception when able({w}_lookouts) "Someone is up in the tower: a face at a slit, there and gone.".
 --- present ravens 2
   Observe {w}_ravens at {w}_top when true "Ravens sit on the broken wall and watch you without fear.".
 --- hook light 2

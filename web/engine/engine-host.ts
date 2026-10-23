@@ -95,7 +95,8 @@ export class EngineHost {
   private next(): number { return this.log.reduce((n, e) => Math.max(n, e.id + 1), 0); }
   // The fight's controller: the page turns to the fight, opening with what started it, and waits for a choice.
   readonly controller = (battle: Battle) => new Promise<Command>(resolve => {
-    if (!this.opening.length) { this.opening = this.begun(); }
+    // A fight begins where the company now is (it may have just come there), not where the page last showed it.
+    if (!this.opening.length) { this.opening = this.begun(); this.screen = undefined; }
     this.turn = { battle, resolve };
     this.post({ kind: 'frame', frame: this.frame() });
   });

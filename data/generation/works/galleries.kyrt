@@ -93,10 +93,12 @@
     Role "spiders as big as a cat, nesting in the frame over the shaft". Species cave_spider. Numbers 3. Level 1. Temperament ambush.
     Comes "Something drops out of the iron frame overhead, and then another.".
   }
+  Observe {w}_threads at {w} as sign noticed by woodcraft when able({w}_spiders) "Grey threads are strung across the adit mouth, thick as twine, and the flies caught in them are not small flies.".
 --- present goblins 1
   Person {w}_goblins "the goblins" at {w}_adit {
     Role "a band of goblins who have made a home of the upper galleries". Ancestry goblin. Calling thief. Numbers 3. Temperament wary. Refuge {w}_fall.
   }
+  Observe {w}_bootprints at {w} as sign noticed by woodcraft when able({w}_goblins) "Small boots have worn a path into the adit and out again, and there is wood-smoke on the air that comes out of it.".
 --- present empty 2
   Observe {w}_quiet at {w}_head when true "Somewhere below, water drips. Nothing else moves.".
 --- hook ore 2

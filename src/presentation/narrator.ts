@@ -5,6 +5,7 @@ import type { ActionFeedback } from './action-feedback';
 import { FictionalTime } from './fictional-time';
 import { Typography } from './typography';
 import { Narration } from './narration';
+import { ModuleWriter } from '../lang/module-writer';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
@@ -33,16 +34,29 @@ export class Narrator {
     // The sky is told when the company comes out under it (from indoors, or at the start), or when it turns; walking on
     // from one place to the next under the same sky, it is not told again.
     const under = !told || (told.moved && this.cameOut(campaign, told.event));
-    const lines = screen.observed.filter(o => this.tells(defs.get(o.id), { shelter, known, arrived: under,
-      turned, here: screen.place.id }));
-    const situation = this.paragraphs(lines, defs), presence = this.presence(screen);
+    const kept = screen.observed.filter(o => this.tells(defs.get(o.id), { shelter, known, arrived: under, turned,
+      here: screen.place.id }));
+    // What has changed since the company was last here is told under that, not twice.
+    const changed = known && told?.moved ? screen.fresh : [];
+    const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))), defs);
+    const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, defs.get(l.id), l.text) }));
+    const situation = this.paragraphs(credited, defs);
+    const presence = this.presence(screen);
     const exchange = told && this.exchange(campaign, told), shown = [...situation, ...presence];
     // What the page already says of the place and who is in it is not said again among what just happened.
     if (exchange) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change' || !shown.some(p => p.includes(l.text))); }
     return this.set({
-      situation, presence, changed: known && told?.moved ? screen.fresh : [],
+      situation, presence, changed,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {},
     });
+  }
+  // A place is told first, then what stands out in it, then what is to be read in it, and last the sky over it and
+  // the passing life of it; lines of one kind keep the order they were written in.
+  static readonly ranks: Record<string, number> = { fixture: 0, feature: 1, sign: 2, revelation: 2, weather: 3,
+    ambience: 4 };
+  private static order<T extends { id: string }>(lines: T[], defs: Map<string, Observation>): T[] {
+    return lines.map((l, i) => ({ l, i, r: this.ranks[defs.get(l.id)?.aspect ?? 'fixture'] ?? 1 }))
+      .sort((a, b) => a.r - b.r || a.i - b.i).map(x => x.l);
   }
   // Every line as a book would set it.
   private static set(leaf: Leaf): Leaf {
@@ -83,6 +97,16 @@ export class Narrator {
       if (prior && from && prior.from === from) { prior.text = `${prior.text} ${text}`; } else { out.push({ text, from }); }
     }
     return out.map(p => p.text);
+  }
+  // What only someone who brings a capability would notice (tracks, a word in the old script) is credited to the
+  // fellow traveller who noticed it; what the one who plays notices is simply told.
+  private static noticed(campaign: Campaign, def: Observation | undefined, text: string): string {
+    const world = campaign.world;
+    if (!def?.by || !world.module.relations.some(r => r.name === 'fellow')) { return text; }
+    const by = world.related('brings').find(r => r.args[1] === def.by && world.test(ModuleWriter.call('fellow', r.args[0]!))
+      && world.test(ModuleWriter.call('awake', r.args[0]!)));
+    const name = by && campaign.module.entities.find(e => e.id === by.args[0])?.name;
+    return name ? `${name} sees it first. ${text}` : text;
   }
   private static seenBefore(campaign: Campaign): Set<string> {
     return new Set(campaign.history.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.id)));

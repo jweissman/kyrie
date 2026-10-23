@@ -29,7 +29,9 @@
     Role "the dead of the barrow, who keep the bounds". Species ghoul. Numbers 2. Level 1. Temperament obedient. Lair {w}_end.
     Warns "In the last chamber something sits up on its slab, and turns its head toward you.".
   }
-  Rule {w}_walk when dark() and state({w}_seal, rolled) and at({w}_dead, {w}_end) and able({w}_dead) and not tolerates({w}_dead, party) says "Out on the land, under the dark, something comes out of the barrow and goes along the old bound, as it used to." { Retract at({w}_dead, {w}_end). Assert at({w}_dead, {w}). }
+  Relation {w}_walked().
+  Rule {w}_walk when dark() and state({w}_seal, rolled) and at({w}_dead, {w}_end) and able({w}_dead) and not tolerates({w}_dead, party) says "Out on the land, under the dark, something comes out of the barrow and goes along the old bound, as it used to." { Retract at({w}_dead, {w}_end). Assert at({w}_dead, {w}). Assert {w}_walked(). }
+  Observe {w}_trodden at {w} as sign noticed by woodcraft when {w}_walked() and able({w}_dead) and not tolerates({w}_dead, party) "The grass is trodden flat in a line from the entrance and away along the old bound, and the dew has not lifted it. Something comes out of the barrow by night.".
   Rule {w}_back when not dark() and at({w}_dead, {w}) and able({w}_dead) { Retract at({w}_dead, {w}). Assert at({w}_dead, {w}_end). }
   // The Barrow-Kin spoke with their dead through flutes of bone, and kept one at the way in: the living played it
   // going in, so the dead would know them for kin. Played, the dead let the company be.
