@@ -9,9 +9,9 @@ Module fever "A fever on the green" {
 
   Person mother "The sick child's mother" at green { Role "a mother with a sick child". Peaceable. Wants herbs. }
   Person sister "The sick child's sister" at green { Role "the sick child's elder sister". Peaceable. }
-  Observe shutters at green when not mended(mother) and not lost(mother) "The shutters of one house on the green are drawn in daylight, and a woman stands in its door, watching the road.".
-  Observe mended_scene at green when mended(mother) "The shutters of the house on the green are open, and a child's voice comes out of it, complaining.".
-  Observe lost_scene at green when lost(mother) "The shutters of the house on the green stay drawn, and there are flowers on the step.".
+  Observe shutters at green when not mended(mother) and not lost(mother) "The shutters of one house are drawn in daylight, and a woman stands in its door, watching the road.".
+  Observe mended_scene at green when mended(mother) "The shutters of the sick child's house are open, and a child's voice comes out of it, complaining.".
+  Observe lost_scene at green when lost(mother) "The shutters of the sick child's house stay drawn, and there are flowers on the step.".
   // Willow bark breaks a fever. Where willows grow by the water the country itself says (growing.kyr): bark gathered
   // from any of them will do, as will herbs bought anywhere.
   Entity bark_lore: fact "Willow bark breaks a fever. Willows grow where there is water: by a river, a mere, a ditch.".

@@ -186,7 +186,7 @@
     "discriminator": "weather",
     "groups": {
       "ashfall": {
-        "green": "Ash sifts down onto the green out of a brown sky, and people go about with cloths over their mouths.",
+        "green": "Ash sifts down out of a brown sky onto the roofs and the people, who go about with cloths over their mouths.",
         "road": "Ash sifts down out of a brown sky and lies grey on the road.",
         "wild": "Ash sifts down out of a brown sky and greys every leaf.",
         "roof": "Ash ticks against the shutters."
@@ -204,7 +204,7 @@
         "roof": "A raw cold gets in at every gap, and everyone sits close to the fire."
       },
       "dusty": {
-        "green": "Dust blows across the green in little whirls.",
+        "green": "Dust blows between the houses in little whirls.",
         "road": "Dust blows along the road in little whirls.",
         "wild": "The wind lifts dust off the dry ground.",
         "roof": "There is dust on everything, blown in under the door."
@@ -216,19 +216,19 @@
         "roof": ""
       },
       "foggy": {
-        "green": "Fog lies over the green; the far houses are shapes.",
+        "green": "Fog lies over the place; the far houses are shapes.",
         "road": "Fog lies thick on the road; the far side of things is gone.",
         "wild": "Fog lies thick; ten paces off, everything is gone.",
         "roof": ""
       },
       "freezing": {
-        "green": "A hard frost: the pond on the green is iron, and every roof is white.",
+        "green": "A hard frost: every puddle is iron, and every roof is white.",
         "road": "A hard frost: the ruts are iron, and breath hangs in the air.",
         "wild": "A hard frost: the ground rings underfoot, and breath hangs in the air.",
         "roof": "Frost has drawn ferns on the inside of the window."
       },
       "hot": {
-        "green": "The heat lies on the green like a hand, and the dogs lie in the shade.",
+        "green": "The heat lies on the place like a hand, and the dogs lie in the shade.",
         "road": "The heat lies on the land like a hand.",
         "wild": "The heat lies on the land like a hand.",
         "roof": "Even in here the heat is close."
@@ -240,7 +240,7 @@
         "roof": "The air in here is close, and the flies have found it."
       },
       "rainy": {
-        "green": "Rain is falling on the green, and people keep to their doorways.",
+        "green": "Rain is falling, and people keep to their doorways.",
         "road": "Rain drives across in grey sheets, and every rut is a stream.",
         "wild": "Rain drives across in grey sheets, and the ground is running with it.",
         "roof": "Rain drums on the shutters."
@@ -252,25 +252,25 @@
         "roof": ""
       },
       "snowy": {
-        "green": "Snow is falling, slow and thick, and the green has gone white.",
+        "green": "Snow is falling, slow and thick, and everything has gone white.",
         "road": "Snow comes down slow and thick on the road, and muffles everything.",
         "wild": "Snow comes down slow and thick, and muffles everything.",
         "roof": "Snow has drifted against the door, and the room is very quiet."
       },
       "stormy": {
-        "green": "A storm is blowing: rain in sheets across the green, and the inn's sign swinging on its irons.",
+        "green": "A storm is blowing: rain in sheets between the houses, and every sign and shutter banging.",
         "road": "A storm is blowing: rain like thrown gravel, and thunder in the hills.",
         "wild": "A storm is blowing: rain like thrown gravel, and thunder close overhead.",
         "roof": "The storm shakes the shutters, and the fire gutters in the draught."
       },
       "sunny": {
-        "green": "The sun is warm on the green.",
+        "green": "The sun is warm on the walls, and on the backs of whoever is out in it.",
         "road": "The sun is warm, and the shadows are short.",
         "wild": "The sun is warm, and the shadows are short.",
         "roof": ""
       },
       "windy": {
-        "green": "A hard wind is banging shutters all round the green.",
+        "green": "A hard wind is banging every shutter in the place.",
         "road": "A hard wind pulls at your cloak.",
         "wild": "A hard wind pulls at your cloak and roars in everything that grows.",
         "roof": "The wind moans in the chimney."

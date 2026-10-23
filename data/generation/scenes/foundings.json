@@ -1,5 +1,5 @@
 {
-  "about": "Why a settlement is where it is, and what follows from that: a crossing has an inn because travellers are why it exists, a fishing hamlet has none; a monastery lodges strangers in its guest-hall and a fort in its canteen; a hamlet's shrine is a stone by the track and its goods are sold from a door. Each founding names the settlement's heart (where the company stands in it), says once why the place is there, describes the heart by day, gives what goes on there, may add one place of its own, and prefers the work its people do. {name} is the settlement, {river} the river it is by, {water} the lake or the sea, {pass} the pass, {cult} its god, {keeper} the one who keeps the house where travellers sleep, {trade} what it lives by.",
+  "about": "Why a settlement is where it is, and what follows from that: a crossing has an inn because travellers are why it exists, a fishing hamlet has none; a monastery lodges strangers in its guest-hall and a fort in its canteen; a hamlet's shrine is a stone by the track and its goods are sold from a door. Each founding names the settlement's heart (where the company stands in it), says once why the place is there, describes the heart by day, says what is seen of the place from the road, gives what goes on there, may add one place of its own, and prefers the work its people do. {name} is the settlement, {river} the river it is by, {water} the lake or the sea, {pass} the pass, {cult} its god, {keeper} the one who keeps the house where travellers sleep, {trade} what it lives by.",
   "keeping": {
     "inn": { "role": "innkeeper", "room": "the taproom of {inn}", "door": "the door of {inn}", "house": "{inn}", "dog": "the inn's dog",
       "night": "{name} is shuttered for the night. A lamp burns over the door of {inn}." },
@@ -31,6 +31,7 @@
   },
   "foundings": {
     "crossing": {
+      "sight": "the river shining and the crossing over it",
       "heart": ["the ford at {name}", "the bridge-foot at {name}"],
       "why": ["{name} is here because the road has to cross the {river} somewhere, and here it can. The crossing came first, and the houses came after to sell the crossing what it wanted.", "Nobody chose {name}: the {river} chose it, by being shallow here and nowhere else for a day's walk. Everything in the place faces the water."],
       "scene": ["The road runs down between the houses of {name} to the {river}, goes straight in, and comes out on the far bank darker and wetter. Every house on this side has something to sell to people who have just come out of a river.", "At {name} the road and the {river} meet, and the houses stand close along the bank to watch them do it. A rope is strung across the water on posts for anyone who misjudges the depth.", "{name} is a crossing with a village at each end of it, the near end the larger, and the {river} going by between them as if neither were there."],
@@ -42,6 +43,7 @@
       "works": ["ferryman", "carter", "eel_catcher"]
     },
     "harbour": {
+      "sight": "masts at the landing",
       "heart": ["the landing at {name}", "the quay at {name}"],
       "why": ["Boats put in at {name} because the {water} is shallow and foul everywhere else along this shore, and what boats bring in, carts take away.", "{name} is the one place on this shore where a boat can lie safe in a blow, and so everything that comes over the {water} comes in here, and most of it stays."],
       "scene": ["Boats lie drawn up on the shingle at {name}, keel to keel, and the houses come right down to them, with nets hung on every fence and an anchor for a doorstop.", "{name} is a stone quay and a town behind it, and of the two the quay is the better built. Gulls sit along it in a row, facing the wind."],
@@ -53,6 +55,7 @@
       "works": ["fisher", "boatwright", "net_maker"]
     },
     "fishing": {
+      "sight": "nets hung out to dry",
       "heart": ["the strand at {name}", "the drying-ground at {name}"],
       "why": ["The fish are why {name} is here, and the fish are why it smells the way it does.", "{name} lives off the water and has never pretended otherwise: the houses have their backs to the land."],
       "scene": ["Fish hang drying on racks along the water at {name}, silver going to brown, and the houses keep their distance from them as far as they can.", "{name} is a handful of houses and a great many nets, every one of them wet.", "Boats lie bottom-up on the bank at {name} like sleeping animals, and the paths between the houses are paved with shells."],
@@ -62,6 +65,7 @@
       "works": ["fisher", "eel_catcher", "net_maker"]
     },
     "workings": {
+      "sight": "the workings scarred into the ground beyond",
       "heart": { "tin": "the pit-head at {name}", "slate": "the quarry-yard at {name}", "salt": "the salt-pans at {name}", "peat": "the peat-banks at {name}" },
       "why": ["{name} is where the {trade} is, and nothing else would have brought anybody here. Nothing else keeps them.", "Somebody found {trade} at {name} in their grandmother's time, and the place has been digging ever since, and arguing about who found it."],
       "scene": { "tin": ["Spoil-heaps stand round {name} like a second set of hills, grey and bare. The houses are built of the same grey stone, so that it is hard to say where the village stops and the mine begins.", "The pit-head at {name} is a yard of trodden mud round a winding-wheel, with ore stacked in heaps and the ponies tethered along the wall, all of them grey with dust."],
@@ -78,6 +82,7 @@
       "works": ["miner", "quarrier", "salt_boiler", "peat_cutter", "smith"]
     },
     "yard": {
+      "sight": "the yard where its work is done",
       "heart": { "charcoal": "the burners' clearing at {name}", "timber": "the timber-yard at {name}", "reed": "the reed-yard at {name}", "whale oil": "the try-works at {name}", "furs": "the drying-frames at {name}", "honey": "the bee-garden at {name}" },
       "why": ["{name} lives by {trade}, and you can tell that from a mile off.", "{name} is here because the {trade} is: the houses came after the work, and fit round it as they can."],
       "scene": { "charcoal": ["{name} is a clearing in the wood with the houses round its edge and the clamps in the middle, smoking under their turf like sleeping animals.", "Everything at {name} is a little grey: the houses, the people, the dog, the hens. The clamps smoke in the middle of the clearing, and somebody is always watching them."],
@@ -92,6 +97,7 @@
       "works": ["charcoal_burner", "woodcutter", "carpenter", "reed_cutter", "thatcher", "whaler", "trapper", "beekeeper"]
     },
     "farm": {
+      "sight": "its green and its fields",
       "heart": ["{name} green"],
       "why": ["{name} is fields first and a village second: everyone in it is a farmer when it matters, at sowing and at harvest.", "{name} grew up where the land was good and the water near, which is why every village is anywhere, and why this one has never had to be anything else."],
       "place": { "id": "mill", "name": "the mill", "outdoors": false,
@@ -101,6 +107,7 @@
       "works": ["farmer", "miller", "shepherd", "cowherd"]
     },
     "monastery": {
+      "sight": "the long wall of the brothers' house, and a bell-cote over the gate",
       "heart": ["the gate-yard of {name}"],
       "why": ["{name} grew up round the brothers' house of {cult}. The brothers came for the quiet, and the village came for the brothers, and the quiet went somewhere else.", "There were brothers at {name} before there was a {name}: the village is the farms that feed them and the people who sell them things."],
       "scene": ["A wall runs round the brothers' house at {name}, with the village pressed against the outside of it like sheep against a fold. The gate stands open by day, with a bell over it.", "The gate-yard of {name} is swept, which nowhere else in the country is. The brothers' house stands at the back of it behind a low wall, and the village stands round the front of it, unswept."],
@@ -112,6 +119,7 @@
       "works": ["lay_brother", "beekeeper", "brewer", "herbwife"]
     },
     "fortress": {
+      "sight": "a wall round the top of the rise, and a gate-tower",
       "heart": ["the bailey of {name}"],
       "why": ["{name} is a fort first. It holds the {pass} for whoever holds it, and the village is what grew up in its shadow to sell the garrison bread and beer.", "Somebody built a wall across the {pass} at {name} a long time ago, and somebody has been paid to stand on it ever since."],
       "scene": ["A wall of rough stone goes round the top of the rise at {name}, with a gate-tower that leans a little. Inside, a yard of trodden mud, a well, and the soldiers' long hall; the village is outside the wall, below.", "The bailey of {name} is a muddy yard inside a wall, with the hall on one side and the stables on the other, and everybody in it is either on duty or pretending to be."],
@@ -123,6 +131,7 @@
       "works": ["soldier", "smith", "old_soldier", "cowherd"]
     },
     "ancient": {
+      "sight": "a ring of great old stones in the middle of it",
       "heart": ["the old stones at {name}"],
       "why": ["{name} is built round something older than itself: the makers' well, which goes down further than anyone has followed it, and which has never once run dry.", "Before there was {name} there was the makers' well, and the first settlers drank from it and stayed. Nobody here digs a well of their own; it would seem ungrateful."],
       "scene": ["The houses of {name} stand in a ring round a paved place of great old stones, too big and too square for anyone living to have laid them. In the middle is the mouth of the makers' well.", "At {name} the new houses are built on old walls, and the old walls are built better. The paving of the place where they meet is worn into hollows by feet, and nobody knows whose."],
@@ -134,6 +143,7 @@
       "works": ["stonemason", "farmer", "herbwife"]
     },
     "migration": {
+      "sight": "painted wagons among the houses",
       "heart": ["the camp at {name}"],
       "why": ["The folk of {name} came here within living memory, by wagon, and some of the wagons are still in use as houses.", "Nobody at {name} was born anywhere near it, except the children, who are teased for it by everyone else."],
       "scene": ["{name} is half houses and half wagons with their wheels taken off, painted in colours nobody else in the country uses. Everyone looks up when a stranger comes.", "The camp at {name} has been a camp for forty years and shows no sign of becoming anything else: awnings, cook-fires, a fiddle somewhere, and washing on every line."],
@@ -143,6 +153,7 @@
       "works": ["tinker", "weaver", "fiddler"]
     },
     "market": {
+      "sight": "the market cross and the roofs of the stalls",
       "heart": ["the market-place of {name}"],
       "why": ["{name} is where the roads of the country meet, and so where its goods do: whatever is made in the country is bought and sold here at least once.", "{name} holds the country's market, and has done since anyone can remember, and will tell you so, at length, at a fair price."],
       "scene": ["Stalls stand in rows on the market-place of {name}, under awnings that were every colour once and have faded to the same one. Lanes run off it between tall houses.", "{name} has a market cross in the middle of a square trodden bare, and round the square houses with their ground floors given over to shops and their upper floors to people shouting down from them."],

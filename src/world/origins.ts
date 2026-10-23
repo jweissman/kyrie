@@ -4,6 +4,7 @@ import type { CreatureGenerationContext } from '../content';
 import type { Company, Region, Settlement } from './region-writer';
 import type { Placement } from './world-assembler';
 import { RegionFaith } from './region-faith';
+import { Foundings } from './founding';
 import { RegionSites } from './region-sites';
 import { RegionGeography } from './region-geography';
 import tables from '../../data/origins/tables.json';
@@ -87,7 +88,10 @@ export class Origins {
   private static approach(region: Region, s: Settlement): Record<string, string> {
     const a = this.way(region);
     const trade = (tables.trade as Record<string, string>)[s.trade] ?? 'smoke from the chimneys';
-    return { scene: a.scene.replace('{home}', s.name).replace('{trade}', trade), home: s.name, homename: s.name, region: region.name };
+    // What is seen of it from the road is what made it: masts at a harbour, the brothers' wall, a fort's gate-tower.
+    const sight = Foundings.table.foundings[Foundings.of(region, region.settlements.indexOf(s)).kind].sight;
+    return { scene: a.scene.replace('{home}', s.name).replace('{trade}', trade).replace('{sight}', sight), home: s.name,
+      homename: s.name, region: region.name };
   }
   private static way(region: Region): { name: string; way: string; scene: string } {
     return (tables.approach as Record<string, { name: string; way: string; scene: string }>)[region.terrain]

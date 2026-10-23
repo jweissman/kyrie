@@ -34,12 +34,20 @@ export class RegionFaith {
     const named = { land: this.landName(region, land), town: s.name,
       country: RegionGeography.country[region.terrain] ?? 'country' };
     const t = this.tables, name = Canon.deities[deity]?.name ?? region.deity;
-    return { deity, domain, form, name, title: this.title(deity, domain, rng),
-      look: this.pick(t.shrineLook.groups.default!, rng), seat: this.pick(t.shrineSeat.groups[form]!, rng),
+    const look = this.pick(t.shrineLook.groups.default!, rng), seat = this.pick(t.shrineSeat.groups[form]!, rng);
+    return { deity, domain, form, name, title: this.title(deity, domain, rng), look, seat: this.bare(seat),
       practice: this.pick(t.shrinePractice.groups[domain] ?? [''], rng),
-      history: this.fill(this.pick(t.shrineHistory.groups[land ?? 'default'] ?? [''], rng), named),
+      history: this.fill(this.bare(this.pick(this.agreeing(t.shrineHistory.groups[land ?? 'default'] ?? [''], seat), rng)), named),
       offering: rng.number('1d4+1') };
   }
+  // A seat says what it is made of ([stone], [wood], [water]…); a history that assumes what it is made of ("cut from
+  // the first tree felled") is told only of a seat made so. The rest are told of any.
+  private static agreeing(histories: string[], seat: string): string[] {
+    const made = this.made(seat), fit = histories.filter(h => !this.made(h) || this.made(h) === made);
+    return fit.length ? fit : this.tables.shrineHistory.groups.default!.filter(h => !h.startsWith('['));
+  }
+  private static made(text: string): string | undefined { return /^\[(\w+)\]/.exec(text)?.[1]; }
+  private static bare(text: string): string { return text.replace(/^\[\w+\]/, ''); }
   // The land a settlement stands by, if its roads cross any: the river, the pass, the wood, the mere.
   private static land(region: Region, i: number): string | undefined {
     const id = region.settlements[i]?.id;

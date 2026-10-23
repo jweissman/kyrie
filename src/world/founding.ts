@@ -21,7 +21,7 @@ export interface Founding {
 }
 type Sized = Record<'town' | 'village' | 'hamlet', string>;
 type ByTrade = Record<string, string | string[] | FoundingPlace>;
-interface Entry { heart: string[] | ByTrade; why: string[]; scene?: string[] | ByTrade; life?: string[];
+interface Entry { sight: string; heart: string[] | ByTrade; why: string[]; scene?: string[] | ByTrade; life?: string[];
   place?: FoundingPlace | ByTrade; keep: Sized; holy: Sized; sell: Sized; works: string[] }
 
 // Reads a region's settlements for what made each: a road over a pass held by a fort; a river crossed; a makers' work

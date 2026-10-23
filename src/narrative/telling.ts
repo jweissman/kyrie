@@ -31,7 +31,9 @@ export class Telling {
       .filter(h => h.kind !== 'farewell' || event.action.startsWith('take_leave('))
       .filter(h => !(['thank', 'turn', 'object'].includes(h.kind) && said.includes(this.called(campaign, h.actor ?? ''))))
       .filter(h => !(h.kind === 'thank' && VoiceContext.species(campaign, h.actor ?? '')))
-      .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!).slice(0, this.most);
+      .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!)
+      // Three dogs and a cat coming to see who you are is one of them doing it: the rest have greeted too, unsaid.
+      .filter((h, i, all) => h.kind !== 'greet' || all.findIndex(x => x.kind === 'greet') === i).slice(0, this.most);
     // A way across country is told as it goes, before anything that happened at its end.
     const told: Voiced[] = Journeys.tell(campaign, event, used);
     for (const h of happenings) {

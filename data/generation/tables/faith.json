@@ -76,28 +76,28 @@
     "discriminator": "form",
     "groups": {
       "altar": [
-        "a long stone under a roof of shingles",
-        "a slab of the old stone, worn hollow in the middle"
+        "[stone]a long stone under a roof of shingles",
+        "[stone]a slab of the old stone, worn hollow in the middle"
       ],
       "statue": [
-        "a figure of grey stone, taller than a man, its face worn smooth",
-        "a figure of black wood, rubbed bright at the knees"
+        "[stone]a figure of grey stone, taller than a man, its face worn smooth",
+        "[wood]a figure of black wood, rubbed bright at the knees"
       ],
       "fountain": [
-        "a spring led up into a basin of cut stone",
-        "a well-head with a carved lip, the water close under it"
+        "[water]a spring led up into a basin of cut stone",
+        "[water]a well-head with a carved lip, the water close under it"
       ],
       "obelisk": [
-        "a standing stone, squared and cut with lines",
-        "a pillar of the old stone, leaning a little"
+        "[stone]a standing stone, squared and cut with lines",
+        "[stone]a pillar of the old stone, leaning a little"
       ],
       "mural": [
-        "a wall painted from end to end, the colours going",
-        "a painted wall under a deep eave, kept out of the weather"
+        "[wall]a wall painted from end to end, the colours going",
+        "[wall]a painted wall under a deep eave, kept out of the weather"
       ],
       "relic": [
-        "a box of bronze on a stone shelf, with something in it",
-        "a niche in the wall, and in it a hand-bone wrapped in gold thread"
+        "[relic]a box of bronze on a stone shelf, with something in it",
+        "[relic]a niche in the wall, and in it a hand-bone wrapped in gold thread"
       ]
     }
   },
@@ -108,7 +108,7 @@
         "At first light the faithful bring a cup of milk and a heel of bread, and the priest gives them to whoever is hungry."
       ],
       "light": [
-        "A lamp burns before it day and night; at dusk the priest relights it from the inn's hearth."
+        "A lamp burns before it day and night; at dusk the priest relights it from the nearest hearth."
       ],
       "nature": [
         "Garlands of whatever is in flower hang on it, and are changed when they wilt."
@@ -146,14 +146,14 @@
       ],
       "wood": [
         "It was set up after the fire in {land}, when the wind turned at the last.",
-        "It was cut from the first tree felled in {land}, to ask pardon of the rest."
+        "[wood]It was cut from the first tree felled in {land}, to ask pardon of the rest."
       ],
       "lake": [
         "It was set up the year {land} rose and did not go down again for a month.",
-        "The water of {land} was let into it on the day it was made, and is said never to have gone out."
+        "[water]The water of {land} was let into it on the day it was made, and is said never to have gone out."
       ],
       "default": [
-        "It is older than {town}: the first settlers found it standing in the {country} and built around it.",
+        "[stone]It is older than {town}: the first settlers found it standing in the {country} and built around it.",
         "{town}'s first priest made it, and their name is cut on the back, worn almost away.",
         "It was set up after the sickness, by those who were left, and the names of the dead are under it."
       ]
