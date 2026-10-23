@@ -29,8 +29,24 @@ export class RegionFellows {
   static readonly rooms: Record<string, string> = { innkeeper: 'taproom', merchant: 'shop', priest: 'shrine' };
   static lines(region: Region): string[] {
     const fellows = region.settlements.flatMap(s => this.fellow(region, s));
-    return fellows.flatMap(f => [...this.talk(region, f), ...this.kin(f), ...this.remarks(region, f)]);
+    return [...this.places(region),
+      ...fellows.flatMap(f => [...this.talk(region, f), ...this.kin(f), ...this.remarks(region, f)])];
   }
+  // The kinds of place a fellow may have something to say at, as facts about the places, once for the country: the
+  // landmarks of each kind, the doors of the makers' works, the greens of the towns.
+  private static places(region: Region): string[] {
+    const marks = this.marks(region), kinds = [...new Set(marks.map(l => l.kind!))];
+    return ['  Relation work_door(place). Relation town_green(place).', ...kinds.map(k => `  Relation mark_${k}(place).`),
+      ...marks.map(l => `  Initially Assert mark_${l.kind}(${l.id}).`),
+      ...this.doors(region).map(x => `  Initially Assert work_door(${x.site.id}).`),
+      ...region.settlements.filter(x => x.size === 'town').map(x => `  Initially Assert town_green(${x.id}_green).`)];
+  }
+  private static marks(region: Region) {
+    const said = new Set(Object.values(this.table.callings).flatMap(c => Object.keys(c.remarks)));
+    return RegionGeography.atlas(region).zones.flatMap(z => RegionZones.landmarks(region, z))
+      .filter(l => l.kind && said.has(l.kind));
+  }
+  private static doors(region: Region) { return RegionGeography.seats(region).filter(x => !x.site.work?.great); }
   private static fellow(region: Region, s: Settlement): Fellow[] {
     const calling = this.table.callings[s.calling];
     if (!calling) { return []; }
@@ -133,32 +149,25 @@ export class RegionFellows {
       `    Says ${q(this.fill(f.draw.pick(this.table.ask.says), v))}.`, '  }'];
   }
   // What they say on coming somewhere that touches their calling, the first time only: a charcoal-burners' clearing,
-  // a fold on the fell, the first ruin; at every shrine, a pilgrim's words to its god; at a market, a pedlar's look.
+  // a fold on the fell, the first ruin, a market; and at every shrine, a pilgrim's words to its god.
   private static remarks(region: Region, f: Fellow): string[] {
-    const lines: string[] = [], kinds = new Set<string>(), c = f.calling;
-    for (const zone of RegionGeography.atlas(region).zones) {
-      for (const l of RegionZones.landmarks(region, zone).filter(m => m.kind && c.remarks[m.kind])) {
-        kinds.add(l.kind!);
-        lines.push(this.once(f, l.kind!, l.id, c.remarks[l.kind!]!));
-      }
+    const c = f.calling, q = JSON.stringify, here = `travelsWith(${f.id}, party) and awake(${f.member})`;
+    const kinds = new Set(this.marks(region).map(l => l.kind!));
+    const lines = Object.entries(c.remarks).filter(([k]) => kinds.has(k)).map(([k, text]) =>
+      `  Event ${f.id}_${k} when ${here} and at(party, ?p) and mark_${k}(?p) ${q(this.fill(text, f.values))}.`);
+    if (this.doors(region).length) {
+      lines.push(`  Event ${f.id}_ruin when ${here} and at(party, ?p) and work_door(?p) ${q(this.fill(f.draw.pick(c.ruin), f.values))}.`);
     }
-    const ruin = f.draw.pick(c.ruin), seats = RegionGeography.seats(region).filter(x => !x.site.work?.great);
-    if (seats.length) { kinds.add('ruin'); }
-    lines.push(...seats.map(x => this.once(f, 'ruin', x.site.id, ruin)));
-    const towns = region.settlements.filter(x => x.size === 'town' && x.id !== f.s.id);
-    if (c.market && towns.length) { kinds.add('market'); lines.push(...towns.map(x => this.once(f, 'market', `${x.id}_green`, c.market!))); }
-    const cults = RegionFaith.cults(region), q = JSON.stringify;
+    if (c.market && region.settlements.some(x => x.size === 'town' && x.id !== f.s.id)) {
+      lines.push(`  Event ${f.id}_market when ${here} and at(party, ?p) and town_green(?p) and not at(party, ${f.s.id}_green)`
+        + ` ${q(this.fill(c.market, f.values))}.`);
+    }
+    const cults = RegionFaith.cults(region);
     if (c.shrine) {
-      region.settlements.forEach((x, i) => lines.push(`  Event ${f.id}_prays_${x.id} at ${x.id}_shrine when travelsWith(${f.id}, party)`
-        + ` and awake(${f.member}) and at(party, ${x.id}_shrine) ${q(this.fill(c.shrine!, { ...f.values, god: cults[i]!.name }))}.`));
+      region.settlements.forEach((x, i) => lines.push(`  Event ${f.id}_prays_${x.id} at ${x.id}_shrine when ${here}`
+        + ` and at(party, ${x.id}_shrine) ${q(this.fill(c.shrine!, { ...f.values, god: cults[i]!.name }))}.`));
     }
-    return [...[...kinds].map(k => `  Relation ${f.id}_said_${k}().`), ...lines];
-  }
-  // A word said the first time the company comes to one of a kind of place with them, not at every one.
-  private static once(f: Fellow, kind: string, place: string, text: string): string {
-    const latch = `${f.id}_said_${kind}`;
-    return `  Event ${f.id}_${kind}_${place} at ${place} when travelsWith(${f.id}, party) and awake(${f.member})`
-      + ` and at(party, ${place}) and not ${latch}() ${JSON.stringify(this.fill(text, f.values))} then { Assert ${latch}(). }`;
+    return lines;
   }
   private static fill(text: string, values: Record<string, string | undefined>): string {
     return text.replace(/\{(\w+)\}/g, (whole, key: string) => values[key] ?? whole);

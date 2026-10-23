@@ -9,7 +9,8 @@ import { Typography } from '../../src/presentation/typography';
 // you have been here before; and what came of the last thing you did, which the next thing replaces. Someone's words
 // are set as speech, where they were said.
 export class Verso {
-  static View({ screen, leaf, pending }: { screen: Screen; leaf: Leaf; pending?: { said: string; travel?: Travel } }) {
+  static View({ screen, leaf, pending }: { screen: Screen; leaf: Leaf;
+    pending?: { said: string; travel?: Travel; stage?: string } }) {
     return (
       <article className="verso-body" key={screen.place.id} aria-label={screen.place.name}>
         {leaf.heading && <header className={`heading kind-${leaf.heading.kind}`}>
@@ -49,13 +50,14 @@ export class Verso {
       </section>
     );
   }
-  static Doing({ pending }: { pending: { said: string; travel?: Travel } }) {
+  static Doing({ pending }: { pending: { said: string; travel?: Travel; stage?: string } }) {
     const t = pending.travel;
     const span = t ? t.minutes >= 60 ? `${Math.round(t.minutes / 6) / 10} hours` : `${t.minutes} minutes` : '';
     return (
       <section className={`exchange pending${t ? ' journey' : ''}`} aria-live="polite">
         <p className="said">{Typography.curl(Words.echo(Words.lastSaid(pending.said)))}</p>
         {t && <p className="way">By {t.way}, {span}.</p>}
+        {pending.stage && <p className="way">{pending.stage}…</p>}
         <p className="working" aria-hidden="true"><span /><span /><span /></p>
       </section>
     );

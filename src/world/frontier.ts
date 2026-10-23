@@ -12,6 +12,14 @@ import type { Region } from './region-writer';
 // A region reached first from another side has its own march-stone on this side already: only the road is new.
 export class Frontier {
   constructor(private readonly seed: string, private readonly base: BundleSource) {}
+  // Whether standing where it stands, the company is about to have a country beyond drawn (which takes a while).
+  drawing(campaign: Campaign): boolean {
+    const at = /^(.+)__edge_(north|east|south|west)$/.exec(campaign.world.one('at', 'party') ?? '');
+    const here = at && WorldGrid.at(at[1]!);
+    if (!at || !here) { return false; }
+    const rid = WorldGrid.id(...WorldGrid.next(here, at[2] as Side));
+    return !new Set(campaign.installed).has(rid);
+  }
   // After each command: the country beyond the march-stone the company stands at, if it is not there yet, and the
   // road to it. The region newly drawn, if one was.
   async expand(campaign: Campaign): Promise<{ region?: Region; rid: string } | undefined> {

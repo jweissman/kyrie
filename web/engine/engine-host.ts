@@ -87,7 +87,8 @@ export class EngineHost {
       // A choice made from an opened list is echoed as the action it was ("You buy a torch for Bran").
       const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
       this.told = { event, feedback, said, moved };
-      // Coming to a march-stone draws the country beyond it, the first time: a second or two, once.
+      // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts.
+      if (this.frontier?.drawing(campaign)) { this.post({ kind: 'progress', stage: 'The country beyond is being drawn' }); }
       if (this.frontier) { await this.frontier.expand(campaign); }
     } finally { this.turn = undefined; this.opening = []; }
     return this.settled();

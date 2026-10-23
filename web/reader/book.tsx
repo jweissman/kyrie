@@ -33,7 +33,8 @@ export class Book {
           {!screen.running ? <Book.Fallen app={app} />
             : combat ? <FightView.View combat={combat} opening={frame.opening} place={screen.place.name} mark={s.fight} />
               : plate ? <Sheet.View app={app} />
-                : <Verso.View screen={screen} leaf={frame.leaf} {...s.pending ? { pending: s.pending } : {}} />}
+                : <Verso.View screen={screen} leaf={frame.leaf}
+                  {...s.pending ? { pending: { ...s.pending, ...s.stage ? { stage: s.stage } : {} } } : {}} />}
         </main>
         <aside className="recto">
           {reading ? <Sheet.View app={app} /> : <>
