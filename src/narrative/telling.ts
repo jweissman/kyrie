@@ -3,6 +3,8 @@ import type { CampaignEvent } from '../campaign/campaign-types';
 import { Happenings, type Happening } from './happening';
 import { Voice, type VoiceLine } from './voice';
 import { VoiceContext } from './voice-context';
+import { Editor } from './editor';
+import { Journeys } from './journeys';
 
 export type Voiced = NonNullable<CampaignEvent['voiced']>[number];
 // What the company is told of what a command made happen, in the voice tables' words: chosen for the moment, never
@@ -27,7 +29,8 @@ export class Telling {
       .filter(h => !(['thank', 'turn', 'object'].includes(h.kind) && said.includes(this.called(campaign, h.actor ?? ''))))
       .filter(h => !(h.kind === 'thank' && VoiceContext.species(campaign, h.actor ?? '')))
       .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!).slice(0, this.most);
-    const told: Voiced[] = [];
+    // A way across country is told as it goes, before anything that happened at its end.
+    const told: Voiced[] = Journeys.tell(campaign, event, used);
     for (const h of happenings) {
       const said = this.say(campaign, h, { used, pairs,
         key: `${campaign.readout.seed}:${event.elapsed}:${h.kind}:${h.actor ?? ''}` });
@@ -48,19 +51,9 @@ export class Telling {
     const line = this.choose(Voice.fitting(h.kind, context), memory.key, memory.used);
     return line && { id: line.id, kind: h.kind, actor, text: Voice.render(line.text, speaking) };
   }
-  // One of the lines that fit, not yet said if any are left, drawn by the moment so the same moment draws the same.
   static choose(lines: VoiceLine[], key: string, used: Set<string>): VoiceLine | undefined {
-    const fresh = lines.filter(l => !used.has(l.id)), pool = fresh.length ? fresh : lines;
-    if (!pool.length) { return undefined; }
-    const total = pool.reduce((sum, l) => sum + (l.weight ?? 1), 0);
-    let hash = 2166136261;
-    for (let i = 0; i < key.length; i++) { hash = Math.imul(hash ^ key.charCodeAt(i), 16777619); }
-    let roll = ((hash >>> 0) % 1000) / 1000 * total;
-    for (const l of pool) { roll -= l.weight ?? 1; if (roll < 0) { return l; } }
-    return pool.at(-1);
+    return Editor.choose(lines, key, used);
   }
-  // Someone as a sentence names them: "Tobu", not "Tobu, Kezu's sister's boy"; "the hall dog".
-  static called(campaign: Campaign, id: string): string {
-    return (campaign.module.entities.find(e => e.id === id)?.name ?? id).split(', ')[0]!;
-  }
+  static called(campaign: Campaign, id: string): string { return Editor.called(campaign, id); }
+
 }

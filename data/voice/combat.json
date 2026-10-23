@@ -58,13 +58,6 @@
       "text": "'That,' says {actor} through {their} teeth, 'is going to hurt in the morning.'"
     },
     {
-      "id": "fall.kyr.company.1",
-      "when": {
-        "side": "company"
-      },
-      "text": "{Actor} goes down and does not get up."
-    },
-    {
       "id": "flee.kyr.beast.1",
       "when": {
         "kind": "animal"

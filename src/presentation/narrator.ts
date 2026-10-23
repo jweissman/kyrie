@@ -16,8 +16,8 @@ export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[
 export interface Leaf {
   heading?: { kind: 'opening' | 'country'; title: string };
   situation: string[]; presence: string[]; changed: string[]; exchange?: Exchange; shelter?: Shelter;
-  // Whether the last command brought the company here from somewhere else.
-  moved?: boolean;
+  // Whether the last command brought the company here from somewhere else, and the way, told as it went.
+  moved?: boolean; journey?: string[];
 }
 // One command, as the host keeps it until the next: what happened, what the company saw of it, the words it was
 // chosen in, and whether it brought the company somewhere else.
@@ -47,9 +47,11 @@ export class Narrator {
     const exchange = told && this.exchange(campaign, told), shown = [...situation, ...presence];
     // What the page already says of the place and who is in it is not said again among what just happened.
     if (exchange) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change' || !shown.some(p => p.includes(l.text))); }
+    const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     return this.set({
       situation, presence, changed,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
+      ...journey.length ? { journey } : {},
     });
   }
   // A place is told first, then what stands out in it, then what is to be read in it, and last the sky over it and
@@ -168,7 +170,8 @@ export class Narrator {
     const spoken = speaker ? feedback.discoveries.map(d => this.speech(d, speaker)) : [];
     const fight = event.combat.some(e => e.type === 'end');
     // What the voice tables told of it (someone joining, a dog patted) stands for the bare result of the command.
-    const voiced = (event.voiced ?? []).map(v => ({ text: v.text, kind: 'telling' as const }));
+    const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey'))
+      .map(v => ({ text: v.text, kind: 'telling' as const }));
     // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
     const bare = voiced.length && (/^You (carry out|do) /.test(feedback.result ?? '')
       || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));

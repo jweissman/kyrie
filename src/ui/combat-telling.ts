@@ -1,6 +1,7 @@
 import { Content } from '../content';
 import { ConditionSense } from '../presentation/condition-sense';
 import { CombatPresenter } from './combat-presenter';
+import { Barks } from '../narrative/barks';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 
 // One exchange: what was told, the dice behind it, the round it fell in, and who acted (if anyone did).
@@ -20,11 +21,15 @@ export class CombatTelling {
       if (e.type === 'action' || !groups.length) { groups.push({ round: Math.max(1, round), events: [e] }); }
       else { groups.at(-1)!.events.push(e); }
     }
-    return groups.map(g => this.tell(g.events, g.round, state)).filter(t => t.text);
+    // What fighters say at the turning points, now and then (see Barks).
+    const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
+    const barks = new Barks(fighters, fighters.map(f => f.id).join(','));
+    return groups.map((g, n) => this.tell(g.events, g.round, state, barks.of(g.events, n))).filter(t => t.text);
   }
-  private static tell(group: CombatEvent[], round: number, state: BattleState): Telling {
+  private static tell(group: CombatEvent[], round: number, state: BattleState, bark?: string): Telling {
     const told = new CombatTelling(state), [first, ...rest] = group;
-    const sentences = first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group);
+    const sentences = [...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
+      ...bark ? [bark] : []];
     return { text: sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
       detail: group.map(e => CombatPresenter.format(e, state)).filter(l => !l.startsWith('Initiative')).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
@@ -96,10 +101,17 @@ export class CombatTelling {
     if (!e.success) { return undefined; }
     return !what ? `${who} shakes it off.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
   }
+  // What befalls someone, where the condition's name is a thing rather than a state ("armor shred", "prone").
+  static readonly phrases: Record<string, string> = { prone: '{t} is knocked flat.', shred: "{t}'s armour is torn open.",
+    poison: '{t} is poisoned.', silence: '{t} is struck dumb.', slow: '{t} slows.', haste: '{t} quickens.',
+    rage: '{t} flies into a rage.', flight: '{t} lifts into the air.', focus: '{t} steadies.', thirst: '{t} is parched.',
+    doom: 'Doom settles on {t}.', agony: '{t} doubles over in agony.', fear: '{t} is afraid.', dodge: '{t} is ready to dodge.' };
   // "The boar is bleeding", in the condition's own words when it has them.
   private condition(target: string, id: string): string {
     const own = CombatPresenter.told(id, 'begins');
     if (own) { return own.replace('{target}', this.name(target)); }
+    const phrase = CombatTelling.phrases[id];
+    if (phrase) { return phrase.replace('{t}', this.name(target)); }
     const name = ConditionSense.name(id).toLowerCase();
     return /(ed|ing)\b/.test(name.split(' ')[0]!) ? `${this.name(target)} is ${name}.`
       : `${this.name(target)} is under ${name}.`;

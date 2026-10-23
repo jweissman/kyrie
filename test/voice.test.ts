@@ -64,7 +64,8 @@ describe('The voice of the household', () => {
 });
 
 describe('The voice tables', () => {
-  const keys = ['bond', 'manner', 'pronoun', 'kind', 'species', 'time', 'shelter', 'moment', 'cause', 'side', 'role'];
+  const keys = ['bond', 'manner', 'pronoun', 'kind', 'species', 'time', 'shelter', 'moment', 'cause', 'side', 'role',
+    'sky', 'land', 'size'];
   it('every line has its own id, names only circumstances the narrator knows, and says where it came from', () => {
     const ids = Voice.tables.flatMap(t => t.lines.map(l => l.id));
     expect(new Set(ids).size).toBe(ids.length);
@@ -76,9 +77,48 @@ describe('The voice tables', () => {
   it('every line reads whole in every person it may be said of', () => {
     for (const line of Voice.tables.flatMap(t => t.lines)) {
       for (const pronoun of ['he', 'she', 'they', 'it']) {
-        const text = Voice.render(line.text, { actor: 'Wat', target: 'the boar', pronoun, place: 'the yard' });
+        const text = Voice.render(line.text, { actor: 'Wat', target: 'the boar', pronoun, place: 'the yard',
+          values: { from: 'Hollin', to: 'Brough' } });
         expect(text).not.toMatch(/[{}[\]|]/);
       }
     }
+  });
+});
+
+describe('a way across country, told as it goes', () => {
+  it('says the land the road runs through, and coming in sight of where it ends', async () => {
+    const { WorldAssembler } = await import('../src/world/world-assembler');
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'thorn', w.source);
+    const go = async (re: RegExp) =>
+      s.perform(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name))!.choice.id);
+    await go(/green$/);
+    const out = await go(/^Take the road from .* to the road between/);
+    const kinds = (out.voiced ?? []).map(v => v.kind);
+    expect(kinds).toContain('journey-depart');
+    expect(kinds).toContain('journey-land');
+    const on = await go(/green$/);
+    expect((on.voiced ?? []).some(v => v.kind === 'journey-arrive')).toBe(true);
+    // Never the same sentence twice in a row of journeys.
+    const said = [...out.voiced ?? [], ...on.voiced ?? []].map(v => v.id);
+    expect(new Set(said).size).toBe(said.length);
+  }, 60000);
+});
+
+describe('the turning points of a fight', () => {
+  it('are remarked on now and then, in the fighter\'s own manner, and never twice the same', async () => {
+    const { Barks } = await import('../src/narrative/barks');
+    const fighters = [{ id: 'a', name: 'Wenna', team: 'fighters', raceId: 'human' },
+      { id: 'b', name: 'a cultist', team: 'goblins', raceId: 'human' }] as never[];
+    const barks = new Barks(fighters, 'k'), said: string[] = [];
+    for (let n = 0; n < 40; n++) {
+      const b = barks.of([{ type: 'attack', turn: n, actor: n % 2 ? 'a' : 'b', target: n % 2 ? 'b' : 'a', die: 20, need: 10,
+        toHit: 0, armorClass: 10, weapon: 'x', success: true, critical: true }] as never[], n);
+      if (b) { said.push(b); }
+    }
+    expect(said.length).toBeGreaterThan(0);
+    expect(said.length).toBeLessThan(40);
+    expect(new Set(said).size).toBe(said.length);
   });
 });

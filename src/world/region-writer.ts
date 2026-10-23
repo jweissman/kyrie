@@ -125,6 +125,7 @@ export class RegionWriter {
     const q = JSON.stringify, [x, y] = RegionGeography.town(region, i), cult = RegionFaith.cults(region)[i]!;
     return [
       `  Place ${s.id} ${q(s.name)} is settlement within region at ${x}, ${y}.`,
+      `  Initially Assert townSize(${s.id}, size_${s.size}).`,
       `  Place ${s.id}_green ${q(`${s.name} green`)} is room within ${s.id} at 1, 1.`,
       `  Place ${s.id}_inn ${q(s.inn)} is building within ${s.id}.`,
       `  Place ${s.id}_taproom ${q(`the taproom of ${s.inn}`)} is room within ${s.id}_inn at 1, 0.`,

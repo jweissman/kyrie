@@ -18,6 +18,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity land_river: landkind "river". Entity land_lake: landkind "lake". Entity land_peak: landkind "peak".
   Entity land_pass: landkind "pass". Entity land_wood: landkind "wood".
   Relation at(entity, place) exclusive.
+  // How big a settlement is: what can be seen of it from the road, and what it can spare.
+  Kind sizekind. Relation townSize(place, sizekind).
+  Entity size_hamlet: sizekind "hamlet". Entity size_village: sizekind "village". Entity size_town: sizekind "town".
   Relation able(group). Relation dead(group). Relation distinct(group, group).
   Relation closed(place). Relation indoors(place). Relation settled(place).
   Relation peaceable(group). Relation routed(group).

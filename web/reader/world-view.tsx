@@ -21,6 +21,8 @@ export class WorldView {
           ? `Into ${leaf.heading.title}` : leaf.heading.title)}</p>}
         {screen.dark && <p className="dark-note">You have no light.</p>}
         {pending && <WorldView.Working pending={pending} />}
+        {!pending && leaf.moved && leaf.journey && <section className="journey" aria-label="On the way">
+          {leaf.journey.map((l, i) => <p key={i}>{l}</p>)}</section>}
         {first && <WorldView.Told exchange={told} />}
         <WorldView.Situation leaf={leaf} />
         {leaf.changed.length > 0 && <div className="changed">
