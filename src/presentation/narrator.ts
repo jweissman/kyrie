@@ -102,7 +102,7 @@ export class Narrator {
   // Who and what is here: as they can be seen now, or simply who they are.
   private static presence(screen: Screen): string[] {
     const lines: string[] = [], named: string[] = [];
-    for (const t of [...screen.people, ...screen.things]) {
+    for (const t of [...screen.people.filter(p => !p.companion), ...screen.things]) {
       if (t.says?.length) { lines.push(...t.says); continue; }
       if (t.state) { lines.push(`${this.upper(this.short(t.name))} ${t.state === 'dead' ? 'lies dead' : 'is down'}.`); continue; }
       if (t.kind === 'person') { named.push(this.who(t)); }
@@ -136,7 +136,8 @@ export class Narrator {
       ...feedback.events.map(text => ({ text, kind: 'event' as const })),
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: fight ? 'fight' as const : 'event' as const })),
       ...(told.moved ? [] : feedback.observations.map(text => ({ text, kind: 'change' as const }))),
-    ].map(l => ({ ...l, kind: l.kind === 'telling' && /^['‘"“]/.test(l.text) ? 'speech' as const : l.kind }));
+    // What someone says, whether answering or of their own accord (a companion's word on coming somewhere), is speech.
+    ].map(l => ({ ...l, kind: ['telling', 'event'].includes(l.kind) && /^['‘"“]/.test(l.text) ? 'speech' as const : l.kind }));
     // Going somewhere is told by the place it brings you to: "You arrive at the old bank" adds nothing to it.
     const unique = lines.filter((l, i) => lines.findIndex(o => o.text === l.text) === i)
       .filter(l => !(told.moved && /^You arrive at /.test(l.text)));

@@ -27,6 +27,8 @@ export interface TargetRow {
   says?: string[];
   // For those the company could fight: how the most seasoned member reckons a fight would go.
   reckoning?: { danger: Danger; text: string };
+  // Someone who has joined the company: not here so much as with you, and to be talked to wherever you are.
+  companion?: boolean;
 }
 export interface ItemRow {
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;

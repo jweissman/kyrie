@@ -14,6 +14,7 @@ import type { Atlas } from './land/atlas';
 import type { Side } from './land/borders';
 import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
+import { RegionFellows } from './region-fellows';
 import type { CalendarStart } from '../presentation/calendar';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
@@ -101,7 +102,7 @@ export class RegionWriter {
     // how long it takes and what it asks (see RegionGeography).
     lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionBorders.lines(region),
       ...RegionSites.lines(region, taken),
-      ...RegionWorks.lines(region, taken),
+      ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     if (!company) { lines.push('  Entity party: group "Your company".', '  Goal false.', '}'); return lines.join('\n'); }

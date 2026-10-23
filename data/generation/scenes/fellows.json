@@ -1,0 +1,271 @@
+{
+  "about": "Whoever goes along with a company, as a person: where they come from and who they have there, what their calling has taught them that a company could use, what they notice on the way, and a story of their own told over nights. {name} is their name; {home} the settlement they come from; {kin} what the one they have there is to them, {kinName} that one's name and {kinWork} what they do there; {zone}, {edge} and {heart} the wild country they know and two of its places; {god} and {title} the country's god; {holy}, {site} and {where} a site and where it lies; {makers} and {craft} the makers of the old works and their craft. Nothing here may promise what the world does not hold.",
+  "kin": ["cousin", "oldest friend", "godparent", "mother's cousin"],
+  "work": {
+    "innkeeper": "keeps {inn} there",
+    "merchant": "keeps a shop there",
+    "priest": "keeps the shrine of {god} there"
+  },
+  "home": [
+    "'{home}. My {kin} {kinWork}: {kinName}. If we pass that way, we will eat.' {name} smiles. 'I am not much missed otherwise.'",
+    "'{home}, to begin with. My {kin} is still there; {kinName}, who {kinWork}. I write when I can. I cannot, much.'",
+    "'Over at {home}. {kinName} is there, my {kin}, and {kinWork}. The rest went away, or into the ground.'"
+  ],
+  "homecoming": [
+    "'{home},' says {name}, and stands a moment at the edge of the green. 'Smaller than it was.'",
+    "{name} looks round {home} as if counting it, and seems satisfied that it is all still there."
+  ],
+  "greet": {
+    "innkeeper": "'{name}!' {kinName} comes round the end of the counter and holds {name} at arm's length, then hugs hard. There is supper for the company before anyone asks for it, and bread and cheese wrapped up for the road.",
+    "merchant": "'{name}! Look at you.' {kinName} shuts the shop for the length of a cup, asks after everything at once, and will not let you leave without food for the road.",
+    "priest": "{kinName} looks up from the offerings and goes still, then laughs. '{name}. The god has a sense of humour.' There is a blessing for the company, and bread from the offerings for the road."
+  },
+  "ask": {
+    "label": "Ask {kinName} about {name}",
+    "says": [
+      "'{name}? Always the one who went first and asked afterwards.' {kinName} watches {name} across the room a while. 'Bring {name} back to me, will you.'",
+      "'We were children here together.' {kinName} speaks more quietly. 'Something went out of {name} after the bad winter. It is good to see some of it come back.'"
+    ]
+  },
+  "callings": {
+    "charcoal-burner": {
+      "knows": { "of": "wood", "label": "Ask {name} about the woods hereabouts",
+        "says": "'{zone}? I have burned in it.' {name} draws it in the dirt with a stick: the rides, where they cross, the clearings. 'From {edge} the paths run in to {heart}. Keep the fall of the land on your right going in and you will not go far wrong.'" },
+      "remarks": {
+        "charcoal": "'Somebody has burned here this year,' says {name}, turning the ash with a boot. 'Not well. They let the clamp breathe.'",
+        "pollards": "'Pollarded,' says {name}. 'Every so many years somebody comes and cuts them back. Somebody still does. Look at the cuts.'",
+        "windfall": "'That came down in a gale and nobody has come to cut it,' says {name}. 'Good timber going to waste.'",
+        "oak": "{name} lays a hand flat on the bark. 'I would not cut that. Nobody would. You would never sleep again.'"
+      },
+      "ruin": [
+        "'I would not burn anything that came out of there,' says {name}, after a long look.",
+        "{name} keeps well back from it. 'Old stones draw the damp,' is all {name} will say."
+      ],
+      "story": [
+        [
+          "'My brother taught me to build a clamp. You stack the wood just so, turf it over, fire it, and then you sit up with it three nights, because if it catches it is all for nothing.' {name} pokes the fire. 'He was better at the sitting up than I was.'",
+          "'The year the wolves came down, we were burning in the deep wood. He went to see to a vent in the night and did not come back. I found his axe in the morning.' A long quiet. 'They said wolves. I never saw a wolf.'",
+          "'I go back to the place. There is a ring of black earth where the clamp was, and nothing grows on it. They say charcoal ground keeps its fire a hundred years.' {name} looks at you. 'I think he is still sitting up with it.'"
+        ],
+        [
+          "'I burn for the smiths. A smith will tell you it is the hammer that matters. It is the charcoal. Bad charcoal, and the iron will not take.' {name} says it with some pride.",
+          "'There was a smith at the forge where I sold, old, who paid me in nails when he had no coin. I have a bag of nails at home I will never use. I cannot bring myself to sell them back.'",
+          "'He died last winter, and the forge has a new smith, a young one, who buys from somebody cheaper. Fair enough.' {name} shrugs. 'So I have nails, and time, and here I am.'"
+        ]
+      ]
+    },
+    "trapper": {
+      "knows": { "of": "wood", "label": "Ask {name} about the woods hereabouts",
+        "says": "'{zone}.' {name} names the runs the beasts use as if they were roads, and where they cross water. 'From {edge} you can get to {heart} in a morning, if you follow the deer and not the paths.'" },
+      "remarks": {
+        "spring": "{name} kneels and reads the mud at the water's edge. 'Fox, and a badger, and something bigger, two nights ago. Gone south.'",
+        "windfall": "'Marten den under there, or was,' says {name}, crouching. 'They like a fallen tree.'",
+        "holly": "'Holly keeps the snow off,' says {name}. 'Beasts lie up in it. So do people, in a hard winter.'"
+      },
+      "ruin": [
+        "{name} reads the ground in front of it a while. 'Things go in there,' {name} says at last. 'Not much comes out.'",
+        "'No tracks,' says {name}, looking round it. 'Nothing goes near. I would take that as advice.'"
+      ],
+      "story": [
+        [
+          "'I trap the high woods in the winter. Marten, fox, sometimes a lynx. You go alone, mostly. Two sets of tracks makes the beasts wary.'",
+          "'There was a winter I did not see another soul from the first snow to the thaw. I talked to the traps. I gave them names.' {name} grins. 'The good ones.'",
+          "'The furs go down to the towns and come back as coin, and the coin goes on salt and a new knife and a bed like this one. I have never been able to see what is left over, at the end.' {name} thinks about it. 'Maybe that is the life.'"
+        ]
+      ]
+    },
+    "eel-catcher": {
+      "knows": { "of": "fen", "label": "Ask {name} about the fen",
+        "says": "'{zone}? I have set traps in it since I could walk.' {name} tells you how the channels run and which of them go anywhere, from {edge} in to {heart}, and where the ground will bear you and where it only looks as if it will." },
+      "remarks": {
+        "eelhut": "'Somebody's hut,' says {name}. 'Traps still set, too.' A look into the water. 'Empty. Same as mine.'",
+        "decoy": "{name} looks at the decoy pipe a long while. 'My uncle worked one like this. You talk to the ducks in a low voice and they follow you in. I never had the voice.'",
+        "staithe": "'This is where the punts tie up,' says {name}. 'Was, anyway.'",
+        "sluice": "'Somebody built that to keep the sea out,' says {name}. 'The sea did not agree.'"
+      },
+      "ruin": [
+        "'Things sink, in the fen,' says {name}, looking at it. 'That has not sunk. I do not like that.'",
+        "{name} spits, for luck, and does not explain."
+      ],
+      "story": [
+        [
+          "'There is a village under the fen. Bells, my grandfather said; he heard them on still nights.' {name} pokes the fire. 'I have never heard them. I have listened.'",
+          "'The eels go down to the sea every autumn, and nobody knows where. And every spring they come back up as little glass things you can see through. Except this year they did not.'",
+          "'So I came up here to earn a bit while I wait. If they do not come next year either, I will go down after them and see.' {name} laughs. 'An eel-catcher at sea. That would be something to tell.'"
+        ]
+      ]
+    },
+    "drover": {
+      "knows": { "of": "heights", "label": "Ask {name} about the high ground",
+        "says": "'I have taken beasts over {zone} more times than I can count.' {name} tells you where it can be crossed and where it cannot, how to get from {edge} up to {heart}, and where you can see the weather coming." },
+      "remarks": {
+        "fold": "'Somebody's fold,' says {name}, leaning on the wall. 'Kept up, too. They will be back for the autumn gather.'",
+        "shieling": "'Summer huts,' says {name}. 'My grandmother had one like it. The best weeks of the year, she said, and she would know.'",
+        "col": "{name} looks back the way you came. 'Drove road. You can see it from up here if you know how to look: greener than the rest.'",
+        "cairn": "{name} adds a stone to the cairn without seeming to think about it."
+      },
+      "ruin": [
+        "'We never stopped near that with the beasts,' says {name}. 'They would not settle.'",
+        "{name} looks at it, then at the sky, and says you will want to be away from it before dark."
+      ],
+      "story": [
+        [
+          "'I have driven cattle over these hills since I was nine. You learn the beasts. Every drove has one that leads and one that will not be led.' {name} smiles. 'I was the one that would not be led, my father said.'",
+          "'Last spring we lost half a drove on the col, in a snow that came out of nowhere. Forty beasts. We dug out what we could. The rest are still up there under the cairn we built.'",
+          "'The man who owned them said it was the weather and no fault of mine. He meant it kindly. He has not sent for me since.' {name} looks into the fire. 'So I am a drover with no drove, walking.'"
+        ]
+      ]
+    },
+    "pilgrim": {
+      "knows": { "of": "faith", "label": "Ask {name} about the gods of this country",
+        "says": "'This country keeps {god}, mostly: {title}. But every shrine keeps its own god too, and they do not all agree with one another.' {name} speaks more quietly. 'The oldest holy place is not a shrine at all. {holy}, in {where}. Folk say it was holy before there were folk.'" },
+      "shrine": "{name} stops at the threshold of the shrine, touches brow and lips, and says the old words to {god} before going in.",
+      "remarks": {
+        "stone": "{name} walks round the standing stone the way the sun goes, once, before you can ask why.",
+        "spring": "{name} drinks from the spring with both hands and leaves a pin in the water. 'For whoever lives here.'",
+        "oak": "'There would have been a priest for a tree like that, once,' says {name}."
+      },
+      "ruin": [
+        "'Whoever made that prayed to something,' says {name}. 'I would like to know what.'",
+        "{name} stands before it a long moment with eyes shut, and then says, a little sheepishly, that there is nobody at home."
+      ],
+      "story": [
+        [
+          "'I made a promise the winter my daughter had the fever. I said if she lived I would walk to every shrine in the country and say her name at each.' {name} smiles into the fire. 'She lived. She is married now, and laughs at me.'",
+          "'It is a bigger country than I thought, when I promised. I have been at it eleven years. Some of the shrines are only a stone with a cup on it, and I am never sure the god is at home.'",
+          "'At the last one I will stop, and go home, and be no use to anyone.' {name} is quiet a while. 'I do not think I will find the last one. There is always another past the next hill. I think that was the god's joke on me, and a kind one.'"
+        ],
+        [
+          "'I was a priest's servant until I was thirty. Sweeping, and the candles, and the offerings. I knew every word of every rite and never said one.'",
+          "'Then the priest died, and the new one brought servants of his own, and I found I did not know what to do with my hands.' {name} turns them over in the firelight. 'So I gave them something to carry.'",
+          "'I say the words now, at every shrine I come to, aloud. Nobody has struck me down yet.' {name} laughs. 'Either the gods do not mind, or they have not noticed. Both are a comfort.'"
+        ]
+      ]
+    },
+    "pedlar": {
+      "knows": { "of": "news", "label": "Ask {name} for the news",
+        "says": "'News? Everybody wants news.' {name} counts it off on the fingers: what bread costs where, who has married and who has died. 'And something nobody likes to talk about: {site}, in {where}. Folk go quiet when it comes up. That is news too.'" },
+      "market": "{name} looks over what is for sale with a professional eye, and says nothing, which from a pedlar is praise.",
+      "remarks": {
+        "staithe": "'You could bring goods in by water, here,' says {name}, 'if anyone still came.'",
+        "col": "'Somebody should sell hot food at the top of every pass,' says {name}. 'One day it will be me.'"
+      },
+      "ruin": [
+        "'People pay for a story about a place like that,' says {name}. 'More if you come back out of it.'",
+        "{name} looks at it and does a sum on the fingers, and does not say what the sum was."
+      ],
+      "story": [
+        [
+          "'I carry what people forget they need. Needles. Ribbons. The names of who has died in the next valley.' {name} pats the pack. 'The last is free. It is what gets the door open.'",
+          "'There was a woman at a mill, two summers back, who bought a ribbon from me every time I came through, the same blue, and never wore one. I asked her once. She said she was keeping them for when she was happy.'",
+          "'Last time I came by, the mill was shut and nobody would say why. I tied a blue ribbon on the door.' {name} shrugs, and does not look at you. 'I still go that way. It is on the way.'"
+        ],
+        [
+          "'My mother walked this same round with this same pack. It was heavier then; she carried pots.' {name} hefts it. 'Pots are a young woman's trade.'",
+          "'She knew every door in the country and what each of them would want before they knew it. I am not as good. I only know what they wanted last year.'",
+          "'When she could not walk any more she sat by the road outside our house and sold to whoever passed. She said the road came to her now, and was politer about it.' {name} smiles. 'I mean to do the same.'"
+        ]
+      ]
+    },
+    "tinker": {
+      "knows": { "of": "makers", "label": "Ask {name} about the old metalwork",
+        "says": "'You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.' {name} turns one of your buckles over and over. '{makers} made them, my master said. {craft}'" },
+      "remarks": {
+        "sluice": "{name} runs a thumb along the iron of the sluice gate. 'Good work. Nobody makes a pin like that now.'",
+        "footbridge": "{name} looks at how the footbridge is pinned together and sucks in breath at somebody's carpentry.",
+        "bothy": "{name} has the bothy door off its hinge and back on again, better, before you have your packs down."
+      },
+      "ruin": [
+        "{name} looks at the stonework, then at the hinges, then at the locks, in that order, and is impressed by all three.",
+        "'I could get in there,' says {name}. 'Getting out again is a different trade.'"
+      ],
+      "story": [
+        [
+          "'My master could open anything. Not the way you think: he would sit with a lock an hour, only listening, before he touched it.' {name} turns a bent nail over in the firelight.",
+          "'There was a box he could not open. Old, older than anything, with no keyhole at all. He carried it twenty years. He said it was good for him to have one thing in the world he could not get into.'",
+          "'When he died I buried it with him, unopened.' {name} puts the nail away. 'People ask me what I think was in it. I tell them: him, now.'"
+        ]
+      ]
+    },
+    "minstrel": {
+      "knows": { "of": "song", "label": "Ask {name} for a song of this country",
+        "says": "'There is only one song anybody here asks for.' {name} sings it low, so as not to wake the house: how the kingdom of {kingdom} rose on what the old makers left, where the power lay with {were}, and how it fell to {fall}. 'It is longer,' {name} says, 'but that is the bone of it.'" },
+      "remarks": {
+        "oak": "{name} hums something under the great oak, then stops: it is an old song about a tree like this, and it does not end well.",
+        "mere": "{name} skims a stone across the mere: seven, eight. 'There is a song about a woman who drowned in a mere. There always is.'",
+        "tarn": "{name} sings one note across the tarn to hear it come back off the crag, and laughs when it does."
+      },
+      "ruin": [
+        "'Somebody should make a song about that place,' says {name}. 'Somebody probably did, and it was sad.'",
+        "{name} stops singing, and does not start again until it is well behind you."
+      ],
+      "story": [
+        [
+          "'I have a song I cannot finish. I have the tune and the first two verses. The rest went with the woman who taught me.' {name} plays a few notes of it, and stops.",
+          "'She sang it at a wedding in a village I will not name, and three people wept who had never heard it before. I asked her where it came from. She said she had found it, the way you find a coin.'",
+          "'I make up the end every time, and every time it is wrong.' {name} puts the instrument away. 'One night I will get it right, and then what will I do? That is the fear.'"
+        ]
+      ]
+    },
+    "scholar": {
+      "knows": { "of": "fate", "label": "Ask {name} about the old script",
+        "says": "'I can read a little of it. Nobody can read much.' {name} turns the pages of a commonplace book full of copied marks. 'I have pieced together how {makers} ended, I think. {fate}'" },
+      "remarks": {
+        "stone": "{name} has a commonplace book out before you reach the standing stone, and is disappointed: no letters on it at all.",
+        "cairn": "{name} counts the stones of the cairn, writes the number down, and seems pleased with it."
+      },
+      "ruin": [
+        "{name} is looking at the stones for letters before you have stopped walking.",
+        "'If there is writing in there,' says {name}, 'I want to see it before anybody else breathes on it.'"
+      ],
+      "story": [
+        [
+          "'I copy inscriptions for the library of a house of learning that has, I think, forgotten it sent me.' {name} turns a page. 'Six years. They never write back.'",
+          "'I used to send the copies on. Then I started keeping them. They are better company than the library, and they do not argue.'",
+          "'If I could read all of it, I think it would say the same thing everywhere: we were here, and we mattered, and you will not remember us.' {name} shuts the book. 'I would like to prove them wrong. That is all a scholar is.'"
+        ]
+      ]
+    },
+    "soldier": {
+      "knows": { "of": "forts", "label": "Ask {name} about the old forts",
+        "says": "'I stood a summer's watch at {site}, in {where}, before my company was paid off. Old work, older than anybody thought.' {name} rubs a bad knee. 'Draughty. You could hear the wind in it all night like somebody talking in the next room.'" },
+      "remarks": {
+        "col": "{name} looks up and down the pass with a soldier's eye. 'Ten could hold this against a hundred. I have been one of the ten.'",
+        "crag": "'You would put a lookout up there,' says {name}, 'and then you would forget about them, and they would never forgive you.'",
+        "ford": "{name} looks at the ford and the far bank a long while before letting anybody into the water."
+      },
+      "ruin": [
+        "{name} looks at it the way a soldier looks at a wall: where it would break, and who would be standing there when it did.",
+        "'I would want a light, and somebody behind me,' says {name}. 'In that order.'"
+      ],
+      "story": [
+        [
+          "'I joined for the boots. Good boots, and a meal every day, and nobody asked where I came from.' {name} stretches the bad leg out toward the fire.",
+          "'We held a bridge one whole winter that nobody ever came to take. Not one attack. We fought each other instead, and the cold.' {name} laughs, without much in it. 'Best company I was ever in.'",
+          "'When they paid us off the captain gave each of us a coin with a hole in it, to wear on a string. So we would know each other again, he said.' {name} draws it out on its thong. 'I have never met one of them since. I look.'"
+        ]
+      ]
+    },
+    "mason": {
+      "knows": { "of": "work", "label": "Ask {name} about the old stonework",
+        "says": "'You can tell their work anywhere: no mortar, and every stone cut to sit on the one below as if it grew there.' {name} names one you might not have heard of: {site}, in {where}. 'Go and look at the joints if you ever pass. Nobody can do that now.'" },
+      "remarks": {
+        "sluice": "{name} crouches to see how the sluice is set into the bank. 'Somebody knew what they were doing. Somebody since did not.'",
+        "fold": "{name} straightens a capstone on the fold wall without seeming to notice doing it.",
+        "bothy": "{name} looks at the bothy's chimney with deep suspicion.",
+        "stone": "'They raised that without a crane,' says {name}, and walks all round it, and does not say how."
+      },
+      "ruin": [
+        "{name} lays a hand on the stonework and is quiet a while. 'They knew,' is all {name} says.",
+        "'Look at the joints,' says {name}, delighted, as if nothing else about the place mattered."
+      ],
+      "story": [
+        [
+          "'My father built walls, and his father. There is a wall at home with all three of us in it, a course each, and you can see where each of us began.'",
+          "'He said a wall is a conversation with whoever has to mend it next. You leave them a good face to work from, or you leave them a mess.'",
+          "'The old ones, before the villages: they left nobody a mess. Not one stone out of true in a thousand years.' {name} looks into the fire. 'I would give a lot to know what they talked about, building.'"
+        ]
+      ]
+    }
+  }
+}

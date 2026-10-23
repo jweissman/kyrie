@@ -349,22 +349,34 @@
       "forest": [
         "charcoal-burner",
         "pedlar",
-        "pilgrim"
+        "pilgrim",
+        "minstrel",
+        "soldier",
+        "scholar"
       ],
       "marsh": [
         "eel-catcher",
         "pedlar",
-        "pilgrim"
+        "pilgrim",
+        "minstrel",
+        "scholar",
+        "soldier"
       ],
       "mountain": [
         "drover",
         "tinker",
-        "pilgrim"
+        "pilgrim",
+        "mason",
+        "minstrel",
+        "scholar"
       ],
       "frost": [
         "trapper",
         "tinker",
-        "pilgrim"
+        "pilgrim",
+        "minstrel",
+        "soldier",
+        "mason"
       ]
     }
   },

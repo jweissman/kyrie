@@ -10,12 +10,12 @@ import tables from '../../data/generation/scenes/wilds.json';
 interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean }
 interface Table {
   trails: string[]; into: string; entry: { name: string; scene: string };
-  lost: { name: string; scene: string; astray: string }; landmarks: Kind[]; water: Kind[];
+  lost: { name: string; scene: string; astray: string; guided: string }; landmarks: Kind[]; water: Kind[];
   view: { change: string; seen: string; unseen: string };
 }
 // One place in a stretch of wild country, where it stands on the land and what it is.
 export interface Landmark { id: string; cell: number; part: number; name: string; scene: string; ambience: string;
-  view?: boolean; water?: string; side?: string }
+  view?: boolean; water?: string; side?: string; kind?: string }
 // Where a way into wild country starts: a road running by it, or a settlement near it; the cell it starts from, and
 // the settlement it is known by.
 interface Start { from: string; cell: number; through: boolean; by: string }
@@ -51,17 +51,18 @@ export class RegionZones {
     const kinds = draw.shuffle(t.landmarks), name = zone.naming.name, out: Landmark[] = [];
     zone.parts.forEach((cells, i) => {
       const centre = zone.centres[i]!, kind = i === 0 ? undefined : kinds.shift();
-      out.push(kind ? { ...kind, id: this.room(zone, i), cell: centre, part: i }
+      out.push(kind ? { ...kind, kind: kind.id, id: this.room(zone, i), cell: centre, part: i }
         : { id: this.room(zone, i), cell: centre, part: 0, name: t.entry.name, scene: t.entry.scene, ambience: '' });
       const far = [...cells].sort((a, b) => Terrain.distance(land, b, centre) - Terrain.distance(land, a, centre))[0]!;
       const second = cells.length >= 8 && Terrain.distance(land, far, centre) >= 2 ? kinds.shift() : undefined;
-      if (second) { out.push({ ...second, id: `${this.room(zone, i)}_2`, cell: far, part: i }); }
+      if (second) { out.push({ ...second, kind: second.id, id: `${this.room(zone, i)}_2`, cell: far, part: i }); }
     });
     const river = RegionGeography.atlas(region).rivers.find(r => r.cells.some(c => zone.cells.includes(c)));
     const crossing = river?.cells.find(c => zone.cells.includes(c) && !out.some(l => l.cell === c));
     if (river && crossing !== undefined) {
       const kind = draw.pick(t.water);
-      out.push({ ...kind, id: `${zone.id}_water`, cell: crossing, part: this.owner(zone, crossing), water: river.naming.name });
+      out.push({ ...kind, kind: kind.id, id: `${zone.id}_water`, cell: crossing, part: this.owner(zone, crossing),
+        water: river.naming.name });
     }
     out.push(...this.sides(zone, region, out));
     const from = this.from(region, zone);
@@ -199,6 +200,9 @@ export class RegionZones {
       `    Description ${q('Leave the path and go straight there across the country: quicker, if you do not lose your way.')}.`,
       `    Requires able(actor) and at(actor, start) and ${z}_across(start, dest) and been(actor, dest) and not benighted(actor).`,
       `    Time ${z}_span(start, dest). On success { Retract at(actor, start). Assert at(actor, ${z}_lost). Assert ${z}_heading(actor, dest). }`, '  }',
+      // One of the company's fellows who reads wild country finds the way, and is seen to.
+      `  Rule ${z}_guided when ${z}_heading(party, ?goal) and at(party, ${z}_lost) and memberOf(?m, party) and fellow(?m) and brings(?m, woodcraft) says ${q(t.lost.guided)} {`,
+      `    Retract ${z}_heading(party, ?goal). Retract at(party, ${z}_lost). Assert at(party, ?goal). }`,
       `  Rule ${z}_bearing when ${z}_heading(party, ?goal) and at(party, ${z}_lost) and (capable(party, woodcraft) or capable(party, wayfinding) or knows(party, ${z}_mapped) or dice(clock) <= 60) {`,
       `    Retract ${z}_heading(party, ?goal). Retract at(party, ${z}_lost). Assert at(party, ?goal). }`,
       `  Rule ${z}_strays when ${z}_heading(party, ?goal) and at(party, ${z}_lost) says ${q(t.lost.astray)} { Retract ${z}_heading(party, ?goal). Assert ${z}_astray(party). }`,

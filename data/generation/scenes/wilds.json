@@ -4,7 +4,7 @@
     "trails": ["a holloway between banks of root", "a woodmen's track", "a deer-path", "a green ride between the trees", "a carters' track, soft with leaf"],
     "into": "the path into {zone}",
     "entry": { "name": "the edge of {zone} by {from}", "scene": "Here {zone} begins: hazel and thorn at first, then oak, and the light under them goes green. {from} is behind you, out in the open." },
-    "lost": { "name": "somewhere in {zone}", "scene": "Somewhere in {zone}. The trees are all alike in every direction, and the light gives no hint which way is which.", "astray": "The trees close in, and the path you were following is not there any more. You have no idea which way you have come." },
+    "lost": { "name": "somewhere in {zone}", "scene": "Somewhere in {zone}. The trees are all alike in every direction, and the light gives no hint which way is which.", "astray": "The trees close in, and the path you were following is not there any more. You have no idea which way you have come.", "guided": "{?m} stops, looks up at the light coming through the leaves, and turns you a quarter round. 'This way.' And it is." },
     "landmarks": [
       { "id": "charcoal", "name": "the charcoal-burners' clearing", "scene": "A clearing where charcoal has been burned for years: rings of black earth, a turf hut with its door off, cordwood stacked under bark. The smell of old smoke hangs over all of it.", "ambience": "A woodpecker is at work somewhere close." },
       { "id": "oak", "name": "the great oak", "view": true, "scene": "An oak stands in a clearing of its own, too broad for three people to circle with their arms. Its lowest limbs would roof a cart, and the bark is worn smooth where climbers have gone up.", "ambience": "Jays scold from somewhere in the crown." },
@@ -24,7 +24,7 @@
     "trails": ["a line of stakes", "a plank-way over the ooze", "a reed-cutters' path", "a causeway of brushwood", "a dyke-top path"],
     "into": "the stakes out into {zone}",
     "entry": { "name": "the edge of {zone} by {from}", "scene": "Where the fields end, {zone} begins: black water between tussocks, reed higher than your head, and the smell of it. {from} is behind you, on the firm ground." },
-    "lost": { "name": "somewhere in {zone}", "scene": "Somewhere out in {zone}. Reed on every side, higher than your head, and water between. Every channel looks like the last.", "astray": "The stakes give out, and the reed closes behind you. You cannot see the firm ground in any direction, nor tell which way it lies." },
+    "lost": { "name": "somewhere in {zone}", "scene": "Somewhere out in {zone}. Reed on every side, higher than your head, and water between. Every channel looks like the last.", "astray": "The stakes give out, and the reed closes behind you. You cannot see the firm ground in any direction, nor tell which way it lies.", "guided": "{?m} tests the ground ahead with a pole, frowns, and tries again a yard over. 'Here. Step where I step.' You come out where you meant to." },
     "landmarks": [
       { "id": "eelhut", "name": "the eel-catcher's hut", "scene": "A hut of reed and black timber stands on stilts over the water, with eel-traps of woven willow stacked on its platform. The ladder is pulled up.", "ambience": "Something slides off the bank into the water." },
       { "id": "decoy", "name": "the duck decoy", "scene": "A pool with curving arms of netting going off it into the reed: a decoy for ducks, the screens of reed still standing, the nets rotted in the water.", "ambience": "Duck get up off the pool all at once with a noise like applause." },
@@ -43,7 +43,7 @@
     "trails": ["an old drove-way", "a sheep-trod through the heather", "a peat-road", "a line of marker posts"],
     "into": "the track up onto {zone}",
     "entry": { "name": "the foot of {zone} by {from}", "scene": "The fields give way to heather and gorse, and the land rises to the moor. {from} is behind you and below." },
-    "lost": { "name": "somewhere on {zone}", "scene": "Somewhere on {zone}. Heather in every direction, the same low hummocks, and a sky with no sun in it to steer by.", "astray": "The trod you were following thins to nothing in the heather. Every rise looks like the last, and the mist has the far ones." },
+    "lost": { "name": "somewhere on {zone}", "scene": "Somewhere on {zone}. Heather in every direction, the same low hummocks, and a sky with no sun in it to steer by.", "astray": "The trod you were following thins to nothing in the heather. Every rise looks like the last, and the mist has the far ones.", "guided": "{?m} kneels to see which way the heather lies, then stands and points. 'That way.' It is." },
     "landmarks": [
       { "id": "cairn", "name": "the cairn", "view": true, "scene": "A cairn of grey stones stands on the highest ground, taller than a man, every traveller's stone added to it. You can see a long way from here.", "ambience": "A curlew calls, a long way off." },
       { "id": "stone", "name": "the leaning stone", "scene": "A single standing stone, taller than a rider, leans out of the heather as if it were listening. The ground at its foot is bare, as though something walks round it.", "ambience": "Wind hums on the edge of the stone." },
@@ -60,7 +60,7 @@
     "trails": ["a sheep-trod along the fellside", "a cairned path", "a scree path", "a wall-side track"],
     "into": "the path up onto {zone}",
     "entry": { "name": "the foot of {zone} by {from}", "scene": "The ground steepens. Walls run up the fellside and give out where the bracken begins. {from} is behind you, in the valley." },
-    "lost": { "name": "somewhere on {zone}", "scene": "Somewhere on {zone}. Rock and scree and cloud, and the ground falling away on more sides than one.", "astray": "The cloud comes down, and with it the end of the path. Every way you turn the ground falls away into grey." },
+    "lost": { "name": "somewhere on {zone}", "scene": "Somewhere on {zone}. Rock and scree and cloud, and the ground falling away on more sides than one.", "astray": "The cloud comes down, and with it the end of the path. Every way you turn the ground falls away into grey.", "guided": "{?m} watches the cloud a while, picks out a wall running down the fellside, and follows it. It brings you where you meant to go." },
     "landmarks": [
       { "id": "tarn", "name": "the tarn", "scene": "A tarn lies in a hollow under a crag, so dark it looks bottomless, with a little beach of grey gravel at one end. The wind falls silent here.", "ambience": "A raven croaks from the crag above." },
       { "id": "fold", "name": "the sheepfold", "scene": "A round fold of dry-stone walling stands on a shelf of the fell, its gate a hurdle tied with twine. Sheep have been in it lately.", "ambience": "Sheep on the slope above stop chewing to look at you." },

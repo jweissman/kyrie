@@ -12,15 +12,21 @@ Module world_people "Company and intention" {
   // Who someone is to the one who plays: family (kin), or someone expecting them with a letter or an errand (expects);
   // what they owe someone is dominion's owes. An origin says so at the outset; what people say and do follows it.
   Relation kin(group, group). Relation expects(group, group).
-  // Someone who would join the company, once they are willing, for their hire (which may be nothing).
-  Relation willing(group, group). Measure hire(group).
+  // Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has
+  // joined it, who goes where it goes and can be talked to on the way.
+  Relation willing(group, group). Measure hire(group). Relation travelsWith(group, group).
+  // A traveller of the country who has joined (a fellow, as against the one who plays): how much of their own story
+  // they have told, and whether they have told some tonight. A story is told a part a night.
+  Relation fellow(member). Measure confided(group). Relation hushed(group).
+  Rule hush_lifts when hushed(?c) and not dark() { Retract hushed(?c). }
   Goal false.
   Action recruit(actor: group, recruit: group, site: place) "Ask {recruit} to join the company" {
     Description "They come into the company as one of you: they fight beside you, and what they can do the company can. Their hire is paid first, if they ask one.".
     Requires able(actor) and company(actor) and able(recruit) and distinct(actor, recruit) and at(actor, site)
       and at(recruit, site) and willing(recruit, actor) and quantity(actor, gold) >= hire(recruit).
     Resolve enlist(recruit, actor).
-    On success { Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site). }
+    On success { Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site).
+      Assert travelsWith(recruit, actor). }
     Result "{recruit} shakes on it, and is one of you.".
   }
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {

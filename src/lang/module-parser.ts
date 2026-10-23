@@ -32,6 +32,7 @@ export class ModuleParser {
     Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
     PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
     RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: ModuleParser.TopicOnce,
+    TopicTravelling: ModuleParser.TopicOnce,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PersonProfession: PersonParser.PersonProfession,
     PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
@@ -280,10 +281,14 @@ export class ModuleParser {
   static TopicEffects(_on: Node, _discuss: Node, _open: Node, changes: Node, _close: Node): Change[] {
     return ModuleParser.list(changes) as Change[];
   }
-  static Topic(_t: Node, id: Node, _with: Node, speaker: Node, title: Node, _when: Node, condition: Node,
-    once: Node, _open: Node, _says: Node, response: Node, _dot: Node, effects: Node, _close: Node): Field {
+  // A topic is put to someone where they are; one "travelling" to someone who has joined the company, wherever it is.
+  static Topic(_t: Node, id: Node, _with: Node, speaker: Node, travelling: Node, title: Node, _when: Node,
+    condition: Node, once: Node, _open: Node, _says: Node, response: Node, _dot: Node, effects: Node,
+    _close: Node): Field {
     const who = speaker.sourceString;
-    const text = `able(actor) and able(${who}) and distinct(actor, ${who}) and at(actor, site) and at(${who}, site)`;
+    const text = travelling.children.length
+      ? `able(actor) and distinct(actor, ${who}) and at(actor, site) and travelsWith(${who}, actor)`
+      : `able(actor) and able(${who}) and distinct(actor, ${who}) and at(actor, site) and at(${who}, site)`;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title),
       description: '', speaker: who,
       report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],

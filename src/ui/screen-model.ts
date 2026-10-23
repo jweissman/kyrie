@@ -21,7 +21,7 @@ import { Carriers } from './carriers';
 import { Overlays } from '../overlays';
 import { PerkText } from '../presentation/perk-text';
 import { TradeModel } from './trade-model';
-import type { ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
+import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
 export class ScreenModel {
@@ -58,6 +58,7 @@ export class ScreenModel {
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
     const unclaimed = new Map(grouped.targets);
     view.present.forEach(p => unclaimed.delete(p.id));
+    const companions = this.companions(world, view.actor, unclaimed);
     const scene = this.scene(campaign, view, present);
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped) })));
@@ -68,7 +69,7 @@ export class ScreenModel {
       dark: view.observations.some(o => o.id === 'darkness'),
       exits: here ? passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited }) : [],
-      people: rows.filter(r => r.kind === 'person' || r.kind === 'creature'),
+      people: [...rows.filter(r => r.kind === 'person' || r.kind === 'creature'), ...companions],
       things: rows.filter(r => r.kind === 'thing' || r.kind === 'feature'),
       party: this.party(view, campaign, grouped),
       items: this.items(campaign, grouped, entities),
@@ -90,6 +91,16 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
+  }
+  // Whoever has joined the company and has something to say: talked to wherever the company is. Their choices are
+  // theirs, not left over among the company's own.
+  private static companions(world: Campaign['world'], actor: string | undefined, unclaimed: Map<string, Act[]>): TargetRow[] {
+    if (!actor || !world.module.relations.some(r => r.name === 'travelsWith')) { return []; }
+    return world.related('travelsWith').filter(r => r.args[1] === actor && unclaimed.has(r.args[0]!)).map(r => {
+      const id = r.args[0]!, acts = unclaimed.get(id)!;
+      unclaimed.delete(id);
+      return { id, kind: 'person' as const, name: world.module.entities.find(e => e.id === id)?.name ?? id, acts, companion: true };
+    });
   }
   // What the company knows, newest first, with how it knows it: seen, found in something, or told by someone.
   private static knowledge(view: PlayerSnapshot): Screen['knowledge'] {

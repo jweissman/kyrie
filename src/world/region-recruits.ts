@@ -1,4 +1,6 @@
 import { Canon } from '../canon/canon';
+import { GenerationSetting } from '../generation-setting';
+import { Draw } from './land/draw';
 import type { Contact, Region, Settlement } from './region-writer';
 
 // Who in a generated region would go along with a company: the traveller at each inn, whose calling is a class (a
@@ -7,7 +9,8 @@ import type { Contact, Region, Settlement } from './region-writer';
 // cheapest, so a company of one is never long alone.
 export class RegionRecruits {
   static readonly classes: Record<string, string> = { drover: 'warrior', tinker: 'thief', pilgrim: 'cleric',
-    pedlar: 'bard', 'charcoal-burner': 'ranger', 'eel-catcher': 'ranger', trapper: 'ranger' };
+    pedlar: 'bard', 'charcoal-burner': 'ranger', 'eel-catcher': 'ranger', trapper: 'ranger', minstrel: 'bard',
+    scholar: 'mage', soldier: 'warrior', mason: 'warrior' };
   static readonly brings: Record<string, string> = {
     drover: 'Took a drove over the hills and came back with nothing but blisters and the price of a bed.',
     tinker: 'Mending pots. There are more locks than pots in this country, and they pay better.',
@@ -15,7 +18,20 @@ export class RegionRecruits {
     pedlar: 'Ribbons, pins and news. The news sells best.',
     'charcoal-burner': 'The burn is done and the charcoal sold. I have a month before the next.',
     'eel-catcher': 'The eels are not running. Nothing is, this season.',
-    trapper: 'The furs are sold, and the snow is late.' };
+    trapper: 'The furs are sold, and the snow is late.',
+    minstrel: 'Playing for my supper. The suppers have been thin, this side of the hills.',
+    scholar: 'Copying the old inscriptions, for a library that may not want them. It is the copying I like.',
+    soldier: 'My company was paid off at midsummer. I have a sword, a bad knee and no reason to be anywhere.',
+    mason: 'Walls. There is always somebody whose wall has fallen down, and they always want it by market day.' };
+  // Each settlement's traveller follows a different calling, where the country has callings enough: two pilgrims in
+  // one country would have the same things to say.
+  static distinct(region: Region, seed: string): Region {
+    const tables = GenerationSetting.tables as unknown as { travellerCalling: { groups: Record<string, string[]> } };
+    const pool = tables.travellerCalling.groups[region.terrain] ?? [];
+    if (!pool.length) { return region; }
+    const order = new Draw(`${seed}:${region.name}:callings`).shuffle(pool);
+    return { ...region, settlements: region.settlements.map((s, i) => ({ ...s, calling: order[i % order.length]! })) };
+  }
   // Why the company has come, said as it arrives, as a module of its own so it stands apart from the town: each
   // member an old acquaintance sent word to, and what of; a company of one is told that the travellers at the inns are
   // looking for work. Nothing is a task: it is what they came for.

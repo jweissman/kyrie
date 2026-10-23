@@ -180,7 +180,7 @@ export class WorldAssembler {
   static lay(drawn: Region, seed: string, world = seed, taken: string[] = []): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
       { tongue: PlaceNames.tongues[drawn.ancestry] ?? 'westron', taken: [drawn.name] });
-    const region = Livelihoods.seat(drawn, atlas, seed);
+    const region = RegionRecruits.distinct(Livelihoods.seat(drawn, atlas, seed), seed);
     const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas,
       { world: RandomStreams.key(world, 'world', 'history'), taken });
     // The region's sites are its makers' works, where their art put them.
