@@ -25,6 +25,13 @@ the deploy of 82f62fe:
 - the first move takes about a quarter of a second; no page errors;
 - after a reload, the title offers to continue where the company was (the game kept in the browser, packed).
 
+Against the deploy of 12c87a9 (2026-10-23, Mission 11's book), at 820×1180 and 1180×820:
+
+- the title page is ready in 1.2–1.5 s;
+- a generated world (`?world=a1`) is drawn and started in 2.8 s;
+- the first move takes about a quarter of a second, and there are no page errors;
+- the four origins a1 holds are offered, and the book's groups (Speak, Go, Set out, Yourself) are served.
+
 This is Chromium with touch emulation, not Safari on an iPad: the gestures, Safari's own storage limits and its
 text rendering still want a real device.
 
