@@ -80,7 +80,7 @@
   Observe {w}_end_scene at {w}_end when true "The upper chamber is high and narrow, a beehive of stone. One of the dead lies alone on a slab, laid down last and laid down carefully. In the floor a square opening goes down into the dark, and cold comes up out of it.".
   Observe {w}_right_scene at {w}_right when true "Below the upper chamber, a second chamber, older, cut down into the rock itself. The bones here are heaped as if swept aside. Pots stand along the wall, sealed.".
 --- sign flute 1 if greatart
-  Observe {w}_answered at {w}_passage when state({w}_flute_bone, played) "Then, from very far off, faint as breath, another flute answers: from {greatwhere}, where the greatest of the barrows of {epithet} must lie." teaches {greatfound}.
+  Observe {w}_answered at {w}_passage as revelation when state({w}_flute_bone, played) "Then, from very far off, faint as breath, another flute answers: from {greatwhere}, where the greatest of the barrows of {epithet} must lie." teaches {greatfound}.
 --- successors robbed 2
   Observe {w}_robbed at {w}_right when true "The kingdom of {successors} knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.".
   Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 0.

@@ -52,9 +52,10 @@ export class Intentions {
     });
     return choices.length ? [{ id, title, tone: subjects[0]!.tone, glyph: subjects[0]!.glyph, choices }] : [];
   }
+  // Only a bare verb ("Take", "Look closely") wants its object said; anything longer says what it is done to already.
   private static with(label: string, name: string): string {
     const bare = name.replace(/^(a|an|the|some) /i, '').toLowerCase();
-    return label.toLowerCase().includes(bare) ? label : `${label} ${name}`;
+    return label.split(' ').length > 2 || label.toLowerCase().includes(bare) ? label : `${label} ${name}`;
   }
   private static about(s: Section, c: Choice): Partial<Choice> {
     const about = [c.about, s.about].filter(Boolean).join(' ');

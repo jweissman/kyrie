@@ -80,7 +80,7 @@
     State followed "You know now which way the vein runs, and the old cuts with it.".
     Change follow "Follow the vein with a light, as far as it goes" from unfollowed to followed.
   }
-  Observe {w}_lode_led at {w}_vein when state({w}_lode, followed) "Past the end of the gallery the Delvers went on after the vein in a crawl no wider than a body, and cut their sign for deeper into the rock every few yards. You follow the signs until the crawl closes, and by then you know which way they were all going: toward {greatseen} in {greatwhere}." teaches {greatfound}.
+  Observe {w}_lode_led at {w}_vein as revelation when state({w}_lode, followed) "Past the end of the gallery the Delvers went on after the vein in a crawl no wider than a body, and cut their sign for deeper into the rock every few yards. You follow the signs until the crawl closes, and by then you know which way they were all going: toward {greatseen} in {greatwhere}." teaches {greatfound}.
 --- successors miners 2
   Observe {w}_miners at {w}_adit when true "Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of {successors} took what it could reach. A crowbar lies where one of them left it.".
   Item {w}_crowbar "a miner's crowbar" is crowbar at {w}_adit.

@@ -176,7 +176,10 @@ export class Narrator {
     // Going somewhere is told by the place it brings you to: "You arrive at the old bank" adds nothing to it.
     const unique = lines.filter((l, i) => lines.findIndex(o => o.text === l.text) === i)
       .filter(l => !(told.moved && /^You arrive at /.test(l.text)));
-    const notes = [...feedback.resources, ...(spoken.length ? [] : feedback.discoveries.map(d => `Noted: ${this.gist(d)}`))];
+    // What was learned is noted, unless it has just been said.
+    const said = new Set(unique.map(l => l.text));
+    const notes = [...feedback.resources, ...(spoken.length ? [] : feedback.discoveries.filter(d => !said.has(d))
+      .map(d => `Noted: ${this.gist(d)}`))];
     return { ...told.said ? { said: told.said } : {}, lines: this.tidy(unique, fight), notes,
       tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
   }

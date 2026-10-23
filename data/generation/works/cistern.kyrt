@@ -24,7 +24,7 @@
     State turned "The bronze wheel has been wound round as far as it will go.".
     Change wind "Wind the sluice-wheel round" from fast to turned needing brawn or crowbar.
   }
-  Rule {w}_drains when state({w}_wheel, turned) and state({w}_water, flooded) says "Deep in the hill a gate grinds open. The black water in the hall begins to fall, and goes on falling, and the hall fills with the sound of it." { Assert state({w}_water, drained). }
+  Rule {w}_drains when state({w}_wheel, turned) and state({w}_water, flooded) says "Deep in the hill a gate grinds open. The black water begins to fall, and goes on falling, and the dark fills with the sound of it." { Assert state({w}_water, drained). }
   Thing {w}_marks "marks cut up a pillar" at {w}_hall {
     State unread "One pillar is cut with marks from the floor to as high as you can reach, each with a word beside it in the old script.".
     State read "Each mark is the height the water stood in a year the {epithet} kept it, and the word beside it is the year's name. There are hundreds. The last mark is the highest, and has no word.".
@@ -32,7 +32,7 @@
   }
   Observe {w}_marks_learned at {w}_hall when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.
   Item {w}_votive "{richname}" is {rich} at {w}_head.
-  Observe {w}_head_votive at {w}_head when true "Things glint in the bottom of the basin: offerings, left for the springs by people who meant them.".
+  Observe {w}_head_votive at {w}_head as feature when true "Things glint in the bottom of the basin: offerings, left for the springs by people who meant them.".
 --- shape stair 1 if shape0
   Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
   Place {w}_hall "the pillared hall" is room within {w}_site at 1, 0.
@@ -92,7 +92,7 @@
     State gazed "The water in the basin is only water again.".
     Change gaze "Look long into the still water" from still to gazed.
   }
-  Observe {w}_far_sight at {w}_head when state({w}_pool, gazed) "The still water shows the roof, and your own faces; and then neither, but {greatseen}, under a sky that is not this one, and water standing behind it as still as this. When the water lets it go you know the place: {greatwhere}." teaches {greatfound}.
+  Observe {w}_far_sight at {w}_head as revelation when state({w}_pool, gazed) "The still water shows the roof, and your own faces; and then neither, but {greatseen}, under a sky that is not this one, and water standing behind it as still as this. When the water lets it go you know the place: {greatwhere}." teaches {greatfound}.
 --- successors shrine 2
   Observe {w}_shrine at {w}_stair when true "Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the kingdom of {successors} kept the springs holy after the Wardens were gone. Offerings lie green on the altar.".
   Item {w}_coins "{commonname}" is {common} at {w}_stair.

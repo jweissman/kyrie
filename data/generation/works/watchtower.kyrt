@@ -64,7 +64,7 @@
   Observe {w}_top_scene at {w}_top when true "At the top of the standing wall the bronze ring is still on its pivot, though the rest of the tower has gone out from under it: as wide as a cart-wheel, pierced with sighting-holes and cut with marks. The wind tries it and cannot turn it.".
   Observe {w}_under_scene at {w}_undercroft when true "A hollow under the paving, where the floor has settled into an older room. Stone tablets lie in racks and out of them, hundreds, each cut close with the old script.".
 --- sign star 1 if greatart
-  Observe {w}_star at {w}_top when state({w}_ring, set) and dark() "Through the sighting-holes of the ring, set as its makers set it, one star stands low over {greatwhere}, where no star should be at this hour of the night. You watch it a long while. It does not move." teaches {greatfound}.
+  Observe {w}_star at {w}_top as revelation when state({w}_ring, set) and dark() "Through the sighting-holes of the ring, set as its makers set it, one star stands low over {greatwhere}, where no star should be at this hour of the night. You watch it a long while. It does not move." teaches {greatfound}.
 --- sight twin 1 if twin
   Observe {w}_sightline at {w}_top when state({w}_ring, set) "Through the sighting-holes, on a height to the {twinside}, there is another tower: {twinname}. The ring was made to see it." teaches {twin}_found.
   Observe {w}_sightname at {w}_top when state({w}_ring, set) "The mark cut beside that sight-line names it." teaches {twin}_named.
