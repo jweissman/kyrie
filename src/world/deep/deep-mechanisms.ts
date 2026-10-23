@@ -34,7 +34,9 @@ export class DeepMechanisms {
       `  Thing ${wall} "the wall across the stair" on ${l.id} {`,
       '    State standing blocking "A wall of dressed stone stands across the stair, built in a hurry, its mortar slopped and run.".',
       '    State broken "The wall across the stair lies in pieces on the steps, and the way down is open.".',
-      '    Change break "Break the wall down" from standing to broken needing brawn or crowbar.', '  }',
+      '    Change break "Break the wall down" from standing to broken needing brawn or crowbar.',
+      // Built back up from above, as whoever promised it would: never from below, walling the builder in.
+      `    Change rebuild "Build the wall back up across the stair" from broken to standing needing brawn at ${l.a}.`, '  }',
       `  Thing ${cut} "the words cut in the wall" at ${l.a} {`,
       `    State unread ${q(`Words are cut deep into the stones of the wall, in the old script. Someone who reads the old script could say what they mean.`)}.`,
       `    State read ${q(`${words.oldup} SHUT THIS. WE WENT TOO FAR DOWN, AND WHAT WE FOUND WE LEFT THERE. ${words.fate.toUpperCase()}${words.bane ? ` ${words.bane}` : ''}`)}.`,
