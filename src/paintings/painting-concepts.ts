@@ -68,6 +68,8 @@ export class PaintingConcepts {
     if (this.objects.includes(id)) { return { kind: 'object', ...extra }; }
     const worded = family ?? this.families.find(([, re]) => re.test(id))?.[0];
     if (worded) { return { kind: 'person', family: worded, ...extra }; }
+    // A concept a settlement's work is shown by is someone at that work (a reeve), whatever its word.
+    if (occupations) { return { kind: 'person', ...extra }; }
     return { kind: 'idea', ...extra };
   }
   private static count(entries: Painting[], f: (p: Painting) => string): Map<string, number> {

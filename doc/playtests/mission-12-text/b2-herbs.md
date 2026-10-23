@@ -28,7 +28,7 @@ Harbek is sitting on the bank with a line in the water, not catching anything wi
 
 Dagny is sitting on the edge of the green mending a pot, with her wares spread on a blanket.
 
-Bess, the inn’s dog, lies across the doorstep of the Laughing Skull with her chin on her paws, and watches who comes.
+Bess, the inn’s dog, noses along the foot of the wall of the Laughing Skull, busy with something only she can smell.
 
 Here are Barendd, a mother with a sick child; and Thoradin, the sick child’s elder sister.
 
@@ -89,9 +89,9 @@ Kestra is grinding something in a stone mortar, sniffing it now and then.
 
 Cobble is crying wares to nobody in particular: pots mended, knives ground, news for nothing.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
-Smut, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Smut, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 **8. Take the way to the wright's yard to the wright's yard**
 
@@ -121,9 +121,9 @@ Kestra is grinding something in a stone mortar, sniffing it now and then.
 
 Cobble is crying wares to nobody in particular: pots mended, knives ground, news for nothing.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
-Smut, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Smut, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 **11. Look closely at the lockup door**
 
@@ -151,7 +151,7 @@ Nothing comes, and nothing changes. The hours go by.
 
 A plank door, barred on the outside.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
 Two green eyes on a wall-top are Smut, the cat, who sees you better than you see her.
 
@@ -169,7 +169,7 @@ Ramavor is shuttered for the night. A lamp burns over the door of the Hidden Mas
 
 A plank door, barred on the outside.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
 Two green eyes on a wall-top are Smut, the cat, who sees you better than you see her.
 
@@ -187,7 +187,7 @@ Ramavor is shuttered for the night. A lamp burns over the door of the Hidden Mas
 
 A plank door, barred on the outside.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
 Two green eyes on a wall-top are Smut, the cat, who sees you better than you see her.
 
@@ -227,7 +227,7 @@ Ramavor is shuttered for the night. A lamp burns over the door of the Hidden Mas
 
 A plank door, barred on the outside.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
 Two green eyes on a wall-top are Smut, the cat, who sees you better than you see her.
 
@@ -245,7 +245,7 @@ The sun is warm on the green.
 
 Lambs cry in the home fields, and the ground is soft from the thaw.
 
-Smut, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Smut, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 **29. Listen at the lockup door**
 
@@ -291,7 +291,7 @@ Ramavor is shuttered for the night. A lamp burns over the door of the Hidden Mas
 
 A plank door, barred on the outside.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
 Two green eyes on a wall-top are Smut, the cat, who sees you better than you see her.
 
@@ -337,9 +337,9 @@ Kestra is grinding something in a stone mortar, sniffing it now and then.
 
 Cobble is crying wares to nobody in particular: pots mended, knives ground, news for nothing.
 
-Tib, the inn’s dog, lies across the doorstep of the Hidden Mask with her chin on her paws, and watches who comes.
+Tib, the inn’s dog, sleeps against the wall of the Hidden Mask with one ear up for the door.
 
-Smut, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Smut, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 **43. Take the path up onto Zhargeithhar to the foot of Zhargeithhar by Ramavor**
 

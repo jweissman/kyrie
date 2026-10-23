@@ -26,7 +26,7 @@ Emmot is crying wares to nobody in particular: pots mended, knives ground, news 
 
 Lambert is forking hay to the cows, who watch him do it without any gratitude.
 
-Bran, the inn’s dog, lies across the doorstep of the Laughing Flame with her chin on her paws, and watches who comes.
+Bran, the inn’s dog, noses along the foot of the wall of the Laughing Flame, busy with something only she can smell.
 
 Clover, Lambert’s cow, is never far from Lambert.
 
@@ -98,7 +98,7 @@ Emmot is crying wares to nobody in particular: pots mended, knives ground, news 
 
 Lambert is forking hay to the cows, who watch him do it without any gratitude.
 
-Bran, the inn’s dog, lies across the doorstep of the Laughing Flame with her chin on her paws, and watches who comes.
+Bran, the inn’s dog, noses along the foot of the wall of the Laughing Flame, busy with something only she can smell.
 
 Clover, Lambert’s cow, is never far from Lambert.
 
@@ -122,7 +122,7 @@ The light goes. It is dark.
 
 ### Merscheald green — Day 1, 9:10 p.m.
 
-Bran, the inn’s dog, lies across the doorstep of the Laughing Flame with her chin on her paws, and watches who comes.
+Bran, the inn’s dog, noses along the foot of the wall of the Laughing Flame, busy with something only she can smell.
 
 Clover, Lambert’s cow, is never far from Lambert.
 
@@ -151,7 +151,7 @@ Time passes.
 
 Merscheald is shuttered for the night. A lamp burns over the door of the Laughing Flame.
 
-Bran, the inn’s dog, lies across the doorstep of the Laughing Flame with her chin on her paws, and watches who comes.
+Bran, the inn’s dog, noses along the foot of the wall of the Laughing Flame, busy with something only she can smell.
 
 Clover, Lambert’s cow, is never far from Lambert.
 
@@ -183,7 +183,7 @@ An hour passes.
 
 Merscheald is shuttered for the night. A lamp burns over the door of the Laughing Flame.
 
-Bran, the inn’s dog, lies across the doorstep of the Laughing Flame with her chin on her paws, and watches who comes.
+Bran, the inn’s dog, noses along the foot of the wall of the Laughing Flame, busy with something only she can smell.
 
 Clover, Lambert’s cow, is never far from Lambert.
 
@@ -209,7 +209,7 @@ Nothing comes, and nothing changes. The hours go by.
 
 Merscheald is a town of narrow lanes round a broad green, with eel-traps stacked against every wall. It grew up beside the Sealtbrōc. It looks out over Haseclaene. Next to the Laughing Flame is the shrine of Belenus, so close that the inn’s smoke goes over its roof.
 
-Bran, the inn’s dog, lies across the doorstep of the Laughing Flame with her chin on her paws, and watches who comes.
+Bran, the inn’s dog, noses along the foot of the wall of the Laughing Flame, busy with something only she can smell.
 
 Clover, Lambert’s cow, is never far from Lambert.
 
@@ -384,7 +384,7 @@ Emmot is crying wares to nobody in particular: pots mended, knives ground, news 
 
 Lambert is forking hay to the cows, who watch him do it without any gratitude.
 
-Bran, the inn’s dog, lies across the doorstep of the Laughing Flame with her chin on her paws, and watches who comes.
+Bran, the inn’s dog, noses along the foot of the wall of the Laughing Flame, busy with something only she can smell.
 
 Clover, Lambert’s cow, is never far from Lambert.
 

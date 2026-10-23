@@ -24,7 +24,12 @@ describe('the painting corpus', () => {
   });
   it('has a painting for every kind of work a settlement holds', () => {
     for (const o of Object.values((occupations as { occupations: Record<string, { painting: string }> }).occupations)) {
-      expect(Likeness.ids.has(o.painting)).toBe(true);
+      expect(Likeness.people.has(o.painting)).toBe(true);
     }
+  });
+  it('shows beside someone only a painting of someone: the drover\'s son is not a herd in a field', () => {
+    expect(Likeness.of({ role: 'the drover\'s son' })).toBeUndefined();
+    expect(Likeness.of({ profession: 'blacksmith' })).toBe('blacksmith');
+    for (const id of Likeness.people) { expect(Likeness.ids.has(id)).toBe(true); }
   });
 });

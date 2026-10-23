@@ -7,6 +7,15 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { GeneratedWorld } from './support/generated';
 
 class Worlds {
+  // The country's files, without who comes into it, for a protagonist of an origin and a calling.
+  static async country(origin: string, classId: string): Promise<string[]> {
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,
+      { origin, party: [{ name: origin === 'kin' ? 'Osric' : 'Wenna', raceId: 'human', classId: classId as 'mage' }] });
+    const manifest = JSON.parse(await w.source.read(w.path.replace('.campaign.json', '/region/module.json'))) as
+      { source: string[] };
+    return Promise.all(manifest.source.filter(f => f !== 'company.kyr')
+      .map(f => w.source.read(w.path.replace('.campaign.json', `/region/${f}`))));
+  }
   static assemble(seed: string, terrain?: string) {
     return WorldAssembler.assemble(seed, NodeBundleSource.shared, terrain ? { region: { terrain } } : {});
   }
@@ -28,6 +37,11 @@ describe('a generated region with situated scenarios', () => {
     expect(a.report).toEqual(b.report);
     expect(await a.source.read(a.path)).toBe(await b.source.read(b.path));
   });
+  it('is the same country whoever comes into it: only who comes, and where, is written apart', async () => {
+    const [wanderer, kin] = await Promise.all([Worlds.country('wanderer', 'warrior'), Worlds.country('kin', 'mage')]);
+    expect(wanderer.length).toBeGreaterThan(1);
+    expect(kin).toEqual(wanderer);
+  }, 60000);
   it('selects scenarios by the contexts they declare, places each once, and spreads word of each in two towns', async () => {
     const upland = await Worlds.assemble('thorn', 'mountain'), fen = await Worlds.assemble('thorn', 'marsh');
     expect(upland.report.eligibility.find(e => e.scenario === 'brood-hollow')!.fits).toBe(true);

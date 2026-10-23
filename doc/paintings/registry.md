@@ -21,8 +21,8 @@ for the game in `web/reader/paintings`. The registry is `data/paintings/registry
 
 | Kind | Paintings |
 |---|---:|
-| person | 474 |
-| idea | 143 |
+| person | 475 |
+| idea | 142 |
 | event | 62 |
 | place | 60 |
 | creature | 44 |

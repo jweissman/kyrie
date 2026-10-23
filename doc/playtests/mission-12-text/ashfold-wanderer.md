@@ -28,7 +28,7 @@ Hochtún is shuttered for the night. A lamp burns over the door of the Wooden Ch
 
 The bell is gone from its frame over the well. ‘Hobs,’ people say, and spit, and nobody has gone after it.
 
-Storm, the inn’s dog, lies across the doorstep of the Wooden Chalice with her chin on her paws, and watches who comes.
+Storm, the inn’s dog, sits by the door of the Wooden Chalice as if she kept it.
 
 **4. Take the way to the wright's yard to the wright's yard**
 
@@ -48,7 +48,7 @@ Hochtún is shuttered for the night. A lamp burns over the door of the Wooden Ch
 
 The bell is gone from its frame over the well. ‘Hobs,’ people say, and spit, and nobody has gone after it.
 
-Storm, the inn’s dog, lies across the doorstep of the Wooden Chalice with her chin on her paws, and watches who comes.
+Storm, the inn’s dog, sits by the door of the Wooden Chalice as if she kept it.
 
 **7. Wait and watch**
 
@@ -85,7 +85,7 @@ Hollin is crying wares to nobody in particular: pots mended, knives ground, news
 
 Alma is hanging bunches of something grey-green to dry from a line under the eaves.
 
-Storm, the inn’s dog, lies across the doorstep of the Wooden Chalice with her chin on her paws, and watches who comes.
+Storm, the inn’s dog, sits by the door of the Wooden Chalice as if she kept it.
 
 **10. Take the shrine porch in Hochtún to the shrine of Brigid**
 
@@ -123,7 +123,7 @@ Hollin is crying wares to nobody in particular: pots mended, knives ground, news
 
 Alma is hanging bunches of something grey-green to dry from a line under the eaves.
 
-Storm, the inn’s dog, lies across the doorstep of the Wooden Chalice with her chin on her paws, and watches who comes.
+Storm, the inn’s dog, sits by the door of the Wooden Chalice as if she kept it.
 
 **15. Take the path into Untemedwudu to the edge of Untemedwudu by Hochtún**
 
@@ -284,7 +284,7 @@ Carts stand about Hochtún green, and the lanes off it are loud, with peat stack
 
 The bell is gone from its frame over the well. ‘Hobs,’ people say, and spit, and nobody has gone after it.
 
-Storm, the inn’s dog, lies across the doorstep of the Wooden Chalice with her chin on her paws, and watches who comes.
+Storm, the inn’s dog, sits by the door of the Wooden Chalice as if she kept it.
 
 **37. Take the path into Untemedwudu to the edge of Untemedwudu by Hochtún**
 

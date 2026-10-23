@@ -116,13 +116,19 @@ export class Communities {
       b.kin = { to: a.id, as };
     }
   }
+  // How an inn's dog is about the place; each inn's its own way.
+  static readonly innDogs = [
+    '{Name}, the inn\'s dog, lies across the doorstep of {inn} with {their} chin on {their} paws, and watches who comes.',
+    '{Name}, the inn\'s dog, sleeps against the wall of {inn} with one ear up for the door.',
+    '{Name}, the inn\'s dog, sits by the door of {inn} as if {they} kept it.',
+    '{Name}, the inn\'s dog, noses along the foot of the wall of {inn}, busy with something only {they} can smell.'];
   // The animals about the place: the inn's dog, always; a household's animal where its work keeps one; a cat here
   // and there.
   private static animals(s: Settlement, residents: Resident[], draw: Draw): Animal[] {
     const out: Animal[] = [];
     const dog = this.animalName('dog', draw), inn = { id: `${s.id}_inndog`, species: 'dog', name: dog,
       pronoun: draw.chance(0.5) ? 'she' as const : 'he' as const, role: `the inn's dog`, at: `${s.id}_green`,
-      seen: `{Name}, the inn's dog, lies across the doorstep of ${s.inn} with {their} chin on {their} paws, and watches who comes.` };
+      seen: new Draw(`${s.name}:inn dog`).pick(this.innDogs).replace('{inn}', s.inn) };
     out.push(inn);
     for (const r of residents.filter(x => x.work.animal)) {
       const species = r.work.animal!, name = this.animalName(species, draw);
@@ -135,7 +141,7 @@ export class Communities {
       const r = draw.pick(residents);
       out.push({ id: `${s.id}_cat`, species: 'cat', name: this.animalName('cat', draw), pronoun: 'she', household: r.household,
         role: `the ${r.family}s' cat`, at: `${s.id}_green`,
-        seen: '{Name}, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.',
+        seen: '{Name}, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.',
         night: 'Two green eyes on a wall-top are {Name}, the cat, who sees you better than you see her.' });
     }
     return out;

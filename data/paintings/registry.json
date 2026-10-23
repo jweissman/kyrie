@@ -9834,7 +9834,7 @@
    "copy": "paintings/reeve.webp",
    "copyBytes": 8400,
    "concept": {
-    "kind": "idea",
+    "kind": "person",
     "occupations": [
      "reeve"
     ]

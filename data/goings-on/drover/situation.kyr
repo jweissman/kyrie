@@ -28,7 +28,11 @@ Module drover "The drover who did not come home" {
 
   // To one of the family the drover is a father, his wife a mother, his son a brother: they say other things.
   Observe wife_kin near wife when kin(party, wife) and not told(wife) "Your mother is at the hearth with her back to the room.".
-  Observe son_kin near son when kin(party, son) and not told(son) "Your brother is sitting on the rail of the green with your father's old spear across his knees. He is taller by a head than when you went away.".
+  Observe son_kin near son when kin(party, son) and not told(son) and at(son, green) "Your brother is sitting on the rail of the green with your father's old spear across his knees. He is taller by a head than when you went away.".
+  Observe son_kin_in near son when kin(party, son) and not told(son) and at(son, taproom) "Your brother sits by the kitchen fire with your father's old spear across his knees, not drinking. He is taller by a head than when you went away.".
+  // Until he has somewhere to go, the son keeps the green by day and comes in to his mother after dark.
+  Rule son_goes_in when dark() and at(son, green) and not willing(son, party) { Assert at(son, taproom). }
+  Rule son_comes_out when not dark() and at(son, taproom) and not willing(son, party) { Assert at(son, green). }
   Observe son_kin_ready near son when kin(party, son) and told(son) and not knows(party, found_cart) "Your brother is waiting by the rail with the spear, ready when you are.".
   Observe wife_kin_told near wife when kin(party, wife) and told(wife) "Your mother is at the hearth. She looks up when you come in, and goes back to her work.".
   Topic wife_where with wife "Ask your mother where he was going" when kin(actor, wife) and not told(wife) once {

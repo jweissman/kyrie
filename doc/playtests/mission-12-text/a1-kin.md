@@ -42,25 +42,29 @@ Patch lifts his head, decides you are no business of his, and puts it down again
 
 Murkstede is shuttered for the night. A lamp burns over the door of the Lucky Phoenix.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
 Two green eyes on a wall-top are Tib, the cat, who sees you better than you see her.
 
-Your brother is sitting on the rail of the green with your father’s old spear across his knees. He is taller by a head than when you went away.
-
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
 
-**7. Search Murkstede green**
+**7. Take the causeway to the causeway into Murkstede**
 
-You go over Murkstede green carefully. You find nothing out of the ordinary.
+### The causeway into Murkstede — Day 1, 10:20 p.m.
 
-**8. Make much of the grey dog**
+The causeway runs on its piles across the last of the fen, and at the end of it is Murkstede: low roofs against the sky, salt-houses black with tar, boats drawn up on the landing, smoke going straight up from the inn.
 
-You crouch and hold out a hand. The grey dog sniffs it carefully, then leans her whole weight against your knee while you scratch behind her ears.
+**8. Take the causeway to Murkstede green**
 
-Her coat is stiff with black ditch-mud to the belly.
+### Murkstede green — Day 1, 10:30 p.m.
 
-*Noted: The grey dog came home caked in black ditch-mud*
+Murkstede is shuttered for the night. A lamp burns over the door of the Lucky Phoenix.
+
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
+
+Two green eyes on a wall-top are Tib, the cat, who sees you better than you see her.
+
+A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
 
 **9. Wait an hour**
 
@@ -90,15 +94,11 @@ Wenna pays Mik, and takes a coil of rope.
 
 Murkstede is shuttered for the night. A lamp burns over the door of the Lucky Phoenix.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
 Two green eyes on a wall-top are Tib, the cat, who sees you better than you see her.
 
-Your brother is sitting on the rail of the green with your father’s old spear across his knees. He is taller by a head than when you went away.
-
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
-
-Her coat is stiff with black ditch-mud to the belly.
 
 **14. Take the shrine porch in Murkstede to the shrine of Nodens**
 
@@ -128,15 +128,13 @@ The sky greys, then lightens. It is morning.
 
 ### Murkstede green — Day 2, 6:10 a.m.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Tib, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 Your brother is sitting on the rail of the green with your father’s old spear across his knees. He is taller by a head than when you went away.
 
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
-
-Her coat is stiff with black ditch-mud to the belly.
 
 **20. Take the way to the home fields to the home fields**
 
@@ -162,22 +160,34 @@ An hour passes.
 
 Murkstede has a market cross on its green and a wall round half of it, with salt-houses black with tar along the shore. Boats are drawn up where the shore gives a landing. The sign of the Lucky Phoenix creaks over its door, and across the green the shrine of Nodens stands open.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Tib, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
 
-Her coat is stiff with black ditch-mud to the belly.
-
-**25. Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter**
+**25. Take the path into Eikwudu to the edge of Eikwudu by Murkstede**
 
 > You leave Murkstede late, with the light already going yellow.
-> For an hour the road runs under trees, and the light comes down green and broken through the leaves.
+
+### The edge of Eikwudu by Murkstede — Day 2, 7:50 p.m.
+
+Here Eikwudu begins: hazel and thorn at first, then oak, and the light under them goes green. Murkstede is behind you, out in the open.
+
+Yarrow grows in the grass at the wayside, flat white heads over feathery leaves: a soldier’s herb, for cuts.
+
+**26. Search the edge of Eikwudu by Murkstede**
+
+You go over the edge of Eikwudu by Murkstede carefully. You find nothing out of the ordinary.
 
 *ration: 1 → 0*
 
-### The road between Murkstede and Meóswaeter — Day 2, 8:30 p.m.
+**27. Take a track off the road into Eikwudu to the road between Murkstede and Meóswaeter**
+
+> You leave the edge of Eikwudu by Murkstede late, with the light already going yellow.
+> The road goes into the wood, and the wood closes over it, and for a long time there is nothing to see but the next bend.
+
+### The road between Murkstede and Meóswaeter — Day 2, 8:40 p.m.
 
 The road between Murkstede and Meóswaeter goes through scattered woods and the clearings of charcoal-burners. A snake swims across a channel with its head held up like a stick.
 
@@ -187,29 +197,17 @@ Willows lean out over the water along the road, grey-green, their roots in the b
 
 Meadowsweet grows thick along the wet ground, a froth of cream flowers that smells of almonds and honey.
 
-**26. Gather some willow bark for Wenna**
-
-Wenna gathers some willow bark.
-
-**27. Search the road between Murkstede and Meóswaeter**
-
-You go over the road between Murkstede and Meóswaeter carefully.
-
-Below the road, where the bank drops away, a cart lies on its side in the ditch with a man under it, a day or more dead. The oxen are gone; something had them, and dragged them off toward the hills. His knife is still in his belt.
-
-*Noted: The drover's cart went off the road in the…*
-
 **28. Take the road from Murkstede to Meóswaeter to Murkstede green**
 
-> You go out of the road between Murkstede and Meóswaeter into the dark, by what light there is.
-> The road runs between hedges and small fields, past a farm or two where dogs bark at you over the gate.
-> Murkstede shows ahead a long while before you reach it: smoke, a roofline, the noise of it on the wind.
+> You leave the road between Murkstede and Meóswaeter late, with the light already going yellow.
+> It is easy going through open country: a mill, a ford, a man ploughing who stops to watch you go by.
+> Night comes on while you are still on the road. An owl keeps pace with you for a while, and then thinks better of it.
 
-### Murkstede green — Day 2, 10:20 p.m.
+### Murkstede green — Day 2, 10:00 p.m.
 
 Murkstede is shuttered for the night. A lamp burns over the door of the Lucky Phoenix.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
 Two green eyes on a wall-top are Tib, the cat, who sees you better than you see her.
 
@@ -217,7 +215,7 @@ A grey dog lies by the inn door with her head on her paws, watching the road. Sh
 
 **29. Take the way to the wright's yard to the wright's yard**
 
-### The wright's yard — Day 2, 10:30 p.m.
+### The wright's yard — Day 2, 10:10 p.m.
 
 A yard of stacked timber under a lean-to, with sawdust underfoot and a half-made cart on trestles.
 
@@ -257,9 +255,9 @@ Avice is sitting on the edge of the green mending a pot, with her wares spread o
 
 Sibyl is hanging bunches of something grey-green to dry from a line under the eaves.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Tib, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
 
@@ -267,17 +265,35 @@ A grey dog lies by the inn door with her head on her paws, watching the road. Sh
 
 > ‘You cut it in spring and burn it in winter,’ says Aldith. ‘If you cut it in winter you’ll burn it in spring and freeze in winter.’
 
-**37. Take the way to the wright's yard to the wright's yard**
+**37. Take the way to the home fields to the home fields**
 
-### The wright's yard — Day 3, 7:50 a.m.
+### The home fields — Day 3, 7:50 a.m.
 
-A yard of stacked timber under a lean-to, with sawdust underfoot and a half-made cart on trestles.
+Strips of field run out from the backs of the houses, each a different green, with a headland of nettles between.
 
-Sabine is cutting a mortise, a chisel in one hand and the mallet in the other, a pencil behind one ear.
+Orabel is mending a gap in a hedge with a billhook and a good deal of muttering.
 
-**38. Take the way to the wright's yard to Murkstede green**
+**38. Give a lantern to Orabel**
 
-### Murkstede green — Day 3, 8:00 a.m.
+Wenna gives a lantern to Orabel.
+
+> ‘That’s the one,’ says Orabel, and pays you for it and a coin besides.
+
+Wenna: set down a lantern.
+
+*coin: 0 → 3*
+
+**39. Wait a while**
+
+Time passes.
+
+**40. Wait a while**
+
+Time passes.
+
+**41. Take the way to the home fields to Murkstede green**
+
+### Murkstede green — Day 3, 8:30 a.m.
 
 Murkstede has a market cross on its green and a wall round half of it, with salt-houses black with tar along the shore. Boats are drawn up where the shore gives a landing. The sign of the Lucky Phoenix creaks over its door, and across the green the shrine of Nodens stands open.
 
@@ -289,31 +305,20 @@ Avice is sitting on the edge of the green mending a pot, with her wares spread o
 
 Sibyl is hanging bunches of something grey-green to dry from a line under the eaves.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Tib, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
 
-**39. Wait an hour**
+**42. Take the old road west to the western edge of Merscfaenn**
 
-An hour passes.
+> You leave Murkstede with the sun low behind you and the dew still on the grass.
+> For an hour the road runs under trees, and the light comes down green and broken through the leaves.
 
-**40. Wait and watch**
+### The western edge of Merscfaenn — Day 3, 9:50 a.m.
 
-Nothing comes, and nothing changes. The hours go by.
-
-**41. Take the way to the home fields to the home fields**
-
-### The home fields — Day 3, 12:10 p.m.
-
-Strips of field run out from the backs of the houses, each a different green, with a headland of nettles between.
-
-Orabel is mending a gap in a hedge with a billhook and a good deal of muttering.
-
-**42. Search the home fields**
-
-You go over the home fields carefully. You find nothing out of the ordinary.
+A march-stone as tall as a man stands by the road. On this side it is cut with the sign of Merscfaenn; on the far side, with a sign you do not know. Beyond it the road goes on west into Fencarr, fen country, the folk say. Few of them have been.
 
 **43. Wait a while**
 
@@ -327,9 +332,13 @@ An hour passes.
 
 An hour passes.
 
-**46. Take the way to the home fields to Murkstede green**
+**46. Take the old road west to Murkstede green**
 
-### Murkstede green — Day 3, 2:50 p.m.
+> You set out from the western edge of Merscfaenn in the full of the afternoon, the road pale with dust.
+> Out on the fen the sky is enormous, and the only things standing up in all that flatness are you and a heron.
+> Murkstede shows ahead a long while before you reach it: smoke, a roofline, the noise of it on the wind.
+
+### Murkstede green — Day 3, 1:20 p.m.
 
 Murkstede has a market cross on its green and a wall round half of it, with salt-houses black with tar along the shore. Boats are drawn up where the shore gives a landing. The sign of the Lucky Phoenix creaks over its door, and across the green the shrine of Nodens stands open.
 
@@ -341,23 +350,21 @@ Avice is sitting on the edge of the green mending a pot, with her wares spread o
 
 Sibyl is hanging bunches of something grey-green to dry from a line under the eaves.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Tib, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
 
-**47. Ask Sibyl where willow grows**
+**47. Ask Sibyl about her work**
 
-> ‘Willow? By the water, same as everywhere,’ says Sibyl. ‘There’s a good stand on the road between Murkstede and Meóswaeter, and along the old bank. Strip the bark, not the wood.’
-
-*Noted: Willows grow by the water on the road between…*
+> ‘I’ve nothing left,’ says Sibyl. ‘Half Murkstede has had the cough. If you’re going anywhere damp, bring me back what grows there.’
 
 **48. Take the path into Eikwudu to the edge of Eikwudu by Murkstede**
 
 > You set out from Murkstede in the full of the afternoon, the road pale with dust.
 
-### The edge of Eikwudu by Murkstede — Day 3, 3:30 p.m.
+### The edge of Eikwudu by Murkstede — Day 3, 2:00 p.m.
 
 Here Eikwudu begins: hazel and thorn at first, then oak, and the light under them goes green. Murkstede is behind you, out in the open.
 
@@ -376,7 +383,7 @@ Wenna gathers a handful of yarrow.
 > You set out from the edge of Eikwudu by Murkstede in the full of the afternoon, the road pale with dust.
 > Murkstede shows ahead a long while before you reach it: smoke, a roofline, the noise of it on the wind.
 
-### Murkstede green — Day 3, 4:30 p.m.
+### Murkstede green — Day 3, 3:00 p.m.
 
 Murkstede has a market cross on its green and a wall round half of it, with salt-houses black with tar along the shore. Boats are drawn up where the shore gives a landing. The sign of the Lucky Phoenix creaks over its door, and across the green the shrine of Nodens stands open.
 
@@ -388,79 +395,80 @@ Avice is sitting on the edge of the green mending a pot, with her wares spread o
 
 Sibyl is hanging bunches of something grey-green to dry from a line under the eaves.
 
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
+Patch, the inn’s dog, sleeps against the wall of the Lucky Phoenix with one ear up for the door.
 
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
-
-A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
-
-**52. Take the way to the home fields to the home fields**
-
-### The home fields — Day 3, 4:40 p.m.
-
-Strips of field run out from the backs of the houses, each a different green, with a headland of nettles between.
-
-Orabel is mending a gap in a hedge with a billhook and a good deal of muttering.
-
-**53. Take the way to the home fields to Murkstede green**
-
-### Murkstede green — Day 3, 4:50 p.m.
-
-Murkstede has a market cross on its green and a wall round half of it, with salt-houses black with tar along the shore. Boats are drawn up where the shore gives a landing. The sign of the Lucky Phoenix creaks over its door, and across the green the shrine of Nodens stands open.
-
-Aldith is cleaning a long narrow spade, the turf-iron, with a handful of grass.
-
-Edda is driving a gaggle of geese along the edge of the green with a willow switch, and the geese are winning.
-
-Avice is sitting on the edge of the green mending a pot, with her wares spread on a blanket.
-
-Sibyl is hanging bunches of something grey-green to dry from a line under the eaves.
-
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
-
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
+Tib, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.
 
 A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
 
-**54. Wait an hour**
+**52. Take the road from Murkstede to Meóswaeter to the road between Murkstede and Meóswaeter**
 
-An hour passes.
+> You set out from Murkstede in the full of the afternoon, the road pale with dust.
+> For an hour the road runs under trees, and the light comes down green and broken through the leaves.
 
-**55. Take the way to the home fields to the home fields**
+### The road between Murkstede and Meóswaeter — Day 3, 4:20 p.m.
 
-### The home fields — Day 3, 6:00 p.m.
+The road between Murkstede and Meóswaeter goes through scattered woods and the clearings of charcoal-burners. A snake swims across a channel with its head held up like a stick.
 
-Strips of field run out from the backs of the houses, each a different green, with a headland of nettles between.
+Fresh ruts run off the edge of the road here, where the bank drops away.
+
+Willows lean out over the water along the road, grey-green, their roots in the bank and their long shoots trailing in the current.
+
+Meadowsweet grows thick along the wet ground, a froth of cream flowers that smells of almonds and honey.
+
+**53. Gather some willow bark for Wenna**
+
+Wenna gathers some willow bark.
+
+**54. Wait a while**
+
+Time passes.
+
+**55. Take the track to a broken keep to a broken keep**
+
+> You set out from the road between Murkstede and Meóswaeter in the full of the afternoon, the road pale with dust.
+> The road runs between hedges and small fields, past a farm or two where dogs bark at you over the gate.
+
+Ísencepan: a broken keep in the fen north-west of Meóswaeter.
+
+### Ísencepan — Day 3, 5:10 p.m.
+
+A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth. A curtain wall ran round it once; some of it still does. The gate faces the road. Over the gate a shield is cut in the stone, a tower with a star over it, and under the shield the keep’s name in the kingdom’s letters, which anyone who reads at all can read: ÍSENCEPAN.
+
+This is Ísencepan.
+
+Wolf-sign all round the gate: scats, bones dragged out and left, and the deep prints of a big dog-wolf.
+
+A snake suns itself on a fallen stone.
 
 **56. Wait a while**
 
 Time passes.
 
-**57. Wait an hour**
-
-An hour passes.
-
-**58. Take the way to the home fields to Murkstede green**
-
-### Murkstede green — Day 3, 7:20 p.m.
-
-Murkstede has a market cross on its green and a wall round half of it, with salt-houses black with tar along the shore. Boats are drawn up where the shore gives a landing. The sign of the Lucky Phoenix creaks over its door, and across the green the shrine of Nodens stands open.
-
-Patch, the inn’s dog, lies across the doorstep of the Lucky Phoenix with his chin on his paws, and watches who comes.
-
-Tib, a cat, sits on a warm wall-top in the sun with her eyes shut, which does not mean she is not watching.
-
-A grey dog lies by the inn door with her head on her paws, watching the road. She holds one forefoot off the ground.
-
-**59. Take the shrine porch in Murkstede to the shrine of Nodens**
-
-### The shrine of Nodens — Day 3, 7:30 p.m.
-
-A humble fountain of Nodens, God of Nature: a well-head with a carved lip, the water close under it. Garlands of whatever is in flower hang on it, and are changed when they wilt. It is older than Murkstede: the first settlers found it standing in the fen and built around it. Offerings of salt lie before it.
-
-Eogan, the priest of Nodens, is here.
-
-**60. Wait and watch**
+**57. Wait and watch**
 
 Nothing comes, and nothing changes. The hours go by.
+
+**58. Search Ísencepan**
+
+You go over Ísencepan carefully. You find nothing out of the ordinary.
+
+**59. Wait until dark**
+
+The light goes. It is dark.
+
+**60. Take the track to Ísencepan to the road between Murkstede and Meóswaeter**
+
+> You go out of Ísencepan into the dark, by what light there is.
+> For an hour the road runs under trees, and the light comes down green and broken through the leaves.
+
+### The road between Murkstede and Meóswaeter — Day 3, 9:30 p.m.
+
+The road between Murkstede and Meóswaeter goes through scattered woods and the clearings of charcoal-burners. A snake swims across a channel with its head held up like a stick.
+
+Fresh ruts run off the edge of the road here, where the bank drops away.
+
+Willows lean out over the water along the road, grey-green, their roots in the bank and their long shoots trailing in the current.
+
+Meadowsweet grows thick along the wet ground, a froth of cream flowers that smells of almonds and honey.
 

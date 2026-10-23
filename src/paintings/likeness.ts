@@ -5,6 +5,8 @@ import likeness from '../../data/paintings/likeness.json';
 // their work, their background, or the word their role names them by.
 export class Likeness {
   static readonly ids = new Set((likeness as { ids: string[] }).ids);
+  // Those of someone: only these are shown beside a person (the drover's son is not shown as a herd in a field).
+  static readonly people = new Set((likeness as unknown as { people: string[] }).people);
   static readonly credits = (likeness as { credits: Record<string, string> }).credits;
   // Works of the same name, said differently by Orsino's backgrounds and the painters.
   static readonly synonyms: Record<string, string> = { smith: 'blacksmith', woodworker: 'carpenter', herdsman: 'shepherd',
@@ -16,7 +18,7 @@ export class Likeness {
   static of(at: { own?: string; background?: string; profession?: string; role?: string }): string | undefined {
     const tries = [at.own, at.profession, at.background, ...this.words(at.role ?? '')].filter((t): t is string => !!t);
     for (const t of tries) {
-      for (const id of [t, this.synonyms[t], t.replace(/_/g, '-')]) { if (id && this.ids.has(id)) { return id; } }
+      for (const id of [t, this.synonyms[t], t.replace(/_/g, '-')]) { if (id && this.people.has(id)) { return id; } }
     }
     return undefined;
   }
