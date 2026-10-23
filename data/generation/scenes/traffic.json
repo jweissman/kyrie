@@ -1,5 +1,5 @@
 {
-  "about": "Who is on the roads: one traveller to a road, going from one end of it to the other by day and back the next, and spending the night where travellers are kept. Each kind of traveller says where they are going and why, carries what news there is of where they came from, and may have a trouble on the road a company could help with, or something to sell. {Name} is the traveller; {they} {their} {them} the words they are spoken of in; {to} where they are going and {from} where they have come from; {life} what goes on at the place they came from; {gossip} something said there; {seen}, {where} and {near} a place off the road, where it is and the settlement it is near.",
+  "about": "Who is on the roads: one traveller to a road, going from one end of it to the other by day and back the next, and spending the night where travellers are kept. Each kind of traveller says where they are going and why, carries what news there is of where they came from, and may have a trouble on the road a company could help with, or something to sell. {Name} is the traveller; {they} {their} {them} the words they are spoken of in; {to} where they are going and {from} where they have come from; {life} what goes on at the place they came from; {gossip} something said there; {seen} a place off the road and where it is, and {near} the settlement it is near.",
   "kinds": {
     "carrier": {
       "role": "carrier", "background": "laborer", "painting": "peasant",
@@ -78,8 +78,8 @@
     "market": ["Prices are up, and everyone says it's the roads.", "There's a man at the market selling a cure for everything. He looks ill."]
   },
   "knows": [
-    "'Past {near}, you mean?' says {Name}. 'There's {seen} out in {where}. I go round it, and so would you if you had any sense. So you'll be going there, then.'",
-    "'Nothing on this road worth stopping for,' says {Name}. 'Off it, now: {seen} in {where}. They say there's something there. They say a lot of things.'"
+    "'Past {near}, you mean?' says {Name}. 'There's {seen}. I go round it, and so would you if you had any sense. So you'll be going there, then.'",
+    "'Nothing on this road worth stopping for,' says {Name}. 'Off it, now: {seen}. They say there's something there. They say a lot of things.'"
   ],
   "deeds": "'Word's going round,' says {Name}, 'that some stranger's been making themselves useful. Folk notice that. Folk talk about it, too, more than's good for anybody.'"
 }

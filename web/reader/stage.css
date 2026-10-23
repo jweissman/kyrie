@@ -154,6 +154,11 @@
   color: rgba(243, 239, 230, .1); }
 .stage .dialogue { padding: 40px clamp(24px, 4vw, 60px) 48px; display: flex; flex-direction: column; min-height: 100dvh; }
 .stage .lines { flex: 1; margin-top: 34px; max-width: 36em; }
+@media (min-width: 861px) {
+  /* At a desk the conversation keeps its replies in view: what has been said scrolls above them. */
+  .stage .dialogue { height: 100dvh; min-height: 0; }
+  .stage .lines { overflow-y: auto; min-height: 0; padding-right: 12px; scrollbar-width: thin; }
+}
 .stage .line { font: 400 22px/1.5 var(--text); margin: 0 0 20px; }
 .stage .line.telling, .stage .line.event, .stage .line.change { font-style: italic; font-size: 19px; color: var(--grey); }
 .stage .line.you { font: 500 16px/1.4 var(--display); color: var(--accent); margin: 8px 0 10px; }

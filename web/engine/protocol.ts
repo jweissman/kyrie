@@ -71,7 +71,8 @@ export type Request =
   | { kind: 'preview'; party: Member[]; generated: boolean }
   | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
     memorial?: Memorial }
-  | { kind: 'resume'; saved: string }
+  // A kept game, with the world it was played in when that is kept apart from it (see KeptGame).
+  | { kind: 'resume'; saved: string; world?: string }
   | { kind: 'perform'; command: string; said: string; move: boolean; named?: boolean }
   // A companion's choice in a fight ("ability>target"); none lets them fight this turn on their own.
   | { kind: 'fight'; choice?: string }
@@ -84,5 +85,6 @@ export type Message =
   | { kind: 'frame'; frame: Frame }
   // The game to keep in this browser, once a command is done (sent after its frame, so play does not wait on it):
   // packed small (see SaveCodec), with what the title page says of it.
-  | { kind: 'saved'; save: string; summary: SaveSummary }
+  // The game kept after a command: its state, and its world the first time it is kept or after it changes.
+  | { kind: 'saved'; save: string; summary: SaveSummary; world?: { key: string; text: string } }
   | { kind: 'progress'; stage: string };

@@ -15,7 +15,8 @@ import { Told } from './told';
 export class RoadStage {
   static View({ app, route }: { app: ReaderApp; route: Route }) {
     const s = app.state, frame = s.frame!, scene = app.menu.scene!, draw = Act.draw(app);
-    const ways = [...scene.near, ...scene.far], by = scene.subjects;
+    // Who and what is by the road; its animals and whoever is with you are along the foot, as anywhere.
+    const ways = [...scene.near, ...scene.far], by = scene.subjects.filter(x => !['animal', 'companion'].includes(x.kind));
     return (
       <div className="road" id="page">
         <Stage.Status frame={frame} extra="On the road" />
@@ -52,8 +53,8 @@ export class RoadStage {
     const bands = route.bands.filter((b, i) => i === 0 || b.label !== route.bands[i - 1]!.label || b.to - b.from > 0.05);
     return (
       <div className="strip" aria-hidden="false">
-        <p className="end from">{Typography.curl(route.from.destination.name)}</p>
-        <p className="end to">{Typography.curl(route.to.destination.name)}</p>
+        <p className="end from">{Typography.curl(Words.upper(route.from.destination.name))}</p>
+        <p className="end to">{Typography.curl(Words.upper(route.to.destination.name))}</p>
         <div className="line">
           {bands.map((b, i) => <span key={i} className={`band c-${RoadStage.covers[b.cover] ?? 'open'}`}
             style={{ left: `${b.from * 100}%`, width: `${(b.to - b.from) * 100}%` }}>
@@ -73,7 +74,7 @@ export class RoadStage {
       <div className={`end-way${back ? ' back' : ''}`}>
         <small>{[exit.way, go.note].filter(Boolean).join(' · ')}</small>
         <Act.View choice={go} draw={draw} className="onward-act">
-          {back ? '← ' : ''}{Typography.curl(exit.destination.name)}{back ? '' : ' →'}</Act.View>
+          {back ? '← ' : ''}{Typography.curl(Words.upper(exit.destination.name))}{back ? '' : ' →'}</Act.View>
         {rest.map(c => <Act.View key={c.id} choice={c} draw={draw} className="door-also" />)}
       </div>
     );

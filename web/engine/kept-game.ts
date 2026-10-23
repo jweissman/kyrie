@@ -1,0 +1,77 @@
+import type { SessionCheckpoint } from '../../src/session/play-session';
+import type { CampaignSave } from '../../src/campaign/campaign-types';
+import type { Call, WorldState } from '../../src/lang/module';
+import type { Entry } from './protocol';
+
+// A game as the browser keeps it. What the company has done and where it stands changes with every command and is
+// kept after each; the world it does it in (the compiled module, the campaign's definition, and every fact as it stood
+// when that world was first kept) changes only when the country grows (a march crossed, a country beyond drawn), and
+// is kept once, under a key made from its contents. The state names the world it belongs to, and holds only what
+// differs from it. A save file taken elsewhere is still the whole game in one.
+export interface WorldPart { module: CampaignSave['module']; definition?: CampaignSave['definition']; base?: Call[] }
+// What differs from the facts a world was kept with, in the order the world holds them: the kept facts the world still
+// holds untouched stay where they were; every fact asserted since follows, in the order it was asserted. So a world
+// put back together holds its facts in exactly the order it did (an order rules can see).
+export interface Facts { removed: number[]; tail: Call[]; measures: WorldState['measures'] }
+type State = CampaignSave['state'];
+export interface KeptState {
+  version: 2; world: string; log?: Entry[];
+  checkpoint: Omit<SessionCheckpoint, 'save'> & {
+    save: Omit<CampaignSave, 'module' | 'definition' | 'state'> & { state: Omit<State, 'world'>; facts: Facts } };
+}
+export interface Whole { checkpoint: SessionCheckpoint; log?: Entry[] }
+// A world as the host holds it while it plays: its part, its key, and where each of its facts stood.
+export interface Keyed { key: string; part: WorldPart; index: Map<string, number> }
+
+export class KeptGame {
+  static keyed(checkpoint: SessionCheckpoint): Keyed & { text: string } {
+    const save = checkpoint.save, base = save.state.world.relations;
+    const part: WorldPart = { module: save.module, ...save.definition ? { definition: save.definition } : {}, base };
+    const text = JSON.stringify(part);
+    return { key: this.key(text), part, index: this.index(base), text };
+  }
+  static index(base: Call[]): Map<string, number> { return new Map(base.map((c, i) => [this.fact(c), i])); }
+  // A checkpoint as kept: its state, with the world's key, and its facts as they differ from the world's.
+  static split(checkpoint: SessionCheckpoint, world: Keyed, log: Entry[]): KeptState {
+    const save = checkpoint.save, { world: facts, ...state } = save.state;
+    return { version: 2, world: world.key, log, checkpoint: { ...checkpoint, save: { version: save.version,
+      ...save.actionFormat ? { actionFormat: save.actionFormat } : {}, state, creatures: save.creatures,
+      events: save.events, encounter: save.encounter, observations: save.observations,
+      facts: this.differ(facts, world) } } };
+  }
+  private static differ(facts: WorldState, world: Keyed): Facts {
+    const relations = facts.relations, kept = new Set<number>();
+    let last = -1, i = 0;
+    for (; i < relations.length; i++) {
+      const at = world.index.get(this.fact(relations[i]!));
+      if (at === undefined || at <= last) { break; }
+      kept.add(at); last = at;
+    }
+    const removed: number[] = [];
+    for (let n = 0; n < (world.part.base?.length ?? 0); n++) { if (!kept.has(n)) { removed.push(n); } }
+    return { removed, tail: relations.slice(i), measures: facts.measures };
+  }
+  // A kept state and its world, put back together; or a save that was whole already.
+  static join(parsed: KeptState | Whole | SessionCheckpoint, world?: WorldPart): Whole {
+    if ('version' in parsed && parsed.version === 2) {
+      if (!world) { throw new Error('The world this game was played in is no longer kept in this browser.'); }
+      const { facts, state, ...rest } = parsed.checkpoint.save, gone = new Set(facts.removed);
+      const relations = [...(world.base ?? []).filter((_, n) => !gone.has(n)), ...facts.tail];
+      const save = { ...rest, state: { ...state, world: { relations, measures: facts.measures } },
+        module: world.module, ...world.definition ? { definition: world.definition } : {} } as CampaignSave;
+      return { checkpoint: { ...parsed.checkpoint, save }, ...parsed.log ? { log: parsed.log } : {} };
+    }
+    return 'checkpoint' in parsed ? parsed : { checkpoint: parsed as SessionCheckpoint };
+  }
+  private static fact(c: Call): string { return `${c.name}(${c.args.join(',')})`; }
+  // A key for a world's text: FNV-1a, twice over with different primes, so that two worlds are not taken for one.
+  static key(text: string): string {
+    let a = 0x811c9dc5, b = 0x01000193 ^ text.length;
+    for (let i = 0; i < text.length; i++) {
+      const c = text.charCodeAt(i);
+      a = Math.imul(a ^ c, 0x01000193) >>> 0;
+      b = Math.imul(b ^ c, 0x5bd1e995) >>> 0;
+    }
+    return `${a.toString(36)}${b.toString(36)}`;
+  }
+}

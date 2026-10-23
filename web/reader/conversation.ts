@@ -31,6 +31,7 @@ export class Conversation {
     const exchange = frame.leaf.exchange;
     const you: TalkLine[] = /#talk$/.test(choice.id) ? [] : [{ kind: 'you', text: exchange?.said ?? said.split(' › ').at(-1)! }];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
-      ...(exchange?.notes ?? []).map(text => ({ kind: /→/.test(text) ? 'tally' as const : 'learned' as const, text }))];
+      ...(exchange?.notes ?? []).map(text => ({ kind: /→/.test(text) ? 'tally' as const : 'learned' as const,
+        text: text.replace(/^Noted: /, '') }))];
   }
 }

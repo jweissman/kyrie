@@ -30,7 +30,7 @@ describe('a drover who did not come home', () => {
     const { town, road } = placed.bindings as { town: string; road: string };
     GeneratedWorld.put(s, `${town}_green`);
     await s.perform('wait');
-    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('A grey dog lies by the inn door');
+    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('A grey dog lies by the door of');
     GeneratedWorld.put(s, road);
     await s.perform('wait');
     expect(Town.said(await Town.act(s, /^Search/))).toContain('a cart lies on its side in the ditch');

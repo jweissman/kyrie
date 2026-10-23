@@ -1,7 +1,8 @@
 import { FictionalTime } from '../../src/presentation/fictional-time';
 import type { SaveSummary } from '../engine/protocol';
 
-export interface SavedGame extends SaveSummary { text: string }
+// A kept game: its state, and the world it was played in when that is kept apart from it (see KeptGame).
+export interface SavedGame extends SaveSummary { text: string; world?: string }
 
 // The game kept in this browser as it goes, so a reload continues where the company stands; and a save file to take
 // elsewhere. Storage that is unavailable only means play goes on without it.
@@ -9,22 +10,29 @@ export class ReaderStore {
   static readonly key = 'kyrie.mono.v1';
   // What the kept game says about itself, beside it, so the title page need not open it.
   static readonly about = 'kyrie.mono.v1.summary';
+  // The world the kept game is played in: its key, a line, and its text. Kept once, and again only when it changes.
+  static readonly world = 'kyrie.mono.world';
   static read(): SavedGame | undefined {
     try {
       const text = localStorage.getItem(this.key), about = localStorage.getItem(this.about);
       if (!text) { return undefined; }
-      return { text, ...about ? JSON.parse(about) as SaveSummary : this.summary(text) };
+      const summary = about ? JSON.parse(about) as SaveSummary & { world?: string } : this.summary(text);
+      const kept = localStorage.getItem(this.world), at = kept?.indexOf('\n') ?? -1;
+      const world = kept && 'world' in summary && kept.slice(0, at) === summary.world ? kept.slice(at + 1) : undefined;
+      return { text, ...summary, ...world ? { world } : {} };
     } catch { return undefined; }
   }
-  static write(text: string, summary: SaveSummary): SavedGame | undefined {
+  static write(text: string, summary: SaveSummary, world?: { key: string; text: string }): SavedGame | undefined {
     try {
+      if (world) { localStorage.setItem(this.world, `${world.key}\n${world.text}`); }
+      const kept = localStorage.getItem(this.world), key = kept?.slice(0, kept.indexOf('\n'));
       localStorage.setItem(this.key, text);
-      localStorage.setItem(this.about, JSON.stringify(summary));
-      return { text, ...summary };
+      localStorage.setItem(this.about, JSON.stringify({ ...summary, ...key ? { world: key } : {} }));
+      return { text, ...summary, ...kept ? { world: kept.slice(kept.indexOf('\n') + 1) } : {} };
     } catch { return undefined; }
   }
   static clear() {
-    try { localStorage.removeItem(this.key); localStorage.removeItem(this.about); }
+    try { localStorage.removeItem(this.key); localStorage.removeItem(this.about); localStorage.removeItem(this.world); }
     catch { /* storage may be refused */ }
   }
   // What a game kept before summaries were kept beside it says about itself: where, when, and who.

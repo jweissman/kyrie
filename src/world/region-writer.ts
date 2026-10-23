@@ -15,6 +15,7 @@ import type { CalendarStart } from '../presentation/calendar';
 import { RegionGrowth } from './region-growth';
 import { RegionMarvels } from './region-marvels';
 import { SettlementWriter } from './settlement-writer';
+import { RegionTraffic } from './region-traffic';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements as their founding made them (see SettlementWriter), roads between them, and a track out to
 // each site. Every
@@ -119,7 +120,7 @@ export class RegionWriter {
       ...RegionMarvels.lines(region),
       ...RegionBorders.lines(region),
       ...RegionSites.lines(region, taken),
-      ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region),
+      ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     return lines;

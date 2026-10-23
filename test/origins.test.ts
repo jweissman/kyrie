@@ -46,7 +46,7 @@ describe('an origin', () => {
     await Opening.take(s, /_green\)$/);
     const screen = ScreenModel.build(s.campaign);
     const son = screen.people.find(p => p.id === 'drover__son')!, name = son.name.split(',')[0]!;
-    expect(son.says?.join(' ')).toContain('Your brother is sitting on the rail');
+    expect(son.says?.join(' ')).toContain('Your brother is sitting on a rail');
     expect(PlayerView.choices(s.campaign).some(c => new RegExp(`^Ask ${name} about his father`).test(c.choice.name))).toBe(false);
     const told = await Opening.take(s, new RegExp(`^Ask ${name} what he means to do`));
     expect(told.response).toContain('If you are going, I am coming with you');

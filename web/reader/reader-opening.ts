@@ -68,9 +68,9 @@ export class ReaderOpening {
       ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} }),
     'company');
   }
-  async resume(text: string) {
+  async resume(text: string, world?: string) {
     this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '' });
-    await this.enter(this.app.engine.request<Frame>({ kind: 'resume', saved: text }), 'title');
+    await this.enter(this.app.engine.request<Frame>({ kind: 'resume', saved: text, ...world ? { world } : {} }), 'title');
   }
   private async enter(request: Promise<Frame>, otherwise: 'company' | 'title') {
     try {
@@ -99,5 +99,8 @@ export class ReaderOpening {
     crypto.getRandomValues(bytes);
     return [...bytes].map(b => 'bcdfghjklmnprstvwz'[b % 18]! + 'aeiou'[(b >> 5) % 5]!).join('');
   }
-  readonly carryOn = () => { if (this.app.state.saved) { void this.resume(this.app.state.saved.text); } };
+  readonly carryOn = () => {
+    const saved = this.app.state.saved;
+    if (saved) { void this.resume(saved.text, saved.world); }
+  };
 }

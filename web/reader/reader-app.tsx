@@ -77,7 +77,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   private listen(message: Message) {
     if (message.kind === 'saved') {
-      const saved = ReaderStore.write(message.save, message.summary);
+      const saved = ReaderStore.write(message.save, message.summary, message.world);
       if (saved) { this.setState({ saved }); }
     } else if (message.kind === 'progress') { this.setState({ stage: message.stage }); }
     else if (message.kind === 'frame') {

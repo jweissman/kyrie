@@ -14,11 +14,11 @@ import { Scenarios } from '../scenarios';
 import { PlayTranscript } from './transcript';
 import type { Entry, Frame, Leaf, Member, Message, Request, SaveSummary } from './protocol';
 import { SaveCodec } from './save-codec';
+import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { Obituary } from '../../src/narrative/obituary';
 import type { Memorial } from '../../src/world/memorial';
 
-interface Saved { checkpoint: SessionCheckpoint; log?: Entry[] }
 
 // The engine's side of play. It holds the one PlaySession, carries out what the player chose, and answers with a
 // frame: everything the page draws. A fight pauses on each of the company's turns until the page sends a choice.
@@ -46,7 +46,7 @@ export class EngineHost {
       case 'world': return this.creation.generate(request.seed, request.terrain);
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
-      case 'resume': return this.resume(request.saved);
+      case 'resume': return this.resume(request.saved, request.world);
       case 'perform': return this.perform(request.command, { said: request.said, move: request.move,
         named: !!request.named });
       case 'fight': this.fight(request.choice); return null;
@@ -64,14 +64,21 @@ export class EngineHost {
     this.session = await PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);
     this.frontier = r.campaign === Creation.generated ? new Frontier(r.seed, Scenarios.source()) : undefined;
     this.log = []; this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
-    this.crossed = false;
+    this.crossed = false; this.world = undefined;
     return this.settled();
   }
   // A game kept in this browser (packed), or a save file: a checkpoint, with or without the page's telling of it.
-  private async resume(text: string): Promise<Frame> {
-    const parsed = JSON.parse(await SaveCodec.unpack(text)) as Saved | SessionCheckpoint;
-    const saved: Saved = 'checkpoint' in parsed ? parsed : { checkpoint: parsed };
+  // A game kept in this browser is its state and the world it names, kept apart (see KeptGame).
+  private async resume(text: string, world?: string): Promise<Frame> {
+    const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
+    const part = world ? JSON.parse(await SaveCodec.unpack(world)) as WorldPart : undefined;
+    const saved = KeptGame.join(parsed, part);
     this.session = PlaySession.resume(saved.checkpoint);
+    // The world it came with is kept already: known by the same key, and by the module the campaign now holds.
+    const live = this.session.checkpoint(true).save;
+    this.world = 'version' in parsed && parsed.version === 2 && part ? { key: parsed.world, kept: true,
+      part: { ...part, module: live.module, ...live.definition ? { definition: live.definition } : {} },
+      index: KeptGame.index(part.base ?? []) } : undefined;
     const t = saved.checkpoint.transcript;
     this.frontier = Frontier.generated(t.scenario) ? new Frontier(t.seed, Scenarios.source()) : undefined;
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
@@ -137,12 +144,24 @@ export class EngineHost {
   }
   // The game is kept after every command, once its frame has gone to the page, so the page never waits on it.
   private saving() { setTimeout(() => { void this.keep(); }, 0); }
+  // What changed is kept after every command; the world it happened in, only when it is new.
   private async keep() {
     if (!this.session || this.turn) { return; }
     try {
-      const save = JSON.stringify({ checkpoint: this.session.checkpoint(true), log: this.log.slice(-80) });
-      this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary() });
+      const checkpoint = this.session.checkpoint(true), world = this.worldOf(checkpoint);
+      const save = JSON.stringify(KeptGame.split(checkpoint, world, this.log.slice(-80)));
+      const fresh = world.kept ? undefined : { key: world.key, text: await SaveCodec.pack(world.text!) };
+      this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), ...fresh ? { world: fresh } : {} });
+      world.kept = true; world.text = undefined;
     } catch { /* a command began before the game could be kept; it is kept after that one */ }
+  }
+  private world?: Keyed & { kept: boolean; text?: string };
+  // The world a checkpoint is played in, keyed by its contents: the same until the country grows.
+  private worldOf(checkpoint: SessionCheckpoint) {
+    const { module, definition } = checkpoint.save;
+    if (this.world?.part.module === module && this.world.part.definition === definition) { return this.world; }
+    this.world = { ...KeptGame.keyed(checkpoint), kept: false };
+    return this.world;
   }
   private summary(): SaveSummary {
     const campaign = this.session!.campaign, place = this.screen?.place.name ?? '';
