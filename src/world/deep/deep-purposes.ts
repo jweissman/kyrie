@@ -21,6 +21,8 @@ export interface DeepGroup {
   species?: string; ancestry?: string; calling?: string; count: number; label: string; role: string;
   temperament: string;
 }
+import type { Alteration } from './deep-history';
+
 export interface Valuable { id: string; name: string; worth: number; weight: number; text: string }
 // What a deep site was for, and so how it is laid out, what lives in it, and what lies at the bottom of it.
 export interface DeepPurpose {
@@ -46,6 +48,9 @@ export interface DeepPurpose {
   // Its makers' own things of worth, by the same tiers: kinds of its own, drawn as treasure more often than gear,
   // and worth what a company is paid in experience when it sells them.
   valuables?: Record<string, Valuable[]>;
+  // What came after: what each kind of kingdom that followed the makers did with it, and what each way that kingdom
+  // fell left in it (see DeepHistory).
+  after?: Record<string, Alteration[]>; fallen?: Record<string, Alteration[]>;
   // Rooms where a company can rest (a hall with a hearth, a store-room), if nothing finds it there first.
   rest?: string[];
   // How it looks from outside, with its old name cut over the way in ({oldup}).

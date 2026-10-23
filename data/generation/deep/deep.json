@@ -824,6 +824,38 @@
       ]
     }
   ],
+  "after": {
+    "warlords": [
+      { "role": "adit", "scene": "Someone after the Delvers built a gate of squared timbers across the adit and cut slots in the rock beside it for bowmen. It stands open now, its bar rotted through.",
+        "document": { "name": "the words burned into the gate-beam", "shut": "Words are burned into the gate's crossbeam with a hot iron, in the kingdom's letters, not the old script.", "label": "Read the words on the gate-beam", "text": "BY THE LORD OF {kingdomup} THIS WORKING IS HELD. NONE BELOW THE CROSSING." } },
+      { "role": "crossing", "barrier": { "to": "winze_head", "name": "the warlords' barricade", "text": "A barricade of ore-tubs and timber, chained together, closes the gallery to the winze: whoever held the adit did not want anything coming up from below.", "down": "The warlords' barricade lies dragged apart across the gallery.", "label": "Drag the barricade apart" } }
+    ],
+    "abbots": [
+      { "role": "hall", "scene": "The brothers who came after the Delvers made a chapel of their hall: a sign is cut over the hearth, and the long table has been turned into an altar.",
+        "document": { "name": "the brothers' tablet", "shut": "A slate tablet hangs on a nail by the altar, written over in a careful hand.", "label": "Read the brothers' tablet", "text": "The brothers of {kingdom} kept a lamp here for the Delvers' dead, and blessed the wall on the stair a second time. Let no one take the lamp away, and let no one take the wall down." },
+        "valuable": { "id": "abbey_chalice", "name": "a chapel cup of pewter and star-iron", "worth": 160, "weight": 1, "text": "A plain cup the brothers made out of what the Delvers left, for their altar underground." } }
+    ],
+    "princes": [
+      { "role": "stores", "scene": "Merchant-princes reopened the upper workings for a few years after the Delvers: the store-room was their tally-house, and its door is painted with a ship.",
+        "document": { "name": "a company ledger", "shut": "A ledger bound in oiled leather lies on the shelf, swollen shut with damp.", "label": "Prise the ledger open and read it", "text": "Ledger of the {kingdom} company at the old workings: forty tubs of ore the first year, eleven the second, three the third. The men will not go below the second level, whatever they are paid. The working given up." },
+        "valuable": { "id": "prince_ducats", "name": "a purse of merchant ducats", "worth": 120, "weight": 0, "text": "Gold coins with a ship on one side: a merchant-prince's wages, never paid out." } }
+    ]
+  },
+  "fallen": {
+    "plague": [
+      { "role": "stope", "scene": "When the plague came, the town shut its sick in the old stope. There are bones along the stone walls, and white quicklime over them, and a sign scratched on every prop." }
+    ],
+    "winter": [
+      { "role": "hall", "scene": "In the long winter whole families lived down here, where it was warmer than above: hearths of stacked stone along the walls, and a child's carving of a cow left on a ledge." }
+    ],
+    "heirs": [
+      { "role": "chute_foot", "scene": "In the war of the heirs someone came down here with something to hide: there are boot-marks in the old ore dust that are not the Delvers'.",
+        "hidden": { "found": "Under the dead ore at the bottom of the bin, a strongbox someone buried in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 300, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+    ],
+    "raiders": [
+      { "role": "mouth", "scene": "Raiders from over the sea kept their plunder in the adit one summer: their carved post still stands at the mouth, a ship's figurehead with its face hacked off." }
+    ]
+  },
   "rest": [
     "hall",
     "stores",

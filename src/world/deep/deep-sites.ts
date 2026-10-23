@@ -5,7 +5,8 @@ import { DeepMechanisms } from './deep-mechanisms';
 import { DeepPacing, type DeepContent } from './deep-pacing';
 import { DeepRooms } from './deep-rooms';
 import { DeepTime } from './deep-time';
-import type { DeepPurpose } from './deep-purposes';
+import { DeepHistory } from './deep-history';
+import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 
 // A region's deep site, as Kyr: one of its first makers' works that goes down level after level, written from what
@@ -19,7 +20,9 @@ export class DeepSites {
     const { purpose, values } = at, key = `${region.name}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
     const handled = this.handled(layout);
-    return [`  Measure deepWater(place).`, ...this.kinds(purpose),
+    // What the kingdom after the makers did with it, and what its fall left there.
+    const after = [...purpose.after?.[values.kingdomkind!] ?? [], ...purpose.fallen?.[values.fallen!] ?? []];
+    return [`  Measure deepWater(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
       `  Place ${site.id}_site ${this.q(values.name!)} is site within ${values.land} at ${values.x}, ${values.y}.`,
       `  Observe ${site.id}_outside at ${site.id} when true ${this.q(purpose.outside.replaceAll('{oldup}', values.oldup!))}`
         + ` teaches ${site.id}_named.`,
@@ -28,7 +31,7 @@ export class DeepSites {
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }),
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose })),
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content),
-      ...DeepTime.lines(purpose, layout, content, key),
+      ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values)];
   }
@@ -118,11 +121,11 @@ export class DeepSites {
       `  Initially Set pays(${values.merchant}, star_iron) to 30.`];
   }
   // What a deep site holds that no catalog does: its ore, and what the makers died for.
-  private static kinds(purpose: DeepPurpose): string[] {
+  private static kinds(purpose: DeepPurpose, left: Valuable[]): string[] {
     const q = this.q;
     return [`  Kind star_iron "a lump of star-iron" is treasure worth 30 weighing 2 described "Pale ore, heavier than it looks, that glitters faintly in the dark.".`,
       `  Kind ${purpose.objective.kind} ${q(purpose.objective.item)} is treasure worth 2000 weighing 20 described ${q(purpose.objective.text)}.`,
-      ...Object.values(purpose.valuables ?? {}).flat().map(v =>
+      ...[...Object.values(purpose.valuables ?? {}).flat(), ...left].map(v =>
         `  Kind ${v.id} ${q(v.name)} is treasure worth ${v.worth} weighing ${v.weight} described ${q(v.text)}.`)];
   }
   // A catalog item by its own name: "a lantern".

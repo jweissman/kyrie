@@ -84,7 +84,8 @@ export class RegionWorks {
   // fallwinter, fallheirs or fallraiders is set, for the sections that show it).
   private static kingdom(history: History): Record<string, string> {
     const s = history.successors;
-    return { kingdom: s.name, kingdomup: s.name.toUpperCase(), were: s.were, fall: s.fall, [`fall${s.fallen}`]: 'yes' };
+    return { kingdom: s.name, kingdomup: s.name.toUpperCase(), were: s.were, fall: s.fall, [`fall${s.fallen}`]: 'yes',
+      kingdomkind: s.kind, fallen: s.fallen };
   }
   // The nearest other site, as it looks from a height before its name is known, and which way it lies.
   private static sight(region: Region, site: Site): Record<string, string> {
