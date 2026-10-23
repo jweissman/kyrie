@@ -34,6 +34,8 @@
   Observe {w}_figures_learned at {w}_inner when state({w}_figures, heard) "{fate}" teaches {fatefact}.
   Observe {w}_hall_learned at {w}_hall when state({w}_door, open) "{craft} {belief}" teaches {makersfact}.
   Item {w}_crystal "{richname}" is {rich} at {w}_inner.
+--- sign choir 1 if greatart
+  Observe {w}_choir_heard at {w}_inner when state({w}_figures, heard) "And the singing comes from somewhere. Moving from figure to figure with your ear to the stone, you find it loudest toward {greatwhere}, where {greatseen} must hold whoever is still singing." teaches {greatfound}.
 --- successors fold 2
   Observe {w}_fold at {w}_porch when true "Shepherds of the kingdom of {successors} used the porch as a fold; hurdles of rotten hazel still stand across it, and the floor is soft with old dung.".
 --- successors chapel 1

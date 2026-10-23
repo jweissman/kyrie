@@ -17,24 +17,8 @@
   }
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
-  Place {w}_hall "the pillared hall" is room within {w}_site at 1, 0.
-  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1.
-  Place {w}_head "the spring-head" is room within {w}_site at 2, 0.
-  Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
   Initially Assert unlit({w}_stair). Initially Assert unlit({w}_hall). Initially Assert unlit({w}_wheel_room).
   Initially Assert unlit({w}_head).
-  Passage {w}_down "the foot of the long stair" is steps between {w}_stair and {w}_hall.
-  Passage {w}_ledge "the ledge along the wall" is passage between {w}_hall and {w}_wheel_room.
-  Passage {w}_arch "the low arch" is passage between {w}_hall and {w}_head.
-  Observe {w}_stair_scene at {w}_stair when true "A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in.".
-  Observe {w}_hall_scene at {w}_hall when true "Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed.".
-  Observe {w}_wheel_scene at {w}_wheel_room when true "A cell cut off the side of the hall, above a stone channel that runs away under the wall.".
-  Observe {w}_head_scene at {w}_head when true "A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves.".
-  Thing {w}_water "black water" on {w}_arch is scenery {
-    State flooded blocking "Black water stands in the hall to the springing of the arches, still as a floor. At its far end a low arch goes down under it.".
-    State drained "The water has gone down out of the hall. Silt lies in ridges between the pillars, and the low arch stands open, streaming.".
-  }
   Thing {w}_wheel "the bronze sluice-wheel" at {w}_wheel_room {
     State fast "A wheel of bronze as high as a man is set in the wall above the channel, green with age and fast in its seat.".
     State turned "The bronze wheel has been wound round as far as it will go.".
@@ -49,6 +33,66 @@
   Observe {w}_marks_learned at {w}_hall when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.
   Item {w}_votive "{richname}" is {rich} at {w}_head.
   Observe {w}_head_votive at {w}_head when true "Things glint in the bottom of the basin: offerings, left for the springs by people who meant them.".
+--- shape stair 1 if shape0
+  Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
+  Place {w}_hall "the pillared hall" is room within {w}_site at 1, 0.
+  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1.
+  Place {w}_head "the spring-head" is room within {w}_site at 2, 0.
+  Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
+  Passage {w}_down "the foot of the long stair" is steps between {w}_stair and {w}_hall.
+  Passage {w}_ledge "the ledge along the wall" is passage between {w}_hall and {w}_wheel_room.
+  Passage {w}_arch "the low arch" is passage between {w}_hall and {w}_head.
+  Observe {w}_stair_scene at {w}_stair when true "A straight stair goes down into the hill, a hundred steps and more, each tread worn hollow in the middle. The walls are dressed stone without mortar, the joints so fine a knife would not go in.".
+  Observe {w}_hall_scene at {w}_hall when true "Pillars stand in rows into the dark, square and plain, holding up a roof you cannot see. Your voices go away into the hall and come back changed.".
+  Observe {w}_wheel_scene at {w}_wheel_room when true "A cell cut off the side of the hall, above a stone channel that runs away under the wall.".
+  Observe {w}_head_scene at {w}_head when true "A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves.".
+  Thing {w}_water "black water" on {w}_arch is scenery {
+    State flooded blocking "Black water stands in the hall to the springing of the arches, still as a floor. At its far end a low arch goes down under it.".
+    State drained "The water has gone down out of the hall. Silt lies in ridges between the pillars, and the low arch stands open, streaming.".
+  }
+--- shape well 1 if shape1
+  Place {w}_stair "the head of the steps" is room within {w}_site at 0, 0.
+  Place {w}_hall "the water-stair" is room within {w}_site at 0, 1.
+  Place {w}_wheel_room "the sluice-niche" is room within {w}_site at 1, 1.
+  Place {w}_head "the spring-pool" is room within {w}_site at 0, 2.
+  Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
+  Passage {w}_down "the flights down the shaft" is steps between {w}_stair and {w}_hall.
+  Passage {w}_ledge "the ledge round the shaft" is passage between {w}_hall and {w}_wheel_room.
+  Passage {w}_arch "the arch at the bottom of the shaft" is passage between {w}_hall and {w}_head.
+  Observe {w}_stair_scene at {w}_stair when true "The doorway opens on the top of a great square shaft cut down into the hill. Far above, a square of sky shows through ferns; far below, the dark. Flights of steps go down the four sides of the shaft by turns, each landing wider than the one below.".
+  Observe {w}_hall_scene at {w}_hall when true "The lowest flights of the shaft, where the steps go down into black water as if into the floor of a room. Sound falls into the shaft from somewhere far above and does not come back up.".
+  Observe {w}_wheel_scene at {w}_wheel_room when true "A niche cut into the side of the shaft above the water, over a stone channel that runs away into the hill.".
+  Observe {w}_head_scene at {w}_head when true "Under the bottom of the shaft, a round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves.".
+  Thing {w}_water "black water" on {w}_arch is scenery {
+    State flooded blocking "Black water fills the bottom of the shaft over the lowest flights, still as a floor. Under it, at the foot of the last flight, the top of an arch.".
+    State drained "The water has gone down out of the shaft. Silt lies on the lowest steps, and the arch at the bottom stands open, streaming.".
+  }
+--- shape outfall 1 if shape2
+  Observe {w}_outfall_seen at {w} when true "Lower down the hillside a stone channel comes out of the ground into a culvert, dry now, just big enough to crawl into.".
+  Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
+  Place {w}_hall "the hall of round pillars" is room within {w}_site at 1, 0.
+  Place {w}_wheel_room "the wheel-room" is room within {w}_site at 1, 1.
+  Place {w}_head "the spring-head" is room within {w}_site at 2, 0.
+  Passage {w}_in "the square doorway" is doorway between {w} and {w}_stair.
+  Passage {w}_outfall "the culvert under the hill" is crawl between {w} and {w}_wheel_room.
+  Passage {w}_down "the foot of the long stair" is steps between {w}_stair and {w}_hall.
+  Passage {w}_ledge "the ledge along the wall" is passage between {w}_hall and {w}_wheel_room.
+  Passage {w}_arch "the low arch" is passage between {w}_hall and {w}_head.
+  Observe {w}_stair_scene at {w}_stair when true "A straight stair goes down into the hill, a hundred steps and more, turning twice. The walls are dressed stone without mortar, the joints so fine a knife would not go in.".
+  Observe {w}_hall_scene at {w}_hall when true "Round pillars stand in rows into the dark, some fallen across one another where the roof has come down between them. Your voices go away into the hall and come back changed.".
+  Observe {w}_wheel_scene at {w}_wheel_room when true "A cell cut off the side of the hall, above a stone channel that runs away under the wall and out of the hill. Daylight comes faintly along it.".
+  Observe {w}_head_scene at {w}_head when true "A round chamber where the springs come up through the floor into a basin of white stone. The water is so clear the basin seems empty until it moves.".
+  Thing {w}_water "black water" on {w}_arch is scenery {
+    State flooded blocking "Black water stands among the fallen pillars to the springing of the arches, still as a floor. At its far end a low arch goes down under it.".
+    State drained "The water has gone down out of the hall. Silt lies in ridges round the fallen pillars, and the low arch stands open, streaming.".
+  }
+--- sign pool 1 if greatart
+  Thing {w}_pool "the still water in the basin" at {w}_head is scenery {
+    State still "The water in the basin is so still you could take it for glass.".
+    State gazed "The water in the basin is only water again.".
+    Change gaze "Look long into the still water" from still to gazed.
+  }
+  Observe {w}_far_sight at {w}_head when state({w}_pool, gazed) "The still water shows the roof, and your own faces; and then neither, but {greatseen}, under a sky that is not this one, and water standing behind it as still as this. When the water lets it go you know the place: {greatwhere}." teaches {greatfound}.
 --- successors shrine 2
   Observe {w}_shrine at {w}_stair when true "Halfway down the stair a niche has been cut, rougher than the work around it, and an altar set in it: the kingdom of {successors} kept the springs holy after the Wardens were gone. Offerings lie green on the altar.".
   Item {w}_coins "{commonname}" is {common} at {w}_stair.
@@ -75,6 +119,6 @@
   }
 --- hook springs 1
   Topic {w}_hook with {priest} "Ask {{priest}} where the shrine's water comes from" when not knows(actor, {w}_named) once {
-    Says "'From the hill,' says {{priest}}. 'There is a door into it, out in {where}: {name}. The springs come up inside, and the old people held them there with gates of bronze. Nobody goes in now. Something lives in the water.'".
+    Says "'From the hill,' says {{priest}}. 'There is a door into it, out in {where}: {name}. The springs come up inside, and the old people held them there with gates of bronze. Nobody goes in now. They say something lives in the water.'".
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }

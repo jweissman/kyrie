@@ -1,4 +1,4 @@
-# barrow: a Barrow-Kin long barrow on the bounds of their land, sealed with its stone.
+# barrow: a Barrow-Kin barrow on the bounds of their land, sealed with its stone.
 @art bone
 @kind barrow
 @ground heath meadow fell
@@ -17,10 +17,6 @@
   Observe {w}_marks_learned at {w} when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_passage "the stone passage" is room within {w}_site at 0, 0.
-  Place {w}_left "the north chamber" is room within {w}_site at 0, 1.
-  Place {w}_right "the south chamber" is room within {w}_site at 1, 1.
-  Place {w}_end "the end chamber" is room within {w}_site at 1, 0.
   Passage {w}_in "the low entrance" is crawl between {w} and {w}_passage.
   Initially Assert unlit({w}_passage). Initially Assert unlit({w}_left). Initially Assert unlit({w}_right).
   Initially Assert unlit({w}_end).
@@ -29,29 +25,68 @@
     State rolled "The seal-stone has been rolled aside in its groove, and the way in stands open.".
     Change roll "Roll the seal-stone aside" from set to rolled needing brawn.
   }
+  Person {w}_dead "the barrow-dead" at {w}_end {
+    Role "the dead of the barrow, who keep the bounds". Species ghoul. Numbers 2. Level 1. Temperament obedient. Lair {w}_end.
+    Warns "In the last chamber something sits up on its slab, and turns its head toward you.".
+  }
+  Rule {w}_walk when dark() and state({w}_seal, rolled) and at({w}_dead, {w}_end) and able({w}_dead) and not tolerates({w}_dead, party) says "Out on the land, under the dark, something comes out of the barrow and goes along the old bound, as it used to." { Retract at({w}_dead, {w}_end). Assert at({w}_dead, {w}). }
+  Rule {w}_back when not dark() and at({w}_dead, {w}) and able({w}_dead) { Retract at({w}_dead, {w}). Assert at({w}_dead, {w}_end). }
+  // The Barrow-Kin spoke with their dead through flutes of bone, and kept one at the way in: the living played it
+  // going in, so the dead would know them for kin. Played, the dead let the company be.
+  Thing {w}_flute_bone "the bone flute" at {w}_passage {
+    State laid "In a niche by the way in lies a flute of bone, its finger-holes worn smooth by mouths long dead.".
+    State played "The bone flute lies back in its niche by the way in.".
+    Change play "Play the bone flute" from laid to played.
+  }
+  Rule {w}_hushed when state({w}_flute_bone, played) and not tolerates({w}_dead, party) says "The note goes along the passage and into the stone, low and thin. From further in comes a sound like someone settling back to sleep." { Assert tolerates({w}_dead, party). }
+  Item {w}_flute "{commonname}" is {common} at {w}_end.
+  Item {w}_goods "{richname}" is {rich} at {w}_right.
+--- shape long 1 if shape0
+  Place {w}_passage "the stone passage" is room within {w}_site at 0, 0.
+  Place {w}_left "the north chamber" is room within {w}_site at 0, 1.
+  Place {w}_right "the south chamber" is room within {w}_site at 1, 1.
+  Place {w}_end "the end chamber" is room within {w}_site at 1, 0.
   Passage {w}_north "the north opening" is doorway between {w}_passage and {w}_left.
   Passage {w}_south "the south opening" is doorway between {w}_passage and {w}_right.
   Passage {w}_far "the end of the passage" is passage between {w}_passage and {w}_end.
   Observe {w}_passage_scene at {w}_passage when true "A passage of great flat stones set on edge, roofed with more, so low you go bent. The floor is dry earth. It smells of nothing at all.".
   Observe {w}_left_scene at {w}_left when true "A small chamber off the passage. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.".
   Observe {w}_right_scene at {w}_right when true "A small chamber off the passage, the bones in it heaped as if swept aside. Pots stand along the wall, sealed.".
-  Observe {w}_end_scene at {w}_end when true "The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully. A flute of bone lies on the breastbone.".
-  Person {w}_dead "the barrow-dead" at {w}_end {
-    Role "the dead of the barrow, who keep the bounds". Species ghoul. Numbers 2. Level 1. Temperament obedient. Lair {w}_end.
-    Warns "In the end chamber something sits up on the slab, and turns its head toward you.".
-  }
-  Rule {w}_walk when dark() and state({w}_seal, rolled) and at({w}_dead, {w}_end) and able({w}_dead) says "Out on the land, under the dark, something comes out of the barrow and goes along the old bound, as it used to." { Retract at({w}_dead, {w}_end). Assert at({w}_dead, {w}). }
-  Rule {w}_back when not dark() and at({w}_dead, {w}) and able({w}_dead) { Retract at({w}_dead, {w}). Assert at({w}_dead, {w}_end). }
-  Item {w}_flute "{commonname}" is {common} at {w}_end.
-  Item {w}_goods "{richname}" is {rich} at {w}_right.
+  Observe {w}_end_scene at {w}_end when true "The end chamber is larger, and higher. One of the dead lies alone on a slab, not heaped with the others: whoever it was, they were laid down last and laid down carefully.".
+--- shape grave 1 if shape1
+  Place {w}_passage "the sun-passage" is room within {w}_site at 0, 1.
+  Place {w}_end "the round chamber" is room within {w}_site at 1, 1.
+  Place {w}_left "the west recess" is room within {w}_site at 1, 0.
+  Place {w}_right "the east recess" is room within {w}_site at 2, 1.
+  Passage {w}_far "the inner end of the passage" is passage between {w}_passage and {w}_end.
+  Passage {w}_north "the mouth of the west recess" is doorway between {w}_end and {w}_left.
+  Passage {w}_south "the mouth of the east recess" is doorway between {w}_end and {w}_right.
+  Observe {w}_passage_scene at {w}_passage when true "A long straight passage of standing slabs, so long the entrance is a grey square behind you. Spirals and lozenges are pecked into the slabs at shoulder height, and the floor rises as you go in, so that the sun at its rising on one morning of the year would shine straight up it.".
+  Observe {w}_end_scene at {w}_end when true "The passage opens into a round chamber roofed with great slabs, each laid a hand further in than the one below, until a single stone closes the top far above. On the basin-stone in the middle lies one of the dead alone, laid down last and laid down carefully.".
+  Observe {w}_left_scene at {w}_left when true "A recess off the round chamber. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.".
+  Observe {w}_right_scene at {w}_right when true "A recess off the round chamber, the bones in it heaped as if swept aside. Pots stand along the wall, sealed.".
+--- shape cairn 1 if shape2
+  Place {w}_passage "the entrance passage" is room within {w}_site at 0, 0.
+  Place {w}_left "the side cell" is room within {w}_site at 0, 1.
+  Place {w}_end "the upper chamber" is room within {w}_site at 1, 0.
+  Place {w}_right "the lower chamber" is room within {w}_site at 1, 1.
+  Passage {w}_north "the side cell" is doorway between {w}_passage and {w}_left.
+  Passage {w}_far "the step up into the chamber" is steps between {w}_passage and {w}_end.
+  Passage {w}_south "the drop into the lower chamber" is shaft between {w}_end and {w}_right needing rope or climbing.
+  Observe {w}_passage_scene at {w}_passage when true "A short passage of piled stone, corbelled so close overhead that you go stooping between walls laid without a gap.".
+  Observe {w}_left_scene at {w}_left when true "A cell off the passage no bigger than a cupboard. Bones lie on a shelf of stone, laid out with care, the skulls together at one end.".
+  Observe {w}_end_scene at {w}_end when true "The upper chamber is high and narrow, a beehive of stone. One of the dead lies alone on a slab, laid down last and laid down carefully. In the floor a square opening goes down into the dark, and cold comes up out of it.".
+  Observe {w}_right_scene at {w}_right when true "Below the upper chamber, a second chamber, older, cut down into the rock itself. The bones here are heaped as if swept aside. Pots stand along the wall, sealed.".
+--- sign flute 1 if greatart
+  Observe {w}_answered at {w}_passage when state({w}_flute_bone, played) "Then, from very far off, faint as breath, another flute answers: from {greatwhere}, where the greatest of the barrows of {epithet} must lie." teaches {greatfound}.
 --- successors robbed 2
   Observe {w}_robbed at {w}_right when true "The kingdom of {successors} knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.".
-  Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 1.
+  Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 0.
   Passage {w}_robbers "the robbers' shaft" is shaft between {w}_shaft_top and {w}_right needing rope or climbing.
   Passage {w}_hole "the hole in the top of the mound" is path between {w} and {w}_shaft_top.
   Observe {w}_hole_scene at {w}_shaft_top when true "A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.".
 --- successors reburied 1
-  Observe {w}_reburied at {w}_left when true "Later bones lie in the north chamber too, wrapped in cloth that has rotted to threads: the kingdom of {successors} buried their own here, among the old dead, for luck.".
+  Observe {w}_reburied at {w}_left when true "Later bones lie here too, wrapped in cloth that has rotted to threads: the kingdom of {successors} buried their own among the old dead, for luck.".
 --- successors forgotten 1
   Observe {w}_untouched at {w}_passage when true "Nobody has been in here since the stone was set. There are no marks on the floor but your own.".
 --- present rats 1

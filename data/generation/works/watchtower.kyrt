@@ -7,7 +7,7 @@
 @danger 2
 @lair floor
 --- outside
-  Observe {w}_tower_seen at {w} when true "A round tower of grey stone stands on the height, roofless, its door high in the wall where a stair of stones once climbed to it. The wind goes round it and does not stop.".
+  Observe {w}_tower_seen at {w} when true "A tower of grey stone stands on the height, roofless. The wind goes round it and does not stop.".
   Observe {w}_cut at {w} when true "Round the doorway, cut in the old script so large it can be read from the ground: {oldup}." teaches {w}_named.
   Thing {w}_door_letters "the letters round the door" at {w} {
     State unread "Letters run round the doorway in the old script, each as long as a hand.".
@@ -16,16 +16,7 @@
   }
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_floor "the floor of the tower" is room within {w}_site at 0, 1.
-  Place {w}_undercroft "the undercroft" is room within {w}_site at 0, 2.
-  Place {w}_top "the ring-room" is room within {w}_site at 0, 0.
-  Passage {w}_up "the broken stair to the door" is steps between {w} and {w}_floor needing climbing or rope.
-  Passage {w}_down "the trapdoor in the floor" is ladder between {w}_floor and {w}_undercroft.
   Initially Assert unlit({w}_undercroft).
-  Passage {w}_spiral "the stair in the wall" is stair between {w}_floor and {w}_top.
-  Observe {w}_floor_scene at {w}_floor when true "Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.".
-  Observe {w}_top_scene at {w}_top when true "At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks.".
-  Observe {w}_under_scene at {w}_undercroft when true "A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.".
   Thing {w}_ring "the bronze ring" at {w}_top {
     State idle "The bronze ring is turned to no part of the sky that means anything to you.".
     State set "The bronze ring stands set to the sight-line its makers cut deepest.".
@@ -39,6 +30,41 @@
   Observe {w}_tablets_learned at {w}_undercroft when state({w}_tablets, read) "{fate}" teaches {fatefact}.
   Observe {w}_ring_learned at {w}_top when state({w}_ring, set) "{craft} {belief}" teaches {makersfact}.
   Item {w}_plate "{richname}" is {rich} at {w}_undercroft.
+--- shape round 1 if shape0
+  Observe {w}_round_seen at {w} when true "It is round, and its door is high in the wall, where a stair of stones once climbed to it.".
+  Place {w}_floor "the floor of the tower" is room within {w}_site at 0, 1.
+  Place {w}_undercroft "the undercroft" is room within {w}_site at 0, 2.
+  Place {w}_top "the ring-room" is room within {w}_site at 0, 0.
+  Passage {w}_up "the broken stair to the door" is steps between {w} and {w}_floor needing climbing or rope.
+  Passage {w}_down "the trapdoor in the floor" is ladder between {w}_floor and {w}_undercroft.
+  Passage {w}_spiral "the stair in the wall" is stair between {w}_floor and {w}_top.
+  Observe {w}_floor_scene at {w}_floor when true "Inside, the tower is a well of stone open to the sky. A stair climbs inside the thickness of the wall; in the floor, a trapdoor of black oak with an iron ring.".
+  Observe {w}_top_scene at {w}_top when true "At the top the wall is broken down to a ring of stones open to the sky. Set in it, on a pivot as thick as a man, is a ring of bronze as wide as a cart-wheel, pierced with sighting-holes and cut with marks.".
+  Observe {w}_under_scene at {w}_undercroft when true "A low room under the tower, dry as a bone. Stone tablets stand in racks along the walls, hundreds of them, each cut close with the old script.".
+--- shape square 1 if shape1
+  Observe {w}_square_seen at {w} when true "It is square, of three storeys, and a door stands at the foot of it, its timbers long gone.".
+  Place {w}_floor "the guard-floor" is room within {w}_site at 0, 1.
+  Place {w}_undercroft "the well-chamber" is room within {w}_site at 0, 2.
+  Place {w}_top "the sighting-roof" is room within {w}_site at 0, 0.
+  Passage {w}_up "the door at the foot of the tower" is doorway between {w} and {w}_floor.
+  Passage {w}_down "the hatch over the well-chamber" is ladder between {w}_floor and {w}_undercroft.
+  Passage {w}_spiral "the stair turning in the corner" is stair between {w}_floor and {w}_top needing climbing or rope.
+  Observe {w}_floor_scene at {w}_floor when true "A square room with arrow-slits on every side, and a hatch in the floor. In one corner a stair turns up through the floors above, its lower flights fallen; you would have to climb to reach the rest.".
+  Observe {w}_top_scene at {w}_top when true "The roof of the tower is open to the sky, edged with a low parapet. In the middle, on a stone drum, a ring of bronze as wide as a cart-wheel turns on its pivot, pierced with sighting-holes and cut with marks.".
+  Observe {w}_under_scene at {w}_undercroft when true "Under the tower a chamber is cut round a well-shaft, dry now. The tablets were kept here, out of the weather: hundreds of them, in racks, each cut close with the old script.".
+--- shape broken 1 if shape2
+  Observe {w}_broken_seen at {w} when true "Half of it has fallen down the slope in a fan of stones, and you can see into it like a house with its front taken away.".
+  Place {w}_floor "the floor among the rubble" is room within {w}_site at 0, 1.
+  Place {w}_undercroft "the hollow under the paving" is room within {w}_site at 0, 2.
+  Place {w}_top "the last of the wall" is room within {w}_site at 0, 0.
+  Passage {w}_up "the slope of fallen stone" is path between {w} and {w}_floor.
+  Passage {w}_down "the gap in the paving" is crawl between {w}_floor and {w}_undercroft.
+  Passage {w}_spiral "the broken wall" is climb between {w}_floor and {w}_top needing climbing or rope.
+  Observe {w}_floor_scene at {w}_floor when true "What is left of the floor is open to the weather on the fallen side. A gap has opened in the paving where the stones settled, and below it is dark. One curve of wall still stands to its full height.".
+  Observe {w}_top_scene at {w}_top when true "At the top of the standing wall the bronze ring is still on its pivot, though the rest of the tower has gone out from under it: as wide as a cart-wheel, pierced with sighting-holes and cut with marks. The wind tries it and cannot turn it.".
+  Observe {w}_under_scene at {w}_undercroft when true "A hollow under the paving, where the floor has settled into an older room. Stone tablets lie in racks and out of them, hundreds, each cut close with the old script.".
+--- sign star 1 if greatart
+  Observe {w}_star at {w}_top when state({w}_ring, set) and dark() "Through the sighting-holes of the ring, set as its makers set it, one star stands low over {greatwhere}, where no star should be at this hour of the night. You watch it a long while. It does not move." teaches {greatfound}.
 --- sight twin 1 if twin
   Observe {w}_sightline at {w}_top when state({w}_ring, set) "Through the sighting-holes, on a height to the {twinside}, there is another tower: {twinname}. The ring was made to see it." teaches {twin}_found.
   Observe {w}_sightname at {w}_top when state({w}_ring, set) "The mark cut beside that sight-line names it." teaches {twin}_named.
@@ -66,7 +92,7 @@
   Observe {w}_ravens at {w}_top when true "Ravens sit on the broken wall and watch you without fear.".
 --- hook light 2
   Topic {w}_hook with {teller} "Ask {{teller}} about the towers on the heights" when not knows(actor, {w}_named) once {
-    Says "'{name}? The old tower in {where},' says {{teller}}. 'Coming home late you see a light in it some nights, high up, where nobody could get. The shepherds will not graze under it.'".
+    Says "'{name}? The old tower in {where},' says {{teller}}. 'The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.'".
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }
 --- hook reckoning 1

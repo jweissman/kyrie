@@ -74,6 +74,13 @@
   Observe {w}_beyond_scene at {w}_beyond when true "A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm.".
   Item {w}_deep_ore "{richname}" is {rich} at {w}_beyond.
   Item {w}_ore "{commonname}" is {common} at {w}_vein.
+--- sign vein 1 if greatart
+  Thing {w}_lode "the pale vein in the rock" at {w}_vein is scenery {
+    State unfollowed "The vein of pale stuff runs on into the rock past the end of the gallery.".
+    State followed "You know now which way the vein runs, and the old cuts with it.".
+    Change follow "Follow the vein with a light, as far as it goes" from unfollowed to followed.
+  }
+  Observe {w}_lode_led at {w}_vein when state({w}_lode, followed) "Past the end of the gallery the Delvers went on after the vein in a crawl no wider than a body, and cut their sign for deeper into the rock every few yards. You follow the signs until the crawl closes, and by then you know which way they were all going: toward {greatseen} in {greatwhere}." teaches {greatfound}.
 --- successors miners 2
   Observe {w}_miners at {w}_adit when true "Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of {successors} took what it could reach. A crowbar lies where one of them left it.".
   Item {w}_crowbar "a miner's crowbar" is crowbar at {w}_adit.
