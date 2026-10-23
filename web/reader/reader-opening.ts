@@ -74,7 +74,7 @@ export class ReaderOpening {
   private async enter(request: Promise<Frame>, otherwise: 'company' | 'title') {
     try {
       const frame = await request;
-      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, trail: [], member: '' });
+      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '' });
     } catch (error) { this.fail(error, otherwise); }
   }
   private fail(error: unknown, phase?: 'title' | 'campaigns' | 'company') {
@@ -85,5 +85,12 @@ export class ReaderOpening {
     this.app.setState({ phase: 'title', frame: undefined, view: 'here', pending: undefined, error: '' });
   };
   readonly campaigns = () => { this.app.setState({ phase: 'campaigns', error: '' }); };
+  // A country no one has seen: drawn from a seed of its own, which the save keeps.
+  readonly anew = () => { void this.pick('world', ReaderOpening.seed()); };
+  static seed(): string {
+    const bytes = new Uint8Array(4);
+    crypto.getRandomValues(bytes);
+    return [...bytes].map(b => 'bcdfghjklmnprstvwz'[b % 18]! + 'aeiou'[(b >> 5) % 5]!).join('');
+  }
   readonly carryOn = () => { if (this.app.state.saved) { void this.resume(this.app.state.saved.text); } };
 }

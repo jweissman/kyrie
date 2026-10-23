@@ -15,9 +15,9 @@ export class FightView {
     const turn = combat.outcome ? 'The fight is over.' : combat.ours ? `${combat.actorName}’s turn.`
       : `${combat.actorName} acts.`;
     return (
-      <section className="fight" aria-label="A fight">
-        <h2 className="place">A fight at {place}</h2>
-        <p className="round">Round {Math.max(1, combat.round)}</p>
+      <section className="world-body fight" aria-label="A fight">
+        <p className="where"><span className="title">A fight</span><span>Round {Math.max(1, combat.round)}</span></p>
+        <h1 className="place">{Typography.curl(Words.upper(place))}</h1>
         {(combat.laws ?? []).map(l => <p key={l.name} className="law">{l.name}: {l.text}</p>)}
         <ul className="foes" aria-label="Against you">{combat.foes.map(f => <FightView.Foe key={f.id} foe={f}
           took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>

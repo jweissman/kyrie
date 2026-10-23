@@ -24,7 +24,7 @@ Module world_people "Company and intention" {
   Rule hush_lifts when hushed(?c) and not dark() { Retract hushed(?c). }
   Goal false.
   Action recruit(actor: group, recruit: group, site: place) "Ask {recruit} to join the company" {
-    Description "They come into the company as one of you: they fight beside you, and what they can do the company can. Their hire is paid first, if they ask one.".
+    Description "They come with you from now on: they fight beside you, and what they can do, you can.".
     Requires able(actor) and company(actor) and able(recruit) and distinct(actor, recruit) and at(actor, site)
       and at(recruit, site) and willing(recruit, actor) and quantity(actor, gold) >= hire(recruit).
     Resolve enlist(recruit, actor).

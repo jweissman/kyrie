@@ -133,12 +133,38 @@ export class ChoiceGrouping {
     }
     const several = new Set([...ways].filter(([, w]) => w.size > 1).map(([d]) => d));
     for (const row of rows) { this.place(out, row, { ...context, several }); }
+    for (const acts of [...out.targets.values(), ...out.items.values(), ...out.members.values(), out.camp,
+      ...[...out.exits.values()].map(e => e.acts)]) { this.distinguish(acts); }
     return out;
+  }
+  private static twinned(a: Act, o: Act): boolean { return o !== a && !!o.command && o.label === a.label; }
+  // Two choices that read the same but do different things (two doors back through the glass, to two rooms) are
+  // both kept, each said with what it is done to that the other is not.
+  static distinguish(acts: Act[]) {
+    for (const a of acts) { if (a.children) { this.distinguish(a.children); } }
+    // Two that differ only in which of the same kind of thing they are done with (two torches on the shelf) are one
+    // choice: the first of them.
+    for (const a of [...acts]) {
+      const twin = acts.find(o => this.twinned(a, o) && acts.indexOf(o) < acts.indexOf(a));
+      if (twin && JSON.stringify(twin.bound ?? []) === JSON.stringify(a.bound ?? [])) {
+        acts.splice(acts.indexOf(a), 1);
+      }
+    }
+    const twins = acts.filter(a => a.command && acts.some(o => this.twinned(a, o)));
+    const labels = twins.map(a => {
+      const same = twins.filter(o => o.label === a.label);
+      const own = (a.bound ?? []).find(n => !same.filter(o => o !== a).flatMap(o => o.bound ?? []).includes(n));
+      return own ? `${a.label} (${own})` : `${a.label} (${same.indexOf(a) + 1})`;
+    });
+    twins.forEach((a, i) => { a.label = labels[i]!; });
   }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
+    const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
+      .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes: choice.time * 10,
-      ...(action.description ? { about: action.description } : {}), ...(row.by?.length ? { by: row.by } : {}) };
+      ...(action.description ? { about: action.description } : {}), ...(row.by?.length ? { by: row.by } : {}),
+      ...(bound.length ? { bound } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {};
     if (action.movement) {
       const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';
@@ -221,7 +247,9 @@ export class ChoiceGrouping {
     let node = acts.find(a => a.label === head);
     if (!node) { node = { key: `${acts.length}:${head}`, label: head }; acts.push(node); }
     if (!rest.length) {
-      if (node.command) { return; }
+      // The same command reached twice is one choice; a different command with the same words is another choice.
+      if (node.command === leaf.command && node.command) { return; }
+      if (node.command) { node = { key: `${acts.length}:${head}`, label: head }; acts.push(node); }
       if (node.children) { node = { key: `${acts.length}:${head}`, label: head }; acts.push(node); }
       Object.assign(node, leaf);
       return;

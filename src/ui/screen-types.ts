@@ -13,6 +13,8 @@ export interface Act {
   about?: string;
   // Who in the company makes it possible (the one with the skill it needs), or why it cannot be done.
   by?: string[]; disabled?: string;
+  // The names of what it is done to or with, to tell it from another choice that reads the same.
+  bound?: string[];
 }
 export interface PlaceRef { id: string; name: string; kind: string }
 export interface ExitRow {

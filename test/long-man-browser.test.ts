@@ -10,7 +10,7 @@ import type { MonoDriver } from './support/mono-driver';
 
 // The Long Man as a player meets it, at a desk and on a phone: what the acceptance pass found wrong, kept from coming
 // back. A campaign that is not there says so; a thing bought from a list is echoed as a sentence and named as prose;
-// a tap leaves one highlight; on a phone the pack opens at the head of the page with the list still below; and a
+// the keys show where they are and a tap lights nothing; what you carry opens in place of what is here; and a
 // creature that warns, then comes, is told once each time, in its own words. Opt in with KYRIE_BROWSER=1.
 class Merrow {
   static text(page: Page) { return page.evaluate(() => document.body.innerText); }
@@ -23,7 +23,7 @@ class Merrow {
       }
     }
   }
-  static highlighted(page: Page) { return page.locator('.choice.sel, .choice.hov').count(); }
+  static highlighted(page: Page) { return page.locator('.act.sel').count(); }
 }
 
 describe.skipIf(!process.env.KYRIE_BROWSER)('The Long Man in the browser', () => {
@@ -45,11 +45,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('The Long Man in the browser', () =>
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await Merrow.act(d, '^To Merrow green', '^Into the Drowned Ox', '^Speak with Martin', '^Buy › ^A torch');
+    await Merrow.act(d, '^To Merrow green', '^Into the Drowned Ox', '^Buy › ^A torch');
     // A bought torch goes to whoever already carries one: Bran, the warrior, who set out with one.
-    expect(await page.textContent('.exchange .said')).toBe('You buy a torch for Bran.');
-    expect(await page.textContent('.exchange')).toContain('takes a torch');
-    expect(await Merrow.highlighted(page)).toBe(1);
+    expect(await page.textContent('.happened .you')).toBe('You buy a torch for Bran.');
+    expect(await page.textContent('.happened')).toContain('takes a torch');
+    // The keys show where they are; a finger leaves nothing lit.
+    expect(await Merrow.highlighted(page)).toBe(pointer ? 0 : 1);
     await d.mode('i');
     expect(await page.locator('.sheet.view-pack:visible').count()).toBe(1);
     expect(await page.locator('.intentions [data-action="choice"]:visible').count()).toBeGreaterThan(3);

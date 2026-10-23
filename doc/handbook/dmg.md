@@ -1288,7 +1288,7 @@ What someone says on joining the company, or leaving it, in their own words (Joi
 - Takes: 10 minutes
 - Costs: 1
 
-They come into the company as one of you: they fight beside you, and what they can do the company can. Their hire is paid first, if they ask one.
+They come with you from now on: they fight beside you, and what they can do, you can.
 
 > Needs: able(actor); company(actor); able(recruit); distinct(actor, recruit); at(actor, site); at(recruit, site); willing(recruit, actor); quantity(actor, gold) >= hire(recruit)
 

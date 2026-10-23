@@ -15,6 +15,7 @@ import { PlayTranscript } from './transcript';
 import type { Entry, Frame, Leaf, Member, Message, Request, SaveSummary } from './protocol';
 import { SaveCodec } from './save-codec';
 import { Narrator, type Told } from '../../src/presentation/narrator';
+import { Obituary } from '../../src/narrative/obituary';
 
 interface Saved { checkpoint: SessionCheckpoint; log?: Entry[] }
 
@@ -32,6 +33,8 @@ export class EngineHost {
   private told?: Told;
   private country?: string;
   private crossed = false;
+  // How long the last command took the engine, before the screen was built and told.
+  private spent = 0;
   private turn?: { battle: Battle; resolve: (c: Command) => void };
   private readonly creation = new Creation();
   constructor(private readonly post: (message: Message) => void) {}
@@ -77,7 +80,7 @@ export class EngineHost {
   private async perform(command: string, context: { said: string; move: boolean; named: boolean }): Promise<Frame> {
     const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
-    const campaign = session.campaign, before = PlayerView.observe(campaign);
+    const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     try {
       const event = await session.perform(command, this.controller);
       const after = PlayerView.observe(campaign), feedback = ActionFeedbackView.read(campaign, event, before);
@@ -90,7 +93,7 @@ export class EngineHost {
       // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts.
       if (this.frontier?.drawing(campaign)) { this.post({ kind: 'progress', stage: 'The country beyond is being drawn' }); }
       if (this.frontier) { await this.frontier.expand(campaign); }
-    } finally { this.turn = undefined; this.opening = []; }
+    } finally { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
     return this.settled();
   }
   private next(): number { return this.log.reduce((n, e) => Math.max(n, e.id + 1), 0); }
@@ -121,11 +124,17 @@ export class EngineHost {
   }
   // A frame once a command is done, with the game to keep in this browser sent after it.
   private settled(): Frame {
+    const started = performance.now();
     this.screen = ScreenModel.build(this.session!.campaign);
-    const frame = this.frame();
-    setTimeout(() => { void this.keep(); }, 0);
+    const built = performance.now(), frame = this.frame(), told = performance.now();
+    frame.timing = { engine: Math.round(this.spent), screen: Math.round(built - started),
+      narrative: Math.round(told - built) };
+    this.spent = 0;
+    this.saving();
     return frame;
   }
+  // The game is kept after every command, once its frame has gone to the page, so the page never waits on it.
+  private saving() { setTimeout(() => { void this.keep(); }, 0); }
   private async keep() {
     if (!this.session || this.turn) { return; }
     try {
@@ -162,6 +171,7 @@ export class EngineHost {
       leaf: this.leaf(),
       ...this.turn ? { combat: CombatModel.build(this.turn.battle) } : {},
       opening: this.opening.filter(Boolean),
+      ...this.screen.running ? {} : { ending: Obituary.of(campaign) },
       chronicle: PlayerView.chronicle(campaign)
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
       transcript: session.transcript };

@@ -56,6 +56,10 @@ export interface Frame {
   opening: string[];
   chronicle: { at: string; text: string; detail: string[] }[];
   transcript: Transcript;
+  // How long the engine took over it, in milliseconds: the command itself, building the screen, telling it.
+  timing?: { engine: number; screen: number; narrative: number };
+  // When no one is left standing: how it came to that, said plainly (see Obituary).
+  ending?: { title: string; lines: string[] };
 }
 
 export type Request =

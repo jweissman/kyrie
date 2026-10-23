@@ -19,7 +19,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
 
   it('are linked from the title and open on the landing page', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 }, { site, query: '' });
-    await page.click('.title-page .books a');
+    await page.click('.title-page .small-ways a');
     await page.waitForSelector('.cards .card');
     expect(await page.locator('.cards .card').count()).toBe(3);
     expect(errors).toEqual([]);

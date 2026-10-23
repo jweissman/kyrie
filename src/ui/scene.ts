@@ -1,0 +1,65 @@
+import { ChoiceList, type Choice, type Section } from './choice-list';
+import type { Screen } from './screen-types';
+
+// One subject on the page: someone or something here, with what can be done with it said beside it.
+export interface SceneSubject {
+  id: string; kind: 'creature' | 'person' | 'companion' | 'thing'; name: string; note?: string; about?: string;
+  // How a fight with it would go, as the company reckons it, when it is one that might be fought.
+  danger?: string; choices: Choice[];
+}
+// What the page is drawn from in play: who and what is here (danger first), who is with you, the ways about the place
+// and the ways out across the country, and what you can do yourself. Every choice is one the engine offered, attached
+// to what it is done to, and known by its command, never by its words.
+export interface Scene {
+  subjects: SceneSubject[]; near: Choice[]; far: Choice[]; you: Choice[];
+}
+
+export class SceneModel {
+  static build(screen: Screen): Scene {
+    const sections = ChoiceList.explore(screen), astray = this.astray(sections);
+    const ways = sections.find(s => s.tone === 'way')?.choices ?? [];
+    const all = [...ways, ...astray];
+    const companions = new Set(screen.people.filter(p => p.companion).map(p => p.id));
+    const subjects = sections.filter(s => ['creature', 'person', 'thing'].includes(s.tone))
+      .map(s => this.subject(s, companions, screen))
+      .filter(s => s.choices.length || s.kind === 'creature' || s.kind === 'companion');
+    const rank: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, thing: 2, companion: 3 };
+    return { subjects: subjects.sort((a, b) => rank[a.kind] - rank[b.kind]),
+      near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
+      you: sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => !this.across(c))) };
+  }
+  private static subject(s: Section, companions: Set<string>, screen: Screen): SceneSubject {
+    const row = [...screen.people, ...screen.things].find(t => t.id === s.id);
+    const kind = companions.has(s.id) ? 'companion' : s.tone as 'creature' | 'person' | 'thing';
+    const [name, ...role] = s.title.split(', ');
+    const note = [role.join(', '), s.note].filter(Boolean).join(' · ');
+    return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
+      ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
+      choices: s.choices.map(c => this.bare(c, name!)) };
+  }
+  // Said beside its subject, a choice need not name it again: "Ask Wat about Father" under Wat is "Ask about Father";
+  // "Take a coil of rope" under the rope is "Take".
+  static bare(c: Choice, name: string): Choice {
+    const short = name.replace(/^(a|an|the|some) /i, '');
+    const label = c.label.replace(new RegExp(`^(\\w+) ${this.escape(name)}\\b,? ?`), '$1 ')
+      .replace(new RegExp(`\\s(${this.escape(name)}|${this.escape(short)})$`, 'i'), '').trim();
+    return { ...c, label: label || c.label,
+      ...c.children ? { children: c.children.map(k => this.bare(k, name)) } : {} };
+  }
+  private static escape(text: string): string { return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  // Ways that take more than a few minutes, or set out across wild country, are the ways out; the rest are about here.
+  private static far(c: Choice): boolean { return (c.minutes ?? 0) > 10 || this.across(c); }
+  private static across(c: Choice): boolean { return /__z\d+_(strike|cast|follow)(\(|$)/.test(c.command ?? ''); }
+  private static astray(sections: Section[]): Choice[] {
+    return sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => this.across(c)));
+  }
+  // Every choice on the page, in the order it is drawn, with the open ones' choices after them: what the keys move
+  // through, and what automation chooses among.
+  static order(scene: Scene, open: Set<string>): Choice[] {
+    return [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...scene.you]
+      .flatMap(c => this.unfold(c, open));
+  }
+  private static unfold(c: Choice, open: Set<string>): Choice[] {
+    return [c, ...open.has(c.id) && c.children ? c.children.flatMap(k => this.unfold(k, open)) : []];
+  }
+}

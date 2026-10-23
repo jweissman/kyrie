@@ -16,6 +16,8 @@ export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[
 export interface Leaf {
   heading?: { kind: 'opening' | 'country'; title: string };
   situation: string[]; presence: string[]; changed: string[]; exchange?: Exchange; shelter?: Shelter;
+  // Whether the last command brought the company here from somewhere else.
+  moved?: boolean;
 }
 // One command, as the host keeps it until the next: what happened, what the company saw of it, the words it was
 // chosen in, and whether it brought the company somewhere else.
@@ -47,7 +49,7 @@ export class Narrator {
     if (exchange) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change' || !shown.some(p => p.includes(l.text))); }
     return this.set({
       situation, presence, changed,
-      ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {},
+      ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
     });
   }
   // A place is told first, then what stands out in it, then what is to be read in it, and last the sky over it and

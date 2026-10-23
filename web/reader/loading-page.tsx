@@ -1,16 +1,15 @@
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 
-// While the engine builds the world: what it is doing, said once, with a quiet sign that it is still working.
+// While the engine draws the country or finds where you left off: what it is doing, said once.
 export class LoadingPage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, heading = s.setting?.pitch.heading ?? s.saved?.title ?? 'Kyr';
     return (
-      <div className="opening loading-page" data-mode="loading" aria-busy="true">
-        <main className="loading-sheet">
-          <p className="campaign">{heading}</p>
+      <div className="opening loading" data-mode="loading" aria-busy="true">
+        <main>
+          <h1>{heading}</h1>
           <p className="stage" role="status" aria-live="polite">{s.stage || 'Opening'}…</p>
-          <div className="working" aria-hidden="true"><span /></div>
         </main>
         <Toast.View app={app} />
       </div>

@@ -20,18 +20,19 @@ export class ReaderKeys {
   private play(key: string): boolean {
     const app = this.app, menu = app.menu, s = app.state;
     if (key === 'ArrowDown' || key === 'ArrowUp') {
-      if (!menu.level.length) { return false; }
+      if (!menu.choices.length) { return false; }
       const step = key === 'ArrowDown' ? 1 : -1;
-      app.setState({ cursor: (s.cursor + step + menu.level.length) % menu.level.length, hovered: undefined });
+      app.setState({ cursor: (s.cursor + step + menu.choices.length) % menu.choices.length, hovered: undefined,
+        keyed: true });
       return true;
     }
     if (key === 'Enter' || key === ' ') {
-      const chosen = menu.level[s.cursor];
+      const chosen = menu.choices[s.cursor];
       if (chosen) { app.choose(chosen); }
       return !!chosen;
     }
     if (/^[1-9]$/.test(key)) {
-      const chosen = menu.level[Number(key) - 1];
+      const chosen = menu.choices[Number(key) - 1];
       if (chosen) { app.setState({ cursor: Number(key) - 1 }); app.choose(chosen); }
       return !!chosen;
     }

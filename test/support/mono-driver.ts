@@ -83,7 +83,6 @@ export class MonoDriver {
     await this.key('Escape');
   }
   async mode(key: string) {
-    if (this.pointer && key === 'h') { await this.click('[data-action="history"]'); return; }
     if (this.pointer) { await this.click(`[data-action="mode"][data-key="${key}"]`); return; }
     await this.key(key);
   }

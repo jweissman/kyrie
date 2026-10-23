@@ -1,25 +1,22 @@
 import type { Entry, Frame } from '../engine/protocol';
 import type { MemberRow, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
-import { RegionMap } from './region-map';
+import { HereView } from './here-view';
 import { Words } from './words';
 
-// What opens over the right-hand page when asked for: the journal (what is unfinished and what you know, and how
-// sure you can be), the story so far, the map, a companion's sheet or a thing carried. The world stays on the left.
+// What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
+// you can be of it), the story so far, what you carry, the company. Back goes back to what is here; the world stays.
 export class Sheet {
   static readonly numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, screen = frame.screen;
-    const shown = app.menu.level.find(c => c.id === s.hovered) ?? app.menu.level[s.cursor];
     const body = s.view === 'journal' ? Sheet.journal(app, frame) : s.view === 'story' ? Sheet.story(frame.entries)
-      : s.view === 'map' ? <RegionMap.View screen={screen} />
-        : s.view === 'company' ? Sheet.member(screen.party.find(m => m.id === (shown?.id ?? s.member))
-          ?? screen.party.find(m => m.id === s.member) ?? screen.party[0]!, screen)
-          : Sheet.thing(screen, shown?.id);
+      : s.view === 'company' ? Sheet.company(app, screen) : Sheet.pack(app, screen);
     return (
       <section className={`sheet view-${s.view}`} data-region="details" aria-label={s.view}>
-        <button type="button" className="close" data-action="close" onClick={app.back} aria-label="Close">Close</button>
+        <p className="back"><button type="button" className="act" data-action="close" onClick={app.back}>‹ Back</button></p>
         {body}
+        <HereView.Sheets app={app} screen={screen} />
       </section>
     );
   }
@@ -29,23 +26,22 @@ export class Sheet {
       ['reported', 'Heard, not yet seen']];
     return (
       <article className="journal" data-region="knowledge">
-        <h2>Journal</h2>
+        <h2>Notes</h2>
         <h3>Unfinished</h3>
         {screen.objectives.length || screen.deadlines.length
           ? <ul>{[...screen.objectives, ...screen.deadlines].map(o => <li key={o}>{o}</li>)}</ul>
           : <p className="none">Nothing is asked of you yet.</p>}
-        <h3>What you know</h3>
         {kinds.map(([kind, title]) => {
           const list = facts.filter(k => k.kind === kind);
-          return list.length ? <div key={kind} className="known"><p className="kind">{title}</p>
+          return list.length ? <div key={kind}><h3>{title}</h3>
             <ul>{list.map(k => <li key={k.text}>{k.text}{k.how && <span className="how"> — {k.how}</span>}</li>)}</ul>
           </div> : null;
         })}
-        {!facts.length && <p className="none">Nothing yet.</p>}
-        <p className="keep">
-          <button type="button" data-action="export" onClick={app.download}>Download a save file</button>
-          <button type="button" data-action="title" onClick={app.opening.title}>Back to the title</button>
-        </p>
+        {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
+        <ul className="acts">
+          <li><button type="button" className="act" data-action="export" onClick={app.download}>Download a save file</button></li>
+          <li><button type="button" className="act" data-action="title" onClick={app.opening.title}>Back to the title</button></li>
+        </ul>
       </article>
     );
   }
@@ -59,23 +55,46 @@ export class Sheet {
           const chapter = e.place !== place ? <h3 key={`h${e.id}`}>{Words.upper(e.placeName)}</h3> : null;
           place = e.place;
           return <div key={e.id}>{chapter}
-            {e.said && <p className="said">{Words.echo(Words.lastSaid(e.said))}</p>}
+            {e.said && <p className="you">{Words.echo(Words.lastSaid(e.said))}</p>}
             {e.lines.map((l, i) => <p key={i}>{l}</p>)}</div>;
         }) : <p className="none">Nothing has happened yet.</p>}
       </article>
     );
+  }
+  // What each of you carries, and what can be done with each thing.
+  private static pack(app: ReaderApp, screen: Screen) {
+    const menu = app.menu, draw = { app, index: new Map(menu.choices.map((c, i) => [c.id, i])), open: new Set(app.state.open) };
+    return (
+      <article className="pack">
+        <h2>What you carry</h2>
+        {menu.sections.length ? menu.sections.map(sec => <section key={sec.id}>
+          <h3>{sec.title}</h3>
+          <HereView.Acts choices={sec.choices} draw={draw} column />
+        </section>) : <p className="none">You carry nothing.</p>}
+        <p className="how">{screen.purse.coin} coin · {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}
+          {screen.purse.other.length > 0 && ` · ${screen.purse.other.join(', ')}`}</p>
+      </article>
+    );
+  }
+  private static company(app: ReaderApp, screen: Screen) {
+    const m = screen.party.find(x => x.id === app.state.member) ?? screen.party[0]!;
+    const menu = app.menu, draw = { app, index: new Map(menu.choices.map((c, i) => [c.id, i])), open: new Set(app.state.open) };
+    return <>
+      <HereView.Acts choices={menu.sections.flatMap(sec => sec.choices)} draw={draw} />
+      {Sheet.member(m, screen)}
+    </>;
   }
   private static member(m: MemberRow, screen: Screen) {
     const gear = screen.items.filter(i => i.owner === m.id);
     return (
       <article className="member-sheet">
         <h2>{m.name}</h2>
-        <p className="line">{m.line}, level {m.level}{m.background ? `; once ${Words.article(m.background.toLowerCase())}` : ''}</p>
-        <p className="line">{m.progress}</p>
-        <p className="health">{Words.upper(Words.hurt(m.hp, m.maxHp))} ({m.hp} of {m.maxHp}){m.conditions.length > 0
+        <p>{m.line}, level {m.level}{m.background ? `; once ${Words.article(m.background.toLowerCase())}` : ''}</p>
+        {m.progress && <p className="how">{m.progress}</p>}
+        <p>{Words.upper(Words.hurt(m.hp, m.maxHp))} ({m.hp} of {m.maxHp}){m.conditions.length > 0
           && `; ${m.conditions.join(', ')}`}{(m.boons ?? []).length > 0 && ` · ${m.boons!.join(', ')}`}</p>
         <p className="attrs">{Object.entries(m.attributes).map(([k, v]) => <span key={k} title={k}>{k.slice(0, 3)} <b>{v}</b></span>)}</p>
-        {(m.spells ?? []).length > 0 && <><h3>Prepared today</h3><ul className="prepared">
+        {(m.spells ?? []).length > 0 && <><h3>Prepared today</h3><ul>
           {[...new Set(m.spells!.map(x => x.level))].map(l => <li key={l}><b>{Sheet.numerals[l - 1]}</b>{' '}
             {m.spells!.filter(x => x.level === l).map(x => x.ready ? x.name : `(${x.name}, spent)`).join(', ')}</li>)}
         </ul></>}
@@ -84,20 +103,6 @@ export class Sheet {
           <dd>{a.text}</dd></div>)}</dl>
         <h3>Carries</h3>
         <p>{gear.length ? Words.upper(gear.map(i => `${i.name}${i.equipped ? ' (in use)' : ''}`).join(', ')) : 'Nothing.'}</p>
-      </article>
-    );
-  }
-  private static thing(screen: Screen, id?: string) {
-    const item = screen.items.find(i => i.id === id || id?.startsWith(`${i.id}/`));
-    if (!item) {
-      return <article className="member-sheet"><p className="none">{screen.items.length
-        ? 'Choose a thing to use it, hand it over or set it down.' : 'You carry nothing yet.'}</p></article>;
-    }
-    return (
-      <article className="member-sheet">
-        <h2>{Words.upper(item.name.replace(/^(a|an|some) /i, ''))}</h2>
-        <p className="line">Carried by {item.ownerName}{item.equipped ? ', in use' : ''}</p>
-        <p>{item.description}</p>
       </article>
     );
   }
