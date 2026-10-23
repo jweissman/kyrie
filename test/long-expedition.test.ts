@@ -48,8 +48,15 @@ class Expedition {
 
 describe('a first expedition, played through', () => {
   it('comes home with what it carried up, sold, and a companion raised: and replays to the same world', async () => {
-    const s = await Expedition.start();
-    await Expedition.play(s, Expedition.steps);
+    const s = await Expedition.start(), fight = Expedition.steps.indexOf('Attack the goblins') + 1;
+    // Thoradin falls fighting the goblins: fallen, he cannot be asked anything; raised, he can again.
+    const asks = () => PlayerView.choices(s.campaign).some(c => /^Ask Thoradin /.test(c.choice.name));
+    await Expedition.play(s, Expedition.steps.slice(0, fight - 1));
+    expect(asks()).toBe(true);
+    await Expedition.play(s, Expedition.steps.slice(fight - 1, fight));
+    expect(asks()).toBe(false);
+    await Expedition.play(s, Expedition.steps.slice(fight));
+    expect(asks()).toBe(true);
     const wenna = s.campaign.readout.creatures.find(c => c.name === 'Wenna')!;
     expect(wenna.state.experience).toBeGreaterThan(400);
     expect(s.campaign.readout.creatures.find(c => c.name === 'Thoradin')!.state.hp).toBeGreaterThan(0);

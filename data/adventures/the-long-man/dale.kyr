@@ -262,7 +262,7 @@ Module longman "The Long Man" {
   Rule venn_flees when exposed(venn) and at(cass, landing) and able(venn) and not at(venn, landing) and not at(venn, downriver) { Assert at(venn, landing). }
   Rule venn_sails when exposed(venn) and at(venn, landing) and at(cass, downriver) { Assert at(venn, downriver). }
   Observe venn_waits at landing when exposed(venn) and at(venn, landing) "Aldous Venn sits on the Heron's hatch with a valise on his knees, and does not look up at the hill.".
-  Action claim_bounty(actor: group, carrier: member, face: item, site: place) "Show Aldous Venn the Mower's mask" {
+  Action claim_bounty(actor: group, carrier: member, face: item, site: place) "Show Aldous Venn {face}" {
     Requires able(actor) and company(actor) and at(actor, site) and at(venn, site) and memberOf(carrier, actor)
       and ownedItem(face, carrier) and itemKind(face, keeper_mask) and not paidBounty(venn).
     On success { Decrease quantity(venn, gold) by 40. Increase quantity(actor, gold) by 40. Assert paidBounty(venn). }

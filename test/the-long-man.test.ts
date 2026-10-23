@@ -174,7 +174,7 @@ describe('The Long Man, deepened', () => {
       'lift the bar', '^To the last house');
     expect(Dale.holds(s, 'knows', 'party', 'longman__last_count')).toBe(true);
     await Dale.act(s, '^To the drowned street', '^To the Water-House', '^To the deep water', '^To the lakeshore',
-      '^To the crest', '^To the Hall yard', '^Into the steward', 'Show Aldous Venn the Mower\'s mask');
+      '^To the crest', '^To the Hall yard', '^Into the steward', 'Show Aldous Venn a grey face, fired and never fitted');
     expect(Dale.holds(s, 'longman__paidBounty', 'longman__venn')).toBe(true);
     expect(Dale.holds(s, 'able', 'longman__mower')).toBe(true);
   }, 240000);

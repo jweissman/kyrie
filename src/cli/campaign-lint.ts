@@ -93,6 +93,18 @@ export class CampaignLint {
       }
     }
   }
+  // A choice names what tells it apart from another: an action over any item of a kind (a flask of lamp oil) that
+  // leaves the item out of its label offers two choices of one name once two such items are carried.
+  labels() {
+    for (const schema of this.session.campaign.schemas) {
+      const shown = ActionSchemas.placeholders(schema.name), text = JSON.stringify(schema.requires ?? {});
+      for (const p of (schema.parameters ?? []).filter(x => x.type === 'item' && !shown.includes(x.name))) {
+        if (text.includes(`"name":"itemKind","args":["${p.name}"`)) {
+          this.add('error', 'label', `action ${schema.id} takes any ${p.name} of a kind, but "${schema.name}" does not name it`);
+        }
+      }
+    }
+  }
   items() {
     for (const e of this.module.entities.filter(x => x.type === 'item')) {
       const kind = this.relations('itemKind').find(r => r.args[0] === e.id)?.args[1];

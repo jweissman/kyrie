@@ -18,6 +18,9 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   // A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that
   // could be taken for part of it happens there by chance (a carrier's wheel in the ditch).
   Relation staged(place, fact).
+  // What was so and is no longer (a child's fever, once it has broken or the child has died): still known to whoever
+  // knew it, but no longer passed on as news.
+  Relation stale(fact).
   Goal false.
   Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
     Time 5 minutes.
@@ -34,7 +37,8 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     Result "{recipient} hears you out, and believes you.".
     Requires able(actor) and able(recipient) and distinct(actor, recipient)
       and at(actor, site) and at(recipient, site) and trusts(recipient, actor)
-      and knows(actor, statement) and established(statement) and not toldBy(recipient, actor, statement).
+      and knows(actor, statement) and established(statement) and not stale(statement)
+      and not toldBy(recipient, actor, statement).
     On success {
       Assert knows(recipient, statement). Retract assumesFalse(recipient, statement).
       Assert toldBy(recipient, actor, statement).
@@ -47,7 +51,8 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     Requires able(actor) and able(informant) and distinct(actor, informant)
       and at(actor, site) and at(informant, site) and testimony(informant, topic)
       and reveals(topic, statement) and noticeable(topic)
-      and knows(informant, statement) and established(statement) and not knows(actor, statement).
+      and knows(informant, statement) and established(statement) and not stale(statement)
+      and not knows(actor, statement).
     On success {
       Assert knows(actor, statement). Retract assumesFalse(actor, statement).
       Assert toldBy(actor, informant, statement).

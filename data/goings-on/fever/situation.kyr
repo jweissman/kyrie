@@ -7,8 +7,8 @@ Module fever "A fever on the green" {
   Entity sick: fact "A child on {green} has a fever that will not break, and the herbs have run out.".
   Initially Assert established(sick).
 
-  Person mother "The sick child's mother" at green { Role "a mother with a sick child". Peaceable. Wants herbs. }
-  Person sister "The sick child's sister" at green { Role "the sick child's elder sister". Peaceable. }
+  Person mother "The sick child's mother" at green { Role "the child's mother". Peaceable. Wants herbs. }
+  Person sister "The sick child's sister" at green { Role "the child's elder sister". Peaceable. }
   Observe shutters at green when not mended(mother) and not lost(mother) "The shutters of one house are drawn in daylight, and a woman stands in its door, watching the road.".
   Observe mended_scene at green when mended(mother) "The shutters of the sick child's house are open, and a child's voice comes out of it, complaining.".
   Observe lost_scene at green when lost(mother) "The shutters of the sick child's house stay drawn, and there are flowers on the step.".
@@ -21,9 +21,9 @@ Module fever "A fever on the green" {
     On discuss { Assert knows(actor, bark_lore). }
   }
   // Whatever herbs are given her, she uses.
-  Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). }
+  Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). Assert stale(sick). }
   // Too late, it happens at first light, and is heard by whoever is on the green; whoever comes back later sees it.
-  Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). }
+  Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). Assert stale(sick). }
 
   Topic sister_thanks with sister "Speak with {sister}" when mended(mother) and not offered(sister) once {
     Says "'She is eating,' says {sister}, as if she does not believe it. 'You went when nobody else would. If you are going on, I will come. I can pull my weight.'".

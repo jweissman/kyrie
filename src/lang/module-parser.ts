@@ -283,10 +283,12 @@ export class ModuleParser {
     _close: Node): Field {
     const who = speaker.sourceString;
     // Someone who has joined the company is still themselves: what could be put to them where they were can be put to
-    // them on the way.
+    // them on the way, so long as they can answer (not fallen, nor asleep).
+    const along = `travelsWith(${who}, actor) and not (joinedAs(?m, ${who}) and not awake(?m))`;
     const text = travelling.children.length
-      ? `able(actor) and distinct(actor, ${who}) and at(actor, site) and travelsWith(${who}, actor)`
-      : `able(actor) and distinct(actor, ${who}) and at(actor, site) and ((able(${who}) and at(${who}, site)) or travelsWith(${who}, actor))`;
+      ? `able(actor) and distinct(actor, ${who}) and at(actor, site) and ${along}`
+      : `able(actor) and distinct(actor, ${who}) and at(actor, site)`
+        + ` and ((able(${who}) and at(${who}, site)) or (${along}))`;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title),
       description: '', speaker: who,
       report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],

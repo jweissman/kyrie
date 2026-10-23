@@ -20,6 +20,9 @@ Module world_people "Company and intention" {
   // Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has
   // joined it, who goes where it goes and can be talked to on the way.
   Relation willing(group, group). Measure hire(group). Relation travelsWith(group, group).
+  // Who someone who has joined now is among the company's members: they answer on the way only while that member is
+  // awake (not fallen, not asleep, not laid to rest).
+  Relation joinedAs(member, group).
   // A traveller of the country who has joined (a fellow, as against the one who plays): how much of their own story
   // they have told, and whether they have told some tonight. A story is told a part a night.
   Relation fellow(member). Measure confided(group). Relation hushed(group).

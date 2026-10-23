@@ -13,7 +13,8 @@ export interface AuditFinding { kind: 'route' | 'resource' | 'clue' | 'outcome';
 export class WorldAudit {
   // Written by the engine rather than by rules: what a story may wait on without any rule asserting it.
   static readonly engine = new Set([...CreatureFacts.written, 'at', 'knows', 'established', 'keeps', 'owns', 'state',
-    'defeated', 'ended', 'cleared', 'travelsWith', 'following', 'cameHome', 'grateful', 'willing', 'been', 'tried']);
+    'defeated', 'ended', 'cleared', 'travelsWith', 'joinedAs', 'following', 'cameHome', 'grateful', 'willing', 'been',
+    'tried']);
   static audit(campaign: Campaign, placements: Placement[] = []): AuditFinding[] {
     const reach = this.reachable(campaign);
     return [...this.routes(campaign, placements, reach), ...this.resources(campaign, reach),

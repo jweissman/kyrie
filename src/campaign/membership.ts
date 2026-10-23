@@ -30,9 +30,11 @@ export class Membership {
     current.inhabitants[company] = [...current.partyIds];
     current.inhabitants[recruit] = [];
     current.enlisted = { ...current.enlisted, [recruit]: company };
+    // Their creatures are no longer their group's members; who they now are among the company's is kept.
     const references = members.flatMap(id => at.module.entities.filter(e => e.creatureId === id).map(e => e.id));
-    return at.world.apply(references.map(r => ({ kind: 'retract' as const,
-      call: ModuleWriter.call('memberOf', r, recruit) })));
+    return at.world.apply(references.flatMap(r => [
+      { kind: 'retract' as const, call: ModuleWriter.call('memberOf', r, recruit) },
+      { kind: 'assert' as const, call: ModuleWriter.call('joinedAs', r, recruit) }]));
   }
   // A companion laid to rest leaves the company for good: they are no longer one of its members.
   static release(at: { current: Current; company?: string; module: Module; world: World }, reference: string): World {

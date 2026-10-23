@@ -208,7 +208,7 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 
 *Kyr · action (group, item, itemkind, item, itemkind, member)* · `rule:belongings.light_lamp`
 
-- Shown as: Fill {vessel} and light it
+- Shown as: Fill {vessel} from {dose} and light it
 - Takes: 10 minutes
 - Costs: 1
 
@@ -756,13 +756,19 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 16 | 0 | 0 | 0 | 5 |
+| 2 | 17 | 0 | 0 | 0 | 5 |
 
 #### staged
 
 *Kyr · relation(place, fact)* · `rule:discovery_rules.staged`
 
 A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that could be taken for part of it happens there by chance (a carrier's wheel in the ditch).
+
+#### stale
+
+*Kyr · relation(fact)* · `rule:discovery_rules.stale`
+
+What was so and is no longer (a child's fever, once it has broken or the child has died): still known to whoever knew it, but no longer passed on as news.
 
 #### examine
 
@@ -784,7 +790,7 @@ A place where a story is being told (a cart gone off the road, a man under it), 
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); able(recipient); distinct(actor, recipient); at(actor, site); at(recipient, site); trusts(recipient, actor); knows(actor, statement); established(statement); not (toldBy(recipient, actor, statement))
+> Needs: able(actor); able(recipient); distinct(actor, recipient); at(actor, site); at(recipient, site); trusts(recipient, actor); knows(actor, statement); established(statement); not (stale(statement)); not (toldBy(recipient, actor, statement))
 
 > Then: Assert knows(recipient, statement). Retract assumesFalse(recipient, statement). Assert toldBy(recipient, actor, statement).
 
@@ -798,7 +804,7 @@ A place where a story is being told (a cart gone off the road, a man under it), 
 
 They tell you what they know of it.
 
-> Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (knows(actor, statement))
+> Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (stale(statement)); not (knows(actor, statement))
 
 > Then: Assert knows(actor, statement). Retract assumesFalse(actor, statement). Assert toldBy(actor, informant, statement).
 
@@ -1418,7 +1424,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 20 | 3 | 0 | 3 | 6 |
+| 0 | 21 | 3 | 0 | 3 | 6 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1457,6 +1463,12 @@ What someone is to the one who plays, in the words the page names them by ("your
 *Kyr · relation(group, group); measure(group); relation(group, group)* · `rule:world_people.willing`
 
 Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has joined it, who goes where it goes and can be talked to on the way.
+
+#### joinedAs
+
+*Kyr · relation(member, group)* · `rule:world_people.joinedAs`
+
+Who someone who has joined now is among the company's members: they answer on the way only while that member is awake (not fallen, not asleep, not laid to rest).
 
 #### fellow, confided, hushed
 
