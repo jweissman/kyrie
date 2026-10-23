@@ -86,10 +86,10 @@ export interface Module {
   charts?: Record<string, LandChart>;
 }
 // A region's land for its map: each cell's cover in one string (row by row), the cells of its rivers, of each road
-// (by its way), of each part of its wild country (by room), and the cell of each place on it.
+// (by its way), of each part of its wild country (by room), the cell of each place on it, and what its names mean.
 export interface LandChart {
   width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
-  parts: Record<string, number[]>; places: Record<string, number>;
+  parts: Record<string, number[]>; places: Record<string, number>; glosses?: Record<string, string>;
 }
 export interface WorldState {
   relations: Call[];

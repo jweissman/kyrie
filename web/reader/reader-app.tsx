@@ -152,8 +152,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         move: choice.tone === 'way', named });
       // A journey is shown for long enough to be seen, whatever the engine took.
       if (travel) { await new Promise(r => setTimeout(r, Math.max(0, this.journey(travel) - performance.now() + started))); }
-      this.setState({ frame: next, pending: undefined, cursor: 0, trail: this.kept(next), hovered: undefined,
-        view: this.state.view === 'map' ? 'map' : 'here' });
+      this.setState({ frame: next, pending: undefined, cursor: 0, trail: this.kept(next), hovered: undefined, view: 'here' });
     } catch (error) { this.failed(error); }
   }
   // A conversation goes on: after saying something to someone, what else there is to say to them stays open, as long

@@ -125,7 +125,7 @@ export class ModuleBundle {
   // A chart's places, roads and parts named as the installed module names them.
   private static chart(chart: import('../lang/module').LandChart, id: string): import('../lang/module').LandChart {
     return { ...chart, roads: this.scoped(chart.roads, id), parts: this.scoped(chart.parts, id),
-      places: this.scoped(chart.places, id) };
+      places: this.scoped(chart.places, id), ...chart.glosses ? { glosses: this.scoped(chart.glosses, id) } : {} };
   }
   private static scoped<T>(o: Record<string, T>, id: string): Record<string, T> {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [`${id}__${k}`, v]));

@@ -1,33 +1,76 @@
-import { memo, useEffect, type CSSProperties } from 'react';
+import { memo, useEffect, type CSSProperties, type PointerEvent } from 'react';
 import type { Chart, RegionChart, Screen } from '../../src/ui/screen-types';
-import type { Travel } from './reader-app';
 import { LandMap } from './land-map';
+import { WayChart } from './way-chart';
 
 interface Point { x: number; y: number }
 
-// The land behind the page, drawn only from what the world says and the company knows: the areas of the region where
-// their grid puts them, the routes between them with how long each takes, and where the company is. A journey is
-// drawn as it is made. Inside, the rooms the company knows are drawn instead.
+// The map, opened as a plate: the land as far as the company knows it, drawn from what the world says and the company
+// has seen or heard, never more; under it, a key to what it shows, every way the company knows to be shut and why,
+// and what the names on it mean. Inside a site, the rooms of it the company knows are drawn beside.
 export class RegionMap {
   static readonly cell = { w: 210, h: 170 };
-  static View({ screen, travel, large }: { screen: Screen; travel?: Travel; large: boolean }) {
-    const region = screen.region;
-    // Opened on a phone, a wide region scrolls sideways at a scale that can be read, from where the company is.
+  static View({ screen }: { screen: Screen }) {
+    const region = screen.region, site = screen.path.find(p => ['site', 'level'].includes(p.kind));
+    // A land wider than the plate opens on where the company is.
     useEffect(() => {
-      if (large) { document.querySelector('.backdrop.large .area.here')?.scrollIntoView({ inline: 'center', block: 'center' }); }
-    }, [large, region]);
+      const box = document.querySelector<HTMLElement>('.plate .chart'), here = box?.querySelector('[aria-current="location"]');
+      if (!box || !here) { return; }
+      const a = box.getBoundingClientRect(), b = here.getBoundingClientRect();
+      box.scrollLeft += b.left - a.left - a.width / 2;
+      box.scrollTop += b.top - a.top - a.height / 2;
+    }, [region]);
+    const country = screen.path.find(p => p.kind === 'region')?.name;
     return (
-      <div className={`backdrop${large ? ' large' : ''}${travel ? ' journey' : ''}`} aria-hidden={!large}>
-        {region?.land ? <LandMap.View region={region} travel={travel} large={large} />
-          : region ? <RegionMap.Region region={region} travel={travel} large={large} /> : screen.chart
-          ? <RegionMap.Local chart={screen.chart} /> : null}
-        {large && region && screen.chart && screen.path.some(p => ['site', 'level'].includes(p.kind))
-          && <div className="inset"><RegionMap.Local chart={screen.chart} /></div>}
-      </div>
+      <figure className="plate">
+        {country && <h2 className="plate-title">{country}</h2>}
+        <div className="chart" onPointerDown={RegionMap.grab} onPointerMove={RegionMap.drag} onPointerUp={RegionMap.drop}
+          onPointerCancel={RegionMap.drop}>
+          {region?.land ? <LandMap.View region={region} /> : region ? <RegionMap.Region region={region} />
+            : screen.chart ? <RegionMap.Local chart={screen.chart} /> : <p className="none">You know nothing of the land yet.</p>}
+        </div>
+        {region && <RegionMap.Key region={region} />}
+        {site && screen.chart && <div className="within"><h3>{site.name}</h3><WayChart.View chart={screen.chart} /></div>}
+      </figure>
     );
   }
+  // With a mouse, the land is moved by taking hold of it; a finger scrolls it already.
+  private static grab(e: PointerEvent<HTMLDivElement>) {
+    if (e.pointerType !== 'mouse' || e.button !== 0) { return; }
+    const el = e.currentTarget;
+    el.setPointerCapture(e.pointerId);
+    el.dataset.drag = [e.clientX, e.clientY, el.scrollLeft, el.scrollTop].join(',');
+  }
+  private static drag(e: PointerEvent<HTMLDivElement>) {
+    const el = e.currentTarget, held = el.dataset.drag?.split(',').map(Number);
+    if (!held) { return; }
+    el.scrollLeft = held[2]! - (e.clientX - held[0]!);
+    el.scrollTop = held[3]! - (e.clientY - held[1]!);
+  }
+  private static drop(e: PointerEvent<HTMLDivElement>) { delete e.currentTarget.dataset.drag; }
+  // What the marks mean, only those the map shows; the ways known to be shut, with what shuts them; and the names.
+  static Key({ region }: { region: RegionChart }) {
+    const land = region.land, shut = region.edges.filter(e => e.status !== 'open');
+    const names = Object.entries(land?.glosses ?? {}).map(([id, gloss]) => [region.areas.find(a => a.id === id)?.name
+      ?? land?.marks.find(m => m.id === id)?.name ?? id, gloss] as const);
+    const key: [string, string, boolean][] = [['road', 'A road', Object.keys(land?.roads ?? {}).length > 0],
+      ['path', 'A path or a track', region.edges.some(e => e.course && !e.road)],
+      ['stop', 'Shut, watched or dangerous', shut.length > 0], ['you', 'You', true]];
+    return (
+      <figcaption className="key">
+        <ul className="marks">{key.filter(k => k[2]).map(([k, text]) => <li key={k}><i className={`swatch ${k}`} />{text}</li>)}
+        </ul>
+        <p className="note">Only what you have seen, or know the way to, is drawn.</p>
+        {shut.length > 0 && <><h3>Shut to you</h3><ul className="shut">{shut.map(e =>
+          <li key={`${e.from}|${e.to}`}>{RegionMap.upper(e.label.split(' · ')[0]!)}: {e.reason ?? 'not open to you now.'}</li>)}</ul></>}
+        {names.length > 0 && <><h3>The names</h3><dl className="names">{names.map(([name, gloss]) =>
+          <div key={name}><dt>{name}</dt><dd>{gloss}</dd></div>)}</dl></>}
+      </figcaption>
+    );
+  }
+  private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   static readonly Region = memo(RegionMap.region);
-  private static region({ region, travel, large }: { region: RegionChart; travel?: Travel; large: boolean }) {
+  private static region({ region }: { region: RegionChart }) {
     const xs = region.areas.map(a => a.x), ys = region.areas.map(a => a.y);
     const [minX, minY] = [Math.min(...xs), Math.min(...ys)];
     // A wide region is drawn on a closer grid, so its names stay legible when it fits the pane.
@@ -35,10 +78,9 @@ export class RegionMap {
     const h = Math.max(100, Math.min(RegionMap.cell.h, 480 / Math.max(1, Math.max(...ys) - minY)));
     const width = (Math.max(...xs) - minX) * w, height = (Math.max(...ys) - minY) * h;
     const at = new Map(region.areas.map(a => [a.id, { x: (a.x - minX) * w, y: (a.y - minY) * h }]));
-    const from = travel && region.within[travel.from], to = travel && region.within[travel.to];
     // Drawn tight around what is known, with room for the names, so the land fills the space it has; but behind the
     // page, never so close that two known places fill the whole pane.
-    const [w0, h0] = [Math.max(width + 260, large ? 560 : 820), Math.max(height + 150, large ? 400 : 560)];
+    const [w0, h0] = [Math.max(width + 260, 560), Math.max(height + 150, 400)];
     const box = [-130 - (w0 - width - 260) / 2, -70 - (h0 - height - 150) / 2, w0, h0];
     return (
       <svg className="region" viewBox={box.join(' ')} role="img" style={{ '--span': Math.max(...xs) - minX } as CSSProperties}
@@ -47,15 +89,12 @@ export class RegionMap {
         {region.areas.filter(a => a.form === 'river').map(a => RegionMap.river(at.get(a.id)!, box, a.id))}
         {region.edges.map(e => {
           const a = at.get(e.from)!, b = at.get(e.to)!, d = RegionMap.curve(a, b, e.from + e.to);
-          const going = !!from && !!to && [e.from, e.to].sort().join() === [from, to].sort().join();
           const [name, time] = [e.label.split(' · ')[0]!, e.label.split(' · ').at(-1)!];
           return (
-            <g key={`${e.from}|${e.to}`} className={`route ${e.status}${going ? ' going' : ''}`}>
+            <g key={`${e.from}|${e.to}`} className={`route ${e.status}`}>
               <path id={`route-${e.from}-${e.to}`} d={d}><title>{name} · {time}</title></path>
               <text className="route-label" dy={-7}><textPath href={`#route-${e.from}-${e.to}`} startOffset="50%"
                 textAnchor="middle">{time}</textPath></text>
-              {going && <circle className="traveller" r={7}><animateMotion dur="1.6s" fill="freeze"
-                path={RegionMap.curve(a, b, e.from + e.to, from === e.to)} /></circle>}
             </g>
           );
         })}

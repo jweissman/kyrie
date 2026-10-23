@@ -12,7 +12,7 @@ export class Sheet {
     const s = app.state, frame = s.frame!, screen = frame.screen;
     const shown = app.menu.level.find(c => c.id === s.hovered) ?? app.menu.level[s.cursor];
     const body = s.view === 'journal' ? Sheet.journal(app, frame) : s.view === 'story' ? Sheet.story(frame.entries)
-      : s.view === 'map' ? <RegionMap.View screen={screen} large />
+      : s.view === 'map' ? <RegionMap.View screen={screen} />
         : s.view === 'company' ? Sheet.member(screen.party.find(m => m.id === (shown?.id ?? s.member))
           ?? screen.party.find(m => m.id === s.member) ?? screen.party[0]!, screen)
           : Sheet.thing(screen, shown?.id);

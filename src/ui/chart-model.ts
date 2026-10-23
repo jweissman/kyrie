@@ -1,8 +1,9 @@
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
-import type { Entity, LandChart } from '../lang/module';
+import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import { PassageModel, type WayInfo } from './passage-model';
+import { LandModel } from './land-model';
 import type { Chart, RegionChart } from './screen-types';
 
 // Maps from canonical geography at two scales. Local: the rooms of the settlement, wilderness or site the company is
@@ -70,8 +71,7 @@ export class ChartModel {
       }
       edges.push({ ...this.edge(w, visited), from: inside.id, to: id });
     }
-    return { ...(places.length ? { chart: { places, edges } } : {}),
-      ...this.region(ways, visited, this.regionalArea(here)?.id) };
+    return { ...(places.length ? { chart: { places, edges } } : {}), ...this.region(ways, visited, here) };
   }
   private edge(w: WayInfo, visited: Set<string>) {
     return { id: w.passage, name: w.name, from: w.from, to: w.to, status: w.status, oneWay: w.oneWay,
@@ -103,46 +103,24 @@ export class ChartModel {
   private regionOf(id: string | undefined): string | undefined {
     return id ? Spatial.ancestry(this.entities, id).find(e => ['region', 'plane'].includes(e.space!.kind))?.id : undefined;
   }
-  private region(ways: WayInfo[], visited: Set<string>, here?: string): { region?: RegionChart } {
+  private region(ways: WayInfo[], visited: Set<string>, place: string): { region?: RegionChart } {
     const areas = new Map<string, RegionChart['areas'][number]>(), edges = new Map<string, RegionChart['edges'][number]>();
-    const home = this.regionOf(here);
+    const here = this.regionalArea(place)?.id, home = this.regionOf(here);
+    const chart = home && this.world.module.charts?.[home];
+    const land = chart ? new LandModel(chart, this.entities) : undefined;
     for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }
     for (const w of ways.filter(x => this.regionOf(x.from) === home && this.regionOf(x.to) === home)) {
       const a = this.mark(areas, w.from, visited, here), b = this.mark(areas, w.to, visited, here);
       if (!a || !b || a === b) { continue; }
       const key = [a, b].sort().join('|');
-      if (!edges.has(key)) { edges.set(key, { from: a, to: b, label: `${w.name} · ${this.duration(w.passage)}`, status: w.status }); }
-    }
-    const terrain = home ? this.form(home, 'terrain').form : undefined, chart = home && this.world.module.charts?.[home];
-    return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],
-      within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
-      ...chart ? { land: this.land(chart, visited, ways) } : {} } } : {};
-  }
-  // The land the company knows: around every settlement it has been to, along every road it has walked and every
-  // part of wild country it has crossed, and the cell of each place it has been to or knows the way to.
-  private land(chart: LandChart, visited: Set<string>, ways: WayInfo[]): RegionChart['land'] {
-    const known = new Set<number>(), heard = new Set(ways.flatMap(w => [w.from, w.to]));
-    for (const id of visited) {
-      const area = this.regionalArea(id)?.id, here = chart.places[id] ?? (area ? chart.places[area] : undefined);
-      for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(chart, c, 1, known); }
-      if (here !== undefined) { this.reveal(chart, here, area && chart.places[area] === here ? 2 : 1, known); }
-    }
-    for (const id of heard) {
-      const at = chart.places[id] ?? chart.places[this.regionalArea(id)?.id ?? ''];
-      if (at !== undefined) { known.add(at); }
-    }
-    const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)));
-    for (const cells of Object.values(roads)) { for (const c of cells) { known.add(c); } }
-    return { width: chart.width, height: chart.height, cover: chart.cover, rivers: chart.rivers, roads,
-      known: [...known].sort((a, b) => a - b) };
-  }
-  private reveal(chart: LandChart, cell: number, reach: number, known: Set<number>) {
-    const x = cell % chart.width, y = Math.floor(cell / chart.width);
-    for (let dy = -reach; dy <= reach; dy++) {
-      for (let dx = -reach; dx <= reach; dx++) {
-        const nx = x + dx, ny = y + dy;
-        if (nx >= 0 && ny >= 0 && nx < chart.width && ny < chart.height) { known.add(ny * chart.width + nx); }
+      if (!edges.has(key)) {
+        edges.set(key, { from: a, to: b, label: `${w.name} · ${this.duration(w.passage)}`, status: w.status,
+          ...land?.course(w.from, w.to), ...w.reason ? { reason: w.reason } : {} });
       }
     }
+    const terrain = home ? this.form(home, 'terrain').form : undefined;
+    return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],
+      within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
+      ...land ? { land: land.land(visited, ways, place, [...areas.values()]) } : {} } } : {};
   }
 }

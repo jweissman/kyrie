@@ -12,9 +12,10 @@ import { Toast } from './toast';
 import { Words } from './words';
 
 // Play: an open book. The left-hand page is the world, the right-hand page what you might do. Held upright or on a
-// phone, the pages follow one another. What is asked for (the journal, the company, the pack, the story so far, the
-// map) opens over the right-hand page and never takes the world away; a fight is told on the left and chosen on the
-// right like anything else.
+// phone, the pages follow one another. What is asked for (the journal, the company, the pack, the story so far) opens
+// over the right-hand page and never takes the world away; the map is the world drawn rather than told, so it opens
+// over the left-hand page, with the ways on still to be chosen beside it. A fight is told on the left and chosen on
+// the right like anything else.
 export class Book {
   static readonly ribbon: [View, string, string][] = [['journal', 'j', 'Journal'], ['map', 'm', 'Map'],
     ['company', 'c', 'Company'], ['pack', 'i', 'Pack'], ['story', 'h', 'Story']];
@@ -22,7 +23,7 @@ export class Book {
     const s = app.state, frame = s.frame!, screen = frame.screen, combat = frame.combat;
     const mode = combat ? 'combat' : { here: 'explore', company: 'party', pack: 'pack', journal: 'journal', map: 'map',
       story: 'story' }[s.view];
-    const reading = ['journal', 'story', 'map'].includes(s.view) && !combat;
+    const reading = ['journal', 'story'].includes(s.view) && !combat, plate = s.view === 'map' && !combat;
     const beside = ['company', 'pack'].includes(s.view) && !combat;
     return (
       <div className={`book view-${s.view}${s.pending?.travel ? ' travelling' : ''}${combat ? ' fighting' : ''}`}
@@ -31,7 +32,8 @@ export class Book {
         <main className="verso" id="page">
           {!screen.running ? <Book.Fallen app={app} />
             : combat ? <FightView.View combat={combat} opening={frame.opening} place={screen.place.name} mark={s.fight} />
-              : <Verso.View screen={screen} leaf={frame.leaf} {...s.pending ? { pending: s.pending } : {}} />}
+              : plate ? <Sheet.View app={app} />
+                : <Verso.View screen={screen} leaf={frame.leaf} {...s.pending ? { pending: s.pending } : {}} />}
         </main>
         <aside className="recto">
           {reading ? <Sheet.View app={app} /> : <>

@@ -8,6 +8,8 @@
   --paper: #f3ede2; --leaf: #f6f1e7; --panel: #ece4d5; --ink: #2b241d; --soft: #65584a; --faint: #8f8070; --rule: #dacdb8;
   --accent: #8a3a17; --accent-ink: #fff8ef; --sel: #e7ddcb; --good: #5f7f45; --bad: #a3321f; --warn: #8a5e0f;
   --map: #7c6a55; --map-faint: #c9bba4; --water: #6f8fa3; --water-faint: #cfdbe0; --wood: #ccd0b6; --wood-edge: #a6ab89;
+  --road: #86694b; --tree: #7a835c; --tree-fill: #e5e3cb; --fell: #d9caae; --heath: #dfcdbf; --fen: #d2dccd;
+  --reed: #7a8b76; --tuft: #9a7f6d;
   --serif: 'Alegreya', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --caps: 'Alegreya SC', 'Alegreya', Georgia, serif;
   --sans: 'Alegreya Sans', 'Gill Sans', 'Segoe UI', system-ui, sans-serif;
@@ -19,6 +21,8 @@
     --paper: #171310; --leaf: #1b1713; --panel: #221c17; --ink: #e9e0d0; --soft: #b2a28d; --faint: #8f816f; --rule: #3a3129;
     --accent: #e0a06a; --accent-ink: #1a140f; --sel: #2b241d; --good: #93b374; --bad: #e27c62; --warn: #d9a44a;
     --map: #a08c72; --map-faint: #4c4238; --water: #7d9fb8; --water-faint: #24313a; --wood: #2f3326; --wood-edge: #5a5f45;
+    --road: #a98d6c; --tree: #8f9a6c; --tree-fill: #262a1f; --fell: #3a3128; --heath: #382e2b; --fen: #212c29;
+    --reed: #7f927c; --tuft: #9c8574;
     color-scheme: dark;
   }
 }
@@ -26,6 +30,8 @@
   --paper: #171310; --leaf: #1b1713; --panel: #221c17; --ink: #e9e0d0; --soft: #b2a28d; --faint: #8f816f; --rule: #3a3129;
   --accent: #e0a06a; --accent-ink: #1a140f; --sel: #2b241d; --good: #93b374; --bad: #e27c62; --warn: #d9a44a;
   --map: #a08c72; --map-faint: #4c4238; --water: #7d9fb8; --water-faint: #24313a; --wood: #2f3326; --wood-edge: #5a5f45;
+  --road: #a98d6c; --tree: #8f9a6c; --tree-fill: #262a1f; --fell: #3a3128; --heath: #382e2b; --fen: #212c29;
+  --reed: #7f927c; --tuft: #9c8574;
   color-scheme: dark;
 }
 
@@ -143,7 +149,6 @@ p { hyphens: auto; text-wrap: pretty; }
 .journal .keep button { all: unset; cursor: pointer; font: 14px var(--sans); color: var(--accent); }
 .story h3 { font: 500 1.05rem/1.3 var(--caps); text-transform: lowercase; color: var(--soft); letter-spacing: .02em; margin: 1.6rem 0 .3rem; }
 .story .said { font-style: italic; color: var(--soft); font-size: .92rem; margin: .6rem 0 .2rem; }
-.sheet.view-map { max-width: none; }
 
 /* A fight: the field on the left, what to do on the right. */
 .fight { padding: .6rem 0 1rem; }
@@ -216,21 +221,89 @@ p { hyphens: auto; text-wrap: pretty; }
 @keyframes took { 0% { opacity: 0; } 15% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: .55; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
-/* ---- Charts (to be redrawn) ---- */
-/* The land behind the page. */
-.aside { position: relative; overflow: hidden; border-left: 1px solid var(--rule); }
-.backdrop { position: absolute; inset: 0; display: grid; place-items: center; padding: 3rem; opacity: .62;
-  transition: opacity .6s ease, transform .9s ease; }
-.backdrop svg { width: 100%; height: 100%; max-height: 82vh; overflow: visible; }
-.backdrop.large, .reader.travelling .backdrop { opacity: 1; }
-.reader.travelling .backdrop { transform: scale(1.04); }
-.backdrop .inset { position: absolute; right: 1.5rem; bottom: 1.5rem; width: 38%; height: 32%; padding: .6rem;
-  background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; }
+/* ---- Maps ---- */
+/* The map, a plate over the left-hand page: the land, then its key, what is shut, and the names. */
+.sheet.view-map { max-width: none; padding: .7rem 0 1.5rem; }
+.plate { margin: 0; }
+.plate-title { margin: 0 0 .7rem; }
+.plate .chart { overflow: auto; max-height: min(64vh, 46rem); border: 1px solid var(--rule); border-radius: 2px;
+  background: var(--paper); box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 6px var(--rule);
+  overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+.plate .chart > svg { display: block; width: 100%; height: auto; margin: 0 auto; }
+@media (pointer: fine) { .plate .chart { cursor: grab; } .plate .chart[data-drag] { cursor: grabbing; } }
+@media not ((min-width: 960px) and (min-aspect-ratio: 1/1)) { .plate .chart { max-height: 54vh; } }
+.plate .chart > .none { padding: 2rem; }
+.key { margin: .8rem 0 0; max-width: var(--measure); font: 14px/1.45 var(--sans); color: var(--soft); }
+.key .marks { display: flex; flex-wrap: wrap; gap: .25rem 1.2rem; list-style: none; margin: 0; padding: 0; }
+.key .swatch { display: inline-block; width: 1.5rem; height: .45rem; margin-right: .45rem; vertical-align: .15rem; }
+.key .swatch.road { border-bottom: 2.5px solid var(--road); }
+.key .swatch.path { border-bottom: 2.5px dotted var(--road); }
+.key .swatch.stop { width: .75rem; height: .75rem; vertical-align: -.05rem; border-radius: 50%; border: 1.5px solid var(--bad); }
+.key .swatch.you { width: .65rem; height: .65rem; vertical-align: 0; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 3px var(--sel); }
+.key .note { margin: .4rem 0 0; font-style: italic; color: var(--faint); }
+.key h3 { margin: 1.1rem 0 .3rem; }
+.key .shut { margin: 0; padding-left: 1.1rem; font-family: var(--serif); font-size: .95rem; color: var(--ink); }
+.key .names { margin: 0; display: grid; gap: .15rem; font-family: var(--serif); font-size: .95rem; }
+.key .names div { display: flex; flex-wrap: wrap; gap: 0 .5rem; }
+.key .names dt { font-family: var(--caps); color: var(--ink); }
+.key .names dd { margin: 0; font-style: italic; color: var(--soft); }
+.plate .within { margin: 1.2rem 0 0; max-width: var(--measure); }
+
+/* The land: covers drawn as shapes, marks scattered over them, roads and rivers through, and the names on top. */
+svg.land { font-kerning: normal; }
+svg.land .paper { fill: var(--paper); }
+svg.land .cover { fill-rule: evenodd; stroke: none; }
+svg.land .cover.water { fill: var(--water-faint); }
+svg.land .cover.wood { fill: var(--wood); fill-opacity: .6; }
+svg.land .cover.fen { fill: var(--fen); fill-opacity: .65; }
+svg.land .cover.heath { fill: var(--heath); fill-opacity: .5; }
+svg.land .cover.fell { fill: var(--fell); fill-opacity: .55; }
+svg.land .shore { fill: none; stroke: var(--water); stroke-width: 1.7; stroke-linejoin: round; fill-rule: evenodd; }
+svg.land .shore.inner { stroke-width: 1; stroke-opacity: .55; }
+svg.land .shore.far { stroke-width: .8; stroke-opacity: .32; }
+svg.land .mk path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+svg.land .mk.tree .crown { fill: var(--tree-fill); stroke: var(--tree); stroke-width: 1.3; }
+svg.land .mk.tree .trunk { stroke: var(--tree); stroke-width: 1.4; }
+svg.land .mk.hill path { stroke: var(--map); stroke-width: 1.5; stroke-opacity: .75; }
+svg.land .mk.hill .shade { stroke-width: 1; stroke-opacity: .5; }
+svg.land .mk.peak .face { fill: var(--paper); stroke: var(--map); stroke-width: 1.5; }
+svg.land .mk.peak .shade { stroke: var(--map); stroke-width: .9; stroke-opacity: .6; }
+svg.land .mk.reed path { stroke: var(--reed); stroke-width: 1.15; }
+svg.land .mk.reed .wet { stroke: var(--water); stroke-opacity: .6; }
+svg.land .mk.tuft path { stroke: var(--tuft); stroke-width: 1.15; stroke-opacity: .85; }
+svg.land .mk.grass path { stroke: var(--map-faint); stroke-width: 1.1; }
+svg.land .river { fill: none; stroke: var(--water); stroke-width: 4.6; stroke-linecap: round; stroke-linejoin: round; }
+svg.land .river.lesser { stroke-width: 2.7; }
+svg.land .road path { fill: none; stroke: var(--road); stroke-width: 2.7; stroke-linecap: round; stroke-linejoin: round; }
+svg.land .road .casing { stroke: var(--paper); stroke-width: 9; stroke-opacity: .85; }
+svg.land .path { fill: none; stroke: var(--road); stroke-width: 2.6; stroke-dasharray: .1 7.5; stroke-linecap: round; }
+svg.land .path:not(.open) { stroke: var(--bad); }
+svg.land .stop circle { fill: var(--paper); stroke: var(--bad); stroke-width: 1.7; }
+svg.land .stop path { fill: none; stroke: var(--bad); stroke-width: 2.1; stroke-linecap: round; }
+svg.land .place path, svg.land .place circle { fill: var(--paper); stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; }
+svg.land .place.landmark circle { stroke: var(--map); }
+svg.land .place.landmark:not(.unknown) circle { fill: var(--map); }
+svg.land .place.unknown path, svg.land .place.unknown circle { stroke: var(--faint); stroke-dasharray: 2.5 2.5; }
+svg.land .company .dot { fill: var(--accent); stroke: var(--paper); stroke-width: 2.5; }
+svg.land .company .halo { fill: var(--accent); fill-opacity: .12; stroke: var(--accent); stroke-opacity: .55; stroke-width: 1.5; }
+svg.land .company.at .dot { display: none; }
+svg.land .name { fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+svg.land .name.settlement { font: 500 27px var(--caps); letter-spacing: .02em; }
+svg.land .name.site { font: italic 21px var(--serif); }
+svg.land .name.landmark, svg.land .name.stone { font: italic 19px var(--serif); fill: var(--soft); }
+svg.land .name.unknown { fill: var(--faint); }
+svg.land .name.here { fill: var(--accent); }
+svg.land .name.zone { font: italic 500 20px var(--serif); letter-spacing: .42em; fill: var(--tree); stroke-width: 4px; }
+svg.land .name.time { font: italic 16px var(--serif); fill: var(--faint); stroke-width: 4px; }
+svg.land .north path { fill: var(--map); fill-opacity: .65; }
+svg.land .north text { font: 500 15px var(--caps); fill: var(--map); }
+
+/* A region drawn from its areas alone (a written campaign's, with no land to it). */
 .region .route path { fill: none; stroke: var(--map); stroke-width: 2; stroke-linecap: round; }
 .region .route.blocked path { stroke-dasharray: 2 7; }
 .region .route.guarded path { stroke-dasharray: 10 5; }
 .region .route.hazard path { stroke: var(--bad); }
-.region .route.going path { stroke: var(--accent); stroke-width: 3; }
 .region .route-label { font: italic 19px var(--serif); fill: var(--map); }
 .region .area .glyph path { fill: var(--paper); stroke: var(--map); stroke-width: 1.4; stroke-linejoin: round; }
 .region .area.wilderness .glyph path { fill: none; }
@@ -245,23 +318,6 @@ p { hyphens: auto; text-wrap: pretty; }
 .region .area.lake .glyph path:first-child { fill: var(--water-faint); }
 .region .area.wood .glyph path { fill: var(--map-faint); }
 .region .area .company { fill: var(--accent); stroke: var(--paper); stroke-width: 2; }
-.region.landed .tile path { fill: none; stroke: var(--map-faint); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.region.landed .tile.wood path { fill: var(--map-faint); fill-opacity: .45; }
-.region.landed .tile.peak path, .region.landed .tile.fell path { stroke: var(--map); stroke-opacity: .6; }
-.region.landed .tile.water rect, .region.landed .tile.sea rect { fill: var(--water-faint); }
-.region.landed .tile.water path, .region.landed .tile.sea path, .region.landed .tile.fen path:last-child { stroke: var(--water); stroke-opacity: .5; }
-.region.landed .river-course { stroke-width: 6; opacity: .6; }
-.region.landed .river-course.lesser { stroke-width: 3.5; }
-.region.landed .road-course { fill: none; stroke: var(--map); stroke-width: 2.5; stroke-dasharray: 9 6; stroke-linecap: round; opacity: .55; }
-.region.landed .route path { stroke-opacity: 0; }
-.backdrop.large:has(svg.landed) { overflow: auto; place-items: start center; }
-.backdrop.large svg.landed { width: auto; height: auto; max-height: none; flex: none; }
-.region.landed .route.going path { stroke-opacity: 1; }
-.region.landed .area .spot { fill: var(--map); }
-.region.landed .area-name { font-size: 21px; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
-.region.landed .area.settlement .area-name { font-size: 22px; }
-.region .traveller { fill: var(--accent); stroke: var(--paper); stroke-width: 2.5; }
-.reader.travelling .region .area.here .company { opacity: 0; }
 .local .way { stroke: var(--map); stroke-width: 1.4; }
 .local .way.unexplored { stroke-dasharray: 3 5; }
 .local .way.blocked { stroke-dasharray: 2 6; stroke: var(--bad); }
@@ -324,10 +380,6 @@ p { hyphens: auto; text-wrap: pretty; }
 .loading-sheet .working span { width: 12rem; height: 1px; border-radius: 0; background: linear-gradient(90deg, transparent, var(--accent), transparent);
   background-size: 50% 100%; background-repeat: no-repeat; animation: sweep 1.4s infinite linear; }
 
-
-/* The map, opened as a plate over the right-hand page. */
-.sheet.view-map .backdrop { position: relative; inset: auto; height: min(72vh, 46rem); padding: 0; opacity: 1; place-items: center; }
-.sheet.view-map .backdrop svg { max-height: none; }
 
 /* One person, and why they have come. */
 .protagonist-sheet { width: 100%; max-width: 40rem; padding: 3.5rem 0 5rem; }

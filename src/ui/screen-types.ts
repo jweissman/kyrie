@@ -88,13 +88,20 @@ export interface RegionChart {
   areas: { id: string; name: string; kind: string; x: number; y: number; visited: boolean; here: boolean;
     form?: string }[];
   terrain?: string;
-  edges: { from: string; to: string; label: string; status: string }[];
+  // Each known way between areas; on a region with land, the cells it runs over (along a road, or its own path) and
+  // what shuts it, if anything does.
+  edges: { from: string; to: string; label: string; status: string; course?: number[]; road?: boolean;
+    reason?: string }[];
   // The area each known place lies in, so a journey to a place can be drawn between areas.
   within: Record<string, string>;
   // The region's land, as far as the company knows it: every cell's cover, the rivers and the known roads' cells,
-  // and which cells it knows.
+  // and which cells it knows; the cell the company is at; each known place that is not a settlement or wild country
+  // (a landmark, a site, a march-stone); the known cells of each stretch of wild country; and what names mean.
   land?: { width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
-    known: number[] };
+    known: number[]; here?: number;
+    marks: { id: string; name: string; cell: number; kind: string; visited: boolean; here: boolean }[];
+    zones: { id: string; name: string; form?: string; cells: number[] }[];
+    glosses: Record<string, string> };
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;

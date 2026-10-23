@@ -15,7 +15,10 @@ interface Table {
 }
 // One place in a stretch of wild country, where it stands on the land and what it is.
 export interface Landmark { id: string; cell: number; part: number; name: string; scene: string; ambience: string;
-  view?: boolean; water?: string }
+  view?: boolean; water?: string; side?: string }
+// Where a way into wild country starts: a road running by it, or a settlement near it; the cell it starts from, and
+// the settlement it is known by.
+interface Start { from: string; cell: number; through: boolean; by: string }
 
 // The wild country of a generated region as places on the ground. Each wood, fen, moor or run of fells holds
 // landmarks where they stand on the land: an edge where people come in from a road or a settlement, the places
@@ -60,11 +63,30 @@ export class RegionZones {
       const kind = draw.pick(t.water);
       out.push({ ...kind, id: `${zone.id}_water`, cell: crossing, part: this.owner(zone, crossing), water: river.naming.name });
     }
+    out.push(...this.sides(zone, region, out));
     const from = this.from(region, zone);
-    const named = out.map(l => ({ ...l, name: this.fill(l.name, { zone: name, river: l.water ?? '', from }),
-      scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(from) }) }));
+    const named = out.map(l => ({ ...l, name: this.fill(l.name, { zone: name, river: l.water ?? '', from: l.side ?? from }),
+      scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(l.side ?? from) }) }));
     cache.set(zone.id, named);
     return named;
+  }
+  // An edge of its own where a way comes in from a road or a settlement with no landmark near: the country's cell
+  // nearest where the way starts, known by the settlement it faces.
+  private static sides(zone: Wilds, region: Region, marks: Landmark[]): Landmark[] {
+    const land = RegionGeography.atlas(region).land, t = this.table[zone.wild], out: Landmark[] = [];
+    for (const s of this.starts(zone, region)) {
+      const near = this.nearest(land, zone.cells.map(cell => ({ cell })), s.cell).cell;
+      if ([...marks, ...out].some(l => Terrain.distance(land, l.cell, near) <= 1)
+        || this.facing(region, zone, [...marks, ...out]).includes(s.by)) { continue; }
+      out.push({ id: `${zone.id}_side${out.length + 1}`, cell: near, part: this.owner(zone, near), name: t.entry.name,
+        scene: t.entry.scene, ambience: '', side: s.by });
+    }
+    return out;
+  }
+  // The settlements the edges already made are known by: two edges by one settlement would share a name.
+  private static facing(region: Region, zone: Wilds, marks: Landmark[]): string[] {
+    return marks.filter(l => l.side || (l.part === 0 && !l.water && l.name === this.table[zone.wild].entry.name))
+      .map(l => l.side ?? this.from(region, zone));
   }
   private static owner(zone: Wilds, cell: number): number {
     return Math.max(0, zone.parts.findIndex(p => p.includes(cell)));
@@ -109,9 +131,9 @@ export class RegionZones {
   private static trails(zone: Wilds, region: Region, marks: Landmark[]): string[] {
     const q = JSON.stringify, t = this.table[zone.wild], land = RegionGeography.atlas(region).land;
     const draw = new Draw(`${region.name}:${zone.id}:trails`), pairs: [Landmark, Landmark][] = [];
-    const primary = marks.filter(l => !l.id.endsWith('_2') && !l.water);
+    const primary = marks.filter(l => !l.id.endsWith('_2') && !l.water && !l.side);
     primary.slice(1).forEach((l, i) => pairs.push([primary[i]!, l]));
-    for (const l of marks.filter(m => m.id.endsWith('_2') || m.water)) {
+    for (const l of marks.filter(m => m.id.endsWith('_2') || m.water || m.side)) {
       pairs.push([this.nearest(land, primary, l.cell), l]);
     }
     return pairs.map(([a, b], i) => `  Passage ${zone.id}_trail${i + 1} ${q(draw.pick(t.trails))} is track between ${a.id} and ${b.id} taking ${RegionRoads.time(this.minutes(land, a.cell, b.cell))}.`);
@@ -123,21 +145,32 @@ export class RegionZones {
   private static gap(zone: Wilds, land: Land, c: number): number {
     return Math.min(...zone.cells.map(z => Terrain.distance(land, z, c)));
   }
-  // A way in from every road that runs within a cell of the country, and every settlement within two, each to the
-  // landmark nearest it; at least one from the nearest settlement.
-  private static entries(zone: Wilds, region: Region, marks: Landmark[]): string[] {
-    const q = JSON.stringify, land = RegionGeography.atlas(region).land, t = this.table[zone.wild];
+  // Where the ways in start: every road that runs within a cell of the country, and every settlement within two; at
+  // least the nearest settlement.
+  private static starts(zone: Wilds, region: Region): Start[] {
+    const land = RegionGeography.atlas(region).land;
+    const towns = region.settlements.map(s => ({ name: s.name, cell: s.cell! }));
     const roads = RegionGeography.roads(region).flatMap(r => {
       const near = [...r.route.cells].sort((a, b) => this.gap(zone, land, a) - this.gap(zone, land, b))[0]!;
-      return this.gap(zone, land, near) <= 1
-        ? [{ from: r.way, cell: near, through: r.route.cells.some(c => zone.cells.includes(c)) }] : [];
+      const through = r.route.cells.some(c => zone.cells.includes(c));
+      const by = this.nearest(land, towns, near).name;
+      return this.gap(zone, land, near) <= 1 ? [{ from: r.way, cell: near, through, by, route: r.route }] : [];
     });
-    const towns = region.settlements.filter(s => this.gap(zone, land, s.cell!) <= 2)
-      .map(s => ({ from: `${s.id}_green`, cell: s.cell!, through: false }));
-    const nearest = [...region.settlements].sort((a, b) => this.gap(zone, land, a.cell!)
-      - this.gap(zone, land, b.cell!))[0]!;
-    const starts = [...roads, ...towns].length ? [...roads, ...towns] : [{ from: `${nearest.id}_green`, cell: nearest.cell!, through: false }];
-    return starts.map((s, i) => {
+    // A settlement beside the country has a way of its own into it; one a little further off has one only if no road
+    // of its own runs by the country, for if one does, the way in is off that road.
+    const ends = new Set(roads.flatMap(r => [r.route.cells[0], r.route.cells.at(-1)]));
+    const near = region.settlements.filter(s => this.gap(zone, land, s.cell!) <= 1
+      || (this.gap(zone, land, s.cell!) <= 2 && !ends.has(s.cell!)))
+      .map(s => ({ from: `${s.id}_green`, cell: s.cell!, through: false, by: s.name }));
+    const nearest = [...region.settlements]
+      .sort((a, b) => this.gap(zone, land, a.cell!) - this.gap(zone, land, b.cell!))[0]!;
+    const starts: Start[] = [...roads.map(({ route: _, ...r }) => r), ...near];
+    return starts.length ? starts : [{ from: `${nearest.id}_green`, cell: nearest.cell!, through: false, by: nearest.name }];
+  }
+  // A way in from each start, to the landmark nearest it.
+  private static entries(zone: Wilds, region: Region, marks: Landmark[]): string[] {
+    const q = JSON.stringify, land = RegionGeography.atlas(region).land, t = this.table[zone.wild];
+    return this.starts(zone, region).map((s, i) => {
       const to = this.nearest(land, marks, s.cell);
       const minutes = Math.max(30, Math.round(Terrain.distance(land, to.cell, s.cell) * 40 / 10) * 10);
       const way = s.through ? `a track off the road into ${zone.naming.name}` : this.fill(t.into, { zone: zone.naming.name });
