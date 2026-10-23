@@ -8,11 +8,11 @@ Time passes in watches of ten minutes. A rule fires as soon as its condition hol
 
 ### What the company carries
 
-Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, objection, pays, price.
+Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, weighed, objection, pays, price.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 22 | 5 | 1 | 5 | 18 |
+| 2 | 23 | 7 | 2 | 7 | 18 |
 
 #### lightsUp, burns, fuel
 
@@ -31,6 +31,32 @@ What a kind of thing is worth (its catalog value), and those who deal in valuabl
 *Kyr · measure(itemkind)* · `rule:belongings.mass`
 
 What a kind of thing weighs, where it says (a module's own kind, "weighing 2"); selm weighs less than nothing.
+
+#### carried, capacity
+
+*Kyr · measure(member); measure(member)* · `rule:belongings.carried`
+
+What each member carries, and can carry (see Burden): a company with anyone carrying more is laden, and goes slowly, at half its pace.
+
+#### laden_felt
+
+*Kyr · rule* · `rule:belongings.laden_felt`
+
+Says: "What you carry drags at you: you will go at half your pace until you set something down."
+
+> When: laden(?a); company(?a); not (weighed(?a))
+
+> Then: Assert weighed(?a).
+
+#### laden_eased
+
+*Kyr · rule* · `rule:belongings.laden_eased`
+
+Says: "You go easier for what you have set down."
+
+> When: weighed(?a); not (laden(?a))
+
+> Then: Retract weighed(?a).
 
 #### purse, appraised
 

@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 168,
+    "kyr": 171,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 163,
+      "kyr": 166,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10367,6 +10367,27 @@
   {
    "id": "rule:belongings.mass",
    "title": "mass",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.carried",
+   "title": "carried, capacity",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.laden_felt",
+   "title": "laden_felt",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.laden_eased",
+   "title": "laden_eased",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"

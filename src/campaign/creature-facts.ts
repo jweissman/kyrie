@@ -8,6 +8,7 @@ import { FieldUse } from './field-use';
 import { CreatureStore } from '../creature-store';
 import { Effects } from '../effects';
 import { ModuleWriter } from '../lang/module-writer';
+import { Burden } from '../rules/burden';
 import type { Change, Module } from '../lang/module';
 import type { ArenaAbility } from '../lang/parse';
 import { World } from '../lang/world';
@@ -20,7 +21,7 @@ import { Environment } from './environment';
 
 type Entity = Module['entities'][number];
 interface Scope {
-  has: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
+  has: Set<string>; measures: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
   capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; at?: PerkContext;
   // The items there are, and what the world says now of each member, by relation (see `held`).
   itemIds: Set<string>; held: Map<string, Map<string, Set<string>>>;
@@ -107,7 +108,8 @@ export class CreatureFacts {
       }
       held.set(name, byMember);
     }
-    return { has: new Set(relations.map(r => r.name)), abilityIds, declared,
+    return { has: new Set(relations.map(r => r.name)), measures: new Set(world.module.measures.map(m => m.name)),
+      abilityIds, declared,
       field: declared.filter(a => FieldUse.safe(a.id)),
       capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)), held,
       kinds: entities.filter(e => e.type === 'itemkind'),
@@ -180,6 +182,11 @@ export class CreatureFacts {
         ? scope.declared.filter(a => !learned.includes(a.id)).map(a => a.id) : []));
     }
     for (const item of c.state.inventory ?? []) { ItemCatalog.get(item.definition); }
+    // What they carry against what they can (see Burden).
+    if (scope.measures.has('carried')) {
+      changes.push({ kind: 'set', call: ModuleWriter.call('carried', reference), value: ModuleWriter.number(Burden.load(c)) },
+        { kind: 'set', call: ModuleWriter.call('capacity', reference), value: ModuleWriter.number(Burden.capacity(c)) });
+    }
     const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c))]);
     const useful = scope.field.filter(a => a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
       || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))

@@ -14,6 +14,14 @@ Module belongings "What the company carries" {
   Measure worth(itemkind). Relation buysValuables(group). Relation realized(item). Relation valuable(itemkind).
   // What a kind of thing weighs, where it says (a module's own kind, "weighing 2"); selm weighs less than nothing.
   Measure mass(itemkind).
+  // What each member carries, and can carry (see Burden): a company with anyone carrying more is laden, and goes
+  // slowly, at half its pace.
+  Measure carried(member). Measure capacity(member).
+  Query laden(a: group) means memberOf(?m, a) and carried(?m) > capacity(?m).
+  Relation weighed(group).
+  Rule laden_felt when laden(?a) and company(?a) and not weighed(?a)
+    says "What you carry drags at you: you will go at half your pace until you set something down." { Assert weighed(?a). }
+  Rule laden_eased when weighed(?a) and not laden(?a) says "You go easier for what you have set down." { Retract weighed(?a). }
   // How much coin a dealer keeps in the house: what they pay out, trade brings back by the next morning.
   Measure purse(group). Relation appraised(item, group).
   Rule purse_refilled when untilLight(clock) == 1 and buysValuables(?m) and purse(?m) > quantity(?m, gold) {
