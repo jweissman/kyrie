@@ -60,9 +60,11 @@ export class LandModel {
       known: [...known].sort((a, b) => a - b), ...this.at(here), marks, zones: this.zones(areas, known),
       glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))) };
   }
-  // Where the company is: at its place's cell, or on a road, halfway along it.
+  // Where the company is: at its place's cell, or on a road, halfway along it; nowhere, when it is lost in wild
+  // country (a place there with no cell of its own).
   private at(here: string): { here?: number } {
-    const road = this.chart.roads[here], c = this.cell(here) ?? road?.[Math.floor(road.length / 2)];
+    const lost = this.chart.places[here] === undefined && this.marked(here)?.space?.kind === 'wilderness';
+    const road = this.chart.roads[here], c = lost ? undefined : this.cell(here) ?? road?.[Math.floor(road.length / 2)];
     return c === undefined ? {} : { here: c };
   }
   // Each place on the land the company knows that is not a settlement or a stretch of wild country: a landmark in a

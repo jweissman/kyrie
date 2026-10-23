@@ -183,14 +183,14 @@ export class RegionZones {
   // way. Lost, running water leads to the crossing, and casting about finds the edge again, in time.
   private static astray(zone: Wilds, region: Region, marks: Landmark[]): string[] {
     const q = JSON.stringify, z = zone.id, t = this.table[zone.wild], name = zone.naming.name;
-    const [x, y] = RegionGeography.spot(region, zone.centres[Math.min(1, zone.centres.length - 1)]!);
     const joined = new Set(this.trails(zone, region, marks).map(l => /between (\S+) and (\S+) taking/.exec(l)!.slice(1).sort().join('|')));
     const land = RegionGeography.atlas(region).land;
     // Straight across is about three-quarters of the way round by the trails, and is risked.
     const across = marks.flatMap(a => marks.filter(b => b !== a && !joined.has([a.id, b.id].sort().join('|')))
       .map(b => `  Initially Assert ${z}_across(${a.id}, ${b.id}). Initially Set ${z}_span(${a.id}, ${b.id}) to ${Math.max(3, Terrain.distance(land, a.cell, b.cell) * 3)}.`));
     const water = marks.find(l => l.water), edge = marks[0]!;
-    return [`  Place ${z}_lost ${q(this.fill(t.lost.name, { zone: name }))} is room within ${z} at ${x}, ${y} outdoors.`,
+    // Lost is nowhere in particular: the place has no position on any chart.
+    return [`  Place ${z}_lost ${q(this.fill(t.lost.name, { zone: name }))} is room within ${z} outdoors.`,
       `  Observe ${z}_lost_scene at ${z}_lost as fixture when true ${q(this.fill(t.lost.scene, { zone: name }))}.`,
       `  Entity ${z}_mapped: fact ${q(`You know the lie of ${name}: its paths, its water, and which way the edges lie.`)}.`,
       `  Relation ${z}_across(place, place). Relation ${z}_heading(group, place). Relation ${z}_astray(group). Relation ${z}_casting(group).`,
