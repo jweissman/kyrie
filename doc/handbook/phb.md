@@ -9178,6 +9178,14 @@ Resists 50% of cold.
 
 > Sapped of strength and power.
 
+### Weary
+
+*Kyr · lasts beyond a fight* · `condition:weary`
+
+−1 to hit, −1 evasion.
+
+> Too long without sleep: slow to strike and slow to dodge, until a night's sleep.
+
 ### Wildheart
 
 *Faithful · lasts the fight at most* · `condition:wildheart`

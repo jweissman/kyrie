@@ -44,7 +44,7 @@ export class ModuleParser {
     Person: ModuleParser.Person, PersonRole: PersonParser.PersonRole,
     PersonRace: PersonParser.PersonRace, PersonClass: PersonParser.PersonClass,
     PersonLevel: PersonParser.PersonLevel, PersonSpecies: PersonParser.PersonSpecies,
-    PersonVariant: PersonParser.PersonVariant,
+    PersonVariant: PersonParser.PersonVariant, PersonSeen: PersonParser.PersonSeen,
     PersonCreature: PersonParser.PersonCreature, PersonCount: PersonParser.PersonCount,
     PersonTrait: PersonParser.PersonTrait, PersonCarries: PersonParser.PersonCarries,
     HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,

@@ -72,6 +72,8 @@ export interface Person { role?: string; id: string; name: string; place: string
   authored?: string[]; professionId?: string; backgroundId?: string; traits?: string[]; gear?: string[];
   // An Orsino aspect (agile, venomous) or undead template (skeletal, spectral) the creature has (see CreatureVariants).
   aspect?: string; template?: string;
+  // Seen only by a viewer for whom this holds (?viewer is whoever is looking).
+  seen?: Predicate;
   offers?: { kind: string; text: string; fee: number }[]; sells?: { what: string; fee: number; stock: number }[];
   // What the person will pay for each kind of thing brought to them.
   buys?: { what: string; fee: number }[] }
@@ -90,6 +92,8 @@ export interface Module {
   charts?: Record<string, LandChart>;
   // The kinds of thing and of creature the module declares for itself (see LocalKinds).
   catalog?: import('../canon/local-catalog').LocalCatalog;
+  // Who and what is seen only by some: each entity's condition, ?viewer being whoever is looking (Person … Seen when).
+  seen?: Record<string, Predicate>;
 }
 // A region's land for its map: each cell's cover in one string (row by row), the cells of its rivers, of each road
 // (by its way), of each part of its wild country (by room), the cell of each place on it, and what its names mean.

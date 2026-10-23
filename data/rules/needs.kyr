@@ -1,11 +1,19 @@
-Module world_needs "Food" {
+Module world_needs "Food and sleep" {
   Relation eats(group). Relation hungry(group).
   Measure nextMeal(group).
+  // A company that sleeps grows weary eighteen hours after it last slept (a bed, a camp, a rest), and stays so until
+  // it sleeps again; a weary company fights the worse for it (see Campaign.encounterBattle).
+  Relation sleeps(group). Relation weary(group).
+  Measure lastSlept(group).
   Goal false.
   Rule meal when eats(?g) and watch(clock) >= nextMeal(?g) and quantity(?g, rations) >= 1 {
     Decrease quantity(?g, rations) by 1. Increase nextMeal(?g) by 144. Retract hungry(?g).
   }
   Rule hunger when eats(?g) and watch(clock) >= nextMeal(?g) and quantity(?g, rations) < 1 and not hungry(?g) {
     Assert hungry(?g).
+  }
+  // Told by the narrator when it comes (see Narrator.exchange), not said: it does not stop a wait for light.
+  Rule weariness when sleeps(?g) and watch(clock) >= lastSlept(?g) + 108 and not weary(?g) {
+    Assert weary(?g).
   }
 }

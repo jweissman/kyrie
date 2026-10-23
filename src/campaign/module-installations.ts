@@ -108,6 +108,7 @@ export class ModuleInstallations {
       initial: [...(base?.initial ?? []), ...incoming.initial], actions: schemas,
       ...base?.charts || incoming.charts ? { charts: { ...base?.charts, ...incoming.charts } } : {},
       ...LocalKinds.merge(base?.catalog, incoming.catalog),
+      ...base?.seen || incoming.seen ? { seen: { ...base?.seen, ...incoming.seen } } : {},
       goal: { kind: 'boolean', value: false }, budget: ModuleWriter.number(0) };
   }
   // checked: whether to check the joined module now. A campaign assembled from many modules at once checks the whole

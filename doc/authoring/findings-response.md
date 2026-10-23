@@ -25,11 +25,11 @@ means some of it works and the rest is named. **Open** means nothing was done; t
 | 12 | Errors at run time, or with no place | Repaired for declarations | Declaration errors say file, line and column; `for 1 hour` no longer fails at run time. Errors inside a rule's effects at run time still say the rule, not the line | K12 |
 | 13 | A species' temper overrides `Peaceable` | Repaired | A peaceable person of a fierce kind keeps the peace; `tame` animals greet and can be made much of | K9 |
 | 14 | People and things are fixed at load | Open | Roles do not change with state; topics are not scoped to places; there is no stock of many items or making of new ones. Remedies as the ledger proposes | — |
-| 15 | A phenomenon that travels with an object needs an observation per object | Open | `Observe … near X` follows one entity wherever it is; an observation anchored by a variable (`near ?l when lit(?l)`) is not supported | — |
+| 15 | A phenomenon that travels with an object needs an observation per object | Repaired | `Observe glow near ?lamp when lit(?lamp) "{?lamp} …"`: one line near each entity the condition binds, wherever it is | F15 |
 | 16 | A law cannot be shared between modules | Repaired | `"rules": ["world", "../law/law.kyr"]` in a module's manifest | K10 |
-| 17 | A person cannot be hidden, or seen only by some | Open | `Person … seen when P` is not supported | — |
+| 17 | A person cannot be hidden, or seen only by some | Repaired | `Person … { Seen when knows(viewer, sight). }`: not on the page and not to be acted on, for a viewer for whom it does not hold | F17 |
 | 18 | Smaller gaps | Partly | The guide now covers kinds, species, conditions, perception, dice, `Time 0`, arithmetic, conditional ways, companions, shared laws and rule order (§10). A catalog kind named before anything instantiates it, granting a local skill, and the playable `commoner` are open | — |
-| 19 | Nobody ever needs to sleep | Open | Sleep is a condition and a choice (sleep until morning, the lullaby), not a need; fatigue on the pattern of hunger is not written | — |
+| 19 | Nobody ever needs to sleep | Repaired | Weariness on the pattern of hunger (`sleeps`, `lastSlept`, `weary` in needs.kyr): eighteen hours after sleeping a company is weary and fights under `weary` until a bed, a camp or a rest | F19 |
 | 20 | Workflow: stale siblings, stale docs, a TypeScript registry | Partly | The README no longer sends players to the retired Serewater March. Publishing an authored campaign on the title page still means editing `web/scenarios.ts` | — |
 | 21 | Minor friction | Partly | State names that collide with shared names are reported with both places. Clause order, negative grid cells, ladders and `together` for things are unchanged | — |
 
@@ -49,7 +49,7 @@ The ledger's benchmarks, written again with what Kyr now has:
 ## Still open, in order of what it would give an author
 
 1. People and things that change at run time (14): roles by state, topics by place, stock and making.
-2. Who can see whom (17), and observations by variable (15): needed for any adventure about attention.
+2. ~~Who can see whom (17), and observations by variable (15)~~: repaired in Mission 13.
 3. Conditional ends of a way, and `needing` a predicate (5).
-4. Fatigue as a need (19), and carrying by weight (3).
+4. ~~Fatigue as a need (19)~~ (repaired in Mission 13), and carrying by weight (3).
 5. A trace of which rule changed what, in a watch (10).

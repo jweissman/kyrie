@@ -1,0 +1,7 @@
+Module tired "A long day on the moor" {
+  Place moor "the moor" is wilderness.
+  Place hollow "a hollow on the moor" is room within moor at 0, 0 outdoors.
+  Company party "You" of 1 at hollow.
+  Initially Set quantity(party, rations) to 3.
+  Person boar "a boar" at hollow { Role "a boar rooting in the heather". Species boar. Peaceable. }
+}

@@ -97,6 +97,11 @@ export class Cast {
       module.initial.push({ kind: 'assert', call: ModuleWriter.call('eats', c.id) },
         { kind: 'set', call: ModuleWriter.call('nextMeal', c.id), value: ModuleWriter.number(72) });
     }
+    // It sets out rested: it slept the night before it came.
+    if (module.relations.some(r => r.name === 'sleeps')) {
+      module.initial.push({ kind: 'assert', call: ModuleWriter.call('sleeps', c.id) },
+        { kind: 'set', call: ModuleWriter.call('lastSlept', c.id), value: ModuleWriter.number(0) });
+    }
     return { actor: { id: c.id, members, player: true, horizon: 4, actions: ['*'], goals: [] },
       creatures: members.map(id => ({ id, context: { level: 1, population: 'pc' as const }, gold: 0 })) };
   }

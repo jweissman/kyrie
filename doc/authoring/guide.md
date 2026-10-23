@@ -564,6 +564,40 @@ the rules before it changed in the same watch. A rule whose condition still hold
 meant to happen once either changes what it tests (`Assert sung(party)` beside `not sung(party)`) or is an `Event`,
 which happens once. An action that takes no time is followed by one pass of the rules, and no clock.
 
+### A creature other than its kind
+
+A creature can be an aspect of its kind (Orsino's: agile, venomous, ancient…) or the dead of it (skeletal, zombie,
+spectral, vampiric), each adding to its attributes, abilities and traits as `data/catalog/orsino/variants.json` says:
+
+```text
+  Person hounds "the hounds" at den { Role "hounds". Species wolf. Aspect venomous. Numbers 2. }
+  Person bones "the bones" at barrow { Role "a dead wolf". Species wolf. Undead skeletal. }
+```
+
+### Something said near each one of many
+
+An observation can be near a variable its condition binds: one line for each lit lamp, near that lamp, wherever it
+is, as the company comes near it (`probes/lamps`). The variable names it in the text:
+
+```text
+  Observe glow near ?lamp when lit(?lamp) "{?lamp} burns low and yellow, and the room leans toward it.".
+```
+
+### Seen only by some
+
+A person can be seen only by a viewer for whom a condition holds; `viewer` in the condition is whoever is looking.
+To anyone else they are not there: not on the page, and nothing can be done to them (`probes/grey-lady`):
+
+```text
+  Person lady "the grey lady" at nave { Role "a woman who died here". Peaceable. Seen when knows(viewer, sight). }
+```
+
+### Weariness
+
+A company that sleeps (every company does, unless a module says otherwise) grows weary eighteen hours after it last
+slept, and stays so until a bed, a camp or a rest; weary, it fights a little worse (the `weary` condition), and the
+page says so. A module can read `weary(company)` and `lastSlept(company)`, and set them (`probes/tired`).
+
 ### When a module will not load
 
 An error says the file, line and column, and what it found there:

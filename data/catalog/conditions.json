@@ -300,6 +300,19 @@
         "fidelity": "adapted",
         "notes": "A plane as a place's law (law(place, plane_zephyrus)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
       }
+    },
+    "weary": {
+      "name": "Weary",
+      "description": "Too long without sleep: slow to strike and slow to dodge, until a night's sleep.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "toHit": -1,
+        "evasion": -1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: a company weary for want of sleep (needs.kyr) fights under it."
+      }
     }
   }
 }

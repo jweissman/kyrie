@@ -41,14 +41,14 @@ Kyr {
   EventTail = "then" "{" ChangeStatement* "}" -- effects
     | "." -- plain
   Anchor = "at" ident -- at
-         | "near" ident -- near
+         | "near" term -- near
          | "beside" ident -- beside
   Objective = "Objective" ident "when" Predicate string "."
   Exit = "Exit" ident string "from" ident "to" ident "by" ident ExitDoor? ExitKnowledge? "."
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonVariant | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonWords | PersonHaunt
+  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonWords | PersonHaunt
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
@@ -65,6 +65,7 @@ Kyr {
   PersonRace = ("Race" | "Ancestry") ident "."
   PersonSpecies = "Species" ident "."
   PersonVariant = ("Aspect" | "Undead") ident "."
+  PersonSeen = "Seen" "when" Predicate "."
   PersonCreature = "Creature" NonemptyListOf<CreatureParam, ","> "."
   CreatureParam = ident (ident | integer)
   PersonCount = "Numbers" integer "."
@@ -96,7 +97,7 @@ Kyr {
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? "{" ChangeStatement* "}"
   RuleSays = "says" string
   Observation = "Observe" ident Anchor ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
-  ObservationAbout = "of" ident
+  ObservationAbout = "of" term
   ObservationAspect = "as" ident
   ObservationBy = "noticed" "by" ident
   ObservationTeaches = "teaches" ident

@@ -60,7 +60,7 @@ Module care "Rest, mending and lessons" {
     Description "Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison and death are not mended. The world does not wait while you sleep.".
     Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) >= 1.
     Time 36. Resolve recover(actor). Interrupted when threatened(actor).
-    On success { Decrease quantity(actor, rations) by 1. }
+    On success { Decrease quantity(actor, rations) by 1. Set lastSlept(actor) to watch(clock). Retract weary(actor). }
     Result "You eat, bind your hurts and sleep for six hours.".
   }
   Action learn_reward(actor: group, gift: reward, recipient: member, lesson: ability, proof: fact, site: place) "Accept {gift} for {recipient}" {

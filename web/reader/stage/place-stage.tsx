@@ -144,6 +144,8 @@ export class PlaceStage {
         <div className="self" data-region="party">
           {me && <p className="me"><b>{me.name}</b> · <span className={me.hp < me.maxHp ? 'hurt' : undefined}>
             {Words.hurt(me.hp, me.maxHp)}</span>{me.conditions.length > 0 && ` · ${[...new Set(me.conditions)].join(', ').toLowerCase()}`}
+            {screen.expedition.hungry && <span className="hurt"> · hungry</span>}
+            {screen.expedition.weary && <span className="hurt"> · weary</span>}
             {' · '}<span data-id="purse">{screen.purse.coin} coin</span></p>}
           <Act.List choices={scene.you} draw={draw} className="small" />
           <Act.Sheets app={app} />

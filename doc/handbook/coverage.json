@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 361,
     "represented": 4,
-    "kyr": 75,
+    "kyr": 76,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -970,7 +970,7 @@
       "faithful": 123,
       "adapted": 25,
       "represented": 0,
-      "kyr": 25,
+      "kyr": 26,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 158,
+    "kyr": 160,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 153,
+      "kyr": 155,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -9700,6 +9700,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:weary",
+   "title": "Weary",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:wildheart",
    "title": "Wildheart",
    "status": "faithful",
@@ -11044,6 +11051,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:world_needs.sleeps",
+   "title": "sleeps, weary",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-needs"
+  },
+  {
    "id": "rule:world_needs.meal",
    "title": "meal",
    "status": "kyr",
@@ -11053,6 +11067,13 @@
   {
    "id": "rule:world_needs.hunger",
    "title": "hunger",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-needs"
+  },
+  {
+   "id": "rule:world_needs.weariness",
+   "title": "weariness",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-needs"

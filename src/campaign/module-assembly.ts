@@ -46,6 +46,8 @@ export class ModuleAssembly {
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
     this.talkers(module, manifest.imports ?? []);
     const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
+    const seen = (situation.people ?? []).filter(p => p.seen);
+    if (seen.length) { module.seen = Object.fromEntries(seen.map(p => [p.id, p.seen!])); }
     delete module.people;
     if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
       throw new Error('Member state is inferred from the canonical cast; do not initialize it manually');

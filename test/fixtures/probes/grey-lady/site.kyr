@@ -1,0 +1,14 @@
+Module greylady "Someone seen only by some" {
+  Place chapel "the old chapel" is settlement.
+  Place nave "the nave" is room within chapel at 0, 0.
+  Company party "You" of 1 at nave.
+  Entity sight: fact "Lit at the altar, the grey candle shows what is in the room that should not be.".
+  // The grey lady is seen only by whoever has lit the grey candle; to anyone else the nave is empty.
+  Person lady "the grey lady" at nave { Role "a woman who died here". Peaceable. Seen when knows(viewer, sight). }
+  Topic why with lady "Ask the grey lady why she stays" when true { Says "'Someone has to,' she says. 'They took the bell.'". }
+  Observe candle at nave when not knows(party, sight) "A grey candle stands unlit on the altar.".
+  Action light_candle(actor: group, site: place) "Light the grey candle" {
+    Requires at(actor, site) and not knows(actor, sight). Time 1.
+    On success { Assert knows(actor, sight). }
+  }
+}

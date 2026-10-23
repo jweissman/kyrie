@@ -82,15 +82,21 @@ export class ModuleCompiler {
     }
     ModuleCompiler.unique((module.observations ?? []).map(o => o.id), 'observation');
     for (const o of module.observations ?? []) {
-      this.anchor(module, o.place, o.anchor);
+      // Near a variable: near each entity its condition binds it to (a lamp, wherever a lamp is lit).
+      const subject = o.place.startsWith('?') ? o.place : undefined;
+      if (subject) { this.subject(o.id, o.anchor, subject, o.when); } else { this.anchor(module, o.place, o.anchor); }
       this.predicate(module, o.when); ModuleCompiler.bound(`Observation ${o.id}`, o.when);
-      this.text(module, o.text);
+      this.text(module, o.text, subject ? { [subject]: 'entity' } : {});
       if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
-      if (o.about && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
+      if (o.about && !o.about.startsWith('?') && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
       if (o.aspect && !ModuleCompiler.aspects.includes(o.aspect)) {
         throw new Error(`${o.id} is told as ${o.aspect}; an observation is one of ${ModuleCompiler.aspects.join(', ')}`);
       }
       if (o.by && this.type(module, o.by) !== 'capability') { throw new Error(`${o.id} is noticed by ${o.by}, not a capability`); }
+    }
+    for (const [id, p] of Object.entries(module.seen ?? {})) {
+      if (!this.type(module, id)) { throw new Error(`${id} is seen only by some, but is not an entity`); }
+      this.predicate(module, p);
     }
     ModuleCompiler.unique((module.objectives ?? []).map(o => o.id), 'objective');
     for (const o of module.objectives ?? []) { this.predicate(module, o.when); this.text(module, o.text); }
@@ -160,6 +166,13 @@ export class ModuleCompiler {
         right: this.resolvePredicate(predicate.right, expressions) };
       case 'not': return { ...predicate, value: this.resolvePredicate(predicate.value, expressions) };
       default: return predicate;
+    }
+  }
+  private subject(id: string, anchor: string | undefined, variable: string, when: Predicate) {
+    const seen = { bound: new Set<string>(), compared: new Set<string>() };
+    ModuleCompiler.variables(when, seen, true);
+    if (anchor !== 'near' || !seen.bound.has(variable)) {
+      throw new Error(`${id} is near ${variable}, which its condition must bind (Observe ${id} near ${variable} when …)`);
     }
   }
   private anchor(module: Module, id: string, anchor: string | undefined) {

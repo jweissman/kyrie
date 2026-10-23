@@ -28,15 +28,16 @@ export interface Told { event: CampaignEvent; feedback: ActionFeedback; said?: s
 // passing life of a place is told the first time, the sky when the company comes under it or it changes, and the
 // sky not at all beneath a roof or underground.
 export class Narrator {
+  static readonly weary = 'It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.';
   static leaf(campaign: Campaign, screen: Screen, told?: Told): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
     const seenBefore = this.seenBefore(campaign);
-    const known = [...seenBefore].some(id => defs.get(id)?.place === screen.place.id);
+    const known = [...seenBefore].some(id => Narrator.def(defs, id)?.place === screen.place.id);
     const turned = this.skyTurned(told?.event);
     // The sky is told when the company comes out under it (from indoors, or at the start), or when it turns; walking on
     // from one place to the next under the same sky, it is not told again.
     const under = !told || (told.moved && this.cameOut(campaign, told.event));
-    const kept = screen.observed.filter(o => this.tells(defs.get(o.id), { shelter, known, arrived: under, turned,
+    const kept = screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known, arrived: under, turned,
       here: screen.place.id }));
     // What has changed since the company was last here is told under that, not twice.
     const changed = known && told?.moved ? screen.fresh : [];
@@ -51,7 +52,7 @@ export class Narrator {
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
     const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
       && !echoed.has(Narration.sentence(l.text))), defs);
-    const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, defs.get(l.id), l.text) }));
+    const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
     const situation = this.paragraphs(credited, defs);
     const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
@@ -66,7 +67,7 @@ export class Narrator {
   static readonly ranks: Record<string, number> = { fixture: 0, feature: 1, sign: 2, revelation: 2, weather: 3,
     ambience: 4 };
   private static order<T extends { id: string }>(lines: T[], defs: Map<string, Observation>): T[] {
-    return lines.map((l, i) => ({ l, i, r: this.ranks[defs.get(l.id)?.aspect ?? 'fixture'] ?? 1 }))
+    return lines.map((l, i) => ({ l, i, r: this.ranks[Narrator.def(defs, l.id)?.aspect ?? 'fixture'] ?? 1 }))
       .sort((a, b) => a.r - b.r || a.i - b.i).map(x => x.l);
   }
   // Every line as a book would set it.
@@ -77,6 +78,8 @@ export class Narrator {
       ...e ? { exchange: { ...e, lines: e.lines.map(l => ({ ...l, text: Typography.curl(l.text) })),
         ...e.said ? { said: Typography.curl(e.said) } : {} } } : {} };
   }
+  // An observation's definition, by its id; one near a variable is told by its own (id@entity).
+  private static def(defs: Map<string, Observation>, id: string): Observation | undefined { return defs.get(id.split('@')[0]!); }
   private static readonly cached = new WeakMap<Campaign['module'], Map<string, Observation>>();
   private static defs(campaign: Campaign): Map<string, Observation> {
     let defs = this.cached.get(campaign.module);
@@ -101,7 +104,7 @@ export class Narrator {
   private static paragraphs(lines: { id: string; text: string }[], defs: Map<string, Observation>): string[] {
     const out: { text: string; from: string }[] = [];
     for (const line of lines) {
-      const def = defs.get(line.id), text = FictionalTime.prose(line.text);
+      const def = Narrator.def(defs, line.id), text = FictionalTime.prose(line.text);
       const runs = !def?.aspect || def.aspect === 'fixture' || def.aspect === 'weather' || def.aspect === 'ambience';
       const from = runs && line.id.includes('__') ? line.id.split('__')[0]! : '';
       const prior = out.at(-1);
@@ -193,6 +196,7 @@ export class Narrator {
       ...changing ? [] : events,
       ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: fight ? 'fight' as const : 'event' as const })),
+      ...event.changes.includes(`+ weary(${campaign.playerActor})`) ? [{ text: Narrator.weary, kind: 'event' as const }] : [],
       ...(told.moved ? [] : feedback.observations.map(text => ({ text, kind: 'change' as const }))),
     // What someone says, whether answering or of their own accord (a companion's word on coming somewhere), is speech.
     ].map(l => ({ ...l, kind: ['telling', 'event'].includes(l.kind) && /^['‘"“]/.test(l.text) ? 'speech' as const : l.kind }));

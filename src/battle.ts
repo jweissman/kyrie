@@ -56,7 +56,8 @@ export class Battle {
     this.commit();
   }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
-    options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[] }):
+    options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[];
+      weary?: string[] }):
     Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
@@ -64,7 +65,10 @@ export class Battle {
       const laws = (options.laws ?? []).filter(id => Canon.conditions[id]).map(id => ({ id, remaining: 1, clock: 'until-removed' as const }));
       const combatants = participants.map((p, i) => {
         const f = CombatProjection.fighter(lease.creatures[i]!, p.team);
-        return { ...f, statuses: [...f.statuses, ...laws.filter(l => !f.statuses.some(s => s.id === l.id))],
+        // Those too long without sleep fight weary.
+        const tired = options.weary?.includes(p.creatureId) && Canon.conditions.weary
+          ? [{ id: 'weary', remaining: 1, clock: 'until-removed' as const }] : [];
+        return { ...f, statuses: [...f.statuses, ...laws.filter(l => !f.statuses.some(s => s.id === l.id)), ...tired],
           ...options.environment ? { environment: options.environment } : {} };
       });
       return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities },

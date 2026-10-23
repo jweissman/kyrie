@@ -406,7 +406,7 @@ Six hours and a ration, somewhere safe. The living get their strength and mana b
 
 > Needs: able(actor); at(actor, site); restful(site); quantity(actor, rations) >= 1
 
-> Then: Decrease quantity(actor, rations) by 1.
+> Then: Decrease quantity(actor, rations) by 1. Set lastSlept(actor) to watch(clock). Retract weary(actor).
 
 #### learn reward
 
@@ -1132,13 +1132,19 @@ A proud creature names a price for letting you pass; paid, it keeps its word.
 
 > Then: Decrease quantity(actor, gold) by tribute(lord). Increase quantity(lord, gold) by tribute(lord). Assert tolerates(lord, actor). Retract warned(lord, actor).
 
-### Food
+### Food and sleep
 
-Also kept, without comment: eats, hungry, nextMeal.
+Also kept, without comment: eats, hungry, nextMeal, lastSlept.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 2 | 1 | 0 | 2 | 0 |
+| 0 | 4 | 2 | 0 | 3 | 0 |
+
+#### sleeps, weary
+
+*Kyr · relation(group); relation(group)* · `rule:world_needs.sleeps`
+
+A company that sleeps grows weary eighteen hours after it last slept (a bed, a camp, a rest), and stays so until it sleeps again; a weary company fights the worse for it (see Campaign.encounterBattle).
 
 #### meal
 
@@ -1155,6 +1161,16 @@ Also kept, without comment: eats, hungry, nextMeal.
 > When: eats(?g); watch(clock) >= nextMeal(?g); quantity(?g, rations) < 1; not (hungry(?g))
 
 > Then: Assert hungry(?g).
+
+#### weariness
+
+*Kyr · rule* · `rule:world_needs.weariness`
+
+Told by the narrator when it comes (see Narrator.exchange), not said: it does not stop a wait for light.
+
+> When: sleeps(?g); watch(clock) >= (lastSlept(?g) + 108); not (weary(?g))
+
+> Then: Assert weary(?g).
 
 ### Passages, obstacles and the condition of things
 
@@ -1556,7 +1572,7 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 > Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); quantity(actor, gold) >= fee(service)
 
-> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service). Retract hungry(actor). Increase nextMeal(actor) by 144.
+> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to watch(clock). Retract weary(actor).
 
 #### take healing
 
@@ -1608,7 +1624,7 @@ A night's vigil at the shrine, and the price of it. They come back with half the
 
 > Needs: able(actor); at(actor, site); not (indoors(site)); not (settled(site)); not (hungry(actor))
 
-> Then: nothing changes
+> Then: Set lastSlept(actor) to watch(clock). Retract weary(actor).
 
 ## Making worlds
 

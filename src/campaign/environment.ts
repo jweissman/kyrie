@@ -3,10 +3,17 @@ import type { World } from '../lang/world';
 // Orsino's environment for a combatant (a dungeon's terrain: urban, forest, cave, desert), read from where it stands:
 // in a settlement, urban; in an unlit place, a cave; otherwise the terrain of the region it is in, if the region says.
 export class Environment {
-  // What a fight where an actor stands is fought under: the ground (Orsino's environment) and the place's laws.
-  static encounter(world: World, actor: string | undefined): { environment?: string; laws: string[] } {
+  // What a fight where an actor stands is fought under: the ground (Orsino's environment), the place's laws, and
+  // whether the members fighting are weary.
+  static encounter(world: World, actor: string | undefined, members: string[] = []):
+    { environment?: string; laws: string[]; weary?: string[] } {
     const environment = Environment.of(world, actor);
-    return { ...environment ? { environment } : {}, laws: Environment.laws(world, actor) };
+    return { ...environment ? { environment } : {}, laws: Environment.laws(world, actor),
+      ...Environment.weary(world, actor, members) };
+  }
+  // A company weary for want of sleep (needs.kyr): its members fight weary.
+  static weary(world: World, actor: string | undefined, members: string[]): { weary?: string[] } {
+    return actor && world.view.relations.some(r => r.name === 'weary' && r.args[0] === actor) ? { weary: members } : {};
   }
   // The laws of where an actor stands: every law of its place and of each place it is within (a plane's, a
   // temple's), as the catalog conditions they name.

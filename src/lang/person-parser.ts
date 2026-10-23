@@ -2,7 +2,7 @@ import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { WorldConstructs, type ThingSpec } from './world-constructs';
 import { ItemCatalog } from '../item-catalog';
-import type { Module, Person } from './module';
+import type { Module, Person, Predicate } from './module';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -95,6 +95,18 @@ export class PersonParser {
   static PersonClass(_c: Node, id: Node, _dot: Node): Field { return { field: 'classId', value: id.sourceString }; }
   static PersonLevel(_l: Node, n: Node, _dot: Node): Field { return { field: 'level', value: Number(n.sourceString) }; }
   static PersonSpecies(_s: Node, id: Node, _dot: Node): Field { return { field: 'species', value: id.sourceString }; }
+  // Whom they are seen by: only a viewer for whom the condition holds (viewer is whoever is looking).
+  static PersonSeen(_s: Node, _w: Node, predicate: Node, _dot: Node): Field {
+    return { field: 'seen', value: PersonParser.viewer(ModuleParser.ast(predicate) as Predicate) };
+  }
+  private static viewer(p: Predicate): Predicate {
+    switch (p.kind) {
+      case 'call': return { ...p, args: p.args.map(a => a === 'viewer' ? '?viewer' : a) };
+      case 'not': return { ...p, value: this.viewer(p.value) };
+      case 'and': case 'or': return { ...p, left: this.viewer(p.left), right: this.viewer(p.right) };
+      default: return p;
+    }
+  }
   // What makes this creature other than its kind: an aspect (an agile wolf), or the dead of its kind (skeletal).
   static PersonVariant(word: Node, id: Node, _dot: Node): Field {
     return { field: word.sourceString === 'Aspect' ? 'aspect' : 'template', value: id.sourceString };

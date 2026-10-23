@@ -105,8 +105,10 @@ export class PlayerView {
     return rows.map(row => ({ ...row, choice: { ...row.choice } }));
   }
   private static list(campaign: Campaign, offered: readonly Operator[]) {
-    const world = campaign.world, unnamed = this.unnamed(world);
-    return ActionPresentation.choices(offered, campaign.schemaList).map(row => {
+    const world = campaign.world, unnamed = this.unnamed(world), actor = campaign.playerActor ?? '';
+    // Nothing can be done to someone the company does not see.
+    const visible = world.module.seen ? offered.filter(a => this.sees(world, actor, a)) : offered;
+    return ActionPresentation.choices(visible, campaign.schemaList).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
       // Choices are grounded with every place's name; one the company has not learned is said as it is seen.
       for (const [name, alias] of unnamed) { row.choice.name = row.choice.name.replaceAll(name, alias); }
@@ -120,6 +122,11 @@ export class PlayerView {
       }
       return row;
     });
+  }
+  private static sees(world: World, actor: string, action: Operator): boolean {
+    const seen = world.module.seen ?? {};
+    return [...Object.values(action.bindings ?? {}), ...action.speaker ? [action.speaker] : []]
+      .every(id => !seen[id] || LocalObservations.noticed(world, id, actor));
   }
   // The places whose names the company has not learned, by name, with what they are called until it does.
   private static unnamed(world: Campaign['world']): Map<string, string> {

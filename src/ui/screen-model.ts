@@ -124,8 +124,10 @@ export class ScreenModel {
     // Lines one installation tells about the place run on as one paragraph; what is new stands on its own.
     const paragraphs: { text: string; from: string; fresh: boolean }[] = [], says = new Map<string, string[]>();
     for (const o of view.observations) {
-      const def = defs.get(o.id), text = FictionalTime.prose(o.text);
-      if (def?.anchor === 'near' && present.has(def.place)) { says.set(def.place, [...says.get(def.place) ?? [], text]); continue; }
+      // An observation near a variable is told of the one it found (id@entity).
+      const [base, subject] = o.id.split('@') as [string, string | undefined];
+      const def = defs.get(base), text = FictionalTime.prose(o.text), place = subject ?? def?.place ?? '';
+      if (def?.anchor === 'near' && present.has(place)) { says.set(place, [...says.get(place) ?? [], text]); continue; }
       // Only what describes the place itself runs on; a thing or person seen from here keeps its own paragraph.
       const own = def && (!def.anchor || def.anchor === 'at') && def.place === here;
       const from = own && o.id.includes('__') ? o.id.split('__')[0]! : '', prior = paragraphs.at(-1), isFresh = fresh.includes(text);
@@ -166,6 +168,7 @@ export class ScreenModel {
     return { time: FictionalTime.at(elapsed), daylight,
       rations: world.module.measures.some(m => m.name === 'quantity') ? world.number(ModuleWriter.call('quantity', actor, 'rations')) : 0,
       hungry: world.module.relations.some(r => r.name === 'hungry') && world.test(ModuleWriter.call('hungry', actor)),
+      weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
       ...(meal ? { nextMeal: FictionalTime.clock(meal) } : {}) };
   }
   // Identical wares on one shelf read as one row with a count; acting on the row acts on one of them.

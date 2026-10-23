@@ -30,9 +30,13 @@ export class LocalObservations {
     }
     return near;
   }
-  // Whether something is perceived at all: what is hidden until a fact is known is not, until then.
+  // Whether something is perceived at all: what is hidden until a fact is known is not, until then; and someone seen
+  // only by some is not, by anyone else.
   static noticed(world: World, entity: string | undefined, actor: string): boolean {
-    if (!entity || !world.module.queries.some(q => q.name === 'noticed')) { return true; }
+    if (!entity) { return true; }
+    const seen = world.module.seen?.[entity];
+    if (seen && !world.test(seen, { '?viewer': actor })) { return false; }
+    if (!world.module.queries.some(q => q.name === 'noticed')) { return true; }
     return world.test(ModuleWriter.call('noticed', entity, actor));
   }
   // Whether the company brings what it takes to notice something (the old script, an eye for stone).
@@ -45,15 +49,28 @@ export class LocalObservations {
     return world.related('inside', entity).some(r => world.test(ModuleWriter.call('at', r.args[1]!, place))
       && !world.test(ModuleWriter.call('shut', r.args[1]!)));
   }
-  // What the place itself is like comes first, then who and what is about in it.
+  // What the place itself is like comes first, then who and what is about in it. An observation near a variable is
+  // one observation for each entity its condition binds that the company is near, known as id@entity.
   static read(world: World, actor: string): { id: string; text: string }[] {
     // Most observations are of a place: only this one's need a closer look.
-    const here = world.one('at', actor);
-    const seen = (world.module.observations ?? []).filter(o => ((o.anchor ?? 'at') !== 'at' || o.place === here)
+    const here = world.one('at', actor), all = world.module.observations ?? [];
+    const seen = all.filter(o => !o.place.startsWith('?') && ((o.anchor ?? 'at') !== 'at' || o.place === here)
       && this.perceives(world, actor, o.place, o.anchor)
       && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor)
       && this.brings(world, actor, o.by));
     return [...seen.filter(o => (o.anchor ?? 'at') === 'at'), ...seen.filter(o => (o.anchor ?? 'at') !== 'at')]
-      .map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }));
+      .map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }))
+      .concat(all.filter(o => o.place.startsWith('?') && this.brings(world, actor, o.by)).flatMap(o => this.each(world, actor, o)));
+  }
+  private static each(world: World, actor: string, o: NonNullable<World['module']['observations']>[number]) {
+    const out = new Map<string, string>();
+    for (const b of world.solve(o.when, {})) {
+      const entity = b[o.place];
+      if (!entity || out.has(entity) || !this.perceives(world, actor, entity, 'near') || !this.noticed(world, entity, actor)) {
+        continue;
+      }
+      out.set(entity, ObservationText.render(o.text, world, true, b));
+    }
+    return [...out].map(([entity, text]) => ({ id: `${o.id}@${entity}`, text }));
   }
 }

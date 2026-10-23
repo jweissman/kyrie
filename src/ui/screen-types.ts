@@ -82,7 +82,7 @@ export interface Screen {
   fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
   chart?: Chart; region?: RegionChart; objectives: string[];
-  expedition: { time: string; daylight: string; rations: number; hungry: boolean; nextMeal?: string };
+  expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string };
   unplaced: Act[];
 }
 export interface Chart {

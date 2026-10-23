@@ -1,0 +1,16 @@
+Module lamps "Lamps that are lit, wherever they are" {
+  Place house "the long house" is settlement.
+  Place hall "the hall" is room within house at 0, 0.
+  Place byre "the byre" is room within house at 1, 0.
+  Passage arch "the arch" is passage between hall and byre.
+  Company party "You" of 1 at hall.
+  Relation lit(thing).
+  Entity iron_lamp: thing "the iron lamp". Entity horn_lamp: thing "the horn lamp".
+  Initially Assert at(iron_lamp, hall). Initially Assert at(horn_lamp, byre). Initially Assert lit(iron_lamp).
+  // One line for every lamp that is lit, told near that lamp, wherever it is.
+  Observe glow near ?lamp when lit(?lamp) "{?lamp} burns low and yellow, and the room leans toward it.".
+  Action light_lamps(actor: group, site: place) "Light every lamp in the house" {
+    Requires at(actor, site) and not lit(horn_lamp). Time 1.
+    On success { Assert lit(horn_lamp). }
+  }
+}

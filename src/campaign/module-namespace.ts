@@ -80,6 +80,8 @@ export class ModuleNamespace {
       goals: a.goals.map(g => ({ ...g, when: this.predicate(g.when), target: this.predicate(g.target),
         ...(g.urgent ? { urgent: { ...g.urgent, when: this.predicate(g.urgent.when) } } : {}) })) }));
     const module: Module = { ...original, id: this.bindings.id,
+      ...original.seen ? { seen: Object.fromEntries(Object.entries(original.seen)
+        .map(([id, p]) => [this.entities[id] ?? id, this.predicate(p, ['?viewer'])])) } : {},
       kinds: original.kinds.map(k => this.kinds[k]!),
       entities: original.entities.map(e => ({ ...e, id: this.entities[e.id]!, type: this.kinds[e.type] ?? e.type,
         ...(e.name.includes('{') ? { name: this.text(e.name) } : {}),
@@ -107,7 +109,7 @@ export class ModuleNamespace {
       objectives: original.objectives?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
         when: this.predicate(o.when), text: this.text(o.text) })),
       observations: original.observations?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
-        place: this.entities[o.place]!, when: this.predicate(o.when),
+        place: o.place.startsWith('?') ? o.place : this.entities[o.place]!, when: this.predicate(o.when),
         text: this.text(o.text), ...(o.teaches ? { teaches: this.entities[o.teaches]! } : {}),
         ...(o.about ? { about: this.entities[o.about] ?? o.about } : {}) })),
       initial: original.initial.map(c => this.change(c)), goal: this.predicate(original.goal),

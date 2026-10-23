@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { Environment } from '../src/campaign/environment';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList, type Choice } from '../src/ui/choice-list';
 import { Canon } from '../src/canon/canon';
@@ -167,6 +168,45 @@ describe('Authorability probes', () => {
     const s = await Probe.start('selm/selm.campaign.json');
     expect(Probe.measure(s, 'mass', 'selm_stone')).toBe(-2);
     expect(await Probe.act(s, '^Wait › A while')).toContain('does not come down');
+  }, 60000);
+
+  it('F15: an observation near a variable is told near each entity its condition finds, wherever that is', async () => {
+    expect((await Probe.lint('lamps/probe.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
+    const s = await Probe.start('lamps/probe.campaign.json');
+    const glows = () => ScreenModel.build(s.campaign).observed.filter(o => o.id.startsWith('p__glow@')).map(o => o.id);
+    expect(glows()).toEqual(['p__glow@p__iron_lamp']);
+    expect(ScreenModel.build(s.campaign).observed.map(o => o.text).join(' ')).toContain('The iron lamp burns low and yellow');
+    await Probe.act(s, 'Light every lamp');
+    expect(glows()).toEqual(['p__glow@p__iron_lamp']);
+    await Probe.act(s, 'byre');
+    expect(glows()).toEqual(['p__glow@p__horn_lamp']);
+  }, 60000);
+
+  it('F17: someone seen only by some is not there, and cannot be spoken to, for anyone else', async () => {
+    expect((await Probe.lint('grey-lady/probe.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
+    const s = await Probe.start('grey-lady/probe.campaign.json');
+    const lady = () => ScreenModel.build(s.campaign).people.some(p => p.id === 'p__lady');
+    expect(lady()).toBe(false);
+    expect(Probe.choices(s).some(c => /grey lady/.test(c.label))).toBe(false);
+    await Probe.act(s, 'Light the grey candle');
+    expect(lady()).toBe(true);
+    expect(await Probe.act(s, 'why she stays')).toContain('They took the bell');
+  }, 60000);
+
+  it('F19: a company grows weary eighteen hours after it slept, fights weary, and a night\'s sleep mends it', async () => {
+    const s = await Probe.start('tired/probe.campaign.json');
+    let told = '';
+    for (let i = 0; i < 40 && Probe.measure(s, 'watch', 'clock') < 108; i++) {
+      expect(Probe.holds(s, 'weary', 'party')).toBe(false);
+      told = await Probe.act(s, '^Wait › An hour');
+    }
+    expect(Probe.holds(s, 'weary', 'party')).toBe(true);
+    expect(told).not.toContain('weary');
+    expect(ScreenModel.build(s.campaign).expedition.weary).toBe(true);
+    // Whoever of the company fights now fights weary (see Battle.encounter's weary, and test/fighting-objects).
+    expect(Environment.encounter(s.campaign.world, 'party', ['a', 'b']).weary).toEqual(['a', 'b']);
+    await Probe.act(s, '^Make camp');
+    expect(Probe.holds(s, 'weary', 'party')).toBe(false);
   }, 60000);
 
   it('K12: an error in a declaration is said with its file, line and column', async () => {
