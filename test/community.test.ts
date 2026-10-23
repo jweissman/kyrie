@@ -108,3 +108,26 @@ describe('family', () => {
     expect(names).toContainEqual(expect.stringMatching(/, your brother$/));
   }, 60000);
 });
+
+describe('what people know by their work', () => {
+  it('someone who works by the water says where the willow grows, and it does', async () => {
+    const { w, s } = await Settled.start('herbs'), region = Settled.region(w);
+    await Settled.act(s, /green$/);
+    const ask = PlayerView.choices(s.campaign).find(c => / where willow grows$/.test(c.choice.name));
+    if (!ask) { return; }
+    const told = await s.perform(ask.choice.id);
+    const said = told.response ?? '';
+    const named = RegionGrowth.places(region).filter(p => said.includes(p.name));
+    expect(named.length).toBeGreaterThan(0);
+    for (const p of named) { expect(RegionGrowth.habitats(region, p.cells).has('riverbank')).toBe(true); }
+  }, 60000);
+  it('someone who has done the same kind of work knows the company for it', async () => {
+    const { s } = await Settled.start('herbs');
+    await Settled.act(s, /green$/);
+    const shop = PlayerView.choices(s.campaign).find(c => /^Talk shop with /.test(c.choice.name));
+    expect(shop).toBeDefined();
+    const rations = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'));
+    await s.perform(shop!.choice.id);
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(rations + 1);
+  }, 60000);
+});

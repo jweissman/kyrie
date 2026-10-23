@@ -39,7 +39,7 @@ export class RegionRoads {
     return minutes % 60 === 0 ? `${minutes / 60} hour${minutes === 60 ? '' : 's'}` : `${minutes} minutes`;
   }
   // What a road and its land are called, and how it looks, by what it crosses or runs through.
-  private static names(road: Road, region: Region): WayNames {
+  static names(road: Road, region: Region): WayNames {
     const { from, to, form } = road, name = form?.name ?? '';
     const draw = new Draw(`${road.way}:prose`), bridge = road.route.crossings[0]?.kind === 'bridge';
     switch (form?.form) {

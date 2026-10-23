@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 150,
+    "kyr": 151,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 145,
+      "kyr": 146,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10521,6 +10521,13 @@
   {
    "id": "rule:world_core.enRoute",
    "title": "enRoute",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.craft",
+   "title": "craft, craft",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"

@@ -408,7 +408,7 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 11 | 31 | 11 | 5 | 1 | 8 |
+| 12 | 32 | 11 | 5 | 1 | 8 |
 
 #### terrainkind, terrain
 
@@ -477,6 +477,12 @@ Someone stopping another where they stand (a challenge, a hold-up): on the compa
 *Kyr · relation(group, passage)* · `rule:world_core.enRoute`
 
 A company on the way, between where it set out and where it is going: enRoute(company, by this passage).
+
+#### craft, craft
+
+*Kyr · kind; relation(group, craft)* · `rule:world_core.craft`
+
+The kind of work the company has done (its backgrounds' families): what those who do the same work know it by.
 
 #### manner, manner
 

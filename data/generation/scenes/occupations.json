@@ -7,6 +7,22 @@
     "{Name} is eating stew from a bowl as if it had done {them} a wrong.",
     "{Name} is arguing about the weather with the innkeeper, and enjoying it."
   ],
+  "recognition": {
+    "wild": "{Name} looks at your boots, and then at your hands, and something changes in {their} face. 'You've worked the hills,' {they} [say|says]. 'You'll want to know which way the weather comes from here. West. Always west.' {They} [press|presses] a heel of bread on you for the road.",
+    "roads": "'You've walked a few roads,' says {Name}, not as a question. 'Here: the inn at the far end is better than the near one. Tell them I sent you.' {They} [give|gives] you a twist of dried meat for the way.",
+    "water": "{Name} watches you tie a knot and nods, slowly. 'Boat people,' {they} [say|says]. 'You can always tell.' {They} [hand|hands] you a smoked fish wrapped in a dock leaf.",
+    "trade": "'You've done honest work,' says {Name}, and means it as the highest praise there is. {They} [won't|won't] hear of you leaving without something to eat.",
+    "earth": "'Dug, have you?' says {Name}, and grips your hand to feel the calluses. 'Thought so.' {They} [give|gives] you a hard cake of oats, the kind that keeps underground.",
+    "faith": "{Name} sees how you hold yourself and lowers {their} voice, as if you were in a holy place. 'Bless you,' {they} [say|says], and gives you bread.",
+    "healing": "'You've the hands of someone who's set a bone,' says {Name}. 'Here. Take this for the road, and use it on someone who needs it more than I do.'",
+    "learning": "'You read,' says {Name}, surprised, when you make out the mark on the door-post. 'Then you'll want to know the old stones say more than people think.' {They} [give|gives] you something to eat while {they} [talk|talks].",
+    "arms": "{Name} sizes you up the way soldiers do. 'Who'd you serve with?' {They} [don't|doesn't] wait for an answer, but presses some food on you all the same.",
+    "stage": "'I've seen you somewhere,' says {Name}. 'A fair. You played.' {They} [laugh|laughs] and gives you something to eat for the memory of it.",
+    "shadows": "{Name} looks at you a moment too long. 'I know your sort,' {they} [say|says], not unkindly. 'Keep out of the reeve's way and you'll do.' {They} [give|gives] you bread, and counts the spoons when you have gone.",
+    "court": "{Name} straightens without meaning to. 'You've been in great houses,' {they} [say|says]. 'You'll find this one plainer.' {They} [give|gives] you bread anyway.",
+    "mechanisms": "'You've a clever pair of hands,' says {Name}, watching you. 'If you're staying, there's a lock at the mill wants looking at.' {They} [give|gives] you something to eat in the meantime.",
+    "margins": "{Name} knows what you are, and does not say it, and gives you bread without being asked."
+  },
   "occupations": {
     "farmer": { "name": "farmer", "background": "farmer", "painting": "farmer", "everywhere": true,
       "workplace": { "id": "fields", "name": "the home fields", "scene": "Strips of field run out from the backs of the houses, each a different green, with a headland of nettles between." },

@@ -30,7 +30,9 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings',
-    'featOpen', 'temperament', 'fallen'];
+    'featOpen', 'temperament', 'fallen', 'craft'];
+  static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
+    'water', 'stage', 'trade', 'court', 'margins'];
   // Changes whenever the store or a relation `project` writes has changed.
   static stamp(world: World, store: CreatureStore): string {
     return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
@@ -131,6 +133,13 @@ export class CreatureFacts {
     }
     if (has.has('company')) {
       changes.push({ kind: actor.player ? 'assert' : 'retract', call: ModuleWriter.call('company', actor.id) });
+    }
+    // The kinds of work the company's people have done, for those who do the same work to know them by.
+    if (has.has('craft') && actor.player) {
+      const done = new Set(members.map(c => c.backgroundId && Canon.backgrounds[c.backgroundId]?.kind).filter(Boolean));
+      for (const kind of CreatureFacts.crafts) {
+        changes.push({ kind: done.has(kind) ? 'assert' : 'retract', call: ModuleWriter.call('craft', actor.id, `craft_${kind}`) });
+      }
     }
     const alive = members.some(c => c.state.hp > 0);
     const able = members.some(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id)));

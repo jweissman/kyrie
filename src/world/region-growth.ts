@@ -1,6 +1,7 @@
 import { Canon } from '../canon/canon';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
+import { RegionRoads } from './region-roads';
 import type { Region } from './region-writer';
 import type { Organism } from '../canon/schema';
 
@@ -27,11 +28,26 @@ export class RegionGrowth {
   }
   // The plants that can be gathered, most particular first: a place grows the first two whose habitat it has.
   static readonly plants = ['willow', 'sphagnum', 'meadowsweet', 'yarrow'];
-  static places(region: Region): { id: string; cells: number[] }[] {
+  static places(region: Region): { id: string; cells: number[]; name: string }[] {
     const atlas = RegionGeography.atlas(region);
-    return [...RegionGeography.roads(region).map(r => ({ id: r.way, cells: r.route.cells })),
+    return [...RegionGeography.roads(region)
+      .map(r => ({ id: r.way, cells: r.route.cells, name: RegionRoads.names(r, region).way })),
       ...atlas.zones.flatMap(z => RegionZones.landmarks(region, z).filter(l => l.cell !== undefined)
-        .map(l => ({ id: l.id, cells: [l.cell!] })))];
+        .map(l => ({ id: l.id, cells: [l.cell!], name: l.name })))];
+  }
+  // Where a plant grows near a settlement, nearest first: what someone who knows the water would say.
+  static near(region: Region, plant: string, cell: number): string[] {
+    const W = RegionGeography.atlas(region).land.width, o = Canon.organisms[plant]!;
+    return this.places(region).filter(p => o.habitats.some(h => this.habitats(region, p.cells).has(h)))
+      .map(p => ({ p, d: Math.min(...p.cells.map(c => this.apart(c, cell, W))) })).filter(x => x.d <= 8)
+      .sort((a, b) => a.d - b.d).map(x => x.p.name)
+      // Two fords of the same river are one place to someone telling the way.
+      .filter((n, i, all) => all.slice(0, i).every(o => !this.proper(o).some(w => this.proper(n).includes(w))))
+      .slice(0, 2);
+  }
+  private static proper(name: string): string[] { return name.split(/\s+/).filter(w => /^\p{Lu}/u.test(w)); }
+  private static apart(a: number, b: number, W: number): number {
+    return Math.max(Math.abs(a % W - b % W), Math.abs(Math.floor(a / W) - Math.floor(b / W)));
   }
   static lines(region: Region): string[] {
     const q = JSON.stringify, lines: string[] = [];

@@ -1,5 +1,8 @@
 import { Voice } from '../../narrative/voice';
 import { Overlays } from '../../overlays';
+import { Canon } from '../../canon/canon';
+import { RegionGrowth } from '../region-growth';
+import trades from '../../../data/generation/scenes/occupations.json';
 import { RegionGeography } from '../region-geography';
 import type { Region } from '../region-writer';
 import type { Animal, Community, Resident } from './community';
@@ -21,7 +24,7 @@ export class CommunityWriter {
           `  Passage ${w.id}_way ${q(w.indoors ? `the door of ${w.name}` : `the way to ${w.name}`)} is ${w.indoors ? 'door' : 'path'} between ${s.id}_green and ${w.id}.`,
           `  Observe ${w.id}_scene at ${w.id} as fixture when true ${q(w.scene)}.`];
       }),
-      ...c.residents.flatMap(r => this.resident(c, r)),
+      ...c.residents.flatMap(r => this.resident(region, c, r)),
       ...c.animals.filter(a => a.at).flatMap(a => this.animal(a)),
       ...this.concern(region, c),
     ];
@@ -29,7 +32,7 @@ export class CommunityWriter {
   private static said(text: string, r: { name: string; pronoun: string }, place: string): string {
     return Voice.render(text.replace(/\{Name\}/g, r.name).replace(/\{place\}/g, place), { pronoun: r.pronoun });
   }
-  private static resident(c: Community, r: Resident): string[] {
+  private static resident(region: Region, c: Community, r: Resident): string[] {
     const s = c.settlement, q = this.q, work = r.workplace ?? `${s.id}_green`;
     const kin = r.kin ? `, ${c.residents.find(x => x.id === r.kin!.to)?.name}'s ${r.kin.as}` : '';
     const role = `the ${r.work.name}${kin}`, their = Voice.pronouns[r.pronoun]!.their;
@@ -45,6 +48,7 @@ export class CommunityWriter {
       ...r.evening === 'inn' ? [`  Observe ${r.id}_evening near ${r.id} of ${r.id} when at(${r.id}, ${s.id}_taproom) ${q(this.said(r.tavern, r, s.name))}.`] : [],
       `  Topic ${r.id}_work with ${r.id} ${q(`Ask ${r.name} about ${about}`)} when true {`,
       `    Says ${q(this.said(r.talk, r, s.name))}.`, '  }',
+      ...this.knowing(region, c, r), ...this.recognising(r),
       // The day's round: at work from seven, of an evening from six, indoors from nine; wherever they ought to be
       // and are not, they go.
       `  Rule ${r.id}_day when hour(clock) >= 7 and hour(clock) < 18 and not at(${r.id}, ${work}) and ${free} { Assert at(${r.id}, ${work}). }`,
@@ -52,6 +56,27 @@ export class CommunityWriter {
       `  Rule ${r.id}_night when (hour(clock) >= 21 or hour(clock) < 7) and not at(${r.id}, ${s.id}_houses) and ${free} { Assert at(${r.id}, ${s.id}_houses). }`,
     ];
   }
+  // Someone whose work is by the water knows where the willow grows (and so what to strip for a fever): they say
+  // where, and the company knows it.
+  private static knowing(region: Region, c: Community, r: Resident): string[] {
+    const q = this.q, s = c.settlement;
+    if (!r.work.knows?.some(k => k === 'water' || k === 'herbs') || s.cell === undefined) { return []; }
+    const where = RegionGrowth.near(region, 'willow', s.cell);
+    if (!where.length) { return []; }
+    const fact = `${r.id}_willows`, places = where.length > 1 ? `${where[0]}, and along ${where[1]}` : where[0]!;
+    return [`  Entity ${fact}: fact ${q(`Willows grow by the water on ${places}: willow bark breaks a fever.`)}.`,
+      `  Topic ${r.id}_where with ${r.id} ${q(`Ask ${r.name} where willow grows`)} when not knows(actor, ${fact}) {`,
+      `    Says ${q(`'Willow? By the water, same as everywhere,' says ${r.name}. 'There's a good stand on ${places}. Strip the bark, not the wood.'`)}.`,
+      `    On discuss { Assert knows(actor, ${fact}). }`, '  }'];
+  }
+  // Someone who has done the same kind of work knows the company for it, and is kind to it.
+  private static recognising(r: Resident): string[] {
+    const family = Canon.backgrounds[r.work.background]?.kind, line = family && this.recognition[family];
+    if (!line) { return []; }
+    return [`  Topic ${r.id}_shop with ${r.id} ${this.q(`Talk shop with ${r.name}`)} when craft(actor, craft_${family}) once {`,
+      `    Says ${this.q(this.said(line, r, ''))}.`, '    On discuss { Increase quantity(actor, rations) by 1. }', '  }'];
+  }
+  static readonly recognition = (trades as unknown as { recognition: Record<string, string> }).recognition;
   // The calling some work asks of whoever does it: a trapper is a ranger, an old soldier a warrior, a fiddler a bard.
   private static calling(background: string): string {
     const needs = Overlays.has(background) ? Overlays.get(background).requiredClass : undefined;

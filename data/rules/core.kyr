@@ -50,6 +50,13 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation enRoute(group, passage).
   Query benighted(a: group) means company(a) and at(a, ?p) and not capable(a, sunlight)
     and ((unlit(?p) and not capable(a, light)) or lightless(?p)).
+  // The kind of work the company has done (its backgrounds' families): what those who do the same work know it by.
+  Kind craft. Relation craft(group, craft).
+  Entity craft_wild: craft "the wild". Entity craft_roads: craft "the roads". Entity craft_mechanisms: craft "mechanisms".
+  Entity craft_shadows: craft "the shadows". Entity craft_healing: craft "healing". Entity craft_faith: craft "faith".
+  Entity craft_learning: craft "learning". Entity craft_earth: craft "the earth". Entity craft_arms: craft "arms".
+  Entity craft_water: craft "the water". Entity craft_stage: craft "the stage". Entity craft_trade: craft "trade".
+  Entity craft_court: craft "the court". Entity craft_margins: craft "the margins".
   // How someone carries themselves, which shows in what they say (Orsino's personalities); and the words they are
   // spoken of in. Someone with no manner given has one all the same (see VoiceContext).
   Kind manner. Relation manner(group, manner).

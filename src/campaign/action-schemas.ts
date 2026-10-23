@@ -48,6 +48,7 @@ export class ActionSchemas {
   private static context(module: Module) {
     const written = new Set(['at', 'able', 'dead', 'distinct', 'dark', 'recorded', 'capable', 'awake', 'needsCare', 'canCast',
       'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient', 'swappable', 'company', 'improvable', 'learnable', 'brings', 'witnessed', 'featOpen',
+      'craft', 'temperament',
       ...module.actions.flatMap(a => [...a.success, ...a.failure].map(c => c.call.name)),
       ...(module.rules ?? []).flatMap(r => r.effects.map(c => c.call.name))]);
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));
