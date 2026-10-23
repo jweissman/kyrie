@@ -49,7 +49,7 @@ the building to tomb.
 | Special rooms (phylactery, catacombs…) | The `special` guide puts an earlier party's camp there: its bedroll, its notebook (told once), rope and a torch | Adapted |
 | Room decoration, features, auras | Every room's look is written for its role in the purpose; no auras | Different by design (written, not drawn); auras Missing |
 | Gear in rooms | The purpose's finds by tier | Adapted |
-| Building types and room bias | One purpose, the Delvers' mine (`DeepPurposes.all`) | Missing: only the mine. Orsino too fixed its building to tomb |
+| Building types and room bias | Two purposes, the Delvers' mine and the Barrow-Kin's king-barrow (`DeepPurposes.all`), each with its own roles, gear and words | Adapted: two of Orsino's five (mine, tomb); temple, fortress and library have no purpose yet. Orsino too fixed its building to tomb |
 | Resting risks wandering monsters | Some rooms are restful; savage and territorial bands walk their own level, one in six each watch to where the company is (`DeepSites.rest`) | Faithful in intent |
 | A dungeon is generated and then fixed | Built from what it was for (spine, branches, loops, connectors between levels), then what came after (the successors' and their fall's marks), then who lives there; it fills again while the company is away (`DeepLayouts`, `DeepHistory`, `DeepTime`) | Beyond |
 | Linear run of rooms | Levels joined by a cage that runs once its wheel is freed, ladders, a one-way ore pass, a walled stair, a climb; loops; a hidden air shaft that is a second way out; a level that drains only while water is turned onto a pump a level up (`DeepMechanisms`) | Beyond |
@@ -65,7 +65,7 @@ the building to tomb.
 
 ## What is still not Orsino's, and should be
 
-- More than one purpose: Orsino's building types (temple, fortress, library, tomb) are Kyrie's other arts (sky, stone,
-  bone, water) with no deep purpose yet.
+- Purposes for the other arts: Orsino's temple, fortress and library would be Kyrie's sky, stone and water arts,
+  which have no deep purpose yet.
 - Orsino's shrines in the deep, and its auras.
 - Trap DCs, if a roll is wanted alongside knowledge and tools; the table is there.

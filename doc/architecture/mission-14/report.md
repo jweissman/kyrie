@@ -52,12 +52,16 @@ but with the company put in the room (the harness's `@@room`), not walked there.
 ordinary play was not done: it needs several expeditions of levelling, and I did not play them.
 
 **Weak or missing.**
-- One purpose. The Delvers' mine is the only deep site. Orsino's other building types (temple, fortress, library,
-  tomb) are Kyrie's other arts without a purpose yet. Every Delver country now has a mine like this one: generated
-  differently, but the same kind of place.
+- Two purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
+  `test/deep-barrow.test.ts`), with its own gear and words: a portal stone on a counterweight, a seal-stone across the
+  king's door, a robbers' tunnel round it, a light-box that is a second way out, a king who cannot abide the day. A
+  country with both arts gets the mine. The sky, stone and water arts have no deep purpose yet, so a country of
+  those has no deep site.
 - Companions die easily. Orsino's death save is against 25, so a fallen companion is dead until raised, and raising
   costs 300 coin. Thoradin fell in both fights he was in. That is harsh for a company of two.
-- Carrying is not limited (§12's weight and carry is open): six lumps of ore weigh what a lantern does.
+- Carrying now weighs (`src/rules/burden.ts`, `test/burden.test.ts`). Each kind weighs what it says, or what its
+  class or category weighs; a member carries ten and twice their strength. A laden company is told so and goes at
+  half its pace; the heart of the vein weighs a warrior down. Nothing is refused for weight.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience is uneven (three goblins 75, two cave spiders 600).
 
@@ -115,7 +119,7 @@ the catalogs while its campaign is played, out of them when another is, and back
 entity of its world whether or not any of it is placed.
 
 **Not done.** Local abilities, laws and generation tables, dynamic entity creation, conditional passage destinations,
-counted offers, rule tracing, and weight and carrying. The fixtures are small; there is no full independently written
+counted offers and rule tracing. (Weight and carrying are done: see Proof A.) The fixtures are small; there is no full independently written
 scenario of the size the brief imagines.
 
 ## The interface
@@ -177,7 +181,8 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 
 1. Play the mine to the heart in ordinary play, over as many expeditions as it takes, and recalibrate from what
    happens: companion deaths, the keeper, the drowned level's timing, how much a company can carry.
-2. A second purpose (a tomb or a sky-temple), to prove that the generator is general and to give worlds variety.
+2. Deep purposes for the sky, stone and water arts (an observatory, halls, a waterworks), now that the generator takes
+   all of a purpose's words from its data.
 3. Split the company out of the region bundle so Begin can be composed while the player reads.
 4. The philosopher capstone, on the argument machinery built here.
-5. Weight and carrying, dynamic entities and pronouns in Kyr text.
+5. Dynamic entities, and pronouns in Kyr text.
