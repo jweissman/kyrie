@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 1283 represented or better; 1143 executable or better; 16 play-validated; 2375 feasible.
+2651 entries in 79 families. 1339 represented or better; 1192 executable or better; 16 play-validated; 2390 feasible.
 
 ## By family
 
@@ -22,12 +22,12 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | character | trait | 100 | 22 | 78 | 0 | 84 |
 | condition | status | 141 | 17 | 123 | 1 | 124 |
 | creature | animal | 44 | 5 | 39 | 0 | 44 |
-| creature | aspect | 31 | 0 | 0 | 0 | 31 |
-| creature | aspectRarity | 5 | 0 | 0 | 0 | 0 |
-| creature | combatEntity | 5 | 0 | 0 | 0 | 0 |
+| creature | aspect | 31 | 0 | 31 | 0 | 31 |
+| creature | aspectRarity | 5 | 0 | 5 | 0 | 5 |
+| creature | combatEntity | 5 | 0 | 5 | 0 | 5 |
 | creature | companion | 27 | 0 | 0 | 0 | 0 |
-| creature | creatureOverlay | 1 | 0 | 0 | 0 | 0 |
-| creature | creatureTemplate | 4 | 0 | 0 | 0 | 0 |
+| creature | creatureOverlay | 1 | 0 | 1 | 0 | 1 |
+| creature | creatureTemplate | 4 | 0 | 4 | 0 | 4 |
 | creature | difficultyTier | 6 | 0 | 0 | 0 | 0 |
 | creature | dragonColor | 10 | 0 | 0 | 1 | 10 |
 | creature | elemental | 17 | 0 | 17 | 0 | 17 |
@@ -77,7 +77,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | world | deityDraftGender | 71 | 0 | 0 | 0 | 71 |
 | world | deityGender | 33 | 0 | 0 | 0 | 33 |
 | world | dungeon | 5 | 0 | 0 | 0 | 5 |
-| world | plane | 10 | 0 | 0 | 0 | 10 |
+| world | plane | 10 | 7 | 3 | 0 | 10 |
 | world | riddle | 4 | 0 | 0 | 0 | 4 |
 | world | riddleAnswer | 15 | 0 | 0 | 0 | 15 |
 | world | roomAura | 20 | 0 | 0 | 0 | 20 |
@@ -127,23 +127,17 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `field:consumables.charges` | 6 | 6 | consumable |
 | `field:difficultyTierRanks` | 6 | 6 | difficultyTier |
 | `modifier:examineBonus` | 6 | 2 | trait |
-| `field:combatEntityAbilities` | 5 | 0 | combatEntity |
-| `field:combatEntityTraits` | 5 | 0 | combatEntity |
-| `field:creatureAspectTypes` | 5 | 5 | aspectRarity |
 | `field:npcRank.traits` | 5 | 0 | npcRank |
 | `flag:cascade` | 5 | 5 | arcaneSpell, divineSpell |
 | `modifier:bonusSpellSlots` | 5 | 5 | status, trait |
 | `modifier:reflectSpellChance` | 5 | 4 | equipment, status, trait |
-| `field:creatureTemplateModifiers.traits` | 4 | 1 | creatureTemplate |
 | `field:masterGear.duration` | 4 | 4 | gear |
-| `field:creatureTemplateModifiers.attributes` | 3 | 0 | creatureTemplate |
 | `field:nobilityOverlay._title` | 3 | 3 | nobility |
 | `modifier:gatherInformationBonus` | 3 | 0 | trait |
 | `modifier:reflectDamagePercent` | 3 | 3 | status |
 | `modifier:seeInvisible` | 3 | 3 | arcaneSpell, equipment, status |
 | `modifier:untargetable` | 3 | 3 | status |
 | `effect:acquireItem` | 2 | 2 | divineSpell |
-| `field:creatureTemplateModifiers.abilities` | 2 | 0 | creatureTemplate |
 | `modifier:bonusPoisonDamage` | 2 | 2 | divineSpell |
 | `modifier:effectiveStats` | 2 | 0 | arcaneSpell |
 | `modifier:invisible` | 2 | 2 | status, trait |
@@ -153,7 +147,6 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `modifier:xpMultiplier` | 2 | 1 | trait |
 | `effect:planeshift` | 1 | 1 | arcaneSpell |
 | `effect:recalculateHp` | 1 | 0 | arcaneSpell |
-| `field:creatureTemplateOverlays` | 1 | 1 | creatureOverlay |
 | `field:masterEquipment.aspect` | 1 | 1 | equipment |
 | `modifier:attackDie` | 1 | 0 | arcaneSpell |
 | `modifier:bonusSpellDamage` | 1 | 1 | equipment |
@@ -161,6 +154,13 @@ them. *Sole* counts entries for which this is the only missing feature.
 | `modifier:disarmTrapBonus` | 1 | 0 | trait |
 | `modifier:effectiveAbilities` | 1 | 0 | arcaneSpell |
 | `modifier:effectiveWeapon` | 1 | 0 | arcaneSpell |
+| `modifier:extraTurns` | 1 | 0 | status |
+| `modifier:hasPrimaryAttack` | 1 | 0 | trait |
+| `modifier:mayBeHealed` | 1 | 0 | trait |
+| `modifier:noStatusExpiry` | 1 | 1 | status |
+| `modifier:onEnemyEnter` | 1 | 1 | divineSpell |
+| `modifier:onSaveVersusMagic` | 1 | 0 | equipment |
+| `modifier:readThoughts` | 1 | 1 | arcaneSpell |
 
 ## Source inconsistencies
 
@@ -339,6 +339,22 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `animal:bear` | `species:bear` | represented | adapted | Retains claws, fur and a defensive disposition. Kyr rolls scores, uses a 12-point hit die and the existing executable Smash action; the original animal stat line is not transcribed. |
 | `animal:spider` | `species:cave_spider` | represented | adapted | Orsino's bite and chitin become the species' natural weapon and armour; Kyr enlarges it into a cave hunter with rolled attributes and Orsino's venomous bite and ensnare. |
 | `ability:maul` | `ability:maul` | represented | adapted | Orsino's attack, 1d6 + Strength bludgeoning and bleed are kept; the slow it also inflicts is not, as Kyr cannot execute slow. |
+| `combatEntity:antimagic_ward` | `species:antimagic_ward` | executable | adapted | A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer. |
+| `combatEntity:barrier` | `species:barrier` | executable | adapted | A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer. |
+| `combatEntity:bomb` | `species:bomb` | executable | adapted | A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer. |
+| `combatEntity:phylactery` | `species:phylactery` | executable | adapted | A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer. |
+| `combatEntity:turret` | `species:turret` | executable | adapted | A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer. |
+| `plane:Arcadia` | `condition:plane_arcadia` | represented | adapted | A place's law (law(place, plane_arcadia)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's. |
+| `plane:Cthelll` | `condition:plane_cthelll` | executable | adapted | A place's law (law(place, plane_cthelll)): everyone fighting there fights under the plane's spell DC. |
+| `plane:Gehenna` | `condition:plane_gehenna` | executable | adapted | A place's law (law(place, plane_gehenna)): everyone fighting there fights under the plane's spell DC. |
+| `plane:Hades` | `condition:plane_hades` | represented | adapted | A place's law (law(place, plane_hades)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's. |
+| `plane:Limbo` | `condition:plane_limbo` | represented | adapted | A place's law (law(place, plane_limbo)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's. |
+| `plane:Mechanus` | `condition:plane_mechanus` | represented | adapted | A place's law (law(place, plane_mechanus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's. |
+| `plane:Pandemonium` | `condition:plane_pandemonium` | represented | adapted | A place's law (law(place, plane_pandemonium)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's. |
+| `plane:Prime Material` | `condition:plane_prime_material` | executable | adapted | A place's law (law(place, plane_prime_material)): everyone fighting there fights under the plane's spell DC. |
+| `plane:Ysgard` | `condition:plane_ysgard` | represented | adapted | A place's law (law(place, plane_ysgard)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's. |
+| `plane:Zephyrus` | `condition:plane_zephyrus` | represented | adapted | A place's law (law(place, plane_zephyrus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's. |
+| `creatureOverlay:undead` | `undead:skeletal` `undead:zombie` `undead:spectral` `undead:vampiric` | executable | faithful | The undead overlays are Kyr's undead templates: any species can be laid under one (Undead skeletal. in a Person), and a barrow's or a ruin's beasts sometimes are. |
 | `ability:arrow_volley` | `ability:arrow_volley` | executable | faithful | Generated by the Orsino translator. |
 | `ability:backstab` | `ability:backstab` | executable | faithful | Generated by the Orsino translator. |
 | `ability:black_ritual` | `ability:black_ritual` | executable | faithful | Generated by the Orsino translator. |
@@ -1548,3 +1564,43 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `background:wretch` | `background:wretch` | executable | adapted | Generated by the Orsino translator. |
 | `background:yeoman` | `background:yeoman` | executable | adapted | Generated by the Orsino translator. |
 | `background:zoologist` | `background:zoologist` | executable | adapted | Generated by the Orsino translator. |
+| `aspect:agile` | `aspect:agile` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:alpha` | `aspect:alpha` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:ancient` | `aspect:ancient` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:apex` | `aspect:apex` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:beloved` | `aspect:beloved` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:blessed` | `aspect:blessed` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:cruel` | `aspect:cruel` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:cunning` | `aspect:cunning` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:curious` | `aspect:curious` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:cursed` | `aspect:cursed` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:dauntless` | `aspect:dauntless` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:dread` | `aspect:dread` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:ferocious` | `aspect:ferocious` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:forgotten` | `aspect:forgotten` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:giant` | `aspect:giant` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:majestic` | `aspect:majestic` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:mysterious` | `aspect:mysterious` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:nimble` | `aspect:nimble` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:noble` | `aspect:noble` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:phantasmal` | `aspect:phantasmal` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:primal` | `aspect:primal` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:sacred` | `aspect:sacred` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:savage` | `aspect:savage` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:sovereign` | `aspect:sovereign` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:sturdy` | `aspect:sturdy` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:swift` | `aspect:swift` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:terrifying` | `aspect:terrifying` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:venomous` | `aspect:venomous` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:vicious` | `aspect:vicious` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:warped` | `aspect:warped` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `aspect:wildtype` | `aspect:wildtype` | executable | adapted | Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made. |
+| `creatureTemplate:skeletal` | `undead:skeletal` | executable | faithful | Its attributes, traits and abilities applied to the creature (Undead in Kyr), and its den laid to rest by rites. |
+| `creatureTemplate:spectral` | `undead:spectral` | executable | faithful | Its attributes, traits and abilities applied to the creature (Undead in Kyr), and its den laid to rest by rites. |
+| `creatureTemplate:vampiric` | `undead:vampiric` | executable | faithful | Its attributes, traits and abilities applied to the creature (Undead in Kyr), and its den laid to rest by rites. |
+| `creatureTemplate:zombie` | `undead:zombie` | executable | faithful | Its attributes, traits and abilities applied to the creature (Undead in Kyr), and its den laid to rest by rites. |
+| `aspectRarity:common` | `rarity:common` | executable | faithful | The aspects of this rarity, drawn with the weights in CreatureVariants. |
+| `aspectRarity:epic` | `rarity:epic` | executable | faithful | The aspects of this rarity, drawn with the weights in CreatureVariants. |
+| `aspectRarity:legendary` | `rarity:legendary` | executable | faithful | The aspects of this rarity, drawn with the weights in CreatureVariants. |
+| `aspectRarity:rare` | `rarity:rare` | executable | faithful | The aspects of this rarity, drawn with the weights in CreatureVariants. |
+| `aspectRarity:uncommon` | `rarity:uncommon` | executable | faithful | The aspects of this rarity, drawn with the weights in CreatureVariants. |

@@ -6,6 +6,7 @@ import { SettlementScenes } from './settlement-scenes';
 import { Communities } from './community/community';
 import { CommunityWriter } from './community/community-writer';
 import { Foundings, type Founding } from './founding';
+import { RegionShops } from './region-shops';
 import type { Region, Settlement } from './region-writer';
 
 interface MerchantType { role: string; profession?: string; shop: string; stock: [string, number, number][];
@@ -54,6 +55,8 @@ export class SettlementWriter {
       `  Observe ${s.id}_why at ${s.id}_green as ambience when not dark() ${q(f.why)}.`,
       ...SettlementScenes.life(region, i) ? [`  Observe ${s.id}_life at ${s.id}_green as ambience when not dark() ${q(SettlementScenes.life(region, i)!)}.`] : [],
       ...RegionFaith.lines(s, cult, has.shrine ? `${s.id}_shrine` : `${s.id}_green`, this.wayside(f, cult)),
+      // The shops a town keeps beside its own merchant (see RegionShops).
+      ...RegionShops.lines(region, i),
       // The people who live there, at their work and about the place, and its animals (see Communities).
       ...CommunityWriter.lines(region, Communities.plan(region, s, this.trade(s).stock.map(([what]) => what))),
     ];

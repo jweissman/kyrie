@@ -362,9 +362,12 @@ export class WorldAssembler {
   private static wild(placement: Placement, region: Region): Record<string, DeemValue> {
     const site = region.sites.find(w => Object.values(placement.bindings).includes(w.id));
     const seat = site && RegionGeography.seats(region).find(x => x.site === site);
-    const beast = site && RegionEcology.den(region, RegionEcology.habitat(region, site, seat?.form?.form));
+    const habitat = site && RegionEcology.habitat(region, site, seat?.form?.form);
+    const found = site && RegionEcology.den(region, habitat!);
+    const beast = found && RegionEcology.variant(site, found, habitat!);
     return beast ? { beast: beast.species, beastCount: beast.count, beastLabel: beast.label, beastRole: beast.role,
-      beastNature: beast.nature } : {};
+      beastNature: beast.nature, ...beast.aspect ? { beastAspect: beast.aspect } : {},
+      ...beast.template ? { beastTemplate: beast.template } : {} } : {};
   }
   // A hook's topic as a stranger would say it, with each place it names as it looks: "trouble at the fallen walls".
   private static plainly(text: string, placement: Placement, region: Region): string {

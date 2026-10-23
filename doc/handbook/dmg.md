@@ -1678,11 +1678,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 ### Planes
 
-10 in Orsino; 0 held by Kyr.
+10 in Orsino; 10 held by Kyr.
 
 #### Arcadia
 
-*Orsino data only · plane* · `orsino:plane:Arcadia`
+*Represented · plane* · `orsino:plane:Arcadia`
 
 - Terrain: forest
 - Alignment: neutral good
@@ -1693,9 +1693,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A lush, idyllic realm of eternal spring, where nature thrives and harmony reigns.
 
+*A place's law (law(place, plane_arcadia)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.*
+
 #### Cthelll
 
-*Orsino data only · plane* · `orsino:plane:Cthelll`
+*Adapted · plane* · `orsino:plane:Cthelll`
 
 - Terrain: swamp
 - Alignment: neutral evil
@@ -1706,9 +1708,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A dark, swampy plane shrouded in mist and mystery, home to ancient secrets and lurking dangers.
 
+*A place's law (law(place, plane_cthelll)): everyone fighting there fights under the plane's spell DC.*
+
 #### Gehenna
 
-*Orsino data only · plane* · `orsino:plane:Gehenna`
+*Adapted · plane* · `orsino:plane:Gehenna`
 
 - Terrain: mountain
 - Alignment: lawful evil
@@ -1719,9 +1723,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A fiery, volcanic landscape filled with treacherous terrain and the echoes of eternal conflict.
 
+*A place's law (law(place, plane_gehenna)): everyone fighting there fights under the plane's spell DC.*
+
 #### Hades
 
-*Orsino data only · plane* · `orsino:plane:Hades`
+*Represented · plane* · `orsino:plane:Hades`
 
 - Terrain: cave
 - Alignment: lawful evil
@@ -1732,9 +1738,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A shadowy underworld of gloom and despair, where lost souls wander and forgotten knowledge lies buried.
 
+*A place's law (law(place, plane_hades)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.*
+
 #### Limbo
 
-*Orsino data only · plane* · `orsino:plane:Limbo`
+*Represented · plane* · `orsino:plane:Limbo`
 
 - Terrain: desert
 - Alignment: chaotic neutral
@@ -1745,9 +1753,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A chaotic desert wasteland where the sands shift unpredictably and reality bends to whimsy.
 
+*A place's law (law(place, plane_limbo)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.*
+
 #### Mechanus
 
-*Orsino data only · plane* · `orsino:plane:Mechanus`
+*Represented · plane* · `orsino:plane:Mechanus`
 
 - Terrain: mountain
 - Alignment: lawful neutral
@@ -1758,9 +1768,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A realm of perfect order and precision, where everything operates like clockwork in harmonious balance.
 
+*A place's law (law(place, plane_mechanus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.*
+
 #### Pandemonium
 
-*Orsino data only · plane* · `orsino:plane:Pandemonium`
+*Represented · plane* · `orsino:plane:Pandemonium`
 
 - Terrain: cave
 - Alignment: chaotic evil
@@ -1771,9 +1783,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A tumultuous plane of howling winds and swirling chaos, where nothing remains constant for long.
 
+*A place's law (law(place, plane_pandemonium)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.*
+
 #### Prime Material
 
-*Orsino data only · plane* · `orsino:plane:Prime Material`
+*Adapted · plane* · `orsino:plane:Prime Material`
 
 - Terrain: —
 - Alignment: 
@@ -1784,9 +1798,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > The mundane world of everyday life, where magic is present but not overwhelming.
 
+*A place's law (law(place, plane_prime_material)): everyone fighting there fights under the plane's spell DC.*
+
 #### Ysgard
 
-*Orsino data only · plane* · `orsino:plane:Ysgard`
+*Represented · plane* · `orsino:plane:Ysgard`
 
 - Terrain: snow
 - Alignment: lawful good
@@ -1797,9 +1813,11 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 > A frigid, mountainous realm of valor and heroism, where mighty warriors clash amidst snowstorms.
 
+*A place's law (law(place, plane_ysgard)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.*
+
 #### Zephyrus
 
-*Orsino data only · plane* · `orsino:plane:Zephyrus`
+*Represented · plane* · `orsino:plane:Zephyrus`
 
 - Terrain: forest
 - Alignment: neutral neutral
@@ -1809,6 +1827,8 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 - Laws: bonusSpellDC 1, spellDurationMultiplier 1.1, bonusSpellSlots 1
 
 > A vibrant forested plane perpetually stirred by thunderstorms, alive with elemental energy.
+
+*A place's law (law(place, plane_zephyrus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.*
 
 ### Traps
 

@@ -1,6 +1,90 @@
 {
  "about": "Kyr's judgement of each Orsino rule feature. faithful: same meaning as the Orsino source. adapted: Kyr executes a related mechanic whose different semantics are documented here. cosmetic: no mechanical effect in Orsino. unsupported: no executable Kyr meaning. Features not listed are unsupported. A trailing * matches a prefix.",
  "features": {
+  "field:creatureTemplateOverlays": [
+   "faithful",
+   "The overlays named are the undead templates of data/catalog/orsino/variants.json."
+  ],
+  "field:creatureAspects.str": [
+   "faithful",
+   "An aspect's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureTemplateModifiers.str": [
+   "faithful",
+   "A template's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureAspects.dex": [
+   "faithful",
+   "An aspect's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureTemplateModifiers.dex": [
+   "faithful",
+   "A template's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureAspects.con": [
+   "faithful",
+   "An aspect's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureTemplateModifiers.con": [
+   "faithful",
+   "A template's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureAspects.int": [
+   "faithful",
+   "An aspect's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureTemplateModifiers.int": [
+   "faithful",
+   "A template's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureAspects.wis": [
+   "faithful",
+   "An aspect's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureTemplateModifiers.wis": [
+   "faithful",
+   "A template's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureAspects.cha": [
+   "faithful",
+   "An aspect's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureTemplateModifiers.cha": [
+   "faithful",
+   "A template's attribute is added to the creature's (CreatureVariants.apply)."
+  ],
+  "field:creatureAspects.traits": [
+   "faithful",
+   "An aspect's traits are the creature's besides its kind's."
+  ],
+  "field:creatureAspectAbilities": [
+   "faithful",
+   "An aspect's abilities are the creature's besides its kind's."
+  ],
+  "field:creatureTemplateModifiers.traits": [
+   "faithful",
+   "A template's traits are the creature's besides its kind's."
+  ],
+  "field:creatureTemplateModifiers.abilities": [
+   "faithful",
+   "A template's abilities are the creature's besides its kind's."
+  ],
+  "field:creatureAspectTypes": [
+   "faithful",
+   "The aspects of a rarity, drawn with Orsino's weights by rarity (CreatureVariants.draw)."
+  ],
+  "field:combatEntityAbilities": [
+   "faithful",
+   "A fighting object's abilities are its species' abilities (data/catalog/species.json): it uses them on its turn as any creature does."
+  ],
+  "field:combatEntityTraits": [
+   "faithful",
+   "A fighting object's traits are its species' traits."
+  ],
+  "field:planeModifiers.globalEffects.bonusSpellDC": [
+   "faithful",
+   "A plane's law is a condition everyone fighting in the place holds, and bonusSpellDC is a condition modifier."
+  ],
   "damage:piercing": [
    "faithful",
    "Orsino handleHit: bonusDamage, then resistAll + resist<kind> (negative amplifies), then damageReduction, then temporary hit points."

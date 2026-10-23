@@ -13,7 +13,8 @@ export interface CastMember { id: string; context: CreatureGenerationContext; go
 // Who the people of a module are. Authored fields win, generated fields fill what the author left open, defaults fill
 // the rest; each field records where it came from. A generator may only contribute fields a person actually has.
 export class Cast {
-  static readonly fields = ['raceId', 'classId', 'level', 'backgroundId', 'professionId', 'traits', 'gear'] as const;
+  static readonly fields = ['raceId', 'classId', 'level', 'backgroundId', 'professionId', 'traits', 'gear', 'aspect',
+    'template'] as const;
   static person(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember {
     for (const key of Object.keys(generated)) {
       if (!['name', 'parameters', 'role', 'count'].includes(key) && !(this.fields as readonly string[]).includes(key)) {
@@ -30,7 +31,7 @@ export class Cast {
         if (theirs !== undefined && theirs !== mine) {
           conflicts.push(`${p.id}.${field}: generated ${String(theirs)} ignored; authored ${String(mine)} kept`);
         }
-      } else if (theirs !== undefined) { context[field] = theirs; provenance[field] = 'generated'; }
+      } else if (theirs != null) { context[field] = theirs; provenance[field] = 'generated'; }
       else if (mine !== undefined) { context[field] = mine; provenance[field] = 'default'; }
     }
     // People of a module are Orsino NPCs: they prepare spells rather than choosing them as a player character does.

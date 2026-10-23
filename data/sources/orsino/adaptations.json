@@ -1706,6 +1706,201 @@
       "evidence": [
         "test/encounters.test.ts#winds up"
       ]
+    },
+    {
+      "orsino": "combatEntity:antimagic_ward",
+      "kyr": [
+        "species:antimagic_ward"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer.",
+      "evidence": [
+        "test/fighting-objects.test.ts#takes its turn"
+      ]
+    },
+    {
+      "orsino": "combatEntity:barrier",
+      "kyr": [
+        "species:barrier"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer.",
+      "evidence": [
+        "test/fighting-objects.test.ts#takes its turn"
+      ]
+    },
+    {
+      "orsino": "combatEntity:bomb",
+      "kyr": [
+        "species:bomb"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer.",
+      "evidence": [
+        "test/fighting-objects.test.ts#takes its turn"
+      ]
+    },
+    {
+      "orsino": "combatEntity:phylactery",
+      "kyr": [
+        "species:phylactery"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer.",
+      "evidence": [
+        "test/fighting-objects.test.ts#takes its turn"
+      ]
+    },
+    {
+      "orsino": "combatEntity:turret",
+      "kyr": [
+        "species:turret"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A fighting object as a construct species: it takes its turn in a fight with Orsino's abilities and traits for it, and does not move or answer.",
+      "evidence": [
+        "test/fighting-objects.test.ts#takes its turn"
+      ]
+    },
+    {
+      "orsino": "plane:Arcadia",
+      "kyr": [
+        "condition:plane_arcadia"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_arcadia)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Cthelll",
+      "kyr": [
+        "condition:plane_cthelll"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_cthelll)): everyone fighting there fights under the plane's spell DC.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Gehenna",
+      "kyr": [
+        "condition:plane_gehenna"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_gehenna)): everyone fighting there fights under the plane's spell DC.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Hades",
+      "kyr": [
+        "condition:plane_hades"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_hades)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Limbo",
+      "kyr": [
+        "condition:plane_limbo"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_limbo)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Mechanus",
+      "kyr": [
+        "condition:plane_mechanus"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_mechanus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Pandemonium",
+      "kyr": [
+        "condition:plane_pandemonium"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_pandemonium)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Prime Material",
+      "kyr": [
+        "condition:plane_prime_material"
+      ],
+      "support": "executable",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_prime_material)): everyone fighting there fights under the plane's spell DC.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Ysgard",
+      "kyr": [
+        "condition:plane_ysgard"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_ysgard)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "plane:Zephyrus",
+      "kyr": [
+        "condition:plane_zephyrus"
+      ],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "A place's law (law(place, plane_zephyrus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.",
+      "evidence": [
+        "test/fighting-objects.test.ts#holds everyone fighting there"
+      ]
+    },
+    {
+      "orsino": "creatureOverlay:undead",
+      "kyr": [
+        "undead:skeletal",
+        "undead:zombie",
+        "undead:spectral",
+        "undead:vampiric"
+      ],
+      "support": "executable",
+      "fidelity": "faithful",
+      "note": "The undead overlays are Kyr's undead templates: any species can be laid under one (Undead skeletal. in a Person), and a barrow's or a ruin's beasts sometimes are.",
+      "evidence": [
+        "test/variants.test.ts#the dead of its kind"
+      ]
     }
   ]
 }

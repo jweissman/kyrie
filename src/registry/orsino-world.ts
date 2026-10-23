@@ -8,8 +8,11 @@ export interface WorldPiece {
 }
 export interface WorldTables {
   wonders: Record<string, WorldPiece>; traps: Record<string, WorldPiece & { mechanism: string; sign: string }>;
-  shops: Record<string, { name: string; text: string; sells: string[]; source: string }>;
+  // What each shop sells: its kinds of item, and the Kyr items of those kinds it stocks, with their prices.
+  shops: Record<string, { name: string; text: string; sells: string[]; source: string; stock: [string, number][] }>;
   riddles: Record<string, { question: string; answer: string; kind: string; level: string; source: string }[]>;
+  // The answers a riddle is offered among, by kind of answer: the right one is one of them.
+  riddleAnswers: Record<string, string[]>;
 }
 
 // Orsino's wonders, traps, shops and riddles (settings/fantasy/tables.json) as tables a generated region draws from
@@ -19,9 +22,12 @@ export class OrsinoWorld {
   static readonly mechanical = /acid|blade|dart|rock|pit|spike|gas|cloud|jet|vine|electrified|flame_burst|net|boulder/;
   static readonly worked = /plate|tripwire|switch/;
   constructor(private readonly entries: RegistryEntry[], private readonly known: { statuses: Set<string>;
-    abilities: Set<string>; damage: Set<string>; items: Set<string> }) {}
+    abilities: Set<string>; damage: Set<string>; items: Set<string>;
+    // Kyr's items, with the Orsino entry each translates and its worth: what a shop can stock.
+    catalog?: Record<string, { source?: { orsino?: string }; value?: number }> }) {}
   generate(): WorldTables {
-    return { wonders: this.wonders(), traps: this.traps(), shops: this.shops(), riddles: this.riddles() };
+    return { wonders: this.wonders(), traps: this.traps(), shops: this.shops(), riddles: this.riddles(),
+      riddleAnswers: this.riddleAnswers() };
   }
   private family(name: string): RegistryEntry[] { return this.entries.filter(e => e.family === name); }
   private wonders(): WorldTables['wonders'] {
@@ -54,10 +60,22 @@ export class OrsinoWorld {
   }
   private shops(): WorldTables['shops'] {
     return Object.fromEntries(this.family('shop').map(e => {
-      const d = e.definition as Raw;
-      return [e.key, { name: String(d.type ?? e.key), text: String(d.description ?? ''), sells: (d.itemTypes as string[] | undefined) ?? [],
-        source: `shop:${e.key}` }];
+      const d = e.definition as Raw, sells = (d.itemTypes as string[] | undefined) ?? [];
+      return [e.key, { name: String(d.type ?? e.key), text: String(d.description ?? ''), sells, source: `shop:${e.key}`,
+        stock: this.stock(sells, (d.itemRestrictions as Record<string, string[]> | null) ?? {}) }];
     }));
+  }
+  // The Kyr items a shop stocks: those of its kinds whose Orsino entries meet its restrictions (kind, rarity, type),
+  // worth no more than a country's market sees (300 coin), cheapest first, at most eight.
+  private stock(sells: string[], restrictions: Record<string, string[]>): [string, number][] {
+    const by = new Map(this.entries.map(e => [e.id, e]));
+    return Object.entries(this.known.catalog ?? {}).flatMap(([id, item]) => {
+      const source = item.source?.orsino, entry = source ? by.get(source) : undefined;
+      if (!entry || !sells.includes(entry.family) || !item.value || item.value > 300) { return []; }
+      const def: Raw = { rarity: 'common', ...(entry.definition as Raw) };
+      const fits = Object.entries(restrictions).every(([field, allowed]) => allowed.includes(String(def[field])));
+      return fits ? [[id, Math.max(1, Math.round(item.value))] as [string, number]] : [];
+    }).sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0])).slice(0, 8);
   }
   private riddles(): WorldTables['riddles'] {
     return Object.fromEntries(this.family('riddle').map(e => [e.key, ((e.definition as Raw[]) ?? [])
@@ -65,6 +83,11 @@ export class OrsinoWorld {
       .map((r, n) => ({ question: String(r.question), answer: String(r.answer), kind: String(r.answer_type),
         level: e.key,
         source: `riddle:${e.key}#${n}` }))]));
+  }
+  // Plain words only (a letter, a word): no rotated letters.
+  private riddleAnswers(): WorldTables['riddleAnswers'] {
+    return Object.fromEntries(this.family('riddleAnswer').map(e => [e.key, [...new Set(((e.definition as string[][])[0] ?? [])
+      .filter(a => /^[A-Za-z][A-Za-z ]*$/.test(a)))]]).filter(([, list]) => (list as string[]).length >= 4));
   }
   // Orsino effects (Ability.ts handleSingleEffect) in the Kyr effect language, for a hazard to mean; what Kyr cannot
   // do is said with why.

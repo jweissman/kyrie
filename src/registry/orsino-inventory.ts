@@ -5,13 +5,14 @@ import weather from '../../data/generation/tables/weather.json';
 import combat from '../../data/voice/combat.json';
 import met from '../../data/generation/scenes/wonders.json';
 import { RegionMarvels } from '../world/region-marvels';
+import { RegionShops } from '../world/region-shops';
 import { OrsinoRegistry, type Support } from './orsino-registry';
 import type { RegistryEntry } from './orsino-extract';
 
 export type Placement = 'integrated' | 'represented' | 'reference' | 'blocked';
 export interface Destination {
   destination: string; representation: string; generative: string; tests: string[]; status: Placement;
-  blocker?: string; rule: 'ledger' | 'wonder' | 'trap' | 'mechanism' | 'bark' | 'climate' | 'family';
+  blocker?: string; rule: 'ledger' | 'wonder' | 'trap' | 'mechanism' | 'bark' | 'climate' | 'riddle' | 'shop' | 'family';
 }
 // One Orsino entry: where it is in Kyr (by its family, and the Kyr definitions that name it), how far its mechanics
 // run, and, unless it is met in play, exactly what stands in the way.
@@ -66,6 +67,12 @@ export class OrsinoInventory {
         'No row of data/voice/combat.json carries it.');
       case 'climate': return this.drawn(e.key in weather.climateWeather.groups,
         'Not among the climates of data/generation/tables/weather.json.');
+      case 'shop': return this.drawn(e.key in RegionShops.kinds && (RegionShops.stocks[e.key]?.stock.length ?? 0) >= 3,
+        (RegionShops.stocks[e.key]?.stock.length ?? 0) < 3 ? 'Kyr has fewer than three things of its kinds a country\'s market'
+          + ' sees (worth 300 coin or less): nothing for such a shop to stock.' : 'No town keeps one (src/world/region-shops.ts).');
+      case 'riddle': return this.drawn(e.family === 'riddle' ? !!(world.riddles as Record<string, unknown[]>)[e.key]?.length
+        : e.key in (world as unknown as { riddleAnswers: Record<string, string[]> }).riddleAnswers,
+      'Not plain words a door can offer (data/generation/scenes/orsino-world.json#riddleAnswers).');
       default: return undefined;
     }
   }

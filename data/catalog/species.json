@@ -607,6 +607,165 @@
         "kyr": true,
         "notes": "Kyr's own: the Old Jack of Hollow Water."
       }
+    },
+    "antimagic_ward": {
+      "name": "Antimagic ward",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A circle of cut stones that hums when magic is near, and silences it.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [
+        "counter_arcane",
+        "wall"
+      ],
+      "abilities": [
+        "silence",
+        "pure_beam",
+        "dispel_magic",
+        "magebane"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:antimagic_ward",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "barrier": {
+      "name": "Barrier",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A wall of force or of stone set across the way, which does nothing but stand there and be in it.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [
+        "wall"
+      ],
+      "abilities": [
+        "defend"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:barrier",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "bomb": {
+      "name": "Bomb",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A thing that ticks, and will not tick for long.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [],
+      "abilities": [
+        "countdown"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:bomb",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "phylactery": {
+      "name": "Phylactery",
+      "type": "construct",
+      "kind": "monster",
+      "description": "A small dark vessel that holds what keeps something from staying dead.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [
+        "fiendish"
+      ],
+      "abilities": [
+        "animate_dead",
+        "life_drain",
+        "black_ritual"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:phylactery",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
+    },
+    "turret": {
+      "name": "Turret",
+      "type": "construct",
+      "kind": "monster",
+      "description": "An engine of the makers that looses bolts at whatever moves in front of it.",
+      "statistics": {
+        "attributes": {
+          "strength": 10,
+          "dexterity": 3,
+          "constitution": 16,
+          "intelligence": 1,
+          "wisdom": 10,
+          "charisma": 1
+        },
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "slam"
+      },
+      "traits": [
+        "automatic_fire"
+      ],
+      "abilities": [
+        "arrow_volley"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:turret",
+        "fidelity": "adapted",
+        "notes": "A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put."
+      }
     }
   }
 }

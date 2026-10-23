@@ -4,6 +4,7 @@ import items from '../../data/catalog/orsino/items.json';
 import traits from '../../data/catalog/orsino/traits.json';
 import blessings from '../../data/catalog/orsino/blessings.json';
 import species from '../../data/catalog/orsino/species.json';
+import variants from '../../data/catalog/orsino/variants.json';
 import type { AdaptationRecord, Ledger } from './orsino-registry';
 import { Canon } from '../canon/canon';
 
@@ -38,9 +39,24 @@ export class CatalogLedger {
         generated: true as const }];
     }));
   }
+  // Creature aspects and undead templates (data/catalog/orsino/variants.json): applied as written, but an aspect is
+  // drawn for a den when its country is made, not at each meeting; and the rarities they are drawn by.
+  static variants(): AdaptationRecord[] {
+    const table = variants as unknown as { aspects: Record<string, { source: string }>;
+      templates: Record<string, { source: string }>; rarity: Record<string, string[]> };
+    return [...Object.entries(table.aspects).map(([id, v]) => this.record(v.source, `aspect:${id}`, 'adapted',
+      'Its attributes and abilities applied to the creature; drawn by rarity for a den when the country is made.')),
+    ...Object.entries(table.templates).map(([id, v]) => this.record(v.source, `undead:${id}`, 'faithful',
+      'Its attributes, traits and abilities applied to the creature (Undead in Kyr), and its den laid to rest by rites.')),
+    ...Object.keys(table.rarity).map(id => this.record(`aspectRarity:${id}`, `rarity:${id}`, 'faithful',
+      'The aspects of this rarity, drawn with the weights in CreatureVariants.'))];
+  }
+  private static record(orsino: string, kyr: string, fidelity: 'faithful' | 'adapted', note: string): AdaptationRecord {
+    return { orsino, kyr: [kyr], support: 'executable', fidelity, note, generated: true };
+  }
   static combined(ledger: Ledger): Ledger {
     const written = new Set(ledger.records.flatMap(r => r.kyr.map(k => `${r.orsino} ${k}`)));
     return { ...ledger, records: [...ledger.records,
-      ...this.records().filter(r => !written.has(`${r.orsino} ${r.kyr[0]!}`))] };
+      ...[...this.records(), ...this.variants()].filter(r => !written.has(`${r.orsino} ${r.kyr[0]!}`))] };
   }
 }

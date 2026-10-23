@@ -3,6 +3,7 @@ import { Content } from '../content';
 import { ItemCatalog } from '../item-catalog';
 import { Overlays } from '../overlays';
 import type { Ledger } from './orsino-registry';
+import { CreatureVariants } from '../creature-variants';
 
 // The Kyr side of an adaptation record: each linked id names a definition in a canonical catalog, and a definition
 // claimed executable must pass that catalog's own validation.
@@ -22,6 +23,9 @@ export class KyrLinks {
       case 'damage': return Canon.rules.damageTypes.includes(id);
       case 'deity': return Object.hasOwn(Canon.deities, id);
       case 'domain': return Object.hasOwn(Canon.domains, id);
+      case 'aspect': return !!CreatureVariants.aspect(id);
+      case 'undead': return !!CreatureVariants.template(id);
+      case 'rarity': return Object.hasOwn(CreatureVariants.table.rarity, id);
       default: return false;
     }
   }

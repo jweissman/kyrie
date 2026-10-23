@@ -7556,6 +7556,14 @@ Intelligence −1, wisdom −1, takes 2d4 (2–8) necrotic damage each turn.
 
 > Anointed with favor from above.
 
+### Arcadia
+
+*Adapted · lasts beyond a fight* · `condition:plane_arcadia`
+
+> The law of Arcadia, a lush, idyllic realm of eternal spring, where nature thrives and harmony reigns.
+
+*Adapted: A plane as a place's law (law(place, plane_arcadia)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
+
 ### Archmage's Insight
 
 *Not playable · lasts the fight at most* · `condition:major_insight`
@@ -7781,6 +7789,14 @@ Charisma +3, intelligence +2, wisdom +1.
 +2 to every save, immune to fear.
 
 > Bolsters bravery and resolve.
+
+### Cthelll
+
+*Adapted · lasts beyond a fight* · `condition:plane_cthelll`
+
+> The law of Cthelll, a dark, swampy plane shrouded in mist and mystery, home to ancient secrets and lurking dangers.
+
+*Adapted: A plane as a place's law (law(place, plane_cthelll)): its spell DC is held by everyone fighting there. *
 
 ### Cursed
 
@@ -8194,6 +8210,14 @@ Dexterity −5, cannot act.
 
 > Encased in ice.
 
+### Gehenna
+
+*Adapted · lasts beyond a fight* · `condition:plane_gehenna`
+
+> The law of Gehenna, a fiery, volcanic landscape filled with treacherous terrain and the echoes of eternal conflict.
+
+*Adapted: A plane as a place's law (law(place, plane_gehenna)): its spell DC is held by everyone fighting there. *
+
 ### Ghost Touch
 
 *Faithful · lasts the fight at most* · `condition:ghost_touch`
@@ -8243,6 +8267,14 @@ Immune to poison.
 *Kyr · lasts the fight at most* · `condition:guarded`
 
 > Someone stands in front of them and takes the blows meant for them.
+
+### Hades
+
+*Adapted · lasts beyond a fight* · `condition:plane_hades`
+
+> The law of Hades, a shadowy underworld of gloom and despair, where lost souls wander and forgotten knowledge lies buried.
+
+*Adapted: A plane as a place's law (law(place, plane_hades)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
 
 ### Haste
 
@@ -8386,6 +8418,14 @@ Resists 50% of radiant.
 
 > Resistant to radiant damage.
 
+### Limbo
+
+*Adapted · lasts beyond a fight* · `condition:plane_limbo`
+
+> The law of Limbo, a chaotic desert wasteland where the sands shift unpredictably and reality bends to whimsy.
+
+*Adapted: A plane as a place's law (law(place, plane_limbo)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
+
 ### Lit
 
 *Kyr · lasts beyond a fight* · `condition:lit`
@@ -8497,6 +8537,14 @@ Constitution +6.
 > Marked for Judgment
 
 *Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Mechanus
+
+*Adapted · lasts beyond a fight* · `condition:plane_mechanus`
+
+> The law of Mechanus, a realm of perfect order and precision, where everything operates like clockwork in harmonious balance.
+
+*Adapted: A plane as a place's law (law(place, plane_mechanus)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
 
 ### Meditating
 
@@ -8614,6 +8662,14 @@ Takes 200% more fire.
 
 > Has keen insight and perception.
 
+### Pandemonium
+
+*Adapted · lasts beyond a fight* · `condition:plane_pandemonium`
+
+> The law of Pandemonium, a tumultuous plane of howling winds and swirling chaos, where nothing remains constant for long.
+
+*Adapted: A plane as a place's law (law(place, plane_pandemonium)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
+
 ### Paralyzed
 
 *Faithful · lasts the fight at most* · `condition:paralyzed`
@@ -8717,6 +8773,14 @@ Takes 2 poison damage each turn.
 > Preparing to Charge
 
 *Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Prime Material
+
+*Adapted · lasts beyond a fight* · `condition:plane_prime_material`
+
+> The law of Prime Material, the mundane world of everyday life, where magic is present but not overwhelming.
+
+*Adapted: A plane as a place's law (law(place, plane_prime_material)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
 
 ### Prone
 
@@ -9121,6 +9185,22 @@ Resists 50% of cold.
 +2 to hit, +2 damage, constitution +4, resists 50% of poison, resists 25% of acid, immune to disease.
 
 > In tune with nature, gaining its resilience.
+
+### Ysgard
+
+*Adapted · lasts beyond a fight* · `condition:plane_ysgard`
+
+> The law of Ysgard, a frigid, mountainous realm of valor and heroism, where mighty warriors clash amidst snowstorms.
+
+*Adapted: A plane as a place's law (law(place, plane_ysgard)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
+
+### Zephyrus
+
+*Adapted · lasts beyond a fight* · `condition:plane_zephyrus`
+
+> The law of Zephyrus, a vibrant forested plane perpetually stirred by thunderstorms, alive with elemental energy.
+
+*Adapted: A plane as a place's law (law(place, plane_zephyrus)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled.*
 
 ## Appendix: Orsino's peoples and skills
 

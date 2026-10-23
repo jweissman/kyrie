@@ -62,7 +62,9 @@
     "__no_id": true,
     "role": "=#beastRole",
     "raceId": "=#beast",
-    "count": "=#beastCount"
+    "count": "=#beastCount",
+    "aspect": "=defined('beastAspect') ? #beastAspect : ''",
+    "template": "=defined('beastTemplate') ? #beastTemplate : ''"
   },
   "den_species_labels": {
     "__no_id": true,

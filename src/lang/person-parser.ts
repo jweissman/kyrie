@@ -44,7 +44,9 @@ export class PersonParser {
       if (['raceId', 'classId'].includes(part.field) && seen.has(part.field)) {
         throw new Error(`${p.id}: a species has no ancestry or calling`);
       }
-      if (['raceId', 'classId', 'level', 'professionId', 'backgroundId'].includes(part.field)) { authored.push(part.field); }
+      if (['raceId', 'classId', 'level', 'professionId', 'backgroundId', 'aspect', 'template'].includes(part.field)) {
+        authored.push(part.field);
+      }
       if (seen.has(part.field)) { throw new Error(`Duplicate Person field ${part.field} for ${p.id}`); }
       seen.add(part.field); Object.assign(p, { [part.field]: part.value });
     }
@@ -93,6 +95,10 @@ export class PersonParser {
   static PersonClass(_c: Node, id: Node, _dot: Node): Field { return { field: 'classId', value: id.sourceString }; }
   static PersonLevel(_l: Node, n: Node, _dot: Node): Field { return { field: 'level', value: Number(n.sourceString) }; }
   static PersonSpecies(_s: Node, id: Node, _dot: Node): Field { return { field: 'species', value: id.sourceString }; }
+  // What makes this creature other than its kind: an aspect (an agile wolf), or the dead of its kind (skeletal).
+  static PersonVariant(word: Node, id: Node, _dot: Node): Field {
+    return { field: word.sourceString === 'Aspect' ? 'aspect' : 'template', value: id.sourceString };
+  }
   static PersonCreature(_c: Node, list: Node, _dot: Node): Field {
     const params = list.asIteration().children.map(c => {
       const [name, value] = c.children as [Node, Node];

@@ -18,6 +18,7 @@ import { RandomStreams } from './random-streams';
 import { Fighting } from './rules/fighting';
 import type { Fighter } from './model';
 import { GenerationSetting } from './generation-setting';
+import { CreatureVariants } from './creature-variants';
 const { tables, templates } = GenerationSetting;
 
 const rules = Canon.rules;
@@ -35,6 +36,8 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   family?: string;
   prepared?: boolean; adaptation?: string; parameters?: Record<string, DeemValue>;
   lineage?: string; maturity?: string;
+  // What makes it other than its kind (see CreatureVariants).
+  aspect?: string; template?: string;
 };
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
@@ -126,9 +129,12 @@ export class Content {
       if (context.backgroundId || context.professionId || context.spells || context.gear?.length) {
         throw new Error('Specialized Deem creatures do not yet support background, profession, spell or extra gear overlays');
       }
+      // Deem's creature generator makes the kind; what makes it other than its kind is Kyr's to add after.
+      const asked: Record<string, unknown> = { ...context };
+      delete asked.aspect; delete asked.template;
       const generated = new Content(RandomStreams.key(this.seed, 'creature', randomIdentity), this.setting)
-        .generate('creature', { ...context.parameters, ...context, ...family ? { family } : {} });
-      return CreatureDefinition.accept(id, generated);
+        .generate('creature', { ...context.parameters, ...asked, ...family ? { family } : {} });
+      return CreatureVariants.vary(CreatureDefinition.accept(id, generated), context);
     }
     const stream = this.stream.bind(this, randomIdentity);
     const raceId = context.raceId ?? stream('population').generate('population', context.population ? { population: context.population } : {})
@@ -169,7 +175,7 @@ export class Content {
     creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
     if (!species) { this.equip(creature, chassis, context, randomIdentity); }
     Overlays.carry(creature, [...context.gear ?? [], ...species ? [] : Overlays.classGear({ classId })]);
-    CreatureSchema.validate(creature);
+    CreatureSchema.validate(CreatureVariants.vary(creature, context));
     return creature;
   }
   private stream(identity: string, domain: string): Content {

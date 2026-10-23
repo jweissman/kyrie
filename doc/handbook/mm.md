@@ -1340,6 +1340,33 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 ### Constructs
 
+#### Antimagic ward
+
+*Adapted · construct* · `species:antimagic_ward`
+
+- Type: construct (monster)
+- Hit points: d10 a level
+- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 350 experience a level
+
+Silence: Every enemy gains silence for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Silence: cannot cast spells.
+
+Pure Beam: 1d4 (1–4) radiant damage to one enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); 3d4 (3–12) radiant damage to one enemy (only undead creatures; halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+
+Dispel Magic (not playable): no mechanics
+
+Magebane: You gain magebane for 3 turns. (a second-level slot) Level 2 arcane spell.
+
+Arcane Ward: +3 to magic saves, resists 10% of all.
+
+Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
+
+> A circle of cut stones that hums when magic is near, and silences it.
+
+*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
+
 #### Automaton
 
 *Adapted · construct* · `species:automaton`
@@ -1368,6 +1395,42 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
 *Adapted: Composed by OrsinoMonsters (construct class, Automaton type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+#### Barrier
+
+*Adapted · construct* · `species:barrier`
+
+- Type: construct (monster)
+- Hit points: d10 a level
+- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 350 experience a level
+
+Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+
+Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
+
+> A wall of force or of stone set across the way, which does nothing but stand there and be in it.
+
+*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
+
+#### Bomb
+
+*Adapted · construct* · `species:bomb`
+
+- Type: construct (monster)
+- Hit points: d10 a level
+- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 350 experience a level
+
+Countdown: You gain ticking for 3 turns.
+
+> A thing that ticks, and will not tick for long.
+
+*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
 
 #### Clockwork Soldier
 
@@ -1465,6 +1528,46 @@ Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 ha
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
 > A golem of riveted iron plates: slow, and very hard to break.
+
+#### Phylactery
+
+*Adapted · construct* · `species:phylactery`
+
+- Type: construct (monster)
+- Hit points: d10 a level
+- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 350 experience a level
+
+Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. (a third-level slot) Level 3 arcane spell.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+
+Black Ritual: You gain summoning for 3 turns.
+
+Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
+
+> A small dark vessel that holds what keeps something from staying dead.
+
+*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
+
+#### Turret
+
+*Adapted · construct* · `species:turret`
+
+- Type: construct (monster)
+- Hit points: d10 a level
+- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 350 experience a level
+
+Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a bleed save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
+
+> An engine of the makers that looses bolts at whatever moves in front of it.
+
+*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
 
 ### Demons
 
@@ -4578,41 +4681,41 @@ Orsino composes a monster from a class (its stat line, weapon, hide, attacks a t
 
 ### Aspects
 
-31 in Orsino; 0 held by Kyr.
+31 in Orsino; 31 held by Kyr.
 
 | Name | Changes | Abilities | In Kyr |
 |---|---|---|---|
-| Agile | dex +1, wis +1 | dodge | — |
-| Alpha | str +2, dex +1, con +1, int +1, wis +1, cha +1 | taunt, smash | — |
-| Ancient | str +2, con +2, int +3, wis +3, cha +2 | second wind, inspire, ward | — |
-| Apex | str +3, dex +2, con +2, int +1 | prepare charge, charge, maul | — |
-| Beloved | wis -1, cha +4 | inspire, charm | — |
-| Blessed | cha +2 | inspire | — |
-| Cruel | str +3, int +1, cha -1 | enrage, vicious mockery | — |
-| Cunning | dex -1, int +1, wis +2 | hide | — |
-| Curious | int +2, wis +2, cha -1 | — | — |
-| Cursed | int +2, wis +3, cha -2 | fear | — |
-| Dauntless | str +3, con +2, wis +1, cha +1 | second wind, rally | — |
-| Dread | str +2, con -1, cha +3 | maul, enrage | — |
-| Ferocious | str +2, dex -1, con +1 | prepare charge, charge | — |
-| Forgotten | con -1, int +2, wis +1, cha +1 | hide | — |
-| Giant | str +6, dex -2, con +2, wis +2 | maul | — |
-| Majestic | str +3, con +2, cha +3 | inspire, bless | — |
-| Mysterious | int +2, wis +2, cha +2 | confuse | — |
-| Nimble | dex +2 | hide | — |
-| Noble | str +2, cha +3 | inspire, charm | — |
-| Phantasmal | str -2, dex -4, con -3, int +3, wis +2 | confuse, ghost touch | — |
-| Primal | str +4, dex +1, con +2, wis +1 | maul, enrage | — |
-| Sacred | wis +3, cha +2 | inspire | — |
-| Savage | str +3, dex +1, int -1 | prepare charge, charge | — |
-| Sovereign | str +4, con +3, wis +2, cha +2 | inspire, fear, confuse | — |
-| Sturdy | con +1, wis +1 | second wind | — |
-| Swift | dex +3, con -1 | rapid strike | — |
-| Terrifying | str +1, cha +4 | fear | — |
-| Venomous | dex +2, con +2 | poison bite | — |
-| Vicious | str +3, dex -1 | maul | — |
-| Warped | str -2, dex +2, con -2, int +2, wis -2, cha +2 | charm, enrage, maul, fear, poison bite | — |
-| Wildtype | — | — | — |
+| Agile | dex +1, wis +1 | dodge | adapted |
+| Alpha | str +2, dex +1, con +1, int +1, wis +1, cha +1 | taunt, smash | adapted |
+| Ancient | str +2, con +2, int +3, wis +3, cha +2 | second wind, inspire, ward | adapted |
+| Apex | str +3, dex +2, con +2, int +1 | prepare charge, charge, maul | adapted |
+| Beloved | wis -1, cha +4 | inspire, charm | adapted |
+| Blessed | cha +2 | inspire | adapted |
+| Cruel | str +3, int +1, cha -1 | enrage, vicious mockery | adapted |
+| Cunning | dex -1, int +1, wis +2 | hide | adapted |
+| Curious | int +2, wis +2, cha -1 | — | adapted |
+| Cursed | int +2, wis +3, cha -2 | fear | adapted |
+| Dauntless | str +3, con +2, wis +1, cha +1 | second wind, rally | adapted |
+| Dread | str +2, con -1, cha +3 | maul, enrage | adapted |
+| Ferocious | str +2, dex -1, con +1 | prepare charge, charge | adapted |
+| Forgotten | con -1, int +2, wis +1, cha +1 | hide | adapted |
+| Giant | str +6, dex -2, con +2, wis +2 | maul | adapted |
+| Majestic | str +3, con +2, cha +3 | inspire, bless | adapted |
+| Mysterious | int +2, wis +2, cha +2 | confuse | adapted |
+| Nimble | dex +2 | hide | adapted |
+| Noble | str +2, cha +3 | inspire, charm | adapted |
+| Phantasmal | str -2, dex -4, con -3, int +3, wis +2 | confuse, ghost touch | adapted |
+| Primal | str +4, dex +1, con +2, wis +1 | maul, enrage | adapted |
+| Sacred | wis +3, cha +2 | inspire | adapted |
+| Savage | str +3, dex +1, int -1 | prepare charge, charge | adapted |
+| Sovereign | str +4, con +3, wis +2, cha +2 | inspire, fear, confuse | adapted |
+| Sturdy | con +1, wis +1 | second wind | adapted |
+| Swift | dex +3, con -1 | rapid strike | adapted |
+| Terrifying | str +1, cha +4 | fear | adapted |
+| Venomous | dex +2, con +2 | poison bite | adapted |
+| Vicious | str +3, dex -1 | maul | adapted |
+| Warped | str -2, dex +2, con -2, int +2, wis -2, cha +2 | charm, enrage, maul, fear, poison bite | adapted |
+| Wildtype | — | — | adapted |
 
 ### Ranks
 

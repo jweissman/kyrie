@@ -67,19 +67,19 @@
     "concept": "creature",
     "total": 31,
     "feasible": 31,
-    "catalogued": 31,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 31,
     "play-validated": 0
    },
    {
     "family": "aspectRarity",
     "concept": "creature",
     "total": 5,
-    "feasible": 0,
-    "catalogued": 5,
+    "feasible": 5,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 5,
     "play-validated": 0
    },
    {
@@ -116,10 +116,10 @@
     "family": "combatEntity",
     "concept": "creature",
     "total": 5,
-    "feasible": 0,
-    "catalogued": 5,
+    "feasible": 5,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 5,
     "play-validated": 0
    },
    {
@@ -156,20 +156,20 @@
     "family": "creatureOverlay",
     "concept": "creature",
     "total": 1,
-    "feasible": 0,
-    "catalogued": 1,
+    "feasible": 1,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 1,
     "play-validated": 0
    },
    {
     "family": "creatureTemplate",
     "concept": "creature",
     "total": 4,
-    "feasible": 0,
-    "catalogued": 4,
+    "feasible": 4,
+    "catalogued": 0,
     "represented": 0,
-    "executable": 0,
+    "executable": 4,
     "play-validated": 0
    },
    {
@@ -457,9 +457,9 @@
     "concept": "world",
     "total": 10,
     "feasible": 10,
-    "catalogued": 10,
-    "represented": 0,
-    "executable": 0,
+    "catalogued": 0,
+    "represented": 7,
+    "executable": 3,
     "play-validated": 0
    },
    {
@@ -799,7 +799,7 @@
    "title": "Player's Handbook",
    "counts": {
     "faithful": 752,
-    "adapted": 351,
+    "adapted": 361,
     "represented": 4,
     "kyr": 75,
     "unsupported": 100,
@@ -968,7 +968,7 @@
      "title": "Conditions",
      "counts": {
       "faithful": 123,
-      "adapted": 15,
+      "adapted": 25,
       "represented": 0,
       "kyr": 25,
       "unsupported": 24,
@@ -995,12 +995,12 @@
    "title": "Dungeon Master's Guide",
    "counts": {
     "faithful": 219,
-    "adapted": 22,
-    "represented": 43,
+    "adapted": 25,
+    "represented": 50,
     "kyr": 158,
     "unsupported": 0,
     "unreachable": 0,
-    "data-only": 208
+    "data-only": 198
    },
    "sections": [
     {
@@ -1047,12 +1047,12 @@
      "title": "Appendix: Orsino's world material",
      "counts": {
       "faithful": 219,
-      "adapted": 22,
-      "represented": 43,
+      "adapted": 25,
+      "represented": 50,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 208
+      "data-only": 198
      }
     }
    ]
@@ -1061,12 +1061,12 @@
    "title": "Monster Manual",
    "counts": {
     "faithful": 105,
-    "adapted": 122,
+    "adapted": 158,
     "represented": 9,
     "kyr": 28,
     "unsupported": 5,
     "unreachable": 0,
-    "data-only": 154
+    "data-only": 123
    },
    "sections": [
     {
@@ -1074,7 +1074,7 @@
      "title": "Creatures",
      "counts": {
       "faithful": 40,
-      "adapted": 64,
+      "adapted": 69,
       "represented": 0,
       "kyr": 12,
       "unsupported": 0,
@@ -1126,12 +1126,12 @@
      "title": "Appendix: Orsino's bestiary",
      "counts": {
       "faithful": 40,
-      "adapted": 56,
+      "adapted": 87,
       "represented": 9,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 154
+      "data-only": 123
      }
     }
    ]
@@ -8377,6 +8377,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_arcadia",
+   "title": "Arcadia",
+   "status": "adapted",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:major_insight",
    "title": "Archmage's Insight",
    "status": "unsupported",
@@ -8555,6 +8562,13 @@
    "id": "condition:courage",
    "title": "Courage",
    "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_cthelll",
+   "title": "Cthelll",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
@@ -8895,6 +8909,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_gehenna",
+   "title": "Gehenna",
+   "status": "adapted",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:ghost_touch",
    "title": "Ghost Touch",
    "status": "faithful",
@@ -8933,6 +8954,13 @@
    "id": "condition:guarded",
    "title": "Guarded",
    "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_hades",
+   "title": "Hades",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
@@ -9056,6 +9084,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_limbo",
+   "title": "Limbo",
+   "status": "adapted",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:lit",
    "title": "Lit",
    "status": "kyr",
@@ -9149,6 +9184,13 @@
   {
    "id": "condition:marked_for_judgment",
    "title": "Marked for Judgment",
+   "status": "adapted",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_mechanus",
+   "title": "Mechanus",
    "status": "adapted",
    "book": "phb",
    "section": "conditions"
@@ -9252,6 +9294,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_pandemonium",
+   "title": "Pandemonium",
+   "status": "adapted",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:paralyzed",
    "title": "Paralyzed",
    "status": "faithful",
@@ -9317,6 +9366,13 @@
   {
    "id": "condition:preparing_to_charge",
    "title": "Preparing to Charge",
+   "status": "adapted",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_prime_material",
+   "title": "Prime Material",
    "status": "adapted",
    "book": "phb",
    "section": "conditions"
@@ -9647,6 +9703,20 @@
    "id": "condition:wildheart",
    "title": "Wildheart",
    "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_ysgard",
+   "title": "Ysgard",
+   "status": "adapted",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_zephyrus",
+   "title": "Zephyrus",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
@@ -11333,70 +11403,70 @@
   {
    "id": "orsino:plane:Arcadia",
    "title": "Arcadia",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Cthelll",
    "title": "Cthelll",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Gehenna",
    "title": "Gehenna",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Hades",
    "title": "Hades",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Limbo",
    "title": "Limbo",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Mechanus",
    "title": "Mechanus",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Pandemonium",
    "title": "Pandemonium",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Prime Material",
    "title": "Prime Material",
-   "status": "data-only",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Ysgard",
    "title": "Ysgard",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
   {
    "id": "orsino:plane:Zephyrus",
    "title": "Zephyrus",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-plane"
   },
@@ -15230,8 +15300,29 @@
    "section": "species/species-celestial"
   },
   {
+   "id": "species:antimagic_ward",
+   "title": "Antimagic ward",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
    "id": "species:automaton",
    "title": "Automaton",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:barrier",
+   "title": "Barrier",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:bomb",
+   "title": "Bomb",
    "status": "adapted",
    "book": "mm",
    "section": "species/species-construct"
@@ -15261,6 +15352,20 @@
    "id": "species:iron_golem",
    "title": "Iron golem",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:phylactery",
+   "title": "Phylactery",
+   "status": "adapted",
+   "book": "mm",
+   "section": "species/species-construct"
+  },
+  {
+   "id": "species:turret",
+   "title": "Turret",
+   "status": "adapted",
    "book": "mm",
    "section": "species/species-construct"
   },
@@ -16702,217 +16807,217 @@
   {
    "id": "orsino:aspect:agile",
    "title": "Agile",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:alpha",
    "title": "Alpha",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:ancient",
    "title": "Ancient",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:apex",
    "title": "Apex",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:beloved",
    "title": "Beloved",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:blessed",
    "title": "Blessed",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:cruel",
    "title": "Cruel",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:cunning",
    "title": "Cunning",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:curious",
    "title": "Curious",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:cursed",
    "title": "Cursed",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:dauntless",
    "title": "Dauntless",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:dread",
    "title": "Dread",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:ferocious",
    "title": "Ferocious",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:forgotten",
    "title": "Forgotten",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:giant",
    "title": "Giant",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:majestic",
    "title": "Majestic",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:mysterious",
    "title": "Mysterious",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:nimble",
    "title": "Nimble",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:noble",
    "title": "Noble",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:phantasmal",
    "title": "Phantasmal",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:primal",
    "title": "Primal",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:sacred",
    "title": "Sacred",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:savage",
    "title": "Savage",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:sovereign",
    "title": "Sovereign",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:sturdy",
    "title": "Sturdy",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:swift",
    "title": "Swift",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:terrifying",
    "title": "Terrifying",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:venomous",
    "title": "Venomous",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:vicious",
    "title": "Vicious",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:warped",
    "title": "Warped",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },
   {
    "id": "orsino:aspect:wildtype",
    "title": "Wildtype",
-   "status": "data-only",
+   "status": "adapted",
    "book": "mm",
    "section": "orsino-bestiary/orsino-aspect"
   },

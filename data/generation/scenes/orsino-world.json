@@ -1372,7 +1372,29 @@
    "sells": [
     "consumable"
    ],
-   "source": "shop:alchemy"
+   "source": "shop:alchemy",
+   "stock": [
+    [
+     "minor_healing_potion",
+     15
+    ],
+    [
+     "healing_potion",
+     40
+    ],
+    [
+     "elixir_of_strength",
+     100
+    ],
+    [
+     "major_healing_potion",
+     120
+    ],
+    [
+     "potion_of_barkskin",
+     120
+    ]
+   ]
   },
   "antiquarian": {
    "name": "Antiquarian",
@@ -1381,7 +1403,13 @@
     "equipment",
     "junk"
    ],
-   "source": "shop:antiquarian"
+   "source": "shop:antiquarian",
+   "stock": [
+    [
+     "ring_of_protection",
+     300
+    ]
+   ]
   },
   "apothecary": {
    "name": "Apothecary",
@@ -1389,7 +1417,29 @@
    "sells": [
     "consumable"
    ],
-   "source": "shop:apothecary"
+   "source": "shop:apothecary",
+   "stock": [
+    [
+     "dandelion",
+     10
+    ],
+    [
+     "heather",
+     15
+    ],
+    [
+     "comfrey",
+     40
+    ],
+    [
+     "foxglove",
+     50
+    ],
+    [
+     "kingsfoil",
+     75
+    ]
+   ]
   },
   "arcaneum": {
    "name": "Arcane Emporium",
@@ -1397,7 +1447,8 @@
    "sells": [
     "equipment"
    ],
-   "source": "shop:arcaneum"
+   "source": "shop:arcaneum",
+   "stock": []
   },
   "armory": {
    "name": "Armor Shop",
@@ -1405,7 +1456,41 @@
    "sells": [
     "armor"
    ],
-   "source": "shop:armory"
+   "source": "shop:armory",
+   "stock": [
+    [
+     "cloth",
+     5
+    ],
+    [
+     "feathers",
+     8
+    ],
+    [
+     "hide_armor",
+     10
+    ],
+    [
+     "fur",
+     12
+    ],
+    [
+     "leather",
+     15
+    ],
+    [
+     "spine",
+     15
+    ],
+    [
+     "chitin",
+     20
+    ],
+    [
+     "ring",
+     25
+    ]
+   ]
   },
   "black_market": {
    "name": "Black Market",
@@ -1414,13 +1499,20 @@
     "equipment",
     "consumable"
    ],
-   "source": "shop:black_market"
+   "source": "shop:black_market",
+   "stock": [
+    [
+     "wand_of_polymorph",
+     250
+    ]
+   ]
   },
   "blacksmith": {
    "name": "Blacksmith",
    "text": "A shop that forges and enhances weapons and armor.",
    "sells": [],
-   "source": "shop:blacksmith"
+   "source": "shop:blacksmith",
+   "stock": []
   },
   "curiosities": {
    "name": "Curiosity Shop",
@@ -1428,7 +1520,13 @@
    "sells": [
     "equipment"
    ],
-   "source": "shop:curiosities"
+   "source": "shop:curiosities",
+   "stock": [
+    [
+     "ring_of_protection",
+     300
+    ]
+   ]
   },
   "dispensary": {
    "name": "Dispensary",
@@ -1436,7 +1534,41 @@
    "sells": [
     "consumable"
    ],
-   "source": "shop:dispensary"
+   "source": "shop:dispensary",
+   "stock": [
+    [
+     "minor_healing_potion",
+     15
+    ],
+    [
+     "healing_potion",
+     40
+    ],
+    [
+     "elixir_of_strength",
+     100
+    ],
+    [
+     "scroll_of_domination",
+     100
+    ],
+    [
+     "major_healing_potion",
+     120
+    ],
+    [
+     "potion_of_barkskin",
+     120
+    ],
+    [
+     "scroll_of_cure_disease",
+     150
+    ],
+    [
+     "scroll_of_fireball",
+     200
+    ]
+   ]
   },
   "emporium": {
    "name": "General Emporium",
@@ -1445,7 +1577,41 @@
     "consumable",
     "gear"
    ],
-   "source": "shop:emporium"
+   "source": "shop:emporium",
+   "stock": [
+    [
+     "bedroll",
+     1
+    ],
+    [
+     "bell",
+     1
+    ],
+    [
+     "blanket",
+     1
+    ],
+    [
+     "caltrops",
+     1
+    ],
+    [
+     "candle",
+     1
+    ],
+    [
+     "chalk",
+     1
+    ],
+    [
+     "dice",
+     1
+    ],
+    [
+     "firewood",
+     1
+    ]
+   ]
   },
   "exotician": {
    "name": "Exotic Arts",
@@ -1454,7 +1620,33 @@
     "equipment",
     "consumable"
    ],
-   "source": "shop:exotician"
+   "source": "shop:exotician",
+   "stock": [
+    [
+     "kingsfoil",
+     75
+    ],
+    [
+     "scroll_of_domination",
+     100
+    ],
+    [
+     "scroll_of_fireball",
+     200
+    ],
+    [
+     "wand_of_magic_missile",
+     250
+    ],
+    [
+     "wand_of_polymorph",
+     250
+    ],
+    [
+     "ring_of_protection",
+     300
+    ]
+   ]
   },
   "fabrics": {
    "name": "Fabric Shop",
@@ -1462,7 +1654,25 @@
    "sells": [
     "armor"
    ],
-   "source": "shop:fabrics"
+   "source": "shop:fabrics",
+   "stock": [
+    [
+     "cloth",
+     5
+    ],
+    [
+     "hide_armor",
+     10
+    ],
+    [
+     "leather",
+     15
+    ],
+    [
+     "studded",
+     30
+    ]
+   ]
   },
   "general": {
    "name": "General Store",
@@ -1470,7 +1680,41 @@
    "sells": [
     "gear"
    ],
-   "source": "shop:general"
+   "source": "shop:general",
+   "stock": [
+    [
+     "bedroll",
+     1
+    ],
+    [
+     "bell",
+     1
+    ],
+    [
+     "blanket",
+     1
+    ],
+    [
+     "caltrops",
+     1
+    ],
+    [
+     "candle",
+     1
+    ],
+    [
+     "chalk",
+     1
+    ],
+    [
+     "dice",
+     1
+    ],
+    [
+     "firewood",
+     1
+    ]
+   ]
   },
   "herbs": {
    "name": "Herbalist",
@@ -1478,7 +1722,29 @@
    "sells": [
     "consumable"
    ],
-   "source": "shop:herbs"
+   "source": "shop:herbs",
+   "stock": [
+    [
+     "dandelion",
+     10
+    ],
+    [
+     "heather",
+     15
+    ],
+    [
+     "comfrey",
+     40
+    ],
+    [
+     "foxglove",
+     50
+    ],
+    [
+     "kingsfoil",
+     75
+    ]
+   ]
   },
   "jewelry": {
    "name": "Jewelry Shop",
@@ -1486,7 +1752,37 @@
    "sells": [
     "equipment"
    ],
-   "source": "shop:jewelry"
+   "source": "shop:jewelry",
+   "stock": [
+    [
+     "amulet_of_vitality",
+     50
+    ],
+    [
+     "ring_of_minor_protection",
+     50
+    ],
+    [
+     "ring_of_minor_strength",
+     50
+    ],
+    [
+     "amulet_of_health",
+     120
+    ],
+    [
+     "ring_of_strength",
+     150
+    ],
+    [
+     "singing_stone",
+     200
+    ],
+    [
+     "ring_of_protection",
+     300
+    ]
+   ]
   },
   "kitchen": {
    "name": "Foodstuffs",
@@ -1495,7 +1791,21 @@
     "consumable",
     "gear"
    ],
-   "source": "shop:kitchen"
+   "source": "shop:kitchen",
+   "stock": [
+    [
+     "rashers",
+     5
+    ],
+    [
+     "goodberry_consumable",
+     10
+    ],
+    [
+     "cloudberry",
+     20
+    ]
+   ]
   },
   "magic_items": {
    "name": "Magic Shop",
@@ -1504,7 +1814,41 @@
     "equipment",
     "consumable"
    ],
-   "source": "shop:magic_items"
+   "source": "shop:magic_items",
+   "stock": [
+    [
+     "rashers",
+     5
+    ],
+    [
+     "dandelion",
+     10
+    ],
+    [
+     "goodberry_consumable",
+     10
+    ],
+    [
+     "heather",
+     15
+    ],
+    [
+     "minor_healing_potion",
+     15
+    ],
+    [
+     "alchemist_fire",
+     18
+    ],
+    [
+     "cloudberry",
+     20
+    ],
+    [
+     "oil_flask",
+     20
+    ]
+   ]
   },
   "potions": {
    "name": "Potion Shop",
@@ -1512,7 +1856,29 @@
    "sells": [
     "consumable"
    ],
-   "source": "shop:potions"
+   "source": "shop:potions",
+   "stock": [
+    [
+     "minor_healing_potion",
+     15
+    ],
+    [
+     "healing_potion",
+     40
+    ],
+    [
+     "elixir_of_strength",
+     100
+    ],
+    [
+     "major_healing_potion",
+     120
+    ],
+    [
+     "potion_of_barkskin",
+     120
+    ]
+   ]
   },
   "provisions": {
    "name": "Provisioner",
@@ -1520,7 +1886,21 @@
    "sells": [
     "consumable"
    ],
-   "source": "shop:provisions"
+   "source": "shop:provisions",
+   "stock": [
+    [
+     "rashers",
+     5
+    ],
+    [
+     "goodberry_consumable",
+     10
+    ],
+    [
+     "cloudberry",
+     20
+    ]
+   ]
   },
   "rarities": {
    "name": "Rarity Shop",
@@ -1528,7 +1908,13 @@
    "sells": [
     "equipment"
    ],
-   "source": "shop:rarities"
+   "source": "shop:rarities",
+   "stock": [
+    [
+     "ring_of_protection",
+     300
+    ]
+   ]
   },
   "scrolls": {
    "name": "Scroll Shop",
@@ -1536,7 +1922,21 @@
    "sells": [
     "consumable"
    ],
-   "source": "shop:scrolls"
+   "source": "shop:scrolls",
+   "stock": [
+    [
+     "scroll_of_domination",
+     100
+    ],
+    [
+     "scroll_of_cure_disease",
+     150
+    ],
+    [
+     "scroll_of_fireball",
+     200
+    ]
+   ]
   },
   "tailor": {
    "name": "Tailor Shop",
@@ -1544,7 +1944,8 @@
    "sells": [
     "armor"
    ],
-   "source": "shop:tailor"
+   "source": "shop:tailor",
+   "stock": []
   },
   "tools": {
    "name": "Tool Shop",
@@ -1552,7 +1953,41 @@
    "sells": [
     "gear"
    ],
-   "source": "shop:tools"
+   "source": "shop:tools",
+   "stock": [
+    [
+     "bell",
+     1
+    ],
+    [
+     "caltrops",
+     1
+    ],
+    [
+     "chalk",
+     1
+    ],
+    [
+     "dice",
+     1
+    ],
+    [
+     "fish_hook",
+     1
+    ],
+    [
+     "iron_spikes",
+     1
+    ],
+    [
+     "needle_and_thread",
+     1
+    ],
+    [
+     "piton",
+     1
+    ]
+   ]
   },
   "variety": {
    "name": "Variety Store",
@@ -1564,7 +1999,41 @@
     "armor",
     "weapon"
    ],
-   "source": "shop:variety"
+   "source": "shop:variety",
+   "stock": [
+    [
+     "bedroll",
+     1
+    ],
+    [
+     "bell",
+     1
+    ],
+    [
+     "blanket",
+     1
+    ],
+    [
+     "caltrops",
+     1
+    ],
+    [
+     "candle",
+     1
+    ],
+    [
+     "chalk",
+     1
+    ],
+    [
+     "club",
+     1
+    ],
+    [
+     "dart",
+     1
+    ]
+   ]
   },
   "weapons": {
    "name": "Weapon Shop",
@@ -1572,7 +2041,41 @@
    "sells": [
     "weapon"
    ],
-   "source": "shop:weapons"
+   "source": "shop:weapons",
+   "stock": [
+    [
+     "club",
+     1
+    ],
+    [
+     "dart",
+     1
+    ],
+    [
+     "javelin",
+     1
+    ],
+    [
+     "sling",
+     1
+    ],
+    [
+     "spear",
+     1
+    ],
+    [
+     "staff",
+     1
+    ],
+    [
+     "dagger",
+     2
+    ],
+    [
+     "whip",
+     2
+    ]
+   ]
   },
   "wonders": {
    "name": "Wonder Shop",
@@ -1580,7 +2083,8 @@
    "sells": [
     "equipment"
    ],
-   "source": "shop:wonders"
+   "source": "shop:wonders",
+   "stock": []
   },
   "zoology": {
    "name": "Zoology Shop",
@@ -1590,7 +2094,8 @@
     "equipment",
     "gear"
    ],
-   "source": "shop:zoology"
+   "source": "shop:zoology",
+   "stock": []
   }
  },
  "riddles": {
@@ -2021,6 +2526,420 @@
     "level": "medium",
     "source": "riddle:medium#28"
    }
+  ]
+ },
+ "riddleAnswers": {
+  "abstract_concept": [
+   "Memory",
+   "Age",
+   "Death",
+   "Silence",
+   "Love",
+   "Time",
+   "Fear",
+   "Hope",
+   "Dream",
+   "Truth",
+   "Word",
+   "Song",
+   "Dance",
+   "Hot",
+   "Cold",
+   "Joy",
+   "Sorrow",
+   "Courage",
+   "Wisdom",
+   "Power",
+   "Freedom",
+   "Peace",
+   "Day",
+   "Tomorrow",
+   "Fate",
+   "Luck",
+   "Honor",
+   "Glory",
+   "Strength",
+   "Beauty",
+   "Never",
+   "Grudge",
+   "Valor",
+   "Faith",
+   "Charity",
+   "Justice",
+   "Mercy",
+   "Pride",
+   "Envy",
+   "Wrath",
+   "Sloth",
+   "Hole",
+   "Infinity",
+   "Eternity",
+   "Chaos",
+   "Order",
+   "Balance",
+   "Unity",
+   "Diversity",
+   "Change",
+   "Constancy"
+  ],
+  "animal": [
+   "Dog",
+   "Cat",
+   "Wolf",
+   "Bear",
+   "Eagle",
+   "Lion",
+   "Tiger",
+   "Fox",
+   "Deer",
+   "Rabbit",
+   "Hawk",
+   "Owl",
+   "Frog",
+   "Snake",
+   "Horse",
+   "Sheep",
+   "Goat",
+   "Pig",
+   "Cow",
+   "Chicken",
+   "Goose",
+   "Crocodile",
+   "Alligator",
+   "Turtle",
+   "Lizard",
+   "Ant",
+   "Bee",
+   "Butterfly",
+   "Spider",
+   "Crab",
+   "Fish"
+  ],
+  "body_part": [
+   "Legs",
+   "Arms",
+   "Eyes",
+   "Ears",
+   "Heart",
+   "Hands",
+   "Feet",
+   "Head",
+   "Mouth",
+   "Nose",
+   "Fingers",
+   "Toes",
+   "Back",
+   "Shoulders",
+   "Left Elbow",
+   "Right Knee"
+  ],
+  "clothing": [
+   "Glove",
+   "Hat",
+   "Boot",
+   "Cloak",
+   "Shirt",
+   "Pants",
+   "Belt",
+   "Scarf",
+   "Socks",
+   "Jacket",
+   "Dress",
+   "Skirt",
+   "Vest",
+   "Tie",
+   "Coat",
+   "Sweater",
+   "Tunic",
+   "Cap",
+   "Mittens",
+   "Overalls"
+  ],
+  "element": [
+   "Fire",
+   "Water",
+   "Earth",
+   "Air",
+   "Ice",
+   "Metal",
+   "Lightning",
+   "Steam",
+   "Smoke",
+   "Ash",
+   "Lava",
+   "Mud",
+   "Crystal",
+   "Sand",
+   "Salt",
+   "Dust",
+   "Lead",
+   "Gold",
+   "Silver",
+   "Copper",
+   "Bronze",
+   "Iron",
+   "Steel"
+  ],
+  "food": [
+   "Artichoke",
+   "Egg",
+   "Bread",
+   "Cheese",
+   "Apple",
+   "Salted Pork",
+   "Halibut",
+   "Brussel Sprout",
+   "Mushroom",
+   "Carrot",
+   "Potato",
+   "Onion",
+   "Garlic",
+   "Peach",
+   "Pear",
+   "Grapes",
+   "Chicken"
+  ],
+  "instrument": [
+   "Piano",
+   "Guitar",
+   "Violin",
+   "Drum",
+   "Flute",
+   "Harp",
+   "Trumpet",
+   "Lute",
+   "Cello",
+   "Horn"
+  ],
+  "large_object": [
+   "House",
+   "Barn",
+   "Boat",
+   "Tower",
+   "Menhir",
+   "Gate",
+   "Wall",
+   "Ship",
+   "Coffin",
+   "Carriage",
+   "Chariot",
+   "Catapult",
+   "Statue",
+   "Bridge",
+   "Castle"
+  ],
+  "letter": [
+   "A",
+   "B",
+   "C",
+   "D",
+   "E",
+   "F",
+   "G",
+   "H",
+   "I",
+   "J",
+   "K",
+   "L",
+   "M",
+   "N",
+   "O",
+   "P",
+   "Q",
+   "R",
+   "S",
+   "T",
+   "U",
+   "V",
+   "W",
+   "X",
+   "Y",
+   "Z"
+  ],
+  "natural_feature": [
+   "River",
+   "Mountain",
+   "Forest",
+   "Desert",
+   "Ocean",
+   "Valley",
+   "Canyon",
+   "Glacier",
+   "Volcano",
+   "Waterfall",
+   "Island",
+   "Swamp",
+   "Cave",
+   "Cliff",
+   "Beach",
+   "Oasis",
+   "Lagoon",
+   "Reef",
+   "Dune",
+   "Plateau",
+   "Prairie",
+   "Hill",
+   "Geyser",
+   "Fjord",
+   "Marsh",
+   "Tundra",
+   "Delta",
+   "Estuary",
+   "Creek",
+   "Brook",
+   "Pond",
+   "Spring",
+   "Path",
+   "Grove",
+   "Thicket",
+   "Meadow",
+   "Field",
+   "Woods",
+   "Jungle",
+   "Rainforest",
+   "Savanna",
+   "Steppe",
+   "Badlands"
+  ],
+  "phenomenon": [
+   "Echo",
+   "Darkness",
+   "Light",
+   "Wind",
+   "Rain",
+   "Footsteps",
+   "Cloud",
+   "Hurricane",
+   "Earthquake",
+   "Starlight",
+   "Thunder",
+   "Fog",
+   "Rainbow",
+   "Sunrise",
+   "Sunset",
+   "Avalanche",
+   "Comet",
+   "Meteor",
+   "Shadow",
+   "Reflection",
+   "Mirage"
+  ],
+  "plant": [
+   "Cactus",
+   "Rose",
+   "Oak",
+   "Tulip",
+   "Sunflower",
+   "Daisy",
+   "Fern",
+   "Moss",
+   "Ivy",
+   "Lily",
+   "Maple",
+   "Pine",
+   "Birch",
+   "Vine",
+   "Willow",
+   "Dandelion",
+   "Clover",
+   "Bamboo",
+   "Holly",
+   "Lavender"
+  ],
+  "small_object": [
+   "Teapot",
+   "Key",
+   "Candle",
+   "Feather",
+   "Map",
+   "Clock",
+   "Stamp",
+   "Ring",
+   "Book",
+   "Knife",
+   "Coin",
+   "Cup",
+   "Bottle",
+   "Brush",
+   "Comb",
+   "Lock",
+   "Needle",
+   "Pin",
+   "Spoon",
+   "Fork",
+   "Plate",
+   "Bag",
+   "Box",
+   "Lamp",
+   "Bell",
+   "Fan",
+   "Pocket",
+   "Quill",
+   "Vial",
+   "Watch",
+   "Whistle",
+   "Arrow",
+   "Bolt",
+   "Dart",
+   "Flask",
+   "Hook",
+   "Ladle",
+   "Oar",
+   "Rope",
+   "Sail",
+   "Tongs",
+   "Chain",
+   "Drum",
+   "Flute",
+   "Horn",
+   "Lute",
+   "Pipe",
+   "Staff",
+   "Wand",
+   "Yarn",
+   "Chisel",
+   "File",
+   "Hammer",
+   "Nail",
+   "Saw",
+   "Shovel",
+   "Sword",
+   "Trowel",
+   "Wheel"
+  ],
+  "social_role": [
+   "King",
+   "Queen",
+   "Knight",
+   "Peasant",
+   "Merchant",
+   "Soldier",
+   "Farmer",
+   "Priest",
+   "Thief",
+   "Bard",
+   "Blacksmith",
+   "Healer",
+   "Guard",
+   "Noble",
+   "Sailor",
+   "Hunter",
+   "Alchemist",
+   "Scholar",
+   "Jester",
+   "Cook",
+   "Prisoner",
+   "Carpenter",
+   "Fisherman",
+   "Tailor",
+   "Weaver",
+   "Miner",
+   "Butcher",
+   "Brewer",
+   "Dancer",
+   "Artist",
+   "Scribe",
+   "Messenger"
   ]
  }
 }

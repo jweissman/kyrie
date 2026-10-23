@@ -1,6 +1,8 @@
 import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import type { Region, Site } from './region-writer';
+import { Draw } from './land/draw';
+import { CreatureVariants } from '../creature-variants';
 
 export interface Beast { species: string; count: number; label: string; role: string; nature: string }
 interface Row { _key: string; __weight?: number }
@@ -35,6 +37,23 @@ export class RegionEcology {
     const rows = this.tables.denBeast.groups[habitat] ?? this.tables.denBeast.groups[this.country(region)];
     const row = rows && this.weighed(rows, new Expressions(`${region.name}:den:${habitat}`));
     return row && { species: row._key, count: row.count, label: row.label, role: row.role, nature: row.nature };
+  }
+  // What makes the beasts of one den other than their kind: in a barrow or a ruin, sometimes the dead of it (skeletal
+  // wolves, which the rites will lay down); anywhere, sometimes an Orsino aspect drawn by rarity (venomous, ancient).
+  // Drawn by the site, so each den is its own.
+  static variant(site: Site, beast: Beast, habitat: string): Beast & { aspect?: string; template?: string } {
+    const draw = new Draw(`${site.id}:variant`);
+    if (['barrow', 'ruin'].includes(habitat) && beast.nature === 'wild' && draw.chance(0.4)) {
+      const template = draw.pick(['skeletal', 'zombie']);
+      return { ...this.named(beast, template), nature: 'unquiet', template };
+    }
+    if (!draw.chance(0.45)) { return beast; }
+    const aspect = CreatureVariants.draw(draw.int(100) + 1, draw.int.bind(draw));
+    return { ...this.named(beast, aspect), aspect };
+  }
+  // "a wolf", venomous, is "a venomous wolf".
+  private static named(beast: Beast, word: string): Beast {
+    return { ...beast, role: `${/^[aeiou]/.test(word) ? 'an' : 'a'} ${word} ${beast.role.replace(/^(a|an) /, '')}` };
   }
   // A sign of the animals of a kind of country, for a place there: drawn by the place, so places differ.
   static sign(habitat: string, place: string): string {

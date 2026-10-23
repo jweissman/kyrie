@@ -108,34 +108,36 @@
   },
   "aspect": {
    "concept": "creature",
-   "destination": "none",
-   "representation": "none",
-   "generative": "none",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary.",
-   "rule": "family",
+   "destination": "data/catalog/orsino/variants.json#aspects, applied by src/creature-variants.ts",
+   "representation": "what an aspect adds to a creature: attributes and abilities",
+   "generative": "a den's beasts, sometimes, drawn by rarity (src/world/region-ecology.ts); an author's Aspect in a Person",
+   "tests": [
+    "test/variants.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "ledger",
    "counts": {
-    "integrated": 0,
+    "integrated": 31,
     "represented": 0,
     "reference": 0,
-    "blocked": 31
+    "blocked": 0
    }
   },
   "aspectRarity": {
    "concept": "creature",
-   "destination": "none",
-   "representation": "none",
-   "generative": "none",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "Weights for aspects, which Kyr cannot yet apply (see aspect).",
-   "rule": "family",
+   "destination": "data/catalog/orsino/variants.json#rarity, drawn by src/creature-variants.ts",
+   "representation": "the aspects of each rarity",
+   "generative": "a den's aspect, drawn by rarity",
+   "tests": [
+    "test/variants.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "ledger",
    "counts": {
-    "integrated": 0,
+    "integrated": 5,
     "represented": 0,
     "reference": 0,
-    "blocked": 5
+    "blocked": 0
    }
   },
   "background": {
@@ -193,18 +195,19 @@
   },
   "combatEntity": {
    "concept": "creature",
-   "destination": "none",
-   "representation": "none",
-   "generative": "none",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "Fighting objects (a turret, a phylactery, a ward) need an object that acts in a fight's turn order; Kyr's fights hold creatures only, and its objects (Things) act through world rules, not turns.",
-   "rule": "family",
+   "destination": "data/catalog/species.json (antimagic_ward, barrier, bomb, phylactery, turret)",
+   "representation": "a construct species that takes its turn in a fight with the object's abilities and traits",
+   "generative": "none yet: an author's Person of the species",
+   "tests": [
+    "test/fighting-objects.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "ledger",
    "counts": {
-    "integrated": 0,
+    "integrated": 5,
     "represented": 0,
     "reference": 0,
-    "blocked": 5
+    "blocked": 0
    }
   },
   "companion": {
@@ -259,34 +262,36 @@
   },
   "creatureOverlay": {
    "concept": "creature",
-   "destination": "none",
-   "representation": "none",
-   "generative": "none",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "Undead overlays (skeletal, zombie, vampiric) are templates laid on any species; Kyr has undead species (revenant) but no template that turns a species undead.",
-   "rule": "family",
+   "destination": "data/catalog/orsino/variants.json#templates (Undead in a Kyr Person)",
+   "representation": "the four undead templates any species can be laid under",
+   "generative": "a barrow's or a ruin's beasts, sometimes",
+   "tests": [
+    "test/variants.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "ledger",
    "counts": {
-    "integrated": 0,
+    "integrated": 1,
     "represented": 0,
     "reference": 0,
-    "blocked": 1
+    "blocked": 0
    }
   },
   "creatureTemplate": {
    "concept": "creature",
-   "destination": "none",
-   "representation": "none",
-   "generative": "none",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "As creatureOverlay: no species template in Kyr.",
-   "rule": "family",
+   "destination": "data/catalog/orsino/variants.json#templates, applied by src/creature-variants.ts",
+   "representation": "what a template adds: attributes, traits and abilities",
+   "generative": "a barrow's or a ruin's beasts, sometimes (skeletal, zombie), laid to rest by rites; an author's Undead in a Person",
+   "tests": [
+    "test/variants.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "ledger",
    "counts": {
-    "integrated": 0,
+    "integrated": 4,
     "represented": 0,
     "reference": 0,
-    "blocked": 4
+    "blocked": 0
    }
   },
   "deity": {
@@ -761,52 +766,54 @@
   },
   "plane": {
    "concept": "world",
-   "destination": "src/handbook/dmg.ts (described)",
-   "representation": "described",
-   "generative": "none",
+   "destination": "data/catalog/conditions.json (plane_*), a place's law",
+   "representation": "a condition held by everyone fighting in a place: the plane's spell DC",
+   "generative": "none yet: an author's law(place, plane_*)",
    "tests": [
+    "test/fighting-objects.test.ts",
     "test/handbook.test.ts"
    ],
-   "status": "blocked",
-   "blocker": "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason.",
-   "rule": "family",
+   "status": "integrated",
+   "rule": "ledger",
    "counts": {
-    "integrated": 0,
-    "represented": 0,
+    "integrated": 3,
+    "represented": 7,
     "reference": 0,
-    "blocked": 10
+    "blocked": 0
    }
   },
   "riddle": {
    "concept": "world",
-   "destination": "data/generation/scenes/orsino-world.json#riddles",
+   "destination": "data/generation/scenes/orsino-world.json#riddles, set on a work's sealed door by src/world/region-riddles.ts",
    "representation": "question, answer and kind, filtered to plain words",
-   "generative": "none yet",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "No generated site sets a riddle yet: a work's sealed door that opens to the right answer, from a choice of answers, is not written.",
-   "rule": "family",
+   "generative": "a speaking door on the way into some of the makers' works (two in five)",
+   "tests": [
+    "test/riddles.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "riddle",
    "counts": {
-    "integrated": 0,
+    "integrated": 4,
     "represented": 0,
     "reference": 0,
-    "blocked": 4
+    "blocked": 0
    }
   },
   "riddleAnswer": {
    "concept": "world",
-   "destination": "none",
-   "representation": "none",
-   "generative": "none",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "The wrong answers a riddle would be offered among (see riddle).",
-   "rule": "family",
+   "destination": "data/generation/scenes/orsino-world.json#riddleAnswers",
+   "representation": "the words of each kind a door offers beside the answer",
+   "generative": "three wrong words of the answer's kind on a speaking door",
+   "tests": [
+    "test/riddles.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "riddle",
    "counts": {
-    "integrated": 0,
+    "integrated": 14,
     "represented": 0,
     "reference": 0,
-    "blocked": 15
+    "blocked": 1
    }
   },
   "roomAura": {
@@ -1046,18 +1053,19 @@
   },
   "shop": {
    "concept": "world",
-   "destination": "data/generation/scenes/orsino-world.json#shops; data/generation/tables/trade.json#merchantType",
-   "representation": "shop kinds and what they sell",
-   "generative": "Kyr's own merchant types are drawn; Orsino's shops are not yet",
-   "tests": [],
-   "status": "blocked",
-   "blocker": "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one.",
-   "rule": "family",
+   "destination": "data/generation/scenes/orsino-world.json#shops (stocked with the Kyr items of their kinds) and data/generation/scenes/shops.json, kept by src/world/region-shops.ts",
+   "representation": "a shop in a town, its keeper, and what it sells at what it is worth",
+   "generative": "a market town keeps two, any other town one",
+   "tests": [
+    "test/shops.test.ts"
+   ],
+   "status": "integrated",
+   "rule": "shop",
    "counts": {
-    "integrated": 0,
+    "integrated": 18,
     "represented": 0,
     "reference": 0,
-    "blocked": 27
+    "blocked": 9
    }
   },
   "specialRoom": {
@@ -3738,290 +3746,290 @@
   },
   {
    "id": "aspect:agile",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:agile"
    ]
   },
   {
    "id": "aspect:alpha",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:alpha"
    ]
   },
   {
    "id": "aspect:ancient",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:ancient"
    ]
   },
   {
    "id": "aspect:apex",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:apex"
    ]
   },
   {
    "id": "aspect:beloved",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:beloved"
    ]
   },
   {
    "id": "aspect:blessed",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:blessed"
    ]
   },
   {
    "id": "aspect:cruel",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:cruel"
    ]
   },
   {
    "id": "aspect:cunning",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:cunning"
    ]
   },
   {
    "id": "aspect:curious",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:curious"
    ]
   },
   {
    "id": "aspect:cursed",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:cursed"
    ]
   },
   {
    "id": "aspect:dauntless",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:dauntless"
    ]
   },
   {
    "id": "aspect:dread",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:dread"
    ]
   },
   {
    "id": "aspect:ferocious",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:ferocious"
    ]
   },
   {
    "id": "aspect:forgotten",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:forgotten"
    ]
   },
   {
    "id": "aspect:giant",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:giant"
    ]
   },
   {
    "id": "aspect:majestic",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:majestic"
    ]
   },
   {
    "id": "aspect:mysterious",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:mysterious"
    ]
   },
   {
    "id": "aspect:nimble",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:nimble"
    ]
   },
   {
    "id": "aspect:noble",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:noble"
    ]
   },
   {
    "id": "aspect:phantasmal",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:phantasmal"
    ]
   },
   {
    "id": "aspect:primal",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:primal"
    ]
   },
   {
    "id": "aspect:sacred",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:sacred"
    ]
   },
   {
    "id": "aspect:savage",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:savage"
    ]
   },
   {
    "id": "aspect:sovereign",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:sovereign"
    ]
   },
   {
    "id": "aspect:sturdy",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:sturdy"
    ]
   },
   {
    "id": "aspect:swift",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:swift"
    ]
   },
   {
    "id": "aspect:terrifying",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:terrifying"
    ]
   },
   {
    "id": "aspect:venomous",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:venomous"
    ]
   },
   {
    "id": "aspect:vicious",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:vicious"
    ]
   },
   {
    "id": "aspect:warped",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:warped"
    ]
   },
   {
    "id": "aspect:wildtype",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "aspect:wildtype"
    ]
   },
   {
    "id": "aspectRarity:common",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Weights for aspects, which Kyr cannot yet apply (see aspect)."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "rarity:common"
    ]
   },
   {
    "id": "aspectRarity:epic",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Weights for aspects, which Kyr cannot yet apply (see aspect)."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "rarity:epic"
    ]
   },
   {
    "id": "aspectRarity:legendary",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Weights for aspects, which Kyr cannot yet apply (see aspect)."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "rarity:legendary"
    ]
   },
   {
    "id": "aspectRarity:rare",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Weights for aspects, which Kyr cannot yet apply (see aspect)."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "rarity:rare"
    ]
   },
   {
    "id": "aspectRarity:uncommon",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Weights for aspects, which Kyr cannot yet apply (see aspect)."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "rarity:uncommon"
    ]
   },
   {
@@ -5876,42 +5884,42 @@
   },
   {
    "id": "combatEntity:antimagic_ward",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Fighting objects (a turret, a phylactery, a ward) need an object that acts in a fight's turn order; Kyr's fights hold creatures only, and its objects (Things) act through world rules, not turns."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "species:antimagic_ward"
    ]
   },
   {
    "id": "combatEntity:barrier",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Fighting objects (a turret, a phylactery, a ward) need an object that acts in a fight's turn order; Kyr's fights hold creatures only, and its objects (Things) act through world rules, not turns."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "species:barrier"
    ]
   },
   {
    "id": "combatEntity:bomb",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Fighting objects (a turret, a phylactery, a ward) need an object that acts in a fight's turn order; Kyr's fights hold creatures only, and its objects (Things) act through world rules, not turns."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "species:bomb"
    ]
   },
   {
    "id": "combatEntity:phylactery",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Fighting objects (a turret, a phylactery, a ward) need an object that acts in a fight's turn order; Kyr's fights hold creatures only, and its objects (Things) act through world rules, not turns."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "species:phylactery"
    ]
   },
   {
    "id": "combatEntity:turret",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Fighting objects (a turret, a phylactery, a ward) need an object that acts in a fight's turn order; Kyr's fights hold creatures only, and its objects (Things) act through world rules, not turns."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "species:turret"
    ]
   },
   {
@@ -6714,42 +6722,45 @@
   },
   {
    "id": "creatureOverlay:undead",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "Undead overlays (skeletal, zombie, vampiric) are templates laid on any species; Kyr has undead species (revenant) but no template that turns a species undead."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "undead:skeletal",
+    "undead:zombie",
+    "undead:spectral",
+    "undead:vampiric"
    ]
   },
   {
    "id": "creatureTemplate:skeletal",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "As creatureOverlay: no species template in Kyr."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "undead:skeletal"
    ]
   },
   {
    "id": "creatureTemplate:spectral",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "As creatureOverlay: no species template in Kyr."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "undead:spectral"
    ]
   },
   {
    "id": "creatureTemplate:vampiric",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "As creatureOverlay: no species template in Kyr."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "undead:vampiric"
    ]
   },
   {
    "id": "creatureTemplate:zombie",
-   "status": "blocked",
-   "mechanics": "catalogued",
-   "blockers": [
-    "As creatureOverlay: no species template in Kyr."
+   "status": "integrated",
+   "mechanics": "executable",
+   "kyr": [
+    "undead:zombie"
    ]
   },
   {
@@ -12939,206 +12950,173 @@
   },
   {
    "id": "plane:Arcadia",
-   "status": "blocked",
+   "status": "represented",
+   "kyr": [
+    "condition:plane_arcadia"
+   ],
    "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+    "A place's law (law(place, plane_arcadia)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's."
    ]
   },
   {
    "id": "plane:Cthelll",
-   "status": "blocked",
-   "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+   "status": "integrated",
+   "kyr": [
+    "condition:plane_cthelll"
    ]
   },
   {
    "id": "plane:Gehenna",
-   "status": "blocked",
-   "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+   "status": "integrated",
+   "kyr": [
+    "condition:plane_gehenna"
    ]
   },
   {
    "id": "plane:Hades",
-   "status": "blocked",
+   "status": "represented",
+   "kyr": [
+    "condition:plane_hades"
+   ],
    "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+    "A place's law (law(place, plane_hades)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's."
    ]
   },
   {
    "id": "plane:Limbo",
-   "status": "blocked",
+   "status": "represented",
+   "kyr": [
+    "condition:plane_limbo"
+   ],
    "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+    "A place's law (law(place, plane_limbo)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's."
    ]
   },
   {
    "id": "plane:Mechanus",
-   "status": "blocked",
+   "status": "represented",
+   "kyr": [
+    "condition:plane_mechanus"
+   ],
    "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+    "A place's law (law(place, plane_mechanus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's."
    ]
   },
   {
    "id": "plane:Pandemonium",
-   "status": "blocked",
+   "status": "represented",
+   "kyr": [
+    "condition:plane_pandemonium"
+   ],
    "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+    "A place's law (law(place, plane_pandemonium)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's."
    ]
   },
   {
    "id": "plane:Prime Material",
-   "status": "blocked",
-   "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+   "status": "integrated",
+   "kyr": [
+    "condition:plane_prime_material"
    ]
   },
   {
    "id": "plane:Ysgard",
-   "status": "blocked",
+   "status": "represented",
+   "kyr": [
+    "condition:plane_ysgard"
+   ],
    "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+    "A place's law (law(place, plane_ysgard)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's."
    ]
   },
   {
    "id": "plane:Zephyrus",
-   "status": "blocked",
+   "status": "represented",
+   "kyr": [
+    "condition:plane_zephyrus"
+   ],
    "blockers": [
-    "A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason."
+    "A place's law (law(place, plane_zephyrus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's."
    ]
   },
   {
    "id": "riddle:deadly",
-   "status": "blocked",
-   "blockers": [
-    "No generated site sets a riddle yet: a work's sealed door that opens to the right answer, from a choice of answers, is not written."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddle:easy",
-   "status": "blocked",
-   "blockers": [
-    "No generated site sets a riddle yet: a work's sealed door that opens to the right answer, from a choice of answers, is not written."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddle:hard",
-   "status": "blocked",
-   "blockers": [
-    "No generated site sets a riddle yet: a work's sealed door that opens to the right answer, from a choice of answers, is not written."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddle:medium",
-   "status": "blocked",
-   "blockers": [
-    "No generated site sets a riddle yet: a work's sealed door that opens to the right answer, from a choice of answers, is not written."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:abstract_concept",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:animal",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:body_part",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:clothing",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:element",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:food",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:instrument",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:large_object",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:letter",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:natural_feature",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:phenomenon",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:plant",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:rotated_tee",
    "status": "blocked",
    "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
+    "Not plain words a door can offer (data/generation/scenes/orsino-world.json#riddleAnswers)."
    ]
   },
   {
    "id": "riddleAnswer:small_object",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "riddleAnswer:social_role",
-   "status": "blocked",
-   "blockers": [
-    "The wrong answers a riddle would be offered among (see riddle)."
-   ]
+   "status": "integrated"
   },
   {
    "id": "roomAura:alcove",
@@ -15487,191 +15465,137 @@
   },
   {
    "id": "shop:alchemy",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:antiquarian",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:apothecary",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:arcaneum",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:armory",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:black_market",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:blacksmith",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:curiosities",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:dispensary",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:emporium",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:exotician",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:fabrics",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:general",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:herbs",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:jewelry",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:kitchen",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:magic_items",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:potions",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:provisions",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:rarities",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:scrolls",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:tailor",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:tools",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:variety",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:weapons",
-   "status": "blocked",
-   "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
-   ]
+   "status": "integrated"
   },
   {
    "id": "shop:wonders",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {
    "id": "shop:zoology",
    "status": "blocked",
    "blockers": [
-    "Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one."
+    "Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock."
    ]
   },
   {

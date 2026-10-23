@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1471 integrated, 197 represented, 751 reference, 232 blocked.
+2651 entries in 79 families: 1556 integrated, 204 represented, 751 reference, 140 blocked.
 
 ## By family
 
@@ -24,12 +24,12 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | character | trait | 100 | 78 | 22 | 0 | 0 | data/catalog/orsino/traits.json | ancestries' and callings' traits | `test/effects.test.ts` `test/handbook.test.ts` |
 | condition | status | 141 | 124 | 17 | 0 | 0 | data/catalog/orsino/conditions.json | applied by abilities, traps and wonders | `test/effects.test.ts` `test/marvels.test.ts` |
 | creature | animal | 44 | 39 | 5 | 0 | 0 | data/catalog/orsino/species.json | wild country dens and creatures (data/generation/tables/ecology.json) | `test/wild-country.test.ts` `test/creature-generation.test.ts` |
-| creature | aspect | 31 | 0 | 0 | 0 | 31 | none | none | — |
-| creature | aspectRarity | 5 | 0 | 0 | 0 | 5 | none | none | — |
-| creature | combatEntity | 5 | 0 | 0 | 0 | 5 | none | none | — |
+| creature | aspect | 31 | 31 | 0 | 0 | 0 | data/catalog/orsino/variants.json#aspects, applied by src/creature-variants.ts | a den's beasts, sometimes, drawn by rarity (src/world/region-ecology.ts); an author's Aspect in a Person | `test/variants.test.ts` |
+| creature | aspectRarity | 5 | 5 | 0 | 0 | 0 | data/catalog/orsino/variants.json#rarity, drawn by src/creature-variants.ts | a den's aspect, drawn by rarity | `test/variants.test.ts` |
+| creature | combatEntity | 5 | 5 | 0 | 0 | 0 | data/catalog/species.json (antimagic_ward, barrier, bomb, phylactery, turret) | none yet: an author's Person of the species | `test/fighting-objects.test.ts` |
 | creature | companion | 27 | 0 | 0 | 27 | 0 | none | none | — |
-| creature | creatureOverlay | 1 | 0 | 0 | 0 | 1 | none | none | — |
-| creature | creatureTemplate | 4 | 0 | 0 | 0 | 4 | none | none | — |
+| creature | creatureOverlay | 1 | 1 | 0 | 0 | 0 | data/catalog/orsino/variants.json#templates (Undead in a Kyr Person) | a barrow's or a ruin's beasts, sometimes | `test/variants.test.ts` |
+| creature | creatureTemplate | 4 | 4 | 0 | 0 | 0 | data/catalog/orsino/variants.json#templates, applied by src/creature-variants.ts | a barrow's or a ruin's beasts, sometimes (skeletal, zombie), laid to rest by rites; an author's Undead in a Person | `test/variants.test.ts` |
 | creature | difficultyTier | 6 | 0 | 0 | 6 | 0 | src/handbook/dmg.ts (described) | none | `test/handbook.test.ts` |
 | creature | dragonColor | 10 | 1 | 0 | 0 | 9 | data/catalog/species.json (dragons) and data/generation/tables/dragons.json | a great work's dragon | `test/great-works.test.ts` |
 | creature | elemental | 17 | 17 | 0 | 0 | 0 | data/catalog/orsino/species.json | summoning | `test/summoning.test.ts` |
@@ -79,15 +79,15 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | world | deityDraftGender | 71 | 0 | 0 | 71 | 0 | none | none | — |
 | world | deityGender | 33 | 0 | 33 | 0 | 0 | data/catalog/religion.json (gender) | how a shrine speaks of its god | `test/devotion.test.ts` |
 | world | dungeon | 5 | 0 | 0 | 5 | 0 | data/generation/works (plans) | none | — |
-| world | plane | 10 | 0 | 0 | 0 | 10 | src/handbook/dmg.ts (described) | none | `test/handbook.test.ts` |
-| world | riddle | 4 | 0 | 0 | 0 | 4 | data/generation/scenes/orsino-world.json#riddles | none yet | — |
-| world | riddleAnswer | 15 | 0 | 0 | 0 | 15 | none | none | — |
+| world | plane | 10 | 3 | 7 | 0 | 0 | data/catalog/conditions.json (plane_*), a place's law | none yet: an author's law(place, plane_*) | `test/fighting-objects.test.ts` `test/handbook.test.ts` |
+| world | riddle | 4 | 4 | 0 | 0 | 0 | data/generation/scenes/orsino-world.json#riddles, set on a work's sealed door by src/world/region-riddles.ts | a speaking door on the way into some of the makers' works (two in five) | `test/riddles.test.ts` |
+| world | riddleAnswer | 15 | 14 | 0 | 0 | 1 | data/generation/scenes/orsino-world.json#riddleAnswers | three wrong words of the answer's kind on a speaking door | `test/riddles.test.ts` |
 | world | roomAura | 20 | 0 | 0 | 20 | 0 | none | none | — |
 | world | roomFeature | 11 | 0 | 0 | 0 | 11 | none | none | — |
 | world | roomNarrative | 35 | 0 | 0 | 35 | 0 | none | none | — |
 | world | settlementAffix | 11 | 0 | 11 | 0 | 0 | data/generation/tables/places.json#placeAffix | settlement names where the tongue gives no word | `test/place-names.test.ts` |
 | world | settlementSize | 7 | 0 | 7 | 0 | 0 | data/generation/tables/places.json#settlementSize | a settlement's size and so its people (src/world/community) | `test/community.test.ts` |
-| world | shop | 27 | 0 | 0 | 0 | 27 | data/generation/scenes/orsino-world.json#shops; data/generation/tables/trade.json#merchantType | Kyr's own merchant types are drawn; Orsino's shops are not yet | — |
+| world | shop | 27 | 18 | 0 | 0 | 9 | data/generation/scenes/orsino-world.json#shops (stocked with the Kyr items of their kinds) and data/generation/scenes/shops.json, kept by src/world/region-shops.ts | a market town keeps two, any other town one | `test/shops.test.ts` |
 | world | specialRoom | 9 | 0 | 0 | 9 | 0 | none | none | — |
 | world | terrain | 12 | 0 | 0 | 12 | 0 | src/world/land (cover kinds) | none | — |
 | world | trap | 100 | 59 | 0 | 0 | 41 | data/generation/scenes/orsino-world.json#traps, drawn by src/world/region-marvels.ts | a work's inner way, three works in five | `test/marvels.test.ts` |
@@ -159,29 +159,9 @@ For each family with entries not met in play: its blockers, with how many entrie
 - 5 × field:animalKind.weapon: The weapon and body become the species' natural weapon and armour.
 - 5 × field:animalKind.wis: Kyr rolls a species' attributes and hit points; the Orsino animal stat line is not used.
 
-### aspect
-
-- 31 × An aspect is a modifier on a creature drawn at encounter time (agile, venomous); Kyr's species are fixed and a generated den's creatures are written as their species. Needs a creature variant (species plus aspect) in the generated Kyr and the bestiary.
-
-### aspectRarity
-
-- 5 × Weights for aspects, which Kyr cannot yet apply (see aspect).
-
-### combatEntity
-
-- 5 × Fighting objects (a turret, a phylactery, a ward) need an object that acts in a fight's turn order; Kyr's fights hold creatures only, and its objects (Things) act through world rules, not turns.
-
 ### companion
 
 - 27 × Orsino gives each ancestry its animal companions; Kyr's companions are the animals of the country (tame species in data/catalog/species.json) befriended in play, not a list by ancestry.
-
-### creatureOverlay
-
-- 1 × Undead overlays (skeletal, zombie, vampiric) are templates laid on any species; Kyr has undead species (revenant) but no template that turns a species undead.
-
-### creatureTemplate
-
-- 4 × As creatureOverlay: no species template in Kyr.
 
 ### difficultyTier
 
@@ -377,15 +357,17 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### plane
 
-- 10 × A plane's global effects apply to everyone resident. Kyr has one world and no place-wide effect on every creature's rules; planeshift and teleport effects are omitted for the same reason.
-
-### riddle
-
-- 4 × No generated site sets a riddle yet: a work's sealed door that opens to the right answer, from a choice of answers, is not written.
+- 1 × A place's law (law(place, plane_arcadia)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.
+- 1 × A place's law (law(place, plane_hades)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.
+- 1 × A place's law (law(place, plane_limbo)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.
+- 1 × A place's law (law(place, plane_mechanus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.
+- 1 × A place's law (law(place, plane_pandemonium)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.
+- 1 × A place's law (law(place, plane_ysgard)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.
+- 1 × A place's law (law(place, plane_zephyrus)): everyone fighting there fights under the plane's spell DC. Its spell durations are not modelled: spells last as their own definitions say, and slots are a calling's.
 
 ### riddleAnswer
 
-- 15 × The wrong answers a riddle would be offered among (see riddle).
+- 1 × Not plain words a door can offer (data/generation/scenes/orsino-world.json#riddleAnswers).
 
 ### roomAura
 
@@ -409,7 +391,7 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### shop
 
-- 27 × Orsino's shops sell by item type (arcane, holy, exotic); a Kyr settlement's merchant is chosen by the settlement's trade and stocks named items with prices (trade.json). A shop needs a mapping from item type to Kyr items and a price rule before a settlement can keep one.
+- 9 × Kyr has fewer than three things of its kinds a country's market sees (worth 300 coin or less): nothing for such a shop to stock.
 
 ### specialRoom
 

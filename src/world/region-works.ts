@@ -17,6 +17,7 @@ import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { RegionRenewal } from './region-renewal';
 import { RegionMarvels } from './region-marvels';
+import { RegionRiddles } from './region-riddles';
 import { Draw } from './land/draw';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
@@ -43,7 +44,7 @@ export class RegionWorks {
         .filter(s => s.group === 'outside' || !taken[site.id]);
       const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));
       return [...written, ...taken[site.id] ? [] : [...RegionRenewal.work(region, site, { plan, sections, values }),
-        ...RegionMarvels.work(region, site, work.plan, written)]];
+        ...RegionMarvels.work(region, site, work.plan, written), ...RegionRiddles.work(region, site, written)]];
     })];
   }
   // What a work's plan is given to say: the work's ids and names, its makers, and the kingdom after them.

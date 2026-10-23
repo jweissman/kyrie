@@ -48,7 +48,7 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonWords | PersonHaunt
+  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonVariant | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonWords | PersonHaunt
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
@@ -64,6 +64,7 @@ Kyr {
   PersonRole = "Role" string "."
   PersonRace = ("Race" | "Ancestry") ident "."
   PersonSpecies = "Species" ident "."
+  PersonVariant = ("Aspect" | "Undead") ident "."
   PersonCreature = "Creature" NonemptyListOf<CreatureParam, ","> "."
   CreatureParam = ident (ident | integer)
   PersonCount = "Numbers" integer "."
