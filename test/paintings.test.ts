@@ -3,6 +3,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import registry from '../data/paintings/registry.json';
 import occupations from '../data/generation/scenes/occupations.json';
 import { Likeness } from '../src/paintings/likeness';
+import { Portraits } from '../src/paintings/portraits';
 
 // The painting corpus as the game holds it: every image read and copied, each attribution only what the image itself
 // says, and every occupation's painting one the game can show.
@@ -24,12 +25,21 @@ describe('the painting corpus', () => {
   });
   it('has a painting for every kind of work a settlement holds', () => {
     for (const o of Object.values((occupations as { occupations: Record<string, { painting: string }> }).occupations)) {
-      expect(Likeness.people.has(o.painting)).toBe(true);
+      expect(Likeness.ids.has(o.painting)).toBe(true);
     }
   });
-  it('shows beside someone only a painting of someone: the drover\'s son is not a herd in a field', () => {
-    expect(Likeness.of({ role: 'the drover\'s son' })).toBeUndefined();
+  it('shows beside someone a portrait of someone of their sex: the drover\'s son is not a herd in a field', () => {
+    const son = Likeness.of({ role: 'the drover\'s son', sex: 'man', key: 'son' })!;
+    expect(Likeness.sitter(son)?.sex).toBe('man');
     expect(Likeness.of({ profession: 'blacksmith' })).toBe('blacksmith');
-    for (const id of Likeness.people) { expect(Likeness.ids.has(id)).toBe(true); }
+    // A woman who thatches is not shown as the gentleman in a frock coat; a fisher not as a lagoon.
+    const thatcher = Likeness.choose({ sex: 'woman', concept: 'thatcher', stations: ['labouring'] }, 'Beatrix')!;
+    expect([Likeness.sitter(thatcher)?.sex, Likeness.sitter(thatcher)?.station]).toEqual(['woman', 'labouring']);
+    expect(Likeness.sitter(Likeness.choose({ sex: 'man', concept: 'fisherman' }, 'Wilkin')!)?.sex).toBe('man');
+  });
+  it('gives each of a country\'s people a painting of their own, while one fits', () => {
+    const portraits = new Portraits(), given = Array.from({ length: 40 }, (_, i) =>
+      portraits.take({ sex: i % 2 ? 'man' : 'woman', stations: ['labouring', 'middling'] }, `p${i}`));
+    expect(new Set(given).size).toBe(40);
   });
 });

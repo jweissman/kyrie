@@ -1,0 +1,6134 @@
+{
+ "about": "What each painting of the corpus shows, recorded by looking at it (bun bin/paintings.ts reads this into the registry): its form (a portrait of one person, a group, a scene, a landscape, an interior, an object, an animal); for a portrait, the sitter as seen (a man or a woman; child, young, adult or old; their station by dress and setting); the era of its manner (early: before about 1700; late: after; modern: dress or manner of the last century and a half); where the face sits, as a percentage of the height, for cropping; and a few words of what it shows. Nothing here names a painter or a title: those come only from the image itself.",
+ "paintings": {
+  "abbess": {
+   "form": "portrait",
+   "shows": "older woman in a black veil and dark gown",
+   "era": "early",
+   "sex": "woman",
+   "age": "old",
+   "station": "high",
+   "face": 25
+  },
+  "abbey": {
+   "form": "landscape",
+   "shows": "gothic abbey church in green parkland",
+   "era": "late"
+  },
+  "academician": {
+   "form": "portrait",
+   "shows": "old scholar in a red cap over his books",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 20
+  },
+  "academy": {
+   "form": "group",
+   "shows": "crowded hall of courtiers among globes and instruments",
+   "era": "early",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "accident": {
+   "form": "scene",
+   "shows": "townsfolk crowding round a man fallen in the street",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "accountant": {
+   "form": "portrait",
+   "shows": "white-haired man with spectacles and an open book",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 22
+  },
+  "actress": {
+   "form": "portrait",
+   "shows": "young woman in white muslin and a dark bonnet",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "admiral": {
+   "form": "portrait",
+   "shows": "grey-haired officer in a blue coat by the sea",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "martial",
+   "face": 22
+  },
+  "adventurer": {
+   "form": "portrait",
+   "shows": "black man in a red turban and furred gown",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 22
+  },
+  "advisor": {
+   "form": "group",
+   "shows": "a lord and lady in a chamber hung with armour",
+   "era": "early",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "advocate": {
+   "form": "portrait",
+   "shows": "old man in black holding a book",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 20
+  },
+  "aenean": {
+   "form": "portrait",
+   "shows": "profile of a woman holding a golden cup, on black",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 30
+  },
+  "aesthete": {
+   "form": "portrait",
+   "shows": "old man in a dark beret, lit from one side",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "artist",
+   "face": 25
+  },
+  "aesthetician": {
+   "form": "portrait",
+   "shows": "woman in white satin reading by a red curtain",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 22
+  },
+  "aethiopian": {
+   "form": "portrait",
+   "shows": "woman in white walking in a woodland glade",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "alchemist": {
+   "form": "group",
+   "shows": "alchemist bent over a crucible in a cluttered room",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned"
+  },
+  "algebraist": {
+   "form": "portrait",
+   "shows": "intense young man, close to the picture",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "station": "learned",
+   "face": 30
+  },
+  "alienist": {
+   "form": "portrait",
+   "shows": "young man in a slashed cap by a classical statue",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "alnager": {
+   "form": "portrait",
+   "shows": "bearded man with a great blue silk sleeve",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 25
+  },
+  "amanuensis": {
+   "form": "scene",
+   "shows": "woman slumped over a desk by candlelight",
+   "era": "late",
+   "sex": "woman"
+  },
+  "ambassador": {
+   "form": "portrait",
+   "shows": "white-moustached man in evening dress with a red sash",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 18
+  },
+  "ambassadress": {
+   "form": "portrait",
+   "shows": "lady in a gold Turkish gown reclining on cushions",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "ambergris": {
+   "form": "scene",
+   "shows": "veiled woman in white over a smoking censer in a white court",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "angel": {
+   "form": "scene",
+   "shows": "winged youth and a dark figure on a terrace by the sea",
+   "era": "late",
+   "sex": "man",
+   "age": "young"
+  },
+  "angler": {
+   "form": "portrait",
+   "shows": "young man in a cap with a rod and creel",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 18
+  },
+  "animality": {
+   "form": "object",
+   "shows": "a head made of beasts' heads",
+   "era": "early"
+  },
+  "animator": {
+   "form": "scene",
+   "shows": "woman painting small figures at a table under an arch",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "annalist": {
+   "form": "portrait",
+   "shows": "old man in black holding a sheet of paper",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 25
+  },
+  "announcement": {
+   "form": "scene",
+   "shows": "an angel appearing in light to a woman at prayer",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "announcer": {
+   "form": "group",
+   "shows": "family round a table while a man reads aloud",
+   "era": "late",
+   "sex": "mixed",
+   "station": "middling"
+  },
+  "antiquarian": {
+   "form": "portrait",
+   "shows": "young gentleman in red leaning on an urn, with a dog",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "aphorist": {
+   "form": "portrait",
+   "shows": "lady in gold silk with a letter",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 22
+  },
+  "apostle": {
+   "form": "portrait",
+   "shows": "young man in a rose cloak, hand open",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "religious",
+   "face": 20
+  },
+  "apothecary": {
+   "form": "portrait",
+   "shows": "man in a black cap holding a red carnation",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "apprentice": {
+   "form": "scene",
+   "shows": "boy in a yellow sash among dead game and armour",
+   "era": "early",
+   "sex": "man",
+   "age": "child",
+   "station": "high",
+   "face": 15
+  },
+  "arborist": {
+   "form": "group",
+   "shows": "woman in a red jacket and a man at a table in an arbour",
+   "era": "early",
+   "sex": "mixed",
+   "station": "middling"
+  },
+  "arcadia": {
+   "form": "landscape",
+   "shows": "wooded valley with a river and a far town",
+   "era": "early"
+  },
+  "arch": {
+   "form": "landscape",
+   "shows": "ruined arch in a golden landscape with figures resting",
+   "era": "early"
+  },
+  "archaeologist": {
+   "form": "portrait",
+   "shows": "young woman in a white headscarf",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "archimandrite": {
+   "form": "group",
+   "shows": "clergy in red at a great gathering under a lit window",
+   "era": "late",
+   "sex": "mixed",
+   "station": "religious"
+  },
+  "architect": {
+   "form": "portrait",
+   "shows": "young man in a pale classical robe on a stair",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 12
+  },
+  "archivist": {
+   "form": "object",
+   "shows": "a man made of books",
+   "era": "early"
+  },
+  "areopagite": {
+   "form": "scene",
+   "shows": "figures in a square of towers under an eclipsed sun",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "arms-dealer": {
+   "form": "portrait",
+   "shows": "old man in a fur-lined gown and white cap",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 20
+  },
+  "arsonist": {
+   "form": "portrait",
+   "shows": "dark-haired man in black with a sword-hilt",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "art-dealer": {
+   "form": "portrait",
+   "shows": "man in a broad black hat and red cloak",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "art-thief": {
+   "form": "portrait",
+   "shows": "lady in a bustled brown dress and small hat",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "art": {
+   "form": "scene",
+   "shows": "allegorical women and a child among columns and a mirror",
+   "era": "early",
+   "sex": "woman"
+  },
+  "artisan": {
+   "form": "portrait",
+   "shows": "young woman with braided hair and a rose bodice, close",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 28
+  },
+  "artist": {
+   "form": "portrait",
+   "shows": "young woman in a white turban holding a blue bowl",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "face": 22
+  },
+  "ascetic": {
+   "form": "portrait",
+   "shows": "bearded hermit with a skull and a book",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 22
+  },
+  "aspirant": {
+   "form": "portrait",
+   "shows": "young woman in a white veil and gown, arms folded",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "religious",
+   "face": 20
+  },
+  "assassin": {
+   "form": "portrait",
+   "shows": "lady in a grey slashed gown holding a handkerchief",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 18
+  },
+  "assassination": {
+   "form": "scene",
+   "shows": "a struggle with blades in a wooded court",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "assessor": {
+   "form": "portrait",
+   "shows": "bearded man in a black doublet and great ruff",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "astrolabe": {
+   "form": "object",
+   "shows": "a globe, a spyglass and an open book",
+   "era": "late"
+  },
+  "astrologer": {
+   "form": "group",
+   "shows": "old man teaching a youth from a great book",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned"
+  },
+  "astronomer": {
+   "form": "portrait",
+   "shows": "powdered lady in blue silk",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "asylum": {
+   "form": "scene",
+   "shows": "naked madmen in a lit stone yard",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "atomist": {
+   "form": "portrait",
+   "shows": "grinning bearded man in rags holding a paper",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 20
+  },
+  "auctioneer": {
+   "form": "portrait",
+   "shows": "young man in a dark cap holding a ledger, in shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 22
+  },
+  "augur": {
+   "form": "portrait",
+   "shows": "woman in a blue turban and a dark shawl",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "face": 20
+  },
+  "aurora": {
+   "form": "landscape",
+   "shows": "lights in a night sky over a dark sea and hills",
+   "era": "late"
+  },
+  "autumn": {
+   "form": "scene",
+   "shows": "figures among tall trees in a russet gorge",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "avalanche": {
+   "form": "landscape",
+   "shows": "snow sweeping down a mountainside in a storm",
+   "era": "late"
+  },
+  "avenger": {
+   "form": "scene",
+   "shows": "armed figure and winged children in a wood",
+   "era": "early",
+   "sex": "man"
+  },
+  "bacchanal": {
+   "form": "scene",
+   "shows": "revellers among ruined colonnades",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "baker": {
+   "form": "portrait",
+   "shows": "young woman in a white headcloth, looking up",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 22
+  },
+  "ballerina": {
+   "form": "portrait",
+   "shows": "young woman in a white ball gown with red flowers",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "banker": {
+   "form": "portrait",
+   "shows": "bearded man in a black hat and furred gown with a jewel",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "banquet": {
+   "form": "group",
+   "shows": "feast under a canopy with servants and a dog",
+   "era": "early",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "barbarian": {
+   "form": "portrait",
+   "shows": "woman in red holding a severed head on a platter",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "barber": {
+   "form": "portrait",
+   "shows": "old man in a top hat with a palette",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 18
+  },
+  "bard": {
+   "form": "portrait",
+   "shows": "woman playing a lute in a dark room",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 20
+  },
+  "bath": {
+   "form": "interior",
+   "shows": "woman in a painted Roman bath hall with a gilt statue",
+   "era": "late",
+   "sex": "woman"
+  },
+  "beachcomber": {
+   "form": "portrait",
+   "shows": "young woman in a white summer dress by a chair",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 12
+  },
+  "bear": {
+   "form": "landscape",
+   "shows": "crags over a lake in a wide valley",
+   "era": "late"
+  },
+  "believer": {
+   "form": "portrait",
+   "shows": "young man in blue doublet and plumed cap, hand on hip",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 15
+  },
+  "belletrist": {
+   "form": "portrait",
+   "shows": "young lady in red silk in a garden",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 18
+  },
+  "benefactor": {
+   "form": "portrait",
+   "shows": "smiling young woman with dark ringlets",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "berserker": {
+   "form": "portrait",
+   "shows": "dark young man in a red cloak, chin on fist",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "face": 15
+  },
+  "bibliophile": {
+   "form": "interior",
+   "shows": "man reading at a desk in a book-lined study",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned"
+  },
+  "biologist": {
+   "form": "portrait",
+   "shows": "white-bearded old man in a dark cloak",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 15
+  },
+  "birdkeeper": {
+   "form": "scene",
+   "shows": "woman in pink feeding birds beside a white peacock",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high"
+  },
+  "bishop": {
+   "form": "portrait",
+   "shows": "prelate in lace and a red silk mantle",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "religious",
+   "face": 18
+  },
+  "bite": {
+   "form": "scene",
+   "shows": "a man wrestling a serpent among clouds and figures",
+   "era": "late",
+   "sex": "man"
+  },
+  "blacksmith": {
+   "form": "portrait",
+   "shows": "bald man with a long red beard, in black",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "blessing": {
+   "form": "group",
+   "shows": "old man in bed blessing children, a woman beside",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "bolt": {
+   "form": "landscape",
+   "shows": "a ruined tower in a stormy landscape, figures fleeing",
+   "era": "late"
+  },
+  "bookie": {
+   "form": "portrait",
+   "shows": "old woman in a white cap reading a paper",
+   "era": "modern",
+   "sex": "woman",
+   "age": "old",
+   "station": "middling",
+   "face": 20
+  },
+  "bookkeeper": {
+   "form": "portrait",
+   "shows": "old woman in a white coif reading a book by lamplight",
+   "era": "late",
+   "sex": "woman",
+   "age": "old",
+   "station": "labouring",
+   "face": 25
+  },
+  "bookworm": {
+   "form": "portrait",
+   "shows": "young woman resting her head on her hand, a book in her lap",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "botanist": {
+   "form": "portrait",
+   "shows": "powdered lady drawing a flower",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "bounty": {
+   "form": "object",
+   "shows": "heaped fruit, game and flowers under an arcade",
+   "era": "early"
+  },
+  "brandisher": {
+   "form": "portrait",
+   "shows": "young man in a plumed gilt helmet, in shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 25
+  },
+  "brawl": {
+   "form": "scene",
+   "shows": "two men fighting with knives in the snow",
+   "era": "modern",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "breeder": {
+   "form": "portrait",
+   "shows": "lady in blue with a ruff and a small dog",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "breviary": {
+   "form": "object",
+   "shows": "candlestick and books in a dark cell",
+   "era": "early"
+  },
+  "brewer": {
+   "form": "portrait",
+   "shows": "young woman with dark curls in a black shawl",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 22
+  },
+  "bridge": {
+   "form": "landscape",
+   "shows": "a valley under pale cliffs with a bridge and smoke",
+   "era": "late"
+  },
+  "bright-eyes": {
+   "form": "scene",
+   "shows": "armed woman with a shield floating over rooftops",
+   "era": "late",
+   "sex": "woman"
+  },
+  "broker": {
+   "form": "portrait",
+   "shows": "young merchant in a black cap at his counting table",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 20
+  },
+  "broncobuster": {
+   "form": "scene",
+   "shows": "men roping horses in a dusty corral",
+   "era": "modern",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "buccaneer": {
+   "form": "scene",
+   "shows": "men crowded in a boat under sail on a heavy sea",
+   "era": "modern",
+   "sex": "man"
+  },
+  "bugler": {
+   "form": "portrait",
+   "shows": "soldier with a rifle and packs against a wall",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 15
+  },
+  "builder": {
+   "form": "portrait",
+   "shows": "young man in a brown coat by a red curtain",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 18
+  },
+  "bullring": {
+   "form": "group",
+   "shows": "crowds and horsemen in a great arena",
+   "era": "modern",
+   "sex": "mixed"
+  },
+  "businessman": {
+   "form": "portrait",
+   "shows": "dark-haired man in black with a paper",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "butcher": {
+   "form": "portrait",
+   "shows": "woman in a white coif cutting a fish on a board",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "labouring",
+   "face": 20
+  },
+  "bystander": {
+   "form": "portrait",
+   "shows": "young woman in a plain dark bodice at a window",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 25
+  },
+  "cafe": {
+   "form": "group",
+   "shows": "crowd of women in hats and coats",
+   "era": "modern",
+   "sex": "mixed",
+   "station": "middling"
+  },
+  "call": {
+   "form": "scene",
+   "shows": "naked figures raising arms in fire and darkness",
+   "era": "late",
+   "sex": "man"
+  },
+  "calligrapher": {
+   "form": "portrait",
+   "shows": "man with curly hair and a white lace collar",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "camp": {
+   "form": "scene",
+   "shows": "a fire under a lean-to at night",
+   "era": "early"
+  },
+  "canal": {
+   "form": "landscape",
+   "shows": "boats on a wide canal between palaces",
+   "era": "late"
+  },
+  "candlemaker": {
+   "form": "portrait",
+   "shows": "young man in a black cap and red cloak, a park behind",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "captain": {
+   "form": "portrait",
+   "shows": "young officer in blue with a sword by the sea",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 12
+  },
+  "card-player": {
+   "form": "group",
+   "shows": "two men playing cards at a table",
+   "era": "modern",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "cardinal": {
+   "form": "portrait",
+   "shows": "cardinal in red seated with a letter",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 20
+  },
+  "cardsharp": {
+   "form": "group",
+   "shows": "peasants at cards in a tavern",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "caretaker": {
+   "form": "interior",
+   "shows": "young woman in a red cap mending by a cradle in a cottage",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring"
+  },
+  "caricaturist": {
+   "form": "portrait",
+   "shows": "woman in orange silk with brushes and palette",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "artist",
+   "face": 25
+  },
+  "carpenter": {
+   "form": "portrait",
+   "shows": "young workman in a blue smock at his bench of tools",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "station": "labouring",
+   "face": 18
+  },
+  "carpetmonger": {
+   "form": "group",
+   "shows": "robed men among carpets in a market court",
+   "era": "late",
+   "sex": "mixed",
+   "station": "middling"
+  },
+  "cartographer": {
+   "form": "portrait",
+   "shows": "bearded man in black with a great ruff",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "cartomancer": {
+   "form": "scene",
+   "shows": "a man slumped asleep on a bench among cards",
+   "era": "late",
+   "sex": "man"
+  },
+  "castle": {
+   "form": "landscape",
+   "shows": "castle walls in a golden haze by a river",
+   "era": "late"
+  },
+  "cataclysm": {
+   "form": "scene",
+   "shows": "a prophet in red among terrified people and falling stones",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "cathedral": {
+   "form": "interior",
+   "shows": "white vaulted church interior",
+   "era": "early"
+  },
+  "celebrant": {
+   "form": "scene",
+   "shows": "dancing woman in orange among satyrs in a grove",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "champion": {
+   "form": "group",
+   "shows": "armoured knight, a lady and a monk by a tower",
+   "era": "late",
+   "sex": "mixed",
+   "station": "martial"
+  },
+  "chancellor": {
+   "form": "portrait",
+   "shows": "man in a red-lined black cloak by a table",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "changer-of-hearts": {
+   "form": "scene",
+   "shows": "woman in white among roses and wild beasts",
+   "era": "late",
+   "sex": "woman"
+  },
+  "chapel": {
+   "form": "landscape",
+   "shows": "a lane to a village church spire",
+   "era": "late"
+  },
+  "character-actor": {
+   "form": "portrait",
+   "shows": "long-haired man in a red cloak leaning on a plinth",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "chariot": {
+   "form": "scene",
+   "shows": "a goddess in a chariot of white horses and a fleeing man",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "charioteer": {
+   "form": "scene",
+   "shows": "a crowned woman with a white bull and a fallen man",
+   "era": "early",
+   "sex": "woman"
+  },
+  "charm-giver": {
+   "form": "portrait",
+   "shows": "small child in a winged hat holding beads",
+   "era": "late",
+   "sex": "man",
+   "age": "child",
+   "face": 20
+  },
+  "charm-seller": {
+   "form": "group",
+   "shows": "robed figures at a shop of little statues",
+   "era": "late",
+   "sex": "mixed",
+   "station": "middling"
+  },
+  "chatterer": {
+   "form": "portrait",
+   "shows": "woman with a raven on her chair, on yellow",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "chef": {
+   "form": "scene",
+   "shows": "cook hanging game over a laden kitchen table",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring"
+  },
+  "chemist": {
+   "form": "portrait",
+   "shows": "red-haired woman in an orange gown",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 22
+  },
+  "chimera": {
+   "form": "scene",
+   "shows": "a winged creature bearing a figure over a sea at sunset",
+   "era": "late"
+  },
+  "chocolatier": {
+   "form": "portrait",
+   "shows": "man in a full wig holding a cup of chocolate",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "chrysanthemum": {
+   "form": "scene",
+   "shows": "woman kneeling among white chrysanthemums",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high"
+  },
+  "city": {
+   "form": "landscape",
+   "shows": "a ruined city of columns in golden haze",
+   "era": "late"
+  },
+  "classicist": {
+   "form": "portrait",
+   "shows": "man in a wig and rich cloak resting a hand on a marble head",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "cleric": {
+   "form": "portrait",
+   "shows": "old man in a dark cap reading a paper, seated",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 22
+  },
+  "clown": {
+   "form": "group",
+   "shows": "players in white and motley under trees",
+   "era": "late",
+   "sex": "man",
+   "station": "player"
+  },
+  "collector": {
+   "form": "group",
+   "shows": "men looking at prints in a dim room",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "middling"
+  },
+  "college": {
+   "form": "group",
+   "shows": "six men in black hats round a table",
+   "era": "early",
+   "sex": "man",
+   "station": "middling"
+  },
+  "collier": {
+   "form": "portrait",
+   "shows": "man with a long auburn beard, in shadow",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 20
+  },
+  "colonnade": {
+   "form": "interior",
+   "shows": "figures in a great gothic porch",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "colony": {
+   "form": "animal",
+   "shows": "cats in a nest of leaves",
+   "era": "late"
+  },
+  "comedy": {
+   "form": "group",
+   "shows": "actors in costume on a stage before a curtain",
+   "era": "late",
+   "sex": "mixed",
+   "station": "player"
+  },
+  "commander": {
+   "form": "portrait",
+   "shows": "young man in a gold-braided coat with a white collar",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 20
+  },
+  "composer": {
+   "form": "portrait",
+   "shows": "bearded man seated with a sheet of paper in a ruined court",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "computer": {
+   "form": "portrait",
+   "shows": "woman in blue writing on a tablet among books",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "learned"
+  },
+  "con-artist": {
+   "form": "portrait",
+   "shows": "young man with long dark hair and armour, in an oval",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "concert": {
+   "form": "group",
+   "shows": "three men, one with a lute",
+   "era": "early",
+   "sex": "man",
+   "station": "player"
+  },
+  "condesa": {
+   "form": "portrait",
+   "shows": "young lady in a blue silk gown in a carved chair",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "conductor": {
+   "form": "portrait",
+   "shows": "stout man in a wig and blue coat with a letter",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "conjuror": {
+   "form": "group",
+   "shows": "old man in furs with a child among globes and papers",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned"
+  },
+  "conqueror": {
+   "form": "portrait",
+   "shows": "nobleman in silver doublet and orange cloak, standing",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 12
+  },
+  "conservationist": {
+   "form": "portrait",
+   "shows": "lady in rose silk with a parrot and a servant",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "conspiracy": {
+   "form": "group",
+   "shows": "crowned men swearing on swords round a table, in gold light",
+   "era": "early",
+   "sex": "man"
+  },
+  "conspirator": {
+   "form": "portrait",
+   "shows": "woman in a white headband and black shawl, on red",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "contemplation": {
+   "form": "portrait",
+   "shows": "young woman in a pink dress in a garden",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 12
+  },
+  "contemplative": {
+   "form": "portrait",
+   "shows": "young woman in white with hands at her breast",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 18
+  },
+  "continental": {
+   "form": "portrait",
+   "shows": "gentleman in a blue coat writing at a red table",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "convalescent": {
+   "form": "portrait",
+   "shows": "young woman in a dark cloak resting her head, pale",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "conversationalist": {
+   "form": "group",
+   "shows": "women talking on a red couch in a Roman room",
+   "era": "late",
+   "sex": "woman",
+   "station": "high"
+  },
+  "conversion": {
+   "form": "scene",
+   "shows": "riders thrown into chaos under a light from the sky",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "convert": {
+   "form": "portrait",
+   "shows": "young woman with long hair and a great book, lit from above",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "religious",
+   "face": 25
+  },
+  "convoker": {
+   "form": "portrait",
+   "shows": "white-haired old woman in a grey shawl",
+   "era": "late",
+   "sex": "woman",
+   "age": "old",
+   "station": "middling",
+   "face": 20
+  },
+  "cook": {
+   "form": "interior",
+   "shows": "woman with a child in a sunlit Dutch room",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "labouring"
+  },
+  "copyist": {
+   "form": "portrait",
+   "shows": "woman in a red hood writing at a table",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "coquette": {
+   "form": "portrait",
+   "shows": "two women with fans in a theatre box",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "coronation": {
+   "form": "group",
+   "shows": "a great crowd at a coronation under banners",
+   "era": "modern",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "correspondent": {
+   "form": "group",
+   "shows": "woman writing by candlelight, a man behind",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling"
+  },
+  "corsair": {
+   "form": "portrait",
+   "shows": "woman in red and white climbing the rigging of a ship",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "courier": {
+   "form": "portrait",
+   "shows": "young woman with a red flower sitting on stone steps",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 15
+  },
+  "courtier": {
+   "form": "group",
+   "shows": "women among flowers in a Roman garden room",
+   "era": "late",
+   "sex": "woman",
+   "station": "high"
+  },
+  "coven": {
+   "form": "scene",
+   "shows": "three cloaked figures under a crescent moon, a witch flying",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "cowherd": {
+   "form": "scene",
+   "shows": "girl sitting under a tree watching cattle",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring"
+  },
+  "crash": {
+   "form": "scene",
+   "shows": "a fallen beast and bodies in a dark landscape",
+   "era": "late"
+  },
+  "creator": {
+   "form": "group",
+   "shows": "painter at an easel with a sitter playing a lute in a studio",
+   "era": "late",
+   "sex": "mixed",
+   "station": "artist"
+  },
+  "criminal": {
+   "form": "scene",
+   "shows": "a man crouched in chains in a dark cell",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring"
+  },
+  "criminologist": {
+   "form": "portrait",
+   "shows": "man in a white wig and black coat",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "critic": {
+   "form": "portrait",
+   "shows": "man in a long wig and brown gown",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "crochetier": {
+   "form": "portrait",
+   "shows": "fair-haired young woman crocheting by a window",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "crusader": {
+   "form": "scene",
+   "shows": "crusaders in mail and cloaks among the fallen",
+   "era": "modern",
+   "sex": "man",
+   "station": "martial"
+  },
+  "cryptologist": {
+   "form": "portrait",
+   "shows": "woman in a black veil smiling behind a fan",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "cryptozoologist": {
+   "form": "portrait",
+   "shows": "young woman holding a small unicorn, columns behind",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 22
+  },
+  "cthelll": {
+   "form": "scene",
+   "shows": "hell burning with demons round a tower",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "cup-bearer": {
+   "form": "portrait",
+   "shows": "young woman in a tall headdress holding a vessel",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "cup": {
+   "form": "object",
+   "shows": "a nautilus cup, porcelain and fruit on a dark table",
+   "era": "early"
+  },
+  "curator": {
+   "form": "portrait",
+   "shows": "gentleman in pink leaning on a framed painting",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "cyclops": {
+   "form": "scene",
+   "shows": "a one-eyed giant peering over a hill at a sleeping nymph",
+   "era": "modern"
+  },
+  "dancer": {
+   "form": "group",
+   "shows": "dancers in a park by a fountain",
+   "era": "late",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "dancing-master": {
+   "form": "portrait",
+   "shows": "plump man in a wig and a blue-green coat",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "dawn": {
+   "form": "scene",
+   "shows": "nude woman with a white veil rising over a meadow",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "daydream": {
+   "form": "portrait",
+   "shows": "woman in green sitting in a tree with a book",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "deacon": {
+   "form": "portrait",
+   "shows": "old man in a red cap and red robe, in profile, on green",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 22
+  },
+  "death": {
+   "form": "object",
+   "shows": "a skull and an hourglass",
+   "era": "early"
+  },
+  "decadence": {
+   "form": "group",
+   "shows": "Roman revellers in a colonnaded hall",
+   "era": "late",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "decalogue": {
+   "form": "portrait",
+   "shows": "bearded old man raising tablets of the law",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 15
+  },
+  "defender": {
+   "form": "portrait",
+   "shows": "man in a tall black hat and black cloak with a white collar",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "defier": {
+   "form": "portrait",
+   "shows": "red-haired young woman in profile, in yellow and dark blue",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "degenerate": {
+   "form": "group",
+   "shows": "a woman drinking and a laughing man with a pipe",
+   "era": "early",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "delian": {
+   "form": "scene",
+   "shows": "a radiant god pointing at a startled woman among rocks",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "delight-giver": {
+   "form": "portrait",
+   "shows": "lady with a lyre in a woodland",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "deliverance": {
+   "form": "portrait",
+   "shows": "young woman with a palm, looking up",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "religious",
+   "face": 20
+  },
+  "deliverer": {
+   "form": "scene",
+   "shows": "young man seated half-naked in a wooded landscape",
+   "era": "early",
+   "sex": "man",
+   "age": "young"
+  },
+  "demon": {
+   "form": "scene",
+   "shows": "a winged demon carrying off a swooning woman at night",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "demonologist": {
+   "form": "group",
+   "shows": "a laughing man by a fire with pots and books",
+   "era": "early",
+   "sex": "man",
+   "station": "learned"
+  },
+  "desire": {
+   "form": "scene",
+   "shows": "a skeleton in a flowered hood with an arrow",
+   "era": "modern",
+   "sex": "woman"
+  },
+  "detective": {
+   "form": "portrait",
+   "shows": "moustached man in a grey suit",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "dialectician": {
+   "form": "group",
+   "shows": "an armoured goddess speaking to an old philosopher",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "dictator": {
+   "form": "group",
+   "shows": "soldiers and banners on a palace stair",
+   "era": "late",
+   "sex": "mixed",
+   "station": "martial"
+  },
+  "dietitian": {
+   "form": "portrait",
+   "shows": "young queen with powdered hair and white plumes",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "diplomat": {
+   "form": "portrait",
+   "shows": "man in a blue gown with a book, smiling",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 22
+  },
+  "disciple": {
+   "form": "portrait",
+   "shows": "young man in a brocade robe with a cup, in profile",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 18
+  },
+  "disputant": {
+   "form": "portrait",
+   "shows": "bearded man in a ruff and black doublet",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "disruptor": {
+   "form": "scene",
+   "shows": "dark silhouette of a woman at a red window",
+   "era": "modern",
+   "sex": "woman"
+  },
+  "dissection": {
+   "form": "group",
+   "shows": "men studying a dead lion on a table",
+   "era": "modern",
+   "sex": "man",
+   "station": "learned"
+  },
+  "dissenter": {
+   "form": "portrait",
+   "shows": "lady in red silk with her head on her hand",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 22
+  },
+  "dissolution": {
+   "form": "interior",
+   "shows": "a vaulted hall lit by fire",
+   "era": "late"
+  },
+  "diviner": {
+   "form": "scene",
+   "shows": "woman in a jewelled room before a mirror of visions",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "docent": {
+   "form": "group",
+   "shows": "women with water jars in a sunlit court",
+   "era": "late",
+   "sex": "woman",
+   "station": "labouring"
+  },
+  "doctor": {
+   "form": "scene",
+   "shows": "a doctor beside a body on a table",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned"
+  },
+  "dog": {
+   "form": "animal",
+   "shows": "two spaniels in a landscape",
+   "era": "late"
+  },
+  "doge": {
+   "form": "portrait",
+   "shows": "old man with a white beard in a gold cap and ermine",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 20
+  },
+  "drafter": {
+   "form": "portrait",
+   "shows": "man in a broad hat drawing, in shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 20
+  },
+  "draftsman": {
+   "form": "portrait",
+   "shows": "long-haired man in a brown coat with a drawing",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 20
+  },
+  "dragon": {
+   "form": "scene",
+   "shows": "figures in a cave, a dragon looming",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "dragonslayer": {
+   "form": "scene",
+   "shows": "youth and a dead dragon over a fire",
+   "era": "early",
+   "sex": "man",
+   "age": "young"
+  },
+  "dramaturge": {
+   "form": "portrait",
+   "shows": "lady in rose silk leaning on a plinth",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 18
+  },
+  "draughtswoman": {
+   "form": "group",
+   "shows": "two women and a dog on a terrace",
+   "era": "late",
+   "sex": "woman",
+   "station": "high"
+  },
+  "drawing-master": {
+   "form": "group",
+   "shows": "a teacher bending over a girl drawing by a window",
+   "era": "late",
+   "sex": "woman",
+   "station": "middling"
+  },
+  "dream-conductor": {
+   "form": "portrait",
+   "shows": "lady dressed as a shepherdess with a crook and a lamb",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "dream": {
+   "form": "scene",
+   "shows": "a sleeping nude in a garden with figures and putti",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "dreamer": {
+   "form": "portrait",
+   "shows": "young woman in a grey robe dozing against a window",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "druid": {
+   "form": "portrait",
+   "shows": "red-haired woman in green with eyes closed, a bird with a flower",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "drummer": {
+   "form": "portrait",
+   "shows": "woman in a turban with a drum on a chair",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 20
+  },
+  "drunkard": {
+   "form": "portrait",
+   "shows": "merry man in a plumed cap raising a glass",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 20
+  },
+  "duke": {
+   "form": "portrait",
+   "shows": "prince in armour and an ermine cloak",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "eagle": {
+   "form": "animal",
+   "shows": "an eagle over a dead hare in a dusky field",
+   "era": "late"
+  },
+  "egoist": {
+   "form": "portrait",
+   "shows": "man in a grey wig, smiling slightly",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "embroiderer": {
+   "form": "portrait",
+   "shows": "woman in red bent over an embroidery frame",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 20
+  },
+  "emissary": {
+   "form": "portrait",
+   "shows": "bearded man in a black cap and dark cloak, hands folded",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "emperor": {
+   "form": "portrait",
+   "shows": "heavy-jowled man in a jewelled cap and ruff",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 22
+  },
+  "empress": {
+   "form": "portrait",
+   "shows": "young empress in a white gown and tiara",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 12
+  },
+  "emptiness": {
+   "form": "group",
+   "shows": "soldiers in plumed helmets leaning together",
+   "era": "early",
+   "sex": "man",
+   "station": "martial"
+  },
+  "encampment": {
+   "form": "landscape",
+   "shows": "a camp among palm trees at dusk",
+   "era": "late"
+  },
+  "enchanter": {
+   "form": "scene",
+   "shows": "a woman with a wand among rocks and water nymphs",
+   "era": "early",
+   "sex": "woman"
+  },
+  "enchantress": {
+   "form": "portrait",
+   "shows": "enchantress raising a cup in a throne of gold",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "encyclopedist": {
+   "form": "portrait",
+   "shows": "woman with dark curled hair and a red shawl",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "engineer": {
+   "form": "portrait",
+   "shows": "man in a dark coat and white neckcloth, hills behind",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "engraver": {
+   "form": "portrait",
+   "shows": "man in an orange coat writing at a table",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 20
+  },
+  "ensign": {
+   "form": "portrait",
+   "shows": "soldier in a broad plumed hat and white ruff by a flag",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "martial",
+   "face": 30
+  },
+  "entertainer": {
+   "form": "portrait",
+   "shows": "young woman playing a lute, a song-book beside her",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 20
+  },
+  "epic-poet": {
+   "form": "portrait",
+   "shows": "woman in green reclining with a tablet in a study",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high"
+  },
+  "epistler": {
+   "form": "scene",
+   "shows": "old bearded man writing letters at a table",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious"
+  },
+  "epistolographer": {
+   "form": "portrait",
+   "shows": "young woman with a red headband leaning on a table of cards",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 30
+  },
+  "equestrian": {
+   "form": "portrait",
+   "shows": "rider on a rearing black horse under storm clouds",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 12
+  },
+  "errant": {
+   "form": "portrait",
+   "shows": "long-haired young man in shadow with a staff",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "face": 25
+  },
+  "eruption": {
+   "form": "landscape",
+   "shows": "a volcano in eruption over a bay",
+   "era": "late"
+  },
+  "esotericist": {
+   "form": "portrait",
+   "shows": "young woman in a ruffled white dress, seated",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "ethicist": {
+   "form": "portrait",
+   "shows": "bearded man holding up a paper, in shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "religious",
+   "face": 20
+  },
+  "exorcist": {
+   "form": "portrait",
+   "shows": "pale woman in black under a gothic arch",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "expediter": {
+   "form": "portrait",
+   "shows": "man in a tall black hat and white collar, seated",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "experimenter": {
+   "form": "interior",
+   "shows": "two scholars in a glassware laboratory",
+   "era": "late",
+   "sex": "man",
+   "station": "learned"
+  },
+  "explorer": {
+   "form": "portrait",
+   "shows": "woman in a black dress and white mantilla in a landscape",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 12
+  },
+  "fabulist": {
+   "form": "group",
+   "shows": "two boys by candlelight with a book",
+   "era": "early",
+   "sex": "man",
+   "age": "child"
+  },
+  "fair": {
+   "form": "scene",
+   "shows": "a village fair under trees with a church tower",
+   "era": "late",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "faith": {
+   "form": "portrait",
+   "shows": "young woman in white with a jug and lilies",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "religious",
+   "face": 12
+  },
+  "falconer": {
+   "form": "portrait",
+   "shows": "young woman in a white headscarf with a falcon",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "falls": {
+   "form": "landscape",
+   "shows": "a great waterfall in a mountain gorge",
+   "era": "late"
+  },
+  "fane": {
+   "form": "landscape",
+   "shows": "ruined gothic arches",
+   "era": "late"
+  },
+  "far-shooter": {
+   "form": "scene",
+   "shows": "a youth with a bow among rocks in a mountain gorge",
+   "era": "late",
+   "sex": "man"
+  },
+  "farmer": {
+   "form": "scene",
+   "shows": "labourer leaning on a hoe in a wide bare field",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring"
+  },
+  "feller": {
+   "form": "portrait",
+   "shows": "white-haired old man in a pale coat by a log pile",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "labouring",
+   "face": 25
+  },
+  "fencing-master": {
+   "form": "portrait",
+   "shows": "man in a wig and brown coat holding a foil",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "fiddler": {
+   "form": "group",
+   "shows": "a fiddler and a drinker in a tavern",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "fifer": {
+   "form": "portrait",
+   "shows": "boy in a red cloak with a pipe",
+   "era": "late",
+   "sex": "man",
+   "age": "child",
+   "station": "labouring",
+   "face": 25
+  },
+  "fight": {
+   "form": "scene",
+   "shows": "two horses fighting in a yard",
+   "era": "late"
+  },
+  "fighter": {
+   "form": "portrait",
+   "shows": "grizzled man in a yellow doublet and ruff, leaning on a sill",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "face": 25
+  },
+  "financier": {
+   "form": "portrait",
+   "shows": "balding man in a dark coat with a book",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 25
+  },
+  "fire": {
+   "form": "landscape",
+   "shows": "a city burning at night by a river",
+   "era": "early"
+  },
+  "fireman": {
+   "form": "scene",
+   "shows": "a rider snatching a woman from a burning field",
+   "era": "late",
+   "sex": "man"
+  },
+  "firmament": {
+   "form": "landscape",
+   "shows": "a vault of stars over a crescent moon",
+   "era": "late"
+  },
+  "fisherman": {
+   "form": "scene",
+   "shows": "boats and fowlers on a lagoon with huts",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "fixer": {
+   "form": "portrait",
+   "shows": "young woman in a black dress and hat on a shore",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "flack": {
+   "form": "portrait",
+   "shows": "young man in black leaning on a ledge, hand raised",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "artist",
+   "face": 18
+  },
+  "flaneur": {
+   "form": "portrait",
+   "shows": "woman in a plumed black hat, chin on her hand",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 30
+  },
+  "flay": {
+   "form": "scene",
+   "shows": "a god flaying a satyr, figures watching",
+   "era": "early",
+   "sex": "man"
+  },
+  "florist": {
+   "form": "portrait",
+   "shows": "young woman in a flowered hat and white smock",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 22
+  },
+  "flying-squirrel-trainer": {
+   "form": "portrait",
+   "shows": "boy at a table with a pet squirrel on a chain",
+   "era": "late",
+   "sex": "man",
+   "age": "child",
+   "station": "high",
+   "face": 25
+  },
+  "folio": {
+   "form": "object",
+   "shows": "music, armour and silver on a rich cloth",
+   "era": "early"
+  },
+  "folly": {
+   "form": "portrait",
+   "shows": "woman in dark silks and a turban, half in shadow",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "food": {
+   "form": "object",
+   "shows": "a hanging fish, onions and jugs on a stone shelf",
+   "era": "late"
+  },
+  "fool": {
+   "form": "portrait",
+   "shows": "bearded king in a jewelled hat and gold-trimmed robe",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 22
+  },
+  "forerider": {
+   "form": "scene",
+   "shows": "an armoured rider on a white horse in battle",
+   "era": "early",
+   "sex": "man",
+   "station": "martial"
+  },
+  "forest": {
+   "form": "landscape",
+   "shows": "a sunlit clearing in deep woods",
+   "era": "late"
+  },
+  "forge": {
+   "form": "group",
+   "shows": "half-naked smiths hammering at a forge",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "fortuna": {
+   "form": "scene",
+   "shows": "a woman tumbling among beasts and birds",
+   "era": "early",
+   "sex": "woman"
+  },
+  "fortune-teller": {
+   "form": "group",
+   "shows": "gypsy women picking a young man's pocket",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "foundress": {
+   "form": "portrait",
+   "shows": "woman in a gabled hood and black gown by a column",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 22
+  },
+  "fountain": {
+   "form": "landscape",
+   "shows": "a woman at a fountain in a walled garden",
+   "era": "late",
+   "sex": "woman"
+  },
+  "fox": {
+   "form": "animal",
+   "shows": "a fox in long grass",
+   "era": "late"
+  },
+  "friar": {
+   "form": "portrait",
+   "shows": "young man in a brown hood, in shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "religious",
+   "face": 25
+  },
+  "fruit-seller": {
+   "form": "portrait",
+   "shows": "young woman in a headcloth with a basket of oranges",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "fugitive": {
+   "form": "portrait",
+   "shows": "young man with dark hair and a white collar, close",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "face": 25
+  },
+  "furrier": {
+   "form": "portrait",
+   "shows": "young woman in a fur-trimmed dress with pearls",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 22
+  },
+  "futurist": {
+   "form": "portrait",
+   "shows": "young man in black wearing tinted spectacles",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "middling"
+  },
+  "gaggle": {
+   "form": "scene",
+   "shows": "a girl feeding geese in a farmyard",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring"
+  },
+  "gale": {
+   "form": "landscape",
+   "shows": "trees bent by a gale",
+   "era": "late"
+  },
+  "gallery": {
+   "form": "interior",
+   "shows": "a picture gallery crowded with paintings and visitors",
+   "era": "early",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "galley": {
+   "form": "landscape",
+   "shows": "a galley in a golden sunset haze",
+   "era": "late"
+  },
+  "gambler": {
+   "form": "group",
+   "shows": "peasants gaming at a tavern table, a child watching",
+   "era": "early",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "game-warden": {
+   "form": "scene",
+   "shows": "horsemen skirmishing on a plain",
+   "era": "late",
+   "sex": "man",
+   "station": "martial"
+  },
+  "gamekeeper": {
+   "form": "portrait",
+   "shows": "weathered man with a bow, game bag and spaniel",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "labouring",
+   "face": 12
+  },
+  "gamemaster": {
+   "form": "group",
+   "shows": "rowdy men at a gaming table",
+   "era": "late",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "gang": {
+   "form": "group",
+   "shows": "street boys with a monkey and a dog",
+   "era": "modern",
+   "sex": "man",
+   "age": "child",
+   "station": "labouring"
+  },
+  "gardener": {
+   "form": "portrait",
+   "shows": "lady in lilac silk picking fruit in a garden",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "gatekeeper": {
+   "form": "portrait",
+   "shows": "young woman leaning on a field gate with a pug",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 12
+  },
+  "gatherer": {
+   "form": "portrait",
+   "shows": "young woman in white and blue holding a rose",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 18
+  },
+  "general": {
+   "form": "portrait",
+   "shows": "old soldier in a plumed cap and gorget",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "martial",
+   "face": 22
+  },
+  "gentleman": {
+   "form": "portrait",
+   "shows": "dark-haired man with a moustache and huge ruff",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 25
+  },
+  "ghostwriter": {
+   "form": "group",
+   "shows": "a man at a desk and a woman leaning over him",
+   "era": "late",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "giani": {
+   "form": "group",
+   "shows": "a robed man on a mat in a crowded eastern court",
+   "era": "late",
+   "sex": "man"
+  },
+  "gleaner": {
+   "form": "scene",
+   "shows": "women carrying sheaves across a field",
+   "era": "late",
+   "sex": "woman",
+   "station": "labouring"
+  },
+  "globe": {
+   "form": "object",
+   "shows": "a globe, books and a violin on a table",
+   "era": "early"
+  },
+  "goat": {
+   "form": "scene",
+   "shows": "a youth with goats and rams under a tree",
+   "era": "early",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "goddess": {
+   "form": "portrait",
+   "shows": "young woman in a gold circlet and lilac, in profile",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "golden-voice": {
+   "form": "portrait",
+   "shows": "a sketchy singer in a white gown",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "player"
+  },
+  "goose-girl": {
+   "form": "scene",
+   "shows": "girl leaning on a staff with geese by a hill",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring"
+  },
+  "gooseherd": {
+   "form": "scene",
+   "shows": "boy driving geese down a lane",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "labouring"
+  },
+  "governess": {
+   "form": "portrait",
+   "shows": "woman in a rose dress seated by flowers",
+   "era": "modern",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "governor": {
+   "form": "portrait",
+   "shows": "bearded commander in black-and-gold armour, a page beside",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "martial",
+   "face": 20
+  },
+  "grail-seeker": {
+   "form": "scene",
+   "shows": "knights on horses at a chapel door, angels within",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "grotto": {
+   "form": "landscape",
+   "shows": "a cave mouth opening on a sunset lagoon",
+   "era": "modern"
+  },
+  "groundskeeper": {
+   "form": "portrait",
+   "shows": "a man standing in autumn woods",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring"
+  },
+  "grove": {
+   "form": "landscape",
+   "shows": "dark trees by a pool under clouds",
+   "era": "early"
+  },
+  "gryphon": {
+   "form": "scene",
+   "shows": "a winged creature and a nude among clouds",
+   "era": "late"
+  },
+  "guardian": {
+   "form": "portrait",
+   "shows": "young woman holding an ermine",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 22
+  },
+  "guide": {
+   "form": "scene",
+   "shows": "women on the white steps of a marble temple by the sea",
+   "era": "late",
+   "sex": "woman"
+  },
+  "guild": {
+   "form": "group",
+   "shows": "young men drinking and singing by candlelight",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "guitarist": {
+   "form": "portrait",
+   "shows": "woman playing a guitar, in dark silks",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 20
+  },
+  "halberdier": {
+   "form": "portrait",
+   "shows": "young man in a red cap and quilted white doublet with a halberd",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 20
+  },
+  "hallucination": {
+   "form": "scene",
+   "shows": "ghostly forms and a cross in a pale haze",
+   "era": "late"
+  },
+  "hare": {
+   "form": "animal",
+   "shows": "a hare among weeds in a wood",
+   "era": "late"
+  },
+  "harpooner": {
+   "form": "scene",
+   "shows": "men spearing fish by torchlight from a boat at night",
+   "era": "late",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "harpy": {
+   "form": "scene",
+   "shows": "a red-winged creature with a woman's face",
+   "era": "late",
+   "sex": "woman"
+  },
+  "harvest": {
+   "form": "scene",
+   "shows": "reapers in a cornfield, a church beyond",
+   "era": "early",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "harvester": {
+   "form": "portrait",
+   "shows": "a man wheeling a barrow of cut grass",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring"
+  },
+  "heal": {
+   "form": "scene",
+   "shows": "figures in animal skins dancing by a painted tepee",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "healer": {
+   "form": "group",
+   "shows": "two old bearded men, one holding up a plant",
+   "era": "early",
+   "sex": "man",
+   "age": "old"
+  },
+  "heckler": {
+   "form": "scene",
+   "shows": "faces laughing from windows in a plaster wall",
+   "era": "late",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "hellenist": {
+   "form": "portrait",
+   "shows": "man in a green gown writing with a quill",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 20
+  },
+  "herald": {
+   "form": "portrait",
+   "shows": "watchman in a tricorn hat with a hand-bell and a paper",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "herbalist": {
+   "form": "portrait",
+   "shows": "young woman in a blue gown at a glass cabinet",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high"
+  },
+  "herd": {
+   "form": "landscape",
+   "shows": "sheep driven along a lane past cottages under trees",
+   "era": "late"
+  },
+  "heretic": {
+   "form": "portrait",
+   "shows": "laughing young man in a dark cap, close",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "face": 20
+  },
+  "hermeticist": {
+   "form": "portrait",
+   "shows": "long-haired man in black with a globe",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 25
+  },
+  "hermit": {
+   "form": "portrait",
+   "shows": "gaunt old hermit in a cave with a skull",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 20
+  },
+  "hero": {
+   "form": "scene",
+   "shows": "two lovers embracing, one with a spear",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "heroine": {
+   "form": "group",
+   "shows": "a woman with a shield among old men and a girl",
+   "era": "early",
+   "sex": "mixed",
+   "station": "martial"
+  },
+  "hierophant": {
+   "form": "interior",
+   "shows": "a robed priest at an altar in a dark temple",
+   "era": "early",
+   "sex": "man",
+   "station": "religious"
+  },
+  "historian": {
+   "form": "portrait",
+   "shows": "young woman in a laced bodice behind a rose",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 22
+  },
+  "homilist": {
+   "form": "group",
+   "shows": "a supper of men round a table, one blessing",
+   "era": "early",
+   "sex": "man",
+   "station": "religious"
+  },
+  "honeymoon": {
+   "form": "group",
+   "shows": "lovers embracing on a seat",
+   "era": "late",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "hope": {
+   "form": "portrait",
+   "shows": "young woman in white shading her eyes on a balcony by the sea",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 12
+  },
+  "horologium": {
+   "form": "portrait",
+   "shows": "old woman in a hood reading a great book",
+   "era": "early",
+   "sex": "woman",
+   "age": "old",
+   "face": 30
+  },
+  "horse": {
+   "form": "interior",
+   "shows": "a grey horse in a stable, a woman at the door",
+   "era": "early",
+   "station": "labouring"
+  },
+  "horticulturist": {
+   "form": "portrait",
+   "shows": "young man in spectacles with a potted geranium",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 20
+  },
+  "hospitaller": {
+   "form": "portrait",
+   "shows": "man in armour in profile, holding a spear",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "martial",
+   "face": 25
+  },
+  "hothouse": {
+   "form": "interior",
+   "shows": "a glasshouse full of pink azaleas",
+   "era": "late"
+  },
+  "humanist": {
+   "form": "portrait",
+   "shows": "old scholar in a black cap writing, in profile",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 25
+  },
+  "hunter": {
+   "form": "portrait",
+   "shows": "young huntsman with a gun and a dog under a tree",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "huntress": {
+   "form": "portrait",
+   "shows": "lady in blue as a huntress with a hound",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "hydra": {
+   "form": "scene",
+   "shows": "a many-headed serpent over the dead in a rocky gorge",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "hymnist": {
+   "form": "portrait",
+   "shows": "woman in gold playing a lute, looking up",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 15
+  },
+  "ice-cutter": {
+   "form": "scene",
+   "shows": "a horse sledge hauling ice across a frozen bay",
+   "era": "late",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "icon": {
+   "form": "portrait",
+   "shows": "woman seen from behind, a fan in her hand",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "idealist": {
+   "form": "portrait",
+   "shows": "lady with a blue ribbon holding a cat",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "idyll": {
+   "form": "landscape",
+   "shows": "a cabin in a wild valley below mountains",
+   "era": "late"
+  },
+  "illuminator": {
+   "form": "portrait",
+   "shows": "young woman in a turban with a pencil",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "artist",
+   "face": 20
+  },
+  "illusionist": {
+   "form": "portrait",
+   "shows": "painter in a black cap painting an old woman's portrait",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "artist",
+   "face": 20
+  },
+  "illustrator": {
+   "form": "portrait",
+   "shows": "young woman in white drawing at a window",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "artist",
+   "face": 25
+  },
+  "impressionist": {
+   "form": "portrait",
+   "shows": "woman in black with an apron and brushes",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "artist",
+   "face": 15
+  },
+  "imprison": {
+   "form": "portrait",
+   "shows": "old bearded man brooding in a dark cell",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 30
+  },
+  "indolence": {
+   "form": "landscape",
+   "shows": "a golden river valley with fountains and ruins",
+   "era": "late"
+  },
+  "inferno": {
+   "form": "scene",
+   "shows": "naked men grappling, demons above",
+   "era": "late",
+   "sex": "man"
+  },
+  "informant": {
+   "form": "portrait",
+   "shows": "young woman in a white headcloth and brown coat with a jar",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "ingenue": {
+   "form": "portrait",
+   "shows": "girl in a blue bonnet, finger to her lips",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "face": 30
+  },
+  "innkeeper": {
+   "form": "interior",
+   "shows": "old man in a tall hat dozing by a tavern fire",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "middling"
+  },
+  "inquisitor": {
+   "form": "group",
+   "shows": "a cardinal amid fallen bodies and a crowd",
+   "era": "late",
+   "sex": "mixed",
+   "station": "religious"
+  },
+  "inspector": {
+   "form": "portrait",
+   "shows": "dark-haired man in a black coat and high collar",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "inspiration": {
+   "form": "portrait",
+   "shows": "red-haired woman in green velvet tuning a viol, a bird in a cage",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 15
+  },
+  "instructor": {
+   "form": "group",
+   "shows": "an old man in a fur cap teaching a boy in a plumed cap",
+   "era": "early",
+   "sex": "man",
+   "station": "learned"
+  },
+  "interlocutor": {
+   "form": "group",
+   "shows": "a preacher in black and an old woman in a white ruff",
+   "era": "early",
+   "sex": "mixed",
+   "age": "old",
+   "station": "middling"
+  },
+  "invasion": {
+   "form": "landscape",
+   "shows": "a looted gothic town square with smoke and soldiers",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "inventor": {
+   "form": "portrait",
+   "shows": "man in a dark coat by a brass machine",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 18
+  },
+  "investigator": {
+   "form": "portrait",
+   "shows": "young man with tousled hair in a black coat",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "invigilator": {
+   "form": "portrait",
+   "shows": "red-bearded man in a brown gown, leaning",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 15
+  },
+  "jailer": {
+   "form": "portrait",
+   "shows": "white-haired man in a waistcoat with a paper",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 15
+  },
+  "jester": {
+   "form": "portrait",
+   "shows": "grey-moustached man in a red jester's hood",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "player",
+   "face": 25
+  },
+  "jeweler": {
+   "form": "portrait",
+   "shows": "man with a moustache in dark red, in deep shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 20
+  },
+  "journal": {
+   "form": "object",
+   "shows": "a tankard, a newspaper and a pipe on a shelf",
+   "era": "late"
+  },
+  "journalist": {
+   "form": "portrait",
+   "shows": "young man in a black hat and lace collar with a paper",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "judgment": {
+   "form": "scene",
+   "shows": "people fleeing a city under fire and falling statues",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "jurist": {
+   "form": "portrait",
+   "shows": "judge in a full wig and gold-frogged robe",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 20
+  },
+  "justice": {
+   "form": "scene",
+   "shows": "an armoured rider below a throne of allegorical figures",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "kabbalist": {
+   "form": "portrait",
+   "shows": "young man in a fur hat before shelves of books",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "station": "learned",
+   "face": 15
+  },
+  "keymaster": {
+   "form": "portrait",
+   "shows": "white-bearded old man in a dark cloak",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 20
+  },
+  "king": {
+   "form": "portrait",
+   "shows": "young king with a gold collar and fur, in a black cap",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "kitchenmaid": {
+   "form": "interior",
+   "shows": "a woman at the hearth of a stone kitchen, seen from behind",
+   "era": "late",
+   "sex": "woman",
+   "station": "labouring"
+  },
+  "knight": {
+   "form": "scene",
+   "shows": "an armoured knight with a white horse in a wood",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "martial"
+  },
+  "labyrinth": {
+   "form": "landscape",
+   "shows": "a formal garden of clipped hedges and alleys",
+   "era": "early"
+  },
+  "lady": {
+   "form": "portrait",
+   "shows": "tall lady in blue silk and ermine in a park",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 10
+  },
+  "lamia": {
+   "form": "scene",
+   "shows": "a crouching woman in shadow beside a dark beast",
+   "era": "late",
+   "sex": "woman"
+  },
+  "laundress": {
+   "form": "portrait",
+   "shows": "young woman in a cap washing linen in a tub",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "lawgiver": {
+   "form": "portrait",
+   "shows": "young woman in white by a red curtain",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "lawyer": {
+   "form": "group",
+   "shows": "a cluttered lawyer's office crowded with clients and papers",
+   "era": "early",
+   "sex": "man",
+   "station": "middling"
+  },
+  "lector": {
+   "form": "portrait",
+   "shows": "bearded old man in spectacles writing among books",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 20
+  },
+  "legate": {
+   "form": "portrait",
+   "shows": "lady in a black-and-gold gown by a writing table",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 12
+  },
+  "legend": {
+   "form": "landscape",
+   "shows": "animals of every kind gathering in a lush landscape",
+   "era": "early"
+  },
+  "leopard": {
+   "form": "animal",
+   "shows": "two leopards in a landscape",
+   "era": "late"
+  },
+  "liaison": {
+   "form": "portrait",
+   "shows": "man in black leaning by a globe",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "libertine": {
+   "form": "portrait",
+   "shows": "young man with long dark hair and a cravat, holding a pencil",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 22
+  },
+  "librarian": {
+   "form": "portrait",
+   "shows": "young woman with dark hair and a lace collar",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "library": {
+   "form": "interior",
+   "shows": "a vaulted gothic library with a great window",
+   "era": "late"
+  },
+  "lich": {
+   "form": "scene",
+   "shows": "a shrouded figure crawling under a burning sky",
+   "era": "late"
+  },
+  "lifeboatman": {
+   "form": "portrait",
+   "shows": "weathered man in a fur cap and yellow oilskins",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 20
+  },
+  "light-carrier": {
+   "form": "portrait",
+   "shows": "red-haired huntress with a quiver and crescent",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "lighthouse": {
+   "form": "landscape",
+   "shows": "a lighthouse in a storm-wracked sea",
+   "era": "late"
+  },
+  "limbo": {
+   "form": "scene",
+   "shows": "tangled naked bodies",
+   "era": "early",
+   "sex": "man"
+  },
+  "limner": {
+   "form": "interior",
+   "shows": "a man in a brown gown seated in a dark studio",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist"
+  },
+  "linguist": {
+   "form": "portrait",
+   "shows": "man in a fur cap and brown coat, in shadow",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 20
+  },
+  "lion": {
+   "form": "animal",
+   "shows": "a snarling lion",
+   "era": "late"
+  },
+  "lobbyist": {
+   "form": "portrait",
+   "shows": "lady in blue and red silk in a dark garden",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "lobster-man": {
+   "form": "scene",
+   "shows": "a man hauling a pot from a rowing boat on green water",
+   "era": "modern",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "logician": {
+   "form": "portrait",
+   "shows": "moustached man in a blue suit with a cigarette",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "lord": {
+   "form": "portrait",
+   "shows": "old man in a full wig and a red robe with a scroll, in profile",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 22
+  },
+  "lovers": {
+   "form": "group",
+   "shows": "a couple in evening dress on a balcony over a bright promenade",
+   "era": "modern",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "lullabye": {
+   "form": "interior",
+   "shows": "old woman by a cradle in a dark room, a child above",
+   "era": "early",
+   "sex": "woman",
+   "age": "old",
+   "station": "labouring"
+  },
+  "lunatic": {
+   "form": "portrait",
+   "shows": "wild-haired man in shadow",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "face": 30
+  },
+  "lutenist": {
+   "form": "portrait",
+   "shows": "woman in a brown gown and gold cap with a lute and dog",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "luthier": {
+   "form": "portrait",
+   "shows": "young woman in white playing a lute among instruments",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "player"
+  },
+  "lyricist": {
+   "form": "portrait",
+   "shows": "young woman with a red headband and auburn curls",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "magician": {
+   "form": "scene",
+   "shows": "a man and a nude with fruit and a basket",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "magistrate": {
+   "form": "portrait",
+   "shows": "stout old man in a full wig and black robe with bands",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 20
+  },
+  "magus": {
+   "form": "portrait",
+   "shows": "black man in a white turban and robe",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "face": 25
+  },
+  "marquesa": {
+   "form": "portrait",
+   "shows": "young lady in a black off-the-shoulder gown with a dog",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "marriage": {
+   "form": "group",
+   "shows": "a couple courting in a wooded park",
+   "era": "early",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "martyr": {
+   "form": "portrait",
+   "shows": "young woman in a turban, eyes lowered",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "mason": {
+   "form": "portrait",
+   "shows": "workman in a hat at a stone window with a tool",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 30
+  },
+  "masquerade": {
+   "form": "group",
+   "shows": "a harlequin and masked figures in a draped room",
+   "era": "modern",
+   "sex": "mixed",
+   "station": "player"
+  },
+  "master": {
+   "form": "interior",
+   "shows": "an old painter seated among casts and an easel",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "artist"
+  },
+  "matador": {
+   "form": "scene",
+   "shows": "horsemen and a bull in an arena",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "mathematician": {
+   "form": "portrait",
+   "shows": "man in a blue-and-silver coat, standing",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 12
+  },
+  "maze-minder": {
+   "form": "scene",
+   "shows": "a woman reclining on red drapery by a stormy sea",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "mediator": {
+   "form": "scene",
+   "shows": "figures on a temple stair with a flying spirit",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "medical-scholar": {
+   "form": "portrait",
+   "shows": "bearded man in a turban reading, head on hand",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 20
+  },
+  "meditation": {
+   "form": "interior",
+   "shows": "a philosopher in a dark room by a spiral stair",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned"
+  },
+  "medium": {
+   "form": "portrait",
+   "shows": "plump woman in a white cap and gown by a red curtain",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "memoirist": {
+   "form": "portrait",
+   "shows": "dark-haired woman with her hand in her hair at dusk",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 30
+  },
+  "memory": {
+   "form": "portrait",
+   "shows": "young woman in a black lace veil, head on hand",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "mendicant": {
+   "form": "portrait",
+   "shows": "young woman with long black hair in a pale turban, eyes down",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "mentor": {
+   "form": "group",
+   "shows": "a crowded studio, a teacher with pupils",
+   "era": "early",
+   "sex": "mixed",
+   "station": "artist"
+  },
+  "merchant": {
+   "form": "portrait",
+   "shows": "bearded merchant in a fur hat and ruff with a letter",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "mesmerist": {
+   "form": "portrait",
+   "shows": "dark young man in a black coat, hand at his breast",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "artist",
+   "face": 20
+  },
+  "messenger": {
+   "form": "portrait",
+   "shows": "youth in red and pink writing, looking up",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "religious",
+   "face": 20
+  },
+  "metaphysician": {
+   "form": "portrait",
+   "shows": "lady in orange and ermine on a terrace",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "midwife": {
+   "form": "portrait",
+   "shows": "woman in black reading, eyes lowered",
+   "era": "modern",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "milkmaid": {
+   "form": "portrait",
+   "shows": "young woman in a headscarf and shawl, looking down",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "mill": {
+   "form": "landscape",
+   "shows": "a windmill on a dark bluff over a river",
+   "era": "early"
+  },
+  "miller": {
+   "form": "landscape",
+   "shows": "a figure on a path by a mill-house and a river",
+   "era": "late",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "mime": {
+   "form": "portrait",
+   "shows": "a white-clad pierrot in a parlour, in an oval",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "station": "player"
+  },
+  "miniaturist": {
+   "form": "portrait",
+   "shows": "man in a brown coat painting a miniature",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 20
+  },
+  "minister": {
+   "form": "portrait",
+   "shows": "grey-headed old man in a red cloak, seen from behind",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious"
+  },
+  "minstrel": {
+   "form": "portrait",
+   "shows": "young woman in blue playing a guitar by a window",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 15
+  },
+  "mirror": {
+   "form": "portrait",
+   "shows": "young woman holding a mirror, head in her hand",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "miser": {
+   "form": "portrait",
+   "shows": "old man with a white beard in a turban counting coins",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "face": 20
+  },
+  "mistress": {
+   "form": "portrait",
+   "shows": "woman in black satin with a lace handkerchief",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "model": {
+   "form": "group",
+   "shows": "a painter and a woman with a guitar posing in a studio",
+   "era": "late",
+   "sex": "woman",
+   "station": "artist"
+  },
+  "moloch": {
+   "form": "scene",
+   "shows": "a horned goat-god among witches under the moon",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "money-changer": {
+   "form": "interior",
+   "shows": "an old man counting coins by candlelight among papers",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "middling"
+  },
+  "monist": {
+   "form": "portrait",
+   "shows": "bearded man in a brown coat, arms crossed",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "face": 25
+  },
+  "monk": {
+   "form": "portrait",
+   "shows": "young monk in a white habit, hands clasped",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "religious",
+   "face": 20
+  },
+  "monkey-trainer": {
+   "form": "portrait",
+   "shows": "lady in flowered silk with a monkey",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "monkey": {
+   "form": "animal",
+   "shows": "a monkey on a branch with fruit",
+   "era": "late"
+  },
+  "moon": {
+   "form": "landscape",
+   "shows": "a figure by a dolmen under a crescent moon",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "mortiloquist": {
+   "form": "portrait",
+   "shows": "bearded man in a black suit with a skull",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "mother-superior": {
+   "form": "portrait",
+   "shows": "lady in a red gown and gold headdress",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "mountain": {
+   "form": "landscape",
+   "shows": "valley under pale crags with a bridge",
+   "era": "late"
+  },
+  "muralist": {
+   "form": "group",
+   "shows": "painters and patrons in a Renaissance room",
+   "era": "late",
+   "sex": "mixed",
+   "station": "artist"
+  },
+  "muse": {
+   "form": "portrait",
+   "shows": "young woman in a green robe on a fur, by marble",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "music": {
+   "form": "group",
+   "shows": "musicians looking down through a painted ceiling opening",
+   "era": "early",
+   "sex": "mixed",
+   "station": "player"
+  },
+  "musician": {
+   "form": "portrait",
+   "shows": "young woman in red playing a guitar in a park",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 20
+  },
+  "musicologist": {
+   "form": "portrait",
+   "shows": "powdered lady in flowered silk with sheet music",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "mystic": {
+   "form": "scene",
+   "shows": "a woman in dark robes enthroned before a great wheel",
+   "era": "late",
+   "sex": "woman"
+  },
+  "myth": {
+   "form": "object",
+   "shows": "flowers, a statuette and a silver dish on a rich cloth",
+   "era": "early"
+  },
+  "mythmaker": {
+   "form": "scene",
+   "shows": "a nude youth and a woman embracing on a rock",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "narthex": {
+   "form": "interior",
+   "shows": "tall pillars of a gothic cathedral nave",
+   "era": "late"
+  },
+  "naturalist": {
+   "form": "portrait",
+   "shows": "lady in blue silk resting her head by a stone",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "navigator": {
+   "form": "portrait",
+   "shows": "bearded man in a blue hat and blue doublet with a gold medal",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "necromancer": {
+   "form": "portrait",
+   "shows": "a man crying out in terror at night",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "face": 25
+  },
+  "needleworker": {
+   "form": "portrait",
+   "shows": "gaunt woman in black, standing",
+   "era": "modern",
+   "sex": "woman",
+   "age": "adult",
+   "face": 10
+  },
+  "nobody": {
+   "form": "scene",
+   "shows": "a naked man by a fire in a cave mouth",
+   "era": "early",
+   "sex": "man"
+  },
+  "nomad": {
+   "form": "portrait",
+   "shows": "young man with wild hair, a sword and a shield",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "face": 20
+  },
+  "nourisher": {
+   "form": "scene",
+   "shows": "a woman in gold huddled on a rocky height",
+   "era": "late",
+   "sex": "woman"
+  },
+  "novelist": {
+   "form": "portrait",
+   "shows": "bearded man in a velvet coat in his study",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 15
+  },
+  "novensides": {
+   "form": "scene",
+   "shows": "gods enthroned on clouds above a globe",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "novice": {
+   "form": "portrait",
+   "shows": "young woman in a white headcloth opening a window",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "nowhere": {
+   "form": "landscape",
+   "shows": "figures by a pool in a classical park",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "nun": {
+   "form": "portrait",
+   "shows": "young woman in a white veil and blue mantle, praying",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "religious",
+   "face": 25
+  },
+  "nurse": {
+   "form": "group",
+   "shows": "a woman with a lamp among wounded men",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "nurseryman": {
+   "form": "scene",
+   "shows": "a man behind a shelf of cabbages and vegetables in a kitchen",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "nymph": {
+   "form": "portrait",
+   "shows": "young woman in profile with braided gold hair and pearls",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "oblivion": {
+   "form": "scene",
+   "shows": "a faint face in a smoky darkness",
+   "era": "late"
+  },
+  "oecumenon": {
+   "form": "interior",
+   "shows": "an allegorical woman in a painted room with a crucifix",
+   "era": "early",
+   "sex": "woman"
+  },
+  "official": {
+   "form": "portrait",
+   "shows": "young man in black-and-silver armour",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 15
+  },
+  "oneiromancer": {
+   "form": "portrait",
+   "shows": "old man with a white beard in a dark cap",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "face": 20
+  },
+  "operagoer": {
+   "form": "portrait",
+   "shows": "woman in black with opera glasses in a theatre box",
+   "era": "modern",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "opium-eater": {
+   "form": "portrait",
+   "shows": "woman in a white cap and collar, seated",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "oracle": {
+   "form": "scene",
+   "shows": "robed women in a hall of gothic panels",
+   "era": "late",
+   "sex": "mixed",
+   "station": "religious"
+  },
+  "orator": {
+   "form": "portrait",
+   "shows": "man in a fur cap and chain, hand outstretched",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 22
+  },
+  "orb": {
+   "form": "object",
+   "shows": "a glass sphere and a fallen goblet on a table",
+   "era": "early"
+  },
+  "organist": {
+   "form": "portrait",
+   "shows": "woman playing a small organ, looking up",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 20
+  },
+  "orientalist": {
+   "form": "portrait",
+   "shows": "man in a white turban and striped robe with a scroll, a valley behind",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "face": 18
+  },
+  "ornithologist": {
+   "form": "portrait",
+   "shows": "woman in violet with a bird on her hand in a garden",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "orrery": {
+   "form": "group",
+   "shows": "faces lit by a lamp round an orrery",
+   "era": "late",
+   "sex": "mixed",
+   "station": "learned"
+  },
+  "outlaw": {
+   "form": "scene",
+   "shows": "riders shooting in a frontier street",
+   "era": "modern",
+   "sex": "man"
+  },
+  "owl": {
+   "form": "animal",
+   "shows": "a barn owl on a dark branch",
+   "era": "late"
+  },
+  "oxen": {
+   "form": "scene",
+   "shows": "a farmer with yoked oxen in a field",
+   "era": "late",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "painter": {
+   "form": "portrait",
+   "shows": "young woman with blue ribbons holding a brush",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "artist",
+   "face": 20
+  },
+  "painting-master": {
+   "form": "portrait",
+   "shows": "bearded man in a tweed coat, seated",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 15
+  },
+  "palace": {
+   "form": "landscape",
+   "shows": "a palace garden of trees, fountains and animals",
+   "era": "early"
+  },
+  "paladin": {
+   "form": "portrait",
+   "shows": "bearded knight in a steel cap and blue cloak",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "martial",
+   "face": 12
+  },
+  "pandaemonium": {
+   "form": "landscape",
+   "shows": "a fantastic city of ruins and crowds",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "pantheist": {
+   "form": "portrait",
+   "shows": "long-haired man in black writing at a plinth",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 20
+  },
+  "paradise": {
+   "form": "scene",
+   "shows": "two nudes fleeing an angel among animals by a stream",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "parisian": {
+   "form": "portrait",
+   "shows": "young woman in a black hat and dark coat",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "party": {
+   "form": "landscape",
+   "shows": "a golden lake under umbrella pines with revellers",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "patron": {
+   "form": "portrait",
+   "shows": "young man with long hair in a black beret and blue cloak",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "pauper": {
+   "form": "group",
+   "shows": "a poor mother and children huddled by columns",
+   "era": "late",
+   "sex": "woman",
+   "station": "labouring"
+  },
+  "peace-bringer": {
+   "form": "group",
+   "shows": "an old man and a youth playing pipes beside a bull",
+   "era": "early",
+   "sex": "man"
+  },
+  "peacock": {
+   "form": "animal",
+   "shows": "a peacock on a stone balustrade with lilies",
+   "era": "late"
+  },
+  "peasant": {
+   "form": "portrait",
+   "shows": "peasant girl in a red headscarf holding green boughs",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 15
+  },
+  "peddler": {
+   "form": "portrait",
+   "shows": "young man in black pointing, in shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "pegasus": {
+   "form": "scene",
+   "shows": "a winged horse rearing over a serpent",
+   "era": "modern"
+  },
+  "penitent": {
+   "form": "scene",
+   "shows": "a woman with a skull among cherubs in a wood",
+   "era": "early",
+   "sex": "woman"
+  },
+  "people": {
+   "form": "group",
+   "shows": "men gathered round a sitting man in a sunlit room",
+   "era": "late",
+   "sex": "man",
+   "station": "middling"
+  },
+  "perdition": {
+   "form": "interior",
+   "shows": "an angel in a grey vaulted corridor of bodies",
+   "era": "late"
+  },
+  "performer": {
+   "form": "group",
+   "shows": "a woman at a virginal with children",
+   "era": "early",
+   "sex": "woman",
+   "station": "middling"
+  },
+  "petitioner": {
+   "form": "portrait",
+   "shows": "bearded man in a red cloak, hands at his breast",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "face": 30
+  },
+  "phantasm": {
+   "form": "scene",
+   "shows": "a horned shadow looming in a haze",
+   "era": "late"
+  },
+  "philologist": {
+   "form": "portrait",
+   "shows": "red-bearded man in black with papers",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 20
+  },
+  "philosopher": {
+   "form": "portrait",
+   "shows": "man in a broad hat with his hand on a bust",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 25
+  },
+  "physician": {
+   "form": "portrait",
+   "shows": "stout man in a red beret with a book, a landscape behind",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 22
+  },
+  "physicist": {
+   "form": "portrait",
+   "shows": "man with long grey hair, close",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "learned",
+   "face": 15
+  },
+  "pianist": {
+   "form": "interior",
+   "shows": "women at a piano in a white parlour",
+   "era": "modern",
+   "sex": "woman",
+   "station": "high"
+  },
+  "piano-instructor": {
+   "form": "portrait",
+   "shows": "smiling woman in a fur stole",
+   "era": "modern",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "picker": {
+   "form": "scene",
+   "shows": "a girl among tall beans in a garden",
+   "era": "late",
+   "sex": "woman",
+   "station": "labouring"
+  },
+  "pietist": {
+   "form": "portrait",
+   "shows": "old man with a book in a dark niche",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 25
+  },
+  "pioneer": {
+   "form": "scene",
+   "shows": "settlers on a covered wagon under a big sky",
+   "era": "modern",
+   "sex": "mixed"
+  },
+  "pirate": {
+   "form": "scene",
+   "shows": "men lit by a lantern below decks at night",
+   "era": "modern",
+   "sex": "man"
+  },
+  "player": {
+   "form": "portrait",
+   "shows": "young woman in green brocade with a lute among flowers",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 15
+  },
+  "playwright": {
+   "form": "portrait",
+   "shows": "balding bearded man in black with a white collar",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 25
+  },
+  "poacher": {
+   "form": "scene",
+   "shows": "an old man with a stick creeping through snow",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "labouring"
+  },
+  "poet": {
+   "form": "portrait",
+   "shows": "youth in a white tunic leaning on a marble rail by the sea",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "face": 10
+  },
+  "poisoner": {
+   "form": "portrait",
+   "shows": "dark-haired youth, sketchy, in brown",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "face": 30
+  },
+  "polemicist": {
+   "form": "portrait",
+   "shows": "long-haired man in black with papers at a table",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 18
+  },
+  "politician": {
+   "form": "portrait",
+   "shows": "young man in red in profile, dark curls",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "polymath": {
+   "form": "portrait",
+   "shows": "plump woman in a red cap holding a sprig",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "pope": {
+   "form": "portrait",
+   "shows": "pope in red seated with a book",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 18
+  },
+  "poppy": {
+   "form": "object",
+   "shows": "red poppies in a vase",
+   "era": "late"
+  },
+  "populist": {
+   "form": "group",
+   "shows": "a speaker and a crowd on a hillside under a dark sky",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "portraitist": {
+   "form": "portrait",
+   "shows": "painter in a blue gown and headscarf with palette and brushes",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 22
+  },
+  "potter": {
+   "form": "portrait",
+   "shows": "bearded man in a cap and blue jacket",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 20
+  },
+  "prayer": {
+   "form": "portrait",
+   "shows": "bald old man in a brown cloak, hand at his breast",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 25
+  },
+  "prestidigitator": {
+   "form": "portrait",
+   "shows": "man in black evening dress, standing",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "priest-king": {
+   "form": "scene",
+   "shows": "an enthroned figure under a hanging lamp between pillars",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "priest": {
+   "form": "scene",
+   "shows": "figures in a sunlit classical street with a temple door",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "priestess": {
+   "form": "portrait",
+   "shows": "long-haired young woman in a laurel crown with a book",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "prima-donna": {
+   "form": "portrait",
+   "shows": "young woman in a rich gown in deep shadow",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 25
+  },
+  "prince": {
+   "form": "scene",
+   "shows": "a commander on horseback before a battle",
+   "era": "late",
+   "sex": "man",
+   "station": "martial"
+  },
+  "princess": {
+   "form": "portrait",
+   "shows": "lady reclining in white satin on a terrace",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 12
+  },
+  "printer": {
+   "form": "portrait",
+   "shows": "bespectacled old man with long grey hair in a grey coat",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 25
+  },
+  "printmaker": {
+   "form": "portrait",
+   "shows": "young man with tousled hair in a dark jacket",
+   "era": "modern",
+   "sex": "man",
+   "age": "young",
+   "station": "artist",
+   "face": 25
+  },
+  "prior": {
+   "form": "portrait",
+   "shows": "old friar in a white habit praying before a crucifix",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 22
+  },
+  "prioress": {
+   "form": "portrait",
+   "shows": "lady in red with a small dog in her lap",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "prisoner": {
+   "form": "scene",
+   "shows": "a prisoner in a cell by an open stair",
+   "era": "late",
+   "sex": "man"
+  },
+  "procuress": {
+   "form": "group",
+   "shows": "a woman, a man in a hat and an old bawd",
+   "era": "early",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "professor": {
+   "form": "portrait",
+   "shows": "old man in black seated by books",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 20
+  },
+  "programmer": {
+   "form": "portrait",
+   "shows": "young woman in a white satin gown on a stair",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "promoter": {
+   "form": "portrait",
+   "shows": "stout man in black with medals and a scroll",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "prophet": {
+   "form": "scene",
+   "shows": "figures entwined in a dim fantastic grotto",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "prospector": {
+   "form": "portrait",
+   "shows": "young man in a broad black hat and white collar",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "protector": {
+   "form": "scene",
+   "shows": "an old man carrying a child on his back at dusk",
+   "era": "late",
+   "sex": "man",
+   "age": "old"
+  },
+  "prudence": {
+   "form": "portrait",
+   "shows": "king in white-and-red robes of state",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 12
+  },
+  "psalmist": {
+   "form": "group",
+   "shows": "a woman in red with attendants in a decorated room",
+   "era": "late",
+   "sex": "woman"
+  },
+  "psychoanalyst": {
+   "form": "group",
+   "shows": "a woman reading to a boy by a fire",
+   "era": "late",
+   "sex": "woman",
+   "station": "middling"
+  },
+  "psychologist": {
+   "form": "portrait",
+   "shows": "moustached man in a dark suit, in profile",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "purifier": {
+   "form": "scene",
+   "shows": "bathing nudes in a grove",
+   "era": "early",
+   "sex": "woman"
+  },
+  "pusher": {
+   "form": "portrait",
+   "shows": "young woman in red in shadow",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "python": {
+   "form": "scene",
+   "shows": "a monster in smoke and cloud",
+   "era": "late"
+  },
+  "pythoness": {
+   "form": "portrait",
+   "shows": "woman in black in a lamplit marble room",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "quarrier": {
+   "form": "landscape",
+   "shows": "a quarry with carts in a wooded landscape",
+   "era": "early",
+   "sex": "mixed",
+   "station": "labouring"
+  },
+  "queen": {
+   "form": "portrait",
+   "shows": "queen in white seated on a dais",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "quest": {
+   "form": "landscape",
+   "shows": "figures among ruined arches by the sea",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "quester": {
+   "form": "scene",
+   "shows": "a figure lying in a dark wood",
+   "era": "early",
+   "sex": "man"
+  },
+  "quorum": {
+   "form": "group",
+   "shows": "men talking round a table in a tavern",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "ranger": {
+   "form": "portrait",
+   "shows": "man in a long coat with a gun in a snowy wood",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 10
+  },
+  "reactionary": {
+   "form": "portrait",
+   "shows": "young man with curly hair and a steel gorget",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 25
+  },
+  "reader": {
+   "form": "group",
+   "shows": "a lady reading a letter with a maid behind",
+   "era": "early",
+   "sex": "woman",
+   "station": "high"
+  },
+  "realist": {
+   "form": "portrait",
+   "shows": "man in a grey wig and brocade waistcoat",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "rebel": {
+   "form": "portrait",
+   "shows": "grey-moustached man in a broad black hat and white collar",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "receptary": {
+   "form": "portrait",
+   "shows": "very old woman in a hood reading a great book",
+   "era": "early",
+   "sex": "woman",
+   "age": "old",
+   "face": 25
+  },
+  "reckoner": {
+   "form": "portrait",
+   "shows": "old man with his head on his hand among papers and a globe",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 20
+  },
+  "redoubt": {
+   "form": "landscape",
+   "shows": "a turreted castle on a crag",
+   "era": "late"
+  },
+  "reeve": {
+   "form": "portrait",
+   "shows": "old man in black with a white collar and a staff",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 20
+  },
+  "reflection": {
+   "form": "portrait",
+   "shows": "young woman in a plumed hat touching her reflection in a mirror",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "reformer": {
+   "form": "portrait",
+   "shows": "young woman with long red hair in a red gown and necklaces",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "releaser": {
+   "form": "scene",
+   "shows": "an enthroned god on clouds with a pleading woman",
+   "era": "late",
+   "sex": "man"
+  },
+  "reminiscence": {
+   "form": "portrait",
+   "shows": "young woman in a headscarf resting on a haystack",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 25
+  },
+  "remonstrant": {
+   "form": "portrait",
+   "shows": "old preacher in black with a ruff, hand on his breast",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 20
+  },
+  "researcher": {
+   "form": "interior",
+   "shows": "a scholar in a sunlit study crowded with books and instruments",
+   "era": "early",
+   "sex": "man",
+   "station": "learned"
+  },
+  "rest": {
+   "form": "landscape",
+   "shows": "classical ruins and a broken colonnade",
+   "era": "late"
+  },
+  "restorer": {
+   "form": "portrait",
+   "shows": "young woman in a blue bustled dress",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "reveller": {
+   "form": "portrait",
+   "shows": "laughing woman in a turban holding grapes",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 25
+  },
+  "reverie": {
+   "form": "scene",
+   "shows": "a woman dozing at a table by a window",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young"
+  },
+  "revolutionary": {
+   "form": "portrait",
+   "shows": "grey-haired man reading a red book",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "middling",
+   "face": 20
+  },
+  "rhapsode": {
+   "form": "portrait",
+   "shows": "bearded old man crowned with laurel",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "face": 20
+  },
+  "rhetorician": {
+   "form": "portrait",
+   "shows": "man in a pale hood writing at a table",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "religious",
+   "face": 20
+  },
+  "riddlemaster": {
+   "form": "scene",
+   "shows": "a youth gesturing in a wooded glen",
+   "era": "late",
+   "sex": "man",
+   "age": "young"
+  },
+  "rivals": {
+   "form": "scene",
+   "shows": "two women on a marble seat under a painted vault",
+   "era": "late",
+   "sex": "woman"
+  },
+  "river": {
+   "form": "landscape",
+   "shows": "a stream in a deep rocky gorge",
+   "era": "late"
+  },
+  "road": {
+   "form": "landscape",
+   "shows": "a road past a tower under tall pines by a lake",
+   "era": "late"
+  },
+  "robber": {
+   "form": "scene",
+   "shows": "masked men holding up a coach",
+   "era": "modern",
+   "sex": "man"
+  },
+  "rogue": {
+   "form": "portrait",
+   "shows": "stern woman with a centre parting and a leaf wreath, on blue",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "labouring",
+   "face": 25
+  },
+  "rosarian": {
+   "form": "portrait",
+   "shows": "powdered woman tending roses",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "ruin": {
+   "form": "landscape",
+   "shows": "a ruined arcade with figures and a statue",
+   "era": "late"
+  },
+  "rumormonger": {
+   "form": "portrait",
+   "shows": "woman in a fur-trimmed jacket writing at a table",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "sacrifice": {
+   "form": "scene",
+   "shows": "a veiled priestess offering before a statue in a grove",
+   "era": "late",
+   "sex": "woman",
+   "station": "religious"
+  },
+  "sage": {
+   "form": "portrait",
+   "shows": "old man in a dark skullcap and fur",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "face": 25
+  },
+  "sailor": {
+   "form": "portrait",
+   "shows": "black man in a blue coat, close",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 25
+  },
+  "saint": {
+   "form": "portrait",
+   "shows": "young man in armour with long hair holding a staff",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 20
+  },
+  "salon": {
+   "form": "group",
+   "shows": "a candlelit salon of seated company",
+   "era": "late",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "salonnière": {
+   "form": "portrait",
+   "shows": "grey-haired lady in a red mantle",
+   "era": "late",
+   "sex": "woman",
+   "age": "old",
+   "station": "high",
+   "face": 20
+  },
+  "samurai": {
+   "form": "portrait",
+   "shows": "older Japanese man in a dark robe",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "face": 25
+  },
+  "sanctuary": {
+   "form": "scene",
+   "shows": "a fox on a stone balustrade under an urn",
+   "era": "modern"
+  },
+  "satirist": {
+   "form": "portrait",
+   "shows": "grey-haired man writing at a red table",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 20
+  },
+  "satyr": {
+   "form": "scene",
+   "shows": "satyr and nymphs dancing in a dark wood",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "savant": {
+   "form": "portrait",
+   "shows": "woman with long dark curls in black",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 25
+  },
+  "scenewright": {
+   "form": "portrait",
+   "shows": "young woman in a straw hat with a palette",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "artist",
+   "face": 15
+  },
+  "scenographer": {
+   "form": "portrait",
+   "shows": "young woman in white with a tartan shawl drawing in a park",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 12
+  },
+  "scholar": {
+   "form": "portrait",
+   "shows": "old scholar in red writing beside a globe and a skull",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 25
+  },
+  "scholarch": {
+   "form": "group",
+   "shows": "two women in a walled garden reading",
+   "era": "late",
+   "sex": "woman"
+  },
+  "scientist": {
+   "form": "portrait",
+   "shows": "white-bearded old man writing with a quill",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "learned",
+   "face": 22
+  },
+  "scribe": {
+   "form": "portrait",
+   "shows": "woman in black with a white ruff holding a feather",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "scrivener": {
+   "form": "portrait",
+   "shows": "young man with long hair in a black cap and red sleeves",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "sculptor": {
+   "form": "portrait",
+   "shows": "man in a dark doublet with drawings among casts",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 25
+  },
+  "sea-king": {
+   "form": "scene",
+   "shows": "a sea-god with a trident amid sea creatures and nymphs",
+   "era": "early",
+   "sex": "man"
+  },
+  "sea-monster": {
+   "form": "scene",
+   "shows": "a monstrous fish rearing from the sea by a white town",
+   "era": "early"
+  },
+  "seamstress": {
+   "form": "portrait",
+   "shows": "young woman in a blue kimono at a table",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "secret-admirer": {
+   "form": "portrait",
+   "shows": "young woman in red writing a letter, head on hand",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "secret-keeper": {
+   "form": "portrait",
+   "shows": "young woman in a black lace mantilla",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "secretary-general": {
+   "form": "portrait",
+   "shows": "man in a pale blue coat at a writing table",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 12
+  },
+  "secretary": {
+   "form": "portrait",
+   "shows": "lady in a great winged headdress and red gown",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 22
+  },
+  "seditionist": {
+   "form": "portrait",
+   "shows": "old man with a bushy white beard in a dark cap",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "face": 20
+  },
+  "seeker": {
+   "form": "interior",
+   "shows": "an old man rummaging in a drawer in a cluttered room",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "middling"
+  },
+  "seer": {
+   "form": "portrait",
+   "shows": "a woman wholly wrapped in a bronze-brown cloak",
+   "era": "early",
+   "sex": "woman"
+  },
+  "servant": {
+   "form": "portrait",
+   "shows": "young woman in white bringing a tray and carafe",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 15
+  },
+  "shepherd": {
+   "form": "portrait",
+   "shows": "man in a broad hat with a staff in a landscape",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "labouring",
+   "face": 15
+  },
+  "shipowner": {
+   "form": "portrait",
+   "shows": "man in a red gown writing at a table, a ship's view behind",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "shipwright": {
+   "form": "interior",
+   "shows": "old workman resting in a dim workshop of tools",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "labouring"
+  },
+  "shoemaker": {
+   "form": "interior",
+   "shows": "a boy and an old man at work among wood shavings",
+   "era": "late",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "shopkeeper": {
+   "form": "group",
+   "shows": "a bearded man at a table of goods under a red curtain",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling"
+  },
+  "sibyl": {
+   "form": "portrait",
+   "shows": "young woman in a blue gown and white fur collar",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "silver": {
+   "form": "object",
+   "shows": "heaped silver plate and fruit on a buffet",
+   "era": "early"
+  },
+  "silversmith": {
+   "form": "portrait",
+   "shows": "man in black and a broad hat by a table of silver",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 15
+  },
+  "singer": {
+   "form": "portrait",
+   "shows": "young woman in white singing from a sheet by a piano",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "station": "player",
+   "face": 15
+  },
+  "singing-contest": {
+   "form": "group",
+   "shows": "singers in a gothic hall before an enthroned court",
+   "era": "late",
+   "sex": "mixed",
+   "station": "player"
+  },
+  "siren": {
+   "form": "scene",
+   "shows": "a pale woman rising from the waves embracing a man",
+   "era": "late",
+   "sex": "woman"
+  },
+  "skald": {
+   "form": "portrait",
+   "shows": "dark-haired woman in gold silk, head turned",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "skinner": {
+   "form": "portrait",
+   "shows": "woman in white with a fur wrap and a leaf crown",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 22
+  },
+  "smelter": {
+   "form": "scene",
+   "shows": "half-naked smiths at a fiery forge",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "snake-charmer": {
+   "form": "group",
+   "shows": "an old man with a staff before a crowd in a desert town",
+   "era": "late",
+   "sex": "man",
+   "age": "old"
+  },
+  "snake": {
+   "form": "animal",
+   "shows": "a snake and a butterfly",
+   "era": "late"
+  },
+  "soldier": {
+   "form": "portrait",
+   "shows": "man in a long wig and breastplate with a baton",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "martial",
+   "face": 18
+  },
+  "solitude": {
+   "form": "portrait",
+   "shows": "young woman in white sitting alone, chin on hand",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 15
+  },
+  "songwriter": {
+   "form": "portrait",
+   "shows": "man in a broad black hat and white ruff with a glove",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 25
+  },
+  "soothsayer": {
+   "form": "group",
+   "shows": "an old woman reading a young woman's fortune",
+   "era": "early",
+   "sex": "woman"
+  },
+  "sorceress": {
+   "form": "portrait",
+   "shows": "dark-haired woman with coral beads and a cup, a ship behind",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "sower": {
+   "form": "scene",
+   "shows": "a man sowing a field at dusk",
+   "era": "late",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "spahi": {
+   "form": "portrait",
+   "shows": "a rider in a red cloak with a lance on a black horse",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "martial"
+  },
+  "speculator": {
+   "form": "portrait",
+   "shows": "bald man in black, chin on his hand",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 22
+  },
+  "sphinx": {
+   "form": "scene",
+   "shows": "a winged lion on a rocky height over a gorge",
+   "era": "late"
+  },
+  "spiritualist": {
+   "form": "scene",
+   "shows": "a cloaked woman before a pale apparition",
+   "era": "late",
+   "sex": "woman"
+  },
+  "spring": {
+   "form": "group",
+   "shows": "a procession with flowers down a marble stair",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "spy": {
+   "form": "portrait",
+   "shows": "lady in grey silk, hand in her curls",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "spymaster": {
+   "form": "portrait",
+   "shows": "lady in gold with a dark green mantle over her head",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "squire": {
+   "form": "portrait",
+   "shows": "young man in mail and a plumed red cap with a halberd",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "martial",
+   "face": 20
+  },
+  "squirrel": {
+   "form": "animal",
+   "shows": "squirrels leaping in green foliage",
+   "era": "modern"
+  },
+  "stage": {
+   "form": "landscape",
+   "shows": "a crowded harbour of ruins and pyramids",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "standard-bearer": {
+   "form": "portrait",
+   "shows": "old officer in a plumed black hat with a partisan",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "martial",
+   "face": 15
+  },
+  "star": {
+   "form": "scene",
+   "shows": "a sun-god in a chariot on a painted ceiling",
+   "era": "late"
+  },
+  "statesman": {
+   "form": "portrait",
+   "shows": "old man in a full wig and gold silk at his desk",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 15
+  },
+  "storyteller": {
+   "form": "portrait",
+   "shows": "young woman in a red turban looking down",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 25
+  },
+  "strategist": {
+   "form": "portrait",
+   "shows": "white-bearded commander in black and gold, a helmet by him",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "martial",
+   "face": 20
+  },
+  "street-rat": {
+   "form": "scene",
+   "shows": "a man on a flying carpet over a river plain",
+   "era": "modern",
+   "sex": "man"
+  },
+  "street": {
+   "form": "landscape",
+   "shows": "a crowded eastern street of balconies and domes",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "studio": {
+   "form": "interior",
+   "shows": "a painter at his easel and a model in blue",
+   "era": "early",
+   "sex": "man",
+   "station": "artist"
+  },
+  "summer": {
+   "form": "scene",
+   "shows": "a goddess with a sickle seated among flowers",
+   "era": "late",
+   "sex": "woman"
+  },
+  "summoner": {
+   "form": "scene",
+   "shows": "a crowned woman in white and red with a lifted hand",
+   "era": "late",
+   "sex": "woman"
+  },
+  "surveyor": {
+   "form": "portrait",
+   "shows": "old man seated by a telescope and plans on a loggia",
+   "era": "late",
+   "sex": "man",
+   "age": "old",
+   "station": "learned"
+  },
+  "swordsman": {
+   "form": "portrait",
+   "shows": "young man in a black beret holding a sword-hilt",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "syndicate": {
+   "form": "group",
+   "shows": "four men in black with great ruffs",
+   "era": "early",
+   "sex": "man",
+   "station": "middling"
+  },
+  "tavernkeeper": {
+   "form": "portrait",
+   "shows": "young woman in rose silk in profile",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "teacher": {
+   "form": "portrait",
+   "shows": "lady in a pink gown and gold cap holding a book",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 15
+  },
+  "tempest": {
+   "form": "landscape",
+   "shows": "boats in a storm under a rocky coast",
+   "era": "late"
+  },
+  "temple": {
+   "form": "landscape",
+   "shows": "a round temple on a cliff above a waterfall",
+   "era": "late"
+  },
+  "terrace": {
+   "form": "group",
+   "shows": "gentlemen with a statue on a terrace",
+   "era": "late",
+   "sex": "man",
+   "station": "high"
+  },
+  "the-circle": {
+   "form": "scene",
+   "shows": "a sorceress drawing a circle round a smoking cauldron",
+   "era": "late",
+   "sex": "woman"
+  },
+  "the-fire": {
+   "form": "scene",
+   "shows": "a busy camp with cattle and fire at dusk",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "the-hunt": {
+   "form": "group",
+   "shows": "huntsmen with hounds and game in a wood",
+   "era": "early",
+   "sex": "mixed",
+   "station": "high"
+  },
+  "the-joker": {
+   "form": "portrait",
+   "shows": "woman smiling faintly with folded hands, a landscape behind",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "middling",
+   "face": 25
+  },
+  "the-number": {
+   "form": "scene",
+   "shows": "a winged red dragon over a many-headed beast",
+   "era": "late"
+  },
+  "the-thousand-works": {
+   "form": "scene",
+   "shows": "a woman in white holding a tablet on a hill, a bust behind",
+   "era": "late",
+   "sex": "woman"
+  },
+  "the-unconquered": {
+   "form": "portrait",
+   "shows": "soldier in a gilt helmet and cloak, in shadow",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "martial",
+   "face": 25
+  },
+  "theater-manager": {
+   "form": "portrait",
+   "shows": "young woman with dark curls in a pink gown",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "theologian": {
+   "form": "portrait",
+   "shows": "old hermit with a white beard holding a crucifix by an hourglass",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "religious",
+   "face": 25
+  },
+  "thespian": {
+   "form": "portrait",
+   "shows": "man in a tall fur cap and white turban",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "face": 20
+  },
+  "theurge": {
+   "form": "scene",
+   "shows": "an old man reading by a strange fire in a cave",
+   "era": "early",
+   "sex": "man",
+   "age": "old"
+  },
+  "thief": {
+   "form": "portrait",
+   "shows": "man in a blue coat and red breeches pointing at a castle",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 12
+  },
+  "thinker": {
+   "form": "scene",
+   "shows": "a woman resting on a marble bench above the sea",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "threaten": {
+   "form": "portrait",
+   "shows": "man in a turban shaking his fist at a door",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "face": 20
+  },
+  "tiger": {
+   "form": "landscape",
+   "shows": "a tiger crouching on a wide dun plain",
+   "era": "late"
+  },
+  "time": {
+   "form": "scene",
+   "shows": "death with a scythe beside a girl with flowers",
+   "era": "late",
+   "sex": "woman"
+  },
+  "tinker": {
+   "form": "portrait",
+   "shows": "plain young woman in a brown cloak holding a little book",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "tower": {
+   "form": "landscape",
+   "shows": "a ruined round tower on a sea cliff",
+   "era": "late"
+  },
+  "toymaker": {
+   "form": "portrait",
+   "shows": "old man with a long white beard",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "face": 20
+  },
+  "trader": {
+   "form": "portrait",
+   "shows": "woman in black silk with pearls by a table",
+   "era": "early",
+   "sex": "woman",
+   "age": "adult",
+   "station": "middling",
+   "face": 20
+  },
+  "tragedian": {
+   "form": "portrait",
+   "shows": "woman in a bodice and headscarf, chin on hand",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 20
+  },
+  "traitor": {
+   "form": "group",
+   "shows": "a man looking back with a hand on his shoulder, two others behind",
+   "era": "early",
+   "sex": "man"
+  },
+  "transcendentalist": {
+   "form": "portrait",
+   "shows": "elderly woman in a fur hat and wrap",
+   "era": "modern",
+   "sex": "woman",
+   "age": "old",
+   "station": "high",
+   "face": 15
+  },
+  "transformation": {
+   "form": "scene",
+   "shows": "nymphs dancing in a circle in a wood",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "translator": {
+   "form": "portrait",
+   "shows": "young man resting his head on his hand among papers",
+   "era": "early",
+   "sex": "man",
+   "age": "young",
+   "station": "learned",
+   "face": 25
+  },
+  "trapper": {
+   "form": "landscape",
+   "shows": "boats drawn up on a rocky islet in a pale bay",
+   "era": "modern",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "trick": {
+   "form": "object",
+   "shows": "a dead bird, flowers and playing cards hanging",
+   "era": "late"
+  },
+  "trilith": {
+   "form": "landscape",
+   "shows": "a ring of standing stones on a plain",
+   "era": "late"
+  },
+  "troubadour": {
+   "form": "portrait",
+   "shows": "young man in a red-and-gold cap, close",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "artist",
+   "face": 25
+  },
+  "trumpeter": {
+   "form": "portrait",
+   "shows": "a hussar trumpeter on a grey horse",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "martial"
+  },
+  "tyrant": {
+   "form": "portrait",
+   "shows": "man in a black uniform and red sash standing in a study",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 10
+  },
+  "undine": {
+   "form": "scene",
+   "shows": "a pale water-spirit rising from a fountain",
+   "era": "late",
+   "sex": "woman",
+   "age": "young"
+  },
+  "unicorn": {
+   "form": "scene",
+   "shows": "a woman in red with a white unicorn in a meadow",
+   "era": "early",
+   "sex": "woman",
+   "age": "young"
+  },
+  "urbs": {
+   "form": "landscape",
+   "shows": "a city of lit windows at night",
+   "era": "modern"
+  },
+  "utopian": {
+   "form": "scene",
+   "shows": "a woman in blue shielding her eyes at a burning cave",
+   "era": "early",
+   "sex": "woman"
+  },
+  "vampyre": {
+   "form": "scene",
+   "shows": "a pale bald creature with red ears in murk",
+   "era": "late"
+  },
+  "vandal": {
+   "form": "portrait",
+   "shows": "young woman in a grey robe looking over her shoulder",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "vanity": {
+   "form": "object",
+   "shows": "a skull in a niche with a glass sphere and a vase",
+   "era": "early"
+  },
+  "vedette": {
+   "form": "portrait",
+   "shows": "powdered lady in a lace veil holding flowers",
+   "era": "late",
+   "sex": "woman",
+   "age": "adult",
+   "station": "high",
+   "face": 20
+  },
+  "victory": {
+   "form": "scene",
+   "shows": "a god enthroned among palms and putti",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "victrix": {
+   "form": "portrait",
+   "shows": "young woman in a plumed helmet and armour with a shield",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "martial",
+   "face": 25
+  },
+  "vigil-keeper": {
+   "form": "interior",
+   "shows": "a woman at a stained-glass window in a dark hall",
+   "era": "late",
+   "sex": "woman",
+   "station": "high"
+  },
+  "vintner": {
+   "form": "portrait",
+   "shows": "young woman crowned with vine leaves at sunset",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "virtuoso": {
+   "form": "portrait",
+   "shows": "young man with curly hair in a green coat",
+   "era": "late",
+   "sex": "man",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "viscount": {
+   "form": "portrait",
+   "shows": "nobleman in a red uniform in profile",
+   "era": "modern",
+   "sex": "man",
+   "age": "adult",
+   "station": "high",
+   "face": 15
+  },
+  "vision": {
+   "form": "scene",
+   "shows": "a man asleep on a rock under a storm-lit sky",
+   "era": "early",
+   "sex": "man"
+  },
+  "visionary": {
+   "form": "group",
+   "shows": "an armoured maid with a banner riding through a cheering street",
+   "era": "late",
+   "sex": "mixed",
+   "station": "martial"
+  },
+  "visitor": {
+   "form": "group",
+   "shows": "two ladies in a richly furnished room",
+   "era": "modern",
+   "sex": "woman",
+   "station": "high"
+  },
+  "vizier": {
+   "form": "portrait",
+   "shows": "old man in a white turban and golden robe",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "station": "high",
+   "face": 20
+  },
+  "wanderer": {
+   "form": "portrait",
+   "shows": "an old man grieving in a dark ruin",
+   "era": "early",
+   "sex": "man",
+   "age": "old",
+   "face": 25
+  },
+  "warden": {
+   "form": "portrait",
+   "shows": "red-bearded man in black with a great ruff",
+   "era": "early",
+   "sex": "man",
+   "age": "adult",
+   "station": "middling",
+   "face": 18
+  },
+  "warlord": {
+   "form": "scene",
+   "shows": "a dark figure holding a sword over a woman before a throne",
+   "era": "modern",
+   "sex": "mixed"
+  },
+  "warrior": {
+   "form": "group",
+   "shows": "warriors in a war dance with shields before onlookers",
+   "era": "late",
+   "sex": "man",
+   "station": "martial"
+  },
+  "watcher": {
+   "form": "portrait",
+   "shows": "woman in red on a marble rail shading her eyes, the sea beyond",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 12
+  },
+  "waterbearer": {
+   "form": "portrait",
+   "shows": "woman with a copper jar on her head at a doorway",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "station": "labouring",
+   "face": 12
+  },
+  "well": {
+   "form": "interior",
+   "shows": "figures by a well in a dim courtyard",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "whale": {
+   "form": "landscape",
+   "shows": "a whale surfacing by sailing ships at dawn",
+   "era": "late"
+  },
+  "whaler": {
+   "form": "scene",
+   "shows": "men flensing a whale from a ship's side",
+   "era": "modern",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "wheel-breaker": {
+   "form": "portrait",
+   "shows": "woman in black with a broken wheel and a sword",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "wheel": {
+   "form": "group",
+   "shows": "a street riot under a flag",
+   "era": "late",
+   "sex": "mixed"
+  },
+  "wintre": {
+   "form": "landscape",
+   "shows": "a frozen river below a snowy town with skaters",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "witch": {
+   "form": "portrait",
+   "shows": "young woman in a turban and patterned robe with a book",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "witness": {
+   "form": "portrait",
+   "shows": "young woman in rose at a window with a flower in her hair",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 20
+  },
+  "wizard": {
+   "form": "group",
+   "shows": "an old woman reading a book to a lady and a man, dogs and a cock",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "wolf": {
+   "form": "scene",
+   "shows": "hounds tearing at a wolf",
+   "era": "early"
+  },
+  "woman-in-red": {
+   "form": "portrait",
+   "shows": "lady in a red gown and gold necklace",
+   "era": "early",
+   "sex": "woman",
+   "age": "young",
+   "station": "high",
+   "face": 20
+  },
+  "woman": {
+   "form": "portrait",
+   "shows": "woman in a turban and black wrap, flat and modern",
+   "era": "modern",
+   "sex": "woman",
+   "age": "young",
+   "face": 25
+  },
+  "wonder": {
+   "form": "scene",
+   "shows": "a little girl among wildflowers in tall grass",
+   "era": "modern",
+   "sex": "woman",
+   "age": "child"
+  },
+  "woodsman": {
+   "form": "scene",
+   "shows": "a man in a wood carrying a child on his back by lantern light",
+   "era": "early",
+   "sex": "man",
+   "station": "labouring"
+  },
+  "wordsmith": {
+   "form": "portrait",
+   "shows": "man in a broad black hat pointing, writing",
+   "era": "late",
+   "sex": "man",
+   "age": "adult",
+   "station": "artist",
+   "face": 20
+  },
+  "workshop": {
+   "form": "scene",
+   "shows": "a fantastic forge among ruins with figures",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "world": {
+   "form": "landscape",
+   "shows": "a garden paradise of putti and flowers",
+   "era": "early",
+   "sex": "mixed"
+  },
+  "wreck": {
+   "form": "landscape",
+   "shows": "a ship foundering in a heavy sea",
+   "era": "late"
+  },
+  "writer": {
+   "form": "group",
+   "shows": "two sisters reading a letter on a red sofa",
+   "era": "late",
+   "sex": "woman",
+   "station": "high"
+  },
+  "writing-master": {
+   "form": "portrait",
+   "shows": "old man in spectacles bent over writing",
+   "era": "modern",
+   "sex": "man",
+   "age": "old",
+   "station": "learned"
+  },
+  "yahweh": {
+   "form": "portrait",
+   "shows": "young woman in white and red with a lamb, gesturing",
+   "era": "late",
+   "sex": "woman",
+   "age": "young",
+   "face": 10
+  },
+  "madrileña": {
+   "form": "portrait",
+   "shows": "girl in a black lace mantilla with roses in her hair",
+   "era": "late",
+   "sex": "woman",
+   "age": "child",
+   "station": "middling",
+   "face": 22
+  }
+ }
+}

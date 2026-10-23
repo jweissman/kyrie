@@ -14,6 +14,16 @@ export interface Painting {
   artist?: string; life?: string; title?: string; date?: string; medium?: string; collection?: string; url?: string;
   credit?: string; source: 'wga-comment' | 'artuk-exif' | 'exif' | 'iptc' | 'xmp' | 'none';
   copy: string; copyBytes: number; concept: PaintingConcept;
+  // The copy large enough to be looked at (in conversation), and what the painting shows (data/paintings/seen.json).
+  large: string; largeBytes: number; seen: Seen;
+}
+// What a painting shows, recorded by looking at it: its form; for a portrait, the sitter as seen; the era of its
+// manner; where the face sits, as a percentage of the height; a few words of what it shows.
+export interface Seen {
+  form: 'portrait' | 'group' | 'scene' | 'landscape' | 'interior' | 'object' | 'animal'; shows: string;
+  era: 'early' | 'late' | 'modern'; sex?: 'man' | 'woman' | 'mixed'; age?: 'child' | 'young' | 'adult' | 'old';
+  station?: 'labouring' | 'middling' | 'high' | 'religious' | 'martial' | 'learned' | 'artist' | 'player';
+  face?: number;
 }
 
 // Reads a JPEG's own metadata, segment by segment, and makes what it says into an attribution: the Web Gallery of Art

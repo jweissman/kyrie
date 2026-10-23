@@ -237,11 +237,15 @@ export class ScreenModel {
     const own = w.module.relations.some(r => r.name === 'likeness') ? w.one('likeness', id) : undefined;
     const ownName = own && w.module.entities.find(e => e.id === own)?.name;
     const role = w.module.entities.find(e => e.id === id)?.name.split(', ').slice(1).join(' ');
+    const pronoun = w.module.relations.some(r => r.name === 'pronouns') ? w.one('pronouns', id) : undefined;
+    const sex = /pron_he$/.test(pronoun ?? '') ? 'man' as const : /pron_she$/.test(pronoun ?? '') ? 'woman' as const : undefined;
     const painting = Likeness.of({ ...ownName ? { own: ownName } : {},
       ...member?.backgroundId ? { background: member.backgroundId } : {},
-      ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {} });
+      ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {},
+      ...sex ? { sex } : {}, key: id });
     const credit = painting && Likeness.credits[painting];
-    return painting ? { src: Likeness.src(painting), ...credit ? { credit } : {} } : undefined;
+    return painting ? { src: Likeness.src(painting), large: Likeness.large(painting), focus: Likeness.focus(painting),
+      ...credit ? { credit } : {} } : undefined;
   }
   // Every entity by the name the company knows it by: a member by their own name.
   private static names(campaign: Campaign): Map<string, string> {

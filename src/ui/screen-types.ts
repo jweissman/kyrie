@@ -32,7 +32,9 @@ export interface TargetRow {
   // Someone who has joined the company: not here so much as with you, and to be talked to wherever you are.
   companion?: boolean;
   // The painting shown beside them: for what they do, not of them (see Likeness), and how it is credited.
-  portrait?: { src: string; credit?: string };
+  // A painting of someone who could be them: the small copy, the large one for conversation, where the face sits (a
+  // percentage of the height, for cropping), and who painted it, as far as the painting itself says.
+  portrait?: { src: string; large: string; focus: number; credit?: string };
 }
 export interface ItemRow {
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;

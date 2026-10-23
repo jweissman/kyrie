@@ -6,6 +6,8 @@ import trades from '../../../data/generation/scenes/occupations.json';
 import { RegionGeography } from '../region-geography';
 import type { Region } from '../region-writer';
 import type { Animal, Community, Resident } from './community';
+import { Likeness } from '../../paintings/likeness';
+import { Portraits } from '../../paintings/portraits';
 
 // A community written as Kyr: its workplaces off the green; each of its people at their work by day, at the inn or
 // at home of an evening, and indoors at night, seen at what they do and ready to say something of it; its animals,
@@ -32,6 +34,16 @@ export class CommunityWriter {
   private static said(text: string, r: { name: string; pronoun: string }, place: string): string {
     return Voice.render(text.replace(/\{Name\}/g, r.name).replace(/\{place\}/g, place), { pronoun: r.pronoun });
   }
+  // A painting of someone who could be them: of their sex, and of their work or its station; each one's own in the
+  // country (see Portraits).
+  private static readonly portraits = new WeakMap<Region, Portraits>();
+  private static likeness(region: Region, r: Resident): string {
+    const portraits = this.portraits.get(region) ?? this.portraits.set(region, new Portraits()).get(region)!;
+    const station = Likeness.stations[r.work.painting];
+    const id = portraits.take({ ...r.pronoun === 'she' ? { sex: 'woman' as const } : r.pronoun === 'he' ? { sex: 'man' as const } : {},
+      concept: r.work.painting, ...station ? { stations: [station] } : {} }, `${region.name}:${r.id}`);
+    return id ? ` Likeness ${this.q(id)}.` : '';
+  }
   private static resident(region: Region, c: Community, r: Resident): string[] {
     const s = c.settlement, q = this.q, work = r.workplace ?? `${s.id}_green`;
     const kin = r.kin ? `, ${c.residents.find(x => x.id === r.kin!.to)?.name}'s ${r.kin.as}` : '';
@@ -42,7 +54,7 @@ export class CommunityWriter {
     return [
       `  Person ${r.id} ${q(r.name)} at ${work} { Role ${q(role)}. Ancestry ${r.ancestry}.`
         + ` ${Overlays.has(r.work.background, 'profession') ? 'Profession' : 'Background'} ${r.work.background}.`
-        + `${this.calling(r.work.background)} Likeness ${q(r.work.painting)}.`
+        + `${this.calling(r.work.background)}${this.likeness(region, r)}`
         + ` Peaceable. Pronouns ${r.pronoun}. Manner ${r.manner}. }`,
       `  Observe ${r.id}_seen near ${r.id} of ${r.id} when at(${r.id}, ${work}) ${q(this.said(r.seen, r, s.name))}.`,
       ...r.evening === 'inn' ? [`  Observe ${r.id}_evening near ${r.id} of ${r.id} when at(${r.id}, ${s.id}_taproom) ${q(this.said(r.tavern, r, s.name))}.`] : [],
