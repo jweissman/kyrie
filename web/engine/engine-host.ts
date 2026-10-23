@@ -11,6 +11,7 @@ import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
 import { Frontier } from '../../src/world/frontier';
 import { Scenarios } from '../scenarios';
+import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { PlayTranscript } from './transcript';
 import type { Entry, Frame, Leaf, Member, Message, Request, SaveSummary } from './protocol';
 import { SaveCodec } from './save-codec';
@@ -39,6 +40,7 @@ export class EngineHost {
   private turn?: { battle: Battle; resolve: (c: Command) => void };
   private readonly creation = new Creation();
   constructor(private readonly post: (message: Message) => void) {}
+  warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
   async handle(request: Request): Promise<unknown> {
     switch (request.kind) {
       case 'catalog': return Creation.catalog();
@@ -72,8 +74,10 @@ export class EngineHost {
   private async resume(text: string, world?: string): Promise<Frame> {
     const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
     const part = world ? JSON.parse(await SaveCodec.unpack(world)) as WorldPart : undefined;
-    const saved = KeptGame.join(parsed, part);
-    this.session = PlaySession.resume(saved.checkpoint);
+    const saved = KeptGame.join(parsed, part), kept = 'version' in parsed && parsed.version === 2;
+    // Parsed here for this alone, it is handed over; one this engine kept itself (state and world) is not checked
+    // again.
+    this.session = PlaySession.resume(saved.checkpoint, { owned: true, trusted: kept });
     // The world it came with is kept already: known by the same key, and by the module the campaign now holds.
     const live = this.session.checkpoint(true).save;
     this.world = 'version' in parsed && parsed.version === 2 && part ? { key: parsed.world, kept: true,

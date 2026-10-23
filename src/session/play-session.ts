@@ -35,10 +35,11 @@ export class PlaySession {
     return new PlaySession(await Campaign.load(scenario, seed, source, party),
       { scenario, seed, steps: [], complete: true, ...(party ? { party } : {}) });
   }
-  static resume(checkpoint: SessionCheckpoint): PlaySession {
+  // handed: the checkpoint is the session's own from now on (owned), and was kept by this engine (trusted).
+  static resume(checkpoint: SessionCheckpoint, handed: { owned?: boolean; trusted?: boolean } = {}): PlaySession {
     if (checkpoint.version !== 1) { throw new Error('Unsupported session checkpoint'); }
     const t = checkpoint.transcript;
-    return new PlaySession(Campaign.restore(checkpoint.save), t);
+    return new PlaySession(Campaign.restore(checkpoint.save, handed), t);
   }
   // A bare Kyr save has no command history; continuing from it yields an incomplete transcript.
   static fromSave(save: CampaignSave, scenario = 'imported'): PlaySession {

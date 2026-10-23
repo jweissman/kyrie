@@ -22,8 +22,16 @@ export class CreatureStore {
     if (this.records.has(creature.id)) { throw new Error(`Duplicate creature ${creature.id}`); }
     const existingItems = new Set([...this.records.values()].flatMap(c => (c.state.inventory ?? []).map(i => i.id)));
     if (creature.state.inventory?.some(i => existingItems.has(i.id))) { throw new Error('Item has multiple owners'); }
-    this.records.set(creature.id, structuredClone(creature));
+    this.records.set(creature.id, creature);
     this.revision++;
+  }
+  // A store with these creatures besides. Records are replaced when they change, never changed where they lie, so
+  // the two stores can share the ones they both hold.
+  with(added: Creature[]): CreatureStore {
+    const next = new CreatureStore();
+    next.records = new Map(this.records);
+    for (const creature of added) { next.insert(creature); }
+    return next;
   }
   get(id: string): Creature {
     const creature = this.records.get(id);

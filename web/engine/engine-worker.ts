@@ -18,3 +18,5 @@ class EngineWorker {
   }
 }
 EngineWorker.scope.onmessage = EngineWorker.receive;
+// The rules are the same for every game: they are read as soon as the engine starts, while the title is up.
+EngineWorker.host.warm();

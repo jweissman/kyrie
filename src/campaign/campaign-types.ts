@@ -35,6 +35,8 @@ export interface CampaignSave {
   creatures: Creature[]; events: CampaignEvent[]; encounter: number;
   observations: Record<string, number>;
 }
+// A save being resumed: copied unless handed over (owned); its module checked unless this engine kept it (trusted).
+export interface Restored { save: CampaignSave; owned?: boolean; trusted?: boolean }
 export interface CampaignEvent {
   resolution?: CommandResolution;
   action: string; elapsed: number; changes: string[];

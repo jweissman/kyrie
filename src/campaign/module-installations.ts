@@ -31,18 +31,22 @@ export class ModuleInstallations {
   // The people a new installation brings, made and placed in the store, with the facts about them projected into
   // its world: everyone's as they stand now, after any have joined the company or left it (see Membership). Every
   // goal they pursue is checked against that world before it is accepted.
-  static populate(next: Instance, creatures: CreatureStore, current: Parameters<typeof Membership.live>[1]) {
+  // everyone: whether everyone's facts are projected again, or only the newcomers' (while a campaign is assembled
+  // from many modules at once, when everyone's are projected once at the end).
+  static populate(next: Instance, creatures: CreatureStore, current: Parameters<typeof Membership.live>[1],
+    everyone = true) {
     const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
     const live = Membership.live(next.campaign!.actors, current).actors;
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
     const added = next.campaign!.creatures.filter(c => !held.has(c.id));
-    const store = new CreatureStore([...creatures.snapshot, ...added.map(entry => {
+    const store = creatures.with(added.map(entry => {
       const creature = new Content(entry.seed!).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
       creature.state.gold += entry.gold;
       return creature;
-    })]);
+    }));
     CreatureFacts.initialize(new World(next.module, next.world), actors, store);
-    const world = CreatureFacts.project(new World(next.module, next.world), live, store);
+    const projected = everyone ? live : live.filter(a => !had.has(a.id));
+    const world = CreatureFacts.project(new World(next.module, next.world), projected, store);
     Progression.outcomes(world, next.campaign!);
     for (const actor of next.campaign!.actors) {
       for (const goal of actor.goals) {
@@ -106,8 +110,16 @@ export class ModuleInstallations {
       ...LocalKinds.merge(base?.catalog, incoming.catalog),
       goal: { kind: 'boolean', value: false }, budget: ModuleWriter.number(0) };
   }
-  static prepare(base: Instance | undefined, draft: ModuleDraft, elapsed: number): Instance {
-    const incoming = structuredClone(draft.instance), addition = incoming.campaign!;
+  // checked: whether to check the joined module now. A campaign assembled from many modules at once checks the whole
+  // once, when the last is in (see Campaign.assemble), not again after each.
+  // The joined module checked whole: its declarations, and what can be discovered in its world.
+  static check(module: Instance['module'], world: World) {
+    new ModuleCompiler(RuntimeCapabilities.signatures).validate(module);
+    Discovery.validate(module, world);
+  }
+  static prepare(base: Instance | undefined, draft: ModuleDraft, elapsed: number, checked = true): Instance {
+    // A draft is made for the one installation, and is the installation's own to change.
+    const incoming = draft.instance, addition = incoming.campaign!;
     ClockShift.apply(incoming.module, addition.schemas!, draft.id, elapsed);
     const prior = base?.campaign;
     if (prior?.installations?.some(m => m.id === draft.id)) { throw new Error('Module already installed'); }
@@ -130,14 +142,12 @@ export class ModuleInstallations {
       throw new Error('A pressure must belong to one installed module');
     }
     RoleRequirements.validate(draft.roles ?? [], module, new World(module, base?.world));
-    const compiler = new ModuleCompiler(RuntimeCapabilities.signatures);
     if (!module.entities.some(e => e.id === 'gold' && e.type === 'good')
       || !module.entities.some(e => e.id === 'clock' && e.type === 'clock')) {
       throw new Error('Campaign rules require shared gold and clock entities');
     }
-    compiler.validate(module);
     const installed = new World(module, base?.world).apply(incoming.module.initial);
-    Discovery.validate(module, installed);
+    if (checked) { this.check(module, installed); }
     return { module, world: installed.snapshot, campaign: definition,
       budget: Math.max(0, ...definition.installations!.flatMap(m => m.deadline === undefined ? [] : [m.deadline])) };
   }

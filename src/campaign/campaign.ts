@@ -32,7 +32,7 @@ import { Journey } from './journey'; import { LocalKinds } from '../canon/local-
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
-import type { CampaignState, CampaignSave, CampaignEvent } from './campaign-types';
+import type { CampaignState, CampaignSave, CampaignEvent, Restored } from './campaign-types';
 export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -43,18 +43,21 @@ export class Campaign implements WatchHost {
   private definition?: CampaignDefinition;
   private observations: Record<string, number> = {};
   private executing = false;
-  // A campaign is a composition of installed modules (see Campaign.load); restore() resumes a save.
-  constructor(seed: string, instance: Instance, saved?: CampaignSave, calendar?: CampaignState['calendar']) {
+  // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
+  // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
+  // module checked unless it is a game this engine kept itself (trusted).
+  constructor(seed: string, instance: Instance, restored?: Restored, calendar?: CampaignState['calendar']) {
+    const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
-      this.compiled = structuredClone(saved.module); this.definition = structuredClone(saved.definition);
-      this.current = structuredClone(saved.state); this.creatures = new CreatureStore(saved.creatures);
-      this.log = structuredClone(saved.events); this.encounter = saved.encounter;
-      this.observations = structuredClone(saved.observations); LocalKinds.install(saved.module.catalog);
+      this.compiled = saved.module; this.definition = saved.definition;
+      this.current = saved.state; this.creatures = new CreatureStore(saved.creatures);
+      this.log = saved.events; this.encounter = saved.encounter;
+      this.observations = saved.observations; LocalKinds.install(saved.module.catalog);
       // A save from before demand grounding holds grounded actions; its schemas are in the definition.
       if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
         this.compiled.actions = this.definition.schemas;
       }
-      new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module);
+      if (!restored.trusted) { new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module); }
       if (this.definition) {
         const projected = CreatureFacts.project(this.world, this.live, this.creatures);
         if (projected.key() !== this.world.key()) { throw new Error('Inconsistent saved creature facts'); }
@@ -62,9 +65,9 @@ export class Campaign implements WatchHost {
       return;
     }
     if (!instance.campaign) { throw new Error('A campaign is a composition of installed modules'); }
-    this.definition = structuredClone(instance.campaign);
+    this.definition = instance.campaign;
     const content = new Content(`${seed}:campaign`);
-    this.compiled = structuredClone(instance.module);
+    this.compiled = instance.module;
     for (const entry of this.definition.creatures) {
       const creature = (entry.seed ? new Content(entry.seed) : content).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
       creature.state.gold += entry.gold;
@@ -74,7 +77,7 @@ export class Campaign implements WatchHost {
     if (!player) { throw new Error('Campaign needs a player actor'); }
     const inhabitants: Record<string, string[]> = {};
     for (const actor of this.definition.actors) { inhabitants[actor.id] = [...actor.members]; }
-    this.current = { seed, world: structuredClone(instance.world), partyIds: [...player.members],
+    this.current = { seed, world: instance.world, partyIds: [...player.members],
       inhabitants, elapsed: 0, deadline: instance.budget, outcome: 'active', ...calendar ? { calendar } : {} };
     // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
     this.commit(this.world.apply(CampaignTick.clock(this.world, this.current)));
@@ -107,19 +110,21 @@ export class Campaign implements WatchHost {
     const manifest = await ModuleBundle.campaign(path, source, seed);
     party ??= manifest.party;
     let campaign: Campaign | undefined;
+    // Each module is checked as it is compiled; the joined whole, once, when the last is in.
     for (const request of manifest.modules) {
-      if (campaign) { await campaign.install(request, source); }
-      else {
-        const draft = await ModuleBundle.load(request, { seed }, source);
-        if (party) { CompanyChoices.apply(draft, party); }
-        Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
-        campaign = new Campaign(seed, ModuleInstallations.prepare(undefined, draft, 0), undefined, manifest.calendar);
-      }
+      if (campaign) { await campaign.install(request, source, false); continue; }
+      const draft = await ModuleBundle.load(request, { seed }, source);
+      if (party) { CompanyChoices.apply(draft, party); }
+      Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
+      const first = ModuleInstallations.prepare(undefined, draft, 0, false);
+      campaign = new Campaign(seed, first, undefined, manifest.calendar);
     }
-    campaign!.compiled.name = manifest.name;
-    return campaign!;
+    // Settled when the last is in: everyone's facts projected (each install projected only its newcomers'), and the
+    // joined whole checked.
+    campaign!.refresh(); ModuleInstallations.check(campaign!.module, campaign!.world);
+    campaign!.compiled.name = manifest.name; return campaign!;
   }
-  async install(request: BundleRequest, source: BundleSource): Promise<void> {
+  async install(request: BundleRequest, source: BundleSource, checked = true): Promise<void> {
     this.installBoundary();
     if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
     const startedAt = this.current.elapsed;
@@ -129,8 +134,8 @@ export class Campaign implements WatchHost {
     if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
     Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
     const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world,
-      budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed);
-    const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current);
+      budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
+    const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, checked);
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
     this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
@@ -156,10 +161,10 @@ export class Campaign implements WatchHost {
       observations: this.observations };
     return live ? save : structuredClone(save);
   }
-  static restore(saved: CampaignSave): Campaign {
+  static restore(saved: CampaignSave, handed: { owned?: boolean; trusted?: boolean } = {}): Campaign {
     if (saved.version !== 1) { throw new Error('Unsupported campaign save'); }
     return new Campaign(saved.state.seed,
-      { module: saved.module, world: saved.state.world, budget: saved.state.deadline }, saved);
+      { module: saved.module, world: saved.state.world, budget: saved.state.deadline }, { save: saved, ...handed });
   }
   get state(): CampaignState {
     return { ...structuredClone(this.current), party: this.party, creatures: this.creatures.snapshot,

@@ -139,7 +139,14 @@ export class ModuleBundle {
   static async warm(path: string, source: BundleSource): Promise<void> {
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     const { situations, rules } = this.paths(manifest, path, source);
-    for (const file of [...situations, ...rules]) {
+    await this.read([...situations, ...rules], source);
+  }
+  // The rules every game is played by, read before any game is asked for (while the title is up).
+  static async warmRules(source: BundleSource): Promise<void> {
+    await this.read(this.ruleNames.map(name => source.resolve(`data/rules/${name}.kyr`)), source);
+  }
+  private static async read(files: string[], source: BundleSource): Promise<void> {
+    for (const file of files) {
       const text = await source.read(file);
       if (!this.parses.has(text)) {
         try { this.parses.set(text, ModuleParser.parse(text)); } catch { /* said when it is loaded */ }
