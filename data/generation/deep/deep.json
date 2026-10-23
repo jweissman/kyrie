@@ -1,8 +1,10 @@
 {
   "about": "The Delvers' mine: a deep site generated from what the mine was for. Levels follow the vein down: the adit level where ore was hauled out, the haulage level round the shaft bottom, the drowned level below the pumps, and the breach where the last gallery broke into something not theirs. Each level is a spine of rooms (a role, or ?role for one that may not be there), with branches off it and loops through it; connectors join the levels (the cage in the shaft, the ladders in the winze, the ore pass, the sealed stair). Roles give each room its names and its scene; {old} is the mine's old name, {makers} the Delvers, {successors} the kingdom after them. Written by hand.",
   "art": "deep",
+  "walks": ["the gallery", "the passage", "the drift"],
   "plan": {
     "id": "deep_mine",
+    "kind": "mine",
     "seen": "a timbered adit in a hillside",
     "names": [
       "hold",
@@ -651,9 +653,16 @@
     ]
   },
   "outside": "Spoil heaps run down the hillside in grey fans that the heather has never taken, and above them a timbered mouth opens into the hill, its lintel a single oak beam. Cut into the beam in the old script, worn but whole: {oldup}.",
+  "hook": {
+    "topic": "the old workings",
+    "trade": { "topic": "what the old workings are worth", "says": "turns a lump of something pale over in the light. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'" }
+  },
   "ore": {
     "kind": "star_iron",
     "name": "a lump of star-iron",
+    "worth": 30,
+    "weight": 2,
+    "text": "Pale ore, heavier than it looks, that glitters faintly in the dark.",
     "roles": {
       "stope": 3,
       "chute_top": 2,
@@ -855,6 +864,57 @@
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea kept their plunder in the adit one summer: their carved post still stands at the mouth, a ship's figurehead with its face hacked off." }
     ]
+  },
+  "mechanisms": {
+    "winch": {
+      "kind": "shaft",
+      "thing": "the winding wheel",
+      "seized": "The winding wheel is seized: rust has locked its axle, and the chain hangs slack down the shaft. Somewhere below, the cage sits at the bottom.",
+      "turning": "The winding wheel turns, stiffly, and the chain runs over it; the cage can be wound up and let down.",
+      "free": "Work the seized wheel free",
+      "shut": "The cage is at the bottom of the shaft, and the wheel that would bring it up will not turn.",
+      "climb": "the chain, hand over hand"
+    },
+    "seal": {
+      "kind": "stair",
+      "thing": "the wall across the stair",
+      "noun": "the walled stair",
+      "opened": "the stair",
+      "standing": "A wall of dressed stone stands across the stair, built in a hurry, its mortar slopped and run.",
+      "broken": "The wall across the stair lies in pieces on the steps, and the way down is open.",
+      "break": "Break the wall down",
+      "rebuild": "Build the wall back up across the stair",
+      "words": "the words cut in the wall",
+      "unread": "Words are cut deep into the stones of the wall, in the old script. Someone who reads the old script could say what they mean.",
+      "read": "{oldup} SHUT THIS. WE WENT TOO FAR DOWN, AND WHAT WE FOUND WE LEFT THERE. {FATE}",
+      "readLabel": "Read what is cut in the wall",
+      "told": "Read aloud, the old words say plainly enough what the makers shut in below, and what it cannot bear."
+    },
+    "vent": {
+      "found": "Where the draft goes: behind the rubble at the end of the stope, a way into the air shaft.",
+      "sign": "A draft moves your light, steadily, toward the end of the chamber, where the rubble is heaped highest.",
+      "crawl": "the gap behind the rubble",
+      "rungs": "the iron rungs in the air shaft"
+    },
+    "drowned": {
+      "flooded": "Black water fills the gallery to its roof.",
+      "deep": "The stair goes down into black water, which stands to within a hand of the roof of the gallery ahead. Your light goes into it and does not come back.",
+      "going": "The water has gone down: the tops of the gallery's props stand out of it now, black and dripping, and it is still going.",
+      "gate": "the bronze gate in the channel",
+      "gateShut": "The bronze gate stands across the race, and the spring runs on down its own channel and away.",
+      "gateOpen": "The gate is swung across the old channel, and the spring goes roaring away down the race into the dark.",
+      "open": "Swing the gate across, and turn the spring down the race",
+      "shut": "Swing the gate back, and let the spring run its own way",
+      "chain": "the bucket-chain",
+      "slack": "The bucket-chain hangs slack from the wheel's axle; the pawl that would hold it to the axle is knocked out of its seat.",
+      "engaged": "The bucket-chain is set on the axle, and goes round with the wheel.",
+      "engage": "Knock the pawl home, and set the bucket-chain on the axle",
+      "drained": "From the pump-shaft comes a new sound: the buckets coming up empty, full of air.",
+      "running": "Water pours down the race onto the wheel, which turns with a noise like a mill; the buckets come up full out of the shaft and tip into the drain.",
+      "idle": "Water pours down the race and the wheel spins on nothing: the buckets hang still in the shaft.",
+      "dry": "The race above the wheel is dry, and the wheel stands still. Down the well-shaft there is the sound of standing water.",
+      "heard": "Far below, very faint through the rock, something is turning."
+    }
   },
   "rest": [
     "hall",

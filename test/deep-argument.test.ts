@@ -50,9 +50,9 @@ describe('the walled stair, argued at the shrine', () => {
       'Argue with Baern that what is below should be met, not walled in · unlikely',
       'Watch Baern for what goes unsaid · an even chance',
       'Tell Baern the stair will be opened whatever is said · an even chance',
-      'Promise Baern to wall the stair up again when you come back up']));
+      'Promise Baern to shut the stair again when you come back up']));
     // Evidence is offered only to a company that has the makers' words to give.
-    expect(Shrine.names(s).some(n => n.startsWith('Tell Baern what the makers cut in the wall'))).toBe(false);
+    expect(Shrine.names(s).some(n => n.startsWith('Tell Baern what the words cut in the wall say'))).toBe(false);
   }, 90000);
   it('is won by seeing the grief behind the doctrine and speaking to it; won, the priest tells what is below', async () => {
     const s = await Shrine.start();
@@ -77,7 +77,7 @@ describe('the walled stair, argued at the shrine', () => {
     await Shrine.take(defied, /^Wait a while$/);
     expect(Shrine.test(defied, 'refusesService', Shrine.priest, 'party')).toBe(true);
     const promised = await Shrine.start();
-    await Shrine.take(promised, /^Promise Baern to wall the stair up again/);
+    await Shrine.take(promised, /^Promise Baern to shut the stair again/);
     expect(Shrine.test(promised, 'refusesService', Shrine.priest, 'party')).toBe(false);
     Shrine.set(promised, [{ kind: 'retract', call: ModuleWriter.call('state', Shrine.wall(promised), 'region__standing') },
       { kind: 'assert', call: ModuleWriter.call('state', Shrine.wall(promised), 'region__broken') }]);
@@ -85,7 +85,7 @@ describe('the walled stair, argued at the shrine', () => {
     // The wall open while the promise stands is no fault yet; the heart brought up with it still open is.
     expect(Shrine.test(promised, 'refusesService', Shrine.priest, 'party')).toBe(false);
     Shrine.set(promised, [{ kind: 'assert', call: ModuleWriter.call('region__w9_raised') }]);
-    expect(await Shrine.take(promised, /^Wait a while$/)).toContain('You promised me the wall');
+    expect(await Shrine.take(promised, /^Wait a while$/)).toContain('You promised to shut it again');
     expect(Shrine.test(promised, 'refusesService', Shrine.priest, 'party')).toBe(true);
   }, 120000);
 });

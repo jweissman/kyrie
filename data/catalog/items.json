@@ -317,6 +317,18 @@
         "notes": "Orsino's lantern lasts 24 where a torch lasts 4. A Kyr torch burns an hour, so a lantern burns six on a flask of oil, and is lit again with another."
       }
     },
+    "lamp": {
+      "name": "Lamp",
+      "category": "equipment",
+      "description": "An oil lamp of clay with a wick in its spout. Filled with lamp oil and lit, it gives a small steady light.",
+      "value": 3,
+      "fuel": "lamp_oil",
+      "source": {
+        "orsino": "gear:lamp",
+        "fidelity": "adapted",
+        "notes": "Orsino's lamp lasts 12 where a torch lasts 4. Here it burns a flask of lamp oil, as the lantern does, rather than lighting the dark for ever."
+      }
+    },
     "lamp_oil": {
       "name": "Flask of lamp oil",
       "category": "gear",

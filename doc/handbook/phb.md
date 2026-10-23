@@ -1056,7 +1056,7 @@ Strength used with judgement: lifting a fallen weight clear, wrenching a lock of
 
 *Kyr* · `skill:light`
 
-- Brought by: Lamp, Jar of moonlight
+- Brought by: Jar of moonlight
 
 Carrying a light that shows the way in unlit places.
 
@@ -2932,13 +2932,10 @@ Used: You gain candlelit for 2 hours.
 *Adapted · equipment* · `item:lamp`
 
 - Worth: 3
-- Worn: light
 
-Brings Light to whoever carries it equipped.
+> An oil lamp of clay with a wick in its spout. Filled with lamp oil and lit, it gives a small steady light.
 
-> An oil lamp that provides light in dark places.
-
-*Left out — field:masterGear.duration: A Kyr light does not burn down by itself.*
+*Adapted: Orsino's lamp lasts 12 where a torch lasts 4. Here it burns a flask of lamp oil, as the lantern does, rather than lighting the dark for ever.*
 
 #### Lantern
 

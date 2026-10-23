@@ -1,4 +1,5 @@
 import mine from '../../../data/generation/deep/deep.json';
+import barrow from '../../../data/generation/deep/barrow.json';
 import type { WorkPlan } from '../history/work-plans';
 
 // What a room of a deep site is for, and how it is told.
@@ -24,9 +25,26 @@ export interface DeepGroup {
 import type { Alteration } from './deep-history';
 
 export interface Valuable { id: string; name: string; worth: number; weight: number; text: string }
+// The words a purpose gives its working parts (DeepMechanisms): a way between levels that its gear must be freed to
+// work, a seal with the makers' warning cut in it, a drowned level and the wheel that drains it, a hidden way out.
+export interface MechanismWords {
+  winch?: { kind: string; thing: string; seized: string; turning: string; free: string; shut: string; climb: string };
+  seal?: { kind: string; thing: string; noun: string; opened: string; standing: string; broken: string; break: string;
+    rebuild: string; words: string; unread: string; read: string; readLabel: string; told: string };
+  vent?: { found: string; sign: string; crawl: string; rungs: string };
+  drowned?: { flooded: string; deep: string; going: string; gate: string; gateShut: string; gateOpen: string;
+    open: string;
+    shut: string; chain: string; slack: string; engaged: string; engage: string; drained: string; running: string;
+    idle: string; dry: string; heard: string };
+}
 // What a deep site was for, and so how it is laid out, what lives in it, and what lies at the bottom of it.
 export interface DeepPurpose {
-  art: string; plan: { id: string; seen: string; names: string[]; ground: string[]; danger: number };
+  art: string; plan: { id: string; kind: string; seen: string; names: string[]; ground: string[]; danger: number };
+  mechanisms: MechanismWords;
+  // What a way between two rooms of a level is called (a gallery, a drift in a mine).
+  walks?: string[];
+  // How the home town speaks of it: what the innkeeper is asked about, what its trader buys from it, and says.
+  hook: { topic: string; trade?: { topic: string; says: string } };
   levels: DeepLevelSpec[]; connectors: DeepConnector[]; roles: Record<string, DeepRole>;
   dwellers: { depth: number; groups: DeepGroup[] }[];
   // Who leads at a depth, or is worse than the rest: what an elite room holds.
@@ -38,10 +56,11 @@ export interface DeepPurpose {
   // they cut about it (read with lore where they walled the way down), and what reading them tells.
   bane?: { item: string; role: string; seen: string; cut: string; fact: string };
   // What they died for: the thing at the bottom, what it is, what it is to bring it up, and how that is told.
-  objective: { item: string; kind: string; text: string; goal?: string; raised?: string };
+  objective: { item: string; kind: string; text: string; goal?: string; raised?: string; worth?: number;
+    weight?: number };
   rumours: string[];
   // What it was dug or built for, left where it was got: so many of a local kind in rooms of these roles.
-  ore?: { kind: string; name: string; roles: Record<string, number> };
+  ore?: { kind: string; name: string; worth: number; weight: number; text: string; roles: Record<string, number> };
   // What lies about in it, by Orsino's treasure tier: what its makers and those after them would have left; and the
   // wonders that would be in a place like it.
   finds?: Record<string, string[]>; wonders?: string[];
@@ -61,15 +80,18 @@ export interface DeepPurpose {
 }
 
 // The deep sites a region's first makers may have left, one for each art that has one
-// (data/generation/deep/<art>.json): the Delvers' mine.
+// (data/generation/deep/<art>.json): the Delvers' mine, the Barrow-Kin's king-barrow. A country has one deep site,
+// of the first of these its makers had: a mine before a barrow.
 export class DeepPurposes {
-  static readonly all: Record<string, DeepPurpose> = { deep: mine as unknown as DeepPurpose };
+  static readonly all: Record<string, DeepPurpose> = { deep: mine as unknown as DeepPurpose,
+    bone: barrow as unknown as DeepPurpose };
+  static readonly order = ['deep', 'bone'];
   static of(art: string): DeepPurpose | undefined { return this.all[art]; }
   // A deep site as a work plan, so that it is placed, named and told of as the makers' other works are; what is
   // written of it is its own (DeepSites), not a plan's sections.
   static plan(purpose: DeepPurpose): WorkPlan {
     const p = purpose.plan;
-    return { id: p.id, about: `the deep ${p.seen}`, art: purpose.art, kind: 'mine',
+    return { id: p.id, about: `the deep ${p.seen}`, art: purpose.art, kind: p.kind as WorkPlan['kind'],
       ground: p.ground as WorkPlan['ground'], seen: p.seen, names: p.names, danger: p.danger, sections: [], deep: true };
   }
 }

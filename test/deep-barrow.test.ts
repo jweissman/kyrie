@@ -1,0 +1,75 @@
+import { describe, expect, it } from 'bun:test';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { PlaySession } from '../src/session/play-session';
+import { PlayerView } from '../src/presentation/player-view';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
+import { ModuleWriter } from '../src/lang/module-writer';
+import type { Change } from '../src/lang/module';
+import type { Region } from '../src/world/region-writer';
+
+// A second purpose from the same generator (data/generation/deep/barrow.json): where a country's first makers were
+// the Barrow-Kin and not the Delvers, its deep site is their king-barrow, built from what it was for and told in its
+// own words. A portal stone on a counterweight where a mine has a cage on a wheel; a seal-stone across the king's
+// door, with the makers' warning cut round it, where a mine has a wall across a stair; a robbers' tunnel round the
+// door; a king who shrinks from the day where a mine's keeper shrinks from noon. A1 is a fen country of the water and
+// bone arts, so it has a barrow; wren, with Delvers among its makers, keeps its mine.
+class Barrow {
+  static async world(seed: string) {
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const region = w.report.region as Region, deep = region.sites.find(s => s.work?.deep)!;
+    return { s: await PlaySession.start(w.path, seed, w.source), deep, room: (r: string) => `region__${deep.id}_${r}` };
+  }
+  static names(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
+  static set(s: PlaySession, changes: Change[]) {
+    const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply(changes));
+  }
+  // Puts the company in a room by light, with whoever lives there gone, as a test of the room and not of the fight.
+  static enter(s: PlaySession, room: string) {
+    const here = s.campaign.world.related('at').filter(r => r.args[1] === room && r.args[0] !== 'party'
+      && s.campaign.module.entities.some(e => e.id === r.args[0] && e.type === 'group'));
+    this.set(s, [...here.map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('at', ...r.args) })),
+      { kind: 'retract', call: ModuleWriter.call('unlit', room) }, { kind: 'assert', call: ModuleWriter.call('at', 'party', room) }]);
+  }
+  static async take(s: PlaySession, pattern: RegExp) {
+    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
+    if (!c) { throw new Error(`No ${pattern}: ${this.names(s).join(' | ')}`); }
+    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const f = ActionFeedbackView.read(s.campaign, event, before);
+    return [f.result, ...f.observations, ...f.events].join(' ');
+  }
+}
+
+describe('a king-barrow from the same generator as the mine', () => {
+  it('stands where the makers were the Barrow-Kin, and is told of at the inn in its own words', async () => {
+    const { s, deep } = await Barrow.world('a1');
+    expect(deep.work?.art).toBe('bone');
+    expect((await Barrow.world('wren')).deep.work?.art).toBe('deep');
+    const topics = s.campaign.module.actions.filter(a => a.speaker?.endsWith('_innkeeper')).map(a => a.name);
+    expect(topics.some(n => /about the king-barrow$/.test(n))).toBe(true);
+  }, 90000);
+  it('works its own gear: the portal stone freed, the king\'s door sealed, a robbers\' way round it', async () => {
+    const { s, room } = await Barrow.world('a1');
+    Barrow.enter(s, room('barrow_back_stone'));
+    expect(Barrow.names(s).some(n => n.startsWith('Take the stair behind the portal stone'))).toBe(false);
+    await Barrow.take(s, /^Lever the jammed counterweight free$/);
+    expect(Barrow.names(s).some(n => n.startsWith('Take the stair behind the portal stone'))).toBe(true);
+    Barrow.enter(s, room('halls_kings_door'));
+    expect(Barrow.names(s)).toEqual(expect.arrayContaining(['Break the seal-stone',
+      'Listen at the seal-stone across the king\'s door']));
+    expect(Barrow.names(s).some(n => /^Take the king's door/.test(n))).toBe(false);
+    Barrow.enter(s, room('halls_ossuary'));
+    expect(Barrow.names(s).some(n => n.startsWith('Take the robbers\' tunnel to the king\'s treasury'))).toBe(true);
+  }, 90000);
+  it('has a king who cannot abide the day, and the embalmers\' jar of it two rooms from his door', async () => {
+    const { s, room } = await Barrow.world('a1');
+    Barrow.enter(s, room('halls_embalmers'));
+    await Barrow.take(s, /^Collect a jar of noonlight/);
+    await Barrow.take(s, /^Equip a jar of noonlight/);
+    Barrow.enter(s, room('grave_antechamber'));
+    expect(await Barrow.take(s, /^Take .* to the king's hall$/)).toContain('goes back from it, step by step, into the deep grave');
+    expect(Barrow.names(s)).toContain('Collect the crown of the first king for Wenna');
+  }, 90000);
+});

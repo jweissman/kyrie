@@ -1,6 +1,7 @@
 import tongues from 'languages';
 import data from '../../../data/generation/history/arts.json';
 import { Draw } from '../land/draw';
+import { DeepPurposes } from '../deep/deep-purposes';
 import { Terrain } from '../land/terrain';
 import { RegionLand } from '../region-land';
 import type { Atlas } from '../land/atlas';
@@ -91,7 +92,8 @@ export class Histories {
     if (work) { works.push({ ...work, id: `w${works.length + 1}`, great: true }); }
     // The deep site of the first of its makers whose art goes down (a mine, a waterworks): near enough a settlement
     // to be talked of there, far enough that nobody goes.
-    const deepPlan = makers.map(m => [...this.plans.values()].find(p => p.deep && p.art === m.art)).find(p => p);
+    const deepPlan = DeepPurposes.order.filter(art => makers.some(m => m.art === art))
+      .map(art => [...this.plans.values()].find(p => p.deep && p.art === art)).find(p => p);
     const deep = deepPlan && this.work(atlas, { plan: deepPlan, key: `${key}:work:deep`, taken, names, same: [] });
     if (deep) { works.push({ ...deep, id: `w${works.length + 1}`, deep: true }); }
     return { makers, successors, works };

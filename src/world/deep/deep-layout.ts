@@ -84,7 +84,7 @@ export class DeepLayouts {
   }
   // The way between two rooms on a level: the purpose's own word for a gallery, a few minutes' walk.
   private static walk(a: DeepRoom, b: DeepRoom, purpose: DeepPurpose, draw: Draw): DeepLink {
-    const name = purpose.art === 'deep' ? draw.pick(['the gallery', 'the passage', 'the drift']) : 'the passage';
+    const name = draw.pick(purpose.walks ?? ['the passage']);
     return { id: `${a.id}__${b.id}`, a: a.id, b: b.id, kind: 'tunnel', name, minutes: 2 };
   }
   private static connect(at: { levels: DeepLevel[]; links: DeepLink[]; c: DeepConnector; site: string }) {

@@ -29,13 +29,13 @@ export class DeepSites {
         + ` teaches ${site.id}_named.`,
       ...this.places(layout), ...this.ways(layout, handled),
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
-        ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }),
+        ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose })),
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values),
-      ...DeepArgument.lines(layout, values)];
+      ...DeepArgument.lines(layout, values, purpose)];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark.
   private static places(layout: DeepLayout): string[] {
@@ -112,21 +112,22 @@ export class DeepSites {
   // Who tells of it: the innkeeper and the merchant of the settlement nearest it, each in their own words, and the
   // merchant pays well for its ore.
   private static hooks(purpose: DeepPurpose, values: Record<string, string>): string[] {
-    const q = this.q, w = values.w!;
+    const q = this.q, w = values.w!, trade = purpose.hook.trade, ore = purpose.ore;
     const [first, second] = purpose.rumours.map(t => t.replaceAll('{name}', values.name!));
-    return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about the old workings`)} when not knows(actor, ${w}_named) once {`,
+    return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when not knows(actor, ${w}_named) once {`,
       `    Says ${q(`${first} {${values.keeper}} wipes the counter. 'It is out in ${values.where}. Go in daylight, and take more light than you think.'`)}.`,
       `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }',
-      ...second ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} what the old workings are worth`)} when true once {`,
-        `    Says ${q(`${second} {${values.merchant}} turns a lump of something pale in his fingers. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'`)}.`,
+      ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when true once {`,
+        `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
         ...purpose.objective.goal ? [`    On discuss { Assert knows(actor, ${values.w}_story). }`] : [], '  }'] : [],
-      `  Initially Set pays(${values.merchant}, star_iron) to 30.`];
+      ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${ore.worth}.`] : []];
   }
   // What a deep site holds that no catalog does: its ore, and what the makers died for.
   private static kinds(purpose: DeepPurpose, left: Valuable[]): string[] {
     const q = this.q;
-    return [`  Kind star_iron "a lump of star-iron" is treasure worth 30 weighing 2 described "Pale ore, heavier than it looks, that glitters faintly in the dark.".`,
-      `  Kind ${purpose.objective.kind} ${q(purpose.objective.item)} is treasure worth 2000 weighing 30 described ${q(purpose.objective.text)}.`,
+    const ore = purpose.ore, o = purpose.objective;
+    return [...ore ? [`  Kind ${ore.kind} ${q(ore.name)} is treasure worth ${ore.worth} weighing ${ore.weight} described ${q(ore.text)}.`] : [],
+      `  Kind ${o.kind} ${q(o.item)} is treasure worth ${o.worth ?? 2000} weighing ${o.weight ?? 30} described ${q(o.text)}.`,
       ...[...Object.values(purpose.valuables ?? {}).flat(), ...left].map(v =>
         `  Kind ${v.id} ${q(v.name)} is treasure worth ${v.worth} weighing ${v.weight} described ${q(v.text)}.`)];
   }
