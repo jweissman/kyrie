@@ -46,7 +46,7 @@ describe('a fellow traveller', () => {
     GeneratedWorld.put(s, 's1_green');
     await s.perform('wait');
     expect(ScreenModel.build(s.campaign).people.find(p => p.companion)?.name).toBe('Cyril, pedlar');
-    expect((await Fellowship.take(s, /^Ask Cyril about home$/)).response).toContain('Meóswaeter. My cousin keeps the Peaceful Stag');
+    expect((await Fellowship.take(s, /^Ask Cyril about home$/)).response).toContain('Meóswaeter. My cousin');
     const news = await Fellowship.take(s, /^Ask Cyril for the news$/);
     expect(news.response).toContain('Folk go quiet when it comes up');
     expect(s.campaign.world.related('knows').some(r => r.args[0] === 'party' && /^region__w\d+_named$/.test(r.args[1]!))).toBe(true);
@@ -71,9 +71,9 @@ describe('a fellow traveller', () => {
     const { s } = await Fellowship.start();
     await Fellowship.hire(s, 's1', 'Cyril');
     const before = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'));
-    GeneratedWorld.put(s, 's4_green');
+    // Where Osborn is: behind the counter of an inn, or on the green of a hamlet that has none.
+    GeneratedWorld.put(s, s.campaign.world.one('at', 'region__s4_innkeeper')!.replace(/^region__/, ''));
     await s.perform('wait');
-    await Fellowship.take(s, /Peaceful Stag$/);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBeGreaterThanOrEqual(before + 2);
     expect((await Fellowship.take(s, /^Ask Osborn about Cyril$/)).response).toContain('Cyril');
   }, 60000);

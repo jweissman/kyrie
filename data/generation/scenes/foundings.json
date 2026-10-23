@@ -1,0 +1,155 @@
+{
+  "about": "Why a settlement is where it is, and what follows from that: a crossing has an inn because travellers are why it exists, a fishing hamlet has none; a monastery lodges strangers in its guest-hall and a fort in its canteen; a hamlet's shrine is a stone by the track and its goods are sold from a door. Each founding names the settlement's heart (where the company stands in it), says once why the place is there, describes the heart by day, gives what goes on there, may add one place of its own, and prefers the work its people do. {name} is the settlement, {river} the river it is by, {water} the lake or the sea, {pass} the pass, {cult} its god, {keeper} the one who keeps the house where travellers sleep, {trade} what it lives by.",
+  "keeping": {
+    "inn": { "role": "innkeeper", "room": "the taproom of {inn}", "door": "the door of {inn}", "house": "{inn}", "dog": "the inn's dog",
+      "night": "{name} is shuttered for the night. A lamp burns over the door of {inn}." },
+    "alehouse": { "role": "alehouse-keeper", "room": "{keeper}'s alehouse", "door": "{keeper}'s door", "house": "{keeper}'s alehouse", "dog": "the alehouse dog",
+      "night": "{name} is dark for the night, all but {keeper}'s window, where somebody is still talking.",
+      "background": "brewer", "lodging": ["a bench by the fire", 1],
+      "scene": ["The alehouse is {keeper}'s front room with a barrel in it. There are two benches and a fire, and the ale is drawn into whatever you hold out.", "{keeper}'s alehouse is a kitchen that people drink in. The cat has the best seat, and nobody disputes it.", "A low room under a low roof, with the brewing done in the back and the drinking done in the front, and the smell of both everywhere."] },
+    "guesthouse": { "role": "guest-master of the brothers' house", "room": "the guest-hall of {name}", "door": "the guest-hall door", "house": "the guest-hall", "dog": "the brothers' dog",
+      "night": "The brothers' gate is shut, but a lamp burns over it, and there is a bell for whoever comes late.",
+      "background": "acolyte", "lodging": ["a cot in the guest-hall", 1],
+      "scene": ["The guest-hall is long and whitewashed, with a row of cots down one wall and a fire at the end that the brothers keep in all night. A board by the door asks guests not to sing.", "Plain benches, a plain table, a plain fire; on the wall the rule of the house, written out in a careful hand, of which the first line is that no one is turned away."] },
+    "canteen": { "role": "sutler to the garrison", "room": "the canteen of {name}", "door": "the canteen door", "house": "the canteen", "dog": "the garrison dog",
+      "night": "Torches burn along the wall of {name}, and someone walks the length of it and back, and then again.",
+      "background": "brewer", "lodging": ["a pallet in the barrack", 2],
+      "scene": ["The canteen is a lean-to against the inside of the wall, with a counter, two barrels and a slate of what every soldier owes. The slate is longer than the counter.", "Off-duty soldiers sit in the canteen with their boots off, which is the first rule they break and not the last."] },
+    "none": { "role": "who speaks for {name}", "house": "{keeper}'s house", "dog": "{keeper}'s dog",
+      "night": "{name} is dark. A dog barks once, somewhere, and thinks better of it.",
+      "background": "farmer", "lodging": ["a place in the hayloft", 1] }
+  },
+  "holy": {
+    "shrine": { "role": "priest of {cult}", "room": "the shrine of {cult}", "door": "the shrine porch in {name}" },
+    "chapel": { "role": "prior of the brothers of {cult}", "room": "the chapel of the brothers' house", "door": "the chapel door" },
+    "garrison": { "role": "chaplain to the garrison", "room": "the garrison chapel", "door": "the chapel door in the wall" },
+    "wayside": { "role": "keeper of the wayside shrine", "thing": "the wayside shrine of {cult}" }
+  },
+  "selling": {
+    "shop": {},
+    "door": { "role": "{role}, selling from the house door" }
+  },
+  "foundings": {
+    "crossing": {
+      "heart": ["the ford at {name}", "the bridge-foot at {name}"],
+      "why": ["{name} is here because the road has to cross the {river} somewhere, and here it can. The crossing came first, and the houses came after to sell the crossing what it wanted.", "Nobody chose {name}: the {river} chose it, by being shallow here and nowhere else for a day's walk. Everything in the place faces the water."],
+      "scene": ["The road runs down between the houses of {name} to the {river}, goes straight in, and comes out on the far bank darker and wetter. Every house on this side has something to sell to people who have just come out of a river.", "At {name} the road and the {river} meet, and the houses stand close along the bank to watch them do it. A rope is strung across the water on posts for anyone who misjudges the depth.", "{name} is a crossing with a village at each end of it, the near end the larger, and the {river} going by between them as if neither were there."],
+      "life": ["A carter stands in the water with his breeches rolled, coaxing a horse that has decided against it.", "Someone on the far bank is shouting a question across the water. Nobody on this side can make out what it is, and several people are answering it anyway.", "Two drovers are arguing about whether the water is up or down from yesterday, each with a stick in it as proof."],
+      "place": { "id": "crossing", "name": "the crossing stones", "outdoors": true,
+        "scene": "Flat stones stepped across the {river}, slick and green below the waterline. The water talks round them the whole time. A post on the bank is notched to show how deep is too deep, and the top notch is a long way up." },
+      "keep": { "town": "inn", "village": "inn", "hamlet": "alehouse" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
+      "works": ["ferryman", "carter", "eel_catcher"]
+    },
+    "harbour": {
+      "heart": ["the landing at {name}", "the quay at {name}"],
+      "why": ["Boats put in at {name} because the {water} is shallow and foul everywhere else along this shore, and what boats bring in, carts take away.", "{name} is the one place on this shore where a boat can lie safe in a blow, and so everything that comes over the {water} comes in here, and most of it stays."],
+      "scene": ["Boats lie drawn up on the shingle at {name}, keel to keel, and the houses come right down to them, with nets hung on every fence and an anchor for a doorstop.", "{name} is a stone quay and a town behind it, and of the two the quay is the better built. Gulls sit along it in a row, facing the wind."],
+      "life": ["A boat is coming in under half its sail, and three people on the quay are telling the crew how to do it.", "Someone is tarring a hull upside down on trestles, and the smell of it is over everything.", "A woman is selling fish straight off a boat, holding each one up by the tail and naming its price to it."],
+      "place": { "id": "sheds", "name": "the boat-sheds", "outdoors": false,
+        "scene": "Long low sheds open to the water, with boats inside in every stage of being built or mended: ribs like a whale's, a hull half planked, an oar with a split blade. Shavings and tar underfoot, and a cat asleep on a coil of rope." },
+      "keep": { "town": "inn", "village": "inn", "hamlet": "alehouse" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
+      "works": ["fisher", "boatwright", "net_maker"]
+    },
+    "fishing": {
+      "heart": ["the strand at {name}", "the drying-ground at {name}"],
+      "why": ["The fish are why {name} is here, and the fish are why it smells the way it does.", "{name} lives off the water and has never pretended otherwise: the houses have their backs to the land."],
+      "scene": ["Fish hang drying on racks along the water at {name}, silver going to brown, and the houses keep their distance from them as far as they can.", "{name} is a handful of houses and a great many nets, every one of them wet.", "Boats lie bottom-up on the bank at {name} like sleeping animals, and the paths between the houses are paved with shells."],
+      "life": ["Two women are gutting fish into a bucket, very fast, talking about someone who is not there.", "Gulls stand along a ridge-pole, waiting for somebody to make a mistake.", "A boy is mending a net with his tongue between his teeth, and the net is winning."],
+      "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "door", "hamlet": "door" },
+      "works": ["fisher", "eel_catcher", "net_maker"]
+    },
+    "workings": {
+      "heart": { "tin": "the pit-head at {name}", "slate": "the quarry-yard at {name}", "salt": "the salt-pans at {name}", "peat": "the peat-banks at {name}" },
+      "why": ["{name} is where the {trade} is, and nothing else would have brought anybody here. Nothing else keeps them.", "Somebody found {trade} at {name} in their grandmother's time, and the place has been digging ever since, and arguing about who found it."],
+      "scene": { "tin": ["Spoil-heaps stand round {name} like a second set of hills, grey and bare. The houses are built of the same grey stone, so that it is hard to say where the village stops and the mine begins.", "The pit-head at {name} is a yard of trodden mud round a winding-wheel, with ore stacked in heaps and the ponies tethered along the wall, all of them grey with dust."],
+        "slate": ["Half a hillside has been cut away above {name}, in steps, and the houses are roofed and walled and floored with what came out of it.", "The quarry-yard at {name} is all edges: slate in stacks, slate in splinters, slate split so thin you could read through it."],
+        "salt": ["Steam stands over the salt-pans at {name} on the stillest day, and the ground round them is white and crunches underfoot.", "The salt-pans at {name} are shallow and square and steaming, with a fire under each and someone raking each, and the air tastes of the sea a long way inland."],
+        "peat": ["The peat-banks at {name} are cut back from the houses in long black steps, and the stacks drying beside them are taller than the houses.", "{name} burns what it digs and digs what it burns, and the smoke of it hangs over the place, brown and sweet."] },
+      "life": ["A string of ponies comes down from the workings with full panniers, heads low.", "Somebody blows a horn up at the workings, and everyone in the yard looks up, and then goes on with what they were doing.", "A man comes up from the workings so dirty that only his eyes are his own colour."],
+      "place": { "tin": { "id": "adit", "name": "the adit mouth", "outdoors": true, "scene": "The mine goes into the hill here, a black square mouth propped with timber. Cold air comes out of it steadily, like breath. A lamp burns in a niche beside it, with a few small offerings in front of the lamp: a nail, a heel of bread, a button." },
+        "slate": { "id": "face", "name": "the quarry face", "outdoors": true, "scene": "The quarry face goes up in steps three times a man's height, blue-grey and wet. Splitters sit at its foot with their mallets, and every so often a slab comes off clean and someone says so." },
+        "salt": { "id": "boiling", "name": "the boiling-house", "outdoors": false, "scene": "Inside the boiling-house the air is thick enough to lean on. The pans seethe over their fires, and the salt comes off the rakes grey and dries white in baskets along the wall." },
+        "peat": { "id": "stacks", "name": "the peat-stacks", "outdoors": true, "scene": "The peat is stacked to dry in walls taller than a man, with passages between them, so that the stacks are a little town of their own. Somebody's washing is drying on one of them, and will smell of it for a month." } },
+      "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
+      "works": ["miner", "quarrier", "salt_boiler", "peat_cutter", "smith"]
+    },
+    "yard": {
+      "heart": { "charcoal": "the burners' clearing at {name}", "timber": "the timber-yard at {name}", "reed": "the reed-yard at {name}", "whale oil": "the try-works at {name}", "furs": "the drying-frames at {name}", "honey": "the bee-garden at {name}" },
+      "why": ["{name} lives by {trade}, and you can tell that from a mile off.", "{name} is here because the {trade} is: the houses came after the work, and fit round it as they can."],
+      "scene": { "charcoal": ["{name} is a clearing in the wood with the houses round its edge and the clamps in the middle, smoking under their turf like sleeping animals.", "Everything at {name} is a little grey: the houses, the people, the dog, the hens. The clamps smoke in the middle of the clearing, and somebody is always watching them."],
+        "timber": ["Trunks lie in stacks at {name}, stripped and waiting, and the sawpit is the busiest place in it. The air is full of sawdust and the sound of two people disagreeing about a cut.", "{name} is built of wood, fenced with wood, paved with wood, and smells of resin from one end to the other."],
+        "reed": ["Reed stands in ricks at {name} taller than the houses, and the houses are thatched with it, and so is the shrine, and so, very nearly, is the dog.", "Bundles of reed lean against every wall at {name} to dry, so that the whole place rustles when the wind gets up."],
+        "whale oil": ["The try-works at {name} are a row of great pots over fire-pits on the shore, and the smell of them reaches you before anything else does.", "Jawbones stand as gateposts at {name}, and the fences are made of ribs."],
+        "furs": ["Pelts hang stretched on frames all round {name}, drying in the wind, and the place is full of the faint sour smell of them.", "{name} is a trading-post that grew roots: a long hall, a stockade, and the frames of pelts on every side."],
+        "honey": ["Hives stand in rows along every wall at {name}, and the air hums. People move slowly here, and do not wave their arms.", "{name} smells of wax and clover, and the bees have the run of it."] },
+      "life": ["A cart goes by loaded with the place's work, and everything it passes goes a little the worse for it.", "Two of the workers are sitting on a stack at their bread, arguing about something that happened before you were born.", "A child runs past carrying something much too heavy, very proudly."],
+      "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "door", "hamlet": "door" },
+      "works": ["charcoal_burner", "woodcutter", "carpenter", "reed_cutter", "thatcher", "whaler", "trapper", "beekeeper"]
+    },
+    "farm": {
+      "heart": ["{name} green"],
+      "why": ["{name} is fields first and a village second: everyone in it is a farmer when it matters, at sowing and at harvest.", "{name} grew up where the land was good and the water near, which is why every village is anywhere, and why this one has never had to be anything else."],
+      "place": { "id": "mill", "name": "the mill", "outdoors": false,
+        "scene": "The mill sits over the stream with its wheel turning slow and the race chattering under it. Flour is on everything, the miller included, and the miller's cat is white with it whatever colour she started." },
+      "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "door", "hamlet": "door" },
+      "works": ["farmer", "miller", "shepherd", "cowherd"]
+    },
+    "monastery": {
+      "heart": ["the gate-yard of {name}"],
+      "why": ["{name} grew up round the brothers' house of {cult}. The brothers came for the quiet, and the village came for the brothers, and the quiet went somewhere else.", "There were brothers at {name} before there was a {name}: the village is the farms that feed them and the people who sell them things."],
+      "scene": ["A wall runs round the brothers' house at {name}, with the village pressed against the outside of it like sheep against a fold. The gate stands open by day, with a bell over it.", "The gate-yard of {name} is swept, which nowhere else in the country is. The brothers' house stands at the back of it behind a low wall, and the village stands round the front of it, unswept."],
+      "life": ["A bell rings in the brothers' house, and two lay brothers in the yard stop what they are doing and stand quite still until it has finished.", "A brother is selling small beer and honey at the gate, and keeping very careful count.", "Somebody is singing inside the brothers' house, the same four notes over and over, getting them a little better each time."],
+      "place": { "id": "cloister", "name": "the cloister", "outdoors": true,
+        "scene": "A square of grass with a covered walk round it, and a well in the middle. Someone has been reading on the bench and left the book open, face down, which the brothers would not like. It is very quiet, and the quiet has been kept here a long time." },
+      "keep": { "town": "inn", "village": "guesthouse", "hamlet": "guesthouse" }, "holy": { "town": "shrine", "village": "chapel", "hamlet": "chapel" },
+      "sell": { "town": "shop", "village": "door", "hamlet": "door" },
+      "works": ["lay_brother", "beekeeper", "brewer", "herbwife"]
+    },
+    "fortress": {
+      "heart": ["the bailey of {name}"],
+      "why": ["{name} is a fort first. It holds the {pass} for whoever holds it, and the village is what grew up in its shadow to sell the garrison bread and beer.", "Somebody built a wall across the {pass} at {name} a long time ago, and somebody has been paid to stand on it ever since."],
+      "scene": ["A wall of rough stone goes round the top of the rise at {name}, with a gate-tower that leans a little. Inside, a yard of trodden mud, a well, and the soldiers' long hall; the village is outside the wall, below.", "The bailey of {name} is a muddy yard inside a wall, with the hall on one side and the stables on the other, and everybody in it is either on duty or pretending to be."],
+      "life": ["A sergeant is drilling four soldiers in the bailey, and the four soldiers are drilling him back, slowly.", "Someone on the wall-walk is looking very hard at the road, which is empty.", "A soldier is sitting on an upturned bucket mending a boot, with the air of a man who has been told to do something else."],
+      "place": { "id": "gate", "name": "the gate-tower", "outdoors": false,
+        "scene": "The gate-tower is cold and smells of smoke and leather. A ladder goes up to the top, and from there the whole road can be seen both ways, to the edge of the country, and anyone coming along it a long time before they arrive." },
+      "keep": { "town": "inn", "village": "canteen", "hamlet": "canteen" }, "holy": { "town": "shrine", "village": "garrison", "hamlet": "garrison" },
+      "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
+      "works": ["soldier", "smith", "old_soldier", "cowherd"]
+    },
+    "ancient": {
+      "heart": ["the old stones at {name}"],
+      "why": ["{name} is built round something older than itself: the makers' well, which goes down further than anyone has followed it, and which has never once run dry.", "Before there was {name} there was the makers' well, and the first settlers drank from it and stayed. Nobody here digs a well of their own; it would seem ungrateful."],
+      "scene": ["The houses of {name} stand in a ring round a paved place of great old stones, too big and too square for anyone living to have laid them. In the middle is the mouth of the makers' well.", "At {name} the new houses are built on old walls, and the old walls are built better. The paving of the place where they meet is worn into hollows by feet, and nobody knows whose."],
+      "life": ["A line of people with buckets waits at the old well, talking. It is where everything in {name} is said first.", "Children are daring each other to drop a stone down the old well and count; the oldest says she got to twenty.", "Someone has hung a garland on the old stones. Someone always has."],
+      "place": { "id": "well", "name": "the makers' well", "outdoors": true,
+        "scene": "A shaft of dressed stone, wider than a cart, with steps cut spiralling down the inside of it to the water a long way below. The stone at the lip is worn into grooves by ropes. The air coming up out of it is cold and smells of iron, and of something older than iron." },
+      "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "door", "hamlet": "door" },
+      "works": ["stonemason", "farmer", "herbwife"]
+    },
+    "migration": {
+      "heart": ["the camp at {name}"],
+      "why": ["The folk of {name} came here within living memory, by wagon, and some of the wagons are still in use as houses.", "Nobody at {name} was born anywhere near it, except the children, who are teased for it by everyone else."],
+      "scene": ["{name} is half houses and half wagons with their wheels taken off, painted in colours nobody else in the country uses. Everyone looks up when a stranger comes.", "The camp at {name} has been a camp for forty years and shows no sign of becoming anything else: awnings, cook-fires, a fiddle somewhere, and washing on every line."],
+      "life": ["Somebody is playing a fiddle under an awning, not for anyone, and stops when they see you looking.", "An old woman is telling a story to a ring of children, in a tongue you do not have, and they are laughing at exactly the right places.", "Two families are cooking on one fire and arguing amiably over whose pot has the better place."],
+      "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "door", "hamlet": "door" },
+      "works": ["tinker", "weaver", "fiddler"]
+    },
+    "market": {
+      "heart": ["the market-place of {name}"],
+      "why": ["{name} is where the roads of the country meet, and so where its goods do: whatever is made in the country is bought and sold here at least once.", "{name} holds the country's market, and has done since anyone can remember, and will tell you so, at length, at a fair price."],
+      "scene": ["Stalls stand in rows on the market-place of {name}, under awnings that were every colour once and have faded to the same one. Lanes run off it between tall houses.", "{name} has a market cross in the middle of a square trodden bare, and round the square houses with their ground floors given over to shops and their upper floors to people shouting down from them."],
+      "life": ["A woman is selling cheese by the slice from a cheese the size of a cartwheel, and the line for it is long and quarrelsome.", "A man is crying the price of something nobody wants, very cheerfully, as if that were the point.", "Two merchants are shaking hands on a bargain, and each is looking over the other's shoulder for a better one."],
+      "keep": { "town": "inn", "village": "inn", "hamlet": "alehouse" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
+      "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
+      "works": ["carter", "baker", "brewer", "tinker"]
+    }
+  }
+}

@@ -38,10 +38,14 @@ export class CommunityWriter {
   // country (see Portraits).
   private static readonly portraits = new WeakMap<Region, Portraits>();
   private static likeness(region: Region, r: Resident): string {
+    return this.likenessOf(region, { pronoun: r.pronoun, painting: r.work.painting, id: r.id });
+  }
+  // The same for anyone of the country (a traveller on its roads): no two of its people hang in the same painting.
+  static likenessOf(region: Region, who: { pronoun: string; painting: string; id: string }): string {
     const portraits = this.portraits.get(region) ?? this.portraits.set(region, new Portraits()).get(region)!;
-    const station = Likeness.stations[r.work.painting];
-    const id = portraits.take({ ...r.pronoun === 'she' ? { sex: 'woman' as const } : r.pronoun === 'he' ? { sex: 'man' as const } : {},
-      concept: r.work.painting, ...station ? { stations: [station] } : {} }, `${region.name}:${r.id}`);
+    const station = Likeness.stations[who.painting];
+    const id = portraits.take({ ...who.pronoun === 'she' ? { sex: 'woman' as const } : who.pronoun === 'he' ? { sex: 'man' as const } : {},
+      concept: who.painting, ...station ? { stations: [station] } : {} }, `${region.name}:${who.id}`);
     return id ? ` Likeness ${this.q(id)}.` : '';
   }
   private static resident(region: Region, c: Community, r: Resident): string[] {
@@ -49,7 +53,7 @@ export class CommunityWriter {
     const kin = r.kin ? `, ${c.residents.find(x => x.id === r.kin!.to)?.name}'s ${r.kin.as}` : '';
     const role = `the ${r.work.name}${kin}`, their = Voice.pronouns[r.pronoun]!.their;
     const about = r.workplace ? c.workplaces.find(w => w.id === r.workplace)!.name : `${their} work`;
-    const evening = r.evening === 'inn' ? `${s.id}_taproom` : `${s.id}_houses`;
+    const evening = r.evening === 'inn' && c.inn ? `${s.id}_taproom` : `${s.id}_houses`;
     const free = `able(${r.id}) and not travelsWith(${r.id}, party) and not following(${r.id}, party)`;
     return [
       `  Person ${r.id} ${q(r.name)} at ${work} { Role ${q(role)}. Ancestry ${r.ancestry}.`
@@ -57,7 +61,7 @@ export class CommunityWriter {
         + `${this.calling(r.work.background)}${this.likeness(region, r)}`
         + ` Peaceable. Pronouns ${r.pronoun}. Manner ${r.manner}. }`,
       `  Observe ${r.id}_seen near ${r.id} of ${r.id} when at(${r.id}, ${work}) ${q(this.said(r.seen, r, s.name))}.`,
-      ...r.evening === 'inn' ? [`  Observe ${r.id}_evening near ${r.id} of ${r.id} when at(${r.id}, ${s.id}_taproom) ${q(this.said(r.tavern, r, s.name))}.`] : [],
+      ...r.evening === 'inn' && c.inn ? [`  Observe ${r.id}_evening near ${r.id} of ${r.id} when at(${r.id}, ${s.id}_taproom) ${q(this.said(r.tavern, r, s.name))}.`] : [],
       `  Topic ${r.id}_work with ${r.id} ${q(`Ask ${r.name} about ${about}`)} when true {`,
       `    Says ${q(this.said(r.talk, r, s.name))}.`, '  }',
       ...this.knowing(region, c, r), ...this.recognising(r),
@@ -129,7 +133,7 @@ export class CommunityWriter {
     }
     return [`  Initially Assert wants(${r.id}, ${concern.wants}).`,
       `  Topic ${r.id}_wants with ${r.id} ${q(`Ask ${r.name} what the matter is`)} when not grateful(${r.id}, party) once {`,
-      `    Says ${q(`'I need a ${concern.wants === 'herbs' ? 'bundle of herbs' : concern.wants} and I've no time to go for one,' says ${r.name}. 'If you were passing the shop, I'd pay you back and a bit over.'`)}.`, '  }',
+      `    Says ${q(`'I need a ${concern.wants === 'herbs' ? 'bundle of herbs' : concern.wants} and I've no time to go for one,' says ${r.name}. 'If you can get one, I'd pay you back and a bit over.'`)}.`, '  }',
       `  Rule ${r.id}_thanks when keeps(${r.id}, ?g) and not grateful(${r.id}, party) says ${q(`'That's the one,' says ${r.name}, and pays you for it and a coin besides.`)} {`,
       `    Assert grateful(${r.id}, party). Increase quantity(party, gold) by 3. }`];
   }

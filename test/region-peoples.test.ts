@@ -43,8 +43,10 @@ describe('a generated region is peopled', () => {
     const region = RegionPeoples.settle(WorldAssembler.lay(Peopled.region(3), 'holt3'), 'mix-3');
     const source = RegionWriter.source(region);
     const s = region.settlements[1]!;
-    expect(source).toContain(`Person ${s.id}_innkeeper "${s.innkeeper}" at ${s.id}_taproom { Role "innkeeper". `
-      + `Ancestry ${s.people!.innkeeper}.`);
+    // Whoever keeps travellers there (an innkeeper, an alehouse-keeper, whoever speaks for a hamlet) is of their own
+    // people.
+    expect(source).toMatch(new RegExp(`Person ${s.id}_innkeeper "${s.innkeeper}" at ${s.id}_\\w+ \\{ Role "[^"]+"\\. `
+      + `Ancestry ${s.people!.innkeeper}\\.`));
     expect(RegionWriter.peoples(region)).toMatch(/^human folk, /);
   });
 });

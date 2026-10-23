@@ -42,7 +42,8 @@ describe('wild country', () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');
     await s.perform('wait');
-    const out = Wood.ways(s).filter(n => /green$|^Take .* to the road /.test(n));
+    const out = PlayerView.choices(s.campaign)
+      .filter(c => /_green\)$/.test(c.choice.id) || /^Take .* to the road /.test(c.choice.name));
     expect(out.length).toBeGreaterThanOrEqual(2);
   }, 60000);
   it('can be struck across between places the company has been, can lose it, and lets it find its way again', async () => {

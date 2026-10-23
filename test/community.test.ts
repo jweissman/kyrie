@@ -20,12 +20,24 @@ class Settled {
       { origin, party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     return { w, s: await PlaySession.start(w.path, 'thorn', w.source) };
   }
+  // A choice by its words, or by its command (the way to a settlement's heart is go(…, …_green), whatever the heart is
+  // called: a green, a ford, a gate-yard).
   static async act(s: PlaySession, pattern: RegExp) {
-    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
+    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
     if (!c) { throw new Error(`No ${pattern} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
     return s.perform(c.choice.id);
   }
   static at(s: PlaySession, id: string) { return s.campaign.world.one('at', `region__${id}`); }
+  // Goes to each of some people where they are until one offers a choice like the pattern.
+  static async find(s: PlaySession, people: { id: string }[], pattern: RegExp) {
+    for (const r of people) {
+      GeneratedWorld.put(s, this.at(s, r.id)!.replace(/^region__/, ''));
+      await s.perform('wait');
+      const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
+      if (c) { return c; }
+    }
+    return undefined;
+  }
   static async until(s: PlaySession, hour: number) {
     while (Math.floor((8 * 60 + s.campaign.state.elapsed * 10) / 60) % 24 !== hour) { await s.perform('wait'); }
   }
@@ -60,9 +72,9 @@ describe('a settlement is the people who live in it', () => {
 
   it('has animals about the place, real ones, that can be made much of', async () => {
     const { s } = await Settled.start();
-    await Settled.act(s, /green$/);
+    await Settled.act(s, /_green\)$/);
     const scene = SceneModel.build(ScreenModel.build(s.campaign));
-    const dog = scene.subjects.find(x => x.kind === 'animal' && x.note === "the inn's dog")!;
+    const dog = scene.subjects.find(x => x.kind === 'animal' && x.id.endsWith('_inndog'))!;
     expect(dog.choices.map(c => c.label)).toEqual(['Make much of']);
     const e = await Settled.act(s, new RegExp(`^Make much of ${dog.name}$`));
     expect(e.voiced?.[0]?.id).toMatch(/^pet\.dog\./);
@@ -78,7 +90,7 @@ describe('a settlement is the people who live in it', () => {
     await Settled.act(s, new RegExp(`^Ask ${goat.name} to come with you$`));
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     while (Settled.at(s, goat.id) !== `region__${town.id}_green`) {
-      const home = PlayerView.choices(s.campaign).find(x => x.choice.name.includes(`${town.name} green`));
+      const home = PlayerView.choices(s.campaign).find(x => x.choice.id.endsWith(`region__${town.id}_green)`));
       if (!home) { break; }
       await s.perform(home.choice.id);
     }
@@ -103,7 +115,7 @@ describe('what grows wild', () => {
 describe('family', () => {
   it('is named as family', async () => {
     const { s } = await Settled.start('kin');
-    await Settled.act(s, /green$/);
+    await Settled.act(s, /_green\)$/);
     const names = ScreenModel.build(s.campaign).people.map(p => p.name);
     expect(names).toContainEqual(expect.stringMatching(/, your brother$/));
   }, 60000);
@@ -112,7 +124,7 @@ describe('family', () => {
 describe('what people know by their work', () => {
   it('someone who works by the water says where the willow grows, and it does', async () => {
     const { w, s } = await Settled.start('herbs'), region = Settled.region(w);
-    await Settled.act(s, /green$/);
+    await Settled.act(s, /_green\)$/);
     const ask = PlayerView.choices(s.campaign).find(c => / where willow grows$/.test(c.choice.name));
     if (!ask) { return; }
     const told = await s.perform(ask.choice.id);
@@ -122,9 +134,10 @@ describe('what people know by their work', () => {
     for (const p of named) { expect(RegionGrowth.habitats(region, p.cells).has('riverbank')).toBe(true); }
   }, 60000);
   it('someone who has done the same kind of work knows the company for it', async () => {
-    const { s } = await Settled.start('herbs');
-    await Settled.act(s, /green$/);
-    const shop = PlayerView.choices(s.campaign).find(c => /^Talk shop with /.test(c.choice.name));
+    // Somewhere in the country someone does the herbalist's work, and knows one of their own.
+    const { w, s } = await Settled.start('herbs'), region = Settled.region(w);
+    const shop = await Settled.find(s, region.settlements.flatMap(t => Communities.plan(region, t).residents),
+      /^Talk shop with /);
     expect(shop).toBeDefined();
     const rations = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'));
     await s.perform(shop!.choice.id);

@@ -54,13 +54,13 @@ export class RegionRecruits {
     return { source, imports, manifest: { version: 1, source: 'arrival.kyr', rules: ['world'], globals: ['party'],
       imports: names, roles: Object.fromEntries(names.map(n => [n, { type: n === 'green' ? 'place' : 'group' }])) } };
   }
-  static traveller(s: Settlement, i: number, region: Region): string[] {
+  static traveller(s: Settlement, i: number, region: Region, at = `${s.id}_taproom`): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;
     const allowed = Canon.ancestries[ancestry]?.classes ?? ['commoner'];
     const wanted = this.classes[s.calling], calling = wanted && allowed.includes(wanted) ? wanted
       : allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'commoner';
     const hire = 3 + i, brings = this.brings[s.calling] ?? 'Passing through, like everyone.';
-    return [`  Person ${id} ${q(s.traveller)} at ${s.id}_taproom { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable. }`,
+    return [`  Person ${id} ${q(s.traveller)} at ${at} { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable. }`,
       `  Initially Set hire(${id}) to ${hire}.`,
       `  Topic ${id}_brings with ${id} ${q(`Ask {${id}} what brings them to ${s.name}`)} when true once {`,
       `    Says ${q(`'${brings}' {${id}} looks you over. 'If you are going anywhere, I would come along. ${hire} coin, and my keep.'`)}.`,

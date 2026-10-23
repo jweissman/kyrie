@@ -17,6 +17,8 @@ import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
+import { SettlementWriter } from './settlement-writer';
+import { ScenarioTowns } from './scenario-towns';
 import { Origins } from './origins';
 import type { KitEntry } from './compose/composition';
 import { Atlases } from './land/atlas';
@@ -59,8 +61,6 @@ export interface Entry { path: string; manifest: ScenarioManifest }
 export class WorldAssembler {
   static readonly speakers: Record<Carrier['channel'], string> = { tavern: 'innkeeper', road: 'traveller',
     temple: 'priest', market: 'merchant' };
-  static readonly rooms: Record<Carrier['channel'], string> = { tavern: 'taproom', road: 'taproom', temple: 'shrine',
-    market: 'shop' };
   static readonly heard: Record<Carrier['channel'], string> = { road: 'News from the roads reaches them first.',
     tavern: 'They hear everything said across their tables.', temple: 'The faithful bring them their troubles.',
     market: 'Traders tell them what they have seen.' };
@@ -240,7 +240,7 @@ export class WorldAssembler {
       const name = member.name ?? `Member ${i + 1}`, n = region.settlements.length;
       const town = region.settlements[new Expressions(RandomStreams.key(seed, 'world', 'contact', name)).number(`1d${n}`) - 1]!;
       const carrier = `${town.id}_${this.speakers[tie.channel]}`;
-      return [{ member: name, background: member.backgroundId!, channel: tie.channel, carrier, room: `${town.id}_${this.rooms[tie.channel]}`,
+      return [{ member: name, background: member.backgroundId!, channel: tie.channel, carrier, room: SettlementWriter.standing(region, town, this.speakers[tie.channel] as 'innkeeper'),
         text: `${tie.text.replaceAll('{contact}', `{${carrier}}`).replaceAll('{member}', name)} ${this.heard[tie.channel]}` }];
     });
   }
@@ -314,8 +314,8 @@ export class WorldAssembler {
         }
         claimed.add(site.id); bindings[role] = site.id;
       } else if (need.settlement) {
-        bindings[role] = this.town(need.settlement, { region, bindings, claimed,
-          key: RandomStreams.key(seed, 'world', 'town', instance, role) });
+        bindings[role] = ScenarioTowns.town(need.settlement, { region, bindings, claimed,
+          parts: ScenarioTowns.parts(s, role), key: RandomStreams.key(seed, 'world', 'town', instance, role) });
       } else if (need.way) {
         // The road out of the settlement, by the water if one runs by water: what happens on a road by a stream
         // (a cart in the ditch, willows for a fever) is where people say it is.
@@ -327,18 +327,6 @@ export class WorldAssembler {
     }
     return { scenario: s.id, instance, bindings, generated, carriers: {}, rid: at.rid,
       modules: s.modules.map(m => `${prefix}${this.install(m.id, n)}`) };
-  }
-  // The settlement a scenario is set in: the one nearest a site it took, any one no other has taken, or the first.
-  private static town(need: string, at: { region: Region; bindings: Record<string, string>; claimed: Set<string>;
-    key: string }): string {
-    const { region, bindings, claimed } = at;
-    const near = need.startsWith('near:') ? region.sites.find(w => w.id === bindings[need.slice(5)]) : undefined;
-    if (near) { return RegionWriter.near(region, near).id; }
-    if (need !== 'any') { return region.settlements[0]!.id; }
-    const open = region.settlements.filter(t => !claimed.has(t.id));
-    const town = open.length ? open[new Expressions(at.key).number(`1d${open.length}`) - 1]! : region.settlements[0]!;
-    claimed.add(town.id);
-    return town.id;
   }
   private static install(module: string, n: number): string {
     return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`;
@@ -429,7 +417,9 @@ export class WorldAssembler {
       // Carriers in the towns nearest the scenario, and members' contacts anywhere who hear that kind of news.
       const tellers = new Map<string, string>();
       for (const town of new Set(towns)) {
-        for (const channel of hook.channels) { tellers.set(`${town.id}_${this.speakers[channel]}`, `${town.id}_${this.rooms[channel]}`); }
+        for (const channel of hook.channels) {
+          tellers.set(`${town.id}_${this.speakers[channel]}`, SettlementWriter.standing(region, town, this.speakers[channel] as 'innkeeper'));
+        }
       }
       for (const c of contacts.filter(c => hook.channels.includes(c.channel))) {
         tellers.set(c.carrier, c.room);
@@ -452,7 +442,7 @@ export class WorldAssembler {
     lines.push('  Goal false.', '}');
     const names = Object.keys(imports);
     const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : n === 'route_in' ? 'passage'
-      : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop)$|^at_/.test(n) ? 'place' : 'group' }]));
+      : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop|green)$|^at_/.test(n) ? 'place' : 'group' }]));
     return { source: lines.join('\n'), imports,
       manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }

@@ -1,11 +1,7 @@
-import { GenerationSetting } from '../generation-setting';
 import type { Landmark } from './region-land';
 import { RegionGeography } from './region-geography';
 import { RegionPeoples } from './region-peoples';
-import { RegionFaith } from './region-faith';
 import { RegionSites } from './region-sites';
-import { RegionRecruits } from './region-recruits';
-import { SettlementScenes } from './settlement-scenes';
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionZones } from './region-zones';
@@ -16,12 +12,12 @@ import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
 import { RegionFellows } from './region-fellows';
 import type { CalendarStart } from '../presentation/calendar';
-import { Communities } from './community/community';
 import { RegionGrowth } from './region-growth';
 import { RegionMarvels } from './region-marvels';
-import { CommunityWriter } from './community/community-writer';
+import { SettlementWriter } from './settlement-writer';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
-// Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
+// Kyr module: settlements as their founding made them (see SettlementWriter), roads between them, and a track out to
+// each site. Every
 // entity it writes is exported under its own id, so scenarios bind to it like any other module.
 // A generated name: what it is made of, and what it means in which tongue (see PlaceNames).
 interface Naming { feature?: string; affix?: string; gloss?: string; tongue?: string }
@@ -35,12 +31,6 @@ export interface Settlement extends Naming {
   folk?: string; people?: Partial<Record<'innkeeper' | 'priest' | 'merchant' | 'traveller', string>>; came?: string;
   // The cell of the region's atlas it stands on.
   cell?: number;
-}
-interface MerchantType { role: string; profession?: string; shop: string; stock: [string, number, number][];
-  buys: [string, number][] }
-interface Tables {
-  merchantType: { groups: Record<string, MerchantType> };
-  innStock: { groups: Record<string, { price: number; stock: number }> };
 }
 // A site: what it is and what it is called, and where: its cell, and the wild country (and part of it) it is in.
 export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string;
@@ -150,59 +140,14 @@ export class RegionWriter {
     return lines;
   }
   private static settlement(s: Settlement, i: number, region: Region): string[] {
-    const q = JSON.stringify, [x, y] = RegionGeography.town(region, i), cult = RegionFaith.cults(region)[i]!;
-    return [
-      `  Place ${s.id} ${q(s.name)} is settlement within region at ${x}, ${y}.`,
-      `  Initially Assert townSize(${s.id}, size_${s.size}).`,
-      `  Place ${s.id}_green ${q(`${s.name} green`)} is room within ${s.id} at 1, 1.`,
-      `  Place ${s.id}_inn ${q(s.inn)} is building within ${s.id}.`,
-      `  Place ${s.id}_taproom ${q(`the taproom of ${s.inn}`)} is room within ${s.id}_inn at 1, 0.`,
-      `  Place ${s.id}_shrine ${q(`the shrine of ${cult.name}`)} is room within ${s.id} at 0, 1.`,
-      `  Place ${s.id}_shop ${q(`${s.merchant}'s ${this.trade(s).shop}`)} is room within ${s.id} at 2, 1.`,
-      `  Passage ${s.id}_inn_door ${q(`the door of ${s.inn}`)} is door between ${s.id}_taproom and ${s.id}_green.`,
-      `  Passage ${s.id}_shrine_door ${q(`the shrine porch in ${s.name}`)} is doorway between ${s.id}_shrine and ${s.id}_green.`,
-      `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`,
-      `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${s.id}_taproom { Role "innkeeper". ${this.of(s, 'innkeeper', region)} Profession innkeeper. Peaceable. ${this.inn(s)} }`,
-      // Only a town's priest has the learning to call the dead back, and keeps a copy of the old orders' glossary of
-      // the old script, for whoever would read the makers' stones.
-      `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin. Sells old_glossary for 80 coin from 1.' : ''} }`,
-      this.merchant(s, region),
-      ...RegionRecruits.traveller(s, i, region),
-      `  Observe ${s.id}_day at ${s.id}_green as fixture when not dark() ${q(SettlementScenes.green(region, i, cult.name))}.`,
-      `  Observe ${s.id}_night at ${s.id}_green as fixture when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
-      `  Observe ${s.id}_tap at ${s.id}_taproom as fixture when true ${q(SettlementScenes.taproom(region, i))}.`,
-      ...SettlementScenes.life(s) ? [`  Observe ${s.id}_life at ${s.id}_green as ambience when not dark() ${q(SettlementScenes.life(s)!)}.`] : [],
-      ...RegionFaith.lines(s, cult),
-      // The people who live there, at their work and about the place, and its animals (see Communities).
-      ...CommunityWriter.lines(region, Communities.plan(region, s, this.trade(s).stock.map(([what]) => what))),
-    ];
-  }
-  // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy.
-  private static trade(s: Settlement): MerchantType {
-    const types = (GenerationSetting.tables as unknown as Tables).merchantType;
-    return types.groups[s.merchantType ?? 'chandler'] ?? types.groups.chandler!;
-  }
-  // A townsperson's people, as a Person says it.
-  private static of(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller', region: Region): string {
-    return `Ancestry ${s.people?.[role] ?? s.folk ?? region.ancestry}.`;
-  }
-  private static merchant(s: Settlement, region: Region): string {
-    const t = this.trade(s);
-    const sells = t.stock.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
-    const buys = t.buys.map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
-    // Every merchant deals in valuables too, as far as their purse goes: a town's goes further than a hamlet's.
-    const purse = ({ town: 1000, village: 200 } as Record<string, number>)[s.size] ?? 60;
-    return `  Person ${s.id}_merchant ${JSON.stringify(s.merchant)} at ${s.id}_shop { Role ${JSON.stringify(t.role)}. ${this.of(s, 'merchant', region)}`
-      + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable. ${sells}${buys ? ` ${buys}` : ''} }\n`
-      + `  Initially Assert buysValuables(${s.id}_merchant). Initially Set purse(${s.id}_merchant) to ${purse}.`
-      + ` Initially Set quantity(${s.id}_merchant, gold) to ${purse}.`;
+    return SettlementWriter.lines(s, i, region);
   }
   // Trade comes and goes by the roads. While anyone tolls a road into a settlement its inn's meal is dearer and
   // is not made good; when the roads are open, and the farms have not been robbed, the inn restocks a sack a day.
   private static economy(s: Settlement, region: Region): string[] {
     const ways = RegionGeography.roads(region).filter(r => r.from.id === s.id || r.to.id === s.id).map(r => r.way);
     if (!ways.length) { return []; }
-    const { price, stock } = this.stock(s), keeper = `${s.id}_innkeeper`;
+    const { price, stock } = SettlementWriter.stock(s), keeper = `${s.id}_innkeeper`;
     const tolled = ways.map(w => `tolls(?collector, ${w})`).join(' or ');
     const open = ways.map(w => `not tolls(?collector, ${w})`).join(' and ');
     return [`  Rule ${s.id}_dear when (${tolled}) and goodsPrice(${keeper}, rations) < ${price + 1} {`
@@ -210,15 +155,7 @@ export class RegionWriter {
     `  Rule ${s.id}_cheap when ${open} and goodsPrice(${keeper}, rations) > ${price} { Set goodsPrice(${keeper}, rations) to ${price}. }`,
     `  Rule ${s.id}_restock when untilLight(clock) == 1 and ${open} and losses(${s.id}_green) < 3`
       + ` and quantity(${keeper}, rations) < ${stock} { Increase quantity(${keeper}, rations) by 1. }`,
-    `  Observe ${s.id}_tolled at ${s.id}_taproom when ${tolled} ${JSON.stringify(`Carters at the bar grumble about the toll on the road; the meal is dearer for it, and there is less of it.`)}.`];
-  }
-  private static stock(s: Settlement): { price: number; stock: number } {
-    return (GenerationSetting.tables as unknown as Tables).innStock.groups[s.size] ?? { price: 2, stock: 6 };
-  }
-  // An inn sells what a place of its size can spare: plenty in a town, a little in a hamlet, dearer.
-  private static inn(s: Settlement): string {
-    const stock = this.stock(s);
-    return `Sells rations for ${stock.price} coin from ${stock.stock}.`;
+    `  Observe ${s.id}_tolled at ${SettlementWriter.standing(region, s, 'innkeeper')} when ${tolled} ${JSON.stringify(`Everyone here is grumbling about the toll on the road: food is dearer for it, and there is less of it.`)}.`];
   }
   static terrain(t: string): string { return RegionGeography.terrain(t); }
   // What a name means, when it was given in the folk's own tongue: " The name is Westron for “cold hill”."
@@ -238,8 +175,11 @@ export class RegionWriter {
     { company, sources = ['region.kyr'] }: { company?: Company; sources?: string[] } = {}): object {
     const roads = RegionGeography.roads(region), ways = roads.map(r => r.way);
     const zones = RegionGeography.atlas(region).zones;
-    const ids = ['party', 'region', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
-      `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
+    const ids = ['party', 'region', ...region.settlements.flatMap(s => {
+      const has = SettlementWriter.rooms(region, s);
+      return [s.id, `${s.id}_green`, ...has.taproom ? [`${s.id}_taproom`] : [], ...has.shrine ? [`${s.id}_shrine`] : [],
+        ...has.shop ? [`${s.id}_shop`] : [], `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`];
+    }),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`, `${w.id}_found`]), ...ways,
     ...roads.map(r => r.land),
     ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z)]),

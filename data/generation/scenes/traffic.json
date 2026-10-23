@@ -1,0 +1,85 @@
+{
+  "about": "Who is on the roads: one traveller to a road, going from one end of it to the other by day and back the next, and spending the night where travellers are kept. Each kind of traveller says where they are going and why, carries what news there is of where they came from, and may have a trouble on the road a company could help with, or something to sell. {Name} is the traveller; {they} {their} {them} the words they are spoken of in; {to} where they are going and {from} where they have come from; {life} what goes on at the place they came from; {gossip} something said there; {seen}, {where} and {near} a place off the road, where it is and the settlement it is near.",
+  "kinds": {
+    "carrier": {
+      "role": "carrier", "background": "laborer", "painting": "peasant",
+      "road": ["{Name} the carrier is walking at the head of a cart-horse, a cart of sacks and barrels behind, on {their} way to {to}.", "A carrier's cart is grinding along the road toward {to}, {Name} on the board with the reins slack, half asleep."],
+      "rest": ["{Name}, the carrier, is in from the road, with {their} boots off and a pot in front of {them}.", "{Name} the carrier is seeing to {their} horse before {they} [see|sees] to {themself}."],
+      "tracks": "Wheel-ruts, fresh today and deep with a load, go along the road toward {to}.",
+      "going": "'{to},' says {Name}. 'Same as yesterday, the other way. Salt one way, wool the other, and the horse knows the road better than I do.'",
+      "trouble": { "kind": "cart",
+        "seen": "{Name}'s cart has a wheel in the ditch, down to the hub, and {Name} is standing looking at it with {their} hands on {their} hips.",
+        "act": "Put your shoulders to {Name}'s cart",
+        "about": "Mud to the knees and a heave on three; the cart is no lighter for being stuck.",
+        "done": "On three you heave, and on the fourth three the wheel comes up out of the ditch with a noise like a boot coming out of a bog. {Name} pays you, which {they} [need|needs] not have done, and won't hear otherwise.",
+        "freed": "Some carters coming the other way have helped {Name} heave the cart out of the ditch.",
+        "reward": 2 }
+    },
+    "drover": {
+      "role": "drover", "background": "herdsman", "painting": "shepherd",
+      "road": ["{Name} is driving a dozen red cattle along the road toward {to}, walking behind them with a stick {they} never [use|uses].", "Cattle fill the road from hedge to hedge, going to {to}, and somewhere among them is {Name}, the drover, whistling."],
+      "rest": ["{Name}, the drover, has the cattle penned for the night and {themself} by the fire.", "{Name} the drover is counting money on the table, twice, and then a third time to be sure."],
+      "tracks": "The road is churned by cattle, all going toward {to}, and not long since: some of it is still warm.",
+      "going": "'{to}, for the market,' says {Name}. 'They don't want to go. They never want to go. They always go.'",
+      "trouble": { "kind": "stray",
+        "seen": "{Name} is standing in the road shouting at a hedge. One of the cattle has gone through it and is somewhere on the other side, being a cow.",
+        "act": "Go through the hedge after {Name}'s cow",
+        "about": "A cow in a thicket does not want to come out; a cow that has decided to come out cannot be stopped.",
+        "done": "You find the cow in a thicket, eating something it should not, and walk it back to the road by the simple means of being behind it. {Name} gives you a coin for your trouble and a long look at the cow.",
+        "freed": "{Name}'s stray cow has come back on its own, looking pleased with itself.",
+        "reward": 1 }
+    },
+    "pedlar": {
+      "role": "pedlar", "background": "tinker", "painting": "peddler",
+      "road": ["A pedlar is walking toward {to} under a pack twice the size of {their} back, with pans hung off it that ring like bells: {Name}.", "{Name}, a pedlar, is sitting on a milestone on the road to {to}, rearranging a tray of small things to look like more of them."],
+      "rest": ["{Name}, the pedlar, has {their} tray open on a bench, in case.", "{Name} the pedlar is selling a ribbon to someone who did not know they wanted one."],
+      "tracks": "A tin button lies in the road, the kind pedlars sell by the card. Someone's pack has a hole in it.",
+      "going": "'{to}, then wherever's next,' says {Name}. 'There's always a next. That's the trade.'",
+      "sells": [["torch", 2, 3], ["rope", 2, 1], ["bandages", 1, 2], ["herbs", 2, 2]]
+    },
+    "pilgrim": {
+      "role": "pilgrim", "background": "acolyte", "painting": "pilgrim",
+      "road": ["A pilgrim is walking to {to} with a staff and a scallop-shell hat, slowly, as if every step had been promised: {Name}.", "{Name}, a pilgrim, is resting on the bank by the road to {to} with {their} shoes off and {their} feet in the grass."],
+      "rest": ["{Name}, the pilgrim, is eating bread in a corner with great attention, as if it were part of the pilgrimage.", "{Name} the pilgrim is asleep sitting up."],
+      "tracks": "Someone has left a twist of grass on the milestone, knotted, the way pilgrims do when they pass.",
+      "going": "'To {to}, and the shrine there,' says {Name}. 'And back again, and then to the next. I promised. I didn't say how many.'"
+    },
+    "messenger": {
+      "role": "messenger", "background": "servant", "painting": "servant",
+      "road": ["A messenger is going hard toward {to}, half running, with a satchel held to {their} side: {Name}, who does not stop.", "{Name}, a messenger, overtakes you at a trot on the road to {to}, and calls back over {their} shoulder that {they} cannot stop."],
+      "rest": ["{Name}, the messenger, is asleep with {their} head on the satchel, which {they} [have|has] not let go of.", "{Name} the messenger eats standing up, as if the road might leave without {them}."],
+      "tracks": "Footprints go along the soft edge of the road toward {to}, far apart: someone running, and not for pleasure.",
+      "going": "'{to}, with a letter, and I'm late,' says {Name}. 'I'm always late. They write them late.'"
+    },
+    "family": {
+      "role": "carter, moving house", "background": "farmer", "painting": "peasant",
+      "road": ["A family is moving house along the road to {to}: {Name} pushing a handcart with everything they own on it, and three children walking beside it carrying the rest.", "{Name}'s handcart has stopped on the road to {to} while a child is found who was not where everyone thought."],
+      "rest": ["{Name} and the children have the corner by the fire, and the children have everyone else's attention.", "{Name} is mending a handcart wheel while the children explain to strangers where they are moving to."],
+      "tracks": "A child's wooden horse lies in the road, dropped, facing {to}. Somebody will be missing it about now.",
+      "going": "'{to},' says {Name}. 'My sister's there. She said come. She may not have meant it, but she said it.'"
+    }
+  },
+  "news": [
+    "'{from}?' says {Name}. '{life} Same as ever. {gossip}'",
+    "'Came from {from} this morning,' says {Name}. '{gossip} That's the news, if it's news.'",
+    "'Nothing in {from} you'd cross the road for,' says {Name}. 'Well. {gossip}'"
+  ],
+  "gossip": {
+    "crossing": ["The water's up a hand on the post since the rain.", "Somebody's horse lay down in the ford and wouldn't get up. Took four of them."],
+    "harbour": ["A boat came in yesterday with nobody's name on it.", "Fish are dear, and everyone blames the fishermen, who blame the fish."],
+    "fishing": ["They say the eels are running early, and say it like a warning.", "Someone's net came up with a boot in it. Just the one."],
+    "workings": ["They've broken into an old working, and nobody wants to be first down it.", "The horn went twice last week, and the second time it was for real."],
+    "yard": ["There's more work than hands, and they'll take anyone who can lift.", "A fire got out of one of the clamps and took a shed with it. Nobody hurt but the shed."],
+    "farm": ["The miller's put his price up again, and the village has put up with it again.", "Somebody's heifer has calved twins, and they are being visited like royalty."],
+    "monastery": ["The brothers have a new bell, and it's worse than the old one.", "One of the brothers has run off with the cellarer's sister, or the cellarer, depending who you ask."],
+    "fortress": ["They're short of soldiers up there, and they're not fussy about who.", "The captain's been looking at the road a great deal, which nobody likes."],
+    "ancient": ["The old well's been talking again: a sound up from it at night, like breathing.", "Someone's found another of the old stones, under a pigsty, and now nobody can agree whose pigsty it is."],
+    "migration": ["The newcomers had a wedding and the whole country could hear it.", "Somebody said something about the newcomers at the market and somebody else said something back. Nobody's hurt. Yet."],
+    "market": ["Prices are up, and everyone says it's the roads.", "There's a man at the market selling a cure for everything. He looks ill."]
+  },
+  "knows": [
+    "'Past {near}, you mean?' says {Name}. 'There's {seen} out in {where}. I go round it, and so would you if you had any sense. So you'll be going there, then.'",
+    "'Nothing on this road worth stopping for,' says {Name}. 'Off it, now: {seen} in {where}. They say there's something there. They say a lot of things.'"
+  ],
+  "deeds": "'Word's going round,' says {Name}, 'that some stranger's been making themselves useful. Folk notice that. Folk talk about it, too, more than's good for anybody.'"
+}

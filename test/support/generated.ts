@@ -6,8 +6,6 @@ import { PlayerView } from '../../src/presentation/player-view';
 // Generated worlds are laid out by their seed, and a new dimension in the generator lays them out differently. A
 // test about what happens in one reads where things are from the world's report instead of walking a fixed route.
 export class GeneratedWorld {
-  static readonly rooms: Record<string, string> = { innkeeper: 'taproom', traveller: 'taproom', priest: 'shrine',
-    merchant: 'shop' };
   static put(s: PlaySession, place: string) {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${place}`) }]));
@@ -27,15 +25,15 @@ export class GeneratedWorld {
     for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
     for (const [passage, to] of steps) { await s.perform(`go(${passage},${to})`); }
   }
-  // The first person who carries word of a placement, and the room they are found in.
-  static carrier(placement: Placement): { id: string; room: string } {
+  // The first person who carries word of a placement, and the room they are found in (an innkeeper in a taproom, or
+  // whoever speaks for a hamlet on its green).
+  static carrier(s: PlaySession, placement: Placement): { id: string; room: string } {
     const id = Object.values(placement.carriers).flat()[0]!;
-    const [town, role] = id.split('_') as [string, string];
-    return { id, room: `${town}_${this.rooms[role]}` };
+    return { id, room: s.campaign.world.one('at', `region__${id}`)!.replace(/^region__/, '') };
   }
   // Goes to whoever carries word of the n-th placement and asks them about it.
   static async hear(s: PlaySession, placement: Placement, n: number) {
-    const { id, room } = this.carrier(placement);
+    const { id, room } = this.carrier(s, placement);
     this.put(s, room);
     await s.perform('wait');
     const ask = PlayerView.choices(s.campaign).map(c => c.choice.id)

@@ -45,8 +45,9 @@ describe('the map', () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'a1', w.source);
-    for (const way of [/Murkstede green$/, /to the edge of Eikwudu/, /charcoal-burners/]) {
-      await s.perform(PlayerView.choices(s.campaign).find(c => way.test(c.choice.name))!.choice.id);
+    for (const way of [/s1_green\)$/, /to the edge of Eikwudu/, /charcoal-burners/]) {
+      const c = PlayerView.choices(s.campaign).find(x => way.test(x.choice.name) || way.test(x.choice.id))!;
+      await s.perform(c.choice.id);
     }
     const region = ScreenModel.build(s.campaign).region!, land = region.land!;
     const clearing = land.marks.find(m => m.name === 'the charcoal-burners\' clearing')!;

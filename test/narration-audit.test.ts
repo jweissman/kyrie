@@ -27,7 +27,8 @@ class Audit {
   static present(s: PlaySession): Present {
     const screen = ScreenModel.build(s.campaign);
     return { people: [...screen.people.filter(p => p.kind === 'person').map(p => p.name), ...screen.party.map(m => m.name)],
-      animals: screen.people.filter(p => p.kind === 'animal').map(p => p.name) };
+      // An animal by its own name: "Clover, Alton's cow" is Clover, and Alton may speak.
+      animals: screen.people.filter(p => p.kind === 'animal').map(p => p.name.split(', ')[0]!) };
   }
   static faults(s: PlaySession, leaf: Leaf, who: Present): string[] {
     const all = this.text(leaf), out: string[] = [], seen = new Map<string, number>();

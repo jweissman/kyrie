@@ -88,7 +88,7 @@ describe('a stranger who pays in old coin', () => {
     await s.perform('wait');
     expect(Town.said(await Town.act(s, /about the old coin$/))).toContain('Ten of these when we get there');
     await Town.act(s, /to come with you$/);
-    await Town.act(s, /^Take the door of/);
+    await GeneratedWorld.travel(s, `${town}_green`);
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     await GeneratedWorld.travel(s, ruin);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 10);

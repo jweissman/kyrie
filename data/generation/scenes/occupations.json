@@ -1,11 +1,11 @@
 {
-  "about": "The work people do in a settlement, by what the place lives by (trades), the land around it (terrains), its water and its size: who does it (an Orsino background, so that one who has done the same work knows them for one of their own), where it is done and what that place is like, what they are seen doing there, what they say of it when asked, and the painting (data/paintings) that hangs beside them in conversation. A line's {Name} is the worker; {they} {their} the words they are spoken of in; {place} the settlement.",
+  "about": "The work people do in a settlement, by what the place lives by (trades), the land around it (terrains), its water and its size: who does it (an Orsino background, so that one who has done the same work knows them for one of their own), where it is done and what that place is like, what they are seen doing there, what they say of it when asked, and the painting (data/paintings) that hangs beside them in conversation. A line's {Name} is the worker; {they} {their} the words they are spoken of in; {place} the settlement. An occupation with foundings is the work of settlements founded so (see foundings.json), and is taken there first.",
   "evening": [
     "{Name} is at the long table with a cup, telling somebody something at great length.",
     "{Name} is by the fire with {their} boots off and {their} feet to the warmth, half asleep.",
     "{Name} is playing at dice in the corner, and losing, and laughing about it.",
     "{Name} is eating stew from a bowl as if it had done {them} a wrong.",
-    "{Name} is arguing about the weather with the innkeeper, and enjoying it."
+    "{Name} is arguing about the weather with whoever will listen, and enjoying it."
   ],
   "recognition": {
     "wild": "{Name} looks at your boots, and then at your hands, and something changes in {their} face. 'You've worked the hills,' {they} [say|says]. 'You'll want to know which way the weather comes from here. West. Always west.' {They} [press|presses] a heel of bread on you for the road.",
@@ -142,7 +142,31 @@
       "seen": ["{Name} is tuning a fiddle on a bench, frowning at one string.", "{Name} is playing something slow to nobody, eyes shut."],
       "talk": ["'Weddings, wakes and the inn on a market night,' says {Name}. 'Same tunes for all three, a bit faster for the weddings.'", "'I know a song about every place in this country,' says {Name}. 'Most of them are rude.'"] },
     "old_soldier": { "name": "old soldier", "background": "soldier", "painting": "halberdier", "sizes": ["village", "town"],
-      "seen": ["{Name} is sitting on the bench outside the inn with one leg straight out in front of {them}, watching the road.", "{Name} is cleaning an old pike-head with sand and spit."],
-      "talk": ["'I was in the lord's muster when the river burned,' says {Name}. 'Don't ask me about it.' A pause. 'All right. Sit down.'", "'You want to know how to fight?' says {Name}. 'Don't. Next question.'"] }
+      "seen": ["{Name} is sitting on a bench in the sun with one leg straight out in front of {them}, watching the road.", "{Name} is cleaning an old pike-head with sand and spit."],
+      "talk": ["'I was in the lord's muster when the river burned,' says {Name}. 'Don't ask me about it.' A pause. 'All right. Sit down.'", "'You want to know how to fight?' says {Name}. 'Don't. Next question.'"] },
+    "carter": { "name": "carter", "background": "laborer", "painting": "peasant", "foundings": ["crossing", "market"], "knows": ["roads"],
+      "seen": ["{Name} is greasing a cart-axle with a rag, and talking to the horse about it.", "{Name} is roping down a load that has already been roped down twice, to be sure."],
+      "talk": ["'Every road in the country, I've had a wheel off on,' says {Name}. 'Ask me which. Go on.'", "'The road's all right,' says {Name}. 'It's the people on it. And the weather. And the road.'"] },
+    "ferryman": { "name": "ferry-keeper", "background": "sailor", "painting": "sailor", "foundings": ["crossing"], "water": true, "knows": ["water"],
+      "seen": ["{Name} sits on the bank by the crossing with a pole across {their} knees, watching the water the way other people watch a fire.", "{Name} is wading out to fetch back a marker post the river has moved in the night."],
+      "talk": ["'Most days you can walk it,' says {Name}. 'Some days you can't, and those are the days people try.'", "'I've pulled eleven out of that water,' says {Name}. 'Twelve, if you count the bishop, and he'd want you to.'"] },
+    "boatwright": { "name": "boatwright", "background": "woodworker", "painting": "artisan", "foundings": ["harbour"], "water": true, "knows": ["water"],
+      "seen": ["{Name} is steaming a plank to bend it, and talking to it while it softens.", "{Name} is sighting along a keel with one eye shut, and does not like what {they} [see|sees]."],
+      "talk": ["'A boat's only a box that wants to be wet,' says {Name}. 'The trick is stopping it wanting to be full.'", "'Oak for the keel, larch for the planks, and patience for the rest,' says {Name}. 'Nobody sells the last.'"] },
+    "net_maker": { "name": "net-maker", "background": "fisherman", "painting": "fisherman", "foundings": ["harbour", "fishing"], "water": true, "knows": ["water"],
+      "seen": ["{Name} is knotting a net with a wooden needle, so fast the knots seem to arrive on their own.", "{Name} has a net spread over three fences and is walking along it looking for holes, and finding them."],
+      "talk": ["'A net's mostly holes,' says {Name}. 'It's which holes that matters.'", "'They tear it, I mend it, they tear it,' says {Name}. 'Seals, mostly. Sometimes my own family.'"] },
+    "miller": { "name": "miller", "background": "baker", "painting": "miller", "foundings": ["farm"],
+      "seen": ["{Name} is white with flour from the hair down, and is shouting something up the stairs over the noise of the stones.", "{Name} is dressing a millstone with a pick, tap by tap, in no hurry at all."],
+      "talk": ["'Everyone thinks the miller cheats,' says {Name}. 'Everyone was right about the last one. Not me.'", "'When the stream's low the stones go slow, and so does everything in the village,' says {Name}. 'You can tell a dry year by the bread.'"] },
+    "lay_brother": { "name": "lay brother", "background": "acolyte", "painting": "friar", "foundings": ["monastery"], "pronoun": "he",
+      "seen": ["{Name} is sweeping the gate-yard, which is already swept, with great care.", "{Name} is hoeing between rows of cabbages and saying something under {their} breath that might be a prayer and might be about slugs."],
+      "talk": ["'The brothers pray and we dig,' says {Name}. 'Some days I think we've got the better of it.'", "'We're to be silent before the noon bell,' says {Name}, 'which it isn't, quite, so I'll be quick.'"] },
+    "soldier": { "name": "soldier of the garrison", "background": "soldier", "painting": "soldier", "foundings": ["fortress"], "knows": ["roads"],
+      "seen": ["{Name} is leaning on a spear in the shade of the wall, watching nothing in particular with great attention.", "{Name} is polishing a helmet that will never be any shinier."],
+      "talk": ["'Nothing comes up the pass,' says {Name}. 'That's the job: making sure nothing comes up the pass. I'm very good at it.'", "'Pay's late, beer's thin, and the sergeant's my uncle,' says {Name}. 'Could be worse. Could be the other side.'"] },
+    "stonemason": { "name": "stonemason", "background": "stone_mason", "painting": "mason", "foundings": ["ancient"],
+      "seen": ["{Name} is fitting a new stone into an old wall and losing an argument with it.", "{Name} is running a hand over the old paving, as if feeling for a pulse."],
+      "talk": ["'We can't cut stone like that,' says {Name}, nodding at the old work. 'Nobody can. I've tried. I've a shed full of trying.'", "'The well's dressed stone all the way down,' says {Name}. 'I've been down forty steps. My father went sixty. Nobody's been to the bottom.'"] }
   }
 }

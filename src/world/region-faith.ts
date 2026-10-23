@@ -60,13 +60,15 @@ export class RegionFaith {
     return `${word} of ${Canon.domains[domain]?.name ?? domain}`;
   }
   private static pick<T>(list: T[], rng: Expressions): T { return list[rng.number(`1d${list.length}`) - 1]!; }
-  // The shrine as Kyr: what stands there, whose it is and what it asks, and how it looks and is kept.
-  static lines(s: Settlement, cult: Cult): string[] {
+  // The shrine as Kyr: what stands there, whose it is and what it asks, and how it looks and is kept; in a shrine of
+  // its own, or by the track where a hamlet keeps its god (a wayside shrine, told in a line).
+  static lines(s: Settlement, cult: Cult, at = `${s.id}_shrine`, wayside?: string): string[] {
     const q = JSON.stringify, altar = `${s.id}_altar`, a = /^[aeiou]/.test(cult.look) ? 'An' : 'A';
-    const text = `${a} ${cult.look} ${cult.form} of ${cult.name}, ${cult.title}: ${cult.seat}. ${cult.practice} `
-      + `${cult.history} Offerings of ${s.trade} lie before it.`;
-    return [`  Thing ${altar} ${q(`the ${cult.form} of ${cult.name}`)} at ${s.id}_shrine is shrine { }`,
+    const text = wayside ? `By the track stands ${wayside}: ${/^[aeiou]/.test(cult.look) ? 'an' : 'a'} ${cult.look} ${cult.form}, small and weathered, with offerings of ${s.trade} before it.`
+      : `${a} ${cult.look} ${cult.form} of ${cult.name}, ${cult.title}: ${cult.seat}. ${cult.practice} `
+        + `${cult.history} Offerings of ${s.trade} lie before it.`;
+    return [`  Thing ${altar} ${q(wayside ?? `the ${cult.form} of ${cult.name}`)} at ${at} is shrine { }`,
       `  Initially Assert shrineOf(${altar}, faith_${cult.domain}). Initially Set offering(${altar}) to ${cult.offering}.`,
-      `  Observe ${s.id}_holy at ${s.id}_shrine when true ${q(text.replace(/\s+/g, ' ').trim())}.`];
+      `  Observe ${s.id}_holy at ${at} when true ${q(text.replace(/\s+/g, ' ').trim())}.`];
   }
 }

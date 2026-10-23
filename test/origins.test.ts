@@ -18,8 +18,9 @@ class Opening {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { origin, party: [this.wenna] });
     return PlaySession.start(w.path, seed, w.source);
   }
+  // A choice by its words or its command (the way into a settlement is go(…, …_green) whatever its heart is called).
   static async take(s: PlaySession, pattern: RegExp) {
-    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
+    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
     return s.perform(c.choice.id);
   }
@@ -30,21 +31,24 @@ describe('an origin', () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
     const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements);
     expect(offered.map(o => o.id)).toEqual(['kin', 'order', 'debt', 'wanderer']);
-    expect(offered[0]!.choice).toContain('Your father, a drover of Murkstede');
+    // The drover's family lives where the drover's story is set: a settlement with an inn to mourn him in.
+    const home = w.report.region.settlements.find(t => t.id === w.report.placements.find(p => p.scenario === 'drover')!.bindings.town)!;
+    expect(offered[0]!.choice).toContain(`Your father, a drover of ${home.name}`);
   }, 60000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);
     expect(screen.party.map(m => m.name)).toEqual(['Wenna']);
-    expect(screen.place.name).toBe('the causeway into Murkstede');
+    expect(screen.place.name).toMatch(/^the causeway into /);
     expect(Narrator.leaf(s.campaign, screen).situation.join(' ')).toContain('Your father went out on the road with the cart');
   }, 60000);
   it('makes the drover\'s family the protagonist\'s own', async () => {
     const s = await Opening.start('kin');
-    await Opening.take(s, /Murkstede green$/);
+    await Opening.take(s, /_green\)$/);
     const screen = ScreenModel.build(s.campaign);
-    expect(screen.people.find(p => p.id === 'drover__son')?.says?.join(' ')).toContain('Your brother is sitting on the rail');
-    expect(PlayerView.choices(s.campaign).some(c => /^Ask Amrod about his father/.test(c.choice.name))).toBe(false);
-    const told = await Opening.take(s, /^Ask Amrod what he means to do/);
+    const son = screen.people.find(p => p.id === 'drover__son')!, name = son.name.split(',')[0]!;
+    expect(son.says?.join(' ')).toContain('Your brother is sitting on the rail');
+    expect(PlayerView.choices(s.campaign).some(c => new RegExp(`^Ask ${name} about his father`).test(c.choice.name))).toBe(false);
+    const told = await Opening.take(s, new RegExp(`^Ask ${name} what he means to do`));
     expect(told.response).toContain('If you are going, I am coming with you');
     expect(s.campaign.world.test(ModuleWriter.call('willing', 'drover__son', 'party'))).toBe(true);
   }, 60000);

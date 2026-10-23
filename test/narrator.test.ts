@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
+import { GeneratedWorld } from './support/generated';
 import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { ScreenModel } from '../src/ui/screen-model';
@@ -19,7 +20,7 @@ class Telling {
   }
   // Does a choice, and tells it as the page would.
   static async take(s: PlaySession, pattern: RegExp) {
-    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
+    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
     const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
     const feedback = ActionFeedbackView.read(s.campaign, event, before);
@@ -36,11 +37,16 @@ describe('the narrator', () => {
   });
   it('tells what someone was asked in their words, on the page, not in the journal', async () => {
     const s = await Telling.start();
-    await Telling.take(s, /Murkstede green$/);
-    await Telling.take(s, /Lucky Phoenix$/);
-    const asked = await Telling.take(s, /^Ask Eamon about the drover/);
+    // Whoever keeps the inn where the drover's story is set has heard of him.
+    for (const n of [1, 2, 3, 4, 5]) {
+      GeneratedWorld.put(s, s.campaign.world.one('at', `region__s${n}_innkeeper`)!.replace(/^region__/, ''));
+      await s.perform('wait');
+      if (PlayerView.choices(s.campaign).some(c => / about the drover/.test(c.choice.name))) { break; }
+    }
+    const asked = await Telling.take(s, /^Ask (\w+) about the drover/);
+    const keeper = /^Ask (\w+) about the drover/.exec(asked.exchange!.said ?? '')?.[1] ?? '';
     const speech = asked.exchange!.lines.filter(l => l.kind === 'speech').map(l => l.text);
-    expect(speech.join(' ')).toContain('says Eamon');
+    expect(speech.join(' ')).toContain(`says ${keeper}`);
     expect(asked.exchange!.lines.some(l => /tells you what they have heard/.test(l.text))).toBe(false);
   }, 60000);
   it('tells the sky on coming out under it, not again on the next step, and not as if outside under a roof', async () => {
@@ -49,11 +55,11 @@ describe('the narrator', () => {
       .map(o => o.text);
     const told = (leaf: { situation: string[] }) => outside.filter(t => leaf.situation.join(' ').includes(t));
     // Walking in from the causeway, under the same sky: not told again.
-    expect(told(await Telling.take(s, /Murkstede green$/))).toEqual([]);
+    expect(told(await Telling.take(s, /s1_green\)$/))).toEqual([]);
     // Indoors, what is said of the green's sky is not said.
     expect(told(await Telling.take(s, /Lucky Phoenix$/))).toEqual([]);
     // Coming out under it, it is told; walking on under it, not again.
-    expect(told(await Telling.take(s, /Murkstede green$/)).length).toBeGreaterThan(0);
+    expect(told(await Telling.take(s, /s1_green\)$/)).length).toBeGreaterThan(0);
     const wood = await Telling.take(s, /to the edge of Eikwudu/);
     const woodSky = (s.campaign.module.observations ?? []).filter(o => o.aspect === 'weather' && o.place === 'region__z3_edge')
       .map(o => o.text);
@@ -61,7 +67,7 @@ describe('the narrator', () => {
   }, 60000);
   it('tells the passing life of a place the first time only', async () => {
     const s = await Telling.start();
-    await Telling.take(s, /Murkstede green$/);
+    await Telling.take(s, /s1_green\)$/);
     const first = await Telling.take(s, /to the edge of Eikwudu/), clearing = await Telling.take(s, /charcoal-burners/);
     expect(clearing.situation.join(' ')).toContain('A woodpecker is at work');
     await Telling.take(s, /to the edge of Eikwudu/);

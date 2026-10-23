@@ -3,6 +3,7 @@ import { GenerationSetting } from '../generation-setting';
 import { Calendar, type CalendarStart } from '../presentation/calendar';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
+import { SettlementWriter } from './settlement-writer';
 import { CampaignTick } from '../campaign/campaign-tick';
 import type { Region } from './region-writer';
 
@@ -79,7 +80,8 @@ export class RegionWeather {
     const q = JSON.stringify, at = this.tables.skyAt.groups;
     const places: [string, 'green' | 'road' | 'wild' | 'roof'][] = [
       ...region.settlements.map(s => [`${s.id}_green`, 'green'] as [string, 'green']),
-      ...region.settlements.map(s => [`${s.id}_taproom`, 'roof'] as [string, 'roof']),
+      ...region.settlements.filter(s => SettlementWriter.rooms(region, s).taproom)
+        .map(s => [`${s.id}_taproom`, 'roof'] as [string, 'roof']),
       ...RegionGeography.roads(region).map(r => [r.way, 'road'] as [string, 'road']),
       ...RegionGeography.atlas(region).zones.flatMap(z => RegionZones.rooms(region, z).map(r => [r, 'wild'] as [string, 'wild']))];
     return [...places.flatMap(([room, kind]) => kinds.filter(k => at[k]?.[kind]).map(k =>

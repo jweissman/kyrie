@@ -3,8 +3,16 @@
   "kin": ["cousin", "oldest friend", "godparent", "mother's cousin"],
   "work": {
     "innkeeper": "keeps {inn} there",
+    "alehouse": "keeps the alehouse there",
+    "guesthouse": "keeps the brothers' guest-hall there",
+    "canteen": "keeps the garrison's canteen there",
+    "none": "speaks for the place",
     "merchant": "keeps a shop there",
-    "priest": "keeps the shrine of {god} there"
+    "door": "sells from the house door there",
+    "priest": "keeps the shrine of {god} there",
+    "chapel": "is prior of the brothers there",
+    "garrison": "is chaplain to the garrison there",
+    "wayside": "keeps the wayside shrine of {god} there"
   },
   "home": [
     "'{home}. My {kin} {kinWork}: {kinName}. If we pass that way, we will eat.' {name} smiles. 'I am not much missed otherwise.'",
@@ -12,7 +20,7 @@
     "'Over at {home}. {kinName} is there, my {kin}, and {kinWork}. The rest went away, or into the ground.'"
   ],
   "homecoming": [
-    "'{home},' says {name}, and stands a moment at the edge of the green. 'Smaller than it was.'",
+    "'{home},' says {name}, and stands a moment where the track comes in. 'Smaller than it was.'",
     "{name} looks round {home} as if counting it, and seems satisfied that it is all still there."
   ],
   "greet": {

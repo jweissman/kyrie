@@ -98,13 +98,13 @@ describe('a way across country, told as it goes', () => {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'thorn', w.source);
     const go = async (re: RegExp) =>
-      s.perform(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name))!.choice.id);
-    await go(/green$/);
+      s.perform(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name) || re.test(c.choice.id))!.choice.id);
+    await go(/_green\)$/);
     const out = await go(/^Take the road from .* to the road between/);
     const kinds = (out.voiced ?? []).map(v => v.kind);
     expect(kinds).toContain('journey-depart');
     expect(kinds).toContain('journey-land');
-    const on = await go(/green$/);
+    const on = await go(/_green\)$/);
     expect((on.voiced ?? []).some(v => v.kind === 'journey-arrive')).toBe(true);
     // Never the same sentence twice in a row of journeys.
     const said = [...out.voiced ?? [], ...on.voiced ?? []].map(v => v.id);

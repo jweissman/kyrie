@@ -1,5 +1,7 @@
 import { Draw } from './land/draw';
 import { Terrain } from './land/terrain';
+import { SettlementWriter } from './settlement-writer';
+import { Foundings } from './founding';
 import type { Wilds } from './land/atlas';
 import { RegionGeography, type Seat } from './region-geography';
 import { RegionFaith } from './region-faith';
@@ -26,11 +28,10 @@ interface Fellow { s: Settlement; id: string; member: string; name: string; call
 export class RegionFellows {
   static readonly table = tables as unknown as Table;
   static readonly roles = ['innkeeper', 'merchant', 'priest'] as const;
-  static readonly rooms: Record<string, string> = { innkeeper: 'taproom', merchant: 'shop', priest: 'shrine' };
   static lines(region: Region): string[] {
     const fellows = region.settlements.flatMap(s => this.fellow(region, s));
     return [...this.places(region),
-      ...fellows.flatMap(f => [...this.talk(region, f), ...this.kin(f), ...this.remarks(region, f)])];
+      ...fellows.flatMap(f => [...this.talk(region, f), ...this.kin(region, f), ...this.remarks(region, f)])];
   }
   // The kinds of place a fellow may have something to say at, as facts about the places, once for the country: the
   // landmarks of each kind, the doors of the makers' works, the greens of the towns.
@@ -59,8 +60,12 @@ export class RegionFellows {
     if (!others.length) { return {}; }
     const home = draw.pick(others), role = draw.pick(this.roles);
     const god = RegionFaith.cults(region)[region.settlements.indexOf(home)]?.name ?? region.deity;
+    // What they do there is what the place has: an inn kept, or an alehouse, or a hamlet spoken for.
+    const f = Foundings.of(region, region.settlements.indexOf(home));
+    const work = role === 'innkeeper' && f.keeping !== 'inn' ? f.keeping : role === 'merchant' && f.selling === 'door' ? 'door'
+      : role === 'priest' && f.holy !== 'shrine' ? f.holy : role;
     return { home: home.name, homeId: home.id, role, kin: draw.pick(this.table.kin), kinName: home[role],
-      kinWork: this.fill(this.table.work[role]!, { inn: home.inn, god }) };
+      kinWork: this.fill(this.table.work[work]!, { inn: home.inn, god }) };
   }
   // What can be said with them on the road: where they come from, what they know, and a story over three nights.
   private static talk(region: Region, f: Fellow): string[] {
@@ -136,10 +141,10 @@ export class RegionFellows {
     return true;
   }
   // Their own: coming home with them, the welcome there (and food for the road), and what their kin says of them.
-  private static kin(f: Fellow): string[] {
-    const v = f.values, q = JSON.stringify;
-    if (!v.homeId) { return []; }
-    const kin = `${v.homeId}_${v.role}`, room = `${v.homeId}_${this.rooms[v.role!]}`, green = `${v.homeId}_green`;
+  private static kin(region: Region, f: Fellow): string[] {
+    const v = f.values, q = JSON.stringify, home = region.settlements.find(s => s.id === v.homeId);
+    if (!v.homeId || !home) { return []; }
+    const kin = `${v.homeId}_${v.role}`, room = SettlementWriter.standing(region, home, v.role as 'innkeeper'), green = `${v.homeId}_green`;
     const here = `travelsWith(${f.id}, party) and awake(${f.member})`;
     return [`  Initially Assert kin(${f.id}, ${kin}).`,
       `  Event ${f.id}_homecoming at ${green} when ${here} and at(party, ${green}) ${q(this.fill(f.draw.pick(this.table.homecoming), v))}.`,
@@ -164,7 +169,7 @@ export class RegionFellows {
     }
     const cults = RegionFaith.cults(region);
     if (c.shrine) {
-      region.settlements.forEach((x, i) => lines.push(`  Event ${f.id}_prays_${x.id} at ${x.id}_shrine when ${here}`
+      region.settlements.forEach((x, i) => SettlementWriter.rooms(region, x).shrine && lines.push(`  Event ${f.id}_prays_${x.id} at ${x.id}_shrine when ${here}`
         + ` and at(party, ${x.id}_shrine) ${q(this.fill(c.shrine!, { ...f.values, god: cults[i]!.name }))}.`));
     }
     return lines;

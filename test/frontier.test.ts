@@ -69,7 +69,7 @@ describe('the world beyond a region', () => {
     // Saved there and opened again, the company is still in the country beyond, and can go on in it.
     const back = PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint())));
     expect(back.campaign.world.one('at', 'party')).toMatch(/^x1y0__s\d+_green$/);
-    expect(PlayerView.choices(back.campaign).some(c => /^Take the door of /.test(c.choice.name))).toBe(true);
+    expect(PlayerView.choices(back.campaign).some(c => c.choice.id.startsWith('go('))).toBe(true);
     expect(back.campaign.module.entities.find(e => e.id === 'x1y0__region')?.name).toBe(east.name);
   }, 120000);
   it('holds an authored country where it fits: the Long Man beyond the north march of an upland country, once', async () => {
