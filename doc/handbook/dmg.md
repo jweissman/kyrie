@@ -1306,7 +1306,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 16 | 3 | 0 | 2 | 4 |
+| 0 | 18 | 3 | 0 | 3 | 6 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1417,6 +1417,46 @@ Someone who would come with you, if you led them, can be told not to wait: they 
 > Needs: able(actor); able(companion); at(actor, site); at(companion, site); acceptsEscort(companion, actor); not (following(companion, actor)); not (dismissed(companion, actor)); not (hobbled(companion))
 
 > Then: Assert dismissed(companion, actor).
+
+#### talks, addressed
+
+*Kyr · relation(group); relation(group, group)* · `rule:world_people.talks`
+
+Talking to someone: the company's attention on one person, until it takes its leave or goes. Anyone who is a person (not an animal or a beast) talks, and anyone with something to be asked (Topic) does. Speaking to them takes no time; they answer it (a greeting, from the voice tables), and what can be put to them is put in it.
+
+#### talk to
+
+*Kyr · action (group, group, place)* · `rule:world_people.talk_to`
+
+- Shown as: Talk to {person}
+- Takes: 0 minutes
+- Costs: 1
+
+Go over and speak to them.
+
+> Needs: able(actor); company(actor); at(actor, site); at(person, site); talks(person); able(person); not (asleep(person)); not (hostile(person, actor)); not (addressed(person, actor)); distinct(actor, person)
+
+> Then: Assert addressed(person, actor).
+
+#### take leave
+
+*Kyr · action (group, group, place)* · `rule:world_people.take_leave`
+
+- Shown as: Take your leave of {person}
+- Takes: 0 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); addressed(person, actor)
+
+> Then: Retract addressed(person, actor).
+
+#### conversation_ends
+
+*Kyr · rule* · `rule:world_people.conversation_ends`
+
+> When: addressed(?p, ?c); not (together(?p, ?c))
+
+> Then: Retract addressed(?p, ?c).
 
 ### Trying things: looking closely, prodding, prying, burning, pushing, listening
 

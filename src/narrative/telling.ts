@@ -12,9 +12,10 @@ export type Voiced = NonNullable<CampaignEvent['voiced']>[number];
 // the moment (Joins, Leaves, Greets, in Kyr) are said instead, the first time.
 export class Telling {
   static readonly priority: Record<string, number> = { turn: 0, join: 1, part: 1, object: 2, pet: 2, greet: 3,
-    thank: 4 };
+    address: 3, thank: 4, farewell: 4 };
   static readonly most = 3;
-  static readonly authored: Record<string, string> = { join: 'joining', part: 'parting', greet: 'greeting' };
+  static readonly authored: Record<string, string> = { join: 'joining', part: 'parting', greet: 'greeting',
+    address: 'greeting' };
   static tell(campaign: Campaign, event: CampaignEvent): Voiced[] {
     const company = campaign.playerActor ?? 'party', past = campaign.history.filter(e => e !== event)
       .flatMap(e => e.voiced ?? []);
@@ -26,6 +27,8 @@ export class Telling {
     const home = new Set(event.changes.map(c => /^\+ cameHome\(([^)]*)\)$/.exec(c)?.[1]).filter(Boolean));
     const happenings = Happenings.read(event, company, petted).filter(h => this.priority[h.kind] !== undefined)
       .filter(h => !(h.kind === 'part' && home.has(h.actor)))
+      // Taking leave is a farewell; walking off from someone mid-word is not.
+      .filter(h => h.kind !== 'farewell' || event.action.startsWith('take_leave('))
       .filter(h => !(['thank', 'turn', 'object'].includes(h.kind) && said.includes(this.called(campaign, h.actor ?? ''))))
       .filter(h => !(h.kind === 'thank' && VoiceContext.species(campaign, h.actor ?? '')))
       .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!).slice(0, this.most);

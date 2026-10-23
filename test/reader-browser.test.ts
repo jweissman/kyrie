@@ -21,7 +21,7 @@ class Reading {
     return page.evaluate(async () => {
       let changes = 0;
       const watch = new MutationObserver(m => { changes += m.length; });
-      watch.observe(document.querySelector('.world-body')!, { childList: true, subtree: true, characterData: true, attributes: true });
+      watch.observe(document.querySelector('#page')!, { childList: true, subtree: true, characterData: true, attributes: true });
       for (const b of Array.from(document.querySelectorAll<HTMLElement>('[data-action="choice"]'))) {
         b.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse' }));
         await new Promise(r => setTimeout(r, 15));
@@ -77,7 +77,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     // A fight: each foe and what it means to do; each exchange in words, the dice kept back.
     await Reading.fight(d);
     expect((await d.inspect()).mode).toBe('combat');
-    expect(await page.locator('.foe .intent').count()).toBeGreaterThan(0);
+    expect(await page.locator('.foes .intent').count()).toBeGreaterThan(0);
     await d.fight();
     const fought = await Reading.text(page);
     for (const shop of ['rolled', 'THAC0', 'needed', 'The order:', 'journal keeps every one', 'Learned:']) {

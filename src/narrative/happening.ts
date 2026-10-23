@@ -25,6 +25,9 @@ export class Happenings {
     { sign: '+', relation: 'grateful', kind: 'thank', roles: ['actor', 'company'] },
     { sign: '+', relation: 'objected', kind: 'object', roles: ['actor', 'object'] },
     { sign: '+', relation: 'refusesService', kind: 'refuse', roles: ['actor', 'company'] },
+    // Spoken to, and taken leave of (going away from someone mid-word is not a farewell; see Telling).
+    { sign: '+', relation: 'addressed', kind: 'address', roles: ['actor', 'company'] },
+    { sign: '-', relation: 'addressed', kind: 'farewell', roles: ['actor', 'company'] },
   ];
   static read(event: CampaignEvent, company: string, petted: Set<string>): Happening[] {
     const out: Happening[] = [];

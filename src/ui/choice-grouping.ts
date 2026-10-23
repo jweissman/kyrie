@@ -69,6 +69,8 @@ export class ChoiceGrouping {
     free_obstruction: { slot: 'target', param: 'companion', path: ['Free them: shift {device}'] },
     tell: { slot: 'target', param: 'recipient', path: ['Tell', '{statement}'] },
     ask: { slot: 'target', param: 'informant', path: ['Ask about {topic}'] },
+    talk_to: { slot: 'target', param: 'person', path: ['Talk to {person}'] },
+    take_leave: { slot: 'target', param: 'person', path: ['Take your leave'] },
     endorse: { slot: 'target', param: 'recipient', path: ['Pledge support'] },
     release: { slot: 'camp', path: ['{choice}'] },
     examine: { slot: 'target', param: 'witness', path: ['Read {witness}'] },

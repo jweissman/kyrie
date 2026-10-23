@@ -44,6 +44,7 @@ export class ModuleAssembly {
     const module = this.joined(situation, rules, manifest);
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
+    this.talkers(module, manifest.imports ?? []);
     const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
     delete module.people;
     if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
@@ -207,6 +208,14 @@ export class ModuleAssembly {
       entity.name = definition.name;
       module.initial.push({ kind: 'assert', call: ModuleWriter.call('itemKind', id, kind) });
     }
+  }
+  // Who can be talked to: a person of an ancestry (not a beast of a species), and anyone with something to be asked.
+  // Someone a module borrows from another (an imported innkeeper) is said to talk by the module that has them.
+  private static talkers(module: Module, imported: string[]) {
+    if (!module.relations.some(r => r.name === 'talks')) { return; }
+    const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && Canon.isSpecies(p.raceId)))
+      .map(p => p.id), ...module.actions.flatMap(a => a.speaker && !imported.includes(a.speaker) ? [a.speaker] : [])]);
+    for (const id of ids) { module.initial.push({ kind: 'assert', call: ModuleWriter.call('talks', id) }); }
   }
   private static itemTraits(module: Module) {
     const kinds = new Set(module.initial.filter(c => c.kind === 'assert' && c.call.name === 'itemKind')

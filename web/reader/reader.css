@@ -63,59 +63,18 @@ p { margin: 0 0 .7em; text-wrap: pretty; hyphens: auto; }
 .note, .time { font: 400 14px/1.35 var(--display); color: var(--grey); font-variant-numeric: tabular-nums; }
 .danger { font: 600 12px/1.3 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
 
-/* ---- Play: the world on the left; who and what is here, the ways, and yourself on the right. ---- */
-.play { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 0 clamp(36px, 5vw, 88px);
-  max-width: 1340px; margin: 0 auto; padding: clamp(22px, 4vw, 60px) clamp(16px, 4vw, 60px) 80px; }
-.world { min-width: 0; }
+/* ---- The pages read in play (the map, notes, the pack): where they are, and what. Play itself is stage.css. ---- */
 .where { font: 600 11.5px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--grey);
   margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .where .title { color: var(--ink); }
 .place { font: 750 clamp(34px, 4.8vw, 58px)/1.0 var(--display); letter-spacing: -.018em; margin: 0 0 22px;
   text-wrap: balance; }
-.chapter { font: 400 15px/1.3 var(--display); letter-spacing: .02em; color: var(--grey); margin: -10px 0 22px; }
-.situation p, .presence p { max-width: 36em; }
-.presence { margin-top: .2em; }
-.dark-note { font: 600 13px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
-.changed { margin: 1.2em 0; }
-.happened { margin: 0 0 28px; padding: 0 0 22px; border-bottom: 1px solid var(--hair); max-width: 38em; }
-.journey { margin: 0 0 22px; padding: 0 0 18px; border-bottom: 1px solid var(--hair); max-width: 38em; color: var(--grey); }
-.journey p { font-size: 18px; font-style: italic; }
-.happened .you { font: 600 12px/1.3 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--grey);
-  margin: 0 0 8px; }
-.happened p { font-size: 20.5px; line-height: 1.5; }
-.happened .notes { font: 400 14px/1.4 var(--display); color: var(--grey); }
-.happened .notes span + span::before { content: ' · '; }
-.happened.fail p:not(.you):first-of-type { color: var(--grey); }
-.happened.working p:not(.you) { color: var(--grey); }
 
-.here { min-width: 0; }
-.here section { margin: 0 0 30px; }
-.subject { margin: 0 0 16px; }
-.subject.portrayed { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 0 14px; align-items: start; }
-.subject .portrait { width: 52px; height: 66px; object-fit: cover; filter: grayscale(1) contrast(1.05);
-  background: var(--wash); }
-.subject:hover .portrait, .subject:focus-within .portrait { filter: none; }
-.subject .name { font: 600 18px/1.25 var(--display); margin: 0; }
-.subject .name .note { font-weight: 400; }
-.subject.creature .name::before { content: '■ '; color: var(--red); font-size: 13px; vertical-align: 2px; }
-.subject .about { font: 400 15.5px/1.45 var(--text); color: var(--grey); margin: 2px 0 4px; max-width: 32em; }
 .acts { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 18px; }
 .acts.column { flex-direction: column; gap: 1px; }
 .opened-list { list-style: none; margin: 6px 0 8px; padding: 2px 0 2px 16px; border-left: 2px solid var(--ink); }
 .opened-list li { margin: 1px 0; }
-.ways { list-style: none; margin: 0; padding: 0; }
-.ways li { display: flex; align-items: baseline; gap: 12px; margin: 0 0 2px; }
-.ways li .act { flex: 1 1 auto; }
-.ways li .act::before { content: '→ '; color: var(--faint); }
-.ways.far li .act::before { content: '⟶ '; }
-.ways li .time { flex: none; }
-.ways li .barred { text-decoration: line-through; }
-.you .who { font: 600 18px/1.25 var(--display); margin: 0 0 2px; }
-.you .state { font: 400 15px/1.4 var(--display); color: var(--grey); margin: 0 0 6px; }
-.you .state .hurt { color: var(--red); }
 .sheets { margin-top: 10px; }
-.gloss { font: 400 15px/1.45 var(--text); font-style: italic; color: var(--grey); min-height: 2.9em; margin-top: 20px;
-  max-width: 32em; }
 
 /* ---- Sheets: the map, notes, the story, a companion, what you carry; in place of the column they replace. ---- */
 .sheet h2 { font: 700 30px/1.05 var(--display); letter-spacing: -.01em; margin: 0 0 18px; }
@@ -177,23 +136,7 @@ p { margin: 0 0 .7em; text-wrap: pretty; hyphens: auto; }
 .local .link.shut { stroke: var(--red); stroke-dasharray: 2 3; }
 .local text { font: 500 12px var(--display); fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; }
 
-/* ---- A fight. ---- */
-.fight .round { font: 600 11.5px var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--grey); }
-.foes { list-style: none; padding: 0; margin: 0 0 24px; }
-.foe { margin: 0 0 12px; }
-.foe .who { font: 600 17px/1.3 var(--display); margin: 0; display: flex; flex-wrap: wrap; gap: 0 10px; align-items: baseline; }
-.foe .who .line { font-weight: 400; color: var(--grey); font-size: 14px; }
-.foe .hurt { font-weight: 500; font-size: 14px; color: var(--red); }
-.foe .took { font-weight: 700; font-size: 14px; color: var(--red); }
-.foe .bar { display: block; height: 3px; background: var(--hair); margin: 4px 0 2px; max-width: 280px; }
-.foe .bar i { display: block; height: 100%; background: var(--red); }
-.foe.down { color: var(--faint); }
-.foe .intent, .foe .states, .foe .defenses { font: 400 14px/1.4 var(--display); color: var(--grey); margin: 2px 0 0; }
-.fight .now p { font-size: 19.5px; }
-.fight .began { font-weight: 500; }
-.fight .turn { font: 600 15px var(--display); margin-top: 16px; }
-.fight details summary { font: 600 11.5px var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--grey);
-  cursor: pointer; margin-top: 24px; }
+/* ---- The fight so far. ---- */
 .fight-log p { font-size: 16px; color: var(--grey); }
 
 /* ---- The end of one life, said plainly. ---- */
@@ -247,12 +190,9 @@ p { margin: 0 0 .7em; text-wrap: pretty; hyphens: auto; }
 .help dt kbd { font: 600 13px var(--display); }
 .help dd { margin: 0; color: var(--grey); }
 
-/* ---- Held upright, or on a phone: one column, the world first. ---- */
+/* ---- Held upright, or on a phone. ---- */
 @media (max-width: 860px) {
   body { font-size: 18px; }
-  .play { grid-template-columns: minmax(0, 1fr); padding-top: 18px; }
-  .here { margin-top: 10px; padding-top: 22px; border-top: 2px solid var(--ink); }
-  .happened p { font-size: 19.5px; }
   .fields { grid-template-columns: minmax(0, 1fr); }
   .act { font-size: 17px; padding: 6px 8px; margin-left: -8px; }
   .acts { gap: 4px 16px; }

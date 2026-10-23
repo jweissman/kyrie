@@ -52,4 +52,22 @@ Module world_people "Company and intention" {
       and not hobbled(companion).
     On success { Assert dismissed(companion, actor). }
   }
+
+  // Talking to someone: the company's attention on one person, until it takes its leave or goes. Anyone who is a
+  // person (not an animal or a beast) talks, and anyone with something to be asked (Topic) does. Speaking to them
+  // takes no time; they answer it (a greeting, from the voice tables), and what can be put to them is put in it.
+  Relation talks(group). Relation addressed(group, group).
+  Action talk_to(actor: group, person: group, site: place) "Talk to {person}" {
+    Description "Go over and speak to them.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(person, site) and talks(person) and able(person)
+      and not asleep(person) and not hostile(person, actor) and not addressed(person, actor) and distinct(actor, person).
+    Time 0.
+    On success { Assert addressed(person, actor). }
+  }
+  Action take_leave(actor: group, person: group, site: place) "Take your leave of {person}" {
+    Requires able(actor) and at(actor, site) and addressed(person, actor).
+    Time 0.
+    On success { Retract addressed(person, actor). }
+  }
+  Rule conversation_ends when addressed(?p, ?c) and not together(?p, ?c) { Retract addressed(?p, ?c). }
 }

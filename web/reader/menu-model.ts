@@ -1,24 +1,47 @@
 import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list';
 import { SceneModel, type Scene } from '../../src/ui/scene';
+import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
 import type { Frame } from '../engine/protocol';
 import type { Travel } from './reader-app';
 
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
-// What can be chosen now: the scene (who and what is here, the ways, yourself) or, in a fight, the acting companion's
-// options, or the company's or the pack's; every choice in the order it is drawn, with what is open after its opener.
-export interface Menu { sections: Section[]; choices: Choice[]; scene?: Scene }
+// What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
+// one thing looked at; in a fight, the acting companion's options; or the company's or the pack's. Every choice in
+// the order it is drawn, with what is open after its opener.
+export interface Menu { sections: Section[]; choices: Choice[]; scene?: Scene; talk?: Talk; examined?: Examined }
 
 export class MenuModel {
-  static build(frame: Frame | undefined, view: View, open: string[]): Menu {
+  static build(frame: Frame | undefined, view: View, open: string[], attention?: Attention): Menu {
     if (!frame) { return { sections: [], choices: [] }; }
     const opened = new Set(open);
     if (!frame.combat && !['pack', 'company'].includes(view)) {
       const scene = SceneModel.build(frame.screen);
-      return { scene, sections: this.sections(scene), choices: SceneModel.order(scene, opened) };
+      return this.attending(scene, opened, attention) ?? this.place(Attending.place(scene), opened);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : ChoiceList.party(frame.screen);
     return { sections, choices: ChoiceList.all(sections).flatMap(c => this.unfold(c, opened)) };
+  }
+  private static place(scene: Scene, opened: Set<string>): Menu {
+    return { scene, sections: this.sections(scene), choices: SceneModel.order(scene, opened) };
+  }
+  // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by
+  // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
+  private static attending(scene: Scene, opened: Set<string>, attention?: Attention): Menu | undefined {
+    if (attention?.kind === 'person') {
+      const talk = Attending.talk(scene, attention.id);
+      const choices = talk && [...talk.replies.flatMap(c => this.unfold(c, opened)), talk.leave];
+      return talk && { scene, talk, choices: choices!, sections: [{ id: talk.subject.id, title: talk.subject.name,
+        tone: 'person', glyph: '☺', choices: choices! }] };
+    }
+    if (attention?.kind === 'thing') {
+      const examined = Attending.thing(scene, attention.id);
+      const choices = examined && [...examined.groups.flatMap(g => g.choices.flatMap(c => this.unfold(c, opened))),
+        examined.back];
+      return examined && { scene, examined, choices: choices!, sections: examined.groups.map(g => ({ id: g.title,
+        title: g.title, tone: 'thing' as const, glyph: '·', choices: g.choices })) };
+    }
+    return undefined;
   }
   private static unfold(c: Choice, open: Set<string>): Choice[] {
     return [c, ...open.has(c.id) && c.children ? c.children.flatMap(k => this.unfold(k, open)) : []];

@@ -3,6 +3,8 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { Catalog, CompanyView, Frame, Member, Message, Setting } from '../engine/protocol';
 import { EngineClient } from './engine-client';
 import { MenuModel, type Menu, type View } from './menu-model';
+import { Conversation, type TalkLine } from './conversation';
+import type { Attention } from '../../src/ui/attention';
 import { ReaderStore, type SavedGame } from './reader-store';
 import { ReaderKeys } from './reader-keys';
 import { ReaderOpening } from './reader-opening';
@@ -33,6 +35,9 @@ export interface AppState {
   // Whether the keys are being used: only then is the choice they are on shown.
   keyed?: boolean;
   pending?: { said: string; travel?: Travel };
+  // What the player is attending to (the place, someone spoken with, one thing looked at), and what has been said in
+  // the conversation under way.
+  attention: Attention; talk: TalkLine[];
   fight?: FightMark;
   stage: string; error: string; help: boolean;
 }
@@ -46,6 +51,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   override state: AppState = ReaderApp.initial(ReaderStore.read());
   private static initial(saved?: SavedGame): AppState {
     return { phase: 'title', campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0, open: [],
+      attention: Conversation.place, talk: [],
       member: '', stage: '', error: '', help: false, ...saved ? { saved } : {} };
   }
   override componentDidMount() {
@@ -77,21 +83,24 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (message.kind === 'frame') {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true } : undefined;
-      this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight });
+      this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight,
+        attention: Conversation.place, talk: [] });
     }
   }
-  private built?: { frame?: Frame; view: View; open: string[]; menu: Menu };
-  // What can be chosen now, built once for each frame, view and set of open choices.
+  private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; menu: Menu };
+  // What can be chosen now, built once for each frame, view, attention and set of open choices.
   get menu(): Menu {
-    const { frame, view, open } = this.state, b = this.built;
-    if (b && b.frame === frame && b.view === view && b.open === open) { return b.menu; }
-    this.built = { frame, view, open, menu: MenuModel.build(frame, view, open) };
+    const { frame, view, open, attention } = this.state, b = this.built;
+    if (b && b.frame === frame && b.view === view && b.open === open && b.attention === attention) { return b.menu; }
+    this.built = { frame, view, open, attention, menu: MenuModel.build(frame, view, open, attention) };
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
   readonly choose = (choice: Choice) => {
     const { frame, pending, open } = this.state;
     if (pending || choice.disabled || !frame) { return; }
+    const turned = Conversation.turn(choice);
+    if (turned) { this.attend(choice, turned); return; }
     if (choice.children) {
       const shut = open.includes(choice.id), siblings = MenuModel.siblings(this.menu, choice.id);
       this.setState({ open: shut ? open.filter(id => id !== choice.id)
@@ -108,6 +117,15 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     }
     void this.perform(choice, said);
   };
+  // Attention turned: to someone (saying so to them, when the world has a way to), to a thing, or back to the place
+  // (taking leave, when there is leave to take).
+  private attend(choice: Choice, attention: Attention) {
+    // A conversation opens on what they were doing when the company came over.
+    const doing = attention.kind === 'person' ? this.menu.scene?.subjects.find(x => x.id === attention.id)?.says?.[0] : undefined;
+    this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false,
+      talk: attention.kind !== 'person' ? this.state.talk : doing ? [{ kind: 'telling', text: doing }] : [] });
+    if (choice.command) { void this.perform(choice, choice.label, attention); }
+  }
   // Let the companion whose turn it is fight this turn on their own.
   readonly auto = () => {
     if (!this.state.frame?.combat?.ours || this.state.pending) { return; }
@@ -122,20 +140,22 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   private readonly failed = (error: unknown) => {
     this.setState({ pending: undefined, error: error instanceof Error ? error.message : String(error) });
   };
-  private async perform(choice: Choice, said: string) {
+  private async perform(choice: Choice, said: string, turning?: Attention) {
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame);
     this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '' });
     try {
       const next = await this.engine.request<Frame>({ kind: 'perform', command: choice.command!, said,
         move: choice.tone === 'way', named: choice.tone !== 'way' });
-      this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next), hovered: undefined,
-        view: this.state.view === 'map' ? 'map' : 'here', stage: '' });
+      const attention = Conversation.holds(turning ?? this.state.attention, frame, next);
+      const talk = attention.kind === 'person' ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
+      this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next, attention), hovered: undefined,
+        view: this.state.view === 'map' ? 'map' : 'here', stage: '', attention, talk });
     } catch (error) { this.failed(error); }
   }
   // A conversation goes on: what was open with someone (what to buy from them) stays open, if they are still there
   // with more to offer. Anything else is put away.
-  private kept(next: Frame): string[] {
-    const subjects = MenuModel.build(next, 'here', []).scene?.subjects ?? [];
+  private kept(next: Frame, attention: Attention): string[] {
+    const subjects = MenuModel.build(next, 'here', [], attention).scene?.subjects ?? [];
     return this.state.open.filter(id => subjects.some(s => s.kind !== 'thing' && s.choices.some(c => c.id === id && c.children)));
   }
   readonly back = () => {
@@ -143,6 +163,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (s.help) { this.setState({ help: false }); }
     else if (s.open.length) { this.setState({ open: s.open.slice(0, -1), cursor: 0 }); }
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
+    else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
+    else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
   };
   show(view: View) {
     if (this.state.frame?.combat && view !== 'here') { return; }
@@ -160,9 +182,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   inspect() {
     const s = this.state, menu = this.menu, frame = s.frame;
     const mode = s.phase !== 'play' ? { title: 'title', campaigns: 'campaigns', company: 'create', loading: 'create' }[s.phase]
-      : frame?.combat ? 'combat' : { here: 'explore', company: 'party', pack: 'pack', journal: 'journal', map: 'map',
-        story: 'story' }[s.view];
+      : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
+        ? { person: 'talk', thing: 'examine' }[s.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
+          journal: 'journal', map: 'map', story: 'story' }[s.view];
     return { mode, place: frame?.screen.place, path: frame?.screen.path,
+      attention: s.attention, talk: s.talk,
       sections: menu.sections.map(sec => ({ id: sec.id, title: sec.title, choices: sec.choices.map(MenuModel.shape) })),
       choices: menu.choices.map(MenuModel.shape), selected: menu.choices[s.cursor]?.id, trail: s.open,
       combat: frame?.combat, log: (frame?.entries ?? []).slice(-5), party: frame?.screen.party.map(m => ({ name: m.name,

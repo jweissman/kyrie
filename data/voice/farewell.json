@@ -1,0 +1,19 @@
+{
+  "about": "The company takes its leave of someone it was speaking with: how they let it go, by their manner, who the company is to them, and the hour. Not said when the company simply walks off.",
+  "kinds": ["farewell"],
+  "lines": [
+    { "id": "farewell.1", "text": "{Actor} nods, and goes back to what {they} [were|was] doing." },
+    { "id": "farewell.2", "text": "‘Go well,’ says {actor}." },
+    { "id": "farewell.3", "text": "{Actor} watches you go for a moment, then turns away." },
+    { "id": "farewell.night", "when": { "time": "night" }, "text": "‘Mind how you go in the dark,’ says {actor}." },
+    { "id": "farewell.cheerful", "when": { "manner": "cheerful" }, "text": "‘Come back and tell me how it goes!’ calls {actor} after you." },
+    { "id": "farewell.grim", "when": { "manner": "grim" }, "text": "{Actor} has gone back to work before you have turned round." },
+    { "id": "farewell.stoic", "when": { "manner": "stoic" }, "text": "{Actor} lifts a hand, once." },
+    { "id": "farewell.jovial", "when": { "manner": "jovial" }, "text": "‘Off you go, then,’ says {actor}, ‘and don’t do anything I’d be ashamed to hear about. Or do, and tell me.’" },
+    { "id": "farewell.compassionate", "when": { "manner": "compassionate" }, "text": "‘Look after yourself,’ says {actor}. ‘I mean it.’" },
+    { "id": "farewell.proud", "when": { "manner": "proud" }, "text": "{Actor} considers the conversation over some moments before you do." },
+    { "id": "farewell.acerbic", "when": { "manner": "acerbic" }, "text": "‘Don’t let me keep you,’ says {actor}, who was not trying to." },
+    { "id": "farewell.kin", "when": { "bond": "kin" }, "text": "‘Be careful,’ says {actor}. ‘I know you won’t, but be careful.’" },
+    { "id": "farewell.friend", "when": { "bond": "friend" }, "text": "{Actor} claps you on the shoulder. ‘You know where I am.’" }
+  ]
+}

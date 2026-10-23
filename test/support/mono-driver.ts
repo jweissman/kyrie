@@ -57,7 +57,9 @@ export class MonoDriver {
   // any further labels pick from the list it opens. A subject with several things to do is one choice that opens them
   // ("Speak with Wren"); it is opened first when the label wanted is inside it.
   async do(subject: string, ...labels: string[]) {
-    const [first, ...rest] = labels, state = await this.inspect();
+    const [first] = labels;
+    if (!(await this.inspect()).choices.some(c => this.about(c.id, subject))) { await this.away(); }
+    const rest = labels.slice(1), state = await this.inspect();
     const direct = state.choices.find(c => this.about(c.id, subject) && (!first || c.label.startsWith(first)));
     if (!direct) {
       const opener = state.choices.find(c => this.about(c.id, subject) && c.children);
@@ -73,6 +75,7 @@ export class MonoDriver {
   // The way to a destination (its id, or the id without the installation prefix); with a label, one of several
   // things to do at that way (open a door, risk a pit).
   async go(destination: string, label?: string) {
+    await this.away();
     await this.pick(c => this.way(c.id, destination) && (!label || c.label.toLowerCase().includes(label.toLowerCase())),
       `way to ${destination}`);
   }
@@ -81,6 +84,10 @@ export class MonoDriver {
     if (!await this.page.locator('[data-action="back"]').count()) { return; }
     if (this.pointer) { await this.click('[data-action="back"]'); return; }
     await this.key('Escape');
+  }
+  // Out of a conversation or a thing looked at, back to the place: taking leave, or turning away.
+  async away() {
+    for (let i = 0; i < 3 && ['talk', 'examine'].includes((await this.inspect()).mode); i++) { await this.back(); }
   }
   async mode(key: string) {
     if (this.pointer) { await this.click(`[data-action="mode"][data-key="${key}"]`); return; }

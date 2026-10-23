@@ -1,0 +1,44 @@
+{
+  "about": "Someone is spoken to: how they take it, by whether they have spoken with the company before (moment first or again), who the company is to them (bond), their manner, and the hour. Said once, when the company turns its attention to them; what can be put to them follows.",
+  "kinds": ["address"],
+  "lines": [
+    { "id": "address.first.1", "when": { "moment": "first" }, "text": "{Actor} looks up, and takes a moment to place you, and fails. ‘Yes?’" },
+    { "id": "address.first.2", "when": { "moment": "first" }, "text": "{Actor} straightens, and wipes {their} hands, and waits to hear what you want." },
+    { "id": "address.first.3", "when": { "moment": "first" }, "text": "‘You’re not from here,’ says {actor}. It is not a question, and not quite unfriendly." },
+    { "id": "address.first.4", "when": { "moment": "first" }, "text": "{Actor} gives you the look people keep for strangers who have stopped walking. ‘Can I help you?’" },
+    { "id": "address.again.1", "when": { "moment": "again" }, "text": "‘You again,’ says {actor}, and it seems to be all right." },
+    { "id": "address.again.2", "when": { "moment": "again" }, "text": "{Actor} nods to you as to someone {they} [have|has] spoken to before." },
+    { "id": "address.again.3", "when": { "moment": "again" }, "text": "{Actor} sees you coming and leaves off what {they} [were|was] doing." },
+
+    { "id": "address.first.night", "when": { "moment": "first", "time": "night" }, "text": "{Actor} peers at you in the bad light. ‘It’s late to be making acquaintances.’" },
+    { "id": "address.first.morning", "when": { "moment": "first", "time": "morning" }, "text": "‘Morning,’ says {actor}, the way people say it before they have decided about you." },
+    { "id": "address.again.night", "when": { "moment": "again", "time": "night" }, "text": "‘Still about?’ says {actor}. ‘You’ll want your bed, like the rest of us.’" },
+
+    { "id": "address.first.cheerful", "when": { "moment": "first", "manner": "cheerful" }, "text": "‘Well now,’ says {actor}, brightening at the sight of a new face. ‘What brings you?’" },
+    { "id": "address.first.cheerful.2", "when": { "moment": "first", "manner": "cheerful" }, "text": "{Actor} grins before you have said anything at all. ‘You look like a person with a question.’" },
+    { "id": "address.again.cheerful", "when": { "moment": "again", "manner": "cheerful" }, "text": "‘There you are!’ says {actor}, as if {they} had been expecting you." },
+    { "id": "address.first.grim", "when": { "moment": "first", "manner": "grim" }, "text": "{Actor} looks at you for longer than is comfortable. ‘Well?’" },
+    { "id": "address.first.grim.2", "when": { "moment": "first", "manner": "grim" }, "text": "{Actor} does not stop working. ‘Say it, then.’" },
+    { "id": "address.again.grim", "when": { "moment": "again", "manner": "grim" }, "text": "‘You,’ says {actor}, neither pleased nor otherwise." },
+    { "id": "address.first.stoic", "when": { "moment": "first", "manner": "stoic" }, "text": "{Actor} hears you out with {their} hands still, and says nothing until you have finished." },
+    { "id": "address.again.stoic", "when": { "moment": "again", "manner": "stoic" }, "text": "{Actor} inclines {their} head, which seems to be a whole greeting." },
+    { "id": "address.first.jovial", "when": { "moment": "first", "manner": "jovial" }, "text": "‘A traveller!’ says {actor}, loud enough for half the place to hear. ‘Sit, sit. Or stand. What’ll it be?’" },
+    { "id": "address.again.jovial", "when": { "moment": "again", "manner": "jovial" }, "text": "‘Back for more of my wisdom,’ says {actor}. ‘Can’t say I blame you.’" },
+    { "id": "address.first.compassionate", "when": { "moment": "first", "manner": "compassionate" }, "text": "{Actor} takes in the state of you: the road dust, the tiredness. ‘You’ve come a way. What do you need?’" },
+    { "id": "address.again.compassionate", "when": { "moment": "again", "manner": "compassionate" }, "text": "‘How are you getting on?’ asks {actor}, and seems to want to know." },
+    { "id": "address.first.proud", "when": { "moment": "first", "manner": "proud" }, "text": "{Actor} lets you speak first, as is plainly {their} due." },
+    { "id": "address.first.proud.2", "when": { "moment": "first", "manner": "proud" }, "text": "‘I don’t know you,’ says {actor}, and waits to be told why {they} should." },
+    { "id": "address.again.proud", "when": { "moment": "again", "manner": "proud" }, "text": "{Actor} acknowledges you with the smallest movement of the chin." },
+    { "id": "address.first.acerbic", "when": { "moment": "first", "manner": "acerbic" }, "text": "‘Lost?’ says {actor}. ‘People usually are, when they come over to me.’" },
+    { "id": "address.first.acerbic.2", "when": { "moment": "first", "manner": "acerbic" }, "text": "{Actor} looks you up and down. ‘Whatever it is, the answer’s probably no. Go on.’" },
+    { "id": "address.again.acerbic", "when": { "moment": "again", "manner": "acerbic" }, "text": "‘Oh, it’s you,’ says {actor}. ‘I wondered when you’d be back to bother me.’" },
+
+    { "id": "address.kin.first", "when": { "bond": "kin", "moment": "first" }, "text": "{Actor} looks at you as if counting the years you have been away, and then just holds on to you a moment." },
+    { "id": "address.kin.again", "when": { "bond": "kin", "moment": "again" }, "text": "‘What is it?’ says {actor}, as family say it: not unkindly, and not getting up." },
+    { "id": "address.kin.again.2", "when": { "bond": "kin", "moment": "again" }, "text": "{Actor} makes room for you without being asked." },
+    { "id": "address.friend.first", "when": { "bond": "friend", "moment": "first" }, "text": "{Actor} knows you before you are close, and comes to meet you. ‘I wondered if you’d come this way.’" },
+    { "id": "address.friend.again", "when": { "bond": "friend", "moment": "again" }, "text": "‘Sit down a minute,’ says {actor}. ‘You make me tired, standing.’" },
+    { "id": "address.fellow.again", "when": { "bond": "fellow", "moment": "again" }, "text": "{Actor} falls into step beside you. ‘What is it?’" },
+    { "id": "address.fellow.again.2", "when": { "bond": "fellow", "moment": "again" }, "text": "‘Thinking something?’ says {actor}. ‘You’ve got that look.’" }
+  ]
+}

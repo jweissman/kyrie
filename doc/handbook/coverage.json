@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 154,
+    "kyr": 158,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 149,
+      "kyr": 153,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -11186,6 +11186,34 @@
   {
    "id": "rule:world_people.send_off",
    "title": "send off",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.talks",
+   "title": "talks, addressed",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.talk_to",
+   "title": "talk to",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.take_leave",
+   "title": "take leave",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.conversation_ends",
+   "title": "conversation_ends",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-people"

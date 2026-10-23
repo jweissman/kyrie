@@ -1,5 +1,5 @@
 import { ChoiceList, type Choice, type Section } from './choice-list';
-import type { Screen } from './screen-types';
+import type { Screen, TargetRow } from './screen-types';
 
 // One subject on the page: someone or something here, with what can be done with it said beside it.
 export interface SceneSubject {
@@ -7,8 +7,10 @@ export interface SceneSubject {
   about?: string;
   // How a fight with it would go, as the company reckons it, when it is one that might be fought.
   danger?: string; choices: Choice[];
-  // The painting beside them, for what they do.
-  portrait?: { src: string; credit?: string };
+  // A painting of someone who could be them: small and large copies, where the face sits, and its credit.
+  portrait?: TargetRow['portrait'];
+  // What can be seen of them now ("Nest is driving geese along the green"), and whether they are dead or down.
+  says?: string[]; state?: TargetRow['state'];
 }
 // What the page is drawn from in play: who and what is here (danger first), who is with you, the ways about the place
 // and the ways out across the country, and what you can do yourself. Every choice is one the engine offered, attached
@@ -25,7 +27,7 @@ export class SceneModel {
     const companions = new Set(screen.people.filter(p => p.companion).map(p => p.id));
     const subjects = sections.filter(s => ['creature', 'person', 'thing'].includes(s.tone))
       .map(s => this.subject(s, companions, screen))
-      .filter(s => s.choices.length || ['creature', 'animal', 'companion'].includes(s.kind));
+      .filter(s => s.choices.length || ['creature', 'person', 'animal', 'companion'].includes(s.kind));
     const rank: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, animal: 2, thing: 3, companion: 4 };
     return { subjects: subjects.sort((a, b) => rank[a.kind] - rank[b.kind]),
       near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
@@ -39,7 +41,8 @@ export class SceneModel {
     const note = [role.join(', '), s.note].filter(Boolean).join(' · ');
     return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
-      ...row?.portrait ? { portrait: row.portrait } : {},
+      ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.says?.length ? { says: row.says } : {},
+      ...row?.state ? { state: row.state } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => kind === 'animal' ? this.led(c) : c) };
   }
   // An animal is led and let go, not asked.
@@ -52,7 +55,7 @@ export class SceneModel {
   // "Take a coil of rope" under the rope is "Take".
   static bare(c: Choice, name: string): Choice {
     const short = name.replace(/^(a|an|the|some) /i, '');
-    const asked = c.label.replace(new RegExp(`^(\\w+) ${this.escape(name)}\\b,? ?`), '$1 ');
+    const asked = c.label.replace(new RegExp(`^(\\w+) ${this.escape(name)}\\b(?!['’]s),? ?`), '$1 ');
     // "Make much of Fly" is "Make much of"; "Gather a wad of sphagnum moss" keeps what it gathers.
     const tail = new RegExp(`\\s(${this.escape(name)}|${this.escape(short)})$`, 'i');
     const cut = asked.replace(tail, '').trim();

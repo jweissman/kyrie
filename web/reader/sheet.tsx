@@ -1,7 +1,7 @@
 import type { Entry, Frame } from '../engine/protocol';
 import type { MemberRow, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
-import { HereView } from './here-view';
+import { Act } from './stage/act';
 import { Words } from './words';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
@@ -16,7 +16,6 @@ export class Sheet {
       <section className={`sheet view-${s.view}`} data-region="details" aria-label={s.view}>
         <p className="back"><button type="button" className="act" data-action="close" onClick={app.back}>‹ Back</button></p>
         {body}
-        <HereView.Sheets app={app} screen={screen} />
       </section>
     );
   }
@@ -63,13 +62,13 @@ export class Sheet {
   }
   // What each of you carries, and what can be done with each thing.
   private static pack(app: ReaderApp, screen: Screen) {
-    const menu = app.menu, draw = { app, index: new Map(menu.choices.map((c, i) => [c.id, i])), open: new Set(app.state.open) };
+    const menu = app.menu, draw = Act.draw(app);
     return (
       <article className="pack">
         <h2>What you carry</h2>
         {menu.sections.length ? menu.sections.map(sec => <section key={sec.id}>
           <h3>{sec.title}</h3>
-          <HereView.Acts choices={sec.choices} draw={draw} column />
+          <Act.List choices={sec.choices} draw={draw} className="column" />
         </section>) : <p className="none">You carry nothing.</p>}
         <p className="how">{screen.purse.coin} coin · {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}
           {screen.purse.other.length > 0 && ` · ${screen.purse.other.join(', ')}`}</p>
@@ -78,9 +77,9 @@ export class Sheet {
   }
   private static company(app: ReaderApp, screen: Screen) {
     const m = screen.party.find(x => x.id === app.state.member) ?? screen.party[0]!;
-    const menu = app.menu, draw = { app, index: new Map(menu.choices.map((c, i) => [c.id, i])), open: new Set(app.state.open) };
+    const menu = app.menu, draw = Act.draw(app);
     return <>
-      <HereView.Acts choices={menu.sections.flatMap(sec => sec.choices)} draw={draw} />
+      <Act.List choices={menu.sections.flatMap(sec => sec.choices)} draw={draw} />
       {Sheet.member(m, screen)}
     </>;
   }
