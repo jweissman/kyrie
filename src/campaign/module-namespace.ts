@@ -58,6 +58,7 @@ export class ModuleNamespace {
     return { ...structuredClone(action), id: shared ? action.id : `${this.bindings.id}__${action.id}`,
       name: this.text(action.name, bound),
       ...(action.report ? { report: this.text(action.report, bound) } : {}),
+      ...(action.otherwise ? { otherwise: this.text(action.otherwise, bound) } : {}),
       ...(action.seen ? { seen: this.text(action.seen, bound) } : {}),
       ...(action.speaker ? { speaker: this.entities[action.speaker] } : {}),
       ...(action.searchPlace ? { searchPlace: this.entities[action.searchPlace] } : {}),
