@@ -32,10 +32,11 @@ export class Words {
     return r >= 1 ? 'unhurt' : r > 0.6 ? 'hurt' : r > 0.3 ? 'badly hurt' : 'near death';
   }
   // "Rending bite → Elen" is "rending bite at Elen".
+  // What a foe means to do, as it would be said: "Sweeping Strike → Wenna" is "sweeping strike on Wenna".
   static intent(text: string): string {
     const [what, at] = text.split(' → ');
-    const act = what!.charAt(0).toLowerCase() + what!.slice(1);
-    return at ? `${act}, at ${at}` : act;
+    const act = what!.toLowerCase();
+    return at ? `${act} on ${at}` : act;
   }
   // What the player chose, as the last of the labels it was chosen by ("Speak with Eamon › Ask about the road").
   static lastSaid(said: string): string { return said.split(' › ').at(-1)!; }

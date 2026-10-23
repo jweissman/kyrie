@@ -29,7 +29,7 @@ export class Intentions {
   }
   private static far(c: Choice): boolean { return (c.minutes ?? 0) > 10 || this.across(c); }
   // Striking out across wild country, and finding the way again, are ways to go, not things to do where you stand.
-  private static across(c: Choice): boolean { return /__z\d+_(strike|cast|follow)\(/.test(c.command ?? ''); }
+  private static across(c: Choice): boolean { return /__z\d+_(strike|cast|follow)(\(|$)/.test(c.command ?? ''); }
   private static astray(sections: Section[]): Choice[] {
     return sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => this.across(c)));
   }
@@ -44,7 +44,8 @@ export class Intentions {
       // One thing to do with it, said with what it is done to ("Take", for the coins on the altar, is "Take a handful
       // of old coins").
       const only = open[0]!;
-      const label = id === 'look' ? this.with(only.label, name) : only.label;
+      // A bare verb ("Attack") is said with whom it is done to, too.
+      const label = id === 'look' || !only.label.includes(' ') ? this.with(only.label, name) : only.label;
       if (open.length === 1) { return [{ ...only, label, ...this.about(s, only) }]; }
       return [{ id: `${s.id}#${id}`, label: `${verb} ${name}`, tone: s.tone, children: s.choices,
         ...(s.note ? { note: s.note } : {}), ...(s.about ? { about: s.about } : {}) } satisfies Choice];

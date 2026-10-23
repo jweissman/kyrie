@@ -7,6 +7,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { RegionZones } from '../src/world/region-zones';
 import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
+import { Intentions } from '../src/ui/intentions';
 
 // Wild country is ground, not a list of rooms. a1's Eikwudu: landmarks where they stand on the land, joined by
 // trails; a way into it from every road and settlement it borders, so it can be crossed and come out somewhere else;
@@ -60,6 +61,9 @@ describe('wild country', () => {
     }
     expect(s.campaign.world.one('at', 'party')).toBe('region__z3_lost');
     expect(ScreenModel.build(s.campaign).place.name).toBe('somewhere in Eikwudu');
+    // Lost, the ways back to a path are ways to go, offered as such.
+    const go = Intentions.book(ScreenModel.build(s.campaign)).find(x => x.title === 'Go');
+    expect(go?.choices.map(c => c.label)).toContain('Cast about for a path you know');
     for (let tries = 0; tries < 12 && s.campaign.world.one('at', 'party') === 'region__z3_lost'; tries++) {
       await Wood.take(s, /^Cast about for a path you know/);
     }

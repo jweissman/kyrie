@@ -3,6 +3,7 @@ import type { CombatantRow, CombatScreen } from '../../src/ui/screen-types';
 import type { FightMark } from './reader-app';
 import { FightLog } from './fight-log';
 import { Words } from './words';
+import { Typography } from '../../src/presentation/typography';
 
 // A fight, told on the page so that what matters stays where it is: who stands against the company and how they look
 // (with what each last blow took from them), then what happened since the company last chose, then whose turn it is,
@@ -21,7 +22,7 @@ export class FightView {
         <ul className="foes" aria-label="Against you">{combat.foes.map(f => <FightView.Foe key={f.id} foe={f}
           took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>
         <div className="now" aria-live="polite">
-          {(mark?.first ?? true) && opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{l}</p>)}
+          {(mark?.first ?? true) && opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{Typography.curl(l)}</p>)}
           {recent.map(e => <FightView.Exchange key={e.n} text={e.text} detail={e.detail} />)}
           {!recent.length && !(mark?.first ?? true) && <p className="quiet">Nothing has changed.</p>}
         </div>
@@ -51,6 +52,6 @@ export class FightView {
   }
   static readonly Exchange = memo(FightView.lines);
   private static lines({ text, detail }: { text: string; detail: string }) {
-    return <p className="exchange" title={detail}>{text}</p>;
+    return <p className="exchange" title={detail}>{Typography.curl(text)}</p>;
   }
 }
