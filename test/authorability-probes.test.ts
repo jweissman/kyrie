@@ -207,6 +207,10 @@ describe('Authorability probes', () => {
     expect(Environment.encounter(s.campaign.world, 'party', ['a', 'b']).weary).toEqual(['a', 'b']);
     await Probe.act(s, '^Make camp');
     expect(Probe.holds(s, 'weary', 'party')).toBe(false);
+    // The eighteen hours run from waking, not from lying down: a long night does not leave less of the day.
+    const woke = Probe.measure(s, 'watch', 'clock');
+    for (let i = 0; i < 40 && Probe.measure(s, 'watch', 'clock') < woke + 102; i++) { await Probe.act(s, '^Wait › An hour'); }
+    expect(Probe.holds(s, 'weary', 'party')).toBe(false);
   }, 60000);
 
   it('K12: an error in a declaration is said with its file, line and column', async () => {

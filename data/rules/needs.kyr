@@ -1,8 +1,10 @@
 Module world_needs "Food and sleep" {
   Relation eats(group). Relation hungry(group).
   Measure nextMeal(group).
-  // A company that sleeps grows weary eighteen hours after it last slept (a bed, a camp, a rest), and stays so until
-  // it sleeps again; a weary company fights the worse for it (see Campaign.encounterBattle).
+  // A company that sleeps grows weary eighteen hours after it last woke from sleep (a bed, a camp, a rest), and stays
+  // so until it sleeps again; a weary company fights the worse for it (see Campaign.encounterBattle). A sleep that can
+  // be broken (a camp, a rest) has its effects when it ends; a bed at an inn cannot, and has them when it begins, so
+  // it sets lastSlept to when the night will end.
   Relation sleeps(group). Relation weary(group).
   Measure lastSlept(group).
   Goal false.

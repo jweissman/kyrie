@@ -3,6 +3,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
+import { ModuleWriter } from '../src/lang/module-writer';
 
 // A whole first expedition, as it was played by the words on the page (doc/architecture/mission-14/expedition.md):
 // from the road into Gothgiba, the inn and the smith, out over the fell to the mine; the adit level's riddles, its
@@ -57,6 +58,9 @@ describe('a first expedition, played through', () => {
     expect(asks()).toBe(false);
     await Expedition.play(s, Expedition.steps.slice(fight));
     expect(asks()).toBe(true);
+    // A night at the inn is reckoned from waking: the day's eighteen hours begin now, not at bedtime.
+    const world = s.campaign.world, n = (f: string, a: string) => world.number(ModuleWriter.call(f, a));
+    expect(n('lastSlept', 'party')).toBe(n('watch', 'clock'));
     const wenna = s.campaign.readout.creatures.find(c => c.name === 'Wenna')!;
     expect(wenna.state.experience).toBeGreaterThan(400);
     expect(s.campaign.readout.creatures.find(c => c.name === 'Thoradin')!.state.hp).toBeGreaterThan(0);

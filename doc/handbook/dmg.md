@@ -1240,7 +1240,7 @@ Also kept, without comment: eats, hungry, nextMeal, lastSlept.
 
 *Kyr · relation(group); relation(group)* · `rule:world_needs.sleeps`
 
-A company that sleeps grows weary eighteen hours after it last slept (a bed, a camp, a rest), and stays so until it sleeps again; a weary company fights the worse for it (see Campaign.encounterBattle).
+A company that sleeps grows weary eighteen hours after it last woke from sleep (a bed, a camp, a rest), and stays so until it sleeps again; a weary company fights the worse for it (see Campaign.encounterBattle). A sleep that can be broken (a camp, a rest) has its effects when it ends; a bed at an inn cannot, and has them when it begins, so it sets lastSlept to when the night will end.
 
 #### meal
 
@@ -1686,7 +1686,7 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 > Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); quantity(actor, gold) >= fee(service)
 
-> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to watch(clock). Retract weary(actor).
+> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
 
 #### take healing
 

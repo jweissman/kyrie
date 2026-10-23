@@ -10,7 +10,8 @@ Module world_services "Lodging, goods and camping" {
       and not refusesService(host, actor) and offers(host, service) and serviceOf(service, lodging) and quantity(actor, gold) >= fee(service).
     Time untilMorning(clock). Resolve recover(actor).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service).
-      Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to watch(clock). Retract weary(actor). }
+      Retract hungry(actor). Increase nextMeal(actor) by 144.
+      Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
     Result "You eat what is put in front of you, and sleep long, under a roof.".
   }
   Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}" {
