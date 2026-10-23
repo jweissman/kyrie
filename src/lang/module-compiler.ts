@@ -2,12 +2,13 @@ import { Spatial } from '../spatial';
 import { ObservationText } from './observation-text';
 import { Deem } from 'deem';
 import { Expressions } from '../expressions';
-import type { Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
+import type { Aspect, Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
 export class ModuleCompiler {
+  static readonly aspects: readonly Aspect[] = ['fixture', 'feature', 'sign', 'weather', 'ambience', 'event', 'revelation'];
   private lookup?: Lookup;
   private signatures = new WeakMap<Signature[], Map<string, Signature>>();
   constructor(private readonly capabilities: Signature[] = []) {}
@@ -86,6 +87,10 @@ export class ModuleCompiler {
       this.text(module, o.text);
       if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
       if (o.about && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
+      if (o.aspect && !ModuleCompiler.aspects.includes(o.aspect)) {
+        throw new Error(`${o.id} is told as ${o.aspect}; an observation is one of ${ModuleCompiler.aspects.join(', ')}`);
+      }
+      if (o.by && this.type(module, o.by) !== 'capability') { throw new Error(`${o.id} is noticed by ${o.by}, not a capability`); }
     }
     ModuleCompiler.unique((module.objectives ?? []).map(o => o.id), 'objective');
     for (const o of module.objectives ?? []) { this.predicate(module, o.when); this.text(module, o.text); }

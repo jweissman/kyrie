@@ -1,7 +1,8 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
   Declaration = Kind | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Company | ItemDecl | HazardDecl
-  Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceAlias? "."
+  Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceAlias? "."
+  PlaceShelter = "outdoors" | "indoors" | "underground"
   PlaceParent = "within" ident
   PlaceGrid = "at" integer "," integer
   PlaceAlias = "seen" "as" string "until" ident
@@ -89,8 +90,10 @@ Kyr {
   PursuitUsing = "using" NonemptyListOf<ident, ",">
   WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? "{" ChangeStatement* "}"
   RuleSays = "says" string
-  Observation = "Observe" ident Anchor ObservationAbout? "when" Predicate string ObservationTeaches? "."
+  Observation = "Observe" ident Anchor ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
   ObservationAbout = "of" ident
+  ObservationAspect = "as" ident
+  ObservationBy = "noticed" "by" ident
   ObservationTeaches = "teaches" ident
   Kind = "Kind" ident "."
   Relation = "Relation" ident "(" ListOf<ident, ","> ")" exclusive? "."

@@ -11,7 +11,10 @@ export type Change = { kind: 'assert'; call: Call } | { kind: 'retract'; call: C
   | { kind: 'decrease'; call: Call; value: Value };
 export type PlaceKind = 'plane' | 'region' | 'settlement' | 'wilderness' | 'site' | 'building' | 'level' | 'room';
 export type MovementMode = 'walk' | 'enter' | 'leave' | 'ascend' | 'descend' | 'travel' | 'cross_plane';
-export interface PlaceDefinition { kind: PlaceKind; parent?: string; grid?: [number, number] }
+// Whether a place is under the sky, under a roof or under the ground: what can be seen and felt there of the weather
+// and the day.
+export type Shelter = 'outdoors' | 'indoors' | 'underground';
+export interface PlaceDefinition { kind: PlaceKind; parent?: string; grid?: [number, number]; shelter?: Shelter }
 export interface ExitDefinition {
   passage?: string; origin: string; destination: string; mode: MovementMode; door?: string; knowledge?: string;
 }
@@ -46,10 +49,17 @@ export type Anchor = 'at' | 'near' | 'beside';
 export interface WorldRule {
   id: string; when: Predicate; effects: Change[]; say?: string; place?: string; anchor?: Anchor;
 }
+// What an observation tells of: what a place is (a fixture, the default), a part worth a closer look (a feature),
+// evidence of something (a sign), the sky (weather), the passing life of the place (ambience), something happening
+// (an event), or a discovery that deserves the page to itself (a revelation).
+export type Aspect = 'fixture' | 'feature' | 'sign' | 'weather' | 'ambience' | 'event' | 'revelation';
 export interface Observation {
   id: string; place: string; anchor?: Anchor; when: Predicate; text: string; teaches?: string;
   // The entity described, which is not perceived while the company has not noticed it.
   about?: string;
+  aspect?: Aspect;
+  // A capability someone in the company must bring to notice it at all (lore, stonework, woodcraft).
+  by?: string;
 }
 export interface Objective { id: string; when: Predicate; text: string }
 export interface Person { role?: string; id: string; name: string; place: string; raceId?: string; classId?: string;

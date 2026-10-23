@@ -17,7 +17,8 @@ export class ModuleParser {
   private static readonly grammar = ohm.grammar(source);
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
-    PlaceAlias: ModuleParser.PlaceAlias,
+    PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, ObservationAspect: ModuleParser.Second,
+    ObservationBy: ModuleParser.Third,
     Passage: ModuleParser.Passage, PassagePart_oneway: ModuleParser.OneWay, PassagePart_hidden: ModuleParser.Hidden,
     PassagePart_needs: ModuleParser.Needs, Thing: ModuleParser.Thing, ThingSite_in: ObjectParser.In,
     HoldsPart: ObjectParser.HoldsPart, Concealed: ObjectParser.Concealed, ItemPlace_at: ObjectParser.At,
@@ -160,11 +161,12 @@ export class ModuleParser {
     // several files says it for all of them.
     return module;
   }
-  static Place(_p: Node, id: Node, name: Node, _is: Node, kind: Node, parent: Node, grid: Node, alias: Node,
-    _dot: Node): Field {
+  static Place(_p: Node, id: Node, name: Node, _is: Node, kind: Node, parent: Node, grid: Node, shelter: Node,
+    alias: Node, _dot: Node): Field {
     const space = { kind: kind.sourceString,
       ...(parent.children.length ? { parent: ModuleParser.ast(parent.children[0]!) } : {}),
-      ...(grid.children.length ? { grid: ModuleParser.ast(grid.children[0]!) } : {}) };
+      ...(grid.children.length ? { grid: ModuleParser.ast(grid.children[0]!) } : {}),
+      ...(shelter.children.length ? { shelter: ModuleParser.ast(shelter.children[0]!) } : {}) };
     return { field: 'place', value: { id: id.sourceString, name: ModuleParser.ast(name), type: 'place', space,
       ...(alias.children.length ? { alias: ModuleParser.ast(alias.children[0]!) } : {}) } };
   }
@@ -353,12 +355,14 @@ export class ModuleParser {
   }
   // An observation may teach a fact: what the company sees here, it knows from then on. One "of" an entity is not
   // perceived while the company has not noticed that entity.
-  static Observation(_observe: Node, id: Node, anchor: Node, about: Node, _when: Node, predicate: Node,
-    text: Node, teaches: Node, _dot: Node): Field {
+  static Observation(_observe: Node, id: Node, anchor: Node, about: Node, aspect: Node, by: Node, _when: Node,
+    predicate: Node, text: Node, teaches: Node, _dot: Node): Field {
     const where = ModuleParser.ast(anchor) as { kind: string; id: string };
     return { field: 'observation', value: { id: id.sourceString, place: where.id,
       ...(where.kind === 'at' ? {} : { anchor: where.kind }), when: ModuleParser.ast(predicate), text: ModuleParser.ast(text),
       ...(about.children.length ? { about: about.children[0]!.children[1]!.sourceString } : {}),
+      ...(aspect.children.length ? { aspect: ModuleParser.ast(aspect.children[0]!) } : {}),
+      ...(by.children.length ? { by: ModuleParser.ast(by.children[0]!) } : {}),
       ...(teaches.children.length ? { teaches: teaches.children[0]!.children[1]!.sourceString } : {}) } };
   }
   static Relation(_relation: Node, name: Node, _open: Node, types: Node,

@@ -35,6 +35,10 @@ export class LocalObservations {
     if (!entity || !world.module.queries.some(q => q.name === 'noticed')) { return true; }
     return world.test(ModuleWriter.call('noticed', entity, actor));
   }
+  // Whether the company brings what it takes to notice something (the old script, an eye for stone).
+  static brings(world: World, actor: string, capability: string | undefined): boolean {
+    return !capability || (world.relates('capable') && world.test(ModuleWriter.call('capable', actor, capability)));
+  }
   // Inside an open container that stands at the place.
   static within(world: World, entity: string, place: string): boolean {
     if (!world.relates('inside')) { return false; }
@@ -47,7 +51,8 @@ export class LocalObservations {
     const here = world.one('at', actor);
     const seen = (world.module.observations ?? []).filter(o => ((o.anchor ?? 'at') !== 'at' || o.place === here)
       && this.perceives(world, actor, o.place, o.anchor)
-      && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor));
+      && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor)
+      && this.brings(world, actor, o.by));
     return [...seen.filter(o => (o.anchor ?? 'at') === 'at'), ...seen.filter(o => (o.anchor ?? 'at') !== 'at')]
       .map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }));
   }

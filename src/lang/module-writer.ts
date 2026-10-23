@@ -55,7 +55,8 @@ export class ModuleWriter {
       lines.push('  }');
     }
     for (const o of module.observations ?? []) {
-      lines.push(`  Observe ${o.id} ${o.anchor ?? 'at'} ${o.place}${o.about ? ` of ${o.about}` : ''} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}${o.teaches ? ` teaches ${o.teaches}` : ''}.`);
+      const how = `${o.aspect ? ` as ${o.aspect}` : ''}${o.by ? ` noticed by ${o.by}` : ''}`;
+      lines.push(`  Observe ${o.id} ${o.anchor ?? 'at'} ${o.place}${o.about ? ` of ${o.about}` : ''}${how} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}${o.teaches ? ` teaches ${o.teaches}` : ''}.`);
     }
     for (const o of module.objectives ?? []) {
       lines.push(`  Objective ${o.id} when ${ModuleWriter.predicate(o.when)} ${JSON.stringify(o.text)}.`);
@@ -74,7 +75,7 @@ export class ModuleWriter {
   // A place, an exit, a hazard or a plain entity, as its own declaration.
   private static entity(entity: Module['entities'][number]): string {
     if (entity.space) {
-      const grid = entity.space.grid ? ` at ${entity.space.grid[0]}, ${entity.space.grid[1]}` : '';
+      const grid = `${entity.space.grid ? ` at ${entity.space.grid[0]}, ${entity.space.grid[1]}` : ''}${entity.space.shelter ? ` ${entity.space.shelter}` : ''}`;
       const alias = entity.alias ? ` seen as ${JSON.stringify(entity.alias.name)} until ${entity.alias.until}` : '';
       return `  Place ${entity.id} ${JSON.stringify(entity.name)} is ${entity.space.kind}${entity.space.parent ? ` within ${entity.space.parent}` : ''}${grid}${alias}.`;
     }
