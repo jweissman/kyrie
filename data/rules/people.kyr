@@ -18,6 +18,9 @@ Module world_people "Company and intention" {
   // A traveller of the country who has joined (a fellow, as against the one who plays): how much of their own story
   // they have told, and whether they have told some tonight. A story is told a part a night.
   Relation fellow(member). Measure confided(group). Relation hushed(group).
+  // What someone says on joining the company, or leaving it, in their own words (Joins, Leaves): said instead of the
+  // voice tables' (data/voice/join.json, part.json), which speak by what they are to the one who plays.
+  Relation joining(group, entity). Relation parting(group, entity).
   Rule hush_lifts when hushed(?c) and not dark() { Retract hushed(?c). }
   Goal false.
   Action recruit(actor: group, recruit: group, site: place) "Ask {recruit} to join the company" {
@@ -27,18 +30,15 @@ Module world_people "Company and intention" {
     Resolve enlist(recruit, actor).
     On success { Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site).
       Assert travelsWith(recruit, actor). }
-    Result "{recruit} is with you now.".
   }
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
     Requires able(actor) and able(companion) and distinct(actor, companion) and at(actor, site)
       and at(companion, site) and acceptsEscort(companion, actor) and not following(companion, actor).
     On success { Assert following(companion, actor). Retract dismissed(companion, actor). }
-    Result "{companion} falls in beside you.".
   }
   Action part_ways(actor: group, companion: group, site: place) "Let {companion} make their own way" {
     Requires able(actor) and able(companion) and at(actor, site) and at(companion, site)
       and acceptsEscort(companion, actor) and not dismissed(companion, actor) and not hobbled(companion).
     On success { Retract following(companion, actor). Assert dismissed(companion, actor). }
-    Result "{companion} nods, and lets you go about your business.".
   }
 }

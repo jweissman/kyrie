@@ -30,9 +30,8 @@ import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays';
 import { CampaignTick } from './campaign-tick';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
-import { Engagement } from './engagement';
 import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
-import { ActionTime } from './action-time';
+import { ActionTime } from './action-time'; import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent } from './campaign-types';
@@ -175,12 +174,12 @@ export class Campaign implements WatchHost {
   // The log, the action schemas and the company as it would fight, likewise without copies. Never change them.
   get history(): readonly CampaignEvent[] { return this.log; }
   get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
-  // The ids of the modules installed in the campaign, in the order they were installed.
   get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
   get fighters(): Fighter[] { return this.party; }
   private get party(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters')); }
-
   get events(): CampaignEvent[] { return structuredClone(this.log); }
+  // What the company was told of the last command, kept with it (see Telling): what it has heard is not said again.
+  told(voiced: NonNullable<CampaignEvent['voiced']>) { const last = this.log.at(-1); if (last) { last.voiced = voiced; } }
   // Worlds are immutable; one is built per distinct state object (and module) rather than per access.
   private viewed?: { state: WorldState; module: Module; world: World };
   // The state kept is the world's own view of itself, not a copy: nothing changes a world's state in place.

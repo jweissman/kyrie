@@ -5,6 +5,7 @@ import type { Battle } from '../battle';
 import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { PlayerView } from '../presentation/player-view';
+import { Telling } from '../narrative/telling';
 
 export interface TranscriptStep { command: string; combat?: Command[] }
 export interface Transcript {
@@ -74,6 +75,9 @@ export class PlaySession {
         }
       });
       this.steps.push(combat.length ? { command, combat } : { command });
+      // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
+      const voiced = Telling.tell(this.campaign, event);
+      if (voiced.length) { this.campaign.told(voiced); event.voiced = voiced; }
       return event;
     } finally { this.busy = false; }
   }

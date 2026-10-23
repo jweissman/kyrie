@@ -1,0 +1,59 @@
+import type { Campaign } from '../campaign/campaign';
+import type { CampaignEvent } from '../campaign/campaign-types';
+import { Happenings, type Happening } from './happening';
+import { Voice, type VoiceLine } from './voice';
+import { VoiceContext } from './voice-context';
+
+export type Voiced = NonNullable<CampaignEvent['voiced']>[number];
+// What the company is told of what a command made happen, in the voice tables' words: chosen for the moment, never
+// the same line twice while there are others that fit, and never more than a few at once. A person's own words for
+// the moment (Joins, Leaves, Greets, in Kyr) are said instead, the first time.
+export class Telling {
+  static readonly priority: Record<string, number> = { turn: 0, join: 1, part: 1, object: 2, pet: 2, greet: 3,
+    thank: 4 };
+  static readonly most = 3;
+  static readonly authored: Record<string, string> = { join: 'joining', part: 'parting', greet: 'greeting' };
+  static tell(campaign: Campaign, event: CampaignEvent): Voiced[] {
+    const company = campaign.playerActor ?? 'party', past = campaign.history.filter(e => e !== event)
+      .flatMap(e => e.voiced ?? []);
+    const used = new Set(past.map(v => v.id)), pairs = new Set(past.map(v => `${v.kind}:${v.actor ?? ''}`));
+    const petted = new Set(past.filter(v => v.kind === 'pet' || v.kind === 'greet').map(v => v.actor ?? ''));
+    const happenings = Happenings.read(event, company, petted).filter(h => this.priority[h.kind] !== undefined)
+      .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!).slice(0, this.most);
+    const told: Voiced[] = [];
+    for (const h of happenings) {
+      const said = this.say(campaign, h, { used, pairs,
+        key: `${campaign.readout.seed}:${event.elapsed}:${h.kind}:${h.actor ?? ''}` });
+      if (said) { told.push(said); used.add(said.id); }
+    }
+    return told;
+  }
+  private static say(campaign: Campaign, h: Happening,
+    memory: { used: Set<string>; pairs: Set<string>; key: string }): Voiced | undefined {
+    const actor = h.actor ?? '', context = VoiceContext.of(campaign, h, memory.pairs);
+    const speaking = { actor: this.called(campaign, actor), pronoun: context.pronoun };
+    const own = this.authored[h.kind] && campaign.world.module.relations.some(r => r.name === this.authored[h.kind])
+      ? campaign.world.one(this.authored[h.kind]!, actor) : undefined;
+    if (own && context.moment === 'first') {
+      const words = campaign.module.entities.find(e => e.id === own)?.name ?? '';
+      return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
+    }
+    const line = this.choose(Voice.fitting(h.kind, context), memory.key, memory.used);
+    return line && { id: line.id, kind: h.kind, actor, text: Voice.render(line.text, speaking) };
+  }
+  // One of the lines that fit, not yet said if any are left, drawn by the moment so the same moment draws the same.
+  static choose(lines: VoiceLine[], key: string, used: Set<string>): VoiceLine | undefined {
+    const fresh = lines.filter(l => !used.has(l.id)), pool = fresh.length ? fresh : lines;
+    if (!pool.length) { return undefined; }
+    const total = pool.reduce((sum, l) => sum + (l.weight ?? 1), 0);
+    let hash = 2166136261;
+    for (let i = 0; i < key.length; i++) { hash = Math.imul(hash ^ key.charCodeAt(i), 16777619); }
+    let roll = ((hash >>> 0) % 1000) / 1000 * total;
+    for (const l of pool) { roll -= l.weight ?? 1; if (roll < 0) { return l; } }
+    return pool.at(-1);
+  }
+  // Someone as a sentence names them: "Tobu", not "Tobu, Kezu's sister's boy"; "the hall dog".
+  static called(campaign: Campaign, id: string): string {
+    return (campaign.module.entities.find(e => e.id === id)?.name ?? id).split(', ')[0]!;
+  }
+}

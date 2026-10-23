@@ -1,0 +1,18 @@
+{
+  "about": "The company makes much of a tame creature: by species, and whether it has been made much of before (moment: first, again).",
+  "kinds": ["pet"],
+  "lines": [
+    { "id": "pet.dog.first.1", "when": { "species": "dog", "moment": "first" }, "text": "You crouch and hold out a hand. {Actor} sniffs it carefully, then leans {their} whole weight against your knee while you scratch behind {their} ears." },
+    { "id": "pet.dog.first.2", "when": { "species": "dog", "moment": "first" }, "text": "{Actor} rolls over at once and shows you {their} belly. It is not a dignified dog." },
+    { "id": "pet.dog.again.1", "when": { "species": "dog", "moment": "again" }, "text": "{Actor} leans into your hand, eyes half shut." },
+    { "id": "pet.dog.again.2", "when": { "species": "dog", "moment": "again" }, "text": "{Actor}'s tail goes round like a cartwheel." },
+    { "id": "pet.dog.again.3", "when": { "species": "dog", "moment": "again" }, "text": "{Actor} puts {their} chin on your knee and sighs, as if this were all {they} had ever wanted." },
+    { "id": "pet.cat.1", "when": { "species": "cat" }, "text": "{Actor} allows it, for a moment, then walks away with {their} tail up." },
+    { "id": "pet.cat.2", "when": { "species": "cat" }, "text": "{Actor} pushes {their} head hard against your hand and purrs like a kettle." },
+    { "id": "pet.horse.1", "when": { "species": "horse" }, "text": "You run a hand down {actor}'s neck. It is warm, and {they} [shift|shifts] {their} weight and [let|lets] you." },
+    { "id": "pet.goat.1", "when": { "species": "goat" }, "text": "{Actor} tolerates it, and then tries to eat your sleeve." },
+    { "id": "pet.sheep.1", "when": { "species": "sheep" }, "text": "Your hand sinks into {actor}'s fleece up to the wrist. It is greasy, and warm, and smells of hill." },
+    { "id": "pet.pig.1", "when": { "species": "pig" }, "text": "{Actor} grunts with deep approval while you scratch {their} back with a stick." },
+    { "id": "pet.animal.1", "text": "{Actor} lets you." }
+  ]
+}

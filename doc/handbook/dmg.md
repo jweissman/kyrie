@@ -404,11 +404,11 @@ Six hours and a ration, somewhere safe. The living get their strength and mana b
 
 ### Bodies, places, time and the shared catalog
 
-Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
+Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, pronouns, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 28 | 9 | 5 | 1 | 8 |
+| 10 | 30 | 9 | 5 | 1 | 8 |
 
 #### terrainkind, terrain
 
@@ -471,6 +471,12 @@ Someone stopping another where they stand (a challenge, a hold-up): on the compa
 *Kyr · relation(group, passage)* · `rule:world_core.enRoute`
 
 A company on the way, between where it set out and where it is going: enRoute(company, by this passage).
+
+#### manner, manner
+
+*Kyr · kind; relation(group, manner)* · `rule:world_core.manner`
+
+How someone carries themselves, which shows in what they say (Orsino's personalities); and the words they are spoken of in. Someone with no manner given has one all the same (see VoiceContext).
 
 #### asleep
 
@@ -1020,11 +1026,9 @@ Says: "{?f}"
 
 *Kyr · rule* · `rule:inhabitants.temper_greets`
 
-A tame one greets whoever comes, once, if it is awake.
+A tame one greets whoever comes, once, if it is awake: in its own words (Greets), or as its kind does (data/voice/greet.json).
 
-Says: "{?w}"
-
-> When: temperament(?g, temper_tame); company(?c); together(?g, ?c); alert(?g); not (greeted(?g, ?c)); not (hostile(?g, ?c)); greeting(?g, ?w)
+> When: temperament(?g, temper_tame); company(?c); together(?g, ?c); alert(?g); not (greeted(?g, ?c)); not (hostile(?g, ?c))
 
 > Then: Assert greeted(?g, ?c). Assert tolerates(?g, ?c).
 
@@ -1033,7 +1037,7 @@ Says: "{?w}"
 *Kyr · action (group, group, place)* · `rule:inhabitants.pet`
 
 - Shown as: Make much of {animal}
-- Takes: 10 minutes
+- Takes: 0 minutes
 - Costs: 1
 
 A tame creature lets itself be made much of, by anyone it has not taken against.
@@ -1228,7 +1232,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 12 | 3 | 0 | 2 | 3 |
+| 0 | 14 | 3 | 0 | 2 | 3 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1261,6 +1265,12 @@ Someone who would join the company, once they are willing, for their hire (which
 *Kyr · relation(member); measure(group); relation(group)* · `rule:world_people.fellow`
 
 A traveller of the country who has joined (a fellow, as against the one who plays): how much of their own story they have told, and whether they have told some tonight. A story is told a part a night.
+
+#### joining, parting
+
+*Kyr · relation(group, entity); relation(group, entity)* · `rule:world_people.joining`
+
+What someone says on joining the company, or leaving it, in their own words (Joins, Leaves): said instead of the voice tables' (data/voice/join.json, part.json), which speak by what they are to the one who plays.
 
 #### hush_lifts
 

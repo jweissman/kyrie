@@ -54,6 +54,13 @@ export class PersonParser {
   // plea, and what it says on seeing what is its own, or its master's, in the company's hands) and its haunts (where
   // its lair and refuge are, what it fears), for the inhabitants and belongings rules.
   static PersonTemperament(_t: Node, id: Node, _dot: Node): Field { return { field: 'temperament', value: id.sourceString }; }
+  // How they carry themselves (proud, grim, cheerful…), and the words they are spoken of in (he, she, they, it).
+  static PersonManner(_m: Node, id: Node, _dot: Node): Field {
+    return { field: 'haunt', value: { kind: 'Manner', text: `manner_${id.sourceString}` } };
+  }
+  static PersonPronouns(_p: Node, id: Node, _dot: Node): Field {
+    return { field: 'haunt', value: { kind: 'Pronouns', text: `pron_${id.sourceString}` } };
+  }
   static PersonWords(word: Node, text: Node, _dot: Node): Field {
     return { field: 'words', value: { kind: word.sourceString, text: ModuleParser.ast(text) as string } };
   }
@@ -61,12 +68,15 @@ export class PersonParser {
     return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
   }
   static readonly manners: Record<string, string> = { Warns: 'warning', Comes: 'onslaught', Flinches: 'flinch',
-    Pleads: 'plea', Objects: 'objection', Lair: 'lair', Refuge: 'refuge', Fears: 'fears' };
+    Pleads: 'plea', Objects: 'objection', Joins: 'joining', Leaves: 'parting', Greets: 'greeting', Lair: 'lair',
+    Refuge: 'refuge', Fears: 'fears', Manner: 'manner', Pronouns: 'pronouns' };
   private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {
     if (temperament) { PersonParser.fact(module, 'temperament', id, `temper_${temperament}`); }
     for (const m of manner) {
       const relation = PersonParser.manners[m.kind]!;
-      if (['Lair', 'Refuge', 'Fears'].includes(m.kind)) { PersonParser.fact(module, relation, id, m.text); continue; }
+      if (['Lair', 'Refuge', 'Fears', 'Manner', 'Pronouns'].includes(m.kind)) {
+        PersonParser.fact(module, relation, id, m.text); continue;
+      }
       const words = `${id}_${relation}`;
       module.entities.push({ id: words, type: 'fact', name: m.text });
       PersonParser.fact(module, relation, id, words);

@@ -1,0 +1,29 @@
+Module home "The house you grew up in" {
+  Place farm "Hollin farm" is settlement.
+  Place yard "the yard" is room within farm at 0, 0.
+  Place kitchen "the kitchen" is room within farm at 1, 0 indoors.
+  Place lane "the lane" is room within farm at 0, 1.
+  Passage back_door "the back door" is door between yard and kitchen.
+  Passage gate "the yard gate" is gate between yard and lane.
+  Company party "You" of 1 at lane.
+
+  Person mother "your mother" at kitchen {
+    Role "who wrote the letter". Ancestry human. Peaceable. Pronouns she.
+  }
+  Person brother "Wat" at kitchen {
+    Role "your brother". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+  }
+  Person fly "Fly" at yard {
+    Role "the farm dog, black and white". Species dog. Pronouns she.
+  }
+  Initially Assert kin(party, mother). Initially Assert kin(party, brother). Initially Assert willing(brother, party).
+  Topic father with brother "Ask Wat about Father" when true {
+    Says "'He took the cart to the fair at Brough,' says Wat. 'Three weeks ago. The cart came back. He didn't.'".
+  }
+  Topic letter with mother "Ask your mother about the letter" when true {
+    Says "'I didn't know who else to write to,' says your mother. She does not cry. She has done that already.".
+  }
+  Observe lane_scene at lane when true "The lane comes down between thorn hedges to the yard gate. Smoke from the kitchen chimney, and nobody about.".
+  Observe yard_scene at yard when true "The yard, swept. The cart-shed stands empty.".
+  Observe kitchen_scene at kitchen when true "The kitchen, warm, and smelling of bread and wet wool.".
+}

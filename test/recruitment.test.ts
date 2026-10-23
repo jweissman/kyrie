@@ -1,3 +1,4 @@
+import { Telling } from '../src/narrative/telling';
 import { describe, expect, it } from 'bun:test';
 import { Campaign } from '../src/campaign/campaign';
 import { MemoryBundleSource } from '../src/campaign/memory-bundle-source';
@@ -35,7 +36,8 @@ describe('a company that takes on someone it meets', () => {
     expect(c.available().some(a => a.name === 'Ask Rook to join the company')).toBe(false);
     const ask = c.available().find(a => a.name === 'Ask Tam to join the company')!;
     const e = c.execute(ask.id);
-    expect(e.response).toBe('Tam is with you now.');
+    // Tam is paid to come, and says so as a hireling would (data/voice/join.json).
+    expect(Telling.tell(c, e)[0]?.id).toMatch(/^join\.hire\./);
     expect(c.state.party.map(m => m.name)).toEqual([expect.any(String), 'Tam']);
     expect(c.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(2);
     expect(c.world.test(ModuleWriter.call('memberOf', 'inn__member_tam_person', 'party'))).toBe(true);

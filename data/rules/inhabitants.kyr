@@ -34,8 +34,6 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_wary_flinch: fact "{?g} slips away from you.".
   Entity temper_words_wary_onslaught: fact "Cornered, {?g} turns on you.".
   Entity temper_words_proud_warning: fact "{?g} looks at you as if you owed it something.".
-  Entity temper_words_tame_greeting: fact "{?g} gets up and comes to see who you are, and puts its nose in your hand.".
-  Entity temper_words_tame_greeting_many: fact "{?g} come to see who you are, and put their noses in your hands.".
   // The same words for a band of more than one, where they differ.
   Entity temper_words_territorial_warning_many: fact "{?g} stand their ground and watch you. They will not have you here for long.".
   Entity temper_words_territorial_onslaught_many: fact "{?g} come at you.".
@@ -115,9 +113,10 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     and flinch(?g, ?f) says "{?f}" {
     Assert at(?g, ?r).
   }
-  // A tame one greets whoever comes, once, if it is awake.
+  // A tame one greets whoever comes, once, if it is awake: in its own words (Greets), or as its kind does
+  // (data/voice/greet.json).
   Rule temper_greets when temperament(?g, temper_tame) and company(?c) and together(?g, ?c) and alert(?g)
-    and not greeted(?g, ?c) and not hostile(?g, ?c) and greeting(?g, ?w) says "{?w}" {
+    and not greeted(?g, ?c) and not hostile(?g, ?c) {
     Assert greeted(?g, ?c). Assert tolerates(?g, ?c).
   }
   Goal false.
@@ -126,8 +125,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     Description "Crouch down, hold out a hand, scratch behind its ears.".
     Requires able(actor) and company(actor) and at(actor, site) and at(animal, site) and temperament(animal, temper_tame)
       and able(animal) and not hostile(animal, actor).
+    Time 0.
     On success { Assert petted(animal, actor). Assert tolerates(animal, actor). Assert greeted(animal, actor). }
-    Result "{animal} leans into your hand.".
   }
   // A proud creature's price, paid: it lets the company be.
   Action pay_tribute(actor: group, lord: group, site: place) "Give {lord} what it asks" {

@@ -1,0 +1,7 @@
+{
+  "about": "Someone is grateful to the company. Used only where the world has not already said so in its own words.",
+  "kinds": ["thank"],
+  "lines": [
+    { "id": "thank.any.1", "text": "{Actor} will not forget what you did." }
+  ]
+}

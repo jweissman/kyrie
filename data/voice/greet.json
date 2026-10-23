@@ -1,0 +1,18 @@
+{
+  "about": "A tame creature notices the company for the first time: by species, by the time of day, and by whether it is under a roof. A creature's own words (Greets \"...\" in Kyr) are said instead.",
+  "kinds": ["greet"],
+  "lines": [
+    { "id": "greet.dog.1", "when": { "species": "dog" }, "text": "{Actor} gets up, stretches, and comes over to push {their} nose into your hand." },
+    { "id": "greet.dog.2", "when": { "species": "dog" }, "text": "{Actor} thumps {their} tail on the ground without getting up, which is as much welcome as you are going to get." },
+    { "id": "greet.dog.3", "when": { "species": "dog" }, "text": "{Actor} barks twice, for form's sake, then comes to see who you are." },
+    { "id": "greet.dog.night", "when": { "species": "dog", "time": "night" }, "text": "{Actor} lifts {their} head, decides you are no business of {theirs}, and puts it down again." },
+    { "id": "greet.cat.1", "when": { "species": "cat" }, "text": "{Actor} watches you from somewhere high, unblinking, and does not come down." },
+    { "id": "greet.cat.2", "when": { "species": "cat" }, "text": "{Actor} winds once round your ankles and goes off about {their} business." },
+    { "id": "greet.horse.1", "when": { "species": "horse" }, "text": "{Actor} blows through {their} nose at you, and puts {their} head out to be noticed." },
+    { "id": "greet.goat.1", "when": { "species": ["goat", "sheep"] }, "text": "{Actor} stops chewing long enough to look at you." },
+    { "id": "greet.hen.1", "when": { "species": "hen" }, "text": "{Actor} complains about you to the others." },
+    { "id": "greet.pig.1", "when": { "species": "pig" }, "text": "{Actor} grunts, hopefully, in case you have brought something." },
+    { "id": "greet.cow.1", "when": { "species": "cow" }, "text": "{Actor} turns {their} great head to look at you, and goes on chewing." },
+    { "id": "greet.animal.1", "text": "{Actor} comes to see who you are." }
+  ]
+}

@@ -50,6 +50,7 @@ export class ModuleParser {
     Information_parts: ModuleParser.Information, Information_plain: ModuleParser.InformationPlain,
     KnownBy: ModuleParser.KnownBy, ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
     PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
+    PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
     PersonHaunt: PersonParser.PersonHaunt, DeniedBy: ModuleParser.DeniedBy,
     InformationSource: ModuleParser.InformationSource, Speakers: ModuleParser.Speakers,
     Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: ModuleParser.Speaker,

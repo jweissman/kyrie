@@ -1,0 +1,905 @@
+{
+  "about": "What fighters say or do at the turning points of a fight (kinds: engage, crit, kill, miss, dodge, hurt, fall, flee, summon, summoned, revived): by the fighter's manner (side: company) or kind of foe (role). Most are Orsino's barks (source orsino); the narrator says one now and then, never two in one exchange, and never the same one twice in a fight.",
+  "kinds": [
+    "engage",
+    "crit",
+    "kill",
+    "miss",
+    "dodge",
+    "hurt",
+    "fall",
+    "flee",
+    "summon",
+    "summoned",
+    "revived"
+  ],
+  "lines": [
+    {
+      "id": "kill.kyr.compassionate.1",
+      "when": {
+        "manner": "compassionate",
+        "side": "company"
+      },
+      "text": "{Actor} stands over the body a moment, breathing hard, and does not look pleased."
+    },
+    {
+      "id": "miss.kyr.compassionate.1",
+      "when": {
+        "manner": "compassionate",
+        "side": "company"
+      },
+      "text": "{Actor} swears under {their} breath and sets {their} feet again."
+    },
+    {
+      "id": "miss.kyr.stoic.1",
+      "when": {
+        "manner": "stoic",
+        "side": "company"
+      },
+      "text": "{Actor} recovers without a word."
+    },
+    {
+      "id": "hurt.kyr.grim.1",
+      "when": {
+        "manner": "grim",
+        "side": "company"
+      },
+      "text": "{Actor} takes it, and grunts, and keeps coming."
+    },
+    {
+      "id": "hurt.kyr.cheerful.1",
+      "when": {
+        "manner": [
+          "cheerful",
+          "jovial"
+        ],
+        "side": "company"
+      },
+      "text": "'That,' says {actor} through {their} teeth, 'is going to hurt in the morning.'"
+    },
+    {
+      "id": "fall.kyr.company.1",
+      "when": {
+        "side": "company"
+      },
+      "text": "{Actor} goes down and does not get up."
+    },
+    {
+      "id": "flee.kyr.beast.1",
+      "when": {
+        "kind": "animal"
+      },
+      "text": "{Actor} [break|breaks] and [run|runs], and [is|is] gone into the undergrowth."
+    },
+    {
+      "id": "engage.kyr.beast.1",
+      "when": {
+        "kind": "animal"
+      },
+      "text": "{Actor} [come|comes] at you low and fast."
+    },
+    {
+      "id": "summoned.orsino.generic.onSummonReceived.0",
+      "text": "From the trembling earth, {actor} rises to join the fray!",
+      "source": {
+        "orsino": "barks:generic.onSummonReceived"
+      }
+    },
+    {
+      "id": "summoned.orsino.generic.onSummonReceived.1",
+      "text": "{Actor} emerges from the shadows, ready to fight!",
+      "source": {
+        "orsino": "barks:generic.onSummonReceived"
+      }
+    },
+    {
+      "id": "summoned.orsino.generic.onSummonReceived.2",
+      "text": "'I heed your call!', declares {actor} as they enter the battle.",
+      "source": {
+        "orsino": "barks:generic.onSummonReceived"
+      }
+    },
+    {
+      "id": "revived.orsino.generic.onResurrect.0",
+      "text": "{Actor} gasps and returns to the fight!",
+      "source": {
+        "orsino": "barks:generic.onResurrect"
+      }
+    },
+    {
+      "id": "revived.orsino.generic.onResurrect.1",
+      "text": "{Actor} shakes off death and stands once more!",
+      "source": {
+        "orsino": "barks:generic.onResurrect"
+      }
+    },
+    {
+      "id": "fall.orsino.generic.onFall.0",
+      "text": "{Actor} falls to the ground, defeated.",
+      "source": {
+        "orsino": "barks:generic.onFall"
+      }
+    },
+    {
+      "id": "fall.orsino.generic.onFall.1",
+      "text": "{Actor} collapses, unable to continue.",
+      "source": {
+        "orsino": "barks:generic.onFall"
+      }
+    },
+    {
+      "id": "flee.orsino.generic.onFlee.0",
+      "text": "{Actor} turns and runs away!",
+      "source": {
+        "orsino": "barks:generic.onFlee"
+      }
+    },
+    {
+      "id": "flee.orsino.generic.onFlee.1",
+      "text": "{Actor} flees the battle!",
+      "source": {
+        "orsino": "barks:generic.onFlee"
+      }
+    },
+    {
+      "id": "kill.orsino.personality.proud.onKill.0",
+      "when": {
+        "manner": "proud",
+        "side": "company"
+      },
+      "text": "{Actor} stands over the fallen foe: ‘As expected.’",
+      "source": {
+        "orsino": "barks:personality.proud.onKill"
+      }
+    },
+    {
+      "id": "crit.orsino.personality.proud.onCrit.0",
+      "when": {
+        "manner": "proud",
+        "side": "company"
+      },
+      "text": "{Actor} smirks: ‘Flawless.’",
+      "source": {
+        "orsino": "barks:personality.proud.onCrit"
+      }
+    },
+    {
+      "id": "miss.orsino.personality.proud.onMiss.0",
+      "when": {
+        "manner": "proud",
+        "side": "company"
+      },
+      "text": "{Actor} scowls in irritation.",
+      "source": {
+        "orsino": "barks:personality.proud.onMiss"
+      }
+    },
+    {
+      "id": "kill.orsino.personality.grim.onKill.0",
+      "when": {
+        "manner": "grim",
+        "side": "company"
+      },
+      "text": "{Actor} says coldly: ‘Another one falls.’",
+      "source": {
+        "orsino": "barks:personality.grim.onKill"
+      }
+    },
+    {
+      "id": "crit.orsino.personality.grim.onCrit.0",
+      "when": {
+        "manner": "grim",
+        "side": "company"
+      },
+      "text": "{Actor} strikes without emotion.",
+      "source": {
+        "orsino": "barks:personality.grim.onCrit"
+      }
+    },
+    {
+      "id": "miss.orsino.personality.grim.onMiss.0",
+      "when": {
+        "manner": "grim",
+        "side": "company"
+      },
+      "text": "{Actor} growls: ‘Damn it.’",
+      "source": {
+        "orsino": "barks:personality.grim.onMiss"
+      }
+    },
+    {
+      "id": "kill.orsino.personality.cheerful.onKill.0",
+      "when": {
+        "manner": "cheerful",
+        "side": "company"
+      },
+      "text": "{Actor} grins: ‘Got 'em!’",
+      "source": {
+        "orsino": "barks:personality.cheerful.onKill"
+      }
+    },
+    {
+      "id": "crit.orsino.personality.cheerful.onCrit.0",
+      "when": {
+        "manner": "cheerful",
+        "side": "company"
+      },
+      "text": "{Actor} laughs: ‘How about that?’",
+      "source": {
+        "orsino": "barks:personality.cheerful.onCrit"
+      }
+    },
+    {
+      "id": "miss.orsino.personality.cheerful.onMiss.0",
+      "when": {
+        "manner": "cheerful",
+        "side": "company"
+      },
+      "text": "{Actor} chuckles: ‘Almost had 'em!’",
+      "source": {
+        "orsino": "barks:personality.cheerful.onMiss"
+      }
+    },
+    {
+      "id": "kill.orsino.personality.acerbic.onKill.0",
+      "when": {
+        "manner": "acerbic",
+        "side": "company"
+      },
+      "text": "{Actor} sneers: ‘Pathetic.’",
+      "source": {
+        "orsino": "barks:personality.acerbic.onKill"
+      }
+    },
+    {
+      "id": "crit.orsino.personality.acerbic.onCrit.0",
+      "when": {
+        "manner": "acerbic",
+        "side": "company"
+      },
+      "text": "{Actor} mutters sarcastically: ‘Impressive. For them.’",
+      "source": {
+        "orsino": "barks:personality.acerbic.onCrit"
+      }
+    },
+    {
+      "id": "fall.orsino.personality.acerbic.onFall.0",
+      "when": {
+        "manner": "acerbic",
+        "side": "company"
+      },
+      "text": "{Actor} sighs: ‘Of course.’",
+      "source": {
+        "orsino": "barks:personality.acerbic.onFall"
+      }
+    },
+    {
+      "id": "kill.orsino.personality.compassionate.onKill.0",
+      "when": {
+        "manner": "compassionate",
+        "side": "company"
+      },
+      "text": "{Actor} looks away solemnly.",
+      "source": {
+        "orsino": "barks:personality.compassionate.onKill"
+      }
+    },
+    {
+      "id": "crit.orsino.personality.compassionate.onCrit.0",
+      "when": {
+        "manner": "compassionate",
+        "side": "company"
+      },
+      "text": "{Actor} winces: ‘I'm sorry it had to be this way.’",
+      "source": {
+        "orsino": "barks:personality.compassionate.onCrit"
+      }
+    },
+    {
+      "id": "kill.orsino.personality.stoic.onKill.0",
+      "when": {
+        "manner": "stoic",
+        "side": "company"
+      },
+      "text": "{Actor} nods slightly.",
+      "source": {
+        "orsino": "barks:personality.stoic.onKill"
+      }
+    },
+    {
+      "id": "crit.orsino.personality.stoic.onCrit.0",
+      "when": {
+        "manner": "stoic",
+        "side": "company"
+      },
+      "text": "{Actor} remains expressionless.",
+      "source": {
+        "orsino": "barks:personality.stoic.onCrit"
+      }
+    },
+    {
+      "id": "fall.orsino.personality.stoic.onFall.0",
+      "when": {
+        "manner": "stoic",
+        "side": "company"
+      },
+      "text": "{Actor} accepts their fate with quiet dignity.",
+      "source": {
+        "orsino": "barks:personality.stoic.onFall"
+      }
+    },
+    {
+      "id": "kill.orsino.personality.jovial.onKill.0",
+      "when": {
+        "manner": "jovial",
+        "side": "company"
+      },
+      "text": "{Actor} chuckles: ‘That was fun!’",
+      "source": {
+        "orsino": "barks:personality.jovial.onKill"
+      }
+    },
+    {
+      "id": "crit.orsino.personality.jovial.onCrit.0",
+      "when": {
+        "manner": "jovial",
+        "side": "company"
+      },
+      "text": "{Actor} laughs heartily: ‘Bullseye!’",
+      "source": {
+        "orsino": "barks:personality.jovial.onCrit"
+      }
+    },
+    {
+      "id": "dodge.orsino.personality.jovial.onMissReceived.0",
+      "when": {
+        "manner": "jovial",
+        "side": "company"
+      },
+      "text": "{Actor} grins: ‘You'll have to do better than that!’",
+      "source": {
+        "orsino": "barks:personality.jovial.onMissReceived"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Novice.onEngage.0",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} shouts: ‘I, {actor}, will protect the sacred grounds!’",
+      "source": {
+        "orsino": "barks:npc.Novice.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Novice.onEngage.1",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} nervously whines: ‘Please, don't harm me! It's my first day!’",
+      "source": {
+        "orsino": "barks:npc.Novice.onEngage"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Novice.onCrit.0",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} shouts: ‘Take that!’",
+      "source": {
+        "orsino": "barks:npc.Novice.onCrit"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Novice.onCrit.1",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} yells: ‘You'll regret coming here!’",
+      "source": {
+        "orsino": "barks:npc.Novice.onCrit"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Novice.onCrit.2",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} shouts: ‘For the temple!’",
+      "source": {
+        "orsino": "barks:npc.Novice.onCrit"
+      }
+    },
+    {
+      "id": "hurt.orsino.npc.Novice.onHitReceived.0",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} cries out in pain!",
+      "source": {
+        "orsino": "barks:npc.Novice.onHitReceived"
+      }
+    },
+    {
+      "id": "hurt.orsino.npc.Novice.onHitReceived.1",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} stammers: ‘You'll pay for that!’",
+      "source": {
+        "orsino": "barks:npc.Novice.onHitReceived"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Novice.onFall.0",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} gasps: ‘I... I can't go on...’",
+      "source": {
+        "orsino": "barks:npc.Novice.onFall"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Novice.onFall.1",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} pleads: ‘Mercy... please...’",
+      "source": {
+        "orsino": "barks:npc.Novice.onFall"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Novice.onFall.2",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} collapses: ‘Tell... the Master...’",
+      "source": {
+        "orsino": "barks:npc.Novice.onFall"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Novice.onFall.3",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} falls silent, their eyes glazing over.",
+      "source": {
+        "orsino": "barks:npc.Novice.onFall"
+      }
+    },
+    {
+      "id": "flee.orsino.npc.Novice.onFlee.0",
+      "when": {
+        "role": "novice"
+      },
+      "text": "‘Retreat! Retreat!’, shouts {actor}.",
+      "source": {
+        "orsino": "barks:npc.Novice.onFlee"
+      }
+    },
+    {
+      "id": "flee.orsino.npc.Novice.onFlee.1",
+      "when": {
+        "role": "novice"
+      },
+      "text": "{Actor} cries: ‘I must live to fight another day!’",
+      "source": {
+        "orsino": "barks:npc.Novice.onFlee"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Acolyte.onEngage.0",
+      "when": {
+        "role": "acolyte"
+      },
+      "text": "{Actor} prays: ‘By the dark lord, you shall not pass!’",
+      "source": {
+        "orsino": "barks:npc.Acolyte.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Acolyte.onEngage.1",
+      "when": {
+        "role": "acolyte"
+      },
+      "text": "{Actor} warns: ‘Leave this unhallowed place at once!’",
+      "source": {
+        "orsino": "barks:npc.Acolyte.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Cultist.onEngage.0",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} cries: ‘You dare to enter this unholy place?!’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Cultist.onEngage.1",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} hisses: ‘Your soul will be mine!’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Cultist.onEngage.2",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} chants: ‘Dark powers, arise and smite these intruders!’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onEngage"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Cultist.onCrit.0",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} snarls: ‘Feel the wrath of the dark gods!’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onCrit"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Cultist.onCrit.1",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} growls: ‘Your flesh will feed the shadows!’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onCrit"
+      }
+    },
+    {
+      "id": "hurt.orsino.npc.Cultist.onHitReceived.0",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} hisses: ‘You will regret that!’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onHitReceived"
+      }
+    },
+    {
+      "id": "hurt.orsino.npc.Cultist.onHitReceived.1",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} snarls: ‘The dark gods will avenge me!’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onHitReceived"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Cultist.onFall.0",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} gasps: ‘No... the dark gods... have forsaken me...’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onFall"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Cultist.onFall.1",
+      "when": {
+        "role": "cultist"
+      },
+      "text": "{Actor} collapses: ‘My faith... shattered...’",
+      "source": {
+        "orsino": "barks:npc.Cultist.onFall"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Gravedigger.onEngage.0",
+      "when": {
+        "role": "gravedigger"
+      },
+      "text": "{Actor} is startled: ‘Who goes there? Stay away from my graves!’",
+      "source": {
+        "orsino": "barks:npc.Gravedigger.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Gravedigger.onEngage.1",
+      "when": {
+        "role": "gravedigger"
+      },
+      "text": "{Actor} growls: ‘This is sacred ground! Begone!’",
+      "source": {
+        "orsino": "barks:npc.Gravedigger.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Gravedigger.onEngage.2",
+      "when": {
+        "role": "gravedigger"
+      },
+      "text": "'Keep away from the graves!', shouts {actor}.",
+      "source": {
+        "orsino": "barks:npc.Gravedigger.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Gravedigger.onEngage.3",
+      "when": {
+        "role": "gravedigger"
+      },
+      "text": "{Actor} warns: ‘Disturb not the dead!’",
+      "source": {
+        "orsino": "barks:npc.Gravedigger.onEngage"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Gravedigger.onFall.0",
+      "when": {
+        "role": "gravedigger"
+      },
+      "text": "{Actor} groans: ‘The earth claims me at last...’",
+      "source": {
+        "orsino": "barks:npc.Gravedigger.onFall"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Gravedigger.onFall.1",
+      "when": {
+        "role": "gravedigger"
+      },
+      "text": "{Actor} falls silent, their eyes glazing over.",
+      "source": {
+        "orsino": "barks:npc.Gravedigger.onFall"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Bandit.onEngage.0",
+      "when": {
+        "role": "bandit"
+      },
+      "text": "{Actor} sneers: ‘Your money or your life!’",
+      "source": {
+        "orsino": "barks:npc.Bandit.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Bandit.onEngage.1",
+      "when": {
+        "role": "bandit"
+      },
+      "text": "{Actor} laughs: ‘Easy pickings ahead!’",
+      "source": {
+        "orsino": "barks:npc.Bandit.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Tombrobber.onEngage.0",
+      "when": {
+        "role": "tombrobber"
+      },
+      "text": "{Actor} hisses: ‘This tomb's treasures will be mine!’",
+      "source": {
+        "orsino": "barks:npc.Tombrobber.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Tombrobber.onEngage.1",
+      "when": {
+        "role": "tombrobber"
+      },
+      "text": "{Actor} snarls: ‘Step aside, or taste my blade!’",
+      "source": {
+        "orsino": "barks:npc.Tombrobber.onEngage"
+      }
+    },
+    {
+      "id": "kill.orsino.npc.Tombrobber.onKill.0",
+      "when": {
+        "role": "tombrobber"
+      },
+      "text": "{Actor} smirks: ‘Another obstacle removed.’",
+      "source": {
+        "orsino": "barks:npc.Tombrobber.onKill"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Necromancer.onEngage.0",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} intones: ‘You shall join my immortal legion!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Necromancer.onEngage.1",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} declares: ‘Your flesh will nourish my dark arts!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onEngage"
+      }
+    },
+    {
+      "id": "engage.orsino.npc.Necromancer.onEngage.2",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} cackles.",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onEngage"
+      }
+    },
+    {
+      "id": "summon.orsino.npc.Necromancer.onSummon.0",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} commands: ‘Rise, my minions!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onSummon"
+      }
+    },
+    {
+      "id": "summon.orsino.npc.Necromancer.onSummon.1",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} chants: ‘From the depths, I call you forth!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onSummon"
+      }
+    },
+    {
+      "id": "summon.orsino.npc.Necromancer.onSummon.2",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} waves their hands about, summoning undead servants!",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onSummon"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Necromancer.onCrit.0",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} hisses: ‘Feel the chill of death!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onCrit"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Necromancer.onCrit.1",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} snarls: ‘Your life force is mine!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onCrit"
+      }
+    },
+    {
+      "id": "crit.orsino.npc.Necromancer.onCrit.2",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} growls: ‘You cannot escape death!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onCrit"
+      }
+    },
+    {
+      "id": "kill.orsino.npc.Necromancer.onKill.0",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} intones: ‘Another soul for my collection.’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onKill"
+      }
+    },
+    {
+      "id": "kill.orsino.npc.Necromancer.onKill.1",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} murmurs: ‘Your death serves a greater purpose.’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onKill"
+      }
+    },
+    {
+      "id": "kill.orsino.npc.Necromancer.onKill.2",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} whispers darkly: ‘So your life ends, but have no fear. Death is but a doorway.’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onKill"
+      }
+    },
+    {
+      "id": "kill.orsino.npc.Necromancer.onKill.3",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} says coldly: ‘Your soul will fuel my power.’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onKill"
+      }
+    },
+    {
+      "id": "hurt.orsino.npc.Necromancer.onHitReceived.0",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} growls: ‘You will pay for that!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onHitReceived"
+      }
+    },
+    {
+      "id": "hurt.orsino.npc.Necromancer.onHitReceived.1",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} snarls: ‘This isn't over yet!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onHitReceived"
+      }
+    },
+    {
+      "id": "dodge.orsino.npc.Necromancer.onMissReceived.0",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} hisses: ‘I will not be thwarted so easily!’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onMissReceived"
+      }
+    },
+    {
+      "id": "dodge.orsino.npc.Necromancer.onMissReceived.1",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} snarls: ‘Not so easy, is it?’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onMissReceived"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Necromancer.onFall.0",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} gasps: ‘No... this cannot be...’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onFall"
+      }
+    },
+    {
+      "id": "fall.orsino.npc.Necromancer.onFall.1",
+      "when": {
+        "role": "necromancer"
+      },
+      "text": "{Actor} collapses: ‘My plans... foiled...’",
+      "source": {
+        "orsino": "barks:npc.Necromancer.onFall"
+      }
+    }
+  ]
+}

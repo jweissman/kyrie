@@ -43,4 +43,6 @@ export interface CampaignEvent {
   perceptions?: { id: string; text: string; kind: 'observation' | 'discovery' | 'event' }[];
   // A fight the company was drawn into: what it had been doing when it was fallen on, and where it ran to, if it ran.
   prelude?: { action: string; response?: string; perceptions?: CampaignEvent['perceptions'] }; fledTo?: string;
+  // What the company was told of what happened, in the voice tables' words (see Telling): which line, of what.
+  voiced?: { id: string; kind: string; actor?: string; text: string }[];
 }

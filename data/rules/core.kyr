@@ -47,6 +47,14 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation enRoute(group, passage).
   Query benighted(a: group) means company(a) and at(a, ?p) and not capable(a, sunlight)
     and ((unlit(?p) and not capable(a, light)) or lightless(?p)).
+  // How someone carries themselves, which shows in what they say (Orsino's personalities); and the words they are
+  // spoken of in. Someone with no manner given has one all the same (see VoiceContext).
+  Kind manner. Relation manner(group, manner).
+  Entity manner_proud: manner "proud". Entity manner_grim: manner "grim". Entity manner_cheerful: manner "cheerful".
+  Entity manner_acerbic: manner "acerbic". Entity manner_compassionate: manner "compassionate".
+  Entity manner_stoic: manner "stoic". Entity manner_jovial: manner "jovial".
+  Kind pronoun. Relation pronouns(group, pronoun).
+  Entity pron_he: pronoun "he". Entity pron_she: pronoun "she". Entity pron_they: pronoun "they". Entity pron_it: pronoun "it".
   // Who is awake to the world. A group that the day's round or a spell has put to sleep sees nothing that happens.
   Relation asleep(group).
   Query alert(g: group) means able(g) and not asleep(g).

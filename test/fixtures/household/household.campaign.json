@@ -1,0 +1,1 @@
+{ "version": 1, "name": "A household", "modules": [ { "id": "h", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

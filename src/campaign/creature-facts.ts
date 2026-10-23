@@ -64,7 +64,7 @@ export class CreatureFacts {
     const temper = given ?? (own ? kind : undefined);
     if (!temper) { return []; }
     const scripted = world.related('state', group).length > 0, many = members.length > 1;
-    const said = scripted ? [] : (['warning', 'onslaught', 'flinch', 'greeting'] as const).flatMap(name => {
+    const said = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
       // The shared words live in whichever installation joined the inhabitants rules first. A band of more than one
       // is spoken of as many ("the wolves come at you"), where the words differ.
       const plain = `${temper.replace(/^temper_/, 'temper_words_')}_${name}`;

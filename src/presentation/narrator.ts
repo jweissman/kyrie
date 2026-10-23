@@ -165,8 +165,12 @@ export class Narrator {
     const speaker = informant ? this.nameOf(campaign, informant) : undefined;
     const spoken = speaker ? feedback.discoveries.map(d => this.speech(d, speaker)) : [];
     const fight = event.combat.some(e => e.type === 'end');
+    // What the voice tables told of it (someone joining, a dog patted) stands for the bare result of the command.
+    const voiced = (event.voiced ?? []).map(v => ({ text: v.text, kind: 'telling' as const }));
+    const bare = voiced.length && /^You (carry out|do) /.test(feedback.result ?? '');
     const lines: ExchangeLine[] = [
-      ...(spoken.length ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : []),
+      ...(spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : []),
+      ...voiced,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...feedback.events.map(text => ({ text, kind: 'event' as const })),
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: fight ? 'fight' as const : 'event' as const })),
