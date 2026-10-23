@@ -26,11 +26,15 @@ export class DeepRooms {
       ...c.trap ? RegionMarvels.snare({ id: c.room.id, way: c.trap.way.id, trap: c.trap.trap }) : [],
       ...c.riddle ? this.casket(r.id, { difficulty: c.riddle, purpose: at.purpose }) : [],
       ...c.wonder ? this.wonder(c.wonder, r.id) : [],
-      ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind))} is ${kind} at ${r.id}.`),
+      ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind, at.purpose))} is ${kind} at ${r.id}.`),
       ...c.treasure?.coin && ['treasure', 'elite', 'special', 'mob'].includes(c.guide) ? this.coins(r.id, c.treasure.coin) : [],
       ...c.special ? this.camp(r.id, { level: r.level, purpose: at.purpose }) : []];
   }
-  static called(id: string): string { return ItemNames.called(Canon.items[id]?.name ?? id.replace(/_/g, ' ')); }
+  // A thing by its own name: the makers' own by the name the site gives it, a catalog item by the catalog's.
+  static called(id: string, purpose?: DeepPurpose): string {
+    const own = Object.values(purpose?.valuables ?? {}).flat().find(v => v.id === id);
+    return own ? own.name : ItemNames.called(Canon.items[id]?.name ?? id.replace(/_/g, ' '));
+  }
   private static dwellers(d: DeepDwellers, room: string): string[] {
     const q = this.q, g = d.group, label = d.aspect ? g.label.replace(/^the /, `the ${d.aspect} `) : g.label;
     const who = g.species ? `Species ${g.species}.` : `Ancestry ${g.ancestry}. Calling ${g.calling ?? 'warrior'}.`;
@@ -47,12 +51,13 @@ export class DeepRooms {
       .filter(a => a.toLowerCase() !== riddle.answer.toLowerCase())).slice(0, 3);
     const tiers = (world as unknown as { dungeon: { treasure: Record<string, string[]> } }).dungeon.treasure;
     const tier = at.purpose.finds?.[this.paid[difficulty]!] ?? tiers[this.paid[difficulty]!] ?? [];
-    const reward = tier.length ? draw.pick(tier) : undefined;
+    const own = (at.purpose.valuables?.[this.paid[difficulty]!] ?? []).map(v => v.id);
+    const reward = own.length && draw.next() < 0.6 ? draw.pick(own) : tier.length ? draw.pick(tier) : undefined;
     return [`  Hazard ${id}_cold "the casket's breath" means "Deal (${this.breath[difficulty]}) cold damage to ally unless constitution save against (12).".`,
       `  Thing ${id} "the stone casket" at ${room} {`, '    Holds.',
       `    State sealed closed ${q(`A casket of grey stone stands against the wall, its lid one piece with it. Words are cut across the lid in the old script, and under them, scratched in a later hand: '${riddle.question}' Below is a row of ${riddle.answer.length === 1 ? 'letters' : 'words'}, each with a hollow beside it for a finger.`)}.`,
       '    State open "The casket\'s lid has turned on a pivot you could not see, and stands open.".', '  }',
-      ...reward ? [`  Item ${id}_gift ${q(this.called(reward))} is ${reward} in ${id}.`] : [],
+      ...reward ? [`  Item ${id}_gift ${q(this.called(reward, at.purpose))} is ${reward} in ${id}.`] : [],
       ...draw.shuffle([riddle.answer, ...wrong]).flatMap((word, n) => this.word({ id, room, word, n },
         word === riddle.answer))];
   }

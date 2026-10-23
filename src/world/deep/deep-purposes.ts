@@ -21,6 +21,7 @@ export interface DeepGroup {
   species?: string; ancestry?: string; calling?: string; count: number; label: string; role: string;
   temperament: string;
 }
+export interface Valuable { id: string; name: string; worth: number; weight: number; text: string }
 // What a deep site was for, and so how it is laid out, what lives in it, and what lies at the bottom of it.
 export interface DeepPurpose {
   art: string; plan: { id: string; seen: string; names: string[]; ground: string[]; danger: number };
@@ -42,6 +43,9 @@ export interface DeepPurpose {
   // What lies about in it, by Orsino's treasure tier: what its makers and those after them would have left; and the
   // wonders that would be in a place like it.
   finds?: Record<string, string[]>; wonders?: string[];
+  // Its makers' own things of worth, by the same tiers: kinds of its own, drawn as treasure more often than gear,
+  // and worth what a company is paid in experience when it sells them.
+  valuables?: Record<string, Valuable[]>;
   // Rooms where a company can rest (a hall with a hearth, a store-room), if nothing finds it there first.
   rest?: string[];
   // How it looks from outside, with its old name cut over the way in ({oldup}).

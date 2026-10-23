@@ -108,11 +108,16 @@ export class DeepPacing {
   // those after them would have left there; else Orsino's own tier. And coin.
   private static treasure(at: { purpose: DeepPurpose; depth: number }, generosity: number, draw: Draw):
     { items: string[]; coin: number } {
-    const { purpose, depth } = at, low = this.tiers[Math.min(depth, 3)]!, high = this.tiers[Math.min(depth + 1, 4)]!;
+    const { purpose, depth } = at, low = this.tiers[Math.min(depth, 3)]!, better = this.tiers[Math.min(depth + 1, 4)]!;
+    // No better than the purpose has: a mine of the Delvers has no Orsino legendary hoard at its bottom.
+    const high = !purpose.finds || purpose.finds[better] ? better : low;
     const tier = draw.next() < 0.8 ? low : high;
     const list = purpose.finds?.[tier] ?? this.tables.treasure[tier] ?? [];
+    const own = (purpose.valuables?.[tier] ?? []).map(v => v.id);
     const count = (draw.next() < 0.3 * generosity ? 1 : 0) + (draw.next() < 0.06 * generosity ? 1 : 0);
-    return { items: Array.from({ length: Math.min(count, list.length) }, () => draw.pick(list)),
+    // Most of what is worth carrying home is the makers' own; the rest is gear left lying.
+    return { items: Array.from({ length: Math.min(count, list.length) },
+      () => own.length && draw.next() < 0.6 ? draw.pick(own) : draw.pick(list)),
       coin: Math.round((1 + draw.int(20) + 2 * depth * 5) * generosity) };
   }
 }

@@ -61,8 +61,10 @@ export class CatalogParser {
     if (!catalog.items && !catalog.species) { return; }
     LocalKinds.install(catalog);
     module.catalog = catalog;
-    // What a kind of thing weighs is a fact of the world, for rules to read (see belongings.kyr).
+    // A kind declared here is a kind of thing in this world whether or not any of it is placed yet; what it weighs
+    // is a fact of the world, for rules to read (see belongings.kyr).
     for (const [id, item] of Object.entries(catalog.items ?? {})) {
+      if (!module.entities.some(e => e.id === id)) { module.entities.push({ id, type: 'itemkind', name: item.name }); }
       if (item.mass !== undefined) {
         module.initial.push({ kind: 'set', call: { kind: 'call', name: 'mass', args: [id] },
           value: { kind: 'number', value: item.mass } });

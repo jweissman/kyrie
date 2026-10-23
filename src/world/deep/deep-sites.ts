@@ -121,7 +121,9 @@ export class DeepSites {
   private static kinds(purpose: DeepPurpose): string[] {
     const q = this.q;
     return [`  Kind star_iron "a lump of star-iron" is treasure worth 30 weighing 2 described "Pale ore, heavier than it looks, that glitters faintly in the dark.".`,
-      `  Kind ${purpose.objective.kind} ${q(purpose.objective.item)} is treasure worth 2000 weighing 20 described ${q(purpose.objective.text)}.`];
+      `  Kind ${purpose.objective.kind} ${q(purpose.objective.item)} is treasure worth 2000 weighing 20 described ${q(purpose.objective.text)}.`,
+      ...Object.values(purpose.valuables ?? {}).flat().map(v =>
+        `  Kind ${v.id} ${q(v.name)} is treasure worth ${v.worth} weighing ${v.weight} described ${q(v.text)}.`)];
   }
   // A catalog item by its own name: "a lantern".
   static called(id: string): string { return ItemNames.called(Canon.items[id]?.name ?? id.replace(/_/g, ' ')); }

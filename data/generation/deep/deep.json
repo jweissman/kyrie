@@ -655,12 +655,38 @@
     "kind": "star_iron",
     "name": "a lump of star-iron",
     "roles": {
-      "stope": 1,
-      "shaft_bottom": 2,
-      "chute_foot": 1,
-      "lode": 3,
-      "vault": 2
+      "stope": 3,
+      "chute_top": 2,
+      "shaft_head": 1,
+      "shaft_bottom": 3,
+      "chute_foot": 3,
+      "haulage": 1,
+      "sump_gallery": 2,
+      "lode": 8,
+      "deep_cut": 2,
+      "vault": 4
     }
+  },
+  "valuables": {
+    "negligible": [
+      { "id": "delver_token", "name": "a Delver's pay-token", "worth": 40, "weight": 0, "text": "A token of silver stamped with a pick and a star: what a Delver was paid a shift in, and what the paymaster took back for bread." },
+      { "id": "star_beads", "name": "a string of star-iron beads", "worth": 50, "weight": 0, "text": "Beads of the pale ore on a cord gone hard as wire, worn by someone who dug it." },
+      { "id": "bronze_tally", "name": "a bronze tally-board", "worth": 45, "weight": 2, "text": "A board of bronze pegs where a shift's tubs were counted, the last count still in it." }
+    ],
+    "minor": [
+      { "id": "silver_lamp", "name": "a Delver's silver lamp", "worth": 120, "weight": 1, "text": "A miner's lamp of silver, not tin: a foreman's, or a gift. It would still light, with oil in it." },
+      { "id": "delver_ring", "name": "a Delver's ring", "worth": 100, "weight": 0, "text": "A heavy ring with a star cut in it, the mark the Delvers put on what was theirs." },
+      { "id": "small_ingot", "name": "a small star-iron ingot", "worth": 150, "weight": 2, "text": "A bar of the smelted ore no longer than a finger, pale and heavier than it looks." }
+    ],
+    "major": [
+      { "id": "star_ingot", "name": "a star-iron ingot", "worth": 300, "weight": 4, "text": "A bar of smelted star-iron the length of a forearm, stamped with the Delvers' star: what the mine was dug for, made." },
+      { "id": "paymaster_seal", "name": "the paymaster's seal", "worth": 350, "weight": 1, "text": "A seal of gold and star-iron that sealed the mine's reckonings. Anyone in the old kingdom's lands would know it." },
+      { "id": "vein_reliquary", "name": "a reliquary of the vein", "worth": 400, "weight": 2, "text": "A little house of silver with a sliver of the ore inside it behind crystal, kept by the Delvers as other folk keep a saint's bone." }
+    ],
+    "grand": [
+      { "id": "star_crown", "name": "a crown of star-iron", "worth": 800, "weight": 3, "text": "A plain circlet of the pale ore that gives off a light of its own in the dark: made for someone the Delvers followed down." },
+      { "id": "vein_cup", "name": "a cup cut from one crystal", "worth": 700, "weight": 1, "text": "A cup carved from a single crystal found in the vein, so clear you see the light of your torch through the wine that is not in it." }
+    ]
   },
   "finds": {
     "negligible": [
