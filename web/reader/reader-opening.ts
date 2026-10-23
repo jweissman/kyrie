@@ -65,7 +65,8 @@ export class ReaderOpening {
     this.app.setState({ phase: 'loading', stage: 'Setting out', error: '' });
     await this.enter(this.app.engine.request<Frame>({ kind: 'begin', campaign: s.campaign, seed: s.seed,
       party: s.party, ...this.app.props.query.get('terrain') ? { terrain: this.app.props.query.get('terrain')! } : {},
-      ...s.setting?.generated && s.origin ? { origin: s.origin } : {} }), 'company');
+      ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} }),
+    'company');
   }
   async resume(text: string) {
     this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '' });
@@ -86,7 +87,13 @@ export class ReaderOpening {
   };
   readonly campaigns = () => { this.app.setState({ phase: 'campaigns', error: '' }); };
   // A country no one has seen: drawn from a seed of its own, which the save keeps.
-  readonly anew = () => { void this.pick('world', ReaderOpening.seed()); };
+  readonly anew = () => { this.app.setState({ memorial: undefined }); void this.pick('world', ReaderOpening.seed()); };
+  // The same country again, as someone else, after a death in it: it remembers who died, and where.
+  readonly again = () => {
+    const frame = this.app.state.frame, memorial = frame?.ending?.memorial;
+    this.app.setState({ ...memorial ? { memorial } : {} });
+    void this.pick('world', frame?.transcript.seed ?? ReaderOpening.seed());
+  };
   static seed(): string {
     const bytes = new Uint8Array(4);
     crypto.getRandomValues(bytes);

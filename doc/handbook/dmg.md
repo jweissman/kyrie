@@ -736,7 +736,13 @@ Also kept, without comment: holds, keeps, covets, bywayFrom, bywayTo, knowsWay, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 14 | 3 | 1 | 4 | 2 |
+| 1 | 16 | 3 | 1 | 4 | 2 |
+
+#### takesPrisoners, captured
+
+*Kyr · relation(group); relation(group, group)* · `rule:dominion.takesPrisoners`
+
+Those who take prisoners rather than kill (the lord's riders, a reeve's men), and whom they have taken: what happens to a company beaten by them is theirs to say (see Mercy).
 
 #### alarmed, admits, hostile
 

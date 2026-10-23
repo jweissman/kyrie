@@ -16,6 +16,7 @@ import type { Entry, Frame, Leaf, Member, Message, Request, SaveSummary } from '
 import { SaveCodec } from './save-codec';
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { Obituary } from '../../src/narrative/obituary';
+import type { Memorial } from '../../src/world/memorial';
 
 interface Saved { checkpoint: SessionCheckpoint; log?: Entry[] }
 
@@ -52,11 +53,12 @@ export class EngineHost {
       case 'checkpoint': return this.session ? JSON.stringify(this.session.checkpoint()) : null;
     }
   }
-  private async begin(r: { campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string }):
-    Promise<Frame> {
+  private async begin(r: { campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
+    memorial?: Memorial }): Promise<Frame> {
     this.post({ kind: 'progress', stage: 'Drawing the world' });
     const origin = await this.creation.origin(r.campaign, r.seed, r.party,
-      { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {} });
+      { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
+        ...r.memorial ? { memorial: r.memorial } : {} });
     this.post({ kind: 'progress', stage: 'Placing its people' });
     // An origin makes the protagonist what it says (their background, what they carry): the world's telling of them.
     this.session = await PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);

@@ -25,6 +25,8 @@ export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   origin?: string;
+  // Someone who died in this country before, whom it will remember when it is begun again.
+  memorial?: import('../../src/world/memorial').Memorial;
   frame?: Frame; view: View; cursor: number; hovered?: string; member: string;
   // The choices that are open, showing what can be done with them (what to say to someone, what to buy).
   open: string[];

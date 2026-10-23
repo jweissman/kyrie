@@ -46,4 +46,25 @@ describe('a power answering the company', () => {
     expect([Lord.fact(s, 'hostile', 'tollKeepers__chief', 'party'), Lord.fact(s, 'refusesService', 'region__s2_innkeeper', 'party'),
       s.campaign.world.one('at', 'tollKeepers__riders')]).toEqual([false, false, 'tollKeepers__hall']);
   }, 120000);
+
+  // The toll case: one person, little coin, three armed riders. What they want is said; going with them is offered;
+  // and a fight with them, lost, ends in their lockup, not in death.
+  it('lets a company without the fine go with the riders, and spares one that fights them and loses', async () => {
+    const s = await Lord.start();
+    Lord.change(s, ['assert', 'hostile', 'tollKeepers__chief', 'party'], ['set', 'quantity', 'party', 'gold', '5']);
+    await s.perform('wait');
+    Lord.change(s, ['assert', 'at', 'party', 'region__s2_green']);
+    expect(Lord.told(await s.perform('wait'))).toContain('or you come with us');
+    const choices = PlayerView.choices(s.campaign).map(c => c.choice.name);
+    expect(choices).toContain('Go with the lord\'s riders');
+    expect(choices.some(c => /^Attack the lord's riders/.test(c))).toBe(true);
+    const attack = PlayerView.choices(s.campaign).find(c => /^Attack the lord's riders/.test(c.choice.name))!;
+    await s.perform(attack.choice.id);
+    expect(s.campaign.running).toBe(true);
+    expect(s.campaign.world.one('at', 'party')).toBe('tollKeepers__lockup');
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(0);
+    for (let i = 0; i < 120 && Lord.fact(s, 'tollKeepers__jailed', 'party'); i++) { await s.perform('wait'); }
+    expect(Lord.fact(s, 'hostile', 'tollKeepers__chief', 'party')).toBe(false);
+    expect(PlayerView.choices(s.campaign).some(c => /lockup door/.test(c.choice.name))).toBe(true);
+  }, 120000);
 });

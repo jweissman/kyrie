@@ -1,3 +1,4 @@
+import type { Memorial } from '../../src/world/memorial';
 import partyExamples from '../../data/campaigns/companies.json';
 import { Canon } from '../../src/canon/canon';
 import { Content } from '../../src/content';
@@ -62,9 +63,11 @@ export class Creation {
     return structuredClone((companies.find(c => c.id === id) ?? companies[0]!).members);
   }
   // A region drawn from a seed, with adventures set in it; kept so the company can set out into it.
-  async generate(seed: string, terrain?: string, party?: Member[], origin?: string): Promise<Setting> {
+  async generate(seed: string, terrain?: string, party?: Member[], at: { origin?: string; memorial?: Memorial } = {}):
+    Promise<Setting> {
     const world = await WorldAssembler.assemble(seed, Scenarios.source(),
-      { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {}, ...origin ? { origin } : {} });
+      { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {}, ...at.origin ? { origin: at.origin } : {},
+        ...at.memorial ? { memorial: at.memorial } : {} });
     const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
     this.assembled = { seed, ...terrain ? { terrain } : {}, path: world.path, source: world.source, campaign };
     const title = campaign.name, region = world.report.region;
@@ -84,9 +87,11 @@ export class Creation {
   }
   // Where a company sets out: an authored campaign from the bundled files, or the generated region drawn again for
   // this company (its backgrounds place old friends in the region).
-  async origin(campaign: string, seed: string, party: Member[], at: { terrain?: string; origin?: string } = {}) {
+  async origin(campaign: string, seed: string, party: Member[],
+    at: { terrain?: string; origin?: string; memorial?: Memorial } = {}) {
     if (campaign !== Creation.generated) { return { path: campaign, source: Scenarios.source() }; }
-    await this.generate(seed, at.terrain, party, at.origin);
+    await this.generate(seed, at.terrain, party, { ...at.origin ? { origin: at.origin } : {},
+      ...at.memorial ? { memorial: at.memorial } : {} });
     return { path: this.assembled!.path, source: this.assembled!.source };
   }
   static preview(party: Member[], generated: boolean): CompanyView {

@@ -78,6 +78,8 @@ export class WorldView {
         <h1 className="place">{Typography.curl(ending.title)}</h1>
         {ending.lines.map((l, i) => <p key={i} className={i === 0 ? 'how' : undefined}>{Typography.curl(l)}</p>)}
         <ul className="acts">
+          {frame.ending?.memorial && <li><button type="button" className="act" data-action="again"
+            onClick={app.opening.again}>Begin again in this country</button></li>}
           <li><button type="button" className="act" data-action="new" onClick={app.opening.title}>Back to the title</button></li>
         </ul>
       </article>

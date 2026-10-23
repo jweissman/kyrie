@@ -1,3 +1,4 @@
+import { Memorials, type Memorial } from './memorial';
 import { RegionGrowth } from './region-growth';
 import type { DeemValue } from 'deem';
 import { Content, type CreatureGenerationContext } from '../content';
@@ -71,6 +72,8 @@ export class WorldAssembler {
     library?: string; scenarios?: number; towns?: number; region?: Record<string, DeemValue>;
     party?: CreatureGenerationContext[]; origin?: string;
     framework?: string | null;
+    // Someone who died in this country before: where they lie, and how they died, which the country remembers.
+    memorial?: Memorial;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = this.region(seed, [0, 0], options.region);
     const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
@@ -94,6 +97,7 @@ export class WorldAssembler {
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
     this.write(region, { files, root, placements, company: { size: party.length, contacts,
       ...told ? { start: told.start, coin: told.coin } : {} } });
+    if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region/region.kyr`); }
     const kits = framework.map(k => ({ ...k, optional: true }));
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       calendar: region.calendar,

@@ -51,19 +51,57 @@ Module toll_customs "Customs-men on the road" {
   }
   Observe outlawed_at_inn at market when refusesService(provider, party) "The door of the inn is barred against you, and someone inside says the lord's name loudly.".
 
-  // And the lord answers. Riders go out to the settlement his toll answers to and wait there for whoever did it: they
-  // warn, and take the lord's fine if it is paid; otherwise they take the company, or try to.
+  // And the lord answers. Riders go out to the settlement his toll answers to and wait there for whoever did it. They
+  // say what they want (the lord's fine, or you) and they mean it: pay, go with them, or fight three armed men. They
+  // take prisoners, not lives: beaten, you wake in the lord's lockup all the same, the worse for it (see Mercy).
   Place hall "The lord's hall" is room.
   Person riders "the lord's riders" at hall {
     Role "the lord's riders, sent after whoever turned on his toll". Ancestry human. Calling warrior. Level 2. Numbers 3.
     Called "Aldred", "Wace", "Hubert".
-    Temperament territorial.
-    Warns "Three riders in the lord's colours are waiting on the green. Their captain looks at you, and at a paper in his hand, and back at you. 'In the lord's name,' he says. 'Twenty coin for his toll-house, or you come with us.'".
+    State waiting "Three riders in the lord's colours wait on the green by their horses, watching the road.".
   }
-  Initially Assert serves(riders, chief).
-  Relation sent().
+  Initially Assert serves(riders, chief). Initially Assert takesPrisoners(riders).
+  Relation sent(). Relation summoned(group). Relation jailed(group).
   Rule sends when hostile(chief, party) and not sent() says "Behind you, word is going along the road: the lord is sending riders out to {market}, asking after a company that turned on his toll." {
-    Assert sent(). Retract at(riders, hall). Assert at(riders, market). Set patience(riders) to 2.
+    Assert sent(). Retract at(riders, hall). Assert at(riders, market).
+  }
+  Rule riders_stop when at(riders, market) and at(party, market) and hostile(chief, party) and not summoned(party)
+    and able(riders) says "The riders' captain looks at you, and at a paper in his hand, and back at you. 'In the lord's name,' he says. 'Twenty coin for his toll-house, or you come with us. Fight us and you'll come anyway, and the worse for it.'" {
+    Assert summoned(party). Assert halts(riders, party). Set patience(riders) to 3.
+  }
+  Rule riders_wait when summoned(party) and hostile(chief, party) and together(riders, party) and patience(riders) > 0 {
+    Decrease patience(riders) by 1.
+  }
+  Rule riders_take when summoned(party) and hostile(chief, party) and together(riders, party) and patience(riders) <= 0
+    and able(riders) and not captured(riders, party) and not jailed(party)
+    says "The captain loses patience. 'Take them.' It is not much of a struggle." { Assert captured(riders, party). }
+  Action go_with(actor: group, site: place) "Go with the lord's riders" {
+    Description "They take what they can of the fine from your purse, and you spend the night in the lord's lockup. In the morning you are let go, and quits with the lord.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(riders, site) and able(riders) and hostile(chief, actor).
+    Time 0.
+    On success { Assert captured(riders, actor). }
+  }
+  // Taken, by their leave or not: what they can of the fine, a night in the lockup, and quits in the morning.
+  Place lockup "the lord's lockup" is room indoors.
+  Passage lockup_door "the lockup door" is door between lockup and market.
+  Thing lockup_bar "the lockup door" on lockup_door {
+    State barred blocking "A plank door, barred on the outside.".
+    State unbarred "The lockup door stands open on the morning.".
+  }
+  Observe lockup_scene at lockup when true "A stone room with a high slit of a window, and straw on the floor that has seen a good many nights like yours.".
+  Rule taken_rich when captured(riders, party) and quantity(party, gold) >= 20 says "They take twenty coin from your purse, write your name in the book, and put you in the lord's lockup for the night." {
+    Decrease quantity(party, gold) by 20. Increase quantity(chief, gold) by 20. Retract captured(riders, party). Assert jailed(party).
+  }
+  Rule taken_poor when captured(riders, party) and quantity(party, gold) < 20 says "They take what coin you have, write your name in the book, and put you in the lord's lockup for the night." {
+    Set quantity(party, gold) to 0. Retract captured(riders, party). Assert jailed(party).
+  }
+  Rule jailed_in when jailed(party) and not at(party, lockup) and state(lockup_bar, barred) {
+    Assert at(party, lockup). Retract hostile(chief, party). Assert tolerates(riders, party).
+    Retract refusesService(provider, party). Retract summoned(party). Retract at(riders, market). Assert at(riders, hall).
+  }
+  Rule let_out when jailed(party) and at(party, lockup) and hour(clock) >= 7 and hour(clock) < 12
+    and state(lockup_bar, barred) says "In the morning a man in the lord's livery unbars the door. 'Out,' he says. 'You're quits with the lord. Don't make him remember you.'" {
+    Assert state(lockup_bar, unbarred). Retract jailed(party).
   }
   Action pay_fine(actor: group, site: place) "Pay the lord's fine, twenty coin" {
     Description "The lord's riders take twenty coin for his toll-house, write you down, and go home; the settlement serves you again.".

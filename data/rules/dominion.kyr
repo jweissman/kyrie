@@ -1,6 +1,9 @@
 Module dominion "Who holds what, how a power stands toward a company, and how its agents go about the land" {
   Kind byway.
   Relation holds(group, place). Relation keeps(group, entity). Relation covets(group, entity).
+  // Those who take prisoners rather than kill (the lord's riders, a reeve's men), and whom they have taken: what
+  // happens to a company beaten by them is theirs to say (see Mercy).
+  Relation takesPrisoners(group). Relation captured(group, group).
   Relation bywayFrom(byway, place). Relation bywayTo(byway, place). Measure bywayTime(byway).
   Relation knowsWay(group, byway). Relation travelling(group, byway).
   Query keepsKind(g: group, k: itemkind) means keeps(g, ?i) and itemKind(?i, k).

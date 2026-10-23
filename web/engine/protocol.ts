@@ -2,6 +2,7 @@ import type { CreatureGenerationContext } from '../../src/content';
 import type { Transcript } from '../../src/session/play-session';
 import type { CombatScreen, Screen } from '../../src/ui/screen-types';
 import type { Exchange, Leaf } from '../../src/presentation/narrator';
+import type { Memorial } from '../../src/world/memorial';
 export type { Exchange, Leaf };
 
 // What passes between the page and the engine. The engine (Kyrie, in a worker) is the only authority on what
@@ -58,8 +59,9 @@ export interface Frame {
   transcript: Transcript;
   // How long the engine took over it, in milliseconds: the command itself, building the screen, telling it.
   timing?: { engine: number; screen: number; narrative: number };
-  // When no one is left standing: how it came to that, said plainly (see Obituary).
-  ending?: { title: string; lines: string[] };
+  // When no one is left standing: how it came to that, said plainly (see Obituary), and where they lie, for a country
+  // begun again to remember.
+  ending?: { title: string; lines: string[]; memorial?: Memorial };
 }
 
 export type Request =
@@ -67,7 +69,8 @@ export type Request =
   | { kind: 'setting'; campaign: string }
   | { kind: 'world'; seed: string; terrain?: string }
   | { kind: 'preview'; party: Member[]; generated: boolean }
-  | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string }
+  | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
+    memorial?: Memorial }
   | { kind: 'resume'; saved: string }
   | { kind: 'perform'; command: string; said: string; move: boolean; named?: boolean }
   // A companion's choice in a fight ("ability>target"); none lets them fight this turn on their own.

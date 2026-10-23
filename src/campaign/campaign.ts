@@ -22,13 +22,11 @@ import { LoadCache } from './load-cache';
 import { CombatProjection } from '../combat-projection';
 import { Battle } from '../arena';
 import { Content, type CreatureGenerationContext } from '../content';
-import type { CombatEvent, Fighter } from '../model';
-import type { Instance, Module, WorldState } from '../lang/module';
+import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module, WorldState } from '../lang/module';
 import { World } from '../lang/world';
 import type { Operator } from './planner';
 import { RuntimeCapabilities } from './runtime-capabilities';
-import { Overlays } from '../overlays';
-import { CampaignTick } from './campaign-tick';
+import { Overlays } from '../overlays'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
@@ -333,6 +331,8 @@ export class Campaign implements WatchHost {
   // A fight won is worth its experience; what the command resolves (other than a fight or a rest) happens now.
   private settle(action: Operator, battle: Battle | undefined, combat: CombatEvent[]) {
     const won = battle?.state.outcome === 'fighters' || combat.some(e => e.type === 'end' && e.fled?.team === 'goblins');
+    const taken = battle?.state.outcome === 'goblins' && Mercy.spare(this.world, this.creatures,
+      { ...this.current, player: this.playerActor, combat }); if (taken) { this.commit(taken); this.refresh(); }
     if (won && action.resolve?.name === 'combat') {
       const opponent = action.resolve.args[0]!;
       FieldUse.award(this.creatures, this.current.partyIds, this.world,
