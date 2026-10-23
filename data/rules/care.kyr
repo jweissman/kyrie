@@ -18,6 +18,7 @@ Module care "Rest, mending and lessons" {
   Relation rewardFor(reward, fact). Relation claimed(reward).
   Goal false.
   Action field_spell(actor: group, caster: member, technique: ability, recipient: member, site: place) "Have {caster} use {technique} on {recipient}" {
+    Time 2 minutes.
     Description "A healing, a cleansing or a ward, used between fights, for its usual cost in mana.".
     Requires able(actor) and at(actor, site) and memberOf(caster, actor) and memberOf(recipient, actor)
       and fieldUsable(technique) and awake(caster) and awake(recipient) and canCast(caster, technique) and treatable(recipient, technique).
@@ -64,6 +65,7 @@ Module care "Rest, mending and lessons" {
     Result "You eat, bind your hurts and sleep for six hours.".
   }
   Action learn_reward(actor: group, gift: reward, recipient: member, lesson: ability, proof: fact, site: place) "Accept {gift} for {recipient}" {
+    Time 1 minute.
     Requires able(actor) and at(actor, site) and offeredAt(gift, site) and memberOf(recipient, actor)
       and awake(recipient) and giftEffect(gift, lesson) and rewardFor(gift, proof) and knows(actor, proof)
       and not claimed(gift).

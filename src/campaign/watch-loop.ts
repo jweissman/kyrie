@@ -17,16 +17,24 @@ export interface WatchHost extends TickHost {
 // A command's time passes a watch at a time: conditions run out, people act, rules fire, what the world turns on
 // the company happens to it, modules progress; an activity that can be interrupted stops when something does.
 export class WatchLoop {
+  // Minutes add up: what is left over from the last action and this one's, every ten of them a watch passed.
+  private static spend(host: WatchHost, minutes: number): number {
+    const current = host.tickState.current, spent = (current.minutes ?? 0) + minutes;
+    current.minutes = spent % 10;
+    return Math.floor(spent / 10);
+  }
   // On a journey, every watch but the last is spent on the way; the company arrives for the last.
   static pass(host: WatchHost, action: Operator,
     { before, combat, journey }: { before: World; combat: CombatEvent[]; journey?: { leg: Leg; arrive: () => void } }) {
     const npc: TickDecision[] = [], happenings: Happening[] = [];
-    const player = host.playerActor, watches = ActionTime.of(action, before);
+    const player = host.playerActor, watches = WatchLoop.spend(host, ActionTime.minutes(action, before));
     const watch = Interruption.begin(host.world, action, player, host.tickState.current.elapsed);
     let why: string | undefined;
-    // Something done in no time at all (a word, a pat on the head) takes no watch, but the world still answers it.
+    // Something done in no time at all, or in a few minutes (a word, a pat on the head, a lid lifted), takes no watch,
+    // but the world still answers it: its rules, and whatever it sets off.
     if (!watches && host.persistent) {
       CampaignTick.rules(host, happenings);
+      Consequences.strike(host, combat);
       const foe = Engagement.foe(host);
       if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
     }

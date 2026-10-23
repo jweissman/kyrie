@@ -130,6 +130,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   }
   // A proud creature's price, paid: it lets the company be.
   Action pay_tribute(actor: group, lord: group, site: place) "Give {lord} what it asks" {
+    Time 2 minutes.
     Description "A proud creature names a price for letting you pass; paid, it keeps its word.".
     Requires able(actor) and company(actor) and at(actor, site) and at(lord, site) and warned(lord, actor)
       and temperament(lord, temper_proud) and quantity(actor, gold) >= tribute(lord).

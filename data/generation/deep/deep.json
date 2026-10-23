@@ -1,0 +1,781 @@
+{
+  "about": "The Delvers' mine: a deep site generated from what the mine was for. Levels follow the vein down: the adit level where ore was hauled out, the haulage level round the shaft bottom, the drowned level below the pumps, and the breach where the last gallery broke into something not theirs. Each level is a spine of rooms (a role, or ?role for one that may not be there), with branches off it and loops through it; connectors join the levels (the cage in the shaft, the ladders in the winze, the ore pass, the sealed stair). Roles give each room its names and its scene; {old} is the mine's old name, {makers} the Delvers, {successors} the kingdom after them. Written by hand.",
+  "art": "deep",
+  "plan": {
+    "id": "deep_mine",
+    "seen": "a timbered adit in a hillside",
+    "names": [
+      "hold",
+      "forge",
+      "gate",
+      "mountain"
+    ],
+    "ground": [
+      "fell",
+      "peak",
+      "heath"
+    ],
+    "danger": 1
+  },
+  "levels": [
+    {
+      "id": "adit",
+      "names": [
+        "the adit level",
+        "the upper galleries"
+      ],
+      "spine": [
+        "mouth",
+        "adit",
+        "crossing",
+        "stope",
+        "shaft_head"
+      ],
+      "branches": [
+        {
+          "at": "crossing",
+          "roles": [
+            "winze_head",
+            "race_head"
+          ]
+        },
+        {
+          "at": "adit",
+          "roles": [
+            "?forge"
+          ]
+        },
+        {
+          "at": "stope",
+          "roles": [
+            "vent",
+            "?stope"
+          ]
+        },
+        {
+          "at": "shaft_head",
+          "roles": [
+            "chute_top"
+          ]
+        }
+      ],
+      "loops": [
+        {
+          "from": "vent",
+          "to": "crossing",
+          "kind": "crawl",
+          "chance": 0.6,
+          "names": [
+            "a crawl through the old workings"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haulage",
+      "names": [
+        "the haulage level",
+        "the deep galleries"
+      ],
+      "spine": [
+        "shaft_bottom",
+        "haulage",
+        "hall",
+        "haulage",
+        "seal"
+      ],
+      "branches": [
+        {
+          "at": "shaft_bottom",
+          "roles": [
+            "chute_foot"
+          ]
+        },
+        {
+          "at": "hall",
+          "roles": [
+            "stores",
+            "?shrine"
+          ]
+        },
+        {
+          "at": "haulage",
+          "roles": [
+            "pump",
+            "winze_foot"
+          ]
+        }
+      ],
+      "loops": [
+        {
+          "from": "winze_foot",
+          "to": "chute_foot",
+          "kind": "crawl",
+          "chance": 0.5,
+          "names": [
+            "a gallery the props have half let go of"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drowned",
+      "names": [
+        "the drowned level",
+        "the third level"
+      ],
+      "flooded": true,
+      "spine": [
+        "stair_foot",
+        "sump_gallery",
+        "furnace",
+        "deep_cut"
+      ],
+      "branches": [
+        {
+          "at": "furnace",
+          "roles": [
+            "strongroom"
+          ]
+        },
+        {
+          "at": "sump_gallery",
+          "roles": [
+            "?stope",
+            "lode"
+          ]
+        }
+      ],
+      "loops": []
+    },
+    {
+      "id": "breach",
+      "names": [
+        "the breach",
+        "below the workings"
+      ],
+      "spine": [
+        "breach",
+        "vault",
+        "heart"
+      ],
+      "branches": [
+        {
+          "at": "vault",
+          "roles": [
+            "?hollow"
+          ]
+        }
+      ],
+      "loops": []
+    }
+  ],
+  "connectors": [
+    {
+      "kind": "cage",
+      "from": [
+        "adit",
+        "shaft_head"
+      ],
+      "to": [
+        "haulage",
+        "shaft_bottom"
+      ],
+      "mechanism": "winch",
+      "minutes": 4,
+      "names": [
+        "the cage in the shaft"
+      ]
+    },
+    {
+      "kind": "ladder",
+      "from": [
+        "adit",
+        "winze_head"
+      ],
+      "to": [
+        "haulage",
+        "winze_foot"
+      ],
+      "minutes": 8,
+      "names": [
+        "the ladders down the winze"
+      ]
+    },
+    {
+      "kind": "chute",
+      "from": [
+        "adit",
+        "chute_top"
+      ],
+      "to": [
+        "haulage",
+        "chute_foot"
+      ],
+      "oneWay": true,
+      "minutes": 1,
+      "names": [
+        "the ore pass, feet first"
+      ]
+    },
+    {
+      "kind": "stair",
+      "from": [
+        "haulage",
+        "seal"
+      ],
+      "to": [
+        "drowned",
+        "stair_foot"
+      ],
+      "mechanism": "seal",
+      "minutes": 3,
+      "names": [
+        "the sealed stair"
+      ]
+    },
+    {
+      "kind": "climb",
+      "from": [
+        "drowned",
+        "deep_cut"
+      ],
+      "to": [
+        "breach",
+        "breach"
+      ],
+      "minutes": 6,
+      "needs": [
+        "climbing",
+        "rope"
+      ],
+      "names": [
+        "the rough cut down"
+      ]
+    }
+  ],
+  "roles": {
+    "mouth": {
+      "names": [
+        "the adit mouth"
+      ],
+      "lit": true,
+      "scenes": [
+        "A timbered mouth opens in the hillside, the height of a man and the width of a cart, its lintel a single oak beam gone black with age. The spoil of the old workings spreads below it in a grey fan that the heather has never taken. Cold air comes out of it, steady as breath."
+      ]
+    },
+    "adit": {
+      "names": [
+        "the adit",
+        "the long adit"
+      ],
+      "scenes": [
+        "The adit runs straight into the hill, cut just high enough to walk upright, its roof held on oak props every few paces. Ruts are worn into the floor where the tubs ran, and a rail of black wood still lies in one of them.",
+        "A gallery runs on into the hill, dry and cold, the props on either hand furred with white mould. Somewhere ahead water drips into water."
+      ]
+    },
+    "crossing": {
+      "names": [
+        "the crossing"
+      ],
+      "scenes": [
+        "Two galleries cross under a roof cut higher, to turn the tubs. Tools hang on a rack on the wall, rusted into one shape. Chalk marks on the props point each way: a star toward the shaft, an open hand toward the stopes."
+      ]
+    },
+    "stope": {
+      "names": [
+        "the old stope",
+        "a worked-out stope",
+        "the wide stope"
+      ],
+      "scenes": [
+        "A long chamber where the vein was taken out from floor to roof, the hanging wall held up by walls of stacked stone. The pale ore is gone; what is left glitters faintly where your light touches it.",
+        "The vein was wide here, and the Delvers followed it up and down into a hall of their own making, its roof lost in the dark above your light. Rubble lies in heaps where they left it."
+      ]
+    },
+    "shaft_head": {
+      "names": [
+        "the shaft head"
+      ],
+      "scenes": [
+        "The gallery widens into a chamber round the head of a shaft. A winding wheel taller than a man stands over the hole on a frame of oak and bronze, and a chain runs from it down into the dark. Whatever hangs on the chain is somewhere below."
+      ]
+    },
+    "winze_head": {
+      "names": [
+        "the head of the winze"
+      ],
+      "scenes": [
+        "A square hole drops through the floor in a corner, ladders lashed to its side going down one below another out of your light. The miners' way down, not the ore's: for those who did not trust the cage."
+      ]
+    },
+    "vent": {
+      "names": [
+        "the air shaft"
+      ],
+      "scenes": [
+        "A chimney of rough rock goes straight up out of the gallery roof; daylight shows at the top of it, very small. Iron rungs are set in one side, and the air pours up it the way water goes down a drain."
+      ]
+    },
+    "chute_top": {
+      "names": [
+        "the ore pass"
+      ],
+      "scenes": [
+        "A funnel of smooth rock opens in the floor: the ore pass, down which the Delvers tipped what they cut to the level below. Its sides are polished by a hundred years of stone going down, too smooth to climb."
+      ]
+    },
+    "forge": {
+      "names": [
+        "the smithy"
+      ],
+      "scenes": [
+        "A side chamber with a hearth cut into the rock and a smoke-hole above it, an anvil standing on a block of oak. Here the Delvers mended their picks; the floor is black with a century of scale."
+      ]
+    },
+    "shaft_bottom": {
+      "names": [
+        "the shaft bottom"
+      ],
+      "scenes": [
+        "The shaft comes down into a stone-lined chamber. Tubs stand in a line on the rails, some still heaped with pale ore that nobody hauled up."
+      ]
+    },
+    "haulage": {
+      "names": [
+        "the haulage way",
+        "the long haulage"
+      ],
+      "scenes": [
+        "The main road of the level: a broad gallery with a rail down its middle, and refuges cut in the walls every fifty paces to step into when the tubs came.",
+        "The haulage runs on, straight as a rule, and the rail in it is iron here, not wood. Your steps come back to you from far ahead."
+      ]
+    },
+    "hall": {
+      "names": [
+        "the Delvers' hall"
+      ],
+      "scenes": [
+        "A long hall cut in the rock, its benches cut from the rock too, and a hearth at the end with a smoke-hole going up into the dark. Names are cut on every wall, hundreds of them, each with a small star beside it."
+      ]
+    },
+    "stores": {
+      "names": [
+        "the stores"
+      ],
+      "scenes": [
+        "Racks and bins along both walls: rope rotted to dust, lamp-oil dried to varnish in its jars, iron tools stacked as if someone meant to come back for them."
+      ]
+    },
+    "shrine": {
+      "names": [
+        "the shrine of the vein"
+      ],
+      "scenes": [
+        "A niche cut deep into the wall, and in it a lump of the pale ore the size of a child's head, polished by hands. Offerings lie in front of it: a pick-head, a ring, a child's shoe, all furred with rust."
+      ]
+    },
+    "pump": {
+      "names": [
+        "the pump-room"
+      ],
+      "scenes": [
+        "A wheel as tall as two men stands in a pit, with a race cut in the rock above it to bring water down onto its paddles, and buckets on a chain hanging from its axle into a well-shaft. The shaft goes down to the level below."
+      ]
+    },
+    "winze_foot": {
+      "names": [
+        "the foot of the winze"
+      ],
+      "scenes": [
+        "The ladders end in a small chamber at the haulage level, with a bench cut in the wall where the climbers sat to get their breath."
+      ]
+    },
+    "chute_foot": {
+      "names": [
+        "the ore bin"
+      ],
+      "scenes": [
+        "The ore pass ends above a stone bin as big as a room, half full of rubble and ore tipped down from above. A door at the bottom of the bin let the ore out into the tubs."
+      ]
+    },
+    "seal": {
+      "names": [
+        "the sealed stair"
+      ],
+      "scenes": [
+        "At the end of the level a stair goes down, and a wall of dressed stone has been built across it, later and in a hurry, its mortar slopped and run. Words are cut into it, deep."
+      ]
+    },
+    "stair_foot": {
+      "names": [
+        "the foot of the stair"
+      ],
+      "scenes": [
+        "The stair comes down onto a floor of grey silt, ridged where the water went out of it. The walls are black to the roof with the water's mark."
+      ]
+    },
+    "sump_gallery": {
+      "names": [
+        "the sump gallery"
+      ],
+      "scenes": [
+        "A long gallery that was under water for longer than anyone remembers. Silt lies a foot deep, and things lie in it: a lamp, a boot, the bones of something small."
+      ]
+    },
+    "furnace": {
+      "names": [
+        "the furnace hall"
+      ],
+      "scenes": [
+        "A hall where the star-iron was smelted: a furnace like a beehive taller than a house, its mouth black, its bellows rotted to rags on their frames. The floor is glass in places where the slag ran."
+      ]
+    },
+    "deep_cut": {
+      "names": [
+        "the deep cut"
+      ],
+      "scenes": [
+        "Past the furnace the gallery stops being a gallery: a rough cut goes down at a steep slant, hacked out fast by many hands, the pick-marks still sharp. The air coming up it is colder than the rest of the mine."
+      ]
+    },
+    "strongroom": {
+      "names": [
+        "the paymaster's strongroom"
+      ],
+      "scenes": [
+        "A small square room with a door of bronze a hand thick, standing open on its pivot. Shelves along the walls held the reckoning of the mine: tallies, weights, a great balance whose pans are green with age."
+      ]
+    },
+    "lode": {
+      "names": [
+        "the last face"
+      ],
+      "scenes": [
+        "The vein shows in the face of the gallery as a seam of pale stuff as thick as your arm, and it is not pale here: in your light it moves, a slow shimmer under the surface, as if something far off were breathing on it."
+      ]
+    },
+    "breach": {
+      "names": [
+        "the breach"
+      ],
+      "scenes": [
+        "The rough cut ends at a hole in the rock that is not the Delvers' work. Its sides are smooth as the inside of a bell and faintly warm, and it opens into a space too large for your light to find the far side of."
+      ]
+    },
+    "vault": {
+      "names": [
+        "the hollow vault"
+      ],
+      "scenes": [
+        "A cavern no one cut: a dome of rock streaked through with the pale ore, which here gives off a light of its own, enough to see by, grey as a winter morning. The Delvers' ladders and props end at its edge as if their makers had stopped there, all at once."
+      ]
+    },
+    "hollow": {
+      "names": [
+        "a side hollow"
+      ],
+      "scenes": [
+        "A pocket of the cavern, low-roofed, where the floor is littered with the Delvers' things: picks, a dropped lamp, a cloak, set down neatly in a row."
+      ]
+    },
+    "heart": {
+      "names": [
+        "the heart of the vein"
+      ],
+      "scenes": [
+        "At the bottom of the cavern the vein comes together in a mass of star-iron as big as a cart, rooted in the rock and lit from within. It hums, very low, a note you feel in your teeth more than hear."
+      ]
+    },
+    "race_head": {
+      "names": [
+        "the spring"
+      ],
+      "scenes": [
+        "A spring comes out of the rock here and runs off along a channel cut in the floor. Beside it a second channel, a race, goes off into the dark, cut to carry the water somewhere below, and a gate of bronze stands where the two divide."
+      ]
+    }
+  },
+  "dwellers": [
+    {
+      "depth": 0,
+      "groups": [
+        {
+          "species": "rat",
+          "count": 4,
+          "label": "the rats",
+          "role": "rats gone bold in the dark",
+          "temperament": "wary"
+        },
+        {
+          "species": "cave_spider",
+          "count": 2,
+          "label": "the cave spiders",
+          "role": "spiders as big as a cat, nesting in the props",
+          "temperament": "ambush"
+        },
+        {
+          "species": "bat",
+          "count": 4,
+          "label": "the bats",
+          "role": "bats in the roof",
+          "temperament": "wary"
+        },
+        {
+          "ancestry": "goblin",
+          "calling": "thief",
+          "count": 3,
+          "label": "the goblins",
+          "role": "goblins who have made a home of the upper galleries",
+          "temperament": "wary"
+        }
+      ]
+    },
+    {
+      "depth": 1,
+      "groups": [
+        {
+          "species": "ghoul",
+          "count": 2,
+          "label": "the ghouls",
+          "role": "things that were miners once, and still go down to work",
+          "temperament": "savage"
+        },
+        {
+          "species": "bone_hound",
+          "count": 2,
+          "label": "the bone hounds",
+          "role": "the Delvers' dogs, still on their watch",
+          "temperament": "territorial"
+        },
+        {
+          "species": "cave_hound",
+          "count": 2,
+          "label": "the cave hounds",
+          "role": "pale hounds with no eyes to speak of",
+          "temperament": "territorial"
+        },
+        {
+          "species": "mud_elemental",
+          "count": 1,
+          "label": "the mud",
+          "role": "mud that moves where the pump-shaft overflows",
+          "temperament": "savage"
+        }
+      ]
+    },
+    {
+      "depth": 2,
+      "groups": [
+        {
+          "species": "ooze",
+          "count": 1,
+          "label": "the ooze",
+          "role": "something grey that lives in the silt",
+          "temperament": "ambush"
+        },
+        {
+          "species": "crystal_elemental",
+          "count": 1,
+          "label": "the shining one",
+          "role": "a thing of star-iron and light that walks the furnace hall",
+          "temperament": "territorial"
+        }
+      ]
+    },
+    {
+      "depth": 3,
+      "groups": [
+        {
+          "species": "jewel_elemental",
+          "count": 2,
+          "label": "the vein-born",
+          "role": "things the ore has made of itself",
+          "temperament": "territorial"
+        }
+      ]
+    }
+  ],
+  "keeper": {
+    "species": "mind_destroyer",
+    "label": "the thing in the vein",
+    "role": "what the Delvers broke into, which thinks",
+    "level": 9,
+    "temperament": "territorial",
+    "words": {
+      "Warns": "A pressure comes into your head, not quite a voice. It is aware of you, and it is not afraid."
+    }
+  },
+  "objective": {
+    "item": "the heart of the vein",
+    "kind": "star_iron_heart",
+    "text": "The Delvers went down after the star-iron until their last gallery broke into the heart of the vein, and what lived in it. Whoever brings up the heart has what the Delvers died for."
+  },
+  "rumours": [
+    "'The Delvers' mine at {name}? There is still ore down there, they say, the pale kind. Nobody goes below the first level. The cage hangs in the shaft and the wheel will not turn.'",
+    "'My grandfather went into {name} after the star-iron. He said the stair at the bottom was walled up by the Delvers themselves, and there was writing on it, and he came back up without reading it.'"
+  ],
+  "camp": {
+    "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
+    "journal": [
+      "A damp notebook, the last pages written small to save them. 'The cage is at the bottom and the wheel will not turn: rusted. Brann says a bar under the axle would free it, if we had brought one. The ladders in the winze are sound as far as we went. Something lives in the props by the adit; it bit Edda.'",
+      "A damp notebook, the last pages written small. 'The stair at the end of the haulage is walled up, and there is writing on it nobody can read. Under the pump-room the shaft is full of water. Edda says the wheel was turned by water from above, and that is what the dry channel up by the spring is for. She wants to try it. I want to go home.'",
+      "A damp notebook, the last page hardly legible. 'Past the furnace the cut goes down, and the cold comes up it like breath. Brann went down with a rope. The rope came up.'",
+      "A notebook with one line in it, written by someone lying down: 'it is not asleep'."
+    ]
+  },
+  "outside": "Spoil heaps run down the hillside in grey fans that the heather has never taken, and above them a timbered mouth opens into the hill, its lintel a single oak beam. Cut into the beam in the old script, worn but whole: {oldup}.",
+  "ore": {
+    "kind": "star_iron",
+    "name": "a lump of star-iron",
+    "roles": {
+      "stope": 1,
+      "shaft_bottom": 2,
+      "chute_foot": 1,
+      "lode": 3,
+      "vault": 2
+    }
+  },
+  "finds": {
+    "negligible": [
+      "light_pick",
+      "hammer",
+      "shovel",
+      "chain",
+      "lamp",
+      "candle",
+      "iron_spikes",
+      "piton",
+      "flint_and_steel",
+      "whetstone",
+      "chalk",
+      "tin_lantern",
+      "broken_dagger",
+      "cloth_pouch",
+      "iron_figurine"
+    ],
+    "minor": [
+      "heavy_pick",
+      "lantern",
+      "crowbar",
+      "oil_flask",
+      "bronze_bracelet",
+      "iron_torc",
+      "steel_torc",
+      "bronze_bearing",
+      "hematite",
+      "pyrite",
+      "obsidian",
+      "smoky_quartz",
+      "tattered_map",
+      "dowsing_rod",
+      "minor_healing_potion",
+      "rope"
+    ],
+    "major": [
+      "antique_compass",
+      "ancient_map",
+      "jeweled_box",
+      "iron_idol",
+      "garnet",
+      "topaz",
+      "spinel",
+      "healing_potion",
+      "ring_of_minor_strength",
+      "gloves_of_dexterity",
+      "singing_stone",
+      "lensing_crystal",
+      "ancient_tome"
+    ],
+    "grand": [
+      "belt_of_giant_strength",
+      "galvorn_mail",
+      "ring_of_strength",
+      "amulet_of_health",
+      "helm_of_the_stars",
+      "wardstone"
+    ]
+  },
+  "wonders": [
+    "glowing_crystals",
+    "singing_crystal",
+    "whispering_voices",
+    "phantom_flame",
+    "shifting_walls",
+    "glowing_runes",
+    "eternal_candle",
+    "arcane_symbols",
+    "living_mural"
+  ],
+  "elites": [
+    {
+      "depth": 0,
+      "groups": [
+        {
+          "ancestry": "goblin",
+          "calling": "ranger",
+          "count": 1,
+          "label": "the goblin chief",
+          "role": "the biggest of the goblins, in a Delver's iron helm too big for him",
+          "temperament": "territorial"
+        }
+      ]
+    },
+    {
+      "depth": 1,
+      "groups": [
+        {
+          "species": "wraith",
+          "count": 1,
+          "label": "the shift-boss",
+          "role": "a shadow that still walks the haulage, calling the shifts",
+          "temperament": "territorial"
+        },
+        {
+          "species": "cave_hound",
+          "count": 2,
+          "label": "the pale pack",
+          "role": "the biggest of the cave hounds, and their leader",
+          "temperament": "territorial"
+        }
+      ]
+    },
+    {
+      "depth": 2,
+      "groups": [
+        {
+          "species": "revenant",
+          "count": 1,
+          "label": "the overseer",
+          "role": "the last overseer of the mine, who will not stop counting",
+          "temperament": "territorial"
+        },
+        {
+          "species": "steam_elemental",
+          "count": 1,
+          "label": "the furnace breath",
+          "role": "heat that would not go out of the furnace, and walks",
+          "temperament": "savage"
+        }
+      ]
+    },
+    {
+      "depth": 3,
+      "groups": [
+        {
+          "species": "earth_elemental",
+          "count": 1,
+          "label": "the vein's warden",
+          "role": "rock that has learned to stand up",
+          "temperament": "territorial"
+        }
+      ]
+    }
+  ],
+  "rest": [
+    "hall",
+    "stores",
+    "winze_foot",
+    "forge"
+  ]
+}

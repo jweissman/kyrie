@@ -2941,5 +2941,485 @@
    "Scribe",
    "Messenger"
   ]
+ },
+ "dungeon": {
+  "sequences": {
+   "balanced": [
+    [
+     "entrance",
+     "mob",
+     "trap",
+     "treasure",
+     "special",
+     "elite",
+     "treasure",
+     "puzzle",
+     "mob",
+     "trap"
+    ],
+    [
+     "entrance",
+     "trap",
+     "treasure",
+     "mob",
+     "special",
+     "mob",
+     "treasure",
+     "puzzle",
+     "elite",
+     "trap"
+    ]
+   ],
+   "dangerous": [
+    [
+     "entrance",
+     "trap",
+     "mob",
+     "trap",
+     "elite",
+     "treasure",
+     "mob",
+     "special",
+     "wonder",
+     "trap",
+     "puzzle"
+    ],
+    [
+     "entrance",
+     "special",
+     "mob",
+     "trap",
+     "mob",
+     "treasure",
+     "elite",
+     "trap",
+     "puzzle",
+     "mob"
+    ]
+   ],
+   "lucrative": [
+    [
+     "entrance",
+     "puzzle",
+     "mob",
+     "treasure",
+     "trap",
+     "mob",
+     "elite",
+     "treasure",
+     "special",
+     "wonder"
+    ],
+    [
+     "entrance",
+     "treasure",
+     "mob",
+     "trap",
+     "treasure",
+     "mob",
+     "elite",
+     "wonder",
+     "special",
+     "puzzle"
+    ]
+   ],
+   "standard": [
+    [
+     "entrance",
+     "empty",
+     "trap",
+     "mob",
+     "special",
+     "treasure",
+     "elite",
+     "mob",
+     "trap",
+     "treasure"
+    ],
+    [
+     "entrance",
+     "mob",
+     "empty",
+     "treasure",
+     "trap",
+     "mob",
+     "elite",
+     "special",
+     "puzzle",
+     "elite",
+     "treasure"
+    ]
+   ]
+  },
+  "overlays": {
+   "elite": {
+    "encounter": 1,
+    "puzzle": 0,
+    "trap": 0.05,
+    "treasure": 1.3,
+    "wonder": 0,
+    "challenging": true
+   },
+   "empty": {
+    "encounter": 0,
+    "puzzle": 0.05,
+    "trap": 0,
+    "treasure": 1,
+    "wonder": 0.1
+   },
+   "entrance": {
+    "encounter": 0.1,
+    "puzzle": 0,
+    "trap": 0.8,
+    "treasure": 1.2,
+    "wonder": 0
+   },
+   "mob": {
+    "encounter": 1,
+    "puzzle": 0,
+    "trap": 0.1,
+    "treasure": 1.2,
+    "wonder": 0
+   },
+   "puzzle": {
+    "encounter": 0,
+    "puzzle": 1,
+    "trap": 0.1,
+    "treasure": 1.2,
+    "wonder": 0.1
+   },
+   "special": {
+    "encounter": 0,
+    "puzzle": 0.1,
+    "trap": 0.1,
+    "treasure": 1.4,
+    "wonder": 0.2
+   },
+   "trap": {
+    "encounter": 0.2,
+    "puzzle": 0.1,
+    "trap": 1,
+    "treasure": 1.1,
+    "wonder": 0
+   },
+   "treasure": {
+    "encounter": 0.2,
+    "puzzle": 0.2,
+    "trap": 0.2,
+    "treasure": 1.8,
+    "wonder": 0.1
+   },
+   "wonder": {
+    "encounter": 0,
+    "puzzle": 0.1,
+    "trap": 0,
+    "treasure": 1,
+    "wonder": 1
+   }
+  },
+  "specials": {
+   "ancestral_shrine": {
+    "npcs": [
+     "Tombrobber",
+     "Tombrobber",
+     "Tombrobber"
+    ],
+    "text": "ancient ancestral shrine to #{dig(#buried_figure, referenceName)}. The air is thick with reverence and sorrow. The walls are adorned with faded murals depicting the lives and deeds of #figure_name, and a sense of solemnity permeates the space.",
+    "source": "specialRoom:ancestral_shrine",
+    "treasure": [
+     "holy_symbol",
+     "holy_water",
+     "shovel"
+    ]
+   },
+   "catacombs": {
+    "npcs": [
+     "Gravedigger",
+     "Tombrobber",
+     "Adept",
+     "Acolyte"
+    ],
+    "text": "",
+    "source": "specialRoom:catacombs",
+    "treasure": [
+     "wand_of_cure_minor_wounds",
+     "bone_armor"
+    ]
+   },
+   "dark_altar": {
+    "npcs": [
+     "Death Priest",
+     "Adept",
+     "Adept"
+    ],
+    "text": "",
+    "source": "specialRoom:dark_altar",
+    "treasure": [
+     "unholy_symbol",
+     "ring_of_regeneration"
+    ]
+   },
+   "mortuary_garden": {
+    "npcs": [
+     "Wizard",
+     "Poxmonger"
+    ],
+    "text": "",
+    "source": "specialRoom:mortuary_garden",
+    "treasure": [
+     "scroll_of_cure_disease",
+     "kingsfoil",
+     "foxglove",
+     "heather",
+     "dandelion",
+     "comfrey"
+    ]
+   },
+   "narthex": {
+    "npcs": [
+     "Priest",
+     "Herald",
+     "Preacher"
+    ],
+    "text": "",
+    "source": "specialRoom:narthex",
+    "treasure": [
+     "holy_symbol",
+     "holy_water"
+    ]
+   },
+   "ossuary": {
+    "npcs": [
+     "Wizard",
+     "Gravedigger",
+     "Tombrobber"
+    ],
+    "text": "",
+    "source": "specialRoom:ossuary",
+    "treasure": [
+     "shovel"
+    ]
+   },
+   "phylactery": {
+    "npcs": [],
+    "text": "",
+    "source": "specialRoom:phylactery",
+    "treasure": [
+     "soul_gem",
+     "ring_of_protection",
+     "staff_of_power",
+     "cloak_of_invisibility"
+    ]
+   },
+   "reliquary": {
+    "npcs": [
+     "Wizard",
+     "Adept",
+     "Adept",
+     "Adept"
+    ],
+    "text": "",
+    "source": "specialRoom:reliquary",
+    "treasure": [
+     "scroll_of_fireball",
+     "wand_of_magic_missile"
+    ]
+   },
+   "ritual_chamber": {
+    "npcs": [
+     "Cult Master",
+     "Wizard",
+     "Acolyte",
+     "Acolyte"
+    ],
+    "text": "",
+    "source": "specialRoom:ritual_chamber",
+    "treasure": [
+     "amulet_of_health",
+     "wand_of_magic_missile",
+     "robe_of_the_archmagi"
+    ]
+   }
+  },
+  "treasure": {
+   "basic": [
+    "wooden_bowl",
+    "cloth_pouch",
+    "broken_dagger",
+    "tattered_map",
+    "wooden_figurine",
+    "minor_healing_potion",
+    "firewood",
+    "shoes",
+    "candle",
+    "manacles",
+    "waterskin",
+    "flask",
+    "torch",
+    "bedroll",
+    "blanket",
+    "soap",
+    "fish_hook",
+    "needle_and_thread",
+    "skillet",
+    "whetstone"
+   ],
+   "grand": [
+    "emerald",
+    "sapphire",
+    "crown_of_insight",
+    "helm_of_the_stars",
+    "ring_of_strength",
+    "ring_of_major_protection",
+    "amulet_of_focus",
+    "amulet_of_protection",
+    "ring_of_regeneration",
+    "ring_of_spell_turning",
+    "ring_of_the_firmament",
+    "priceless_painting",
+    "royal_scepter",
+    "dragons_egg",
+    "jeweled_crown",
+    "golden_idol",
+    "titan_statue",
+    "celestial_chart",
+    "scroll_of_domination",
+    "deck_of_multiplicity",
+    "sword_of_ages",
+    "robe_of_elvenkind",
+    "darkwood_staff",
+    "angelmail",
+    "dragonhelm"
+   ],
+   "legendary": [
+    "black_diamond",
+    "diamond",
+    "black_opal",
+    "fire_opal",
+    "star_ruby",
+    "scroll_of_apocalypse",
+    "fallen_star",
+    "crystal_eye",
+    "diamond_necklace",
+    "kraken_claw",
+    "phoenix_feather",
+    "divine_scepter",
+    "jeweled_statue",
+    "vial_of_phoenix_tears",
+    "tirions_fury",
+    "ring_of_perfect_turning",
+    "arcane_conduit",
+    "aegis_of_eternity",
+    "aeon_stone",
+    "jeweled_zodiac",
+    "diamond_eye",
+    "opalescent_skull",
+    "intelligent_book"
+   ],
+   "major": [
+    "amethyst",
+    "tourmaline",
+    "bolt_blade",
+    "potion_of_barkskin",
+    "scroll_of_domination",
+    "ancient_orrery",
+    "ancient_crown",
+    "sacred_idol",
+    "lost_tome",
+    "ring_of_protection",
+    "ring_of_thorns",
+    "belt_of_giant_strength",
+    "boots_of_swiftness",
+    "crystal_orb",
+    "nunchaku",
+    "wardstone",
+    "katana",
+    "longbow",
+    "galvorn_mail",
+    "longsword_of_flames",
+    "gloves_of_dexterity",
+    "helm_of_intellect",
+    "mantle_of_charisma"
+   ],
+   "minor": [
+    "dagger",
+    "longsword",
+    "shortbow",
+    "chainmail",
+    "major_healing_potion",
+    "wand_of_magic_missile",
+    "scroll_of_fireball",
+    "scroll_of_cure_disease",
+    "agate",
+    "carnelian",
+    "moonstone",
+    "onyx",
+    "quartz",
+    "broken_crown",
+    "lensing_crystal",
+    "music_box",
+    "ancient_tome",
+    "broken_scepter",
+    "dowsing_rod",
+    "holy_symbol",
+    "thieves_tools",
+    "antidote",
+    "ring_of_minor_protection",
+    "elixir_of_strength",
+    "amulet_of_vitality",
+    "amulet_of_health",
+    "ring_of_minor_strength",
+    "mantle_of_charisma",
+    "wand_of_cure_minor_wounds",
+    "wand_of_paralyzing_touch",
+    "canvas",
+    "lock",
+    "hammer",
+    "ladder",
+    "musical_instrument",
+    "rope"
+   ],
+   "negligible": [
+    "simple_ring",
+    "bronze_statue",
+    "bronze_bracelet",
+    "faded_painting",
+    "faded_tome",
+    "crowbar",
+    "dice",
+    "lantern",
+    "oil_flask",
+    "pouch",
+    "quill",
+    "shovel",
+    "signal_whistle",
+    "tent",
+    "vinegar",
+    "wind_chime",
+    "alchemist_fire",
+    "first_aid_kit",
+    "holy_water",
+    "cloak_pin",
+    "healing_potion"
+   ]
+  },
+  "trapDc": {
+   "deadly": {
+    "alert": 20,
+    "disable": 18
+   },
+   "easy": {
+    "alert": 12,
+    "disable": 10
+   },
+   "hard": {
+    "alert": 18,
+    "disable": 16
+   },
+   "medium": {
+    "alert": 15,
+    "disable": 13
+   }
+  }
  }
 }

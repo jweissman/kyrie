@@ -27,7 +27,7 @@ interface Kind { id: string; were: string; made: string; plans: string[]; modifi
 // One of the makers' works, or the later kingdom's: its plan, where it stands, the name cut over it (the makers' in
 // the old tongue, the kingdom's in the folk's), and the name the folk have worn it down to.
 export interface Work { id: string; plan: string; art: string; cell: number; zone?: string; part?: number;
-  old: Naming; worn: string; later?: boolean; great?: boolean }
+  old: Naming; worn: string; later?: boolean; great?: boolean; deep?: boolean }
 export interface History { makers: Makers[]; successors: Successors; works: Work[] }
 
 // A region's past, as far as it shows in the land: the makers whose works stand in it, placed where their art would
@@ -40,6 +40,10 @@ export class Histories {
     singing_hall: 2, keep: 2, abbey: 1, tollhouse: 1 };
   static readonly kinds = data.successors.kinds as unknown as Kind[];
   private static readonly plans = new Map<string, WorkPlan>();
+  static add(plan: WorkPlan): WorkPlan {
+    this.plans.set(plan.id, plan);
+    return plan;
+  }
   static register(text: string): WorkPlan {
     const plan = WorkPlans.parse(text);
     this.plans.set(plan.id, plan);
@@ -85,6 +89,11 @@ export class Histories {
     const great = [...this.plans.values()].find(p => p.great && p.art === makers[0]!.art);
     const work = great && this.work(atlas, { plan: great, key: `${key}:work:great`, taken, names, same: [] });
     if (work) { works.push({ ...work, id: `w${works.length + 1}`, great: true }); }
+    // The deep site of the first of its makers whose art goes down (a mine, a waterworks): near enough a settlement
+    // to be talked of there, far enough that nobody goes.
+    const deepPlan = makers.map(m => [...this.plans.values()].find(p => p.deep && p.art === m.art)).find(p => p);
+    const deep = deepPlan && this.work(atlas, { plan: deepPlan, key: `${key}:work:deep`, taken, names, same: [] });
+    if (deep) { works.push({ ...deep, id: `w${works.length + 1}`, deep: true }); }
     return { makers, successors, works };
   }
   // The art of a region's makers, weighed by its terrain; another than one already drawn.
@@ -151,7 +160,13 @@ export class Histories {
   // whatever the land: on its own ground if any is free, else on any dry ground.
   private static rank(plan: WorkPlan, cover: string): number {
     const i = plan.ground.indexOf(cover as WorkPlan['ground'][number]);
-    return i >= 0 ? i : plan.great && !['sea', 'lake'].includes(cover) ? plan.ground.length + 1 : -1;
+    return i >= 0 ? i : (plan.great || plan.deep) && !['sea', 'lake'].includes(cover) ? plan.ground.length + 1 : -1;
+  }
+  // A deep work is a day or so out from a town, not on its doorstep; best out from the first town, where a wanderer
+  // comes in and hears of it.
+  private static below(atlas: Atlas, at: { c: number; town: number }): number {
+    const home = atlas.seats[0] ? Terrain.distance(atlas.land, atlas.seats[0].cell, at.c) : 99;
+    return (at.town >= 2 && at.town <= 4 ? 8 : -4) + (home >= 2 && home <= 4 ? 6 : 0);
   }
   // How well a cell suits a plan: by a river if it wants one, high if it is a tower, near the region's bounds if it
   // is a barrow; deeper in wild country; away from other works of the same kind.
@@ -163,7 +178,9 @@ export class Histories {
     const crowd = at.taken.filter(t => zone?.cells.includes(t)).length;
     const road = plan.near === 'road' && atlas.ways.some(r => r.cells.some(n => Terrain.distance(land, n, c) <= 1));
     const heart = !!zone && part > 0 && part === zone.parts.length - 1;
-    return (plan.near === 'river' && river ? 3 : 0) + (road ? 3 : 0) + (plan.kind === 'tower' ? 4 * land.heights[c]! : 0)
+    const town = Math.min(99, ...atlas.seats.map(s => Terrain.distance(land, s.cell, c)));
+    return (plan.deep ? this.below(atlas, { c, town }) : 0)
+      + (plan.near === 'river' && river ? 3 : 0) + (road ? 3 : 0) + (plan.kind === 'tower' ? 4 * land.heights[c]! : 0)
       + (plan.great ? (heart ? 6 : zone ? 2 : 0) : 0)
       + (plan.kind === 'barrow' ? Math.max(0, 3 - edge) : 0) + Math.min(2, part + 0.5) - 1.5 * crowd;
   }

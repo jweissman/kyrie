@@ -17,7 +17,7 @@ export interface ThingSpec {
 }
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
-  kind?: string; ticks?: number;
+  kind?: string; ticks?: number; minutes?: number;
   // Crossed only while this holds, and how the way looks while it does not.
   opening?: Predicate; shut?: string;
 }
@@ -47,6 +47,10 @@ export class WorldConstructs {
     this.assert(module, 'passageKind', p.id, `way_${kind}`);
     module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelTime', args: [p.id] },
       value: { kind: 'number', value: p.ticks ?? 1 } });
+    if (p.minutes) {
+      module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelMinutes', args: [p.id] },
+        value: { kind: 'number', value: p.minutes } });
+    }
     if (p.opening) { this.opening(module, p.id, p.opening, p.shut); }
   }
   // A way that opens only while something holds is unopened until the world's rules find that it does, and again

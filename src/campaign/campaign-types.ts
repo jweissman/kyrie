@@ -15,6 +15,8 @@ export interface ModuleStatus {
 export interface CampaignState {
   seed: string; world: WorldState; party: Fighter[]; creatures: Creature[];
   partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
+  // Minutes spent since the last whole watch (less than ten): small actions take minutes, not watches.
+  minutes?: number;
   // Who has joined the company, and which company: their own group is empty from then on.
   enlisted?: Record<string, string>;
   // Companions laid to rest, who have left the company for good.

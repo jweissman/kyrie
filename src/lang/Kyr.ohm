@@ -136,7 +136,8 @@ Kyr {
   Success = "On" "success" "{" ChangeStatement* "}"
   Failure = "On" "failure" "{" ChangeStatement* "}"
   Cost = "Cost" integer "."
-  Time = "Time" integer "." -- fixed
+  Time = "Time" integer ("minutes" | "minute") "." -- minutes
+       | "Time" integer "." -- fixed
        | "Time" Call "." -- measured
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."

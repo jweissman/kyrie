@@ -16,6 +16,10 @@ export class StatementParser {
   static Time(_time: Node, value: Node, _dot: Node): Field {
     return { field: 'time', value: Number(value.sourceString) };
   }
+  // "Time 2 minutes.": less than a watch; minutes add up, and every ten of them is a watch passed.
+  static Minutes(_time: Node, value: Node, _unit: Node, _dot: Node): Field {
+    return { field: 'minutes', value: Number(value.sourceString) };
+  }
   static Duration(_time: Node, call: Node, _dot: Node): Field { return { field: 'duration', value: ModuleParser.ast(call) }; }
   static Resolve(_resolve: Node, call: Node, _dot: Node): Field { return { field: 'resolve', value: ModuleParser.ast(call) }; }
   static Interruption(_interrupted: Node, _when: Node, predicate: Node, _dot: Node): Field {

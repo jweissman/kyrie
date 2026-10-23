@@ -39,6 +39,7 @@ export class ModuleParser {
     PersonProfession: PersonParser.PersonProfession,
     PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
     SellsPart: ModuleParser.SellsPart, BuysPart: ModuleParser.BuysPart, Time_fixed: StatementParser.Time,
+    Time_minutes: StatementParser.Minutes,
     Time_measured: StatementParser.Duration,
     Exit: ModuleParser.Exit, ExitDoor: ModuleParser.ExitDoor, ExitKnowledge: ModuleParser.ExitKnowledge,
     Person: ModuleParser.Person, PersonRole: PersonParser.PersonRole,
@@ -254,9 +255,11 @@ export class ModuleParser {
     return { field: 'company', value: { id: id.sourceString, name: ModuleParser.ast(name), size: Number(size.sourceString),
       place: place.sourceString } };
   }
+  // A way under ten minutes is walked in minutes (they add up to watches); a longer one in whole watches.
   static Taking(_t: Node, amount: Node, unit: Node) {
     const n = Number(amount.sourceString), u = unit.sourceString;
-    return { ticks: Math.max(1, u.startsWith('minute') ? Math.ceil(n / 10) : u.startsWith('hour') ? n * 6 : n * 144) };
+    return { ticks: Math.max(1, u.startsWith('minute') ? Math.ceil(n / 10) : u.startsWith('hour') ? n * 6 : n * 144),
+      ...u.startsWith('minute') && n < 10 ? { minutes: n } : {} };
   }
   static Speaker(_s: Node, id: Node, _dot: Node): Field { return { field: 'speaker', value: id.sourceString }; }
   static Result(_r: Node, text: Node, _dot: Node): Field {

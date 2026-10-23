@@ -20,6 +20,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   Relation staged(place, fact).
   Goal false.
   Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
+    Time 5 minutes.
     Requires able(actor) and at(actor, site) and at(witness, site) and not benighted(actor)
       and noticeable(witness) and intact(witness) and mayExamine(actor, witness)
       and reveals(witness, statement) and established(statement) and not learnedFrom(actor, witness, statement).
@@ -29,6 +30,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     }
   }
   Action tell(actor: group, recipient: group, statement: fact, site: place) "Tell {recipient}: {statement}" {
+    Time 3 minutes.
     Result "{recipient} hears you out, and believes you.".
     Requires able(actor) and able(recipient) and distinct(actor, recipient)
       and at(actor, site) and at(recipient, site) and trusts(recipient, actor)
@@ -39,6 +41,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     }
   }
   Action ask(actor: group, informant: group, topic: source, statement: fact, site: place) "Ask {informant} about {topic}" {
+    Time 5 minutes.
     Result "{informant} tells you what they have heard about {topic}.".
     Description "They tell you what they know of it.".
     Requires able(actor) and able(informant) and distinct(actor, informant)

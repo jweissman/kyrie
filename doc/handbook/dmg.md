@@ -1200,13 +1200,19 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 28 | 1 | 21 | 0 | 6 |
+| 8 | 28 | 2 | 21 | 0 | 6 |
 
 #### scenery
 
 *Kyr · kind* · `rule:world_passages.scenery`
 
 What is seen and changes but is not handled: the weather, a river, a beacon on a far hill.
+
+#### travelMinutes
+
+*Kyr · measure(passage)* · `rule:world_passages.travelMinutes`
+
+A way walked in less than a watch: how many minutes (see ActionTime.minutes).
 
 #### unopened
 

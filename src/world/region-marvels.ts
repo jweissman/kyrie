@@ -8,11 +8,11 @@ import met from '../../data/generation/scenes/wonders.json';
 import snares from '../../data/generation/scenes/snares.json';
 
 interface Piece { name: string; text: string; effect?: string; omits?: Record<string, string>; source: string }
-interface Trap extends Piece { mechanism: string; sign: string }
+export interface Trap extends Piece { mechanism: string; sign: string }
 // How a wonder stands in a country (data/generation/scenes/wonders.json): where, what it is called, how it is met,
 // how it looks before anyone meets it, what it does to whoever does, and how it is after.
 interface Met { where: 'wild' | 'within'; name: string; verb: string; seen: string; taken: string; after: string }
-type Wonder = [string, Piece & Met];
+export type Wonder = [string, Piece & Met];
 // How a mechanism is understood and dealt with (data/generation/scenes/snares.json).
 interface Snare { sign: string; seen: string; ways: { id: string; label: string; needing: string; to: string }[] }
 
@@ -24,9 +24,14 @@ export class RegionMarvels {
   static readonly wonders: Wonder[] = Object.entries((world as unknown as { wonders: Record<string, Piece> }).wonders)
     .filter(([key, w]) => w.effect && (met.wonders as Record<string, Met>)[key])
     .map(([key, w]) => [key, { ...w, ...(met.wonders as Record<string, Met>)[key]! }]);
-  // No trap in a work does more harm than a fall down a short stair would: three dice of six at the most.
-  static readonly traps = Object.entries((world as unknown as { traps: Record<string, Trap> }).traps)
-    .filter(([, t]) => t.effect && RegionMarvels.harm(t.effect) <= 10.5);
+  // No trap in a work does more harm than a fall down a short stair would: three dice of six at the most. Deeper in
+  // a deep site, worse ones are set (see within).
+  static readonly traps = RegionMarvels.within(10.5);
+  // The traps that do no more harm than so much on an average roll.
+  static within(cap: number): [string, Trap][] {
+    return Object.entries((world as unknown as { traps: Record<string, Trap> }).traps)
+      .filter(([, t]) => t.effect && RegionMarvels.harm(t.effect) <= cap);
+  }
   // The inner way of each plan a trap is set on, and past which a wonder may be.
   static readonly inner: Record<string, string> = { barrow: 'far', cistern: 'down', galleries: 'iron',
     abbey: 'cellar_stair', keep: 'cellar_door', singing_hall: 'through', tollhouse: 'strong_door', watchtower: 'spiral' };
@@ -50,8 +55,8 @@ export class RegionMarvels {
     const wonder = beyond && draw.chance(0.5) ? within[at % within.length] : undefined;
     return [...this.trap(region, site, way), ...wonder ? this.wonder(wonder, beyond!) : []];
   }
-  private static wonder([key, w]: Wonder, room: string): string[] {
-    const q = JSON.stringify, id = `wonder_${key}`;
+  static wonder([key, w]: Wonder, room: string, prefix = 'wonder'): string[] {
+    const q = JSON.stringify, id = `${prefix}_${key}`;
     // How it looks is told with the place, until it is met: a wonder is the first thing anyone would see there.
     return [`  Hazard ${id}_power ${q(this.upper(w.name))} means ${q(w.effect!)}.`,
       `  Thing ${id} ${q(w.name)} at ${room} is scenery {`,
@@ -66,9 +71,15 @@ export class RegionMarvels {
   // A trap on a work's inner way: the mechanism, as anyone can see it; what looking closely at it shows, and the
   // ways of dealing with it that knowing that opens; what it does when it goes off; and the way after.
   private static trap(region: Region, site: Site, way: string): string[] {
-    const draw = new Draw(`${region.name}:${site.id}:trap`), q = JSON.stringify, id = `${site.id}_snare`;
+    const draw = new Draw(`${region.name}:${site.id}:trap`);
     if (!draw.chance(0.6)) { return []; }
-    const [, t] = draw.pick(this.traps), how = (snares.mechanisms as Record<string, Snare>)[t.mechanism]!;
+    return this.snare({ id: site.id, way, trap: draw.pick(this.traps)[1] });
+  }
+  // A mechanism on a way, as a thing with its sign, what looking closely shows, the ways of dealing with it, what it
+  // does when it goes off, and the way after; its ids begin with id (id_snare, id_trap).
+  static snare(at: { id: string; way: string; trap: Trap }): string[] {
+    const q = JSON.stringify, { way, trap: t } = at, site = { id: at.id }, id = `${at.id}_snare`;
+    const how = (snares.mechanisms as Record<string, Snare>)[t.mechanism]!;
     return [`  Hazard ${site.id}_trap ${q(`the ${t.mechanism}`)} means ${q(t.effect!)}.`,
       `  Discovery ${id}_known ${q(how.seen)}.`,
       `  Thing ${id} ${q(`the ${t.mechanism}`)} on ${way} {`,

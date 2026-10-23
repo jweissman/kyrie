@@ -48,9 +48,13 @@ describe('containers and what is inside them', () => {
   }, 60000);
   it('springs the needle on whoever opens the lock without dealing with it', async () => {
     const s = await Strongroom.start();
-    await Strongroom.walk(s, ['go(world__study_door,world__study)', 'change_thing(world__chest_pick)']);
+    await s.perform('go(world__study_door,world__study)');
+    const picked = await s.perform('change_thing(world__chest_pick)');
     expect(Strongroom.state(s, 'world__lock')).toBe('world__sprung');
-    expect(Strongroom.hurt(s)).toHaveLength(1);
+    // It goes for one of them; whether it gets into a hand is the hand's quickness, rolled.
+    const pricked = picked.combat.filter(c => c.type === 'action' && c.source?.kind === 'trap');
+    expect(pricked).toHaveLength(1);
+    expect(Strongroom.hurt(s).length).toBeLessThanOrEqual(1);
   }, 60000);
   it('lets the pole trip the needle from a pace away, and brute force break what the chest holds', async () => {
     const s = await Strongroom.start();

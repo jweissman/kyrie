@@ -19,6 +19,8 @@ export interface WorkPlan {
   great?: boolean;
   // The room of it (@lair) where whatever moves in when it stands empty makes its den (see RegionRenewal).
   lair?: string;
+  // A deep site (see DeepSites): generated from what it was for, not written from sections.
+  deep?: boolean;
 }
 
 // Works are written as Kyr templates (data/generation/works/*.kyrt): a few header lines, then sections. The base

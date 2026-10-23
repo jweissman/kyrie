@@ -35,6 +35,8 @@ export interface Operator {
   actor?: string; schema?: string; bindings?: Record<string, string>;
   id: string; name: string; description: string; requires: Predicate;
   success: Change[]; failure: Change[]; cost: number; time: number; duration?: Call; resolve?: Call;
+  // Less than a watch, in minutes (Time 2 minutes): minutes add up, and every ten of them is a watch passed.
+  minutes?: number;
   // An activity that something can interrupt: its time passes a watch at a time, and it stops when this comes to
   // hold (having not held when it began) or something happens where the company is. Its success changes apply only
   // if it runs its course; if it is interrupted, its failure changes apply instead.

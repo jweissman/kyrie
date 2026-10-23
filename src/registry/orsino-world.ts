@@ -13,6 +13,17 @@ export interface WorldTables {
   riddles: Record<string, { question: string; answer: string; kind: string; level: string; source: string }[]>;
   // The answers a riddle is offered among, by kind of answer: the right one is one of them.
   riddleAnswers: Record<string, string[]>;
+  dungeon: DungeonTables;
+}
+// Orsino's dungeon design (roomSequences, roomOverlays, specialRooms, treasure tiers, trap difficulties): how a run of
+// rooms is paced, what each kind of room is likely to hold, the set pieces, and the treasure of each tier that Kyr has.
+export interface DungeonTables {
+  sequences: Record<string, string[][]>;
+  overlays: Record<string, { encounter: number; puzzle: number; trap: number; treasure: number; wonder: number;
+    challenging?: boolean }>;
+  specials: Record<string, { npcs: string[]; treasure: string[]; text: string; source: string }>;
+  treasure: Record<string, string[]>;
+  trapDc: Record<string, { alert: number; disable: number }>;
 }
 
 // Orsino's wonders, traps, shops and riddles (settings/fantasy/tables.json) as tables a generated region draws from
@@ -27,7 +38,7 @@ export class OrsinoWorld {
     catalog?: Record<string, { source?: { orsino?: string }; value?: number }> }) {}
   generate(): WorldTables {
     return { wonders: this.wonders(), traps: this.traps(), shops: this.shops(), riddles: this.riddles(),
-      riddleAnswers: this.riddleAnswers() };
+      riddleAnswers: this.riddleAnswers(), dungeon: this.dungeon() };
   }
   private family(name: string): RegistryEntry[] { return this.entries.filter(e => e.family === name); }
   private wonders(): WorldTables['wonders'] {
@@ -83,6 +94,25 @@ export class OrsinoWorld {
       .map((r, n) => ({ question: String(r.question), answer: String(r.answer), kind: String(r.answer_type),
         level: e.key,
         source: `riddle:${e.key}#${n}` }))]));
+  }
+  private dungeon(): DungeonTables {
+    const overlays = Object.fromEntries(this.family('roomOverlay').map(e => {
+      const d = e.definition as Raw;
+      return [e.key, { encounter: Number(d._encounterChance ?? 0), puzzle: Number(d._puzzleChance ?? 0),
+        trap: Number(d._trapChance ?? 0), treasure: Number(d._treasureChance ?? 0),
+        wonder: Number(d._wonderChance ?? 0),
+        ...d.challenging ? { challenging: true } : {} }];
+    }));
+    const specials = Object.fromEntries(this.family('specialRoom').map(e => {
+      const d = e.definition as Raw, text = String(d.narrative ?? '').replace(/^=?"?|"?$/g, '');
+      return [e.key, { npcs: (d._npc_types as string[] | undefined) ?? [], text, source: `specialRoom:${e.key}`,
+        treasure: ((d._treasureItems as string[] | undefined) ?? []).filter(i => this.known.items.has(i)) }];
+    }));
+    return { sequences: Object.fromEntries(this.family('roomSequence').map(e => [e.key, e.definition as string[][]])),
+      overlays, specials,
+      treasure: Object.fromEntries(this.family('treasureTier').map(e => [e.key, [...new Set(
+        ((e.definition as Raw).treasure as string[][]).flat().filter(i => this.known.items.has(i)))]])),
+      trapDc: Object.fromEntries(this.family('trapDc').map(e => [e.key, e.definition as { alert: number; disable: number }])) };
   }
   // Plain words only (a letter, a word): no rotated letters.
   private riddleAnswers(): WorldTables['riddleAnswers'] {

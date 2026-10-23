@@ -32,6 +32,7 @@ Module world_services "Lodging, goods and camping" {
     Result "{healer} keeps the vigil over {lost} all night, and at first light {lost} draws a breath, and then another.".
   }
   Action buy_goods(actor: group, seller: group, goods: good, site: place) "Buy one {goods} from {seller}" {
+    Time 3 minutes.
     Requires able(actor) and able(seller) and distinct(actor, seller) and at(actor, site) and at(seller, site)
       and not refusesService(seller, actor) and sells(seller, goods) and quantity(seller, goods) >= 1 and quantity(actor, gold) >= goodsPrice(seller, goods).
     On success { Decrease quantity(actor, gold) by goodsPrice(seller, goods). Increase quantity(seller, gold) by goodsPrice(seller, goods).

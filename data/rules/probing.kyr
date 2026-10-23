@@ -7,36 +7,42 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
   Initially Assert needs(prodding, pole). Initially Assert needs(prying, crowbar). Initially Assert needs(burning, flame).
   Goal false.
   Action look_closely(actor: group, target: entity, site: place) "Look closely at {target}" {
+    Time 2 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
       and not tried(target, looking).
     On success { Assert tried(target, looking). }
     Result "You look closely at {target}.".
   }
   Action prod(actor: group, target: entity, site: place) "Prod {target} with the pole" {
+    Time 2 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
       and equippedFor(actor, prodding) and not tried(target, prodding).
     On success { Assert tried(target, prodding). }
     Result "You prod {target} with the pole, from as far off as it allows.".
   }
   Action pry(actor: group, target: entity, site: place) "Pry at {target} with the bar" {
+    Time 3 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
       and equippedFor(actor, prying) and not tried(target, prying).
     On success { Assert tried(target, prying). }
     Result "You get the bar into {target} and lean on it.".
   }
   Action burn(actor: group, target: entity, site: place) "Hold a flame to {target}" {
+    Time 2 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target)
       and equippedFor(actor, burning) and not tried(target, burning).
     On success { Assert tried(target, burning). }
     Result "You hold a flame to {target}.".
   }
   Action push(actor: group, target: entity, site: place) "Push and pull at {target}" {
+    Time 2 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
       and not tried(target, pushing).
     On success { Assert tried(target, pushing). }
     Result "You push at {target}, then pull.".
   }
   Action listen(actor: group, target: entity, site: place) "Listen at {target}" {
+    Time 2 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
       and not tried(target, listening).
     On success { Assert tried(target, listening). }

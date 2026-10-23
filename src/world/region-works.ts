@@ -12,6 +12,8 @@ import greatGalleries from '../../data/generation/works/great_galleries.kyrt' wi
 import greatHall from '../../data/generation/works/great_singing_hall.kyrt' with { type: 'text' };
 import greatTower from '../../data/generation/works/great_watchtower.kyrt' with { type: 'text' };
 import { Histories, type History, type Work } from './history/histories';
+import { DeepPurposes } from './deep/deep-purposes';
+import { DeepSites } from './deep/deep-sites';
 import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
@@ -33,13 +35,15 @@ export class RegionWorks {
     greatCistern, greatGalleries, greatHall, greatTower];
   static {
     for (const text of this.texts) { Histories.register(text); }
+    for (const purpose of Object.values(DeepPurposes.all)) { Histories.add(DeepPurposes.plan(purpose)); }
   }
   static lines(region: Region, taken: Record<string, string> = {}): string[] {
     const history = region.history;
     if (!history) { return []; }
     return [...this.facts(region), ...region.sites.filter(s => s.work).flatMap(site => {
       const work = history.works.find(w => w.id === site.id)!, plan = Histories.plan(work.plan);
-      const values = this.values(region, site, work);
+      const values = this.values(region, site, work), purpose = plan.deep && DeepPurposes.of(work.art);
+      if (purpose) { return taken[site.id] ? [] : DeepSites.lines(region, site, { purpose, values }); }
       const sections = WorkPlans.choose(plan, `${region.name}:${work.id}:${work.plan}`, values)
         .filter(s => s.group === 'outside' || !taken[site.id]);
       const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));

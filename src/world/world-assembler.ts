@@ -194,7 +194,7 @@ export class WorldAssembler {
     region.history = history;
     region.sites = history.works.map(w => ({ id: w.id, kind: Histories.plan(w.plan).kind, name: w.worn, hours: 1,
       gloss: w.old.gloss, tongue: w.old.tongue, cell: w.cell, ...w.zone ? { zone: w.zone, part: w.part } : {},
-      work: { plan: w.plan, art: w.art, ...w.great ? { great: true } : {} } }));
+      work: { plan: w.plan, art: w.art, ...w.great ? { great: true } : {}, ...w.deep ? { deep: true } : {} } }));
     return region;
   }
   // A site's cell in the region's land, by what kind of site it is; one that can stand nowhere is left out.

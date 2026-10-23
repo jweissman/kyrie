@@ -39,6 +39,7 @@ Module belongings "What the company carries" {
   Measure price(item).
   Goal false.
   Action take_item(actor: group, find: item, form: itemkind, recipient: member, site: place) "Collect {find} for {recipient}" {
+    Time 1 minute.
     Requires able(actor) and at(actor, site) and at(find, site) and not forSale(find) and not benighted(actor)
       and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient) and noticed(find, actor).
     Resolve acquire(find, form, recipient).
@@ -46,6 +47,7 @@ Module belongings "What the company carries" {
     Result "{recipient} takes {find}.".
   }
   Action take_out(actor: group, find: item, form: itemkind, box: thing, recipient: member, site: place) "Take {find} out of {box} for {recipient}" {
+    Time 1 minute.
     Requires able(actor) and at(actor, site) and at(box, site) and inside(find, box) and not shut(box)
       and noticed(box, actor) and noticed(find, actor) and not benighted(actor)
       and itemKind(find, form) and memberOf(recipient, actor) and awake(recipient).
@@ -54,6 +56,7 @@ Module belongings "What the company carries" {
     Result "{recipient} takes {find} from {box}.".
   }
   Action put_in(actor: group, cargo: item, carrier: member, box: thing, site: place) "Put {cargo} in {box}" {
+    Time 1 minute.
     Description "Set it in, on or into the thing, where it stays until someone takes it out.".
     Requires able(actor) and at(actor, site) and at(box, site) and receptacle(box) and not shut(box)
       and noticed(box, actor) and not benighted(actor)
@@ -63,6 +66,7 @@ Module belongings "What the company carries" {
     Result "{carrier} puts {cargo} in {box}.".
   }
   Action buy_item(actor: group, find: item, form: itemkind, recipient: member, merchant: group, site: place) "Buy {find} for {recipient}" {
+    Time 3 minutes.
     Requires able(actor) and at(actor, site) and at(find, site) and forSale(find) and itemKind(find, form)
       and memberOf(recipient, actor) and awake(recipient) and soldBy(find, merchant)
       and able(merchant) and not refusesService(merchant, actor) and at(merchant, site) and distinct(actor, merchant) and quantity(actor, gold) >= price(find).
@@ -71,23 +75,27 @@ Module belongings "What the company carries" {
     Result "{recipient} pays {merchant}, and takes {find}.".
   }
   Action equip_item(actor: group, tool: item, form: itemkind, wearer: member) "Equip {tool} on {wearer}" {
+    Time 2 minutes.
     Requires able(actor) and memberOf(wearer, actor) and awake(wearer) and ownedItem(tool, wearer)
       and itemKind(tool, form) and wearable(form) and proficient(wearer, form) and not wearing(tool, wearer).
     Resolve equip(tool, wearer).
     Result "{wearer} readies {tool}.".
   }
   Action use_item(actor: group, dose: item, form: itemkind, carrier: member, recipient: member) "Use {dose} on {recipient}" {
+    Time 2 minutes.
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
       and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form) and not lightsUp(form).
     Resolve consume(dose, carrier, recipient).
   }
   Action light_item(actor: group, dose: item, form: itemkind, carrier: member) "Light {dose}" {
+    Time 1 minute.
     Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(dose, carrier)
       and itemKind(dose, form) and lightsUp(form).
     Resolve consume(dose, carrier, carrier).
     Result "{carrier} lights {dose}.".
   }
   Action transfer_item(actor: group, cargo: item, carrier: member, recipient: member) "Give {cargo} to {recipient}" {
+    Time 1 minute.
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
       and not ownedItem(cargo, recipient) and awake(recipient) and ownedItem(cargo, carrier).
     Resolve transfer_item(cargo, carrier, recipient).
@@ -95,12 +103,14 @@ Module belongings "What the company carries" {
   }
   // What a companion who has fallen, or cannot stir, was carrying, the others can take.
   Action take_from(actor: group, cargo: item, carrier: member, recipient: member) "Take {cargo} from {carrier} for {recipient}" {
+    Time 1 minute.
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and not awake(carrier)
       and awake(recipient) and ownedItem(cargo, carrier).
     Resolve transfer_item(cargo, carrier, recipient).
     Result "{recipient} takes {cargo} from {carrier}.".
   }
   Action give(actor: group, gift: item, form: itemkind, carrier: member, recipient: group, site: place) "Give {gift} to {recipient}" {
+    Time 1 minute.
     Description "Hand it to someone who has asked for it, or will take it. What they do with it is theirs to decide.".
     Requires able(actor) and at(actor, site) and able(recipient) and at(recipient, site) and distinct(actor, recipient)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(gift, carrier) and itemKind(gift, form)
@@ -111,6 +121,7 @@ Module belongings "What the company carries" {
   }
   // What was taken in front of its owner can be handed back: they will not forget it, but they need not fight for it.
   Action give_back(actor: group, gift: item, carrier: member, owner: group, site: place) "Give {gift} back to {owner}" {
+    Time 1 minute.
     Description "Hand back what is theirs. They will remember it was taken; they need not fight you for it.".
     Requires able(actor) and at(actor, site) and able(owner) and at(owner, site) and memberOf(carrier, actor)
       and awake(carrier) and ownedItem(gift, carrier) and owns(owner, gift) and objected(owner, gift).
@@ -119,6 +130,7 @@ Module belongings "What the company carries" {
     Result "{carrier} holds out {gift}, and {owner} takes it back without a word.".
   }
   Action sell(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Sell {ware} to {buyer}" {
+    Time 3 minutes.
     Description "Someone who buys this kind of thing pays what they said they would, if they have the coin.".
     Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
@@ -129,6 +141,7 @@ Module belongings "What the company carries" {
     Result "{buyer} takes {ware}, and counts out the coin for it.".
   }
   Action sell_valuable(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Sell {ware} to {buyer}" {
+    Time 3 minutes.
     Description "Someone who deals in valuables pays what a thing is worth, if they have the coin. The first time a treasure is sold, what it is worth is experience for each of the company.".
     Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
@@ -141,6 +154,7 @@ Module belongings "What the company carries" {
   }
   // A dealer without the coin for a treasure still says what it is worth, and whether to wait or go elsewhere.
   Action appraise(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Show {ware} to {buyer}" {
+    Time 2 minutes.
     Description "Someone who deals in valuables says what a thing is worth, when they have not the coin for it.".
     Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
@@ -151,6 +165,7 @@ Module belongings "What the company carries" {
     Result "{buyer} turns {ware} over in the light, and hands it back. 'Worth {worth(form)} coin, that. I have not got it in the house today; come back in the morning.'".
   }
   Action appraise_beyond(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Show {ware} to {buyer}" {
+    Time 2 minutes.
     Description "Someone who deals in valuables says what a thing is worth, when it is worth more than they ever have.".
     Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(ware, carrier) and itemKind(ware, form)
@@ -160,6 +175,7 @@ Module belongings "What the company carries" {
     Result "{buyer} turns {ware} over in the light for a long time, and hands it back. 'Worth {worth(form)} coin, that, and there is not that much in this place. Take it to a town.'".
   }
   Action put_item(actor: group, cargo: item, carrier: member, site: place) "Set down {cargo}" {
+    Time 1 minute.
     Requires able(actor) and at(actor, site) and memberOf(carrier, actor) and awake(carrier) and ownedItem(cargo, carrier).
     Resolve drop(cargo, carrier).
     On success { Assert at(cargo, site). }

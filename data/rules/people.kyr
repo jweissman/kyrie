@@ -31,6 +31,7 @@ Module world_people "Company and intention" {
   Rule hush_lifts when hushed(?c) and not dark() { Retract hushed(?c). }
   Goal false.
   Action recruit(actor: group, recruit: group, site: place) "Ask {recruit} to join the company" {
+    Time 5 minutes.
     Description "They come with you from now on: they fight beside you, and what they can do, you can.".
     Requires able(actor) and company(actor) and able(recruit) and distinct(actor, recruit) and at(actor, site)
       and at(recruit, site) and willing(recruit, actor) and quantity(actor, gold) >= hire(recruit).
@@ -39,17 +40,20 @@ Module world_people "Company and intention" {
       Assert travelsWith(recruit, actor). }
   }
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
+    Time 1 minute.
     Requires able(actor) and able(companion) and distinct(actor, companion) and at(actor, site)
       and at(companion, site) and acceptsEscort(companion, actor) and not following(companion, actor).
     On success { Assert following(companion, actor). Retract dismissed(companion, actor). }
   }
   Action part_ways(actor: group, companion: group, site: place) "Let {companion} make their own way" {
+    Time 1 minute.
     Requires able(actor) and able(companion) and at(actor, site) and at(companion, site)
       and acceptsEscort(companion, actor) and following(companion, actor) and not hobbled(companion).
     On success { Retract following(companion, actor). Assert dismissed(companion, actor). }
   }
   // Someone who would come with you, if you led them, can be told not to wait: they go their own way.
   Action send_off(actor: group, companion: group, site: place) "Tell {companion} not to wait for you" {
+    Time 1 minute.
     Requires able(actor) and able(companion) and at(actor, site) and at(companion, site)
       and acceptsEscort(companion, actor) and not following(companion, actor) and not dismissed(companion, actor)
       and not hobbled(companion).
