@@ -58,7 +58,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       ReaderApp.settle(fresh);
     }
     if (prev.cursor !== this.state.cursor && !this.state.hovered) {
-      const chosen = document.querySelector<HTMLElement>(`.choices [data-index="${this.state.cursor}"]`);
+      const chosen = document.querySelector<HTMLElement>(`.intentions [data-index="${this.state.cursor}"]`);
       chosen?.focus({ preventScroll: true });
       chosen?.scrollIntoView({ block: 'nearest' });
     }
@@ -170,9 +170,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     return { from: frame.screen.place.id, to: exit.destination.id, way: exit.way ?? exit.name,
       minutes: choice.minutes ?? 0 };
   }
+  // Long enough to feel the distance (the way and its time are said while it lasts), never so long as to wait on.
   journey(travel: Travel): number {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) { return 0; }
-    return Math.min(2200, 900 + travel.minutes * 6);
+    return Math.min(700, 250 + travel.minutes * 3);
   }
   readonly back = () => {
     const s = this.state;

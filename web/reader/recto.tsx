@@ -3,6 +3,7 @@ import type { Choice, Section } from '../../src/ui/choice-list';
 import type { CombatScreen, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Words } from './words';
+import { Typography } from '../../src/presentation/typography';
 
 // The right-hand page: what you might do. Grouped by kind (speak, look, go, yourself), each group short; a person or
 // a thing with several things to it opens in place, with the way back above it. What a highlighted choice means is
@@ -16,9 +17,9 @@ export class Recto {
       : menu.sections.filter(sec => sec.choices.length).map(sec => Recto.group(app, sec, counter));
     return (
       <nav className={`intentions${s.pending ? ' busy' : ''}`} data-region="choices" aria-label={title}
-        onPointerLeave={Recto.leave.bind(null, app)}>
+        onPointerLeave={Recto.leave.bind(null, app)} onPointerDown={Recto.down}>
         {groups.length ? groups : <p className="none">Nothing to be done here.</p>}
-        <p className="gloss" data-id="detail" aria-live="polite">{gloss}</p>
+        <p className="gloss" data-id="detail" aria-live="polite">{Typography.curl(gloss)}</p>
       </nav>
     );
   }
@@ -28,7 +29,7 @@ export class Recto {
       <div className="group opened" key="opened">
         <p className="label"><button type="button" className="back" data-action="back" onClick={app.back}>
           {menu.trail.length > 1 ? menu.trail.at(-2)!.label : 'Back'}</button></p>
-        <p className="subject">{head.label}</p>
+        <p className="subject">{Typography.curl(head.label)}</p>
         <ol>{menu.level.map(c => Recto.choice(app, c, counter))}</ol>
       </div>
     );
@@ -50,7 +51,7 @@ export class Recto {
         <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i}
           aria-current={selected} aria-disabled={c.disabled ? true : undefined}
           onClick={Recto.click.bind(null, app)} onPointerEnter={Recto.enter.bind(null, app)}>
-          <span className="l">{c.label}</span>
+          <span className="l">{Typography.curl(c.label)}</span>
           {(c.note || c.risk) && <span className="note">{c.note}{c.risk && <b className="risk-mark"> · risky</b>}</span>}
           {c.children && <span className="more" aria-hidden="true">›</span>}
         </button>
@@ -61,8 +62,12 @@ export class Recto {
     const i = Number(e.currentTarget.dataset.index), choice = app.menu.level[i];
     if (choice) { app.setState({ cursor: i }); app.choose(choice); }
   }
+  // A finger is not a pointer that hovers: the mouse events a browser makes up after a touch, where the finger was
+  // (and the page has since moved under it), light nothing.
+  private static touched = -Infinity;
+  private static down(e: PointerEvent<HTMLElement>) { if (e.pointerType !== 'mouse') { Recto.touched = e.timeStamp; } }
   private static enter(app: ReaderApp, e: PointerEvent<HTMLButtonElement>) {
-    if (e.pointerType === 'mouse') { app.hover(e.currentTarget.dataset.choice); }
+    if (e.pointerType === 'mouse' && e.timeStamp - Recto.touched > 1500) { app.hover(e.currentTarget.dataset.choice); }
   }
   // Only a mouse leaving the list ends a hover: a finger lifting from the glass is not one.
   private static leave(app: ReaderApp, e: PointerEvent<HTMLElement>) {

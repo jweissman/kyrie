@@ -16,11 +16,18 @@ export class Intentions {
         choices: s.choices.filter(c => !this.across(c)) })),
     ].filter(s => s.choices.length);
   }
+  // The ways about the place the company is in, and the ways that set out across country (a road, a path into wild
+  // country, a trail, striking out): two scales of going, kept apart. Where every way is long, they are all just Go.
   private static go(sections: Section[]): Section[] {
     const ways = this.of(sections, 'way')[0], astray = this.astray(sections);
     if (!ways && !astray.length) { return []; }
-    return [{ id: 'ways', glyph: '→', tone: 'way', ...ways, title: 'Go', choices: [...ways?.choices ?? [], ...astray] }];
+    const all = [...ways?.choices ?? [], ...astray];
+    const near = all.filter(c => !this.far(c)), far = all.filter(c => this.far(c));
+    const base = { glyph: '→', tone: 'way' as const, ...ways };
+    return [...near.length ? [{ ...base, id: 'ways', title: 'Go', choices: near }] : [],
+      ...far.length ? [{ ...base, id: near.length ? 'ways-out' : 'ways', title: near.length ? 'Set out' : 'Go', choices: far }] : []];
   }
+  private static far(c: Choice): boolean { return (c.minutes ?? 0) > 10 || this.across(c); }
   // Striking out across wild country, and finding the way again, are ways to go, not things to do where you stand.
   private static across(c: Choice): boolean { return /__z\d+_(strike|cast|follow)\(/.test(c.command ?? ''); }
   private static astray(sections: Section[]): Choice[] {

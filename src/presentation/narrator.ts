@@ -3,6 +3,7 @@ import type { Entity, Observation, Shelter } from '../lang/module';
 import type { Screen, TargetRow } from '../ui/screen-types';
 import type { ActionFeedback } from './action-feedback';
 import { FictionalTime } from './fictional-time';
+import { Typography } from './typography';
 import { Narration } from './narration';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
@@ -34,12 +35,22 @@ export class Narrator {
     const under = !told || (told.moved && this.cameOut(campaign, told.event));
     const lines = screen.observed.filter(o => this.tells(defs.get(o.id), { shelter, known, arrived: under,
       turned, here: screen.place.id }));
-    return {
-      situation: this.paragraphs(lines, defs), presence: this.presence(screen),
-      changed: known && told?.moved ? screen.fresh : [],
-      ...told ? { exchange: this.exchange(campaign, told) } : {},
-      ...shelter ? { shelter } : {},
-    };
+    const situation = this.paragraphs(lines, defs), presence = this.presence(screen);
+    const exchange = told && this.exchange(campaign, told), shown = [...situation, ...presence];
+    // What the page already says of the place and who is in it is not said again among what just happened.
+    if (exchange) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change' || !shown.some(p => p.includes(l.text))); }
+    return this.set({
+      situation, presence, changed: known && told?.moved ? screen.fresh : [],
+      ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {},
+    });
+  }
+  // Every line as a book would set it.
+  private static set(leaf: Leaf): Leaf {
+    const e = leaf.exchange;
+    return { ...leaf, situation: leaf.situation.map(t => Typography.curl(t)),
+      presence: leaf.presence.map(t => Typography.curl(t)), changed: leaf.changed.map(t => Typography.curl(t)),
+      ...e ? { exchange: { ...e, lines: e.lines.map(l => ({ ...l, text: Typography.curl(l.text) })),
+        ...e.said ? { said: Typography.curl(e.said) } : {} } } : {} };
   }
   private static readonly cached = new WeakMap<Campaign['module'], Map<string, Observation>>();
   private static defs(campaign: Campaign): Map<string, Observation> {

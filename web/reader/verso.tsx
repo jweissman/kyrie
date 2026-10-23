@@ -3,6 +3,7 @@ import type { Exchange, Leaf } from '../engine/protocol';
 import type { Screen } from '../../src/ui/screen-types';
 import type { Travel } from './reader-app';
 import { Words } from './words';
+import { Typography } from '../../src/presentation/typography';
 
 // The left-hand page: the world. Where you are and what is here, told short and kept in place; what has changed if
 // you have been here before; and what came of the last thing you did, which the next thing replaces. Someone's words
@@ -13,9 +14,9 @@ export class Verso {
       <article className="verso-body" key={screen.place.id} aria-label={screen.place.name}>
         {leaf.heading && <header className={`heading kind-${leaf.heading.kind}`}>
           <p className="fleuron" aria-hidden="true">❧</p>
-          <h1>{leaf.heading.kind === 'country' ? `Into ${leaf.heading.title}` : leaf.heading.title}</h1>
+          <h1>{Typography.curl(leaf.heading.kind === 'country' ? `Into ${leaf.heading.title}` : leaf.heading.title)}</h1>
         </header>}
-        <h2 className="place" data-id="place">{Words.upper(screen.place.name)}</h2>
+        <h2 className="place" data-id="place">{Typography.curl(Words.upper(screen.place.name))}</h2>
         {screen.dark && <p className="dark-note">You have no light.</p>}
         <Verso.Situation situation={leaf.situation} presence={leaf.presence} opening={!!leaf.heading} />
         {leaf.changed.length > 0 && <div className="changed">
@@ -53,7 +54,7 @@ export class Verso {
     const span = t ? t.minutes >= 60 ? `${Math.round(t.minutes / 6) / 10} hours` : `${t.minutes} minutes` : '';
     return (
       <section className={`exchange pending${t ? ' journey' : ''}`} aria-live="polite">
-        <p className="said">{Words.echo(Words.lastSaid(pending.said))}</p>
+        <p className="said">{Typography.curl(Words.echo(Words.lastSaid(pending.said)))}</p>
         {t && <p className="way">By {t.way}, {span}.</p>}
         <p className="working" aria-hidden="true"><span /><span /><span /></p>
       </section>

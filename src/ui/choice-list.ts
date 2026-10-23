@@ -155,20 +155,23 @@ export class ChoiceList {
   static choice(a: Act, prefix: string, tone: Tone): Choice {
     const id = `${prefix}/${a.key}`;
     if (a.children?.length === 1) {
-      // A list of one is no choice: "Take › for Bran" is "Take for Bran", and "Lift it › Bran takes the weight"
-      // is "Lift it — Bran takes the weight".
-      const only = this.choice(a.children[0]!, id, tone);
-      const runs = /\b(on|for|to|with|by|at|from|into)$/i.test(a.label) || !/^[A-Z]/.test(only.label);
-      return { ...only, id, label: `${a.label}${runs ? ' ' : ' — '}${only.label}` };
+      // A list of one is no choice: "Take › for Bran" is "Take for Bran", "Buy › A ration" is "Buy a ration", and
+      // "Lift it › Bran takes the weight" is "Lift it — Bran takes the weight".
+      const only = this.choice(a.children[0]!, id, tone), article = /^(A|An|The|Some) /.test(only.label);
+      const runs = /\b(on|for|to|with|by|at|from|into)$/i.test(a.label) || !/^[A-Z]/.test(only.label) || article;
+      const rest = article ? `${only.label.charAt(0).toLowerCase()}${only.label.slice(1)}` : only.label;
+      return { ...only, id, label: `${a.label}${runs ? ' ' : ' — '}${rest}` };
     }
     if (a.children) {
       return { id, label: a.label, tone, children: a.children.map(c => this.choice(c, id, tone)),
         ...(a.about ? { about: a.about } : {}), ...(a.risk ? { risk: true } : {}) };
     }
-    // A skilled choice names who does it; one the company cannot make says what it needs.
-    const note = a.disabled ? 'no one can' : [a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : '', a.by?.join(', ') ?? '']
-      .filter(Boolean).join(' · ');
-    return { id, label: a.label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
+    // A skilled choice names who does it; one the company cannot make says what it needs; a price is said beside it,
+    // as a time is, not run into what is done ("A ration", 2 coin).
+    const priced = / — (\d+ coin)$/.exec(a.label), label = priced ? a.label.slice(0, priced.index) : a.label;
+    const note = a.disabled ? 'no one can' : [priced?.[1] ?? '', a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : '',
+      a.by?.join(', ') ?? ''].filter(Boolean).join(' · ');
+    return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(a.about ? { about: a.about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}) };
   }
