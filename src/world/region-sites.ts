@@ -57,8 +57,9 @@ export class RegionSites {
     const hidden = great || (!claimed && (site.part ?? 0) > 0);
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
-      `  Observe ${id}_scene at ${id} when true ${q(this.scene(seat, region))}.`,
-      `  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${site.work ? ', as the folk call it' : ''}.`)}.`,
+      // A work's own plan says how it looks; what is said here of it is the life of the place, told after.
+      `  Observe ${id}_scene at ${id}${site.work ? ' as ambience' : ''} when true ${q(this.scene(seat, region))}.`,
+      `  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${this.worn(region, site) ? ', as the folk call it' : ''}.`)}.`,
       // A work's own people tell of it in its plan's words (RegionWorks); anything else, the innkeeper knows.
       ...site.work ? [] : [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
         `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
@@ -105,6 +106,11 @@ export class RegionSites {
     if (zone) { return zone.naming.name; }
     const side = RegionGeography.compass(RegionGeography.spot(region, seat.town.cell!), seat.spot);
     return `the ${RegionGeography.country[region.terrain] ?? 'country'} ${side === 'here' ? 'around' : `${side} of`} ${seat.town.name}`;
+  }
+  // Whether the folk call a work by something other than what its letters say.
+  private static worn(region: Region, site: Region['sites'][number]): boolean {
+    const old = region.history?.works.find(w => w.id === site.id)?.old.name;
+    return !!site.work && !!old && old.toLowerCase() !== site.name.toLowerCase();
   }
   // How a site looks, before or after its name is known: what it is, and its animals.
   private static scene(seat: Seat, region: Region): string {
