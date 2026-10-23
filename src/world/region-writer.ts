@@ -195,7 +195,8 @@ export class RegionWriter {
     const zones = RegionGeography.atlas(region).zones;
     const ids = ['party', 'region', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
       `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
-    ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`]), ...ways, ...roads.map(r => r.land),
+    ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`, `${w.id}_found`]), ...ways,
+    ...roads.map(r => r.land),
     ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z)]),
     ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`]),
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),

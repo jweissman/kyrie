@@ -4,6 +4,8 @@ import type { CreatureGenerationContext } from '../content';
 import type { Company, Region, Settlement } from './region-writer';
 import type { Placement } from './world-assembler';
 import { RegionFaith } from './region-faith';
+import { RegionSites } from './region-sites';
+import { RegionGeography } from './region-geography';
 import tables from '../../data/origins/tables.json';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
@@ -131,10 +133,12 @@ export class Origins {
     const work = region.sites.find(w => w.work && !w.work.great && w.work.art === makers?.art);
     if (!s || !makers || !work) { return undefined; }
     const cult = RegionFaith.cults(region)[region.settlements.indexOf(s)]!;
-    return { values: { ...this.approach(region, s), work: work.name, cult: cult.name }, start: { place: `${s.id}_shrine` },
+    const seat = RegionGeography.seats(region).find(x => x.site === work)!;
+    const where = RegionSites.where(seat, region);
+    return { values: { ...this.approach(region, s), work: work.name, cult: cult.name, where }, start: { place: `${s.id}_shrine` },
       imports: { shrine: [`region.${s.id}_shrine`, 'place'],
         priest: [`region.${s.id}_priest`, 'group'], named: [`region.${work.id}_named`, 'fact'],
-        history: [`region.history_${makers.art}`, 'fact'] } };
+        found: [`region.${work.id}_found`, 'fact'], history: [`region.history_${makers.art}`, 'fact'] } };
   }
   private static wanderer(region: Region): Bound | undefined {
     const s = region.settlements[0];

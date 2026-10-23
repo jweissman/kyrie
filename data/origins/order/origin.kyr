@@ -3,12 +3,13 @@ Module origin "The brothers' errand" {
   Entity party: group "You".
   Place shrine "The shrine" is room.
   Entity priest: group "The priest". Entity named: fact "Where it is". Entity history: fact "Who made it".
+  Entity found: fact "The way there".
   Relation delivered(group). Relation copied(group).
   Initially Assert expects(priest, party). Initially Assert knows(party, named).
   Observe letter at shrine as feature when expects(priest, party) "You have the letter inside your coat: from the brothers of your order, over the hills, to the priest of {cult} at {homename}, asking that {protagonist}, who reads the old script, be given a bed and shown the way to {work}. There is writing there that the order has heard of for a hundred years and never seen copied.".
   Topic give_letter with priest "Give {priest} the brothers' letter" when expects(priest, actor) once {
-    Says "{priest} reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: people go out there and come back with their sheep missing. Go in daylight.'".
-    On discuss { Retract expects(priest, actor). Assert delivered(actor). }
+    Says "{priest} reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: it is out in {where}, and I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight.'".
+    On discuss { Retract expects(priest, actor). Assert delivered(actor). Assert knows(actor, found). }
   }
   Topic show_copies with priest "Show {priest} what you copied at {work}" when knows(actor, history) and delivered(actor) and not copied(actor) once {
     Says "{priest} turns the pages slowly, and is a long time saying anything. 'So that is who they were,' {priest} says at last. 'The brothers will want this.' Coin is pressed into your hand for the road: the order pays its debts, even through other people's purses.".
