@@ -62,7 +62,7 @@ export class DeepSites {
       ...restful.map(r => `  Initially Assert restful(${r.id}).`)];
     for (const c of content.filter(x => x.dwellers && !x.dwellers.elite && ['savage', 'territorial'].includes(x.dwellers.group.temperament))) {
       const id = c.dwellers!.id, level = layout.levels[c.room.level]!.id;
-      lines.push(`  Rule ${id}_wanders when able(${id}) and at(${id}, ?o) and at(party, ?p) and deepLevelOf(?p, ${level}) and deepLevelOf(?o, ${level}) and distinct(?o, ?p) and dice(${id}) <= 1 says ${this.q(`Something is coming along the gallery toward your light: ${c.dwellers!.group.label}.`)} {`,
+      lines.push(`  Rule ${id}_wanders when able(${id}) and at(${id}, ?o) and at(party, ?p) and deepLevelOf(?p, ${level}) and deepLevelOf(?o, ${level}) and distinct(?o, ?p) and dice(${id}) <= 1 says ${this.q(`Something is coming along the gallery toward you: ${c.dwellers!.group.label}.`)} {`,
         `    Retract at(${id}, ?o). Assert at(${id}, ?p). }`);
     }
     return lines;

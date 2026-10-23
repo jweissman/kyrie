@@ -47,15 +47,23 @@ export class TalkStage {
       </div>
     );
   }
-  // What has passed between you, newest last and kept in view.
+  // What has passed between you, newest last and kept in view; when the newest is longer than there is room for, from
+  // its beginning (what you said), not its end.
   static Lines({ lines, pending }: { lines: TalkLine[]; pending?: string }) {
-    const end = useRef<HTMLDivElement>(null);
-    useLayoutEffect(() => { end.current?.scrollIntoView({ block: 'nearest' }); }, [lines.length, pending]);
+    const end = useRef<HTMLDivElement>(null), newest = useRef<HTMLParagraphElement>(null);
+    const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you'));
+    useLayoutEffect(() => {
+      end.current?.scrollIntoView({ block: 'nearest' });
+      const box = end.current?.parentElement, first = newest.current;
+      if (box && first && first.getBoundingClientRect().top < box.getBoundingClientRect().top) {
+        box.scrollTop -= box.getBoundingClientRect().top - first.getBoundingClientRect().top;
+      }
+    }, [lines.length, pending]);
     return (
       <div className="lines" aria-live="polite">
         {lines.map((l, i) => l.kind === 'learned'
-          ? <p key={i} className="line learned"><b>You know now</b>{l.text}</p>
-          : <p key={i} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>)}
+          ? <p key={i} ref={i === from ? newest : undefined} className="line learned"><b>You know now</b>{l.text}</p>
+          : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>)}
         {pending && <p className="line you waiting">{Typography.curl(Words.lastSaid(pending))}</p>}
         <div ref={end} />
       </div>

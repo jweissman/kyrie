@@ -52,10 +52,13 @@ export class Attending {
     if (!subject) { return undefined; }
     const choices = subject.choices.flatMap(c => c.children && !c.command && !c.children.some(k => k.children)
       && /^(Examine|Look at)/.test(c.label) ? c.children : [c]);
+    // What is in it is taken from it here, by name: "Take a dowsing rod" from the casket's own page.
+    const inside = scene.subjects.filter(x => x.note?.split(' · ').includes(`in ${subject.name}`))
+      .flatMap(x => x.choices.filter(c => this.kindOf(c) === 'Take').map(c => ({ ...c, label: `Take ${x.name}` })));
     const titles = ['Work it', ...this.kinds.map(([t]) => t)];
     return { subject, back: { id: `${id}#back`, label: 'Back', tone: 'thing' },
-      groups: titles.map(title => ({ title, choices: choices.filter(c => this.kindOf(c) === title) }))
-        .filter(g => g.choices.length) };
+      groups: titles.map(title => ({ title, choices: [...title === 'Take' ? inside : [],
+        ...choices.filter(c => this.kindOf(c) === title)] })).filter(g => g.choices.length) };
   }
   private static kindOf(c: Choice): string {
     const command = c.command ?? this.all(c.children ?? []).find(k => k.command)?.command ?? '';

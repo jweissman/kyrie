@@ -36,7 +36,7 @@ export class DeepMechanisms {
       '    State broken "The wall across the stair lies in pieces on the steps, and the way down is open.".',
       '    Change break "Break the wall down" from standing to broken needing brawn or crowbar.', '  }',
       `  Thing ${cut} "the words cut in the wall" at ${l.a} {`,
-      `    State unread ${q(`Words are cut deep in the wall across the stair, in the old script. Someone who reads it could say what they mean.`)}.`,
+      `    State unread ${q(`Words are cut deep into the stones of the wall, in the old script. Someone who reads the old script could say what they mean.`)}.`,
       `    State read ${q(`${words.oldup} SHUT THIS. WE WENT TOO FAR DOWN, AND WHAT WE FOUND WE LEFT THERE. ${words.fate.toUpperCase()}${words.bane ? ` ${words.bane}` : ''}`)}.`,
       '    Change read "Read what is cut in the wall" from unread to read needing lore.', '  }',
       ...words.taught ? [`  Observe ${cut}_told at ${l.a} when state(${cut}, read) and not knows(party, ${words.taught}) "Read aloud, the old words say plainly enough what the makers shut in below, and what it cannot bear." teaches ${words.taught}.`] : []];

@@ -162,6 +162,10 @@ export class Narrator {
       }
       if (t.kind === 'person') { named.push(this.who(t)); many ||= !!t.many; }
     }
+    // In the dark they are heard, not seen: by what they are, close by.
+    const heard = screen.people.filter(p => !p.companion && !p.state).map(p => this.short(p.name));
+    const all = heard.length > 1 ? `${heard.slice(0, -1).join(', ')} and ${heard.at(-1)}` : heard[0];
+    if (screen.dark) { return all ? [`In the dark you can hear ${all} close by.`] : []; }
     if (named.length === 1) {
       lines.push(`${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} ${many ? 'are' : 'is'} here.`);
     }
