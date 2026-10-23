@@ -168,13 +168,14 @@ p { margin: 0 0 .7em; text-wrap: pretty; hyphens: auto; }
 .atlas-names { font: 400 14px/1.5 var(--display); color: var(--grey); margin-top: 12px; }
 .atlas-names b { color: var(--ink); font-weight: 600; }
 .local { margin: 22px 0 0; }
-.local svg { display: block; width: 100%; height: auto; max-height: 42dvh; }
+.local-sheet { overflow-x: auto; overscroll-behavior-x: contain; }
+.local svg { display: block; max-width: none; }
 .local .room { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
 .local .room.here { fill: var(--ink); }
 .local .room.unvisited { stroke-dasharray: 3 3; }
 .local .link { stroke: var(--ink); stroke-width: 1.4; }
 .local .link.shut { stroke: var(--red); stroke-dasharray: 2 3; }
-.local text { font: 500 11.5px var(--display); fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; }
+.local text { font: 500 12px var(--display); fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; }
 
 /* ---- A fight. ---- */
 .fight .round { font: 600 11.5px var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--grey); }

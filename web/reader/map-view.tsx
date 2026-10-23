@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 import type { Chart, RegionChart, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Atlas, type Drawn } from './atlas';
@@ -59,28 +59,50 @@ export class MapView {
       </figure>
     );
   }
-  static readonly step = 70;
-  private static at(v: number, origin: number): number { return (v - origin) * MapView.step + 40; }
-  // The place you are in, room by room: each a square, joined by its ways; where you are, filled.
+  // The place you are in, room by room: each a square, joined by its ways, its name under it; where you are, filled.
+  // Drawn at the size it is read at: wider than the page, it scrolls sideways rather than shrinking its names.
+  static readonly across = 136;
+  static readonly down = 96;
   static readonly Local = memo(MapView.local);
   private static local({ chart }: { chart: Chart }) {
-    const S = MapView.step, xs = chart.places.map(p => p.x), ys = chart.places.map(p => p.y);
+    const xs = chart.places.map(p => p.x), ys = chart.places.map(p => p.y);
     const [x0, y0] = [Math.min(...xs), Math.min(...ys)];
-    const w = (Math.max(...xs) - x0) * S + 260, h = (Math.max(...ys) - y0) * S + 80;
-    const where = new Map(chart.places.map(p => [p.id, { x: MapView.at(p.x, x0), y: MapView.at(p.y, y0) }]));
+    const w = (Math.max(...xs) - x0) * MapView.across + 150, h = (Math.max(...ys) - y0) * MapView.down + 90;
+    const where = new Map(chart.places.map(p => [p.id,
+      { x: (p.x - x0) * MapView.across + 75, y: (p.y - y0) * MapView.down + 22 }]));
+    // Opened, the sheet shows where you are, whatever lies to either side.
+    const sheet = useRef<HTMLDivElement>(null), here = chart.places.find(p => p.here);
+    const hx = here ? where.get(here.id)!.x : 0;
+    useEffect(() => {
+      const el = sheet.current;
+      if (el && el.scrollWidth > el.clientWidth) { el.scrollLeft = Math.max(0, hx - el.clientWidth / 2); }
+    }, [hx]);
     return (
       <figure className="local">
         <p className="label">Here</p>
-        <svg viewBox={`0 0 ${w} ${h}`} role="img" aria-label="The place you are in">
-          {chart.edges.map(e => { const a = where.get(e.from), b = where.get(e.to); return a && b
-            ? <line key={`${e.id}${e.from}`} className={`link${e.status === 'open' ? '' : ' shut'}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-            : null; })}
-          {chart.places.map(p => { const c = where.get(p.id)!; return <g key={p.id}>
-            <rect className={`room${p.here ? ' here' : ''}${p.visited || p.here ? '' : ' unvisited'}`} x={c.x - 7} y={c.y - 7}
-              width={14} height={14} />
-            <text x={c.x + 12} y={c.y + 4}>{Typography.curl(Words.upper(p.name))}</text></g>; })}
-        </svg>
+        <div className="local-sheet" ref={sheet}>
+          <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} role="img" aria-label="The place you are in">
+            {chart.edges.map(e => { const a = where.get(e.from), b = where.get(e.to); return a && b
+              ? <line key={`${e.id}${e.from}`} className={`link${e.status === 'open' ? '' : ' shut'}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
+              : null; })}
+            {chart.places.map(p => { const c = where.get(p.id)!; return <g key={p.id}>
+              <rect className={`room${p.here ? ' here' : ''}${p.visited || p.here ? '' : ' unvisited'}`} x={c.x - 7} y={c.y - 7}
+                width={14} height={14} />
+              <text x={c.x} y={c.y + 24} textAnchor="middle">{MapView.wrap(Typography.curl(Words.upper(p.name)), 19)
+                .map((line, i) => <tspan key={i} x={c.x} dy={i ? 14 : 0}>{line}</tspan>)}</text></g>; })}
+          </svg>
+        </div>
       </figure>
     );
+  }
+  // A name in lines of about so many letters, broken between words.
+  static wrap(text: string, width: number): string[] {
+    const lines: string[] = [];
+    for (const word of text.split(' ')) {
+      const last = lines.at(-1);
+      if (last !== undefined && last.length + word.length < width) { lines[lines.length - 1] = `${last} ${word}`; }
+      else { lines.push(word); }
+    }
+    return lines;
   }
 }

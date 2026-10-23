@@ -42,12 +42,13 @@ export class Atlas {
       return { id: z.id, name: Typography.curl(z.name.replace(/^the /i, '')), x, y };
     });
     const here = land.here !== undefined ? this.centre(land.here, W) : places.find(p => p.id === hereArea);
-    const labels = this.labels(places, here ? [here] : []);
+    const box = this.crop(land.known, W, land.height, here);
+    const labels = this.labels(places, here ? [here] : [], box);
     const unknown = [...land.cover].flatMap((_, i) => known.has(i) ? [] : [this.centre(i, W)]);
     const glosses = Object.entries(land.glosses).map(([id, gloss]) => [places.find(p => p.id === id)?.name
       ?? region.areas.find(a => a.id === id)?.name ?? '', gloss] as [string, string]).filter(([n]) => n);
     const rivers = land.rivers.map(r => this.line(r.filter(c => known.has(c)), W));
-    return { box: [0, 0, W * S, land.height * S], cells, unknown, zones: this.zoned(zones, labels), rivers,
+    return { box, cells, unknown, zones: this.zoned(zones, labels), rivers,
       roads, paths, places, labels, ...here ? { here } : {}, glosses };
   }
   // A country with no land drawn for it (an authored one): its places where its author set them, joined by the ways
@@ -66,9 +67,26 @@ export class Atlas {
     const places = region.areas.map(a => ({ id: a.id, kind: a.kind === 'settlement' ? 'settlement' : 'site',
       visited: a.visited, name: a.name, ...at.get(a.id)! }));
     const here = hereArea ? at.get(hereArea) : undefined;
-    return { box: [0, 0, (Math.max(...xs) - x0) * G + 280, (Math.max(...ys) - y0) * G + 110], cells: [], unknown: [],
-      rivers: [], roads: [], paths, places, zones: [], labels: this.labels(places, here ? [here] : []),
+    const box = [0, 0, (Math.max(...xs) - x0) * G + 280, (Math.max(...ys) - y0) * G + 110];
+    return { box, cells: [], unknown: [], rivers: [], roads: [], paths, places, zones: [],
+      labels: this.labels(places, here ? [here] : [], box),
       ...here ? { here } : {}, glosses: [] };
+  }
+  // The part of the country worth drawing: what the company knows and where it is, with three cells about it, and
+  // never narrower than a phone shows at full size; the rest is unknown, and would only make the known part small.
+  private static crop(known: number[], W: number, H: number, here?: Pt): number[] {
+    const S = this.S, xs = known.map(i => i % W), ys = known.map(i => Math.floor(i / W));
+    if (here) { xs.push(Math.floor(here.x / S)); ys.push(Math.floor(here.y / S)); }
+    if (!xs.length) { return [0, 0, W * S, H * S]; }
+    const [x0, x1] = this.span(Math.min(...xs), Math.max(...xs), W, 16);
+    const [y0, y1] = this.span(Math.min(...ys), Math.max(...ys), H, 10);
+    return [x0 * S, y0 * S, (x1 - x0) * S, (y1 - y0) * S];
+  }
+  // Cells lo to hi, three about them, widened to the least it may be and kept within the land.
+  private static span(lo: number, hi: number, size: number, least: number): [number, number] {
+    let a = Math.max(0, lo - 3), b = Math.min(size, hi + 4);
+    while (b - a < Math.min(least, size)) { if (a > 0) { a--; } if (b - a < least && b < size) { b++; } }
+    return [a, b];
   }
   private static centre(i: number, W: number): Pt {
     return { x: (i % W) * this.S + this.S / 2, y: Math.floor(i / W) * this.S + this.S / 2 };
@@ -79,8 +97,8 @@ export class Atlas {
   private static ends(e: RegionChart['edges'][number]): string { return [e.from, e.to].sort().join('|'); }
   // A name beside each place: to the right if there is room, else left, above or below; a name that fits nowhere
   // is left off (the ways list says it).
-  private static labels(places: (Pt & { id: string; kind: string; visited: boolean; name: string })[], taken: Pt[]):
-    Drawn['labels'] {
+  private static labels(places: (Pt & { id: string; kind: string; visited: boolean; name: string })[], taken: Pt[],
+    bounds?: number[]): Drawn['labels'] {
     const boxes: number[][] = taken.map(p => [p.x - 13, p.y - 13, p.x + 13, p.y + 13]);
     places.forEach(p => boxes.push([p.x - 7, p.y - 7, p.x + 7, p.y + 7]));
     const out: Drawn['labels'] = [];
@@ -92,6 +110,9 @@ export class Atlas {
       for (const [dx, dy, anchor] of tries) {
         const x = p.x + dx, y = p.y + dy, left = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2;
         const box = [left, y - h + 3, left + w, y + 3];
+        // A name stays on the map: one that would run off its edge goes on another side.
+        if (bounds && (box[0]! < bounds[0]! || box[2]! > bounds[0]! + bounds[2]! || box[1]! < bounds[1]!
+          || box[3]! > bounds[1]! + bounds[3]!)) { continue; }
         if (boxes.some(b => box[0]! < b[2]! && box[2]! > b[0]! && box[1]! < b[3]! && box[3]! > b[1]!)) { continue; }
         boxes.push(box);
         out.push({ id: p.id, text, kind: p.kind, known: p.visited || town, x, y, anchor });
