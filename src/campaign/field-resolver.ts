@@ -66,7 +66,7 @@ export class FieldResolver {
     if (call.name === 'check') {
       const members = host.actors.find(a => a.id === call.args[0])?.members ?? [];
       return Checks.make(creatures.snapshot.filter(c => members.includes(c.id)),
-        { skill: call.args[1]!, difficulty: call.args[2]!, seed });
+        { skill: call.args[1]!, difficulty: call.args[2]!, seed, about: action.id });
     }
     throw new Error(`Unsupported resolver ${call.name}`);
   }

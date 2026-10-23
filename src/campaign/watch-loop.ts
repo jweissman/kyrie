@@ -37,6 +37,7 @@ export class WatchLoop {
       Consequences.strike(host, combat);
       const foe = Engagement.foe(host);
       if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
+      Engagement.halt(host);
     }
     for (let tick = 0; tick < watches && !why; tick++) {
       if (journey && tick === watches - 1) { journey.arrive(); }
@@ -61,6 +62,8 @@ export class WatchLoop {
       why = watch && Interruption.check(watch, host.world, player!, happenings);
     }
     const interrupted = watch && why ? Interruption.told(watch, why, host.tickState.current.elapsed) : undefined;
+    // A warning stops what the company was doing when it was given, and nothing after.
+    if (host.persistent) { Engagement.halt(host); }
     return { npc, happenings, interrupted };
   }
 }

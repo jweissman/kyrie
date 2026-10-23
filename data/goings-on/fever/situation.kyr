@@ -22,7 +22,8 @@ Module fever "A fever on the green" {
   }
   // Whatever herbs are given her, she uses.
   Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). }
-  Rule lost_child when watch(clock) >= 240 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). }
+  // Too late, it happens at first light, and is heard by whoever is on the green; whoever comes back later sees it.
+  Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). }
 
   Topic sister_thanks with sister "Speak with {sister}" when mended(mother) and not offered(sister) once {
     Says "'She is eating,' says {sister}, as if she does not believe it. 'You went when nobody else would. If you are going on, I will come. I can pull my weight.'".

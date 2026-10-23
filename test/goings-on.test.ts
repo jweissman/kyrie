@@ -75,7 +75,8 @@ describe('a fever on the green', () => {
     const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'fever')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_green`);
     let said = '';
-    while (s.campaign.state.elapsed < 246) { said += Town.said(await s.perform('wait_hour')); }
+    // The third morning: first light on day 3 is the 276th watch.
+    while (s.campaign.state.elapsed < 280) { said += Town.said(await s.perform('wait_hour')); }
     expect(said).toContain('The child on the green has died');
   }, 60000);
 });

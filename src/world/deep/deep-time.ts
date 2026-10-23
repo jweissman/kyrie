@@ -21,7 +21,7 @@ export class DeepTime {
         .map(c => c.dwellers!.group.label));
       const fresh = pool.filter(g => !here.has(g.label));
       const draw = new Draw(`${key}:newcomers:${level.index}`), group = draw.pick(fresh.length ? fresh : pool), q = this.q;
-      const id = `${level.id}_newcomers`, beyond = `${level.id}_beyond`, rank = 1 + 2 * level.index;
+      const id = `${level.id}_newcomers`, beyond = `${level.id}_beyond`, rank = 1 + level.index;
       const who = group.species ? `Species ${group.species}.` : `Ancestry ${group.ancestry}. Calling ${group.calling ?? 'warrior'}.`;
       return [`  Place ${beyond} "the workings beyond" is room within ${level.id}.`,
         `  Person ${id} ${q(group.label)} at ${beyond} { Role ${q(group.role)}. ${who} Numbers ${group.count}.`

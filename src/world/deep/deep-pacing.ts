@@ -18,7 +18,7 @@ export interface DeepContent {
 // How a deep site is paced, as Orsino paced a dungeon (roomSequences, roomOverlays): each level takes a run of room
 // guides by its flavour (standard, dangerous, lucrative, balanced), given out along the level from where it is
 // entered; each guide gives the odds of a fight, a trap, a riddle, a wonder and how much treasure. What is met rises
-// with depth: Orsino's challenge (one at the top, two more for each level, more again a third of the way along each
+// with depth: Orsino's challenge (one at the top, one more for each level, more again a third of the way along each
 // run), aspects rarer and stronger deeper, traps that do more harm the deeper they are set, treasure of a better
 // tier. The deepest room is the keeper's.
 export class DeepPacing {
@@ -72,13 +72,13 @@ export class DeepPacing {
     const rows = [...table].sort((a, b) => Math.abs(a.depth - depth) - Math.abs(b.depth - depth));
     return [...rows[0]?.groups ?? []];
   }
-  // Orsino's challenge for a room: the run's level, two more each level down, more a third of the way along; an
-  // elite two higher still, fewer of them, and of a rarer aspect.
+  // Orsino's challenge for a room: the run's level, one more each level down (as each dungeon of Orsino's module is
+  // one more than the last), more a third of the way along; an elite two higher still, fewer, of a rarer aspect.
   private static dwellers(at: { room: DeepRoom; groups: DeepGroup[]; depth: number; i: number }, elite: boolean,
     draw: Draw): DeepDwellers {
     const { room, groups, depth, i } = at, group = groups.shift()!;
     groups.push(group);
-    const level = 1 + 2 * depth + Math.max(0, Math.round(i / 3) - 1) + (elite ? 2 : 0);
+    const level = 1 + depth + Math.max(0, Math.round(i / 3) - 1) + (elite ? 2 : 0);
     const tier = elite ? (depth > 1 ? 'epic' : 'rare') : depth === 0 ? 'common' : depth === 1 ? draw.pick(['common', 'uncommon'])
       : draw.pick(['uncommon', 'rare']);
     const aspected = elite || draw.next() < 0.3 + 0.2 * depth;

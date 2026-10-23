@@ -48,7 +48,9 @@ export class Checks {
     const chance = (21 + add - difficulty) / 20;
     return chance >= 0.65 ? 'likely' : chance >= 0.4 ? 'even' : 'unlikely';
   }
-  static make(creatures: Creature[], at: { skill: string; difficulty: string; seed: string }): CombatEvent[] {
+  // The roll turns on who makes it and on what is tried (asking the goblins is not asking their chief).
+  static make(creatures: Creature[], at: { skill: string; difficulty: string; seed: string; about?: string }):
+    CombatEvent[] {
     const skill = this.skill(at.skill), difficulty = this.difficulty(at.difficulty), c = this.maker(creatures, skill);
     if (!c) { return [{ type: 'check', turn: 0, actor: '', skill, rolled: 0, difficulty, success: false }]; }
     const b = this.bonus(c, skill), add = b.modifier + b.trained;
@@ -57,7 +59,7 @@ export class Checks {
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: sure ? 1 + add : 20 + add, difficulty,
         success: sure, unrolled: true, stat: b.stat, modifier: b.modifier, trained: b.trained }];
     }
-    const die = new Expressions(RandomStreams.key(at.seed, 'check', skill, c.id)).number('1d20');
+    const die = new Expressions(RandomStreams.key(at.seed, 'check', skill, c.id, at.about ?? '')).number('1d20');
     return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,
       success: die + add >= difficulty, stat: b.stat, modifier: b.modifier, trained: b.trained }];
   }

@@ -143,8 +143,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). }
     On failure { Assert spokenTo(hearers, actor). Assert warned(hearers, actor). Set patience(hearers) to watch(clock) + 2. }
-    Result "{hearers} hear you out, and argue it among themselves, and in the end let you be.".
-    Otherwise "{hearers} hear you out, and like none of it. They will not stand for you here much longer.".
+    Result "You talk it over with {hearers}, and in the end you are let be.".
+    Otherwise "You talk it over with {hearers}, and get nowhere: there will be no more patience for you here.".
   }
   Action face_down(actor: group, hearers: group, site: place) "Warn {hearers} off" {
     Time 2 minutes.
@@ -154,8 +154,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     Resolve check(actor, intimidation, dc_hard).
     On success { Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). }
     On failure { Assert spokenTo(hearers, actor). Assert assails(hearers, actor). }
-    Result "{hearers} weigh you, and look away first, and give you room.".
-    Otherwise "{hearers} weigh you, and do not like what they see, and come on.".
+    Result "You face {hearers} out, and you are given room.".
+    Otherwise "You face {hearers} out, and it goes the wrong way.".
   }
   // A proud creature's price, paid: it lets the company be.
   Action pay_tribute(actor: group, lord: group, site: place) "Give {lord} what it asks" {
