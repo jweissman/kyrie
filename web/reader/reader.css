@@ -91,6 +91,10 @@ p { margin: 0 0 .7em; text-wrap: pretty; hyphens: auto; }
 .here { min-width: 0; }
 .here section { margin: 0 0 30px; }
 .subject { margin: 0 0 16px; }
+.subject.portrayed { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 0 14px; align-items: start; }
+.subject .portrait { width: 52px; height: 66px; object-fit: cover; filter: grayscale(1) contrast(1.05);
+  background: var(--wash); }
+.subject:hover .portrait, .subject:focus-within .portrait { filter: none; }
 .subject .name { font: 600 18px/1.25 var(--display); margin: 0; }
 .subject .name .note { font-weight: 400; }
 .subject.creature .name::before { content: '■ '; color: var(--red); font-size: 13px; vertical-align: 2px; }

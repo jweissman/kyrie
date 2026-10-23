@@ -34,7 +34,8 @@ export interface PartyMember {
 }
 export interface PresentEntity {
   id: string; name: string; type: string;
-  members?: { name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number }[];
+  members?: { name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number;
+    backgroundId?: string; professionId?: string }[];
   state?: 'dead' | 'incapacitated'; intact?: boolean; activity?: string; condition?: string;
   // The container it is seen in.
   within?: string;
@@ -320,7 +321,9 @@ export class PlayerView {
       return { id: e.id, name: e.name, type: e.type, ...(activity ? { activity } : {}),
         ...(condition ? { condition } : {}),
         members: ids.map(id => creatures.find(c => c.id === id)!).map(c => ({ name: c.name, raceId: c.raceId,
-          classId: c.classId, level: c.base.level, hp: c.state.hp, maxHp: c.base.maxHp })),
+          classId: c.classId, level: c.base.level, hp: c.state.hp, maxHp: c.base.maxHp,
+          ...c.backgroundId ? { backgroundId: c.backgroundId } : {},
+          ...c.professionId ? { professionId: c.professionId } : {} })),
         ...(this.test(world, 'dead', e.id) ? { state: 'dead' as const } :
           !this.test(world, 'able', e.id) ? { state: 'incapacitated' as const } : {}) };
     }

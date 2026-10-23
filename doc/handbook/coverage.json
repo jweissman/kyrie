@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 149,
+    "kyr": 150,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 144,
+      "kyr": 145,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -11116,6 +11116,13 @@
   {
    "id": "rule:world_people.joining",
    "title": "joining, parting",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.likeness",
+   "title": "likeness",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-people"

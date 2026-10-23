@@ -77,6 +77,7 @@ export class SiteBuild {
     for (const name of ['index.html', 'mono.html']) { await writeFile(join(out, name), html); }
     await cp(join(this.root, 'web/reader/reader.css'), join(out, 'reader.css'));
     await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });
+    await cp(join(this.root, 'web/reader/paintings'), join(out, 'paintings'), { recursive: true });
   }
   static async serve(out: string, request: Request): Promise<Response> {
     const path = resolve(out, new URL(request.url).pathname.replace(/^\/+/, '') || 'index.html');

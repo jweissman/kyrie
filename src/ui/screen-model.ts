@@ -1,3 +1,4 @@
+import { Likeness } from '../paintings/likeness';
 import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { ConditionSense } from '../presentation/condition-sense';
@@ -214,7 +215,9 @@ export class ScreenModel {
       const kinship = w.module.relations.some(r => r.name === 'kinship') ? w.one('kinship', p.id) : undefined;
       const word = kinship && w.module.entities.find(e => e.id === kinship)?.name;
       const name = word ? `${p.name.split(', ')[0]}, ${word}` : p.name;
+      const portrait = playable ? this.portrait(w, p.id, member) : undefined;
       return { id: p.id, kind: playable ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
+        ...portrait ? { portrait } : {},
         ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }
@@ -227,6 +230,18 @@ export class ScreenModel {
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...(note ? { note } : {}), acts };
+  }
+  // The painting for someone: their own likeness, else one for their work, background or role (see Likeness).
+  private static portrait(w: Campaign['world'], id: string, member?: { backgroundId?: string; professionId?: string }):
+    TargetRow['portrait'] {
+    const own = w.module.relations.some(r => r.name === 'likeness') ? w.one('likeness', id) : undefined;
+    const ownName = own && w.module.entities.find(e => e.id === own)?.name;
+    const role = w.module.entities.find(e => e.id === id)?.name.split(', ').slice(1).join(' ');
+    const painting = Likeness.of({ ...ownName ? { own: ownName } : {},
+      ...member?.backgroundId ? { background: member.backgroundId } : {},
+      ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {} });
+    const credit = painting && Likeness.credits[painting];
+    return painting ? { src: Likeness.src(painting), ...credit ? { credit } : {} } : undefined;
   }
   // Every entity by the name the company knows it by: a member by their own name.
   private static names(campaign: Campaign): Map<string, string> {

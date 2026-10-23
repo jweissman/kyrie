@@ -23,6 +23,8 @@ Module world_people "Company and intention" {
   // What someone says on joining the company, or leaving it, in their own words (Joins, Leaves): said instead of the
   // voice tables' (data/voice/join.json, part.json), which speak by what they are to the one who plays.
   Relation joining(group, entity). Relation parting(group, entity).
+  // The painting shown beside someone in conversation (Likeness "fisherman"): one of the corpus, for what they do.
+  Relation likeness(group, entity).
   Rule hush_lifts when hushed(?c) and not dark() { Retract hushed(?c). }
   Goal false.
   Action recruit(actor: group, recruit: group, site: place) "Ask {recruit} to join the company" {

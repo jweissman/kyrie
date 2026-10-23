@@ -4,7 +4,7 @@ import { join } from 'node:path';
 // The authored files a campaign reads through its bundle source, for the browser. The catalogs are imported by the
 // engine directly, and the Orsino sources are only for the registry tools, so neither is bundled again.
 export class AssetCatalog {
-  static readonly skipped = /^(catalog|sources)\//;
+  static readonly skipped = /^(catalog|sources|paintings)\//;
   // The files under each directory, by repository path: data/, and for browser tests the fixtures too.
   static async files(root: string, dirs = ['data']): Promise<Record<string, string>> {
     const files: Record<string, string> = {};

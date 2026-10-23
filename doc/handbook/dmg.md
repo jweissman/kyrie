@@ -1276,7 +1276,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 15 | 3 | 0 | 2 | 4 |
+| 0 | 16 | 3 | 0 | 2 | 4 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1321,6 +1321,12 @@ A traveller of the country who has joined (a fellow, as against the one who play
 *Kyr · relation(group, entity); relation(group, entity)* · `rule:world_people.joining`
 
 What someone says on joining the company, or leaving it, in their own words (Joins, Leaves): said instead of the voice tables' (data/voice/join.json, part.json), which speak by what they are to the one who plays.
+
+#### likeness
+
+*Kyr · relation(group, entity)* · `rule:world_people.likeness`
+
+The painting shown beside someone in conversation (Likeness "fisherman"): one of the corpus, for what they do.
 
 #### hush_lifts
 

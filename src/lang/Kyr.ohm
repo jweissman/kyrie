@@ -51,7 +51,7 @@ Kyr {
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
-  PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Joins" | "Leaves" | "Greets") string "."
+  PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Joins" | "Leaves" | "Greets" | "Likeness") string "."
   PersonHaunt = ("Lair" | "Refuge" | "Fears") ident "."
   PersonProfession = "Profession" ident "."
   PersonBackground = "Background" ident "."

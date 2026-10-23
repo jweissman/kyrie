@@ -31,6 +31,8 @@ export interface TargetRow {
   reckoning?: { danger: Danger; text: string };
   // Someone who has joined the company: not here so much as with you, and to be talked to wherever you are.
   companion?: boolean;
+  // The painting shown beside them: for what they do, not of them (see Likeness), and how it is credited.
+  portrait?: { src: string; credit?: string };
 }
 export interface ItemRow {
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;

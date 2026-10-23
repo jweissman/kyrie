@@ -7,6 +7,8 @@ export interface SceneSubject {
   about?: string;
   // How a fight with it would go, as the company reckons it, when it is one that might be fought.
   danger?: string; choices: Choice[];
+  // The painting beside them, for what they do.
+  portrait?: { src: string; credit?: string };
 }
 // What the page is drawn from in play: who and what is here (danger first), who is with you, the ways about the place
 // and the ways out across the country, and what you can do yourself. Every choice is one the engine offered, attached
@@ -37,11 +39,13 @@ export class SceneModel {
     const note = [role.join(', '), s.note].filter(Boolean).join(' · ');
     return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
+      ...row?.portrait ? { portrait: row.portrait } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => kind === 'animal' ? this.led(c) : c) };
   }
   // An animal is led and let go, not asked.
   private static led(c: Choice): Choice {
-    const words: Record<string, string> = { 'Ask them to come with you': 'Lead along', 'Let them make their own way': 'Let go' };
+    const words: Record<string, string> = { 'Ask them to come with you': 'Lead along', 'Let them make their own way': 'Let go',
+      'Tell them not to wait for you': 'Leave be' };
     return words[c.label] ? { ...c, label: words[c.label]! } : c;
   }
   // Said beside its subject, a choice need not name it again: "Ask Wat about Father" under Wat is "Ask about Father";

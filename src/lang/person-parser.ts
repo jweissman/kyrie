@@ -68,7 +68,8 @@ export class PersonParser {
     return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
   }
   static readonly manners: Record<string, string> = { Warns: 'warning', Comes: 'onslaught', Flinches: 'flinch',
-    Pleads: 'plea', Objects: 'objection', Joins: 'joining', Leaves: 'parting', Greets: 'greeting', Lair: 'lair',
+    Pleads: 'plea', Objects: 'objection', Joins: 'joining', Leaves: 'parting', Greets: 'greeting', Likeness: 'likeness',
+    Lair: 'lair',
     Refuge: 'refuge', Fears: 'fears', Manner: 'manner', Pronouns: 'pronouns' };
   private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {
     if (temperament) { PersonParser.fact(module, 'temperament', id, `temper_${temperament}`); }

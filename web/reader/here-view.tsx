@@ -41,11 +41,15 @@ export class HereView {
   }
   static Subject({ subject, draw }: { subject: SceneSubject; draw: Draw }) {
     return (
-      <div className={`subject ${subject.kind}`} data-subject={subject.id}>
-        <p className="name">{Typography.curl(Words.upper(subject.name))}
-          {subject.note && <span className="note"> · {Typography.curl(subject.note)}</span>}</p>
-        {subject.danger && <p className="danger">{subject.danger}</p>}
-        <HereView.Acts choices={subject.choices} draw={draw} />
+      <div className={`subject ${subject.kind}${subject.portrait ? ' portrayed' : ''}`} data-subject={subject.id}>
+        {subject.portrait && <img className="portrait" src={subject.portrait.src} alt="" loading="lazy" decoding="async"
+          title={subject.portrait.credit ? `A painting for what they do: ${subject.portrait.credit}` : 'A painting for what they do'} />}
+        <div className="who">
+          <p className="name">{Typography.curl(Words.upper(subject.name))}
+            {subject.note && <span className="note"> · {Typography.curl(subject.note)}</span>}</p>
+          {subject.danger && <p className="danger">{subject.danger}</p>}
+          <HereView.Acts choices={subject.choices} draw={draw} />
+        </div>
       </div>
     );
   }

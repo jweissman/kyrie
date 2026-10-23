@@ -52,7 +52,7 @@ export class WorldView {
   private static told({ exchange, after }: { exchange: Exchange; after?: boolean }) {
     return (
       <section className={`happened tone-${exchange.tone}${after ? ' after' : ''}`} data-id="response" aria-live="polite">
-        {exchange.said && <p className="you">{Words.echo(Words.lastSaid(exchange.said))}</p>}
+        {exchange.said && !after && <p className="you">{Words.echo(Words.lastSaid(exchange.said))}</p>}
         {exchange.lines.map((l, i) => <p key={i} className={l.kind}>{l.text}</p>)}
         {exchange.notes.length > 0 && <p className="notes">{exchange.notes.map(n => <span key={n}>{n}</span>)}</p>}
       </section>
