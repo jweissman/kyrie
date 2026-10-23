@@ -2,7 +2,7 @@
 
 The creatures of Kyr. A species is a kind of creature statted by its own nature: a natural weapon and hide, a hit die, rolled or fixed qualities, the abilities it fights with and the traits it is born with. People are statted by ancestry and calling instead, and are in the Player's Handbook.
 
-Defeating a creature is worth its kind's experience for each of its levels: beast 150, undead 300, spirit 200, construct 350, dragon 800, monster 200; a person 30, or by ancestry (human 30, elf 40, dwarf 50, goblin 25).
+Defeating a creature is worth its kind's experience for each of its levels: beast 150, undead 300, spirit 200, construct 350, dragon 800, monster 200; a person 30, or by ancestry (human 30, elf 40, dwarf 50, goblin 25). A fight won is worth what its foes were, ten for the square of their number and 25 more, shared among the company members still standing at its end.
 
 A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three times. Most of the bestiary is composed from Orsino's monster template and grows with level as the template does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.
 

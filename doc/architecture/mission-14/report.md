@@ -71,7 +71,10 @@ ordinary play was not done: it needs several expeditions of levelling, and I did
   class or category weighs; a member carries ten and twice their strength. A laden company is told so and goes at
   half its pace; the heart of the vein weighs a warrior down. Nothing is refused for weight.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
-- Monster experience is uneven (three goblins 75, two cave spiders 600).
+- Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
+  first more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
+  still standing as Orsino shares it; until now every member got the whole, four times Orsino's for a company of
+  four. Whether undead should be worth twelve times a goblin a level in Kyrie is not settled.
 
 ## Proof B: an argument with consequences
 

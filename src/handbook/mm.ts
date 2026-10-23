@@ -24,7 +24,8 @@ export class MonsterManual {
       'Defeating a creature is worth its kind\'s experience for each of its levels: '
         + `${Object.entries(Advancement.table.species).map(([k, v]) => `${k} ${v}`).join(', ')}; a person `
         + `${Advancement.table.person}, or by ancestry (${Object.entries(Advancement.table.ancestry).map(([k, v]) => `${k} `
-        + `${v}`).join(', ')}).`,
+        + `${v}`).join(', ')}). A fight won is worth what its foes were, ten for the square of their number and 25 `
+        + 'more, shared among the company members still standing at its end.',
       'A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three '
         + 'times. Most of the bestiary is composed from Orsino\'s monster template and grows with level as the template '
         + 'does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.'],

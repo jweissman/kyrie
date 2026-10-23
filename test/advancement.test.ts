@@ -5,7 +5,9 @@ import { Advancement } from '../src/rules/advancement';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
-import type { CreatureStore } from '../src/creature-store';
+import { CreatureStore } from '../src/creature-store';
+import { FieldUse } from '../src/campaign/field-use';
+import type { World } from '../src/lang/world';
 import { GeneratedWorld } from './support/generated';
 
 describe('advancement', () => {
@@ -15,6 +17,16 @@ describe('advancement', () => {
     expect(Advancement.worth(content.createCreature('w', { raceId: 'wolf' }))).toBe(150);
     expect(Advancement.worth(content.createCreature('r', { raceId: 'revenant' }))).toBe(300);
     expect(Advancement.worth(content.createCreature('h', { raceId: 'human', classId: 'warrior', level: 2 }))).toBe(60);
+  });
+  it('shares a won fight among those still standing, as Orsino does: worth, ten for the square of the number, and 25', () => {
+    const content = new Content('share');
+    const hounds = ['h1', 'h2'].map(id => content.createCreature(id, { raceId: 'bone_hound', level: 2 }));
+    const company = ['a', 'b', 'c'].map(id => content.createCreature(id, { raceId: 'human', classId: 'warrior' }));
+    company[2]!.state.hp = 0;
+    const store = new CreatureStore([...hounds, ...company]), world = { module: { measures: [] } } as unknown as World;
+    const won = 2 * Advancement.worth(hounds[0]!) + 10 * 2 * 2 + 25;
+    FieldUse.award(store, ['a', 'b', 'c'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
+    expect(['a', 'b', 'c'].map(id => store.get(id).state.experience)).toEqual([Math.floor(won / 2), Math.floor(won / 2), 0]);
   });
   it('a level rolls the hit die, adds Constitution, and moves a caster\'s slot table on, the same way every time', () => {
     const make = () => new Content('train').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'],

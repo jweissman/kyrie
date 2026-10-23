@@ -15,13 +15,16 @@ import type { CombatEvent } from '../model';
 import type { Attribute } from '../creature';
 
 export class FieldUse {
-  // Experience for a won encounter: its authored value, or what its creatures are worth (Advancement.worth).
+  // Experience for a won encounter: its authored value for each who stood; or Orsino's reward, shared among those
+  // still standing: what its creatures are worth (Advancement.worth), ten for the square of their number, and 25.
   static award(store: CreatureStore, party: string[], world: World,
     result: { opponent: string; members: string[]; events: CombatEvent[] }) {
     const authored = world.module.measures.some(m => m.name === 'encounterXp')
       ? world.number(ModuleWriter.call('encounterXp', result.opponent)) : 0;
-    const amount = authored || result.members.reduce((sum, id) => sum + Advancement.worth(store.get(id)), 0);
-    this.grant(store, party, amount, result.events);
+    if (authored) { this.grant(store, party, authored, result.events); return; }
+    const n = result.members.length, standing = party.filter(id => store.get(id).state.hp > 0).length;
+    const won = result.members.reduce((sum, id) => sum + Advancement.worth(store.get(id)), 0) + 10 * n * n + 25;
+    this.grant(store, party, Math.floor(won / Math.max(1, standing)), result.events);
   }
   // Living members whose experience has reached their next level gain it (Advancement.train).
   static train(store: CreatureStore, members: string[], seed: string): CombatEvent[] {
