@@ -4,6 +4,7 @@ import { DeepLayouts, type DeepLayout, type DeepLink } from './deep-layout';
 import { DeepMechanisms } from './deep-mechanisms';
 import { DeepPacing, type DeepContent } from './deep-pacing';
 import { DeepRooms } from './deep-rooms';
+import { DeepTime } from './deep-time';
 import type { DeepPurpose } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 
@@ -26,7 +27,9 @@ export class DeepSites {
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }),
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose })),
-      ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...this.keeper(purpose, layout),
+      ...this.ore(purpose, layout), ...this.rest(purpose, layout, content),
+      ...DeepTime.lines(purpose, layout, content, key),
+      ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values)];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark.

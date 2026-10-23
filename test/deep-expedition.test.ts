@@ -78,14 +78,29 @@ describe('a deep site, from the inn', () => {
       /^Take the gallery to the crossing$/]);
     const met = /draw back to the edge of your light|go still when your light/;
     expect(await Delve.take(s, /^Talk to the goblins$/)).toMatch(met);
-    expect(Delve.names(s)).toEqual(expect.arrayContaining(['Talk the goblins into letting you be · an even chance',
-      'Face the goblins down · unlikely']));
-    const said = await Delve.take(s, /^Talk the goblins into letting you be/);
+    expect(Delve.names(s)).toEqual(expect.arrayContaining(['Ask the goblins to let you by · an even chance',
+      'Warn the goblins off · unlikely']));
+    const said = await Delve.take(s, /^Ask the goblins to let you by/);
     expect(said).toMatch(/persuasion check \(d20 \d+ \+ charisma -?\d+ = \d+ against 13\)/);
     const goblins = s.campaign.module.entities.find(e => e.name === 'the goblins')!.id;
     const test = (name: string, ...args: string[]) => s.campaign.world.test(ModuleWriter.call(name, ...args));
     // Tried once, whatever came of it; failing, they have no patience left and will come at a company that stays.
-    expect(Delve.names(s).some(n => /^(Talk the goblins|Face the goblins)/.test(n))).toBe(false);
+    expect(Delve.names(s).some(n => /^(Ask the goblins to let|Warn the goblins)/.test(n))).toBe(false);
     expect(test('tolerates', goblins, 'party') || test('warned', goblins, 'party')).toBe(true);
   }, 90000);
+  it('fills again while the company is away: something moves into a room it cleared, and the room shows it', async () => {
+    const { s } = await Delve.start('warrior');
+    // A second torch from the smith, for the second day.
+    await Delve.walk(s, [...Delve.inn, /^Ask Fargrim about the old workings$/, /^Take the door of the Wooden Wolf/,
+      /^Take Ulfgar's door/, /^Buy a torch for Wenna/, /^Take Ulfgar's door/, ...Delve.road.slice(1), /^Light a torch$/,
+      /^Take the gallery to the crossing$/, /^Attack the goblins$/, /^Take the gallery to the adit$/,
+      /^Take the passage to the adit mouth$/, /^Take the way in to Obscurusport$/, /^Wait until dark$/,
+      /^Wait until first light$/, /^Take the way in to the adit mouth$/, /^Take the passage to the adit$/,
+      /^Take the gallery to the crossing$/]);
+    // The torch burned out in the night: a new one, to see what is here now.
+    await Delve.take(s, /^Light a torch$/);
+    expect(Delve.page(s)).toContain('The dead you left here have been dragged into a corner');
+    const newcomers = s.campaign.module.entities.find(e => e.id.endsWith('_adit_newcomers'))!.id;
+    expect(s.campaign.world.one('at', newcomers)).toBe(s.campaign.world.one('at', 'party'));
+  }, 120000);
 });

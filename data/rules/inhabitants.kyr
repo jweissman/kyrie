@@ -45,7 +45,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_wary_flinch_many: fact "{?g} slip away from you.".
   Entity temper_words_wary_onslaught_many: fact "Cornered, {?g} turn on you.".
   Entity temper_words_proud_warning_many: fact "{?g} look at you as if you owed them something.".
-  // Watches it waits, once it has warned, before it comes at whoever stays.
+  // The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however
+  // many small things are done in it.
   Measure patience(group).
   Query confronts(g: group, c: group) means together(g, c) and company(c) and able(g) and not routed(g)
     and not tolerates(g, c) and not assails(g, c).
@@ -66,20 +67,19 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   }
   // A warning spent: whoever stayed is fallen on (for a defensive one, only in its lair).
   Rule temper_closes when warned(?g, ?c) and together(?g, ?c) and able(?g) and not routed(?g) and not tolerates(?g, ?c)
-    and patience(?g) <= 0 and not temperament(?g, temper_defensive) and onslaught(?g, ?o) says "{?o}" {
+    and patience(?g) <= watch(clock) and not temperament(?g, temper_defensive) and onslaught(?g, ?o) says "{?o}" {
     Assert assails(?g, ?c). Retract warned(?g, ?c).
   }
   Rule temper_defends when warned(?g, ?c) and temperament(?g, temper_defensive) and lair(?g, ?l) and at(?c, ?l)
     and at(?g, ?l) and able(?g) and not routed(?g)
-    and not tolerates(?g, ?c) and patience(?g) <= 0 and onslaught(?g, ?o) says "{?o}" {
+    and not tolerates(?g, ?c) and patience(?g) <= watch(clock) and onslaught(?g, ?o) says "{?o}" {
     Assert assails(?g, ?c). Retract warned(?g, ?c).
   }
-  Rule temper_waits when warned(?g, ?c) and together(?g, ?c) and patience(?g) > 0 { Decrease patience(?g) by 1. }
   Rule temper_let_go when warned(?g, ?c) and not together(?g, ?c) { Retract warned(?g, ?c). }
   // The first meeting: a warning stops the company where it stands, whatever it was doing, and it must answer.
   Rule temper_warns when temperament(?g, ?t) and warnsFirst(?t) and company(?c) and confronts(?g, ?c) and not warned(?g, ?c)
     and warning(?g, ?w) says "{?w}" {
-    Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
+    Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to watch(clock) + 1.
   }
   Relation warnsFirst(temperament).
   Initially Assert warnsFirst(temper_territorial). Initially Assert warnsFirst(temper_defensive).
@@ -96,7 +96,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Rule temper_spotted when temperament(?g, temper_ambush) and company(?c) and confronts(?g, ?c)
     and capable(?c, perception) and not warned(?g, ?c)
     and warning(?g, ?w) says "{?w}" {
-    Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
+    Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to watch(clock) + 1.
   }
   Rule temper_keeps_post when temperament(?g, temper_obedient) and company(?c) and confronts(?g, ?c)
     and lair(?g, ?p) and at(?g, ?p)
@@ -130,23 +130,23 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   }
   // Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from
   // the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best
-  // at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you a moment to
-  // be gone, and then comes at you; faced down badly, it comes at you at once.
+  // at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you the rest of
+  // the watch to be gone, and then comes at you; warned off badly, it comes at you at once.
   Relation hears(temperament). Relation spokenTo(group, group).
   Initially Assert hears(temper_territorial). Initially Assert hears(temper_defensive).
   Initially Assert hears(temper_wary). Initially Assert hears(temper_proud).
-  Action talk_round(actor: group, hearers: group, site: place) "Talk {hearers} into letting you be" {
+  Action talk_round(actor: group, hearers: group, site: place) "Ask {hearers} to let you by" {
     Time 3 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(hearers, site) and able(hearers) and talks(hearers)
       and temperament(hearers, ?t) and hears(?t) and not tolerates(hearers, actor) and not assails(hearers, actor)
       and not routed(hearers) and not spokenTo(hearers, actor).
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). }
-    On failure { Assert spokenTo(hearers, actor). Assert warned(hearers, actor). Set patience(hearers) to 1. }
+    On failure { Assert spokenTo(hearers, actor). Assert warned(hearers, actor). Set patience(hearers) to watch(clock) + 2. }
     Result "{hearers} hear you out, and argue it among themselves, and in the end let you be.".
     Otherwise "{hearers} hear you out, and like none of it. They will not stand for you here much longer.".
   }
-  Action face_down(actor: group, hearers: group, site: place) "Face {hearers} down" {
+  Action face_down(actor: group, hearers: group, site: place) "Warn {hearers} off" {
     Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(hearers, site) and able(hearers) and talks(hearers)
       and temperament(hearers, ?t) and hears(?t) and not tolerates(hearers, actor) and not assails(hearers, actor)

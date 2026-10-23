@@ -230,7 +230,9 @@ export class ScreenModel {
       const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined
         : this.look(p.members ?? []);
       const name = this.called(w, p.id, p.name);
-      const portrait = playable ? this.portrait(w, p.id, member) : undefined;
+      // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
+      const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
+      const portrait = likened ? this.portrait(w, p.id, member) : undefined;
       return { id: p.id, kind: playable ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
         ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),

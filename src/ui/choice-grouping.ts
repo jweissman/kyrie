@@ -1,4 +1,4 @@
-import type { Operator } from '../lang/module';
+import type { Operator, Predicate } from '../lang/module';
 import type { PublicChoice } from '../presentation/action-presentation';
 import type { ExitActs } from './passages';
 import type { Act, Passage } from './screen-types';
@@ -213,7 +213,10 @@ export class ChoiceGrouping {
     else { this.insert(out.camp, path, risky); }
   }
   private static fallback(out: Grouped, row: Row, context: GroupingContext, leaf: Partial<Act>) {
-    const changed = [...row.action.success].flatMap(c => c.call.args).find(id => context.present.has(id));
+    // What it changes, or else what it asks of something in view (the words on a casket, right or wrong, are all
+    // pressed on the casket), or else whatever it is done with.
+    const changed = [...row.action.success].flatMap(c => c.call.args).find(id => context.present.has(id))
+      ?? this.named(row.action.requires).find(id => context.present.has(id));
     const subject = changed ?? Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.present.has(v))?.[1];
     const path = row.choice.name.split('; ');
@@ -224,6 +227,11 @@ export class ChoiceGrouping {
     if (subject) { this.insert(this.slot(out.targets, subject), path, leaf); }
     else if (onWay) { this.exit(out, context.passageOf.get(onWay)!, { acts: [], path, leaf }); }
     else { this.insert(out.camp, path, leaf); }
+  }
+  private static named(p: Predicate): string[] {
+    if ('args' in p) { return p.args; }
+    if (p.kind === 'not') { return this.named(p.value); }
+    return p.kind === 'and' || p.kind === 'or' ? [...this.named(p.left), ...this.named(p.right)] : [];
   }
   // A label that starts with a name starts with a capital: "A torch — 1 coin". A fee of nothing is not said.
   private static fill(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {

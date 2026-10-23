@@ -77,7 +77,8 @@ export class RegionSites {
     // Every site's way can be learned, told landmark by landmark where it is in wild country; one deep in wild country
     // can also be found by searching where it starts.
     const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
-    const told = zone ? `The way to ${way}: ${RegionZones.route(region, zone, site.part ?? 0)}, where the track to it starts.`
+    // Named as the company knows it when it reads it: the way to a timbered adit, or to Obscurusport once named.
+    const told = zone ? `The way to {${id}}: ${RegionZones.route(region, zone, site.part ?? 0)}, where the track to it starts.`
       : `The way to ${way}.`;
     lines.push(hidden && !great ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)}. }`
       : `  Discovery ${id}_found ${q(told)}.`);

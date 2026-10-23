@@ -15,7 +15,7 @@ export class MapView {
     const came = MapView.came(app);
     // Wild country is drawn on the land itself, landmark by landmark; the rooms of a place are drawn below it.
     const region = screen.region, wild = region?.land && region.areas.find(a => a.here)?.kind === 'wilderness';
-    const local = !wild && screen.chart && screen.chart.places.filter(p => !p.external).length > 1
+    const local = (!wild || screen.chart?.level) && screen.chart && screen.chart.places.filter(p => !p.external).length > 1
       ? screen.chart : undefined;
     return (
       <article className="world-body map" data-region="map" aria-label="The map">
@@ -85,7 +85,7 @@ export class MapView {
     }, [hx]);
     return (
       <figure className="local">
-        <p className="label">Here</p>
+        <p className="label">{chart.level ? Words.upper(chart.level) : 'Here'}</p>
         <div className="local-sheet" ref={sheet}>
           <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} role="img" aria-label="The place you are in">
             {chart.edges.map(e => { const a = where.get(e.from), b = where.get(e.to); return a && b

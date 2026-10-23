@@ -76,7 +76,8 @@ export class ChartModel {
       }
       edges.push({ ...this.edge(w, visited), from: inside.id, to: id });
     }
-    return { ...(places.length ? { chart: { places, edges } } : {}), ...this.region(ways, visited, here) };
+    const level = home?.space?.kind === 'level' ? { level: home.name } : {};
+    return { ...(places.length ? { chart: { places, edges, ...level } } : {}), ...this.region(ways, visited, here) };
   }
   private edge(w: WayInfo, visited: Set<string>) {
     return { id: w.passage, name: w.name, from: w.from, to: w.to, status: w.status, oneWay: w.oneWay,

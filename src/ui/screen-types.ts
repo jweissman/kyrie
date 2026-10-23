@@ -92,6 +92,8 @@ export interface Chart {
   places: { id: string; name: string; x: number; y: number; visited: boolean; here: boolean; area: string;
     external?: boolean }[];
   edges: { id: string; name: string; from: string; to: string; status: string; oneWay: boolean; explored: boolean }[];
+  // The level of a site it is a plan of (the adit level), drawn even where the site stands in wild country.
+  level?: string;
 }
 export interface RegionChart {
   // An area's form is the land it is, when its region says (river, wood, lake, pass, peak); the terrain is the
