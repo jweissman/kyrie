@@ -96,7 +96,7 @@ room. Hearing an opening hook reveals the route; objectives appear only once a h
 omniscient quest list. Today every carried belief is true; the model has room for false ones (`assumesFalse`) but the
 assembler does not yet create them.
 
-## The worked example: seed `thorn`, upland (`bun bin/world.ts thorn --terrain mountain`)
+## The worked example: seed `thorn`, upland (`bin/kyrie world thorn --terrain mountain`)
 
 ```
 Rededge: mountain, human, faith of Brigid (life)

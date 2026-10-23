@@ -1,6 +1,6 @@
 import likeness from '../../data/paintings/likeness.json';
 
-// Who a portrait shows, as recorded by looking at it (data/paintings/seen.json, through bun bin/paintings.ts).
+// Who a portrait shows, as recorded by looking at it (data/paintings/seen.json, through bun scripts/paintings.ts).
 export interface Sitter { sex: 'man' | 'woman'; age?: string; station?: string; era: string; face: number }
 // Whom a painting is wanted for: as much as the world knows of them.
 export interface Wanted { sex?: 'man' | 'woman'; age?: string; stations?: string[]; concept?: string }

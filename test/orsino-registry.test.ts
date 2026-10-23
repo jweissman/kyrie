@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import snapshot from '../data/sources/orsino/registry.json';
 import ledger from '../data/sources/orsino/adaptations.json';
-import { OrsinoCorpus } from '../bin/orsino-corpus';
+import { OrsinoCorpus } from '../src/cli/orsino-corpus';
 import { OrsinoExtract, type RegistrySnapshot } from '../src/registry/orsino-extract';
 import { CatalogLedger } from '../src/registry/catalog-ledger';
 import { OrsinoRegistry, type Ledger } from '../src/registry/orsino-registry';

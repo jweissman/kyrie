@@ -1,4 +1,3 @@
-#!/usr/bin/env bun
 // `kyrie preview <campaign.json>`: the author's loop. It lints the campaign, builds the reader with the campaign's
 // files, serves it, and on every save under data/ or the campaign's own directory lints and builds again, and the
 // open page reloads. A module that does not load is reported with its file and line, and the page keeps the last
@@ -8,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve } from 'node:path';
 import { KyrLint, type Finding } from './kyr-lint';
 import { SiteBuild } from './site-build';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { NodeBundleSource } from '../campaign/node-bundle-source';
 
 export class Preview {
   private stamp = '';
@@ -66,4 +65,3 @@ export class Preview {
   }
 }
 
-if (import.meta.main) { await Preview.main(process.argv.slice(2)); }

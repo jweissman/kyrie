@@ -6,7 +6,7 @@ import { Canon } from '../src/canon/canon';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
-import { KyrLint } from '../bin/kyr-lint';
+import { KyrLint } from '../src/cli/kyr-lint';
 
 // The authoring guide's example, extracted from its code blocks, installed beside the real rules and played.
 class Guide {

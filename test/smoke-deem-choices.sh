@@ -2,7 +2,7 @@
 set -euo pipefail
 fixture=$(mktemp -d /tmp/kyr-deem-choices.XXXXXX)
 trap 'rm -rf "$fixture"' EXIT
-bun run bin/prove-creature-choices.ts prepare "$fixture"
+bun run scripts/prove-creature-choices.ts prepare "$fixture"
 deem validate --type creature > /dev/null
 # Every invocation is independent, so they run concurrently: one job per line, "<output> <deem run arguments...>".
 jobs="$fixture/jobs.txt"
@@ -29,4 +29,4 @@ if deem run --type impossible --seed choice- --templates "$fixture/templates.jso
 fi
 deem run --type creature --seed choice- > "$fixture/repeated.json"
 cmp "$fixture/creature-0.json" "$fixture/repeated.json"
-bun run bin/prove-creature-choices.ts verify "$fixture"
+bun run scripts/prove-creature-choices.ts verify "$fixture"

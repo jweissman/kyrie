@@ -1,10 +1,10 @@
-import { ActionSchemas } from '../src/campaign/action-schemas';
-import { PlaySession } from '../src/session/play-session';
-import { ItemCatalog } from '../src/item-catalog';
-import { Canon } from '../src/canon/canon';
-import { Spatial } from '../src/spatial';
-import type { Entity, Module } from '../src/lang/module';
-import type { World } from '../src/lang/world';
+import { ActionSchemas } from '../campaign/action-schemas';
+import { PlaySession } from '../session/play-session';
+import { ItemCatalog } from '../item-catalog';
+import { Canon } from '../canon/canon';
+import { Spatial } from '../spatial';
+import type { Entity, Module } from '../lang/module';
+import type { World } from '../lang/world';
 import type { Finding } from './kyr-lint';
 
 // One campaign's findings, gathered by named checks over its loaded world.

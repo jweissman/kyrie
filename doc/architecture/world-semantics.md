@@ -25,7 +25,7 @@ to be said in the framework's terms, so that any module can read it:
 - a place robbed (`losses`);
 - a stronghold left empty (`vacant`).
 
-`bun bin/kyrie.ts lint --verbose` lists every relation a campaign module declares for itself (`campaign-vocabulary`).
+`bin/kyrie lint --verbose` lists every relation a campaign module declares for itself (`campaign-vocabulary`).
 That list is the measure of how much is still scenario-local. Mission 6 brought it from 97 (at the end of mission 5)
 to 88. The table below says where the rest stands.
 

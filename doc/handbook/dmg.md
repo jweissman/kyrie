@@ -12,7 +12,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 20 | 5 | 1 | 5 | 16 |
+| 2 | 20 | 5 | 1 | 5 | 17 |
 
 #### lightsUp
 
@@ -217,6 +217,22 @@ Hand it to someone who has asked for it, or will take it. What they do with it i
 > Needs: able(actor); at(actor, site); able(recipient); at(recipient, site); distinct(actor, recipient); memberOf(carrier, actor); awake(carrier); ownedItem(gift, carrier); itemKind(gift, form); wants(recipient, form)
 
 > Then: Assert keeps(recipient, gift).
+
+#### give back
+
+*Kyr · action (group, item, member, group, place)* · `rule:belongings.give_back`
+
+- Shown as: Give {gift} back to {owner}
+- Takes: 10 minutes
+- Costs: 1
+
+What was taken in front of its owner can be handed back: they will not forget it, but they need not fight for it.
+
+Hand back what is theirs. They will remember it was taken; they need not fight you for it.
+
+> Needs: able(actor); at(actor, site); able(owner); at(owner, site); memberOf(carrier, actor); awake(carrier); ownedItem(gift, carrier); owns(owner, gift); objected(owner, gift)
+
+> Then: Assert keeps(owner, gift). Retract hostile(owner, actor).
 
 #### sell
 

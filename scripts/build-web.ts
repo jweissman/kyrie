@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 // Builds the static site. `--serve` is a local preview convenience only; playing needs no server.
 import { resolve } from 'node:path';
-import { SiteBuild } from './site-build';
+import { SiteBuild } from '../src/cli/site-build';
 
 const out = resolve(SiteBuild.root, process.env.KYRIE_SITE_DIR ?? 'site');
 const size = await SiteBuild.site(out);

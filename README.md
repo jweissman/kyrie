@@ -28,9 +28,9 @@ Arrow keys move among the choices, Enter or Space takes one, Escape or Backspace
 `t` lets a fight run itself. The terminal plays the same worlds:
 
 ```sh
-bun bin/kyrie.ts world thorn --terrain mountain     # describe and load a generated country
-bun bin/kyrie.ts campaign data/campaigns/the-long-man.campaign.json
-bun bin/kyrie.ts replay <transcript.json>           # replay a browser transcript; prints the canonical state
+bin/kyrie world thorn --terrain mountain     # describe and load a generated country
+bin/kyrie campaign data/campaigns/the-long-man.campaign.json
+bin/kyrie replay <transcript.json>           # replay a browser transcript; prints the canonical state
 ```
 
 The Serewater March, Silkholme and Skellfold remain as test beds under `test/fixtures`; they are not played from the
@@ -65,8 +65,8 @@ combat, and identity-keyed randomness so the same seed and choices always give t
   campaigns are composed.
 
 ```sh
-bun bin/kyrie.ts lint                 # every recommended campaign must load clean
-bun bin/kyrie.ts lint --inventory     # every relation and measure, and the files that declare it
+bin/kyrie lint                 # every recommended campaign must load clean
+bin/kyrie lint --inventory     # every relation and measure, and the files that declare it
 bun run web:build                     # after any .kyr or data change: the browser bundles the authored files
 ```
 
@@ -82,7 +82,7 @@ KYRIE_BROWSER=1 bun test ./test/caught-below-browser.test.ts   # real-browser jo
 `test/march-journey.test.ts` plays the March's three expeditions end to end; `test/conflict.test.ts` the necromancer's
 operations and what disrupts them; `test/holt-keep.test.ts` the keep; `test/encounters.test.ts` declared intents,
 guarding and wind-ups. `KYRIE_BROWSER=1 bun test ./test/living-world-browser.test.ts` plays the keep and the register
-by keys in a real browser. `bun bin/deem-bench.ts` times Deem generation. `bin/kyrie.ts` is the one executable; the other files in `bin/` are
+by keys in a real browser. `bun scripts/deem-bench.ts` times Deem generation. `bin/kyrie` is the one executable; the other files in `bin/` are
 development tools (benchmarks, recorders, Orsino registry generation, Deem proofs), and `scripts/` holds the
 playtest server and driver used to play the browser client by label.
 

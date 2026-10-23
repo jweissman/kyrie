@@ -79,7 +79,9 @@ export class PlaceStage {
   // each thing that might be tried at it.
   static DoorView({ door, at, draw, twin }: { door: Door; at: string; draw: Draw; twin: boolean }) {
     const [first, ...rest] = door.choices, exit = door.exit, tried = / — /.test(first!.label);
-    const note = [door.far || twin ? exit.way : '', tried ? '' : first!.note].filter(Boolean).join(' · ');
+    // Where something is in the way, the door's name does the first thing to try at it, and says so.
+    const note = [door.far || twin ? exit.way : '', tried ? PlaceStage.also(first!.label) : first!.note]
+      .filter(Boolean).join(' · ');
     const head = <>
       <span className="arrow" aria-hidden="true">{PlaceStage.arrows[door.side][door.far ? 1 : 0]}</span>
       <span className="to">{Typography.curl(Words.upper(exit.destination.name))}</span>
@@ -88,9 +90,8 @@ export class PlaceStage {
     return (
       <div className={`door side-${door.side}${door.far ? ' far' : ''}`} style={{ ['--at' as string]: at }}
         data-exit={exit.id}>
-        {tried ? <div className="door-act door-head">{head}</div>
-          : <Act.View choice={first!} draw={draw} className="door-act">{head}</Act.View>}
-        {(tried ? door.choices : rest).map(c => <Act.View key={c.id} choice={c} draw={draw} className="door-also">
+        <Act.View choice={first!} draw={draw} className="door-act">{head}</Act.View>
+        {rest.map(c => <Act.View key={c.id} choice={c} draw={draw} className="door-also">
           {Typography.curl(PlaceStage.also(c.label))}{c.disabled && <small className="why"> · {c.disabled}</small>}
         </Act.View>)}
       </div>
@@ -98,7 +99,7 @@ export class PlaceStage {
   }
   private static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
   // Someone here: their painting, their name and what they are, and what they are doing; the whole of it is the way
-  // to speak with them.
+  // to speak with them. Someone who will not speak (angry, asleep) shows what can still be done with them.
   static Figure({ subject: p, draw }: { subject: SceneSubject; draw: Draw }) {
     const talk = p.choices.find(c => c.id.endsWith('#talk'));
     const face = <>
@@ -113,6 +114,7 @@ export class PlaceStage {
         {talk ? <Act.View choice={talk} draw={draw} className="fig-act">{face}</Act.View> : <div className="fig-act">{face}</div>}
         {p.says?.[0] && <figcaption>{Typography.curl(p.says[0])}</figcaption>}
         {p.state && <figcaption className="state">{p.state === 'dead' ? 'Dead.' : 'Down.'}</figcaption>}
+        {!talk && p.choices.length > 0 && <Act.List choices={p.choices} draw={draw} className="small" />}
       </figure>
     );
   }

@@ -1,18 +1,17 @@
-#!/usr/bin/env bun
 // The voice tables (data/voice), for editors.
-//   bun bin/voice.ts orsino               bring Orsino's combat barks into data/voice/combat.json (Kyr's own rows kept)
-//   bun bin/voice.ts show [kind]          every table, or one kind: each line with the moments it is chosen in
-//   bun bin/voice.ts moments <kind> k=v…  which lines a moment would choose among, best fit first, and how it reads
-//   bun bin/voice.ts coverage             each kind's contexts: which have lines of their own and which fall back
-//   bun bin/voice.ts review [kind]        each line as it reads of he, she, they and it, with what reads wrong marked
+//   bin/kyrie voice orsino               bring Orsino's combat barks into data/voice/combat.json (Kyr's own rows kept)
+//   bin/kyrie voice show [kind]          every table, or one kind: each line with the moments it is chosen in
+//   bin/kyrie voice moments <kind> k=v…  which lines a moment would choose among, best fit first, and how it reads
+//   bin/kyrie voice coverage             each kind's contexts: which have lines of their own and which fall back
+//   bin/kyrie voice review [kind]        each line as it reads of he, she, they and it, with what reads wrong marked
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { Voice, type VoiceLine, type VoiceTable } from '../src/narrative/voice';
-import { VoiceCoverage } from '../src/narrative/voice-coverage';
-import { VoiceReview } from '../src/narrative/voice-review';
+import { Voice, type VoiceLine, type VoiceTable } from '../narrative/voice';
+import { VoiceCoverage } from '../narrative/voice-coverage';
+import { VoiceReview } from '../narrative/voice-review';
 
-class VoiceTool {
-  static readonly root = resolve(import.meta.dir, '..');
+export class VoiceTool {
+  static readonly root = resolve(import.meta.dir, '../..');
   static readonly events: Record<string, string> = { onKill: 'kill', onCrit: 'crit', onMiss: 'miss', onFall: 'fall',
     onFlee: 'flee', onEngage: 'engage', onHitReceived: 'hurt', onMissReceived: 'dodge', onSummon: 'summon',
     onSummonReceived: 'summoned', onResurrect: 'revived' };
@@ -75,11 +74,13 @@ class VoiceTool {
     }
     console.log(`\n${rows.length} lines; ${rows.filter(r => r.faults.length).length} read wrong.`);
   }
+  static main(args: string[]): number {
+    const [command = 'show', ...rest] = args;
+    if (command === 'orsino') { this.orsino(); }
+    else if (command === 'moments') { this.moments(rest[0]!, rest.slice(1)); }
+    else if (command === 'coverage') { this.coverage(); }
+    else if (command === 'review') { this.review(rest[0]); }
+    else { this.show(rest[0]); }
+    return 0;
+  }
 }
-
-const [command = 'show', ...rest] = process.argv.slice(2);
-if (command === 'orsino') { VoiceTool.orsino(); }
-else if (command === 'moments') { VoiceTool.moments(rest[0]!, rest.slice(1)); }
-else if (command === 'coverage') { VoiceTool.coverage(); }
-else if (command === 'review') { VoiceTool.review(rest[0]); }
-else { VoiceTool.show(rest[0]); }

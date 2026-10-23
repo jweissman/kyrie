@@ -1,6 +1,6 @@
-import { WorldAssembler, type WorldReport } from '../src/world/world-assembler';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { Campaign } from '../src/campaign/campaign';
+import { WorldAssembler, type WorldReport } from '../world/world-assembler';
+import { NodeBundleSource } from '../campaign/node-bundle-source';
+import { Campaign } from '../campaign/campaign';
 
 // Generates a region from a seed, selects and situates scenarios, and loads the result as a campaign.
 // Usage: kyrie world <seed> [--json] [--terrain forest|marsh|mountain|frost]
@@ -29,4 +29,3 @@ export class WorldTool {
       + `${campaign.installations.length} modules installed.`);
   }
 }
-if (import.meta.main) { await WorldTool.main(process.argv.slice(2)); }

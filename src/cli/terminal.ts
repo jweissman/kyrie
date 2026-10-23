@@ -1,23 +1,16 @@
-#!/usr/bin/env bun
 import { createInterface, type Interface } from 'node:readline/promises';
-import { readFile, writeFile } from 'node:fs/promises';
-import { Content } from '../src/content';
-import { InformationView } from '../src/information/information-view';
-import { Campaign } from '../src/campaign/campaign';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { Battle } from '../src/battle';
-import type { BattleState, Command } from '../src/model';
-import { Tactics } from '../src/tactics';
-import { CombatPresenter } from '../src/ui/combat-presenter';
-import { CombatChoices, type ActionChoice } from '../src/ui/combat-choices';
-import { Canon } from '../src/canon/canon';
-import { batch } from '../src/arena';
-import { PlaySession, type Transcript } from '../src/session/play-session';
-import { KyrLint } from './kyr-lint';
-import { Preview } from './preview';
-import { WorldTool } from './world';
+import { writeFile } from 'node:fs/promises';
+import { Content } from '../content';
+import { InformationView } from '../information/information-view';
+import { Campaign } from '../campaign/campaign';
+import { Battle } from '../battle';
+import type { BattleState, Command } from '../model';
+import { Tactics } from '../tactics';
+import { CombatPresenter } from '../ui/combat-presenter';
+import { CombatChoices, type ActionChoice } from '../ui/combat-choices';
 
-class Terminal {
+// The campaign played in a terminal: the state, the choices numbered, a choice read from the keyboard.
+export class Terminal {
   static show(campaign: Campaign) {
     if (InformationView.supported(campaign)) {
       console.log(JSON.stringify(InformationView.observe(campaign), null, 2)); return;
@@ -126,34 +119,4 @@ class Terminal {
       console.log(`Campaign: ${campaign.state.outcome}`);
     } finally { input.close(); }
   }
-}
-
-const [mode = 'help', path = '', argument] = process.argv.slice(2);
-switch (mode) {
-  case 'lint': process.exitCode = await KyrLint.main(process.argv.slice(3)); break;
-  case 'preview': await Preview.main(process.argv.slice(3)); break;
-  case 'world': await WorldTool.main(process.argv.slice(3)); break;
-  case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); break;
-  case 'replay': {
-    const transcript = JSON.parse(await readFile(path, 'utf8')) as Transcript;
-    const session = await PlaySession.start(transcript.scenario, transcript.seed,
-      NodeBundleSource.shared, transcript.party);
-    await session.replay(transcript.steps);
-    console.log(session.canonical());
-    break;
-  }
-  case 'resume': await Terminal.play(Campaign.restore(JSON.parse(await readFile(path, 'utf8')))); break;
-  case 'ancestries': console.table(Canon.ancestries, ['name', 'classes']); break;
-  case 'species': console.table(Object.fromEntries(Object.keys(Canon.species).map(id => [id, Canon.creature(id)])),
-    ['name', 'type', 'variantOf']); break;
-  case 'classes': console.table(Canon.classes, ['name', 'hitDie', 'specializations']); break;
-  case 'abilities':
-    Object.entries(Canon.abilities).forEach(([id, a]) => console.log(`${id}: ${a.name} (${a.kind})\n  ${a.effect ?? a.description ?? ''}`));
-    break;
-  case 'validate': Content.validate(); console.log(`${Content.abilities.length} abilities; canonical catalogs valid.`); break;
-  case 'batch': console.log(JSON.stringify(batch(Number(argument ?? path ?? 1000), 'arena'), null, 2)); break;
-  default: console.log('kyrie campaign <campaign.json> [seed] | resume <save.json> | replay <transcript.json>\n'
-    + 'kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | lint [campaign.json] [--inventory]\n'
-    + 'kyrie preview <campaign.json> [--port 8080]\n'
-    + 'kyrie ancestries | species | classes | abilities | validate | batch [count]');
 }

@@ -6,7 +6,7 @@ import { Environment } from '../src/campaign/environment';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList, type Choice } from '../src/ui/choice-list';
 import { Canon } from '../src/canon/canon';
-import { KyrLint } from '../bin/kyr-lint';
+import { KyrLint } from '../src/cli/kyr-lint';
 
 // What an independent author met writing The House That Grows (doc/adventures/house-that-grows/ledger.md, on the
 // branch house-that-grows-authoring), with the smallest fixture that shows each finding. Mission 12 repaired most of

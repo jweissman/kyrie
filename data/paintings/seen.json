@@ -1,5 +1,5 @@
 {
- "about": "What each painting of the corpus shows, recorded by looking at it (bun bin/paintings.ts reads this into the registry): its form (a portrait of one person, a group, a scene, a landscape, an interior, an object, an animal); for a portrait, the sitter as seen (a man or a woman; child, young, adult or old; their station by dress and setting); the era of its manner (early: before about 1700; late: after; modern: dress or manner of the last century and a half); where the face sits, as a percentage of the height, for cropping; and a few words of what it shows. Nothing here names a painter or a title: those come only from the image itself.",
+ "about": "What each painting of the corpus shows, recorded by looking at it (bun scripts/paintings.ts reads this into the registry): its form (a portrait of one person, a group, a scene, a landscape, an interior, an object, an animal); for a portrait, the sitter as seen (a man or a woman; child, young, adult or old; their station by dress and setting); the era of its manner (early: before about 1700; late: after; modern: dress or manner of the last century and a half); where the face sits, as a percentage of the height, for cropping; and a few words of what it shows. Nothing here names a painter or a title: those come only from the image itself.",
  "paintings": {
   "abbess": {
    "form": "portrait",

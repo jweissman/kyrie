@@ -67,13 +67,13 @@ knee". Do not name what the company has not learned, and do not explain the game
 ## The workflow
 
 1. **Write** the line in `data/voice/<happening>.json`.
-2. **Review it in every person.** `bun bin/voice.ts review <happening>` prints each line as it reads of he, she, they
+2. **Review it in every person.** `bin/kyrie voice review <happening>` prints each line as it reads of he, she, they
    and it, of one target and of several, and marks what reads wrong: a blank left unfilled, a word doubled, *they is*,
    a stray space, quotation marks that do not pair, a sentence with no end.
-3. **Check coverage.** `bun bin/voice.ts coverage` lists each happening's circumstances, and which have lines of
-   their own and which fall back to a more general line. `bun bin/voice.ts moments join bond=kin manner=grim`
+3. **Check coverage.** `bin/kyrie voice coverage` lists each happening's circumstances, and which have lines of
+   their own and which fall back to a more general line. `bin/kyrie voice moments join bond=kin manner=grim`
    shows which lines one moment would choose among.
-4. **Read it in play.** `bun bin/playtext.ts <seed> 60 --origin kin --class mage` walks a fresh country and writes
+4. **Read it in play.** `bin/kyrie playtext <seed> 60 --origin kin --class mage` walks a fresh country and writes
    the page as Markdown: each thing done, what came of it, each new place. Walks from Mission 12 are in
    [doc/playtests/mission-12-text](../playtests/mission-12-text/). Read them as a player would; most faults show
    only in place (a cat in the sun at midnight, a clue told every time the dog is seen).

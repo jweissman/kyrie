@@ -1,0 +1,4 @@
+#!/usr/bin/env bun
+// The Kyrie command line: play, author and check. `bin/kyrie help` lists what it does; it all lives in src/cli.
+const { KyrieCli } = await import('../src/cli/kyrie.ts');
+process.exitCode = await KyrieCli.main(process.argv.slice(2));

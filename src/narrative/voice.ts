@@ -22,7 +22,7 @@ export interface Speaking { actor?: string; target?: string; pronoun?: string; p
   values?: Record<string, string> }
 
 // The voice tables (data/voice): for each kind of happening, the lines it may be told in, by the circumstances that
-// call for each. Editors change the tables; bin/voice.ts shows every line in the moments it would be chosen in.
+// call for each. Editors change the tables; bin/kyrie voice shows every line in the moments it would be chosen in.
 export class Voice {
   static readonly tables: VoiceTable[] = [join, part, greet, pet, turn, thank, combat, journey, address, farewell] as
     VoiceTable[];

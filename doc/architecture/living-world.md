@@ -86,7 +86,7 @@ marsh country stands drowned, its well flooded.
 
 ## Costs
 
-`bun bin/bench.ts` on the March (October 21, after the conflict and the keep): a watch costs about 10 ms when no
+`bun scripts/bench.ts` on the March (October 21, after the conflict and the keep): a watch costs about 10 ms when no
 one is planning; a power's first long plan costs more once (Corvin's eight-step errand, about 130 ms). An hour's walk
 measures about 220 ms including that, an eight-hour camp about 490 ms, a cold load 3.2 s. The conflict and the
 expanded keep made the world bigger (3,509 facts, 116 schemas, 74 rules); nothing is grounded that is not asked for.

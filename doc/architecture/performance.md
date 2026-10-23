@@ -1,7 +1,7 @@
 # Performance and the development loop
 
 Measured 2026-10-20 on a 16-core WSL2 machine with Bun 1.4.3. Baseline = commit `0948983` (the prior agent's
-work, before any change below). Reproduce with `bun bin/bench.ts` and per-file runs of `bun test ./test/<file>`.
+work, before any change below). Reproduce with `bun scripts/bench.ts` and per-file runs of `bun test ./test/<file>`.
 
 ## Test tiers
 
@@ -31,7 +31,7 @@ serially and in parallel with the original timeout limits.
 | arena | 18 s | 5.9 s |
 | authoring-guide | 18 s | 2.7 s |
 
-## Engine workloads (`bun bin/bench.ts`, Serewater March: 999 facts, 24,766 grounded actions)
+## Engine workloads (`bun scripts/bench.ts`, Serewater March: 999 facts, 24,766 grounded actions)
 
 | Workload | Baseline | Now |
 |---|---|---|
@@ -80,7 +80,7 @@ Costs were not proportional to relevant work. Every one of these traversed or co
   lineage-dependent properties.
 - **Fixed:** Deem seeded string seeds with a *sum of character codes*, so anagram seeds (`choice-12`/`choice-21`) produced
   identical streams. It now uses FNV-1a (the hash Kyr already used). Public CLI outputs for string seeds changed; the
-  recorded examples were regenerated with `bun bin/record-cli-examples.ts`. Kyr passes numeric seeds and is unaffected.
+  recorded examples were regenerated with `bun scripts/record-cli-examples.ts`. Kyr passes numeric seeds and is unaffected.
 - One generated Deem expansion (a single creature) still shares one stream, so adding a draw early in a template shifts
   later draws *within that creature*. This is causal within one object and is left as is.
 
@@ -101,7 +101,7 @@ per id, so event logs, pending actions and random seeds resolve ids as before.
 | Save + restore | 1,355 ms | 24 ms |
 | List the player's choices | 89 ms | 18 ms |
 
-Scaling (`bun bin/scale-bench.ts`: a chain of rooms with items, generated through the real loader):
+Scaling (`bun scripts/scale-bench.ts`: a chain of rooms with items, generated through the real loader):
 
 | Places | Items | Company | Eager operators | Load | Choices | Tick | Save |
 |---|---|---|---|---|---|---|---|

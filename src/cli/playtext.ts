@@ -1,18 +1,17 @@
-#!/usr/bin/env bun
 // A walk through a fresh country, written out as the page tells it, for editors to read in place: each thing done,
 // what came of it, and each new place as it is first seen. The walk is seeded, so the same walk reads the same.
-//   bun bin/playtext.ts <seed> [steps] [--origin kin] [--class mage] [--walk w] > walk.md
-import { WorldAssembler } from '../src/world/world-assembler';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { PlaySession } from '../src/session/play-session';
-import { PlayerView } from '../src/presentation/player-view';
-import { ScreenModel } from '../src/ui/screen-model';
-import { ActionFeedbackView } from '../src/presentation/action-feedback';
-import { Narrator, type Leaf } from '../src/presentation/narrator';
-import { FictionalTime } from '../src/presentation/fictional-time';
-import { Expressions } from '../src/expressions';
+//   bin/kyrie playtext <seed> [steps] [--origin kin] [--class mage] [--walk w] > walk.md
+import { WorldAssembler } from '../world/world-assembler';
+import { NodeBundleSource } from '../campaign/node-bundle-source';
+import { PlaySession } from '../session/play-session';
+import { PlayerView } from '../presentation/player-view';
+import { ScreenModel } from '../ui/screen-model';
+import { ActionFeedbackView } from '../presentation/action-feedback';
+import { Narrator, type Leaf } from '../presentation/narrator';
+import { FictionalTime } from '../presentation/fictional-time';
+import { Expressions } from '../expressions';
 
-class Playtext {
+export class Playtext {
   static readonly skip = new RegExp('^(attack|risk|put_item|transfer_item|equip|prepare_spell|raise_quality'
     + '|learn_spell|take_feat|field_spell|use_item)');
   static readonly favoured = /^(go|ask|talk|tell|greet|pet|gather|search|look_closely|change_thing|recruit|lead|buy)/;
@@ -40,7 +39,7 @@ class Playtext {
     const rng = new Expressions(`playtext:${this.option(args, 'walk', seed)}`);
     const first = ScreenModel.build(s.campaign);
     const out = [`# ${world.report.region.name}: a walk of ${steps}`, '',
-      `Seed \`${seed}\`, origin \`${origin}\`, calling \`${classId}\`. Written by \`bun bin/playtext.ts\`.`, '',
+      `Seed \`${seed}\`, origin \`${origin}\`, calling \`${classId}\`. Written by \`bin/kyrie playtext\`.`, '',
       ...this.page(Narrator.leaf(s.campaign, first), first.place.name, FictionalTime.at(first.elapsed))];
     for (let i = 0; i < Number(steps); i++) {
       const choices = PlayerView.choices(s.campaign).filter(c => !this.skip.test(c.choice.id))
@@ -56,4 +55,3 @@ class Playtext {
   }
 }
 
-await Playtext.main(process.argv.slice(2));

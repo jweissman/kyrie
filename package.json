@@ -25,22 +25,22 @@
     "react-dom": "19.2.0"
   },
   "scripts": {
-    "arena": "bun run bin/arena.ts",
+    "arena": "bun run scripts/arena.ts",
     "test": "bun test --parallel",
     "test:fast": "bun test --parallel --path-ignore-patterns='test/deem-choice-space.test.ts'",
     "test:changed": "bun test --parallel --changed",
     "typecheck": "tsc --noEmit && tsc --noEmit -p web",
-    "play": "bun run bin/kyrie.ts campaign data/campaigns/the-long-man.campaign.json",
-    "preview": "bun run bin/preview.ts",
-    "kyrie": "bun run bin/kyrie.ts",
+    "play": "bin/kyrie campaign data/campaigns/the-long-man.campaign.json",
+    "preview": "bin/kyrie preview",
+    "kyrie": "bin/kyrie",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
     "check": "bun run lint && bun run typecheck && bun run test",
-    "build": "bun build --compile ./bin/kyrie.ts --outfile dist/kyrie",
-    "web:build": "bun run bin/build-web.ts",
-    "web:dev": "bun run bin/build-web.ts --serve"
+    "build": "bun build --compile ./src/cli/kyrie.ts --outfile dist/kyrie",
+    "web:build": "bun run scripts/build-web.ts",
+    "web:dev": "bun run scripts/build-web.ts --serve"
   },
   "bin": {
-    "kyrie": "./bin/kyrie.ts"
+    "kyrie": "./bin/kyrie"
   }
 }

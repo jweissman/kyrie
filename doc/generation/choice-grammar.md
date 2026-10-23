@@ -55,7 +55,7 @@ The one-argument `gen(type)` still inherits context. The second object overrides
 
 ```sh
 fixture=$(mktemp -d /tmp/kyr-public-creatures.XXXXXX)
-bun run bin/prove-creature-choices.ts prepare "$fixture"
+bun run scripts/prove-creature-choices.ts prepare "$fixture"
 deem run --type blue_ancient --seed choice- --templates "$fixture/templates.json"
 deem run --type bear_fixed --seed choice- --templates "$fixture/templates.json"
 deem run --type ranger_fixed --seed choice- --templates "$fixture/templates.json"
@@ -103,7 +103,7 @@ still spelled out.
 The setting is split by domain: `data/generation/tables/{creatures,dragons,names,places}.json` and
 `data/generation/templates/{creatures,dragons,places}.json`. Deem's CLI reads a scenario's folder when it has no
 single `deem.tables.json` (Deem commit 967deac), and Kyr merges the same files in `src/generation-setting.ts`; a
-name defined twice is an error either way. `bun bin/deem-bench.ts` times a cold CLI start, warm generation by
+name defined twice is an error either way. `bun scripts/deem-bench.ts` times a cold CLI start, warm generation by
 family, tracing and serialization separately.
 
 One chain from generated context into play: the unquiet tower's look is drawn from its terrain
@@ -124,6 +124,6 @@ Native table flattening makes new overlay groups available to unspecified select
 
 The [compact CLI examples](public-cli-examples.json) record direct and constrained public commands with complete outputs. The [full CLI proof](choice-space-proof.json) samples 608 complete definitions: 32 seeds across fifteen public/parameterized contexts and 128 unrestricted extension seeds. It includes every public category directly, constrained calls to each, actual outputs and combat events. Temporary data-only additions introduce a canonical boar and jade lineage into unrestricted generation without editing templates. Seed reproducibility and rejection of an incompatible blue forest dragon are checked too.
 
-Deem hashes string seeds with FNV-1a, so distinct strings, including anagrams such as `choice-12` and `choice-21`, seed distinct streams. (It formerly summed character codes; the sweep's `choice-`, `choice-x`, `choice-xx`… seeds date from then.) One generated expansion still draws from one shared stream. Outputs above were re-recorded with `bun bin/record-cli-examples.ts`.
+Deem hashes string seeds with FNV-1a, so distinct strings, including anagrams such as `choice-12` and `choice-21`, seed distinct streams. (It formerly summed character codes; the sweep's `choice-`, `choice-x`, `choice-xx`… seeds date from then.) One generated expansion still draws from one shared stream. Outputs above were re-recorded with `bun scripts/record-cli-examples.ts`.
 
 The supported pools remain bounded: two animals, two ancestries/classes, five dragon lineages/four maturities, and one construct body with material/role variation. Background, profession and spell-preparation orchestration, encounter budgets, generated sites/localities and the complete expedition remain unfinished. Geometric breath shapes and Orsino's copper blinding breath are also unsupported.

@@ -1,19 +1,18 @@
-#!/usr/bin/env bun
 // `kyrie lint`: checks worlds against the canonical vocabulary (doc/architecture/ontology.md). Recommended content
 // must be clean; legacy campaigns are reported so the migration can be measured, not hidden.
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { ModuleParser } from '../src/lang/module-parser';
-import { PlaySession } from '../src/session/play-session';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import type { BundleSource } from '../src/campaign/bundle-source';
+import { ModuleParser } from '../lang/module-parser';
+import { PlaySession } from '../session/play-session';
+import { NodeBundleSource } from '../campaign/node-bundle-source';
+import type { BundleSource } from '../campaign/bundle-source';
 import { CampaignLint } from './campaign-lint';
-import type { Module } from '../src/lang/module';
+import type { Module } from '../lang/module';
 
 export interface Finding { level: 'error' | 'warning'; check: string; where: string; message: string }
 
 export class KyrLint {
-  static readonly root = resolve(import.meta.dir, '..');
+  static readonly root = resolve(import.meta.dir, '../..');
   // Every campaign the game offers is held to the canonical vocabulary.
   static get recommended(): string[] { return this.campaigns(); }
   static walk(dir: string, keep: (file: string) => boolean): string[] {
@@ -103,4 +102,3 @@ export class KyrLint {
   }
 }
 
-if (import.meta.main) { process.exit(await KyrLint.main(process.argv.slice(2))); }

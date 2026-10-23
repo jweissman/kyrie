@@ -4,7 +4,7 @@ export interface Reviewed { id: string; kind: string; when: string; readings: st
 
 // Every voice line as it reads in the moments it can be told in: spoken of as he, she, they and it, of one target and
 // of several, on a road between two places; with what reads wrong said beside it (a blank left unfilled, a word
-// doubled, "they is"). For editors (bun bin/voice.ts review), and for the test that keeps the tables clean.
+// doubled, "they is"). For editors (bin/kyrie voice review), and for the test that keeps the tables clean.
 export class VoiceReview {
   static readonly contexts: Speaking[] = [
     { actor: 'Tobu', pronoun: 'he', target: 'the boar', place: 'the green',

@@ -150,7 +150,7 @@ test/fixtures/counting-house/site.kyr:8: Invalid argument yard in state(strong_l
   'yard' names two things, at test/fixtures/counting-house/site.kyr:8 and test/fixtures/counting-house/site.kyr:41; give one of them another name
 ```
 
-`bun bin/kyrie.ts preview <campaign.json>` runs the loop. It lints the campaign, builds the reader with it, and serves
+`bin/kyrie preview <campaign.json>` runs the loop. It lints the campaign, builds the reader with it, and serves
 it. On each save it lints and builds again (about a second for the counting-house) and reloads the open page. A
 module that does not load is reported this way, and the page keeps the last build that did.
 

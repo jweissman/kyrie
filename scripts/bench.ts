@@ -3,7 +3,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { Campaign, type CampaignSave } from '../src/campaign/campaign';
 
-// Reproducible timings for representative engine workloads. Usage: bun bin/bench.ts [--json]
+// Reproducible timings for representative engine workloads. Usage: bun scripts/bench.ts [--json]
 class Bench {
   static rows: [string, number][] = [];
   static async time<T>(label: string, work: () => Promise<T> | T): Promise<T> {

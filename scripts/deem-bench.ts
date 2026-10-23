@@ -1,7 +1,8 @@
 #!/usr/bin/env bun
 // Times Deem generation as Kyr uses it, each cost on its own: a cold start (reading and building the setting and the
 // first creature, as the public CLI does), warm generation in a running Kyr (per creature, by family), the same with
-// an execution trace recorded, and serializing what was generated. Usage: bun bin/deem-bench.ts [--json] [--count n]
+// an execution trace recorded, and serializing what was generated.
+// Usage: bun scripts/deem-bench.ts [--json] [--count n]
 import { runGeneration } from 'deem';
 import { Content } from '../src/content';
 

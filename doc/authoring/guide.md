@@ -451,7 +451,7 @@ river rising.
 ## 9. Check it
 
 ```
-bun bin/kyrie.ts lint path/to/your.campaign.json
+bin/kyrie lint path/to/your.campaign.json
 ```
 
 Lint reports identity conflicts, places outside the containment tree, passages whose ends are not places,
@@ -469,7 +469,7 @@ test/fixtures/counting-house/site.kyr:5: Duplicate entity marsh
 To see your world while you write it:
 
 ```
-bun bin/kyrie.ts preview path/to/your.campaign.json
+bin/kyrie preview path/to/your.campaign.json
 ```
 
 This lints the campaign, builds the reader with it, and serves it at `http://localhost:8080/?campaign=…`. Each time a

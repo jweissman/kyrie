@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 // Re-runs the public Deem commands recorded in doc/generation and rewrites their outputs.
-// Usage: bun bin/record-cli-examples.ts
+// Usage: bun scripts/record-cli-examples.ts
 class Recorder {
   static fixture(script: string): string {
     const dir = mkdtempSync(join(tmpdir(), 'kyr-cli-examples-'));
@@ -30,6 +30,6 @@ class Recorder {
   }
 }
 await Recorder.rewrite<{ command: string; output: unknown; rejects?: boolean }>('doc/generation/public-cli-examples.json',
-  'bin/prove-creature-choices.ts', (e, fixture) => ({ ...e, output: Recorder.run(e.command, fixture, e.rejects) }));
+  'scripts/prove-creature-choices.ts', (e, fixture) => ({ ...e, output: Recorder.run(e.command, fixture, e.rejects) }));
 await Recorder.rewrite<{ commandLine: string; definition: unknown }>('doc/generation/authoring-cli-outputs.json',
-  'bin/prove-creature-composition.ts', (e, fixture) => ({ ...e, definition: Recorder.run(e.commandLine, fixture) }));
+  'scripts/prove-creature-composition.ts', (e, fixture) => ({ ...e, definition: Recorder.run(e.commandLine, fixture) }));

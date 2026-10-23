@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { OrsinoCorpusFiles } from '../src/registry/orsino-extract';
+import type { OrsinoCorpusFiles } from '../registry/orsino-extract';
 
 
 // The Orsino source files the registry reads. Paths are relative to an Orsino checkout. Reading is separate from

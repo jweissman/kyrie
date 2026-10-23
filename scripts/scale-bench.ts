@@ -8,7 +8,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 
 // How campaign costs grow with places, items and company size, and with the scenarios a generated region holds.
 // Each synthetic world is a chain of rooms with items lying in them; eager grounding is computed for comparison only.
-// Usage: bun bin/scale-bench.ts
+// Usage: bun scripts/scale-bench.ts
 class Scale {
   static async rules(): Promise<Record<string, string>> {
     return Object.fromEntries(await Promise.all(ModuleBundle.world.map(async name => [

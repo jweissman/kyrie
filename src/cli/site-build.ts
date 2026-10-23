@@ -2,13 +2,13 @@ import { AssetCatalog } from './asset-catalog';
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import type { PluginBuilder } from 'bun';
-import { Handbooks } from '../src/handbook/handbooks';
-import { HandbookPublisher } from '../src/handbook/publish';
+import { Handbooks } from '../handbook/handbooks';
+import { HandbookPublisher } from '../handbook/publish';
 
 // Static browser build: classic IIFE scripts plus HTML/CSS with relative URLs, so the site works from file://,
 // a domain root, or a GitHub Pages repository subpath. Tests reuse bundle() to execute the browser artifact.
 export class SiteBuild {
-  static readonly root = resolve(import.meta.dir, '..');
+  static readonly root = resolve(import.meta.dir, '../..');
   // DEEM resolves its own ohm-js copy (same version); share one instance instead of shipping two.
   static singleOhm(this: void, build: PluginBuilder) {
     const ohm = Bun.resolveSync('ohm-js', SiteBuild.root);

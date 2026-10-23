@@ -109,6 +109,15 @@ Module belongings "What the company carries" {
     On success { Assert keeps(recipient, gift). }
     Result "{carrier} gives {gift} to {recipient}.".
   }
+  // What was taken in front of its owner can be handed back: they will not forget it, but they need not fight for it.
+  Action give_back(actor: group, gift: item, carrier: member, owner: group, site: place) "Give {gift} back to {owner}" {
+    Description "Hand back what is theirs. They will remember it was taken; they need not fight you for it.".
+    Requires able(actor) and at(actor, site) and able(owner) and at(owner, site) and memberOf(carrier, actor)
+      and awake(carrier) and ownedItem(gift, carrier) and owns(owner, gift) and objected(owner, gift).
+    Resolve drop(gift, carrier).
+    On success { Assert keeps(owner, gift). Retract hostile(owner, actor). }
+    Result "{carrier} holds out {gift}, and {owner} takes it back without a word.".
+  }
   Action sell(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Sell {ware} to {buyer}" {
     Description "Someone who buys this kind of thing pays what they said they would, if they have the coin.".
     Requires able(actor) and at(actor, site) and able(buyer) and at(buyer, site) and distinct(actor, buyer)

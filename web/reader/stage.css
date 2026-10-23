@@ -111,7 +111,6 @@
 .stage .door-also { display: block; font-size: 13.5px; margin: 0 0 0 4px; color: var(--grey); }
 .stage .door-also.shut { color: var(--faint); cursor: default; } .stage .door-also .why { font-size: 12.5px; }
 .stage .door.side-n, .stage .door.side-s { left: var(--at); max-width: 320px; text-align: center; }
-.stage .door .door-head { cursor: default; } .stage .door .door-head:hover .to { text-decoration: none; }
 .stage .door.side-n { top: 0; transform: translate(-50%, calc(-100% - 4px)); }
 .stage .door.side-s { top: 100%; transform: translate(-50%, 4px); }
 .stage .door.side-n::after, .stage .door.side-s::after { content: ''; position: absolute; left: 50%; width: 46px; margin-left: -23px;
