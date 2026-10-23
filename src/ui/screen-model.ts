@@ -202,7 +202,7 @@ export class ScreenModel {
     if (!standing.length) { return undefined; }
     const kinds = new Map<string, number>();
     for (const m of standing) {
-      const race = Content.races[m.raceId as keyof typeof Content.races]?.name ?? m.raceId;
+      const race = Content.race(m.raceId)?.name ?? m.raceId;
       const calling = m.classId ? Content.classes[m.classId as keyof typeof Content.classes]?.name : undefined;
       const kind = calling ? `${race} ${calling.toLowerCase()}` : race;
       kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
@@ -225,7 +225,7 @@ export class ScreenModel {
       // danger; what it is, its role says.
       const animal = !playable && w.test(ModuleWriter.call('peaceable', p.id));
       const note = (p.state ? undefined : p.condition) ?? (member && !playable && !animal
-        ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);
+        ? `${Content.race(member.raceId)?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined
         : this.look(p.members ?? []);
@@ -286,7 +286,7 @@ export class ScreenModel {
     const entities = campaign.module.entities;
     return view.party.map(m => {
       const ref = entities.find(e => e.creatureId === m.id)?.id;
-      const race = Content.races[m.raceId as keyof typeof Content.races]?.name ?? m.raceId;
+      const race = Content.race(m.raceId)?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),

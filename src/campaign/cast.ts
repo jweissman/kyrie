@@ -64,7 +64,7 @@ export class Cast {
   // galleries"), by their kind ("Bear 2", "Goblin 2").
   private static numbered(p: Person, generated: Record<string, unknown>, i: number): string {
     const role = typeof generated.role === 'string' ? generated.role : p.role;
-    const species = Content.races[p.raceId as keyof typeof Content.races]?.name;
+    const species = Content.race(p.raceId ?? '')?.name;
     const kind = !role || / and |,/.test(role) || role.split(' ').length > 3 ? species ?? p.name : role;
     const bare = kind.replace(/^(a|an|the) /i, '');
     return `${bare.charAt(0).toUpperCase()}${bare.slice(1)} ${i + 1}`;

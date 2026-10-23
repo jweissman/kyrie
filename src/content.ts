@@ -42,8 +42,10 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
   static readonly classes: Record<string, { name: string; playable?: boolean }> = { ...Canon.classes };
-  static readonly races: Record<string, { name: string; classes?: string[]; playable?: boolean }> = {
-    ...Canon.ancestries, ...Object.fromEntries(Object.keys(Canon.species).map(id => [id, Canon.creature(id)])) };
+  // A people or a kind of creature by its id, as the catalogs have it now (an adventure's own species among them).
+  static race(id: string): { name: string; classes?: string[]; playable?: boolean } | undefined {
+    return Canon.ancestries[id] ?? (Canon.isSpecies(id) ? Canon.creature(id) : undefined);
+  }
   static readonly playableClasses = Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id]) => id);
   static readonly playableRaces = Object.entries(Canon.ancestries).filter(([, a]) => a.playable).map(([id]) => id);
   static readonly statuses = CanonRuntime.conditions();
@@ -106,7 +108,7 @@ export class Content {
   private static invalid(context: CreatureGenerationContext): boolean {
     return (context.backgroundId !== undefined && !Overlays.has(context.backgroundId))
       || Object.keys(context).some(key => key.endsWith('Score'))
-      || (context.raceId !== undefined && !Object.hasOwn(Content.races, context.raceId))
+      || (context.raceId !== undefined && !Content.race(context.raceId))
       || (context.classId !== undefined && !Creation.classOf(context.classId))
       || (context.population !== undefined && !Object.hasOwn(tables.creaturePopulation.groups, context.population))
       || CreatureSchema.attributes.some(key => context[key] !== undefined

@@ -3,9 +3,11 @@ import { ItemCatalog } from '../item-catalog';
 import type { ItemKind, Species } from './schema';
 
 // What one module declares for itself: kinds of thing and kinds of creature that only it has ("a little ox of dreg",
-// "the hall dog"). Once a module is read, its kinds join the catalogs under the names it gave them, as if they had
-// always been there, for the module and for anything that reads the catalogs (the item list, the bestiary, a save
-// restored later). A name the catalog already has, or another module gave to something else, is an error.
+// "the hall dog"). While its campaign is the one in play, its kinds join the catalogs under the names it gave them,
+// as if they had always been there, for the module and for anything that reads the catalogs (the item list, the
+// bestiary, a save restored later); when another campaign is played, they leave them, so two campaigns may give the
+// same name to different things. Within one campaign a name the catalog already has, or another of its modules gave
+// to something else, is an error.
 export interface LocalCatalog {
   items?: Record<string, ItemKind & { mass?: number }>;
   species?: Record<string, Species>;
@@ -50,6 +52,7 @@ export class LocalKinds {
   // edited); another may declare the same kind only the same way.
   static install(catalog: LocalCatalog | undefined) {
     for (const [id, item] of Object.entries(catalog?.items ?? {})) {
+      this.installed.add(`item:${id}`);
       this.same('kind of item', id, Canon.items[id], item);
       (Canon.items as Record<string, ItemKind>)[id] = item;
       (ItemCatalog.definitions as Record<string, unknown>)[id] = { name: item.name, description: item.description,
@@ -60,10 +63,26 @@ export class LocalKinds {
         ...item.grants?.ability ? { ability: item.grants.ability } : {} };
     }
     for (const [id, species] of Object.entries(catalog?.species ?? {})) {
+      this.installed.add(`species:${id}`);
       this.same('species', id, Canon.species[id], species);
       (Canon.species as Record<string, Species>)[id] = species;
     }
   }
+  // What modules have added to the catalogs, so that it can be taken out again.
+  private static readonly installed = new Set<string>();
+  // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.
+  static reset() {
+    for (const key of this.installed) {
+      const [family, id] = key.split(':') as [string, string];
+      if (family === 'item') {
+        delete (Canon.items as Record<string, ItemKind>)[id];
+        delete (ItemCatalog.definitions as Record<string, unknown>)[id];
+      } else { delete (Canon.species as Record<string, Species>)[id]; }
+    }
+    this.installed.clear();
+  }
+  // The campaign in play: its modules' kinds, and no other campaign's.
+  static activate(catalog: LocalCatalog | undefined) { this.reset(); this.install(catalog); }
   // Two modules' own kinds together, when modules are joined.
   static merge(...catalogs: (LocalCatalog | undefined)[]): { catalog?: LocalCatalog } {
     const items = Object.assign({}, ...catalogs.map(c => c?.items ?? {})) as NonNullable<LocalCatalog['items']>;

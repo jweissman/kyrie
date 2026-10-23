@@ -182,6 +182,8 @@ export class ModuleBundle {
       { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
     const combined = this.merge(files.slice(situationPaths.length).map(f => this.parsed(f)));
     const composed = this.merge(files.slice(0, situationPaths.length).map(f => this.parsed(f)));
+    // A module read before (and kept parsed) puts its own kinds back for the campaign being assembled.
+    LocalKinds.install(combined.catalog); LocalKinds.install(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
       const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);

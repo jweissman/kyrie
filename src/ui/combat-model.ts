@@ -40,7 +40,7 @@ export class CombatModel {
     };
   }
   private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
-    const race = Content.races[f.raceId as keyof typeof Content.races]?.name ?? f.raceId;
+    const race = Content.race(f.raceId)?.name ?? f.raceId;
     const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
     const worn = f.statuses.filter(s => !ConditionSense.law(s.id));
     return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,

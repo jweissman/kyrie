@@ -1,0 +1,14 @@
+Module works "The Moonglass Works" {
+  Description "A glass-works where the old mere was drained: the same names as the mere's, meaning other things, to show that one adventure's kinds do not leak into another's.".
+  Place yard "the glass-works yard" is settlement.
+  Place floor "the grinding floor" is room within yard at 0, 0.
+  Company party "You" of 1 at floor.
+  // Here moonglass is the works' own make: a lens for a lamp, not a shard to sell.
+  Kind moonglass "a moonglass lens" like lantern described "A lens of ground glass in a brass ring: the works' own make, fitted to lamps.".
+  // And the mere hound is the works' dog, bred from the old hounds, and tame.
+  Species mere_hound "a mere hound" like dog tame described "The works' dog, bred from the hounds of the old mere. It fetches sticks.".
+  Item lens "a moonglass lens" is moonglass at floor.
+  Person dog "Ash" at floor { Role "the works' dog". Species mere_hound. Peaceable. }
+  Observe floor_scene at floor when true "Grinding wheels, a long bench, and dust like flour over everything.".
+  Goal false.
+}

@@ -1,0 +1,27 @@
+Module mere "The Moonglass Mere" {
+  Description "A reed-bed at the edge of a mere, and a sluice-house where hounds lair: an adventure with its own kinds of things and creatures, which another adventure may name the same and mean otherwise.".
+  Place shore "the shore of the mere" is wilderness.
+  Place reeds "the reed-bed" is room within shore at 0, 0.
+  Place sluice "the sluice-house" is room within shore at 1, 0.
+  Passage causeway "the causeway" is causeway between reeds and sluice taking 5 minutes.
+  Company party "You" of 1 at reeds.
+  // What this water makes that nowhere else does: glass of moonlight, worth something to whoever buys glass.
+  Kind moonglass "a shard of moonglass" is treasure worth 50 weighing 0 described "Glass the mere makes of moonlight on still nights; it holds a little of the light it was made of.".
+  // The hounds of these reed-beds, of the wolf's kind and as quick to hold their ground.
+  Species mere_hound "a mere hound" like wolf temperament territorial described "A long grey hound of the reed-beds that hunts along the water's edge.".
+  Item shard "a shard of moonglass" is moonglass at reeds.
+  Person hounds "the mere hounds" at sluice { Role "the hounds of the sluice". Species mere_hound. Numbers 2. Level 1. Lair sluice. }
+  // The sluice that lets the mere down, worked from the house.
+  Thing gate "the sluice gate" at sluice {
+    State shut "The sluice gate is down, and the mere stands high against it.".
+    State open "The sluice gate is wound up, and the mere runs out under it, talking.".
+    Change wind "Wind the sluice gate up" from shut to open.
+  }
+  Person ness "Ness" at reeds { Role "a reed-cutter". Ancestry human. Calling commoner. Peaceable. }
+  Topic ness_glass with ness "Ask {ness} about the moonglass" when true once {
+    Says "'The mere makes it on still nights,' says {ness}. 'It keeps a little of the moon in it. The glass-buyers at the works pay for it, when they come.'".
+  }
+  Observe reeds_scene at reeds when true "Reeds taller than you on every side, and the mere beyond them, flat and grey.".
+  Observe sluice_scene at sluice when true "A house of black timber over the sluice, smelling of hounds.".
+  Goal false.
+}

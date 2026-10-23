@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Locals: works", "modules": [ { "id": "works", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

@@ -24,8 +24,7 @@ import { Battle } from '../arena';
 import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module, WorldState } from '../lang/module';
 import { World } from '../lang/world'; import { Checks } from '../rules/checks';
-import type { Operator } from './planner';
-import { RuntimeCapabilities } from './runtime-capabilities';
+import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
@@ -52,7 +51,7 @@ export class Campaign implements WatchHost {
       this.compiled = saved.module; this.definition = saved.definition;
       this.current = saved.state; this.creatures = new CreatureStore(saved.creatures);
       this.log = saved.events; this.encounter = saved.encounter;
-      this.observations = saved.observations; LocalKinds.install(saved.module.catalog);
+      this.observations = saved.observations; LocalKinds.activate(saved.module.catalog);
       // A save from before demand grounding holds grounded actions; its schemas are in the definition.
       if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
         this.compiled.actions = this.definition.schemas;
@@ -85,12 +84,13 @@ export class Campaign implements WatchHost {
     this.refresh(); this.observe();
     this.updateOutcome();
   }
-  // Loading is deterministic in (source, path, seed, party), so later loads fork the first.
+  // Loading is deterministic in (source, path, seed, party), so later loads fork the first, with its own kinds.
   private static loads = new LoadCache<Campaign>();
   static async load(path: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[]): Promise<Campaign> {
-    return (await this.loads.get(source, JSON.stringify([path, seed, party ?? null]),
-      () => this.assemble(path, seed, source, party && structuredClone(party)))).fork();
+    const loaded = await this.loads.get(source, JSON.stringify([path, seed, party ?? null]),
+      () => this.assemble(path, seed, source, party && structuredClone(party)));
+    LocalKinds.activate(loaded.module.catalog); return loaded.fork();
   }
   private static arrays<T extends object>(o: T): T {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
@@ -107,7 +107,7 @@ export class Campaign implements WatchHost {
   }
   private static async assemble(path: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[]): Promise<Campaign> {
-    const manifest = await ModuleBundle.campaign(path, source, seed);
+    LocalKinds.reset(); const manifest = await ModuleBundle.campaign(path, source, seed);
     party ??= manifest.party;
     let campaign: Campaign | undefined;
     // Each module is checked as it is compiled; the joined whole, once, when the last is in.
