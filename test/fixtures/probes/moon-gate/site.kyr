@@ -1,0 +1,8 @@
+Module moongate "A gate that opens only by night" {
+  Place grounds "the abbey grounds" is settlement.
+  Place yard "the yard" is room within grounds at 0, 0.
+  Place garden "the moon garden" is room within grounds at 1, 0.
+  Company party "You" of 1 at yard.
+  Passage gate "the moon gate" is gate between yard and garden
+    opening when dark() "The moon gate is a ring of white stone with the wall showing through it. By day it is only a ring.".
+}

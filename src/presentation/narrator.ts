@@ -155,7 +155,8 @@ export class Narrator {
     }
     if (named.length === 1) { lines.push(`${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} is here.`); }
     else if (named.length) { lines.push(`Here are ${named.slice(0, -1).join('; ')}; and ${named.at(-1)}.`); }
-    return lines;
+    // Two of a kind doing the same (two goats at one hedge) are told once.
+    return lines.filter((l, i) => lines.indexOf(l) === i);
   }
   // "Eamon, innkeeper" is "Eamon, the innkeeper"; "Cyril, pilgrim" is "Cyril, a pilgrim".
   private static who(t: TargetRow): string {

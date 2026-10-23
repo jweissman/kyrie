@@ -1,9 +1,9 @@
 # Kyr
 
-A party-based fantasy RPG that runs in the browser, with a terminal's look and a persistent world underneath.
-Three companions set out from a town, explore, decide, survive, come back, recover, grow, and go out again. The
-world does not wait: people pursue their own ends, deadlines pass, and what the company did stays done. Danger is
-not scaled to the company; going round, talking, or turning back are often the better choice.
+A fantasy RPG that runs in the browser, with a book's look and a persistent world underneath. Someone sets out,
+alone or with companions found on the way, explores, decides, survives, comes back, recovers, grows, and goes out
+again. The world does not wait: people pursue their own ends, deadlines pass, and what the company did stays done.
+Danger is not scaled to the company; going round, talking, or turning back are often the better choice.
 
 Influences: BBS door games (LORD), old-school dungeon RPGs (descending armour class, prepared spells, experience for
 what you resolve), JRPG party combat without a battle grid, and Orsino's content and generators.
@@ -16,26 +16,25 @@ bun run web:build      # writes site/; nothing else is needed
 open site/mono.html    # or serve site/ anywhere; the whole game runs in the page
 ```
 
-The title screen begins a new campaign or loads a saved file. **The Serewater March** is the one to start with:
-three settlements share a river valley and their troubles: a surveyor missing under Censer Hill, something taking a
-shepherd's ewes off the chalk ridge, and a green light in Holt tower across the river. The necromancer in the tower
-does not wait for the company: from the first morning he sends his digger for the keepers' lost register, calls the
-churchyard's dead out of their graves, and reads up the founders of the old compact, while the keepers send for
-help of their own; what he did is found in the world, not announced. Form a company (or take a
-ready one); who they are decides what they can do and which ways open. Each trouble is an expedition; each can be
-fought, talked down, gone round or left to others, and each changes what comes after (bring the surveyor home and
-the ferry runs). The other entries are shorter: Silkholme, Skellfold, the Red Crag, and **a generated region**, in
-which Deem draws a region (its towns, people, faith and wild places, named in its people's tongue) and situates
-authored adventures in it.
+The title page names the country you are in and offers to go on, or to begin again. Beginning, you choose who you
+are and where you come from (a wanderer, a herb-wife's apprentice, someone come home to a brother and a mother who
+wrote), and a country is drawn for you from a seed: its land, rivers and roads, its towns and the people who live
+in them and keep their days and animals, its faiths, the works of those who built there before, its wild country,
+its troubles and its wonders, all named in its people's own tongue. Nothing in it waits for you: the riders keep the
+lord's toll, a fever runs in a household that needs willow bark, a power acts while you are elsewhere. What you do
+there stays done; if you die, the country remembers you, and you can begin again in it.
 
-Keys: ↑↓ to look, Enter to do, digits to do at once, Esc to go back; E/I/C/J/M for explore, pack, company,
-journal and map. The terminal plays the same campaigns:
+Arrow keys move among the choices, Enter or Space takes one, Escape or Backspace goes back, `?` shows the keys, and
+`t` lets a fight run itself. The terminal plays the same worlds:
 
 ```sh
-bun bin/kyrie.ts campaign data/campaigns/serewater-march.campaign.json
-bun bin/kyrie.ts world thorn --terrain mountain     # describe and load a generated region
+bun bin/kyrie.ts world thorn --terrain mountain     # describe and load a generated country
+bun bin/kyrie.ts campaign data/campaigns/the-long-man.campaign.json
 bun bin/kyrie.ts replay <transcript.json>           # replay a browser transcript; prints the canonical state
 ```
+
+The Serewater March, Silkholme and Skellfold remain as test beds under `test/fixtures`; they are not played from the
+title page.
 
 ## How it is built
 

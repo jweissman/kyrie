@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 153,
+    "kyr": 154,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 148,
+      "kyr": 149,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10990,6 +10990,13 @@
   {
    "id": "rule:world_passages.scenery",
    "title": "scenery",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.unopened",
+   "title": "unopened",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"

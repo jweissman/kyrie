@@ -19,6 +19,7 @@ Kyr {
               | "hidden" "until" ident -- hidden
               | "needing" ident ("or" ident)* -- needs
               | "taking" integer timeUnit -- taking
+              | "opening" "when" Predicate string? -- opening
   timeUnit = "minutes" | "minute" | "hours" | "hour" | "days" | "day"
   Thing = "Thing" ident string ThingSite ThingKind? Concealed? "{" ThingPart* "}"
   ThingSite = "at" ident -- at
@@ -155,7 +156,11 @@ Kyr {
         | kwTrue -- true
         | kwFalse -- false
   Comparison = Value comparator Value
-  Value = Call | NumberValue
+  // Measures and numbers, added, taken away or multiplied as the world runs: "price(?x) * 2 + toll(road)".
+  Value = Operand ArithTail*
+  ArithTail = arithOp Operand
+  Operand = Call | NumberValue
+  arithOp = "+" | "-" | "*"
   NumberValue = expression | integer
   Call = ident "(" ListOf<term, ","> ")"
   term = variable | ident

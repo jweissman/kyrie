@@ -35,7 +35,8 @@ export class ModuleParser {
     RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: ModuleParser.TopicOnce,
     TopicTravelling: ModuleParser.TopicOnce,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
-    PassagePart_taking: ModuleParser.Taking, PersonProfession: PersonParser.PersonProfession,
+    PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
+    PersonProfession: PersonParser.PersonProfession,
     PersonBackground: PersonParser.PersonBackground, OffersPart: ModuleParser.OffersPart,
     SellsPart: ModuleParser.SellsPart, BuysPart: ModuleParser.BuysPart, Time_fixed: StatementParser.Time,
     Time_measured: StatementParser.Duration,
@@ -70,7 +71,8 @@ export class ModuleParser {
     Unary_not: StatementParser.Not, Unary_group: StatementParser.Group,
     Unary_true: StatementParser.True, Unary_false: StatementParser.False,
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
-    expression: StatementParser.Expression, integer: StatementParser.Integer, string: StatementParser.String,
+    Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
+    string: StatementParser.String,
     ...CatalogParser.actions,
   });
   // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again
@@ -164,6 +166,11 @@ export class ModuleParser {
     return { field: 'passage', value: spec };
   }
   static OneWay(_one: Node, _way: Node) { return { oneWay: true }; }
+  // "opening when dark() \"By day the gate is a wall.\"": crossed only while it holds, and how it looks shut.
+  static Opening(_opening: Node, _when: Node, predicate: Node, shut: Node) {
+    return { opening: ModuleParser.ast(predicate) as Predicate,
+      ...shut.children.length ? { shut: ModuleParser.ast(shut.children[0]!) as string } : {} };
+  }
   static Hidden(_hidden: Node, _until: Node, fact: Node) { return { hidden: fact.sourceString }; }
   // "needing rope or climbing": any one of them will do.
   static Needs(_needing: Node, kind: Node, _ors: Node, more: Node) {

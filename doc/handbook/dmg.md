@@ -1162,13 +1162,19 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 27 | 1 | 21 | 0 | 6 |
+| 8 | 28 | 1 | 21 | 0 | 6 |
 
 #### scenery
 
 *Kyr · kind* · `rule:world_passages.scenery`
 
 What is seen and changes but is not handled: the weather, a river, a beacon on a far hill.
+
+#### unopened
+
+*Kyr · relation(passage)* · `rule:world_passages.unopened`
+
+A way that opens only while something holds (Passage … opening when …), while it does not.
 
 #### inside, receptacle, closesWhen
 

@@ -3,6 +3,8 @@ Module world_passages "Passages, obstacles and the condition of things" {
   // What is seen and changes but is not handled: the weather, a river, a beacon on a far hill.
   Kind scenery.
   Relation passageKind(passage, waykind). Measure travelTime(passage).
+  // A way that opens only while something holds (Passage … opening when …), while it does not.
+  Relation unopened(passage).
   Relation connects(passage, place, place).
   Relation on(entity, passage).
   Relation guards(group, passage).
@@ -34,7 +36,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query informedFor(a: group, c: change) means not changeKnows(c, ?f) or (changeKnows(c, ?f) and knows(a, ?f)).
   Query visibleTo(w: passage, a: group) means not revealedBy(w, ?f) or (revealedBy(w, ?f) and knows(a, ?f))
     or (revealedBy(w, ?g) and following(a, ?l) and knows(?l, ?g)).
-  Query barred(w: passage) means on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s).
+  Query barred(w: passage) means (on(?o, w) and state(?o, ?s) and blocksWhen(?o, ?s)) or unopened(w).
   // Who holds the key to what bars a way, and those who serve them, go through it as if it were open.
   Relation keyholder(group, entity).
   Query opens(a: group, o: entity) means keyholder(a, o) or (serves(a, ?m) and keyholder(?m, o)).
@@ -58,7 +60,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
     or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r))
     or (at(a, ?h) and inside(t, ?c) and at(?c, ?h) and not shut(?c))).
   Query passable(w: passage, a: group) means visibleTo(w, a) and not barredFor(w, a) and not watchedAgainst(w, a)
-    and not hazardous(w)
+    and not hazardous(w) and not unopened(w)
     and equippedFor(a, w).
   Goal false.
 

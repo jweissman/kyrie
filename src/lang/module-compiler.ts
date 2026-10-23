@@ -124,7 +124,7 @@ export class ModuleCompiler {
     const changes = [...module.initial, ...(module.rules ?? []).flatMap(r => r.effects),
       ...module.actions.flatMap(action => [...action.success, ...action.failure])];
     for (const change of changes) {
-      if ('value' in change && change.value.kind !== 'call') { change.value = resolve(change.value); }
+      if ('value' in change) { change.value = ModuleCompiler.settle(expressions, change.value); }
     }
     for (const p of module.pursuits ?? []) {
       p.when = this.resolvePredicate(p.when, expressions); p.target = this.resolvePredicate(p.target, expressions);
@@ -141,14 +141,21 @@ export class ModuleCompiler {
     const world = new World(module).apply(module.initial);
     return { module, world: world.snapshot, budget: World.literal(module.budget) };
   }
+  // A value with its dice rolled once, for the module: what is left to the world is its measures.
+  private static settle(expressions: Expressions, value: Value): Value {
+    if (value.kind === 'call') { return value; }
+    if (value.kind === 'arith') { return { ...value, left: this.settle(expressions, value.left),
+      right: this.settle(expressions, value.right) }; }
+    return this.resolve(expressions, value);
+  }
   private static resolve(expressions: Expressions, value: NumberValue): NumberValue {
     return { kind: 'number', value: value.kind === 'deem' ? expressions.number(value.expression) : value.value };
   }
   private resolvePredicate(predicate: Predicate, expressions: Expressions): Predicate {
     switch (predicate.kind) {
       case 'compare': return { ...predicate,
-        left: predicate.left.kind === 'call' ? predicate.left : ModuleCompiler.resolve(expressions, predicate.left),
-        right: predicate.right.kind === 'call' ? predicate.right : ModuleCompiler.resolve(expressions, predicate.right) };
+        left: ModuleCompiler.settle(expressions, predicate.left),
+        right: ModuleCompiler.settle(expressions, predicate.right) };
       case 'and': case 'or': return { ...predicate, left: this.resolvePredicate(predicate.left, expressions),
         right: this.resolvePredicate(predicate.right, expressions) };
       case 'not': return { ...predicate, value: this.resolvePredicate(predicate.value, expressions) };
@@ -204,6 +211,7 @@ export class ModuleCompiler {
   }
   private value(module: Module, value: Value, bindings: Record<string, string>) {
     if (value.kind === 'call') { this.call(module, value, module.measures, bindings); }
+    else if (value.kind === 'arith') { this.value(module, value.left, bindings); this.value(module, value.right, bindings); }
     else { this.number(value); }
   }
   private number(value: NumberValue) {
@@ -215,8 +223,7 @@ export class ModuleCompiler {
     if (change.kind === 'assert' || change.kind === 'retract') { this.call(module, change.call, module.relations, bindings); }
     else {
       this.call(module, change.call, module.measures, bindings);
-      if (change.value.kind === 'call') { this.call(module, change.value, module.measures, bindings); }
-      else { this.number(change.value); }
+      this.value(module, change.value, bindings);
     }
   }
   // A condition that compares ?variables nothing in it binds is never true: the comparison reads nothing. Alone,

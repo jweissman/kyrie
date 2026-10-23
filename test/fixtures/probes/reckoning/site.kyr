@@ -1,0 +1,13 @@
+Module reckoning "A ferryman who doubles his fare" {
+  Place ring "a river town" is settlement.
+  Place stair "the ferry stair" is room within ring at 0, 0.
+  Company party "You" of 1 at stair.
+  Measure fare(group). Measure owed(group).
+  Initially Set fare(party) to 3.
+  Action haggle(actor: group, site: place) "Argue the fare" {
+    Requires at(actor, site) and fare(actor) * 2 - 1 < 20.
+    Time 0.
+    On success { Set fare(actor) to fare(actor) * 2 - 1. Increase owed(actor) by fare(actor) + 1. }
+    Result "He hears you out, and names a worse fare.".
+  }
+}

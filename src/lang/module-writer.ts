@@ -4,6 +4,7 @@ import { World } from './world';
 export class ModuleWriter {
   static value(value: Value): string {
     if (value.kind === 'call') { return World.format(value); }
+    if (value.kind === 'arith') { return `(${ModuleWriter.value(value.left)} ${value.op} ${ModuleWriter.value(value.right)})`; }
     return value.kind === 'number' ? String(value.value) : `(${value.expression})`;
   }
   static predicate(predicate: Predicate): string {
@@ -126,4 +127,10 @@ export class ModuleWriter {
   }
   static call(name: string, ...args: string[]): Call { return { kind: 'call', name, args }; }
   static number(value: number): NumberValue { return { kind: 'number', value }; }
+  // The same value with each measure in it read through f (bound, namespaced, imported).
+  static calls(value: Value, f: (call: Call) => Call): Value {
+    if (value.kind === 'call') { return f(value); }
+    if (value.kind === 'arith') { return { ...value, left: this.calls(value.left, f), right: this.calls(value.right, f) }; }
+    return { ...value };
+  }
 }

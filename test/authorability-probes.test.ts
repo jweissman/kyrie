@@ -86,6 +86,18 @@ describe('Authorability probes', () => {
     expect(sizes.some(([a, b, c]) => a !== b || b !== c)).toBe(true);
   }, 60000);
 
+  it('K5: measures are added, taken away and multiplied as the world runs, the changes in their order', async () => {
+    expect((await Probe.lint('reckoning/probe.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
+    const s = await Probe.start('reckoning/probe.campaign.json'), seen: number[][] = [];
+    for (let argued = true; argued;) {
+      seen.push([Probe.measure(s, 'p__fare', 'party'), Probe.measure(s, 'p__owed', 'party')]);
+      argued = Probe.choices(s).some(c => /Argue the fare/.test(c.label));
+      if (argued) { await Probe.act(s, 'Argue the fare'); }
+    }
+    // fare * 2 - 1, and owed by the new fare + 1, until fare * 2 - 1 < 20 no longer holds.
+    expect(seen).toEqual([[3, 0], [5, 6], [9, 16], [17, 34]]);
+  }, 60000);
+
   it('K6: a rule can take a way out of the world, and the exit goes with it', async () => {
     const s = await Probe.start('house/house.campaign.json');
     await Probe.act(s, 'Into the Annex');
@@ -97,6 +109,20 @@ describe('Authorability probes', () => {
     }
     expect(Probe.holds(s, 'connects', 'h__nowhere', 'h__long_hall', 'h__coats_high')).toBe(false);
     expect(Probe.choices(s).some(c => /crack in the glass/.test(c.label))).toBe(false);
+  }, 60000);
+
+  it('Finding 5: a way opens only while something holds, and says how it looks shut', async () => {
+    expect((await Probe.lint('moon-gate/probe.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
+    const s = await Probe.start('moon-gate/probe.campaign.json');
+    const gate = (x: { command?: string }) => x.command?.startsWith('go(p__gate,') ?? false;
+    expect(Probe.choices(s).some(gate)).toBe(false);
+    expect(ScreenModel.build(s.campaign).observed.map(o => o.text).join(' ')).toContain('By day it is only a ring.');
+    await s.perform('wait_for_dark');
+    expect(Probe.choices(s).some(gate)).toBe(true);
+    await s.perform(Probe.choices(s).find(gate)!.command!);
+    expect(s.campaign.world.one('at', 'party')).toBe('p__garden');
+    await s.perform('wait_for_light');
+    expect(Probe.choices(s).some(gate)).toBe(false);
   }, 60000);
 
   it('K7: a kinsman who joins is still himself, and can be asked what he could be asked at home', async () => {

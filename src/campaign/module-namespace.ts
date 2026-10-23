@@ -2,6 +2,7 @@ import { Spatial } from '../spatial';
 import { ObservationText } from '../lang/observation-text';
 import type { BoundRole } from './role-requirements';
 import type { Call, Change, Instance, Module, Operator, Predicate, Value } from '../lang/module';
+import { ModuleWriter } from '../lang/module-writer';
 import type { CampaignDefinition, InstalledModule } from './definition';
 
 export interface ModuleDraft {
@@ -34,7 +35,7 @@ export class ModuleNamespace {
       args: call.args.map(arg => bound.includes(arg) ? arg : this.entities[arg] ?? arg) };
   }
   private value(value: Value, bound: string[]): Value {
-    return value.kind === 'call' ? this.call(value, bound) : structuredClone(value);
+    return ModuleWriter.calls(value, c => this.call(c, bound));
   }
   private predicate(p: Predicate, bound: string[] = []): Predicate {
     switch (p.kind) {
@@ -47,7 +48,7 @@ export class ModuleNamespace {
   }
   private change(change: Change, bound: string[] = []): Change {
     const next = { ...structuredClone(change), call: this.call(change.call, bound) };
-    if ('value' in next && next.value.kind === 'call') { next.value = this.call(next.value, bound); }
+    if ('value' in next) { next.value = this.value(next.value, bound); }
     return next;
   }
   private action(action: Operator): Operator {

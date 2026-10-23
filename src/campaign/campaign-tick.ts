@@ -120,8 +120,8 @@ export class CampaignTick {
       const key = JSON.stringify(Object.entries(b).sort());
       if (seen.has(key)) { continue; }
       seen.add(key);
-      result.push([rule.effects.map(c => 'value' in c && c.value.kind === 'call'
-        ? { ...c, call: this.bind(c.call, b), value: this.bind(c.value, b) }
+      result.push([rule.effects.map(c => 'value' in c
+        ? { ...c, call: this.bind(c.call, b), value: ModuleWriter.calls(c.value, v => this.bind(v, b)) }
         : { ...c, call: this.bind(c.call, b) }) as Change[], b]);
     }
     return result;

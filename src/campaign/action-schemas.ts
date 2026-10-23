@@ -2,6 +2,7 @@ import { World } from '../lang/world';
 import { ObservationText } from '../lang/observation-text';
 import type { CampaignActor } from './definition';
 import type { Call, Change, Module, Operator, Predicate, Value } from '../lang/module';
+import { ModuleWriter } from '../lang/module-writer';
 
 export class ActionSchemas {
   static placeholders(template: string): string[] {
@@ -132,7 +133,7 @@ export class ActionSchemas {
     return { ...call, args: call.args.map(arg => bindings[arg] ?? arg) };
   }
   private static value(value: Value, bindings: Record<string, string>): Value {
-    return value.kind === 'call' ? this.call(value, bindings) : { ...value };
+    return ModuleWriter.calls(value, c => this.call(c, bindings));
   }
   private static predicate(p: Predicate, bindings: Record<string, string>): Predicate {
     switch (p.kind) {

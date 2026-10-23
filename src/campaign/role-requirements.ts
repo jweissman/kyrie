@@ -1,6 +1,7 @@
 import { ModuleParser } from '../lang/module-parser';
 import { ModuleCompiler } from '../lang/module-compiler';
 import type { Module, Predicate, Value } from '../lang/module';
+import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
 
 export interface RoleContract { type: string; conditions?: string[] }
@@ -14,7 +15,7 @@ export class RoleRequirements {
     });
   }
   private static value(value: Value, imports: Record<string, string>): Value {
-    return value.kind === 'call' ? { ...value, args: value.args.map(id => imports[id] ?? id) } : value;
+    return ModuleWriter.calls(value, c => ({ ...c, args: c.args.map(id => imports[id] ?? id) }));
   }
   private static predicate(p: Predicate, imports: Record<string, string>): Predicate {
     if (p.kind === 'call') { return { ...p, args: p.args.map(id => imports[id] ?? id) }; }

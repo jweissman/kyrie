@@ -50,7 +50,8 @@ export class CreatureFacts {
     }
     const different = changes.filter(c => c.kind === 'assert' ? !world.holds(World.key(c.call)) :
       c.kind === 'retract' ? world.holds(World.key(c.call)) :
-        'value' in c && c.value.kind !== 'call' && World.literal(c.value) !== world.number(c.call));
+        'value' in c && (c.value.kind === 'number' || c.value.kind === 'deem')
+          && World.literal(c.value) !== world.number(c.call));
     return different.length ? world.apply(different) : world;
   }
   // A group of one species takes its species' temperament, unless the place has given it one; and a group the place

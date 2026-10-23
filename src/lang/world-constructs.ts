@@ -18,6 +18,8 @@ export interface ThingSpec {
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
   kind?: string; ticks?: number;
+  // Crossed only while this holds, and how the way looks while it does not.
+  opening?: Predicate; shut?: string;
 }
 export interface EventSpec {
   id: string; anchor?: { kind: Anchor; id: string }; when: Predicate; text: string; effects: Change[];
@@ -45,6 +47,22 @@ export class WorldConstructs {
     this.assert(module, 'passageKind', p.id, `way_${kind}`);
     module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelTime', args: [p.id] },
       value: { kind: 'number', value: p.ticks ?? 1 } });
+    if (p.opening) { this.opening(module, p.id, p.opening, p.shut); }
+  }
+  // A way that opens only while something holds is unopened until the world's rules find that it does, and again
+  // whenever it stops holding; while unopened, it is not passable, and looks as the author says.
+  private static opening(module: Module, id: string, when: Predicate, shut?: string) {
+    const unopened: Predicate = { kind: 'call', name: 'unopened', args: [id] };
+    this.assert(module, 'unopened', id);
+    (module.rules ??= []).push(
+      { id: `${id}__opens`, when: { kind: 'and', left: when, right: unopened },
+        effects: [{ kind: 'retract', call: unopened }] },
+      { id: `${id}__shuts`, when: { kind: 'and', left: { kind: 'not', value: when }, right: { kind: 'not', value: unopened } },
+        effects: [{ kind: 'assert', call: unopened }] });
+    if (shut) {
+      (module.observations ??= []).push({ id: `${id}__shut`, place: id, anchor: 'beside', when: unopened, text: shut,
+        aspect: 'feature' });
+    }
   }
   static readonly wayKinds = ['passage', 'door', 'doorway', 'arch', 'gate', 'stair', 'steps', 'ladder', 'shaft', 'path',
     'track', 'road', 'causeway', 'bridge', 'ford', 'tunnel', 'crawl', 'culvert', 'drift', 'incline', 'ferry', 'climb',

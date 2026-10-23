@@ -475,3 +475,99 @@ bun bin/kyrie.ts preview path/to/your.campaign.json
 This lints the campaign, builds the reader with it, and serves it at `http://localhost:8080/?campaign=…`. Each time a
 file is saved it lints and builds again, and the open page reloads. A module that does not load is reported, and the
 page keeps the last build that did.
+
+## 10. What else a module can say
+
+The example above is a village; an adventure of your own will want more. Each construct below is shown by the
+smallest module that uses it, under `test/fixtures/probes`, and `test/authorability-probes.test.ts` plays each one.
+They answer the findings of an author who wrote a whole adventure in Kyr (the ledger of The House That Grows, on the
+branch `house-that-grows-authoring`); the response to each finding is
+[doc/authoring/findings-response.md](findings-response.md).
+
+### Kinds and creatures of your own
+
+An item of a kind only your adventure has is declared in it: its category or the kind it is like, its worth in coin,
+and its weight, which may be less than nothing. A creature too: `Species fen_cat "a fen cat" like cat tame.`
+
+```text
+  Kind dreg_ox "a little ox of dreg, on a cord" is treasure worth 2 weighing 1.
+  Kind selm_stone "a fist of selm" is treasure worth 12 weighing -2.
+```
+
+`mass(kind)` reads the weight in a rule (`probes/local-kind`, `probes/selm`).
+
+### Asleep, awake, and who sees
+
+A condition laid on someone outside a fight for hours (`Apply asleep to ally for 1 hour`) takes, and wears off with
+the clock; while asleep a body can do nothing but lie as it is. `asleep(x)` and `alert(x)` are facts a rule reads,
+and `perceives(watcher, place)` is whether someone awake and able is there to see: a sleeping owner does not see her
+cup taken (`probes/sleep-hours`, `probes/owner-asleep`).
+
+### Chance for each thing, and acts that take no time
+
+`dice(clock)` is the watch's die for the whole world. `dice(?room)` is each thing's own die for the watch, so two
+rooms left to chance in the same watch do not come out alike:
+
+```text
+  Rule grows when houseRoom(?p) and not attended(?p) and dice(?p) <= 17 { Increase size(?p) by 1. }
+```
+
+An action with `Time 0.` takes no watch (a word, a pat on the head); the world's rules still answer it at once.
+
+### Reckoning
+
+Measures and numbers can be added, taken away and multiplied as the world runs, left to right, in a requirement, a
+comparison or a change. The changes of an action happen in the order written, so the second reads what the first
+did (`probes/reckoning`):
+
+```text
+  Action haggle(actor: group, site: place) "Argue the fare" {
+    Requires at(actor, site) and fare(actor) * 2 - 1 < 20.
+    Time 0.
+    On success { Set fare(actor) to fare(actor) * 2 - 1. Increase owed(actor) by fare(actor) + 1. }
+  }
+```
+
+A number in parentheses is a Deem expression, `(2d6)`, rolled once when the module is installed; arithmetic outside
+parentheses is worked out each time it is read.
+
+### A way that opens only sometimes
+
+A passage can open only while something holds, and say how it looks while it does not. While shut it is not offered,
+and the map and the page give its description as the reason (`probes/moon-gate`):
+
+```text
+  Passage gate "the moon gate" is gate between yard and garden
+    opening when dark() "The moon gate is a ring of white stone with the wall showing through it. By day it is only a ring.".
+```
+
+The condition is read with the world's rules, so it may be anything a rule may test: the hour, a fact, a measure.
+
+### Kin, companions and animals
+
+Someone the company is kin to (`kin(party, brother)`) and willing (`willing(brother, party)`) can be asked to come
+along; they join as themselves, keep what they could be asked at home, and can be sent home again. A dog is
+`Species dog`: tame animals keep the peace, greet whom they know, and can be made much of (`test/fixtures/household`).
+
+### Laws shared between modules
+
+A module may take another module's relations and rules as its own law by naming its file among its rules:
+`"rules": ["world", "../law/law.kyr"]` (`probes/shared-law`).
+
+### The order things happen in
+
+A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`, `hour(clock)`,
+`dice(clock)`) and conditions on bodies run down; every other power and person acts, in the order the campaign
+lists them; then every rule is tried once, the shared rules first, then each module in the order the campaign
+installs it, each in the order its rules are written; then what a hazard strikes lands on bodies. A rule sees what
+the rules before it changed in the same watch. A rule whose condition still holds fires again next watch, so a rule
+meant to happen once either changes what it tests (`Assert sung(party)` beside `not sung(party)`) or is an `Event`,
+which happens once. An action that takes no time is followed by one pass of the rules, and no clock.
+
+### When a module will not load
+
+An error says the file, line and column, and what it found there:
+
+```text
+test/fixtures/probes/bad-kind/site.kyr:4:3: Kind wyrd is like nothing_at_all, which is no kind of item
+```

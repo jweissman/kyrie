@@ -87,6 +87,15 @@ export class CommunityWriter {
     return [`  Person ${a.id} ${q(a.name)} at ${a.at} { Role ${q(a.role)}. Species ${a.species}. Pronouns ${a.pronoun}. Peaceable. }`,
       ...a.seen ? [`  Observe ${a.id}_seen near ${a.id} of ${a.id} when at(${a.id}, ${a.at}) ${q(this.said(a.seen, a, ''))}.`] : []];
   }
+  // The road a settlement's strayed animal is up: each settlement its own, so that two goats are not on one road.
+  private static strayRoad(region: Region, id: string) {
+    const roads = RegionGeography.roads(region), taken = new Map<string, (typeof roads)[number]>();
+    for (const s of region.settlements) {
+      const free = roads.find(x => (x.from.id === s.id || x.to.id === s.id) && ![...taken.values()].includes(x));
+      if (free) { taken.set(s.id, free); }
+    }
+    return taken.get(id);
+  }
   // A goat got out: she is up the road, eating a hedge, and comes home led; a coin from her people for it. Or someone
   // needs a thing the shop sells, and pays for it brought.
   private static concern(region: Region, c: Community): string[] {
@@ -95,7 +104,7 @@ export class CommunityWriter {
     const r = c.residents.find(x => x.id === concern.resident)!;
     if (concern.kind === 'strayed') {
       const goat = c.animals.find(a => a.id === concern.animal)!;
-      const road = RegionGeography.roads(region).find(x => x.from.id === s.id || x.to.id === s.id);
+      const road = this.strayRoad(region, s.id);
       const where = road ? road.way : `${s.id}_green`, other = road ? (road.from.id === s.id ? road.to : road.from).name : '';
       return [`  Person ${goat.id} ${q(goat.name)} at ${where} { Role ${q(`${r.name}'s goat, loose, with a broken tether`)}. Species goat. Pronouns she. Peaceable. }`,
         `  Observe ${goat.id}_seen near ${goat.id} of ${goat.id} when at(${goat.id}, ${where}) ${q(`A goat with a broken tether is eating the hedge, with her whole attention.`)}.`,

@@ -105,6 +105,10 @@ export class World {
   number(value: Value, bindings: Record<string, string> = {}): number {
     if (value.kind === 'number') { return value.value; }
     if (value.kind === 'deem') { throw new Error('Deem module values must be instantiated before execution'); }
+    if (value.kind === 'arith') {
+      const left = this.number(value.left, bindings), right = this.number(value.right, bindings);
+      return value.op === '+' ? left + right : value.op === '-' ? left - right : left * right;
+    }
     if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
     const call = this.bind(value, bindings);
     if (call.name === 'dice' && call.args[0] !== 'clock') { return this.die(call.args[0]!); }
@@ -239,7 +243,8 @@ export class World {
       }
       if (!signatures.measures.has(change.call.name)) { return false; }
       try {
-        const amount = change.value.kind === 'call' ? this.pending(pending, change.value) : World.literal(change.value);
+        const amount = change.value.kind === 'call' ? this.pending(pending, change.value)
+          : change.value.kind === 'arith' ? this.number(change.value) : World.literal(change.value);
         const previous = this.pending(pending, change.call), key = World.key(change.call);
         const value = change.kind === 'set' ? amount : change.kind === 'increase' ? previous + amount : previous - amount;
         if (!Number.isSafeInteger(value) || value < 0) { return false; }
@@ -287,7 +292,8 @@ export class World {
       if (change.kind === 'assert') { const call = World.copy(change.call); this.facts.set(key, call); named.set(key, call); }
       return;
     }
-    const amount = change.value.kind === 'call' ? this.number(change.value) : World.literal(change.value);
+    const amount = change.value.kind === 'call' || change.value.kind === 'arith' ? this.number(change.value)
+      : World.literal(change.value);
     const previous = this.number(change.call);
     const value = change.kind === 'set' ? amount : change.kind === 'increase' ? previous + amount : previous - amount;
     // A count never goes below nothing; a quantity set outright may (selm weighs less than nothing).

@@ -29,6 +29,10 @@ export class PassageModel {
     return o ? ObservationText.render(o.text, this.world) : undefined;
   }
   label(id: string): string { return ObservationText.label(this.world, id); }
+  private shut(passage: string): string | undefined {
+    const o = this.world.module.observations?.find(x => x.id === `${passage}__shut`);
+    return o ? ObservationText.render(o.text, this.world) : undefined;
+  }
   visible(passage: string): boolean { return this.world.test(this.call('visibleTo', passage, this.actor)); }
   ways(from: string): WayInfo[] {
     if (!this.supported()) { return []; }
@@ -43,6 +47,9 @@ export class PassageModel {
     if (blocker) {
       const t = blocker['?t']!;
       return { ...base, status: 'blocked', via: this.label(t), reason: this.describe(t) ?? `${this.label(t)} is in the way.` };
+    }
+    if (this.world.test(this.call('unopened', passage))) {
+      return { ...base, status: 'blocked', via: base.name, reason: this.shut(passage) ?? `${this.label(passage)} does not open now.` };
     }
     const guard = this.first(this.all(this.call('guards', '?g', passage), this.call('able', '?g'),
       this.call('state', '?g', '?s'), this.call('blocksWhen', '?g', '?s')));
