@@ -784,7 +784,7 @@ They tell you what they know of it.
 - Takes: 20 minutes
 - Costs: 1
 
-Go over the place: walls, floor, furniture, the backs of things. Twenty minutes, once.
+Go over the place: walls, floor, furniture, the backs of things. Twenty minutes, once; a search the light gives out on is not made.
 
 > Needs: able(actor); at(actor, site); not (benighted(actor)); not (searched(actor, site))
 
@@ -944,7 +944,7 @@ Also kept, without comment: plea, greeting, greeted, petted, warned, yielded, wa
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 16 | 2 | 1 | 16 | 4 |
+| 1 | 16 | 2 | 1 | 15 | 4 |
 
 #### temperament
 
@@ -980,7 +980,7 @@ What drives it off (sunlight, flame), and the price a proud one names.
 
 *Kyr · measure(group)* · `rule:inhabitants.patience`
 
-Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. The same words for a band of more than one, where they differ. Watches it waits, once it has warned, before it comes at whoever stays.
+Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. The same words for a band of more than one, where they differ. The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however many small things are done in it.
 
 #### temper_shies
 
@@ -1030,7 +1030,7 @@ A warning spent: whoever stayed is fallen on (for a defensive one, only in its l
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= 0; not (temperament(?g, temper_defensive)); onslaught(?g, ?o)
+> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
 
@@ -1040,17 +1040,9 @@ Says: "{?o}"
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); temperament(?g, temper_defensive); lair(?g, ?l); at(?c, ?l); at(?g, ?l); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= 0; onslaught(?g, ?o)
+> When: warned(?g, ?c); temperament(?g, temper_defensive); lair(?g, ?l); at(?c, ?l); at(?g, ?l); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
-
-#### temper_waits
-
-*Kyr · rule* · `rule:inhabitants.temper_waits`
-
-> When: warned(?g, ?c); together(?g, ?c); patience(?g) > 0
-
-> Then: Decrease patience(?g) by 1.
 
 #### temper_let_go
 
@@ -1070,7 +1062,7 @@ Says: "{?w}"
 
 > When: temperament(?g, ?t); warnsFirst(?t); company(?c); confronts(?g, ?c); not (warned(?g, ?c)); warning(?g, ?w)
 
-> Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
+> Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to (watch(clock) + 1).
 
 #### temper_falls_on
 
@@ -1100,7 +1092,7 @@ Says: "{?w}"
 
 > When: temperament(?g, temper_ambush); company(?c); confronts(?g, ?c); capable(?c, perception); not (warned(?g, ?c)); warning(?g, ?w)
 
-> Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to 1.
+> Then: Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to (watch(clock) + 1).
 
 #### temper_keeps_post
 
@@ -1162,13 +1154,13 @@ Crouch down, hold out a hand, scratch behind its ears.
 
 *Kyr · relation(temperament); relation(group, group)* · `rule:inhabitants.hears`
 
-Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you a moment to be gone, and then comes at you; faced down badly, it comes at you at once.
+Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you the rest of the watch to be gone, and then comes at you; warned off badly, it comes at you at once.
 
 #### talk round
 
 *Kyr · action (group, group, place)* · `rule:inhabitants.talk_round`
 
-- Shown as: Talk {hearers} into letting you be
+- Shown as: Ask {hearers} to let you by
 - Takes: 10 minutes
 - Costs: 1
 
@@ -1180,7 +1172,7 @@ Words instead of blows, for a band that can be spoken to and will hear words (on
 
 *Kyr · action (group, group, place)* · `rule:inhabitants.face_down`
 
-- Shown as: Face {hearers} down
+- Shown as: Warn {hearers} off
 - Takes: 10 minutes
 - Costs: 1
 

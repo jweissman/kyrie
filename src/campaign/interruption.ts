@@ -1,6 +1,7 @@
 import type { Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { LocalObservations } from '../presentation/local-observations';
+import { ModuleWriter } from '../lang/module-writer';
 
 export interface Watch {
   predicate?: Predicate; held: boolean; present: Set<string>; heard: number; started: number;
@@ -24,6 +25,10 @@ export class Interruption {
     const changed = watch.seen && this.changed(watch, world, player);
     if (changed) { return changed; }
     if (!watch.predicate || watch.held || !world.test(watch.predicate)) { return undefined; }
+    // The light gone is said as itself, not as something changing.
+    if (world.module.queries.some(q => q.name === 'benighted') && world.test(ModuleWriter.call('benighted', player))) {
+      return 'Your light gives out, and there is no going on with it in the dark.';
+    }
     // Who has come, by name without the role: "The Mower comes where you are."
     const names = [...this.present(world, player)].filter(id => !watch.present.has(id));
     return names.length ? this.moved(world, names, 'comes') : 'Something changes where you are.';

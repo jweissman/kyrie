@@ -85,10 +85,14 @@ export class DeepRooms {
   }
   private static camp(room: string, at: { level: number; purpose: DeepPurpose }): string[] {
     const q = this.q, camp = at.purpose.camp, journal = camp.journal[Math.min(at.level, camp.journal.length - 1)]!;
-    return [`  Observe ${room}_camp at ${room} when true ${q(camp.scene)}.`,
+    // What it says is told once, as it is read, and kept among what the company knows; the notebook lies open.
+    return [`  Observe ${room}_camp at ${room} when true ${q(camp.scene)}.`, `  Entity ${room}_journal: fact ${q(journal)}.`,
       `  Thing ${room}_notebook "a damp notebook" at ${room} {`,
       '    State shut "A notebook lies by the dead fire, swollen with damp, its cover held shut with a strap.".',
-      `    State read ${q(journal)}.`, '    Change read "Unstrap the notebook and read it" from shut to read.', '  }',
+      '    State read "The notebook lies open by the dead fire where you left it.".',
+      '    Change read "Unstrap the notebook and read it" from shut to read.', '  }',
+      `  Observe ${room}_read at ${room} when state(${room}_notebook, read) and not knows(party, ${room}_journal)`
+        + ` ${q(journal)} teaches ${room}_journal.`,
       `  Item ${room}_rope "a coil of rope" is rope at ${room}.`, `  Item ${room}_torch "a torch" is torch at ${room}.`];
   }
 }
