@@ -9,6 +9,9 @@ Module world_people "Company and intention" {
     Retract following(?person, ?company). Assert cameHome(?person). Assert grateful(?person, ?company).
     Increase quantity(?company, gold) by thanks(?person).
   }
+  // Who someone is to the one who plays: family (kin), or someone expecting them with a letter or an errand (expects);
+  // what they owe someone is dominion's owes. An origin says so at the outset; what people say and do follows it.
+  Relation kin(group, group). Relation expects(group, group).
   // Someone who would join the company, once they are willing, for their hire (which may be nothing).
   Relation willing(group, group). Measure hire(group).
   Goal false.

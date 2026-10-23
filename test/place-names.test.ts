@@ -23,9 +23,12 @@ describe('generated places are named in their folk\'s tongue', () => {
     // A name with a part the language has no word for ("wold") stays as Deem said it.
     expect(human.name).toBe('Frostwold');
     expect(human.sites[0]).toMatchObject({ gloss: 'fern cave', tongue: 'Westron' });
-    // The meaning is told where the place is described.
-    expect(RegionWriter.source(PlaceNames.render(WorldAssembler.lay(Regions.make('human'), 'frostwold'))))
-      .toContain('The name is Westron for “cold hill”.');
+    // The meaning is kept with the place on the chart, and not said in the place's description.
+    const laid = PlaceNames.render(WorldAssembler.lay(Regions.make('human'), 'frostwold'));
+    const scenes = RegionWriter.source(laid).split('\n').filter(l => /Observe \S+ at /.test(l));
+    expect(scenes.filter(l => l.includes('The name is'))).toEqual([]);
+    const chart = (RegionWriter.manifest(laid) as { chart: { glosses: Record<string, string> } }).chart;
+    expect(chart.glosses[laid.settlements[0]!.id]).toBe('Westron for “cold hill”');
     const fen = PlaceNames.render({ ...Regions.make('human'), name: 'Fenfen', feature: 'fen', affix: 'fen' });
     expect([fen.name, fen.gloss]).toEqual(['Faenn', 'fen']);
   });

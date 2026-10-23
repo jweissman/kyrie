@@ -56,6 +56,8 @@ export interface Screen {
   // The day as the calendar has it ("20 Leaffall", and in full with the season), and the weather, when known.
   date?: { short: string; long: string }; weather?: string;
   path: PlaceRef[]; place: PlaceRef; prose: string[];
+  // Every observation perceived here, as told, for the narrator to choose among.
+  observed: { id: string; text: string }[];
   // The company stands in the dark without a light.
   dark?: boolean;
   exits: ExitRow[]; people: TargetRow[]; things: TargetRow[];

@@ -64,7 +64,7 @@ export class ScreenModel {
     return {
       title: view.title, clock: FictionalTime.at(view.elapsed), elapsed: view.elapsed, running: view.running,
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
-      prose: scene.prose, fresh: scene.fresh,
+      prose: scene.prose, fresh: scene.fresh, observed: view.observations,
       dark: view.observations.some(o => o.id === 'darkness'),
       exits: here ? passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited }) : [],
@@ -187,7 +187,9 @@ export class ScreenModel {
     const acts = grouped.targets.get(p.id) ?? [];
     if (p.type === 'group') {
       const member = p.members?.[0];
-      const playable = member && (Content.playableRaces as string[]).includes(member.raceId);
+      // Anyone of a people (an ancestry, whether or not a player may be one) is a person; anything else a creature.
+      const playable = member && (!!Canon.ancestries[member.raceId]
+        || (Content.playableRaces as string[]).includes(member.raceId));
       // A person's ancestry is in their look; their note is what is going on with them (a creature's, what it is).
       const note = (p.state ? undefined : p.condition)
         ?? (member && !playable ? `${Content.races[member.raceId as keyof typeof Content.races]?.name ?? member.raceId}` : undefined);

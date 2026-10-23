@@ -5,6 +5,7 @@ import { RegionPeoples } from './region-peoples';
 import { RegionFaith } from './region-faith';
 import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
+import { SettlementScenes } from './settlement-scenes';
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionZones } from './region-zones';
@@ -59,6 +60,12 @@ export interface Region extends Naming {
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
 // A company member's old acquaintance, from their background: a carrier who passes on news of that channel heard
 // anywhere in the region, and who is introduced where they are found.
+// The company as the region declares it: how many, the old acquaintances its members have here, and for one
+// protagonist, where they begin (a room, or a way into a settlement written for them) and the coin they carry.
+export interface Company {
+  size: number; contacts: Contact[]; coin?: number;
+  start?: { place: string; approach?: { settlement: string; name: string; way: string } };
+}
 export interface Contact {
   member: string; background: string; channel: Carrier['channel']; carrier: string; room: string; text: string;
   // What the contact has heard that brought the member here: a rumour of one of the region's troubles.
@@ -83,7 +90,7 @@ export class RegionWriter {
   // The settlement each site is reached from: the one it names, or one by turns.
   static near(region: Region, site: Site): Settlement { return RegionGeography.near(region, site); }
   // A region beyond the first (company null) has no company of its own: the one company comes to it from the others.
-  static source(region: Region, company: { size: number; contacts: Contact[] } | null = { size: 3, contacts: [] },
+  static source(region: Region, company: Company | null = { size: 3, contacts: [] },
     taken: Record<string, string> = {}): string {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(`Module ${this.id} ${q(region.name)} {`,
@@ -99,8 +106,14 @@ export class RegionWriter {
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     if (!company) { lines.push('  Entity party: group "Your company".', '  Goal false.', '}'); return lines.join('\n'); }
     company.contacts.forEach((c, i) => lines.push(`  Observe tie${i + 1} at ${c.room} when true ${q(c.text)}.`));
-    lines.push(`  Company party "Your company" of ${company.size} at ${region.settlements[0]!.id}_green.`,
-      '  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.', '  Goal false.', '}');
+    // One protagonist begins where their origin says: a room of a settlement, or the way into it.
+    const a = company.start?.approach;
+    if (a) {
+      lines.push(`  Place ${a.settlement}_approach ${q(a.name)} is room within ${a.settlement} outdoors.`,
+        `  Passage ${a.settlement}_approach_way ${q(a.way)} is road between ${a.settlement}_approach and ${a.settlement}_green taking 10 minutes.`);
+    }
+    lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
+      `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.', '}');
     return lines.join('\n');
   }
   private static settlement(s: Settlement, i: number, region: Region): string[] {
@@ -121,9 +134,9 @@ export class RegionWriter {
       `  Person ${s.id}_priest ${q(s.priest)} at ${s.id}_shrine { Role ${q(`priest of ${cult.name}`)}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin. Sells old_glossary for 80 coin from 1.' : ''} }`,
       this.merchant(s, region),
       ...RegionRecruits.traveller(s, i, region),
-      `  Observe ${s.id}_day at ${s.id}_green when not dark() ${q(`${RegionPeoples.told(s)}${this.meaning(s)} ${RegionGeography.placement(region, i)}Smoke rises from ${s.inn}; the shrine of ${cult.name} stands open across the green.`)}.`,
-      `  Observe ${s.id}_night at ${s.id}_green when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
-      `  Observe ${s.id}_tap at ${s.id}_taproom when true ${q(`Benches, a long table, a fire. People who work ${s.trade} drink here.`)}.`,
+      `  Observe ${s.id}_day at ${s.id}_green as fixture when not dark() ${q(SettlementScenes.green(region, i, cult.name))}.`,
+      `  Observe ${s.id}_night at ${s.id}_green as fixture when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
+      `  Observe ${s.id}_tap at ${s.id}_taproom as fixture when true ${q(SettlementScenes.taproom(s))}.`,
       ...RegionFaith.lines(s, cult),
     ];
   }
@@ -176,14 +189,16 @@ export class RegionWriter {
   // The module manifest: the world rules, every place and person exported under its own id, and what the assembler
   // is told about it: the terrain, which rooms are on the roads, what kind each site is and which a scenario took.
   // A region beyond the first imports the one company from the first.
-  static manifest(region: Region, taken: Record<string, string> = {}, beyond = false): object {
+  static manifest(region: Region, taken: Record<string, string> = {}, beyond = false, company?: Company): object {
     const roads = RegionGeography.roads(region), ways = roads.map(r => r.way);
     const zones = RegionGeography.atlas(region).zones;
     const ids = ['party', 'region', ...region.settlements.flatMap(s => [s.id, `${s.id}_green`, `${s.id}_taproom`,
       `${s.id}_shrine`, `${s.id}_shop`, `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`]),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`]), ...ways, ...roads.map(r => r.land),
-    ...zones.flatMap(z => [z.id, ...z.parts.map((_, i) => RegionZones.room(z, i))]),
-    ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`])];
+    ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z)]),
+    ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`]),
+    ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
+    ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : []];
     // A site's land is the wild country it stands in, or its own stretch of open country.
     const lands = region.sites.map(w => [`${w.id}_land`, w.zone ?? `${w.id}_land`]);
     // A ford, a bridge and a pass are where a road can be held; a road through a wood and the edge of wild country
@@ -207,7 +222,11 @@ export class RegionWriter {
       rivers: atlas.rivers.map(r => r.cells), roads: Object.fromEntries([...roads.map(r => [r.way, r.route.cells]),
         ...atlas.borders.map(b => [RegionBorders.room(b), b.road.cells])]),
       parts: Object.fromEntries(atlas.zones.flatMap(z => z.parts.map((cells, i) => [RegionZones.room(z, i), cells]))),
+      // What each name means, in the tongue it was given in: kept with the chart, not said in the place's description.
+      glosses: Object.fromEntries([...region.settlements, ...region.sites].filter(x => x.gloss && x.tongue)
+        .map(x => [x.id, `${x.tongue}${x.tongue === 'Aenean' ? ', the old tongue,' : ''} for “${x.gloss}”`])),
       places: Object.fromEntries([...region.settlements.map(s => [s.id, s.cell]),
+        ...atlas.zones.flatMap(z => RegionZones.landmarks(region, z).map(l => [l.id, l.cell])),
         ...region.sites.filter(w => w.cell !== undefined).map(w => [w.id, w.cell]),
         ...atlas.borders.map(b => [RegionBorders.room(b), b.cell]),
         ...atlas.zones.map(z => [z.id, z.centres[0]])]) };

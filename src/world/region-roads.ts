@@ -40,20 +40,20 @@ export class RegionRoads {
   }
   // What a road and its land are called, and how it looks, by what it crosses or runs through.
   private static names(road: Road, region: Region): WayNames {
-    const { from, to, form } = road, gloss = form ? RegionGeography.meaning(form) : '', name = form?.name ?? '';
+    const { from, to, form } = road, name = form?.name ?? '';
     const draw = new Draw(`${road.way}:prose`), bridge = road.route.crossings[0]?.kind === 'bridge';
     switch (form?.form) {
       case 'river': return { land: `the vale of the ${name}`, way: `the ${bridge ? 'bridge over' : 'ford of'} the ${name}`,
         kind: bridge ? 'bridge' : 'ford', out: `the road from ${from.name} down to the ${name}`,
         on: `the ${bridge ? 'bridge over' : 'ford of'} the ${name}`,
         scene: `${bridge ? draw.pick(this.bridges) : draw.pick(this.fords)}`.replaceAll('{river}', name)
-          .replaceAll('{to}', to.name) + gloss };
+          .replaceAll('{to}', to.name) };
       case 'wood': return { land: name, way: `the road through ${name}`, kind: 'road',
         out: `the road from ${from.name} into ${name}`, on: `the road out of ${name} to ${to.name}`,
-        scene: `${draw.pick(this.woods).replaceAll('{wood}', name)}${gloss}` };
+        scene: draw.pick(this.woods).replaceAll('{wood}', name) };
       case 'pass': return { land: `the ${name}`, way: `the top of the ${name}`, kind: 'road',
         out: `the road from ${from.name} up to the ${name}`, on: `the road down from the ${name} to ${to.name}`,
-        scene: `${draw.pick(this.passes).replaceAll('{pass}', name)}${gloss}` };
+        scene: draw.pick(this.passes).replaceAll('{pass}', name) };
       default: return { land: `the country between ${from.name} and ${to.name}`,
         way: `the road between ${from.name} and ${to.name}`, kind: 'road', out: `the road from ${from.name} to ${to.name}`,
         on: `the road on to ${to.name}`, scene: draw.pick(this.open[this.ground(road, region)] ?? this.open.meadow!)

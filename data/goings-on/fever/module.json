@@ -1,15 +1,37 @@
 {
   "version": 1,
   "source": "situation.kyr",
-  "rules": ["world"],
-  "globals": ["party"],
-  "imports": ["party", "green", "road"],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "green",
+    "road"
+  ],
   "roles": {
-    "party": { "type": "group" },
-    "green": { "type": "place" },
-    "road": { "type": "place" }
+    "party": {
+      "type": "group"
+    },
+    "green": {
+      "type": "place"
+    },
+    "road": {
+      "type": "place"
+    }
   },
-  "generation": { "type": "fever", "templates": "templates.json", "tables": "../drover/tables.json" },
-  "exports": { "sick": "sick" },
+  "generation": {
+    "type": "fever",
+    "templates": "templates.json",
+    "tables": "../drover/tables.json"
+  },
+  "exports": {
+    "sick": "sick",
+    "mother": "mother",
+    "sister": "sister"
+  },
   "experience": 100
 }

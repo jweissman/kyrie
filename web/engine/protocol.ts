@@ -1,6 +1,8 @@
 import type { CreatureGenerationContext } from '../../src/content';
 import type { Transcript } from '../../src/session/play-session';
 import type { CombatScreen, Screen } from '../../src/ui/screen-types';
+import type { Exchange, Leaf } from '../../src/presentation/narrator';
+export type { Exchange, Leaf };
 
 // What passes between the page and the engine. The engine (Kyrie, in a worker) is the only authority on what
 // happens; the page draws frames and sends back what the player chose.
@@ -23,6 +25,8 @@ export interface CampaignChoice {
 }
 export interface Setting {
   title: string; pitch: { heading: string; text: string }; party: Member[]; generated: boolean;
+  // In a generated country, the reasons one person might have come into it, as this country holds them.
+  origins?: { id: string; title: string; choice: string }[];
 }
 
 // The choices a company is made from, read from the same catalogs the game runs on.
@@ -45,6 +49,8 @@ export interface CompanyView {
 // Everything the page draws while playing: the place, what has been told, a fight if one is on, and the journal.
 export interface Frame {
   title: string; screen: Screen; entries: Entry[];
+  // What the page tells now: the present situation and the immediate exchange, chosen by the narrator.
+  leaf: Leaf;
   combat?: CombatScreen;
   // How a fight began, as it was seen: the moment that started it.
   opening: string[];
@@ -57,7 +63,7 @@ export type Request =
   | { kind: 'setting'; campaign: string }
   | { kind: 'world'; seed: string; terrain?: string }
   | { kind: 'preview'; party: Member[]; generated: boolean }
-  | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string }
+  | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string }
   | { kind: 'resume'; saved: string }
   | { kind: 'perform'; command: string; said: string; move: boolean; named?: boolean }
   // A companion's choice in a fight ("ability>target"); none lets them fight this turn on their own.

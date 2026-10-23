@@ -30,7 +30,7 @@ export class ReaderOpening {
           ...app.props.query.get('terrain') ? { terrain: app.props.query.get('terrain')! } : {} })
         : await app.engine.request<Setting>({ kind: 'setting', campaign });
       app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting, party: setting.party,
-        editing: -1 });
+        editing: -1, origin: setting.origins?.[0]?.id });
       await this.preview(setting.party);
     } catch (error) { this.fail(error, 'campaigns'); }
   }
@@ -64,8 +64,8 @@ export class ReaderOpening {
     const s = this.app.state;
     this.app.setState({ phase: 'loading', stage: 'Setting out', error: '' });
     await this.enter(this.app.engine.request<Frame>({ kind: 'begin', campaign: s.campaign, seed: s.seed,
-      party: s.party, ...this.app.props.query.get('terrain') ? { terrain: this.app.props.query.get('terrain')! } : {} }),
-    'company');
+      party: s.party, ...this.app.props.query.get('terrain') ? { terrain: this.app.props.query.get('terrain')! } : {},
+      ...s.setting?.generated && s.origin ? { origin: s.origin } : {} }), 'company');
   }
   async resume(text: string) {
     this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '' });
@@ -74,7 +74,7 @@ export class ReaderOpening {
   private async enter(request: Promise<Frame>, otherwise: 'company' | 'title') {
     try {
       const frame = await request;
-      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, trail: [], history: false, member: '' });
+      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, trail: [], member: '' });
     } catch (error) { this.fail(error, otherwise); }
   }
   private fail(error: unknown, phase?: 'title' | 'campaigns' | 'company') {

@@ -1,0 +1,79 @@
+import { describe, expect, it } from 'bun:test';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { PlaySession } from '../src/session/play-session';
+import { PlayerView } from '../src/presentation/player-view';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
+import { ScreenModel } from '../src/ui/screen-model';
+import { Narrator } from '../src/presentation/narrator';
+import { ModuleParser } from '../src/lang/module-parser';
+
+// The narrator chooses what to tell. What someone says when asked is said in their words, where they say it; the sky
+// is told when the company comes out under it, not at every step under the same sky, and never under a roof as if it
+// were outside; and the passing life of a place is told the first time. a1: Murkstede, its inn, and Eikwudu.
+class Telling {
+  static async start() {
+    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    return PlaySession.start(w.path, 'a1', w.source);
+  }
+  // Does a choice, and tells it as the page would.
+  static async take(s: PlaySession, pattern: RegExp) {
+    const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
+    if (!c) { throw new Error(`No choice like ${pattern}`); }
+    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const feedback = ActionFeedbackView.read(s.campaign, event, before);
+    const moved = before.location?.id !== s.campaign.world.one('at', 'party');
+    return Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), { event, feedback, said: c.choice.name, moved });
+  }
+}
+
+describe('the narrator', () => {
+  it('sets an answer as the words of whoever gave it', () => {
+    expect(Narrator.speech('A drover went out three days ago and did not come home. His dog did.', 'Eamon'))
+      .toBe('‘A drover went out three days ago and did not come home,’ says Eamon. ‘His dog did.’');
+    expect(Narrator.speech('The barrow is open.', 'Cyril')).toBe('‘The barrow is open,’ says Cyril.');
+  });
+  it('tells what someone was asked in their words, on the page, not in the journal', async () => {
+    const s = await Telling.start();
+    await Telling.take(s, /Murkstede green$/);
+    await Telling.take(s, /Lucky Phoenix$/);
+    const asked = await Telling.take(s, /^Ask Eamon about the drover/);
+    const speech = asked.exchange!.lines.filter(l => l.kind === 'speech').map(l => l.text);
+    expect(speech.join(' ')).toContain('says Eamon');
+    expect(asked.exchange!.lines.some(l => /tells you what they have heard/.test(l.text))).toBe(false);
+  }, 60000);
+  it('tells the sky on coming out under it, not again on the next step, and not as if outside under a roof', async () => {
+    const s = await Telling.start();
+    const outside = (s.campaign.module.observations ?? []).filter(o => o.aspect === 'weather' && o.place === 'region__s1_green')
+      .map(o => o.text);
+    const told = (leaf: { situation: string[] }) => outside.filter(t => leaf.situation.join(' ').includes(t));
+    // Walking in from the causeway, under the same sky: not told again.
+    expect(told(await Telling.take(s, /Murkstede green$/))).toEqual([]);
+    // Indoors, what is said of the green's sky is not said.
+    expect(told(await Telling.take(s, /Lucky Phoenix$/))).toEqual([]);
+    // Coming out under it, it is told; walking on under it, not again.
+    expect(told(await Telling.take(s, /Murkstede green$/)).length).toBeGreaterThan(0);
+    const wood = await Telling.take(s, /to the edge of Eikwudu/);
+    const woodSky = (s.campaign.module.observations ?? []).filter(o => o.aspect === 'weather' && o.place === 'region__z3_edge')
+      .map(o => o.text);
+    expect(woodSky.filter(t => wood.situation.join(' ').includes(t))).toEqual([]);
+  }, 60000);
+  it('tells the passing life of a place the first time only', async () => {
+    const s = await Telling.start();
+    await Telling.take(s, /Murkstede green$/);
+    const first = await Telling.take(s, /to the edge of Eikwudu/), clearing = await Telling.take(s, /charcoal-burners/);
+    expect(clearing.situation.join(' ')).toContain('A woodpecker is at work');
+    await Telling.take(s, /to the edge of Eikwudu/);
+    const again = await Telling.take(s, /charcoal-burners/);
+    expect(again.situation.join(' ')).not.toContain('A woodpecker is at work');
+    expect(first.situation.length).toBeGreaterThan(0);
+  }, 60000);
+  it('reads a place\'s shelter and an observation\'s aspect and who notices it', () => {
+    const m = ModuleParser.parse(`Module t "T" { Kind place. Kind capability. Entity lore: capability "Lore".
+      Place hall "the hall" is room at 0, 0 indoors. Observe marks at hall as feature noticed by lore when true "Letters.".
+      Goal false. }`);
+    expect(m.entities.find(e => e.id === 'hall')?.space?.shelter).toBe('indoors');
+    expect(m.observations?.[0]).toMatchObject({ aspect: 'feature', by: 'lore' });
+  });
+});

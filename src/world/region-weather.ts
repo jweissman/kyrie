@@ -2,12 +2,14 @@ import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import { Calendar, type CalendarStart } from '../presentation/calendar';
 import { RegionGeography } from './region-geography';
+import { RegionZones } from './region-zones';
 import { CampaignTick } from '../campaign/campaign-tick';
 import type { Region } from './region-writer';
 
 interface Tables {
   regionClimate: { groups: Record<string, string[]> }; climateWeather: { groups: Record<string, string[]> };
   skyLine: { groups: Record<string, [string, string]> }; seasonLine: { groups: Record<string, string[]> };
+  skyAt: { groups: Record<string, Record<'green' | 'road' | 'wild' | 'roof', string>> };
 }
 
 // A generated region's weather, from Orsino's climates: a region has a climate for its terrain (terrainClimates)
@@ -70,15 +72,21 @@ export class RegionWeather {
       `  Rule ${r.way}_falls when untilLight(clock) == 1 and not ${wet} and state(${r.way}_water, spate) {`
         + ` Assert state(${r.way}_water, low). }`]);
   }
-  // The weather on each green and road; and on each green, the season as the calendar turns.
+  // The weather as it is where the company stands: seen on a green, a road or in wild country, heard and felt under a
+  // roof; and on each green, the season as the calendar turns. Where a kind of weather has nothing to show (a fair day
+  // indoors), nothing is said.
   private static seen(region: Region, kinds: string[]): string[] {
-    const q = JSON.stringify, sky = this.tables.skyLine.groups;
-    const rooms = [...region.settlements.map(s => `${s.id}_green`), ...RegionGeography.roads(region).map(r => r.way)];
-    return [...rooms.flatMap(room => kinds.map(k =>
-      `  Observe ${room}_sky_${k} at ${room} when state(sky, weather_${k}) and not dark() ${q(sky[k]?.[1] ?? '')}.`)),
+    const q = JSON.stringify, at = this.tables.skyAt.groups;
+    const places: [string, 'green' | 'road' | 'wild' | 'roof'][] = [
+      ...region.settlements.map(s => [`${s.id}_green`, 'green'] as [string, 'green']),
+      ...region.settlements.map(s => [`${s.id}_taproom`, 'roof'] as [string, 'roof']),
+      ...RegionGeography.roads(region).map(r => [r.way, 'road'] as [string, 'road']),
+      ...RegionGeography.atlas(region).zones.flatMap(z => RegionZones.rooms(region, z).map(r => [r, 'wild'] as [string, 'wild']))];
+    return [...places.flatMap(([room, kind]) => kinds.filter(k => at[k]?.[kind]).map(k =>
+      `  Observe ${room}_sky_${k} at ${room} as weather when state(sky, weather_${k})${kind === 'roof' ? '' : ' and not dark()'} ${q(at[k]![kind])}.`)),
     ...region.settlements.flatMap(s => CampaignTick.seasons.flatMap((season, i) => {
       const line = this.tables.seasonLine.groups[season]?.[0];
-      return line ? [`  Observe ${s.id}_season_${season} at ${s.id}_green when not dark() and season(clock) == ${i + 1} ${q(line)}.`] : [];
+      return line ? [`  Observe ${s.id}_season_${season} at ${s.id}_green as weather when not dark() and season(clock) == ${i + 1} ${q(line)}.`] : [];
     }))];
   }
 }

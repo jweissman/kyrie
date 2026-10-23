@@ -1,0 +1,54 @@
+{
+  "about": "What a settlement looks like to someone standing on its green or in its taproom: by its size, by the trade it lives by, and by where its inn and shrine stand. No census, and no etymology: those are for the journal.",
+  "green": {
+    "hamlet": [
+      "{name} is a handful of houses round a trodden green, with {trade}.",
+      "A few houses and a pound for strays: that is {name}, and {trade}."
+    ],
+    "village": [
+      "Houses stand round {name} green with their backs to the weather, and {trade}.",
+      "{name} is a green with a pond on it and houses round it, and {trade}."
+    ],
+    "town": [
+      "Lanes run off {name} green between tall houses, and there are {trade}.",
+      "{name} is a town of narrow lanes round a broad green, with {trade}."
+    ]
+  },
+  "trade": {
+    "salt": "salt-houses black with tar along the shore",
+    "eels": "eel-traps stacked against every wall",
+    "reed": "reed drying in ricks behind the houses",
+    "tin": "spoil heaps grey above the roofs",
+    "wool": "fleeces drying on the walls",
+    "timber": "timber stacked to season by the road",
+    "charcoal": "the blue smoke of charcoal hearths beyond the houses",
+    "honey": "bee-skeps in rows along the garden walls",
+    "slate": "slate roofs and slate fences",
+    "furs": "pelts stretched on frames by the doors",
+    "whale oil": "the reek of the try-pots down by the shore",
+    "peat": "peat stacked by every door"
+  },
+  "inn": [
+    "The sign of {inn} creaks over its door, and across the green the shrine of {cult} stands open.",
+    "{inn} faces the shrine of {cult} across the green."
+  ],
+  "room": {
+    "hamlet": "A low room with a fire and a single bench.",
+    "village": "A low-beamed room, a fire, benches.",
+    "town": "A long room with a fire at either end and talk going on all down it."
+  },
+  "drinkers": {
+    "salt": "Salt-boilers at the long table, still white to the elbow.",
+    "eels": "Eel-men at the long table, smelling of the river.",
+    "reed": "Reed-cutters at the long table, their hands cut and bound.",
+    "tin": "Miners at the long table, grey with dust to the eyebrows.",
+    "wool": "Shepherds at the long table, with their dogs asleep under it.",
+    "timber": "Woodmen at the long table, sawdust in their hair.",
+    "charcoal": "Colliers at the long table, black to the elbow.",
+    "honey": "A beekeeper at the long table, her veil in her lap.",
+    "slate": "Quarrymen at the long table, grey-handed.",
+    "furs": "Trappers at the long table, quiet over their beer.",
+    "whale oil": "Men from the try-works at the long table, and the smell of it.",
+    "peat": "Peat-cutters at the long table, their boots still black."
+  }
+}

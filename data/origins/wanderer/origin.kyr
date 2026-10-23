@@ -1,0 +1,8 @@
+Module origin "Over the hills" {
+  Kind chapter. Entity title: chapter "Over the hills".
+  Entity party: group "You".
+  Place approach "The way in" is room.
+  Observe arrival at approach as fixture when true "{scene}".
+  Observe purpose at approach as feature when true "You have come over the hills into {region} with your trade and not much else. There is work in any country for someone who will do what others will not, and the place to hear of it is the inn.".
+  Goal false.
+}

@@ -15,11 +15,9 @@ export class FightView {
       : `${combat.actorName} acts.`;
     return (
       <section className="fight" aria-label="A fight">
-        <header className="scene-head fight-head">
-          <h1>A fight at {place}</h1>
-          <p className="where">Round {Math.max(1, combat.round)}</p>
-          {(combat.laws ?? []).map(l => <p key={l.name} className="law">{l.name}: {l.text}</p>)}
-        </header>
+        <h2 className="place">A fight at {place}</h2>
+        <p className="round">Round {Math.max(1, combat.round)}</p>
+        {(combat.laws ?? []).map(l => <p key={l.name} className="law">{l.name}: {l.text}</p>)}
         <ul className="foes" aria-label="Against you">{combat.foes.map(f => <FightView.Foe key={f.id} foe={f}
           took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>
         <div className="now" aria-live="polite">

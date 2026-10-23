@@ -45,15 +45,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('The Long Man in the browser', () =>
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await Merrow.act(d, '^To Merrow green', '^Into the Drowned Ox', '^Buy › ^A torch');
+    await Merrow.act(d, '^To Merrow green', '^Into the Drowned Ox', '^Speak with Martin', '^Buy › ^A torch');
     // A bought torch goes to whoever already carries one: Bran, the warrior, who set out with one.
-    expect(await page.textContent('.entry.latest .said')).toBe('You buy a torch for Bran.');
-    expect(await page.textContent('.entry.latest .told')).toContain('takes a torch');
+    expect(await page.textContent('.exchange .said')).toBe('You buy a torch for Bran.');
+    expect(await page.textContent('.exchange')).toContain('takes a torch');
     expect(await Merrow.highlighted(page)).toBe(1);
     await d.mode('i');
-    expect(await page.locator('.details.view-pack:visible').count()).toBe(1);
-    expect(await page.locator('.choices [data-action="choice"]:visible').count()).toBeGreaterThan(3);
+    expect(await page.locator('.sheet.view-pack:visible').count()).toBe(1);
+    expect(await page.locator('.intentions [data-action="choice"]:visible').count()).toBeGreaterThan(3);
     await d.mode('i');
+    await d.back();
     await Merrow.act(d, '^Out to Merrow green', '^To the Hall yard', '^Into the Hall cellar', '^Search here',
       'lift the oak bar', '^To the grey gallery', 'light a torch', '^To the wet gallery');
     expect(Merrow.count(await Merrow.text(page), 'the floor heaves')).toBe(1);

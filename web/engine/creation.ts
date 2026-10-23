@@ -7,6 +7,7 @@ import { WorldAssembler } from '../../src/world/world-assembler';
 import type { BundleSource } from '../../src/campaign/bundle-source';
 import type { CampaignManifest } from '../../src/campaign/module-bundle';
 import { Scenarios } from '../scenarios';
+import { Origins } from '../../src/world/origins';
 import type { Catalog, CompanyView, Member, Setting } from './protocol';
 
 interface Assembled { seed: string; terrain?: string; path: string; source: BundleSource; campaign: CampaignManifest }
@@ -61,20 +62,31 @@ export class Creation {
     return structuredClone((companies.find(c => c.id === id) ?? companies[0]!).members);
   }
   // A region drawn from a seed, with adventures set in it; kept so the company can set out into it.
-  async generate(seed: string, terrain?: string, party?: Member[]): Promise<Setting> {
+  async generate(seed: string, terrain?: string, party?: Member[], origin?: string): Promise<Setting> {
     const world = await WorldAssembler.assemble(seed, Scenarios.source(),
-      { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {} });
+      { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {}, ...origin ? { origin } : {} });
     const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
     this.assembled = { seed, ...terrain ? { terrain } : {}, path: world.path, source: world.source, campaign };
-    const title = campaign.name;
-    return { title, pitch: campaign.pitch ?? { heading: title, text: 'Choose three companions.' },
-      party: structuredClone(campaign.party ?? Creation.preset('fellowship')), generated: true };
+    const title = campaign.name, region = world.report.region;
+    const origins = Origins.choices(await Origins.load(Scenarios.source()), region, world.report.placements);
+    return { title, generated: true, origins,
+      pitch: { heading: `Who comes to ${title}?`, text: `${title} is ${Creation.country(region.terrain)} country. `
+        + 'You come into it alone, for a reason of your own; whoever goes with you, you will meet on the way.' },
+      party: [Creation.protagonist(region.ancestry)] };
+  }
+  static country(terrain: string): string {
+    return ({ marsh: 'fen', forest: 'forest', mountain: 'high', frost: 'cold northern' } as Record<string, string>)[terrain] ?? terrain;
+  }
+  // Someone to begin as, of the country's own people; every part of them can be changed.
+  static protagonist(ancestry: string): Member {
+    const playable = (Content.playableRaces as string[]).includes(ancestry) ? ancestry : 'human';
+    return { name: 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior' };
   }
   // Where a company sets out: an authored campaign from the bundled files, or the generated region drawn again for
   // this company (its backgrounds place old friends in the region).
-  async origin(campaign: string, seed: string, party: Member[], terrain?: string) {
+  async origin(campaign: string, seed: string, party: Member[], at: { terrain?: string; origin?: string } = {}) {
     if (campaign !== Creation.generated) { return { path: campaign, source: Scenarios.source() }; }
-    await this.generate(seed, terrain, party);
+    await this.generate(seed, at.terrain, party, at.origin);
     return { path: this.assembled!.path, source: this.assembled!.source };
   }
   static preview(party: Member[], generated: boolean): CompanyView {

@@ -10,7 +10,7 @@ export class TitlePage {
       <div className="opening title-page" data-mode="title">
         <main className="title-sheet">
           <h1 className="mark">Kyr</h1>
-          <p className="tagline">Three companions, a world that keeps going without them, and the road out of town.</p>
+          <p className="tagline">One person, a country that was there before them, and the road out of town.</p>
           <nav className="title-menu" aria-label="Begin">
             {saved && <button type="button" data-nav data-action="continue" className="primary"
               onClick={app.opening.carryOn}>

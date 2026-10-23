@@ -8,10 +8,11 @@ import { SiteBuild } from '../bin/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 
-// The reader as a player meets it: an answer the moment the company sets out, a story that stays put while the
-// pointer moves, keys that do what they say, a journey drawn on the land, a fight that says what each foe means to do
-// and tells each exchange in words, what is asked for opening beside the page, a game that survives a reload, and
-// nothing the engine says to its authors. Opt in with KYRIE_BROWSER=1.
+// The reader as a player meets it: an answer the moment the company sets out, what someone says told once and where
+// they say it, a page that stays put while the pointer moves, keys that do what they say, a map that shows where the
+// company is, a fight that says what each foe means to do and tells each exchange in words, what is asked for opening
+// over the right-hand page, a game that survives a reload, and nothing the engine says to its authors. Opt in with
+// KYRIE_BROWSER=1.
 class Reading {
   static text(page: Page) { return page.evaluate(() => document.body.innerText); }
   static count(text: string, phrase: string) { return text.split(phrase).length - 1; }
@@ -20,7 +21,7 @@ class Reading {
     return page.evaluate(async () => {
       let changes = 0;
       const watch = new MutationObserver(m => { changes += m.length; });
-      watch.observe(document.querySelector('.scene')!, { childList: true, subtree: true, characterData: true, attributes: true });
+      watch.observe(document.querySelector('.verso-body')!, { childList: true, subtree: true, characterData: true, attributes: true });
       for (const b of Array.from(document.querySelectorAll<HTMLElement>('[data-action="choice"]'))) {
         b.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse' }));
         await new Promise(r => setTimeout(r, 15));
@@ -67,10 +68,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
       expect((await d.inspect()).selected).not.toBe(before);
       expect(await Reading.hover(page)).toBe(0);
     }
-    // A journey across country is drawn on the land as it is made.
+    // Across country to the causeway; the map shows where the company is.
     await d.go('causeway');
     expect((await d.inspect()).place?.id).toBe('march__causeway');
-    expect(await page.locator('.backdrop [aria-current="location"]').count()).toBe(1);
+    await d.mode('m');
+    expect(await page.locator('.sheet.view-map [aria-current="location"]').count()).toBe(1);
+    await d.mode('m');
     // A fight: each foe and what it means to do; each exchange in words, the dice kept back.
     await Reading.fight(d);
     expect((await d.inspect()).mode).toBe('combat');
@@ -80,13 +83,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     for (const shop of ['rolled', 'THAC0', 'needed', 'The order:', 'journal keeps every one', 'Learned:']) {
       expect([shop, fought.includes(shop)]).toEqual([shop, false]);
     }
-    // What is asked for opens beside the page (on a phone, at the head of it), and Esc closes it.
+    // What is asked for opens over the right-hand page, and Esc closes it.
     await d.mode('c');
-    expect(await page.locator('.details.view-company .sheet h1:visible').count()).toBe(1);
+    expect(await page.locator('.sheet.view-company .member-sheet h2:visible').count()).toBe(1);
     await d.mode('j');
-    expect(await page.locator('.details.view-journal:visible').count()).toBe(1);
+    expect(await page.locator('.sheet.view-journal:visible').count()).toBe(1);
     await page.keyboard.press('Escape');
-    expect(await page.locator('.details').count()).toBe(0);
+    expect(await page.locator('.sheet').count()).toBe(0);
     expect((await MonoBrowser.metrics(page)).scroll).toBe(false);
     // A reload carries on where the company stands.
     const [place, clock] = [(await d.inspect()).place?.id, await page.textContent('[data-id="clock"]')];

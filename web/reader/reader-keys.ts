@@ -5,7 +5,7 @@ import type { View } from './menu-model';
 // once, Esc goes back; letters open the company, the pack, the journal and the map. Before play, arrows move between
 // the page's choices and Enter takes the one in focus.
 export class ReaderKeys {
-  static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map' };
+  static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
   constructor(private readonly app: ReaderApp) {}
   readonly press = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement | null;
@@ -42,7 +42,6 @@ export class ReaderKeys {
     const app = this.app;
     if (key === 't' && app.state.frame?.combat) { app.auto(); return true; }
     if (ReaderKeys.views[key]) { app.show(ReaderKeys.views[key]); return true; }
-    if (key === 'h' && !app.state.frame?.combat) { app.setState({ history: !app.state.history, view: 'here' }); return true; }
     if (key === '?') { app.setState({ help: !app.state.help }); return true; }
     return false;
   }

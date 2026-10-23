@@ -12,8 +12,9 @@ import { Creation } from './creation';
 import { Frontier } from '../../src/world/frontier';
 import { Scenarios } from '../scenarios';
 import { PlayTranscript } from './transcript';
-import type { Entry, Frame, Member, Message, Request, SaveSummary } from './protocol';
+import type { Entry, Frame, Leaf, Member, Message, Request, SaveSummary } from './protocol';
 import { SaveCodec } from './save-codec';
+import { Narrator, type Told } from '../../src/presentation/narrator';
 
 interface Saved { checkpoint: SessionCheckpoint; log?: Entry[] }
 
@@ -26,6 +27,11 @@ export class EngineHost {
   private log: Entry[] = [];
   private opening: string[] = [];
   private screen?: Screen;
+  // The last command, as the narrator tells it until the next; and the country the company was last in, so that
+  // coming into another is marked.
+  private told?: Told;
+  private country?: string;
+  private crossed = false;
   private turn?: { battle: Battle; resolve: (c: Command) => void };
   private readonly creation = new Creation();
   constructor(private readonly post: (message: Message) => void) {}
@@ -43,13 +49,17 @@ export class EngineHost {
       case 'checkpoint': return this.session ? JSON.stringify(this.session.checkpoint()) : null;
     }
   }
-  private async begin(r: { campaign: string; seed: string; party: Member[]; terrain?: string }): Promise<Frame> {
+  private async begin(r: { campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string }):
+    Promise<Frame> {
     this.post({ kind: 'progress', stage: 'Drawing the world' });
-    const origin = await this.creation.origin(r.campaign, r.seed, r.party, r.terrain);
+    const origin = await this.creation.origin(r.campaign, r.seed, r.party,
+      { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {} });
     this.post({ kind: 'progress', stage: 'Placing its people' });
-    this.session = await PlaySession.start(origin.path, r.seed, origin.source, r.party);
+    // An origin makes the protagonist what it says (their background, what they carry): the world's telling of them.
+    this.session = await PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);
     this.frontier = r.campaign === Creation.generated ? new Frontier(r.seed, Scenarios.source()) : undefined;
-    this.log = []; this.opening = []; this.screen = undefined;
+    this.log = []; this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
+    this.crossed = false;
     return this.settled();
   }
   // A game kept in this browser (packed), or a save file: a checkpoint, with or without the page's telling of it.
@@ -60,7 +70,8 @@ export class EngineHost {
     const t = saved.checkpoint.transcript;
     this.frontier = Frontier.generated(t.scenario) ? new Frontier(t.seed, Scenarios.source()) : undefined;
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
-    this.opening = []; this.screen = undefined;
+    this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
+    this.crossed = true;
     return this.settled();
   }
   private async perform(command: string, context: { said: string; move: boolean; named: boolean }): Promise<Frame> {
@@ -73,6 +84,9 @@ export class EngineHost {
       const moved = before.location?.id !== after.location?.id;
       this.log.push(PlayTranscript.entry(event, feedback, { ...context, id: this.next(), moved,
         place: after.location?.id ?? '', placeName: after.location?.name ?? '', elapsed: event.elapsed }));
+      // A choice made from an opened list is echoed as the action it was ("You buy a torch for Bran").
+      const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
+      this.told = { event, feedback, said, moved };
       // Coming to a march-stone draws the country beyond it, the first time: a second or two, once.
       if (this.frontier) { await this.frontier.expand(campaign); }
     } finally { this.turn = undefined; this.opening = []; }
@@ -123,12 +137,27 @@ export class EngineHost {
       when: FictionalTime.at(campaign.readout.elapsed),
       company: campaign.fighters.map(m => m.name).filter(Boolean).join(', ') };
   }
+  // The page's telling: the narrator's, with a heading when the game opens and when the company comes into a country
+  // it was not in before.
+  private leaf(): Leaf {
+    const campaign = this.session!.campaign, screen = this.screen!;
+    const leaf = Narrator.leaf(campaign, screen, this.told);
+    const country = screen.path.find(p => p.kind === 'region')?.name;
+    // The opening is headed with the chapter its origin names ("Coming home"), or the country's name.
+    const chapter = campaign.module.entities.find(e => /(^|__)chapter$/.test(e.type))?.name;
+    if (!this.told && !this.crossed) { leaf.heading = { kind: 'opening', title: chapter ?? screen.title.split(' — ')[0]! }; }
+    else if (country && this.country && country !== this.country) { leaf.heading = { kind: 'country', title: country }; }
+    if (this.told || this.crossed) { this.crossed = true; }
+    this.country = country;
+    return leaf;
+  }
   private frame(): Frame {
     const session = this.session!, campaign = session.campaign;
     this.screen ??= ScreenModel.build(campaign);
     // A generated world is named on the page for the region the company is in, as it goes on past the first.
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
+      leaf: this.leaf(),
       ...this.turn ? { combat: CombatModel.build(this.turn.battle) } : {},
       opening: this.opening.filter(Boolean),
       chronicle: PlayerView.chronicle(campaign)

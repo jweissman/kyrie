@@ -1,7 +1,8 @@
 import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list';
+import { Intentions } from '../../src/ui/intentions';
 import type { Frame } from '../engine/protocol';
 
-export type View = 'here' | 'company' | 'pack' | 'journal' | 'map';
+export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 export interface Menu { sections: Section[]; level: Choice[]; trail: Choice[] }
 
 // What can be chosen now, from the frame the engine sent and what the page is showing: the place's choices, a
@@ -11,7 +12,7 @@ export class MenuModel {
   static build(frame: Frame | undefined, view: View, trail: string[]): Menu {
     const sections = !frame ? [] : frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : view === 'company' ? ChoiceList.party(frame.screen)
-        : ChoiceList.explore(frame.screen);
+        : Intentions.book(frame.screen);
     const opened: Choice[] = [];
     for (const id of trail) {
       const found = ChoiceList.find(sections, id);

@@ -1,0 +1,21 @@
+{
+  "about": "How a protagonist comes into a settlement, by the country it stands in; and what each trade looks like from the road.",
+  "approach": {
+    "marsh": { "name": "the causeway into {home}", "way": "the causeway", "scene": "The causeway runs on its piles across the last of the fen, and at the end of it is {home}: low roofs against the sky, {trade}, boats drawn up on the landing, smoke going straight up from the inn." },
+    "forest": { "name": "the road into {home}", "way": "the road", "scene": "The road comes out from under the trees, and there is {home} in its clearing: the green, the inn, the shrine, {trade}, smoke from a dozen chimneys." },
+    "mountain": { "name": "the road down into {home}", "way": "the road", "scene": "The road comes down off the high ground in long zigzags, and {home} is below you at the foot of it: stone roofs, a green, {trade}, the inn chimney smoking." },
+    "frost": { "name": "the road into {home}", "way": "the road", "scene": "The road comes in between the snow-fences, and {home} is ahead of you: low roofs weighted with turf, {trade}, smoke from the inn, a dog barking at nothing." }
+  },
+  "trade": {
+    "charcoal": "the blue smoke of the charcoal hearths", "timber": "timber stacked to season along the road",
+    "honey": "bee-skeps in rows along the garden walls", "eels": "eel-traps stacked against the walls",
+    "reed": "reed drying in ricks", "salt": "salt-houses black with tar", "slate": "slate roofs and slate fences",
+    "wool": "fleeces drying on the walls", "tin": "spoil heaps grey above the roofs", "furs": "pelts stretched on frames by the doors",
+    "whale oil": "the reek of the try-pots", "peat": "peat stacked by every door"
+  },
+  "lost": {
+    "charcoal": "a cartload of charcoal", "timber": "a raft of timber", "honey": "a cart of honey", "eels": "a cart of smoked eels",
+    "reed": "a load of reed", "salt": "a cart of salt", "slate": "a cart of slate", "wool": "a cart of wool",
+    "tin": "a cart of tin", "furs": "a bale of furs", "whale oil": "a cart of oil", "peat": "a cart of peat"
+  }
+}

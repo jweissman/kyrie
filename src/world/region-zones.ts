@@ -1,18 +1,32 @@
 import { Draw } from './land/draw';
-import { Terrain } from './land/terrain';
+import { Terrain, type Land } from './land/terrain';
 import type { Wilds } from './land/atlas';
 import type { Wild } from './land/zones';
-import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
 import { RegionRoads } from './region-roads';
 import type { Region } from './region-writer';
+import tables from '../../data/generation/scenes/wilds.json';
 
-// The wild country of a generated region as Kyr: each wood, fen, moor or run of fells a wilderness of its own, its
-// parts rooms a company walks between: the edge, reached from the roads and settlements that border it, and the
-// parts further in, the last of them its heart. Going between parts takes an hour or two of rough going.
+interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean }
+interface Table {
+  trails: string[]; into: string; entry: { name: string; scene: string };
+  lost: { name: string; scene: string; astray: string }; landmarks: Kind[]; water: Kind[];
+  view: { change: string; seen: string; unseen: string };
+}
+// One place in a stretch of wild country, where it stands on the land and what it is.
+export interface Landmark { id: string; cell: number; part: number; name: string; scene: string; ambience: string;
+  view?: boolean; water?: string }
+
+// The wild country of a generated region as places on the ground. Each wood, fen, moor or run of fells holds
+// landmarks where they stand on the land: an edge where people come in from a road or a settlement, the places
+// further in (a charcoal-burners' clearing, a tarn under a crag, the ford where a river crosses), each at its own
+// cell. Trails join them; every road and settlement the country borders has a way into it, so a wood can be crossed
+// and come out somewhere else. Leaving the trails is quicker and can lose you; somewhere with a view tells you the
+// lie of the land, running water leads out, and casting about finds a path again in time.
 export class RegionZones {
   static readonly roles = ['edge', 'deep', 'heart'] as const;
   static readonly habitat: Record<Wild, string> = { wood: 'wood', fen: 'fen', heath: 'heights', fell: 'heights' };
+  static readonly table = tables as unknown as Record<Wild, Table>;
   static lines(region: Region): string[] {
     return RegionGeography.atlas(region).zones.flatMap(z => this.zone(z, region));
   }
@@ -20,43 +34,150 @@ export class RegionZones {
   private static role(zone: Wilds, part: number): string {
     return part === 0 ? 'edge' : part === zone.parts.length - 1 ? 'heart' : 'deep';
   }
+  // Every place a stretch of wild country holds: its landmarks and the place where those lost in it are.
+  static rooms(region: Region, zone: Wilds): string[] { return [...this.landmarks(region, zone).map(l => l.id), `${zone.id}_lost`]; }
+  private static readonly drawn = new WeakMap<Region, Map<string, Landmark[]>>();
+  // A part's own landmark at its centre (the edge, the places further in); a second where a part is large; and the
+  // crossing of any river that runs through.
+  static landmarks(region: Region, zone: Wilds): Landmark[] {
+    let cache = this.drawn.get(region);
+    if (!cache) { cache = new Map(); this.drawn.set(region, cache); }
+    const done = cache.get(zone.id);
+    if (done) { return done; }
+    const t = this.table[zone.wild], draw = new Draw(`${region.name}:${zone.id}:landmarks`), land = RegionGeography.atlas(region).land;
+    const kinds = draw.shuffle(t.landmarks), name = zone.naming.name, out: Landmark[] = [];
+    zone.parts.forEach((cells, i) => {
+      const centre = zone.centres[i]!, kind = i === 0 ? undefined : kinds.shift();
+      out.push(kind ? { ...kind, id: this.room(zone, i), cell: centre, part: i }
+        : { id: this.room(zone, i), cell: centre, part: 0, name: t.entry.name, scene: t.entry.scene, ambience: '' });
+      const far = [...cells].sort((a, b) => Terrain.distance(land, b, centre) - Terrain.distance(land, a, centre))[0]!;
+      const second = cells.length >= 8 && Terrain.distance(land, far, centre) >= 2 ? kinds.shift() : undefined;
+      if (second) { out.push({ ...second, id: `${this.room(zone, i)}_2`, cell: far, part: i }); }
+    });
+    const river = RegionGeography.atlas(region).rivers.find(r => r.cells.some(c => zone.cells.includes(c)));
+    const crossing = river?.cells.find(c => zone.cells.includes(c) && !out.some(l => l.cell === c));
+    if (river && crossing !== undefined) {
+      const kind = draw.pick(t.water);
+      out.push({ ...kind, id: `${zone.id}_water`, cell: crossing, part: this.owner(zone, crossing), water: river.naming.name });
+    }
+    const from = this.from(region, zone);
+    const named = out.map(l => ({ ...l, name: this.fill(l.name, { zone: name, river: l.water ?? '', from }),
+      scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(from) }) }));
+    cache.set(zone.id, named);
+    return named;
+  }
+  private static owner(zone: Wilds, cell: number): number {
+    return Math.max(0, zone.parts.findIndex(p => p.includes(cell)));
+  }
+  // Of some things standing on the land, the one nearest a cell.
+  private static nearest<T extends { cell: number }>(land: Land, items: T[], cell: number): T {
+    return [...items].sort((a, b) => Terrain.distance(land, a.cell, cell) - Terrain.distance(land, b.cell, cell))[0]!;
+  }
+  // What the edge of wild country is known by: the settlement it is nearest.
+  private static from(region: Region, zone: Wilds): string {
+    const land = RegionGeography.atlas(region).land, edge = zone.centres[0]!;
+    return this.nearest(land, region.settlements.map(s => ({ name: s.name, cell: s.cell! })), edge).name;
+  }
+  private static fill(text: string, values: Record<string, string>): string {
+    return text.replace(/\{(\w+)\}/g, (whole, key: string) => values[key] ?? whole);
+  }
+  private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   private static zone(zone: Wilds, region: Region): string[] {
     const q = JSON.stringify, [x, y] = RegionGeography.spot(region, zone.centres[0]!), name = zone.naming.name;
-    const lines = [`  Place ${zone.id} ${q(name)} is wilderness within region at ${x}, ${y}.`];
-    zone.parts.forEach((_, i) => {
-      const room = this.room(zone, i), draw = new Draw(`${room}:prose`), role = this.role(zone, i);
-      const scene = draw.pick(this.scenes[zone.wild][role as 'edge'] ?? this.scenes[zone.wild].deep)
-        .replaceAll('{zone}', name).replaceAll('{peak}', zone.peak?.naming.name ?? 'the summit');
-      lines.push(`  Place ${room} ${q(this.named[zone.wild][role as 'edge']!.replace('{zone}', name))} is room within ${zone.id} at ${i}, 0.`,
-        `  Observe ${room}_scene at ${room} when true ${q(`${scene}${i === 0 ? RegionGeography.meaning(zone.naming) : ''} ${RegionEcology.sign(this.habitat[zone.wild], room)}`.trim())}.`);
-    });
-    for (let i = 1; i < zone.parts.length; i++) {
-      lines.push(`  Passage ${zone.id}_in${i} ${q(this.inward[zone.wild])} is track between ${this.room(zone, i - 1)} and ${this.room(zone, i)} taking ${RegionRoads.time(60 + 30 * Math.min(2, Math.floor(zone.parts[i]!.length / 8)))}.`);
+    const marks = this.landmarks(region, zone), lines = [`  Place ${zone.id} ${q(name)} is wilderness within region at ${x}, ${y}.`];
+    for (const l of marks) {
+      const [lx, ly] = RegionGeography.spot(region, l.cell);
+      lines.push(`  Place ${l.id} ${q(l.name)} is room within ${zone.id} at ${lx}, ${ly} outdoors.`,
+        `  Observe ${l.id}_scene at ${l.id} as fixture when true ${q(l.scene)}.`,
+        ...l.ambience ? [`  Observe ${l.id}_life at ${l.id} as ambience when not dark() ${q(l.ambience)}.`] : [],
+        ...l.view ? this.view(zone, l) : []);
     }
-    lines.push(...this.entries(zone, region));
+    lines.push(...this.trails(zone, region, marks), ...this.entries(zone, region, marks),
+      ...this.astray(zone, region, marks));
     return lines;
   }
-  // The ways into a zone's edge: from the road and the settlement nearest its edge, each a walk of the cells
-  // between (an hour at least).
-  private static entries(zone: Wilds, region: Region): string[] {
-    const q = JSON.stringify, edge = this.room(zone, 0), entry = zone.centres[0]!;
-    const road = RegionGeography.roads(region).map(r => ({ from: r.way, gap: Math.min(...r.route.cells
-      .map(c => this.gap(region, zone, c))), near: Math.min(...r.route.cells.map(c => this.apart(region, c, entry))) }))
-      .sort((a, b) => a.gap - b.gap || a.near - b.near)[0];
-    const town = region.settlements.map(s => ({ from: `${s.id}_green`, gap: this.gap(region, zone, s.cell!),
-      near: this.apart(region, s.cell!, entry) })).sort((a, b) => a.gap - b.gap || a.near - b.near)[0]!;
-    const starts = [...road && road.gap <= town.gap + 2 ? [road] : [], ...town.gap <= 3 || !road ? [town] : []];
-    return starts.map((start, i) => {
-      const minutes = Math.max(60, Math.round(start.gap * RegionRoads.minutesPerHour / 10) * 10);
-      return `  Passage ${zone.id}_way${i + 1} ${q(this.into[zone.wild].replace('{zone}', zone.naming.name))} is path between ${start.from} and ${edge} taking ${RegionRoads.time(minutes)}.`;
+  // Somewhere high enough to see from: climbed, it tells you the lie of the land, and you will not lose your way in it.
+  private static view(zone: Wilds, l: Landmark): string[] {
+    const q = JSON.stringify, t = this.table[zone.wild].view, name = zone.naming.name, id = `${l.id}_view`;
+    return [`  Thing ${id} ${q(l.name)} at ${l.id} is scenery {`,
+      `    State below ${q(t.unseen)}.`, `    State above "You know the way up now, and what can be seen from the top.".`,
+      `    Change climb ${q(this.fill(t.change, { zone: name }))} from below to above.`, '  }',
+      `  Observe ${id}_learned at ${l.id} as sign when state(${id}, above) ${q(this.fill(t.seen, { zone: name }))} teaches ${zone.id}_mapped.`];
+  }
+  // The trails: from each part's landmark to the next part's, from a second landmark to its part's own, and from a
+  // crossing to the landmark nearest it.
+  private static trails(zone: Wilds, region: Region, marks: Landmark[]): string[] {
+    const q = JSON.stringify, t = this.table[zone.wild], land = RegionGeography.atlas(region).land;
+    const draw = new Draw(`${region.name}:${zone.id}:trails`), pairs: [Landmark, Landmark][] = [];
+    const primary = marks.filter(l => !l.id.endsWith('_2') && !l.water);
+    primary.slice(1).forEach((l, i) => pairs.push([primary[i]!, l]));
+    for (const l of marks.filter(m => m.id.endsWith('_2') || m.water)) {
+      pairs.push([this.nearest(land, primary, l.cell), l]);
+    }
+    return pairs.map(([a, b], i) => `  Passage ${zone.id}_trail${i + 1} ${q(draw.pick(t.trails))} is track between ${a.id} and ${b.id} taking ${RegionRoads.time(this.minutes(land, a.cell, b.cell))}.`);
+  }
+  private static minutes(land: Land, a: number, b: number): number {
+    return Math.max(30, Terrain.distance(land, a, b) * 40);
+  }
+  // How far a cell is from the nearest cell of the country.
+  private static gap(zone: Wilds, land: Land, c: number): number {
+    return Math.min(...zone.cells.map(z => Terrain.distance(land, z, c)));
+  }
+  // A way in from every road that runs within a cell of the country, and every settlement within two, each to the
+  // landmark nearest it; at least one from the nearest settlement.
+  private static entries(zone: Wilds, region: Region, marks: Landmark[]): string[] {
+    const q = JSON.stringify, land = RegionGeography.atlas(region).land, t = this.table[zone.wild];
+    const roads = RegionGeography.roads(region).flatMap(r => {
+      const near = [...r.route.cells].sort((a, b) => this.gap(zone, land, a) - this.gap(zone, land, b))[0]!;
+      return this.gap(zone, land, near) <= 1
+        ? [{ from: r.way, cell: near, through: r.route.cells.some(c => zone.cells.includes(c)) }] : [];
+    });
+    const towns = region.settlements.filter(s => this.gap(zone, land, s.cell!) <= 2)
+      .map(s => ({ from: `${s.id}_green`, cell: s.cell!, through: false }));
+    const nearest = [...region.settlements].sort((a, b) => this.gap(zone, land, a.cell!)
+      - this.gap(zone, land, b.cell!))[0]!;
+    const starts = [...roads, ...towns].length ? [...roads, ...towns] : [{ from: `${nearest.id}_green`, cell: nearest.cell!, through: false }];
+    return starts.map((s, i) => {
+      const to = this.nearest(land, marks, s.cell);
+      const minutes = Math.max(30, Math.round(Terrain.distance(land, to.cell, s.cell) * 40 / 10) * 10);
+      const way = s.through ? `a track off the road into ${zone.naming.name}` : this.fill(t.into, { zone: zone.naming.name });
+      return `  Passage ${zone.id}_way${i + 1} ${q(way)} is path between ${s.from} and ${to.id} taking ${RegionRoads.time(minutes)}.`;
     });
   }
-  private static apart(region: Region, a: number, b: number): number {
-    return Terrain.distance(RegionGeography.atlas(region).land, a, b);
-  }
-  private static gap(region: Region, zone: Wilds, cell: number): number {
+  // Leaving the trails: from a landmark, straight across the country to another the company has been to, quicker but
+  // risked. Somewhere with a view, or someone who reads wild country, keeps you right; otherwise you may lose the
+  // way. Lost, running water leads to the crossing, and casting about finds the edge again, in time.
+  private static astray(zone: Wilds, region: Region, marks: Landmark[]): string[] {
+    const q = JSON.stringify, z = zone.id, t = this.table[zone.wild], name = zone.naming.name;
+    const [x, y] = RegionGeography.spot(region, zone.centres[Math.min(1, zone.centres.length - 1)]!);
+    const joined = new Set(this.trails(zone, region, marks).map(l => /between (\S+) and (\S+) taking/.exec(l)!.slice(1).sort().join('|')));
     const land = RegionGeography.atlas(region).land;
-    return Math.min(...zone.cells.map(c => Terrain.distance(land, c, cell)));
+    // Straight across is about three-quarters of the way round by the trails, and is risked.
+    const across = marks.flatMap(a => marks.filter(b => b !== a && !joined.has([a.id, b.id].sort().join('|')))
+      .map(b => `  Initially Assert ${z}_across(${a.id}, ${b.id}). Initially Set ${z}_span(${a.id}, ${b.id}) to ${Math.max(3, Terrain.distance(land, a.cell, b.cell) * 3)}.`));
+    const water = marks.find(l => l.water), edge = marks[0]!;
+    return [`  Place ${z}_lost ${q(this.fill(t.lost.name, { zone: name }))} is room within ${z} at ${x}, ${y} outdoors.`,
+      `  Observe ${z}_lost_scene at ${z}_lost as fixture when true ${q(this.fill(t.lost.scene, { zone: name }))}.`,
+      `  Entity ${z}_mapped: fact ${q(`You know the lie of ${name}: its paths, its water, and which way the edges lie.`)}.`,
+      `  Relation ${z}_across(place, place). Relation ${z}_heading(group, place). Relation ${z}_astray(group). Relation ${z}_casting(group).`,
+      `  Measure ${z}_span(place, place).`,
+      ...across,
+      `  Action ${z}_strike(actor: group, start: place, dest: place) ${q(`Strike out across ${name} toward {dest}`)} {`,
+      `    Description ${q('Leave the path and go straight there across the country: quicker, if you do not lose your way.')}.`,
+      `    Requires able(actor) and at(actor, start) and ${z}_across(start, dest) and been(actor, dest) and not benighted(actor).`,
+      `    Time ${z}_span(start, dest). On success { Retract at(actor, start). Assert at(actor, ${z}_lost). Assert ${z}_heading(actor, dest). }`, '  }',
+      `  Rule ${z}_bearing when ${z}_heading(party, ?goal) and at(party, ${z}_lost) and (capable(party, woodcraft) or capable(party, wayfinding) or knows(party, ${z}_mapped) or dice(clock) <= 60) {`,
+      `    Retract ${z}_heading(party, ?goal). Retract at(party, ${z}_lost). Assert at(party, ?goal). }`,
+      `  Rule ${z}_strays when ${z}_heading(party, ?goal) and at(party, ${z}_lost) says ${q(t.lost.astray)} { Retract ${z}_heading(party, ?goal). Assert ${z}_astray(party). }`,
+      `  Action ${z}_cast(actor: group) "Cast about for a path you know" {`,
+      `    Requires able(actor) and at(actor, ${z}_lost) and ${z}_astray(actor). Time 3. On success { Assert ${z}_casting(actor). }`, '  }',
+      `  Rule ${z}_found when ${z}_casting(party) and (dice(clock) <= 45 or knows(party, ${z}_mapped)) says ${q(`At last you come out on a path you know, and follow it to ${edge.name}.`)} {`,
+      `    Retract ${z}_casting(party). Retract ${z}_astray(party). Retract at(party, ${z}_lost). Assert at(party, ${edge.id}). }`,
+      `  Rule ${z}_circles when ${z}_casting(party) says "After an hour you come back to a place you are sure you have passed before." { Retract ${z}_casting(party). }`,
+      ...water ? [`  Action ${z}_follow(actor: group) ${q(`Follow running water down to the ${water.water}`)} {`,
+        `    Requires able(actor) and at(actor, ${z}_lost) and ${z}_astray(actor). Time 6.`,
+        `    On success { Retract ${z}_astray(actor). Retract at(actor, ${z}_lost). Assert at(actor, ${water.id}). }`,
+        `    Result ${q(`The ground falls toward the sound of water, and you follow it down until you come out at ${water.name}.`)}.`, '  }'] : []];
   }
   static readonly named: Record<Wild, Record<'edge' | 'deep' | 'heart', string>> = {
     wood: { edge: 'the edge of {zone}', deep: 'deep in {zone}', heart: 'the heart of {zone}' },
@@ -72,43 +193,4 @@ export class RegionZones {
     fen: { edge: 'at the edge of {zone}', deep: 'out in {zone}', heart: 'in the middle of {zone}' },
     heath: { edge: 'at the foot of {zone}', deep: 'up on {zone}', heart: 'on the top of {zone}' },
     fell: { edge: 'at the foot of {zone}', deep: 'high on {zone}', heart: 'on the roof of {zone}' } };
-  static readonly into: Record<Wild, string> = { wood: 'the path into {zone}', fen: 'the stakes out into {zone}',
-    heath: 'the track up onto {zone}', fell: 'the path up onto {zone}' };
-  static readonly inward: Record<Wild, string> = { wood: 'a deer-track further in', fen: 'a way between the reed-beds',
-    heath: 'the old drove-way over the moor', fell: 'a sheep-track higher up' };
-  static readonly scenes: Record<Wild, Record<'edge' | 'deep' | 'heart', string[]>> = {
-    wood: {
-      edge: ['The trees begin here: hazel and thorn at first, then oak, and the light under them goes green.',
-        'A path leaves the open ground and goes in under the trees; a few steps in, the wind drops away.',
-        'Old coppice at the edge of {zone}, cut long ago and grown out again into crowded grey stems.'],
-      deep: ['Deep in {zone} the trees are older and further apart, and moss covers the fallen ones.',
-        'No path here but what deer have made. The canopy is closed, and the ground is soft with old leaf.',
-        'Under the big trees it is quiet enough to hear a twig fall a long way off.'],
-      heart: ['In the heart of {zone} an oak stands in a clearing of its own, too wide for three to circle with their arms.',
-        'A stream runs through the heart of {zone} between banks of fern, and the trees lean over it.',
-        'Here {zone} is darkest: holly under the oaks, and old stumps furred with moss.'] },
-    fen: {
-      edge: ['The ground goes soft underfoot. Reeds stand higher than a man, and the path is a line of stakes.',
-        'Where the fields end the fen begins: black water between tussocks, and the smell of it.',
-        'A causeway of brushwood, half sunk, goes out into the reeds.'],
-      deep: ['Open water and reed-beds in every direction. Herons stand in the shallows and do not move.',
-        'Islands of alder stand in the fen, each with its own birds; between them the water is deeper than it looks.',
-        'The stakes give out here. Mist sits on the water even at noon.'],
-      heart: ['In the middle of {zone} lies a mere of black water, still as glass, rimmed with rotten stakes.',
-        'Out in the middle of {zone} the reeds give way to a pool where nothing grows and no bird lands.'] },
-    heath: {
-      edge: ['The fields give way to heather and gorse, and the land rises to the moor.',
-        'A drove road climbs out onto the moor between walls of piled stone.'],
-      deep: ['Open moor under a big sky: heather, bog-cotton, and a wind that never stops.',
-        'Grouse get up from under your feet. The track is a line of worn turf through the heather.'],
-      heart: ['On the top of {zone} stands a single stone, taller than a man, leaning.',
-        'The highest of {zone}, where the cairns are: nothing grows taller than your boots, and you can see for miles.'] },
-    fell: {
-      edge: ['The ground steepens. Walls run up the fellside and give out where the bracken begins.',
-        'A sheep-track climbs from the valley onto the fellside among scree and juniper.'],
-      deep: ['High on {zone}: bare rock, tarns in the hollows, and the valley a long way below.',
-        'Crags on one hand and a long drop on the other; ravens turn overhead.'],
-      heart: ['Under {peak}, in a hollow with a tarn so dark it looks bottomless, the wind falls silent.',
-        'The roof of {zone}: stone, wind, and the whole region laid out below.'] },
-  };
 }

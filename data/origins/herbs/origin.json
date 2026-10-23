@@ -1,0 +1,3 @@
+{ "id": "herbs", "title": "Feverwort", "binder": "herbs", "source": "origin.kyr", "background": "herbalist", "coin": 5,
+  "gear": ["herbs", "herbs"],
+  "choice": "The herb-wife at {sender} has sent you to {home} with feverwort for a sick child, and told you not to dawdle." }

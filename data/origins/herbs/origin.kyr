@@ -1,0 +1,10 @@
+Module origin "Feverwort" {
+  Kind chapter. Entity title: chapter "Feverwort".
+  Entity party: group "You".
+  Entity mother: group "The sick child's mother".
+  Place approach "The way in" is room.
+  Initially Assert expects(mother, party).
+  Observe arrival at approach as fixture when true "{scene}".
+  Observe errand at approach as feature when true "The herb-wife at {sender} wrapped the feverwort in a cloth and put it in your hands. 'The child at {home} has had the fever three days, and they have nothing left there,' she said. 'Don't dawdle.'".
+  Goal false.
+}

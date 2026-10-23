@@ -37,6 +37,10 @@ export class Words {
     const act = what!.charAt(0).toLowerCase() + what!.slice(1);
     return at ? `${act}, at ${at}` : act;
   }
+  // What the player chose, as the last of the labels it was chosen by ("Speak with Eamon › Ask about the road").
+  static lastSaid(said: string): string { return said.split(' › ').at(-1)!; }
+  // "a hunter", "an eel-catcher".
+  static article(noun: string): string { return /^(a|an|the) /i.test(noun) ? noun : `${/^[aeiou]/i.test(noun) ? 'an' : 'a'} ${noun}`; }
   // The subject of a person or thing named with what they are: "Wren, ferry-keeper" is Wren.
   static short(name: string): string { return name.split(', ')[0]!; }
 }

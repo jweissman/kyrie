@@ -10,8 +10,9 @@ import { Words } from './words';
 import { TitlePage } from './title-page';
 import { CampaignPage } from './campaign-page';
 import { CompanyPage } from './company-page';
+import { ProtagonistPage } from './protagonist-page';
 import { LoadingPage } from './loading-page';
-import { PlaySurface } from './play-surface';
+import { Book } from './book';
 
 export type Phase = 'title' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey the page shows while the engine works it out: from where, to where, by what way and how long.
@@ -22,11 +23,13 @@ export interface FightMark { seen: number; hp: Record<string, number>; first: bo
 export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
+  // Why the one person playing has come into a generated country: one of the origins it holds.
+  origin?: string;
   frame?: Frame; view: View; cursor: number; trail: string[]; hovered?: string; member: string;
   // A command under way: what the company is doing, and the journey if it is one.
   pending?: { said: string; travel?: Travel };
   fight?: FightMark;
-  stage: string; error: string; history: boolean; help: boolean;
+  stage: string; error: string; help: boolean;
 }
 
 // The page. The engine decides everything that happens; this keeps what is on show, what is highlighted, which
@@ -38,22 +41,21 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   override state: AppState = ReaderApp.initial(ReaderStore.read());
   private static initial(saved?: SavedGame): AppState {
     return { phase: 'title', campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0, trail: [],
-      member: '', stage: '', error: '', history: false, help: false, ...saved ? { saved } : {} };
+      member: '', stage: '', error: '', help: false, ...saved ? { saved } : {} };
   }
   override componentDidMount() {
     window.addEventListener('keydown', this.keys.press);
     void this.opening.boot();
   }
   override componentWillUnmount() { window.removeEventListener('keydown', this.keys.press); }
-  // A new place opens at the top of its page; something new at the same place is brought into view; a highlight
-  // moved by the keys takes the focus with it.
+  // A new place opens at the top of its page; what came of something done at the same place is brought into view
+  // with the choices after it; a highlight moved by the keys takes the focus with it.
   override componentDidUpdate(_props: unknown, prev: AppState) {
-    const page = document.getElementById('page'), frame = this.state.frame;
-    if (page && frame && prev.frame !== frame) {
-      // A fight keeps its foes and its choices where they are: it never scrolls away from them.
-      if (!prev.frame || frame.combat || prev.frame.screen.place.id !== frame.screen.place.id || !!prev.frame.combat) {
-        page.scrollTo({ top: 0 });
-      } else { ReaderApp.reveal(page); }
+    const frame = this.state.frame;
+    if (frame && prev.frame !== frame) {
+      const fresh = !prev.frame || !!frame.combat || !!prev.frame.combat
+        || prev.frame.screen.place.id !== frame.screen.place.id;
+      ReaderApp.settle(fresh);
     }
     if (prev.cursor !== this.state.cursor && !this.state.hovered) {
       const chosen = document.querySelector<HTMLElement>(`.choices [data-index="${this.state.cursor}"]`);
@@ -61,16 +63,21 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       chosen?.scrollIntoView({ block: 'nearest' });
     }
   }
-  // Something new at the same place: the new text and the choices after it in view together if they fit, the new
-  // text at the top of the page if they do not.
-  static reveal(page: HTMLElement) {
-    const latest = page.querySelector<HTMLElement>('.entry.latest, .exchange:last-child');
-    const menu = page.querySelector<HTMLElement>('.choices');
-    if (!latest || !menu) { return; }
-    const view = page.getBoundingClientRect(), top = latest.getBoundingClientRect().top - view.top;
-    const bottom = menu.getBoundingClientRect().bottom - view.top, room = page.clientHeight - 96 - 72;
-    const by = bottom - top <= room ? Math.max(0, bottom - (page.clientHeight - 72)) : top - 96;
-    if (Math.abs(by) > 4) { page.scrollBy({ top: by, behavior: 'smooth' }); }
+  // The book lies open on a wide screen, each page scrolling on its own; held upright its pages follow one another and
+  // the book scrolls as one. A new place starts at the top. Something new at the same place is brought into view: on
+  // an open book the left page shows the exchange; on a single page, the exchange comes to the top of the screen so
+  // that it and the choices after it are seen together.
+  static settle(fresh: boolean) {
+    const book = document.querySelector<HTMLElement>('.book'), verso = document.getElementById('page');
+    const exchange = document.querySelector<HTMLElement>('.verso .exchange');
+    if (!book || !verso) { return; }
+    const open = getComputedStyle(book).display === 'grid', scroller = open ? verso : book;
+    if (fresh || !exchange) { scroller.scrollTo({ top: 0 }); return; }
+    const top = exchange.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+    const runner = open ? 0 : (book.querySelector<HTMLElement>('.runner')?.offsetHeight ?? 0);
+    if (open ? top > scroller.clientHeight - 120 : top > scroller.clientHeight * 0.45 || top < runner) {
+      scroller.scrollBy({ top: top - runner - 12, behavior: 'smooth' });
+    }
   }
   private listen(message: Message) {
     if (message.kind === 'saved') {
@@ -97,7 +104,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (pending || choice.disabled || !frame) { return; }
     if (choice.children) { this.setState({ trail: [...this.state.trail, choice.id], cursor: 0, hovered: undefined }); return; }
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
-    const said = [...this.menu.trail.map(c => c.label), choice.label].join(' › ');
+    const said = ReaderApp.said(this.menu.trail, choice);
     if (frame.combat) {
       this.setState({ pending: { said }, fight: ReaderApp.mark(frame) });
       this.engine.request({ kind: 'fight', choice: choice.command }).catch(this.failed);
@@ -105,6 +112,15 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     }
     void this.perform(choice, said, this.unnamed(choice));
   };
+  // What the player chose, as they would say it: a question put to someone named in the list it was chosen from is
+  // put to them by name ("Ask about the road", in Eamon's list, is "Ask Eamon about the road").
+  static said(trail: Choice[], choice: Choice): string {
+    const head = trail[0]?.label ?? '', person = /^Speak with (.+)$/.exec(head)?.[1];
+    if (person && !choice.label.includes(person) && /^(Ask|Tell|Show|Offer|Give|Pay) (about|what|why|how|if|for|whether|that|where|who)\b/.test(choice.label)) {
+      return choice.label.replace(/^(\w+) /, `$1 ${person} `);
+    }
+    return [...trail.slice(person ? 1 : 0).map(c => c.label), choice.label].join(' › ');
+  }
   // A choice whose label leaves out what it is about ("Take", "Attack", in a list headed by the thing or the creature).
   private unnamed(choice: Choice): boolean {
     const section = this.menu.trail.length ? undefined : this.menu.sections.find(s => s.choices.some(c => c.id === choice.id));
@@ -129,16 +145,24 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   private async perform(choice: Choice, said: string, named: boolean) {
     const frame = this.state.frame!, travel = this.travel(choice, frame);
-    this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '', history: false });
+    this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '' });
     const started = performance.now();
     try {
       const next = await this.engine.request<Frame>({ kind: 'perform', command: choice.command!, said,
         move: choice.tone === 'way', named });
       // A journey is shown for long enough to be seen, whatever the engine took.
       if (travel) { await new Promise(r => setTimeout(r, Math.max(0, this.journey(travel) - performance.now() + started))); }
-      this.setState({ frame: next, pending: undefined, cursor: 0, trail: [], hovered: undefined,
+      this.setState({ frame: next, pending: undefined, cursor: 0, trail: this.kept(next), hovered: undefined,
         view: this.state.view === 'map' ? 'map' : 'here' });
     } catch (error) { this.failed(error); }
+  }
+  // A conversation goes on: after saying something to someone, what else there is to say to them stays open, as long
+  // as they are still there and there is more to say.
+  private kept(next: Frame): string[] {
+    const trail = this.state.trail;
+    if (!trail[0]?.endsWith('#speak') || next.combat) { return []; }
+    const still = MenuModel.build(next, 'here', [trail[0]]);
+    return still.trail.length && still.level.length ? [trail[0]] : [];
   }
   // A way that takes a while across the country is a journey on the map.
   private travel(choice: Choice, frame: Frame): Travel | undefined {
@@ -156,7 +180,6 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (s.help) { this.setState({ help: false }); }
     else if (s.trail.length) { this.setState({ trail: s.trail.slice(0, -1), cursor: 0 }); }
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
-    else if (s.history) { this.setState({ history: false }); }
   };
   show(view: View) {
     if (this.state.frame?.combat && view !== 'here') { return; }
@@ -174,7 +197,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   inspect() {
     const s = this.state, menu = this.menu, frame = s.frame;
     const mode = s.phase !== 'play' ? { title: 'title', campaigns: 'campaigns', company: 'create', loading: 'create' }[s.phase]
-      : frame?.combat ? 'combat' : { here: 'explore', company: 'party', pack: 'pack', journal: 'journal', map: 'map' }[s.view];
+      : frame?.combat ? 'combat' : { here: 'explore', company: 'party', pack: 'pack', journal: 'journal', map: 'map',
+        story: 'story' }[s.view];
     return { mode, place: frame?.screen.place, path: frame?.screen.path,
       sections: menu.sections.map(sec => ({ id: sec.id, title: sec.title, choices: sec.choices.map(MenuModel.shape) })),
       choices: menu.level.map(MenuModel.shape), selected: menu.level[s.cursor]?.id, trail: menu.trail.map(c => c.label),
@@ -186,9 +210,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     switch (this.state.phase) {
       case 'title': return <TitlePage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
-      case 'company': return <CompanyPage.View app={this} />;
+      case 'company': return this.state.setting?.generated ? <ProtagonistPage.View app={this} /> : <CompanyPage.View app={this} />;
       case 'loading': return <LoadingPage.View app={this} />;
-      case 'play': return <PlaySurface.View app={this} />;
+      case 'play': return <Book.View app={this} />;
     }
   }
 }

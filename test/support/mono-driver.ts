@@ -38,8 +38,8 @@ export class MonoDriver {
   }
   still() {
     return this.page.waitForFunction(() => new Promise<boolean>(done => {
-      const page = document.getElementById('page'), top = page?.scrollTop;
-      requestAnimationFrame(() => requestAnimationFrame(() => done(page?.scrollTop === top)));
+      const pages = [document.getElementById('page'), document.querySelector('.book')], tops = pages.map(p => p?.scrollTop);
+      requestAnimationFrame(() => requestAnimationFrame(() => done(pages.every((p, i) => p?.scrollTop === tops[i]))));
     }), null, { timeout: 10000 });
   }
   // Does a choice on show, found by a predicate; arrows bring the highlight to it, then Enter does it.
@@ -47,16 +47,22 @@ export class MonoDriver {
     const state = await this.inspect();
     const index = state.choices.findIndex(test);
     if (index < 0) { throw new Error(`No choice ${what}: ${state.choices.map(c => `${c.id} "${c.label}"`).join(' | ')}`); }
-    if (this.pointer) { await this.click(`.choices [data-action="choice"][data-index="${index}"]`); return; }
+    if (this.pointer) { await this.click(`.intentions [data-action="choice"][data-index="${index}"]`); return; }
     const current = Math.max(0, state.choices.findIndex(c => c.id === state.selected));
     const delta = index - current;
     for (let i = 0; i < Math.abs(delta); i++) { await this.key(delta > 0 ? 'ArrowDown' : 'ArrowUp'); }
     await this.key('Enter');
   }
   // A choice about a subject (its id, or the id without the installation prefix), by the start of its label; then
-  // any further labels pick from the list it opens.
+  // any further labels pick from the list it opens. A subject with several things to do is one choice that opens them
+  // ("Speak with Wren"); it is opened first when the label wanted is inside it.
   async do(subject: string, ...labels: string[]) {
-    const [first, ...rest] = labels;
+    const [first, ...rest] = labels, state = await this.inspect();
+    const direct = state.choices.find(c => this.about(c.id, subject) && (!first || c.label.startsWith(first)));
+    if (!direct) {
+      const opener = state.choices.find(c => this.about(c.id, subject) && c.children);
+      if (opener) { await this.pick(c => c.id === opener.id, `${subject} (open)`); }
+    }
     await this.pick(c => this.about(c.id, subject) && (!first || c.label.startsWith(first)), `${subject} ${first ?? ''}`);
     await this.choose(...rest);
   }
@@ -70,6 +76,12 @@ export class MonoDriver {
     await this.pick(c => this.way(c.id, destination) && (!label || c.label.toLowerCase().includes(label.toLowerCase())),
       `way to ${destination}`);
   }
+  // Back out of a list that is open (a conversation, a thing's uses) to everything there is to do.
+  async back() {
+    if (!await this.page.locator('[data-action="back"]').count()) { return; }
+    if (this.pointer) { await this.click('[data-action="back"]'); return; }
+    await this.key('Escape');
+  }
   async mode(key: string) {
     if (this.pointer && key === 'h') { await this.click('[data-action="history"]'); return; }
     if (this.pointer) { await this.click(`[data-action="mode"][data-key="${key}"]`); return; }
@@ -77,7 +89,8 @@ export class MonoDriver {
   }
   private about(id: string, subject: string): boolean {
     const head = id.split('/')[0]!;
-    return head === subject || head.endsWith(`__${subject}`);
+    const bare = head.replace(/#\w+$/, '');
+    return bare === subject || bare.endsWith(`__${subject}`);
   }
   private way(id: string, destination: string): boolean {
     const head = id.split('/')[0]!;

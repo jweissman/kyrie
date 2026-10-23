@@ -13,7 +13,8 @@ import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
-import { RegionWriter, type Carrier, type Contact, type Region, type Site } from './region-writer';
+import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
+import { Origins } from './origins';
 import type { KitEntry } from './compose/composition';
 import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
@@ -67,7 +68,7 @@ export class WorldAssembler {
       spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'] }];
   static async assemble(seed: string, base: BundleSource, options: {
     library?: string; scenarios?: number; towns?: number; region?: Record<string, DeemValue>;
-    party?: CreatureGenerationContext[];
+    party?: CreatureGenerationContext[]; origin?: string;
     framework?: string | null;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = this.region(seed, [0, 0], options.region);
@@ -76,15 +77,22 @@ export class WorldAssembler {
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const { context, eligibility, placements } = this.settle(region, library,
       { seed, rid: RegionWriter.id, rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [] });
-    const party = options.party ?? this.party, contacts = this.contacts(region, party, seed);
+    // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
+    const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
+    const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.party)[0]!)]
+      : options.party ?? this.party;
+    const contacts = origin ? [] : this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {};
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
     this.spread(placements, { library, base, region, contacts, context, files, root, modules });
-    this.arrival(region, { size: party.length, contacts }, { files, root, modules });
+    const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
+    if (told) { modules.push(told.request); }
+    else { this.arrival(region, { size: party.length, contacts }, { files, root, modules }); }
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
-    this.write(region, { files, root, placements, company: { size: party.length, contacts } });
+    this.write(region, { files, root, placements, company: { size: party.length, contacts,
+      ...told ? { start: told.start, coin: told.coin } : {} } });
     const kits = framework.map(k => ({ ...k, optional: true }));
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       calendar: region.calendar,
@@ -204,8 +212,9 @@ export class WorldAssembler {
   // loads: wild country gives a kit the places off the roads it wants, and one refused all the same is left out of the
   // world (they are optional there), the trace saying why.
   private static write(region: Region, at: { files: Record<string, string>; root: string; placements: Placement[];
-    company: { size: number; contacts: Contact[] } }) {
-    at.files[`${at.root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(at.placements)));
+    company: Company }) {
+    at.files[`${at.root}/region/module.json`] = JSON.stringify(RegionWriter.manifest(region, this.taken(at.placements),
+      false, at.company));
     at.files[`${at.root}/region/region.kyr`] = RegionWriter.source(region, at.company, this.taken(at.placements));
   }
   // A framework's kits, with their paths made absolute, to be composed into the campaign when it loads.
