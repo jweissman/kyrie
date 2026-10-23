@@ -137,7 +137,8 @@ export class RegionWriter {
       ...RegionRecruits.traveller(s, i, region),
       `  Observe ${s.id}_day at ${s.id}_green as fixture when not dark() ${q(SettlementScenes.green(region, i, cult.name))}.`,
       `  Observe ${s.id}_night at ${s.id}_green as fixture when dark() ${q(`${s.name} is shuttered for the night. A lamp burns over the door of ${s.inn}.`)}.`,
-      `  Observe ${s.id}_tap at ${s.id}_taproom as fixture when true ${q(SettlementScenes.taproom(s))}.`,
+      `  Observe ${s.id}_tap at ${s.id}_taproom as fixture when true ${q(SettlementScenes.taproom(region, i))}.`,
+      ...SettlementScenes.life(s) ? [`  Observe ${s.id}_life at ${s.id}_green as ambience when not dark() ${q(SettlementScenes.life(s)!)}.`] : [],
       ...RegionFaith.lines(s, cult),
     ];
   }

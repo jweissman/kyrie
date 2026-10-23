@@ -3,15 +3,25 @@
   "green": {
     "hamlet": [
       "{name} is a handful of houses round a trodden green, with {trade}.",
-      "A few houses and a pound for strays: that is {name}, and {trade}."
+      "A few houses and a pound for strays: that is {name}, with {trade}.",
+      "{name} is one farm grown into four, their yards running together, with {trade}.",
+      "Three houses and a byre stand about a well at {name}, with {trade}.",
+      "{name} straggles along the track for a bowshot, house, garden, house, with {trade}."
     ],
     "village": [
       "Houses stand round {name} green with their backs to the weather, and {trade}.",
-      "{name} is a green with a pond on it and houses round it, and {trade}."
+      "{name} is a green with a pond on it and houses round it, and {trade}.",
+      "{name} is one long street with a green at the end of it, and {trade}.",
+      "{name} climbs a slope from its green in steps of garden wall, with {trade}.",
+      "At {name} the houses stand close round a green trodden bare, with {trade}.",
+      "{name} is built along a stream, with a plank bridge to every second door, and {trade}."
     ],
     "town": [
-      "Lanes run off {name} green between tall houses, and there are {trade}.",
-      "{name} is a town of narrow lanes round a broad green, with {trade}."
+      "Lanes run off {name} green between tall houses, and beyond them {trade}.",
+      "{name} is a town of narrow lanes round a broad green, with {trade}.",
+      "{name} has a market cross on its green and a wall round half of it, with {trade}.",
+      "{name} is a town of two streets crossing at a green, and {trade}.",
+      "Carts stand about {name} green, and the lanes off it are loud, with {trade}."
     ]
   },
   "trade": {
@@ -30,12 +40,27 @@
   },
   "inn": [
     "The sign of {inn} creaks over its door, and across the green the shrine of {cult} stands open.",
-    "{inn} faces the shrine of {cult} across the green."
+    "{inn} faces the shrine of {cult} across the green.",
+    "{inn} stands at a corner of the green with its door propped open; the shrine of {cult} is along from it.",
+    "Next to {inn} is the shrine of {cult}, so close that the inn's smoke goes over its roof.",
+    "The shrine of {cult} has the best of the green, and {inn} the second best, facing it."
   ],
   "room": {
-    "hamlet": "A low room with a fire and a single bench.",
-    "village": "A low-beamed room, a fire, benches.",
-    "town": "A long room with a fire at either end and talk going on all down it."
+    "hamlet": [
+      "A low room with a fire, one long table and a bench along the wall.",
+      "One room, with the fire at one end, the barrels at the other and a long table between.",
+      "A kitchen with a long table in it and a counter, which is the inn."
+    ],
+    "village": [
+      "A low-beamed room, a fire, benches.",
+      "A smoky room under low beams, with a settle by the fire and a dog under the settle.",
+      "A long low room, whitewashed, with a fire at the far end."
+    ],
+    "town": [
+      "A long room with a fire at either end and talk going on all down it.",
+      "A busy room in two parts with a counter between, and a stair going up to the rooms.",
+      "A high room hung with hams and nets, crowded and loud."
+    ]
   },
   "drinkers": {
     "salt": "Salt-boilers at the long table, still white to the elbow.",
@@ -50,5 +75,19 @@
     "furs": "Trappers at the long table, quiet over their beer.",
     "whale oil": "Men from the try-works at the long table, and the smell of it.",
     "peat": "Peat-cutters at the long table, their boots still black."
+  },
+  "life": {
+    "salt": "Someone is raking out a salt-pan at the end of the green, and the steam comes off it white.",
+    "eels": "Two women are skinning eels on a bench by the water, and the cats are watching.",
+    "reed": "A man goes by with a bundle of reed on his back as big as himself.",
+    "tin": "A string of ponies goes through with panniers of grey ore, heads down.",
+    "wool": "Sheep are being driven through, and everyone stops where they are to let them by.",
+    "timber": "Somebody is splitting logs behind the houses, and the sound comes back off the walls.",
+    "charcoal": "A cart goes by loaded with charcoal sacks, and everything it passes goes a little grey.",
+    "honey": "A child is selling honey-cake from a tray, and the wasps want it more than anyone.",
+    "slate": "The tap of slate-splitters comes from a yard behind the houses, steady as rain.",
+    "furs": "A trapper is haggling at a door with a bundle of pelts over one shoulder.",
+    "whale oil": "Gulls are fighting over something on the shore, and nobody minds them.",
+    "peat": "A sledge of turves goes by, pulled by a man and a pony who look alike."
   }
 }
