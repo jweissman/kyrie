@@ -99,18 +99,18 @@ export class PlaceStage {
   }
   private static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
   // Someone here: their painting, their name and what they are, and what they are doing; the whole of it is the way
-  // to speak with them. Someone who will not speak (angry, asleep) shows what can still be done with them.
+  // to speak with them. Someone who will not speak (angry, asleep) shows what can still be done with them. One with no
+  // likeness that fits (a band of goblins) is a card with their name, not an empty frame.
   static Figure({ subject: p, draw }: { subject: SceneSubject; draw: Draw }) {
     const talk = p.choices.find(c => c.id.endsWith('#talk'));
     const face = <>
-      {p.portrait ? <img src={p.portrait.src} alt="" loading="lazy" decoding="async"
-        style={{ objectPosition: `50% ${p.portrait.focus}%` }} /> : <span className="blank" aria-hidden="true">
-        {p.name.charAt(0)}</span>}
-      <span className="n">{Typography.curl(p.name)}</span>
+      {p.portrait && <img src={p.portrait.src} alt="" loading="lazy" decoding="async"
+        style={{ objectPosition: `50% ${p.portrait.focus}%` }} />}
+      <span className="n">{Typography.curl(Words.upper(p.name))}</span>
       {p.note && <span className="r">{Typography.curl(p.note)}</span>}
     </>;
     return (
-      <figure className={`fig${p.state ? ` ${p.state}` : ''}`} data-subject={p.id}>
+      <figure className={`fig${p.portrait ? '' : ' unpainted'}${p.state ? ` ${p.state}` : ''}`} data-subject={p.id}>
         {talk ? <Act.View choice={talk} draw={draw} className="fig-act">{face}</Act.View> : <div className="fig-act">{face}</div>}
         {p.says?.[0] && <figcaption>{Typography.curl(p.says[0])}</figcaption>}
         {p.state && <figcaption className="state">{p.state === 'dead' ? 'Dead.' : 'Down.'}</figcaption>}
