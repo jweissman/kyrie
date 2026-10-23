@@ -19,7 +19,8 @@ export class ChoiceWording {
   static word(campaign: Campaign, action: Operator, at: { name: string; here?: string }): string {
     // A way named for where it goes is not told twice: "Take the track to Obscurusport", not "… to Obscurusport";
     // nor is it named for here when taken from here: "Take the track to the foot of the fell".
-    let name = at.name.replace(/ to (.+) to \1$/, ' to $1');
+    // Nor is a way told as going to itself: "Take the sealed stair", not "… to the sealed stair".
+    let name = at.name.replace(/ to (.+) to \1$/, ' to $1').replace(/^(\S+ )(.+) to \2$/, '$1$2');
     if (at.here) { name = name.replace(` to ${at.here} to `, ' to '); }
     const resolve = action.resolve, world = campaign.world;
     if (resolve?.name === 'purchase') { name += ` · ${world.number(ModuleWriter.call('price', resolve.args[0]!))} coin`; }

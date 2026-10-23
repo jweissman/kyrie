@@ -1,0 +1,263 @@
+{
+  "about": "The Water-Wardens' cisterns under a hill: a deep site generated from what it was for. They held the springs of a valley under the hill, in cisterns of limestone so true it needed no mortar, behind bronze sluice-gates as tall as a house, and at the bottom of it all they kept a pool of still water and read in it what was coming. Levels follow the water down: the gatehouse with its master sluice, the cistern galleries round the great wheel, the deep cistern standing under water, and the still water at the bottom. A gate-wheel raises the bronze gate across the stair; the gate of the deep cistern is sealed and the Wardens' warning cut round it; the deep cistern drains only while the master sluice turns the springs onto the great wheel and its pump-rods are coupled; an overflow culvert is a second way out. Roles give each room its names and its scene. Written by hand.",
+  "art": "water",
+  "walks": ["the walkway", "the passage", "the conduit"],
+  "plan": {
+    "id": "deep_waterworks",
+    "kind": "cave",
+    "seen": "a square doorway in a hillside",
+    "names": ["keep", "pool", "lake", "watch"],
+    "ground": ["heath", "fell", "wood", "meadow"],
+    "danger": 1
+  },
+  "levels": [
+    {
+      "id": "gatehouse",
+      "names": ["the gatehouse", "the upper works"],
+      "spine": ["mouth", "gate_hall", "still_room", "stair_head"],
+      "branches": [
+        { "at": "gate_hall", "roles": ["race_head", "?store"] },
+        { "at": "still_room", "roles": ["vent"] }
+      ],
+      "loops": []
+    },
+    {
+      "id": "galleries",
+      "names": ["the cistern galleries", "the galleries of the springs"],
+      "spine": ["stair_foot", "colonnade", "pipe_gallery", "deep_gate"],
+      "branches": [
+        { "at": "colonnade", "roles": ["wardens_hall", "pump"] },
+        { "at": "pipe_gallery", "roles": ["?cell"] }
+      ],
+      "loops": [
+        { "from": "pump", "to": "pipe_gallery", "kind": "culvert", "chance": 0.5, "names": ["a dry culvert"] }
+      ]
+    },
+    {
+      "id": "cistern",
+      "names": ["the deep cistern", "the drowned cistern"],
+      "flooded": true,
+      "spine": ["landing", "drowned_hall", "archive"],
+      "branches": [
+        { "at": "drowned_hall", "roles": ["?vault"] }
+      ],
+      "loops": []
+    },
+    {
+      "id": "still",
+      "names": ["the still water", "under the cisterns"],
+      "spine": ["shore", "heart"],
+      "branches": [
+        { "at": "heart", "roles": ["source"] }
+      ],
+      "loops": []
+    }
+  ],
+  "connectors": [
+    { "kind": "stair", "from": ["gatehouse", "stair_head"], "to": ["galleries", "stair_foot"], "mechanism": "winch", "minutes": 3, "names": ["the stair behind the bronze gate"] },
+    { "kind": "chute", "from": ["gatehouse", "gate_hall"], "to": ["galleries", "pipe_gallery"], "oneWay": true, "minutes": 1, "names": ["the great pipe, feet first"] },
+    { "kind": "door", "from": ["galleries", "deep_gate"], "to": ["cistern", "landing"], "mechanism": "seal", "minutes": 1, "names": ["the gate of the deep cistern"] },
+    { "kind": "climb", "from": ["cistern", "archive"], "to": ["still", "shore"], "minutes": 6, "needs": ["climbing", "rope"], "names": ["the steps cut in the cistern wall"] }
+  ],
+  "roles": {
+    "mouth": { "lit": true, "names": ["the doorway"], "scenes": ["A square doorway is cut in the hillside, its jambs and lintel single blocks of limestone fitted so close a knife would not go between them. Water runs out from under the sill, clear and very cold, and away down the hill."] },
+    "gate_hall": { "names": ["the gate-hall"], "scenes": ["A hall of dressed limestone, its floor channelled: a channel for each spring, each with a bronze slot where a gate stood. The mouth of a great pipe of lead opens in one wall, dark, breathing cold air."] },
+    "race_head": { "names": ["the master sluice"], "scenes": ["The springs come together here in a basin of stone, and leave it by two ways: a channel that runs off to the doorway and the hillside, and a race, dry now, that goes down into the dark. A bronze gate as tall as a house stands where the two divide."] },
+    "store": { "names": ["the wardens' store"], "scenes": ["Shelves of stone, and on them the Wardens' tools in rows: rods and gauges of bronze, a coil of lead pipe, wax for the gates, all of it set down as if someone meant to be back in the morning."] },
+    "still_room": { "names": ["the reading-room"], "scenes": ["A round room with a shallow basin in its floor, full of water so still it is hard to see where the stone stops. Benches go round the wall, facing it, as if people sat here to watch the water."] },
+    "vent": { "names": ["the overflow"], "scenes": ["A culvert where the water once ran off when the cisterns were full: a low tunnel of fitted stone, floored with silt, that goes up and out toward a grey light."] },
+    "stair_head": { "names": ["the head of the stair"], "scenes": ["The hall narrows to a stair going down between two slots cut deep in the walls, where a gate runs, and beside the stair stands a wheel of bronze as tall as a man."] },
+    "stair_foot": { "names": ["the foot of the stair"], "scenes": ["The stair comes down onto a stone walkway along the side of a cistern: black water a hand below the walkway's edge, and pillars standing up out of it into the dark, in rows."] },
+    "colonnade": { "names": ["the colonnade"], "scenes": ["A forest of pillars stands in the water, carved at the top like the heads of reeds, and walkways run between them a hand above the surface. Your light goes off across the water and does not reach the other side."] },
+    "pipe_gallery": { "names": ["the pipe gallery"], "scenes": ["A gallery where the pipes of lead run along both walls in bundles as thick as a man, each stamped with the Wardens' mark and a number, going away into the hill to places with names nobody knows now."] },
+    "wardens_hall": { "names": ["the wardens' hall"], "scenes": ["A dry hall over the cisterns, with a hearth and stone benches, where the Wardens on watch slept and ate. A chart of the springs is cut in the wall, every spring a circle, every gate a line across a channel."] },
+    "pump": { "names": ["the great wheel"], "scenes": ["A wheel as tall as two houses stands in a pit, with a race in the rock above to bring water down onto its paddles, and pump-rods of bronze running from its axle down into the deep cistern below."] },
+    "cell": { "names": ["a warden's cell"], "scenes": ["A cell with a stone bed and a stone shelf, and on the shelf a little dish worn smooth with use, for still water to be read in alone."] },
+    "deep_gate": { "names": ["the end of the gallery"], "scenes": ["The gallery ends at a gate: two posts of limestone and a lintel cut with the Wardens' mark, round a black opening, and the sound of a great deal of water standing very still beyond it."] },
+    "landing": { "names": ["the landing"], "scenes": ["A landing of stone at the top of a flight of steps that goes down into the deep cistern, and a pillar beside it with marks cut every hand's breadth, where the Wardens read how full it was."] },
+    "drowned_hall": { "names": ["the drowned hall"], "scenes": ["A hall of the deep cistern where the water stood longest: its pillars are furred with lime, and the floor is a crust of white, and the walkways have fallen in places."] },
+    "vault": { "names": ["the wardens' vault"], "scenes": ["A vault off the drowned hall, its door of bronze sealed with wax that has kept the water out: inside, shelves, and on them what the Wardens kept dry."] },
+    "archive": { "names": ["the archive"], "scenes": ["A room of stone shelves above the waterline, where the Wardens kept their reckoning of the springs, year by year, cut in tablets of slate. At the back the floor drops away in steps cut down the cistern's wall."] },
+    "shore": { "names": ["the shore"], "scenes": ["At the bottom of the steps there is a shore, a strip of white stone along water that does not move at all: not a ripple, not a drip, though water runs everywhere above."] },
+    "heart": { "names": ["the still water"], "scenes": ["A pool as wide as a hall lies under the hill, perfectly still, and your light does not go into it but lies on top of it. In the middle of the pool, on a pillar a hand under the surface, there is something that glints."] },
+    "source": { "names": ["the source"], "scenes": ["Behind the pool the rock opens on a crack where the water comes up from somewhere much deeper, silently, without a sound or a ripple. The air in the crack is warm."] }
+  },
+  "dwellers": [
+    { "depth": 0, "groups": [
+      { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on the dry ledges", "temperament": "wary" },
+      { "species": "frog", "count": 4, "label": "the frogs", "role": "white frogs that have never seen the sun", "temperament": "wary" },
+      { "species": "snake", "count": 2, "label": "the snakes", "role": "pale snakes that hunt along the channels", "temperament": "wary" },
+      { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the gate-hall's roof", "temperament": "wary" }
+    ] },
+    { "depth": 1, "groups": [
+      { "species": "mud_elemental", "count": 1, "label": "the mud", "role": "silt that has learned to move", "temperament": "territorial" },
+      { "species": "spirit", "count": 2, "label": "the drowned", "role": "Wardens who drowned at their posts, and keep them", "temperament": "savage" },
+      { "species": "ooze", "count": 1, "label": "the ooze", "role": "something grey that lives in the pipes", "temperament": "ambush" }
+    ] },
+    { "depth": 2, "groups": [
+      { "species": "water_elemental", "count": 1, "label": "the cistern-water", "role": "water that has stood too long in the dark and wants something", "temperament": "territorial" },
+      { "species": "revenant", "count": 2, "label": "the drowned wardens", "role": "Wardens who went down with the cistern when the gates were shut", "temperament": "savage" }
+    ] },
+    { "depth": 3, "groups": [
+      { "species": "salt_elemental", "count": 1, "label": "the salt", "role": "the salt the still water left on the shore, standing up", "temperament": "territorial" }
+    ] }
+  ],
+  "elites": [
+    { "depth": 0, "groups": [
+      { "species": "snake", "count": 1, "label": "the great snake", "role": "a snake as long as the gate-hall, that has lived on the springs' fish for a hundred years", "temperament": "territorial" }
+    ] },
+    { "depth": 1, "groups": [
+      { "species": "revenant", "count": 1, "label": "the warden of the wheel", "role": "the warden of the great wheel, who never left it", "temperament": "territorial" }
+    ] },
+    { "depth": 2, "groups": [
+      { "species": "ice_elemental", "count": 1, "label": "the cold", "role": "the cold at the bottom of the cistern, given a shape", "temperament": "territorial" }
+    ] },
+    { "depth": 3, "groups": [
+      { "species": "salt_elemental", "count": 1, "label": "the salt-warden", "role": "the salt the still water left, standing guard", "temperament": "territorial" }
+    ] }
+  ],
+  "keeper": {
+    "species": "water_elemental",
+    "label": "the still water",
+    "role": "what the Water-Wardens read in the still water, which reads back",
+    "level": 8,
+    "temperament": "territorial",
+    "refuge": "source",
+    "fears": "lore",
+    "words": {
+      "Warns": "The still water does not move, and then the whole of it looks at you. You can feel it reading you as the Wardens read it.",
+      "Flinches": "You read the Wardens' oath aloud, and the still water shudders from end to end as if a wind had gone over it, and draws back from the words into the source behind the pool."
+    }
+  },
+  "bane": {
+    "item": "wardens_oath",
+    "like": { "name": "the Wardens' oath-tablet", "base": "old_glossary", "text": "A slate tablet with the Wardens' oath cut in it, in the old script and, below, glossed word by word in a later hand; whoever carries it can read the old script well enough." },
+    "role": "archive",
+    "seen": "On the lowest shelf of the archive, apart from the reckonings, lies one tablet with a cord through it, cut deeper than the rest: an oath, by its shape.",
+    "cut": "IT READS WHOEVER READS IT. READ IT THE OATH, AND IT MUST GO BACK.",
+    "fact": "What the Water-Wardens read in the still water reads back, and cannot abide its oath read aloud; the Wardens kept the oath on a tablet in their archive."
+  },
+  "objective": {
+    "item": "the Wardens' reading-glass",
+    "kind": "warden_glass",
+    "worth": 1500,
+    "weight": 2,
+    "text": "The Water-Wardens read what was coming in the still water through a disc of black glass ground flat, and left it on its pillar in the pool when they went. Whoever brings it out has what the Wardens saw with.",
+    "goal": "Bring the Wardens' reading-glass up out of {name}, from the still water at the bottom.",
+    "raised": "You come up out of {name} with the Wardens' reading-glass, and in the daylight it is only a disc of black glass, very flat, and it shows you nothing but your own face."
+  },
+  "rumours": [
+    "'The cisterns at {name}? The old folk held the springs in there, they say, behind gates of bronze, and you can hear the water running under the hill on a still night. Nobody goes past the first stair.'",
+    "'My grandmother went into {name} for the silver the Wardens left and came out with a bronze key and her feet wet to the knee. Whatever is down there, I buy, and I do not ask where.'"
+  ],
+  "hook": {
+    "topic": "the old cisterns",
+    "trade": { "topic": "what is down in the cisterns", "says": "turns a bronze key over in the light. 'Bring me what the Wardens left and I will pay what it is worth.'" }
+  },
+  "camp": {
+    "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
+    "journal": [
+      "A notebook, swollen with damp. 'The gate across the stair is down and its wheel is green with verdigris. A bar would start it, Brann says. There is a pipe in the gate-hall you could go down feet first, if you did not mind not coming back up it.'",
+      "A notebook, the last pages written small. 'The gate of the deep cistern is sealed and there are words round it. Below it the cistern is full to the steps. The master sluice up top turns the springs, and the great wheel's rods go down into the cistern: Edda thinks one would empty the other, given time.'",
+      "A notebook, the last page hardly legible. 'There is an archive past the drowned hall, and steps down the wall to a shore. Brann went down the steps. The water did not move when he went in.'",
+      "A notebook with one line in it, written by someone lying down: 'it is reading me'."
+    ]
+  },
+  "outside": "A square doorway is cut in the hillside above a stream that runs out from under its sill. On the lintel, cut in the old script: {oldup}.",
+  "finds": {
+    "negligible": ["cloth_pouch", "candle", "chalk", "iron_figurine", "simple_ring", "broken_dagger", "bell", "wooden_figurine"],
+    "minor": ["bronze_bracelet", "steel_torc", "bronze_statue", "jade_idol", "hand_mirror", "iron_torc", "rope"],
+    "major": ["golden_idol", "ring_of_minor_protection", "silvered_bracers", "jeweled_dagger"],
+    "grand": ["ring_of_protection", "helm_of_the_stars", "jeweled_torc", "ring_of_strength"]
+  },
+  "valuables": {
+    "negligible": [
+      { "id": "lead_seal", "name": "a lead gate-seal", "worth": 30, "weight": 0, "text": "A seal of lead stamped with the Wardens' mark, that once sealed a gate shut." },
+      { "id": "pipe_tag", "name": "a bronze pipe-tag", "worth": 40, "weight": 0, "text": "A tag of bronze with a number on it, from a pipe that went somewhere." },
+      { "id": "warden_token", "name": "a Warden's token", "worth": 45, "weight": 0, "text": "A token of silver cut with a wave, that a Warden showed at a gate to be let through." }
+    ],
+    "minor": [
+      { "id": "silver_ladle", "name": "a silver ladle", "worth": 120, "weight": 1, "text": "A long silver ladle for drawing still water to read, its bowl worn thin." },
+      { "id": "sluice_key", "name": "a bronze sluice-key", "worth": 100, "weight": 1, "text": "A key of bronze as long as your forearm, that wound one of the great gates." },
+      { "id": "cave_pearl", "name": "a cave pearl", "worth": 150, "weight": 0, "text": "A pearl that grew in still water in the dark, round and white and cold." }
+    ],
+    "major": [
+      { "id": "silver_basin", "name": "a silver basin", "worth": 300, "weight": 2, "text": "A shallow basin of silver for still water, its rim engraved with the springs of the valley, each named." },
+      { "id": "crystal_float", "name": "a crystal float", "worth": 350, "weight": 0, "text": "A sphere of clear crystal that floats, that the Wardens set on still water to see by." },
+      { "id": "staff_head", "name": "a warden's staff-head", "worth": 250, "weight": 1, "text": "The bronze head of a Warden's staff, cast as a wave breaking." }
+    ],
+    "grand": [
+      { "id": "moonstone_bowl", "name": "a moonstone bowl", "worth": 800, "weight": 1, "text": "A bowl cut from a single moonstone, that holds water so still it shows the moon at noon." },
+      { "id": "water_mirror", "name": "a silver water-mirror", "worth": 700, "weight": 1, "text": "A mirror of silver made to lie on still water and show what the water showed." }
+    ]
+  },
+  "wonders": ["magical_fountain", "ethereal_fountain", "celestial_fountain", "whispering_voices", "glowing_runes", "arcane_symbols", "living_mural"],
+  "mechanisms": {
+    "winch": { "kind": "stair", "thing": "the gate-wheel",
+      "seized": "The gate-wheel is green with verdigris and will not turn.",
+      "turning": "The gate-wheel turns, grinding, and the bronze gate can be raised in its slots and let down again.",
+      "free": "Work the seized gate-wheel free",
+      "shut": "A gate of bronze, green with age, stands down across the stair in its slots.",
+      "climb": "the gap over the bronze gate" },
+    "seal": { "kind": "door", "thing": "the seal across the gate of the deep cistern", "noun": "the sealed gate of the deep cistern", "opened": "the gate of the deep cistern",
+      "standing": "Across the gate of the deep cistern a bronze plate is set in the stone and sealed with lead all round, the lead stamped with the Wardens' mark over and over.",
+      "broken": "The bronze plate lies torn from the gate of the deep cistern, its lead seals scattered on the step, and the way down is open.",
+      "break": "Tear the bronze plate from the gate", "rebuild": "Set the bronze plate back across the gate of the deep cistern",
+      "words": "the words cut round the gate",
+      "unread": "Words are cut all round the gate of the deep cistern, in the old script. Someone who reads the old script could say what they mean.",
+      "readLabel": "Read what is cut round the gate",
+      "read": "{oldup}. WE SHUT THE STILL WATER IN. DO NOT LET IT OUT. {FATE}",
+      "told": "Read aloud, the old words say plainly enough what the Wardens shut in below, and what it cannot abide." },
+    "vent": { "found": "Where the sound of the running water goes: the old overflow culvert, under silt, that goes out to the hillside.",
+      "sign": "Under the stillness of the reading-room there is a sound of water running somewhere close, behind the stone, going out.",
+      "crawl": "the silted culvert", "rungs": "the way out through the overflow" },
+    "drowned": { "flooded": "Black water fills the cistern to the top of the steps.",
+      "deep": "The steps go down into black water that stands to within a hand of the cistern's roof. Your light goes into it and does not come back.",
+      "going": "The water has gone down: the tops of the pillars stand out of it now, white with lime, and it is still going.",
+      "gate": "the master sluice-gate",
+      "gateShut": "The master sluice-gate stands across the race, and the springs run on out to the doorway and the hillside.",
+      "gateOpen": "The master sluice-gate is swung across the old channel, and the springs go roaring away down the race into the dark.",
+      "open": "Swing the master sluice-gate across, and turn the springs down the race",
+      "shut": "Swing the sluice-gate back, and let the springs run out to the hill",
+      "chain": "the pump-rods",
+      "slack": "The great wheel's pump-rods hang uncoupled from its axle; the bronze pin that would join them lies on the floor of the pit.",
+      "engaged": "The pump-rods are coupled to the axle, and rise and fall with the wheel.",
+      "engage": "Drive the bronze pin home, and couple the pump-rods to the axle",
+      "drained": "From the great wheel's pit comes a new sound: the pumps sucking air, the deep cistern empty.",
+      "running": "Water pours down the race onto the great wheel, which turns with a noise like a mill; the pump-rods rise and fall, and water comes up out of the deep cistern and away.",
+      "idle": "Water pours down the race and the great wheel turns on nothing: the pump-rods hang still.",
+      "dry": "The race above the great wheel is dry, and the wheel stands still. Below, through the rods' shaft, there is the sound of a great deal of standing water.",
+      "heard": "Far below, very faint through the stone, something great is turning." }
+  },
+  "after": {
+    "warlords": [
+      { "role": "mouth", "scene": "Someone after the Water-Wardens made a stronghold of the doorway: a wall of rough stone built up across half of it, with a slit to shoot from, and the stream let out through a grating." },
+      { "role": "gate_hall", "document": { "name": "the words cut over the great pipe", "shut": "Over the mouth of the great pipe someone has cut words in the kingdom's letters, not the old script.", "label": "Read the words over the great pipe", "text": "THE SPRINGS OF THIS VALLEY ARE THE LORD OF {kingdomup}'S. WHOSO TURNS A GATE WITHOUT HIS LEAVE HANGS." } }
+    ],
+    "abbots": [
+      { "role": "still_room", "scene": "The brothers who came after the Wardens made a chapel of the reading-room: their sign is cut over the door, and the still basin has been blessed for a font.",
+        "document": { "name": "the brothers' tablet", "shut": "A slate tablet hangs on a nail by the basin, written over in a careful hand.", "label": "Read the brothers' tablet", "text": "The brothers of {kingdom} baptised in this water and sealed the deep gate a second time with a blessing. Let no one open it: what the Wardens shut in, they shut in for us all." },
+        "valuable": { "id": "abbey_ewer", "name": "a brothers' ewer", "worth": 120, "weight": 1, "text": "A ewer of pewter with the brothers' sign on it, for the water of the font." } }
+    ],
+    "princes": [
+      { "role": "pipe_gallery", "scene": "The merchant-princes after the Wardens tried to sell the springs: their tally-board hangs on the pipes, and their own pipe, of cheap lead, badly joined, goes off along the gallery and stops.",
+        "document": { "name": "a company tally-board", "shut": "A tally-board hangs on a nail on the pipes, its marks in the kingdom's letters.", "label": "Read the tally-board", "text": "For the {kingdom} company: water sold to three towns the first year, two the second, none the third. The pipes will not hold. The works given up." } }
+    ]
+  },
+  "fallen": {
+    "plague": [
+      { "role": "wardens_hall", "scene": "When the plague came, someone shut themselves in the wardens' hall with food for a winter, and did not come out: there are marks scratched on the wall, one a day, and then none." }
+    ],
+    "winter": [
+      { "role": "gate_hall", "scene": "In the long winter, when the springs froze above, the town came down for water here, where it never froze: there are steps worn in the channel's side, and a broken bucket." }
+    ],
+    "heirs": [
+      { "role": "landing", "scene": "In the war of the heirs someone sank something in the deep cistern with a rope tied to the landing's pillar: the rope is still there, gone down into the dark.",
+        "hidden": { "found": "At the end of the rope at the landing, drawn up out of the dark, a strongbox someone sank in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 300, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+    ],
+    "raiders": [
+      { "role": "mouth", "scene": "Raiders from over the sea came for the Wardens' silver one summer and found the doorway: there is a raiders' mark hacked in the lintel, and the stream runs over a broken oar." }
+    ]
+  },
+  "rest": ["wardens_hall"]
+}

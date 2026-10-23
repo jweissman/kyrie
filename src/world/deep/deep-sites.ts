@@ -96,7 +96,8 @@ export class DeepSites {
     const b = purpose.bane, room = b && layout.levels.flatMap(l => l.rooms).find(r => r.role === b.role);
     if (!b || !room) { return []; }
     const q = this.q, id = `${layout.site}_bane`;
-    return [`  Entity ${id}: fact ${q(b.fact)}.`, `  Item ${id}_item ${q(DeepRooms.called(b.item))} is ${b.item} at ${room.id}.`,
+    const name = b.like?.name ?? DeepRooms.called(b.item);
+    return [`  Entity ${id}: fact ${q(b.fact)}.`, `  Item ${id}_item ${q(name)} is ${b.item} at ${room.id}.`,
       `  Observe ${id}_seen at ${room.id} when at(${id}_item, ${room.id}) ${q(b.seen)}.`];
   }
   // Bringing up what they died for: to be done once its story is known, and told when it is done.
@@ -125,8 +126,9 @@ export class DeepSites {
   // What a deep site holds that no catalog does: its ore, and what the makers died for.
   private static kinds(purpose: DeepPurpose, left: Valuable[]): string[] {
     const q = this.q;
-    const ore = purpose.ore, o = purpose.objective;
+    const ore = purpose.ore, o = purpose.objective, b = purpose.bane;
     return [...ore ? [`  Kind ${ore.kind} ${q(ore.name)} is treasure worth ${ore.worth} weighing ${ore.weight} described ${q(ore.text)}.`] : [],
+      ...b?.like ? [`  Kind ${b.item} ${q(b.like.name)} like ${b.like.base} described ${q(b.like.text)}.`] : [],
       `  Kind ${o.kind} ${q(o.item)} is treasure worth ${o.worth ?? 2000} weighing ${o.weight ?? 30} described ${q(o.text)}.`,
       ...[...Object.values(purpose.valuables ?? {}).flat(), ...left].map(v =>
         `  Kind ${v.id} ${q(v.name)} is treasure worth ${v.worth} weighing ${v.weight} described ${q(v.text)}.`)];

@@ -1,5 +1,6 @@
 import mine from '../../../data/generation/deep/deep.json';
 import barrow from '../../../data/generation/deep/barrow.json';
+import waterworks from '../../../data/generation/deep/waterworks.json';
 import type { WorkPlan } from '../history/work-plans';
 
 // What a room of a deep site is for, and how it is told.
@@ -54,7 +55,9 @@ export interface DeepPurpose {
   keeper: DeepGroup & { level: number; words?: Record<string, string>; refuge?: string; fears?: string };
   // What it cannot bear, and where the makers left it: an item in a room of a role, how it looks there, the words
   // they cut about it (read with lore where they walled the way down), and what reading them tells.
-  bane?: { item: string; role: string; seen: string; cut: string; fact: string };
+  bane?: { item: string; role: string; seen: string; cut: string; fact: string;
+    // A kind of the site's own, made like a catalog item it works as (an oath-tablet that reads as a glossary does).
+    like?: { name: string; base: string; text: string } };
   // What they died for: the thing at the bottom, what it is, what it is to bring it up, and how that is told.
   objective: { item: string; kind: string; text: string; goal?: string; raised?: string; worth?: number;
     weight?: number };
@@ -80,12 +83,12 @@ export interface DeepPurpose {
 }
 
 // The deep sites a region's first makers may have left, one for each art that has one
-// (data/generation/deep/<art>.json): the Delvers' mine, the Barrow-Kin's king-barrow. A country has one deep site,
-// of the first of these its makers had: a mine before a barrow.
+// (data/generation/deep/<art>.json): the Delvers' mine, the Barrow-Kin's king-barrow, the Water-Wardens' cisterns.
+// A country has one deep site, of the first of these its makers had: a mine before a barrow before cisterns.
 export class DeepPurposes {
   static readonly all: Record<string, DeepPurpose> = { deep: mine as unknown as DeepPurpose,
-    bone: barrow as unknown as DeepPurpose };
-  static readonly order = ['deep', 'bone'];
+    bone: barrow as unknown as DeepPurpose, water: waterworks as unknown as DeepPurpose };
+  static readonly order = ['deep', 'bone', 'water'];
   static of(art: string): DeepPurpose | undefined { return this.all[art]; }
   // A deep site as a work plan, so that it is placed, named and told of as the makers' other works are; what is
   // written of it is its own (DeepSites), not a plan's sections.

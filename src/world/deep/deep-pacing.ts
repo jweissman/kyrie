@@ -37,7 +37,7 @@ export class DeepPacing {
     const groups = draw.shuffle(this.groups(purpose.dwellers, level.index));
     const elites = draw.shuffle(this.groups(purpose.elites ?? purpose.dwellers, level.index));
     // The keeper's rooms are its own: nothing else lives where it does, or where it goes to ground.
-    const kept = new Set(['heart', purpose.keeper.refuge]);
+    const kept = new Set(['heart', purpose.keeper.refuge]), laid = new Set<string>();
     return order.map(({ room, way }, i) => {
       const guide = i === 0 ? 'entrance' : sequence[i % sequence.length]!, odds = this.tables.overlays[guide]!;
       const content: DeepContent = { room, guide };
@@ -45,7 +45,7 @@ export class DeepPacing {
         content.dwellers = this.dwellers({ room, groups: odds.challenging ? elites : groups, depth: level.index, i },
           !!odds.challenging, draw);
       }
-      if (way && !way.between && draw.next() < odds.trap) { content.trap = this.trap(way, level.index, draw); }
+      if (way && !way.between && draw.next() < odds.trap) { content.trap = this.trap(way, level.index, draw, laid); }
       if (draw.next() < odds.puzzle) { content.riddle = this.riddle(level.index, draw); }
       if (draw.next() < odds.wonder) { content.wonder = draw.pick(this.wonders(purpose)); }
       content.treasure = this.treasure({ purpose, depth: level.index }, odds.treasure, draw);
@@ -87,10 +87,13 @@ export class DeepPacing {
       ...elite ? { elite: true } : {},
       group };
   }
-  private static trap(way: DeepLink, depth: number, draw: Draw): { way: DeepLink; trap: Trap; key: string } {
+  // A level's traps are of as many mechanisms as it can have: not two pressure plates where one room's ways meet.
+  private static trap(way: DeepLink, depth: number, draw: Draw, laid: Set<string>): DeepContent['trap'] {
     const floor = depth ? this.caps[depth - 1]! : 0, cap = this.caps[Math.min(depth, this.caps.length - 1)]!;
     const fitting = RegionMarvels.within(cap).filter(([, t]) => RegionMarvels.harm(t.effect!) > floor * 0.6);
-    const [key, trap] = draw.pick(fitting.length ? fitting : RegionMarvels.traps);
+    const fresh = fitting.filter(([, t]) => !laid.has(t.mechanism));
+    const [key, trap] = draw.pick(fresh.length ? fresh : fitting.length ? fitting : RegionMarvels.traps);
+    laid.add(trap.mechanism);
     return { way, trap, key };
   }
   // Orsino's riddle difficulty, by depth: easy at the top, deadly at the bottom.

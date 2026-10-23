@@ -40,7 +40,7 @@ the building to tomb.
 | Boss room and boss encounter | The keeper at the bottom, in the room the purpose names, with a refuge and a fear; too strong to fight at first, beaten by knowing what it cannot bear | Adapted, and Beyond: a boss with a strategy rooted in the site's history (`deep-history`, `DeepSites.keeper`, `bane`) |
 | Goal: a legendary MacGuffin before a bad outcome | The heart of the vein, what the makers died for: an objective once its story is heard, told when brought into daylight (`DeepSites.raised`) | Adapted: no clock on it; the bad outcome is the dark, not a deadline |
 | Rumour in town by building type | The home town's innkeeper tells where it is and how to go; its merchant tells the story and buys the ore (`DeepSites.hooks`) | Adapted |
-| Traps: easy/medium nine in ten, hard/deadly one in ten; punishment by difficulty | Harm capped by depth: no more than an average 10.5 at the top, 17.5, 28, 45 below, and no less than 0.6 of the depth above (`DeepPacing.trap`, `caps`) | Adapted: deeper is deadlier by construction rather than by a one-in-ten roll |
+| Traps: easy/medium nine in ten, hard/deadly one in ten; punishment by difficulty | Harm capped by depth: no more than an average 10.5 at the top, 17.5, 28, 45 below, and no less than 0.6 of the depth above (`DeepPacing.trap`, `caps`); a level lays as many kinds of mechanism as it can before it repeats one | Adapted: deeper is deadlier by construction rather than by a one-in-ten roll |
 | Trap detect and disarm DCs | A trap shows a sign; looking closely tells what it is; knowing that opens remedies that need a skill or a tool (a pole across a glyph); risking it hurts (`RegionMarvels.snare`) | Adapted: knowledge and tools instead of DC rolls; Orsino's `trapDc` is copied but unused |
 | Riddles by difficulty, loot by difficulty | Orsino's riddles, difficulty by depth (easy at the top, deadly at the bottom, a step harder one time in four); a casket pays a tier by difficulty, mostly the makers' own valuables; a wrong word breathes cold harm by difficulty (`DeepRooms.casket`) | Faithful in the riddles and their loot; Adapted in the harm |
 | Wonders one room in ten, legendary 2% | Orsino's odds by guide; drawn from the site's list of fitting wonders (a singing crystal in a mine, not a fountain); no legendary wonders | Adapted: fit over rarity |
@@ -49,7 +49,7 @@ the building to tomb.
 | Special rooms (phylactery, catacombs…) | The `special` guide puts an earlier party's camp there: its bedroll, its notebook (told once), rope and a torch | Adapted |
 | Room decoration, features, auras | Every room's look is written for its role in the purpose; no auras | Different by design (written, not drawn); auras Missing |
 | Gear in rooms | The purpose's finds by tier | Adapted |
-| Building types and room bias | Two purposes, the Delvers' mine and the Barrow-Kin's king-barrow (`DeepPurposes.all`), each with its own roles, gear and words | Adapted: two of Orsino's five (mine, tomb); temple, fortress and library have no purpose yet. Orsino too fixed its building to tomb |
+| Building types and room bias | Three purposes, the Delvers' mine, the Barrow-Kin's king-barrow and the Water-Wardens' cisterns (`DeepPurposes.all`), each with its own roles, gear and words | Adapted: two of Orsino's five (mine, tomb) and a waterworks of Kyrie's own; temple, fortress and library have no purpose yet. Orsino too fixed its building to tomb |
 | Resting risks wandering monsters | Some rooms are restful; savage and territorial bands walk their own level, one in six each watch to where the company is (`DeepSites.rest`) | Faithful in intent |
 | A dungeon is generated and then fixed | Built from what it was for (spine, branches, loops, connectors between levels), then what came after (the successors' and their fall's marks), then who lives there; it fills again while the company is away (`DeepLayouts`, `DeepHistory`, `DeepTime`) | Beyond |
 | Linear run of rooms | Levels joined by a cage that runs once its wheel is freed, ladders, a one-way ore pass, a walled stair, a climb; loops; a hidden air shaft that is a second way out; a level that drains only while water is turned onto a pump a level up (`DeepMechanisms`) | Beyond |
@@ -65,7 +65,7 @@ the building to tomb.
 
 ## What is still not Orsino's, and should be
 
-- Purposes for the other arts: Orsino's temple, fortress and library would be Kyrie's sky, stone and water arts,
-  which have no deep purpose yet.
+- Purposes for the other arts: Orsino's temple and fortress would be Kyrie's sky and stone arts, which have no deep
+  purpose yet. The water art has one, but a waterworks, not Orsino's library.
 - Orsino's shrines in the deep, and its auras.
 - Trap DCs, if a roll is wanted alongside knowledge and tools; the table is there.

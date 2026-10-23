@@ -6,8 +6,8 @@ thing works, it says what was seen; where it does not, or was not done, it says 
 Mission 14 asked for a game worth playing for hours: above all a generated, persistent, multilevel adventure complex
 that ordinary play finds and that sustains several expeditions (Proof A), and three proofs beside it: an argument
 with consequences (B), a historical landscape with material consequences (C), and an independently authored
-scenario (D). Fourteen commits from `637642e` to `3d37ade`, 202 files, about 5,100 lines added. The suite is 542
-tests (529 pass, 13 skipped browser tests, which pass when run with `KYRIE_BROWSER=1`: 7 of 7).
+scenario (D). Twenty commits from `637642e`, 212 files, about 6,300 lines added. The suite is 551 tests (538 pass,
+13 skipped browser tests, which pass when run with `KYRIE_BROWSER=1`: 7 of 7).
 
 No one but me has played this. Every play described here was mine, through the same choices a player has: the text
 harness that plays by the words on the page, and the browser.
@@ -52,11 +52,19 @@ but with the company put in the room (the harness's `@@room`), not walked there.
 ordinary play was not done: it needs several expeditions of levelling, and I did not play them.
 
 **Weak or missing.**
-- Two purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
+- Three purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
   `test/deep-barrow.test.ts`), with its own gear and words: a portal stone on a counterweight, a seal-stone across the
-  king's door, a robbers' tunnel round it, a light-box that is a second way out, a king who cannot abide the day. A
-  country with both arts gets the mine. The sky, stone and water arts have no deep purpose yet, so a country of
-  those has no deep site.
+  king's door, a robbers' tunnel round it, a light-box that is a second way out, a king who cannot abide the day.
+  And there are the Water-Wardens' cisterns (`waterworks.json`, `test/deep-waterworks.test.ts`): a bronze gate on a
+  seized wheel across the stair, a great pipe to go down feet first, a deep cistern that drains only while the master
+  sluice turns the springs onto the great wheel and its pump-rods are coupled, an overflow culvert found by the sound
+  of running water, and a keeper that shrinks not from the day but from the Wardens' oath. The oath is on a tablet in
+  the cisterns' own archive, a kind of thing that exists only in that site, which reads the old script as the
+  glossary does, so whoever carries it can also read the warning on the gate. A country gets the first of these its
+  makers had (mine, then barrow, then cisterns). The sky and stone arts have no deep purpose yet, so a country of
+  only those (seed `d4`) has no deep site.
+- A level no longer lays the same kind of trap twice while another kind would do: the cisterns' drowned hall had a
+  pressure plate on each of its two ways, each described from both ends.
 - Companions die easily. Orsino's death save is against 25, so a fallen companion is dead until raised, and raising
   costs 300 coin. Thoradin fell in both fights he was in. That is harsh for a company of two.
 - Carrying now weighs (`src/rules/burden.ts`, `test/burden.test.ts`). Each kind weighs what it says, or what its
@@ -103,8 +111,13 @@ By how that kingdom fell:
 The successors' documents teach their history when read, and the abbots' tablet explains the wall the company finds
 below. `test/deep-history.test.ts`.
 
-**Not done.** Ecology, settlements' fortunes, regional powers with visible plans, and the repeated landmarks ("march
-stones as tall as a man") were not worked on this mission. A deep era sequence (a primordial age, the Mathematical
+**Done since.** Border marks were the brief's example of repetition: every road out of every country passed "a
+march-stone as tall as a man". Now a country's bounds are marked by whoever ruled it after the makers (a ruined
+watch-post, a wayside cross, a toll-house) and by the lie of the land (a causeway post in the fen, blazed oaks, a
+cairn on a pass), drawn per border so that no two read alike (`data/generation/scenes/borders.json`).
+
+**Not done.** Ecology, settlements' fortunes and regional powers with visible plans were not worked on this
+mission. A deep era sequence (a primordial age, the Mathematical
 Age, planar contact) was not attempted. Truth and belief are not yet separated in what people say of history.
 
 ## Proof D: an independently authored scenario
@@ -181,8 +194,8 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 
 1. Play the mine to the heart in ordinary play, over as many expeditions as it takes, and recalibrate from what
    happens: companion deaths, the keeper, the drowned level's timing, how much a company can carry.
-2. Deep purposes for the sky, stone and water arts (an observatory, halls, a waterworks), now that the generator takes
-   all of a purpose's words from its data.
+2. Deep purposes for the sky and stone arts (an observatory, halls), now that the generator takes all of a purpose's
+   words and its own kinds of thing from its data.
 3. Split the company out of the region bundle so Begin can be composed while the player reads.
 4. The philosopher capstone, on the argument machinery built here.
 5. Dynamic entities, and pronouns in Kyr text.
