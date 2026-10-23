@@ -76,7 +76,8 @@ describe('a deep site, from the inn', () => {
     const { s } = await Delve.start('warrior');
     await Delve.walk(s, [...Delve.inn, /^Ask Fargrim about the old workings$/, ...Delve.road, /^Light a torch$/,
       /^Take the gallery to the crossing$/]);
-    expect(await Delve.take(s, /^Talk to the goblins$/)).toContain('draw back to the edge of your light');
+    const met = /draw back to the edge of your light|go still when your light/;
+    expect(await Delve.take(s, /^Talk to the goblins$/)).toMatch(met);
     expect(Delve.names(s)).toEqual(expect.arrayContaining(['Talk the goblins into letting you be · an even chance',
       'Face the goblins down · unlikely']));
     const said = await Delve.take(s, /^Talk the goblins into letting you be/);

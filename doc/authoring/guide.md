@@ -51,7 +51,8 @@ Module thornmere "Thornmere" {
 A passage joins two places and can be used in both directions unless it is `one way`. Its kind says what it is
 physically. The kinds are `passage`, `door`, `doorway`, `arch`, `gate`, `stair`, `steps`, `ladder`, `shaft`, `path`,
 `track`, `road`, `causeway`, `bridge`, `ford`, `tunnel`, `crawl`, `culvert`, `drift`, `incline` and `ferry`. Its
-duration says how long it takes to cross: ten minutes unless you write `taking 30 minutes` or `taking 2 hours`. A
+duration says how long it takes to cross: a minute through a door, doorway, arch or gate, two on a stair, steps or a
+ladder, ten minutes for anything else, unless you write `taking 3 minutes`, `taking 30 minutes` or `taking 2 hours`. A
 passage can be `hidden until` a fact is known, or `needing` a skill or an item kind.
 
 ```kyr
@@ -556,13 +557,15 @@ A module may take another module's relations and rules as its own law by naming 
 
 ### The order things happen in
 
-A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`, `hour(clock)`,
+A command takes minutes (`Time 2 minutes.`) or watches (`Time 1.`, ten minutes each); minutes add up, and every
+ten of them is a watch passed. A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`, `hour(clock)`,
 `dice(clock)`) and conditions on bodies run down; every other power and person acts, in the order the campaign
 lists them; then every rule is tried once, the shared rules first, then each module in the order the campaign
 installs it, each in the order its rules are written; then what a hazard strikes lands on bodies. A rule sees what
 the rules before it changed in the same watch. A rule whose condition still holds fires again next watch, so a rule
 meant to happen once either changes what it tests (`Assert sung(party)` beside `not sung(party)`) or is an `Event`,
-which happens once. An action that takes no time is followed by one pass of the rules, and no clock.
+which happens once. An action that passes no watch (one that takes no time, or a few minutes) is followed by one
+pass of the rules and whatever a hazard strikes, and no clock.
 
 ### A creature other than its kind
 

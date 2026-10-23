@@ -102,7 +102,7 @@ describe('wonders and traps', () => {
     GeneratedWorld.put(s, from.replace('region__', ''));
     await s.perform('wait');
     const hp = Marvels.body(s).state.hp, told = Marvels.told(await Marvels.act(s, /^Risk the /));
-    const trap = Object.values(world.traps).find(t => told[0] === `${t.text}.`);
+    const trap = Object.values(world.traps).find(t => told.includes(`${t.text}.`));
     expect(trap).toBeDefined();
     if (Marvels.body(s).state.hp < hp) { expect(told.some(l => /takes \d+ \w+ damage/.test(l))).toBe(true); }
   }, 60000);

@@ -21,7 +21,7 @@ class Journey {
     'go(hill__stores_door,hill__workshop)', 'go(hill__workshop_door,hill__vestibule)', 'go(hill__arch,hill__yard)',
     'sell(salvage__prize,salvage__salvager)', 'go(hill__yard_track,march__ridge)',
     'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)', 'rescue__thanks_escorted',
-    'go(march__ferry_door,march__ferry_room)', 'rescue__home_thanks'];
+    'go(march__ferry_door,march__ferry_room)', 'wait', 'rescue__home_thanks'];
   static readonly silkholme = [
     'go(march__ferry_door,march__quay)', 'go(march__oar_door,march__taproom)', 'word__maud_lights',
     'take_lodging(march__maud_lodging,march__maud)', 'go(march__oar_door,march__quay)',
@@ -48,7 +48,7 @@ class Journey {
     'go(tower__well,tower__crypt)', 'light_item(march__nera_torch_1)',
     'examine(tower__worn_steps)', 'go(tower__crypt_steps,tower__study)', 'examine(tower__daybook)', 'change_thing(tower__lantern_smash)',
     // He went over the downs in the night with the register, and is still on the corpse road home: wait for him.
-    'wait_hour', 'tower__why', 'tower__send_away', 'go(tower__crypt_steps,tower__crypt)', 'go(tower__well,east__tower_foot)',
+    'wait_hour', 'wait_hour', 'tower__why', 'tower__send_away', 'go(tower__crypt_steps,tower__crypt)', 'go(tower__well,east__tower_foot)',
     'go(east__tower_lane,east__holt_green)', 'go(east__landing_lane,east__landing)',
     'go(east__ferry_crossing,march__quay)', 'go(march__shrine_door,march__shrine)', 'tower__graves'];
   static async start(company = 'fellowship') {

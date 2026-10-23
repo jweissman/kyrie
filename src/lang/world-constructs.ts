@@ -36,6 +36,8 @@ export class WorldConstructs {
   private static entity(module: Module, id: string, type: string, name: string) {
     if (!module.entities.some(e => e.id === id)) { module.entities.push({ id, type, name }); }
   }
+  static readonly quick: Record<string, number> = { door: 1, doorway: 1, arch: 1, gate: 1, stair: 2, steps: 2,
+    ladder: 2 };
   static passage(module: Module, p: PassageSpec) {
     if (p.sides[0] === p.sides[1]) { throw new Error(`Passage ${p.id} must join two different places`); }
     module.entities.push({ id: p.id, type: 'passage', name: p.name });
@@ -49,9 +51,11 @@ export class WorldConstructs {
     this.assert(module, 'passageKind', p.id, `way_${kind}`);
     module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelTime', args: [p.id] },
       value: { kind: 'number', value: p.ticks ?? 1 } });
-    if (p.minutes) {
+    // A door is stepped through in a minute and a stair climbed in two, unless the author says how long it takes.
+    const minutes = p.minutes ?? (p.ticks === undefined ? WorldConstructs.quick[kind] : undefined);
+    if (minutes) {
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelMinutes', args: [p.id] },
-        value: { kind: 'number', value: p.minutes } });
+        value: { kind: 'number', value: minutes } });
     }
     if (p.opening) { this.opening(module, p.id, p.opening, p.shut); }
   }

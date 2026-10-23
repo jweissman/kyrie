@@ -49,8 +49,9 @@ describe('people who fall on the company', () => {
     const s = await Watch.start();
     Watch.know(s, 'world__password');
     await s.perform('go(world__gate,world__gatehouse)');
-    const event = await s.perform('go(world__arch,world__yard)');
-    const fought = event.prelude ? event : await s.perform('wait_hour');
+    // Through the arch is a minute; the patrol comes while the company waits, and falls on it.
+    let fought = await s.perform('go(world__arch,world__yard)');
+    for (let n = 0; !fought.prelude && n < 3; n++) { fought = await s.perform('wait_hour'); }
     expect(fought.prelude?.response).toContain('yard patrol');
     expect(fought.combat.some(e => e.type === 'end')).toBe(true);
   }, 60000);

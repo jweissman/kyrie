@@ -27,7 +27,8 @@ describe('browser session command handling', () => {
     expect(session.campaign.save()).toEqual(before);
     expect(session.transcript.steps).toEqual([]);
     await session.perform('go(world__byre_door,world__byre)');
-    expect(session.campaign.state.elapsed).toBe(1);
+    // Through a door is a minute: no watch has passed, but the minute has.
+    expect([session.campaign.state.elapsed, session.campaign.readout.minutes]).toEqual([0, 1]);
     expect(session.transcript.steps).toEqual([{ command: 'go(world__byre_door,world__byre)' }]);
   });
   it('records the player side of an encounter and replays it to the identical canonical state', async () => {
@@ -88,7 +89,7 @@ describe('browser persistence', () => {
     await Fixture.play(resumed, rest);
     const uninterrupted = await Fixture.play(await Fixture.start(), ['go(world__byre_door,world__byre)', 'wait', ...rest]);
     expect(resumed.canonical()).toBe(uninterrupted.canonical());
-    expect(store.list().map(s => [s.name, s.elapsed, s.seed]).sort()).toEqual([['autosave', 2, 'slice'], ['before payment', 2, 'slice']]);
+    expect(store.list().map(s => [s.name, s.elapsed, s.seed]).sort()).toEqual([['autosave', 1, 'slice'], ['before payment', 1, 'slice']]);
     store.remove('before payment');
     expect(() => store.read('before payment')).toThrow('No saved slot');
     expect(() => store.write('../escape/name?', first.checkpoint())).toThrow('Slot names');

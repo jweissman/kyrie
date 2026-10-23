@@ -46,7 +46,8 @@ describe('the authoring guide', () => {
     expect(Guide.legal(s)).toContain('take_lodging(world__wenna_lodging,world__wenna)');
     const start = s.campaign.state.elapsed;
     for (const c of ['go(world__heron_door,world__green)', 'go(world__shore_path,world__strand)']) { await s.perform(c); }
-    expect(s.campaign.state.elapsed - start).toBe(7);
+    // A minute through the door, an hour on the shore path.
+    expect(s.campaign.state.elapsed - start).toBe(6);
     expect(Guide.legal(s)).toContain('camp(world__strand)');
     for (const c of ['go(world__ford,world__porch)', 'go(world__chapel_door,world__nave)',
       'go(world__crypt_stair,world__stair_foot)']) { await s.perform(c); }
