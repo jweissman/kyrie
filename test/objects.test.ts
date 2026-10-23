@@ -100,7 +100,7 @@ describe('a pressure plate', () => {
   async function vault() {
     const s = await Strongroom.start();
     for (const prefix of into) { await s.perform(Strongroom.legal(s).find(c => c.startsWith(prefix))!); }
-    await s.perform(Strongroom.legal(s).find(c => c.startsWith('use_item(world__brand'))!);
+    await s.perform(Strongroom.legal(s).find(c => c.startsWith('light_item(world__brand'))!);
     return s;
   }
   it('brings the ceiling down on someone when the idol is lifted off it', async () => {

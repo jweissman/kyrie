@@ -2,6 +2,8 @@ Module belongings "What the company carries" {
   Kind item. Kind itemkind.
   Relation itemKind(item, itemkind). Relation ownedItem(item, member). Relation wearing(item, member).
   Relation forSale(item). Relation soldBy(item, group) exclusive. Relation wearable(itemkind). Relation consumable(itemkind).
+  // What is used by lighting it, on whoever carries it (a torch).
+  Relation lightsUp(itemkind).
   Relation canTrain(member, ability). Relation teaches(group, ability).
   Relation proficient(member, itemkind).
   Relation wants(group, itemkind). Measure pays(group, itemkind).
@@ -76,8 +78,14 @@ Module belongings "What the company carries" {
   }
   Action use_item(actor: group, dose: item, form: itemkind, carrier: member, recipient: member) "Use {dose} on {recipient}" {
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
-      and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form).
+      and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form) and not lightsUp(form).
     Resolve consume(dose, carrier, recipient).
+  }
+  Action light_item(actor: group, dose: item, form: itemkind, carrier: member) "Light {dose}" {
+    Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(dose, carrier)
+      and itemKind(dose, form) and lightsUp(form).
+    Resolve consume(dose, carrier, carrier).
+    Result "{carrier} lights {dose}.".
   }
   Action transfer_item(actor: group, cargo: item, carrier: member, recipient: member) "Give {cargo} to {recipient}" {
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)

@@ -29,7 +29,7 @@ class Journey {
     'take_item(brood__spare_torch,march__member_party_3)', 'go(sink__sink_path,sink__lip)',
     'go(sink__terrace_steps,sink__frames)', 'brood__plea', 'go(sink__terrace_steps,sink__lip)',
     'go(sink__sink_path,march__ridge)', 'brood__carcass', 'go(sink__sink_path,sink__lip)',
-    'go(sink__shaft,sink__cave)', 'use_item(brood__spare_torch,march__member_party_3)',
+    'go(sink__shaft,sink__cave)', 'light_item(brood__spare_torch)',
     'change_thing(brood__webs_hack)', 'go(sink__web_gallery,sink__nest)', 'change_thing_paying(brood__mother_feed)',
     'go(sink__web_gallery,sink__cave)', 'go(sink__seep,sink__frames)', 'brood__grateful',
     'go(sink__terrace_steps,sink__lip)', 'go(sink__sink_path,march__ridge)', 'brood__wait_and_see'];
@@ -45,7 +45,7 @@ class Journey {
     'go(march__shop_door,march__quay)', 'go(east__ferry_crossing,east__landing)',
     'go(east__landing_lane,east__holt_green)', 'go(east__holly_door,east__holly_room)', 'word__cutter_well',
     'word__osric_lights', 'go(east__holly_door,east__holt_green)', 'go(east__tower_lane,east__tower_foot)',
-    'go(tower__well,tower__crypt)', 'use_item(march__nera_torch_1,march__member_party_3)',
+    'go(tower__well,tower__crypt)', 'light_item(march__nera_torch_1)',
     'examine(tower__worn_steps)', 'go(tower__crypt_steps,tower__study)', 'examine(tower__daybook)', 'change_thing(tower__lantern_smash)',
     'tower__why', 'tower__send_away', 'go(tower__crypt_steps,tower__crypt)', 'go(tower__well,east__tower_foot)',
     'go(east__tower_lane,east__holt_green)', 'go(east__landing_lane,east__landing)',

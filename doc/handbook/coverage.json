@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 22,
     "represented": 43,
-    "kyr": 151,
+    "kyr": 153,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 208
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 146,
+      "kyr": 148,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10225,6 +10225,13 @@
    "section": "orsino-company/orsino-ability"
   },
   {
+   "id": "rule:belongings.lightsUp",
+   "title": "lightsUp",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.worth",
    "title": "worth, buysValuables, realized, valuable",
    "status": "kyr",
@@ -10325,6 +10332,13 @@
   {
    "id": "rule:belongings.use_item",
    "title": "use item",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.light_item",
+   "title": "light item",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"

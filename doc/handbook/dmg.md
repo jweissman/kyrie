@@ -12,7 +12,13 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 19 | 5 | 1 | 5 | 15 |
+| 2 | 20 | 5 | 1 | 5 | 16 |
+
+#### lightsUp
+
+*Kyr · relation(itemkind)* · `rule:belongings.lightsUp`
+
+What is used by lighting it, on whoever carries it (a torch).
 
 #### worth, buysValuables, realized, valuable
 
@@ -156,7 +162,19 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form)
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form); not (lightsUp(form))
+
+> Then: nothing changes
+
+#### light item
+
+*Kyr · action (group, item, itemkind, member)* · `rule:belongings.light_item`
+
+- Shown as: Light {dose}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(dose, carrier); itemKind(dose, form); lightsUp(form)
 
 > Then: nothing changes
 

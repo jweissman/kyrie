@@ -14,7 +14,7 @@ class March {
     'go(march__shop_door,march__quay)', 'go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
     'go(hill__yard_track,hill__yard)', 'go(hill__arch,hill__vestibule)', 'go(hill__workshop_door,hill__workshop)',
     'change_thing(hill__padlock_pick)', 'go(hill__stores_door,hill__stores)', 'go(hill__dry_stair,hill__hall)',
-    'use_item(march__nera_torch_1,march__member_party_3)', 'go(hill__kitchen_door,hill__kitchen)',
+    'light_item(march__nera_torch_1)', 'go(hill__kitchen_door,hill__kitchen)',
     'examine(hill__crock_label)', 'risk(hill__crock,march__member_party_2)'];
   // From the name room, with the register, back to the Reedwake shrine.
   static readonly take = [...March.refuge, 'take_item(hill__register_copy,march__member_party_1)', 'go(hill__name_way,hill__kitchen)',
@@ -86,7 +86,7 @@ describe('the register of names: a power that acts while the company is elsewher
     expect(March.where(s, 'east__agnes')).toBe('march__shrine');
     // From Sorgen's bone store (the hound is left alone), the rings; then to Agnes, who fled to the Reedwake shrine.
     March.put(s, 'tower__ossuary');
-    await s.perform('use_item(march__nera_torch_1,march__member_party_3)');
+    await s.perform('light_item(march__nera_torch_1)');
     await s.perform('take_item(tower__rings,march__member_party_1)');
     March.put(s, 'march__shrine');
     expect(March.legal(s)).toContain('give(tower__rings,east__agnes)');
@@ -115,7 +115,7 @@ describe('the register of names: a power that acts while the company is elsewher
       'go(march__shop_door,march__quay)']);
     await March.until(s, 140);
     March.put(s, 'tower__ossuary');
-    await March.walk(s, ['use_item(march__nera_torch_1,march__member_party_3)', 'take_item(tower__rings,march__member_party_1)']);
+    await March.walk(s, ['light_item(march__nera_torch_1)', 'take_item(tower__rings,march__member_party_1)']);
     March.put(s, 'march__shrine');
     await March.walk(s, ['give(tower__rings,east__agnes)', 'rising__iron_band']);
     March.put(s, 'east__churchyard');

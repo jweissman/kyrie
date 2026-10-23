@@ -1,7 +1,7 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { Entity, Observation, Shelter } from '../lang/module';
 import type { Screen, TargetRow } from '../ui/screen-types';
-import type { ActionFeedback } from './action-feedback';
+import { ActionFeedbackView, type ActionFeedback } from './action-feedback';
 import { FictionalTime } from './fictional-time';
 import { Typography } from './typography';
 import { Narration } from './narration';
@@ -40,13 +40,20 @@ export class Narrator {
       here: screen.place.id }));
     // What has changed since the company was last here is told under that, not twice.
     const changed = known && told?.moved ? screen.fresh : [];
-    const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))), defs);
+    const exchange = told && this.exchange(campaign, told);
+    // What the last command did to the place (a trap sprung, a wonder gone quiet) is told as what happened, not again
+    // in the place's telling under it.
+    // What looking closely, prodding or listening found is the answer to it, and told as that; anything else newly
+    // seen in the place (a room a torch shows) is told with the place.
+    const probing = told && ActionFeedbackView.probes.includes(campaign.operator(told.event.action)?.schema ?? '');
+    if (exchange && !probing) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
+      || !kept.some(k => Narration.sentence(k.text) === l.text)); }
+    const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
+    const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
+      && !echoed.has(Narration.sentence(l.text))), defs);
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, defs.get(l.id), l.text) }));
     const situation = this.paragraphs(credited, defs);
-    const presence = this.presence(screen);
-    const exchange = told && this.exchange(campaign, told), shown = [...situation, ...presence];
-    // What the page already says of the place and who is in it is not said again among what just happened.
-    if (exchange) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change' || !shown.some(p => p.includes(l.text))); }
+    const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     return this.set({
       situation, presence, changed,
@@ -175,10 +182,14 @@ export class Narrator {
     // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
     const bare = voiced.length && (/^You (carry out|do) /.test(feedback.result ?? '')
       || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));
+    const result = spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : [];
+    const events = feedback.events.map(text => ({ text, kind: 'event' as const }));
+    // A thing changed is told by what came of it (the water going down) before how it is now (the well dry).
+    const changing = /^change_thing/.test(action?.schema ?? '');
     const lines: ExchangeLine[] = [
-      ...(spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : []),
+      ...changing ? events : [], ...result,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
-      ...feedback.events.map(text => ({ text, kind: 'event' as const })),
+      ...changing ? [] : events,
       ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: fight ? 'fight' as const : 'event' as const })),
       ...(told.moved ? [] : feedback.observations.map(text => ({ text, kind: 'change' as const }))),
@@ -194,10 +205,12 @@ export class Narrator {
     return { ...told.said ? { said: told.said } : {}, lines: this.tidy(unique, fight), notes,
       tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
   }
+  // Tidied lines keep the kind of the line they were made from ("Wenna takes 7 slashing damage (8 HP left)" is
+  // the event it was); one made of several (two who each gain experience) is an event.
   private static tidy(lines: ExchangeLine[], fight: boolean): ExchangeLine[] {
-    const kept = new Set(Narration.tidy(lines.map(l => l.text), fight ? lines.length : 0));
-    return lines.filter(l => kept.has(Narration.sentence(l.text)))
-      .map(l => ({ ...l, text: Narration.sentence(l.text) }));
+    const made = lines.map(l => ({ l, text: Narration.tidy([l.text])[0] }));
+    return Narration.tidy(lines.map(l => l.text), fight ? lines.length : 0)
+      .map(text => ({ ...made.find(m => m.text === text)?.l ?? { kind: 'event' as const }, text }));
   }
   private static nameOf(campaign: Campaign, id: string): string {
     return this.short(campaign.module.entities.find(e => e.id === id)?.name ?? id);

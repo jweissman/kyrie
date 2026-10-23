@@ -19,7 +19,7 @@ class March {
   // A player in the dark lights the next torch when a step needs seeing.
   static async perform(s: PlaySession, command: string) {
     if (!this.legal(s).includes(command) && this.fact(s, 'benighted', 'party')) {
-      const torch = this.legal(s).find(c => c.startsWith('use_item(march__nera_torch_'));
+      const torch = this.legal(s).find(c => c.startsWith('light_item(march__nera_torch_'));
       if (torch) { await s.perform(torch); }
     }
     return s.perform(command);

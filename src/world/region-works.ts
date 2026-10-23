@@ -16,6 +16,7 @@ import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { RegionRenewal } from './region-renewal';
+import { RegionMarvels } from './region-marvels';
 import { Draw } from './land/draw';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
@@ -40,8 +41,9 @@ export class RegionWorks {
       const values = this.values(region, site, work);
       const sections = WorkPlans.choose(plan, `${region.name}:${work.id}:${work.plan}`, values)
         .filter(s => s.group === 'outside' || !taken[site.id]);
-      return [...sections.flatMap(s => WorkPlans.fill(s.lines, values)),
-        ...taken[site.id] ? [] : RegionRenewal.work(region, site, { plan, sections, values })];
+      const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));
+      return [...written, ...taken[site.id] ? [] : [...RegionRenewal.work(region, site, { plan, sections, values }),
+        ...RegionMarvels.work(region, site, work.plan, written)]];
     })];
   }
   // What a work's plan is given to say: the work's ids and names, its makers, and the kingdom after them.

@@ -31,7 +31,7 @@ class Keep {
     return s.campaign.world.test(ModuleWriter.call(name, ...args));
   }
   static gold(s: PlaySession) { return s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')); }
-  static readonly crypt = ['go(tower__postern,tower__crypt)', 'use_item(march__nera_torch_1,march__member_party_3)'];
+  static readonly crypt = ['go(tower__postern,tower__crypt)', 'light_item(march__nera_torch_1)'];
 }
 
 describe('Holt keep', () => {
@@ -75,7 +75,7 @@ describe('Holt keep', () => {
     Keep.put(drained, 'tower__stable');
     await drained.perform('examine(tower__plan)');
     Keep.put(drained, 'tower__cistern');
-    await drained.perform('use_item(march__nera_torch_1,march__member_party_3)');
+    await drained.perform('light_item(march__nera_torch_1)');
     await drained.perform('change_thing(tower__flood_drain)');
     expect(Keep.legal(drained)).toContain('go(tower__drift,tower__strongroom)');
   }, 60000);
@@ -94,7 +94,7 @@ describe('Holt keep', () => {
     const s = await Keep.start();
     await Keep.walk(s, [...Keep.crypt, 'examine(tower__worn_steps)', 'go(tower__crypt_steps,tower__study)',
       'take_item(tower__key,march__member_party_2)', 'go(tower__crypt_steps,tower__crypt)', 'go(tower__cell_door,tower__cell)',
-      'use_item(march__nera_torch_2,march__member_party_3)', 'change_thing(tower__maren_lay)']);
+      'light_item(march__nera_torch_2)', 'change_thing(tower__maren_lay)']);
     expect([Keep.fact(s, 'tower__ended', 'tower__necromancer'), Keep.fact(s, 'state', 'tower__risen', 'tower__fallen')])
       .toEqual([true, true]);
   }, 60000);
@@ -104,7 +104,7 @@ describe('Holt keep', () => {
     while (!Keep.fact(s, 'state', 'tower__maren', 'tower__named') && s.campaign.state.elapsed < 200) { await s.perform('wait_hour'); }
     expect(Keep.fact(s, 'state', 'tower__maren', 'tower__named')).toBe(true);
     Keep.put(s, 'tower__cell');
-    await s.perform('use_item(march__nera_torch_1,march__member_party_3)');
+    await s.perform('light_item(march__nera_torch_1)');
     await s.perform('tower__maren_asks');
     Keep.put(s, 'tower__study');
     await s.perform('tower__tell_him');

@@ -30,7 +30,7 @@ describe('light and the dark', () => {
     expect(PlayerView.observe(s.campaign).observations.map(o => o.id)).toEqual(['darkness']);
     // The kitchen's crock warning cannot be read in the dark; with the torch lit it can.
     expect(Dark.legal(s)).not.toContain('examine(hill__crock_label)');
-    await s.perform('use_item(march__nera_torch_1,march__member_party_1)');
+    await s.perform('light_item(march__nera_torch_1)');
     expect(Dark.benighted(s)).toBe(false);
     expect(Dark.legal(s)).toContain('examine(hill__crock_label)');
     for (let i = 0; i < 6; i++) { await s.perform('wait'); }

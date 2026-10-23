@@ -21,7 +21,7 @@ class Hoard {
   static async goods(s: PlaySession, barrow: string) {
     GeneratedWorld.put(s, `${barrow}_right`);
     await s.perform('wait');
-    await Hoard.choose(s, /^Use a torch on /);
+    await Hoard.choose(s, /^Light a torch$/);
     await Hoard.choose(s, /^Collect .* for Elen$/);
   }
   static choose(s: PlaySession, pattern: RegExp) {
@@ -41,7 +41,7 @@ describe('treasure', () => {
     expect(Canon.items[goods]!.category).toBe('treasure');
     const worth = Canon.items[goods]!.value!;
     // The chamber is dark: the warrior's torch first.
-    await Hoard.choose(s, /^Use a torch on /);
+    await Hoard.choose(s, /^Light a torch$/);
     await Hoard.choose(s, /^Collect .* for Elen$/);
     GeneratedWorld.put(s, `${region.settlements[0]!.id}_shop`);
     await s.perform('wait');

@@ -1,0 +1,47 @@
+{
+  "about": "How each of Orsino's trap mechanisms (orsino-world.json) is understood and dealt with in a generated work: what looking closely at it shows, and the ways of making it safe, each with what it needs. Written by hand: Orsino gives a trap's mechanism and what it does, not how it is found out or got past.",
+  "mechanisms": {
+    "pressure plate": {
+      "seen": "One flag of the floor sits a finger's breadth proud of the rest, with no dust in the crack round it. A foot's weight on it would set off whatever it is joined to; so would any weight.",
+      "ways": [
+        { "id": "spring", "label": "Lean on the plate with the pole, standing well back", "needing": "pole", "to": "sprung" },
+        { "id": "wedge", "label": "Wedge the plate so it cannot sink", "needing": "trapwork", "to": "made_safe" }
+      ]
+    },
+    "tripwire": {
+      "seen": "The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.",
+      "ways": [
+        { "id": "spring", "label": "Hook the wire with the pole and pull, from well back", "needing": "pole", "to": "sprung" },
+        { "id": "pin", "label": "Pin the wire slack against the floor and step over it", "needing": "trapwork", "to": "made_safe" }
+      ]
+    },
+    "hidden switch": {
+      "seen": "Among the carvings is one that is not carved but set in, a boss that would go in under a hand. It sits where a hand leaning on the wall would find it, at the narrowest place.",
+      "ways": [
+        { "id": "spring", "label": "Push the switch in with the pole's end, standing clear", "needing": "pole", "to": "sprung" },
+        { "id": "wedge", "label": "Wedge the switch so it cannot go in", "needing": "trapwork", "to": "made_safe" }
+      ]
+    },
+    "arcane glyph": {
+      "seen": "The glyph is a word, written to be read by whoever passes it; reading it is what sets it off. Someone who knew the letters could unsay it.",
+      "ways": [
+        { "id": "unsay", "label": "Unsay the glyph, letter by letter", "needing": "lore", "to": "made_safe" },
+        { "id": "spring", "label": "Hold the pole's end across the glyph, looking away", "needing": "pole", "to": "sprung" }
+      ]
+    },
+    "magical rune": {
+      "seen": "The rune is laid in the floor where a foot must cross it. It is waiting for weight, or warmth; it cannot tell the one from the other.",
+      "ways": [
+        { "id": "unsay", "label": "Break the rune's lines with the right words", "needing": "lore", "to": "made_safe" },
+        { "id": "spring", "label": "Lay the pole's end on the rune from as far off as it allows", "needing": "pole", "to": "sprung" }
+      ]
+    },
+    "enchanted object": {
+      "seen": "The thing is set exactly where anyone going through must brush against it. Whatever is in it wants touching; it would go off for a stick as well as a hand.",
+      "ways": [
+        { "id": "spring", "label": "Knock it over with the pole, from well back", "needing": "pole", "to": "sprung" },
+        { "id": "unsay", "label": "Say over it what quiets such things", "needing": "lore", "to": "made_safe" }
+      ]
+    }
+  }
+}

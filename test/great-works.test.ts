@@ -57,7 +57,7 @@ describe('the greatest of the makers\' works', () => {
     await GreatWork.take(s, /^Equip a glossary of the old script on Bran$/);
     const galleries = sites.find(x => x.work?.plan === 'galleries')!;
     GeneratedWorld.put(s, `${galleries.id}_dressing`);
-    await GreatWork.take(s, /^Use a torch on Bran$/);
+    await GreatWork.take(s, /^Light a torch$/);
     await GreatWork.take(s, /^Read the tally on the wall/);
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', `region__history_${galleries.work!.art}`))).toBe(true);
   }, 60000);

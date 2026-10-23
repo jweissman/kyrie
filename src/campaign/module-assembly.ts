@@ -213,7 +213,8 @@ export class ModuleAssembly {
       .map(c => c.call.args[1]!));
     for (const kind of kinds) {
       const definition = ItemCatalog.get(kind);
-      for (const name of [...(definition.slot ? ['wearable'] : []), ...(definition.use ? ['consumable'] : [])]) {
+      for (const name of [...(definition.slot ? ['wearable'] : []), ...(definition.use ? ['consumable'] : []),
+        ...(/^Apply torchlit to self/.test(definition.use ?? '') ? ['lightsUp'] : [])]) {
         if (module.relations.some(r => r.name === name)
           && !module.initial.some(c => c.kind === 'assert' && c.call.name === name && c.call.args[0] === kind)) {
           module.initial.push({ kind: 'assert', call: ModuleWriter.call(name, kind) });

@@ -36,7 +36,7 @@ describe('advancement', () => {
     const s = await PlaySession.start('test/fixtures/march/silkholme.campaign.json', 'advance', NodeBundleSource.shared);
     for (const c of ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
       'take_item(brood__spare_torch,march__member_party_2)', 'go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)',
-      'use_item(brood__spare_torch,march__member_party_2)']) {
+      'light_item(brood__spare_torch)']) {
       await s.perform(c);
     }
     const burn = await s.perform('change_thing(brood__webs_burn)');

@@ -10,6 +10,7 @@ import { Searching } from '../rules/searching';
 import { Effects, type EffectContext } from '../effects';
 import { parseAbility, type ArenaAbility } from '../lang/parse';
 import type { CreatureStore } from '../creature-store';
+import type { Creature } from '../creature';
 import type { Entity } from '../lang/module';
 import type { CombatEvent } from '../model';
 
@@ -153,6 +154,9 @@ export class Items {
       return [{ type: 'learn', turn: 0, actor: target, target, detail: ability }];
     } finally { lease.release(); }
   }
+  private static holds(creatures: Creature[], id: string, status?: string): boolean {
+    return !status || creatures.some(c => c.id === id && c.state.conditions.some(s => s.id === status));
+  }
   private static consumable(kind: string, name: string, source: string): ArenaAbility {
     let ability = this.consumables.get(kind);
     if (!ability) { ability = parseAbility(`item-${kind}`, name, source); this.consumables.set(kind, ability); }
@@ -187,7 +191,9 @@ export class Items {
           .map(s => Effects.lasting(s) ? s : { ...s, clock: 'world-time' as const });
       });
       lease.commit(next);
-      return context.events;
+      // A condition that ended with the moment is not told as laid on.
+      return context.events.filter(e => (e.type !== 'status' || Items.holds(next, e.target, e.detail))
+        && (e.type !== 'save' || Items.holds(next, e.target, e.against)));
     } finally { lease.release(); }
   }
 }

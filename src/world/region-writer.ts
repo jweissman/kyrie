@@ -18,6 +18,7 @@ import { RegionFellows } from './region-fellows';
 import type { CalendarStart } from '../presentation/calendar';
 import { Communities } from './community/community';
 import { RegionGrowth } from './region-growth';
+import { RegionMarvels } from './region-marvels';
 import { CommunityWriter } from './community/community-writer';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements with an inn, a shrine and a shop, roads between them, and a track out to each site. Every
@@ -104,6 +105,7 @@ export class RegionWriter {
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
     lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionGrowth.lines(region),
+      ...RegionMarvels.lines(region),
       ...RegionBorders.lines(region),
       ...RegionSites.lines(region, taken),
       ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region),
