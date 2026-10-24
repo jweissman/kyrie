@@ -78,13 +78,15 @@ export class ModuleBundle {
   // Parsing is the dearest part of loading, and the same text (the world rules every module is written against, a
   // situation installed twice) is parsed again and again; each text is parsed once, and each caller gets its own copy.
   private static readonly parses = new Map<string, Module>();
+  // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+  // two of wren's works leave one chalice, declared in one file of the region and placed in another.
   private static parsed(file: SourceFile): Module {
     let module = this.parses.get(file.text);
     if (!module) {
       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
       if (this.parses.size > 400) { this.parses.clear(); }
       this.parses.set(file.text, module);
-    }
+    } else { LocalKinds.install(module.catalog); }
     return structuredClone(module);
   }
   // Several files of one module, joined: the first's identity, everything each declares. What each file declares

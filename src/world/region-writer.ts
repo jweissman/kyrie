@@ -95,10 +95,15 @@ export class RegionWriter {
   }
   // The same, as the files of one module: the country in parts small enough to be read one at a time, then who
   // comes into it in a file of its own, so that the country reads the same whoever comes (see ModuleBundle.warm).
+  // The country's own kinds of thing and creature come first, in the first file: a file is read on its own, and an
+  // item of one site may be written in a file before the one its kind was declared in (wren's chalice, two works'
+  // own, was placed in a file before its kind's; in the browser, with no kinds left over from another start, Begin
+  // failed on it).
   static files(region: Region, company: Company | null, taken: Record<string, string> = {}): Record<string, string> {
     const head = `Module ${this.id} ${JSON.stringify(region.name)} {`, parts: string[][] = [[]];
+    const body = this.body(region, taken), own = body.filter(l => RegionWriter.ownKind.test(l));
     let depth = 0, size = 0;
-    for (const line of this.body(region, taken)) {
+    for (const line of [...own, ...body.filter(l => !RegionWriter.ownKind.test(l))]) {
       if (depth === 0 && size > 40000) { parts.push([]); size = 0; }
       parts.at(-1)!.push(line); size += line.length;
       depth += RegionWriter.braces(line);
@@ -106,6 +111,8 @@ export class RegionWriter {
     return Object.fromEntries([...parts.map((lines, i) => [i ? `region-${i + 1}.kyr` : 'region.kyr',
       [head, ...lines, '}'].join('\n')]), ['company.kyr', [head, ...this.company(region, company), '}'].join('\n')]]);
   }
+  // A kind of thing or creature the country declares for itself (Kind delver_token "a Delver's token" is …).
+  private static readonly ownKind = /^\s*(Kind|Species) [A-Za-z_][\w]* "/;
   // How many blocks a line opens, less those it closes, outside its quoted text.
   private static braces(line: string): number {
     return [...line.replace(/"(?:[^"\\]|\\.)*"/g, '')].reduce((n, c) => n + (c === '{' ? 1 : c === '}' ? -1 : 0), 0);

@@ -9,6 +9,7 @@ import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser';
+import { LocalKinds } from '../canon/local-catalog';
 import { ModuleDeclarations } from './module-declarations';
 
 type Node = ohm.Node;
@@ -82,9 +83,11 @@ export class ModuleParser {
   // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again
   // and again; each caller gets its own copy of the remembered module.
   private static readonly parsed = new Map<string, Module>();
+  // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
+  // may have put other kinds in their place, and the files read after it place things of these kinds.
   static parse(text: string): Module {
     const known = ModuleParser.parsed.get(text);
-    if (known) { return structuredClone(known); }
+    if (known) { LocalKinds.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${match.message}`); }
     const module = ModuleParser.semantics(match).ast() as Module;

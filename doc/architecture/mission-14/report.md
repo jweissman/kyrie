@@ -734,6 +734,18 @@ of the same world takes 21 ms. Continue restores the compiled game. Persistence:
 whole first expedition replays from its record and resumes from a halfway save to the identical world
 (`test/long-expedition.test.ts`). Local kinds come back with a saved game.
 
+Measuring these again at the end found that wren could not be begun in the browser at all: Begin answered "Item
+w9_haulage_hall_after0_find names a kind missing from the item catalog: abbey_chalice", and the page stayed on the
+creation page. It was so at the start of this session too, and in node it never was. A country's own kinds (the
+Delvers' tokens, the brothers' chalice) are declared by its files as they are read, and its files are cut by size,
+not by site, so a thing of one kind can be placed in a file before the one that declares the kind. Two caches of
+parses (the parser's, and the bundle's) gave a file back without declaring its kinds again, and while the player
+reads the creation page the country's files are read and kept, and a start made ready meanwhile puts its own kinds
+in place of the country's. A parse given back from either cache now declares its kinds again, and a country's own
+kinds are written in its first file (`test/kept-parse-kinds.test.ts`, `test/region-files.test.ts`). No test began
+a generated world in the browser; one does now, wren and thorn after the page has been read
+(`test/world-browser.test.ts`).
+
 ## Orsino
 
 The behavioural audit of Orsino's dungeons against the deep sites is [`orsino-dungeon.md`](orsino-dungeon.md).
