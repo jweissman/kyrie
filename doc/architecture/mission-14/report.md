@@ -715,13 +715,15 @@ excursion. It ranks twelve findings. I repaired these:
 - **The father's knife stayed in his belt after it was taken**, and **the brother was to be told what he had knelt
   beside**: the knife is said while it is there, and one who knelt by the cart is not told of it
   (`test/goings-on.test.ts`, `test/origins.test.ts`).
+- **An artifact offered nothing but Take, though its kind is described** (its twelfth, in part): a thing to be had is
+  seen, looked at, in its kind's own words (`test/thing-described.test.ts`). The rest of that finding, repeated
+  plants and journeys and a finished family that leaves nothing to ask, is not done.
 
 Not done, with the review's own ranking: inquiries that lead nowhere playable (a pit with no entrance after a
 search, a listening room with nothing to listen to; 4); terms not quoted before a choice (a debt's extension, a sale;
 6); a hall's dweller met as a fight the moment its room is entered (7); combat telling that contradicts itself
 (burning and not burning; 8); an argument won by one example (9); a subject lost from focus by reading or tending
-(10); portraits and one name (Immeral) at odds with the company (11); an artifact that offers only Take though its
-description exists (12).
+(10); portraits and one name (Immeral) at odds with the company (11).
 
 ## Invariants
 

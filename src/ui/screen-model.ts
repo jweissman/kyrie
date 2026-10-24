@@ -267,9 +267,20 @@ export class ScreenModel {
     // Something growing is told by how it grows (its description), not by the name of its state.
     const note = p.condition && p.type !== 'scenery' ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
+    const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
-      ...(note ? { note } : {}), acts };
+      ...(note ? { note } : {}), ...(look ? { look } : {}), acts };
   }
+  // A thing to be had, seen for what it is in its kind's own words (the follow-up review found a singer's token that
+  // offered nothing but Take, though its kind is described); none where those words are only its name.
+  private static described(w: Campaign['world'], id: string, name: string): string | undefined {
+    const kind = w.module.relations.some(r => r.name === 'itemKind') ? w.one('itemKind', id) : undefined;
+    const told = kind ? ItemCatalog.definitions[kind] : undefined;
+    if (!told) { return undefined; }
+    return [name, told.name].some(n => ScreenModel.bare(n) === ScreenModel.bare(told.description)) ? undefined
+      : told.description;
+  }
+  private static bare(s: string): string { return s.toLowerCase().replace(/^(an?|the) /, ''); }
   // The painting for someone: their own likeness, else one for their work, background or role (see Likeness).
   private static portrait(w: Campaign['world'], id: string, member?: { backgroundId?: string; professionId?: string }):
     TargetRow['portrait'] {
