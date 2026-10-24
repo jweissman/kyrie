@@ -29,6 +29,12 @@ export class Progression {
     }
     return world.apply(changes);
   }
+  // What a module is called when it is seen through: its name, said once where its situation and what it was drawn
+  // as are called the same ("the drover who did not come home", not twice over).
+  private static called(name: string): string {
+    const parts = name.split(': '), one = new Set(parts.map(p => p.toLowerCase())).size === 1 ? parts[0]! : name;
+    return `${one.charAt(0).toLowerCase()}${one.slice(1)}`;
+  }
   // Experience for each module whose goal now holds for the first time; `seen` records when each was resolved.
   // A module resolved by the company's own action, or while the company is at one of its places, is worth its
   // experience; one resolved by others elsewhere (a shepherd burning out a nest while the company sleeps) is not.
@@ -44,7 +50,7 @@ export class Progression {
           const from = award.events.length;
           FieldUse.grant(award.store, award.party, m.experience, award.events);
           for (const e of award.events.slice(from)) {
-            if (e.type === 'gain') { e.detail = `experience: ${m.name.charAt(0).toLowerCase()}${m.name.slice(1)}, seen through`; }
+            if (e.type === 'gain') { e.detail = `experience: ${this.called(m.name)}, seen through`; }
           }
         }
       }

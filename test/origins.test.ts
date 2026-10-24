@@ -75,6 +75,19 @@ describe('an origin', () => {
     expect(told.response).toContain('If you are going, I am coming with you');
     expect(s.campaign.world.test(ModuleWriter.call('willing', 'drover__son', 'party'))).toBe(true);
   }, 60000);
+  // Found playing cov11 as the drover's child: telling the mother was "Ian does not sit down", by the name the
+  // company was never told her by, and what it was worth was named twice over.
+  it('has the protagonist tell their mother as their mother, and says once what was seen through', async () => {
+    const s = await Opening.start('kin');
+    await Opening.take(s, /_green\)$/);
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'drover__found_cart') }]));
+    await Opening.take(s, /_taproom\)$/);
+    const told = await Opening.take(s, /^Tell your mother what you found on the road$/);
+    expect(told.response).toStartWith('Your mother does not sit down.');
+    expect(told.combat.filter(e => e.type === 'gain').map(e => e.type === 'gain' && e.detail))
+      .toContain('experience: the drover who did not come home, seen through');
+  }, 60000);
   it('holds a debt that comes due', async () => {
     const s = await Opening.start('debt');
     expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('You owe Mik at Murkstede 30 coin, by market day');

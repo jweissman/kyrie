@@ -34,12 +34,12 @@ Module drover "The drover who did not come home" {
   Rule son_goes_in when dark() and at(son, green) and not willing(son, party) { Assert at(son, taproom). }
   Rule son_comes_out when not dark() and at(son, taproom) and not willing(son, party) { Assert at(son, green). }
   Observe son_kin_ready near son when kin(party, son) and told(son) and not knows(party, found_cart) "Your brother is waiting by the rail with the spear, ready when you are.".
-  Observe wife_kin_told near wife when kin(party, wife) and told(wife) "Your mother is at the hearth. She looks up when you come in, and goes back to her work.".
+  Observe wife_kin_told near wife when kin(party, wife) and told(wife) "Your mother is at the hearth, at her work, and looks up now and then at the door.".
   Topic wife_where with wife "Ask your mother where he was going" when kin(actor, wife) and not told(wife) once {
-    Says "'Out on {road}, with the salt for the reed-cutters,' says {wife}, and keeps her eyes on the pot. 'Three days there and back, the way he goes. The dog came home on the fourth, lame in the off foot.' She wipes her hands, though they are dry. 'Nobody will go and look. I am glad you came.'".
+    Says "'Out on {road}, with the salt for the reed-cutters,' says your mother, and keeps her eyes on the pot. 'Three days there and back, the way he goes. The dog came home on the fourth, lame in the off foot.' She wipes her hands, though they are dry. 'Nobody will go and look. I am glad you came.'".
   }
   Topic wife_told_kin with wife "Tell your mother what you found on the road" when knows(actor, found_cart) and kin(actor, wife) and not told(wife) once {
-    Says "{wife} does not sit down. She takes your face in her hands and looks at it for a long time. 'I knew,' she says. 'The dog knew.' Then she goes back to the pot, because there are people to feed.".
+    Says "Your mother does not sit down. She takes your face in her hands and looks at it for a long time. 'I knew,' she says. 'The dog knew.' Then she goes back to the pot, because there are people to feed.".
     On discuss { Assert told(wife). }
   }
   Topic son_plan with son "Ask {son} what he means to do" when kin(actor, son) and not knows(actor, found_cart) and not told(son) once {
