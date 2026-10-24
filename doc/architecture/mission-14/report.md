@@ -592,12 +592,24 @@ Later the same day another agent reviewed the code read-only at `422a4c8`:
 [`arch-review/kyrie-architecture-review-422a4c8.md`](arch-review/kyrie-architecture-review-422a4c8.md). It found
 the kernel sound (an immutable fact store, checkpoint and rollback round every command, identity-keyed randomness,
 replay by transcript; a fresh replay reproduced a 40-command game byte for byte) and two independent adventures
-built in Kyr with no engine changes. Its fifteen risks are for the next mission, and I have not taken on the
-structural ones. I repaired these, which were mine or small:
+built in Kyr with no engine changes. Its fifteen risks are for the next mission; of the structural ones I have
+taken on only the first two (F-01 and F-02). I repaired these:
 - **My `guest` broke Thrume.** The homecoming's `Relation guest(group, group)` in the shared rules made the
-  independent Thrume adventure's own `guest` a load error. It is `onTheHouse` now. The cure is the review's F-02:
-  a module's own names should shadow the shared rules', which is not done. House That Grows still collides on
-  `confided` and `light_lamp`.
+  independent Thrume adventure's own `guest` a load error. It is `onTheHouse` now, and the cure is below (F-02).
+- **Modules were not protected from the shared rules growing** (F-02): a name the shared rules came to have that a
+  module already had (`guest`, `confided`, `light_lamp`) made the module a load error, so every addition to the
+  shared rules could break every adventure written against them. A module's own relation, measure, query or action
+  of a shared name is now its own within it (`src/campaign/module-shadow.ts`): wherever its author wrote the name it
+  becomes the module's (`own_confided`, then scoped like any of its names), while what the language's own
+  constructs say (a company at a place, a thing in a state) keeps the shared meaning; lint warns of each. A probe
+  with its own `confided`, `fellow` and `light_lamp` plays by its own; a module declaring every one of the shared
+  rules' relations and measures for itself still loads and plays (`test/module-shadow.test.ts`). Both independent
+  adventures, read from their branches against main's rules (in scratch, not merged): Thrume lints clean, and 5 of
+  its own 6 tests pass; House That Grows, with its three catalogue items declared as its own kinds (the catalogue is
+  still global, F-08), lints clean with two warnings, its `confided` and its `light_lamp`, and 15 of its own 17
+  tests pass. What fails in both is the game moving under them, not their names: a torch is lit as "Light a torch"
+  among the company's own choices, not from the torch in the pack, and an Annex map test. A rules version for
+  modules, which the review also proposes, is not done.
 - **The shrine's argument was the mine's everywhere** (F-07): "he went down for the ore", "take the noon with you,
   and the brothers' lamp", at a barrow, the cisterns and the singing hall alike. It speaks of each site's own bane
   and name now (`test/deep-argument.test.ts`). It is still authored in TypeScript, not Kyr.
@@ -626,8 +638,7 @@ structural ones. I repaired these, which were mine or small:
   them failed. A wonder whose power cannot be run is met and gives nothing: two of Orsino's 43 (arcane symbols and
   unearthly silence, both a focus).
 
-Not done, and the review is right that they matter: modules are not protected from the shared rules growing
-(F-02); prose can still name what has moved (F-03, now checked only where it was found); the company's knowledge is
+Not done, and the review is right that they matter: prose can still name what has moved (F-03, now checked only where it was found); the company's knowledge is
 one level (F-05: the reading aspect above is a step, not the split it proposes); local kinds are installed in a
 global catalogue (F-08); Deem and the language tables are unpinned (F-11).
 

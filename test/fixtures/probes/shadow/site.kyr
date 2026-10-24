@@ -1,0 +1,17 @@
+Module shadow "An adventure with names of its own" {
+  Place field "a field" is wilderness.
+  Place barley "the barley" is room within field at 0, 0.
+  Company party "You" of 1 at barley.
+  Thing lamp "a lamp on a pole" at barley is scenery {
+    State dark "A lamp hangs from a pole over the barley, dark.".
+    State lit "A lamp burns on its pole over the barley.".
+  }
+  // Names the shared rules also have, meaning something else here.
+  Relation confided(group). Relation fellow(group).
+  Initially Assert fellow(party).
+  Action light_lamp(actor: group) "Light the lamp on the pole" {
+    Requires company(actor) and at(actor, barley) and state(lamp, dark) and fellow(actor).
+    On success { Retract state(lamp, dark). Assert state(lamp, lit). Assert confided(actor). }
+  }
+  Observe told at barley when confided(party) "The lamp is lit, and the barley knows you now.".
+}

@@ -121,6 +121,7 @@ export class ModuleNamespace {
         target: this.predicate(g.target) })) }));
     const campaign: CampaignDefinition = { schemas: module.actions, actors, ...(extensions ? { extensions } : {}),
       ...(definition.conflicts ? { conflicts: definition.conflicts.map(c => `${this.bindings.id}: ${c}`) } : {}),
+      ...(definition.shadows ? { shadows: definition.shadows.map(c => `${this.bindings.id}: ${c}`) } : {}),
       creatures: definition.creatures.map(c => ({ ...c, id: `${this.bindings.id}__${c.id}`,
         seed: `${this.bindings.seed}:creature:${c.id}` })),
       pressures: definition.pressures.map(p => ({ ...p, id: this.entities[p.id]!, measure: this.call(p.measure) })),

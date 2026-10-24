@@ -27,6 +27,10 @@ export class CampaignLint {
   identity() {
     for (const c of this.session.campaign.save().definition?.conflicts ?? []) { this.add('error', 'identity', c); }
   }
+  // A name a module has that the shared rules have too is the module's own within it: worth knowing, not an error.
+  shadows() {
+    for (const s of this.session.campaign.save().definition?.shadows ?? []) { this.add('warning', 'shadow', s); }
+  }
   // A hazard's effect is checked as it will be struck with: a condition that is no condition, or a damage type that
   // is none ("fyre"), is an error here, not when it strikes.
   hazards() {

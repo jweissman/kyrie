@@ -128,7 +128,9 @@ export class ModuleInstallations {
     const schemas = this.union(prior?.schemas ?? [], addition.schemas!, a => a.id);
     const module = this.joined(base?.module, incoming.module, draft, schemas);
     const conflicts = [...(prior?.conflicts ?? []), ...(addition.conflicts ?? [])];
+    const shadows = [...(prior?.shadows ?? []), ...(addition.shadows ?? [])];
     const definition: CampaignDefinition = { schemas, ...(conflicts.length ? { conflicts } : {}),
+      ...(shadows.length ? { shadows } : {}),
       installations: [...(prior?.installations ?? []), ModuleNamespace.record(draft, elapsed)],
       actors: this.extended([...(prior?.actors ?? []), ...addition.actors], addition.extensions ?? []),
       creatures: [...(prior?.creatures ?? []), ...addition.creatures],

@@ -69,7 +69,7 @@ export class KyrLint {
   // A source of its own for a process that reads files that change (the preview), since loads are kept per source.
   static async campaign(path: string, source: BundleSource = NodeBundleSource.shared): Promise<Finding[]> {
     const lint = new CampaignLint(path, await PlaySession.start(path, 'lint', source));
-    lint.identity(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
+    lint.identity(); lint.shadows(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
     return lint.findings;
   }

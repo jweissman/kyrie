@@ -10,6 +10,7 @@ import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
 import type { Module } from '../lang/module';
+import { ModuleShadow } from './module-shadow';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
 
 export interface BundleRequest {
@@ -181,12 +182,17 @@ export class ModuleBundle {
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
     const combined = this.merge(files.slice(situationPaths.length).map(f => this.parsed(f)));
-    const composed = this.merge(files.slice(0, situationPaths.length).map(f => this.parsed(f)));
+    // What the module names that the shared rules name too is its own, within it (see ModuleShadow).
+    const own = files.slice(0, situationPaths.length), parsed = this.merge(own.map(f => this.parsed(f)));
+    const shadowed = ModuleShadow.shared(parsed, combined), told = ModuleShadow.told(shadowed);
+    const composed = ModuleShadow.apart(shadowed.functions.length
+      ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }))) : parsed, shadowed);
     // A module read before (and kept parsed) puts its own kinds back for the campaign being assembled.
     LocalKinds.install(combined.catalog); LocalKinds.install(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
       const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);
+      if (told.length) { instance.campaign = { ...instance.campaign!, shadows: told }; }
       imports = this.imports(manifest, request, options.installed, instance.module);
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
         imports, globals: manifest.globals ?? [], exports: manifest.exports ?? {} }).draft();
