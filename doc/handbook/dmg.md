@@ -1366,7 +1366,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 29 | 2 | 22 | 0 | 6 |
+| 8 | 29 | 2 | 23 | 0 | 6 |
 
 #### scenery
 
@@ -1433,6 +1433,12 @@ Who holds the key to what bars a way, and those who serve them, go through it as
 *Kyr · query(t: entity)* · `rule:world_passages.harmless`
 
 Something that can do harm, in a state where it does none: a trap gone off, or one made safe.
+
+#### undone
+
+*Kyr · query(t: entity)* · `rule:world_passages.undone`
+
+Something that can bar a way or shut something in, in a state where it does neither: a seal broken, a lid off.
 
 #### onHiddenWay
 
@@ -1640,9 +1646,9 @@ They come with you from now on: they fight beside you, and what they can do, you
 - Takes: 10 minutes
 - Costs: 1
 
-Someone who would come with you, if you led them, can be told not to wait: they go their own way.
+Someone who would come with you, if you led them, can be told not to wait: they go their own way. (A goat that would follow is not told anything.)
 
-> Needs: able(actor); able(companion); at(actor, site); at(companion, site); acceptsEscort(companion, actor); not (following(companion, actor)); not (dismissed(companion, actor)); not (hobbled(companion))
+> Needs: able(actor); able(companion); at(actor, site); at(companion, site); talks(companion); acceptsEscort(companion, actor); not (following(companion, actor)); not (dismissed(companion, actor)); not (hobbled(companion))
 
 > Then: Assert dismissed(companion, actor).
 
@@ -1700,7 +1706,7 @@ Go over and speak to them.
 - Takes: 10 minutes
 - Costs: 1
 
-Anything that can be handled can be tried, in the ways its look suits (and any its author adds); what it does when tried is the author's (an observation, an event, a rule on tried). A try that finds nothing says so; offering it never reveals anything.
+Anything that can be handled can be tried, in the ways its look suits (and any its author adds); what it does when tried is the author's (an observation, an event, a rule on tried). A try that finds nothing says so; offering it never reveals anything. Something already undone (a trap gone off, a seal broken, a lid off) is not prodded, pried at, pushed or listened at.
 
 > Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, looking); not (tried(target, looking))
 
@@ -1714,7 +1720,7 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prodding); suits(target, prodding); not (tried(target, prodding)); not (harmless(target))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prodding); suits(target, prodding); not (tried(target, prodding)); not (harmless(target)); not (undone(target))
 
 > Then: Assert tried(target, prodding).
 
@@ -1726,7 +1732,7 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prying); suits(target, prying); not (tried(target, prying))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prying); suits(target, prying); not (tried(target, prying)); not (undone(target))
 
 > Then: Assert tried(target, prying).
 
@@ -1750,7 +1756,7 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, pushing); not (tried(target, pushing))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, pushing); not (tried(target, pushing)); not (undone(target))
 
 > Then: Assert tried(target, pushing).
 
@@ -1762,7 +1768,7 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, listening); not (tried(target, listening))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, listening); not (tried(target, listening)); not (undone(target))
 
 > Then: Assert tried(target, listening).
 

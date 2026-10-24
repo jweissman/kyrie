@@ -48,6 +48,19 @@ describe('as the company would tell it', () => {
     expect(Thorn.seen(ranger)).toContain('The stone at the mouth of the way to the great wheel is slick');
     expect(Thorn.seen(warrior)).not.toContain('Something lies in wait in there');
   }, 60000);
+  it('does not offer to try what is already undone, nor to look at what was gathered, nor to send a goat off', async () => {
+    const s = await Thorn.start('warrior');
+    Thorn.put(s, 'w8_galleries_deep_gate');
+    const tear = PlayerView.choices(s.campaign).find(c => c.choice.name === 'Tear the bronze plate from the gate')!;
+    await s.perform(tear.choice.id);
+    expect(Thorn.names(s).filter(n => /^(Push and pull at|Listen at|Pry at) the seal/.test(n))).toEqual([]);
+    Thorn.put(s, 'w8_gatehouse_gate_hall');
+    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Gather up the coins')!.choice.id);
+    expect(Thorn.names(s)).not.toContain('Look closely at scattered coins');
+    Thorn.put(s, 's1_s2_way');
+    expect(Thorn.names(s).some(n => /^Ask Gruff to come with you/.test(n))).toBe(true);
+    expect(Thorn.names(s).some(n => /^Tell Gruff not to wait/.test(n))).toBe(false);
+  }, 60000);
   it('says heather, comfrey and wine as they are said, and a dandelion as one', () => {
     expect(['Heather', 'Comfrey', 'Kingsfoil', 'Wine', 'Dandelion'].map(n => ItemNames.called(n)))
       .toEqual(['heather', 'comfrey', 'kingsfoil', 'wine', 'a dandelion']);

@@ -6,20 +6,23 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 
-// The principal demonstration, kept: six expeditions into the Delvers' mine in the world of seed wren, played only by
-// the choices on the page (test/fixtures/descent/wren.choices, one choice's words a line, matched as
-// test/long-expedition matches them), from the road into Gothgiba to the heart of the vein brought up into daylight
-// eight days later. It takes some minutes, so it is opt-in: KYRIE_LONG=1. A change that moves what the world offers
-// (a new trap, a fight that goes otherwise) will stop it where the record no longer holds; the record is then played
-// on from there.
+// The principal demonstration, kept, twice over: deep sites played to their hearts by the page's own choices
+// (test/fixtures/descent/<seed>.choices, one choice's words a line, matched as test/long-expedition matches them).
+// In wren, six expeditions into the Delvers' mine by a warrior, from the road into Gothgiba to the heart of the vein
+// brought up into daylight eight days later. In thorn, the Water-Wardens' cisterns by a ranger and a pilgrim, with a
+// soldier fetched from Meósdael to tear the seal off the deep gate, to the reading-glass brought up on the fourth
+// evening. They take some minutes, so they are opt-in: KYRIE_LONG=1. A change that moves what the world offers (a new
+// trap, a fight that goes otherwise) will stop one where its record no longer holds; the record is then played on
+// from there.
 class Descent {
-  static readonly choices = readFileSync(new URL('./fixtures/descent/wren.choices', import.meta.url), 'utf8')
-    .split('\n').filter(Boolean);
-  static async play() {
-    const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const s = await PlaySession.start(w.path, 'wren', w.source);
-    for (const [i, step] of this.choices.entries()) {
+  static choices(seed: string): string[] {
+    return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);
+  }
+  static async play(seed: string, classId: string) {
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId }] });
+    const s = await PlaySession.start(w.path, seed, w.source);
+    for (const [i, step] of this.choices(seed).entries()) {
       const re = new RegExp(step, 'i'), c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name));
       const offered = () => PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ');
       if (!c) { throw new Error(`Choice ${i + 1}, ${step}, is not offered: ${offered()}`); }
@@ -29,10 +32,15 @@ class Descent {
   }
 }
 
-describe.skipIf(!process.env.KYRIE_LONG)('the descent to the heart of the vein, played through', () => {
-  it('brings the heart up into daylight, by the page\'s own choices alone', async () => {
-    const s = await Descent.play();
+describe.skipIf(!process.env.KYRIE_LONG)('deep sites played to their hearts', () => {
+  it('brings the heart of the vein up into daylight, by the page\'s own choices alone', async () => {
+    const s = await Descent.play('wren', 'warrior');
     expect(s.campaign.world.test(ModuleWriter.call('region__w9_raised'))).toBe(true);
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Wenna', 'Thoradin', 'Veit']);
+  }, 900000);
+  it('brings the Wardens\' reading-glass up out of the cisterns, by a second company in a second world', async () => {
+    const s = await Descent.play('thorn', 'ranger');
+    expect(s.campaign.world.test(ModuleWriter.call('region__w8_raised'))).toBe(true);
+    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Wenna', 'Arlen', 'Corrin']);
   }, 900000);
 });

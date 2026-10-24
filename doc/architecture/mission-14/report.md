@@ -196,10 +196,20 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   - turned the springs down the race, and came back to find the cistern pumped dry and the room taken by the
     drowned, who had moved in meanwhile;
   - went past a rune that hurt Arlen badly, as the choice said it would, and fought two more bands of the drowned;
-  - reached the sealed gate of the deep cistern. It wants brawn or a crowbar, and lore for the words cut round it.
-    This company has neither, so it is a walk to find someone who has.
+  - reached the sealed gate of the deep cistern. It wants brawn or a crowbar, and lore for the words cut round it,
+    and the company had neither;
+  - walked a day for a soldier's strength, by road to Meósdael and back. Corrin, a scholar who fights, tore the
+    bronze plate from the gate;
+  - fought the cistern-water on the landing and the drowned wardens in the hall, and sprang the pressure plate and
+    the glyph with the pole;
+  - took the Wardens' oath-tablet from the archive, which reads the old script. Read aloud at the still water, it
+    drove the keeper back into the source;
+  - took the reading-glass from its pillar, opened a riddle-casket ("tough as nails yet cannot endure the sun":
+    ice) for a jeweled torc, and brought the glass up into the daylight at the doorway, on the fourth evening.
 
-  Arlen rose to level 2 and Wenna will rise at the next rest. Faults found and fixed:
+  The cisterns are the second deep site played to its heart, in a second world, by a different company: a ranger
+  and a pilgrim at level 2 and a soldier-scholar at level 1, who never fought the keeper. The brothers of Reodweard
+  were two levels behind. Faults found and fixed:
   - the widow on her step was "the woman in black" on the page and in one choice, and "Talk to Mark" in another. She
     is the woman in black in all of them now;
   - a drover resting at the inn gave news of the town he sat in, and had his cattle "penned for the night" at eight
@@ -213,7 +223,10 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   - news of a boy gone out after his father, in another town, reached the company in the cisterns and woke it from
     its rest; it is told only on that town's green;
   - "a heather" and "a comfrey" at the apothecary are heather and comfrey;
-  - one choice that wanted brawn or a crowbar was listed twice, once for each.
+  - one choice that wanted brawn or a crowbar was listed twice, once for each;
+  - the torn-off seal was still offered to be pushed, pried at and listened at, and gathered coins to be looked at.
+    Something undone (a trap gone off, a seal broken, a lid off) is not tried, and a purse gathered is done with;
+  - a goat that had got loose could be told "not to wait for you".
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
@@ -412,10 +425,10 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 
 ## What I would do next
 
-1. Play more of it, and to the ends. The barrow and the cisterns have each been played from the first page, and each
-   found a dozen faults that no test had, but neither has been played to its heart. a1's company died in the
-   barrow's halls on the fifth day. Thorn's stands at the cisterns' sealed gate, wanting someone with brawn or a
-   crowbar and someone who reads the old script. Things to look at from this play:
+1. Play more of it. The barrow and the cisterns have each been played from the first page, and each found a dozen
+   faults that no test had. a1's company died in the barrow's halls on the fifth day. Thorn's brought the Wardens'
+   reading-glass up on the fourth. The mine with another company, and the Stone-Singers' hall, are still to play.
+   Things to look at from this play:
    - a level-1 company has little room for a bad fight; three of four were felled by one elite;
    - a recruit or a tool (a pole, a crowbar) is often a day's walk away;
    - the wild trails, now between neighbours, are still two to five hours a leg;

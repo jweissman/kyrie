@@ -54,10 +54,11 @@ Module world_people "Company and intention" {
       and acceptsEscort(companion, actor) and following(companion, actor) and not hobbled(companion).
     On success { Retract following(companion, actor). Assert dismissed(companion, actor). }
   }
-  // Someone who would come with you, if you led them, can be told not to wait: they go their own way.
+  // Someone who would come with you, if you led them, can be told not to wait: they go their own way. (A goat that
+  // would follow is not told anything.)
   Action send_off(actor: group, companion: group, site: place) "Tell {companion} not to wait for you" {
     Time 1 minute.
-    Requires able(actor) and able(companion) and at(actor, site) and at(companion, site)
+    Requires able(actor) and able(companion) and at(actor, site) and at(companion, site) and talks(companion)
       and acceptsEscort(companion, actor) and not following(companion, actor) and not dismissed(companion, actor)
       and not hobbled(companion).
     On success { Assert dismissed(companion, actor). }

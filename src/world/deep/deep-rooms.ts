@@ -81,7 +81,8 @@ export class DeepRooms {
       '    State gathered "Nothing is left in the dust but the shape of a purse.".',
       '    Change gather "Gather up the coins" from lying to gathered.', '  }', `  Relation ${id}_counted().`,
       `  Rule ${id}_counted when state(${id}, gathered) and not ${id}_counted() says ${q(`${coin} coin, all told, most of it old and some of it good.`)} {`,
-      `    Assert ${id}_counted(). Increase quantity(party, gold) by ${coin}. }`];
+      // Gathered, there is nothing left to look at closely.
+      `    Assert ${id}_counted(). Assert tried(${id}, looking). Increase quantity(party, gold) by ${coin}. }`];
   }
   private static camp(room: string, at: { level: number; purpose: DeepPurpose }): string[] {
     const q = this.q, camp = at.purpose.camp, journal = camp.journal[Math.min(at.level, camp.journal.length - 1)]!;
