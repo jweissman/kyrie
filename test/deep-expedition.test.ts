@@ -97,8 +97,8 @@ describe('a deep site, from the inn', () => {
       /^Take the passage to the adit mouth$/, /^Take the way in to Obscurusport$/, /^Wait until dark$/,
       /^Wait until first light$/, /^Take the way in to the adit mouth$/, /^Take the passage to the adit$/,
       /^Take the gallery to the crossing$/]);
-    // The torch burned out in the night: a new one, to see what is here now.
-    await Delve.take(s, /^Light a torch$/);
+    // The torch did not burn in the night, out under the sky: it shows what is here now.
+    expect(Delve.names(s)).not.toContain('Light a torch');
     expect(Delve.page(s)).toContain('The dead you left here have been dragged into a corner');
     const newcomers = s.campaign.module.entities.find(e => e.id.endsWith('_adit_newcomers'))!.id;
     expect(s.campaign.world.one('at', newcomers)).toBe(s.campaign.world.one('at', 'party'));

@@ -2,7 +2,8 @@ Module belongings "What the company carries" {
   Kind item. Kind itemkind.
   Relation itemKind(item, itemkind). Relation ownedItem(item, member). Relation wearing(item, member).
   Relation forSale(item). Relation soldBy(item, group) exclusive. Relation wearable(itemkind). Relation consumable(itemkind).
-  // What could be used on a member to any end: a remedy for a hurt or an ill they have, or a draught for what it does.
+  // What could be used on a member to any end: a remedy for a hurt or an ill they have, a light while they carry none
+  // burning, or a draught for what it does.
   Relation relieves(member, itemkind).
   // What is used by lighting it, on whoever carries it (a torch, a candle); what burns in something else, and what
   // it burns in (lamp oil, in a lantern).
@@ -105,7 +106,7 @@ Module belongings "What the company carries" {
   Action light_item(actor: group, dose: item, form: itemkind, carrier: member) "Light {dose}" {
     Time 1 minute.
     Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(dose, carrier)
-      and itemKind(dose, form) and lightsUp(form).
+      and itemKind(dose, form) and lightsUp(form) and relieves(carrier, form).
     Resolve consume(dose, carrier, carrier).
     Result "{carrier} lights {dose}.".
   }
@@ -113,7 +114,8 @@ Module belongings "What the company carries" {
   Action light_lamp(actor: group, dose: item, form: itemkind, vessel: item, shape: itemkind, carrier: member) "Fill {vessel} from {dose} and light it" {
     Time 2 minutes.
     Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(vessel, carrier)
-      and itemKind(vessel, shape) and burns(shape, form) and ownedItem(dose, carrier) and itemKind(dose, form).
+      and itemKind(vessel, shape) and burns(shape, form) and ownedItem(dose, carrier) and itemKind(dose, form)
+      and relieves(carrier, form).
     Resolve consume(dose, carrier, carrier).
     Result "{carrier} fills {vessel} and lights it.".
   }

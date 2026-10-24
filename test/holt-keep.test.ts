@@ -94,7 +94,7 @@ describe('Holt keep', () => {
     const s = await Keep.start();
     await Keep.walk(s, [...Keep.crypt, 'examine(tower__worn_steps)', 'go(tower__crypt_steps,tower__study)',
       'take_item(tower__key,march__member_party_2)', 'go(tower__crypt_steps,tower__crypt)', 'go(tower__cell_door,tower__cell)',
-      'light_item(march__nera_torch_2)', 'change_thing(tower__maren_lay)']);
+      'change_thing(tower__maren_lay)']);
     expect([Keep.fact(s, 'tower__ended', 'tower__necromancer'), Keep.fact(s, 'state', 'tower__risen', 'tower__fallen')])
       .toEqual([true, true]);
   }, 60000);

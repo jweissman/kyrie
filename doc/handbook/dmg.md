@@ -76,7 +76,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 *Kyr · relation(member, itemkind)* · `rule:belongings.relieves`
 
-What could be used on a member to any end: a remedy for a hurt or an ill they have, or a draught for what it does.
+What could be used on a member to any end: a remedy for a hurt or an ill they have, a light while they carry none burning, or a draught for what it does.
 
 #### lightsUp, burns, fuel
 
@@ -270,7 +270,7 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(dose, carrier); itemKind(dose, form); lightsUp(form)
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(dose, carrier); itemKind(dose, form); lightsUp(form); relieves(carrier, form)
 
 > Then: nothing changes
 
@@ -284,7 +284,7 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 
 A lantern is filled and lit: the flask of oil is spent, and burns in it as long as the flask says.
 
-> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(vessel, carrier); itemKind(vessel, shape); burns(shape, form); ownedItem(dose, carrier); itemKind(dose, form)
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(vessel, carrier); itemKind(vessel, shape); burns(shape, form); ownedItem(dose, carrier); itemKind(dose, form); relieves(carrier, form)
 
 > Then: nothing changes
 

@@ -204,11 +204,11 @@ export class CreatureFacts {
     return changes;
   }
   // Whether an ability would do anything for someone: heal a hurt, lift something they have, or lay on something
-  // they have not.
+  // they have not, or renew it once half of it is spent (a lantern topped up before going down).
   private static helps(a: ArenaAbility, c: Creature): boolean {
     return a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
       || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
-      || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status)));
+      || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status && s.remaining * 2 > e.duration)));
   }
   // A kind of thing used up on someone relieves them if it would help them; one that is no remedy (it does what it
   // does, whoever takes it) always does.
