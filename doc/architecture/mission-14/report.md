@@ -6,8 +6,9 @@ thing works, it says what was seen; where it does not, or was not done, it says 
 Mission 14 asked for a game worth playing for hours: above all a generated, persistent, multilevel adventure complex
 that ordinary play finds and that sustains several expeditions (Proof A), and three proofs beside it: an argument
 with consequences (B), a historical landscape with material consequences (C), and an independently authored
-scenario (D). Twenty commits from `637642e`, 212 files, about 6,300 lines added. The suite is 551 tests (538 pass,
-13 skipped browser tests, which pass when run with `KYRIE_BROWSER=1`: 7 of 7).
+scenario (D). Fifty-three commits from `637642e`, 235 files, about 9,900 lines added. The suite is 607 tests: 589
+pass and 18 are opt-in. Those are the browser tests (`KYRIE_BROWSER=1`: 8 of 8 pass), the four kept descents
+(`KYRIE_LONG=1`: 4 of 4), and the Orsino checks that need a pinned Orsino checkout.
 
 No one but me has played this. Every play described here was mine, through the same choices a player has: the text
 harness that plays by the words on the page, and the browser.
@@ -248,6 +249,40 @@ was worth as much as the descent, and each was fixed and pinned by a test:
     whatever a town's heart is called, and the dispute is "here" when you are at it;
   - "the settled pivot-door" stayed settled once it swung; it is the pivot-door;
   - a notebook read was still offered to be looked at closely.
+- a1 again, with a warrior, to the barrow's heart: the fourth kept descent, `test/fixtures/descent/a1.choices`
+  (132 choices). Cyril the pedlar joined at Murkstede again. There were two expeditions:
+  - the first afternoon: the outer barrow's grave-goods, and Wenna's brawn on the jammed counterweight, which frees
+    the portal stone. Home to Murkstede, the goods sold at Mik's, a glossary of the old script bought at the shrine,
+    and a bed at the Lucky Phoenix;
+  - the second day: by road to Faennslím, the lord's toll paid at the bridge, and at Wǽttún a pole, a lantern and
+    oil, bandages, and Aghavan, a scholar. A bench by Tazala's fire for the night;
+  - the third day: back through Eikwudu and in. The switch on the stair was looked at closely, then pushed in with
+    the pole's end. Ghouls were killed in the long gallery and the restless dead in the embalmers' room, and the jar
+    of noonlight taken. At the king's door the words were read with the glossary ("HE CANNOT ABIDE THE DAY. THE
+    EMBALMERS KEPT THE DAY IN A JAR"), the casket's riddle answered (the stamp) for a jade idol, and the seal-stone
+    broken. Carried in before them, the jar drove the king back into the deep grave. The company came out with the
+    crown at ten at night, waited on the forecourt, and the crown was brought into daylight at six on the fourth
+    morning.
+
+  The cleric's company died in the ossuary and the mourners' hall. This one was warned off both by what was heard
+  from them, went round, and was never felled. Two fights took 2 of Aghavan's 5 hit points. Wenna and Cyril ended at
+  954 experience, 46 short of a second level, which is taken under a roof. The treasury and the deep grave were left
+  unvisited. This is the right shape: the first company to go in blind died; the second was ready, and what it
+  readied with came from the world (the counterweight wants a strong arm, the stair a pole, the words a glossary
+  sold one town off, the king the embalmers' own jar). It is the easiest of the four after d4's. Faults found and
+  fixed:
+  - turning off the road into the wood just past the reeve's bar, by a path that starts at the bridge, outlawed the
+    company for running the toll, and the reeve sent riders after it. Passages now say which ways are road (a
+    road, a bridge, a ford) and which way a company last went by. The toll is run only by going on along the road
+    from the bar by a way the company did not come by, and only once it gets there (`test/toll.test.ts`);
+  - "The toll-reeve are against you now": voice lines are written for they ("{Actor} [are|is]"). A verb after a
+    name now agrees with one person or a band of many, and one after "they" agrees with the pronoun;
+  - the light-box over the barrow's door laid "a thread of grey daylight" along the passage at ten at night. By
+    night it is the night air.
+
+  Still open from this play: the forecourt counts as indoors, being part of the barrow's first level, so the
+  company could not make camp there and was weary at first light. A camp is allowed one step out, at Nocstumul.
+  And "Take the king's door" names no destination when the way and the room beyond it share a name.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
@@ -447,9 +482,10 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 ## What I would do next
 
 1. Play more of it. The barrow and the cisterns have each been played from the first page, and each found a dozen
-   faults that no test had. a1's company died in the barrow's halls on the fifth day. Thorn's brought the Wardens'
-   reading-glass up on the fourth, and d4's the Stone-Singers' tuning-stone on the second, too easily. The mine with
-   another company, and the barrow to its end, are still to play.
+   faults that no test had. a1's first company died in the barrow's halls on the fifth day; its second, a warrior's,
+   brought the crown out on the fourth morning. Thorn's brought the Wardens' reading-glass up on the fourth, and
+   d4's the Stone-Singers' tuning-stone on the second, too easily. The mine with another company is still to play,
+   and the barrow's treasury and deep grave are still unvisited.
    Things to look at from this play:
    - a level-1 company has little room for a bad fight; three of four were felled by one elite;
    - a recruit or a tool (a pole, a crowbar) is often a day's walk away;

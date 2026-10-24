@@ -198,8 +198,9 @@
       "readLabel": "Read what is cut round the king's door",
       "read": "{oldup}. HERE THE KING KEEPS THE BOUNDS. LET HIM KEEP THEM. {FATE}",
       "told": "Read aloud, the old words say plainly enough who is behind the door, and what he cannot abide." },
-    "vent": { "found": "Where the thread of daylight comes from: the light-box over the door, a slot of stones a body could squeeze through, out to the top of the mound.",
+    "vent": { "found": "Where the light and the air come from: the light-box over the door, a slot of stones a body could squeeze through, out to the top of the mound.",
       "sign": "A thread of grey daylight lies along the floor of the passage, coming from somewhere above the door.",
+      "night": "A breath of night air comes along the floor of the passage, from somewhere above the door, and it smells of grass.",
       "crawl": "the slot of the light-box", "rungs": "the climb out over the lintel" }
   },
   "after": {

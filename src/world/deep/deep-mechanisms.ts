@@ -85,7 +85,11 @@ export class DeepMechanisms {
     if (!vent || !way) { return []; }
     const q = this.q, site = layout.site, found = `${vent.id}_found`;
     return [`  Discovery ${found} ${q(w.found)} { Found by searching ${way.a}. }`,
-      `  Observe ${vent.id}_draft at ${way.a} as sign when not knows(party, ${found}) ${q(w.sign)}.`,
+      // A sign that is daylight (the barrow's light-box) is, by night, the night air.
+      `  Observe ${vent.id}_draft at ${way.a} as sign when not knows(party, ${found})${w.night ? ' and not dark()' : ''}`
+        + ` ${q(w.sign)}.`,
+      ...w.night ? [`  Observe ${vent.id}_night at ${way.a} as sign when not knows(party, ${found}) and dark() ${q(w.night)}.`]
+        : [],
       `  Passage ${way.id} ${q(w.crawl)} is crawl between ${way.a} and ${way.b} taking 3 minutes hidden until ${found}.`,
       `  Passage ${vent.id}_rungs ${q(w.rungs)} is climb between ${vent.id} and ${site} taking 6 minutes hidden until ${found}.`];
   }
