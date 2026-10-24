@@ -46,7 +46,8 @@ export class Telling {
   private static say(campaign: Campaign, h: Happening,
     memory: { used: Set<string>; pairs: Set<string>; key: string }): Voiced | undefined {
     const actor = h.actor ?? '', context = VoiceContext.of(campaign, h, memory.pairs);
-    const speaking = { actor: this.called(campaign, actor), pronoun: context.pronoun };
+    const speaking = { actor: this.called(campaign, actor), pronoun: context.pronoun,
+      many: (campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 };
     const own = this.authored[h.kind] && campaign.world.module.relations.some(r => r.name === this.authored[h.kind])
       ? campaign.world.one(this.authored[h.kind]!, actor) : undefined;
     if (own && context.moment === 'first') {

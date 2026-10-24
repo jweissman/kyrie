@@ -19,7 +19,10 @@ export interface VoiceTable { about: string; kinds: string[]; lines: VoiceLine[]
 // What a line is told about: the names, and the words the actor is spoken of in.
 export interface Speaking { actor?: string; target?: string; pronoun?: string; place?: string;
   // Any other names a line is filled with ({from}, {to}).
-  values?: Record<string, string> }
+  values?: Record<string, string>;
+  // Whether the actor is a band of many (the bats) or one (the reeve, though spoken of as they): a verb that follows
+  // the actor's name agrees with that; one that follows {they}, with the pronoun.
+  many?: boolean }
 
 // The voice tables (data/voice): for each kind of happening, the lines it may be told in, by the circumstances that
 // call for each. Editors change the tables; bin/kyrie voice shows every line in the moments it would be chosen in.
@@ -56,7 +59,9 @@ export class Voice {
   // that agrees with them, [walk|walks].
   static render(text: string, s: Speaking): string {
     const words = this.pronouns[s.pronoun ?? 'they'] ?? this.pronouns.they!;
-    return text.replace(/\{(\w+)\}/g, (all, key: string) => {
+    const named = s.many === undefined ? text : text.replace(/(\{[Aa]ctor\} )\[([^|\]]*)\|([^\]]*)\]/g,
+      (_, actor: string, plural: string, singular: string) => `${actor}${s.many ? plural : singular}`);
+    return named.replace(/\{(\w+)\}/g, (all, key: string) => {
       const lower = key.toLowerCase(), upper = key !== lower;
       const word = words[lower as keyof typeof words];
       const value = lower === 'actor' ? s.actor : lower === 'target' ? s.target : lower === 'place' ? s.place

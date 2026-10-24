@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ItemNames } from '../src/item-names';
+import { Voice } from '../src/narrative/voice';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 
@@ -74,6 +75,13 @@ describe('as the company would tell it', () => {
       expect(e.filter(x => /wildtype/i.test(x.name)).map(x => x.name)).toEqual([]);
     }
   }, 90000);
+  it('has a verb agree with whoever it follows: the reeve is, the bats are, and they are', () => {
+    const line = '{Actor} [are|is] against you now, and {they} [mean|means] it.';
+    expect(Voice.render(line, { actor: 'the toll-reeve', pronoun: 'they', many: false }))
+      .toBe('The toll-reeve is against you now, and they mean it.');
+    expect(Voice.render(line, { actor: 'the bats', pronoun: 'they', many: true }))
+      .toBe('The bats are against you now, and they mean it.');
+  });
   it('says heather, comfrey and wine as they are said, and a dandelion as one', () => {
     expect(['Heather', 'Comfrey', 'Kingsfoil', 'Wine', 'Dandelion'].map(n => ItemNames.called(n)))
       .toEqual(['heather', 'comfrey', 'kingsfoil', 'wine', 'a dandelion']);
