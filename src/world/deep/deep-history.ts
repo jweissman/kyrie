@@ -40,7 +40,7 @@ export class DeepHistory {
     return [`  Thing ${id} ${q(d.name)} at ${room.id} {`, `    State unread ${q(d.shut)}.`,
       `    State read ${q(`${d.name.charAt(0).toUpperCase()}${d.name.slice(1)}, read.`)}.`,
       `    Change read ${q(d.label)} from unread to read.`, '  }',
-      `  Observe ${id}_says at ${room.id} when state(${id}, read) and not knows(party, history_successors)`
+      `  Observe ${id}_says at ${room.id} of ${id} as reading when state(${id}, read) and not knows(party, history_successors)`
         + ` ${q(d.text)} teaches history_successors.`];
   }
   private static barrier(id: string, layout: DeepLayout, b: NonNullable<Alteration['barrier']> & { room: DeepRoom }):

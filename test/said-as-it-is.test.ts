@@ -9,6 +9,7 @@ import { CreatureFacts } from '../src/campaign/creature-facts';
 import { CreatureStore } from '../src/creature-store';
 import { World } from '../src/lang/world';
 import { Narration } from '../src/presentation/narration';
+import { ScreenModel } from '../src/ui/screen-model';
 import type { Change } from '../src/lang/module';
 
 // What a place says is what is so. Found by an independent review of the deployed game, in a tin-miners' galleries
@@ -17,9 +18,9 @@ import type { Change } from '../src/lang/module';
 // ash went off up the road when their sergeant fell, by what the page said, and went on leaning on their pikes by
 // the fire; and what seeing them off was worth was told as if it were the fight's.
 class Galleries {
-  static async start() {
+  static async start(classId = 'warrior') {
     const w = await WorldAssembler.assemble('cov2', NodeBundleSource.shared,
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId }] });
     return PlaySession.start(w.path, 'cov2', w.source);
   }
   static put(s: PlaySession, room: string) {
@@ -67,6 +68,17 @@ describe('a place says what is so', () => {
       'Cyril gains 300 experience: deserters on the road, seen through.']))
       .toEqual(['Wenna and Cyril each gain 300 experience: deserters on the road, seen through.']);
     expect(Galleries.seen(after)).not.toContain('lean on pikes by a fire');
+  }, 60000);
+  // The review again: reading the tally taught the makers' history and how they ended, noted as "seen for yourself",
+  // and the page declared the story whole. What is read is the writing's account, and known as such.
+  it('keeps what a tally says as the tally\'s account, not as seen', async () => {
+    const s = await Galleries.start('mage');
+    Galleries.put(s, 'region__w1_dressing');
+    await Galleries.take(s, /^Read the tally on the wall$/);
+    const notes = ScreenModel.build(s.campaign).knowledge
+      .filter(k => /^(Before the folk came|How the Delvers ended)/.test(k.text));
+    expect(notes.map(k => [k.kind, k.how.split(',')[0]])).toEqual([['reported', 'as a tally cut in the wall has it'],
+      ['reported', 'as a tally cut in the wall has it']]);
   }, 60000);
   it('winds the lift-cage up when it is wound up', async () => {
     const s = await Galleries.start();

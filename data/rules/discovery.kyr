@@ -14,6 +14,8 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   Relation publicPlace(place).
   Relation testimony(group, source).
   Relation witnessed(group, fact).
+  // Known by reading it (a tally, a tablet): the writing's own account, as good as whoever wrote it.
+  Relation readIn(group, fact).
   Relation searched(group, place).
   // A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that
   // could be taken for part of it happens there by chance (a carrier's wheel in the ditch).

@@ -58,7 +58,8 @@ export interface WorldRule {
 // What an observation tells of: what a place is (a fixture, the default), a part worth a closer look (a feature),
 // evidence of something (a sign), the sky (weather), the passing life of the place (ambience), something happening
 // (an event), or a discovery that deserves the page to itself (a revelation).
-export type Aspect = 'fixture' | 'feature' | 'sign' | 'weather' | 'ambience' | 'event' | 'revelation';
+// A reading is what something written says (a tally, a tablet): what it teaches is the writing's account, not seen.
+export type Aspect = 'fixture' | 'feature' | 'sign' | 'weather' | 'ambience' | 'event' | 'revelation' | 'reading';
 export interface Observation {
   id: string; place: string; anchor?: Anchor; when: Predicate; text: string; teaches?: string;
   // The entity described, which is not perceived while the company has not noticed it.

@@ -121,9 +121,10 @@ export class ScreenModel {
   private static knowledge(view: PlayerSnapshot): Screen['knowledge'] {
     return [...view.knowledge].sort((a, b) => (b.at ?? -1) - (a.at ?? -1)).map(k => ({
       text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
+        : k.source === 'read' ? `as ${k.from ?? 'what is written'} has it`
         : k.source === 'heard' ? `${k.from ?? 'someone'}${k.from?.includes(', ') ? ',' : ''} told you` : '',
       k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', '),
-      kind: k.confirmed ? 'confirmed' as const : k.source === 'heard' ? 'reported' as const
+      kind: k.confirmed ? 'confirmed' as const : k.source === 'heard' || k.source === 'read' ? 'reported' as const
         : k.source ? 'seen' as const : 'known' as const }));
   }
   // The scene's lines: what the place is like (and what is going on in it), and what each person or thing here looks

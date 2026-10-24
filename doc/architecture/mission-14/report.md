@@ -551,16 +551,21 @@ What it found, checked against the source, and repaired:
 - **The same question answered again.** Asking someone about their work is asked once.
 - **News for nothing, and none to give.** A tinker crying "news for nothing" had only her work to talk of. Whoever
   goes round the roads now has news of a neighbour along one, in the travellers' own words (`src/world/region-news.ts`).
+- **What was read was noted as seen.** Reading the galleries' tally noted the makers' history and how they ended as
+  "seen for yourself", and the page declared their story whole. What a writing says is now known as its account,
+  "as a tally cut in the wall has it", reported rather than seen, for every work's inscriptions and every deep site's
+  documents (an observation `of` the thing `as reading`, in Kyr). The great work it leads to is told as the company's
+  inference: "Put together, what you have of the Delvers, who they were and how they ended, points somewhere no
+  single stone names... If it is right, it was..." (`test/said-as-it-is.test.ts`).
 - **The last blow was lost**, and two awards of experience came with no reason. The fight's page closes as the
   last blow lands, and the account told afterwards kept only who fell; it now keeps the blow that felled each, as
   "Rharash critically hits the mud. The mud takes 11 slashing damage (0 HP left). The mud falls." Experience for
   something seen through says so: "each gain 300 experience: deserters on the road, seen through."
 
 Not yet repaired, and why:
-- **Discovery arrives as certification.** Reading one tally in the galleries teaches both who the makers were and
-  how they ended, and with both known the page declares the story "whole" and points to the great work. That is how
-  history is learned across every work, not a slip in one: it wants inscriptions that teach one thing each, what is
-  read kept apart from what is inferred, and the reveal to need more than one source. It is the next piece of Proof C.
+- **One reading still teaches it all.** The galleries' tally, and an abbey's copies, each teach both who the makers
+  were and how they ended, so one inscription is enough to reach the great work. Inscriptions that teach one thing
+  each, and a reveal that needs two sources to agree, are the next piece of Proof C.
 - **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores
   station, era and sex, not dress or equipment, and when nothing fits it still takes whoever of the right sex scores
   best. I tried painting nobody that no picture fits by work or station: in a1 that left 42 of 64 people bare,

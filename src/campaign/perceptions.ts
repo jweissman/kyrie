@@ -9,14 +9,17 @@ import type { CampaignEvent } from './campaign-types';
 // what it learned by this command (a fact already known is not discovered again).
 export class Perceptions {
   // Seeing is knowing: each perceived observation that teaches a fact the company did not know is committed as known
-  // and witnessed, and told as a discovery.
+  // and witnessed, and told as a discovery; what a reading teaches is known as read, the writing's account of it.
   static witness(module: Module, world: World, player: string | undefined, seen: CampaignEvent['perceptions']) {
     if (!player || !seen) { return { changes: [], told: [], noted: [] }; }
     const ids = new Set(seen.filter(p => p.kind === 'observation').map(p => p.id));
-    const facts = [...new Set((module.observations ?? []).filter(o => o.teaches && ids.has(o.id)
-      && !world.test(ModuleWriter.call('knows', player, o.teaches))).map(o => o.teaches!))];
+    const teaching = (module.observations ?? []).filter(o => o.teaches && ids.has(o.id)
+      && !world.test(ModuleWriter.call('knows', player, o.teaches)));
+    const facts = [...new Set(teaching.map(o => o.teaches!))];
+    const read = new Set(module.relations.some(r => r.name === 'readIn')
+      ? teaching.filter(o => o.aspect === 'reading').map(o => o.teaches!) : []);
     return { changes: facts.flatMap(f => [{ kind: 'assert' as const, call: ModuleWriter.call('knows', player, f) },
-      { kind: 'assert' as const, call: ModuleWriter.call('witnessed', player, f) }]),
+      { kind: 'assert' as const, call: ModuleWriter.call(read.has(f) ? 'readIn' : 'witnessed', player, f) }]),
     told: facts.map(f => ({ id: f, kind: 'discovery' as const,
       text: ObservationText.render(module.entities.find(e => e.id === f)!.name, world) })),
     // How the event's changes record it, so the journal can say when it was seen.

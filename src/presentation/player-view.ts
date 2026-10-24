@@ -55,7 +55,7 @@ export interface PlayerSnapshot {
   carried?: { id: string; name: string }[];
   holdings: { text: string; value: number }[]; facts: string[];
   // What the company knows, and how: seen with its own eyes, found in a source, or heard from someone; and when.
-  knowledge: { id: string; text: string; source?: 'seen' | 'found' | 'heard'; from?: string; at?: number;
+  knowledge: { id: string; text: string; source?: 'seen' | 'found' | 'heard' | 'read'; from?: string; at?: number;
     // Heard from someone, and since seen or found for itself: a report borne out.
     confirmed?: true }[];
   assumptions: { id: string; text: string }[];
@@ -181,11 +181,15 @@ export class PlayerView {
     return this.about(world, 'knows', actor, campaign.module.entities).map(e => {
       const told = world.related('toldBy', actor).find(r => r.args[2] === e.id);
       const found = world.related('learnedFrom', actor).find(r => r.args[2] === e.id);
-      const seen = this.test(world, 'witnessed', actor, e.id);
-      const source = seen ? 'seen' as const : found ? 'found' as const : told ? 'heard' as const : undefined;
-      const from = found ? labels.get(found.args[1]!) : told ? labels.get(told.args[1]!) : undefined;
+      const seen = this.test(world, 'witnessed', actor, e.id), read = this.test(world, 'readIn', actor, e.id);
+      const source = seen ? 'seen' as const : found ? 'found' as const : read ? 'read' as const : told ? 'heard' as const
+        : undefined;
+      const writing = read ? campaign.module.observations?.find(o => o.teaches === e.id && o.aspect === 'reading')?.about
+        : undefined;
+      const from = found ? labels.get(found.args[1]!) : read && writing ? labels.get(writing)
+        : told ? labels.get(told.args[1]!) : undefined;
       return { id: e.id, text: ObservationText.render(e.name, world), ...source ? { source } : {},
-        ...told && (seen || found) ? { confirmed: true as const } : {},
+        ...told && (seen || found || read) ? { confirmed: true as const } : {},
         ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
     });
   }

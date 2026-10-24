@@ -42,7 +42,7 @@
     State read "The roll counts the lord's men and what each owes him: so many spears, so many bushels, a horse at midsummer. The kingdom of {kingdom}, it begins, and the lord's name, and his lord's. The last entries are in another hand.".
     Change read "Untie the castle roll and read it" from shut to read.
   }
-  Observe {w}_roll_learned at {w}_solar when state({w}_roll, read) "The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom." teaches history_successors.
+  Observe {w}_roll_learned at {w}_solar of {w}_roll as reading when state({w}_roll, read) "The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom." teaches history_successors.
   Thing {w}_strongbox "the lord's strongbox" at {w}_cellar {
     Holds.
     State locked closed "A strongbox of riveted iron is set into the floor of the undercroft, its lid locked down.".
@@ -54,16 +54,16 @@
   Item {w}_dropped "{commonname}" is {common} at {w}_gate.
 --- fall plague 1 if fallplague
   Observe {w}_plague at {w}_hall when true "The long tables are still set out. On the benches and under them, and by the cold hearth, the bones of the garrison lie where they sat down and did not get up. Someone chalked a cross on the hall door from the outside.".
-  Observe {w}_last_plague at {w}_solar when state({w}_roll, read) "The last entries are not dues. Down the margin, in a shaking hand, one word over and over, eleven times, each with a name: dead. The twelfth word is not finished.".
+  Observe {w}_last_plague at {w}_solar of {w}_roll as reading when state({w}_roll, read) "The last entries are not dues. Down the margin, in a shaking hand, one word over and over, eleven times, each with a name: dead. The twelfth word is not finished.".
 --- fall winter 1 if fallwinter
   Observe {w}_winter at {w}_hall when true "There is nothing of wood left in the hall: no table, no bench, no door. The great hearth is heaped with the ash of them, and a few bones lie close round it, as near to it as they could get.".
-  Observe {w}_last_winter at {w}_solar when state({w}_roll, read) "The last entries are a reckoning of grain, each week less, then of the horses, one by one, by name. Then nothing.".
+  Observe {w}_last_winter at {w}_solar of {w}_roll as reading when state({w}_roll, read) "The last entries are a reckoning of grain, each week less, then of the horses, one by one, by name. Then nothing.".
 --- fall heirs 1 if fallheirs
   Observe {w}_heirs at {w}_gate when true "The gate was forced. Its leaves lie split in the passage, and arrowheads are thick in the beams overhead, the shafts long rotted out of them.".
-  Observe {w}_last_heirs at {w}_solar when state({w}_roll, read) "The last roll is cut in two with a knife. On one half every man owes service to the lord's elder son; on the other, to the younger. Someone has struck out both.".
+  Observe {w}_last_heirs at {w}_solar of {w}_roll as reading when state({w}_roll, read) "The last roll is cut in two with a knife. On one half every man owes service to the lord's elder son; on the other, to the younger. Someone has struck out both.".
 --- fall raiders 1 if fallraiders
   Observe {w}_raiders at {w}_hall when true "The keep was burned from inside. The floors fell burning into the hall, and the stones of the walls are reddened to a man's height with old fire.".
-  Observe {w}_last_raiders at {w}_solar when state({w}_roll, read) "The last lines are three words, over and over, in a hurried hand, a day apart: ships in sight. Then a day with no entry. Then no more days.".
+  Observe {w}_last_raiders at {w}_solar of {w}_roll as reading when state({w}_roll, read) "The last lines are three words, over and over, in a hurried hand, a day apart: ships in sight. Then a day with no entry. Then no more days.".
 --- sight far 1 if sight
   Observe {w}_far at {w}_walk when true "Far off to the {sightside} the lord's men would have seen what you see now: {sightseen}." teaches {sight}_found.
 --- present wolves 2

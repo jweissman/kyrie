@@ -55,11 +55,11 @@
   Item {w}_left "{commonname}" is {common} at {w}_street.
 --- end drowned 1 if fatea
   Observe {w}_drowned at {w}_street when state({w}_mere, low) "The street is full of the dead, and of their arms: spears and shields of a make nobody has seen in this country, and among them, unarmed, the Wardens, in their long coats, lying where the water came on them all together.".
-  Observe {w}_end_drowned at {w}_hall when state({w}_basin, read) "Then the water in the basin shows you the valley, as it was: an army in the street, and the Wardens on the dam, and one of them putting a hand to the first wheel, and looking down at the basin, at you, before he turns it." teaches {w}_end.
+  Observe {w}_end_drowned at {w}_hall of {w}_basin as reading when state({w}_basin, read) "Then the water in the basin shows you the valley, as it was: an army in the street, and the Wardens on the dam, and one of them putting a hand to the first wheel, and looking down at the basin, at you, before he turns it." teaches {w}_end.
   Discovery {w}_end "The Wardens' last war ended at their great dam: they let their enemies into the valley, and shut the gates, and drowned it, and themselves in it. One of them looked into the still water before he turned the wheel.".
 --- end dry 1 if fateb
   Observe {w}_left_whole at {w}_street when state({w}_mere, low) "Every door in the street stands open, and the houses were left in order: pots on the hearths, beds made, tools on their hooks. Nothing was taken. Whoever lived here went out with nothing in their hands.".
-  Observe {w}_end_dry at {w}_hall when state({w}_basin, read) "The water in the basin shows you a dry river-bed, and people walking down it in a long line, slowly, carrying nothing, not looking back; and then, for a moment, the same river-bed, and you in it. Then nothing. Cut into the rim, newer than the rest: IT SHOWS NOTHING NOW." teaches {w}_end.
+  Observe {w}_end_dry at {w}_hall of {w}_basin as reading when state({w}_basin, read) "The water in the basin shows you a dry river-bed, and people walking down it in a long line, slowly, carrying nothing, not looking back; and then, for a moment, the same river-bed, and you in it. Then nothing. Cut into the rim, newer than the rest: IT SHOWS NOTHING NOW." teaches {w}_end.
   Discovery {w}_end "When the still water stopped showing the Wardens what was coming, they left their valley in order, carrying nothing, and walked away down the dry river. The water shows nothing now, someone cut in its rim, but it showed you something.".
 --- vision far 1 if sight
-  Observe {w}_vision at {w}_hall when state({w}_basin, read) "In the still water, far off to the {sightside}, as the crow flies: {sightseen}, and the way to it." teaches {sight}_found.
+  Observe {w}_vision at {w}_hall of {w}_basin as reading when state({w}_basin, read) "In the still water, far off to the {sightside}, as the crow flies: {sightseen}, and the way to it." teaches {sight}_found.

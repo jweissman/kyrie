@@ -870,7 +870,13 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 17 | 0 | 0 | 0 | 5 |
+| 2 | 18 | 0 | 0 | 0 | 5 |
+
+#### readIn
+
+*Kyr · relation(group, fact)* · `rule:discovery_rules.readIn`
+
+Known by reading it (a tally, a tablet): the writing's own account, as good as whoever wrote it.
 
 #### staged
 

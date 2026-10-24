@@ -8,7 +8,8 @@ import { World } from './world';
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
 export class ModuleCompiler {
-  static readonly aspects: readonly Aspect[] = ['fixture', 'feature', 'sign', 'weather', 'ambience', 'event', 'revelation'];
+  static readonly aspects: readonly Aspect[] = ['fixture', 'feature', 'sign', 'weather', 'ambience', 'event', 'revelation',
+    'reading'];
   private lookup?: Lookup;
   private signatures = new WeakMap<Signature[], Map<string, Signature>>();
   constructor(private readonly capabilities: Signature[] = []) {}

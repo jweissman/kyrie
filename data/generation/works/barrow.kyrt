@@ -14,7 +14,7 @@
     State read "The marks name the dead within and the bounds they keep: from here, the old line of the land runs {bound}. A warning is cut under them: THE STONE KEEPS THEM. LET IT BE.".
     Change read "Read the marks on the seal-stone" from unread to read needing lore.
   }
-  Observe {w}_marks_learned at {w} when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.
+  Observe {w}_marks_learned at {w} of {w}_marks as reading when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
   Passage {w}_in "the low entrance" is crawl between {w} and {w}_passage.

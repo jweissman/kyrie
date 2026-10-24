@@ -36,7 +36,7 @@
     State read "The house's chronicle, in the kingdom's letters, a hand for every generation: abbots elected and buried, rents taken in, roads mended, the kingdom of {kingdom} and its lords. The last hand is not like the others.".
     Change read "Blow the dust off the chronicle and read it" from dusty to read.
   }
-  Observe {w}_chronicle_learned at {w}_chapter when state({w}_chronicle, read) "Read from the first page, the chronicle is the history of the kingdom the house served, as the brothers saw it." teaches history_successors.
+  Observe {w}_chronicle_learned at {w}_chapter of {w}_chronicle as reading when state({w}_chronicle, read) "Read from the first page, the chronicle is the history of the kingdom the house served, as the brothers saw it." teaches history_successors.
   Thing {w}_press "the book-press" at {w}_scriptorium {
     Holds.
     State locked closed "The book-press is locked, its iron bands sound. Through the gap between its doors you can see the spines of books.".
@@ -52,26 +52,26 @@
     State read "The brothers went out to every old stone in the country and copied what was cut there, and worked out what the old script said. Their notes run all over the margins, arguing with each other.".
     Change read "Read the copied inscriptions" from unread to read needing lore.
   }
-  Observe {w}_copies_learned at {w}_scriptorium when state({w}_copies, read) "With the glossary beside them the copies make sense, and the brothers' notes argue their way to who the old people were, and how they ended." teaches {makersfact}.
-  Observe {w}_copies_fate at {w}_scriptorium when state({w}_copies, read) "One leaf, copied from a stone the brothers marked as the oldest they found, is the old people's own account of their end." teaches {fatefact}.
+  Observe {w}_copies_learned at {w}_scriptorium of {w}_copies as reading when state({w}_copies, read) "With the glossary beside them the copies make sense, and the brothers' notes argue their way to who the old people were, and how they ended." teaches {makersfact}.
+  Observe {w}_copies_fate at {w}_scriptorium of {w}_copies as reading when state({w}_copies, read) "One leaf, copied from a stone the brothers marked as the oldest they found, is the old people's own account of their end." teaches {fatefact}.
 --- fall plague 1 if fallplague
   Observe {w}_plague at {w}_cloister when true "The garth was dug for graves, row on row, until there was no more room in it and the last of them were laid in the walks. There are no names on any of them.".
-  Observe {w}_last_plague at {w}_chapter when state({w}_chronicle, read) "The last hand writes that the brothers took in the sick from the river villages, as the rule bids. Then that they buried them. Then the brothers' own names, one under another, in a hand that gets smaller. The last name has no hand after it to write it.".
+  Observe {w}_last_plague at {w}_chapter of {w}_chronicle as reading when state({w}_chronicle, read) "The last hand writes that the brothers took in the sick from the river villages, as the rule bids. Then that they buried them. Then the brothers' own names, one under another, in a hand that gets smaller. The last name has no hand after it to write it.".
   Item {w}_relic "{richname}" is {rich} at {w}_church.
 --- fall winter 1 if fallwinter
   Observe {w}_winter at {w}_scriptorium when true "The shelves along the walls are empty. Black flakes in the hearth at the end of the room are what is left of the books.".
-  Observe {w}_last_winter at {w}_chapter when state({w}_chronicle, read) "The last hand writes of the third winter: that the river froze to the bottom, that the rents did not come, that the brothers burned the books one by one to live, the least needful first, and kept back the ones in the press to the very end.".
+  Observe {w}_last_winter at {w}_chapter of {w}_chronicle as reading when state({w}_chronicle, read) "The last hand writes of the third winter: that the river froze to the bottom, that the rents did not come, that the brothers burned the books one by one to live, the least needful first, and kept back the ones in the press to the very end.".
   Item {w}_relic "{richname}" is {rich} at {w}_church.
 --- fall heirs 1 if fallheirs
   Observe {w}_heirs at {w}_church when true "The altar has been stripped, and the abbots' slabs prised up and dropped back crooked. Whoever did it was looking for the house's plate.".
-  Observe {w}_last_heirs at {w}_chapter when state({w}_chronicle, read) "The last hand writes that the lord's sons both sent to the house for its plate, to pay their war, and that the abbot sent to neither, and had it hidden under the cellar floor; and that the younger son's men came.".
+  Observe {w}_last_heirs at {w}_chapter of {w}_chronicle as reading when state({w}_chronicle, read) "The last hand writes that the lord's sons both sent to the house for its plate, to pay their war, and that the abbot sent to neither, and had it hidden under the cellar floor; and that the younger son's men came.".
   Item {w}_relic "{richname}" is {rich} at {w}_cellar hidden until {w}_plate_found.
   Discovery {w}_plate_found "Under a flagstone of the cellar floor the abbot's plate was hidden, and has not been found." {
     Found by searching {w}_cellar "One flagstone of the cellar floor rings hollow, and lifts.".
   }
 --- fall raiders 1 if fallraiders
   Observe {w}_raiders at {w}_church when true "The church burned with its roof: the stones of the arcade are cracked and reddened, and the lead of the windows lies melted in the grass.".
-  Observe {w}_last_raiders at {w}_chapter when state({w}_chronicle, read) "The last hand writes that the ships came up the river at midsummer, as every summer, and that this summer the brothers carried the house's plate down into the cellar and walled it in.".
+  Observe {w}_last_raiders at {w}_chapter of {w}_chronicle as reading when state({w}_chronicle, read) "The last hand writes that the ships came up the river at midsummer, as every summer, and that this summer the brothers carried the house's plate down into the cellar and walled it in.".
   Item {w}_relic "{richname}" is {rich} at {w}_cellar hidden until {w}_plate_found.
   Discovery {w}_plate_found "Behind new stonework in the cellar the brothers walled in the house's plate." {
     Found by searching {w}_cellar "One bay of the cellar wall is newer stone than the rest, laid without care, and it comes away.".

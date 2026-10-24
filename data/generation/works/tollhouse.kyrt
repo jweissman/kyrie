@@ -41,7 +41,7 @@
     State read "Wool, by the bale; salt, by the sack; wine, by the tun; slaves, by the head. Every boat on the river paid, going up and coming down, by right of the princes of {kingdom}.".
     Change read "Read the tariff board" from faded to read.
   }
-  Observe {w}_tariff_learned at {w}_hall when state({w}_tariff, read) "Under the tariff, smaller, the princes' charter: whose river it was, and by what right." teaches history_successors.
+  Observe {w}_tariff_learned at {w}_hall of {w}_tariff as reading when state({w}_tariff, read) "Under the tariff, smaller, the princes' charter: whose river it was, and by what right." teaches history_successors.
   Thing {w}_chest "the toll-chest" at {w}_strong {
     Holds.
     State locked closed "The toll-chest is bolted to the floor and locked with three locks.".

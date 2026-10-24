@@ -156,7 +156,7 @@ export class RegionWorks {
     const great = region.sites.find(x => x.work?.great);
     const seat = great && RegionGeography.seats(region).find(x => x.site === great);
     if (great && seat) {
-      lines.push(`  Observe ${great.id}_revealed near party when knows(party, history_${first.art}) and knows(party, history_${first.art}_fate) and not knows(party, ${great.id}_found) ${q(`With the story of ${first.epithet} whole, one thing in it stands out that no single stone says: where they went at the end. Every inscription that speaks of it points the same way, to ${RegionSites.where(seat, region)}.`)} teaches ${great.id}_found.`);
+      lines.push(`  Observe ${great.id}_revealed near party when knows(party, history_${first.art}) and knows(party, history_${first.art}_fate) and not knows(party, ${great.id}_found) ${q(`Put together, what you have of ${first.epithet}, who they were and how they ended, points somewhere no single stone names: where they went at the end. If it is right, it was ${RegionSites.where(seat, region)}.`)} teaches ${great.id}_found.`);
     }
     return lines;
   }
