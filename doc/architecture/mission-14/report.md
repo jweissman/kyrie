@@ -715,13 +715,15 @@ excursion. It ranks twelve findings. I repaired these:
 - **The father's knife stayed in his belt after it was taken**, and **the brother was to be told what he had knelt
   beside**: the knife is said while it is there, and one who knelt by the cart is not told of it
   (`test/goings-on.test.ts`, `test/origins.test.ts`).
+- **Terms were learned after the choice** (its sixth): a sale says beside it what it fetches ("Sell a jade idol",
+  30 coin), and asking a creditor for more time is told its terms, five coin more, before they are taken or left
+  (`test/what-it-takes.test.ts`, `test/origins.test.ts`).
 - **An artifact offered nothing but Take, though its kind is described** (its twelfth, in part): a thing to be had is
   seen, looked at, in its kind's own words (`test/thing-described.test.ts`). The rest of that finding, repeated
   plants and journeys and a finished family that leaves nothing to ask, is not done.
 
 Not done, with the review's own ranking: inquiries that lead nowhere playable (a pit with no entrance after a
-search, a listening room with nothing to listen to; 4); terms not quoted before a choice (a debt's extension, a sale;
-6); a hall's dweller met as a fight the moment its room is entered (7); combat telling that contradicts itself
+search, a listening room with nothing to listen to; 4); a hall's dweller met as a fight the moment its room is entered (7); combat telling that contradicts itself
 (burning and not burning; 8); an argument won by one example (9); a subject lost from focus by reading or tending
 (10); portraits at odds with the prose, and one name (11): the "Immeral" who saw a sign first in a company that had
 no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining, where everyone is named as

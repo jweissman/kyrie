@@ -6,6 +6,8 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { SkillReading } from '../src/presentation/skill-reading';
 import { ScreenModel } from '../src/ui/screen-model';
+import { SceneModel } from '../src/ui/scene';
+import type { Choice } from '../src/ui/choice-list';
 import { Narrator } from '../src/presentation/narrator';
 import { ObservationText } from '../src/lang/observation-text';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -30,6 +32,8 @@ class Barrow {
       { kind: 'retract', call: ModuleWriter.call('unlit', `region__${place}`) }]));
   }
   static names(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
+  // Every choice the page offers, those opened under others too.
+  static every(cs: Choice[]): Choice[] { return cs.flatMap(c => [c, ...Barrow.every(c.children ?? [])]); }
   static wanting(s: PlaySession) {
     return SkillReading.read(s.campaign).wanting.map(w => `${w.choice.name}: ${ScreenModel.wanting(w)}`);
   }
@@ -80,7 +84,12 @@ describe('what it takes, as the page tells it', () => {
     Barrow.put(s, 'w8_barrow_mouth');
     await Barrow.take(s, /^Collect a jade idol for Wenna$/);
     Barrow.put(s, 's1_shop');
+    // What it fetches is said before it is sold (the follow-up review sold a lamp and learned the price after).
+    const offered = Barrow.every(SceneModel.build(ScreenModel.build(s.campaign)).subjects.flatMap(x => x.choices))
+      .find(c => c.label === 'Sell a jade idol');
+    const coin = () => s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')), before = coin();
     const told = await Barrow.take(s, /^Sell a jade idol to Mik$/);
+    expect(offered?.note).toStartWith(`${coin() - before} coin`);
     expect(told).toContain('Mik turns a jade idol over in the light');
     expect(told).not.toContain('set down');
   }, 60000);

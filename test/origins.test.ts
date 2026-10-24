@@ -104,6 +104,17 @@ describe('an origin', () => {
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'drover__son_knelt'))).toBe(true);
     expect(PlayerView.choices(s.campaign).some(x => /what you found/.test(x.choice.name))).toBe(false);
   }, 60000);
+  // The follow-up review asked for more time and found it owed five coin more: the terms are said, then taken or not.
+  it('says the terms of more time before they are taken', async () => {
+    const s = await Opening.start('debt');
+    const owed = () => s.campaign.world.number(ModuleWriter.call('origin__owed', 'origin__loan'));
+    const before = owed();
+    const asked = await Opening.take(s, /^Ask .* for five days more$/);
+    expect(asked.response ?? '').toContain('five coin more');
+    expect(owed()).toBe(before);
+    await Opening.take(s, /^Take the five days, for five coin more$/);
+    expect(owed()).toBe(before + 5);
+  }, 60000);
   it('holds a debt that comes due', async () => {
     const s = await Opening.start('debt');
     expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('You owe Mik at Murkstede 30 coin, by market day');

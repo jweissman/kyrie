@@ -4,15 +4,22 @@ Module origin "What is owed" {
   Place shop "The shop" is room.
   Entity creditor: group "The merchant". Entity loan: debt "What you owe".
   Kind debt. Measure owed(debt).
-  Relation extended(group). Relation called(group). Relation squared(group).
+  Relation extended(group). Relation called(group). Relation squared(group). Relation termed(group).
   Initially Set owed(loan) to 30. Initially Assert inDebtTo(party, creditor).
   Observe owed at shop as feature when owed(loan) > 0 and watch(clock) < 2 "You owe {creditor} thirty coin, for {lost} that went into the river at the ford last spring, oxen and all. He has been patient. He wrote to say that he would be patient until market day, ten days from now, and not after.".
   Observe sees near creditor when owed(loan) > 0 and watch(clock) < 2 "'{protagonist},' says {creditor}, and does not get up. 'Thirty coin, by market day. You'll have heard I said so.'".
   Topic promise with creditor "Tell {creditor} you will have it by market day" when owed(loan) > 0 and not called(actor) once {
     Says "'See that I do,' says {creditor}. He goes back to his tally. 'There's no shortage of work for someone with nothing to lose. Ask at the inn.'".
   }
-  Topic more_time with creditor "Ask {creditor} for five days more" when owed(loan) > 0 and not extended(actor) and not called(actor) once {
-    Says "{creditor} looks at you for a long moment. 'Five days,' he says. 'And five coin more, for the asking.'".
+  // Asked for, the terms are said; taken, they are kept (the follow-up review asked, and owed five coin more).
+  Topic more_time with creditor "Ask {creditor} for five days more" when owed(loan) > 0 and not extended(actor)
+    and not termed(actor) and not called(actor) once {
+    Says "{creditor} looks at you for a long moment. 'Five days,' he says. 'And five coin more, for the asking. Take it or leave it.'".
+    On discuss { Assert termed(actor). }
+  }
+  Topic take_time with creditor "Take the five days, for five coin more" when owed(loan) > 0 and termed(actor)
+    and not extended(actor) and not called(actor) once {
+    Says "'Done,' says {creditor}, and writes it in the tally, five days on and five coin more.".
     On discuss { Assert extended(actor). Increase owed(loan) by 5. }
   }
   Topic pay with creditor "Pay {creditor} what you owe" when owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {

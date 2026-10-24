@@ -42,9 +42,7 @@ export class ScreenModel {
       .map(e => [e.id, world.number(ModuleWriter.call('price', e.id))]));
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? '');
-    const fees = new Map([
-      ...campaign.module.entities.filter(e => e.type === 'service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
-      ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const)]);
+    const fees = this.fees(campaign);
     // Who makes each skilled choice possible, and what the company could do with a skill nobody in it has.
     const reading = SkillReading.read(campaign);
     const commands: Row[] = [
@@ -93,6 +91,16 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
+  }
+  // What things cost: a service's fee, goods by the measure, and what a sale fetches (what a buyer pays for a kind, and
+  // what a valuable is worth).
+  private static fees(campaign: Campaign): Map<string, number> {
+    const world = campaign.world;
+    return new Map([
+      ...campaign.module.entities.filter(e => e.type === 'service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
+      ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
+      ...world.measured('pays').map(m => [`pays:${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
+      ...world.measured('worth').map(m => [`worth:${m.call.args[0]}`, m.value] as const)]);
   }
   // Whoever travels with the company is with it, not met where it is.
   private static along(world: Campaign['world'], actor?: string): Set<string> {

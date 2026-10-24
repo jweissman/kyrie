@@ -99,7 +99,9 @@ export class ChoiceGrouping {
     push: { slot: 'target', param: 'target', path: ['Examine', 'Push and pull at it'],
       onWay: ['Look at {target}', 'Push and pull at it'] },
     listen: { slot: 'target', param: 'target', path: ['Examine', 'Listen at it'], onWay: ['Look at {target}', 'Listen at it'] },
-    sell: { slot: 'target', param: 'buyer', path: ['Sell {ware}'] },
+    // What it fetches is said before it is sold (the follow-up review sold a lamp and learned its price after).
+    sell: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {sellfee} coin'] },
+    sell_valuable: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {worthfee} coin'] },
     open_door: { slot: 'target', param: 'door', path: ['Open'] },
     close_door: { slot: 'target', param: 'door', path: ['Close'] },
     unlock_door: { slot: 'target', param: 'door', path: ['Unlock with {key}'] },
@@ -245,6 +247,8 @@ export class ChoiceGrouping {
       key === 'price' ? String(data.context.prices.get(data.b.find ?? '') ?? 0) :
       key === 'fee' ? String(data.context.fees?.get(data.b.service ?? '') ?? 0) :
       key === 'goodsfee' ? String(data.context.fees?.get(`${data.b.seller}:${data.b.goods}`) ?? 0) :
+      key === 'sellfee' ? String(data.context.fees?.get(`pays:${data.b.buyer}:${data.b.form}`) ?? 0) :
+      key === 'worthfee' ? String(data.context.fees?.get(`worth:${data.b.form}`) ?? 0) :
         data.context.names.get(data.b[key] ?? key) ?? data.b[key] ?? key);
   }
   private static slot(map: Map<string, Act[]>, id: string): Act[] {
