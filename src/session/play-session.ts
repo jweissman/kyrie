@@ -6,12 +6,16 @@ import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { PlayerView } from '../presentation/player-view';
 import { Telling } from '../narrative/telling';
+import type { Memorial } from '../world/memorial';
 
 export interface TranscriptStep { command: string; combat?: Command[] }
 export interface Transcript {
   version: 1; party?: CreatureGenerationContext[]; scenario: string; seed: string;
   steps: TranscriptStep[]; complete: boolean;
+  // A generated world's: what it was drawn for, so that it can be drawn again to replay the steps (see DrawnWorld).
+  drawn?: Drawn;
 }
+export interface Drawn { party: CreatureGenerationContext[]; terrain?: string; origin?: string; memorial?: Memorial }
 // Chooses the next command for the player's side. Must return one of battle.legalCommands().
 export type CombatController = (battle: Battle) => Promise<Command>;
 export interface SessionCheckpoint { version: 1; transcript: Transcript; save: CampaignSave }
@@ -27,11 +31,12 @@ export class PlaySession {
   readonly seed: string;
   private complete: boolean;
   private party?: CreatureGenerationContext[];
+  private drawn?: Drawn;
   // What the world draws as the company goes (the country beyond a march-stone, see Frontier): drawn as part of the
   // command, so that the same commands replayed draw the same world.
   private expander?: Expander;
   private constructor(readonly campaign: Campaign, history: Omit<Transcript, 'version'>) {
-    this.party = structuredClone(history.party);
+    this.party = structuredClone(history.party); this.drawn = structuredClone(history.drawn);
     this.scenario = history.scenario; this.seed = history.seed;
     this.steps = structuredClone(history.steps); this.complete = history.complete;
   }
@@ -52,12 +57,13 @@ export class PlaySession {
   }
   get transcript(): Transcript {
     return { version: 1, ...(this.party ? { party: structuredClone(this.party) } : {}), scenario: this.scenario,
-      seed: this.seed,
+      seed: this.seed, ...(this.drawn ? { drawn: structuredClone(this.drawn) } : {}),
       steps: structuredClone(this.steps),
       complete: this.complete };
   }
   get acting(): boolean { return this.busy; }
   extend(expander: Expander): this { this.expander = expander; return this; }
+  drawnFor(drawn: Drawn): this { this.drawn = structuredClone(drawn); return this; }
   // live: to be written out at once, so not copied (see Campaign.save).
   checkpoint(live = false): SessionCheckpoint {
     return { version: 1, transcript: this.transcript, save: this.campaign.save(true, live) };

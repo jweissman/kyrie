@@ -5,6 +5,7 @@ import { Content } from '../../src/content';
 import { Overlays } from '../../src/overlays';
 import { CompanyPreview } from '../../src/presentation/company-preview';
 import { WorldAssembler } from '../../src/world/world-assembler';
+import { DrawnWorld } from '../../src/world/drawn-world';
 import type { BundleSource } from '../../src/campaign/bundle-source';
 import { ModuleBundle, type CampaignManifest } from '../../src/campaign/module-bundle';
 import { Scenarios } from '../scenarios';
@@ -99,9 +100,7 @@ export class Creation {
     at: { terrain?: string; origin?: string; memorial?: Memorial } = {}) {
     if (campaign !== Creation.generated) { return { path: campaign, source: Scenarios.source() }; }
     // Its own world, whatever else is being drawn meanwhile (a start made ready in advance, a new country).
-    const world = await WorldAssembler.assemble(seed, Scenarios.source(), {
-      ...at.terrain ? { region: { terrain: at.terrain } } : {}, party, ...at.origin ? { origin: at.origin } : {},
-      ...at.memorial ? { memorial: at.memorial } : {} });
+    const world = await WorldAssembler.assemble(seed, Scenarios.source(), DrawnWorld.options({ party, ...at }));
     return { path: world.path, source: world.source };
   }
   static preview(party: Member[], generated: boolean): CompanyView {

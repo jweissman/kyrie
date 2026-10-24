@@ -75,11 +75,13 @@ export class EngineHost {
     return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
   }
   private async start(r: Starting): Promise<PlaySession> {
-    const origin = await this.creation.origin(r.campaign, r.seed, r.party,
-      { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
-        ...r.memorial ? { memorial: r.memorial } : {} });
+    const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
+      ...r.memorial ? { memorial: r.memorial } : {} };
+    const origin = await this.creation.origin(r.campaign, r.seed, r.party, at);
     // An origin makes the protagonist what it says (their background, what they carry): the world's telling of them.
-    return PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);
+    const session = await PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);
+    // A generated world keeps what it was drawn for, so that its transcript can be replayed (see DrawnWorld).
+    return r.campaign === Creation.generated ? session.drawnFor({ party: r.party, ...at }) : session;
   }
   private async begin(r: Starting): Promise<Frame> {
     this.post({ kind: 'progress', stage: 'Drawing the world' });

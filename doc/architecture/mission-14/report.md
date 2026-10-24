@@ -609,7 +609,13 @@ structural ones. I repaired these, which were mine or small:
   country beyond a march-stone after each command, outside the record of it. It is drawn as part of the command now:
   a session is extended with the frontier (`PlaySession.extend`), and replaying the same commands draws the same
   countries (`test/frontier-replay.test.ts`, walking thorn to its march-stone and replaying in a fresh session). The
-  terminal's replay still cannot start a generated world from a transcript at all.
+  terminal's replay could not start a generated world from a transcript at all: the world is drawn, not read, and
+  the transcript did not keep what it was drawn for. It keeps it now (`drawn`: the company, terrain, origin and
+  memorial), and `bin/kyrie replay` draws the world again from it (`src/world/drawn-world.ts`, by the same options
+  the browser draws it by) and extends it with the frontier. A game played through the browser's engine in a1
+  replays in the terminal to the same game, its world drawn from the files where the browser drew it from its
+  bundles; only the world's path is the terminal's own (`test/drawn-replay.test.ts`). A transcript from before
+  this cannot be replayed, and says so.
 - **Lint could not stand as an author's check** (§E-bis): an error in any campaign but the game's own left it
   saying 0, and run from anywhere but the game's directory it could not find the shared rules. An error now fails
   it in any campaign, and the shared rules are the game's, wherever it is run from; and a hazard whose effect names

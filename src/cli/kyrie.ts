@@ -15,6 +15,8 @@ import { HandbookTool } from './handbook';
 import { OrsinoRegistryTool } from './orsino-registry';
 import { Playtext } from './playtext';
 import { Terminal } from './terminal';
+import { Frontier } from '../world/frontier';
+import { DrawnWorld } from '../world/drawn-world';
 
 export class KyrieCli {
   static readonly usage = [
@@ -54,11 +56,22 @@ export class KyrieCli {
       { stdio: ['inherit', 'inherit', 'inherit'] });
     return run.exitCode ?? 1;
   }
+  // A transcript played again from its start, and the game it comes to; a generated world is drawn again first, from
+  // its seed and what it was drawn for.
   private static async replay(path: string): Promise<number> {
-    const transcript = JSON.parse(await readFile(path, 'utf8')) as Transcript;
-    const session = await PlaySession.start(transcript.scenario, transcript.seed, NodeBundleSource.shared,
-      transcript.party);
-    await session.replay(transcript.steps);
+    const t = JSON.parse(await readFile(path, 'utf8')) as Transcript;
+    if (Frontier.generated(t.scenario) && !t.drawn) {
+      console.error(`${path}: a generated world's transcript from before what it was drawn for was kept`);
+      return 1;
+    }
+    const session = t.drawn ? await DrawnWorld.start(t.seed, t.drawn, NodeBundleSource.shared)
+      : await PlaySession.start(t.scenario, t.seed, NodeBundleSource.shared, t.party);
+    // The terminal draws it where it stands; the browser named it by itself.
+    if (session.scenario !== t.scenario && !session.scenario.endsWith(`/${t.scenario}`)) {
+      console.error(`${path}: drawn again, the world is ${session.scenario}, not ${t.scenario}`);
+      return 1;
+    }
+    await session.replay(t.steps);
     console.log(session.canonical());
     return 0;
   }
