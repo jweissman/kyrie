@@ -696,6 +696,33 @@ journal's report of it, "Cassius told you", "as a tally cut in the wall has it",
 it proposes, kept apart from what is known, and the company's own beliefs, are not done); local kinds are installed in a
 global catalogue (F-08); Deem and the language tables are unpinned (F-11).
 
+## A follow-up review, and what came of it
+
+The same afternoon another agent played the deployed game again, in the browser, from fresh starts:
+[`independent-review-follow-up-2026-10-24/report.md`](independent-review-follow-up-2026-10-24/report.md). Its
+verdict: more playable and sometimes affecting, not yet reliably compelling for hours; it would go on for another
+excursion. It ranks twelve findings. I repaired these:
+- **A saved game would not load in a fresh browser** (its first): "Unknown item definition cantor_token". The company
+  carrying the singing hall's own token was rebuilt before the save's own kinds were put back; they are put back
+  first (`test/cold-resume.test.ts`, and `test/kept-kinds-browser.test.ts`, which reloads the page). Measuring the
+  browser found a fault of the same kind at Begin (see Performance).
+- **A caster's row opened their spells and left another's sheet** in the company view: a member's row is the member,
+  and their sheet shows as their actions open (the reader's browser test).
+- **Companions went from the page once nothing was left to ask them**: whoever travels with the company is listed
+  with it whatever they have to say (`test/mage-play.test.ts`).
+- **A torch in the pack, "nothing to spare" beside it**: an item's kind was its name, and the light counted ids
+  (`test/light-left.test.ts`).
+- **The father's knife stayed in his belt after it was taken**, and **the brother was to be told what he had knelt
+  beside**: the knife is said while it is there, and one who knelt by the cart is not told of it
+  (`test/goings-on.test.ts`, `test/origins.test.ts`).
+
+Not done, with the review's own ranking: inquiries that lead nowhere playable (a pit with no entrance after a
+search, a listening room with nothing to listen to; 4); terms not quoted before a choice (a debt's extension, a sale;
+6); a hall's dweller met as a fight the moment its room is entered (7); combat telling that contradicts itself
+(burning and not burning; 8); an argument won by one example (9); a subject lost from focus by reading or tending
+(10); portraits and one name (Immeral) at odds with the company (11); an artifact that offers only Take though its
+description exists (12).
+
 ## Invariants
 
 `bin/` holds only `bin/kyrie`; the tools are subcommands (lint, compile, test, preview, world, voice, handbook,

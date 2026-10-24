@@ -88,6 +88,22 @@ describe('an origin', () => {
     expect(told.combat.filter(e => e.type === 'gain').map(e => e.type === 'gain' && e.detail))
       .toContain('experience: the drover who did not come home, seen through');
   }, 60000);
+  // The follow-up review: the brother knelt by the cart, and then was to be told what was found there.
+  it('does not have the brother told what he knelt beside', async () => {
+    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { origin: 'kin', party: [Opening.wenna] });
+    const s = await PlaySession.start(w.path, 'a1', w.source);
+    const road = w.report.placements.find(p => p.scenario === 'drover')!.bindings.road!;
+    await Opening.take(s, /_green\)$/);
+    const name = ScreenModel.build(s.campaign).people.find(p => p.id === 'drover__son')!.name.split(',')[0]!;
+    await Opening.take(s, new RegExp(`^Ask ${name} what he means to do`));
+    await Opening.take(s, new RegExp(`^Ask ${name} to join`));
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${road}`) }]));
+    await s.perform('wait');
+    await Opening.take(s, /^Search/);
+    expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'drover__son_knelt'))).toBe(true);
+    expect(PlayerView.choices(s.campaign).some(x => /what you found/.test(x.choice.name))).toBe(false);
+  }, 60000);
   it('holds a debt that comes due', async () => {
     const s = await Opening.start('debt');
     expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('You owe Mik at Murkstede 30 coin, by market day');

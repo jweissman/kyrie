@@ -58,6 +58,18 @@ describe('a drover who did not come home', () => {
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text))
       .toContain('Her coat is stiff with black ditch-mud to the belly.');
   }, 60000);
+  // The follow-up review took the drover's knife, and the road still said it was in his belt.
+  it('has his knife in his belt until it is taken', async () => {
+    const { w, s } = await Town.start(), placed = w.report.placements.find(p => p.scenario === 'drover')!;
+    GeneratedWorld.put(s, placed.bindings.road!);
+    await s.perform('wait');
+    await Town.act(s, /^Search/);
+    const seen = () => PlayerView.observe(s.campaign).observations.map(o => o.text);
+    expect(seen()).toContain('His knife is still in his belt.');
+    await Town.act(s, /^Collect a drover's knife/);
+    expect(seen()).not.toContain('His knife is still in his belt.');
+    expect(seen().join(' ')).not.toContain('knife');
+  }, 60000);
   it('goes out after his father himself if nobody brings word by the second evening', async () => {
     const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'drover')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_green`);

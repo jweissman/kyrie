@@ -63,6 +63,21 @@ describe('a mage in the king-barrow', () => {
     expect(early.some(l => /dew/.test(l.text))).toBe(true);
     expect(late.some(l => /dew|shadow long/.test(l.text))).toBe(false);
   });
+  // The follow-up review: companions went from the page once everything had been asked of them.
+  it('keeps a companion with the company when nothing is left to ask them', async () => {
+    const w = await WorldAssembler.assemble('cov7', NodeBundleSource.shared, { origin: 'wanderer', party: [Barrow.mage] });
+    const s = await PlaySession.start(w.path, 'cov7', w.source);
+    Barrow.put(s, 's1_taproom');
+    await Barrow.take(s, /^Ask Tharash what brings/);
+    await Barrow.take(s, /^Ask Tharash to join the company$/);
+    for (let n = 0; n < 8; n++) {
+      const ask = PlayerView.choices(s.campaign).find(c => /^Ask Tharash /.test(c.choice.name));
+      if (!ask) { break; }
+      await s.perform(ask.choice.id);
+    }
+    expect(PlayerView.choices(s.campaign).some(c => /^Ask Tharash /.test(c.choice.name))).toBe(false);
+    expect(ScreenModel.build(s.campaign).people.filter(p => p.companion).map(p => p.name.split(',')[0])).toEqual(['Tharash']);
+  }, 60000);
   // "The elders looks up, and puts their hands still": of many, only what can be said of many.
   it('is greeted by the elders of the town as many', async () => {
     const s = await Barrow.start([Barrow.mage]);

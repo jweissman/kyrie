@@ -22,9 +22,11 @@ Module drover "The drover who did not come home" {
   Observe ruts at road when not knows(party, found_cart) "Fresh ruts run off the edge of the road here, where the bank drops away.".
 
   Discovery found_cart "The drover's cart went off the road in the night. He is under it, a day or more dead, and whatever had the oxen dragged them off toward the hills." {
-    Found by searching road "Below the road, where the bank drops away, a cart lies on its side in the ditch with a man under it, a day or more dead. The oxen are gone; something had them, and dragged them off toward the hills. His knife is still in his belt.".
+    Found by searching road "Below the road, where the bank drops away, a cart lies on its side in the ditch with a man under it, a day or more dead. The oxen are gone; something had them, and dragged them off toward the hills.".
   }
   Item knife "a drover's knife with a horn handle" is dagger at road hidden until found_cart.
+  // Said while it is so: taken, the knife is no longer in his belt (the follow-up review took it and it stayed).
+  Observe knife_belt at road when knows(party, found_cart) and at(knife, road) "His knife is still in his belt.".
 
   // To one of the family the drover is a father, his wife a mother, his son a brother: they say other things.
   Observe wife_kin near wife when kin(party, wife) and not told(wife) "Your mother is at the hearth with her back to the room.".
@@ -46,7 +48,9 @@ Module drover "The drover who did not come home" {
     Says "'Go after him,' says {son}. 'Mother says wait. I have waited three days.' He looks at you, and at the road. 'If you are going, I am coming with you. If you are not, I am going anyway.'".
     On discuss { Assert willing(son, actor). Assert told(son). }
   }
-  Topic son_found_kin with son "Tell {son} what you found" when knows(actor, found_cart) and kin(actor, son) once {
+  // Not to one who knelt by the cart himself: he was there.
+  Topic son_found_kin with son "Tell {son} what you found" when knows(actor, found_cart) and kin(actor, son)
+    and not knows(actor, son_knelt) once {
     Says "{son} hears it out, and is quiet for a long time. 'Then whatever had the oxen is still out there,' he says. 'I want to see it.'".
     On discuss { Assert willing(son, actor). Assert told(son). }
   }
@@ -63,7 +67,8 @@ Module drover "The drover who did not come home" {
   Topic son_father with son "Ask {son} about his father" when not knows(actor, found_cart) and not kin(actor, son) once {
     Says "'Three days,' says {son}. 'Mother says wait. I have waited.' He looks at the road. 'If you are going that way, I will come.'".
   }
-  Topic son_found with son "Tell {son} what you found" when knows(actor, found_cart) and not kin(actor, son) once {
+  Topic son_found with son "Tell {son} what you found" when knows(actor, found_cart) and not kin(actor, son)
+    and not knows(actor, son_knelt) once {
     Says "{son} hears it out. 'Then whatever had the oxen is still out there,' he says. 'I am coming with you. No hire. I want to see it.'".
     On discuss { Assert willing(son, actor). Assert told(son). }
   }
@@ -78,7 +83,7 @@ Module drover "The drover who did not come home" {
     Says "'He used to sing to the oxen,' says {son}. 'Terrible songs. He made them up as he went, and they liked them better than anything.' He is quiet a while. 'Mother would not have him sing in the house.'".
   }
   Event son_wheel at road when travelsWith(son, party) and awake(member_son_person) and at(party, road) and not knows(party, found_cart) "{son} stops where the ruts go off the road and stands looking at them. 'That is the left wheel,' he says. 'That is his.'".
-  Entity son_knelt: fact "Your brother knelt by the cart.".
+  Entity son_knelt: fact "{son} knelt by the cart.".
   Observe son_kneels at road as event when travelsWith(son, party) and awake(member_son_person) and knows(party, found_cart) and not knows(party, son_knelt) "{son} goes down the bank to the cart before anyone can stop him, and kneels there a long time. When he comes back up he has nothing to say, and nobody asks him to." teaches son_knelt.
   // Left alone too long, the son goes out after his father himself.
   Rule son_goes at green when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone. Nobody stopped him." { Retract at(son, green). Assert gone(son). }

@@ -108,8 +108,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (turned) { this.attend(choice, turned); return; }
     if (choice.children) {
       const shut = open.includes(choice.id), siblings = MenuModel.siblings(this.menu, choice.id);
+      // In the company, a member's row is the member: their sheet is shown as what they can do opens (a caster's row
+      // opened their spells and left the first member's sheet, the follow-up review found).
+      const member = this.state.view === 'company' && frame.screen.party.some(m => m.id === choice.id)
+        ? choice.id : this.state.member;
       this.setState({ open: shut ? open.filter(id => id !== choice.id)
-        : [...open.filter(id => !siblings.includes(id)), choice.id], hovered: undefined });
+        : [...open.filter(id => !siblings.includes(id)), choice.id], hovered: undefined, member });
       return;
     }
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
