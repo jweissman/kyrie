@@ -4,6 +4,7 @@ import { Canon } from '../../canon/canon';
 import { RegionGrowth } from '../region-growth';
 import trades from '../../../data/generation/scenes/occupations.json';
 import { RegionGeography } from '../region-geography';
+import { RegionNews } from '../region-news';
 import type { Region } from '../region-writer';
 import type { Animal, Community, Resident } from './community';
 import { Likeness } from '../../paintings/likeness';
@@ -65,7 +66,7 @@ export class CommunityWriter {
       // Asked once: asked again, the same answer would only come again.
       `  Topic ${r.id}_work with ${r.id} ${q(`Ask ${r.name} about ${about}`)} when true once {`,
       `    Says ${q(this.said(r.talk, r, s.name))}.`, '  }',
-      ...this.knowing(region, c, r), ...this.recognising(r),
+      ...this.knowing(region, c, r), ...this.telling(region, c, r), ...this.recognising(r),
       // The day's round: at work from seven, of an evening from six, indoors from nine; wherever they ought to be
       // and are not, they go.
       `  Rule ${r.id}_day when hour(clock) >= 7 and hour(clock) < 18 and not at(${r.id}, ${work}) and ${free} { Assert at(${r.id}, ${work}). }`,
@@ -85,6 +86,14 @@ export class CommunityWriter {
       `  Topic ${r.id}_where with ${r.id} ${q(`Ask ${r.name} where willow grows`)} when not knows(actor, ${fact}) {`,
       `    Says ${q(`'Willow? By the water, same as everywhere,' says ${r.name}. 'There's a good stand on ${places}. Strip the bark, not the wood.'`)}.`,
       `    On discuss { Assert knows(actor, ${fact}). }`, '  }'];
+  }
+  // Someone whose work takes them round the roads (a tinker crying "news for nothing") has news of a neighbour.
+  private static telling(region: Region, c: Community, r: Resident): string[] {
+    const s = c.settlement, road = RegionGeography.roads(region).find(x => x.from.id === s.id || x.to.id === s.id);
+    if (!r.work.knows?.includes('roads') || !road) { return []; }
+    const near = road.from.id === s.id ? road.to : road.from;
+    return [`  Topic ${r.id}_news with ${r.id} ${this.q(`Ask ${r.name} for the news`)} when true once {`,
+      `    Says ${this.q(RegionNews.heard(region, near, { name: r.name, pronoun: r.pronoun, key: r.id }))}.`, '  }'];
   }
   // Someone who has done the same kind of work knows the company for it, and is kind to it.
   private static recognising(r: Resident): string[] {

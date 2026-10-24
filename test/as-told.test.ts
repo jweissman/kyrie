@@ -82,6 +82,15 @@ describe('as the company would tell it', () => {
     expect(Voice.render(line, { actor: 'the bats', pronoun: 'they', many: true }))
       .toBe('The bats are against you now, and they mean it.');
   });
+  // Found by an independent review of the deployed game: a tinker crying "news for nothing" had only her work to
+  // talk of. Whoever goes round the roads has the news of a neighbour, in the travellers' words.
+  it('has a tinker who cries news give some, of a place along the road', async () => {
+    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'a1', w.source);
+    const news = s.campaign.module.actions.find(a => a.name === 'Ask Lambert for the news');
+    expect(JSON.stringify(news)).toContain('Meóswaeter');
+  }, 60000);
   it('says heather, comfrey and wine as they are said, and a dandelion as one', () => {
     expect(['Heather', 'Comfrey', 'Kingsfoil', 'Wine', 'Dandelion'].map(n => ItemNames.called(n)))
       .toEqual(['heather', 'comfrey', 'kingsfoil', 'wine', 'a dandelion']);

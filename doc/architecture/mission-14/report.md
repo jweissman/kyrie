@@ -547,6 +547,8 @@ What it found, checked against the source, and repaired:
 - **Looking at an altar in the open turned the page black**, as if somewhere dark. Looking closely keeps the place's
   light; a fight, and lying fallen, are still dark.
 - **The same question answered again.** Asking someone about their work is asked once.
+- **News for nothing, and none to give.** A tinker crying "news for nothing" had only her work to talk of. Whoever
+  goes round the roads now has news of a neighbour along one, in the travellers' own words (`src/world/region-news.ts`).
 - **The last blow was lost**, and two awards of experience came with no reason. The fight's page closes as the
   last blow lands, and the account told afterwards kept only who fell; it now keeps the blow that felled each, as
   "Rharash critically hits the mud. The mud takes 11 slashing damage (0 HP left). The mud falls." Experience for
@@ -564,7 +566,6 @@ Not yet repaired, and why:
   used. The cure is more fitting pictures first, then fewer and smaller ones.
 - **Combat leaves the scene.** Holding the outcome, the wounds and the rewards together until the player turns away,
   rather than returning at once to the place, is the next interface work.
-- The tinker who offers "news for nothing" has none to give.
 
 ## Invariants
 

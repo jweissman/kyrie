@@ -3,11 +3,10 @@ import { RegionGeography, type Road } from './region-geography';
 import { Communities } from './community/community';
 import { RegionShops } from './region-shops';
 import { SettlementWriter } from './settlement-writer';
-import { SettlementScenes } from './settlement-scenes';
-import { Foundings } from './founding';
 import { Voice } from '../narrative/voice';
 import { CommunityWriter } from './community/community-writer';
 import { RegionSites } from './region-sites';
+import { RegionNews } from './region-news';
 import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/traffic.json';
 import folk from '../../data/generation/scenes/folk.json';
@@ -103,11 +102,7 @@ export class RegionTraffic {
     return [`  Topic ${t.id}_country with ${t.id} ${q(`Ask ${t.name} about the country off the road`)} when not knows(actor, ${named}) {`,
       `    Says ${q(this.say(t, t.draw.pick(tables.knows), words))}.`, `    On discuss { Assert knows(actor, ${named}). }`, '  }'];
   }
-  private static news(region: Region, s: Settlement): Record<string, string> {
-    const i = region.settlements.indexOf(s), f = Foundings.of(region, i);
-    const gossip = (tables.gossip as Record<string, string[]>)[f.kind] ?? tables.gossip.farm;
-    return { from: s.name, life: SettlementScenes.life(region, i) ?? '', gossip: new Draw(`${s.id}:gossip`).pick(gossip) };
-  }
+  private static news(region: Region, s: Settlement): Record<string, string> { return RegionNews.of(region, s); }
   // A trouble on the road: it comes on some mornings, and whoever helps is thanked; if nobody does, it is sorted out
   // by evening anyway.
   private static trouble(t: Traveller): string[] {
