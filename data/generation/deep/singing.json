@@ -1,0 +1,227 @@
+{
+  "about": "The Stone-Singers' hall under a hill: a deep site generated from what it was for. They shaped stone by song, cutting their halls whole out of the living rock without a mark of chisel or a joint, and their doors opened to a note; at the last, failing, they sang the last of themselves into the stone of their hall. Levels follow the singing down: the porch and its hall of doors, the choir where they sang, and the still halls where the song stopped. A pivot-door that has settled on its stone closes the stair; the door of the still halls opens only to the note cut over it, for whoever can read it; a crack the unsung stone opened is a way round; a sounding-shaft where the wind sings is a second way out. What the singers sang into the stone keeps the last hall, and the rites of the dead lay it: the cantors kept a dirge bell. Written by hand.",
+  "art": "stone",
+  "walks": ["the passage", "the curving way", "the smooth passage"],
+  "plan": {
+    "id": "deep_singing",
+    "kind": "cave",
+    "seen": "a smooth-mouthed cave in a hillside",
+    "names": ["hall", "choir", "song", "hollow"],
+    "ground": ["fell", "heath", "wood"],
+    "danger": 1
+  },
+  "levels": [
+    {
+      "id": "porch",
+      "names": ["the porch", "the outer halls"],
+      "spine": ["mouth", "doors", "gallery", "stair_head"],
+      "branches": [
+        { "at": "doors", "roles": ["listening", "?dormitory"] },
+        { "at": "gallery", "roles": ["vent"] }
+      ],
+      "loops": []
+    },
+    {
+      "id": "choir",
+      "names": ["the choir", "the singing halls"],
+      "spine": ["stair_foot", "choir_hall", "tuning", "deep_door"],
+      "branches": [
+        { "at": "choir_hall", "roles": ["cantors", "?school"] },
+        { "at": "tuning", "roles": ["?vault"] }
+      ],
+      "loops": []
+    },
+    {
+      "id": "still",
+      "names": ["the still halls", "where the song stopped"],
+      "spine": ["landing", "chorus", "heart"],
+      "branches": [
+        { "at": "chorus", "roles": ["?echoes"] },
+        { "at": "heart", "roles": ["root"] }
+      ],
+      "loops": []
+    }
+  ],
+  "connectors": [
+    { "kind": "stair", "from": ["porch", "stair_head"], "to": ["choir", "stair_foot"], "mechanism": "winch", "minutes": 3, "names": ["the stair behind the pivot-door"] },
+    { "kind": "door", "from": ["choir", "deep_door"], "to": ["still", "landing"], "mechanism": "seal", "minutes": 1, "names": ["the singing door"] },
+    { "kind": "crawl", "from": ["choir", "cantors"], "to": ["still", "chorus"], "minutes": 8, "names": ["the crack in the unsung stone"] }
+  ],
+  "roles": {
+    "mouth": { "lit": true, "names": ["the mouth of the hall"], "scenes": ["Inside the mouth the rock is as smooth as it is without, the floor worn into a shallow trough by feet, and the air that comes out of the hill is cool and smells of nothing at all. Somewhere far in, something is humming."] },
+    "doors": { "names": ["the hall of doors"], "scenes": ["A long hall with doors along both sides, each a single slab of the hill's own stone, standing open or shut on pivots as true as the day they were sung there. Your footsteps come back to you a little higher than you made them."] },
+    "listening": { "names": ["the listening-room"], "scenes": ["A round room with a bench cut round its wall and a hollow in its floor like a bowl. Speak, and the room gives it back to you from behind your head, softly, a moment late."] },
+    "dormitory": { "names": ["the sleepers' hall"], "scenes": ["A hall of shelves cut into the rock for beds, each the shape of a sleeper, smooth as if they had been pressed into wax and the wax had turned to stone."] },
+    "gallery": { "names": ["the echoing gallery"], "scenes": ["A gallery that bends, and bends again, so that what you say runs on ahead of you round the corners and comes back changed. There is a hum in the stone here, very low, that may only be the blood in your ears."] },
+    "vent": { "names": ["the sounding-shaft"], "scenes": ["A shaft goes up out of the gallery's roof, smooth as a flute, and the wind across its top far above makes it sing one long note, over and over. Grey daylight comes down it."] },
+    "stair_head": { "names": ["the head of the stair"], "scenes": ["The gallery ends at a stair going down into the hill, and across the stair a door of stone stands closed on its pivot, settled, its edge sunk a finger's breadth into the floor."] },
+    "stair_foot": { "names": ["the foot of the stair"], "scenes": ["The stair comes down into a hall so high that your light does not find its roof, and the sound of your arrival goes up into it and does not come down."] },
+    "choir_hall": { "names": ["the choir"], "scenes": ["Tiers of stone rise round three sides of the hall like the inside of a bowl, worn smooth where people stood, and on the fourth side a single wall of rock is cut with lines that are not letters: music, kept the only way the Stone-Singers kept anything."] },
+    "cantors": { "names": ["the cantors' rooms"], "scenes": ["Small rooms off the choir with hearths cut into their walls and stone shelves for what the cantors kept: a bowl, a reed, the shape of a flute in the dust where a flute lay."] },
+    "school": { "names": ["the singing-school"], "scenes": ["A room of benches facing a wall cut with the same few lines again and again, smaller and smaller, the way a child copies a letter until it is right."] },
+    "tuning": { "names": ["the tuning-room"], "scenes": ["A narrow room hung with stones on stone chains: long stones, short stones, each cut hollow, each a little different. Touch one, and it gives a note that goes on after your hand has left it."] },
+    "vault": { "names": ["the singers' store"], "scenes": ["A store behind the tuning-room, cut whole like everything here, with niches round the walls and in some of them what the singers kept for best."] },
+    "deep_door": { "names": ["the door of the still halls"], "scenes": ["The choir narrows to a door: a round slab of stone that fills its doorway like a coin in a slot, without a handle or a hinge, and above it a single line cut in the stone."] },
+    "landing": { "names": ["the landing"], "scenes": ["Beyond the door the air is still in a way the air above was not, and the floor goes down by low broad steps, and there is no echo at all."] },
+    "chorus": { "names": ["the chorus"], "scenes": ["The hall is full of people, standing, their mouths open on a note, every one of them stone: the Stone-Singers, as many as the choir above would hold, sung into the stone of their own hall. Their faces are not afraid."] },
+    "echoes": { "names": ["the hall of echoes"], "scenes": ["A hall where every sound you make comes back, and goes on coming back, fainter, long after you have stopped, until you are not sure which of the voices is yours."] },
+    "heart": { "names": ["the last hall"], "scenes": ["At the bottom of the still halls a round hall with a single stone at its centre, set on a stone stem like a flower, and the stone is humming: the one sound in the still halls, low and steady, the last note the Stone-Singers held."] },
+    "root": { "names": ["the root of the hill"], "scenes": ["Behind the last hall the cut stone gives out into the hill's own rock, cracked and raw, a long way down, as if the hill had been opened here by something leaving."] }
+  },
+  "dwellers": [
+    { "depth": 0, "groups": [
+      { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the hall of doors", "temperament": "wary" },
+      { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on what the hill lets fall", "temperament": "wary" },
+      { "species": "beetle", "count": 3, "label": "the beetles", "role": "beetles as big as a fist, white from the dark", "temperament": "wary" },
+      { "species": "centipede", "count": 2, "label": "the centipedes", "role": "centipedes that hunt along the smooth walls", "temperament": "wary" }
+    ] },
+    { "depth": 1, "groups": [
+      { "species": "dust_elemental", "count": 1, "label": "the dust", "role": "the dust of sung stone that has cracked, which moves", "temperament": "territorial" },
+      { "species": "banshee", "count": 1, "label": "the voice", "role": "a voice in the stone that sings back, and will not stop", "temperament": "savage" },
+      { "species": "spirit", "count": 2, "label": "the cantors", "role": "cantors who would not leave their choir", "temperament": "territorial" }
+    ] },
+    { "depth": 2, "groups": [
+      { "species": "crystal_elemental", "count": 1, "label": "the hard note", "role": "a singer's note gone hard, as sharp as glass", "temperament": "territorial" },
+      { "species": "earth_elemental", "count": 1, "label": "the unsung stone", "role": "stone that was sung and has come unsung, and walks", "temperament": "territorial" }
+    ] }
+  ],
+  "elites": [
+    { "depth": 0, "groups": [
+      { "species": "centipede", "count": 1, "label": "the great centipede", "role": "a centipede as long as the gallery bends, that knows every bend", "temperament": "territorial" }
+    ] },
+    { "depth": 1, "groups": [
+      { "species": "banshee", "count": 1, "label": "the first cantor", "role": "the first cantor of the choir, who still leads the song", "temperament": "territorial" }
+    ] },
+    { "depth": 2, "groups": [
+      { "species": "earth_elemental", "count": 1, "label": "the keeper of the chorus", "role": "the stone that keeps the chorus, and will not have them woken", "temperament": "territorial" }
+    ] }
+  ],
+  "keeper": {
+    "species": "golem",
+    "label": "the Unsung",
+    "role": "the last song of the Stone-Singers, set hard in stone",
+    "level": 8,
+    "temperament": "territorial",
+    "refuge": "root",
+    "fears": "rites",
+    "words": {
+      "Warns": "Behind the humming stone the wall of the last hall stands up out of itself and is a figure, as tall as the hall, made of every singer at once; it opens a mouth that is all their mouths, and the note gets louder.",
+      "Flinches": "You ring the dirge bell over the singers, and say for them what is said over the dead. The Unsung stops; the note in it falters, and it goes back from you into the root of the hill, as the dead go when they have been sent."
+    }
+  },
+  "bane": {
+    "item": "dirge_bell",
+    "role": "cantors",
+    "seen": "In a niche of the cantors' room, apart from everything else, a small bell of grey bronze hangs on a peg of stone, with a clapper of bone.",
+    "cut": "WE ARE IN THE STONE. RING FOR US AS FOR THE DEAD, AND THE SONG WILL BE STILL.",
+    "fact": "What the Stone-Singers sang into their hall cannot bear the rites of the dead said over it; their cantors kept a dirge bell for the dead."
+  },
+  "objective": {
+    "item": "the tuning-stone of the Stone-Singers",
+    "kind": "tuning_stone",
+    "worth": 1500,
+    "weight": 4,
+    "text": "The Stone-Singers tuned their halls to one stone, cut whole and hollow, that has hummed in their last hall since they sang themselves into the rock. Whoever brings it out has the note their halls were made by.",
+    "goal": "Bring the tuning-stone up out of {name}, from the last hall.",
+    "raised": "In the daylight the tuning-stone, up out of {name} at last, stops humming, and is only stone: a hollow stone, beautifully cut, as light as a bowl."
+  },
+  "rumours": [
+    "'The singing halls at {name}? Smooth as an egg inside, they say, and not a chisel-mark anywhere. Sing in there and something sings back. Nobody goes past the stair.'",
+    "'My uncle went into {name} for the stones the old folk left, and came out humming, and hummed till he died. He brought out a little stone that rings. I will buy any you bring, and not ask.'"
+  ],
+  "hook": {
+    "topic": "the singing halls",
+    "trade": { "topic": "what is in the singing halls", "says": "holds up a little hollow stone and flicks it with a nail, and it rings. 'Bring me what the Singers left and I will pay what it is worth.'" }
+  },
+  "camp": {
+    "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
+    "journal": [
+      "A notebook, swollen with damp. 'The door across the stair is down on its pivot and will not turn. A bar under its edge might lift it. The gallery hums. Oda says it is only the wind in the shaft. It is not only the wind.'",
+      "A notebook, the last pages written small. 'Below the choir there is a round door with no handle and a line cut over it that is not writing. Oda thinks it is a note, and that the door would open to it, for someone who could read it. There is a crack in the cantors' room that goes down, and air comes up it.'",
+      "A notebook, the last page hardly legible. 'They are all down there, the singers, standing, in stone. Oda went past them to the last hall. The stone in there stood up.'",
+      "A notebook with one line in it: 'it is singing them'."
+    ]
+  },
+  "outside": "A cave opens in the hillside, its mouth as round as a sung O and as smooth as the inside of a shell, without a mark of chisel anywhere. Over it, cut in the old script: {oldup}.",
+  "finds": {
+    "negligible": ["cloth_pouch", "candle", "chalk", "iron_figurine", "simple_ring", "broken_flute", "bell", "wooden_figurine"],
+    "minor": ["bronze_bracelet", "jade_idol", "hand_mirror", "iron_torc", "rope", "bronze_statue"],
+    "major": ["golden_idol", "ring_of_minor_protection", "silvered_bracers", "jeweled_dagger"],
+    "grand": ["ring_of_protection", "jeweled_torc", "ring_of_strength", "helm_of_the_stars"]
+  },
+  "valuables": {
+    "negligible": [
+      { "id": "ringing_pebble", "name": "a ringing pebble", "worth": 30, "weight": 0, "text": "A pebble cut hollow, that rings when it is flicked." },
+      { "id": "cantor_token", "name": "a cantor's token", "worth": 40, "weight": 0, "text": "A disc of polished stone with a single line cut across it: a note, for a cantor to carry." },
+      { "id": "stone_reed", "name": "a stone reed", "worth": 45, "weight": 0, "text": "A reed for a pipe, cut in stone so thin the light comes through it." }
+    ],
+    "minor": [
+      { "id": "singing_bowl", "name": "a singing bowl", "worth": 120, "weight": 1, "text": "A bowl of stone that hums when its rim is rubbed with a finger, a note that fills a room." },
+      { "id": "rose_quartz_note", "name": "a rose-quartz note", "worth": 100, "weight": 0, "text": "A sliver of rose quartz cut to ring at one pitch, and only that one." },
+      { "id": "stone_flute", "name": "a stone flute", "worth": 150, "weight": 1, "text": "A flute cut whole out of a single stone, its holes as smooth as if they had been sung there." }
+    ],
+    "major": [
+      { "id": "amethyst_bell", "name": "an amethyst bell", "worth": 300, "weight": 1, "text": "A bell cut out of one amethyst, with an amethyst clapper; its note is the colour of it." },
+      { "id": "tourmaline_pipes", "name": "tourmaline pipes", "worth": 350, "weight": 1, "text": "Three pipes of green and black tourmaline, joined, that play a chord when blown." },
+      { "id": "choir_seal", "name": "a choir-master's seal", "worth": 250, "weight": 0, "text": "A seal of jasper cut with the lines of a song, for marking what the choir had sung." }
+    ],
+    "grand": [
+      { "id": "crystal_eye_lyre", "name": "a crystal lyre", "worth": 800, "weight": 2, "text": "A small lyre of clear crystal with strings of hair-fine stone, that rings when it is breathed on." },
+      { "id": "song_tablet", "name": "a tablet of the great song", "worth": 700, "weight": 2, "text": "A tablet of malachite cut close with the lines of a song too long for one voice: a part of the song that cut the halls." }
+    ]
+  },
+  "wonders": ["singing_crystal", "whispering_voices", "enchanted_flute", "glowing_runes", "shifting_walls", "arcane_symbols", "living_mural"],
+  "mechanisms": {
+    "winch": { "kind": "stair", "thing": "the settled pivot-door",
+      "seized": "The pivot-door has settled on its stone, its edge sunk into the floor; it will not turn.",
+      "turning": "The pivot-door swings on its pivot as true as the day it was sung there.",
+      "free": "Lift the settled door off its stone with a bar",
+      "shut": "A door of stone stands closed across the stair on its pivot.",
+      "climb": "the gap over the pivot-door" },
+    "seal": { "kind": "door", "thing": "the singing door", "noun": "the singing door of the still halls", "opened": "the singing door",
+      "standing": "A round door of stone fills the doorway like a coin in a slot, without a handle or a hinge.",
+      "broken": "The round door has rolled aside into its socket, and the way down into the still halls is open.",
+      "break": "Sing the note cut over the door",
+      "rebuild": "Sing the singing door shut",
+      "needs": "lore",
+      "words": "the line cut over the door",
+      "unread": "A single line is cut over the door, and other lines round it, in the old script. Someone who reads the old script could say what they mean, and how the note goes.",
+      "readLabel": "Read what is cut over the door",
+      "read": "{oldup}. WE HAVE SUNG OURSELVES INTO THE STONE. DO NOT OPEN THE STILL HALLS. {FATE}",
+      "told": "Read aloud, the old words say plainly enough who is behind the door, and what will still them." },
+    "vent": { "found": "Where the long note comes from: the sounding-shaft, a smooth flue a body could climb, up to the hillside.",
+      "sign": "Under the hum of the gallery there is another sound, a long clean note from somewhere above, like wind across the mouth of a jar.",
+      "crawl": "the bend into the sounding-shaft", "rungs": "the climb up the sounding-shaft" }
+  },
+  "after": {
+    "warlords": [
+      { "role": "mouth", "scene": "Someone after the Stone-Singers made a hold of the cave mouth: a wall of rough stones piled across half of it, ugly against the smooth rock, with a slit to shoot from." },
+      { "role": "doors", "document": { "name": "the words scratched on a door", "shut": "Across one of the stone doors someone has scratched words in the kingdom's letters, deep and crooked.", "label": "Read the words scratched on the door", "text": "THESE HALLS ARE THE LORD OF {kingdomup}'S. HIS MEN WENT DOWN AND DID NOT COME UP. NONE GOES DOWN." } }
+    ],
+    "abbots": [
+      { "role": "choir_hall", "scene": "The brothers who came after the Stone-Singers sang their own offices in the choir: their sign is cut on the lowest tier, small and careful, and the music-wall has a cross scratched over it.",
+        "document": { "name": "the brothers' tablet", "shut": "A slate tablet leans against the lowest tier, written over in a careful hand.", "label": "Read the brothers' tablet", "text": "The brothers of {kingdom} sang here, and the hall sang back, and it was not our song. We have sealed the stair below with prayer. Let no one sing at the round door." },
+        "valuable": { "id": "abbey_psalter", "name": "a brothers' psalter", "worth": 120, "weight": 1, "text": "A psalter in wooden boards with the brothers' sign on it, its music written over the top of older lines." } }
+    ],
+    "princes": [
+      { "role": "tuning", "scene": "The merchant-princes after the Stone-Singers tried to sell the tuning-stones: half the chains hang empty, and a crate lies broken by the door with straw in it.",
+        "document": { "name": "a company tally-board", "shut": "A tally-board hangs on a nail by the door, its marks in the kingdom's letters.", "label": "Read the tally-board", "text": "For the {kingdom} company: stones taken out, fourteen; stones that rang outside, none. The trade given up." } }
+    ]
+  },
+  "fallen": {
+    "plague": [
+      { "role": "dormitory", "scene": "When the plague came, the town laid its dead in the sleepers' hall, one to each stone bed, wrapped, and limed them, and went away." }
+    ],
+    "winter": [
+      { "role": "doors", "scene": "In the long winter people lived in the hall of doors, where the cold could not get in: there are hearths along it now, and soot on the smooth walls." }
+    ],
+    "heirs": [
+      { "role": "listening", "scene": "In the war of the heirs someone hid something in the listening-room, under the bowl in its floor: the stone of the bowl has been prised up and set back crooked.",
+        "hidden": { "found": "Under the bowl of the listening-room, prised up, a strongbox someone hid in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 300, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+    ],
+    "raiders": [
+      { "role": "mouth", "scene": "Raiders from over the sea came for the singers' stones one summer: there is a raiders' mark hacked in the smooth rim of the cave mouth, the only mark on it." }
+    ]
+  },
+  "rest": ["cantors"]
+}

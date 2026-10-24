@@ -104,9 +104,14 @@ though no way from Muzgkom reaches it; a spent trap still offers to be prodded.
   sluice turns the springs onto the great wheel and its pump-rods are coupled, an overflow culvert found by the sound
   of running water, and a keeper that shrinks not from the day but from the Wardens' oath. The oath is on a tablet in
   the cisterns' own archive, a kind of thing that exists only in that site, which reads the old script as the
-  glossary does, so whoever carries it can also read the warning on the gate. A country gets the first of these its
-  makers had (mine, then barrow, then cisterns). The sky and stone arts have no deep purpose yet, so a country of
-  only those (seed `d4`) has no deep site.
+  glossary does, so whoever carries it can also read the warning on the gate. And there is the Stone-Singers' hall
+  (`singing.json`, `test/deep-singing.test.ts`), cut whole out of a hill by song: a pivot-door settled on its stone
+  across the stair, a round door that opens to the note cut over it for whoever reads the old script (and not to
+  force), a crack round it, a sounding-shaft where the wind sings, a chorus of the singers turned to stone, and a
+  keeper that is their own last song, which the rites of the dead still, rung on the cantors' dirge bell. A country
+  gets the first of these its makers had (mine, barrow, cisterns, hall). Only the sky art has no deep purpose yet:
+  the Star-Readers built towers, which rise, and the generator, its danger by depth and the map's level stack all
+  go down.
 - A level no longer lays the same kind of trap twice while another kind would do: the cisterns' drowned hall had a
   pressure plate on each of its two ways, each described from both ends.
 - Companions died too easily, and I had the reason wrong: this report said Orsino's death save was against 25. Orsino
@@ -282,8 +287,7 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
    is. Calibration to look at from this play: Thoradin fell in almost every fight (a level-2 companion beside a
    level-3 warrior); a recruit had to be fetched from another town; and the walk to the mine and back, eight hours,
    is most of an expedition's time.
-2. Deep purposes for the sky and stone arts (an observatory, halls), now that the generator takes all of a purpose's
-   words and its own kinds of thing from its data.
+2. A deep purpose for the sky art: the Star-Readers' tower, which wants the generator to build upward.
 3. Split the company out of the region bundle so Begin can be composed while the player reads.
 4. Let what people believe change what they do: the philosophers' views reaching the town's council and its
    prices, the priest's doctrine modelled in the belief module rather than as its own facts.

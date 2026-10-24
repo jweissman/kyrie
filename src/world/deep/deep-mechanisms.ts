@@ -35,9 +35,10 @@ export class DeepMechanisms {
     const read = w.read.replace('{oldup}', words.oldup).replace('{FATE}', words.fate.toUpperCase());
     return [`  Passage ${l.id} ${q(l.name)} is ${w.kind} between ${l.a} and ${l.b} taking ${l.minutes} minutes.`,
       `  Thing ${wall} ${q(w.thing)} on ${l.id} {`, `    State standing blocking ${q(w.standing)}.`, `    State broken ${q(w.broken)}.`,
-      `    Change break ${q(w.break)} from standing to broken needing brawn or crowbar.`,
+      // Broken by main force, unless the purpose says how else it opens (a door that opens to a note, for lore).
+      `    Change break ${q(w.break)} from standing to broken needing ${w.needs ?? 'brawn or crowbar'}.`,
       // Built back up from above, as whoever promised it would: never from below, walling the builder in.
-      `    Change rebuild ${q(w.rebuild)} from broken to standing needing brawn at ${l.a}.`, '  }',
+      `    Change rebuild ${q(w.rebuild)} from broken to standing needing ${w.needs ?? 'brawn'} at ${l.a}.`, '  }',
       `  Thing ${cut} ${q(w.words)} at ${l.a} {`, `    State unread ${q(w.unread)}.`,
       `    State read ${q(`${read}${words.bane ? ` ${words.bane}` : ''}`)}.`,
       `    Change read ${q(w.readLabel)} from unread to read needing lore.`, '  }',

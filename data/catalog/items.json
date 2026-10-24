@@ -514,6 +514,19 @@
       "source": {
         "kyr": true
       }
+    },
+    "dirge_bell": {
+      "name": "Dirge bell",
+      "category": "equipment",
+      "description": "A small bell of grey bronze with a clapper of bone, rung over the dead. Whoever carries it, and rings it as it was rung, can say the rites that lay them.",
+      "slot": "charm",
+      "grants": {
+        "skill": "rites"
+      },
+      "value": 30,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

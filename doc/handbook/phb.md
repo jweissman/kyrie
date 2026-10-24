@@ -1040,7 +1040,7 @@ Old histories, scripts and the workings of magic: reading what others only see.
 
 *Kyr* · `skill:rites`
 
-- Brought by: Cleric, The faith backgrounds
+- Brought by: Cleric, The faith backgrounds, Dirge bell
 
 The prayers and forms that give the dead rest; what keeps the unquiet in their graves.
 
@@ -4239,6 +4239,17 @@ Brings Sunlight to whoever carries it equipped.
 Brings Lore to whoever carries it equipped.
 
 > A fat book in wooden boards, in which brothers of a dead order wrote the old script's letters beside their own, and copied out whole inscriptions with what they meant. Carried and studied, it lets its reader make out the old script.
+
+#### Dirge bell
+
+*Kyr · equipment* · `item:dirge_bell`
+
+- Worth: 30
+- Worn: charm
+
+Brings Rites of the dead to whoever carries it equipped.
+
+> A small bell of grey bronze with a clapper of bone, rung over the dead. Whoever carries it, and rings it as it was rung, can say the rites that lay them.
 
 ## Combat
 
