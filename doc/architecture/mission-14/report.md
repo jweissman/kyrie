@@ -753,7 +753,10 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
      (`Combat.weakest`), so a mage of seven is the first struck in every fight (cov7: by three beetles, and by two
      ghouls the next day). A member who has fallen gains no experience from the fight, as in Orsino, and may die of
      the fall at rest, so a caster of level 1 scarcely grows. That beasts choose whom to bite as a tactician would
-     is Orsino's, and is the first thing I would change for a beast;
+     is Orsino's, and is the first thing I would change for a beast. A warrior can stand in front of a companion
+     (Guard), and the fight's page offers it on the warrior's turn, but the game's own tactics, which fight a turn
+     left to them (T) and every fight the harness plays, seldom choose it; teaching them to would change every fight
+     the kept descents were recorded in;
    - a recruit or a tool (a pole, a crowbar) is often a day's walk away;
    - the wild trails, now between neighbours, are still two to five hours a leg;
    - what lies on the way is fine, but the deep's rooms are dense with things to fight, and every one of them is a

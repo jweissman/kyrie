@@ -68,7 +68,7 @@
   "news": [
     "'{from}?' says {Name}. '{life} Same as ever. {gossip}'",
     "'Came from {from} this morning,' says {Name}. '{gossip} That's the news, if it's news.'",
-    "'Nothing in {from} you'd cross the road for,' says {Name}. 'Well. {gossip}'"
+    "'{from}? I was only passing through,' says {Name}. 'Well. {gossip}'"
   ],
   "gossip": {
     "crossing": ["The water's up a hand on the post since the rain.", "Somebody's horse lay down in the ford and wouldn't get up. Took four of them."],
