@@ -432,7 +432,7 @@ Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 17 | 0 | 0 | 0 | 9 |
+| 6 | 18 | 1 | 0 | 2 | 9 |
 
 #### awake, fallen, slain, needsCare, canCast, treatable
 
@@ -538,7 +538,29 @@ Six hours and a ration, somewhere safe. The living get their strength and mana b
 
 > Needs: able(actor); at(actor, site); restful(site); quantity(actor, rations) >= 1
 
-> Then: Set nextMeal(actor) to watch(clock). Set lastSlept(actor) to watch(clock). Retract weary(actor).
+> Then: Assert rested(actor). Set restedAt(actor) to watch(clock). Set lastSlept(actor) to watch(clock). Retract weary(actor).
+
+#### rested, restedAt
+
+*Kyr · relation(group); measure(group)* · `rule:care.rested`
+
+Its ration is the company's meal: one the day's meal has already eaten in the six hours (the next is a day off) is not eaten twice; else it is eaten now, and is the day's meal. A meal eaten while it slept put the next a day after one due in its six hours: at least a day less six hours on.
+
+#### rest_meal
+
+*Kyr · rule* · `rule:care.rest_meal`
+
+> When: rested(?g); nextMeal(?g) < (restedAt(?g) + 108); quantity(?g, rations) >= 1
+
+> Then: Decrease quantity(?g, rations) by 1. Set nextMeal(?g) to (watch(clock) + 144). Retract hungry(?g). Retract rested(?g).
+
+#### rest_fed
+
+*Kyr · rule* · `rule:care.rest_fed`
+
+> When: rested(?g); nextMeal(?g) >= (restedAt(?g) + 108)) or (quantity(?g, rations) < 1
+
+> Then: Retract rested(?g).
 
 #### rest unfed
 
@@ -548,7 +570,7 @@ Six hours and a ration, somewhere safe. The living get their strength and mana b
 - Takes: 10 minutes
 - Costs: 1
 
-Its ration is the company's meal, eaten as meals are (world_needs): one the day's meal has already eaten in the six hours is not eaten twice. A company with nothing to eat is still offered its rest, and told why it cannot have it.
+A company with nothing to eat is still offered its rest, and told why it cannot have it.
 
 Six hours and a ration, somewhere safe; and there is no ration left.
 

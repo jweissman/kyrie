@@ -78,6 +78,20 @@ describe('a lantern and its oil', () => {
     for (let i = 0; i < 6; i++) { await Lamp.take(s, /^Wait an hour$/); }
     expect(lit()).toBe(false);
   }, 60000);
+  // With more than one ration it was eaten twice all the same, found playing cov2: the day's meal, due as the rest
+  // began, eaten in its first watch, and the rest's own at its end.
+  it('eats one ration for a rest, though the day\'s meal fell due while it slept', async () => {
+    const s = await Lamp.start();
+    Lamp.empty(s);
+    Lamp.put(s, 'region__w9_haulage_hall');
+    const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
+    const watch = s.campaign.world.number(ModuleWriter.call('watch', 'clock'));
+    c.commit(c.world.apply([{ kind: 'set', call: ModuleWriter.call('quantity', 'party', 'rations'), value: ModuleWriter.number(3) },
+      { kind: 'set', call: ModuleWriter.call('nextMeal', 'party'), value: ModuleWriter.number(watch) }]));
+    await Lamp.take(s, /^Rest and recover/);
+    for (let i = 0; i < 2; i++) { await Lamp.take(s, /^Wait a while$/); }
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(2);
+  }, 60000);
   it('is sold again once burned: at dawn what the smith sold and was spent is back on the shelf', async () => {
     const s = await Lamp.start();
     const flasks = () => s.campaign.world.number(ModuleWriter.call('shelf', 'region__s1_merchant', 'lamp_oil'));

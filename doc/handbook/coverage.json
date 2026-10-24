@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 190,
+    "kyr": 193,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 185,
+      "kyr": 188,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10703,6 +10703,27 @@
   {
    "id": "rule:care.rest",
    "title": "rest",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
+   "id": "rule:care.rested",
+   "title": "rested, restedAt",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
+   "id": "rule:care.rest_meal",
+   "title": "rest_meal",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
+   "id": "rule:care.rest_fed",
+   "title": "rest_fed",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-care"
