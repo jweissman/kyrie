@@ -104,8 +104,12 @@ export class MechanicsText {
   static condition(id: string, actor?: Record<string, number>): string | undefined {
     const c = Canon.conditions[id];
     if (!c) { return undefined; }
-    const effects = this.modifiers(c.modifiers ?? {}, actor);
-    return effects.length ? `${c.name}: ${effects.join(', ')}.` : undefined;
+    // What it binds its holder to, said with what it gives (Preparing to Charge: the next turn is the charge).
+    const gives = this.modifiers(c.modifiers ?? {}, actor).join(', ');
+    const binds = [c.compel ? `the next turn can only be ${Canon.abilities[c.compel]?.name ?? c.compel}, nothing else` : '',
+      c.forceTarget ? 'whoever has it can strike at nobody but whoever gave it' : ''].filter(Boolean).join('; ');
+    const said = [gives, binds].filter(Boolean).join('; and ');
+    return said ? `${c.name}: ${said}.` : undefined;
   }
   static modifiers(m: Modifiers, actor?: Record<string, number>): string[] {
     const signed = MechanicsText.signed, out: string[] = [];
