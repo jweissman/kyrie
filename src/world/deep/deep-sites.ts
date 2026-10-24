@@ -32,7 +32,7 @@ export class DeepSites {
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose })),
-      ...this.ore(purpose, layout), ...this.rest(purpose, layout, content),
+      ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...this.heard(layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values),
@@ -72,6 +72,22 @@ export class DeepSites {
         `    Retract at(${id}, ?o). Assert at(${id}, ?p). }`);
     }
     return lines;
+  }
+  // Who can be heard from the next room before they are met, while they are there and able: a band that falls on
+  // whoever comes in, or keeps its ground, or one of the deep's worst. Told in every room a way leads from.
+  static readonly sounds: Record<string, string> = {
+    savage: 'From {room} comes a sound that stops when you stop: breathing, or something like it.',
+    territorial: 'Something is moving about in {room}, and goes still when you do.',
+    elite: 'From {room} comes a sound you do not like at all: something large, that is not in any hurry.' };
+  private static heard(layout: DeepLayout, content: DeepContent[]): string[] {
+    return content.filter(c => c.dwellers && (c.dwellers.elite || this.sounds[c.dwellers.group.temperament]))
+      .flatMap(c => {
+        const d = c.dwellers!, room = c.room.id, said = this.sounds[d.elite ? 'elite' : d.group.temperament]!;
+        const ways = layout.links.filter(l => [l.a, l.b].includes(room));
+        const next = [...new Set(ways.map(l => l.a === room ? l.b : l.a))];
+        return next.map(n => `  Observe ${d.id}_heard_${n} at ${n} when able(${d.id}) and at(${d.id}, ${room})`
+          + ` ${this.q(said.replace('{room}', `{${room}}`))}.`);
+      });
   }
   // What the site was worked for, where it was left: lumps of ore in the stopes and the tubs.
   private static ore(purpose: DeepPurpose, layout: DeepLayout): string[] {

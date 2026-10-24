@@ -84,6 +84,13 @@ describe('what it takes, as the page tells it', () => {
     expect(told).toContain('Mik turns a jade idol over in the light');
     expect(told).not.toContain('set down');
   }, 60000);
+  it('lets what waits in the next room be heard before the company is in it', async () => {
+    const s = await Barrow.start();
+    Barrow.put(s, 'w8_halls_bone_hall');
+    const heard = () => PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
+    expect(heard()).toContain('From the ossuary comes a sound you do not like at all');
+    expect(heard()).toContain('Something is moving about in the mourners\' hall');
+  }, 60000);
   it('offers a remedy only to whoever it would help', async () => {
     const s = await Barrow.start();
     Barrow.put(s, 's4_green');

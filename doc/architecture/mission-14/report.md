@@ -172,12 +172,21 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   - the journal's way to a site in open country said only "The way to a long mound north of Faennslím". It says
     where the track to it goes from.
 
-  The barrow's way down is still ahead of them: the record so far stops at Wǽttún, a day's walk from it, with a
-  pole, a lantern and oil bought. Ambrose, a soldier paid off at midsummer, will join at Faennslím for 4 coin, and
-  brings the strength the counterweight wants.
-  The country is busy round them: a lord's toll on the Deopex road that makes food dearer, a drover gone missing,
+  The country was busy round them: a lord's toll on the Deopex road that makes food dearer, a drover gone missing,
   graves opened under a lone tower with a green light, and the brothers of Aergodríce, gone up to Nocstumul the
-  second morning after the same crown.
+  second morning after the same crown. The pole, a lantern and oil were a day's walk off at Wǽttún. Aghavan, a
+  scholar, joined there, and Ambrose, a soldier paid off at midsummer, at Faennslím. Back at the barrow on the
+  fifth day, the brothers' cross was on the forecourt wall. Ambrose levered the counterweight free, the pole sprang
+  the switch from a pace off, and the glyph on the next way was unsaid with the glossary. Then the company went
+  into the ossuary, where an elite of the halls, an alpha mourner, fell on it as it came in. Wenna, Cyril and
+  Aghavan went down; Ambrose killed it alone, and carried them into the mourners' hall to rest. The bone hounds
+  that keep that hall were letting him be, for a while. He stayed to pick up a cloak-pin, and they killed him.
+  No one was left standing on the fifth afternoon. That is a fair end for a level-1 company, but the ossuary gave
+  no sign of what was in it before the company was inside. Now a band that falls on whoever comes in, keeps its
+  ground, or is one of the deep's worst is heard from every room a way leads from ("From the ossuary comes a sound
+  you do not like at all: something large, that is not in any hurry"). The ending named the killer "Knitted bone
+  hound 1" and quoted the command it interrupted. It says "One of the agile bone hounds" now, and "as you went to
+  collect a gold cloak-pin" (`test/obituary.test.ts`).
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members

@@ -181,7 +181,8 @@ export class Narrator {
     const [name, ...rest] = t.name.split(', '), role = rest.join(', ');
     if (!role) { return name!; }
     // A role that already says who they are ("the smith", "who speaks for Harrehes") takes no article.
-    if (/^(the|a|an|his|her|their|who|whose) /i.test(role)) { return `${name}, ${role}`; }
+    // Nor does one of many ("hounds of knitted bone").
+    if (/^(the|a|an|his|her|their|who|whose) /i.test(role) || t.many) { return `${name}, ${role}`; }
     return `${name}, ${this.offices.test(role) ? 'the' : /^[aeiou]/i.test(role) ? 'an' : 'a'} ${role}`;
   }
   private static readonly offices =
