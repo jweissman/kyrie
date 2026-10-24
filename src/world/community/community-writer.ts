@@ -62,7 +62,8 @@ export class CommunityWriter {
         + ` Peaceable. Pronouns ${r.pronoun}. Manner ${r.manner}. }`,
       `  Observe ${r.id}_seen near ${r.id} of ${r.id} when at(${r.id}, ${work}) ${q(this.said(r.seen, r, s.name))}.`,
       ...r.evening === 'inn' && c.inn ? [`  Observe ${r.id}_evening near ${r.id} of ${r.id} when at(${r.id}, ${s.id}_taproom) ${q(this.said(r.tavern, r, s.name))}.`] : [],
-      `  Topic ${r.id}_work with ${r.id} ${q(`Ask ${r.name} about ${about}`)} when true {`,
+      // Asked once: asked again, the same answer would only come again.
+      `  Topic ${r.id}_work with ${r.id} ${q(`Ask ${r.name} about ${about}`)} when true once {`,
       `    Says ${q(this.said(r.talk, r, s.name))}.`, '  }',
       ...this.knowing(region, c, r), ...this.recognising(r),
       // The day's round: at work from seven, of an evening from six, indoors from nine; wherever they ought to be
