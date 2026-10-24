@@ -3,8 +3,16 @@ import type { Operator, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
+import { ItemNames } from '../item-names';
+import { Canon } from '../canon/canon';
 
-export interface Wanting { choice: PublicChoice; action: Operator; skill: string; name: string }
+// A choice the company could make with a skill it lacks: the skill, and anything else that would do instead (a crowbar,
+// for brawn), which it has not got either.
+export interface Wanting {
+  choice: PublicChoice; action: Operator; skill: string; name: string; or: string[];
+  // A kind of thing rather than a skill: "a ten-foot pole", which nobody in the company is carrying.
+  thing?: boolean;
+}
 interface Call { kind: 'call'; name: string; args: string[] }
 // How the company's skills bear on what it can do here: which skill each choice relies on (and so who does it),
 // and what the company could do if anyone in it had a skill it lacks, read from the same legal commands in a world
@@ -70,9 +78,10 @@ export class SkillReading {
     // Only needs of what is near the company count: the things here, the ways out, and what stands on them.
     const legal = new Set(campaign.offered().map(a => a.id)), near = this.near(campaign, actor);
     const nearNeeds = needs.filter(r => near.has(r.args[0]!));
-    const lacking = campaign.module.entities.filter(e => e.type === 'capability' && !this.has(campaign, actor, e.id))
+    const lacking = [...campaign.module.entities.filter(e => e.type === 'capability' && !this.has(campaign, actor, e.id))
       .map(skill => ({ skill, only: new Set([...named.get(skill.id) ?? [],
-        ...nearNeeds.some(r => r.args[1] === skill.id) ? needing : []]) })).filter(l => l.only.size);
+        ...nearNeeds.some(r => r.args[1] === skill.id) ? needing : []]) })), ...this.things(campaign, actor, nearNeeds)
+      .map(skill => ({ skill, only: needing }))].filter(l => l.only.size);
     if (!lacking.length) { return this.keep(campaign, { key, uses, wanting }); }
     // Grounded once, as if the company had every skill it lacks; each choice that opens is kept for the one skill
     // that opens it alone.
@@ -85,10 +94,30 @@ export class SkillReading {
       const opened = gained.filter(op => only.has(op.schema ?? op.id) && one.test(op.requires)
         && one.admits(op.success));
       for (const row of ActionPresentation.choices(opened, campaign.schemas)) {
-        wanting.push({ ...row, skill: skill.id, name: skill.name });
+        const or = this.instead(campaign, row.action, needs).filter(n => n !== skill.name);
+        wanting.push({ ...row, skill: skill.id, name: skill.name, or, ...'thing' in skill ? { thing: true } : {} });
       }
     }
     return this.keep(campaign, { key, uses, wanting });
+  }
+  // The kinds of thing what is here needs that nobody in the company is carrying, as one of each (a ten-foot pole).
+  private static things(campaign: Campaign, actor: string, near: readonly { args: readonly string[] }[]) {
+    const skills = new Set(campaign.module.entities.filter(e => e.type === 'capability').map(e => e.id));
+    return [...new Set(near.map(r => r.args[1]!))].filter(k => !skills.has(k)
+      && !campaign.world.test(ModuleWriter.call('meets', actor, k)))
+      .map(k => ({ id: k, name: this.called(campaign, k), thing: true }));
+  }
+  private static called(campaign: Campaign, k: string): string {
+    return ItemNames.called(Canon.items[k]?.name ?? campaign.module.entities.find(e => e.id === k)?.name
+      ?? k.replace(/_/g, ' '));
+  }
+  // What else a choice's thing or way would take, besides a skill: the kinds of thing that would do.
+  private static instead(campaign: Campaign, action: Operator,
+    needs: readonly { args: readonly string[] }[]): string[] {
+    const bound = Object.values(action.bindings ?? {}), entities = campaign.module.entities;
+    const skills = new Set(entities.filter(e => e.type === 'capability').map(e => e.id));
+    return [...new Set(needs.filter(r => bound.includes(r.args[0]!) && !skills.has(r.args[1]!)).map(r => r.args[1]!))]
+      .map(k => this.called(campaign, k));
   }
   private static keep(campaign: Campaign, read: { key: string; uses: Map<string, string[]>; wanting: Wanting[] }) {
     this.cache.set(campaign, read);

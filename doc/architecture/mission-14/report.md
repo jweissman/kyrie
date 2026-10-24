@@ -134,6 +134,33 @@ was worth as much as the descent, and each was fixed and pinned by a test:
 - Carrying now weighs (`src/rules/burden.ts`, `test/burden.test.ts`). Each kind weighs what it says, or what its
   class or category weighs; a member carries ten and twice their strength. A laden company is told so and goes at
   half its pace; the heart of the vein weighs a warrior down. Nothing is refused for weight.
+- A second world, played from its first page: a1, with a cleric, a lone wanderer at Murkstede. The record so far is
+  `scratchpad m14/a1.tokens`. Asked at the inn, the innkeeper told of the king-barrow at Nocstumul; the merchant
+  told of what the old folk buried and bought it; Cyril the pedlar joined for 3 coin. On the first afternoon the
+  barrow's upper chambers gave up 300 coin of grave-goods, sold for 255 experience each, and the boundary stones
+  were settled for 100 more. Then the barrow's way down stopped this company, as it should have: a portal stone
+  that needs brawn or a crowbar to raise, a climb over it that needs a rope, and below that a switch that would cut
+  either of them in half, which wants a pole or someone who knows traps. Play found these faults:
+  - the page did not say what the company lacked. A thing that wants brawn said only "Needs brawn", though a crowbar
+    would do. A thing that wants a pole said nothing at all, because only missing skills were offered as disabled
+    choices. A way to a place barred twice (the portal stone, and a climb wanting a rope) told only the first. A
+    way that needed climbing or a rope was called closed to a company with the rope, because only its first need was
+    asked about. Now every need is named, a missing kind of thing is a disabled choice like a missing skill ("Needs a
+    ten-foot pole, and the company has none"), and both bars are told (`test/what-it-takes.test.ts`);
+  - a trap risked did not say where its way went, nor how bad it was. It says both now, once the trap is understood:
+    "Risk the hidden switch on the way to the hall of the bones; Wenna goes first · it could kill". The trap's harm is
+    read from its effect on an average roll against the one who would go first (`src/rules/harm.ts`);
+  - the bats in a chamber were offered to be attacked but never said to be there: only people were;
+  - every alike thing on a shelf was its own choice ("Buy a candle" twice; "Light a torch" three times in the
+    descent). Choices alike in action and words are one;
+  - a sale said "Wenna: set down a silver arm-ring" after the merchant had paid for it, and readying the glossary
+    said so twice. What an action says is what it did;
+  - "'Murkstede?' Says Hob": a quotation ending in a question went on into a capital;
+  - the merchant's bribe could be taken before the merchant had offered it; the innkeeper promised suppers on the
+    house that were then paid for; the arrival text had the quarrelling pair shouting in the street, where the
+    quarrel is that they will not speak. The arrivals no longer give anyone a sex the scenario does not;
+  - the town's news was told twice on coming in (as what happened, and as what had changed), and so was everyone in
+    the taproom.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members

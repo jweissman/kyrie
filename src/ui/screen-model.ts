@@ -12,7 +12,7 @@ import { Calendar } from '../presentation/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
-import { SkillReading } from '../presentation/skill-reading';
+import { SkillReading, type Wanting } from '../presentation/skill-reading';
 import { DangerSense } from '../presentation/danger-sense';
 import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
 import { Passages } from './passages';
@@ -51,7 +51,7 @@ export class ScreenModel {
       ...PlayerView.choices(campaign).map(r => ({ ...r,
         ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
       ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
-        wanting: `Needs ${w.name.toLowerCase()}: no one in the company has it.` }))];
+        wanting: ScreenModel.wanting(w) }))];
     const grouped = ChoiceGrouping.group(commands, { present, names, prices, passageOf, fees, tell: ScreenModel.tell,
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
     const here = view.location?.id ?? '';
@@ -152,6 +152,12 @@ export class ScreenModel {
     return { prose: paragraphs.map(p => p.text), says, fresh };
   }
   // What a spell or technique does, in its own words and then in the rules' terms.
+  // Why a choice cannot be made: the skill it needs, and anything else that would do, which the company lacks.
+  static wanting(w: Wanting): string {
+    if (w.thing) { return `Needs ${[w.name, ...w.or].join(' or ')}, and the company has none.`; }
+    return w.or.length ? `Needs ${w.name.toLowerCase()} or ${w.or.join(' or ')}, and the company has neither.`
+      : `Needs ${w.name.toLowerCase()}: no one in the company has it.`;
+  }
   static tell(this: void, id: string): string | undefined {
     const ability = Content.abilities.find(a => a.id === id), feat = Canon.traits[id];
     // A feat: what each of its perks does, and the abilities it brings.

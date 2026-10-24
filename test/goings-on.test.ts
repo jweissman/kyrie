@@ -122,6 +122,9 @@ describe('the boundary stones', () => {
     const { w, s } = await Town.start('ash'), town = w.report.placements.find(p => p.scenario === 'quarrel')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_shop`);
     await s.perform('wait');
+    // Offered first, when the stones are asked about; then taken.
+    expect(PlayerView.choices(s.campaign).some(c => /five coin and say nothing$/.test(c.choice.name))).toBe(false);
+    await Town.act(s, /about the stones$/);
     await Town.act(s, /five coin and say nothing$/);
     GeneratedWorld.put(s, `${town}_taproom`);
     await s.perform('wait');

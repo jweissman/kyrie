@@ -8,7 +8,7 @@ Module quarrel "The boundary stones" {
   Entity keeper: group "The innkeeper".
   Entity trader: group "The merchant".
   Entity priest: group "The priest".
-  Relation restored(group). Relation bought(group).
+  Relation restored(group). Relation bought(group). Relation offered(group).
   Entity feud: fact "The innkeeper and the merchant have not spoken since the boundary stones moved.".
   Initially Assert established(feud).
 
@@ -25,8 +25,10 @@ Module quarrel "The boundary stones" {
   }
   Topic trader_stones with trader "Ask {trader} about the stones" when not restored(trader) and not bought(actor) once {
     Says "'{keeper} drinks and dreams,' says {trader}. 'Those stones are where my father set them.' Then, lower: 'If anyone asks, you saw nothing. Five coin for your trouble.'".
+    On discuss { Assert offered(actor). }
   }
-  Topic trader_bribe with trader "Take {trader}'s five coin and say nothing" when not restored(trader) and not bought(actor) {
+  // The coin is taken only once it has been offered.
+  Topic trader_bribe with trader "Take {trader}'s five coin and say nothing" when offered(actor) and not restored(trader) and not bought(actor) {
     Says "{trader} counts the coins into your hand. By evening the whole town knows you took them.".
     On discuss { Increase quantity(actor, gold) by 5. Assert bought(actor). Assert refusesService(keeper, actor). }
   }
@@ -38,7 +40,7 @@ Module quarrel "The boundary stones" {
     Says "'They were moved in the spring,' says {priest}. 'I married {keeper}'s parents in that garden; I know where the stones stood. But {trader} gives the most at the shrine, and I have a roof to mend.'".
   }
   Topic keeper_thanks with keeper "Tell {keeper} the stones are going back" when restored(trader) and not bought(actor) once {
-    Says "{keeper} puts down the cup. 'Then supper is on the house tonight, and the night after.' And the coin you have spent at the bar comes back across it.".
+    Says "{keeper} puts down the cup, and pushes six coin back across the counter. 'For your trouble. Nobody else in this town would have said it to {trader}.'".
     On discuss { Increase quantity(actor, gold) by 6. }
   }
 

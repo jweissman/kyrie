@@ -49,7 +49,8 @@ export class Items {
     }
     return events;
   }
-  static equip(store: CreatureStore, owner: string, id: string, label?: string): CombatEvent[] {
+  // Readied by the action that says so; nothing more is told of it here.
+  static equip(store: CreatureStore, owner: string, id: string): CombatEvent[] {
     const lease = store.acquire([owner]);
     try {
       const creature = lease.creatures[0]!, item = creature.state.inventory?.find(i => i.id === id);
@@ -64,7 +65,7 @@ export class Items {
       }
       item.equipped = true;
       lease.commit(lease.creatures);
-      return [{ type: 'gain', turn: 0, actor: owner, target: owner, detail: `equipped ${label ?? definition.name}` }];
+      return [];
     } finally { lease.release(); }
   }
   static consume(store: CreatureStore, options: { owner: string; target: string; id: string; seed: string
@@ -130,15 +131,16 @@ export class Items {
       return [{ type: 'gain', turn: 0, actor: owner, target: recipient, detail: label ?? ItemCatalog.get(item.definition).name }];
     } finally { lease.release(); }
   }
-  static drop(store: CreatureStore, owner: string, id: string, label?: string): CombatEvent[] {
+  // An item out of its carrier's hands: set down, given, sold, put away or used up, as the action says it was; the
+  // action tells it, so there is nothing more to say of it here.
+  static drop(store: CreatureStore, owner: string, id: string): CombatEvent[] {
     const lease = store.acquire([owner]);
     try {
       const creature = lease.creatures[0]!, item = creature.state.inventory?.find(i => i.id === id);
       if (!item || !creature.state.hp) { throw new Error('Cannot release unowned item'); }
       creature.state.inventory = creature.state.inventory!.filter(i => i.id !== id);
       lease.commit(lease.creatures);
-      const name = label ?? ItemCatalog.get(item.definition).name;
-      return [{ type: 'gain', turn: 0, actor: owner, target: owner, detail: `set down ${name}` }];
+      return [];
     } finally { lease.release(); }
   }
   static train(store: CreatureStore, target: string, ability: string, cost = 20): CombatEvent[] {

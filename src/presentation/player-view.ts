@@ -112,13 +112,18 @@ export class PlayerView {
     const here = ChoiceWording.here(campaign);
     // Nothing can be done to someone the company does not see.
     const visible = world.module.seen ? offered.filter(a => this.sees(world, actor, a)) : offered;
-    return ActionPresentation.choices(visible, campaign.schemaList).map(row => {
+    const rows = ActionPresentation.choices(visible, campaign.schemaList).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
       // Choices are grounded with every place's name; one the company has not learned is said as it is seen.
       for (const [name, alias] of unnamed) { row.choice.name = row.choice.name.replaceAll(name, alias); }
       row.choice.name = ChoiceWording.word(campaign, row.action, { name: row.choice.name, ...here ? { here } : {} });
       return row;
     });
+    // The same thing done with either of two things alike (one torch of three, a candle of the two on the shelf) is
+    // one choice; a label that hides two different things is a fault `kyrie lint` reports.
+    const said = new Set<string>();
+    return rows.filter(row => !said.has(`${row.action.schema}|${row.choice.name}`)
+      && !!said.add(`${row.action.schema}|${row.choice.name}`));
   }
   private static sees(world: World, actor: string, action: Operator): boolean {
     const seen = world.module.seen ?? {};

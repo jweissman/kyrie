@@ -44,11 +44,13 @@ describe('a lantern and its oil', () => {
     await Lamp.take(s, /^Buy a lantern for Wenna/);
     await Lamp.take(s, /^Buy a flask of lamp oil for Wenna/);
     await Lamp.take(s, /^Buy a flask of lamp oil for Wenna/);
+    // Two flasks alike are one choice: either will do.
     const fills = Lamp.names(s).filter(n => n === 'Fill a lantern from a flask of lamp oil and light it');
-    expect(fills).toHaveLength(2);
+    expect(fills).toHaveLength(1);
     expect(await Lamp.take(s, /^Fill a lantern from a flask of lamp oil and light it$/))
       .toContain('fills a lantern and lights it');
-    expect(Lamp.names(s).filter(n => n.startsWith('Fill a lantern'))).toHaveLength(1);
+    expect(s.campaign.readout.creatures.flatMap(c => c.state.inventory ?? [])
+      .filter(i => i.definition === 'lamp_oil')).toHaveLength(1);
   }, 60000);
   it('burns only while it is wanted: not in a lit room, nor while the company sleeps', async () => {
     const s = await Lamp.start();
@@ -78,15 +80,16 @@ describe('a lantern and its oil', () => {
   }, 60000);
   it('is sold again once burned: at dawn what the smith sold and was spent is back on the shelf', async () => {
     const s = await Lamp.start();
-    const flasks = () => Lamp.names(s).filter(n => /^Buy a flask of lamp oil for Wenna/.test(n));
-    const stock = flasks().length;
+    const flasks = () => s.campaign.world.number(ModuleWriter.call('shelf', 'region__s1_merchant', 'lamp_oil'));
+    const stock = flasks();
+    expect(stock).toBeGreaterThan(1);
     await Lamp.take(s, /^Buy a lantern for Wenna/);
     for (let i = 0; i < stock; i++) { await Lamp.take(s, /^Buy a flask of lamp oil for Wenna/); }
-    expect(flasks()).toHaveLength(0);
+    expect([flasks(), Lamp.names(s).some(n => /^Buy a flask of lamp oil/.test(n))]).toEqual([0, false]);
     await Lamp.take(s, /^Fill a lantern from a flask of lamp oil and light it$/);
     const watch = () => s.campaign.world.number(ModuleWriter.call('watch', 'clock')), start = watch();
     while (watch() < start + 144) { await Lamp.take(s, /^Wait an hour$/); }
     // One was burned and is back; the rest are still in the pack, and are not.
-    expect(flasks()).toHaveLength(1);
+    expect(flasks()).toBe(1);
   }, 60000);
 });

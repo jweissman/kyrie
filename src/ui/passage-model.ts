@@ -1,5 +1,6 @@
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
+import { ItemNames } from '../item-names';
 import type { Entity, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 
@@ -63,9 +64,13 @@ export class PassageModel {
       const h = hazard['?h']!;
       return { ...base, status: 'hazard', via: this.label(h), reason: this.describe(h) ?? `${this.label(h)} is dangerous.` };
     }
-    const need = this.first(this.call('needs', passage, '?k'));
-    if (need && !this.world.test(this.call('meets', this.actor, need['?k']!))) {
-      return { ...base, status: 'needs', via: this.label(need['?k']!), reason: `You would need ${this.label(need['?k']!).toLowerCase()}.` };
+    // A way that needs something is open to a company with any one of what it needs (climbing, or a rope).
+    const needs = this.world.related('needs').filter(r => r.args[0] === passage).map(r => r.args[1]!);
+    if (needs.length && !needs.some(k => this.world.test(this.call('meets', this.actor, k)))) {
+      // A skill by its name (climbing); a kind of thing as one of it (a coil of rope).
+      const named = needs.map(k => this.entities.get(k)?.type === 'capability' ? this.label(k).toLowerCase()
+        : ItemNames.called(this.label(k)));
+      return { ...base, status: 'needs', via: this.label(needs[0]!), reason: `You would need ${named.join(' or ')}.` };
     }
     return { ...base, status: 'open' };
   }

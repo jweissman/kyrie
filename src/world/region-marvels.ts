@@ -1,4 +1,4 @@
-import { Canon } from '../canon/canon';
+import { Harm } from '../rules/harm';
 import { Draw } from './land/draw';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
@@ -91,18 +91,7 @@ export class RegionMarvels {
       `  Event ${id}_goes beside ${way} when state(${id}, sprung) ${q(`${t.text}.`)}.`,
       `  Observe ${id}_read beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) ${q(how.seen)} teaches ${id}_known.`];
   }
-  // The harm an effect does on an average roll: what it deals at once, and what a condition it lays on does each watch
-  // it lasts (an hour of agony is six watches of it).
-  static harm(effect: string): number {
-    const dealt = [...effect.matchAll(/Deal (\(?[\dd]+\)?)/g)].map(([, a]) => this.average(a!));
-    const lasting = [...effect.matchAll(/Apply (\w+) to \w+ for (\d+) hours?/g)]
-      .map(([, id, hours]) => 6 * Number(hours) * (Canon.conditions[id!]?.modifiers.onTurnEnd ?? [])
-        .filter(p => p.kind === 'damage').reduce((n, p) => n + this.average(String(p.amount)), 0));
-    return [...dealt, ...lasting].reduce((a, b) => a + b, 0);
-  }
-  private static average(dice: string): number {
-    const [, n, d] = /^\(?(\d+)(?:d(\d+))?\)?$/.exec(dice.trim()) ?? [];
-    return !n ? 0 : d ? Number(n) * (Number(d) + 1) / 2 : Number(n);
-  }
+  // The harm an effect does on an average roll (see Harm).
+  static harm(effect: string): number { return Harm.average(effect); }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
 }

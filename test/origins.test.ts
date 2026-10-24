@@ -52,7 +52,7 @@ describe('an origin', () => {
   }, 60000);
   it('over the hills, arrives as the town\'s own trouble is happening, and so knows of it', async () => {
     const s = await Opening.start('wanderer', 'wren'), first = PlayerView.observe(s.campaign).observations.map(o => o.text);
-    expect(first.some(t => /has anyone on the road herbs\? Her child has had a fever/.test(t))).toBe(true);
+    expect(first.some(t => /has anyone on the road herbs\? The child has had a fever/.test(t))).toBe(true);
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'fever__sick'))).toBe(true);
     // It is the arrival, and is not there once the company is about its business.
     await Opening.take(s, /^Wait a while$/);

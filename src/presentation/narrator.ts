@@ -50,7 +50,6 @@ export class Narrator {
     if (exchange && !probing) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
-    const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)));
     const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
       && !echoed.has(Narration.sentence(l.text))), defs);
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
@@ -58,6 +57,8 @@ export class Narrator {
     // What a thing looks like is not told again with it when the place has just said it (a wonder, told as the place).
     const placed = situation.join(' ');
     const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p));
+    // What has changed is told once: not again when the exchange told it, nor when it is who is here and doing what.
+    const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     return this.set({
       situation, presence, changed: fresh,
@@ -161,7 +162,8 @@ export class Narrator {
         const lie = t.many ? (t.state === 'dead' ? 'lie dead' : 'are down') : t.state === 'dead' ? 'lies dead' : 'is down';
         lines.push(`${this.upper(this.short(t.name))} ${lie}.`); continue;
       }
-      if (t.kind === 'person') { named.push(this.who(t)); many ||= !!t.many; }
+      // Whoever and whatever is here is said to be (the goblins, the bats), unless it has its own telling.
+      if (t.kind === 'person' || t.kind === 'creature') { named.push(this.who(t)); many ||= !!t.many; }
     }
     // In the dark they are heard, not seen: by what they are, close by.
     const heard = screen.people.filter(p => !p.companion && !p.state).map(p => this.short(p.name));

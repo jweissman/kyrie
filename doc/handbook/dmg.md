@@ -1464,7 +1464,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 *Kyr · action (group, passage, place, place, entity, hazard, condition, member)* · `rule:world_passages.risk`
 
-- Shown as: Risk {trap}; {victim} goes first
+- Shown as: Risk {trap} on the way to {destination}; {victim} goes first
 - Takes: the travelTime of the way
 - Costs: 1
 

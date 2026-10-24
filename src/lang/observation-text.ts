@@ -74,9 +74,11 @@ export class ObservationText {
       id => this.label(world, binding[id] ?? id, binding));
     return capitalize ? this.sentences(rendered) : rendered;
   }
-  // Names are lower-case nouns ("the rising river"); a sentence that starts with one is capitalized.
+  // Names are lower-case nouns ("the rising river"); a sentence that starts with one is capitalized. A quotation
+  // that ends in a question or a cry goes on into who said it ("'Murkstede?' says Hob"); one that ends in a full stop
+  // ends its sentence.
   static sentences(text: string): string {
-    return text.replace(/(^|[.!?]['"’”]?\s+|^['"‘“])([a-z])/g,
+    return text.replace(/(^|[.!?]\s+|\.['"’”]\s+|^['"‘“])([a-z])/g,
       (_, lead: string, letter: string) => lead + letter.toUpperCase());
   }
 }

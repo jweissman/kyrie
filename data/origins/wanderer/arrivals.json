@@ -4,22 +4,22 @@
     {
       "scenario": "fever",
       "fact": "fever.sick",
-      "text": "At the end of the way in a woman stands in the door of a house with its shutters drawn, and calls out to you before you are near enough to speak: has anyone on the road herbs? Her child has had a fever three days, and the herb-wife has nothing left."
+      "text": "At the end of the way in, the door of a house with its shutters drawn opens as you pass, and the child's mother calls out to you before you are near enough to speak: has anyone on the road herbs? The child has had a fever three days, and the herb-wife has nothing left."
     },
     {
       "scenario": "brood-hollow",
       "fact": "brood.ewes",
-      "text": "On the way in you pass a shepherd hauling what is left of a ewe off the road by its hind legs. 'That is three,' he says, to you or to the ewe. 'Out by the sink, in the night. Something with more legs than a dog.'"
+      "text": "On the way in you pass a shepherd hauling what is left of a ewe off the road by its hind legs. 'That is three,' the shepherd says, to you or to the ewe. 'Out by the sink, in the night. Something with more legs than a dog.'"
     },
     {
       "scenario": "quarrel",
       "fact": "quarrel.feud",
-      "text": "You are hardly into {home} before two men are shouting at each other across the way, over some stones, and a third has one of them by the coat to keep them apart. Faces watch from the doors; nobody else goes near."
+      "text": "You are hardly into {home} before someone stops you to show you, as if it were the sight of the place, the row of white stones along the bottom of the inn's garden. 'Moved a stride in the night, those were. The innkeeper and the merchant have not spoken since, and nobody else will say a word about it.'"
     },
     {
       "scenario": "oldcoin",
       "fact": "oldcoin.coin_talk",
-      "text": "A carter on the way in stops you to show you a coin, as if you might know it: worn thin, stamped with a king nobody has heard of. 'Paid in these again,' he says. 'Good weight, too. Who in {home} has coin like that?'"
+      "text": "A carter on the way in stops you to show you a coin, as if you might know it: worn thin, stamped with a king nobody has heard of. 'Paid in these again,' the carter says. 'Good weight, too. Who in {home} has coin like that?'"
     }
   ]
 }

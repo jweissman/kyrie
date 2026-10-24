@@ -112,6 +112,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
       and ownedItem(spent, carrier) and itemKind(spent, form).
     Resolve drop(spent, carrier).
     On success { Assert state(thing, result). }
+    Result "{carrier}'s {spent} is used up.".
   }
   Action change_thing_paying(actor: group, how: change, thing: entity, origin: condition, result: condition, spent: good) "{how}" {
     Time 3 minutes.

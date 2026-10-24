@@ -108,6 +108,7 @@ export class Passages {
     }
     return rows;
   }
+  private static lower(s: string): string { return s.charAt(0).toLowerCase() + s.slice(1); }
   exits(here: string, grouped: Map<string, ExitActs>, options: { spatial?: SpatialScene; visited: Set<string> }) {
     const merged = new Map<string, Known>();
     const rank: Passage[] = ['door', 'hidden', 'climb', 'hazard', 'guarded', 'open'];
@@ -117,7 +118,10 @@ export class Passages {
       const preferred = !!prior.blocked !== !!k.blocked ? (prior.blocked ? k : prior) :
         rank.indexOf(k.passage) < rank.indexOf(prior.passage) ? k : prior;
       const other = preferred === prior ? k : prior;
-      merged.set(k.destination, { ...preferred, via: preferred.via ?? other.via });
+      // Both ways barred: what bars each is said, so that the other way's want (a rope for the climb) is not lost.
+      const both = preferred.blocked && other.blocked && other.blocked !== preferred.blocked
+        ? { blocked: `${preferred.blocked} Or by ${other.way ?? 'another way'}: ${Passages.lower(other.blocked)}` } : {};
+      merged.set(k.destination, { ...preferred, via: preferred.via ?? other.via, ...both });
     }
     for (const [destination, g] of grouped) {
       const prior = merged.get(destination);
