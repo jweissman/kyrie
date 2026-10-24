@@ -19,6 +19,7 @@ import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { Obituary } from '../../src/narrative/obituary';
+import { BandNames } from '../../src/narrative/band-names';
 
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
 type Starting = Omit<Extract<Request, { kind: 'begin' }>, 'kind'>;
@@ -228,8 +229,9 @@ export class EngineHost {
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       leaf: this.leaf(),
-      ...this.turn ? { combat: CombatModel.build(this.turn.battle) } : this.fought && this.told && this.screen.running
-        ? { combat: CombatModel.ended(this.fought, this.told.event.combat) } : {},
+      ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign)) }
+        : this.fought && this.told && this.screen.running
+          ? { combat: CombatModel.ended(this.fought, this.told.event.combat, BandNames.of(campaign)) } : {},
       opening: this.opening.filter(Boolean),
       ...this.screen.running ? {} : { ending: Obituary.of(campaign) },
       chronicle: PlayerView.chronicle(campaign)

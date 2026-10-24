@@ -575,7 +575,9 @@ What it found, checked against the source, and repaired:
   (Enter or Esc) back to the place, which says only "Your company prevails." and keeps what was witnessed meanwhile;
   the journal keeps the fight blow by blow (`test/fight-held.test.ts`; the browser tests go on through it). Not held:
   a fight the company never had a turn in, and one it lost, which goes to its ending. Two things that came of one
-  blow and come to the same ("cannot act") are said once.
+  blow and come to the same ("cannot act") are said once. And the fight's page called a band's members by their
+  number in it, "Knitted bone hound 2", where the place and the account afterwards said "the second of the agile
+  bone hounds"; it calls them as those do now (BandNames), on the cards, in the blows and on the targets.
 
 Not yet repaired, and why:
 - **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores

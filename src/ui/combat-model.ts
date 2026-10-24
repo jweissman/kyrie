@@ -14,10 +14,12 @@ import { CombatTelling } from './combat-telling';
 import { Tactics } from '../tactics';
 import type { CombatantRow, CombatScreen } from './screen-types';
 
-// Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only.
+// Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
+// fight is called as the company knows them (called, from BandNames): "the second of the agile bone hounds", as the
+// place and the account afterwards call it, never "Knitted bone hound 2".
 export class CombatModel {
-  static build(battle: Battle, prior: CombatEvent[] = []): CombatScreen {
-    const state = battle.state, actor = state.combatants.find(f => f.id === state.actor);
+  static build(battle: Battle, called?: ReadonlyMap<string, string>): CombatScreen {
+    const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
     const ours = !!actor && battle.playerControls(actor.id);
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), Content.abilities) : [];
     return {
@@ -35,21 +37,26 @@ export class CombatModel {
       order: (state.order ?? []).map(id => this.name(state, id)),
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
         .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
-      log: [...prior, ...battle.events].map(e => this.line(e, state)).filter(line => !!line).slice(-40),
-      round: [...prior, ...battle.events].filter(e => e.type === 'initiative').length,
-      exchanges: CombatTelling.exchanges([...prior, ...battle.events], state).map((t, n) => ({ n, ...t })),
+      log: battle.events.map(e => this.line(e, state)).filter(line => !!line).slice(-40),
+      round: battle.events.filter(e => e.type === 'initiative').length,
+      exchanges: CombatTelling.exchanges(battle.events, state).map((t, n) => ({ n, ...t })),
     };
+  }
+  private static called(state: BattleState, called?: ReadonlyMap<string, string>): BattleState {
+    if (!called) { return state; }
+    return { ...state, combatants: state.combatants.map(f => ({ ...f, name: called.get(f.id) ?? f.name })),
+      ...state.departed ? { departed: state.departed.map(f => ({ ...f, name: called.get(f.id) ?? f.name })) } : {} };
   }
   // A fight that has ended, as its page holds it until the player goes on: how each side stands, and what the
   // command told after each of its fights ended, before another began (the end, and the experience gained).
-  static ended(battle: Battle, told: CombatEvent[]): CombatScreen {
-    const lines: string[] = [];
+  static ended(battle: Battle, told: CombatEvent[], called?: ReadonlyMap<string, string>): CombatScreen {
+    const lines: string[] = [], state = this.called(battle.state, called);
     let over = false;
     for (const e of told) {
       over = e.type === 'end' || (over && e.type !== 'initiative');
-      if (over && e.type !== 'action') { lines.push(CombatPresenter.format(e, battle.state)); }
+      if (over && e.type !== 'action') { lines.push(CombatPresenter.format(e, state)); }
     }
-    return { ...this.build(battle), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
+    return { ...this.build(battle, called), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
   }
   private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
     const race = Content.race(f.raceId)?.name ?? f.raceId;
