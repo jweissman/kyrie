@@ -364,11 +364,17 @@ Someone who deals in valuables says what a thing is worth, when it is worth more
 
 ### Rest, mending and lessons
 
-Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf, fieldUsable, awake, fallen, needsCare, canCast, treatable, restful, offeredAt, giftEffect, rewardFor, claimed.
+Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf, fieldUsable, restful, offeredAt, giftEffect, rewardFor, claimed.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 16 | 0 | 0 | 0 | 8 |
+| 6 | 17 | 0 | 0 | 0 | 8 |
+
+#### awake, fallen, slain, needsCare, canCast, treatable
+
+*Kyr · relation(member); relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.awake`
+
+One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
 
 #### field spell
 
@@ -452,7 +458,7 @@ The dead the company cannot have raised it lays to rest, and goes on without the
 
 A grave dug and words said over it: an hour. They leave the company, and what they carried goes with them.
 
-> Needs: able(actor); at(actor, site); memberOf(lost, actor); fallen(lost); not (indoors(site))
+> Needs: able(actor); at(actor, site); memberOf(lost, actor); slain(lost); not (indoors(site))
 
 > Then: nothing changes
 
@@ -464,7 +470,7 @@ A grave dug and words said over it: an hour. They leave the company, and what th
 - Takes: 360 minutes
 - Costs: 1
 
-Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison and death are not mended. The world does not wait while you sleep.
+Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison is not mended. Whoever has fallen comes round, or dies where they fell (a d20 and their Constitution against 10). The world does not wait while you sleep.
 
 > Needs: able(actor); at(actor, site); restful(site); quantity(actor, rations) >= 1
 

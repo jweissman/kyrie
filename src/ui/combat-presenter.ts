@@ -70,7 +70,8 @@ export class CombatPresenter {
           ? `for ${FictionalTime.duration(event.amount ?? 0)}.` : `for ${event.amount ?? 0} turns.`);
       case 'remove': return `${target} loses ${event.detail}.`;
       case 'expire': return this.told(event.detail, 'ends')?.replace('{target}', target) ?? `${target}'s ${event.detail} expires.`;
-      case 'revive': return `${target} returns with ${event.amount ?? 0} HP.`;
+      case 'revive': return event.detail === 'comes round' ? `${target} comes round, with ${event.amount ?? 0} HP.`
+        : `${target} returns with ${event.amount ?? 0} HP.`;
       case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.`
         : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`
           : `${target} gains ${event.amount} ${event.detail}.`;

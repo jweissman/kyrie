@@ -7857,6 +7857,14 @@ Resists 50% of necrotic, immune to charm, immune to fear, immune to sleep.
 
 > Resistant to necrotic damage and control effects.
 
+### Dead
+
+*Kyr · lasts beyond a fight* · `condition:slain`
+
+Cannot act.
+
+> Fallen, and not come round: beyond waking now, and only a raising of the dead will bring them back.
+
 ### Deafened
 
 *Faithful · lasts the fight at most* · `condition:deafened`

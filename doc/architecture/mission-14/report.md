@@ -65,8 +65,13 @@ ordinary play was not done: it needs several expeditions of levelling, and I did
   only those (seed `d4`) has no deep site.
 - A level no longer lays the same kind of trap twice while another kind would do: the cisterns' drowned hall had a
   pressure plate on each of its two ways, each described from both ends.
-- Companions die easily. Orsino's death save is against 25, so a fallen companion is dead until raised, and raising
-  costs 300 coin. Thoradin fell in both fights he was in. That is harsh for a company of two.
+- Companions died too easily, and I had the reason wrong: this report said Orsino's death save was against 25. Orsino
+  has no such save. One who falls in Orsino lies senseless, and at a rest makes a system-shock save (a d20 against
+  10), coming round with 1 HP or dying where they fell. Kyrie had made every fall a death, to be raised for 300
+  coin; Thoradin fell in all three fights he was in. Now a fall is Orsino's: senseless, then at the next rest in the
+  deep, at a camp or in a bed, the save (`FieldUse.shock`), so long as someone is still on their feet to tend them.
+  Only the dead can be laid to rest. Orsino's code adds the
+  Constitution to the difficulty, where its own message adds it to the roll; Kyrie follows the message.
 - Carrying now weighs (`src/rules/burden.ts`, `test/burden.test.ts`). Each kind weighs what it says, or what its
   class or category weighs; a member carries ten and twice their strength. A laden company is told so and goes at
   half its pace; the heart of the vein weighs a warrior down. Nothing is refused for weight.

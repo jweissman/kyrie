@@ -10,6 +10,7 @@ import { Effects } from '../effects';
 import { Fighting } from '../rules/fighting';
 import { AbilityUse } from '../ability-use';
 import { Expressions } from '../expressions';
+import { RandomStreams } from '../random-streams';
 import type { CreatureStore } from '../creature-store';
 import type { CombatEvent } from '../model';
 import type { Attribute } from '../creature';
@@ -49,6 +50,29 @@ export class FieldUse {
       lease.commit([c]);
       return [{ type: 'revive', turn: 0, actor: id, target: id, detail: 'returned to life', amount: c.state.hp }];
     } finally { lease.release(); }
+  }
+  // Orsino's system shock: at a rest, each who has fallen and not died rolls a d20 and their Constitution against 10.
+  // Who makes it comes round with 1 HP; who does not has died where they fell, and only a raising brings them back.
+  // It needs someone still on their feet to tend them: a company that has fallen to the last is lost. (Orsino's code
+  // adds the Constitution to the difficulty; its own message, as here, adds it to the roll.)
+  static shock(store: CreatureStore, members: string[], seed: string): CombatEvent[] {
+    const events: CombatEvent[] = [];
+    if (!members.some(id => store.get(id).state.hp > 0)) { return events; }
+    const lease = store.acquire(members.filter(id => store.get(id).state.hp === 0
+      && !store.get(id).state.conditions.some(s => s.id === 'slain')));
+    try {
+      for (const c of lease.creatures) {
+        const die = new Expressions(RandomStreams.key(seed, 'shock', c.id)).number('1d20');
+        const modifier = Fighting.statMod(c.base.constitution), success = die + modifier >= 10;
+        events.push({ type: 'save', turn: 0, actor: c.id, target: c.id, rolled: die + modifier, difficulty: 10, success,
+          die, stat: 'constitution', modifier, kind: 'system shock' });
+        if (success) { c.state.hp = 1; } else { c.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' }); }
+        events.push(success ? { type: 'revive', turn: 0, actor: c.id, target: c.id, detail: 'comes round', amount: 1 }
+          : { type: 'status', turn: 0, actor: c.id, target: c.id, detail: 'slain', clock: 'until-removed' });
+      }
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    return events;
   }
   static grant(store: CreatureStore, party: string[], amount: number, events: CombatEvent[]) {
     if (amount <= 0) { return; }

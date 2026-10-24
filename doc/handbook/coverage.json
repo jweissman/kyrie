@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 361,
     "represented": 4,
-    "kyr": 83,
+    "kyr": 84,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -970,7 +970,7 @@
       "faithful": 123,
       "adapted": 25,
       "represented": 0,
-      "kyr": 28,
+      "kyr": 29,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 174,
+    "kyr": 175,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 169,
+      "kyr": 170,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -8629,6 +8629,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:slain",
+   "title": "Dead",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:deafened",
    "title": "Deafened",
    "status": "faithful",
@@ -10573,6 +10580,13 @@
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:care.awake",
+   "title": "awake, fallen, slain, needsCare, canCast, treatable",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
   },
   {
    "id": "rule:care.field_spell",

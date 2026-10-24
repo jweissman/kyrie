@@ -13,7 +13,8 @@ Module care "Rest, mending and lessons" {
   Kind feat. Relation featOpen(member, feat).
   Relation memberOf(member, group).
   Relation fieldUsable(ability).
-  Relation awake(member). Relation fallen(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
+  // One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
+  Relation awake(member). Relation fallen(member). Relation slain(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).
   Relation restful(place). Relation offeredAt(reward, place). Relation giftEffect(reward, ability).
   Relation rewardFor(reward, fact). Relation claimed(reward).
   Goal false.
@@ -53,12 +54,12 @@ Module care "Rest, mending and lessons" {
   // The dead the company cannot have raised it lays to rest, and goes on without them.
   Action bury_companion(actor: group, lost: member, site: place) "Lay {lost} to rest" {
     Description "A grave dug and words said over it: an hour. They leave the company, and what they carried goes with them.".
-    Requires able(actor) and at(actor, site) and memberOf(lost, actor) and fallen(lost) and not indoors(site).
+    Requires able(actor) and at(actor, site) and memberOf(lost, actor) and slain(lost) and not indoors(site).
     Time 6. Resolve inter(lost).
     Result "You dig a grave for {lost} and lay them in it, and say what can be said over them. Then you go on without them.".
   }
   Action rest(actor: group, site: place) "Rest and recover at {site}" {
-    Description "Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison and death are not mended. The world does not wait while you sleep.".
+    Description "Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison is not mended. Whoever has fallen comes round, or dies where they fell (a d20 and their Constitution against 10). The world does not wait while you sleep.".
     Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) >= 1.
     Time 36. Resolve recover(actor). Interrupted when threatened(actor).
     On success { Decrease quantity(actor, rations) by 1. Set lastSlept(actor) to watch(clock). Retract weary(actor). }

@@ -23,8 +23,10 @@ export class FieldResolver {
       const caster = actor.members.find(id => creatures.get(id).state.hp > 0)!;
       const rested = FieldUse.perform(creatures, actor.members, { ability: call.name === 'rough' ? 'rough_rest'
         : 'camp_recovery', caster, target: caster, seed, service: 'recover' });
-      // A night under a roof is also when a companion takes in what they have learned.
-      return call.name === 'recover' ? [...rested, ...FieldUse.train(creatures, actor.members, seed)] : rested;
+      // Whoever has fallen comes round, or does not; a night under a roof is also when a companion takes in what
+      // they have learned.
+      const shocked = [...rested, ...FieldUse.shock(creatures, actor.members, seed)];
+      return call.name === 'recover' ? [...shocked, ...FieldUse.train(creatures, actor.members, seed)] : shocked;
     }
     if (call.name === 'raise') { return FieldUse.raise(creatures, call.args[0]!); }
     if (call.name === 'reward') {

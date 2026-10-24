@@ -333,6 +333,17 @@
         "notes": "A plane as a place's law (law(place, plane_zephyrus)): its spell DC is held by everyone fighting there. Its spell durations and spare spell slots are not modelled."
       }
     },
+    "slain": {
+      "name": "Dead",
+      "description": "Fallen, and not come round: beyond waking now, and only a raising of the dead will bring them back.",
+      "lifetime": "persistent",
+      "modifiers": { "noActions": true },
+      "begins": "{target} does not come round, and will not: they have died where they fell.",
+      "source": {
+        "kyr": true,
+        "notes": "Orsino's system shock: one who has fallen and fails it at a rest has bled out (Dungeoneer.rest, Tavern, SystemShock)."
+      }
+    },
     "weary": {
       "name": "Weary",
       "description": "Too long without sleep: slow to strike and slow to dodge, until a night's sleep.",

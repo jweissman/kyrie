@@ -31,7 +31,7 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings',
-    'featOpen', 'temperament', 'fallen', 'craft'];
+    'featOpen', 'temperament', 'fallen', 'slain', 'craft'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Changes whenever the store or a relation `project` writes has changed.
@@ -165,6 +165,10 @@ export class CreatureFacts {
     changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
       call: ModuleWriter.call('needsCare', reference) });
     if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }
+    if (has.has('slain')) {
+      const slain = c.state.hp === 0 && c.state.conditions.some(s => s.id === 'slain');
+      changes.push({ kind: slain ? 'assert' : 'retract', call: ModuleWriter.call('slain', reference) });
+    }
     // What a member owns and wears; the kinds they can use; what they could be taught; what they could treat, and
     // cast now. Each is written as the whole set: what holds now, and the end of what held and no longer does.
     if (has.has('ownedItem')) {
