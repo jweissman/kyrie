@@ -723,7 +723,9 @@ Not done, with the review's own ranking: inquiries that lead nowhere playable (a
 search, a listening room with nothing to listen to; 4); terms not quoted before a choice (a debt's extension, a sale;
 6); a hall's dweller met as a fight the moment its room is entered (7); combat telling that contradicts itself
 (burning and not burning; 8); an argument won by one example (9); a subject lost from focus by reading or tending
-(10); portraits and one name (Immeral) at odds with the company (11).
+(10); portraits at odds with the prose, and one name (11): the "Immeral" who saw a sign first in a company that had
+no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining, where everyone is named as
+the company knows them.
 
 ## Invariants
 
