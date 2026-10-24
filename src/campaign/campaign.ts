@@ -310,7 +310,7 @@ export class Campaign implements WatchHost {
     if (deferred && !leg) { success &&= !interrupted; this.apply(action, success); }
     if (leg) { success &&= Journey.landed(this, action, leg, 'turned' in pass); }
     if (interrupted) { response = interrupted; }
-    if (!interrupted && !this.shelter(action, combat)) { success = false; response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.'; }
+    if (!interrupted && !this.shelter(action, combat, success)) { success = false; response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.'; }
     const standing = CommandResolutions.survived(action, this.creatures.snapshot, this.definition && this.live,
       this.module.entities);
     if (success && !standing) { success = false; response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.'; }
@@ -339,8 +339,8 @@ export class Campaign implements WatchHost {
     const won = battle?.state.outcome === 'fighters' || combat.some(e => e.type === 'end' && e.fled?.team === 'goblins');
     const taken = battle?.state.outcome === 'goblins' && Mercy.spare(this.world, this.creatures,
       { ...this.current, player: this.playerActor, combat }); if (taken) { this.commit(taken); this.refresh(); }
-    if (won && action.resolve?.name === 'combat') {
-      const opponent = action.resolve.args[0]!;
+    const opponent = action.resolve?.args[0];
+    if (won && action.resolve?.name === 'combat' && opponent) {
       FieldUse.award(this.creatures, this.current.partyIds, this.world,
         { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
     }
@@ -350,10 +350,11 @@ export class Campaign implements WatchHost {
         : Membership.release(at, action.resolve.args[0]!));
       this.refresh(); return;
     }
-    if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name)) {
+    if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name) && !action.interrupt) {
       combat.push(...this.field(action));
     }
   }
+
   // The actors as they stand, after anyone has joined the company (see Membership).
   private liveCache?: LiveCache;
   private get live(): CampaignActor[] {
@@ -362,12 +363,14 @@ export class Campaign implements WatchHost {
     return actors;
   }
   // A rest recovers the company at its end, if the shelter is still safe; whether it was.
-  private shelter(action: Operator, combat: CombatEvent[]): boolean {
-    if (action.resolve?.name !== 'recover' && action.resolve?.name !== 'rough') { return true; }
-    const site = action.bindings?.site;
-    const safe = !!site && (action.schema !== 'rest' || this.world.test(ModuleWriter.call('restful', site)))
-      && !this.world.test(ModuleWriter.call('closed', site));
-    if (safe) { combat.push(...this.field(action)); this.refresh(); }
+  // What an activity that can be interrupted brings (a search, its finds) comes, like a rest's recovery, when it has
+  // run its course and was not interrupted, not before it is known whether it happened (see settle).
+  private shelter(action: Operator, combat: CombatEvent[], success: boolean): boolean {
+    const name = action.resolve?.name, site = action.bindings?.site, rest = name === 'recover' || name === 'rough';
+    const safe = !rest || (!!site && (action.schema !== 'rest' || this.world.test(ModuleWriter.call('restful', site)))
+      && !this.world.test(ModuleWriter.call('closed', site)));
+    const due = safe && (rest || (success && !!action.interrupt && !!name && name !== 'combat'));
+    if (due) { combat.push(...this.field(action)); this.refresh(); }
     return safe;
   }
   private randomSeed(action: Operator, domain: string): string {
