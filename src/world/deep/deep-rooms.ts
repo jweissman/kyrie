@@ -20,7 +20,7 @@ export class DeepRooms {
   static readonly breath: Record<string, string> = { easy: '1d4', medium: '1d6', hard: '2d6', deadly: '4d6' };
   // What a right word pays: the treasure tier, by difficulty (Orsino's riddle loot).
   static readonly paid: Record<string, string> = { easy: 'minor', medium: 'minor', hard: 'major', deadly: 'grand' };
-  static lines(c: DeepContent, at: { site: string; purpose: DeepPurpose }): string[] {
+  static lines(c: DeepContent, at: { site: string; purpose: DeepPurpose; first?: string }): string[] {
     const r = c.room;
     return [...c.dwellers ? this.dwellers(c.dwellers, r.id) : [],
       ...c.trap ? RegionMarvels.snare({ id: c.room.id, way: c.trap.way.id, trap: c.trap.trap }) : [],
@@ -28,7 +28,7 @@ export class DeepRooms {
       ...c.wonder ? this.wonder(c.wonder, r.id) : [],
       ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind, at.purpose))} is ${kind} at ${r.id}.`),
       ...c.treasure?.coin && ['treasure', 'elite', 'special', 'mob'].includes(c.guide) ? this.coins(r.id, c.treasure.coin) : [],
-      ...c.special ? this.camp(r.id, { level: r.level, purpose: at.purpose }) : []];
+      ...c.special ? this.camp(r.id, { level: r.level, purpose: at.purpose, first: at.first === r.id }) : []];
   }
   // A thing by its own name: the makers' own by the name the site gives it, a catalog item by the catalog's.
   static called(id: string, purpose?: DeepPurpose): string {
@@ -84,10 +84,11 @@ export class DeepRooms {
       // Gathered, there is nothing left to look at closely.
       `    Assert ${id}_counted(). Assert tried(${id}, looking). Increase quantity(party, gold) by ${coin}. }`];
   }
-  private static camp(room: string, at: { level: number; purpose: DeepPurpose }): string[] {
+  private static camp(room: string, at: { level: number; purpose: DeepPurpose; first: boolean }): string[] {
     const q = this.q, camp = at.purpose.camp, journal = camp.journal[Math.min(at.level, camp.journal.length - 1)]!;
+    const scene = at.first ? camp.scene : camp.later ?? camp.scene;
     // What it says is told once, as it is read, and kept among what the company knows; the notebook lies open.
-    return [`  Observe ${room}_camp at ${room} when true ${q(camp.scene)}.`, `  Entity ${room}_journal: fact ${q(journal)}.`,
+    return [`  Observe ${room}_camp at ${room} when true ${q(scene)}.`, `  Entity ${room}_journal: fact ${q(journal)}.`,
       `  Thing ${room}_notebook "a damp notebook" at ${room} {`,
       '    State shut "A notebook lies by the dead fire, swollen with damp, its cover held shut with a strap.".',
       '    State read "The notebook lies open by the dead fire where you left it.".',

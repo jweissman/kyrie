@@ -90,7 +90,8 @@ export interface DeepPurpose {
   outside: string;
   // An earlier party's camp, left where they turned back (or did not): how it looks, and what their notebook says
   // at each depth.
-  camp: { scene: string; journal: string[] };
+  // The earlier party's camp, the first found, and the same party's further down (later), with each level's notebook.
+  camp: { scene: string; later?: string; journal: string[] };
 }
 
 // The deep sites a region's first makers may have left, one for each art that has one

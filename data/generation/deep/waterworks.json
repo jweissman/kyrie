@@ -164,6 +164,7 @@
     "home": "'The Wardens' glass.' {keeper} holds it up to the window, and the whole room is in it, small and very clear. 'They say the Wardens saw the floods coming in that. Your beds are on the house tonight, and your supper, and I want to hear all of it.'"
   },
   "camp": {
+    "later": "The same party camped here too, further down: the ring of stones again, on the one dry ledge, and less left beside it than above, a blanket and an empty water-skin, as if they were travelling lighter by now.",
     "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
     "journal": [
       "A notebook, swollen with damp. 'The gate across the stair is down and its wheel is green with verdigris. A bar would start it, Brann says. There is a pipe in the gate-hall you could go down feet first, if you did not mind not coming back up it.'",

@@ -146,6 +146,7 @@
     "home": "'You went down past the stair and came back up, and with that.' {keeper} flicks the stone with a nail, and it gives no note at all. 'Nobody has done that in my time. You eat and sleep on the house tonight, and tell me how it was down there.'"
   },
   "camp": {
+    "later": "The same party camped here too, further down: the ring of stones again, smaller, and less left beside it than above, a blanket and an empty water-skin, as if they were travelling lighter by now.",
     "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
     "journal": [
       "A notebook, swollen with damp. 'The door across the stair is down on its pivot and will not turn. A bar under its edge might lift it. The gallery hums. Oda says it is only the wind in the shaft. It is not only the wind.'",
