@@ -31,6 +31,7 @@ export class ReaderOpening {
         : await app.engine.request<Setting>({ kind: 'setting', campaign });
       app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting, party: setting.party,
         editing: -1, origin: setting.origins?.[0]?.id });
+      this.readySoon();
       await this.preview(setting.party);
     } catch (error) { this.fail(error, 'campaigns'); }
   }
@@ -62,17 +63,32 @@ export class ReaderOpening {
     }
     this.app.setState({ party });
     if (field !== 'name') { void this.preview(party); }
+    this.readySoon();
+  }
+  // While the player reads the page, the start is made ready for the choices as they stand, a moment after the last
+  // change (see EngineHost.prepare): Begin asking the same takes it up at once.
+  private readyTimer?: ReturnType<typeof setTimeout>;
+  readySoon() {
+    clearTimeout(this.readyTimer);
+    this.readyTimer = setTimeout(this.makeReady, 1200);
+  }
+  private readonly makeReady = () => {
+    if (this.app.state.phase !== 'company' || !this.app.state.setting?.generated) { return; }
+    void this.app.engine.request({ kind: 'ready', ...this.starting() }).catch(() => undefined);
+  };
+  private starting() {
+    const s = this.app.state, terrain = this.app.props.query.get('terrain');
+    return { campaign: s.campaign, seed: s.seed, party: s.party, ...terrain ? { terrain } : {},
+      ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} };
   }
   // In a generated region a company may set out as one, and find the rest on the road.
   readonly alone = () => { this.preset(this.app.state.party.slice(0, 1)); };
   readonly begin = () => { void this.setOut(); };
   async setOut() {
-    const s = this.app.state;
+    const starting = this.starting();
     this.app.setState({ phase: 'loading', stage: 'Setting out', error: '' });
-    await this.enter(this.app.engine.request<Frame>({ kind: 'begin', campaign: s.campaign, seed: s.seed,
-      party: s.party, ...this.app.props.query.get('terrain') ? { terrain: this.app.props.query.get('terrain')! } : {},
-      ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} }),
-    'company');
+    clearTimeout(this.readyTimer);
+    await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting }), 'company');
   }
   async resume(text: string, world?: string) {
     this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '' });

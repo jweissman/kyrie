@@ -72,6 +72,10 @@ export type Request =
   | { kind: 'preview'; party: Member[]; generated: boolean }
   | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
     memorial?: Memorial }
+  // What Begin will be asked, as the page stands while the player reads it: made ready in advance, and taken up by a
+  // Begin asking the same.
+  | { kind: 'ready'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
+    memorial?: Memorial }
   // A kept game, with the world it was played in when that is kept apart from it (see KeptGame).
   | { kind: 'resume'; saved: string; world?: string }
   | { kind: 'perform'; command: string; said: string; move: boolean; named?: boolean }

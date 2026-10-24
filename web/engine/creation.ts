@@ -11,13 +11,11 @@ import { Scenarios } from '../scenarios';
 import { Origins } from '../../src/world/origins';
 import type { Catalog, CompanyView, Member, Setting } from './protocol';
 
-interface Assembled { seed: string; terrain?: string; path: string; source: BundleSource; campaign: CampaignManifest }
 
 // The engine's side of forming a company: what there is to choose from, what a campaign asks of the company, a
 // generated region drawn for it, and what a draft company would bring.
 export class Creation {
   static readonly generated = 'world';
-  private assembled?: Assembled;
   static catalog(): Catalog {
     const companies = (partyExamples as { companies: Catalog['presets'] }).companies;
     const backgrounds = Object.keys(Overlays.catalog).filter(id => Overlays.has(id, 'background'));
@@ -71,7 +69,6 @@ export class Creation {
       { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {}, ...at.origin ? { origin: at.origin } : {},
         ...at.memorial ? { memorial: at.memorial } : {} });
     const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
-    this.assembled = { seed, ...terrain ? { terrain } : {}, path: world.path, source: world.source, campaign };
     // While the protagonist is chosen, the country is read: it is the same whoever comes into it.
     if (!party) { setTimeout(() => void Creation.warm(world.path, world.source), 200); }
     const title = campaign.name, region = world.report.region;
@@ -101,9 +98,11 @@ export class Creation {
   async origin(campaign: string, seed: string, party: Member[],
     at: { terrain?: string; origin?: string; memorial?: Memorial } = {}) {
     if (campaign !== Creation.generated) { return { path: campaign, source: Scenarios.source() }; }
-    await this.generate(seed, at.terrain, party, { ...at.origin ? { origin: at.origin } : {},
+    // Its own world, whatever else is being drawn meanwhile (a start made ready in advance, a new country).
+    const world = await WorldAssembler.assemble(seed, Scenarios.source(), {
+      ...at.terrain ? { region: { terrain: at.terrain } } : {}, party, ...at.origin ? { origin: at.origin } : {},
       ...at.memorial ? { memorial: at.memorial } : {} });
-    return { path: this.assembled!.path, source: this.assembled!.source };
+    return { path: world.path, source: world.source };
   }
   static preview(party: Member[], generated: boolean): CompanyView {
     const company = CompanyPreview.company(party), formations = CompanyPreview.formations(party);

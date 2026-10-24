@@ -13,12 +13,14 @@ import { Frontier } from '../../src/world/frontier';
 import { Scenarios } from '../scenarios';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { PlayTranscript } from './transcript';
-import type { Entry, Frame, Leaf, Member, Message, Request, SaveSummary } from './protocol';
+import type { Entry, Frame, Leaf, Message, Request, SaveSummary } from './protocol';
 import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { Obituary } from '../../src/narrative/obituary';
-import type { Memorial } from '../../src/world/memorial';
+
+// What setting out asks for: the campaign (or the generated region), and who comes, and why.
+type Starting = Omit<Extract<Request, { kind: 'begin' }>, 'kind'>;
 
 
 // The engine's side of play. It holds the one PlaySession, carries out what the player chose, and answers with a
@@ -48,6 +50,7 @@ export class EngineHost {
       case 'world': return this.creation.generate(request.seed, request.terrain);
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
+      case 'ready': this.prepare(request); return null;
       case 'resume': return this.resume(request.saved, request.world);
       case 'perform': return this.perform(request.command, { said: request.said, move: request.move,
         named: !!request.named });
@@ -55,15 +58,31 @@ export class EngineHost {
       case 'checkpoint': return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
     }
   }
-  private async begin(r: { campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
-    memorial?: Memorial }): Promise<Frame> {
-    this.post({ kind: 'progress', stage: 'Drawing the world' });
+  // A start made ready while the player reads the page, for the choices as they then stood.
+  private ready?: { key: string; started: Promise<PlaySession> };
+  private prepare(r: Starting) {
+    const key = EngineHost.key(r);
+    if (this.ready?.key === key) { return; }
+    const started = this.start(r);
+    started.catch(() => { if (this.ready?.started === started) { this.ready = undefined; } });
+    this.ready = { key, started };
+  }
+  private static key(r: Starting): string {
+    return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
+  }
+  private async start(r: Starting): Promise<PlaySession> {
     const origin = await this.creation.origin(r.campaign, r.seed, r.party,
       { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
         ...r.memorial ? { memorial: r.memorial } : {} });
-    this.post({ kind: 'progress', stage: 'Placing its people' });
     // An origin makes the protagonist what it says (their background, what they carry): the world's telling of them.
-    this.session = await PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);
+    return PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);
+  }
+  private async begin(r: Starting): Promise<Frame> {
+    this.post({ kind: 'progress', stage: 'Drawing the world' });
+    const ready = this.ready?.key === EngineHost.key(r) ? this.ready.started : undefined;
+    this.ready = undefined;
+    this.post({ kind: 'progress', stage: 'Placing its people' });
+    this.session = await (ready?.catch(() => this.start(r)) ?? this.start(r));
     this.frontier = r.campaign === Creation.generated ? new Frontier(r.seed, Scenarios.source()) : undefined;
     this.log = []; this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
     this.crossed = false; this.world = undefined;

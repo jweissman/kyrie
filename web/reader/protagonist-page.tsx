@@ -82,5 +82,6 @@ export class ProtagonistPage {
   }
   private static pick(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
     app.setState({ origin: e.currentTarget.dataset.id! });
+    app.opening.readySoon();
   }
 }

@@ -96,7 +96,7 @@ Found and not yet fixed: the way into Barzelrehes nearest the mine is called "th
 though no way from Muzgkom reaches it; a spent trap still offers to be prodded.
 
 **Weak or missing.**
-- Three purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
+- Four purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
   `test/deep-barrow.test.ts`), with its own gear and words: a portal stone on a counterweight, a seal-stone across the
   king's door, a robbers' tunnel round it, a light-box that is a second way out, a king who cannot abide the day.
   And there are the Water-Wardens' cisterns (`waterworks.json`, `test/deep-waterworks.test.ts`): a bronze gate on a
@@ -260,17 +260,21 @@ Measured in Chromium on this machine, nothing else running (`scratchpad m12/late
 
 | | |
 |---|---|
-| Cold load to the first page | 1.65 s |
-| Begin, after reading the creation page (the country is read meanwhile) | 2.85 s |
-| Begin, clicked at once | 3.86 s |
+| Cold load to the first page | 1.15 s |
+| Begin, after reading the creation page for a few seconds | 0.22–0.28 s (2.32 s before the start was made ready) |
+| Begin, an origin changed three seconds before | 3.35 s |
+| Begin, clicked at once | 3.85 s |
 | An action, click to second frame | 180–445 ms (engine 80–340) |
-| Reload to play (Continue) | 1.45 s |
+| Reload to play (Continue) | 0.95 s |
 
-Begin holds at the 2.85 s the brief quoted, though the region is 16% larger with the mine (428 KB of Kyr, 67 KB of
-it the mine). Parsing is about 1 s of it in bun and is done while the player reads. The rest is composing and
-compiling the region, which waits for Begin because the company's file is in the region's bundle. Splitting it out
-would let the region be composed in advance; that is the next step, not taken. Parses are cached by content in memory.
-A persistent cache would help only a world begun twice, since Continue restores the compiled game. Persistence: the
+The region is 16% larger with the mine (428 KB of Kyr, 67 KB of it the mine). While the player reads the creation
+page, the start itself is made ready: 1.2 s after the last change (a name, a calling, an origin) the engine composes
+and compiles the world for the choices as they then stand, and a Begin asking the same takes it up at once
+(`EngineHost.prepare`). A Begin asking something else starts afresh. The worst case is a change just before Begin,
+when the start made ready for the old choices is still running on the engine's one thread and the new one waits
+behind it (3.35 s). Clicked at once, before anything is ready, Begin takes as long as it did (3.85 s against 3.84 s
+at the commit before). Parses are cached by content in memory, and a campaign load by its source, so a second start
+of the same world takes 21 ms. Continue restores the compiled game. Persistence: the
 whole first expedition replays from its record and resumes from a halfway save to the identical world
 (`test/long-expedition.test.ts`). Local kinds come back with a saved game.
 
@@ -288,7 +292,7 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
    level-3 warrior); a recruit had to be fetched from another town; and the walk to the mine and back, eight hours,
    is most of an expedition's time.
 2. A deep purpose for the sky art: the Star-Readers' tower, which wants the generator to build upward.
-3. Split the company out of the region bundle so Begin can be composed while the player reads.
+3. Let a start made ready for choices since changed give way, rather than run to its end before the new one.
 4. Let what people believe change what they do: the philosophers' views reaching the town's council and its
    prices, the priest's doctrine modelled in the belief module rather than as its own facts.
 5. Dynamic entities, and pronouns in Kyr text.
