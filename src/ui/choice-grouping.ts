@@ -126,6 +126,7 @@ export class ChoiceGrouping {
     wait_watch: { slot: 'camp', path: ['Wait', 'And watch, until something changes'] },
     eat: { slot: 'camp', path: ['Eat a ration'] },
     rest: { slot: 'camp', path: ['Rest six hours'] },
+    rest_unfed: { slot: 'camp', path: ['Rest six hours (no rations)'] },
   };
   static group(rows: Row[], context: GroupingContext): Grouped {
     const out: Grouped = { exits: new Map(), targets: new Map(), items: new Map(), members: new Map(),

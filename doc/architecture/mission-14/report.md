@@ -73,7 +73,13 @@ found was worth more than another fight, and each was fixed and pinned by a test
 - a lantern burned through every night's sleep, every vigil and every walk in daylight; a flame now burns only where
   the company is in the dark and awake (which in turn showed that a level's unspent points were lost whenever a
   member had anything on the clock, a torch or a poison, over a watch: the fight projection dropped them);
-- a raising did not say its price, and said "at first light" at one in the afternoon.
+- a raising did not say its price, and said "at first light" at one in the afternoon;
+- a rest on the last ration, with a meal falling due in its six hours, ate the ration twice and stopped play; and
+  with no ration at all, the rest simply was not there. It is offered now, and says what it wants.
+
+Found and not yet fixed: the way into Barzelrehes nearest the mine is called "the foot of Barzelrehes by Muzgkom",
+though no way from Muzgkom reaches it; a road named for one direction ("the road down from the Karavor to Muzgkom")
+reads oddly taken the other way; a spent trap still offers to be prodded.
 
 **Weak or missing.**
 - Three purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,

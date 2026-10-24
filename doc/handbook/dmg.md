@@ -368,7 +368,7 @@ Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 17 | 0 | 0 | 0 | 8 |
+| 6 | 17 | 0 | 0 | 0 | 9 |
 
 #### awake, fallen, slain, needsCare, canCast, treatable
 
@@ -474,7 +474,23 @@ Six hours and a ration, somewhere safe. The living get their strength and mana b
 
 > Needs: able(actor); at(actor, site); restful(site); quantity(actor, rations) >= 1
 
-> Then: Decrease quantity(actor, rations) by 1. Set lastSlept(actor) to watch(clock). Retract weary(actor).
+> Then: Set nextMeal(actor) to watch(clock). Set lastSlept(actor) to watch(clock). Retract weary(actor).
+
+#### rest unfed
+
+*Kyr · action (group, place)* · `rule:care.rest_unfed`
+
+- Shown as: Rest and recover at {site}
+- Takes: 10 minutes
+- Costs: 1
+
+Its ration is the company's meal, eaten as meals are (world_needs): one the day's meal has already eaten in the six hours is not eaten twice. A company with nothing to eat is still offered its rest, and told why it cannot have it.
+
+Six hours and a ration, somewhere safe; and there is no ration left.
+
+> Needs: able(actor); at(actor, site); restful(site); quantity(actor, rations) < 1
+
+> Then: nothing changes
 
 #### learn reward
 

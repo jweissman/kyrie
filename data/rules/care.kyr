@@ -62,8 +62,17 @@ Module care "Rest, mending and lessons" {
     Description "Six hours and a ration, somewhere safe. The living get their strength and mana back, and bleeding is stopped; poison is not mended. Whoever has fallen comes round, or dies where they fell (a d20 and their Constitution against 10). The world does not wait while you sleep.".
     Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) >= 1.
     Time 36. Resolve recover(actor). Interrupted when threatened(actor).
-    On success { Decrease quantity(actor, rations) by 1. Set lastSlept(actor) to watch(clock). Retract weary(actor). }
+    // Its ration is the company's meal, eaten as meals are (world_needs): one the day's meal has already eaten in the
+    // six hours is not eaten twice.
+    On success { Set nextMeal(actor) to watch(clock). Set lastSlept(actor) to watch(clock). Retract weary(actor). }
     Result "You eat, bind your hurts and sleep for six hours.".
+  }
+  // A company with nothing to eat is still offered its rest, and told why it cannot have it.
+  Action rest_unfed(actor: group, site: place) "Rest and recover at {site}" {
+    Description "Six hours and a ration, somewhere safe; and there is no ration left.".
+    Requires able(actor) and at(actor, site) and restful(site) and quantity(actor, rations) < 1.
+    Time 1 minute.
+    Result "There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn.".
   }
   Action learn_reward(actor: group, gift: reward, recipient: member, lesson: ability, proof: fact, site: place) "Accept {gift} for {recipient}" {
     Time 1 minute.

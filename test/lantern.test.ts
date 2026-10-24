@@ -58,12 +58,20 @@ describe('a lantern and its oil', () => {
     const lit = () => s.campaign.readout.creatures.some(c => c.state.conditions.some(x => x.id === 'lamplit'));
     for (let i = 0; i < 7; i++) { await Lamp.take(s, /^Wait an hour$/); }
     expect(lit()).toBe(true);
-    // Down in the dark it burns; put out to sleep, it does not, and is there to light again on waking.
-    Lamp.put(s, 'region__s1_taproom');
-    await Lamp.take(s, /^Buy one ration/);
+    // Down in the dark it burns; put out to sleep, it does not, and is there to light again on waking. (With nothing
+    // to eat, a rest is still offered, and says why it cannot be had.)
     Lamp.empty(s);
     Lamp.put(s, 'region__w9_haulage_hall');
+    const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'set', call: ModuleWriter.call('quantity', 'party', 'rations'), value: ModuleWriter.number(0) }]));
+    expect(await Lamp.take(s, /^Rest and recover/)).toContain('a rest wants a ration');
+    Lamp.put(s, 'region__s1_taproom');
+    await Lamp.take(s, /^Buy one ration/);
+    Lamp.put(s, 'region__w9_haulage_hall');
+    // The one ration is the rest's meal, eaten once though a meal fell due in the six hours (it was taken twice, and
+    // play stopped).
     await Lamp.take(s, /^Rest and recover/);
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(0);
     expect(lit()).toBe(true);
     for (let i = 0; i < 6; i++) { await Lamp.take(s, /^Wait an hour$/); }
     expect(lit()).toBe(false);
