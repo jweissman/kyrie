@@ -483,6 +483,47 @@ Not done:
 - Conversation memory of fresh and exhausted topics beyond "asked".
 - Pronouns in Kyr text (the priest's lines are written to need none).
 
+## An independent review, and what came of it
+
+On 24 October another agent played the deployed game (at `be30f26`) cold through the browser, as a new player, and
+wrote it up: [`independent-review-2026-10-24/report.md`](independent-review-2026-10-24/report.md), with an action
+log and screenshots. It is an agent's review, not a human's. Its verdict: a credible opening and real curiosity, but
+"a brittle relationship to its own fiction", and it would probably not have gone on after fifteen minutes. It played
+a brothers' errand to a small tin-miners' galleries (not the deep site) and fought a toll-keeper.
+
+What it found, checked against the source, and repaired:
+- **The dead spoke.** It was talking to Sergeant Mawr when it attacked him; dead, he could still be talked to, and
+  answered a farewell. A conversation now ends when whoever it was with falls or turns on the company, and nobody
+  down says anything (`test/the-dead.test.ts`).
+- **Looking at what is on a way did nothing.** The lift-cage, the pressure plate and the speaking door opened
+  nothing visible: a door drew what might be tried at it, but not what one of those opened. It now opens under it
+  (`test/door-browser.test.ts`, on a new probe with a tripwire across a gate).
+- **Guard closed the menu it was in**, so whom to guard was never shown. Opening one thing now closes only what is
+  beside it in its own list (`src/ui/choice-tree.ts`, `test/menu-siblings.test.ts`).
+- **Prose that was not so.** A crowbar taken still lay where a miner left it; winding the lift-cage up told of it
+  going down; the deserters said to go off up the road stayed by their fire. Each now says what is so
+  (`test/said-as-it-is.test.ts`). Finding the lift's words showed that a fight which follows something done (the
+  cage wound up, and then what drops out of the frame) lost what was done; it is told now, before the fight.
+- **Prepare Charge hid its commitment.** A condition now says what it binds its holder to: "Preparing to Charge:
+  +2 to hit, +2 damage; and the next turn can only be Charge, nothing else."
+- **The light gave no warning.** Somewhere unlit, or while a light burns, the company's light is told under the
+  company: "Wenna's torch, 40 minutes left · 2 torches to spare" (`test/light-left.test.ts`).
+- **A companion's wounds were missing** from the status at the foot of the page; a hurt companion now says so there.
+- **Looking at an altar in the open turned the page black**, as if somewhere dark. Looking closely keeps the place's
+  light; a fight, and lying fallen, are still dark.
+- **The same question answered again.** Asking someone about their work is asked once.
+
+Not yet repaired, and why:
+- **Discovery arrives as certification.** Reading one tally in the galleries teaches both who the makers were and
+  how they ended, and with both known the page declares the story "whole" and points to the great work. That is how
+  history is learned across every work, not a slip in one: it wants inscriptions that teach one thing each, what is
+  read kept apart from what is inferred, and the reveal to need more than one source. It is the next piece of Proof C.
+- **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores
+  station, era and sex, not dress or equipment; the cure is fewer, smaller and more fitting pictures.
+- **Combat leaves the scene**, and its last blow is hidden by the return to the page. Holding the outcome, the
+  wounds and the rewards together until the player turns away is the next interface work.
+- The tinker who offers "news for nothing" has none to give.
+
 ## Invariants
 
 `bin/` holds only `bin/kyrie`; the tools are subcommands (lint, compile, test, preview, world, voice, handbook,
