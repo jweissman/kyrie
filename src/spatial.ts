@@ -84,13 +84,16 @@ export class Spatial {
           call: { kind: 'call', name: 'at', args: ['escorted_group', entity.exit!.destination] } }] });
     }
   }
-  // Containment facts a rule can test: inside a building or dungeon level; within a settlement.
+  // Containment facts a rule can test: inside a building or dungeon level, unless the place says it is outdoors (a
+  // forecourt open to the sky in front of a barrow's door), or a place that says it is indoors; within a settlement.
   static placeFacts(module: Module): void {
     if (!module.relations.some(r => r.name === 'indoors')) { return; }
     const entities = new Map(module.entities.map(e => [e.id, e]));
     for (const place of module.entities.filter(e => e.space)) {
       const above = this.ancestry(entities, place.id).slice(1).map(e => e.space!.kind);
-      if (above.some(k => k === 'building' || k === 'level')) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'indoors', args: [place.id] } }); }
+      const shelter = place.space!.shelter;
+      const inside = shelter ? shelter !== 'outdoors' : above.some(k => k === 'building' || k === 'level');
+      if (inside) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'indoors', args: [place.id] } }); }
       if (above.includes('settlement')) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'settled', args: [place.id] } }); }
     }
   }

@@ -5,7 +5,9 @@ import singing from '../../../data/generation/deep/singing.json';
 import type { WorkPlan } from '../history/work-plans';
 
 // What a room of a deep site is for, and how it is told.
-export interface DeepRole { names: string[]; scenes: string[]; lit?: boolean }
+// A room's names and scenes; whether daylight reaches it, and whether it is under the open sky (a barrow's forecourt,
+// where a company may make camp, as it may not in the rock).
+export interface DeepRole { names: string[]; scenes: string[]; lit?: boolean; open?: boolean }
 // One level: a spine of rooms in order (a role, or ?role for one that may not be there), branches off it, and loops
 // through it; a flooded level stands under water until something drains it.
 export interface DeepLevelSpec {

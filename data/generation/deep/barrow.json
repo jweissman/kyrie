@@ -51,7 +51,7 @@
     { "kind": "crawl", "from": ["halls", "ossuary"], "to": ["grave", "treasury"], "minutes": 8, "names": ["the robbers' tunnel"] }
   ],
   "roles": {
-    "mouth": { "lit": true, "names": ["the forecourt"], "scenes": ["A forecourt of standing stones faces the sunrise, curving in to the mound's high end. Between the two tallest is the door, a low black square under a lintel of one stone."] },
+    "mouth": { "lit": true, "open": true, "names": ["the forecourt"], "scenes": ["A forecourt of standing stones faces the sunrise, curving in to the mound's high end. Between the two tallest is the door, a low black square under a lintel of one stone."] },
     "passage": { "names": ["the long passage"], "scenes": ["A passage of upright slabs runs into the mound, roofed with stones laid across, so low you go bent. The slabs are cut with spirals and with lines that might be roads."] },
     "chamber": { "names": ["the cross-chamber"], "scenes": ["The passage opens into a chamber shaped like a cross, its roof rising in stones laid each a little further in than the one below until one stone closes it. Basins of stone stand in the arms, with ash in them."] },
     "recess": { "names": ["a side recess", "the north recess", "the south recess"], "scenes": ["A recess off the chamber, with a basin of stone in it and the burned bones of the first-laid heaped in the basin, a bead or two among them.", "A recess where the slabs are carved closer than anywhere else, all with the same sign: an eye, or a sun, or a door."] },

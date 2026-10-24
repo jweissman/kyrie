@@ -72,6 +72,13 @@ describe('a king-barrow from the same generator as the mine', () => {
     expect(await Barrow.take(s, /^Take .* to the king's hall$/)).toContain('goes back from it, step by step, into the deep grave');
     expect(Barrow.names(s)).toContain('Collect the crown of the first king for Wenna');
   }, 90000);
+  it('has a forecourt under the open sky, where a company may camp, as it may not in the passage', async () => {
+    const { s, room } = await Barrow.world('a1');
+    Barrow.enter(s, room('barrow_mouth'));
+    expect(Barrow.names(s)).toContain('Make camp at the forecourt');
+    Barrow.enter(s, room('barrow_passage'));
+    expect(Barrow.names(s).some(n => n.startsWith('Make camp'))).toBe(false);
+  }, 90000);
   it('lets the day in by its light-box, and by night the night air', async () => {
     const { s, room } = await Barrow.world('a1');
     const seen = () => PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');

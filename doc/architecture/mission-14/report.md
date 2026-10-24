@@ -317,9 +317,12 @@ yet remember what else a company did.
   - the light-box over the barrow's door laid "a thread of grey daylight" along the passage at ten at night. By
     night it is the night air.
 
-  Still open from this play: the forecourt counts as indoors, being part of the barrow's first level, so the
-  company could not make camp there and was weary at first light. A camp is allowed one step out, at Nocstumul.
-  And "Take the king's door" names no destination when the way and the room beyond it share a name.
+  - the forecourt counted as indoors, being part of the barrow's first level, so the company could not make camp
+    there and was weary at first light. A deep room can now be under the open sky (`open` in a purpose's role,
+    written as the Kyr place's `outdoors`), and a place's declared shelter is what `indoors` follows.
+
+  Still open from this play: "Take the king's door" names no destination when the way and the room beyond it share
+  a name.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members

@@ -44,7 +44,8 @@ export class DeepSites {
   private static places(layout: DeepLayout): string[] {
     const q = this.q, site = layout.site;
     return layout.levels.flatMap(level => [`  Place ${level.id} ${q(level.name)} is level within ${site}_site.`,
-      ...level.rooms.flatMap(r => [`  Place ${r.id} ${q(r.name)} is room within ${level.id} at ${r.x}, ${r.y}.`,
+      ...level.rooms.flatMap(r => [`  Place ${r.id} ${q(r.name)} is room within ${level.id} at ${r.x}, ${r.y}`
+        + `${r.open ? ' outdoors' : ''}.`,
         `  Observe ${r.id}_scene at ${r.id} when true ${q(r.scene)}.`,
         ...r.lit ? [] : [`  Initially Assert unlit(${r.id}).`]])]);
   }
