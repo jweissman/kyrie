@@ -180,7 +180,7 @@
   },
   "wonders": ["singing_crystal", "whispering_voices", "enchanted_flute", "glowing_runes", "shifting_walls", "arcane_symbols", "living_mural"],
   "mechanisms": {
-    "winch": { "kind": "stair", "thing": "the settled pivot-door",
+    "winch": { "kind": "stair", "thing": "the pivot-door",
       "seized": "The pivot-door has settled on its stone, its edge sunk into the floor; it will not turn.",
       "turning": "The pivot-door swings on its pivot as true as the day it was sung there.",
       "free": "Lift the settled door off its stone with a bar",

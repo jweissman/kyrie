@@ -94,6 +94,9 @@ export class DeepRooms {
       '    Change read "Unstrap the notebook and read it" from shut to read.', '  }',
       `  Observe ${room}_read at ${room} when state(${room}_notebook, read) and not knows(party, ${room}_journal)`
         + ` ${q(journal)} teaches ${room}_journal.`,
+      // Read, there is nothing more to see in it by looking closely.
+      `  Rule ${room}_notebook_done when state(${room}_notebook, read) and not tried(${room}_notebook, looking)`
+        + ` { Assert tried(${room}_notebook, looking). }`,
       `  Item ${room}_rope "a coil of rope" is rope at ${room}.`, `  Item ${room}_torch "a torch" is torch at ${room}.`];
   }
 }

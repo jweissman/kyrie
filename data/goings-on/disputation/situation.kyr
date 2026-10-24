@@ -9,7 +9,7 @@ Module disputation "The disputation on the green" {
   Entity oneness: claim "that all things are one, and change is only seeming".
   Entity flux: claim "that nothing stays, and nothing made outlasts its making".
   Initially Assert refutes(making, flux). Initially Assert refutes(ending, oneness). Initially Assert refutes(successors, oneness).
-  Entity dispute: fact "Two philosophers dispute on {green} on market days, one of the One and one of the Flow, and the town takes sides.".
+  Entity dispute: fact "Two philosophers dispute at {green} on market days, one of the One and one of the Flow, and the town takes sides.".
   Initially Assert established(dispute).
 
   Person one "The philosopher of the One" at green { Role "a philosopher of the One". Peaceable. }
@@ -22,7 +22,7 @@ Module disputation "The disputation on the green" {
   Entity move_reason: fact "a reason". Entity move_after: fact "the kingdom after". Entity move_argue: fact "an argument".
   Entity move_sophist: fact "the sophist". Entity move_glance: fact "the old stones".
 
-  Observe crowd at green when believes(one, oneness) and believes(flow, flux) "Two philosophers are disputing on {green}, and a crowd stands round them: {one}, who holds that all things are one and change is only seeming, and {flow}, who holds that nothing stays. {sophist} leans between them with folded arms, and laughs at both.".
+  Observe crowd at green when believes(one, oneness) and believes(flow, flux) "Two philosophers are disputing here, and a crowd stands round them: {one}, who holds that all things are one and change is only seeming, and {flow}, who holds that nothing stays. {sophist} leans between them with folded arms, and laughs at both.".
   Observe one_beaten at green when doubts(one, oneness) and not reasoned(one, oneness) "The crowd has gone over from {one} today, and laughs when {one} tries to speak.".
   Observe flow_beaten at green when doubts(flow, flux) and not reasoned(flow, flux) "The crowd has gone over from {flow} today, and laughs when {flow} tries to speak.".
   Observe one_recanted at green when reasoned(one, oneness) "{one} no longer teaches the One: things end, {one} tells whoever will listen, and the end of them is not seeming.".
@@ -128,6 +128,6 @@ Module disputation "The disputation on the green" {
     Result "{sophist} pockets the coin, steps up beside {one}, and takes {one} apart in a quarter of an hour, cheerfully, to the delight of the green. Then {sophist} winks at you. 'By tomorrow,' {sophist} says, 'it will all be believed again. It always is.'".
   }
 
-  Objective disputed when knows(party, dispute) and believes(one, oneness) and believes(flow, flux) "Two philosophers dispute on {green}: the One against the Flow. What the country's own history says could settle it.".
+  Objective disputed when knows(party, dispute) and believes(one, oneness) and believes(flow, flux) "Two philosophers dispute at {green}: the One against the Flow. What the country's own history says could settle it.".
   Goal reasoned(one, oneness) or reasoned(flow, flux).
 }

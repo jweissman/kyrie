@@ -228,6 +228,26 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   - the torn-off seal was still offered to be pushed, pried at and listened at, and gathered coins to be looked at.
     Something undone (a trap gone off, a seal broken, a lid off) is not tried, and a purse gathered is done with;
   - a goat that had got loose could be told "not to wait for you".
+- A fourth: d4, with a bard, whose record is `test/fixtures/descent/d4.choices` (90 choices, the third kept
+  descent). Gareth, a pilgrim, joined at Muntheald for 3 coin, and brought the rites of the dead; Liora the smith
+  sold a crowbar and a pole. Akarn, a mason who fights, joined at Stānhricg, past the philosophers on the green.
+  The play went like this:
+  - the bar lifted the pivot-door across the stair, and a voice at its foot was fought;
+  - the bard unsaid the glyph before the cantors' rooms, and the company took the dirge bell from its niche;
+  - a crack in the unsung stone led round the singing door to the chorus, and the riddle-caskets there gave up a
+    rose-quartz note and two rings of protection;
+  - rung over the stone singers, the bell sent the keeper back into the root of the hill;
+  - the tuning-stone came up at first light on the second day, though the company had run out of food.
+
+  That was too easy, and I say so. The hall has three short levels; the crack makes the singing door's puzzle a
+  choice rather than a need; and someone in the company had the one thing the keeper cannot bear from the first
+  hour. Three level-1 characters fought one band. The hall should be deeper, or its crack narrower, or its bell
+  harder to come by, before it is worth an evening. Faults found and fixed:
+  - "the wildtype voice": Orsino's wildtype is the kind as it is, and is no longer said;
+  - "disputing on the camp at Stānhricg", "a child on the bailey": the fever and the disputation now say "at" before
+    whatever a town's heart is called, and the dispute is "here" when you are at it;
+  - "the settled pivot-door" stayed settled once it swung; it is the pivot-door;
+  - a notebook read was still offered to be looked at closely.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
@@ -428,7 +448,8 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 
 1. Play more of it. The barrow and the cisterns have each been played from the first page, and each found a dozen
    faults that no test had. a1's company died in the barrow's halls on the fifth day. Thorn's brought the Wardens'
-   reading-glass up on the fourth. The mine with another company, and the Stone-Singers' hall, are still to play.
+   reading-glass up on the fourth, and d4's the Stone-Singers' tuning-stone on the second, too easily. The mine with
+   another company, and the barrow to its end, are still to play.
    Things to look at from this play:
    - a level-1 company has little room for a bad fight; three of four were felled by one elite;
    - a recruit or a tool (a pole, a crowbar) is often a day's walk away;

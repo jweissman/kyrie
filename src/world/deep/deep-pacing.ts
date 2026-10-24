@@ -83,7 +83,9 @@ export class DeepPacing {
       : draw.pick(['uncommon', 'rare']);
     const aspected = elite || draw.next() < 0.3 + 0.2 * depth;
     const list = CreatureVariants.table.rarity[tier] ?? CreatureVariants.table.rarity.common!;
-    return { id: `${room.id}_dwellers`, level, ...aspected && group.species ? { aspect: draw.pick(list) } : {},
+    // Orsino's wildtype is the kind as it is, with nothing to say of it: drawn like the rest, and not told.
+    const aspect = aspected && group.species ? draw.pick(list) : undefined;
+    return { id: `${room.id}_dwellers`, level, ...aspect && aspect !== 'wildtype' ? { aspect } : {},
       ...elite ? { elite: true } : {},
       group };
   }

@@ -4,7 +4,7 @@ Module fever "A fever on the green" {
   Place green "The green" is room.
   Place road "The road" is room.
   Relation mended(group). Relation lost(group). Relation offered(group).
-  Entity sick: fact "A child on {green} has a fever that will not break, and the herbs have run out.".
+  Entity sick: fact "A child at {green} has a fever that will not break, and the herbs have run out.".
   Initially Assert established(sick).
 
   Person mother "The sick child's mother" at green { Role "the child's mother". Peaceable. Wants herbs. }
@@ -33,6 +33,6 @@ Module fever "A fever on the green" {
     Says "{sister} does not look up. 'You came through here,' she says. 'Everybody comes through here.'".
   }
 
-  Objective herbs when knows(party, sick) and not mended(mother) and not lost(mother) "A child on {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
+  Objective herbs when knows(party, sick) and not mended(mother) and not lost(mother) "A child at {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
   Goal mended(mother).
 }

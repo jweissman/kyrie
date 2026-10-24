@@ -6,14 +6,15 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 
-// The principal demonstration, kept, twice over: deep sites played to their hearts by the page's own choices
+// The principal demonstration, kept three times over: deep sites played to their hearts by the page's own choices
 // (test/fixtures/descent/<seed>.choices, one choice's words a line, matched as test/long-expedition matches them).
 // In wren, six expeditions into the Delvers' mine by a warrior, from the road into Gothgiba to the heart of the vein
 // brought up into daylight eight days later. In thorn, the Water-Wardens' cisterns by a ranger and a pilgrim, with a
 // soldier fetched from Meósdael to tear the seal off the deep gate, to the reading-glass brought up on the fourth
-// evening. They take some minutes, so they are opt-in: KYRIE_LONG=1. A change that moves what the world offers (a new
-// trap, a fight that goes otherwise) will stop one where its record no longer holds; the record is then played on
-// from there.
+// evening. In d4, the Stone-Singers' hall by a bard, a pilgrim and a mason, with a crowbar for the pivot-door and the
+// cantors' dirge bell rung over the singers, to the tuning-stone brought out at first light on the second day. They
+// take some minutes, so they are opt-in: KYRIE_LONG=1. A change that moves what the world offers (a new trap, a fight
+// that goes otherwise) will stop one where its record no longer holds; the record is then played on from there.
 class Descent {
   static choices(seed: string): string[] {
     return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);
@@ -42,5 +43,10 @@ describe.skipIf(!process.env.KYRIE_LONG)('deep sites played to their hearts', ()
     const s = await Descent.play('thorn', 'ranger');
     expect(s.campaign.world.test(ModuleWriter.call('region__w8_raised'))).toBe(true);
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Wenna', 'Arlen', 'Corrin']);
+  }, 900000);
+  it('brings the Stone-Singers\' tuning-stone up out of their hall, by a bard who reads the old script', async () => {
+    const s = await Descent.play('d4', 'bard');
+    expect(s.campaign.world.test(ModuleWriter.call('region__w8_raised'))).toBe(true);
+    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Wenna', 'Gareth', 'Akarn']);
   }, 900000);
 });

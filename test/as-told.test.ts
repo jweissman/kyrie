@@ -61,6 +61,19 @@ describe('as the company would tell it', () => {
     expect(Thorn.names(s).some(n => /^Ask Gruff to come with you/.test(n))).toBe(true);
     expect(Thorn.names(s).some(n => /^Tell Gruff not to wait/.test(n))).toBe(false);
   }, 60000);
+  it('does not look again at a notebook read, nor call anything wildtype', async () => {
+    const s = await Thorn.start();
+    Thorn.put(s, 'w8_galleries_colonnade');
+    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Unstrap the notebook and read it')!.choice.id);
+    expect(Thorn.names(s)).not.toContain('Look closely at a damp notebook');
+    // Orsino's wildtype is a kind as it is: d4's hall had "the wildtype voice".
+    for (const seed of ['d4', 'thorn']) {
+      const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+        { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'bard' }] });
+      const e = (await PlaySession.start(w.path, seed, w.source)).campaign.module.entities;
+      expect(e.filter(x => /wildtype/i.test(x.name)).map(x => x.name)).toEqual([]);
+    }
+  }, 90000);
   it('says heather, comfrey and wine as they are said, and a dandelion as one', () => {
     expect(['Heather', 'Comfrey', 'Kingsfoil', 'Wine', 'Dandelion'].map(n => ItemNames.called(n)))
       .toEqual(['heather', 'comfrey', 'kingsfoil', 'wine', 'a dandelion']);

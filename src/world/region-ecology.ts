@@ -52,7 +52,8 @@ export class RegionEcology {
     }
     if (!draw.chance(0.45)) { return beast; }
     const aspect = CreatureVariants.draw(draw.int(100) + 1, draw.int.bind(draw));
-    return { ...this.named(beast, aspect), aspect };
+    // Orsino's wildtype is the beast as it is: nothing to call it.
+    return aspect === 'wildtype' ? beast : { ...this.named(beast, aspect), aspect };
   }
   // "a wolf", venomous, is "a venomous wolf".
   private static named(beast: Beast, word: string): Beast {
