@@ -61,8 +61,8 @@ export class RegionSites {
   }
   private static seat(seat: Seat, region: Region, claimed: boolean): string[] {
     const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
-    const where = this.where(seat, region), seen = this.look(site, region), called = this.seenAs(seat, region);
-    const way = called === seen ? `${seen} in ${where}` : called, great = !!site.work?.great;
+    const where = this.where(seat, region), seen = this.look(site, region);
+    const great = !!site.work?.great;
     const hidden = great || (!claimed && (site.part ?? 0) > 0);
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
@@ -79,7 +79,7 @@ export class RegionSites {
     const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
     // Named as the company knows it when it reads it: the way to a timbered adit, or to Obscurusport once named.
     const told = zone ? `The way to {${id}}: ${RegionZones.route(region, zone, site.part ?? 0)}, where the track to it starts.`
-      : `The way to ${way}.`;
+      : `The way to {${id}}: the track to it goes from {${this.start(seat, region).from}}.`;
     lines.push(hidden && !great ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)}. }`
       : `  Discovery ${id}_found ${q(told)}.`);
     if (this.cut[site.kind] && !site.work) {

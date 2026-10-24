@@ -10,7 +10,7 @@ import { Effects } from '../effects';
 import { ModuleWriter } from '../lang/module-writer';
 import { Burden } from '../rules/burden';
 import type { Change, Module } from '../lang/module';
-import type { ArenaAbility } from '../lang/parse';
+import { parseAbility, type ArenaAbility } from '../lang/parse';
 import { World } from '../lang/world';
 import type { CampaignActor } from './definition';
 import type { Creature } from '../creature';
@@ -30,8 +30,8 @@ interface Scope {
 export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
-    'treatable', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable', 'brings',
-    'featOpen', 'temperament', 'fallen', 'slain', 'craft'];
+    'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
+    'brings', 'featOpen', 'temperament', 'fallen', 'slain', 'craft'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Changes whenever the store or a relation `project` writes has changed.
@@ -192,9 +192,10 @@ export class CreatureFacts {
         { kind: 'set', call: ModuleWriter.call('capacity', reference), value: ModuleWriter.number(Burden.capacity(c)) });
     }
     const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c))]);
-    const useful = scope.field.filter(a => a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
-      || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
-      || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status))));
+    const useful = scope.field.filter(a => CreatureFacts.helps(a, c));
+    if (has.has('relieves')) {
+      changes.push(...this.set(scope, 'relieves', reference, kinds.filter(k => this.relieves(k.id, c)).map(k => k.id)));
+    }
     // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
     const usable = scope.field.filter(a => ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
       && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(c.base.level));
@@ -202,9 +203,30 @@ export class CreatureFacts {
       ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
     return changes;
   }
+  // Whether an ability would do anything for someone: heal a hurt, lift something they have, or lay on something
+  // they have not.
+  private static helps(a: ArenaAbility, c: Creature): boolean {
+    return a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
+      || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
+      || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status)));
+  }
+  // A kind of thing used up on someone relieves them if it would help them; one that is no remedy (it does what it
+  // does, whoever takes it) always does.
+  private static readonly uses = new Map<string, ArenaAbility | undefined>();
+  private static relieves(kind: string, c: Creature): boolean {
+    if (!this.uses.has(kind)) {
+      const use = ItemCatalog.definitions[kind]?.use;
+      this.uses.set(kind, use ? parseAbility(`item-${kind}`, kind, use) : undefined);
+    }
+    const ability = this.uses.get(kind);
+    if (!ability) { return false; }
+    const remedy = ability.effects.some(e => ['heal', 'remove', 'apply'].includes(e.kind));
+    return !remedy || this.helps(ability, c);
+  }
   // The relations the projection writes from a member to many things: item first for what a member owns or wears,
   // the member first for the rest.
   static readonly sets: Record<string, 0 | 1> = { ownedItem: 1, wearing: 1, proficient: 0, canTrain: 0, treatable: 0,
+    relieves: 0,
     canCast: 0 };
   private static set(scope: Scope, name: string, reference: string, now: string[]): Change[] {
     const want = new Set(now);

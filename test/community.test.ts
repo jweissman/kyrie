@@ -100,6 +100,22 @@ describe('a settlement is the people who live in it', () => {
   }, 120000);
 });
 
+describe('names', () => {
+  // Found in a1, where an Avice kept geese at Murkstede and cut wood at Wǽttún, and in wren, where Gothgiba had two
+  // Rangrims. Nobody in a country shares a name: townsfolk, the people of each settlement, its shopkeepers and the
+  // travellers on its roads; when a people's names have all been given, a name given again comes with a family's.
+  it('are not shared by two people in one country', async () => {
+    for (const seed of ['a1', 'wren', 'b2']) {
+      const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+        { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+      const s = await PlaySession.start(w.path, seed, w.source);
+      const named = s.campaign.module.entities.filter(e => e.type === 'group' && /^region__(s\d+_|.*_way_t$)/.test(e.id)
+        && /^[A-Z]/.test(e.name) && !/(dog|cat|goat|cow|hen)$/.test(e.id)).map(e => e.name.split(', ')[0]!);
+      expect(named.filter((n, i) => named.indexOf(n) !== i).map(n => `${seed} ${n}`)).toEqual([]);
+    }
+  }, 120000);
+});
+
 describe('what grows wild', () => {
   it('grows where the land lets it: willows only by water', async () => {
     const { w } = await Settled.start(), region = Settled.region(w);

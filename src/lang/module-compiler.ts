@@ -76,7 +76,7 @@ export class ModuleCompiler {
         }
       }
       r.effects.forEach(c => this.change(module, c));
-      if (r.effects.some(c => ['able', 'dead', 'watch', 'dark', 'untilLight', 'untilMorning', 'dice', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
+      if (r.effects.some(c => ['able', 'dead', 'watch', 'dark', 'untilLight', 'untilMorning', 'dice', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
         throw new Error('Rules cannot change canonical projections, clocks, records or discovery knowledge');
       }
     }

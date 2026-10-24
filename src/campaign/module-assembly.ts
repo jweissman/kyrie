@@ -49,7 +49,7 @@ export class ModuleAssembly {
     const seen = (situation.people ?? []).filter(p => p.seen);
     if (seen.length) { module.seen = Object.fromEntries(seen.map(p => [p.id, p.seen!])); }
     delete module.people;
-    if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
+    if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
       throw new Error('Member state is inferred from the canonical cast; do not initialize it manually');
     }
     this.generatedItems(module, manifest.items ?? {});
@@ -132,7 +132,7 @@ export class ModuleAssembly {
   private static readOnly(instance: Instance, definition: CampaignDefinition, compiler: ModuleCompiler) {
     if (instance.module.actions.some(a => [...a.success, ...a.failure].some(c =>
       ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
-        'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name)))) {
+        'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name)))) {
       throw new Error('Creature projections and campaign clock/pressure records are read-only');
     }
     if ([...instance.module.initial, ...(instance.module.rules ?? []).flatMap(r => r.effects)]

@@ -1,5 +1,6 @@
 import { Draw } from './land/draw';
 import { Foundings } from './founding';
+import { Communities } from './community/community';
 import { CommunityWriter } from './community/community-writer';
 import type { Region, Settlement } from './region-writer';
 import world from '../../data/generation/scenes/orsino-world.json';
@@ -25,11 +26,21 @@ export class RegionShops {
     const s = region.settlements[i]!;
     return this.chosen(region, i).flatMap((kind, n) => this.shop(region, s, { kind, n }));
   }
+  // Who keeps a shop: a name nobody settled in the country has (see Communities.everyone).
+  private static keeper(region: Region, s: Settlement, kind: string): { name: string; pronoun: string; draw: Draw } {
+    const draw = new Draw(`${region.name}:${s.id}_${kind}`), ancestry = s.folk ?? region.ancestry;
+    const pronoun = draw.pick(['she', 'he']), given = folk.given as unknown as Record<string, Record<string, string[]>>;
+    const names = (given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!;
+    const name = Communities.distinct(names, ancestry, { draw, taken: Communities.everyone(region) });
+    return { name, pronoun, draw };
+  }
+  // Everyone who keeps a shop in the country, by name.
+  static keepers(region: Region): string[] {
+    return region.settlements.flatMap((s, i) => this.chosen(region, i).map(kind => this.keeper(region, s, kind).name));
+  }
   private static shop(region: Region, s: Settlement, at: { kind: string; n: number }): string[] {
     const q = JSON.stringify, k = this.kinds[at.kind]!, id = `${s.id}_${at.kind}`, keeper = `${id}_keeper`;
-    const draw = new Draw(`${region.name}:${id}`), ancestry = s.folk ?? region.ancestry, pronoun = draw.pick(['she', 'he']);
-    const given = folk.given as unknown as Record<string, Record<string, string[]>>;
-    const name = draw.pick((given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!);
+    const ancestry = s.folk ?? region.ancestry, { name, pronoun, draw } = this.keeper(region, s, at.kind);
     const room = k.room.replace('{keeper}', name);
     const sells = this.stocks[at.kind]!.stock.map(([what, fee]) => `Sells ${what} for ${fee} coin from 2.`).join(' ');
     const likeness = CommunityWriter.likenessOf(region, { pronoun, painting: k.painting, id: keeper });

@@ -1,5 +1,7 @@
 import { Draw } from './land/draw';
 import { RegionGeography, type Road } from './region-geography';
+import { Communities } from './community/community';
+import { RegionShops } from './region-shops';
 import { SettlementWriter } from './settlement-writer';
 import { SettlementScenes } from './settlement-scenes';
 import { Foundings } from './founding';
@@ -41,14 +43,11 @@ export class RegionTraffic {
     const pronoun = key === 'family' ? draw.pick(['she', 'he']) : draw.chance(0.05) ? 'they' : draw.pick(['she', 'he']);
     const given = folk.given as unknown as Record<string, Record<string, string[]>>;
     const names = given[ancestry] ?? given.human!;
-    const pool = (names[pronoun] ?? names.she!).filter(n => !used.has(n) && !this.taken(region, n));
-    const name = pool.length ? draw.pick(pool) : draw.pick(names.she!);
+    // A name nobody settled in the country has, so that a traveller is never taken for one of them.
+    const name = Communities.distinct(names[pronoun] ?? names.she!, ancestry,
+      { draw, taken: new Set([...used, ...Communities.everyone(region), ...RegionShops.keepers(region)]) });
     used.add(name);
     return { id: `${road.way}_t`, name, pronoun, kind: this.kinds[key]!, road, draw };
-  }
-  // A name no townsperson of the country has, so that a traveller is never taken for one of them.
-  private static taken(region: Region, name: string): boolean {
-    return region.settlements.some(s => [s.innkeeper, s.priest, s.merchant, s.traveller].includes(name));
   }
   private static person(region: Region, t: Traveller): string[] {
     const q = JSON.stringify, k = t.kind, from = t.road.from, rest = SettlementWriter.standing(region, from, 'innkeeper');

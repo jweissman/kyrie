@@ -135,6 +135,7 @@ export class CommunityWriter {
       `  Topic ${r.id}_wants with ${r.id} ${q(`Ask ${r.name} what the matter is`)} when not grateful(${r.id}, party) once {`,
       `    Says ${q(`'I need a ${concern.wants === 'herbs' ? 'bundle of herbs' : concern.wants} and I've no time to go for one,' says ${r.name}. 'If you can get one, I'd pay you back and a bit over.'`)}.`, '  }',
       `  Rule ${r.id}_thanks when keeps(${r.id}, ?g) and not grateful(${r.id}, party) says ${q(`'That's the one,' says ${r.name}, and pays you for it and a coin besides.`)} {`,
-      `    Assert grateful(${r.id}, party). Increase quantity(party, gold) by 3. }`];
+      `    Assert grateful(${r.id}, party). Increase quantity(party, gold) by price(?g).`
+        + ` Increase quantity(party, gold) by 1. }`];
   }
 }

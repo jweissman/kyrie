@@ -54,12 +54,12 @@ export class Communities {
     const draw = new Draw(`${region.name}:${s.id}:community`), water = this.water(region, s);
     const founding = Foundings.of(region, region.settlements.indexOf(s));
     const chosen = this.choose(region, s, { water, draw, founding });
-    const ancestry = s.folk ?? region.ancestry, used = new Set<string>();
+    const ancestry = s.folk ?? region.ancestry, { people: used, animals: beasts } = this.before(region, s);
     const residents = chosen.map(([key, work], i) => this.resident(s, { key, work, ancestry, i, draw, used }));
     this.households(residents, draw);
     const workplaces = this.places(s, residents, founding);
-    const animals = this.animals(s, residents, { draw, founding });
-    const concern = this.concern(residents, animals, { draw, stock });
+    const animals = this.animals(s, residents, { draw, founding, beasts });
+    const concern = this.concern(residents, animals, { draw, stock, beasts });
     return { settlement: s, residents, animals, workplaces, water, inn: founding.keeping !== 'none', ...concern ? { concern } : {} };
   }
   // Where the work is done: the founding's own place first (the crossing stones, the boat-sheds), where the founding's
@@ -120,16 +120,60 @@ export class Communities {
     while (picked.length < n) { picked.push(['farmer', this.occupations.farmer!]); }
     return picked;
   }
+  // The names already given in the country when a settlement's people are named: every settlement's innkeeper,
+  // priest, merchant and traveller, and the people of the settlements before it, so that no two people in a country
+  // share a name while there are names enough.
+  private static readonly given = new WeakMap<Region, Map<string, { people: string[]; animals: string[] }>>();
+  private static before(region: Region, s: Settlement): { people: Set<string>; animals: Set<string> } {
+    const people = this.townsfolk(region), animals = new Set<string>();
+    for (const earlier of region.settlements.slice(0, region.settlements.indexOf(s))) {
+      const named = this.names(region, earlier);
+      for (const name of named.people) { people.add(name); }
+      for (const name of named.animals) { animals.add(name); }
+    }
+    return { people, animals };
+  }
+  private static townsfolk(region: Region): Set<string> {
+    return new Set(region.settlements.flatMap(x => [x.innkeeper, x.priest, x.merchant, x.traveller])
+      .filter((n): n is string => !!n));
+  }
+  private static names(region: Region, s: Settlement): { people: string[]; animals: string[] } {
+    let known = this.given.get(region);
+    if (!known) { known = new Map(); this.given.set(region, known); }
+    if (!known.has(s.id)) {
+      const c = this.plan(region, s);
+      known.set(s.id, { people: c.residents.map(r => r.name), animals: c.animals.map(a => a.name) });
+    }
+    return known.get(s.id)!;
+  }
+  // A name for someone named after the settled people (a shop's keeper, a traveller): one nobody has, or, when the
+  // names of their people have all been given, one with a family's name to it.
+  static distinct(names: string[], ancestry: string, at: { draw: Draw; taken: Set<string> }): string {
+    const free = names.filter(n => !at.taken.has(n));
+    if (free.length) { return at.draw.pick(free); }
+    const given = at.draw.pick(names);
+    const families = at.draw.shuffle(this.folk.family[ancestry] ?? this.folk.family.human!);
+    return families.map(f => `${given} ${f}`).find(n => !at.taken.has(n)) ?? `${given} ${families[0]!}`;
+  }
+  // Every name the country's settled people have: its townsfolk and everyone who lives in its settlements, for those
+  // named after them (a shop's keeper, a traveller on the road) to keep clear of.
+  static everyone(region: Region): Set<string> {
+    const all = this.townsfolk(region);
+    for (const s of region.settlements) { for (const name of this.names(region, s).people) { all.add(name); } }
+    return all;
+  }
   private static resident(s: Settlement, at: { key: string; work: Occupation; ancestry: string; i: number; draw: Draw;
     used: Set<string> }): Resident {
     const { key, work, ancestry, i, draw, used } = at;
     const names = this.folk.given[ancestry] ?? this.folk.given.human!;
     const pronoun = (work.pronoun ?? (draw.chance(0.06) ? 'they' : draw.chance(0.5) ? 'she' : 'he')) as Resident['pronoun'];
     const pool = (names[pronoun] ?? names.she!).filter(n => !used.has(n));
-    const name = pool.length ? draw.pick(pool) : draw.pick(names.she!);
+    const given = pool.length ? draw.pick(pool) : draw.pick(names[pronoun] ?? names.she!);
+    const families = this.folk.family[ancestry] ?? this.folk.family.human!, family = draw.pick(families);
+    // When the country's names of a people have all been given, a name given again is said with the family's.
+    const name = pool.length ? given : `${given} ${family}`;
     used.add(name);
-    const families = this.folk.family[ancestry] ?? this.folk.family.human!;
-    return { id: `${s.id}_r${i + 1}`, name, family: draw.pick(families), pronoun, ancestry, occupation: key, work,
+    return { id: `${s.id}_r${i + 1}`, name, family, pronoun, ancestry, occupation: key, work,
       household: `${s.id}_h${i + 1}`, manner: draw.pick(this.manners), seen: draw.pick(work.seen), talk: draw.pick(work.talk),
       evening: draw.chance(0.45) ? 'inn' : 'home', tavern: draw.pick(this.evenings) };
   }
@@ -153,16 +197,17 @@ export class Communities {
     '{Name}, {dog}, noses along the foot of the wall of {inn}, busy with something only {they} can smell.'];
   // The animals about the place: the dog of the inn (or whatever house keeps travellers), always; a household's
   // animal where its work keeps one; a cat here and there.
-  private static animals(s: Settlement, residents: Resident[], at: { draw: Draw; founding: Founding }): Animal[] {
-    const { draw, founding } = at, out: Animal[] = [], keeping = Foundings.table.keeping[founding.keeping];
+  private static animals(s: Settlement, residents: Resident[],
+    at: { draw: Draw; founding: Founding; beasts: Set<string> }): Animal[] {
+    const { draw, founding, beasts } = at, out: Animal[] = [], keeping = Foundings.table.keeping[founding.keeping];
     const words = { inn: s.inn.replace(/^The /, 'the '), keeper: s.innkeeper, name: s.name };
     const house = Foundings.fill(keeping.house, words), role = Foundings.fill(keeping.dog, words);
-    const dog = this.animalName('dog', draw), inn = { id: `${s.id}_inndog`, species: 'dog', name: dog,
+    const dog = this.animalName('dog', draw, beasts), inn = { id: `${s.id}_inndog`, species: 'dog', name: dog,
       pronoun: draw.chance(0.5) ? 'she' as const : 'he' as const, role, at: `${s.id}_green`,
       seen: new Draw(`${s.name}:inn dog`).pick(this.innDogs).replace('{inn}', house).replace('{dog}', role) };
     out.push(inn);
     for (const r of residents.filter(x => x.work.animal)) {
-      const species = r.work.animal!, name = this.animalName(species, draw);
+      const species = r.work.animal!, name = this.animalName(species, draw, beasts);
       const pronoun = ['cow', 'goat', 'hen'].includes(species) || draw.chance(0.5) ? 'she' as const : 'he' as const;
       out.push({ id: `${r.id}_${species}`, species, name, pronoun, household: r.household,
         role: `${r.name}'s ${species}`, at: r.workplace ?? `${s.id}_green`,
@@ -170,25 +215,29 @@ export class Communities {
     }
     if (draw.chance(0.6)) {
       const r = draw.pick(residents);
-      out.push({ id: `${s.id}_cat`, species: 'cat', name: this.animalName('cat', draw), pronoun: 'she', household: r.household,
+      out.push({ id: `${s.id}_cat`, species: 'cat', name: this.animalName('cat', draw, beasts), pronoun: 'she', household: r.household,
         role: `the ${r.family}s' cat`, at: `${s.id}_green`,
         seen: '{Name}, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.',
         night: 'Two green eyes on a wall-top are {Name}, the cat, who sees you better than you see her.' });
     }
     return out;
   }
-  private static animalName(species: string, draw: Draw): string {
-    return draw.pick(this.folk.animal[species] ?? this.folk.animal.dog!);
+  // An animal's name, unless another animal in the country has it already.
+  private static animalName(species: string, draw: Draw, beasts: Set<string>): string {
+    const names = this.folk.animal[species] ?? this.folk.animal.dog!, free = names.filter(n => !beasts.has(n));
+    const name = draw.pick(free.length ? free : names);
+    beasts.add(name);
+    return name;
   }
   // One small trouble a stranger could help with: a household's goat got out; or someone who lacks a thing the
   // shop sells, and would pay for it brought.
-  private static concern(residents: Resident[], animals: Animal[], at: { draw: Draw; stock: string[] }):
-    Concern | undefined {
-    const { draw, stock } = at;
+  private static concern(residents: Resident[], animals: Animal[],
+    at: { draw: Draw; stock: string[]; beasts: Set<string> }): Concern | undefined {
+    const { draw, stock, beasts } = at;
     if (!residents.length || !draw.chance(0.85)) { return undefined; }
     const r = draw.pick(residents);
     if (draw.chance(0.5)) {
-      animals.push({ id: `${r.id}_goat`, species: 'goat', name: this.animalName('goat', draw), pronoun: 'she',
+      animals.push({ id: `${r.id}_goat`, species: 'goat', name: this.animalName('goat', draw, beasts), pronoun: 'she',
         household: r.household, role: `${r.name}'s goat, got loose`, at: '', seen: '' });
       return { kind: 'strayed', resident: r.id, animal: `${r.id}_goat` };
     }

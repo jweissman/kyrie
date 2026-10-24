@@ -2,6 +2,8 @@ Module belongings "What the company carries" {
   Kind item. Kind itemkind.
   Relation itemKind(item, itemkind). Relation ownedItem(item, member). Relation wearing(item, member).
   Relation forSale(item). Relation soldBy(item, group) exclusive. Relation wearable(itemkind). Relation consumable(itemkind).
+  // What could be used on a member to any end: a remedy for a hurt or an ill they have, or a draught for what it does.
+  Relation relieves(member, itemkind).
   // What is used by lighting it, on whoever carries it (a torch, a candle); what burns in something else, and what
   // it burns in (lamp oil, in a lantern).
   Relation lightsUp(itemkind). Relation burns(itemkind, itemkind). Relation fuel(itemkind).
@@ -97,7 +99,7 @@ Module belongings "What the company carries" {
     Time 2 minutes.
     Requires able(actor) and memberOf(carrier, actor) and memberOf(recipient, actor) and awake(carrier)
       and awake(recipient) and ownedItem(dose, carrier) and itemKind(dose, form) and consumable(form) and not lightsUp(form)
-      and not fuel(form).
+      and not fuel(form) and relieves(recipient, form).
     Resolve consume(dose, carrier, recipient).
   }
   Action light_item(actor: group, dose: item, form: itemkind, carrier: member) "Light {dose}" {

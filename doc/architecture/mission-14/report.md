@@ -160,7 +160,24 @@ was worth as much as the descent, and each was fixed and pinned by a test:
     house that were then paid for; the arrival text had the quarrelling pair shouting in the street, where the
     quarrel is that they will not speak. The arrivals no longer give anyone a sex the scenario does not;
   - the town's news was told twice on coming in (as what happened, and as what had changed), and so was everyone in
-    the taproom.
+    the taproom;
+  - bandages and herbs were offered on everyone, hurt or not. A remedy is offered to whoever it would help, as a
+    spell of healing already was (`relieves`, projected like `treatable`);
+  - two people in a country often shared a name: an Avice kept geese at Murkstede and cut wood at Wǽttún, a
+    pedlar and a carpenter were both Garret, and Gothgiba in wren had two Rangrims. Townsfolk, residents,
+    shopkeepers and road travellers are now named clear of one another, and when a people's few names have all
+    been given, a name given again comes with a family's ("Adrik Strakeln");
+  - Cora wanted a lantern brought "and would pay you back and a bit over", and paid three coin for a seven-coin
+    lantern; she pays its price and a coin now;
+  - the journal's way to a site in open country said only "The way to a long mound north of Faennslím". It says
+    where the track to it goes from.
+
+  The barrow's way down is still ahead of them: the record so far stops at Wǽttún, a day's walk from it, with a
+  pole, a lantern and oil bought. Ambrose, a soldier paid off at midsummer, will join at Faennslím for 4 coin, and
+  brings the strength the counterweight wants.
+  The country is busy round them: a lord's toll on the Deopex road that makes food dearer, a drover gone missing,
+  graves opened under a lone tower with a green light, and the brothers of Aergodríce, gone up to Nocstumul the
+  second morning after the same crown.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members

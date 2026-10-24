@@ -10,6 +10,7 @@ import { Narrator } from '../src/presentation/narrator';
 import { ObservationText } from '../src/lang/observation-text';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
+import type { CreatureStore } from '../src/creature-store';
 
 // What the page tells a company of what it cannot do yet, and what something would do to it: found playing a1's
 // king-barrow with a cleric and a pedlar, who have no brawn, no rope, no pole and no eye for traps. A thing that
@@ -82,6 +83,18 @@ describe('what it takes, as the page tells it', () => {
     const told = await Barrow.take(s, /^Sell a jade idol to Mik$/);
     expect(told).toContain('Mik turns a jade idol over in the light');
     expect(told).not.toContain('set down');
+  }, 60000);
+  it('offers a remedy only to whoever it would help', async () => {
+    const s = await Barrow.start();
+    Barrow.put(s, 's4_green');
+    await Barrow.take(s, /^Buy bandages for Wenna/);
+    const offered = () => Barrow.names(s).some(n => /^Use bandages on Wenna$/.test(n));
+    expect(offered()).toBe(false);
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const lease = store.acquire([s.campaign.readout.partyIds[0]!]);
+    try { lease.creatures[0]!.state.hp -= 3; lease.commit(lease.creatures); } finally { lease.release(); }
+    await s.perform('wait');
+    expect(offered()).toBe(true);
   }, 60000);
   it('goes on from a question into who asked it', () => {
     expect(ObservationText.sentences('‘Murkstede?’ says Hob. ‘Same as ever.’ the castellan nods.'))

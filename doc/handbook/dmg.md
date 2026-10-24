@@ -70,7 +70,13 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 23 | 8 | 2 | 7 | 18 |
+| 2 | 24 | 8 | 2 | 7 | 18 |
+
+#### relieves
+
+*Kyr · relation(member, itemkind)* · `rule:belongings.relieves`
+
+What could be used on a member to any end: a remedy for a hurt or an ill they have, or a draught for what it does.
 
 #### lightsUp, burns, fuel
 
@@ -252,7 +258,7 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form); not (lightsUp(form)); not (fuel(form))
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form); not (lightsUp(form)); not (fuel(form)); relieves(recipient, form)
 
 > Then: nothing changes
 
@@ -1464,7 +1470,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 *Kyr · action (group, passage, place, place, entity, hazard, condition, member)* · `rule:world_passages.risk`
 
-- Shown as: Risk {trap} on the way to {destination}; {victim} goes first
+- Shown as: Risk {trap}; {victim} goes first
 - Takes: the travelTime of the way
 - Costs: 1
 
