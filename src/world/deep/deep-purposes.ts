@@ -64,6 +64,9 @@ export interface DeepPurpose {
   objective: { item: string; kind: string; text: string; goal?: string; raised?: string; worth?: number;
     weight?: number };
   rumours: string[];
+  // How the land round it shows what keeps its bottom: a blight anyone can see while the keeper is there; what someone
+  // with a skill reads in it, which says something of what the keeper is and cannot bear; and the land after.
+  land?: { blight: string; signs: Record<string, string>; healed: string };
   // What it was dug or built for, left where it was got: so many of a local kind in rooms of these roles.
   ore?: { kind: string; name: string; worth: number; weight: number; text: string; roles: Record<string, number> };
   // What lies about in it, by Orsino's treasure tier: what its makers and those after them would have left; and the

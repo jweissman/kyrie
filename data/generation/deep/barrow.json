@@ -133,6 +133,14 @@
     "'The king-barrow at {name}? The old folk's first king is under it, they say, with his crown on, and all his people round him. Robbers go in every few years. Some come out.'",
     "'There was a man went into {name} after the king's gold and came out with a pocket of amber and his hair gone white. Grave-goods, gold, jet, amber: I buy them and I do not ask whose they were.'"
   ],
+  "land": {
+    "blight": "No bird sits on the mound. The grass on it grows long and pale and nothing grazes it, though the sheep crop the field round it to the stones.",
+    "signs": {
+      "rites": "The dead in this mound do not lie still. The grass over the chambers is pressed flat in the mornings as though something had lain on it all night, and got up again before the sun.",
+      "woodcraft": "Hares lie out on every field round here but this one, and the owls hunt the mound and nothing else. Whatever comes up out of it by night, the voles keep well away from."
+    },
+    "healed": "A blackbird is singing on the mound, and the sheep have come up onto it to graze."
+  },
   "hook": {
     "topic": "the king-barrow",
     "trade": { "topic": "what is buried in the king-barrow", "says": "weighs a bead of amber on a fingertip. 'Bring me what the old folk buried and I will pay what it is worth.'" }

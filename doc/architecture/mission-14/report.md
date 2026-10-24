@@ -275,7 +275,20 @@ the brothers were two days behind: their cross was on the shaft bottom when the 
 sixth day, and the heart came up on the eighth, two days before they would have reached it
 (`test/deep-rivals.test.ts`).
 
-**Not done.** Ecology and settlements' fortunes were not worked on this mission. Only the one kind of ambition is
+**Done since: the land shows what is under it.** The ground round a deep site's door tells of what keeps its
+bottom (`land` in each purpose's data, `test/deep-land.test.ts`), so that the ecology is a clue and not scenery.
+Anyone sees the blight: at the mine the heather stops short of the adit mouth and nothing nests in the spoil; on
+the barrow nothing grazes and no bird sits; in the cisterns' ditch there is no weed and no frog. Someone with a
+skill reads more in it, and what they read is a hint at what the keeper cannot bear:
+- a ranger sees that the ravens come down onto the mine's spoil only at noon, with the sun full on the hill;
+- a priest of the dead sees the barrow's grass pressed flat by morning, as by something that got up again before
+  the sun;
+- a scholar reads the cisterns' door as a promise kept;
+- the Stone-Singers' hill gives out a dirge that nobody finished.
+
+Once the keeper is gone, the land comes back.
+
+**Not done.** Ecology beyond this, and settlements' fortunes, were not worked on this mission. Only the one kind of ambition is
 written, and its power does nothing else: it does not hire guards, buy up the oil or close the road. A deep era
 sequence (a primordial age, the Mathematical Age, planar contact) was not attempted. Truth and belief are not yet
 separated in what people say of history.

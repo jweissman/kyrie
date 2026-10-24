@@ -150,6 +150,14 @@
     "'The cisterns at {name}? The old folk held the springs in there, they say, behind gates of bronze, and you can hear the water running under the hill on a still night. Nobody goes past the first stair.'",
     "'My grandmother went into {name} for the silver the Wardens left and came out with a bronze key and her feet wet to the knee. Whatever is down there, I buy, and I do not ask where.'"
   ],
+  "land": {
+    "blight": "The water in the ditch by the cisterns' door runs clear and lifeless: no weed in it, no frog, no fly over it.",
+    "signs": {
+      "woodcraft": "Herons fish every pool in this country but these, and the otters' slides go down to the river and never to the cisterns.",
+      "lore": "The stones at the door are cut with the Wardens' letters, and the words are a promise: the water is kept, and what keeps it is bound by the promise. Someone has kept their word here a long time."
+    },
+    "healed": "There is weed in the ditch by the cisterns' door again, and frogs in it."
+  },
   "hook": {
     "topic": "the old cisterns",
     "trade": { "topic": "what is down in the cisterns", "says": "turns a bronze key over in the light. 'Bring me what the Wardens left and I will pay what it is worth.'" }

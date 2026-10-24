@@ -36,7 +36,8 @@ export class DeepSites {
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values),
-      ...DeepArgument.lines(layout, values, purpose), ...DeepRivals.lines(region, site, { layout, purpose, values })];
+      ...DeepArgument.lines(layout, values, purpose), ...DeepRivals.lines(region, site, { layout, purpose, values }),
+      ...this.land(purpose, layout)];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark.
   private static places(layout: DeepLayout): string[] {
@@ -72,6 +73,15 @@ export class DeepSites {
         `    Retract at(${id}, ?o). Assert at(${id}, ?p). }`);
     }
     return lines;
+  }
+  // The land round it, while what keeps its bottom is there and after: told outside, and what each skill reads in it.
+  private static land(purpose: DeepPurpose, layout: DeepLayout): string[] {
+    const land = purpose.land, site = layout.site, keeper = `${site}_keeper`, q = this.q;
+    if (!land) { return []; }
+    return [`  Observe ${site}_blight at ${site} as sign when able(${keeper}) ${q(land.blight)}.`,
+      ...Object.entries(land.signs).map(([skill, text]) => `  Observe ${site}_${skill}_sign at ${site} as sign`
+        + ` noticed by ${skill} when able(${keeper}) ${q(text)}.`),
+      `  Observe ${site}_healed at ${site} as sign when not able(${keeper}) ${q(land.healed)}.`];
   }
   // Who can be heard from the next room before they are met, while they are there and able: a band that falls on
   // whoever comes in, or keeps its ground, or one of the deep's worst. Told in every room a way leads from.

@@ -129,6 +129,14 @@
     "'The singing halls at {name}? Smooth as an egg inside, they say, and not a chisel-mark anywhere. Sing in there and something sings back. Nobody goes past the stair.'",
     "'My uncle went into {name} for the stones the old folk left, and came out humming, and hummed till he died. He brought out a little stone that rings. I will buy any you bring, and not ask.'"
   ],
+  "land": {
+    "blight": "When the wind gets up the hill gives out a note, low and long, that sets the dogs howling in the valley. The sheep will not graze its slope.",
+    "signs": {
+      "rites": "The note the hill gives is a dirge, cut short: the last of a song for the dead that nobody finished singing.",
+      "woodcraft": "Nothing nests within earshot of the hill's note. The rooks go round it, and the deer will not drink from the stream below it."
+    },
+    "healed": "The hill is quiet in the wind now, and the sheep have come back onto its slope."
+  },
   "hook": {
     "topic": "the singing halls",
     "trade": { "topic": "what is in the singing halls", "says": "holds up a little hollow stone and flicks it with a nail, and it rings. 'Bring me what the Singers left and I will pay what it is worth.'" }

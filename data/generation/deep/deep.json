@@ -643,6 +643,14 @@
     "'The Delvers' mine at {name}? There is still ore down there, they say, the pale kind. Nobody goes below the first level. The cage hangs in the shaft and the wheel will not turn.'",
     "'My grandfather went into {name} after the star-iron. He said the stair at the bottom was walled up by the Delvers themselves, and there was writing on it, and he came back up without reading it.'"
   ],
+  "land": {
+    "blight": "The heather stops a long stride short of the adit mouth all round, as though it had been burned back, and grows again beyond. Nothing nests in the spoil.",
+    "signs": {
+      "woodcraft": "There is no track into the adit that is not a man's, and the foxes' runs bend wide of it. Only at noon, with the sun full on the hillside, do the ravens come down and sit on the spoil.",
+      "digging": "The last of the spoil, at the top of the heap, is not the same stone as the rest: black, glassy, as if it had been in a fire. The Delvers' last gallery broke into something that was not rock."
+    },
+    "healed": "The heather has begun to creep back toward the adit mouth, and a wheatear has a nest in the spoil."
+  },
   "camp": {
     "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
     "journal": [
