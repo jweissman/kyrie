@@ -64,7 +64,9 @@ export class DeepMechanisms {
       // A watch's worth at a time, however much is done in the watch.
       `  Rule ${level.id}_pumping when ${on} and state(${chain}, engaged) and ${water} > 0`
         + ` and deepPumped(${pump.id}) < watch(clock) { Decrease ${water} by 1. Set deepPumped(${pump.id}) to watch(clock). }`,
-      `  Rule ${level.id}_drained when ${water} == 0 and not ${level.id}_dry() says ${q(w.drained)} { Assert ${level.id}_dry(). }`,
+      // Heard at the wheel's pit, not on the fell an hour away.
+      `  Rule ${level.id}_drained at ${pump.id} when ${water} == 0 and not ${level.id}_dry() says ${q(w.drained)}`
+        + ` { Assert ${level.id}_dry(). }`,
       `  Observe ${pump.id}_running at ${pump.id} when ${on} and state(${chain}, engaged) and ${water} > 0 ${q(w.running)}.`,
       `  Observe ${pump.id}_idle at ${pump.id} when ${on} and state(${chain}, slack) ${q(w.idle)}.`,
       `  Observe ${pump.id}_dry at ${pump.id} when state(${gate}, shut) ${q(w.dry)}.`,
