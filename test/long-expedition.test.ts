@@ -15,7 +15,7 @@ class Expedition {
     'bailey', 'Wooden.Wolf', 'old.workings', 'Ask.Thoradin.what.brings', 'Ask.Thoradin.to.join', 'Buy.one.ration',
     'door.of.the.Wooden', "Ulfgar's.door", 'what.the.old.workings', 'Buy.a.torch.for.Wenna',
     'Buy.a.crowbar.for.Wenna', "Ulfgar's.door", 'path.up.onto.Barzelrehes.to.the.foot',
-    'to.the.foot.of.Barzelrehes.by.Muzgkom$', 'track.to.Obscurusport$', 'way.in', 'passage.to.the.adit$',
+    'to.the.foot.of.Barzelrehes.by.Muzgkom$', 'track.to.Aurumtener$', 'way.in', 'passage.to.the.adit$',
     'Light.a.torch', 'Darkness', 'Take .* out of the stone casket for Wenna', 'gallery to the smithy', 'Collect',
     'gallery to the adit$', 'gallery to the crossing', 'Attack the goblins', 'Gather up the coins',
     'Collect a Delver', 'Look closely at the arcane glyph', "Hold the pole's end", 'to the old stope',

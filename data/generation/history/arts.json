@@ -45,7 +45,12 @@
         "dark",
         "cold",
         "pale",
-        "moon"
+        "moon",
+        "mist",
+        "rain",
+        "ice",
+        "white",
+        "stream"
       ],
       "treasure": {
         "common": [
@@ -108,7 +113,13 @@
         "silver",
         "tin",
         "dark",
-        "stone"
+        "stone",
+        "copper",
+        "gold",
+        "rock",
+        "black",
+        "red",
+        "secret"
       ],
       "treasure": {
         "common": [
@@ -171,7 +182,11 @@
         "high",
         "moon",
         "sun",
-        "light"
+        "light",
+        "cloud",
+        "wind",
+        "eagles",
+        "spire"
       ],
       "treasure": {
         "common": [
@@ -232,7 +247,12 @@
         "silence",
         "night",
         "stone",
-        "gloom"
+        "gloom",
+        "sorrow",
+        "shadow",
+        "mist",
+        "tears",
+        "holy"
       ],
       "treasure": {
         "common": [
@@ -294,7 +314,12 @@
         "music",
         "silence",
         "speech",
-        "dream"
+        "dream",
+        "harp",
+        "bell",
+        "marble",
+        "joy",
+        "glass"
       ],
       "treasure": {
         "common": [

@@ -11,7 +11,7 @@ import type { CreatureStore } from '../src/creature-store';
 // Someone else is after the deep site's prize (data/generation/deep/powers.json, data/rules/ambitions.kyr). In wren
 // the kingdom after the Delvers was an order of monks, and their brothers are still at Gothgiba: the prior wants the
 // heart of the vein put where it can do no harm, pays for it, and stands the company an advance. On the second
-// morning the brothers go up to Obscurusport themselves, and go down a level every two days, leaving their mark. At
+// morning the brothers go up to Aurumtener themselves, and go down a level every two days, leaving their mark. At
 // the bottom the keeper breaks them, if it is still there, and what they carried is left lying; if it is not, they
 // bring the heart up, and the company's errand is over.
 class Rivals {

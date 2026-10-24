@@ -38,7 +38,7 @@ class Delve {
   }
   static readonly inn = [/^Take the road to the bailey/, /^Take the door of the Wooden Wolf/];
   static readonly road = [/^Take the door of the Wooden Wolf/, /^Take the path up onto Barzelrehes to the foot/,
-    /^Take .+ to the foot of Barzelrehes by Muzgkom$/, /^Take the track to Obscurusport$/,
+    /^Take .+ to the foot of Barzelrehes by Muzgkom$/, /^Take the track to Aurumtener$/,
     /^Take the way in to the adit mouth/, /^Take the passage to the adit$/];
 }
 
@@ -50,7 +50,7 @@ describe('a deep site, from the inn', () => {
     expect(rooms.length).toBeGreaterThanOrEqual(25);
     await Delve.walk(s, Delve.inn);
     const told = await Delve.take(s, /^Ask Fargrim about the old workings$/);
-    expect(told).toContain('Obscurusport');
+    expect(told).toContain('Aurumtener');
     expect(told).toMatch(/The way to .+: to the foot of Barzelrehes by Muzgkom, where the track to it starts/);
   }, 90000);
   it('is walked to by the way told, gone into by torchlight, a few minutes at a time', async () => {
@@ -94,7 +94,7 @@ describe('a deep site, from the inn', () => {
     await Delve.walk(s, [...Delve.inn, /^Ask Fargrim about the old workings$/, /^Take the door of the Wooden Wolf/,
       /^Take Ulfgar's door/, /^Buy a torch for Wenna/, /^Take Ulfgar's door/, ...Delve.road.slice(1), /^Light a torch$/,
       /^Take the gallery to the crossing$/, /^Attack the goblins$/, /^Take the gallery to the adit$/,
-      /^Take the passage to the adit mouth$/, /^Take the way in to Obscurusport$/, /^Wait until dark$/,
+      /^Take the passage to the adit mouth$/, /^Take the way in to Aurumtener$/, /^Wait until dark$/,
       /^Wait until first light$/, /^Take the way in to the adit mouth$/, /^Take the passage to the adit$/,
       /^Take the gallery to the crossing$/]);
     // The torch did not burn in the night, out under the sky: it shows what is here now.

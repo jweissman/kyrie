@@ -14,7 +14,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // evening. In d4, the Stone-Singers' hall by a bard, a pilgrim and a mason, with a crowbar for the pivot-door and a
 // rope for the crack round the singing door, the dirge bell fought for in the unfinished hall and rung over the
 // singers, to the tuning-stone brought out at first light on the second day. In a1,
-// the king-barrow Nocstumul by a warrior and a healer in two expeditions: the outer barrow's grave-goods sold for a
+// the king-barrow Lapistumul by a warrior and a healer in two expeditions: the outer barrow's grave-goods sold for a
 // glossary of the old script, then over the toll-bridge for a pole and a lantern and a scholar, the stair's switch
 // sprung with the pole, the jar of the embalmers' daylight carried before them so the king goes back from it, and the
 // crown of the first king brought out at first light on the fourth day. They

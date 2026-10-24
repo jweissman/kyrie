@@ -393,6 +393,16 @@ remembered, by name; people do not yet remember what else a company did.
 
   Noted, not fixed: a question put as a topic takes no time where one put as a rumour takes five minutes; making
   them alike would shift the timing of every recorded descent.
+- A seventh world, cov11, as the drover's own child (the kin origin), found that the mine of one world was named
+  like another's: cov11's cisterns were Paliduslac, as thorn's were. Over forty worlds the deep sites had 18 names,
+  one of them (Argentumons) in six: each art named its works from six words of the old tongue, and a name too like
+  another in the same country is passed over, so the deep site, named after the makers' others, had few left. Each
+  art now has ten to twelve, from words the old tongue has (copper, rock, sorrow, mist, harp, cloud), and the forty
+  worlds have 35 names, none more than twice. The names in the accounts above are as they were when played: wren's
+  mine is now Aurumtener, thorn's cisterns Albuslac, a1's barrow Lapistumul. The same play found the mother told by
+  a name her child was never given ("Ian does not sit down"), what it was worth named twice over ("the drover who
+  did not come home: The drover who did not come home, seen through"), and the dog's coat told twice; each is fixed
+  (`test/origins.test.ts`, `test/goings-on.test.ts`).
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
