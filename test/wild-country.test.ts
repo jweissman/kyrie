@@ -38,6 +38,21 @@ describe('wild country', () => {
     expect(new Set(marks.map(l => l.name)).size).toBe(marks.length);
     expect(marks.map(l => l.name)).toContain('the edge of Eikwudu by Murkstede');
   }, 60000);
+  it('is come to at its edge from where the edge is said to be, though no road or settlement is beside it', async () => {
+    const reached = (lines: string[], zone: string, from = '\\S+') =>
+      lines.some(l => new RegExp(`^  Passage ${zone}_way\\d+ .* between ${from} and ${zone}_edge taking`).test(l));
+    for (const seed of ['wren', 'a1', 'b2', 'thorn']) {
+      const { region } = (await WorldAssembler.assemble(seed, NodeBundleSource.shared, { scenarios: 0, towns: 0,
+        framework: null, origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] })).report;
+      const lines = RegionZones.lines(region);
+      expect(region.atlas!.zones.filter(z => !reached(lines, z.id)).map(z => `${seed} ${z.naming.name}`)).toEqual([]);
+      if (seed !== 'wren') { continue; }
+      // In wren the foot of Barzelrehes by Muzgkom is two hours up from Muzgkom, with no road by it.
+      const zone = region.atlas!.zones.find(z => z.naming.name === 'Barzelrehes')!;
+      const muzgkom = region.settlements.find(s => s.name === 'Muzgkom')!;
+      expect(reached(lines, zone.id, `${muzgkom.id}_green`)).toBe(true);
+    }
+  }, 120000);
   it('can be crossed: its edge leads to more than one road or settlement', async () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');

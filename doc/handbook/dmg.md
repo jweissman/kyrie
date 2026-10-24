@@ -1338,7 +1338,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 29 | 2 | 21 | 0 | 6 |
+| 8 | 29 | 2 | 22 | 0 | 6 |
 
 #### scenery
 
@@ -1399,6 +1399,12 @@ What a way or a change needs: a skill, a kind of thing, or one particular thing.
 *Kyr · relation(group, entity)* · `rule:world_passages.keyholder`
 
 Who holds the key to what bars a way, and those who serve them, go through it as if it were open.
+
+#### harmless
+
+*Kyr · query(t: entity)* · `rule:world_passages.harmless`
+
+Something that can do harm, in a state where it does none: a trap gone off, or one made safe.
 
 #### onHiddenWay
 
@@ -1680,7 +1686,7 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prodding); suits(target, prodding); not (tried(target, prodding))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); equippedFor(actor, prodding); suits(target, prodding); not (tried(target, prodding)); not (harmless(target))
 
 > Then: Assert tried(target, prodding).
 

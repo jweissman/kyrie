@@ -89,10 +89,14 @@ describe('wonders and traps', () => {
     const hp = Marvels.body(s).state.hp;
     expect(PlayerView.choices(s.campaign).some(c => c.choice.name === how.ways[0]!.label)).toBe(false);
     expect(Marvels.told(await Marvels.act(s, /^Look closely at the /))).toContain(how.seen);
+    const prods = () => PlayerView.choices(s.campaign).filter(c => c.choice.name === `Prod the ${name} with the pole`);
+    expect(prods()).toHaveLength(1);
     const pole = how.ways.find(w => w.needing === 'pole')!;
     const sprung = Marvels.told(await Marvels.act(s, new RegExp(`^${pole.label.replace(/[()]/g, '.')}$`)));
     expect(sprung.join(' ')).toContain('has gone off, and is spent');
     expect(Marvels.body(s).state.hp).toBe(hp);
+    // Gone off, it is spent, and there is nothing to find by prodding it.
+    expect(prods()).toEqual([]);
     expect(PlayerView.choices(s.campaign).some(c => c.choice.id.startsWith(`go(${way},`))).toBe(true);
   }, 60000);
 

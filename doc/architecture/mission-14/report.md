@@ -92,8 +92,12 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   top of the Karavor", "Take the rough cut down to the deep cut" climbing up); a road's halves are now named for
   what they cross (the Karavor road), or plainly the road, and the mine's climbs for what they are.
 
-Found and not yet fixed: the way into Barzelrehes nearest the mine is called "the foot of Barzelrehes by Muzgkom",
-though no way from Muzgkom reaches it; a spent trap still offers to be prodded.
+- the way into Barzelrehes nearest the mine was called "the foot of Barzelrehes by Muzgkom", though no way from
+  Muzgkom reached it: every way in went to the place nearest where it started, and Muzgkom is two hours off. An
+  edge no way comes to now has a path up from the settlement it is known by (`test/wild-country.test.ts`).
+
+- a trap that had gone off still offered to be prodded. Something that can do harm, in a state where it does none,
+  is not prodded (`harmless` in `data/rules/passages.kyr`; `test/marvels.test.ts`).
 
 **Weak or missing.**
 - Four purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
