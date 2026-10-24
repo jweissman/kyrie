@@ -35,6 +35,19 @@ describe('the lord\'s toll at the bridge', () => {
     await back.perform('go(region__road_s2_s3_on,region__s3_green)');
     expect(Toll.outlawed(back)).toBe(false);
   }, 120000);
+  // Played in cov7: up to the bar from the town, off by a track to a barrow and back, and home down the same road,
+  // and the lord's riders were waiting at the inn for "a company that turned on his toll". A way off the road leaves
+  // the company on the side of the bar it came from.
+  it('is not run by going off the road and back, then home the way it came; and is, going on', async () => {
+    for (const [on, outlawed] of [['region__road_s2_s3_on,region__s3_green', false],
+      ['region__road_s2_s3,region__s2_green', true]] as const) {
+      const s = await Toll.start();
+      await s.perform('go(region__z3_way2,region__z3_deep)');
+      await s.perform('go(region__z3_way2,region__s2_s3_way)');
+      await s.perform(`go(${on})`);
+      expect([on, Toll.outlawed(s)]).toEqual([on, outlawed]);
+    }
+  }, 120000);
   it('is run by going on along the road without paying', async () => {
     const s = await Toll.start();
     await s.perform('go(region__road_s2_s3,region__s2_green)');
