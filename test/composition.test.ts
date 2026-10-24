@@ -175,11 +175,11 @@ describe('kits in generated regions', () => {
     expect(s.campaign.module.entities.some(e => e.id.startsWith('raidersFolk__'))).toBe(true);
   }, 120000);
   it('realizes the kit differently in different regions, in who the raiders are and what their hold is', async () => {
-    const marsh = await generated('fen', 'marsh'), mountain = await generated('pike', 'mountain');
+    const marsh = await generated('fen', 'marsh'), mountain = await generated('tor', 'mountain');
     expect([marsh.placement.choices, mountain.placement.choices]).toEqual([
       { hold: 'ringfort', folk: 'hobs' }, { hold: 'cave', folk: 'outlaws' }]);
     // Different folk, different ways to deal with them: a bell for hobs, a challenge for outlaws.
-    const s = await PlaySession.start(mountain.world.path, 'pike', mountain.world.source);
+    const s = await PlaySession.start(mountain.world.path, 'tor', mountain.world.source);
     expect(s.campaign.module.entities.some(e => e.id === 'raidersFolk__challenge')
       || s.campaign.module.actions.some(a => a.id === 'raidersFolk__challenge')).toBe(true);
   }, 180000);

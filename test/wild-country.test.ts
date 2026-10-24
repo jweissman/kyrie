@@ -53,6 +53,18 @@ describe('wild country', () => {
       expect(reached(lines, zone.id, `${muzgkom.id}_green`)).toBe(true);
     }
   }, 120000);
+  it('has its trails run between neighbours, however far it stretches', async () => {
+    const { region } = (await WorldAssembler.assemble('wren', NodeBundleSource.shared, { scenarios: 0, towns: 0,
+      framework: null, origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] })).report;
+    const zone = region.atlas!.zones.find(z => z.naming.name === 'Barzelrehes')!;
+    const trails = RegionZones.lines(region).filter(l => l.startsWith(`  Passage ${zone.id}_trail`));
+    // The fells run nearly the width of the country; walked between neighbours, no trail is more than half a day's
+    // walking, and every landmark is on one.
+    const minutes = trails.map(l => /taking (\d+) (minutes|hours?)/.exec(l)!).map(([, n, unit]) =>
+      Number(n) * (unit === 'minutes' ? 1 : 60));
+    expect(Math.max(...minutes)).toBeLessThanOrEqual(6 * 60);
+    expect(trails).toHaveLength(RegionZones.landmarks(region, zone).length - 1);
+  }, 60000);
   it('can be crossed: its edge leads to more than one road or settlement', async () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');
@@ -65,15 +77,15 @@ describe('wild country', () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');
     await s.perform('wait');
-    await Wood.take(s, /to the old bank$/);
-    expect(Wood.ways(s).some(n => /^Strike out across Eikwudu toward the edge/.test(n))).toBe(false);
-    await Wood.take(s, /to the edge of Eikwudu by Murkstede$/);
     await Wood.take(s, /to the charcoal-burners' clearing$/);
-    expect(s.campaign.world.one('at', 'party')).toBe('region__z3_edge_2');
+    await Wood.take(s, /to the old bank$/);
+    expect(s.campaign.world.one('at', 'party')).toBe('region__z3_deep');
+    // Where a trail runs there is no striking out across instead.
+    expect(Wood.ways(s).some(n => /^Strike out across Eikwudu toward the charcoal/.test(n))).toBe(false);
     // Across, at least once, without a path: either there, or lost and casting about until a path is found.
     for (let tries = 0; tries < 30 && s.campaign.world.one('at', 'party') !== 'region__z3_lost'; tries++) {
       const here = s.campaign.world.one('at', 'party');
-      await Wood.take(s, here === 'region__z3_deep' ? /^Strike out across Eikwudu toward the charcoal/ : /^Strike out across Eikwudu toward the old bank/);
+      await Wood.take(s, here === 'region__z3_deep' ? /^Strike out across Eikwudu toward the edge/ : /^Strike out across Eikwudu toward the old bank/);
     }
     expect(s.campaign.world.one('at', 'party')).toBe('region__z3_lost');
     expect(ScreenModel.build(s.campaign).place.name).toBe('somewhere in Eikwudu');

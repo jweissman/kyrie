@@ -127,17 +127,33 @@ export class RegionZones {
       `    Change climb ${q(this.fill(t.change, { zone: name }))} from below to above.`, '  }',
       `  Observe ${id}_learned at ${l.id} as sign when state(${id}, above) ${q(this.fill(t.seen, { zone: name }))} teaches ${zone.id}_mapped.`];
   }
-  // The trails: from each part's landmark to the next part's, from a second landmark to its part's own, and from a
-  // crossing to the landmark nearest it.
+  // The trails: each landmark joined to the nearest of those already joined, beginning at the edge, so that every
+  // trail runs between neighbours and the whole country can be walked by way of them.
   private static trails(zone: Wilds, region: Region, marks: Landmark[]): string[] {
     const q = JSON.stringify, t = this.table[zone.wild], land = RegionGeography.atlas(region).land;
-    const draw = new Draw(`${region.name}:${zone.id}:trails`), pairs: [Landmark, Landmark][] = [];
-    const primary = marks.filter(l => !l.id.endsWith('_2') && !l.water && !l.side);
-    primary.slice(1).forEach((l, i) => pairs.push([primary[i]!, l]));
-    for (const l of marks.filter(m => m.id.endsWith('_2') || m.water || m.side)) {
-      pairs.push([this.nearest(land, primary, l.cell), l]);
+    const draw = new Draw(`${region.name}:${zone.id}:trails`);
+    return this.tree(land, marks).map(([a, b], i) => `  Passage ${zone.id}_trail${i + 1} ${q(draw.pick(t.trails))} is track between ${a.id} and ${b.id} taking ${RegionRoads.time(this.minutes(land, a.cell, b.cell))}.`);
+  }
+  private static tree(land: Land, marks: Landmark[]): [Landmark, Landmark][] {
+    const joined = marks.slice(0, 1), rest = marks.slice(1), pairs: [Landmark, Landmark][] = [];
+    while (rest.length) {
+      const [a, b] = joined.flatMap(j => rest.map(r => [j, r] as [Landmark, Landmark]))
+        .sort(([w, x], [y, z]) => Terrain.distance(land, w.cell, x.cell) - Terrain.distance(land, y.cell, z.cell))[0]!;
+      pairs.push([a, b]); joined.push(b); rest.splice(rest.indexOf(b), 1);
     }
-    return pairs.map(([a, b], i) => `  Passage ${zone.id}_trail${i + 1} ${q(draw.pick(t.trails))} is track between ${a.id} and ${b.id} taking ${RegionRoads.time(this.minutes(land, a.cell, b.cell))}.`);
+    return pairs;
+  }
+  // The landmarks the trails pass from one landmark to another, both included.
+  private static path(land: Land, marks: Landmark[], from: Landmark, to: Landmark): Landmark[] {
+    const next = new Map<Landmark, Landmark[]>(marks.map(m => [m, []]));
+    for (const [a, b] of this.tree(land, marks)) { next.get(a)!.push(b); next.get(b)!.push(a); }
+    const back = new Map<Landmark, Landmark>([[from, from]]), queue = [from];
+    for (let i = 0; i < queue.length; i++) {
+      for (const n of next.get(queue[i]!)!) { if (!back.has(n)) { back.set(n, queue[i]!); queue.push(n); } }
+    }
+    const out = [to];
+    while (out[0] !== from) { out.unshift(back.get(out[0]!)!); }
+    return out;
   }
   private static minutes(land: Land, a: number, b: number): number {
     return Math.max(30, Terrain.distance(land, a, b) * 40);
@@ -229,13 +245,13 @@ export class RegionZones {
   // How to come to a part of a wild country, landmark by landmark, as someone who knows it would tell it: "into
   // Sharpmunt and on to the tarn, then the crag".
   static route(region: Region, zone: Wilds, part: number): string {
-    const all = this.landmarks(region, zone), entry = all.find(l => l.part === 0 && !l.side && !l.water);
-    const marks = all.filter(l => !l.id.endsWith('_2') && !l.water && !l.side && l.part > 0)
-      .filter(l => l.part <= part).map(l => l.name);
-    // Told from where the country is entered, which is named for the town it is entered from: the foot of
-    // Barzelrehes by Muzgkom.
-    const into = entry ? `to ${entry.name}` : `into ${zone.naming.name}`;
-    return `${into}${marks.length ? `, and on to ${marks.join(', then ')}` : ''}`;
+    const all = this.landmarks(region, zone), to = all.find(l => l.id === this.room(zone, part))!;
+    const land = RegionGeography.atlas(region).land;
+    // Told from the edge it is nearest by the trails, which is named for the town it is entered from (the foot of
+    // Barzelrehes by Muzgkom), and on along them.
+    const [entry, ...marks] = all.filter((l, i) => i === 0 || l.side).map(e => this.path(land, all, e, to))
+      .sort((a, b) => a.length - b.length)[0]!;
+    return `to ${entry!.name}${marks.length ? `, and on to ${marks.map(l => l.name).join(', then ')}` : ''}`;
   }
   // Where in a wild country something stands, as people say it: deep in Bruinforwest, at the foot of Hartholt.
   static where(zone: Wilds, part: number): string {

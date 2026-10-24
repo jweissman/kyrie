@@ -99,6 +99,12 @@ was worth as much as the descent, and each was fixed and pinned by a test:
 - a trap that had gone off still offered to be prodded. Something that can do harm, in a state where it does none,
   is not prodded (`harmless` in `data/rules/passages.kyr`; `test/marvels.test.ts`).
 
+- the trails of wild country joined its parts in order, each part's landmark set as far as could be from the
+  others, so on fells running nearly the width of the country a single trail took eleven hours and the next
+  seventeen. Each landmark is now joined to the nearest of those already joined, beginning at the edge; the longest
+  trail on Barzelrehes is five hours and twenty minutes. A way to a site is told along the trails from whichever
+  edge is nearest it by them (`test/wild-country.test.ts`).
+
 **Weak or missing.**
 - Four purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
   `test/deep-barrow.test.ts`), with its own gear and words: a portal stone on a counterweight, a seal-stone across the

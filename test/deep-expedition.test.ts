@@ -38,7 +38,7 @@ class Delve {
   }
   static readonly inn = [/^Take the road to the bailey/, /^Take the door of the Wooden Wolf/];
   static readonly road = [/^Take the door of the Wooden Wolf/, /^Take the path up onto Barzelrehes to the foot/,
-    /^Take a scree path to the foot of Barzelrehes by Muzgkom/, /^Take the track to Obscurusport$/,
+    /^Take .+ to the foot of Barzelrehes by Muzgkom$/, /^Take the track to Obscurusport$/,
     /^Take the way in to the adit mouth/, /^Take the passage to the adit$/];
 }
 
