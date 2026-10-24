@@ -48,10 +48,11 @@ export class Campaign implements WatchHost {
   constructor(seed: string, instance: Instance, restored?: Restored, calendar?: CampaignState['calendar']) {
     const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
-      this.compiled = saved.module; this.definition = saved.definition;
+      // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
+      LocalKinds.activate(saved.module.catalog); this.compiled = saved.module; this.definition = saved.definition;
       this.current = saved.state; this.creatures = new CreatureStore(saved.creatures);
       this.log = saved.events; this.encounter = saved.encounter;
-      this.observations = saved.observations; LocalKinds.activate(saved.module.catalog);
+      this.observations = saved.observations;
       // A save from before demand grounding holds grounded actions; its schemas are in the definition.
       if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
         this.compiled.actions = this.definition.schemas;

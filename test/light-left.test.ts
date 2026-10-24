@@ -18,7 +18,9 @@ describe('the company\'s light', () => {
     expect(ScreenModel.build(s.campaign).expedition.light).toBeUndefined();
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w8_barrow_chamber') }]));
-    expect(ScreenModel.build(s.campaign).expedition.light).toMatch(/^Nothing lit · /);
+    // What is carried to spare is counted by its kind: the follow-up review found a torch in the pack and "nothing
+    // to spare" beside it, the pack's kinds being counted by their names.
+    expect(ScreenModel.build(s.campaign).expedition.light).toBe('Nothing lit · 1 torch to spare');
     await s.perform(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
     expect(ScreenModel.build(s.campaign).expedition.light)
       .toMatch(/^Wenna's torch, (an hour|\d+ minutes) left · nothing to spare$/);

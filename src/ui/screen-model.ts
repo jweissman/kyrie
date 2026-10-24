@@ -362,7 +362,7 @@ export class ScreenModel {
     const state = campaign.readout;
     return state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c => (c.state.inventory ?? []).map(i => {
       const d = ItemCatalog.get(i.definition);
-      return { id: i.id, name: entities.get(i.id)?.name ?? ItemNames.called(d.name), kind: d.name,
+      return { id: i.id, name: entities.get(i.id)?.name ?? ItemNames.called(d.name), kind: i.definition,
         description: d.description,
         owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...(d.slot ? { slot: d.slot } : {}),
         ...(this.lights(d.use) ? { light: true } : {}), acts: grouped.items.get(i.id) ?? [] };

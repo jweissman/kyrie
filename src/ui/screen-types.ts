@@ -39,6 +39,7 @@ export interface TargetRow {
   portrait?: { src: string; large: string; focus: number; credit?: string };
 }
 export interface ItemRow {
+  // kind: the catalog's id for what it is (torch, lamp_oil), not its name.
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;
   equipped: boolean; slot?: string; acts: Act[];
   // Using it brings light.
