@@ -512,6 +512,10 @@ What it found, checked against the source, and repaired:
 - **Looking at an altar in the open turned the page black**, as if somewhere dark. Looking closely keeps the place's
   light; a fight, and lying fallen, are still dark.
 - **The same question answered again.** Asking someone about their work is asked once.
+- **The last blow was lost**, and two awards of experience came with no reason. The fight's page closes as the
+  last blow lands, and the account told afterwards kept only who fell; it now keeps the blow that felled each, as
+  "Rharash critically hits the mud. The mud takes 11 slashing damage (0 HP left). The mud falls." Experience for
+  something seen through says so: "each gain 300 experience: deserters on the road, seen through."
 
 Not yet repaired, and why:
 - **Discovery arrives as certification.** Reading one tally in the galleries teaches both who the makers were and
@@ -520,8 +524,8 @@ Not yet repaired, and why:
   read kept apart from what is inferred, and the reveal to need more than one source. It is the next piece of Proof C.
 - **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores
   station, era and sex, not dress or equipment; the cure is fewer, smaller and more fitting pictures.
-- **Combat leaves the scene**, and its last blow is hidden by the return to the page. Holding the outcome, the
-  wounds and the rewards together until the player turns away is the next interface work.
+- **Combat leaves the scene.** Holding the outcome, the wounds and the rewards together until the player turns away,
+  rather than returning at once to the place, is the next interface work.
 - The tinker who offers "news for nothing" has none to give.
 
 ## Invariants

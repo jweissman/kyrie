@@ -8,13 +8,14 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { CreatureFacts } from '../src/campaign/creature-facts';
 import { CreatureStore } from '../src/creature-store';
 import { World } from '../src/lang/world';
+import { Narration } from '../src/presentation/narration';
 import type { Change } from '../src/lang/module';
 
 // What a place says is what is so. Found by an independent review of the deployed game, in a tin-miners' galleries
 // (data/generation/works/galleries.kyrt): the crowbar taken still lay where a miner left it, and winding the
 // lift-cage up told of it going down. cov2's first galleries are the same work. And the deserters who keep a road in
 // ash went off up the road when their sergeant fell, by what the page said, and went on leaning on their pikes by
-// the fire.
+// the fire; and what seeing them off was worth was told as if it were the fight's.
 class Galleries {
   static async start() {
     const w = await WorldAssembler.assemble('cov2', NodeBundleSource.shared,
@@ -57,8 +58,14 @@ describe('a place says what is so', () => {
       checkpoint.save.definition!.actors, new CreatureStore(checkpoint.save.creatures)).snapshot;
     const after = PlaySession.resume(checkpoint);
     Galleries.put(after, post);
-    await after.perform('wait');
+    const event = await after.perform('wait');
     expect(after.campaign.world.test(ModuleWriter.call('at', 'tollKeepers__keepers', post))).toBe(false);
+    // What it was worth is said as what it was for, not taken for a fight's.
+    expect(event.combat.filter(e => e.type === 'gain').map(e => e.type === 'gain' && e.detail))
+      .toContain('experience: deserters on the road, seen through');
+    expect(Narration.tidy(['Wenna gains 300 experience: deserters on the road, seen through.',
+      'Cyril gains 300 experience: deserters on the road, seen through.']))
+      .toEqual(['Wenna and Cyril each gain 300 experience: deserters on the road, seen through.']);
     expect(Galleries.seen(after)).not.toContain('lean on pikes by a fire');
   }, 60000);
   it('winds the lift-cage up when it is wound up', async () => {

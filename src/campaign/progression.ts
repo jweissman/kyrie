@@ -40,7 +40,12 @@ export class Progression {
       if (m.experience && seen[key] === undefined && world.test(m.goal)) {
         seen[key] = award.elapsed;
         if (award.own || (player && this.present(world, m, player))) {
+          // Said for what it was, so it is not taken for a fight's ("experience: deserters on the road, seen through").
+          const from = award.events.length;
           FieldUse.grant(award.store, award.party, m.experience, award.events);
+          for (const e of award.events.slice(from)) {
+            if (e.type === 'gain') { e.detail = `experience: ${m.name.charAt(0).toLowerCase()}${m.name.slice(1)}, seen through`; }
+          }
         }
       }
     }

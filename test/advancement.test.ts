@@ -53,7 +53,7 @@ describe('advancement', () => {
       await s.perform(c);
     }
     const burn = await s.perform('change_thing(brood__webs_burn)');
-    expect(burn.combat.filter(e => e.type === 'gain' && e.detail === 'experience').map(e => 'amount' in e && e.amount))
+    expect(burn.combat.filter(e => e.type === 'gain' && e.detail.startsWith('experience')).map(e => 'amount' in e && e.amount))
       .toEqual([500, 500, 500]);
     // Experience changes what members may train; a save taken at once must still be consistent.
     expect(PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint()))).campaign.state.elapsed)
