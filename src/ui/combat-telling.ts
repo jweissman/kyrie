@@ -55,7 +55,7 @@ export class CombatTelling {
     const ability = Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return `${actor} waits.`; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
-    const landed = attack ? attack.success ? `, and it lands${damage ? `, for ${damage.amount}` : ''}` : ', and misses' : '';
+    const landed = attack ? attack.success ? `, and it lands${damage?.amount ? `, for ${damage.amount}` : ''}` : ', and misses' : '';
     return `${actor} uses ${ability}${target}${landed}.`;
   }
   private blow(kind: string, attack: Of<'attack'>, damage?: Harm): string {
@@ -70,7 +70,8 @@ export class CombatTelling {
     const verb = attack.critical ? natural ? 'catches' : 'lands a telling blow on' : natural ? 'catches' : kind === 'ranged'
       ? 'shoots' : 'hits';
     const with_ = natural || !weapon ? '' : ` with the ${weapon}`;
-    return `${how} ${verb} ${target}${with_}${damage ? `, for ${damage.amount}` : ''}.`;
+    // A blow that does no harm is not told with its nothing ("for 0"); what else it does is told after it.
+    return `${how} ${verb} ${target}${with_}${damage?.amount ? `, for ${damage.amount}` : ''}.`;
   }
   // What followed: harm and healing not already told, conditions taken or shaken off, who fell or got away.
   private after(events: CombatEvent[]): string[] {
@@ -80,7 +81,9 @@ export class CombatTelling {
   }
   private consequence(e: CombatEvent): string | undefined {
     switch (e.type) {
-      case 'damage': return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
+      // Harm that came to nothing (a save halved it away) is not told as harm.
+      case 'damage': if (!e.amount && e.modifiers?.resistance !== 1) { return undefined; }
+        return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
         : e.damageType && e.damageType !== 'physical' ? `${this.name(e.target)} takes ${e.amount} ${e.damageType} damage.`
           : `${this.name(e.target)} is hurt, for ${e.amount}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
@@ -101,7 +104,8 @@ export class CombatTelling {
     const state = /(ed|ing)$/.test(what.split(' ')[0] ?? '');
     if (e.immune) { return !what ? `${who} is untouched by it.` : state ? `${who} cannot be ${what}.` : `${who} cannot suffer ${what}.`; }
     if (!e.success) { return undefined; }
-    return !what ? `${who} shakes it off.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
+    // A save against the harm itself turns the worst of it, not all of it: what it sets going still goes.
+    return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
   }
   // What befalls someone, where the condition's name is a thing rather than a state ("armor shred", "prone").
   static readonly phrases: Record<string, string> = { prone: '{t} is knocked flat.', shred: "{t}'s armour is torn open.",
