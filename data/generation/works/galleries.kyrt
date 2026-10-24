@@ -41,9 +41,10 @@
   Observe {w}_vein_scene at {w}_vein when true "Beyond the fall the gallery follows a vein of something pale through the rock, glinting where your light touches it.".
   Thing {w}_cage "the iron lift-cage" on {w}_shaft {
     State jammed blocking "The lift-cage is somewhere at the bottom of the shaft; its chains are rusted fast on the great wheel.".
-    State working "The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.".
+    State working "The lift-cage rides the shaft on its chains, and the great wheel is free to wind it up and let it down.".
     Change free "Break the rust off the wheel and wind the lift-cage up" from jammed to working needing brawn.
   }
+  Event {w}_cage_wound beside {w}_shaft when state({w}_cage, working) "The rust cracks off the axle, and the great wheel turns: the lift-cage comes up the shaft on its chains, groaning, to the lift-head.".
   Initially Assert unlit({w}_adit). Initially Assert unlit({w}_head). Initially Assert unlit({w}_fall).
   Initially Assert unlit({w}_foot). Initially Assert unlit({w}_dressing). Initially Assert unlit({w}_door_room).
   Initially Assert unlit({w}_vein).
@@ -82,7 +83,8 @@
   }
   Observe {w}_lode_led at {w}_vein as revelation when state({w}_lode, followed) "Past the end of the gallery the Delvers went on after the vein in a crawl no wider than a body, and cut their sign for deeper into the rock every few yards. You follow the signs until the crawl closes, and by then you know which way they were all going: toward {greatseen} in {greatwhere}." teaches {greatfound}.
 --- successors miners 2
-  Observe {w}_miners at {w}_adit when true "Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of {successors} took what it could reach. A crowbar lies where one of them left it.".
+  Observe {w}_miners at {w}_adit when true "Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of {successors} took what it could reach.".
+  Observe {w}_crowbar_left at {w}_adit when at({w}_crowbar, {w}_adit) "A crowbar lies where one of them left it.".
   Item {w}_crowbar "a miner's crowbar" is crowbar at {w}_adit.
 --- successors grille 1
   Observe {w}_grille at {w}_adit when true "Someone fitted an iron grille across the gallery here, and someone else broke it open; it hangs from one hinge. Scratched into the rock beside it, in the folk's letters: KEEP OUT.".

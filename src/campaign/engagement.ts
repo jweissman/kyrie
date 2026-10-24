@@ -66,7 +66,10 @@ export class Engagement {
     const after = world.apply(changes);
     host.commitWorld(after);
     // Both fights are told: the one the company chose (the mud it attacked), then the one that came at it after.
+    // What came of the first is told too (the cage wound up), but not who came at the company: that is told between.
+    const before = (first.perceptions ?? []).filter(p => p.kind === 'event' && p.text !== first.response);
     const told: CampaignEvent = { ...fight, combat: [...first.combat, ...fight.combat],
+      perceptions: [...before, ...fight.perceptions ?? []],
       changes: [...fight.changes, ...CampaignTick.diff(world, after)],
       prelude: { action: first.action, fought: first.combat.length,
         ...(first.response ? { response: first.response } : {}),

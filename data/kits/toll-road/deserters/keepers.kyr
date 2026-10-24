@@ -57,11 +57,13 @@ Module toll_deserters "Deserters on the road" {
   }
 
   // Bread on credit: a ration a night, bought two at a time from the inn. An inn with none to sell is robbed.
-  Rule eats when untilLight(clock) == 1 and quantity(chief, rations) >= 1 and able(keepers) { Decrease quantity(chief, rations) by 1. }
-  Rule buys when untilLight(clock) == 2 and quantity(chief, rations) <= 1 and quantity(provider, rations) >= 2 and able(keepers) {
+  Rule eats when untilLight(clock) == 1 and quantity(chief, rations) >= 1 and able(keepers) and not routed(keepers) { Decrease quantity(chief, rations) by 1. }
+  Rule buys when untilLight(clock) == 2 and quantity(chief, rations) <= 1 and quantity(provider, rations) >= 2 and able(keepers)
+    and not routed(keepers) {
     Decrease quantity(provider, rations) by 2. Increase quantity(chief, rations) by 2. Increase owes(chief, provider) by 4.
   }
-  Rule takes when untilLight(clock) == 2 and quantity(chief, rations) <= 0 and quantity(provider, rations) <= 1 and able(keepers) {
+  Rule takes when untilLight(clock) == 2 and quantity(chief, rations) <= 0 and quantity(provider, rations) <= 1 and able(keepers)
+    and not routed(keepers) {
     Increase losses(market) by 2. Increase quantity(chief, rations) by 3.
   }
   Observe robbed at market when losses(market) >= 2 "The deserters came down in the night for bread, and when there was none to sell they took what they found.".
@@ -69,9 +71,10 @@ Module toll_deserters "Deserters on the road" {
     Says "'Owe? They tell me to write it down, so I write it down.' A slate full of marks. 'When the war's over, they say. What war?'".
   }
 
-  // With the sergeant gone the toll goes too: the rest of them drift off up the road.
+  // With the sergeant gone the toll goes too: the rest of them drift off up the road, and are not seen at the fire, nor
+  // at the inn for bread, again.
   Rule broken when (not able(chief) or routed(chief)) and tolls(keepers, post) says "Without the sergeant the deserters stand about a while, then shoulder their pikes and go off up the road." {
-    Retract tolls(keepers, post). Assert routed(keepers). Retract holds(chief, post).
+    Retract tolls(keepers, post). Assert routed(keepers). Retract holds(chief, post). Retract at(keepers, post).
   }
   Goal not tolls(keepers, post).
 }
