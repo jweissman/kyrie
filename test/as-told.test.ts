@@ -91,8 +91,9 @@ describe('as the company would tell it', () => {
     const news = s.campaign.module.actions.find(a => a.name === 'Ask Lambert for the news');
     expect(JSON.stringify(news)).toContain('Meóswaeter');
   }, 60000);
-  it('says heather, comfrey and wine as they are said, and a dandelion as one', () => {
-    expect(['Heather', 'Comfrey', 'Kingsfoil', 'Wine', 'Dandelion'].map(n => ItemNames.called(n)))
-      .toEqual(['heather', 'comfrey', 'kingsfoil', 'wine', 'a dandelion']);
+  // And dice are bought as dice (cov7's ironmongery sold "a dice").
+  it('says heather, comfrey, wine and dice as they are said, and a dandelion as one', () => {
+    expect(['Heather', 'Comfrey', 'Kingsfoil', 'Wine', 'Dandelion', 'Dice'].map(n => ItemNames.called(n)))
+      .toEqual(['heather', 'comfrey', 'kingsfoil', 'wine', 'a dandelion', 'dice']);
   });
 });

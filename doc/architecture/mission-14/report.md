@@ -728,6 +728,11 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
    and the barrow's treasury and deep grave are still unvisited.
    Things to look at from this play:
    - a level-1 company has little room for a bad fight; three of four were felled by one elite;
+   - the game's own tactics, the foes' included, strike at whoever has fewest hit points, as Orsino's do
+     (`Combat.weakest`), so a mage of seven is the first struck in every fight (cov7: by three beetles, and by two
+     ghouls the next day). A member who has fallen gains no experience from the fight, as in Orsino, and may die of
+     the fall at rest, so a caster of level 1 scarcely grows. That beasts choose whom to bite as a tactician would
+     is Orsino's, and is the first thing I would change for a beast;
    - a recruit or a tool (a pole, a crowbar) is often a day's walk away;
    - the wild trails, now between neighbours, are still two to five hours a leg;
    - what lies on the way is fine, but the deep's rooms are dense with things to fight, and every one of them is a
