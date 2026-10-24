@@ -776,7 +776,11 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
    - what lies on the way is fine, but the deep's rooms are dense with things to fight, and every one of them is a
      full fight.
 2. A deep purpose for the sky art: the Star-Readers' tower, which wants the generator to build upward.
-3. Let a start made ready for choices since changed give way, rather than run to its end before the new one.
+3. Let a start made ready for choices since changed give way, rather than run to its end before the new one (3.34
+   s, where Begin alone takes 2.35). I made it give way at its next read, of the bundled files and of the world
+   drawn from them, and measured no gain: when Begin is asked the start made ready is in the middle of drawing the
+   world, which is one long stretch of work on the engine's one thread, and Begin cannot be taken until it ends.
+   What would help is drawing the world in parts, with the engine free between them.
 4. Let what people believe change what they do: the philosophers' views reaching the town's council and its
    prices, the priest's doctrine modelled in the belief module rather than as its own facts.
 5. Dynamic entities, and pronouns in Kyr text.
