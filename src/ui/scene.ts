@@ -17,6 +17,8 @@ export interface SceneSubject {
 // to what it is done to, and known by its command, never by its words.
 export interface Scene {
   subjects: SceneSubject[]; near: Choice[]; far: Choice[]; you: Choice[];
+  // Things here with nothing to be done with them now (a notebook read): not offered, but still there to look at.
+  still?: SceneSubject[];
 }
 
 export class SceneModel {
@@ -25,11 +27,12 @@ export class SceneModel {
     const ways = sections.find(s => s.tone === 'way')?.choices ?? [];
     const all = [...ways, ...astray];
     const companions = new Set(screen.people.filter(p => p.companion).map(p => p.id));
-    const subjects = sections.filter(s => ['creature', 'person', 'thing'].includes(s.tone))
-      .map(s => this.subject(s, companions, screen))
-      .filter(s => s.choices.length || ['creature', 'person', 'animal', 'companion'].includes(s.kind));
+    const every = sections.filter(s => ['creature', 'person', 'thing'].includes(s.tone))
+      .map(s => this.subject(s, companions, screen));
+    const subjects = every.filter(s => s.choices.length || ['creature', 'person', 'animal', 'companion'].includes(s.kind));
     const rank: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, animal: 2, thing: 3, companion: 4 };
     return { subjects: subjects.sort((a, b) => rank[a.kind] - rank[b.kind]),
+      still: every.filter(s => !subjects.includes(s)),
       near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
       you: sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => !this.across(c))) };
   }

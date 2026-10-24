@@ -47,8 +47,9 @@ export class Attending {
     ['Look', /^(look_closely|listen|examine)\(/],
     ['Handle', /^(push|prod|pry|burn)\(/],
     ['Go through it anyway', /^(risk|attack|destroy_source)\(/]];
+  // A thing looked at stays looked at when nothing is left to do with it (a notebook, read), until it is left.
   static thing(scene: Scene, id: string): Examined | undefined {
-    const subject = scene.subjects.find(s => s.id === id);
+    const subject = [...scene.subjects, ...scene.still ?? []].find(s => s.id === id);
     if (!subject) { return undefined; }
     const choices = subject.choices.flatMap(c => c.children && !c.command && !c.children.some(k => k.children)
       && /^(Examine|Look at)/.test(c.label) ? c.children : [c]);
