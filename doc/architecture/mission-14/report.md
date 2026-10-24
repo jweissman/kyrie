@@ -712,16 +712,18 @@ forty, sixteen a mine, thirteen a barrow, six a singing hall and five cisterns.
 
 ## Performance and persistence
 
-Measured in Chromium on this machine, nothing else running (`scratchpad m12/latency2.ts`):
+Measured in Chromium on this machine, nothing else running (`scratchpad m12/latency2.ts`), measured again at
+the end of the session (the figures from earlier in the mission are in brackets):
 
 | | |
 |---|---|
-| Cold load to the first page | 1.15 s |
-| Begin, after reading the creation page for a few seconds | 0.22–0.28 s (2.32 s before the start was made ready) |
-| Begin, an origin changed three seconds before | 3.35 s |
-| Begin, clicked at once | 3.85 s |
-| An action, click to second frame | 180–445 ms (engine 80–340) |
-| Reload to play (Continue) | 0.95 s |
+| Cold load to the first page | thorn 1.17 s, wren 1.66 s (1.15 s) |
+| Begin, after reading the creation page for five seconds | 0.22–0.27 s (0.22–0.28 s; 2.32 s before the start was made ready) |
+| Begin, after reading it for three seconds | 0.8–1.35 s: the start made ready is not yet done |
+| Begin, an origin changed three seconds before | (3.35 s) |
+| Begin, clicked at once | (3.85 s) |
+| An action, click to second frame | 240–490 ms, engine 116–335 (180–445 ms, engine 80–340) |
+| Reload to play (Continue) | 1.48 s, and 1.48 s on the session's first commit too (0.95 s) |
 
 The region is 16% larger with the mine (428 KB of Kyr, 67 KB of it the mine). While the player reads the creation
 page, the start itself is made ready: 1.2 s after the last change (a name, a calling, an origin) the engine composes
