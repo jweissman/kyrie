@@ -680,8 +680,10 @@ taken on only the first two (F-01 and F-02). I repaired these:
   warning that is mostly wrong is soon not read.
 
 Not done, and the review is right that they matter: prose can still name what moves where no test looks (F-03: the
-test above covers what can be taken, not people, nor the state a mechanism is in); the company's knowledge is
-one level (F-05: the reading aspect above is a step, not the split it proposes); local kinds are installed in a
+test above covers what can be taken, not people, nor the state a mechanism is in); the company's knowledge is still
+one fact for a whole history, which no two sources can tell differently (F-05: what is heard or read is the
+journal's report of it, "Cassius told you", "as a tally cut in the wall has it", until it is seen, but the claims
+it proposes, kept apart from what is known, and the company's own beliefs, are not done); local kinds are installed in a
 global catalogue (F-08); Deem and the language tables are unpinned (F-11).
 
 ## Invariants
