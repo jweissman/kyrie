@@ -12,7 +12,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 23 | 7 | 2 | 7 | 18 |
+| 2 | 23 | 8 | 2 | 7 | 18 |
 
 #### lightsUp, burns, fuel
 
@@ -118,6 +118,12 @@ Says: "{?w}"
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
+#### shelf
+
+*Kyr · measure(group, itemkind)* · `rule:belongings.shelf`
+
+How many of a kind a seller has out for sale. What is used up (a torch, a flask of oil) comes back to the shelf: each dawn whatever of theirs has been bought and spent is set out again, up to what they began with.
+
 #### take item
 
 *Kyr · action (group, item, itemkind, member, place)* · `rule:belongings.take_item`
@@ -166,7 +172,7 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 
 > Needs: able(actor); at(actor, site); at(find, site); forSale(find); itemKind(find, form); memberOf(recipient, actor); awake(recipient); soldBy(find, merchant); able(merchant); not (refusesService(merchant, actor)); at(merchant, site); distinct(actor, merchant); quantity(actor, gold) >= price(find)
 
-> Then: Retract at(find, site). Retract forSale(find).
+> Then: Retract at(find, site). Retract forSale(find). Decrease shelf(merchant, form) by 1.
 
 #### equip item
 
@@ -1710,7 +1716,7 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 A priest who can call the dead back (Orsino's Raise Dead) does it at the shrine, for a great price, through a night's vigil: the companion comes back weak, with half their health, and what killed them gone.
 
-A night's vigil at the shrine, and the price of it. They come back with half their health.
+A long vigil at the shrine, a night's worth of hours, and the price of it. They come back with half their health.
 
 > Needs: able(actor); able(healer); distinct(actor, healer); at(actor, site); at(healer, site); not (refusesService(healer, actor)); offers(healer, service); serviceOf(service, raising); memberOf(lost, actor); fallen(lost); quantity(actor, gold) >= fee(service)
 

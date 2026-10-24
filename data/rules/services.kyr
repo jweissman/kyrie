@@ -24,13 +24,13 @@ Module world_services "Lodging, goods and camping" {
   // A priest who can call the dead back (Orsino's Raise Dead) does it at the shrine, for a great price, through a
   // night's vigil: the companion comes back weak, with half their health, and what killed them gone.
   Action take_raising(actor: group, healer: group, service: service, lost: member, site: place) "Ask {healer} to raise {lost} from the dead" {
-    Description "A night's vigil at the shrine, and the price of it. They come back with half their health.".
+    Description "A long vigil at the shrine, a night's worth of hours, and the price of it. They come back with half their health.".
     Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)
       and not refusesService(healer, actor) and offers(healer, service) and serviceOf(service, raising)
       and memberOf(lost, actor) and fallen(lost) and quantity(actor, gold) >= fee(service).
     Time untilMorning(clock). Resolve raise(lost).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service). }
-    Result "{healer} keeps the vigil over {lost} all night, and at first light {lost} draws a breath, and then another.".
+    Result "{healer} keeps the vigil over {lost} through the long hours, and at the end of them {lost} draws a breath, and then another.".
   }
   Action buy_goods(actor: group, seller: group, goods: good, site: place) "Buy one {goods} from {seller}" {
     Time 3 minutes.

@@ -40,4 +40,17 @@ describe('a lantern and its oil', () => {
       .toContain('fills a lantern and lights it');
     expect(Lamp.names(s).filter(n => n.startsWith('Fill a lantern'))).toHaveLength(1);
   }, 60000);
+  it('is sold again once burned: at dawn what the smith sold and was spent is back on the shelf', async () => {
+    const s = await Lamp.start();
+    const flasks = () => Lamp.names(s).filter(n => /^Buy a flask of lamp oil for Wenna/.test(n));
+    const stock = flasks().length;
+    await Lamp.take(s, /^Buy a lantern for Wenna/);
+    for (let i = 0; i < stock; i++) { await Lamp.take(s, /^Buy a flask of lamp oil for Wenna/); }
+    expect(flasks()).toHaveLength(0);
+    await Lamp.take(s, /^Fill a lantern from a flask of lamp oil and light it$/);
+    const watch = () => s.campaign.world.number(ModuleWriter.call('watch', 'clock')), start = watch();
+    while (watch() < start + 144) { await Lamp.take(s, /^Wait an hour$/); }
+    // One was burned and is back; the rest are still in the pack, and are not.
+    expect(flasks()).toHaveLength(1);
+  }, 60000);
 });

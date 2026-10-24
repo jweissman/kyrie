@@ -3,6 +3,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
+import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { CreatureStore } from '../src/creature-store';
 import { GeneratedWorld } from './support/generated';
@@ -44,6 +45,9 @@ describe('a fallen companion', () => {
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     const raise = Fallen.choice(s, /^Ask .* to raise Elen from the dead/)!;
     expect(raise).toBeDefined();
+    // What it costs is on the choice, as a bed's price is.
+    const acts = ScreenModel.build(s.campaign).people.flatMap(p => p.acts.map(a => a.label));
+    expect(acts).toContain('Ask them to raise Elen from the dead — 300 coin');
     await s.perform(raise.choice.id);
     expect(elen().hp).toBe(Math.floor(elen().maxHp / 2));
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold - 300);

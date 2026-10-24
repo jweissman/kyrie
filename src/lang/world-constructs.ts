@@ -1,5 +1,5 @@
 import { ItemNames } from '../item-names';
-import type { Anchor, Change, Module, Predicate } from './module';
+import type { Anchor, Call, Change, Module, Predicate } from './module';
 import { ItemCatalog } from '../item-catalog';
 
 export interface StateSpec { id: string; flags: string[]; text: string }
@@ -117,6 +117,8 @@ export class WorldConstructs {
         continue;
       }
       this.entity(module, s.what, 'itemkind', kindName);
+      module.initial.push({ kind: 'set', call: { kind: 'call', name: 'shelf', args: [p.id, s.what] }, value: { kind: 'number', value: s.stock } });
+      if (ItemCatalog.definitions[s.what]?.use) { this.restock(module, p, s.what, s.stock); }
       for (let n = 1; n <= s.stock; n++) {
         const id = `${p.id}_${s.what}_${n}`;
         module.entities.push({ id, type: 'item', name: ItemNames.called(kindName) });
@@ -126,6 +128,21 @@ export class WorldConstructs {
       }
     }
   }
+  // What is used up comes back to the shelf: each dawn, any of a seller's own stock of the kind that has been bought
+  // and spent (owned by no one, lying nowhere) is set out for sale again, while fewer than they began with are out.
+  private static restock(module: Module, p: { id: string; place: string }, kind: string, stock: number) {
+    const shelf = this.call('shelf', p.id, kind), one = { kind: 'number' as const, value: 1 };
+    (module.rules ??= []).push({ id: `${p.id}_${kind}_restock`, when: this.all([
+      { kind: 'compare', operator: '==', left: this.call('untilLight', 'clock'), right: one },
+      { kind: 'compare', operator: '<', left: shelf, right: { kind: 'number', value: stock } },
+      this.call('soldBy', '?r', p.id), this.call('itemKind', '?r', kind), this.none('forSale', '?r'),
+      this.none('at', '?r', '?w'), this.none('ownedItem', '?r', '?o'), this.none('inside', '?r', '?b')]),
+    effects: [{ kind: 'assert', call: this.call('at', '?r', p.place) }, { kind: 'assert', call: this.call('forSale', '?r') },
+      { kind: 'increase', call: shelf, value: one }] });
+  }
+  private static call(name: string, ...args: string[]): Call { return { kind: 'call', name, args }; }
+  private static none(name: string, ...args: string[]): Predicate { return { kind: 'not', value: this.call(name, ...args) }; }
+  private static all(ps: Predicate[]): Predicate { return ps.reduce((left, right) => ({ kind: 'and', left, right })); }
   // States and changes of a thing or person. A thing's descriptions follow the thing: they are perceived where it
   // stands, or from either side of the passage it occupies, and only while it is in that state.
   static states(module: Module, t: ThingSpec, anchor: { kind: Anchor; id: string }) {

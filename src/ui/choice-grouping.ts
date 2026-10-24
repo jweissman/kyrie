@@ -41,6 +41,7 @@ export class ChoiceGrouping {
     buy_goods: { slot: 'target', param: 'seller', path: ['Buy', 'A {goods} — {goodsfee} coin'] },
     take_lodging: { slot: 'target', param: 'host', path: ['Take {service} — {fee} coin'] },
     take_healing: { slot: 'target', param: 'healer', path: ['Ask for {service} — {fee} coin'] },
+    take_raising: { slot: 'target', param: 'healer', path: ['Ask them to raise {lost} from the dead — {fee} coin'] },
     camp: { slot: 'camp', path: ['Make camp for the night'] },
     part_ways: { slot: 'target', param: 'companion', path: ['Let them make their own way'] },
     send_off: { slot: 'target', param: 'companion', path: ['Tell them not to wait for you'] },

@@ -46,6 +46,9 @@ Module belongings "What the company carries" {
   Rule servant_objects_aloud when owns(?o, ?i) and company(?c) and unlent(?o, ?i, ?c) and serves(?s, ?o)
     and perceives(?s, ?c) and objection(?s, ?w) says "{?w}" { Assert objected(?o, ?i). Assert hostile(?o, ?c). }
   Measure price(item).
+  // How many of a kind a seller has out for sale. What is used up (a torch, a flask of oil) comes back to the shelf:
+  // each dawn whatever of theirs has been bought and spent is set out again, up to what they began with.
+  Measure shelf(group, itemkind).
   Goal false.
   Action take_item(actor: group, find: item, form: itemkind, recipient: member, site: place) "Collect {find} for {recipient}" {
     Time 1 minute.
@@ -80,7 +83,7 @@ Module belongings "What the company carries" {
       and memberOf(recipient, actor) and awake(recipient) and soldBy(find, merchant)
       and able(merchant) and not refusesService(merchant, actor) and at(merchant, site) and distinct(actor, merchant) and quantity(actor, gold) >= price(find).
     Resolve purchase(find, form, recipient, actor, merchant).
-    On success { Retract at(find, site). Retract forSale(find). }
+    On success { Retract at(find, site). Retract forSale(find). Decrease shelf(merchant, form) by 1. }
     Result "{recipient} pays {merchant}, and takes {find}.".
   }
   Action equip_item(actor: group, tool: item, form: itemkind, wearer: member) "Equip {tool} on {wearer}" {
