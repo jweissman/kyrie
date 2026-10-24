@@ -100,15 +100,16 @@ export class DeepSites {
     return [`  Entity ${id}: fact ${q(b.fact)}.`, `  Item ${id}_item ${q(name)} is ${b.item} at ${room.id}.`,
       `  Observe ${id}_seen at ${room.id} when at(${id}_item, ${room.id}) ${q(b.seen)}.`];
   }
-  // Bringing up what they died for: to be done once its story is known, and told when it is done.
+  // Bringing up what they died for: to be done once its story is known, and told when it is done, which is when it
+  // is first in daylight (come out by night, at first light, wherever the company then is).
   private static raised(purpose: DeepPurpose, layout: DeepLayout, values: Record<string, string>): string[] {
     const o = purpose.objective, site = layout.site, q = this.q;
     if (!o.goal || !o.raised) { return []; }
     const [goal, raised] = [o.goal, o.raised].map(t => t.replaceAll('{name}', values.name!));
     return [`  Entity ${site}_story: fact ${q(o.text)}.`, `  Relation ${site}_raised().`,
       `  Objective ${site}_bring when knows(party, ${site}_story) and not ${site}_raised() ${q(goal)}.`,
-      `  Rule ${site}_brought when at(party, ${site}) and ownedItem(${site}_heart, ?m) and memberOf(?m, party)`
-        + ` and not ${site}_raised() says ${q(raised)} { Assert ${site}_raised(). }`];
+      `  Rule ${site}_brought when at(party, ?p) and not unlit(?p) and not dark() and ownedItem(${site}_heart, ?m)`
+        + ` and memberOf(?m, party) and not ${site}_raised() says ${q(raised)} { Assert ${site}_raised(). }`];
   }
   // Who tells of it: the innkeeper and the merchant of the settlement nearest it, each in their own words, and the
   // merchant pays well for its ore.

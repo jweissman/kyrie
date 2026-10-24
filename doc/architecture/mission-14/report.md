@@ -46,20 +46,31 @@ A level plan on the map. In play I took the first expedition end to end in ordin
 the haulage level: the goblin chief talked round, the spring turned onto the race, a level gained resting at the
 earlier party's camp, the wheel freed and the cage ridden down.
 
-**Shown only piecewise.** The deeper chain: the pump draining the drowned level, breaking the wall, the strongroom
-and its jar, the climb to the breach, the keeper shrinking from noon, the heart brought up. Each step was played,
-but with the company put in the room (the harness's `@@room`), not walked there. A whole descent to the heart in
-ordinary play was not done: it needs several expeditions of levelling, and I did not play them.
+**The heart brought up in ordinary play.** I went on from the second expedition, playing only the choices on the
+page, the record replayed each time by its labels (`scratchpad m14/x3.tokens`, 335 choices in all). As I fixed
+what play found, the rules changed under the record, and it was replayed from the last point it still held: once a
+fall stopped being a death, Thoradin came round at the second expedition's camp instead of being carried home dead,
+and play went on from there. On that line, over six expeditions and eight days of the world's time:
+- the bone hounds of the ore bin killed, the pump set, home with 751 coin of finds, a level for Thoradin at the inn,
+  the priest won over by his grief;
+- the mud of the long haulage killed, Thoradin felled by it, failing his save at the hall's rest and dying; Wenna's
+  third level taken there, Thoradin carried home and raised;
+- nobody in Gothgiba would join, so over the Karavor to Muzgkom, where Veit the mason joined for 7 coin;
+- with three, the ghouls at the walled stair killed; the makers' words read with the glossary and the wall broken
+  (the priest consenting); the drowned level dry; a glyph unsaid by reading it; the ooze killed (Thoradin falling
+  again, and dying again at the next rest: the dice were against him); the jar of noonlight taken from the
+  strongroom; home for food, and Thoradin raised a second time;
+- the sixth expedition: past the newcomer that had moved into the furnace hall while the company was away, and past
+  the overseer in the deep cut, both standing their ground and letting the company by while their patience lasted;
+  the climb on the rope to the breach; a crown of star-iron, gloves of dexterity, galvorn mail; the thing in the vein
+  drawing back from the jar's noon into the rift; the heart of the vein taken, the company laden with it at half its
+  pace, and carried up and out by the air shaft. It came out at midnight, and the objective is to bring it into
+  daylight: it was raised at first light.
 
-**Played on: more expeditions, and what they found.** I went on from the second expedition in ordinary play, the
-record replayed each time by its labels. As I fixed what play found, the rules changed under the record, and it was
-replayed from the last point it still held: once a fall stopped being a death, Thoradin came round at the second
-expedition's camp instead of being carried home dead, and play went on from there. On that line: the bone hounds of
-the ore bin killed, the pump set, home with 751 coin of finds, a level for Thoradin at the inn, the priest won over by
-his grief; then a fifth expedition, where the mud of the long haulage felled Thoradin, who failed his save at the
-hall's rest and died; Wenna took her third level there, carried him home and had him raised. The ghouls at the walled
-stair, two of level 4, were still ahead. So the heart was still not reached in ordinary play. What the expeditions
-found was worth more than another fight, and each was fixed and pinned by a test:
+None of it was done by putting the company in a room. It took a level-3 warrior, a level-2 companion raised twice
+and a level-1 hireling, three dead companions, two raisings at 300 coin, a recruit from another town, and a
+newcomer and an elite passed rather than fought. The keeper was never fought. What the expeditions found on the way
+was worth as much as the descent, and each was fixed and pinned by a test:
 - buying a second flask of oil with a lantern in the pack stopped play outright (two choices of one name); `kyrie
   lint` now reports any action that hides which of its items it means, and found the Long Man's bounty doing the same;
 - a fallen companion could still be asked about the fells, and answered;
@@ -230,10 +241,11 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 
 ## What I would do next
 
-1. Play the mine to the heart in ordinary play, over as many expeditions as it takes, and recalibrate from what
-   happens. Five expeditions in, it is at the walled stair; its ghouls, and whether a company of two can recruit a
-   third (nobody in Gothgiba would join), are what stand between it and the drowned level. Play found a dozen faults in
-   a day that no test had; more play is the best test there is.
+1. Play more of it, in other worlds and with other companies: the barrow and the cisterns to their ends, and a mine
+   with a different company. Play found a dozen faults in a day that no test had; more play is the best test there
+   is. Calibration to look at from this play: Thoradin fell in almost every fight (a level-2 companion beside a
+   level-3 warrior); a recruit had to be fetched from another town; and the walk to the mine and back, eight hours,
+   is most of an expedition's time.
 2. Deep purposes for the sky and stone arts (an observatory, halls), now that the generator takes all of a purpose's
    words and its own kinds of thing from its data.
 3. Split the company out of the region bundle so Begin can be composed while the player reads.

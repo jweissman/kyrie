@@ -127,7 +127,7 @@
     "weight": 3,
     "text": "The Barrow-Kin buried their first king with the crown they made him out of the first gold of their land, and laid his people round him to keep him. Whoever brings the crown out from under the mound has the bounds' own crown.",
     "goal": "Bring the crown of the first king out from under {name}.",
-    "raised": "You come out of {name} into the daylight with the crown of the first king, and it is only a crown, a ring of soft gold, very old, and the day is the same day it was."
+    "raised": "In the daylight the crown of the first king, out from under {name} at last, is only a crown, a ring of soft gold, very old, and the day is the same day it was."
   },
   "rumours": [
     "'The king-barrow at {name}? The old folk's first king is under it, they say, with his crown on, and all his people round him. Robbers go in every few years. Some come out.'",

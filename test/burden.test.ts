@@ -53,4 +53,17 @@ describe('what a company carries', () => {
     expect([light.time.split(' · ')[0], heavy.time.split(' · ')[0]]).toEqual(['2 min', '4 min']);
     expect((await Load.take(s, /^Set down the heart of the vein/)).said).toContain('You go easier');
   }, 60000);
+  it('is brought up when it first comes into daylight: out by night, at first light', async () => {
+    const s = await Load.start(), raised = () => s.campaign.world.test(ModuleWriter.call('region__w9_raised'));
+    await Load.take(s, /^Wait until dark$/);
+    Load.set(s, [{ kind: 'retract', call: ModuleWriter.call('at', 'region__w9_keeper', 'region__w9_breach_heart') },
+      { kind: 'retract', call: ModuleWriter.call('unlit', 'region__w9_breach_heart') },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w9_breach_heart') }]);
+    await Load.take(s, /^Collect the heart of the vein/);
+    Load.set(s, [{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w9') }]);
+    await Load.take(s, /^Wait a while$/);
+    expect(raised()).toBe(false);
+    expect((await Load.take(s, /^Wait until first light$/)).said).toContain('In the daylight the heart of the vein');
+    expect(raised()).toBe(true);
+  }, 60000);
 });

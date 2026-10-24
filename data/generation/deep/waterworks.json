@@ -144,7 +144,7 @@
     "weight": 2,
     "text": "The Water-Wardens read what was coming in the still water through a disc of black glass ground flat, and left it on its pillar in the pool when they went. Whoever brings it out has what the Wardens saw with.",
     "goal": "Bring the Wardens' reading-glass up out of {name}, from the still water at the bottom.",
-    "raised": "You come up out of {name} with the Wardens' reading-glass, and in the daylight it is only a disc of black glass, very flat, and it shows you nothing but your own face."
+    "raised": "In the daylight the Wardens' reading-glass, up out of {name} at last, is only a disc of black glass, very flat, and it shows you nothing but your own face."
   },
   "rumours": [
     "'The cisterns at {name}? The old folk held the springs in there, they say, behind gates of bronze, and you can hear the water running under the hill on a still night. Nobody goes past the first stair.'",
