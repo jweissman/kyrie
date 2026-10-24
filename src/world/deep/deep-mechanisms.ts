@@ -61,7 +61,9 @@ export class DeepMechanisms {
       `    Change shut ${q(w.shut)} from open to shut.`, '  }',
       `  Thing ${chain} ${q(w.chain)} at ${pump.id} {`, `    State slack ${q(w.slack)}.`, `    State engaged ${q(w.engaged)}.`,
       `    Change engage ${q(w.engage)} from slack to engaged.`, '  }',
-      `  Rule ${level.id}_pumping when ${on} and state(${chain}, engaged) and ${water} > 0 { Decrease ${water} by 1. }`,
+      // A watch's worth at a time, however much is done in the watch.
+      `  Rule ${level.id}_pumping when ${on} and state(${chain}, engaged) and ${water} > 0`
+        + ` and deepPumped(${pump.id}) < watch(clock) { Decrease ${water} by 1. Set deepPumped(${pump.id}) to watch(clock). }`,
       `  Rule ${level.id}_drained when ${water} == 0 and not ${level.id}_dry() says ${q(w.drained)} { Assert ${level.id}_dry(). }`,
       `  Observe ${pump.id}_running at ${pump.id} when ${on} and state(${chain}, engaged) and ${water} > 0 ${q(w.running)}.`,
       `  Observe ${pump.id}_idle at ${pump.id} when ${on} and state(${chain}, slack) ${q(w.idle)}.`,

@@ -81,6 +81,11 @@ describe('the Water-Wardens\' cisterns from the same generator as the mine', () 
     expect(await Cisterns.take(s, /^Swing the master sluice-gate across/)).toContain('something great is turning');
     Cisterns.enter(s, room('galleries_pump'));
     expect(await Cisterns.take(s, /^Drive the bronze pin home/)).toContain('water comes up out of the deep cistern');
+    // A watch's worth of water at a time, however much is done in the watch: a look at the rods takes none.
+    const water = () => s.campaign.world.number(ModuleWriter.call('region__deepWater', room('cistern')));
+    const pumped = water();
+    await Cisterns.take(s, /^Look closely at the pump-rods$/);
+    expect([pumped, water()]).toEqual([11, 11]);
     let heard = '';
     for (let i = 0; i < 4 && !heard.includes('the deep cistern empty'); i++) { heard = await Cisterns.take(s, /^Wait an hour$/); }
     expect(heard).toContain('the deep cistern empty');

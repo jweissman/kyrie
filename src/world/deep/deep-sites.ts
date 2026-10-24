@@ -23,7 +23,7 @@ export class DeepSites {
     const handled = this.handled(layout);
     // What the kingdom after the makers did with it, and what its fall left there.
     const after = [...purpose.after?.[values.kingdomkind!] ?? [], ...purpose.fallen?.[values.fallen!] ?? []];
-    return [`  Measure deepWater(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
+    return [`  Measure deepWater(place). Measure deepPumped(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
       `  Place ${site.id}_site ${this.q(values.name!)} is site within ${values.land} at ${values.x}, ${values.y}.`,
       `  Observe ${site.id}_outside at ${site.id} when true ${this.q(purpose.outside.replaceAll('{oldup}', values.oldup!))}`
         + ` teaches ${site.id}_named.`,
