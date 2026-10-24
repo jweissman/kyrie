@@ -81,7 +81,7 @@ Module drover "The drover who did not come home" {
   Entity son_knelt: fact "Your brother knelt by the cart.".
   Observe son_kneels at road as event when travelsWith(son, party) and awake(member_son_person) and knows(party, found_cart) and not knows(party, son_knelt) "{son} goes down the bank to the cart before anyone can stop him, and kneels there a long time. When he comes back up he has nothing to say, and nobody asks him to." teaches son_knelt.
   // Left alone too long, the son goes out after his father himself.
-  Rule son_goes when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone. Nobody stopped him." { Retract at(son, green). Assert gone(son). }
+  Rule son_goes at green when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone. Nobody stopped him." { Retract at(son, green). Assert gone(son). }
 
   Objective road when knows(party, missing) and not knows(party, found_cart) and not kin(party, wife) "A drover from {green} went out on the road and did not come home.".
   Objective tell when knows(party, found_cart) and not told(wife) and not kin(party, wife) "The drover's wife, at the inn, does not know what you found.".

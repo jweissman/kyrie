@@ -8,6 +8,7 @@ import { DeepTime } from './deep-time';
 import { DeepHistory } from './deep-history';
 import { DeepArgument } from './deep-argument';
 import { DeepRivals } from './deep-rivals';
+import { DeepSounds } from './deep-sounds';
 import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 
@@ -83,21 +84,10 @@ export class DeepSites {
         + ` noticed by ${skill} when able(${keeper}) ${q(text)}.`),
       `  Observe ${site}_healed at ${site} as sign when not able(${keeper}) ${q(land.healed)}.`];
   }
-  // Who can be heard from the next room before they are met, while they are there and able: a band that falls on
-  // whoever comes in, or keeps its ground, or one of the deep's worst. Told in every room a way leads from.
-  static readonly sounds: Record<string, string> = {
-    savage: 'From {room} comes a sound that stops when you stop: breathing, or something like it.',
-    territorial: 'Something is moving about in {room}, and goes still when you do.',
-    elite: 'From {room} comes a sound you do not like at all: something large, that is not in any hurry.' };
+  // Who can be heard from the next room before they are met (see DeepSounds).
   private static heard(layout: DeepLayout, content: DeepContent[]): string[] {
-    return content.filter(c => c.dwellers && (c.dwellers.elite || this.sounds[c.dwellers.group.temperament]))
-      .flatMap(c => {
-        const d = c.dwellers!, room = c.room.id, said = this.sounds[d.elite ? 'elite' : d.group.temperament]!;
-        const ways = layout.links.filter(l => [l.a, l.b].includes(room));
-        const next = [...new Set(ways.map(l => l.a === room ? l.b : l.a))];
-        return next.map(n => `  Observe ${d.id}_heard_${n} at ${n} when able(${d.id}) and at(${d.id}, ${room})`
-          + ` ${this.q(said.replace('{room}', `{${room}}`))}.`);
-      });
+    return content.filter(c => c.dwellers).flatMap(c => DeepSounds.lines(layout, { id: c.dwellers!.id, room: c.room.id,
+      temperament: c.dwellers!.group.temperament, ...c.dwellers!.elite ? { elite: true } : {} }));
   }
   // What the site was worked for, where it was left: lumps of ore in the stopes and the tubs.
   private static ore(purpose: DeepPurpose, layout: DeepLayout): string[] {

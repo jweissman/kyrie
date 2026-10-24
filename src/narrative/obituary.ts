@@ -4,6 +4,7 @@ import type { CombatEvent } from '../model';
 import { Content } from '../content';
 import { FictionalTime } from '../presentation/fictional-time';
 import { Telling } from './telling';
+import { BandNames } from './band-names';
 import type { Memorial } from '../world/memorial';
 
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
@@ -50,19 +51,8 @@ export class Obituary {
     }
     return words ? `It began when you chose to ${this.lower(words).replace(/\.$/, '')}.` : '';
   }
-  // Who each creature is, as the company knew them: its own name for one of the company or anyone with a name of
-  // their own; for one of a band, one of the band ("one of the agile bone hounds"), not its number in the fight.
-  private static names(campaign: Campaign): Map<string, string> {
-    const party = new Set(campaign.readout.partyIds);
-    type Actors = { tickState?: { definition: { actors: { id: string; members: string[] }[] } } };
-    const actors = (campaign as unknown as Actors).tickState?.definition.actors ?? [];
-    return new Map(campaign.readout.creatures.map(c => {
-      const band = !party.has(c.id) && actors.find(a => a.members.includes(c.id));
-      const label = band && campaign.module.entities.find(e => e.id === band.id)?.name.split(', ')[0];
-      if (!band || !label || !/^(the|a|an) /i.test(label)) { return [c.id, c.name ?? c.id]; }
-      return [c.id, band.members.length > 1 ? `one of ${label}` : label];
-    }));
-  }
+  // Who each creature is, as the company knew them (see BandNames).
+  private static names(campaign: Campaign): Map<string, string> { return BandNames.of(campaign); }
   private static thing(campaign: Campaign, id: string): string {
     return Telling.called(campaign, id.replace(/^.*?:/, ''));
   }

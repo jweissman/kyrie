@@ -98,7 +98,10 @@ export class SkillReading {
         wanting.push({ ...row, skill: skill.id, name: skill.name, or, ...'thing' in skill ? { thing: true } : {} });
       }
     }
-    return this.keep(campaign, { key, uses, wanting });
+    // One choice wanting a skill or a thing is told once, by the first that opens it (the skill, with the thing as
+    // what else would do).
+    const once = wanting.filter((w, i) => wanting.findIndex(x => x.choice.id === w.choice.id) === i);
+    return this.keep(campaign, { key, uses, wanting: once });
   }
   // The kinds of thing what is here needs that nobody in the company is carrying, as one of each (a ten-foot pole).
   private static things(campaign: Campaign, actor: string, near: readonly { args: readonly string[] }[]) {

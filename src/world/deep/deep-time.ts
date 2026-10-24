@@ -2,6 +2,7 @@ import { Draw } from '../land/draw';
 import type { DeepContent } from './deep-pacing';
 import type { DeepPurpose } from './deep-purposes';
 import type { DeepLayout } from './deep-layout';
+import { DeepSounds } from './deep-sounds';
 
 // Who moves in (id), from where they wait (beyond), on which level, after whom (gone), and where (room).
 interface Succession { id: string; beyond: string; level: string; gone: string; room: string }
@@ -26,7 +27,10 @@ export class DeepTime {
       return [`  Place ${beyond} "the workings beyond" is room within ${level.id}.`,
         `  Person ${id} ${q(group.label)} at ${beyond} { Role ${q(group.role)}. ${who} Numbers ${group.count}.`
           + ` Level ${rank}. Temperament ${group.temperament}. }`,
-        ...held.flatMap(c => this.succession({ id, beyond, level: level.id, gone: c.dwellers!.id, room: c.room.id }))];
+        ...held.flatMap(c => [
+          ...this.succession({ id, beyond, level: level.id, gone: c.dwellers!.id, room: c.room.id }),
+          // Moved in, they are heard as whoever was there before them was.
+          ...DeepSounds.lines(layout, { id, room: c.room.id, temperament: group.temperament })])];
     });
   }
   private static succession(at: Succession): string[] {

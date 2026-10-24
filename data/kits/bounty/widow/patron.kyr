@@ -4,7 +4,8 @@ Module widow_patron "A widow's price" {
   Place town "The settlement the raiders prey on" is room.
   Entity chief: group "The raiders' chief".
   Entity band: group "The raiders".
-  Person widow "Someone" at town {
+  // Known by how she is seen: nobody tells a stranger her name.
+  Person widow "the woman in black" at town {
     Role "a widow whose son went after the raiders". Ancestry human. Calling commoner. Level 1. Peaceable.
     State waiting "A woman in black sits on the step of a cold house with her hands in her lap, watching the road.".
   }

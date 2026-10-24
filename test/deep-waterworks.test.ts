@@ -79,6 +79,9 @@ describe('the Water-Wardens\' cisterns from the same generator as the mine', () 
     expect(Cisterns.seen(s)).toContain('Black water fills the cistern to the top of the steps.');
     Cisterns.enter(s, room('gatehouse_race_head'));
     expect(await Cisterns.take(s, /^Swing the master sluice-gate across/)).toContain('something great is turning');
+    // The springs go down the race now, and not out at the door.
+    Cisterns.enter(s, room('gatehouse_mouth'));
+    expect(Cisterns.seen(s).some(t => t.startsWith('Only a trickle comes out from under the sill now'))).toBe(true);
     Cisterns.enter(s, room('galleries_pump'));
     expect(await Cisterns.take(s, /^Drive the bronze pin home/)).toContain('water comes up out of the deep cistern');
     // A watch's worth of water at a time, however much is done in the watch: a look at the rods takes none.
@@ -94,6 +97,9 @@ describe('the Water-Wardens\' cisterns from the same generator as the mine', () 
     expect(Cisterns.seen(s)).not.toContain('Black water fills the cistern to the top of the steps.');
     // The way on is open, if not yet safe: a trap stands on it, to be risked or made safe first.
     expect(Cisterns.names(s).some(n => /drowned hall$|^Risk the /.test(n))).toBe(true);
+    // Drained, the wheel's pit says so to whoever comes by, not only to whoever was there when it emptied.
+    Cisterns.enter(s, room('galleries_pump'));
+    expect(Cisterns.seen(s).some(t => t.includes('the deep cistern empty'))).toBe(true);
   }, 90000);
   it('has a keeper that shrinks from the Wardens\' oath, on a tablet that reads the old script', async () => {
     const { s, deep, room } = await Cisterns.world('thorn');

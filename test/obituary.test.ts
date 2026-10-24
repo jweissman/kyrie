@@ -9,7 +9,8 @@ import type { Change } from '../src/lang/module';
 // How it came to this, when nobody is left standing, as the company would tell it: what it was doing when it was
 // set upon, and who struck the last blow, by what the company knew them as. Found when a1's company was killed by
 // the bone hounds of the king-barrow's mourners' hall while one of them reached for a cloak-pin, and the ending said
-// "while you were busy: collect a gold cloak-pin" and named the killer "Knitted bone hound 1".
+// "while you were busy: collect a gold cloak-pin" and named the killer "Knitted bone hound 1". One of a band is named
+// by its place in the band, as a fight is told after it (see BandNames).
 describe('the ending', () => {
   it('says what the company was about, and who killed it, as the company knew them', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
@@ -23,7 +24,8 @@ describe('the ending', () => {
     const told = Obituary.of(s.campaign);
     expect(told.title).toBe('Wenna is dead');
     expect(told.lines).toContain('You were set upon as you went to wait a while.');
-    expect(told.lines.some(l => /^One of the agile bone hounds struck the last blow/.test(l))).toBe(true);
+    const blow = /^The (first|second) of the agile bone hounds struck the last blow/;
+    expect(told.lines.some(l => blow.test(l))).toBe(true);
     expect(told.lines.join(' ')).not.toMatch(/hound \d/);
   }, 60000);
 });

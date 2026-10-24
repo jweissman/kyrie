@@ -57,7 +57,11 @@ export class DeepMechanisms {
       `  Observe ${level.id}_going at ${arrival} when ${water} > 0 and ${water} <= 6 ${q(w.going)}.`] : []];
     if (!spring || !pump) { return lines; }
     const gate = `${spring.id}_gate`, chain = `${pump.id}_chain`, on = `state(${gate}, open)`;
-    return [...lines, `  Thing ${gate} ${q(w.gate)} at ${spring.id} {`, `    State shut ${q(w.gateShut)}.`,
+    // Where the springs run out of the site while they are not turned down the race, and do not once they are.
+    const outflow = w.flowing && w.diverted ? [layout.levels[0]!.rooms[0]!.id, layout.site].flatMap(at => [
+      `  Observe ${gate}_flowing_${at} at ${at} when not ${on} ${q(w.flowing!)}.`,
+      `  Observe ${gate}_diverted_${at} at ${at} when ${on} ${q(w.diverted!)}.`]) : [];
+    return [...lines, ...outflow, `  Thing ${gate} ${q(w.gate)} at ${spring.id} {`, `    State shut ${q(w.gateShut)}.`,
       `    State open ${q(w.gateOpen)}.`, `    Change open ${q(w.open)} from shut to open.`,
       `    Change shut ${q(w.shut)} from open to shut.`, '  }',
       `  Thing ${chain} ${q(w.chain)} at ${pump.id} {`, `    State slack ${q(w.slack)}.`, `    State engaged ${q(w.engaged)}.`,
@@ -69,6 +73,8 @@ export class DeepMechanisms {
       `  Rule ${level.id}_drained at ${pump.id} when ${water} == 0 and not ${level.id}_dry() says ${q(w.drained)}`
         + ` { Assert ${level.id}_dry(). }`,
       `  Observe ${pump.id}_running at ${pump.id} when ${on} and state(${chain}, engaged) and ${water} > 0 ${q(w.running)}.`,
+      // Drained, it goes on saying so to whoever comes by, not only to whoever was there when it emptied.
+      `  Observe ${pump.id}_emptied at ${pump.id} when ${water} == 0 ${q(w.drained)}.`,
       `  Observe ${pump.id}_idle at ${pump.id} when ${on} and state(${chain}, slack) ${q(w.idle)}.`,
       `  Observe ${pump.id}_dry at ${pump.id} when state(${gate}, shut) ${q(w.dry)}.`,
       `  Observe ${pump.id}_heard at ${spring.id} when ${on} ${q(w.heard)}.`];

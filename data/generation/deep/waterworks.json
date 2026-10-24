@@ -60,9 +60,9 @@
     { "kind": "climb", "from": ["cistern", "archive"], "to": ["still", "shore"], "minutes": 6, "needs": ["climbing", "rope"], "names": ["the steps cut in the cistern wall"] }
   ],
   "roles": {
-    "mouth": { "lit": true, "names": ["the doorway"], "scenes": ["A square doorway is cut in the hillside, its jambs and lintel single blocks of limestone fitted so close a knife would not go between them. Water runs out from under the sill, clear and very cold, and away down the hill."] },
+    "mouth": { "lit": true, "names": ["the doorway"], "scenes": ["A square doorway is cut in the hillside, its jambs and lintel single blocks of limestone fitted so close a knife would not go between them."] },
     "gate_hall": { "names": ["the gate-hall"], "scenes": ["A hall of dressed limestone, its floor channelled: a channel for each spring, each with a bronze slot where a gate stood. The mouth of a great pipe of lead opens in one wall, dark, breathing cold air."] },
-    "race_head": { "names": ["the master sluice"], "scenes": ["The springs come together here in a basin of stone, and leave it by two ways: a channel that runs off to the doorway and the hillside, and a race, dry now, that goes down into the dark. A bronze gate as tall as a house stands where the two divide."] },
+    "race_head": { "names": ["the master sluice"], "scenes": ["The springs come together here in a basin of stone, and leave it by two ways: a channel that runs off to the doorway and the hillside, and a race that goes down into the dark. A bronze gate as tall as a house stands where the two divide."] },
     "store": { "names": ["the wardens' store"], "scenes": ["Shelves of stone, and on them the Wardens' tools in rows: rods and gauges of bronze, a coil of lead pipe, wax for the gates, all of it set down as if someone meant to be back in the morning."] },
     "still_room": { "names": ["the reading-room"], "scenes": ["A round room with a shallow basin in its floor, full of water so still it is hard to see where the stone stops. Benches go round the wall, facing it, as if people sat here to watch the water."] },
     "vent": { "names": ["the overflow"], "scenes": ["A culvert where the water once ran off when the cisterns were full: a low tunnel of fitted stone, floored with silt, that goes up and out toward a grey light."] },
@@ -151,7 +151,7 @@
     "'My grandmother went into {name} for the silver the Wardens left and came out with a bronze key and her feet wet to the knee. Whatever is down there, I buy, and I do not ask where.'"
   ],
   "land": {
-    "blight": "The water in the ditch by the cisterns' door runs clear and lifeless: no weed in it, no frog, no fly over it.",
+    "blight": "The water in the ditch by the cisterns' door is clear and lifeless: no weed in it, no frog, no fly over it.",
     "signs": {
       "woodcraft": "Herons fish every pool in this country but these, and the otters' slides go down to the river and never to the cisterns.",
       "lore": "The stones at the door are cut with the Wardens' letters, and the words are a promise: the water is kept, and what keeps it is bound by the promise. Someone has kept their word here a long time."
@@ -171,7 +171,7 @@
       "A notebook with one line in it, written by someone lying down: 'it is reading me'."
     ]
   },
-  "outside": "A square doorway is cut in the hillside above a stream that runs out from under its sill. On the lintel, cut in the old script: {oldup}.",
+  "outside": "A square doorway is cut in the hillside, with a stream-bed running down the hill from under its sill. On the lintel, cut in the old script: {oldup}.",
   "finds": {
     "negligible": ["cloth_pouch", "candle", "chalk", "iron_figurine", "simple_ring", "broken_dagger", "bell", "wooden_figurine"],
     "minor": ["bronze_bracelet", "steel_torc", "bronze_statue", "jade_idol", "hand_mirror", "iron_torc", "rope"],
@@ -222,7 +222,9 @@
     "drowned": { "flooded": "Black water fills the cistern to the top of the steps.",
       "deep": "The steps go down into black water that stands to within a hand of the cistern's roof. Your light goes into it and does not come back.",
       "going": "The water has gone down: the tops of the pillars stand out of it now, white with lime, and it is still going.",
-      "gate": "the master sluice-gate",
+      "flowing": "Water runs out from under the sill, clear and very cold, and away down the hill.",
+    "diverted": "Only a trickle comes out from under the sill now, and the stream-bed down the hill is drying: the springs go another way.",
+    "gate": "the master sluice-gate",
       "gateShut": "The master sluice-gate stands across the race, and the springs run on out to the doorway and the hillside.",
       "gateOpen": "The master sluice-gate is swung across the old channel, and the springs go roaring away down the race into the dark.",
       "open": "Swing the master sluice-gate across, and turn the springs down the race",

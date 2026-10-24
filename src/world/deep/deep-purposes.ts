@@ -38,7 +38,9 @@ export interface MechanismWords {
   drowned?: { flooded: string; deep: string; going: string; gate: string; gateShut: string; gateOpen: string;
     open: string;
     shut: string; chain: string; slack: string; engaged: string; engage: string; drained: string; running: string;
-    idle: string; dry: string; heard: string };
+    idle: string; dry: string; heard: string;
+    // The water running out of the site at its mouth and outside, and once it is turned down the race instead.
+    flowing?: string; diverted?: string };
 }
 // What a deep site was for, and so how it is laid out, what lives in it, and what lies at the bottom of it.
 export interface DeepPurpose {

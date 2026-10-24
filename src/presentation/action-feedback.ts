@@ -1,3 +1,4 @@
+import { BandNames } from '../narrative/band-names';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { PlayerView, type PlayerSnapshot } from './player-view';
 import { CombatPresenter } from '../ui/combat-presenter';
@@ -33,8 +34,10 @@ export class ActionFeedbackView {
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action)!;
-    const names = { combatants: campaign.readout.creatures.map(c => CombatProjection.fighter(c, 'fighters')),
-      turn: 0, actor: '', outcome: null };
+    // A fight told after it names a band's members by the band (see BandNames), not by their numbers in it.
+    const called = BandNames.of(campaign);
+    const names = { combatants: campaign.readout.creatures.map(c => ({ ...CombatProjection.fighter(c, 'fighters'),
+      name: called.get(c.id) ?? c.name })), turn: 0, actor: '', outcome: null };
     const combat = event.combat.filter(e => e.type !== 'action' && !('amount' in e && e.amount === 0 && e.type !== 'damage')
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
       .map(e => CombatPresenter.format(e, names));

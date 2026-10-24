@@ -74,14 +74,18 @@ export class RegionTraffic {
       ...ends.map(([to, back], i) => `  Observe ${t.id}_tracks${i} at ${way} as sign when not at(${t.id}, ${way})`
         + ` and journeysTo(${t.id}, ${back.id}_green) and hour(clock) >= 15 ${q(this.say(t, t.kind.tracks, { to: to.name }))}.`)];
   }
-  // Where they are going, the news of where they came from, and what is said of the company.
+  // Where they are going, the news of where they came from, and what is said of the company. Out on the road they
+  // came from the end behind them this morning; resting at an end, from the end they go back to, the day before.
   private static talk(region: Region, t: Traveller): string[] {
     const q = JSON.stringify, ends: [Settlement, Settlement][] = [[t.road.to, t.road.from], [t.road.from, t.road.to]];
+    const way = t.road.way, news = t.draw.pick(tables.news);
     return [...ends.flatMap(([to, from], i) => [
       `  Topic ${t.id}_going${i} with ${t.id} ${q(`Ask ${t.name} where ${this.they(t)} ${t.pronoun === 'they' ? 'are' : 'is'} going`)}`
         + ` when journeysTo(${t.id}, ${to.id}_green) { Says ${q(this.say(t, t.kind.going, { to: to.name }))}. }`,
-      `  Topic ${t.id}_news${i} with ${t.id} ${q(`Ask ${t.name} for news of ${from.name}`)} when journeysTo(${t.id}, ${to.id}_green) {`
-        + ` Says ${q(this.say(t, t.draw.pick(tables.news), this.news(region, from)))}. }`]),
+      `  Topic ${t.id}_news${i} with ${t.id} ${q(`Ask ${t.name} for news of ${from.name}`)} when journeysTo(${t.id}, ${to.id}_green)`
+        + ` and at(${t.id}, ${way}) { Says ${q(this.say(t, news, this.news(region, from)))}. }`,
+      `  Topic ${t.id}_rested${i} with ${t.id} ${q(`Ask ${t.name} for news of ${to.name}`)} when journeysTo(${t.id}, ${to.id}_green)`
+        + ` and not at(${t.id}, ${way}) { Says ${q(this.say(t, news.replace('this morning', 'yesterday'), this.news(region, to)))}. }`]),
     `  Topic ${t.id}_deeds with ${t.id} ${q(`Ask ${t.name} what people are saying`)} when renowned(party) once {`
       + ` Says ${q(this.say(t, tables.deeds, {}))}. }`, ...this.knows(region, t)];
   }

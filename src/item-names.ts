@@ -3,7 +3,8 @@
 export class ItemNames {
   // Kinds that are not counted one by one: "scale mail", not "a scale mail".
   static readonly uncounted = new Set(['mail', 'armor', 'armour', 'leather', 'clothing', 'clothes', 'gear', 'rope', 'oil',
-    'chalk', 'water', 'incense', 'salve', 'ammunition', 'regalia', 'bread', 'meat', 'firewood', 'tinder', 'soap']);
+    'chalk', 'water', 'incense', 'salve', 'ammunition', 'regalia', 'bread', 'meat', 'firewood', 'tinder', 'soap',
+    'heather', 'comfrey', 'kingsfoil', 'ale', 'wine', 'vinegar', 'fire']);
   static called(name: string): string {
     const article = /^(the|a|an|some) /i.exec(name);
     if (article) { return `${article[1]!.toLowerCase()}${name.slice(article[1]!.length)}`; }

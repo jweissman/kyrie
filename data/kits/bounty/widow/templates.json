@@ -13,7 +13,6 @@
     "widow": "=gen(widow_person)"
   },
   "widow_person": {
-    "__no_id": true,
-    ">name": "=lookup(townsfolkName, #ancestry)"
+    "__no_id": true
   }
 }

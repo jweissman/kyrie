@@ -187,6 +187,32 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   you do not like at all: something large, that is not in any hurry"). The ending named the killer "Knitted bone
   hound 1" and quoted the command it interrupted. It says "One of the agile bone hounds" now, and "as you went to
   collect a gold cloak-pin" (`test/obituary.test.ts`).
+- A third world: thorn, with a ranger, whose record is `scratchpad m14/t1.tokens`. Arlen, a pilgrim, joined at
+  Merscheald for 3 coin. The innkeeper told of the cisterns at Paliduslac, and the salter of the Wardens' black
+  glass. The ranger read the land at the door (the herons fish every pool but these). A dead delver's camp in the
+  colonnade held a notebook that told the puzzle: the master sluice turns the springs, and the great wheel's rods go
+  down into the deep cistern. Over two days and a walk home for food, the company did these things:
+  - fought an ooze that waited at the great wheel, and coupled the rods;
+  - turned the springs down the race, and came back to find the cistern pumped dry and the room taken by the
+    drowned, who had moved in meanwhile;
+  - went past a rune that hurt Arlen badly, as the choice said it would, and fought two more bands of the drowned;
+  - reached the sealed gate of the deep cistern. It wants brawn or a crowbar, and lore for the words cut round it.
+    This company has neither, so it is a walk to find someone who has.
+
+  Arlen rose to level 2 and Wenna will rise at the next rest. Faults found and fixed:
+  - the widow on her step was "the woman in black" on the page and in one choice, and "Talk to Mark" in another. She
+    is the woman in black in all of them now;
+  - a drover resting at the inn gave news of the town he sat in; resting, a traveller tells of where they came from;
+  - what lies in wait (the ooze, cave spiders) gave no sign before it struck. Now someone who reads sign sees its
+    slime at the mouth of the way. Bands that move into a cleared room are heard as the first ones were;
+  - a fight told after it said "Spirit 1 falls"; it says "The first of the drowned falls";
+  - once the springs were turned down the race, the stream still ran out under the door, and the race was still
+    called "dry now". The doorway and the hillside now show the springs gone another way, and a drained cistern
+    goes on saying so at the wheel;
+  - news of a boy gone out after his father, in another town, reached the company in the cisterns and woke it from
+    its rest; it is told only on that town's green;
+  - "a heather" and "a comfrey" at the apothecary are heather and comfrey;
+  - one choice that wanted brawn or a crowbar was listed twice, once for each.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
