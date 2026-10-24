@@ -323,6 +323,38 @@ yet remember what else a company did.
 
   Still open from this play: "Take the king's door" names no destination when the way and the room beyond it share
   a name.
+- A fifth world, cov2 (Ironfells), with a thief, from the first page: the first time a calling with trapwork and
+  lockwork but no fighting to speak of has gone in. The world would not start at first (see Invariants). Then:
+  - at Brantfeallan, Rharash, a half-orc minstrel who fights, joined for 3 coin, and the factor of the Alberíce
+    company named the mine, Argentumons, and stood 30 coin against the heart of the vein, for 2,500;
+  - the first morning in the adit: the switch at the mouth wedged by the thief, star-iron in the stopes, a dead
+    camp's notebook, goblin thieves of level 3 talked into letting the company be, and cave spiders out of the
+    props at the winze head with no warning (nobody in the company reads sign), which left Wenna at 1 HP;
+  - out to Khesefrehes, the town nearest the mine, which keeps its god at a cross by the way: the smith bought
+    star-iron (his purse ran dry at 60 coin; the rest was shown him, and bought next morning), Mabon, a drover who
+    fights, joined for 7, and the keeper of the cross, Rangrim, was read wrong and then promised that the stair
+    would be walled again, which got the company what the walled-in thing cannot bear;
+  - the second day, as the factor's diggers set out: the goblin chief at the shaft head refused to let the company
+    by and was killed when its patience ran out; the wheel freed with a crowbar and the cage ridden down; on the
+    haulage level the mud came at the company, and the Delvers' bone hounds after it, and Wenna fell; the ghouls
+    broke the first rest in the Delvers' hall; at the second she came round and both companions took a second
+    level; a casket's riddle (a word), the stores' ledger, a tripwire pinned, and the pump's chain set;
+  - the third day: the alpha pale pack, two cave hounds of level 5, killed, and Wenna felled again; a cursed
+    shift-boss at the walled stair; back to rest, where she failed her save and died. The two carried her out and
+    over to Brantfeallan, where the priest raised her for 300 of the company's 351 coin, on the fourth morning.
+
+  The mine is not yet played to its heart in cov2: below the walled stair are the drowned level and the keeper.
+  It is the hardest of the five starts: a thief with 9 HP is felled by anything that reaches her, and the company
+  carries her. Faults found and fixed:
+  - two fights in one action were told as one: attacking the mud, the hounds came on after it, and the page told
+    only the hounds, not the mud, nor Wenna falling (`test/two-fights.test.ts`); then, telling the blow that felled
+    each who fell, the miss before Wenna's wound was told as the blow;
+  - a rest ate two rations when the day's meal fell due as it began (`test/lantern.test.ts`);
+  - the store-room's camp on the haulage level was the old stope's above, word for word; the same party's camps
+    further down are told as theirs (`test/deep-camps.test.ts`).
+
+  Noted, not fixed: the wright's yard, all timber, sells no ten-foot pole; and the ledger, like the galleries' tally,
+  teaches the country's history as a finished account before its own words.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
