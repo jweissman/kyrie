@@ -58,7 +58,7 @@ describe('the map', () => {
     expect(land.zones.map(z => z.name)).toEqual(['Eikwudu']);
     expect(land.zones[0]!.cells).toContain(clearing.cell);
     // The road out of Murkstede runs over the road's own cells, half of it to the country between the two towns.
-    const road = region.edges.find(e => e.label.startsWith('the road from Murkstede'))!;
+    const road = region.edges.find(e => e.road && e.from === 'region__s1' && e.to === 'region__s1_s4_land')!;
     expect(road).toMatchObject({ road: true });
     expect(road.course![0]).toBe(42);
     expect(land.glosses).toMatchObject({ region__s1: 'Westron for “black stead”' });

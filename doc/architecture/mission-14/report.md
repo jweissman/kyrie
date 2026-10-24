@@ -88,9 +88,12 @@ was worth as much as the descent, and each was fixed and pinned by a test:
 - a rest on the last ration, with a meal falling due in its six hours, ate the ration twice and stopped play; and
   with no ration at all, the rest simply was not there. It is offered now, and says what it wants.
 
+- ways named for one direction read wrongly taken the other ("Take the road down from the Karavor to Muzgkom to the
+  top of the Karavor", "Take the rough cut down to the deep cut" climbing up); a road's halves are now named for
+  what they cross (the Karavor road), or plainly the road, and the mine's climbs for what they are.
+
 Found and not yet fixed: the way into Barzelrehes nearest the mine is called "the foot of Barzelrehes by Muzgkom",
-though no way from Muzgkom reaches it; a road named for one direction ("the road down from the Karavor to Muzgkom")
-reads oddly taken the other way; a spent trap still offers to be prodded.
+though no way from Muzgkom reaches it; a spent trap still offers to be prodded.
 
 **Weak or missing.**
 - Three purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,

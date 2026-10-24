@@ -100,7 +100,7 @@ describe('a way across country, told as it goes', () => {
     const go = async (re: RegExp) =>
       s.perform(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name) || re.test(c.choice.id))!.choice.id);
     await go(/_green\)$/);
-    const out = await go(/^Take the road from .* to the road between/);
+    const out = await go(/^Take the road to the road between/);
     const kinds = (out.voiced ?? []).map(v => v.kind);
     expect(kinds).toContain('journey-depart');
     expect(kinds).toContain('journey-land');
