@@ -100,4 +100,16 @@ describe('the walled stair, argued at the shrine', () => {
     expect(await Shrine.take(promised, /^Wait a while$/)).toContain('You promised to shut it again');
     expect(Shrine.test(promised, 'refusesService', Shrine.priest, 'party')).toBe(true);
   }, 120000);
+  // Found by an architecture review: the argument's words were the mine's for every deep site ("he went down for the
+  // ore", "take the noon with you, and the brothers' lamp"), at a barrow, the cisterns and the singing hall alike.
+  it('speaks of each site\'s own bane, not the mine\'s', async () => {
+    for (const [seed, bane] of [['a1', 'noonlight'], ['thorn', 'oath-tablet'], ['d4', 'dirge bell'], ['wren', 'noonlight']]) {
+      const w = await WorldAssembler.assemble(seed!, NodeBundleSource.shared,
+        { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+      const said = JSON.stringify((await PlaySession.start(w.path, seed!, w.source)).campaign.module.actions
+        .filter(a => /_w\d+_(since|grief)$|^region__w\d+_(since|grief)$/.test(a.id)));
+      expect([seed, said.includes(bane!)]).toEqual([seed, true]);
+      expect([seed, /for the ore|the noon with you|brothers' lamp/.test(said)]).toEqual([seed, false]);
+    }
+  }, 120000);
 });

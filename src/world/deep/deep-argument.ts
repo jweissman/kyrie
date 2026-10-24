@@ -1,5 +1,6 @@
 import type { DeepLayout } from './deep-layout';
 import type { DeepPurpose } from './deep-purposes';
+import { DeepRooms } from './deep-rooms';
 
 // What the town's shrine holds about the deep site: that its makers' wall must stay shut. Its priest says so, and
 // says they will not pray for whoever opens it; the company can argue it out. What the makers cut in the wall, if
@@ -11,18 +12,21 @@ import type { DeepPurpose } from './deep-purposes';
 // could go either way.
 // How the purpose names its seal: what it is asked about (the walled stair), what is opened (the stair), and the
 // words cut in it.
-interface Said { noun: string; opened: string; cut: string; bane: string }
+// What the seal is called, what it opens, what is cut round it, what the shrine keeps of the bane and what the bane is
+// (a jar of noonlight, the Wardens' oath-tablet, a dirge bell): each purpose's own, not the mine's for every one.
+interface Said { noun: string; opened: string; cut: string; bane: string; carry: string }
 export class DeepArgument {
   static readonly q = JSON.stringify;
   static lines(layout: DeepLayout, values: Record<string, string>, purpose: DeepPurpose): string[] {
     const seal = layout.links.find(l => l.mechanism === 'seal'), words = purpose.mechanisms.seal;
     if (!seal || !words || !values.priest || !values.town) { return []; }
     const w = values.w!, p = values.priest, wall = `${seal.id}_wall`, q = this.q, name = values.name!;
-    const said = { noun: words.noun, opened: words.opened, cut: words.words, bane: purpose.bane?.fact ?? '' };
+    const b = purpose.bane, carry = b ? b.like?.name ?? DeepRooms.called(b.item, purpose) : '';
+    const said = { noun: words.noun, opened: words.opened, cut: words.words, bane: b?.fact ?? '', carry };
     return [`  Relation ${w}_heard(group). Relation ${w}_won(group). Relation ${w}_promised(group).`,
       `  Relation ${w}_argued(group, entity).`,
       `  Entity ${w}_grief: fact ${q(`{${p}}'s brother went down into ${name} and did not come back up. What {${p}} says of ${said.opened} is grief as much as doctrine.`)}.`,
-      ...this.stand({ w, p, name, said }), ...this.moves({ w, p, site: layout.site, said }),
+      ...this.stand({ w, p, name, said }), ...this.moves({ w, p, site: layout.site, name, said }),
       ...this.after({ w, p, wall, holy: values.holy ?? `${values.town}_shrine`, said })];
   }
   // What the priest holds, and says once asked; and what they say once won over.
@@ -32,11 +36,12 @@ export class DeepArgument {
       `    Says ${q(`'The makers shut ${said.opened} themselves,' says {${p}}, 'and they knew what they were doing. What they shut in, they shut in for all of us. Open it, and I will not pray for you, nor heal you, nor sit up with your dead.'`)}.`,
       `    On discuss { Assert ${w}_heard(${p}). }`, '  }',
       `  Topic ${w}_since with ${p} ${q(`Ask {${p}} again about ${said.noun}`)} when ${w}_won(${p}) once {`,
-      `    Says ${q(`'Go carefully,' says {${p}}. 'And take the noon with you, if you find it. If anything is left of the brothers' lamp down there, leave it lit.'`)}.`, '  }'];
+      `    Says ${q(`'Go carefully,' says {${p}}.${said.carry ? ` 'And take ${said.carry} with you, if you find it.'` : ''}`)}.`,
+      '  }'];
   }
   // The ways of arguing it, each once: what each needs to be tried, how hard it is, what comes of it.
-  private static moves(at: { w: string; p: string; site: string; said: Said }): string[] {
-    const { w, p, site, said } = at, bane = `${site}_bane`, base = { w, p, bane: said.bane };
+  private static moves(at: { w: string; p: string; site: string; name: string; said: Said }): string[] {
+    const { w, p, site, name, said } = at, bane = `${site}_bane`, base = { w, p, bane: said.bane };
     return [
       this.move({ ...base, id: 'evidence', label: `Tell {${p}} what ${said.cut} say`, needs: ` and knows(actor, ${bane})`,
         check: 'persuasion, dc_easy', won: true,
@@ -52,7 +57,7 @@ export class DeepArgument {
         no: `Whatever goes unsaid, you do not see it.` }),
       this.move({ ...base, id: 'grief', label: `Speak to {${p}} of the brother who went down`, needs: ` and knows(actor, ${w}_grief)`,
         check: 'persuasion, dc_easy', won: true,
-        yes: `{${p}} looks at you a long time. 'He went down for the ore and no one went after him,' says {${p}}. 'If you are going, go after him too.'`,
+        yes: `{${p}} looks at you a long time. 'He went down into ${name} and no one went after him,' says {${p}}. 'If you are going, go after him too.'`,
         no: `{${p}} turns away. 'You know nothing about it,' says {${p}}, and that is the end of it.` }),
       this.move({ ...base, id: 'lie', label: `Tell {${p}} the keepers of names sent you to see to ${said.opened}`, needs: '',
         check: 'deception, dc_hard', won: true, caught: true,
