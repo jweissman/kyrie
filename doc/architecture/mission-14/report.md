@@ -343,9 +343,12 @@ yet remember what else a company did.
     shift-boss at the walled stair; back to rest, where she failed her save and died. The two carried her out and
     over to Brantfeallan, where the priest raised her for 300 of the company's 351 coin, on the fourth morning.
 
-  The mine is not yet played to its heart in cov2: below the walled stair are the drowned level and the keeper.
-  It is the hardest of the five starts: a thief with 9 HP is felled by anything that reaches her, and the company
-  carries her. Faults found and fixed:
+  On the fifth day, back in with 150 coin: the cave hounds that had moved into the haulage way felled Wenna again,
+  the cursed shift-boss was killed, and at the rest she failed her save a second time. The mine is not played to its
+  heart in cov2, and I stopped there: the harness fights every fight by the game's own tactics, the protagonist's
+  turns included, so a thief of 9 HP stands in the line and is struck down by whatever reaches her, where a player
+  in the browser would have her keep back, hide and dodge. It is still the hardest of the five starts. Below the
+  walled stair are the drowned level and the keeper. Faults found and fixed:
   - two fights in one action were told as one: attacking the mud, the hounds came on after it, and the page told
     only the hounds, not the mud, nor Wenna falling (`test/two-fights.test.ts`); then, telling the blow that felled
     each who fell, the miss before Wenna's wound was told as the blow;
@@ -555,7 +558,10 @@ Not yet repaired, and why:
   history is learned across every work, not a slip in one: it wants inscriptions that teach one thing each, what is
   read kept apart from what is inferred, and the reveal to need more than one source. It is the next piece of Proof C.
 - **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores
-  station, era and sex, not dress or equipment; the cure is fewer, smaller and more fitting pictures.
+  station, era and sex, not dress or equipment, and when nothing fits it still takes whoever of the right sex scores
+  best. I tried painting nobody that no picture fits by work or station: in a1 that left 42 of 64 people bare,
+  priests, salters and innkeepers among them, so the corpus and its stations want widening before that rule can be
+  used. The cure is more fitting pictures first, then fewer and smaller ones.
 - **Combat leaves the scene.** Holding the outcome, the wounds and the rewards together until the player turns away,
   rather than returning at once to the place, is the next interface work.
 - The tinker who offers "news for nothing" has none to give.
