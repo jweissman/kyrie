@@ -670,8 +670,17 @@ taken on only the first two (F-01 and F-02). I repaired these:
   symbols, an Orsino wonder, applied a focus the game does not yet run (it also gives spell slots), and touching
   them failed. A wonder whose power cannot be run is met and gives nothing: two of Orsino's 43 (arcane symbols and
   unearthly silence, both a focus).
+- **Prose named what had moved** (F-03): the review's property, over five worlds, is a test now
+  (`test/prose-moves.test.ts`): no observation said whatever the world holds names a thing that can be taken, by the
+  word it goes by, where it lies. It found one at once: the great barrow's king sat on his seat with the crown on
+  his skull, in the words said of the high chamber always, after the crown was taken and the king killed. The
+  chamber, the king seated, the crown on him and the crown fallen are each said while they are so. The review's
+  lint warning, the same rule for every module, I tried over five worlds and did not keep: its fourteen hits were
+  thirteen harmless ("Corrin's front room", "where the dead were made ready", a smith's spikes by the yard), and a
+  warning that is mostly wrong is soon not read.
 
-Not done, and the review is right that they matter: prose can still name what has moved (F-03, now checked only where it was found); the company's knowledge is
+Not done, and the review is right that they matter: prose can still name what moves where no test looks (F-03: the
+test above covers what can be taken, not people, nor the state a mechanism is in); the company's knowledge is
 one level (F-05: the reading aspect above is a step, not the split it proposes); local kinds are installed in a
 global catalogue (F-08); Deem and the language tables are unpinned (F-11).
 

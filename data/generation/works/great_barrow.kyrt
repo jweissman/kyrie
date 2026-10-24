@@ -40,7 +40,10 @@
     State answered "The flutes have fallen silent. The silence is worse.".
     Change play "Play a flute as the Barrow-Kin did, and listen" from murmuring to answered needing rites or lore.
   }
-  Observe {w}_throne_scene at {w}_throne when true "The high chamber is the heart of the howe. On a seat of stone at its end sits a king larger than the others, in a cloak gone to dust, a crown on his skull, his hands on a sword across his knees. Behind the seat a single stone makes the wall.".
+  Observe {w}_throne_scene at {w}_throne when true "The high chamber is the heart of the howe. A seat of stone stands at its end, and behind the seat a single stone makes the wall.".
+  Observe {w}_king_seated at {w}_throne when able({w}_king) and at({w}_king, {w}_throne) "On the seat sits a king larger than the others, in a cloak gone to dust, with a sword laid across the knees.".
+  Observe {w}_king_crowned at {w}_throne when able({w}_king) and at({w}_king, {w}_throne) and at({w}_crown, {w}_throne) "A crown sits on the king's skull.".
+  Observe {w}_crown_fallen at {w}_throne when not able({w}_king) and at({w}_crown, {w}_throne) "The crown lies in the dust before the seat, where the king fell.".
   Person {w}_king "the barrow-king" at {w}_throne {
     Role "the last king of the Barrow-Kin, who keeps the last of the bound". Species revenant. Level 5. Temperament territorial. Lair {w}_throne.
     Warns "The king on the seat lifts his skull from his chest. Something in the dark of his eyes finds you, and he stands, and the sword comes up.".
