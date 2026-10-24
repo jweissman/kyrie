@@ -208,7 +208,8 @@ was worth as much as the descent, and each was fixed and pinned by a test:
     ice) for a jeweled torc, and brought the glass up into the daylight at the doorway, on the fourth evening.
 
   The cisterns are the second deep site played to its heart, in a second world, by a different company: a ranger
-  and a pilgrim at level 2 and a soldier-scholar at level 1, who never fought the keeper. The brothers of Reodweard
+  and a pilgrim at level 2 and a soldier-scholar at level 1, who never fought the keeper. The record is kept as
+  `test/fixtures/descent/thorn.choices` (163 choices), replayed with wren's by `test/descent.test.ts`. The brothers of Reodweard
   were two levels behind. Faults found and fixed:
   - the widow on her step was "the woman in black" on the page and in one choice, and "Talk to Mark" in another. She
     is the woman in black in all of them now;
