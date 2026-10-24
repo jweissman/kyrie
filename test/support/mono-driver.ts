@@ -107,6 +107,8 @@ export class MonoDriver {
       const state = await this.inspect();
       if (state.mode !== 'combat') { return; }
       if (state.combat?.ours && !state.combat.outcome) { await strategy(state); }
+      // A fight that has ended is held on its page until the player goes on.
+      else if (state.combat?.outcome) { await this.pick(c => c.id === 'onward', 'go on'); }
       else { await this.page.waitForTimeout(20); }
     }
     throw new Error('Combat did not finish');

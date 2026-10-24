@@ -103,6 +103,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   readonly choose = (choice: Choice) => {
     const { frame, pending, open } = this.state;
     if (pending || choice.disabled || !frame) { return; }
+    if (frame.combat?.outcome) { this.onward(); return; }
     const turned = Conversation.turn(choice);
     if (turned) { this.attend(choice, turned); return; }
     if (choice.children) {
@@ -136,6 +137,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     this.setState({ pending: { said: 'Fighting on' }, fight: ReaderApp.mark(this.state.frame) });
     void this.engine.request({ kind: 'fight' });
   };
+  // On from a fight that has ended, to the place it was fought in.
+  private onward() {
+    const frame = this.state.frame!;
+    this.setState({ frame: { ...frame, combat: undefined }, fight: undefined, cursor: 0, open: [], hovered: undefined });
+  }
   private static mark(frame: Frame): FightMark {
     const c = frame.combat!;
     return { seen: (c.exchanges.at(-1)?.n ?? -1) + 1, first: false,
@@ -166,7 +172,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   readonly back = () => {
     const s = this.state;
-    if (s.help) { this.setState({ help: false }); }
+    if (s.frame?.combat?.outcome) { this.onward(); }
+    else if (s.help) { this.setState({ help: false }); }
     else if (s.open.length) { this.setState({ open: s.open.slice(0, -1), cursor: 0 }); }
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }

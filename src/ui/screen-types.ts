@@ -140,6 +140,8 @@ export interface CombatScreen {
   // Each exchange (someone acts, and what follows) told as the company saw it, with the dice behind it, numbered from
   // the start of the fight, with its round and who acted.
   log: string[]; exchanges: { n: number; text: string; detail: string; round: number; actor?: string }[];
+  // A fight that has ended: how it ended, and what was gained by it, held on its page until the player goes on.
+  after?: string[];
 }
 export interface CombatantRow {
   id: string; name: string; line: string; hp: number; maxHp: number; mana: number; maxMana: number;

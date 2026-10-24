@@ -305,6 +305,7 @@
 .stage .beat p { font: 400 19px/1.45 var(--text); color: var(--grey); margin: 0 0 12px; }
 .stage .beat p:last-child { font-size: 25px; color: var(--ink); }
 .stage .beat .began { font-style: italic; }
+.stage .beat p.after, .stage .beat p.after:last-child { font: 600 19px/1.45 var(--text); color: var(--ink); }
 .stage .fight .turn { font: 600 16px var(--display); text-align: center; margin: 8px 0 20px; }
 .stage .fight .turn span { font-weight: 400; color: var(--grey); }
 .stage .moves section { margin: 0 0 16px; }

@@ -47,4 +47,13 @@ describe('the odds of a blow, and what a fight says', () => {
     ];
     expect(CombatTelling.exchanges(events, state)[0]!.text).toContain('shrugs off the armor shred');
   });
+  // Seen in a1's barrow: a hound knocked flat and stunned "cannot act. … cannot act."
+  it('says once what two things that came of a blow both come to', () => {
+    const state = { combatants: [{ id: 'w', name: 'Bran' }, { id: 'f', name: 'the hound' }] } as unknown as BattleState;
+    const events: CombatEvent[] = [
+      { type: 'action', turn: 1, command: { actor: 'w', ability: 'melee', target: 'f' } },
+      { type: 'skip', turn: 1, actor: 'f' }, { type: 'skip', turn: 1, actor: 'f' },
+    ];
+    expect(CombatTelling.exchanges(events, state)[0]!.text.match(/cannot act/g)).toHaveLength(1);
+  });
 });

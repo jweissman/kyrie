@@ -557,11 +557,10 @@ What it found, checked against the source, and repaired:
   documents (an observation `of` the thing `as reading`, in Kyr). The great work it leads to is told as the company's
   inference: "Put together, what you have of the Delvers, who they were and how they ended, points somewhere no
   single stone names... If it is right, it was..." (`test/said-as-it-is.test.ts`).
-- **The last blow was lost**, and two awards of experience came with no reason. The fight's page closes as the
-  last blow lands, and the account told afterwards kept only who fell; it now keeps the blow that felled each, as
+- **The last blow was lost**, and two awards of experience came with no reason. The fight's page closed as the
+  last blow landed, and the account told afterwards kept only who fell; it now keeps the blow that felled each, as
   "Rharash critically hits the mud. The mud takes 11 slashing damage (0 HP left). The mud falls." Experience for
   something seen through says so: "each gain 300 experience: deserters on the road, seen through."
-
 - **One reading taught it all.** The galleries' tally, and an abbey's copies, each taught both who the makers were
   and how they ended, so one inscription was enough to reach the great work, which says it is found by putting
   things together. Every writing now teaches one thing: the tally tells who the Delvers were, and the words they
@@ -569,6 +568,14 @@ What it found, checked against the source, and repaired:
   people were, and their notes cannot agree how they ended, but one leaf names the oldest stone, which the brothers
   made their high altar, and its back says. The reveal needs two things read (`test/said-as-it-is.test.ts`,
   `test/later-works.test.ts`). Both are still in the same work; a reveal that needs two works to agree is not done.
+- **Combat left the scene.** The fight's page closed as the last blow landed, and the place came back at once with
+  the whole fight told over in it, so the outcome, the wounds and what was gained were never seen together. A fight
+  that has ended is now held on its page: the last blows, "Your company wins the encounter.", "Elen, Bran and Dori
+  each gain 10 experience.", each side's cards as they stand (Elen hurt and bleeding, the boar down), and "Go on"
+  (Enter or Esc) back to the place, which says only "Your company prevails." and keeps what was witnessed meanwhile;
+  the journal keeps the fight blow by blow (`test/fight-held.test.ts`; the browser tests go on through it). Not held:
+  a fight the company never had a turn in, and one it lost, which goes to its ending. Two things that came of one
+  blow and come to the same ("cannot act") are said once.
 
 Not yet repaired, and why:
 - **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores
@@ -576,8 +583,6 @@ Not yet repaired, and why:
   best. I tried painting nobody that no picture fits by work or station: in a1 that left 42 of 64 people bare,
   priests, salters and innkeepers among them, so the corpus and its stations want widening before that rule can be
   used. The cure is more fitting pictures first, then fewer and smaller ones.
-- **Combat leaves the scene.** Holding the outcome, the wounds and the rewards together until the player turns away,
-  rather than returning at once to the place, is the next interface work.
 
 ## An architecture review, and what came of it
 

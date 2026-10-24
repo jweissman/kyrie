@@ -210,7 +210,9 @@ export class ChoiceList {
   // The acting companion's options in the order a player reaches for them: strike, abilities, spells, then defend,
   // wait or withdraw. Targeted options open the list of eligible targets.
   static combat(c: CombatScreen): Section[] {
-    if (!c.ours || c.outcome) { return []; }
+    // A fight that has ended is held on its page, how it ended and what it was worth, until the player goes on.
+    if (c.outcome) { return [{ id: 'onward', title: '', tone: 'way', glyph: '→', choices: [this.onward] }]; }
+    if (!c.ours) { return []; }
     const titles: Record<string, string> = { strike: 'Strike', abilities: 'Abilities', spells: 'Spells',
       other: 'Defend, wait or withdraw' };
     return Object.entries(titles).map(([id, title]) => {
@@ -233,6 +235,7 @@ export class ChoiceList {
         note: `${rest.length} more`, children: rest.map(a => this.ability(a, c)) }];
   }
   private static readonly last = ['defend', 'wait', 'flee'];
+  private static readonly onward: Choice = { id: 'onward', label: 'Go on', tone: 'way' };
   private static kind(a: CombatScreen['abilities'][number]): string {
     if (['melee', 'ranged'].includes(a.id)) { return 'strike'; }
     if (this.last.includes(a.id)) { return 'other'; }

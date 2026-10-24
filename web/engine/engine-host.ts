@@ -1,6 +1,6 @@
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view';
-import { ActionFeedbackView } from '../../src/presentation/action-feedback';
+import { ActionFeedbackView, type ActionFeedback } from '../../src/presentation/action-feedback';
 import { FictionalTime } from '../../src/presentation/fictional-time';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { CombatModel } from '../../src/ui/combat-model';
@@ -41,6 +41,8 @@ export class EngineHost {
   // How long the last command took the engine, before the screen was built and told.
   private spent = 0;
   private turn?: { battle: Battle; resolve: (c: Command) => void };
+  // The last fight the company chose in, held on its page once it has ended, until the player goes on.
+  private fought?: Battle;
   private readonly creation = new Creation();
   constructor(private readonly post: (message: Message) => void) {}
   warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
@@ -116,6 +118,7 @@ export class EngineHost {
     const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
+    this.fought = undefined;
     try {
       const event = await session.perform(command, this.controller);
       const after = PlayerView.observe(campaign), feedback = ActionFeedbackView.read(campaign, event, before);
@@ -124,9 +127,13 @@ export class EngineHost {
         place: after.location?.id ?? '', placeName: after.location?.name ?? '', elapsed: event.elapsed }));
       // A choice made from an opened list is echoed as the action it was ("You buy a torch for Bran").
       const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
-      this.told = { event, feedback, said, moved };
+      this.told = { event, feedback: this.fought ? EngineHost.unfought(feedback) : feedback, said, moved };
     } finally { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
     return this.settled();
+  }
+  // A fight held on its own page is not told again at the place it was fought in: only what was witnessed meanwhile.
+  private static unfought(feedback: ActionFeedback): ActionFeedback {
+    return { ...feedback, immediate: feedback.immediate.filter(t => t.startsWith('You witness: ')) };
   }
   private next(): number { return this.log.reduce((n, e) => Math.max(n, e.id + 1), 0); }
   // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts. It
@@ -140,6 +147,7 @@ export class EngineHost {
     // A fight begins where the company now is (it may have just come there), not where the page last showed it.
     if (!this.opening.length) { this.opening = this.begun(); this.screen = undefined; }
     this.turn = { battle, resolve };
+    this.fought = battle;
     this.post({ kind: 'frame', frame: this.frame() });
   });
   // What was seen and said in the moment the company was set upon, if it was.
@@ -165,6 +173,7 @@ export class EngineHost {
     const started = performance.now();
     this.screen = ScreenModel.build(this.session!.campaign);
     const built = performance.now(), frame = this.frame(), told = performance.now();
+    this.fought = undefined;
     frame.timing = { engine: Math.round(this.spent), screen: Math.round(built - started),
       narrative: Math.round(told - built) };
     this.spent = 0;
@@ -219,7 +228,8 @@ export class EngineHost {
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       leaf: this.leaf(),
-      ...this.turn ? { combat: CombatModel.build(this.turn.battle) } : {},
+      ...this.turn ? { combat: CombatModel.build(this.turn.battle) } : this.fought && this.told && this.screen.running
+        ? { combat: CombatModel.ended(this.fought, this.told.event.combat) } : {},
       opening: this.opening.filter(Boolean),
       ...this.screen.running ? {} : { ending: Obituary.of(campaign) },
       chronicle: PlayerView.chronicle(campaign)

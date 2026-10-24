@@ -30,7 +30,8 @@ export class CombatTelling {
     const told = new CombatTelling(state), [first, ...rest] = group;
     const sentences = [...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
       ...bark ? [bark] : []];
-    return { text: sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
+    // Two conditions that come to the same thing ("cannot act") are said once.
+    return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
       detail: group.map(e => CombatPresenter.format(e, state)).filter(l => !l.startsWith('Initiative')).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
   }

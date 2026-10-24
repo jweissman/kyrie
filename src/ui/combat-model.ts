@@ -1,4 +1,5 @@
 import { MechanicsText } from '../presentation/mechanics-text';
+import { Narration } from '../presentation/narration';
 import { Effects } from '../effects';
 import { Canon } from '../canon/canon';
 import { Content } from '../content';
@@ -38,6 +39,17 @@ export class CombatModel {
       round: [...prior, ...battle.events].filter(e => e.type === 'initiative').length,
       exchanges: CombatTelling.exchanges([...prior, ...battle.events], state).map((t, n) => ({ n, ...t })),
     };
+  }
+  // A fight that has ended, as its page holds it until the player goes on: how each side stands, and what the
+  // command told after each of its fights ended, before another began (the end, and the experience gained).
+  static ended(battle: Battle, told: CombatEvent[]): CombatScreen {
+    const lines: string[] = [];
+    let over = false;
+    for (const e of told) {
+      over = e.type === 'end' || (over && e.type !== 'initiative');
+      if (over && e.type !== 'action') { lines.push(CombatPresenter.format(e, battle.state)); }
+    }
+    return { ...this.build(battle), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
   }
   private static row(f: BattleState['combatants'][number], state: BattleState): CombatantRow {
     const race = Content.race(f.raceId)?.name ?? f.raceId;
