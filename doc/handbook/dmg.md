@@ -1832,11 +1832,11 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 |---|---|---|---|---|---|
 | 2 | 4 | 2 | 0 | 0 | 6 |
 
-#### guest
+#### onTheHouse
 
-*Kyr · relation(group, group)* · `rule:world_services.guest`
+*Kyr · relation(group, group)* · `rule:world_services.onTheHouse`
 
-A host who owes the company a night for what it did (it brought up what a deep site's makers died for) keeps it as a guest once: the next bed and supper are on the house.
+A host who owes the company a night for what it did (it brought up what a deep site's makers died for) keeps it as a guest once: the next bed and supper are on the house. (Not "guest": an adventure of its own may say that.)
 
 #### take lodging
 
@@ -1846,7 +1846,7 @@ A host who owes the company a night for what it did (it brought up what a deep s
 - Takes: the untilMorning of the way
 - Costs: 1
 
-> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); not (guest(host, actor)); offers(host, service); serviceOf(service, lodging); quantity(actor, gold) >= fee(service)
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); not (onTheHouse(host, actor)); offers(host, service); serviceOf(service, lodging); quantity(actor, gold) >= fee(service)
 
 > Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
 
@@ -1858,9 +1858,9 @@ A host who owes the company a night for what it did (it brought up what a deep s
 - Takes: the untilMorning of the way
 - Costs: 1
 
-> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); guest(host, actor); offers(host, service); serviceOf(service, lodging)
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); onTheHouse(host, actor); offers(host, service); serviceOf(service, lodging)
 
-> Then: Retract guest(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
+> Then: Retract onTheHouse(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
 
 #### take healing
 

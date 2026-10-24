@@ -6,11 +6,11 @@ Module world_services "Lodging, goods and camping" {
   Measure fee(service). Measure goodsPrice(group, good).
   Goal false.
   // A host who owes the company a night for what it did (it brought up what a deep site's makers died for) keeps it
-  // as a guest once: the next bed and supper are on the house.
-  Relation guest(group, group).
+  // as a guest once: the next bed and supper are on the house. (Not "guest": an adventure of its own may say that.)
+  Relation onTheHouse(group, group).
   Action take_lodging(actor: group, host: group, service: service, site: place) "Take {service} from {host}" {
     Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
-      and not refusesService(host, actor) and not guest(host, actor) and offers(host, service)
+      and not refusesService(host, actor) and not onTheHouse(host, actor) and offers(host, service)
       and serviceOf(service, lodging) and quantity(actor, gold) >= fee(service).
     Time untilMorning(clock). Resolve recover(actor).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service).
@@ -20,9 +20,9 @@ Module world_services "Lodging, goods and camping" {
   }
   Action take_lodging_guest(actor: group, host: group, service: service, site: place) "Take {service} from {host}, on the house" {
     Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
-      and guest(host, actor) and offers(host, service) and serviceOf(service, lodging).
+      and onTheHouse(host, actor) and offers(host, service) and serviceOf(service, lodging).
     Time untilMorning(clock). Resolve recover(actor).
-    On success { Retract guest(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144.
+    On success { Retract onTheHouse(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144.
       Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
     Result "You eat what is put in front of you, and sleep long, under a roof, and nobody will take your coin.".
   }

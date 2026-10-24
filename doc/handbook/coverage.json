@@ -11653,8 +11653,8 @@
    "section": "world-rules/rules-probing"
   },
   {
-   "id": "rule:world_services.guest",
-   "title": "guest",
+   "id": "rule:world_services.onTheHouse",
+   "title": "onTheHouse",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"

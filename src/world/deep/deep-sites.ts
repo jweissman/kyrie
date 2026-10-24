@@ -151,7 +151,7 @@ export class DeepSites {
     if (!home || !purpose.objective.goal) { return []; }
     return [`  Topic ${w}_home with ${k} ${q(`Tell {${k}} what you brought up out of ${values.name}`)} when ${w}_raised() once {`,
       `    Says ${q(home.replaceAll('{keeper}', `{${k}}`).replaceAll('{name}', values.name!))}.`,
-      `    On discuss { Assert guest(${k}, actor). }`, '  }'];
+      `    On discuss { Assert onTheHouse(${k}, actor). }`, '  }'];
   }
   // What a deep site holds that no catalog does: its ore, and what the makers died for.
   private static kinds(purpose: DeepPurpose, left: Valuable[]): string[] {
