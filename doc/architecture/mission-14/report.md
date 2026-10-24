@@ -412,11 +412,15 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 
 ## What I would do next
 
-1. Play more of it, in other worlds and with other companies: the barrow and the cisterns to their ends, and a mine
-   with a different company. Play found a dozen faults in a day that no test had; more play is the best test there
-   is. Calibration to look at from this play: Thoradin fell in almost every fight (a level-2 companion beside a
-   level-3 warrior); a recruit had to be fetched from another town; and the walk to the mine and back, eight hours,
-   is most of an expedition's time.
+1. Play more of it, and to the ends. The barrow and the cisterns have each been played from the first page, and each
+   found a dozen faults that no test had, but neither has been played to its heart. a1's company died in the
+   barrow's halls on the fifth day. Thorn's stands at the cisterns' sealed gate, wanting someone with brawn or a
+   crowbar and someone who reads the old script. Things to look at from this play:
+   - a level-1 company has little room for a bad fight; three of four were felled by one elite;
+   - a recruit or a tool (a pole, a crowbar) is often a day's walk away;
+   - the wild trails, now between neighbours, are still two to five hours a leg;
+   - what lies on the way is fine, but the deep's rooms are dense with things to fight, and every one of them is a
+     full fight.
 2. A deep purpose for the sky art: the Star-Readers' tower, which wants the generator to build upward.
 3. Let a start made ready for choices since changed give way, rather than run to its end before the new one.
 4. Let what people believe change what they do: the philosophers' views reaching the town's council and its
