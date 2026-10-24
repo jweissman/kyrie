@@ -7,6 +7,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { ObservationText } from '../src/lang/observation-text';
 import type { CampaignEvent } from '../src/campaign/campaign-types';
 import { GeneratedWorld } from './support/generated';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
 
 // What is going on in a generated region's settlements: people with something the matter, found where they live,
 // that a company can find out about and do something about, and that does not wait for it. Thorn: a drover from
@@ -44,6 +45,18 @@ describe('a drover who did not come home', () => {
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     expect(Town.said(await Town.act(s, /what you found on the road$/))).toContain('The dog knew');
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 6);
+  }, 60000);
+  // Found playing cov11 as his own family: making much of the dog told its coat twice, what the hand finds and at
+  // once the short of it that the place keeps from then on.
+  it('has its dog tell once what it has been through', async () => {
+    const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'drover')!.bindings.town!;
+    GeneratedWorld.put(s, `${town}_green`);
+    await s.perform('wait');
+    const before = PlayerView.observe(s.campaign), event = await Town.act(s, /^Make much of the grey dog$/);
+    const told = ActionFeedbackView.read(s.campaign, event, before).observations;
+    expect(told.filter(t => /ditch-mud/.test(t))).toHaveLength(1);
+    expect(PlayerView.observe(s.campaign).observations.map(o => o.text))
+      .toContain('Her coat is stiff with black ditch-mud to the belly.');
   }, 60000);
   it('goes out after his father himself if nobody brings word by the second evening', async () => {
     const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'drover')!.bindings.town!;

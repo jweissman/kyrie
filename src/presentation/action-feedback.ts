@@ -4,6 +4,7 @@ import { PlayerView, type PlayerSnapshot } from './player-view';
 import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
 import { FictionalTime } from './fictional-time';
+import type { Predicate } from '../lang/module';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
@@ -24,6 +25,16 @@ export class ActionFeedbackView {
       const teaches = observations.find(o => o.id === p.id.split('@')[0])?.teaches;
       return !!teaches && learned.includes(teaches);
     }).map(p => ({ id: p.id, text: p.text }));
+  }
+  // Whether an observation shows because the company has come to know something it knows now: its condition holds
+  // that the company knows it (not that it does not).
+  private static follows(campaign: Campaign, id: string, known: Set<string>): boolean {
+    const o = (campaign.module.observations ?? []).find(x => x.id === id.split('@')[0]);
+    return !!o && this.knowing(o.when).some(f => known.has(f));
+  }
+  private static knowing(p: Predicate): string[] {
+    if (p.kind === 'call') { return p.name === 'knows' ? [p.args[1]!] : []; }
+    return p.kind === 'and' || p.kind === 'or' ? [...this.knowing(p.left), ...this.knowing(p.right)] : [];
   }
   // How long it took, and the time it is now, to the minute.
   private static time(before: PlayerSnapshot, after: { elapsed: number; minutes?: number }): string {
@@ -60,8 +71,11 @@ export class ActionFeedbackView {
     // What taught the company something is what it saw, though once it knows, the place no longer shows it so.
     const taught = ActionFeedbackView.taught(campaign, event, learned.map(k => k.id))
       .filter(t => !before.observations.some(b => b.text === t.text));
+    // What shows only because of what was just learned is the short of what was just said ("Her coat is stiff with
+    // ditch-mud"): the place shows it from now on, and it is not told again.
+    const known = new Set(learned.map(k => k.id));
     const changed = [...taught, ...after.observations.filter(o => !taught.some(t => t.text === o.text)
-      && !before.observations.some(b => b.id === o.id && b.text === o.text))];
+      && !before.observations.some(b => b.id === o.id && b.text === o.text) && !this.follows(campaign, o.id, known))];
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
     const ended = event.combat.find(e => e.type === 'end');
     const fallen = after.party.filter(p => p.hp === 0 && before.party.some(b => b.id === p.id && b.hp > 0));
