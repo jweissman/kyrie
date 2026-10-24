@@ -166,6 +166,8 @@
 .stage .foot b { color: var(--ink); font-weight: 600; }
 .stage .foot .self { text-align: right; margin-left: auto; }
 .stage .foot .me { margin: 0 0 2px; }
+/* The company's light, under the company: how long what is lit will last, and what there is to spare. */
+.stage .foot .light { margin: 0 0 4px; font-size: 13.5px; color: var(--grey); }
 .stage .foot .hurt { color: var(--red); }
 .stage .acts.small { gap: 0 14px; margin: 0; justify-content: inherit; }
 .stage .self .acts { justify-content: flex-end; }

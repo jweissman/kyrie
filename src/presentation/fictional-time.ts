@@ -47,6 +47,12 @@ export class FictionalTime {
     const minutes = ticks * this.minutesPerTick + past;
     return minutes >= 60 ? `${Math.floor(minutes / 60)}h${minutes % 60 ? ` ${minutes % 60}m` : ''}` : `${minutes} min`;
   }
+  // A length of time as it is said: "an hour", "40 minutes", "an hour and 20 minutes", "3 hours".
+  static spoken(ticks: number): string {
+    const minutes = ticks * this.minutesPerTick, h = Math.floor(minutes / 60), m = minutes % 60;
+    const hours = h === 1 ? 'an hour' : `${h} hours`;
+    return !h ? `${m} minutes` : m ? `${hours} and ${m} minutes` : hours;
+  }
   // Time of day for prose: "11:20 a.m.", or "11:20 a.m. on day 2" after the first day.
   static clock(tick: number): string {
     const [day, time] = this.at(tick).split(', ');

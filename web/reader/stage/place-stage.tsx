@@ -100,6 +100,11 @@ export class PlaceStage {
     );
   }
   private static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
+  // How someone with the company is, if they are hurt ("badly hurt"); nothing if they are not.
+  private static hurt(screen: Screen, name: string): string | undefined {
+    const m = screen.party.slice(1).find(p => p.name === Words.short(name));
+    return m && m.hp < m.maxHp ? Words.hurt(m.hp, m.maxHp) : undefined;
+  }
   // What a thing on the way opens to, once opened (looking at the switch: looking closer, prodding it), under it.
   static Opened({ choice: c, draw }: { choice: Choice; draw: Draw }) {
     return c.children && draw.open.has(c.id) ? <Act.List choices={c.children} draw={draw} className="column door-opened" />
@@ -145,14 +150,16 @@ export class PlaceStage {
       </Act.View>
     );
   }
-  // Along the foot: the animals and whoever is with you, each with what can be done with them; then yourself.
+  // Along the foot: the animals and whoever is with you, each with what can be done with them and how they are if
+  // hurt; then yourself, and the company's light where it matters (somewhere unlit, or while something burns).
   static Foot({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const scene = app.menu.scene!, screen = app.state.frame!.screen, me = screen.party[0];
     const by = scene.subjects.filter(x => ['animal', 'companion'].includes(x.kind));
     return (
       <footer className="foot">
         {by.length > 0 && <ul className="by">{by.map(x => <li key={x.id} data-subject={x.id}>
-          <span><b>{Typography.curl(Words.short(x.name))}</b>{x.note && `, ${Typography.curl(x.note)}`}</span>
+          <span><b>{Typography.curl(Words.short(x.name))}</b>{x.note && `, ${Typography.curl(x.note)}`}
+            {PlaceStage.hurt(screen, x.name) && <span className="hurt"> · {PlaceStage.hurt(screen, x.name)}</span>}</span>
           <Act.List choices={x.choices} draw={draw} className="small" />
         </li>)}</ul>}
         <div className="self" data-region="party">
@@ -161,6 +168,7 @@ export class PlaceStage {
             {screen.expedition.hungry && <span className="hurt"> · hungry</span>}
             {screen.expedition.weary && <span className="hurt"> · weary</span>}
             {' · '}<span data-id="purse">{screen.purse.coin} coin</span></p>}
+          {screen.expedition.light && <p className="light" data-id="light">{screen.expedition.light}</p>}
           <Act.List choices={scene.you} draw={draw} className="small" />
           <Act.Sheets app={app} />
         </div>

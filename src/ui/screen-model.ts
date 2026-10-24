@@ -60,6 +60,7 @@ export class ScreenModel {
     const unclaimed = new Map([...grouped.targets].filter(([id]) => !present.has(id)));
     const companions = this.companions(world, view.actor, unclaimed);
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
+    const items = this.items(campaign, grouped, entities);
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
       ...along.has(p.id) ? { companion: true } : {},
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped) })));
@@ -74,8 +75,7 @@ export class ScreenModel {
       people: [...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions],
       things: rows.filter(r => r.kind === 'thing' || r.kind === 'feature'),
       party: this.party(view, campaign, grouped),
-      items: this.items(campaign, grouped, entities),
-      camp: grouped.camp,
+      items, camp: grouped.camp,
       purse: { coin: view.resources?.find(r => r.id === 'gold')?.amount ?? 0,
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
@@ -87,7 +87,7 @@ export class ScreenModel {
       trade: here ? TradeModel.at(world, here, names) : [],
       objectives: (view.objectives ?? []).map(o => FictionalTime.prose(o.text)),
       ...new ChartModel(world, view.actor, entities).build(visited, here),
-      expedition: this.expedition(world, view.actor, { elapsed: view.elapsed, minutes: view.minutes }),
+      expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
@@ -182,16 +182,29 @@ export class ScreenModel {
     return result;
   }
   // What a provisioning party plans around: the hour, whether it is light, food in hand, and when they next must eat.
-  private static expedition(world: Campaign['world'], actor: string, at: { elapsed: number; minutes?: number }) {
-    const elapsed = at.elapsed, hour = (8 + Math.floor(elapsed / 6)) % 24;
+  private static expedition(world: Campaign['world'], view: PlayerSnapshot, items: ItemRow[], here?: string) {
+    const actor = view.actor, elapsed = view.elapsed, hour = (8 + Math.floor(elapsed / 6)) % 24;
     const daylight = hour >= 6 && hour < 18 ? 'day' : hour >= 18 && hour < 21 ? 'evening' : 'night';
     const meal = world.module.measures.some(m => m.name === 'nextMeal') ? world.number(ModuleWriter.call('nextMeal', actor)) : 0;
-    return { time: FictionalTime.at(elapsed, at.minutes), daylight,
+    return { time: FictionalTime.at(elapsed, view.minutes), daylight,
+      ...this.light(view, items, !!here && world.test(ModuleWriter.call('unlit', here))),
       rations: world.module.measures.some(m => m.name === 'quantity') ? world.number(ModuleWriter.call('quantity', actor, 'rations')) : 0,
       hungry: world.module.relations.some(r => r.name === 'hungry') && world.test(ModuleWriter.call('hungry', actor)),
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
       ...(meal ? { nextMeal: FictionalTime.clock(meal) } : {}) };
   }
+  static readonly burning: Record<string, string> = { torchlit: 'torch', lamplit: 'lantern', candlelit: 'candle' };
+  // How long the company's light will last, where that matters: somewhere unlit, or while something burns.
+  private static light(view: PlayerSnapshot, items: ItemRow[], unlit: boolean): { light?: string } {
+    const lit = view.party.flatMap(m => m.conditions.filter(c => this.burning[c]).map(c => `${m.name}'s ${this.burning[c]}`
+      + `${m.lasting?.[c] ? `, ${FictionalTime.spoken(m.lasting[c])} left` : ''}`));
+    if (!lit.length && !unlit) { return {}; }
+    const spare = ([[this.count(items, 'torch'), 'torch', 'torches'], [this.count(items, 'candle'), 'candle', 'candles'],
+      [this.count(items, 'lamp_oil'), 'flask of oil', 'flasks of oil']] as [number, string, string][])
+      .filter(([n]) => n > 0).map(([n, one, many]) => `${n} ${n === 1 ? one : many}`).join(', ');
+    return { light: `${lit.length ? lit.join('; ') : 'Nothing lit'} · ${spare ? `${spare} to spare` : 'nothing to spare'}` };
+  }
+  private static count(items: ItemRow[], kind: string): number { return items.filter(i => i.kind === kind).length; }
   // Identical wares on one shelf read as one row with a count; acting on the row acts on one of them.
   private static stack(rows: TargetRow[]): TargetRow[] {
     const out: TargetRow[] = [];

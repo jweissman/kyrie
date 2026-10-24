@@ -85,7 +85,10 @@ export interface Screen {
   fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
   chart?: Chart; region?: RegionChart; objectives: string[];
-  expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string };
+  expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string;
+    // The company's light, where it matters (somewhere unlit, or a light burning): who carries what is lit and how
+    // long it has left, and what there is to spare. "Rharash's torch, 40 minutes left · 2 torches to spare".
+    light?: string };
   unplaced: Act[];
 }
 export interface Chart {
