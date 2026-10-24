@@ -6,7 +6,8 @@ import { join, resolve } from 'node:path';
 
 // An author's own adventure, linted where the author keeps it. Found by an architecture review: run from anywhere
 // but the game's own directory, lint could not find the shared rules; and an error in any campaign but the game's
-// own left it saying 0, so it could not stand as a check before play.
+// own left it saying 0, so it could not stand as a check before play; and a hazard's effect was checked only when it
+// struck.
 class Author {
   static readonly kyrie = resolve(import.meta.dir, '../bin/kyrie');
   static lint(dir: string) {
@@ -25,6 +26,13 @@ describe('an author\'s own adventure', () => {
       writeFileSync(site, text.replace(/\n}\s*$/, '\n  Rule glints when glinting(ox) { Assert at(ox, barley). }\n}\n'));
       const broken = Author.lint(dir);
       expect([broken.status, broken.stdout]).toEqual([1, expect.stringContaining('Unknown function or arity: glinting(ox)')]);
+      // A hazard that would fail only when it struck fails the lint: no such condition, no such damage.
+      writeFileSync(site, text.replace(/\n}\s*$/, '\n  Hazard snare "a snare" means "Apply nonexistent_condition to ally for 1 hour.".'
+        + '\n  Hazard burn "a burn" means "Deal (1d4) fyre damage to ally.".\n}\n'));
+      const struck = Author.lint(dir);
+      expect(struck.status).toBe(1);
+      expect(struck.stdout).toContain('Unknown status nonexistent_condition');
+      expect(struck.stdout).toContain('Unknown damage type fyre');
     } finally { rmSync(dir, { recursive: true, force: true }); }
   }, 120000);
 });

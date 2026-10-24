@@ -3,6 +3,8 @@ import { PlaySession } from '../session/play-session';
 import { ItemCatalog } from '../item-catalog';
 import { Canon } from '../canon/canon';
 import { Spatial } from '../spatial';
+import { Effects } from '../effects';
+import { parseAbility } from '../lang/parse';
 import type { Entity, Module } from '../lang/module';
 import type { World } from '../lang/world';
 import type { Finding } from './kyr-lint';
@@ -24,6 +26,15 @@ export class CampaignLint {
   relations(name: string) { return this.world.snapshot.relations.filter(r => r.name === name); }
   identity() {
     for (const c of this.session.campaign.save().definition?.conflicts ?? []) { this.add('error', 'identity', c); }
+  }
+  // A hazard's effect is checked as it will be struck with: a condition that is no condition, or a damage type that
+  // is none ("fyre"), is an error here, not when it strikes.
+  hazards() {
+    const abilities = Object.keys(Canon.abilities);
+    for (const h of this.module.entities.filter(e => e.type === 'hazard' && e.effect)) {
+      try { for (const e of parseAbility(h.id, h.name, h.effect!).effects) { Effects.validate(e, abilities); } }
+      catch (error) { this.add('error', 'hazard', `${h.id}: ${error instanceof Error ? error.message : String(error)}`); }
+    }
   }
   containment() {
     for (const p of this.module.entities.filter(e => e.type === 'place' && !e.space)) {
