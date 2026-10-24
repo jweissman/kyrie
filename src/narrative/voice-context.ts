@@ -6,7 +6,7 @@ import type { Happening } from './happening';
 
 // The circumstances a happening is told in, as the voice tables name them (see data/voice): who the actor is to the
 // one who plays (bond), their manner and the words they are spoken of in, what kind of creature they are, the hour,
-// the shelter, whether it has happened with them before, and what brought it about.
+// the shelter, whether it has happened with them before, what brought it about, and whether they are many.
 export class VoiceContext {
   static readonly manners = ['proud', 'grim', 'cheerful', 'acerbic', 'compassionate', 'stoic', 'jovial'];
   // Domestic kinds a local species may be like ("the hall dog", like dog): it is spoken of as its kind is.
@@ -21,7 +21,9 @@ export class VoiceContext {
       ...this.temper(campaign, actor),
       time: world.test(ModuleWriter.call('dark')) ? 'night' : 'day',
       shelter: (place && Narrator.shelter(campaign, place)) ?? 'outdoors',
-      moment: pairs.has(`${h.kind}:${actor}`) ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {} };
+      moment: pairs.has(`${h.kind}:${actor}`) ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {},
+      // A band of many (the elders), for the lines said only of many.
+      ...(campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 ? { number: 'many' } : {} };
   }
   // Family first; then someone the one who plays has come to with a letter or an errand (who has not met them),
   // someone they owe, someone they have done a good turn, someone paid to come, someone being seen home, a traveller

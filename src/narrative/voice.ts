@@ -39,6 +39,9 @@ export class Voice {
   // Every line of a kind that fits a moment, closest fits first: those naming the most of it, then fewer. Who the
   // company is to someone counts for more than anything else a line names: a mother greets her child as a mother,
   // whatever her manner; and a temper (goblins wary of a stranger's light) counts for more again.
+  // Whether a line can be said of many (the elders) as of one: no verb after the actor's name but one that agrees
+  // ("{Actor} [break|breaks] off"), where "{Actor} looks up" is said only of one.
+  static agrees(line: VoiceLine): boolean { return !/\{[Aa]ctor\} (?!\[)[a-z]+s\b/.test(line.text); }
   static tiers(kind: string, context: Record<string, string>): VoiceLine[][] {
     const lines = (this.table(kind)?.lines ?? []).filter(l => l.id.startsWith(`${kind}.`) || this.table(kind)?.kinds.length === 1)
       .filter(l => this.matches(l, context));

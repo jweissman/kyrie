@@ -62,7 +62,9 @@ export class Telling {
       const words = campaign.module.entities.find(e => e.id === own)?.name ?? '';
       return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
     }
-    const line = this.choose(Voice.fitting(h.kind, context), memory.key, memory.used);
+    // Of many, only what can be said of many.
+    const line = this.choose(Voice.fitting(h.kind, context).filter(l => !speaking.many || Voice.agrees(l)), memory.key,
+      memory.used);
     return line && { id: line.id, kind: h.kind, actor, text: Voice.render(line.text, speaking) };
   }
   static choose(lines: VoiceLine[], key: string, used: Set<string>): VoiceLine | undefined {

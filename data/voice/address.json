@@ -5,6 +5,22 @@
   ],
   "lines": [
     {
+      "id": "address.first.many",
+      "when": {
+        "moment": "first",
+        "number": "many"
+      },
+      "text": "{Actor} [break|breaks] off talking among themselves to hear what you want."
+    },
+    {
+      "id": "address.again.many",
+      "when": {
+        "moment": "again",
+        "number": "many"
+      },
+      "text": "{Actor} [make|makes] room for you without being asked."
+    },
+    {
       "id": "address.first.1",
       "when": {
         "moment": "first"

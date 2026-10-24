@@ -324,7 +324,9 @@ export class Effects {
     context: EffectContext) {
     if (effect.resource === 'slots') {
       const restored = Spellcasting.restore(target, rolled);
-      if (restored) { Effects.detail(context, target, { type: 'gain', detail: 'spell slots', amount: restored }); }
+      if (restored) {
+        Effects.detail(context, target, { type: 'gain', detail: restored === 1 ? 'spell slot' : 'spell slots', amount: restored });
+      }
       return;
     }
     const amount = effect.resource === 'mana' ? Math.min(rolled, target.maxMana - target.mana) : rolled;

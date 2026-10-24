@@ -63,6 +63,13 @@ describe('a mage in the king-barrow', () => {
     expect(early.some(l => /dew/.test(l.text))).toBe(true);
     expect(late.some(l => /dew|shadow long/.test(l.text))).toBe(false);
   });
+  // "The elders looks up, and puts their hands still": of many, only what can be said of many.
+  it('is greeted by the elders of the town as many', async () => {
+    const s = await Barrow.start([Barrow.mage]);
+    Barrow.put(s, 's1_green');
+    const event = await Barrow.take(s, /^Talk to the elders$/);
+    expect(event.voiced?.map(v => v.text)).toContain('The elders break off talking among themselves to hear what you want.');
+  }, 60000);
   it('says where one fell, and what struck them, when no one is left', async () => {
     const s = await Barrow.start([Barrow.mage]);
     GeneratedWorld.put(s, 'w9_barrow_back_stone');

@@ -360,6 +360,39 @@ remembered, by name; people do not yet remember what else a company did.
 
   Noted, not fixed: the wright's yard, all timber, sells no ten-foot pole; and the ledger, like the galleries' tally,
   teaches the country's history as a finished account before its own words.
+- A sixth world, cov7 (Lonelyfells), with a mage, from the first page: the first calling of seven hit points. At
+  Brantheald, Tharash, a half-orc scholar who fights, joined for 3 coin, and the innkeeper named the king-barrow,
+  Silentumrecs, off the top of the Wulfpath: three hours and twenty minutes up the road, past the lord's toll-bar.
+  The first afternoon in the barrow: a conjured light, 24 coin in the dust of two chambers, a bone flute and an
+  arm-ring, the portal stone's counterweight levered free over the stair down; and three beetles that were "no
+  match for you" bit Wenna down while Tharash killed them. Carried out to the forecourt to rest, she failed her save
+  and died. Played again from before the beetles, back down the road to the town: the lord's riders were waiting at
+  the inn for "a company that turned on his toll", which it had not. Faults found and fixed (`test/mage-play.test.ts`,
+  `test/toll.test.ts`):
+  - the reckoning said "no match for you" of a fight in which the mage fell: one fall in the six fights played out
+    was not enough to say so. Any fall now makes a fight a hard one, said by someone else, who names who: "Tharash
+    reckons you would likely beat them, but Wenna could fall";
+  - her conjured light went out as she fell, and left Tharash in the dark: it hangs on over one who has fallen,
+    where a torch falls with them;
+  - a way off the road and back to the toll-bar, then home the way the company came, was running the toll: a track
+    off the road now leaves the company on the side of the bar it came from;
+  - the robbers' captain was heard from the next room as "something large, that is not in any hurry": a leader who
+    is someone is heard by the scrape of a whetstone on steel;
+  - a document read said "The words cut on the passage stone, read.": it is "You have read the words cut on the
+    passage stone.";
+  - setting out at noon was "early, with your shadow long in front of you": the dew and the long shadow are only
+    before nine;
+  - the dead company's account said Wenna fell at the forecourt, where she had been carried, struck "with a
+    mandibles": it is where she fell, struck with its mandibles;
+  - three travellers' morning lines put them in the yard or at the pens while they stood in the taproom to be
+    spoken with; a cat greeting the company "went off about her business" and sat on the wall; and the ewes'
+    rumour said "out of the ground by a pit in the ground".
+  - the town's elders, a band of three, were greeted as one: "The elders looks up, and puts their hands still". Of
+    many, only a line that can be said of many is chosen now, and the voice tables have lines for them: "The elders
+    break off talking among themselves to hear what you want."
+
+  Noted, not fixed: a question put as a topic takes no time where one put as a rumour takes five minutes; making
+  them alike would shift the timing of every recorded descent.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
