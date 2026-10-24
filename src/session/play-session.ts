@@ -16,6 +16,8 @@ export interface Transcript {
 export type CombatController = (battle: Battle) => Promise<Command>;
 export interface SessionCheckpoint { version: 1; transcript: Transcript; save: CampaignSave }
 
+export interface Expander { expand(campaign: Campaign): Promise<unknown> }
+
 // Host-neutral play loop shared by the browser, CLI replay and tests. Kyr remains the sole rules authority:
 // commands are resolved through PlayerView, executed by Campaign, and combat steps through Battle.
 export class PlaySession {
@@ -25,6 +27,9 @@ export class PlaySession {
   readonly seed: string;
   private complete: boolean;
   private party?: CreatureGenerationContext[];
+  // What the world draws as the company goes (the country beyond a march-stone, see Frontier): drawn as part of the
+  // command, so that the same commands replayed draw the same world.
+  private expander?: Expander;
   private constructor(readonly campaign: Campaign, history: Omit<Transcript, 'version'>) {
     this.party = structuredClone(history.party);
     this.scenario = history.scenario; this.seed = history.seed;
@@ -52,6 +57,7 @@ export class PlaySession {
       complete: this.complete };
   }
   get acting(): boolean { return this.busy; }
+  extend(expander: Expander): this { this.expander = expander; return this; }
   // live: to be written out at once, so not copied (see Campaign.save).
   checkpoint(live = false): SessionCheckpoint {
     return { version: 1, transcript: this.transcript, save: this.campaign.save(true, live) };
@@ -76,6 +82,7 @@ export class PlaySession {
           battle.step(chosen);
         }
       });
+      if (this.expander) { await this.expander.expand(this.campaign); }
       this.steps.push(combat.length ? { command, combat } : { command });
       // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
       const voiced = Telling.tell(this.campaign, event);

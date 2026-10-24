@@ -10,6 +10,7 @@ import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
 import { Frontier } from '../../src/world/frontier';
+import type { Campaign } from '../../src/campaign/campaign';
 import { Scenarios } from '../scenarios';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { PlayTranscript } from './transcript';
@@ -84,6 +85,7 @@ export class EngineHost {
     this.post({ kind: 'progress', stage: 'Placing its people' });
     this.session = await (ready?.catch(() => this.start(r)) ?? this.start(r));
     this.frontier = r.campaign === Creation.generated ? new Frontier(r.seed, Scenarios.source()) : undefined;
+    if (this.frontier) { this.session.extend({ expand: this.widen }); }
     this.log = []; this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
     this.crossed = false; this.world = undefined;
     return this.settled();
@@ -104,6 +106,7 @@ export class EngineHost {
       index: KeptGame.index(part.base ?? []) } : undefined;
     const t = saved.checkpoint.transcript;
     this.frontier = Frontier.generated(t.scenario) ? new Frontier(t.seed, Scenarios.source()) : undefined;
+    if (this.frontier) { this.session.extend({ expand: this.widen }); }
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
     this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
     this.crossed = true;
@@ -122,13 +125,16 @@ export class EngineHost {
       // A choice made from an opened list is echoed as the action it was ("You buy a torch for Bran").
       const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
       this.told = { event, feedback, said, moved };
-      // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts.
-      if (this.frontier?.drawing(campaign)) { this.post({ kind: 'progress', stage: 'The country beyond is being drawn' }); }
-      if (this.frontier) { await this.frontier.expand(campaign); }
     } finally { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
     return this.settled();
   }
   private next(): number { return this.log.reduce((n, e) => Math.max(n, e.id + 1), 0); }
+  // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts. It
+  // is drawn as part of the command (see PlaySession.extend), so a replay of the game draws it too.
+  private readonly widen = async (campaign: Campaign) => {
+    if (this.frontier?.drawing(campaign)) { this.post({ kind: 'progress', stage: 'The country beyond is being drawn' }); }
+    return this.frontier?.expand(campaign);
+  };
   // The fight's controller: the page turns to the fight, opening with what started it, and waits for a choice.
   readonly controller = (battle: Battle) => new Promise<Command>(resolve => {
     // A fight begins where the company now is (it may have just come there), not where the page last showed it.

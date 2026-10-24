@@ -574,6 +574,36 @@ Not yet repaired, and why:
 - **Combat leaves the scene.** Holding the outcome, the wounds and the rewards together until the player turns away,
   rather than returning at once to the place, is the next interface work.
 
+## An architecture review, and what came of it
+
+Later the same day another agent reviewed the code read-only at `422a4c8`:
+[`arch-review/kyrie-architecture-review-422a4c8.md`](arch-review/kyrie-architecture-review-422a4c8.md). It found
+the kernel sound (an immutable fact store, checkpoint and rollback round every command, identity-keyed randomness,
+replay by transcript; a fresh replay reproduced a 40-command game byte for byte) and two independent adventures
+built in Kyr with no engine changes. Its fifteen risks are for the next mission, and I have not taken on the
+structural ones. I repaired these, which were mine or small:
+- **My `guest` broke Thrume.** The homecoming's `Relation guest(group, group)` in the shared rules made the
+  independent Thrume adventure's own `guest` a load error. It is `onTheHouse` now. The cure is the review's F-02:
+  a module's own names should shadow the shared rules', which is not done. House That Grows still collides on
+  `confided` and `light_lamp`.
+- **The shrine's argument was the mine's everywhere** (F-07): "he went down for the ore", "take the noon with you,
+  and the brothers' lamp", at a barrow, the cisterns and the singing hall alike. It speaks of each site's own bane
+  and name now (`test/deep-argument.test.ts`). It is still authored in TypeScript, not Kyr.
+- **A search kept its finds when it failed** (F-04): its resolver ran before the search was known to have run its
+  course. An interruptible activity's resolver now runs when it was not interrupted (`test/interrupted-search.test.ts`).
+- **A deep document said nothing once its history was known** (F-05, the smallest part): read after a song had told
+  the same history, it showed only "the ledger, read". Its words are said whenever it is read.
+- **A game that crossed a border could not be replayed** (F-01, the review's first risk): the browser drew the
+  country beyond a march-stone after each command, outside the record of it. It is drawn as part of the command now:
+  a session is extended with the frontier (`PlaySession.extend`), and replaying the same commands draws the same
+  countries (`test/frontier-replay.test.ts`, walking thorn to its march-stone and replaying in a fresh session). The
+  terminal's replay still cannot start a generated world from a transcript at all.
+
+Not done, and the review is right that they matter: modules are not protected from the shared rules growing
+(F-02); prose can still name what has moved (F-03, now checked only where it was found); the company's knowledge is
+one level (F-05: the reading aspect above is a step, not the split it proposes); local kinds are installed in a
+global catalogue (F-08); Deem and the language tables are unpinned (F-11).
+
 ## Invariants
 
 `bin/` holds only `bin/kyrie`; the tools are subcommands (lint, compile, test, preview, world, voice, handbook,
