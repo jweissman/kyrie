@@ -34,6 +34,9 @@ export interface Condition {
   // A capability its holder brings to the company while it lasts (a lit torch brings light), and what is said
   // when it runs out.
   grants?: string[]; begins?: string; ends?: string;
+  // What it grants it brings whether or not its holder is up: a conjured light hangs on over one who has fallen,
+  // where a torch falls with them.
+  unheld?: true;
 }
 export type TraitCategory = 'lineage' | 'nature' | 'affinity' | 'character' | 'feat' | 'party' | 'specialization' | 'calling';
 // What happens when something occurs to a perk's holder: Orsino's onKill, onLevelUp and onOffensiveCasting.

@@ -14,6 +14,11 @@ export class FictionalTime {
     const hour = Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24;
     return hour >= 21 || hour < 6;
   }
+  // The first hours of the morning, while the dew is on the grass and shadows are long.
+  static early(tick: number): boolean {
+    const hour = Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24;
+    return hour >= 5 && hour < 9;
+  }
   // The part of the day, as people say it.
   static part(tick: number): string {
     const hour = Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24;

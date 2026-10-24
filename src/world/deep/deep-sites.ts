@@ -90,7 +90,8 @@ export class DeepSites {
   // Who can be heard from the next room before they are met (see DeepSounds).
   private static heard(layout: DeepLayout, content: DeepContent[]): string[] {
     return content.filter(c => c.dwellers).flatMap(c => DeepSounds.lines(layout, { id: c.dwellers!.id, room: c.room.id,
-      temperament: c.dwellers!.group.temperament, ...c.dwellers!.elite ? { elite: true } : {} }));
+      temperament: c.dwellers!.group.temperament, ...c.dwellers!.elite ? { elite: true } : {},
+      ...c.dwellers!.group.ancestry ? { person: true } : {} }));
   }
   // What the site was worked for, where it was left: lumps of ore in the stopes and the tubs.
   private static ore(purpose: DeepPurpose, layout: DeepLayout): string[] {

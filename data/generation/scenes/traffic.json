@@ -5,7 +5,7 @@
       "role": "carrier", "background": "laborer", "painting": "peasant",
       "road": ["{Name} the carrier is walking at the head of a cart-horse, a cart of sacks and barrels behind, on {their} way to {to}.", "A carrier's cart is grinding along the road toward {to}, {Name} on the board with the reins slack, half asleep."],
       "rest": ["{Name}, the carrier, is in from the road, with {their} boots off and a pot in front of {them}.", "{Name} the carrier is seeing to {their} horse before {they} [see|sees] to {themself}."],
-      "morning": "{Name} the carrier is out in the yard in the cold, putting the horse to the cart for the road.",
+      "morning": "{Name} the carrier is at the table with {their} coat on, eating fast: the horse is put to, and the road is waiting.",
       "tracks": "Wheel-ruts, fresh today and deep with a load, go along the road toward {to}.",
       "going": "'{to},' says {Name}. 'Same as yesterday, the other way. Salt one way, wool the other, and the horse knows the road better than I do.'",
       "trouble": { "kind": "cart",
@@ -20,7 +20,7 @@
       "role": "drover", "background": "herdsman", "painting": "shepherd",
       "road": ["{Name} is driving a dozen red cattle along the road toward {to}, walking behind them with a stick {they} never [use|uses].", "Cattle fill the road from hedge to hedge, going to {to}, and somewhere among them is {Name}, the drover, whistling."],
       "rest": ["{Name}, the drover, has the cattle penned for the night and {themself} by the fire.", "{Name} the drover is counting money on the table, twice, and then a third time to be sure."],
-      "morning": "{Name} the drover is out at the pens, counting the cattle before the road, and not liking the count.",
+      "morning": "{Name} the drover is at the window, counting the cattle in the pens before the road, and not liking the count.",
       "tracks": "The road is churned by cattle, all going toward {to}, and not long since: some of it is still warm.",
       "going": "'{to}, for the market,' says {Name}. 'They don't want to go. They never want to go. They always go.'",
       "trouble": { "kind": "stray",
@@ -60,7 +60,7 @@
       "role": "carter, moving house", "background": "farmer", "painting": "peasant",
       "road": ["A family is moving house along the road to {to}: {Name} pushing a handcart with everything they own on it, and three children walking beside it carrying the rest.", "{Name}'s handcart has stopped on the road to {to} while a child is found who was not where everyone thought."],
       "rest": ["{Name} and the children have the corner by the fire, and the children have everyone else's attention.", "{Name} is mending a handcart wheel while the children explain to strangers where they are moving to."],
-      "morning": "{Name} is loading the handcart in the yard, and the children are helping, more or less.",
+      "morning": "{Name} is tying the last of {their} things into bundles for the handcart, and the children are helping, more or less.",
       "tracks": "A child's wooden horse lies in the road, dropped, facing {to}. Somebody will be missing it about now.",
       "going": "'{to},' says {Name}. 'My sister's there. She said come. She may not have meant it, but she said it.'"
     }

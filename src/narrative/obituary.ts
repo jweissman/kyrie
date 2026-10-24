@@ -5,6 +5,7 @@ import { Content } from '../content';
 import { FictionalTime } from '../presentation/fictional-time';
 import { Telling } from './telling';
 import { BandNames } from './band-names';
+import { CombatProjection } from '../combat-projection';
 import type { Memorial } from '../world/memorial';
 
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
@@ -21,15 +22,17 @@ export class Obituary {
     const place = campaign.module.entities.find(e => e.id === campaign.world.one('at', campaign.playerActor ?? 'party'))?.name;
     const title = party.size > 1 ? 'No one is left standing' : `${who} is dead`;
     if (!last || !one) { return { title, lines: [`It is over${place ? `, at ${place}` : ''}.`] }; }
+    // Where they fell, and where they lie, which is where the company is: it may have carried them on.
     const where = campaign.world.one('at', campaign.playerActor ?? 'party') ?? '';
+    const fell = campaign.module.entities.find(e => e.id === this.scene(campaign, last))?.name ?? place;
     const blow = [...last.combat].reverse().find((c): c is Harm => c.type === 'damage' && c.target === one);
     const killer = blow ? names.get(blow.actor) ?? this.thing(campaign, blow.actor) : undefined;
-    const weapon = blow ? this.weapon(last.combat, blow) : '';
+    const weapon = blow ? this.weapon(campaign, last.combat, blow) : '';
     const rounds = last.combat.filter(c => c.type === 'initiative').length;
     const foes = new Set(last.combat.filter((c): c is Of<'action'> => c.type === 'action' && !party.has(c.command.actor))
       .map(c => c.command.actor));
     return { title, lines: [
-      `${who} fell${place ? ` at ${place}` : ''}, ${FictionalTime.part(last.elapsed)} of ${this.day(last.elapsed)}.`,
+      `${who} fell${fell ? ` at ${fell}` : ''}, ${FictionalTime.part(last.elapsed)} of ${this.day(last.elapsed)}.`,
       this.began(campaign, last, names),
       killer ? `${this.upper(killer)} struck the last blow${weapon ? ` with ${weapon}` : ''}${blow!.amount ? `, for ${blow!.amount}` : ''}.` : '',
       `${rounds > 1 ? `It lasted ${rounds} rounds` : 'It was over in a round'}; ${foes.size > 1 ? `${foes.size} against ${party.size === 1 ? 'one' : party.size}` : 'one against one'}.`,
@@ -56,10 +59,23 @@ export class Obituary {
   private static thing(campaign: Campaign, id: string): string {
     return Telling.called(campaign, id.replace(/^.*?:/, ''));
   }
-  private static weapon(combat: CombatEvent[], blow: Harm): string {
+  // Where the company was when it happened: where the last move up to then had taken it (it may have gone on since,
+  // carrying whoever fell).
+  private static scene(campaign: Campaign, event: CampaignEvent): string | undefined {
+    const moved = new RegExp(`^\\+ at\\(${campaign.playerActor ?? 'party'}, ([^)]+)\\)$`), history = campaign.history;
+    for (const e of history.slice(0, history.indexOf(event) + 1).reverse()) {
+      const at = e.changes.map(c => moved.exec(c)?.[1]).find(Boolean);
+      if (at) { return at; }
+    }
+    return undefined;
+  }
+  // What the blow was struck with: a weapon, or its own (its mandibles), or an ability.
+  private static weapon(campaign: Campaign, combat: CombatEvent[], blow: Harm): string {
     const attack = [...combat].reverse().find((c): c is Of<'attack'> => c.type === 'attack' && c.target === blow.target
       && c.actor === blow.actor);
-    if (attack?.weapon) { return `a ${attack.weapon.replace(/_/g, ' ')}`; }
+    const striker = campaign.readout.creatures.find(c => c.id === blow.actor);
+    const own = striker && CombatProjection.fighter(striker, 'goblins').equipment?.weapon?.natural;
+    if (attack?.weapon) { return `${own ? 'its' : 'a'} ${attack.weapon.replace(/_/g, ' ')}`; }
     const action = [...combat].reverse().find((c): c is Of<'action'> => c.type === 'action' && c.command.actor === blow.actor);
     const ability = action && Content.abilities.find(a => a.id === action.command.ability);
     return ability && !['melee', 'ranged'].includes(ability.id) ? ability.name.toLowerCase() : '';

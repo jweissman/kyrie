@@ -16,7 +16,7 @@ export class PartyCapabilities {
   }
   // Whether this one companion brings the skill: by background, class, an equipped item, a condition or a perk held.
   static brings(id: string, c: Creature, at: PerkContext = {}): boolean {
-    if (c.state.hp === 0 || c.state.conditions.some(s => Effects.skips(s.id))) { return false; }
+    if (c.state.hp === 0 || c.state.conditions.some(s => Effects.skips(s.id))) { return this.unheld(id, c); }
     return Overlays.skills(c).includes(id) || (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id)
       || (c.state.inventory ?? []).some(i => i.equipped && ItemCatalog.get(i.definition).capability === id)
       || c.state.conditions.some(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes(id))
@@ -35,6 +35,14 @@ export class PartyCapabilities {
     if (specialist) { return [specialist]; }
     // A condition can bring a capability while it lasts: whoever holds the lit torch brings light.
     const holder = alive.find(c => c.state.conditions.some(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes(id)));
-    return holder ? [holder] : [];
+    const hung = holder ? undefined : creatures.find(c => this.unheld(id, c));
+    return holder ? [holder] : hung ? [hung] : [];
+  }
+  // A condition that brings what it grants though its holder has fallen (a conjured light).
+  private static unheld(id: string, c: Creature): boolean {
+    return c.state.conditions.some(s => {
+      const condition = Canon.conditions[Canon.resolve('conditions', s.id)];
+      return !!condition?.unheld && !!condition.grants?.includes(id);
+    });
   }
 }

@@ -75,6 +75,7 @@
       "grants": [
         "light"
       ],
+      "unheld": true,
       "source": {
         "kyr": true,
         "notes": "Kyr's light: while it lasts, the company can see in unlit places."

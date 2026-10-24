@@ -25,7 +25,8 @@ export class Journeys {
       to: Editor.called(campaign, this.settlement(campaign, to) ?? to), way: this.way(campaign, way) };
     const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1]?.replace(/^.*weather_/, '');
     const kinds: [string, Record<string, string>][] = [
-      ['journey-depart', { time: FictionalTime.part(start), sky: this.skies[sky ?? ''] ?? 'fair' }],
+      ['journey-depart', { time: FictionalTime.part(start), sky: this.skies[sky ?? ''] ?? 'fair',
+        ...FictionalTime.early(start) ? { light: 'early' } : {} }],
       ...chart ? [['journey-land', { land: this.land(chart, this.cells(chart, from, to)) }] as [string, Record<string, string>]] : [],
       ...!FictionalTime.dark(start) && FictionalTime.dark(event.elapsed) ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
       ...this.arrival(campaign, to, ticks)];

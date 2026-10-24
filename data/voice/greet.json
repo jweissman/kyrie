@@ -7,7 +7,7 @@
     { "id": "greet.dog.3", "when": { "species": "dog" }, "text": "{Actor} barks twice, for form's sake, then comes to see who you are." },
     { "id": "greet.dog.night", "when": { "species": "dog", "time": "night" }, "text": "{Actor} lifts {their} head, decides you are no business of {theirs}, and puts it down again." },
     { "id": "greet.cat.1", "when": { "species": "cat" }, "text": "{Actor} watches you from somewhere high, unblinking, and does not come down." },
-    { "id": "greet.cat.2", "when": { "species": "cat" }, "text": "{Actor} winds once round your ankles and goes off about {their} business." },
+    { "id": "greet.cat.2", "when": { "species": "cat" }, "text": "{Actor} comes to wind once round your ankles, and goes back to {their} place." },
     { "id": "greet.horse.1", "when": { "species": "horse" }, "text": "{Actor} blows through {their} nose at you, and puts {their} head out to be noticed." },
     { "id": "greet.goat.1", "when": { "species": ["goat", "sheep"] }, "text": "{Actor} stops chewing long enough to look at you." },
     { "id": "greet.hen.1", "when": { "species": "hen" }, "text": "{Actor} complains about you to the others." },

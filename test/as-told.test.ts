@@ -39,8 +39,8 @@ describe('as the company would tell it', () => {
     Thorn.put(s, 's1_taproom');
     expect(Thorn.names(s)).toContain('Ask Ralf for news of Meósdael');
     expect(Thorn.names(s)).not.toContain('Ask Ralf for news of Merscheald');
-    // Eight in the morning is not the night: he is making ready for the road.
-    expect(Thorn.seen(s)).toContain('Ralf the drover is out at the pens, counting the cattle before the road');
+    // Eight in the morning is not the night: he is making ready for the road, at the inn, where he is.
+    expect(Thorn.seen(s)).toContain('Ralf the drover is at the window, counting the cattle in the pens before the road');
     expect(Thorn.seen(s)).not.toContain('penned for the night');
   }, 60000);
   it('lets someone who reads sign see what lies in wait, and nobody else', async () => {

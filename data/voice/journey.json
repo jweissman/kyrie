@@ -2,8 +2,9 @@
   "about": "A way across country, told as it goes, a sentence or two and no more: setting out (by the hour and the sky: fair, grey, rain, fog, wind, cold, hot, ash), the land the way runs through (by what its cells are: water crossed, fen, wood, open fields, moor, a pass), the light going on the way, and coming in sight of where it ends (by the size of the settlement). {from} and {to} are where the way begins and ends; {way} is what it is, a road or a path (a track over the fells is not a road). When every line that fits has been said, the one said longest ago is said again.",
   "kinds": ["journey-depart", "journey-land", "journey-dark", "journey-arrive", "journey-long"],
   "lines": [
-    { "id": "journey-depart.morning.fair.1", "when": { "time": "morning", "sky": "fair" }, "text": "You leave {from} with the sun low behind you and the dew still on the grass." },
-    { "id": "journey-depart.morning.fair.2", "when": { "time": "morning", "sky": "fair" }, "text": "You set out from {from} early, with your shadow long in front of you on the {way}." },
+    { "id": "journey-depart.morning.fair.1", "when": { "time": "morning", "sky": "fair", "light": "early" }, "text": "You leave {from} with the sun low behind you and the dew still on the grass." },
+    { "id": "journey-depart.morning.fair.2", "when": { "time": "morning", "sky": "fair", "light": "early" }, "text": "You set out from {from} early, with your shadow long in front of you on the {way}." },
+    { "id": "journey-depart.morning.fair.3", "when": { "time": "morning", "sky": "fair" }, "text": "You leave {from} in the full of the morning, with the sun climbing and the {way} dry underfoot." },
     { "id": "journey-depart.morning.fog.1", "when": { "time": "morning", "sky": "fog" }, "text": "You leave {from} in a white fog that turns the hedges to ghosts at ten paces." },
     { "id": "journey-depart.rain.1", "when": { "sky": "rain" }, "text": "You leave {from} with your hood up and the rain in your face." },
     { "id": "journey-depart.rain.2", "when": { "sky": "rain" }, "text": "It rains on and off the whole way, the soft rain that gets in everywhere." },

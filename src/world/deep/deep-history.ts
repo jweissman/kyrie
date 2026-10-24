@@ -38,7 +38,7 @@ export class DeepHistory {
   private static document(id: string, room: DeepRoom, d: NonNullable<Alteration['document']>): string[] {
     const q = this.q;
     return [`  Thing ${id} ${q(d.name)} at ${room.id} {`, `    State unread ${q(d.shut)}.`,
-      `    State read ${q(`${d.name.charAt(0).toUpperCase()}${d.name.slice(1)}, read.`)}.`,
+      `    State read ${q(`You have read ${d.name.replace(/^an? /, 'the ')}.`)}.`,
       `    Change read ${q(d.label)} from unread to read.`, '  }',
       // What it says is said whenever it is read, though the history it tells was known before (from a song);
       // only what it teaches is not taught again.

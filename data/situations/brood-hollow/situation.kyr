@@ -121,7 +121,7 @@ Module brood_hollow "A brood under the hill" {
   }
 
   Observe rumour at gossip when not quieted(brood) and not asked(garth, party) and not dark() "A shepherd's boy is telling anyone who will listen that something comes up out of {hollow} at night and takes a ewe off {pasture}, and that {garth} means to burn it out.".
-  Entity ewes: fact "Something comes up out of the ground by {pasture} at night and takes a ewe from {garth}'s flock. {garth} means to burn it out.".
+  Entity ewes: fact "At night something comes out by {pasture} and takes a ewe from {garth}'s flock. {garth} means to burn it out.".
   Entity no_silk: fact "{odile}, who winds silk at the sink by {pasture}, has had none for a week, and is frightened for her spiders.".
   Initially Assert established(ewes). Initially Assert established(no_silk).
   Entity quarrel: thing "the quarrel over the brood". Entity open: condition "open". Entity over: condition "over".
