@@ -50,6 +50,14 @@ describe('an origin', () => {
     };
     expect([await as('order'), await as('wanderer')]).toEqual(['scribe', 'mercenary']);
   }, 60000);
+  it('over the hills, arrives as the town\'s own trouble is happening, and so knows of it', async () => {
+    const s = await Opening.start('wanderer', 'wren'), first = PlayerView.observe(s.campaign).observations.map(o => o.text);
+    expect(first.some(t => /has anyone on the road herbs\? Her child has had a fever/.test(t))).toBe(true);
+    expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'fever__sick'))).toBe(true);
+    // It is the arrival, and is not there once the company is about its business.
+    await Opening.take(s, /^Wait a while$/);
+    expect(PlayerView.observe(s.campaign).observations.some(o => /anyone on the road herbs/.test(o.text))).toBe(false);
+  }, 60000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);
     expect(screen.party.map(m => m.name)).toEqual(['Wenna']);

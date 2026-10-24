@@ -8,6 +8,7 @@ import { Foundings } from './founding';
 import { RegionSites } from './region-sites';
 import { RegionGeography } from './region-geography';
 import tables from '../../data/origins/tables.json';
+import arrivals from '../../data/origins/wanderer/arrivals.json';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -80,7 +81,7 @@ export class Origins {
       case 'debt': return this.debt(region);
       case 'herbs': return this.herbs(region, placements);
       case 'order': return this.order(region);
-      case 'wanderer': return this.wanderer(region);
+      case 'wanderer': return this.wanderer(region, placements);
       default: return undefined;
     }
   }
@@ -148,10 +149,24 @@ export class Origins {
         found: [`region.${work.id}_found`, 'fact'], history: [`region.history_${makers.art}`, 'fact'],
         fate: [`region.history_${makers.art}_fate`, 'fact'] } };
   }
-  private static wanderer(region: Region): Bound | undefined {
+  // One who comes over the hills arrives as something is happening: the first of the town's troubles that has an
+  // arrival (data/origins/wanderer/arrivals.json), seen on the way in; having seen it, they know what the trouble is.
+  private static wanderer(region: Region, placements: Placement[]): Bound | undefined {
     const s = region.settlements[0];
     if (!s) { return undefined; }
-    const { start, approach } = this.arriving(region, s);
-    return { values: this.approach(region, s), start, imports: { approach } };
+    const { start, approach } = this.arriving(region, s), values = this.approach(region, s);
+    const met = arrivals.arrivals.map(a => ({ a, p: placements.find(p => p.scenario === a.scenario && p.rid === 'region'
+      && p.bindings.town === s.id) })).find(x => x.p);
+    if (!met) { return { values: { ...values, incident: '' }, start, imports: { approach } }; }
+    const text = JSON.stringify(this.fill(met.a.text, { home: s.name }));
+    return { values: { ...values, incident: `  Entity trouble: fact "What is the matter here". Initially Assert knows(party, trouble).\n`
+      + `  Observe incident at approach as feature when watch(clock) < 1 ${text}.` },
+      start, imports: { approach, trouble: [this.fact(met.a.fact, met.p!), 'fact'] } };
+  }
+  // A scenario's fact (module.fact, as its hooks name it) where the placement installed it: its modules take their
+  // own ids, numbered after the first instance (as WorldAssembler installs them).
+  private static fact(ref: string, p: Placement): string {
+    const [module, name] = ref.split('.') as [string, string], n = Number(p.instance.match(/\d+$/)?.[0] ?? 1);
+    return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}.${name}`;
   }
 }

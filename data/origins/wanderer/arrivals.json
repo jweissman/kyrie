@@ -1,0 +1,25 @@
+{
+  "about": "What is happening on the way in when one who has come over the hills arrives: the trouble already set in the town they come to, seen as it happens rather than heard of at the inn. Each is the trouble's own fact (its scenario's hook, module.fact), taught by seeing it, so whoever arrives knows from the first page that something here wants doing. Tried in this order; the first the town holds is the one met. {home} is the town. Written by hand.",
+  "arrivals": [
+    {
+      "scenario": "fever",
+      "fact": "fever.sick",
+      "text": "At the end of the way in a woman stands in the door of a house with its shutters drawn, and calls out to you before you are near enough to speak: has anyone on the road herbs? Her child has had a fever three days, and the herb-wife has nothing left."
+    },
+    {
+      "scenario": "brood-hollow",
+      "fact": "brood.ewes",
+      "text": "On the way in you pass a shepherd hauling what is left of a ewe off the road by its hind legs. 'That is three,' he says, to you or to the ewe. 'Out by the sink, in the night. Something with more legs than a dog.'"
+    },
+    {
+      "scenario": "quarrel",
+      "fact": "quarrel.feud",
+      "text": "You are hardly into {home} before two men are shouting at each other across the way, over some stones, and a third has one of them by the coat to keep them apart. Faces watch from the doors; nobody else goes near."
+    },
+    {
+      "scenario": "oldcoin",
+      "fact": "oldcoin.coin_talk",
+      "text": "A carter on the way in stops you to show you a coin, as if you might know it: worn thin, stamped with a king nobody has heard of. 'Paid in these again,' he says. 'Good weight, too. Who in {home} has coin like that?'"
+    }
+  ]
+}

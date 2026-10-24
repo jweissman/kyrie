@@ -212,9 +212,15 @@ Done:
   An origin's background now always holds: the letter that calls you one who reads the old script is not given to
   a mercenary. The peoples offered are Orsino's own player races, human, elf and dwarf.
 
+- An opening incident: one who comes over the hills arrives as the town's own trouble is happening, seen on the way
+  in (a mother in her doorway calling for herbs, a shepherd dragging a half-eaten ewe off the road, two men
+  shouting over some stones), and so knows of it from the first page (`data/origins/wanderer/arrivals.json`). The
+  other origins open on something pressing already: a debt due by market day, feverwort to be taken without
+  dawdling, a mother at the hearth.
+
 Not done:
-- An opening incident in motion: each origin frames the first page (a letter, a debt, a father who did not come
-  home), but nothing is yet happening when the game begins.
+- An incident for every town: where the town holds none of the troubles that have an arrival, one who comes over
+  the hills still arrives to a quiet road.
 - Conversation memory of fresh and exhausted topics beyond "asked".
 - The map's up and down between levels.
 - Pronouns in Kyr text (the priest's lines are written to need none).
