@@ -85,8 +85,11 @@ export class FieldUse {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
   }
+  // World-time conditions run down a watch. A company's own flames (a torch, a lantern, a candle; not a conjured
+  // light, which runs its course) burn only while they are wanted: where the company is is unlit, and it is not
+  // asleep. A lantern is put out to sleep, and in the day, or in a lit room.
   static advance(store: CreatureStore, elapsed: number, events: CombatEvent[],
-    scene?: { world: World; actors: CampaignActor[]; player?: string }) {
+    scene?: { world: World; actors: CampaignActor[]; player?: string; asleep?: boolean }) {
     const ids = store.snapshot.filter(c => c.state.conditions.some(s => s.clock === 'world-time')).map(c => c.id);
     if (!ids.length) { return false; }
     const lease = store.acquire(ids);
@@ -95,10 +98,13 @@ export class FieldUse {
       const place = scene?.player ? scene.world.one('at', scene.player) : undefined;
       const visible = scene?.actors.filter(a => a.id === scene.player || (place
         && scene.world.test(ModuleWriter.call('at', a.id, place)))).flatMap(a => a.members);
+      const company = scene?.actors.find(a => a.id === scene.player)?.members ?? [];
+      const dark = !!place && !scene?.asleep && scene!.world.test(ModuleWriter.call('unlit', place));
       for (const target of fighters) {
-        const start = events.length;
+        const start = events.length, own = company.includes(target.id);
         Effects.advance(target, 'world-time', { fighters, turn: elapsed, events,
-          content: new Content('clock'), abilities: [], retreat: false, location: null });
+          content: new Content('clock'), abilities: [], retreat: false, location: null },
+        id => own && !dark && this.burns(id));
         if (visible && !visible.includes(target.id)) {
           events.slice(start).forEach(e => { e.visibility = 'private'; });
         }
@@ -106,6 +112,10 @@ export class FieldUse {
       lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
     } finally { lease.release(); }
     return true;
+  }
+  private static burns(id: string): boolean {
+    const grants = Effects.status(id).grants ?? [];
+    return grants.includes('light') && grants.includes('flame');
   }
   // What a companion does with study: prepare a spell, or spend a level's advance on a quality or a new spell.
   static study(store: CreatureStore, name: string, args: string[]): CombatEvent[] {

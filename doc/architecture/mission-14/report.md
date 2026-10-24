@@ -41,7 +41,7 @@ newcomers, the successors' alterations, the argument at the shrine. Placement ne
 way told by where the fell is entered. Sub-watch time: actions take minutes (`Time 2 minutes.`), doors a minute,
 stairs two, minutes add up to watches; the clock tells the minute. Checks (`Resolve check(actor, skill,
 difficulty)`), rolled only when the result is in doubt, keyed on the world, the command and its occurrence so that
-replays roll the same. Lanterns, oil and candles that burn down. Tries offered only where a thing's look suits them.
+replays roll the same. Lanterns, oil and candles that burn down, while they are wanted. Tries offered only where a thing's look suits them.
 A level plan on the map. In play I took the first expedition end to end in ordinary play, and a second as far as
 the haulage level: the goblin chief talked round, the spring turned onto the race, a level gained resting at the
 earlier party's camp, the wheel freed and the cage ridden down.
@@ -50,6 +50,30 @@ earlier party's camp, the wheel freed and the cage ridden down.
 and its jar, the climb to the breach, the keeper shrinking from noon, the heart brought up. Each step was played,
 but with the company put in the room (the harness's `@@room`), not walked there. A whole descent to the heart in
 ordinary play was not done: it needs several expeditions of levelling, and I did not play them.
+
+**Played on: more expeditions, and what they found.** I went on from the second expedition in ordinary play, the
+record replayed each time by its labels. As I fixed what play found, the rules changed under the record, and it was
+replayed from the last point it still held: once a fall stopped being a death, Thoradin came round at the second
+expedition's camp instead of being carried home dead, and play went on from there. On that line: the bone hounds of
+the ore bin killed, the pump set, home with 751 coin of finds, a level for Thoradin at the inn, the priest won over by
+his grief; then a fifth expedition, where the mud of the long haulage felled Thoradin, who failed his save at the
+hall's rest and died; Wenna took her third level there, carried him home and had him raised. The ghouls at the walled
+stair, two of level 4, were still ahead. So the heart was still not reached in ordinary play. What the expeditions
+found was worth more than another fight, and each was fixed and pinned by a test:
+- buying a second flask of oil with a lantern in the pack stopped play outright (two choices of one name); `kyrie
+  lint` now reports any action that hides which of its items it means, and found the Long Man's bounty doing the same;
+- a fallen companion could still be asked about the fells, and answered;
+- the innkeeper went on telling of a fevered child's fever after the child had died;
+- a night at the inn counted the day's waking from bedtime, so a company was weary ten hours after sleeping;
+- a fight's experience went whole to every member (Orsino shares it), and a fall was a death (see below);
+- the smith's two torches and three flasks were all the light the village would ever sell; what is used up now comes
+  back to the shelf at dawn;
+- the drowned level drained in twenty minutes of small actions instead of two hours, and its draining was heard an
+  hour's walk away;
+- a lantern burned through every night's sleep, every vigil and every walk in daylight; a flame now burns only where
+  the company is in the dark and awake (which in turn showed that a level's unspent points were lost whenever a
+  member had anything on the clock, a torch or a poison, over a watch: the fight projection dropped them);
+- a raising did not say its price, and said "at first light" at one in the afternoon.
 
 **Weak or missing.**
 - Three purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
@@ -70,14 +94,14 @@ ordinary play was not done: it needs several expeditions of levelling, and I did
   10), coming round with 1 HP or dying where they fell. Kyrie had made every fall a death, to be raised for 300
   coin; Thoradin fell in all three fights he was in. Now a fall is Orsino's: senseless, then at the next rest in the
   deep, at a camp or in a bed, the save (`FieldUse.shock`), so long as someone is still on their feet to tend them.
-  Only the dead can be laid to rest. Orsino's code adds the
-  Constitution to the difficulty, where its own message adds it to the roll; Kyrie follows the message.
+  Only the dead can be laid to rest. Orsino's code adds the Constitution to the difficulty, where its own message
+  adds it to the roll; Kyrie follows the message.
 - Carrying now weighs (`src/rules/burden.ts`, `test/burden.test.ts`). Each kind weighs what it says, or what its
   class or category weighs; a member carries ten and twice their strength. A laden company is told so and goes at
   half its pace; the heart of the vein weighs a warrior down. Nothing is refused for weight.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
-  first more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
+  second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
   still standing as Orsino shares it; until now every member got the whole, four times Orsino's for a company of
   four. Whether undead should be worth twelve times a goblin a level in Kyrie is not settled.
 
@@ -201,7 +225,9 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 ## What I would do next
 
 1. Play the mine to the heart in ordinary play, over as many expeditions as it takes, and recalibrate from what
-   happens: companion deaths, the keeper, the drowned level's timing, how much a company can carry.
+   happens. Five expeditions in, it is at the walled stair; its ghouls, and whether a company of two can recruit a
+   third (nobody in Gothgiba would join), are what stand between it and the drowned level. Play found a dozen faults in
+   a day that no test had; more play is the best test there is.
 2. Deep purposes for the sky and stone arts (an observatory, halls), now that the generator takes all of a purpose's
    words and its own kinds of thing from its data.
 3. Split the company out of the region bundle so Begin can be composed while the player reads.

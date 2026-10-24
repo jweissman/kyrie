@@ -24,7 +24,9 @@ export class CombatProjection {
           && !(original && ItemCatalog.abilities(original)[id]
             && !original.state.learnedAbilities.includes(id))),
         conditions: structuredClone(fighter.statuses),
-        ...(original?.state.inventory ? { inventory: structuredClone(original.state.inventory) } : {}) } };
+        ...(original?.state.inventory ? { inventory: structuredClone(original.state.inventory) } : {}),
+        // What levels gained still have to spend is no part of a fight, and comes back from it as it went in.
+        ...(original?.state.advances ? { advances: structuredClone(original.state.advances) } : {}) } };
   }
   static fighter(creature: Creature, team: Team): Fighter {
     const sources = ItemCatalog.abilities(creature);

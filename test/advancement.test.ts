@@ -7,6 +7,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { CreatureStore } from '../src/creature-store';
 import { FieldUse } from '../src/campaign/field-use';
+import { CombatProjection } from '../src/combat-projection';
 import type { World } from '../src/lang/world';
 import { GeneratedWorld } from './support/generated';
 
@@ -80,6 +81,13 @@ describe('experience for a module someone else resolves', () => {
 });
 
 describe('a level gained', () => {
+  it('is still to be spent after a watch with something on the clock (a torch burning, a poison working)', () => {
+    const elen = new Content('kept').createCreature('elen', { raceId: 'human', classId: 'warrior' });
+    elen.state.experience = 1000;
+    Advancement.train(elen, 'seed');
+    const back = CombatProjection.creature(CombatProjection.fighter(elen, 'fighters'), elen);
+    expect(back.state.advances).toEqual(elen.state.advances);
+  });
   it('gives a point of any quality, and a specialist caster a spell of its tradition it can cast', () => {
     const ivo = new Content('levels').createCreature('ivo', { raceId: 'human', classId: 'mage', traits: ['evoker'] });
     ivo.state.experience = 1000;

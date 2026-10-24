@@ -230,9 +230,11 @@ export class Effects {
     const actor = context.actor;
     if (actor && actor.id !== target.id && target.hp > 0) { context.hook?.(target, 'onAttacked', actor, context); }
   }
-  // World-time conditions tick with the clock: their turn-end effects happen and their remaining time runs down.
-  static advance(target: Fighter, clock: 'world-time' | 'owner-turn', context: EffectContext) {
-    for (const active of target.statuses.filter(s => s.clock === clock)) {
+  // World-time conditions tick with the clock: their turn-end effects happen and their remaining time runs down,
+  // all but those held for now (a lantern that is not wanted).
+  static advance(target: Fighter, clock: 'world-time' | 'owner-turn', context: EffectContext,
+    held?: (id: string) => boolean) {
+    for (const active of target.statuses.filter(s => s.clock === clock && !held?.(s.id))) {
       Effects.periodic(target, active.id, active.source, context);
       active.remaining--;
     }

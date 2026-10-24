@@ -11,7 +11,7 @@ import type { CombatEvent } from '../model';
 // What the campaign gives the loop: one watch's bookkeeping before the world moves and after it has.
 export interface WatchHost extends TickHost {
   readonly persistent: boolean;
-  advanceWatch(combat: CombatEvent[]): void;
+  advanceWatch(combat: CombatEvent[], asleep?: boolean): void;
   settleWatch(combat: CombatEvent[]): void;
 }
 // A command's time passes a watch at a time: conditions run out, people act, rules fire, what the world turns on
@@ -39,9 +39,11 @@ export class WatchLoop {
       if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
       Engagement.halt(host);
     }
+    // A company asleep puts its lights out (see FieldUse.advance).
+    const asleep = ['recover', 'rough'].includes(action.resolve?.name ?? '');
     for (let tick = 0; tick < watches && !why; tick++) {
       if (journey && tick === watches - 1) { journey.arrive(); }
-      host.advanceWatch(combat);
+      host.advanceWatch(combat, asleep);
       if (host.persistent) {
         const said = happenings.length;
         CampaignTick.npcs(host, npc);

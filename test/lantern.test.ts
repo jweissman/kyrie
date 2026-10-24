@@ -14,9 +14,19 @@ class Lamp {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'wren', w.source);
-    const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
-    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__s1_shop') }]));
+    this.put(s, 'region__s1_shop');
     return s;
+  }
+  static put(s: PlaySession, place: string) {
+    const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', place) }]));
+  }
+  // The mine with nobody in it, to keep the lamp's company and no other.
+  static empty(s: PlaySession) {
+    const groups = s.campaign.module.entities.filter(e => e.type === 'group' && e.id.startsWith('region__w9_')).map(e => e.id);
+    const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply(s.campaign.world.related('at').filter(r => groups.includes(r.args[0]!))
+      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('at', ...r.args) }))));
   }
   static names(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
   static async take(s: PlaySession, pattern: RegExp) {
@@ -39,6 +49,24 @@ describe('a lantern and its oil', () => {
     expect(await Lamp.take(s, /^Fill a lantern from a flask of lamp oil and light it$/))
       .toContain('fills a lantern and lights it');
     expect(Lamp.names(s).filter(n => n.startsWith('Fill a lantern'))).toHaveLength(1);
+  }, 60000);
+  it('burns only while it is wanted: not in a lit room, nor while the company sleeps', async () => {
+    const s = await Lamp.start();
+    await Lamp.take(s, /^Buy a lantern for Wenna/);
+    await Lamp.take(s, /^Buy a flask of lamp oil for Wenna/);
+    await Lamp.take(s, /^Fill a lantern from a flask of lamp oil and light it$/);
+    const lit = () => s.campaign.readout.creatures.some(c => c.state.conditions.some(x => x.id === 'lamplit'));
+    for (let i = 0; i < 7; i++) { await Lamp.take(s, /^Wait an hour$/); }
+    expect(lit()).toBe(true);
+    // Down in the dark it burns; put out to sleep, it does not, and is there to light again on waking.
+    Lamp.put(s, 'region__s1_taproom');
+    await Lamp.take(s, /^Buy one ration/);
+    Lamp.empty(s);
+    Lamp.put(s, 'region__w9_haulage_hall');
+    await Lamp.take(s, /^Rest and recover/);
+    expect(lit()).toBe(true);
+    for (let i = 0; i < 6; i++) { await Lamp.take(s, /^Wait an hour$/); }
+    expect(lit()).toBe(false);
   }, 60000);
   it('is sold again once burned: at dawn what the smith sold and was spent is back on the shelf', async () => {
     const s = await Lamp.start();
