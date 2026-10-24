@@ -314,7 +314,7 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
@@ -841,7 +841,7 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
@@ -907,7 +907,7 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
@@ -1194,7 +1194,7 @@ Flee: Try to escape the fight (an even chance).
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
@@ -1416,7 +1416,7 @@ Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, 
 
 Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
@@ -1481,7 +1481,7 @@ Countdown: You gain ticking for 3 turns.
 
 Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
@@ -2493,11 +2493,11 @@ Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) d
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
 
 Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a reflex save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
 
@@ -2526,11 +2526,11 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
 
 Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
@@ -2557,11 +2557,11 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
 
 Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a stun save against 12 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
 

@@ -81,4 +81,8 @@ Module world_people "Company and intention" {
     On success { Retract addressed(person, actor). }
   }
   Rule conversation_ends when addressed(?p, ?c) and not together(?p, ?c) { Retract addressed(?p, ?c). }
+  // Nor does a conversation outlast whoever it was with falling, nor their turning on the company: nobody dead says
+  // goodbye.
+  Rule conversation_falls when addressed(?p, ?c) and not able(?p) { Retract addressed(?p, ?c). }
+  Rule conversation_breaks when addressed(?p, ?c) and hostile(?p, ?c) { Retract addressed(?p, ?c). }
 }

@@ -7019,7 +7019,7 @@ You gain poisoning blade for 3 turns.
 
 *Faithful · technique* · `ability:prepare_charge`
 
-You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage.
+You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
 > Prepare to charge on your next turn, gaining +2 to hit and +2 damage.
 
@@ -7171,7 +7171,7 @@ Weapon attack against one enemy; one enemy gains prone for 3 turns (a reflex sav
 
 *Faithful · technique* · `ability:taunt`
 
-One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it).
+One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
 
 > Taunt an enemy, forcing them to target you on their next turn.
 

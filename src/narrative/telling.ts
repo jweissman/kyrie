@@ -29,6 +29,8 @@ export class Telling {
       .filter(h => !(h.kind === 'part' && home.has(h.actor)))
       // Taking leave is a farewell; walking off from someone mid-word is not.
       .filter(h => h.kind !== 'farewell' || event.action.startsWith('take_leave('))
+      // The dead and the senseless say nothing at all.
+      .filter(h => !h.actor || !this.silent(campaign, h.actor))
       .filter(h => !(['thank', 'turn', 'object'].includes(h.kind) && said.includes(this.called(campaign, h.actor ?? ''))))
       .filter(h => !(h.kind === 'thank' && VoiceContext.species(campaign, h.actor ?? '')))
       .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!)
@@ -42,6 +44,12 @@ export class Telling {
       if (said) { told.push(said); Editor.said(used, said.id); }
     }
     return told;
+  }
+  // Whoever has nobody in them still standing (a sergeant cut down, a band all fallen). Not a group gone into the
+  // company: a recruit's own band is done with when they join, and they say so.
+  private static silent(campaign: Campaign, actor: string): boolean {
+    const ids = campaign.readout.inhabitants?.[actor] ?? [];
+    return ids.length > 0 && ids.every(id => (campaign.readout.creatures.find(c => c.id === id)?.state.hp ?? 1) <= 0);
   }
   private static say(campaign: Campaign, h: Happening,
     memory: { used: Set<string>; pairs: Set<string>; key: string }): Voiced | undefined {

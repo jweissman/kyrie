@@ -1534,7 +1534,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 21 | 3 | 0 | 3 | 6 |
+| 0 | 21 | 3 | 0 | 5 | 6 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -1695,6 +1695,24 @@ Go over and speak to them.
 *Kyr · rule* · `rule:world_people.conversation_ends`
 
 > When: addressed(?p, ?c); not (together(?p, ?c))
+
+> Then: Retract addressed(?p, ?c).
+
+#### conversation_falls
+
+*Kyr · rule* · `rule:world_people.conversation_falls`
+
+Nor does a conversation outlast whoever it was with falling, nor their turning on the company: nobody dead says goodbye.
+
+> When: addressed(?p, ?c); not (able(?p))
+
+> Then: Retract addressed(?p, ?c).
+
+#### conversation_breaks
+
+*Kyr · rule* · `rule:world_people.conversation_breaks`
+
+> When: addressed(?p, ?c); hostile(?p, ?c)
 
 > Then: Retract addressed(?p, ?c).
 
