@@ -5,6 +5,7 @@
       "role": "carrier", "background": "laborer", "painting": "peasant",
       "road": ["{Name} the carrier is walking at the head of a cart-horse, a cart of sacks and barrels behind, on {their} way to {to}.", "A carrier's cart is grinding along the road toward {to}, {Name} on the board with the reins slack, half asleep."],
       "rest": ["{Name}, the carrier, is in from the road, with {their} boots off and a pot in front of {them}.", "{Name} the carrier is seeing to {their} horse before {they} [see|sees] to {themself}."],
+      "morning": "{Name} the carrier is out in the yard in the cold, putting the horse to the cart for the road.",
       "tracks": "Wheel-ruts, fresh today and deep with a load, go along the road toward {to}.",
       "going": "'{to},' says {Name}. 'Same as yesterday, the other way. Salt one way, wool the other, and the horse knows the road better than I do.'",
       "trouble": { "kind": "cart",
@@ -19,6 +20,7 @@
       "role": "drover", "background": "herdsman", "painting": "shepherd",
       "road": ["{Name} is driving a dozen red cattle along the road toward {to}, walking behind them with a stick {they} never [use|uses].", "Cattle fill the road from hedge to hedge, going to {to}, and somewhere among them is {Name}, the drover, whistling."],
       "rest": ["{Name}, the drover, has the cattle penned for the night and {themself} by the fire.", "{Name} the drover is counting money on the table, twice, and then a third time to be sure."],
+      "morning": "{Name} the drover is out at the pens, counting the cattle before the road, and not liking the count.",
       "tracks": "The road is churned by cattle, all going toward {to}, and not long since: some of it is still warm.",
       "going": "'{to}, for the market,' says {Name}. 'They don't want to go. They never want to go. They always go.'",
       "trouble": { "kind": "stray",
@@ -33,6 +35,7 @@
       "role": "pedlar", "background": "tinker", "painting": "peddler",
       "road": ["A pedlar is walking toward {to} under a pack twice the size of {their} back, with pans hung off it that ring like bells: {Name}.", "{Name}, a pedlar, is sitting on a milestone on the road to {to}, rearranging a tray of small things to look like more of them."],
       "rest": ["{Name}, the pedlar, has {their} tray open on a bench, in case.", "{Name} the pedlar is selling a ribbon to someone who did not know they wanted one."],
+      "morning": "{Name} the pedlar is packing the tray away for the road, everything in its own place.",
       "tracks": "A tin button lies in the road, the kind pedlars sell by the card. Someone's pack has a hole in it.",
       "going": "'{to}, then wherever's next,' says {Name}. 'There's always a next. That's the trade.'",
       "sells": [["torch", 2, 3], ["rope", 2, 1], ["bandages", 1, 2], ["herbs", 2, 2]]
@@ -41,6 +44,7 @@
       "role": "pilgrim", "background": "acolyte", "painting": "pilgrim",
       "road": ["A pilgrim is walking to {to} with a staff and a scallop-shell hat, slowly, as if every step had been promised: {Name}.", "{Name}, a pilgrim, is resting on the bank by the road to {to} with {their} shoes off and {their} feet in the grass."],
       "rest": ["{Name}, the pilgrim, is eating bread in a corner with great attention, as if it were part of the pilgrimage.", "{Name} the pilgrim is asleep sitting up."],
+      "morning": "{Name} the pilgrim stands in the door with a staff, looking at the sky to see what the day will be.",
       "tracks": "Someone has left a twist of grass on the milestone, knotted, the way pilgrims do when they pass.",
       "going": "'To {to}, and the shrine there,' says {Name}. 'And back again, and then to the next. I promised. I didn't say how many.'"
     },
@@ -48,6 +52,7 @@
       "role": "messenger", "background": "servant", "painting": "servant",
       "road": ["A messenger is going hard toward {to}, half running, with a satchel held to {their} side: {Name}, who does not stop.", "{Name}, a messenger, overtakes you at a trot on the road to {to}, and calls back over {their} shoulder that {they} cannot stop."],
       "rest": ["{Name}, the messenger, is asleep with {their} head on the satchel, which {they} [have|has] not let go of.", "{Name} the messenger eats standing up, as if the road might leave without {them}."],
+      "morning": "{Name} the messenger is already at the door, the satchel on, eating as {they} [go|goes].",
       "tracks": "Footprints go along the soft edge of the road toward {to}, far apart: someone running, and not for pleasure.",
       "going": "'{to}, with a letter, and I'm late,' says {Name}. 'I'm always late. They write them late.'"
     },
@@ -55,6 +60,7 @@
       "role": "carter, moving house", "background": "farmer", "painting": "peasant",
       "road": ["A family is moving house along the road to {to}: {Name} pushing a handcart with everything they own on it, and three children walking beside it carrying the rest.", "{Name}'s handcart has stopped on the road to {to} while a child is found who was not where everyone thought."],
       "rest": ["{Name} and the children have the corner by the fire, and the children have everyone else's attention.", "{Name} is mending a handcart wheel while the children explain to strangers where they are moving to."],
+      "morning": "{Name} is loading the handcart in the yard, and the children are helping, more or less.",
       "tracks": "A child's wooden horse lies in the road, dropped, facing {to}. Somebody will be missing it about now.",
       "going": "'{to},' says {Name}. 'My sister's there. She said come. She may not have meant it, but she said it.'"
     }

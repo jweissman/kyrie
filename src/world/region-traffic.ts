@@ -14,8 +14,8 @@ import folk from '../../data/generation/scenes/folk.json';
 
 interface Trouble { kind: string; seen: string; act: string; about: string; done: string; freed: string;
   reward: number }
-interface Kind { role: string; background: string; painting: string; road: string[]; rest: string[]; going: string;
-  tracks: string; trouble?: Trouble; sells?: [string, number, number][] }
+interface Kind { role: string; background: string; painting: string; road: string[]; rest: string[]; morning?: string;
+  going: string; tracks: string; trouble?: Trouble; sells?: [string, number, number][] }
 interface Traveller { id: string; name: string; pronoun: string; kind: Kind; road: Road; draw: Draw }
 
 // Who is on the roads. One traveller to a road (a carrier, a drover, a pedlar, a pilgrim, a messenger, a family
@@ -69,7 +69,11 @@ export class RegionTraffic {
           + ` Assert journeysTo(${t.id}, ${back.id}_green). }`,
         `  Observe ${t.id}_road${i} near ${t.id} of ${t.id} when at(${t.id}, ${way}) and journeysTo(${t.id}, ${to.id}_green)`
           + ` and not inTrouble(${t.id}) ${q(this.say(t, t.draw.pick(t.kind.road), { to: to.name }))}.`]),
-      `  Observe ${t.id}_rest near ${t.id} of ${t.id} when not at(${t.id}, ${way}) ${q(this.say(t, t.draw.pick(t.kind.rest), {}))}.`,
+      // At the inn of an evening and a night; in the morning, making ready for the road.
+      `  Observe ${t.id}_rest near ${t.id} of ${t.id} when not at(${t.id}, ${way}) and (hour(clock) >= 15 or hour(clock) < 6)`
+        + ` ${q(this.say(t, t.draw.pick(t.kind.rest), {}))}.`,
+      `  Observe ${t.id}_morning near ${t.id} of ${t.id} when not at(${t.id}, ${way}) and hour(clock) >= 6 and hour(clock) < 15`
+        + ` ${q(this.say(t, t.kind.morning ?? t.kind.rest[0]!, {}))}.`,
       // What they leave behind them: the day they have gone by, the road shows which way.
       ...ends.map(([to, back], i) => `  Observe ${t.id}_tracks${i} at ${way} as sign when not at(${t.id}, ${way})`
         + ` and journeysTo(${t.id}, ${back.id}_green) and hour(clock) >= 15 ${q(this.say(t, t.kind.tracks, { to: to.name }))}.`)];

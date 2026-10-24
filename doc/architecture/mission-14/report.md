@@ -202,7 +202,8 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   Arlen rose to level 2 and Wenna will rise at the next rest. Faults found and fixed:
   - the widow on her step was "the woman in black" on the page and in one choice, and "Talk to Mark" in another. She
     is the woman in black in all of them now;
-  - a drover resting at the inn gave news of the town he sat in; resting, a traveller tells of where they came from;
+  - a drover resting at the inn gave news of the town he sat in, and had his cattle "penned for the night" at eight
+    in the morning. Resting, a traveller tells of where they came from, and of a morning makes ready for the road;
   - what lies in wait (the ooze, cave spiders) gave no sign before it struck. Now someone who reads sign sees its
     slime at the mouth of the way. Bands that move into a cleared room are heard as the first ones were;
   - a fight told after it said "Spirit 1 falls"; it says "The first of the drowned falls";
