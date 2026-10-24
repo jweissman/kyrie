@@ -25,9 +25,15 @@ export class Narration {
     if (!blows || clean.length <= 6) { return clean; }
     const told = /falls|wins|withdraw|defeated|experience|dies|reaches level|flees|gets away|(is|are) down|at you/;
     return clean.filter((l, i) => told.test(l) || this.fell(clean, i + 1)
-      || (this.fell(clean, i + 2) && / takes \d+ /.test(clean[i + 1] ?? ''))).map(l => l.replace(/ \(d20 [^)]*\)/, ''));
+      || (this.fell(clean, i + 2) && this.struck(l, clean[i + 1]))).map(l => l.replace(/ \(d20 [^)]*\)/, ''));
   }
   private static fell(lines: string[], i: number): boolean { return / falls\.$/.test(lines[i] ?? ''); }
+  // The strike the damage after it came from: one that hits whoever takes it ("Rharash hits the mud." before "The mud
+  // takes 11 slashing damage"), not whatever else happened just before.
+  private static struck(line: string, damage: string | undefined): boolean {
+    const target = / takes \d+ /.test(damage ?? '') ? damage!.split(' takes ')[0]! : '';
+    return !!target && line.toLowerCase().includes(`hits ${target.toLowerCase()}`);
+  }
   static sentence(line: string): string { return line.charAt(0).toUpperCase() + line.slice(1); }
   // "Elen gains 10 experience. Bran gains 10 experience." → "Elen and Bran each gain 10 experience." (and the same for
   // experience for something seen through: "…each gain 300 experience: the fever, seen through.")

@@ -8,6 +8,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
+import { Narration } from '../src/presentation/narration';
 
 // A fight the company chose, then one that came at it straight after, told as one: found in cov2's mine, where the
 // company attacked the mud in the haulage way and the Delvers' bone hounds, who had stood their ground, came at it
@@ -37,4 +38,16 @@ describe('two fights in one', () => {
     expect(lines.some(l => /bone hounds/.test(l))).toBe(true);
     expect(lines.filter(l => /^Your company prevails/.test(l))).toEqual([]);
   }, 60000);
+  // The fight's own page closes as its last blow lands, so the account after it keeps the blow that felled each who
+  // fell: the strike on whoever took the damage, and not whatever else came just before (Mabon missing a hound).
+  it('keeps the blow that felled each who fell, and not what happened just before it', () => {
+    const lines = ['Initiative: Wenna, the first of the pack, Mabon.', 'Mabon misses the first of the pack.',
+      'Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
+      'Rharash hits the first of the pack (d20 15, needing 9: THAC0 less AC 11 less to-hit 4).',
+      'The first of the pack takes 1 slashing damage (0 HP left).', 'The first of the pack falls.',
+      'Your company wins the encounter.'];
+    expect(Narration.tidy(lines, lines.length)).toEqual(['Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
+      'Rharash hits the first of the pack.', 'The first of the pack takes 1 slashing damage (0 HP left).',
+      'The first of the pack falls.', 'Your company wins the encounter.']);
+  });
 });
