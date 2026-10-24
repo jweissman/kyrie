@@ -26,7 +26,8 @@ export class SettlementWriter {
   // What the settlement has besides its heart.
   static rooms(region: Region, s: Settlement): { taproom: boolean; shrine: boolean; shop: boolean } {
     const f = Foundings.of(region, region.settlements.indexOf(s));
-    return { taproom: f.keeping !== 'none', shrine: f.holy !== 'wayside', shop: f.selling === 'shop' };
+    return { taproom: f.keeping !== 'none', shrine: Foundings.holyPlace(region, s) === `${s.id}_shrine`,
+      shop: f.selling === 'shop' };
   }
   // Where the one who keeps travellers, the god or the goods stands: in their own room, or on the heart.
   static standing(region: Region, s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller'): string {

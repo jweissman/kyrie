@@ -36,6 +36,10 @@ export class Foundings {
     selling: { door: { role: string } } };
   private static readonly cached = new WeakMap<Region, Founding[]>();
   static of(region: Region, i: number): Founding { return this.all(region)[i]!; }
+  // Where a settlement keeps its god: its shrine, or its heart when all it has is a cross by the way.
+  static holyPlace(region: Region, s: Settlement): string {
+    return this.of(region, region.settlements.indexOf(s)).holy !== 'wayside' ? `${s.id}_shrine` : `${s.id}_green`;
+  }
   static all(region: Region): Founding[] {
     const known = this.cached.get(region);
     if (known) { return known; }

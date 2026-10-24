@@ -23,7 +23,7 @@ export class DeepArgument {
       `  Relation ${w}_argued(group, entity).`,
       `  Entity ${w}_grief: fact ${q(`{${p}}'s brother went down into ${name} and did not come back up. What {${p}} says of ${said.opened} is grief as much as doctrine.`)}.`,
       ...this.stand({ w, p, name, said }), ...this.moves({ w, p, site: layout.site, said }),
-      ...this.after({ w, p, wall, town: values.town, said })];
+      ...this.after({ w, p, wall, holy: values.holy ?? `${values.town}_shrine`, said })];
   }
   // What the priest holds, and says once asked; and what they say once won over.
   private static stand(at: { w: string; p: string; name: string; said: Said }): string[] {
@@ -95,14 +95,14 @@ export class DeepArgument {
   }
   // What follows: the stair opened against the priest's word, or a promise broken once the heart is brought up,
   // shuts the shrine to the company; it is seen there, and said.
-  private static after(at: { w: string; p: string; wall: string; town: string; said: Said }): string[] {
-    const { w, p, wall, town, said } = at, q = this.q;
+  private static after(at: { w: string; p: string; wall: string; holy: string; said: Said }): string[] {
+    const { w, p, wall, holy, said } = at, q = this.q;
     return [`  Rule ${w}_defied when ${w}_heard(${p}) and not ${w}_won(${p}) and state(${wall}, broken)`
       + ` and not refusesService(${p}, party) { Assert refusesService(${p}, party). }`,
       `  Rule ${w}_word_broken when ${w}_promised(${p}) and ${w}_raised() and state(${wall}, broken)`
-        + ` and at(party, ${town}_shrine) and not refusesService(${p}, party)`
+        + ` and at(party, ${holy}) and not refusesService(${p}, party)`
         + ` says ${q(`{${p}} looks past you at the door. 'You promised to shut it again,' says {${p}}, and nothing more to you, then or after.`)}`
         + ` { Assert refusesService(${p}, party). }`,
-      `  Observe ${w}_shut at ${town}_shrine when refusesService(${p}, party) ${q(`{${p}} will not look at you. This shrine is shut to whoever opened ${said.opened} against its word.`)}.`];
+      `  Observe ${w}_shut at ${holy} when refusesService(${p}, party) ${q(`{${p}} will not look at you. The shrine is shut to whoever opened ${said.opened} against its word.`)}.`];
   }
 }

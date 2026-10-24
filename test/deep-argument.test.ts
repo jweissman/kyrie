@@ -80,7 +80,7 @@ describe('the walled stair, argued at the shrine', () => {
     expect(Shrine.test(s, 'refusesService', Shrine.priest, 'party')).toBe(true);
     expect(Shrine.names(s).some(n => /^Ask Baern for the shrine's care/.test(n))).toBe(false);
     expect(await Shrine.take(s, /^Wait a while$/)).toBeDefined();
-    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('This shrine is shut to whoever');
+    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('The shrine is shut to whoever');
   }, 90000);
   it('holds the company to its word: the stair opened against it, or a promise broken, shuts the shrine', async () => {
     const defied = await Shrine.start();

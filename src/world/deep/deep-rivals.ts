@@ -43,13 +43,15 @@ export class DeepRivals {
     return [...this.head(r, power, purpose), ...this.delving(r, power, layout),
       ...this.end(r, power, { layout, raises: !!(purpose.objective.goal && purpose.objective.raised) })];
   }
-  // The head, at the settlement's heart, with the coin to pay for the prize: what they want, and an advance.
+  // The head, at the settlement's heart, with the coin to pay for the prize: what they want, and an advance. Of the
+  // settlement's own people, and of the power's calling if that people has it (an elf is no cleric), else their own.
   private static head(r: Rivals, power: Power, purpose: DeepPurpose): string[] {
-    const q = this.q, { id, head, seat, values } = r, w = values.w!;
+    const q = this.q, { id, head, seat, values } = r, w = values.w!, folk = seat.folk ?? 'human';
+    const calling = power.calling && Canon.ancestries[folk]?.classes.includes(power.calling) ? power.calling : '';
     const story = purpose.objective.goal ? ` Assert knows(actor, ${w}_story).` : '';
     return [`  Entity ${id}: ambition ${q(this.fill(power.band, r))}.`,
       `  Person ${head} ${q(power.office)} at ${seat.id}_green { Role ${q(this.fill(power.role, r))}.`
-        + ` Ancestry ${seat.folk ?? 'human'}.${power.calling ? ` Calling ${power.calling}.` : ''} Peaceable.`
+        + ` Ancestry ${folk}.${calling ? ` Calling ${calling}.` : ''} Peaceable.`
         + ` Manner ${power.manner}. }`,
       `  Initially Assert pursues(${head}, ${id}). Initially Set stageDue(${id}) to ${this.first}.`
         + ` Initially Set pace(${id}) to ${this.pace}.`,

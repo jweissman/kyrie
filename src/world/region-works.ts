@@ -21,6 +21,7 @@ import { RegionRenewal } from './region-renewal';
 import { RegionMarvels } from './region-marvels';
 import { RegionRiddles } from './region-riddles';
 import { Draw } from './land/draw';
+import { Foundings } from './founding';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
 import type { Region, Site } from './region-writer';
@@ -103,6 +104,7 @@ export class RegionWorks {
     const road = RegionGeography.roads(region).find(r => r.from.id === town.id || r.to.id === town.id);
     const next = road ? (road.from.id === town.id ? road.to : road.from) : town;
     return { town: town.id, townname: town.name, keeper: `${town.id}_innkeeper`, priest: `${town.id}_priest`,
+      holy: Foundings.holyPlace(region, town),
       merchant: `${town.id}_merchant`, teller: `${next.id}_traveller`, nextname: next.name,
       where: RegionSites.where(RegionGeography.seats(region).find(s => s.site === site)!, region) };
   }

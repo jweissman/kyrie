@@ -489,6 +489,14 @@ Not done:
 orsino, playtext and more); utilities live in `scripts/`. `test/repository.test.ts` checks this, and the project
 contract is [`doc/CONTRACT.md`](../../CONTRACT.md).
 
+Every generated world must start. I started a hundred and ten (`cov0` to `cov109`, the first thirty by each of the
+five origins), and two of the first thirty would not: in `cov2` the town nearest the mine keeps its god at a cross
+by the way and has no shrine, but the priest's word on the walled stair was kept at a shrine all the same; in `cov24`
+the brothers' prior was of the town's elves, and an elf is no cleric. The shrine's rules now stand where the priest
+does, the order's novice begins there too, and a power's head takes their people's calling when the power's is not
+one of them (`test/world-starts.test.ts`). All hundred and ten start. All of them have a deep site: of the first
+forty, sixteen a mine, thirteen a barrow, six a singing hall and five cisterns.
+
 ## Performance and persistence
 
 Measured in Chromium on this machine, nothing else running (`scratchpad m12/latency2.ts`):
