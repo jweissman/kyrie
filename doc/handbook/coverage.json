@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 185,
+    "kyr": 186,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 180,
+      "kyr": 181,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -11284,6 +11284,13 @@
   {
    "id": "rule:world_passages.scenery",
    "title": "scenery",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.roadway",
+   "title": "roadway, tookWay",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"

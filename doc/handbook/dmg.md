@@ -1366,13 +1366,19 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 29 | 2 | 23 | 0 | 6 |
+| 8 | 31 | 2 | 23 | 0 | 6 |
 
 #### scenery
 
 *Kyr · kind* · `rule:world_passages.scenery`
 
 What is seen and changes but is not handled: the weather, a river, a beacon on a far hill.
+
+#### roadway, tookWay
+
+*Kyr · relation(passage); relation(group, passage)* · `rule:world_passages.roadway`
+
+The ways that are road (a road, a bridge, a ford on one), and the way a company last went by.
 
 #### travelMinutes
 
@@ -1456,7 +1462,7 @@ A thing hidden until something is known is not there, for a company that does no
 
 > Needs: able(actor); at(actor, origin); connects(way, origin, destination); passable(way, actor); mobile(actor)
 
-> Then: Assert at(actor, destination).
+> Then: Assert at(actor, destination). Assert tookWay(actor, way).
 
 #### slip past
 
@@ -1470,7 +1476,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 > Needs: able(actor); at(actor, origin); connects(way, origin, destination); guards(gatekeeper, way); able(gatekeeper); state(gatekeeper, ?t); blocksWhen(gatekeeper, ?t); not (tolerates(gatekeeper, actor)); at(gatekeeper, origin)) or (at(gatekeeper, destination); capable(actor, stealth); visibleTo(way, actor); not (barred(way)); not (hazardous(way)); equippedFor(actor, way); mobile(actor)
 
-> Then: Assert at(actor, destination).
+> Then: Assert at(actor, destination). Assert tookWay(actor, way).
 
 #### risk
 
@@ -1482,7 +1488,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 > Needs: able(actor); at(actor, origin); connects(way, origin, destination); on(trap, way); state(trap, ?s); harmsWhen(trap, ?s); hurtsWith(trap, blow); hurtsInto(trap, after); memberOf(victim, actor); awake(victim); visibleTo(way, actor); not (obstructed(way)); equippedFor(actor, way); mobile(actor)
 
-> Then: Assert state(trap, after). Assert at(actor, destination).
+> Then: Assert state(trap, after). Assert at(actor, destination). Assert tookWay(actor, way).
 
 #### change thing
 

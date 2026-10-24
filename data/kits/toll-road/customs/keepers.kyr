@@ -20,7 +20,7 @@ Module toll_customs "Customs-men on the road" {
   Initially Set quantity(chief, rations) to 4.
 
   // The toll: three coin, by right, written in the ledger. Running it is breaking the lord's law.
-  Relation stopped(group).
+  Relation stopped(group). Relation stoppedFrom(group, passage).
   Rule stops when at(party, post) and tolls(keepers, post) and able(keepers) and not tolerates(keepers, party)
     and not stopped(party) and not hostile(chief, party)
     says "The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'" {
@@ -35,9 +35,19 @@ Module toll_customs "Customs-men on the road" {
     Result "The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.".
   }
   // Running the toll, or turning on the lord's men, puts the company outside the law the settlement keeps.
-  Rule ran_toll when stopped(party) and not at(party, post) and not tolerates(keepers, party) and tolls(keepers, post) {
+  // Where the company came to the bar from, by the way it came.
+  Rule came_by when stopped(party) and at(party, post) and tookWay(party, ?in) and not stoppedFrom(party, ?in) {
+    Assert stoppedFrom(party, ?in).
+  }
+  // Running the toll is going on along the road past the bar without paying; turning back, or off the road, is not.
+  // Told once the company is at the far end of the way it took from the bar, not while it is still on it.
+  Rule ran_toll when stopped(party) and not tolerates(keepers, party) and tolls(keepers, post) and tookWay(party, ?out)
+    and at(party, ?there) and connects(?out, post, ?there) and roadway(?out) and not stoppedFrom(party, ?out) {
     Retract stopped(party). Assert hostile(chief, party). Assert refusesService(provider, party).
   }
+  Rule left_bar when stopped(party) and tookWay(party, ?w) and at(party, ?there) and connects(?w, post, ?there)
+    and (stoppedFrom(party, ?w) or not roadway(?w)) { Retract stopped(party). }
+  Rule forgot_way when stoppedFrom(party, ?w) and not stopped(party) { Retract stoppedFrom(party, ?w). }
   Rule paid_once when tolerates(keepers, party) and not at(party, post) {
     Retract tolerates(keepers, party). Retract tolerates(chief, party). Retract stopped(party).
   }

@@ -49,6 +49,7 @@ export class WorldConstructs {
     if (!this.wayKinds.includes(kind)) { throw new Error(`Unknown passage kind ${kind} for ${p.id}`); }
     this.entity(module, `way_${kind}`, 'waykind', kind);
     this.assert(module, 'passageKind', p.id, `way_${kind}`);
+    if (['road', 'bridge', 'ford'].includes(kind)) { this.assert(module, 'roadway', p.id); }
     module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelTime', args: [p.id] },
       value: { kind: 'number', value: p.ticks ?? 1 } });
     // A door is stepped through in a minute and a stair climbed in two, unless the author says how long it takes.
