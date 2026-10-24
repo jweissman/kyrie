@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
@@ -91,13 +92,19 @@ export class PlaceStage {
       <div className={`door side-${door.side}${door.far ? ' far' : ''}`} style={{ ['--at' as string]: at }}
         data-exit={exit.id}>
         <Act.View choice={first!} draw={draw} className="door-act">{head}</Act.View>
-        {rest.map(c => <Act.View key={c.id} choice={c} draw={draw} className="door-also">
+        <PlaceStage.Opened choice={first!} draw={draw} />
+        {rest.map(c => <Fragment key={c.id}><Act.View choice={c} draw={draw} className="door-also">
           {Typography.curl(PlaceStage.also(c.label))}{c.disabled && <small className="why"> · {c.disabled}</small>}
-        </Act.View>)}
+        </Act.View><PlaceStage.Opened choice={c} draw={draw} /></Fragment>)}
       </div>
     );
   }
   private static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
+  // What a thing on the way opens to, once opened (looking at the switch: looking closer, prodding it), under it.
+  static Opened({ choice: c, draw }: { choice: Choice; draw: Draw }) {
+    return c.children && draw.open.has(c.id) ? <Act.List choices={c.children} draw={draw} className="column door-opened" />
+      : null;
+  }
   // Someone here: their painting, their name and what they are, and what they are doing; the whole of it is the way
   // to speak with them. Someone who will not speak (angry, asleep) shows what can still be done with them. One with no
   // likeness that fits (a band of goblins) is a card with their name, not an empty frame.

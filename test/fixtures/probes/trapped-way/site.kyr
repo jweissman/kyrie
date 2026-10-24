@@ -1,0 +1,22 @@
+Module trappedway "A way with something laid across it" {
+  Place field "a field" is wilderness.
+  Place yard "the yard" is room within field at 0, 0.
+  Place shed "the shed" is room within field at 1, 0.
+  Passage gate "the gate" is path between yard and shed taking 2 minutes.
+  Company party "You" of 1 at yard.
+  // A wire across the gate, as the deep sites lay their traps: looked at closely, it is understood; understood, it
+  // can be cut by whoever knows traps.
+  Hazard gate_trap "the tripwire" means "Deal (1d4) piercing damage to ally unless dexterity save against (12).".
+  Discovery gate_snare_known "A wire is strung across the gateway at the height of an ankle, and runs off into the hedge to something that would fall.".
+  Thing gate_snare "the tripwire" on gate {
+    State primed dangerous "Something catches the light low across the gateway: a wire.".
+    State sprung "The tripwire has gone off, and is spent.".
+    State made_safe "The tripwire is made safe. Whoever goes by now goes by unharmed.".
+    Change cut "Cut the wire where it is tied off" from primed to made_safe needing trapwork after learning gate_snare_known.
+    Hurts with gate_trap when primed then sprung.
+  }
+  Observe gate_snare_read beside gate of gate_snare when tried(gate_snare, looking) and state(gate_snare, primed) "A wire is strung across the gateway at the height of an ankle, and runs off into the hedge to something that would fall." teaches gate_snare_known.
+  Observe yard_scene at yard when true "A muddy yard, and a gate in the hedge.".
+  Observe shed_scene at shed when true "A shed of tarred planks.".
+  Goal false.
+}

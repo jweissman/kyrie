@@ -138,6 +138,9 @@
 .stage .door-act[aria-disabled="true"] { color: var(--faint); }
 .stage .door-also { display: block; font-size: 13.5px; margin: 0 0 0 4px; color: var(--grey); }
 .stage .door-also.shut { color: var(--faint); cursor: default; } .stage .door-also .why { font-size: 12.5px; }
+/* What a thing on the way opens to (looking closer, prodding it), under the thing, so the look answers where it was asked. */
+.stage .door .door-opened { display: block; margin: 2px 0 4px 16px; padding-left: 8px; border-left: 1px solid var(--accent); }
+.stage .door .door-opened .act { display: block; font-size: 13.5px; text-align: left; }
 .stage .door.side-n, .stage .door.side-s { left: var(--at); max-width: 320px; text-align: center; }
 .stage .door.side-n { top: 0; transform: translate(-50%, calc(-100% - 4px)); }
 .stage .door.side-s { top: 100%; transform: translate(-50%, 4px); }
