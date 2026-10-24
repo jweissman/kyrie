@@ -1,4 +1,5 @@
 import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list';
+import { ChoiceTree } from '../../src/ui/choice-tree';
 import { SceneModel, type Scene } from '../../src/ui/scene';
 import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
 import type { Frame } from '../engine/protocol';
@@ -56,10 +57,9 @@ export class MenuModel {
     ...this.way('ways', 'Go', scene.near), ...this.way('ways-out', 'Set out', scene.far),
     ...scene.you.length ? [{ id: 'company', title: 'Yourself', tone: 'company' as const, glyph: '○', choices: scene.you }] : []];
   }
-  // The choices beside one: those it would close by opening (one open thing per subject at a time).
+  // The choices beside one: those it would close by opening (see ChoiceTree).
   static siblings(menu: Menu, id: string): string[] {
-    const subject = menu.scene?.subjects.find(s => s.choices.some(c => c.id === id));
-    return (subject?.choices ?? menu.sections.flatMap(s => s.choices)).map(c => c.id).filter(x => x !== id);
+    return ChoiceTree.siblings(menu.scene?.subjects ?? [], menu.sections, id);
   }
   // What the player chose, as they would say it: said beside Wat, "Ask about Father" is "Ask Wat about Father";
   // beside the dog, "Make much of" is "Make much of Fly".
