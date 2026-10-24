@@ -598,6 +598,9 @@ structural ones. I repaired these, which were mine or small:
   a session is extended with the frontier (`PlaySession.extend`), and replaying the same commands draws the same
   countries (`test/frontier-replay.test.ts`, walking thorn to its march-stone and replaying in a fresh session). The
   terminal's replay still cannot start a generated world from a transcript at all.
+- **Lint could not stand as an author's check** (§E-bis): an error in any campaign but the game's own left it
+  saying 0, and run from anywhere but the game's directory it could not find the shared rules. An error now fails
+  it in any campaign, and the shared rules are the game's, wherever it is run from (`test/lint-outside.test.ts`).
 
 Not done, and the review is right that they matter: modules are not protected from the shared rules growing
 (F-02); prose can still name what has moved (F-03, now checked only where it was found); the company's knowledge is

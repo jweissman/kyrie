@@ -96,7 +96,9 @@ export class KyrLint {
       for (const f of findings.filter(x => verbose || recommended || x.level === 'error')) {
         console.log(`  ${f.level} ${f.check}: ${f.where === where ? '' : `${f.where}: `}${f.message}`);
       }
-      if (recommended && findings.length) { failed = true; }
+      // An error fails the lint in any campaign (an author's own, run as a check before play); recommended content
+      // must be clean of warnings too.
+      if (errors || (recommended && findings.length)) { failed = true; }
     }
     return failed ? 1 : 0;
   }
