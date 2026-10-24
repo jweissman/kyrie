@@ -85,7 +85,11 @@ export class MapView {
     }, [hx]);
     return (
       <figure className="local">
-        <p className="label">{chart.level ? Words.upper(chart.level) : 'Here'}</p>
+        {(chart.levels?.length ?? 0) > 1
+          ? <ol className="levels label" aria-label="The levels you have been on, top to bottom">
+            {chart.levels!.map(l => <li key={l.name} aria-current={l.here ? 'location' : undefined}>{Words.upper(l.name)}</li>)}
+          </ol>
+          : <p className="label">{chart.level ? Words.upper(chart.level) : 'Here'}</p>}
         <div className="local-sheet" ref={sheet}>
           <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} role="img" aria-label="The place you are in">
             {chart.edges.map(e => { const a = where.get(e.from), b = where.get(e.to); return a && b
@@ -94,13 +98,16 @@ export class MapView {
             {chart.places.map(p => { const c = where.get(p.id)!; return <g key={p.id}>
               <rect className={`room${p.here ? ' here' : ''}${p.visited || p.here ? '' : ' unvisited'}`} x={c.x - 7} y={c.y - 7}
                 width={14} height={14} />
-              <text x={c.x} y={c.y + 24} textAnchor="middle">{MapView.wrap(Typography.curl(Words.upper(p.name)), 19)
+              <text x={c.x} y={c.y + 24} textAnchor="middle">{MapView.wrap(Typography.curl(MapView.rise(p)
+                + Words.upper(p.name)), 19)
                 .map((line, i) => <tspan key={i} x={c.x} dy={i ? 14 : 0}>{line}</tspan>)}</text></g>; })}
           </svg>
         </div>
       </figure>
     );
   }
+  // A way to another level of the site says which way it goes: up, or down.
+  static rise(p: { rise?: 'up' | 'down' }): string { return p.rise === 'down' ? '↓ ' : p.rise === 'up' ? '↑ ' : ''; }
   // A name in lines of about so many letters, broken between words.
   static wrap(text: string, width: number): string[] {
     const lines: string[] = [];

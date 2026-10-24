@@ -70,14 +70,31 @@ export class ChartModel {
         // A way out to a settlement is named for it; one out into open country or into a site, for the place it
         // reaches (the crypt, the bailey), since a site has more than one door.
         const open = !there || ['wilderness', 'region', 'site', 'level'].includes(there.space?.kind ?? '');
-        const name = (open ? this.entities.get(outside)?.name : there.name) ?? outside;
+        const name = (open ? this.entities.get(outside)?.name : there.name) ?? outside, rise = this.rise(home, there);
         places.push({ id, name, x: inside.x + dx * step,
-          y: inside.y + dy * step, visited: false, here: false, area: '', external: true });
+          y: inside.y + dy * step, visited: false, here: false, area: '', external: true, ...rise ? { rise } : {} });
       }
       edges.push({ ...this.edge(w, visited), from: inside.id, to: id });
     }
-    const level = home?.space?.kind === 'level' ? { level: home.name } : {};
+    const level = home?.space?.kind === 'level' ? { level: home.name, levels: this.levels(home, visited) } : {};
     return { ...(places.length ? { chart: { places, edges, ...level } } : {}), ...this.region(ways, visited, here) };
+  }
+  // A site's levels, top to bottom, as the company knows them: each it has stood on.
+  private levels(home: Entity, visited: Set<string>): NonNullable<Chart['levels']> {
+    const on = new Set([...visited].map(id => this.floor(id)?.id));
+    return this.stack(home).filter(l => on.has(l.id) || l.id === home.id)
+      .map(l => ({ name: l.name, here: l.id === home.id }));
+  }
+  private stack(level: Entity): Entity[] {
+    return [...this.entities.values()].filter(e => e.space?.kind === 'level' && e.space.parent === level.space?.parent);
+  }
+  // Whether a way out of one level of a site goes up or down: to a level above it in the site, or below.
+  private rise(home: Entity | undefined, there: Entity | undefined): 'up' | 'down' | undefined {
+    if (home?.space?.kind !== 'level' || there?.space?.kind !== 'level' || there.space.parent !== home.space.parent) {
+      return undefined;
+    }
+    const stack = this.stack(home);
+    return stack.indexOf(there) > stack.indexOf(home) ? 'down' : 'up';
   }
   private edge(w: WayInfo, visited: Set<string>) {
     return { id: w.passage, name: w.name, from: w.from, to: w.to, status: w.status, oneWay: w.oneWay,

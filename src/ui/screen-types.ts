@@ -89,11 +89,14 @@ export interface Screen {
   unplaced: Act[];
 }
 export interface Chart {
+  // A way out of the plan is drawn as a place beyond it (external); one to another level of the site goes up or down.
   places: { id: string; name: string; x: number; y: number; visited: boolean; here: boolean; area: string;
-    external?: boolean }[];
+    external?: boolean; rise?: 'up' | 'down' }[];
   edges: { id: string; name: string; from: string; to: string; status: string; oneWay: boolean; explored: boolean }[];
-  // The level of a site it is a plan of (the adit level), drawn even where the site stands in wild country.
+  // The level of a site it is a plan of (the adit level), drawn even where the site stands in wild country; and the
+  // site's levels the company has been on, top to bottom, this one among them.
   level?: string;
+  levels?: { name: string; here: boolean }[];
 }
 export interface RegionChart {
   // An area's form is the land it is, when its region says (river, wood, lake, pass, peak); the terrain is the

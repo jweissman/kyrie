@@ -216,7 +216,9 @@ Done:
 - A long answer in conversation shows from its start.
 - Someone with no likeness that fits is a named card, not a painting-sized frame (the goblins had been painted as
   a monk, and then shown as a giant lowercase "t").
-- The map draws a site's level.
+- The map draws a site's level, and above it the site's levels the company has stood on, top to bottom, the one it
+  is on in ink ("The bell foundry ↓ The flood refuge"); a way off the level to another is marked up or down ("↑ Dry
+  stores"). `test/level-chart.test.ts`.
 - The dead click on a way with a fallen guard, and the angry owner with nothing to click, were fixed at the start
   (`baseline.md`).
 - The title has Options (`web/reader/options-page.tsx`): the light the page is read by (as the device has it, paper,
@@ -239,7 +241,6 @@ Not done:
 - An incident for every town: where the town holds none of the troubles that have an arrival, one who comes over
   the hills still arrives to a quiet road.
 - Conversation memory of fresh and exhausted topics beyond "asked".
-- The map's up and down between levels.
 - Pronouns in Kyr text (the priest's lines are written to need none).
 
 ## Invariants

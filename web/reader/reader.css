@@ -127,6 +127,11 @@ p { margin: 0 0 .7em; text-wrap: pretty; hyphens: auto; }
 .atlas-names { font: 400 14px/1.5 var(--display); color: var(--grey); margin-top: 12px; }
 .atlas-names b { color: var(--ink); font-weight: 600; }
 .local { margin: 22px 0 0; }
+/* A site's levels, top to bottom, the one the company is on in ink; each way to another is marked up or down. */
+.local .levels { list-style: none; padding: 0; margin: 4px 0 12px; display: flex; flex-wrap: wrap; gap: 2px 0;
+  font: 500 14px/1.4 var(--display); color: var(--grey); }
+.local .levels li + li::before { content: '↓'; margin: 0 10px; color: var(--faint); }
+.local .levels li[aria-current="location"] { color: var(--ink); font-weight: 650; }
 .local-sheet { overflow-x: auto; overscroll-behavior-x: contain; }
 .local svg { display: block; max-width: none; }
 .local .room { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
