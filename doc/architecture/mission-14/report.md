@@ -106,6 +106,13 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   trail on Barzelrehes is five hours and twenty minutes. A way to a site is told along the trails from whichever
   edge is nearest it by them (`test/wild-country.test.ts`).
 
+**Done since: the homecoming.** Once the heart is up, the innkeeper who first told of the site hears what the
+company brought, in the site's own words ("'Out from under Nocstumul?' Eamon puts down the jug and looks a long
+while at the crown, and does not touch it"), and keeps it as a guest: the next bed and supper there are on the
+house (`guest` and `take_lodging_guest` in `data/rules/services.kyr`, `test/homecoming.test.ts`). Before this, the
+crown came into daylight and nobody in Murkstede said a word. It is one deed remembered by one person; people do not
+yet remember what else a company did.
+
 **Weak or missing.**
 - Four purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
   `test/deep-barrow.test.ts`), with its own gear and words: a portal stone on a counterweight, a seal-stone across the
@@ -114,12 +121,13 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   seized wheel across the stair, a great pipe to go down feet first, a deep cistern that drains only while the master
   sluice turns the springs onto the great wheel and its pump-rods are coupled, an overflow culvert found by the sound
   of running water, and a keeper that shrinks not from the day but from the Wardens' oath. The oath is on a tablet in
-  the cisterns' own archive, a kind of thing that exists only in that site, which reads the old script as the
-  glossary does, so whoever carries it can also read the warning on the gate. And there is the Stone-Singers' hall
+  the cisterns' own archive, a kind of thing that exists only in that site, carried as a book is; no scholar's
+  learning stands in for it. And there is the Stone-Singers' hall
   (`singing.json`, `test/deep-singing.test.ts`), cut whole out of a hill by song: a pivot-door settled on its stone
   across the stair, a round door that opens to the note cut over it for whoever reads the old script (and not to
-  force), a crack round it, a sounding-shaft where the wind sings, a chorus of the singers turned to stone, and a
-  keeper that is their own last song, which the rites of the dead still, rung on the cantors' dirge bell. A country
+  force), a crack round it for a climber or a rope, a sounding-shaft where the wind sings, a chorus of the singers turned
+  to stone, and a keeper that is their own last song, which only their own knell stills, rung on the dirge bell
+  the last cantor took down to the unfinished hall. A country
   gets the first of these its makers had (mine, barrow, cisterns, hall). Only the sky art has no deep purpose yet:
   the Star-Readers built towers, which rise, and the generator, its danger by depth and the map's level stack all
   go down.

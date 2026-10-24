@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 186,
+    "kyr": 188,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 181,
+      "kyr": 183,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -11611,8 +11611,22 @@
    "section": "world-rules/rules-probing"
   },
   {
+   "id": "rule:world_services.guest",
+   "title": "guest",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
    "id": "rule:world_services.take_lodging",
    "title": "take lodging",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.take_lodging_guest",
+   "title": "take lodging guest",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"

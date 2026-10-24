@@ -5,14 +5,26 @@ Module world_services "Lodging, goods and camping" {
   Relation offers(group, service). Relation serviceOf(service, servicekind). Relation sells(group, good).
   Measure fee(service). Measure goodsPrice(group, good).
   Goal false.
+  // A host who owes the company a night for what it did (it brought up what a deep site's makers died for) keeps it
+  // as a guest once: the next bed and supper are on the house.
+  Relation guest(group, group).
   Action take_lodging(actor: group, host: group, service: service, site: place) "Take {service} from {host}" {
     Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
-      and not refusesService(host, actor) and offers(host, service) and serviceOf(service, lodging) and quantity(actor, gold) >= fee(service).
+      and not refusesService(host, actor) and not guest(host, actor) and offers(host, service)
+      and serviceOf(service, lodging) and quantity(actor, gold) >= fee(service).
     Time untilMorning(clock). Resolve recover(actor).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service).
       Retract hungry(actor). Increase nextMeal(actor) by 144.
       Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
     Result "You eat what is put in front of you, and sleep long, under a roof.".
+  }
+  Action take_lodging_guest(actor: group, host: group, service: service, site: place) "Take {service} from {host}, on the house" {
+    Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
+      and guest(host, actor) and offers(host, service) and serviceOf(service, lodging).
+    Time untilMorning(clock). Resolve recover(actor).
+    On success { Retract guest(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144.
+      Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
+    Result "You eat what is put in front of you, and sleep long, under a roof, and nobody will take your coin.".
   }
   Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}" {
     Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)

@@ -49,7 +49,8 @@ export interface DeepPurpose {
   // What a way between two rooms of a level is called (a gallery, a drift in a mine).
   walks?: string[];
   // How the home town speaks of it: what the innkeeper is asked about, what its trader buys from it, and says.
-  hook: { topic: string; trade?: { topic: string; says: string } };
+  // How it is told of at the inn, what the merchant buys, and what the innkeeper says when its heart comes home.
+  hook: { topic: string; trade?: { topic: string; says: string }; home?: string };
   levels: DeepLevelSpec[]; connectors: DeepConnector[]; roles: Record<string, DeepRole>;
   dwellers: { depth: number; groups: DeepGroup[] }[];
   // Who leads at a depth, or is worse than the rest: what an elite room holds.

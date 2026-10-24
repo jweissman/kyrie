@@ -663,7 +663,8 @@
   "outside": "Spoil heaps run down the hillside in grey fans that the heather has never taken, and above them a timbered mouth opens into the hill, its lintel a single oak beam. Cut into the beam in the old script, worn but whole: {oldup}.",
   "hook": {
     "topic": "the old workings",
-    "trade": { "topic": "what the old workings are worth", "says": "turns a lump of something pale over in the light. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'" }
+    "trade": { "topic": "what the old workings are worth", "says": "turns a lump of something pale over in the light. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'" },
+    "home": "'The heart of the vein?' {keeper} turns it over in both hands, and it is heavier than it looks, and warm. 'My grandfather's grandfather went down for that and never came up. There is no paying for it. You eat here tonight, and sleep, and nobody takes your coin.'"
   },
   "ore": {
     "kind": "star_iron",

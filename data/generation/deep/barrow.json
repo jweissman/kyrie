@@ -143,7 +143,8 @@
   },
   "hook": {
     "topic": "the king-barrow",
-    "trade": { "topic": "what is buried in the king-barrow", "says": "weighs a bead of amber on a fingertip. 'Bring me what the old folk buried and I will pay what it is worth.'" }
+    "trade": { "topic": "what is buried in the king-barrow", "says": "weighs a bead of amber on a fingertip. 'Bring me what the old folk buried and I will pay what it is worth.'" },
+    "home": "'Out from under {name}?' {keeper} puts down the jug and looks a long while at the crown, and does not touch it. 'My grandmother said the king would keep it till the mound fell in. Tonight you eat and sleep on the house, and I will be telling this in the taproom for a year.'"
   },
   "camp": {
     "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",

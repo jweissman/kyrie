@@ -1784,7 +1784,13 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 3 | 2 | 0 | 0 | 5 |
+| 2 | 4 | 2 | 0 | 0 | 6 |
+
+#### guest
+
+*Kyr · relation(group, group)* · `rule:world_services.guest`
+
+A host who owes the company a night for what it did (it brought up what a deep site's makers died for) keeps it as a guest once: the next bed and supper are on the house.
 
 #### take lodging
 
@@ -1794,9 +1800,21 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 - Takes: the untilMorning of the way
 - Costs: 1
 
-> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); quantity(actor, gold) >= fee(service)
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); not (guest(host, actor)); offers(host, service); serviceOf(service, lodging); quantity(actor, gold) >= fee(service)
 
 > Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(host, gold) by fee(service). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
+
+#### take lodging guest
+
+*Kyr · action (group, group, service, place)* · `rule:world_services.take_lodging_guest`
+
+- Shown as: Take {service} from {host}, on the house
+- Takes: the untilMorning of the way
+- Costs: 1
+
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); guest(host, actor); offers(host, service); serviceOf(service, lodging)
+
+> Then: Retract guest(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
 
 #### take healing
 

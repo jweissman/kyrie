@@ -142,7 +142,8 @@
   },
   "hook": {
     "topic": "the singing halls",
-    "trade": { "topic": "what is in the singing halls", "says": "holds up a little hollow stone and flicks it with a nail, and it rings. 'Bring me what the Singers left and I will pay what it is worth.'" }
+    "trade": { "topic": "what is in the singing halls", "says": "holds up a little hollow stone and flicks it with a nail, and it rings. 'Bring me what the Singers left and I will pay what it is worth.'" },
+    "home": "'You went down past the stair and came back up, and with that.' {keeper} flicks the stone with a nail, and it gives no note at all. 'Nobody has done that in my time. You eat and sleep on the house tonight, and tell me how it was down there.'"
   },
   "camp": {
     "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",

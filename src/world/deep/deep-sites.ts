@@ -139,7 +139,16 @@ export class DeepSites {
       ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when true once {`,
         `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
         ...purpose.objective.goal ? [`    On discuss { Assert knows(actor, ${values.w}_story). }`] : [], '  }'] : [],
-      ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${ore.worth}.`] : []];
+      ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${ore.worth}.`] : [],
+      ...this.home(purpose, values)];
+  }
+  // When it is brought home: the innkeeper who told of it hears what the company brought up, and keeps it a night.
+  private static home(purpose: DeepPurpose, values: Record<string, string>): string[] {
+    const q = this.q, w = values.w!, k = values.keeper!, home = purpose.hook.home;
+    if (!home || !purpose.objective.goal) { return []; }
+    return [`  Topic ${w}_home with ${k} ${q(`Tell {${k}} what you brought up out of ${values.name}`)} when ${w}_raised() once {`,
+      `    Says ${q(home.replaceAll('{keeper}', `{${k}}`).replaceAll('{name}', values.name!))}.`,
+      `    On discuss { Assert guest(${k}, actor). }`, '  }'];
   }
   // What a deep site holds that no catalog does: its ore, and what the makers died for.
   private static kinds(purpose: DeepPurpose, left: Valuable[]): string[] {
