@@ -9,7 +9,8 @@ import type { Change } from '../src/lang/module';
 
 // Bringing home what a deep site's makers died for: the innkeeper who first told of it hears what the company
 // brought up, in the site's own words, and keeps it a night on the house. Found when a1's king-barrow was played to
-// its heart, the crown came into daylight, and nobody in Murkstede said a word.
+// its heart, the crown came into daylight, and nobody in Murkstede said a word; nor did anyone on the roads, where
+// all a traveller had heard was that some stranger had been making themselves useful.
 class Home {
   static async start() {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
@@ -51,5 +52,16 @@ describe('the homecoming', () => {
     expect(Home.gold(s)).toBe(gold);
     expect(Home.names(s).some(n => n.endsWith(', on the house'))).toBe(false);
     expect(Home.names(s)).toContain(free[0]!.replace(/, on the house$/, ''));
+  }, 90000);
+  it('is what everyone on the roads is saying, once it is up', async () => {
+    const s = await Home.start();
+    const topic = s.campaign.module.actions.find(a => a.id.endsWith('_heart') && a.speaker?.includes('_way_t'))!;
+    const at = s.campaign.world.related('at').find(r => r.args[0] === topic.speaker)!.args[1]!;
+    Home.set(s, [{ kind: 'assert', call: ModuleWriter.call('at', 'party', at) }]);
+    const said = /^Ask .+ what people are saying$/;
+    Home.set(s, [{ kind: 'assert', call: ModuleWriter.call('region__renowned', 'party') }]);
+    expect(await Home.take(s, said)).toContain('making themselves useful');
+    Home.set(s, [{ kind: 'assert', call: ModuleWriter.call('region__w8_raised') }]);
+    expect(await Home.take(s, said)).toContain('brought the crown of the first king up into the daylight');
   }, 90000);
 });

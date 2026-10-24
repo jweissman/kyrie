@@ -7,6 +7,7 @@ import { Voice } from '../narrative/voice';
 import { CommunityWriter } from './community/community-writer';
 import { RegionSites } from './region-sites';
 import { RegionNews } from './region-news';
+import { DeepPurposes } from './deep/deep-purposes';
 import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/traffic.json';
 import folk from '../../data/generation/scenes/folk.json';
@@ -89,8 +90,24 @@ export class RegionTraffic {
         + ` and at(${t.id}, ${way}) { Says ${q(this.say(t, news, this.news(region, from)))}. }`,
       `  Topic ${t.id}_rested${i} with ${t.id} ${q(`Ask ${t.name} for news of ${to.name}`)} when journeysTo(${t.id}, ${to.id}_green)`
         + ` and not at(${t.id}, ${way}) { Says ${q(this.say(t, news.replace('this morning', 'yesterday'), this.news(region, to)))}. }`]),
-    `  Topic ${t.id}_deeds with ${t.id} ${q(`Ask ${t.name} what people are saying`)} when renowned(party) once {`
-      + ` Says ${q(this.say(t, tables.deeds, {}))}. }`, ...this.knows(region, t)];
+    `  Topic ${t.id}_deeds with ${t.id} ${q(`Ask ${t.name} what people are saying`)} when renowned(party)`
+      + `${this.raised(region) ? ` and not ${this.raised(region)}()` : ''} once { Says ${q(this.say(t, tables.deeds, {}))}. }`,
+    ...this.heard(region, t), ...this.knows(region, t)];
+  }
+  // The deep site whose heart can be brought up, and the fact that it has been.
+  private static raised(region: Region): string | undefined {
+    const deep = region.sites.find(s => s.work?.deep), o = deep?.work && DeepPurposes.of(deep.work.art)?.objective;
+    return deep && o?.goal && o.raised ? `${deep.id}_raised` : undefined;
+  }
+  // Once what a deep site's makers died for is up in the daylight, it is what everyone on the roads is saying.
+  private static heard(region: Region, t: Traveller): string[] {
+    const raised = this.raised(region), deep = region.sites.find(s => s.work?.deep);
+    if (!raised || !deep?.work) { return []; }
+    const item = DeepPurposes.of(deep.work.art)!.objective.item;
+    const said = `'Word is,' says {Name}, 'somebody went down into ${deep.name} and brought ${item} up into the daylight. `
+      + `I'd want to see it before I believed it. Strangers, they say.'`;
+    return [`  Topic ${t.id}_heart with ${t.id} ${JSON.stringify(`Ask ${t.name} what people are saying`)} when ${raised}() once {`
+      + ` Says ${JSON.stringify(this.say(t, said, {}))}. }`];
   }
   // A place off the road they know of, near one of its ends, and would tell a company that asked about the country.
   private static knows(region: Region, t: Traveller): string[] {

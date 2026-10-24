@@ -110,8 +110,10 @@ was worth as much as the descent, and each was fixed and pinned by a test:
 company brought, in the site's own words ("'Out from under Nocstumul?' Eamon puts down the jug and looks a long
 while at the crown, and does not touch it"), and keeps it as a guest: the next bed and supper there are on the
 house (`guest` and `take_lodging_guest` in `data/rules/services.kyr`, `test/homecoming.test.ts`). Before this, the
-crown came into daylight and nobody in Murkstede said a word. It is one deed remembered by one person; people do not
-yet remember what else a company did.
+crown came into daylight and nobody in Murkstede said a word. On the roads, where all a traveller had to say of the
+company was that "some stranger's been making themselves useful", it is now what everyone is saying ("Word is,
+somebody went down into Nocstumul and brought the crown of the first king up into the daylight"). It is one deed
+remembered, by name; people do not yet remember what else a company did.
 
 **Weak or missing.**
 - Four purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
