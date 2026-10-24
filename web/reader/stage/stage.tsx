@@ -57,7 +57,8 @@ export class Stage {
   }
   static light(frame: Frame, mode: Mode): Light {
     const screen = frame.screen, shelter = frame.leaf.shelter;
-    if (['combat', 'examine', 'fallen'].includes(mode) || screen.dark || shelter === 'underground') { return 'dark'; }
+    // Looking closely at something is not going somewhere darker: an altar in the open stays in the day.
+    if (['combat', 'fallen'].includes(mode) || screen.dark || shelter === 'underground') { return 'dark'; }
     if (shelter === 'indoors') { return screen.expedition.daylight === 'night' ? 'night' : 'indoor'; }
     return screen.expedition.daylight === 'night' ? 'night' : screen.expedition.daylight === 'evening' ? 'dusk' : 'day';
   }
