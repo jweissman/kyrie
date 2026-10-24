@@ -50,6 +50,7 @@ export class Narrator {
     if (exchange && !probing) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
+    const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)));
     const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
       && !echoed.has(Narration.sentence(l.text))), defs);
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
@@ -59,7 +60,7 @@ export class Narrator {
     const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     return this.set({
-      situation, presence, changed,
+      situation, presence, changed: fresh,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {},
     });

@@ -200,9 +200,32 @@ march-stone as tall as a man". Now a country's bounds are marked by whoever rule
 watch-post, a wayside cross, a toll-house) and by the lie of the land (a causeway post in the fen, blazed oaks, a
 cairn on a pass), drawn per border so that no two read alike (`data/generation/scenes/borders.json`).
 
-**Not done.** Ecology, settlements' fortunes and regional powers with visible plans were not worked on this
-mission. A deep era sequence (a primordial age, the Mathematical
-Age, planar contact) was not attempted. Truth and belief are not yet separated in what people say of history.
+**Done since: a power after the same prize.** The heirs of whatever kingdom came after a deep site's makers want
+what the makers died for (`data/generation/deep/powers.json`, `src/world/deep/deep-rivals.ts`). Warlords' heirs
+have a castellan at the fort nearest the site; an order's survivors have a prior; merchant-princes' heirs have the
+factor of their company, with a parchment that says the site is theirs. In wren the kingdom after the Delvers was
+an order of monks. Their brothers' tablet is still in the Delvers' hall, and their prior is at Gothgiba.
+
+The head says what they want and why, and pays a price for the prize (the warlords its worth, the poor brothers
+half, the company a quarter over, to sell it on). The head also stands the company an advance, which comes off
+that price. Their delving is an ambition (`data/rules/ambitions.kyr`: an ambition moves a stage at a pace while
+its power is able and it is neither won nor foiled).
+- On the second morning their people set out, and the talk at the inn is of nothing else.
+- Every two days they are a level deeper, and their mark is on each level they pass.
+- At the bottom, while the company is not on that level, a keeper still there breaks them. What they carried
+  (lanterns, oil, rope) lies where they fell, and the head pays half as much again.
+- If the keeper is gone and the prize still there, they bring it up. It stands in their settlement, and the
+  company's errand is over.
+
+The company can take the money, sell them the prize, or ignore them; they go on either way. In the recorded descent
+the brothers were two days behind: their cross was on the shaft bottom when the company came back down on the
+sixth day, and the heart came up on the eighth, two days before they would have reached it
+(`test/deep-rivals.test.ts`).
+
+**Not done.** Ecology and settlements' fortunes were not worked on this mission. Only the one kind of ambition is
+written, and its power does nothing else: it does not hire guards, buy up the oil or close the road. A deep era
+sequence (a primordial age, the Mathematical Age, planar contact) was not attempted. Truth and belief are not yet
+separated in what people say of history.
 
 ## Proof D: an independently authored scenario
 

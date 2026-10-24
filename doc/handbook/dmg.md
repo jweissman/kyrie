@@ -6,6 +6,28 @@ Time passes in watches of ten minutes. A rule fires as soon as its condition hol
 
 ## The world's rules
 
+### What a power is after, and how it goes about it, a stage at a time
+
+Also kept, without comment: stage, stageDue, pace.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 1 | 3 | 3 | 0 | 1 | 0 |
+
+#### pursues, won, foiled
+
+*Kyr · relation(group, ambition); relation(ambition); relation(ambition)* · `rule:world_ambitions.pursues`
+
+A power pursues an ambition in stages, the next due so many watches after the last (its pace), while the power is able and the ambition is neither won nor foiled. What each stage does is the ambition's author's: rules on stage(ambition), and on won and foiled.
+
+#### ambition_advances
+
+*Kyr · rule* · `rule:world_ambitions.ambition_advances`
+
+> When: pursues(?g, ?a); able(?g); not (won(?a)); not (foiled(?a)); watch(clock) >= stageDue(?a)
+
+> Then: Increase stage(?a) by 1. Increase stageDue(?a) by pace(?a).
+
 ### What people hold true, and how they come to let it go
 
 Also kept, without comment: refutes, scorns.

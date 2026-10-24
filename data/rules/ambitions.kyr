@@ -1,0 +1,11 @@
+Module world_ambitions "What a power is after, and how it goes about it, a stage at a time" {
+  Kind ambition.
+  // A power pursues an ambition in stages, the next due so many watches after the last (its pace), while the power
+  // is able and the ambition is neither won nor foiled. What each stage does is the ambition's author's: rules on
+  // stage(ambition), and on won and foiled.
+  Relation pursues(group, ambition). Relation won(ambition). Relation foiled(ambition).
+  Measure stage(ambition). Measure stageDue(ambition). Measure pace(ambition).
+  Rule ambition_advances when pursues(?g, ?a) and able(?g) and not won(?a) and not foiled(?a)
+    and watch(clock) >= stageDue(?a) { Increase stage(?a) by 1. Increase stageDue(?a) by pace(?a). }
+  Goal false.
+}

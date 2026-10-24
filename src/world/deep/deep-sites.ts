@@ -7,6 +7,7 @@ import { DeepRooms } from './deep-rooms';
 import { DeepTime } from './deep-time';
 import { DeepHistory } from './deep-history';
 import { DeepArgument } from './deep-argument';
+import { DeepRivals } from './deep-rivals';
 import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 
@@ -35,7 +36,7 @@ export class DeepSites {
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values),
-      ...DeepArgument.lines(layout, values, purpose)];
+      ...DeepArgument.lines(layout, values, purpose), ...DeepRivals.lines(region, site, { layout, purpose, values })];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark.
   private static places(layout: DeepLayout): string[] {

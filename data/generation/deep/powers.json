@@ -1,0 +1,62 @@
+{
+  "about": "Who wants a deep site's prize now (src/world/deep/deep-rivals.ts): the heirs of the kingdom that came after its makers, by what that kingdom was. Each has a head at the settlement of its kind nearest the site (founding), or else at the settlement nearest it, who says what they want and why, pays what they say for the prize (share of its worth), and stands a company an advance against it. On the second morning they send their own people down after it (band), a level every two days; whoever comes after them finds their mark on each level (trace). At the bottom, if the keeper is still there, the band is broken (fell, with what they carried left lying), and the head pays half as much again; if the keeper is gone, they bring the prize up (won). Texts take {head}, {name} (the site), {seat}, {kingdom}, {prize} and {price}.",
+  "powers": {
+    "warlords": {
+      "founding": ["fortress"],
+      "office": "the castellan",
+      "role": "who holds {seat} for the house of {kingdom}",
+      "calling": "warrior",
+      "manner": "proud",
+      "share": 1,
+      "advance": 20,
+      "band": "the castellan's men",
+      "gear": ["lantern", "lamp_oil", "lamp_oil", "crowbar", "rope"],
+      "asked": "'The house of {kingdom} held every height in this country once,' says {head}, 'and my lord is the last of it. What lies at the bottom of {name} was theirs, and whoever brings it up holds the oldest claim there is to the country. My lord means to hold it. Bring me {prize} and you will have {price} coin for it, which is more than anyone else here could find. If you will not, I have men who will go down for it themselves.'",
+      "advanced": "{head} counts twenty coin onto the table. 'For oil and bread. It comes off what I pay you for it, mind.'",
+      "out": "The talk is all of the castellan's men, who went up to {name} at first light: six of them, with picks and rope and a mule to carry what they find.",
+      "trace": "Someone else has been this way: a tower in a ring is chalked on the wall, the castellan's mark, with an arrow pointing on and down.",
+      "fell": "Here the castellan's men met whatever is below. Three of them lie where they fell running back the way they came, and what they carried is strewn round them.",
+      "fate": "'Two came back,' says {head}, 'and one of them will not speak. The other says it was waiting for them at the bottom, in the dark, and that the lamps were no use to them.' {head} looks at you for a long moment. 'I will not send more. Bring it to me and it is {price} coin.'",
+      "won": "{prize} stands in {seat} now, under guard: the castellan's men brought it up out of {name}, and word has gone to the lord.",
+      "sold": "{head} has {prize} carried off under guard, and sends word to the lord that the house of {kingdom} holds the country's oldest claim again."
+    },
+    "abbots": {
+      "founding": ["monastery"],
+      "office": "the prior",
+      "role": "who keeps the rule of the brothers of {kingdom}",
+      "calling": "cleric",
+      "manner": "grim",
+      "share": 0.5,
+      "advance": 10,
+      "band": "the brothers",
+      "gear": ["lantern", "candle", "candle", "bell", "rope"],
+      "asked": "'The brothers of {kingdom} kept that place once, and blessed it, and could not keep what was in it down,' says {head}. 'What the makers died for should not be sold in a market or carried before a lord. Bring {prize} to us and it will be put where it can do no more harm. We are not rich; we can give {price} coin, which is all the house has. If no one will go, the brothers will go themselves.'",
+      "advanced": "{head} gives you ten coin out of a box with a broken lock. 'For light. It comes off what the house can give you after.'",
+      "out": "The talk is all of the brothers, who went up to {name} at first light: four of them, with lanterns and a bell, singing, to bring up what is at the bottom and bury it.",
+      "trace": "Someone else has been this way: a cross is scratched on the wall at the turning, the brothers' mark, with a candle-end stuck in the crack under it.",
+      "fell": "Here the brothers met whatever is below. Two of them lie side by side, as though they had knelt to it and not got up again, and what they carried lies round them.",
+      "fate": "'One came back,' says {head}, 'and has not stopped shaking. They rang the bell to it, and it did not care.' {head} is quiet a while. 'The house will find {price} coin for it. Bring it up, if you can, and give it to us.'",
+      "won": "{prize} lies in {seat} now, under a cloth, with candles round it: the brothers brought it up out of {name}, and mean to bury it where no one will dig.",
+      "sold": "{head} takes {prize} in both hands, and has it carried away under a cloth to be buried where no one will dig."
+    },
+    "princes": {
+      "founding": ["market", "harbour", "crossing"],
+      "office": "the factor",
+      "role": "who keeps the books of the {kingdom} company",
+      "calling": "",
+      "manner": "acerbic",
+      "share": 1.25,
+      "advance": 30,
+      "band": "the company's diggers",
+      "gear": ["lantern", "lamp_oil", "lamp_oil", "shovel", "rope"],
+      "asked": "'The {kingdom} company bought the rights to {name} from the last of the princes,' says {head}, 'and I have the parchment to show it, seal and all. Anything that comes out of there is ours by law, but I am a reasonable person. Bring me {prize} and I will pay {price} coin for it, over what it is worth, because I can sell it on in the city for more. Or I send my own diggers, and you get nothing.'",
+      "advanced": "{head} writes something in a book, and pushes thirty coin across. 'An advance, against what you bring me. Sign there.'",
+      "out": "The talk is all of the company's diggers, who went up to {name} at first light: five of them, with picks and shovels and a handcart, to bring out what the company says is its own.",
+      "trace": "Someone else has been this way: a mark like a set of scales is chalked on the wall, the company's, with a tally of strokes beside it and an arrow pointing on.",
+      "fell": "Here the company's diggers met whatever is below. Three of them lie where they fell, one still holding the handcart's rope, and what they carried is strewn round them.",
+      "fate": "'Two came back,' says {head}, 'and I have had to pay their families out of my own purse.' {head} snaps the book shut. 'Very well. {price} coin, and the company thanks you. Bring it to me.'",
+      "won": "{prize} sits in {seat} now, on a table, with a clerk writing a description of it: the company's diggers brought it up out of {name}, and it is to go to the city.",
+      "sold": "{head} has {prize} weighed, described and locked away, to go to the city by the next cart."
+    }
+  }
+}
