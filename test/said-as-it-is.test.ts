@@ -71,14 +71,18 @@ describe('a place says what is so', () => {
   }, 60000);
   // The review again: reading the tally taught the makers' history and how they ended, noted as "seen for yourself",
   // and the page declared the story whole. What is read is the writing's account, and known as such.
-  it('keeps what a tally says as the tally\'s account, not as seen', async () => {
-    const s = await Galleries.start('mage');
+  // And one writing taught both, so a single tally was enough to reach the great work: the tally tells who the
+  // Delvers were, and the words they cut last, on the iron door, how they ended.
+  it('keeps what a tally says as the tally\'s account, not as seen, and the tally tells only what it tells', async () => {
+    const s = await Galleries.start('mage'), notes = () => ScreenModel.build(s.campaign).knowledge
+      .filter(k => /^(Before the folk came|How the Delvers ended)/.test(k.text)).map(k => [k.kind, k.how.split(',')[0]]);
     Galleries.put(s, 'region__w1_dressing');
     await Galleries.take(s, /^Read the tally on the wall$/);
-    const notes = ScreenModel.build(s.campaign).knowledge
-      .filter(k => /^(Before the folk came|How the Delvers ended)/.test(k.text));
-    expect(notes.map(k => [k.kind, k.how.split(',')[0]])).toEqual([['reported', 'as a tally cut in the wall has it'],
-      ['reported', 'as a tally cut in the wall has it']]);
+    expect(notes()).toEqual([['reported', 'as a tally cut in the wall has it']]);
+    Galleries.put(s, 'region__w1_door_room');
+    await Galleries.take(s, /^Read the inscription on the iron door$/);
+    expect(notes()).toEqual([['reported', 'as a tally cut in the wall has it'],
+      ['reported', 'as the inscription on the iron door has it']]);
   }, 60000);
   it('winds the lift-cage up when it is wound up', async () => {
     const s = await Galleries.start();

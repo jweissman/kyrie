@@ -42,10 +42,17 @@ describe('the later kingdom\'s works', () => {
     await Later.choose(s, /^Take the brothers' glossary .* out of the book-press for Elen$/);
     await Later.choose(s, /^Equip the brothers' glossary .* on Elen$/);
     await Later.choose(s, /^Read the copied inscriptions/);
-    const first = w.report.region.history!.makers[0]!.art;
-    expect([Later.knows(s, `history_${first}`), Later.knows(s, `history_${first}_fate`)]).toEqual([true, true]);
+    const first = w.report.region.history!.makers[0]!.art, great = w.report.region.sites.find(x => x.work?.great)!;
+    // The copies say who the old people were; how they ended is cut in the oldest stone, which the brothers made
+    // their altar.
+    expect([Later.knows(s, `history_${first}`), Later.knows(s, `history_${first}_fate`)]).toEqual([true, false]);
+    await s.perform('wait');
+    expect(Later.knows(s, `${great.id}_found`)).toBe(false);
+    GeneratedWorld.put(s, `${abbey.id}_church`);
+    await s.perform('wait');
+    await Later.choose(s, /^Read the old script on the back of the altar/);
+    expect(Later.knows(s, `history_${first}_fate`)).toBe(true);
     // The whole story of the first makers shows the way to the greatest of their works, which no one told of.
-    const great = w.report.region.sites.find(x => x.work?.great)!;
     await s.perform('wait');
     expect(Later.knows(s, `${great.id}_found`)).toBe(true);
   }, 60000);

@@ -562,10 +562,15 @@ What it found, checked against the source, and repaired:
   "Rharash critically hits the mud. The mud takes 11 slashing damage (0 HP left). The mud falls." Experience for
   something seen through says so: "each gain 300 experience: deserters on the road, seen through."
 
+- **One reading taught it all.** The galleries' tally, and an abbey's copies, each taught both who the makers were
+  and how they ended, so one inscription was enough to reach the great work, which says it is found by putting
+  things together. Every writing now teaches one thing: the tally tells who the Delvers were, and the words they
+  cut last, on the iron door at the end of the last gallery, how they ended; the abbey's copies tell who the old
+  people were, and their notes cannot agree how they ended, but one leaf names the oldest stone, which the brothers
+  made their high altar, and its back says. The reveal needs two things read (`test/said-as-it-is.test.ts`,
+  `test/later-works.test.ts`). Both are still in the same work; a reveal that needs two works to agree is not done.
+
 Not yet repaired, and why:
-- **One reading still teaches it all.** The galleries' tally, and an abbey's copies, each teach both who the makers
-  were and how they ended, so one inscription is enough to reach the great work. Inscriptions that teach one thing
-  each, and a reveal that needs two sources to agree, are the next piece of Proof C.
 - **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores
   station, era and sex, not dress or equipment, and when nothing fits it still takes whoever of the right sex scores
   best. I tried painting nobody that no picture fits by work or station: in a1 that left 42 of 64 people bare,
@@ -601,7 +606,12 @@ structural ones. I repaired these, which were mine or small:
 - **Lint could not stand as an author's check** (§E-bis): an error in any campaign but the game's own left it
   saying 0, and run from anywhere but the game's directory it could not find the shared rules. An error now fails
   it in any campaign, and the shared rules are the game's, wherever it is run from; and a hazard whose effect names
-  no condition or no damage type ("fyre") is an error at lint, not when it strikes (`test/lint-outside.test.ts`).
+  no condition or no damage type ("fyre") is an error at lint, not when it strikes (`test/lint-outside.test.ts`). A
+  name in braces that names nothing ("Let {winchh} run out") is an error too. Generated worlds are now linted as an
+  author's are (`test/world-lint.test.ts`, five seeds), and that found a real fault at once: a1's and wren's arcane
+  symbols, an Orsino wonder, applied a focus the game does not yet run (it also gives spell slots), and touching
+  them failed. A wonder whose power cannot be run is met and gives nothing: two of Orsino's 43 (arcane symbols and
+  unearthly silence, both a focus).
 
 Not done, and the review is right that they matter: modules are not protected from the shared rules growing
 (F-02); prose can still name what has moved (F-03, now checked only where it was found); the company's knowledge is

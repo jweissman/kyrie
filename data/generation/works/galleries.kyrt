@@ -66,7 +66,12 @@
     Change read "Read the tally on the wall" from unread to read needing lore.
   }
   Observe {w}_tally_learned at {w}_dressing of {w}_tally as reading when state({w}_tally, read) "{craft}" teaches {makersfact}.
-  Observe {w}_tally_fate at {w}_dressing of {w}_tally as reading when state({w}_tally, read) "{fate}" teaches {fatefact}.
+  Thing {w}_last_words "the inscription on the iron door" at {w}_door_room {
+    State unread "Words are cut into the iron of the door at the height of a man's eye, in the old script, deeper and with more care than anything else down here.".
+    State read "The words on the door are in the Delvers' hand, cut from this side: the last thing they cut here.".
+    Change read "Read the inscription on the iron door" from unread to read needing lore.
+  }
+  Observe {w}_last_words_read at {w}_door_room of {w}_last_words as reading when state({w}_last_words, read) "{fate}" teaches {fatefact}.
   Person {w}_cold "the cold below" at {w}_beyond {
     Role "something that was walled up behind the iron door, and is not dead". Species ice_elemental. Level 5. Temperament savage. Lair {w}_beyond.
   }

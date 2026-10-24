@@ -52,8 +52,14 @@
     State read "The brothers went out to every old stone in the country and copied what was cut there, and worked out what the old script said. Their notes run all over the margins, arguing with each other.".
     Change read "Read the copied inscriptions" from unread to read needing lore.
   }
-  Observe {w}_copies_learned at {w}_scriptorium of {w}_copies as reading when state({w}_copies, read) "With the glossary beside them the copies make sense, and the brothers' notes argue their way to who the old people were, and how they ended." teaches {makersfact}.
-  Observe {w}_copies_fate at {w}_scriptorium of {w}_copies as reading when state({w}_copies, read) "One leaf, copied from a stone the brothers marked as the oldest they found, is the old people's own account of their end." teaches {fatefact}.
+  Observe {w}_copies_learned at {w}_scriptorium of {w}_copies as reading when state({w}_copies, read) "With the glossary beside them the copies make sense, and the brothers' notes argue their way to who the old people were. How they ended, the notes cannot agree." teaches {makersfact}.
+  Observe {w}_copies_oldest at {w}_scriptorium of {w}_copies as reading when state({w}_copies, read) "One leaf is marked in the margin as the oldest stone the brothers found, and the copy breaks off: the stone, the note says, is the high altar, and they would not turn it again.".
+  Thing {w}_altar "the altar stone" at {w}_church {
+    State unread "The altar is a single block of grey stone, older than the church round it. On its back, toward the wall, is lettering in the old script.".
+    State read "The brothers built their altar of an older stone, and turned its writing to the wall.".
+    Change read "Read the old script on the back of the altar" from unread to read needing lore.
+  }
+  Observe {w}_altar_read at {w}_church of {w}_altar as reading when state({w}_altar, read) "{fate}" teaches {fatefact}.
 --- fall plague 1 if fallplague
   Observe {w}_plague at {w}_cloister when true "The garth was dug for graves, row on row, until there was no more room in it and the last of them were laid in the walks. There are no names on any of them.".
   Observe {w}_last_plague at {w}_chapter of {w}_chronicle as reading when state({w}_chronicle, read) "The last hand writes that the brothers took in the sick from the river villages, as the rule bids. Then that they buried them. Then the brothers' own names, one under another, in a hand that gets smaller. The last name has no hand after it to write it.".
