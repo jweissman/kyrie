@@ -1,0 +1,17 @@
+{
+  "disputation": {
+    "__no_id": true,
+    "folk": "human",
+    "name": "The disputation on the green",
+    "creatures": [],
+    "actors": { "order": [] },
+    "initial": [],
+    "outcomes": [{ "id": "settled", "predicate": "reasoned(one, oneness) or reasoned(flow, flux)" }],
+    "casting": "=gen(disputation_casting)"
+  },
+  "disputation_casting": { "__no_id": true, "one": "=gen(disputation_one)", "flow": "=gen(disputation_flow)",
+    "sophist": "=gen(disputation_sophist)" },
+  "disputation_one": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk", "classId": "=lookup(disputationOne, #folk)" },
+  "disputation_flow": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk", "classId": "=lookup(disputationFlow, #folk)" },
+  "disputation_sophist": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk", "classId": "=lookup(disputationSophist, #folk)" }
+}

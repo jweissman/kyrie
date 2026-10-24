@@ -188,6 +188,7 @@ export class RegionWriter {
     ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z)]),
     ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`]),
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
+    ...region.history ? ['history_successors'] : [],
     ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : []];
     // A site's land is the wild country it stands in, or its own stretch of open country.
     const lands = region.sites.map(w => [`${w.id}_land`, w.zone ?? `${w.id}_land`]);

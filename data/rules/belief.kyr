@@ -1,0 +1,19 @@
+Module world_belief "What people hold true, and how they come to let it go" {
+  Kind claim.
+  // A claim someone holds, and how firmly they hold it: 3 sure of it, and at nothing they let it go. Whoever will hear
+  // reasons (a disputant) can be argued with; what tells against a claim is a fact about the world (refutes), true
+  // whether anyone knows it or not.
+  Relation believes(group, claim). Measure conviction(group, claim). Relation disputant(group).
+  Relation refutes(fact, claim).
+  // How a claim was let go: for a reason the world gave (reasoned), or only to good arguing, and whose (swayedBy).
+  // Let go for a reason it stays let go. Argued away without one, it is back by morning, and the one who argued it
+  // away is scorned for it: not listened to again.
+  Relation reasoned(group, claim). Relation swayedBy(group, claim, group). Relation doubts(group, claim).
+  Relation scorns(group, group).
+  Rule let_go when believes(?g, ?c) and conviction(?g, ?c) < 1 { Retract believes(?g, ?c). Assert doubts(?g, ?c). }
+  Rule sway_wears_off when doubts(?g, ?c) and swayedBy(?g, ?c, ?a) and not reasoned(?g, ?c) and untilLight(clock) == 1 {
+    Retract doubts(?g, ?c). Retract swayedBy(?g, ?c, ?a). Assert believes(?g, ?c). Set conviction(?g, ?c) to 3.
+    Assert scorns(?g, ?a).
+  }
+  Goal false.
+}

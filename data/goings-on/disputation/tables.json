@@ -1,0 +1,152 @@
+{
+  "disputationOne": {
+    "discriminator": "folk",
+    "groups": {
+      "human": [
+        "mage"
+      ],
+      "elf": [
+        "mage"
+      ],
+      "dwarf": [
+        "cleric"
+      ],
+      "goblin": [
+        "ranger"
+      ],
+      "glimmerkin": [
+        "mage"
+      ],
+      "halfling": [
+        "bard"
+      ],
+      "gnome": [
+        "mage"
+      ],
+      "half_elf": [
+        "mage"
+      ],
+      "half_orc": [
+        "ranger"
+      ],
+      "lizardfolk": [
+        "ranger"
+      ],
+      "catfolk": [
+        "bard"
+      ],
+      "sylph": [
+        "mage"
+      ],
+      "undine": [
+        "mage"
+      ],
+      "birdfolk": [
+        "mage"
+      ],
+      "fae": [
+        "mage"
+      ]
+    }
+  },
+  "disputationFlow": {
+    "discriminator": "folk",
+    "groups": {
+      "human": [
+        "bard"
+      ],
+      "elf": [
+        "bard"
+      ],
+      "dwarf": [
+        "cleric"
+      ],
+      "goblin": [
+        "ranger"
+      ],
+      "glimmerkin": [
+        "mage"
+      ],
+      "halfling": [
+        "bard"
+      ],
+      "gnome": [
+        "bard"
+      ],
+      "half_elf": [
+        "bard"
+      ],
+      "half_orc": [
+        "ranger"
+      ],
+      "lizardfolk": [
+        "ranger"
+      ],
+      "catfolk": [
+        "bard"
+      ],
+      "sylph": [
+        "mage"
+      ],
+      "undine": [
+        "mage"
+      ],
+      "birdfolk": [
+        "mage"
+      ],
+      "fae": [
+        "bard"
+      ]
+    }
+  },
+  "disputationSophist": {
+    "discriminator": "folk",
+    "groups": {
+      "human": [
+        "bard"
+      ],
+      "elf": [
+        "bard"
+      ],
+      "dwarf": [
+        "warrior"
+      ],
+      "goblin": [
+        "thief"
+      ],
+      "glimmerkin": [
+        "thief"
+      ],
+      "halfling": [
+        "bard"
+      ],
+      "gnome": [
+        "bard"
+      ],
+      "half_elf": [
+        "bard"
+      ],
+      "half_orc": [
+        "thief"
+      ],
+      "lizardfolk": [
+        "thief"
+      ],
+      "catfolk": [
+        "bard"
+      ],
+      "sylph": [
+        "mage"
+      ],
+      "undine": [
+        "mage"
+      ],
+      "birdfolk": [
+        "mage"
+      ],
+      "fae": [
+        "bard"
+      ]
+    }
+  }
+}

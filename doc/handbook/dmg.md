@@ -6,6 +6,42 @@ Time passes in watches of ten minutes. A rule fires as soon as its condition hol
 
 ## The world's rules
 
+### What people hold true, and how they come to let it go
+
+Also kept, without comment: refutes, scorns.
+
+| Kinds | Relations | Measures | Queries | Rules | Actions |
+|---|---|---|---|---|---|
+| 1 | 7 | 1 | 0 | 2 | 0 |
+
+#### believes, conviction, disputant
+
+*Kyr · relation(group, claim); measure(group, claim); relation(group)* · `rule:world_belief.believes`
+
+A claim someone holds, and how firmly they hold it: 3 sure of it, and at nothing they let it go. Whoever will hear reasons (a disputant) can be argued with; what tells against a claim is a fact about the world (refutes), true whether anyone knows it or not.
+
+#### reasoned, swayedBy, doubts
+
+*Kyr · relation(group, claim); relation(group, claim, group); relation(group, claim)* · `rule:world_belief.reasoned`
+
+How a claim was let go: for a reason the world gave (reasoned), or only to good arguing, and whose (swayedBy). Let go for a reason it stays let go. Argued away without one, it is back by morning, and the one who argued it away is scorned for it: not listened to again.
+
+#### let_go
+
+*Kyr · rule* · `rule:world_belief.let_go`
+
+> When: believes(?g, ?c); conviction(?g, ?c) < 1
+
+> Then: Retract believes(?g, ?c). Assert doubts(?g, ?c).
+
+#### sway_wears_off
+
+*Kyr · rule* · `rule:world_belief.sway_wears_off`
+
+> When: doubts(?g, ?c); swayedBy(?g, ?c, ?a); not (reasoned(?g, ?c)); untilLight(clock) == 1
+
+> Then: Retract doubts(?g, ?c). Retract swayedBy(?g, ?c, ?a). Assert believes(?g, ?c). Set conviction(?g, ?c) to 3. Assert scorns(?g, ?a).
+
 ### What the company carries
 
 Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, weighed, objection, pays, price.

@@ -30,6 +30,16 @@ class Telling {
 }
 
 describe('the narrator', () => {
+  it('names someone by a role that says who they are without an article: Gale, who speaks for Harrehes', async () => {
+    const w = await WorldAssembler.assemble('b2', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'b2', w.source);
+    GeneratedWorld.put(s, 's4_green');
+    await s.perform('wait');
+    const presence = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).presence.join(' ');
+    expect(presence).toContain('Gale, who speaks for Harrehes');
+    expect(presence).not.toContain('a who');
+  }, 60000);
   it('sets an answer as the words of whoever gave it', () => {
     expect(Narrator.speech('A drover went out three days ago and did not come home. His dog did.', 'Eamon'))
       .toBe('‘A drover went out three days ago and did not come home,’ says Eamon. ‘His dog did.’');

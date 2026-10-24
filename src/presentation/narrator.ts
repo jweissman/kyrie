@@ -177,7 +177,8 @@ export class Narrator {
   private static who(t: TargetRow): string {
     const [name, ...rest] = t.name.split(', '), role = rest.join(', ');
     if (!role) { return name!; }
-    if (/^(the|a|an|his|her|their) /i.test(role)) { return `${name}, ${role}`; }
+    // A role that already says who they are ("the smith", "who speaks for Harrehes") takes no article.
+    if (/^(the|a|an|his|her|their|who|whose) /i.test(role)) { return `${name}, ${role}`; }
     return `${name}, ${this.offices.test(role) ? 'the' : /^[aeiou]/i.test(role) ? 'an' : 'a'} ${role}`;
   }
   private static readonly offices =

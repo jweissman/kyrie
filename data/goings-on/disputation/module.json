@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "green",
+    "making",
+    "ending",
+    "successors"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "green": {
+      "type": "place"
+    },
+    "making": {
+      "type": "fact"
+    },
+    "ending": {
+      "type": "fact"
+    },
+    "successors": {
+      "type": "fact"
+    }
+  },
+  "generation": {
+    "type": "disputation",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "exports": {
+    "dispute": "dispute",
+    "one": "one",
+    "flow": "flow",
+    "sophist": "sophist"
+  },
+  "experience": 150
+}

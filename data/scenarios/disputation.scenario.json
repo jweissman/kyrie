@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "disputation",
+  "name": "The disputation on the green",
+  "kind": "town",
+  "instances": 1,
+  "weight": 2,
+  "places": {
+    "town": { "settlement": "any" }
+  },
+  "modules": [
+    {
+      "id": "disputation",
+      "bundle": "../goings-on/disputation/module.json",
+      "imports": { "party": "@party", "green": "@town.green", "making": "@history.makers", "ending": "@history.fate",
+        "successors": "@history.successors" }
+    }
+  ],
+  "hooks": [
+    { "fact": "disputation.dispute", "topic": "the philosophers on the green at {town}", "channels": ["tavern", "market"], "opens": false }
+  ]
+}

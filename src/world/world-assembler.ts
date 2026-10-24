@@ -25,7 +25,7 @@ import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
 import { WorldGrid } from './world-grid';
 import { Livelihoods } from './livelihoods';
-import './region-works';
+import { RegionWorks } from './region-works';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
 // way in that stays hidden until someone hears of it, and what people say about it.
@@ -169,8 +169,8 @@ export class WorldAssembler {
     const { library, base, region, context, files, root, modules } = at;
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
-      modules.push(...this.requests(entry, placement, base, { ...context, ...this.wild(placement, region),
-        ...this.folk(placement, region) }));
+      modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
+        ...this.folk(placement, region) }, region }));
       const word = this.word(entry.manifest, placement, { region, contacts: at.contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
@@ -332,8 +332,8 @@ export class WorldAssembler {
     return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`;
   }
   // A scenario reference: @party, @region, @role, @role.part (a settlement's green, a site's track or the country it
-  // stands in…), module.export.
-  private static ref(value: string, placement: Placement): string {
+  // stands in…), @history.makers / .fate / .successors (the country's own history, to be found), module.export.
+  private static ref(value: string, placement: Placement, region?: Region): string {
     if (!value.startsWith('@')) {
       const [module, name] = value.split('.') as [string, string];
       return `${this.prefix(placement.rid)}${this.install(module, Number(placement.instance.match(/\d+$/)?.[0] ?? 1))}.${name}`;
@@ -341,15 +341,18 @@ export class WorldAssembler {
     const [role, part] = value.slice(1).split('.') as [string, string | undefined];
     if (role === 'party') { return `${RegionWriter.id}.party`; }
     if (role === 'region') { return `${placement.rid}.region`; }
+    if (role === 'history') { return `${placement.rid}.${RegionWorks.history(part, region)}`; }
     const bound = placement.bindings[role];
     if (!bound) { throw new Error(`Scenario reference ${value} names no bound place`); }
     return `${placement.rid}.${part ? `${bound}_${part}` : bound}`;
   }
   private static requests(entry: Entry, placement: Placement, base: BundleSource,
-    context: Record<string, DeemValue>): BundleRequest[] {
+    at: { context: Record<string, DeemValue>; region: Region }): BundleRequest[] {
+    const context = at.context;
     return entry.manifest.modules.map((m, i) => ({ id: placement.modules[i]!,
       bundle: base.resolve(m.bundle, entry.path),
-      imports: Object.fromEntries(Object.entries(m.imports).map(([name, value]) => [name, this.ref(value, placement)])),
+      imports: Object.fromEntries(Object.entries(m.imports)
+        .map(([name, value]) => [name, this.ref(value, placement, at.region)])),
       context: { ...context, ...m.context } }));
   }
   // The people of the settlement a placement is set in, for its modules to name their own people by.

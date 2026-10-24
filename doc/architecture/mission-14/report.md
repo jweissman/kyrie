@@ -142,9 +142,26 @@ lack. The promise is held to: the heart brought up with the wall still open shut
 opened against the priest's word. `test/deep-argument.test.ts` pins all of it. Bands in the deep can be talked
 round or warned off the same way.
 
-**Not done.** The philosopher capstone (henology, fluxism, sophistry; truth set against argument, rhetoric, belief
-and influence) was not attempted. NPC belief is a fact in the world (won, heard, promised) rather than a model of
-belief, and there is no deception detected by evidence beyond the one lie.
+**The philosopher's capstone.** On some town's green two philosophers dispute on market days, and the town takes
+sides: one of the One (henology: all things are one, and change is only seeming), one of the Flow (fluxism: nothing
+stays, and nothing made outlasts its making), and a sophist who argues either side for two coin
+(`data/goings-on/disputation`, placed by the world assembler like any trouble; seeds b2 and d4 have it). Belief is
+now the world's own, in a rules module any author can use (`data/rules/belief.kyr`): who believes what and how
+firmly, what fact refutes a claim, whether it was let go for a reason or only to argument, and who argued it away.
+- Truth: the country's own history refutes each doctrine, for whoever has found it. The first makers' marks, which
+  still read though no one alive has seen a maker, answer the Flow; how the makers ended, and the kingdom after
+  them, answer the One. A scenario names that history (`@history.makers`, `.fate`, `.successors`), whatever the
+  country's makers were. Put with lore, at easy odds, it settles the matter for good: the philosopher says so on
+  the green and would come with the company.
+- Rhetoric and sophistry: arguing the philosopher down (persuasion, hard) or paying the sophist wins the day, and
+  the crowd laughs at the philosopher. By morning the doctrine is believed again (a rule of the belief module), and
+  the one who argued it away is scorned and not listened to again, so the reason they might have given is lost.
+- A passive check: someone in the company who reads people (insight) sees, without a roll, where the philosopher
+  of the Flow keeps looking while saying that nothing stays (at the oldest stones in the town), and that is a reason
+  of its own to put, at even odds, for a company without the history.
+`test/disputation.test.ts` plays each way. What it does not do: the crowd's sides are told, not counted; nothing
+in the town changes with the philosophers' views beyond the green; and there is still no deception detected by
+evidence beyond the priest's one lie.
 
 ## Proof C: a living historical landscape
 
@@ -267,5 +284,6 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 2. Deep purposes for the sky and stone arts (an observatory, halls), now that the generator takes all of a purpose's
    words and its own kinds of thing from its data.
 3. Split the company out of the region bundle so Begin can be composed while the player reads.
-4. The philosopher capstone, on the argument machinery built here.
+4. Let what people believe change what they do: the philosophers' views reaching the town's council and its
+   prices, the priest's doctrine modelled in the belief module rather than as its own facts.
 5. Dynamic entities, and pronouns in Kyr text.

@@ -136,6 +136,14 @@ export class RegionWorks {
   }
   // The region's history as facts: who each people of makers were and what they held, how each ended, and who came
   // after them. Knowing the whole story of the first makers shows where the greatest of their works here lies.
+  // The fact of the country's history a scenario names: who its first makers were, how they ended, who came after.
+  static history(part: string | undefined, region?: Region): string {
+    const art = region?.history?.makers[0]?.art;
+    if (!art) { throw new Error('A scenario that names the country\'s history needs a country that has one'); }
+    const fact = { makers: `history_${art}`, fate: `history_${art}_fate`, successors: 'history_successors' }[part ?? ''];
+    if (!fact) { throw new Error(`No history called ${part}`); }
+    return fact;
+  }
   private static facts(region: Region): string[] {
     const history = region.history!, q = JSON.stringify, first = history.makers[0]!, s = history.successors;
     const lines = [...RegionRenewal.lines()];

@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 176,
+    "kyr": 180,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 171,
+      "kyr": 175,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10356,6 +10356,34 @@
    "status": "faithful",
    "book": "phb",
    "section": "orsino-company/orsino-ability"
+  },
+  {
+   "id": "rule:world_belief.believes",
+   "title": "believes, conviction, disputant",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belief"
+  },
+  {
+   "id": "rule:world_belief.reasoned",
+   "title": "reasoned, swayedBy, doubts",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belief"
+  },
+  {
+   "id": "rule:world_belief.let_go",
+   "title": "let_go",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belief"
+  },
+  {
+   "id": "rule:world_belief.sway_wears_off",
+   "title": "sway_wears_off",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belief"
   },
   {
    "id": "rule:belongings.lightsUp",

@@ -1,0 +1,133 @@
+Module disputation "The disputation on the green" {
+  Description "On market days two philosophers dispute on the green, and the town stands round to listen and take sides: one of the One, who teaches that all things are one thing and change is only seeming, and one of the Flow, who teaches that nothing stays. A sophist leans between them, and will argue either side for whoever pays. What the country's own history says would settle it, for whoever has found it.".
+  Entity party: group "Your company".
+  Place green "The green" is room.
+  // The country's own history, for whoever has found it: who the first makers were, by their own marks, which still
+  // read after them; how they ended; and the kingdom after them, and how it fell.
+  Entity making: fact "Who the first makers were". Entity ending: fact "How the first makers ended".
+  Entity successors: fact "The kingdom after them".
+  Entity oneness: claim "that all things are one, and change is only seeming".
+  Entity flux: claim "that nothing stays, and nothing made outlasts its making".
+  Initially Assert refutes(making, flux). Initially Assert refutes(ending, oneness). Initially Assert refutes(successors, oneness).
+  Entity dispute: fact "Two philosophers dispute on {green} on market days, one of the One and one of the Flow, and the town takes sides.".
+  Initially Assert established(dispute).
+
+  Person one "The philosopher of the One" at green { Role "a philosopher of the One". Peaceable. }
+  Person flow "The philosopher of the Flow" at green { Role "a philosopher of the Flow". Peaceable. }
+  Person sophist "The sophist" at green { Role "a sophist". Peaceable. }
+  Initially Assert believes(one, oneness). Initially Set conviction(one, oneness) to 3. Initially Assert disputant(one).
+  Initially Assert believes(flow, flux). Initially Set conviction(flow, flux) to 3. Initially Assert disputant(flow).
+  Initially Set hire(one) to 0. Initially Set hire(flow) to 0.
+  Relation heard(group). Relation answered(group, entity). Relation glanced(group).
+  Entity move_reason: fact "a reason". Entity move_after: fact "the kingdom after". Entity move_argue: fact "an argument".
+  Entity move_sophist: fact "the sophist". Entity move_glance: fact "the old stones".
+
+  Observe crowd at green when believes(one, oneness) and believes(flow, flux) "Two philosophers are disputing on {green}, and a crowd stands round them: {one}, who holds that all things are one and change is only seeming, and {flow}, who holds that nothing stays. {sophist} leans between them with folded arms, and laughs at both.".
+  Observe one_beaten at green when doubts(one, oneness) and not reasoned(one, oneness) "The crowd has gone over from {one} today, and laughs when {one} tries to speak.".
+  Observe flow_beaten at green when doubts(flow, flux) and not reasoned(flow, flux) "The crowd has gone over from {flow} today, and laughs when {flow} tries to speak.".
+  Observe one_recanted at green when reasoned(one, oneness) "{one} no longer teaches the One: things end, {one} tells whoever will listen, and the end of them is not seeming.".
+  Observe flow_recanted at green when reasoned(flow, flux) "{flow} no longer teaches the Flow: some things stay, {flow} tells whoever will listen, longer than the hands that made them.".
+  Observe one_cold near one when scorns(one, party) "{one} turns away from you.".
+  Observe flow_cold near flow when scorns(flow, party) "{flow} turns away from you.".
+  // Someone in the company who reads people sees it without being asked (a passive check: no roll): the philosopher
+  // of the Flow keeps looking at the oldest stones in the town while saying that nothing stays.
+  Entity glance: fact "The philosopher of the Flow looks at the oldest stones in the town every time the Flow is taught.".
+  Initially Assert refutes(glance, flux).
+  Observe flow_looks at green as sign when capable(party, insight) and believes(flow, flux) and not knows(party, glance) "Watching {flow} argue, you see where {flow}'s eyes go at each 'nothing stays': to the oldest stones in the town, which were old when the town was new." teaches glance.
+
+  Topic one_doctrine with one "Ask {one} what the One is" when true once {
+    Says "'There is one thing,' says {one}, 'and it does not change. The river, the hill, you and I and the dead: one thing, seen in pieces by eyes that see in pieces. What seems to end does not end. Nothing is lost, because nothing is apart.' The crowd murmurs; some of them nod.".
+    On discuss { Assert heard(one). }
+  }
+  Topic flow_doctrine with flow "Ask {flow} what the Flow is" when true once {
+    Says "'Nothing stays,' says {flow}. 'Not the river, not the hill, not the stones you stand on. What is made is unmade in the making; your house is already falling down. Hold on to nothing, and nothing will be taken from you.' The other half of the crowd laughs and claps.".
+    On discuss { Assert heard(flow). }
+  }
+  Topic sophist_holds with sophist "Ask {sophist} what a sophist holds" when true once {
+    Says "'Nothing at all,' says {sophist}, cheerfully. 'The truth is whatever is left standing when the arguing stops, and I can see to it that it is yours. Two coin, and I will argue either of them into the ground.'".
+  }
+
+  // Against the Flow: the makers' own marks, which still read though the makers are long gone.
+  Action answer_flow(actor: group, site: place) "Answer {flow} with the makers' own marks, which still read though they are gone" {
+    Speaker flow. Time 5 minutes.
+    Requires able(actor) and at(actor, site) and at(flow, site) and heard(flow) and believes(flow, flux)
+      and not scorns(flow, actor) and not answered(flow, move_reason) and knows(actor, making).
+    Resolve check(actor, lore, dc_easy).
+    On success { Assert answered(flow, move_reason). Decrease conviction(flow, flux) by 3. Assert reasoned(flow, flux). Assert willing(flow, actor). }
+    On failure { Assert answered(flow, move_reason). }
+    Result "You tell {flow} what the first makers cut in their stones, and that it still reads, when no one alive has seen a maker. {flow} is quiet a long time. 'Then some things stay,' {flow} says at last, loud enough for the green to hear, 'longer than the hands that made them. I have taught wrong.' Afterwards {flow} comes to you: 'If you are going where the old words are, I would read them with you.'".
+    Otherwise "You tell {flow} of the makers' marks, but you tell it badly, and {flow} turns it into a joke about stones that the crowd likes better.".
+  }
+  Action answer_flow_glance(actor: group, site: place) "Ask {flow} why the old stones draw the eye of one who says that nothing stays" {
+    Speaker flow. Time 5 minutes.
+    Requires able(actor) and at(actor, site) and at(flow, site) and heard(flow) and believes(flow, flux)
+      and not scorns(flow, actor) and not answered(flow, move_glance) and knows(actor, glance).
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert answered(flow, move_glance). Decrease conviction(flow, flux) by 3. Assert reasoned(flow, flux). Assert willing(flow, actor). }
+    On failure { Assert answered(flow, move_glance). }
+    Result "{flow} looks at the shrine's stones, and then at you. 'Because they are still there,' {flow} says. 'I have looked at them every market day for twenty years, and said that nothing stays.' {flow} laughs. 'Some things stay. I will say so.' And to you, quietly: 'If you go anywhere old, take me.'".
+    Otherwise "{flow} only smiles. 'I look at them,' {flow} says, 'to see them going.' The crowd likes it.".
+  }
+  // Against the One: how the first makers ended, and the kingdom after them, which also ended.
+  Action answer_one(actor: group, site: place) "Tell {one} how the first makers ended" {
+    Speaker one. Time 5 minutes.
+    Requires able(actor) and at(actor, site) and at(one, site) and heard(one) and believes(one, oneness)
+      and not scorns(one, actor) and not answered(one, move_reason) and knows(actor, ending).
+    Resolve check(actor, lore, dc_easy).
+    On success { Assert answered(one, move_reason). Decrease conviction(one, oneness) by 3. Assert reasoned(one, oneness). Assert willing(one, actor). }
+    On failure { Assert answered(one, move_reason). }
+    Result "You tell {one} how the first makers ended, as their own stones tell it. {one} listens to the end, and the crowd with {one}. 'A people,' {one} says, 'and then not. That is not seeming.' {one} sits down heavily. 'I will have to think again from the beginning.' Then, to you: 'You know where the old things are. Let me come with you, and see them end for myself.'".
+    Otherwise "You tell {one} how the makers ended, but {one} hears it out and smiles: 'They are here still, in the One, as you are.' The crowd nods along.".
+  }
+  Action answer_one_after(actor: group, site: place) "Tell {one} of the kingdom that came after the makers, and how it fell" {
+    Speaker one. Time 5 minutes.
+    Requires able(actor) and at(actor, site) and at(one, site) and heard(one) and believes(one, oneness)
+      and not scorns(one, actor) and not answered(one, move_after) and knows(actor, successors).
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert answered(one, move_after). Decrease conviction(one, oneness) by 3. Assert reasoned(one, oneness). Assert willing(one, actor). }
+    On failure { Assert answered(one, move_after). }
+    Result "You tell {one} of the kingdom that came after the makers, what it was and how it fell, with the names in it. 'Twice, then,' {one} says. 'Twice in this one country, a whole people ended.' {one} looks round at the town as if seeing it for the first time. 'I was wrong. Let me come with you, and see what else ends.'".
+    Otherwise "{one} lets you finish. 'Kingdoms are seeming,' {one} says, 'like the clouds,' and the crowd is with {one} again.".
+  }
+  // Argument without a reason: it wins the day and is gone by morning, and is not forgiven.
+  Action argue_flow(actor: group, site: place) "Argue {flow} down: some things stay" {
+    Speaker flow. Time 5 minutes.
+    Requires able(actor) and at(actor, site) and at(flow, site) and heard(flow) and believes(flow, flux)
+      and not scorns(flow, actor) and not answered(flow, move_argue).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert answered(flow, move_argue). Decrease conviction(flow, flux) by 3. Assert swayedBy(flow, flux, actor). }
+    On failure { Assert answered(flow, move_argue). }
+    Result "You turn {flow}'s own words on {flow}, faster than {flow} can answer, until the crowd is laughing and {flow} has nothing to say. It is a victory. It is not a reason.".
+    Otherwise "{flow} lets you talk yourself out, and then says one thing, and the crowd laughs at you instead.".
+  }
+  Action argue_one(actor: group, site: place) "Argue {one} down: things change" {
+    Speaker one. Time 5 minutes.
+    Requires able(actor) and at(actor, site) and at(one, site) and heard(one) and believes(one, oneness)
+      and not scorns(one, actor) and not answered(one, move_argue).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert answered(one, move_argue). Decrease conviction(one, oneness) by 3. Assert swayedBy(one, oneness, actor). }
+    On failure { Assert answered(one, move_argue). }
+    Result "You tie {one} in {one}'s own knots, one after another, until the crowd is jeering and {one} stops trying to answer. It is a victory. It is not a reason.".
+    Otherwise "{one} answers every point with the same calm, and the crowd tires of you first.".
+  }
+  // The sophist argues for whoever pays: the day is won, and nothing else.
+  Action hire_sophist_flow(actor: group, site: place) "Pay {sophist} two coin to argue {flow} into the ground" {
+    Speaker sophist. Time 10 minutes.
+    Requires able(actor) and at(actor, site) and at(sophist, site) and at(flow, site) and heard(flow)
+      and believes(flow, flux) and not scorns(flow, actor) and not answered(flow, move_sophist) and quantity(actor, gold) >= 2.
+    On success { Assert answered(flow, move_sophist). Decrease quantity(actor, gold) by 2. Increase quantity(sophist, gold) by 2.
+      Decrease conviction(flow, flux) by 3. Assert swayedBy(flow, flux, actor). }
+    Result "{sophist} pockets the coin, steps up beside {flow}, and takes {flow} apart in a quarter of an hour, cheerfully, to the delight of the green. Then {sophist} winks at you. 'By tomorrow,' {sophist} says, 'it will all be believed again. It always is.'".
+  }
+  Action hire_sophist_one(actor: group, site: place) "Pay {sophist} two coin to argue {one} into the ground" {
+    Speaker sophist. Time 10 minutes.
+    Requires able(actor) and at(actor, site) and at(sophist, site) and at(one, site) and heard(one)
+      and believes(one, oneness) and not scorns(one, actor) and not answered(one, move_sophist) and quantity(actor, gold) >= 2.
+    On success { Assert answered(one, move_sophist). Decrease quantity(actor, gold) by 2. Increase quantity(sophist, gold) by 2.
+      Decrease conviction(one, oneness) by 3. Assert swayedBy(one, oneness, actor). }
+    Result "{sophist} pockets the coin, steps up beside {one}, and takes {one} apart in a quarter of an hour, cheerfully, to the delight of the green. Then {sophist} winks at you. 'By tomorrow,' {sophist} says, 'it will all be believed again. It always is.'".
+  }
+
+  Objective disputed when knows(party, dispute) and believes(one, oneness) and believes(flow, flux) "Two philosophers dispute on {green}: the One against the Flow. What the country's own history says could settle it.".
+  Goal reasoned(one, oneness) or reasoned(flow, flux).
+}
