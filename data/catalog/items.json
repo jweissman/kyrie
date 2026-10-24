@@ -518,10 +518,10 @@
     "dirge_bell": {
       "name": "Dirge bell",
       "category": "equipment",
-      "description": "A small bell of grey bronze with a clapper of bone, rung over the dead. Whoever carries it, and rings it as it was rung, can say the rites that lay them.",
+      "description": "A small bell of grey bronze with a clapper of bone, the Stone-Singers' own, rung over their dead. Whoever carries it and rings it as they rang it rings their knell.",
       "slot": "charm",
       "grants": {
-        "skill": "rites"
+        "skill": "knell"
       },
       "value": 30,
       "source": {

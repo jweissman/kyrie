@@ -15,7 +15,7 @@ export interface LocalCatalog {
 type Declared = { source?: object };
 export interface LocalKindSpec {
   id: string; name: string; base: { category?: ItemKind['category']; like?: string }; worth?: number; mass?: number;
-  description?: string;
+  description?: string; grants?: string;
 }
 export interface LocalSpeciesSpec {
   id: string; name: string; like: string; temperament?: string; description?: string; habitats?: string[];
@@ -25,7 +25,8 @@ export class LocalKinds {
   static readonly categories: ItemKind['category'][] = ['weapon', 'armor', 'tool', 'gear', 'consumable', 'equipment',
     'treasure'];
   // A kind of thing: of a category ("is treasure"), or like a kind the catalog has ("like dagger"), with what it is
-  // worth and what it weighs.
+  // worth and what it weighs, and what it brings whoever carries it equipped in place of what its like brings
+  // ("granting oath": the Wardens' oath-tablet is carried as a book is, and brings the oath, not a glossary's lore).
   static item(module: string, spec: LocalKindSpec): ItemKind & { mass?: number } {
     const like = spec.base.like ? Canon.items[Canon.resolve('items', spec.base.like)] : undefined;
     if (spec.base.like && !like) { throw new Error(`Kind ${spec.id} is like ${spec.base.like}, which is no kind of item`); }
@@ -34,7 +35,10 @@ export class LocalKinds {
       const kinds = this.categories.join(', ');
       throw new Error(`Kind ${spec.id} is ${spec.base.category ?? '?'}: a kind of item is one of ${kinds}`);
     }
-    const inherited: Partial<ItemKind> = { ...like };
+    if (spec.grants && !Canon.skills[spec.grants]) {
+      throw new Error(`Kind ${spec.id} is granting ${spec.grants}, which is no skill`);
+    }
+    const inherited: Partial<ItemKind> = { ...like, ...spec.grants ? { grants: { skill: spec.grants } } : {} };
     delete inherited.source;
     return { ...inherited, name: spec.name, category, description: spec.description ?? like?.description ?? spec.name,
       ...spec.worth !== undefined ? { value: spec.worth } : {}, ...spec.mass !== undefined ? { mass: spec.mass } : {},

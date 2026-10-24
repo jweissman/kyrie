@@ -141,7 +141,8 @@
             "family:construct",
             "body:golem"
           ],
-          "fixedHp": 13
+          "fixedHp": 13,
+          "hpPerLevel": 3
         }
       ],
       "bear": [

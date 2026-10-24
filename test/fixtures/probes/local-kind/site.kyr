@@ -5,4 +5,7 @@ Module localkind "A thing of this adventure's own" {
   // An item of a kind only this adventure has: what it is, what it is worth, what it weighs.
   Kind dreg_ox "a little ox of dreg, on a cord" is treasure worth 2 weighing 1.
   Item ox "a little ox of dreg, on a cord" is dreg_ox at barley.
+  // One carried as a kind the catalog has is carried, and that brings what this one brings instead.
+  Kind day_jar "a jar of the day" like old_glossary granting sunlight described "A jar with the day in it.".
+  Item jar "a jar of the day" is day_jar at barley.
 }

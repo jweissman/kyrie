@@ -11,8 +11,9 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // In wren, six expeditions into the Delvers' mine by a warrior, from the road into Gothgiba to the heart of the vein
 // brought up into daylight eight days later. In thorn, the Water-Wardens' cisterns by a ranger and a pilgrim, with a
 // soldier fetched from Meósdael to tear the seal off the deep gate, to the reading-glass brought up on the fourth
-// evening. In d4, the Stone-Singers' hall by a bard, a pilgrim and a mason, with a crowbar for the pivot-door and the
-// cantors' dirge bell rung over the singers, to the tuning-stone brought out at first light on the second day. In a1,
+// evening. In d4, the Stone-Singers' hall by a bard, a pilgrim and a mason, with a crowbar for the pivot-door and a
+// rope for the crack round the singing door, the dirge bell fought for in the unfinished hall and rung over the
+// singers, to the tuning-stone brought out at first light on the second day. In a1,
 // the king-barrow Nocstumul by a warrior and a healer in two expeditions: the outer barrow's grave-goods sold for a
 // glossary of the old script, then over the toll-bridge for a pole and a lantern and a scholar, the stair's switch
 // sprung with the pole, the jar of the embalmers' daylight carried before them so the king goes back from it, and the

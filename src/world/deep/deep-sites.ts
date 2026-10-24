@@ -146,7 +146,8 @@ export class DeepSites {
     const q = this.q;
     const ore = purpose.ore, o = purpose.objective, b = purpose.bane;
     return [...ore ? [`  Kind ${ore.kind} ${q(ore.name)} is treasure worth ${ore.worth} weighing ${ore.weight} described ${q(ore.text)}.`] : [],
-      ...b?.like ? [`  Kind ${b.item} ${q(b.like.name)} like ${b.like.base} described ${q(b.like.text)}.`] : [],
+      ...b?.like ? [`  Kind ${b.item} ${q(b.like.name)} like ${b.like.base} described ${q(b.like.text)}`
+        + `${b.like.grants ? ` granting ${b.like.grants}` : ''}.`] : [],
       `  Kind ${o.kind} ${q(o.item)} is treasure worth ${o.worth ?? 2000} weighing ${o.weight ?? 30} described ${q(o.text)}.`,
       ...[...Object.values(purpose.valuables ?? {}).flat(), ...left].map(v =>
         `  Kind ${v.id} ${q(v.name)} is treasure worth ${v.worth} weighing ${v.weight} described ${q(v.text)}.`)];

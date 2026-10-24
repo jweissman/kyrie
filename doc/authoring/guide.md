@@ -495,7 +495,14 @@ and its weight, which may be less than nothing. A creature too: `Species fen_cat
   Kind selm_stone "a fist of selm" is treasure worth 12 weighing -2.
 ```
 
-`mass(kind)` reads the weight in a rule (`probes/local-kind`, `probes/selm`).
+`mass(kind)` reads the weight in a rule (`probes/local-kind`, `probes/selm`). A kind like one the catalog has is
+carried as that one is; `granting` says what it brings whoever carries it equipped, in place of what that one brings.
+The Water-Wardens' oath-tablet is carried as a book is, and brings the oath their keeper cannot abide, not a
+glossary's reading of the old script:
+
+```text
+  Kind wardens_oath "the Wardens' oath-tablet" like old_glossary granting oath described "A slate tablet…".
+```
 
 ### Asleep, awake, and who sees
 

@@ -13,12 +13,13 @@ import type { Region } from '../src/world/region-writer';
 // a great pipe to go down feet first; the gate of the deep cistern sealed with the Wardens' warning cut round it; a
 // cistern standing under water that drains only while the master sluice turns the springs onto the great wheel and
 // its pump-rods are coupled; and at the bottom a keeper that shrinks not from the day but from the Wardens' oath, on
-// a tablet of the cisterns' own that reads the old script as the glossary does. Thorn is a marsh of the stone and
+// a tablet of the cisterns' own. Reading the old script is not the oath: a bard who reads it, or anyone with a
+// glossary, was enough until thorn was played, and the archive was never wanted. Thorn is a marsh of the stone and
 // water arts.
 class Cisterns {
-  static async world(seed: string) {
+  static async world(seed: string, classId = 'warrior') {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId }] });
     const region = w.report.region as Region, deep = region.sites.find(s => s.work?.deep)!;
     return { s: await PlaySession.start(w.path, seed, w.source), deep, room: (r: string) => `region__${deep.id}_${r}` };
   }
@@ -101,15 +102,20 @@ describe('the Water-Wardens\' cisterns from the same generator as the mine', () 
     Cisterns.enter(s, room('galleries_pump'));
     expect(Cisterns.seen(s).some(t => t.includes('the deep cistern empty'))).toBe(true);
   }, 90000);
-  it('has a keeper that shrinks from the Wardens\' oath, on a tablet that reads the old script', async () => {
+  it('has a keeper that shrinks from the Wardens\' oath, on its tablet, and not from the old script read', async () => {
+    const bard = await Cisterns.world('thorn', 'bard');
+    Cisterns.clear(bard.s, bard.deep.id);
+    Cisterns.enter(bard.s, bard.room('galleries_deep_gate'));
+    expect(await Cisterns.take(bard.s, /^Read what is cut round the gate$/))
+      .toContain('READ IT THE OATH, AND IT MUST GO BACK');
+    Cisterns.enter(bard.s, bard.room('still_shore'));
+    expect(await Cisterns.take(bard.s, /^Take .* to the still water$/)).not.toContain('draws back from the words');
     const { s, deep, room } = await Cisterns.world('thorn');
     Cisterns.clear(s, deep.id);
     await Cisterns.take(s, /^Light a torch$/);
     Cisterns.enter(s, room('cistern_archive'));
     await Cisterns.take(s, /^Collect the Wardens' oath-tablet/);
     await Cisterns.take(s, /^Equip the Wardens' oath-tablet/);
-    Cisterns.enter(s, room('galleries_deep_gate'));
-    expect(await Cisterns.take(s, /^Read what is cut round the gate$/)).toContain('READ IT THE OATH, AND IT MUST GO BACK');
     Cisterns.enter(s, room('still_shore'));
     expect(await Cisterns.take(s, /^Take .* to the still water$/)).toContain('draws back from the words into the source');
     expect(Cisterns.names(s)).toContain('Collect the Wardens\' reading-glass for Wenna');

@@ -1040,7 +1040,7 @@ Old histories, scripts and the workings of magic: reading what others only see.
 
 *Kyr* · `skill:rites`
 
-- Brought by: Cleric, The faith backgrounds, Dirge bell
+- Brought by: Cleric, The faith backgrounds
 
 The prayers and forms that give the dead rest; what keeps the unquiet in their graves.
 
@@ -1059,6 +1059,20 @@ Strength used with judgement: lifting a fallen weight clear, wrenching a lock of
 - Brought by: Jar of moonlight
 
 Carrying a light that shows the way in unlit places.
+
+### The singers' knell
+
+*Kyr* · `skill:knell`
+
+- Brought by: Dirge bell
+
+The Stone-Singers' knell for their dead, rung on their own bell as they rang it: what stills the song they sang into their hall.
+
+### The Wardens' oath
+
+*Kyr* · `skill:oath`
+
+The oath the Water-Wardens swore over the still water, read aloud from the tablet it was cut in: what the still water cannot abide.
 
 ### Sunlight
 
@@ -4247,9 +4261,9 @@ Brings Lore to whoever carries it equipped.
 - Worth: 30
 - Worn: charm
 
-Brings Rites of the dead to whoever carries it equipped.
+Brings The singers' knell to whoever carries it equipped.
 
-> A small bell of grey bronze with a clapper of bone, rung over the dead. Whoever carries it, and rings it as it was rung, can say the rites that lay them.
+> A small bell of grey bronze with a clapper of bone, the Stone-Singers' own, rung over their dead. Whoever carries it and rings it as they rang it rings their knell.
 
 ## Combat
 

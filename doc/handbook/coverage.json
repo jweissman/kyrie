@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 361,
     "represented": 4,
-    "kyr": 85,
+    "kyr": 87,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -853,7 +853,7 @@
       "faithful": 0,
       "adapted": 2,
       "represented": 0,
-      "kyr": 16,
+      "kyr": 18,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 158,
     "represented": 9,
-    "kyr": 28,
+    "kyr": 30,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 123
@@ -1076,7 +1076,7 @@
       "faithful": 40,
       "adapted": 69,
       "represented": 0,
-      "kyr": 12,
+      "kyr": 14,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -3031,6 +3031,20 @@
   {
    "id": "skill:light",
    "title": "Light",
+   "status": "kyr",
+   "book": "phb",
+   "section": "skills"
+  },
+  {
+   "id": "skill:knell",
+   "title": "The singers' knell",
+   "status": "kyr",
+   "book": "phb",
+   "section": "skills"
+  },
+  {
+   "id": "skill:oath",
+   "title": "The Wardens' oath",
    "status": "kyr",
    "book": "phb",
    "section": "skills"
@@ -15300,8 +15314,22 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:great_centipede",
+   "title": "Great centipede",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:great_pike",
    "title": "Great pike",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:great_snake",
+   "title": "Great snake",
    "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"

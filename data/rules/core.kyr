@@ -8,6 +8,8 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity lore: capability "Lore". Entity rites: capability "Rites of the dead".
   Entity climbing: capability "Climbing". Entity light: capability "Light". Entity flame: capability "Flame".
   Entity sunlight: capability "Sunlight". Entity perception: capability "Keen eyes".
+  // What a keeper of the deep fears that only its makers' own bane brings: the Stone-Singers' bell, the Wardens' oath.
+  Entity knell: capability "The singers' knell". Entity oath: capability "The Wardens' oath".
   Entity persuasion: capability "Persuasion". Entity deception: capability "Deception".
   Entity intimidation: capability "Intimidation". Entity insight: capability "Insight".
   // How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.

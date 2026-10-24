@@ -229,8 +229,8 @@ was worth as much as the descent, and each was fixed and pinned by a test:
   - the torn-off seal was still offered to be pushed, pried at and listened at, and gathered coins to be looked at.
     Something undone (a trap gone off, a seal broken, a lid off) is not tried, and a purse gathered is done with;
   - a goat that had got loose could be told "not to wait for you".
-- A fourth: d4, with a bard, whose record is `test/fixtures/descent/d4.choices` (90 choices, the third kept
-  descent). Gareth, a pilgrim, joined at Muntheald for 3 coin, and brought the rites of the dead; Liora the smith
+- A fourth: d4, with a bard, whose record is `test/fixtures/descent/d4.choices` (the third kept descent;
+  90 choices at first). Gareth, a pilgrim, joined at Muntheald for 3 coin, and brought the rites of the dead; Liora the smith
   sold a crowbar and a pole. Akarn, a mason who fights, joined at Stānhricg, past the philosophers on the green.
   The play went like this:
   - the bar lifted the pivot-door across the stair, and a voice at its foot was fought;
@@ -249,6 +249,35 @@ was worth as much as the descent, and each was fixed and pinned by a test:
     whatever a town's heart is called, and the dispute is "here" when you are at it;
   - "the settled pivot-door" stayed settled once it swung; it is the pivot-door;
   - a notebook read was still offered to be looked at closely.
+
+  Then I went back to make the hall worth the evening, and found it was easier than it looked. Gareth had not needed
+  the bell at all: the Unsung feared the rites of the dead, which any pilgrim or cleric has. The Wardens' still water
+  in thorn feared lore, which any bard or scholar has, or a 60-coin glossary from a shrine. Only the mine's and the
+  barrow's keepers feared something nobody brings, the daylight in a jar. And the Unsung, a keeper of level 8, had
+  13 hit points: the golem's level-1 line was fixed in two places, the catalog and Deem's body table, so its level
+  counted for nothing. With the bell left in its niche, three level-1 characters killed it in one round. Changed:
+  - each keeper fears only what its makers left against it. The dirge bell brings the singers' knell, and the
+    oath-tablet the Wardens' oath, and nothing else answers either. A keeper's bane must be found in the deep. To
+    make the tablet, Kyr's `Kind` gained `granting`: a kind of the module's own, carried as a catalog kind is, that
+    brings its own capability (`Kind wardens_oath "…" like old_glossary granting oath`). It is in the authoring
+    guide and in the local-kind probe;
+  - a golem's line grows three hit points a level above the first, as Orsino's monster template grows a line: 13 at
+    level 1 as before, 34 at level 8 (Deem's `hpPerLevel`, beside `fixedHp`). A great snake and a
+    great centipede, the cisterns' and the hall's elites at the top, were Orsino's animals, whose lines do not grow:
+    a "great snake" heard from every room had 3 hit points. They are Kyr's own kinds now, and grow by hit die;
+  - the still halls are a long hall and an unfinished hall longer, with the hall of echoes always there, and they have
+    dwellers: a hard note in the long hall and the unsung stone in the unfinished one. The bell is no longer in the
+    cantors' rooms beside the crack. It is in the unfinished hall, in the hand of the last cantor, who went down with
+    it ("THE LAST OF THE CANTORS HAS THE BELL", the door says). The crack now lands in the hall of echoes, and needs
+    a climber or a rope.
+
+  Played again from the cantors' rooms with the same company: down the crack on the rope, a pressure plate sprung
+  with the pole, the riddle in the chorus, past the hard note while its patience lasted and the glyph on the way
+  unsaid, then into the unfinished hall, where taking the bell brought the unsung stone on. It was killed, with Wenna
+  at half her hit points. Rung in the last hall, the bell sent the Unsung back. The way out was the crack again, and
+  the tuning-stone came into daylight at first light on the second day. The record is now 101 choices. It is better,
+  not yet good: one fight more than before and a real one, but the hall is still the shortest of the four, and a
+  company that brings a rope and a pole has its two hard ways in solved before it arrives.
 - a1 again, with a warrior, to the barrow's heart: the fourth kept descent, `test/fixtures/descent/a1.choices`
   (132 choices). Cyril the pedlar joined at Murkstede again. There were two expeditions:
   - the first afternoon: the outer barrow's grave-goods, and Wenna's brawn on the jammed counterweight, which frees
@@ -484,7 +513,7 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 1. Play more of it. The barrow and the cisterns have each been played from the first page, and each found a dozen
    faults that no test had. a1's first company died in the barrow's halls on the fifth day; its second, a warrior's,
    brought the crown out on the fourth morning. Thorn's brought the Wardens' reading-glass up on the fourth, and
-   d4's the Stone-Singers' tuning-stone on the second, too easily. The mine with another company is still to play,
+   d4's the Stone-Singers' tuning-stone on the second, too easily, and again, deepened, less so. The mine with another company is still to play,
    and the barrow's treasury and deep grave are still unvisited.
    Things to look at from this play:
    - a level-1 company has little room for a bad fight; three of four were felled by one elite;

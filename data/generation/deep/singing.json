@@ -1,5 +1,5 @@
 {
-  "about": "The Stone-Singers' hall under a hill: a deep site generated from what it was for. They shaped stone by song, cutting their halls whole out of the living rock without a mark of chisel or a joint, and their doors opened to a note; at the last, failing, they sang the last of themselves into the stone of their hall. Levels follow the singing down: the porch and its hall of doors, the choir where they sang, and the still halls where the song stopped. A pivot-door that has settled on its stone closes the stair; the door of the still halls opens only to the note cut over it, for whoever can read it; a crack the unsung stone opened is a way round; a sounding-shaft where the wind sings is a second way out. What the singers sang into the stone keeps the last hall, and the rites of the dead lay it: the cantors kept a dirge bell. Written by hand.",
+  "about": "The Stone-Singers' hall under a hill: a deep site generated from what it was for. They shaped stone by song, cutting their halls whole out of the living rock without a mark of chisel or a joint, and their doors opened to a note; at the last, failing, they sang the last of themselves into the stone of their hall. Levels follow the singing down: the porch and its hall of doors, the choir where they sang, and the still halls where the song stopped, down a long hall to where it was still cutting the rock when it failed. A pivot-door that has settled on its stone closes the stair; the door of the still halls opens only to the note cut over it, for whoever can read it; a crack the unsung stone opened is a way round, for a climber or a rope; a sounding-shaft where the wind sings is a second way out. What the singers sang into the stone keeps the last hall, and their own knell stills it, rung on the cantors' bell: not a priest's prayers, but their bell, which the last of the cantors took down and lies with in the unfinished hall. Written by hand.",
   "art": "stone",
   "walks": ["the passage", "the curving way", "the smooth passage"],
   "plan": {
@@ -34,9 +34,10 @@
     {
       "id": "still",
       "names": ["the still halls", "where the song stopped"],
-      "spine": ["landing", "chorus", "heart"],
+      "spine": ["landing", "chorus", "nave", "heart"],
       "branches": [
-        { "at": "chorus", "roles": ["?echoes"] },
+        { "at": "chorus", "roles": ["echoes"] },
+        { "at": "nave", "roles": ["unfinished"] },
         { "at": "heart", "roles": ["root"] }
       ],
       "loops": []
@@ -45,7 +46,7 @@
   "connectors": [
     { "kind": "stair", "from": ["porch", "stair_head"], "to": ["choir", "stair_foot"], "mechanism": "winch", "minutes": 3, "names": ["the stair behind the pivot-door"] },
     { "kind": "door", "from": ["choir", "deep_door"], "to": ["still", "landing"], "mechanism": "seal", "minutes": 1, "names": ["the singing door"] },
-    { "kind": "crawl", "from": ["choir", "cantors"], "to": ["still", "chorus"], "minutes": 8, "names": ["the crack in the unsung stone"] }
+    { "kind": "crawl", "from": ["choir", "cantors"], "to": ["still", "echoes"], "minutes": 8, "needs": ["climbing", "rope"], "names": ["the crack in the unsung stone"] }
   ],
   "roles": {
     "mouth": { "lit": true, "names": ["the mouth of the hall"], "scenes": ["Inside the mouth the rock is as smooth as it is without, the floor worn into a shallow trough by feet, and the air that comes out of the hill is cool and smells of nothing at all. Somewhere far in, something is humming."] },
@@ -65,6 +66,8 @@
     "landing": { "names": ["the landing"], "scenes": ["Beyond the door the air is still in a way the air above was not, and the floor goes down by low broad steps, and there is no echo at all."] },
     "chorus": { "names": ["the chorus"], "scenes": ["The hall is full of people, standing, their mouths open on a note, every one of them stone: the Stone-Singers, as many as the choir above would hold, sung into the stone of their own hall. Their faces are not afraid."] },
     "echoes": { "names": ["the hall of echoes"], "scenes": ["A hall where every sound you make comes back, and goes on coming back, fainter, long after you have stopped, until you are not sure which of the voices is yours."] },
+    "nave": { "names": ["the long hall"], "scenes": ["A hall that goes on down by long shallow steps, further than your light. Its walls are sung into faces, the same face again and again, each a little less finished than the last, until at the far end they are only the swell of the stone where a face would have been."] },
+    "unfinished": { "names": ["the unfinished hall"], "scenes": ["Here the halls stop being halls. The rock is sung half smooth, then rough, then raw, in ridges like a wave that set before it could break, and the floor is deep in a grey dust that was stone."] },
     "heart": { "names": ["the last hall"], "scenes": ["At the bottom of the still halls a round hall with a single stone at its centre, set on a stone stem like a flower, and the stone is humming: the one sound in the still halls, low and steady, the last note the Stone-Singers held."] },
     "root": { "names": ["the root of the hill"], "scenes": ["Behind the last hall the cut stone gives out into the hill's own rock, cracked and raw, a long way down, as if the hill had been opened here by something leaving."] }
   },
@@ -87,7 +90,7 @@
   ],
   "elites": [
     { "depth": 0, "groups": [
-      { "species": "centipede", "count": 1, "label": "the great centipede", "role": "a centipede as long as the gallery bends, that knows every bend", "temperament": "territorial" }
+      { "species": "great_centipede", "count": 1, "label": "the great centipede", "role": "a centipede as long as the gallery bends, that knows every bend", "temperament": "territorial" }
     ] },
     { "depth": 1, "groups": [
       { "species": "banshee", "count": 1, "label": "the first cantor", "role": "the first cantor of the choir, who still leads the song", "temperament": "territorial" }
@@ -103,18 +106,18 @@
     "level": 8,
     "temperament": "territorial",
     "refuge": "root",
-    "fears": "rites",
+    "fears": "knell",
     "words": {
       "Warns": "Behind the humming stone the wall of the last hall stands up out of itself and is a figure, as tall as the hall, made of every singer at once; it opens a mouth that is all their mouths, and the note gets louder.",
-      "Flinches": "You ring the dirge bell over the singers, and say for them what is said over the dead. The Unsung stops; the note in it falters, and it goes back from you into the root of the hill, as the dead go when they have been sent."
+      "Flinches": "You ring the dirge bell over the singers in their stone, as they rang it over their dead. The Unsung stops; the note in it falters, and it goes back from you into the root of the hill, as the dead go when they have been sent."
     }
   },
   "bane": {
     "item": "dirge_bell",
-    "role": "cantors",
-    "seen": "In a niche of the cantors' room, apart from everything else, a small bell of grey bronze hangs on a peg of stone, with a clapper of bone.",
-    "cut": "WE ARE IN THE STONE. RING FOR US AS FOR THE DEAD, AND THE SONG WILL BE STILL.",
-    "fact": "What the Stone-Singers sang into their hall cannot bear the rites of the dead said over it; their cantors kept a dirge bell for the dead."
+    "role": "unfinished",
+    "seen": "In the dust at the end of the unfinished hall lies what is left of a cantor who did not go into the stone with the rest: grey robes over grey bones, and in one hand a small bell of grey bronze with a clapper of bone.",
+    "cut": "WE ARE IN THE STONE. RING FOR US AS FOR THE DEAD, AND THE SONG WILL BE STILL. THE LAST OF THE CANTORS HAS THE BELL.",
+    "fact": "What the Stone-Singers sang into their hall cannot bear their own knell rung over it; their cantors kept the dirge bell, and the last of them took it down to where the song was still cutting the hill."
   },
   "objective": {
     "item": "the tuning-stone of the Stone-Singers",
@@ -145,7 +148,7 @@
     "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
     "journal": [
       "A notebook, swollen with damp. 'The door across the stair is down on its pivot and will not turn. A bar under its edge might lift it. The gallery hums. Oda says it is only the wind in the shaft. It is not only the wind.'",
-      "A notebook, the last pages written small. 'Below the choir there is a round door with no handle and a line cut over it that is not writing. Oda thinks it is a note, and that the door would open to it, for someone who could read it. There is a crack in the cantors' room that goes down, and air comes up it.'",
+      "A notebook, the last pages written small. 'Below the choir there is a round door with no handle and a line cut over it that is not writing. Oda thinks it is a note, and that the door would open to it, for someone who could read it. There is a crack in the cantors' room that goes down, steep, and air comes up it. We would want the rope.'",
       "A notebook, the last page hardly legible. 'They are all down there, the singers, standing, in stone. Oda went past them to the last hall. The stone in there stood up.'",
       "A notebook with one line in it: 'it is singing them'."
     ]

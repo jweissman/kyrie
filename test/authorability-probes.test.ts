@@ -42,6 +42,7 @@ describe('Authorability probes', () => {
     expect((await Probe.lint('local-kind/probe.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
     const s = await Probe.start('local-kind/probe.campaign.json');
     expect(Canon.items.dreg_ox?.value).toBe(2);
+    expect([Canon.items.day_jar?.slot, Canon.items.day_jar?.grants?.skill]).toEqual(['book', 'sunlight']);
     expect(Probe.measure(s, 'mass', 'dreg_ox')).toBe(1);
     expect(ScreenModel.build(s.campaign).things.some(t => /little ox of dreg/.test(t.name))).toBe(true);
   }, 60000);

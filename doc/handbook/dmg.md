@@ -580,7 +580,7 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 *Kyr · kind* · `rule:world_core.difficulty`
 
-How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
+What a keeper of the deep fears that only its makers' own bane brings: the Stone-Singers' bell, the Wardens' oath. How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
 
 #### terrainkind, terrain
 

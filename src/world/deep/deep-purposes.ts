@@ -60,8 +60,9 @@ export interface DeepPurpose {
   // What it cannot bear, and where the makers left it: an item in a room of a role, how it looks there, the words
   // they cut about it (read with lore where they walled the way down), and what reading them tells.
   bane?: { item: string; role: string; seen: string; cut: string; fact: string;
-    // A kind of the site's own, made like a catalog item it works as (an oath-tablet that reads as a glossary does).
-    like?: { name: string; base: string; text: string } };
+    // A kind of the site's own, made like a catalog item it is carried as (an oath-tablet, as a book is), and what it
+    // brings whoever carries it, which is what the keeper fears.
+    like?: { name: string; base: string; text: string; grants?: string } };
   // What they died for: the thing at the bottom, what it is, what it is to bring it up, and how that is told.
   objective: { item: string; kind: string; text: string; goal?: string; raised?: string; worth?: number;
     weight?: number };

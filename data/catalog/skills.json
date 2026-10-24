@@ -96,6 +96,20 @@
         "kyr": true
       }
     },
+    "knell": {
+      "name": "The singers' knell",
+      "description": "The Stone-Singers' knell for their dead, rung on their own bell as they rang it: what stills the song they sang into their hall.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "oath": {
+      "name": "The Wardens' oath",
+      "description": "The oath the Water-Wardens swore over the still water, read aloud from the tablet it was cut in: what the still water cannot abide.",
+      "source": {
+        "kyr": true
+      }
+    },
     "sunlight": {
       "name": "Sunlight",
       "description": "Carrying daylight itself: it shows the way where other light dies, and things of the dark cannot bear it.",

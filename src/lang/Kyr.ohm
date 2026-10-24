@@ -111,6 +111,7 @@ Kyr {
   KindPart = "worth" integer -- worth
            | "weighing" signed -- weighing
            | "described" string -- described
+           | "granting" ident -- granting
   LocalSpecies = "Species" ident string SpeciesBody
   SpeciesBody = "like" ident SpeciesPart* "."
   SpeciesPart = "tame" -- tame

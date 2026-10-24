@@ -583,6 +583,23 @@ Flee: Try to escape the fight (an even chance).
 
 > A sure-footed and hardy herbivore with a curious nature.
 
+#### Great centipede
+
+*Kyr · beast* · `species:great_centipede`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Temperament: territorial
+- Found in: cave
+- Worth: 150 experience a level
+
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+> A centipede as long as a man is tall, pale from the dark, that comes fast and bites.
+
 #### Great pike
 
 *Kyr · beast* · `species:great_pike`
@@ -599,6 +616,25 @@ Flee: Try to escape the fight (an even chance).
 Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
 
 > A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.
+
+#### Great snake
+
+*Kyr · beast* · `species:great_snake`
+
+- Type: beast (animal)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Temperament: territorial
+- Found in: cave, marsh
+- Worth: 150 experience a level
+
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+
+Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+
+> A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.
 
 #### Hawk
 
@@ -1506,7 +1542,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 
 > A body of clay or metal, shaped and set to work by a maker.
 
-*Adapted: Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled.*
+*Adapted: Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled. Its line grows three hit points a level above the first, as Orsino's monster template grows a line (34 at level 8): a fixed 13 made the Stone-Singers' Unsung, a keeper of level 8, as easy to fell as a ghoul.*
 
 #### Iron golem
 

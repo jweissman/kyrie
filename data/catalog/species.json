@@ -438,7 +438,7 @@
       "source": {
         "orsino": "monsterType:Golem",
         "fidelity": "adapted",
-        "notes": "Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled."
+        "notes": "Composed by OrsinoMonsters (construct class, Golem type, wildtype aspect, cave terrain, minor rank, level 1). Plate natural armour and the charge and hide abilities are not modelled. Its line grows three hit points a level above the first, as Orsino's monster template grows a line (34 at level 8): a fixed 13 made the Stone-Singers' Unsung, a keeper of level 8, as easy to fell as a ghoul."
       }
     },
     "iron_golem": {
@@ -582,6 +582,56 @@
       "source": {
         "kyr": true,
         "notes": "Kyr's own: the Wet under the Long Man. Orsino's mud elemental is as quick as all its elementals (dexterity 19), which made a mass of wet clay nimbler than a cat and nearly impossible for a new company to strike."
+      }
+    },
+    "great_snake": {
+      "name": "Great snake",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "scale"
+      },
+      "abilities": [
+        "venomous_bite",
+        "ensnare"
+      ],
+      "temperament": "territorial",
+      "habitats": [
+        "cave",
+        "marsh"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: Orsino's snake is an animal's fixed line, 3 hit points at any level, so the great snake that keeps a deep's first level would be great in name only."
+      }
+    },
+    "great_centipede": {
+      "name": "Great centipede",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A centipede as long as a man is tall, pale from the dark, that comes fast and bites.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "chitin"
+      },
+      "abilities": [
+        "venomous_bite"
+      ],
+      "temperament": "territorial",
+      "habitats": [
+        "cave"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: Orsino's centipede is an animal's fixed line, 2 hit points at any level."
       }
     },
     "great_pike": {

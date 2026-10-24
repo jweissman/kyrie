@@ -41,6 +41,7 @@ Deem's native `*` overlay adds numbers. It is appropriate only where a contribut
 | `level` | The selected family/maturity supplies its level contribution from a zero base; a caller-authored level is an explicit final replacement. Multiple maturity rows are not stacked. |
 | `hitDie` | Exclusive chassis input from the selected body or class. It is not an HP bonus or a die roll. Zero defaults allow the single owner to supply it. |
 | `fixedHp` | Exclusive optional body HP override; zero means derive HP. General overlays must not use it as a bonus. |
+| `hpPerLevel` | Exclusive with `fixedHp`, from the same body: what a fixed line gains each level above the first. Orsino's monster template grows a line by 3 a level; the golem's does (13 at level 1, 34 at level 8). Zero, the default, keeps a line fixed at every level, as a dragon's maturity total is. |
 | `slotBase`, `slotMultiplier`, `slotAttribute` | Exclusive class-rule factors, not a generic pool of independently stacking bonuses. Only one class is selected. |
 | `hpBonus`, `manaBonus` | Additive adjustments across contributions, applied after base HP/slot derivation. Results are bounded to legal minima (1 HP, 0 capacity). |
 | `maxHp`, `maxMana`, `speed` | Derived outputs. Computed once after composition and installed with forced assignments (`>`), never a numeric `*statistics` merge. |

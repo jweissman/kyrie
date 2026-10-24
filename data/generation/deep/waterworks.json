@@ -104,7 +104,7 @@
   ],
   "elites": [
     { "depth": 0, "groups": [
-      { "species": "snake", "count": 1, "label": "the great snake", "role": "a snake as long as the gate-hall, that has lived on the springs' fish for a hundred years", "temperament": "territorial" }
+      { "species": "great_snake", "count": 1, "label": "the great snake", "role": "a snake as long as the gate-hall, that has lived on the springs' fish for a hundred years", "temperament": "territorial" }
     ] },
     { "depth": 1, "groups": [
       { "species": "revenant", "count": 1, "label": "the warden of the wheel", "role": "the warden of the great wheel, who never left it", "temperament": "territorial" }
@@ -123,7 +123,7 @@
     "level": 8,
     "temperament": "territorial",
     "refuge": "source",
-    "fears": "lore",
+    "fears": "oath",
     "words": {
       "Warns": "The still water does not move, and then the whole of it looks at you. You can feel it reading you as the Wardens read it.",
       "Flinches": "You read the Wardens' oath aloud, and the still water shudders from end to end as if a wind had gone over it, and draws back from the words into the source behind the pool."
@@ -131,7 +131,7 @@
   },
   "bane": {
     "item": "wardens_oath",
-    "like": { "name": "the Wardens' oath-tablet", "base": "old_glossary", "text": "A slate tablet with the Wardens' oath cut in it, in the old script and, below, glossed word by word in a later hand; whoever carries it can read the old script well enough." },
+    "like": { "name": "the Wardens' oath-tablet", "base": "old_glossary", "grants": "oath", "text": "A slate tablet with the Wardens' oath cut in it, in the old script and, below, glossed word by word in a later hand; whoever carries it can read the oath aloud as the Wardens said it." },
     "role": "archive",
     "seen": "On the lowest shelf of the archive, apart from the reckonings, lies one tablet with a cord through it, cut deeper than the rest: an oath, by its shape.",
     "cut": "IT READS WHOEVER READS IT. READ IT THE OATH, AND IT MUST GO BACK.",
