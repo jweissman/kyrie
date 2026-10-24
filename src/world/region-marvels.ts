@@ -1,4 +1,6 @@
 import { Harm } from '../rules/harm';
+import { Canon } from '../canon/canon';
+import { parseAbility, type Effect } from '../lang/parse';
 import { Draw } from './land/draw';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
@@ -56,17 +58,27 @@ export class RegionMarvels {
     return [...this.trap(region, site, way), ...wonder ? this.wonder(wonder, beyond!) : []];
   }
   static wonder([key, w]: Wonder, room: string, prefix = 'wonder'): string[] {
-    const q = JSON.stringify, id = `${prefix}_${key}`;
-    // How it looks is told with the place, until it is met: a wonder is the first thing anyone would see there.
-    return [`  Hazard ${id}_power ${q(this.upper(w.name))} means ${q(w.effect!)}.`,
+    const q = JSON.stringify, id = `${prefix}_${key}`, power = this.runs(w.effect!);
+    // How it looks is told with the place, until it is met: a wonder is the first thing anyone would see there. One
+    // whose power the game cannot yet bring about (Orsino's arcane symbols, whose focus also gives spell slots) is
+    // met, and does nothing, rather than fail when it is touched.
+    return [...power ? [`  Hazard ${id}_power ${q(this.upper(w.name))} means ${q(w.effect!)}.`] : [],
       `  Thing ${id} ${q(w.name)} at ${room} is scenery {`,
       `    State unwoken ${q(w.seen)}.`,
       `    State woken ${q(w.after)}.`,
       `    Change meet ${q(`${w.verb} ${w.name}`)} from unwoken to woken.`, '  }',
       `  Observe ${id}_seen at ${room} when state(${id}, unwoken) ${q(w.seen)}.`,
-      `  Relation ${id}_given().`,
-      `  Rule ${id}_answers when state(${id}, woken) and not ${id}_given() says ${q(w.taken)} {`,
-      `    Assert strikes(${id}_power, party). Assert ${id}_given(). }`];
+      ...power ? [`  Relation ${id}_given().`,
+        `  Rule ${id}_answers when state(${id}, woken) and not ${id}_given() says ${q(w.taken)} {`,
+        `    Assert strikes(${id}_power, party). Assert ${id}_given(). }`] : []];
+  }
+  // Whether every condition an effect applies is one the game runs.
+  static runs(effect: string): boolean {
+    return parseAbility('wonder', 'wonder', effect).effects.flatMap(e => this.applied(e))
+      .every(id => { const c = Canon.conditions[Canon.resolve('conditions', id)]; return !!c && !c.unsupported; });
+  }
+  private static applied(e: Effect): string[] {
+    return e.kind === 'apply' ? [e.status] : e.kind === 'random' || e.kind === 'cycle' ? e.effects.flatMap(x => this.applied(x)) : [];
   }
   // A trap on a work's inner way: the mechanism, as anyone can see it; what looking closely at it shows, and the
   // ways of dealing with it that knowing that opens; what it does when it goes off; and the way after.

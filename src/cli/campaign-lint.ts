@@ -36,6 +36,24 @@ export class CampaignLint {
       catch (error) { this.add('error', 'hazard', `${h.id}: ${error instanceof Error ? error.message : String(error)}`); }
     }
   }
+  // A name in braces names something: an entity, or what an action is done with or a rule is about. One that names
+  // nothing ("Let {winchh} run out") reaches the player as the bare word.
+  placeholders() {
+    for (const a of this.module.actions) {
+      const bound = new Set((a.parameters ?? []).map(p => p.name));
+      for (const text of [a.name, a.description, a.report, a.otherwise]) { this.named(text, a.id, bound); }
+    }
+    for (const o of this.module.observations ?? []) { this.named(o.text, o.id, new Set()); }
+    for (const r of this.module.rules ?? []) { this.named(r.say, r.id, new Set()); }
+    for (const e of this.module.entities.filter(x => x.type === 'fact')) { this.named(e.name, e.id, new Set()); }
+  }
+  private named(text: string | undefined, where: string, bound: Set<string>) {
+    for (const [, ref] of (text ?? '').matchAll(/\{([A-Za-z_?][\w?]*)\}/g)) {
+      if (!ref!.startsWith('?') && !bound.has(ref!) && !this.entities.has(ref!)) {
+        this.add('error', 'placeholder', `${where}: {${ref}} names nothing`);
+      }
+    }
+  }
   containment() {
     for (const p of this.module.entities.filter(e => e.type === 'place' && !e.space)) {
       this.add('warning', 'containment', `${p.id} has no place in the containment tree`);
