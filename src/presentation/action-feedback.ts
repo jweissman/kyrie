@@ -31,6 +31,21 @@ export class ActionFeedbackView {
       - (before.minutes ?? 0);
     return `${FictionalTime.duration(0, spent)} · ${FictionalTime.at(after.elapsed, after.minutes)}`;
   }
+  // How a fight went, blow by blow; set upon after a fight of its own, that fight, then who came at the company ("The
+  // bone hounds come at you."), then theirs.
+  private static fights(event: CampaignEvent, before: PlayerSnapshot,
+    names: Parameters<typeof CombatPresenter.format>[1]): string[] {
+    const split = event.prelude?.fought, onset = event.prelude?.response;
+    if (!split) { return this.blows(event.combat, before, names); }
+    return [...this.blows(event.combat.slice(0, split), before, names), ...onset ? [onset] : [],
+      ...this.blows(event.combat.slice(split), before, names)];
+  }
+  private static blows(events: CampaignEvent['combat'], before: PlayerSnapshot,
+    names: Parameters<typeof CombatPresenter.format>[1]): string[] {
+    return events.filter(e => e.type !== 'action' && !('amount' in e && e.amount === 0 && e.type !== 'damage')
+      && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
+      .map(e => CombatPresenter.format(e, names));
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action)!;
@@ -38,9 +53,7 @@ export class ActionFeedbackView {
     const called = BandNames.of(campaign);
     const names = { combatants: campaign.readout.creatures.map(c => ({ ...CombatProjection.fighter(c, 'fighters'),
       name: called.get(c.id) ?? c.name })), turn: 0, actor: '', outcome: null };
-    const combat = event.combat.filter(e => e.type !== 'action' && !('amount' in e && e.amount === 0 && e.type !== 'damage')
-      && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
-      .map(e => CombatPresenter.format(e, names));
+    const combat = this.fights(event, before, names), split = event.prelude?.fought;
     const rolls = event.combat.filter(e => e.type === 'check' || (e.type === 'save' && !event.combat.some(x => x.type === 'initiative')))
       .map(e => CombatPresenter.format(e, names));
     const learned = after.knowledge.filter(k => !before.knowledge.some(b => b.id === k.id));
@@ -61,7 +74,9 @@ export class ActionFeedbackView {
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
       && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');
     const nothing = quiet ? ` ${action.schema === 'search' ? 'You find nothing out of the ordinary.' : 'Nothing comes of it.'}` : '';
-    const result = event.response ? `${event.response}${nothing}` : battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
+    // Who came at the company is told between the fights, not before the first.
+    const response = split ? undefined : event.response;
+    const result = response ? `${response}${nothing}` : battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
       learned.length ? learned.map(k => k.text).join(' ') :
         before.location?.id !== after.location?.id ? `You arrive at ${after.location?.name}.` :
           combat.length ? '' :

@@ -65,8 +65,11 @@ export class Engagement {
     }
     const after = world.apply(changes);
     host.commitWorld(after);
-    const told: CampaignEvent = { ...fight, changes: [...fight.changes, ...CampaignTick.diff(world, after)],
-      prelude: { action: first.action, ...(first.response ? { response: first.response } : {}),
+    // Both fights are told: the one the company chose (the mud it attacked), then the one that came at it after.
+    const told: CampaignEvent = { ...fight, combat: [...first.combat, ...fight.combat],
+      changes: [...fight.changes, ...CampaignTick.diff(world, after)],
+      prelude: { action: first.action, fought: first.combat.length,
+        ...(first.response ? { response: first.response } : {}),
         ...(first.perceptions?.length ? { perceptions: first.perceptions } : {}) }, ...(back ? { fledTo: back } : {}) };
     host.amend(told);
     return told;

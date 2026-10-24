@@ -46,7 +46,9 @@ export interface CampaignEvent {
   response?: string;
   perceptions?: { id: string; text: string; kind: 'observation' | 'discovery' | 'event' }[];
   // A fight the company was drawn into: what it had been doing when it was fallen on, and where it ran to, if it ran.
-  prelude?: { action: string; response?: string; perceptions?: CampaignEvent['perceptions'] }; fledTo?: string;
+  // What the company did before it was set upon, and how many of the combat's events were that first fight's.
+  prelude?: { action: string; response?: string; perceptions?: CampaignEvent['perceptions']; fought?: number };
+  fledTo?: string;
   // What the company was told of what happened, in the voice tables' words (see Telling): which line, of what.
   voiced?: { id: string; kind: string; actor?: string; text: string }[];
 }

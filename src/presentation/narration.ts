@@ -5,7 +5,15 @@ export class Narration {
     let clean = lines.map(l => this.sentence(l.replace(/ \((\d+) HP; [^)]*\)/, ' ($1 HP left)')
       .replace(/(passes|fails) the (\w+) save \([^)]*\)/, (_m, verb: string, stat: string) =>
         `${verb === 'passes' ? 'resists' : 'fails to resist'} (${stat})`)));
-    if (clean.some(l => /wins the encounter/.test(l))) { clean = clean.filter(l => l !== 'Your company prevails.'); }
+    // "Your company prevails" says no more than the encounter won does; who is down after it, it still says.
+    if (clean.some(l => /wins the encounter/.test(l))) {
+      clean = clean.map(l => l.replace(/^Your company prevails\. ?/, '')).filter(Boolean);
+    }
+    // "Wenna is down" after "Wenna falls" says it twice.
+    clean = clean.filter(l => {
+      const down = /^(.+) (?:is|are) down\.$/.exec(l)?.[1]?.split(/, | and /);
+      return !down || !down.every(n => clean.includes(`${n} falls.`));
+    });
     clean = this.shared(clean);
     // "Elen takes the silver." or "Nera hands Torch to Elen." says it already: "Elen gains 1 Torch." adds nothing.
     clean = clean.filter(l => {
@@ -14,7 +22,8 @@ export class Narration {
     });
     // A fight was told blow by blow as it happened; afterwards only how it turned out is told again.
     if (!blows || clean.length <= 6) { return clean; }
-    return clean.filter(l => /falls|wins|withdraw|defeated|experience|dies|reaches level|flees|gets away/.test(l));
+    const told = /falls|wins|withdraw|defeated|experience|dies|reaches level|flees|gets away|(is|are) down|at you/;
+    return clean.filter(l => told.test(l));
   }
   static sentence(line: string): string { return line.charAt(0).toUpperCase() + line.slice(1); }
   // "Elen gains 10 experience. Bran gains 10 experience." → "Elen and Bran each gain 10 experience."
