@@ -15,8 +15,10 @@ import { CompanyPage } from './company-page';
 import { ProtagonistPage } from './protagonist-page';
 import { LoadingPage } from './loading-page';
 import { PlayPage } from './play-page';
+import { OptionsPage } from './options-page';
+import { ReaderOptions, type Options } from './reader-options';
 
-export type Phase = 'title' | 'campaigns' | 'company' | 'loading' | 'play';
+export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
 // held on the screen for its own sake.
 export interface Travel { from: string; to: string; way: string; minutes: number }
@@ -24,7 +26,7 @@ export interface Travel { from: string; to: string; way: string; minutes: number
 // page can show what happened since and what each blow took.
 export interface FightMark { seen: number; hp: Record<string, number>; first: boolean }
 export interface AppState {
-  phase: Phase; catalog?: Catalog; saved?: SavedGame;
+  phase: Phase; catalog?: Catalog; saved?: SavedGame; options: Options;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   origin?: string;
   // Someone who died in this country before, whom it will remember when it is begun again.
@@ -50,12 +52,14 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   readonly opening = new ReaderOpening(this);
   override state: AppState = ReaderApp.initial(ReaderStore.read());
   private static initial(saved?: SavedGame): AppState {
-    return { phase: 'title', campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0, open: [],
+    return { phase: 'title', options: ReaderOptions.read(), campaign: '', seed: '', party: [], editing: -1, view: 'here',
+      cursor: 0, open: [],
       attention: Conversation.place, talk: [], asked: [],
       member: '', stage: '', error: '', help: false, ...saved ? { saved } : {} };
   }
   override componentDidMount() {
     window.addEventListener('keydown', this.keys.press);
+    ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }
   override componentWillUnmount() { window.removeEventListener('keydown', this.keys.press); }
@@ -183,7 +187,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // Test and automation hook: the same semantic state the page draws.
   inspect() {
     const s = this.state, menu = this.menu, frame = s.frame;
-    const mode = s.phase !== 'play' ? { title: 'title', campaigns: 'campaigns', company: 'create', loading: 'create' }[s.phase]
+    const mode = s.phase !== 'play' ? { title: 'title', options: 'options', campaigns: 'campaigns', company: 'create',
+      loading: 'create' }[s.phase]
       : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
         ? { person: 'talk', thing: 'examine' }[s.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
           journal: 'journal', map: 'map', story: 'story' }[s.view];
@@ -198,6 +203,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   override render(): ReactNode {
     switch (this.state.phase) {
       case 'title': return <TitlePage.View app={this} />;
+      case 'options': return <OptionsPage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
       case 'company': return this.state.setting?.generated ? <ProtagonistPage.View app={this} /> : <CompanyPage.View app={this} />;
       case 'loading': return <LoadingPage.View app={this} />;

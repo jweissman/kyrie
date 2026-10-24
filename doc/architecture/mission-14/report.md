@@ -202,10 +202,19 @@ Done:
 - The map draws a site's level.
 - The dead click on a way with a fallen guard, and the angry owner with nothing to click, were fixed at the start
   (`baseline.md`).
+- The title has Options (`web/reader/options-page.tsx`): the light the page is read by (as the device has it, paper,
+  or lamplight, which darkens the day's page too; the night and the deep are dark whatever is chosen, that being
+  the world's), the size of the letters, and whether the dice are told. A check's roll is now its own kind of line,
+  told quietly under what came of it, or not at all. Kept in the browser; `test/reader-browser.test.ts`.
+- Creation says what the reason for coming makes you ("The brothers' errand makes you a scribe, who knows lore"),
+  and one who comes over the hills "with your trade and not much else" chooses the trade from the calling's own
+  backgrounds, as Orsino's creation offers them (a warrior's twelve: champion, guard, mercenary, sellsword...).
+  An origin's background now always holds: the letter that calls you one who reads the old script is not given to
+  a mercenary. The peoples offered are Orsino's own player races, human, elf and dwarf.
 
 Not done:
-- A title screen with New Game, Continue and Options beyond what exists.
-- Character creation with Orsino's backgrounds as openings.
+- An opening incident in motion: each origin frames the first page (a letter, a debt, a father who did not come
+  home), but nothing is yet happening when the game begins.
 - Conversation memory of fresh and exhausted topics beyond "asked".
 - The map's up and down between levels.
 - Pronouns in Kyr text (the priest's lines are written to need none).

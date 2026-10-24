@@ -33,6 +33,7 @@ export class ProtagonistPage {
               aria-pressed={s.origin === o.id} onClick={ProtagonistPage.pick.bind(null, app)}>
               {o.title}<span className="why">{Words.upper(o.choice)}</span>
             </button></li>))}</ol>
+          <ProtagonistPage.Trade app={app} />
           <p className="set-out">
             <button type="button" className="act go" data-nav data-action="start" onClick={app.opening.begin}>Go</button>
             <button type="button" className="act" data-nav data-action="another" onClick={app.opening.anew}>Another country</button>
@@ -40,6 +41,30 @@ export class ProtagonistPage {
         </main>
         <Toast.View app={app} />
       </div>
+    );
+  }
+  // What the reason for coming makes you (the brothers' errand, a scribe of the order); or, for one who comes with
+  // their trade and not much else, the trade, from those of their calling (Orsino's backgrounds for it).
+  static Trade({ app }: { app: ReaderApp }) {
+    const s = app.state, member = s.party[0], catalog = s.catalog;
+    const origin = s.setting?.origins?.find(o => o.id === s.origin);
+    if (!member || !catalog || !origin) { return null; }
+    const given = catalog.backgrounds.find(b => b.id === origin.background);
+    if (given) {
+      return <p className="what trade">{`${Words.upper(origin.title)} makes you ${Words.article(given.name.toLowerCase())}`
+        + `${given.text ? `, who ${given.text.replace('; ', ' and ')}` : ''}.`}</p>;
+    }
+    const trades = catalog.backgrounds.filter(b => b.calling === member.classId);
+    if (!trades.length) { return null; }
+    const chosen = trades.find(t => t.id === member.backgroundId);
+    return (
+      <section className="fields trade" aria-label="Your trade">
+        <label>Your trade<select value={chosen?.id ?? ''} data-field="backgroundId"
+          onChange={ProtagonistPage.change.bind(null, app)}>
+          <option value="">Nothing in particular</option>
+          {trades.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}</select></label>
+        {chosen?.text && <p className="what">{Words.upper(chosen.text.replace('; ', ' and '))}.</p>}
+      </section>
     );
   }
   // A calling as offered: "Cleric (not for an elf)", when it is not open to the people chosen.

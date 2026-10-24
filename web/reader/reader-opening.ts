@@ -56,6 +56,9 @@ export class ReaderOpening {
       const open = this.app.state.catalog?.ancestries.find(a => a.id === member.raceId)?.callings;
       if (field === 'raceId' && open?.length && !open.includes(member.classId ?? '')) { member.classId = open[0]!; }
       if (field === 'classId' || field === 'raceId') { delete member.traits; delete member.spells; }
+      // A trade is a calling's own: a new calling has none until one is chosen.
+      const trade = this.app.state.catalog?.backgrounds.find(b => b.id === member.backgroundId);
+      if (field === 'classId' && trade?.calling && trade.calling !== member.classId) { delete member.backgroundId; }
     }
     this.app.setState({ party });
     if (field !== 'name') { void this.preview(party); }

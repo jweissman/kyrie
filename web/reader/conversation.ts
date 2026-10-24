@@ -5,7 +5,9 @@ import type { Frame } from '../engine/protocol';
 
 // One line of a conversation as it is kept on the page: what the company said, what was said back or done, what it
 // came to know, and what it paid or was given.
-export interface TalkLine { kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'learned' | 'tally'; text: string }
+export interface TalkLine {
+  kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'learned' | 'tally'; text: string;
+}
 
 // Where the player's attention goes, and what a conversation keeps. Turning to someone, to a thing, away from a thing
 // or taking leave are choices like any other, known by their ids; whether attention holds after something is done is

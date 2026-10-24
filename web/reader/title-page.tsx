@@ -24,6 +24,8 @@ export class TitlePage {
           <p className="small-ways">
             <label data-nav tabIndex={0} data-action="load-file">Open a save file
               <input type="file" id="load" accept="application/json" hidden onChange={TitlePage.load.bind(null, app)} /></label>
+            <button type="button" className="link" data-nav data-action="options"
+              onClick={TitlePage.options.bind(null, app)}>Options</button>
             <a href="handbook/index.html">The handbooks</a>
           </p>
           {dev && <TitlePage.Dev app={app} />}
@@ -43,6 +45,7 @@ export class TitlePage {
       </section>
     );
   }
+  private static options(app: ReaderApp) { app.setState({ phase: 'options' }); }
   private static pick(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) { void app.opening.pick(e.currentTarget.dataset.id!); }
   private static load(app: ReaderApp, e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];

@@ -27,7 +27,7 @@ export interface CampaignChoice {
 export interface Setting {
   title: string; pitch: { heading: string; text: string }; party: Member[]; generated: boolean;
   // In a generated country, the reasons one person might have come into it, as this country holds them.
-  origins?: { id: string; title: string; choice: string }[];
+  origins?: { id: string; title: string; choice: string; background?: string }[];
 }
 
 // The choices a company is made from, read from the same catalogs the game runs on.

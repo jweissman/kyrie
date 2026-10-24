@@ -4,6 +4,8 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
+import { Narrator } from '../src/presentation/narrator';
+import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 
@@ -44,6 +46,16 @@ class Shrine {
 }
 
 describe('the walled stair, argued at the shrine', () => {
+  it('tells the dice of a check apart from what came of it, so that a reader may leave them untold', async () => {
+    const s = await Shrine.start(), c = PlayerView.choices(s.campaign).find(x => /^Watch Baern/.test(x.choice.name))!;
+    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const feedback = ActionFeedbackView.read(s.campaign, event, before);
+    const lines = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
+      { event, feedback, said: c.choice.name, moved: false }).exchange!.lines;
+    expect(lines.filter(l => l.kind === 'roll').map(l => l.text))
+      .toEqual([expect.stringMatching(/makes the insight check \(d20/)]);
+    expect(lines.some(l => l.kind === 'telling' && /down there/.test(l.text))).toBe(true);
+  }, 60000);
   it('is the priest\'s to forbid, and is argued at odds the page states', async () => {
     const s = await Shrine.start();
     expect(Shrine.names(s)).toEqual(expect.arrayContaining([

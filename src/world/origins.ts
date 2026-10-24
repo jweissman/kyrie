@@ -18,7 +18,8 @@ export interface OriginManifest {
   id: string; title: string; binder: string; source: string; choice: string;
   background?: string; coin?: number; gear?: string[];
 }
-export interface OriginChoice { id: string; title: string; choice: string }
+// An origin as the creation page offers it; with the background it makes the protagonist, if it makes one.
+export interface OriginChoice { id: string; title: string; choice: string; background?: string }
 // What an origin is bound to in one world: the words its text is filled with, the entities it imports (with their
 // types), and where the protagonist begins.
 interface Bound { values: Record<string, string>; imports: Record<string, [string, string]>; start: Start }
@@ -39,13 +40,15 @@ export class Origins {
   static choices(loaded: Loaded[], region: Region, placements: Placement[]): OriginChoice[] {
     return loaded.flatMap(o => {
       const bound = this.bind(o.manifest.binder, region, placements);
-      return bound ? [{ id: o.manifest.id, title: o.manifest.title,
-        choice: this.fill(o.manifest.choice, bound.values) }] : [];
+      return bound ? [{ id: o.manifest.id, title: o.manifest.title, choice: this.fill(o.manifest.choice, bound.values),
+        ...o.manifest.background ? { background: o.manifest.background } : {} }] : [];
     });
   }
-  // The protagonist as the origin makes them: its background (what they know how to do) and what they carry.
+  // The protagonist as the origin makes them: its background (what they know how to do), which is what its story
+  // says they are (a scribe of the order reads the old script), and what they carry. One that makes them nothing in
+  // particular keeps the trade they chose.
   static member(origin: OriginManifest, member: CreatureGenerationContext): CreatureGenerationContext {
-    return { ...member, ...origin.background && !member.backgroundId ? { backgroundId: origin.background } : {},
+    return { ...member, ...origin.background ? { backgroundId: origin.background } : {},
       ...origin.gear ? { gear: [...member.gear ?? [], ...origin.gear] } : {} };
   }
   // The origin's module, written against this world, for the campaign to install after the region.

@@ -6,6 +6,8 @@ import { FictionalTime } from './fictional-time';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
+  // Of the immediate, those that tell a roll made outside a fight (a check): what was rolled, against what.
+  rolls: string[];
   observations: string[]; available: string[]; unavailable: string[]; events: string[];
 }
 export class ActionFeedbackView {
@@ -35,6 +37,8 @@ export class ActionFeedbackView {
       turn: 0, actor: '', outcome: null };
     const combat = event.combat.filter(e => e.type !== 'action' && !('amount' in e && e.amount === 0 && e.type !== 'damage')
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
+      .map(e => CombatPresenter.format(e, names));
+    const rolls = event.combat.filter(e => e.type === 'check' || (e.type === 'save' && !event.combat.some(x => x.type === 'initiative')))
       .map(e => CombatPresenter.format(e, names));
     const learned = after.knowledge.filter(k => !before.knowledge.some(b => b.id === k.id));
     // What taught the company something is what it saw, though once it knows, the place no longer shows it so.
@@ -78,7 +82,7 @@ export class ActionFeedbackView {
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
-      discoveries: learned.map(k => k.text),
+      rolls, discoveries: learned.map(k => k.text),
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?

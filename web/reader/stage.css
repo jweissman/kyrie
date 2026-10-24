@@ -21,11 +21,35 @@
   --sel-ink: #0f1115; }
 .stage[data-light="dark"] { --ground: #0b0a09; --paper: #151311; --hair: #34302a; --wash: #1d1a17; --sel-bg: #ece6da;
   --sel-ink: #0b0a09; }
+/* Lamplight, chosen in the options or the device's own: the day's page and the inn's are dark too (the inn's warm by
+   its fire); the night's and the deep's always are. */
+:root[data-theme="dark"] .stage:is([data-light="day"], [data-light="indoor"]) {
+  --ink: #ece6da; --grey: #a29d92; --faint: #6f6b63; --accent: #9fbf8e; --red: #e0563e; --river: #7aa7ea;
+  --land: #1d1d22; --known: #26262c; --wood: #232820; --fell: #29261f; --heath: #2a2422; --fen: #1f2623; --peak: #302d28;
+  --water: #1b2533; color-scheme: dark;
+  --ground: #1b1a17; --paper: #24221e; --hair: #3c3933; --wash: #2c2a25; --sel-bg: #ece6da; --sel-ink: #1b1a17; }
+:root[data-theme="dark"] .stage[data-light="indoor"] { --ground: #1f1a14; --paper: #29221a; --accent: #d9a54c;
+  --hair: #443a2c; --wash: #30281e; --sel-ink: #1f1a14; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .stage:is([data-light="day"], [data-light="indoor"]) {
+    --ink: #ece6da; --grey: #a29d92; --faint: #6f6b63; --accent: #9fbf8e; --red: #e0563e; --river: #7aa7ea;
+    --land: #1d1d22; --known: #26262c; --wood: #232820; --fell: #29261f; --heath: #2a2422; --fen: #1f2623; --peak: #302d28;
+    --water: #1b2533; color-scheme: dark;
+    --ground: #1b1a17; --paper: #24221e; --hair: #3c3933; --wash: #2c2a25; --sel-bg: #ece6da; --sel-ink: #1b1a17; }
+  :root:not([data-theme="light"]) .stage[data-light="indoor"] { --ground: #1f1a14; --paper: #29221a; --accent: #d9a54c;
+    --hair: #443a2c; --wash: #30281e; --sel-ink: #1f1a14; }
+}
 :root:has(.stage[data-light="day"]) body { background: #ece6da; }
 :root:has(.stage[data-light="indoor"]) body { background: #e3d8c4; }
 :root:has(.stage[data-light="dusk"]) body { background: #22222a; }
 :root:has(.stage[data-light="night"]) body { background: #0f1115; }
 :root:has(.stage[data-light="dark"]) body { background: #0b0a09; }
+:root[data-theme="dark"]:has(.stage[data-light="day"]) body { background: #1b1a17; }
+:root[data-theme="dark"]:has(.stage[data-light="indoor"]) body { background: #1f1a14; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):has(.stage[data-light="day"]) body { background: #1b1a17; }
+  :root:not([data-theme="light"]):has(.stage[data-light="indoor"]) body { background: #1f1a14; }
+}
 
 .stage { min-height: 100dvh; background: var(--ground); color: var(--ink); transition: background-color .4s; }
 .stage .act { text-decoration-color: var(--hair); }

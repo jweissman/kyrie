@@ -18,6 +18,10 @@ class Opening {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { origin, party: [this.wenna] });
     return PlaySession.start(w.path, seed, w.source);
   }
+  static async world(origin: string, backgroundId: string): Promise<[string, string, NodeBundleSource]> {
+    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { origin, party: [{ ...this.wenna, backgroundId }] });
+    return [w.path, 'a1', w.source as NodeBundleSource];
+  }
   // A choice by its words or its command (the way into a settlement is go(…, …_green) whatever its heart is called).
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
@@ -34,6 +38,17 @@ describe('an origin', () => {
     // The drover's family lives where the drover's story is set: a settlement with an inn to mourn him in.
     const home = w.report.region.settlements.find(t => t.id === w.report.placements.find(p => p.scenario === 'drover')!.bindings.town)!;
     expect(offered[0]!.choice).toContain(`Your father, a drover of ${home.name}`);
+  }, 60000);
+  it('makes the protagonist what its story says they are; one over the hills keeps the trade they chose', async () => {
+    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
+    const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements);
+    expect(Object.fromEntries(offered.map(o => [o.id, o.background]))).toEqual(
+      { kin: 'herdsman', order: 'scribe', debt: 'trader', wanderer: undefined });
+    const as = async (origin: string) => {
+      const s = await PlaySession.start(...await Opening.world(origin, 'mercenary'));
+      return s.campaign.readout.creatures.find(c => s.campaign.readout.partyIds.includes(c.id))!.backgroundId;
+    };
+    expect([await as('order'), await as('wanderer')]).toEqual(['scribe', 'mercenary']);
   }, 60000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);

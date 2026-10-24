@@ -9,7 +9,7 @@ import { ModuleWriter } from '../lang/module-writer';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
-export interface ExchangeLine { text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' }
+export interface ExchangeLine { text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' }
 export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail' }
 // What the page tells, kept apart by what it is for: the present situation (what this place is, and who and what
 // is here), what has changed since the company was last here, and what came of the last thing it did.
@@ -207,7 +207,8 @@ export class Narrator {
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing ? [] : events,
       ...voiced,
-      ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: fight ? 'fight' as const : 'event' as const })),
+      ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''),
+        kind: fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...event.changes.includes(`+ weary(${campaign.playerActor})`) ? [{ text: Narrator.weary, kind: 'event' as const }] : [],
       ...(told.moved ? [] : feedback.observations.map(text => ({ text, kind: 'change' as const }))),
     // What someone says, whether answering or of their own accord (a companion's word on coming somewhere), is speech.
