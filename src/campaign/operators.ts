@@ -17,7 +17,11 @@ export class Operators {
   private readonly order: Map<string, number>;
   private readonly relations: Set<string>;
   private readonly queries: Set<string>;
+  // The actions made most lately, by id, as many as `kept`: a long game's townsfolk plan over tens of thousands of
+  // actions, and kept every one of them (Mission 15: 128 MB after 333 commands of wren, a fresh restore of which
+  // holds 48 MB in all). One made again is the same action.
   private readonly made = new Map<string, Operator>();
+  private static readonly kept = 4096;
   private readonly atoms = new Map<string, Call[]>();
   constructor(readonly module: Module, private readonly actors?: Actors) {
     this.labels = ActionSchemas.labels(module);
@@ -30,7 +34,7 @@ export class Operators {
   }
   // The operator with this id, if its schema exists and its arguments have the declared types.
   get(id: string): Operator | undefined {
-    const made = this.made.get(id);
+    const made = this.recall(id);
     if (made) { return made; }
     const plain = this.schemas.get(id);
     if (plain) { return plain.parameters?.length ? undefined : plain; }
@@ -51,20 +55,33 @@ export class Operators {
       const parameters = schema.parameters ?? [];
       if (actor !== undefined && !parameters.some(p => p.name === 'actor')) { continue; }
       if (actor !== undefined && !ActionSchemas.mayAct(schema, actor, this.actors)) { continue; }
-      const candidates = parameters.length ? this.bindings(world, schema, actor !== undefined ? { actor } : {})
-        .map(b => this.make(schema, b)) : [schema];
-      out.push(...candidates.filter(op => world.test(op.requires) && world.admits(op.success)));
+      // A candidate's precondition is the schema's under its binding (World.test binds a schema's parameters as an
+      // action made of it has them bound), so only the candidates it holds for are made into actions.
+      if (!parameters.length) {
+        if (world.test(schema.requires) && world.admits(schema.success)) { out.push(schema); }
+        continue;
+      }
+      out.push(...this.bindings(world, schema, actor !== undefined ? { actor } : {})
+        .filter(b => world.test(schema.requires, b)).map(b => this.make(schema, b))
+        .filter(op => world.admits(op.success)));
     }
     return out;
   }
   private make(schema: Operator, binding: Binding): Operator {
     const id = `${schema.id}(${schema.parameters!.map(p => binding[p.name]).join(',')})`;
-    let op = this.made.get(id);
+    let op = this.recall(id);
     if (!op) {
       const ordered = Object.fromEntries(schema.parameters!.map(p => [p.name, binding[p.name]!]));
       op = ActionSchemas.instance(schema, ordered, this.labels);
       this.made.set(id, op);
+      if (this.made.size > Operators.kept) { this.made.delete(this.made.keys().next().value!); }
     }
+    return op;
+  }
+  // An action made before, kept as the latest made.
+  private recall(id: string): Operator | undefined {
+    const op = this.made.get(id);
+    if (op) { this.made.delete(id); this.made.set(id, op); }
     return op;
   }
   private fits(schema: Operator, parameter: string, value: string | undefined): boolean {
