@@ -15,6 +15,7 @@ import { HandbookTool } from './handbook';
 import { OrsinoRegistryTool } from './orsino-registry';
 import { Playtext } from './playtext';
 import { PlayTool } from './play-tool';
+import { NewTool } from './new-tool';
 import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
 import { DrawnWorld } from '../world/drawn-world';
@@ -22,7 +23,8 @@ import { DrawnWorld } from '../world/drawn-world';
 export class KyrieCli {
   static readonly usage = [
     'Play:      bin/kyrie campaign <campaign.json> [seed] | resume <save.json> | replay <transcript.json>',
-    'Author:    bin/kyrie lint [campaign.json] [--inventory] | compile <module.kyr> | preview <campaign.json> [--port 8080]',
+    'Author:    bin/kyrie new <id> ["Title"] | lint [campaign.json] [--inventory] | compile <module.kyr>',
+    '           bin/kyrie preview <campaign.json> [--port 8080]',
     '           bin/kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | playtext <seed> [steps]',
     '           bin/kyrie play <campaign.json> [--seed s] [--steps steps.json] [--probe "fact args"|"#measure args"] [step ...]',
     '           bin/kyrie voice show|moments|coverage|review|orsino | handbook [--html <dir>]',
@@ -41,6 +43,7 @@ export class KyrieCli {
       case 'orsino': return OrsinoRegistryTool.main(rest);
       case 'playtext': await Playtext.main(rest); return 0;
       case 'play': return PlayTool.main(rest);
+      case 'new': return NewTool.main(rest);
       case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); return 0;
       case 'replay': return this.replay(path);
       case 'resume': await Terminal.play(Campaign.restore(JSON.parse(await readFile(path, 'utf8')))); return 0;

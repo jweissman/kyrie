@@ -451,6 +451,17 @@ river rising.
 
 ## 9. Check it
 
+To begin an adventure with everything this section uses:
+
+```
+bin/kyrie new ashhollow "Ash Hollow"
+```
+
+It writes a module that lints clean and plays (a region, a town, a road and a square, its company in `company.kyr`),
+the bundle that places it in a generated world (`placed.json`), its campaign, the steps of a first journey
+(`test/fixtures/ashhollow/journey.json`) and the test that plays them (`test/ashhollow.test.ts`). It writes nothing
+over a file that is there.
+
 ```
 bin/kyrie lint path/to/your.campaign.json
 ```
