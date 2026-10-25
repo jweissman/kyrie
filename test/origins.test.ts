@@ -87,6 +87,9 @@ describe('an origin', () => {
     expect(told.response).toStartWith('Your mother does not sit down.');
     expect(told.combat.filter(e => e.type === 'gain').map(e => e.type === 'gain' && e.detail))
       .toContain('experience: the drover who did not come home, seen through');
+    // And the notes keep it (the follow-up review found only "Nothing is asked of you yet" once it was done).
+    expect(ScreenModel.build(s.campaign).done)
+      .toEqual([expect.stringMatching(/^The drover who did not come home — Day 1, /)]);
   }, 60000);
   // The follow-up review: the brother knelt by the cart, and then was to be told what was found there.
   it('does not have the brother told what he knelt beside', async () => {

@@ -8,6 +8,7 @@ import { Content } from '../content';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../presentation/fictional-time';
+import { SeenThrough } from './seen-through';
 import { Calendar } from '../presentation/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
@@ -78,7 +79,7 @@ export class ScreenModel {
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
           .map(r => `${r.amount} ${r.name}`) },
-      knowledge: this.knowledge(view),
+      knowledge: this.knowledge(view), done: SeenThrough.of(campaign),
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),

@@ -739,8 +739,10 @@ excursion. It ranks twelve findings. I repaired these:
   dialogue, and the company was put back there; it goes back to the place, where it is told, and whoever was being
   spoken with is still there to be turned to (the reader's browser test).
 - **An artifact offered nothing but Take, though its kind is described** (its twelfth, in part): a thing to be had is
-  seen, looked at, in its kind's own words (`test/thing-described.test.ts`). The rest of that finding, repeated
-  plants and journeys and a finished family that leaves nothing to ask, is not done.
+  seen, looked at, in its kind's own words (`test/thing-described.test.ts`). A family's story finished left the notes
+  saying only "Nothing is asked of you yet": they keep what the company has seen through, and when, and say that
+  nothing more is asked, with what has been heard of yours to follow (`test/origins.test.ts`). Repeated plants and
+  journeys are not done.
 - **Inquiries that led nowhere playable** (its fourth): a scenario's hidden way in opened only to those who had heard
   the rumour, so a company that came on cov7's pit by itself searched it and found nothing. A scenario may say what
   looking about where its way in starts finds (the brood's trodden path down to the sink, the tower's well), and

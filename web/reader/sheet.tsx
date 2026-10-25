@@ -29,7 +29,9 @@ export class Sheet {
         <h3>Unfinished</h3>
         {screen.objectives.length || screen.deadlines.length
           ? <ul>{[...screen.objectives, ...screen.deadlines].map(o => <li key={o}>{o}</li>)}</ul>
-          : <p className="none">Nothing is asked of you yet.</p>}
+          : <p className="none">{Sheet.idle(screen, facts)}</p>}
+        {screen.done.length > 0 && <div data-region="done"><h3>Seen through</h3>
+          <ul>{screen.done.map(d => <li key={d}>{d}</li>)}</ul></div>}
         {kinds.map(([kind, title]) => {
           const list = facts.filter(k => k.kind === kind);
           return list.length ? <div key={kind}><h3>{title}</h3>
@@ -43,6 +45,12 @@ export class Sheet {
         </ul>
       </article>
     );
+  }
+  // Nothing asked: yet, or any more, now something has been seen through; and what has been heard of is there to
+  // follow (the follow-up review read "Nothing is asked of you yet" over a family's story finished and a hall heard of).
+  private static idle(screen: Screen, facts: Screen['knowledge']): string {
+    const heard = facts.some(k => k.kind === 'reported') ? ', but what you have heard of is yours to follow' : '';
+    return `${screen.done.length ? 'Nothing more is asked of you' : 'Nothing is asked of you yet'}${heard}.`;
   }
   // Everything so far, place by place.
   private static story(entries: Entry[]) {
