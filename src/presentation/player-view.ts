@@ -120,11 +120,17 @@ export class PlayerView {
       row.choice.name = ChoiceWording.word(campaign, row.action, { name: row.choice.name, ...here ? { here } : {} });
       return row;
     });
-    // The same thing done with either of two things alike (one torch of three, a candle of the two on the shelf) is
-    // one choice; a label that hides two different things is a fault `kyrie lint` reports.
+    // The same thing done with either of two things alike (one torch of three, a candle of the two on the shelf), or by
+    // either of two members, is one choice; done to two different things worded alike (a granary plate and a song
+    // plate, each drawn with a stylus: The Patient Star's P4, the audit's F7) it is two.
     const said = new Set<string>();
-    return rows.filter(row => !said.has(`${row.action.schema}|${row.choice.name}`)
-      && !!said.add(`${row.action.schema}|${row.choice.name}`));
+    return rows.filter(row => { const key = this.alike(world, row); return !said.has(key) && !!said.add(key); });
+  }
+  private static alike(world: World, row: { action: Operator; choice: { name: string } }): string {
+    const types = EntityIndex.of(world.module.entities).byId;
+    const what = Object.entries(row.action.bindings ?? {}).filter(([, v]) => types.get(v)?.type !== 'member')
+      .map(([k, v]) => `${k}=${world.one('itemKind', v) ?? v}`);
+    return `${row.action.schema}|${row.choice.name}|${what.join(',')}`;
   }
   private static sees(world: World, actor: string, action: Operator): boolean {
     const seen = world.module.seen ?? {};

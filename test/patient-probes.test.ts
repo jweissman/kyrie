@@ -5,6 +5,8 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList, type Choice, type Section } from '../src/ui/choice-list';
 import { KyrLint } from '../src/cli/kyr-lint';
+import { Journey } from '../src/session/journey';
+import { PlayerView } from '../src/presentation/player-view';
 
 // The smallest modules that show what an independent author met writing Hold One Season (a slice of The Patient Star;
 // doc/adventures/patient-star/ledger.md). Each test pins what Kyr does today, and names the ledger entry. Where
@@ -68,12 +70,19 @@ describe('The Patient Star probes', () => {
     expect(page).not.toMatch(/Grey-gold light lies along/);
   }, 60000);
 
-  it('P4: two things whose changes are worded alike: lint is silent, and only the first is offered', async () => {
+  // Repaired at integration: only the first was offered (a choice whose schema and wording repeated one already
+  // offered was dropped, as one torch of three is).
+  it('P4: two things whose changes are worded alike are each offered, under their own names', async () => {
     expect((await Probe.lint('collide'))).toEqual([]);
     const s = await Probe.start('collide');
-    // PlayerView.choices drops a choice whose schema and wording repeat one already offered.
     const plays = Probe.choices(s).filter(c => /Draw a stylus/.test(c.label));
-    expect(plays.map(c => c.label)).toEqual(['a granary plate: Draw a stylus along the plate']);
+    expect(plays.map(c => c.label)).toEqual(['a granary plate: Draw a stylus along the plate',
+      'a song plate: Draw a stylus along the plate']);
+    // Things alike are still one choice: of two flasks of lamp oil bought, one is used, or set down.
+    const j = await Journey.start('data/campaigns/hold-one-season.campaign.json', 'p');
+    await j.play('Rusk.*Buy › A flask', 'Rusk.*Buy › A flask');
+    expect(PlayerView.choices(j.campaign).filter(c => /^(Use|Set down) a flask of lamp oil/.test(c.choice.name))
+      .map(c => c.choice.name)).toEqual(['Use a flask of lamp oil on Tamsin', 'Set down a flask of lamp oil']);
   }, 60000);
 
   // Repaired at integration: it stopped play ("Invalid quantity for p__dose(party)"), naming neither rule nor line.

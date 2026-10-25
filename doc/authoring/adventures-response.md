@@ -37,7 +37,8 @@ proposed stands.
 | Road B1: a long hazardous way always turned the company back | Each watch of a journey judged the way by the hazard the risk itself was breaking | Done (c6dbce9): judged as the command will leave it | `journey` |
 | Road B2, Patient Star 5: a decrease past nothing stopped play | A count may not be negative, and a rule's write threw | Done (c6dbce9): a count taken past nothing stops at nothing (an action that would still is not offered) | `patient-probes` P5 |
 | Road B3: a shuttered light stays lit | Nothing puts a light out | Open | — |
-| Road B4, Patient Star 7: alike destinations, alike changes | Choices are told apart within one group, not across exits or things | Open | — |
+| Patient Star 7 (P4), the audit's F7: of two things' changes worded alike, only the first was offered | Choices were merged by their wording, as one torch of three is | Done: merged only when done with things alike or by another member; each thing's own is offered under its name | `patient-probes` P4 |
+| Road B4: two exits to places named alike read alike | Choices are told apart within one group, not across exits | Open | — |
 | Road B5, Patient Star 6: a companion who has joined is nowhere | A person and the member they become are two entities; joining retracts where the person is | Open (the audit's F4, companion lifecycle) | — |
 | Road B6: hiring adds the hired person's purse | Their own coin joins the company's | Open | — |
 
