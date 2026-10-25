@@ -862,8 +862,10 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
 1. Play more of it. The barrow and the cisterns have each been played from the first page, and each found a dozen
    faults that no test had. a1's first company died in the barrow's halls on the fifth day; its second, a warrior's,
    brought the crown out on the fourth morning. Thorn's brought the Wardens' reading-glass up on the fourth, and
-   d4's the Stone-Singers' tuning-stone on the second, too easily, and again, deepened, less so. The mine with another company is still to play,
-   and the barrow's treasury and deep grave are still unvisited.
+   d4's the Stone-Singers' tuning-stone on the second, too easily, and again, deepened, less so. cov13's two bards
+   and an eel-catcher paid a debt out of the barrow's first level and talked its robbers round, and turned back in
+   its halls. The mine with another company is still to play, and the barrow's treasury and deep grave are still
+   unvisited.
    Things to look at from this play:
    - a level-1 company has little room for a bad fight; three of four were felled by one elite;
    - the game's own tactics, the foes' included, strike at whoever has fewest hit points, as Orsino's do
@@ -874,7 +876,9 @@ the deep, its auras, building types other than the mine, and its trap DCs (the t
      (Guard), and the fight's page offers it on the warrior's turn, but the game's own tactics, which fight a turn
      left to them (T) and every fight the harness plays, seldom choose it; teaching them to would change every fight
      the kept descents were recorded in;
-   - a recruit or a tool (a pole, a crowbar) is often a day's walk away;
+   - a recruit or a tool (a crowbar) is often a day's walk away; a pole is now cut from the willows by the road;
+   - nearly every room of a deep site has a purse in its dust (19, 18, 31 and 22 coin in cov13's first four), so
+     coin is never short once a company is inside;
    - the wild trails, now between neighbours, are still two to five hours a leg;
    - what lies on the way is fine, but the deep's rooms are dense with things to fight, and every one of them is a
      full fight.
