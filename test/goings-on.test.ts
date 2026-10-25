@@ -70,6 +70,41 @@ describe('a drover who did not come home', () => {
     expect(seen()).not.toContain('His knife is still in his belt.');
     expect(seen().join(' ')).not.toContain('knife');
   }, 60000);
+  // The follow-up review found nothing to do for him but read that he was there. What becomes of him is the
+  // company's to choose and the family's to hear, and there is somewhere to stand a while, later.
+  it('is covered where he lies and fetched home, or buried by the road; either way there is a grave to stand at', async () => {
+    const { w, s } = await Town.start(), placed = w.report.placements.find(p => p.scenario === 'drover')!;
+    const { town, road } = placed.bindings as { town: string; road: string };
+    const seen = () => PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
+    GeneratedWorld.put(s, road);
+    await s.perform('wait');
+    await Town.act(s, /^Search/);
+    await Town.act(s, /^Cover him with the cart's sheet/);
+    expect(seen()).toContain('his whip stands up in the bank');
+    GeneratedWorld.put(s, `${town}_taproom`);
+    await s.perform('wait');
+    expect(Town.said(await Town.act(s, /what you found on the road$/))).toContain('we will go for him in the morning');
+    await Town.act(s, /^Wait until dark$/);
+    await Town.act(s, /^Wait until first light$/);
+    GeneratedWorld.put(s, `${town}_green`);
+    await s.perform('wait');
+    expect(seen()).toContain('there is a new grave, with a drover\'s whip laid along it');
+    expect(Town.said(await Town.act(s, /^Stand a while at the grave$/))).toContain('nothing needs saying');
+    const other = await Town.start();
+    GeneratedWorld.put(other.s, road);
+    await other.s.perform('wait');
+    await Town.act(other.s, /^Search/);
+    await Town.act(other.s, /^Bury him by the road/);
+    expect(PlayerView.observe(other.s.campaign).observations.map(o => o.text))
+      .toEqual(expect.arrayContaining([expect.stringContaining('a cairn of ditch-stones'),
+        expect.stringContaining('His knife lies on the cairn')]));
+    GeneratedWorld.put(other.s, `${town}_taproom`);
+    await other.s.perform('wait');
+    expect(Town.said(await Town.act(other.s, /what you found on the road$/))).toContain('He would like that');
+    GeneratedWorld.put(other.s, road);
+    await other.s.perform('wait');
+    expect(PlayerView.choices(other.s.campaign).map(c => c.choice.name)).toContain('Stand a while at the grave');
+  }, 90000);
   it('goes out after his father himself if nobody brings word by the second evening', async () => {
     const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'drover')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_green`);

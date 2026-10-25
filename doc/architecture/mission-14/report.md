@@ -718,7 +718,12 @@ excursion. It ranks twelve findings. I repaired these:
   (`test/light-left.test.ts`).
 - **The father's knife stayed in his belt after it was taken**, and **the brother was to be told what he had knelt
   beside**: the knife is said while it is there, and one who knelt by the cart is not told of it
-  (`test/goings-on.test.ts`, `test/origins.test.ts`).
+  (`test/goings-on.test.ts`, `test/origins.test.ts`). And, after the review's first prototype (the father's return),
+  what becomes of him is the company's to choose: covered with the cart's sheet and his whip stood up to mark the
+  place, for the village to fetch home in the morning to a grave by the green; or buried by the road with the words
+  said, his knife on the cairn unless someone takes it. The wife says what will be done, and later there is a grave
+  to stand at, where a brother who came along says someone should sing him something terrible
+  (`test/goings-on.test.ts`).
 - **Terms were learned after the choice** (its sixth): a sale says beside it what it fetches ("Sell a jade idol",
   30 coin), and asking a creditor for more time is told its terms, five coin more, before they are taken or left
   (`test/what-it-takes.test.ts`, `test/origins.test.ts`).

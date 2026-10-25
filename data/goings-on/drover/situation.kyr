@@ -26,7 +26,44 @@ Module drover "The drover who did not come home" {
   }
   Item knife "a drover's knife with a horn handle" is dagger at road hidden until found_cart.
   // Said while it is so: taken, the knife is no longer in his belt (the follow-up review took it and it stayed).
-  Observe knife_belt at road when knows(party, found_cart) and at(knife, road) "His knife is still in his belt.".
+  Observe knife_belt at road when knows(party, found_cart) and at(knife, road) and not buried(party) and not fetched(party) "His knife is still in his belt.".
+
+  // What becomes of him is the company's to choose, and the family's to hear: covered where he lies, for the village
+  // to fetch home in the morning, or buried by the road with the words said; and either way somewhere to stand a
+  // while, later (the follow-up review found nothing to do for him but read that he was there).
+  Relation covered(group). Relation buried(group). Relation fetched(group). Relation stood(group).
+  Action cover_drover(actor: group, site: place) "Cover him with the cart's sheet, and stand his whip up to mark the place" {
+    Requires able(actor) and at(actor, site) and at(actor, road) and knows(actor, found_cart) and not covered(actor)
+      and not buried(actor).
+    Time 10 minutes.
+    On success { Assert covered(actor). }
+    Result "You get the sheet off the load and over him, and weigh its corners down with stones, and stand his whip up in the bank where anyone coming along the road will see it.".
+  }
+  Action bury_drover(actor: group, site: place) "Bury him by the road, and say the words over him" {
+    Requires able(actor) and at(actor, site) and at(actor, road) and knows(actor, found_cart) and not buried(actor)
+      and not fetched(actor).
+    Time 120 minutes.
+    On success { Assert buried(actor). Retract covered(actor). }
+    Result "It takes the best part of two hours, with what you have to dig with. You lay him in the bank above the ditch, facing the road, and heap the ditch-stones over him, and say what words you have.".
+  }
+  Observe drover_covered at road when covered(party) and not fetched(party) "The cart's sheet lies over him, weighted with stones, and his whip stands up in the bank.".
+  Observe drover_cairn at road when buried(party) "Above the ditch a cairn of ditch-stones stands new by the road, facing it.".
+  Observe knife_cairn at road when buried(party) and at(knife, road) "His knife lies on the cairn: nobody could bring themselves to bury it, or to take it.".
+  // Told, the wife says what will be done: fetched home in the morning, or let lie where he is.
+  Event wife_will_fetch near wife when told(wife) and covered(party) "'You covered him,' she says. 'Then we will go for him in the morning, with the reed-cutters' cart, and bring him home.'".
+  Event wife_hears_cairn near wife when told(wife) and buried(party) "'You buried him,' she says. 'By the road?' She is quiet a while. 'He would like that. He could never stand to be under a roof.'".
+  Rule drover_fetched when told(wife) and covered(party) and not buried(party) and untilLight(clock) == 1 {
+    Assert fetched(party).
+  }
+  Observe drover_grave at green when fetched(party) "At the edge of {green} there is a new grave, with a drover's whip laid along it.".
+  Action stand_at_grave(actor: group, site: place) "Stand a while at the grave" {
+    Requires able(actor) and at(actor, site) and told(wife) and not stood(actor)
+      and ((buried(actor) and at(actor, road)) or (fetched(actor) and at(actor, green))).
+    Time 10 minutes.
+    On success { Assert stood(actor). }
+    Result "You stand a while. Nobody says anything, and nothing needs saying.".
+  }
+  Event son_at_grave near son when stood(party) and travelsWith(son, party) and awake(member_son_person) "'Somebody should sing him something terrible,' says {son}. Nobody does; but you all think of it, and it helps.".
 
   // To one of the family the drover is a father, his wife a mother, his son a brother: they say other things.
   Observe wife_kin near wife when kin(party, wife) and not told(wife) "Your mother is at the hearth with her back to the room.".
