@@ -24,6 +24,9 @@ Module lowwater "Low Water" {
     Says "'No.' Very level. 'The Ward plots are sealed to the Guild. I sealed them; it was my turn at the counter.' She does not look at you. 'He came to the Office door and saw who was at the counter and went away again.' A pause. 'I'd do it again. It was the bargain that saved the Mere. I'd like that to be enough. Noted that it isn't.'".
   }
 
+  Topic isaura_dissent with isaura travelling "Ask Isaura why she stood up against the Finding" when dissented(isaura) once {
+    Says "'Because it was wrong.' She does not look at you. 'You named the Guild with my tally lying on the table saying it wasn't the Guild. I told you I'd sign what's true.' A long breath. 'You may have had reasons. The Council wanted a name; you gave them one they could act on. I understand the reasons.' She walks on. 'I'm not paid to understand reasons. I'm paid to read what the figures say, out loud, at need. That was the need.'".
+  }
   // Dov, after.
   Topic dov_after_kept with dov "Ask Dov how the Ward is" when hearingDone(ammerlin) and wardKept(ammerlin) and not drowned(diggers) once {
     Says "'Still here.' Dov grins, and it is the first unguarded thing you have seen him do. 'The Office froze Basset's buying and the Council's to examine the titles, which Measure says means the Office will read every deed in the Ward aloud in the square for a month and argue about commas. Good. Let them.' He looks out at the mud. 'And the water'll come back. Slow. My grandson'll fish off the fourth step.' He thinks. 'I haven't got a grandson. I'd better get on with it.'".

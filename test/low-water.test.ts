@@ -181,8 +181,9 @@ describe('Low Water', () => {
   }, 300000);
   it('names the Guild at the Hearing, and the Council closes the Channel and the mills go dark', async () => {
     const j = await Bowl.start('guild');
-    await j.play(...Bowl.act1, '=820', ...Bowl.toMootFromLock, '=889', 'Rise and give your Finding', "the Channel's draw",
-      "Name the cause: the Guild", 'close the Fulling Channel', 'Rest your Finding');
+    await j.play(...Bowl.act1, '=820', 'Ask Isaura if she will sign', ...Bowl.toMootFromLock, '=889', 'Rise and give your Finding',
+      "the Channel's draw", "Isaura Vant's tally", "Name the cause: the Guild", 'close the Fulling Channel', 'Rest your Finding');
+    expect(j.holds(L('dissented'), L('isaura'))).toBe(true);
     expect(j.holds(L('verdictGuild'), L('ammerlin'))).toBe(true);
     expect(j.holds(L('charterLost'), L('ammerlin'))).toBe(true);
     expect(Bowl.state(j, 'channel_gate', 'to_mere')).toBe(true);

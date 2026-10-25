@@ -141,6 +141,11 @@ Module lowwater "Low Water" {
     says "Quill rises to support the Assessor's Finding at once, in a short speech of great warmth, and sits down again, and the hall understands that some arrangement has been made, and the Ward understands what it was." {
     Assert answered(quill). Increase credence(council) by 1. }
 
+  // Isaura will not let a lie with a number in it pass in front of her own figures.
+  Relation dissented(group).
+  Rule isaura_dissents when causeGuild(party) and laid(ex_tally) and not dissented(isaura)
+    says "Before the Councillor can speak Isaura Vant is on her feet beside you. 'With respect,' she says, to the Council, to the Registrar, to you, 'the tally I read out says the Channel takes twenty-two ells a day and forty more go somewhere that is not the Channel. The Finding names the Channel. The figures don't.' She sits down. Her hands are shaking and her voice was not." {
+    Assert dissented(isaura). }
   // The cause.
   Relation causeGuild(group). Relation causeHymn(group). Relation causeEngine(group).
   Action name_guild(actor: group, site: place) "Name the cause: the Guild's Fulling Channel" {
