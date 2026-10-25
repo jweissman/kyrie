@@ -58,7 +58,7 @@ export class ModuleParser {
     ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
     PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
     PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
-    PersonHaunt: PersonParser.PersonHaunt,
+    PersonHaunt: PersonParser.PersonHaunt, Grave: PersonParser.Grave,
     Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: PersonParser.Speaker,
     WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, PursuitUsing: ModuleParser.PursuitUsing,
     MemberBinding: StatementParser.MemberBinding,

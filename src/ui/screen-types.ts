@@ -15,6 +15,8 @@ export interface Act {
   by?: string[]; disabled?: string;
   // The names of what it is done to or with, to tell it from another choice that reads the same.
   bound?: string[];
+  // What cannot be undone by it, said before it is done.
+  grave?: string;
 }
 export interface PlaceRef { id: string; name: string; kind: string }
 export interface ExitRow {

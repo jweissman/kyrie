@@ -53,6 +53,7 @@ proposed stands.
 | Road F27, tooling wish 1: every author wrote the same driver | Done (6cbe371) | `Journey` in a test; `bin/kyrie play campaign.json --steps … --probe …` from the terminal (guide §9) |
 | Road F3: a measure cannot be said in prose | Exists | `{owed(loan)}` in any text says the measure as it stands; a number in words is open |
 | Road F9, Patient Star 32: a rule's words reach the company anywhere | Exists | `Rule … at place` / `near someone` is told only to a company that perceives it (guide, "Who hears what a rule says") |
+| Road F12 (in part): a grave act on one click | Done | `Grave "what it costs".` in an action: the page says it, and does it when chosen again (guide, "What cannot be undone"); the Road's telling of Hightown's origin is grave. A listener's refusal is open |
 | Road F4, Patient Star 5: there is no floor | Done (c6dbce9) | A count stops at nothing |
 | Thrume F3, Patient Star 35, Road F16, F21, F22: names collide one load at a time, some with no place | Done | A load that fails over a name says every name that collides, each with its places: two things, a state named as a thing is, two observations of one id, a name the shared rules have |
 | Thrume F12, Patient Star 28, Road F19, F23: a campaign has no ending | Done | `Ending id "title" when … "epilogue".`: the first to hold is reached once, told, and the book closes on it; `reached(id)` says which (guide, "How the story ends"). The page draws it as it draws a fallen company's; an ending of its own look is open |
@@ -72,7 +73,7 @@ proposed stands.
 | Passages: hidden on any condition; per-end words; their own labels | Thrume F5, F6, Road F6, Patient Star 30, 36 | `hidden until state(…)`; per-end descriptions; `labelled "…"` |
 | Perception beyond sight; dark speech | Patient Star 4, Road F5 | `heard`, `felt` observations; a douse action |
 | Identical things listed one by one | Thrume F14, Road F18 | Stack them with a count |
-| A grave act on one click; a listener who refuses | Road F12 | `Confirm "…"`; `Refuses when … "…"` |
+| A listener who refuses | Road F12 | `Refuses when … "…"` |
 | A discovery and the speech that taught it told twice | Road F17, critique 9 | Let a topic's words stand for the discovery in the moment |
 | Lint that understands rules | Thrume F7, Road wishes 3–4 | Rule moves as reachability; write-only facts; a trace of a watch |
 | A shared law's kinds cannot be sold by the module using it | Patient Star 12 (P8) | `Sells` refers to an existing kind before declaring one |

@@ -23,6 +23,8 @@ export class Act {
         aria-expanded={c.children && !/#(talk|look)$/.test(c.id) ? draw.open.has(c.id) : undefined}
         title={c.disabled ?? c.about} onClick={Act.click.bind(null, draw.app)} onPointerEnter={Act.enter.bind(null, draw.app)}>
         {children ?? <>{Typography.curl(c.label)}{c.note && !c.minutes && <small className="note">{c.note}</small>}</>}
+        {c.grave && s.confirming === c.id && <small className="grave" role="alert">
+          {Typography.curl(c.grave)} It cannot be undone. Choose it again to do it.</small>}
       </button>
     );
   }

@@ -7,6 +7,8 @@ export interface Choice {
   id: string; label: string; tone: Tone;
   command?: string; children?: Choice[];
   note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string;
+  // What cannot be undone by it: the page says so, and asks again, before it is done.
+  grave?: string;
 }
 // What the choices are about: a person, a creature, a thing, the ways out, the company itself.
 export interface Section {
@@ -177,7 +179,8 @@ export class ChoiceList {
     const note = a.disabled ? 'no one can' : [priced?.[1] ?? '', span, a.by?.join(', ') ?? ''].filter(Boolean).join(' · ');
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(a.about ? { about: a.about } : {}),
-      ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}) };
+      ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),
+      ...(a.grave ? { grave: a.grave } : {}) };
   }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {

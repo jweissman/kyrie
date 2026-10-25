@@ -179,7 +179,7 @@ export class ChoiceGrouping {
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes: choice.time * 10,
       ...(action.description ? { about: action.description } : {}), ...(row.by?.length ? { by: row.by } : {}),
-      ...(bound.length ? { bound } : {}) };
+      ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {};
     if (action.movement) {
       const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';

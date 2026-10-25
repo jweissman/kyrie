@@ -1,0 +1,17 @@
+Module grave "A statue that can be broken, once" {
+  Place old_town "the old town" is settlement.
+  Place square "the square" is room within old_town at 0, 0 outdoors.
+  Company party "You" of 1 at square.
+  Thing statue "the founder's statue" at square {
+    State whole "The founder's statue stands in the square, worn smooth by hands.".
+    State broken "The founder's statue lies in pieces on the stones.".
+  }
+  // What cannot be undone says so, and the page asks before it is done.
+  Action break_statue(actor: group, site: place) "Break the founder's statue" {
+    Grave "The statue has stood here since the town was founded; broken, it stays broken.".
+    Requires able(actor) and at(actor, site) and at(actor, square) and state(statue, whole).
+    Time 5 minutes.
+    On success { Assert state(statue, broken). }
+    Result "You put your shoulder to the statue, and it goes over, and breaks.".
+  }
+}

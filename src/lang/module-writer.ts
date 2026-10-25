@@ -99,6 +99,7 @@ export class ModuleWriter {
     if (action.otherwise) { lines.push(`    Otherwise ${JSON.stringify(action.otherwise)}.`); }
     if (action.seen) { lines.push(`    Seen ${JSON.stringify(action.seen)}.`); }
     if (action.speaker) { lines.push(`    Speaker ${action.speaker}.`); }
+    if (action.grave) { lines.push(`    Grave ${JSON.stringify(action.grave)}.`); }
     if (action.resolve) { lines.push(`    Resolve ${World.format(action.resolve)}.`); }
     if (action.interrupt) { lines.push(`    Interrupted when ${ModuleWriter.predicate(action.interrupt)}.`); }
     if (action.watchful) { lines.push('    Watchful.'); }

@@ -41,6 +41,8 @@ export interface AppState {
   // the conversation under way, and which of its questions have been put already.
   attention: Attention; talk: TalkLine[]; asked: string[];
   fight?: FightMark;
+  // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
+  confirming?: string;
   stage: string; error: string; help: boolean;
 }
 
@@ -89,7 +91,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true } : undefined;
       this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight,
-        attention: Conversation.place, talk: [], asked: [] });
+        attention: Conversation.place, talk: [], asked: [], confirming: undefined });
     }
   }
   private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; menu: Menu };
@@ -118,6 +120,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       return;
     }
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
+    // Nothing that cannot be undone is done by a slip: it is said first, and done when chosen again.
+    if (choice.grave && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
     if (frame.combat) {

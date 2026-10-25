@@ -621,6 +621,18 @@ arrives, with a clock for when (The Road the Star Came Down's F9, The Patient St
 
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none.
 
+### What cannot be undone
+
+An act that cannot be undone says so, and the page asks before it does it: chosen once, it says what it costs; chosen
+again, it is done (`test/fixtures/probes/grave`).
+
+```text
+  Action break_statue(actor: group, site: place) "Break the founder's statue" {
+    Grave "The statue has stood here since the town was founded; broken, it stays broken.".
+    …
+  }
+```
+
 ### Words that teach
 
 What is known is learned, not set: a rule cannot `Assert knows(…)`. A rule's or an event's words can teach what they

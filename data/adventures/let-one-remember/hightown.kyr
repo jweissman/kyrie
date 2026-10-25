@@ -66,6 +66,8 @@ Module corrow "Let One Remember" {
   // Telling is acting. The Counterweight who comes to hold where the mountain came from gives it back a thousand tonnes.
   Action tell_origin(actor: group, listener: group, site: place) "Tell {listener} where Hightown came from" {
     Description "That the lake ahead is the hole the mountain left, and the mountain its cast. Whoever of Hightown holds that, gives the mountain back a little of its weight.".
+    // The author's F12: the page asks before it is done.
+    Grave "Told, it cannot be untold: whoever of Hightown holds it gives the mountain back some of its weight.".
     Requires able(actor) and company(actor) and at(actor, site) and at(listener, site) and counterweight(listener)
       and knows(actor, origin_known) and not holdsOrigin(listener) and not crashed(hightown) and not lost(hightown).
     Time 1.

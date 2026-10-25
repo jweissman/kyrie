@@ -84,6 +84,7 @@ Kyr {
   TopicOnce = "once"
   TopicEffects = "On" "discuss" "{" ChangeStatement* "}"
   Speaker = "Speaker" ident "."
+  Grave = "Grave" string "."
   Result = "Result" string "."
   Otherwise = "Otherwise" string "."
   Information = "Discovery" ident string "{" InformationPart* "}" -- parts
@@ -134,7 +135,7 @@ Kyr {
   Description = "Description" string "."
   Action = "Action" ident ActionParameters? string "{" ActionPart* "}"
   ActionParameters = "(" ListOf<Parameter, ","> ")"
-  ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Otherwise | Speaker | Seen
+  ActionPart = Requires | Success | Failure | Cost | Time | Resolve | Description | Result | Otherwise | Speaker | Seen | Grave
     | Interruption | Watchful
   Interruption = "Interrupted" "when" Predicate "."
   Watchful = "Watchful" "."

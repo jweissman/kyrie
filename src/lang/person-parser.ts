@@ -13,6 +13,10 @@ export class PersonParser {
   // A topic raised once, or only while the speaker travels with the company; an action spoken by someone.
   static TopicOnce(_once: Node) { return true; }
   static Speaker(_s: Node, id: Node, _dot: Node): Field { return { field: 'speaker', value: id.sourceString }; }
+  // What cannot be undone, said before it is done (Grave "Hightown comes down where it is."): the page asks first.
+  static Grave(_g: Node, text: Node, _dot: Node): Field {
+    return { field: 'grave', value: (text as unknown as { ast(): unknown }).ast() as string };
+  }
   // Person = "Person" ident string "at" ident "{" PersonPart* "}"
   static person(id: Node, name: Node, place: Node, parts: Node): Field {
     const p: Person = { id: id.sourceString, name: ModuleParser.ast(name) as string, place: place.sourceString,

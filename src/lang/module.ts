@@ -33,6 +33,8 @@ export interface Operator {
   report?: string; seen?: string; speaker?: string; movement?: ExitDefinition;
   // What is told when it does not come off (a check failed): Otherwise "The goblins laugh at you.".
   otherwise?: string;
+  // What cannot be undone by it, said before it is done: the page asks first (Grave "…").
+  grave?: string;
   parameters?: { name: string; type: string }[];
   actor?: string; schema?: string; bindings?: Record<string, string>;
   id: string; name: string; description: string; requires: Predicate;
