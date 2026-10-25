@@ -124,6 +124,9 @@ describe('the register of names: a power that acts while the company is elsewher
     expect([March.fact(s, 'rising__hallowed', 'east__churchyard'), March.fact(s, 'rising__hurt', 'rising__morwen')])
       .toEqual([true, false]);
   }, 120000);
+});
+
+describe('the register of names: what a company does to forestall the power, and keeps it to', () => {
   it('a company that takes the register first leaves Corvin nothing to find, and the compact sleeps on', async () => {
     const s = await March.start();
     await March.walk(s, [...March.refuge, 'take_item(hill__register_copy,march__member_party_1)']);

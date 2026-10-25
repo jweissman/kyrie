@@ -10,6 +10,9 @@ interface Manner { kind: string; text: string }
 // The Person declaration of the Kyr grammar: who someone is (a role, an ancestry and calling or a species, how many
 // and what each is called, what they carry, offer and sell), and how they enter a module.
 export class PersonParser {
+  // A topic raised once, or only while the speaker travels with the company; an action spoken by someone.
+  static TopicOnce(_once: Node) { return true; }
+  static Speaker(_s: Node, id: Node, _dot: Node): Field { return { field: 'speaker', value: id.sourceString }; }
   // Person = "Person" ident string "at" ident "{" PersonPart* "}"
   static person(id: Node, name: Node, place: Node, parts: Node): Field {
     const p: Person = { id: id.sourceString, name: ModuleParser.ast(name) as string, place: place.sourceString,

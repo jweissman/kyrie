@@ -19,6 +19,7 @@ import { ChoiceWording } from './choice-wording';
 import { EntityIndex } from '../lang/entity-index';
 import { Frozen } from './frozen';
 import { CompanyKnowledge } from './company-knowledge';
+import { CompanyMap } from './company-map';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -199,13 +200,12 @@ export class PlayerView {
     const state = { elapsed: read.elapsed, creatures: read.creatures, partyIds: read.partyIds };
     const at = world.one('at', actor), place = at === undefined ? undefined : ObservationText.entity(world, at);
     const location = place?.type === 'place' ? place : undefined;
-    const perceiving = this.test(world, 'able', actor), discovery = Discovery.supported(campaign.module);
+    const perceiving = this.test(world, 'able', actor);
     const dark = !!location && this.benighted(world, actor, location.id);
     const situations = campaign.installations.length ?
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];
     const publicChoices = this.choices(campaign), metadata = this.metadata(world, labels);
-    const nearby = location ? this.nearby(world, location.id) : new Set<string>();
     return { actor, title: campaign.module.name, situations, elapsed: state.elapsed, running: campaign.running,
       ...read.minutes ? { minutes: read.minutes } : {},
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
@@ -214,14 +214,7 @@ export class PlayerView {
       // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
       observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
       // Whoever could be here, in the module's order: not every entity there is.
-      present: EntityIndex.of(entities).ordered(nearby).filter(e => perceiving && location && e.id !== actor
-        && e.type !== 'place' && (!dark || e.type === 'group') && LocalObservations.noticed(world, e.id, actor)
-        && (this.test(world, 'at', e.id, location.id) || this.test(world, 'mounted', e.id, location.id)
-          || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id))
-          || (e.type === 'group' && this.guarding(world, e.id, location.id))
-          || LocalObservations.within(world, e.id, location.id))
-        && (e.type !== 'source' || !discovery || (this.test(world, 'noticeable', e.id) && !this.spoken(world, e.id))))
-        .map(e => this.entity(campaign, world, e)),
+      present: perceiving && location ? this.present(campaign, actor, location.id, dark) : [],
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>
         (c.state.inventory ?? []).map(i => {
         const d = ItemCatalog.get(i.definition);
@@ -249,7 +242,8 @@ export class PlayerView {
       ...(campaign.module.objectives?.length ? { objectives: perceiving ? campaign.module.objectives
         .filter(o => world.test(o.when)).map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }))
         : [] } : {}),
-      map: this.map(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };
+      map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action),
+        metadata) };
   }
   // The company as the page shows it: each member's standing, spells, conditions, abilities and qualities.
   private static members(campaign: Campaign): PlayerSnapshot['party'] {
@@ -263,33 +257,17 @@ export class PlayerView {
       attributes: { strength: f.strength, dexterity: f.dexterity, constitution: f.constitution,
         intelligence: f.intelligence, wisdom: f.wisdom, charisma: f.charisma } }));
   }
-  private static map(campaign: Campaign, actor: string, routes: { bindings?: Record<string, string> }[]):
-    PlayerSnapshot['map'] {
-    const visited = VisitedPlaces.of(campaign, actor), world = campaign.world;
-    // The ways of each kind, by their relations: not by going through every fact the world holds.
-    const ways = ['route', 'gate', 'footway', 'informedPassage', 'climbingPassage', 'hazardPassage']
-      .flatMap(name => world.related(name));
-    const links = ways.flatMap(r => {
-      const from = ['gate', 'hazardPassage'].includes(r.name) ? r.args[1] : r.args[0];
-      const to = ['gate', 'hazardPassage'].includes(r.name) ? r.args[2] : r.args[1];
-      if (!from || !to || !visited.has(from)
-        || (r.name === 'informedPassage' && !this.test(world, 'knows', actor, r.args[2]!))) {
-        return [];
-      }
-      return [{ from, to }];
-    });
-    const here = world.one('at', actor);
-    const index = EntityIndex.of(campaign.module.entities);
-    links.push(...index.ordered([...visited].flatMap(v => index.exitsFrom(v).map(e => e.id)))
-      .filter(e => Spatial.visible(world, actor, e)).map(e => ({ from: e.exit!.origin, to: e.exit!.destination })));
-    const described = links.map(l => ({ ...l, status: l.from !== here ? 'known connection; check it from there' :
-      routes.some(a => a.bindings?.destination === l.to
-        || ('movement' in a && (a.movement as { destination?: string })?.destination === l.to)) ? 'available from here' : 'blocked from here' }));
-    const known = new Set([...visited, ...links.map(l => l.to)]);
-    const metadata = this.metadata(world, this.labels(campaign));
-    return { places: index.ordered(known).filter(e => e.type === 'place')
-      .map(e => ({ id: e.id, name: e.name, visited: visited.has(e.id), ...metadata.get(e.id),
-        ...(e.space ? { kind: e.space.kind } : {}) })), links: described };
+  // Whoever and whatever is here to be looked at more closely, in the module's order: not every entity there is.
+  private static present(campaign: Campaign, actor: string, here: string, dark: boolean): PresentEntity[] {
+    const world = campaign.world, discovery = Discovery.supported(campaign.module);
+    return EntityIndex.of(campaign.module.entities).ordered(this.nearby(world, here)).filter(e => e.id !== actor
+      && e.type !== 'place' && (!dark || e.type === 'group') && LocalObservations.noticed(world, e.id, actor)
+      && (this.test(world, 'at', e.id, here) || this.test(world, 'mounted', e.id, here)
+        || (e.type === 'door' && this.test(world, 'doorHere', e.id, here))
+        || (e.type === 'group' && this.guarding(world, e.id, here))
+        || LocalObservations.within(world, e.id, here))
+      && (e.type !== 'source' || !discovery || (this.test(world, 'noticeable', e.id) && !this.spoken(world, e.id))))
+      .map(e => this.entity(campaign, world, e));
   }
   private static spatial(campaign: Campaign, actor: string, location: Entity,
     choices: ReturnType<typeof PlayerView.choices>): SpatialScene {

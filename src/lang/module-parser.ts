@@ -9,6 +9,7 @@ import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser';
+import { InformationParser } from './information-parser';
 import { LocalKinds } from '../canon/local-catalog';
 import { ModuleDeclarations } from './module-declarations';
 
@@ -34,8 +35,8 @@ export class ModuleParser {
     Anchor_at: ModuleParser.Anchor, Anchor_near: ModuleParser.Anchor, Anchor_beside: ModuleParser.Anchor,
     Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
     PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
-    RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: ModuleParser.TopicOnce,
-    TopicTravelling: ModuleParser.TopicOnce,
+    RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnce,
+    TopicTravelling: PersonParser.TopicOnce,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
     PersonProfession: PersonParser.PersonProfession,
@@ -53,13 +54,12 @@ export class ModuleParser {
     HazardDecl: ModuleParser.HazardDecl, PersonUses: PersonParser.PersonUses, PersonWants: PersonParser.PersonWants,
     Topic: ModuleParser.Topic, TopicEffects: ModuleParser.TopicEffects, Result: ModuleParser.Result,
     Otherwise: ModuleParser.Otherwise,
-    Information_parts: ModuleParser.Information, Information_plain: ModuleParser.InformationPlain,
-    KnownBy: ModuleParser.KnownBy, ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
+    Information_parts: ModuleParser.Information, InformationSource: ModuleParser.InformationSource,
+    ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
     PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
     PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
-    PersonHaunt: PersonParser.PersonHaunt, DeniedBy: ModuleParser.DeniedBy,
-    InformationSource: ModuleParser.InformationSource, Speakers: ModuleParser.Speakers,
-    Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: ModuleParser.Speaker,
+    PersonHaunt: PersonParser.PersonHaunt,
+    Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: PersonParser.Speaker,
     WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, PursuitUsing: ModuleParser.PursuitUsing,
     MemberBinding: StatementParser.MemberBinding,
     Kind: StatementParser.Kind, Relation: ModuleParser.Relation, Measure: ModuleParser.Measure,
@@ -78,7 +78,7 @@ export class ModuleParser {
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
     string: StatementParser.String,
-    ...CatalogParser.actions,
+    ...CatalogParser.actions, ...InformationParser.actions,
   });
   // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again
   // and again; each caller gets its own copy of the remembered module.
@@ -244,7 +244,6 @@ export class ModuleParser {
     return { field: 'objective', value: { id: id.sourceString, when: ModuleParser.ast(when), text: ModuleParser.ast(text) } };
   }
   static Seen(_s: Node, text: Node, _dot: Node): Field { return { field: 'seen', value: ModuleParser.ast(text) }; }
-  static TopicOnce(_once: Node) { return true; }
   static Exit(_e: Node, id: Node, name: Node, _from: Node, origin: Node, _to: Node, destination: Node,
     _by: Node, mode: Node, door: Node, knowledge: Node, _dot: Node): Field {
     return { field: 'exit', value: { id: id.sourceString, name: ModuleParser.ast(name), type: 'passage',
@@ -270,7 +269,6 @@ export class ModuleParser {
     return { ticks: Math.max(1, u.startsWith('minute') ? Math.ceil(n / 10) : u.startsWith('hour') ? n * 6 : n * 144),
       ...u.startsWith('minute') && n < 10 ? { minutes: n } : {} };
   }
-  static Speaker(_s: Node, id: Node, _dot: Node): Field { return { field: 'speaker', value: id.sourceString }; }
   static Result(_r: Node, text: Node, _dot: Node): Field {
     return { field: 'report', value: ModuleParser.ast(text) };
   }
@@ -308,9 +306,6 @@ export class ModuleParser {
       : [c]);
   }
   // A discovery with nothing to say of where it is learnt: something people know, or a scene teaches.
-  static InformationPlain(_discovery: Node, id: Node, text: Node, _dot: Node): Field {
-    return { field: 'information', value: { id: id.sourceString, text: ModuleParser.ast(text) as string, sources: [] } };
-  }
   static Information(_discovery: Node, id: Node, text: Node, _open: Node, parts: Node, _close: Node): Field {
     const definition: DiscoveryDefinition = { id: id.sourceString,
       text: ModuleParser.ast(text) as string, sources: [] };
@@ -327,15 +322,6 @@ export class ModuleParser {
       }
     }
     return { field: 'information', value: definition };
-  }
-  static KnownBy(_known: Node, _by: Node, actors: Node, _dot: Node): Field {
-    return { field: 'knownBy', value: actors.asIteration().children.map(ModuleParser.text) };
-  }
-  static DeniedBy(_denied: Node, _by: Node, actors: Node, _dot: Node): Field {
-    return { field: 'deniedBy', value: actors.asIteration().children.map(ModuleParser.text) };
-  }
-  static Speakers(_spoken: Node, _by: Node, actors: Node): string[] {
-    return actors.asIteration().children.map(ModuleParser.text);
   }
   static InformationSource(_source: Node, id: Node, text: Node, _at: Node, place: Node, _readable: Node,
     _by: Node, readers: Node, speakers: Node, destructible: Node, _dot: Node): Field {

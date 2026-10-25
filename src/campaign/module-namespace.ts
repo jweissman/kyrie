@@ -84,14 +84,7 @@ export class ModuleNamespace {
       ...original.seen ? { seen: Object.fromEntries(Object.entries(original.seen)
         .map(([id, p]) => [this.entities[id] ?? id, this.predicate(p, ['?viewer'])])) } : {},
       kinds: original.kinds.map(k => this.kinds[k]!),
-      entities: original.entities.map(e => ({ ...e, id: this.entities[e.id]!, type: this.kinds[e.type] ?? e.type,
-        ...(e.name.includes('{') ? { name: this.text(e.name) } : {}),
-        ...(e.creatureId ? { creatureId: `${this.bindings.id}__${e.creatureId}` } : {}),
-        ...(e.space ? { space: { ...e.space,
-          ...(e.space.parent ? { parent: this.entities[e.space.parent] ?? e.space.parent } : {}) } } : {}),
-        ...(e.exit ? { exit: Spatial.scope(e.exit, id => this.entities[id] ?? id) } : {}),
-        ...(e.alias ? { alias: { name: e.alias.name.includes('{') ? this.text(e.alias.name) : e.alias.name,
-          until: this.entities[e.alias.until] ?? e.alias.until } } : {}) })),
+      entities: original.entities.map(e => this.entity(e)),
       relations: original.relations.map(s => ({ ...s, name: this.functions[s.name]!,
         types: s.types.map(t => this.kinds[t] ?? t) })),
       measures: original.measures.map(s => ({ ...s, name: this.functions[s.name]!,
@@ -133,6 +126,17 @@ export class ModuleNamespace {
           if (!id) { throw new Error(`Unknown export ${local}`); }
           return [name, id];
         })) };
+  }
+  // An entity under its installation's names: its id, its kind, what its name and alias name, where it lies.
+  private entity(e: Module['entities'][number]): Module['entities'][number] {
+    return { ...e, id: this.entities[e.id]!, type: this.kinds[e.type] ?? e.type,
+      ...(e.name.includes('{') ? { name: this.text(e.name) } : {}),
+      ...(e.creatureId ? { creatureId: `${this.bindings.id}__${e.creatureId}` } : {}),
+      ...(e.space ? { space: { ...e.space,
+        ...(e.space.parent ? { parent: this.entities[e.space.parent] ?? e.space.parent } : {}) } } : {}),
+      ...(e.exit ? { exit: Spatial.scope(e.exit, id => this.entities[id] ?? id) } : {}),
+      ...(e.alias ? { alias: { name: e.alias.name.includes('{') ? this.text(e.alias.name) : e.alias.name,
+        until: this.entities[e.alias.until] ?? e.alias.until } } : {}) };
   }
   static record(draft: ModuleDraft, elapsed: number): InstalledModule {
     const definition = draft.instance.campaign!;

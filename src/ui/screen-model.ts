@@ -1,4 +1,6 @@
 import { Likeness } from '../paintings/likeness';
+import type { World } from '../lang/world';
+import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { ConditionSense } from '../presentation/condition-sense';
@@ -38,20 +40,12 @@ export class ScreenModel {
     const view = PlayerView.observe(campaign), world = campaign.world;
     const entities = ObservationText.presented(world);
     const names = this.names(campaign);
-    const priced = world.module.measures.some(m => m.name === 'price');
-    const prices = new Map(campaign.module.entities.filter(e => priced && e.type === 'item')
-      .map(e => [e.id, world.number(ModuleWriter.call('price', e.id))]));
+    const prices = this.prices(world);
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? '');
     const fees = this.fees(campaign);
-    // Who makes each skilled choice possible, and what the company could do with a skill nobody in it has.
-    const reading = SkillReading.read(campaign);
-    const commands: Row[] = [
-      ...PlayerView.choices(campaign).map(r => ({ ...r,
-        ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
-      ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
-        wanting: ScreenModel.wanting(w) }))];
-    const grouped = ChoiceGrouping.group(commands, { present, names, prices, passageOf, fees, tell: ScreenModel.tell,
+    const grouped = ChoiceGrouping.group(this.commands(campaign), { present, names, prices, passageOf, fees,
+      tell: ScreenModel.tell,
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);
@@ -92,6 +86,20 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
+  }
+  // The choices, with who makes each skilled one possible, and what the company could do with a skill nobody in it has.
+  private static commands(campaign: Campaign): Row[] {
+    const reading = SkillReading.read(campaign);
+    return [...PlayerView.choices(campaign).map(r => ({ ...r,
+      ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
+    ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
+      wanting: ScreenModel.wanting(w) }))];
+  }
+  // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity.
+  private static prices(world: World): Map<string, number> {
+    if (!world.module.measures.some(m => m.name === 'price')) { return new Map(); }
+    return new Map(EntityIndex.of(world.module.entities).typed('item')
+      .map(e => [e.id, world.number(ModuleWriter.call('price', e.id))]));
   }
   // What things cost: a service's fee, goods by the measure, and what a sale fetches (what a buyer pays for a kind, and
   // what a valuable is worth).

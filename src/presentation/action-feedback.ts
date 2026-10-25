@@ -57,6 +57,16 @@ export class ActionFeedbackView {
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
       .map(e => CombatPresenter.format(e, names));
   }
+  // How a fight ended, and who in the company fell in it.
+  private static ended(event: CampaignEvent, before: PlayerSnapshot, after: PlayerSnapshot): string | undefined {
+    const ended = event.combat.find(e => e.type === 'end');
+    if (ended?.type !== 'end') { return undefined; }
+    const fallen = after.party.filter(p => p.hp === 0 && before.party.some(b => b.id === p.id && b.hp > 0));
+    return `${ended.outcome === 'fighters' ? 'Your company prevails.' : ended.outcome === 'escaped' ? ended.fled?.team === 'goblins'
+      ? 'Your opponent flees; the company holds the ground.' : 'Your company withdraws.'
+      : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
+      + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} ${fallen.length === 1 ? 'is' : 'are'} down.` : ''}`;
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action)!;
@@ -77,13 +87,7 @@ export class ActionFeedbackView {
     const changed = [...taught, ...after.observations.filter(o => !taught.some(t => t.text === o.text)
       && !before.observations.some(b => b.id === o.id && b.text === o.text) && !this.follows(campaign, o.id, known))];
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
-    const ended = event.combat.find(e => e.type === 'end');
-    const fallen = after.party.filter(p => p.hp === 0 && before.party.some(b => b.id === p.id && b.hp > 0));
-    const battleResult = ended?.type === 'end' ?
-      `${ended.outcome === 'fighters' ? 'Your company prevails.' : ended.outcome === 'escaped' ? ended.fled?.team === 'goblins'
-        ? 'Your opponent flees; the company holds the ground.' : 'Your company withdraws.'
-        : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
-      + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} ${fallen.length === 1 ? 'is' : 'are'} down.` : ''}` : undefined;
+    const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
       && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');

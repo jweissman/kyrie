@@ -18,6 +18,7 @@ import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
 import { CommittedWorld } from './committed-world';
 import { Projection } from './projection';
+import { CampaignGrounding } from './campaign-grounding';
 import type { Creature } from '../creature';
 import { Membership, type LiveCache } from './membership';
 import { CampaignPlan } from './campaign-plan';
@@ -72,14 +73,11 @@ export class Campaign implements WatchHost {
     const content = new Content(`${seed}:campaign`);
     this.compiled = instance.module;
     for (const entry of this.definition.creatures) {
-      const creature = (entry.seed ? new Content(entry.seed) : content).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
-      creature.state.gold += entry.gold;
-      this.creatures.insert(creature);
+      this.creatures.insert(ModuleInstallations.creature(entry, content));
     }
     const player = this.definition.actors.find(a => a.player);
     if (!player) { throw new Error('Campaign needs a player actor'); }
-    const inhabitants: Record<string, string[]> = {};
-    for (const actor of this.definition.actors) { inhabitants[actor.id] = [...actor.members]; }
+    const inhabitants = Object.fromEntries(this.definition.actors.map(a => [a.id, [...a.members]]));
     this.current = { seed, world: instance.world, partyIds: [...player.members],
       inhabitants, elapsed: 0, deadline: instance.budget, outcome: 'active', ...calendar ? { calendar } : {} };
     // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
@@ -107,7 +105,8 @@ export class Campaign implements WatchHost {
     Object.assign(copy, { compiled: arrays(this.compiled), definition: this.definition && arrays(this.definition),
       current: structuredClone(this.current), creatures: new CreatureStore(this.creatures.snapshot),
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
-      executing: false, committed: new CommittedWorld(), projection: new Projection() });
+      executing: false, committed: new CommittedWorld(), projection: new Projection(),
+      grounding: new CampaignGrounding() });
     return copy;
   }
   private static async assemble(path: string, seed: string, source: BundleSource,
@@ -201,30 +200,15 @@ export class Campaign implements WatchHost {
   private commit(world: World) { this.committed.commit(this.current, this.module, world); }
   private keepFacts() { this.committed.keep(this.current); }
   get world(): World { return this.committed.of(this.current, this.module); }
-  private applicable?: { world: World; player: CampaignActor | undefined; actions: Operator[] };
-  // Actions are grounded on demand against the current module and controllers.
-  private grounded?: { module: Module; length: number; actors: CampaignActor[] | undefined; operators: Operators };
-  get operators(): Operators {
-    const g = this.grounded, actors = this.definition?.actors;
-    if (g?.module === this.module && g.length === this.module.actions.length && g.actors === actors) {
-      return g.operators;
-    }
-    const operators = new Operators(this.module, actors);
-    this.grounded = { module: this.module, length: this.module.actions.length, actors, operators };
-    return operators;
-  }
+  // Actions are grounded on demand against the current module and controllers (see CampaignGrounding).
+  private grounding = new CampaignGrounding();
+  get operators(): Operators { return this.grounding.operators(this.module, this.definition?.actors); }
   operator(id: string): Operator | undefined { return this.operators.get(id); }
   available(): Operator[] { return structuredClone(this.offered()) as Operator[]; }
   // The actions open to the player now, worked out once for this world: to read without copying. Never change them.
   offered(): readonly Operator[] {
     if (!this.running || this.executing) { return []; }
-    const player = this.definition?.actors.find(a => a.player), world = this.world;
-    const memo = this.applicable;
-    if (memo?.world === world && memo.player === player) { return memo.actions; }
-    const actions = this.operators.applicable(world, player?.id)
-      .filter(action => !player || player.allActions || player.actions.includes(action.schema ?? action.id));
-    this.applicable = { world, player, actions };
-    return actions;
+    return this.grounding.offered(this.world, this.definition?.actors.find(a => a.player), this.operators);
   }
   plan(moduleId?: string) { return CampaignPlan.plan(this, moduleId); }
   encounterBattle(actionId: string): Battle {

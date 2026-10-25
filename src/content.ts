@@ -118,6 +118,17 @@ export class Content {
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
   // derive hit points and spell slots. A species creature takes its own statistics, natural weapon and nature traits.
+  // Deem's creature generator makes the kind; what makes it other than its kind is Kyr's to add after.
+  private generatedKind(id: string, context: CreatureGenerationContext, randomIdentity: string): Creature {
+    if (context.backgroundId || context.professionId || context.spells || context.gear?.length) {
+      throw new Error('Specialized Deem creatures do not yet support background, profession, spell or extra gear overlays');
+    }
+    const asked: Record<string, unknown> = { ...context }, family = context.family;
+    delete asked.aspect; delete asked.template;
+    const generated = new Content(RandomStreams.key(this.seed, 'creature', randomIdentity), this.setting)
+      .generate('creature', { ...context.parameters, ...asked, ...family ? { family } : {} });
+    return CreatureVariants.vary(CreatureDefinition.accept(id, generated), context);
+  }
   createCreature(id: string, context: CreatureGenerationContext = {}, randomIdentity = id): Creature {
     if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
     const speciesFamily = context.raceId && Canon.isSpecies(context.raceId)
@@ -126,17 +137,8 @@ export class Content {
       throw new Error(`${id}: ${Creation.a(speciesFamily)} is a species and takes no class`);
     }
     const deemSpecies = speciesFamily && Object.hasOwn(tables.creatureBody.groups, speciesFamily);
-    const family = context.family;
-    if (family || deemSpecies || Content.composed(context)) {
-      if (context.backgroundId || context.professionId || context.spells || context.gear?.length) {
-        throw new Error('Specialized Deem creatures do not yet support background, profession, spell or extra gear overlays');
-      }
-      // Deem's creature generator makes the kind; what makes it other than its kind is Kyr's to add after.
-      const asked: Record<string, unknown> = { ...context };
-      delete asked.aspect; delete asked.template;
-      const generated = new Content(RandomStreams.key(this.seed, 'creature', randomIdentity), this.setting)
-        .generate('creature', { ...context.parameters, ...asked, ...family ? { family } : {} });
-      return CreatureVariants.vary(CreatureDefinition.accept(id, generated), context);
+    if (context.family || deemSpecies || Content.composed(context)) {
+      return this.generatedKind(id, context, randomIdentity);
     }
     const stream = this.stream.bind(this, randomIdentity);
     const raceId = context.raceId ?? stream('population').generate('population', context.population ? { population: context.population } : {})

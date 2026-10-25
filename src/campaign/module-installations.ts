@@ -14,6 +14,7 @@ import { CreatureFacts } from './creature-facts';
 import { Progression } from './progression';
 import { Content } from '../content';
 import { InstalledInstance } from './installed-instance';
+import type { Creature } from '../creature';
 import { Discovery } from '../information/discovery';
 
 export class ModuleInstallations {
@@ -40,11 +41,7 @@ export class ModuleInstallations {
     const live = Membership.live(next.campaign!.actors, current).actors;
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
     const added = next.campaign!.creatures.filter(c => !held.has(c.id));
-    const store = creatures.with(added.map(entry => {
-      const creature = new Content(entry.seed!).createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
-      creature.state.gold += entry.gold;
-      return creature;
-    }));
+    const store = creatures.with(added.map(entry => this.creature(entry)));
     const joined = next.live ?? new World(next.module, next.world);
     CreatureFacts.initialize(joined, actors, store);
     const projected = everyone ? live : live.filter(a => !had.has(a.id));
@@ -57,6 +54,13 @@ export class ModuleInstallations {
       }
     }
     return { actors, store, world };
+  }
+  // A creature a campaign's definition declares, made from its own seed (or, with none, the campaign's), with its gold.
+  static creature(entry: CampaignDefinition['creatures'][number], content?: Content): Creature {
+    const maker = entry.seed ? new Content(entry.seed) : content ?? new Content(entry.seed!);
+    const creature = maker.createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
+    creature.state.gold += entry.gold;
+    return creature;
   }
   // What two installations both declare must agree; each is kept once. Definitions are never changed after they are
   // joined, so the result shares them rather than copying.

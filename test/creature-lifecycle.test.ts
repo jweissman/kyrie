@@ -188,6 +188,9 @@ describe('canonical creature lifecycle', () => {
     expect(() => lease.commit(lease.creatures)).toThrow('closed');
     const reopened = Lifecycle.enter(store); reopened.close();
   });
+});
+
+describe('canonical creature lifecycle in a campaign', () => {
   // A canonical fixture campaign: a company of two and two wolves in a yard.
   const yard = (seed: string) => Campaign.load('test/fixtures/wolf-yard/campaign.json', seed, NodeBundleSource.shared);
   const assault = 'attack(party,world__grey,world__yard)', hero = 'world__party_1';
