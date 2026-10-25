@@ -52,21 +52,24 @@ describe('world state', () => {
     expect(one.key()).toBe(two.key());
     expect(new World(module, one.snapshot).key()).toBe(one.key());
   });
-  it('admits exactly the changes apply accepts, including sequential measure changes', () => {
-    const cases: Change[][] = [
-      [{ kind: 'decrease', call: call('quantity', 'a', 'coin'), value: ModuleWriter.number(2) }],
-      [{ kind: 'decrease', call: call('quantity', 'a', 'coin'), value: ModuleWriter.number(3) }],
-      [{ kind: 'decrease', call: call('quantity', 'a', 'coin'), value: ModuleWriter.number(2) },
-        { kind: 'decrease', call: call('quantity', 'a', 'coin'), value: ModuleWriter.number(1) }],
-      [{ kind: 'increase', call: call('quantity', 'b', 'coin'), value: ModuleWriter.number(1) },
-        { kind: 'set', call: call('quantity', 'a', 'coin'), value: call('quantity', 'b', 'coin') }],
-      [{ kind: 'assert', call: call('nonsense', 'a') }],
+  // An action is offered only if what it does keeps every count at or above nothing (a fare the company cannot pay);
+  // a write that takes a count past nothing (a rule's, unchecked) stops it there (The Patient Star's P5).
+  it('admits the changes that keep every count at or above nothing, sequential ones too, all of which apply accepts', () => {
+    const coin = (kind: 'decrease' | 'increase', who: string, n: number): Change =>
+      ({ kind, call: call('quantity', who, 'coin'), value: ModuleWriter.number(n) });
+    const cases: [Change[], boolean][] = [
+      [[coin('decrease', 'a', 2)], true],
+      [[coin('decrease', 'a', 3)], false],
+      [[coin('decrease', 'a', 2), coin('decrease', 'a', 1)], false],
+      [[coin('increase', 'b', 1), { kind: 'set', call: call('quantity', 'a', 'coin'), value: call('quantity', 'b', 'coin') }], true],
+      [[{ kind: 'assert', call: call('nonsense', 'a') }], false],
     ];
-    for (const changes of cases) {
-      let applies = true;
-      try { start.apply(changes); } catch { applies = false; }
-      expect(start.admits(changes)).toBe(applies);
+    for (const [changes, admitted] of cases) {
+      expect(start.admits(changes)).toBe(admitted);
+      if (admitted) { expect(() => start.apply(changes)).not.toThrow(); }
     }
+    expect(start.apply([coin('decrease', 'a', 3)]).number(call('quantity', 'a', 'coin'))).toBe(0);
+    expect(() => start.apply([{ kind: 'assert', call: call('nonsense', 'a') }])).toThrow();
   });
   it('stamps a name only when it is written', () => {
     const next = start.apply([{ kind: 'assert', call: call('open', 'y') }]);

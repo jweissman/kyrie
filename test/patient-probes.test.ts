@@ -76,12 +76,11 @@ describe('The Patient Star probes', () => {
     expect(plays.map(c => c.label)).toEqual(['a granary plate: Draw a stylus along the plate']);
   }, 60000);
 
-  it('P5: a decrease past nothing stops play at run time, naming the measure but not the rule', async () => {
+  // Repaired at integration: it stopped play ("Invalid quantity for p__dose(party)"), naming neither rule nor line.
+  it('P5: a decrease past nothing stops at nothing', async () => {
     const s = await Probe.start('below-zero');
-    let error = '';
-    try { await Probe.act(s, 'Wait › A while'); } catch (e) { error = (e as Error).message; }
-    expect(error).toMatch(/Invalid quantity for p__dose\(party\)/);
-    expect(error).not.toMatch(/recovers/);
+    await Probe.act(s, 'Wait › A while');
+    expect(s.campaign.world.number(ModuleWriter.call('p__dose', 'party'))).toBe(0);
   }, 60000);
 
   it('P6: a person with somewhere to go stays put unless the module also says Uses go, and lint is silent', async () => {

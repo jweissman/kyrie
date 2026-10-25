@@ -334,9 +334,11 @@ export class World {
     const amount = change.value.kind === 'call' || change.value.kind === 'arith' ? this.number(change.value)
       : World.literal(change.value);
     const previous = this.number(change.call);
-    const value = change.kind === 'set' ? amount : change.kind === 'increase' ? previous + amount : previous - amount;
-    // A count never goes below nothing; a quantity set outright may (selm weighs less than nothing).
-    if (!Number.isSafeInteger(value) || (value < 0 && change.kind !== 'set')) {
+    // A count taken past nothing stops there (a dose that recovers eight at a time stopped play: The Patient Star's
+    // P5, The Road the Star Came Down's B2); a quantity set outright may be less (selm weighs less than nothing).
+    const value = change.kind === 'set' ? amount
+      : Math.max(0, change.kind === 'increase' ? previous + amount : previous - amount);
+    if (!Number.isSafeInteger(value)) {
       throw new Error(`Invalid quantity for ${World.format(change.call)}`);
     }
     const named = this.namedMeasures(change.call.name), held = named.get(key);

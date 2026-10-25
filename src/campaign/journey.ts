@@ -2,7 +2,9 @@ import { ModuleWriter } from '../lang/module-writer';
 import type { Change, Operator } from '../lang/module';
 import type { World } from '../lang/world';
 
-export interface Leg { actor: string; origin: string; destination: string; way?: string; followers: string[] }
+// effects: what the command does besides moving the company (the ice a risk breaks), by which the way is judged.
+export interface Leg { actor: string; origin: string; destination: string; way?: string; followers: string[];
+  effects: Change[] }
 // What a journey needs of the campaign it is made in.
 export interface JourneyHost {
   readonly world: World;
@@ -12,7 +14,9 @@ export interface JourneyHost {
 // A command that takes the company from where it stands to somewhere else, and takes more than one watch to do it.
 // The company sets out at once, with whoever is following it, and is on the way while the time passes: nothing at
 // either end can reach it, and the world goes on. It arrives for the last watch, so whoever is there meets it as it
-// comes. A way that stops being passable while the company is on it turns the company back to where it set out.
+// comes. A way that stops being passable while the company is on it turns the company back to where it set out:
+// judged as the command will leave it, so that a risk taken stays taken (The Road the Star Came Down's B1, where a
+// twelve-hour climb with ice on it always turned the company back).
 export class Journey {
   static of(world: World, action: Operator, player: string | undefined, watches: number): Leg | undefined {
     if (!player || watches < 2) { return undefined; }
@@ -26,7 +30,8 @@ export class Journey {
       .map(c => c.call.args[0]!));
     const followers = world.related('following').filter(r => r.args[1] === player && !moved.has(r.args[0]!)
       && world.related('at', r.args[0]).some(a => a.args[1] === origin)).map(r => r.args[0]!);
-    return { actor: player, origin, destination, ...way ? { way } : {}, followers };
+    const effects = action.success.filter(c => (c.kind === 'assert' || c.kind === 'retract') && c.call.name !== 'at');
+    return { actor: player, origin, destination, ...way ? { way } : {}, followers, effects };
   }
   // A move too short to be a journey still takes along whoever is following the company from where it stood.
   static along(before: World, after: World, player: string | undefined): World {
@@ -44,10 +49,11 @@ export class Journey {
     return world.apply([...[leg.actor, ...leg.followers].map(g => this.at('retract', g, leg.origin)),
       ...this.travelling(world, leg, 'assert')]);
   }
-  // Whether the way is still passable for the company, were it back where it set out.
+  // Whether the way is still passable for the company, were it back where it set out and had done what it set out
+  // to do to the way.
   static open(world: World, leg: Leg): boolean {
     if (!leg.way || !world.module.queries.some(q => q.name === 'passable')) { return true; }
-    return world.apply([this.at('assert', leg.actor, leg.origin)])
+    return world.apply([this.at('assert', leg.actor, leg.origin), ...leg.effects])
       .test(ModuleWriter.call('passable', leg.way, leg.actor));
   }
   static back(world: World, leg: Leg): World {

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { Journey } from '../src/session/journey';
 
 // A journey's time passes on the way, not at the far end. The company sets out at once; whoever is where it is going
 // meets it as it arrives, for the journey's last watch; and a way that stops being open while the company is on it
@@ -59,5 +60,14 @@ describe('journeys', () => {
     const crossing = await s.perform('go(world__causeway,world__mill)');
     expect([Ford.at(s), s.campaign.state.elapsed, crossing.result]).toEqual(['world__ford', 9, 'failure']);
     expect(crossing.response).toBe('The way is no longer open. You turn back to the ford.');
+  });
+  // The Road the Star Came Down's B1: a twelve-hour climb with ice on its links, risked, always turned back, because
+  // the way was judged by the ice the risk itself was breaking.
+  it('keeps a company that risked what lies on a long way going, to the far end', async () => {
+    const s = await PlaySession.start('test/fixtures/probes/long-risk/probe.campaign.json', 'risk', NodeBundleSource.shared);
+    const climb = await s.perform(Journey.of(s).find('risk ice on the links')!.command);
+    expect(climb.response ?? '').not.toContain('no longer open');
+    expect([Ford.at(s), s.campaign.state.elapsed, climb.result]).toEqual(['p__ledge', 72, 'success']);
+    expect(Ford.holds(s, 'state', 'p__ice', 'p__broken')).toBe(true);
   });
 });

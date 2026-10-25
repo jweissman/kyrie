@@ -1,0 +1,18 @@
+Module longrisk "A long way with ice on it" {
+  // The Road the Star Came Down's B1: a way that takes hours, with something dangerous on it, risked. The company
+  // sets out, takes the risk, and must not be told on the way that the way is no longer open.
+  Place scarp "the scarp" is wilderness.
+  Place foot "the foot of the climb" is room within scarp at 0, 0 outdoors.
+  Place ledge "the high ledge" is room within scarp at 1, 0 outdoors.
+  Passage climb "the wet climb" is path between foot and ledge taking 12 hours.
+  Company party "You" of 1 at foot.
+  Hazard ice_fall "the ice" means "Deal (1d4) bludgeoning damage to ally unless dexterity save against (8).".
+  Thing ice "ice on the links" on climb {
+    State icy dangerous "Ice glazes the links of the climb.".
+    State broken "The ice on the links is broken where you went up.".
+    Hurts with ice_fall when icy then broken.
+  }
+  Observe foot_scene at foot when true "A wet climb of iron links goes up the scarp.".
+  Observe ledge_scene at ledge when true "A ledge high over the valley.".
+  Goal false.
+}

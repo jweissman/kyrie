@@ -570,6 +570,19 @@ stilling):
   Rule quickening when memberOf(?m, ?c) and company(?c) and not slowedMember(?m) and speed(?m) == 50 { Set speed(?m) to 0. }
 ```
 
+### Who hears what a rule says
+
+A rule's `says` is told to the company wherever it is, unless the rule is anchored: `Rule name at place when … says
+"…"` is told only to a company that perceives the place, and `near` someone or something only to one near them
+(The Long Man's mower, the drover's son). News that should travel at its own pace is a rule anchored where it
+arrives, with a clock for when (The Road the Star Came Down's F9, The Patient Star's 32).
+
+```text
+  Rule son_goes at green when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone." { Retract at(son, green). Assert gone(son). }
+```
+
+A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none.
+
 ### Numbers in what is said
 
 Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:
