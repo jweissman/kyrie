@@ -34,7 +34,7 @@ Module lowwater "Low Water" {
   Observe piet_on_bench at ninth_lock when at(piet, ninth_lock) "Piet Harl sits on the keeper's bench with the lock-book on his knees, watching the Deep Gate the way you would watch a sleeping animal.".
   Discovery lockbook_read "Piet Harl's lock-book has one entry a night for three years, in the same hand: Deep up at the Sixth. Seventh not sung. Deep did not come down.".
   Thing lockbook "the lock-book" at piet_room {
-    State book_open "The lock-book lies open on the table.".
+    State open "The lock-book lies open on the table.".
     Tries looking.
   }
   Rule lockbook_looked when tried(lockbook, looking) and not knows(party, lockbook_read)

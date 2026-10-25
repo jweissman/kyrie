@@ -35,10 +35,10 @@ Module lowwater "Low Water" {
     State to_deep "The old third mouth stands open, its patch broken out. A fifth of the Ninefold goes into it and away under the Rim with a hollow roar, toward the Ninth Lock by some way that is not the Stair.".
   }
   Thing guild_chain "the Guild's chain on the channel head" at rim_gauge {
-    State chain_locked "A chain as thick as a wrist holds the channel head's wheel, padlocked, with a tin plate on it: MILLWRIGHTS' GUILD. BY CHARTER.".
-    State chain_cut "The Guild's chain hangs in two pieces from the channel head's wheel.".
-    State chain_loose "The Guild's chain hangs loose from the channel head's wheel, its padlock open.".
-    Change cut "Break the Guild's chain off the channel head" from chain_locked to chain_cut needing crowbar.
+    State padlocked "A chain as thick as a wrist holds the channel head's wheel, padlocked, with a tin plate on it: MILLWRIGHTS' GUILD. BY CHARTER.".
+    State cut "The Guild's chain hangs in two pieces from the channel head's wheel.".
+    State unlocked "The Guild's chain hangs loose from the channel head's wheel, its padlock open.".
+    Change cut "Break the Guild's chain off the channel head" from padlocked to cut needing crowbar.
   }
   Relation measured(entity). Relation channelLicensed(group). Relation feederLicensed(group).
   Discovery channel_measured "The Fulling Channel takes twenty-two ells a day from the Ninefold. Isaura measured it twice, with the same result.".
@@ -55,7 +55,7 @@ Module lowwater "Low Water" {
   Action restore_channel(actor: group, site: place) "Turn the channel head back into the Ninefold's course" {
     Description "Send all of the Ninefold down the Stair to the Mere, as it went before the Guild.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_gauge) and not state(channel_gate, to_mere)
-      and (state(guild_chain, chain_cut) or state(guild_chain, chain_loose)).
+      and (state(guild_chain, cut) or state(guild_chain, unlocked)).
     Time 2.
     On success { Assert state(channel_gate, to_mere). Assert turnedBy(channel_gate, actor). }
     Result "The wheel is stiff, and then it is not. The brick channel to the mills chokes and empties, the Stair's white water thickens, and along the Rim the hammers of the mills go one by one out of time, and stop.".
@@ -63,14 +63,14 @@ Module lowwater "Low Water" {
   Action feed_deep(actor: group, site: place) "Break out the old third mouth and send the Channel's water down it" {
     Description "The oldest course, toward the Ninth Lock and the Deep, past the Mere.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_gauge) and knows(actor, feeder_known)
-      and not state(channel_gate, to_deep) and (state(guild_chain, chain_cut) or state(guild_chain, chain_loose)).
+      and not state(channel_gate, to_deep) and (state(guild_chain, cut) or state(guild_chain, unlocked)).
     Time 3.
     On success { Assert state(channel_gate, to_deep). Assert turnedBy(channel_gate, actor). }
     Result "The patch comes out brick by brick, soft with age, and behind it the old grey arch goes on into the Rim, dry as a throat. You turn the wheel. The Channel's water leaves the brick for the grey stone as if it had always been waiting to, and goes in under the Rim with a hollow roar, and somewhere far below you, in the floor of the Bowl, something answers it with a long deep note.".
   }
   Action close_channel_head(actor: group, site: place) "Set the channel head back to the Guild's channel" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_gauge) and not state(channel_gate, to_mills)
-      and (state(guild_chain, chain_cut) or state(guild_chain, chain_loose)).
+      and (state(guild_chain, cut) or state(guild_chain, unlocked)).
     Time 2.
     On success { Assert state(channel_gate, to_mills). }
     Result "The wheel goes round. The brick channel fills again, and along the Rim, after a while, the hammers start.".
@@ -111,9 +111,9 @@ Module lowwater "Low Water" {
   Kind engineers_copy "the Corran engineers' report on the Fulling Channel" is treasure worth 0 weighing 0 described "Eleven pages in a good clerk's hand, with a drawing of the channel head and columns of figures. On the last page, underlined twice: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL OBSERVED IN THE MERE. Signed by two engineers of Corran, and countersigned by H. Quill, Master.".
   Thing strongbox "the Guild strongbox" at quill_room {
     Holds.
-    State box_locked closed "An iron strongbox stands under the window, locked, with the Guild's seal on its lid.".
-    State box_open "The Guild strongbox stands open.".
-    Change pick "Pick the strongbox's lock" from box_locked to box_open needing lockwork.
+    State locked closed "An iron strongbox stands under the window, locked, with the Guild's seal on its lid.".
+    State open "The Guild strongbox stands open.".
+    Change pick "Pick the strongbox's lock" from locked to open needing lockwork.
   }
   Item report "the engineers' report" is engineers_copy in strongbox owned by quill.
   Item report_copy "Sella's copy of the engineers' report" is engineers_copy in strongbox.
@@ -168,9 +168,9 @@ Module lowwater "Low Water" {
   }
   Topic quill_agree with quill "Agree to Quill's terms: the Ward plots and the charter, for his Channel down the old course" when offered(quill, actor) and not quillDeal(quill) and knows(actor, feeder_known) {
     Says "Quill shakes your hand, warmly, and holds it a moment longer than he needs to. 'Done.' He writes three lines on a slip, sands them, and rings for a clerk. 'The padlock on the head will be off within the hour. You'll want to do the turning yourself, I think; you'll want to be able to say you did.' At the door he says, not quite lightly: 'If it doesn't stop the Mere, I'll still want my plots.'".
-    On discuss { Assert quillDeal(quill). Assert state(guild_chain, chain_loose). Assert feederLicensed(actor). Assert channelLicensed(actor). }
+    On discuss { Assert quillDeal(quill). Assert state(guild_chain, unlocked). Assert feederLicensed(actor). Assert channelLicensed(actor). }
   }
-  Rule chain_cut_seen when state(guild_chain, chain_cut) and not chainReported(quill) says "Somewhere along the Rim a mill whistle goes, and keeps going. Somebody has seen the Guild's chain on the channel head lying in two pieces." {
+  Rule chain_cut_seen when state(guild_chain, cut) and not chainReported(quill) says "Somewhere along the Rim a mill whistle goes, and keeps going. Somebody has seen the Guild's chain on the channel head lying in two pieces." {
     Assert chainReported(quill). Retract tolerates(bailiffs, party). }
   Relation chainReported(group).
   // The bailiffs come to the head when the chain is broken, and do not let it lie.

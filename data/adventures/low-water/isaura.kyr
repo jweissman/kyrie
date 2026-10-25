@@ -95,7 +95,7 @@ Module lowwater "Low Water" {
   Topic isaura_quill_deal with isaura travelling "Ask Isaura what she thinks of your bargain with Quill" when quillDeal(quill) once {
     Says "She does not answer for a long time. 'It's a good bargain,' she says at last. 'For the Mere. For the mills, even. The Reckoner gets its water and the Ward keeps its water.' She looks down the terraces, toward the Ward. 'And the Ward doesn't keep its ground. The dig and the temples and everything under them go to the Guild, sealed by the Office.' A pause. 'My brother will never speak to me again. I'd like you to know I've worked that out. I'm not asking you to undo it. I'm noting it.'".
   }
-  Topic isaura_chain with isaura travelling "Ask Isaura what she thought of breaking the Guild's chain" when state(guild_chain, chain_cut) and not quillDeal(quill) once {
+  Topic isaura_chain with isaura travelling "Ask Isaura what she thought of breaking the Guild's chain" when state(guild_chain, cut) and not quillDeal(quill) once {
     Says "'It was the Guild's by charter.' Flatly. 'You may have been right to break it. I'll write that you were right, if you were. I'll also write that you broke it.' She looks at you directly. 'That's what I'm for. I'm not here to make what you did look like something else.'".
   }
   Topic isaura_mag with isaura travelling "Ask Isaura about Mag Torrin's vats" when vatsDrowned(vat_yard) once {

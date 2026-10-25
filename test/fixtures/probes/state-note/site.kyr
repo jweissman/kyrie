@@ -1,0 +1,13 @@
+Module p "Probe: a state said as words" {
+  Description "A sluice with a wheel, wound up or down.".
+  Place yard "The yard" is region.
+  Place town "Town" is settlement within yard at 0, 0.
+  Place lock "the lock" is room within town at 0, 0 outdoors.
+  Company party "Your company" of 1 at lock.
+  Thing sluice "the sluice" at lock {
+    State wound_down "The sluice is wound down.".
+    State wound_up "The sluice is wound up.".
+    Change up "Wind the sluice up" from wound_down to wound_up.
+  }
+  Observe lock_scene at lock when true "A lock, and a sluice with a wheel.".
+}

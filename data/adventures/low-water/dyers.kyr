@@ -27,28 +27,28 @@ Module lowwater "Low Water" {
   Initially Set level(sump) to 2. Initially Set brim(sump) to 3.
 
   Thing upper_gate "the upper gate" at cistern_lip {
-    State upper_shut "The upper gate between the Cistern and the Dyers' Basin is wound down.".
-    State upper_open "The upper gate is wound up; water goes through it from the Cistern into the Dyers' Basin.".
-    Change open "Wind the upper gate up" from upper_shut to upper_open.
-    Change shut "Wind the upper gate down" from upper_open to upper_shut.
+    State wound_down "The upper gate between the Cistern and the Dyers' Basin is wound down. The Cistern's post stands at {level(upper)}, the basin's at {level(dyers)}.".
+    State wound_up "The upper gate is wound up; water goes through it from the Cistern into the Dyers' Basin. The Cistern's post stands at {level(upper)}, the basin's at {level(dyers)}.".
+    Change open "Wind the upper gate up" from wound_down to wound_up.
+    Change shut "Wind the upper gate down" from wound_up to wound_down.
   }
   Thing sump_gate "the sump gate" at basin_edge {
-    State sump_shut "The sump gate at the foot of the Dyers' Basin is wound down.".
-    State sump_open "The sump gate is wound up; the Dyers' Basin pours through it into the Sump.".
-    Change open "Wind the sump gate up" from sump_shut to sump_open.
-    Change shut "Wind the sump gate down" from sump_open to sump_shut.
+    State wound_down "The sump gate at the foot of the Dyers' Basin is wound down. The basin's gauge-post stands at {level(dyers)}, the Sump's at {level(sump)}.".
+    State wound_up "The sump gate is wound up; the Dyers' Basin pours through it into the Sump. The basin's gauge-post stands at {level(dyers)}, the Sump's at {level(sump)}.".
+    Change open "Wind the sump gate up" from wound_down to wound_up.
+    Change shut "Wind the sump gate down" from wound_up to wound_down.
   }
   Thing overflow "the Sump's overflow" at basin_edge {
-    State over_shut "On the Sump's far side, a sluice the size of a door is chained shut. A painted board: WARD DRAIN. BY TORRIN'S YARD. KEEP SHUT.".
-    State over_open "The Sump's overflow stands open; the Sump runs out of it down the Ward drain, by way of Mag Torrin's yard.".
-    Change open "Unchain the Sump's overflow and open it" from over_shut to over_open.
-    Change shut "Close the Sump's overflow" from over_open to over_shut.
+    State chained "On the Sump's far side, a sluice the size of a door is chained shut. A painted board: WARD DRAIN. BY TORRIN'S YARD. KEEP SHUT.".
+    State unchained "The Sump's overflow stands open; the Sump runs out of it down the Ward drain, by way of Mag Torrin's yard. The Sump's post stands at {level(sump)}.".
+    Change open "Unchain the Sump's overflow and open it" from chained to unchained.
+    Change shut "Close the Sump's overflow" from unchained to chained.
   }
-  Rule upper_flows when state(upper_gate, upper_open) and level(upper) > level(dyers) and level(dyers) < brim(dyers) {
+  Rule upper_flows when state(upper_gate, wound_up) and level(upper) > level(dyers) and level(dyers) < brim(dyers) {
     Decrease level(upper) by 1. Increase level(dyers) by 1. }
-  Rule sump_flows when state(sump_gate, sump_open) and level(dyers) > level(sump) and level(sump) < brim(sump) {
+  Rule sump_flows when state(sump_gate, wound_up) and level(dyers) > level(sump) and level(sump) < brim(sump) {
     Decrease level(dyers) by 1. Increase level(sump) by 1. }
-  Rule overflow_runs when state(overflow, over_open) and level(sump) > 0 {
+  Rule overflow_runs when state(overflow, unchained) and level(sump) > 0 {
     Decrease level(sump) by 1. Assert vatsDrowned(vat_yard). }
   Relation vatsDrowned(place).
 
@@ -74,9 +74,9 @@ Module lowwater "Low Water" {
     Assert toldDraw(vat_yard). }
   Relation toldDraw(place).
   Rule morning_fill when hour(clock) == 6 and drawnToday(vat_yard) {
-    Retract drawnToday(vat_yard). Retract toldDraw(vat_yard). Set level(dyers) to 3. Set level(upper) to 4. Set level(sump) to 2. Assert state(upper_gate, upper_shut). }
+    Retract drawnToday(vat_yard). Retract toldDraw(vat_yard). Set level(dyers) to 3. Set level(upper) to 4. Set level(sump) to 2. Assert state(upper_gate, wound_down). }
   Rule morning_fill_dry when hour(clock) == 6 and not drawnToday(vat_yard) and level(dyers) < 3 and not filledToday(vat_yard) {
-    Set level(dyers) to 3. Set level(upper) to 4. Set level(sump) to 2. Assert filledToday(vat_yard). Assert state(upper_gate, upper_shut). }
+    Set level(dyers) to 3. Set level(upper) to 4. Set level(sump) to 2. Assert filledToday(vat_yard). Assert state(upper_gate, wound_down). }
   Rule fill_resets when hour(clock) == 7 and filledToday(vat_yard) { Retract filledToday(vat_yard). }
   Relation filledToday(place).
   // Bailing, by hand, a mark at a time.
