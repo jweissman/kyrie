@@ -291,7 +291,7 @@ export class ModuleParser {
       : `able(actor) and distinct(actor, ${who}) and at(actor, site)`
         + ` and ((able(${who}) and at(${who}, site)) or (${along}))`;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title),
-      description: '', speaker: who,
+      description: '', speaker: who, topic: true,
       report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
       success: ModuleParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],

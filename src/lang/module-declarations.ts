@@ -16,6 +16,17 @@ export class ModuleDeclarations {
     const lowered = Spatial.lowerExit(entity);
     module.initial.push(...lowered.initial); module.actions.push(lowered.action);
   }
+  // What someone says (Speaker priest) is said only while they can speak, as a topic is: able and where the company
+  // is, or travelling with it and awake (the audit's F6: a dead priest heard the company out and agreed).
+  private static spoken(action: Operator, s: string) {
+    const { call, and } = ModuleDeclarations;
+    const here = and(call('able', s), and(call('at', s, '?here'), call('at', 'actor', '?here')));
+    const along = and(call('travelsWith', s, 'actor'),
+      { kind: 'not', value: and(call('joinedAs', '?m', s), { kind: 'not', value: call('awake', '?m') }) });
+    action.requires = and(action.requires, { kind: 'or', left: here, right: along });
+  }
+  private static call(name: string, ...args: string[]): Predicate { return { kind: 'call', name, args }; }
+  private static and(left: Predicate, right: Predicate): Predicate { return { kind: 'and', left, right }; }
   // One declaration, joined to the module it is in.
   static declare(module: Module, { field, value }: Field,
     into: { information: DiscoveryDefinition[]; singleton: Set<string> }) {
@@ -43,8 +54,9 @@ export class ModuleDeclarations {
       case 'entity': module.entities.push(value as Module['entities'][number]); break;
       case 'initial': module.initial.push(value as Change); break;
       case 'action': {
-        const { once, ...action } = value as Operator & { once?: boolean };
+        const { once, topic, ...action } = value as Operator & { once?: boolean; topic?: boolean };
         if (once) { WorldConstructs.once(module, action); }
+        if (action.speaker && !topic) { ModuleDeclarations.spoken(action, action.speaker); }
         module.actions.push(action); break;
       }
       case 'localkind': case 'localspecies': break;

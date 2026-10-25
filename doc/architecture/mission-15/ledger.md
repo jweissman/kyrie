@@ -17,7 +17,7 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 | F3 a failed expansion commits a command without recording it | done: the command, the country beyond it draws, its telling and its step are undone together | 0ecbf8f, `test/command-atomicity.test.ts` |
 | F4 a rule can end travel without ending membership | open | |
 | F5 observation instances lose their teaching and binding | done for both paths it shows: one near a variable teaches what it teaches, and a fixed one fills the variable its condition binds (the first it finds) | 0efdc56, this commit; `test/authorability-probes.test.ts` (lamps), `test/patient-probes.test.ts` P1 |
-| F6 a dead speaker answers | open | |
+| F6 a dead speaker answers | done: an action someone speaks (`Speaker priest`) is offered only while they can speak, as a topic is: able and where the company is, or travelling with it and awake | `test/speaker.test.ts` |
 | F7 distinct actions hidden behind one wording | done: choices merged only when alike things, or another member, tell them apart; two things' alike changes each offered | 4e63432, `test/patient-probes.test.ts` P4 |
 | F8 event and epistemic forms narrower than authors expect | open (a design boundary, not a defect) | |
 | F9 dependencies and verification | done: pins, clean clone, CI with a red canary run, skips listed | 55e1bbf, 37b0276, b8e1341 |
@@ -98,8 +98,7 @@ where each stands (each repair with the audit's cases as specs, which fail befor
   is the next step.
 - **The catalogs are the process's** (F1's full repair): two campaigns' commands interleaved within one command would
   still meet. Kinds kept with each campaign, not joined to shared catalogs, would end it.
-- **The audit's F4 and F6**: companions leaving by an authored rule stay members; a dead speaker's action is offered
-  and answers.
+- **The audit's F4**: companions leaving by an authored rule stay members.
 - **What the four adventures found that is still open**, by mechanism and by how many met it, in
   [`doc/authoring/adventures-response.md`](../../authoring/adventures-response.md): knowledge from a named source and
   at a fixture's start; state names scoped to their thing; a skill a source needs; arithmetic (precedence, min, max,

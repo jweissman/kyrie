@@ -1,0 +1,18 @@
+Module speaker "A priest who answers, while able" {
+  Place parish "the parish" is settlement.
+  Place shrine "the shrine" is room within parish at 0, 0.
+  Place vestry "the vestry" is room within parish at 1, 0.
+  Passage vestry_door "the vestry door" is door between shrine and vestry.
+  Company party "You" of 1 at shrine.
+  Person priest "Brother Anselm" at shrine {
+    Ancestry human. Calling cleric. Level 2. Peaceable.
+  }
+  // Spoken by the priest, with nothing in its requirements about the priest: whether he can speak is the language's.
+  Action ask_blessing(actor: group, site: place) "Ask {priest} for a blessing" {
+    Speaker priest.
+    Requires able(actor) and at(actor, site).
+    Time 2 minutes.
+    Result "{priest} blesses you, quickly, with two fingers.".
+  }
+  Rule priest_goes when watch(clock) >= 2 and at(priest, shrine) { Retract at(priest, shrine). Assert at(priest, vestry). }
+}

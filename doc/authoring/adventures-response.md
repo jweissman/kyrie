@@ -34,6 +34,7 @@ proposed stands.
 | Patient Star P8's module was lost | `.gitignore` ignored every folder named `site` | Done (0efdc56): only the built site at the root is ignored; the module rebuilt | `patient-probes` P8 |
 | Patient Star: "Let Saro hold on" had "no possible target" | Lint's list of what the engine writes lacked `joinedAs` | Done (483e3af): one list, `EngineWrites`, for lint and the world audit | `engine-writes` |
 | Patient Star P1 text: "?m's own footsteps" | An observation's text named a variable it could not fill | Done (0efdc56): said of whoever its condition finds first | `patient-probes` P1 |
+| The audit's F6: a dead priest, in an action he speaks, heard the company out and agreed | `Speaker` set who speaks, not whether they can | Done: offered only while the speaker is able and here, or travelling with the company and awake, as a topic is | `speaker` |
 | The audit's F5: an observation near a variable taught nothing | Seen as an instance (`glow@iron_lamp`), it was looked for by its declaration's id | Done: it teaches what its declaration teaches | `authorability-probes` (lamps) |
 | Road B1: a long hazardous way always turned the company back | Each watch of a journey judged the way by the hazard the risk itself was breaking | Done (c6dbce9): judged as the command will leave it | `journey` |
 | Road B2, Patient Star 5: a decrease past nothing stopped play | A count may not be negative, and a rule's write threw | Done (c6dbce9): a count taken past nothing stops at nothing (an action that would still is not offered) | `patient-probes` P5 |
