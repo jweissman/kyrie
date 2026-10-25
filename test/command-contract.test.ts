@@ -77,6 +77,18 @@ it('rejects invalid definitions and unbound areas before spending mana or emitti
   expect(ctx.actor).toEqual(before); expect(ctx.events).toEqual([]);
 });
 
+// The follow-up review read "is not burning" beside Burning: one of two burns had run out.
+it('says a condition ends only when none of it is left', () => {
+  const ctx = ContractProbe.context(), target = ctx.fighters[1]!;
+  ctx.actor = undefined;
+  target.statuses = [{ id: 'poisoned', remaining: 1, clock: 'world-time', source: 'needle' },
+    { id: 'poisoned', remaining: 2, clock: 'world-time', source: 'fang' }];
+  Effects.advance(target, 'world-time', ctx);
+  expect([target.statuses.map(s => s.source), ctx.events.filter(e => e.type === 'expire')]).toEqual([['fang'], []]);
+  Effects.advance(target, 'world-time', ctx);
+  expect([target.statuses, ctx.events.filter(e => e.type === 'expire').length]).toEqual([[], 1]);
+});
+
 it('uses typed source-only damage for world-time conditions and expires them exactly once', () => {
   const ctx = ContractProbe.context(), target = ctx.fighters[1]!;
   target.statuses = [{ id: 'poisoned', remaining: 2, clock: 'world-time', source: 'poison-needle' }];

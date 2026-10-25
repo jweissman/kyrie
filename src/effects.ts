@@ -240,13 +240,17 @@ export class Effects {
     }
     Effects.expire(target, s => s.clock === clock, context);
   }
+  // A condition is said to end when none of it is left: one burn of two (from two fires) running out is not the
+  // holder no longer burning (the follow-up review read "is not burning" beside Burning).
   static expire(target: Fighter, ticking: (s: Fighter['statuses'][number]) => boolean, context: EffectContext) {
-    target.statuses = target.statuses.filter(s => {
-      if (!ticking(s) || s.remaining > 0) { return true; }
-      context.events.push({ type: 'expire', turn: context.turn, actor: s.source ?? s.id, target: target.id, detail: s.id });
+    const ended = target.statuses.filter(s => ticking(s) && s.remaining <= 0);
+    target.statuses = target.statuses.filter(s => !ended.includes(s));
+    for (const s of ended) {
+      if (!target.statuses.some(x => x.id === s.id) && ended.find(x => x.id === s.id) === s) {
+        context.events.push({ type: 'expire', turn: context.turn, actor: s.source ?? s.id, target: target.id, detail: s.id });
+      }
       Effects.lapse(target, s.id, context);
-      return false;
-    });
+    }
   }
   // Orsino's onExpire: what a condition does as it lapses (a countdown's blast), to its holder or whoever is named.
   static lapse(holder: Fighter, id: string, context: EffectContext) {

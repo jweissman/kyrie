@@ -724,8 +724,9 @@ excursion. It ranks twelve findings. I repaired these:
   (`test/what-it-takes.test.ts`, `test/origins.test.ts`).
 - **A fight's telling contradicted itself** (its eighth, in part): a save against the harm itself was "shakes it off"
   before "takes 0 fire damage" and "is burning", and a bite caught someone "for 0" and they bled. A save against harm
-  turns the worst of it aside, and harm that came to nothing is not told as harm (`test/fighting-odds.test.ts`). A
-  condition said to end while the card still shows it is not traced.
+  turns the worst of it aside, and harm that came to nothing is not told as harm (`test/fighting-odds.test.ts`). The
+  hound that was "not burning" beside Burning had two burns, one from each fire, and one had run out: a condition is
+  said to end only when none of it is left (`test/command-contract.test.ts`).
 - **A dweller met as a fight with breathing for its warning** (its seventh, in part): what falls on whoever comes in
   is heard from the next room as what kind of thing it is, the dead as a cold and a breath let out and never drawn
   in, a thing of earth or water as weather, beasts still as breathing (`test/what-it-takes.test.ts`). And the
