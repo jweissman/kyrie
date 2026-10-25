@@ -79,7 +79,8 @@ Module lowwater "Low Water" {
     Role "the keeper of the Full Measure". Ancestry human. Profession innkeeper. Peaceable. Pronouns he. Manner jovial.
     Sells rations for 2 coin from 8.
     Sells lamp_oil for 1 coin from 4.
-    Sells torch for 1 coin from 4.
+    Sells torch for 1 coin from 6.
+    Sells lantern for 4 coin from 2.
     Sells rope for 2 coin from 2.
   }
   Topic ruan_talk with ruan "Ask Ruan Tell what people are saying" when true once {
@@ -91,4 +92,6 @@ Module lowwater "Low Water" {
 
   // The Moot Hall, where the Council sits for the Hearing.
   Observe moot_scene at moot_hall when not hearingDay() "The Moot Hall: a high room with tiers of benches on three sides and a table on the fourth under the Office's seal. Empty, it echoes.".
+  Observe moot_filling at moot_hall when hearingDay() and not hearingOpen(ammerlin) and not hearingDone(ammerlin) "The Moot Hall is being made ready for the Hearing: clerks setting out ink and sand on the long table, the benches being wiped, a boy on a ladder trimming the lamps. People have begun to come in already and sit, early, the way people do who mean to have a good seat for something.".
+  Observe moot_after at moot_hall when hearingDone(ammerlin) and not hearingOpen(ammerlin) "The Moot Hall is empty again, the benches pushed crooked, the ink-pots on the long table dry. Somebody has left a blue dyer's glove on the front bench.".
 }

@@ -18,8 +18,8 @@ Module lowwater "Low Water" {
   Observe landing_low at ward_landing when mere(bowl) <= 30 "The Mere is a long way off now. The planks over the mud have been laid three times and given up.".
   Observe landing_rising at ward_landing when state(channel_gate, to_mere) and not draining() "There is water in the lowest of the old boat-rings again. Children are standing in it, to the shin, shouting.".
   Observe children_skip at ward_landing when hour(clock) >= 15 and hour(clock) < 19 and not wardLeaving(ammerlin) "Children are skipping on the landing in the last of the sun, two turning a net-rope and one jumping, and all of them chanting: Rise at the Sixth, and the Deep goes up! Count at the Seventh, it takes its cup!".
-  Observe isaura_landing at ward_landing when travelsWith(isaura, party) and not knows(party, isaura_ward) "Isaura stops on the top step. She looks at the painted spans one by one down to the mud, the way you would read down a column of figures you already know the sum of. 'I learned to swim off the fourth step,' she says. 'It's the twenty-ninth span now.' She does not say anything else, and then she does: 'Noted.'" teaches isaura_ward.
-  Discovery isaura_ward "Isaura Vant learned to swim off the fourth step of the Ward landing.".
+  Rule isaura_landing at ward_landing when at(party, ward_landing) and travelsWith(isaura, party) and not knows(party, isaura_ward) says "Isaura stops on the top step. She looks at the painted spans one by one down to the mud, the way you would read down a column of figures you already know the sum of. 'I learned to swim off the fourth step,' she says. 'It's twenty-nine steps down to the water now. And the mud.' She does not say anything else, and then she does: 'Noted.'" teaches isaura_ward { }
+  Discovery isaura_ward "Isaura Vant learned to swim off the Ward landing, when the Mere came up to its fourth step.".
 
   Observe row_scene at tench_row when not wardEmpty(ammerlin) "Tench Row: fishers' houses of tarred timber on stone feet, built for a shore that has walked away from them. Nets hang dry on every rail. Somebody is gutting the few fish there are on a door laid across two barrels, and a queue is waiting for them.".
   Observe row_leaving at tench_row when wardLeaving(ammerlin) and not wardEmpty(ammerlin) "Handcarts in Tench Row, loaded with beds and pots and nets. People are going up the Ward steps with them, and others are standing in their doors watching them go.".
@@ -35,7 +35,7 @@ Module lowwater "Low Water" {
 
   // Dov Vant, his yard, and the Tench.
   Observe dov_yard_scene at dov_yard when true "A fisher's yard with a smoke-house, a boat-shed, and a heap of things that are not fish: carved grey stone, green bronze, a block with a hole through it, a broken lintel with letters on it, all sorted into piles by some system of Dov's.".
-  Person dov "Dov Vant" at dov_yard {
+  Person dov "Dov Vant" at dig {
     Role "fisher of the Mere Ward, and its loudest man". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner jovial.
   }
   Person diggers "the Ward diggers" at dig {
@@ -91,13 +91,13 @@ Module lowwater "Low Water" {
   }
   Relation breached(entity). Relation drowned(group). Relation digClosed(entity).
   // At six on the fourth morning, if the diggers are still at it, they break through.
-  Rule breach_safe when watch(clock) >= 432 and hour(clock) == 6 and cofferdam(dig) and not breached(dig) and not digClosed(dig) and not shutBelow(dig)
+  Rule breach_safe when watch(clock) >= 420 and hour(clock) == 6 and cofferdam(dig) and not breached(dig) and not digClosed(dig) and not shutBelow(dig) and mere(bowl) <= 34 and at(diggers, dig)
     says "Word comes up from the Ward at first light: the diggers are through the wall at the bottom of the Hall's throat. The dam held. Nobody was hurt, and Dov Vant is standing on top of it shouting at the sky." {
     Assert breached(dig). }
-  Rule breach_drowns when watch(clock) >= 432 and hour(clock) == 6 and not cofferdam(dig) and not breached(dig) and not digClosed(dig) and mere(bowl) > 26 and not shutBelow(dig)
+  Rule breach_drowns when watch(clock) >= 420 and hour(clock) == 6 and not cofferdam(dig) and not breached(dig) and not digClosed(dig) and mere(bowl) > 26 and not shutBelow(dig) and mere(bowl) <= 34 and at(diggers, dig)
     says "At first light there is a noise from the Ward like a door the size of a hill slammed shut, and then screaming. The diggers broke the wall at the bottom of the Hall's throat, and the silt went, and the Mere came down after it. Three were in the hole." {
     Assert breached(dig). Assert drowned(diggers). Assert dovGrieving(dov). Decrease mere(bowl) by 2. Retract at(dov, dig). Assert at(dov, dov_yard). }
-  Rule breach_dry when watch(clock) >= 432 and hour(clock) == 6 and not cofferdam(dig) and not breached(dig) and not digClosed(dig) and mere(bowl) <= 26 and not shutBelow(dig)
+  Rule breach_dry when watch(clock) >= 420 and hour(clock) == 6 and not cofferdam(dig) and not breached(dig) and not digClosed(dig) and mere(bowl) <= 26 and not shutBelow(dig) and at(diggers, dig)
     says "Word comes up from the Ward: the diggers are through the wall at the bottom of the Hall's throat. The Mere has fallen so far that there was nothing above the silt to come in." {
     Assert breached(dig). }
   Relation shutBelow(entity).

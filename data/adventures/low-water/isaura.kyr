@@ -5,12 +5,13 @@ Module lowwater "Low Water" {
     Role "Clerk-Measurer, Third Grade, of the Office of Measures". Ancestry human. Calling thief. Level 3. Peaceable. Pronouns she. Manner stoic.
     Joins "Isaura tucks the brass ell-rod under her arm and falls in beside you, half a step behind, where she can see what you see and also write it down.".
     Leaves "Isaura nods once. 'I'll be at the Office,' she says. 'Ask for Third Grade. They'll know which one you mean.'".
+    Carries lantern. Carries lamp_oil.
     Greets "Isaura looks up from her ledger, finishes the line she was writing, and then looks up properly.".
   }
   Rule isaura_waits when watch(clock) >= 12 and at(isaura, rim_head) and not travelsWith(isaura, party) { Retract at(isaura, rim_head). Assert at(isaura, office_hall). }
   Observe isaura_first at rim_head when at(isaura, rim_head) and watch(clock) < 12 "A woman in a grey coat is standing at the head of the Stair with a brass rod under her arm, as if she had been there all morning and would be there all afternoon.".
   Topic isaura_hello with isaura "Ask the woman in grey if she is waiting for you" when not willing(isaura, actor) and not travelsWith(isaura, actor) once {
-    Says "'You're the Assessor.' It is not a question. 'Isaura Vant. Office of Measures, Third Grade. I'm to accompany you, record your findings, open what you need opened, and stop you being robbed. The Registrar would like your Finding at the Hearing, which is at noon in six days' time.' She glances down at the Mere. 'It was at the fourth step of the Ward landing when I was a girl. It's below the twenty-ninth now. I'll show you the twenty-ninth. That's the kind of thing I'm for.'".
+    Says "'You're the Assessor.' It is not a question. 'Isaura Vant. Office of Measures, Third Grade. I'm to accompany you, record your findings, open what you need opened, and stop you being robbed. The Registrar would like your Finding at the Hearing, which is at noon in six days' time.' She glances down at the Mere. 'It was at the fourth step of the Ward landing when I was a girl. There are twenty-nine painted steps above it now. I'll show you the twenty-ninth. That's the kind of thing I'm for.'".
     On discuss { Assert willing(isaura, actor). Assert knows(actor, commission). }
   }
   Topic isaura_hello_office with isaura "Ask Clerk Vant if she will come with you after all" when not willing(isaura, actor) and not travelsWith(isaura, actor) and at(isaura, office_hall) once {

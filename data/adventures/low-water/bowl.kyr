@@ -37,8 +37,12 @@ Module lowwater "Low Water" {
     Increase count(reckoner) by 60. }
   Rule reckon_moves when watch(clock) >= nextReckon(bowl) { Increase nextReckon(bowl) by 48. Increase reckonings(bowl) by 1. }
   Measure halfDrawn(place).
-  // Once a day, at two in the afternoon, what the Channel at the Rim does to the Mere.
-  Rule day_mills when watch(clock) >= nextDay(bowl) and state(channel_gate, to_mills) { Decrease mere(bowl) by 1. }
+  // Every other morning, what the Channel at the Rim costs the Mere: its mill water comes back to the Stair below the
+  // Rim, all but what the fulling drinks and the drying-frames give to the air. Once a day, what it gives back when it is
+  // turned home to the Mere.
+  Measure nextMills(place). Initially Set nextMills(bowl) to 132.
+  Rule day_mills when watch(clock) >= nextMills(bowl) and state(channel_gate, to_mills) { Decrease mere(bowl) by 1. }
+  Rule mills_moves when watch(clock) >= nextMills(bowl) { Increase nextMills(bowl) by 288. }
   Rule day_mends when watch(clock) >= nextDay(bowl) and state(channel_gate, to_mere) and not draining() and mere(bowl) < 40 { Increase mere(bowl) by 1. }
   Rule day_moves when watch(clock) >= nextDay(bowl) { Increase nextDay(bowl) by 144. }
   Query draining() means (state(deep_gate, raised) or state(deep_gate, half)) and not fed(reckoner) and not complete(reckoner) and not broken(reckoner).
@@ -58,8 +62,10 @@ Module lowwater "Low Water" {
   Rule hymn_sung when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl)
     says "Over the whole Bowl, terrace below terrace, the Sounding's bells go into the Hymn, and under them, faint and enormous, the choir." {
     Assert sungTonight(bowl). }
-  Rule seventh_sung when hour(clock) == 20 and seventhRestored(bowl) and not seventhTonight(bowl) and not hymnSilenced(bowl)
+  Rule seventh_sung when hour(clock) == 20 and seventhRestored(bowl) and not seventhTonight(bowl) and not hymnSilenced(bowl) and not at(party, ninth_lock)
     says "The bells stop. In the quiet the choir sings four low notes, all alike, and again, and again, slow as somebody counting coins, and the Bowl is so still you can hear the water in the Stair." {
+    Assert seventhTonight(bowl). }
+  Rule seventh_sung_quietly when hour(clock) == 20 and seventhRestored(bowl) and not seventhTonight(bowl) and not hymnSilenced(bowl) and at(party, ninth_lock) {
     Assert seventhTonight(bowl). }
   Rule seventh_lowers when seventhTonight(bowl) and (state(deep_gate, raised) or state(deep_gate, half)) and not broken(reckoner) and not complete(reckoner) {
     Assert state(deep_gate, lowered). }
@@ -79,10 +85,11 @@ Module lowwater "Low Water" {
   Rule census_whole when count(reckoner) >= 900 and not complete(reckoner) and not broken(reckoner)
     says "Every bell in Ammerlin rings at once. Nobody is at the ropes. The sound goes round the Bowl and comes back off the Rim, and under it, from the water itself, from the Stair and the cisterns and every pipe and basin in the city, a chord comes up that nobody living has heard: the whole Long Hymn, in one breath, sung by the water. Then nothing. Far down, the Mere draws back from the Ward like a held breath let go." {
     Assert complete(reckoner). Decrease mere(bowl) by 6. Assert state(deep_gate, lowered). Set ninths(reckoner) to 9. Set completedAt(bowl) to watch(clock). }
-  Measure completedAt(place).
+  Measure completedAt(place). Relation completedFed(engine).
+  Rule fed_complete when complete(reckoner) and fed(reckoner) and not completedFed(reckoner) and completedAt(bowl) == watch(clock) { Assert completedFed(reckoner). }
 
-  // The Hearing, at noon on the seventh day (watch 900), unless the Registrar has been shown cause to put it off two days.
+  // The Hearing, at noon on the seventh day (watch 888), unless the Registrar has been shown cause to put it off two days.
   Measure hearingAt(place).
-  Initially Set hearingAt(bowl) to 900.
+  Initially Set hearingAt(bowl) to 888.
   Query hearingDay() means watch(clock) >= hearingAt(bowl) - 72 and watch(clock) < hearingAt(bowl) + 18.
 }

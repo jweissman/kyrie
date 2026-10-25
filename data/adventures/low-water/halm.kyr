@@ -23,7 +23,7 @@ Module lowwater "Low Water" {
     Says "'Nobody knows. That's the honest answer, and the Collegium has built a library on it.' He sits on a basket. 'Before the Aeneans, who were before everybody. People who made things to answer questions, by number, and made them so well they still run. We have their marks, which aren't letters. We have their works. We don't have one sentence of what they thought they were doing.' He picks up a weight-stone and turns it. 'Some of us think they were trying to finish something. Some of us think they were trying to stop something. I think they were asking. Everything they made is shaped like a question.'".
   }
   Topic halm_hum with halm "Ask Halm what is behind the wall at the bottom of the throat" when true once {
-    Says "'Have you heard it? Put your ear to the Hall's inner wall. Go on.' He waits, bright-eyed. 'Something down there is running. In three thousand years nobody's built a machine that runs a year without a man to oil it. And that has been running since before there were men here at all.' Then, quietly, for once: 'I'd give the lake for it. I'm sorry. I would. I'd give the lake.'".
+    Says "'Have you heard it? Put your ear to the Hall's inner wall. Go on.' He waits, bright-eyed. 'Something down there is running. In three thousand years nobody's built a machine that runs a year without a man to oil it. And that has been running since before there were men here at all. A reckoner, the Collegium would call it, if the Collegium had ever found one that worked: a thing that counts.' Then, quietly, for once: 'I'd give the lake for it. I'm sorry. I would. I'd give the lake.'".
   }
   Topic halm_lake with halm "Ask Halm whether he means that about the lake" when true once {
     Says "He considers it seriously, which is the worst thing about him. 'The Mere is a great deal of water, and water comes again; it rains. The Reckoner is the only one in the world.' He sees your face. 'I know. I know how that sounds. There are people at the bottom of the Bowl, and I've eaten their fish, and Dov Vant would take my head off and he'd be right to.' He looks at the stone in his hands. 'I'm not saying it's right. I'm saying it's what I'd do. You should know that about me before you tell me anything useful.'".
@@ -41,8 +41,10 @@ Module lowwater "Low Water" {
   }
   Discovery census_read "Halm reads the lintel the Reckoner lit: IT COUNTS WHAT IS BOUND. The Reckoner is a census of everything that is, was or will be bound, body and soul, by the prima materium.".
   Topic halm_door with halm "Ask Halm to read the words over the last door" when knows(actor, door_words) once {
-    Says "'WHAT IS COUNTED IS GIVEN,' Halm reads. 'WHAT IS GIVEN IS KEPT.' He touches the round door. 'Given to whom? Kept by whom?' He looks at you as if you might know. 'When it's finished, this opens, and the count goes through. Somebody is meant to receive it.' A long pause. 'I would very much like to know who.'".
+    Says "Halm copies the two lines off your rubbing of them, or off your memory, with his tongue between his teeth. 'WHAT IS COUNTED IS GIVEN,' he reads. 'WHAT IS GIVEN IS KEPT.' He touches the round door. 'Given to whom? Kept by whom?' He looks at you as if you might know. 'When it's finished, this opens, and the count goes through. Somebody is meant to receive it.' A long pause. 'I would very much like to know who.'".
+    On discuss { Assert knows(actor, door_read). }
   }
+  Discovery door_read "Halm reads the words over the last door: WHAT IS COUNTED IS GIVEN. WHAT IS GIVEN IS KEPT.".
   // Teodor Halm and The Long Man: the clay keepers of Merrowdale, if anyone brings him a piece of one.
   Event halm_mask near halm when keeps(halm, ?m) and itemKind(?m, keeper_mask) "Halm holds the grey face up to the light, turns it, strikes it gently with a fingernail, and listens to it ring. 'Hesk weirstone,' he says. 'From Merrowdale. From the keeper of the Long Man, or one of its sisters.' He is quite still. 'Do you know what this is? It's the same fired clay as the Dyers' arch. The same. The Hesk learned their craft from whoever learned it from the people who built this.' He looks at the floor of the Bowl as if he could see through it. 'They're all one family of machines. All over Imbar. All asking.'" then {
     Assert halmHasMask(halm). }
@@ -64,12 +66,19 @@ Module lowwater "Low Water" {
   Topic halm_dont with halm "Ask Halm not to sound the high voice" when at(halm, column_room) and not complete(reckoner) and not halmStopped(halm) once {
     Says "'Why not?' He genuinely wants to know. 'It's nearly done. It's been nearly done for three thousand years. If I sound the end it finishes now, with what it has, instead of drinking the rest of the Mere to get there.' He holds the striker. 'Isn't that kinder? Give me a reason. A real one. I'll listen; I'm not a monster. I'm just the only person in this city who wants to know the answer more than he wants anything else.'".
   }
-  Topic halm_reason_ward with halm "Tell Halm that ending it now takes the Ward's last water in one breath" when at(halm, column_room) and not complete(reckoner) and not halmStopped(halm) and (knows(actor, door_words) or knows(actor, census_read)) once {
+  Topic halm_reason_ward with halm "Tell Halm that ending it now takes the Ward's last water in one breath" when at(halm, column_room) and not complete(reckoner) and not halmStopped(halm) and (knows(actor, door_read) or knows(actor, census_read)) once {
     Says "'One last breath,' he says. 'Yes. Six spans, by the look of the slot.' He looks at the striker a long time. 'And then nothing more, ever. Against six spans a night for a hundred nights.' He holds it out to you, handle first. 'Then you decide. You're the Assessor. That's the whole point of you, isn't it.' He sounds, for the first time, very tired. 'Somebody who isn't me.'".
     On discuss { Assert halmStopped(halm). }
   }
   Topic halm_reason_city with halm "Tell Halm the city has a right to choose this, at the Hearing, and he doesn't" when at(halm, column_room) and not complete(reckoner) and not halmStopped(halm) once {
     Says "Halm opens his mouth to argue and shuts it again. 'The city,' he says. 'Who've sung it orders for three thousand years without knowing. Yes, all right. That's a fair point. That's annoyingly fair.' He puts the striker back on its chain. 'Let them choose. But if they choose to break it, Assessor, I'll stand up at your Hearing and tell them they're vandals, and I'll be right.'".
+    On discuss { Assert halmStopped(halm). Assert willTestify(halm). }
+  }
+  Topic halm_plan with halm "Ask Halm what he means to do about the high voice" when (halmKnows(halm) or knows(actor, grammar_known)) and not halmStopped(halm) and not complete(reckoner) and not broken(reckoner) and not halmBelow(halm) once {
+    Says "Halm does not pretend not to understand. 'Sound it,' he says. 'The high voice and the bright. The end of the song. I worked it out from the keystone, the same as you did.' He is almost apologetic. 'It'll finish with what it has instead of drinking the rest of the Mere to get there. One breath, six spans, and then it's done and the lake can come back.' He looks at you. 'And I'll be there to hear the answer. I'm not going to pretend that isn't the reason.'".
+  }
+  Topic halm_promise with halm "Tell Halm the city has a right to choose this at the Hearing, and he doesn't" when (halmKnows(halm) or knows(actor, grammar_known)) and not halmStopped(halm) and not complete(reckoner) and not broken(reckoner) and not halmBelow(halm) once {
+    Says "Halm opens his mouth to argue and shuts it again. 'The city,' he says. 'Who've sung it orders for three thousand years without knowing. Yes, all right. That's a fair point. That's annoyingly fair.' He plants his muddy hands on his knees. 'I'll wait for your Hearing. I give you my word, which the Collegium will tell you is good for most things that aren't instruments.' A pause. 'But if they choose to break it, I'll stand up and tell them they're vandals, and I'll be right.'".
     On discuss { Assert halmStopped(halm). Assert willTestify(halm). }
   }
   Rule halm_returns when halmStopped(halm) and at(halm, column_room) and not at(party, column_room) { Retract at(halm, column_room). Assert at(halm, taproom). Retract halmBelow(halm). }

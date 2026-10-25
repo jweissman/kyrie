@@ -16,10 +16,9 @@ Module lowwater "Low Water" {
   Passage counting_door "the counting-house door" is door between fulling_mills and quill_outer.
   Passage quill_door "the door to the counting-room" is door between quill_outer and quill_room.
 
-  Discovery bowl_seen "Ammerlin goes down the inside of the Bowl in four terraces to the Mere, and the Mere is ringed with fresh mud.".
-  Observe road_first at rim_road when not knows(party, bowl_seen) "The road comes over the lip of the Bowl and stops, because the world does. Below you the city goes down in four great steps, each a ring of roofs and gardens and wet stone, and between the rings the water: falling, turning, held. You can hear it before you understand it, a sound like a great many people breathing out. At the bottom, very far, the Mere lies like a coin somebody dropped. There is a pale ring round it. It takes you a moment to see that the ring is mud." teaches bowl_seen.
-  Observe road_scene at rim_road when knows(party, bowl_seen) "The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall.".
-  Observe road_low at rim_road when knows(party, bowl_seen) and mere(bowl) <= 30 "From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it.".
+  Observe road_first at rim_road when not been(party, rim_head) "The road comes over the lip of the Bowl and stops, because the world does. Below you the city goes down in four great steps, each a ring of roofs and gardens and wet stone, and between the rings the water: falling, turning, held. You can hear it before you understand it, a sound like a great many people breathing out. At the bottom, very far, the Mere lies like a coin somebody dropped. There is a pale ring round it. It takes you a moment to see that the ring is mud.".
+  Observe road_scene at rim_road when been(party, rim_head) "The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall.".
+  Observe road_low at rim_road when been(party, rim_head) and mere(bowl) <= 30 "From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it.".
 
   Observe head_scene at rim_head when true "The head of the Stair: a stone landing the size of a market, where the Ninefold, brought along the Rim in a cut channel, drops into the first of the Nine Locks and goes down the Bowl in steps of white water. Stairs for people go down beside it. The spray makes a rainbow over the first lock at this hour and a cold mist at every other.".
   Observe head_spray at rim_head when hour(clock) >= 7 and hour(clock) < 11 "The rainbow hangs over the first lock, so steady the carters use it to tell the time.".
@@ -28,7 +27,7 @@ Module lowwater "Low Water" {
   Observe gauge_scene at rim_gauge when true "The Ninefold comes into the Bowl here, out of a cutting in the Rim, over a weir of dressed stone with a brass gauge-plate let into it. Past the weir the water splits at a stone head with three mouths: one down to the head of the Stair, one along the Rim in a new brick channel toward the sound of hammers, and one, the oldest, bricked up with stone so old it has gone green.".
   Observe gauge_plate at rim_gauge when true "The brass plate on the weir is cut with the Office's marks, ells-per-day, and stamped with its seal. The water stands on it at three hundred and twenty.".
   Discovery feeder_seen "At the Rim Gauge the channel head has a third mouth, the oldest, bricked up: a course that once went somewhere else than the Stair or the mills.".
-  Observe third_mouth at rim_gauge when not knows(party, feeder_seen) "The third mouth of the channel head is the strangest. The brick that stops it is a later patch on far older work: the arch round it is cut in a stone you have not seen anywhere else in the Bowl, grey, fine, with no tool marks at all." teaches feeder_seen.
+  Rule third_mouth at rim_gauge when at(party, rim_gauge) and not knows(party, feeder_seen) says "The third mouth of the channel head is the strangest. The brick that stops it is a later patch on far older work: the arch round it is cut in a stone you have not seen anywhere else in the Bowl, grey, fine, with no tool marks at all." teaches feeder_seen { }
 
   Thing channel_gate "the channel head" at rim_gauge {
     State to_mills "The channel head is set to the Guild's brick channel: a fifth of the Ninefold goes along the Rim to the mills, and the rest down the Stair.".
@@ -109,7 +108,7 @@ Module lowwater "Low Water" {
     On discuss { Assert promised(actor, sella). Set reportAt(sella) to watch(clock) + 5. }
   }
   Measure reportAt(group).
-  Kind engineers_copy "the Corra engineers' report on the Fulling Channel" is treasure worth 0 weighing 0 described "Eleven pages in a good clerk's hand, with a drawing of the channel head and columns of figures. On the last page, underlined twice: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL OBSERVED IN THE MERE. Signed by two engineers of Corran, and countersigned by H. Quill, Master.".
+  Kind engineers_copy "the Corran engineers' report on the Fulling Channel" is treasure worth 0 weighing 0 described "Eleven pages in a good clerk's hand, with a drawing of the channel head and columns of figures. On the last page, underlined twice: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL OBSERVED IN THE MERE. Signed by two engineers of Corran, and countersigned by H. Quill, Master.".
   Thing strongbox "the Guild strongbox" at quill_room {
     Holds.
     State box_locked closed "An iron strongbox stands under the window, locked, with the Guild's seal on its lid.".
@@ -117,11 +116,12 @@ Module lowwater "Low Water" {
     Change pick "Pick the strongbox's lock" from box_locked to box_open needing lockwork.
   }
   Item report "the engineers' report" is engineers_copy in strongbox owned by quill.
-  Rule report_brought at fulling_mills when promised(party, sella) and reportAt(sella) > 0 and watch(clock) >= reportAt(sella) and not broughtOut(report)
+  Item report_copy "Sella's copy of the engineers' report" is engineers_copy in strongbox.
+  Rule report_brought at fulling_mills when promised(party, sella) and reportAt(sella) > 0 and watch(clock) >= reportAt(sella) and not broughtOut(report_copy)
     says "Sella Marsh comes out of the counting-house's side door, puts a fat fold of paper on the bench by the door under a stone, and goes back to the hammers without looking at you." {
-    Retract inside(report, strongbox). Assert at(report, fulling_mills). Assert broughtOut(report). }
+    Retract inside(report_copy, strongbox). Assert at(report_copy, fulling_mills). Assert broughtOut(report_copy). }
   Relation broughtOut(item).
-  Observe report_waiting at fulling_mills when at(report, fulling_mills) "On the bench by the counting-house door, under a stone, lies a fat fold of paper with a Corran seal.".
+  Observe report_waiting at fulling_mills when at(report_copy, fulling_mills) "On the bench by the counting-house door, under a stone, lies a fat fold of paper with a Corran seal.".
 
   // Harrow Quill, Master of the Millwrights' Guild.
   Observe outer_scene at quill_outer when true "A long room of clerks at high desks, each with a candle and a ledger, under a painted ceiling of the Ninefold coming down from the hills as a woman pouring a jar. The clerks look up at you all at once, and down again all at once, like birds.".

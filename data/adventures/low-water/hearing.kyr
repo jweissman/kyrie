@@ -52,8 +52,14 @@ Module lowwater "Low Water" {
     On success { Assert laid(ex_channel). Increase credence(council) by 1. }
     Result "Twenty-two ells, gauged at the head, the middle and the bend, twice. The Councillor for the First Lock writes it down. Quill nods along graciously, as if you were reading his own speech.".
   }
-  Action lay_report(actor: group, site: place) "Lay before the Council the Corra engineers' report, countersigned by Quill" {
-    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and carries(actor, report) and not laid(ex_report).
+  Action lay_report(actor: group, site: place) "Lay before the Council the Corran engineers' report, countersigned by Quill" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and carries(actor, report_copy) and not laid(ex_report).
+    Time 1.
+    On success { Assert laid(ex_report). Increase credence(council) by 2. }
+    Result "You read the last page aloud: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL. Countersigned, H. Quill, Master. The paper goes along the Council's table hand to hand. Quill does not look at it. He looks, for a long moment, at the back of the hall, where Sella Marsh is standing, and then he looks at the ceiling.".
+  }
+  Action lay_report_original(actor: group, site: place) "Lay before the Council the Corran engineers' report, countersigned by Quill" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and carries(actor, report) and not carries(actor, report_copy) and not laid(ex_report).
     Time 1.
     On success { Assert laid(ex_report). Increase credence(council) by 2. }
     Result "You read the last page aloud: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL. Countersigned, H. Quill, Master. The paper goes along the Council's table hand to hand. Quill does not look at it. He looks, for a long moment, at the back of the hall, where Sella Marsh is standing, and then he looks at the ceiling.".
@@ -126,7 +132,7 @@ Module lowwater "Low Water" {
   // Quill's answer, when a cause other than his Channel is named without the report to stop him.
   Relation answered(group).
   Rule quill_answers when named(party) and not laid(ex_report) and not causeGuild(party) and not quillDeal(quill) and not answered(quill)
-    says "Harrow Quill rises, gracious, and asks the Council's leave, and has it. 'An machine under the Ward,' he says. 'Bronze men. A hymn that works sluices.' He lets it hang. 'I don't doubt the Assessor saw something down there. I only observe that my Channel is in the Office's register and their machine is in a story.' It is very well done. Half the hall laughs." {
+    says "Harrow Quill rises, gracious, and asks the Council's leave, and has it. 'A machine under the Ward,' he says. 'Bronze men. A hymn that works sluices.' He lets it hang. 'I don't doubt the Assessor saw something down there. I only observe that my Channel is in the Office's register and their machine is in a story.' It is very well done. Half the hall laughs." {
     Assert answered(quill). Decrease credence(council) by 2. }
   Rule quill_concedes when named(party) and laid(ex_report) and not answered(quill) and not quillDeal(quill)
     says "Quill rises and, for once, does not wait for leave. 'The Assessor has my engineers' report,' he says. 'I should like it known I'd have published it myself in the end.' He considers. 'Probably. In the end.' He sits down to a laugh, which he has earned." {

@@ -21,14 +21,15 @@ Module lowwater "Low Water" {
   Passage count_to_governor "the way to the governor" is passage between count_gallery and governor_room.
   Passage count_to_door "the long stair down" is stair between count_gallery and last_door_room taking 5 minutes.
 
-  Observe vestibule_scene at vestibule when true "The culvert comes out into a square room of the fine grey stone, dry, still, warmer than the culvert. A thread of water crosses the floor in a channel and goes on through an arch. Against the wall, as if somebody had tidied them, two squared weight-stones with holes through them.".
+  Observe vestibule_scene at vestibule when true "The culvert comes out into a square room of the fine grey stone, dry, still, warmer than the culvert. A thread of water crosses the floor in a channel and goes on through an arch.".
+  Observe vest_stones at vestibule when at(vest_weight, vestibule) or at(vest_weight_b, vestibule) "Against the wall, as if somebody had tidied them, squared weight-stones with holes through them.".
   Item vest_weight "a weight-stone" is weight_stone at vestibule.
   Item vest_weight_b "a weight-stone" is weight_stone at vestibule.
   Observe breach_scene at breach_gallery when true "A gallery of grey stone, square and dry, and in its wall the ragged hole the diggers made, with mud and broken slab spilled in through it. Everything else is clean: three thousand years clean.".
   Discovery engine_seen "Under the Mere, in works of the Mathematical Age, is a machine that runs on water: it counts by passing water through itself, and the water does not come out again anywhere.".
 
   // The Hall of the Equals: the floor is a scale. Whoever walks it tips it, and the Equals keep it even.
-  Observe equal_scene at equal_hall when true "A long hall with a floor of a single slab of grey stone, so finely set that it rocks, very slightly, under your weight; you feel it go down at your end. At the far end the other side of the balance hangs from a beam on bronze chains: a great stone pan, empty. Between, two figures of bronze, broad, faceless, too wide at the shoulder, stand facing each other across the floor like the two halves of something.".
+  Observe equal_scene at equal_hall when true "A long hall with a floor of a single slab of grey stone, so finely set that it rocks, very slightly, under your weight; you feel it go down at your end. At the far end, the other side of the balance. Between, two figures of bronze, broad, faceless, too wide at the shoulder, stand facing each other across the floor like the two halves of something.".
   Person equals "the Equals" at equal_hall {
     Role "two figures of bronze, broad, faceless, made to keep a reckoning even". Species bronze_construct. Level 5. Numbers 2.
     Temperament obedient.
@@ -48,13 +49,15 @@ Module lowwater "Low Water" {
   Query balanced() means stonesIn(counterpan) >= walkers(party).
   Observe pan_level at equal_hall when balanced() "The floor lies level under you, and the stone pan hangs level at the far end, and the Equals stand facing one another across the hall as if you were not there.".
   Observe pan_tipped at equal_hall when not balanced() and stonesIn(counterpan) > 0 "The pan has gone down some way, but not all: the floor is still tipped your way, a finger's breadth.".
-  // A watch to see it; then they come.
-  Measure tippedFor(group).
-  Rule tipped_watch when at(party, equal_hall) and not balanced() and able(equals) and not broken(reckoner) { Increase tippedFor(party) by 1. }
-  Rule tipped_eases when not at(party, equal_hall) and tippedFor(party) > 0 { Set tippedFor(party) to 0. }
-  Rule equals_warn at equal_hall when at(party, equal_hall) and not balanced() and tippedFor(party) == 1 and able(equals)
-    says "The Equals turn, both together, without a sound, and face you where you stand on the tipped floor. One lifts its hands, flat, palms down, and presses the air, as you would press down the end of a plank that has come up." { }
-  Rule equals_come when at(party, equal_hall) and not balanced() and tippedFor(party) >= 2 and able(equals) and tolerates(equals, party) {
+  // A watch to see it; then they come. tippedSince is the watch the floor was first seen tipped, and one more.
+  Measure tippedSince(group). Relation warnedOff(group).
+  Rule tipped_mark when at(party, equal_hall) and not balanced() and able(equals) and not broken(reckoner) and tippedSince(party) == 0 {
+    Set tippedSince(party) to watch(clock) + 1. }
+  Rule tipped_eases when tippedSince(party) > 0 and (not at(party, equal_hall) or balanced()) { Set tippedSince(party) to 0. Retract warnedOff(party). }
+  Rule equals_warn at equal_hall when at(party, equal_hall) and tippedSince(party) > 0 and not warnedOff(party) and able(equals) and tolerates(equals, party)
+    says "The Equals turn, both together, without a sound, and face you where you stand on the tipped floor. One lifts its hands, flat, palms down, and presses the air, as you would press down the end of a plank that has come up." {
+    Assert warnedOff(party). }
+  Rule equals_come when at(party, equal_hall) and not balanced() and tippedSince(party) > 0 and watch(clock) >= tippedSince(party) + 1 and able(equals) and tolerates(equals, party) {
     Retract tolerates(equals, party). Assert assails(equals, party). }
   Rule equals_settle when balanced() and not tolerates(equals, party) and able(equals) and not guarding(equals) { Assert tolerates(equals, party). }
   Relation guarding(group).
@@ -64,7 +67,15 @@ Module lowwater "Low Water" {
 
   // The counting gallery: nine wheels, and how many have turned.
   Observe count_scene at count_gallery when true "A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates that open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor.".
-  Observe count_wheels at count_gallery when not complete(reckoner) and not broken(reckoner) "Of the nine wheels, {ninths(reckoner)} stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_0 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 0 "Of the nine wheels, no stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_1 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 1 "Of the nine wheels, one stands still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_2 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 2 "Of the nine wheels, two stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_3 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 3 "Of the nine wheels, three stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_4 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 4 "Of the nine wheels, four stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_5 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 5 "Of the nine wheels, five stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_6 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 6 "Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_7 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 7 "Of the nine wheels, seven stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_8 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 8 "Of the nine wheels, eight stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
   Observe count_done at count_gallery when complete(reckoner) "All nine wheels stand still and locked. The channel is dry. The gallery is silent for the first time in three thousand years, and the silence is enormous.".
   Observe count_dead at count_gallery when broken(reckoner) "The wheels have stopped where they stood, the turning one half-turned. Water lies in the channel and does not move. Nothing clicks.".
   Rule engine_known when at(party, count_gallery) and not knows(party, engine_seen) says "It is a machine. It is counting. It counts by water, a gate at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back." teaches engine_seen { }
@@ -116,8 +127,35 @@ Module lowwater "Low Water" {
   Rule says_half when firstTone(column_room) == 1 and (secondTone(column_room) == 2 or secondTone(column_room) == 3) and not complete(reckoner)
     says "The column takes the two notes and the water in the basin rocks once, as if something far off had been moved, and stopped halfway." {
     Assert state(deep_gate, half). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
-  Rule says_count when firstTone(column_room) == 2 and secondTone(column_room) > 0
-    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it a stroke of the bright voice, and another, counting, {ninths(reckoner)} strokes in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+  Rule says_count_0 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 0
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it no stroke at all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_1 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 1
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it a single stroke of the bright voice; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_2 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 2
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, two in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_3 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 3
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, three in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_4 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 4
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, four in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_5 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 5
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, five in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_6 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 6
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, six in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_7 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 7
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, seven in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_8 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 8
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, eight in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_9 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 9
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, nine in all; and then nothing, for there is nothing left to count." teaches count_heard {
     Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
   Discovery count_heard "Asked its count in its own voice, the Reckoner answers in ninths: so many strokes of nine as it has counted.".
   Rule says_question when firstTone(column_room) == 4 and secondTone(column_room) == 1
@@ -158,8 +196,12 @@ Module lowwater "Low Water" {
   }
   Relation brokenBy(engine, group).
   Rule equals_defend when broken(reckoner) and able(equals) and not guarding(equals) says "From the Hall of the Equals comes a sound like a cart of bells overturned, and then the sound of something broad and heavy coming down the gallery, not fast, not slow." {
-    Assert guarding(equals). Retract tolerates(equals, party). Retract at(equals, equal_hall). Assert at(equals, governor_room). }
-  Rule equals_stop when broken(reckoner) and guarding(equals) and not at(party, governor_room) and not stilled(equals) {
+    Assert guarding(equals). Retract tolerates(equals, party). Set equalsArrive(equals) to watch(clock) + 1. }
+  Measure equalsArrive(group).
+  Rule equals_arrive when guarding(equals) and equalsArrive(equals) > 0 and watch(clock) >= equalsArrive(equals) and not at(equals, governor_room) {
+    Retract at(equals, equal_hall). Assert at(equals, governor_room). }
+  Rule equals_fall_on when guarding(equals) and at(equals, governor_room) and at(party, governor_room) and able(equals) and not stilled(equals) { Assert assails(equals, party). }
+  Rule equals_stop when broken(reckoner) and guarding(equals) and at(equals, governor_room) and not at(party, governor_room) and not stilled(equals) {
     Assert stilled(equals). Retract guarding(equals). Assert tolerates(equals, party). }
   Relation stilled(group).
   Observe equals_still at governor_room when stilled(equals) and at(equals, governor_room) "The Equals stand over the broken governor, one each side, with their hands flat and still, as if they were holding something level that is no longer there.".
@@ -168,6 +210,6 @@ Module lowwater "Low Water" {
   Observe door_scene at last_door_room when not complete(reckoner) "At the bottom of the long stair, the counted water goes into a slot in the floor in a smooth black sheet. Beyond it a door of grey stone, round, closed, with no handle; across it a single line of carving. The air here is very cold, and smells of nothing at all.".
   Observe door_open at last_door_room when complete(reckoner) "The round door stands open. Beyond it is not a room. Beyond it, as far as you can see, is still water under no sky, lit from nowhere, and the cold that comes out of it smells of nothing at all.".
   Observe door_shut_dead at last_door_room when broken(reckoner) "The slot in the floor is dry. The round door is shut, and will stay shut.".
-  Discovery door_words "Over the last door, carved in the oldest marks and again in Aenean: WHAT IS COUNTED IS GIVEN. WHAT IS GIVEN IS KEPT.".
-  Observe door_carving at last_door_room when not knows(party, door_words) "Across the round door, two lines: one in the oldest marks, the ones under the keystone, and one in Aenean, newer, cut by somebody who was copying something they did not understand." teaches door_words.
+  Discovery door_words "Over the last door in the Undercroft are two lines of carving, one in the oldest marks and one in Aenean.".
+  Rule door_carving at last_door_room when at(party, last_door_room) and not knows(party, door_words) says "Across the round door, two lines: one in the oldest marks, the ones under the keystone, and one in Aenean, newer, cut by somebody who was copying something they did not understand." teaches door_words { }
 }
