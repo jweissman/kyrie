@@ -1,0 +1,222 @@
+Module thrume "Thrume" {
+  Description "The Shoulder Hall: the giants' hold on the ridge, forty miners held in it, and the keepers' way down into the body.".
+
+  Place scree "the scree road" is wilderness within fells at 0, 1.
+  Place hold "the Shoulder Hall" is site within fells at 1, 1.
+  Place glacier "the Shoulder glacier" is wilderness within fells at 1, 0.
+  Place cellars "the glacier cellars" is level within hold.
+
+  Place scree_road "the top of the scree road" is room within scree at 0, 0.
+  Place gate_yard "the gate-yard" is room within hold at 1, 2.
+  Place kennels "the wolf-pens" is room within hold at 0, 2.
+  Place long_hall "the long hall" is room within hold at 1, 1.
+  Place thane_seat "the high seat" is room within hold at 1, 0.
+  Place hearth "the mothers' hearth" is room within hold at 0, 1.
+  Place barracks "the young bloods' house" is room within hold at 2, 1.
+  Place pens "the thrall-pens" is room within hold at 2, 2.
+  Place midden "the midden under the pens" is room within glacier at 2, 1.
+  Place glacier_foot "the glacier's foot" is room within glacier at 1, 1.
+  Place ice_cellar "the ice cellar" is room within cellars at 1, 0.
+  Place cage_room "the cage of ice" is room within cellars at 2, 0.
+  Place stair_head "the head of the Keepers' Stair" is room within cellars at 0, 0.
+  Initially Assert unlit(ice_cellar). Initially Assert unlit(cage_room). Initially Assert unlit(stair_head).
+
+  Passage scree_climb "the last of the scree" is path between scree_road and gate_yard taking 30 minutes.
+  Passage kennel_gate "the wolf-pen gate" is gate between gate_yard and kennels.
+  Passage hall_doors "the hall doors" is door between gate_yard and long_hall.
+  Passage seat_steps "the steps to the high seat" is steps between long_hall and thane_seat.
+  Passage hearth_way "the hearth passage" is doorway between long_hall and hearth.
+  Passage bloods_door "the young bloods' door" is door between gate_yard and barracks.
+  Passage pens_gate "the pens gate" is gate between gate_yard and pens.
+  Passage midden_chute "the midden chute" is crawl between pens and midden taking 10 minutes needing climbing or rope.
+  Passage midden_path "the ice under the midden" is path between midden and glacier_foot taking 20 minutes.
+  Passage glacier_track "the edge of the glacier" is track between scree_road and glacier_foot taking 1 hour.
+  Passage crevasse "the blue crevasse" is tunnel between glacier_foot and ice_cellar taking 20 minutes hidden until crevasse_known.
+  Passage cellar_stair "the cellar stair" is stair between ice_cellar and long_hall.
+  Passage cage_way "the cold passage" is passage between ice_cellar and cage_room.
+  Passage keepers_arch "the keepers' arch" is arch between ice_cellar and stair_head.
+
+  Observe sroad_scene at scree_road when not dark() "The scree gives out under a hold of black timber and grey stone that sits on the shoulder of the fells under a glacier, like a hut under a wave. Its doors are three times the height of a man.".
+  Observe sroad_night at scree_road when dark() "Above you the hold's smoke-holes glow red. Somebody up there is singing, very low; you feel it in the stones before you hear it.".
+  Observe gyard_scene at gate_yard when true "A yard of trodden snow and bones. The gate-posts are whole pine trunks. A pole of grey wood stands by the hall doors, hung with a hammer the size of a child.".
+  Observe hall_scene at long_hall when not dark() "A hall long enough to race horses in, smoky, roofed with whole trees. Benches you would need a ladder for run down both sides of a fire-trench.".
+  Observe hall_night at long_hall when dark() "The fire-trench is down to embers. Along both walls, on the benches and under them, giants sleep in their furs like a range of low hills, breathing slow. One of them is talking in its sleep.".
+  Observe seat_scene at thane_seat when true "The high seat is a block of the mountain itself, left where it stood when the hall was built round it, polished by a thousand years of sitting. It is warm.".
+  Observe hearth_scene at hearth when true "A round room, warm, smelling of milk and smoke. Four great pillars hold up the roof, and every one is carved from floor to rafters in lines too small for the hands that must have cut them.".
+  Observe barracks_scene at barracks when true "Sleeping platforms, war-gear, and a table scored with a map of the dale below: Saltgrave, the mine-heads, the road. Someone has driven a knife through the town.".
+  Observe pens_scene at pens when not freed(aud) and not razed(scree) "Forty miners in a pen of stakes, under a roof of hides. They are cold and filthy and alive, which they did not expect.".
+  Observe pens_empty at pens when freed(aud) "The pen of stakes is empty, and the hides flap.".
+  Observe pens_razed at pens when razed(scree) and not freed(aud) "Do not look at the pens.".
+  Observe midden_scene at midden when true "The midden spills out from under the pens onto the ice. Above you a square chute goes up into the dark; there are hand-holds in it, worn.".
+  Observe foot_scene at glacier_foot when not dark() "The glacier ends here in a wall of blue ice, cracked, sweating, groaning to itself in the sun.".
+  Observe foot_night at glacier_foot when dark() "The glacier ends here in a wall of ice that is faintly blue even in the dark. It ticks and groans as the cold takes hold of it.".
+  Observe icecellar_scene at ice_cellar when true "A cellar cut in the glacier. The walls are blue and give back no light. Joints of meat hang from hooks. A cold passage goes off to one side; on the other, an arch of old grey stone, older than the hall, opens on a stair going down.".
+  Observe stairhead_scene at stair_head when true "A stair as wide as a road goes down into the mountain in long flights, the treads worn into dips by enormous feet. The air coming up it is warm, and smells faintly of blood and salt.".
+
+  Discovery crevasse_known "A crevasse at the glacier's foot runs back under the hold, into its ice cellar." {
+    Found by searching glacier_foot "Behind a slab of fallen ice a blue crevasse runs back into the glacier, and the air in it smells of smoke and meat.".
+    Known by aud.
+  }
+
+  // The giants. Nothing in the hold is scaled to the company.
+  Species shoulder_giant "a giant of the Shoulder" like colossus.
+  Person morrach "Thane Mórrach" at thane_seat {
+    Role "thane of the Shoulder Hall". Species shoulder_giant. Level 12. Peaceable.
+    State presiding "Thane Mórrach sits the high seat with his hands on his knees: grey-bearded, heavy, very still, and twice as tall as the door you came in by.".
+    State deposed "Thane Mórrach sits on the floor beside the high seat with his hands bound in front of him in a ship's cable. Skarn sits the seat.".
+  }
+  Person skarn "Skarn" at barracks {
+    Role "first of the young bloods". Species shoulder_giant. Level 9. Temperament obedient.
+    Uses go, assail. Plans 6 steps.
+  }
+  Person bloods "the young bloods" at barracks {
+    Role "young giants spoiling for a war". Species shoulder_giant. Level 7. Numbers 3. Temperament obedient.
+    Uses go, assail. Plans 6 steps.
+  }
+  Initially Assert serves(bloods, skarn).
+  Person rememberer "the Rememberer" at hearth {
+    Role "the thane's mother, keeper of the song". Species shoulder_giant. Level 10. Peaceable.
+    Wants heart_salt.
+  }
+  Person wolves "the hold's wolves" at kennels {
+    Role "frost wolves the size of ponies". Species frost_wolf. Numbers 2.
+    Temperament territorial.
+    Warns "Two white wolves the size of ponies get up out of the straw, without hurry, and stand between you and everything else.".
+  }
+
+  // The hostages.
+  Person aud "Aud Brenning" at pens {
+    Role "foreman of the Saltgrave miners". Ancestry dwarf. Calling warrior. Level 3. Peaceable.
+  }
+  Person kell "Tobias Kell" at pens {
+    Role "a miner who will not meet your eye". Ancestry human. Calling thief. Level 2. Peaceable.
+  }
+
+  // The alarm. By day a stranger in the yard is challenged and has a little while to answer at the guest-pole; by
+  // night the hold sleeps, and the long hall can be crept through by the light-footed.
+  Relation roused(place). Relation guest(group). Relation freed(group). Relation gagged(group). Relation sawUs(group).
+  Relation challenged(group). Measure answerBy(group).
+  Rule seen_in_yard when at(party, gate_yard) and not dark() and not guest(party) and not roused(hold) and not challenged(party) and not sworn(morrach)
+    says "A giant crossing the yard with a bucket stops, and looks down at you, and sets the bucket down. He says one word, a question, in a voice like a rockfall, and his eyes go to the pole by the hall doors and back to you." {
+    Assert challenged(party). Set answerBy(party) to watch(clock) + 2.
+  }
+  Rule challenge_unanswered when challenged(party) and not guest(party) and not roused(hold) and watch(clock) >= answerBy(party)
+    says "The giant with the bucket stops waiting. He shouts, and the hall doors bang open." { Assert roused(hold). }
+  Rule seen_in_hall when (at(party, long_hall) or at(party, barracks)) and not dark() and not guest(party) and not roused(hold) and not sworn(morrach)
+    says "A roar goes up from the benches." { Assert roused(hold). }
+  // Crossing the sleeping hall: the light-footed pass; others may not.
+  Relation crept(group).
+  Rule hall_wakes when at(party, long_hall) and dark() and not guest(party) and not sworn(morrach) and not capable(party, stealth) and not roused(hold) and dice(long_hall) <= 35
+    says "Your boot finds a bone in the dark. It cracks like a branch. Along the wall a shape the size of a hayrick sits up, and says something, and then shouts it." { Assert roused(hold). }
+  Pursuit hunt for skarn "hunting the intruders" priority 20 when roused(hold) and able(skarn) seeks assails(skarn, party).
+  Pursuit hunt_with for bloods "hunting the intruders with Skarn" priority 20 when roused(hold) and able(bloods) seeks assails(bloods, party).
+
+  // Guest-right.
+  Action ask_guest_right(actor: group, site: place) "Strike the guest-pole and ask for hall-right" {
+    Description "The old law of the hills: whoever asks hall-right at the pole is under the thane's roof until they leave it, and may not lift a hand there.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_yard) and not guest(actor) and not roused(hold).
+    Time 1.
+    On success { Assert guest(actor). Assert tolerates(morrach, actor). Assert tolerates(skarn, actor). Assert tolerates(bloods, actor). }
+    Result "The hammer is almost too heavy to lift. The pole rings like a bell. The hall doors open, and a giant looks down at you for a long moment, and stands aside.".
+  }
+  Rule guest_broken when guest(party) and not sworn(morrach) and (at(party, pens) or at(party, ice_cellar) or at(party, barracks))
+    says "Skarn's voice, from across the yard: 'Guests. Look where the guests are.' And then, louder, to the whole hold." {
+    Retract guest(party). Retract tolerates(skarn, party). Retract tolerates(bloods, party). Retract tolerates(morrach, party). Assert roused(hold).
+  }
+
+  // Kell sells whoever comes to the pens, as soon as their backs are turned, unless Aud has him held.
+  Rule kell_sees when at(party, pens) and not guest(party) and not sawUs(kell) { Assert sawUs(kell). }
+  Rule kell_sells when sawUs(kell) and not at(party, pens) and not gagged(kell) and not roused(hold) and not freed(aud) and not sworn(morrach)
+    says "From the pens behind you a man's voice goes up, high and clear, calling for Skarn by name." { Assert roused(hold). }
+  Topic aud_kell with aud "Ask Aud Brenning about the man who won't look at you" when sawUs(kell) and not gagged(kell) once {
+    Says "'Tobias Kell,' says Aud, not quietly. 'He showed them where we slept. He'll be shouting before you're over the stakes.' She looks at Kell, and two of her miners get up and sit down either side of him. 'Not today, Tobias.'".
+    On discuss { Assert gagged(kell). }
+  }
+  Topic aud_deep with aud "Ask Aud Brenning why the giants came" when true once {
+    Says "'We broke into something at the bottom of the Number Four,' says Aud. 'Red salt, a whole wall of it, and warm. Warm, under a mountain. The next week they came.' She lowers her voice. 'I kept a piece back. It's in the midden under us, wrapped in my shirt. I don't know why I did that.'".
+    On discuss { Assert knows(actor, salt_hidden). }
+  }
+  Discovery salt_hidden "Aud Brenning hid a lump of the red salt from the bottom of the Number Four in the midden under the pens.".
+  Kind heart_salt "a lump of red heart-salt, warm to the touch" is treasure worth 40 weighing 1.
+  Item salt_lump "a shirt wrapped round something warm" is heart_salt at midden hidden until salt_hidden.
+
+  // The Rememberer.
+  Discovery song_seen "The carvings on the hearth pillars are a song in the giants' writing, and it is about something they keep.".
+  Observe pillars_teach at hearth when true "Close to, the lines on the pillars are writing, tiny and endless, the same few signs over and over: a mountain, a heart, a closed eye." teaches song_seen.
+  Discovery thrume_known "Thrume is not a mountain. It is a titan, sleeping, and the range is its body; the red salt is its blood. The giants of the Shoulder are its keepers, and the mine is a wound.".
+  Relation saltReturned(group).
+  Event salt_given near rememberer when keeps(rememberer, ?s) and itemKind(?s, heart_salt)
+    "The Rememberer holds the red salt against her blind eyes, then against her cheek, as you would a sick child's forehead. 'Warm,' she says. 'He is warm. They have cut him to the blood.'" then {
+    Assert saltReturned(rememberer).
+  }
+  Topic rememberer_truth with rememberer "Ask the Rememberer who is warm" when saltReturned(rememberer) once {
+    Says "She turns her face to you. 'Sit down, small ones. Thrume is not a mountain. Thrume is the last of the old ones, the ones who were here before the hills, and he sleeps, and the hills are him. We are his keepers. Your miners have cut into him to the blood, and he is beginning to dream.' Her hand finds the pillar beside her. 'When he dreams, things walk. You have one in our cellar.'".
+    On discuss { Assert knows(actor, thrume_known). }
+  }
+  Discovery song_known "The keepers' song, as the Rememberer sang it: the names of the old ones, one by one, and Thrume's last. A song is a thing remembered by the living; nothing that eats forgetting can eat it.".
+  Topic rememberer_song with rememberer "Ask the Rememberer to teach you the song" when knows(actor, thrume_known) and (dreamt(actor) or knows(actor, mouth_known)) once {
+    Says "She is quiet a long time. She leans close and breathes in, as if smelling your hair. 'You have been in his dream,' she says. 'I can smell the sky on you.' Then: 'The song is not for small ones. Then: 'But the small ones are going where we cannot.' She sings. It is long, and very low, and your teeth ache with it, and it is only names: the old ones, one by one, the hills that walked, and last of all Thrume's. When she stops, you find you can sing it back to her, every name. 'Do not forget it,' she says. 'It is the one thing down there that cannot be eaten, while one of us remembers.'".
+    On discuss { Assert knows(actor, song_known). }
+  }
+  Topic rememberer_cage with rememberer "Ask the Rememberer about the thing in the cellar" when knows(actor, thrume_known) once {
+    Says "'The first of his dreams to walk,' she says. 'A dream of salt. We caught it in the snow below the workings, killing sheep, and the ice holds it. When he dreams harder, they will come out of the hills by dozens.' Her face turns toward the floor. 'Do not let it out. It is not wicked. It is only what he is dreaming, and he is dreaming badly.'".
+  }
+
+  // The thane: his terms, his ring, and the miners.
+  Relation sworn(group).
+  Topic morrach_why with morrach "Ask Thane Mórrach why he took the miners" when state(morrach, presiding) once {
+    Says "The thane looks down at you for a long moment. 'Because they were cutting,' he says. His voice is very quiet for a voice that big. 'Your Margravine wants a war. My young bloods want a war. I want the cutting to stop. Forty of them in my pens and the cutting stops.' He opens one hand. 'And then she sent another down the old hole, with more men, and the cutting goes on.'".
+  }
+  Topic morrach_oath with morrach "Swear to Thane Mórrach that you will close the wound" when knows(actor, thrume_known) and state(morrach, presiding) and not sworn(morrach) {
+    Says "The thane gets up. You had not seen him stand; it takes some time. He takes a ring from his finger, a ring of grey stone the size of a cart-wheel's hub, and puts it down on the floor in front of you. 'The keepers' ring,' he says. 'The arch in my cellar opens to it, and the stair below goes down into him, a long way down. Close the wound, small ones. Stop the cutting. And take your miners home; I have no more use for them.' Behind you, across the yard, someone throws a cup against a wall.".
+    On discuss { Assert sworn(morrach). Assert guest(actor). Assert tolerates(morrach, actor). Assert tolerates(skarn, actor). Assert tolerates(bloods, actor). Assert at(thane_ring, thane_seat). Assert freed(aud). Assert at(aud, miners_row). Assert at(kell, miners_row). Retract roused(hold). }
+  }
+  Kind keepers_ring "the keepers' ring, a band of grey stone the size of a hub" is treasure worth 0 weighing 2.
+  Item thane_ring "the keepers' ring" is keepers_ring at limbo.
+  Thing keepers_door "the keepers' arch" on keepers_arch {
+    State shut blocking "The arch of grey stone is closed by a slab with a round socket in it, as big as a hub, and worn smooth.".
+    State open "The slab has gone down into the floor of the arch. Warm air comes up the stair beyond.".
+    Change open_arch "Set the keepers' ring in the socket of the arch" from shut to open needing keepers_ring.
+  }
+  Observe miners_home at miners_row when freed(aud) "The twists of black wool are gone from the latches. Aud Brenning is going from door to door with a list in her hand, crossing names off.".
+  Topic aud_home with aud "Ask Aud Brenning about the Number Four" when freed(aud) and at(aud, miners_row) once {
+    Says "'The old adit,' she says. 'Brannoc went down it with twelve men and a quota. Below the old workings it comes out in the red, and below the red, I don't know. We never went past the warm face.' She folds the list. 'If you go down there, there's a rope ladder at the Number Four sump that goes further than we ever did. We found it there. We didn't put it there.'".
+    On discuss { Assert knows(actor, sump_ladder). }
+  }
+  Discovery sump_ladder "At the sump of the Number Four hangs a ladder that goes deeper than the miners ever went. They did not put it there." {
+    Found by searching sump "Behind a fall of salt beside the sump a hole goes down, and a ladder of fine grey rope hangs into it.".
+    Found by searching vein_foot "A ladder of fine grey rope hangs out of a hole in the cave roof, swaying in the warm air. It goes up toward the workings.".
+  }
+
+  // Skarn throws down the thane if the hold is roused and blood is spilled; the young bloods go to war.
+  Relation razed(place). Relation coup(place).
+  Rule skarn_rises when roused(hold) and (dead(bloods) or hurt(skarn)) and not coup(hold) and able(skarn)
+    says "Somewhere in the hold a voice roars, and another answers it, and then the whole hall is shouting one name, and it is not the thane's." {
+    Assert coup(hold). Assert state(morrach, deposed). Assert at(skarn, thane_seat).
+  }
+  Relation hurt(group).
+  // The young bloods' clock: at dark on the second night they kill the miners and go down on Saltgrave, unless the
+  // thane has given the miners up.
+  Rule massacre when watch(clock) >= 216 and dark() and not freed(aud) and able(skarn) and not razed(scree)
+    says "In the dark the hold wakes all at once: torches, a horn, and then from the pens a sound you will not forget. Then the young bloods go out of the gate and down the scree road toward Saltgrave, singing." {
+    Assert razed(scree). Assert at(skarn, market). Assert at(bloods, market). Increase stirring(fells) by 1.
+  }
+  Observe market_raided at market when razed(scree) "Half the square is burnt. The pump is a stump. A giant's footprint is pressed into the dust in front of the Salt Office, deep enough to stand in.".
+
+  // The thing in the ice.
+  Thing ice_cage "the cage of ice" at cage_room {
+    State frozen "In a cage of blue ice something white turns and turns like salt poured slowly into water. It has no face, and it is looking at you.".
+    State melted "A pool of meltwater, and an empty cage, and a white crust like frost all across the floor.".
+    Change melt "Melt the cage of ice with fire" from frozen to melted needing flame.
+  }
+  Person salt_dream "the salt-dream" at limbo {
+    Role "a walking dream of salt". Species salt_elemental. Level 6.
+    Temperament savage.
+    Comes "The white thing pours out of the broken ice and comes at you, hissing like a struck match.".
+  }
+  Rule dream_loose when state(ice_cage, melted) and at(salt_dream, limbo) { Assert at(salt_dream, cage_room). }
+
+  Objective free_miners when not freed(aud) and not razed(scree) "Forty miners are held in the Shoulder Hall, and the young bloods mean to kill them on the second night.".
+  Objective learn_why when knows(party, song_seen) and not knows(party, thrume_known) "The giants keep something, and their song says what.".
+  Objective close_wound when sworn(morrach) and cutting(brannoc) "You swore to Thane Mórrach to stop the cutting.".
+}

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "source": [
+    "clocks.kyr",
+    "saltgrave.kyr",
+    "shoulder.kyr",
+    "inward.kyr",
+    "hush.kyr",
+    "tomb.kyr",
+    "dream.kyr",
+    "between.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "fells",
+    "saltgrave": "market"
+  }
+}

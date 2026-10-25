@@ -1,0 +1,47 @@
+Module thrume "Thrume" {
+  Description "The Between: under every sleeping thing, where forgotten dreams fall, and the Mouth that eats them.".
+
+  Place between "the Between" is region.
+  Place grey_waste "the grey waste" is wilderness within between at 0, 0.
+
+  Place grey_plain "the grey plain" is room within grey_waste at 0, 0.
+  Place archive "the Archive of Forgotten Things" is room within grey_waste at 1, 0.
+  Place unremembering "the Shore of Unremembering" is room within grey_waste at 0, 1.
+  Place mouth_edge "the edge of the Mouth" is room within grey_waste at 1, 1.
+
+  Passage archive_walk "the grey walk" is path between grey_plain and archive taking 1 hour.
+  Passage shore_walk "the long grey" is path between grey_plain and unremembering taking 1 hour.
+  Passage mouth_walk "the last of the grey" is path between unremembering and mouth_edge taking 1 hour.
+  Passage archive_mouth "the archive's end" is path between archive and mouth_edge taking 2 hours.
+  Passage way_home "the way back up" is passage between mouth_edge and heart_chamber one way taking 1 hour
+    opening when sungClean(fells) or sealed(fells) or woken(fells) "Above the Mouth there is no up.".
+
+  Observe plain_scene at grey_plain when true "A plain of grey, flat to the end of the world. It is made of things: you are walking on dreams that nobody remembers, packed down like ash. Sometimes, under your foot, one of them is briefly a face, or a room, or a song, and then it is grey again.".
+  Observe archive_scene at archive when true "Shelves, in the grey, going away in rows to the horizon. On them, everything ever forgotten, set out neatly, waiting: a key, a name, a kiss, the way home from somewhere. Among them, with a little shock, you find things of your own. You had forgotten them. You cannot now remember what they were.".
+  Observe shore_scene at unremembering when true "The grey ends at a shore, and beyond it the grey is liquid, and lapping, and it has no far side. Standing here, you find it hard to remember why you came.".
+  Hazard forgetting "The Shore of Unremembering" means "Deal (1d6) necrotic damage to ally unless wisdom save against (13).".
+  Rule shore_takes when at(party, unremembering) and not knows(party, song_known)
+    says "Something goes out of you like breath. You are not sure what it was." { Assert strikes(forgetting, party). }
+  Observe mouth_scene at mouth_edge when not sungClean(fells) "The grey goes down here, all of it, in a slope that steepens and steepens into a darkness that is not dark but empty. It is the Mouth. It has no teeth, no tongue, no throat; it is only the place where things stop being remembered. It is eating, always, slowly, and the plain is sliding into it, a grain at a time.".
+  Observe mouth_refused at mouth_edge when sungClean(fells) "The slope into the Mouth is still. Nothing is sliding. On the grey at its edge, a little green has come up, like the first grass on a burnt field.".
+
+  Thing the_mouth "the Mouth" at mouth_edge is scenery {
+    State eating "The Mouth eats.".
+    State refused "The Mouth is shut.".
+  }
+  Action sing_song(actor: group, site: place) "Sing the keepers' song into the Mouth" {
+    Description "Every name of the old ones, and Thrume's last. A song is a thing remembered by the living.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mouth_edge) and knows(actor, song_known) and not sungClean(fells) and not woken(fells).
+    Time 6.
+    On success { Assert sungClean(fells). Assert state(the_mouth, refused). Set stirring(fells) to 0. }
+    Result "You sing. Your voices make no sound here, and you sing anyway: every name, the hills that walked, one by one, as the Rememberer sang them. The Mouth takes the first name, and cannot swallow it; somebody far away is still remembering it. It takes the second, and cannot. By Thrume's name the whole slope is shuddering. Then, very slowly, the Mouth closes. Far above you, up through the grey and the dream and the bone, you feel the Quiet Court go quiet for ever.".
+  }
+  Action shout_awake(actor: group, site: place) "Shout Thrume awake, so his dream ends and the Mouth starves" {
+    Description "If he wakes, there is no dream to eat. There is also no Saltgrave, and no Ebb.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mouth_edge) and not sungClean(fells) and not woken(fells).
+    Time 1.
+    On success { Set stirring(fells) to 10. }
+    Result "You turn your back on the Mouth and shout his name up into the grey, all of you, as loud as you can, and the grey shakes, and the dream above you tears like paper.".
+  }
+  Observe hush_stilled at hand_street when sungClean(fells) "The people of the Court stand in the Street of Hands with their long hands still, quite grey, like statues of themselves. The human thralls are walking up the long way out, blinking.".
+}

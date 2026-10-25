@@ -1,0 +1,128 @@
+Module thrume "Thrume" {
+  Description "Hush: the city of the Quiet Court, grown in the hollow of the titan's skull, where nobody speaks aloud.".
+
+  Place hushc "Hush" is settlement within fells at 2, 0.
+  Place lull_house "House Lull" is building within hushc.
+  Place pallor_house "House Pallor" is building within hushc.
+  Place spire "the Abbess's spire" is building within hushc.
+  Place grey_library "the Silent Library" is building within hushc.
+
+  Place hush_gate "the gate of Hush" is room within hushc at 0, 1.
+  Place hand_street "the Street of Hands" is room within hushc at 1, 1.
+  Place thrall_market "the Thrall-Market" is room within hushc at 1, 2.
+  Place lull_hall "the hall of House Lull" is room within lull_house at 2, 2.
+  Place pallor_hall "the hall of House Pallor" is room within pallor_house at 0, 2.
+  Place library_hall "the Silent Library" is room within grey_library at 0, 0.
+  Place choir "the Choir" is room within hushc at 2, 1.
+  Place spire_foot "the foot of the spire" is room within spire at 1, 0.
+  Place spire_top "the Abbess's room" is room within spire at 2, 0.
+  Place throat_head "the head of the long throat" is room within hushc at 3, 1.
+
+  Passage hush_in "the gate of Hush" is arch between hush_approach and hush_gate taking 10 minutes.
+  Passage hand_way "the Street of Hands" is path between hush_gate and hand_street taking 10 minutes.
+  Passage market_way "the market steps" is path between hand_street and thrall_market taking 10 minutes.
+  Passage lull_door "the door of House Lull" is door between thrall_market and lull_hall.
+  Passage pallor_door "the door of House Pallor" is door between thrall_market and pallor_hall.
+  Passage library_door "the library door" is door between hand_street and library_hall.
+  Passage choir_way "the choir walk" is path between hand_street and choir taking 10 minutes.
+  Passage spire_door "the spire door" is door between choir and spire_foot.
+  Passage spire_stair "the spire stair" is steps between spire_foot and spire_top taking 10 minutes.
+  Passage throat_way "the far street" is path between choir and throat_head taking 20 minutes.
+
+  Observe hgate_scene at hush_gate when true "A city of grey stone grown rather than built, like coral, under a roof of bone so high it might be sky. Grey light comes from nowhere. There is no sound at all. People move in the streets, tall and soft-faced, and talk to each other with their long hands.".
+  Observe street_scene at hand_street when true "The Street of Hands. The Court's people pass you without looking, their fingers moving. Here and there a human thrall walks behind one of them, eyes still and smiling, carrying something.".
+  Observe tmarket_scene at thrall_market when true "A square of niches cut in the grey stone, like a dovecote for people. In each niche someone sleeps, propped up, with a crust of red salt on their lips. Their eyes are moving. Some of the Court stand before the niches with their faces very close to the sleepers' faces, not touching, and the sleepers' faces go slack, and the Court's faces grow pink.".
+  Observe lull_scene at lull_hall when true "A soft room, warm, hung with grey stuffs that drink the light. It smells of milk and sleep. The people of House Lull lie on low couches like cats.".
+  Observe pallor_scene at pallor_hall when true "A hard bright room. Spears of grey crystal racked on the walls. On a table, a sleeper is laid out, and he is having a nightmare, and three of House Pallor are standing over him, very close.".
+  Observe glibrary_scene at library_hall when true "Shelves of grey scrolls, and the readers read them with their fingertips, eyes shut.".
+  Observe choir_scene at choir when exhaling(fells) "The Choir: a round amphitheatre, full. The whole Court sits in rows with their faces turned up to the bone roof, and the roof is humming. Above them, through the bone, you can feel something enormous dreaming, and the Court is drinking it.".
+  Observe choir_empty at choir when not exhaling(fells) "The amphitheatre stands empty and humming faintly, like a bell after it is struck.".
+  Observe spirefoot_scene at spire_foot when true "The foot of a spire of grey crystal. Steps go up round the inside of it.".
+  Observe spiretop_scene at spire_top when true "A small round room at the top of the spire, open to the bone roof. On a pedestal of grey crystal rests something like a great closed eyelid of red stone, as big as a shield, and it is warm.".
+  Observe throat_scene at throat_head when true "At the edge of the city, where the grey coral stops, a great shaft goes down: smooth, ribbed, red at the bottom. The long throat. Warm air comes up it, and the slow sound of a heart.".
+
+  Species court_kin "one of the Quiet Court" like mind_destroyer.
+  Person weigher "the Weigher" at thrall_market {
+    Role "master of the Thrall-Market". Species court_kin. Level 8. Peaceable.
+  }
+  Person col "Col Dunmore" at thrall_market {
+    Role "a boy asleep in a niche, with salt on his lips". Ancestry human. Calling commoner. Peaceable.
+  }
+  Thing col_niche "Col's niche" at thrall_market {
+    State held "In a low niche at the end of a row, a boy of sixteen sleeps with his head against the stone and salt on his lips. He is very thin.".
+    State broken "Col's niche is broken open, and empty.".
+    Change smash_niche "Break Col's niche open" from held to broken needing brawn.
+  }
+  Topic weigher_col with weigher "Ask the Weigher the price of the boy in the end niche" when not freed(col) and state(col_niche, held) once {
+    Says "The Weigher's long fingers move, and a thrall standing beside it speaks for it in a pleasant, empty voice. 'That one dreams of his father. Very rich. Ten coin.' The fingers move again. 'There are four hundred and twelve in the market. Do you want them all?'".
+  }
+  Action buy_col(actor: group, site: place) "Pay the Weigher ten coin for Col Dunmore" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, thrall_market) and at(weigher, thrall_market) and quantity(actor, gold) >= 10 and not freed(col).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 10. Increase quantity(weigher, gold) by 10. Assert freed(col). Assert state(col_niche, broken). Assert at(col, chandlery_shop). }
+    Result "The Weigher takes the coins without looking at them. A thrall lifts Col out of the niche like a sack, and he wakes, and does not know you, and then he does. He walks up the long way out without speaking. 'His mother,' he says once, at the gate, and that is all. Behind you, someone else is put in his niche.".
+  }
+  Rule col_snatched when state(col_niche, broken) and not freed(col)
+    says "Col falls out of the broken niche into your arms, awake and screaming. Every face in the market turns. Across the square the door of House Pallor opens." {
+    Assert freed(col). Assert at(col, chandlery_shop). Assert roused(hushc).
+  }
+  Observe col_home at chandlery_shop when freed(col) "Col Dunmore sits by the stove wrapped in a blanket, and his mother has not let go of his hand.".
+  Topic col_thanks with col "Ask Col Dunmore what he saw below" when freed(col) and at(col, chandlery_shop) once {
+    Says "Col looks at the stove. 'There's a palace,' he says. 'Up in the sky, inside the mountain. In the dream. They take you there and you walk about and it's beautiful. And she's there, the Abbess, at the top of a tower, at the end of a bridge. And under the bridge there's nothing.' He holds his mother's hand harder. 'Not nothing. Something that's hungry.'".
+    On discuss { Assert knows(actor, mouth_rumoured). }
+  }
+  Discovery mouth_rumoured "Under the bridge from the Abbess's tower in the dreamed palace there is something hungry.".
+
+  // The Houses.
+  Person lady_lull "the Lady of Lull" at lull_hall {
+    Role "head of House Lull". Species court_kin. Level 10. Peaceable.
+  }
+  Relation lullPact(group).
+  Topic lull_bargain with lady_lull "Ask the Lady of Lull what House Lull wants" when not lullPact(actor) {
+    Says "A thrall at the couch's foot speaks for her. 'Sleep,' says the empty voice. 'Long, soft, sweet, for ever. The Abbess and House Pallor want him stirred, nearly woken, so the dreams are strong. Strong dreams are bitter. And if he wakes, there are no dreams at all.' The Lady's fingers move, slow. 'You want the Abbess's Eye. The Abbess sits with the Choir when he breathes out; her spire is empty then. Go with my sign and her guard will not see you, and leave by the servants' bone stair at the spire's foot; it goes down to the throat. Promise me he will sleep.'".
+    On discuss { Assert lullPact(actor). Assert tolerates(spire_guard, actor). Assert knows(actor, choir_time). Assert knows(actor, bone_stair_known). }
+  }
+  Discovery bone_stair_known "From the foot of the Abbess's spire, a servants' stair of bone goes down to the head of the long throat." {
+    Found by searching spire_foot "Behind the curve of the spire wall, a narrow stair of yellowed bone goes down, worn by small feet.".
+  }
+  Passage bone_stair "the servants' bone stair" is passage between spire_foot and throat_head taking 20 minutes hidden until bone_stair_known.
+  Discovery choir_time "The Abbess goes down from her spire to sit with the Choir while Thrume breathes out.".
+  Person pallor_guards "House Pallor" at pallor_hall {
+    Role "the soldiers of House Pallor". Species court_kin. Level 9. Numbers 3. Temperament obedient.
+    Uses go, assail. Plans 8 steps.
+  }
+  Pursuit pallor_hunt for pallor_guards "hunting the intruders through Hush" priority 20 when roused(hushc) and able(pallor_guards) seeks assails(pallor_guards, party).
+  Rule pallor_sees when at(party, pallor_hall) and not roused(hushc)
+    says "Three soft faces turn from the nightmare on the table toward you, all at once, like flowers to the sun." { Assert roused(hushc). }
+
+  // The Silent Library.
+  Discovery mouth_known "The grey scrolls of the Silent Library, read with the fingers: under every sleeping thing is the Between, where forgotten dreams fall, and in it the Mouth, which eats them. The Court is a seed of the Mouth. The Abbess serves it. In the Heart-Tomb below, the Keeper's Chair beside the heart opens on Thrume's dream, and from the dream a bridge goes down to the Between." {
+    Source grey_scrolls "the grey scrolls" at library_hall readable by party.
+  }
+
+  // The Abbess and her Eye.
+  Person abbess "the Abbess of Hush" at spire_top {
+    Role "the Abbess of Hush". Species court_kin. Level 14. Peaceable.
+    Objects "The Abbess's long hands go still. Every thrall in Hush turns, at once, toward you. Then the soft grey people come.".
+  }
+  Rule abbess_to_choir when exhaling(fells) and at(abbess, spire_top) { Assert at(abbess, choir). }
+  Rule abbess_to_spire when not exhaling(fells) and at(abbess, choir) { Assert at(abbess, spire_top). }
+  Rule abbess_angered when hostile(abbess, party) and not roused(hushc) { Assert roused(hushc). }
+  Rule eye_missed when at(abbess, spire_top) and not inside(the_eye, pedestal) and not roused(hushc) and not sungClean(fells)
+    says "Far off, at the top of the spire, something without a mouth screams, and every thrall in Hush screams with it, all at once, and then is silent. In the silence, doors open." {
+    Assert roused(hushc).
+  }
+  Person spire_guard "the spire's guard" at spire_foot {
+    Role "a tall one of the Court with a spear of grey crystal". Species court_kin. Level 9. Temperament obedient.
+    Guards spire_stair.
+    State watching blocking "A tall one of the Court stands at the foot of the spire stair with a spear of grey crystal, and its soft face follows you.".
+  }
+  Kind abbess_eye "the Abbess's Eye, a closed lid of warm red stone the size of a shield" is treasure worth 0 weighing 3.
+  Thing pedestal "the grey pedestal" at spire_top {
+    Holds.
+  }
+  Item the_eye "the Abbess's Eye" is abbess_eye in pedestal owned by abbess.
+
+  Objective free_col when knows(party, col_gone) and knows(party, hush_named) and not freed(col) "Col Dunmore is in Hush.".
+  Objective take_eye when knows(party, mouth_known) and inside(the_eye, pedestal) "The Abbess keeps the Eye; the Heart-Tomb's door needs it.".
+}

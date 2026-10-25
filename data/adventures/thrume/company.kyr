@@ -1,0 +1,4 @@
+Module thrume "Thrume" {
+  Company party "Your company" of 3 at salt_road.
+  Initially Set quantity(party, gold) to 30. Initially Set quantity(party, rations) to 3.
+}

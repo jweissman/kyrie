@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "Thrume",
+  "calendar": { "year": 1312, "month": 11, "day": 3 },
+  "pitch": {
+    "heading": "A company for Saltgrave",
+    "text": "In the salt town under the fells, people pay to sleep, and some of them do not come home. The giants of Thrume have come down off the mountain for the first time in living memory, and the Margravine of Ebb will pay a barony for the thane's head before the Duke of Harle's host crosses the river. Choose three companions."
+  },
+  "modules": [
+    { "id": "thrume", "bundle": "../adventures/thrume/module.json" }
+  ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"] },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"] }
+  ]
+}

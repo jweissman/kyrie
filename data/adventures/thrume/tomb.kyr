@@ -1,0 +1,275 @@
+Module thrume "Thrume" {
+  Description "The Heart-Tomb: the Hollow Smiths' killing gauntlet around the heart of Thrume. Every trap is an argument for their doctrine: what wakes, kills; what kills, wakes.".
+
+  Place tomb "the Heart-Tomb" is site within fells at 3, 1.
+  Place tomb_outer "the outer tomb" is level within tomb.
+  Place tomb_halls "the halls of the tomb" is level within tomb.
+  Place tomb_pit "the oubliette" is level within tomb.
+  Place tomb_core "the core of the tomb" is level within tomb.
+
+  Place tomb_mouth "the foot of the long throat" is room within tomb_outer at 0, 0.
+  Place salt_landing "the head of the salt stair" is room within tomb_outer at 1, 0.
+  Place hammer_hall "the hall of the hammers" is room within tomb_halls at 0, 0.
+  Place doctrine_hall "the Hall of Doctrine" is room within tomb_halls at 1, 0.
+  Place face_room "the Sleeper's Face" is room within tomb_halls at 2, 0.
+  Place door_hall "the Hall of Doors" is room within tomb_halls at 2, 1.
+  Place breaths_room "the Room of Three Breaths" is room within tomb_halls at 3, 1.
+  Place gearworks "the Gearworks" is room within tomb_halls at 3, 0.
+  Place warder_gallery "the gallery over the Warder" is room within tomb_halls at 4, 0.
+  Place oubliette "the oubliette" is room within tomb_pit at 2, 1.
+  Place false_heart "the Chamber of the Heart" is room within tomb_core at 0, 0.
+  Place warder_hall "the Warder's corridor" is room within tomb_core at 1, 0.
+  Place locks_room "the hall of the locks" is room within tomb_core at 2, 0.
+  Place heart_chamber "the Keeper's Chair" is room within tomb_core at 3, 0.
+  Initially Assert unlit(tomb_mouth). Initially Assert unlit(salt_landing). Initially Assert unlit(hammer_hall).
+  Initially Assert unlit(face_room). Initially Assert unlit(door_hall). Initially Assert unlit(oubliette). Initially Assert unlit(warder_hall).
+  Initially Assert unlit(locks_room).
+
+  Passage long_throat "the long throat" is tunnel between throat_head and tomb_mouth taking 2 hours needing climbing or rope.
+  Passage landing_way "the outer passage" is passage between tomb_mouth and salt_landing.
+  Passage salt_stair "the salt stair" is stair between salt_landing and hammer_hall.
+  Passage hammer_gate "the Gate of Three Hammers" is gate between hammer_hall and doctrine_hall.
+  Passage doctrine_way "the end of the painted hall" is doorway between doctrine_hall and face_room.
+  Passage behind_eye "the way behind the left eye" is crawl between face_room and door_hall hidden until eye_way_known.
+  Passage true_door "the door that is not there" is doorway between door_hall and breaths_room hidden until true_door_known.
+  Passage pit_climb "the oubliette shaft" is shaft between oubliette and door_hall one way taking 1 hour needing climbing or rope.
+  Passage breath_way "the far side of the Room of Three Breaths" is passage between breaths_room and gearworks
+    opening when exhaling(fells) "Between the Room of Three Breaths and the Gearworks the salt-dust is up in a roaring white wall, drawn in toward a grating as if into a mouth. Nobody crosses it on the in-breath.".
+  Passage gallery_walk "the gallery walk" is passage between gearworks and warder_gallery.
+  Passage core_stair "the core stair" is stair between gearworks and false_heart taking 10 minutes.
+  Passage plinth_way "the way behind the plinth" is passage between false_heart and warder_hall hidden until plinth_known.
+  Passage warder_end "the end of the Warder's corridor" is passage between warder_hall and locks_room.
+  Passage heart_door "the Door of Three Locks" is door between locks_room and heart_chamber.
+  Passage keepers_rise "the keepers' road" is passage between heart_chamber and stair_foot taking 3 hours
+    opening when sungClean(fells) or sealed(fells) "A road goes up from the Keeper's Chair, closed by a slab carved with giants' signs; it opens only to keepers.".
+
+  // What it costs.
+  Hazard unmaking "Unmade" means "Kill ally.".
+  Hazard tread_fall "The false tread" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Hazard bronze_blow "The bronze hammer's answer" means "Deal (3d6) necrotic damage to ally unless constitution save against (14).".
+  Hazard lid_needle "The right lid's needle" means "Deal (1d6) poison damage to ally unless dexterity save against (13). Apply poisoned to ally for 3 turns unless constitution save against (12).".
+  Hazard blades "The scything door" means "Deal (4d6) physical damage to ally unless dexterity save against (15).".
+  Hazard brine_spray "The brine door" means "Deal (3d6) poison damage to ally unless dexterity save against (14).".
+  Hazard crushing "The falling door" means "Deal (4d6) physical damage to ally unless dexterity save against (14).".
+  Hazard burning_salt "The burning door" means "Deal (3d6) fire damage to ally unless dexterity save against (14).".
+  Hazard salt_choke "The in-breath's dust" means "Deal (1d6) poison damage to ally unless constitution save against (13).".
+  Hazard scald "The Gearworks' steam" means "Deal (3d6) fire damage to ally unless dexterity save against (14).".
+  Hazard ceiling_fall "The roof of the false heart" means "Deal (4d6) physical damage to ally unless dexterity save against (15).".
+  Hazard stays_behind "The one who stays" means "Kill ally.".
+
+  Observe tmouth_scene at tomb_mouth when true "The long throat ends on a floor of red stone, smooth as the inside of a cheek. Ahead, a passage. Cut over it, very small, in the smiths' square hand: TURN BACK. HE IS ONLY SLEEPING.".
+  Observe landing_scene at salt_landing when true "A stair of white salt goes down into the dark, each tread cut sharp and unworn. Nobody has walked on it for a thousand years.".
+
+  // 1. The salt stair: the third tread is no tread.
+  Thing false_tread "the third tread of the salt stair" on salt_stair {
+    State whole dangerous "The treads of the salt stair are cut sharp and white, every one alike.".
+    State found "The third tread of the salt stair has fallen away on a hinge of salt into a black slot. There is room to step over it.".
+    Hurts with tread_fall when whole then found.
+  }
+  Rule tread_shown when tried(false_tread, prodding) and state(false_tread, whole)
+    says "The pole goes down on the third tread and the tread goes down with it, swinging away on a hinge of salt into a slot that goes down further than you can hear." {
+    Assert state(false_tread, found).
+  }
+
+  // 2. The Gate of Three Hammers: iron wakes the sleeper; bronze wakes the dead; salt sleeps.
+  Observe hammer_scene at hammer_hall when true "A gate of grey iron fills the hall's end. Three hammers hang before it on chains: one of iron, one of bronze, one of red salt. Cut over the gate: IRON WAKES THE SLEEPER. BRONZE WAKES THE DEAD. STRIKE WITH WHAT IS SLEEPING, AND PASS INSTEAD.".
+  Thing gate_bar "the Gate of Three Hammers" on hammer_gate {
+    State shut blocking "The grey gate is shut. It has no lock, no handle and no hinges you can see.".
+    State open "The grey gate has swung inward, silent, on hinges that were not there before.".
+  }
+  Action strike_iron(actor: group, site: place) "Strike the gate with the iron hammer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hammer_hall) and state(gate_bar, shut).
+    Time 1.
+    On success { Assert strikes(unmaking, actor). Increase stirring(fells) by 1. }
+    Result "The iron rings on the iron, and the ring goes on and on, down into the floor, and under your feet the whole mountain flinches. The one who swung the hammer is standing very still. Then they are not standing at all.".
+  }
+  Action strike_bronze(actor: group, site: place) "Strike the gate with the bronze hammer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hammer_hall) and state(gate_bar, shut).
+    Time 1.
+    On success { Assert strikes(bronze_blow, actor). Increase stirring(fells) by 1. }
+    Result "The bronze booms. Something cold comes up out of the floor like water out of a sponge, and through whoever is nearest, and away.".
+  }
+  Action strike_salt(actor: group, site: place) "Strike the gate with the hammer of salt" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hammer_hall) and state(gate_bar, shut).
+    Time 1.
+    On success { Assert state(gate_bar, open). }
+    Result "The salt hammer makes no sound at all against the iron. It crumbles in your hand to red dust. The gate swings open.".
+  }
+
+  // 3. The Hall of Doctrine: it teaches, and it lies once, at the Smith-Master's order.
+  Observe doctrine_scene at doctrine_hall when true "A long gallery, painted from floor to vault in colours a thousand years old. Panel after panel shows the smiths at their work in this tomb, as a lesson: a smith prodding a stair with a pole; a smith with a red hammer at a gate; a smith creeping past a great face by its left eye; a smith searching a wall between painted doors; a smith crossing a dusty room while a giant breathes out; three wheels, with a smith setting them. The last panel shows a smith kneeling to a figure in a crown, saying words.".
+  Discovery panels_read "The Hall of Doctrine's last panels, read close: the wheels of the Gearworks set iron at rest, salt at rest, bone awake; and, under the kneeling smith, the doctrine, which the crowned figure answers.".
+  Observe panels_teach at doctrine_hall when true "Close to, the panel of the wheels has words painted under each: IRON, REST. SALT, REST. BONE, WAKE. Under the kneeling smith: WHAT WAKES, KILLS." teaches panels_read.
+
+  // 4. The Sleeper's Face: never go where he is awake.
+  Observe sface_scene at face_room when true "The end of the hall is a face. A titan's face, cut in red stone, as tall as a house: eyes closed, mouth open. The mouth is perfectly black. Nothing in it reflects your light. It makes no sound, and the air does not move in it.".
+  Action enter_mouth(actor: group, site: place) "Walk into the Sleeper's open mouth" {
+    Description "It is wide enough for a cart. Beyond it there is only black.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, face_room).
+    Time 1.
+    On success { Assert strikes(unmaking, actor). }
+    Result "The first of you steps into the black, and is not anywhere. No sound. No sign. The black is just as it was.".
+  }
+  Thing left_lid "the Sleeper's left eyelid" at face_room {
+    State lidded "The left eyelid of the face, on your left as you face it, is a slab of red stone as big as a door.".
+    State pressed "The left eyelid has sunk into the stone, and behind it a low way runs back into the dark.".
+    Tries pushing.
+  }
+  Thing right_lid "the Sleeper's right eyelid" at face_room {
+    State lidded "The right eyelid of the face is a slab of red stone as big as a door, with a crack at its edge.".
+    State sprung "A needle as long as a finger stands out of the crack at the right eyelid's edge.".
+    Tries pushing.
+  }
+  Discovery eye_way_known "Behind the Sleeper's left eyelid, a low way runs on into the dark.".
+  Observe eye_opens at face_room when state(left_lid, pressed) "Where the left eyelid was, a low way runs back into the dark." teaches eye_way_known.
+  Rule left_gives when tried(left_lid, pushing) and state(left_lid, lidded)
+    says "The left eyelid sinks under your hands with a sigh of air, like a sleeper's breath, and the stone behind it slides away." {
+    Assert state(left_lid, pressed).
+  }
+  Rule right_bites when tried(right_lid, pushing) and state(right_lid, lidded)
+    says "Something in the crack at the right lid's edge goes snick." {
+    Assert state(right_lid, sprung). Assert strikes(lid_needle, party).
+  }
+
+  // 5. The Hall of Doors: every door you can see is a death; the door is the one that is not there.
+  Observe doors_scene at door_hall when true "A long hall with six doors along its walls, three to a side, each of a different wood, each with a different handle: bone, bronze, iron, salt, glass, horn. The end wall is bare red stone.".
+  Thing door_bone "the door with the bone handle" at door_hall { State shut "A door of pale ash with a handle of bone.". State open "The ash door hangs open on a blank wall.". Change open_bone "Open the door with the bone handle" from shut to open. }
+  Thing door_bronze "the door with the bronze handle" at door_hall { State shut "A door of oak with a handle of bronze.". State open "The oak door hangs open on a blank wall, scored with blade-marks.". Change open_bronze "Open the door with the bronze handle" from shut to open. }
+  Thing door_iron "the door with the iron handle" at door_hall { State shut "A door of black yew with a handle of iron.". State open "The yew door hangs open on nothing; the floor beyond it was never there.". Change open_iron "Open the door with the iron handle" from shut to open. }
+  Thing door_salt "the door with the salt handle" at door_hall { State shut "A door of pine with a handle of white salt.". State open "The pine door hangs open on a wall of crumbled salt.". Change open_salt "Open the door with the salt handle" from shut to open. }
+  Thing door_glass "the door with the glass handle" at door_hall { State shut "A door of pear-wood with a handle of glass.". State open "The pear-wood door hangs open on a blackened wall.". Change open_glass "Open the door with the glass handle" from shut to open. }
+  Thing door_horn "the door with the horn handle" at door_hall { State shut "A door of elm with a handle of horn.". State open "The elm door hangs open on a slab of fallen stone.". Change open_horn "Open the door with the horn handle" from shut to open. }
+  Relation sprungDoor(entity).
+  Rule bone_door when state(door_bone, open) and not sprungDoor(door_bone) says "Behind the ash door is a wall, and the wall breathes out a fine white salt that burns the eyes and throat." { Assert sprungDoor(door_bone). Assert strikes(brine_spray, party). }
+  Rule bronze_door when state(door_bronze, open) and not sprungDoor(door_bronze) says "The oak door opens on a wall, and out of a slot in the wall a blade the length of a man comes round at waist height." { Assert sprungDoor(door_bronze). Assert strikes(blades, party). }
+  Rule iron_door when state(door_iron, open) and not sprungDoor(door_iron) says "The yew door swings outward and the floor under you swings with it, down." { Assert sprungDoor(door_iron). Assert at(party, oubliette). }
+  Rule salt_door when state(door_salt, open) and not sprungDoor(door_salt) says "The salt handle crumbles. So does the wall behind the door, and the roof above it, all at once." { Assert sprungDoor(door_salt). Assert strikes(crushing, party). }
+  Rule glass_door when state(door_glass, open) and not sprungDoor(door_glass) says "Behind the pear-wood door the air catches fire." { Assert sprungDoor(door_glass). Assert strikes(burning_salt, party). }
+  Rule horn_door when state(door_horn, open) and not sprungDoor(door_horn) says "The elm door opens and the slab above it, which you had not noticed, comes down." { Assert sprungDoor(door_horn). Assert strikes(crushing, party). Increase stirring(fells) by 1. }
+  Discovery true_door_known "In the bare end wall of the Hall of Doors, a door with no frame and no handle, cut so fine its edges are a hair." {
+    Found by searching door_hall "You go over the bare end wall a hand's breadth at a time. Low down, a hair-fine line; then another, upright; then the shape of a door with no frame and no handle, which swings when you lean on it.".
+  }
+  Discovery iron_drop_known "Behind the door with the iron handle, the floor of the Hall of Doors swings down into a pit.".
+  Observe iron_drop_seen at door_hall when state(door_iron, open) "Beyond the yew door the floor hangs down on a hinge over a black drop." teaches iron_drop_known.
+  Passage iron_drop "the drop behind the yew door" is shaft between door_hall and oubliette one way hidden until iron_drop_known.
+  Observe oubliette_scene at oubliette when true "A round pit of red stone, smooth, very deep. Far above, a square of less dark. On the floor, the bones of three people who were not patient, and scratched on the wall by one who was: THE SHAFT HAS HOLDS. FEEL FOR THEM.".
+
+  // 6. The Room of Three Breaths: out is open.
+  Observe breaths_scene at breaths_room when exhaling(fells) "A long room of red stone. A warm wind blows gently from a grating in the far wall, and the floor is drifted with salt-dust like snow, rippled. The far door stands clear.".
+  Observe breaths_in at breaths_room when not exhaling(fells) "The wind in the long room has turned, and the salt-dust is up off the floor in a roaring white wall, pouring toward the grating in the far wall. You cannot see your hand.".
+  Rule dust_chokes when at(party, breaths_room) and not exhaling(fells)
+    says "The salt-dust is in your mouth, your nose, your eyes." { Assert strikes(salt_choke, party). }
+
+  // 7. The Gearworks: iron at rest, salt awake, bone at rest. The painted panel lies.
+  Observe gear_scene at gearworks when true "A chamber full of machinery: three great wheels standing on their edges, one of iron, one of red salt, one of bone, each as tall as a mill-wheel and each marked round its rim REST and WAKE. A lever as long as a spear stands up out of the floor. A stair goes down beyond a grating; a gallery goes off along the wall.".
+  Thing iron_wheel "the iron wheel" at gearworks {
+    State awake "The iron wheel stands with WAKE uppermost.". State rest "The iron wheel stands with REST uppermost.".
+    Change iron_rest "Turn the iron wheel to REST" from awake to rest. Change iron_wake "Turn the iron wheel to WAKE" from rest to awake.
+  }
+  Thing salt_wheel "the salt wheel" at gearworks {
+    State rest "The salt wheel stands with REST uppermost.". State awake "The salt wheel stands with WAKE uppermost.".
+    Change salt_rest "Turn the salt wheel to REST" from awake to rest. Change salt_wake "Turn the salt wheel to WAKE" from rest to awake.
+  }
+  Thing bone_wheel "the bone wheel" at gearworks {
+    State awake "The bone wheel stands with WAKE uppermost.". State rest "The bone wheel stands with REST uppermost.".
+    Change bone_rest "Turn the bone wheel to REST" from awake to rest. Change bone_wake "Turn the bone wheel to WAKE" from rest to awake.
+  }
+  Thing great_lever "the great lever" at gearworks {
+    State up "The great lever stands upright.". State down "The great lever is thrown down.".
+    Change throw "Throw the great lever" from up to down.
+  }
+  Thing core_grating "the grating over the core stair" on core_stair {
+    State shut blocking "A grating of grey iron closes the stair going down.".
+    State open "The grating over the core stair stands open.".
+  }
+  Rule gears_right when state(great_lever, down) and state(iron_wheel, rest) and state(salt_wheel, awake) and state(bone_wheel, rest) and state(core_grating, shut)
+    says "Somewhere in the walls a long chain runs, and the grating over the stair rises into the roof." { Assert state(core_grating, open). }
+  Rule gears_wrong when state(great_lever, down) and state(core_grating, shut) and not (state(iron_wheel, rest) and state(salt_wheel, awake) and state(bone_wheel, rest))
+    says "The lever goes down, and the wheels shudder, and every joint in the machinery blows white steam at once." { Assert strikes(scald, party). Assert state(great_lever, up). Increase stirring(fells) by 1. }
+
+  // 8. The Warder: kills what moves while it is wound; it can be unwound only from the gallery above.
+  Observe wgallery_scene at warder_gallery when true "A narrow gallery high in the wall over a long corridor. Below, a figure of grey iron stands in the middle of the corridor. Beside you, in the gallery wall, a great key is set in a spring-case, like a clock's.".
+  Thing warder_spring "the Warder's spring" at warder_gallery {
+    State wound "The great key stands in its spring-case, the spring tight.".
+    State unwound "The great key has been turned back; the spring lies slack in its case.".
+    Change unwind "Turn the great key back and let the Warder's spring run down" from wound to unwound needing brawn or lockwork.
+  }
+  Person warder "the Warder" at warder_hall {
+    Role "a figure of grey iron, twice a man's height, with blades for hands". Species automaton. Level 14. Temperament obedient.
+    Comes "The Warder moves. It is very fast for something so heavy.".
+  }
+  Rule warder_strikes when at(party, warder_hall) and state(warder_spring, wound) and able(warder) { Assert assails(warder, party). }
+  Observe warder_still at warder_hall when state(warder_spring, unwound) "The Warder stands in the middle of the corridor with its blade-hands at its sides, run down, like a clock nobody wound.".
+
+  // 9. The false heart, and the last of the Hollow Smiths.
+  Observe fheart_scene at false_heart when not state(decoy, taken) "A chamber like the inside of a crown. On a plinth in the middle, a heart of red crystal as big as a cart, glowing, beating slowly, beautifully. Before it stands a tall figure in a smith's leather apron gone black with age, with a crown of iron on its skull, quite still.".
+  Thing decoy "the great red heart" at false_heart {
+    State resting "The heart of red crystal glows on its plinth.".
+    State taken "The plinth is bare and cracked. Red crystal lies in shards across the floor.".
+    Change pry "Prise the great red heart from its plinth" from resting to taken needing brawn.
+  }
+  Person ardath "the crowned figure" at false_heart {
+    Role "a tall figure in a smith's apron, crowned with iron". Species lich. Level 13. Peaceable.
+    State keeping "The crowned figure stands before the heart with its hands folded on a smith's hammer. It watches you with nothing in its eye-sockets.".
+  }
+  Rule ardath_rises when state(decoy, taken) and not hostile(ardath, party)
+    says "The roof of the chamber comes down in red slabs. Through the dust the crowned figure lifts its hammer, and its voice is a forge-bellows: 'THIEF.'" {
+    Assert strikes(ceiling_fall, party). Assert hostile(ardath, party). Assert assails(ardath, party). Increase stirring(fells) by 1.
+  }
+  Discovery plinth_known "Behind the plinth of the false heart, a way goes on, for those the crowned figure lets pass.".
+  Topic ardath_doctrine with ardath "Say the doctrine of the Hollow Smiths to the crowned figure" when knows(actor, doctrine_known) and not hostile(ardath, actor) once {
+    Says "'What wakes, kills,' you say. The crowned figure answers, in a voice like old iron: 'What kills, wakes.' It is quiet a long time. 'You are not ours. But you have our words.' It turns, and lays a hand on the plinth. 'This is a lie. I keep it so that thieves stop here. I have kept it for a thousand years. I do not remember why.' The plinth slides aside. 'The true heart is beyond. He is sleeping. Do not wake him. Do not kill him.' Its hand stays on the plinth. 'I was paid to kill him, once. We all were. I am sorry. Tell him I am sorry.'".
+    On discuss { Assert knows(actor, plinth_known). }
+  }
+
+  // 10. The Door of Three Locks: the keepers' ring, the Smith-Master's hammer, the Abbess's Eye.
+  Observe locks_scene at locks_room when true "A door of red stone, round, like a great closed eye. In it, three sockets: a round one the size of a hub; a narrow one the shape of a little hammer's head; and a broad shallow one, lid-shaped.".
+  Thing ring_lock "the round socket" on heart_door {
+    State empty blocking "The round socket in the door is empty.". State filled "The keepers' ring sits in the round socket.".
+    Change set_ring "Set the keepers' ring in the round socket" from empty to filled needing keepers_ring.
+  }
+  Thing token_lock "the narrow socket" on heart_door {
+    State empty blocking "The narrow socket is empty.". State filled "The Smith-Master's hammer sits in the narrow socket.".
+    Change set_token "Set the Smith-Master's hammer in the narrow socket" from empty to filled needing smith_token.
+  }
+  Thing eye_lock "the lid-shaped socket" on heart_door {
+    State empty blocking "The lid-shaped socket is empty.". State filled "The Abbess's Eye lies in the lid-shaped socket, and is open.".
+    Change set_eye "Lay the Abbess's Eye in the lid-shaped socket" from empty to filled needing abbess_eye.
+  }
+
+  // 11. The Keeper's Chair.
+  Observe chair_scene at heart_chamber when true "A small chamber, plain, round, warm. In the floor, in a basin of grey stone, the heart of Thrume: not crystal, flesh, dark red, the size of a cottage, beating once in a long while. The whole room moves with it. Beside the basin, a chair of grey stone, carved with the giants' signs, empty.".
+  Relation seated(group).
+  Passage into_dream "the dream beyond the Chair" is passage between heart_chamber and cloud_landing taking 1 hour
+    opening when seated(party) "The Chair is empty. Whoever sits in it, the keepers say, sits in his dream.".
+  Action sit_chair(actor: group, site: place) "Sit in the Keeper's Chair, and go into his dream" {
+    Description "The stone is warm. The giants' signs on it are the same three, over and over: a mountain, a heart, a closed eye.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart_chamber) and not seated(actor) and not woken(fells).
+    Time 1.
+    On success { Assert seated(actor). }
+    Result "You sit. The heart beats, once, and the room goes away. You are standing on a cloud, and the cloud holds you, and above you a palace of white stone floats in a sky so close you could touch it.".
+  }
+  Action stay_keeper(actor: group, site: place) "One of you stays in the Chair, and keeps him sleeping" {
+    Description "The keepers say someone must sit by the heart and sing, for ever, or he will stir again. Nobody who stays comes back.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart_chamber) and not sealed(fells) and not woken(fells) and not sungClean(fells).
+    Time 6.
+    On success { Assert sealed(fells). Assert strikes(stays_behind, actor). Set stirring(fells) to 0. }
+    Result "One of you sits down in the Chair, and puts a hand on the warm stone of the basin, and begins, very low, to hum. The heart slows. When the rest of you go, the one in the Chair does not look up.".
+  }
+  Action cut_heart(actor: group, site: place) "Cut into the heart of Thrume for the Margravine's salt" {
+    Description "The heart is blood, and the blood is the red salt, and there is more of it here than in all the workings. Ebb would win its war.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart_chamber) and capable(actor, digging) and not cutOut(fells) and not woken(fells).
+    Time 12.
+    On success { Assert cutOut(fells). Set stirring(fells) to 0. Increase quantity(actor, gold) by 400. }
+    Result "It takes a long time. The heart does not wake. It beats slower, and slower, and the red that comes out of it goes hard and glittering in the air as it runs, and you fill sack after sack. At the end it beats once more, and then it does not, and the whole mountain is very still, and very cold.".
+  }
+  Action wake_heart(actor: group, site: place) "Strike the heart of Thrume, and wake him" {
+    Description "What kills, wakes.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart_chamber) and not woken(fells).
+    Time 1.
+    On success { Set stirring(fells) to 10. }
+    Result "You strike. The heart stops. Then it beats, once, so hard you are thrown off your feet, and again, and again, faster, and the floor tilts, and does not tilt back.".
+  }
+
+  Objective cross_tomb when at(party, tomb_mouth) and not seated(party) "The heart of Thrume lies at the bottom of the Hollow Smiths' tomb.".
+}

@@ -1,0 +1,214 @@
+Module thrume "Thrume" {
+  Description "The Inward Roads: the workings, the Veins, the Lungs, the Smiths' Last Delving and the Dream-Hollows, inside the body of Thrume.".
+
+  Place body "the inward roads" is site within fells at 2, 1.
+  Place workings "the workings" is level within body.
+  Place veins "the Veins" is level within body.
+  Place lungs "the Lungs" is level within body.
+  Place delving "the Smiths' Last Delving" is level within body.
+  Place hollows "the Dream-Hollows" is level within body.
+
+  Place adit_head "the old adit" is room within workings at 0, 0.
+  Place number_four "the Number Four gallery" is room within workings at 1, 0.
+  Place brannoc_camp "Brannoc's deep camp" is room within workings at 2, 0.
+  Place cutting_face "the cutting face" is room within workings at 3, 0.
+  Place carvers "the carvers' drift" is room within workings at 1, 1.
+  Place sump "the Number Four sump" is room within workings at 2, 1.
+  Place quiet_door "the Quiet Door" is room within workings at 3, 1.
+
+  Place vein_foot "the foot of the sump ladder" is room within veins at 0, 0.
+  Place red_gallery "the red gallery" is room within veins at 1, 0.
+  Place vein_wound "the Wound" is room within veins at 2, 0.
+  Place vein_crossing "the crossing of the veins" is room within veins at 1, 1.
+
+  Place stair_foot "the foot of the Keepers' Stair" is room within lungs at 0, 0.
+  Place lung_mouth "the mouth of the Lungs" is room within lungs at 1, 0.
+  Place hall_of_wind "the Hall of Wind" is room within lungs at 2, 0.
+  Place rib_lee "the lee of the great rib" is room within lungs at 2, 1.
+
+  Place delving_gate "the Smiths' gate" is room within delving at 0, 0.
+  Place cold_forge "the cold forge" is room within delving at 1, 0.
+  Place iron_library "the iron library" is room within delving at 2, 0.
+  Place gauge_room "the Gauge of Sleep" is room within delving at 1, 1.
+  Place master_cell "the Master's cell" is room within delving at 2, 1.
+
+  Place hollow_mouth "the mouth of the Hollows" is room within hollows at 0, 0.
+  Place dream_field "the dreamed field" is room within hollows at 1, 0.
+  Place hunger_shaft "the cold shaft" is room within hollows at 0, 1.
+  Place hush_approach "the long quiet" is room within hollows at 2, 0.
+
+  Initially Assert unlit(adit_head). Initially Assert unlit(number_four). Initially Assert unlit(carvers). Initially Assert unlit(sump).
+  Initially Assert unlit(quiet_door). Initially Assert unlit(stair_foot). Initially Assert unlit(lung_mouth).
+  Initially Assert unlit(delving_gate). Initially Assert unlit(cold_forge). Initially Assert unlit(iron_library). Initially Assert unlit(master_cell).
+  Initially Assert unlit(hollow_mouth). Initially Assert unlit(hunger_shaft).
+
+  Passage adit "the old adit" is tunnel between cart_road and adit_head taking 20 minutes.
+  Passage four_drift "the main drift" is passage between adit_head and number_four taking 10 minutes.
+  Passage camp_drift "the deep drift" is passage between number_four and brannoc_camp taking 10 minutes.
+  Passage face_drift "the drift to the face" is passage between brannoc_camp and cutting_face.
+  Passage carvers_drift "the side drift" is passage between number_four and carvers.
+  Passage sump_drift "the sump drift" is passage between brannoc_camp and sump.
+  Passage quiet_drift "the cart drift" is passage between sump and quiet_door.
+  Passage sump_rope "the ladder in the sump" is ladder between sump and vein_foot taking 30 minutes hidden until sump_ladder.
+  Passage red_way "the red way" is passage between vein_foot and red_gallery.
+  Passage wound_way "the warm way" is passage between red_gallery and vein_wound.
+  Passage crossing_way "the branching" is passage between red_gallery and vein_crossing.
+  Passage keepers_stair "the Keepers' Stair" is stair between stair_head and stair_foot taking 2 hours.
+  Passage lung_way "the windpipe" is passage between stair_foot and lung_mouth taking 20 minutes.
+  Passage wind_floor "the floor of the Lungs" is passage between lung_mouth and hall_of_wind taking 30 minutes.
+  Passage lee_way "the shelter of the rib" is passage between hall_of_wind and rib_lee.
+  Passage wind_gate "the Wind Gate" is passage between hall_of_wind and vein_crossing taking 20 minutes
+    opening when exhaling(fells) "The Wind Gate is a gap between two ribs of white stone, and the wind is pouring into it so hard that it would take a horse.".
+  Passage delving_way "the smiths' road" is passage between vein_crossing and delving_gate taking 30 minutes.
+  Passage smith_door "the Smiths' door" is door between delving_gate and cold_forge.
+  Passage library_arch "the library arch" is arch between cold_forge and iron_library.
+  Passage gauge_door "the gauge door" is door between cold_forge and gauge_room.
+  Passage cell_door "the Master's door" is door between iron_library and master_cell.
+  Passage quiet_slab_way "the Quiet Door" is passage between quiet_door and hollow_mouth.
+  Passage dream_seam "the dream seam" is crawl between vein_crossing and hollow_mouth taking 1 hour needing climbing or rope.
+  Passage field_way "the warm way down" is passage between hollow_mouth and dream_field.
+  Passage shaft_way "the cold way down" is passage between hollow_mouth and hunger_shaft.
+  Passage quiet_way "the long quiet" is passage between dream_field and hush_approach taking 1 hour.
+
+  // The workings.
+  Observe adit_scene at adit_head when true "An old adit, timbered, the props furred with white. Fresh cart-ruts run down it into the dark, and beside the ruts the marks of many boots, all going one way.".
+  Observe four_scene at number_four when true "The main gallery of the Number Four. The walls are white salt, then pink, then, as the gallery goes down, a red like meat. The air is warm and wet as breath.".
+  Observe camp_scene at brannoc_camp when cutting(brannoc) "A camp in a widened drift: bedrolls, a brazier, picks racked like spears, and a tally board with a quota chalked on it, crossed out, and a bigger one chalked under it. From further down comes the sound of picks, steady as a clock.".
+  Observe camp_quiet at brannoc_camp when not cutting(brannoc) "The camp is quiet. The picks are racked. Somebody has wiped the tally board clean.".
+  Observe face_scene at cutting_face when cutting(brannoc) "The face is red crystal, wet, and warm as skin. Where the picks have bitten into it the cuts weep a thin red brine that runs down into the gutter and away. When you put your hand flat against the face, something under it, a long way under, moves.".
+  Observe face_quiet at cutting_face when not cutting(brannoc) "The red face is scarred with pick-marks. The weeping has slowed. Someone has packed the deepest cut with clay.".
+  Observe carvers_scene at carvers when true "Three miners sit in a side drift with chisels, carving faces into the salt wall. They have carved dozens. Every face is the same: long, smooth, grey, with no mouth and eyes like closed doors. The miners do not look up.".
+  Observe sump_scene at sump when true "The sump of the Number Four: a pool of red brine, and a black hole going down beside it.".
+  Observe sump_ladder_seen at sump when knows(party, sump_ladder) "A ladder of grey rope, too fine and too strong for any ropewalk you know, hangs down the hole beside the sump.".
+  Observe quiet_scene at quiet_door when true "The cart drift ends at a wall of grey stone, smooth as a pebble, with no handle and no hinge. The cart-ruts go straight into it. Beside it, a heap of blankets.".
+
+  // Brannoc and his crew.
+  Person brannoc "Overseer Brannoc" at brannoc_camp {
+    Role "the Margravine's overseer, with a quota". Ancestry human. Calling warrior. Level 7. Peaceable.
+    Wants margrave_seal.
+    Objects "'Put that down,' says Brannoc, without raising his voice. He does not need to.".
+  }
+  Person crew "Brannoc's crew" at cutting_face {
+    Role "miners, cutting". Ancestry human. Calling commoner. Numbers 6. Peaceable.
+  }
+  Relation cutting(group). Initially Assert cutting(brannoc).
+  Relation stopped(group).
+  Topic brannoc_quota with brannoc "Ask Overseer Brannoc to stop cutting" when cutting(brannoc) once {
+    Says "Brannoc looks at you as if you were a fall of rock he had not planned for. 'I have a quota,' he says. 'The Margravine has a war. Harle has a host. When the quota is met, I stop. When the seal says stop, I stop.' He turns back to his tally board. 'Not before.'".
+  }
+  Topic brannoc_blood with brannoc "Tell Overseer Brannoc what he is cutting" when cutting(brannoc) and knows(actor, salt_is_blood) and stirring(fells) < 6 once {
+    Says "Brannoc hears you out. 'Blood,' he says. 'Salt is salt. A mountain is a mountain. I've cut through ghosts before, in Ebb, and the ghosts were miners' wives with lanterns.' He chalks a new line on the tally board. 'Go home.'".
+  }
+  Topic brannoc_shaken with brannoc "Tell Overseer Brannoc what moved under the face" when cutting(brannoc) and knows(actor, salt_is_blood) and shaken(fells) {
+    Says "Brannoc does not answer for a long time. There is salt-dust in his beard from the roof, from when the mountain turned over. 'I felt it,' he says at last. 'Under my hand. Like a horse under you when it's going to bolt.' He picks up the chalk, and looks at the tally board, and puts the chalk down. 'Crew,' he shouts down the drift. 'Down tools.'".
+    On discuss { Retract cutting(brannoc). Assert stopped(brannoc). Decrease stirring(fells) by 1. }
+  }
+  Event sealed_order near brannoc when keeps(brannoc, ?l) and itemKind(?l, margrave_seal) and cutting(brannoc)
+    "Brannoc breaks the blue seal, reads, reads again, and folds the letter into his coat. 'Down tools,' he shouts down the drift. Then, to you, quietly: 'If this is forged, I'll find you.'" then {
+    Retract cutting(brannoc). Assert stopped(brannoc). Decrease stirring(fells) by 1.
+  }
+  Rule brannoc_dead when dead(brannoc) and cutting(brannoc) { Retract cutting(brannoc). Decrease stirring(fells) by 1. }
+  Topic crew_dreams with crew "Ask the crew how they sleep" when true once {
+    Says "'We don't,' says a young one. 'Not down here. You lie down and you're somewhere else, somewhere high up, and the floor's beating.' An older one hits him with a glove. 'Shut up. Brannoc hears that, you're on the face till you drop.'".
+    On discuss { Assert knows(actor, dream_shared). }
+  }
+  Topic carvers_face with carvers_folk "Ask the carvers whose face they are carving" when true once {
+    Says "One of them stops. He turns his chisel over in his fingers. 'Hers,' he says. 'The Abbess. She looks at you when you sleep.' He goes back to carving. 'She's very kind.'".
+    On discuss { Assert knows(actor, abbess_named). }
+  }
+  Person carvers_folk "the carvers" at carvers {
+    Role "dream-sick miners with chisels". Ancestry human. Calling commoner. Numbers 3. Peaceable.
+  }
+  Discovery abbess_named "The dream-sick miners carve the face of 'the Abbess', who looks at them when they sleep.".
+
+  // The Quiet Door opens to the humming stone of the Court.
+  Thing quiet_slab "the grey door" on quiet_slab_way {
+    State seamless blocking "The grey door is shut. It has no handle, no hinge, and no seam.".
+    State open "The grey door stands open on a dark, warm way down. There is no sound from below. None at all.".
+    Change hum "Hold the humming pebble against the grey door" from seamless to open needing hush_stone.
+  }
+
+  // The Veins.
+  Observe veinfoot_scene at vein_foot when true "The ladder comes down into a cave of red crystal that gives off its own light, dim and warm, brightening and dimming, brightening and dimming, slowly.".
+  Observe red_scene at red_gallery when exhaling(fells) "A gallery of red crystal the colour of a lamp through a hand. The light is dim now, ebbing, and the crystal is cool.".
+  Observe red_bright at red_gallery when not exhaling(fells) "A gallery of red crystal, and the crystal is bright, brighter, nearly too bright to look at, and warm, and the light is pulsing, slow and strong.".
+  Observe wound_scene at vein_wound when cutting(brannoc) "The Wound. Above you, through a ragged hole, the pick-marks of the cutting face; here below, the crystal is cracked in a great star, and the cracks are weeping. The floor is a pool of warm red brine. It is very hot.".
+  Observe wound_quiet at vein_wound when not cutting(brannoc) "The Wound has stopped weeping. The red pool is crusting at its edges, white.".
+  Observe crossing_scene at vein_crossing when true "A cave where four ways meet. One climbs toward a gap between ribs of white stone, where a wind blows; one goes down along a smiths' road, paved; one is a crack in the wall that smells of hay; one is the way you came.".
+  Person warden_jewel "the Wound's warden" at vein_wound {
+    Role "a shape of red crystal that guards the cut". Species jewel_elemental. Level 8.
+    Temperament territorial.
+    Warns "The red crystal at the edge of the pool stands up. It has the shape of a man, more or less, and the light pulses in it. It does not come closer. It waits to see whether you will.".
+  }
+
+  // The Lungs.
+  Observe stairfoot_scene at stair_foot when true "The Keepers' Stair ends in a round chamber. Ahead, a passage as wide as a road goes on, and wind comes down it in long gusts, in and out, in and out.".
+  Observe lungmouth_scene at lung_mouth when exhaling(fells) "The windpipe opens onto a cavern so vast you cannot see its far side. A warm wind blows past you, out of it, steady.".
+  Observe lungmouth_in at lung_mouth when not exhaling(fells) "The windpipe opens onto a cavern so vast you cannot see its far side. The wind is going into it, hard, tugging at your clothes.".
+  Observe wind_scene at hall_of_wind when exhaling(fells) "The Hall of Wind: a floor of white stone ribbed like sand, and above, far above, a roof that rises and falls. The wind blows outward now, warm. In the far wall a gap between two ribs of stone stands open.".
+  Observe wind_in at hall_of_wind when not exhaling(fells) "The roof of the Hall of Wind is coming down, slowly, and the wind is going in: everything loose on the floor is sliding toward the far wall, where the gap between two ribs is shrieking.".
+  Hazard wind_drag "The in-breath" means "Deal (2d6) physical damage to ally unless strength save against (13).".
+  Rule wind_takes when at(party, hall_of_wind) and not exhaling(fells)
+    says "The wind takes you off your feet and rolls you across the ribbed floor like a leaf." { Assert strikes(wind_drag, party). }
+  Observe lee_scene at rib_lee when true "Behind a rib of white stone as tall as a church, the wind does not reach. Others have sheltered here: the ash of a fire, and scratched on the rib in a smith's hand, OUT IS OPEN.".
+
+  // The Smiths' Last Delving.
+  Observe gate_scene at delving_gate when true "A gate of black iron in a wall of grey stone, and over it, cut deep, a line of letters: WHAT WAKES, KILLS. WHAT KILLS, WAKES.".
+  Discovery doctrine_known "The doctrine of the Hollow Smiths: what wakes, kills; what kills, wakes. They could not kill Thrume, because every killing blow woke him; so they made him sleep, and built the tomb around his heart so that nothing would wake him or kill him again.".
+  Observe forge_scene at cold_forge when true "A forge the size of a chapel, cold a thousand years. Anvils, tongs as long as oars, and hammers racked on the wall: iron, bronze, and one of red salt, glassy, unused.".
+  Observe library_scene at iron_library when true "A room of shelves, and on the shelves books made of iron leaves, hinged, the letters punched through. Most are too heavy to lift alone.".
+  Discovery tomb_stair_known "From the smiths' building-book: 'The third tread of the salt stair is no tread. Prod before you trust.'" {
+    Source building_book "the building-book of the Heart-Tomb" at iron_library readable by party.
+  }
+  Discovery hammers_known "From the smiths' riddle-book: 'Iron wakes the sleeper. Bronze wakes the dead. Strike with what is sleeping, and pass instead.' Beside it, in another hand: 'The salt is his blood, and his blood sleeps.'" {
+    Source riddle_book "the riddle-book of the Gate" at iron_library readable by party.
+  }
+  Discovery face_known "From the smiths' building-book: 'The Sleeper's mouth is open, and his eyes are closed. Go by the eye that is on your left as you face him. Never go where he is awake.'" {
+    Source face_leaf "a loose iron leaf about the Sleeper's Face" at iron_library readable by party.
+  }
+  Discovery doors_known "From the smiths' building-book: 'In the hall of doors, the door is the one that is not there. Every door you can see is a death.'" {
+    Source doors_leaf "an iron leaf about the hall of doors" at iron_library readable by party.
+  }
+  Discovery breaths_known "Scratched on the great rib, and again in the building-book: 'Out is open.' The Room of Three Breaths, and the Wind Gate, are crossed on his out-breath.".
+  Observe lee_teaches at rib_lee when true "OUT IS OPEN, says the rib, in a smith's square hand." teaches breaths_known.
+  Observe gauge_scene at gauge_room when true "A round room. In the middle, on a pillar, an instrument of brass and grey stone: a needle on a dial, and the dial marked in the smiths' square letters from DEEP to WAKING. Behind it, a tube of glass running up into the rock is full of something red that rises and falls.".
+  Observe gauge_low at gauge_room when stirring(fells) < 6 "The needle stands a little below the middle of the dial, where the letters say DREAMING. While you watch it, it ticks once toward WAKING.".
+  Observe gauge_high at gauge_room when stirring(fells) >= 6 and not woken(fells) "The needle stands well over toward WAKING, and trembles.".
+  Discovery salt_is_blood "The Smiths' Gauge of Sleep measures Thrume's sleep by his blood, which is the red salt in the glass. Every cut in the workings moves the needle toward WAKING.".
+  Observe gauge_teaches at gauge_room when true "Under the dial, punched in iron: THIS IS HIS BLOOD. WHERE IT IS CUT, HE STIRS." teaches salt_is_blood.
+  Observe cell_scene at master_cell when true "A smith's cell: a cot, a chair, a shelf. In the chair, the bones of a big man in a leather apron, his hands folded on a hammer of grey iron no longer than a hand. On the shelf, a journal of iron leaves.".
+  Discovery wheels_known "From the Smith-Master's journal: 'The Gearworks I set so: iron at rest, salt awake, bone at rest. The painters in the Hall of Doctrine have it otherwise, at my order. Let a thief who trusts pictures be scalded.'" {
+    Source master_journal "the Smith-Master's journal" at master_cell readable by party.
+  }
+  Discovery ardath_known "From the Smith-Master's journal: 'Ardath stays with the false heart. He has asked to. He says someone must keep the lie, so that nobody looks for the truth. If you come to him, say the doctrine, and he will know you for ours.'" {
+    Source master_journal_end "the last leaves of the Smith-Master's journal" at master_cell readable by party.
+  }
+  Kind smith_token "the Smith-Master's hammer, grey iron no longer than a hand" is treasure worth 0 weighing 1.
+  Item master_hammer "the Smith-Master's little hammer" is smith_token at master_cell.
+  Observe gate_teaches at delving_gate when true "WHAT WAKES, KILLS. WHAT KILLS, WAKES." teaches doctrine_known.
+
+  // The Dream-Hollows.
+  Observe hmouth_scene at hollow_mouth when true "A soft dark. The walls are not stone here; they give a little under the hand, and are warm. Somewhere below, you can smell hay and summer.".
+  Observe field_scene at dream_field when true "A meadow, inside the mountain, under a sky. The sky is too close: you could throw a stone into the clouds. Sheep graze, and do not cast shadows. A shepherd boy sleeps against a stone with his crook across his knees. This is something Thrume is dreaming, and it is quite real.".
+  Person dream_boy "the dreamed shepherd" at dream_field {
+    Role "a boy asleep against a stone". Ancestry human. Peaceable.
+    Seen when dreamt(viewer).
+  }
+  Topic dream_boy_talk with dream_boy "Wake the dreamed shepherd" when true once {
+    Says "The boy opens his eyes. They are the colour of red salt. 'He was happy here,' he says. 'Before. The sky was close and the grass was warm and we walked.' He looks up the meadow, to where the grass ends in grey, like ash. 'They eat it,' he says. 'From the edges. Every night there is less of it.' He shuts his eyes again.".
+    On discuss { Assert knows(actor, court_feeds). }
+  }
+  Discovery court_feeds "Something is eating Thrume's dreams from the edges.".
+  Observe field_edge at dream_field when true "At the top of the meadow the grass goes grey, then greyer, then simply stops, as if it had been eaten.".
+  Observe hunger_scene at hunger_shaft when true "A shaft going down into cold. Frost on the walls, in a warm mountain. Long scratches in the frost, too far apart for any hand.".
+  Person hunger "the hunger" at hunger_shaft {
+    Role "a long, starved shape in the frost: Thrume's dream of a hard winter". Species wendigo. Level 9.
+    Temperament ambush.
+    Warns "Something unfolds out of the frost at the bottom of the shaft, too tall and too thin, and turns a face toward you that is mostly teeth.".
+    Comes "The hunger comes up the shaft at you on its long arms, faster than anything that thin should move.".
+  }
+  Observe approach_scene at hush_approach when true "The way goes on down through the soft dark, and the sound goes out of the world. Your footsteps make none. Your voice, when you try it, makes none. Ahead there is a grey light, and a city.".
+
+  Objective stop_cutting when cutting(brannoc) and knows(party, salt_is_blood) "Every day Brannoc cuts, Thrume stirs. The Margravine's seal would stop him, or the mountain itself.".
+  Objective go_down when knows(party, hush_named) and not freed(col) "The sleepers from the Red Lantern were taken down to Hush.".
+}

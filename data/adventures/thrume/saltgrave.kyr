@@ -1,0 +1,191 @@
+Module thrume "Thrume" {
+  Description "Saltgrave: the Salt Office, the dream-houses, the night carts.".
+
+  Place salt_office "the Salt Office" is building within saltgrave.
+  Place saltcellar "the Saltcellar" is building within saltgrave.
+  Place red_lantern "the Red Lantern" is building within saltgrave.
+  Place shrine "the Hearth-Mother's shrine" is building within saltgrave.
+  Place chandlery "Dunmore's chandlery" is building within saltgrave.
+
+  Place salt_road "the salt road below the town" is room within lowroad at 0, 0.
+  Place market "the market square" is room within saltgrave at 1, 1.
+  Place office_floor "the Salt Office" is room within salt_office at 2, 1.
+  Place provost_room "the provost's room" is room within salt_office at 2, 0.
+  Place inn_room "the Saltcellar's taproom" is room within saltcellar at 0, 1.
+  Place lantern_front "the Red Lantern's front room" is room within red_lantern at 1, 2.
+  Place smoke_room "the smoke-room" is room within red_lantern at 2, 2.
+  Place lantern_back "the back room of the Red Lantern" is room within red_lantern at 2, 3.
+  Place shrine_room "the shrine" is room within shrine at 0, 0.
+  Place chandlery_shop "Dunmore's chandlery" is room within chandlery at 0, 2.
+  Place miners_row "the miners' row" is room within saltgrave at 1, 0.
+  Place carters_yard "the carters' yard" is room within saltgrave at 1, 3.
+  Place cart_road "the cart road" is room within fellside at 1, 1.
+  Place scree_foot "the foot of the scree road" is room within fellside at 0, 0.
+
+  Passage salt_gate "the town gate" is road between salt_road and market taking 20 minutes.
+  Passage office_door "the Salt Office door" is door between market and office_floor.
+  Passage provost_door "the provost's door" is door between office_floor and provost_room.
+  Passage inn_door "the Saltcellar's door" is door between market and inn_room.
+  Passage lantern_door "the Red Lantern's door" is door between market and lantern_front.
+  Passage smoke_curtain "the smoke-room curtain" is doorway between lantern_front and smoke_room.
+  Passage lantern_back_door "the Lantern's back door" is door between smoke_room and lantern_back.
+  Passage back_yard_gate "the yard gate behind the Lantern" is gate between lantern_back and carters_yard.
+  Passage shrine_door "the shrine door" is door between market and shrine_room.
+  Passage chandlery_door "Dunmore's door" is door between market and chandlery_shop.
+  Passage row_lane "the row lane" is path between market and miners_row taking 10 minutes.
+  Passage yard_lane "the yard lane" is path between market and carters_yard taking 10 minutes.
+  Passage cart_track "the cart road" is road between carters_yard and cart_road taking 1 hour.
+  Passage scree_lane "the north lane" is path between miners_row and scree_foot taking 30 minutes.
+
+  Observe road_scene at salt_road when not dark() "The salt road comes up out of the river country between fields gone white at the edges, as if salted. Ahead, Saltgrave sits under the fells in its own dust: new timber, white roofs, a church tower with no church yet. Beyond the town the fells go up and up, brown and long and oddly smooth, like something lying under a blanket.".
+  Observe road_night at salt_road when dark() "The town's lights are few and yellow. One lantern, red, burns later than the rest.".
+  Observe market_scene at market when not dark() and not woken(fells) "A square of trodden white dust. Carts, salt-dust on everything, a dry pump, a notice on a post, and on one side a narrow house with a red lantern over its door, unlit by day.".
+  Observe market_night at market when dark() and not woken(fells) "The square is empty but for a dog. Over the narrow house on the south side, the red lantern is lit.".
+  Observe office_scene at office_floor when true "Scales, sacks, a long counter and a clerk behind it. On the wall a map of the workings, Number One to Number Four, and on Number Four someone has written CLOSED in red, and someone else has crossed it out.".
+  Observe provost_scene at provost_room when true "A good room for a raw town: a carpet, a decanter, a strongbox. A ledger lies open on the desk.".
+  Observe inn_scene at inn_room when true "Low beams, salt-cured hams, and miners drinking without talking. In the best corner a man in the Margravine's blue and silver eats alone, with a sword across the bench beside him.".
+  Observe front_scene at lantern_front when true "A dim room hung with red cloth, warm and sweet-smelling, very quiet. A little table, and a chair behind it.".
+  Observe smoke_scene at smoke_room when true "Pallets in a row, and on them people asleep with their eyes moving under the lids: miners, a girl in a good dress, an old man. A brazier burns something red that smells of iron and rain. Every sleeper's lips are moving, and they are all saying the same thing.".
+  Observe back_scene at lantern_back when true "A storeroom: sacks of red salt, blankets, rope. A row of pegs by the yard gate, and on them the coats of people who are not wearing them.".
+  Observe shrine_scene at shrine_room when true "A whitewashed room with a hearth for an altar. The fire on it is the only one in Saltgrave that never goes out. Prayers are nailed on the wall on scraps: for the men in the Number Four, for a son, for sleep.".
+  Observe chandlery_scene at chandlery_shop when true "Candles, rope, lamp-oil, picks. Everything a mine needs, and too much of it, now the mine is shut.".
+  Observe row_scene at miners_row when true "A double row of salt-white cottages. Forty doors have a twist of black wool on the latch: the families of the men the giants took.".
+  Observe yard_scene at carters_yard when not dark() "A yard of salt-carts with their shafts down, and the stable smell. The carts have stood idle since the mine was shut; their axles are freshly greased.".
+  Observe cart_road_scene at cart_road when true "The cart road climbs the fellside in long loops toward the black mouths of the workings. The turf on either side is warm to the hand.".
+  Observe scree_foot_scene at scree_foot when true "The north lane gives out into scree. A path goes up it, very steep, toward the shoulder of the fells and a smudge of smoke under the glacier.".
+  Passage scree_climb_long "the scree road" is path between scree_foot and scree_road taking 2 hours.
+
+  // The Margravine's envoy, and the price on the thane.
+  Person varne "Sir Odo Varne" at inn_room {
+    Role "the Margravine's envoy". Ancestry human. Calling warrior. Level 6. Peaceable.
+  }
+  Discovery bounty_known "The Margravine's notice: FOR THE HEAD OF THE GIANT MÓRRACH, THAT CALLS HIMSELF THANE, THE LORDSHIP OF HARROWBY AND ITS RENTS. SIR O. VARNE, FOR IDONY VASK, MARGRAVINE OF EBB." {
+    Source notice "the notice on the market post" at market readable by party.
+    Known by varne.
+  }
+  Topic varne_bounty with varne "Ask Sir Odo Varne about the giants" when true once {
+    Says "'They came down off the fells four months ago,' says Varne, 'and smashed every mine-head we have, and carried off forty men, and burned the overseer in his house.' He wipes his knife. 'The Margravine must have the salt by the new moon. Harle's host will be at the Ebb by then, and the companies she means to hire want paying in something heavier than promises. Bring me the thane's head and you are lords. Overseer Brannoc has gone down the old adit with a crew to keep the salt coming meanwhile. He is not a man who stops.'".
+    On discuss { Assert knows(actor, bounty_known). Assert knows(actor, brannoc_below). }
+  }
+  Discovery brannoc_below "Overseer Brannoc has gone down the old adit of the Number Four with a crew, to keep cutting red salt for the Margravine.".
+  Topic varne_truth with varne "Tell Sir Odo Varne what the red salt is" when knows(actor, thrume_known) and knows(actor, salt_is_blood) once {
+    Says "Varne hears you out without interrupting, which is a courtesy you did not expect. At the end he is quiet a long time. 'If you are lying, you are the best liars I ever met,' he says. 'If you are not, the Margravine is cutting the throat of the ground she stands on.' He takes a folded paper from his coat, sealed in blue wax, writes on it, and holds it out. 'Brannoc obeys the seal. Not me. The seal. Give him this.'".
+    On discuss { Assert lends(varne, seal_letter, actor). Assert at(seal_letter, inn_room). }
+  }
+  Kind margrave_seal "a letter under the Margravine's blue seal" is treasure worth 0 weighing 0.
+  Item seal_letter "an order under the Margravine's seal" is margrave_seal at limbo owned by varne.
+  Place limbo "nowhere" is room within lowroad at 1, 0.
+
+  // The provost and his ledger.
+  Person hauk "Provost Lisle Hauk" at provost_room {
+    Role "provost of the Salt Office". Ancestry human. Peaceable.
+    Objects "Hauk sees {?i} in your hands and goes the colour of tallow. 'That is the Office's,' he says. 'I will have the watch on you.'".
+  }
+  Discovery ledger_known "The Salt Office ledger: every week since spring, forty crowns in salt-silver from 'the Lantern, for quiet', in the provost's own hand. Beside the last three entries, a tally of carts: four, six, nine." {
+    Source office_ledger "the Salt Office ledger" at provost_room readable by party.
+    Known by hauk.
+  }
+  Topic hauk_lantern with hauk "Ask Provost Hauk about the Red Lantern" when not knows(actor, ledger_known) once {
+    Says "'A respectable house,' says Hauk. 'Miners need their rest. The Office licenses it.' He moves the ledger an inch further from you without looking at it.".
+  }
+  Topic hauk_ledger with hauk "Ask Provost Hauk what the carts in his ledger carry" when knows(actor, ledger_known) once {
+    Says "Hauk sits down. 'Sleepers,' he says, very low. 'The ones who sleep too deep to wake. She says they are taken up to the hot springs above the workings, to be cured. She pays for the carts. She pays for my not asking.' He looks at his hands. 'I have not asked. I have a daughter in Ebb.'".
+    On discuss { Assert knows(actor, carts_known). }
+  }
+
+  // The dream-house.
+  Person quietly "Mother Quietly" at lantern_front {
+    Role "keeper of the Red Lantern". Ancestry human. Peaceable.
+    State smiling "Mother Quietly sits behind her little table with her hands folded, smiling. Her eyes do not move when she looks at you; her head does.".
+    State emptied "Mother Quietly sits behind her little table with her hands folded. There is nobody behind her eyes at all.".
+  }
+  Person dreamers "the dreamers" at smoke_room {
+    Role "sleepers on the pallets". Ancestry human. Numbers 4. Peaceable.
+  }
+  Discovery dream_shared "Everyone who sleeps on the red salt dreams the same dream: a palace in a sky too close to the ground, and a great slow heart beating under the floor.".
+  Topic dreamers_dream with dreamers "Listen to what the sleepers are saying" when true once {
+    Says "You lean close. They are all saying it, the girl in the good dress and the old man and the miners, in the same breath: 'The sky is so close. The floor is beating. The sky is so close. The floor is beating.' One of the miners opens his eyes, looks at you without seeing you, and says, quite clearly, 'He is turning over,' and sleeps again.".
+    On discuss { Assert knows(actor, dream_shared). }
+  }
+  Topic quietly_col with quietly "Ask Mother Quietly about Col Dunmore" when knows(actor, col_gone) and state(quietly, smiling) once {
+    Says "'Such a sad boy,' says Mother Quietly. 'His father in the mine. He slept so beautifully.' Her head tilts; her eyes stay where they were. 'He has gone up to the springs, to be cured. They all go up, the deep sleepers. Would you like to rest a little? You look so tired.'".
+  }
+  Action rest_on_salt(actor: group, site: place) "Lie down on a pallet and breathe the red smoke" {
+    Description "Mother Quietly says it is the best sleep in the world. The dreamers' faces say she may be right.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, smoke_room) and not dreamt(actor).
+    Time 6.
+    On success { Assert dreamt(actor). }
+    Result "You sleep, and you are standing in a palace of white stone with the sky so close above it you could touch the clouds. Under the floor something vast is beating, very slowly, and the whole palace rises and falls with it like a chest. Far away, at the end of a long hall, someone grey with no mouth turns to look at you, and you wake on the pallet with your heart going like a bird's.".
+  }
+  Relation dreamt(group).
+  // Seen only by those who have dreamt on the salt: what the Court's thralls look like to the dreaming.
+  Person watcher "the grey thing behind Mother Quietly" at lantern_front {
+    Role "something grey and soft-faced, standing where her shadow should be". Ancestry human. Peaceable.
+    Seen when dreamt(viewer).
+  }
+  Topic watcher_speaks with watcher "Look the grey thing in its soft face" when true once {
+    Says "It has no mouth. It speaks anyway, inside your head, in the kindest voice you have ever heard: 'You slept so well. Come down and sleep with us. It is so quiet in Hush.' Mother Quietly, in front of it, smiles a little wider, as if she had said it.".
+    On discuss { Assert knows(actor, hush_named). }
+  }
+
+  // The night carts.
+  Person hushed "the night carters" at lantern_back {
+    Role "two men with still eyes, who do not speak". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable.
+  }
+  Relation carting(group). Relation ringBroken(group).
+  Rule carters_out when dark() and at(hushed, lantern_back) and not ringBroken(hushed) and untilLight(clock) > 36 { Assert at(hushed, carters_yard). Assert carting(hushed). }
+  Rule carters_back when at(hushed, carters_yard) and (untilLight(clock) <= 36 or ringBroken(hushed)) { Assert at(hushed, lantern_back). Retract carting(hushed). }
+  Observe carts_by_night at carters_yard when carting(hushed) "Two men with still eyes are lifting sleepers out of the Lantern's back gate, wrapped in blankets, and laying them in a salt-cart like sacks. Nobody sleeping wakes. When the cart is full they lead the horse out on the cart road toward the workings, without a lantern." teaches carts_known.
+  Discovery carts_known "By night the Red Lantern's carters carry the deepest sleepers up the cart road to the workings, in salt-carts.".
+
+  // Breaking the ring: Mother Quietly cornered.
+  Topic quietly_carts with quietly "Ask Mother Quietly where the carts go" when knows(actor, carts_known) and state(quietly, smiling) once {
+    Says "Mother Quietly's smile does not change. Then it does not change for too long. Her hands come apart on the table, slowly, as if someone else were unfolding them, and she sits back. Her mouth opens. 'Down,' she says, in a voice with no breath behind it. 'Down to Hush, where it is quiet.' Then nothing is behind her eyes at all. Something drops from her fingers and rolls across the table: a grey pebble, humming.".
+    On discuss { Assert state(quietly, emptied). Assert ringBroken(hushed). Assert knows(actor, hush_named). Assert knows(actor, quietly_emptied). }
+  }
+  Discovery hush_named "The sleepers carried from the Red Lantern go 'down to Hush, where it is quiet'.".
+  Discovery quietly_emptied "Cornered, Mother Quietly was emptied like a cup by whatever was behind her, and dropped a grey humming stone.".
+  Kind hush_stone "a grey pebble that hums at the edge of hearing" is treasure worth 1 weighing 0.
+  Item hush_pebble "a grey humming pebble" is hush_stone at lantern_front hidden until quietly_emptied.
+
+  // Hesper Dunmore and her son.
+  Person hesper "Hesper Dunmore" at chandlery_shop {
+    Role "chandler, whose son has not come home". Ancestry human. Peaceable.
+    Sells rations for 2 coin from 8. Sells torch for 1 coin from 12. Sells rope for 1 coin from 4.
+  }
+  Discovery col_gone "Col Dunmore, sixteen, started sleeping at the Red Lantern after his father died in the Number Four, and has not come home in three nights.".
+  Topic hesper_col with hesper "Ask Hesper Dunmore what is wrong" when true once {
+    Says "'My boy,' says Hesper, and puts down the candle she was trimming. 'Col. His father died in the Number Four in the spring, and Col couldn't sleep, and someone told him about the Red Lantern. He slept there every night after. Three nights ago he didn't come home.' She looks at you. 'The watch says he's gone off to the giants for the bounty. He's sixteen and he's frightened of dogs. Will you look?'".
+    On discuss { Assert knows(actor, col_gone). }
+  }
+  Topic hesper_news with hesper "Tell Hesper Dunmore where Col was taken" when knows(actor, hush_named) and knows(actor, col_gone) once {
+    Says "Hesper listens with both hands flat on her counter. 'Down,' she says. 'Down where?' Then: 'No. Don't tell me. Bring him up.' She pushes a cloth of bread and cheese across the counter and will not take money for it.".
+    On discuss { Increase quantity(actor, rations) by 2. }
+  }
+
+  // The shrine: rest, healing, and a priest who knows the old stories.
+  Person agathe "Sister Agathe" at shrine_room {
+    Role "keeper of the Hearth-Mother's fire". Ancestry human. Calling cleric. Level 4. Peaceable.
+    Offers healing "the Hearth-Mother's blessing and clean linen" for 2 coin.
+  }
+  Topic agathe_fells with agathe "Ask Sister Agathe about the fells" when true once {
+    Says "'The old shepherds had a saying,' says Agathe. 'Walk soft on Thrume, he's only sleeping.' She smiles. 'They meant the giant in the stories. The one the hills were made from.' She looks at the prayers on the wall. 'Since the Number Four broke through, I have had more prayers for sleep than for anything else. People here cannot sleep, and when they do they all dream the same.'".
+  }
+
+  // The Saltcellar.
+  Person landlord "Gil Sorrow" at inn_room {
+    Role "landlord of the Saltcellar". Profession innkeeper. Peaceable.
+    Sells rations for 2 coin from 8. Sells torch for 1 coin from 6.
+  }
+
+  // The miners' row: the families, and the way to the giants.
+  Person wives "the miners' wives" at miners_row {
+    Role "women of the miners' row". Ancestry human. Numbers 3. Peaceable.
+  }
+  Topic wives_giants with wives "Ask the miners' wives about the giants" when true once {
+    Says "'They didn't kill anyone that night,' says a woman with a baby on her hip. 'Only the overseer, and that was the fire. They took the men out of the Number Four like you'd take kittens out of a well, and carried them up the scree road.' Another says: 'Aud Brenning's with them. Aud doesn't die easy.' The first: 'If you go up there for the Margravine's money, you can bring ours home while you're about it.'".
+  }
+
+  Objective find_col when knows(party, col_gone) and not freed(col) "Hesper Dunmore's son Col did not come home from the Red Lantern.".
+  Objective lay_thane when knows(party, bounty_known) and not knows(party, thrume_known) "The Margravine will pay a lordship for Thane Mórrach's head.".
+}

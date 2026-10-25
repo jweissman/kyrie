@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "name": "Thrume: the Heart-Tomb's traps",
+  "modules": [
+    {
+      "id": "thrume",
+      "bundle": "module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith",
+      "traits": [
+        "toughness"
+      ]
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ]
+    }
+  ]
+}

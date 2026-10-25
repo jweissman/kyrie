@@ -1,0 +1,46 @@
+Module thrume "Thrume" {
+  Description "The Palace of Before: Thrume's dream of the sky he walked under a thousand years ago.".
+
+  Place dreamsky "the sky of Before" is region.
+  Place palace "the Palace of Before" is site within dreamsky at 0, 0.
+  Place courts_low "the lower courts" is level within palace.
+  Place courts_high "the high courts" is level within palace.
+
+  Place cloud_landing "the cloud landing" is room within courts_low at 0, 0.
+  Place slaying_gallery "the Gallery of the Slaying" is room within courts_low at 1, 0.
+  Place grey_orchard "the Grey Orchard" is room within courts_low at 0, 1.
+  Place feast_hall "the Hall of the Feast" is room within courts_high at 0, 0.
+  Place eye_tower "the Eye-Tower" is room within courts_high at 1, 0.
+
+  Passage gallery_cloud "the cloud walk" is passage between cloud_landing and slaying_gallery taking 10 minutes.
+  Passage orchard_cloud "the orchard walk" is passage between cloud_landing and grey_orchard taking 10 minutes.
+  Passage cloud_stair "the cloud-stair" is stair between cloud_landing and feast_hall taking 20 minutes
+    opening when exhaling(fells) "The cloud-stair goes up into the palace in long white flights, and as you watch, it thins, and frays, and the treads drift apart like smoke. It holds only on his out-breath.".
+  Passage tower_bridge "the tower walk" is passage between feast_hall and eye_tower taking 10 minutes.
+
+  Observe landing_dream at cloud_landing when true "You stand on cloud, and it holds you like turf. Above, the Palace of Before: white stone, many-towered, riding the sky. The sky is so near you can see the grain of it, and through the cloud below, far down, a range of hills is walking slowly across the world.".
+  Observe gallery_dream at slaying_gallery when true "A colonnade of white stone whose walls are not painted but remembered: the scenes move. Men in leather aprons with hammers of starmetal climb a hill that is breathing. They strike, and the hill screams, and the smiths die in dozens, and climb again. Above them in the sky, small and bright, figures in crowns are watching and counting.".
+  Discovery smiths_paid "The Hollow Smiths were paid by the young gods to kill the titans and make room for the world. Thrume remembers them weeping as they climbed.".
+  Observe gallery_teaches at slaying_gallery when true "In the last scene a smith sits on the hill's flank with his hammer across his knees, weeping, and the hill puts its great hand over him like a roof." teaches smiths_paid.
+  Observe orchard_dream at grey_orchard when not sungClean(fells) "An orchard of white trees, heavy with fruit like lamps. From the far side the grey is coming: trees, grass and light all eaten to the same soft grey. Among the grey trees, tall soft-faced shapes stand with their faces in the fruit.".
+  Person orchard_court "the feeders in the orchard" at grey_orchard {
+    Role "the Court, feeding on the dream". Species court_kin. Level 9. Numbers 2.
+    Temperament territorial.
+    Warns "The soft faces lift out of the fruit and turn to you, and their long hands open.".
+  }
+  Observe feast_dream at feast_hall when true "A hall without a roof, open to the near sky, and in it the old ones at their feast: titans, the hills that walked, each as big as a village, sitting at a table of cloud. They are remembered, not alive; when you look straight at one, it is a hill. At the far end, the youngest, smaller than the rest, laughing.".
+  Person old_ones "the old ones" at feast_hall {
+    Role "the titans of Before, as Thrume remembers them". Species titan. Numbers 3. Peaceable.
+  }
+  Topic old_ones_talk with old_ones "Speak to the old ones at the feast" when true once {
+    Says "The nearest turns its great head toward you, slowly, as weather turns. 'Little one,' it says, and the cloud under you shakes. 'He was the youngest. He dreams us, now we are gone. When he stops dreaming, we stop.' It looks down the hall, past the youngest, to where a tower stands at the end of a bridge. 'Something is eating his sleep. Go and tell it no.'".
+  }
+  Observe tower_dream at eye_tower when true "A slender tower of white stone, and from its top a bridge goes out over nothing: no cloud, no sky, no hills below, only grey, going down and down.".
+  Person dream_abbess "the Abbess, dreaming" at eye_tower {
+    Role "the Abbess of Hush, as she is in his dream: tall, grey, crowned with sleep". Species court_kin. Level 14. Peaceable.
+  }
+  Topic abbess_offer with dream_abbess "Speak to the Abbess at the bridge" when true once {
+    Says "She speaks aloud. In the dream, the Court can. Her voice is the kindest you have ever heard. 'Go back,' she says. 'Sit by the heart and let him sleep, and I will give you a dream of your own, the best one, for ever. Your father alive. Your home not burned. Whatever you lost.' Her long hand opens toward the bridge. 'Or go down there, and meet what I serve, and be forgotten.' She steps aside. She does not need to stop you.".
+  }
+  Passage to_between "the bridge to the Between" is passage between eye_tower and grey_plain taking 1 hour.
+}

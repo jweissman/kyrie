@@ -1,0 +1,45 @@
+Module thrume "Thrume" {
+  Description "Thrume: a salt town where people pay to sleep, a giants' hold on the ridge, a mountain that is a body, a city that farms dreams, a tomb built to kill, a palace in a sky a thousand years gone, and what lies under every sleep.".
+
+  // The country. The fells are the titan's body; everything but the dream and the Between is inside them or on them.
+  Place fells "the Thrume country" is region.
+  Place lowroad "the salt road" is wilderness within fells at 0, 3.
+  Place saltgrave "Saltgrave" is settlement within fells at 1, 3.
+  Place fellside "the fellside" is wilderness within fells at 1, 2.
+
+  // Three clocks run under everything.
+  // Thrume's stirring: two now; one more each morning the Margravine's overseer cuts; at six the ground shakes, at
+  // ten he wakes.
+  Measure stirring(place). Measure nextCut(place). Relation woken(place). Relation shaken(place).
+  Initially Set stirring(fells) to 2. Initially Set nextCut(fells) to 144.
+  Rule cut_stirs when cutting(brannoc) and watch(clock) >= nextCut(fells) and not woken(fells) {
+    Increase stirring(fells) by 1. Set nextCut(fells) to nextCut(fells) + 144.
+  }
+  Rule ground_shakes when stirring(fells) >= 6 and not shaken(fells)
+    says "The ground moves. Not a tremor: a slow, enormous shifting, like a sleeper turning over. Dust comes down from every roof-beam in the country, and then it is still." {
+    Assert shaken(fells).
+  }
+  Rule thrume_wakes when stirring(fells) >= 10 and not woken(fells) and not sealed(fells) and not sungClean(fells)
+    says "Thrume wakes. There is a sound under everything, deeper than sound, and then the fells stand up. Rivers run backwards off their shoulders. Somewhere to the south, where the Ebb is, the land is lifted and set down again in another place." {
+    Assert woken(fells).
+  }
+
+  // Thrume's breath: an hour in, an hour out, for ever. The Lungs, the Room of Three Breaths and the cloud-stair keep
+  // its time.
+  Relation exhaling(place). Measure nextBreath(place).
+  Initially Assert exhaling(fells). Initially Set nextBreath(fells) to 6.
+  Rule breath_in when exhaling(fells) and watch(clock) >= nextBreath(fells) { Retract exhaling(fells). Set nextBreath(fells) to watch(clock) + 6. }
+  Rule breath_out when not exhaling(fells) and watch(clock) >= nextBreath(fells) { Assert exhaling(fells). Set nextBreath(fells) to watch(clock) + 6. }
+
+  // The host of Harle crosses the Ebb at the start of the tenth day. What stands on the Shoulder road that morning is
+  // what the company left there.
+  Relation crossed(place).
+  Rule harle_crosses when watch(clock) >= 1296 and not crossed(fells) says "Word comes up the salt road at a gallop: the Duke of Harle's host is over the Ebb." { Assert crossed(fells). }
+
+  // How it ends. These hold for ever once true; the epilogue observations below read them.
+  Relation sealed(place). Relation sungClean(place). Relation cutOut(place).
+  Observe end_woken at market when woken(fells) "Saltgrave is gone. Where the town was, a slope of new scree runs down into a valley that was not there yesterday, and the fells to the north are not where they were. Something vast is walking away into the west, taking its time.".
+  Observe end_sung at market when sungClean(fells) and not woken(fells) "The fells are quiet, the right kind of quiet. The red salt in the Salt Office's cellar has gone grey and crumbles at a touch. People who never slept well in Saltgrave sleep now.".
+  Observe end_sealed at market when sealed(fells) and not sungClean(fells) "The fells are still. Nobody in Saltgrave sleeps well, and nobody can say why, and the dream-houses stay shut.".
+  Observe end_cut at market when cutOut(fells) "The Salt Office is loading wagons of red salt for the river, under guard, day and night. The springs above the town are running low, though it has rained.".
+}

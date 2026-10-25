@@ -1,0 +1,5 @@
+Module thrume "Thrume" {
+  // The Heart-Tomb's traps on their own: the company starts at the Gate of Three Hammers.
+  Company party "Your company" of 3 at hammer_hall.
+  Initially Set quantity(party, gold) to 5.
+}
