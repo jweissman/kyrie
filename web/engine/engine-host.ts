@@ -190,7 +190,7 @@ export class EngineHost {
     if (!this.session || this.turn) { return; }
     try {
       const checkpoint = this.session.checkpoint(true), world = this.worldOf(checkpoint);
-      const save = JSON.stringify(KeptGame.split(checkpoint, world, this.log.slice(-80)));
+      const save = JSON.stringify(KeptGame.split(checkpoint, world, this.log.slice(-80), this.session.campaign.world));
       const fresh = world.kept ? undefined : { key: world.key, text: await SaveCodec.pack(world.text!) };
       this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), ...fresh ? { world: fresh } : {} });
       world.kept = true; world.text = undefined;

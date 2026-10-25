@@ -2,6 +2,7 @@ import type { SessionCheckpoint } from '../../src/session/play-session';
 import type { CampaignSave } from '../../src/campaign/campaign-types';
 import type { Call, WorldState } from '../../src/lang/module';
 import type { Entry } from './protocol';
+import type { World } from '../../src/lang/world';
 
 // A game as the browser keeps it. What the company has done and where it stands changes with every command and is
 // kept after each; the world it does it in (the compiled module, the campaign's definition, and every fact as it stood
@@ -20,8 +21,11 @@ export interface KeptState {
     save: Omit<CampaignSave, 'module' | 'definition' | 'state'> & { state: Omit<State, 'world'>; facts: Facts } };
 }
 export interface Whole { checkpoint: SessionCheckpoint; log?: Entry[] }
-// A world as the host holds it while it plays: its part, its key, and where each of its facts stood.
-export interface Keyed { key: string; part: WorldPart; index: Map<string, number> }
+// A world as the host holds it while it plays: its part, its key, where each of its facts stood, and how each relation
+// last differed from it (see `differLive`).
+export interface Keyed { key: string; part: WorldPart; index: Map<string, number>; relations?: Relations }
+interface Relation { list: readonly Call[]; removed: number[]; tail: Call[] }
+interface Relations { positions: Map<string, number[]>; by: Map<string, Relation> }
 
 export class KeptGame {
   static keyed(checkpoint: SessionCheckpoint): Keyed & { text: string } {
@@ -32,12 +36,51 @@ export class KeptGame {
   }
   static index(base: Call[]): Map<string, number> { return new Map(base.map((c, i) => [this.fact(c), i])); }
   // A checkpoint as kept: its state, with the world's key, and its facts as they differ from the world's.
-  static split(checkpoint: SessionCheckpoint, world: Keyed, log: Entry[]): KeptState {
+  // Given the world the checkpoint was taken of (live), its facts are read from it relation by relation.
+  static split(checkpoint: SessionCheckpoint, world: Keyed, log: Entry[], live?: World): KeptState {
     const save = checkpoint.save, { world: facts, ...state } = save.state;
     return { version: 2, world: world.key, log, checkpoint: { ...checkpoint, save: { version: save.version,
       ...save.actionFormat ? { actionFormat: save.actionFormat } : {}, state, creatures: save.creatures,
       events: save.events, encounter: save.encounter, observations: save.observations,
-      facts: this.differ(facts, world) } } };
+      facts: live ? this.differLive(live, facts.measures, world) : this.differ(facts, world) } } };
+  }
+  // The same, from the world itself. A relation it still shares with the last world kept (the same list of facts: a
+  // world shares a relation with the world it was forked from until it writes it) differs as it did then, so only
+  // the relations written since are gone through, not every fact (Mission 15: 63 ms a command in a country of
+  // several regions).
+  private static differLive(live: World, measures: WorldState['measures'], world: Keyed): Facts {
+    const kept = world.relations ??= { positions: this.positions(world.part.base ?? []), by: new Map() };
+    const removed: number[] = [], tail: Call[] = [], held = new Set<string>();
+    for (const name of live.relationNames()) {
+      const list = live.related(name);
+      let relation = kept.by.get(name);
+      if (relation?.list !== list) {
+        relation = this.relation(list, world.index, kept.positions.get(name) ?? []); kept.by.set(name, relation);
+      }
+      held.add(name); removed.push(...relation.removed); tail.push(...relation.tail);
+    }
+    for (const [name, positions] of kept.positions) { if (!held.has(name)) { removed.push(...positions); } }
+    return { removed: removed.sort((a, b) => a - b), tail, measures };
+  }
+  // Where each relation's facts stood among the world's.
+  private static positions(base: Call[]): Map<string, number[]> {
+    const positions = new Map<string, number[]>();
+    base.forEach((c, n) => {
+      const those = positions.get(c.name);
+      if (those) { those.push(n); } else { positions.set(c.name, [n]); }
+    });
+    return positions;
+  }
+  // One relation's facts as they differ from the world's (see `differ`).
+  private static relation(list: readonly Call[], index: Map<string, number>, positions: number[]): Relation {
+    const kept = new Set<number>(), tail: Call[] = [];
+    let last = -1, broken = false;
+    for (const r of list) {
+      const at = broken ? undefined : index.get(this.fact(r));
+      if (at !== undefined && at > last) { kept.add(at); last = at; continue; }
+      broken = true; tail.push(r);
+    }
+    return { list, removed: positions.filter(n => !kept.has(n)), tail };
   }
   // How a state's facts differ from its world's, relation by relation: the world's facts of a relation it still holds,
   // in the world's order, are kept by place; from the first fact of that relation that is new or out of that order,

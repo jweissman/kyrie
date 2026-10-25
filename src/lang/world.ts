@@ -82,6 +82,8 @@ export class World {
   }
   // Every fact whose first argument is this one, and every measure, relation by relation as the world holds them
   // (what a party's own facts are): read by each relation's index, not by going through every fact.
+  // The names of the relations it holds facts of, in the order it holds them.
+  relationNames(): string[] { return [...this.byName.keys()]; }
   of(first: string): Call[] { return [...this.byName.keys()].flatMap(name => this.related(name, first)); }
   measuresOf(first: string): Measure[] {
     return [...this.measuresByName.values()].flatMap(values => RelationViews.by(values, 0, first));

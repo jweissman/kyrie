@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# The deem this project installs (package.json pins it), not whichever one the shell finds first.
+PATH="$PWD/node_modules/.bin:$PATH"
 fixture=$(mktemp -d /tmp/kyr-deem-choices.XXXXXX)
 trap 'rm -rf "$fixture"' EXIT
 bun run scripts/prove-creature-choices.ts prepare "$fixture"

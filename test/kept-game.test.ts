@@ -38,6 +38,8 @@ describe('a game kept in the browser', () => {
     const s = await Kept.played(6), first = KeptGame.keyed(s.checkpoint());
     await Kept.walk(s, 12, 6);
     const checkpoint = s.checkpoint(), state = KeptGame.split(checkpoint, first, []);
+    // Read from the world itself, relation by relation, it is the same state.
+    expect(KeptGame.split(checkpoint, first, [], s.campaign.world)).toEqual(state);
     // The state is a small part of the whole: the world's facts are not in it, only how they differ.
     expect(JSON.stringify(state).length * 4).toBeLessThan(JSON.stringify(checkpoint).length);
     const whole = KeptGame.join(JSON.parse(JSON.stringify(state)), JSON.parse(first.text));
