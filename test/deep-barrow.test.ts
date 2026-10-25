@@ -5,6 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { ScreenModel } from '../src/ui/screen-model';
 import type { Change } from '../src/lang/module';
 import type { Region } from '../src/world/region-writer';
 
@@ -97,5 +98,15 @@ describe('a king-barrow from the same generator as the mine', () => {
     // Taken, they are no longer said to lie among the bones.
     await Barrow.take(s, /^Collect a string of amber beads/);
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).not.toContain('a string of amber beads');
+  }, 60000);
+  // Played in cov13: the robbers' captain "stands its ground", and "it is more than the company can take".
+  it('speaks of one who is someone, not something, without "it"', async () => {
+    const { s, room } = await Barrow.world('cov13');
+    Barrow.set(s, [{ kind: 'retract', call: ModuleWriter.call('unlit', room('barrow_back_stone')) },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', room('barrow_back_stone')) }]);
+    const said = await Barrow.take(s, /^Wait a while$/);
+    expect(said).toContain('captain stands and watches you, and will not have you here for long');
+    const captain = ScreenModel.build(s.campaign).people.find(p => p.name.startsWith('the robbers\' captain'))!;
+    expect(captain.reckoning?.text).toMatch(/\b([Tt]hey are|them)\b/);
   }, 60000);
 });

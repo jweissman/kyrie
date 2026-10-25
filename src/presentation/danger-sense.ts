@@ -1,3 +1,4 @@
+import { Canon } from '../canon/canon';
 import { Battle } from '../battle';
 import { CreatureStore } from '../creature-store';
 import { Tactics } from '../tactics';
@@ -59,7 +60,9 @@ export class DangerSense {
   // fall is said by name (Wenna, at seven hit points, where the beetles are no match for Tharash).
   private static judge(fight: { odds: number; fallen: number; hurt: number; frail?: string }, ours: Creature[],
     foes: Creature[]): Reckoning {
-    const they = foes.length > 1 ? 'they are' : 'it is', them = foes.length > 1 ? 'them' : 'it';
+    // One who is of a people is spoken of as they are, as a band is: not "it".
+    const people = foes.length > 1 || foes.some(f => !!Canon.ancestries[f.raceId]);
+    const they = people ? 'they are' : 'it is', them = people ? 'them' : 'it';
     const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < 0.6 ? 'grave'
       : fight.odds < 0.9 || fight.fallen > 0 ? 'hard' : fight.hurt > 0.25 ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.

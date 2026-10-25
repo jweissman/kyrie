@@ -68,11 +68,14 @@ export class CreatureFacts {
     const temper = given ?? (own ? kind : undefined);
     if (!temper) { return []; }
     const scripted = world.related('state', group).length > 0, many = members.length > 1;
+    // One who is of a people is someone, not something: not "it stands its ground" (a robbers' captain).
+    const person = !many && members.some(c => !!Canon.ancestries[c.raceId]);
     const said = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
       // The shared words live in whichever installation joined the inhabitants rules first. A band of more than one
       // is spoken of as many ("the wolves come at you"), where the words differ.
       const plain = `${temper.replace(/^temper_/, 'temper_words_')}_${name}`;
-      const entity = (many ? words.get(`${plain}_many`) : undefined) ?? words.get(plain);
+      const entity = (many ? words.get(`${plain}_many`) : person ? words.get(`${plain}_person`) : undefined)
+        ?? words.get(plain);
       return world.related(name, group).length || !entity ? [] : [ModuleWriter.call(name, group, entity)];
     });
     return [...given ? [] : [ModuleWriter.call('temperament', group, temper)], ...said]

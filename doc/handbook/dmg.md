@@ -1132,7 +1132,7 @@ What drives it off (sunlight, flame), and the price a proud one names.
 
 *Kyr · measure(group)* · `rule:inhabitants.patience`
 
-Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. The same words for a band of more than one, where they differ. The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however many small things are done in it.
+Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>. The same words for a band of more than one, where they differ. And for one who is someone, not something (a robbers' captain): not "it", and no he or she. The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however many small things are done in it.
 
 #### temper_shies
 

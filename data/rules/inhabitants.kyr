@@ -45,6 +45,11 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_wary_flinch_many: fact "{?g} slip away from you.".
   Entity temper_words_wary_onslaught_many: fact "Cornered, {?g} turn on you.".
   Entity temper_words_proud_warning_many: fact "{?g} look at you as if you owed them something.".
+  // And for one who is someone, not something (a robbers' captain): not "it", and no he or she.
+  Entity temper_words_territorial_warning_person: fact "{?g} stands and watches you, and will not have you here for long.".
+  Entity temper_words_ambush_warning_person: fact "Someone is waiting here, and you see them before they move: {?g}.".
+  Entity temper_words_obedient_onslaught_person: fact "{?g} comes at you, as ordered.".
+  Entity temper_words_proud_warning_person: fact "{?g} looks you up and down, as if you owed something.".
   // The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however
   // many small things are done in it.
   Measure patience(group).
