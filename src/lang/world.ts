@@ -7,13 +7,17 @@ interface Signatures {
   source: [Signature[], Signature[], Module['queries']]; lengths: [number, number, number] }
 type Measure = { call: Call; value: number };
 
-// An immutable view of world state. Facts are indexed by key and by relation name; `apply` forks the indexes
-// instead of re-cloning and re-keying the whole state. Calls held by a world are never mutated.
+// An immutable view of world state. Facts and measures are kept by name, each name's by key, and `apply` forks a
+// world by sharing every name's map with it until it first writes that name: a change costs what it changes and the
+// number of names, not the number of facts (Mission 15's profile: a country of 130,000 facts copied whole for every
+// change). Calls held by a world are never mutated.
 export class World {
-  private facts: Map<string, Call>;
   private byName: Map<string, Map<string, Call>>;
-  private quantities: Map<string, Measure>;
+  private measuresByName: Map<string, Map<string, Measure>>;
   private owned = new Set<string>();
+  private ownedMeasures = new Set<string>();
+  private count = 0;
+  private measureCount = 0;
   // A globally unique stamp per write to each relation or measure name, so views derived from some names can tell
   // whether those names changed between two worlds.
   private stamps = new Map<string, number>();
@@ -32,18 +36,17 @@ export class World {
   private static readonly open = new WeakMap<object, boolean>();
   private static readonly signatures = new WeakMap<Module, Signatures>();
   constructor(readonly module: Module, state: WorldState = { relations: [], measures: [] }) {
-    this.facts = new Map(); this.byName = new Map(); this.quantities = new Map();
+    this.byName = new Map(); this.measuresByName = new Map();
     for (const call of state.relations) { this.add(World.key(call), World.copy(call)); }
-    for (const m of state.measures) {
-      const key = World.key(m.call);
-      this.quantities.set(key, { call: World.copy(m.call), value: m.value }); this.sum(`${key}=${m.value}`, 1);
-    }
+    for (const m of state.measures) { this.put(World.key(m.call), { call: World.copy(m.call), value: m.value }); }
   }
   private static fork(from: World): World {
     const next = Object.create(World.prototype) as World;
     (next as { module: Module }).module = from.module;
-    next.facts = new Map(from.facts); next.quantities = new Map(from.quantities);
-    next.byName = new Map(from.byName); next.owned = new Set(); next.stamps = new Map(from.stamps);
+    next.byName = new Map(from.byName); next.measuresByName = new Map(from.measuresByName);
+    next.owned = new Set(); next.ownedMeasures = new Set();
+    next.count = from.count; next.measureCount = from.measureCount;
+    next.stamps = new Map(from.stamps);
     next.sums = [...from.sums];
     next.lineage = from.lineage;
     next.lists = new Map(); next.firsts = new Map(); next.amounts = new Map();
@@ -52,11 +55,11 @@ export class World {
   private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
   // Every fact and measure, as the world holds them: for reading only (`snapshot` is a copy to keep or change).
   get view(): Readonly<WorldState> {
-    this.memoSnapshot ??= { relations: [...this.facts.values()], measures: [...this.quantities.values()] };
+    this.memoSnapshot ??= { relations: this.allFacts(), measures: this.allMeasures() };
     return this.memoSnapshot;
   }
   get snapshot(): WorldState {
-    this.memoSnapshot ??= { relations: [...this.facts.values()], measures: [...this.quantities.values()] };
+    this.memoSnapshot ??= { relations: this.allFacts(), measures: this.allMeasures() };
     return { relations: this.memoSnapshot.relations.map(World.copy),
       measures: this.memoSnapshot.measures.map(m => ({ call: World.copy(m.call), value: m.value })) };
   }
@@ -82,13 +85,18 @@ export class World {
   // Every value of one measure, as the world holds them: for reading only.
   measured(name: string): readonly Measure[] {
     let list = this.amounts.get(name);
-    if (!list) { list = [...this.quantities.values()].filter(m => m.call.name === name); this.amounts.set(name, list); }
+    if (!list) { list = [...this.measuresByName.get(name)?.values() ?? []]; this.amounts.set(name, list); }
     return list;
   }
   // Whether the module declares this relation.
   relates(name: string): boolean { return World.index(this.module).relations.has(name); }
   // Whether the fact with this key (see `key`) currently holds.
-  holds(key: string): boolean { return this.facts.has(key); }
+  holds(key: string): boolean { return this.byName.get(World.nameOf(key))?.has(key) ?? false; }
+  // A key's relation or measure name: a key is the JSON of [name, ...args], and no name holds a quote.
+  private static nameOf(key: string): string { return key.slice(2, key.indexOf('"', 2)); }
+  private allFacts(): Call[] { return [...this.byName.values()].flatMap(m => [...m.values()]); }
+  private allMeasures(): Measure[] { return [...this.measuresByName.values()].flatMap(m => [...m.values()]); }
+  private measure(call: Call): Measure | undefined { return this.measuresByName.get(call.name)?.get(World.key(call)); }
   static key(call: Call): string { return JSON.stringify([call.name, ...call.args]); }
   static format(call: Call): string { return `${call.name}(${call.args.join(', ')})`; }
   private static index(module: Module): Signatures {
@@ -116,7 +124,7 @@ export class World {
     if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
     const call = this.bind(value, bindings);
     if (call.name === 'dice' && call.args[0] !== 'clock') { return this.die(call.args[0]!); }
-    return this.quantities.get(World.key(call))?.value ?? 0;
+    return this.measure(call)?.value ?? 0;
   }
   // Each thing's own die for the watch, 1 to 100 (dice(?room)): drawn from the watch's die and the thing's name, so
   // that two rooms, or two people, left to chance in the same watch do not come out alike, and the same watch comes
@@ -128,7 +136,7 @@ export class World {
     return ((hash >>> 0) % 100) + 1;
   }
   private reading(name: string): number {
-    return this.quantities.get(World.key({ kind: 'call', name, args: ['clock'] }))?.value ?? 0;
+    return this.measure({ kind: 'call', name, args: ['clock'] })?.value ?? 0;
   }
   // A predicate may contain existential variables (?name). Closed predicates keep the direct evaluator.
   test(predicate: Predicate, bindings: Record<string, string> = {}): boolean {
@@ -217,7 +225,7 @@ export class World {
         if (!signatures.relations.has(call.name)) { throw new Error(`Unknown predicate ${call.name}`); }
         // Two parties are distinct when they are not the same one: computed, not stored for every pair.
         if (call.name === 'distinct') { return call.args[0] !== call.args[1]; }
-        return this.facts.has(World.key(call));
+        return this.byName.get(call.name)?.has(World.key(call)) ?? false;
       }
       case 'compare': {
         const left = this.number(predicate.left, bindings), right = this.number(predicate.right, bindings);
@@ -260,20 +268,31 @@ export class World {
   private pending(pending: Map<string, number>, call: Call): number {
     if (!World.index(this.module).measures.has(call.name)) { throw new Error(`Unknown measure ${call.name}`); }
     const key = World.key(call);
-    return pending.has(key) ? pending.get(key)! : this.quantities.get(key)?.value ?? 0;
+    return pending.has(key) ? pending.get(key)! : this.measure(call)?.value ?? 0;
   }
   private add(key: string, call: Call) {
-    if (!this.facts.has(key)) { this.sum(key, 1); }
-    this.facts.set(key, call);
     let named = this.byName.get(call.name);
     if (!named) { named = new Map(); this.byName.set(call.name, named); this.owned.add(call.name); }
+    if (!named.has(key)) { this.sum(key, 1); this.count++; }
     named.set(key, call);
+  }
+  private put(key: string, m: Measure) {
+    let named = this.measuresByName.get(m.call.name);
+    if (!named) { named = new Map(); this.measuresByName.set(m.call.name, named); this.ownedMeasures.add(m.call.name); }
+    if (!named.has(key)) { this.measureCount++; }
+    named.set(key, m); this.sum(`${key}=${m.value}`, 1);
   }
   // Copy-on-write: a forked world shares per-name maps with its parent until it first writes that name.
   private named(name: string): Map<string, Call> {
     if (this.owned.has(name)) { return this.byName.get(name)!; }
     const own = new Map(this.byName.get(name) ?? []);
     this.byName.set(name, own); this.owned.add(name);
+    return own;
+  }
+  private namedMeasures(name: string): Map<string, Measure> {
+    if (this.ownedMeasures.has(name)) { return this.measuresByName.get(name)!; }
+    const own = new Map(this.measuresByName.get(name) ?? []);
+    this.measuresByName.set(name, own); this.ownedMeasures.add(name);
     return own;
   }
   stamp(name: string): number { return this.stamps.get(name) ?? 0; }
@@ -286,16 +305,16 @@ export class World {
       const relation = World.index(this.module).relations.get(change.call.name);
       if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
       const named = this.named(change.call.name);
-      if (this.facts.delete(key)) { named.delete(key); this.sum(key, -1); }
+      if (named.delete(key)) { this.sum(key, -1); this.count--; }
       if (change.kind === 'assert' && relation.exclusive) {
         for (const [k, call] of [...named]) {
           if (call.args.slice(0, -1).every((arg, i) => arg === change.call.args[i])) {
-          named.delete(k); this.facts.delete(k); this.sum(k, -1);
+          named.delete(k); this.sum(k, -1); this.count--;
         }
         }
       }
       if (change.kind === 'assert') {
-        const call = World.copy(change.call); this.facts.set(key, call); named.set(key, call); this.sum(key, 1);
+        const call = World.copy(change.call); named.set(key, call); this.sum(key, 1); this.count++;
       }
       return;
     }
@@ -307,9 +326,11 @@ export class World {
     if (!Number.isSafeInteger(value) || (value < 0 && change.kind !== 'set')) {
       throw new Error(`Invalid quantity for ${World.format(change.call)}`);
     }
-    const held = this.quantities.get(key);
-    if (held) { this.quantities.delete(key); this.sum(`${key}=${held.value}`, -1); }
-    if (value !== 0) { this.quantities.set(key, { call: World.copy(change.call), value }); this.sum(`${key}=${value}`, 1); }
+    const named = this.namedMeasures(change.call.name), held = named.get(key);
+    if (held) { named.delete(key); this.sum(`${key}=${held.value}`, -1); this.measureCount--; }
+    if (value !== 0) {
+      named.set(key, { call: World.copy(change.call), value }); this.sum(`${key}=${value}`, 1); this.measureCount++;
+    }
   }
   static literal(value: NumberValue): number {
     if (value.kind !== 'number') { throw new Error('Unresolved Deem expression'); }
@@ -318,14 +339,22 @@ export class World {
   // The world's content, as a short key: the same for worlds with the same facts and measures, different (but for a
   // chance of about one in 2^64) for any others. Read at once from the sums kept as facts are written.
   key(): string {
-    return `${this.facts.size}.${this.quantities.size}.${(this.sums[0] >>> 0).toString(36)}.${(this.sums[1] >>> 0)
+    return `${this.count}.${this.measureCount}.${(this.sums[0] >>> 0).toString(36)}.${(this.sums[1] >>> 0)
       .toString(36)}`;
   }
   // Whether another world holds exactly the same facts and measures: a full comparison, not a key's.
   sameAs(other: World): boolean {
-    if (this.facts.size !== other.facts.size || this.quantities.size !== other.quantities.size) { return false; }
-    for (const key of this.facts.keys()) { if (!other.facts.has(key)) { return false; } }
-    for (const [key, m] of this.quantities) { if (other.quantities.get(key)?.value !== m.value) { return false; } }
+    if (this.count !== other.count || this.measureCount !== other.measureCount) { return false; }
+    for (const [name, facts] of this.byName) {
+      const theirs = other.byName.get(name);
+      if (theirs === facts) { continue; }
+      for (const key of facts.keys()) { if (!theirs?.has(key)) { return false; } }
+    }
+    for (const [name, measures] of this.measuresByName) {
+      const theirs = other.measuresByName.get(name);
+      if (theirs === measures) { continue; }
+      for (const [key, m] of measures) { if (theirs?.get(key)?.value !== m.value) { return false; } }
+    }
     return true;
   }
   // A fact or measure's two hashes (FNV-1a from two offsets), added to the sums as it is written or taken away.
@@ -339,8 +368,9 @@ export class World {
   }
   // Every fact and measure as a line, sorted; or only those of some names.
   describe(names?: Set<string>): string[] {
-    const facts = names ? [...names].flatMap(n => [...this.byName.get(n)?.values() ?? []]) : [...this.facts.values()];
-    const measures = [...this.quantities.values()].filter(m => !names || names.has(m.call.name));
+    const facts = names ? [...names].flatMap(n => [...this.byName.get(n)?.values() ?? []]) : this.allFacts();
+    const measures = names ? [...names].flatMap(n => [...this.measuresByName.get(n)?.values() ?? []])
+      : this.allMeasures();
     return [...facts.map(World.format), ...measures.map(entry => `${World.format(entry.call)} = ${entry.value}`)].sort();
   }
   // What changed from an earlier world to this one, as "- fact" and "+ fact" lines: of the same line, only what was

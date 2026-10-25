@@ -39,17 +39,21 @@ export class KeptGame {
       events: save.events, encounter: save.encounter, observations: save.observations,
       facts: this.differ(facts, world) } } };
   }
+  // How a state's facts differ from its world's, relation by relation: the world's facts of a relation it still holds,
+  // in the world's order, are kept by place; from the first fact of that relation that is new or out of that order,
+  // the rest of the relation's facts are the tail. Put back together, each relation's facts come in the order they
+  // were held, which is the order the world's rules read them in. (By relation, not over all facts at once: a world
+  // lists its facts relation by relation, so a new fact stands among the others of its relation, not at the end.)
   private static differ(facts: WorldState, world: Keyed): Facts {
-    const relations = facts.relations, kept = new Set<number>();
-    let last = -1, i = 0;
-    for (; i < relations.length; i++) {
-      const at = world.index.get(this.fact(relations[i]!));
-      if (at === undefined || at <= last) { break; }
-      kept.add(at); last = at;
+    const kept = new Set<number>(), tail: Call[] = [], last = new Map<string, number>(), broken = new Set<string>();
+    for (const r of facts.relations) {
+      const at = broken.has(r.name) ? undefined : world.index.get(this.fact(r));
+      if (at !== undefined && at > (last.get(r.name) ?? -1)) { kept.add(at); last.set(r.name, at); continue; }
+      broken.add(r.name); tail.push(r);
     }
     const removed: number[] = [];
     for (let n = 0; n < (world.part.base?.length ?? 0); n++) { if (!kept.has(n)) { removed.push(n); } }
-    return { removed, tail: relations.slice(i), measures: facts.measures };
+    return { removed, tail, measures: facts.measures };
   }
   // A kept state and its world, put back together; or a save that was whole already.
   static join(parsed: KeptState | Whole | SessionCheckpoint, world?: WorldPart): Whole {
