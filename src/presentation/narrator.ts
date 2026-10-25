@@ -117,12 +117,15 @@ export class Narrator {
     return out.map(p => p.text);
   }
   // What only someone who brings a capability would notice (tracks, a word in the old script) is credited to the
-  // fellow traveller who noticed it; what the one who plays notices is simply told.
+  // fellow traveller of the company who noticed it; what the one who plays notices is simply told. A traveller of the
+  // country is a fellow before joining, so it is the company's (the follow-up review was told "Immeral sees it
+  // first" of someone it had never met).
   private static noticed(campaign: Campaign, def: Observation | undefined, text: string): string {
-    const world = campaign.world;
-    if (!def?.by || !world.module.relations.some(r => r.name === 'fellow')) { return text; }
+    const world = campaign.world, company = campaign.playerActor;
+    const known = new Set(world.module.relations.map(r => r.name));
+    if (!def?.by || !company || !known.has('fellow') || !known.has('memberOf')) { return text; }
     const by = world.related('brings').find(r => r.args[1] === def.by && world.test(ModuleWriter.call('fellow', r.args[0]!))
-      && world.test(ModuleWriter.call('awake', r.args[0]!)));
+      && world.test(ModuleWriter.call('memberOf', r.args[0]!, company)) && world.test(ModuleWriter.call('awake', r.args[0]!)));
     const name = by && campaign.module.entities.find(e => e.id === by.args[0])?.name;
     return name ? `${name} sees it first. ${text}` : text;
   }

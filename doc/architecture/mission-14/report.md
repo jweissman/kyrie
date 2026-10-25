@@ -756,13 +756,11 @@ excursion. It ranks twelve findings. I repaired these:
   searching there finds it (`test/way-in.test.ts`). The listening-room's prose invited listening and offered none:
   the bowl in its floor can be listened at, and then what is about its business in the upper hall is heard in it,
   the wary too, and not what lies in wait (`test/deep-singing.test.ts`). Speaking into it does nothing.
-
 - **An argument won by one example** (its ninth): one reason from the country's history turned a philosopher and
   finished the dispute. A reason now shakes a philosopher, who has an answer to it, standing on the green until it
   is met (Proof B above), and turns them only with that answer met or a second reason put; a bard who told Orion of
   the fallen kingdom heard "once, seen twice", asked for its names to be said to the crowd, and Orion stopped at
   the second (`test/disputation.test.ts`). The philosopher's views still change nothing beyond the green.
-
 - **A brother's portrait became an initial as he joined** (its eleventh, in part): whoever travels with the company
   was listed without the painting they were met with; they keep it (`test/origins.test.ts`). The herb-wife the debt
   was owed to, painted as a woman, smiled as "he": the creditor is whoever keeps the shop, and is said without a
@@ -772,10 +770,14 @@ excursion. It ranks twelve findings. I repaired these:
   now from middling and working sitters (`test/paintings.test.ts`). The mother who looked younger than her son is
   painted by what she is to others and what she does: a wife or a mother is of her years, and "who cooks at the
   inn" is a cook's work, so a working woman of age, not a girl in silk.
+- **"Immeral sees it first"** in a company with no Immeral (the rest of its eleventh): a traveller of the country is
+  a fellow from the start, before anyone joins, and a sign was credited to any fellow awake who brings what it asks.
+  I could not find it in a1, which has no such traveller; scanning fourteen worlds for one found cov3, where a lone
+  ranger at the old site w8 was told "Hector sees it first". It is credited only to one of the company
+  (`test/narrator.test.ts`).
 
-Not done, with the review's own ranking: the rest of the eleventh, one name: the "Immeral" who saw a sign
-first in a company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining,
-where everyone is named as the company knows them.
+Not done, with the review's own ranking: familiar plants and journeys told again in full (part of its twelfth), and
+speaking into the listening-room's bowl.
 
 ## Invariants
 

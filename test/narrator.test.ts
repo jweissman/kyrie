@@ -92,4 +92,13 @@ describe('the narrator', () => {
     expect(m.entities.find(e => e.id === 'hall')?.space?.shelter).toBe('indoors');
     expect(m.observations?.[0]).toMatchObject({ aspect: 'feature', by: 'lore' });
   });
+  // The follow-up review was told "Immeral sees it first" in a company with no Immeral: a traveller of the country is
+  // a fellow before joining. In cov3 a lone ranger sees the sign at w8 for herself, with Hector still at home.
+  it('credits what is noticed only to one of the company', async () => {
+    const w = await WorldAssembler.assemble('cov3', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Mira', raceId: 'human', classId: 'ranger' }] });
+    const s = await PlaySession.start(w.path, 'cov3', w.source);
+    GeneratedWorld.put(s, 'w8');
+    expect(JSON.stringify(Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)))).not.toContain('sees it first');
+  }, 60000);
 });
