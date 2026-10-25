@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "Hold One Season",
+  "calendar": { "year": 380, "month": 6, "day": 25 },
+  "pitch": {
+    "heading": "A cutter of Quell, in debt",
+    "text": "You owe the Cutters' Mutual fourteen felt-lengths. Your uncle Garret walked into an open granary vault under the glass last autumn and has stood in its light ever since, alive. The Mutual's Master will halve your debt the day he walks into her hall on his own feet."
+  },
+  "modules": [
+    { "id": "season", "bundle": "../adventures/patient-star/star.json" }
+  ],
+  "party": [
+    { "name": "Tamsin", "raceId": "human", "classId": "thief", "backgroundId": "miner" }
+  ]
+}

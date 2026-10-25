@@ -1,0 +1,53 @@
+Module season "The Patient Star" {
+  // The long clock (Overview): beneath the factions' weeks runs this one, in years. The Corbel descends about two
+  // metres a day and docks in about four years; then the Tip descends three metres a day, and in six months reaches
+  // the Vault. If Ithmar is still there, the Patient takes back its heart and the Keeping comes unbound.
+  Measure corbelHeight(place). Measure tipDistance(place). Measure coverWork(place).
+  Initially Set corbelHeight(corbel_site) to 3000.
+  Initially Set tipDistance(undersun) to 500.
+  Relation docked(place). Relation unbound(place). Relation covered(place).
+  Rule corbel_descends when hour(clock) == 0 and corbelHeight(corbel_site) >= 2 and not covered(ghessil) and not docked(corbel_site)
+    and not exiled(corbel_site) and not rebound(corbel_site) { Decrease corbelHeight(corbel_site) by 2. }
+  Rule corbel_docks when corbelHeight(corbel_site) < 2 and not docked(corbel_site)
+    says "Far off, felt in the knees before it is heard, the plateau takes a blow like a door slammed under the world. The Corbel has docked at the Pit floor." {
+    Assert docked(corbel_site). }
+  Rule tip_descends when docked(corbel_site) and hour(clock) == 0 and tipDistance(undersun) >= 3 { Decrease tipDistance(undersun) by 3. }
+  Rule keeping_unbound when docked(corbel_site) and tipDistance(undersun) < 3 and inside(ithmar, cage) and not unbound(ghessil)
+    says "The hourly note under the Pit stops. After it, nothing; and then the plateau begins, very quietly, to forget last week." {
+    Assert unbound(ghessil). }
+
+  // What can be seen of it, year by year.
+  Observe spire_visible at collar_top when corbelHeight(corbel_site) <= 1500 "Over the Pit, out of the bottom of the Standing Cloud, hangs a dark spire two kilometres long, point down, in full daylight. Nobody on the Collar looks at it for long.".
+  Observe spire_square at square when corbelHeight(corbel_site) <= 1500 "Every face in the market turns south-east now and then, to the dark spire hanging in the sky over the Pit, and turns back.".
+  // A quarried season: Quell's 370s go, and the town cannot agree what happened in them (year 383).
+  Observe quarried_quell at square when day(clock) >= 1050 and not rebound(corbel_site) "Two families are standing in the square with the same deed, each sure the house is theirs, each unable to say who lived in it in the year 74. The clerks cannot either; that season's ledgers are blank.".
+  Observe unbound_world near party when unbound(ghessil) "Something is wrong with yesterday. You know you did things in it; you cannot say what.".
+
+  // A Second Covering, if the Concord passes it: three years of umber, a race against the Corbel's four.
+  Rule covering_starts when passed(motion_cover) and coverWork(ghessil) == 0 says "The Crown's carts come up the Stair again, loaded with umber; the Collar is to be finished." {
+    Set coverWork(ghessil) to 1. }
+  Rule covering_works when coverWork(ghessil) >= 1 and hour(clock) == 0 and not covered(ghessil) { Increase coverWork(ghessil) by 1. }
+  Rule covering_done when coverWork(ghessil) >= 1080 and not covered(ghessil)
+    says "The last light is cut at the Pit. The Corbel stops where it hangs. And every held one on the plateau wakes in the glass, in the dark." {
+    Assert covered(ghessil). }
+
+  // The endings the world provides (The Keeping and the Masonry, How it can end); others are the party's.
+  Relation rebound(place). Relation exiled(place). Relation seated(place).
+  Objective long_clock when knows(party, corbel_seen) and not docked(corbel_site) and not rebound(corbel_site) and not exiled(corbel_site) "Something is coming down the light toward the Pit, two metres a day. When it docks, the growth beneath will drill for the stone that sings.".
+  Objective find_stone when knows(party, tone_below) and not knows(party, way_found) and not carries(party, ithmar) "Under the Pit, something sounds once an hour. Saro wants it; the mother-church wants it; the king says it is his.".
+  Objective end_it when carries(party, ithmar) and not rebound(corbel_site) and not exiled(corbel_site) "You carry Ithmar. The Masonry knows it. Bind it tighter, cast out what its heart belongs to, or seat it and let the past go.".
+  // Kyr keeps a world going after any ending; the endings are told, once, wherever the company is.
+  Entity ending_told: fact "How it ended.".
+  Observe end_rebound near party when rebound(corbel_site) and not knows(party, ending_told) "Ithmar is bound tighter than the Virina bound it. Under the Pit the seed has stopped building; over it, by the next dawn, the Corbel has drawn back up into the cloud, and by the next month it is gone. The light still burns, the glass still spreads, the held still breathe once an hour. The plateau's troubles are its own again, and so are its memories." teaches ending_told.
+  Observe end_exiled near party when exiled(corbel_site) and not fellWith(party) and not knows(party, ending_told) "The Patient has fallen out past the planes, and its citadel with it. The Corbel lets go of the light and goes up into the dark as if pulled. The Keeping is still bound; the jewel sings once an hour to nothing at all." teaches ending_told.
+  Observe end_fell near party when fellWith(party) and not knows(party, ending_told) "You did not let go. The Masonry falls, and you fall with it, out past the planes, holding the fall of a thing that was thrown out of the world; and Imbar keeps its past, and will remember you in it." teaches ending_told.
+  Observe end_seated near party when seated(ghessil) and not knows(party, ending_told) "The Patient has its heart again. Far off, in Imbar, last week is already going, and the week before." teaches ending_told.
+  Observe end_unbound near party when unbound(ghessil) and not seated(ghessil) and not knows(party, ending_told) "The Tip reached the Vault, and the jewel was there. Imbar's past has begun to go, from the newest year backward: a season a month, then faster." teaches ending_told.
+  Observe end_bargained near party when bargained(party) and not heldToLine(corbel_site) and not knows(party, ending_told) "The terms are kept, exactly. Some of the dead come back, blinking, into a world that is forgetting them; and the plateau forgets, from last week backward." teaches ending_told.
+  Observe end_line near party when heldToLine(corbel_site) and not knows(party, ending_told) "The Masonry keeps the line you named, and cuts from the beginning, not the face: it will be ten thousand years reaching anything anyone remembers. It is very patient." teaches ending_told.
+  Observe end_covered near party when covered(ghessil) and not knows(party, ending_told) "The Pit is covered. The Corbel hangs where it stopped, a dark spire over the plateau, and does not come down. In the glass, the held are dead." teaches ending_told.
+  Observe end_laid near party when laidIn(party) and not knows(party, ending_told) "You are part of the Masonry now, a moment with a mind in it, bearing weight." teaches ending_told.
+  Observe end_set near party when setInPresent(party) and not knows(party, ending_told) "You are kept in the present, on the shore, while everything goes on past you." teaches ending_told.
+  // The module's Goal is a hint to the planner, not an ending (ledger, 28).
+  Goal rebound(corbel_site) or exiled(corbel_site).
+}

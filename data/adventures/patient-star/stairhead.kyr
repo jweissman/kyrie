@@ -1,0 +1,264 @@
+Module season "The Patient Star" {
+  // Stairhead House on the lip of the Scarp, the Arbiters' Way beneath it, and the Vault at its foot.
+  Place stairhead "Stairhead House" is settlement within ghessil at 0, 3.
+  Place arbiters_way "the Arbiters' Way" is site within ghessil at 0, 4.
+  Place stair_top "the head of the Stair" is room within stairhead at 0, 1 outdoors.
+  Place chapel_sh "the chapel of Stairhead" is room within stairhead at 1, 1.
+  Place vestry_sh "the vestry" is room within stairhead at 2, 1.
+  Place strongroom "the strongroom" is room within stairhead at 2, 2.
+  Place chapter "the chapter house" is room within stairhead at 1, 2.
+  Place platform "the platform" is room within stairhead at 1, 0 outdoors.
+  Place way_upper "the upper Way" is level within arbiters_way.
+  Place way_lower "the lower Way" is level within arbiters_way.
+  Place way_door_room "under the platform" is room within way_upper at 0, 0 underground.
+  Place counting_stair "the Stair That Counts" is room within way_upper at 0, 1 underground.
+  Place separation_gallery "the Gallery of the Separation" is room within way_lower at 0, 2 underground.
+  Place vault_ward "the Ward of the Vault" is room within way_lower at 0, 3 underground.
+  Place arbiter_vault "the Arbiters' Vault" is room within way_lower at 0, 4 underground.
+
+  Passage gorge_road "the gorge road" is road between lower_road and stair_top taking 4 hours.
+  Passage chapel_door_sh "the chapel door" is door between stair_top and chapel_sh.
+  Passage vestry_door "the vestry door" is door between chapel_sh and vestry_sh.
+  Passage strong_door "the strongroom door" is door between vestry_sh and strongroom.
+  Passage chapter_door "the chapter house door" is door between chapel_sh and chapter.
+  Passage platform_steps "the platform steps" is steps between stair_top and platform.
+  // The House's platform, which its brothers take for a Seridane signal station, is the Way's door.
+  Passage way_mouth "a stair under the platform's flagstones" is stair between platform and way_door_room hidden until way_found.
+  Passage way_down "the Way, past the Door" is passage between way_door_room and counting_stair taking 2 hours.
+  Passage counted_way "the ringing steps" is stair between counting_stair and separation_gallery taking 3 hours.
+  Passage gallery_way "the length of the relief" is passage between separation_gallery and vault_ward taking 12 hours.
+  Passage ward_way "the Ward's threshold" is doorway between vault_ward and arbiter_vault.
+
+  Observe stair_top_scene at stair_top when true "The Stair road comes up beside the falls to a walled house of grey stone on the lip of the Scarp. Bells mark the offices. Below, four falls stand one above another, and the lowland goes off green to the edge of the sky.".
+  Observe chapel_scene_sh at chapel_sh when true "A plain Arbitral chapel. The brothers sing seven offices a day; at the night office the cellarer hangs his keys in the vestry, and every man of them is in here.".
+  Observe vestry_scene at vestry_sh when true "A narrow vestry of copes and candles, with a row of iron hooks by the door.".
+  Observe platform_scene at platform when true "An old stone platform older than the House, set with bronze fittings in a ring. The brothers dry washing on it. The fittings are mirror mounts, though nobody here knows it.".
+  Discovery way_found "Under the platform's centre flagstones a stair goes down into rock that has not changed since it was cut: the Way's door is the House's own platform." {
+    Found by searching platform "The centre flagstones ring hollow. Under them, a stair of white stone goes down into rock that has the look of something that has never once been touched by weather.".
+  }
+
+  // Prior Aurel Mance and Brother Tam (Stairhead House).
+  Person mance "Prior Aurel Mance" at chapel_sh {
+    Role "Prior of Stairhead House". Ancestry human. Calling cleric. Peaceable. Pronouns he. Manner proud.
+  }
+  Person tam "Brother Tam" at chapel_sh {
+    Role "the cellarer". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+  }
+  Initially Assert serves(tam, mance).
+  Topic mance_stone with mance "Ask the prior what the mother-church wants" when true once {
+    Says "'The Long Hour, which the old king keeps below,' says Mance, 'and whatever comes up the Plumb.' He folds his hands. 'The mother-church believes there is a relic of the Virina under this plateau. A stone that sings. I am to have it before the Crown does.'".
+  }
+  // Buys reads only the shared catalog, so a kind of this module's own cannot be bought by Buys (ledger, 24).
+  Action sell_plates(actor: group, carrier: member, site: place) "Sell the Long Hour to the prior for six hundred crowns" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(mance, site) and memberOf(carrier, actor)
+      and awake(carrier) and ownedItem(long_hour, carrier).
+    Time 10 minutes.
+    Resolve drop(long_hour, carrier).
+    On success { Assert keeps(mance, long_hour). Increase quantity(actor, gold) by 600. }
+    Result "Mance turns every plate to the light before he counts out the coin, and then he counts it twice.".
+  }
+  Kind strong_key "the strongroom key" is tool worth 0 weighing 0 described "A heavy iron key on a ring.".
+  Thing key_hooks "the hooks by the vestry door" at vestry_sh {
+    Holds.
+    State empty_hook "The hooks by the vestry door are empty.".
+    State keys_hung "The cellarer's keys hang on the hook by the vestry door.".
+  }
+  Item strongkey "the strongroom key" is strong_key in key_hooks owned by tam.
+  // The night office: the brothers in chapel, the keys on the hook, the vestry unwatched.
+  Rule night_office when hour(clock) == 0 and state(key_hooks, empty_hook) and inside(strongkey, key_hooks) { Assert state(key_hooks, keys_hung). }
+  Rule office_ends when hour(clock) == 1 and state(key_hooks, keys_hung) { Assert state(key_hooks, empty_hook). }
+  Thing strong_lock "the strongroom lock" on strong_door {
+    State locked blocking "The strongroom door is iron-bound and locked.".
+    State open "The strongroom door stands open.".
+    Change unlock_strong "Unlock the strongroom" from locked to open needing strongkey.
+    Change pick_strong "Pick the strongroom lock" from locked to open needing lockwork.
+  }
+  Observe strong_scene at strongroom when true "Chests, a reliquary, and a shelf of sealed papers under the prior's seal. On a cushion, as if it were holy, a clear block the size of a hearthstone.".
+  Discovery ottavine_note "Prior Ottavine's note on the Ennick holding prayer: a Seridane granary formula, painted on the grain jars; it means hold one season, then give it out." {
+    Source ottavine_papers "Prior Ottavine's sealed papers" at strongroom readable by party.
+  }
+  Observe ottavine_label near party when knows(party, ottavine_note) and not knows(party, prayer_label) "Ottavine had it forty years ago, in a hand that does not shake: the prayer is a grain jar's label." teaches prayer_label.
+  Discovery church_letters "Letters from the mother-church to Stairhead, eighty years of them, asking about 'a stone that sings below'.".
+  Thing letters_box "a box of letters" at strongroom {
+    State shut_box "A box of letters under the mother-church's seal.".
+    State read_box "The mother-church's letters lie open, eighty years of them.".
+    Change read_letters "Break the seal and read the mother-church's letters" from shut_box to read_box.
+  }
+  Observe letters_read at strongroom when state(letters_box, read_box) "Every one asks the same thing in other words: whether the prior has heard of a stone that sings, below." teaches church_letters.
+  Thing ilis_block "Ilis's block" at strongroom {
+    State resting "A clear block the size of a hearthstone sits on a cushion. It has no temperature.".
+    Tries listening.
+  }
+  Observe block_wind near ilis_block when tried(ilis_block, listening) "It gives back a sound, very faint, from the day it stopped, out on the heath before anyone was born. It is only wind.".
+
+  // The Arbiters' Way (The Undersun, The Arbiters' Way): ordinary rock kept unchanged by the Virina, which nothing of
+  // the Varakiiri can enter. Four gates test whoever walks it; each is answered from the world's own history.
+  Observe way_door_scene at way_door_room when true "A door of white stone with no hinges, in white rock. Over it, in a hand the eye follows easily, is carved one question: WAS THE HOUR GIVEN?".
+  Discovery hour_fell "The hour was not given: it fell. A thing came down out of a clear sky on an autumn night, and the crane-priests of the lake wrote it down before any Seridane claimed it.".
+  Thing the_door "the Door" on way_down {
+    State asking blocking "The Door asks whether the hour was given.".
+    State answered "The Door stands open.".
+    State sealed_year blocking "The Door is shut, and will be, the carving says, for a year and a day.".
+    Change answer_fell "Answer that the hour fell, and was not given" from asking to answered after learning hour_fell.
+    Change answer_argued "Answer as the Coverers argued: it fell" from asking to answered after learning coverer_case.
+  }
+  Measure doorSealedAt(entity).
+  Action answer_given(actor: group, site: place) "Answer that the hour was given" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, way_door_room) and state(the_door, asking).
+    Time 1 minute.
+    On success { Assert state(the_door, sealed_year). Set doorSealedAt(the_door) to watch(clock). }
+    Result "The Door does not move. Below the question, letters you had not seen fill with light: a year and a day.".
+  }
+  Rule door_reopens when state(the_door, sealed_year) and watch(clock) >= doorSealedAt(the_door) + 52704 { Assert state(the_door, asking). }
+
+  Observe counting_scene at counting_stair when true "The Way goes down by a stair of nine thousand steps. Each rings a note when trodden, and each note is different, and they do not repeat.".
+  Thing ringing "the ringing steps" on counted_way is scenery {
+    State uncounted blocking "The steps ring under your feet. A walker who loses the count, the carving at the top says, comes back to the top.".
+    State counted "You have the count of the steps, and the stair lets you down.".
+    Change count_names "Count the steps aloud in the twelve hour-names, round and round" from uncounted to counted after learning hour_names.
+  }
+  Action count_numbers(actor: group, site: place) "Count the steps in numbers" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_stair) and state(ringing, uncounted).
+    Time 18.
+    Result "Somewhere past four thousand the notes run together, and you find you have said a number twice. You are standing at the top again, and three hours have gone.".
+  }
+
+  Observe relief_scene at separation_gallery when true "A relief two kilometres long, carved by no hand you know: a war across a sky divided, figures with light for wings and figures made of darkness and hooks, struck and striking; and below them tall figures in white, in a ring, holding the world apart like the pages of a book.".
+  Relation wroteDown(group).
+  Action write_as_you_walk(actor: group, site: place) "Walk the relief writing down only what you see" {
+    Description "A day's walk. The Remembrancer at its end asks what you saw, and lets through only those who add nothing.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, separation_gallery) and not wroteDown(actor) and not benighted(actor).
+    Time 72.
+    On success { Assert wroteDown(actor). }
+    Result "You walk it slowly, a day long, and write down what is carved and nothing else. Your hand aches.".
+  }
+  Person gallery_keeper "a Remembrancer" at separation_gallery {
+    Role "a servant of the Virina, tall, made of the sound of bells". Peaceable. Pronouns they.
+    Guards gallery_way.
+    State asking_g blocking "At the end of the relief a figure made of the sound of bells waits to ask what you saw.".
+  }
+  Topic keeper_tell with gallery_keeper "Tell the Remembrancer what you saw" when wroteDown(actor) once {
+    Says "You read it from what you wrote. The Remembrancer hears it through to the last line and does not interrupt. 'Nothing added,' it says, in many bells. 'Go down.'".
+    On discuss { Assert tolerates(gallery_keeper, actor). }
+  }
+  Topic keeper_memory with gallery_keeper "Tell the Remembrancer what you remember of it" when not wroteDown(actor) and not tolerates(gallery_keeper, actor) {
+    Says "You tell it. Somewhere in the telling you say the dark figures had faces, and they had not. 'Added,' says the Remembrancer, gently, and you are standing at the start of the relief.".
+  }
+
+  // The Ward of the Vault: three questions, in order. A party guessing is turned away for a year.
+  Discovery held_feed "What the held feed: the instant a person is held, their moment is taken and laid in the Undersun as a keystone. The Holdfolk's mercy has been building the Masonry's vaults for three hundred and forty years.".
+  Observe ward_scene_v at vault_ward when true "A round white chamber with a white door, and over it three questions in a ring: WAS THE HOUR GIVEN? WHO KILLED THE KEEPER'S DAUGHTER? WHAT DO THE HELD FEED?".
+  Thing vault_seal "the Ward" on ward_way {
+    State first_q blocking "The first question is lit: was the hour given?".
+    State second_q blocking "The second question is lit: who killed the keeper's daughter?".
+    State third_q blocking "The third question is lit: what do the held feed?".
+    State warded "The Ward is dark, and the white door stands open.".
+    State turned blocking "The Ward is dark and the door shut. It will be so for a year.".
+    Change ward_one "Answer: it fell" from first_q to second_q after learning hour_fell.
+    Change ward_one_argued "Answer: it fell, as the Coverers said" from first_q to second_q after learning coverer_case.
+    Change ward_two "Answer: Answerer loyalists, her father's men" from second_q to third_q after learning selane_murdered.
+    Change ward_three "Answer: the Masonry; the held are its keystones" from third_q to warded after learning held_feed.
+  }
+  Action ward_guess(actor: group, site: place) "Answer the lit question as best you can guess" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, vault_ward)
+      and (state(vault_seal, first_q) or state(vault_seal, second_q) or state(vault_seal, third_q)).
+    Time 1 minute.
+    On success { Assert state(vault_seal, turned). Set doorSealedAt(vault_seal) to watch(clock). }
+    Result "The light goes out of the questions one by one, and the white door does not open.".
+  }
+  Rule ward_reopens when state(vault_seal, turned) and watch(clock) >= doorSealedAt(vault_seal) + 52560 { Assert state(vault_seal, first_q). }
+
+  // U6, the Arbiters' Vault: Ithmar in its cage of rods, the Tally, and a Remembrancer at the door.
+  Kind ithmar_kind "Ithmar" is treasure worth 0 weighing 0
+    described "A hen's egg of something like dark opal, cut with sigils the mind will not name. It hums at the pitch of the note under the Pit.".
+  Kind tally_kind "the Virina's Tally" is tool worth 0 weighing 2
+    described "A rod of white metal marked like a ruler. It shows how much of the Keeping has been cut away; in the Keeping, how far any moment is from now.".
+  Observe arbiter_scene at arbiter_vault when true "A white chamber, round, plain, very old and perfectly clean. The floor hums.".
+  Thing cage "a cage of white rods" at arbiter_vault {
+    Holds.
+    State caged "In the centre of the chamber a jewel the size of a hen's egg hangs in the air in a cage of white rods. It is engraved with sigils the eye can follow and the mind will not name.".
+  }
+  Item ithmar "Ithmar" is ithmar_kind in cage.
+  Item tally "the Virina's Tally" is tally_kind at arbiter_vault owned by remembrancer.
+  Observe tally_seen at arbiter_vault when at(tally, arbiter_vault) "Against the wall leans a rod of white metal, marked like a ruler.".
+  Person remembrancer "the Remembrancer of the Vault" at arbiter_vault {
+    Role "a servant of the Virina, at the door". Peaceable. Pronouns they.
+    Objects "'Why do you carry the Tally away?' asks the Remembrancer, in many bells. 'Say it truly, and it is lent.'".
+  }
+  Discovery quarrying "The Masonry is cutting Imbar's past away through the seed, a season at a time, and since the year 371 more than thirty hollows have been quarried from the Keeping; the Tally measures how much.".
+  Topic remembrancer_tally with remembrancer "Tell the Remembrancer why you would carry the Tally" when knows(actor, quarrying) once {
+    Says "'To prove to the plateau how fast its past is being taken,' you say, 'and to find my way in the Keeping.' The Remembrancer is silent a long time, which is many bells not ringing. 'True,' it says, 'and sufficient. It is lent.'".
+    On discuss { Assert lends(remembrancer, tally, actor). }
+  }
+  Topic remembrancer_help with remembrancer "Ask the Remembrancer to help keep Imbar" when true once {
+    Says "'It is yours to keep,' says the Remembrancer, courteously and at length. 'The planes were parted so that each could keep itself. We tend what is kept. We do not fight for it.' It inclines its head toward the jewel. 'A living hand on Ithmar walks the Keeping. Whoever touches the hand goes with it.'".
+  }
+  Topic remembrancer_quarry with remembrancer "Ask the Remembrancer what the Tally shows" when true once {
+    Says "'How much of the Keeping has been cut away,' says the Remembrancer. 'Since your year 371, thirty-one hollows, most of them in your last years. Each is a season nobody can remember, and claims that rested on it are loose.'".
+    On discuss { Assert knows(actor, quarrying). }
+  }
+
+  // The Concord (The Corbel and the Concord), compactly: called to Stairhead when the Corbel can no longer be denied;
+  // each seat for or against three motions; evidence shown moves the seats that care about it; a vote.
+  Kind motion. Entity motion_cover: motion "cover the Pit again". Entity motion_descend: motion "a sanctioned descent for Ithmar".
+  Entity motion_bargain: motion "bargain with the Interlocutor".
+  Relation favours(group, motion). Relation seat(group). Relation convened(place). Relation redLine(group, motion).
+  Measure tally_of(motion). Relation counted(group, motion). Relation passed(motion). Relation voting(place).
+  Rule concord_called when not convened(chapter) and ((knows(party, corbel_seen) and knows(party, sinking)) or day(clock) >= 720)
+    says "Riders go out from Sorne along every road on the plateau: the Crown calls a Concord at Stairhead House, of every power that will come." {
+    Assert convened(chapter). Assert at(aske, chapter). Assert at(ayzhe, chapter). Assert at(bren, chapter).
+    Assert at(dagny, chapter). Assert at(mance, chapter). Assert at(ruan, chapter). }
+  Initially Assert seat(aske). Initially Assert seat(ayzhe). Initially Assert seat(bren). Initially Assert seat(dagny).
+  Initially Assert seat(mance). Initially Assert seat(ruan).
+  Initially Assert favours(aske, motion_cover). Initially Assert favours(aske, motion_descend).
+  Initially Assert favours(mance, motion_descend).
+  Initially Assert redLine(bren, motion_cover). Initially Assert redLine(aske, motion_bargain).
+  Observe concord_scene at chapter when convened(chapter) "The chapter house is full: the Warden in his sash for the Crown; Ayzhe of the Split Ear; Bren of Ennick with his hood in his hands; Dagny Ferrow for the Mutual; the prior at the head of the table; Ruan Dace for the Waiting. Nobody sits next to anybody they can help it.".
+  // Evidence, shown with its proof, moves every seat that cares about it.
+  Action show_feeding(actor: group, site: place) "Show the Concord what the held feed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter) and convened(chapter)
+      and knows(actor, held_feed) and not shownTo(chapter, held_feed).
+    Time 6.
+    On success { Assert shownTo(chapter, held_feed). Retract redLine(bren, motion_cover). }
+    Result "Bren asks for a recess, and is gone an hour. When he comes back he says that Ennick will stop holding, and that it will not have the Pit covered while one of its held is still in the glass.".
+  }
+  Action show_procession(actor: group, site: place) "Show the Concord the procession's warning: the Masonry takes from the newest backward" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter) and convened(chapter)
+      and knows(actor, newest_backward) and not shownTo(chapter, newest_backward).
+    Time 6.
+    On success { Assert shownTo(chapter, newest_backward). Assert redLine(ruan, motion_bargain). Assert favours(ruan, motion_descend). }
+    Result "The Waiting's elder goes white. Nobody at the table will speak for bargaining after that.".
+  }
+  Action show_way(actor: group, site: place) "Show the Concord that the Way to the jewel is under this house" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter) and convened(chapter)
+      and knows(actor, way_found) and not shownTo(chapter, way_found).
+    Time 6.
+    On success { Assert shownTo(chapter, way_found). Assert favours(dagny, motion_descend). Assert favours(ruan, motion_descend). }
+    Result "The prior's seat is suddenly worth a great deal, and he knows it. The Mutual and the Waiting come round to a sanctioned descent.".
+  }
+  Action show_breach(actor: group, site: place) "Name to the Concord who cut the Breach" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter) and convened(chapter)
+      and knows(actor, breach_cut) and not shownTo(chapter, breach_cut).
+    Time 6.
+    On success { Assert shownTo(chapter, breach_cut). Retract at(ayzhe, chapter). Assert at(ayzhe, split_ear_camp). }
+    Result "Ayzhe stands up before you have finished, and does not look at Bren, who has not moved. The Split Ear ride south that afternoon. The Tovash seat is empty.".
+  }
+  Relation shownTo(place, fact).
+  Discovery newest_backward "The Masonry quarries a world's past from the newest moment backward: when it reached the beginning of the procession's world, that world was not.".
+  Action call_vote(actor: group, site: place) "Ask the Concord to vote" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter) and convened(chapter) and not voting(chapter).
+    Time 6.
+    On success { Assert voting(chapter). }
+    Result "The prior calls the seats, one by one.".
+  }
+  // A motion passes when four seats there favour it and no seat there holds a red line against it.
+  Rule vote_counts when voting(chapter) and seat(?s) and at(?s, chapter) and favours(?s, ?m) and not counted(?s, ?m) {
+    Increase tally_of(?m) by 1. Assert counted(?s, ?m). }
+  Query blocked(m: motion) means redLine(?s, m) and at(?s, chapter).
+  Relation onTable(motion).
+  Initially Assert onTable(motion_cover). Initially Assert onTable(motion_descend). Initially Assert onTable(motion_bargain).
+  Rule motion_passes when voting(chapter) and onTable(?m) and tally_of(?m) >= 4 and not blocked(?m) and not passed(?m)
+    says "The Concord resolves: {?m}." { Assert passed(?m). }
+  Observe concord_descend at chapter when passed(motion_descend) and not knows(party, way_found) "The Concord has sanctioned a descent. The prior, very stiffly, tells the seats what the mother-church has always suspected and he has lately confirmed: there is a stair under his platform." teaches way_found.
+  Rule descent_sanctioned when passed(motion_descend) and not admits(aske, party) { Assert admits(aske, party). }
+}

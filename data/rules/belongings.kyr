@@ -25,6 +25,9 @@ Module belongings "What the company carries" {
   Rule laden_felt when laden(?a) and company(?a) and not weighed(?a)
     says "What you carry drags at you: you will go at half your pace until you set something down." { Assert weighed(?a). }
   Rule laden_eased when weighed(?a) and not laden(?a) says "You go easier for what you have set down." { Retract weighed(?a). }
+  // How fast a member goes, in hundredths of their own, where a module says (the stilling: half at a point of dose);
+  // unset is their own. A company walks at its slowest member's speed, and laden at half that.
+  Measure speed(member).
   // How much coin a dealer keeps in the house: what they pay out, trade brings back by the next morning.
   Measure purse(group). Relation appraised(item, group).
   Rule purse_refilled when untilLight(clock) == 1 and buysValuables(?m) and purse(?m) > quantity(?m, gold) {

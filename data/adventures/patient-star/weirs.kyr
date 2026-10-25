@@ -1,0 +1,112 @@
+Module season "The Patient Star" {
+  // The Weirs on the Cranewater, the Old Landing that comes out of the lake in winter, and the name-tomb cliff.
+  Place weirs "the Weirs" is settlement within ghessil at 6, 0.
+  Place landing "the Old Landing" is site within ghessil at 7, 0.
+  Place cliff "the name-tomb cliff" is site within ghessil at 2, 3.
+
+  Place weirs_shore "the Weirs" is room within weirs at 0, 0 outdoors.
+  Place counter_platform "the Counter's platform" is room within weirs at 1, 0 outdoors.
+  Place lio_house "Lio's family's house" is room within weirs at 0, 1.
+  Place mudflat "the east shore mudflat" is room within landing at 0, 0 outdoors.
+  Place landing_steps "the drowned steps" is room within landing at 1, 0 outdoors.
+  Place landing_hall "the roofless hall" is room within landing at 2, 0 outdoors.
+  Place landing_side "the sealed side room" is room within landing at 2, 1.
+
+  Place cliff_foot "the foot of the west cliff" is room within cliff at 0, 0 outdoors.
+  Place lower_niches "the lower name-tombs" is room within cliff at 0, 1 outdoors.
+  Place upper_cliff "the glassing cliff" is room within cliff at 0, 2 outdoors.
+  Place niche_211 "niche 211" is room within cliff at 1, 2.
+  Place dane_tomb "an empty name-tomb" is room within cliff at 1, 1.
+
+  // Two days through the fog belt from New Orrel; rime from Frost to Thaw.
+  Passage fog_road "the fog road" is road between no_gate and weirs_shore taking 2 days.
+  Passage platform_ladder "the Counter's ladder" is path between weirs_shore and counter_platform.
+  Passage lio_door "Lio's family's door" is door between weirs_shore and lio_house.
+  Passage shore_walk "the east shore" is path between weirs_shore and mudflat taking 2 hours.
+  // The Landing is out of the water about six weeks, from late Frost to early Thaw.
+  Passage wade "the wade across the mud" is ford between mudflat and landing_steps taking 30 minutes
+    opening when season(clock) == 4 "Four hundred metres out, the Cranewater lies flat and grey over where the Landing is. It is under, until the winter drop.".
+  Passage hall_steps "the temple steps" is steps between landing_steps and landing_hall.
+  Passage side_door "a sealed side door" is door between landing_hall and landing_side.
+  // Across the Ammer from Ennick, and up: rope and pegs from below, or a ninety-metre abseil from the rim through the
+  // lit zone.
+  Passage river_ford "the Ammer ford" is ford between lower_road and cliff_foot taking 20 minutes.
+  Passage tomb_stairs "the cut stairs, half fallen" is path between cliff_foot and lower_niches taking 30 minutes.
+  Passage cliff_climb "the climb into the glassing cliff" is path between lower_niches and upper_cliff taking 1 hour needing rope or climbing.
+  Initially Set wayDose(cliff_climb) to 24. Initially Set wayDoseFelted(cliff_climb) to 6.
+  Passage niche_ledge "the ledge to niche 211" is path between upper_cliff and niche_211 taking 10 minutes.
+  Passage tomb_ledge "a ledge along the lower tombs" is path between lower_niches and dane_tomb taking 10 minutes.
+  Initially Assert litGround(upper_cliff). Initially Assert litGround(niche_211).
+
+  Observe weirs_scene at weirs_shore when true "A line of reed-thatched houses on stilts along a marsh shore, with eel traps of woven willow running out into the lake in long fences. Everyone here speaks Tovashi with a hundred words of their own for water.".
+  Observe weirs_dispute at weirs_shore when not reanchored(fourth_dane) "Two families are shouting at each other across the end of a weir fence. Neither can say whose grandfather built it; both are sure, and both have been sure only since last spring.".
+  Observe weirs_settled at weirs_shore when reanchored(fourth_dane) "The two families who were shouting over the weir fence are mending it together. Nobody can remember now what the argument was.".
+  Observe platform_scene_w at counter_platform when true "A platform on poles above the reeds, with a bench, a slate and a long view east over the water to where the cranes come in.".
+  Person coombe "Coombe" at counter_platform {
+    Role "the Counter, who counts the cranes". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+  }
+  Topic coombe_rhyme with coombe "Ask Coombe how the cranes are counted" when true once {
+    Says "'By the rhyme,' says Coombe, and says it: twelve words, round and round, a word to a bird, and a notch on the slate at every twelfth. They are not Tovashi words. 'My grandmother counted by it. Nobody knows what the words are.'".
+    On discuss { Assert knows(actor, rhyme_known). }
+  }
+  Topic coombe_count with coombe "Ask Coombe about the count" when true once {
+    Says "'A fifth down since 76,' says Coombe. 'And the eels with them.' He nods west, at the pillar of light over the far fog. 'They steer by that, and it is dimmer. Something is standing in it, up above the cloud. I cannot see what.'".
+  }
+  Person lio "Lio" at lio_house {
+    Role "a young fisher of the Weirs". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Sells lio_plate_kind for 40 coin from 1.
+  }
+  Kind lio_plate_kind "a speaking plate from the Old Landing" is treasure worth 40 weighing 1
+    described "A thin stillglass plate, slimy from the lake. A stylus drawn along it gives voices: a count of people laid in the light, and how many woke.".
+  Topic lio_plate with lio "Ask Lio about the plate he found" when true once {
+    Says "'On the steps of the Landing, last winter, when the water went down,' says Lio. 'There is a door in the hall nobody has opened. Two Quell buyers want the plate and a monk from Stairhead wants it more.' He grins. 'Forty crowns, and it is yours, and I will show you the safe line across the mud for nothing.'".
+    On discuss { Assert knows(actor, safe_line). }
+  }
+  Discovery safe_line "The safe line across the Landing mud: a path from post to post, wide of the circle where the lake turns and goes down.".
+
+  // The Landing: the crane-priests' temple, older than the fall; its calendar; the Throat.
+  Observe mud_scene at mudflat when true "A flat of black mud, knee-deep and sucking. Far out, beyond the steps, the lake surface turns slowly in a wide circle around a point where the water sinks.".
+  Hazard throat "the Throat" means "Deal (3d6) physical damage to ally unless strength save against (14).".
+  Rule throat_takes when tookWay(?c, wade) and company(?c) and not knows(?c, safe_line) and not throated(?c) says "Off the line, the mud goes soft, and the turning water has you by the legs." {
+    Assert strikes(throat, ?c). Assert throated(?c). }
+  Relation throated(group).
+  Rule throat_clears when throated(?c) and not tookWay(?c, wade) { Retract throated(?c). }
+  Observe hall_scene_l at landing_hall when true "A roofless hall of fitted limestone, and a carved wall black with lake slime.".
+  Thing calendar_wall "the carved wall" at landing_hall {
+    State slimed "The carved wall is black with slime; you can see there is carving under it, and no more.".
+    State scrubbed "The wall is scrubbed: a calendar of crane arrivals and eel runs, year on year, two hundred years of it, cut by people who had no letters, only signs.".
+    Change scrub "Scrub the carved wall clean" from slimed to scrubbed.
+  }
+  Observe calendar_read at landing_hall when state(calendar_wall, scrubbed) "The last entry, after two hundred years of cranes and eels, is a sign you have seen on every Seridane door: the hour. Beside it, the sign for falling, and the ninth crane count of that year. The hour fell out of the sky in the month of the ninth count. Nobody asked for it." teaches hour_fell.
+  Observe side_scene at landing_side when true "A sealed room of the first Seridane: voice-plates racked by the dozen, and a smell of the lake.".
+  Discovery first_holdings "The first holdings, on the Landing's plates: more of the first people laid in the light died than lived; the crane-priests counted both and kept on.".
+  Thing landing_plates "the racked plates" at landing_side {
+    State racked "Dozens of voice-plates stand racked in the side room.".
+    State played "One of the racked plates has been played; it stands a little out of line.".
+    Change play_landing "Draw a stylus along one of the racked plates" from racked to played needing stylus.
+  }
+  Observe landing_played at landing_side when state(landing_plates, played) "A priest counts people into the light, and the next day counts how many still breathe. Most days the second number is smaller." teaches first_holdings.
+
+  // The cliff: three hundred name-tombs; Lirem's angle-books in niche 211; the fourth Dane's empty tomb.
+  Observe cliff_foot_scene at cliff_foot when true "The west wall of the gorge, two kilometres of sandstone cut with square niches from twenty metres up to a hundred and twenty. Most of the stairs have fallen. Above about ninety metres the face is turning clear, and the upper niches look like windows.".
+  Observe lower_scene at lower_niches when true "Niches the size of a small room, each with a stone bench, an umber-sealed jar, and a name carved with its syllable and month.".
+  Discovery tombs_read "Read in order of birth, the cliff's names are three hundred syllables of the Voice.".
+  Observe tombs_learn at lower_niches when not benighted(party) and not knows(party, tombs_read) "The names run in birth order along the cliff, and each has its month's syllable cut beside it." teaches tombs_read.
+  Observe niche_scene at niche_211 when true "A niche inside the new glass, lit through its own walls. On the bench lie twelve slate tablets ruled in tables of angles.".
+  Kind angle_books_kind "Lirem's angle-books" is treasure worth 500 weighing 6
+    described "Twelve slate tablets of light geometry: the depth of the Late Sun against the angle of the light at every lamp-chamber, channel and point of the plateau. Also a manual for bridging.".
+  Item angle_books "Lirem's angle-books" is angle_books_kind at niche_211.
+  Observe dane_scene at dane_tomb when not reanchored(fourth_dane) "A niche like the others, its bench bare. A name is carved over it, and your eye goes past it every time, as if there were nothing there.".
+  Observe dane_scene_anchored at dane_tomb when reanchored(fourth_dane) "The fourth Dane's tomb: his name, which everyone now can read, and fresh walnuts on the bench.".
+  Entity fourth_dane: scenery "the fourth Dane's reign".
+  Relation reanchored(entity).
+  Discovery dane_name "The fourth Dane's name, taken by touch from his own keystone in the Quarried Gallery.".
+  Action speak_name(actor: group, site: place) "Speak the fourth Dane's name at his tomb" {
+    Description "A quarried moment re-anchored by its own name, spoken where it was kept.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dane_tomb) and knows(actor, dane_name)
+      and not reanchored(fourth_dane).
+    Time 1 minute.
+    On success { Assert reanchored(fourth_dane). }
+    Result "You say it. Nothing happens to the stone; but the name is there over the bench when you look, and you wonder how you ever missed it.".
+  }
+}

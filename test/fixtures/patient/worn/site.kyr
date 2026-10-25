@@ -1,0 +1,9 @@
+Module worn "A cloak of the adventure's own, to be worn" {
+  Place moor "the moor" is wilderness.
+  Place hollow "a hollow" is room within moor at 0, 0 outdoors.
+  Company party "You" of 1 at hollow.
+  Kind plain "a felt cloak" like cloak worth 2.
+  Kind magic "a felt cloak" like cloak_of_protection worth 2.
+  Item a "a plain felt cloak" is plain at hollow.
+  Item b "a felt cloak like the magic one" is magic at hollow.
+}

@@ -1,0 +1,24 @@
+Module mirror "A lamp-chamber whose mirror serves three galleries" {
+  Place tamaun "Tamaun" is site.
+  Place chamber "the lamp-chamber" is room within tamaun at 0, 0 underground.
+  Place north "the north stretch" is room within tamaun at 1, 0 underground.
+  Place south "the south stretch" is room within tamaun at 1, 1 underground.
+  Place bunks "the Bunks" is room within tamaun at 0, 1 underground.
+  Passage n "the slot gallery north" is passage between chamber and north.
+  Passage s "the slot gallery south" is passage between chamber and south.
+  Passage b "the Bunks passage" is passage between chamber and bunks.
+  Company party "You" of 1 at chamber.
+  Thing mirror "the great mirror" at chamber {
+    State to_north "The mirror throws its beam out through the north slot.".
+    State to_south "The mirror throws its beam out through the south slot.".
+    State to_bunks "The mirror throws its beam down the Bunks passage.".
+    Change crank_ns "Crank the mirror round to the south slot" from to_north to to_south.
+    Change crank_sb "Crank the mirror round to the Bunks passage" from to_south to to_bunks.
+    Change crank_bn "Crank the mirror round to the north slot" from to_bunks to to_north.
+  }
+  Relation aims(condition, place).
+  Initially Assert aims(to_north, north). Initially Assert aims(to_south, south). Initially Assert aims(to_bunks, bunks).
+  Query bright(p: place) means state(mirror, ?s) and aims(?s, p).
+  Observe lit_here near ?p when bright(?p) "Grey-gold light lies along {?p}.".
+  Observe dark_here at north when not bright(north) "The north stretch is dark.".
+}

@@ -1,0 +1,238 @@
+Module season "The Patient Star" {
+  // New Orrel, the Collar and the Pit; the dark glass, the Tovash wells and the Split Ear camp; the Sixty and the Ear.
+  Place new_orrel "New Orrel" is settlement within ghessil at 2, 0.
+  Place collar "the Collar" is site within ghessil at 3, 0.
+  Place dark_sector "the Dark Sector" is wilderness within ghessil at 4, 0.
+  Place lit_fields "the lit fields" is wilderness within ghessil at 4, 1.
+
+  Place no_gate "the Collar Road gate" is room within new_orrel at 0, 1 outdoors.
+  Place no_market "the market road" is room within new_orrel at 1, 1 outdoors.
+  Place barracks_house "the Warden's house" is building within new_orrel.
+  Place barracks "the Warden's room" is room within barracks_house at 2, 1.
+  Place widows "the Widows' Board" is room within new_orrel at 1, 2.
+  Place waiting_house "the House of the Waiting" is room within new_orrel at 0, 2.
+  Place storehouse "the Warden's storehouse" is room within new_orrel at 2, 0.
+  Place sink "the Sink" is room within new_orrel at 3, 2 outdoors.
+  Place balloon_yard "the balloon shed" is room within new_orrel at 3, 1 outdoors.
+
+  Place collar_top "the top of the Collar" is room within collar at 0, 0 outdoors.
+  Place plumb_tower "the plumb station" is room within collar at 1, 0.
+  Place breach "the Breach" is room within collar at 2, 0 outdoors.
+  Place inner_fill "the inner fill" is room within collar at 1, 1 outdoors.
+  Place pit_floor "the Pit floor" is room within collar at 1, 2 outdoors.
+
+  Place dark_glass "the dark glass" is room within dark_sector at 0, 0 outdoors.
+  Place quarry "the Office quarry" is room within dark_sector at 1, 0 outdoors.
+  Place tovash_wells "the Tovash wells" is room within dark_sector at 0, 1 outdoors.
+  Place split_ear_camp "the Split Ear camp" is room within dark_sector at 1, 1 outdoors.
+
+  Place the_sixty "the Sixty" is room within lit_fields at 0, 0 outdoors.
+  Place the_ear "the Ear" is room within lit_fields at 1, 0.
+
+  // The Collar Road: seven kilometres of rammed umber a metre above the lit glass, with a parapet on the Pit side.
+  Passage collar_road "the Collar Road" is causeway between square and no_gate taking 5 hours.
+  Initially Set wayDose(collar_road) to 72. Initially Set wayDoseFelted(collar_road) to 18.
+  Passage no_street "the gate street" is road between no_gate and no_market taking 5 minutes.
+  Passage warden_door "the Warden's door" is door between no_market and barracks.
+  Passage widows_door "the Board's door" is door between no_market and widows.
+  Passage waiting_door "the Waiting's door" is door between no_gate and waiting_house.
+  Passage store_door "the storehouse door" is door between no_market and storehouse.
+  Passage sink_lane "the east lane" is path between no_market and sink taking 5 minutes.
+  Passage balloon_lane "the lane to the balloon shed" is path between sink and balloon_yard taking 5 minutes.
+  Passage collar_ramp "the haul ramp" is path between no_market and collar_top taking 20 minutes.
+  Passage tower_door "the plumb tower door" is door between collar_top and plumb_tower.
+  Passage collar_walk "the Collar path" is path between collar_top and breach taking 40 minutes.
+  Passage fill_slope "the inner slope" is path between collar_top and inner_fill taking 20 minutes.
+  Passage pit_descent "the slumping fill into the Pit" is path between inner_fill and pit_floor taking 40 minutes.
+  // The Coverers' Stair: a Seridane stair under the old Barrow, the Office's own door to the Granaries.
+  Passage coverers_stair "the Coverers' Stair" is stair between storehouse and watch_room taking 30 minutes.
+  // Across the dark glass from the Breach, and from Quell by the north-east, without dose: it carries no light.
+  Passage dark_way "the dark glass" is path between breach and dark_glass taking 30 minutes.
+  Passage quell_dark "the north-east margin" is path between old_quell and dark_glass taking 3 hours.
+  Passage quarry_way "the quarry track" is track between dark_glass and quarry taking 10 minutes.
+  Passage wells_way "the way to the wells" is path between dark_glass and tovash_wells taking 20 minutes.
+  Passage camp_way "the camp path" is path between tovash_wells and split_ear_camp taking 15 minutes.
+  // The wells: Seridane air shafts two metres across, a hundred metres to the water; side openings on the Shallows at
+  // thirty-five and the Granaries at eighty-five.
+  Passage well_shaft "a Tovash well shaft, by the rope" is shaft between tovash_wells and bunks taking 20 minutes needing rope.
+  Passage well_deep "the same shaft, further down" is shaft between bunks and ring taking 20 minutes needing rope.
+  // Out across the lit fields from the Collar's foot: three and a half kilometres of glass to the Sixty.
+  Passage fields_way "the lit glass to the Sixty" is path between collar_top and the_sixty taking 1 hour.
+  Initially Set wayDose(fields_way) to 24. Initially Set wayDoseFelted(fields_way) to 6.
+  Passage ear_way "the glass to the Ear" is path between the_sixty and the_ear taking 15 minutes.
+  Initially Assert litGround(the_sixty). Initially Assert litGround(the_ear). Initially Assert litGround(pit_floor).
+  Initially Assert litGround(inner_fill).
+
+  Observe gate_scene_no at no_gate when true "The Collar Road comes off the glass onto an island of red spoil. Ahead the Collar stands up like a red cliff thirty metres high, and the town is packed against its foot.".
+  Observe market_no at no_market when true "A road of red dust between houses built of the Collar's own spoil. Everything sold here costs what it cost to bring up the Stair.".
+  Observe sink_scene at sink when true "The ground has dropped two metres here since 374. The houses lean into one another like drunks, doors hanging, and nobody lives in them.".
+  Observe store_scene at storehouse when true "The Warden's storehouse: sacks, barrels, and at the back a cut stone arch with a stair going down, a lamp, two guards and a clerk at a table.".
+  Observe collar_top_scene at collar_top when true "A path wide enough for carts runs round the top of the ring. Rusted horse-whims stand at intervals, with wooden chutes running down the inside slope into the Pit's haze.".
+  Observe tower_scene at plumb_tower when true "A wooden tower on the Collar top. A bronze plumb line on a drum goes down through a hole in the floor, and survey logs fill a shelf.".
+  Observe breach_scene at breach when true "The ring is broken by a gap forty metres wide, its edges baked white. Beside it a drainage culvert of cut stone runs under the path. Beyond, the clear fields are dark: the same clear rock, with no light in it.".
+  Observe fill_scene at inner_fill when true "Inside the Collar the fill slopes down toward the shaft in long red terraces, cracked like old mud. The heat comes up off it, and the light.".
+  Observe pit_scene at pit_floor when true "The Pit floor is melt-rock and ceramic slag, too hot to stand on long, too bright to look across. From a dark mouth in the middle a thread of light goes straight up into the cloud, and beside it, hanging from nowhere, a cord as thick as a wrist, glowing along its whole length.".
+  Hazard pit_heat "the Pit's heat" means "Deal (1d6) fire damage to ally.".
+  Rule pit_burns when at(party, pit_floor) and not pitScorched(party) { Assert strikes(pit_heat, party). Assert pitScorched(party). }
+  Relation pitScorched(group).
+  Rule pit_cools when pitScorched(party) and not at(party, pit_floor) { Retract pitScorched(party). }
+  // The fill is moving: a party on the inner slope may be carried down toward the light and heat.
+  Hazard fill_slide "a slide of fill" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
+  Rule fill_slides when at(party, inner_fill) and dice(inner_fill) <= 4 says "The terrace you are on lets go with a sound like a sigh and carries you down toward the light." {
+    Assert strikes(fill_slide, party). Assert at(party, pit_floor). }
+
+  // The Warden and the Office in New Orrel.
+  Person aske "Ivo Aske" at barracks {
+    Role "Warden of the Collar". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner proud.
+  }
+  Person office_guard "the Coverers' Stair guard" at storehouse {
+    Role "two Office men and a clerk at the stair". Ancestry human. Numbers 2. Peaceable.
+    Guards coverers_stair.
+    State posted blocking "Two Office men and a clerk sit at the head of the Coverers' Stair.".
+  }
+  Initially Assert serves(office_guard, aske).
+  Rule licence_stair when licensed(party) and not tolerates(office_guard, party) { Assert tolerates(office_guard, party). }
+  Topic aske_king with aske "Ask the Warden about the king below" when true once {
+    Says "'Royal property,' says Aske, 'and a wonder. When he is well enough I mean to bring him up to Sorne, and the court will see what the Crown holds under this plateau.' He smiles without warmth. 'You will have heard he wakes. I have it in a book.'".
+  }
+  Topic aske_balloon with aske "Ask the Warden about the shed by the Sink" when true once {
+    Says "'A fire-balloon,' says Aske. 'Haldrish silk and Haldrish craftsmen. It will lift six to the bottom of the Cloud on a calm autumn dawn.' He watches you. 'Whoever goes up in it goes in the Crown's name. Bring me something from up there the court can hold in its hands, and you go in mine.'".
+    On discuss { Assert offered(aske, actor). }
+  }
+  Action pay_aske(actor: group, site: place) "Pay the Warden twenty crowns toward his men's wages" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(aske, site) and quantity(actor, gold) >= 20
+      and not admits(aske, actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 20. Increase quantity(aske, gold) by 20. Assert admits(aske, actor).
+      Assert serves(office_guard, aske). }
+    Result "Aske counts it twice. 'The Crown is grateful,' he says, and writes you a pass for the Coverers' Stair and a place on the balloon.".
+  }
+  // In the eighth week, if nobody has taken the king, Aske's men carry him up the Coverers' Stair; at his age and
+  // rate, without careful feeding, he has a fever within a fortnight.
+  Rule king_carried when day(clock) >= 56 and at(amaru, last_hour) and not grieves(amaru) says "Word comes up the Coverers' Stair: the Warden's men have carried the old king up out of the Hour on a litter." {
+    Retract at(amaru, last_hour). Assert at(amaru, barracks). Assert fevered(amaru). }
+  Relation fevered(group).
+  Observe king_in_barracks near amaru when at(amaru, barracks) and fevered(amaru) "The old king lies on a cot in the Warden's room under three blankets, burning with fever, and looks at the ceiling as if waiting for light to come down it.".
+
+  // Annet Coyle and the Breach widows; Lenna Marsh and the sinking; Ruan Dace and the Waiting.
+  Person coyle "Annet Coyle" at widows {
+    Role "speaker for the Breach widows". Ancestry human. Peaceable. Pronouns she. Manner grim.
+  }
+  Topic coyle_breach with coyle "Ask Annet Coyle about the Breach" when true once {
+    Says "'Sixty-three men,' says Annet Coyle. 'Mine among them. Somebody cut the Collar's drain in the storm of 352 and let the water into the Pit, and the steam came back up the chutes. Nobody was hanged for it.' She looks at you. 'They say the Tovash did it. I want the name. And I want the pensions, which have not been paid since 71.'".
+  }
+  Topic coyle_named with coyle "Tell Annet Coyle who cut the Breach" when knows(actor, breach_cut) once {
+    Says "She hears it out without sitting down. 'Bren of Ennick,' she says. 'Who holds the dying.' For a long time she says nothing. 'I will go to Ennick myself,' she says, 'and look at his door.'".
+    On discuss { Assert accused(coyle, bren). }
+  }
+  Relation accused(group, group).
+  Person lenna "Lenna Marsh" at plumb_tower {
+    Role "Glass Office surveyor at the plumb station". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+  }
+  Discovery sinking "The Late Sun is sinking about a metre a year, twenty-five times the old rate, and the Collar's inner face will slide into the shaft within ten years. Lenna Marsh's logs show it month by month since 372." {
+    Source marsh_logs "Lenna Marsh's survey logs" at plumb_tower readable by party.
+    Known by lenna.
+  }
+  Discovery footprints "Lenna Marsh's log for the 3rd of Frost 379: a single line of bare footprints on the inner fill near the Breach, going up from the Pit's edge.".
+  Topic marsh_logs_t with lenna "Ask Lenna Marsh what her logs say" when true once {
+    Says "'That the Sun is going down a metre a year,' says Marsh, 'and nobody in Sorne reads past the first line.' She flips back a year. 'And this. Third of Frost, last year: bare footprints on the fill, going up from the edge. I took it for a soldier's prank.' She closes the book. 'Nobody walks up out of that.'".
+    On discuss { Assert knows(actor, footprints). }
+  }
+  // At dawn from the Collar top, for a few minutes before the sun washes it out, something long and dark shows in the
+  // Standing Cloud.
+  Discovery corbel_seen "At dawn from the Collar, a long dark shape hangs point-down in the Standing Cloud, high over the Pit, for a few minutes before the sun washes it out.".
+  Observe corbel_dawn at collar_top when hour(clock) >= 5 and hour(clock) <= 6 "Before the sun clears the heath, high in the Standing Cloud over the Pit, something long and dark hangs point-down, like a bracket on a wall with no wall. Then the light comes and it is gone." teaches corbel_seen.
+  Person ruan "Ruan Dace" at waiting_house {
+    Role "Elder of the Waiting". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+  }
+  Topic ruan_voice with ruan "Ask Ruan Dace what the Waiting wait for" when true once {
+    Says "'For the answer,' says Ruan. 'Teodar said the name was finished in 71, and what comes after is not more of the name but what it called.' He spreads his hands. 'We listen. The Office has closed the Hour to us, and my people go down without leave.'".
+  }
+  Topic ruan_tone with ruan "Tell Ruan Dace about the tone below" when knows(actor, tone_below) once {
+    Says "Ruan sits down. 'Once an hour,' he says. 'And they did not tell me.' After a while he laughs, very quietly. 'Then it has answered. Teodar was right.' He gives you a tablet from his sleeve: the Waiting's copy of the transcript. 'Take it to whoever can read it.'".
+    On discuss { Assert knows(actor, ward_names). }
+  }
+
+  // The Collar's culvert and the missing pin; the holder's bolt in Ennick (The Collar, Referee).
+  Thing culvert "the drainage culvert" at breach {
+    State standing "A culvert of cut stone runs under the Collar path beside the Breach, with a sluice frame at its mouth.".
+    Tries looking.
+  }
+  Discovery herd_mark "Inside the culvert's sluice frame a Split Ear herd-mark is cut, and the gate's iron pin is missing from its square socket.".
+  Observe culvert_looked near culvert when tried(culvert, looking) "On the inside of the sluice frame someone has cut a herd-mark: two notches and a split. The gate's pin is gone; its socket is square, and big as a thumb." teaches herd_mark.
+  Discovery breach_cut "The Collar's drainage was cut in the storm of 352 by Ayzhe of the Split Ear and Bren of Ennick, with two Tovash riders, to flood the works and stop the Covering. They thought the fill would soak the water up.".
+  Observe pin_matched near party when knows(party, herd_mark) and knows(party, bolt_is_pin) and not knows(party, breach_cut) "A Split Ear mark in the culvert, a sluice pin bolting the holder's door: whoever cut the Collar's drain was of the Split Ear, and was in Ennick after. You know of only one holder who was twenty-two that year." teaches breach_cut.
+
+  // The dark glass: no light in it since 357, so it can be cut without dose, and Kell's forty-one dead stand in it.
+  Observe dark_scene at dark_glass when true "The same clear rock as the lit fields, with no light in it at all. People stand in it, chest-deep, a little way off: men and women of Kell, held in 353 and dead when the fill cut the light four years later.".
+  Observe quarry_scene at quarry when not halted(quarry) "Office crews are cutting blocks out of the dark glass with saws and grit. The quarry face is sixty metres from the nearest of Kell's dead, and pegs and string mark a line straight through them.".
+  Observe quarry_halted at quarry when halted(quarry) "The quarry is quiet. The saws are racked and covered; somebody has pulled up the pegs that ran toward Kell's dead.".
+  Relation halted(place).
+  Measure quarryFace(place).
+  Initially Set quarryFace(quarry) to 60.
+  Rule quarry_cuts when not halted(quarry) and hour(clock) == 14 and quarryFace(quarry) > 0 and dice(quarry) <= 30 { Decrease quarryFace(quarry) by 2. }
+  Observe quarry_reaches at quarry when quarryFace(quarry) <= 0 "The quarry face has reached the first of Kell's dead. A man stands in a block on a sledge, still chest-deep, looking at nothing, ready to go down the Stair.".
+  Topic bren_quarry with bren "Tell Bren the Office is cutting toward Kell's dead" when true once {
+    Says "Bren's face does not move. 'Then the road shuts,' he says. 'No Office cart comes up through Ennick while that quarry cuts.' He is already reaching for his coat.".
+    On discuss { Assert roadClosed(ennick). }
+  }
+  Relation roadClosed(place).
+  Rule aske_halts when roadClosed(ennick) and not halted(quarry) and day(clock) >= 10 says "Word comes across the plateau: the Warden has stopped the dark-glass quarry, and blames the licencer." { Assert halted(quarry). }
+
+  Observe wells_scene at tovash_wells when true "Three stone rings stand on the dark glass, two metres across, with wooden frames for rope. Swallows go down one of them at dusk and do not come out.".
+  Observe wells_swallows at tovash_wells when dark() "In the last of the light the swallows come in over the heath in ones and twos, fold their wings at the lip of the middle well, and drop down it.".
+
+  // The Split Ear: Ayzhe, who cut the Breach; Ezh, who would ride with you; and, from the fifth week, Halu.
+  Person ayzhe "Ayzhe of the Split Ear" at split_ear_camp {
+    Role "clan-mother of the Split Ear". Ancestry human. Peaceable. Pronouns she. Manner proud.
+  }
+  Person ezh "Ezh of the Split Ear" at split_ear_camp {
+    Role "a young rider". Ancestry human. Calling ranger. Peaceable. Pronouns he. Manner cheerful.
+  }
+  Initially Set hire(ezh) to 2.
+  Topic ayzhe_wife with ayzhe "Ask Ayzhe what she wants" when true once {
+    Says "'The drum-maker's wife,' says Ayzhe. 'Out among the Sixty. We count our line from her, ten mothers back.' She looks toward the light. 'The last time someone buried the Pit, every held one on this plateau woke in the glass and choked. I will not leave her there for the next.'".
+    On discuss { Assert willing(ezh, actor). }
+  }
+  Discovery moot_count "The Split Ear moot song's beat: the count the drum at the fair was playing when the Sixty were held.".
+  Topic ayzhe_drum with ayzhe "Ask Ayzhe about the drum at the fair" when true once {
+    Says "'The moot song,' says Ayzhe at once, and beats it on her knee: three, a rest, two, three. 'It is what the drum was playing when the light came up at the fair. My grandmother's grandmother told it.' She stops. 'Why?'".
+    On discuss { Assert knows(actor, moot_count). }
+  }
+  Topic ayzhe_breach with ayzhe "Ask Ayzhe who cut the Collar's drain" when knows(actor, breach_cut) once {
+    Says "Ayzhe looks at you a long time. 'We thought the fill would drink it,' she says. 'Sixty-three. I count them every night.' She does not ask you what you will do.".
+  }
+  Person halu "Halu" at last_hour {
+    Role "a woman of the old people, speaking Old Seridan". Ancestry human. Peaceable. Pronouns she.
+  }
+  Initially Retract at(halu, last_hour).
+  Rule halu_climbs when day(clock) >= 33 and not walkedOut(halu) says "Word goes round the Tovash camps: a dead woman of the old people climbed out of one of the wells in the night, talking." {
+    Assert at(halu, split_ear_camp). Assert walkedOut(halu). }
+  Relation walkedOut(group).
+  Topic halu_kesset with halu "Tell Halu that Kesset is looking for her" when travelsWith(kesset, actor) or knows(actor, kings_book) once {
+    Says "Halu understands one word in three of what you say, and the one she understands is the chamberlain's name. She sits down on the glass and weeps, and then she gets up and asks, in Old Seridan, the way to the city above.".
+    On discuss { Assert willing(halu, actor). }
+  }
+
+  // The Sixty and the Ear (The Sixty; The Ear).
+  Observe sixty_scene at the_sixty when true "A fair caught in the glass, chest-deep: horses in harness, a cauldron with its steam gone solid, children with their arms out, a man with a drum held against his chest. Their eyes are open.".
+  Measure sixtyWatched(group).
+  Rule watching_sixty when at(party, the_sixty) and not benighted(party) { Increase sixtyWatched(party) by 1. }
+  Rule sixty_reset when not at(party, the_sixty) and sixtyWatched(party) > 0 { Set sixtyWatched(party) to 0. }
+  Observe sixty_moved at the_sixty when sixtyWatched(party) >= 6 "You have watched an hour. A child's hand is higher than it was. The drum-maker's wife has turned her head a finger's width toward her husband.".
+  Thing wife_block "the drum-maker's wife" at the_sixty {
+    State held "A woman in a red felt cap stands in the glass beside the drummer, half-turned toward him.".
+    State cut_free "The drum-maker's wife sits on a blanket on the glass, wrapped in felt, staring at the fair she was part of.".
+    Change cut_wife "Grind the drum-maker's wife out of the glass" from held to cut_free needing digging.
+  }
+  Rule wife_tovash when state(wife_block, cut_free) and not freedWife(ayzhe) says "Two Split Ear riders come across the glass at a gallop and kneel by the woman in the red cap." { Assert freedWife(ayzhe). Assert grateful(ayzhe, party). }
+  Relation freedWife(group).
+  Observe ear_scene at the_ear when true "A low hut of umber brick with no floor. Inside, the bare glass is worn smooth in six places where people have knelt. In the corner an old man sits against the wall, cross-legged, head bowed, with his ear toward the glass. He has been dead since 368, and looks a week dead.".
+  Discovery listeners_count "Teodar Lusk's count, year 0 to year 371: every syllable of the Voice heard since the Unlidding, in order; the plan of the Undersun's lowest built reach.".
+  Thing count_shelf "the shelf of wax tablets" at the_ear {
+    State shelved "A shelf of wax tablets runs along one wall: the count, year by year.".
+    State read "The count's tablets have been taken down and read, and put back out of order.".
+    Change read_count "Read the count through" from shelved to read.
+  }
+  Observe count_read at the_ear when state(count_shelf, read) "Three hundred and seventy years of syllables, a moon to a line. Teodar's last tablet says the name was finished, and what comes next will be an answer." teaches listeners_count.
+}

@@ -23,6 +23,9 @@ export class Scenarios {
     { manifest: 'data/campaigns/let-one-remember.campaign.json', title: 'The Road the Star Came Down', seed: 'corrow',
       note: 'Ninety years after the star at the bottom of the Well got up and left, the floating mountain the Corrow calls Hightown drifts toward the lake it was lifted out of; a forgotten name is gathering itself in the grey; and a new star is brightening over the Teskarn.',
       detail: 'Five acts: the Corrow, the grey country, the war of the kin, the voyage, and the end of the road' },
+    { manifest: 'data/campaigns/the-patient-star.campaign.json', title: 'The Patient Star', seed: 'quell',
+      note: 'Two thousand years ago a seed fell on the Ghessil Uplands and did not go out. Its light stops time in stone and slows it in flesh. You are a cutter of Quell, in debt; your uncle has stood eleven months in an open granary vault under the glass, alive.',
+      detail: 'A plateau under a light that slows, a citadel building itself downward, and the past kept as a place' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

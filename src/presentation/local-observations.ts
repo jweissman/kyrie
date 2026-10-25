@@ -63,11 +63,18 @@ export class LocalObservations {
       && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor)
       && this.brings(world, actor, o.by));
     const told = [...seen.filter(o => (o.anchor ?? 'at') === 'at'), ...seen.filter(o => (o.anchor ?? 'at') !== 'at')]
-      .map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }))
+      .map(o => ({ id: o.id, text: ObservationText.render(o.text, world, true, this.found(world, o)) }))
       .concat(all.filter(o => o.place.startsWith('?') && this.brings(world, actor, o.by)).flatMap(o => this.each(world, actor, o)));
     // What two things say alike is said once: the follow-up review read "The Nûrrant runs knee-deep and clear over
     // the ford stones" twice over, at a town with a ford of it on each of two roads.
     return told.filter((o, i) => told.findIndex(x => x.text === o.text) === i);
+  }
+  // Whoever a variable the text names stands for ("{?m}'s own footsteps sound late"): the first its condition finds.
+  // Unfilled, the probe of the stilling read "?m's own footsteps".
+  private static found(world: World, o: NonNullable<World['module']['observations']>[number]): Record<string, string> {
+    if (!ObservationText.variables(o.text).length) { return {}; }
+    for (const b of world.solve(o.when, {})) { return b; }
+    return {};
   }
   private static each(world: World, actor: string, o: NonNullable<World['module']['observations']>[number]) {
     const out = new Map<string, string>();

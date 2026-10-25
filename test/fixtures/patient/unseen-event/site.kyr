@@ -1,0 +1,11 @@
+Module unseenevent "A man who wakes in the next room" {
+  Place hall "the Granaries" is site.
+  Place ring "the Ring" is room within hall at 0, 0.
+  Place vault "the vault" is room within hall at 1, 0.
+  Passage door "the vault doorway" is doorway between ring and vault.
+  Company party "You" of 1 at ring.
+  Person garret "Garret" at vault { Role "a cutter". Ancestry human. Peaceable. }
+  Relation woke(group).
+  Rule wakes when watch(clock) >= 2 and not woke(garret) { Assert woke(garret). }
+  Event comes_round near garret when woke(garret) "Garret sits down hard. 'Where's the light gone?'".
+}

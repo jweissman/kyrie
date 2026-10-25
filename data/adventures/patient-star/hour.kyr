@@ -1,0 +1,200 @@
+Module season "The Patient Star" {
+  // The Granaries' landward rooms, and the Hour: Tamaun's lowest level, 130 to 210 metres down, flooded outside the
+  // mantle the Late Sun has boiled dry, and 40 to 60 degrees inside it (Tamaun, H1 to H6).
+  Place hour "the Hour" is level within tamaun.
+  Place watch_room "the Watch Room" is room within granaries at 0, 0 underground.
+  Place steam_top "the head of the Steam Stair" is room within granaries at 2, 0 underground.
+  Place listening_hall "the Listening Hall" is room within hour at 1, 0 underground.
+  Place hot_gallery "the hot gallery" is room within hour at 1, 1 underground.
+  Place last_hour "the Last Hour" is room within hour at 0, 1 underground.
+  Place coverers_works "the Coverers' Works" is room within hour at 2, 1 underground.
+  Place stair_wall "the Wall of the Stair" is room within hour at 3, 1 underground.
+  Place courses_face "the Courses" is room within hour at 1, 2 underground.
+
+  Passage watch_door "the Watch Room arch" is arch between ring and watch_room.
+  Passage to_steam "the passage to the Steam Stair" is passage between ring and steam_top taking 3 minutes.
+  Passage steam_stair "the Steam Stair" is stair between steam_top and listening_hall taking 20 minutes.
+  // In autumn the flood falls, and a swimmer can go down the flooded stairs from the Flood Line to the Hall (G4).
+  Passage flood_swim "the flooded stairs" is passage between flood_line and listening_hall taking 20 minutes
+    opening when flood(flood_water) < 60 "The flooded stairs go down into water too hot to bear past the first turn.".
+  Passage hot_way "the hot gallery" is passage between listening_hall and hot_gallery taking 5 minutes.
+  Passage chamber_door "the bronze door of the Last Hour" is doorway between hot_gallery and last_hour.
+  Passage works_way "the rammed-clay passage" is passage between hot_gallery and coverers_works taking 5 minutes.
+  Passage archive_door "the Coverers' archive door" is door between coverers_works and stair_wall.
+  Passage courses_way "the lowest gallery" is passage between hot_gallery and courses_face taking 5 minutes.
+  Initially Assert darkRoom(watch_room). Initially Assert darkRoom(steam_top). Initially Assert darkRoom(hot_gallery).
+  Initially Assert darkRoom(coverers_works). Initially Assert darkRoom(stair_wall).
+  // The Listening Hall is lit from below, through its glass floor; the Last Hour by its channel; the Courses by their
+  // own light.
+  Initially Assert litGround(courses_face).
+
+  Observe watch_room_scene at watch_room when true "A guardroom with an Office lamp, a table, a ledger and a cot. A bronze bell hangs on a cord that runs up a stair cut in red clay.".
+  Discovery kings_book "The King's Book: the Office clerk's record of the old king below, written three days a month. In Haysel he answered at about a sixth of a man's speed and asked for honey and for his daughter by name." {
+    Source kings_book_copy "the King's Book" at watch_room readable by party.
+  }
+
+  // H1: the Steam Stair. A blast comes up the tube about every fifty minutes, after twenty breaths of hissing; six
+  // niches give room for two. A company that watches one cycle can time the run.
+  Thing steam "the steam in the stair" on steam_stair is scenery {
+    State quiet "The Steam Stair spirals down inside a tube of red ceramic, wet and hot through boot leather. Six niches are cut in its wall, scratched with tally marks.".
+    State hissing "A hiss is rising from below in the Steam Stair, louder with each breath.".
+    State blasting dangerous "A blast of steam roars up the Steam Stair and out of its head in a white column.".
+    Hurts with scald when blasting then quiet.
+  }
+  Hazard scald "a blast of steam" means "Deal (2d6) fire damage to ally unless dexterity save against (13).".
+  Measure steamTick(entity).
+  Rule steam_ticks when state(steam, ?s) { Increase steamTick(steam) by 1. }
+  Rule steam_hisses when steamTick(steam) == 4 and state(steam, quiet) { Assert state(steam, hissing). }
+  Rule steam_blasts when steamTick(steam) == 5 and state(steam, hissing) { Assert state(steam, blasting). }
+  Rule steam_spent when steamTick(steam) >= 6 { Set steamTick(steam) to 0. Assert state(steam, quiet). }
+  // Half way down when the hiss starts: the blast finds whoever started down hissing.
+  Rule caught_on_stair when tookWay(?c, steam_stair) and company(?c) and state(steam, blasting) and not niched(?c) {
+    Assert strikes(scald, ?c). Assert niched(?c). }
+  Relation niched(group).
+  Rule niche_clears when niched(?c) and not tookWay(?c, steam_stair) { Retract niched(?c). }
+  Discovery steam_timed "The Steam Stair blasts about every fifty minutes, after twenty breaths of hissing; the niches hold two each.".
+  Observe steam_learned at steam_top when state(steam, blasting) and not knows(party, steam_timed) "The blast comes up out of the stair-head in a column you could lean on, and is gone. You count, after: it is near enough fifty minutes to the next, and the hiss before it is twenty breaths long." teaches steam_timed.
+
+  // H2: the Listening Hall, and the Waiting who listen there without leave.
+  Observe hall_scene_h at listening_hall when true "A round chamber with a stillglass floor, very warm. Light comes up through the floor from below, and lies on the undersides of things.".
+  Person listeners "six of the Waiting" at listening_hall {
+    Role "six Listeners of the Waiting, on felt mats with their ears to the glass". Ancestry human. Numbers 6. Peaceable.
+    Wants night_honey.
+  }
+  Observe tone_heard at listening_hall when hour(clock) == 12 or hour(clock) == 0 "Through the floor, far below, a single low note sounds, and goes on in the bones after it has stopped. The Listeners look at one another and say nothing.".
+  Discovery tone_below "Since 378 a low tone sounds from deep below the Pit once an hour; the Waiting have heard it, and told no one.".
+  Topic listeners_tone with listeners "Ask the Listeners what they hear" when true once {
+    Says "'Nothing, since the year 71,' says a woman with wax in her hair. 'Not the Voice.' She looks at the others. 'Since 78, when the growth broke into the lowest gallery and let the air carry it, there is a note. Once an hour. Deep. It is not a syllable. It is not anything.' She presses her ear back to the glass. 'Ruan does not know yet. Do not tell the Office.'".
+    On discuss { Assert knows(actor, tone_below). }
+  }
+  Topic listeners_names with listeners "Ask the Listeners what they are copying" when true once {
+    Says "'The Waking Ward names,' says a young man, and turns his tablet so you can see the columns. 'Every name has its syllable. Read in the order they were given, they are the Voice, before anyone counted.' He taps one column. 'And these are the hour-names the sick counted their time by. Twelve of them, round and round.'".
+    On discuss { Assert knows(actor, ward_names). }
+  }
+  Discovery ward_names "The Waking Ward names, copied in order: each carries its Voice syllable, and among them the twelve Seridane hour-names the sick counted time by.".
+
+  // H3: the Last Hour, and Amaru, ninth Dane of the Hour, waking. His rate goes from a sixth to a third, to a half, to a
+  // man's speed, by the week (Amaru's waking).
+  Observe last_hour_scene at last_hour when true "A domed chamber tiled in bronze, its ceiling pierced by a stillglass rod as thick as a forearm. Grey light comes down the rod and spreads weakly. Couches stand round the walls, and honey jars lie about, all open and scraped clean.".
+  Person amaru "Amaru" at last_hour {
+    Role "the ninth Dane of the Hour, in a robe gone colourless". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Wants night_honey.
+    Objects "Amaru's eyes come round to his seal in your hands, over a long time. When his voice arrives it is very quiet. 'Put it back.'".
+  }
+  Person kesset "Kesset" at last_hour {
+    Role "the Dane's chamberlain, on a couch in the shadow". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Calling bard. Plans 14 steps. Uses go.
+    Joins "Kesset gets up as a young man would and an old man feels it. 'I will find Halu,' he says. 'And I will tell you what the doors say.'".
+  }
+  Measure amaruRate(group).
+  Initially Set amaruRate(amaru) to 6.
+  Rule amaru_third when day(clock) >= 29 and amaruRate(amaru) == 6 { Set amaruRate(amaru) to 3. }
+  Rule amaru_half when day(clock) >= 71 and amaruRate(amaru) == 3 { Set amaruRate(amaru) to 2. }
+  Rule amaru_whole when day(clock) >= 127 and amaruRate(amaru) == 2 { Set amaruRate(amaru) to 1. }
+  Initially Assert asleep(kesset).
+  Rule kesset_wakes when day(clock) >= 36 and asleep(kesset) { Retract asleep(kesset). Assert willing(kesset, party). }
+  Observe amaru_sixth near amaru when amaruRate(amaru) == 6 "When you step closer, the old man's eyes come round to you over several seconds. His lips begin a word, and you wait a long time for the rest of it.".
+  Observe amaru_third_seen near amaru when amaruRate(amaru) == 3 "The old man in the chair turns his head toward you at a third of a man's speed, and his hands are shaking, and not with age.".
+  Observe amaru_half_seen near amaru when amaruRate(amaru) == 2 "The old king watches you come in with something like anger. He is quicker now; quick enough to argue.".
+  Observe amaru_awake near amaru when amaruRate(amaru) == 1 "An old man sits in a dead city in a chair too big for him, at a man's speed, and looks at you.".
+  // What he says, by how far he has woken: formal, then hungry and afraid, then disbelieving, then an old man.
+  Topic amaru_first with amaru "Speak to the king" when amaruRate(amaru) == 6 once {
+    Says "It takes him half a minute to say what would take you five seconds, and you wait for every word. 'You are not of my household.' A long time. 'Where is my daughter? Where is the honey? Tell the granary-keepers to come to me.' His eyes close and open, slowly. 'Is the Voice still speaking?'".
+  }
+  Topic amaru_hungry with amaru "Speak to the king" when amaruRate(amaru) == 3 once {
+    Says "'The honey is gone,' says Amaru, as if you had taken it. 'The household is hungry. Kesset is too thin.' His eyes go to the empty couch. 'Halu went up for bread. She has not come back.' He grips the arm of the chair. 'What year is it, above?'".
+  }
+  Topic amaru_year with amaru "Tell the king what year it is" when amaruRate(amaru) <= 3 once {
+    Says "You tell him: the three hundred and eightieth since the Unlidding; sixteen hundred and forty since the Covering. Amaru looks at you a long time. 'Some weeks,' he says. 'It has been some weeks.' He does not believe you, and you can see him deciding not to.".
+  }
+  Topic amaru_hour with amaru "Ask the king whether the hour was given" when true once {
+    Says "'It was given,' says Amaru, as slowly as he has said anything. 'The lake asked for an hour and the hour came down. It speaks to the keepers, one sound in each moon.' His eyes are steady. 'My daughter says it fell. My daughter is a clerk.'".
+  }
+  Topic amaru_stone with amaru "Ask the king about a stone that sings" when amaruRate(amaru) <= 3 once {
+    Says "Something moves in his face. 'There is no stone,' he says. 'There is the hour.' He looks at the rod of light over him. 'I have heard it sixteen hundred years. It is the hour's own heart. It is mine.'".
+  }
+  Topic amaru_daughter with amaru "Tell the king how his daughter died" when knows(actor, selane_murdered) once {
+    Says "You tell him what the Wall of the Stair says. Amaru hears it out without moving at all, which at his speed is no sign of anything. Then he closes his eyes, and keeps them closed so long that you think he has gone back into the light. 'Loyal men,' he says. 'Loyal to me.' When he opens his eyes he takes the seal off its stand and holds it out to you. 'Open her doors,' he says. 'All of them.'".
+    On discuss { Assert lends(amaru, seal, actor). Retract inside(seal, seal_stand). Assert at(seal, last_hour). Assert grieves(amaru). }
+  }
+  Relation grieves(group).
+  Event amaru_honey near amaru when keeps(amaru, ?j) and itemKind(?j, night_honey) "It takes the king a long time to lift the jar, and longer to open it. He eats with two fingers, slowly, and gives the rest to Kesset without being asked." then { Assert fed(amaru). }
+  Relation fed(group).
+
+  // His seal, the Long Hour on its stand, and the royal seed behind his chair.
+  Kind amaru_seal "Amaru's seal" is treasure worth 0 weighing 1
+    described "A palm-sized stillglass plate. Drawn past a stylus it says, in an old man's voice, a name and one syllable.".
+  Kind long_hour_plates "the Long Hour" is treasure worth 600 weighing 12
+    described "About five thousand syllables of the Voice on stillglass plates, the Seridane transcript of the Long Hour.".
+  Kind royal_seed "a jar of royal seed barley" is treasure worth 200 weighing 2
+    described "Barley held in the light for sixteen hundred years and alive.".
+  Thing seal_stand "the stand beside the chair" at last_hour {
+    Holds.
+    State standing "A stand of stillglass plates stands beside the chair: the Long Hour, and on top, a single palm-sized plate.".
+  }
+  Item seal "Amaru's seal" is amaru_seal in seal_stand owned by amaru.
+  Item long_hour "the Long Hour" is long_hour_plates in seal_stand owned by amaru.
+  Thing niche "a sealed niche behind the chair" at last_hour {
+    Holds.
+    State sealed closed "A niche is sealed into the wall behind the chair with red clay, and stamped.".
+    State opened "The sealed niche behind the chair stands open.".
+    Change break_niche "Break the clay seal on the niche" from sealed to opened needing digging.
+  }
+  Item seed_jar "a jar of royal seed barley" is royal_seed in niche owned by amaru.
+  Discovery long_hour_read "The Long Hour, read: about five thousand syllables of the Voice, in order. Laid as the citadel was built, one course to a syllable, they are a plan of the Undersun's Seridane Reach.".
+  Thing reading_stand "the Long Hour on its stand" at last_hour is scenery {
+    State shelved "The plates of the Long Hour are racked in order, and a stylus hangs on a cord beside them.".
+    State read "The plates of the Long Hour have been read through, and are a little out of order.".
+    Change read_plates "Read the Long Hour through with a stylus" from shelved to read needing stylus.
+  }
+  Observe long_hour_known at last_hour when state(reading_stand, read) "Syllable after syllable, an hour and more of them. Where a syllable is open the course it laid is open; where it is closed, solid; where it repeats, a stair." teaches long_hour_read.
+  Rule bren_seed when keeps(bren, ?j) and itemKind(?j, royal_seed) and not seeded(ennick) { Assert seeded(ennick). }
+  Relation seeded(place).
+  Event bren_seed_told near bren when seeded(ennick) "Bren holds the jar to the light and pours a little into his palm. 'Alive,' he says. 'Sixteen hundred years, and alive.' He does not thank you; he asks what you need.".
+
+  // H4: the Coverers' Works and the Plumb, Selane's borehole, 400 metres toward the stone that sings.
+  Observe works_scene at coverers_works when true "Walls of rammed red clay block three passages. In the middle of the floor a round shaft half a metre across goes straight down, lined with clear glass. Over it stand a bronze winch and a frame of rods.".
+  Observe plumb_note at coverers_works when hour(clock) == 12 or hour(clock) == 0 "With an ear to the liner you hear it: a long low note, coming up four hundred metres of glass.".
+  // A sounding lock: twelve stillglass rods, rung in the order of the hour-names carved over the door (Sounding
+  // locks). Three wrong attempts in an hour drop the counterweight; it must then be dug out.
+  Thing sounding_lock "the sounding lock" on archive_door {
+    State shut blocking "Over the Coverers' archive door seven symbols of the sun's place are carved in a row; a row of short stillglass rods is set in the frame.".
+    State jammed blocking "The counterweight has dropped into its locked seat. The door will have to be dug out.".
+    State released "The archive door stands open on its counterweight.".
+    Change ring_names "Ring the hour-names in the carved order" from shut to released after learning hour_names.
+    Change ring_seal "Draw Amaru's seal past the rods" from shut to released needing seal.
+    Change dig_out "Dig the counterweight out of its seat" from jammed to shut needing digging.
+  }
+  Measure misses(entity).
+  Action ring_guess(actor: group, site: place) "Ring the rods in an order you guess" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, coverers_works) and state(sounding_lock, shut)
+      and not knows(actor, hour_names).
+    Time 2 minutes.
+    On success { Increase misses(sounding_lock) by 1. }
+    Result "The rods ring, one after another, and the bar does not drop.".
+  }
+  Rule lock_jams when misses(sounding_lock) >= 3 and state(sounding_lock, shut) says "Something heavy drops inside the door frame with a sound like a dropped anvil." {
+    Assert state(sounding_lock, jammed). Set misses(sounding_lock) to 0. }
+  Discovery hour_names "The twelve Seridane hour-names, in order and with their pitches: what the sounding locks are keyed to.".
+  Discovery rhyme_known "The Weirs' counting rhyme for the cranes: twelve words in a ring.".
+  // Any two of the three sources give the names (the Weirs' rhyme, the Ward names, the Plate Hall song).
+  Observe names_assembled near party when not knows(party, hour_names) and ((knows(party, rhyme_known) and knows(party, ward_names)) or (knows(party, rhyme_known) and knows(party, song_heard)) or (knows(party, ward_names) and knows(party, song_heard))) "The Weirs' twelve counting words, the twelve names the sick counted by, the children's twelve on the plate: they are one ring of hour-names, and you have them in order." teaches hour_names.
+
+  // H5: the Wall of the Stair. A Coverer's record of Selane's last weeks; beneath it, folded, her Veil.
+  Thing stair_record "the Wall of the Stair" at stair_wall {
+    State silent "A single chant-wall two metres long, untouched, in a small chamber.".
+    State playing "A woman's voice, faint, steady: the grain riots, Selane's order to open the reserve vaults, and her murder at the top of the Stair, by men of her father's party, who told the city it was the mob. Then the names of the men.".
+    Change play_record "Draw a stylus along the Wall of the Stair" from silent to playing needing stylus.
+  }
+  Rule record_ends when state(stair_record, playing) and not at(party, stair_wall) { Assert state(stair_record, silent). }
+  Discovery selane_murdered "Selane did not die in the grain riots: Answerer loyalists killed her at the top of the Stair and told the city it was the mob.".
+  Observe record_heard at stair_wall when state(stair_record, playing) "A Coverer cut this, the year Tamaun emptied." teaches selane_murdered.
+  Kind veil_kind "Selane's Veil" like cloak_of_protection worth 0 weighing 0
+    described "Lace of drawn barrow-iron wire, three hundred grams, which covers its wearer from head to waist. Nothing said under it can be taken.".
+  Initially Assert shields(veil_kind).
+  Item veil "Selane's Veil" is veil_kind at stair_wall.
+  Observe veil_seen at stair_wall when at(veil, stair_wall) "Folded on the floor beneath the wall lies a square of dark iron lace.".
+
+  // H6: the Courses, the growth beneath the Late Sun breaking into the city. Saro opens them; a Mason's trowel does.
+  Observe courses_scene at courses_face when true "At the bottom of the passage the wall is not stone. Bands of dark metal and clear glass are laid in perfect courses without a seam. Light runs inside them along their curves, around the corner of the passage. A cutter's boot sticks out of the third course.".
+}

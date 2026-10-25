@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "The Patient Star",
+  "calendar": { "year": 380, "month": 6, "day": 25 },
+  "pitch": {
+    "heading": "Year 380 of the Unlidding",
+    "text": "Two thousand years ago a seed fell on the Ghessil Uplands and did not go out. Its light stops time in stone and slows it in flesh. You are a cutter of Quell, in debt; your uncle has stood eleven months in an open granary vault under the glass, alive. Under the plateau a citadel is building itself downward, and above it something is coming down the light."
+  },
+  "modules": [
+    { "id": "season", "bundle": "../adventures/patient-star/star.json" }
+  ],
+  "party": [
+    { "name": "Tamsin", "raceId": "human", "classId": "thief", "backgroundId": "miner" }
+  ]
+}

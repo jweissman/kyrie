@@ -1,0 +1,13 @@
+Module collide "Two things, each with a change of the same name" {
+  Place hall "the Plate Hall" is site.
+  Place racks "the racks" is room within hall at 0, 0 underground.
+  Company party "You" of 1 at racks.
+  Thing tally "a granary plate" at racks {
+    State silent "A granary plate stands in its rack.". State playing "A clerk counts jars.".
+    Change play_a "Draw a stylus along the plate" from silent to playing.
+  }
+  Thing song "a song plate" at racks {
+    State silent "A song plate lies on a shelf.". State playing "Children count in a ring.".
+    Change play "Draw a stylus along the plate" from silent to playing.
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "name": "The Patient Star, at the deep tiers' level",
+  "calendar": { "year": 380, "month": 6, "day": 25 },
+  "modules": [ { "id": "season", "bundle": "../../../data/adventures/patient-star/star.json" } ],
+  "party": [ { "name": "Tamsin", "raceId": "human", "classId": "thief", "backgroundId": "miner", "level": 8 } ]
+}

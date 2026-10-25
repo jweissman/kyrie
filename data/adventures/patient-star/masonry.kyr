@@ -1,0 +1,166 @@
+Module season "The Patient Star" {
+  // The Masonry (Tier V): the Patient's citadel beyond the planes, built of the pasts of other worlds. Five laws: air
+  // is kept, not given; everything doses; stillness is laid; touch gives time; wings are histories.
+  Place masonry "the Masonry" is plane.
+  Place masonry_land "the Masonry" is region within masonry.
+  Place citadel "the citadel of the Patient" is site within masonry_land at 0, 0.
+  Place m_spine "the Spine" is level within citadel.
+  Place m_wings "the wings" is level within citadel.
+  Place m_heart "the heart" is level within citadel.
+  Place spine "the Spine" is room within m_spine at 0, 0.
+  Place finished_door "a wing door carved with circles" is room within m_wings at 0, 0.
+  Place finished_city "a city of slender towers" is room within m_wings at 1, 0.
+  Place finished_wild "fields, then forest, then rock" is room within m_wings at 2, 0.
+  Place finished_beginning "the end of the wing" is room within m_wings at 3, 0.
+  Place imbar_wing "the Imbar Wing" is room within m_wings at 0, 1.
+  Place empty_niches "the empty niches" is room within m_wings at 1, 1.
+  Place nave "the Nave of Sockets" is room within m_heart at 0, 0.
+  Place heart "the Heart" is room within m_heart at 0, 1.
+
+  // From the Corbel's Seam, or the Keeping's Outer Wall.
+  Passage spine_from_seam "up into the black, onto the Spine" is passage between seam and spine taking 20 minutes.
+  Passage spine_from_wall "along a tendril of course-work through the Wall" is passage between outer_wall and spine taking 20 minutes.
+  Passage spine_wing "the bridge to a wing door" is passage between spine and finished_door taking 20 minutes.
+  Passage wing_in "into the wing" is doorway between finished_door and finished_city.
+  Passage wing_back "back through the world's history" is passage between finished_city and finished_wild taking 6 hours.
+  Passage wing_end "to the wing's end" is passage between finished_wild and finished_beginning taking 6 hours.
+  Passage spine_imbar "the bridge to the new wing" is passage between spine and imbar_wing taking 20 minutes.
+  Passage imbar_niches "past the court, into the gallery" is passage between imbar_wing and empty_niches taking 30 minutes.
+  Passage spine_nave "down into the heart" is stair between spine and nave taking 30 minutes.
+  Passage wing_nave "down from the Imbar Wing" is stair between imbar_wing and nave taking 20 minutes.
+  Passage nave_heart "beneath the beating socket" is passage between nave and heart taking 30 minutes.
+
+  // Everything doses.
+  Initially Assert litGround(spine). Initially Assert litGround(finished_door). Initially Assert litGround(finished_city).
+  Initially Assert litGround(finished_wild). Initially Assert litGround(finished_beginning). Initially Assert litGround(imbar_wing).
+  Initially Assert litGround(empty_niches). Initially Assert litGround(nave). Initially Assert litGround(heart).
+
+  // Air is kept, not given: between moments there is no air at all. Visitors breathe the air of the moments they walk
+  // through, and some worlds' air is poison.
+  Kind airkind. Entity air_good: airkind "breathable air". Entity air_poison: airkind "poison". Entity air_none: airkind "no air".
+  Relation airOf(place, airkind).
+  Initially Assert airOf(spine, air_none). Initially Assert airOf(finished_door, air_good). Initially Assert airOf(finished_city, air_good).
+  Initially Assert airOf(finished_wild, air_poison). Initially Assert airOf(finished_beginning, air_none).
+  Initially Assert airOf(imbar_wing, air_good). Initially Assert airOf(empty_niches, air_none).
+  Initially Assert airOf(nave, air_none). Initially Assert airOf(heart, air_good). Initially Assert airOf(seam, air_none).
+  Measure breath(group).
+  Rule breathes when at(party, ?p) and airOf(?p, air_good) and breath(party) < 12 { Set breath(party) to 12. }
+  Rule holds_breath when at(party, ?p) and airOf(?p, air_none) and breath(party) >= 1 { Decrease breath(party) by 1. }
+  Hazard airless "no air" means "Deal (2d6) physical damage to ally.".
+  Hazard bad_air "the air of another world" means "Deal (1d10) poison damage to ally unless constitution save against (13).".
+  Rule suffocates when at(party, ?p) and airOf(?p, air_none) and breath(party) < 1 { Assert strikes(airless, party). }
+  Rule poisoned when at(party, ?p) and airOf(?p, air_poison) { Assert strikes(bad_air, party). }
+  Observe air_note near party when at(party, ?p) and airOf(?p, air_none) "There is no air here. You are breathing what you brought.".
+  Observe breath_short near party when at(party, ?p) and airOf(?p, air_none) and breath(party) <= 4 "Your chest is burning. You have perhaps half an hour of what you carried in your lungs and your clothes.".
+  Initially Set breath(party) to 12.
+  // A company on its way between two places is at neither, so the rules above are silent for the length of a walk;
+  // the air a way costs is said of the way, as the dose of a lit way is (ledger, 26).
+  Measure wayAir(passage). Relation airPaid(group, passage).
+  Initially Set wayAir(spine_from_seam) to 2. Initially Set wayAir(spine_from_wall) to 2. Initially Set wayAir(spine_wing) to 2.
+  Initially Set wayAir(spine_imbar) to 2. Initially Set wayAir(spine_nave) to 3. Initially Set wayAir(wing_nave) to 2.
+  Rule way_air when tookWay(party, ?w) and wayAir(?w) > 0 and not airPaid(party, ?w) and breath(party) >= wayAir(?w) {
+    Decrease breath(party) by wayAir(?w). Assert airPaid(party, ?w). }
+  Rule way_air_short when tookWay(party, ?w) and wayAir(?w) > 0 and not airPaid(party, ?w) and breath(party) < wayAir(?w)
+    says "Halfway across there is nothing left in your lungs to breathe." {
+    Set breath(party) to 0. Assert airPaid(party, ?w). Assert strikes(airless, party). }
+  Rule way_air_clears when airPaid(party, ?w) and not tookWay(party, ?w) { Retract airPaid(party, ?w). }
+
+  // Stillness is laid: a visitor who stays still for an hour is taken into the next course.
+  Measure stillness(group). Relation lastPlace(group, place) exclusive. Relation laidIn(group).
+  Rule still_counts when at(party, ?p) and lastPlace(party, ?p) and laidRoomM(?p) { Increase stillness(party) by 1. }
+  Rule moved_on when at(party, ?p) and not lastPlace(party, ?p) { Assert lastPlace(party, ?p). Set stillness(party) to 0. }
+  Relation laidRoomM(place).
+  Initially Assert laidRoomM(spine). Initially Assert laidRoomM(finished_door). Initially Assert laidRoomM(finished_city).
+  Initially Assert laidRoomM(finished_wild). Initially Assert laidRoomM(finished_beginning). Initially Assert laidRoomM(imbar_wing).
+  Initially Assert laidRoomM(empty_niches). Initially Assert laidRoomM(nave). Initially Assert laidRoomM(heart).
+  Observe still_warning near party when stillness(party) >= 4 and not laidIn(party) "The course under your feet is warmer than it was, and your boots will not lift as easily as they did.".
+  Rule laid_in when stillness(party) >= 6 and not laidIn(party) says "You have stood still an hour. The next course is laid over your feet, and your knees, and you are part of the Masonry." {
+    Assert laidIn(party). Assert hobbled(party). }
+
+  // M1: the Spine.
+  Observe spine_scene at spine when true "A bridge of dark banded stone crossing black. On either side the Masonry fills half the sky: towers and buttresses of stopped worlds, lit along their edges, going on past seeing. Far off, other long brackets like the Corbel reach out into the dark toward other points of light. Eleven of them.".
+
+  // M2: a finished world. Walking the wing is walking that world's history backward to its beginning.
+  Observe fdoor_scene at finished_door when true "A wing door carved with the overlapping circles of the procession's banner.".
+  Observe fcity_scene at finished_city when true "A city of slender towers, stopped. Walking on, it gets younger, and smaller.".
+  Observe fwild_scene at finished_wild when true "The city is fields, then forest, then bare rock, then fire. The air tastes of metal and burns going down.".
+  Observe fbegin_scene at finished_beginning when true "At the very end of the wing a single course, no bigger than a hearthstone, holds the moment that world began. Then nothing.".
+  Thing beginning "the moment the world began" at finished_beginning { State unbegun "A single course holds a world's first moment.". }
+  Initially Assert kept(beginning).
+  Observe world_begins near beginning when touched(beginning) "For the length of your touch a world begins around you: light, and heat, and rock coming together out of nothing, as long as someone holds on. It cannot be carried out.".
+
+  // M3: the Imbar Wing. Everything quarried from Imbar so far is here; carried back through the Keeping to a
+  // Remembrancer, each is set again where it was kept.
+  Observe imbar_wing_scene at imbar_wing when true "A new wing, half built. Near its door are rooms that look like places you know: a stretch of the Quell road, a Weirs kitchen, a Tovash camp. Beyond them, a king's court whose king's face you cannot hold.".
+  Kind quarried_moment "a quarried moment" is treasure worth 0 weighing 1
+    described "A moment cut out of the Keeping, the size of a coin, with a season of somebody's life in it.".
+  Item dane_moment "the fourth Dane's reign" is quarried_moment at imbar_wing.
+  Item quell_moment "a season of Quell's year 74" is quarried_moment at imbar_wing.
+  Observe niches_scene at empty_niches when true "A long gallery of empty niches, waiting, each the size of a year.".
+  Relation quellAnchored(place).
+  Rule quell_returned when keeps(shore_remembrancer, quell_moment) and not quellAnchored(quell) { Assert quellAnchored(quell). }
+
+  // M4: the Nave of Sockets. Nine sockets, all empty; one beats.
+  Observe nave_scene at nave when true "A nave so tall its roof cannot be seen, with nine sockets cut into its floor in a ring, each large enough for a hen's egg and each empty. One socket beats, faintly, like a pulse felt through stone.".
+  Action seat_ithmar(actor: group, carrier: member, site: place) "Set Ithmar in the beating socket" {
+    Description "The Patient is restored, and Imbar's past is quarried from the newest year backward, at the Masonry's own speed.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and memberOf(carrier, actor)
+      and awake(carrier) and ownedItem(ithmar, carrier).
+    Time 1 minute.
+    Resolve drop(ithmar, carrier).
+    On success { Assert seated(ghessil). Assert unbound(ghessil). }
+    Result "The jewel goes into its socket as if it had never been out. The beat stops being faint. All round you, in the walls, the Laid stir, as at a voice.".
+  }
+  // Rebind: with the sigils seen being cut at the Separation, the jewel bound again, tighter. A binding needs a kept
+  // moment as its seal: the binder's own, and the binder becomes part of the Keeping, dead and remembered forever.
+  Action rebind(actor: group, carrier: member, binder: member, site: place) "Bind Ithmar tighter, {binder} giving the binding their own moment" {
+    Description "The Patient's heart-bond breaks; the seed stops and the Corbel withdraws. The binder is set in the jewel, and dies, and everyone will remember them.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, nave) or at(actor, arbiter_vault))
+      and knows(actor, sigils_known) and memberOf(carrier, actor) and awake(carrier) and ownedItem(ithmar, carrier)
+      and memberOf(binder, actor) and awake(binder) and not rebound(corbel_site).
+    Time 30 minutes.
+    Resolve inter(binder).
+    On success { Assert rebound(corbel_site). }
+    Result "Stroke by stroke, as you watched it done at the Separation, the binding is cut tighter, and {binder} lays a hand on the jewel and is in it: you can see them, very small and clear, in the dark opal. Far off, felt in the knees, the seed stops building.".
+  }
+
+  // M5: the Heart: the Patient's own moment of expulsion, kept as its heart. Given time, the expulsion resumes: for as
+  // long as the touch lasts the Patient goes on falling, farther from the planes, and the Masonry falls with it.
+  Observe patient_heart_scene at heart when true "A chamber made of one moment. It is a fall: something vast, dark and many-limbed, too large to see whole, caught in the instant of being thrown out of the world. Around it, stopped, white robes and outstretched hands.".
+  Thing patient_heart "the Patient's fall" at heart { State first_instant "The fall is stopped at its first instant.". }
+  Initially Assert kept(patient_heart).
+  Measure fallHeld(entity).
+  Rule heart_falls when touched(patient_heart) { Increase fallHeld(patient_heart) by 1. }
+  Observe heart_falling near patient_heart when touched(patient_heart) and fallHeld(patient_heart) < 6 "Under your hand the vast thing goes on falling, away, and everything around you leans after it. Your hand is going with it.".
+  Rule exile_done when fallHeld(patient_heart) >= 6 and touched(patient_heart) and not exiled(corbel_site)
+    says "You have held an hour. The Patient is gone out past the planes, and the Masonry with it, and you with it, because you did not let go." {
+    Assert exiled(corbel_site). Assert fellWith(party). }
+  Relation fellWith(group).
+  Action touch_and_step(actor: group, carrier: member, site: place) "Touch the Heart and step away through the Keeping at once" {
+    Description "Only a wearer of Ithmar can: touch, and be gone at the speed of thought, at the jewel's own cost.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart) and memberOf(carrier, actor)
+      and awake(carrier) and ownedItem(ithmar, carrier) and memories(actor) >= 3 and not exiled(corbel_site).
+    Time 1 minute.
+    On success { Decrease memories(actor) by 3. Assert exiled(corbel_site). Retract at(actor, heart). Assert at(actor, tideline). }
+    Result "You touch the fall, and it falls, and you are gone through the jewel before it can take you: three of your own moments go into the setting as you step. Behind you, the Patient falls out past the planes, and the Masonry with it.".
+  }
+  // Saro, who has no past to lose, may offer to hold on.
+  Action saro_holds(actor: group, holder: member, site: place) "Let Saro hold on" {
+    Description "She will hold the Heart for as long as it takes, and fall with it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart) and travelsWith(saro, actor)
+      and memberOf(holder, actor) and joinedAs(holder, saro) and not exiled(corbel_site).
+    Time 10 minutes.
+    Resolve inter(holder).
+    On success { Assert exiled(corbel_site). Retract travelsWith(saro, actor). }
+    Result "'Go,' says Saro, with both hands on the fall. 'I know how to be still.' The last you see of her she is falling with it, out past the planes, and she is not afraid.".
+  }
+  // Bargain at the heart: terms better than the Corbel's. Name a line in history and hold the Masonry to it.
+  Action heart_bargain(actor: group, site: place) "Name a line in history to the Interlocutor, here, and hold the Masonry to it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart) and knows(actor, newest_backward)
+      and carries(actor, ithmar) and not bargained(actor).
+    Time 10 minutes.
+    On success { Assert bargained(actor). Assert heldToLine(corbel_site). }
+    Result "Your own voice out of the walls of the Heart agrees: nothing after the Separation; and, because you know from which end it cuts, it agrees to cut from the beginning, not the face. The Masonry will be very patient about it.".
+  }
+  Relation heldToLine(place).
+}

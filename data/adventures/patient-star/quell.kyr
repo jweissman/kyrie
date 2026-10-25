@@ -1,0 +1,226 @@
+Module season "Hold One Season" {
+  Description "Quell, the Granaries of Tamaun and Ennick, late in Haying of the year 380: a cutter's uncle held eleven months in an open granary vault, and the people who want him, or his jars, brought up.".
+
+  // The plateau, as far as this slice goes: Quell on the western margin, the heath and the Ramp to the gorge,
+  // Ennick on the gorge floor, the Clear Fields above it, and the city under the glass.
+  Place imbar "Imbar" is plane.
+  Place ghessil "the Ghessil Uplands" is region within imbar.
+  Place quell "Quell" is settlement within ghessil at 0, 1.
+  Place heath "the heath" is wilderness within ghessil at 1, 1.
+  Place ennick "Ennick" is settlement within ghessil at 2, 2.
+  Place fields "the Clear Fields above Ennick" is wilderness within ghessil at 3, 1.
+  Place tamaun "Tamaun" is site within ghessil at 1, 0.
+
+  Place mutual_house "the Mutual's hall" is building within quell.
+  Place lazar_house "the lazar house" is building within quell.
+  Place office_house "the Glass Office" is building within quell.
+  Place square "the Shift Market" is room within quell at 1, 1.
+  Place mutual_yard "the Mutual's yard" is room within quell at 1, 0.
+  Place mutual_hall "the Mutual's hall" is room within mutual_house at 1, 0.
+  Place ward "the lazar ward" is room within lazar_house at 0, 1.
+  Place weighing "the weighing yard" is room within office_house at 2, 1 outdoors.
+  Place well_head "the North Well head" is room within quell at 0, 0 outdoors.
+  Place old_quell "Old Quell" is room within quell at 2, 0 outdoors.
+
+  Passage yard_gate "the Mutual's yard gate" is gate between square and mutual_yard.
+  Passage hall_door "the hall door" is door between mutual_yard and mutual_hall.
+  Passage lazar_door "the lazar house door" is door between square and ward.
+  Passage weighing_gate "the weighing-yard gate" is gate between square and weighing.
+  Passage well_lane "the well lane" is path between square and well_head taking 5 minutes.
+  Passage east_gate "the old east gate" is gate between square and old_quell.
+
+  // The company: one cutter, in debt.
+  Company party "You" of 1 at square.
+  Initially Set quantity(party, gold) to 9.
+  Initially Assert inDebtTo(party, dagny). Initially Set owes(party, dagny) to 28.
+
+  Observe square_scene at square when not dark() "The square is umber brick on every side, the colour of dried blood, and not one window looks east. Sledges hiss on the cobbles between the shifts. At the weighing-yard gate a clerk calls the grades: 'One. One. Three. Reject.'".
+  Observe square_night at square when dark() "The square is empty but for the dusk crew coming in, hoods back, grey in the face. Somebody coughs, dry and short, and does not stop for a while.".
+  Observe yard_scene at mutual_yard when true "The Mutual's yard: sledges up on their ends against the wall, grit-sacks, coils of rope, and a trough of grey water where the cutters wash the glitter off their hands.".
+  Observe hall_scene at mutual_hall when true "A long room with a hearth at one end and the Mutual's tally-boards along the wall: crews, shifts, debts, chalked and rubbed out and chalked again. Your own name is up there, with a number beside it.".
+  Observe ward_scene at ward when true "Twenty beds, eighteen of them full. The cough here is the same cough as the square's, only slower.".
+  Observe weighing_scene at weighing when true "The Glass Office's yard, in what were the Company's yards: scales, a stamp-table, blocks of clear stone stacked under red cloth, and a board by the gate that says LICENCES DRAWN FIRST OF THE MONTH.".
+  Observe well_scene at well_head when true "The North Well is a round head of old cut stone, older than the town, with a stair going down inside it to the water.".
+  Observe well_water at well_head when not drained(quell_wells) "Far down, the water is a coin of light. It comes up at blood heat, and smells faintly of iron.".
+  Observe well_water_low at well_head when drained(quell_wells) "Far down, the water has sunk below the last of the old marks on the stair. Women are queuing at the well with their jars and arguing about it.".
+  Observe old_quell_scene at old_quell when true "Three streets of umber-brick houses stand on clear ground, their doors open the way their owners left them in 355. Where a floor was beaten earth and not brick, the house is lit from below, and the light comes up through the doorway and lies along the street like water. Every shadow points west.".
+  Initially Assert litGround(old_quell).
+
+  // What Quell sells: felt, true and false; a stylus; honey from the Tovash.
+  Kind umber_felt "an umber felt cloak" like cloak_of_protection worth 2 weighing 6
+    described "Wool felted with iron clay, red-brown and heavy, with hood and mitts. Rubbed with a wet thumb, it leaves a rust mark.".
+  Initially Assert shields(umber_felt).
+  Kind madder_felt "an umber felt cloak" like cloak_of_protection worth 1 weighing 2
+    described "Wool dyed red-brown, with hood and mitts. It is lighter than it looks.".
+  Kind stylus "a stillglass stylus" is tool worth 2 weighing 0
+    described "A needle of stillglass in a bone handle, for drawing along a voice-plate's growth lines.".
+  Entity salt: good "handful of salt".
+  // Glass lanterns are confiscated at the Stair: on the plateau a lantern is horn.
+  Kind horn_lantern "a horn lantern" like lantern worth 1
+    described "A tallow lantern in a horn case. No glass: up here, glass carries the light.".
+  Kind night_honey "a jar of night honey" is gear worth 1 weighing 1
+    described "Dark, slightly bitter honey from bees that work by cloudlight. It keeps for decades.".
+  Kind stillglass_knife "an unstamped stillglass knife" like dagger worth 5 weighing 1
+    described "A stillglass blade with no Office stamp on the tang. The edge has never needed sharpening.".
+  Person rusk "Rusk" at square {
+    Role "the felt-lender, with her bales of red felt". Ancestry human. Peaceable. Pronouns she.
+    Sells umber_felt for 2 coin from 3.
+    Sells stylus for 2 coin from 1.
+    Sells horn_lantern for 1 coin from 2.
+    Sells lamp_oil for 1 coin from 4.
+    Sells rope for 1 coin from 2.
+  }
+  Person barrow_boy "a boy with a barrow" at square {
+    Role "selling felt cloaks off a barrow, cheap". Ancestry human. Peaceable. Pronouns he.
+    Sells madder_felt for 1 coin from 4.
+  }
+  Person honey_seller "Ezh's aunt" at square {
+    Role "a Tovash woman selling night honey by the jar". Ancestry human. Peaceable. Pronouns she.
+    Sells night_honey for 1 coin from 4.
+    Sells salt for 1 coin from 6.
+  }
+  Topic rusk_felt with rusk "Ask Rusk about the barrow boy's felt" when true once {
+    Says "'Madder,' says Rusk, without looking. 'Dyed wool. Wet your thumb and rub it: real felt leaves rust on you. That stuff leaves nothing, and lets everything through. Weigh it in your hand, while you are about it. A cloak of mine is six kilos and you feel every one.'".
+  }
+
+  // The Mutual: Dagny Ferrow, its Master, and Garret's crew.
+  Person dagny "Dagny Ferrow" at mutual_hall {
+    Role "Master of the Cutters' Mutual". Ancestry human. Peaceable. Pronouns she. Manner grim.
+  }
+  Person ness "Ness Oakum" at mutual_yard {
+    Role "a cutter of Garret's old crew". Ancestry human. Peaceable. Plans 14 steps. Uses go, change_thing. Pronouns she. Manner acerbic.
+  }
+  Person crew "Dagny's crew" at mutual_yard {
+    Role "two cutters of the Mutual, felted, with poles and a sledge". Ancestry human. Numbers 2. Peaceable. Plans 14 steps. Uses go, change_thing.
+  }
+  Person grit "Grit" at mutual_yard {
+    Role "the Mutual's yard dog, grey about the muzzle". Species dog. Pronouns she.
+  }
+  Observe grit_scene near grit of grit when at(grit, mutual_yard) "A grey bitch lies across the hall doorstep with her chin on her paws, and thumps her tail once for anyone in felt.".
+  Initially Assert serves(ness, dagny). Initially Assert serves(crew, dagny).
+
+  Discovery garret_held "Garret, a cutter of the Mutual, walked into an open granary vault in Tamaun last autumn to take the jars, and has stood in its light for eleven months, held." {
+    Known by dagny, ness, crew.
+  }
+  Topic dagny_garret with dagny "Ask Dagny about Garret" when not cameUp(garret) once {
+    Says "'Your uncle,' says Dagny. 'You know as much as I do, or you should. Last Harvest he went into an open vault in the Granary Ring to take jars, and the light had him before he was three steps in. Ness saw him from the doorway. She could not get to him and nor could anyone.' She rubs out a chalk mark on the board with the side of her fist. 'He is not dead. He is standing in there with his hand out, the way you'd reach for a jar.'".
+    On discuss { Assert knows(actor, garret_held). }
+  }
+  Relation offered(group, group).
+  Topic dagny_offer with dagny "Ask Dagny what she would have you do" when not cameUp(garret) and not offered(dagny, actor) once {
+    Says "'Your debt to this hall is fourteen felt-lengths,' says Dagny. 'Twenty-eight crowns. I will rub out half of it the day Garret walks into this room on his own feet. The crew goes down when it has the felt, in three days or four. Go with them, or go down alone and before them, I don't care which. Only bring him up.' She looks at your hands. 'And keep that knife of yours out of Pike's sight. It has no stamp.'".
+    On discuss { Assert offered(dagny, actor). }
+  }
+  Topic dagny_way with dagny "Ask Dagny how the crew goes down" when not cameUp(garret) once {
+    Says "'By the North Well and the West Gallery, the way we always have,' says Dagny. 'There is an Office chain on the well-head. A licence opens it, and the licences are drawn on the first of the month. Hal Brewin keeps the chain, and Hal drinks.' She shrugs. 'Four hours from the well to the city, if the Neck lets you through. It is late summer: there is a metre of air under the Neck now, more than most years.'".
+  }
+  Topic ness_vault with ness "Ask Ness about the vault where Garret is" when not cameUp(garret) once {
+    Says "'Ninth vault of the Ring, on the north side,' says Ness. 'Shutter open, light coming down off the ceiling like a white post. Jars all round him. Forty jars in a vault, umber-glazed and not a crack in one, and a collector in Sorne pays three crowns a jar.' She spits. 'He is not dying, you know. Nobody held is dying. He'll keep.'".
+  }
+  Topic crew_plan with crew "Ask the crew when they go down" when not cameUp(garret) and not descended(crew) once {
+    Says "'When the felt comes, three days, four,' says the elder of the two. 'Felt, poles, rope, a sledge-cloth to drag him on. Ness knows the vault.' He does not look at Ness when he says it.".
+  }
+  Relation descended(group).
+
+  // Saro and Sister Wenda, at the lazar house.
+  Person wenda "Sister Wenda" at ward {
+    Role "an Arbitral sister, who keeps the lazar house". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Wants night_honey.
+  }
+  Person saro "Saro" at ward {
+    Role "a woman who walked out of the deep glass last autumn". Ancestry human. Calling warrior. Level 6. Peaceable. Pronouns she. Manner stoic.
+    Joins "Saro stands at once, as if she had been waiting for nothing else. 'Down,' she says. 'Yes.'".
+    Carries trowel_kind.
+  }
+  // Her bones and teeth are stillglass: the light does not slow her, in the company or out of it.
+  Initially Assert unslowed(saro). Initially Assert unslowed(member_saro_person).
+  Discovery saro_cold "Saro never warms. Her hands have no temperature at all, like stillglass, and she has been in the lazar house since last autumn without once being cold or hot." {
+    Known by wenda.
+  }
+  Topic wenda_saro with wenda "Ask Sister Wenda about Saro" when true once {
+    Says "'She came in last Frost, walking, from the east,' says Wenda. 'No fever, no cough, nothing I can treat. She eats, a little. She learns.' She lowers her voice. 'She does not warm. I have held her hands in mine for an hour by the stove and they are no warmer at the end than at the start, and no colder. The others have started to notice.'".
+    On discuss { Assert knows(actor, saro_cold). }
+  }
+  Event wenda_honey near wenda when keeps(wenda, ?j) and itemKind(?j, night_honey) "Sister Wenda turns the jar to the window and smiles for the first time. 'For the coughers,' she says. 'A spoon at night, and they sleep.' She puts it on the shelf with the other two." then { Assert thanked(wenda, party). }
+  Relation thanked(group, group).
+  Topic saro_stone with saro "Ask Saro what she wants" when true once {
+    Says "Saro answers in a Tovashi a month old and already good. 'To go back into the glass. Down, where it is being built.' She looks at you with great attention. 'Do you know of a stone that sings? Under here. It sings once in each hour. Everyone I ask says no.'".
+  }
+  Topic saro_down with saro "Tell Saro you are going down into Tamaun" when knows(actor, garret_held) and not willing(saro, actor) and not travelsWith(saro, actor) once {
+    Says "'Into the old city,' says Saro. 'Down.' She has already stood up. 'I will come. I do not need felt.'".
+    On discuss { Assert willing(saro, actor). }
+  }
+
+  // The Glass Office: Halloran Pike, the licence lottery, and Hal Brewin at the chain.
+  Person pike "Halloran Pike" at weighing {
+    Role "the Glass Office licencer". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+  }
+  Person hal "Hal Brewin" at well_head {
+    Role "the Office's man at the North Well chain". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Guards well_stair.
+    State watching blocking "Hal Brewin sits on a stool by the chain-gate with a cudgel across his knees.".
+    State drunk "Hal Brewin is asleep on his stool with his mouth open.".
+  }
+  Topic pike_licence with pike "Ask Pike about a salvage licence" when not licensed(actor) once {
+    Says "'Ten crowns to put your name in,' says Pike, 'and the names are drawn at this gate on the first of the month, one in four. Win, and the North Well chain opens to you for the month. Lose, and the ten crowns are the Crown's.' He blots a figure. 'Nobody goes down the Well without a licence. Nobody.'".
+  }
+  Topic pike_son with pike "Ask Pike about the cough in his house" when true once {
+    Says "Pike's pen stops. 'My son,' he says. 'Glass-lung, at nineteen. There is a physician in Sorne who will see him for twenty crowns a visit, and I am paid nine a month.' He starts writing again, harder.".
+  }
+  Relation licensed(group). Relation entered(group).
+  Action enter_lottery(actor: group, site: place) "Put your name in for this month's licences, ten crowns" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(pike, site) and not licensed(actor)
+      and not entered(actor) and quantity(actor, gold) >= 10.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 10. Increase quantity(pike, gold) by 10. Assert entered(actor). }
+    Result "Pike writes your name on a slip, folds it twice, and drops it in a box with a great many others.".
+  }
+  // The draw, at dawn on the first of the month; one in four.
+  Rule lottery_won when entered(party) and hour(clock) == 8 and day(clock) == 6 and dice(party) <= 25 says "At the weighing-yard gate the clerk calls the names drawn for the month. Yours is the third." {
+    Retract entered(party). Assert licensed(party). Assert tolerates(hal, party). }
+  Rule lottery_lost when entered(party) and hour(clock) == 8 and day(clock) == 6 and dice(party) > 25 says "The licences for the month are called at the weighing-yard gate. Your name is not among them." {
+    Retract entered(party). }
+  // Hal can be had for wine, or for coin, and is asleep by midnight most nights.
+  Action bribe_hal(actor: group, site: place) "Give Hal Brewin a crown to look the other way" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hal, site) and state(hal, watching)
+      and not tolerates(hal, actor) and quantity(actor, gold) >= 1.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(hal, gold) by 1. Assert tolerates(hal, actor). }
+    Result "Hal looks at the crown, and up the lane, and puts it in his boot. 'Never saw you,' he says, and unhooks the chain.".
+  }
+  Rule hal_sleeps when hour(clock) == 0 and state(hal, watching) { Assert state(hal, drunk). Assert asleep(hal). }
+  Rule hal_wakes when hour(clock) == 6 and state(hal, drunk) { Assert state(hal, watching). Retract asleep(hal). }
+  Thing chain_gate "the chain-gate" on well_stair {
+    State locked blocking "An Office chain-gate hangs across the stair-head, padlocked.".
+    State unhooked "The Office chain hangs unhooked from its staple.".
+    Change unhook "Unhook the chain-gate" from locked to unhooked at well_head.
+  }
+  // The chain is Hal's to open, and the Mutual's crews go through it as he lets them.
+  Initially Assert keyholder(hal, chain_gate). Initially Assert tolerates(hal, crew). Initially Assert tolerates(hal, ness).
+  Rule chain_open_licensed when tolerates(hal, party) and state(chain_gate, locked) and (at(party, well_head) or at(party, well_foot)) { Assert state(chain_gate, unhooked). }
+  // Unhooked under his nose, it is hooked again, and he remembers who did it.
+  Rule chain_rehooked when state(chain_gate, unhooked) and perceives(hal, party) and not tolerates(hal, party)
+    says "Hal Brewin gets up off his stool, hooks the chain back on its staple, and stands in front of it. 'No,' he says." {
+    Assert state(chain_gate, locked). }
+  Rule chain_shut when state(chain_gate, unhooked) and not at(party, well_head) and not at(party, well_foot) and state(hal, watching) { Assert state(chain_gate, locked). }
+
+  // The knife has no stamp, and an Office man who sees it says so.
+  Item knife "your stillglass knife" is stillglass_knife at square.
+  Observe knife_here at square when at(knife, square) "Your own knife is on the cobbles where you set it down to haggle, an unstamped stillglass blade that has never needed sharpening.".
+  Relation seized(item).
+  Event knife_seen when carries(party, knife) and (perceives(pike, party) or perceives(hal, party)) and not seized(knife) "'That blade has no stamp,' says the Office man, and holds out his hand. 'A fifth of its worth to the Crown, now, or the next one costs you the hand that holds it.' You pay him a crown." then {
+    Assert seized(knife). Decrease quantity(party, gold) by 1. }
+
+  // The bargain: half the debt, the day Garret walks into the hall with the one Dagny made it with.
+  Relation forgiven(group).
+  Event dagny_keeps_word near dagny when (travelsWith(garret, party) or following(garret, party)) and offered(dagny, party) and at(party, mutual_hall) and not forgiven(party) "Dagny looks at Garret for a long moment, and then at you. She takes the rag off its nail and rubs out the number beside your name on the board, and chalks in another, half the size. 'Fourteen crowns,' she says. 'I keep my word. Sit him by the fire before he falls down.'" then {
+    Assert forgiven(party). Assert cameUp(garret). Decrease owes(party, dagny) by 14. }
+  Relation broughtBy(group, group).
+  Rule brought_by when travelsWith(garret, party) and not broughtBy(garret, party) { Assert broughtBy(garret, party). }
+  Rule led_by when following(garret, party) and not broughtBy(garret, party) { Assert broughtBy(garret, party). }
+  Event crew_brought_him near dagny when at(garret, mutual_hall) and not broughtBy(garret, party) and at(party, mutual_hall) "Garret is by the hall fire with a blanket round him and a bowl in his hands, and the crew who brought him up are drinking. Dagny does not look at you. Your number on the board is the same as it was.".
+
+  Objective find_garret when not cameUp(garret) and asleep(garret) "Garret, your uncle, is held in an open granary vault under Quell. Dagny will halve your debt if you bring him up.".
+  Objective bring_garret when not cameUp(garret) and not asleep(garret) "Garret is awake, and slow, and hungry, a long way under Quell. Bring him up to the Mutual's hall.".
+  Objective held_alive when knows(party, garret_held) and not knows(party, doran_breathed) and not knows(party, prayer_label) "Are the held truly alive? In Ennick they visit theirs once a month to watch them breathe.".
+}

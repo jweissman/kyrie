@@ -1,0 +1,4 @@
+Module law "The stilling, as a law: felt is part of it" {
+  Kind umber_felt "an umber felt cloak" is gear worth 2 weighing 6.
+  Relation lit(place).
+}

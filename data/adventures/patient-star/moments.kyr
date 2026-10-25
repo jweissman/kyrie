@@ -1,0 +1,51 @@
+Module moments "Kept moments: what the stilling took, laid as masonry, and given time by a hand" {
+  // Where the stilling stops matter wholly it takes the moment, and the Masonry lays it as building stone (the
+  // Undersun, the Corbel, the Masonry), and the Keeping keeps every moment of Imbar's past as a place. Three rules hold
+  // in all of them: a kept thing touched resumes its moment for as long as the touch lasts; words spoken aloud are
+  // laid into the course beneath; nothing kept can be changed, only cut.
+
+  // A kept thing: a stopped flame, a man mid-word, a curtain of smoke, a falling stone.
+  Relation kept(entity).
+  // Being touched, now: its moment plays.
+  Relation touched(entity).
+  // Whoever has touched a thing at least once, and what they saw of it played.
+  Relation playedFor(entity, group).
+  Action touch(actor: group, target: entity, site: place) "Lay a hand on {target}" {
+    Description "A kept thing touched takes up its moment again for as long as the hand stays on it, and stops when it is taken away.".
+    Requires able(actor) and company(actor) and at(actor, site) and kept(target) and reaches(actor, target)
+      and not touched(target) and not benighted(actor).
+    Time 1 minute.
+    On success { Assert touched(target). Assert playedFor(target, actor). }
+  }
+  Action let_go(actor: group, target: entity, site: place) "Take your hand from {target}" {
+    Requires able(actor) and company(actor) and at(actor, site) and touched(target) and reaches(actor, target).
+    Time 0.
+    On success { Retract touched(target). }
+  }
+  // A hand cannot stay on a thing the company has walked away from.
+  Rule touch_lost when touched(?t) and company(?c) and not reaches(?c, ?t) { Retract touched(?t). }
+
+  // Speech is laid: words said aloud in course-work are taken into the course beneath, and give the Laid near them a
+  // few seconds of their moment. Whispered, nothing is taken. The company is aloud until it chooses to whisper.
+  Relation whispering(group).
+  Relation laidRoom(place).
+  Action whisper(actor: group) "Speak only in whispers" {
+    Description "Below, words said aloud are taken into the stone, and wake whatever is laid there for a breath.".
+    Requires able(actor) and company(actor) and not whispering(actor) and at(actor, ?r) and laidRoom(?r). Time 0.
+    On success { Assert whispering(actor). }
+    Result "You drop your voice to a breath, and so does everyone with you.".
+  }
+  Action speak_up(actor: group) "Speak aloud again" {
+    Requires able(actor) and company(actor) and whispering(actor). Time 0.
+    On success { Retract whispering(actor). }
+    Result "You speak up again.".
+  }
+  // Every word spoken aloud in a laid room is a course laid down: the Masons can play it back, and the Interlocutor
+  // speaks with it.
+  Measure wordsLaid(group).
+  Relation spokeAloud(group).
+  // Every Mason carries a trowel: it lays and unlays course-glass, and in the Keeping cuts moments out.
+  Kind trowel_kind "a Mason's trowel" like dagger worth 0 weighing 1
+    described "A blade of something like stopped iron, set in a handle with no temperature. Laid against course-glass it lays or unlays.".
+  Item spare_trowel "a Mason's trowel" is trowel_kind at tip_dome hidden until trowel_paid.
+}

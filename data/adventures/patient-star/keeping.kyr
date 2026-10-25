@@ -1,0 +1,186 @@
+Module season "The Patient Star" {
+  // The Keeping (Tier IV): the plane where every moment of Imbar's past is kept, as a place. Geography is chronology:
+  // walking inward goes back in time, walking across goes elsewhere in Imbar at the same moment. Near the shore a
+  // careful walker covers a year in an hour; in deep time, where less happened, a thousand. Time passes for visitors
+  // at its ordinary rate, and Imbar's clocks run while they are away.
+  Place keeping "the Keeping" is plane.
+  Place kept_imbar "the Keeping of Imbar" is region within keeping.
+  Place shore "the shore of the present" is wilderness within kept_imbar at 0, 0.
+  Place kept_plateau "the plateau's past" is wilderness within kept_imbar at 1, 0.
+  Place hollows "the Quarried Reaches" is wilderness within kept_imbar at 1, 1.
+  Place deep_time "deep time" is wilderness within kept_imbar at 2, 0.
+  Place far_east "far east of Imbar's known lands" is wilderness within kept_imbar at 2, 1.
+  Place wall_site "the Outer Wall" is site within kept_imbar at 3, 0.
+
+  Place tideline "the Tideline" is room within shore at 0, 0 outdoors.
+  Place collar_years "the Collar's years" is room within kept_plateau at 0, 0 outdoors.
+  Place year_zero "the night of the Unlidding" is room within kept_plateau at 1, 0 outdoors.
+  Place covering_years "the Covering" is room within kept_plateau at 2, 0 outdoors.
+  Place stair_murder "the top of the Stair, 1,575 BP" is room within kept_plateau at 2, 1 outdoors.
+  Place new_moons "the new moons" is room within kept_plateau at 3, 0 outdoors.
+  Place kept_fall "the fall" is room within kept_plateau at 4, 0 outdoors.
+  Place quarry_edge "a quarried hollow" is room within hollows at 0, 0 outdoors.
+  Place descent_k "the Descent" is room within deep_time at 0, 0 outdoors.
+  Place separation "the Separation" is room within deep_time at 1, 0 outdoors.
+  Place absence "an absence" is room within far_east at 0, 0.
+  Place outer_wall "the Outer Wall" is room within wall_site at 0, 0 outdoors.
+
+  // In: a living hand on Ithmar, with whoever touches that person. Out: walk back to the shore and step through.
+  // Without Ithmar, only where you came in; with it, anywhere.
+  Relation cameInAt(group, place).
+  Action touch_ithmar(actor: group, site: place) "Lay a hand on Ithmar" {
+    Description "A living hand that touches Ithmar enters the Keeping, together with anyone touching that person, at the moment and place of the touch.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, arbiter_vault)
+      and (inside(ithmar, cage) or carries(actor, ithmar)).
+    Time 1 minute.
+    On success { Retract at(actor, arbiter_vault). Assert at(actor, tideline). Assert cameInAt(actor, arbiter_vault). }
+    Result "The jewel is not cold, or warm. The white room goes on being there and you are not in it: you stand on a shore where the present is setting like wet sand.".
+  }
+  Passage step_back "the way you came in" is passage between tideline and arbiter_vault taking 10 minutes.
+  Relation keepingWay(passage).
+  Passage out_quell "out into Quell, now" is passage between tideline and square taking 10 minutes one way
+    opening when carries(party, ithmar) "The shore runs on, every place of Imbar this minute, soft as wet sand. Without the jewel you cannot step out anywhere but where you came in.".
+  Passage out_orrel "out into New Orrel, now" is passage between tideline and no_market taking 10 minutes one way
+    opening when carries(party, ithmar) "Without the jewel there is no stepping out here.".
+  Passage out_ennick "out into Ennick, now" is passage between tideline and lower_road taking 10 minutes one way
+    opening when carries(party, ithmar) "Without the jewel there is no stepping out here.".
+  Passage out_stairhead "out at Stairhead, now" is passage between tideline and stair_top taking 10 minutes one way
+    opening when carries(party, ithmar) "Without the jewel there is no stepping out here.".
+  Passage out_corbel "out at the Corbel's tip, at the moment it came" is passage between collar_years and lintel_room taking 10 minutes one way
+    opening when carries(party, ithmar) "In the year 71 something comes down the light out of the black, and stops in the cloud. Without the jewel, you can only watch it come.".
+  Initially Assert keepingWay(out_quell). Initially Assert keepingWay(out_orrel). Initially Assert keepingWay(out_ennick).
+  Initially Assert keepingWay(out_stairhead). Initially Assert keepingWay(out_corbel).
+  // Every step through the Keeping with the jewel lays one of the wearer's own moments into its setting: a memory gone,
+  // and everyone else forgets that moment too.
+  Relation stepPaid(group, passage).
+  Rule step_costs when tookWay(?c, ?w) and keepingWay(?w) and carries(?c, ithmar) and not stepPaid(?c, ?w) and memories(?c) >= 1
+    says "Something of yours goes into the jewel's setting as you step: a morning, a face, a word somebody said once. You do not know which. Nobody does." {
+    Decrease memories(?c) by 1. Assert stepPaid(?c, ?w). }
+  Rule step_paid_clears when stepPaid(?c, ?w) and not tookWay(?c, ?w) { Retract stepPaid(?c, ?w). }
+  Observe no_past near party when memories(party) == 0 "You have stepped so often that there is almost nothing behind you. You remember Saro. You do not remember why.".
+
+  // Inward: back in time. Near the shore, a year an hour.
+  Passage to_collar_years "inland, thirty years" is path between tideline and collar_years taking 32 hours.
+  Passage to_year_zero "inland, three hundred and fifty years" is path between collar_years and year_zero taking 14 days.
+  Passage to_covering "inland, through the craneless centuries" is path between year_zero and covering_years taking 3 days.
+  Passage to_murder "across, to the Stair" is path between covering_years and stair_murder taking 4 hours.
+  Passage to_moons "inland, through Tamaun's seven centuries" is path between covering_years and new_moons taking 10 days.
+  Passage walk_moons "the new moons, walked a minute a moon" is path between new_moons and kept_fall taking 60 hours.
+  Passage to_hollows "across, into the blank" is path between collar_years and quarry_edge taking 2 hours.
+  // Deep time, where there are no landmarks: without the Tally or a guide, years of wandering.
+  Passage to_descent "inland, into deep time" is path between kept_fall and descent_k taking 30 hours needing tally_kind or wayfinding.
+  Passage to_separation "inland, to the Separation" is path between descent_k and separation taking 2 hours.
+  Passage to_absence "across, far to the east" is path between descent_k and absence taking 2 days needing tally_kind or wayfinding.
+  Passage to_wall "inland, before the beginning" is path between separation and outer_wall taking 4 hours.
+  Initially Assert keepingWay(to_collar_years). Initially Assert keepingWay(to_year_zero). Initially Assert keepingWay(to_covering).
+  Initially Assert keepingWay(to_murder). Initially Assert keepingWay(to_moons). Initially Assert keepingWay(walk_moons).
+  Initially Assert keepingWay(to_hollows). Initially Assert keepingWay(to_descent). Initially Assert keepingWay(to_separation).
+  Initially Assert keepingWay(to_absence). Initially Assert keepingWay(to_wall).
+  Action wander(actor: group, site: place) "Strike out into deep time without the Tally or a guide" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kept_fall)
+      and not holding(actor, tally_kind) and not capable(actor, wayfinding).
+    Time 144.
+    On success { Assert strikes(archivore_bite, actor). }
+    Result "There are no landmarks. You walk a day and do not know if it was a day or a century, and something like a page turning follows you, and bites.".
+  }
+
+  // K1: the Tideline. Everything in Imbar that is happening now is here, still soft: a scrying ground.
+  Observe tideline_scene at tideline when true "A shore where the present is setting, like wet sand hardening. Everything in Imbar that is happening now is here, still soft; you can walk across it and see any place you choose, as it is this minute.".
+  Observe tide_orrel at tideline when at(amaru, barracks) "In New Orrel, this minute, an old king lies on a cot under three blankets and looks at a ceiling.".
+  Observe tide_crew at tideline when argued(crew) and asleep(garret) "In the Granary Ring, this minute, two cutters sit with their backs to the wall by the ninth vault, waiting.".
+  Observe tide_corbel at tideline when not docked(corbel_site) "Over the Pit, this minute, the Corbel is two metres lower than it was yesterday.".
+  Observe tide_concord at tideline when convened(chapter) "In Stairhead's chapter house, this minute, the Concord is sitting, and nobody is sitting next to anybody they can help it.".
+  Observe tide_saro at tideline when not travelsWith(saro, party) "At the Tip of the Undersun, this minute, a woman with no temperature lays a course and calls its syllable.".
+  // Standing still on the Tideline, a visitor begins to set into the present.
+  Measure tideWatches(group).
+  Rule tide_counts when at(party, tideline) { Increase tideWatches(party) by 1. }
+  Rule tide_resets when not at(party, tideline) and tideWatches(party) > 0 { Set tideWatches(party) to 0. }
+  Observe tide_setting near party when at(party, tideline) and tideWatches(party) >= 4 "Your feet have sunk into the shore to the ankle, and it is hardening around them. Your own hand, when you lift it, comes up slowly.".
+  Rule tide_takes when at(party, tideline) and tideWatches(party) >= 6 and not setInPresent(party) says "The present sets around you, and you are kept." {
+    Assert setInPresent(party). Assert hobbled(party). }
+  Relation setInPresent(group).
+  Person shore_remembrancer "a Remembrancer of the shore" at tideline {
+    Role "a servant of the Virina, tall, made of the sound of bells". Peaceable. Pronouns they.
+    Wants quarried_moment.
+  }
+  Topic shore_quarried with shore_remembrancer "Ask the Remembrancer about the hollows" when true once {
+    Says "'Cut,' says the Remembrancer, in bells. 'Carried out of the Keeping into the Masonry. Bring back what was cut, and we will set it again where it was kept, and it will be remembered.'".
+  }
+  Event moment_returned near shore_remembrancer when keeps(shore_remembrancer, ?q) and itemKind(?q, quarried_moment) "The Remembrancer takes the moment between two long fingers and sets it into the shore, somewhere inland, and in Imbar a season that nobody could remember is remembered again.".
+  Rule dane_returned when keeps(shore_remembrancer, dane_moment) and not reanchored(fourth_dane) { Assert reanchored(fourth_dane). }
+
+  // K2: the plateau's past.
+  Observe collar_years_scene at collar_years when true "Inland from the shore the plateau gets younger: the Collar going up, then a storm, then down; carts; the Breach opening in a white roar of steam and coming back closed; Quell growing smaller.".
+  Observe year_zero_scene at year_zero when true "A night of steam. Half of a town going into a hole in the ground. Then the light comes up out of the old Clear Fields everywhere at once, and sixty people at a fair stop where they stand, and their kin come with sand.".
+  Observe covering_scene at covering_years when true "Thousands of people carrying red clay in baskets, for years, into a pit; and then the last light cut, and in the glass of the fields, all at once, eleven thousand people wake in the dark.".
+  // The murder at the Stair: walked through, it plays; given time by touch, the faces.
+  Observe murder_scene at stair_murder when true "The top of the falls at night, in riot-time. A young woman in a council robe on the path, and four men coming up behind her who are not rioters.".
+  Thing murderers "the four men on the path" at stair_murder {
+    State coming "Four men in Answerer badges come up the path behind Selane, hands under their cloaks.".
+  }
+  Initially Assert kept(murderers).
+  Observe murder_seen near murderers when touched(murderers) "For the length of your touch it plays: they reach her, and the knives come out, and one of them says the Dane's name as if it were a prayer. When they turn to go you see their faces, and their badges." teaches selane_murdered.
+  // The new moons: the Voice's syllables as they were spoken, one at each new moon since the fall. Walking the first
+  // three centuries of them recovers the Crown's plan, and the first syllable.
+  Observe moons_scene at new_moons when true "Moonless nights, one after another, inland, each with a single sound passing through the rock near a young pit: a syllable, felt in the knees.".
+  Observe moons_walked at kept_fall when not knows(party, crown_map) "Sixty hours of moonless nights, a syllable each, and you have them all in order: the Crown's plan, the Voice's first three hundred years." teaches crown_map.
+  Observe first_from_moons at kept_fall when not knows(party, first_syllable) "The first of them you will not forget: it was the first sound the seed made in the world." teaches first_syllable.
+  Discovery delver_seen "At the fall, riding the seed's wake out of a clear sky, very small: a figure with a trowel, the first Mason, who laid the First Course and went down into the dark with the stem.".
+  Observe fall_scene_k at kept_fall when true "An autumn night out of a clear sky; a light coming down; the lake villages watching. Riding its wake, very small, visible only to someone looking for it, is a figure with a trowel." teaches delver_seen.
+
+  // K3: the Quarried Reaches: blankness, a fog in which things have no reasons; Masons cutting at the edges.
+  Observe hollow_scene at quarry_edge when true "History stops here. Not darkness: blankness, a fog in which things have no reasons. A road goes into it and does not come out. At its edges, figures with trowels are cutting, and the cut edges are clean.".
+  Person cutters "a crew of Masons, cutting" at quarry_edge {
+    Role "three Masons at the edge of the blank, cutting a season out of the plateau's last year". Ancestry human. Numbers 3. Peaceable.
+  }
+  Relation cutStopped(place).
+  Topic cutters_stop with cutters "Ask the Masons to stop cutting" when true once {
+    Says "They stop, because you asked, and look at you with honest puzzlement. 'It is the work,' says one. 'If we do not, another crew will.' But they put their trowels down, and that season stays where it is.".
+    On discuss { Assert cutStopped(quarry_edge). }
+  }
+  Person clea "Clea Tull" at quarry_edge {
+    Role "a Haldrish seer, lost, who walks here in her sleep". Ancestry human. Calling ranger. Peaceable. Pronouns she. Manner compassionate.
+    Joins "'I know the way inward,' says Clea, 'better than anyone living. I have been lost in it for forty years.' She takes your sleeve like a child.".
+  }
+  Initially Assert willing(clea, party).
+  Topic clea_where with clea "Tell Clea Tull where she is" when true once {
+    Says "'The Keeping,' she says after you, as if it were a word in a dream. 'I have always called it the long country.' She looks at her hands. 'Something bites me here. A little, every night, for forty years.' She does not know that her body is dying in a bed in Sorne, and you do not tell her.".
+  }
+  // Archivores: the Keeping's predators. They feed on what belongs to no moment, and cannot enter one that is playing.
+  Species archivore "an archivore" like wraith temperament ambush
+    described "A flat shape like a page turning, seen edge-on as a line. A bite takes time from the rest of a life: a day for a graze, years for a deep wound.".
+  Person archivores "archivores" at quarry_edge { Role "two flat shapes like pages turning". Species archivore. Numbers 2. }
+  Hazard archivore_bite "an archivore's bite" means "Deal (2d8) necrotic damage to ally unless wisdom save against (14).".
+  Measure yearsTaken(group).
+
+  // K4: deep time. The Descent, and the Separation: the most dangerous place, and the most valuable.
+  Observe descent_scene at descent_k when true "A night sky full of falling fire, every fall stopped, and the land under it burning.".
+  Thing falling_fire "the falling fire" at descent_k { State falling "Fire hangs in the sky, coming down.". }
+  Initially Assert kept(falling_fire).
+  Hazard landed "a falling thing, landing" means "Deal (4d6) fire damage to ally unless dexterity save against (15).".
+  Rule fire_lands when touched(falling_fire) says "For the length of your touch it falls, and lands." { Retract touched(falling_fire). Assert strikes(landed, party). }
+  Observe separation_scene at separation when true "A sky divided: half full of figures with light for wings, half full of figures of darkness and hooks, all stopped in the act of striking, across a distance the eye cannot measure. Below them, tall robed figures in white stand in a ring, holding the world apart like the pages of a book. In the centre of the ring a hand is setting a jewel into stone.".
+  Thing blows "the war overhead" at separation { State struck "Every blow overhead is stopped an inch from landing.". }
+  Initially Assert kept(blows).
+  Hazard unmaking "a blow of the Separation" means "Deal (10d10) force damage to ally.".
+  Rule blow_lands when touched(blows) says "You touch a blow that nearly unmade the world, and for a moment it goes on." { Retract touched(blows). Assert strikes(unmaking, party). }
+  Discovery sigils_known "How the sigils on Ithmar are cut, and so how a binding is made: watched at the Separation, stroke by stroke, a hand setting a jewel into stone.".
+  Relation watchedBinding(group).
+  Action watch_binding(actor: group, site: place) "Watch the hand in the ring cut the sigils, stroke by stroke" {
+    Description "Walk slowly round the ring, letting the moment play, and do not touch anything.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, separation) and not watchedBinding(actor)
+      and not benighted(actor).
+    Time 12.
+    On success { Assert watchedBinding(actor). }
+    Result "You walk the ring for two hours, slowly, so that it plays and does not stop, and you watch a hand cut the sigils on a jewel into its setting, one stroke at a time, until you could do it.".
+  }
+  Observe binding_learned near party when watchedBinding(party) and not knows(party, sigils_known) "You have the strokes. You know how it is bound; and so how it could be bound tighter." teaches sigils_known.
+
+  // K5: an absence. Saro, at the last moment she still had; around her, nothing.
+  Observe absence_scene at absence when true "A mountain hall, ages ago, and a woman standing in it with a jewel at her throat. Around her, in every direction, the Keeping is empty: a hole shaped like a life.".
+  Discovery saro_remembers "Saro has seen herself: a woman who wore a Kiritarun, and spent her whole past using it, and was taken. She remembers her name.".
+  Observe saro_sees at absence when travelsWith(saro, party) and not knows(party, saro_remembers) "Saro stands in front of the woman with the jewel for a long time. 'That is mine,' she says, the way she said it of the niche. Then, very quietly, she says a name, and it is not Saro, and she weeps, which she did not know how to do." teaches saro_remembers.
+
+  // K6: the Outer Wall: the quarry face, and the road to the Masonry.
+  Observe wall_scene_k at outer_wall when true "At the far inland edge, before the beginning, a wall. Through it, moments are being carried out on long tendrils of course-work into black.".
+}

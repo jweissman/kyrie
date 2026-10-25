@@ -1,0 +1,28 @@
+Module light "The margin of the Clear Fields" {
+  Place heath "the heath" is wilderness.
+  Place cord "the holders' cord" is room within heath at 0, 0 outdoors.
+  Place margin "the margin of the glass" is room within heath at 1, 0 outdoors.
+  Place deep "two hundred paces into the glass" is room within heath at 2, 0 outdoors.
+  Passage onto "the edge of the glass" is path between cord and margin taking 10 minutes.
+  Passage inward "the glass" is path between margin and deep taking 20 minutes.
+  Company party "You" of 1 at cord.
+
+  // The stilling: direct light from the Late Sun, through the glass, slows whatever drinks it.
+  Relation lit(place).
+  Initially Assert lit(margin). Initially Assert lit(deep).
+  Kind umber_felt "an umber felt cloak, hood and mitts" like cloak_of_protection worth 2 weighing 6 described "Wool felted with iron clay, red-brown and heavy. It smells of wet iron.".
+  Item felt "an umber felt cloak" is umber_felt at cord.
+  // Dose in quarter-points: an hour bare in the light is a point; in felt, a point in four hours.
+  Measure dose(member).
+  Query felted(m: member) means wearing(?f, m) and itemKind(?f, umber_felt).
+  Rule soaks when memberOf(?m, party) and at(party, ?p) and lit(?p) and not felted(?m) { Increase dose(?m) by 4. }
+  Rule soaks_felted when memberOf(?m, party) and at(party, ?p) and lit(?p) and felted(?m) { Increase dose(?m) by 1. }
+  Rule recovers when memberOf(?m, party) and at(party, ?p) and not lit(?p) and dose(?m) > 0 { Decrease dose(?m) by 8. }
+  Rule floor when memberOf(?m, party) and dose(?m) < 0 { Set dose(?m) to 0. }
+  Observe glass_scene at margin when true "The heath stops and the ground goes clear. Grass roots stand in it like hair in water, and every shadow lies down pointing west.".
+  Observe slow_feel near party when memberOf(?m, party) and dose(?m) >= 24 "{?m}'s own footsteps sound late, and the world seems to hurry.".
+  // Half speed at a point of dose (the shared rules' speed, in hundredths of a member's own).
+  Rule slowed when memberOf(?m, party) and dose(?m) >= 24 and speed(?m) != 50 { Set speed(?m) to 50. }
+  // Past twelve points, nobody walks out unaided.
+  Rule stopped when memberOf(?m, party) and dose(?m) >= 288 and not hobbled(party) { Assert hobbled(party). }
+}

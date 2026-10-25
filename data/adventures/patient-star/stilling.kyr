@@ -1,0 +1,75 @@
+Module stilling "The stilling: what the Late Sun's direct light does to whatever drinks it" {
+  // The four laws (The Land and Its Laws): the stilling travels only in direct light, silica passes it and stops,
+  // water and flesh drink it and slow, iron sheds it as heat. This module is the third law, as it bears on people:
+  // where the light falls, who is in it, what they wear, how slow it leaves them, and how they come back.
+
+  // Ground the light falls on: lit glass, a lamp-chamber, a vault with its shutter open, a leak in the plaster. A
+  // place is lit by a fact (litGround) or by a rule (lit), so that a shutter or a mirror can light and darken it.
+  Relation litGround(place). Relation shadeOf(place).
+  Query lit(p: place) means litGround(p) and not shadeOf(p).
+
+  // Dose, in twenty-fourths of a point: an hour bare in direct light is a point (24); an hour in full felt a
+  // quarter of one (6). Recovery is two points an hour out of the light, faster while someone is deeply slowed.
+  Measure dose(entity).
+  // Full umber felt: the cloak, the hood and the mitts. Counterfeit felt looks the same and is no felt at all.
+  // What sheds the stilling when worn: umber felt, Selane's Veil.
+  Relation shields(itemkind).
+  Query felted(m: member) means wearing(?f, m) and itemKind(?f, ?k) and shields(?k).
+  // Someone the light does not slow (Saro, whose bones are stillglass).
+  Relation unslowed(entity).
+  // Someone who is not of the company and wears felt, by what is said of them.
+  Relation feltClad(group).
+
+  Rule soaks when memberOf(?m, ?c) and company(?c) and at(?c, ?p) and lit(?p) and not felted(?m) and not unslowed(?m)
+    and not heldDeep(?m) { Increase dose(?m) by 4. }
+  Rule soaks_felted when memberOf(?m, ?c) and company(?c) and at(?c, ?p) and lit(?p) and felted(?m)
+    and not unslowed(?m) and not heldDeep(?m) { Increase dose(?m) by 1. }
+  Rule others_soak when at(?g, ?p) and lit(?p) and slowable(?g) and not feltClad(?g) and not heldDeep(?g) {
+    Increase dose(?g) by 4. }
+  Rule others_soak_felted when at(?g, ?p) and lit(?p) and slowable(?g) and feltClad(?g) and not heldDeep(?g) {
+    Increase dose(?g) by 1. }
+  // Out of the light: two points an hour, and twelve an hour while someone is held deeper than a tenth.
+  Query unlitFor(x: entity) means (memberOf(x, ?c) and at(?c, ?p) and not lit(?p)) or (at(x, ?q) and not lit(?q)).
+  // A decrease that would go below nothing stops play, and there is no min(), so the last of it is set to nothing.
+  Rule recovers when unlitFor(?x) and dose(?x) >= 8 and dose(?x) <= 288 { Decrease dose(?x) by 8. }
+  Rule recovers_last when unlitFor(?x) and dose(?x) > 0 and dose(?x) < 8 { Set dose(?x) to 0. }
+  Rule recovers_deep when unlitFor(?x) and dose(?x) > 288 { Decrease dose(?x) by 48. }
+  // A way across lit ground (the Collar Road, the filament, a leak across a doorway) doses whoever crosses it, once
+  // per crossing: so much bare, so much in felt. There is no division, so both are said.
+  Measure wayDose(passage). Measure wayDoseFelted(passage).
+  Relation dosedOn(member, passage).
+  Rule way_doses when tookWay(?c, ?w) and company(?c) and wayDose(?w) > 0 and memberOf(?m, ?c) and not dosedOn(?m, ?w)
+    and not felted(?m) and not unslowed(?m) { Increase dose(?m) by wayDose(?w). Assert dosedOn(?m, ?w). }
+  Rule way_doses_felted when tookWay(?c, ?w) and company(?c) and wayDoseFelted(?w) > 0 and memberOf(?m, ?c)
+    and not dosedOn(?m, ?w) and felted(?m) and not unslowed(?m) { Increase dose(?m) by wayDoseFelted(?w). Assert dosedOn(?m, ?w). }
+  Rule way_passed when dosedOn(?m, ?w) and memberOf(?m, ?c) and not tookWay(?c, ?w) { Retract dosedOn(?m, ?w). }
+  // Who the light can slow besides the company: the people of a module that says so.
+  Relation slowable(group).
+
+  // At a point, half speed: everything takes twice as long and companions seem to hurry. A slowed member goes at half
+  // their speed (the shared rules' speed, in hundredths), and the company at its slowest member's; when the dose is
+  // gone, their own. (Written at first as no capacity to carry, the only pace a module could then change: ledger, 1.)
+  Query slowedMember(m: member) means dose(m) >= 24.
+  Query slowedCompany(c: group) means memberOf(?m, c) and slowedMember(?m).
+  Rule slowing when memberOf(?m, ?c) and company(?c) and slowedMember(?m) and speed(?m) != 50 { Set speed(?m) to 50. }
+  Rule quickening when memberOf(?m, ?c) and company(?c) and not slowedMember(?m) and speed(?m) == 50 { Set speed(?m) to 0. }
+  // In a fight, slowed is Orsino's slow: a blow fewer, late to move. Laid on whoever is slowed, an hour at a time.
+  Hazard stilled "the stilling" means "Apply slow to ally for 1 hour.".
+  Relation slowLaid(group). Measure slowSince(group).
+  Rule slow_laid when company(?c) and slowedCompany(?c) and not slowLaid(?c) {
+    Assert strikes(stilled, ?c). Assert slowLaid(?c). Set slowSince(?c) to watch(clock). }
+  Rule slow_renewed when company(?c) and slowLaid(?c) and watch(clock) >= slowSince(?c) + 6 { Retract slowLaid(?c). }
+  // At twelve points, a tenth: they cannot leave without being led.
+  Query stoppedMember(m: member) means dose(m) >= 288.
+  Rule stopping when memberOf(?m, ?c) and company(?c) and stoppedMember(?m) and not hobbled(?c) { Assert hobbled(?c). }
+  Rule starting when hobbled(?c) and company(?c) and not stoppedCompany(?c) and stilled(?c) {
+    Retract hobbled(?c). Retract stilled(?c). }
+  Query stoppedCompany(c: group) means memberOf(?m, c) and stoppedMember(?m).
+  Relation stilled(group).
+  Rule stilled_mark when hobbled(?c) and company(?c) and stoppedCompany(?c) and not stilled(?c) { Assert stilled(?c). }
+  // Held: past a hundred points, one breath every few minutes.
+  Query heldDeep(x: entity) means dose(x) >= 2400.
+
+  Observe slow_feel near ?c when company(?c) and slowedCompany(?c) and not stoppedCompany(?c) "Your own footsteps sound late on the stone, your limbs are heavy, and the world has begun to hurry around you.".
+  Observe stopped_feel near ?c when company(?c) and stoppedCompany(?c) "Every thought takes an hour to finish. You could not walk out of here alone if your life hung on it.".
+}

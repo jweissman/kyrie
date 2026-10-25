@@ -1,0 +1,180 @@
+Module season "The Patient Star" {
+  // The Standing Cloud and the Corbel (Tier III): a fastness two kilometres tall lowering itself down the pillar of
+  // light, point first, built of moments taken from other worlds. Its tip is three kilometres above the Pit.
+  Place sky "the Standing Cloud" is wilderness within ghessil at 8, 0.
+  Place corbel_site "the Corbel" is site within ghessil at 3, 4.
+  Place cloud_base "the bottom of the Standing Cloud" is room within sky at 0, 2 outdoors.
+  Place thick_low "the Thick, low" is room within sky at 0, 1 outdoors.
+  Place thick_high "the Thick, high" is room within sky at 0, 0 outdoors.
+  Place crane_rest "a held crane, halfway up the filament" is room within sky at 1, 1 outdoors.
+  Place c_low "the Corbel's lower reach" is level within corbel_site.
+  Place c_mid "the Corbel's middle reach" is level within corbel_site.
+  Place c_high "the Corbel's upper reach" is level within corbel_site.
+  Place lintel_room "the Lintel" is room within c_low at 0, 0.
+  Place weathers "the Hall of Weathers" is room within c_low at 1, 0.
+  Place sea_far "the far side of the upright sea" is room within c_low at 2, 0.
+  Place procession "the Procession" is room within c_mid at 0, 0.
+  Place dormitory "the Dormitory" is room within c_mid at 1, 0.
+  Place offers "the Offers" is room within c_mid at 2, 0.
+  Place rail "the Rail" is room within c_high at 0, 0.
+  Place interlocutor_room "the Interlocutor's chamber" is room within c_high at 1, 0.
+  Place seam "the Seam" is room within c_high at 2, 0 outdoors.
+
+  // Up the filament: three kilometres of direct light, resting on held cranes; in full felt about eight points by
+  // the top.
+  Passage filament_low "the filament, the lower half" is path between pit_floor and crane_rest taking 16 hours needing rope or climbing.
+  Passage filament_high "the filament, the upper half" is shaft between crane_rest and lintel_room taking 16 hours needing rope or climbing.
+  Initially Set wayDose(filament_low) to 384. Initially Set wayDoseFelted(filament_low) to 96.
+  Initially Set wayDose(filament_high) to 384. Initially Set wayDoseFelted(filament_high) to 96.
+  Initially Assert litGround(crane_rest).
+  // Or by the Warden's balloon to the bottom of the Cloud on a calm autumn dawn, and up the Thick.
+  Passage balloon_ride "the Warden's fire-balloon" is passage between balloon_yard and cloud_base taking 2 hours
+    opening when admits(aske, party) and season(clock) == 3 and hour(clock) <= 7 "The balloon's silk lies folded in its shed. The Warden lets it go up only for those he admits, on a calm autumn dawn.".
+  Passage thick_climb "the Thick, pressed into handholds" is path between cloud_base and thick_low taking 8 hours needing climbing or rope.
+  Passage thick_climb2 "the Thick, higher" is path between thick_low and thick_high taking 8 hours needing climbing or rope.
+  Passage thick_top "into the Corbel's tip" is shaft between thick_high and lintel_room taking 2 hours.
+  Initially Assert litGround(thick_low). Initially Assert litGround(thick_high).
+
+  Observe crane_scene at crane_rest when true "A crane hangs in the air in the light, wings half spread, as it has for centuries; it holds your weight as long as nothing gives it time. Below, the Pit is a coin of fire. Above, the filament goes up into grey.".
+  Observe base_scene at cloud_base when true "The balloon's basket bumps against the underside of the Cloud, and above you the fog stands up in a column two hundred metres across, dense as wet wool, and lit from inside.".
+  Observe thick_low_scene at thick_low when true "You climb by pressing hands and feet into the fog, slowly, as into a snowbank, and it closes behind you. Hanging in it, here and there, are translucent bells as big as a man.".
+  Observe thick_high_scene at thick_high when true "Higher, hailstones the size of plums hang in the air, faintly turning, and cranes hang among them with their wings half spread. Above, something dark and coursed closes off the sky.".
+  // Rime-bells: drifting colonies of algae in slowed water, which cling to anything warm. Salt makes them let go.
+  Thing rime_bell "a rime-bell" on thick_climb2 {
+    State drifting dangerous "A rime-bell drifts across the line of the climb, a translucent bell two metres across that turns toward warmth.".
+    State shrunk "A rime-bell has let go and drifts off, puckered, where the salt struck it.".
+    Change salt_bell "Throw salt on the rime-bell" from drifting to shrunk consuming salt.
+    Hurts with bell_drown when drifting then drifting.
+  }
+  Hazard bell_drown "a rime-bell closing" means "Deal (2d6) physical damage to ally unless strength save against (13).".
+  // The Long Hail: a stone pushed aside resumes the fall it had, at the speed it had.
+  Thing hail "the Long Hail" at thick_high {
+    State hanging_hail "Hailstones hang in the light, some of them for three hundred years.".
+  }
+  Initially Assert kept(hail).
+  Hazard hailstone "a hailstone, resuming" means "Deal (1d10) physical damage to ally unless dexterity save against (12).".
+  Rule hail_resumes when touched(hail) says "The stone turns slowly under your stick, and then it is gone downward at the speed of a hailstone, and the one below it, and the one below that." {
+    Retract touched(hail). Assert strikes(hailstone, party). }
+
+  // Every room of the Corbel is laid: what is said aloud in it is taken, and the Interlocutor speaks with it.
+  Initially Assert laidRoom(lintel_room). Initially Assert laidRoom(weathers). Initially Assert laidRoom(procession).
+  Initially Assert laidRoom(dormitory). Initially Assert laidRoom(offers). Initially Assert laidRoom(rail).
+  Initially Assert laidRoom(interlocutor_room).
+  // C1: the Lintel, a door made from a guard's moment. Speak the first syllable, or pass on the side the blow is not
+  // aimed at, which the stance shows.
+  Observe lintel_scene at lintel_room when true "At the Corbel's tip a door with no frame stands closed, and in its place a figure taller than a man, armoured in something like bark, stopped in the act of raising a weapon.".
+  Discovery first_syllable "The first syllable of the Voice, from the First Course, from the Keeping's first new moon, or from Saro.".
+  Discovery stance_read "The Lintel's guard is raising its weapon over its right shoulder: the blow comes down on its left.".
+  Thing lintel "the Lintel" on lintel_way {
+    State guarding blocking "The guard stands in the doorway with its weapon raised.".
+    State passed_l "The Lintel stands as it stood; you are through it.".
+    Change speak_first "Speak the first syllable of the Voice" from guarding to passed_l after learning first_syllable.
+    Change pass_side "Pass on the side the blow is not aimed at" from guarding to passed_l after learning stance_read.
+    Tries looking.
+  }
+  Observe stance_seen beside lintel_way when tried(lintel, looking) "Its weight is on the back foot, the weapon up over its right shoulder. Whatever it was guarding, the blow will come down on its left." teaches stance_read.
+  Observe saro_syllable at lintel_room when travelsWith(saro, party) and not knows(party, first_syllable) "Saro says a sound before you can ask her: the first one. 'It is the door's,' she says." teaches first_syllable.
+  Hazard lintel_blow "the Lintel's blow" means "Deal (4d8) physical damage to ally unless dexterity save against (15).".
+  Action rush_lintel(actor: group, site: place) "Rush past the Lintel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lintel_room) and state(lintel, guarding).
+    Time 1 minute.
+    On success { Assert strikes(lintel_blow, actor). Assert at(actor, weathers). }
+    Result "The guard completes the blow it was stopped in. It is a real blow, from a world where guards were very large.".
+  }
+  Passage lintel_way "through the Lintel" is doorway between lintel_room and weathers.
+
+  // C2: the Hall of Weathers. Green lightning stopped mid-branch; rain hanging; a sea set on end.
+  Observe weathers_scene at weathers when true "A hall three hundred metres high. Through it runs a bolt of green lightning, stopped mid-branch, its forks thicker than a man. Rain hangs beyond it, each drop holding a point of light. At the far end is a wall of dark water standing upright, with a sun shining from its bottom.".
+  Thing lightning "the green lightning" at weathers {
+    State forked "The green bolt hangs mid-branch.".
+  }
+  Initially Assert kept(lightning).
+  Hazard green_bolt "the green lightning" means "Deal (3d10) lightning damage to ally unless dexterity save against (14).".
+  Rule lightning_strikes when touched(lightning) says "For the length of your touch the bolt finishes its stroke, and you are in the middle of it." {
+    Retract touched(lightning). Assert strikes(green_bolt, party). }
+  Passage upright_sea "the upright sea, swum" is passage between weathers and sea_far taking 5 minutes.
+  Hazard drowning "forty metres of a sea set on end" means "Deal (2d8) physical damage to ally unless constitution save against (13).".
+  Rule sea_swum when tookWay(?c, upright_sea) and company(?c) and not swum(?c) {
+    Assert strikes(drowning, ?c). Assert swum(?c). }
+  Relation swum(group).
+  Rule sea_dry when swum(?c) and not tookWay(?c, upright_sea) { Retract swum(?c). }
+  Observe sea_far_scene at sea_far when true "You come out of the water on a slope of coursed glass, streaming, and the water stands behind you like a wall, lit from beneath by a sun you will never see the sky of.".
+
+  // C3: the Procession. One bearer is a keystone with a mind; given time by touch, it speaks.
+  Passage far_up "a coursed ramp" is passage between sea_far and procession taking 30 minutes.
+  Observe procession_scene at procession when true "A broad ramp of figures, stopped: slender, many-jointed, taller than horses, carrying a long box between them on poles, in a frieze that runs upward out of sight. A banner hangs over them in a script of overlapping circles.".
+  Thing bearer "the foremost bearer" at procession {
+    State bearing_box "The foremost bearer's head is turned, as if it were about to speak to the one behind.".
+  }
+  Initially Assert kept(bearer).
+  Discovery bearer_words "The procession's bearer, given time, speaks a few words in a language nobody on Imbar knows.".
+  Observe bearer_speaks near bearer when touched(bearer) and not travelsWith(saro, party) "Under your hand the bearer turns its long head and says something, slowly, in a language like water running over pebbles, and is still." teaches bearer_words.
+  Observe bearer_translated near bearer when touched(bearer) and travelsWith(saro, party) "The bearer speaks, slowly, and Saro, beside you, says it after it in Tovashi, a word at a time: 'They took our past first, from the newest backward. And when they reached the beginning, we were not.'" teaches newest_backward.
+
+  // C4: the Dormitory. Masons at rest, each with a trowel; one niche empty, with a human shape.
+  Passage proc_dorm "a shaft lined with niches" is passage between procession and dormitory taking 30 minutes.
+  Observe dorm_scene at dormitory when true "A shaft lined with niches from top to bottom, hundreds of them, each holding a stopped figure. The figures are all different; some are human and some are not. Each holds a trowel. One niche is empty, and it has a human shape.".
+  Observe saro_niche at dormitory when travelsWith(saro, party) "Saro stands in front of the empty niche a long time. 'This is mine,' she says. 'I do not remember it.' She puts her hand flat on its back wall, which has no temperature, like her hand.".
+
+  // C5: the Offers. Returned moments: people played back out of masonry into the present, alive.
+  Passage dorm_offers "a gallery of small rooms" is passage between dormitory and offers taking 10 minutes.
+  Observe offers_scene at offers when true "A gallery of small rooms, each with a single figure in it, lit. A woman carrying a basket. A young man laughing. A child asleep. Each one is breathing. None of them knows where they are.".
+  Observe offers_doran at offers when knows(party, held_feed) "In the last room a thin man stands with his hands at his sides and his mouth a little open, breathing, looking about him at a place he has never seen. It is Doran of Ennick, alive, as he was the night Ilis laid him.".
+
+  // C6: the Rail. Courses grip the pillar; unlaying one lets the Corbel slip two metres and stalls it a month.
+  Passage offers_rail "a stair round the core" is passage between offers and rail taking 30 minutes.
+  Observe rail_scene at rail when true "At the Corbel's core a great column of light runs straight up through the building and out of sight. Around it, courses grip the light like fingers; the ones that touch it glow brightest.".
+  Initially Assert litGround(rail).
+  Thing rail_course "the brightest rail-course" at rail {
+    State gripping "The brightest course grips the pillar of light like a finger.".
+    State unlaid_r "Where the brightest course gripped the light there is a gap, and Masons are already climbing toward it.".
+    Change unlay_rail "Unlay the brightest rail-course with the trowel" from gripping to unlaid_r needing trowel_kind.
+  }
+  Measure railRepair(entity).
+  Rule rail_slips when state(rail_course, unlaid_r) and railRepair(rail_course) == 0 says "The Corbel slips two metres down the light with a sound like the whole sky clearing its throat. Anyone on its outside falls." {
+    Set railRepair(rail_course) to 30. Increase corbelHeight(corbel_site) by 60. }
+  Rule rail_mends when state(rail_course, unlaid_r) and railRepair(rail_course) > 0 and hour(clock) == 0 { Decrease railRepair(rail_course) by 1. }
+  Rule rail_mended when state(rail_course, unlaid_r) and railRepair(rail_course) == 1 { Assert state(rail_course, gripping). Set railRepair(rail_course) to 0. }
+
+  // C7: the Interlocutor. It speaks only with syllables laid in its presence, in the visitor's own voice, assembled
+  // from what they said on the way up; it cannot lie, and chooses what to leave out. Under Selane's Veil nothing said
+  // can be taken.
+  Passage rail_chamber "a plain door" is doorway between rail and interlocutor_room.
+  Observe chamber_scene_i at interlocutor_room when true "A plain room, its walls finely coursed.".
+  Person interlocutor "the Interlocutor" at interlocutor_room {
+    Role "the Masonry's voice, from the walls". Ancestry human. Peaceable. Pronouns it.
+    Greets "The walls of the chamber take a breath that is your own breath, from the stair.".
+  }
+  Query veiled(c: group) means memberOf(?m, c) and wearing(?v, ?m) and itemKind(?v, veil_kind).
+  Observe interlocutor_silent near interlocutor when wordsLaid(party) < 20 or veiled(party) "The walls listen. Nothing speaks. You have said too little on the way up, or nothing that could be taken, for anything here to answer you with.".
+  Observe interlocutor_voice near interlocutor when wordsLaid(party) >= 20 and not veiled(party) "When it speaks it is your own voice, out of the walls: words you said on the way up, in the Riot Hall, at the Lintel, to Saro on the stair, taken apart and put back together. It is very courteous.".
+  Topic interlocutor_wants with interlocutor "Ask the Interlocutor what it wants" when wordsLaid(actor) >= 20 and not veiled(actor) once {
+    Says "'That this bracket join the seed,' it says, in your voice, 'and that the seed be left whole until it does.' A pause. 'You would harm the seed. I would ask you not to. That is all I cannot bear.'".
+    On discuss { Assert knows(actor, seed_tender). }
+  }
+  Discovery seed_tender "The Interlocutor cannot bear the seed being harmed before the Corbel docks, and says so: the one place to press.".
+  Topic interlocutor_offer with interlocutor "Ask the Interlocutor what it offers" when wordsLaid(actor) >= 20 and not veiled(actor) once {
+    Says "'Any moment returned,' it says. 'The dead of Kell. Your Doran. A daughter at her council.' Your voice is very warm. 'And terms. We will take Imbar's past only as far as the Separation, which nobody alive remembers.' It does not say from which end it will start.".
+  }
+  Topic interlocutor_end with interlocutor "Ask the Interlocutor from which end it takes a world's past" when knows(actor, newest_backward) and wordsLaid(actor) >= 20 and not veiled(actor) once {
+    Says "There is a silence of the kind a thing that cannot lie keeps. 'From the newest,' it says. 'It is how a building is quarried. You start at the face.'".
+    On discuss { Assert knows(actor, held_feed). }
+  }
+  Relation bargained(group).
+  Action accept_terms(actor: group, site: place) "Accept the Interlocutor's terms" {
+    Description "Some dead come back. The Masonry takes the past from the newest moment backward, as far as the line agreed.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, interlocutor_room) and wordsLaid(actor) >= 20
+      and not veiled(actor) and not bargained(actor).
+    Time 10 minutes.
+    On success { Assert bargained(actor). }
+    Result "'Agreed,' says your own voice, out of the walls, and somewhere below, very far down, last week begins to go.".
+  }
+
+  // C8: the Seam, the edge of Imbar, five kilometres up, where the light leaves the sky.
+  Passage chamber_seam "a stair up into black" is passage between interlocutor_room and seam taking 1 hour.
+  Observe seam_scene at seam when true "The light leaves the sky. The stars are close and do not twinkle. The cold is like nothing on earth, because heat does not move here at all. The building goes on upward into black.".
+  Hazard seam_cold "the cold of the Seam" means "Deal (1d8) cold damage to ally.".
+  Rule seam_cold_bites when at(party, seam) and not seamBitten(party) { Assert strikes(seam_cold, party). Assert seamBitten(party). }
+  Relation seamBitten(group).
+  Rule seam_leaves when seamBitten(party) and not at(party, seam) { Retract seamBitten(party). }
+}

@@ -1,0 +1,11 @@
+Module place "A market that uses the stilling as a law" {
+  // Rebuilt at integration: the author's site/ was never committed (the repository ignores every "site" folder).
+  Place market_site "the Shift Market" is site.
+  Place stalls "the stalls" is room within market_site at 0, 0.
+  Company party "You" of 1 at stalls.
+  Initially Set quantity(party, gold) to 5.
+  Person rusk "Rusk, a felter" at stalls {
+    Ancestry human. Calling warrior. Level 1. Peaceable.
+    Sells umber_felt for 2 coin from 3.
+  }
+}

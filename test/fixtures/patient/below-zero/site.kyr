@@ -1,0 +1,8 @@
+Module belowzero "A measure that recovers past nothing" {
+  Place moor "the moor" is wilderness.
+  Place hollow "a hollow" is room within moor at 0, 0 outdoors.
+  Company party "You" of 1 at hollow.
+  Measure dose(entity). Initially Set dose(party) to 5.
+  // Natural: recover eight an hour-sixth, and stop at nothing.
+  Rule recovers when dose(party) > 0 { Decrease dose(party) by 8. }
+}

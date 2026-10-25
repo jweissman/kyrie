@@ -1,0 +1,310 @@
+Module season "Hold One Season" {
+  // Tamaun's upper city: the West Gallery from Quell and the Neck, the Shallows lit by mirrors, and the Granaries
+  // lit by direct light through channels. Everything here is underground and dark unless a mirror throws light on it.
+  Place gallery "the West Gallery" is level within tamaun.
+  Place shallows "the Shallows" is level within tamaun.
+  Place granaries "the Granaries" is level within tamaun.
+
+  Place well_foot "the foot of the North Well" is room within gallery at 0, 0 underground.
+  Place before_neck "the West Gallery, at the Neck" is room within gallery at 1, 0 underground.
+  Place west_gate "the West Gate" is room within shallows at 0, 1 underground.
+  Place road_north "the Mirror Road, north stretch" is room within shallows at 1, 0 underground.
+  Place lamp_chamber "the third lamp-chamber" is room within shallows at 2, 0 underground.
+  Place road_south "the Mirror Road, south stretch" is room within shallows at 1, 2 underground.
+  Place bunks "the Bunks" is room within shallows at 0, 2 underground.
+  Place plate_hall "the Plate Hall" is room within shallows at 2, 2 underground.
+  Place ring "the Granary Ring" is room within granaries at 1, 1 underground.
+  Place vault "the ninth vault" is room within granaries at 1, 0 underground.
+  Place fox_vault "the fourth vault" is room within granaries at 2, 1 underground.
+  Place waking_ward "the Waking Ward" is room within granaries at 0, 1 underground.
+  Place flood_line "the Flood Line" is room within granaries at 1, 2 underground.
+  Place sluice_head "the Sluice" is room within granaries at 2, 2 underground.
+
+  Passage well_stair "the North Well stair" is stair between well_head and well_foot.
+  Passage west_gallery "the West Gallery" is tunnel between well_foot and before_neck taking 3 hours.
+  Passage neck "the Neck" is crawl between before_neck and west_gate taking 20 minutes.
+  Passage gate_arch "the West Gate arch" is arch between west_gate and road_north.
+  Passage slot_north "the north light-slot gallery" is passage between road_north and lamp_chamber taking 3 minutes.
+  Passage mirror_road "the Mirror Road" is passage between road_north and road_south taking 5 minutes.
+  Passage bunks_way "the passage to the Bunks" is passage between road_south and bunks taking 3 minutes.
+  Passage hall_way "the Plate Hall doorway" is doorway between road_south and plate_hall.
+  // My addition: a Seridane service stair from the Plate Hall down to the Granaries.
+  Passage granary_stair "the service stair" is stair between plate_hall and ring.
+  Passage vault_door "the ninth vault's doorway" is doorway between ring and vault.
+  Passage fox_door "the fourth vault's doorway" is doorway between ring and fox_vault.
+  Passage ward_door "the Waking Ward door" is doorway between ring and waking_ward.
+  Passage flood_slope "the slope to the flood" is passage between ring and flood_line taking 3 minutes.
+  Passage sluice_tunnel "the sluice tunnel" is passage between flood_line and sluice_head taking 5 minutes.
+
+  // Dark, unless a mirror throws light here. The galleries a mirror serves are lit while it is aimed at them.
+  Relation darkRoom(place).
+  Initially Assert darkRoom(well_foot). Initially Assert darkRoom(before_neck). Initially Assert darkRoom(west_gate).
+  Initially Assert darkRoom(road_north). Initially Assert darkRoom(road_south). Initially Assert darkRoom(bunks).
+  Initially Assert darkRoom(plate_hall). Initially Assert darkRoom(ring). Initially Assert darkRoom(waking_ward).
+  Initially Assert darkRoom(flood_line). Initially Assert darkRoom(sluice_head).
+  Rule unlit_here when darkRoom(?p) and not bright(?p) and not unlit(?p) { Assert unlit(?p). }
+  Rule lit_here when darkRoom(?p) and bright(?p) and unlit(?p) { Retract unlit(?p). }
+
+  Observe well_foot_scene at well_foot when true "The stair comes down into a round chamber at the water's edge. The well water is warm as a bath. A tunnel two metres wide runs off east beside it, with a channel along one side.".
+  Observe gallery_scene at before_neck when true "The West Gallery runs on east, wet underfoot, the water in its channel very still. Ahead, the roof comes down to meet the water.".
+
+  // The Neck: the roof drops until there is a metre of air under it in late summer. The water in the West Gallery is
+  // falling a hand a month, because the growth under the Late Sun is opening a channel that drains it (S1).
+  Entity neck_water: scenery "the water at the Neck".
+  Measure airGap(entity).
+  Initially Set airGap(neck_water) to 100.
+  Rule neck_falls when hour(clock) == 4 and dice(neck_water) <= 13 { Increase airGap(neck_water) by 1. }
+  Observe neck_scene at before_neck when airGap(neck_water) < 110 "The ceiling drops until you wade with your face near the stone; under the Neck there is about a metre of air. On the wall a line of white crust shows where the water stood a season ago, a hand above where it stands now.".
+  Observe neck_scene_low at before_neck when airGap(neck_water) >= 110 "Under the Neck there is more than a metre of air now. The white crust of the old waterline stands well above the water.".
+  // Whoever marks the water and comes back to it learns it is falling.
+  Measure markedAt(group).
+  Relation marked(group).
+  Action mark_water(actor: group, site: place) "Scratch a mark at the waterline under the Neck" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, before_neck) and not marked(actor) and not benighted(actor).
+    Time 2 minutes.
+    On success { Assert marked(actor). Set markedAt(actor) to airGap(neck_water). }
+    Result "You scratch a line in the crust at the very edge of the water with the point of your knife.".
+  }
+  Discovery water_falling "The water in the West Gallery is falling, faster than any season accounts for: the mark at the Neck is dry above it within days. Something below is drawing it off." .
+  Observe mark_dry at before_neck when marked(party) and airGap(neck_water) >= markedAt(party) + 2 "The line you scratched at the waterline is dry now, two fingers above the water." teaches water_falling.
+
+  Observe gate_scene at west_gate when true "Beyond the Neck a cut-stone arch opens on a gallery. Chalk on the arch reads J.H. 341.".
+
+  // The Mirror Road and the third lamp-chamber. The chamber's mirror throws safe, bounced light down one of three
+  // galleries: the north stretch, the south stretch, or the Bunks. The chamber itself is a straight room: the Late Sun
+  // is behind its window, and every minute there is dose (S4).
+  Initially Assert litGround(lamp_chamber).
+  Thing mirror "the great mirror" at lamp_chamber {
+    State to_north "A bronze mirror two metres across stands on a cradle with a crank and worm-gear, throwing a beam out through the north slot. Brass scales are scratched on the cradle, and its pointer stands near the end of them.".
+    State to_south "The great mirror is cranked round to the south slot, and its beam goes out that way.".
+    State to_bunks "The great mirror is cranked round to the low slot that serves the Bunks.".
+    Change north_south "Crank the mirror round to the south slot" from to_north to to_south.
+    Change north_bunks "Crank the mirror round to the Bunks slot" from to_north to to_bunks.
+    Change south_north "Crank the mirror round to the north slot" from to_south to to_north.
+    Change south_bunks "Crank the mirror round to the Bunks slot" from to_south to to_bunks.
+    Change bunks_north "Crank the mirror round to the north slot" from to_bunks to to_north.
+    Change bunks_south "Crank the mirror round to the south slot" from to_bunks to to_south.
+  }
+  Relation aims(condition, place).
+  Initially Assert aims(to_north, road_north). Initially Assert aims(to_south, road_south). Initially Assert aims(to_bunks, bunks).
+  Query bright(p: place) means state(mirror, ?s) and aims(?s, p).
+  Observe chamber_scene at lamp_chamber when true "A round chamber at the inner end of the gallery. One wall is a single sheet of stillglass three metres across, with blinding light behind it. Your shadow lies flat behind you on the floor.".
+  Discovery mirrors_ending "The lamp-chamber mirrors are at the end of their travel. Their scales were set for a Late Sun that sank four centimetres a year; whatever they are aimed at now, they will not reach for long." {
+    Found by searching lamp_chamber "The pointer on the cradle's brass scale stands two finger-widths from its stop. Below the last scratched mark, someone recently has scratched another, and another below that.".
+  }
+
+  // The gardens walk with the light: where bounced light has lain a long while, moss and fern and grass; where it has
+  // left, they brown and die (S2). Greenness is reckoned by the watch, from none to a thousand.
+  Measure green(place).
+  Initially Set green(road_north) to 1000. Initially Set green(road_south) to 300. Initially Set green(bunks) to 0.
+  Rule greening when darkRoom(?p) and bright(?p) and green(?p) < 1000 and dice(?p) <= 50 { Increase green(?p) by 1. }
+  Rule browning when darkRoom(?p) and not bright(?p) and green(?p) > 0 { Decrease green(?p) by 1. }
+  Observe north_lit at road_north when bright(road_north) "A ring gallery four metres wide. A bronze disc as big as a cartwheel is set in a ceiling niche, throwing grey-gold light along the passage. Swallows nest on its rim.".
+  Observe north_dark at road_north when not bright(road_north) "A ring gallery four metres wide. A bronze disc as big as a cartwheel sits dull in its ceiling niche, and the swallows on its rim are quiet.".
+  Observe north_garden at road_north when green(road_north) >= 600 "Moss covers the floor, ferns grow out of the cracks in the left-hand wall, and pale grass stands up to your knees.".
+  Observe north_fading at road_north when green(road_north) < 600 and green(road_north) >= 200 "The grass lies over and is turning yellow. The ferns have begun to brown at the tips.".
+  Observe north_dead at road_north when green(road_north) < 200 "Dead ferns, brown and dry, break when you brush them. The grass lies flat.".
+  Observe south_lit at road_south when bright(road_south) "Light comes down the south stretch from a ceiling disc, onto stone that was bare not long ago.".
+  Observe south_dark at road_south when not bright(road_south) "The south stretch of the Mirror Road is dark. A disc hangs dull in the ceiling niche.".
+  Observe south_garden at road_south when green(road_south) >= 600 "A garden has come up here: moss, fern, and pale grass to the knee.".
+  Observe south_shoots at road_south when green(road_south) < 600 and green(road_south) >= 100 "New green shoots, very small, come up between the stones in a band as straight as the edge of a shadow.".
+
+  // A leak: a crack in the plaster where the Mirror Road meets the Plate Hall throws a blade of direct light across
+  // the doorway. It is the commonest hazard in the city; it moves only when the plaster falls.
+  Thing leak "a blade of white light" on hall_way {
+    State shining "Where the plaster has cracked over the Plate Hall doorway, a blade of hard white light comes through and lies across the threshold.".
+    State shaded "A hood of umber felt has been hung over the crack above the Plate Hall doorway.".
+    Change shade "Hang felt over the crack" from shining to shaded consuming felt_scrap.
+  }
+  Initially Set wayDose(hall_way) to 2.
+  Rule leak_shaded when state(leak, shaded) and wayDose(hall_way) > 0 { Set wayDose(hall_way) to 0. }
+
+  // The Bunks: the Mutual's unlicensed crews, and their cold hearth.
+  Observe bunks_scene at bunks when true "Rooms off the ring: bed niches cut in the rock, reading mirrors on pegs, tally marks by the doors. In one block, bedrolls, a cold hearth, Mutual tallies and a wine jar. One of the bed niches is yours.".
+  Observe bunks_lit at bunks when bright(bunks) "Grey-gold light falls into the Bunks from the low slot in the ceiling. Someone has hung a shirt up to dry in it.".
+  Person bunks_crew "the Bunks crew" at bunks {
+    Role "four of the Mutual's unlicensed cutters, between shifts". Ancestry human. Numbers 4. Peaceable.
+  }
+  Relation grumbled(group).
+  // An event happens once, seen or not; the crew grumble whenever someone comes in on them in the dark, so it is said
+  // each time it is so.
+  Observe bunks_darkened at bunks as event when not bright(bunks) and at(bunks_crew, bunks) and green(bunks) > 0 "One of the cutters in the Bunks looks up at the dead slot in the ceiling. 'Somebody's been at the third mirror again,' she says. 'Swing it back before the ferns go, or we'll be sleeping in the dark.'".
+  Topic bunks_neck with bunks_crew "Ask the Bunks crew about the way down to the Granaries" when true once {
+    Says "'Service stair, out of the back of the Plate Hall,' says a woman with her boots off. 'Mind the doorway. There's a crack in the plaster over it, and a blade of the straight light comes through. Run it, or hang a bit of felt over the crack.' She throws you a scrap of old felt. 'Keep that.'".
+    On discuss { Increase quantity(actor, felt_scrap) by 1. }
+  }
+  Topic bunks_outfall with bunks_crew "Ask the Bunks crew about other ways out" when true once {
+    Says "'The Holdfolk say the old drain comes out above Ennick,' says the woman. 'The Outfall. Nine kilometres on your belly, and shut by the flood from Sowing to the end of summer. It should open any day now.'".
+    On discuss { Assert knows(actor, outfall_known). }
+  }
+  Entity felt_scrap: good "scrap of felt".
+  Discovery outfall_known "The Outfall, the Seridane's drain, runs nine kilometres from the Granaries' flood line to a spring cave in the cliff above Ennick; it is shut by the flood from Sowing to the end of summer.".
+
+  // The Plate Hall: voice-plates in racks, a stylus on a cord, and Halu's stack by the door (S5).
+  Observe plate_hall_scene at plate_hall when true "A long hall of racks for thin stillglass plates, most of the slots empty. By the door, twelve plates are stacked neatly, edges squared, as if someone meant to carry them away and will be back for them.".
+  Thing tally_plate "a plate from the granary racks" at plate_hall {
+    State silent "One rack is labelled with the sign the Seridane painted on their grain jars. A plate stands in it.".
+    State playing "A clerk's voice, faint as wind, counts jars into a vault: a number, a breath, and then a line said quickly the same way each time, the way you would say a thing a thousand times a day. 'Seri amar ka, dane tamaun eth. Seri amar ka, ithel sonne.'".
+    Change play_tally "Draw a stylus along the granary plate" from silent to playing needing stylus.
+  }
+  Thing song_plate "a plate on its own on a shelf" at plate_hall {
+    State silent "On a shelf by itself, a plate scratched along one edge with children's tally marks.".
+    State playing "Children's voices, very small and far away, count in a ring: twelve words, round and round, and on the twelfth they all shout.".
+    Change play_song "Draw a stylus along the children's plate" from silent to playing needing stylus.
+  }
+  Thing debate_plate "a plate from the debate" at plate_hall {
+    State silent "In the end rack, two plates are cut with the Answerer and Coverer signs.".
+    State playing "A woman's voice, a Coverer's: 'It was not given. Nothing gives a thing it cannot see. It fell, as a stone falls from a sling, and the lake wrote it down.' And a man, an Answerer, louder, threatening her by name.".
+    Change play_debate "Draw a stylus along the debate plate" from silent to playing needing stylus.
+  }
+  Rule debate_ends when state(debate_plate, playing) and not at(party, plate_hall) { Assert state(debate_plate, silent). }
+  Discovery coverer_case "The Coverers argued, on the debate plates, that the hour was not given but fell, and that the lake's own records said so.".
+  Observe debate_heard at plate_hall when state(debate_plate, playing) "The Coverers said it fell." teaches coverer_case.
+  Rule tally_ends when state(tally_plate, playing) and not at(party, plate_hall) { Assert state(tally_plate, silent). }
+  Rule song_ends when state(song_plate, playing) and not at(party, plate_hall) { Assert state(song_plate, silent). }
+  Discovery song_heard "The Plate Hall's counting song: children count twelve words in a ring, each on its own note.".
+  Observe song_learned at plate_hall when state(song_plate, playing) "Each of the twelve words has its own note." teaches song_heard.
+  Discovery tally_words "A Seridane granary clerk, counting jars into a vault, said the same line over each: 'Seri amar ka, dane tamaun eth. Seri amar ka, ithel sonne.'".
+  Observe tally_heard at plate_hall when state(tally_plate, playing) "The same line, over each jar." teaches tally_words.
+
+  // The Granary Ring and its vaults. Each vault has an umber shutter on a pulley; open, a bar of direct light comes
+  // down its channel from the Pit wall and holds whatever is under it; shut, it lets whatever it held go (G2). The
+  // pulley's cord is made off on a cleat by the doorway, so that the shutter is worked from outside the beam.
+  Observe ring_scene at ring when true "A curving passage with forty vaults off it, numbered in Seridane signs over their doorways. In some, a bar of hard white light comes straight down from the ceiling onto the floor.".
+  Discovery jars_painted "Every jar in the Granary Ring is painted with the same line of Seridane writing, and holds black dust.".
+  Observe jars_seen at ring when not benighted(party) "Every jar in every vault is red-glazed and painted with the same line of words, and every jar you can see into holds black dust." teaches jars_painted.
+
+  Thing shutter "the ninth vault's shutter" on vault_door {
+    State open "In the ceiling of the ninth vault an umber shutter hangs open on its pulley, and a bar of white light comes down through the channel above it onto the floor.".
+    State shut "The ninth vault's shutter is down. The vault is dark.".
+    Change close_nine "Pull the shutter cord at the doorway" from open to shut at ring.
+    Change open_nine "Let the shutter cord run" from shut to open at ring.
+  }
+  Initially Assert litGround(vault).
+  Rule vault_lit when state(shutter, open) and not litGround(vault) { Assert litGround(vault). }
+  Rule vault_unlit when state(shutter, shut) and litGround(vault) { Retract litGround(vault). Assert unlit(vault). }
+  Rule vault_bright when state(shutter, open) and unlit(vault) { Retract unlit(vault). }
+  Observe cleat_seen at ring when state(shutter, open) "Beside the ninth vault's doorway, a cord comes down out of the ceiling and is made off on a bronze cleat.".
+  Observe vault_scene at vault when state(shutter, open) "Rows of red-glazed jars stand under the beam, each painted with the same line of words. In the middle of them a man in a cutter's felt hood stands with one hand out toward a jar, his eyes open.".
+  Observe vault_dark_scene at vault when state(shutter, shut) "Rows of red-glazed jars, and the smell of old dust.".
+  Kind granary_jars "a sack's worth of umber-glazed jars" is treasure worth 12 weighing 8
+    described "Red-glazed Seridane grain jars, not a crack in one, each painted with the same line of writing and holding black dust. A collector in Sorne pays three crowns a jar.".
+  Item jars "the ninth vault's jars" is granary_jars at vault.
+
+  // The fourth vault holds a fox.
+  Thing fox_shutter "the fourth vault's shutter" on fox_door {
+    State open "An umber shutter hangs open in the ceiling, and the light comes down onto a fox that stands in it with its tail half lifted.".
+    State shut "The fourth vault's shutter is down.".
+    Change close_fourth "Pull the fourth vault's shutter cord" from open to shut at ring.
+  }
+  Initially Assert litGround(fox_vault).
+  Person fox "a fox" at fox_vault { Role "a dog fox, held in the light mid-step". Species fox. Pronouns he. }
+  Initially Assert asleep(fox). Initially Assert slowable(fox). Initially Set dose(fox) to 2400.
+  Rule fox_unlit when state(fox_shutter, shut) and litGround(fox_vault) { Retract litGround(fox_vault). }
+  Rule fox_wakes when asleep(fox) and dose(fox) < 288 { Retract asleep(fox). }
+  Event fox_runs near fox when not asleep(fox) and at(fox, fox_vault) "The fox finishes its step, and the next. It looks round at the dark with its ears flat, and is gone down the ring like smoke." then {
+    Retract at(fox, fox_vault). Assert at(fox, flood_line). }
+
+  // The Waking Ward: where the Seridane held their sick, and where they woke in the dark when the light was cut (G3).
+  Observe ward_scene_t at waking_ward when true "Long rooms of stone beds with leather straps rotted to threads. The ceiling channels are shuttered and dark.".
+  Observe ward_walls at waking_ward when not benighted(party) "The writing starts at the door, scratched into the stone at the height of someone sitting up. Further in it is everywhere: walls, bed-edges, floor. Some is neat; some runs downhill. Near the far end it is low, at the height of someone lying down, and the scratches are shallow. You cannot read it, but you can tell that it was written in the dark. One word near the door has the same shape as the line on the granary jars.".
+  Discovery ward_written "The Seridane held their sick in the Waking Ward. When the light was cut, the held woke in the dark and wrote on the walls until they died: names, and words over and over." {
+    Found by searching waking_ward "Among the scratches, the same few words come again and again, low down and shallow at the end. One of them has been written so many times that the stone is worn smooth around it.".
+  }
+
+  // The Flood Line and the Sluice: the outer passages slope into warm clear water. In autumn the flood falls; from
+  // Sowing to Haying it closes the Outfall's last stretch (G4). The Sluice lowers it, and sends it all down to Ennick.
+  Measure flood(entity).
+  Entity flood_water: scenery "the flood in the Granaries".
+  Initially Set flood(flood_water) to 100.
+  Relation sluiced(entity).
+  Rule flood_falls when season(clock) == 3 and hour(clock) == 3 and flood(flood_water) > 40 { Decrease flood(flood_water) by 15. }
+  Rule flood_sluiced when sluiced(flood_water) and hour(clock) == 3 and flood(flood_water) > 0 { Decrease flood(flood_water) by 20. }
+  Observe flood_scene at flood_line when flood(flood_water) >= 60 "The passages slope down into still, warm, clear water. White shrimp scatter from your light. Where the Outfall goes on west, the water stands to the roof.".
+  Observe flood_scene_low at flood_line when flood(flood_water) < 60 "The water has drawn back down the slope. Where the Outfall goes on west, there is air above the water now, a hand of it, then more.".
+  Species outfall_eel "an Outfall eel" like great_pike temperament ambush
+    described "An eel of the Ammer that swam up the warm Outfall as an elver two hundred years ago and never left: three metres of it, white about the jaw.".
+  Person eels "Outfall eels" at flood_line {
+    Role "two old eels lying in the flooded doorway". Species outfall_eel. Numbers 2.
+  }
+  Thing sluice "the Sluice" at sluice_head {
+    State closed "A bronze gate stands in a stone frame at the head of a broad tunnel, with a geared wheel the size of a man. A trickle comes through it.".
+    State opened "The Sluice stands open. The water goes through it with a sound like wind.".
+    Change open_sluice "Wind the Sluice open" from closed to opened.
+    Change close_sluice "Wind the Sluice shut" from opened to closed.
+  }
+  Rule sluice_runs when state(sluice, opened) and not sluiced(flood_water) { Assert sluiced(flood_water). }
+  Rule sluice_stops when state(sluice, closed) and sluiced(flood_water) { Retract sluiced(flood_water). }
+  Entity quell_wells: scenery "Quell's wells".
+  Relation drained(entity). Relation washedOut(entity).
+  Rule wells_drop when sluiced(flood_water) and flood(flood_water) < 40 and not drained(quell_wells) { Assert drained(quell_wells). }
+
+  // Garret, held eleven months at about a hundredth, in the beam among the jars.
+  Person garret "Garret" at vault {
+    Role "a cutter of the Mutual, held in the light". Ancestry human. Peaceable. Plans 14 steps. Uses go, change_thing. Pronouns he. Manner cheerful.
+    Joins "Garret puts a hand on your shoulder, to steady himself as much as anything. 'Up, then,' he says. 'Slowly.'".
+  }
+  Initially Assert kin(party, garret). Initially Assert kinship(garret, uncle).
+  Entity uncle: fact "your uncle".
+  Initially Assert asleep(garret). Initially Assert slowable(garret). Initially Assert feltClad(garret).
+  Initially Set dose(garret) to 2400.
+  Measure watchedFor(entity).
+  Rule watching_garret when at(party, vault) and heldDeep(garret) and at(garret, vault) and not benighted(party) { Increase watchedFor(garret) by 1. }
+  Observe garret_moved at vault when heldDeep(garret) and at(garret, vault) and watchedFor(garret) >= 6 "You have watched him for an hour. His hand is a finger's width nearer the jar than it was, and his chest is higher.".
+  Observe garret_slowing at vault when not heldDeep(garret) and asleep(garret) and at(garret, vault) "Garret's eyes are moving. They come round to you over a long time, and his lips part.".
+  Observe garret_ring at ring when asleep(garret) and at(garret, ring) and not heldDeep(garret) "Garret lies on the floor of the Ring where he was dragged, his eyes moving very slowly from one thing to the next.".
+  Rule garret_wakes when asleep(garret) and dose(garret) < 288 { Retract asleep(garret). Assert acceptsEscort(garret, party). }
+  // He comes round whether or not anyone is there to see. What it was like is told to whoever first sees him awake:
+  // an event would be spent unseen, so it is an observation that teaches its own having been seen (ledger, 4).
+  Rule garret_willing when not asleep(garret) and not willing(garret, party) and not travelsWith(garret, party) and not cameUp(garret) { Assert willing(garret, party). }
+  Entity garret_woke: fact "Garret has come round from eleven months in the light.".
+  Observe garret_comes_round near garret as event when not asleep(garret) and not cameUp(garret) and not knows(party, garret_woke) "Garret finishes the reach he began eleven months ago, closes his hand on nothing, and sits down hard. 'Where's the light gone?' he says. 'Ness was just there.' He looks at you a long time. 'You were never this tall. What month is it?' Told, he says nothing for a while. 'I'm hungry,' he says at last, as if that settled it." teaches garret_woke.
+  Topic garret_month with garret "Tell Garret how long he stood there" when not asleep(garret) once {
+    Says "'Eleven months,' Garret says after you, as if trying the words for size. 'It was Harvest. I had my hand out.' He looks at his hand. 'Ness said the light would not reach past the door. Ness said a lot of things.'".
+  }
+  Topic garret_ness with garret travelling "Ask Garret about Ness" when not asleep(garret) once {
+    Says "'She wanted the jars,' says Garret. 'Three crowns a jar in Sorne, and there's forty in that vault. I said the light was moving, I'd seen it on the floor. She said go on then, if you're frightened.' He laughs, not much. 'So I went on.'".
+  }
+  // Pulled out by hand: whoever does it stands in the beam to do it.
+  Action drag_out(actor: group, site: place) "Go into the beam and drag Garret out of it" {
+    Description "Into the light, an arm round him, and back out to the Ring. It takes a few minutes in the beam.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, vault) and at(garret, vault)
+      and state(shutter, open) and asleep(garret) and not hobbled(actor).
+    Time 5 minutes.
+    On success { Retract at(garret, vault). Assert at(garret, ring). Retract at(actor, vault). Assert at(actor, ring).
+      Assert dragged(garret). }
+    Result "You go in among the jars, get an arm round Garret, and haul. He comes like a felled tree, stiff and very slow, and you get him out over the threshold onto the Ring.".
+  }
+  Relation dragged(group).
+  Relation cameUp(group).
+  // Joined, he is a member of the company with a body of his own, and the dose was on the person he was: it is
+  // carried over by hand (ledger, 6).
+  Rule garret_dose_joins when travelsWith(garret, party) and dose(garret) > 0 {
+    Set dose(member_garret_person) to dose(garret). Set dose(garret) to 0. }
+  // Once he can walk, and nobody leads him, he makes his own slow way home to the Mutual's hall.
+  Pursuit go_home for garret "making his slow way up to Quell" priority 20 when not asleep(garret) and not following(garret, party) and not travelsWith(garret, party) and not cameUp(garret) seeks at(garret, mutual_hall).
+  Pursuit stay_close for garret "keeping close to you" priority 30 when following(garret, party) seeks together(garret, party).
+  Rule garret_home when at(garret, mutual_hall) and not cameUp(garret) { Assert cameUp(garret). }
+  Rule garret_brought when travelsWith(garret, party) and at(party, mutual_hall) and not cameUp(garret) { Assert cameUp(garret). }
+  Initially Assert keyholder(garret, chain_gate).
+
+  // Dagny's crew goes down on the fourth morning, when it has the felt, and Ness with them. At the Ring they argue; the crew pull the cord,
+  // and Ness takes the jars.
+  Rule crew_sets_out when day(clock) >= 4 and hour(clock) == 6 and not descended(crew) { Assert descended(crew). }
+  Initially Assert keyholder(crew, chain_gate). Initially Assert keyholder(ness, chain_gate).
+  Pursuit go_down for crew "going down after Garret" priority 20 when descended(crew) and asleep(garret) seeks at(crew, ring).
+  Pursuit go_down for ness "going down with the crew" priority 20 when descended(crew) and not keeps(ness, jars) seeks at(ness, ring).
+  Relation argued(group).
+  Event crew_argue near crew when at(crew, ring) and at(ness, ring) and asleep(garret) and not argued(crew) "At the ninth vault's doorway Dagny's crew stand arguing in low voices. 'He'll keep,' Ness is saying. 'He's kept a year. Take the jars and come back for him with the sledge.' 'We came for him,' says the elder. 'And we go in for him when Dagny sends the long poles down, not before. I'll not have two of us stood in there.'" then { Assert argued(crew). Set arguedOn(crew) to day(clock). }
+  Measure arguedOn(group).
+  Pursuit free_him for crew "pulling the shutter cord on Garret" priority 25 when argued(crew) and day(clock) >= arguedOn(crew) + 3 and state(shutter, open) seeks state(shutter, shut).
+  Action pack_jars(actor: group, site: place) "Pack the ninth vault's jars into a sack" {
+    Requires able(actor) and at(actor, site) and at(actor, ring) and at(jars, vault) and state(shutter, shut) and distinct(actor, party).
+    Time 3.
+    On success { Retract at(jars, vault). Assert keeps(actor, jars). }
+    Seen "{actor} packs the jars from the ninth vault into a sack, wrapping each in straw.".
+  }
+  Pursuit take_jars for ness "packing the ninth vault's jars" priority 30 when at(ness, ring) and state(shutter, shut) and at(jars, vault) seeks keeps(ness, jars) using pack_jars.
+  Pursuit go_back for ness "taking the jars up to sell" priority 20 when keeps(ness, jars) seeks at(ness, mutual_yard).
+  Pursuit go_back for crew "going back up" priority 10 when descended(crew) and not asleep(garret) seeks at(crew, mutual_yard).
+}

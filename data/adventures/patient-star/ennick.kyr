@@ -1,0 +1,149 @@
+Module season "Hold One Season" {
+  // The heath and the Ramp: four hours from Quell to the Ramp head, three down it to Ennick on the gorge floor.
+  Place ramp_head "the Ramp head" is room within heath at 0, 0 outdoors.
+  Passage quell_road "the Quell road" is road between square and ramp_head taking 4 hours.
+  Observe ramp_head_scene at ramp_head when true "The heath is flat and grey-green to the edge of the sky and smells of ashwort. Here the road tips over the gorge rim and goes down the Ramp in long switchbacks. Far to the south-east a line of light stands straight up from the ground into a small cloud, and does not move.".
+
+  Place inn "the Lower Inn" is building within ennick.
+  Place holders "the holder's house" is building within ennick.
+  Place ilis_house "Ilis's house" is building within ennick.
+  Place lower_road "Ennick's lower road" is room within ennick at 1, 2 outdoors.
+  Place taproom "the Lower Inn" is room within inn at 2, 2.
+  Place holders_room "the holder's house" is room within holders at 0, 2.
+  Place ilis_room "Ilis's kitchen" is room within ilis_house at 1, 3.
+  Place terraces "the upper terraces" is room within ennick at 1, 1 outdoors.
+  Place shrine "the shrine" is room within ennick at 0, 1 outdoors.
+  Place weeping_wall "the Weeping Wall" is room within ennick at 0, 0 outdoors.
+
+  Passage ramp "the Ramp" is road between ramp_head and lower_road taking 3 hours.
+  Passage inn_door "the Lower Inn's door" is door between lower_road and taproom.
+  Passage holders_door "the holder's door" is door between lower_road and holders_room.
+  Passage ilis_door "Ilis's door" is door between lower_road and ilis_room.
+  Passage terrace_steps "the terrace steps" is steps between lower_road and terraces taking 10 minutes.
+  Passage cliff_path "the west cliff path" is path between lower_road and shrine taking 10 minutes.
+  Passage wall_climb "the climb to the Weeping Wall" is path between shrine and weeping_wall taking 20 minutes.
+  // The Outfall: nine kilometres of Seridane drain, a metre and a half high, wet, from the Weeping Wall to the Flood
+  // Line. Shut by the flood until it falls in autumn.
+  Passage outfall "the Outfall" is crawl between weeping_wall and flood_line taking 8 hours
+    opening when flood(flood_water) < 60 "Ten paces in, the Outfall's roof meets black water, and the water does not stop.".
+
+  Observe road_scene at lower_road when not washedOut(lower_road) "Terraces, walnut trees and the river. Carts go through here or not at all: the gorge floor is the only grade a wagon can climb.".
+  Observe road_washed at lower_road when washedOut(lower_road) "The lower road is gone under a skin of red mud and gravel where the Weeping Wall's spring came down it in spate. A cart stands axle-deep in it, abandoned.".
+  Observe taproom_scene at taproom when true "A low room with a walnut-wood bar and very few people in it. A Glass Office notice is nailed beside the door: THIS HOUSE IS THE OFFICE'S POST ON THE GORGE ROAD.".
+  Observe holders_scene at holders_room when true "A holder's house: tally cords hung on pegs by the door, felt hoods, sacks of clean sieved sand, and a map of the glass above the village drawn in charcoal on the wall, with knots for marks.".
+  Observe ilis_scene at ilis_room when true "A kitchen with a walnut fire and two chairs. An old felt cloak, stiff at the shoulders from years of folding, hangs by the door.".
+  Observe terraces_scene at terraces when true "The upper terraces are glass. Apricot trees stand in it to the knee, held, in the light coming up from under their roots, with the leaves of the year 370 still on them. Ennick's children dare each other to touch them.".
+  Initially Assert litGround(terraces).
+  Observe weeping_scene at weeping_wall when true "Sixty metres above the village a spring comes out of a low cave in the cliff and falls in a long white thread. The Holdfolk call it the Weeping Wall. In the pool at its foot, thin glass eels flicker.".
+  Discovery elvers_seen "Elvers swim up into the Weeping Wall: whatever is in there is warm, and goes a long way back." {
+    Found by searching weeping_wall "Behind the falling water the cave goes back into the cliff, low and square-cut. It is not a cave: it is a drain, with tool-marks on its walls, and warm air comes out of it.".
+  }
+
+  // The shrine: the Answerer chant-wall, which plays when a stylus is drawn along it (In-world sources 1).
+  Thing chant_wall "the chant-wall" at shrine {
+    State silent "A face of stillglass four metres long in the cliff, worn smooth at hand height. Walnuts lie in a heap at its foot.".
+    State playing "A man's voice, faint and level, in a language older than Tovashi: a long speech, and at the end a line said slower than the rest, as a threat is.".
+    Change play_wall "Draw a stylus along the chant-wall" from silent to playing needing stylus.
+  }
+  Rule wall_ends when state(chant_wall, playing) and not at(party, shrine) { Assert state(chant_wall, silent). }
+
+  // The holders. Bren keeps the office; his mother Ilis kept it before him. The holder's door is bolted with an iron
+  // pin that is the Collar culvert's missing gate pin, which nobody in this slice yet knows to look for.
+  Person bren "Bren of Ennick" at holders_room {
+    Role "the holder of Ennick". Ancestry human. Peaceable. Pronouns he. Manner grim.
+  }
+  Person ilis "Ilis of Ennick" at ilis_room {
+    Role "the old holder, seventy-eight". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+  }
+  Person mirel "Mirel" at holders_room {
+    Role "a Holdfolk carrier". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Joins "Mirel takes down her hood and her tally cord from the pegs. 'I will carry,' she says. 'You will not ask me to wake anyone.'".
+    Leaves "Mirel takes off her hood and hands it back to nobody. 'I carry for the held,' she says, 'not against them.' She goes home.".
+  }
+  Person kerra "Kerra Vane" at taproom {
+    Role "keeper of the Lower Inn". Profession innkeeper. Ancestry human. Peaceable. Pronouns she.
+    Sells rations for 1 coin from 6.
+  }
+  Initially Assert slowable(mirel). Initially Assert feltClad(mirel). Initially Set hire(mirel) to 1.
+  Thing bolt "the bolt on the holder's door" on holders_door {
+    State home "The holder's door is bolted with a long iron pin, square in section, too heavy for the job, rusted where hands do not wear it.".
+    Tries looking.
+  }
+  Discovery bolt_is_pin "The bolt on the holder's door in Ennick is a square iron pin, too heavy for a door: a sluice-gate pin.".
+  Observe bolt_looked beside holders_door when tried(bolt, looking) "The pin is square in section, as thick as a thumb, with a hole through one end for a chain that is not there. It was made for a sluice-gate, not a door." teaches bolt_is_pin.
+
+  Discovery prayer_heard "The Ennick holding prayer, spoken over each person as they are laid in the light: 'Seri amar ka, dane tamaun eth. Seri amar ka, ithel sonne.' Held until the hour, keepers of the deep water watch; held until the hour, the light remembers." {
+    Known by bren, ilis, mirel.
+  }
+  Topic bren_held with bren "Ask Bren about the held" when true once {
+    Says "'They are alive,' says Bren. 'You can watch them breathe if you have the patience, and the felt. My father lies nine hundred paces in. A carrier who goes to him and back loses a night and an afternoon to it.' He looks at the map on the wall. 'Nobody held is woken without their own word. A held man cannot give it. So nobody is woken.'".
+  }
+  Topic bren_garret with bren "Tell Bren about Garret in the vault" when knows(actor, garret_held) once {
+    Says "Bren hears you out. 'He was not laid,' he says. 'He walked into it, reaching for a jar. That is not holding, that is a man caught.' He nods slowly. 'Get him out. If you mean to go by the drain, take Mirel. She knows it.'".
+    On discuss { Assert willing(mirel, actor). }
+  }
+  Topic bren_prayer with bren "Ask Bren what is said when someone is laid" when true once {
+    Says "Bren says it without thinking, the way a man says a thing he has said over his own father. 'Seri amar ka, dane tamaun eth. Seri amar ka, ithel sonne.' Then, in Tovashi: 'Held until the hour, keepers of the deep water watch. Held until the hour, the light remembers.'".
+    On discuss { Assert knows(actor, prayer_heard). }
+  }
+  Topic mirel_outfall with mirel "Ask Mirel about the Weeping Wall" when true once {
+    Says "'It is the old drain,' says Mirel. 'It goes all the way under the heath to the city, nine kilometres, on your hands and knees. My grandfather went up it once. The flood closes it all summer, and opens it when the leaves turn.' She looks at your boots. 'Eight hours, wet. You come out in warm water, with eels.'".
+    On discuss { Assert knows(actor, outfall_known). }
+  }
+  Topic ilis_held with ilis "Ask Ilis whether the held are truly alive" when true once {
+    Says "'Ours breathe,' says Ilis. 'I have watched Doran take a breath every month for forty years, and it takes longer every year. The old ones further in, from before the Covering, do not breathe. Those are not ours.' She folds her hands. 'Ask me something else.'".
+  }
+  Topic ilis_prayer with ilis "Ask Ilis about the holding prayer" when true once {
+    Says "Ilis says it, slowly, the way her mother taught her: 'Seri amar ka, dane tamaun eth. Seri amar ka, ithel sonne.' She does not say what it means.".
+    On discuss { Assert knows(actor, prayer_heard). }
+  }
+  // What Ilis has not said in forty years: she says it to someone who has already seen it.
+  Discovery prayer_label "The holding prayer is not a prayer. It is a Seridane granary formula, painted on the grain jars and said over each by the clerks: hold this one season, then give it out. The Holdfolk have been saying a label over their dying for three hundred years." {
+    Known by ilis.
+  }
+  Topic ilis_jars with ilis "Tell Ilis about the words on the granary jars" when (knows(actor, jars_painted) or knows(actor, tally_words)) and knows(actor, prayer_heard) and not knows(actor, prayer_label) once {
+    Says "Ilis looks at you for a long time. 'So you have seen the jars,' she says. 'The prior at Stairhead read them for me forty years ago. Hold one season, then issue. A grain jar's label.' She looks at the old cloak by the door. 'I said it over my husband. I have said it over half this village. I have never told Bren.'".
+    On discuss { Assert knows(actor, prayer_label). }
+  }
+  // Or the company puts the two together itself: the clerk's line on the plate is the prayer.
+  Observe prayer_recognised near party when knows(party, tally_words) and knows(party, prayer_heard) and not knows(party, prayer_label) "The clerk's line, said over each jar he counted in, is the line the Holdfolk say over their dying, word for word." teaches prayer_label.
+
+  // The holders' cord and the glass: up the goat cleft from the terraces to the rim, and the red felt rope a hundred
+  // paces from the edge of the light. At dusk the umber wolves come along the cord, and wait for whoever comes back
+  // across it slowed.
+  Place cord "the holders' cord" is room within fields at 0, 1 outdoors.
+  Place margin "the edge of the glass" is room within fields at 1, 1 outdoors.
+  Place near_held "three hundred paces in" is room within fields at 2, 1 outdoors.
+  Place doran_place "Doran's brick" is room within fields at 3, 1 outdoors.
+  Passage goat_cleft "the goat cleft" is path between terraces and cord taking 1 hour.
+  Passage onto_glass "the edge of the glass" is path between cord and margin taking 10 minutes.
+  Passage glass_in "the glass" is path between margin and near_held taking 30 minutes.
+  Passage glass_deep "the glass, further in" is path between near_held and doran_place taking 1 hour.
+  Initially Assert litGround(margin). Initially Assert litGround(near_held). Initially Assert litGround(doran_place).
+  Observe cord_scene at cord when true "Red felt rope on iron pins runs along the heath a hundred paces short of the glass. A cairn stands where the path comes up, and people sit down at it whether they mean to or not.".
+  Observe cord_night at cord when dark() "Past the cord your shadow changes: a second light, low and level, comes out of the east through the edge of the glass, and every shadow on the heath lies down pointing west.".
+  Observe margin_scene at margin when true "The heath stops and the ground goes clear. There is no slope and no rim: sand and needlegrass, and then the sand is clear and the grass roots stand in it like hair in water. It has no temperature underfoot. Every shadow points west.".
+  Observe near_scene at near_held when true "Umber bricks the size of loaves lie on the glass in a scatter, each with a knot cut in the top. Under each, a finger's depth down and more, someone lies on their back in the clear stone.".
+  Observe doran_scene at doran_place when true "An umber brick with a holder's knot cut in it sits on the glass. Under it a man lies in a trench a little deeper than an arm is long, with his hands at his sides and his mouth a little open. The glass in front of his face has a fan of bright lines in it, where the sand was not quite clean.".
+  Measure watchedDoran(group).
+  Rule watching_doran when at(party, doran_place) and not benighted(party) { Increase watchedDoran(party) by 1. }
+  Rule doran_reset when not at(party, doran_place) and watchedDoran(party) > 0 { Set watchedDoran(party) to 0. }
+  Discovery doran_breathed "Doran, held forty years nine hundred paces into the glass, breathed: once, in most of an hour of watching." .
+  Observe doran_breath at doran_place when watchedDoran(party) >= 5 and not knows(party, doran_breathed) "It begins so slowly that you could not say when it began. There is a time when his chest is down and a time when it is not, and between them the shirt lifts over the bone and the cloth draws tighter at the shoulder." teaches doran_breathed.
+
+  Species umber_wolf "an umber wolf" like wolf temperament territorial
+    described "A plateau wolf crusted iron-red to the shoulder from wallowing in umber mud, which lets it hunt an hour or two into the light.".
+  Person wolves "the umber wolves" at cord {
+    Role "a pack of umber wolves, the colour of the cliffs". Species umber_wolf. Numbers 4.
+    Seen when dark().
+    Warns "On the far side of the cord, in the juniper, four of them stand still that were not standing there before. They walk when you walk, twenty paces off, keeping level.".
+  }
+  // They do not come at a company that can run. They come at one that cannot.
+  Initially Assert tolerates(wolves, party).
+  Rule wolves_close when dark() and at(party, cord) and slowedCompany(party) and tolerates(wolves, party) says "The wolves have stopped keeping level. They are coming in." {
+    Retract tolerates(wolves, party). Assert assails(wolves, party). }
+  Rule wolves_wait when not dark() and not tolerates(wolves, party) and not assails(wolves, party) { Assert tolerates(wolves, party). }
+
+  // The Sluice sends its water down the Outfall to the Weeping Wall, and from there onto the lower road.
+  Rule road_washes when sluiced(flood_water) and not washedOut(lower_road) and hour(clock) == 5 says "Down in Ennick, at first light, the Weeping Wall comes down in spate, red with mud, and goes over the lower road." { Assert washedOut(lower_road). }
+}

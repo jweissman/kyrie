@@ -1,0 +1,19 @@
+Module leaves "A carrier who leaves a company that wakes the held" {
+  Place glass "the glass" is wilderness.
+  Place cord "the holders' cord" is room within glass at 0, 0 outdoors.
+  Place field "the held field" is room within glass at 1, 0 outdoors.
+  Passage onto "the edge of the glass" is path between cord and field.
+  Company party "You" of 1 at cord.
+  Person mirel "Mirel" at cord {
+    Role "a Holdfolk carrier". Ancestry human. Peaceable. Pronouns she.
+    Leaves "Mirel takes off her hood. 'I carry for the held,' she says, 'not against them.' She goes home.".
+  }
+  Initially Assert willing(mirel, party). Initially Assert kin(party, mirel).
+  Thing brick "a holder's brick" at field {
+    State laid "An umber brick with a knot cut in it sits on the glass over someone held.".
+    State lifted "The brick lies on its side, and the sand under it has been dug.".
+    Change dig "Dig out the held one under the brick" from laid to lifted.
+  }
+  // Natural expression: she leaves the company when it wakes the held. Here, by retracting what joining asserted.
+  Rule mirel_quits when state(brick, lifted) and travelsWith(mirel, party) { Retract travelsWith(mirel, party). Assert at(mirel, cord). }
+}

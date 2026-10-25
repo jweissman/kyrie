@@ -1,0 +1,9 @@
+Module knowsrule "Two things heard, put together" {
+  Place town "the town" is settlement.
+  Place yard "the yard" is room within town at 0, 0.
+  Company party "You" of 1 at yard.
+  Discovery prayer "The holding prayer." { Known by party. }
+  Discovery label "The granary clerk's line." { Known by party. }
+  Discovery same "The prayer is the clerk's line.".
+  Rule put_together when knows(party, prayer) and knows(party, label) { Assert knows(party, same). }
+}

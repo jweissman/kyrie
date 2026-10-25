@@ -1,0 +1,11 @@
+Module stand "A man who means to go home, and does not know how to walk" {
+  Place town "the town" is settlement.
+  Place yard "the yard" is room within town at 0, 0.
+  Place lane "the lane" is room within town at 1, 0.
+  Place home "his house" is room within town at 2, 0.
+  Passage a "the yard gate" is gate between yard and lane.
+  Passage b "his door" is door between lane and home.
+  Company party "You" of 1 at yard.
+  Person garret "Garret" at yard { Role "a cutter going home". Ancestry human. Peaceable. }
+  Pursuit go_home for garret "going home" priority 20 when true seeks at(garret, home).
+}

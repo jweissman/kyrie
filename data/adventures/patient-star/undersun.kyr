@@ -1,0 +1,325 @@
+Module season "The Patient Star" {
+  // The Undersun (Tier II): an inverted citadel beneath the Late Sun, 300 metres across at its crown and 700 deep,
+  // narrowing to a drilling tip. Every room is a moment cut from the plateau's past. Five rules: a room is a moment;
+  // touch gives time; speech is laid; course-light doses; the name is the plan.
+  Place undersun "the Undersun" is site within ghessil at 5, 1.
+  Place crown "the Crown" is level within undersun.
+  Place reach "the Seridane Reach" is level within undersun.
+  Place silent_reach "the Silent Reach" is level within undersun.
+  Place shaft_600 "the shaft at six hundred metres" is level within undersun.
+  Place shaft_700 "the shaft at seven hundred metres" is level within undersun.
+  Place shaft_foot "the foot of the shaft" is level within undersun.
+  Place lreach "the Listeners' Reach" is level within undersun.
+  Place tip "the Tip" is level within undersun.
+
+  Place crown_entry "where the Courses broke through" is room within crown at 1, 0 underground.
+  Place fall_chamber "the Fall" is room within crown at 0, 0 underground.
+  Place fire_heart "the heart of the fire" is room within crown at 0, 1 underground.
+  Place first_course "the First Course" is room within crown at 2, 0 underground.
+  Place burning_wood "the Burning Wood" is room within crown at 1, 1 underground.
+  Place crown_foot "the foot of the Crown" is room within crown at 1, 2 underground.
+
+  Place reach_head "the head of the Seridane Reach" is room within reach at 1, 0 underground.
+  Place granary_noon "the Granary at Noon" is room within reach at 0, 0 underground.
+  Place schism "the Council of the Schism" is room within reach at 2, 0 underground.
+  Place riot_hall "the Riot Hall" is room within reach at 1, 1 underground.
+  Place bathhouse "the Bathhouse" is room within reach at 0, 1 underground.
+  Place quarried "the Quarried Gallery" is room within reach at 2, 1 underground.
+  Place reach_foot "the foot of the Seridane Reach" is room within reach at 1, 2 underground.
+
+  Place shaft_top "the top of the shaft" is room within silent_reach at 0, 0 underground.
+  Place plumb_mouth "the Plumb's mouth" is room within shaft_600 at 0, 1 underground.
+  Place saro_stair "the top of Saro's stair" is room within shaft_700 at 0, 2 underground.
+  Place shaft_bottom "the bottom of the shaft" is room within shaft_foot at 0, 3 underground.
+
+  Place lreach_head "the head of the Listeners' Reach" is room within lreach at 1, 0 underground.
+  Place breach_moment "the Breach, stopped" is room within lreach at 0, 0 underground.
+  Place keystone_gallery "the Keystone Gallery" is room within lreach at 2, 0 underground.
+  Place fair_moment "the Fair" is room within lreach at 1, 1 underground.
+  Place tip_dome "the Tip" is room within tip at 0, 0 underground.
+
+  // Course-light: every room of the Undersun is direct light for dose, and every room is laid.
+  Initially Assert litGround(crown_entry). Initially Assert litGround(fall_chamber). Initially Assert litGround(fire_heart).
+  Initially Assert litGround(first_course). Initially Assert litGround(burning_wood). Initially Assert litGround(crown_foot).
+  Initially Assert litGround(reach_head). Initially Assert litGround(granary_noon). Initially Assert litGround(schism).
+  Initially Assert litGround(riot_hall). Initially Assert litGround(bathhouse). Initially Assert litGround(quarried).
+  Initially Assert litGround(reach_foot). Initially Assert litGround(shaft_top). Initially Assert litGround(plumb_mouth).
+  Initially Assert litGround(saro_stair). Initially Assert litGround(shaft_bottom). Initially Assert litGround(lreach_head).
+  Initially Assert litGround(breach_moment). Initially Assert litGround(keystone_gallery). Initially Assert litGround(fair_moment).
+  Initially Assert litGround(tip_dome).
+  Initially Assert laidRoom(granary_noon). Initially Assert laidRoom(riot_hall). Initially Assert laidRoom(schism).
+  Initially Assert laidRoom(keystone_gallery). Initially Assert laidRoom(fair_moment). Initially Assert laidRoom(tip_dome).
+  Initially Assert laidRoom(breach_moment). Initially Assert laidRoom(bathhouse).
+
+  // The ways in: following Saro, or with a trowel, through the face of the Courses; or down the Plumb.
+  Passage into_courses "into the Courses" is crawl between courses_face and crown_entry taking 20 minutes
+    opening when travelsWith(saro, party) or holding(party, trowel_kind) "Course-glass cannot be cut, pierced or broken by anything you carry. A Mason's trowel lays and unlays it.".
+  Passage plumb "the Plumb, by the rope" is shaft between coverers_works and plumb_mouth taking 1 hour needing rope.
+  Initially Set wayDose(plumb) to 24. Initially Set wayDoseFelted(plumb) to 6.
+
+  // The Crown's syllables were spoken before anyone listened: only the Keeping holds them, at the new moons; or
+  // Lirem's astrolabe, held in the course-light, reads them off the courses.
+  Discovery crown_map "The Crown's plan: its syllables, from the new moons of its first three centuries, laid out as rooms.".
+  Passage fall_arch "a ribbed arch" is arch between crown_entry and fall_chamber.
+  Passage dog_way "a round passage" is passage between crown_entry and first_course taking 3 minutes hidden until crown_map.
+  Passage wood_edge "the edge of the Wood" is passage between crown_entry and burning_wood taking 5 minutes.
+  Passage wood_line "the safe line through the smoke" is passage between burning_wood and crown_foot taking 20 minutes hidden until smoke_line.
+  Passage fire_gaps "the gaps in the stopped fire" is passage between fall_chamber and fire_heart taking 5 minutes.
+  Passage crown_down "the grammar stair" is stair between crown_foot and reach_head taking 10 minutes.
+
+  Observe crown_entry_scene at crown_entry when true "Inside the Courses, light runs along every curve. The passage is coursed like masonry, banded dark and clear, without a seam, and it turns in ways stone would not.".
+  Observe astrolabe_reads at crown_entry when carries(party, astrolabe) and not knows(party, crown_map) "Lirem's astrolabe swings in your hand until its pointer lies along the course-light. The rings turn of themselves, syllable by syllable, and you are reading a plan of rooms." teaches crown_map.
+
+  // The Fall: the instant of impact, 2,290 BP. Stopped fire, a shock-front of compressed air, and the Splinter.
+  Observe fall_scene at fall_chamber when true "A chamber sixty metres across, full of fire that does not move. Arcs of molten rock hang in the air like thrown ribbons. A curved sheet of something clear and rippled stands across the room, bending everything seen through it.".
+  Thing shock_front "the shock-front" at fall_chamber {
+    State standing "The clear rippled sheet stands across the chamber: air, compressed and stopped mid-blast.".
+  }
+  Initially Assert kept(shock_front).
+  Hazard slap "the shock-front's slap" means "Deal (2d6) physical damage to ally unless dexterity save against (14).".
+  Rule front_released when touched(shock_front) says "The air goes. It throws you ten metres back through the arch." {
+    Retract touched(shock_front). Assert strikes(slap, party). Assert at(party, crown_entry). }
+  Thing stopped_fire "the stopped fire" on fire_gaps {
+    State unmapped dangerous "Between the ribbons of fire there are gaps, but you cannot tell from in among them which go through.".
+    State mapped "You have the gaps in the fire mapped from the door: a crooked way in, a crooked way out.".
+    Change map_gaps "Map the gaps in the fire from the doorway" from unmapped to mapped.
+    Hurts with burn when unmapped then unmapped.
+  }
+  Hazard burn "the stopped fire" means "Deal (2d8) fire damage to ally.".
+  Observe heart_scene at fire_heart when true "At the heart of the fire, in a hollow of stopped flame, lies a fist-sized lump of something that gives off light of its own.".
+  Kind splinter_kind "the Splinter" is treasure worth 0 weighing 1
+    described "A fist-sized piece of the seed, broken off when it fell. Warm to the hand; it gives off direct light, enough to hold a person at arm's length within a day.".
+  Item splinter "the Splinter" is splinter_kind at fire_heart.
+  // A very small Late Sun: whoever carries it stands in direct light, wherever they are.
+  Relation carriesLight(group).
+  Rule splinter_carried when carries(?c, splinter) and company(?c) and not carriesLight(?c) { Assert carriesLight(?c). }
+  Rule splinter_dropped when carriesLight(?c) and not carries(?c, splinter) { Retract carriesLight(?c). }
+  Rule splinter_doses when carriesLight(?c) and memberOf(?m, ?c) and not unslowed(?m) and not heldDeep(?m) { Increase dose(?m) by 2. }
+
+  // The First Course: the shepherd's dog, the first moment the seed took. The Masons treat it as a shrine.
+  Observe dog_scene at first_course when not state(dog_course, unlaid) "In a small round chamber of black-and-clear banding, a dog, mid-stride, its ears back.".
+  Thing dog_course "the First Course" at first_course {
+    State laid_dog "The dog is the cornerstone of everything below it.".
+    State unlaid "The round chamber is empty. Something huge has settled above, and the way down is shut by fallen courses.".
+    Change unlay_dog "Unlay the First Course with the trowel" from laid_dog to unlaid needing trowel_kind.
+  }
+  Initially Assert kept(dog_course).
+  Observe dog_runs near dog_course when touched(dog_course) "Under your hand the dog finishes its stride, and the next, and you feel its heart going like a bird's; it is a long way from home and frightened. When you take your hand away it stops again, mid-stride.".
+  Rule crown_falls when state(dog_course, unlaid) and not crownDropped(undersun) says "The whole Crown drops three metres onto the Reach below, with a sound that goes on for a long time." {
+    Assert crownDropped(undersun). }
+  Relation crownDropped(place).
+
+  // The Burning Wood: smoke stopped in curtains; a flake of ash given time drifts along the safe line.
+  Observe wood_scene at burning_wood when true "A pine forest on fire, stopped, with birds fixed in the air above it and smoke standing in solid grey curtains between the trunks.".
+  Thing smoke "the curtains of smoke" at burning_wood {
+    State rigid "The smoke stands in grey curtains, rigid as cloth on a frame.".
+  }
+  Initially Assert kept(smoke).
+  Hazard choke "the smoke, given time" means "Deal (1d8) physical damage to ally unless constitution save against (12).".
+  Rule smoke_flows when touched(smoke) says "The curtain goes soft under your hand and pours over you, choking and hot, until you pull your hand back." {
+    Retract touched(smoke). Assert strikes(choke, party). }
+  Thing ash "a flake of ash" at burning_wood {
+    State hanging "A single flake of ash hangs in the air at the height of your eyes.".
+  }
+  Initially Assert kept(ash).
+  Discovery smoke_line "The safe line through the Burning Wood: where a flake of ash, given time, drifts between the curtains.".
+  Observe ash_drifts near ash when touched(ash) "Given time, the flake drifts, and does not fall: it goes sideways between two curtains, and turns, and turns again, along a line you could walk." teaches smoke_line.
+  Observe crown_foot_scene at crown_foot when true "The Crown narrows to a stair that goes down by repeated forms: the same step laid again and again, as the same syllable was spoken again and again.".
+
+  // The Seridane Reach: moments of Tamaun's life. Mapped by the Long Hour.
+  Passage reach_noon "a granary arch" is arch between reach_head and granary_noon.
+  Passage reach_schism "a council door" is doorway between reach_head and schism hidden until long_hour_read.
+  Passage reach_riot "the way into the crowd" is passage between reach_head and riot_hall taking 3 minutes.
+  Passage riot_exit "the Grammar door" is doorway between riot_hall and reach_foot.
+  Passage bath_door "a bathhouse door" is doorway between riot_hall and bathhouse.
+  Passage quarry_hollow "a smooth hollow" is passage between reach_head and quarried taking 5 minutes hidden until long_hour_read.
+  Passage reach_drop "the stem, looped by rope" is shaft between reach_foot and shaft_top taking 30 minutes needing rope.
+
+  Observe reach_head_scene at reach_head when true "The Reach opens under the Crown in galleries that are Tamaun's: plaster, bronze, a Seridane arch with its keystone carved; only no one living built any of it.".
+  // The Granary at Noon: forty Laid, mid-task; Lirem with his astrolabe, his other hand toward the gong.
+  Observe noon_scene at granary_noon when true "A vault full of Seridane workers, forty of them, mid-task: carrying jars, sweeping, one laughing with her head back. A scribe sits at a table with a stylus over a tablet. A thin man at the end of the room holds a bronze instrument of rings and pointers, his other hand raised toward a gong.".
+  Observe noon_wakes at granary_noon when spokeAloud(party) "At the sound of your voice the whole granary moves: forty people take three steps, the laughing woman finishes her laugh, a jar is set down. Then they stop again where they are.".
+  Discovery granary_plan "The scribe's tablet: a plan of Tamaun's Granary Ring with the channel settings for every vault.".
+  Thing scribe_tablet "the scribe's tablet" at granary_noon {
+    State on_table "A wax tablet under the scribe's stylus, ruled in a plan.".
+    Tries looking.
+  }
+  Observe tablet_read near scribe_tablet when tried(scribe_tablet, looking) "It is a plan of the Granary Ring, with the angle of every channel marked beside its vault." teaches granary_plan.
+  Thing lirem_hand "Lirem's hand" at granary_noon {
+    Holds.
+    State holding_it "Lirem's thin hand holds a bronze instrument of rings and pointers.".
+    State empty_hand "Lirem's hand is empty, still raised a little toward the gong.".
+  }
+  Kind astrolabe_kind "Lirem's astrolabe" is treasure worth 0 weighing 1
+    described "A bronze instrument of rings and pointers. Set to the Late Sun's depth it shows where any ray will fall; held in course-light, it reads the name-grammar.".
+  Item astrolabe "Lirem's astrolabe" is astrolabe_kind in lirem_hand.
+  Relation gonged(place).
+  Rule hand_emptied when not inside(astrolabe, lirem_hand) and state(lirem_hand, holding_it) says "Lirem's hand, with nothing in it, finishes its movement: it strikes the gong." {
+    Assert state(lirem_hand, empty_hand). Assert gonged(granary_noon). }
+  Observe gong_alarm at granary_noon when gonged(granary_noon) and not gongPassed(party) "The gong's note goes out through the Reach, and everywhere, for a few seconds, the Laid take up their moments: you hear the riot in the next hall roar and stop.".
+  Relation gongPassed(group).
+  Rule riot_loosed when gonged(granary_noon) and not rioted(riot_hall) { Assert rioted(riot_hall). }
+  Relation rioted(place).
+
+  // The Council of the Schism: Selane arguing for the Covering, Amaru on the dais. A sentence at a touch.
+  Observe schism_scene at schism when true "A council chamber. A young woman stands speaking, her hand raised. An old man sits on a dais. Every face in the room is turned to her.".
+  Thing selane_words "the air in front of Selane's mouth" at schism {
+    State unspoken "Selane's lips are parted on a word.".
+  }
+  Initially Assert kept(selane_words).
+  Measure sentences(entity).
+  Rule selane_speaks when touched(selane_words) and sentences(selane_words) < 4 {
+    Increase sentences(selane_words) by 1. Retract touched(selane_words). }
+  Observe selane_one near selane_words when sentences(selane_words) == 1 "'Lirem's chains are longer every year,' Selane says, in Old Seridan, and stops.".
+  Observe selane_two near selane_words when sentences(selane_words) == 2 "'It is not resting on the rock. It is going through it, and the stone below answers each time it speaks.'".
+  Observe selane_three near selane_words when sentences(selane_words) == 3 "'A thing that speaks is not always speaking to you. A mason calls out the courses as he lays them.'".
+  Discovery seed_building "Selane's argument, in her own voice: the Late Sun is not speaking to anyone; it is building, and calling its courses as it lays them, and it is going down toward something.".
+  Observe selane_four near selane_words when sentences(selane_words) == 4 "'Cover it, father. Not because it is a god. Because it is a builder, and we do not know what for.' Her hand comes down. Amaru, on the dais, has not moved." teaches seed_building.
+  Topic amaru_selane with amaru "Tell the king his daughter's argument, word for word" when knows(actor, seed_building) once {
+    Says "You say it as she said it. It takes Amaru a long time to understand that you are not inventing it. 'A builder,' he says. Then, after a very long time: 'Say it again.' You do. He asks you a third time.".
+    On discuss { Assert grieves(amaru). }
+  }
+
+  // The Riot Hall: the grain riot of 1,575 BP, two hundred Laid. Every word spoken aloud gives them five seconds.
+  Observe riot_scene at riot_hall when true "A broad hall packed with people in mid-struggle: sickles raised, poles swinging, a woman pulled backward by the hair, a man on the floor with his arm over his face. In the middle of the crowd stands a door. On the wall by the entrance someone has written, in chalk, a single sign in a script of overlapping circles.".
+  Observe chalk_read at riot_hall when travelsWith(saro, party) "'Quiet,' says Saro, reading the chalk. She says it in a whisper.".
+  // Said before the riot is told, because a three-minute act passes the rules once, in order (ledger, 9).
+  Rule speaking_door when state(riot_door, open_g) and not doorSpoken(riot_door) { Assert spokeAloud(party). Assert doorSpoken(riot_door). Increase wordsLaid(party) by 10. }
+  Hazard riot "five seconds of the riot" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Rule riot_given_time when at(party, riot_hall) and (spokeAloud(party) or rioted(riot_hall)) and not riotStruck(party) says "Two hundred people take up their riot for five seconds: sickles, poles, screaming. Then they stop where they are." {
+    Assert strikes(riot, party). Assert riotStruck(party). }
+  Relation riotStruck(group).
+  Rule riot_still when riotStruck(party) and not spokeAloud(party) and not at(party, riot_hall) { Retract riotStruck(party). }
+  Rule riot_spent when rioted(riot_hall) and riotStruck(party) { Retract rioted(riot_hall). }
+  Discovery reach_syllables "The syllables of the Seridane Reach's Grammar doors, read from the Long Hour.".
+  Observe syllables_from_hour near party when knows(party, long_hour_read) and not knows(party, reach_syllables) "The Long Hour gives you every door in the Reach by the syllable it was laid from." teaches reach_syllables.
+  Thing riot_door "the Grammar door" on riot_exit {
+    State shut_g blocking "A door of course-glass stands among the rioters. In its floor, if you look, the riot goes on, smaller, as if seen through water.".
+    State open_g "The Grammar door stands open.".
+    Change speak_syllable "Speak the door's syllable aloud" from shut_g to open_g after learning reach_syllables.
+    Change lay_syllable "Lay the door's syllable into it with the trowel" from shut_g to open_g needing trowel_kind.
+  }
+  Relation doorSpoken(entity).
+  Hazard floor_drop "the floor course unlaid" means "Deal (3d6) physical damage to ally unless dexterity save against (14).".
+  Action guess_syllable(actor: group, site: place) "Speak a syllable at the Grammar door, guessing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, riot_hall) and state(riot_door, shut_g)
+      and not knows(actor, reach_syllables).
+    Time 1 minute.
+    On success { Assert strikes(floor_drop, actor). Assert spokeAloud(actor). Assert at(actor, reach_head). }
+    Result "The floor course under you unlays, and you drop into its moment: the riot, all round you, very loud, for as long as you are falling. You come up out of it at the head of the Reach, bruised and shaking.".
+  }
+  // Speaking aloud in a laid room: talking to anyone, the company is heard, unless it whispers.
+  Rule heard_aloud when addressed(?p, ?c) and company(?c) and at(?c, ?r) and laidRoom(?r) and not whispering(?c)
+    and not spokeAloud(?c) { Assert spokeAloud(?c). Increase wordsLaid(?c) by 10. }
+  Rule quiet_again when spokeAloud(?c) and company(?c) and not addressedAny(?c) { Retract spokeAloud(?c). }
+  Query addressedAny(c: group) means addressed(?p, c).
+
+  // The Bathhouse: steam so dense that light takes ten minutes to cross it. Gleaners nest here.
+  Observe bath_scene at bathhouse when true "A Seridane bathhouse full of steam that stands like milk. When you hold up a light, its glow does not reach the far side for a long time; what you see across the room is ten minutes old.".
+  Species gleaner "a gleaner" like great_centipede temperament defensive
+    described "A thing the size of a hand, many-legged, of stopped iron: one of a swarm from another world, given work by the Masons. They gather what falls, and lay it.".
+  Person gleaners "gleaners" at bathhouse {
+    Role "a swarm of gleaners, nesting". Species gleaner. Numbers 4.
+  }
+  Observe gleaners_late at bathhouse when at(gleaners, bathhouse) "Across the steam, ten minutes ago, something many-legged was moving along the wall.".
+
+  // The Quarried Gallery: the fourth Dane's reign, carried away; his keystone remains.
+  Observe quarried_scene at quarried when true "A long hollow with smooth walls and tool-marks, as if a gallery had been carved out of the masonry and carried off. At its far end one block remains, carved with a name. Your eye will not stay on the name.".
+  Thing dane_keystone "the fourth Dane's keystone" at quarried {
+    State carved "A block of course-glass with a man laid in it, and a name cut over him that the eye slides off.".
+  }
+  Initially Assert kept(dane_keystone).
+  Observe dane_speaks near dane_keystone when touched(dane_keystone) and not knows(party, dane_name) "Under your hand the man in the block draws breath, and says his own name, and you hear it, and keep it." teaches dane_name.
+
+  // The Silent Reach: a bare stem in a thirty-metre shaft, grown during the burial. The Plumb breaks in at 600 metres;
+  // Saro's stair climbs the stem from the bottom, a step a day.
+  Passage shaft_down "the stem, by looped rope" is shaft between shaft_top and plumb_mouth taking 30 minutes needing rope.
+  Passage shaft_down2 "down the stem to Saro's stair" is shaft between plumb_mouth and saro_stair taking 30 minutes needing rope.
+  Passage saro_steps "Saro's stair" is stair between saro_stair and shaft_bottom taking 30 minutes.
+  Passage tip_down "the stem's foot" is passage between shaft_bottom and lreach_head taking 10 minutes.
+  Observe shaft_scene at shaft_top when true "A vertical shaft thirty metres across and three hundred deep, its walls cut smooth. Down its centre runs a column of dark metal and clear glass twelve metres thick, glowing along its curves. Warm air rises. From below comes a hammering, regular and patient.".
+  Observe plumb_mouth_scene at plumb_mouth when true "The Coverers' borehole comes out of the shaft wall here, a glass-lined mouth half a metre across. There is nothing to stand on but a lip of rock and the stem.".
+  Observe saro_stair_scene at saro_stair when true "A helical stair is being laid up the stem from the bottom, one step a day. Its top step is new and bright.".
+  Observe shaft_bottom_scene at shaft_bottom when true "The foot of the shaft. Everything that has ever fallen down it lies here half-laid into the floor: a cutter's pack, a goat, a stone.".
+  Person gleaners_low "gleaners at the foot of the shaft" at shaft_bottom {
+    Role "a swarm of gleaners, laying what has fallen". Species gleaner. Numbers 6.
+  }
+  Hazard long_fall "the long fall" means "Deal (6d6) physical damage to ally.".
+
+  // The Listeners' Reach: recent history, mapped by Teodar's count.
+  Passage lr_breach "a stopped storm" is passage between lreach_head and breach_moment taking 3 minutes hidden until listeners_count.
+  Passage lr_keystones "a vaulted gallery" is passage between lreach_head and keystone_gallery taking 3 minutes.
+  Passage lr_fair "a fair's gate" is passage between lreach_head and fair_moment taking 3 minutes.
+  Passage fair_exit "the drum door" is doorway between fair_moment and tip_dome.
+  Observe lreach_scene at lreach_head when true "The newest courses: the plateau's own last three hundred years, laid one a month.".
+  // The Breach: year 352, in storm. Four figures in wet felt, one with an iron pin.
+  Observe breach_moment_scene at breach_moment when true "A night of storm, stopped. A stone culvert, a sluice frame, four figures in wet felt, one with an iron pin in his hand.".
+  Thing breach_words "the air near the four in the storm" at breach_moment {
+    State still_storm "Rain hangs between you and them.".
+  }
+  Initially Assert kept(breach_words).
+  Observe breach_heard near breach_words when touched(breach_words) "A woman's voice in Tovashi, low, through the rain: 'Pull it, Bren. The fill will drink it.' A young man's: 'Ayzhe —' and the pin comes out of the frame in his hand." teaches breach_cut.
+  // The Keystone Gallery: Ennick's held, Kell's dead and the Sixty, laid as ribs.
+  Observe keystone_scene at keystone_gallery when true "A vaulted gallery whose ribs are people: men and women lying in clear glass, each with a small red brick carved with a knot above the chest, the way Ennick marks its held. At the far end, older ribs hold strangers in Tovash dress.".
+  Observe doran_rib at keystone_gallery when not benighted(party) "One of the ribs is a thin man with his hands at his sides and his mouth a little open, and a fan of bright lines in the glass in front of his face where the sand was not quite clean. It is Doran, at the moment Ilis laid him." teaches held_feed.
+  Thing keystones "the keystones" at keystone_gallery {
+    State bearing "The keystones bear the courses above them.".
+    State unlaid_k "The keystones are unlaid. Below this gallery the Undersun has dropped thirty metres and stopped.".
+    Change unlay_keys "Unlay the keystones with the trowel" from bearing to unlaid_k needing trowel_kind.
+  }
+  Relation masonsComing(place).
+  Rule lower_dropped when state(keystones, unlaid_k) and not masonsComing(ennick) says "Far below, the lower Undersun drops thirty metres and stops. Twenty years of growth, gone. The Masons at the Tip put down their work, and look up." {
+    Assert masonsComing(ennick). }
+  // The Fair: the Tovash fair of year 0. The way out is a Grammar door keyed to a beat.
+  Observe fair_scene at fair_moment when true "The Tovash fair of year 0: horses, a cauldron, children with their arms out, and a drum held against a man's chest.".
+  Thing drum_door "the drum door" on fair_exit {
+    State shut_d blocking "A door of course-glass stands where the fair's gate was. Nothing is carved on it; in its floor a drum is being beaten, very small.".
+    State open_d "The drum door stands open.".
+    Change strike_drum "Strike the held drum in the moot song's count" from shut_d to open_d after learning moot_count.
+    Change lay_drum "Lay the door's beat into it with the trowel" from shut_d to open_d needing trowel_kind.
+  }
+  Action guess_beat(actor: group, site: place) "Strike the held drum in a beat you guess" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fair_moment) and state(drum_door, shut_d)
+      and not knows(actor, moot_count).
+    Time 1 minute.
+    On success { Assert strikes(floor_drop, actor). }
+    Result "The floor course unlays and drops you into the fair, a second of it: the drum, the horses, the children's voices, and the light coming up out of the ground. You climb out shaking.".
+  }
+
+  // U5, the Tip: Saro's workshop and the drill. Six Masons; under the floor, the Delver; a note once an hour.
+  Observe tip_scene at tip_dome when true "At the bottom of the stem, a domed chamber where new courses glow bright along their edges. A low note sounds from below the floor, once an hour.".
+  Person masons "six Masons" at tip_dome {
+    Role "six figures very still around the walls, each holding a tool like a trowel". Ancestry human. Numbers 6. Peaceable.
+  }
+  Observe masons_seen near masons when at(masons, tip_dome) "Their hands have no temperature. Their faces are from six different worlds, and they all watch you the same way: with interest, and no fear at all.".
+  Topic masons_were with masons "Ask the Masons who they were" when true once {
+    Says "They answer one at a time, in the last languages they learned, and Tovashi after a moment, picked up from you. A smith. A ferryman. A woman who sang at funerals. None of them can say where; all of them can say what they made. 'This,' says the singer, and lays a hand on the course. 'This is better.'".
+  }
+  Discovery trowel_traded "The Masons will trade a trowel for a moment, and the price of a moment is one of your memories, cut out with a trowel.".
+  Topic masons_trowel with masons "Ask the Masons for a trowel" when true once {
+    Says "'A moment for a moment,' says the ferryman. 'One of yours. We cut it, you do not miss it. Nobody does.' He holds out his hand, palm up.".
+    On discuss { Assert knows(actor, trowel_traded). }
+  }
+  // The spare trowel is declared in moments.kyr, beside its kind: an Item sees only its own file's kinds (ledger, 25).
+  Discovery trowel_paid "A memory cut, and a trowel given for it.".
+  Measure memories(group).
+  Initially Set memories(party) to 12.
+  Action pay_memory(actor: group, site: place) "Let the Masons cut one of your memories, for a trowel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tip_dome) and knows(actor, trowel_traded)
+      and memories(actor) >= 1 and not paidMemory(actor).
+    Time 2 minutes.
+    On success { Decrease memories(actor) by 1. Assert paidMemory(actor). }
+    Result "The ferryman lays his trowel against your temple, and something is gone. You do not know what. Nobody in the world will ever know what. He puts a trowel in your hand.".
+  }
+  Relation paidMemory(group).
+  Observe trowel_given near party when paidMemory(party) and not knows(party, trowel_paid) "The trowel lies on the course at your feet where he set it." teaches trowel_paid.
+  Species delver_kind "the Delver" like iron_golem temperament defensive
+    described "The first Mason, which rode the seed down. Not human. It drills.".
+  Person delver "the Delver" at tip_dome {
+    Role "the first Mason, working in the drill-face under the floor". Species delver_kind. Level 12.
+  }
+  // Saro at the Tip: where she works, the courses grow ten times as fast.
+  Topic saro_tip with saro travelling "Ask Saro what she will do here" when at(party, tip_dome) once {
+    Says "Saro has her hand on the newest course already. 'Work,' she says. 'Here. It is going down to the stone that sings. I will help it go.' She looks at you with that great attention. 'You may stay. You may go. I am staying.'".
+  }
+}
