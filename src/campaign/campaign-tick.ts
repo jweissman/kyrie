@@ -96,7 +96,7 @@ export class CampaignTick {
     host.recordObservations();
   }
   static rules(host: TickHost, happenings: Happening[]) {
-    const { definition, creatures, current } = host.tickState;
+    const { definition, creatures } = host.tickState;
     for (const rule of host.module.rules ?? []) {
       for (const [effects, binding] of this.instances(rule, host.world)) {
         // Each instance fires only if its condition still holds after those before it (two powers cannot both seize
@@ -104,7 +104,9 @@ export class CampaignTick {
         if (Object.keys(binding).length && !host.world.test(rule.when, binding)) { continue; }
         const prior = host.world, next = prior.apply(effects);
         CreatureFacts.commitMoney(prior, next, definition.actors, creatures);
-        current.world = next.snapshot;
+        // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
+        // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
+        host.commitWorld(next);
         const player = host.playerActor;
         if (rule.say && player && next.test(ModuleWriter.call('able', player))
           && (!rule.place || LocalObservations.perceives(next, player, rule.place, rule.anchor))) {
