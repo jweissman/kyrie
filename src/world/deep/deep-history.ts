@@ -62,10 +62,13 @@ export class DeepHistory {
     return [`  Thing ${id} ${q(b.name)} on ${way.id} {`, `    State standing blocking ${q(b.text)}.`, `    State down ${q(b.down)}.`,
       `    Change drag ${q(b.label)} from standing to down needing brawn or crowbar.`, '  }'];
   }
-  // Something hidden, found by searching where it was hidden.
+  // Something hidden, found by searching where it was hidden, and told there while it is still there: taken, the
+  // room no longer says the beads lie among the bones.
   private static hidden(id: string, room: DeepRoom, h: NonNullable<Alteration['hidden']>): string[] {
     const q = this.q;
-    return [`  Discovery ${id} ${q(h.found)} { Found by searching ${room.id}. }`,
-      `  Item ${id}_find ${q(h.valuable.name)} is ${h.valuable.id} at ${room.id} hidden until ${id}.`];
+    return [`  Discovery ${id} ${q(h.found)}.`,
+      `  Item ${id}_find ${q(h.valuable.name)} is ${h.valuable.id} at ${room.id} hidden until ${id}.`,
+      `  Observe ${id}_seen at ${room.id} when searched(party, ${room.id}) and at(${id}_find, ${room.id}) ${q(h.found)}`
+      + ` teaches ${id}.`];
   }
 }

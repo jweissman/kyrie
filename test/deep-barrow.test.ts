@@ -94,5 +94,8 @@ describe('a king-barrow from the same generator as the mine', () => {
     Barrow.enter(s, room('barrow_recess2'));
     expect(await Barrow.take(s, /^Search the north recess$/)).toContain('a string of amber beads');
     expect(Barrow.names(s).some(n => /^Collect a string of amber beads/.test(n))).toBe(true);
+    // Taken, they are no longer said to lie among the bones.
+    await Barrow.take(s, /^Collect a string of amber beads/);
+    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).not.toContain('a string of amber beads');
   }, 60000);
 });
