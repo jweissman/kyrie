@@ -92,4 +92,11 @@ describe('generated campaigns', () => {
     }
     expect(Economy.num(starved.s, 'losses', `region__${market}_green`)).toBeGreaterThanOrEqual(2);
   }, 240000);
+  // Played in cov13, the salter sold a lantern and nothing to fill it with.
+  it('sells oil wherever it sells a lantern', async () => {
+    const trade = await Bun.file(`${import.meta.dir}/../data/generation/tables/trade.json`).json() as
+      { merchantType: { groups: Record<string, { stock: [string, number, number][] }> } };
+    const lanterns = Object.entries(trade.merchantType.groups).filter(([, g]) => g.stock.some(([k]) => k === 'lantern'));
+    expect(lanterns.filter(([, g]) => !g.stock.some(([k]) => k === 'lamp_oil')).map(([id]) => id)).toEqual([]);
+  });
 });
