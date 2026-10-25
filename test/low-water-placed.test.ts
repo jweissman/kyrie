@@ -26,5 +26,16 @@ describe('the Bowl of Ammerlin beyond a march', () => {
     const head = PlayerView.choices(s.campaign).find(x => /head of the Stair/.test(x.choice.name))!;
     await s.perform(head.choice.id);
     expect(PlayerView.choices(s.campaign).some(x => /waiting for you/.test(x.choice.name))).toBe(true);
-  }, 180000);
+    // Gone back over the march for the best part of ten days, the company comes back to a Bowl that went on without it.
+    const go = async (re: RegExp) => s.perform(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
+    await go(/north road, at the Rim/);
+    await go(/road across the march/);
+    while (s.campaign.state.elapsed < elapsed + 1300) { await go(/^Wait an hour|An hour/); }
+    await go(/road across the march/);
+    await go(/head of the Stair/);
+    const L = (x: string) => `${rid}__${x}`;
+    expect(s.campaign.world.test({ kind: 'call', name: L('complete'), args: [L('reckoner')] })).toBe(true);
+    expect(s.campaign.world.test({ kind: 'call', name: L('registrarsFinding'), args: [L('ammerlin')] })).toBe(true);
+    expect(s.campaign.world.one('at', L('isaura'))).toBe(L('office_hall'));
+  }, 300000);
 });
