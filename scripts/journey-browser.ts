@@ -7,7 +7,7 @@
 // the browser are recorded as it goes. Fights go on by the game's own tactics, as the page's T does.
 //   bun run web:build
 //   LD_LIBRARY_PATH=… bun scripts/journey-browser.ts <steps.jsonl> <seed> [--class warrior] [--origin wanderer]
-//     [--throttle 1] [--width 820] [--height 1180] [--out file.jsonl] [--every 25]
+//     [--throttle 1] [--width 820] [--height 1180] [--out file.jsonl] [--every 25] [--think ms]
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium, type CDPSession, type Page } from 'playwright-core';
@@ -16,12 +16,15 @@ import { JourneyReport } from './journey-report';
 
 interface Mono {
   inspect(): { mode: string; pending: boolean; combat?: { ours: boolean; outcome: string | null };
-    timings: { total: number; engine?: number; screen?: number; narrative?: number; render: number }[] };
+    timings: { total: number; engine?: number; screen?: number; narrative?: number; render: number }[];
+    keeps: { ms: number; size: number }[] };
   begin(r: unknown): Promise<void>; act(command: string, said: string): void; auto(): void; back(): void;
 }
 interface BrowserStep {
   step: number; choice: string; total: number; engine: number; screen: number; narrative: number; render: number;
   fight: number; heap: number; kept: number;
+  // The page's keeping of the game after the command before this one (see Timings.kept).
+  keep: number;
 }
 class JourneyBrowser {
   constructor(private readonly page: Page, private readonly cdp: CDPSession) {}
@@ -46,7 +49,7 @@ class JourneyBrowser {
       await journey.begin({ campaign: 'world', seed, party: [{ name: 'Wenna', raceId: 'human',
         classId: option('class', 'warrior') }], origin: option('origin', 'wanderer') });
       console.log(`begin ${Math.round(performance.now() - began)} ms`);
-      const done = await journey.play(steps, every), out = option('out', '');
+      const done = await journey.play(steps, every, Number(option('think', '0'))), out = option('out', '');
       JourneyBrowser.summary(done);
       if (out) { writeFileSync(out, done.map(s => JSON.stringify(s)).join('\n') + '\n'); }
       return done.length === steps.length ? 0 : 1;
@@ -63,11 +66,13 @@ class JourneyBrowser {
     await this.page.evaluate(`window.kyrieMono.begin(${JSON.stringify(request)})`);
     await this.page.waitForFunction('window.kyrieMono.inspect().mode === "explore"', null, { timeout: 600000 });
   }
-  async play(steps: JourneyStep[], every: number): Promise<BrowserStep[]> {
+  // think: a pause before each choice, as a player takes, in which the page and its engine do what follows a command.
+  async play(steps: JourneyStep[], every: number, think = 0): Promise<BrowserStep[]> {
     const done: BrowserStep[] = [];
     for (const s of steps) {
       // The page keeps its last 200 timings: a new one is told by the last one changing, not by their count.
       const before = await this.page.evaluate('JSON.stringify(window.kyrieMono.inspect().timings.at(-1) ?? null)');
+      const keep = await this.page.evaluate('window.kyrieMono.inspect().keeps.at(-1)?.ms ?? 0') as number;
       await this.page.evaluate(`window.kyrieMono.act(${JSON.stringify(s.command)}, ${JSON.stringify(s.choice)})`);
       await this.settled();
       const fight = await this.fight();
@@ -75,9 +80,10 @@ class JourneyBrowser {
         !== ${JSON.stringify(before)} && window.kyrieMono.inspect().timings.at(-1)`, null, { timeout: 60000 })
         .then(h => h.jsonValue()) as Mono['inspect'] extends () => { timings: (infer T)[] } ? T : never;
       done.push({ step: s.step, choice: s.choice, total: timing.total, engine: timing.engine ?? 0,
-        screen: timing.screen ?? 0, narrative: timing.narrative ?? 0, render: timing.render, fight,
+        screen: timing.screen ?? 0, narrative: timing.narrative ?? 0, render: timing.render, fight, keep,
         ...await this.size(s.step % every === 0) });
       if (s.step % every === 0) { JourneyBrowser.row(done.slice(-every)); }
+      if (think) { await this.page.waitForTimeout(think); }
     }
     return done;
   }
@@ -108,10 +114,11 @@ class JourneyBrowser {
     const last = w.at(-1)!;
     console.log(`steps ${w[0]!.step}-${last.step}: choice to paint p50 ${this.median(w, 'total')} max`
       + ` ${Math.max(...w.map(s => s.total))} | engine ${this.median(w, 'engine')} screen ${this.median(w, 'screen')}`
-      + ` render ${this.median(w, 'render')} | page heap ${last.heap}MB kept ${Math.round(last.kept / 1000)}k`);
+      + ` render ${this.median(w, 'render')} keep ${this.median(w, 'keep')} | page heap ${last.heap}MB`
+      + ` kept ${Math.round(last.kept / 1000)}k`);
   }
   private static summary(done: BrowserStep[]) {
-    for (const k of ['total', 'engine', 'screen', 'narrative', 'render', 'fight'] as const) {
+    for (const k of ['total', 'engine', 'screen', 'narrative', 'render', 'fight', 'keep'] as const) {
       const all = done.map(s => s[k]);
       console.log(`${k}: p50 ${JourneyReport.pct(all, 0.5)} p90 ${JourneyReport.pct(all, 0.9)}`
         + ` p99 ${JourneyReport.pct(all, 0.99)} max ${Math.max(...all)} ms`);

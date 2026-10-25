@@ -7,6 +7,13 @@ export interface Timing { said: string; total: number; engine?: number; screen?:
   render: number }
 export class Timings {
   static readonly list: Timing[] = [];
+  // Keeping the game in this browser after each command: from the engine's message to the page drawn again with it,
+  // and how much the page was handed to keep (kyrieMono.inspect().keeps).
+  static readonly keeps: { ms: number; size: number }[] = [];
+  static kept(ms: number, size: number) {
+    this.keeps.push({ ms: Math.round(ms), size });
+    if (this.keeps.length > 200) { this.keeps.shift(); }
+  }
   private static started?: { said: string; at: number };
   static chosen(said: string) { this.started = { said, at: performance.now() }; }
   static painted(frame: Frame) {
