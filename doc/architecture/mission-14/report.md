@@ -6,7 +6,7 @@ thing works, it says what was seen; where it does not, or was not done, it says 
 Mission 14 asked for a game worth playing for hours: above all a generated, persistent, multilevel adventure complex
 that ordinary play finds and that sustains several expeditions (Proof A), and three proofs beside it: an argument
 with consequences (B), a historical landscape with material consequences (C), and an independently authored
-scenario (D). 129 commits from `637642e`, 325 files, about 13,600 lines added. The suite is 682 tests: 654
+scenario (D). 144 commits from `637642e`, 330 files, about 13,800 lines added. The suite is 688 tests: 660
 pass and 28 are opt-in, the browser tests (`KYRIE_BROWSER=1`: 12 of 12 pass) and the four kept descents
 (`KYRIE_LONG=1`: 4 of 4), both run on the last commit.
 
