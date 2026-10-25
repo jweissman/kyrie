@@ -91,7 +91,7 @@ Module lowwater "Low Water" {
     Assert seventhTonight(bowl). }
   Rule seventh_sung_quietly when hour(clock) == 20 and seventhRestored(bowl) and not seventhTonight(bowl) and not hymnSilenced(bowl) and at(party, ninth_lock) {
     Assert seventhTonight(bowl). }
-  Rule seventh_lowers when seventhTonight(bowl) and (state(deep_gate, raised) or state(deep_gate, half)) and not broken(reckoner) and not complete(reckoner) {
+  Rule seventh_lowers when hour(clock) == 20 and seventhTonight(bowl) and (state(deep_gate, raised) or state(deep_gate, half)) and not broken(reckoner) and not complete(reckoner) {
     Assert state(deep_gate, lowered). }
   Rule hymn_resets when hour(clock) == 3 and sungTonight(bowl) { Retract sungTonight(bowl). Retract seventhTonight(bowl). }
 

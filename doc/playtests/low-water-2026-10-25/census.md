@@ -256,7 +256,7 @@ The Sounding: a round nave under a dome, with no altar, no image, nothing at the
 
 **To the Cantor's room**
 
-The Cantor’s room: a bare cell with a clavichord in it, out of tune on purpose so that she can hear the voices against it, she says. Hymnals on every surface, some of them very old, their pages marked with ribbons and pressed flowers. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
+The Cantor’s room: a bare cell with a clavichord in it, out of tune on purpose so that she can hear the voices against it, she says. Hymnals on every surface, some of them very old, their pages marked with ribbons and pressed flowers. On the clavichord lies the hymnal the Cantor works from, a handsome edition in green boards, its pages scored with her pencil. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
 
 **Talk to Cantor Sabeth Orr**
 
@@ -352,7 +352,7 @@ The Sounding’s nave, round under its ribbed dome, the bronze grating and the b
 
 **To the Cantor's room**
 
-Cantor Sabeth Orr, the Cantor of the Sounding, is here. The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals.
+On the clavichord lies the hymnal the Cantor works from, a handsome edition in green boards, its pages scored with her pencil. Cantor Sabeth Orr, the Cantor of the Sounding, is here. The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals.
 
 **Talk to Cantor Sabeth Orr**
 
@@ -638,7 +638,7 @@ The lock stair: nine chambers of white water going down the terrace, a keeper at
 
 **To the Ninth Lock**
 
-The Ninth Lock, at the foot of the terrace, its water going round and down by the floor. The bronze shutter of the Deep Gate lies down in its bed. A thread of water, no thicker than a wrist, runs over its lip and down. That is all. An oak crane on the lock wall stands over a stack of stop-logs, square black beams as long as a cart.
+At night, figures of water climb out of the Mere in the shapes of people, left for right, and sing the hymn without breath; and at the Ninth Lock they sing the Rising, and the Deep Gate rises for them. The cold that comes off the Reflected is not the cold of water. It goes in under the ribs and stays there. You look for a long time before you are sure what you are looking at. Isaura Vant resists (wisdom). The Ninth Lock, at the foot of the terrace, its water going round and down by the floor. Figures stand at the edge of the water in the dark: people, or the shapes of people, made of water that has been made to stand up, clear as glass, with the night showing through them. 15 of them, or near it; they are hard to count, being clear. They face the Sounding. They are singing, very softly, without breath. Every one of them is the wrong way round, as a face is in a mirror. One of them is a woman in a long coat with a rod under her arm: the wrong arm. Beside you, Isaura Vant has stopped walking. The bronze shutter of the Deep Gate lies down in its bed. A thread of water, no thicker than a wrist, runs over its lip and down. That is all. An oak crane on the lock wall stands over a stack of stop-logs, square black beams as long as a cart.
 
 **a torch: Light**
 
@@ -722,7 +722,7 @@ The Sounding’s nave, round under its ribbed dome, the bronze grating and the b
 
 **To the Cantor's room**
 
-The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
+The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals. On the clavichord lies the hymnal the Cantor works from, a handsome edition in green boards, its pages scored with her pencil. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
 
 **Give a cup of the still water**
 

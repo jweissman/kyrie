@@ -9,12 +9,14 @@
     "locks.kyr",
     "ward.kyr",
     "merebed.kyr",
+    "library.kyr",
     "undercroft.kyr",
     "interval.kyr",
     "isaura.kyr",
     "halm.kyr",
     "hearing.kyr",
     "after.kyr",
+    "auditor.kyr",
     "placed.kyr"
   ],
   "rules": [

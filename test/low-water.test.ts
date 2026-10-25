@@ -206,4 +206,40 @@ describe('Low Water', () => {
     await j.play('^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('census_kept'))).toBe(true);
   }, 300000);
+  it('finds the Ear\'s Library, floats its door, and hears the Lector tell the Long Silence', async () => {
+    const j = await Bowl.start('library');
+    await j.play(...Bowl.arrive, '^To Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ward landing',
+      '^To the new mud', '^To the dig', '^Into the Listening Hall', 'Search here', "^To the Lector's room|Lector's room", 'Fill a lantern',
+      'speaking-stones: Examine › Push', '^To the gallery of jars|gallery of jars', 'Turn the archive valve open', '=+3',
+      'Turn the archive valve shut', "^To the Lector's room|Lector's room", 'Turn the cistern valve open', '=+2', 'gallery of jars',
+      'low archive', 'black speaking-stone: Examine › Push', '^Take');
+    expect(Bowl.knows(j, 'lector_heard')).toBe(true);
+    expect(Bowl.knows(j, 'silence_heard')).toBe(true);
+    expect(j.holds('carries', 'party', L('ear_bell'))).toBe(true);
+    await j.play('gallery of jars', "Lector's room", 'Listening Hall', '^Out to the dig', 'Talk to Teodor', 'what the Lector.s stones sing');
+    expect(Bowl.knows(j, 'long_silence')).toBe(true);
+  }, 300000);
+  it('meets the Reflected on the Ward landing at night, and rings them apart with the Lector\'s bell', async () => {
+    const j = await Bowl.start('reflected');
+    await j.play(...Bowl.arrive, '^To Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ward landing',
+      '^To the new mud', '^To the dig', '^Into the Listening Hall', 'Search here', "Lector's room", 'Fill a lantern',
+      'gallery of jars', 'Turn the archive valve open', '=+3', 'Turn the archive valve shut', "Lector's room", 'Turn the cistern valve open',
+      '=+2', 'gallery of jars', 'low archive', '^Take', 'gallery of jars', "Lector's room", 'Listening Hall', '^Out to the dig',
+      '^To the new mud', '^To the Ward landing', '=375');
+    expect(Bowl.knows(j, 'reflected_known')).toBe(true);
+    const before = j.measure(L('approach'), L('bowl'));
+    await j.play('Ring the Ear.s bell at the Reflected');
+    expect(j.measure(L('approach'), L('bowl'))).toBe(before - 1);
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('each figure goes to rings');
+  }, 300000);
+  it('reads the cuts in the Cantor\'s hymnal back to the Second Reader, and Isaura breaks his footnotes', async () => {
+    const j = await Bowl.start('pell');
+    await j.play(...Bowl.arrive, '^To Measures Square', '^Into the Sounding', "Cantor's room", "working hymnal: Examine",
+      'Talk to Cantor', 'who marked the cuts', 'Take your leave', "^To the Sounding's nave", '^Out to Measures Square', "^To the Dyers' Walk",
+      '^To the lock stair', '^To the Ward landing', '^To the new mud', '^To the dig', 'Talk to Teodor', 'who sent him to Ammerlin',
+      'Take your leave', 'footnotes in Pell', 'Talk to Teodor', 'what the footnotes');
+    expect(Bowl.knows(j, 'pell_cipher')).toBe(true);
+    expect(j.holds(L('halmTurned'), L('halm'))).toBe(true);
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('Merrow');
+  }, 300000);
 });

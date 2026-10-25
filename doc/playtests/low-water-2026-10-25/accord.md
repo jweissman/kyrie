@@ -1,6 +1,6 @@
 # The Measured Accord
 
-Seed `ammerlin`; 332 steps; ended at watch 909 with the Mere at 36 spans, at the ending "The Measured Accord". Written by `bun scripts/low-water-transcripts.ts` from the journey as the page told it.
+Seed `ammerlin`; 347 steps; ended at watch 909 with the Mere at 31 spans, at the ending "The Measured Accord". Written by `bun scripts/low-water-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -256,7 +256,7 @@ The Sounding: a round nave under a dome, with no altar, no image, nothing at the
 
 **To the Cantor's room**
 
-The Cantor’s room: a bare cell with a clavichord in it, out of tune on purpose so that she can hear the voices against it, she says. Hymnals on every surface, some of them very old, their pages marked with ribbons and pressed flowers. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
+The Cantor’s room: a bare cell with a clavichord in it, out of tune on purpose so that she can hear the voices against it, she says. Hymnals on every surface, some of them very old, their pages marked with ribbons and pressed flowers. On the clavichord lies the hymnal the Cantor works from, a handsome edition in green boards, its pages scored with her pencil. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
 
 **Talk to Cantor Sabeth Orr**
 
@@ -352,7 +352,7 @@ The Sounding’s nave, round under its ribbed dome, the bronze grating and the b
 
 **To the Cantor's room**
 
-Cantor Sabeth Orr, the Cantor of the Sounding, is here. The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals.
+On the clavichord lies the hymnal the Cantor works from, a handsome edition in green boards, its pages scored with her pencil. Cantor Sabeth Orr, the Cantor of the Sounding, is here. The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals.
 
 **Talk to Cantor Sabeth Orr**
 
@@ -542,7 +542,7 @@ The Sounding’s nave, round under its ribbed dome, the bronze grating and the b
 
 **To the Cantor's room**
 
-The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
+The Cantor’s room: the clavichord, out of tune on purpose, and the hymnals. On the clavichord lies the hymnal the Cantor works from, a handsome edition in green boards, its pages scored with her pencil. Cantor Sabeth Orr, the Cantor of the Sounding, is here.
 
 **Talk to Cantor Sabeth Orr**
 
@@ -772,7 +772,33 @@ Over the whole Bowl, terrace below terrace, the Sounding’s bells go into the H
 
 The bells stop. In the quiet the choir sings four low notes, all alike, and again, and again, slow as somebody counting coins, and the Bowl is so still you can hear the water in the Stair.
 
-*(22 waits in which nothing is told)*
+*(2 waits in which nothing is told)*
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+*(19 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -782,7 +808,39 @@ The bells go into the Hymn. A carter on the Stair stops his horse and takes his 
 
 The bells stop. In the quiet the choir sings four low notes, all alike, and again, and again, slow as somebody counting coins, and the Bowl is so still you can hear the water in the Stair.
 
-*(22 waits in which nothing is told)*
+*(2 waits in which nothing is told)*
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+*(6 waits in which nothing is told)*
+
+**Wait › An hour**
+
+At first light there is a noise from the Ward like a door the size of a hill slammed shut, and then screaming. The diggers broke the wall at the bottom of the Hall’s throat, and the silt went, and the Mere came down after it. Three were in the hole.
+
+*(12 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -792,7 +850,33 @@ Over the whole Bowl, terrace below terrace, the Sounding’s bells go into the H
 
 The bells stop. In the quiet the choir sings four low notes, all alike, and again, and again, slow as somebody counting coins, and the Bowl is so still you can hear the water in the Stair.
 
-*(8 waits in which nothing is told)*
+*(2 waits in which nothing is told)*
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+**Wait › An hour**
+
+Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
+
+*(5 waits in which nothing is told)*
 
 **Ask Isaura if she will sign the Finding with you**
 
