@@ -66,6 +66,11 @@ export class JourneyProfile {
     // change what happens.
     console.log(`canonical ${Bun.hash(profile.inner.session.canonical()).toString(16)}`
       + ` facts ${JourneyProfile.facts(profile.inner.session)} told ${JourneyProfile.told(profile.inner.session)}`);
+    const dump = option('dump', '');
+    if (dump) {
+      const c = profile.inner.session.campaign;
+      writeFileSync(dump, JSON.stringify({ view: PlayerView.observe(c), chronicle: PlayerView.chronicle(c) }, null, 1));
+    }
     return 0;
   }
   // The world's facts and measures as a hash of their sorted keys: the same world whatever order it keeps them in.
