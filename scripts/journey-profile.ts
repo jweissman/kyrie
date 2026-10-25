@@ -20,7 +20,7 @@ import { Wanderer, type Offered } from './journey-wanderer';
 import { JourneyReport, type JourneyStep } from './journey-report';
 
 export type { JourneyStep } from './journey-report';
-type Inner = { session: PlaySession; saving: () => void; keep: () => Promise<void> };
+type Inner = { session: PlaySession; saving: () => void; keep: () => Promise<void>; preparing?: Promise<void> };
 interface Bounds {
   every: number; out: string; slow: number; deadline: number; checkpointEvery: number; checkpoints: string;
 }
@@ -124,10 +124,15 @@ export class JourneyProfile {
     const frame = await this.host.handle({ kind: 'perform', command: c.choice.id, said: c.choice.name, move: false });
     const t2 = performance.now();
     await this.inner.keep();
-    const t3 = performance.now(), t = (frame as Frame).timing ?? { engine: 0, screen: 0, narrative: 0 };
+    const t3 = performance.now();
+    // What the engine prepares while the player reads (the country beyond a march-stone a step away), waited for as
+    // a player's reading would give it time.
+    await this.inner.preparing;
+    const t4 = performance.now(), t = (frame as Frame).timing ?? { engine: 0, screen: 0, narrative: 0 };
     const installed = (campaign as unknown as { definition?: { installations?: unknown[] } }).definition?.installations;
     return { step: n, choice: c.choice.name, command: c.choice.id, total: Math.round(t2 - t1), ...t,
-      save: Math.round(t3 - t2), elapsed: campaign.readout.elapsed, facts: campaign.world.view.relations.length,
+      save: Math.round(t3 - t2), ahead: Math.round(t4 - t3),
+      elapsed: campaign.readout.elapsed, facts: campaign.world.view.relations.length,
       modules: installed?.length ?? 0, commands: campaign.history.length, saved: this.saved,
       heap: JourneyReport.heap(n % this.bounds.every === 0) };
   }

@@ -76,14 +76,24 @@ export class LocalKinds {
   private static readonly installed = new Set<string>();
   // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.
   static reset() {
-    for (const key of this.installed) {
-      const [family, id] = key.split(':') as [string, string];
-      if (family === 'item') {
-        delete (Canon.items as Record<string, ItemKind>)[id];
-        delete (ItemCatalog.definitions as Record<string, unknown>)[id];
-      } else { delete (Canon.species as Record<string, Species>)[id]; }
-    }
+    for (const key of this.installed) { this.remove(key); }
     this.installed.clear();
+  }
+  // Something read ahead of its use (the country beyond a march, parsed while the player reads): the kinds it joins to
+  // the catalogs as it is read are taken out again afterwards, so the campaign in play keeps only its own. They join
+  // again when what was read is installed (see ModuleBundle.parsed).
+  static aside<T>(read: () => T): T {
+    const before = new Set(this.installed);
+    try { return read(); } finally {
+      for (const key of [...this.installed]) { if (!before.has(key)) { this.remove(key); this.installed.delete(key); } }
+    }
+  }
+  private static remove(key: string) {
+    const [family, id] = key.split(':') as [string, string];
+    if (family === 'item') {
+      delete (Canon.items as Record<string, ItemKind>)[id];
+      delete (ItemCatalog.definitions as Record<string, unknown>)[id];
+    } else { delete (Canon.species as Record<string, Species>)[id]; }
   }
   // The campaign in play: its modules' kinds, and no other campaign's.
   static activate(catalog: LocalCatalog | undefined) { this.reset(); this.install(catalog); }

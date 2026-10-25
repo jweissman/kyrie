@@ -195,6 +195,15 @@ export class EngineHost {
       this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), ...fresh ? { world: fresh } : {} });
       world.kept = true; world.text = undefined;
     } catch { /* a command began before the game could be kept; it is kept after that one */ }
+    this.ahead();
+  }
+  // The country beyond a march-stone a step away, drawn and parsed while the player reads (see Frontier.prepare); one
+  // at a time, and what goes wrong is left for the crossing itself to say.
+  private preparing?: Promise<void>;
+  private ahead() {
+    if (!this.frontier || !this.session || this.preparing) { return; }
+    this.preparing = this.frontier.prepare(this.session.campaign).catch(() => undefined)
+      .finally(() => { this.preparing = undefined; });
   }
   private world?: Keyed & { kept: boolean; text?: string };
   // The world a checkpoint is played in, keyed by its contents: the same until the country grows.

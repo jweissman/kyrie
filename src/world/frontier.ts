@@ -3,6 +3,7 @@ import type { BundleSource } from '../campaign/bundle-source';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Borders, type Side } from './land/borders';
 import { WorldAssembler } from './world-assembler';
+import { ModuleBundle } from '../campaign/module-bundle';
 import { WorldGrid } from './world-grid';
 import { RegionWriter, type Region } from './region-writer';
 import { Countries, type Country } from './countries';
@@ -39,8 +40,7 @@ export class Frontier {
         await campaign.install({ id: rid, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
           imports: { party: `${RegionWriter.id}.party` } }, this.base);
       } else {
-        const beyond = await WorldAssembler.beyond(this.seed, this.base, { x, y, calendar: campaign.state.calendar,
-          exclude: await this.placed(installed), named: this.named(campaign, [x, y]), taken: this.works(campaign) });
+        const beyond = await this.drawn(campaign, x, y);
         for (const request of beyond.requests) { await campaign.install(request, beyond.source); }
         region = beyond.region;
       }
@@ -50,6 +50,32 @@ export class Frontier {
       here: `${at[1]!}.edge_${side}`, there: `${rid}.${there}` } },
     new OverlayBundleSource(this.base, files));
     return { rid, ...region ? { region } : {} };
+  }
+  // The countries beyond the march-stones a step from where the company stands, drawn and parsed ahead of its getting
+  // to one (drawing one takes seconds), while the player reads; drawing it then finds it so. Nothing is installed: a
+  // country the company never goes to is never in its world, nor are its kinds in the catalogs (ModuleBundle.prepare).
+  async prepare(campaign: Campaign): Promise<void> {
+    const world = campaign.world, here = world.one('at', 'party'), installed = new Set(campaign.installed);
+    for (const way of here ? world.relatedTo('connects', here) : []) {
+      const at = /^(.+)__edge_(north|east|south|west)$/.exec(way.args[2] ?? ''), from = at && WorldGrid.at(at[1]!);
+      if (!at || !from) { continue; }
+      const side = at[2] as Side, [x, y] = WorldGrid.next(from, side), rid = WorldGrid.id(x, y);
+      if (installed.has(rid) || installed.has(`link${[at[1]!, rid].sort().join('')}`)) { continue; }
+      const country = this.fits(campaign, at[1]!, side);
+      if (country) { await ModuleBundle.prepare(this.base.resolve(`data/adventures/${country.bundle}`), this.base); continue; }
+      const beyond = await this.drawn(campaign, x, y, true);
+      for (const request of beyond.requests) { await ModuleBundle.prepare(request.bundle, beyond.source); }
+    }
+  }
+  // The country drawn beyond a march, from all it is drawn from now: drawn once, if it was drawn ahead from the same.
+  private readonly ahead = new Map<string, Awaited<ReturnType<typeof WorldAssembler.beyond>>>();
+  private async drawn(campaign: Campaign, x: number, y: number, keep = false) {
+    const installed = new Set(campaign.installed);
+    const at = { x, y, calendar: campaign.state.calendar, exclude: await this.placed(installed),
+      named: this.named(campaign, [x, y]), taken: this.works(campaign) }, key = JSON.stringify(at);
+    const beyond = this.ahead.get(key) ?? await WorldAssembler.beyond(this.seed, this.base, at);
+    if (keep) { this.ahead.set(key, beyond); } else { this.ahead.clear(); }
+    return beyond;
   }
   // The authored country a region already installed is, if it is one.
   private holds(campaign: Campaign, rid: string): Country | undefined {

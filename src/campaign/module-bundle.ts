@@ -144,6 +144,26 @@ export class ModuleBundle {
     const { situations, rules } = this.paths(manifest, path, source);
     await this.read([...situations, ...rules], source);
   }
+  // The same for a module not yet in the game in play (the country beyond a march, while the player reads the choice
+  // that leads to it): what each file declares of its own kinds is taken out of the catalogs again once it is parsed,
+  // the kinds of the files before it put in for it alone, so a country never gone to leaves none behind.
+  static async prepare(path: string, source: BundleSource): Promise<void> {
+    const manifest = JSON.parse(await source.read(path)) as BundleManifest, catalogs: Module['catalog'][] = [];
+    const { situations, rules } = this.paths(manifest, path, source);
+    for (const file of [...situations, ...rules]) {
+      const text = await source.read(file);
+      let module = this.parses.get(text);
+      if (!module) {
+        module = LocalKinds.aside(() => {
+          for (const catalog of catalogs) { LocalKinds.install(catalog); }
+          try { return ModuleParser.parse(text); } catch { return undefined; }
+        });
+        if (module && this.parses.size < 400) { this.parses.set(text, module); }
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
+      catalogs.push(module?.catalog);
+    }
+  }
   // The rules every game is played by, read before any game is asked for (while the title is up).
   static async warmRules(source: BundleSource): Promise<void> {
     await this.read(this.ruleNames.map(name => source.resolve(`data/rules/${name}.kyr`)), source);

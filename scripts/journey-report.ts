@@ -1,7 +1,8 @@
 // How a measured journey is told: a window of steps at a time as it goes, and the whole at the end.
 export interface JourneyStep {
   step: number; choice: string; command: string; total: number; engine: number; screen: number; narrative: number;
-  save: number; elapsed: number; facts: number; modules: number; commands: number; saved: number; heap: number;
+  save: number; ahead?: number; elapsed: number; facts: number; modules: number; commands: number; saved: number;
+  heap: number;
 }
 export class JourneyReport {
   // The heap in use, in megabytes: after a full collection when asked, so that what is kept is told apart from
