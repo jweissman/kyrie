@@ -59,7 +59,28 @@ Module lowwater "Low Water" {
   Rule hymn_rises when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and not broken(reckoner) and not complete(reckoner)
     and not state(deep_gate, logged) and not state(deep_gate, raised) {
     Assert state(deep_gate, raised). }
-  Rule hymn_sung when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl)
+  Rule hymn_after_census when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and complete(reckoner)
+    says "The Hymn, at seven. The bells are the same and the choir is the same, and something under it is not: the water does not answer. Down through the terraces, where for three thousand years the cisterns rang with it, there is only stone." {
+    Assert sungTonight(bowl). }
+  Rule hymn_after_broken when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and broken(reckoner)
+    says "The Hymn, at seven. It sounds thinner than it did, and it takes you a moment to know why: under the bells, where the water of the whole Bowl used to take the note and give it back, nothing gives it back." {
+    Assert sungTonight(bowl). }
+  Rule hymn_after_hearing when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and hearingDone(ammerlin)
+    says "The bells go into the Hymn, the first since the Hearing, and the Sounding must be full to the doors: you can hear the singing from the Rim to the Ward, and in the Ward, for once, people are singing too." {
+    Assert sungTonight(bowl). }
+  Rule hymn_ward_leaving when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and wardLeaving(ammerlin) and not seventhRestored(bowl)
+    says "The Hymn, at seven. Down in the Ward, where it used to come back off the Mere, nothing comes back; the mud takes it, and the handcarts in Tench Row stop, all together, while it lasts." {
+    Assert sungTonight(bowl). }
+  Rule hymn_day2 when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and day(clock) == 2
+    says "Seven o'clock, and the Sounding's bells go into the Hymn again, as they have every evening for three thousand years; and up and down the terraces, at every lock and sluice, keepers put their hands on their wheels." {
+    Assert sungTonight(bowl). }
+  Rule hymn_day3 when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and day(clock) == 3
+    says "The Hymn. Somewhere below you a dog howls along with the bells, and is hushed, and howls again." {
+    Assert sungTonight(bowl). }
+  Rule hymn_day5 when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and day(clock) == 5
+    says "The bells go into the Hymn. A carter on the Stair stops his horse and takes his hat off, and then, looking round to see if anyone saw, puts it on again." {
+    Assert sungTonight(bowl). }
+  Rule hymn_sung when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and true
     says "Over the whole Bowl, terrace below terrace, the Sounding's bells go into the Hymn, and under them, faint and enormous, the choir." {
     Assert sungTonight(bowl). }
   Rule seventh_sung when hour(clock) == 20 and seventhRestored(bowl) and not seventhTonight(bowl) and not hymnSilenced(bowl) and not at(party, ninth_lock)

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
-import { PlaySession } from '../src/session/play-session';
 
 // Low Water, played by the labels a player sees (doc/adventures/low-water). Ammerlin's Mere is falling; the company is
 // the Office's Independent Assessor. Each journey is one way the six days to the Hearing can go, from the Rim.
@@ -115,4 +114,26 @@ describe('Low Water', () => {
     console.log(j.watch(), Bowl.mere(j), j.measure(L('credence'), L('council')));
     expect(j.holds(L('verdictAccord'), L('ammerlin'))).toBe(true);
   }, 240000);
+  it('goes on without the Assessor: the Tench on the mud, the dig taken, the Registrar\'s finding, and the count closed alone', async () => {
+    const j = await Bowl.start('alone');
+    await j.play(...Bowl.arrive, '=300');
+    expect(Bowl.state(j, 'tench', 'stranded')).toBe(true);
+    expect(j.holds(L('digBought'), L('dig'))).toBe(true);
+    await j.play('=340');
+    // The bailiffs came to the dig at three, and Dov is in the Office cells.
+    expect(j.holds(L('dovHeld'), L('dov'))).toBe(true);
+    expect(j.at(L('dov'))).toBe(L('office_cells'));
+    await j.play('=900');
+    expect(j.holds(L('registrarsFinding'), L('ammerlin'))).toBe(true);
+    expect(Bowl.state(j, 'channel_gate', 'to_mere')).toBe(true);
+    expect(j.holds(L('wardLeaving'), L('ammerlin'))).toBe(true);
+    const before = Bowl.mere(j);
+    await j.play('=1110');
+    expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
+    expect(Bowl.mere(j)).toBeLessThan(before - 5);
+    expect(Bowl.said(j)).toContain('Every bell in Ammerlin rings at once');
+    console.log('alone', j.watch(), Bowl.mere(j), j.measure(L('count'), L('reckoner')), j.measure(L('completedAt'), L('bowl')));
+    await j.play('?^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
+    expect(j.holds('reached', L('low_whole'))).toBe(true);
+  }, 300000);
 });

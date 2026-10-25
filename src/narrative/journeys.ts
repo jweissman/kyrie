@@ -5,6 +5,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../presentation/fictional-time';
 import { Voice } from './voice';
 import { Editor } from './editor';
+import { Narrator } from '../presentation/narrator';
 import type { Voiced } from './telling';
 
 // A way across country, told as it goes (data/voice/journey.json): setting out, by the hour and the sky; the land the
@@ -28,16 +29,31 @@ export class Journeys {
     // in sight of its end (the follow-up review read familiar journeys in full).
     const again = campaign.history.some(e => e.elapsed < event.elapsed && e.result === 'success'
       && /^go\(/.test(e.action) && e.action.split(',')[1] === way);
+    // Under the ground the hour and the sky are not seen: a way between underground places is told as it is there.
+    if (this.below(campaign, way, from, to)) {
+      return this.voiced({ moment: `${campaign.readout.seed}:${event.elapsed}`, used, values }, [['journey-depart', { shelter: 'underground' }]]);
+    }
     const kinds: [string, Record<string, string>][] = [
       ['journey-depart', { time: FictionalTime.part(start), sky: this.skies[sky ?? ''] ?? 'fair',
         ...FictionalTime.early(start) ? { light: 'early' } : {} }],
       ...chart && !again ? [['journey-land', { land: this.land(chart, this.cells(chart, from, to)) }] as [string, Record<string, string>]] : [],
       ...!FictionalTime.dark(start) && FictionalTime.dark(event.elapsed) ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
       ...again ? [] : this.arrival(campaign, to, ticks)];
+    return this.voiced({ moment: `${campaign.readout.seed}:${event.elapsed}`, used, values }, kinds);
+  }
+  // Whether a way runs under the ground: both its ends are, or it is a tunnel, culvert, crawl, shaft or drift.
+  static below(campaign: Campaign, way: string, from: string, to: string): boolean {
+    const kind = campaign.world.one('passageKind', way)?.replace(/^.*way_/, '') ?? '';
+    return ['tunnel', 'culvert', 'crawl', 'shaft', 'drift'].includes(kind)
+      || [from, to].every(p => Narrator.shelter(campaign, p) === 'underground');
+  }
+  private static voiced(at: { moment: string; used: Set<string>; values: Record<string, string> },
+    kinds: [string, Record<string, string>][]): Voiced[] {
+    const { moment, used, values } = at;
     // The closest fit not yet said; a looser fit not yet said before a close one said again.
     return kinds.flatMap(([kind, context]) => {
       const tiers = Voice.tiers(kind, context), pool = tiers.find(t => t.some(l => !used.has(l.id))) ?? tiers[0] ?? [];
-      const line = Editor.choose(pool, `${campaign.readout.seed}:${event.elapsed}:${kind}`, used);
+      const line = Editor.choose(pool, `${moment}:${kind}`, used);
       if (!line) { return []; }
       Editor.said(used, line.id);
       return [{ id: line.id, kind, text: Voice.render(line.text, { values }) }];
