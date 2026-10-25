@@ -658,3 +658,27 @@ output, not as a red suite.
   - Three tracks (navigation, knowledge, tests) were investigated by delegated read-only agents. I re-checked their headline claims in code and re-ran A1 independently, but not every count.
   - I did not exercise the browser.
   - The missing audit report means my reconciliation of F1–F9 rests on the ledger's summaries.
+
+---
+
+## 12. Phase II: prospective study (same snapshot, 483e3af)
+
+Phase II asks what architecture would let Kyrie become one coherent, persistent world composed from independently
+authored and generated material. It is four documents in [`phase-2/`](phase-2/):
+
+- [A. Shared-world architecture](phase-2/A-shared-world.md): the four existing placement mechanisms; what the shipped adventures assume; eager versus registry versus hybrid assembly (hybrid recommended); the contribution manifest; and the design exercise of one character reaching Thrume, Let One Remember and a placed variant of The House That Grows.
+- [B. Metropolis and travel](phase-2/B-metropolis-and-travel.md): lot, ward and overlay composition models (the ward model plus lots plus overlays, recommended); the academy, quayside and secret-society exercise; routes, services and assisted travel as additive layers; a worked journey from the city to three adventures.
+- [C. Characters, institutions and history](phase-2/C-characters-institutions-history.md): strategic actors as public faces plus stratagems over `ambitions.kyr`; deep companions as knowledge per member plus authored Remarks over exported tags; history as facts, with reading levels.
+- [D. Decision memorandum](phase-2/D-decision-memo.md): design-now, incremental, authored-only and deferred lists; three vertical slices; the open decisions; and the final answer.
+
+**New evidence:** [`phase-2/probes/all-in-one-world.probe.ts`](phase-2/probes/all-in-one-world.probe.ts), with its output beside it.
+- In one live generated world (seed a1):
+  - Thrume installed in 0.33 s and Let One Remember in 0.60 s, each unchanged except for an overlay importing the world's company;
+  - The House That Grows was refused, because its premise asserts `stareTrained(party)` on the imported company;
+  - the company walked six offered steps into Thrume's opening.
+- The joined world held 37,801 facts in 20 modules. A wait took 88 ms, and the checkpoint was 7.3 MB.
+
+**The one investment** (memorandum §9): the world contribution contract and world plan. That is, one small manifest
+(contributes, attaches, heard of, owns, exports, preserves, world may change), an append-only, traced, content-hashed
+plan generalising the kit ledger, the scenario hooks and the frontier, and installation inside the commands that bring
+the company to each contribution.

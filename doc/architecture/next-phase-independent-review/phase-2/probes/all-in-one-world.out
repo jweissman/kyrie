@@ -1,0 +1,25 @@
+world a1: 16 modules, 16003 facts
+thrume: installed in 328 ms (+ road 88 ms); now 18 modules, 23134 facts
+corrow: installed in 598 ms (+ road 120 ms); now 20 modules, 37801 facts
+hhg: FAILED after 147 ms: Module initialization cannot reset imported or campaign-owned state
+choices at the start, after installing: 80
+a wait in the joined world: 88 ms
+checkpoint: 7287 kB
+walked 6 steps to thrume__salt_road, elapsed 57 watches
+observations at the entry: [ "The salt road comes up out of the river country between fields gone white at the edges, as if salted. Ahead, Saltgrave s" ]
+choices at the entry: [
+  "Wait a while", "Wait an hour", "Wait until dark", "Wait and watch", "Take the town gate to the market square",
+  "Take the long road to the northern edge of Merscfaenn",
+  "Make camp at the salt road below the town",
+  "Search the salt road below the town", "Have Dori prepare Anoint in place of Cure Light Wounds, in a first-level slot",
+  "Have Dori prepare Bless in place of Cure Light Wounds, in a first-level slot", "Light a torch",
+  "Give a coil of rope to Bran", "Give a coil of rope to Dori", "Give a shortbow to Bran"
+]
+situations: [
+  "Merscfaenn", "The unquiet tower: The unquiet tower", "Word of The unquiet tower", "A den in the wild: A den in the wild",
+  "Word of A den in the wild", "A den in the wild: A den in the wild", "Word of A den in the wild",
+  "The boundary stones", "Word of The boundary stones", "The drover who did not come home: The drover who did not come home",
+  "Word of The drover who did not come home", "Why the company came",
+  "A ring-fort", "Outlaws", "Customs-men on the road", "A widow's price: A widow's price",
+  "Thrume", "A road", "Let One Remember", "A road"
+]
