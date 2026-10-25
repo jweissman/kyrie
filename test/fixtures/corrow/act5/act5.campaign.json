@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "The Road the Star Came Down: Act V, the Road the Star Came Down",
+  "calendar": { "year": 2732, "month": 2, "day": 2 },
+  "modules": [ { "id": "corrow", "bundle": "module.json" } ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter", "level": 14 },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"], "level": 14 },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"], "level": 14 }
+  ]
+}

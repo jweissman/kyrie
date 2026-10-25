@@ -1,0 +1,134 @@
+Module corrow "The Road the Star Came Down" {
+  Description "Act IV, Under Way: Hightown cast off its Chain and steered by memory, up the road the star came down, to the Gate of Being.".
+
+  // ── The vessel ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // A weightless mountain is steered by memory. One more Counterweight who holds where it came from sinks it; one the
+  // Unaskers let forget raises it. Cast off its Chain at the cradles, with Drevka's hammer on Drevka's own work, and it
+  // goes where its people's knowing takes it. The horn stays on the plateau; a needle cut from it points at the Hush.
+  Query afloat(p: place) means (not crashed(p) and not grounded(p) and not lost(p)) or relifted(p).
+  Relation relifted(place). Relation underWay(place).
+  Measure altitude(place). Measure leg(place). Measure legNext(place).
+  Action relift(actor: group, site: place) "Ask the Unaskers to let Hightown forget its place again, as the Calvessa first made it forget" {
+    Description "It was lifted once by a rite. It can be lifted again. The rite takes its price.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_walk) and knows(actor, way_home_rite)
+      and joinedRite(amberly) and (grounded(hightown) or crashed(hightown)) and not relifted(hightown) and not lost(hightown).
+    Time 36.
+    On success { Assert relifted(hightown). Set heard(hightown) to 0. Set altitude(hightown) to 400. }
+    Result "For six hours two hundred Unaskers sit on the broken terraces in the snow and practise the oldest thing they know, and lead the rest. At dusk the mountain creaks along every fault in it, and then it lifts: off the shore, off the plateau, a hand's breadth, a man's height, a house's, with water and rock pouring off its underside, and nobody on it can tell you any more where it used to stand.".
+  }
+
+  // The compass: a needle of the horn, cut with the only tool that cuts it.
+  Kind horn_needle "a needle of black iron cut from the horn, which will not lie still in the hand" is treasure worth 0 weighing 1.
+  Item needle "a needle of the horn" is horn_needle at limbo.
+  Action cut_needle(actor: group, site: place) "Cut a needle from the horn's tip with Drevka's hammer" {
+    Description "The horn pulls, always, north-north-east and up, toward the Hush. A piece of it will pull the same way.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, horn_foot) and carries(actor, hammer) and at(needle, limbo).
+    Time 18.
+    On success { Assert at(needle, horn_foot). }
+    Result "Three hours of blows, on the horn's thin tip, in the cold. Nothing else in Imbar would mark it. At last a sliver as long as your forearm comes away and falls in the snow, and when you pick it up it turns in your fist like a live fish, and settles, pointing north-north-east and up.".
+  }
+
+  // Casting off.
+  Relation hartmarkRim(place).
+  Action cast_off(actor: group, site: place) "Strike out the pin of the first link's cradle with Drevka's hammer, and let Hightown go" {
+    Description "Its Chain falls away to the plateau. It will go wherever the knowing of its people takes it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cable_cradles) and carries(actor, hammer) and afloat(hightown)
+      and not underWay(hightown) and roster(aron) and joinedRite(amberly).
+    Time 6.
+    On success { Assert underWay(hightown). Set leg(hightown) to 0. Set legNext(hightown) to watch(clock) + 36. Assert at(actor, cradle_gallery). }
+    Result "The pin is Ondrek work, as thick as a man and two thousand six hundred years in its socket, and it comes out at the ninth blow with a sound like the end of something. The first link swings free in its cradle, and the Chain goes: all of it, a hundred and forty links, two and a half kilometres of iron, falling away under you and folding down onto the plateau in a long slow pile that you feel through the mountain for a minute after. Then Hightown is quite still in the air, and nothing holds it at all. You climb up into the gallery. Everybody on the mountain is on the rim, looking down.".
+  }
+  Rule set_altitude when underWay(hightown) and altitude(hightown) == 0 and not relifted(hightown) { Set altitude(hightown) to 2400. }
+  Rule hartmark_cuts when underWay(hightown) and paying(esk) and not hartmarkRim(hightown)
+    says "From the rim you see grey-coated riders at the foot of the hoists, too late: Esk of Harrow's men, come to put a Hartmark crew aboard. They watch the mountain go. One of them lifts a hand, as if to wave, and does not." {
+    Assert hartmarkRim(hightown).
+  }
+
+  // Steering: from the hall of the Charge, which is the helm now.
+  Action rise(actor: group, site: place) "Ask the Unaskers to let one of them forget where Hightown came from" {
+    Description "One fewer holding its place: four hundred metres up.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, charge_hall) and underWay(hightown) and leg(hightown) < 4.
+    Time 6.
+    On success { Increase altitude(hightown) by 400. }
+    Result "An Unasker sits down on the stone seat in the middle of the Charge and closes her eyes, and the others hum the old not-knowing round her, and after an hour she opens them and asks, puzzled, what everyone is looking at. Under your feet the mountain is a little lighter.".
+  }
+  Action sink(actor: group, site: place) "Ask Linnet to put one more name on the roster" {
+    Description "One more holding its place: four hundred metres down.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, charge_hall) and underWay(hightown) and leg(hightown) < 4
+      and altitude(hightown) >= 800.
+    Time 6.
+    On success { Decrease altitude(hightown) by 400. }
+    Result "Linnet Vane writes a name in the roster book in her careful hand, and Aron takes the one it belongs to aside and tells them. Under your feet the mountain is a little heavier.".
+  }
+  Observe helm_scene at charge_hall when underWay(hightown) "The hall of the Charge is the helm now. The charge-holders sit in their ring with the roster book open on one seat and the Unaskers on another, and every hour someone comes up from the rim to say what can be seen.".
+
+  // The legs. Every six hours the mountain goes on, if it is where it must be.
+  Rule over_teskarn when underWay(hightown) and leg(hightown) == 0 and watch(clock) >= legNext(hightown) and altitude(hightown) >= 3200
+    says "Hightown goes over the Teskarn. From the rim the summits pass below like the backs of whales, a long way down, and the snow on them is pink with the low sun." {
+    Set leg(hightown) to 1. Set legNext(hightown) to watch(clock) + 36.
+  }
+  Rule into_cloud_sea when underWay(hightown) and leg(hightown) == 1 and watch(clock) >= legNext(hightown) and altitude(hightown) >= 4400
+    says "Hightown comes up through the last of the cloud into a sea of it, white, level, going on for ever under a sky that is nearly black at noon. There is no ground any more. There is only north-north-east." {
+    Set leg(hightown) to 2. Set legNext(hightown) to watch(clock) + 36.
+  }
+  Rule onto_road when underWay(hightown) and leg(hightown) == 2 and watch(clock) >= legNext(hightown) and carries(party, needle)
+    and altitude(hightown) >= 5200 and altitude(hightown) <= 6800
+    says "There it is: the road the star came down. A band of burnt air going up out of the cloud sea toward the north-north-east, dark against the dark sky, glinting here and there with something like ash that does not fall. The needle in your hand pulls along it like a dog on a lead, and Hightown, held at the road's height, goes up it." {
+    Set leg(hightown) to 3. Set legNext(hightown) to watch(clock) + 72.
+  }
+  Rule to_the_gate when underWay(hightown) and leg(hightown) == 3 and watch(clock) >= legNext(hightown) and altitude(hightown) >= 7600
+    says "At the top of the road the sky stops. Not the light: the sky. Ahead of Hightown, close enough to touch from the rim, is a wall of nothing in particular that goes up and down and to either side for ever, and in it, where the road meets it, a door." {
+    Set leg(hightown) to 4.
+  }
+  Hazard thin_air "air too thin to breathe" means "Deal (1d6) physical damage to ally unless constitution save against (13).".
+  Rule air_too_thin when underWay(hightown) and leg(hightown) < 3 and altitude(hightown) > 7200 and dice(clock) <= 10 { Assert strikes(thin_air, party). }
+
+  // What can be seen from the rim, and what the needle says.
+  Observe rim_under_way at rim_walk when underWay(hightown) and leg(hightown) == 0 "Hightown rides free over the plateau with nothing under it. Far below, the Chain lies in a long black scrawl across the snow from the horn. Ahead, north-north-east, the Teskarn: higher than Hightown is.".
+  Observe rim_teskarn at rim_walk when underWay(hightown) and leg(hightown) == 1 "The Teskarn falls away behind. Ahead the cloud stands up in a wall, white below and grey above; the mountain will have to go over it.".
+  Observe rim_cloud at rim_walk when underWay(hightown) and leg(hightown) == 2 "The cloud sea, white and level, for ever.".
+  Observe rim_road at rim_walk when underWay(hightown) and leg(hightown) == 3 "The burnt road goes up ahead into the dark sky, and Hightown goes up it.".
+  Observe needle_low near party when carries(party, needle) and underWay(hightown) and leg(hightown) == 2 and altitude(hightown) < 5200 "The needle of the horn strains upward in your hand, hard. Whatever it points at is above you.".
+  Observe needle_high near party when carries(party, needle) and underWay(hightown) and leg(hightown) == 2 and altitude(hightown) > 6800 "The needle of the horn dips, pointing down and ahead. You are above whatever it is following.".
+  Observe needle_level near party when carries(party, needle) and underWay(hightown) and leg(hightown) == 2 and altitude(hightown) >= 5200 and altitude(hightown) <= 6800 "The needle of the horn lies level in your palm, pointing dead ahead, north-north-east.".
+  Observe no_needle near party when not carries(party, needle) and underWay(hightown) and leg(hightown) == 2 "In the cloud sea every way looks the same. Without the horn there is nothing to tell north-north-east from any other way.".
+  // What went up the road before you.
+  Observe kin_on_road at rim_walk when underWay(hightown) and leg(hightown) == 3 and bandRead(corrow) "Far up the road, small with distance, a column of the Unfolded is climbing, in step, and does not look back.".
+  Observe unsaid_on_road at rim_walk when underWay(hightown) and leg(hightown) == 3 and (unsaidSent(margin) or unsaidCrossed(margin)) "On the burnt road, here and there, lie lost things: a glove, a hat, a Peleth ledger. Something went up this way wearing them, and is shedding them as it goes.".
+
+  // ── The Gate of Being ────────────────────────────────────────────────────────────────────────────────────────────
+  // The Virina divided the planes so that each power might have its own room. One of them keeps this door.
+  Place gate_edge "the Gate of Being" is room within summit at 3, 2 outdoors.
+  Passage gangway "the gangway over the rim" is passage between rim_walk and gate_edge
+    opening when leg(hightown) == 4 "Over the rim there is only sky.".
+  Observe being_gate_scene at gate_edge when true "A ledge of nothing that holds you up, and in front of it a door in the wall at the end of the sky: plain, tall, the colour of the moment before a decision. Beside it stands someone in grey who is not a person, exactly, but who has chosen to look like one so that you can talk to it.".
+  Person arbiter "an Arbiter of the Virina" at gate_edge {
+    Role "one of those who divided the planes, keeping a door". Peaceable.
+  }
+  Discovery one_rule "What the Coyle keepers said, and the old prayer sang: one walks the road, always one. Never two: every other who knows where the jewel is draws the star faster. Never none: a jewel no mind knows slips into the plane it binds, and the plane comes undone.".
+  Topic saska_one with saska "Ask Mother Saska what the Coyle keepers' rule was" when knows(actor, wenna_band) or knows(actor, road_fragments) once {
+    Says "'Never none, never two,' says Saska at once. 'Sabeth Coyle's mother said it to her, and Sabeth said it to Marra, and Marra to Wenna. My grandmother heard Marra say it the day they anchored her back.' She is quiet a moment. 'One walks it, always one. That's in the prayer, the part they still sing.'".
+    On discuss { Assert knows(actor, one_rule). }
+  }
+  Topic arbiter_door with arbiter "Ask the Arbiter to open the door" when not gateOpen(hightown) {
+    Says "'What is bound stays bound,' says the Arbiter. 'What is divided stays divided. Beyond this door is a country that was never woven of your world, and in it, a long way off, a woman is carrying a thing that binds one of your planes, and a thing is following her.' It looks at each of you in turn, and you have the impression that it is counting. 'I will open it to one who knows the way. Not to two. If two of you know the way, then there are two.'".
+  }
+  Relation gateOpen(place). Relation oneKeeps(group).
+  Action let_road_go(actor: group, site: place) "Ask the Unaskers to take the road out of all of you but one" {
+    Description "Every one of you who read Wenna's band, or took the road's fragments, knows the way. One may keep it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_edge) and not oneKeeps(actor)
+      and (knows(actor, wenna_band) or knows(actor, road_fragments)).
+    Time 6.
+    On success { Assert oneKeeps(actor). }
+    Result "The Unaskers come out onto the ledge and sit round you, and hum, and one by one the way goes out of all of you but the one who will lead: north-north-east and up, a burnt road, a door, a star at the end. Afterwards the others look at the door and do not know where it goes. The one who kept it knows, and finds that it is very lonely to be the only one.".
+  }
+  Topic arbiter_answer with arbiter "Tell the Arbiter the rule: never none, never two" when knows(actor, one_rule) and not gateOpen(hightown)
+    and (oneKeeps(actor) or (not knows(actor, wenna_band) and not knows(actor, road_fragments) and carries(actor, needle))) {
+    Says "'Never none, never two,' says the Arbiter, as if tasting it. 'A mortal rule, made by mortals, for the same reason we made ours.' It puts its hand on the door. 'One of you knows the way. One. Go through.' The door opens on a country without colour, and a road going on.".
+    On discuss { Assert gateOpen(hightown). }
+  }
+  Topic arbiter_two with arbiter "Tell the Arbiter the rule: never none, never two" when knows(actor, one_rule) and not gateOpen(hightown)
+    and not oneKeeps(actor) and (knows(actor, wenna_band) or knows(actor, road_fragments)) {
+    Says "'Then you know why I cannot,' says the Arbiter. 'There are three of you who know the way. Make it one.'".
+  }
+}

@@ -1,0 +1,14 @@
+Module corrow "The Road the Star Came Down" {
+  // Act IV from its threshold: at the horn, with Drevka's hammer lent, after the kin were turned on the Drag.
+  // Hightown hangs bitten over the plateau, its roster running, the Unaskers willing.
+  Company party "Your company" of 3 at horn_foot.
+  Initially Set quantity(party, gold) to 40. Initially Set quantity(party, rations) to 12.
+  Initially Retract filing(ruth). Initially Set heard(hightown) to 20. Initially Assert roster(aron). Initially Assert joinedRite(amberly).
+  Initially Assert state(hoist_book, entered). Initially Assert lends(bede, hammer, party). Initially Assert at(hammer, horn_foot).
+  Initially Assert starFell(corrow). Initially Assert kinLost(corrow). Initially Assert riteHeld(corrow).
+  Action act_one(actor: group, site: place) "Begin Act IV" {
+    Requires company(actor) and at(actor, site) and not knows(actor, one_rule).
+    Time 0.
+    On success { Assert knows(actor, one_rule). Assert knows(actor, wenna_band). Assert knows(actor, way_home_rite). }
+  }
+}

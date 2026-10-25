@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "source": [
+    "../../../../data/adventures/let-one-remember/clocks.kyr",
+    "../../../../data/adventures/let-one-remember/scarp.kyr",
+    "../../../../data/adventures/let-one-remember/well.kyr",
+    "../../../../data/adventures/let-one-remember/hornwake.kyr",
+    "../../../../data/adventures/let-one-remember/hightown.kyr",
+    "../../../../data/adventures/let-one-remember/keld.kyr",
+    "../../../../data/adventures/let-one-remember/wendmouth.kyr",
+    "../../../../data/adventures/let-one-remember/act2_margin.kyr",
+    "../../../../data/adventures/let-one-remember/act3_kin.kyr",
+    "../../../../data/adventures/let-one-remember/act4_voyage.kyr",
+    "../../../../data/adventures/let-one-remember/act5_road.kyr",
+    "start.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party"
+  }
+}

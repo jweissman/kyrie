@@ -1,0 +1,14 @@
+Module corrow "The Road the Star Came Down" {
+  // Act V from its threshold: on the ledge at the Gate of Being, the door open, Hightown under way behind. One of
+  // the company keeps the road; they carry the needle, Wenna's lens and a stone of the mountain's place.
+  Company party "Your company" of 3 at gate_edge.
+  Initially Set quantity(party, gold) to 40. Initially Set quantity(party, rations) to 12.
+  Initially Assert underWay(hightown). Initially Set leg(hightown) to 4. Initially Assert gateOpen(hightown). Initially Assert oneKeeps(party).
+  Initially Assert at(needle, gate_edge). Initially Assert at(absence, gate_edge). Initially Assert at(wenna_lens, gate_edge).
+  Initially Assert lends(bram, wenna_lens, party). Initially Retract filing(ruth).
+  Action act_one(actor: group, site: place) "Begin Act V" {
+    Requires company(actor) and at(actor, site) and not knows(actor, one_rule).
+    Time 0.
+    On success { Assert knows(actor, one_rule). }
+  }
+}

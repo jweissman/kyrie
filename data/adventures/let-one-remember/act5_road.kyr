@@ -1,0 +1,98 @@
+Module corrow "The Road the Star Came Down" {
+  Description "Act V, the Road the Star Came Down: beyond the gates of being, where nothing is woven of the prima materium, and a woman has been thinking of elsewhere for ninety years.".
+
+  Place beyond "beyond the gates of being" is plane.
+  Place unwoven "the unwoven country" is region within beyond.
+  Place far_road "the road beyond" is wilderness within unwoven at 0, 0.
+  Place far_side "the far side of the door" is room within far_road at 0, 0 outdoors.
+  Place road_beyond "the burnt road, going on" is room within far_road at 1, 0 outdoors.
+  Place nail_wake "the Nail's wake" is room within far_road at 2, 0 outdoors.
+  Place wennas_stop "where the road stops" is room within far_road at 3, 0 outdoors.
+
+  Passage the_door "the door in the wall at the end of the sky" is doorway between gate_edge and far_side
+    opening when gateOpen(hightown) "The door is shut. The Arbiter stands beside it.".
+  Passage road_on "the burnt road" is path between far_side and road_beyond taking 2 hours.
+  Passage into_wake "along the furrow it ploughed" is path between road_beyond and nail_wake taking 1 hour.
+  Passage past_the_nail "past the Nail" is path between nail_wake and wennas_stop taking 1 hour.
+
+  // Nothing here is woven of the world's binding magic: it is all of a piece with deadiron.
+  Observe far_side_scene at far_side when true "The door shuts behind you, and you are in a country with no colour in it: not grey, which is a colour, but none. Ground, sky, the road, all of a piece, all of one stuff, and you know the stuff: it is what the Chain is made of, and the horn, and the Nail. Nothing here was ever woven of your world. No spell any of you knows would so much as flicker. Hightown hangs behind you in the door like a picture of somewhere.".
+  Observe road_beyond_scene at road_beyond when true "The burnt road goes on, level now, across the unwoven country toward something on the horizon that is very large and does not move.".
+  Observe road_kin at road_beyond when bandRead(corrow) "The Unfolded passed this way. Their prints go on ahead of you in step, and once, at the roadside, one of them stands quite still with its closed-hand head bowed, as if listening for something it has lost.".
+  Observe road_coats at road_beyond when unsaidSent(margin) or unsaidCrossed(margin) "On the road lie lost things, more and more of them: gloves, hats, a cart-wheel, a Peleth ledger, a gravestone name. Whatever wore them has put them all down.".
+
+  // The Nail: a body without its name, or, if the Unsaid reached it, the Varakiiri whole.
+  Relation reunited(place).
+  Rule name_finds_body when (unsaidSent(margin) or unsaidCrossed(margin)) and not reunited(beyond) { Assert reunited(beyond). }
+  Person nail "the Nail" at nail_wake {
+    Role "the Varakiiri that fell on the Corrow, one thought behind the jewel". Peaceable.
+  }
+  Observe nail_asleep at nail_wake when not reunited(beyond) "The Nail lies across the road like a hill of black iron and glass and something the eye slides off: sixty metres of it, horned, the stump of its greatest horn raw where it broke from the Chain in 2641. It is moving. You can see it move, the way you can see a minute hand move if you watch long enough: toward the horizon, one thought behind whatever is there. It does not see you. It has no name to see you with.".
+  Observe nail_awake at nail_wake when reunited(beyond) "The Nail lies across the road like a hill of black iron and glass, horned, and it is awake. Its name came up the road wearing lost things and went into it, and now it has both. Its attention moves over you like weather. It is still a thought behind the woman on the horizon. It is no longer content to be.".
+  Topic nail_speaks with nail "Listen to the Varakiiri" when reunited(beyond) once {
+    Says "It does not speak in words. The ground under you speaks, the stuff of it, and you understand it the way you understand cold. YOU ARE FROM THE PLACE THAT FORGETS. YOUR KIND FORGOT MY NAME AND LEFT ME BLIND IN A HOLE FOR TWO THOUSAND SIX HUNDRED YEARS. I HAVE IT AGAIN. THE JEWEL IS MINE: IT IS MY HEART. THERE ARE EIGHT MORE IN YOUR WORLD, AND MY KIN ARE COMING FOR THEM. GIVE IT TO ME AND I WILL GO HOME, AND TAKE THEM WITH ME, AND YOUR WORLD CAN DIVIDE ITSELF INTO AS MANY ROOMS AS IT LIKES.".
+  }
+
+  // Wenna Coyle, aged a hundred and fifty-nine, who has thought of nothing but elsewhere for ninety years.
+  Person wenna "the old woman at the end of the road" at wennas_stop {
+    Role "an old woman holding something that lights her hands". Ancestry human. Peaceable.
+    State keeping "An old woman stands at the very end of the road, where it stops at nothing, with her two hands cupped round something that lights them from inside: something the size of a child's fist, with nine faces. She is very old, older than anyone should be, and she is not looking at you, or at anything. Her lips are moving. She is saying, over and over, the way the Strays say their syllables: elsewhere, elsewhere, elsewhere.".
+    State herself "Wenna Coyle stands at the end of the road with the Hush in her hands and her lens in her pocket, and looks at you as if she had been waiting for somebody, and is not sure, yet, that she is glad.".
+  }
+  Observe wenna_ringed at wennas_stop when bandRead(corrow) and state(wenna, keeping) "Round her, at a distance, the Unfolded kneel in a ring with their heads bowed, waiting. They cannot come nearer than she lets them. She has not noticed them.".
+  Topic wenna_who with wenna "Ask the old woman who she is" when state(wenna, keeping) once {
+    Says "She does not look at you. 'Elsewhere,' she says. 'Elsewhere. Elsewhere.' Then, as if the word had caught on something: 'I was keeping something. I put everything else down so I could carry it. My name was the last thing.' Her hands tighten. 'Elsewhere.'".
+  }
+  Action give_lens(actor: group, site: place) "Put Wenna's lens in the old woman's hands" {
+    Description "She ground it in 2601 and kept it in a drawer, with her mother's ring, where she kept things so they would stay. It came home to the Coyle house in 2719 because she had forgotten it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(wenna, site) and carries(actor, wenna_lens) and state(wenna, keeping).
+    Time 1.
+    On success { Assert state(wenna, herself). }
+    Result "She takes it without looking, the way a hand takes something it has held ten thousand times, and her thumb goes across its face, feeling for the hum of a high spot, and finds none: a true surface makes no sound at all. She lifts it to her eye and looks at you through it. 'Wen,' she says, slowly, as if somebody had called her across a weir. 'Wenna. Coyle.' She lowers it. 'Somebody followed.'".
+  }
+  Topic wenna_herself with wenna "Ask Wenna Coyle why she came this way" when state(wenna, herself) once {
+    Says "'Because it was the way it came,' says Wenna. 'The Witness road. I thought if I carried the jewel back up the road the star came down, the star would follow it home, out of the world, and the Corrow would be quiet.' She looks past you at the thing on the road behind you. 'It followed. It didn't stop. And I couldn't stop, because if I stopped it would have it, and if I thought of anything but elsewhere it would be a thought nearer.' She smiles a little. 'I said if nobody follows it ends with me. I meant it to be a kindness. It wasn't. It was only lonely.'".
+  }
+
+  // The last choice: the setting's first law, at the scale of the planes.
+  Relation endedOne(place). Relation endedGiven(place). Relation endedNone(place). Relation endedFollowed(place).
+  Query ended(p: place) means endedOne(p) or endedGiven(p) or endedNone(p) or endedFollowed(p).
+  Action take_charge(actor: group, site: place) "Take the charge from Wenna: the one of you who kept the road keeps the jewel now" {
+    Description "Never none, never two. One walks it, always one.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(wenna, site) and state(wenna, herself) and not ended(beyond)
+      and (oneKeeps(actor) or carries(actor, needle)).
+    Time 6.
+    On success { Assert endedOne(beyond). }
+    Result "She does not lay it in stone; there is no stone here that remembers. She puts it into the hands of the one who kept the road, and closes their fingers on it with hers, and holds them closed while she tells them, slowly, as you would tell a child the way home, everything she knows: where it is, what it is, that it must always be one. When she lets go she is only an old woman, very tired, standing at the end of a road. 'I'll sit down now,' she says, and does, on the edge of nothing, with her lens in her lap, and closes her eyes, and does not open them again. Behind you, on the road, the Nail goes still. Its quarry is known to exactly one mind again. It will fall as slowly as it fell for two thousand years.".
+  }
+  Action give_heart(actor: group, site: place) "Take the Hush from Wenna and give it to the thing that follows" {
+    Description "It is its heart. It says there are eight more in your world, and that its kin are coming for them.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(wenna, site) and not ended(beyond).
+    Time 2.
+    On success { Assert endedGiven(beyond). }
+    Result "Wenna lets you take it. She does not fight; she is too tired. You walk back along the road with nine faces of light in your hands to the thing lying across it, and hold it out, and the Nail takes it. Not with a hand: the jewel is simply in it, and it is whole. It rises off the road without hurry, a hill of black iron going up into a sky that is not a sky, and turns, and goes away toward wherever such things come from, and the light of it goes a long time. Behind you, through the open door, very far down, every lost thing in the Corrow begins to come home at once.".
+  }
+  Action let_none(actor: group, site: place) "Let the road go out of the last of you, and out of Wenna, so that no mind knows where the jewel is" {
+    Description "Never none: a jewel no mind knows slips into the plane it binds. The plane comes undone.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(wenna, site) and not ended(beyond).
+    Time 6.
+    On success { Assert endedNone(beyond). }
+    Result "Wenna understands what you mean to do before you have finished saying it, and does not stop you. The Unaskers' hum, or the Lettings' words, or simply turning away: whatever you use, it works. Nobody knows where the Hush is. Not her, not you. For a moment it lies in her open hands, lit from inside, known to nobody. Then her hands are empty. And behind you, through the door, very far down, the grey country that it bound begins to come apart into the Corrow, and everything forgotten there for two thousand six hundred years comes home at once.".
+  }
+  Action follow_on(actor: group, site: place) "Go on with Wenna, a thought ahead of the Nail, for ever" {
+    Description "Then nobody in the Corrow ever learns where the jewel went, or where you went.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(wenna, site) and state(wenna, herself) and not ended(beyond).
+    Time 6.
+    On success { Assert endedFollowed(beyond). }
+    Result "You walk beside her. She is glad of the company. You find you can think of elsewhere too, all of you, after a while, and that it is not so lonely shared among a few, though the rule says it should be one. Behind you the Nail comes on, one thought behind. Ahead there is always more road.".
+  }
+
+  // The endings, told once.
+  Entity finale_told: fact "How the road ended.".
+  Observe finale_home near party when endedOne(beyond) and carries(party, absence) and not knows(party, finale_told) "You carry the jewel back down the road, and through the door, and the Arbiter shuts it behind you. On Hightown's deck you lay the stone of the mountain's place, which weighs nothing, and the mountain knows at once where it belongs. It goes home down the burnt road and over the cloud sea and the Teskarn, sinking a little each hour as its people come to know it, one a day, and in the spring it settles into the Socket like a stone into its own print, and the lake comes up round its sides. The one of you who keeps the jewel lives in Wendmouth, in the Coyle house, and is very careful about what they think of. The Nail lies beyond the gates of being, still falling, very slowly, toward a jewel known to one mind." teaches finale_told.
+  Observe finale_one near party when endedOne(beyond) and not carries(party, absence) and not knows(party, finale_told) "You carry the jewel back down the road, and through the door, and the Arbiter shuts it behind you. Hightown comes down the burnt road as its people let it, one a day, and settles at last on the plateau, wherever it was when the roster ran out of names. The one of you who keeps the jewel lives in Wendmouth, in the Coyle house, and is very careful about what they think of. The Nail lies beyond the gates of being, still falling, very slowly, toward a jewel known to one mind." teaches finale_told.
+  Observe finale_one_awake near party when endedOne(beyond) and reunited(beyond) "The Nail has its name now, and it knows yours. Every night the one who keeps the jewel dreams of a hill of black iron that is patient, and awake, and one thought behind.".
+  Observe finale_given near party when endedGiven(beyond) and not knows(party, finale_told) "The Varakiiri went home with its heart, and the Margin that the jewel bound came apart into the Corrow: Keld Hollow's empty houses standing in a field above Wendhead, the Calvessa's lost history in drifts on the Scarp, a million gloves. The Lettings say it will take a generation to put it all away again. In the north-east, low over the Teskarn, eight new stars have appeared, and none of them is moving with the others." teaches finale_told.
+  Observe finale_none near party when endedNone(beyond) and not knows(party, finale_told) "Nobody knows where the Hush is. The Margin it bound has come undone into the Corrow, and everything forgotten there is home at once: the hamlet, the history, the gloves, the name of the mountain, which every Counterweight now knows. The Nail lies on the road beyond the gates with nothing to fall toward, and, very slowly, it has begun to come back the way it came." teaches finale_told.
+  Observe finale_followed near party when endedFollowed(beyond) and not knows(party, finale_told) "Nobody in the Corrow knows where you went. In Wendmouth, the grave-callers read your names on their rounds, though there are no stones, because a Keld girl insists. Hightown hangs at the Gate of Being with its door shut, and its people have begun, one a day, to remember the way home." teaches finale_told.
+}

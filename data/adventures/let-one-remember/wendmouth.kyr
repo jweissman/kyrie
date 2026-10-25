@@ -1,0 +1,142 @@
+Module corrow "Let One Remember" {
+  Description "Wendmouth: a grey-slate port where the Wend meets the tide, whose land titles are on stones that have gone blank.".
+
+  Place court_b "the Keepstone Court" is building within wendmouth.
+  Place consulate_b "the Lusk consulate" is building within wendmouth.
+  Place ninepan_b "the Ninepan House" is building within wendmouth.
+  Place coyle_b "the Coyle house" is building within wendmouth.
+
+  Place valley_road "the valley road below Wendhead" is room within wendmouth at 1, 0.
+  Place well_square "the well square" is room within wendmouth at 1, 1.
+  Place quay "the quay" is room within wendmouth at 2, 2.
+  Place cemetery "the cemetery on the ridge" is room within wendmouth at 0, 1.
+  Place courtroom "the Keepstone Court" is room within court_b at 0, 2.
+  Place consulate "the Lusk consulate" is room within consulate_b at 1, 2.
+  Place counting_room "the Ninepan counting-room" is room within ninepan_b at 2, 1.
+  Place coyle_kitchen "the Coyle house" is room within coyle_b at 0, 0.
+
+  Passage valley_way "the valley road" is road between wend_bridge and valley_road taking 2 hours.
+  Passage into_town "the bridge into town" is bridge between valley_road and well_square taking 10 minutes.
+  Passage quay_lane "the quay lane" is path between well_square and quay.
+  Passage cemetery_lane "the cemetery lane" is path between well_square and cemetery taking 10 minutes.
+  Passage court_steps "the court steps" is steps between well_square and courtroom.
+  Passage consulate_door "the consulate door" is door between well_square and consulate.
+  Passage ninepan_door "the Ninepan House door" is door between quay and counting_room.
+  Passage coyle_door "the Coyle house door" is door between valley_road and coyle_kitchen.
+
+  Observe valley_road_scene at valley_road when true "The valley road comes down between orchards, half of them grubbed up for apple and half still pear, to a five-arched Peleth bridge and a grey-slate town on a gravel ridge. On the river below the bridge, weirs of ash stakes stand with half their stakes gone. An old house stands by itself at the bridge-end with an eel-trap over the door.".
+  Observe square_scene at well_square when true "A square round a stone well, and on the well-head a great iron nail, and on the nail and on pegs and lines around it, things: a glove, a child's shoe, a brass button, a hat, a doll with one eye, a dog-collar with no dog. The Lost Nail. Everything found in the street is hung here so it stays; and these days, every Return nobody has claimed.".
+  Observe quay_scene at quay when true "The Peleth mole runs out into the estuary. Salt pans steam on the flats beyond. A Hartmark grain ship lies at the quay with a crowd of salt-boilers watching it unload, not kindly. Eelers mend tackle on the steps.".
+  Observe cemetery_scene at cemetery when true "The cemetery runs along the ridge above the river. A grave-caller in a black coat walks the rows reading names aloud from a book, unhurried. His round ends at a stone near the gate: MARRA COYLE, and two dates of death, 2588 and 2679, and under them a line in Calvessan: calve calve. Kept twice.".
+  Observe court_scene at courtroom when not deedsBack(pennick) "The Keepstone Court: a high room of grey stone, benches, a bar, and on the shelves behind the judge's chair hundreds of keepstone plates in rows, each in its slot, each labelled with a farm's name. You do not need to touch them to know: they are blank. A guard stands by the judge's door.".
+  Observe consulate_scene at consulate when true "The Lusk consulate: a counting-house with a crest over the door, two desks, files to the ceiling. A brown dog sleeps by the stove and thumps its tail for anyone who comes in.".
+  Observe counting_scene_w at counting_room when true "A Peleth counting-house on the quay: a bank, a chandlery and a shipping office in one long room. Clerks, ledgers, a strongroom door, and through the back window a coal yard.".
+  Observe coyle_scene at coyle_kitchen when true "The Coyle house: a kitchen with a smoke-loft for eels over it, gone cold, and a lens-grinder's bench by the window that nobody has used in ninety years and nobody has moved.".
+
+  // The Lusk consul's secretary, whom everyone remembers as having held the post for eleven years.
+  Person webb "Corin Webb" at consulate {
+    Role "secretary to the Lusk consul". Ancestry human. Calling thief. Level 3. Peaceable.
+  }
+  Observe dog_ignores at consulate when at(webb, consulate) and able(webb) and not webbNamed(webb) and not knows(party, dog_noticed) "The brown dog by the stove looks up when anyone moves: the consul, a clerk, you. When the secretary gets up and crosses the room, it does not look up at all. It does not even seem to know he is there." teaches dog_noticed.
+  Discovery dog_noticed "The consulate's dog does not notice Corin Webb at all.".
+  Observe webb_mutters at consulate when at(webb, consulate) and able(webb) and not webbNamed(webb) and knows(party, dog_noticed) and knows(party, stray_syllables) and not knows(party, webb_is_stray) "Webb bends over his letters. Under his breath, when he thinks nobody is listening, he is saying one syllable, over and over, the way the Strays at Keld do." teaches webb_is_stray.
+  Observe webb_seen_through near party when knows(party, webb_wrong_face) and knows(party, payroll_known) and not knows(party, webb_is_stray) "Teshen's tall secretary with the cough; the payroll with Absalom Prew on it until seven months ago and Corin Webb after it with no letter of appointment; the man in the hospice whose name nobody can keep. Corin Webb did not come to the consulate. He came into someone's place." teaches webb_is_stray.
+  Discovery webb_is_stray "Corin Webb is a Settled Stray: something that came back from the grey with nothing, and has taken a real man's place so well that everyone remembers Webb in it, and nobody remembers the man.".
+  Relation webbNamed(group). Measure syllables(group).
+  Initially Set syllables(webb) to 1.
+  Topic webb_talk with webb "Ask Corin Webb about his work" when not webbNamed(webb) once {
+    Says "'Letters,' says Webb, with a pleasant, forgettable smile. 'The consul writes to Lusk, Lusk writes to the consul, and I write it all down so it stays.' He tidies a stack that is already tidy. 'I take an interest in old things. The Short Grey. The Keld. The grey country they came back from.' He says the last words as if tasting them. 'Eleven years I've been here. You'd think I'd be bored of it.'".
+  }
+  Action name_webb(actor: group, site: place) "Ask Teshen to give Corin Webb his own name and his own place, aloud" {
+    Description "He is Corin, son of the reeve of Keld Hollow, who was in the far field when the fog came, and was never found.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(webb, site) and travelsWith(teshen, actor)
+      and knows(actor, webb_is_stray) and knows(actor, hollow_missing) and not webbNamed(webb) and able(webb).
+    Time 1.
+    On success { Assert webbNamed(webb). }
+    Result "Teshen goes and stands in front of the secretary's desk until he looks up. 'You're Corin,' she says. 'Son of the reeve of Keld Hollow. You were in the far field when the fog came, and they called and called.' Webb's pleasant face goes still. 'Your place is at Keld,' says Teshen. 'With us. There's a house. Come home.' For a moment nothing happens. Then the brown dog by the stove lifts its head, and looks at him, and growls; and the consul in the next room says, puzzled, 'Absalom?'; and Corin Webb puts his face in his hands.".
+  }
+  Rule prew_remembered when (webbNamed(webb) or not able(webb)) and state(nameless, unknown) {
+    Assert state(nameless, known). Assert prewBack(nameless).
+  }
+  Relation prewBack(group).
+  Rule webb_goes_home when webbNamed(webb) and at(webb, consulate) { Assert at(webb, keld_green). }
+  Observe webb_at_keld_after at keld_green when webbNamed(webb) and at(webb, keld_green) "Corin of the Hollow is at Keld, splitting kindling at the door of an empty house that the hearth-moot has given him. He works slowly, like someone learning his own hands. Now and then he stops, as if listening for a word he used to say, and does not find it, and goes on.".
+  Observe prew_home at long_ward when prewBack(nameless) and not knows(party, prew_reunited) "A woman in a good grey coat is sitting on the end bed of the long ward, holding the hands of the man who sits there, and both of them are crying, and the sisters have drawn the curtain round them as well as they can. 'Absalom,' she keeps saying, as if she could not say it often enough. 'Absalom Prew.'" teaches prew_reunited.
+  Discovery prew_reunited "Absalom Prew is known again, and his wife has come for him.".
+
+  // Webb's syllables. He takes the Short Grey record in the second week, if it is still in the hospice archive.
+  Rule webb_takes_record when watch(clock) >= 1440 and at(short_grey, hospice_archive) and not webbNamed(webb) and able(webb) and not guarded(rook)
+    says "From Wendhead, word comes down the valley road: there has been a theft at the hospice. A record from the archive. The prioress will not say which, and is very angry with someone." {
+    Assert at(short_grey, limbo). Increase syllables(webb) by 1.
+  }
+  Relation guarded(group).
+  Topic rook_webb with rook "Tell Prioress Rook what Corin Webb is" when knows(actor, webb_is_stray) and not guarded(rook) once {
+    Says "The prioress hears you out with her hands folded. 'A pleasant man,' she says at last. 'I nearly let him read it.' She gets up. 'The Short Grey record goes into the strongbox under my bed tonight, and the key round my neck.' At the door she turns back. 'Do not say in the chamber what the fog said. Our manual says that. I always thought it was poetry.'".
+    On discuss { Assert guarded(rook). }
+  }
+
+  // Judge Orla Pennick and the blank stones.
+  Person pennick "Judge Orla Pennick" at courtroom {
+    Role "judge of the Keepstone Court". Ancestry human. Peaceable.
+  }
+  Person court_guard "the judge's guard" at courtroom {
+    Role "a guard at the judge's door". Ancestry human. Calling warrior. Level 2. Peaceable.
+  }
+  Topic pennick_ruling with pennick "Ask Judge Pennick about her ruling" when true once {
+    Says "'I ruled that a blank stone proves nothing,' says the judge, 'because the alternative was letting whoever shouted loudest own the valley.' She gestures at the shelves. 'Half the land in the Wend is on those, and they have gone blank from the outside in, like frost going off a window. My own house is on one.' She looks at you over her spectacles. 'The law is a way of remembering on purpose. If the stones can't remember, then we must, and we're worse at it. Is there any way to read a dead stone? Nobody has been able to tell me.'".
+  }
+  Topic pennick_seam with pennick "Tell Judge Pennick that a blank stone reads again at the bottom of the low road" when knows(actor, seam_reads) and not lends(pennick, deeds, actor) and not deedsBack(pennick) {
+    Says "The judge takes off her spectacles. 'A stone-reader told you this. Drunk.' She does not wait for you to answer. 'I have heard worse evidence in this room and ruled on it.' She takes a crate from under the bench, a dozen plates packed in straw, and sets it on the bar. 'Twelve deeds from the suits I have before me. Mine among them. If they come back readable, I will hear every case in the valley again, Keld and all, and the stones can say who is lying.' She holds your eye. 'Bring them back.'".
+    On discuss { Assert lends(pennick, deeds, actor). Assert at(deeds, courtroom). }
+  }
+  Item deeds "a crate of the court's blank deeds" is blank_deeds at limbo owned by pennick.
+  Relation deedsBack(group).
+  Event deeds_returned near pennick when keeps(pennick, deeds) and itemKind(deeds, woken_deeds) "Judge Pennick lays her palm on the first plate and closes her eyes, and you watch her live a man walking a boundary in the hay. She goes through all twelve without a word. Then she sits back. 'The Hallows of Hesk did buy their low field from a Keld in 2650. The Keld were right about the Brookhouse meadow. The Pruetts have lied to my face for a year.' She laughs, once. 'And my house is mine.' She counts thirty silver out of the court's box onto the bar. 'For the carriage. A month, you said, before they go off again? Then I sit every day this month.'" then {
+    Assert deedsBack(pennick). Increase quantity(party, gold) by 30.
+  }
+  Initially Assert wants(pennick, woken_deeds).
+
+  // Bram Coyle, Wenna's grandson, and his drawer of Returns.
+  Person bram "Bram Coyle" at coyle_kitchen {
+    Role "last of the Coyle weir-holders". Ancestry human. Peaceable.
+  }
+  Topic bram_wenna with bram "Ask Bram Coyle about Wenna Coyle" when true once {
+    Says "'Everybody asks,' says Bram, and answers anyway. 'My grandmother. She was keeper eight years, and on the night of the Unfall she went up to the Stake and down the Well and took the thing out of the ground and went, and the star went after her, and the Stake burned.' He wipes the bench with his sleeve, though it is clean. 'She was sixty-nine. People in the Stake ruins say she did it to steal the star. She did it so it would follow her and not stay. That's what we say in this house, anyway.'".
+  }
+  Topic bram_drawer with bram "Ask Bram Coyle about the drawer under the bench" when true once {
+    Says "Bram pulls it open. Inside: a ring, a bill of sale for a boat, a child's tooth in a twist of paper, a keepstone plate, and a lens wrapped in chamois. 'Returns,' he says. 'They come back to the house. That ring was my great-great-grandmother's. That plate came up in an eel-trap in 2722, out of the river that comes from under the Well, and it reads, when every other stone in Wendmouth is blank.' He unwraps the lens and holds it to the window, and the window stands in it whole. 'Wenna's. The sixth of a set she ground for the Lusk surveyors in 2601, that she never delivered. It went with her in 2641. It came back on the doorstep in 2719.'".
+    On discuss { Assert knows(actor, seam_reads). Assert knows(actor, lens_known). }
+  }
+  Discovery lens_known "Bram Coyle keeps Wenna Coyle's sixth lens, a flawless piece of Choir-glass, in his drawer of Returns.".
+  Kind wenna_lens_kind "Wenna Coyle's lens, wrapped in chamois" is treasure worth 20 weighing 0.
+  Item wenna_lens "Wenna Coyle's lens" is wenna_lens_kind at limbo owned by bram.
+  Topic bram_lend with bram "Ask Bram Coyle for the loan of Wenna's lens" when knows(actor, lens_known) and not lends(bram, wenna_lens, actor) {
+    Says "Bram turns the lens in his fingers for a long time. 'She kept it in the drawer with her mother's ring,' he says. 'Where she kept things so they'd stay.' He wraps it and holds it out. 'It went away once already. Bring it back.'".
+    On discuss { Assert lends(bram, wenna_lens, actor). Assert at(wenna_lens, coyle_kitchen). }
+  }
+  // Through the lens, from Hornwake, the ribs of Hightown's underside; beside the Socket chart, the same ribs.
+  Observe lens_and_chart near party when carries(party, wenna_lens) and carries(party, chart) and at(party, ?p) and inHornwake(?p) and not crashed(hightown) and not lost(hightown) and not knows(party, origin_known) "You hold Wenna's lens to your eye and find Hightown's underside, two and a half kilometres up: not a dark blot through this glass but granite, ribbed, rib after rib curving away like the inside of a bowl turned over. You count them. You unroll the Lusk chart of the Socket on a wagon-tail and count the ribs of the lake's bowl. Same count; same spacing; the same broken rib on the eastern side. The lake is the mountain's place." teaches origin_known.
+  Relation inHornwake(place).
+  Initially Assert inHornwake(horn_foot). Initially Assert inHornwake(hoist_feet). Initially Assert inHornwake(wagons). Initially Assert inHornwake(tail).
+
+  // Clemence Ninepan, who holds the debt.
+  Person clemence "Clemence Ninepan" at counting_room {
+    Role "head of the Ninepan House". Ancestry human. Peaceable.
+    Sells coal_order for 20 coin from 3.
+    Sells eel_kit for 15 coin from 2.
+    Buys droplet_sack for 60 coin.
+  }
+  Kind eel_kit "an eeler's diving kit: grease, weights, lines, a sealed lamp" is treasure worth 15 weighing 3.
+  Topic clemence_link with clemence "Ask Clemence Ninepan about the link in the Well" when true once {
+    Says "'Eleven hundred tonnes of deadiron lying on an anvil four hundred metres down,' says Clemence. 'The Registry says it's the Registry's under a contract of 1210. The Linkmoot says it's theirs. Hightown wants to hang it on the tail. I say salvage.' She smiles. 'None of us can lift it. I have a derrick on the rim and a survey crew below, and they tell me pulleys, and I tell them gods.' She closes a ledger. 'Coal, if you're going down. The Registry's buying, at my price.'".
+  }
+  Discovery hartmark_coin "The Ninepan ledgers show Hartmark silver changed into Corrow coin, every week since spring, for 'E. of H., wages to Teake's crew'." {
+    Source ninepan_ledger "the Ninepan exchange ledger" at counting_room readable by party.
+  }
+
+  // Midwinter, for the rest of the country.
+  Observe webb_gone_down near party when midwinter(corrow) and syllables(webb) >= 2 and not webbNamed(webb) and able(webb) and not knows(party, webb_epilogue) "At midwinter the Registry's roll has a new line in it: the consul's secretary, licensed for one, gone down the Peleth stair, purpose stated as 'study'. He has not come back up it." teaches webb_epilogue.
+  Entity webb_epilogue: fact "Where Corin Webb went at midwinter.".
+  Observe court_awake at courtroom when deedsBack(pennick) "The Keepstone Court: a high room of grey stone, benches, a bar, and shelves of keepstone plates behind the judge's chair. Twelve of them, on the bar, are awake.".
+  Observe court_sitting at courtroom when deedsBack(pennick) "The court sits every day this month. A Keld witness and a farmer from the valley stand at the bar together with a plate between them, and the judge has her hand on it.".
+}

@@ -20,6 +20,9 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-house-that-grows.campaign.json', title: 'The House That Grows', seed: 'noon',
       note: 'You are in your second year learning the Watch, and Kezu of Cobble Ring is your teacher. Two nights ago she sat up with a room of glass that fell into Haddo\'s barley, and at dawn she shut her eyes on purpose and let its small door open.',
       detail: 'A crater-ring town, a room of glass that grows where nobody watches it, and the city overhead' },
+    { manifest: 'data/campaigns/let-one-remember.campaign.json', title: 'The Road the Star Came Down', seed: 'corrow',
+      note: 'Ninety years after the star at the bottom of the Well got up and left, the floating mountain the Corrow calls Hightown drifts toward the lake it was lifted out of; a forgotten name is gathering itself in the grey; and a new star is brightening over the Teskarn.',
+      detail: 'Five acts: the Corrow, the grey country, the war of the kin, the voyage, and the end of the road' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

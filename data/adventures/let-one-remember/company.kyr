@@ -1,0 +1,4 @@
+Module corrow "Let One Remember" {
+  Company party "Your company" of 3 at eighth_bend.
+  Initially Set quantity(party, gold) to 60. Initially Set quantity(party, rations) to 3.
+}

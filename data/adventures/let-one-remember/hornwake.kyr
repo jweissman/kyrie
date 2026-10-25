@@ -1,0 +1,292 @@
+Module corrow "Let One Remember" {
+  Description "Hornwake, the town on wheels round the horn; the furrow and the Drag across the plateau; the Socket; and the Chain up to Hightown.".
+
+  Place cookhouse "the cookhouse" is building within hornwake.
+  Place watch_hut_b "the Horn Watch" is building within hornwake.
+  Place pavilion_b "the Hartmark pavilion" is building within hornwake.
+
+  Place horn_foot "the horn" is room within hornwake at 1, 0.
+  Place hoist_feet "the hoist-feet" is room within hornwake at 2, 0.
+  Place wagons "the wagon horseshoe" is room within hornwake at 1, 1.
+  Place tail "the tail" is room within hornwake at 0, 0.
+  Place cook_room "the cookhouse" is room within cookhouse at 0, 1.
+  Place watch_hut "the Horn Watch hut" is room within watch_hut_b at 2, 1.
+  Place pavilion "the Hartmark pavilion" is room within pavilion_b at 1, 2.
+
+  Place askew_gate "the gate of the Askew farm" is room within plateau at 1, 2.
+  Place hesk_yard "the farm below Hesk Dene" is room within plateau at 1, 1.
+  Place toppled "the toppled stations" is room within plateau at 2, 1.
+  Place furrow "the furrow" is room within plateau at 1, 0.
+
+  Place socket_south "the south shore of the Socket" is room within socket_country at 1, 1.
+  Place survey_station "the Lusk survey station" is room within socket_country at 0, 1.
+  Place socket_shelf "the bollard shelf" is room within socket_country at 1, 0.
+  Place socket_north "the north shore of the Socket" is room within socket_country at 2, 0.
+
+  Passage furrow_road "the furrow road" is track between furrow_end and askew_gate taking 40 minutes.
+  Passage drove_to_hesk "the drove road past Hesk Dene" is track between askew_gate and hesk_yard taking 90 minutes.
+  Passage hesk_to_furrow "the furrow north of Hesk Dene" is track between hesk_yard and furrow taking 30 minutes.
+  Passage toppled_way "the line of the Drag" is path between hesk_yard and toppled taking 30 minutes.
+  Passage furrow_to_town "the end of the furrow" is track between furrow and tail taking 30 minutes.
+  Passage tail_way "the tail" is path between tail and horn_foot.
+  Passage horn_hoists "the way to the towers" is path between horn_foot and hoist_feet.
+  Passage horn_wagons "the horseshoe" is path between horn_foot and wagons.
+  Passage cook_door "the cookhouse door" is door between wagons and cook_room.
+  Passage watch_door "the Horn Watch door" is door between hoist_feet and watch_hut.
+  Passage pavilion_flap "the pavilion flap" is doorway between wagons and pavilion.
+  Passage socket_track "the track north to the Socket" is track between horn_foot and socket_south taking 1 hour.
+  Passage station_path "the shore path" is path between socket_south and survey_station taking 20 minutes.
+  Passage shelf_path "the granite shelf" is path between socket_south and socket_shelf taking 20 minutes.
+  Passage north_path "the north shore" is path between socket_shelf and socket_north taking 40 minutes.
+
+  // ── Hornwake ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe horn_scene at horn_foot when not lost(hightown) and not crashed(hightown) "A black curve of metal the size of a barn lies half buried in the end of the furrow it ploughs, and from it the Chain goes up: one link, the next, the next, smaller and smaller into the sky until you cannot see it go into the cloud. Round the horn the town stands in a horseshoe of wagons, sledges and timber frames. The horn is cold. Nothing grows within ten metres of it, and a magic light held near it gutters and dies.".
+  Observe horn_skips at horn_foot when restingWeight(hightown) < 2000 and restingWeight(hightown) > 0 and not bitten(hightown) "When the wind gusts the horn moves: a lurch, a grinding, a skip of a metre along its furrow, and then it settles. People in the horseshoe stop talking each time it does, and start again.".
+  Observe horn_bitten at horn_foot when bitten(hightown) "The horn has gone into the ground to the root of its curve and does not move in any wind. Above it the Chain hangs nearly plumb.".
+  Observe horn_gone at horn_foot when lost(hightown) "Where the horn lay there is a hole the shape of a horn, and frozen clods round it, and the end of the furrow. Nothing comes down out of the sky.".
+  Observe horn_slack at horn_foot when crashed(hightown) "The Chain lies slack across the plateau to the north, link after link in the frozen grass, as far as you can see.".
+  Relation towerFell(place).
+  Rule tower_falls when galeBlown(gale_one) and not towerFell(hornwake)
+    says "In the first great gale the north hoist-tower at Hornwake goes over: it leans, and the crew in the winch-house shout, and then it is down across the wagons in a long crash of timber, and two people who were holding its guy-ropes are under it." {
+    Assert towerFell(hornwake).
+  }
+  Observe tower_down at hoist_feet when towerFell(hornwake) "Two hoist-towers stand where three stood. The third lies in sections by the wagons, and two names are chalked on its foot-beam.".
+  Observe hoists_scene at hoist_feet when not towerFell(hornwake) "Three timber hoist-towers stand beside the Chain, each with a winch-house and a counterweight basket, and between them a daily market on trestles: rope, coal, water in casks, dried mutton coming down, fog-wool coming down in great oily bales. A woman with a griddle sells oatcakes.".
+  Observe wagons_scene at wagons when true "The horseshoe of Hornwake: wagons with their wheels chocked, canvas, timber frames that come apart in sections, chickens in crates. Every household keeps one ear on the horn.".
+  Observe tail_scene at tail when not lost(hightown) and not crashed(hightown) "Behind the horn the tail lies on the ground: seven great links like a felled tree, each eighteen metres long and two thick, black, crusted orange where files have been at them. On the last of them a crew of runners works in a shed of canvas, filing. The sound of it never stops.".
+  Observe cook_scene at cook_room when true "A long tent with a stove at each end and benches, the stovepipes still warm from the last shifting day. Hornwake eats here.".
+  Observe watch_scene at watch_hut when true "An instrument hut: a brass sighting-glass on a stone pier sunk deep into the furrow, a lamp, and books, a whole shelf of them, every one the same: dawn bearings of the horn, one line a day.".
+  Observe pavilion_scene at pavilion when true "A good pavilion of grey canvas under a grey banner, a brazier, a camp desk, a strongbox, and maps of the Corrow pinned up with Hightown drawn on them in red, further north each map.".
+
+  // Ordinary Life (Player Portfolio): a shifting day after every gale.
+  Observe shifting_day at wagons when galesBlown(hightown) >= 1 and watch(clock) - lastGale(hightown) < 144 "The move-bell went before dawn: three strokes, then three. Overnight the horn has dragged north; you can see where: a raw trench of turned earth, black at the bottom, ending at the great dark curve of it lying half buried with its chain behind it. Hoist crews are lowering the first tower in sections, calling numbers. Children carry chickens in baskets. A Registry clerk with a measuring chain walks the new stretch of furrow, and three families follow him, arguing about who planted first.".
+  Observe shifting_oatcakes at hoist_feet when galesBlown(hightown) >= 1 and watch(clock) - lastGale(hightown) < 144 "By noon the town has stood up again further north, the wagons in the same horseshoe, the cookhouse at the same corner. The woman who sells oatcakes has her griddle going. She charges a bit more than yesterday. 'Always does, on a shifting day,' says the man behind you in the queue. 'She'll be cheaper by Thursday. Unless it blows.'".
+
+  Person bet "Bet Mawby" at hoist_feet {
+    Role "oatcake seller". Ancestry human. Peaceable.
+    Sells rations for 1 coin from 20.
+  }
+  Person cook "Hal Brack" at cook_room {
+    Role "keeper of the cookhouse". Ancestry human. Profession innkeeper. Peaceable.
+  }
+  Person wakefolk "the people of Hornwake" at wagons {
+    Role "Hornwake households". Ancestry human. Numbers 5. Peaceable.
+  }
+  Topic wakefolk_tail with wakefolk "Ask the people of Hornwake about cutting the tail" when true once {
+    Says "Everyone has an opinion. 'Cut it and let her go north,' says a man mending a harness. 'The Hartmark can have her.' 'The runners say there's twenty links in it before she notices,' says a woman, 'and the runners would know.' 'The runners would say so,' says someone else. A child says the horn is a dragon's tooth and is told to hush.".
+  }
+
+  // The hoists. Lene Tallow runs them; the company rides if it is in the hoist book.
+  Person lene "Lene Tallow" at hoist_feet {
+    Role "hoistmaster of Hornwake". Ancestry human. Peaceable.
+  }
+  Thing hoist_book "the hoist book" on hoist_ride is scenery {
+    State unpaid blocking "The cradles go up for whoever is in Lene Tallow's hoist book for the season.".
+    State entered "Your names are in the hoist book for the season.".
+  }
+  Passage hoist_ride "the hoist" is shaft between hoist_feet and hoist_house taking 6 hours opening when not lost(hightown) and not crashed(hightown) "There is nothing for the cradles to go up to.".
+  Action enter_book(actor: group, site: place) "Pay Lene Tallow twelve silver to enter the company in the hoist book for the season" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lene, site) and quantity(actor, gold) >= 12
+      and state(hoist_book, unpaid).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 12. Assert state(hoist_book, entered). }
+    Result "Lene writes your names in a thick book with a stub of lead, without looking up. 'Six hours up, sit in the middle, don't lean on the rail when it swings. Up in the morning, down by dark.'".
+  }
+  Topic lene_hoists with lene "Ask Lene Tallow about the hoists" when true once {
+    Says "'Two tonnes a load, a dozen loads a day a tower, when the wind lets us,' says Lene. 'Water and coal and food up; wool and rope and mutton down.' She squints up the Chain. 'Funny thing. The riggers say every load we send up, she sits a hand lower at the cradles till it's unloaded. Every bale of wool we bring down, she rides higher.' She shrugs. 'Weight's weight, I suppose. Even up there.'".
+    On discuss { Assert knows(actor, hoist_weighs). }
+  }
+  Observe ballast_thought near party when knows(party, hoist_weighs) and knows(party, cut_limit) and not knows(party, ballast_known) "The two things sit side by side in your head and then fit together. A tonne hauled up the hoist and left in Hightown weighs on the Chain exactly as a tonne of tail on the ground does. Stone sent up instead of wool sent down: five hundred and fifty loads would do what a link of iron does, and nobody has to cut anything, or forge anything, or lift anything out of the Well." teaches ballast_known.
+  Relation ballasting(group). Measure nextBallast(place).
+  Topic lene_ballast with lene "Put it to Lene Tallow: send stone up the hoists and leave it there, as ballast" when knows(actor, ballast_known) and knows(actor, cut_limit) and not ballasting(lene) {
+    Says "Lene hears you out, and then she takes the stub of lead from behind her ear and does the sum on the back of the hoist book, twice. 'Eleven hundred tonnes,' she says. 'Thirty-six loads a day if I run all three towers and the weather's kind. A month.' She looks at the tail, where the files are going. 'Stone's cheap. Quarry's a mile off. Hightown won't thank me for it; they'll have to stack it somewhere.' She closes the book. 'I'll start in the morning. Somebody'd better tell the runners to stop, though, or I'm filling a bucket with a hole in it.'".
+    On discuss { Assert ballasting(lene). Set nextBallast(hightown) to watch(clock) + 144. }
+  }
+  Rule ballast_day when ballasting(lene) and watch(clock) >= nextBallast(hightown) and not lost(hightown) and not crashed(hightown) {
+    Increase ballast(hightown) by 72. Set nextBallast(hightown) to nextBallast(hightown) + 144.
+  }
+  Observe ballast_going at hoist_feet when ballasting(lene) and not crashed(hightown) and not lost(hightown) "The cradles are going up loaded with quarry stone, and coming down empty but for the wool. The market thinks Lene Tallow has gone mad, and says so, and buys its oatcakes anyway.".
+
+  // The Horn Watch.
+  Person fen "Old Fen Hadley" at watch_hut {
+    Role "senior of the Horn Watch". Ancestry human. Peaceable.
+  }
+  Discovery horn_bearing "Fen Hadley's bearing books: forty years of dawn bearings on the horn. Gale or calm, it leans the same way, north-north-east and eleven degrees up, toward something; and in forty years the bearing has crept half a degree. Whatever it points at is moving." {
+    Source bearing_books "Fen Hadley's bearing books" at watch_hut readable by party.
+    Known by fen.
+  }
+  Topic fen_horn with fen "Ask Old Fen Hadley what the horn points at" when true once {
+    Says "'Where the star went,' says Fen, as if you had asked what colour the sky is. 'It pulls. Not much. A few tonnes, always the same way, north-north-east and up. You can feel it if you sit on the horn on a still night. The young ones won't.' He pats his books. 'Half a degree in forty years. It's moving, whatever it is. I'll not live to see where.'".
+  }
+
+  // The runners, and who pays them.
+  Person ruth "Ruth Teake" at tail {
+    Role "master of the chain-runners". Ancestry human. Calling thief. Level 3. Peaceable.
+  }
+  Person runners "the chain-runners" at tail {
+    Role "a crew filing the last link of the tail". Ancestry human. Calling thief. Numbers 4. Peaceable.
+  }
+  Relation filing(group). Measure linkDue(place). Relation paying(group).
+  Initially Assert filing(ruth). Initially Assert paying(esk). Initially Set linkDue(hightown) to 2016.
+  Rule link_falls when filing(ruth) and watch(clock) >= linkDue(hightown) and not lost(hightown) and not crashed(hightown)
+    says "Up on the plateau a sound goes through the ground like a dropped bell: the runners have filed through a link of the tail, and it has fallen away from the Chain." {
+    Decrease tailLinks(hightown) by 1. Assert linkCut(hightown). Assert cutWatched(hightown).
+  }
+  Relation linkCut(place). Relation cutWatched(place).
+  Rule next_link_paid when linkCut(hightown) and paying(esk) { Retract linkCut(hightown). Set linkDue(hightown) to watch(clock) + 1440. }
+  Rule next_link_unpaid when linkCut(hightown) and not paying(esk) { Retract linkCut(hightown). Set linkDue(hightown) to watch(clock) + 4320. }
+  // A runner's apprentice told, the Esk bonus withdrawn: the next link takes the full thirty days.
+  Rule bonus_withdrawn when filing(ruth) and not paying(esk) and linkDue(hightown) < watch(clock) + 2880 and withdrawnFrom(esk) {
+    Set linkDue(hightown) to linkDue(hightown) + 1440. Retract withdrawnFrom(esk).
+  }
+  Relation withdrawnFrom(group).
+  Observe rose_after_cut at horn_foot when cutWatched(hightown) and not knows(party, tail_light) "Everyone in Hornwake is outside, looking up. Since the link fell, Hightown has risen: twenty metres, the hoist crews say, from the way the cradles hang. When the wind gusts the horn lifts clear of the ground for a heartbeat and comes down with a sound like a door." teaches tail_light.
+  Discovery tail_light "When a link of the tail fell, Hightown rose twenty metres and the horn began to lift in the gusts: the tail is very nearly all that holds the mountain down.".
+  Topic ruth_runners with ruth "Ask Ruth Teake about cutting the tail" when true once {
+    Says "'One link a year,' says Ruth. 'Two this winter, with the Hartmark bonus. Somebody has to feed Hornwake, and it isn't Hightown.' She rubs her hands, which are grey to the wrist. 'My grandfather said there's twenty links in it before she notices. He was a runner forty years.' She looks up the Chain, and away. 'Sixty-one and sixty-two have started talking to me when I climb. I don't like what they say.'".
+  }
+  Topic ruth_limit with ruth "Tell Ruth Teake what the Registry reckons" when knows(actor, cut_limit) and filing(ruth) {
+    Says "Ruth listens with her arms folded. When you say two, she unfolds them. 'Not twenty,' she says. 'Two.' She looks at the shed on the last link, where the files are going. 'That's what Sixty-two said. I thought he was mad.' She puts two fingers in her mouth and whistles, and the filing stops, and the silence on the tail is like a held breath. 'Downtools,' she says. 'Till I say.' Then, to you, quietly: 'Who's going to tell the Hartmark man?'".
+    On discuss { Retract filing(ruth). }
+  }
+  Observe tail_quiet at tail when not filing(ruth) and not lost(hightown) and not crashed(hightown) "The runners' shed on the last link is shut. Their files hang on a nail.".
+
+  // Esk of Harrow, the Hartmark's envoy.
+  Person esk "Esk of Harrow" at pavilion {
+    Role "envoy of the Hartmark". Ancestry human. Calling warrior. Level 5. Peaceable.
+  }
+  Topic esk_mountain with esk "Ask Esk of Harrow what the Hartmark wants with Hightown" when true once {
+    Says "'A fortress the mage-lords cannot touch,' says Esk, pleasantly, pouring you something. 'My king has enemies with better mages than his. A mountain on a chain of iron that no spell will bite, drifting gently north into his country on the winds God sends, is an answer to a prayer.' He smiles. 'I pay the runners a little to help the winds. Nobody is harmed. It is a free country; I am told so daily.'".
+  }
+  Topic esk_limit with esk "Tell Esk of Harrow what the Registry reckons" when knows(actor, cut_limit) and paying(esk) {
+    Says "Esk sets the cup down very carefully. 'Into the sky,' he says. 'Not north. Up.' For a moment he is only a tired man with two daughters at home. 'Then I stop. Of course I stop. I'll send to Ruth Teake tonight.' He looks at the red-inked maps on his wall a long time. 'And you are the only ones who know this?' It is a courteous question, and he is already thinking about what else the answer is worth.".
+    On discuss { Retract paying(esk). Assert withdrawnFrom(esk). }
+  }
+
+  // ── The plateau ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe furrow_scene at furrow when true "The furrow: a trench three metres deep and ten wide running north across the plateau, its floor black and turned. Behind Hornwake it is planted in strips, oats and turnips, every strip with a stake and a name on it.".
+  Observe askew_scene at askew_gate when true "The gatepost of the Askew farm is a granite bollard as tall as a man, with a gate hung on iron pins driven into its side. On the side facing the drove road there is a recess, and in the recess, rusted almost black, a chain of small iron links riveted at both ends.".
+  Observe hesk_scene at hesk_yard when true "A farm with a stone yard and a gate onto the drove road. Hesk Dene, a grassy hollow, opens behind it, and beyond the hollow the furrow goes by, raw and black.".
+  Observe toppled_scene at toppled when true "Here the horn went through the line of the Drag two winters ago and knocked down nine of its bollards like skittles. They lie in and beside the furrow, granite, each with its recess, and in the recesses the tally-chains, rusty, still riveted.".
+
+  // A First Anomaly (Player Portfolio): Tip, at the gate.
+  Person granny "old Mother Sallow" at hesk_yard {
+    Role "the farmer's mother, ninety, shelling beans". Ancestry human. Peaceable.
+  }
+  Person ned "Ned Sallow" at hesk_yard {
+    Role "farmer below Hesk Dene". Ancestry human. Peaceable.
+  }
+  Person tip "Tip" at hesk_yard {
+    Role "a black-and-white sheepdog, grey in the muzzle". Species dog.
+  }
+  Event tip_returns at hesk_yard when at(party, hesk_yard) "You stop for water. The farmer's mother is sitting on the step shelling beans, and does not look up. There is a dog at the gate: black and white, grey in the muzzle, sitting the way a sheepdog sits when it has been told to wait. It is looking at the door. 'Is he yours?' you ask. The old woman looks up at last. She looks at the dog for a long time, and the beans go still in her lap. 'That's Tip,' she says. 'That's my grandmother's dog.' She puts the bowl down. 'He died before I was born. She used to tell me about him.' The dog gets up when she says his name, and comes to her, and puts his head in her lap. Her son comes out of the barn, sees it, and swears under his breath. 'Another Return,' he says to you, as though you had asked. 'Third on this road this autumn. Don't mention it in the village. They'll want to put him on the Nail.'" then {
+    Assert returnSeen(party).
+  }
+  Relation returnSeen(group).
+  Topic ned_returns with ned "Ask Ned Sallow about the Returns" when returnSeen(actor) once {
+    Says "'Things that were lost and not quite gone,' says Ned. 'The old people say the other place is going away from us, and it's dropping what it had on the way out.' He watches his mother with the dog. 'What comes back whole is a Return. What comes back wrong is a Stray, and you don't want one of those near your house. They'll have the house off you.'".
+  }
+
+  // A Meaningful Discovery (Player Portfolio): station 56 of the Drag, in Jory Askew's gatepost.
+  Person jory "Jory Askew" at askew_gate {
+    Role "farmer, leaning on his gate". Ancestry human. Peaceable.
+  }
+  Relation gatePaid(group).
+  Topic jory_gate with jory "Ask Jory Askew about his gatepost" when true once {
+    Says "'Concord stone,' says Jory. 'Whole line of them, all the way to the lake. My grandfather hung the gate on it.' He looks at you, and at the chain in the recess. 'Keld come every spring and read them aloud, all sixty-one. They want to read mine, they pay. It's my gatepost.'".
+  }
+  Action pay_jory(actor: group, site: place) "Pay Jory Askew five silver for leave to read his gatepost" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(jory, site) and quantity(actor, gold) >= 5 and not gatePaid(actor).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(jory, gold) by 5. Assert gatePaid(actor). }
+    Result "Jory pockets it without counting. 'Read away,' he says. 'Whatever it says, it's still my gatepost.'".
+  }
+  Discovery method_known "The anchor tally of the Drag, station 56, in the hand of the Concord engineers: how they would bring the mountain down if ever they had to. Not all at once. Let the mountain's own people come to know its place one at a time, and it will come down as slowly as they do. 'Let one remember at a time.'".
+  Action read_station(actor: group, site: place) "Ask Teshen to read the chain in the gatepost" {
+    Description "Link-script, read by touch. A Keld reads it as you read print.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, askew_gate) and travelsWith(teshen, actor)
+      and gatePaid(actor) and not knows(actor, method_known).
+    Time 2.
+    On success { Assert knows(actor, method_known). }
+    Result "Teshen runs her fingers along the chain with her eyes closed, the way you would read a line of print. Her lips move. 'It's a long one,' she says. 'Engineers, not a tow-crew. Different hand.' She reads further. Her fingers stop, then go back, then go over the same six links again. 'What?' 'It says how to bring it down.' She opens her eyes and looks north, where the thread of the Chain goes up into the cloud. 'If they ever had to. It's kept, not let. They saw it done, or they did it.' She puts her fingers back on the chain and reads it aloud in the old speech, then in March: 'Let one remember at a time.'".
+  }
+
+  // The toppled stations: the Drag read where the horn knocked it down. The tow from the lake, day by day.
+  Discovery origin_known "Hightown came out of the Socket. The lake at the Teskarn's foot is the hole the mountain left when it was lifted, and the mountain's underside is that hole's exact cast.".
+  Action read_toppled(actor: group, site: place) "Ask Teshen to read the chains of the toppled stations" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, toppled) and travelsWith(teshen, actor)
+      and not knows(actor, origin_known).
+    Time 3.
+    On success { Assert knows(actor, origin_known). }
+    Result "Teshen goes from bollard to bollard along the furrow, kneeling at each, reading. 'Station thirty-three,' she says. 'Three anchors dragging. A storm.' Thirty-four, thirty-five. 'Every one counts from the same place. Days out from the lake. From the shore of the lake under the Teskarn, where the mountain stood.' She sits back on her heels and looks north, at the dark thing in the sky, and then further north, where the lake is. 'They towed it from there,' she says. 'From the Socket. It's the Socket's.' She says it quietly, and you are both glad there is nobody from Hightown in the furrow.".
+  }
+
+  // ── The Socket ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe socket_scene at socket_south when true "The Socket: a lake a kilometre and more across in a bowl of bare ribbed granite at the foot of the Teskarn, so clear you can see the ribs go down and down into blue and then into black. Nothing lives in it. On the shore a woman sits by a theodolite on its tripod, wrapped in a fog-wool blanket, sighting south.".
+  Observe socket_shadow at socket_south when socketDistance(hightown) <= 1500 and not crashed(hightown) and not lost(hightown) "Hightown is close now. Its shadow comes and goes on the water as the cloud thins: a long dark bowl on a lake that is the same shape.".
+  Observe station_scene at survey_station when true "A stone hut with a slate roof, abandoned by Lusk surveyors in 2603: a desk, a cracked plumb-bob, a cupboard of good brass instruments, and on the wall a framed chart.".
+  Observe shelf_scene at socket_shelf when true "A shelf of granite at the water's edge, and cut into it in a ring, every twenty paces, a square socket a man could stand in: sixty of them. Something was moored here once, from all sides at once.".
+  Observe socket_north_scene at socket_north when true "The north shore, under the Teskarn's first slopes. A camp: two bedrolls, a fire pit, a spyglass on a cairn pointed across the water at the woman on the other side.".
+
+  Person wil "Wil Fennimore" at socket_south {
+    Role "a Grounder from Hightown, measuring". Ancestry human. Peaceable.
+  }
+  Person scouts "the Hartmark scouts" at socket_north {
+    Role "two men in grey with a spyglass". Ancestry human. Calling ranger. Level 2. Numbers 2. Peaceable.
+  }
+  Topic wil_measuring with wil "Ask Wil Fennimore what she is measuring" when true once {
+    Says "'Hightown,' says Wil, without taking her eye from the glass. 'How far off, every morning. It was three thousand nine hundred metres when I came down.' She writes a number. 'My brother Aron thinks the mountain's going home. I think it's just going where the wind goes.' She does look up, then, at the lake, and away from it quickly. 'There are men on the north shore measuring me. Hartmark. I wave.'".
+  }
+  Topic scouts_talk with scouts "Ask the Hartmark scouts what they are watching" when true once {
+    Says "'Weather,' says the older one. The younger one laughs. 'The lady with the glass,' he says, 'and the thing she's looking at. Our envoy likes to know how fast it's coming.' He offers you the spyglass. 'Have a look. It's a free country. They tell us so every day.'".
+  }
+  Kind socket_chart "the Lusk survey chart of the Socket, 2571" is treasure worth 10 weighing 1.
+  Item chart "the Lusk survey chart of the Socket" is socket_chart at survey_station.
+  Discovery chart_seen "The Lusk survey chart of 2571: the Socket drawn contour by contour, every rib of its granite bowl to three hundred and ten metres, so exact you could cast it.".
+  Observe chart_read near party when carries(party, chart) and not knows(party, chart_seen) "You unroll the chart. Contour after contour, a bowl with ribs: the lake drawn as if the water were not in it. It is beautiful work. The surveyor has written in the corner, very small, 'the shape is not glacial; by whom cut?'" teaches chart_seen.
+
+  // ── The Chain: the Long Climb ────────────────────────────────────────────────────────────────────────────────────
+  Place reach_level "the runners' reach" is level within chain.
+  Place wet_level "the wet" is level within chain.
+  Place swing_level "the swing" is level within chain.
+  Place cradle_level "the cradles" is level within chain.
+  Place runners_reach "the runners' reach" is room within reach_level at 0, 3 outdoors.
+  Place wet_cradle "a Concord rest-cradle in the cloud" is room within wet_level at 0, 2 outdoors.
+  Place the_swing "the swing" is room within swing_level at 0, 1 outdoors.
+  Place cable_cradles "the cable-cradles" is room within cradle_level at 0, 0 outdoors.
+  Passage tail_climb "the lowest loops of the Chain" is ladder between horn_foot and runners_reach taking 6 hours needing rope or climbing_harness opening when not lost(hightown) and not crashed(hightown) "There is no Chain going up from here any more.".
+  Passage wet_climb "the links in the cloud" is ladder between runners_reach and wet_cradle taking 12 hours needing rope or climbing_harness.
+  Passage swing_climb "the swinging links" is ladder between wet_cradle and the_swing taking 12 hours needing rope or climbing_harness.
+  Passage cradle_climb "the last links" is ladder between the_swing and cable_cradles taking 6 hours needing rope or climbing_harness.
+
+  Observe reach_scene at runners_reach when true "Inside the curve of the thirtieth link the runners have bolted a platform of planks, and on it a shrine: a horseshoe of iron, five candles, five names cut on a board: the links they have cut since 2715. The Chain sways a few metres, slowly. Below, Hornwake is a horseshoe of toys.".
+  Observe wet_scene at wet_cradle when true "Inside the cloud. A Concord rest-cradle of iron, older than anything else on the Chain, hung inside the curve of a link. Everything is wet; everything drips. Where the sixty-first link and the sixty-second grind together, just above you, the grinding has words in it.".
+  Observe swing_scene at the_swing when true "Above the cloud, in the swing. The Chain moves tens of metres with every gust, slowly, so that the whole world tilts and comes back. The air is thin. The Linkmoot here is silent, or asleep, or listening.".
+  Observe cradles_scene at cable_cradles when true "The cable-cradles: great troughs cut into the granite underside of Hightown, and in them the first link of the Chain, held as a bow is held. Inside the curve of that link, riveted, a tally-chain. Above you the mountain's underside goes off in every direction, ribbed, like the inside of a bowl turned over.".
+  Hazard chain_ice "ice on the links" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  // The ice strikes whoever comes up into the cloud. (A long way kept dangerous by a thing on it turns the company back
+  // on the way, so the ice is met on arrival instead.)
+  Relation iced(group).
+  Rule ice_on_the_links when at(party, wet_cradle) and not iced(party)
+    says "The links in the cloud are glazed with ice, and your hands are numb before you are halfway. Somebody slips, and hangs, and is hauled in." {
+    Assert iced(party). Assert strikes(chain_ice, party).
+  }
+  Rule ice_forgotten when iced(party) and not at(party, wet_cradle) { Retract iced(party). }
+
+  // Links 61 and 62 remember the first campaign, and the night of 2641.
+  Person hask "Hask of the Sixty-First Link" at wet_cradle {
+    Role "a soul bound in the Chain, speaking where the links grind". Peaceable.
+  }
+  Topic hask_rise with hask "Ask Hask what happened to the Chain on the night of the Unfall" when true once {
+    Says "The grinding of iron on iron makes words, slowly. 'The star tore loose and went,' says Hask. 'We felt it go. Like a tooth. The horn broke and the whole of us went up, all of us, the mountain and all, up and up, until enough of us hung in the air to hold it.' A long grind. 'Since then they cut us off the bottom, one by one. Every one they cut, we go up a little, and the ones in it go quiet. One more, in this cold. One. Two, and we all go up and never stop. I told the Teake woman. She thinks I'm mad. Some of us are.'".
+    On discuss { Assert knows(actor, cut_limit). }
+  }
+  Action read_first_tally(actor: group, site: place) "Ask Teshen to read the tally inside the first link" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cable_cradles) and travelsWith(teshen, actor)
+      and not knows(actor, first_tally).
+    Time 1.
+    On success { Assert knows(actor, first_tally). }
+    Result "Teshen hooks her arm through the link and reads with her free hand, two and a half kilometres up, as calmly as at her grandmother's hearth. 'Drevka Venmort holds the last,' she finishes. She looks down, a long way down, at the horn. 'She did, too. Grandmother met her.'".
+  }
+  Discovery first_tally "The tally riveted in the first link at the cradles, read by touch: 'Hearth Orrisk and the hearths hold the star. Four thousand and one hundred hold. Iron holds iron. Bone holds iron. The water-people talked. Drevka Venmort holds the last.'".
+}

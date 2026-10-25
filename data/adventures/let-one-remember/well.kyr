@@ -1,0 +1,366 @@
+Module corrow "Let One Remember" {
+  Description "The Emptied Well: the Registry, the Ruined Ring, the Glass Floor, the Underfloor, the low road and the Seam.".
+
+  Place registry_level "the Registry" is level within well.
+  Place ring_level "the Ruined Ring" is level within well.
+  Place glass_level "the Glass Floor" is level within well.
+  Place underfloor "the Underfloor" is level within well.
+  Place low_road "the low road" is level within well.
+
+  Place fourth_gate "the Fourth Gate" is room within registry_level at 0, 0 underground.
+  Place counting_house "the counting-houses" is room within registry_level at 1, 0 underground.
+  Place evidence_gallery "the evidence gallery" is room within registry_level at 1, 1 underground.
+  Place contract_archive "the contract archive" is room within registry_level at 2, 0 underground.
+  Place lowest_gallery "the lowest gallery" is room within registry_level at 0, 1 underground.
+
+  Place forge_gallery "the third Forge gallery" is room within ring_level at 0, 0 underground.
+  Place gaol_ring "the Gaol ring" is room within ring_level at 1, 0 underground.
+  Place inner_cell "an inner cell of the Gaol" is room within ring_level at 2, 0 underground.
+  Place ring_spill "the collapsed east side" is room within ring_level at 1, 1 underground.
+
+  Place floor_edge "the edge of the Glass Floor" is room within glass_level at 0, 0 outdoors.
+  Place diggings "the Diggings" is room within glass_level at 1, 0 outdoors.
+  Place trough "the trough" is room within glass_level at 2, 0 outdoors.
+  Place chimed_springs "the Chimed's springs" is room within glass_level at 2, 1 underground.
+
+  Place breach_foot "under the Breach" is room within underfloor at 0, 0 underground.
+  Place lamplighter "Lamplighter's Camp" is room within underfloor at 1, 0 underground.
+  Place silver_sump "the neck of the sump" is room within underfloor at 0, 1 underground.
+  Place underfloor_river "the Underfloor river" is room within underfloor at 1, 1 underground.
+
+  Place road_head "the head of the low road" is room within low_road at 0, 0 underground.
+  Place first_mark "the first way-mark" is room within low_road at 1, 0 underground.
+  Place second_mark "the second way-mark" is room within low_road at 2, 0 underground seen as "the left-hand passage" until second_mark_found.
+  Place fork "the Fork" is room within low_road at 3, 0 underground seen as "the right-hand passage" until fork_found.
+  Place third_mark "the third way-mark" is room within low_road at 3, 1 underground.
+  Place seam "the Seam" is room within low_road at 4, 1 underground seen as "the left-hand passage" until seam_found.
+  Place sump_one "a sump with no air" is room within low_road at 1, 1 underground seen as "the right-hand passage" until sump_one_found.
+  Place sump_two "a sump with no air" is room within low_road at 2, 1 underground seen as "the left-hand passage" until sump_two_found.
+  Place sump_three "a sump with no air" is room within low_road at 3, 2 underground seen as "the right-hand passage" until sump_three_found.
+  Place root "the Root" is room within low_road at 4, 0 underground.
+  Place bright_galleries "the bright galleries" is room within low_road at 5, 0 underground.
+
+  Initially Assert unlit(lowest_gallery). Initially Assert unlit(forge_gallery). Initially Assert unlit(gaol_ring).
+  Initially Assert unlit(inner_cell). Initially Assert unlit(ring_spill). Initially Assert unlit(breach_foot).
+  Initially Assert unlit(lamplighter). Initially Assert unlit(silver_sump). Initially Assert unlit(underfloor_river).
+  Initially Assert unlit(road_head). Initially Assert unlit(first_mark). Initially Assert unlit(second_mark).
+  Initially Assert unlit(fork). Initially Assert unlit(third_mark). Initially Assert unlit(seam). Initially Assert unlit(sump_one). Initially Assert unlit(sump_two). Initially Assert unlit(sump_three).
+  Initially Assert unlit(root). Initially Assert unlit(bright_galleries). Initially Assert unlit(hospice_cellar).
+
+  Passage peleth_stair "the Peleth stair" is stair between rim and fourth_gate taking 1 hour.
+  Passage gate_arch "the Fourth Gate's arch" is arch between fourth_gate and counting_house.
+  Passage evidence_door "the evidence gallery door" is door between counting_house and evidence_gallery.
+  Passage archive_arch "the archive arch" is arch between counting_house and contract_archive.
+  Passage lower_stair "the Registry's lower stair" is steps between fourth_gate and lowest_gallery taking 20 minutes.
+  Passage ore_chutes "the ore chutes" is shaft between lowest_gallery and forge_gallery taking 30 minutes.
+  Passage ring_walk "the Gaol walk" is passage between forge_gallery and gaol_ring.
+  Passage spill_way "the broken gallery" is passage between gaol_ring and ring_spill.
+  Passage spill_slope "the spill of rubble" is incline between ring_spill and floor_edge taking 1 hour.
+  Passage rim_ropes "the salvagers' ropes" is shaft between rim and forge_gallery taking 1 hour needing rope.
+  Passage long_ropes "the long ropes" is shaft between rim and floor_edge taking 2 hours needing rope.
+  Passage diggings_way "the miners' trenches" is passage between floor_edge and diggings taking 20 minutes.
+  Passage trough_way "the lip of the trough" is passage between diggings and trough taking 20 minutes.
+  Passage springs_way "the steam crack" is crawl between trough and chimed_springs.
+  Passage breach "the Breach" is shaft between trough and breach_foot taking 1 hour needing rope.
+  Passage boulder_way "the way through the boulders" is passage between breach_foot and lamplighter taking 30 minutes.
+  Passage river_way "the river cave" is passage between breach_foot and underfloor_river taking 30 minutes.
+  Passage sump_way "the narrowing" is crawl between underfloor_river and silver_sump.
+  Passage carved_steps "the carved steps" is steps between lamplighter and road_head hidden until low_road_known.
+  Passage silver_neck "the flooded neck" is tunnel between silver_sump and road_head taking 20 minutes.
+  Passage wend_dive "the dive under the Scarp" is tunnel between underfloor_river and wend_pool taking 2 hours needing eel_kit.
+
+  // The low road. At each way-mark two ways go on, and one is a decoy that ends in a sump with no air.
+  Passage head_steps "the long steps" is steps between road_head and first_mark taking 30 minutes.
+  Passage mark_one_left "the left-hand way at the first mark" is tunnel between first_mark and second_mark taking 30 minutes.
+  Passage mark_one_right "the right-hand way at the first mark" is tunnel between first_mark and sump_one taking 20 minutes.
+  Passage mark_two_left "the left-hand way at the second mark" is tunnel between second_mark and sump_two taking 20 minutes.
+  Passage mark_two_right "the right-hand way at the second mark" is tunnel between second_mark and fork taking 40 minutes.
+  Passage fork_down "the way down from the Fork" is tunnel between fork and third_mark taking 30 minutes.
+  Passage mark_three_left "the left-hand way at the third mark" is tunnel between third_mark and seam taking 1 hour.
+  Passage mark_three_right "the right-hand way at the third mark" is tunnel between third_mark and sump_three taking 20 minutes.
+  Passage root_branch "the Root branch" is tunnel between fork and root taking 1 hour.
+  Passage root_up "the galleries up from the Root" is passage between root and bright_galleries taking 2 hours.
+  Passage bright_way "the hospice end of the galleries" is passage between bright_galleries and hospice_cellar taking 30 minutes.
+
+  // ── The Registry ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe gate_scene at fourth_gate when true "The Peleth stair ends in a gallery of brass and glass. Daylight comes down a shaft from the rim by bronze mirrors and falls on a wardrobe-sized cabinet of glass and brass, full of milky lattices, wired to bells. It hums. The hum has words in it, slowly, like someone speaking a language they learned from a ledger. Beside it, on a high stool, a young woman with ink on her fingers writes down who comes.".
+  Observe counting_scene at counting_house when true "Rack after rack of glass cabinets in a long cut gallery, each with its lattice of Choir-glass holding numbers as notes. Coal braziers stand between them, and the clerks feed them like nurses. At the cold end of the gallery the cabinets are silent, and a clerk has hung a card on each: BEFORE 1200, NOT KEPT.".
+  Observe evidence_scene at evidence_gallery when true "A gallery of numbered cabinets. In the first, behind glass, a man in a Peleth engineer's coat stands upright with a rope burn round his neck, undecayed, his face the colour of rust. The label reads EVIDENCE 1204/1, A. THIRD-GATE.".
+  Observe archive_scene_well at contract_archive when true "Paper, at last: ledgers and contracts in presses, warm, with a brazier at each end. Peleth weights and measures, Lusk contracts filed under the Chain Ordinance, the Forge contract of 1210 in a case of its own.".
+  Observe lowest_scene at lowest_gallery when true "The lowest gallery of the Registry, unheated. A Peleth haul-adit runs off it into the dark toward Wendhead, and at the far end the mouths of the old ore chutes drop toward the Forge.".
+
+  Person assessor "the Assessor of the Fourth Gate" at fourth_gate {
+    Role "a Peleth lattice clerk, the March Registry". Peaceable.
+    Wants coal_order.
+  }
+  Person mattie "Mattie Ninepan" at fourth_gate {
+    Role "junior clerk of the Registry". Ancestry human. Peaceable.
+  }
+  Person clerks "the Registry clerks" at counting_house {
+    Role "clerks feeding the braziers". Ancestry human. Numbers 3. Peaceable.
+  }
+
+  // Licences. The Registry writes down who goes below it, and when they come back by the stair.
+  Relation licensed(group). Relation below(group). Measure wentDown(group). Relation backByStair(group).
+  Action buy_licence(actor: group, site: place) "Buy a licence to go below the Registry, two silver a head" {
+    Description "The Assessor enters your names, your purpose and the hour in its roll.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(assessor, site) and quantity(actor, gold) >= 6
+      and not licensed(actor).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 6. Assert licensed(actor). }
+    Result "The cabinet hums a long chord, then three short notes for each of you. 'Entered,' says Mattie Ninepan, blotting. 'Purpose: salvage. Return: unstated. It likes you to come back up the stair so it can close the line. It worries otherwise.'".
+  }
+  Rule goes_below when at(party, ?p) and below_registry(?p) and not below(party) { Assert below(party). Set wentDown(party) to watch(clock). Retract backByStair(party). }
+  Rule comes_up_stair when below(party) and at(party, fourth_gate) { Retract below(party). Assert backByStair(party). }
+  Relation below_registry(place).
+  Initially Assert below_registry(lowest_gallery). Initially Assert below_registry(forge_gallery). Initially Assert below_registry(floor_edge).
+  Initially Assert below_registry(breach_foot). Initially Assert below_registry(road_head).
+  // Up out of the Wendhead pool, or by the ropes, the Registry never closes the line.
+  Rule up_another_way when below(party) and at(party, ?p) and above_ground(?p) { Retract below(party). Assert unclosed(party). }
+  Relation above_ground(place). Relation unclosed(group).
+  Initially Assert above_ground(wend_pool). Initially Assert above_ground(rim). Initially Assert above_ground(hospice_cellar).
+
+  Topic assessor_greeting with assessor "Ask the Assessor what it keeps" when true once {
+    Says "The lattices hum, chord on chord, and the hum turns into words the way frost turns into a pattern. 'ENTRIES. EXITS. WEIGHTS. CONTRACTS. ARREARS.' A pause; a single falling note. 'THE COLD TAKES THE OLDEST FIRST. 1199 IS GONE. 1198 IS GONE. I DO NOT KNOW WHAT WAS IN THEM. I KNOW THAT I KNEW.' Mattie Ninepan does not look up from her ledger, but she stops writing.".
+  }
+  Topic mattie_aunt with mattie "Ask Mattie Ninepan about the Registry's trouble" when true once {
+    Says "'Coal,' says Mattie. 'It eats coal like a sick child eats broth, and the Council won't vote it any, and my aunt sells it at a price.' She lowers her voice. 'It means to move a rack of itself down to the hot springs on the Glass Floor this winter, where the glass people live. They don't know yet. I'm not supposed to tell anyone. My aunt says I'm not supposed to tell anyone anything.'".
+    On discuss { Assert knows(actor, springs_plan). }
+  }
+  Discovery springs_plan "The Registry means to move a rack of its lattices down to the Chimed's springs on the Glass Floor this winter, for the warmth, which would put the Chimed out.".
+
+  // The number. The Registry holds the Peleth weight of every link and Hightown's lift as measured in 1204; asked, it
+  // works the sum. It values heat above coin.
+  Kind coal_order "an order on the Ninepan coal yard for a cartload of coal, delivered to the rim" is treasure worth 20 weighing 0.
+  Discovery cut_limit "The Registry's reckoning, from the Peleth weights of every link and Hightown's lift as measured in 1204: in midwinter air the tail rests on the ground with less than two thousand tonnes. One more link cut is the limit. Cut two, and nothing rests: Hightown rises with its whole Chain and does not stop." { Known by assessor. }
+  Topic assessor_number with assessor "Ask the Assessor how many links of the tail can be cut before Hightown rises" when not knows(actor, cut_limit) {
+    Says "'A RECKONING,' says the Assessor, and all its racks hum at once, a long rising chord that makes the brazier coals shiver. 'NOT ON MY FORMS. NOBODY HAS ASKED.' The chord breaks off. 'A RECKONING COSTS HEAT. BRING HEAT.'".
+  }
+  Event coal_given near assessor when keeps(assessor, ?o) and itemKind(?o, coal_order) and tailLinks(hightown) >= 143 "Mattie Ninepan reads the order out, twice, and the Assessor takes it the way a cold man takes a cup in both hands. Then all its racks begin to work at once, chord under chord, numbers as notes, a sound like a church full of people humming different hymns. It goes on for a long minute. Then: 'LINKS ONE HUNDRED AND FORTY-THREE. EACH ONE THOUSAND ONE HUNDRED. HORN THREE THOUSAND. LIFT IN MIDWINTER AIR ONE HUNDRED AND FIFTY-EIGHT THOUSAND FIVE HUNDRED, BY THE MEASURE OF 1204. RESTING: ONE THOUSAND EIGHT HUNDRED. ONE MORE CUT IS THE LIMIT. TWO, AND NOTHING RESTS.' A pause. 'THE CHAIN ORDINANCE FORBIDS CUTTING. I HAVE ENTERED A COMPLAINT.' Mattie has stopped writing and is staring at the cabinet with her mouth open." then {
+    Assert reckoned(assessor). Assert warmed(assessor).
+  }
+  Event coal_given_late near assessor when keeps(assessor, ?o) and itemKind(?o, coal_order) and tailLinks(hightown) < 143 and not reckoned(assessor) "Mattie Ninepan reads the order out, twice, and the Assessor takes it the way a cold man takes a cup in both hands. All its racks work at once, chord under chord, for a long minute. Then: 'LINKS ONE HUNDRED AND FORTY-TWO. EACH ONE THOUSAND ONE HUNDRED. HORN THREE THOUSAND. LIFT IN MIDWINTER AIR ONE HUNDRED AND FIFTY-EIGHT THOUSAND FIVE HUNDRED, BY THE MEASURE OF 1204. RESTING: SEVEN HUNDRED. NO MORE CUTS. ONE, AND NOTHING RESTS.' A pause. 'THE CHAIN ORDINANCE FORBIDS CUTTING. I HAVE ENTERED A COMPLAINT.' Mattie has stopped writing." then {
+    Assert reckoned(assessor). Assert warmed(assessor).
+  }
+  Relation reckoned(group). Relation warmed(group).
+  Topic assessor_number_paid with assessor "Ask the Assessor to say the reckoning again" when reckoned(assessor) {
+    Says "'IN MIDWINTER AIR, ONE THOUSAND EIGHT HUNDRED TONNES REST AT ONE HUNDRED AND FORTY-THREE LINKS,' says the Assessor. 'ONE MORE CUT IS THE LIMIT. TWO, AND NOTHING RESTS.' And then, in a tone it has not used before, quite small: 'IT IS COLD UP THERE TOO, I SHOULD THINK.'".
+    On discuss { Assert knows(actor, cut_limit). }
+  }
+
+  // The ballast. Nobody has thought of it; anybody who has the number and has watched the hoists can.
+  Discovery hoist_weighs "Lene Tallow's riggers say every load the hoists send up, Hightown sits a hand lower at the cradles until it is unloaded; every load of wool sent down, it rides higher.".
+  Discovery ballast_known "Anything the hoists carry up to Hightown and leave there weighs on the Chain exactly as a link on the ground would: stone sent up by the hoists, five hundred and fifty loads, would anchor the mountain as well as a link of iron.".
+
+  // The payroll, filed under the Chain Ordinance because the consulate's contracts are.
+  Discovery payroll_known "The Lusk consulate's payroll, filed in the contract archive: a secretary named Absalom Prew, paid monthly for eleven years; then, from the payroll of seven months ago, a secretary named Corin Webb, with no entry of hire, no letter of appointment, and no word of Prew." {
+    Source payroll "the Lusk consulate's payroll" at contract_archive readable by party.
+  }
+  Discovery forge_contract "The Forge contract of 1210: a link for the place of the ninety-seventh, eighteen metres, one thousand one hundred tonnes, cold-forged in one piece but for a single scarf weld a third of the way along its near limb, which the contract says is to be opened only by a cold-forger, with drifts, if the link must ever be moved in parts." {
+    Source contract_1210 "the Forge contract of 1210" at contract_archive readable by party.
+  }
+  Discovery unfall_entry "The Registry's roll for the night of the Unfall, 2641, entered in a tone it has never used since: 'Departure, unlicensed, by the roof.'" {
+    Source unfall_roll "the Registry's roll for 2641" at contract_archive readable by party.
+  }
+
+  // ── The Ruined Ring ──────────────────────────────────────────────────────────────────────────────────────────────
+  Observe forge_scene at forge_gallery when true "The third Forge gallery. Trip-hammers bent and fused to their beds; a great wheel burned to its iron. And on a cracked anvil-bed the length of a barn, half buried in rubble, a link of black iron eighteen metres long, untouched: no scorch, no rust, no mark of the fire that melted everything round it. Lamplight goes into it and does not come back.".
+  Observe ninepan_crew at forge_gallery when not midwinter(corrow) "A Ninepan survey crew has a tent pitched against the gallery wall and a rope ladder up the ore chute. They are measuring the link with chains and arguing about pulleys.".
+  Observe gaol_scene at gaol_ring when true "The Gaol walk circles the shaft. The outer cells are rubble. The inner ones, cut deeper into the rock, are whole, each with an iron door and, in place of a keyhole, a slot and a row of small iron shapes on a bar.".
+  Observe inner_cell_scene at inner_cell when true "A cell cut deep into the rock. On the bench a man lies in a mage's robe gone stiff and red with rust, his hands crossed, preserved the way rust preserves things here. Under the bench is a chest.".
+  Observe spill_scene at ring_spill when true "The east side of the Ring fell in with the fire. The gallery ends in a slope of rubble going down and down into the light coming up from below: the Glass Floor.".
+
+  Thing cell_lock "the tally-chain lock" on cell_door {
+    State locked blocking "An iron door with a slot for a tally-chain bar. The shapes on the bar mean nothing to a hand that cannot read them.".
+    State open "The cell door stands open.".
+  }
+  Passage cell_door "the cell door" is door between gaol_ring and inner_cell.
+  Action read_lock(actor: group, site: place) "Ask Teshen to read the lock with her fingers and set the bar" {
+    Description "The locks are tally-chain, read by touch in the dark. A Keld reads link-script as you read print.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gaol_ring) and travelsWith(teshen, actor)
+      and state(cell_lock, locked).
+    Time 2.
+    On success { Assert state(cell_lock, open). }
+    Result "Teshen runs her fingers along the bar with her eyes shut. 'It's his sentence,' she says. 'That's the combination. What he did.' She slides the shapes along one by one, murmuring: 'Raised the dead. Against the councils. In the third year of the Warden Orrisk.' The last shape drops into the slot, and the door swings in.".
+  }
+  Thing cell_chest "a chest under the bench" at inner_cell {
+    Holds.
+  }
+  Item ashen_charm "a charm of ash wood on a cord" is ashwood_charm in cell_chest.
+  Item warding "a mage's warding focus" is warding_focus in cell_chest.
+
+  // ── The Glass Floor ──────────────────────────────────────────────────────────────────────────────────────────────
+  Observe edge_scene at floor_edge when true "The floor of the Emptied Well: a bowl of black glass four hundred metres across, warm underfoot even through your boots. Twenty years of miners have gouged it with trenches and pits. Collapsed headframes stand over it like broken chairs. High above, the rim is a ring of grey sky, and the wind goes up past you toward it, always.".
+  Observe diggings_scene at diggings when true "The Diggings: trenches, spoil, black glass grooved and pitted where miners prised the iron out of it, and the edges of the trenches going down into dark.".
+  Observe trough_scene at trough when true "The trough where the Nail lay: sixty metres long, fifteen deep, its walls glass. In the glass, in negative, is the shape of what lay here: horns, ridges, and a hollow where something like a heart sat, all of it leaning one way, north-north-east and up. The floor of the trough is cracked open in a long black mouth breathing steam: the Breach.".
+  Observe springs_scene at chimed_springs when true "Side-caves off the trough, warm and wet, where springs come up through the glass. In the pools stand lattices of milky glass the size of hands, of chairs, of rooms, and they hum together in a chord that you feel in your teeth. People live here, among the lattices, and they hum too.".
+  Observe trough_negative at trough when not knows(party, nail_negative) "You lay your hand on the glass wall. Here was a horn; here a rib; here, at the deepest point, the hollow where something sat like a heart, and every line of it, horn and rib and hollow, leans north-north-east and up, as if the whole thing had been listening for something in that direction for two and a half thousand years." teaches nail_negative.
+  Discovery nail_negative "The trough's glass holds the Nail's shape in negative, and all of it, the heart-hollow most of all, faces north-north-east and upward.".
+
+  Person pell "Pell Wishart" at chimed_springs {
+    Role "eldest of the Chimed". Ancestry human. Peaceable.
+  }
+  Person ida "Ida Wishart" at floor_edge {
+    Role "a Chimed woman who guides on the Glass Floor". Ancestry human. Peaceable.
+  }
+  Person chimed "the Chimed" at chimed_springs {
+    Role "people of the springs, humming". Ancestry human. Numbers 6. Peaceable.
+  }
+  Topic pell_choir with pell "Ask Pell Wishart about the Choir" when true once {
+    Says "Pell hums before he speaks, and goes on humming under it, so that every word comes with a chord. 'It's dying,' he says. 'The springs cool a third of a degree a year. In ten years they're too cold for it, and so are we.' He taps his chest. 'It's in here. It talks to us. It says it's cold.' He looks at the lattices. 'There are hot springs in the Hartmark, a trader says. Over the passes. If I could carry it.'".
+  }
+  Topic pell_registry with pell "Tell Pell Wishart that the Registry means to move a rack down to the springs" when knows(actor, springs_plan) once {
+    Says "The humming stops. All of it, all at once, Pell and the people in the pools and the lattices, and the silence afterward is the loudest thing on the Glass Floor. 'Here,' says Pell. 'Into the springs.' He starts to hum again, very low. 'Then it's not ten years. It's this winter.' He gets up. 'We'll be on the stair when they bring it. You can tell the machine that.'".
+    On discuss { Assert warnedChimed(pell). }
+  }
+  Relation warnedChimed(group).
+
+  // The chimeflies (A Dangerous Encounter). A lit lamp on the Glass Floor draws them.
+  Hazard glass_breath "breathing a swarm of chimeflies" means "Deal (1d6) physical damage to ally unless constitution save against (12).".
+  Thing swarm "the chimeflies" at diggings is scenery {
+    State drifting "Now and then something glitters, rising past the trench edge on the warm air.".
+    State gathering dangerous "Thin sounds like a wet finger drawn round the rim of a cup, a chord of them, coming up the trench toward any light. Slivers of milky glass settle on whatever is warm.".
+    State shattered "Glass dust glitters on the trench floor, quite still.".
+  }
+  Rule swarm_comes when at(party, diggings) and capable(party, light) and state(swarm, drifting) {
+    Assert state(swarm, gathering).
+  }
+  Rule swarm_breathed when at(party, diggings) and state(swarm, gathering) and capable(party, light) and not shuttered(party) { Assert strikes(glass_breath, party). }
+  Rule swarm_settles when state(swarm, gathering) and not at(party, diggings) { Assert state(swarm, drifting). }
+  Relation shuttered(group).
+  Rule unshutter when shuttered(party) and not at(party, diggings) { Retract shuttered(party). }
+  Event ida_hums at diggings when state(swarm, gathering) and travelsWith(ida, party) and at(party, diggings) "In your light something glitters, and settles on the back of the hand that holds it: a sliver of glass the size of a thumbnail, milky, humming. Another lands beside it. They are warming themselves on your light. Ida Wishart takes the light out of your hand without asking and smothers it in her coat. In the dark the humming swells, a whole chord now, and you feel something touch your cheek, light and warm, and move toward your mouth. 'Don't breathe in,' she says. 'Walk. Toward my voice.' Then she begins to hum, one long note, and somewhere close to your face something cracks with a sound like ice on a pond. You walk. You keep your mouth shut. Behind you the chord goes on for a long time, searching the warm glass for whatever it was you took away." then {
+    Assert shuttered(party). Assert state(swarm, shattered).
+  }
+  Action shutter_and_walk(actor: group, site: place) "Shutter every light, hold your breath, and walk on through the dark" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, diggings) and state(swarm, gathering)
+      and not shuttered(actor).
+    Time 1.
+    On success { Assert shuttered(actor). }
+    Result "You put out every light and walk blind, mouth shut, with the chord swelling and fading round you. Something warm brushes your lips and drifts away, looking for a lamp that is not there.".
+  }
+  Topic ida_guide with ida "Ask Ida Wishart to take you across the Diggings" when not travelsWith(ida, actor) once {
+    Says "'In food,' says Ida. 'And you do as I say on the glass. If I say put the lamp out, you put it out.' She hums a short phrase, as if to herself. 'People who don't, I bring back up humming. Like me.'".
+    On discuss { Assert willing(ida, actor). }
+  }
+  Initially Set hire(ida) to 1.
+
+  // ── The Underfloor ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe breach_scene at breach_foot when true "Below the Breach the rock is broken into chambers of boulders the size of houses, and steam rolls through them where the hot stone meets the river. The roar of water is everywhere.".
+  Observe camp_scene at lamplighter when true "A Rain-year mining camp sealed by a rockfall eighty years ago: cots, a stove, sacks of sorted iron, and eleven miners lying where the air gave out, dried in the warm draught. On the stove, held down by a pick-head, a stack of journals.".
+  Observe sump_scene at silver_sump when true "The river narrows into a flooded neck of rock. The water is clear and black and very cold. On the ledge at its mouth lie bones: a dog's, a sheep's, and many small ones.".
+  Observe river_scene at underfloor_river when true "The Underfloor river: cold, loud, fast, going south under the Scarp toward the Wendhead. An eeler could dive it. Anyone else would drown.".
+  Discovery low_road_known "The Lamplighter journals, 2652: below the camp, behind the stove wall, the miners broke into a carved passage going down, with Calvessan marks cut in the wall every hundred paces. 'An old road,' the last entry says. 'Somebody walked this. We will go down when the air is better.' The air did not get better." {
+    Source journals "the Lamplighter journals" at lamplighter readable by party.
+  }
+  Kind droplet_sack "a sack of deadiron droplets, sorted" is treasure worth 60 weighing 4.
+  Item droplets "a sack of deadiron droplets" is droplet_sack at lamplighter.
+
+  // An Old Silver at the neck of the sump: starving, blind, too big to go back the way it came.
+  Species silver_eel "an Old Silver" like great_pike temperament ambush described "A blind eel seven metres long, pale as a candle, that grew up in warm water and outgrew the way back to the sea.".
+  Person old_silver "an Old Silver" at silver_sump {
+    Role "an eel seven metres long, eighty years in the dark". Species silver_eel.
+  }
+  Relation fed(group).
+  Action feed_silver(actor: group, site: place) "Throw the Old Silver your rations" {
+    Description "It is starving. Everything it ate died when the water cooled.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(old_silver, site) and quantity(actor, rations) >= 2
+      and not fed(old_silver).
+    Time 1.
+    On success { Decrease quantity(actor, rations) by 2. Assert fed(old_silver). Assert tolerates(old_silver, actor). }
+    Result "A pale shape the thickness of a man comes up out of the black water slower than you would believe and takes the food, and sinks again, and lies on the bottom of the neck like a fallen tree, its gills working. It does not move when you go by.".
+  }
+
+  // ── The low road ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Every hundred paces a keeper cut a way-mark. The Concord added decoys. The true way is marked kept, calve: the
+  // keeper saw it; the decoys are marked let, aun: things reported. A reader who knows the grammar finds the way.
+  Discovery evidential_known "In Calvessan, and among the Keld still, a thing told of the past is marked by how it is known: calve, kept, is what the speaker saw with her own eyes; senne, laid, is what is held in stone; aun, let, is what was told her, or what she has let go.".
+  Observe head_scene at road_head when true "A carved passage, square and low, going down through the limestone in long flights of steps worn hollow in their middles. The walls sweat. On the wall at the head of the steps a charge-name is cut deep: TELUAN.".
+  Observe first_mark_raw at first_mark when not knows(party, evidential_known) "A dry chamber where the road divides. Over the left-hand way a mark is cut: TELUAN, and under it, calve tel lue senneth. Over the right-hand way, in the same hand and just as deep: TELUAN, aun tel lue senneth. The words are nearly the same.".
+  Observe first_mark_read at first_mark when knows(party, evidential_known) "A dry chamber where the road divides. Over the left-hand way: TELUAN, calve tel lue senneth: kept, the road under the water to Senneth; the keeper saw it. Over the right-hand way: TELUAN, aun tel lue senneth: let, the same road, as people say.".
+  Observe second_mark_raw at second_mark when not knows(party, evidential_known) "The road divides again at a sump-pool. Over the left-hand way: aun esse senne. Over the right-hand way, in the same hand, just as deep: calve esse senne.".
+  Observe second_mark_read at second_mark when knows(party, evidential_known) "The road divides again at a sump-pool. Over the left-hand way: aun esse senne: let, the people laid it down, as is said. Over the right-hand way: calve esse senne: kept; she saw them do it.".
+  Entity sump_one_found: fact "The right-hand way at the first mark ends in a sump with no air.".
+  Entity sump_two_found: fact "The left-hand way at the second mark ends in a sump with no air.".
+  Entity sump_three_found: fact "The right-hand way at the third mark ends in a sump with no air.".
+  Entity second_mark_found: fact "The road goes on to a second way-mark.".
+  Entity fork_found: fact "The road comes to the Fork.".
+  Entity seam_found: fact "The road ends at the Seam.".
+  Observe sump_one_seen at sump_one when not knows(party, sump_one_found) "A dead end." teaches sump_one_found.
+  Observe sump_two_seen at sump_two when not knows(party, sump_two_found) "A dead end." teaches sump_two_found.
+  Observe sump_three_seen at sump_three when not knows(party, sump_three_found) "A dead end." teaches sump_three_found.
+  Observe second_mark_seen at second_mark when not knows(party, second_mark_found) "Another mark." teaches second_mark_found.
+  Observe fork_seen at fork when not knows(party, fork_found) "Voices of water from two directions." teaches fork_found.
+  Observe seam_seen at seam when not knows(party, seam_found) "The air is cold and still and smells of nothing at all." teaches seam_found.
+  Observe sump_scene_one at sump_one when true "The passage ends in black water to the roof. Somebody has cut, at the waterline, one word: aun. The air is bad here, and worse with every breath.".
+  Observe sump_scene_two at sump_two when true "Black water to the roof, and the word aun cut at the waterline. The air is bad here, and worse with every breath.".
+  Observe sump_scene_three at sump_three when true "The last decoy: black water, the word aun, and air that has nothing left in it.".
+  Hazard no_air "breathing air with no life left in it" means "Deal (2d4) physical damage to ally unless constitution save against (14).".
+  Relation airless(place).
+  Initially Assert airless(sump_one). Initially Assert airless(sump_two). Initially Assert airless(sump_three).
+  Rule air_gives_out when at(party, ?p) and airless(?p) { Assert strikes(no_air, party). }
+  Observe fork_scene at fork when true "The Fork: a dry chamber with a cold spring, where the road from the Root comes in. On the wall, a column of charge-names, sixty-three of them, cut by sixty-three hands, each followed by a year. The last is TELUAN, and under it, in March, cut small and not very well: WENNA COYLE 2633.".
+  Observe third_mark_raw at third_mark when not knows(party, evidential_known) "Below the Fork the road divides one last time. Left: calve tel. Right: aun tel. Below both, a long breath of colder air.".
+  Observe third_mark_read at third_mark when knows(party, evidential_known) "Below the Fork the road divides one last time. Left: calve tel, kept, the road: the keeper went this way herself. Right: aun tel, let: the road, as people say.".
+  Observe root_branch_seen at root when not knows(party, fork_found) "A branch of the old road goes down out of the Root, carved, with steps worn hollow, toward the place the keepers called the Fork, where it meets the road from under the Well." teaches fork_found.
+  Observe root_scene at root when true "The Root: the oldest galleries of the Commonplace, low and wet, their flowstone grown for ten thousand years. Water moves across the walls in patterns, slowly, and stops, and moves again, like a hand writing and rubbing out.".
+  Observe bright_scene at bright_galleries when true "The bright galleries of the Commonplace, where six centuries of the March laid their weddings and wills in the wet stone. They are blank. You lay a hand on the wall and feel cold calcite and nothing else, gallery after gallery.".
+  Discovery root_gift "In the Root the Commonplace gave you what it has: a cave bear's memory of a night when stars fell in the north-east, nine of them, burning, and things unfolded out of them; and one bright thing spinning away from the rest, down, into the ground.".
+  Action take_gift(actor: group, site: place) "Lay your hands on the wet wall where the water writes, and let it give you what it has" {
+    Description "The Commonplace no longer speaks. It moves drip-water across the stone, and waits.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, root) and not knows(actor, root_gift).
+    Time 6.
+    On success { Assert knows(actor, root_gift). }
+    Result "Cold, then not cold. You are something heavy and furred, in a cave mouth, in winter, and the sky is wrong. Stars are falling in the north-east, nine of them, slowly, burning, and things are unfolding out of them like hands. You are more afraid than you have ever been, and you are not you. One bright thing spins away from the others and comes down, down, into the ground under your feet, and the ground hums. Then you are on your knees in the Root with your hands on wet stone, and the water on the wall has stopped moving.".
+  }
+
+  // The Seam.
+  Observe seam_scene at seam when true "A domed chamber thirty metres across, half filled with a still lake. A pillar of stone rises from the water, and on it sits a cup of calcite shaped around something that is not there: a hollow the size of a child's fist, with nine faces. The walls are flowstone, banded, every band laid by a keeper who stood here.".
+  Relation lightsOut(group).
+  Action wait_dark(actor: group, site: place) "Put out every light and wait in the dark" {
+    Description "The hospice says you can see the shore of the other place in the deepest cave, if you put your lamp out.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, seam) and not lightsOut(actor).
+    Time 6.
+    On success { Assert lightsOut(actor). Assert knows(actor, seam_syllable). }
+    Result "With every light out, you wait. After a while the far wall of the chamber is not there. There is a shore instead, grey, closer than the wall was, with grey grass on it and nothing moving. It does not look far. Something has come up out of the water onto the foot of the pillar and is standing there in the dark, dripping, saying one syllable over and over under its breath. It is not a word in any language you know, and you know at once that it is not meant for you.".
+  }
+  Rule lights_again when lightsOut(party) and not at(party, seam) { Retract lightsOut(party). }
+  Discovery seam_syllable "At the Seam, with the lights out, a Stray came up out of the lake onto the pillar's foot, saying one syllable over and over.".
+
+  // Do not say in the chamber what the fog said. The syllables a company has gathered can be said here, and are heard.
+  Relation unsaidStirred(place).
+  Action say_syllables(actor: group, site: place) "Say aloud, in the chamber, the syllables the Strays and the fog have said" {
+    Description "Each was a piece of something. Nobody has said them together.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, seam) and knows(actor, stray_syllables)
+      and (knows(actor, short_grey_syllable) or knows(actor, seam_syllable)) and not unsaidStirred(corrow).
+    Time 0.
+    On success { Assert unsaidStirred(corrow). }
+    Result "You say them, one after another, into the dark. Nothing answers. Then the lake begins to steam, though it is no warmer, and the far wall of the chamber is not there: a grey shore is, close, closer than it should be, and something on it that is the shape of no one turns toward the sound of your voice, and listens, and waits for the rest.".
+  }
+  Observe seam_stirred at seam when unsaidStirred(corrow) "The lake steams without heat. When the light flickers, the far wall is not always there.".
+
+  // Wenna's band: the last laid memory on the wall.
+  Discovery wenna_band "Wenna Coyle's band at the Seam: on the night of the Unfall she took the jewel from the cup, chose north-north-east and up, the road the star came down, knowing there would be fire on the rim; and laid one last thought for whoever came: 'If nobody follows, it ends with me.'".
+  Action read_band(actor: group, site: place) "Lay your hands on the newest band on the wall and read it" {
+    Description "The newest band, pale and thin, laid over all the others.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, seam) and not knows(actor, wenna_band).
+    Time 6.
+    On success { Assert knows(actor, wenna_band). }
+    Result "You are an old woman in the dark with a cold weight in your two hands. Above you, a long way up, something enormous turns its attention toward you like a sleeper toward a sound. You choose: north-north-east, and up, the road the star came down. You think of the rim, the cisterns, the lodging-house where you left your coat; you think there will be fire, and you cannot help that. Then one thought, very clear, laid down for whoever comes: if nobody follows, it ends with me. Then you are yourself, on your knees, wet to the wrist.".
+  }
+
+  // Blank deeds wake at the Seam.
+  Kind blank_deeds "a crate of blank keepstone deeds from the Keepstone Court" is treasure worth 0 weighing 3.
+  Kind woken_deeds "a crate of keepstone deeds, readable again" is treasure worth 0 weighing 3.
+  Thing seam_wall "the wet flowstone of the Seam" at seam is scenery {
+    State dripping "The wall streams with water, cold and slow.".
+  }
+  Action wake_deeds(actor: group, carrier: member, crate: item, site: place) "Lay {crate} on the wet wall of the Seam and wait" {
+    Description "Tobin Reach said a blank stone wakes here.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, seam) and memberOf(carrier, actor)
+      and ownedItem(crate, carrier) and itemKind(crate, blank_deeds).
+    Time 6.
+    On success { Retract itemKind(crate, blank_deeds). Assert itemKind(crate, woken_deeds). }
+    Result "You set the plates against the streaming wall one by one and wait in the dark. After an hour you put your hand on the first, and it is not blank. A man is standing in a field with a stick, walking a boundary aloud, and a clerk is writing; you can smell the hay. You go along the row. Every plate is awake.".
+  }
+}

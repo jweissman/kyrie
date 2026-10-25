@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "source": [
+    "clocks.kyr",
+    "scarp.kyr",
+    "well.kyr",
+    "hornwake.kyr",
+    "hightown.kyr",
+    "keld.kyr",
+    "wendmouth.kyr",
+    "act2_margin.kyr",
+    "act3_kin.kyr",
+    "act4_voyage.kyr",
+    "act5_road.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "corrow"
+  }
+}

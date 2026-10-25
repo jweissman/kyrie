@@ -1,0 +1,121 @@
+Module corrow "Let One Remember" {
+  Description "The Corrow in 2731, ninety years after the Unfall: a mountain on a chain drifting toward the hole it came out of, a country whose stones are going blank, and a people who cannot be forgotten.".
+
+  // The country, north to south. Hightown and the Chain are over the plateau; the Well is under the Stake ruins.
+  Place corrow "the Corrow" is region.
+  Place socket_country "the Socket" is wilderness within corrow at 3, 0.
+  Place hightown "Hightown" is settlement within corrow at 4, 0.
+  Place chain "the Chain" is site within corrow at 5, 1.
+  Place hornwake "Hornwake" is settlement within corrow at 4, 1.
+  Place plateau "the Hesk plateau" is wilderness within corrow at 3, 2.
+  Place keld "Keld" is settlement within corrow at 1, 2.
+  Place stake "the Stake ruins" is settlement within corrow at 3, 3.
+  Place well "the Emptied Well" is site within corrow at 4, 3.
+  Place scarp "the Scarp road" is wilderness within corrow at 3, 4.
+  Place wendhead "Wendhead" is settlement within corrow at 3, 5.
+  Place wendmouth "Wendmouth" is settlement within corrow at 3, 6.
+
+  // ── The balance ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Hightown floats because the mountain has forgotten its weight and the air has not. What holds it down is its Chain:
+  // 143 links of eleven hundred tonnes, and the horn of three thousand at the end, dragging on the plateau. Whatever of
+  // that the mountain cannot lift rests on the ground and grips it. If nothing rests, the mountain goes up with its
+  // whole Chain and does not stop.
+  //
+  //   resting = links × 1,100 + horn 3,000 + 1,000 for every Counterweight who has come to hold where it came from
+  //             + what the hoists have carried up as ballast − what the mountain lifts in this air
+  //
+  // The mountain lifts more as the air grows cold and heavy: 154,000 t in the last of the autumn, 158,500 t in midwinter.
+  Measure tailLinks(place). Measure hightownLift(place). Measure restingWeight(place). Measure ballast(place).
+  Measure heard(place). Measure nextChill(place).
+  Initially Set tailLinks(hightown) to 143.
+  Initially Set hightownLift(hightown) to 154000.
+  Initially Set nextChill(hightown) to 144.
+  Initially Set restingWeight(hightown) to 6300.
+  Rule air_chills when watch(clock) >= nextChill(hightown) and hightownLift(hightown) < 158500 {
+    Increase hightownLift(hightown) by 250. Set nextChill(hightown) to nextChill(hightown) + 144.
+  }
+  // Kyr reckons left to right, so the thousand tonnes a head are worked out first, on their own.
+  Measure heardWeight(place).
+  Rule reckon_heard when heardWeight(hightown) != heard(hightown) * 1000 { Set heardWeight(hightown) to heard(hightown) * 1000. }
+  Rule reckon_rest when restingWeight(hightown) != tailLinks(hightown) * 1100 + 3000 + heardWeight(hightown) + ballast(hightown) - hightownLift(hightown) {
+    Set restingWeight(hightown) to tailLinks(hightown) * 1100 + 3000 + heardWeight(hightown) + ballast(hightown) - hightownLift(hightown).
+  }
+
+  // The drift. Hightown rides north on the gales along the line of the old Drag, toward the Socket: 3.9 km to go. A heavy
+  // tail grips; a light one skips. Once twenty more of Hightown hold where it came from, the mountain has sunk some 350 m
+  // and the horn bites into the plateau and holds.
+  Measure socketDistance(place). Measure sunk(place).
+  Initially Set socketDistance(hightown) to 3900.
+  Relation bitten(place). Relation overSocket(place).
+  Rule sinks_with_heard when sunk(hightown) != heard(hightown) * 16 and heard(hightown) < 150 { Set sunk(hightown) to heard(hightown) * 16. }
+  Rule horn_bites when heard(hightown) >= 20 and heard(hightown) < 150 and not bitten(hightown) and not crashed(hightown) and not lost(hightown)
+    says "Up on the plateau, the horn stops dragging. It has gone into the frozen ground to the root of its curve, and the Chain above it hangs nearly straight. Hightown is lower in the sky than anyone in Hornwake has ever seen it." {
+    Assert bitten(hightown).
+  }
+
+  // The great gales of the season: five in four weeks, closer together as the winter deepens.
+  Relation galeBlown(entity). Measure galesBlown(place). Measure lastGale(place).
+  Entity gale_one: scenery "the first great gale". Entity gale_two: scenery "the second great gale".
+  Entity gale_three: scenery "the third great gale". Entity gale_four: scenery "the fourth great gale".
+  Entity gale_five: scenery "the fifth great gale".
+  Measure galeDue(entity). Relation gale(entity).
+  Initially Assert gale(gale_one). Initially Assert gale(gale_two). Initially Assert gale(gale_three).
+  Initially Assert gale(gale_four). Initially Assert gale(gale_five).
+  Initially Set galeDue(gale_one) to 864. Initially Set galeDue(gale_two) to 1872. Initially Set galeDue(gale_three) to 2736.
+  Initially Set galeDue(gale_four) to 3312. Initially Set galeDue(gale_five) to 3744.
+  Rule gale_blows when gale(?g) and galeDue(?g) <= watch(clock) and not galeBlown(?g) and not crashed(hightown) and not lost(hightown)
+    says "A great gale comes over the Teskarn out of the south-west and lies on the plateau for a day and a night. Nothing moves in it but the mountain and the horn." {
+    Assert galeBlown(?g). Increase galesBlown(hightown) by 1. Set lastGale(hightown) to watch(clock). Assert driven(hightown).
+  }
+  Relation driven(place).
+  // How far a gale drives it: Kyr's counts never go below nothing, so the last stretch to the shore is set, not taken.
+  Measure driftBy(place).
+  Rule drift_heavy when driven(hightown) and not bitten(hightown) and restingWeight(hightown) >= 4000 { Retract driven(hightown). Set driftBy(hightown) to 400. }
+  Rule drift_middling when driven(hightown) and not bitten(hightown) and restingWeight(hightown) >= 1000 and restingWeight(hightown) < 4000 { Retract driven(hightown). Set driftBy(hightown) to 800. }
+  Rule drift_light when driven(hightown) and not bitten(hightown) and restingWeight(hightown) < 1000 { Retract driven(hightown). Set driftBy(hightown) to 1400. }
+  Rule drift_on when driftBy(hightown) > 0 and socketDistance(hightown) >= driftBy(hightown) { Decrease socketDistance(hightown) by driftBy(hightown). Set driftBy(hightown) to 0. }
+  Rule drift_ashore when driftBy(hightown) > 0 and socketDistance(hightown) < driftBy(hightown) { Set socketDistance(hightown) to 0. Set driftBy(hightown) to 0. }
+  Rule driven_held when driven(hightown) and bitten(hightown) { Retract driven(hightown). }
+  Rule over_the_socket when socketDistance(hightown) <= 0 and not overSocket(hightown)
+    says "When the gale drops, Hightown is not where it was. It hangs over the south shore of the Socket, and its shadow lies on the water: a long dark bowl on a lake the same shape." {
+    Assert overSocket(hightown).
+  }
+
+  // Where it ends, for the mountain. Each holds for ever once true.
+  Relation crashed(place). Relation lost(place). Relation fellOnShore(place).
+  // Nothing rests: up it goes, Chain, horn and all.
+  Rule hightown_lost when restingWeight(hightown) <= 0 and not lost(hightown) and not crashed(hightown)
+    says "In the night the sound of the horn stops. In the morning it is not in its furrow. It is a hundred metres up, turning slowly at the end of the Chain, with clods of frozen earth falling off it; by noon it is a black speck under a mountain that is smaller every hour; by evening Hightown is a star that moves, going up, and nobody below will ever see its lights again." {
+    Assert lost(hightown).
+  }
+  // Half of Hightown at once: the relation closes, and the mountain falls like the granite it is.
+  Rule hightown_falls when heard(hightown) >= 450 and not crashed(hightown) and not lost(hightown)
+    says "It does not sink. It drops. For a long breath the whole sky over the plateau is granite, and then the ground jumps under you like a struck table, and the sound comes, and goes on. When the dust lies down there is a mountain where the sky was, tilted, broken at its rim, and the Chain lies slack across the plateau for two kilometres like a dropped necklace." {
+    Assert crashed(hightown).
+  }
+  Rule fell_on_shore when crashed(hightown) and overSocket(hightown) and not fellOnShore(hightown) { Assert fellOnShore(hightown). }
+
+  // Midwinter: the turn of the year, twenty-eight days on. The country takes stock.
+  Relation midwinter(place).
+  Rule midwinter_comes when watch(clock) >= 4032 and not midwinter(corrow)
+    says "It is midwinter. The gale season has another three months to run, but the shortest day is a day the Corrow keeps: the bounds are walked in the dark, the names are read at every grave, and everyone says aloud what they mean to keep." {
+    Assert midwinter(corrow).
+  }
+
+  // What the company can see it is up against.
+  Objective drift_seen when knows(party, arrived) and not crashed(hightown) and not lost(hightown) and not bitten(hightown) and not grounded(hightown) "Hightown is drifting north on every gale toward the lake it was lifted out of. Midwinter is twenty-eight days off.".
+  Objective ask_number when knows(party, jobs_known) and filing(ruth) and not knows(party, cut_limit) "The runners are filing another link off the tail. Nobody has asked the Registry how many can go.".
+  Objective tell_ruth when knows(party, cut_limit) and filing(ruth) "Ruth Teake believes there are twenty links to spare. There are not.".
+  Objective tell_aron when knows(party, method_known) and not roster(aron) and not crashed(hightown) and not grounded(hightown) "The Concord engineers wrote how to bring the mountain down: let one remember at a time. Aron Fennimore, in Hightown, does not know it.".
+  Objective rim_now when gathering(grounders) "The Grounders are gathering on Hightown's rim to tell everyone to look down.".
+
+  // How it stands, told once, wherever the company is.
+  Entity ending_told: fact "How it stood at midwinter.".
+  Observe end_lost near party when lost(hightown) and not knows(party, ending_told) "Hightown has gone up into the wastes beyond Imbar with nine hundred people on it, and its Chain, and the horn. Hornwake stands round an empty furrow. The runners do not cut anything now." teaches ending_told.
+  Observe end_fell_shore near party when fellOnShore(hightown) and not knows(party, ending_told) "Hightown lies on the south shore of the Socket with its north rim in the lake, tilted like a dropped bowl. The terraces broke. A hundred and forty people died on them, and the rest came down the slope of their own mountain onto soil, carrying what they could. It is home, in a way. Nobody in Hightown will say so for a generation." teaches ending_told.
+  Observe end_fell_plain near party when crashed(hightown) and not overSocket(hightown) and not knows(party, ending_told) "Hightown lies on the open plateau short of the Socket, broken in half along an old fault, and the furrow and half of Hornwake's wagons are under it. Nobody yet knows how many died. The mountain came down where it happened to be when enough of its people learned where it belonged." teaches ending_told.
+  Observe end_lowered near party when midwinter(corrow) and bitten(hightown) and not crashed(hightown) and not lost(hightown) and not knows(party, ending_told) "Hightown hangs low over the plateau with its horn bitten deep, and does not drift. One Counterweight a day comes to know where the mountain came from, as the Concord engineers wrote it should be done, and it sinks a little each time. By spring, if the roster holds, it will come down to the Socket's shore at a walking pace." teaches ending_told.
+  Observe end_over near party when midwinter(corrow) and overSocket(hightown) and not bitten(hightown) and not crashed(hightown) and not lost(hightown) and not grounded(hightown) and not knows(party, ending_told) "Hightown turns the year hanging over the Socket with its shadow on the water, a bowl above a bowl. One Counterweight a day is told where the mountain came from, and it is lower each morning. Nobody on the rim looks away from the lake now." teaches ending_told.
+  Observe end_anchored near party when midwinter(corrow) and not overSocket(hightown) and not grounded(hightown) and not bitten(hightown) and not crashed(hightown) and not lost(hightown) and restingWeight(hightown) >= 1000 and not knows(party, ending_told) "Hightown rides out the turn of the year at the end of its Chain with enough of the tail on the ground to grip. It is still north of where it was, and the Socket is still ahead of it, and next winter's gales will have their say. But it is still in the Corrow, and still in the air, and still nobody's but its own." teaches ending_told.
+  Observe end_slack near party when midwinter(corrow) and not overSocket(hightown) and not grounded(hightown) and not bitten(hightown) and not crashed(hightown) and not lost(hightown) and restingWeight(hightown) < 1000 and not knows(party, ending_told) "Hightown turns the year on a tail so light that the horn skips at every gust. One more cut, one cold night, one hard gale: everyone in Hornwake has done the sum by now, and nobody sleeps well." teaches ending_told.
+}

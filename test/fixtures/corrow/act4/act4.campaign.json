@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "The Road the Star Came Down: Act IV, Under Way",
+  "calendar": { "year": 2732, "month": 1, "day": 20 },
+  "modules": [ { "id": "corrow", "bundle": "module.json" } ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter", "level": 11 },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"], "level": 11 },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"], "level": 11 }
+  ]
+}

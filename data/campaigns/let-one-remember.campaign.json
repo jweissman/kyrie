@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "name": "The Road the Star Came Down",
+  "calendar": {
+    "year": 2731,
+    "month": 11,
+    "day": 22
+  },
+  "pitch": {
+    "heading": "A company for the Corrow",
+    "text": "Ninety years after the star at the bottom of the Well got up and went after the jewel, the floating mountain the Corrow calls Hightown is drifting on its chain toward the lake it was lifted out of, the memory-stones are going blank, and lost things are coming home. Something in the grey country beyond the Seam is gathering itself a syllable at a time, and a new star is brightening over the Teskarn. It begins in the Stake ruins in the last week of autumn; it ends at the end of the road the star came down. Choose three companions."
+  },
+  "modules": [
+    {
+      "id": "corrow",
+      "bundle": "../adventures/let-one-remember/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith",
+      "traits": [
+        "toughness"
+      ]
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ]
+    }
+  ]
+}

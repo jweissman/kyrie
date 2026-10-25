@@ -1,0 +1,184 @@
+Module corrow "Let One Remember" {
+  Description "Hightown: a granite bowl floating in and out of cloud, nine hundred people, half of them sworn not to know where they came from.".
+
+
+  Place hightown_rock "the rock of Hightown" is site within hightown.
+  Place summit "the summit of Hightown" is level within hightown_rock.
+  Place under_summit "the halls under the summit" is level within hightown_rock.
+  Place hoist_house "the hoist-house on the rim" is room within summit at 2, 2.
+  Place rim_walk "the rim and the nets" is room within summit at 1, 2 outdoors.
+  Place terraces "the terraces" is room within summit at 1, 1 outdoors.
+  Place cradle_gallery "the cradle gallery" is room within under_summit at 0, 2 underground.
+  Place unasked_chapel "the Unasked chapel" is room within summit at 2, 1.
+  Place grounders_hall "the Grounders' hall" is room within under_summit at 0, 1 underground.
+  Place charge_hall "the hall of the Charge" is room within summit at 1, 0 outdoors.
+  Place archive_outer "the archive's outer room" is room within under_summit at 2, 0 underground.
+  Place sealed_room "the sealed room" is room within under_summit at 3, 0 underground.
+
+  Passage hoist_door "the hoist-house door" is door between hoist_house and rim_walk.
+  Passage rim_steps "the terrace steps" is steps between rim_walk and terraces.
+  Passage chapel_porch "the chapel porch" is doorway between terraces and unasked_chapel.
+  Passage cistern_stair "the old cistern stair" is stair between terraces and grounders_hall.
+  Passage charge_way "the summit path" is path between terraces and charge_hall.
+  Passage archive_stair "the archive stair" is stair between charge_hall and archive_outer.
+  Passage unasked_door "the door carved with the Unasked" is door between archive_outer and sealed_room.
+  Passage cradle_stair "the Ondrek gallery" is stair between cradle_gallery and rim_walk taking 1 hour.
+  Passage cradle_mouth "the gallery mouth over the cradles" is crawl between cable_cradles and cradle_gallery taking 20 minutes.
+
+  Observe hoist_house_scene at hoist_house when true "The hoist-house: a winch the size of a mill-wheel, a crew of four in fog-wool, and an open door onto two and a half kilometres of air. Your head aches. Everyone's head aches, the first three days.".
+  Observe rim_scene_h at rim_walk when not crashed(hightown) "The rim of Hightown. Fog-nets of rope and wool hang from every edge, hundreds of them, combing the cloud into stone gutters. Walking the rim in cloud is walking by sound. When the cloud parts, the whole Corrow is below you: the plateau, the black line of the furrow, Hornwake like a thumbprint, and the Well a dark eye far to the south.".
+  Observe rim_socket at rim_walk when socketDistance(hightown) <= 2000 and not crashed(hightown) "When the cloud parts to the north there is a lake down there now, close, a bowl of clear water with ribs in it. People on the rim look at it, and look away, and some of them look at it again.".
+  Observe terraces_scene at terraces when true "Terraces of barley stubble and bean-rows step down into the granite bowl, every wall dry-stone, every field the size of a room. Sheep with long oily fleeces graze between the cisterns. Halls are cut into the rock below.".
+  Observe cradle_gallery_scene at cradle_gallery when true "An Ondrek gallery cut through the mountain's base, so old its walls have worn smooth. At one end it opens onto nothing at all, and the Chain.".
+  Observe chapel_scene_h at unasked_chapel when true "A low chapel cut into the granite. No image, no altar: a blank wall, polished. The Unasked is carved over the door in Concord letters, and under it in March: WE DO NOT ASK. Benches. A girl of fifteen sits on one alone, frowning at the blank wall as if it owed her money.".
+  Observe hall_scene at grounders_hall when true "A dry cistern made into a meeting hall: benches round the walls, lamps, a map of the Corrow painted on the floor with Hightown drawn on it in chalk and rubbed out and drawn again, further north each time. Three hundred people meet here. A few dozen are here now, talking low.".
+  Observe charge_scene at charge_hall when true "The hall of the Charge: a ring of stone seats under the summit, and the charge-holders in them in grey, each with the name of what they keep stitched on the breast.".
+  Observe archive_outer_scene at archive_outer when true "The archive's outer room: shelves of keepstone and racks of tally-chain in the cold dry air, two cots for the charge-holders who sleep here, and at the back a granite door carved with the Unasked, with a slot for a tally-chain bar where its lock should be.".
+  Observe sealed_scene at sealed_room when true "The sealed room. Keepstones, faded but not blank in this cold; tally-chains, racks of them; and on a stone lectern the Concord's record of the Lift, plate after plate. You do not have to read it. You can already see the first plate's heading, cut in the stone above the lectern: a single long word, in Calvessan, which is a name.".
+
+  // Who in Hightown can come to hold where it came from, and how many minds they are.
+  Relation counterweight(group). Measure minds(group). Relation holdsOrigin(group).
+  Person amberly "Speaker Amberly Vane" at unasked_chapel {
+    Role "Speaker of the Charge, keeper of the sealed room's key". Ancestry human. Peaceable.
+  }
+  Person linnet "Linnet Vane" at unasked_chapel {
+    Role "the Speaker's daughter, fifteen". Ancestry human. Peaceable.
+  }
+  Person aron "Aron Fennimore" at grounders_hall {
+    Role "hoist-engineer, leader of the Grounders". Ancestry human. Peaceable.
+  }
+  Person grounders "the Grounders" at grounders_hall {
+    Role "Hightown folk who think it is time to go home". Ancestry human. Numbers 6. Peaceable.
+  }
+  Person charge "the Charge" at charge_hall {
+    Role "Hightown's council of charge-holders". Ancestry human. Numbers 5. Peaceable.
+  }
+  Person rimfolk "the people on the rim" at rim_walk {
+    Role "net-menders and spinners, working the fog-nets". Ancestry human. Numbers 6. Peaceable.
+  }
+  Initially Assert counterweight(amberly). Initially Assert counterweight(linnet). Initially Assert counterweight(grounders).
+  Initially Assert counterweight(charge). Initially Assert counterweight(rimfolk). Initially Assert counterweight(aron).
+  Initially Set minds(amberly) to 1. Initially Set minds(linnet) to 1. Initially Set minds(aron) to 1.
+  Initially Set minds(charge) to 9. Initially Set minds(grounders) to 300. Initially Set minds(rimfolk) to 200.
+  // Aron already holds it, with his sister and a friend: three thousand tonnes already in the tail's weight.
+  Initially Assert holdsOrigin(aron).
+
+  // Telling is acting. The Counterweight who comes to hold where the mountain came from gives it back a thousand tonnes.
+  Action tell_origin(actor: group, listener: group, site: place) "Tell {listener} where Hightown came from" {
+    Description "That the lake ahead is the hole the mountain left, and the mountain its cast. Whoever of Hightown holds that, gives the mountain back a little of its weight.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(listener, site) and counterweight(listener)
+      and knows(actor, origin_known) and not holdsOrigin(listener) and not crashed(hightown) and not lost(hightown).
+    Time 1.
+    On success { Assert holdsOrigin(listener). Increase heard(hightown) by minds(listener). }
+    Result "You tell it plainly: the lake at the foot of the Teskarn, the ribs of its bowl, the ribs of the mountain's underside, the Drag that runs between. You watch it go in. Under your feet the granite does nothing you can feel, and everything.".
+  }
+  Event amberly_holds near amberly when holdsOrigin(amberly) "Speaker Vane has not moved while you spoke. When you stop she says, very evenly, 'You have done a thing to me that I cannot undo, and that nobody on this mountain may ever undo again.' She looks at the blank wall. 'Thank you for doing it to me and not to them.' She does not ask you to leave. She does not need to." then {
+    Assert grieved(amberly).
+  }
+  Relation grieved(group).
+  Event linnet_holds near linnet when holdsOrigin(linnet) "Linnet listens with her whole face. At the end she goes to the chapel door and looks north, where the cloud is, and comes back. 'Down there,' she says. 'It's been down there the whole time.' Then, frightened for the first time: 'Am I heavier? Is that me?'" then {
+    Assert grieved(linnet).
+  }
+  Event grounders_hold near grounders when holdsOrigin(grounders) "It goes round the hall the way fire goes round a dry field: from you to the ones who heard, from them to the benches, from the benches out of the door. Aron Fennimore is on his feet shouting for quiet, and there is no quiet. Under the hall the mountain groans like a ship." then {
+    Assert grieved(grounders).
+  }
+  Event rimfolk_hold near rimfolk when holdsOrigin(rimfolk) "The net-menders put down their needles one by one. Someone points north, at the lake, and everyone looks, and this time nobody looks away." then {
+    Assert grieved(rimfolk).
+  }
+
+  // Speaker Vane and the Unasked.
+  Topic amberly_unasked with amberly "Ask Speaker Vane about the Unasked" when true once {
+    Says "'It is forbidden to ask, say or learn where the mountain came from,' says the Speaker. 'Our elders taught that the ground was a figure of speech. It is not; I have been down the hoist; I have stood on it.' She smiles slightly. 'But the doctrine was never about the ground. It was about the mountain. We have survived two thousand six hundred years by not knowing one thing. I see no reason to start knowing it now, in a hurry, because a merchant is short of iron.'".
+  }
+  Topic amberly_anchor with amberly "Ask Speaker Vane what she means to do about the drift" when true once {
+    Says "'Anchor her,' says the Speaker. 'There is a link of iron lying finished at the bottom of the Well, made for the Chain and never fitted. Hung on the tail it would add its weight to the ground. Clemence Ninepan will sell it to us at a price we cannot pay, and has no way to lift it.' She folds her hands. 'I am working on the price.'".
+  }
+  Topic linnet_asks with linnet "Ask Linnet Vane what she is frowning at" when true once {
+    Says "'The wall,' says Linnet. 'It's blank so we don't ask. But I've been down to Hornwake twice, and everybody down there asks everything.' She lowers her voice. 'I want to see the sea. Mother says the sea is a figure of speech too.' She looks at you sidelong. 'Is it?'".
+  }
+
+  // Aron Fennimore and the Grounders.
+  Topic aron_water with aron "Ask Aron Fennimore why the Grounders want to go down" when true once {
+    Says "'The water bill,' says Aron. 'The spring the mountain carried up is failing, and has been for a century. We buy water by the hoist with wool, and the wool will not stretch another generation.' He taps the chalk on the floor. 'My grandmother was born up here and died up here and never once stood on soil. I'd like my son to have the choice.' He does not say what he suspects about the lake. You can see him not saying it.".
+  }
+  Relation roster(group). Measure nextRoster(place).
+  Topic aron_method with aron "Tell Aron Fennimore what the Concord engineers cut in the Drag: let one remember at a time" when knows(actor, method_known) and not roster(aron) and not crashed(hightown) and not lost(hightown) {
+    Says "Aron sits down on a bench as if his knees had gone. 'One at a time,' he says. 'Not the hall. Not a sermon from the rim. One, and then wait, and then one more.' He laughs, once, without much breath. 'I was going to tell them all. When the lake came under us. I had the speech written.' He gets up. 'A roster, then. One a day. Who first? Not me; I'm done. My sister's done. Someone who'll keep it.' He is already writing names. Then he remembers, and digs twenty silver out of the hall's box for you, and will not hear a word against it.".
+    On discuss { Assert roster(aron). Set nextRoster(hightown) to watch(clock) + 144. Increase quantity(actor, gold) by 20. }
+  }
+  Rule roster_turns when roster(aron) and watch(clock) >= nextRoster(hightown) and heard(hightown) < 150 and not crashed(hightown) and not lost(hightown) {
+    Increase heard(hightown) by 1. Set nextRoster(hightown) to nextRoster(hightown) + 144.
+  }
+  // Left alone, Aron finds the station-56 chain himself in the third week, and starts a roster of his own.
+  Rule aron_finds_it when watch(clock) >= 3024 and not roster(aron) and not crashed(hightown) and not lost(hightown) and not toldAll(aron)
+    says "Word comes along the furrow: Aron Fennimore of Hightown was out on the Drag yesterday with a Keld pilgrim, at the Askew gatepost, and paid the farmer twice over, and went back up the hoist white as wool." {
+    Assert roster(aron). Set nextRoster(hightown) to watch(clock) + 144.
+  }
+  // And when the lake comes under them with too few holding, the Grounders gather on the rim to tell everyone to look
+  // down. It takes them two hours. Someone who stands in front of them with the engineers' words can stop it.
+  Relation toldAll(group). Relation gathering(group). Relation steadied(group). Measure tellAt(place).
+  Rule grounders_gather when overSocket(hightown) and heard(hightown) < 20 and not toldAll(aron) and not gathering(grounders)
+    and not steadied(grounders) and not crashed(hightown) and not lost(hightown)
+    says "Bells ring in Hightown's hoist-houses, all three, and go on ringing. The Grounders are going up to the rim: the lake is under them and the roster is too slow, and Aron Fennimore has decided that if the mountain is going home it will go home now." {
+    Assert gathering(grounders). Set tellAt(hightown) to watch(clock) + 12. Assert at(grounders, rim_walk). Assert at(aron, rim_walk).
+  }
+  Observe rim_gathering at rim_walk when gathering(grounders) "The rim is full of people. Three hundred Grounders stand along the nets with the lake below them, and more are coming up the terrace steps. Aron Fennimore is on a water-cistern's lid with a paper in his hand, waiting for the bells to stop. Nobody has looked down yet. Everybody is about to.".
+  Action steady_grounders(actor: group, site: place) "Stand up beside Aron Fennimore and give the Grounders the engineers' words: let one remember at a time" {
+    Description "Three hundred at once will drop the mountain on the shore. One a day will bring it down.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_walk) and gathering(grounders)
+      and knows(actor, method_known).
+    Time 2.
+    On success { Retract gathering(grounders). Assert steadied(grounders). Assert roster(aron). Set nextRoster(hightown) to watch(clock) + 144. Assert at(grounders, grounders_hall). Assert at(aron, grounders_hall). }
+    Result "You climb up beside him. You have to shout over the bells. You tell them what the Concord engineers cut into the Drag two thousand six hundred years ago, in their own words, and Aron Fennimore reads the chain's words out after you from his paper, slowly, and then he tears up his speech. 'One a day,' he says. 'Who's first?' Three hundred people turn their backs on the lake, one by one, and go down the terrace steps without looking.".
+  }
+  Rule grounders_tell_all when gathering(grounders) and watch(clock) >= tellAt(hightown) and not crashed(hightown) and not lost(hightown)
+    says "The bells stop. On Hightown's rim three hundred people look down at the lake, and Aron Fennimore tells them what it is, and they understand; and on the terraces behind them the people who came out to see what the bells were for look down too." {
+    Retract gathering(grounders). Assert toldAll(aron). Increase heard(hightown) by 500.
+  }
+
+  // Linnet, told, keeps the roster.
+  Rule linnet_keeps when roster(aron) and holdsOrigin(linnet) and at(linnet, unasked_chapel) { Assert at(linnet, grounders_hall). }
+  Observe linnet_roster at grounders_hall when roster(aron) and at(linnet, grounders_hall) "Linnet Vane sits at Aron's table with the roster book open, writing one name a day in a careful hand, and crossing nobody out.".
+
+  // Hightown comes down whole if enough of it holds, and not half: grounded, at a walking pace.
+  Relation grounded(place).
+  Rule hightown_grounds when heard(hightown) >= 150 and heard(hightown) < 450 and not grounded(hightown) and not crashed(hightown) and not lost(hightown)
+    says "Hightown is coming down. Not falling: settling, the way a feather settles, but a feather a kilometre across, all afternoon, while every soul in Hornwake stands in the furrow with their mouths open. The Chain piles up in loops under it. At dusk it touches, and the ground takes it with a long sigh, and its lights stay lit." {
+    Assert grounded(hightown).
+  }
+  Observe end_grounded_shore near party when grounded(hightown) and overSocket(hightown) and not knows(party, ending_told) "Hightown sits in the Socket's south shore as a stone sits in its own print in mud, tilted a little, its terraces whole. The lake has risen round its north side. Its people walk down off the rim onto the shore of the lake their mountain left, and stand on it." teaches ending_told.
+  Observe end_grounded_plain near party when grounded(hightown) and not overSocket(hightown) and not knows(party, ending_told) "Hightown sits on the open plateau short of the Socket, whole, with its Chain piled round it in great loops. It came down where it happened to be. The Grounders say it is near enough; the Unaskers say nothing at all; and Hightown, for the first time in two thousand six hundred years, does not move in the wind." teaches ending_told.
+
+  // Cassen Vane's notebooks of 2602, in the archive's outer room.
+  Discovery cassen_notes "Cassen Vane's notebook of 2602, in his own hand: 'They tell me that on the third day of the strangers I stood at the cradles with the Saltreach woman and said the underside was the shape of the lake at the massif's foot, and that the mountain dropped four metres in a minute, and rose three again when she took the minute out of me. I have it only from my own hand. I have measured the spring falling for six years, and I cannot remember a day of it.' Under it, later, in a firmer hand: 'One knowing it was enough to move her. One.'" {
+    Source cassen_book "Cassen Vane's notebook of 2602" at archive_outer readable by party.
+  }
+  Observe cassen_and_drag near party when knows(party, cassen_notes) and knows(party, chart_seen) and not knows(party, origin_known) "Cassen's notebook and the Socket chart sit side by side in your head: the lake at the massif's foot; the underside; four metres for one man knowing. The lake is the mountain's place." teaches origin_known.
+
+  // The charge-holders sleep in the outer room; the sealed door's lock is a tally-chain bar.
+  Person keepers "two charge-holders" at archive_outer {
+    Role "charge-holders sleeping before the sealed door". Ancestry human. Numbers 2. Peaceable.
+  }
+  Thing unasked_lock "the tally-chain bar of the sealed door" on unasked_door {
+    State shut blocking "The granite door carved with the Unasked is shut. Its lock is a slot for a tally-chain bar.".
+    State open "The granite door carved with the Unasked stands open.".
+  }
+  Action read_unasked_lock(actor: group, site: place) "Ask Teshen to read the sealed door's lock in the dark while the charge-holders sleep" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, archive_outer) and travelsWith(teshen, actor)
+      and dark() and state(unasked_lock, shut).
+    Time 2.
+    On success { Assert state(unasked_lock, open). }
+    Result "Teshen kneels at the slot in the dark with her fingers on the bar, and her breath goes short. 'It's the Unasked,' she whispers. 'The whole doctrine, in iron. You open it by saying it.' She sets the shapes one by one. The charge-holders sleep on. The door moves.".
+  }
+  Discovery mountain_name "The mountain's name, cut over the lectern in the sealed room: a single long Calvessan word, the name of the tor at the Teskarn's foot that was lifted in 51 AB and is still in the Lap.".
+  Observe name_seen at sealed_room when not knows(party, mountain_name) "You read the name before you can stop yourself. It is long and liquid and it means nothing to you. To anyone born on this mountain it would mean everything at once." teaches mountain_name.
+  Observe method_sealed at sealed_room when not knows(party, method_known) "On the lectern, the last plate of the Concord's record is laid on top, faded but legible to a hand: the engineers' note on how to bring the mountain down if ever they must. 'Let one remember at a time.'" teaches method_known.
+  Action speak_name(actor: group, site: place) "Say the mountain's name aloud on the rim, where everyone can hear" {
+    Description "A name is the strongest relation there is.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_walk) and knows(actor, mountain_name)
+      and not crashed(hightown) and not lost(hightown).
+    Time 0.
+    On success { Increase heard(hightown) by 600. }
+    Result "You say it. It is only a word. Every head on the rim turns toward you at once, and every face has the same look on it, the look of someone who has just remembered where they left something.".
+  }
+}

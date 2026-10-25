@@ -1,0 +1,13 @@
+Module corrow "The Road the Star Came Down" {
+  // Act III from its threshold: at the hospice, before the star breaks. Hightown hangs bitten over the plateau with
+  // its roster running; the runners have stopped; the Open Hand are turned; Corin is home.
+  Company party "Your company" of 3 at hospice_hall.
+  Initially Set quantity(party, gold) to 40. Initially Set quantity(party, rations) to 12.
+  Initially Retract filing(ruth). Initially Set heard(hightown) to 20. Initially Assert roster(aron).
+  Initially Assert turned(ferran). Initially Assert webbNamed(webb). Initially Assert state(hoist_book, entered).
+  Action act_one(actor: group, site: place) "Begin Act III" {
+    Requires company(actor) and at(actor, site) and not knows(actor, way_home_rite).
+    Time 0.
+    On success { Assert knows(actor, way_home_rite). Assert knows(actor, wenna_band). Assert knows(actor, seam_found). }
+  }
+}

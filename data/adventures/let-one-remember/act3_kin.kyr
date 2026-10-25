@@ -1,0 +1,156 @@
+Module corrow "The Road the Star Came Down" {
+  Description "Act III, the Kin Fall: the new star breaks over the Teskarn, and the Unfolded come down the bearing toward the horn and the Well.".
+
+  // ── The star breaks ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The slow star in the north-east, brightening since 2593, is the Varakiiri's kin. On the forty-second day it breaks
+  // over the Teskarn. What comes out of it unfolds, as the cave bear saw in the Root: bodies of deadiron, as tall as a
+  // house, that no spell touches. They walk the bearing of anything that knew the Hush: the horn, then the Well, then
+  // the Seam and the band Wenna laid there, which is the only record of where she went.
+  Place teskarn "the Teskarn" is wilderness within corrow at 6, 0.
+  Place shielings "the high shielings" is room within teskarn at 0, 1 outdoors.
+  Place star_crater "where the star came down" is room within teskarn at 1, 0 outdoors.
+  Passage shieling_track "the shieling track" is track between socket_north and shielings taking 2 hours.
+  Passage crater_climb "the burnt corrie" is path between shielings and star_crater taking 2 hours.
+  Observe shielings_scene at shielings when not starFell(corrow) "Summer shielings on the Teskarn's lower slopes, stone huts roofed with turf, empty for the winter. Snow in the corries above. In the north-east, low over the massif, the slow star that came in 2593 is brighter than any star should be, and has been brighter every night this month.".
+  Observe shielings_after at shielings when starFell(corrow) "The shielings are empty and their doors stand open. The snow above is black for a kilometre, and the corrie smokes.".
+  Observe crater_scene at star_crater when starFell(corrow) "A corrie of the Teskarn blown open to the rock and glazed black. In the middle of it lies what is left of the star: a husk of dark iron the size of a church, split along seams like a seed-case, and empty. Round it the snow has melted into a ring of steaming mud printed with feet three times the length of a man's, going south, all of them, in step.".
+  Observe crater_before at star_crater when not starFell(corrow) "A high corrie under the summit of the Teskarn, snow-filled and silent. Directly above it, in the north-east, the slow star stands.".
+
+  Relation starFell(place). Measure kinStage(place). Measure kinNext(place). Relation kinLost(place). Relation bandRead(place).
+  Relation hornwakeFled(place). Relation stakeFled(place).
+  Species unfolded_kind "an Unfolded" like iron_golem temperament savage described "Something that unfolded out of a falling star: a body of black iron as tall as a house, jointed wrongly, with a head like a closed hand. No spell touches it.".
+  Person kin "the Unfolded" at limbo {
+    Role "the Varakiiri's kin, come down out of the new star". Species unfolded_kind. Level 10. Numbers 4.
+  }
+  Rule star_breaks when watch(clock) >= 5904 and not starFell(corrow)
+    says "In the small hours of the forty-second night the slow star in the north-east breaks. It does not fall like a star: it opens, like a seed-case, and the pieces come down over the Teskarn in long slow lines of fire, and the snow on the massif goes up in steam. Every dog in the Corrow howls at once. The horn, at Hornwake, swings round in its furrow by a hand's breadth, toward the Teskarn, and back." {
+    Assert starFell(corrow). Set kinStage(corrow) to 0. Set kinNext(corrow) to watch(clock) + 144. Assert at(kin, star_crater).
+  }
+  Objective kin_coming when starFell(corrow) and not kinLost(corrow) and not bandRead(corrow) "The Unfolded are coming down from the Teskarn along the bearing of the horn, toward Hornwake, the Well and the Seam. No spell touches them.".
+
+  // The march: a stage every two days (every day, with the Unsaid crossed and walking at their head).
+  Relation kinRoute(place). Measure routeStage(place).
+  Initially Assert kinRoute(socket_north). Initially Set routeStage(socket_north) to 1.
+  Initially Assert kinRoute(socket_south). Initially Set routeStage(socket_south) to 2.
+  Initially Assert kinRoute(horn_foot). Initially Set routeStage(horn_foot) to 3.
+  Initially Assert kinRoute(hesk_yard). Initially Set routeStage(hesk_yard) to 4.
+  Initially Assert kinRoute(askew_gate). Initially Set routeStage(askew_gate) to 5.
+  Initially Assert kinRoute(furrow_end). Initially Set routeStage(furrow_end) to 6.
+  Initially Assert kinRoute(rim). Initially Set routeStage(rim) to 7.
+  Initially Assert kinRoute(seam). Initially Set routeStage(seam) to 8.
+  Rule kin_advance when starFell(corrow) and not kinLost(corrow) and kinStage(corrow) < 8 and watch(clock) >= kinNext(corrow) and not unsaidCrossed(margin) {
+    Increase kinStage(corrow) by 1. Set kinNext(corrow) to kinNext(corrow) + 288.
+  }
+  Rule kin_advance_led when starFell(corrow) and not kinLost(corrow) and kinStage(corrow) < 8 and watch(clock) >= kinNext(corrow) and unsaidCrossed(margin) {
+    Increase kinStage(corrow) by 1. Set kinNext(corrow) to kinNext(corrow) + 144.
+  }
+  Rule kin_move when starFell(corrow) and not kinLost(corrow) and kinRoute(?p) and routeStage(?p) == kinStage(corrow) and not at(kin, ?p) and able(kin) { Assert at(kin, ?p). }
+  Observe unsaid_leads near kin when unsaidCrossed(margin) and starFell(corrow) and not kinLost(corrow) "At the head of the column walks something smaller than the rest, wearing a hundred lost coats, and the Unfolded keep pace with it as if it were telling them the way.".
+  Rule hornwake_flees when kinStage(corrow) >= 3 and not hornwakeFled(corrow) and not kinLost(corrow)
+    says "The Unfolded come into Hornwake at dawn, walking in step, and do not stop. They walk through the wagons and the hoist-towers as if they were not there, to the horn, and stand round it a long time with their closed-hand heads bowed toward it, and then walk on south along the furrow. Hornwake runs to the Stake ruins with what it can carry." {
+    Assert hornwakeFled(corrow). Assert at(wakefolk, chimneys). Assert at(lene, chimneys). Assert at(ruth, chimneys).
+  }
+  Rule stake_flees when kinStage(corrow) >= 6 and not stakeFled(corrow) and not kinLost(corrow)
+    says "The Unfolded reach the Stake ruins and walk through them to the rim, and the salvagers and the people of Hornwake go out the other side and down the Peleth road in the dark, a whole town and a half on the Scarp bends at once." {
+    Assert stakeFled(corrow).
+  }
+  Rule band_read when kinStage(corrow) >= 8 and not bandBroken(corrow) and not bandRead(corrow) and not kinLost(corrow)
+    says "Word comes up out of the Well, from the Registry, in a tone it has never used: the Unfolded went down the open shaft without ropes and through the Breach and down the low road, and stood at the Seam a night and a day with their hands on the newest band on the wall. Then they came up again, and went north-north-east across the plateau without stopping, and up. They know where she went." {
+    Assert bandRead(corrow). Assert at(kin, limbo).
+  }
+  Rule kin_baffled when kinStage(corrow) >= 8 and bandBroken(corrow) and not bandRead(corrow) and not kinLost(corrow)
+    says "Word comes up out of the Well: the Unfolded went down to the Seam and found the newest band on the wall broken in three, and stood there, and stand there still, with their heads bowed over the empty cup, as if they could not think where to go next." {
+    Assert kinLost(corrow). Assert at(kin, seam).
+  }
+  Observe hornwake_empty at horn_foot when hornwakeFled(corrow) "Hornwake is empty. The wagons stand where they were left, doors open; the hoist-towers have been walked through and lean at angles. Round the horn the frozen ground is printed with enormous feet in a ring.".
+
+  // ── The Forgetting of the Way Home ───────────────────────────────────────────────────────────────────────────────
+  // Three hundred who can forget, sitting across the road the enemy must take, before it takes it. No Keld. It takes
+  // something in payment, and whoever holds it may choose what.
+  Measure riteMinds(place). Relation joinedRite(group). Relation riteHeld(place).
+  Relation dragStation(place).
+  Initially Assert dragStation(socket_south). Initially Assert dragStation(hesk_yard). Initially Assert dragStation(askew_gate). Initially Assert dragStation(furrow_end).
+  Topic rook_rite_minds with rook "Ask the prioress for her sisters, to sit in the Forgetting of the Way Home" when starFell(corrow) and knows(actor, way_home_rite) and not joinedRite(rook) {
+    Says "'We are nurses,' says the prioress. 'We help the dying put things down.' She looks out of the window toward the Scarp. 'I suppose the country is dying, a little. Forty of us. Tell us where to sit.'".
+    On discuss { Assert joinedRite(rook). Increase riteMinds(corrow) by 40. }
+  }
+  Topic ferran_rite_minds with ferran "Ask Ferran Cosk for the Open Hand, to sit in the Forgetting of the Way Home" when starFell(corrow) and turned(ferran) and knows(actor, way_home_rite) and not joinedRite(ferran) {
+    Says "'Thirty of us,' says Ferran Cosk, 'and we are good at it, God knows. We have been practising on the wrong thing for a year.'".
+    On discuss { Assert joinedRite(ferran). Increase riteMinds(corrow) by 30. }
+  }
+  Topic lene_rite_minds with lene "Ask Lene Tallow to bring Hornwake to sit in the Forgetting of the Way Home" when starFell(corrow) and knows(actor, way_home_rite) and not joinedRite(lene) and (ballasting(lene) or not filing(ruth)) {
+    Says "Lene looks at you a long time. 'You told us the number, when nobody else had,' she says. 'And it was right.' She puts two fingers in her mouth the way Ruth does and whistles up the Wake-moot. 'A hundred and fifty of us. We can forget anything you like. We forget the price of oatcakes every Thursday.'".
+    On discuss { Assert joinedRite(lene). Increase riteMinds(corrow) by 150. }
+  }
+  Topic amberly_rite_minds with amberly "Ask Speaker Vane to bring the Unaskers down to sit in the Forgetting of the Way Home" when starFell(corrow) and knows(actor, way_home_rite) and not joinedRite(amberly) and not crashed(hightown) and not lost(hightown) {
+    Says "The Speaker hears you out, and for the first time since you met her she smiles without irony. 'You are asking the people of the Unasked to not-know something, on purpose, together, for the sake of the ground,' she says. 'We have done nothing else for two thousand six hundred years. We are the best in the world at it.' She stands. 'Two hundred of us will come down by the hoists. The doctrine was always correct. It was only waiting for a use.'".
+    On discuss { Assert joinedRite(amberly). Increase riteMinds(corrow) by 200. }
+  }
+  Topic saska_rite with saska "Ask Mother Saska whether the Keld will sit in the Forgetting" when starFell(corrow) and knows(actor, way_home_rite) once {
+    Says "'We would,' says Saska. 'We cannot. A Keld cannot forget anything; we would sit in your ring like stones in a river and the rite would go round us.' She folds her hands. 'We will do the other thing. We will remember everyone who sits in it, every name, so that whatever the rite takes from them it cannot take that.'".
+  }
+  Topic iniry_lead with iniry "Ask Iniry Calde to lead the Forgetting of the Way Home" when starFell(corrow) and state(iniry, returned) and not joinedRite(iniry) {
+    Says "'Of course I will lead it,' says Iniry Calde. 'Who else is there? A prioress and a boy with a book.' She is already putting on her coat. 'I will be on the Drag. And when it asks for its price, I will tell you what to give it, and you will not like what I say.'".
+    On discuss { Assert joinedRite(iniry). Assert at(iniry, askew_gate). }
+  }
+  Objective rite_ready when starFell(corrow) and knows(party, way_home_rite) and not riteHeld(corrow) and not kinLost(corrow) and not bandRead(corrow) "The Forgetting of the Way Home needs three hundred who can forget, sitting across the Drag before the Unfolded cross it.".
+
+  // The rite itself: one of four prices. Each needs three hundred minds, the rite known, and the kin not yet past.
+  Relation socketLet(place). Relation namesLet(place). Relation companyLet(place). Relation inirySpent(place).
+  Action rite_socket(actor: group, site: place) "Hold the Forgetting of the Way Home here, and pay with the way to the Socket" {
+    Description "The ring forgets the road home; the rite takes, besides, every mind's knowledge of where the lake is that the mountain came from.".
+    Requires able(actor) and company(actor) and at(actor, site) and dragStation(site) and starFell(corrow) and not kinLost(corrow)
+      and not riteHeld(corrow) and knows(actor, way_home_rite) and riteMinds(corrow) >= 300 and kinStage(corrow) < routeStage(site).
+    Time 12.
+    On success { Assert riteHeld(corrow). Assert kinLost(corrow). Assert socketLet(corrow). Set heard(hightown) to 0. }
+    Result "Three hundred people sit down in a ring across the Drag in the snow, and Iniry's words, or yours, go round the ring, and round, and round, and nobody afterwards can say what the words were. When the Unfolded come over the rise they walk into the ring and stop. They turn their closed-hand heads one way and the other. Then they walk on, slowly, in different directions, and do not come back. And in the morning nobody in the Corrow can tell you where the lake is that Hightown came out of; there is a lake under the Teskarn, everyone knows that, but whose hole it is, nobody can say.".
+  }
+  Action rite_names(actor: group, site: place) "Hold the Forgetting of the Way Home here, and pay with the names of the dead" {
+    Description "The ring forgets the road home; the rite takes, besides, the names the grave-callers read.".
+    Requires able(actor) and company(actor) and at(actor, site) and dragStation(site) and starFell(corrow) and not kinLost(corrow)
+      and not riteHeld(corrow) and knows(actor, way_home_rite) and riteMinds(corrow) >= 300 and kinStage(corrow) < routeStage(site).
+    Time 12.
+    On success { Assert riteHeld(corrow). Assert kinLost(corrow). Assert namesLet(corrow). }
+    Result "Three hundred people sit down in a ring across the Drag in the snow, and the words go round, and nobody afterwards can say what they were. The Unfolded walk into the ring and stop, and turn, and walk away in different directions, and do not come back. In Wendmouth that week the grave-callers walk their rounds with their books open, and the pages are blank, and they stand at the stones and cannot read what is cut on them. Only the Keld can say who lies where, and they go from cemetery to cemetery saying it.".
+  }
+  Action rite_company(actor: group, site: place) "Hold the Forgetting of the Way Home here, and pay with the company: let the Corrow forget you" {
+    Description "The ring forgets the road home; the rite takes, besides, every mind's memory of whoever led it. Only the Keld will remember you.".
+    Requires able(actor) and company(actor) and at(actor, site) and dragStation(site) and starFell(corrow) and not kinLost(corrow)
+      and not riteHeld(corrow) and knows(actor, way_home_rite) and riteMinds(corrow) >= 300 and kinStage(corrow) < routeStage(site).
+    Time 12.
+    On success { Assert riteHeld(corrow). Assert kinLost(corrow). Assert companyLet(corrow). }
+    Result "Three hundred people sit down in a ring across the Drag in the snow, and you lead the words round, and round, and nobody afterwards can say what they were. The Unfolded walk into the ring and stop, and turn, and walk away, and do not come back. When the ring stands up, three hundred people look at you politely, as at strangers, and go home. Only a Keld who was watching from the wall comes over and says your names, one by one, so that somebody has.".
+  }
+  Action rite_iniry(actor: group, site: place) "Hold the Forgetting of the Way Home here, and let Iniry Calde pay with herself" {
+    Description "She says she is a hundred and twenty-seven years forgotten already, and a little more will not hurt.".
+    Requires able(actor) and company(actor) and at(actor, site) and dragStation(site) and starFell(corrow) and not kinLost(corrow)
+      and not riteHeld(corrow) and knows(actor, way_home_rite) and riteMinds(corrow) >= 300 and kinStage(corrow) < routeStage(site)
+      and joinedRite(iniry) and at(iniry, site).
+    Time 12.
+    On success { Assert riteHeld(corrow). Assert kinLost(corrow). Assert inirySpent(corrow). Assert at(iniry, short_grey_fog). Assert state(iniry, forgotten). }
+    Result "Iniry Calde sits in the middle of the ring with her hands in her lap and leads it herself, in the old speech, and the words go round, and nobody can say afterwards what they were. The Unfolded walk into the ring and stop, and turn, and walk away, and do not come back. When the ring stands up there is nobody in the middle of it. Somebody asks who it was that led them. Nobody can say. There is a dent in the snow where someone sat.".
+  }
+  Rule kin_wander when kinLost(corrow) and riteHeld(corrow) and not at(kin, limbo) and not at(kin, seam) { Assert at(kin, limbo). }
+  Observe kin_frozen at socket_south when kinLost(corrow) and riteHeld(corrow) "Out on the plateau, here and there, a figure of black iron as tall as a house stands quite still in the snow, facing nowhere, the way the old story says the raiders of 300 BB stood until they died.".
+  Observe kin_frozen_drag at askew_gate when kinLost(corrow) and riteHeld(corrow) "Two of the Unfolded stand in Jory Askew's field facing different ways, quite still, with snow on their shoulders. Jory has hung his gate on the nearer one.".
+  Observe stranger_company at inn_room when companyLet(corrow) "Agnes Ruddle looks up as you come in, smiles the smile she keeps for strangers, and asks if you want a room.".
+  Observe blank_names at cemetery when namesLet(corrow) "The grave-caller walks the rows with his book open at a blank page, and a Keld girl walks beside him, reading the stones aloud for him, one by one.".
+
+  // ── Drevka's hammer, and Wenna's band ────────────────────────────────────────────────────────────────────────────
+  // Only deadiron breaks a laid band cleanly. If the Unfolded reach the Seam and read the band, they know where she went.
+  Relation bandBroken(place).
+  Kind drevka_hammer "Drevka Orrisk's finishing hammer, of black iron" like crowbar worth 0 weighing 2.
+  Item hammer "Drevka's hammer" is drevka_hammer at limbo owned by bede.
+  Topic bede_lend with bede "Ask Bede Orrisk for the loan of Drevka's hammer" when (starFell(corrow) or knows(actor, road_fragments) or knows(actor, wenna_band)) and not lends(bede, hammer, actor) {
+    Says "Bede takes the hammer off its hook and holds it a long time, the way you hold a sleeping child. 'She closed the last rivet with this,' he says. 'Two thousand six hundred years she held that Chain on a half-set rivet and her own grip.' He holds it out. 'It breaks a laid band in one blow, and it opens a rivet nothing else will open. Whatever you mean to break, be sure.'".
+    On discuss { Assert lends(bede, hammer, actor). Assert at(hammer, bede_forge). }
+  }
+  Action break_band(actor: group, site: place) "Break Wenna's band on the wall with Drevka's hammer" {
+    Description "It is the only record of where she went. Whatever reads it can follow her.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, seam) and carries(actor, hammer) and not bandBroken(corrow) and not bandRead(corrow).
+    Time 1.
+    On success { Assert bandBroken(corrow). }
+    Result "Three blows. The first rings like a bell, the whole chamber ringing; the second cracks the band from top to bottom; the third brings it down in pieces into the lake. Wherever Wenna Coyle went, nothing in Imbar can read it now but the horn.".
+  }
+  Observe band_gone at seam when bandBroken(corrow) "Where the newest band was, the flowstone is broken back to the older bands under it, and three pieces lie in the shallows.".
+}

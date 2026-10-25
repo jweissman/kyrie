@@ -1,0 +1,128 @@
+Module corrow "Let One Remember" {
+  Description "Keld: thirty corbelled houses in a cluster of sinkholes, whose people came back from the Margin in 2606 and cannot be forgotten.".
+
+  Place saska_b "Mother Saska's hearth" is building within keld.
+  Place bede_b "Bede Orrisk's forge" is building within keld.
+  Place keld_green "the sinkhole green" is room within keld at 1, 1.
+  Place keld_road "the Keld end of the drove road" is room within keld at 2, 1.
+  Place west_field "the west field" is room within keld at 0, 1.
+  Place keld_chapel "the Hold chapel at Keld" is room within keld at 1, 0.
+  Place saska_hearth "Mother Saska's hearth" is room within saska_b at 1, 2.
+  Place bede_forge "Bede Orrisk's forge" is room within bede_b at 2, 2.
+
+  Passage keld_drove "the drove road over the sinkhole country" is road between drove_gate and keld_road taking 6 hours.
+  Passage keld_in "the way down into the green" is steps between keld_road and keld_green.
+  Passage field_gate "the west field gate" is gate between keld_green and west_field.
+  Passage chapel_steps "the chapel steps" is steps between keld_green and keld_chapel.
+  Passage saska_door "Mother Saska's door" is door between keld_green and saska_hearth.
+  Passage forge_door "the forge door" is door between keld_green and bede_forge.
+
+  Observe keld_road_scene at keld_road when true "The drove road comes over the last rise and there is Keld: no village to be seen at all, only turf roofs in the bottoms of a cluster of sinkholes, with smoke coming up out of the ground.".
+  Observe keld_green_scene at keld_green when true "The sinkhole green: a bowl of short turf with houses sunk round its rim, corbelled stone roofed with turf, juniper on every sill. Children in wool cut in a fashion two thousand years old are playing with a ball from Wendmouth. Every face that turns to look at you, you will remember. You can feel it happening.".
+  Observe west_field_scene at west_field when true "A walled field on the west side of Keld, sheep-cropped, the wall walked aloud every spring. Its gate is tied with juniper.".
+  Observe chapel_k_scene at keld_chapel when true "A Concord chapel of the Hold: a corbelled room with skulls in niches round its wall, each with a name scratched above it and a fresh sprig of juniper. The newest skull is ninety years old. People are looked at here.".
+  Observe saska_scene at saska_hearth when true "A corbelled hall with a central hearth and skulls in the north wall. An old woman sits by the fire in a chair with arms, very upright, with a girl of nineteen sitting on the hearthstone at her feet with a book she is not reading.".
+  Observe saska_settling at saska_hearth when settling(saska_hearth) "There is a man sitting in the second chair by the fire, quite at home, mending a harness. Nobody remarks on him. When you look at him you cannot quite remember when he came in, or whether he was always there.".
+  Observe forge_scene_k at bede_forge when true "A cold forge: no hearth fire, because what Bede Orrisk works does not soften in fire. A water-hammer, idle. Drifts and punches in racks, all of them worn bright. On a hook by the bed, where he can reach it in the night, a smith's hammer of black iron that drinks the lamplight.".
+
+  Person saska "Mother Saska" at saska_hearth {
+    Role "eldest of Keld". Ancestry human. Peaceable.
+  }
+  Person teshen "Teshen" at saska_hearth {
+    Role "Saska's granddaughter, nineteen, who wants to go somewhere nobody knows her". Ancestry human. Calling ranger. Peaceable.
+    Joins "Teshen is on her feet before you have finished asking. 'Two silver a day,' she says, 'and I read the chains, and I don't lie, and nobody we meet will ever forget me.' She takes her coat off the peg. 'You'll get used to it.'".
+  }
+  Person bede "Bede Orrisk" at bede_forge {
+    Role "the last cold-forger of deadiron, eighty-four". Ancestry human. Peaceable.
+  }
+  Person keldfolk "the people of Keld" at keld_green {
+    Role "Keld households". Ancestry human. Numbers 4. Peaceable.
+  }
+  Initially Set hire(teshen) to 2.
+
+  Topic saska_kept with saska "Ask Mother Saska how the Keld speak of the past" when true once {
+    Says "'Carefully,' says Mother Saska. 'When I say a thing was kept, I saw it. When I say it was laid, it is in stone and I have read it. When I say it was let, somebody told me, or I have let it go, and you may weigh it as you like.' She looks at you. 'The Calvessa spoke so. We came back from the grey still speaking so. It makes us bad liars and good witnesses, and the valley does not love us for either.'".
+    On discuss { Assert knows(actor, evidential_known). }
+  }
+  Topic saska_strays with saska "Ask Mother Saska about the Strays in the fields" when true once {
+    Says "'They come at dawn,' says Saska. 'Three, four. They stand at the edge of the west field and look at the houses. Things that went into the grey all the way and came back with nothing: no name, no place, no people.' Her hands are still on the chair-arms. 'They want belonging, and we are made of it. My grandmother said they mutter. They do. Always the same word, each one his own word.' She will not say what the words are.".
+  }
+  Topic saska_syllable with saska "Ask Mother Saska what she has sworn never to say" when true once {
+    Says "The fire ticks. 'My grandmother heard a thing said, in the grey, before they brought her back,' says Saska. 'One piece of a name. She said it once to me, when I was eight, and made me swear. I have kept it seventy years by never saying it.' She smiles very slightly. 'A man from the consulate in Wendmouth came to ask me about the grey last month. A pleasant man. The dogs did not bark at him. I have been thinking about that.'".
+    On discuss { Assert knows(actor, webb_at_keld). }
+  }
+  Discovery webb_at_keld "Corin Webb of the Lusk consulate has been to Keld asking Mother Saska about the grey; the Keld dogs did not bark at him.".
+  Topic saska_hollow with saska "Ask Mother Saska how many came back from Keld Hollow" when true once {
+    Says "'A hundred and forty,' says Saska. 'Out of a hundred and forty-one. The one they never found was a young man, Corin, son of the Hollow's reeve, who had gone out to the far field when the fog came and was not in the village with the rest. They called and called for him.' She looks into the fire. 'The anchors could not hold a name nobody had seen for two hundred years, they said. He stayed.'".
+    On discuss { Assert knows(actor, hollow_missing). }
+  }
+  Discovery hollow_missing "Of the hundred and forty-one people of Keld Hollow, the 2606 expedition brought back a hundred and forty. The one left in the grey was Corin, son of the Hollow's reeve, who had gone out to the far field when the fog came.".
+  Topic saska_lift with saska "Tell Mother Saska what you know of where Hightown came from" when knows(actor, origin_known) and not knows(actor, method_known) once {
+    Says "Saska is quiet a long time. 'So you know,' she says. 'Then you had better know the rest, or you will do harm with it.' She speaks as if reciting. 'It was kept, by my grandmother's grandmother, who had it from hers, who lived in 412, when the Lift was three lifetimes back and the Concord engineers still walked the Drag: if ever the mountain must come down, it comes down as its people come to know their place. Not all at once. Let one remember at a time.' She lets out her breath. 'Kept, not let. Weigh it so.'".
+    On discuss { Assert knows(actor, method_known). }
+  }
+
+  // Teshen: the restless child, who cannot be forgotten, and who met the real secretary.
+  Topic teshen_stranger with teshen "Ask Teshen what she wants" when not travelsWith(teshen, actor) once {
+    Says "'To be a stranger,' says Teshen. 'Do you know what it's like to never be a stranger? Everyone I have ever met remembers my face for life. If I went to the Hartmark I'd be the girl from Keld by the second day and they'd remember me at ninety.' She shuts the book. 'I'd give an arm to be forgotten for a week. Failing that, I'd go anywhere with anyone who's going somewhere.'".
+    On discuss { Assert willing(teshen, actor). }
+  }
+  Topic teshen_secretary with teshen "Ask Teshen whether she knows the consul's secretary in Wendmouth" when knows(actor, displaced_clerk) or knows(actor, payroll_known) or knows(actor, webb_at_keld) {
+    Says "'I witnessed a land deal at the consulate in 2729,' says Teshen. 'The secretary was a tall man with a cough who apologised for the ink. Absalom, they called him.' She frowns. 'Grandmother says the man who came here is called Webb and has been secretary for eleven years. He's short and he doesn't cough. I remember everyone. I can't help it.' She looks at you. 'Somebody's wrong, and it isn't me.'".
+    On discuss { Assert knows(actor, webb_wrong_face). }
+  }
+  Discovery webb_wrong_face "Teshen of Keld, who cannot forget a face, witnessed a deal at the Lusk consulate in 2729 before a secretary called Absalom, tall, with a cough; Corin Webb is short and does not cough.".
+
+  Topic teshen_grey with teshen "Ask Teshen whether she still wants to be forgotten" when travelsWith(teshen, actor) and knows(actor, open_hand_plan) once {
+    Says "Teshen walks a while without answering. 'There's one place I'd be a stranger,' she says. 'Across the lake at the bottom of the low road. Over there nobody remembers anybody; that's what it is.' She glances at you. 'My great-great-grandmother came back from it with the rest of the Hollow, and none of us has been forgettable since. If I went in, I'd be the first Keld in a hundred and twenty years that nobody could see.' She shrugs, too carefully. 'If I came out, I'd be the same as ever. If I didn't, I'd be a stranger for good.'".
+  }
+
+  // The Strays, at dawn, at the edge of the west field.
+  Person strays "the Strays" at limbo {
+    Role "people who came back from the grey with nothing". Ancestry human. Numbers 3. Peaceable.
+  }
+  Rule strays_come when hour(clock) >= 6 and hour(clock) < 9 and at(strays, limbo) and not namedStrays(keld) and not strayTaken(keld) { Assert at(strays, west_field). }
+  Rule strays_go when (hour(clock) < 6 or hour(clock) >= 9) and at(strays, west_field) { Assert at(strays, limbo). }
+  Relation namedStrays(place). Relation strayTaken(place).
+  // In the fourth week the Open Hand come for the Strays at Keld, with ropes and kindness, and take them to the Grey
+  // Mile to listen to them.
+  Rule strays_taken when watch(clock) >= 3168 and not namedStrays(keld) and not strayTaken(keld) and not turned(ferran)
+    says "Word comes up the drove road: grey-coated people from the Open Hand were at Keld at dawn with a cart, and took the three Strays out of the west field, gently, the way you would take a lost child home, and the Keld stood at their doors and let them." {
+    Assert strayTaken(keld). Assert at(strays, grey_mile).
+  }
+  Observe strays_scene at west_field when at(strays, west_field) "At the edge of the west field, just inside the wall, three people stand in the grass and look at the houses of Keld. Their clothes are of no fashion at all. Their faces are of no family. Your eye slides off them the way a hand slides off wet glass. Each is saying something under his breath, over and over.".
+  Topic strays_listen with strays "Listen to what the Strays are saying" when at(strays, west_field) once {
+    Says "You stand close enough to hear. Each of them is saying one syllable, over and over, as a child says a word to keep from losing it. Three different syllables. None of them is a word. When you step closer the nearest one turns to you, and looks at you as a hungry man looks at a lit window.".
+    On discuss { Assert knows(actor, stray_syllables). }
+  }
+  Discovery stray_syllables "Each of the Strays at Keld mutters one syllable over and over, each his own; together they are pieces of something.".
+  Action name_strays(actor: group, site: place) "Ask Teshen to give each Stray a name and a place, aloud, as the Keld do" {
+    Description "A Stray named aloud by someone who means it, and given a place, stops taking.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(strays, site) and travelsWith(teshen, actor)
+      and not namedStrays(keld).
+    Time 2.
+    On success { Assert namedStrays(keld). Assert at(strays, keld_green). }
+    Result "Teshen walks up to the first of them and takes his hands, and he lets her. 'You're Tam,' she says. 'Tam of the west field. You sleep in the byre at Hallows' and you help with the lambing.' The man's face does something, slowly, like water settling. She does it three times, three names, three places. When she is done, three people walk into Keld behind her, and one of them is crying, and none of them is muttering anything at all.".
+  }
+  Observe strays_named at keld_green when namedStrays(keld) "Three newcomers are being shown how a Keld house is kept: Tam, Ollo and Mag, whom nobody knew this morning and everyone now greets by name.".
+
+  // Bede Orrisk, and Drevka's hammer.
+  Topic bede_hammer with bede "Ask Bede Orrisk about the hammer by his bed" when true once {
+    Says "'Drevka's,' says Bede. 'She made it in the Binding and closed the last rivet with it in 2601 and gave it to me in 2667 with her last breath, more or less.' He does not look at it. 'It opens a scarf weld clean. It breaks a laid band in one blow. Nothing else in the world does either.' His hands shake on his knees. 'I've had nine come asking to learn. I sent them all home. You don't learn this. You give your life to it, and then you're eighty-four.'".
+  }
+  Topic bede_link with bede "Ask Bede Orrisk whether the link in the Well could be split" when knows(actor, forge_contract) once {
+    Says "Bede's head comes up. 'Who told you there was a scarf?' You tell him: the contract of 1210. 'Ah,' he says, and something in his face wakes. 'A third along the near limb. I'd want to see it. Forty days, with drifts, and a lad to hold them, and the Ninepans off my back.' He looks at his hands. 'I'm eighty-four. That's forty days I'd not get back.' A long pause. 'Ask me again in the spring.'".
+  }
+
+  // Corin Webb comes for Saska's syllable in the third week. She refuses; and one of the Strays begins to settle into her household.
+  Relation settling(place).
+  Rule webb_comes_to_keld when watch(clock) >= 2592 and not webbNamed(webb) and able(webb) and not settling(saska_hearth) and not webbVisited(saska)
+    says "Word comes, the way word comes on the drove roads: the consul's secretary was at Keld yesterday, asking Mother Saska again about the grey, and went away without what he came for." {
+    Assert webbVisited(saska). Assert settling(saska_hearth).
+  }
+  Relation webbVisited(group).
+  Topic teshen_chair with teshen "Ask Teshen what is troubling her" when settling(saska_hearth) and not namedStrays(keld) once {
+    Says "'Grandmother's chair,' says Teshen. 'The second one, by the fire. Everyone at home has started calling it Rab's chair, as if Rab had always sat there.' Her voice is very steady. 'There's no Rab. I'd remember. I remember everyone.' She looks toward the west field. 'One of them's come in.'".
+  }
+  Rule settler_named when namedStrays(keld) and settling(saska_hearth) { Retract settling(saska_hearth). }
+}

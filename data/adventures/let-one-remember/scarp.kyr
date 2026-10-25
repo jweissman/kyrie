@@ -1,0 +1,211 @@
+Module corrow "Let One Remember" {
+  Description "The Peleth road up the Scarp, and the Stake ruins on the rim of the Emptied Well.".
+
+  Place cistern_inn "the Rope and Lantern" is building within stake.
+  Place hold_chapel "the Hold chapel" is building within stake.
+  Place guild_house "the cistern guild" is building within stake.
+
+  Place scarp_foot "the foot of the Scarp" is room within scarp at 0, 1.
+  Place eighth_bend "the eighth bend of the Peleth road" is room within scarp at 0, 0.
+  Place collar "the Collar" is room within stake at 1, 1.
+  Place chimneys "the street of chimneys" is room within stake at 0, 1.
+  Place rim "the rim of the Well" is room within stake at 2, 1.
+  Place drove_gate "the drove-road gate" is room within stake at 0, 0.
+  Place furrow_end "the north edge of the ruins" is room within stake at 1, 0.
+  Place inn_room "the Rope and Lantern" is room within cistern_inn at 1, 2 underground.
+  Place chapel_room "the Hold chapel" is room within hold_chapel at 2, 2.
+  Place guild_room "the cistern guild's office" is room within guild_house at 0, 2.
+
+  Passage scarp_bends "the bends of the Peleth road" is road between scarp_foot and eighth_bend taking 4 hours.
+  Passage last_bend "the ninth bend" is road between eighth_bend and chimneys taking 30 minutes.
+  Passage chimney_way "the way between the chimneys" is path between chimneys and collar.
+  Passage collar_rim "the lee of the Collar" is path between collar and rim.
+  Passage cistern_steps "the cistern steps" is steps between collar and inn_room.
+  Passage chapel_door "the chapel door" is doorway between collar and chapel_room.
+  Passage guild_door "the guild's door" is door between chimneys and guild_room.
+  Passage drove_lane "the drove lane" is path between chimneys and drove_gate.
+  Passage north_lane "the north lane" is path between collar and furrow_end.
+
+  // Arrival (Player Portfolio). The company comes up the Scarp on a carter's wagon.
+  Entity arrived: fact "You have come up the Scarp into the Corrow.".
+  Observe arrival at eighth_bend when not knows(party, arrived) "The Peleth road climbs the Scarp in nine bends, and at the eighth the wind finds you. It comes off the plateau flat and cold, smelling of sheep and wet limestone. At the top the country opens: grey grass, pale stone breaking through it like knuckles, and a hollow every few hundred paces where the ground has simply sunk. Ahead, a cluster of chimneys stands without the houses that went with them. Smoke rises from a few. Beyond the chimneys the ground stops at the edge of a hole you cannot see across the bottom of. To the north a line runs up out of the plateau into the sky, thin as a thread. You follow it up past one layer of cloud and then another, and at the top, where it ends, something dark sits in the sky the way a stone sits on water, with lights along its rim. The carter beside you does not look up. 'That's Hightown,' she says. 'You get used to it. You'll want the Rope and Lantern. It's in a cistern. Mind the steps.' She sets you down and turns her mules for the descent." teaches arrived.
+  Observe bend_scene at eighth_bend when knows(party, arrived) "The eighth bend of the Peleth road, where the wind off the plateau finds you. Below, the road goes down the Scarp in long loops to Wendhead; above, the chimneys of the Stake ruins.".
+  Observe scarp_foot_scene at scarp_foot when true "The Peleth road leaves the valley at the foot of the Scarp, a grey cliff three hundred metres high pocked with cave-mouths, and starts up it in long bends. Yew grows in the cracks.".
+
+  Observe chimneys_scene at chimneys when not dark() "Brannock's Stake burned ninety years ago when the slowed fire came up the shaft, and what stood up afterwards was chimneys: stone stacks without houses, a whole street of them, and between them salvagers' huts of salvaged timber and canvas. Smoke rises from a few. Everything is pointed toward the hole.".
+  Observe chimneys_night at chimneys when dark() "The chimneys stand black against a sky with one low cluster of lights in it, to the north, high up. A dog barks at nothing.".
+  Observe collar_scene at collar when true "The Collar was a ring of bronze-clad stone sixty metres across that guided the Chain into the Well. The fire slagged it into lumps like a burnt loaf. The market stands in its lee: rope, lamps, oatcake, rumour. Wind comes up out of the ground on the far side, warm, at a walking pace.".
+  Observe rim_scene at rim when true "The rim of the Emptied Well. Four hundred metres across, and black glass for the first thirty down, then broken rock, then darkness. Warm air rises past your face out of it, and a scrap of paper someone dropped goes up with it and does not come down. Salvagers' ropes go over the edge from iron pins, swaying. To the left a spiral stair is cut into the wall, with a brass bell at its head.".
+  Observe drove_gate_scene at drove_gate when true "A field gate at the west end of the ruins, where the drove road goes off over the sinkhole country toward Keld, eighteen kilometres. A shepherd's staff leans by the post for anyone to borrow: the ground out there falls in.".
+  Observe furrow_end_scene at furrow_end when true "The north edge of the ruins. From here you can see the furrow: a raw trench three metres deep running north across the plateau, and at the end of it, ten kilometres off, a smudge of smoke and timber where the Chain comes down out of the sky to the ground.".
+  Observe inn_scene at inn_room when true "The Rope and Lantern is a Peleth cistern with a floor laid over the water: you can hear it under the boards. It is warm and low and smells of lamp-oil and wet wool. Coils of rope and lamps for hire hang from the vaulting, and the regulars sit with their backs to the curve of the wall.".
+  Observe chapel_scene at chapel_room when true "The Hold chapel's walls stood through the fire; its roof is new turf. In the north wall is a niche, empty, scorched black round its edges, the height of a man. Juniper has been put in it anyway.".
+  Observe guild_scene at guild_room when true "The cistern guild's office: a counting table, a rack of brass dippers, and ledgers going back to before the fire in an iron press that kept them. Whoever has the water at the Stake has the Stake.".
+
+  // The Rope and Lantern.
+  Person agnes "Agnes Ruddle" at inn_room {
+    Role "keeper of the Rope and Lantern". Ancestry human. Profession innkeeper. Peaceable.
+    Sells rations for 1 coin from 12.
+    Sells lamp for 2 coin from 4.
+    Sells lamp_oil for 1 coin from 8.
+    Sells rope for 3 coin from 4.
+    Sells torch for 1 coin from 10.
+  }
+  Topic agnes_well with agnes "Ask Agnes Ruddle about going down the Well" when true once {
+    Says "'Two ways,' says Agnes, polishing a lamp-glass she has polished already. 'The stair, which is the Registry's, two silver a head, and they write you down going and write you down coming back. Or the ropes, which are nobody's, and nobody writes anything.' She holds the glass to the lamp. 'The machine hears the ropes anyway, mostly. It's a deaf old thing these days, they say, but not that deaf. Take lamps. Magic lights go out down there near the iron, and the glass people will tell you to shutter them anyway.'".
+  }
+  Topic agnes_hightown with agnes "Ask Agnes Ruddle about Hightown" when true once {
+    Says "'It's moving,' says Agnes. 'It always moved; it moves faster now. The runners cut the tail and sell the links, and it gets lighter, and it goes north on the gales.' She jerks her chin at the vault, as if the sky were up there. 'Hornwake goes after it with the horn. You can't miss Hornwake. It's the town that won't stay put.'".
+  }
+  Topic agnes_returns with agnes "Ask Agnes Ruddle about the Returns" when true once {
+    Says "'Things come back,' says Agnes. 'Not here so much. In the valley, and out on the drove roads. My mother's thimble came back on the bar one morning, the one she lost in seventy-one. I didn't want it.' She shrugs. 'The ones nobody wants go on the Lost Nail in Wendmouth for a year, then the Fair sells them.'".
+  }
+
+  // The hook: everybody wants someone to go down the Well for them, and says so on the board by the steps.
+  Discovery jobs_known "The notes on the Rope and Lantern's board, some of them weeks old: THE REGISTRY will enter in its roll as COLLEAGUE whoever brings it heat. J. PENNICK, of the Keepstone Court, will pay for any means to read a blank stone. C. NINEPAN buys deadiron droplets, sixty silver the sack, and says Lamplighter's Camp is still somewhere under the Breach. A. FENNIMORE, of Hightown, will pay for word of any Concord chain on the Drag. The WENDHEAD HOSPICE asks after anyone who has seen a man nobody can name. KELD GUIDES, two silver: ask at Saska's hearth. And one in a fine hand, newer than the rest: STRAYS WANTED, alive, for their own good. Apply at the Grey Mile. F. COSK, for the Open Hand." {
+    Source board_notes "the notes on the board by the cistern steps" at inn_room readable by party.
+  }
+  Observe board_seen at inn_room when not knows(party, jobs_known) "By the cistern steps a board is stuck all over with notes. Every one of them wants somebody to go somewhere they would rather not.".
+
+  // A Return to a Changed Place (Player Portfolio): back up some other way than the stair, after days below.
+  Event back_unlogged_blown at inn_room when unclosed(party) and at(party, inn_room) and watch(clock) - wentDown(party) >= 432 and lastGale(hightown) > wentDown(party) "Agnes Ruddle looks at you over the counter for a moment too long. 'The Registry has you down as not come back,' she says. 'Went down the stair and never came up it. I let your room. Your pack's in the store. Most of it.' It has blown while you were below. 'Shifted,' Agnes says. 'The whole of Hornwake, and the mountain with it; you'll see from the door. And there's a woman from the Ninepan House been in asking after you.' She pours you something hot. 'You'll want to go to the Registry and tell it you're alive. It gets upset.'" then {
+    Retract unclosed(party).
+  }
+  Event back_unlogged at inn_room when unclosed(party) and at(party, inn_room) and watch(clock) - wentDown(party) >= 432 and lastGale(hightown) <= wentDown(party) "Agnes Ruddle looks at you over the counter for a moment too long. 'The Registry has you down as not come back,' she says. 'Went down the stair and never came up it. I let your room. Your pack's in the store. Most of it.' She pours you something hot. 'You'll want to go to the Registry and tell it you're alive. It gets upset.'" then {
+    Retract unclosed(party).
+  }
+
+  // A stone-reader, drunk, who knows a thing nobody believes.
+  Person tobin "Tobin Reach" at inn_room {
+    Role "a stone-reader from Wendhead, drinking". Ancestry human. Peaceable.
+  }
+  Discovery seam_reads "A blank keepstone carried down to the bottom of the low road, to the chamber where the jewel lay, reads again for about a month." { Known by tobin. }
+  Topic tobin_stones with tobin "Ask Tobin Reach about the blank stones" when true once {
+    Says "Tobin puts his cup down with great care. 'They're not dead,' he says. 'Everybody says they're dead. They're sleeping. You take one down, all the way down, down the old road to the cup where the star's heart sat, and you put it on the wet wall and you wait, and it wakes up.' He picks the cup up again. 'For a month. Then it goes off again, up here. I've seen it. I had a stone of my granddad's wedding.' He drinks. 'Nobody listens to a stone-reader. We sell fakes.'".
+    On discuss { Assert knows(actor, seam_reads). }
+  }
+
+  // The Collar's tally, under the slag, for anyone who can read link-script.
+  Action read_collar(actor: group, site: place) "Ask Teshen to read the tally under the Collar's slag" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, collar) and travelsWith(teshen, actor)
+      and not knows(actor, collar_tally).
+    Time 2.
+    On success { Assert knows(actor, collar_tally). }
+    Result "Teshen goes along the inner face of the Collar on her knees, feeling under the slag with her fingertips for the iron links set in the stone. 'Here,' she says, and reads it out, slowly, in the old speech and then in March. At 'the water-people talked' she makes a face. 'That's not fair,' she says. 'They forgot half of who they were, doing it.'".
+  }
+  Discovery collar_tally "The near-copy of the first link's tally on the Collar's inner face, read by touch under the slag: 'Hearth Orrisk and the hearths hold the star. Four thousand and one hundred hold. Iron holds iron. Bone holds iron. The water-people talked. Drevka Venmort holds the last.'".
+
+  // The cistern guild remembers who drew water on the night of the Unfall.
+  Person warden_sall "Warden Sall" at guild_room {
+    Role "warden of the cistern guild". Ancestry human. Peaceable.
+  }
+  Discovery unfall_water "The cistern guild's ledger for the night of the Unfall, 2641: every household at the Stake drew water against the fire, by name. One line is different: 'Coyle, W., of Wendmouth, aged 69, lodging at the Lantern. Drew none. Went down the stair at the ninth bell.'" {
+    Source water_ledger "the guild's ledger for 2641" at guild_room readable by party.
+    Known by warden_sall.
+  }
+  Topic sall_water with warden_sall "Ask Warden Sall about the night of the Unfall" when true once {
+    Says "'The ledger has it,' says Sall. 'Every bucket. My grandmother's grandmother kept it with the town burning round her, because if you don't write down who had water, somebody says afterwards it was them.' He taps the press. 'Go on and look. It's not secret. It's just old.'".
+  }
+
+  // ── Wendhead ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place hospice "the Wendhead hospice" is building within wendhead.
+  Place wend_bridge "Wendhead bridge" is room within wendhead at 1, 0.
+  Place wend_pool "the Wendhead pool" is room within wendhead at 2, 0.
+  Place hospice_hall "the hospice hall" is room within hospice at 0, 1.
+  Place long_ward "the long ward" is room within hospice at 1, 1.
+  Place hospice_archive "the hospice archive" is room within hospice at 0, 2.
+  Place hospice_under "the hospice cellars" is level within hospice.
+  Place hospice_cellar "the hospice cellar" is room within hospice_under at 1, 2 underground.
+
+  Passage wendhead_road "the valley road" is road between wend_bridge and scarp_foot taking 30 minutes.
+  Passage pool_path "the pool path" is path between wend_bridge and wend_pool.
+  Passage hospice_gate "the hospice gate" is gate between wend_bridge and hospice_hall.
+  Passage ward_door "the ward door" is doorway between hospice_hall and long_ward.
+  Passage archive_door "the archive door" is door between hospice_hall and hospice_archive.
+  Passage cellar_stair "the cellar stair" is stair between hospice_hall and hospice_cellar.
+
+  Observe bridge_scene at wend_bridge when true "Wendhead: a mill, a bridge, a quarry, and on the far bank the hospice behind a wall of grey stone with roses over it. Upstream, a round pool of dark water turns slowly under the Scarp.".
+  Observe pool_scene at wend_pool when true "The Wendhead pool is sixty metres across and very deep, and it rises: you can see the water lift and turn at its centre, where the river comes up out of the ground from a cave below the Scarp. Old men say it used to steam in winter. It does not now. On the bank, eelers' tackle is drying on a rail.".
+  Observe hospice_hall_scene at hospice_hall when true "A whitewashed hall with benches, a fire, and the smell of camomile and lye. A sister goes by with a basin and smiles at you without stopping.".
+  Observe ward_scene at long_ward when true "A long room of beds under high windows. Most of the patients are old and some are dying, and the sisters move among them talking quietly, the way people talk to horses.".
+  Observe archive_scene at hospice_archive when true "A small room of shelves and boxes, very dry, with a reading desk. Letting records go back seven hundred years: who came, what they wished to put down, whether they did.".
+  Observe cellar_scene at hospice_cellar when true "The hospice cellar runs back into the rock of the Scarp further than a cellar should. At the far end is a door of old oak, bound in iron, with a lock and a Letting sign carved over it: an open hand.".
+
+  Person rook "Prioress Imelda Rook" at hospice_hall {
+    Role "prioress of the Wendhead hospice". Ancestry human. Calling cleric. Level 3. Trait vitalist. Peaceable.
+  }
+  Person sisters "the Letting sisters" at long_ward {
+    Role "nurses of the hospice". Ancestry human. Numbers 3. Peaceable.
+    Offers healing "a month's nursing, paid as you can" for 3 coin.
+  }
+  Topic rook_rite with rook "Ask Prioress Rook about the anchoring rite" when true once {
+    Says "'We keep it,' says the prioress. 'Nobody has asked for it in thirty years. If someone goes across, into the grey, the anchors stay up here and say their name aloud without stopping, in relays, day and night, until they come back. If every anchor falls silent, they stay.' She smiles a little. 'It is the only rite we have left that is about remembering instead of letting go. I am fonder of it than I ought to be.'".
+  }
+  Topic rook_record with rook "Ask Prioress Rook about the Short Grey" when true once {
+    Says "'Before my time,' says the prioress. 'Brother Cosk's rite, in 2604. Three months of fog, and the Grey Mile below the bridge where nothing grows right still. Our sisters kept a record of it: who was lost, who came back, what was heard in the fog.' She glances toward the archive. 'There's a man from the consulate in Wendmouth who has asked twice to read it. A very pleasant man. I said I would think about it.'".
+    On discuss { Assert knows(actor, webb_asked). }
+  }
+  Discovery webb_asked "Corin Webb, the Lusk consul's secretary, has twice asked the hospice to let him read its record of the Short Grey.".
+
+  // The record of the Short Grey, with a syllable in it; and the manual's warning.
+  Kind grey_record "the Letting record of the Short Grey" is treasure worth 0 weighing 1.
+  Item short_grey "the Letting record of the Short Grey" is grey_record at hospice_archive owned by rook.
+  Discovery short_grey_syllable "In the Letting record of the Short Grey, among things heard in the fog in 2604, one word is written down as heard, a single syllable, and a sister has written beside it: not a word of ours.".
+  Discovery anchoring_warning "The hospice's anchoring manual, in a hand of the 2600s: 'Do not say in the chamber what the fog said.'" {
+    Source anchoring_manual "the anchoring manual" at hospice_archive readable by party.
+    Known by rook.
+  }
+  Discovery letting_prayer "The Letting prayer, sung at deathbeds, copied with the old marks glossed: '[let] There was a road under the water. [let] We were many who walked it. [kept] I do not walk it. [laid] The stone walks it for me. [let] One walks it, always one.' A sister's note: kept is what the singer saw herself; let is what she was told, or what she has let go." {
+    Source prayer_card "a copy of the Letting prayer, with its old marks glossed" at hospice_archive readable by party.
+  }
+  Observe prayer_grammar near party when knows(party, letting_prayer) and not knows(party, evidential_known) "The sister's note stays with you: kept is what the singer saw; let is what she was told, or let go. The old tongue says how it knows a thing before it says the thing." teaches evidential_known.
+  Observe grey_read near party when carries(party, short_grey) and not knows(party, short_grey_syllable) "You turn the pages of the Short Grey record. Names of the lost, names of the found, the weather of each day: fog, fog, fog. On the fortieth day, in a list of things heard in the fog, one word is written as it sounded, a single syllable, and beside it, in another hand: not a word of ours." teaches short_grey_syllable.
+
+  // The nameless man in the long ward, whom nobody knows, his own wife included.
+  Person nameless "the nameless man" at long_ward {
+    Role "a man nobody can name". Ancestry human. Peaceable.
+    State unknown "In the end bed a man of fifty sits with his hands on the blanket, quite well, looking at the door. The sisters call him 'love' and 'dear'. Nobody has ever been able to keep his name in their head for longer than a sentence.".
+    State known "Absalom Prew sits on the end bed in his coat, waiting for his wife, with his name on him like a coat as well.".
+  }
+  Topic nameless_who with nameless "Ask the man in the end bed who he is" when state(nameless, unknown) once {
+    Says "'I had a desk,' he says, carefully, as if reading it off the inside of his own forehead. 'In Wendmouth. A good desk. I wrote letters for a man with a seal.' He looks at you hard. 'Seven months ago I went in to work and there was a man at my desk, and he looked up at me as if I were a stranger, and so did the consul, and so did my wife that night.' His hands open on the blanket. 'Everyone says I've been here for ever. I haven't. I'd remember.'".
+    On discuss { Assert knows(actor, displaced_clerk). }
+  }
+  Discovery displaced_clerk "A man in the hospice's long ward, whose name nobody can keep, says he was a secretary at the Lusk consulate in Wendmouth until seven months ago, when another man was at his desk and nobody, his wife included, knew him.".
+
+  // The cellar door: the old way into the Commonplace, which the Lettings keep locked.
+  Thing commonplace_door "the oak door with the open hand" on bright_way {
+    State locked blocking "The oak door with the open hand over it is locked.".
+    State open "The oak door stands open on darkness and the sound of dripping.".
+    Change unlock "Unlock the oak door with the prioress's key" from locked to open needing cellar_key.
+  }
+  Kind letting_key "the prioress's iron key" like cell_key worth 0 weighing 0.
+  Item cellar_key "the prioress's iron key" is letting_key at limbo owned by rook.
+  Topic rook_door with rook "Ask Prioress Rook where the road under the water begins" when (knows(actor, low_road_known) or knows(actor, letting_prayer)) and state(commonplace_door, locked) {
+    Says "The prioress looks at you for a long time. 'The Commonplace is going dark,' she says. 'The bright galleries are blank already. Past them it is faint, and past that, at the Root, it is still clear, and from the Root the old road goes down to where the jewel lay.' She takes a key from her belt. 'The Lettings have kept that door for nine hundred years so that nobody goes down it by accident. You are not going by accident.' She gives it to you. 'Bring it back.'".
+    On discuss { Assert lends(rook, cellar_key, actor). Assert at(cellar_key, hospice_hall). }
+  }
+
+  // ── The Open Hand, at the Grey Mile ──────────────────────────────────────────────────────────────────────────────
+  // Brother Cosk's great-grandson keeps a school of forgetting where the Short Grey left the valley wrong. He believes
+  // the grey has people in it who want to go home, and that the 412 rite should be finished. He gathers Strays, and
+  // what they say.
+  Place grey_mile "the Grey Mile" is room within wendhead at 3, 1.
+  Passage grey_mile_path "the river path below the bridge" is path between wend_bridge and grey_mile taking 30 minutes.
+  Observe grey_mile_scene at grey_mile when true "Below the bridge the valley goes wrong for a mile: the grass grows grey and short, the pears on the old trees ripen with no taste, birds cross it without landing. A long barn stands in the middle of it, freshly limewashed, with an open hand painted over the door.".
+  Person ferran "Ferran Cosk" at grey_mile {
+    Role "master of the Open Hand". Ancestry human. Calling cleric. Level 4. Peaceable.
+  }
+  Person open_hand "the Open Hand" at grey_mile {
+    Role "brothers and sisters of the Open Hand, in grey". Ancestry human. Numbers 4. Peaceable.
+  }
+  Topic ferran_hand with ferran "Ask Ferran Cosk what the Open Hand is for" when true once {
+    Says "'Letting,' says Ferran Cosk, as if it were the simplest word in March. He has kind eyes and ink on his cuffs. 'My great-grandfather tried to let the star go into the Lap, and failed, and the valley called it a crime. The star went anyway. And in the grey there is something that has been waiting since 412 to go home, and speaks to us through the Strays, a syllable at a time.' He smiles. 'We are writing it down. When we have all of it, we will say it at the Seam, and it can go where it belongs. That is all mercy is: letting a thing go where it belongs.'".
+    On discuss { Assert knows(actor, open_hand_plan). }
+  }
+  Discovery open_hand_plan "The Open Hand are gathering the syllables the Strays repeat, to say the whole word at the Seam and let 'what has waited in the grey since 412' go home.".
+  Relation turned(group).
+
+  // Where things wait that are nowhere yet.
+  Place limbo "nowhere" is room within scarp at 5, 5.
+}

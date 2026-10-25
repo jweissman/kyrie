@@ -1,0 +1,13 @@
+Module corrow "The Road the Star Came Down" {
+  // Act II from its threshold: at the Seam, anchored for four days, with Teshen, with Corin named and home at Keld.
+  // What the company learned in Act I it is given by one act at the start (Kyr has no initial knowledge).
+  Company party "Your company" of 3 at seam.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 6.
+  Initially Assert webbNamed(webb). Initially Assert travelsWith(teshen, party). Initially Assert riteArranged(rook).
+  Initially Set anchorDays(margin) to 4.
+  Action act_one(actor: group, site: place) "Begin Act II" {
+    Requires company(actor) and at(actor, site) and not knows(actor, seam_found).
+    Time 0.
+    On success { Assert knows(actor, seam_found). Assert knows(actor, unsaid_is_name). Assert knows(actor, wenna_band). }
+  }
+}
