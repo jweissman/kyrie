@@ -34,7 +34,8 @@ const call = ModuleWriter.call;
 describe('candidates proposed by a query', () => {
   it('include every true answer, though a negation in it reads what is not yet bound', () => {
     const asked = call('reaches', 'a', '?t');
-    expect([...start.solve(asked, {})].map(b => b['?t'])).not.toContain('cup');
+    // The world answers it too, now that it asks the negation once what it reads is bound (see Asking).
+    expect([...start.solve(asked, {})].map(b => b['?t'])).toEqual(expect.arrayContaining(['cup', 'box']));
     const proposed = new Set([...Candidates.of(start, asked, {})].map(b => b['?t']));
     for (const t of ['cup', 'box']) { expect(start.test(call('reaches', 'a', t))).toBe(true); expect(proposed).toContain(t); }
     expect(proposed).not.toContain('map');

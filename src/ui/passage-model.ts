@@ -1,4 +1,5 @@
 import { ModuleWriter } from '../lang/module-writer';
+import { KeptPredicates } from '../lang/kept-predicates';
 import { ObservationText } from '../lang/observation-text';
 import { ItemNames } from '../item-names';
 import type { Entity, Predicate } from '../lang/module';
@@ -20,8 +21,9 @@ export class PassageModel {
     return next.done ? undefined : next.value;
   }
   private call(name: string, ...args: string[]): Predicate { return ModuleWriter.call(name, ...args); }
-  private all(...parts: Predicate[]): Predicate {
-    return parts.reduce((left, right) => ({ kind: 'and', left, right }));
+  // The parts joined, kept by what they ask of which way (see KeptPredicates).
+  private all(asked: string, ...parts: Predicate[]): Predicate {
+    return KeptPredicates.of(`passage:${asked}`, () => parts.reduce((left, right) => ({ kind: 'and', left, right })));
   }
   describe(id: string): string | undefined {
     const state = this.world.one('state', id);
@@ -43,7 +45,7 @@ export class PassageModel {
   private way(passage: string, from: string, to: string): WayInfo {
     const base = { passage, name: this.entities.get(passage)?.name ?? passage, from, to,
       oneWay: !this.world.test(this.call('connects', passage, to, from)) };
-    const blocker = this.first(this.all(this.call('on', '?t', passage), this.call('state', '?t', '?s'),
+    const blocker = this.first(this.all(`blocker:${passage}`, this.call('on', '?t', passage), this.call('state', '?t', '?s'),
       this.call('blocksWhen', '?t', '?s')));
     if (blocker) {
       const t = blocker['?t']!;
@@ -52,13 +54,13 @@ export class PassageModel {
     if (this.world.test(this.call('unopened', passage))) {
       return { ...base, status: 'blocked', via: base.name, reason: this.shut(passage) ?? `${this.label(passage)} does not open now.` };
     }
-    const guard = this.first(this.all(this.call('guards', '?g', passage), this.call('able', '?g'),
+    const guard = this.first(this.all(`guard:${passage}`, this.call('guards', '?g', passage), this.call('able', '?g'),
       this.call('state', '?g', '?s'), this.call('blocksWhen', '?g', '?s')));
     if (guard) {
       const g = guard['?g']!;
       return { ...base, status: 'guarded', via: this.label(g), reason: this.describe(g) ?? `${this.label(g)} bars the way.` };
     }
-    const hazard = this.first(this.all(this.call('on', '?h', passage), this.call('state', '?h', '?s'),
+    const hazard = this.first(this.all(`hazard:${passage}`, this.call('on', '?h', passage), this.call('state', '?h', '?s'),
       this.call('harmsWhen', '?h', '?s')));
     if (hazard) {
       const h = hazard['?h']!;

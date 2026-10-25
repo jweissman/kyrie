@@ -2,6 +2,7 @@ import { ObservationText } from '../lang/observation-text';
 import type { Anchor, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { ModuleWriter } from '../lang/module-writer';
+import { KeptPredicates } from '../lang/kept-predicates';
 
 // Explicitly authored local claims. Reading a description does not grant formal knowledge. A claim is anchored at a
 // place, near an entity wherever it now is (or across a way it guards), or beside a passage (perceived from either
@@ -9,10 +10,13 @@ import { ModuleWriter } from '../lang/module-writer';
 export class LocalObservations {
   static perceives(world: World, actor: string, place: string, anchor: Anchor = 'at'): boolean {
     if (anchor === 'at') { return world.test(ModuleWriter.call('at', actor, place)); }
-    const here: Predicate = ModuleWriter.call('at', actor, '?here');
-    const there: Predicate = anchor === 'near' ? this.near(world, place)
-      : ModuleWriter.call('connects', place, '?here', '?there');
-    return world.test({ kind: 'and', left: here, right: there });
+    const relations = `${world.relates('guards')}${world.relates('inside')}`;
+    return world.test(KeptPredicates.of(`perceives:${actor}:${place}:${anchor}:${relations}`, () => {
+      const here: Predicate = ModuleWriter.call('at', actor, '?here');
+      const there: Predicate = anchor === 'near' ? this.near(world, place)
+        : ModuleWriter.call('connects', place, '?here', '?there');
+      return { kind: 'and', left: here, right: there };
+    }));
   }
   // Near an entity: where it is; across a way it guards, from the far end while it stands at this one; and inside an
   // open container, where the container is.

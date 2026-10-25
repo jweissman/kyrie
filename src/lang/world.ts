@@ -1,5 +1,7 @@
 import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, WorldState } from './module';
 import { RelationViews } from './relation-views';
+import { Asking } from './asking';
+import { QueryModes } from './query-modes';
 
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
@@ -31,7 +33,6 @@ export class World {
   // telling two worlds apart (a planner's visited states) never sorts every fact (see key).
   private sums: [number, number] = [0, 0];
   private memoSnapshot?: WorldState;
-  private static readonly open = new WeakMap<object, boolean>();
   private static readonly signatures = new WeakMap<Module, Signatures>();
   constructor(readonly module: Module, state: WorldState = { relations: [], measures: [] }) {
     this.byName = new Map(); this.measuresByName = new Map();
@@ -123,7 +124,14 @@ export class World {
     return built;
   }
   private bind(call: Call, bindings: Record<string, string>): Call {
-    return { ...call, args: call.args.map(arg => bindings[arg] ?? arg) };
+    return { ...call, args: call.args.map(arg => World.value(arg, bindings)) };
+  }
+  // What a name stands for. Within a query's body a parameter stands for the body's own variable for it, which may
+  // since have been bound: asking a query of it then asks of what it was bound to, not of it as if it were open (a
+  // query asked within a query answered for anyone at all, and overwrote what was bound).
+  private static value(a: string, b: Record<string, string>): string {
+    const v = b[a];
+    return v === undefined ? a : v.charCodeAt(0) === 63 ? b[v] ?? v : v;
   }
   number(value: Value, bindings: Record<string, string> = {}): number {
     if (value.kind === 'number') { return value.value; }
@@ -154,26 +162,23 @@ export class World {
     if (!World.variables(predicate)) { return this.closed(predicate, bindings); }
     return !this.solve(predicate, bindings).next().done;
   }
-  static variables(p: Predicate): boolean {
-    const cached = World.open.get(p);
-    if (cached !== undefined) { return cached; }
-    const result = p.kind === 'call' ? p.args.some(a => a.startsWith('?')) : p.kind === 'not' ? World.variables(p.value)
-      : p.kind === 'and' || p.kind === 'or' ? World.variables(p.left) || World.variables(p.right) : false;
-    World.open.set(p, result);
-    return result;
-  }
+  static variables(p: Predicate): boolean { return QueryModes.variables(p); }
   // Depth-first search over bindings; negation succeeds when no binding exists (variables stay existential).
   *solve(p: Predicate, b: Record<string, string>): Generator<Record<string, string>> {
     switch (p.kind) {
       case 'not': if (this.solve(p.value, b).next().done) { yield b; } return;
-      case 'and': for (const left of this.solve(p.left, b)) { yield* this.solve(p.right, left); } return;
+      case 'and':
+        // One that negates nothing is asked left then right; one that does, so that its negations wait (Asking).
+        if (QueryModes.negates(this.module, p)) { yield* Asking.conjunction(this, p, b); return; }
+        for (const left of this.solve(p.left, b)) { yield* this.solve(p.right, left); }
+        return;
       case 'or': yield* this.solve(p.left, b); yield* this.solve(p.right, b); return;
       case 'call': break;
       default: if (this.closed(p, b)) { yield b; } return;
     }
-    const args = p.args.map(a => b[a] ?? a);
+    const args = p.args.map(a => World.value(a, b));
     const signatures = World.index(this.module), query = signatures.queries.get(p.name);
-    if (query && args.some(a => a.startsWith('?'))) { yield* this.ask(query, args, b); return; }
+    if (query && args.some(a => a.startsWith('?'))) { yield* Asking.ask(this, query, args, b); return; }
     if (query || !args.some(a => a.startsWith('?'))) {
       if (this.closed({ ...p, args }, {})) { yield b; }
       return;
@@ -187,26 +192,6 @@ export class World {
     for (const fact of facts) {
       const next = World.match(fact, args, b);
       if (next) { yield next; }
-    }
-  }
-  // A query asked of someone not yet known ("held(p) means looks(?w, p)"): each binding of its body that satisfies it,
-  // with the asker's variables bound to what the query's parameters came to be.
-  private *ask(query: Module['queries'][number], args: string[], b: Record<string, string>):
-    Generator<Record<string, string>> {
-    const inner: Record<string, string> = {}, back: [string, string][] = [];
-    query.parameters.forEach((parameter, i) => {
-      const arg = args[i]!, local = `?${query.name}.${parameter.name}`;
-      if (!arg.startsWith('?')) { inner[parameter.name] = arg; return; }
-      inner[parameter.name] = local;
-      back.push([arg, local]);
-    });
-    for (const found of this.solve(query.body, inner)) {
-      let next = b;
-      for (const [outer, local] of back) {
-        const value = found[local];
-        if (value !== undefined && !value.startsWith('?')) { next = { ...next, [outer]: value }; }
-      }
-      yield next;
     }
   }
   private static match(fact: Call, args: string[], b: Record<string, string>): Record<string, string> | undefined {
