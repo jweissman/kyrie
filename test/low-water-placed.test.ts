@@ -27,7 +27,8 @@ describe('the Bowl of Ammerlin beyond a march', () => {
     await s.perform(head.choice.id);
     expect(PlayerView.choices(s.campaign).some(x => /waiting for you/.test(x.choice.name))).toBe(true);
     // Gone back over the march for the best part of ten days, the company comes back to a Bowl that went on without it.
-    const go = async (re: RegExp) => s.perform(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
+    const go = async (re: RegExp) =>
+      s.perform(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
     await go(/north road, at the Rim/);
     await go(/road across the march/);
     while (s.campaign.state.elapsed < elapsed + 1300) { await go(/^Wait an hour|An hour/); }
