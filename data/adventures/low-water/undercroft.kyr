@@ -21,15 +21,18 @@ Module lowwater "Low Water" {
   Passage count_to_governor "the way to the governor" is passage between count_gallery and governor_room.
   Passage count_to_door "the long stair down" is stair between count_gallery and last_door_room taking 5 minutes.
 
-  Observe vestibule_scene at vestibule when true "The culvert comes out into a square room of the fine grey stone, dry, still, warmer than the culvert. A thread of water crosses the floor in a channel and goes on through an arch.".
+  Observe vestibule_scene at vestibule when not familiar(vestibule) "The culvert comes out into a square room of the fine grey stone, dry, still, warmer than the culvert. A thread of water crosses the floor in a channel and goes on through an arch.".
+  Observe vestibule_scene_again at vestibule when familiar(vestibule) "The dry vestibule, the culvert's thread of water crossing its floor.".
   Observe vest_stones at vestibule when at(vest_weight, vestibule) or at(vest_weight_b, vestibule) "Against the wall, as if somebody had tidied them, squared weight-stones with holes through them.".
   Item vest_weight "a weight-stone" is weight_stone at vestibule.
   Item vest_weight_b "a weight-stone" is weight_stone at vestibule.
-  Observe breach_scene at breach_gallery when true "A gallery of grey stone, square and dry, and in its wall the ragged hole the diggers made, with mud and broken slab spilled in through it. Everything else is clean: three thousand years clean.".
-  Discovery engine_seen "Under the Mere, in works of the Mathematical Age, is a machine that runs on water: it counts by passing water through itself, and the water does not come out again anywhere.".
+  Observe breach_scene at breach_gallery when not familiar(breach_gallery) "A gallery of grey stone, square and dry, and in its wall the ragged hole the diggers made, with mud and broken slab spilled in through it. Everything else is clean: three thousand years clean.".
+  Observe breach_scene_again at breach_gallery when familiar(breach_gallery) "The broken gallery, the diggers' hole ragged in its clean grey wall.".
+  Discovery engine_seen "Under the Mere there is a working machine of the Mathematical Age that counts by water, and the water it counts does not come out again anywhere.".
 
   // The Hall of the Equals: the floor is a scale. Whoever walks it tips it, and the Equals keep it even.
-  Observe equal_scene at equal_hall when true "A long hall with a floor of a single slab of grey stone, so finely set that it rocks, very slightly, under your weight; you feel it go down at your end. At the far end, the other side of the balance. Between, two figures of bronze, broad, faceless, too wide at the shoulder, stand facing each other across the floor like the two halves of something.".
+  Observe equal_scene at equal_hall when not familiar(equal_hall) "A long hall with a floor of a single slab of grey stone, so finely set that it rocks, very slightly, under your weight; you feel it go down at your end. At the far end, the other side of the balance. Between, two figures of bronze, broad, faceless, too wide at the shoulder, stand facing each other across the floor like the two halves of something.".
+  Observe equal_scene_again at equal_hall when familiar(equal_hall) "The Hall of the Equals: the rocking floor, the stone pan on its chains, and the two bronze figures facing each other across it.".
   Person equals "the Equals" at equal_hall {
     Role "two figures of bronze, broad, faceless, made to keep a reckoning even". Species bronze_construct. Level 5. Numbers 2.
     Temperament obedient.
@@ -66,7 +69,8 @@ Module lowwater "Low Water" {
     says "As the last stone goes into the pan the floor comes up level under your feet with a long soft grinding, and the Equals lower their hands." teaches equals_rule { }
 
   // The counting gallery: nine wheels, and how many have turned.
-  Observe count_scene at count_gallery when true "A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates.".
+  Observe count_scene at count_gallery when not familiar(count_gallery) "A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates.".
+  Observe count_scene_again at count_gallery when familiar(count_gallery) "The counting gallery and its nine great wheels.".
   Observe count_running at count_gallery when not complete(reckoner) and not broken(reckoner) "The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor.".
   Observe count_wheels_0 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 0 "Of the nine wheels, no stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
   Observe count_wheels_1 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 1 "Of the nine wheels, one stands still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
@@ -79,10 +83,11 @@ Module lowwater "Low Water" {
   Observe count_wheels_8 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 8 "Of the nine wheels, eight stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
   Observe count_done at count_gallery when complete(reckoner) "All nine wheels stand still and locked. The channel is dry. The gallery is silent for the first time in three thousand years, and the silence is enormous.".
   Observe count_dead at count_gallery when broken(reckoner) "The wheels have stopped where they stood, the turning one half-turned. Water lies in the channel and does not move. Nothing clicks.".
-  Rule engine_known when at(party, count_gallery) and not knows(party, engine_seen) says "It is a machine. It is counting. It counts by water, a gate at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back." teaches engine_seen { }
+  Rule engine_known when at(party, count_gallery) and not knows(party, engine_seen) says "You stand and watch it for a long time before you let yourself say it. It is a machine, and it is counting: a gate at a time, a measure of water at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back." teaches engine_seen { }
 
   // The listening column: a pipe of still water going up toward the Sounding, and four bronze bars to sound into it.
-  Observe column_scene at column_room when true "A round room, and in the middle a column of water, standing up out of a basin in a pipe of polished grey stone as wide as a well, up into the dark as far as your light goes. The water in it is perfectly still. Round the basin's rim hang four bars of bronze on cords, of four lengths, and a bronze striker on a chain.".
+  Observe column_scene at column_room when not familiar(column_room) "A round room, and in the middle a column of water, standing up out of a basin in a pipe of polished grey stone as wide as a well, up into the dark as far as your light goes. The water in it is perfectly still. Round the basin's rim hang four bars of bronze on cords, of four lengths, and a bronze striker on a chain.".
+  Observe column_scene_again at column_room when familiar(column_room) "The listening column, perfectly still in its pipe of stone, and the four bronze bars round its basin.".
   Discovery column_up "The listening column goes up from the Undercroft toward the great cistern under the Sounding: what is sung in the Sounding comes down it to the Reckoner, and what is sounded here goes up.".
   Observe column_hymn at column_room when hour(clock) == 19 and sungTonight(bowl) "From far up the column, down the still water, comes the Hymn: the Sounding's bells and choir, small and clear and perfect, as if they were singing in the next room.".
   Rule column_up_known when at(party, column_room) and hour(clock) == 19 and sungTonight(bowl) and not knows(party, column_up) says "The water in the column carries it down to you note for note: what is sung in the Sounding comes here." teaches column_up { }

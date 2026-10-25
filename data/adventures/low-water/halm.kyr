@@ -2,6 +2,7 @@ Module lowwater "Low Water" {
   Description "Teodor Halm, Fellow of the Collegium of Lesser Instruments, who would give the lake for the Reckoner under it.".
 
   Person halm "Teodor Halm" at dig {
+    Greets "Teodor Halm looks up from whatever he is holding with the face of a man interrupted in the middle of falling in love.".
     Role "Fellow of the Collegium of Lesser Instruments". Ancestry human. Calling mage. Level 3. Peaceable. Pronouns he. Manner cheerful.
     Buys weight_stone for 2 coin.
     Buys keeper_mask for 25 coin.
@@ -60,7 +61,7 @@ Module lowwater "Low Water" {
   }
   Discovery census_read "Halm reads the lintel the Reckoner lit: IT COUNTS WHAT IS BOUND. The Reckoner is a census of everything that is, was or will be bound, body and soul, by the prima materium.".
   Topic halm_door with halm "Ask Halm to read the words over the last door" when knows(actor, door_words) once {
-    Says "Halm copies the two lines off your rubbing of them, or off your memory, with his tongue between his teeth. 'WHAT IS COUNTED IS GIVEN,' he reads. 'WHAT IS GIVEN IS KEPT.' He touches the round door. 'Given to whom? Kept by whom?' He looks at you as if you might know. 'When it's finished, this opens, and the count goes through. Somebody is meant to receive it.' A long pause. 'I would very much like to know who.'".
+    Says "Halm has you describe the two lines over the round door mark by mark, and draws them on the back of his hand as you talk, with his tongue between his teeth. 'WHAT IS COUNTED IS GIVEN,' he reads. 'WHAT IS GIVEN IS KEPT.' He touches the round door. 'Given to whom? Kept by whom?' He looks at you as if you might know. 'When it's finished, this opens, and the count goes through. Somebody is meant to receive it.' A long pause. 'I would very much like to know who.'".
     On discuss { Assert knows(actor, door_read). }
   }
   Discovery door_read "Halm reads the words over the last door: WHAT IS COUNTED IS GIVEN. WHAT IS GIVEN IS KEPT.".

@@ -15,8 +15,10 @@ Module lowwater "Low Water" {
     opening when state(deep_gate, lowered) or state(deep_gate, logged) or broken(reckoner) or complete(reckoner) "Beside the Deep Gate an iron hatch is set in the lock floor. Under it, the culvert beyond the gate is a black throat of water going down at a run. Nothing goes down it that wants to come back.".
   Initially Assert unlit(intake_culvert).
 
-  Observe stair_scene at lock_stair when true "The Nine Locks go down the third terrace like a giant's stair: nine stone chambers one below another, each with its gates and its balance-beams and its keeper's bench, and the Ninefold going down them in white falls. Barges of stone and wool wait at the head of each to be let down. A keeper in a blue coat at every lock, and a bell-rope at every keeper.".
-  Observe ninth_scene at ninth_lock when true "The Ninth Lock is the last and the deepest, at the foot of the terrace, and it does not open onto the Mere. Its lowest chamber has no lower gate. The water comes in from above, goes round in a slow black eddy, and leaves by the floor.".
+  Observe stair_scene at lock_stair when not familiar(lock_stair) "The Nine Locks go down the third terrace like a giant's stair: nine stone chambers one below another, each with its gates and its balance-beams and its keeper's bench, and the Ninefold going down them in white falls. Barges of stone and wool wait at the head of each to be let down. A keeper in a blue coat at every lock, and a bell-rope at every keeper.".
+  Observe stair_scene_again at lock_stair when familiar(lock_stair) "The lock stair: nine chambers of white water going down the terrace, a keeper at every one.".
+  Observe ninth_scene at ninth_lock when not familiar(ninth_lock) "The Ninth Lock is the last and the deepest, at the foot of the terrace, and it does not open onto the Mere. Its lowest chamber has no lower gate. The water comes in from above, goes round in a slow black eddy, and leaves by the floor.".
+  Observe ninth_scene_again at ninth_lock when familiar(ninth_lock) "The Ninth Lock, at the foot of the terrace, its water going round and down by the floor.".
   Discovery deep_drinks "The water of the Ninth Lock goes down through the Deep Gate in its floor, and no culvert from it comes out anywhere in the Bowl: not into the Mere, not into the Ward.".
   Rule deep_looked at ninth_lock when at(party, ninth_lock) and (state(deep_gate, raised) or state(deep_gate, half)) and not knows(party, deep_drinks) says "You lean over the chamber's edge. The eddy goes round and round and, at the bronze, down. You walk the lock's whole wall, and the Ward wall below it, for an outfall, a culvert, a weep-hole: there is none. Whatever goes down the Deep does not come back up anywhere you can find." teaches deep_drinks { }
   Discovery gate_hears "The Deep Gate answers the Hymn. At the first bell of the Sixth Remainder its bronze stirs in its bed, by nothing anyone can see.".
@@ -26,6 +28,7 @@ Module lowwater "Low Water" {
 
   // Piet Harl, keeper of the Ninth Lock.
   Person piet "Piet Harl" at piet_room {
+    Greets "Piet Harl stands up as if you were an inspector, and then sees you are not, and sits down again more slowly.".
     Role "the keeper of the Ninth Lock". Ancestry human. Peaceable. Pronouns he. Manner stoic.
   }
   Rule piet_to_bench when hour(clock) == 18 and at(piet, piet_room) { Retract at(piet, piet_room). Assert at(piet, ninth_lock). }
@@ -104,7 +107,8 @@ Module lowwater "Low Water" {
   }
 
   // The culvert beyond the gate: dry while the Deep is shut, and a death while it is open.
-  Observe culvert_scene at intake_culvert when true "A culvert of the fine grey stone, round as a pipe and tall as two men, going down at a steady slope into the dark. A thread of water runs along its floor. The walls are polished by three thousand years of water to the smoothness of the inside of a shell, and they hum, very faintly, all the time.".
+  Observe culvert_scene at intake_culvert when not familiar(intake_culvert) "A culvert of the fine grey stone, round as a pipe and tall as two men, going down at a steady slope into the dark. A thread of water runs along its floor. The walls are polished by three thousand years of water to the smoothness of the inside of a shell, and they hum, very faintly, all the time.".
+  Observe culvert_scene_again at intake_culvert when familiar(intake_culvert) "The intake culvert, grey and humming, going down into the dark.".
   Hazard culvert_flood "The Deep's water" means "Deal (3d6) physical damage to ally unless strength save against (14).".
   Rule culvert_floods when at(party, intake_culvert) and (state(deep_gate, raised) or state(deep_gate, half)) and not complete(reckoner) and not broken(reckoner)
     says "Behind you, far up the culvert, the bronze of the Deep Gate rises with a sound like a held breath taken. Then the water comes. It comes down the culvert as a wall and takes you off your feet and down, down, along the grey stone, in the dark, and throws you out at the bottom." {

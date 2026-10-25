@@ -13,24 +13,29 @@ Module lowwater "Low Water" {
   Passage cantor_door "the Cantor's door" is door between nave and cantor_room.
   Passage well_door "the door to the bell-well" is door between nave and bell_well.
 
-  Observe nave_scene at nave when true "The Sounding: a round nave under a dome, with no altar, no image, nothing at the centre of the floor but a ring of bronze grating as wide as a threshing-floor, through which you can see, a long way down, black water. Benches face inward to it from every side. The dome is ribbed like the inside of a shell.".
+  Observe nave_scene at nave when not familiar(nave) "The Sounding: a round nave under a dome, with no altar, no image, nothing at the centre of the floor but a ring of bronze grating as wide as a threshing-floor, through which you can see, a long way down, black water. Benches face inward to it from every side. The dome is ribbed like the inside of a shell.".
+  Observe nave_scene_again at nave when familiar(nave) "The Sounding's nave, round under its ribbed dome, the bronze grating and the black water at its heart.".
   Observe nave_full at nave when hour(clock) >= 18 and hour(clock) < 21 "The nave is full to the doors and up the walls: young people mostly, standing on the benches, and old ones sitting on them, and children on shoulders. The air is warm and loud with talk until the bells begin.".
   Observe nave_hymn at nave when hour(clock) == 19 and sungTonight(bowl) "The Hymn. You have heard it from every terrace and it is nothing like this. The choir is in the loft and the whole nave is singing with it, a thousand voices, and the dome takes the sound and gives it down onto the grating and the black water under it, and the water answers: you feel it in the soles of your feet. It is like standing inside a bell.".
   Observe nave_seventh at nave when seventhTonight(bowl) and hour(clock) == 20 "The Seventh Remainder. Four low notes, alike, sung by the whole nave, slow, over and over, and nobody looks bored, which you would not have guessed. Some of the old people are crying. Down through the grating the black water has gone perfectly still.".
   Person orr "Cantor Sabeth Orr" at cantor_room {
+    Greets "Cantor Orr does not get up from the clavichord. She plays one more chord, badly, on purpose, and then turns round.".
     Role "the Cantor of the Sounding". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Wants still_cup.
   }
   Rule orr_to_loft when hour(clock) == 18 and at(orr, cantor_room) { Retract at(orr, cantor_room). Assert at(orr, choir_loft). }
   Rule orr_to_room when hour(clock) == 21 and at(orr, choir_loft) { Retract at(orr, choir_loft). Assert at(orr, cantor_room). }
   Person tamsin "Tamsin Reed" at choir_loft {
+    Greets "Tamsin Reed jumps down off the loft bench, all elbows, and then remembers she is in the Sounding and walks the last two steps.".
     Role "a chorister of sixteen, from the Dyers' Terrace". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
   }
   Person fisk "Precentor Aldo Fisk" at nave {
+    Greets "Precentor Fisk inclines his head exactly as far as a precentor should for a stranger, and no further.".
     Role "the Precentor, last of the old Cantors". Ancestry human. Peaceable. Pronouns he. Manner proud.
   }
   Observe loft_scene at choir_loft when true "The choir loft rings the dome halfway up, a gallery of benches and music-stands, worn by three thousand years of feet. From here you look straight down through the grating to the water.".
-  Observe cantor_scene at cantor_room when true "The Cantor's room: a bare cell with a clavichord in it, out of tune on purpose so that she can hear the voices against it, she says. Hymnals on every surface, some of them very old, their pages marked with ribbons and pressed flowers.".
+  Observe cantor_scene at cantor_room when not familiar(cantor_room) "The Cantor's room: a bare cell with a clavichord in it, out of tune on purpose so that she can hear the voices against it, she says. Hymnals on every surface, some of them very old, their pages marked with ribbons and pressed flowers.".
+  Observe cantor_scene_again at cantor_room when familiar(cantor_room) "The Cantor's room: the clavichord, out of tune on purpose, and the hymnals.".
   Observe well_scene_s at bell_well when true "A narrow round chamber beside the nave, and in its floor a shaft, railed, going straight down into the dark. Far below, black water. The bell-ropes come down through the ceiling and hang over the shaft, and when the bells ring the water down there shakes into rings. You have the sense, looking down it, that it goes much further than the cistern it is said to serve.".
   Discovery shaft_down "The Sounding is built over a shaft that goes down into the great cistern under Measures Terrace, and the water down there rings when the bells do.".
   Rule shaft_seen when at(party, bell_well) and not knows(party, shaft_down) says "You drop a pebble. You count a long time before you hear it." teaches shaft_down { }

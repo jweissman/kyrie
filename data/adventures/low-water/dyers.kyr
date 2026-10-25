@@ -62,7 +62,8 @@ Module lowwater "Low Water" {
   Observe floor_stones at basin_floor when at(weight_a, basin_floor) or at(weight_b, basin_floor) or at(weight_c, basin_floor) "Round the arch's foot lie blocks of the same grey stone, squared, each with a hole through it for a rope.".
   Observe floor_wet at basin_floor when level(dyers) == 1 "The water is ankle-deep and very cold.".
 
-  Observe walk_scene at dyers_walk when true "The Dyers' Walk runs along the third terrace between the Stair and the basins, under lines of dyed wool hung out to dry, so that you walk through a long room of blue and madder and weld-yellow, dripping. The terrace wall below is striped with old dye-runs to the Ward.".
+  Observe walk_scene at dyers_walk when not familiar(dyers_walk) "The Dyers' Walk runs along the third terrace between the Stair and the basins, under lines of dyed wool hung out to dry, so that you walk through a long room of blue and madder and weld-yellow, dripping. The terrace wall below is striped with old dye-runs to the Ward.".
+  Observe walk_scene_again at dyers_walk when familiar(dyers_walk) "The Dyers' Walk, under its dripping lines of blue and madder.".
   Observe walk_rhyme at dyers_walk when hour(clock) == 9 and not drawnToday(vat_yard) "The third bell rings from the Sounding, and all along the Walk the dyers look up, as if it had called each of them by name.".
   // The dyers' own draw: at nine, the third bell, Mag Torrin takes a mark of the basin into her vats for the day's blue.
   // At six each morning the Office's man winds the Cistern into the basin until it is full, and the Cistern from the Stair.
@@ -116,6 +117,7 @@ Module lowwater "Low Water" {
   Observe yard_scene at vat_yard when not vatsDrowned(vat_yard) "A yard of tall wooden vats, steaming, each a different blue. Lengths of wet wool hang in the air between the vats like slow banners. Everything, the cobbles, the cat, the woman with the paddle, is some shade of blue.".
   Observe yard_ruined at vat_yard when vatsDrowned(vat_yard) "The vat-yard is a pond. Grey Sump water stands a hand deep across the cobbles and has gone into every vat, and the blues have all gone the same dull colour, like a bruise. Wool lies in it in heaps.".
   Person mag "Mag Torrin" at vat_yard {
+    Greets "Mag Torrin keeps stirring. 'If it's about the water,' she says, 'it's always about the water.'".
     Role "dyer and widow of the Dyers' Terrace". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
   }
   Topic mag_basin with mag "Ask Mag Torrin about the Dyers' Basin" when true once {
@@ -139,6 +141,7 @@ Module lowwater "Low Water" {
   // Abel Lusk and the Lock-Rhyme.
   Observe lusk_scene at lusk_room when true "A kitchen with one chair by the stove and a lock-keeper's brass horn on a nail over it. On the shelf, a row of small clay figures of men and women each holding a lock-wheel: forty of them, the keepers he taught, he says, though he made them himself and some of them flatter.".
   Person abel "Abel Lusk" at lusk_room {
+    Greets "Abel Lusk is delighted to see anybody at all, and says so, and offers you the only chair.".
     Role "who kept the Ninth Lock for forty years". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
   }
   Discovery lock_rhyme "The Lock-Rhyme, which every keeper learns: Upper to Dyer at the bell of six, / Dyer to vat when the third bell ticks; / Rise at the Sixth, and the Deep goes up, / Count at the Seventh, it takes its cup; / Grey from the Rim when the Mere is low, / And the high voice never, or down we go." { Known by abel. }

@@ -20,11 +20,13 @@ Module lowwater "Low Water" {
   Observe road_scene at rim_road when been(party, rim_head) "The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall.".
   Observe road_low at rim_road when been(party, rim_head) and mere(bowl) <= 30 "From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it.".
 
-  Observe head_scene at rim_head when true "The head of the Stair: a stone landing the size of a market, where the Ninefold, brought along the Rim in a cut channel, drops into the first of the Nine Locks and goes down the Bowl in steps of white water. Stairs for people go down beside it. The spray makes a rainbow over the first lock at this hour and a cold mist at every other.".
-  Observe head_spray at rim_head when hour(clock) >= 7 and hour(clock) < 11 "The rainbow hangs over the first lock, so steady the carters use it to tell the time.".
+  Observe head_scene at rim_head when not familiar(rim_head) "The head of the Stair: a stone landing the size of a market, where the Ninefold, brought along the Rim in a cut channel, drops into the first of the Nine Locks and goes down the Bowl in steps of white water. Stairs for people go down beside it. The spray makes a rainbow over the first lock at this hour and a cold mist at every other.".
+  Observe head_scene_again at rim_head when familiar(rim_head) "The head of the Stair, loud with the Ninefold going over into the first lock.".
+  Observe head_spray at rim_head when hour(clock) >= 7 and hour(clock) < 11 and not familiar(rim_head) "The rainbow hangs over the first lock, so steady the carters use it to tell the time.".
 
   // The Rim Gauge: where the Ninefold comes in, and where the Guild took its fifth.
-  Observe gauge_scene at rim_gauge when true "The Ninefold comes into the Bowl here, out of a cutting in the Rim, over a weir of dressed stone with a brass gauge-plate let into it. Past the weir the water splits at a stone head with three mouths: one down to the head of the Stair, one along the Rim in a new brick channel toward the sound of hammers, and one, the oldest, bricked up with stone so old it has gone green.".
+  Observe gauge_scene at rim_gauge when not familiar(rim_gauge) "The Ninefold comes into the Bowl here, out of a cutting in the Rim, over a weir of dressed stone with a brass gauge-plate let into it. Past the weir the water splits at a stone head with three mouths: one down to the head of the Stair, one along the Rim in a new brick channel toward the sound of hammers, and one, the oldest, bricked up with stone so old it has gone green.".
+  Observe gauge_scene_again at rim_gauge when familiar(rim_gauge) "The Rim Gauge: the weir, the brass plate, and the channel head with its three mouths.".
   Observe gauge_plate at rim_gauge when true "The brass plate on the weir is cut with the Office's marks, ells-per-day, and stamped with its seal. The water stands on it at three hundred and twenty.".
   Discovery feeder_seen "At the Rim Gauge the channel head has a third mouth, the oldest, bricked up: a course that once went somewhere else than the Stair or the mills.".
   Rule third_mouth at rim_gauge when at(party, rim_gauge) and not knows(party, feeder_seen) says "The third mouth of the channel head is the strangest. The brick that stops it is a later patch on far older work: the arch round it is cut in a stone you have not seen anywhere else in the Bowl, grey, fine, with no tool marks at all." teaches feeder_seen { }
@@ -81,6 +83,7 @@ Module lowwater "Low Water" {
   Observe mills_scene at fulling_mills when state(channel_gate, to_mills) "Eight new mill-houses of yellow brick stand along the Channel with their wheels turning and their hammers going, and the whole Rim shakes with it. Wet cloth hangs from frames in long red and blue banners. Four hundred people work here, more or less; the more is in the morning.".
   Observe mills_idle at fulling_mills when not state(channel_gate, to_mills) "The mill wheels stand still in an empty channel. The hammers are up. Cloth hangs half-fulled on the frames, and the mill hands stand about in the lanes in groups, not talking much, looking toward the counting-house.".
   Person sella "Sella Marsh" at fulling_mills {
+    Greets "Sella Marsh looks round from the hammers and does not stop watching them with the side of her face.".
     Role "forewoman of the fulling mills". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
   }
   Person hands "the mill hands" at fulling_mills {
@@ -124,9 +127,11 @@ Module lowwater "Low Water" {
   Observe report_waiting at fulling_mills when at(report_copy, fulling_mills) "On the bench by the counting-house door, under a stone, lies a fat fold of paper with a Corran seal.".
 
   // Harrow Quill, Master of the Millwrights' Guild.
-  Observe outer_scene at quill_outer when true "A long room of clerks at high desks, each with a candle and a ledger, under a painted ceiling of the Ninefold coming down from the hills as a woman pouring a jar. The clerks look up at you all at once, and down again all at once, like birds.".
+  Observe outer_scene at quill_outer when not familiar(quill_outer) "A long room of clerks at high desks, each with a candle and a ledger, under a painted ceiling of the Ninefold coming down from the hills as a woman pouring a jar. The clerks look up at you all at once, and down again all at once, like birds.".
+  Observe outer_scene_again at quill_outer when familiar(quill_outer) "The counting-house floor: clerks at their high desks under the painted Ninefold.".
   Observe quill_scene at quill_room when true "A counting-room with good windows over the Rim and the whole Bowl. Maps of the terraces cover one wall, the Ward's plots on them marked in red ink, a good many of them. A tray with a decanter and three glasses, as if visitors were expected and welcome.".
   Person quill "Harrow Quill" at quill_room {
+    Greets "Harrow Quill rises, smiling, as if you were the one person in the Bowl he had hoped to see this morning.".
     Role "the Master of the Millwrights' Guild". Ancestry human. Peaceable. Pronouns he. Manner jovial.
   }
   Person bailiffs "the Guild's bailiffs" at quill_outer {

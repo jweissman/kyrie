@@ -7,7 +7,10 @@ Module lowwater "Low Water" {
   Place ammerlin "Ammerlin" is settlement within bowl at 1, 0.
   Place merebed "the bed of the Mere" is wilderness within bowl at 1, 1.
   Place undercroft "the Undercroft" is site within bowl at 1, 2.
-  Initially Assert terrain(bowl, hills). Initially Assert landform(merebed, land_lake).
+  Initially Assert terrain(bowl, hills).
+  // A place the company has been and left is familiar: it is told again in a line, not in full.
+  Relation familiar(place).
+  Rule familiar_place when been(party, ?p) and not at(party, ?p) and not familiar(?p) { Assert familiar(?p). } Initially Assert landform(merebed, land_lake).
 
   // What the Bowl's water does, reckoned every eight hours: the Mere, in spans on the Ward gauge; the Reckoner's
   // count, of nine hundred; and the ninths of it its own voice can say.

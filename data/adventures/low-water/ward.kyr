@@ -13,7 +13,8 @@ Module lowwater "Low Water" {
   Passage well_way "the lane to the well" is path between ward_landing and ward_well taking 3 minutes.
 
   // The gauge steps: the Office's marks, cut in the landing stair, going down into the Mere.
-  Observe landing_scene at ward_landing when true "The Ward landing: a broad stair of stone going down into the Mere, built for boats to tie up at, with the Office's spans cut on every step and painted. Fishing boats lie along it, and not one of them is afloat. The water stands far below the last painted step, across a flat of grey mud with planks laid over it.".
+  Observe landing_scene at ward_landing when not familiar(ward_landing) "The Ward landing: a broad stair of stone going down into the Mere, built for boats to tie up at, with the Office's spans cut on every step and painted. Fishing boats lie along it, and not one of them is afloat. The water stands far below the last painted step, across a flat of grey mud with planks laid over it.".
+  Observe landing_scene_again at ward_landing when familiar(ward_landing) "The Ward landing, its painted spans going down the stair to the mud.".
   Observe landing_gauge at ward_landing when true "On the lowest step the Office has painted a new mark this month and a newer one this week. The Ward gauge reads {mere(bowl)} spans.".
   Observe landing_low at ward_landing when mere(bowl) <= 30 "The Mere is a long way off now. The planks over the mud have been laid three times and given up.".
   Observe landing_rising at ward_landing when state(channel_gate, to_mere) and not draining() "There is water in the lowest of the old boat-rings again. Children are standing in it, to the shin, shouting.".
@@ -36,6 +37,7 @@ Module lowwater "Low Water" {
   // Dov Vant, his yard, and the Tench.
   Observe dov_yard_scene at dov_yard when true "A fisher's yard with a smoke-house, a boat-shed, and a heap of things that are not fish: carved grey stone, green bronze, a block with a hole through it, a broken lintel with letters on it, all sorted into piles by some system of Dov's.".
   Person dov "Dov Vant" at dig {
+    Greets "Dov Vant straightens up, wipes his hands on his thighs, and grins at you as if you owed him money and he liked you anyway.".
     Role "fisher of the Mere Ward, and its loudest man". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner jovial.
   }
   Person diggers "the Ward diggers" at dig {
@@ -108,6 +110,7 @@ Module lowwater "Low Water" {
 
   // Quill's agent, buying.
   Person basset "Wenn Basset" at tench_row {
+    Greets "Wenn Basset tucks his ledger under his arm and gives you a smile with nothing behind it but teeth.".
     Role "agent of the Millwrights' Guild". Ancestry human. Peaceable. Pronouns he. Manner proud.
   }
   Initially Assert serves(basset, quill).

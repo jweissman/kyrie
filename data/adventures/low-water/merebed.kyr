@@ -17,7 +17,8 @@ Module lowwater "Low Water" {
     opening when mere(bowl) <= 34 "A stair goes down from the floor of the Listening Hall into black water. The Mere stands in the throat of the Hall and hides where it goes.".
   Passage edge_way "the mud toward the water" is path between mudflats and mere_edge taking 20 minutes.
 
-  Observe mud_scene at mudflats when true "Grey mud to the horizon of the Bowl's floor, cracked into plates where it has dried and soft as dough where it has not. Planks go out across it, and things stand up out of it: the stumps of posts, the ribs of a boat, the top of a wall. The smell is of old water.".
+  Observe mud_scene at mudflats when not familiar(mudflats) "Grey mud to the horizon of the Bowl's floor, cracked into plates where it has dried and soft as dough where it has not. Planks go out across it, and things stand up out of it: the stumps of posts, the ribs of a boat, the top of a wall. The smell is of old water.".
+  Observe mud_scene_again at mudflats when familiar(mudflats) "The new mud, and the planks laid over it.".
   Observe mud_cracks at mudflats when mere(bowl) <= 30 "The mud is drying faster than the planks can be moved. Cracks run across it a hand deep, and in the cracks, grey stone.".
   Observe edge_scene at mere_edge when not wardEmpty(ammerlin) "The Mere: still, dark, very clear, with the whole Bowl upside down in it, terraces and Sounding and the Rim. It is cold enough to ache. The water's edge is a line of drying weed, and a hand further out than it was this morning.".
   Observe edge_pond at mere_edge when wardEmpty(ammerlin) "What is left of the Mere is a pond you could throw a stone across. In the middle of it, the water is turning, very slowly, round and round, like water above a drain.".
@@ -30,7 +31,8 @@ Module lowwater "Low Water" {
   Item dig_weight_b "a weight-stone" is weight_stone at dig.
 
   // The Listening Hall: an Aenean temple in the shape of an ear, over the engine's listening shaft.
-  Observe hall_scene_mere at listening_hall when true "Inside, the Listening Hall is a spiral: a great curving room of grey and white stone that winds inward and down, narrowing, like the inside of a shell, or of an ear. Every surface is fluted. When you speak your voice goes round the curve and comes back to you from in front.".
+  Observe hall_scene_mere at listening_hall when not familiar(listening_hall) "Inside, the Listening Hall is a spiral: a great curving room of grey and white stone that winds inward and down, narrowing, like the inside of a shell, or of an ear. Every surface is fluted. When you speak your voice goes round the curve and comes back to you from in front.".
+  Observe hall_scene_mere_again at listening_hall when familiar(listening_hall) "The Listening Hall, winding inward and down, giving your voice back to you from in front.".
   Observe hall_low at listening_hall when mere(bowl) <= 24 "The Hall stands in the air entire now, and the light comes in at its mouth and goes round its curve and lights it all, white and grey, as nobody has seen it in a thousand years.".
   Discovery hall_hums "Under the Listening Hall, deep in the rock, something is running: a single note, held, under water.".
   Thing hall_wall "the inner wall of the spiral" at listening_hall {

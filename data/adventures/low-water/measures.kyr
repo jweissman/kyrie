@@ -18,21 +18,25 @@ Module lowwater "Low Water" {
   Passage moot_doors "the doors of the Moot Hall" is door between office_hall and moot_hall.
   Passage inn_door "the Full Measure's door" is door between measures_square and taproom.
 
-  Observe square_scene at measures_square when true "A square of wet flagstones on the second terrace, with the Office of Measures down one side, all grey ashlar and tall windows, and the Sounding up the other, its bell-tower over everything. In the middle a fountain: a bronze basin on a column, older than either building, brimming without a sound.".
+  Observe square_scene at measures_square when not familiar(measures_square) "A square of wet flagstones on the second terrace, with the Office of Measures down one side, all grey ashlar and tall windows, and the Sounding up the other, its bell-tower over everything. In the middle a fountain: a bronze basin on a column, older than either building, brimming without a sound.".
+  Observe square_scene_again at measures_square when familiar(measures_square) "Measures Square, the Office down one side and the Sounding up the other, and the old fountain brimming between them.".
   Observe fountain_hums at measures_square when starved(reckoner) "The fountain in the square is humming, low and steady, and the water in its basin stands up in fine rings.".
   Observe fountain_humming at measures_square when humming(ammerlin) "The fountain in the square is humming, low and steady, and children are standing round it with their hands on its rim, feeling it.".
   Observe fountain_still at measures_square when broken(reckoner) "The fountain in the square brims as it always has. Something about it has changed and it takes you a while to know what: the water in the basin no longer trembles, very faintly, as all the water in the Bowl did. It is only water now.".
 
   // The Office.
-  Observe hall_scene at office_hall when true "The hall of the Office of Measures: a long room of benches and a counter of black oak, where the people of Ammerlin come to have their rights read, registered, quarrelled over and sealed. Over the inner door, cut in letters a hand high: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.".
-  Observe hall_queue at office_hall when hour(clock) >= 8 and hour(clock) < 17 "A queue of people with papers goes along the benches: carters, dyers, two women from the Ward with a child asleep across their knees. Nobody in it is talking to anybody else.".
+  Observe hall_scene at office_hall when not familiar(office_hall) "The hall of the Office of Measures: a long room of benches and a counter of black oak, where the people of Ammerlin come to have their rights read, registered, quarrelled over and sealed. Over the inner door, cut in letters a hand high: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.".
+  Observe hall_scene_again at office_hall when familiar(office_hall) "The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.".
+  Observe hall_queue at office_hall when hour(clock) >= 8 and hour(clock) < 17 and not familiar(office_hall) "A queue of people with papers goes along the benches: carters, dyers, two women from the Ward with a child asleep across their knees. Nobody in it is talking to anybody else.".
   Person clerks "the Office clerks" at office_hall {
     Role "at work behind the counter". Ancestry human. Numbers 3. Peaceable.
   }
   Person fenn "Registrar Odile Fenn" at registrar_room {
+    Greets "Registrar Fenn finishes the line she is writing, and blots it, and only then looks up.".
     Role "the head of the Office of Measures". Ancestry human. Peaceable. Pronouns she. Manner grim.
   }
-  Observe registrar_scene at registrar_room when true "The Registrar's room is small and full of paper, stacked by terrace and tied with coloured tape. On the wall, a plan of the whole Stair in ink faded to brown. Registrar Fenn works standing, at a tall desk, and does not sit down for you.".
+  Observe registrar_scene at registrar_room when not familiar(registrar_room) "The Registrar's room is small and full of paper, stacked by terrace and tied with coloured tape. On the wall, a plan of the whole Stair in ink faded to brown. Registrar Fenn works standing, at a tall desk, and does not sit down for you.".
+  Observe registrar_scene_again at registrar_room when familiar(registrar_room) "The Registrar's room: paper tied in coloured tape, and the brown plan of the Stair.".
   Discovery commission "The Office of Measures has engaged you as Independent Assessor: to find why the Mere is falling, and to give your Finding at the Hearing before the Council, at noon on the seventh day." { Known by fenn, isaura. }
   Topic fenn_commission with fenn "Ask the Registrar what she wants from you" when true once {
     Says "'A Finding,' says Registrar Fenn, writing. 'In writing, sealed, delivered at the Hearing at noon on the seventh day, which the Council has set and which I cannot move. A cause, and a remedy. You are an outsider, which is the point of you: nobody in this city can say why the Mere is falling without being accused of wanting somebody's water.' She looks up for the first time. 'Clerk Vant will go with you and open what you need opened. Find me something I can put in front of the Council that will still be standing at the end of the afternoon.' She counts twenty crowns out of a drawer for your expenses, and has you sign for them.".
@@ -63,7 +67,8 @@ Module lowwater "Low Water" {
   }
 
   // The ledger room: the Office's long memory of the Mere, and its oldest map.
-  Observe ledger_scene at ledger_room when true "Shelves to the ceiling of bound ledgers, a ladder on a rail, a long table worn hollow by elbows. The oldest books are at the top and smell of mice; the newest are at the bottom and smell of ink.".
+  Observe ledger_scene at ledger_room when not familiar(ledger_room) "Shelves to the ceiling of bound ledgers, a ladder on a rail, a long table worn hollow by elbows. The oldest books are at the top and smell of mice; the newest are at the bottom and smell of ink.".
+  Observe ledger_scene_again at ledger_room when familiar(ledger_room) "The ledger room, two hundred years of the Bowl's water on its shelves.".
   Discovery fall_dated "The Office's register of the Mere gauge shows the Mere steady for two hundred years, within a span or two. It begins to fall in the autumn three years ago, and has not stopped." {
     Source register_book "the register of the Mere gauge" at ledger_room readable by party.
   }
@@ -75,8 +80,10 @@ Module lowwater "Low Water" {
   Rule map_read when tried(old_map, looking) and not knows(party, feeder_known)
     says "You unroll it on the long table, weighting the corners with ledgers. The Bowl as it was before the Office: the same terraces, the same Stair, and one thing more. From the channel head at the Rim, a grey line goes straight down under the terraces to the Ninth Lock, missing the Mere altogether. Beside it, in a hand older than the Office's: TO FEED THE DEEP WHEN THE MERE IS LOW." teaches feeder_known { }
   // The Full Measure, where carters and Assessors sleep.
-  Observe taproom_scene at taproom when true "The Full Measure: low beams, a fire, carters' boots, and on every table a pewter measure-jug stamped by the Office, so that nobody can say they were given short.".
+  Observe taproom_scene at taproom when not familiar(taproom) "The Full Measure: low beams, a fire, carters' boots, and on every table a pewter measure-jug stamped by the Office, so that nobody can say they were given short.".
+  Observe taproom_scene_again at taproom when familiar(taproom) "The Full Measure's taproom: the fire, the carters, the stamped jugs.".
   Person ruan "Ruan Tell" at taproom {
+    Greets "Ruan Tell has a jug in one hand and a cloth in the other, and puts down neither.".
     Role "the keeper of the Full Measure". Ancestry human. Profession innkeeper. Peaceable. Pronouns he. Manner jovial.
     Sells rations for 2 coin from 8.
     Sells lamp_oil for 1 coin from 4.
