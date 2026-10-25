@@ -42,11 +42,16 @@ export class CommunityWriter {
     return this.likenessOf(region, { pronoun: r.pronoun, painting: r.work.painting, id: r.id });
   }
   // The same for anyone of the country (a traveller on its roads): no two of its people hang in the same painting.
+  // They work for their living: a painting of their work whose sitter is of the gentry (the herbalist is a lady at
+  // her cabinet) is not theirs, and one of a middling or working sitter is (the follow-up review saw richly dressed
+  // sitters given working roles).
   static likenessOf(region: Region, who: { pronoun: string; painting: string; id: string }): string {
     const portraits = this.portraits.get(region) ?? this.portraits.set(region, new Portraits()).get(region)!;
     const station = Likeness.stations[who.painting];
+    const work = station === 'high' ? { stations: ['middling', 'labouring'] }
+      : { concept: who.painting, ...station ? { stations: [station] } : {} };
     const id = portraits.take({ ...who.pronoun === 'she' ? { sex: 'woman' as const } : who.pronoun === 'he' ? { sex: 'man' as const } : {},
-      concept: who.painting, ...station ? { stations: [station] } : {} }, `${region.name}:${who.id}`);
+      ...work }, `${region.name}:${who.id}`);
     return id ? ` Likeness ${this.q(id)}.` : '';
   }
   private static resident(region: Region, c: Community, r: Resident): string[] {

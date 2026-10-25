@@ -760,10 +760,13 @@ excursion. It ranks twelve findings. I repaired these:
 - **A brother's portrait became an initial as he joined** (its eleventh, in part): whoever travels with the company
   was listed without the painting they were met with; they keep it (`test/origins.test.ts`). The herb-wife the debt
   was owed to, painted as a woman, smiled as "he": the creditor is whoever keeps the shop, and is said without a
-  pronoun; the tower's necromancer, written as a man throughout, is declared one, so is painted as one.
+  pronoun; the tower's necromancer, written as a man throughout, is declared one, so is painted as one. And the
+  country's working people are not painted as the gentry: five works (the herb-wife, beekeeper, candle-maker,
+  peat-cutter and schoolmaster) had a painting of their name whose sitter is a lady or a gentleman, and are painted
+  now from middling and working sitters (`test/paintings.test.ts`).
 
-Not done, with the review's own ranking: the rest of the eleventh, portraits at odds with the prose (a worker
-painted as a courtly sitter, a mother who looks younger than her son), and one name: the "Immeral" who saw a sign
+Not done, with the review's own ranking: the rest of the eleventh, a mother who looks younger than her son (the
+paintings' ages are recorded, and not yet weighed against a family's), and one name: the "Immeral" who saw a sign
 first in a company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining,
 where everyone is named as the company knows them.
 

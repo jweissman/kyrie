@@ -4,6 +4,8 @@ import registry from '../data/paintings/registry.json';
 import occupations from '../data/generation/scenes/occupations.json';
 import { Likeness } from '../src/paintings/likeness';
 import { Portraits } from '../src/paintings/portraits';
+import { CommunityWriter } from '../src/world/community/community-writer';
+import type { Region } from '../src/world/region-writer';
 
 // The painting corpus as the game holds it: every image read and copied, each attribution only what the image itself
 // says, and every occupation's painting one the game can show.
@@ -41,5 +43,14 @@ describe('the painting corpus', () => {
     const portraits = new Portraits(), given = Array.from({ length: 40 }, (_, i) =>
       portraits.take({ sex: i % 2 ? 'man' : 'woman', stations: ['labouring', 'middling'] }, `p${i}`));
     expect(new Set(given).size).toBe(40);
+  });
+  // The follow-up review saw richly dressed sitters given working roles: the herb-wife beside a lady at her cabinet.
+  it('paints the country\'s working people as working people, not as the gentry', () => {
+    const region = { name: 'Here' } as unknown as Region;
+    for (const painting of ['herbalist', 'gardener', 'teacher', 'gatherer', 'candlemaker']) {
+      const said = CommunityWriter.likenessOf(region, { pronoun: 'she', painting, id: painting });
+      const sitter = Likeness.sitter(/Likeness "(.+)"/.exec(said)![1]!)!;
+      expect([painting, ['middling', 'labouring'].includes(sitter.station ?? '')]).toEqual([painting, true]);
+    }
   });
 });
