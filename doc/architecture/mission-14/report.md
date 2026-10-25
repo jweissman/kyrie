@@ -747,8 +747,9 @@ excursion. It ranks twelve findings. I repaired these:
 - **An artifact offered nothing but Take, though its kind is described** (its twelfth, in part): a thing to be had is
   seen, looked at, in its kind's own words (`test/thing-described.test.ts`). A family's story finished left the notes
   saying only "Nothing is asked of you yet": they keep what the company has seen through, and when, and say that
-  nothing more is asked, with what has been heard of yours to follow (`test/origins.test.ts`). Repeated plants and
-  journeys are not done.
+  nothing more is asked, with what has been heard of yours to follow (`test/origins.test.ts`). A town with a ford of
+  one river on each of two roads said the river twice over; what two things say alike is said once
+  (`test/said-once.test.ts`). Familiar plants and journeys told again in full are not done.
 - **Inquiries that led nowhere playable** (its fourth): a scenario's hidden way in opened only to those who had heard
   the rumour, so a company that came on cov7's pit by itself searched it and found nothing. A scenario may say what
   looking about where its way in starts finds (the brood's trodden path down to the sink, the tower's well), and
