@@ -26,6 +26,10 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 
 ## Done and verified
 
+- **I.G. A frontier game replayed in another process.** The wander of 120 commands from a1 across five marches (16 to
+  35 modules), played through the browser's engine (`EngineHost`), and its transcript replayed by `bin/kyrie replay`
+  in a fresh process (26 s), come to the same canonical state, once the scenario's path is read the same (the engine
+  names it relative, the terminal absolute).
 - **I.F. Crossings, memory, and the audit's urgent findings.** The country beyond a march-stone a step away is drawn
   and parsed while the player reads (66a968d) and installed into the live world (3b9fa5e): crossings 3.0–4.5 s to
   1.2–2.1 s. A long game no longer keeps every action it ever grounded (7ff6072): 232 to 77 MB at step 333 of wren

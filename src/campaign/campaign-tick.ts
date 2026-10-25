@@ -64,8 +64,10 @@ export class CampaignTick {
   }
   static npcs(host: TickHost, decisions: TickDecision[]) {
     const { definition, current } = host.tickState;
+    // The creatures' facts are projected again before anyone chooses after someone has acted, not before everyone.
+    let acted = decisions.length + 1;
     for (const actor of definition.actors.filter(a => !a.player)) {
-      host.refreshProjection();
+      if (acted !== decisions.length) { host.refreshProjection(); acted = decisions.length; }
       const pending = current.pending?.[actor.id];
       if (pending) {
         if (current.elapsed < pending.until) { continue; }
