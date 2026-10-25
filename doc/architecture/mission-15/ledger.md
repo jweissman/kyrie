@@ -12,9 +12,9 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 
 | finding | stands | where |
 |---|---|---|
-| F1 catalogs process-global; a failed declaration poisons them | partly: a second game no longer takes the first's kinds (each campaign claims its own as it reads its world); a refused kind takes nothing of the catalog's; two modules cannot give one kind two meanings. The catalogs are still the process's: kinds kept with each campaign are the full repair | this commit (see the log), `test/campaign-isolation.test.ts` |
+| F1 catalogs process-global; a failed declaration poisons them | partly: a second game no longer takes the first's kinds (each campaign claims its own as it reads its world); a refused kind takes nothing of the catalog's; two modules cannot give one kind two meanings. The catalogs are still the process's: kinds kept with each campaign are the full repair | 0ecbf8f, `test/campaign-isolation.test.ts` |
 | F2 open questions answered wrongly | done: negations wait on what binds them, a repeated variable is one, an unbindable parameter ranges over its type, and a query asked within a query of a bound parameter asks of its value; every shared-rules query is checked open against closed | 6c4575a, `test/query-answers.test.ts` |
-| F3 a failed expansion commits a command without recording it | done: the command, the country beyond it draws, its telling and its step are undone together | this commit (see the log), `test/command-atomicity.test.ts` |
+| F3 a failed expansion commits a command without recording it | done: the command, the country beyond it draws, its telling and its step are undone together | 0ecbf8f, `test/command-atomicity.test.ts` |
 | F4 a rule can end travel without ending membership | open | |
 | F5 observation instances lose their teaching and binding | open | |
 | F6 a dead speaker answers | open | |
