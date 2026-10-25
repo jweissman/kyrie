@@ -35,7 +35,8 @@ export class DeepSites {
       // The earlier party's first camp is found first, from the top; those further down are the same party's again.
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose,
         ...content.find(x => x.special) ? { first: content.find(x => x.special)!.room.id } : {} })),
-      ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...this.heard(layout, content),
+      ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...DeepSounds.listening(layout),
+      ...this.heard(layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values),

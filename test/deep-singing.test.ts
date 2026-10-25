@@ -107,4 +107,14 @@ describe('the Stone-Singers\' hall from the same generator as the mine', () => {
     expect(await Hall.take(s, /^Take .* to the last hall$/)).toContain('goes back from you into the root of the hill');
     expect(Hall.names(s)).toContain('Collect the tuning-stone of the Stone-Singers for Wenna');
   }, 90000);
+  // The follow-up independent review: the listening-room's prose invited listening, and offered none.
+  it('carries what is about its business in the upper hall to whoever listens at the listening-room\'s bowl', async () => {
+    const { s, deep, room } = await Hall.world();
+    Hall.enter(s, room('porch_listening'));
+    const heard = await Hall.take(s, /^Listen at the bowl in the floor$/);
+    expect(heard).toContain('the whole of the upper hall is in it');
+    expect(heard).toMatch(/as if at your shoulder: something that moves softly, and stops to listen, in the /);
+    Hall.clear(s, deep.id);
+    expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).not.toContain('at your shoulder');
+  }, 90000);
 });
