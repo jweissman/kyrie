@@ -77,7 +77,7 @@ Through the engine (C), each change in turn, wren:
 | map read by relation | 0defc44 | 142 | 352 | 2,434 | 4,287 | 99 | 2,412 |
 | the campaign keeps its world | b70d462 | 116 | 322 | 2,363 | 4,047 | 73 | 2,341 |
 | only changed actors projected, idle rules unasked | c18a3b2 | 79 | 188 | 457 | 716 | 45 | 394 |
-| the observation once per world, read by index; queries propose | (next) | 61 | 151 | 411 | 630 | 33 | 287 |
+| the observation once per world, read by index; queries propose | ab9055a | 61 | 151 | 411 | 630 | 33 | 287 |
 
 The frontier segment through the engine:
 

@@ -10,6 +10,7 @@
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "eslint-plugin-no-comments": "1.2.1",
+    "jiti": "2.7.0",
     "playwright-core": "1.48.2",
     "typescript-eslint": "8.71.2"
   },
@@ -17,9 +18,9 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "deem": "file:../deem",
+    "deem": "github:jweissman/deem#967deac5b8411a921b85ba9ef630d503081ce21e",
     "eslint": "^10.13.0",
-    "languages": "file:../languages",
+    "languages": "github:jweissman/languages#30d36c624e6a604b5ed9296dad5127b23aeb2285",
     "ohm-js": "^17.5.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"

@@ -11,7 +11,7 @@ what you resolve), JRPG party combat without a battle grid, and Orsino's content
 ## Play
 
 ```sh
-bun install            # Deem (../deem) and the languages (../languages) are sibling checkouts
+bun install            # Deem and the languages package are pinned by commit (doc/architecture/verification.md)
 bun run web:build      # writes site/; nothing else is needed
 open site/mono.html    # or serve site/ anywhere; the whole game runs in the page
 ```

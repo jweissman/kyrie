@@ -5,10 +5,10 @@ Kyr's browser reader is published at **https://jweissman.github.io/kyrie/** by t
 
 ## What the workflow does
 
-1. Checks out kyrie, and beside it the two packages it is built against: `deem` (`jweissman/deem`, or whatever the
-   repository variable `DEEM_REPOSITORY` names) and `languages` (`jweissman/languages`). Both are public, so no
+1. Checks out kyrie. The two packages it is built against, `deem` and `languages`, are pinned by commit in
+   `package.json` and installed from the lockfile (see [verification.md](verification.md)); both are public, so no
    token is needed.
-2. Installs each, runs three quick tests that cover what the site depends on (`play-session`, `save-codec`,
+2. Installs, runs three quick tests that cover what the site depends on (`play-session`, `save-codec`,
    `frontier`), and builds the site with `bun run web:build` into `site/` (about 7 MB).
 3. Uploads `site/` as the Pages artifact and deploys it.
 

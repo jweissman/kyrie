@@ -1,0 +1,63 @@
+# Kyrie's checks, on every push and pull request: lint, types and the whole suite, with every skipped spec listed in
+# the run's summary; the long descents; and the browser specs, each against the page it builds. A failing spec turns
+# its job red. Deem and the languages package are pinned in package.json (github:owner/name#commit) and installed by
+# bun from the lockfile, so a clean clone needs no sibling checkouts. Orsino, whose registry one spec regenerates byte
+# for byte, is checked out beside Kyrie at the revision the registry names. See doc/architecture/verification.md.
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions: { contents: read }
+concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
+defaults:
+  run: { working-directory: kyrie }
+jobs:
+  check:
+    name: lint, types, suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - id: orsino
+        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with: { repository: jweissman/orsino, ref: "${{ steps.orsino.outputs.revision }}", path: orsino }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run typecheck
+      - run: bun test --parallel --reporter=junit --reporter-outfile=junit.xml
+      - if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "Suite"
+  long:
+    name: long descents
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bun test test/descent.test.ts --reporter=junit --reporter-outfile=junit.xml
+        env: { KYRIE_LONG: "1" }
+      - if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
+  browser:
+    name: browser specs
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright-core install --with-deps chromium
+      - run: bun test $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
+        env: { KYRIE_BROWSER: "1" }
+      - if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "Browser specs" --none-skipped

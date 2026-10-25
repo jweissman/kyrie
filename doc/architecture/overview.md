@@ -9,7 +9,7 @@
 
 | Layer | Owns | Does not own |
 |---|---|---|
-| **Deem** (`../deem`, `data/generation`) | Choosing: compatible, weighted, seeded selection and composition of definitions | Anything after generation: a generated creature is data until Kyr accepts it |
+| **Deem** (the `deem` package, pinned in `package.json`; `data/generation`) | Choosing: compatible, weighted, seeded selection and composition of definitions | Anything after generation: a generated creature is data until Kyr accepts it |
 | **Kyr** (`data/**/*.kyr`, catalog effects) | Meaning: what exists, what can be done, what changes, what is said | Execution order, persistence, presentation |
 | **Kyrie** (`src/lang/world.ts`, `src/campaign`, `src/battle.ts`) | Truth: the one world state, time, encounters, creatures' bodies, history | Wording, layout, which choices to emphasise |
 | **Presentation** (`src/presentation`, `src/ui`, `web`) | What the player can see, choose and remember | Any rule. It offers only `PlayerView.choices` and never mutates state |

@@ -1,8 +1,7 @@
-# Publishes the static browser workbench to GitHub Pages. Kyrie depends on DEEM and on the languages package as
-# sibling checkouts (package.json: "deem": "file:../deem", "languages": "file:../languages"); both are public. The
-# repository variable DEEM_REPOSITORY (owner/name) may name another DEEM; it defaults to jweissman/deem.
-# Publishing needs Pages enabled for this repository with GitHub Actions as its source (Settings > Pages), which a
-# private repository can only have on a paid plan. See doc/architecture/pages.md.
+# Publishes the static browser workbench to GitHub Pages. Kyrie's DEEM and languages package are pinned in
+# package.json (github:jweissman/deem#commit, github:jweissman/languages#commit) and installed by bun from the
+# lockfile. Publishing needs Pages enabled for this repository with GitHub Actions as its source (Settings > Pages),
+# which a private repository can only have on a paid plan. See doc/architecture/pages.md.
 name: Pages
 on:
   push: { branches: [main] }
@@ -15,17 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
-      - uses: actions/checkout@v4
-        with: { repository: "${{ vars.DEEM_REPOSITORY || 'jweissman/deem' }}", path: deem }
-      - uses: actions/checkout@v4
-        with: { repository: jweissman/languages, path: languages }
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
-      - run: bun install
-        working-directory: deem
-      - run: bun install
-        working-directory: languages
-      - run: bun install && bun test test/play-session.test.ts test/save-codec.test.ts test/frontier.test.ts && bun run web:build
+      - run: bun install --frozen-lockfile && bun test test/play-session.test.ts test/save-codec.test.ts test/frontier.test.ts && bun run web:build
         working-directory: kyrie
       - uses: actions/upload-pages-artifact@v3
         with: { path: kyrie/site }
