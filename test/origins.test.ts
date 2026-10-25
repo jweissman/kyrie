@@ -10,7 +10,7 @@ import { Origins } from '../src/world/origins';
 
 // One person comes into a generated country with a reason of their own, and the country knows them by it. a1 holds
 // the drover who did not come home, so a protagonist may be his child: his wife is their mother, his son their brother,
-// and they say other things to one of their own. A protagonist may instead owe a merchant thirty coin by market day,
+// and they say other things to one of their own. A protagonist may instead owe a merchant fifty coin by market day,
 // and be refused when the day passes; or carry a letter to a priest.
 class Opening {
   static readonly wenna = { name: 'Wenna', raceId: 'human' as const, classId: 'warrior' as const };
@@ -139,7 +139,7 @@ describe('an origin', () => {
   }, 60000);
   it('holds a debt that comes due', async () => {
     const s = await Opening.start('debt');
-    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('You owe Mik at Murkstede 30 coin, by market day');
+    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('You owe Mik at Murkstede 50 coin, by market day');
     for (let n = 0; n < 30 && !s.campaign.world.test(ModuleWriter.call('origin__called', 'party')); n++) {
       const until = PlayerView.choices(s.campaign).find(c => ['wait_for_dark', 'wait_for_light'].includes(c.choice.id));
       await s.perform(until?.choice.id ?? 'wait_hour');
