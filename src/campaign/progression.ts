@@ -9,7 +9,7 @@ import type { ModuleStatus } from './campaign-types';
 
 export class Progression {
   // Each installed module's standing: failed by an unmet pressure, succeeded by its goal, or still active.
-  static statuses(installations: InstalledModule[], world: World,
+  static statuses(installations: readonly InstalledModule[], world: World,
     observations: Record<string, number>): ModuleStatus[] {
     return installations.map(m => ({ id: m.id, name: m.name, installedAt: m.installedAt, deadline: m.deadline,
       outcome: m.pressures.some(id => world.number(ModuleWriter.call('deficit', id)) > 0) ? 'failure' as const

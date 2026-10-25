@@ -155,7 +155,7 @@ export class EngineHost {
   });
   // What was seen and said in the moment the company was set upon, if it was.
   private begun(): string[] {
-    const last = this.session?.campaign.events.at(-1);
+    const last = this.session?.campaign.history.at(-1);
     const seen = [...(last?.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       ...(last?.response ? [last.response] : [])];
     return seen.length ? [...new Set(seen)] : [''];

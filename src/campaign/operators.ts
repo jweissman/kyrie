@@ -3,7 +3,7 @@ import type { CampaignActor } from './definition';
 import type { Call, Module, Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 
-type Actors = Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
+type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
 
 // A campaign's actions, grounded on demand. A schema's applicable bindings are found by joining the positive facts

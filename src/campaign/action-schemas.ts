@@ -23,12 +23,12 @@ export class ActionSchemas {
     }
   }
   // Whether an actor may bind a schema's actor parameter.
-  static mayAct(action: Operator, actor: string, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]) {
+  static mayAct(action: Operator, actor: string, actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]) {
     return !actors || actors.some(a => a.id === actor && (a.allActions || a.actions.includes(action.id)));
   }
   // Every type-correct binding of every schema, less those a static fact rules out. Campaigns ground on demand
   // (see Operators); this eager form serves validation and tools.
-  static ground(module: Module, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Operator[] {
+  static ground(module: Module, actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Operator[] {
     const labels = this.labels(module), context = this.context(module);
     return module.actions.flatMap(action => {
       this.checkLabels(action, labels);
@@ -38,7 +38,7 @@ export class ActionSchemas {
   }
   // Which schemas have at least one binding their unchanging facts allow (what lint asks), without listing them all:
   // a schema with more bindings than the limit plainly has some.
-  static targeted(module: Module, actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Set<string> {
+  static targeted(module: Module, actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Set<string> {
     const context = this.context(module);
     return new Set(module.actions.filter(action => {
       try { return this.bindings(module, action, { ...context, actors }).length > 0; } catch { return true; }
@@ -57,7 +57,7 @@ export class ActionSchemas {
     return { constants, facts };
   }
   private static bindings(module: Module, action: Operator, context: { constants: Set<string>; facts: Set<string>;
-    actors?: Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[] }): Record<string, string>[] {
+    actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[] }): Record<string, string>[] {
     if (!action.parameters?.length) { return [{}]; }
     const { constants, facts, actors } = context, parameters = new Set(action.parameters.map(p => p.name));
     let combinations: Record<string, string>[] = [{}];

@@ -76,7 +76,7 @@ export class JourneyProfile {
     const installed = (campaign as unknown as { definition?: { installations?: unknown[] } }).definition?.installations;
     return { step: n, choice: c.choice.name, command: c.choice.id, total: Math.round(t2 - t1), ...t,
       save: Math.round(t3 - t2), elapsed: campaign.readout.elapsed, facts: campaign.world.view.relations.length,
-      modules: installed?.length ?? 0, commands: campaign.events.length, saved: this.saved,
+      modules: installed?.length ?? 0, commands: campaign.history.length, saved: this.saved,
       heap: JourneyProfile.heap(n % this.every === 0) };
   }
   // The heap in use, in megabytes: at the end of each window after a full collection, so that what is kept is told

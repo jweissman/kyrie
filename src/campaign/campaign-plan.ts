@@ -7,7 +7,7 @@ import type { CampaignActor, CampaignDefinition, InstalledModule } from './defin
 // What a campaign could do next toward its goal, or an installed module's: a search over the company's own moves
 // (not fights or other resolutions) within the time left.
 interface Host {
-  persistent: boolean; installations: InstalledModule[]; world: World; module: { goal: World['module']['goal'] };
+  persistent: boolean; installations: readonly InstalledModule[]; world: World; module: { goal: World['module']['goal'] };
   operators: Operators;
   tickState: { definition?: CampaignDefinition; current: { outcome: string; deadline: number; elapsed: number } };
 }

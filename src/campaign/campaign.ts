@@ -145,9 +145,10 @@ export class Campaign implements WatchHost {
   private installBoundary() {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between commands'); }
   }
-  get installations(): InstalledModule[] { return structuredClone(this.definition?.installations ?? []); }
+  // Read many times a turn (the page's observation reads both), so given as they are, for reading only.
+  get installations(): readonly InstalledModule[] { return this.definition?.installations ?? []; }
   get schemas(): Operator[] { return structuredClone(this.definition?.schemas ?? []); }
-  get actors(): CampaignActor[] { return structuredClone(this.definition?.actors ?? []); }
+  get actors(): readonly CampaignActor[] { return this.definition?.actors ?? []; }
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
   get persistent(): boolean { return !!this.definition; }
   get running(): boolean {
