@@ -34,12 +34,12 @@ export class ChoiceList {
           ...this.preparing(screen)] }] : []),
     ];
   }
-  // In the dark, whoever carries a light can light it: the first thing anyone would do.
+  // In the dark, whoever carries a light can light it: the first thing anyone would do. The choice is the act that
+  // lights it, known by its command, not whichever of the thing's acts comes first (Thrume's B1 set the torch down).
   private static lighting(screen: Screen): Choice[] {
     if (!screen.dark) { return []; }
     return screen.items.filter(i => i.light).flatMap(i => {
-      const own = i.acts.flatMap(a => a.children ?? [a]).find(a => a.command && a.label.includes(i.ownerName))
-        ?? i.acts.find(a => a.command);
+      const own = i.acts.flatMap(a => a.children ?? [a]).find(a => a.command?.startsWith('light_item('));
       // "a torch", "the lantern", but "Garth's spare torch" as it is named.
       const name = /^(the|a|an) /i.test(i.name) ? i.name.toLowerCase() : /^[A-Z]\w*'s /.test(i.name) ? i.name
         : `a ${i.name.toLowerCase()}`;

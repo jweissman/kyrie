@@ -1,0 +1,16 @@
+Module socket "The ash shrine" {
+  Description "A shrine whose altar takes an idol of the shrine's own kind, and keeps it.".
+  Place shrine_site "The ash shrine" is site.
+  Place nave "the nave" is room within shrine_site at 0, 0.
+  Company party "Your company" of 2 at nave.
+  Initially Set quantity(party, gold) to 5.
+
+  // A kind of the shrine's own, named with its article, and set in the altar for good.
+  Kind ash_idol "the Idol of Ash, a hand-high figure of grey stone" is treasure worth 0 weighing 1.
+  Item idol "the Idol of Ash" is ash_idol at nave.
+  Thing altar "the altar" at nave {
+    State empty "A socket the size of a hand is cut into the altar.".
+    State filled "The Idol of Ash stands in the altar's socket.".
+    Change set_idol "Set the idol in the altar" from empty to filled consuming ash_idol.
+  }
+}

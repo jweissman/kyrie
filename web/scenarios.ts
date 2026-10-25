@@ -13,6 +13,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-long-man.campaign.json', title: 'The Long Man', seed: 'merrow',
       note: 'A long straight ridge lies across the head of Merrowdale, and the village under it says a giant king is buried there. Something tall walks its crest at night, and the steward has posted forty crowns to have it laid.',
       detail: 'A dale, a wall, a lake and three days before the storm', recommended: true },
+    // An independent adventure, played as it was written (doc/adventures/thrume).
+    { manifest: 'data/campaigns/thrume.campaign.json', title: 'Thrume', seed: 'saltgrave',
+      note: 'In the salt town under the fells, people pay to sleep, and some of them do not come home. The giants of Thrume have come down off the mountain for the first time in living memory, and the Margravine of Ebb will pay a barony for the thane\'s head.',
+      detail: 'A salt town, a giants\' hold, a mountain that is a body, and ten days before the host of Harle crosses the Ebb' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

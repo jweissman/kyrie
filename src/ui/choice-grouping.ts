@@ -11,6 +11,8 @@ interface Rule {
   tells?: string;
   // The path when the subject stands on a way rather than in the place: tries gather under one entry per thing.
   onWay?: string[];
+  // The binding who does it, said beside the choice rather than in it ("using the Abbess's Eye", by Elen).
+  doer?: string;
 }
 export interface Grouped {
   exits: Map<string, ExitActs>; targets: Map<string, Act[]>; items: Map<string, Act[]>;
@@ -38,7 +40,8 @@ export class ChoiceGrouping {
       via: '{trap}', risk: true },
     change_thing: { slot: 'target', param: 'thing', path: ['{how}'] },
     change_thing_paying: { slot: 'target', param: 'thing', path: ['{how}'] },
-    change_thing_spending: { slot: 'target', param: 'thing', path: ['{how}', 'using {carrier}\'s {spent}'] },
+    // Not "Elen's the Abbess's Eye" (Thrume's B4): a thing is said by its own name, and who carries it beside it.
+    change_thing_spending: { slot: 'target', param: 'thing', path: ['{how}', 'using {spent}'], doer: 'carrier' },
     lead: { slot: 'target', param: 'companion', path: ['Ask them to come with you'] },
     buy_goods: { slot: 'target', param: 'seller', path: ['Buy', 'A {goods} — {goodsfee} coin'] },
     take_lodging: { slot: 'target', param: 'host', path: ['Take {service} — {fee} coin'] },
@@ -198,6 +201,8 @@ export class ChoiceGrouping {
       if (context.carrier(b.find) !== b.recipient) { return; }
       path.pop(); leaf.by = [context.names.get(b.recipient) ?? b.recipient];
     }
+    const doer = rule.doer && b[rule.doer];
+    if (doer && !leaf.by) { leaf.by = [context.names.get(doer) ?? doer]; }
     if (rule.slot === 'exit' && path.length === 1 && b.way && context.several?.has(b.destination ?? '')) {
       path[0] = `${path[0]} by ${context.names.get(b.way) ?? b.way}`;
     }
