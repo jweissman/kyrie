@@ -763,10 +763,11 @@ excursion. It ranks twelve findings. I repaired these:
   pronoun; the tower's necromancer, written as a man throughout, is declared one, so is painted as one. And the
   country's working people are not painted as the gentry: five works (the herb-wife, beekeeper, candle-maker,
   peat-cutter and schoolmaster) had a painting of their name whose sitter is a lady or a gentleman, and are painted
-  now from middling and working sitters (`test/paintings.test.ts`).
+  now from middling and working sitters (`test/paintings.test.ts`). The mother who looked younger than her son is
+  painted by what she is to others and what she does: a wife or a mother is of her years, and "who cooks at the
+  inn" is a cook's work, so a working woman of age, not a girl in silk.
 
-Not done, with the review's own ranking: the rest of the eleventh, a mother who looks younger than her son (the
-paintings' ages are recorded, and not yet weighed against a family's), and one name: the "Immeral" who saw a sign
+Not done, with the review's own ranking: the rest of the eleventh, one name: the "Immeral" who saw a sign
 first in a company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining,
 where everyone is named as the company knows them.
 

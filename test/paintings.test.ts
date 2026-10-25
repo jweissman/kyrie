@@ -44,6 +44,13 @@ describe('the painting corpus', () => {
       portraits.take({ sex: i % 2 ? 'man' : 'woman', stations: ['labouring', 'middling'] }, `p${i}`));
     expect(new Set(given).size).toBe(40);
   });
+  // The follow-up review saw a mother painted younger than her son, and grand.
+  it('paints a mother as a woman of her years, and of her work', () => {
+    for (const key of ['Ian', 'Reed', 'Agnes', 'Maud']) {
+      const sitter = Likeness.sitter(Likeness.of({ role: 'the drover\'s wife, who cooks at the inn', sex: 'woman', key })!)!;
+      expect([key, sitter.age, sitter.station]).toEqual([key, 'adult', 'labouring']);
+    }
+  });
   // The follow-up review saw richly dressed sitters given working roles: the herb-wife beside a lady at her cabinet.
   it('paints the country\'s working people as working people, not as the gentry', () => {
     const region = { name: 'Here' } as unknown as Region;

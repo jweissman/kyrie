@@ -48,19 +48,23 @@ export class Likeness {
     return best;
   }
   static readonly eras: Record<string, number> = { early: 4, late: 3, modern: 0 };
-  // A painting for someone the world has not given one, from the words it knows them by.
+  // A painting for someone the world has not given one, from the words it knows them by: their work, and what they
+  // are to others, which says their age (a mother is no girl: the follow-up review saw one younger than her son).
   static of(at: { own?: string; background?: string; profession?: string; role?: string; sex?: 'man' | 'woman';
     key?: string }): string | undefined {
     if (at.own && this.ids.has(at.own)) { return at.own; }
     const words = [at.profession, at.background, ...this.words(at.role ?? '')].filter((t): t is string => !!t);
     const concept = words.map(w => this.resolve(w)).find(Boolean);
-    const station = concept && this.stations[concept];
+    const station = concept && this.stations[concept], age = words.map(w => this.ages[w]).find(Boolean);
     if (!at.sex && concept && this.sitters.has(concept)) { return concept; }
     return this.choose({ ...at.sex ? { sex: at.sex } : {}, ...concept ? { concept } : {},
-      ...station ? { stations: [station] } : {} }, at.key ?? words.join(' '));
+      ...station ? { stations: [station] } : {}, ...age ? { age } : {} }, at.key ?? words.join(' '));
   }
+  static readonly ages: Record<string, string> = { mother: 'adult', father: 'adult', wife: 'adult', husband: 'adult',
+    widow: 'adult', widower: 'adult', grandmother: 'old', grandfather: 'old', elder: 'old', crone: 'old' };
   private static resolve(word: string): string | undefined {
-    return [word, this.synonyms[word], word.replace(/_/g, '-')].find(id => id && this.ids.has(id));
+    // A work said as what is done ("who cooks at the inn") is the work.
+    return [word, this.synonyms[word], word.replace(/_/g, '-'), word.replace(/s$/, '')].find(id => id && this.ids.has(id));
   }
   private static words(role: string): string[] {
     return role.toLowerCase().replace(/[^a-z\- ]/g, ' ').split(/\s+/).filter(w => w.length > 3).reverse();
