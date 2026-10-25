@@ -51,6 +51,7 @@ proposed stands.
 | Road F3: a measure cannot be said in prose | Exists | `{owed(loan)}` in any text says the measure as it stands; a number in words is open |
 | Road F9, Patient Star 32: a rule's words reach the company anywhere | Exists | `Rule … at place` / `near someone` is told only to a company that perceives it (guide, "Who hears what a rule says") |
 | Road F4, Patient Star 5: there is no floor | Done (c6dbce9) | A count stops at nothing |
+| Thrume F3, Patient Star 35, Road F16, F21, F22: names collide one load at a time, some with no place | Done | A load that fails over a name says every name that collides, each with its places: two things, a state named as a thing is, two observations of one id, a name the shared rules have |
 | Thrume F1, Patient Star 8, Road F8: a rule cannot teach what is known | Done | `Rule … says "…" teaches fact { }` and `Event … "…" teaches fact.`: known, as witnessed, by a company that hears the words; an `Assert knows` is still refused, and the refusal names the rule (guide, "Words that teach") |
 
 ## Open, by how many authors met it
@@ -59,7 +60,7 @@ proposed stands.
 |---|---|---|
 | Knowledge from a source, and at the start | Thrume F1 (the person as its source), Road F20 | A taught fact recorded as told by someone (`toldBy`); a fixture that starts knowing |
 | No ending construct | Thrume F12, Patient Star 28, Road F19, F23 | `Ending … when … "epilogue"` that closes the book |
-| Names collide one load at a time; states share the entity namespace | Thrume F3, Patient Star 35, Road F16, F21, F22 | Every collision in one pass; state names scoped to their thing; both places named |
+| States share the entity namespace | Thrume F3, Patient Star 35, Road F21 | State names scoped to their thing |
 | A skill a source or change needs | Thrume F13, Road F7 | `readable by party with lore`; `needing link_script` |
 | Arithmetic: precedence, min, max, division, counting; computed measures | Road F1, F2, Patient Star 5, 38 | Ordinary precedence and parentheses; `min`, `max`, `/`; `Measure x(p) means …` |
 | Time: a long move is simulated watch by watch | Patient Star 27 (a fourteen-day walk, 35 s); Patient Star 26, 31 | Advancing to the next watch anything can happen ([time.md](../architecture/mission-15/time.md)) |

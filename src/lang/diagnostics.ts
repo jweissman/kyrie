@@ -12,7 +12,9 @@ export class Diagnostics {
     const names = this.names(message);
     const here = names.map(n => this.locate(authored, n)).find(Boolean);
     const also = names.flatMap(n => [this.collide(shared, n), this.twice(authored, n)]).filter((x): x is string => !!x);
-    return new Error([`${here ? `${here}: ` : ''}${message}`, ...new Set(also)].join('\n  '));
+    // A name that collides is seldom the only one: every other is said with it, so that one load finds them all.
+    const others = names.length ? this.clashes(authored, shared).filter(c => !names.some(n => c.startsWith(`'${n}'`))) : [];
+    return new Error([`${here ? `${here}: ` : ''}${message}`, ...new Set([...also, ...others])].join('\n  '));
   }
   // A parse error in one file, said with that file's path.
   static parse(error: unknown, path: string): Error {
@@ -24,7 +26,8 @@ export class Diagnostics {
   // The names an error is about: "Duplicate entity a, b", "Parameter shadows entity x", "Invalid argument x in …",
   // "Text names unknown entity {x}", "Unknown predicate x".
   private static names(message: string): string[] {
-    const patterns = [/Duplicate entity ([\w, ]+)/, /Parameter shadows entity (\w+)/, /Invalid argument (\w+) in/,
+    const patterns = [/Duplicate (?:entity|observation) ([\w, ]+)/, /Parameter shadows entity (\w+)/,
+      /Invalid argument (\w+) in/,
       /unknown entity \{(\w+)\}/, /Unknown predicate (\w+)/];
     for (const p of patterns) {
       const m = p.exec(message);
@@ -44,6 +47,29 @@ export class Diagnostics {
     const parameter = this.line(shared, new RegExp(`[(,]\\s*${this.escape(name)}:\\s*\\w+`));
     return parameter ? `'${name}' is a parameter of a shared rule at ${parameter}; choose another name` : undefined;
   }
+  // Every name in the author's files that collides (Thrume F3 renamed five, one load at a time; the Road's F16, F21,
+  // F22; The Patient Star's 35): two things of one name, a state named as a thing is, two observations of one id, a
+  // thing or state named as the shared rules name something. Several things' states may share a name.
+  static clashes(authored: SourceFile[], shared: SourceFile[]): string[] {
+    const declared = new Map<string, { kind: string; at: string }[]>();
+    for (const f of authored) {
+      f.text.split('\n').forEach((l, i) => {
+        if (/^\s*\/\//.test(l)) { return; }
+        for (const m of l.matchAll(new RegExp(`(?:^|[{.]\\s)\\s*(${this.named})\\s+(\\w+)`, 'g'))) {
+          declared.set(m[2]!, [...declared.get(m[2]!) ?? [], { kind: m[1]!, at: `${this.short(f.path)}:${i + 1}` }]);
+        }
+      });
+    }
+    return [...declared].flatMap(([name, all]) => {
+      const things = all.filter(d => !['State', 'Observe'].includes(d.kind)), states = all.filter(d => d.kind === 'State');
+      const seen = all.filter(d => d.kind === 'Observe'), twice = [...things, ...states.slice(0, 1)];
+      return [
+        ...twice.length > 1 && things.length ? [`'${name}' names two things, at ${twice.map(d => d.at).join(' and ')}; give one of them another name`] : [],
+        ...seen.length > 1 ? [`'${name}' is two observations, at ${seen.map(d => d.at).join(' and ')}; give one another id`] : [],
+        ...(things.length || states.length) ? [this.collide(shared, name)].filter((x): x is string => !!x) : []];
+    });
+  }
+  private static readonly named = 'Place|Item|Thing|Person|Entity|Passage|Hazard|Discovery|Company|State|Observe';
   // A name the author gave to two things (a place and a state both called 'yard').
   private static twice(authored: SourceFile[], name: string): string | undefined {
     const pattern = new RegExp(`\\b(${this.declares})\\s+${this.escape(name)}\\b`);

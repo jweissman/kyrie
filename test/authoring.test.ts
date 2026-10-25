@@ -127,6 +127,13 @@ describe('what an author is told when a module does not load', () => {
     const message = await House.broken(t => t.replace('State open', 'State yard').replace('to open needing', 'to yard needing'));
     expect(message).toContain(`'yard' names two things, at ${House.site}:8 and ${House.site}:41`);
   });
+  // Thrume renamed five names, one load at a time (F3); every one that collides is now said at once.
+  it('says every name that collides in one load', async () => {
+    const message = await House.broken(t => t.replaceAll('pim', 'lord').replace('State open', 'State yard')
+      .replace('to open needing', 'to yard needing'));
+    expect(message).toContain("'lord' is a parameter of a shared rule at data/rules/");
+    expect(message).toContain(`'yard' names two things, at ${House.site}:8 and ${House.site}:41`);
+  });
   it('puts a syntax error at its file, line and column', async () => {
     const message = await House.broken(t => t.replace('Peaceable. }', 'Peaceable }'));
     expect(message).toMatch(new RegExp(`^${House.site}:16:\\d+: Invalid Kyr module`));
