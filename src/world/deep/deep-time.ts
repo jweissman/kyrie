@@ -1,3 +1,4 @@
+import { Canon } from '../../canon/canon';
 import { Draw } from '../land/draw';
 import type { DeepContent } from './deep-pacing';
 import type { DeepPurpose } from './deep-purposes';
@@ -30,7 +31,8 @@ export class DeepTime {
         ...held.flatMap(c => [
           ...this.succession({ id, beyond, level: level.id, gone: c.dwellers!.id, room: c.room.id }),
           // Moved in, they are heard as whoever was there before them was.
-          ...DeepSounds.lines(layout, { id, room: c.room.id, temperament: group.temperament })])];
+          ...DeepSounds.lines(layout, { id, room: c.room.id, temperament: group.temperament,
+            ...group.species ? { kind: Canon.creature(group.species).type } : {} })])];
     });
   }
   private static succession(at: Succession): string[] {

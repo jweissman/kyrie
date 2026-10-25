@@ -91,7 +91,8 @@ export class DeepSites {
   private static heard(layout: DeepLayout, content: DeepContent[]): string[] {
     return content.filter(c => c.dwellers).flatMap(c => DeepSounds.lines(layout, { id: c.dwellers!.id, room: c.room.id,
       temperament: c.dwellers!.group.temperament, ...c.dwellers!.elite ? { elite: true } : {},
-      ...c.dwellers!.group.ancestry ? { person: true } : {} }));
+      ...c.dwellers!.group.ancestry ? { person: true } : {},
+      ...c.dwellers!.group.species ? { kind: Canon.creature(c.dwellers!.group.species).type } : {} }));
   }
   // What the site was worked for, where it was left: lumps of ore in the stopes and the tubs.
   private static ore(purpose: DeepPurpose, layout: DeepLayout): string[] {

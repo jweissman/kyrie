@@ -722,6 +722,10 @@ excursion. It ranks twelve findings. I repaired these:
   before "takes 0 fire damage" and "is burning", and a bite caught someone "for 0" and they bled. A save against harm
   turns the worst of it aside, and harm that came to nothing is not told as harm (`test/fighting-odds.test.ts`). A
   condition said to end while the card still shows it is not traced.
+- **A dweller met as a fight with breathing for its warning** (its seventh, in part): what falls on whoever comes in
+  is heard from the next room as what kind of thing it is, the dead as a cold and a breath let out and never drawn
+  in, a thing of earth or water as weather, beasts still as breathing (`test/what-it-takes.test.ts`). A choice of how
+  to go in, rather than whether, is not done.
 - **A notebook read was taken from view** (its tenth, in part): what is looked at stays in view when nothing more
   can be done with it, until it is turned away from (`test/thing-kept.test.ts`). Tending a wound from the pack still
   goes back to the conversation it was opened over.
@@ -730,9 +734,9 @@ excursion. It ranks twelve findings. I repaired these:
   plants and journeys and a finished family that leaves nothing to ask, is not done.
 
 Not done, with the review's own ranking: inquiries that lead nowhere playable (a pit with no entrance after a
-search, a listening room with nothing to listen to; 4); a hall's dweller met as a fight the moment its room is entered (7); an argument won by one example (9); portraits at odds with the prose, and one name (11): the "Immeral" who saw a sign first in a company that had
-no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining, where everyone is named as
-the company knows them.
+search, a listening room with nothing to listen to; 4); an argument won by one example (9); portraits at odds with
+the prose, and one name (11): the "Immeral" who saw a sign first in a company that had no Immeral I could not
+reproduce, in a1 with every origin nor with a recruit joining, where everyone is named as the company knows them.
 
 ## Invariants
 
