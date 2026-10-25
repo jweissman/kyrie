@@ -1,0 +1,173 @@
+Module hhg "The House That Grows" {
+  Description "The Keel's upper decks, 3.5 km over the Strewnfield: the Long Hall the Seventh has dreamed for two and a half thousand years, grown through the Lifted children's old dormitories.".
+
+  Place decks "the dormitory deck" is level within keel.
+  Place coats_high "the hall of coats" is room within decks at 0, 1 indoors.
+  Place long_hall "the Long Hall" is room within decks at 1, 1 indoors.
+  Place bunk_room "the bunk room" is room within decks at 2, 0 indoors seen as "a room beyond the cold door" until bunk_found.
+  Place lamp_store "the lamp store" is room within decks at 2, 2 indoors seen as "a room beyond the glinting door" until lamps_found.
+  Place choir_room "the choir room" is room within decks at 1, 2 indoors seen as "a room beyond the humming door" until choir_found.
+  Place dorm_stair "the dormitory stair" is room within decks at 1, 0 indoors.
+  Place keel_edge "the open edge" is room within keel at 3, 1 outdoors.
+  Place rigging_foot "the foot of Rigging Row" is room within keel at 1, 3 outdoors.
+
+  Passage high_far_door "the far door of the hall of coats" is door between coats_high and long_hall.
+  Passage bunk_door "a door with cold air under it" is door between long_hall and bunk_room.
+  Passage lamp_door "a door that glints" is door between long_hall and lamp_store.
+  Passage choir_door "a door with a hum behind it" is door between long_hall and choir_room.
+  Passage stair_arch "the stone arch to the stair" is arch between long_hall and dorm_stair.
+  Passage knot_way "the dormitory stair" is stair between dorm_stair and rigging_foot.
+  Passage edge_gap "a gap in the bunk room's outer wall" is crawl between bunk_room and keel_edge.
+  // Kezu's door: grown in the wall of her sleeping-room, it opens on the Long Hall.
+  Passage kezu_wall "the green door in Kezu's wall" is door between kezu_bed and long_hall hidden until kezu_door_known.
+  Initially Assert dreamDoor(high_far_door). Initially Assert dreamDoor(bunk_door). Initially Assert dreamDoor(lamp_door).
+  Initially Assert dreamDoor(choir_door). Initially Assert dreamDoor(kezu_wall).
+
+  Initially Assert houseRoom(coats_high). Initially Assert houseRoom(long_hall). Initially Assert houseRoom(bunk_room).
+  Initially Assert houseRoom(lamp_store). Initially Assert houseRoom(choir_room).
+  Initially Assert keelSide(coats_high). Initially Assert keelSide(long_hall). Initially Assert keelSide(bunk_room).
+  Initially Assert keelSide(lamp_store). Initially Assert keelSide(choir_room).
+  // The Keel's rooms take the same bands of the die as the Annex's: the two bodies may grow in the same turn.
+  Initially Set bandLo(coats_high) to 69. Initially Set bandHi(coats_high) to 85.
+  Initially Set bandLo(long_hall) to 86. Initially Set bandHi(long_hall) to 100.
+  Initially Set bandLo(bunk_room) to 1. Initially Set bandHi(bunk_room) to 17.
+  Initially Set bandLo(lamp_store) to 18. Initially Set bandHi(lamp_store) to 34.
+  Initially Set bandLo(choir_room) to 35. Initially Set bandHi(choir_room) to 51.
+  Initially Assert unlit(dorm_stair).
+
+  Thing high_far_leaf "the far door of the hall of coats" on high_far_door {
+    State shut blocking "A tall glass door, shut. Beyond it, grey light from below.".
+    State bled blocking "Where the far door was there is only glass, and a brown seam that has bled a little, warm, and stopped.".
+  }
+  Thing bunk_leaf "a door with cold air under it" on bunk_door { State shut blocking "A glass door, shut, with a draught coming under it that smells of wind.". }
+  Thing lamp_leaf "a door that glints" on lamp_door { State shut blocking "A glass door, shut. Something glints in rows beyond it.". }
+  Thing choir_leaf "a door with a hum behind it" on choir_door { State shut blocking "A glass door, shut. Through it, very faintly, a hum.". }
+  Thing kezu_leaf "the green door in Kezu's wall" on kezu_wall { State shut blocking "A door of green glass the height of a child, shut, its seam warm.". }
+  // Left long enough, the hall of coats seals its far door and opens another into the bunk room.
+  Passage coats_bunks "a new door in the hall of coats" is door between coats_high and bunk_room hidden until coats_moved.
+  Initially Assert dreamDoor(coats_bunks).
+  Thing coats_bunks_leaf "a new door in the hall of coats" on coats_bunks { State shut blocking "A new glass door, shut, its seams still soft.". }
+  Rule far_door_bleeds when grown(coats_high) >= 2 and state(high_far_leaf, shut) { Assert state(high_far_leaf, bled). }
+  Observe coats_moved_seen at coats_high as revelation when state(high_far_leaf, bled) "The far door is gone. In the side wall, where there was none, there is a new one." teaches coats_moved.
+  Discovery coats_moved "The hall of coats in the city has grown shut its far door and grown a new one into the bunk room.".
+
+  Observe coats_high_scene at coats_high as fixture when true "A hall of hooks at the height of a barn roof, every one hung with a child's coat. It is the hall of coats in the barley, hook for hook, but the light comes up grey through the floor instead of in green through the walls, and the air is thin and cold.".
+
+  // ---- The Long Hall ----
+  Observe long_hall_scene at long_hall as fixture when true "A hallway as long as a field, its ceiling high enough for a giant child, its light coming up grey through the glass floor from the cloud below. Doors go off on both sides at intervals that do not look the same twice. You weigh less here: your steps come down slowly.".
+  Observe hall_far at long_hall as feature when true "Far down the hall, past more doors than you can count, the floor slopes away toward the city's lowest point, and something down there is knocking. Not loud. Wrong.".
+  Thing neme_chair "a child's chair in the middle of the hall" at long_hall {
+    State empty "In the middle of the Long Hall stands a child's chair, child-sized, the right size, set where someone sitting in it can see forty doors at once. Round it, scratched into the glass floor, are tally marks: hundreds of them, in rows.".
+  }
+  Observe tallies at long_hall as revelation when tried(neme_chair, looking) "The tallies run in rows of seven, a week to a row, and there are more rows than you can count before your eyes ache. Twelve years of nights, someone sat here and watched these doors." teaches neme_watched.
+  Discovery neme_watched "Someone kept the Long Hall from growing for twelve years by sitting in a child's chair in its middle and watching forty doors.".
+  Action sit_watch(actor: group, site: place) "Sit in the child's chair and watch the doors" {
+    Description "From here one person can see forty doors at once. Watching them, you hold the rooms behind them.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, long_hall) and not sitting(actor) and companyLooks(actor, site).
+    On success { Assert sitting(actor). }
+    Result "The chair takes your weight. Forty doors: you count them, and hold the count.".
+  }
+  Action stand_up(actor: group, site: place) "Get up out of the child's chair" {
+    Requires able(actor) and sitting(actor) and at(actor, site).
+    On success { Retract sitting(actor). }
+    Result "You get up. Behind you, somewhere, a door you were not watching changes.".
+  }
+  Observe sleepwalker at long_hall as event when at(kezu, long_hall) and sleepwalking(kezu) "Kezu is in the Long Hall in her nightdress, barefoot on the glass, walking slowly away from you down the slope with her eyes open. She is going toward the knocking.".
+
+  // ---- The bunk room ----
+  Discovery bunk_found "Beyond the cold door off the Long Hall is the bunk room: the Lifted children's old stone dormitory, grown over with glass.".
+  Observe bunk_scene at bunk_room as fixture when true "Inside the glass is a stone room older than the glass: a barracks of forty stone shelves for sleeping, three high, like a fossil caught in amber. Children's names are scratched into the stone of every shelf, hundreds of them, in two kinds of letters." teaches bunk_found.
+  Observe bunk_edge at bunk_room as feature when true "In the outer wall the old stone has fallen away, and through the gap there is nothing but grey air, and wind.".
+  Discovery red_door_known "Among the names on the bunk shelves, scratched in Undal letters by a child of Lowmere: RED DOOR, POND ARC." {
+    Found by searching bunk_room "On a low shelf by the gap, among the names, someone small scratched in Undal letters: RED DOOR, POND ARC. LOWMERE.".
+  }
+  Item bunk_dreg "a dreg like a little wooden ox-cart" is dreg at bunk_room.
+  Initially Assert seventhDreg(bunk_dreg).
+  Observe bunk_dreg_seen at bunk_room as feature when at(bunk_dreg, bunk_room) "On one of the shelves lies a small glassy thing the colour of weak tea, shaped like a toy ox-cart. It is warm.".
+  Person mice "a swarm of glass mice" at bunk_room {
+    Role "dreg vermin, glittering, the size of thumbs". Species rat. Numbers 12. Level 1.
+    Temperament wary. Refuge bunk_room.
+    Flinches "The glass mice pour away into the bunk shelves with a sound like spilled beads.".
+    Comes "The glass mice come at your lamp in a glittering wave.".
+  }
+  // Glass mice eat light: a lit lamp near them burns down faster.
+  Rule mice_eat_light when lit(?l) and at(?l, bunk_room) and at(mice, bunk_room) and able(mice) { Decrease burnsOut(?l) by 1. }
+
+  // ---- The open edge ----
+  Observe edge_scene at keel_edge as fixture when true "A ledge of the Keel's raw underside, hung with old roots of stone. Below, a long way below, the cloud of the Veil, and through a tear in it the Strewnfield, a country of round ponds shining like coins. Gritcrows hang in the wind at your height and do not land.".
+  Hazard keel_fall "A fall from the Keel's edge" means "Deal (2d6) physical damage to ally unless dexterity save against (11).".
+  Thing edge_wind "the wind at the edge" on edge_gap is scenery {
+    State gusting dangerous "Wind comes through the gap in gusts that would take a careless climber off the ledge.".
+    State still "The wind at the gap has dropped.".
+    Hurts with keel_fall when gusting then still.
+  }
+  Rule wind_rises when state(edge_wind, still) and untilLight(clock) == 1 { Assert state(edge_wind, gusting). }
+
+  // ---- The lamp store and the boy hiding in it ----
+  Discovery lamps_found "Beyond the glinting door off the Long Hall is a store of burnt-out Ithren lamps.".
+  Observe lamp_scene at lamp_store as fixture when true "Shelves to the ceiling, and on them, in rows, thousands of lamps of selm-glass the size of pears, every one burnt out and grey. Among them, newer, bundles in netting: pots, a cradle, a rolled rug, tied with Netters' knots." teaches lamps_found.
+  Thing lamp_shelves "the lamp shelves" at lamp_store {
+    Holds.
+    State rows "Lamps, thousands of them, in rows.".
+  }
+  Item lamp_a "a burnt-out Ithren lamp" is ithren_lamp in lamp_shelves.
+  Item lamp_b "a burnt-out Ithren lamp" is ithren_lamp in lamp_shelves.
+  Item lamp_c "a burnt-out Ithren lamp" is ithren_lamp in lamp_shelves.
+  Person quill "Quill" at lamp_store {
+    Role "a Lifted boy of eleven, keeping watch over Netters' bundles among the lamps". Ancestry human. Peaceable.
+  }
+  Initially Assert watcher(quill). Initially Assert home(quill, sennu_kitchen).
+  // A boy being taken home is not keeping a watch.
+  Rule quill_leaves_post when following(quill, ?c) and watcher(quill) { Retract watcher(quill). }
+  Topic quill_bundles with quill "Ask Quill what he is doing down here" when true once {
+    Says "'Minding,' says Quill. 'Captain Isele's span. The Ballast-Reeve's going to drop our houses over the side, so we're hiding what's ours down here where he won't look.' He hugs his knees. 'Nobody comes down here. The doors move.'".
+  }
+  Topic quill_home with quill "Ask Quill where he comes from" when not acceptsEscort(quill, actor) {
+    Says "'The floor,' says Quill, which is what the city calls the ground. 'I don't know the town. There was a pond, and our door was red. My mother sang.' He looks at you. 'You're from the floor. Is it true you have to have someone watch you sleep?'".
+  }
+  Topic quill_red_door with quill "Tell Quill about the red door scratched on the bunk shelf" when knows(actor, red_door_known) and not acceptsEscort(quill, actor) {
+    Says "Quill is on his feet before you have finished. 'Lowmere,' he says, trying it. 'Lowmere.' He looks at the bundles he is supposed to be minding, and then at you. 'Will you take me? I can't go back up by the stair. Isele will be cross, but she'd go, if it was hers.'".
+    On discuss { Assert acceptsEscort(quill, actor). }
+  }
+  Topic quill_lamps with quill "Ask Quill about the lamps" when true once {
+    Says "'Two marks apiece on the floor, Isele says, for curiosities.' Quill picks one off a shelf and turns it. 'My gran said when they were lit they looked at you. They used them for night watches, before the court took the scrapings for drinking.'".
+    On discuss { Assert knows(actor, lamp_lore). }
+  }
+  Discovery lamp_lore "The Ithren used their lamps for night watches, before the court took the star-scrapings that fed them for drinking: lit, they looked at you.".
+
+  // ---- The choir room ----
+  Discovery choir_found "Beyond the humming door off the Long Hall are forty glass cradles that sing.".
+  Observe choir_scene at choir_room as fixture when true "Forty cradles of glass stand in a row down the room, each rocking very slightly, and all forty hum one lullaby in one voice: an old tune of Thale, low and slow." teaches choir_found.
+  Thing choir "forty glass cradles" at choir_room {
+    State humming "Forty glass cradles rock and hum one lullaby in one voice.".
+    State hushed "The forty cradles have stopped humming. They are rocking very slightly, toward you. They are listening.".
+    Change sing "Sing the lullaby back to the cradles" from humming to hushed.
+  }
+  Rule choir_resumes when state(choir, hushed) and not at(party, choir_room) { Assert state(choir, humming). }
+  Measure listened(group).
+  Rule choir_lulls when at(party, choir_room) and state(choir, humming) and not holding(party, wax_plugs) { Increase listened(party) by 1. }
+  Rule choir_rests when not at(party, choir_room) and listened(party) > 0 { Set listened(party) to 0. }
+  // The lullaby cannot be a hazard (a condition applied outside a fight lasts no time, or stops the game), so falling
+  // asleep to it is a place: the dream the Choir sings you into, for an hour.
+  Place lull_dream "the hallway in the dream" is room within decks at 3, 2 indoors.
+  Measure wakesAt(group).
+  Rule choir_sleeps when listened(party) >= 3 and dice(clock) <= 60 says "The lullaby has got into your eyelids. You think you will just close them for the length of one verse." {
+    Assert at(party, lull_dream). Set wakesAt(party) to watch(clock). Increase wakesAt(party) by 6. Set listened(party) to 0. }
+  Rule choir_shrugged when listened(party) >= 3 and at(party, choir_room) { Set listened(party) to 0. }
+  Observe dream_scene at lull_dream as fixture when true "You are in a hallway with a great many doors, and you are very small, and someone is knocking at the front one, wrong. A girl's voice somewhere says: there's always a room behind me.".
+  Rule lull_wakes when at(party, lull_dream) and watch(clock) >= wakesAt(party) says "You wake on the glass floor of the choir room with your cheek cold and the cradles rocking." { Assert at(party, choir_room). }
+  Observe choir_counts at choir_room as revelation when state(choir, humming) and not holding(party, wax_plugs) "Under the lullaby, if you listen, the words are a count: one pane, two panes, three, and on, and it stops, and starts again, and each time it gets a little further." teaches front_door_known.
+  Discovery front_door_known "The Choir counts panes under its lullaby, and each count goes a little further: something in the house is being built a pane at a time.".
+
+  // ---- The dormitory stair and the knot-door ----
+  Observe stair_scene at dorm_stair as fixture when true "A stone stair, older than the glass, climbing out of the house into the dark. At its head, a door of rope.".
+  Thing knot_door "the knot-door" on knot_way {
+    State knotted blocking "The head of the stair is closed by a door of net, its edge tied to its frame in a Netter's knot as big as a fist, sealed with tar.".
+    State undone "The Netters' knot hangs undone, and the net door swings.".
+    Change undo "Undo the Netters' knot" from knotted to undone needing lockwork or climbing.
+  }
+  Relation knotBroken(place).
+  Rule knot_known when state(knot_door, undone) and not knotBroken(rigging_foot) { Assert knotBroken(rigging_foot). }
+  Observe rigging_scene at rigging_foot as fixture when true "You come up through a hatch into wind and rigging: a street of houses hung in caul-cable between two terraces of garden, its floor a net. Somewhere along it a bell is ringing, and people are coming, roped, along the net toward the hatch you came through.".
+  Observe rigging_angry at rigging_foot as event when knotBroken(rigging_foot) "A Netter in a harness reaches the hatch first and looks at the undone knot, and then at you, as if you had cut her rope. 'From the wrong side,' she says. 'That's theft, floor-dirt. The Knot House will hear of it.'".
+}

@@ -17,6 +17,9 @@ export class Scenarios {
     { manifest: 'data/campaigns/thrume.campaign.json', title: 'Thrume', seed: 'saltgrave',
       note: 'In the salt town under the fells, people pay to sleep, and some of them do not come home. The giants of Thrume have come down off the mountain for the first time in living memory, and the Margravine of Ebb will pay a barony for the thane\'s head.',
       detail: 'A salt town, a giants\' hold, a mountain that is a body, and ten days before the host of Harle crosses the Ebb' },
+    { manifest: 'data/campaigns/the-house-that-grows.campaign.json', title: 'The House That Grows', seed: 'noon',
+      note: 'You are in your second year learning the Watch, and Kezu of Cobble Ring is your teacher. Two nights ago she sat up with a room of glass that fell into Haddo\'s barley, and at dawn she shut her eyes on purpose and let its small door open.',
+      detail: 'A crater-ring town, a room of glass that grows where nobody watches it, and the city overhead' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

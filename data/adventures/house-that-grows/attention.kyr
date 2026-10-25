@@ -1,0 +1,139 @@
+Module hhg "The House That Grows" {
+  Description "The law the Strewnfield lives by: dream-matter sets where nobody attends to it. A watched room is fixed; an unwatched one grows; a dream-door opens only behind your back, onto the less-watched copy of the room beyond it.".
+
+  // ---- Who attends to a room ----
+  // Attention comes in three degrees. Someone in a room looking at it (the company, a watcher who keeps watch, a lit
+  // Ithren lamp set down) holds it. Cobble Ring's watchers on their stools in the barley overlook every Annex room
+  // through the glass, which fixes it, but less firmly than an eye inside it. Nobody: the room grows.
+  Relation houseRoom(place). Relation keelSide(place).
+  Relation copyOf(place, place).
+  Relation dreamDoor(passage).
+  Relation watcher(group). Relation overlooks(group, place).
+  Relation averted(group). Relation drowsing(group). Relation sitting(group).
+  Measure avertedUntil(group).
+  Relation lit(entity). Relation seventhLit(entity). Measure burnsOut(entity).
+  Relation stareTrained(group).
+
+  Query keepsWatch(g: group) means able(g) and not averted(g) and not drowsing(g).
+  Query companyLooks(c: group, p: place) means company(c) and at(c, p) and not averted(c) and not benighted(c)
+    and memberOf(?m, c) and awake(?m).
+  Query held(p: place) means (company(?c) and at(?c, p) and not averted(?c) and not abed(?c) and not benighted(?c) and memberOf(?m, ?c)
+      and awake(?m)) or (watcher(?w) and at(?w, p) and keepsWatch(?w))
+    or (lit(?l) and at(?l, p)) or (sitting(?s) and keelSide(p) and keepsWatch(?s)).
+  // Watching a room from a post outside it: stools in the barley, a loft's shutter onto a sleeping-room.
+  Relation post(group, place).
+  Query overlooked(p: place) means overlooks(?w, p) and keepsWatch(?w) and post(?w, ?q) and at(?w, ?q).
+  Query watchedRoom(p: place) means held(p) or overlooked(p).
+  // The near copy of a room is the one to open on when it is strictly less watched than the far one.
+  Query nearLess(a: place, b: place) means not held(a) and (held(b) or (overlooked(b) and not overlooked(a))).
+  // Nobody at a door is looking at it: no watcher in the room the company stands in, nobody on the stools if the
+  // door is the Annex's own.
+  // Someone left to hold a room sits with their back to its glass and watches the room, not its doors.
+  Query eyesOn(o: place) means (watcher(?w) and at(?w, o) and keepsWatch(?w) and not staying(?w)) or (sitting(?s) and at(?s, o))
+    or (overlooks(?v, ?r) and keepsWatch(?v) and post(?v, o) and at(?v, o) and annexMouth(o)).
+  Relation annexMouth(place).
+
+  // ---- Looking away ----
+  Rule eyes_back when averted(?g) and watch(clock) >= avertedUntil(?g) { Retract averted(?g). }
+  Rule stands_up when sitting(?s) and not at(?s, long_hall) { Retract sitting(?s). }
+
+  // ---- Dream-doors: they open only behind your back ----
+  Action back_through(actor: group, way: passage, origin: place, there: place) "Close your eyes and back through {way}" {
+    Description "Turn your back on the door, shut your eyes, and step back through when you hear it give. You will not see where it opens until you are there.".
+    Requires able(actor) and company(actor) and at(actor, origin) and dreamDoor(way) and connects(way, origin, there) and visibleTo(way, actor)
+      and not eyesOn(origin) and not sitting(actor) and not held(there) and not copyOf(there, ?any) and mobile(actor).
+    On success { Assert at(actor, there). }
+    Result "Behind you the glass sighs. You step back through it with your eyes shut, and open them.".
+  }
+  // Into a room the house has in both its bodies: the door opens on whichever copy is less watched.
+  Action back_through_near(actor: group, way: passage, origin: place, there: place, far: place) "Close your eyes and back through {way}" {
+    Description "Turn your back on the door, shut your eyes, and step back through when you hear it give. You will not see where it opens until you are there.".
+    Requires able(actor) and company(actor) and at(actor, origin) and dreamDoor(way) and connects(way, origin, there) and visibleTo(way, actor)
+      and not eyesOn(origin) and not sitting(actor) and copyOf(there, far) and nearLess(there, far) and mobile(actor).
+    On success { Assert at(actor, there). }
+    Result "Behind you the glass sighs. You step back through it with your eyes shut, and open them.".
+  }
+  Action back_through_far(actor: group, way: passage, origin: place, there: place, far: place) "Close your eyes and back through {way}" {
+    Description "Turn your back on the door, shut your eyes, and step back through when you hear it give. You will not see where it opens until you are there.".
+    Requires able(actor) and company(actor) and at(actor, origin) and dreamDoor(way) and connects(way, origin, there) and visibleTo(way, actor)
+      and not eyesOn(origin) and not sitting(actor) and copyOf(there, far) and not held(far) and not nearLess(there, far)
+      and mobile(actor).
+    On success { Assert at(actor, far). }
+    Result "Behind you the glass sighs. You step back through it with your eyes shut, and open them. The light is wrong.".
+  }
+
+  // Someone keeping watch beyond a door keeps it shut; knock, and ask them to look away.
+  Action knock_watcher(actor: group, way: passage, origin: place, there: place, keeper: group) "Knock on {way} and ask {keeper} to look away" {
+    Description "Whoever is watching the room beyond holds it; nobody can come in while they look.".
+    Requires able(actor) and company(actor) and at(actor, origin) and dreamDoor(way) and connects(way, origin, there)
+      and visibleTo(way, actor) and watcher(keeper) and at(keeper, there) and keepsWatch(keeper) and not company(keeper).
+    On success { Assert averted(keeper). Set avertedUntil(keeper) to watch(clock). Increase avertedUntil(keeper) by 3. }
+    Result "Through the glass, a voice: 'Who's that?' Then, after a moment, 'All right. I'm not looking.'".
+  }
+
+  Action ask_look_away(actor: group, keeper: group, site: place) "Ask {keeper} to look at you, not the door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(keeper, site) and watcher(keeper) and keepsWatch(keeper)
+      and not company(keeper) and not following(keeper, actor) and not staying(keeper) and not post(keeper, site).
+    On success { Assert averted(keeper). Set avertedUntil(keeper) to watch(clock). Increase avertedUntil(keeper) by 3. }
+    Result "{keeper} looks at you instead, and waits.".
+  }
+
+  // ---- Growth ----
+  // An unwatched room changes on about a 1 in 6 each turn. The world throws one die a watch, so each room is given
+  // its own band of the die: no two rooms of one body grow in the same turn.
+  Measure grown(place). Measure bandLo(place). Measure bandHi(place).
+  Rule house_grows when houseRoom(?p) and not watchedRoom(?p) and dice(clock) >= bandLo(?p) and dice(clock) <= bandHi(?p) {
+    Increase grown(?p) by 1.
+  }
+
+  // ---- Ithren lamps: a lit one, set down, watches its room for an hour ----
+  Rule lamp_set when lit(?l) and at(?l, ?p) and burnsOut(?l) == 0 { Set burnsOut(?l) to watch(clock). Increase burnsOut(?l) by 6. }
+  Rule lamp_out when lit(?l) and burnsOut(?l) > 0 and watch(clock) >= burnsOut(?l) { Retract lit(?l). Retract seventhLit(?l). }
+  Action fuel_lamp(actor: group, lamp: item, fuel: item, carrier: member) "Put {fuel} into the chimney of {lamp}" {
+    Description "Ithren lamps burned a spark of star-matter. Dreg is a dream set hard; whatever dreamed this one, it was not small.".
+    Requires able(actor) and company(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(lamp, carrier)
+      and ownedItem(fuel, carrier) and itemKind(lamp, ithren_lamp) and itemKind(fuel, dreg) and not lit(lamp)
+      and seventhDreg(fuel) and not benighted(actor).
+    Resolve drop(fuel, carrier).
+    On success { Assert lit(lamp). Assert seventhLit(lamp). Set burnsOut(lamp) to 0. Assert at(fuel, nowhere). }
+    Result "The dreg goes soft against the glass and runs in like honey. The lamp lights: a small steady flame the colour of pond-ice, that does not flicker when you breathe on it. It feels like being looked at.".
+  }
+  Relation seventhDreg(item).
+  Discovery lamps_watch "A lit Ithren lamp, set down in a room of the house, holds that room as a watcher would, for about an hour.".
+  // An observation needs an anchor: a phenomenon that goes where a lamp goes is written once for each lamp.
+  Observe lamp_a_watching near lamp_a as revelation when lit(lamp_a) and at(lamp_a, ?p) "The lit lamp stands where it was set and does not waver. The room around it is very still, as a room is when someone is watching it." teaches lamps_watch.
+  Observe lamp_b_watching near lamp_b as revelation when lit(lamp_b) and at(lamp_b, ?p) "The lit lamp stands where it was set and does not waver. The room around it is very still, as a room is when someone is watching it." teaches lamps_watch.
+  Observe lamp_c_watching near lamp_c as revelation when lit(lamp_c) and at(lamp_c, ?p) "The lit lamp stands where it was set and does not waver. The room around it is very still, as a room is when someone is watching it." teaches lamps_watch.
+
+  // ---- Sleep ----
+  // A long rest cannot be seen by rules while it is going on, so sleeping here is two things: lying down, which the
+  // house can see, and the night going by. Whoever lies down is not watching. Sleeping where nobody watches: on
+  // waking, half the time nothing; a third of the time a small dreg, shaped like something the sleeper loved; in the
+  // house, oftener.
+  Relation abed(group). Relation sleptUnwatched(group, place).
+  Action lie_down(actor: group, site: place) "Lie down and sleep here" {
+    Description "Nobody watches a sleeper but whoever sits up with them.".
+    Requires able(actor) and company(actor) and at(actor, site) and not abed(actor) and not settled(site) and dark().
+    On success { Assert abed(actor). }
+    Result "You lie down where you are, and close your eyes, and do not open them again.".
+  }
+  Action lie_down_kitchen(actor: group, site: place) "Lie down on Kezu's bench and sleep" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kezu_kitchen) and not abed(actor) and dark().
+    On success { Assert abed(actor). }
+    Result "You lie down on the bench by the fire, and close your eyes.".
+  }
+  Query sleepWatched(c: group, p: place) means watcher(?w) and at(?w, p) and keepsWatch(?w) and not company(?w).
+  Rule wakes_watched when abed(?c) and not dark() and at(?c, ?p) and sleepWatched(?c, ?p) { Retract abed(?c). }
+  Rule wakes_alone when abed(?c) and not dark() and at(?c, ?p) and not sleepWatched(?c, ?p) {
+    Retract abed(?c). Assert sleptUnwatched(?c, ?p). }
+  Rule waking_dreg when sleptUnwatched(?c, ?p) and houseRoom(?p) and dice(clock) > 33 and at(sleep_dreg, nowhere)
+    says "You wake with something warm against your hand: a small hard thing, glassy, the colour of weak tea." {
+    Retract at(sleep_dreg, nowhere). Assert at(sleep_dreg, ?p). Assert seventhDreg(sleep_dreg). Retract sleptUnwatched(?c, ?p).
+  }
+  Rule waking_dreg_ground when sleptUnwatched(?c, ?p) and not houseRoom(?p) and dice(clock) > 66 and at(sleep_dreg, nowhere)
+    says "You wake with something warm against your hand: a small hard thing, glassy, the colour of weak tea." {
+    Retract at(sleep_dreg, nowhere). Assert at(sleep_dreg, ?p). Retract sleptUnwatched(?c, ?p).
+  }
+  Rule waking_plain when sleptUnwatched(?c, ?p) { Retract sleptUnwatched(?c, ?p). }
+  Item sleep_dreg "a dreg shaped like your father's leather knife, nick and all" is dreg at nowhere.
+}

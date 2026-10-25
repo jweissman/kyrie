@@ -1,0 +1,198 @@
+Module hhg "The House That Grows" {
+  Description "Cobble Ring, a crater-ring town of the Strewnfield, the morning after Kezu opened the door in Haddo's barley.".
+
+  // The Strewnfield's own things, declared here rather than added to the shared catalog.
+  Kind dreg "Dreg" is treasure worth 2 described "A small hard piece of dream set into matter where nobody was watching: glassy, warm to the hand, and shaped like something the dreamer loved. Reed-growers bury it under their reedbeds, and lens-polishers grind it.".
+  Kind ithren_lamp "Ithren lamp" is gear worth 2 described "A lamp of selm-glass from the city, the size of a pear, with a sealed chimney where a spark of star-matter once burned. This one is burnt out. They sell on the ground for curiosities.".
+  Kind wax_plugs "Ear-wax plugs" is gear worth 1 described "A twist of wax and wool to stop the ears, as watch-keepers use against snoring in the common hall.".
+
+  // The Strewnfield, as much of it as this story needs: Cobble Ring, Haddo's barley on its east lip, the causeway
+  // to Lowmere, and the city overhead, whose underside is the Keel.
+  Place strewnfield "the Strewnfield" is region.
+  Place ring "Cobble Ring" is settlement within strewnfield at 1, 1.
+  Place barley_field "Haddo's barley" is wilderness within strewnfield at 2, 1.
+  Place causeway_country "the causeway to Lowmere" is wilderness within strewnfield at 0, 1.
+  Place lowmere "Lowmere" is settlement within strewnfield at 0, 2.
+  Place keel "the Keel" is site within strewnfield at 1, 0.
+
+  Place kezu_house "Kezu's house" is building within ring.
+  Place hall "the sleeping-hall" is building within ring.
+  Place reeve_house "the reeve's house" is building within ring.
+
+  Place rim "the rim of Cobble Ring" is room within ring at 1, 0.
+  Place pond_side "the pond causeway" is room within ring at 1, 1.
+  Place kezu_kitchen "Kezu's kitchen" is room within kezu_house at 0, 1.
+  Place kezu_upper "Kezu's loft" is level within kezu_house.
+  Place kezu_loft "Kezu's watch-loft" is room within kezu_upper at 0, 0.
+  Place kezu_bed "Kezu's sleeping-room" is room within kezu_house at 0, 2.
+  Place hall_floor "the common sleeping-hall" is room within hall at 2, 1.
+  Place reeve_room "the reeve's room" is room within reeve_house at 1, 2.
+  Place east_lip "the east lip" is room within ring at 2, 0.
+
+  Passage rim_steps "the rim steps" is steps between rim and pond_side.
+  Passage kezu_door "Kezu's door" is door between pond_side and kezu_kitchen.
+  Passage loft_ladder "the loft ladder" is ladder between kezu_kitchen and kezu_loft.
+  Passage bed_curtain "the curtain to the sleeping-room" is doorway between kezu_kitchen and kezu_bed.
+  Passage hall_door "the hall door" is door between pond_side and hall_floor.
+  Passage reeve_door "the reeve's door" is door between pond_side and reeve_room.
+  Passage lip_path "the rim path to the east lip" is path between rim and east_lip.
+  Initially Assert at(sleep_dreg, nowhere).
+
+  Company party "You" of 1 at kezu_kitchen.
+  Initially Set quantity(party, gold) to 6.
+  Initially Assert stareTrained(party).
+
+  Observe rim_scene at rim as fixture when true "The rim of Cobble Ring is a ring of turf as wide as a lane, with the houses hung inside it facing the pond. Every house has a watch-loft on its rim side, a raised seat behind a shutter. Out over the plain the next crater-rims glitter, and over the middle of the country, a long way up, the city hangs in its grey skirt of cloud.".
+  Observe rim_lofts at rim as ambience when dark() "Every watch-loft round the rim is lit. In each one, someone is sitting up.".
+  Observe pond_scene at pond_side as fixture when true "A stone causeway runs across the crater pond to the sleeping-hall. Reed thatch, flat roofs, an anchor-stone at the causeway's end where the market is held. Kezu's door, the reeve's door and the hall's open off it.".
+  Observe kitchen_scene at kezu_kitchen as fixture when true "Kezu's kitchen: a peat fire, a bench, a ladder to the watch-loft, and a curtain across the door of the sleeping-room. A knitted cover on the loft seat, worn through where she sits.".
+  Observe loft_scene at kezu_loft as fixture when true "The watch-loft: a seat and a hand-bell, and a shutter that opens onto the sleeping-room below, so whoever sits here can see the bed.".
+  Observe bed_scene at kezu_bed as fixture when true "A narrow sleeping-room with a reed bed, a chest, and one window onto the pond.".
+  Observe hall_scene at hall_floor as fixture when true "Thirty beds in rows, and four stools between them. The roof beams are numbered in chalk, for apprentices who count them to keep awake.".
+  Observe reeve_scene at reeve_room as fixture when true "The reeve's room is also the council's: a long table, nine chairs for the nine arcs, and the town's tax-slates on a rack.".
+  Observe lip_scene at east_lip as fixture when true "From the east lip the barley falls away outside the rim. In it, at the end of a line of flattened stalks, a room of green glass stands in the field as if someone had set it down there.".
+
+  // ---- Kezu, her sister, and her sister's boy ----
+  Person kezu "Kezu" at kezu_bed {
+    Role "watch-keeper of Cobble Ring, sixty-one". Ancestry human. Peaceable.
+    State sleeping "Kezu is asleep, on her back, with one hand closed round the little dreg ox she wears on a cord.".
+    State waking "Kezu is up, grey in the face, with her hands round a cup of something hot.".
+  }
+  Initially Assert state(kezu, sleeping).
+  // She is sleeping too much: by day she is up only for the afternoon.
+  Rule kezu_rises when state(kezu, sleeping) and not dark() and untilDark(clock) <= 36 and untilDark(clock) > 6
+    and at(kezu, kezu_bed) { Assert state(kezu, waking). Assert at(kezu, kezu_kitchen). }
+  Rule kezu_lies_down when state(kezu, waking) and untilDark(clock) <= 6 { Assert state(kezu, sleeping). Assert at(kezu, kezu_bed). }
+  Person hanu "Hanu" at kezu_loft {
+    Role "Kezu's sister, Tobu's mother, sitting up with her". Ancestry human. Peaceable.
+  }
+  Initially Assert watcher(hanu). Initially Assert post(hanu, kezu_loft). Initially Assert overlooks(hanu, kezu_bed).
+  Person tobu "Tobu" at kezu_kitchen {
+    Role "Kezu's sister's boy, seventeen, who sleeps like an ox". Ancestry human. Peaceable.
+  }
+  Initially Assert watcher(tobu).
+  Initially Assert kin(hanu, kezu). Initially Assert kin(tobu, kezu). Initially Assert kin(tobu, hanu).
+
+  // What Kezu did, and what Tobu wants to understand.
+  Topic tobu_night with tobu "Ask Tobu what happened in the barley" when not told(tobu, night) {
+    Says "Tobu looks at the curtain before he answers. 'We held it all night, she and me and the Company man. Eleven and a third, by his cord. Then the girl asked her to open the door.' He swallows. 'She told me to look at her, and then she shut her eyes. On purpose. And the door opened, and something went out through the barley, and the room's nineteen knots now.' He looks at his hands. 'I want to know why she did it.'".
+    On discuss { Assert told(tobu, night). Assert knows(actor, door_opened). }
+  }
+  Relation told(group, entity). Entity night: fact "the night in the barley".
+  Discovery door_opened "Kezu held the room in Haddo's barley all night, then shut her eyes on purpose so that its small door could open. A girl's voice had asked her to. Something light went out through the barley; the room has grown since.".
+  Topic tobu_come with tobu "Ask Tobu to come with you into the house" when knows(actor, door_opened) and not acceptsEscort(tobu, actor) and not following(tobu, actor) {
+    Says "'Into it?' Tobu looks at the curtain again, and then at you. 'She'd skin me.' He gets his coat off the peg. 'I'm coming. Somebody has to look at the doors while you don't.'".
+    On discuss { Assert acceptsEscort(tobu, actor). }
+  }
+  Topic tobu_look with tobu "Tell Tobu: 'Look at me, not the door'" when following(tobu, actor) and not averted(tobu) {
+    Says "Tobu looks at you. He is trying not to blink.".
+    On discuss { Assert averted(tobu). Set avertedUntil(tobu) to watch(clock). Increase avertedUntil(tobu) by 3. }
+  }
+  Topic tobu_stay with tobu "Ask Tobu to stay here and keep his eyes on this room" when following(tobu, actor) and at(actor, ?p) and houseRoom(?p) {
+    Says "Tobu sits down with his back to the glass and looks at the room as Kezu taught him, at the count of things, not the shape of them. 'Go on, then,' he says. 'Don't be long.' He does not look at you as you go.".
+    On discuss { Retract following(tobu, actor). Assert dismissed(tobu, actor). Assert staying(tobu). }
+  }
+  Relation staying(group).
+  Topic tobu_fetch with tobu "Tell Tobu he can stop watching and come" when staying(tobu) and together(tobu, actor) {
+    Says "Tobu gets up stiffly. 'Eleven of the coat-hooks,' he says. 'I counted them a hundred times. Nothing moved.' He falls in beside you.".
+    On discuss { Retract staying(tobu). Retract dismissed(tobu, actor). Assert following(tobu, actor). }
+  }
+  // Tobu leaves if his aunt is harmed.
+  Rule tobu_goes_home when following(tobu, party) and harmed(kezu) says "Tobu hears it in your voice before you have finished. He goes white, and then he goes, without a word, the way home." {
+    Retract following(tobu, party). Retract acceptsEscort(tobu, party). Assert at(tobu, kezu_kitchen).
+  }
+  Relation harmed(group).
+
+  // Kezu, awake: she does not dream, she says.
+  Topic kezu_dreams with kezu "Ask Kezu what she dreams" when state(kezu, waking) and not confessed(kezu) {
+    Says "'Nothing,' says Kezu. 'I sleep like the dead, and I'm too old to be dreaming.' She drinks. Her other hand is on the ox at her throat. 'It's the two nights awake. It'll pass.'".
+  }
+  Relation confessed(group).
+  Topic kezu_why with kezu "Ask Kezu why she shut her eyes" when state(kezu, waking) and knows(actor, door_opened) and not told(kezu, night) {
+    Says "Kezu looks at the fire a long time. 'She asked,' she says. 'She was fourteen and she'd been fourteen a long time, and there's always a room behind her, she said. I had a daughter.' She turns the ox on its cord. 'Nineteen years I never looked away from anything I was paid to watch. That's the Watch. You'll tell me I broke it, and I did.'".
+    On discuss { Assert told(kezu, night). }
+  }
+  Topic kezu_cup with kezu "Tell Kezu her cracked cup has a twin on a shelf in the house" when state(kezu, waking) and knows(actor, cups_match) and not confessed(kezu) {
+    Says "Kezu sets her cup down. 'Then I'll tell you, since you've been in.' She does not lower her voice; she has no one to hide it from but herself. 'I dream a hallway with a great many doors, every night since. And someone knocking at the front one, wrong. Not loud. Wrong. And last night I was walking toward it.' She looks at the curtain to her room. 'Hanu sat up with me. If she nods off, I don't know where I go.'".
+    On discuss { Assert confessed(kezu). Assert knows(actor, kezu_dreams_house). }
+  }
+  Discovery kezu_dreams_house "Kezu dreams the house every night since she opened the door: a hallway of many doors, and someone knocking at the front one, wrong. Last night she was walking toward it in her sleep.".
+  // Not "owned by kezu": the shared rule would have her see it while asleep, and turn on her own student for ever.
+  Item kezu_cup "a cracked orange-glass cup, child-sized" is dreg at kezu_bed.
+  Rule kezu_misses_cup when carries(party, kezu_cup) and state(kezu, waking) and together(kezu, party) and not askedBack(kezu)
+    says "Kezu sees the cup in your hands, and goes very still. 'Put it back,' she says. 'Please. Where it was. I don't want it, and I don't want it gone.'" {
+    Assert askedBack(kezu). }
+  Relation askedBack(group).
+  Initially Assert seventhDreg(kezu_cup).
+  Observe cup_seen at kezu_bed as feature when at(kezu_cup, kezu_bed) "On the floor by the bed stands a small cup of orange glass, the right size for a child, with a crack in the rim." teaches kezu_cup_seen.
+  Discovery kezu_cup_seen "By Kezu's bed stands a child-sized cup of orange glass with a crack in its rim, a dreg that came the night she opened the door.".
+
+  // Kezu walks in her sleep, if nobody watches her: every night she dreams the house she is nearer to it. The second
+  // night the house grows a door in her room. Hanu sits up with her, until the low hour.
+  Measure dreamt(group).
+  Rule low_hour when dark() and untilLight(clock) <= 6 and untilLight(clock) > 0 and watcher(?w) and not drowsing(?w)
+    and not (together(?w, party) and not abed(party)) and not stareTrained(?w) { Assert drowsing(?w). }
+  Rule day_wakes when not dark() and drowsing(?w) { Retract drowsing(?w). }
+  Rule kezu_dreams_on when state(kezu, sleeping) and dark() and untilLight(clock) == 2 and not watchedRoom(kezu_bed)
+    { Increase dreamt(kezu) by 1. }
+  Rule kezu_is_a_door when dreamt(kezu) >= 2 and not doorIn(kezu_bed) { Assert doorIn(kezu_bed). }
+  Relation doorIn(place).
+  Observe kezu_door_seen at kezu_bed as revelation when doorIn(kezu_bed) "In the wall beside Kezu's bed, where there was whitewash yesterday, there is a door of green glass the height of a child, with a brown seam round it that is warm to the hand." teaches kezu_door_known.
+  Discovery kezu_door_known "A door of the house has grown in the wall of Kezu's sleeping-room. Kezu is a door: she dreams the house, and the house has come to her.".
+  Rule kezu_walks when doorIn(kezu_bed) and state(kezu, sleeping) and dark() and not watchedRoom(kezu_bed) and at(kezu, kezu_bed)
+    { Assert at(kezu, long_hall). Assert sleepwalking(kezu). }
+  Relation sleepwalking(group).
+  Rule kezu_comes_back when sleepwalking(kezu) and not dark() { Retract sleepwalking(kezu). Assert at(kezu, kezu_bed). }
+
+  // ---- The sleeping-hall ----
+  Person wenu "Wenu" at hall_floor {
+    Role "hall-warden of Cobble Ring, who keeps the common sleeping-hall". Ancestry human. Peaceable.
+    Offers lodging "a watched bed in the common hall" for 2 coin.
+    Sells wax_plugs for 1 coin from 3.
+    Sells torch for 1 coin from 2.
+  }
+  // Bolt is an old dog, not a creature with a temperament: as a person he would be a feral cave hound that warns.
+  Thing bolt "Bolt, the hall dog" at hall_floor {
+    State asleep "An old brindled dog sleeps across the hall door, so that everyone who comes in has to step over him.".
+    State fussed "Bolt has rolled over to have his belly scratched, and thumps the floor with his tail.".
+    Change scratch "Scratch Bolt behind the ears" from asleep to fussed.
+  }
+  Rule bolt_settles when state(bolt, fussed) and not at(party, hall_floor) { Assert state(bolt, asleep). }
+  Topic wenu_watch with wenu "Ask Wenu about the house in Haddo's barley" when true once {
+    Says "'Four on it day and night,' says Wenu, 'and we charge a mark to go and look, which the reeve says is the town's due and I say is a scandal. They turn their backs for you while the little door opens. That's what the mark is for.' She looks at you. 'Kezu's girl. You'll know better than to go in.'".
+    On discuss { Assert knows(actor, visit_custom). }
+  }
+  Discovery visit_custom "Cobble Ring charges a mark to visit the house in the barley. For the mark, the watchers on the stools turn their backs while the small door opens, and turn back once you are in.".
+
+  // ---- The reeve, the council and the Company's offer ----
+  Person tessa "Ammu Tessa" at reeve_room {
+    Role "crater-reeve of Cobble Ring". Ancestry human. Peaceable.
+  }
+  Measure sellVotes(group).
+  Initially Set sellVotes(tessa) to 5.
+  Topic tessa_offer with tessa "Ask the reeve about the Company's offer" when not voted(tessa) {
+    Says "'Two thousand marks,' says Ammu Tessa, and taps a slate. 'For a thing we pay four watchers to sit by and that grows if they so much as yawn. Haddo would sell it tonight; it's his field, and his barley's spoiled. The council meets at noon the day after tomorrow. Four arcs for selling, three against, two who'll go with whoever spoke to them last.' She looks up. 'If you've something to say to the council, say it to me first.'".
+    On discuss { Assert knows(actor, vote_due). }
+  }
+  Discovery vote_due "Cobble Ring's council votes at noon on the third day on whether to sell the house in the barley to the Lantern Company for two thousand marks. If it sells, the Company's own guards take the stools.".
+  Relation voted(group). Relation persuaded(group, fact).
+  Topic tessa_house with tessa "Tell the reeve the house is one house with rooms up in the Keel" when knows(actor, house_one) and not persuaded(tessa, house_one) and not voted(tessa) {
+    Says "The reeve puts down her stylus. 'Up there.' She looks at the ceiling as if she could see through it. 'Then what the Company is buying is a door into the city.' She makes a mark on a slate. 'That's a different vote.'".
+    On discuss { Assert persuaded(tessa, house_one). Decrease sellVotes(tessa) by 2. }
+  }
+  Topic tessa_well with tessa "Tell the reeve the house is growing a cellar toward Haddo's well" when knows(actor, well_reached) and not persuaded(tessa, well_reached) and not voted(tessa) {
+    Says "'Haddo's well is the east arc's well,' says the reeve. 'Forty households.' She is on her feet. 'Whoever owns it, the town will want it watched by people who were born watching.'".
+    On discuss { Assert persuaded(tessa, well_reached). Decrease sellVotes(tessa) by 2. }
+  }
+  Topic tessa_sell with tessa "Tell the reeve you think the town should sell" when not voted(tessa) and not persuaded(tessa, sale_backed) {
+    Says "'Do you.' The reeve looks at you a long moment. 'Your teacher opened its door. I'd have thought you'd want it kept.' But she makes a mark.".
+    On discuss { Assert persuaded(tessa, sale_backed). Increase sellVotes(tessa) by 1. }
+  }
+  Entity sale_backed: fact "that the town should sell".
+  // Noon on the third day: the council votes. Five or more of nine arcs for the sale carries it.
+  Rule council_sells when watch(clock) >= 312 and not voted(tessa) and sellVotes(tessa) >= 5 { Assert voted(tessa). Assert sold(annex). }
+  Rule council_keeps when watch(clock) >= 312 and not voted(tessa) and sellVotes(tessa) < 5 { Assert voted(tessa). }
+  Relation sold(place).
+  Observe vote_kept at reeve_room as event when voted(tessa) and not sold(annex) "The council's slates are stacked on the table. The house stays Cobble Ring's to watch, and Haddo has been voted a mark a week for his barley.".
+  Observe vote_sold at reeve_room as event when sold(annex) "The council's slates are stacked on the table, and on top of them a Company draft for two thousand marks.".
+}

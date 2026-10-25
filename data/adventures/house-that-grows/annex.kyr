@@ -1,0 +1,284 @@
+Module hhg "The House That Grows" {
+  Description "The Annex: the wing of the house that fell into Haddo's barley, and the watchers on their stools around it.".
+
+  Place annex "the room in the barley" is building within barley_field.
+  Place barley "the flattened barley" is room within barley_field at 1, 1.
+  Place haddo_well "Haddo's well" is room within barley_field at 2, 2.
+  Place bedroom "the glass bedroom" is room within annex at 1, 1 indoors.
+  Place cup_shelf "the cup shelf" is room within annex at 2, 1 indoors.
+  Place coats_low "the hall of coats" is room within annex at 1, 0 indoors.
+  Place root_cellar "the root cellar" is room within annex at 1, 2 underground.
+
+  Passage barley_path "the line of flattened barley" is path between east_lip and barley taking 10 minutes.
+  Passage well_path "the field edge" is path between barley and haddo_well.
+  Passage small_door "the small door" is door between barley and bedroom.
+  Passage shelf_door "the door to the cup shelf" is door between bedroom and cup_shelf.
+  Passage coats_door "the door into the hall of coats" is door between bedroom and coats_low.
+  Passage shelf_coats "the narrow door by the shelf" is door between cup_shelf and coats_low.
+  Passage cellar_door "the low door in the floor" is door between bedroom and root_cellar.
+  // When the root cellar has grown far enough it breaks into Haddo's well shaft.
+  Passage well_breach "the seam in the well shaft" is crawl between root_cellar and haddo_well hidden until well_reached.
+  Initially Assert dreamDoor(small_door). Initially Assert dreamDoor(shelf_door). Initially Assert dreamDoor(coats_door).
+  Initially Assert dreamDoor(shelf_coats). Initially Assert dreamDoor(cellar_door).
+  Initially Assert annexMouth(barley).
+
+  Initially Assert houseRoom(bedroom). Initially Assert houseRoom(cup_shelf). Initially Assert houseRoom(coats_low).
+  Initially Assert houseRoom(root_cellar).
+  Initially Set bandLo(bedroom) to 1. Initially Set bandHi(bedroom) to 17.
+  Initially Set bandLo(cup_shelf) to 18. Initially Set bandHi(cup_shelf) to 34.
+  Initially Set bandLo(coats_low) to 35. Initially Set bandHi(coats_low) to 51.
+  Initially Set bandLo(root_cellar) to 52. Initially Set bandHi(root_cellar) to 68.
+  // The hall of coats is the room the house has in both bodies.
+  Initially Assert copyOf(coats_low, coats_high). Initially Assert copyOf(coats_high, coats_low).
+
+  // Every dream-door is shut to anyone looking at it.
+  Thing small_leaf "the small door" on small_door {
+    State shut blocking "The small door, the only door in the house at a person's height, is shut. It has eleven panes in three rows of four, with one missing at the top right where the handle comes through.".
+  }
+  Thing shelf_leaf "the door to the cup shelf" on shelf_door { State shut blocking "A tall glass door, shut.". }
+  Thing coats_leaf "the door into the hall of coats" on coats_door { State shut blocking "A tall glass door, shut, with coats showing through it.". }
+  Thing shelf_coats_leaf "the narrow door by the shelf" on shelf_coats { State shut blocking "A narrow glass door, shut.". }
+  Thing cellar_leaf "the low door in the floor" on cellar_door { State shut blocking "A trap of green glass in the floor, shut, warm underfoot.". }
+  Observe doors_wont at bedroom as revelation when tried(coats_leaf, pushing) or tried(shelf_leaf, pushing) or tried(small_leaf, pushing)
+    "The door does not give. It is not stuck, or locked. It is waiting for you to stop looking at it." teaches doors_known.
+  Discovery doors_known "The doors of the house do not open while anyone is looking at them. They open behind your back.".
+
+  // ---- The watchers on the stools ----
+  Person watchers "Cobble Ring's watchers" at barley {
+    Role "watchers on stools round the glass, two widows and a stare-student". Ancestry human. Numbers 3. Peaceable.
+  }
+  Person pammu "Old Pammu" at barley {
+    Role "an old watch-keeper with a hand-bell in his lap". Ancestry human. Peaceable.
+  }
+  Initially Assert watcher(watchers). Initially Assert watcher(pammu).
+  Initially Assert post(watchers, barley). Initially Assert post(pammu, barley).
+  Initially Assert overlooks(watchers, bedroom). Initially Assert overlooks(watchers, cup_shelf).
+  Initially Assert overlooks(watchers, coats_low). Initially Assert overlooks(watchers, root_cellar).
+  Initially Assert overlooks(pammu, bedroom). Initially Assert overlooks(pammu, cup_shelf).
+  Initially Assert overlooks(pammu, coats_low). Initially Assert overlooks(pammu, root_cellar).
+  Observe stools at barley as ambience when keepsWatch(watchers) "Round the glass room, on stools set in the flattened barley, Cobble Ring's watchers sit with their eyes on it: two widows with their knitting in their laps and not looking at it, and a stare-student counting panes under her breath.".
+  Observe stools_drowse at barley as ambience when drowsing(watchers) "The watchers on the stools have their chins on their chests. One of the widows is snoring softly.".
+  Observe stools_turned at barley as ambience when averted(watchers) "The watchers have turned their stools round, and sit with their backs to the glass.".
+  // The visiting custom: a mark, and they turn their backs while the small door opens.
+  Action pay_visit(actor: group, site: place) "Pay the watchers a mark to turn their backs while the small door opens" {
+    Description "It is Cobble Ring's due. They turn back the moment you are through.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barley) and at(watchers, barley)
+      and keepsWatch(watchers) and quantity(actor, gold) >= 1.
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(watchers, gold) by 1.
+      Assert averted(watchers). Assert averted(pammu). Set avertedUntil(watchers) to watch(clock). Increase avertedUntil(watchers) by 3.
+      Set avertedUntil(pammu) to watch(clock). Increase avertedUntil(pammu) by 3. }
+    Result "A widow takes the mark and bites it, out of habit. The watchers turn their stools round and sit with their backs to the glass, and Old Pammu rings his bell once, to tell the town.".
+  }
+  // From inside, a knock on the glass asks them to turn round for whoever is coming out.
+  Action knock_out(actor: group, site: place) "Knock on the glass for the watchers to turn their backs" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bedroom) and at(watchers, barley)
+      and keepsWatch(watchers).
+    On success { Assert averted(watchers). Assert averted(pammu). Set avertedUntil(watchers) to watch(clock). Increase avertedUntil(watchers) by 3.
+      Set avertedUntil(pammu) to watch(clock). Increase avertedUntil(pammu) by 3. }
+    Result "Through the glass you see a widow look up from her knitting at the knock. The stools scrape round.".
+  }
+  Topic pammu_hour with pammu "Ask Old Pammu about the low hour" when true once {
+    Says "'The thief,' says Old Pammu. 'An hour before light. There's not a watcher born it doesn't take, if they sit. You stand, you walk, you keep a friend by you.' He rings the bell very softly against his knee. 'We had four. Now Kezu's not here, we've three and me.'".
+  }
+
+  // ---- If the council sells ----
+  // The Company's guards take the stools. They are paid to watch and they do, after their fashion: they were not
+  // born to it, and the low hour takes them as it takes anyone who sits.
+  Person guards "the Company's guards" at nowhere {
+    Role "two Littoral guards in Company blue, on Cobble Ring's stools". Ancestry human. Calling warrior. Numbers 2. Peaceable.
+  }
+  Initially Assert serves(guards, dace).
+  Rule guards_take_stools when sold(annex) and not at(guards, barley)
+    says "The Company's guards come down the barley line with a cart, and Cobble Ring's watchers pick up their stools and go home without a word." {
+    Assert at(guards, barley). Assert watcher(guards). Assert post(guards, barley).
+    Assert overlooks(guards, bedroom). Assert overlooks(guards, cup_shelf). Assert overlooks(guards, coats_low). Assert overlooks(guards, root_cellar).
+    Assert at(watchers, rim). Retract watcher(watchers).
+  }
+  Observe guards_sit at barley as ambience when at(guards, barley) and keepsWatch(guards) "Two Company guards sit on Cobble Ring's stools round the glass, facing it, bored, with their crossbows across their knees.".
+  Observe guards_nod at barley as ambience when at(guards, barley) and drowsing(guards) "The Company's guards are asleep on their stools.".
+  Topic guards_in with guards "Ask the guards to let you into the house" when at(guards, barley) and not lends(dace, slate, actor) {
+    Says "'Company property,' says one, not getting up. 'Mister Dace says who goes in.'".
+  }
+  Action guards_turn(actor: group, site: place) "Ask the guards to turn their backs for Dace's mapmaker" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(guards, site) and keepsWatch(guards) and lends(dace, slate, actor).
+    On success { Assert averted(guards). Set avertedUntil(guards) to watch(clock). Increase avertedUntil(guards) by 3. }
+    Result "The guards look at Dace's slate under your arm, shrug, and turn their stools round.".
+  }
+
+  // ---- Dace, the Company man, and Haddo ----
+  Person dace "Dace" at barley {
+    Role "a Company clerk in a Littoral coat, with a knotted cord and a slate". Ancestry human. Peaceable.
+    Buys ithren_lamp for 2 coin.
+  }
+  Initially Set quantity(dace, gold) to 1000.
+  Topic dace_sum with dace "Ask Dace what his factor wants with the room" when true once {
+    Says "'The barge has a ceiling,' says Dace, 'and the room is in the sum.' He hears himself, and says it in his mother's voice instead. 'Mister Lisle buys things that fall out of the city, and this one's still growing. He tried to lift it yesterday and could not. Now he's offered the town two thousand marks for it, and the council meets on the third day.' He coils his cord. 'He'll pay five hundred for a true map of the inside. A thousand, if it shows a room of the city.'".
+    On discuss { Assert knows(actor, map_offer). Assert knows(actor, vote_due). }
+  }
+  Discovery map_offer "Dace will pay five hundred marks for a true map of the room in the barley, a thousand if it shows a room of the city above. A map of a room you left goes stale if the room grows.".
+  Topic dace_cord with dace "Ask Dace how big the room is now" when true {
+    Says "Dace walks the long side with his cord and comes back. 'Nineteen and a half,' he says. 'Since you asked.'".
+  }
+  Item slate "Dace's slate" is map at barley hidden until map_offer owned by dace.
+  Topic dace_lend with dace "Ask Dace for the loan of his slate, to map the house" when knows(actor, map_offer) and not lends(dace, slate, actor) {
+    Says "Dace hands it over, and the chalk. 'Draw what you can see, as you see it,' he says. 'I'll check it against the cord.'".
+    On discuss { Assert lends(dace, slate, actor). }
+  }
+  // A map of a room is true while the room is as it was when it was drawn.
+  Relation mapped(place). Measure mappedAt(place).
+  Action draw_room(actor: group, carrier: member, site: place) "Draw {site} on Dace's slate" {
+    Description "Chalk what you can see while you are looking at it.".
+    Requires able(actor) and company(actor) and at(actor, site) and houseRoom(site) and companyLooks(actor, site)
+      and memberOf(carrier, actor) and ownedItem(slate, carrier) and not mapped(site).
+    Time 2.
+    On success { Assert mapped(site). Set mappedAt(site) to grown(site). Assert averted(actor). Set avertedUntil(actor) to watch(clock). Increase avertedUntil(actor) by 2. }
+    Result "You chalk the walls, the doors as they are, the furniture at its size.".
+  }
+  Query mapStale(x: place) means mapped(x) and grown(x) > mappedAt(x).
+  Action sell_map(actor: group, carrier: member, site: place) "Give Dace back his slate, with your map of the house" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(dace, site) and memberOf(carrier, actor)
+      and ownedItem(slate, carrier) and mapped(bedroom) and mapped(cup_shelf)
+      and not (mapped(?x) and grown(?x) > mappedAt(?x)) and not mapped(coats_high) and not mapped(long_hall) and not paidMap(dace).
+    Resolve drop(slate, carrier).
+    On success { Assert at(slate, nowhere). Assert paidMap(dace). Decrease quantity(dace, gold) by 500. Increase quantity(actor, gold) by 500. }
+    Result "Dace walks the glass with the slate and his cord, room by room, and comes back satisfied. He counts five hundred marks in Company paper into your hand. 'He'll want more,' he says. 'He always does.'".
+  }
+  Action sell_map_high(actor: group, carrier: member, site: place) "Give Dace back his slate, with your map of the house and the city's rooms" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(dace, site) and memberOf(carrier, actor)
+      and ownedItem(slate, carrier) and mapped(bedroom) and mapped(cup_shelf) and (mapped(coats_high) or mapped(long_hall))
+      and not (mapped(?x) and grown(?x) > mappedAt(?x)) and not paidMap(dace).
+    Resolve drop(slate, carrier).
+    On success { Assert at(slate, nowhere). Assert paidMap(dace). Decrease quantity(dace, gold) by 1000. Increase quantity(actor, gold) by 1000. }
+    Result "Dace reads the slate twice, and the second time his lips move. 'The Long Hall,' he says. 'He'll go himself.' He counts a thousand marks in Company paper into your hand and does not look happy about it.".
+  }
+  Action sell_stale_map(actor: group, carrier: member, site: place) "Give Dace back his slate, with your map of the house" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(dace, site) and memberOf(carrier, actor)
+      and ownedItem(slate, carrier) and mapped(bedroom) and mapped(?x) and grown(?x) > mappedAt(?x) and not paidMap(dace).
+    Resolve drop(slate, carrier).
+    On success { Assert at(slate, nowhere). Assert doubted(dace). }
+    Result "Dace walks the glass with the slate and his cord, and comes back slower. 'This door isn't here,' he says, 'and this room's half again as long. It's grown since you drew it.' He wipes the slate with his sleeve. 'I can't send him that.'".
+  }
+  Relation paidMap(group). Relation doubted(group).
+  Person haddo "Haddo" at barley {
+    Role "the farmer whose barley it is, a month behind everyone else's". Ancestry human. Peaceable.
+  }
+  Topic haddo_field with haddo "Ask Haddo what he means to do with it" when true once {
+    Says "'Sell it,' says Haddo. 'It's in my field and it's spoiled my barley and it's grown a cellar under my turnips. Relic law says it's mine. Council says it's the town's to watch.' He spits. 'Then the town can pay me for the barley.'".
+  }
+
+  // ---- The rooms ----
+  Observe barley_scene at barley as fixture when true "The barley lies flat in a line, like hair under a comb, to a room of glass the green of pond-ice that sits on a slab of dark stone pressed a hand deep into the soil. Its panes are as long as a man is tall, and between them, where you would put lead, runs something brown and soft. Through the glass you can see a bed the size of a hay wagon.".
+  Observe barley_grown at barley as ambience when grown(bedroom) >= 1 "The room in the barley is longer than it was.".
+  Observe well_scene at haddo_well as fixture when true "A stone well-head in the corner of the field, with a bucket on a chain.".
+  Observe well_warm at haddo_well as revelation when grown(root_cellar) >= 2 "The water in Haddo's well is warm, and brown seams thread the stones of the shaft a little below the rim, soft when you press them." teaches well_reached.
+  Discovery well_reached "The house's root cellar has grown into Haddo's well. There is a way into the house there that nobody on the stools is watching.".
+
+  Observe bedroom_scene at bedroom as fixture when true "A giant's bedroom for a child: a bed the size of a hay wagon with its blanket folded at the foot, a chair you would need a ladder for, the green light of the glass, and the warm brown seams between the panes. Through the walls you can see the barley, and the watchers on their stools.".
+  Thing bed "the great bed" at bedroom {
+    State folded "The blanket at the foot of the bed lies in seven folds.".
+    State eight "The blanket at the foot of the bed lies in eight folds. There were seven.".
+  }
+  Rule bed_grows when grown(bedroom) >= 1 and state(bed, folded) { Assert state(bed, eight). }
+  Initially Assert state(bed, folded).
+  Thing coat "a child's coat under the blanket" at bedroom {
+    Holds.
+    State under closed "Something has been folded under the blanket near the pillow, a small shape like a rolled coat.".
+    State shaken "A child's coat lies on the bed, shaken out. Its collar is stitched NEME.".
+    Change shake "Pull the coat out from under the blanket" from under to shaken.
+  }
+  Item marble "an orange-glass marble" is dreg in coat.
+  Thing seams "the brown seams between the panes" at bedroom {
+    State whole "Between the panes the brown stuff is soft and warm, and gives under a thumb.".
+    State scorched "One seam is blackened, and the pane beside it has cracked with a sound like a bell.".
+    Tries burning.
+  }
+  Rule seam_burnt when tried(seams, burning) and state(seams, whole) says "The seam shrinks from the flame like a lip, and the pane beside it cracks, ringing. Through the glass you see the watchers on their stools all look up at once." { Assert state(seams, scorched). }
+  Rule seam_heals when state(seams, scorched) and not watchedRoom(bedroom) { Assert state(seams, whole). Retract tried(seams, burning). }
+  Initially Assert seventhDreg(marble).
+  // The bed grows across the door to the cup shelf if the room is left long enough.
+  Thing bed_foot "the foot of the great bed" on shelf_door {
+    State clear "The foot of the great bed stands clear of the door to the cup shelf.".
+    State jammed blocking "The foot of the bed has grown across the door to the cup shelf. The glass behind it is cracked.".
+  }
+  Rule bed_jams when grown(bedroom) >= 3 and state(bed_foot, clear) { Assert state(bed_foot, jammed). }
+
+  Observe shelf_scene at cup_shelf as fixture when true "A shelf at the height of a barn's eaves runs the length of the room, and on it a row of cups of orange glass, each the size of a bucket.".
+  Observe shelf_twin at cup_shelf as revelation when knows(party, kezu_cup_seen) and not carries(party, kezu_cup) "One of the cups on the shelf has a crack in its rim, low on the left, exactly the crack in the little cup by Kezu's bed." teaches cups_match.
+  Observe shelf_carried at cup_shelf as revelation when carries(party, kezu_cup) "The little cup in your pack has gone warm, the way the door handle was warm. On the shelf above you its twin, a hundred times its size, has the same crack." teaches cups_match.
+  Discovery cups_match "The cracked cup by Kezu's bed has a twin on the cup shelf of the house in the barley, crack and all. What Kezu dreams is this house.".
+  Observe shelf_twelve at cup_shelf as feature when grown(cup_shelf) < 1 "There are twelve of them.".
+  Observe shelf_thirteen at cup_shelf as feature when grown(cup_shelf) >= 1 "There are thirteen of them. Kezu said twelve.".
+  Observe window_scene at cup_shelf as feature when true "At the end of the room a long window runs from floor to roof. Through it you should see the barley. You see a hallway lit from below, as long as a field, with doors on both sides, and through its far glass, cloud." teaches keel_seen.
+  Discovery keel_seen "The long window of the house in the barley does not look out on the barley. It looks into a long hallway lit from below, with cloud beyond its glass: somewhere up in the city.".
+  Discovery house_one "The house in the barley and the rooms under the city are one house. A door in one can open in the other.".
+  Observe high_window at coats_high as revelation when knows(party, keel_seen) "This is the hall the long window showed you." teaches house_one.
+
+  Observe coats_scene at coats_low as fixture when true "A hall of hooks at the height of a barn roof, every one hung with a child's coat, in sizes from a child of five to a girl of fourteen. Doors go out of it on every side.".
+  Observe coats_fifteen at coats_low as ambience when grown(coats_low) >= 1 "At the end of the row, a new coat hangs on a new hook: a girl's coat, for a girl of fifteen.".
+  Observe cellar_scene at root_cellar as fixture when true "A low room under the floor, its floor not glass but turf, warm underfoot and threaded with brown seams that are softer than the turf. It goes on into the dark further than the room above it.".
+  Observe cellar_longer at root_cellar as ambience when grown(root_cellar) >= 1 and grown(root_cellar) < 2 "The cellar goes further than it did, toward the corner of the field.".
+  Observe cellar_well at root_cellar as revelation when grown(root_cellar) >= 2 "At the far end of the cellar the turf gives onto dressed stone, wet and round: the inside of a well shaft. Daylight comes down it." teaches well_reached.
+
+  // ---- The Footman of Folded Glass ----
+  // It cannot move while it is watched. It tidies: it puts people away into drawers. It can be broken while watched,
+  // and is whole again by any unwatched hour. It is a thing, not a fighter: nobody has ever made it fight.
+  Thing footman "a man of folded green glass" at coats_high {
+    State standing "A man made of folded green glass stands with his hands clasped in front of him, the folds as fine as linen. He does not move while you look at him.".
+    State reaching "The man of folded glass is closer than he was. One hand is held out toward you, palm up, as if he would like to take your coat.".
+    State broken "The man of folded glass lies in pieces on the floor, every piece a fold.".
+    Change smash "Break the folded man while you are looking at him" from standing to broken needing brawn or crowbar.
+    Change smash_near "Break the folded man while you are looking at him" from reaching to broken needing brawn or crowbar.
+  }
+  Initially Assert state(footman, standing).
+  Rule footman_mends when state(footman, broken) and at(footman, ?p) and not watchedRoom(?p)
+    { Assert state(footman, standing). }
+  // A lapse lets him close; a second puts you away. A hazard cannot put anyone to sleep for longer than a fight lasts,
+  // and nothing else stops a company acting, so being put away is a place: the inside of a drawer.
+  Place drawer_dark "inside a drawer" is room within annex at 3, 1 indoors.
+  Initially Assert unlit(drawer_dark).
+  Relation putAway(group). Measure freedAt(group). Relation takenFrom(group, place).
+  // Written before footman_closes on purpose: rules see what the rules above them did this turn, so in the other
+  // order one lapse would let him close and take at once.
+  // Effects cannot be conditional, so what happens to Tobu, if he is with you, is a rule of its own, before the taking.
+  Rule tobu_left_by when state(footman, reaching) and at(footman, ?p) and at(party, ?p) and not held(?p) and following(tobu, party) {
+    Retract following(tobu, party). Assert staying(tobu). }
+  Rule footman_takes when state(footman, reaching) and at(footman, ?p) and at(party, ?p) and not held(?p)
+    says "A cool hand that is all folds takes you by the coat, and the room folds with it, small and smaller, into the dark." {
+    Assert at(party, drawer_dark). Assert putAway(party). Assert takenFrom(party, ?p).
+    Set freedAt(party) to watch(clock). Increase freedAt(party) by 6. Assert state(footman, standing). }
+  Rule footman_closes when state(footman, standing) and at(footman, ?p) and at(party, ?p) and not held(?p)
+    says "When you look back the folded man is closer, and his hand is out." { Assert state(footman, reaching). }
+  Observe drawer_inside at drawer_dark as fixture when true "Dark, and close, and folded: your knees are at your chin and your arms along your sides like a letter's lines. You can hear, as if from the far side of a wall, someone counting coat-hooks.".
+  // Someone outside who stares at where you were for an hour unfolds you; nobody, and you stay.
+  Rule unfolded when putAway(party) and takenFrom(party, ?p) and staying(tobu) and at(tobu, ?p) and watch(clock) >= freedAt(party)
+    says "Light comes in along a seam, and then a great deal of light, and you unfold onto the glass floor stiff in every joint. Tobu is sitting with his eyes on the place you went, and has not looked away for an hour." {
+    Retract putAway(party). Retract takenFrom(party, ?p). Assert at(party, ?p). }
+  Rule footman_waits when state(footman, reaching) and at(footman, ?p) and not at(party, ?p) { Assert state(footman, standing). }
+  // Unwatched, he goes down through the house to tidy what is in the barley. In the low hour, if the stools nod, he
+  // comes out of the small door and puts away a watcher.
+  Rule footman_descends when at(footman, coats_high) and not watchedRoom(coats_high) and not watchedRoom(coats_low)
+    and state(footman, standing) and dark() { Assert at(footman, coats_low). }
+  Rule footman_puts_away at barley when at(footman, coats_low) and drowsing(watchers) and drowsing(pammu) and at(pammu, barley)
+    and not at(party, barley) and state(footman, standing)
+    says "In the barley, in the low hour, something glints at the small door and is gone again. Old Pammu's stool is empty." {
+    Assert at(pammu, nowhere). Assert folded(pammu). Retract watcher(pammu). Assert at(footman, coats_high).
+  }
+  Relation folded(group).
+  // The nearest drawer to the barley is the bedroom's: a chest of drawers a child would need a ladder to open.
+  Thing drawer "the bottom drawer of the great chest" at bedroom {
+    State shut "Against the far wall stands a chest of drawers as tall as a barn door. Its bottom drawer is shut.".
+    State full "Against the far wall stands a chest of drawers as tall as a barn door. Its bottom drawer is shut, and from inside it comes, very faintly, the sound of a hand-bell.".
+  }
+  Rule drawer_fills when folded(pammu) and state(drawer, shut) { Assert state(drawer, full). }
+  Initially Assert state(drawer, shut).
+  Observe pammu_gone at barley as event when folded(pammu) and at(watchers, barley) "One of the stools is empty, and the widows will not look at it. 'Pammu,' says one. 'In the low hour. We were all three nodding.'" teaches pammu_taken.
+  Discovery pammu_taken "In the low hour, while the watchers nodded, the folded man came out of the house and put Old Pammu away.".
+  Action unfold(actor: group, site: place) "Sit before the drawer and stare at it for an hour" {
+    Description "A folded person comes out only for someone who watches the drawer an hour without looking away. It is the stare.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(drawer, site) and state(drawer, full)
+      and stareTrained(actor) and companyLooks(actor, site).
+    Time 6. Interrupted when not companyLooks(actor, site).
+    On success { Assert state(drawer, shut). Retract folded(pammu). Assert at(pammu, site). Assert watcher(pammu). Assert acceptsEscort(pammu, actor). }
+    Result "You hold the drawer in your mind as it is, the grain of the glass, the brass of its handle, and do not let your mind make it better or worse. In the hour's last minutes it slides open by itself, and Old Pammu unfolds out of it like a letter, stiff, and blinking, with his bell in his hand.".
+  }
+}

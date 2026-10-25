@@ -1,0 +1,31 @@
+Module hhg "The House That Grows" {
+  Description "The causeway to Lowmere, and a red door on its pond arc.".
+
+  Place causeway "the crater causeway" is room within causeway_country at 0, 0.
+  Place pond_arc "Lowmere's pond arc" is room within lowmere at 1, 1.
+  Place sennu_house "the house with the red door" is building within lowmere.
+  Place sennu_kitchen "a cord-weaver's kitchen" is room within sennu_house at 1, 2.
+  Passage west_road "the west causeway" is causeway between rim and causeway taking 2 hours.
+  Passage lowmere_road "the causeway into Lowmere" is causeway between causeway and pond_arc taking 2 hours.
+  Passage red_door "the red door" is door between pond_arc and sennu_kitchen.
+
+  Observe causeway_scene at causeway as fixture when true "The causeway runs along crater-rims from town to town, a raised road of packed earth between ponds. Out on the plain, cribs of timber packed with wool-bale run in a fan toward the middle of the country: Lowmere's net, to catch the city.".
+  Observe arc_scene at pond_arc as fixture when true "Lowmere is bigger than Cobble Ring: nine arcs of houses facing a wide pond, and every yard full of cord-weaving. On the pond arc one door is painted red.".
+  Observe kitchen_scene_l at sennu_kitchen as fixture when true "A cord-weaver's kitchen, cord on every peg, and a loom by the window onto the pond.".
+
+  Person sennu "Sennu Arru" at sennu_kitchen {
+    Role "a cord-weaver of Lowmere, who sold her boy up to the city in the famine year". Ancestry human. Peaceable.
+  }
+  Initially Assert kin(sennu, quill).
+  Topic sennu_son with sennu "Ask Sennu Arru about the red door" when not cameHome(quill) {
+    Says "'My husband painted it,' says Sennu, 'so the boy would know it from the sky.' She does not stop weaving. 'He was five. The famine year. They took him up as a Netter, for the tax.' The shuttle goes back and forth. 'They told us they'd call him something else.'".
+  }
+  Event quill_home near sennu when cameHome(quill) "Quill stands in the red doorway and does not come in. Sennu looks up from the loom, and the shuttle falls out of her hand and runs across the floor on its thread. She says a name that is not Quill. He says, 'You sang.'" then {
+    Assert reunited(quill).
+  }
+  Relation reunited(group).
+  Observe quill_stays at sennu_kitchen as ambience when reunited(quill) and at(quill, sennu_kitchen) "Quill sits by the loom winding cord for his mother, very badly, and she lets him.".
+
+  Place offstage "elsewhere" is site within strewnfield at 3, 3.
+  Place nowhere "nowhere" is room within offstage at 0, 0.
+}

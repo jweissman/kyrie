@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "The House That Grows",
+  "calendar": { "year": 3640, "month": 8, "day": 28 },
+  "pitch": {
+    "heading": "A stare-student of Cobble Ring",
+    "text": "You are in your second year learning the Watch, and Kezu of Cobble Ring is your teacher. Two nights ago she sat up with a room of glass that fell into Haddo's barley, and at dawn she shut her eyes on purpose and let its small door open. Since then she sleeps too much, and lies about her dreams."
+  },
+  "modules": [
+    { "id": "hhg", "bundle": "../adventures/house-that-grows/module.json" }
+  ],
+  "party": [
+    { "name": "Isa Wennu", "raceId": "human", "classId": "monk" }
+  ]
+}
