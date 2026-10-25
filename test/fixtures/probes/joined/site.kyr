@@ -1,0 +1,16 @@
+Module joined "Who joined" {
+  // An action that waits on someone having joined the company: only the engine says who has (joinedAs).
+  Place yard_site "The carters' yard" is site.
+  Place yard "the yard" is room within yard_site at 0, 0.
+  Company party "Your company" of 1 at yard.
+  Initially Set quantity(party, gold) to 5.
+  Person wil "Wil Hobb, a carter" at yard {
+    Ancestry human. Calling warrior. Level 1. Peaceable.
+  }
+  Initially Assert willing(wil, party). Initially Set hire(wil) to 2.
+  Action thank(actor: group, holder: member, site: place) "Thank Wil for coming" {
+    Requires able(actor) and company(actor) and at(actor, site) and memberOf(holder, actor) and joinedAs(holder, wil).
+    Time 1 minute.
+    Result "Wil shrugs. 'Somebody had to.'".
+  }
+}

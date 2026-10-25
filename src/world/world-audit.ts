@@ -1,6 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Change, Predicate } from '../lang/module';
-import { CreatureFacts } from '../campaign/creature-facts';
+import { EngineWrites } from '../campaign/engine-writes';
 import type { Placement } from './world-assembler';
 
 export interface AuditFinding { kind: 'route' | 'resource' | 'clue' | 'outcome'; subject: string; text: string }
@@ -12,9 +12,7 @@ export interface AuditFinding { kind: 'route' | 'resource' | 'clue' | 'outcome';
 // only what something in the world can bring about. What the willow fix did for one fever, for every story.
 export class WorldAudit {
   // Written by the engine rather than by rules: what a story may wait on without any rule asserting it.
-  static readonly engine = new Set([...CreatureFacts.written, 'at', 'knows', 'established', 'keeps', 'owns', 'state',
-    'defeated', 'ended', 'cleared', 'travelsWith', 'joinedAs', 'following', 'cameHome', 'grateful', 'willing', 'been',
-    'tried']);
+  static readonly engine = EngineWrites.names;
   static audit(campaign: Campaign, placements: Placement[] = []): AuditFinding[] {
     const reach = this.reachable(campaign);
     return [...this.routes(campaign, placements, reach), ...this.resources(campaign, reach),

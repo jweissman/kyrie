@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Who joined (probe)", "modules": [{ "id": "joined", "bundle": "module.json" }], "party": [{ "name": "Nell", "raceId": "human", "classId": "thief", "backgroundId": "burglar" }] }

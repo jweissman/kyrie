@@ -3,6 +3,7 @@ import { ObservationText } from '../lang/observation-text';
 import type { CampaignActor } from './definition';
 import type { Call, Change, Module, Operator, Predicate, Value } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
+import { EngineWrites } from './engine-writes';
 
 export class ActionSchemas {
   static placeholders(template: string): string[] {
@@ -47,9 +48,7 @@ export class ActionSchemas {
   // Join only on relations that no action, rule or campaign projection can write. Keep dynamic
   // preconditions for execution, including cross-module distinct facts installed after grounding.
   private static context(module: Module) {
-    const written = new Set(['at', 'able', 'dead', 'distinct', 'dark', 'recorded', 'capable', 'awake', 'needsCare', 'canCast',
-      'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient', 'swappable', 'company', 'improvable', 'learnable', 'brings', 'witnessed', 'featOpen',
-      'craft', 'temperament',
+    const written = new Set([...EngineWrites.names,
       ...module.actions.flatMap(a => [...a.success, ...a.failure].map(c => c.call.name)),
       ...(module.rules ?? []).flatMap(r => r.effects.map(c => c.call.name))]);
     const constants = new Set(module.relations.filter(r => !written.has(r.name)).map(r => r.name));
