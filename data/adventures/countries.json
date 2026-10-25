@@ -1,5 +1,5 @@
 {
-  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts). Of the countries among one kind (the independent adventures), a world holds only the one its seed chooses.",
+  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts). Of the countries among one kind (the independent adventures), a world holds only the one its seed chooses. Each says what the folk of the first region say of it (rumour, with {keeper} the innkeeper of the town the road leaves from), and what the company knows of it once told (heard).",
   "countries": [
     {
       "id": "longman",
@@ -12,7 +12,9 @@
         "forest"
       ],
       "name": "Merrowdale",
-      "terrain": "mountain"
+      "terrain": "mountain",
+      "rumour": "'Up the north road there is Merrowdale,' says {keeper}. 'There is a long ridge across the head of the dale, and they say a giant king is buried under it. Something tall walks the crest at night. The steward has posted forty crowns to have it laid.'",
+      "heard": "Up the north road lies Merrowdale, where a giant king is said to be buried under the long ridge, and something tall walks its crest at night."
     },
     {
       "id": "thrume",
@@ -27,7 +29,9 @@
       ],
       "name": "Thrume",
       "terrain": "mountain",
-      "among": "independent"
+      "among": "independent",
+      "rumour": "'East over the march, under the fells, there is a salt town, Saltgrave,' says {keeper}. 'People pay to sleep there, and some of them do not come home. And the giants have come down off the mountain, they say, for the first time anyone remembers.'",
+      "heard": "East over the march lies Saltgrave, a salt town under the fells, where people pay to sleep and some do not come home, and the giants have come down off the mountain."
     },
     {
       "id": "strewnfield",
@@ -42,7 +46,9 @@
       ],
       "name": "the Strewnfield",
       "terrain": "marsh",
-      "among": "independent"
+      "among": "independent",
+      "rumour": "'South, in the Strewnfield,' says {keeper}, 'a room of glass fell into a barley field by Cobble Ring. It grows, they say, wherever nobody is watching it. They sit up with it all night on stools.'",
+      "heard": "South over the march lies the Strewnfield, where a room of glass fell into a barley field by Cobble Ring, and grows wherever nobody watches it."
     },
     {
       "id": "corrow",
@@ -56,7 +62,9 @@
       ],
       "name": "the Corrow",
       "terrain": "mountain",
-      "among": "independent"
+      "among": "independent",
+      "rumour": "'West of here is the Corrow,' says {keeper}. 'There is a mountain hangs over it in the sky, on a chain, and they say it is drifting. And there is a well there nobody has been to the bottom of.'",
+      "heard": "West over the march lies the Corrow, where a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of."
     },
     {
       "id": "ghessil",
@@ -71,7 +79,9 @@
       ],
       "name": "the Ghessil Uplands",
       "terrain": "mountain",
-      "among": "independent"
+      "among": "independent",
+      "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive.'",
+      "heard": "West over the march lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn."
     }
   ]
 }

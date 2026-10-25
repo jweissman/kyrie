@@ -107,6 +107,14 @@ describe('the world beyond a region', () => {
     const wren = await WorldAssembler.assemble('wren', NodeBundleSource.shared);
     expect(wren.report.region.beyond!.west!.name).toBe('the Ghessil Uplands');
     const u = await PlaySession.start(wren.path, 'wren', wren.source);
+    // Its rumour is a hook: the innkeeper of the town the west road leaves from tells it, asked, and it is known as
+    // heard from them.
+    const told = u.campaign.module.actions.find(a => a.id === 'region__edge_west_beyond_told')!;
+    GeneratedWorld.put(u, u.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
+    expect(await Journey.of(u).play('about the road west')).toContain('people standing in it');
+    const known = PlayerView.observe(u.campaign).knowledge.find(k => k.id === 'region__edge_west_beyond')!;
+    const keeper = u.campaign.module.entities.find(e => e.id === told.speaker)!.name;
+    expect([known.source, known.from?.startsWith(keeper)]).toEqual(['heard', true]);
     await GeneratedWorld.travel(u, 'edge_west');
     const ghessil = await new Frontier('wren', NodeBundleSource.shared).expand(u.campaign);
     await March.choose(u, /road across the march to the Shift Market/);

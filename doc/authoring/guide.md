@@ -583,7 +583,9 @@ first march where it fits, so that its own countries go on beyond the rest. To o
 - export the room the road comes into (`"salt_road": "salt_road"`), outdoors at the country's edge;
 - add the country to `countries.json`: its bundle, that entry, an entity only it has (its marker), what it is called
   and what kind of country it is, the side of a generated country it lies on, and the terrains of those it may lie
-  beside.
+  beside; and its rumour, what the innkeeper of the town the road leaves from says of it when asked about the road
+  (`{keeper}` is the innkeeper), with what the company knows of it once told (`heard`), which the journal keeps as
+  heard from them.
 
 Its clock runs from when it is reached (a rule at `watch(clock) >= 216` waits 216 watches from then), and what it says
 of the company that comes in is said by names of its own (`Initially Set breath(party) to 12`).

@@ -35,8 +35,9 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 - **II.D. The adventures in generated worlds.** Thrume, The House That Grows, The Road the Star Came Down and The
   Patient Star are countries a generated world may hold (`data/adventures/countries.json`, each by a `placed.json`
   that leaves its own company out and takes the world's): one to a world, as its seed chooses, beyond the first
-  march where it fits, as The Long Man is held where it fits. The folk of the first region speak of it by name; the
-  road across the march comes into its edge (Thrume's salt road, the rim of Cobble Ring, the Peleth road's eighth
+  march where it fits, as The Long Man is held where it fits. The folk of the first region speak of it by name, and
+  the innkeeper of the town its road leaves from tells its rumour when asked about the road, known from then as heard
+  from them; the road across the march comes into its edge (Thrume's salt road, the rim of Cobble Ring, the Peleth road's eighth
   bend, the Shift Market); its clock runs from then. Installing one takes 0.35 to 0.9 s. A module may now say what it
   will of the company it is installed for by names of its own (The Patient Star's breath and memories). Test:
   `test/frontier.test.ts` (yew's Thrume, walked into and read; wren's Ghessil Uplands).

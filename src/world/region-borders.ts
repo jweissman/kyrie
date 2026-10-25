@@ -32,6 +32,15 @@ export class RegionBorders {
     return [`  Place ${id}_land ${q(`the ${b.side}ern marches of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(`the ${b.side}ern edge of ${region.name}`)} is room within ${id}_land at 0, 0.`,
       `  Passage ${id}_road ${q(`the old road ${b.side}`)} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,
-      `  Observe ${id}_scene at ${id} when true ${q(`${mark}${there}`)}.`];
+      `  Observe ${id}_scene at ${id} when true ${q(`${mark}${there}`)}.`, ...this.rumour(b, beyond, from.id)];
+  }
+  // What the innkeeper of the town the road leaves from says of an authored country beyond, asked: a hook into it,
+  // known from then as heard from them.
+  private static rumour(b: Border, beyond: NonNullable<Region['beyond']>[Border['side']], town: string): string[] {
+    if (!beyond?.rumour || !beyond.heard) { return []; }
+    const q = JSON.stringify, id = `${this.room(b)}_beyond`, keeper = `${town}_innkeeper`;
+    return [`  Discovery ${id} ${q(beyond.heard)}.`,
+      `  Topic ${id}_told with ${keeper} ${q(`Ask {${keeper}} about the road ${b.side}`)} when not knows(actor, ${id}) {`,
+      `    Says ${q(beyond.rumour.replaceAll('{keeper}', `{${keeper}}`))}.`, `    On discuss { Assert knows(actor, ${id}). }`, '  }'];
   }
 }

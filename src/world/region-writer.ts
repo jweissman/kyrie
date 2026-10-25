@@ -52,7 +52,8 @@ export interface Region extends Naming {
   // Who made things in it before its folk, what they made, and who came after (see Histories).
   history?: History;
   // Where it lies in its world, and what the folk call the country beyond each of its borders (see WorldGrid).
-  at?: [number, number]; beyond?: Partial<Record<Side, { name: string; terrain: string }>>;
+  at?: [number, number];
+  beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string }>>;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
