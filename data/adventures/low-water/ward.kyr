@@ -123,7 +123,7 @@ Module lowwater "Low Water" {
   Relation frozenSeen(group).
   // At three on the third afternoon, the Guild's bailiffs come to the dig it now owns.
   Relation clashed(entity). Relation stoodBetween(group).
-  Rule bailiffs_to_dig when digBought(dig) and watch(clock) >= 330 and not clashed(dig) and not at(bailiffs, dig) and not sentAway(bailiffs) and not breached(dig) {
+  Rule bailiffs_to_dig when digBought(dig) and able(bailiffs) and watch(clock) >= 330 and not clashed(dig) and not at(bailiffs, dig) and not sentAway(bailiffs) and not breached(dig) {
     Retract at(bailiffs, quill_outer). Retract at(bailiffs, rim_gauge). Assert at(bailiffs, dig). Set clashAt(dig) to watch(clock) + 3. }
   Measure clashAt(entity). Relation sentAway(group).
   Observe bailiffs_at_dig at dig when at(bailiffs, dig) and not clashed(dig) "Three Guild bailiffs in green coats stand on the lip of the dig with cudgels and a paper. Below them in the hole the diggers have stopped, shovels in their hands, and Dov Vant is coming up the ladder.".
@@ -143,7 +143,7 @@ Module lowwater "Low Water" {
     On success { Assert clashed(dig). Assert sentAway(bailiffs). Retract at(bailiffs, dig). Assert at(bailiffs, quill_outer). }
     Result "Isaura takes the warrant out of her coat and reads it aloud, all of it, in the voice of the Office, to the end, including the seal. The bailiffs listen. When she has finished the biggest of them says, 'Right,' and they go back up the Ward steps. Dov looks at his sister as if he had never seen her before.".
   }
-  Rule clash_happens when at(bailiffs, dig) and not clashed(dig) and clashAt(dig) > 0 and watch(clock) >= clashAt(dig)
+  Rule clash_happens when at(bailiffs, dig) and able(bailiffs) and not clashed(dig) and clashAt(dig) > 0 and watch(clock) >= clashAt(dig)
     says "At the dig it comes to cudgels and shovels. It is short and ugly. When it is over, two diggers are bleeding into the mud, the bailiffs have Dov Vant down with his arms tied behind him, and they march him up the Ward steps to the Office cells. The dig is the Guild's." {
     Assert clashed(dig). Assert dovHeld(dov). Assert digClosed(dig). Retract at(dov, dig). Retract at(dov, dov_yard). Assert at(dov, office_cells).
     Retract at(diggers, dig). Assert at(diggers, tench_row). Retract at(bailiffs, dig). Assert at(bailiffs, quill_outer). }

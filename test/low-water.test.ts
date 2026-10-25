@@ -94,10 +94,8 @@ describe('Low Water', () => {
   it('finds the forty ells, the Short Hymn and the keeper\'s book, and puts them together', async () => {
     const j = await Bowl.start();
     await j.play(...Bowl.act1);
-    console.log('watch', j.watch());
-    for (const f of ['discrepancy', 'channel_measured', 'engineers_report', 'fall_dated', 'feeder_known', 'short_hymn', 'remainders_tones', 'letters_read', 'lockbook_read', 'hymn_cause', 'deep_drinks', 'missing_found']) {
-      console.log(f, Bowl.knows(j, f));
-    }
+    for (const f of ['discrepancy', 'channel_measured', 'engineers_report', 'fall_dated', 'feeder_known', 'short_hymn',
+      'remainders_tones', 'letters_read', 'lockbook_read', 'deep_drinks']) { expect(Bowl.knows(j, f)).toBe(true); }
     expect(Bowl.knows(j, 'hymn_cause')).toBe(true);
     expect(Bowl.knows(j, 'missing_found')).toBe(true);
   }, 120000);
@@ -115,11 +113,8 @@ describe('Low Water', () => {
     for (const f of ['grammar_known', 'census_read', 'keystone_read']) { expect(Bowl.knows(j, f)).toBe(true); }
     expect(j.holds(L('restoredForGood'), L('bowl'))).toBe(true);
     expect(j.holds(L('halmStopped'), L('halm'))).toBe(true);
-    console.log('copy', j.holds('carries', 'party', L('report_copy')), j.holds('at', L('report_copy'), L('fulling_mills')), j.holds('inside', L('report_copy'), L('strongbox')));
     await j.play(...Bowl.office2, '=820', 'Ask Isaura if she will sign', ...Bowl.toMoot, '=889', ...Bowl.finding.slice(0, 3));
-    console.log('atHearing', j.holds('carries', 'party', L('report_copy')), j.holds(L('giving'), 'party'), j.choices().filter(c => /Lay|Say|Name/.test(c.label)).map(c => c.label).join(' | '));
     await j.play(...Bowl.finding.slice(3));
-    console.log(j.watch(), Bowl.mere(j), j.measure(L('credence'), L('council')));
     expect(j.holds(L('verdictAccord'), L('ammerlin'))).toBe(true);
   }, 240000);
   it('goes on without the Assessor: the Tench on the mud, the dig taken, the Registrar\'s finding, and the count closed alone', async () => {
@@ -140,7 +135,6 @@ describe('Low Water', () => {
     expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
     expect(Bowl.mere(j)).toBeLessThan(before - 5);
     expect(Bowl.said(j)).toContain('Every bell in Ammerlin rings at once');
-    console.log('alone', j.watch(), Bowl.mere(j), j.measure(L('count'), L('reckoner')), j.measure(L('completedAt'), L('bowl')));
     await j.play('?^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('low_whole'))).toBe(true);
   }, 300000);
@@ -268,5 +262,21 @@ describe('Low Water', () => {
     expect(Bowl.state(j, 'channel_gate', 'to_mere')).toBe(true);
     await j.play('^To the hall of the Office', '^Out to Measures Square', '^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('guild'))).toBe(true);
+  }, 300000);
+  it('keeps the count: the Fourth Remainder sung again, and the last door held shut when the census closes', async () => {
+    const j = await Bowl.start('kept-count');
+    await j.play(...Bowl.act1, ...Bowl.trial, ...Bowl.descent, ...Bowl.night, ...Bowl.morning, '^To the new mud', '^To the Ward landing',
+      '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^Into the Sounding', "Cantor's room", 'Talk to Cantor',
+      'the Fifth Remainder was', 'what the Fourth Remainder said', 'sing the Fourth every night', 'Take your leave', "^To the Sounding's nave",
+      '^Out to Measures Square', '^To the head of the Stair', '^To the Rim Gauge', '^To the fulling mills', 'Into the Guild counting',
+      "Quill.s counting-room", 'Talk to Harrow', 'working machine under the Mere', 'what the city would owe him', "Agree to Quill's terms",
+      'Take your leave', '^To the counting-house floor', '^Out to the fulling mills', '^To the Rim Gauge', 'Break out the old third mouth',
+      '=+300');
+    expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
+    expect(j.holds(L('doorHeld'), L('reckoner'))).toBe(true);
+    expect(Bowl.said(j)).toContain('The Fourth holds it.');
+    expect(Bowl.said(j)).toContain('the fountains take it up and hum');
+    await j.play('^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
+    expect(j.holds('reached', L('census_kept'))).toBe(true);
   }, 300000);
 });

@@ -161,6 +161,9 @@ Module lowwater "Low Water" {
   Topic abel_hymn with abel "Ask Abel what he thinks of the Short Hymn" when true once {
     Says "'It's lovely,' says Abel, surprising you. 'It is. I went the once. All those young ones, the place full like a fish-market. Sabeth Orr's a wonder.' He shrugs. 'But they've cut the Remainders, and the rhyme's built on the Remainders. Rise at the Sixth, count at the Seventh. There's no Seventh now. I said so to a young Cantor and he said the rhyme was only a rhyme.' He looks at the clay keepers on the shelf. 'Well. So it is.'".
   }
+  Topic abel_fountains with abel "Ask Abel whether anything else changed when the Hymn was shortened" when true once {
+    Says "Abel thinks about it seriously; he is a man who has been asked very few serious questions lately and is enjoying this one. 'The fountains,' he says. 'Now you ask. When I was a boy the fountains hummed of an evening, after the Seventh, at the Fifth. You'd put your hand on the square fountain and feel it go. We called it the Bowl purring.' He frowns. 'It stopped the same winter. I thought I'd gone a bit deaf. Everybody my age thought they'd gone a bit deaf.'".
+  }
   Topic abel_arch with abel "Show Abel Lusk the rubbing of the Dyers' arch" when carries(actor, rubbing) once {
     Says "Abel holds the cloth to the window a long time. 'Four mouths. Shut, a bit, open, wide.' He traces the marks beside them. 'And the notes go up. The bottom note by the shut mouth.' He gives it back to you slowly. 'That's the Deep, isn't it. Low for little. That's the Seventh, all low; a cupful.' He sits down. 'Forty years, and I never once thought the notes meant anything. Take it to Sabeth Orr. She'll know the notes.'".
   }

@@ -8,7 +8,7 @@ Module lowwater "Low Water" {
   Place far_bowl "the Bowl in the water" is room within interval_wild at 1, 0 outdoors.
 
   Passage last_door "the round door" is doorway between last_door_room and still_water
-    opening when complete(reckoner) "The round door is shut, and has no handle, and no seam you can get a blade into.".
+    opening when complete(reckoner) and not doorHeld(reckoner) "The round door is shut, and has no handle, and no seam you can get a blade into.".
   Passage still_way "the way across the still water" is path between still_water and far_bowl taking 20 minutes.
 
   Observe still_scene at still_water when true "Water, still, to the end of seeing, under no sky. It is lit from nowhere, evenly, like the inside of a pearl. It holds you up; you walk on it as on glass, and under your feet, a hand down, it goes on being water for ever. There is no sound at all. Behind you the round door stands in nothing, its edge as thin as paper.".

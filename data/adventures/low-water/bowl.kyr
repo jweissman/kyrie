@@ -92,6 +92,13 @@ Module lowwater "Low Water" {
     Assert state(deep_gate, lowered). }
   Rule hymn_resets when hour(clock) == 3 and sungTonight(bowl) { Retract sungTonight(bowl). Retract seventhTonight(bowl). }
 
+  // The Fifth Remainder: the engine's own voice, a little; every fountain in the Bowl hums for an hour.
+  Relation humming(place). Measure humAt(place). Relation fifthRestored(place). Relation fourthRestored(place).
+  Rule fifth_sung when hour(clock) == 20 and fifthRestored(bowl) and not humming(ammerlin) and not broken(reckoner) and not complete(reckoner) and not hymnSilenced(bowl)
+    says "After the Seventh, the Fifth: one bright note and three in the middle voice, and all over the Bowl the fountains take it up and hum, low and steady, and go on humming long after the choir has stopped." {
+    Assert humming(ammerlin). Set humAt(ammerlin) to watch(clock). }
+  Rule hum_fades when humming(ammerlin) and watch(clock) >= humAt(ammerlin) + 6 { Retract humming(ammerlin). }
+  Rule fourth_holds when hour(clock) == 20 and fourthRestored(bowl) and not doorHeld(reckoner) and not complete(reckoner) and not broken(reckoner) { Assert doorHeld(reckoner). }
   // What the engine does when it is starved: it calls for water in the only voice it has, which is the hymn's.
   Measure lastCall(place).
   Rule starving when state(deep_gate, logged) and not starved(reckoner) and not broken(reckoner) and not complete(reckoner) { Assert starved(reckoner). }
@@ -106,6 +113,9 @@ Module lowwater "Low Water" {
   Rule census_whole when count(reckoner) >= 900 and not complete(reckoner) and not broken(reckoner)
     says "Every bell in Ammerlin rings at once. Nobody is at the ropes. The sound goes round the Bowl and comes back off the Rim, and under it, from the water itself, from the Stair and the cisterns and every pipe and basin in the city, a chord comes up that nobody living has heard: the whole Long Hymn, in one breath, sung by the water. Then nothing." {
     Assert complete(reckoner). Assert state(deep_gate, lowered). Set ninths(reckoner) to 9. Set completedAt(bowl) to watch(clock). }
+  Rule door_holds_shut when complete(reckoner) and completedAt(bowl) == watch(clock) and doorHeld(reckoner) and not toldHeld(bowl)
+    says "Far below the Ward, where the count runs out at the last door, nothing opens. The Fourth holds it." { Assert toldHeld(bowl). }
+  Relation toldHeld(place).
   // Its last breath is drawn from whatever feeds it: the Mere, unless the Grey Way is open.
   Rule last_breath when complete(reckoner) and completedAt(bowl) == watch(clock) and not fed(reckoner) and not drewLast(bowl)
     says "Far down, the Mere draws back from the Ward like a held breath let go, and does not come back." { Decrease mere(bowl) by 6. Assert drewLast(bowl). }

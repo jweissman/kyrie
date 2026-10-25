@@ -167,16 +167,23 @@ Module lowwater "Low Water" {
     says "Bright, and bright. The column takes it, and gives it back a hundredfold: the whole Long Hymn, every Remainder, comes up out of the water in one long rising chord, and goes up the column toward the Sounding, and you hear it go on above you through the rock, in every pipe and cistern of the Bowl, all at once." {
     Assert sangBack(ammerlin). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
   Relation sangBack(place).
-  Rule says_end when firstTone(column_room) == 3 and secondTone(column_room) == 4 and not complete(reckoner) and not broken(reckoner)
+  Rule says_end when firstTone(column_room) == 3 and secondTone(column_room) == 4 and not complete(reckoner) and not broken(reckoner) and not doorHeld(reckoner)
     says "High, and bright: the voice that is not sung. The column takes it and is silent. Then, far off down the gallery, every gate of the count opens at once, and the water goes through the Reckoner like a held breath let out, and the wheels you could not see from here begin to turn all together, faster, faster, nine of them, and stop." {
     Set count(reckoner) to 900. Assert endedBy(reckoner, party). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
   Relation endedBy(engine, group).
-  Rule says_refusal when firstTone(column_room) == 3 and secondTone(column_room) > 0 and secondTone(column_room) < 4
+  Rule says_end_held when firstTone(column_room) == 3 and secondTone(column_room) == 4 and not complete(reckoner) and not broken(reckoner) and doorHeld(reckoner)
+    says "High, and bright. The column takes it, and far down the long stair something strains against the round door and does not give. The Fourth holds it. The water in the column shivers, once, and is still." {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_hold when firstTone(column_room) == 3 and secondTone(column_room) == 1 and not complete(reckoner)
+    says "High, and deep: the Fourth Remainder. The column takes it and is still. Far down the long stair something settles against the round door, the way a bar settles in its brackets." {
+    Assert doorHeld(reckoner). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Relation doorHeld(engine).
+  Rule says_refusal when firstTone(column_room) == 3 and secondTone(column_room) > 1 and secondTone(column_room) < 4
     says "The high voice. The column hears it and gives back a single flat note, low, like a door that will not open partway." {
     Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
-  Rule says_echo when firstTone(column_room) == 4 and (secondTone(column_room) == 2 or secondTone(column_room) == 3)
-    says "The column gives back your two notes, exactly, as if somebody far off were repeating them to be sure they had heard." {
-    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_hum when firstTone(column_room) == 4 and (secondTone(column_room) == 2 or secondTone(column_room) == 3)
+    says "Bright, and middle: the Fifth Remainder. The column gives back a low steady hum, and you hear it go on up through the rock above you, spreading, as if every pipe and basin of the Bowl had begun to hum along." {
+    Assert humming(ammerlin). Set humAt(ammerlin) to watch(clock). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
   Rule says_done when complete(reckoner) and secondTone(column_room) > 0
     says "The column takes the notes and gives nothing back. Whatever it was listening for, it has heard." {
     Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. }
@@ -211,7 +218,8 @@ Module lowwater "Low Water" {
 
   // The last door, and what is written over it.
   Observe door_scene at last_door_room when not complete(reckoner) "At the bottom of the long stair, the counted water goes into a slot in the floor in a smooth black sheet. Beyond it a door of grey stone, round, closed, with no handle; across it a single line of carving. The air here is very cold, and smells of nothing at all.".
-  Observe door_open at last_door_room when complete(reckoner) "The round door stands open. Beyond it is not a room. Beyond it, as far as you can see, is still water under no sky, lit from nowhere, and the cold that comes out of it smells of nothing at all.".
+  Observe door_open at last_door_room when complete(reckoner) and not doorHeld(reckoner) "The round door stands open. Beyond it is not a room. Beyond it, as far as you can see, is still water under no sky, lit from nowhere, and the cold that comes out of it smells of nothing at all.".
+  Observe door_held at last_door_room when complete(reckoner) and doorHeld(reckoner) "The counted water no longer runs into the slot. The round door is shut, and something behind it, or in it, is keeping it so: the Fourth, sung every night, holding what the count has gathered.".
   Observe door_shut_dead at last_door_room when broken(reckoner) "The slot in the floor is dry. The round door is shut, and will stay shut.".
   Discovery door_words "Over the last door in the Undercroft are two lines of carving, one in the oldest marks and one in Aenean.".
   Rule door_carving at last_door_room when at(party, last_door_room) and not knows(party, door_words) says "Across the round door, two lines: one in the oldest marks, the ones under the keystone, and one in Aenean, newer, cut by somebody who was copying something they did not understand." teaches door_words { }

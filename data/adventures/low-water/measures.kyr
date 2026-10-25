@@ -20,6 +20,7 @@ Module lowwater "Low Water" {
 
   Observe square_scene at measures_square when true "A square of wet flagstones on the second terrace, with the Office of Measures down one side, all grey ashlar and tall windows, and the Sounding up the other, its bell-tower over everything. In the middle a fountain: a bronze basin on a column, older than either building, brimming without a sound.".
   Observe fountain_hums at measures_square when starved(reckoner) "The fountain in the square is humming, low and steady, and the water in its basin stands up in fine rings.".
+  Observe fountain_humming at measures_square when humming(ammerlin) "The fountain in the square is humming, low and steady, and children are standing round it with their hands on its rim, feeling it.".
   Observe fountain_still at measures_square when broken(reckoner) "The fountain in the square brims as it always has. Something about it has changed and it takes you a while to know what: the water in the basin no longer trembles, very faintly, as all the water in the Bowl did. It is only water now.".
 
   // The Office.
@@ -85,6 +86,25 @@ Module lowwater "Low Water" {
   }
   Topic ruan_talk with ruan "Ask Ruan Tell what people are saying" when true once {
     Says "'Saying?' Ruan polishes a measure-jug. 'Carters say it's the drought in the hills, and there's no drought, I've a cousin in the hills. Dyers say it's the Guild. The Guild says it's the drought. The Ward says it's everybody. And the old Cantors say it's the Sounding, for cutting the Hymn, which is the only theory I've heard that's cheap to fix.' He laughs. 'Nobody listens to the old Cantors. They also said it about the new bells.'".
+  }
+  // What the taproom says changes with what happens: Ruan has it all by evening.
+  Topic ruan_tench with ruan "Ask Ruan Tell what the Ward is saying about Dov Vant's boat" when state(tench, stranded) once {
+    Says "'That the Tench is on the mud and Dov sat in her all night with a bottle,' says Ruan. 'His father's boat. The Ward's taking it hard. When the last boat goes, they say, the Ward's a street, not a shore.' He sets a jug down. 'Dov says he'll dig her a channel to the water if it takes him to Candlemas. Somebody told him the water would be further off by Candlemas. That's how the fight started.'".
+  }
+  Topic ruan_clash with ruan "Ask Ruan Tell about the fight at the dig" when clashed(dig) and dovHeld(dov) once {
+    Says "Ruan's face goes flat. 'Guild bailiffs and fishers with shovels. Two men cut, and Dov Vant in the Office cells, and the Guild's rope round the dig.' He polishes a jug that does not need it. 'There's talk in the Ward. Not the kind I like to hear in my house. The Ward hasn't forgotten the Riots, and the Riots started with a sluice and a rope just like that one.'".
+  }
+  Topic ruan_drowned with ruan "Ask Ruan Tell what is being said about the breach" when drowned(diggers) once {
+    Says "'Hob Kettle and his girl and Jory Pale.' Ruan does not polish anything. 'Annet used to come in for her father's ale and drink the head off it on the way home and he never once said a word.' He looks at the fire. 'They're saying the Office knew. That there was a clerk who'd measured it. I don't know where they get that.' He looks at you. 'Do you?'".
+  }
+  Topic ruan_bells with ruan "Ask Ruan Tell what people made of the bells" when complete(reckoner) once {
+    Says "'Every bell in the Bowl, and nobody pulling. My cellar rang like a cart of pans. The carters' horses broke their tethers on the Rim.' He sets down a measure-jug very carefully, as if it might start ringing too. 'Precentor Fisk was in here at dawn saying the dead had risen. Then the Ward came in saying the Mere had gone down six spans in a breath, and Fisk went quiet, and had a brandy, which he never does.'".
+  }
+  Topic ruan_hum with ruan "Ask Ruan Tell about the fountains" when humming(ammerlin) or fifthRestored(bowl) once {
+    Says "'Purring.' Ruan laughs, delighted. 'My grandmother's word. The square fountain, and the one in my yard, and the trough on the Rim: humming like a cat at the Fifth, the way they did when she was young. Half my regulars have gone out to put their hands on them.' He lowers his voice. 'Old Abel Lusk stood by the square fountain with his hand on it and wept. Don't tell him I said.'".
+  }
+  Topic ruan_hearing with ruan "Ask Ruan Tell what the city is saying about the Hearing" when hearingDone(ammerlin) once {
+    Says "'Depends who you ask and how much they've had.' Ruan counts on his fingers. 'The Ward says it was the Office finally being honest. The Rim says it was the Office finally being clever. The Sounding says nothing, very loudly. The carters say it's all one to them as long as the Stair runs.' He grins. 'And everybody says that Clerk Vant read her figures out in front of the Council like a woman reading a will, and nobody dared cough.'".
   }
   Topic ruan_halm with ruan "Ask Ruan Tell about the scholar staying here" when true once {
     Says "'Master Halm. From the Collegium, wherever that is. Pays in advance, eats standing up, comes in covered in Mere mud at all hours and talks to my fire about the Mathematical Age.' He shrugs. 'Good lodger. Bad for the carpets. He's down at the Ward dig with Dov Vant most days, buying stones.'".

@@ -119,6 +119,8 @@ Module lowwater "Low Water" {
     Says "'It'll be my tally in it.' She knows this already; she is making sure you do. 'The forty ells. That goes against the Office's own ledger. If I sign it, I'm a Third Grade clerk telling the Council that the Office has been wrong for three years.' She takes a breath. 'I'll sign what's true. I'll sign it in front of the Registrar and the Guild and my brother.' She looks at you very steadily. 'What I won't sign is anything that says it's settled when it isn't. If we're going to tell them a thing they have to decide, we tell them so.'".
     On discuss { Assert isauraSigns(isaura). }
   }
+  Event isaura_morning when travelsWith(isaura, party) and hearingDay() and hour(clock) >= 7 and knows(party, discrepancy) and not isauraSigns(isaura) and not isauraRefuses(isaura)
+    "Isaura is up before you, dressed in her best grey, with her tally in her coat. She does not say anything about the Hearing until you are both on the stair, and then she says, not looking at you: 'If you want my figures in the Finding, you'll have to ask me. I'd like to be asked.'".
   Event isaura_counting at count_gallery when travelsWith(isaura, party) and at(party, count_gallery) "Isaura stands in front of the nine wheels and you see her lips moving. She is counting the gates on the nearest wheel. When she gets to the end she starts again.".
   Event isaura_column at column_room when travelsWith(isaura, party) and at(party, column_room) "Isaura looks up the still column of water into the dark for a long time. 'That goes up to the Sounding,' she says. 'Doesn't it. Every night. All of them singing into this.'".
 }
