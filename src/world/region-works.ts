@@ -152,7 +152,9 @@ export class RegionWorks {
     lines.push(...history.makers.flatMap((m, i) => [`  Discovery history_${m.art} ${q(i ? `${m.epithet.replace(/^t/, 'T')} made things in this country too, before the folk. ${m.craft} ${m.belief}`
       : `Before the folk came, ${m.epithet} held this country. ${m.craft} ${m.belief}`)}.`,
     `  Discovery history_${m.art}_fate ${q(`How ${m.epithet} ended: ${m.fate}`)}.`]));
-    lines.push(`  Discovery history_successors ${q(`After ${first.epithet} came the kingdom of ${s.name}, where the power lay with ${s.were}. It fell to ${s.fall}.`)}.`);
+    // The kingdom came after all of them: cut in the Barrow-Kin's barrow, it did not follow the Water-Wardens alone.
+    const before = history.makers.map(m => m.epithet).join(' and ');
+    lines.push(`  Discovery history_successors ${q(`After ${before} came the kingdom of ${s.name}, where the power lay with ${s.were}. It fell to ${s.fall}.`)}.`);
     const great = region.sites.find(x => x.work?.great);
     const seat = great && RegionGeography.seats(region).find(x => x.site === great);
     if (great && seat) {
