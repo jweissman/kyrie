@@ -65,6 +65,11 @@ class Bowl {
     "Isaura Vant's tally", 'register of the Mere gauge', "keeper's book", 'what the Seventh Remainder did',
     'what lies under the Mere', 'how the Remainders speak', 'what the Reckoner counts|what the machine counts',
     'Name the cause: the machine|Name the cause: the Reckoner', 'enter the machine|enter the Reckoner', 'Rest your Finding'];
+  // From the dig to the Registrar and back, to have the Ward's titles frozen before Basset can buy the dig's ground.
+  static readonly freeze = ['^To the new mud', '^To the Ward landing', '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square',
+    '^Into the Office of Measures', "Registrar's room", 'Talk to Registrar', "freeze the Ward's titles", 'Take your leave',
+    '^To the hall of the Office', '^Out to Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ward landing',
+    '^To the new mud', '^To the dig'];
   static readonly trial = ['^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^Into the Sounding',
     "Cantor's room", 'Talk to Cantor', 'what the Seventh Remainder did', 'sing the Seventh Remainder tonight',
     'Take your leave', "^To the Sounding's nave", '^Out to Measures Square', "^To the Dyers' Walk", '^To the lock stair',
@@ -176,5 +181,47 @@ describe('Low Water', () => {
     expect(Bowl.said(j, j.taken.length - 1)).toContain("It's in tune");
     await j.play("^To the Sounding's nave", '^Out to Measures Square', '^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('census_fed'))).toBe(true);
+  }, 300000);
+  it('lets Halm end the song: the diggers drown at the breach, and the scholar sounds the high voice in the night', async () => {
+    const j = await Bowl.start('halm');
+    await j.play(...Bowl.arrive, '^To Measures Square', '^Into the Office of Measures', "Registrar's room", 'Talk to Registrar',
+      'what she wants from you', 'Take your leave', '^To the hall of the Office', '^Out to Measures Square', "^To the Dyers' Walk",
+      '^To the lock stair', '^To the Ward landing', '^To the new mud', '^To the dig', 'Talk to Dov', 'Quill.s agent', 'Take your leave',
+      '^To the new mud', '^To the Ward landing', '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square',
+      '^Into the Office of Measures', "Registrar's room", 'Talk to Registrar', "freeze the Ward's titles", 'Take your leave',
+      '=430');
+    expect(j.holds(L('drowned'), L('diggers'))).toBe(true);
+    expect(j.holds(L('clashed'), L('dig'))).toBe(false);
+    await j.play('=700');
+    expect(j.holds(L('endedBy'), L('reckoner'), L('halm'))).toBe(true);
+    expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
+    expect(Bowl.said(j)).toContain('laughing and weeping at once');
+    await j.play('Ask Isaura what she makes of the Short Hymn now|Wait › A while', 'Say something to Isaura about the diggers');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('Three people. Against being shouted at.');
+    await j.play('^To the hall of the Office', '^Out to Measures Square', '^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
+    expect(j.holds('reached', L('census_ended'))).toBe(true);
+  }, 300000);
+  it('warns Dov off with his sister\'s figures, and the diggers dam the throat and come through alive', async () => {
+    const j = await Bowl.start('dam');
+    await j.play(...Bowl.arrive, '^To Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ward landing', '^To the new mud',
+      '^To the dig', 'Talk to Dov', 'Quill.s agent', 'Take your leave', ...Bowl.freeze, '=242', '^Into the Listening Hall', 'throat of the Listening Hall',
+      'Gauge the bottom of the throat', 'Listening Hall', '^Out to the dig', '?^To the new mud', '?^To the Ward landing', '?^To Tench Row',
+      "?^To Dov Vant's yard", 'Talk to Dov',
+      'bottom of the throat is under the Mere', 'Take your leave', 'Tell Isaura that Dov listened', '=440');
+    expect(j.holds(L('cofferdam'), L('dig'))).toBe(true);
+    expect(j.holds(L('breached'), L('dig'))).toBe(true);
+    expect(j.holds(L('drowned'), L('diggers'))).toBe(false);
+    expect(Bowl.said(j)).toContain('The dam held');
+  }, 300000);
+  it('stands the bailiffs off at the dig with the Office\'s warrant, and Dov is not taken', async () => {
+    const j = await Bowl.start('warrant');
+    await j.play(...Bowl.act1, 'Ask Isaura what she thinks of Piet', '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square',
+      '^Into the Office of Measures', "Registrar's room", 'Talk to Registrar', 'warrant over the Ninth Lock',
+      'Take your leave', '^To the hall of the Office', '^Out to Measures Square', "^To the Dyers' Walk", '^To the lock stair',
+      '^To the Ward landing', '^To the new mud', '^To the dig', '=331', "Show the bailiffs the Office's warrant");
+    expect(j.holds(L('sentAway'), L('bailiffs'))).toBe(true);
+    await j.play('=+6');
+    expect(j.holds(L('dovHeld'), L('dov'))).toBe(false);
+    expect(Bowl.said(j)).toContain('as if he had never seen her before');
   }, 300000);
 });

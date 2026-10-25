@@ -105,7 +105,7 @@ Module lowwater "Low Water" {
     Says "'He put his hand on my head.' She seems to be checking that she has the fact right. 'He used to do that when I was small and had done something stupid and hadn't drowned. Like a, like a mark on a post. Still there.' She clears her throat. 'He's been arrested four times. I've never once signed him out. I always thought it would look like favour.' A pause. 'It did look like favour. Noted.'".
   }
   Topic isaura_dov_listened with isaura travelling "Tell Isaura that Dov listened to her figures" when warnedDov(dov) once {
-    Says "Isaura stops on the planks, in the middle of the mud, and stands there. 'He said that?' Yes. 'He said Measure's figures?' Yes. She looks across the mud at the dig, where her brother is shouting at people about sandbags. 'Huh,' says Isaura Vant, Clerk-Measurer, Third Grade, and does not write it down.".
+    Says "Isaura stops where she is, and stands there. 'He said that?' Yes. 'He said Measure's figures?' Yes. She looks down toward the Ward, where somewhere her brother is shouting at people about sandbags. 'Huh,' says Isaura Vant, Clerk-Measurer, Third Grade, and does not write it down.".
   }
   Topic isaura_broken with isaura travelling "Ask Isaura how she feels about the Reckoner stopping" when broken(reckoner) once {
     Says "'The Mere will stand,' she says. 'The figures will close. The forty ells will come to the Mere, and I'll be able to put them somewhere.' She is very quiet. 'And I'll never know what it was counting.' She tucks the ledger into her coat. 'I'm glad. I'm glad about the Mere. I want that recorded first. The other thing I'll keep in the tally, where it belongs.'".
