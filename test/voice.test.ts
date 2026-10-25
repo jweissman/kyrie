@@ -104,11 +104,23 @@ describe('a way across country, told as it goes', () => {
     const kinds = (out.voiced ?? []).map(v => v.kind);
     expect(kinds).toContain('journey-depart');
     expect(kinds).toContain('journey-land');
-    const on = await go(/_green\)$/);
+    // On to the town at the far end, not back to the one it left.
+    const left = out.action.split(',')[1]!, onward = PlayerView.choices(s.campaign)
+      .find(c => /_green\)$/.test(c.choice.id) && !c.choice.id.startsWith(`go(${left},`))!;
+    const on = await s.perform(onward.choice.id);
     expect((on.voiced ?? []).some(v => v.kind === 'journey-arrive')).toBe(true);
     // Never the same sentence twice in a row of journeys.
     const said = [...out.voiced ?? [], ...on.voiced ?? []].map(v => v.id);
     expect(new Set(said).size).toBe(said.length);
+    // Back the way it came, a way taken before is told by its setting out: not the land again, nor the town coming
+    // in sight (the follow-up review read familiar journeys in full).
+    const back = (e: { action: string }) => {
+      const [, way, from] = /^go\((.+)\)$/.exec(e.action)![1]!.split(',');
+      return s.perform(`go(${way},${from})`);
+    };
+    for (const e of [await back(on), await back(out)]) {
+      expect((e.voiced ?? []).map(v => v.kind).filter(k => k === 'journey-land' || k === 'journey-arrive')).toEqual([]);
+    }
   }, 60000);
 });
 

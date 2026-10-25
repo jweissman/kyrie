@@ -101,4 +101,20 @@ describe('the narrator', () => {
     GeneratedWorld.put(s, 'w8');
     expect(JSON.stringify(Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)))).not.toContain('sees it first');
   }, 60000);
+  // The follow-up review read the same willows and meadowsweet again and again on its journeys.
+  it('tells what grows along the way where it is first met, and leaves it to be gathered after', async () => {
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'thorn', w.source), world = s.campaign.world;
+    const willows = world.related('grows').map(r => r.args[0]!).filter(id => id.endsWith('_willow'));
+    const told = async (stand: string) => {
+      GeneratedWorld.put(s, world.one('at', stand)!.replace(/^region__/, ''));
+      await s.perform('wait');
+      const screen = ScreenModel.build(s.campaign);
+      return { said: Narrator.leaf(s.campaign, screen).presence.some(p => p.startsWith('Willows lean out')),
+        there: screen.things.some(t => t.id === stand) };
+    };
+    expect(await told(willows[0]!)).toEqual({ said: true, there: true });
+    expect(await told(willows[1]!)).toEqual({ said: false, there: true });
+  }, 60000);
 });

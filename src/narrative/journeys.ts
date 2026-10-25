@@ -24,12 +24,16 @@ export class Journeys {
     const values = { from: Editor.called(campaign, this.settlement(campaign, from) ?? from),
       to: Editor.called(campaign, this.settlement(campaign, to) ?? to), way: this.way(campaign, way) };
     const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1]?.replace(/^.*weather_/, '');
+    // A way taken before is not told again: setting out and the light going, not the land it runs through nor coming
+    // in sight of its end (the follow-up review read familiar journeys in full).
+    const again = campaign.history.some(e => e.elapsed < event.elapsed && e.result === 'success'
+      && /^go\(/.test(e.action) && e.action.split(',')[1] === way);
     const kinds: [string, Record<string, string>][] = [
       ['journey-depart', { time: FictionalTime.part(start), sky: this.skies[sky ?? ''] ?? 'fair',
         ...FictionalTime.early(start) ? { light: 'early' } : {} }],
-      ...chart ? [['journey-land', { land: this.land(chart, this.cells(chart, from, to)) }] as [string, Record<string, string>]] : [],
+      ...chart && !again ? [['journey-land', { land: this.land(chart, this.cells(chart, from, to)) }] as [string, Record<string, string>]] : [],
       ...!FictionalTime.dark(start) && FictionalTime.dark(event.elapsed) ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
-      ...this.arrival(campaign, to, ticks)];
+      ...again ? [] : this.arrival(campaign, to, ticks)];
     // The closest fit not yet said; a looser fit not yet said before a close one said again.
     return kinds.flatMap(([kind, context]) => {
       const tiers = Voice.tiers(kind, context), pool = tiers.find(t => t.some(l => !used.has(l.id))) ?? tiers[0] ?? [];

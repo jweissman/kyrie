@@ -56,7 +56,9 @@ export class Narrator {
     const situation = this.paragraphs(credited, defs);
     // What a thing looks like is not told again with it when the place has just said it (a wonder, told as the place).
     const placed = situation.join(' ');
-    const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p));
+    const familiar = this.familiar(campaign, screen);
+    const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
+      && !familiar.has(p));
     // What has changed is told once: not again when the exchange told it, nor when it is who is here and doing what.
     const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
@@ -128,6 +130,15 @@ export class Narrator {
       && world.test(ModuleWriter.call('memberOf', r.args[0]!, company)) && world.test(ModuleWriter.call('awake', r.args[0]!)));
     const name = by && campaign.module.entities.find(e => e.id === by.args[0])?.name;
     return name ? `${name} sees it first. ${text}` : text;
+  }
+  // What grows along the way is told where it is first met, not at every riverbank after: the follow-up review read
+  // the same willows and meadowsweet again and again. It is still there to be gathered.
+  private static familiar(campaign: Campaign, screen: Screen): Set<string> {
+    const world = campaign.world;
+    if (!world.module.relations.some(r => r.name === 'grows')) { return new Set(); }
+    const before = new Set(campaign.history.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.text)));
+    return new Set(screen.things.filter(t => world.test(ModuleWriter.call('grows', t.id)))
+      .flatMap(t => t.says ?? []).filter(text => before.has(text)));
   }
   private static seenBefore(campaign: Campaign): Set<string> {
     return new Set(campaign.history.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.id)));

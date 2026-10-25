@@ -749,7 +749,10 @@ excursion. It ranks twelve findings. I repaired these:
   saying only "Nothing is asked of you yet": they keep what the company has seen through, and when, and say that
   nothing more is asked, with what has been heard of yours to follow (`test/origins.test.ts`). A town with a ford of
   one river on each of two roads said the river twice over; what two things say alike is said once
-  (`test/said-once.test.ts`). Familiar plants and journeys told again in full are not done.
+  (`test/said-once.test.ts`). The same willows were told at fourteen places in thorn: what grows along the way is
+  told where it is first met and is still there to be gathered after (`test/narrator.test.ts`); and a way taken
+  before is told by its setting out, not the land it runs through nor the town coming in sight
+  (`test/voice.test.ts`).
 - **Inquiries that led nowhere playable** (its fourth): a scenario's hidden way in opened only to those who had heard
   the rumour, so a company that came on cov7's pit by itself searched it and found nothing. A scenario may say what
   looking about where its way in starts finds (the brood's trodden path down to the sink, the tower's well), and
@@ -776,8 +779,8 @@ excursion. It ranks twelve findings. I repaired these:
   ranger at the old site w8 was told "Hector sees it first". It is credited only to one of the company
   (`test/narrator.test.ts`).
 
-Not done, with the review's own ranking: familiar plants and journeys told again in full (part of its twelfth), and
-speaking into the listening-room's bowl.
+Not done of what it found: speaking into the listening-room's bowl, and the rest of its tenth (the map and the edge
+controls drawing the eye from what is being done; family intentions kept only in the notes).
 
 ## Invariants
 
