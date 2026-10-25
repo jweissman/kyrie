@@ -88,8 +88,9 @@ export class RegionMarvels {
     return this.snare({ id: site.id, way, trap: draw.pick(this.traps)[1] });
   }
   // A mechanism on a way, as a thing with its sign, what looking closely shows, the ways of dealing with it, what it
-  // does when it goes off, and the way after; its ids begin with id (id_snare, id_trap).
-  static snare(at: { id: string; way: string; trap: Trap }): string[] {
+  // does when it goes off, and the way after; its ids begin with id (id_snare, id_trap). Under rock, Orsino's vines
+  // are roots: nothing grows under a chalk mound (played in cov13's barrow).
+  static snare(at: { id: string; way: string; trap: Trap; under?: boolean }): string[] {
     const q = JSON.stringify, { way, trap: t } = at, site = { id: at.id }, id = `${at.id}_snare`;
     const how = (snares.mechanisms as Record<string, Snare>)[t.mechanism]!;
     return [`  Hazard ${site.id}_trap ${q(`the ${t.mechanism}`)} means ${q(t.effect!)}.`,
@@ -100,7 +101,7 @@ export class RegionMarvels {
       `    State made_safe ${q(`The ${t.mechanism} is made safe. Whoever goes by now goes by unharmed.`)}.`,
       ...how.ways.map(w => `    Change ${w.id} ${q(w.label)} from primed to ${w.to} needing ${w.needing} after learning ${id}_known.`),
       `    Hurts with ${site.id}_trap when primed then sprung.`, '  }',
-      `  Event ${id}_goes beside ${way} when state(${id}, sprung) ${q(`${t.text}.`)}.`,
+      `  Event ${id}_goes beside ${way} when state(${id}, sprung) ${q(`${at.under ? t.text.replace(/^Vines erupt/, 'Roots burst out') : t.text}.`)}.`,
       `  Observe ${id}_read beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) ${q(how.seen)} teaches ${id}_known.`];
   }
   // The harm an effect does on an average roll (see Harm).

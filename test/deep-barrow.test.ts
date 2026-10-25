@@ -109,4 +109,11 @@ describe('a king-barrow from the same generator as the mine', () => {
     const captain = ScreenModel.build(s.campaign).people.find(p => p.name.startsWith('the robbers\' captain'))!;
     expect(captain.reckoning?.text).toMatch(/\b([Tt]hey are|them)\b/);
   }, 60000);
+  // Played in cov13: "Vines erupt to entangle" under a chalk mound where nothing grows.
+  it('tells a trap under rock by what is there: roots, not vines', async () => {
+    const { s, deep } = await Barrow.world('cov13');
+    const said = (s.campaign.module.rules ?? []).filter(r => r.id.startsWith(`region__${deep.id}_`)).map(r => r.say ?? '');
+    expect(said.filter(t => /^Vines/.test(t))).toEqual([]);
+    expect(said.some(t => /^Roots burst out/.test(t))).toBe(true);
+  }, 60000);
 });

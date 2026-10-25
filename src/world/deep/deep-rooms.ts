@@ -23,7 +23,8 @@ export class DeepRooms {
   static lines(c: DeepContent, at: { site: string; purpose: DeepPurpose; first?: string }): string[] {
     const r = c.room;
     return [...c.dwellers ? this.dwellers(c.dwellers, r.id) : [],
-      ...c.trap ? RegionMarvels.snare({ id: c.room.id, way: c.trap.way.id, trap: c.trap.trap }) : [],
+      ...c.trap ? RegionMarvels.snare({ id: c.room.id, way: c.trap.way.id, trap: c.trap.trap, under: !c.room.open })
+        : [],
       ...c.riddle ? this.casket(r.id, { difficulty: c.riddle, purpose: at.purpose }) : [],
       ...c.wonder ? this.wonder(c.wonder, r.id) : [],
       ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind, at.purpose))} is ${kind} at ${r.id}.`),

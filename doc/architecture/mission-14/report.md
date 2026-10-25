@@ -417,9 +417,9 @@ remembered, by name; people do not yet remember what else a company did.
   company could take; one of a people is now spoken of without "it" in the plain words and the reckoning. He was
   talked round, and the company went over the portal stone by its gap with a rope into the halls, where the dead
   were heard beyond the king's door, and turned back. The salter had sold a lantern and nothing to fill it; every
-  shop that sells a lantern now sells oil. Not fixed: a torch going out at the moment a glyph is unsaid hides that
-  it was (the darkness swallows the glyph's new look), and the switch's "Vines erupt to entangle", Orsino's own
-  words, is told under a chalk mound where nothing grows.
+  shop that sells a lantern now sells oil. The switch's "Vines erupt to entangle", Orsino's own words, was told
+  under a chalk mound where nothing grows: under rock they are roots. Not fixed: a torch going out at the moment a
+  glyph is unsaid hides that it was (the darkness swallows the glyph's new look).
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
