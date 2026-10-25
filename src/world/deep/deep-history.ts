@@ -1,5 +1,5 @@
 import type { DeepLayout, DeepRoom } from './deep-layout';
-import type { Valuable } from './deep-purposes';
+import type { DeepPurpose, Valuable } from './deep-purposes';
 
 // What came after the makers, left in the rooms they made (purpose.after, by the kind of kingdom that followed them,
 // and purpose.fallen, by how that kingdom fell): a line added to how a room looks, a document in the kingdom's own
@@ -26,6 +26,15 @@ export class DeepHistory {
         ...a.valuable ? [`  Item ${id}_find ${this.q(a.valuable.name)} is ${a.valuable.id} at ${room.id}.`] : [],
         ...a.hidden ? this.hidden(`${id}_cache`, room, a.hidden) : []];
     });
+  }
+  // What a room's look promises, found by searching it (DeepRole.finds): played in cov13, burned bones with "a bead
+  // or two among them" gave a search nothing.
+  static finds(layout: DeepLayout, purpose: DeepPurpose): string[] {
+    const all = Object.values(purpose.valuables ?? {}).flat();
+    return layout.levels.flatMap(l => l.rooms).flatMap(r => (r.finds ?? []).flatMap((f, n) => {
+      const valuable = all.find(v => v.id === f.valuable);
+      return valuable ? this.hidden(`${r.id}_promised${n}`, r, { found: f.found, valuable }) : [];
+    }));
   }
   // The kinds of worth they left, declared with the site's own.
   static kinds(alterations: Alteration[]): Valuable[] {

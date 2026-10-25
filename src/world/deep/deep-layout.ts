@@ -1,11 +1,11 @@
 import { Draw } from '../land/draw';
-import type { DeepConnector, DeepHearing, DeepLevelSpec, DeepPurpose } from './deep-purposes';
+import type { DeepConnector, DeepFind, DeepHearing, DeepLevelSpec, DeepPurpose } from './deep-purposes';
 
 // A room of a deep site: where it is (its level and its place on that level's grid), what it is for, and how it is
 // told.
 export interface DeepRoom {
   id: string; level: number; role: string; x: number; y: number; name: string; scene: string; lit: boolean;
-  open?: boolean; hears?: DeepHearing;
+  open?: boolean; hears?: DeepHearing; finds?: DeepFind[];
 }
 // A way between two rooms: on a level (a gallery, a crawl) or between levels (a cage, a stair); how long it takes,
 // what it needs, whether it goes one way only, and what works it.
@@ -68,9 +68,11 @@ export class DeepLayouts {
     if (!role) { throw new Error(`Deep site ${purpose.plan.id}: no role ${where.role}`); }
     const n = rooms.filter(r => r.role === where.role).length;
     const draw = new Draw(`${site}:${spec.id}:${where.role}:${n}`);
+    const scene = draw.pick(role.scenes), finds = (role.finds ?? []).filter(f => scene.includes(f.cue));
     const r: DeepRoom = { id: `${site}_${spec.id}_${where.role}${n ? n + 1 : ''}`, level: index, role: where.role,
-      x: where.x, y: where.y, name: role.names[n % role.names.length]!, scene: draw.pick(role.scenes),
-      lit: !!role.lit, ...role.open ? { open: true } : {}, ...role.hears ? { hears: role.hears } : {} };
+      x: where.x, y: where.y, name: role.names[n % role.names.length]!, scene,
+      lit: !!role.lit, ...role.open ? { open: true } : {}, ...role.hears ? { hears: role.hears } : {},
+      ...finds.length ? { finds } : {} };
     rooms.push(r);
     return r;
   }

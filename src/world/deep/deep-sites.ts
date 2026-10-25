@@ -36,6 +36,7 @@ export class DeepSites {
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose,
         ...content.find(x => x.special) ? { first: content.find(x => x.special)!.room.id } : {} })),
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...DeepSounds.listening(layout),
+      ...DeepHistory.finds(layout, purpose),
       ...this.heard(layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),

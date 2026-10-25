@@ -88,4 +88,11 @@ describe('a king-barrow from the same generator as the mine', () => {
     expect(seen()).toContain('A breath of night air comes along the floor of the passage');
     expect(seen()).not.toContain('daylight');
   }, 90000);
+  // Played in cov13: a recess whose burned bones had "a bead or two among them" gave a search nothing.
+  it('gives a search what a room\'s look promises', async () => {
+    const { s, room } = await Barrow.world('cov13');
+    Barrow.enter(s, room('barrow_recess2'));
+    expect(await Barrow.take(s, /^Search the north recess$/)).toContain('a string of amber beads');
+    expect(Barrow.names(s).some(n => /^Collect a string of amber beads/.test(n))).toBe(true);
+  }, 60000);
 });

@@ -9,7 +9,13 @@ import type { WorkPlan } from '../history/work-plans';
 // where a company may make camp, as it may not in the rock); and what in it carries the sound of the rest of its
 // level, to whoever listens at it (a listening-room's bowl), what is heard in it then, and how each sound comes out
 // of it ({sound} in {room}).
-export interface DeepRole { names: string[]; scenes: string[]; lit?: boolean; open?: boolean; hears?: DeepHearing }
+export interface DeepRole {
+  names: string[]; scenes: string[]; lit?: boolean; open?: boolean; hears?: DeepHearing;
+  // What a scene promises (a bead or two among the bones), found by searching a room drawn with that scene: its cue
+  // in the scene, what searching finds, and the site's valuable it is.
+  finds?: DeepFind[];
+}
+export interface DeepFind { cue: string; found: string; valuable: string }
 export interface DeepHearing { thing: string; heard: string; carried: string }
 // One level: a spine of rooms in order (a role, or ?role for one that may not be there), branches off it, and loops
 // through it; a flooded level stands under water until something drains it.
