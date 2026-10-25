@@ -435,14 +435,18 @@ firmly, what fact refutes a claim, whether it was let go for a reason or only to
 - Truth: the country's own history refutes each doctrine, for whoever has found it. The first makers' marks, which
   still read though no one alive has seen a maker, answer the Flow; how the makers ended, and the kingdom after
   them, answer the One. A scenario names that history (`@history.makers`, `.fate`, `.successors`), whatever the
-  country's makers were. Put with lore, at easy odds, it settles the matter for good: the philosopher says so on
-  the green and would come with the company.
+  country's makers were. A reason shakes the philosopher and does not turn them: each has an answer to it (the
+  stones stay, but what was meant by them went with the hands that cut them; the makers ended, but a wave going back
+  into the sea is not lost), and holds the doctrine still, less firmly, until that answer is met in turn, by lore,
+  insight or persuasion as the answer asks, or another reason is put. Then the claim is let go for good: the
+  philosopher says so on the green and would come with the company. A shaken philosopher is no longer argued down or
+  bought off.
 - Rhetoric and sophistry: arguing the philosopher down (persuasion, hard) or paying the sophist wins the day, and
   the crowd laughs at the philosopher. By morning the doctrine is believed again (a rule of the belief module), and
   the one who argued it away is scorned and not listened to again, so the reason they might have given is lost.
 - A passive check: someone in the company who reads people (insight) sees, without a roll, where the philosopher
   of the Flow keeps looking while saying that nothing stays (at the oldest stones in the town), and that is a reason
-  of its own to put, at even odds, for a company without the history.
+  of its own to put, at even odds, for a company without the history, with its own answer (to watch them go).
 `test/disputation.test.ts` plays each way. What it does not do: the crowd's sides are told, not counted; nothing
 in the town changes with the philosophers' views beyond the green; and there is still no deception detected by
 evidence beyond the priest's one lie.
@@ -739,9 +743,15 @@ excursion. It ranks twelve findings. I repaired these:
   the bowl in its floor can be listened at, and then what is about its business in the upper hall is heard in it,
   the wary too, and not what lies in wait (`test/deep-singing.test.ts`). Speaking into it does nothing.
 
-Not done, with the review's own ranking: an argument won by one example (9); portraits at odds with the prose, and one name (11): the "Immeral" who saw a sign first in a
-company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining, where everyone
-is named as the company knows them.
+- **An argument won by one example** (its ninth): one reason from the country's history turned a philosopher and
+  finished the dispute. A reason now shakes a philosopher, who has an answer to it, standing on the green until it
+  is met (Proof B above), and turns them only with that answer met or a second reason put; a bard who told Orion of
+  the fallen kingdom heard "once, seen twice", asked for its names to be said to the crowd, and Orion stopped at
+  the second (`test/disputation.test.ts`). The philosopher's views still change nothing beyond the green.
+
+Not done, with the review's own ranking: portraits at odds with the prose, and one name (11): the "Immeral" who
+saw a sign first in a company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit
+joining, where everyone is named as the company knows them.
 
 ## Invariants
 

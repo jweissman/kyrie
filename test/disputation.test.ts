@@ -10,9 +10,11 @@ import type { Change } from '../src/lang/module';
 // The philosopher's capstone (Proof B): on the green at Harrehes (seed b2) a philosopher of the One and one of the
 // Flow dispute, and a sophist argues for whoever pays. Belief is the world's own (data/rules/belief.kyr): who holds
 // what, how firmly, and how they came to let it go. What the country's history says refutes each, for whoever has
-// found it, and a claim let go for that reason stays let go; the philosopher comes round, and would come with the
-// company. Argued away by rhetoric, or by the sophist, it is back by morning, and the one who did it is scorned.
-// Someone in the company who reads people sees, without a roll, where the philosopher of the Flow keeps looking.
+// found it. A reason shakes a philosopher, who has an answer to it; met in turn, or given a second reason, the
+// philosopher lets the claim go, and let go for a reason it stays let go: the philosopher comes round, and would come
+// with the company (the follow-up independent review saw one example turn a philosopher). Argued away by rhetoric,
+// or by the sophist, it is back by morning, and the one who did it is scorned. Someone in the company who reads
+// people sees, without a roll, where the philosopher of the Flow keeps looking.
 class Green {
   static async start(calling = 'mage') {
     const w = await WorldAssembler.assemble('b2', NodeBundleSource.shared,
@@ -55,17 +57,35 @@ describe('the disputation on the green', () => {
       'Answer Kestrel with the makers\' own marks, which still read though they are gone',
       'Tell Orion how the first makers ended', 'Tell Orion of the kingdom that came after the makers, and how it fell']);
   }, 60000);
-  it('let go for a reason, stays let go: the philosopher says so, and would come with the company', async () => {
-    const s = await Green.start();
-    Green.know(s, 'history_deep_fate');
+  it('given a reason, is shaken and answers it; let go when the answer is met, it stays let go', async () => {
+    const s = await Green.start('bard');
+    Green.know(s, 'history_successors');
     await Green.take(s, /^Ask Orion what the One is$/);
-    expect(await Green.take(s, /^Tell Orion how the first makers ended/)).toContain('That is not seeming');
+    expect(await Green.take(s, /^Tell Orion of the kingdom that came after/)).toContain('Twice, then');
+    expect([Green.holds(s, 'believes', 'one', 'oneness'), Green.holds(s, 'reasoned', 'one', 'oneness')]).toEqual([true, true]);
+    expect(Green.seen(s).some(t => /it was once, seen twice/.test(t))).toBe(true);
+    // Shaken, the philosopher is no longer to be argued down or bought off, and is not yet coming with anyone.
+    expect(Green.names(s).filter(n => /^(Argue Orion|Pay Dart two coin to argue Orion|Ask Orion to join)/.test(n)))
+      .toEqual([]);
+    expect(await Green.take(s, /^Ask Orion to say the fallen kingdom's names/)).toContain('Nobody here has ever heard');
     expect([Green.holds(s, 'believes', 'one', 'oneness'), Green.holds(s, 'reasoned', 'one', 'oneness')]).toEqual([false, true]);
     expect(Green.seen(s).some(t => /Orion no longer teaches the One/.test(t))).toBe(true);
     expect(Green.names(s)).toContain('Ask Orion to join the company');
     await Green.take(s, /^Wait until dark$/);
     await Green.take(s, /^Wait until first light$/);
     expect(Green.holds(s, 'believes', 'one', 'oneness')).toBe(false);
+  }, 60000);
+  it('comes round on a second reason when the answer to the first was not met', async () => {
+    const s = await Green.start();
+    Green.know(s, 'history_deep_fate', 'history_successors');
+    await Green.take(s, /^Ask Orion what the One is$/);
+    await Green.take(s, /^Tell Orion how the first makers ended/);
+    expect(Green.seen(s).some(t => /You have not told me that anything was lost/.test(t))).toBe(true);
+    expect(await Green.take(s, /^Ask Orion why the makers cut their own end in stone/)).toContain('what seeming looks like');
+    expect(Green.holds(s, 'believes', 'one', 'oneness')).toBe(true);
+    await Green.take(s, /^Tell Orion of the kingdom that came after/);
+    expect(Green.holds(s, 'believes', 'one', 'oneness')).toBe(false);
+    expect(Green.names(s)).toContain('Ask Orion to join the company');
   }, 60000);
   it('argued away for coin, is back by morning, and the one who paid is not listened to again', async () => {
     const s = await Green.start();
