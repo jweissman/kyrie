@@ -3,7 +3,7 @@
 // skipped spec is seen, not just counted. With --none-skipped, any skip fails the run: for a job that sets up all a
 // spec needs (a browser, a long run) and so should skip nothing.
 //   bun test --reporter=junit --reporter-outfile=junit.xml; bun scripts/test-summary.ts junit.xml [--none-skipped]
-import { appendFileSync, readFileSync } from 'node:fs';
+import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 
 interface Case { name: string; file: string; line: string; outcome: 'passed' | 'failed' | 'skipped' }
 export class TestSummary {
@@ -39,6 +39,12 @@ export class TestSummary {
     const file = args[0];
     if (!file) { console.error('usage: bun scripts/test-summary.ts junit.xml [--none-skipped] [--title t]'); return 2; }
     const at = args.indexOf('--title'), title = at >= 0 ? args[at + 1] ?? file : file;
+    if (!existsSync(file)) {
+      const text = `### ${title}\n\nNo report: the specs did not run (a step before them failed).\n`;
+      console.log(text);
+      if (process.env.GITHUB_STEP_SUMMARY) { appendFileSync(process.env.GITHUB_STEP_SUMMARY, text); }
+      return 1;
+    }
     const cases = this.cases(readFileSync(file, 'utf8')), text = this.markdown(cases, title);
     console.log(text);
     if (process.env.GITHUB_STEP_SUMMARY) { appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}\n`); }

@@ -1,4 +1,4 @@
-import { chromium } from '/home/jweissman/work/kyrie/node_modules/playwright-core';
+import { chromium } from 'playwright-core';
 const out = process.argv[2]!; let n = 0;
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
