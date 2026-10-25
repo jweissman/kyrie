@@ -734,3 +734,14 @@ The earlier phases treated several of these as gaps to be built. They are tools 
 - [C. Implementation sequence](phase-3/C-implementation-sequence.md): what must precede the next phase, the order of the slices, the potential dead ends, and migration.
 - [D. Risks and dissent](phase-3/D-risks-and-dissent.md): the case against general systems, provisional budgets (measured against projected), and what remains uncertain.
 - [E. Executive recommendation](phase-3/E-executive-recommendation.md).
+
+---
+
+## 14. Final synthesis
+
+The three phases are reconciled in [`synthesis/A-final-architecture-synthesis.md`](synthesis/A-final-architecture-synthesis.md).
+That document has a recommendation ledger (verified blockers, retained, simplified, deferred, rejected, open), and it
+supersedes earlier sections where they disagree. Mission 16 readiness, the M15 handoff checklist, the split into M16A
+and M16B, five owner decisions and the decisive player journey are in
+[`synthesis/B-mission-16-readiness.md`](synthesis/B-mission-16-readiness.md). Supporting probe:
+`synthesis/prose-repetition.probe.ts`, with its output beside it.

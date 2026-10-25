@@ -1,0 +1,20 @@
+a1: 1115 texts, 1397 sentences, 875 distinct; 150 distinct sentences recur within the world (672 occurrences)
+  most repeated: [ "44× \"The air is close and wet, and the flies are bad.\"", "44× \"A fair day, with a light wind.\"",
+  "39× \"The sun is warm, and the shadows are short.\"", "33× \"Rain drives across in grey sheets, and the ground is running with it.\"",
+  "33× \"A storm is blowing: rain like thrown gravel, and thunder close overhead.\""
+]
+thorn: 1096 texts, 1372 sentences, 875 distinct; 140 distinct sentences recur within the world (637 occurrences)
+  most repeated: [ "40× \"A fair day, with a light wind.\"",
+  "40× \"The air is close and wet, and the flies are bad.\"",
+  "35× \"The sun is warm, and the shadows are short.\"",
+  "30× \"A raw cold: your breath smokes, and your hands ache with it.\"",
+  "30× \"Rain drives across in grey sheets, and the ground is running with it.\""
+]
+wren: 1351 texts, 1677 sentences, 1021 distinct; 179 distinct sentences recur within the world (835 occurrences)
+  most repeated: [ "46× \"A fair day, with a light wind.\"", "41× \"The sun is warm, and the shadows are short.\"",
+  "37× \"Snow comes down slow and thick, and muffles everything.\"", "36× \"Low cloud sits on the high ground.\"",
+  "36× \"A hard wind pulls at your cloak and roars in everything that grows.\""
+]
+a1: 500 of 875 distinct sentences (57%) appear verbatim in another seed's world
+thorn: 500 of 875 distinct sentences (57%) appear verbatim in another seed's world
+wren: 408 of 1021 distinct sentences (40%) appear verbatim in another seed's world
