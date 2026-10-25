@@ -6,6 +6,10 @@ type Field = { field: string; value: unknown };
 // already, who is denied it, and who speaks a source (the discoveries with parts and their sources are read by
 // ModuleParser, whose grammar actions take more parts than a parser's other methods may).
 export class InformationParser {
+  // What a rule's or an event's words teach whoever hears them (Thrume F1, The Patient Star's 8).
+  static teaching(teaches: Node): { teaches?: string } {
+    return teaches.children.length ? { teaches: teaches.children[0]!.children[1]!.sourceString } : {};
+  }
   static readonly actions = {
     Information_plain: InformationParser.InformationPlain, KnownBy: InformationParser.KnownBy,
     DeniedBy: InformationParser.DeniedBy, Speakers: InformationParser.Speakers,

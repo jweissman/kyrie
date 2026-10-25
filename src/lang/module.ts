@@ -54,6 +54,8 @@ export interface Pursuit {
 export type Anchor = 'at' | 'near' | 'beside';
 export interface WorldRule {
   id: string; when: Predicate; effects: Change[]; say?: string; place?: string; anchor?: Anchor;
+  // A fact its words teach whoever hears them: known, as witnessed, when the company perceives them.
+  teaches?: string;
 }
 // What an observation tells of: what a place is (a fixture, the default), a part worth a closer look (a feature),
 // evidence of something (a sign), the sky (weather), the passing life of the place (ambience), something happening

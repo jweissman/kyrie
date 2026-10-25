@@ -232,10 +232,10 @@ export class ModuleParser {
     return { field: 'tries', value: [first.sourceString, ...more.children.map(n => n.sourceString)] };
   }
   static Anchor(word: Node, id: Node) { return { kind: word.sourceString, id: id.sourceString }; }
-  static Event(_e: Node, id: Node, anchor: Node, _when: Node, when: Node, text: Node, tail: Node): Field {
+  static Event(_e: Node, id: Node, anchor: Node, _when: Node, when: Node, text: Node, taught: Node, tail: Node): Field {
     return { field: 'event', value: { id: id.sourceString,
       ...(anchor.children.length ? { anchor: ModuleParser.ast(anchor.children[0]!) } : {}),
-      when: ModuleParser.ast(when), text: ModuleParser.ast(text),
+      when: ModuleParser.ast(when), text: ModuleParser.ast(text), ...InformationParser.teaching(taught),
       effects: ModuleParser.ast(tail) } };
   }
   static EventEffects(_then: Node, _open: Node, changes: Node, _close: Node) { return ModuleParser.list(changes); }
@@ -339,13 +339,14 @@ export class ModuleParser {
       ...(using.children.length ? { using: ModuleParser.ast(using.children[0]!) } : {}) } };
   }
   static PursuitUsing(_using: Node, ids: Node) { return ids.asIteration().children.map(ModuleParser.text); }
-  static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, says: Node, _open: Node,
-    changes: Node, _close: Node): Field {
+  static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, says: Node, teaches: Node,
+    _open: Node, changes: Node, _close: Node): Field {
     const where = anchor.children.length ?
       ModuleParser.ast(anchor.children[0]!) as { kind: string; id: string } : undefined;
     return { field: 'rule', value: { id: id.sourceString, when: ModuleParser.ast(predicate),
       effects: ModuleParser.list(changes), ...(where ? { place: where.id, anchor: where.kind } : {}),
-      ...(says.children.length ? { say: ModuleParser.ast(says.children[0]!) } : {}) } };
+      ...(says.children.length ? { say: ModuleParser.ast(says.children[0]!) } : {}),
+      ...InformationParser.teaching(teaches) } };
   }
   // An observation may teach a fact: what the company sees here, it knows from then on. One "of" an entity is not
   // perceived while the company has not noticed that entity.

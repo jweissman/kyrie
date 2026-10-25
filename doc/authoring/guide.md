@@ -583,6 +583,17 @@ arrives, with a clock for when (The Road the Star Came Down's F9, The Patient St
 
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none.
 
+### Words that teach
+
+What is known is learned, not set: a rule cannot `Assert knows(…)`. A rule's or an event's words can teach what they
+say, as an observation does, to a company that hears them (`test/fixtures/patient/knows-rule`):
+
+```text
+  Rule put_together when knows(party, prayer) and knows(party, label) and not knows(party, same)
+    says "The words of the holding prayer are the clerk's line, word for word." teaches same { }
+  Event bell at yard when knows(party, same) "Across the yard the granary bell rings once." teaches rung.
+```
+
 ### Numbers in what is said
 
 Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:

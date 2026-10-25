@@ -13,11 +13,13 @@ export class Perceptions {
   static witness(module: Module, world: World, player: string | undefined, seen: CampaignEvent['perceptions']) {
     if (!player || !seen) { return { changes: [], told: [], noted: [] }; }
     const ids = new Set(seen.filter(p => p.kind === 'observation').map(p => p.id));
-    const teaching = (module.observations ?? []).filter(o => o.teaches && ids.has(o.id)
-      && !world.test(ModuleWriter.call('knows', player, o.teaches)));
+    const heard = new Set(seen.filter(p => p.kind === 'event').map(p => p.id));
+    const teaching = [...(module.observations ?? []).filter(o => o.teaches && ids.has(o.id)),
+      ...(module.rules ?? []).filter(r => r.teaches && heard.has(r.id))]
+      .filter(o => !world.test(ModuleWriter.call('knows', player, o.teaches!)));
     const facts = [...new Set(teaching.map(o => o.teaches!))];
     const read = new Set(module.relations.some(r => r.name === 'readIn')
-      ? teaching.filter(o => o.aspect === 'reading').map(o => o.teaches!) : []);
+      ? teaching.filter(o => 'aspect' in o && o.aspect === 'reading').map(o => o.teaches!) : []);
     return { changes: facts.flatMap(f => [{ kind: 'assert' as const, call: ModuleWriter.call('knows', player, f) },
       { kind: 'assert' as const, call: ModuleWriter.call(read.has(f) ? 'readIn' : 'witnessed', player, f) }]),
     told: facts.map(f => ({ id: f, kind: 'discovery' as const,

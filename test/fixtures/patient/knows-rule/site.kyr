@@ -5,5 +5,10 @@ Module knowsrule "Two things heard, put together" {
   Discovery prayer "The holding prayer." { Known by party. }
   Discovery label "The granary clerk's line." { Known by party. }
   Discovery same "The prayer is the clerk's line.".
-  Rule put_together when knows(party, prayer) and knows(party, label) { Assert knows(party, same). }
+  // Repaired at integration: the rule says what is put together, and teaches it (it asserted knows, and was refused).
+  Rule put_together when knows(party, prayer) and knows(party, label) and not knows(party, same)
+    says "The words of the holding prayer are the clerk's line, word for word." teaches same { }
+  // An event's words teach too, once, to whoever is there to hear them.
+  Discovery rung "The granary bell has rung for the holding.".
+  Event bell at yard when knows(party, same) "Across the yard the granary bell rings once, for the holding." teaches rung.
 }

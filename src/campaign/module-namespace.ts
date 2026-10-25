@@ -99,7 +99,7 @@ export class ModuleNamespace {
       rules: original.rules?.map(r => ({ ...r, id: this.rules.rules?.some(s => s.id === r.id) ? r.id : `${this.bindings.id}__${r.id}`,
         when: this.predicate(r.when), effects: r.effects.map(c => this.change(c)),
         ...(r.place ? { place: this.entities[r.place] ?? r.place } : {}),
-        ...(r.say ? { say: this.text(r.say) } : {}) })),
+        ...(r.say ? { say: this.text(r.say) } : {}), ...(r.teaches ? { teaches: this.entities[r.teaches]! } : {}) })),
       objectives: original.objectives?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
         when: this.predicate(o.when), text: this.text(o.text) })),
       observations: original.observations?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,

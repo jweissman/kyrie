@@ -24,7 +24,7 @@ export interface PassageSpec {
   opening?: Predicate; shut?: string;
 }
 export interface EventSpec {
-  id: string; anchor?: { kind: Anchor; id: string }; when: Predicate; text: string; effects: Change[];
+  id: string; anchor?: { kind: Anchor; id: string }; when: Predicate; text: string; effects: Change[]; teaches?: string;
 }
 
 // First-class world declarations lowered into ordinary entities, facts, observations and rules. The runtime
@@ -221,7 +221,7 @@ export class WorldConstructs {
     (module.rules ??= []).push({ id: e.id, when: { kind: 'and', left: e.when,
       right: { kind: 'not', value: { kind: 'call', name: latch, args: [] } } },
     effects: [{ kind: 'assert', call: { kind: 'call', name: latch, args: [] } }, ...e.effects], say: e.text,
-    ...(e.anchor ? { place: e.anchor.id, anchor: e.anchor.kind } : {}) });
+    ...(e.anchor ? { place: e.anchor.id, anchor: e.anchor.kind } : {}), ...(e.teaches ? { teaches: e.teaches } : {}) });
   }
   static once(module: Module, action: Module['actions'][number]) {
     const latch = `said_${action.id}`;

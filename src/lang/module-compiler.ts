@@ -76,9 +76,13 @@ export class ModuleCompiler {
           throw new Error(`Rule ${r.id} speaks of ${v}, which its condition does not bind`);
         }
       }
+      if (r.teaches && (!r.say || this.type(module, r.teaches) !== 'fact')) {
+        throw new Error(`Rule ${r.id} teaches ${r.teaches}: it must say something, and teach a fact`);
+      }
       r.effects.forEach(c => this.change(module, c));
       if (r.effects.some(c => ['able', 'dead', 'watch', 'dark', 'untilLight', 'untilMorning', 'dice', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
-        throw new Error('Rules cannot change canonical projections, clocks, records or discovery knowledge');
+        throw new Error(`Rule ${r.id} cannot change canonical projections, clocks, records or discovery knowledge`
+          + ' (a rule teaches what it says: says "…" teaches fact)');
       }
     }
     ModuleCompiler.unique((module.observations ?? []).map(o => o.id), 'observation');

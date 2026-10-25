@@ -38,7 +38,7 @@ Kyr {
   ChangeAt = "at" ident
   HurtsPart = "Hurts" "with" ident "when" ident "then" ident "."
   GuardsPart = "Guards" ident "."
-  Event = "Event" ident Anchor? "when" Predicate string EventTail
+  Event = "Event" ident Anchor? "when" Predicate string RuleTeaches? EventTail
   EventTail = "then" "{" ChangeStatement* "}" -- effects
     | "." -- plain
   Anchor = "at" ident -- at
@@ -96,8 +96,9 @@ Kyr {
   Destructible = "destructible"
   Pursuit = "Pursuit" ident "for" ident string? "priority" integer "when" Predicate "seeks" Predicate PursuitUsing? "."
   PursuitUsing = "using" NonemptyListOf<ident, ",">
-  WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? "{" ChangeStatement* "}"
+  WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? RuleTeaches? "{" ChangeStatement* "}"
   RuleSays = "says" string
+  RuleTeaches = "teaches" ident
   Observation = "Observe" ident Anchor ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."
   ObservationAbout = "of" term
   ObservationAspect = "as" ident

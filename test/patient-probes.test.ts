@@ -90,10 +90,19 @@ describe('The Patient Star probes', () => {
     expect(s.campaign.world.one('at', 'p__garret')).toBe('p__yard');
   }, 60000);
 
-  it('P7: a rule cannot put two known things together into a third, and the refusal names no rule', async () => {
+  // Repaired at integration: a rule's words teach what they say (it could only assert knows, which was refused, and
+  // the refusal named no rule; it now names the rule, and how to teach).
+  it('P7: a rule puts two known things together into a third, and says so', async () => {
+    const s = await Probe.start('knows-rule');
+    expect(Probe.holds(s, 'knows', 'party', 'p__same')).toBe(false);
+    const told = await Probe.act(s, 'Wait › A while');
+    expect(told).toContain("The words of the holding prayer are the clerk's line");
+    expect(Probe.holds(s, 'knows', 'party', 'p__same')).toBe(true);
+    expect(await Probe.act(s, 'Wait › A while')).toContain('the granary bell rings once');
+    expect(Probe.holds(s, 'knows', 'party', 'p__rung')).toBe(true);
     let error = '';
-    try { await Probe.start('knows-rule'); } catch (e) { error = (e as Error).message; }
-    expect(error).toBe('Rules cannot change canonical projections, clocks, records or discovery knowledge');
+    try { await Probe.start('knows-assert'); } catch (e) { error = (e as Error).message; }
+    expect(error).toMatch(/^Rule put_together cannot change .* discovery knowledge \(a rule teaches what it says/);
   }, 60000);
 
   it('P8: a kind declared in a shared law cannot be sold by a person in the module that uses the law', async () => {
