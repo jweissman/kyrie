@@ -16,13 +16,15 @@ import type { InstalledModule, CampaignActor, CampaignDefinition } from './defin
 import { ModuleWriter } from '../lang/module-writer';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
+import { CommittedWorld } from './committed-world';
+import type { Creature } from '../creature';
 import { Membership, type LiveCache } from './membership';
 import { CampaignPlan } from './campaign-plan';
 import { LoadCache } from './load-cache';
 import { CombatProjection } from '../combat-projection';
 import { Battle } from '../arena';
 import { Content, type CreatureGenerationContext } from '../content';
-import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module, WorldState } from '../lang/module';
+import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world'; import { Checks } from '../rules/checks';
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { Overlays } from '../overlays'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
@@ -99,11 +101,12 @@ export class Campaign implements WatchHost {
   // A fork shares compiled operators and definition records, which are never mutated after loading, behind fresh
   // top-level arrays, and copies all mutable state.
   private fork(): Campaign {
+    this.keepFacts();
     const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays;
     Object.assign(copy, { compiled: arrays(this.compiled), definition: this.definition && arrays(this.definition),
       current: structuredClone(this.current), creatures: new CreatureStore(this.creatures.snapshot),
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
-      executing: false });
+      executing: false, committed: new CommittedWorld() });
     return copy;
   }
   private static async assemble(path: string, seed: string, source: BundleSource,
@@ -128,6 +131,7 @@ export class Campaign implements WatchHost {
   async install(request: BundleRequest, source: BundleSource, checked = true): Promise<void> {
     this.installBoundary();
     if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
+    this.keepFacts();
     const startedAt = this.current.elapsed;
     const draft = await ModuleBundle.load(request, { seed: this.current.seed,
       elapsed: this.current.elapsed, installed: this.definition.installations }, source);
@@ -158,8 +162,11 @@ export class Campaign implements WatchHost {
   // A save is a copy, unless it is to be written out at once (live): then it is the campaign itself, not to be kept.
   save(_compact = false, live = false): CampaignSave {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
+    this.keepFacts();
+    // Written out at once (live), the creatures are given as they are: a copy of every one is what a kept copy needs.
+    const creatures = live ? this.creatures.live as Creature[] : this.creatures.snapshot;
     const save = { version: 1 as const, actionFormat: 'schemas' as const, module: this.module, definition: this.definition,
-      state: this.current, creatures: this.creatures.snapshot, events: this.log, encounter: this.encounter,
+      state: this.current, creatures, events: this.log, encounter: this.encounter,
       observations: this.observations };
     return live ? save : structuredClone(save);
   }
@@ -169,6 +176,7 @@ export class Campaign implements WatchHost {
       { module: saved.module, world: saved.state.world, budget: saved.state.deadline }, { save: saved, ...handed });
   }
   get state(): CampaignState {
+    this.keepFacts();
     return { ...structuredClone(this.current), party: this.party, creatures: this.creatures.snapshot,
       ...(this.definition?.installations
         ? { modules: Progression.statuses(this.installations, this.world, this.observations) } : {}),
@@ -186,21 +194,11 @@ export class Campaign implements WatchHost {
   get events(): CampaignEvent[] { return structuredClone(this.log); }
   // What the company was told of the last command, kept with it (see Telling): what it has heard is not said again.
   told(voiced: NonNullable<CampaignEvent['voiced']>) { const last = this.log.at(-1); if (last) { last.voiced = voiced; } }
-  // Worlds are immutable; one is built per distinct state object (and module) rather than per access.
-  private viewed?: { state: WorldState; module: Module; world: World };
-  // The state kept is the world's own view of itself, not a copy: nothing changes a world's state in place.
-  private commit(world: World) {
-    const state = world.view as WorldState;
-    this.current.world = state;
-    this.viewed = { state, module: this.module, world };
-  }
-  get world(): World {
-    const v = this.viewed;
-    if (v && v.state === this.current.world && v.module === this.module) { return v.world; }
-    const world = new World(this.module, this.current.world);
-    this.viewed = { state: this.current.world, module: this.module, world };
-    return world;
-  }
+  // The world as last committed (see CommittedWorld): its facts are written into the state only when it is read whole.
+  private committed = new CommittedWorld();
+  private commit(world: World) { this.committed.commit(this.current, this.module, world); }
+  private keepFacts() { this.committed.keep(this.current); }
+  get world(): World { return this.committed.of(this.current, this.module); }
   private applicable?: { world: World; player: CampaignActor | undefined; actions: Operator[] };
   // Actions are grounded on demand against the current module and controllers.
   private grounded?: { module: Module; length: number; actors: CampaignActor[] | undefined; operators: Operators };
@@ -273,15 +271,18 @@ export class Campaign implements WatchHost {
     } catch (error) { this.rollback(battle, checkpoint); throw error; }
     finally { this.executing = false; }
   }
+  // What a command undoes to if it throws, and what its receipt is told against: the world itself and the creature
+  // store's records, which are replaced when they change and never changed where they lie, so neither is copied.
   private checkpoint() {
-    const { world, ...rest } = this.current;
-    return { creatures: this.creatures.snapshot, current: { ...structuredClone(rest), world },
+    return { creatures: this.creatures.with([]), current: structuredClone({ ...this.current, world: undefined }),
+      world: this.world,
       observations: structuredClone(this.observations), events: this.log.length, encounter: this.encounter };
   }
   // A command that throws commits nothing: combat damage taken before the error is discarded with it.
   private rollback(battle: Battle | undefined, checkpoint: ReturnType<Campaign['checkpoint']>) {
     battle?.close();
-    this.creatures = new CreatureStore(checkpoint.creatures); this.current = checkpoint.current;
+    this.creatures = checkpoint.creatures; this.current = { ...checkpoint.current, world: this.current.world };
+    this.commit(checkpoint.world);
     this.observations = checkpoint.observations; this.log.length = checkpoint.events;
     this.encounter = checkpoint.encounter;
   }
@@ -292,7 +293,7 @@ export class Campaign implements WatchHost {
     const held = !battle || battle.state.outcome === 'fighters'
       || battle.events.some(e => e.type === 'end' && e.fled?.team === 'goblins');
     let success = held && Checks.passed(combat) && CommandResolutions.survived(action,
-      this.creatures.snapshot, this.definition && this.live, this.module.entities);
+      this.creatures.live, this.definition && this.live, this.module.entities);
     const causal = this.module.relations.some(r => r.name === 'witnessedAttack');
     // An activity that can be interrupted takes effect when it has run its course, a journey when the company
     // arrives, anything else at once.
@@ -313,7 +314,7 @@ export class Campaign implements WatchHost {
     if (leg) { success &&= Journey.landed(this, action, leg, 'turned' in pass); }
     if (interrupted) { response = interrupted; }
     if (!interrupted && !this.shelter(action, combat, success)) { success = false; response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.'; }
-    const standing = CommandResolutions.survived(action, this.creatures.snapshot, this.definition && this.live,
+    const standing = CommandResolutions.survived(action, this.creatures.live, this.definition && this.live,
       this.module.entities);
     if (success && !standing) { success = false; response = 'The company can no longer act. Injuries and deaths remain; the attempt has failed.'; }
     this.resolutions(combat, false);
@@ -326,8 +327,8 @@ export class Campaign implements WatchHost {
       ...(this.definition ? { npc } : {}) };
     if (causal) {
       event.resolution = CommandResolutions.receipt(action,
-        { creatures: checkpoint.creatures, world: checkpoint.current.world, elapsed: checkpoint.current.elapsed },
-        { creatures: this.creatures.snapshot, world: this.current.world, elapsed: this.current.elapsed },
+        { creatures: checkpoint.creatures.live, world: checkpoint.world, elapsed: checkpoint.current.elapsed },
+        { creatures: this.creatures.live, world: this.world, elapsed: this.current.elapsed },
         { events: combat, success, sequence: this.log.length });
     }
     const seen = Perceptions.settle(this.module, { before, after, player: this.playerActor, happenings },

@@ -373,6 +373,25 @@ export class World {
       : this.allMeasures();
     return [...facts.map(World.format), ...measures.map(entry => `${World.format(entry.call)} = ${entry.value}`)].sort();
   }
+  // What changed from an earlier world to this one, as the changes that make the one the other: facts taken away, then
+  // facts written, then measures set; only the names whose maps the two do not share are looked at.
+  changesSince(prior: World): Change[] {
+    const retracted: Change[] = [], asserted: Change[] = [], set: Change[] = [];
+    for (const name of new Set([...prior.byName.keys(), ...this.byName.keys()])) {
+      const was = prior.byName.get(name), is = this.byName.get(name);
+      if (was === is) { continue; }
+      for (const [key, call] of was ?? []) { if (!is?.has(key)) { retracted.push({ kind: 'retract', call }); } }
+      for (const [key, call] of is ?? []) { if (!was?.has(key)) { asserted.push({ kind: 'assert', call }); } }
+    }
+    for (const [name, is] of this.measuresByName) {
+      const was = prior.measuresByName.get(name);
+      if (was === is) { continue; }
+      for (const [key, m] of is) {
+        if (was?.get(key)?.value !== m.value) { set.push({ kind: 'set', call: m.call, value: { kind: 'number', value: m.value } }); }
+      }
+    }
+    return [...retracted, ...asserted, ...set];
+  }
   // What changed from an earlier world to this one, as "- fact" and "+ fact" lines: of the same line, only what was
   // written since is compared; of another, everything.
   changes(from: World): string[] {
