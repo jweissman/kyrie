@@ -275,11 +275,14 @@ export class PlayerView {
   private static map(campaign: Campaign, actor: string, routes: { bindings?: Record<string, string> }[]):
     PlayerSnapshot['map'] {
     const visited = VisitedPlaces.of(campaign, actor), world = campaign.world;
-    const links = world.view.relations.flatMap(r => {
+    // The ways of each kind, by their relations: not by going through every fact the world holds.
+    const ways = ['route', 'gate', 'footway', 'informedPassage', 'climbingPassage', 'hazardPassage']
+      .flatMap(name => world.related(name));
+    const links = ways.flatMap(r => {
       const from = ['gate', 'hazardPassage'].includes(r.name) ? r.args[1] : r.args[0];
       const to = ['gate', 'hazardPassage'].includes(r.name) ? r.args[2] : r.args[1];
-      if (!['route', 'gate', 'footway', 'informedPassage', 'climbingPassage', 'hazardPassage'].includes(r.name) || !from || !to
-        || !visited.has(from) || (r.name === 'informedPassage' && !this.test(world, 'knows', actor, r.args[2]!))) {
+      if (!from || !to || !visited.has(from)
+        || (r.name === 'informedPassage' && !this.test(world, 'knows', actor, r.args[2]!))) {
         return [];
       }
       return [{ from, to }];
@@ -321,12 +324,10 @@ export class PlayerView {
       name: entities.get(movement.origin)?.name ?? movement.origin, mode: movement.mode } } : {}) };
   }
   private static metadata(world: World, labels: Map<string, string>): Map<string, SceneMetadata> {
-    const relations = world.view.relations;
-    const classes = new Map(relations.filter(r =>
-      ['townDistrict', 'wildernessDistrict', 'undergroundDistrict'].includes(r.name))
+    const classes = new Map(['townDistrict', 'wildernessDistrict', 'undergroundDistrict'].flatMap(n => world.related(n))
       .map(r => [r.args[0]!, r.name === 'townDistrict' ? 'town' as const :
         r.name === 'wildernessDistrict' ? 'wild' as const : 'dungeon' as const]));
-    return new Map(relations.filter(r => r.name === 'district').map(r => {
+    return new Map(world.related('district').map(r => {
       const zoneId = r.args[1]!;
       return [r.args[0]!, { zoneId, zone: labels.get(zoneId) ?? zoneId, scene: classes.get(zoneId) }];
     }));
