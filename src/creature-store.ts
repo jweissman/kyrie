@@ -38,6 +38,12 @@ export class CreatureStore {
     if (!creature) { throw new Error(`Unknown creature ${id}`); }
     return structuredClone(creature);
   }
+  // The live record, for reading only: no copy is made, so a caller must never change it.
+  peek(id: string): Creature {
+    const creature = this.records.get(id);
+    if (!creature) { throw new Error(`Unknown creature ${id}`); }
+    return creature;
+  }
   get hasActiveLeases(): boolean { return this.leases.size > 0; }
   get snapshot(): Creature[] { return structuredClone([...this.records.values()]); }
   // The live records, for reading only: no copy is made, so a caller must never change them.

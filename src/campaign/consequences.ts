@@ -12,9 +12,10 @@ export class Consequences {
     const struck = host.world.related('strikes');
     if (!struck.length) { return false; }
     const { definition, creatures, current } = host.tickState;
+    const standing = new Set(creatures.live.filter(c => c.state.hp > 0).map(c => c.id));
     for (const [hazard, group] of struck.map(r => r.args as [string, string])) {
       const members = definition.actors.find(a => a.id === group)?.members
-        .filter(id => creatures.snapshot.some(c => c.id === id && c.state.hp > 0)) ?? [];
+        .filter(id => standing.has(id)) ?? [];
       if (!members.length) { continue; }
       const roll = new Expressions(RandomStreams.key(current.seed, 'strike', hazard, String(current.elapsed)));
       const target = members[roll.number(`1d${members.length}`) - 1]!;

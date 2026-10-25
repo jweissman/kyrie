@@ -16,8 +16,7 @@ export interface JourneyHost {
 export class Journey {
   static of(world: World, action: Operator, player: string | undefined, watches: number): Leg | undefined {
     if (!player || watches < 2) { return undefined; }
-    const relations = world.view.relations;
-    const origin = relations.find(r => r.name === 'at' && r.args[0] === player)?.args[1];
+    const origin = world.one('at', player);
     const destination = action.success.find(c => c.kind === 'assert' && c.call.name === 'at'
       && c.call.args[0] === player)?.call.args[1];
     if (!origin || !destination || destination === origin) { return undefined; }
@@ -25,8 +24,8 @@ export class Journey {
       .find(id => world.module.entities.some(e => e.id === id && e.type === 'passage'));
     const moved = new Set(action.success.filter(c => c.kind === 'assert' && c.call.name === 'at')
       .map(c => c.call.args[0]!));
-    const followers = relations.filter(r => r.name === 'following' && r.args[1] === player && !moved.has(r.args[0]!)
-      && relations.some(a => a.name === 'at' && a.args[0] === r.args[0] && a.args[1] === origin)).map(r => r.args[0]!);
+    const followers = world.related('following').filter(r => r.args[1] === player && !moved.has(r.args[0]!)
+      && world.related('at', r.args[0]).some(a => a.args[1] === origin)).map(r => r.args[0]!);
     return { actor: player, origin, destination, ...way ? { way } : {}, followers };
   }
   // A move too short to be a journey still takes along whoever is following the company from where it stood.

@@ -17,6 +17,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
 import { CommittedWorld } from './committed-world';
+import { Projection } from './projection';
 import type { Creature } from '../creature';
 import { Membership, type LiveCache } from './membership';
 import { CampaignPlan } from './campaign-plan';
@@ -106,7 +107,7 @@ export class Campaign implements WatchHost {
     Object.assign(copy, { compiled: arrays(this.compiled), definition: this.definition && arrays(this.definition),
       current: structuredClone(this.current), creatures: new CreatureStore(this.creatures.snapshot),
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
-      executing: false, committed: new CommittedWorld() });
+      executing: false, committed: new CommittedWorld(), projection: new Projection() });
     return copy;
   }
   private static async assemble(path: string, seed: string, source: BundleSource,
@@ -415,15 +416,12 @@ export class Campaign implements WatchHost {
       store: this.creatures, party: this.current.partyIds, events, own });
     this.refresh();
   }
-  // The projection is a function of creatures, actors and the relations it writes; skip it when none has changed.
-  private projected?: { store: CreatureStore; stamp: string; actors: CampaignActor[]; module: Module };
+  // Each actor's facts are projected again only when its part of the creatures, actors and world has changed.
+  private projection = new Projection();
   private refresh() {
     if (!this.definition) { return; }
-    const p = this.projected, store = this.creatures, actors = this.live;
-    if (p?.store === store && p.actors === actors && p.module === this.module
-      && p.stamp === CreatureFacts.stamp(this.world, store)) { return; }
-    this.commit(CreatureFacts.project(this.world, actors, store));
-    this.projected = { store, stamp: CreatureFacts.stamp(this.world, store), actors, module: this.module };
+    const world = this.world, next = this.projection.refresh(world, this.live, this.creatures);
+    if (next !== world) { this.commit(next); }
   }
   private observe() {
     if (!this.definition) { return; }

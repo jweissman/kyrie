@@ -6,8 +6,14 @@
 //      the feedback told of it, and the next choices, but no screen, no narration's page and no keeping of the game.
 // Each command is put in a class by what it is (travel, time, fight, local), and each class's distribution and the
 // commands a second it allows are reported, with the heap after a full collection every 100 commands.
+// From a profile's checkpoint (--resume, see journey-profile) and that profile's own steps (--replay steps.jsonl), the
+// same is measured from the middle of a game: the country beyond a march, say. Layer A does not draw the country
+// beyond (the session does, after a command), so a replay that crosses a march is measured by layer B alone.
 //   bun scripts/sim-bench.ts <seed> [--class warrior] [--layers A,B] [--steps n]
+//     [--resume ck.json --replay steps.jsonl]
 import { readFileSync } from 'node:fs';
+import { Frontier } from '../src/world/frontier';
+import type { SessionCheckpoint } from '../src/session/play-session';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
@@ -26,13 +32,17 @@ export class SimBench {
   static async main(args: string[]): Promise<number> {
     const seed = args[0];
     if (!seed) { console.error('usage: bun scripts/sim-bench.ts <seed> [--class c] [--layers A,B] [--steps n]'); return 1; }
-    const lines = readFileSync(`test/fixtures/descent/${seed}.choices`, 'utf8').split('\n').filter(Boolean)
+    const replay = this.option(args, 'replay', ''), resume = this.option(args, 'resume', '');
+    const lines = (replay ? readFileSync(replay, 'utf8').split('\n').filter(Boolean)
+      .map(l => `=${(JSON.parse(l) as { command: string }).command}`)
+      : readFileSync(`test/fixtures/descent/${seed}.choices`, 'utf8').split('\n').filter(Boolean))
       .slice(0, Number(this.option(args, 'steps', '100000')));
     for (const layer of this.option(args, 'layers', 'A,B').split(',')) {
-      const s = await this.start(seed, this.option(args, 'class', 'warrior'));
+      const s = resume ? this.resumed(resume, seed) : await this.start(seed, this.option(args, 'class', 'warrior'));
       const began = performance.now(), timed = await this.pass(s, lines, layer);
       console.log(`layer ${layer}: ${timed.length} commands in ${Math.round(performance.now() - began)} ms`
-        + ` (canonical ${Bun.hash(s.canonical()).toString(16)})`);
+        + ` (canonical ${Bun.hash(s.canonical()).toString(16)},`
+        + ` facts ${Bun.hash(JSON.stringify(s.campaign.world.describe())).toString(16)})`);
       this.report(timed);
     }
     return 0;
@@ -42,10 +52,19 @@ export class SimBench {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId }] });
     return PlaySession.start(w.path, seed, w.source);
   }
+  // A profile's checkpoint, played on as the engine plays it: the country beyond drawn as the company crosses a march.
+  static resumed(path: string, seed: string): PlaySession {
+    const s = PlaySession.resume(JSON.parse(readFileSync(path, 'utf8')) as SessionCheckpoint);
+    const frontier = new Frontier(seed, NodeBundleSource.shared);
+    return s.extend({ expand: frontier.expand.bind(frontier) });
+  }
   private static async pass(s: PlaySession, lines: string[], layer: string): Promise<Timed[]> {
     const timed: Timed[] = [];
     for (const [i, line] of lines.entries()) {
-      const re = new RegExp(line, 'i'), c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name));
+      // A line of a record of choices names a choice; one of a profile's steps (=id) is its command.
+      const offered = PlayerView.choices(s.campaign), re = new RegExp(line, 'i');
+      const c = line.startsWith('=') ? offered.find(x => x.choice.id === line.slice(1))
+        : offered.find(x => re.test(x.choice.name));
       if (!c) { console.log(`layer ${layer}: step ${i + 1} not offered: ${line}`); break; }
       const id = PlayerView.resolve(s.campaign, c.choice.id), t = performance.now();
       const fought = layer === 'A' ? await this.simulate(s, id) : await this.session(s, c.choice.id);

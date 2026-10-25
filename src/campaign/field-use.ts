@@ -90,7 +90,7 @@ export class FieldUse {
   // asleep. A lantern is put out to sleep, and in the day, or in a lit room.
   static advance(store: CreatureStore, elapsed: number, events: CombatEvent[],
     scene?: { world: World; actors: CampaignActor[]; player?: string; asleep?: boolean }) {
-    const ids = store.snapshot.filter(c => c.state.conditions.some(s => s.clock === 'world-time')).map(c => c.id);
+    const ids = store.live.filter(c => c.state.conditions.some(s => s.clock === 'world-time')).map(c => c.id);
     if (!ids.length) { return false; }
     const lease = store.acquire(ids);
     try {

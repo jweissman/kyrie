@@ -20,12 +20,12 @@ import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
 
 type Entity = Module['entities'][number];
-interface Scope {
+interface Declared {
   has: Set<string>; measures: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
-  capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; at?: PerkContext;
-  // The items there are, and what the world says now of each member, by relation (see `held`).
-  itemIds: Set<string>; held: Map<string, Map<string, Set<string>>>;
+  capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; itemIds: Set<string>;
 }
+// What the module declares, with the world the projection reads what holds now from (see `set`).
+interface Scope extends Declared { world: World; at?: PerkContext }
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
   // Every relation or measure `project` writes.
@@ -34,14 +34,13 @@ export class CreatureFacts {
     'brings', 'featOpen', 'temperament', 'fallen', 'slain', 'craft'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
-  // Changes whenever the store or a relation `project` writes has changed.
-  static stamp(world: World, store: CreatureStore): string {
-    return `${store.version}:${CreatureFacts.written.map(name => world.stamp(name)).join()}`;
-  }
+  // Every relation or measure a projection writes or reads besides the creatures (see Projection).
+  static readonly reads = [...CreatureFacts.written, 'carried', 'capacity', 'peaceable', 'state', 'warning', 'onslaught',
+    'flinch'];
   static project(world: World, actors: CampaignActor[], store: CreatureStore): World {
     const scope = this.scope(world), changes: Change[] = [];
     for (const actor of actors) {
-      const members = actor.members.map(id => store.get(id)), environment = Environment.of(world, actor.id);
+      const members = actor.members.map(id => store.peek(id)), environment = Environment.of(world, actor.id);
       changes.push(...this.group(actor, members, { ...scope, ...environment ? { at: { environment } } : {} }));
       if (scope.has.has('memberOf')) { for (const c of members) { changes.push(...this.member(c, actor.id, scope)); } }
       if (scope.has.has('swappable')) { changes.push(...this.swaps(world, members, scope.references, scope.abilityIds)); }
@@ -97,27 +96,24 @@ export class CreatureFacts {
     return words;
   }
   // What the world declares that the projection writes about: which relations it has, and its capabilities,
-  // items, item kinds, member bindings and abilities.
-  private static scope(world: World): Scope {
-    const { entities, relations } = world.module;
+  // items, item kinds, member bindings and abilities. Read once for a module while its lists are as long as they were
+  // (a frontier adds to them).
+  private static readonly declarations = new WeakMap<Module, { lengths: string; declared: Declared }>();
+  static declared(module: Module): Declared {
+    const { entities, relations, measures } = module, lengths = `${entities.length}:${relations.length}:${measures.length}`;
+    const kept = this.declarations.get(module);
+    if (kept?.lengths === lengths) { return kept.declared; }
     const abilityIds = new Set(entities.filter(e => e.type === 'ability').map(e => e.id));
-    const declared = Content.abilities.filter(a => abilityIds.has(a.id));
-    const items = entities.filter(e => e.type === 'item'), held = new Map<string, Map<string, Set<string>>>();
-    for (const [name, member] of Object.entries(this.sets).filter(([n]) => world.relates(n))) {
-      const byMember = new Map<string, Set<string>>();
-      for (const r of world.related(name)) {
-        const set = byMember.get(r.args[member]!) ?? new Set<string>();
-        set.add(r.args[1 - member]!); byMember.set(r.args[member]!, set);
-      }
-      held.set(name, byMember);
-    }
-    return { has: new Set(relations.map(r => r.name)), measures: new Set(world.module.measures.map(m => m.name)),
-      abilityIds, declared,
-      field: declared.filter(a => FieldUse.safe(a.id)),
-      capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)), held,
+    const declared = Content.abilities.filter(a => abilityIds.has(a.id)), items = entities.filter(e => e.type === 'item');
+    const made = { has: new Set(relations.map(r => r.name)), measures: new Set(measures.map(m => m.name)),
+      abilityIds, declared, field: declared.filter(a => FieldUse.safe(a.id)),
+      capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)),
       kinds: entities.filter(e => e.type === 'itemkind'),
       references: new Map(entities.filter(e => e.creatureId).map(e => [e.creatureId!, e.id])) };
+    this.declarations.set(module, { lengths, declared: made });
+    return made;
   }
+  private static scope(world: World): Scope { return { ...this.declared(world.module), world }; }
   // What the company as a whole can do and is: its skills, who brings each, whether it can act, and its coin.
   private static group(actor: CampaignActor, members: Creature[], scope: Scope): Change[] {
     const changes: Change[] = [], { has, capabilities, references, at } = scope;
@@ -232,9 +228,11 @@ export class CreatureFacts {
     relieves: 0,
     canCast: 0 };
   private static set(scope: Scope, name: string, reference: string, now: string[]): Change[] {
-    const want = new Set(now);
+    const want = new Set(now), item = this.sets[name]!;
+    // What holds now of this member, read by the member's place among the relation's arguments.
+    const held = item ? scope.world.relatedTo(name, reference) : scope.world.related(name, reference);
     return [...[...want].map(x => ({ kind: 'assert' as const, call: this.pair(name, reference, x) })),
-      ...[...scope.held.get(name)?.get(reference) ?? []].filter(x => !want.has(x))
+      ...[...new Set(held.map(r => r.args[1 - item]!))].filter(x => !want.has(x))
         .map(x => ({ kind: 'retract' as const, call: this.pair(name, reference, x) }))];
   }
   private static pair(name: string, reference: string, other: string) {
@@ -258,7 +256,7 @@ export class CreatureFacts {
         }
       });
     }
-    const present = world.related('swappable').filter(r => refs.has(r.args[0]!));
+    const present = [...refs].flatMap(ref => world.related('swappable', ref));
     return [...present.filter(r => !desired.has(r.args.join('|')))
       .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('swappable', ...r.args) })),
     ...[...desired.values()].map(args => ({ kind: 'assert' as const, call: ModuleWriter.call('swappable', ...args) }))];
@@ -274,7 +272,7 @@ export class CreatureFacts {
   private static choices(world: World, relation: string, open: [string, string[]][]): Change[] {
     const refs = new Set(open.map(([ref]) => ref));
     const desired = new Set(open.flatMap(([ref, ids]) => ids.map(id => `${ref}|${id}`)));
-    const present = world.related(relation).filter(r => refs.has(r.args[0]!));
+    const present = [...refs].flatMap(ref => world.related(relation, ref));
     return [...present.filter(r => !desired.has(r.args.join('|')))
       .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call(relation, ...r.args) })),
     ...[...desired].map(key => ({ kind: 'assert' as const, call: ModuleWriter.call(relation, ...key.split('|')) }))];
@@ -289,8 +287,11 @@ export class CreatureFacts {
       } finally { lease.release(); }
     }
   }
+  // Only the actors whose gold the world has written are read (a rule's firing writes none, most often).
   static commitMoney(before: World, after: World, actors: CampaignActor[], store: CreatureStore) {
-    const changed = actors.map(actor => ({ actor,
+    const written = new Set(after.differing(before, ['quantity']).filter(c => c.args[1] === 'gold').map(c => c.args[0]));
+    if (!written.size) { return; }
+    const changed = actors.filter(actor => written.has(actor.id)).map(actor => ({ actor,
       delta: after.number(ModuleWriter.call('quantity', actor.id, 'gold'))
         - before.number(ModuleWriter.call('quantity', actor.id, 'gold')),
     })).filter(change => change.delta !== 0);

@@ -24,15 +24,21 @@ export class World {
   private static writes = 0;
   // Which line of worlds this one is of: a world built from state starts one, and the worlds forked from it are of
   // it; only between worlds of one line do stamps say what changed.
-  private lineage: object = {};
+  private static lines = 0;
+  private lineage = ++World.lines;
   // The world's content as two order-free sums of each fact's and measure's hash, kept as they are written, so that
   // telling two worlds apart (a planner's visited states) never sorts every fact (see key).
   private sums: [number, number] = [0, 0];
   private memoSnapshot?: WorldState;
-  // Read-only views by relation name (and first argument), and of measures by name, built on first use.
-  private lists = new Map<string, Call[]>();
-  private firsts = new Map<string, Map<string, Call[]>>();
-  private amounts = new Map<string, Measure[]>();
+  // Read-only views of one relation's facts (and by first argument), and of one measure's values, built on first use
+  // and kept with the map they were read from: a world shares a relation's map with the world it was forked from
+  // until it writes that relation, and so shares what was read of it, before or after the fork. (Mission 15's
+  // profile: every watch's worlds read every relation they asked of afresh.)
+  private static readonly lists = new WeakMap<Map<string, Call>, Call[]>();
+  private static readonly firsts = new WeakMap<Map<string, Call>, Map<string, Call[]>>();
+  private static readonly seconds = new WeakMap<Map<string, Call>, Map<string, Call[]>>();
+  private static readonly amounts = new WeakMap<Map<string, Measure>, Measure[]>();
+  private static readonly none: readonly never[] = [];
   private static readonly open = new WeakMap<object, boolean>();
   private static readonly signatures = new WeakMap<Module, Signatures>();
   constructor(readonly module: Module, state: WorldState = { relations: [], measures: [] }) {
@@ -49,7 +55,6 @@ export class World {
     next.stamps = new Map(from.stamps);
     next.sums = [...from.sums];
     next.lineage = from.lineage;
-    next.lists = new Map(); next.firsts = new Map(); next.amounts = new Map();
     return next;
   }
   private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
@@ -66,26 +71,39 @@ export class World {
   // The facts of one relation (with this first argument, if given), as the world holds them: for reading only. Far
   // cheaper than `snapshot`, which copies every fact.
   related(name: string, first?: string): readonly Call[] {
-    let list = this.lists.get(name);
-    if (!list) { list = [...this.byName.get(name)?.values() ?? []]; this.lists.set(name, list); }
+    const facts = this.byName.get(name);
+    if (!facts) { return World.none; }
+    let list = World.lists.get(facts);
+    if (!list) { list = [...facts.values()]; World.lists.set(facts, list); }
     if (first === undefined) { return list; }
-    let index = this.firsts.get(name);
+    return World.indexed(World.firsts, facts, list, 0).get(first) ?? World.none;
+  }
+  // The facts of one relation whose second argument is this one (`ownedItem(?, member)`): for reading only.
+  relatedTo(name: string, second: string): readonly Call[] {
+    const facts = this.byName.get(name);
+    return facts ? World.indexed(World.seconds, facts, this.related(name), 1).get(second) ?? World.none : World.none;
+  }
+  private static indexed(kept: WeakMap<Map<string, Call>, Map<string, Call[]>>, facts: Map<string, Call>,
+    list: readonly Call[], at: number): Map<string, Call[]> {
+    let index = kept.get(facts);
     if (!index) {
       index = new Map();
       for (const call of list) {
-        const at = index.get(call.args[0]!);
-        if (at) { at.push(call); } else { index.set(call.args[0]!, [call]); }
+        const those = index.get(call.args[at]!);
+        if (those) { those.push(call); } else { index.set(call.args[at]!, [call]); }
       }
-      this.firsts.set(name, index);
+      kept.set(facts, index);
     }
-    return index.get(first) ?? [];
+    return index;
   }
   // The other party of a fact that relates this one to one other (`at(party, ?)`): the first, if there are several.
   one(name: string, first: string): string | undefined { return this.related(name, first)[0]?.args[1]; }
   // Every value of one measure, as the world holds them: for reading only.
   measured(name: string): readonly Measure[] {
-    let list = this.amounts.get(name);
-    if (!list) { list = [...this.measuresByName.get(name)?.values() ?? []]; this.amounts.set(name, list); }
+    const values = this.measuresByName.get(name);
+    if (!values) { return World.none; }
+    let list = World.amounts.get(values);
+    if (!list) { list = [...values.values()]; World.amounts.set(values, list); }
     return list;
   }
   // Whether the module declares this relation.
@@ -240,7 +258,9 @@ export class World {
       }
     }
   }
+  // A world is never changed once made, so no changes at all give this world itself.
   apply(changes: Change[]): World {
+    if (!changes.length) { return this; }
     const next = World.fork(this);
     for (const change of changes) { next.change(change); }
     return next;
@@ -296,15 +316,28 @@ export class World {
     return own;
   }
   stamp(name: string): number { return this.stamps.get(name) ?? 0; }
+  // These names' stamps and the world's line, to hold a later world to (see `agrees`).
+  stamped(names: readonly string[]): number[] { return [this.lineage, ...names.map(n => this.stamp(n))]; }
+  // Whether this world is of the line of the one these stamps were taken of, and has the same stamps for its names:
+  // if so, it holds just what that world held of every one of them.
+  agrees(names: readonly string[], stamped: readonly number[] | undefined): boolean {
+    if (stamped?.[0] !== this.lineage) { return false; }
+    for (let i = 0; i < names.length; i++) {
+      if ((this.stamps.get(names[i]!) ?? 0) !== stamped[i + 1]) { return false; }
+    }
+    return true;
+  }
+  // Whether two worlds are of one line, so that what each shares with the other is shared (see `differing`).
+  sameLine(other: World): boolean { return this.lineage === other.lineage; }
   private change(change: Change) {
     this.memoSnapshot = undefined;
-    this.lists.delete(change.call.name); this.firsts.delete(change.call.name); this.amounts.delete(change.call.name);
     this.stamps.set(change.call.name, ++World.writes);
     const key = World.key(change.call);
     if (change.kind === 'assert' || change.kind === 'retract') {
       const relation = World.index(this.module).relations.get(change.call.name);
       if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
       const named = this.named(change.call.name);
+      World.lists.delete(named); World.firsts.delete(named); World.seconds.delete(named);
       if (named.delete(key)) { this.sum(key, -1); this.count--; }
       if (change.kind === 'assert' && relation.exclusive) {
         for (const [k, call] of [...named]) {
@@ -327,6 +360,7 @@ export class World {
       throw new Error(`Invalid quantity for ${World.format(change.call)}`);
     }
     const named = this.namedMeasures(change.call.name), held = named.get(key);
+    World.amounts.delete(named);
     if (held) { named.delete(key); this.sum(`${key}=${held.value}`, -1); this.measureCount--; }
     if (value !== 0) {
       named.set(key, { call: World.copy(change.call), value }); this.sum(`${key}=${value}`, 1); this.measureCount++;
@@ -391,6 +425,24 @@ export class World {
       }
     }
     return [...retracted, ...asserted, ...set];
+  }
+  // The facts and measures of these names that differ between an earlier world of this line and this one: held in one
+  // and not the other, or of another value (one gone to nothing among them). A name either shares with the other is
+  // passed over at once.
+  differing(prior: World, names: readonly string[]): Call[] {
+    const out: Call[] = [];
+    for (const name of names) {
+      const was = prior.byName.get(name), is = this.byName.get(name);
+      if (was !== is) {
+        for (const [key, call] of was ?? []) { if (!is?.has(key)) { out.push(call); } }
+        for (const [key, call] of is ?? []) { if (!was?.has(key)) { out.push(call); } }
+      }
+      const then = prior.measuresByName.get(name), now = this.measuresByName.get(name);
+      if (then === now) { continue; }
+      for (const [key, m] of now ?? []) { if (then?.get(key)?.value !== m.value) { out.push(m.call); } }
+      for (const [key, m] of then ?? []) { if (!now?.has(key)) { out.push(m.call); } }
+    }
+    return out;
   }
   // What changed from an earlier world to this one, as "- fact" and "+ fact" lines: of the same line, only what was
   // written since is compared; of another, everything.
