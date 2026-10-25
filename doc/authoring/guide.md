@@ -477,6 +477,25 @@ This lints the campaign, builds the reader with it, and serves it at `http://loc
 file is saved it lints and builds again, and the open page reloads. A module that does not load is reported, and the
 page keeps the last build that did.
 
+To play it by the labels a player sees, without the page:
+
+```
+bin/kyrie play path/to/your.campaign.json --seed s --steps steps.json --probe "knows party mine__map_known" \
+  --probe "#dose mine__member_party_1" "^To the gate" "the altar: Set the idol"
+```
+
+Each step is a pattern for the choice to take, matched against its label ("Wait › An hour", "Pack › A torch ›
+Light", "a torch: Light") and then against the label under its heading ("the Sleeper's left eyelid: Examine › Push
+and pull at it"), which tells two things' alike choices apart. `?pattern` is taken if it is offered; `@command`
+performs a command by its id; `=N` waits until watch N, `=+N` waits N watches more, `~N` waits until watch N by dark
+and first light; `~pattern` is a way not open yet, tried again after a short wait. Each step is printed as the page
+tells it, then where the company is, then the answers to the probes: a fact is yes or no, `#measure` its number.
+`--choices` lists what is offered at the end. The steps file is a list, or named phases played in the order written.
+
+A journey test plays the same steps with `Journey` (`src/session/journey.ts`), as the adventures' own tests do
+(`test/thrume.test.ts`, `test/house-that-grows.test.ts`, `test/let-one-remember.test.ts`,
+`test/patient-star.test.ts`); `JOURNEY_TRACE=1` prints each step as the page told it.
+
 ## 10. What else a module can say
 
 The example above is a village; an adventure of your own will want more. Each construct below is shown by the
@@ -538,6 +557,25 @@ did (`probes/reckoning`):
 
 A number in parentheses is a Deem expression, `(2d6)`, rolled once when the module is installed; arithmetic outside
 parentheses is worked out each time it is read.
+
+### How fast a member goes
+
+A member's `speed` is a measure of the shared rules, in hundredths of their own; unset is their own. A company walks
+at its slowest member's speed, and laden at half that, so a module that slows someone says so (The Patient Star's
+stilling):
+
+```text
+  Query slowedMember(m: member) means dose(m) >= 24.
+  Rule slowing when memberOf(?m, ?c) and company(?c) and slowedMember(?m) and speed(?m) != 50 { Set speed(?m) to 50. }
+  Rule quickening when memberOf(?m, ?c) and company(?c) and not slowedMember(?m) and speed(?m) == 50 { Set speed(?m) to 0. }
+```
+
+### Numbers in what is said
+
+Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:
+`"You owe {creditor} {owed(loan)} coin, by market day."`. A variable its condition binds can be named too: in
+`Observe slow_feel near party when memberOf(?m, party) and dose(?m) >= 24 "{?m}'s own footsteps sound late."` it is
+whoever the condition finds first.
 
 ### A way that opens only sometimes
 

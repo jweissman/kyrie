@@ -1,62 +1,31 @@
 import { describe, expect, it } from 'bun:test';
-import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
-import { ChoiceList, type Choice, type Section } from '../src/ui/choice-list';
 import { KyrLint } from '../src/cli/kyr-lint';
-import { Narrator } from '../src/presentation/narrator';
-import { PlayerView } from '../src/presentation/player-view';
-import { ActionFeedbackView } from '../src/presentation/action-feedback';
+import { Journey as Driver } from '../src/session/journey';
 
 // Hold One Season, a slice of The Patient Star written in Kyr by an author who did not make Kyr
 // (doc/adventures/patient-star). Each journey plays by the labels a player sees, in the reader's own sections, and
 // checks what the world did: the fiction, not the implementation.
 class Journey {
   static readonly campaign = 'data/campaigns/hold-one-season.campaign.json';
-  readonly said: string[] = [];
-  private constructor(readonly s: PlaySession) {}
-  static async start(seed = 'p', campaign = Journey.campaign) {
-    return new Journey(await PlaySession.start(campaign, seed, NodeBundleSource.shared));
-  }
-  private static leaves(list: Choice[], trail: string): { label: string; command?: string }[] {
-    return list.flatMap(c => c.children ? this.leaves(c.children, `${trail}${c.label} › `)
-      : [{ label: trail + c.label, ...c.command ? { command: c.command } : {} }]);
-  }
-  private static sections(list: Section[], prefix = (s: Section) => `${s.title}: `) {
-    return list.flatMap(s => this.leaves(s.choices, prefix(s)));
-  }
-  choices() {
-    const screen = ScreenModel.build(this.s.campaign);
-    return [...Journey.sections(ChoiceList.explore(screen)), ...Journey.sections(ChoiceList.pack(screen), () => 'Pack › ')]
-      .filter(c => c.command);
-  }
-  offers(label: string) { return this.choices().some(c => new RegExp(label, 'i').test(c.label)); }
-  async act(label: string) {
-    const c = this.choices().find(x => new RegExp(label, 'i').test(x.label));
-    if (!c) { throw new Error(`No /${label}/ among ${this.choices().map(x => x.label).join(' | ')}`); }
-    const before = PlayerView.observe(this.s.campaign);
-    const e = await this.s.perform(c.command!);
-    // What the page says: the exchange, then the place if the company moved.
-    const moved = before.location?.id !== this.at('party');
-    const leaf = Narrator.leaf(this.s.campaign, ScreenModel.build(this.s.campaign),
-      { event: e, feedback: ActionFeedbackView.read(this.s.campaign, e, before), said: c.label, moved });
-    const told = [...(leaf.journey ?? []), ...(leaf.exchange?.lines ?? []).map(l => l.text),
-      ...(moved ? [...leaf.situation, ...leaf.presence] : []), ...leaf.changed,
-      ...(e.perceptions ?? []).map(p => p.text), e.response ?? ''].join(' ');
-    this.said.push(`[${c.label}] ${told}`);
-    if (process.env.JOURNEY_TRACE) { console.log(`[${c.label}] ${told}`); }
-    return told;
-  }
-  async play(...labels: string[]) { for (const l of labels) { await this.act(l); } return this; }
+  static async start(seed = 'p', campaign = Journey.campaign) { return new Journey(await Driver.start(campaign, seed)); }
   async waitUntil(test: () => boolean, label = 'Wait › An hour', most = 60) {
     for (let i = 0; i < most && !test(); i++) { await this.act(label); }
     return test();
   }
-  holds(name: string, ...args: string[]) { return this.s.campaign.world.test(ModuleWriter.call(name, ...args)); }
-  measure(name: string, ...args: string[]) { return this.s.campaign.world.number(ModuleWriter.call(name, ...args)); }
-  at(who: string) { return this.s.campaign.world.one('at', who); }
-  get page() { return this.said.join('\n'); }
+  private constructor(readonly j: Driver) {}
+  get s() { return this.j.session; }
+  choices() { return this.j.choices().map(c => ({ ...c, label: c.full })); }
+  offers(label: string) { return this.j.offers(label); }
+  // What a step told: the page's telling, then what came back (perceptions and response).
+  private static told(t: Driver['taken'][number]) { return `${t.page} ${t.told.trim()}`; }
+  async act(label: string) { await this.j.step(label); const t = this.j.taken.at(-1); return t ? Journey.told(t) : ''; }
+  async play(...labels: string[]) { await this.j.play(...labels); return this; }
+  holds(name: string, ...args: string[]) { return this.j.holds(name, ...args); }
+  measure(name: string, ...args: string[]) { return this.j.measure(name, ...args); }
+  at(who: string) { return this.j.at(who); }
+  get page() { return this.j.taken.map(t => `[${t.label}] ${Journey.told(t)}`).join('\n'); }
 }
 const me = 'season__member_party_1';
 

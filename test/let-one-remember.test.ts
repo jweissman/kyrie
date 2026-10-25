@@ -3,11 +3,11 @@ import { readFileSync } from 'node:fs';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { ScreenModel } from '../src/ui/screen-model';
-import { ChoiceList, type Choice } from '../src/ui/choice-list';
+import { Journey } from '../src/session/journey';
 
-// Let One Remember, played by the labels a player sees (and the item panel's acts). A step '=N' waits an hour or a
-// while at a time until watch N; '~N' waits until dark or first light at a time until watch N.
+// Let One Remember, played by the labels a player sees (and the item panel's acts), by the shared driver (Journey:
+// '=N' waits an hour or a while at a time until watch N, '=+N' that many watches more, '~N' until dark or first
+// light at a time until watch N, '?label' is taken if it is offered).
 class T {
   static start(campaign = 'data/campaigns/let-one-remember.campaign.json') {
     return PlaySession.start(campaign, 'corrow', NodeBundleSource.shared);
@@ -17,43 +17,9 @@ class T {
     await this.play(s, [`Begin Act ${['', 'I', 'II', 'III', 'IV', 'V'][n]}`]);
     return s;
   }
-  static leaves(list: Choice[], trail = ''): { label: string; command?: string }[] {
-    return list.flatMap(c => c.children ? this.leaves(c.children, `${trail}${c.label} › `)
-      : [{ label: trail + c.label, ...c.command ? { command: c.command } : {} }]);
-  }
-  static choices(s: PlaySession) {
-    const m = ScreenModel.build(s.campaign);
-    const items = m.items.flatMap(i => (i.acts ?? []).filter(a => a.command)
-      .map(a => ({ label: `${i.name}: ${a.label}`, command: a.command })));
-    return [...this.leaves(ChoiceList.all(ChoiceList.explore(m))).filter(c => c.command), ...items];
-  }
-  static watch(s: PlaySession) { return s.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
-  static async wait(s: PlaySession, until: number, long: boolean): Promise<string> {
-    let said = '';
-    while (this.watch(s) < until) {
-      const o = this.choices(s);
-      const pick = long
-        ? o.find(x => /^Wait › Until dark/.test(x.label)) ?? o.find(x => /^Wait › Until first light/.test(x.label))
-        : o.find(x => (until - this.watch(s) >= 6 ? /^Wait › An hour/ : /^Wait › A while/).test(x.label));
-      const e = await s.perform((pick ?? o.find(x => /^Wait › An hour/.test(x.label)))!.command!);
-      said += ' ' + [...(e.perceptions ?? []).map(p => p.text), e.response ?? ''].join(' ');
-    }
-    return said;
-  }
-  static async play(s: PlaySession, steps: string[]): Promise<string> {
-    let said = '';
-    for (const step of steps) {
-      if (step.startsWith('=+')) { said += await this.wait(s, this.watch(s) + Number(step.slice(2)), false); continue; }
-      if (step.startsWith('=') || step.startsWith('~')) { said += await this.wait(s, Number(step.slice(1)), step[0] === '~'); continue; }
-      const optional = step.startsWith('?'), pattern = optional ? step.slice(1) : step;
-      const offered = this.choices(s), c = offered.find(x => new RegExp(pattern, 'i').test(x.label));
-      if (!c && optional) { continue; }
-      if (!c) { throw new Error(`No /${step}/ at watch ${this.watch(s)} among ${offered.map(x => x.label).join(' | ')}`); }
-      const e = await s.perform(c.command!);
-      said += ' ' + [...(e.perceptions ?? []).map(p => p.text), e.response ?? ''].join(' ');
-    }
-    return said;
-  }
+  static choices(s: PlaySession) { return Journey.of(s).choices(); }
+  static watch(s: PlaySession) { return Journey.of(s).watch(); }
+  static play(s: PlaySession, steps: string[]): Promise<string> { return Journey.of(s).play(...steps); }
   static holds(s: PlaySession, name: string, ...args: string[]) {
     return s.campaign.world.test(ModuleWriter.call(name, ...args));
   }

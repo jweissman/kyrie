@@ -2,8 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { ScreenModel } from '../src/ui/screen-model';
-import { ChoiceList, type Choice } from '../src/ui/choice-list';
+import { Journey } from '../src/session/journey';
 import type { CampaignEvent } from '../src/campaign/campaign';
 
 // The House That Grows, played by the labels a player sees. Cobble Ring watches the room in Haddo's barley from its
@@ -13,36 +12,20 @@ class Ring {
   static start() {
     return PlaySession.start('data/campaigns/the-house-that-grows.campaign.json', 'noon', NodeBundleSource.shared);
   }
-  static leaves(list: Choice[], trail = ''): { label: string; command?: string }[] {
-    return list.flatMap(c => c.children ? this.leaves(c.children, `${trail}${c.label} › `)
-      : [{ label: trail + c.label, ...c.command ? { command: c.command } : {} }]);
-  }
-  static choices(s: PlaySession) {
-    const m = ScreenModel.build(s.campaign);
-    return [...this.leaves(ChoiceList.all(ChoiceList.explore(m))), ...this.leaves(ChoiceList.all(ChoiceList.pack(m)), 'Pack › ')]
-      .filter(c => c.command);
-  }
-  static offered(s: PlaySession, label: string): boolean {
-    return this.choices(s).some(c => new RegExp(label, 'i').test(c.label));
-  }
-  // Each label is a pattern for the choice to make; a leading '?' makes it optional (a look-away still in force).
+  static choices(s: PlaySession) { return Journey.of(s).choices(); }
+  static offered(s: PlaySession, label: string): boolean { return Journey.of(s).offers(label); }
+  // Each label is a pattern for the choice to make (the shared driver's steps); a leading '?' makes it optional (a
+  // look-away still in force).
   static async act(s: PlaySession, ...labels: string[]): Promise<CampaignEvent[]> {
-    const events: CampaignEvent[] = [];
-    for (const label of labels) {
-      const optional = label.startsWith('?'), pattern = new RegExp(optional ? label.slice(1) : label, 'i');
-      const all = this.choices(s), c = all.find(x => pattern.test(x.label));
-      if (!c && optional) { continue; }
-      if (!c) { throw new Error(`No /${label}/ among ${all.map(x => x.label).join(' | ')}`); }
-      events.push(await s.perform(c.command!));
-    }
-    return events;
+    const j = Journey.of(s);
+    await j.play(...labels);
+    return j.taken.map(t => t.event);
   }
-  // Several things offer the same tries under the same label ("Look and try › Hold a flame to it"); only the command
-  // says which thing it is.
+  // Two things' alike tries ("Examine › Hold a flame to it") are told apart by the thing they are done to.
   static async tryOn(s: PlaySession, thing: string, label: string): Promise<CampaignEvent> {
-    const c = this.choices(s).find(x => new RegExp(label, 'i').test(x.label) && x.command!.includes(thing));
+    const c = this.choices(s).find(x => new RegExp(label, 'i').test(x.label) && x.command.includes(thing));
     if (!c) { throw new Error(`No /${label}/ on ${thing}`); }
-    return s.perform(c.command!);
+    return s.perform(c.command);
   }
   static async until(s: PlaySession, watch: number): Promise<string> {
     let said = '';

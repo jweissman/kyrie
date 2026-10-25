@@ -1,0 +1,134 @@
+import { PlaySession } from './play-session';
+import { NodeBundleSource } from '../campaign/node-bundle-source';
+import type { BundleSource } from '../campaign/bundle-source';
+import type { CampaignEvent } from '../campaign/campaign';
+import type { CreatureGenerationContext } from '../content';
+import { ModuleWriter } from '../lang/module-writer';
+import { ScreenModel } from '../ui/screen-model';
+import { ChoiceList, type Choice } from '../ui/choice-list';
+import { PlayerView } from '../presentation/player-view';
+import { Narrator } from '../presentation/narrator';
+import { ActionFeedbackView } from '../presentation/action-feedback';
+
+// A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
+// torch › Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left
+// eyelid: Examine › Push and pull at it"), so that two things' alike choices can be told apart by name.
+export interface Offered { label: string; full: string; command: string }
+// One step taken: what was asked, the choice it took, what came back (the event's perceptions and response), and
+// what the page told of it (the narrator's lines). JOURNEY_TRACE=1 prints each step as the page told it.
+export interface Taken { label: string; command: string; told: string; page: string; event: CampaignEvent }
+
+// A game played by the labels a player sees, as every adventure's journeys are (Thrume, The House That Grows, The
+// Road the Star Came Down, The Patient Star each wrote one of these before it was shipped). A step is a pattern for
+// the choice to take, matched against each label and then each label under its heading, or one of:
+//   ?pattern   take it if it is offered, and go on if not
+//   @command   perform a command by its id
+//   =N         wait until watch N, an hour at a time while six or more away, a while at a time after
+//   =+N        wait N watches more
+//   ~N         wait until watch N by dark and first light (an hour when neither is offered)
+//   ~pattern   a way that is not open yet: wait a while and try again, up to twelve times
+export class Journey {
+  readonly taken: Taken[] = [];
+  private constructor(readonly session: PlaySession) {}
+  static async start(campaign: string, seed = 'journey', options: { source?: BundleSource;
+    party?: CreatureGenerationContext[] } = {}): Promise<Journey> {
+    const source = options.source ?? NodeBundleSource.shared;
+    return new Journey(await PlaySession.start(campaign, seed, source, options.party));
+  }
+  static of(session: PlaySession): Journey { return new Journey(session); }
+  get campaign() { return this.session.campaign; }
+  // Every choice that can be taken now: what the page offers where the company stands, its pack, and each thing it
+  // carries (the item panel).
+  choices(): Offered[] {
+    const screen = ScreenModel.build(this.campaign), out: Offered[] = [];
+    for (const section of ChoiceList.explore(screen)) {
+      for (const c of Journey.leaves(section.choices)) { out.push({ ...c, full: `${section.title}: ${c.label}` }); }
+    }
+    for (const section of ChoiceList.pack(screen)) {
+      for (const c of Journey.leaves(section.choices, 'Pack › ')) { out.push({ ...c, full: c.label }); }
+    }
+    for (const item of screen.items) {
+      for (const c of Journey.acts(item.acts, `${item.name}: `)) { out.push({ ...c, full: c.label }); }
+    }
+    return out;
+  }
+  find(pattern: string): Offered | undefined {
+    const re = new RegExp(pattern, 'i'), all = this.choices();
+    return all.find(c => re.test(c.label)) ?? all.find(c => re.test(c.full));
+  }
+  offers(pattern: string): boolean { return !!this.find(pattern); }
+  // What the steps told, each step's perceptions and response after a space (as the journeys' own drivers said it).
+  async play(...steps: string[]): Promise<string> {
+    let told = '';
+    for (const step of steps) { told += await this.step(step); }
+    return told;
+  }
+  async step(step: string): Promise<string> {
+    const wait = /^(=\+|=|~)(\d+)$/.exec(step);
+    if (wait) {
+      const n = Number(wait[2]);
+      return this.until(wait[1] === '=+' ? this.watch() + n : n, wait[1] === '~');
+    }
+    if (step.startsWith('@')) { return this.perform(step.slice(1), step); }
+    if (step.startsWith('~')) { return this.through(step.slice(1)); }
+    const optional = step.startsWith('?'), c = this.find(optional ? step.slice(1) : step);
+    if (!c && optional) { return ''; }
+    if (!c) { throw new Error(`No /${step}/ at watch ${this.watch()} among ${this.choices().map(x => x.label).join(' | ')}`); }
+    return this.perform(c.command, c.label);
+  }
+  // Performs a command, and keeps what came back and what the page told of it.
+  async perform(command: string, label = command): Promise<string> {
+    const before = PlayerView.observe(this.campaign);
+    const event = await this.session.perform(command);
+    const moved = before.location?.id !== this.at(this.campaign.playerActor ?? 'party');
+    const leaf = Narrator.leaf(this.campaign, ScreenModel.build(this.campaign),
+      { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: label, moved });
+    const told = ' ' + [...(event.perceptions ?? []).map(p => p.text), event.response ?? ''].join(' ');
+    // What the page says: the way there, the exchange, the place if the company moved, what has changed.
+    const page = [...(leaf.journey ?? []), ...(leaf.exchange?.lines ?? []).map(l => l.text),
+      ...(moved ? [...leaf.situation, ...leaf.presence] : []), ...leaf.changed].join(' ');
+    this.taken.push({ label, command, told, page, event });
+    if (process.env.JOURNEY_TRACE) { console.log(`[${label}] ${page}`); }
+    return told;
+  }
+  // Every step's telling as the page gave it, one to a line, after its label.
+  get page(): string { return this.taken.map(t => `[${t.label}] ${t.page}`).join('\n'); }
+  watch(): number { return this.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
+  minutes(): number { return this.watch() * 10 + (this.campaign.state.minutes ?? 0); }
+  holds(name: string, ...args: string[]): boolean { return this.campaign.world.test(ModuleWriter.call(name, ...args)); }
+  measure(name: string, ...args: string[]): number {
+    return this.campaign.world.number(ModuleWriter.call(name, ...args));
+  }
+  at(who: string): string | undefined { return this.campaign.world.one('at', who); }
+  private async until(watch: number, long: boolean): Promise<string> {
+    let told = '';
+    while (this.watch() < watch) {
+      const pick = long ? this.find('^Wait › Until dark') ?? this.find('^Wait › Until first light')
+        : this.find(watch - this.watch() >= 6 ? '^Wait › An hour' : '^Wait › A while');
+      const c = pick ?? this.find('^Wait › An hour');
+      if (!c) { throw new Error(`Nothing to wait by at watch ${this.watch()}`); }
+      told += await this.perform(c.command, c.label);
+    }
+    return told;
+  }
+  private async through(pattern: string): Promise<string> {
+    for (let tries = 0; tries < 12; tries++) {
+      const here = this.at(this.campaign.playerActor ?? 'party'), c = this.find(pattern);
+      if (c) {
+        const told = await this.perform(c.command, c.label);
+        if (this.at(this.campaign.playerActor ?? 'party') !== here) { return told; }
+      }
+      await this.step('^Wait › A while');
+    }
+    throw new Error(`Never got through /${pattern}/`);
+  }
+  private static leaves(list: Choice[], trail = ''): { label: string; command: string }[] {
+    return list.flatMap(c => c.children ? this.leaves(c.children, `${trail}${c.label} › `)
+      : c.command ? [{ label: trail + c.label, command: c.command }] : []);
+  }
+  private static acts(acts: { label: string; command?: string; children?: { label: string; command?: string }[] }[],
+    trail: string): { label: string; command: string }[] {
+    return acts.flatMap(a => a.children ? this.acts(a.children, `${trail}${a.label} › `)
+      : a.command ? [{ label: trail + a.label, command: a.command }] : []);
+  }
+}

@@ -2,51 +2,20 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { ScreenModel } from '../src/ui/screen-model';
-import { ChoiceList, type Choice } from '../src/ui/choice-list';
+import { Journey } from '../src/session/journey';
 
-// Thrume, played by the labels a player sees (and the item panel's acts). A step '=N' waits until watch N; '@cmd'
-// performs a command the page offers under a label that cannot tell two things apart (see
-// doc/adventures/thrume/friction.md, the Sleeper's eyelids); '?label' is taken if it is offered. A torch is lit
-// that way: a flame now burns only while it is wanted (in the dark, awake), so one lit before may still be alight,
-// and a torch is not offered to be lit while one burns.
+// Thrume, played by the labels a player sees (and the item panel's acts), by the shared driver (Journey: '=N' waits
+// until watch N, '?label' is taken if it is offered). A torch is lit that way: a flame now burns only while it is
+// wanted (in the dark, awake), so one lit before may still be alight, and a torch is not offered to be lit while one
+// burns. The Sleeper's eyelids are told apart by their headings ("the Sleeper's left eyelid: Examine › …").
 class T {
   static start(campaign = 'data/campaigns/thrume.campaign.json') {
     return PlaySession.start(campaign, 'saltgrave', NodeBundleSource.shared);
   }
-  static leaves(list: Choice[], trail = ''): { label: string; command?: string }[] {
-    return list.flatMap(c => c.children ? this.leaves(c.children, `${trail}${c.label} › `)
-      : [{ label: trail + c.label, ...c.command ? { command: c.command } : {} }]);
-  }
-  static choices(s: PlaySession) {
-    const m = ScreenModel.build(s.campaign);
-    const items = m.items.flatMap(i => (i.acts ?? []).filter(a => a.command)
-      .map(a => ({ label: `${i.name}: ${a.label}`, command: a.command })));
-    return [...this.leaves(ChoiceList.all(ChoiceList.explore(m))).filter(c => c.command), ...items];
-  }
-  static watch(s: PlaySession) { return s.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
+  static choices(s: PlaySession) { return Journey.of(s).choices(); }
+  static watch(s: PlaySession) { return Journey.of(s).watch(); }
   static async play(s: PlaySession, steps: string[]): Promise<string> {
-    let said = '';
-    for (const step of steps) {
-      if (step.startsWith('=')) {
-        const n = Number(step.slice(1));
-        while (this.watch(s) < n) { await this.play(s, [n - this.watch(s) >= 6 ? '^Wait › An hour' : '^Wait › A while']); }
-        continue;
-      }
-      let command = step.startsWith('@') ? step.slice(1) : undefined;
-      if (!command) {
-        const optional = step.startsWith('?'), asked = optional ? step.slice(1) : step;
-        const offered = this.choices(s), c = offered.find(x => new RegExp(asked, 'i').test(x.label));
-        if (!c && optional) { continue; }
-        if (!c) {
-          throw new Error(`No /${step}/ at watch ${this.watch(s)} (${this.lights(s)}) among ${offered.map(x => x.label).join(' | ')}`);
-        }
-        command = c.command!;
-      }
-      const e = await s.perform(command);
-      said += ' ' + [...(e.perceptions ?? []).map(p => p.text), e.response ?? ''].join(' ');
-    }
-    return said;
+    try { return await Journey.of(s).play(...steps); } catch (e) { throw new Error(`${(e as Error).message} (${this.lights(s)})`); }
   }
   // What the company has burning, and for how long yet: a light still lit is not lit again.
   static lights(s: PlaySession): string {
@@ -92,7 +61,7 @@ describe('Thrume', () => {
     // The Abbess found her pedestal empty after the company was down the throat.
     expect(T.holds(s, 'thrume__roused', 'thrume__hushc')).toBe(true);
     // Tomb
-    said = await T.play(s, ["?a torch: Light", "^To the head of the salt stair", "third tread.*Prod it with the pole", "^To the hall of the hammers", "hammer of salt", "^To the Hall of Doctrine", "^To the Sleeper", "@push(thrume__left_lid)", "^To the Hall of Doors", "?a torch: Light", "^Search here", "=252", "^To the Room of Three", "^To the Gearworks", "iron wheel to REST", "salt wheel to WAKE", "bone wheel to REST", "Throw the great lever", "^To the gallery", "Turn the great key", "^To the Gearworks", "^To the Chamber of the Heart", "Say the doctrine", "^To the Warder", "^To the hall of the locks", "?a torch: Light", "set the keepers. ring", "set the Smith-Master", "lay the Abbess", "^To the Keeper.s Chair$", "Sit in the Keeper"]);
+    said = await T.play(s, ["?a torch: Light", "^To the head of the salt stair", "third tread.*Prod it with the pole", "^To the hall of the hammers", "hammer of salt", "^To the Hall of Doctrine", "^To the Sleeper", "left eyelid: Examine › Push and pull", "^To the Hall of Doors", "?a torch: Light", "^Search here", "=252", "^To the Room of Three", "^To the Gearworks", "iron wheel to REST", "salt wheel to WAKE", "bone wheel to REST", "Throw the great lever", "^To the gallery", "Turn the great key", "^To the Gearworks", "^To the Chamber of the Heart", "Say the doctrine", "^To the Warder", "^To the hall of the locks", "?a torch: Light", "set the keepers. ring", "set the Smith-Master", "lay the Abbess", "^To the Keeper.s Chair$", "Sit in the Keeper"]);
     expect(T.holds(s, 'thrume__seated', 'party')).toBe(true);
     expect(T.measure(s, 'thrume__stirring', 'thrume__fells')).toBe(2);
     // Dream
@@ -147,14 +116,14 @@ describe('the Heart-Tomb', () => {
     await T.play(s, ['hammer of salt', '^To the Hall of Doctrine', '^To the Sleeper']);
     // The way behind the left eye is not offered, or named, until the lid is pressed.
     expect(T.choices(s).some(c => /Hall of Doors/.test(c.label))).toBe(false);
-    await T.play(s, ['@push(thrume__left_lid)']);
+    await T.play(s, ["left eyelid: Examine › Push and pull"]);
     expect(T.choices(s).some(c => /^To the Hall of Doors/.test(c.label))).toBe(true);
     await T.play(s, ['Walk into the Sleeper']);
     expect(T.fallen(s)).toBe(1);
   }, 120000);
   it('scalds a thief who sets the Gearworks as the painted panel says, and opens only to the Master\'s order', async () => {
     const s = await start();
-    await T.play(s, ['hammer of salt', '^To the Hall of Doctrine', '^To the Sleeper', '@push(thrume__left_lid)', '^To the Hall of Doors',
+    await T.play(s, ['hammer of salt', '^To the Hall of Doctrine', '^To the Sleeper', "left eyelid: Examine › Push and pull", '^To the Hall of Doors',
       '^Search here', '=252', '^To the Room of Three', '^To the Gearworks']);
     // The panel: iron at rest, salt at rest, bone awake. The bone wheel stands at WAKE already.
     const lie = await T.play(s, ['iron wheel to REST', 'Throw the great lever']);
