@@ -2,6 +2,7 @@ import { ActionSchemas } from './action-schemas';
 import type { CampaignActor } from './definition';
 import type { Call, Module, Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
+import { Candidates } from '../lang/candidates';
 
 type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
@@ -15,6 +16,7 @@ export class Operators {
   private readonly types: Map<string, string>;
   private readonly order: Map<string, number>;
   private readonly relations: Set<string>;
+  private readonly queries: Set<string>;
   private readonly made = new Map<string, Operator>();
   private readonly atoms = new Map<string, Call[]>();
   constructor(readonly module: Module, private readonly actors?: Actors) {
@@ -23,6 +25,7 @@ export class Operators {
     this.types = new Map(module.entities.map(e => [e.id, e.type]));
     this.order = new Map(module.entities.map((e, i) => [e.id, i]));
     this.relations = new Set(module.relations.map(r => r.name));
+    this.queries = new Set(module.queries.map(q => q.name));
     for (const action of module.actions) { ActionSchemas.checkLabels(action, this.labels); }
   }
   // The operator with this id, if its schema exists and its arguments have the declared types.
@@ -78,13 +81,18 @@ export class Operators {
     }
     return atoms;
   }
+  // A query at the top of the conjunction proposes too (see Candidates), after the facts that constrain as much.
   private collect(p: Predicate, names: Set<string>, out: Call[]): Call[] {
     if (p.kind === 'and') { this.collect(p.left, names, out); this.collect(p.right, names, out); }
     // A computed comparison (distinct) only filters what the facts propose; it proposes nothing itself.
-    else if (p.kind === 'call' && p.name !== 'distinct' && this.relations.has(p.name) && p.args.some(a => names.has(a))) {
+    else if (p.kind === 'call' && p.name !== 'distinct' && (this.relations.has(p.name) || this.queries.has(p.name))
+      && p.args.some(a => names.has(a))) {
       out.push(p);
     }
     return out;
+  }
+  private score(atom: Call, names: Set<string>, bound: Set<string>): number {
+    return Operators.known(atom, names, bound) - (this.queries.has(atom.name) ? 0.5 : 0);
   }
   private static known(atom: Call, names: Set<string>, bound: Set<string>): number {
     return atom.args.filter(x => !names.has(x) || bound.has(x)).length;
@@ -100,21 +108,9 @@ export class Operators {
       const bound = new Set(Object.keys(rows[0]!));
       const open = pending.filter(a => a.args.some(x => names.has(x) && !bound.has(x)));
       if (!open.length) { break; }
-      const atom = open.reduce((best, a) => Operators.known(a, names, bound) > Operators.known(best, names, bound)
-        ? a : best);
+      const atom = open.reduce((best, a) => this.score(a, names, bound) > this.score(best, names, bound) ? a : best);
       pending.splice(pending.indexOf(atom), 1);
-      const next = new Map<string, Binding>();
-      for (const row of rows) {
-        const query = { ...atom, args: atom.args.map(x => names.has(x) ? row[x] ?? `?$${x}` : x) };
-        for (const solution of world.solve(query, {})) {
-          const extended = { ...row };
-          if (atom.args.every(x => !names.has(x) || extended[x] !== undefined
-            || (this.fits(schema, x, solution[`?$${x}`]) && (extended[x] = solution[`?$${x}`]!)))) {
-            next.set(JSON.stringify(extended), extended);
-          }
-        }
-      }
-      rows = [...next.values()];
+      rows = this.join(world, schema, atom, rows) ?? rows;
     }
     for (const p of parameters) {
       rows = rows.flatMap(row => row[p.name] !== undefined ? [row] : this.module.entities
@@ -122,5 +118,25 @@ export class Operators {
     }
     const ranked = rows.map(row => ({ row, rank: parameters.map(p => this.order.get(row[p.name]!) ?? 0) }));
     return ranked.sort((a, b) => a.rank.reduce((d, v, i) => d || v - b.rank[i]!, 0)).map(r => r.row);
+  }
+  // The rows extended by what an atom proposes for its open parameters. A query that leaves one of them open in any
+  // of what it proposes narrows nothing, and the rows are left as they were (undefined).
+  private join(world: World, schema: Operator, atom: Call, rows: Binding[]): Binding[] | undefined {
+    const names = new Set(schema.parameters!.map(p => p.name)), next = new Map<string, Binding>();
+    const asked = this.queries.has(atom.name);
+    for (const row of rows) {
+      const query = { ...atom, args: atom.args.map(x => names.has(x) ? row[x] ?? `?$${x}` : x) };
+      for (const solution of asked ? Candidates.of(world, query, {}) : world.solve(query, {})) {
+        const extended = { ...row };
+        if (asked && atom.args.some(x => names.has(x) && row[x] === undefined && solution[`?$${x}`] === undefined)) {
+          return undefined;
+        }
+        if (atom.args.every(x => !names.has(x) || extended[x] !== undefined
+          || (this.fits(schema, x, solution[`?$${x}`]) && (extended[x] = solution[`?$${x}`]!)))) {
+          next.set(JSON.stringify(extended), extended);
+        }
+      }
+    }
+    return [...next.values()];
   }
 }

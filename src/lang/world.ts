@@ -1,4 +1,5 @@
 import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, WorldState } from './module';
+import { RelationViews } from './relation-views';
 
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
@@ -30,15 +31,6 @@ export class World {
   // telling two worlds apart (a planner's visited states) never sorts every fact (see key).
   private sums: [number, number] = [0, 0];
   private memoSnapshot?: WorldState;
-  // Read-only views of one relation's facts (and by first argument), and of one measure's values, built on first use
-  // and kept with the map they were read from: a world shares a relation's map with the world it was forked from
-  // until it writes that relation, and so shares what was read of it, before or after the fork. (Mission 15's
-  // profile: every watch's worlds read every relation they asked of afresh.)
-  private static readonly lists = new WeakMap<Map<string, Call>, Call[]>();
-  private static readonly firsts = new WeakMap<Map<string, Call>, Map<string, Call[]>>();
-  private static readonly seconds = new WeakMap<Map<string, Call>, Map<string, Call[]>>();
-  private static readonly amounts = new WeakMap<Map<string, Measure>, Measure[]>();
-  private static readonly none: readonly never[] = [];
   private static readonly open = new WeakMap<object, boolean>();
   private static readonly signatures = new WeakMap<Module, Signatures>();
   constructor(readonly module: Module, state: WorldState = { relations: [], measures: [] }) {
@@ -70,41 +62,29 @@ export class World {
   }
   // The facts of one relation (with this first argument, if given), as the world holds them: for reading only. Far
   // cheaper than `snapshot`, which copies every fact.
+  // Read by views kept with the relation's facts, which forked worlds share (see RelationViews).
   related(name: string, first?: string): readonly Call[] {
     const facts = this.byName.get(name);
-    if (!facts) { return World.none; }
-    let list = World.lists.get(facts);
-    if (!list) { list = [...facts.values()]; World.lists.set(facts, list); }
-    if (first === undefined) { return list; }
-    return World.indexed(World.firsts, facts, list, 0).get(first) ?? World.none;
+    if (!facts) { return RelationViews.none; }
+    return first === undefined ? RelationViews.list(facts) : RelationViews.by(facts, 0, first);
   }
   // The facts of one relation whose second argument is this one (`ownedItem(?, member)`): for reading only.
   relatedTo(name: string, second: string): readonly Call[] {
     const facts = this.byName.get(name);
-    return facts ? World.indexed(World.seconds, facts, this.related(name), 1).get(second) ?? World.none : World.none;
-  }
-  private static indexed(kept: WeakMap<Map<string, Call>, Map<string, Call[]>>, facts: Map<string, Call>,
-    list: readonly Call[], at: number): Map<string, Call[]> {
-    let index = kept.get(facts);
-    if (!index) {
-      index = new Map();
-      for (const call of list) {
-        const those = index.get(call.args[at]!);
-        if (those) { those.push(call); } else { index.set(call.args[at]!, [call]); }
-      }
-      kept.set(facts, index);
-    }
-    return index;
+    return facts ? RelationViews.by(facts, 1, second) : RelationViews.none;
   }
   // The other party of a fact that relates this one to one other (`at(party, ?)`): the first, if there are several.
   one(name: string, first: string): string | undefined { return this.related(name, first)[0]?.args[1]; }
   // Every value of one measure, as the world holds them: for reading only.
   measured(name: string): readonly Measure[] {
     const values = this.measuresByName.get(name);
-    if (!values) { return World.none; }
-    let list = World.amounts.get(values);
-    if (!list) { list = [...values.values()]; World.amounts.set(values, list); }
-    return list;
+    return values ? RelationViews.list(values) : RelationViews.none;
+  }
+  // Every fact whose first argument is this one, and every measure, relation by relation as the world holds them
+  // (what a party's own facts are): read by each relation's index, not by going through every fact.
+  of(first: string): Call[] { return [...this.byName.keys()].flatMap(name => this.related(name, first)); }
+  measuresOf(first: string): Measure[] {
+    return [...this.measuresByName.values()].flatMap(values => RelationViews.by(values, 0, first));
   }
   // Whether the module declares this relation.
   relates(name: string): boolean { return World.index(this.module).relations.has(name); }
@@ -187,8 +167,10 @@ export class World {
     }
     if (!signatures.relations.has(p.name)) { throw new Error(`Unknown predicate ${p.name}`); }
     if (p.name === 'distinct') { throw new Error('distinct compares two bound parties'); }
-    // By the first argument's index when it is known; a binding is copied only for a fact that matches.
-    const facts = args[0]!.startsWith('?') ? this.related(p.name) : this.related(p.name, args[0]!);
+    // By the first argument's index when it is known, else the second's; a binding is copied only for a fact that
+    // matches.
+    const facts = !args[0]!.startsWith('?') ? this.related(p.name, args[0]!)
+      : args.length > 1 && !args[1]!.startsWith('?') ? this.relatedTo(p.name, args[1]!) : this.related(p.name);
     for (const fact of facts) {
       const next = World.match(fact, args, b);
       if (next) { yield next; }
@@ -337,7 +319,7 @@ export class World {
       const relation = World.index(this.module).relations.get(change.call.name);
       if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
       const named = this.named(change.call.name);
-      World.lists.delete(named); World.firsts.delete(named); World.seconds.delete(named);
+      RelationViews.forget(named);
       if (named.delete(key)) { this.sum(key, -1); this.count--; }
       if (change.kind === 'assert' && relation.exclusive) {
         for (const [k, call] of [...named]) {
@@ -360,7 +342,7 @@ export class World {
       throw new Error(`Invalid quantity for ${World.format(change.call)}`);
     }
     const named = this.namedMeasures(change.call.name), held = named.get(key);
-    World.amounts.delete(named);
+    RelationViews.forget(named);
     if (held) { named.delete(key); this.sum(`${key}=${held.value}`, -1); this.measureCount--; }
     if (value !== 0) {
       named.set(key, { call: World.copy(change.call), value }); this.sum(`${key}=${value}`, 1); this.measureCount++;

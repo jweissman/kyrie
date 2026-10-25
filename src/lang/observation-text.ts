@@ -57,16 +57,18 @@ export class ObservationText {
     return !company || world.test(ModuleWriter.call('knows', company, entity.alias.until)) ? entity.name
       : entity.alias.name;
   }
-  // The entities as the company would name them: aliases until known, and names with references rendered.
-  // A world never changes, so what it presents is worked out once.
-  private static readonly presentations = new WeakMap<World, Map<string, Entity>>();
+  // The entities as the company would name them: aliases until known, and names with references rendered. What a
+  // world presents turns only on its entities, the company and what it knows (see `known`), so a world presents what
+  // an earlier one of its line did while neither of those has been written (not worked out again for every world).
+  private static readonly presentations = new WeakMap<readonly Entity[],
+    { size: number; stamped: number[]; presented: Map<string, Entity> }>();
+  private static readonly naming = ['company', 'knows'];
   static presented(world: World): Map<string, Entity> {
-    let presented = this.presentations.get(world);
-    if (!presented) {
-      presented = new Map(world.module.entities.map(e => [e.id, e.alias || (e.type !== 'group' && e.name.includes('{'))
-        ? { ...e, name: this.label(world, e.id) } : e]));
-      this.presentations.set(world, presented);
-    }
+    const entities = world.module.entities, kept = this.presentations.get(entities);
+    if (kept?.size === entities.length && world.agrees(this.naming, kept.stamped)) { return kept.presented; }
+    const presented = new Map(entities.map(e => [e.id, e.alias || (e.type !== 'group' && e.name.includes('{'))
+      ? { ...e, name: this.label(world, e.id) } : e]));
+    this.presentations.set(entities, { size: entities.length, stamped: world.stamped(this.naming), presented });
     return presented;
   }
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {

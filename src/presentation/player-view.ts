@@ -16,6 +16,9 @@ import { VisitedPlaces } from './visited-places';
 import { Agency } from '../campaign/agency';
 import { ActionTime } from '../campaign/action-time';
 import { ChoiceWording } from './choice-wording';
+import { EntityIndex } from '../lang/entity-index';
+import { Frozen } from './frozen';
+import { CompanyKnowledge } from './company-knowledge';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -82,19 +85,16 @@ export class PlayerView {
     if (!this.supported(campaign)) { throw new Error('No player view for this campaign'); }
     return campaign.playerActor!;
   }
-  private static readonly named = new WeakMap<World, Map<string, string>>();
+  private static readonly named = new WeakMap<Map<string, Entity>, Map<string, string>>();
   private static labels(campaign: Campaign): Map<string, string> {
-    const world = campaign.world;
-    let labels = this.named.get(world);
-    if (!labels) {
-      labels = new Map([...ObservationText.presented(world)].map(([id, e]) => [id, e.name]));
-      this.named.set(world, labels);
-    }
+    const presented = ObservationText.presented(campaign.world);
+    let labels = this.named.get(presented);
+    if (!labels) { labels = new Map([...presented].map(([id, e]) => [id, e.name])); this.named.set(presented, labels); }
     return labels;
   }
   // A topic someone can be asked about is spoken, not a thing lying in the room.
   private static spoken(world: World, source: string): boolean {
-    return world.related('testimony').some(r => r.args[1] === source);
+    return world.relatedTo('testimony', source).length > 0;
   }
   private static test(world: World, name: string, ...args: string[]): boolean {
     return world.relates(name) && world.test(ModuleWriter.call(name, ...args));
@@ -134,11 +134,11 @@ export class PlayerView {
   // Something said in the words the company had for things before it learned what they are called: what it knew
   // then (the facts it knew, by id) decides, not what it knows now.
   static aliased(world: Campaign['world'], text: string, knew: Set<string>): string {
-    return world.module.entities.filter(e => e.alias && !knew.has(e.alias.until))
+    return EntityIndex.of(world.module.entities).aliased.filter(e => !knew.has(e.alias!.until))
       .reduce((t, e) => t.replaceAll(e.name, e.alias!.name), text);
   }
   private static unnamed(world: Campaign['world']): Map<string, string> {
-    return new Map(world.module.entities.filter(e => e.alias && ObservationText.known(world, e) !== e.name)
+    return new Map(EntityIndex.of(world.module.entities).aliased.filter(e => ObservationText.known(world, e) !== e.name)
       .map(e => [e.name, e.alias!.name]));
   }
   static resolve(campaign: Campaign, command: string): string {
@@ -148,50 +148,24 @@ export class PlayerView {
   }
   // The entities a relation holds between the actor and, in the module's order.
   private static about(world: World, relation: string, actor: string, entities: Entity[]): Entity[] {
-    const related = new Set(world.related(relation, actor).map(r => r.args[1]));
-    return related.size ? entities.filter(e => related.has(e.id)) : [];
+    return EntityIndex.of(entities).ordered(world.related(relation, actor).map(r => r.args[1]!));
   }
   // What could be present at a place, to be looked at more closely: whatever is at it or mounted there, any door,
   // anyone guarding a way, and anything inside something.
   private static nearby(world: World, place: string): Set<string> {
     const near = new Set<string>();
-    for (const name of ['at', 'mounted']) {
-      for (const r of world.related(name)) { if (r.args[1] === place) { near.add(r.args[0]!); } }
-    }
+    for (const name of ['at', 'mounted']) { for (const r of world.relatedTo(name, place)) { near.add(r.args[0]!); } }
     for (const name of ['guards', 'inside']) { for (const r of world.related(name)) { near.add(r.args[0]!); } }
-    for (const e of world.module.entities) { if (e.type === 'door') { near.add(e.id); } }
+    for (const e of EntityIndex.of(world.module.entities).typed('door')) { near.add(e.id); }
     return near;
   }
   // Someone who stands across a way out of here, barring it, is met from this side of it.
   private static guarding(world: Campaign['world'], id: string, here: string): boolean {
     const ways = world.related('guards', id).map(r => r.args[1]);
-    return ways.length > 0 && this.test(world, 'able', id) && world.related('connects').some(r =>
-      ways.includes(r.args[0]) && r.args[1] === here) && world.module.queries.some(q => q.name === 'watched')
+    return ways.length > 0 && this.test(world, 'able', id)
+      && ways.some(w => world.related('connects', w!).some(r => r.args[1] === here))
+      && world.module.queries.some(q => q.name === 'watched')
       && ways.some(w => world.test(ModuleWriter.call('watched', w!)));
-  }
-  private static knowledge(campaign: Campaign, actor: string, labels: Map<string, string>): PlayerSnapshot['knowledge'] {
-    const world = campaign.world;
-    const learned = new Map<string, number>();
-    for (const e of campaign.history) {
-      for (const c of e.changes) {
-        const m = /^\+ knows\(([^,]+), ([^)]+)\)$/.exec(c);
-        if (m && m[1] === actor && !learned.has(m[2]!)) { learned.set(m[2]!, e.elapsed); }
-      }
-    }
-    return this.about(world, 'knows', actor, campaign.module.entities).map(e => {
-      const told = world.related('toldBy', actor).find(r => r.args[2] === e.id);
-      const found = world.related('learnedFrom', actor).find(r => r.args[2] === e.id);
-      const seen = this.test(world, 'witnessed', actor, e.id), read = this.test(world, 'readIn', actor, e.id);
-      const source = seen ? 'seen' as const : found ? 'found' as const : read ? 'read' as const : told ? 'heard' as const
-        : undefined;
-      const writing = read ? campaign.module.observations?.find(o => o.teaches === e.id && o.aspect === 'reading')?.about
-        : undefined;
-      const from = found ? labels.get(found.args[1]!) : read && writing ? labels.get(writing)
-        : told ? labels.get(told.args[1]!) : undefined;
-      return { id: e.id, text: ObservationText.render(e.name, world), ...source ? { source } : {},
-        ...told && (seen || found || read) ? { confirmed: true as const } : {},
-        ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
-    });
   }
   private static lasting(statuses: { id: string; remaining: number; clock?: string }[]):
     { lasting?: Record<string, number> } {
@@ -203,7 +177,23 @@ export class PlayerView {
     return world.module.queries.some(q => q.name === 'benighted') ? world.test(ModuleWriter.call('benighted', actor))
       : this.test(world, 'unlit', place) && !this.test(world, 'capable', actor, 'light');
   }
+  // What the company perceives turns on the world and, beside it, the campaign's clock, creatures and log. A page asks
+  // it of one world several times (before a command, after it, in the command's feedback, for its screen), so it is
+  // worked out once for each, and given frozen: no reader may change what the next is given.
+  private static readonly observed = new WeakMap<World, { campaign: Campaign; key: string; store: object;
+    version: number; last?: CampaignEvent; snapshot: PlayerSnapshot }>();
   static observe(campaign: Campaign): PlayerSnapshot {
+    const world = campaign.world, kept = this.observed.get(world), store = campaign.tickState.creatures;
+    const read = campaign.readout, last = campaign.history.at(-1);
+    const key = `${read.elapsed}:${read.minutes ?? 0}:${campaign.history.length}:${campaign.installations.length}`
+      + `:${campaign.running}`;
+    if (kept?.campaign === campaign && kept.key === key && kept.store === store && kept.version === store.version
+      && kept.last === last) { return kept.snapshot; }
+    const snapshot = Frozen.deep(this.perceive(campaign));
+    this.observed.set(world, { campaign, key, store, version: store.version, last, snapshot });
+    return snapshot;
+  }
+  private static perceive(campaign: Campaign): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
     const entities = campaign.module.entities, read = campaign.readout;
     const state = { elapsed: read.elapsed, creatures: read.creatures, partyIds: read.partyIds };
@@ -223,8 +213,9 @@ export class PlayerView {
       ...(location?.space ? { spatial: this.spatial(campaign, actor, location, publicChoices) } : {}),
       // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
       observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
-      present: entities.filter(e => perceiving && location && e.id !== actor && e.type !== 'place'
-        && (!dark || e.type === 'group') && nearby.has(e.id) && LocalObservations.noticed(world, e.id, actor)
+      // Whoever could be here, in the module's order: not every entity there is.
+      present: EntityIndex.of(entities).ordered(nearby).filter(e => perceiving && location && e.id !== actor
+        && e.type !== 'place' && (!dark || e.type === 'group') && LocalObservations.noticed(world, e.id, actor)
         && (this.test(world, 'at', e.id, location.id) || this.test(world, 'mounted', e.id, location.id)
           || (e.type === 'door' && this.test(world, 'doorHere', e.id, location.id))
           || (e.type === 'group' && this.guarding(world, e.id, location.id))
@@ -242,11 +233,11 @@ export class PlayerView {
         .map(m => ({ id: m.call.args[1]!, name: labels.get(m.call.args[1]!) ?? m.call.args[1]!, amount: m.value })),
       carried: world.related('carrying', actor)
         .map(r => ({ id: r.args[1]!, name: labels.get(r.args[1]!) ?? r.args[1]! })),
-      holdings: world.view.measures.filter(m => m.call.args[0] === actor).map(m => ({
+      holdings: world.measuresOf(actor).map(m => ({
         text: m.call.args.length > 1 ? `${m.call.name}: ${this.rest(m.call, labels)}` : m.call.name, value: m.value })),
-      facts: world.view.relations.filter(r => r.args[0] === actor && !this.ownHidden.includes(r.name))
+      facts: world.of(actor).filter(r => !this.ownHidden.includes(r.name))
         .map(r => r.args.length > 1 ? `${r.name}: ${this.rest(r, labels)}` : r.name).sort(),
-      knowledge: this.knowledge(campaign, actor, labels),
+      knowledge: CompanyKnowledge.of(campaign, actor, labels),
       assumptions: this.about(world, 'assumesFalse', actor, entities)
         .map(e => ({ id: e.id, text: ObservationText.render(e.name, world) })),
       deadlines: campaign.installations.filter(m => m.deadline !== undefined).flatMap(m => m.pressures.map(id => ({
@@ -288,15 +279,15 @@ export class PlayerView {
       return [{ from, to }];
     });
     const here = world.one('at', actor);
-    links.push(...campaign.module.entities.filter(e => e.exit
-      && visited.has(e.exit.origin) && Spatial.visible(world, actor, e))
-      .map(e => ({ from: e.exit!.origin, to: e.exit!.destination })));
+    const index = EntityIndex.of(campaign.module.entities);
+    links.push(...index.ordered([...visited].flatMap(v => index.exitsFrom(v).map(e => e.id)))
+      .filter(e => Spatial.visible(world, actor, e)).map(e => ({ from: e.exit!.origin, to: e.exit!.destination })));
     const described = links.map(l => ({ ...l, status: l.from !== here ? 'known connection; check it from there' :
       routes.some(a => a.bindings?.destination === l.to
         || ('movement' in a && (a.movement as { destination?: string })?.destination === l.to)) ? 'available from here' : 'blocked from here' }));
     const known = new Set([...visited, ...links.map(l => l.to)]);
     const metadata = this.metadata(world, this.labels(campaign));
-    return { places: campaign.module.entities.filter(e => e.type === 'place' && known.has(e.id))
+    return { places: index.ordered(known).filter(e => e.type === 'place')
       .map(e => ({ id: e.id, name: e.name, visited: visited.has(e.id), ...metadata.get(e.id),
         ...(e.space ? { kind: e.space.kind } : {}) })), links: described };
   }
@@ -305,8 +296,8 @@ export class PlayerView {
     const world = campaign.world, entities = ObservationText.presented(world);
     const ancestry = Spatial.ancestry(entities, location.id).reverse()
       .map(e => ({ id: e.id, name: e.name, kind: e.space!.kind }));
-    const exits = campaign.module.entities.filter(e => e.exit?.origin === location.id
-      && Spatial.visible(world, actor, e)).map(e => {
+    const exits = EntityIndex.of(campaign.module.entities).exitsFrom(location.id)
+      .filter(e => Spatial.visible(world, actor, e)).map(e => {
       const exit = e.exit!, selected = choices.find(c => c.action.movement?.passage === e.id);
       const barrier = exit.door ? entities.get(exit.door)?.name ?? exit.door : undefined;
       const reason = selected ? undefined : exit.door && this.test(world, 'lockedDoor', exit.door) ? `${barrier} is locked` :
@@ -357,7 +348,7 @@ export class PlayerView {
   private static condition(world: World, id: string): string | undefined {
     if (this.test(world, 'routed', id)) { return 'routed'; }
     const state = world.one('state', id);
-    return state ? world.module.entities.find(e => e.id === state)?.name : undefined;
+    return state ? ObservationText.entity(world, state)?.name : undefined;
   }
   // What a person in view is evidently trying to do: the label of the goal their next choice would serve.
   private static activity(campaign: Campaign, world: World, id: string): string | undefined {
