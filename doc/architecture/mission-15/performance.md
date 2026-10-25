@@ -118,18 +118,49 @@ mistake: work in proportion to the whole world for a change to a small part of i
   every able group in the country, each tested in turn. A query now proposes candidates too, by a solver that never
   trusts a negation over what is not yet bound (`Candidates`), and every candidate is still tested in full.
 
+## In the browser
+
+wren's 334 commands in the built page at 820 by 1180 (desktop Chromium), from the choice to the second frame painted
+after the engine's answer, in milliseconds:
+
+| | p50 | p90 | p99 | max |
+|---|---|---|---|---|
+| baseline (7e8cfde) | 296 | 627 | 4,740 | 6,960 |
+| b8e1341, choices one after another | 94 | 161 | 293 | 361 |
+| b8e1341, a 300 ms pause before each choice | 91 | 151 | 286 | 343 |
+
+At the median: the engine 32 to 36, the screen 14, the narration 4 to 5, React's render and the two frames painted 25.
+The page's own keeping of the game is 1 ms at the median and 5 ms at worst (`Timings.kept`). Without a pause, the last
+fifty choices take 111 ms against 79 for the first fifty: the next choice waits on the engine keeping the one before,
+which grows with the command log. With a pause, as a player takes, the last fifty take 94.
+
+## Across marches
+
+The wander of 120 commands from a1 that crosses five marches (`a1-w120.jsonl`, 16 to 35 modules, 18,000 to 131,000
+facts), played again through the engine on b8e1341: command p50 164 ms, p90 286. Steps 101 to 150 of the same wander
+had a median of 2,512 ms before this mission's changes. The five crossings themselves still take 3.0, 4.5, 3.0, 3.2 and
+4.4 s: drawing the country beyond (250 ms), parsing its sixteen files of generated Kyr (381 kB at 383 bytes a ms, about
+1 s, most of it in Ohm's matching), and installing its eleven modules (about 1 s: checking them, and projecting their
+people). An experiment that drew and parsed the country ahead, before the command that crosses, brought one crossing
+from 3.25 to 1.82 s.
+
 ## Not yet explained or done
 
+- **A march crossing** takes 3 to 4.5 s. The command before it already offers the road to the march-stone, so the
+  country beyond can be drawn and parsed while the player reads. That needs a parse that leaves the catalogs as they
+  were: parsing a module joins its own kinds to the global catalogs (`LocalKinds`), and a country never entered must
+  not leave its kinds behind.
 - **The player's choices are still grounded afresh in every new world**: 1,199 schemas in the frontier, 25 ms warm,
   mostly one per townsperson per conversation, each asking whether that person is where the company is.
-  Grounding by where people are, rather than schema by schema, is the next step for the frontier.
-- **Keeping the game** is 32 ms at wren's median and 102 ms in the frontier, on the engine's thread after every
-  command, and grows with the game; the kept game in localStorage was 700 kB at wren's end. Not yet coalesced, moved
-  off the thread, or written to IndexedDB.
+- **Keeping the game** rewrites the whole state after every command: 1.25 MB at wren's step 175, of which the
+  command log is 1.07 MB (each command's receipt holds its world's changes a second time, and its bodies before and
+  after) and measures and creatures are written whole. Telling the facts apart from the world is now relation by
+  relation (74 to 8 ms in the frontier), but stringifying and packing grow with the game. A log kept in pieces that
+  do not change, and the kept world holding the measures and creatures to tell them apart from, would make it follow
+  the command.
 - **The heap after a full collection** grew by about 0.35 MB a command at the baseline; a long session against a
   fresh restore of the same game has not yet been compared.
-- **Layer D** (the page) was measured only at the baseline: a median of 296 ms from choice to frame painted. It has
-  to be measured again. Safari is not measured at all.
 - **Time advancement** still runs watch by watch: a bed of eight watches is 112 ms at the median in A. Bulk or
   scheduled advancement has not been designed.
 - **The screen** is 14 ms at wren's median and 41 ms in the frontier, and has not been profiled since the first pass.
+- **Safari** is not measured, nor any tablet: CDP's throttling does not reach the engine's worker.
