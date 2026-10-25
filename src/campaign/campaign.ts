@@ -3,18 +3,15 @@ import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath';
 import { FieldUse } from './field-use';
 import { FieldResolver } from './field-resolver';
-import { ObservationText } from '../lang/observation-text';
-import { Operators } from './operators';
+import { ObservationText } from '../lang/observation-text'; import { Operators } from './operators';
 import { CompanyChoices } from './company-choices';
 import { Perceptions } from './perceptions';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations';
-import { CreatureFacts } from './creature-facts';
-import { Progression } from './progression';
+import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition } from './definition';
-import { ModuleWriter } from '../lang/module-writer';
-import { ModuleCompiler } from '../lang/module-compiler';
+import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
@@ -418,6 +415,9 @@ export class Campaign implements WatchHost {
     }
   }
   // Campaigns are open-ended: installed situations report outcomes; the campaign itself does not end.
-  private updateOutcome() { this.current.outcome = 'active'; this.observe(); }
+  private updateOutcome() {
+    const left = Membership.depart(this.current, this.playerActor, this.module, this.world);
+    if (left) { this.commit(left); this.refresh(); } this.current.outcome = 'active'; this.observe();
+  }
   static autofight(battle: Battle) { while (!battle.state.outcome) { battle.step(battle.chosen()); } }
 }

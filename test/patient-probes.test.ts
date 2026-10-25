@@ -5,6 +5,8 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList, type Choice, type Section } from '../src/ui/choice-list';
 import { KyrLint } from '../src/cli/kyr-lint';
+import { Campaign } from '../src/campaign/campaign';
+import type { CampaignSave } from '../src/campaign/campaign-types';
 import { Journey } from '../src/session/journey';
 import { PlayerView } from '../src/presentation/player-view';
 
@@ -128,16 +130,21 @@ describe('The Patient Star probes', () => {
     expect(told).not.toMatch(/Where.s the light gone/);
   }, 60000);
 
-  it('P10: a companion a rule sends home is told as gone, stays in the company, and is found dead where she went', async () => {
+  // Repaired at integration (and the audit's F4): she stayed in the company, and was found dead where she went.
+  it('P10: a companion a rule sends home leaves the company, and is there, herself, when it comes', async () => {
     const s = await Probe.start('leaves');
     await Probe.act(s, 'Ask Mirel to join');
+    expect(s.campaign.readout.partyIds).toEqual(['p__party_1', 'p__mirel_person']);
     await Probe.act(s, 'To the held field');
     await Probe.act(s, 'Dig out');
-    // Her parting words are told on the page (the narrator reads her leaving); the company keeps her body.
     expect(Probe.holds(s, 'travelsWith', 'p__mirel', 'party')).toBe(false);
-    expect(Probe.holds(s, 'memberOf', 'p__member_mirel_person', 'party')).toBe(true);
+    expect(Probe.holds(s, 'memberOf', 'p__member_mirel_person', 'party')).toBe(false);
+    expect(Probe.holds(s, 'memberOf', 'p__member_mirel_person', 'p__mirel')).toBe(true);
+    expect(s.campaign.readout.partyIds).toEqual(['p__party_1']);
     await Probe.act(s, "To the holders' cord");
-    expect(ScreenModel.build(s.campaign).people.some(p => /Mirel/.test(p.name))
-      || JSON.stringify(ScreenModel.build(s.campaign)).includes('Mirel lies dead')).toBe(true);
+    const here = ScreenModel.build(s.campaign).people.find(p => /Mirel/.test(p.name));
+    expect([here?.name, here?.state]).toEqual(['Mirel, a Holdfolk carrier', undefined]);
+    const kept = Campaign.restore(JSON.parse(JSON.stringify(s.campaign.save())) as CampaignSave);
+    expect(kept.readout.partyIds).toEqual(['p__party_1']);
   }, 60000);
 });

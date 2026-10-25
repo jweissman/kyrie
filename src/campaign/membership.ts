@@ -43,6 +43,32 @@ export class Membership {
       { kind: 'retract' as const, call: ModuleWriter.call('memberOf', r, recruit) },
       { kind: 'assert' as const, call: ModuleWriter.call('joinedAs', r, recruit) }]));
   }
+  // Someone who joined the company and no longer travels with it (an author's rule sends them home; the company lets
+  // them stay behind) leaves it: their bodies are their own group's again, as before they joined, and they are where
+  // they were sent, or where the company is (the audit's F4: they stayed in the company). One laid to rest (inter) has
+  // left already.
+  static depart(current: Current, company: string | undefined, module: Module, world: World): World | undefined {
+    if (!company) { return undefined; }
+    const gone = Object.keys(current.enlisted ?? {}).filter(r => current.enlisted![r] === company
+      && !world.test(ModuleWriter.call('travelsWith', r, company)));
+    if (!gone.length) { return undefined; }
+    for (const recruit of gone) {
+      const refs = world.related('joinedAs').filter(f => f.args[1] === recruit).map(f => f.args[0]!);
+      const bodies = refs.map(r => module.entities.find(e => e.id === r)?.creatureId)
+        .filter((id): id is string => !!id && current.partyIds.includes(id));
+      if (!bodies.length) { continue; }
+      current.partyIds = current.partyIds.filter(id => !bodies.includes(id));
+      current.inhabitants[company] = [...current.partyIds];
+      current.inhabitants[recruit] = bodies;
+      current.enlisted = Object.fromEntries(Object.entries(current.enlisted!).filter(([r]) => r !== recruit));
+      const here = world.one('at', recruit) ? undefined : world.one('at', company);
+      world = world.apply([...refs.flatMap(r => [{ kind: 'retract' as const, call: ModuleWriter.call('joinedAs', r, recruit) },
+        { kind: 'retract' as const, call: ModuleWriter.call('memberOf', r, company) },
+        { kind: 'assert' as const, call: ModuleWriter.call('memberOf', r, recruit) }]),
+        ...here ? [{ kind: 'assert' as const, call: ModuleWriter.call('at', recruit, here) }] : []]);
+    }
+    return world;
+  }
   // A companion laid to rest leaves the company for good: they are no longer one of its members.
   static release(at: { current: Current; company?: string; module: Module; world: World }, reference: string): World {
     const { current } = at, member = at.module.entities.find(e => e.id === reference)?.creatureId;

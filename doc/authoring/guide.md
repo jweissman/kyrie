@@ -577,6 +577,12 @@ first march where it fits, so that its own countries go on beyond the rest. To o
 Its clock runs from when it is reached (a rule at `watch(clock) >= 216` waits 216 watches from then), and what it says
 of the company that comes in is said by names of its own (`Initially Set breath(party) to 12`).
 
+### A companion who leaves
+
+Someone who has joined the company leaves it when they no longer travel with it: a rule that retracts
+`travelsWith(mirel, party)`, and asserts where she goes, sends her home, and she is there, herself, when the company
+comes (`test/fixtures/patient/leaves`). If nothing says where, she stays where the company is.
+
 ### How fast a member goes
 
 A member's `speed` is a measure of the shared rules, in hundredths of their own; unset is their own. A company walks

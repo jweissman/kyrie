@@ -15,7 +15,7 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 | F1 catalogs process-global; a failed declaration poisons them | partly: a second game no longer takes the first's kinds (each campaign claims its own as it reads its world); a refused kind takes nothing of the catalog's; two modules cannot give one kind two meanings. The catalogs are still the process's: kinds kept with each campaign are the full repair | 0ecbf8f, `test/campaign-isolation.test.ts` |
 | F2 open questions answered wrongly | done: negations wait on what binds them, a repeated variable is one, an unbindable parameter ranges over its type, and a query asked within a query of a bound parameter asks of its value; every shared-rules query is checked open against closed | 6c4575a, `test/query-answers.test.ts` |
 | F3 a failed expansion commits a command without recording it | done: the command, the country beyond it draws, its telling and its step are undone together | 0ecbf8f, `test/command-atomicity.test.ts` |
-| F4 a rule can end travel without ending membership | open | |
+| F4 a rule can end travel without ending membership | done: one who joined and no longer travels with the company leaves it, by whatever retracts it (an author's rule, an action): their bodies their own group's again, where they were sent or where the company is, in a kept game too; one laid to rest has left already | `test/patient-probes.test.ts` P10 |
 | F5 observation instances lose their teaching and binding | done for both paths it shows: one near a variable teaches what it teaches, and a fixed one fills the variable its condition binds (the first it finds) | 0efdc56, this commit; `test/authorability-probes.test.ts` (lamps), `test/patient-probes.test.ts` P1 |
 | F6 a dead speaker answers | done: an action someone speaks (`Speaker priest`) is offered only while they can speak, as a topic is: able and where the company is, or travelling with it and awake | `test/speaker.test.ts` |
 | F7 distinct actions hidden behind one wording | done: choices merged only when alike things, or another member, tell them apart; two things' alike changes each offered | 4e63432, `test/patient-probes.test.ts` P4 |
@@ -98,7 +98,6 @@ where each stands (each repair with the audit's cases as specs, which fail befor
   is the next step.
 - **The catalogs are the process's** (F1's full repair): two campaigns' commands interleaved within one command would
   still meet. Kinds kept with each campaign, not joined to shared catalogs, would end it.
-- **The audit's F4**: companions leaving by an authored rule stay members.
 - **What the four adventures found that is still open**, by mechanism and by how many met it, in
   [`doc/authoring/adventures-response.md`](../../authoring/adventures-response.md): knowledge from a named source and
   at a fixture's start; state names scoped to their thing; a skill a source needs; arithmetic (precedence, min, max,
