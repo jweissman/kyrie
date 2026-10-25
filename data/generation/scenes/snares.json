@@ -43,7 +43,7 @@
     },
     "enchanted object": {
       "sign": "Something stands in the way that has no business there: an ordinary-looking thing that hums when you come near it.",
-      "seen": "The thing is set exactly where anyone going through must brush against it. Whatever is in it wants touching; it would go off for a stick as well as a hand.",
+      "seen": "The thing is set exactly where anyone going through must knock against it. Whatever is in it is waiting to be knocked over; a pole would do it as well as a passing hip.",
       "ways": [
         { "id": "spring", "label": "Knock it over with the pole, from well back", "needing": "pole", "to": "sprung" },
         { "id": "unsay", "label": "Say over it what quiets such things", "needing": "lore", "to": "made_safe" }
