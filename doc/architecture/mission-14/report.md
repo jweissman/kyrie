@@ -403,6 +403,17 @@ remembered, by name; people do not yet remember what else a company did.
   a name her child was never given ("Ian does not sit down"), what it was worth named twice over ("the drover who
   did not come home: The drover who did not come home, seen through"), and the dog's coat told twice; each is fixed
   (`test/origins.test.ts`, `test/goings-on.test.ts`).
+- An eighth world, cov13, as a bard in debt, with a minstrel hired at the inn, played into the Barrow-Kin's king-barrow
+  and home. Its switch wanted a ten-foot pole, sold only in two towns the company had never heard of: the willows by
+  every road now give one to whoever cuts it. An enchanted object said a stick would set it off, and a prod found
+  nothing: it waits to be knocked over, as the pole's own way does. The kingdom's words in the barrow said it came
+  after the Water-Wardens alone, in a country the Barrow-Kin made things in too: they name both. A recess had "a bead
+  or two" among burned bones that a search did not find; what a room's look promises a search there now finds, and
+  once it is taken the room no longer says it is there. The debt of thirty coin was paid before noon of the first
+  day out of the bard's own purse and the barrow's first chamber, so it is fifty, which asks for the second room as
+  well; the creditor's greeting is said until it is answered. One level of the barrow, three rooms past two traps,
+  paid about 240 coin in coin and goods; the robbers' captain beyond the back-stone was left alone. Not fixed: a
+  torch going out at the moment a glyph is unsaid hides that it was (the darkness swallows the glyph's new look).
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
