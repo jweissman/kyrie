@@ -21,7 +21,9 @@ export class World {
   // Which line of worlds this one is of: a world built from state starts one, and the worlds forked from it are of
   // it; only between worlds of one line do stamps say what changed.
   private lineage: object = {};
-  private memoKey?: string;
+  // The world's content as two order-free sums of each fact's and measure's hash, kept as they are written, so that
+  // telling two worlds apart (a planner's visited states) never sorts every fact (see key).
+  private sums: [number, number] = [0, 0];
   private memoSnapshot?: WorldState;
   // Read-only views by relation name (and first argument), and of measures by name, built on first use.
   private lists = new Map<string, Call[]>();
@@ -33,7 +35,8 @@ export class World {
     this.facts = new Map(); this.byName = new Map(); this.quantities = new Map();
     for (const call of state.relations) { this.add(World.key(call), World.copy(call)); }
     for (const m of state.measures) {
-      this.quantities.set(World.key(m.call), { call: World.copy(m.call), value: m.value });
+      const key = World.key(m.call);
+      this.quantities.set(key, { call: World.copy(m.call), value: m.value }); this.sum(`${key}=${m.value}`, 1);
     }
   }
   private static fork(from: World): World {
@@ -41,6 +44,7 @@ export class World {
     (next as { module: Module }).module = from.module;
     next.facts = new Map(from.facts); next.quantities = new Map(from.quantities);
     next.byName = new Map(from.byName); next.owned = new Set(); next.stamps = new Map(from.stamps);
+    next.sums = [...from.sums];
     next.lineage = from.lineage;
     next.lists = new Map(); next.firsts = new Map(); next.amounts = new Map();
     return next;
@@ -259,6 +263,7 @@ export class World {
     return pending.has(key) ? pending.get(key)! : this.quantities.get(key)?.value ?? 0;
   }
   private add(key: string, call: Call) {
+    if (!this.facts.has(key)) { this.sum(key, 1); }
     this.facts.set(key, call);
     let named = this.byName.get(call.name);
     if (!named) { named = new Map(); this.byName.set(call.name, named); this.owned.add(call.name); }
@@ -273,7 +278,7 @@ export class World {
   }
   stamp(name: string): number { return this.stamps.get(name) ?? 0; }
   private change(change: Change) {
-    this.memoKey = undefined; this.memoSnapshot = undefined;
+    this.memoSnapshot = undefined;
     this.lists.delete(change.call.name); this.firsts.delete(change.call.name); this.amounts.delete(change.call.name);
     this.stamps.set(change.call.name, ++World.writes);
     const key = World.key(change.call);
@@ -281,15 +286,17 @@ export class World {
       const relation = World.index(this.module).relations.get(change.call.name);
       if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
       const named = this.named(change.call.name);
-      if (this.facts.delete(key)) { named.delete(key); }
+      if (this.facts.delete(key)) { named.delete(key); this.sum(key, -1); }
       if (change.kind === 'assert' && relation.exclusive) {
         for (const [k, call] of [...named]) {
           if (call.args.slice(0, -1).every((arg, i) => arg === change.call.args[i])) {
-          named.delete(k); this.facts.delete(k);
+          named.delete(k); this.facts.delete(k); this.sum(k, -1);
         }
         }
       }
-      if (change.kind === 'assert') { const call = World.copy(change.call); this.facts.set(key, call); named.set(key, call); }
+      if (change.kind === 'assert') {
+        const call = World.copy(change.call); this.facts.set(key, call); named.set(key, call); this.sum(key, 1);
+      }
       return;
     }
     const amount = change.value.kind === 'call' || change.value.kind === 'arith' ? this.number(change.value)
@@ -300,17 +307,35 @@ export class World {
     if (!Number.isSafeInteger(value) || (value < 0 && change.kind !== 'set')) {
       throw new Error(`Invalid quantity for ${World.format(change.call)}`);
     }
-    this.quantities.delete(key);
-    if (value !== 0) { this.quantities.set(key, { call: World.copy(change.call), value }); }
+    const held = this.quantities.get(key);
+    if (held) { this.quantities.delete(key); this.sum(`${key}=${held.value}`, -1); }
+    if (value !== 0) { this.quantities.set(key, { call: World.copy(change.call), value }); this.sum(`${key}=${value}`, 1); }
   }
   static literal(value: NumberValue): number {
     if (value.kind !== 'number') { throw new Error('Unresolved Deem expression'); }
     return value.value;
   }
+  // The world's content, as a short key: the same for worlds with the same facts and measures, different (but for a
+  // chance of about one in 2^64) for any others. Read at once from the sums kept as facts are written.
   key(): string {
-    this.memoKey ??= JSON.stringify({ relations: [...this.facts.keys()].sort(),
-      measures: [...this.quantities].map(([key, entry]) => [key, entry.value]).sort() });
-    return this.memoKey;
+    return `${this.facts.size}.${this.quantities.size}.${(this.sums[0] >>> 0).toString(36)}.${(this.sums[1] >>> 0)
+      .toString(36)}`;
+  }
+  // Whether another world holds exactly the same facts and measures: a full comparison, not a key's.
+  sameAs(other: World): boolean {
+    if (this.facts.size !== other.facts.size || this.quantities.size !== other.quantities.size) { return false; }
+    for (const key of this.facts.keys()) { if (!other.facts.has(key)) { return false; } }
+    for (const [key, m] of this.quantities) { if (other.quantities.get(key)?.value !== m.value) { return false; } }
+    return true;
+  }
+  // A fact or measure's two hashes (FNV-1a from two offsets), added to the sums as it is written or taken away.
+  private sum(text: string, sign: 1 | -1) {
+    let a = 0x811c9dc5, b = 0x9747b28c;
+    for (let i = 0; i < text.length; i++) {
+      const c = text.charCodeAt(i);
+      a = Math.imul(a ^ c, 0x01000193); b = Math.imul(b ^ c, 0x5bd1e995);
+    }
+    this.sums[0] = (this.sums[0] + sign * a) | 0; this.sums[1] = (this.sums[1] + sign * b) | 0;
   }
   // Every fact and measure as a line, sorted; or only those of some names.
   describe(names?: Set<string>): string[] {

@@ -60,7 +60,7 @@ export class Campaign implements WatchHost {
       if (!restored.trusted) { new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module); }
       if (this.definition) {
         const projected = CreatureFacts.project(this.world, this.live, this.creatures);
-        if (projected.key() !== this.world.key()) { throw new Error('Inconsistent saved creature facts'); }
+        if (!projected.sameAs(this.world)) { throw new Error('Inconsistent saved creature facts'); }
       }
       return;
     }
