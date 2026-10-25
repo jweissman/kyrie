@@ -179,6 +179,8 @@ describe('Authorability probes', () => {
     expect(ScreenModel.build(s.campaign).observed.map(o => o.text).join(' ')).toContain('The iron lamp burns low and yellow');
     await Probe.act(s, 'Light every lamp');
     expect(glows()).toEqual(['p__glow@p__iron_lamp']);
+    // Seen as an instance near its lamp, it teaches what it teaches (the audit's F5: it taught nothing).
+    expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'p__lamps_lit'))).toBe(true);
     await Probe.act(s, 'byre');
     expect(glows()).toEqual(['p__glow@p__horn_lamp']);
   }, 60000);

@@ -12,7 +12,8 @@ export class Perceptions {
   // and witnessed, and told as a discovery; what a reading teaches is known as read, the writing's account of it.
   static witness(module: Module, world: World, player: string | undefined, seen: CampaignEvent['perceptions']) {
     if (!player || !seen) { return { changes: [], told: [], noted: [] }; }
-    const ids = new Set(seen.filter(p => p.kind === 'observation').map(p => p.id));
+    // One near a variable is seen as an instance (glow@iron_lamp): it teaches what its declaration does (audit, F5).
+    const ids = new Set(seen.filter(p => p.kind === 'observation').map(p => p.id.split('@')[0]!));
     const heard = new Set(seen.filter(p => p.kind === 'event').map(p => p.id));
     const teaching = [...(module.observations ?? []).filter(o => o.teaches && ids.has(o.id)),
       ...(module.rules ?? []).filter(r => r.teaches && heard.has(r.id))]
