@@ -61,7 +61,9 @@ The simulation alone (A) and a headless session (B), wren, 334 commands, ms per 
 | fight | 7 | 59 | 126 | 126 | 69 | 186 | 186 |
 | all | 334 | 5.8 | 191 | 243 | 32.0 | 262 | 348 |
 
-That is 63.7 commands a second for A (from 5.4) and 18.4 for B (from 3.9). In the frontier segment, A's travel is
+That is 63.7 commands a second for A (from 5.4) and 18.4 for B (from 3.9), at ab9055a. Since then the bounded grounding
+cache raised them to 73.0 and 24.3 (7ff6072), and the correct answering of open questions (6c4575a, the audit's F2)
+cost some of it back: 64.7 and 23.3 at the latest measure. In the frontier segment, A's travel is
 71 ms at the median and B's 151 ms; the engine's median is 133 ms (from 753).
 
 Through the engine (C), each change in turn, wren:
@@ -137,19 +139,28 @@ which grows with the command log. With a pause, as a player takes, the last fift
 ## Across marches
 
 The wander of 120 commands from a1 that crosses five marches (`a1-w120.jsonl`, 16 to 35 modules, 18,000 to 131,000
-facts), played again through the engine on b8e1341: command p50 164 ms, p90 286. Steps 101 to 150 of the same wander
-had a median of 2,512 ms before this mission's changes. The five crossings themselves still take 3.0, 4.5, 3.0, 3.2 and
-4.4 s: drawing the country beyond (250 ms), parsing its sixteen files of generated Kyr (381 kB at 383 bytes a ms, about
-1 s, most of it in Ohm's matching), and installing its eleven modules (about 1 s: checking them, and projecting their
-people). An experiment that drew and parsed the country ahead, before the command that crosses, brought one crossing
-from 3.25 to 1.82 s.
+facts), played again through the engine: command p50 150 ms at 7ff6072, the worst 1.8 s. Steps 101 to 150 of the same
+wander had a median of 2,512 ms before this mission's changes.
+
+A crossing drew the country beyond (250 ms), parsed its sixteen files of generated Kyr (381 kB at 383 bytes a ms,
+about 1 s, most of it in Ohm's matching), and installed its twelve modules, each rebuilding the world from every fact,
+projecting everyone's creature facts and checking the whole joined module. The five crossings took 3.1, 4.5, 3.0, 3.2
+and 4.4 s at b8e1341. With the country drawn and parsed while the player reads the choice that leads to the
+march-stone (66a968d), and installed into the live world with one check for the whole country (3b9fa5e): 1.2, 1.8,
+1.3, 1.6 and 2.1 s. What is left is everyone's creature facts projected with each module, kept so for the order the
+facts are held in.
+
+## Memory
+
+A long session against a fresh restore of its own save (`journey-profile --checkpoint-every`, then `--resume`): after
+333 commands of wren, 232 MB after a full collection, against 48 MB for the same game restored in a new process. Of
+the difference, 128 MB was every action the campaign had ever grounded (33,163, mostly the townsfolk's planning), kept
+forever. Kept to the 4,096 made most lately, and with only the candidates that hold made into actions (7ff6072): 71,
+73 and 77 MB at steps 111, 222 and 333. The simulation alone holds 56 to 63 MB over the journey.
 
 ## Not yet explained or done
 
-- **A march crossing** takes 3 to 4.5 s. The command before it already offers the road to the march-stone, so the
-  country beyond can be drawn and parsed while the player reads. That needs a parse that leaves the catalogs as they
-  were: parsing a module joins its own kinds to the global catalogs (`LocalKinds`), and a country never entered must
-  not leave its kinds behind.
+- **A march crossing** still takes 1.2 to 2.1 s (see above).
 - **The player's choices are still grounded afresh in every new world**: 1,199 schemas in the frontier, 25 ms warm,
   mostly one per townsperson per conversation, each asking whether that person is where the company is.
 - **Keeping the game** rewrites the whole state after every command: 1.25 MB at wren's step 175, of which the
@@ -158,8 +169,6 @@ from 3.25 to 1.82 s.
   relation (74 to 8 ms in the frontier), but stringifying and packing grow with the game. A log kept in pieces that
   do not change, and the kept world holding the measures and creatures to tell them apart from, would make it follow
   the command.
-- **The heap after a full collection** grew by about 0.35 MB a command at the baseline; a long session against a
-  fresh restore of the same game has not yet been compared.
 - **Time advancement** still runs watch by watch: a bed of eight watches is 112 ms at the median in A. Bulk or
   scheduled advancement has not been designed.
 - **The screen** is 14 ms at wren's median and 41 ms in the frontier, and has not been profiled since the first pass.

@@ -21,6 +21,13 @@ export class Membership {
       : enlisted[a.id] ? { ...a, members: [] } : a);
     return { actors, cache: { base, key, actors } };
   }
+  // What a command that changes the company resolves to: someone joins it (enlist), or one laid to rest leaves it
+  // (inter).
+  static resolves(resolve: { name: string }): boolean { return resolve.name === 'enlist' || resolve.name === 'inter'; }
+  static resolve(at: Parameters<typeof Membership.enlist>[0], resolve: { name: string; args: string[] }): World {
+    return resolve.name === 'enlist' ? this.enlist(at, resolve.args[0]!, resolve.args[1]!)
+      : this.release(at, resolve.args[0]!);
+  }
   // Someone joins the company: their creatures are the company's from now on, and no longer their group's members.
   static enlist(at: { current: Current; company?: string; module: Module; world: World },
     recruit: string, company: string): World {

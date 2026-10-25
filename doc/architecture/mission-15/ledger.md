@@ -5,8 +5,31 @@ and verified, what is found and not yet done, and what is deliberately left. New
 The brief is in the conversation of 2026-10-25; its three priorities are I (a fast, trustworthy inner loop), II (the
 independent adventures as first-class content) and III (a new human-facing experience).
 
+## The independent audit of 2026-10-25
+
+[`independent-audit-2026-10-25/report.md`](independent-audit-2026-10-25/report.md) audited ab9055a. Its findings and
+where each stands (each repair with the audit's cases as specs, which fail before it and pass after):
+
+| finding | stands | where |
+|---|---|---|
+| F1 catalogs process-global; a failed declaration poisons them | partly: a second game no longer takes the first's kinds (each campaign claims its own as it reads its world); a refused kind takes nothing of the catalog's; two modules cannot give one kind two meanings. The catalogs are still the process's: kinds kept with each campaign are the full repair | this commit (see the log), `test/campaign-isolation.test.ts` |
+| F2 open questions answered wrongly | done: negations wait on what binds them, a repeated variable is one, an unbindable parameter ranges over its type, and a query asked within a query of a bound parameter asks of its value; every shared-rules query is checked open against closed | 6c4575a, `test/query-answers.test.ts` |
+| F3 a failed expansion commits a command without recording it | done: the command, the country beyond it draws, its telling and its step are undone together | this commit (see the log), `test/command-atomicity.test.ts` |
+| F4 a rule can end travel without ending membership | open | |
+| F5 observation instances lose their teaching and binding | open | |
+| F6 a dead speaker answers | open | |
+| F7 distinct actions hidden behind one wording | open | |
+| F8 event and epistemic forms narrower than authors expect | open (a design boundary, not a defect) | |
+| F9 dependencies and verification | done: pins, clean clone, CI with a red canary run, skips listed | 55e1bbf, 37b0276, b8e1341 |
+| retained heap of a long session (its section 7) | done: 128 MB of grounded actions kept forever; a long session now holds 77 MB at step 333 of wren, a fresh restore 48 | 7ff6072 |
+| frontier expansion 3.9–6.1 s | partly: crossings 1.2–2.1 s (prepared ahead, installed into the live world) | 66a968d, 3b9fa5e |
+
 ## Done and verified
 
+- **I.F. Crossings, memory, and the audit's urgent findings.** The country beyond a march-stone a step away is drawn
+  and parsed while the player reads (66a968d) and installed into the live world (3b9fa5e): crossings 3.0–4.5 s to
+  1.2–2.1 s. A long game no longer keeps every action it ever grounded (7ff6072): 232 to 77 MB at step 333 of wren
+  after a full collection, against 48 MB for a fresh restore of the same game. F1–F3 and F9 of the audit, above.
 - **I.D. CI that runs every spec, shows every skip, and turns red.** `.github/workflows/ci.yml` (55e1bbf, 37b0276) runs
   on every push and pull request: lint, types and the whole suite (Orsino checked out at the registry's revision, so
   its spec runs); the long descents; the browser specs with Chromium installed. `scripts/test-summary.ts` writes every
@@ -43,23 +66,20 @@ independent adventures as first-class content) and III (a new human-facing exper
 
 ## Found, not yet done
 
-- **A march crossing takes 3 to 4.5 s**: drawing the country beyond, parsing its generated Kyr (about 1 s), installing
-  it (about 1 s). Drawing and parsing it ahead, while the player reads the choice that leads to the march-stone,
-  brought one crossing from 3.25 to 1.82 s in an experiment; it needs a parse that leaves the catalogs as they were.
-- **A module's own kinds live in global catalogs** (`LocalKinds`), joined as a module is parsed and replaced whole
-  when another campaign is played. The independent audit's probes (`independent-audit-2026-10-25/evidence/probes.log`)
-  show a second game in one process taking the first game's kinds away from it ("Unknown item definition dreg_ox").
-  Catalogs kept with the campaign would answer both this and the crossing above.
-- **A query asked of what is not yet bound can miss answers.** `world.solve(reaches(a, ?t))` leaves out a thing no
-  clue reveals, because `noticed` begins with a negation over `?t` before anything binds it (shown in
-  `test/candidates.test.ts`). Grounding no longer depends on it (`Candidates`); a rule whose condition asks such a
-  query with a variable may still miss bindings, and no rule has been audited for it.
+- **A march crossing still takes 1.2 to 2.1 s**: everyone's creature facts are projected again with each of the
+  country's modules, kept so because projecting the newcomers alone, and everyone once at the end, holds the same facts
+  in another order within their relations, which rules read. An order-preserving projection of what each module adds
+  is the next step.
+- **The catalogs are the process's** (F1's full repair): two campaigns' commands interleaved within one command would
+  still meet. Kinds kept with each campaign, not joined to shared catalogs, would end it.
+- **The audit's F4–F7**: companions leaving by an authored rule stay members; an observation near a variable does not
+  teach what it teaches, and a fixed one prints its variable; a dead speaker's action is offered and answers; two
+  distinct actions with one wording show as one.
 - **Keeping the game rewrites the whole state after every command**, 1.25 MB by wren's step 175: the command log
   (1.07 MB, two thirds of it the receipts, which hold each command's world changes a second time and its bodies
-  before and after), and measures and creatures written whole.
-- The player's choices are grounded afresh in every new world (25 ms warm in the frontier, 1,199 schemas).
-- The heap after a full collection grew by about 0.35 MB a command at the baseline; a long session against a fresh
-  restore is not yet compared.
+  before and after), and measures and creatures written whole. The engine's keeping now waits on nothing a player
+  sees at a player's pace (see `performance.md`), but grows with the game.
+- The player's choices are grounded afresh in every new world (22 ms warm in the frontier, 1,199 schemas).
 - `test/smoke-deem.sh`, which no spec runs, fails in its own verify step (an undefined command in a battle).
 
 ## Deliberately left

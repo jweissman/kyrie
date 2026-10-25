@@ -88,10 +88,16 @@ export class PlaySession {
           battle.step(chosen);
         }
       });
-      if (this.expander) { await this.expander.expand(this.campaign); }
+      // What comes of the command after it (the country beyond drawn and installed), and what the company is told of
+      // it, are one with it and its step in the transcript: if either fails, the campaign is put back as it was before
+      // the command, and nothing of it is kept (Mission 15's independent audit, F3).
+      let voiced: ReturnType<typeof Telling.tell>;
+      try {
+        if (this.expander) { await this.expander.expand(this.campaign); }
+        // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
+        voiced = Telling.tell(this.campaign, event);
+      } catch (error) { this.campaign.undo(); throw error; }
       this.steps.push(combat.length ? { command, combat } : { command });
-      // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
-      const voiced = Telling.tell(this.campaign, event);
       if (voiced.length) { this.campaign.told(voiced); event.voiced = voiced; }
       return event;
     } finally { this.busy = false; }

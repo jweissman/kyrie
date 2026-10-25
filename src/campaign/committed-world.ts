@@ -1,5 +1,6 @@
 import { World } from '../lang/world';
 import type { Module, WorldState } from '../lang/module';
+import { LocalKinds } from '../canon/local-catalog';
 
 // A campaign's world as last committed, kept as itself. It is written into the campaign's state as its facts only when
 // the state is read whole (a save, the state, an install), not at every commit: Mission 15's profile found the list
@@ -16,7 +17,9 @@ export class CommittedWorld {
     if (!this.stale || !this.viewed) { return; }
     current.world = this.viewed.world.view as WorldState; this.viewed.state = current.world; this.stale = false;
   }
-  of(current: { world: WorldState }, module: Module): World {
+  // Read, its campaign (owner) makes its kinds the catalogs' if another campaign's are (see LocalKinds.claim).
+  of(current: { world: WorldState }, module: Module, owner?: object): World {
+    if (owner) { LocalKinds.claim(owner, module.catalog); }
     const v = this.viewed;
     if (v && v.module === module && (this.stale || v.state === current.world)) { return v.world; }
     this.keep(current);

@@ -53,7 +53,7 @@ export class Campaign implements WatchHost {
     const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
       // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
-      LocalKinds.activate(saved.module.catalog); this.compiled = saved.module; this.definition = saved.definition;
+      LocalKinds.activate(saved.module.catalog, this); this.compiled = saved.module; this.definition = saved.definition;
       this.current = saved.state; this.creatures = new CreatureStore(saved.creatures);
       this.log = saved.events; this.encounter = saved.encounter;
       this.observations = saved.observations;
@@ -92,7 +92,7 @@ export class Campaign implements WatchHost {
     party?: CreatureGenerationContext[]): Promise<Campaign> {
     const loaded = await this.loads.get(source, JSON.stringify([path, seed, party ?? null]),
       () => this.assemble(path, seed, source, party && structuredClone(party)));
-    LocalKinds.activate(loaded.module.catalog); return loaded.fork();
+    const fork = loaded.fork(); LocalKinds.activate(loaded.module.catalog, fork); return fork;
   }
   private static arrays<T extends object>(o: T): T {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
@@ -165,10 +165,9 @@ export class Campaign implements WatchHost {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
     this.keepFacts();
     // Written out at once (live), the creatures are given as they are: a copy of every one is what a kept copy needs.
-    const creatures = live ? this.creatures.live as Creature[] : this.creatures.snapshot;
     const save = { version: 1 as const, actionFormat: 'schemas' as const, module: this.module, definition: this.definition,
-      state: this.current, creatures, events: this.log, encounter: this.encounter,
-      observations: this.observations };
+      state: this.current, creatures: live ? this.creatures.live as Creature[] : this.creatures.snapshot,
+      events: this.log, encounter: this.encounter, observations: this.observations };
     return live ? save : structuredClone(save);
   }
   static restore(saved: CampaignSave, handed: { owned?: boolean; trusted?: boolean } = {}): Campaign {
@@ -199,7 +198,7 @@ export class Campaign implements WatchHost {
   private committed = new CommittedWorld();
   private commit(world: World) { this.committed.commit(this.current, this.module, world); }
   private keepFacts() { this.committed.keep(this.current); }
-  get world(): World { return this.committed.of(this.current, this.module); }
+  get world(): World { return this.committed.of(this.current, this.module, this); }
   // Actions are grounded on demand against the current module and controllers (see CampaignGrounding).
   private grounding = new CampaignGrounding();
   get operators(): Operators { return this.grounding.operators(this.module, this.definition?.actors); }
@@ -228,7 +227,7 @@ export class Campaign implements WatchHost {
     return action;
   }
   execute(id: string, play: (battle: Battle) => void = Campaign.autofight): CampaignEvent {
-    const action = this.action(id), checkpoint = this.checkpoint();
+    const action = this.action(id), checkpoint = this.begun = this.checkpoint();
     this.executing = true;
     let battle: Battle | undefined;
     try {
@@ -243,7 +242,7 @@ export class Campaign implements WatchHost {
     finally { this.executing = false; }
   }
   async executeAsync(id: string, play: (battle: Battle) => Promise<void>): Promise<CampaignEvent> {
-    const action = this.action(id), checkpoint = this.checkpoint();
+    const action = this.action(id), checkpoint = this.begun = this.checkpoint();
     this.executing = true;
     let battle: Battle | undefined;
     try {
@@ -259,18 +258,25 @@ export class Campaign implements WatchHost {
   }
   // What a command undoes to if it throws, and what its receipt is told against: the world itself and the creature
   // store's records, which are replaced when they change and never changed where they lie, so neither is copied.
+  // It holds the module and definition too, so that what came of a command after it (the country beyond it drew,
+  // installed) is undone with it (see undo).
   private checkpoint() {
     return { creatures: this.creatures.with([]), current: structuredClone({ ...this.current, world: undefined }),
-      world: this.world,
+      world: this.world, compiled: this.compiled, definition: this.definition,
       observations: structuredClone(this.observations), events: this.log.length, encounter: this.encounter };
   }
+  // The last command undone, with all that came of it: a session whose command failed after the campaign had carried
+  // it out (drawing the country beyond) keeps nothing of it (Mission 15's independent audit, F3).
+  private begun?: ReturnType<Campaign['checkpoint']>;
+  undo() { if (this.begun) { this.rollback(undefined, this.begun); this.begun = undefined; } }
   // A command that throws commits nothing: combat damage taken before the error is discarded with it.
   private rollback(battle: Battle | undefined, checkpoint: ReturnType<Campaign['checkpoint']>) {
     battle?.close();
+    if (this.compiled !== checkpoint.compiled) { LocalKinds.activate(checkpoint.compiled.catalog, this); }
+    this.compiled = checkpoint.compiled; this.definition = checkpoint.definition;
     this.creatures = checkpoint.creatures; this.current = { ...checkpoint.current, world: this.current.world };
-    this.commit(checkpoint.world);
     this.observations = checkpoint.observations; this.log.length = checkpoint.events;
-    this.encounter = checkpoint.encounter;
+    this.encounter = checkpoint.encounter; this.commit(checkpoint.world);
   }
   private complete(action: Operator, checkpoint: ReturnType<Campaign['checkpoint']>, battle?: Battle): CampaignEvent {
     if (battle && !battle.state.outcome) { throw new Error('Encounter must finish before campaign resolution'); }
@@ -333,11 +339,9 @@ export class Campaign implements WatchHost {
       FieldUse.award(this.creatures, this.current.partyIds, this.world,
         { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
     }
-    if (action.resolve?.name === 'enlist' || action.resolve?.name === 'inter') {
-      const at = { current: this.current, company: this.playerActor, module: this.module, world: this.world };
-      this.commit(action.resolve.name === 'enlist' ? Membership.enlist(at, action.resolve.args[0]!, action.resolve.args[1]!)
-        : Membership.release(at, action.resolve.args[0]!));
-      this.refresh(); return;
+    if (action.resolve && Membership.resolves(action.resolve)) {
+      this.commit(Membership.resolve({ current: this.current, company: this.playerActor, module: this.module,
+        world: this.world }, action.resolve)); this.refresh(); return;
     }
     if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name) && !action.interrupt) {
       combat.push(...this.field(action));
