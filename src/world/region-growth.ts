@@ -67,6 +67,11 @@ export class RegionGrowth {
           lines.push(`  Item ${stand}_${n} ${q(o.gathered!)} is ${o.yields} in ${stand} hidden until ${stand}_hid.`,
             `  Initially Assert crop(${stand}_${n}, ${stand}).`);
         }
+        // What else is cut from it: a pole from the willows (a barrow's switch wants one; no shop near may sell it).
+        for (let n = 1; o.cut && n <= (o.cut.count ?? 1); n++) {
+          lines.push(`  Item ${stand}_cut${n} ${q(o.cut.gathered)} is ${o.cut.yields} in ${stand} hidden until ${stand}_hid.`,
+            `  Initially Assert crop(${stand}_cut${n}, ${stand}).`);
+        }
       }
     }
     return lines;

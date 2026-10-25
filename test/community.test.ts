@@ -126,6 +126,12 @@ describe('what grows wild', () => {
     }
     expect(RegionGrowth.lines(region).some(l => /_willow "the willow"/.test(l))).toBe(true);
   }, 60000);
+  // Playing cov13, the barrow's switch wanted a ten-foot pole, and no town near sold one; the willows by the road
+  // give one to whoever cuts it.
+  it('gives a long pole from the willows, as well as their bark', async () => {
+    const { w } = await Settled.start(), lines = RegionGrowth.lines(Settled.region(w));
+    expect(lines.some(l => /_willow_cut1 "a long willow pole" is pole in /.test(l))).toBe(true);
+  }, 60000);
 });
 
 describe('family', () => {

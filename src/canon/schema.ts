@@ -163,5 +163,7 @@ export interface Organism {
   // A plant that can be gathered: what a stand of it looks like where it grows, what is gathered from it (an item of
   // the kind it yields), and how much a stand gives before it is stripped.
   stand?: string; gathered?: string; count?: number;
+  // And anything else cut from it that is not what it yields (a long pole from the willows), and how many.
+  cut?: { yields: string; gathered: string; count?: number };
 }
 export interface Procedure { name: string; effect: string; description: string }
