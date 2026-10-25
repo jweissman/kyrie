@@ -12,6 +12,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium, type CDPSession, type Page } from 'playwright-core';
 import { JourneyProfile, type JourneyStep } from './journey-profile';
+import { JourneyReport } from './journey-report';
 
 interface Mono {
   inspect(): { mode: string; pending: boolean; combat?: { ours: boolean; outcome: string | null };
@@ -101,7 +102,7 @@ class JourneyBrowser {
     return { heap: Math.round(heap.usedSize / 1e6), kept };
   }
   private static median(w: BrowserStep[], k: keyof BrowserStep): number {
-    return JourneyProfile.pct(w.map(s => s[k] as number), 0.5);
+    return JourneyReport.pct(w.map(s => s[k] as number), 0.5);
   }
   private static row(w: BrowserStep[]) {
     const last = w.at(-1)!;
@@ -112,8 +113,8 @@ class JourneyBrowser {
   private static summary(done: BrowserStep[]) {
     for (const k of ['total', 'engine', 'screen', 'narrative', 'render', 'fight'] as const) {
       const all = done.map(s => s[k]);
-      console.log(`${k}: p50 ${JourneyProfile.pct(all, 0.5)} p90 ${JourneyProfile.pct(all, 0.9)}`
-        + ` p99 ${JourneyProfile.pct(all, 0.99)} max ${Math.max(...all)} ms`);
+      console.log(`${k}: p50 ${JourneyReport.pct(all, 0.5)} p90 ${JourneyReport.pct(all, 0.9)}`
+        + ` p99 ${JourneyReport.pct(all, 0.99)} max ${Math.max(...all)} ms`);
     }
   }
 }
