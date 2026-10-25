@@ -1,0 +1,8 @@
+step 0: checkpoint 4360 kB in 24.3 ms | module 2095 definition 543 world 1641 creatures 74 events 0 (receipts 0) transcript 0
+step 50: checkpoint 4648 kB in 22.5 ms | module 2095 definition 543 world 1673 creatures 75 events 250 (receipts 151) transcript 4
+step 100: checkpoint 5038 kB in 29.8 ms | module 2095 definition 543 world 1684 creatures 74 events 625 (receipts 395) transcript 8
+step 150: checkpoint 5365 kB in 35.0 ms | module 2095 definition 543 world 1718 creatures 75 events 913 (receipts 575) transcript 13
+step 200: checkpoint 5689 kB in 35.4 ms | module 2095 definition 543 world 1693 creatures 75 events 1257 (receipts 794) transcript 19
+step 250: checkpoint 6214 kB in 35.3 ms | module 2095 definition 543 world 1728 creatures 75 events 1738 (receipts 1076) transcript 27
+step 300: checkpoint 6500 kB in 45.0 ms | module 2095 definition 543 world 1755 creatures 75 events 1993 (receipts 1243) transcript 31
+step 334: checkpoint 6617 kB in 40.2 ms | module 2095 definition 543 world 1756 creatures 75 events 2107 (receipts 1313) transcript 34

@@ -1,0 +1,6 @@
+acting during expansion: true
+mid-command checkpoint: transcript steps = 0 , campaign events = 1 , party at = ["party","o__hall_floor"]
+after command: transcript steps = 1 , campaign events = 1
+resumed save location: o__hall_floor | replay of its transcript location: o__rim
+second command outcome: expansion failed
+session after undo: events = 1 | checkpoint taken in window: events = 2

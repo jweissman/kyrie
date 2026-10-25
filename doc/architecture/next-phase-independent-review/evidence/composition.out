@@ -1,0 +1,105 @@
+{
+ "label": "same local names, bells first",
+ "order": [
+  "bells",
+  "chimes"
+ ],
+ "ok": true,
+ "choices": [
+  "Wait a while  [wait]",
+  "Wait an hour  [wait_hour]",
+  "Wait until dark  [wait_for_dark]",
+  "Wait and watch  [wait_watch]",
+  "Take the bells lane to the bells gate  [go(bells__lane,bells__gate)]",
+  "Search the bells yard  [search(bells__yard)]",
+  "Set down a battleaxe  [put_item(bells__party_1__battleaxe)]",
+  "Set down scale mail  [put_item(bells__party_1__scale)]",
+  "Set down a torch  [put_item(bells__party_1__torch)]",
+  "Set down a ten-foot pole  [put_item(bells__party_1__pole)]",
+  "Ring the bell  [bells__ring(party,bells__yard)]",
+  "Ring the bell  [chimes__ring(party,bells__yard)]"
+ ],
+ "performed": "bells__ring(party,bells__yard)",
+ "rungFacts": [
+  "bells__rung(bells__gate)",
+  "bells__rung(bells__yard)"
+ ],
+ "shown": [
+  "The bells bell is still humming."
+ ],
+ "shadows": [
+  "bells__rung",
+  "chimes__rung"
+ ]
+}
+{
+ "label": "same local names, chimes first",
+ "order": [
+  "chimes",
+  "bells"
+ ],
+ "ok": true,
+ "choices": [
+  "Wait a while  [wait]",
+  "Wait an hour  [wait_hour]",
+  "Wait until dark  [wait_for_dark]",
+  "Wait and watch  [wait_watch]",
+  "Take the chimes lane to the chimes gate  [go(chimes__lane,chimes__gate)]",
+  "Search the chimes yard  [search(chimes__yard)]",
+  "Set down a longsword  [put_item(chimes__party_1__longsword)]",
+  "Set down plate mail  [put_item(chimes__party_1__plate)]",
+  "Set down a torch  [put_item(chimes__party_1__torch)]",
+  "Set down a ten-foot pole  [put_item(chimes__party_1__pole)]",
+  "Ring the bell  [chimes__ring(party,chimes__yard)]",
+  "Ring the bell  [bells__ring(party,chimes__yard)]"
+ ],
+ "performed": "chimes__ring(party,chimes__yard)",
+ "rungFacts": [
+  "chimes__rung(chimes__gate)",
+  "chimes__rung(chimes__yard)"
+ ],
+ "shown": [
+  "The chimes bell is still humming."
+ ],
+ "shadows": [
+  "chimes__rung",
+  "bells__rung"
+ ]
+}
+{
+ "label": "same local kind id, same meaning",
+ "order": [
+  "bells",
+  "chimes"
+ ],
+ "ok": true,
+ "choices": [
+  "Wait a while  [wait]",
+  "Wait an hour  [wait_hour]",
+  "Wait until dark  [wait_for_dark]",
+  "Wait and watch  [wait_watch]",
+  "Take the bells lane to the bells gate  [go(bells__lane,bells__gate)]",
+  "Search the bells yard  [search(bells__yard)]",
+  "Collect a brass bell for Ama  [take_item(bells__bell_item,bells__member_party_1)]",
+  "Set down a battleaxe  [put_item(bells__party_1__battleaxe)]",
+  "Set down scale mail  [put_item(bells__party_1__scale)]",
+  "Set down a torch  [put_item(bells__party_1__torch)]",
+  "Set down a ten-foot pole  [put_item(bells__party_1__pole)]",
+  "Ring the bell  [bells__ring(party,bells__yard)]",
+  "Ring the bell  [chimes__ring(party,bells__yard)]"
+ ],
+ "performed": "bells__ring(party,bells__yard)",
+ "rungFacts": [
+  "bells__rung(bells__gate)",
+  "bells__rung(bells__yard)"
+ ],
+ "shown": [
+  "The bells bell is still humming."
+ ],
+ "shadows": [
+  "bells__rung",
+  "chimes__rung"
+ ]
+}
+{"label":"same local kind id, different worth","order":["bells","chimes"],"ok":false,"error":"hostile/chimes/site.kyr: The kind of item brass_bell is declared differently by two modules (Declared by the module bells. Declared by the module chimes.)"}
+{"label":"same canonical Good id, different names","order":["bells","chimes"],"ok":false,"error":"Duplicate entity salt"}

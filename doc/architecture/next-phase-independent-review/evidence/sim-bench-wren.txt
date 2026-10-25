@@ -1,0 +1,19 @@
+  100: heap 60 MB
+  200: heap 64 MB
+  300: heap 67 MB
+layer A: 334 commands in 8021 ms (canonical 5723d89de5360b0d, facts 2693c7793aa85ef4)
+  local  n 146 p50 6.0 p90 9.3 p99 12.0 max 13 ms | 161.1 commands/s
+  travel n 167 p50 4.2 p90 18.9 p99 41.5 max 53 ms | 128.8 commands/s
+  time   n  14 p50 113.6 p90 188.5 p99 267.9 max 268 ms | 8.5 commands/s
+  fight  n   7 p50 42.6 p90 72.4 p99 72.4 max 72 ms | 21.8 commands/s
+  all    n 334 p50 5.5 p90 20.3 p99 135.0 max 268 ms | 80.2 commands/s
+  100: heap 66 MB
+  200: heap 68 MB
+  300: heap 72 MB
+layer B: 334 commands in 11439 ms (canonical 34a9938956c88c1, facts 2693c7793aa85ef4)
+  local  n 146 p50 26.5 p90 33.7 p99 41.3 max 41 ms | 37.6 commands/s
+  travel n 167 p50 26.4 p90 41.0 p99 69.7 max 79 ms | 34.6 commands/s
+  time   n  14 p50 155.7 p90 196.6 p99 241.1 max 241 ms | 7.0 commands/s
+  fight  n   7 p50 59.5 p90 96.1 p99 96.1 max 96 ms | 15.0 commands/s
+  all    n 334 p50 26.7 p90 43.0 p99 160.4 max 241 ms | 29.9 commands/s
+EXIT 0 SECONDS 24

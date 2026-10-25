@@ -1,0 +1,14 @@
+a1 facts taught by observations: 45 not established: 9 [ "region__z2_mapped", "region__z4_mapped",
+  "region__z5_mapped", "region__w8_bane", "region__w8_halls_well_journal",
+  "region__w8_rivals_out", "region__w8_rivals_fate",
+  "drover__dog_mud"
+--
+thorn facts taught by observations: 44 not established: 9 [ "region__z1_mapped", "region__z2_mapped",
+  "region__z3_mapped", "region__w8_bane", "region__w8_galleries_colonnade_journal",
+  "region__w8_rivals_out", "region__w8_rivals_fate",
+  "drover__dog_mud"
+--
+wren facts taught by observations: 46 not established: 10 [ "region__z1_mapped", "region__z3_mapped",
+  "region__z4_mapped", "region__w9_bane", "region__w9_adit_vent_journal", "region__w9_haulage_stores_journal",
+  "region__w9_rivals_out", "region__w9_rivals_fate"
+]

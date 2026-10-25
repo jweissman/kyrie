@@ -1,0 +1,15 @@
+import { it, expect } from 'bun:test';
+const R = '/home/user/kyrie';
+const { WorldAssembler } = await import(`${R}/src/world/world-assembler`);
+const { NodeBundleSource } = await import(`${R}/src/campaign/node-bundle-source`);
+const { PlaySession } = await import(`${R}/src/session/play-session`);
+const { PlayerView } = await import(`${R}/src/presentation/player-view`);
+it('community willow branch', async () => {
+  process.chdir(R);
+  const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { origin: 'herbs', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+  const s = await PlaySession.start(w.path, 'thorn', w.source);
+  const c = PlayerView.choices(s.campaign).find((x: any) => /_green\)$/.test(x.choice.name) || /_green\)$/.test(x.choice.id));
+  await s.perform(c.choice.id);
+  const ask = PlayerView.choices(s.campaign).find((c: any) => / where willow grows$/.test(c.choice.name));
+  console.log('WILLOW ASK OFFERED:', !!ask, PlayerView.choices(s.campaign).map((c:any)=>c.choice.name).filter((n:string)=>/willow|grow|where/i.test(n)).join(' | '));
+}, 120000);

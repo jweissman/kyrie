@@ -1,0 +1,14 @@
+begin 2692 ms
+step 335: nothing to do (the record no longer holds, or it has ended)
+total: p50 49 p90 105 p99 274 max 402 ms
+engine: p50 28 p90 48 p99 260 max 379 ms
+screen: p50 13 p90 47 p99 118 max 226 ms
+narrative: p50 5 p90 7 p99 11 max 12 ms
+save: p50 21 p90 38 p99 48 max 150 ms
+worst: step 244 Take the gallery to the furnace hall — command 402 save 31 ms
+worst: step 194 Take the gallery to the long haulage — command 353 save 23 ms
+worst: step 235 Take the drift to the sealed stair — command 285 save 31 ms
+worst: step 303 Take the gallery to the furnace hall — command 269 save 44 ms
+worst: step 175 Take a bed and supper from Fargrim — command 274 save 26 ms
+canonical 5eae0f91a0ce6203 facts 2693c7793aa85ef4 told 6926d284f15e9327
+EXIT 0 SECONDS 33

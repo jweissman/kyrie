@@ -1,0 +1,7 @@
+reached region__edge_east; installed 25 modules; steps 5
+step go(x1y0__edge_north_road,x1y0__edge_north) (offered: true) THREW: Invalid initial knowledge
+  party still at x1y0__s3_green | installed 25 | transcript steps 9
+knows without established: [ "x1y0disputation__glance" ]
+step go(x1y0__edge_north_road,x1y0__edge_north) (offered: true) THREW: Invalid initial knowledge
+  party still at x1y0__s3_green | installed 25 | transcript steps 9
+second attempt succeeded: false

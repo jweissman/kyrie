@@ -1,0 +1,28 @@
+Module know "Knowledge probe" {
+  Place house "the long house" is settlement.
+  Place hall "the hall" is room within house at 0, 0.
+  Place byre "the byre" is room within house at 1, 0.
+  Passage arch "the arch" is passage between hall and byre.
+  Company party "You" of 1 at hall.
+  Relation lit(thing).
+  Entity iron_lamp: thing "the iron lamp".
+  Initially Assert at(iron_lamp, hall). Initially Assert lit(iron_lamp).
+  Discovery soot_clue "Someone trimmed the lamp an hour ago.".
+  Discovery murder_fact "The miller killed the carter.".
+  Observe glow near ?lamp when lit(?lamp) "{?lamp} burns low; its wick is freshly trimmed." teaches soot_clue.
+  Observe fixed_var at hall when lit(?l) and at(?l, hall) "{?l} hangs from a beam.".
+  Person wil "Wil Hobb, a carter" at hall {
+    Ancestry human. Calling warrior. Level 1. Peaceable.
+  }
+  Initially Assert willing(wil, party). Initially Set hire(wil) to 0.
+  Topic wil_road with wil travelling "Ask Wil about the road" when true {
+    Says "'Mud all the way,' says Wil.".
+  }
+  Person ola "Ola, a goose-girl" at hall {
+    Ancestry human. Peaceable.
+  }
+  Topic ola_murder with ola "Ask Ola about the carter" when true {
+    Says "'The miller did it,' says Ola.".
+    On discuss { Assert knows(actor, murder_fact). }
+  }
+}

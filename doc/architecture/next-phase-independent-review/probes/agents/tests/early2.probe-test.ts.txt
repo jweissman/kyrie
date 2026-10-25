@@ -1,0 +1,23 @@
+import { it } from 'bun:test';
+const R = '/home/user/kyrie';
+const { WorldAssembler } = await import(`${R}/src/world/world-assembler`);
+const { NodeBundleSource } = await import(`${R}/src/campaign/node-bundle-source`);
+const { RegionZones } = await import(`${R}/src/world/region-zones`);
+const { PlaySession } = await import(`${R}/src/session/play-session`);
+it('wild view', async () => {
+  process.chdir(R);
+  const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { scenarios: 0, towns: 0, framework: null, origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+  const zone = w.report.region.atlas!.zones.find((z: any) => z.naming.name === 'Eikwudu')!;
+  const view = RegionZones.landmarks(w.report.region, zone).find((l: any) => l.view);
+  console.log('VIEW FOUND:', !!view);
+}, 120000);
+it('K2 asleep', async () => {
+  process.chdir(R);
+  const s = await PlaySession.start('test/fixtures/probes/sleep-hours/probe.campaign.json', 'q', NodeBundleSource.shared);
+  const { ScreenModel } = await import(`${R}/src/ui/screen-model`); const { ChoiceList } = await import(`${R}/src/ui/choice-list`);
+  const leaves = (l: any[], t = ''): any[] => l.flatMap(c => c.children ? leaves(c.children, `${t}${c.label} › `) : [{ label: t + c.label, command: c.command }]);
+  const c = leaves(ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)))).find(x => /^Wait › A while/i.test(x.label));
+  await s.perform(c.command);
+  const r = s.campaign.readout, body = r.creatures.find((x: any) => r.partyIds.includes(x.id));
+  console.log('ASLEEP:', body.state.conditions.some((x: any) => x.id === 'asleep'));
+}, 120000);
