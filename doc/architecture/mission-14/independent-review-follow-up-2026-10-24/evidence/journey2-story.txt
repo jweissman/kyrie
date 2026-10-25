@@ -1,0 +1,46 @@
+‹ Back
+
+The story so far
+THE HEAD OF THE STAIR
+THE ECHOING GALLERY
+THE HALL OF DOORS
+THE MOUTH OF THE HALL
+CARMENCAW
+THE EDGE OF DEOPWUDU BY GULDHRICG
+THE FORD AT GULDHRICG
+
+Jade looks round Guldhricg as if counting it, and seems satisfied that it is all still there.
+
+'Jade! Look at you.' Ghokarn shuts the shop for the length of a cup, asks after everything at once, and will not let you leave without food for the road.
+
+TALK TO GHOKARN
+
+You carry out the action.
+
+YOU BUY A TORCH FOR ULRIC.
+
+Ulric pays Ghokarn, and takes a torch.
+
+YOU TAKE YOUR LEAVE OF GHOKARN.
+
+You carry out the action.
+
+TALK TO KESTREL
+
+You carry out the action.
+
+YOU ASK KESTREL FOR THE SHRINE'S CARE FOR THE WOUNDED.
+
+Kestrel cleans and dresses every wound in the company.
+
+Jade recovers 4 HP (7 HP).
+
+YOU TAKE YOUR LEAVE OF KESTREL.
+
+You carry out the action.
+
+Map
+Notes
+Pack
+Company
+Story

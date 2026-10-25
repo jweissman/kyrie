@@ -1,0 +1,192 @@
+{"time":"2026-10-24T16:53:45.782Z","line":"await click('Begin'); return await shot('creation');"}
+{"time":"2026-10-24T16:54:02.458Z","line":"await click(\"The brothers' errand\"); await click(/^Go$/); return await shot('audit-arrival');"}
+{"time":"2026-10-24T16:54:19.782Z","line":"await click(/^Rangrim/); await click('Give the brothers'); return await shot('audit-letter');"}
+{"time":"2026-10-24T16:54:36.269Z","line":"await click('Take your leave'); await click('The altar of Donn'); return await shot('audit-altar');"}
+{"time":"2026-10-24T16:54:49.363Z","line":"await click('Examine — Look closely'); return await shot('audit-altar-examine');"}
+{"time":"2026-10-24T16:55:02.661Z","line":"await click('Turn back to the shrine'); await click('The bailey of Ramkom'); return await shot('audit-town');"}
+{"time":"2026-10-24T16:55:20.747Z","line":"await click('look at the lockup door'); return await shot('audit-lockup-inspect');"}
+{"time":"2026-10-24T16:55:34.204Z","line":"await click(/^Look closely$/); return await shot('audit-lockup-look');"}
+{"time":"2026-10-24T16:55:55.187Z","line":"await click('The taproom of the Bronze Bear'); return await shot('audit-inn');"}
+{"time":"2026-10-24T16:56:12.519Z","line":"await click(/^Roondar/); await click('Ask what brings'); return await shot('audit-recruit-offer');"}
+{"time":"2026-10-24T16:56:25.434Z","line":"await click('Ask to join the company'); await click('Take your leave'); await click(/^Kildrak/); await click('Ask about the old workings'); return await shot('audit-deep-lead');"}
+{"time":"2026-10-24T16:56:40.968Z","line":"return await shot('audit-innkeeper-topics');"}
+{"time":"2026-10-24T16:56:47.447Z","line":"await click('Ask about the fallen walls'); return await shot('audit-walls-lead');"}
+{"time":"2026-10-24T16:57:04.018Z","line":"await click('Take your leave'); await click('The bailey of Ramkom'); await click('The top of the Telegavor'); await p.waitForTimeout(4000); return await shot('audit-road');"}
+{"time":"2026-10-24T16:57:23.840Z","line":"await click('↗ Ferrumlapis'); return await shot('audit-ruin');"}
+{"time":"2026-10-24T16:57:38.058Z","line":"await click('Search here'); return await shot('audit-ruin-search');"}
+{"time":"2026-10-24T16:57:55.509Z","line":"await click('The top of the Telegavor'); await click('↗ a pit in the ground'); return await shot('audit-pit');"}
+{"time":"2026-10-24T16:58:13.676Z","line":"await click(/^Garth$/); await click('Ask about'); return await shot('audit-shepherd');"}
+{"time":"2026-10-24T16:58:28.288Z","line":"await p.getByText('Garth',{exact:true}).click(); await p.waitForTimeout(1800); return await shot('audit-shepherd');"}
+{"time":"2026-10-24T16:58:41.516Z","line":"await click('Ask what is wrong'); return await shot('audit-pit-lead');"}
+{"time":"2026-10-24T16:58:58.616Z","line":"await click('Take your leave'); await click('Garth’s spare torch'); await click(/^Take$/); return await shot('audit-torch-taken');"}
+{"time":"2026-10-24T16:59:17.823Z","line":"await click('Search here'); return await shot('audit-pit-search');"}
+{"time":"2026-10-24T16:59:44.381Z","line":"await click(/^Notes$/); return await shot('audit-notes');"}
+{"time":"2026-10-24T16:59:58.800Z","line":"const d=p.waitForEvent('download'); await click('Download a save file'); const f=await d; await f.saveAs('/tmp/kyrie-review-2/audit-save.json'); global.audit=p; global.p=await (await b.newContext({viewport:{width:1440,height:1000}})).newPage(); await p.goto('https://jweissman.github.io/kyrie/'); await click('Begin'); return await shot('journey1-creation');"}
+{"time":"2026-10-24T17:00:24.410Z","line":"await p.getByRole('textbox').fill('Mira'); await p.getByRole('combobox').nth(0).selectOption('human'); await p.getByRole('combobox').nth(1).selectOption('ranger'); await click('What is owed'); await click(/^Go$/); return await shot('journey1-arrival');"}
+{"time":"2026-10-24T17:00:43.041Z","line":"await p.getByText('Orym',{exact:true}).click(); await p.waitForTimeout(2000); return await shot('journey1-creditor');"}
+{"time":"2026-10-24T17:00:59.353Z","line":"await click('Ask for five days more'); return await shot('journey1-extension');"}
+{"time":"2026-10-24T17:01:22.547Z","line":"await click('Take your leave'); await click('The market-place of Brethelmasto'); return await shot('journey1-market');"}
+{"time":"2026-10-24T17:01:36.640Z","line":"await click('The taproom of the Weeping Willow'); return await shot('journey1-inn');"}
+{"time":"2026-10-24T17:01:52.507Z","line":"await p.getByText('Thamior',{exact:true}).click(); await p.waitForTimeout(1500); return await shot('journey1-inn-topics');"}
+{"time":"2026-10-24T17:02:08.643Z","line":"await click('Ask about the light in a lone tower'); return await shot('journey1-tower-rumor');"}
+{"time":"2026-10-24T17:02:27.432Z","line":"await click('Take your leave'); await p.getByText('Epona',{exact:true}).click(); await p.waitForTimeout(1500); await click('Ask what brings'); return await shot('journey1-companion');"}
+{"time":"2026-10-24T17:02:40.895Z","line":"await click('Ask to join the company'); await click('Ask about the old well at a lone tower'); return await shot('journey1-well-rumor');"}
+{"time":"2026-10-24T17:02:58.172Z","line":"return await shot('journey1-recruited');"}
+{"time":"2026-10-24T17:03:07.285Z","line":"await click('Ask for a song of this country'); return await shot('journey1-song');"}
+{"time":"2026-10-24T17:03:25.758Z","line":"await click('Take your leave'); await click(/^Map$/); return await shot('journey1-map');"}
+{"time":"2026-10-24T17:03:47.823Z","line":"await click('Back to where you are'); await click('The market-place of Brethelmasto'); await click('The edge of Eregtaur by Brethelmasto'); return await shot('journey1-woods-edge');"}
+{"time":"2026-10-24T17:04:06.771Z","line":"await click(/The ford of the Nûrrant.*30m/s); return await shot('journey1-ford');"}
+{"time":"2026-10-24T17:04:22.065Z","line":"await click('Talk to the toll-reeve'); return await shot('journey1-reeve');"}
+{"time":"2026-10-24T17:04:39.210Z","line":"await click('Pay the lord’s toll'); await click('Take your leave'); await click('The ford at Tatharimlad →'); return await shot('journey1-tatharimlad');"}
+{"time":"2026-10-24T17:04:57.930Z","line":"await p.getByText('Dayereth',{exact:true}).click(); await p.waitForTimeout(2000); return await shot('journey1-philosopher');"}
+{"time":"2026-10-24T17:05:17.433Z","line":"await click('Ask what the One is'); return await shot('journey1-one');"}
+{"time":"2026-10-24T17:05:34.391Z","line":"await click('Tell of the kingdom'); return await shot('journey1-argument');"}
+{"time":"2026-10-24T17:05:55.880Z","line":"await click('Ask to join the company'); return await shot('journey1-philosopher-joins');"}
+{"time":"2026-10-24T17:06:18.025Z","line":"await click(/^Company$/); return await shot('journey1-company');"}
+{"time":"2026-10-24T17:06:35.960Z","line":"await click(/^Pack$/); return await shot('journey1-pack');"}
+{"time":"2026-10-24T17:06:50.875Z","line":"await click('Dayereth: Prepare spells'); return await shot('journey1-spells');"}
+{"time":"2026-10-24T17:07:06.923Z","line":"return await p.getByRole('button').filter({hasText:'Dayereth: Light'}).getAttribute('title');"}
+{"time":"2026-10-24T17:07:14.300Z","line":"await click('‹ Back'); await click('‹ Back'); return await shot('journey1-recovery');"}
+{"time":"2026-10-24T17:07:31.161Z","line":"await click('The foot of Sigakwinde by Tatharimlad'); await p.waitForTimeout(3500); return await shot('journey1-hills');"}
+{"time":"2026-10-24T17:07:48.975Z","line":"await click('A lone tower'); return await shot('journey1-tower');"}
+{"time":"2026-10-24T17:08:05.908Z","line":"await click('look at the portcullis'); return await shot('journey1-portcullis-options');"}
+{"time":"2026-10-24T17:08:23.764Z","line":"await click(/^Look closely$/); return await shot('journey1-portcullis-look');"}
+{"time":"2026-10-24T17:08:41.376Z","line":"return await p.getByRole('button').filter({hasText:'The bailey'}).evaluateAll(es=>es.map(e=>({text:e.innerText,title:e.title}))); "}
+{"time":"2026-10-24T17:08:49.899Z","line":"await click('look at the portcullis'); await click('Push and pull at it'); return await shot('journey1-portcullis-push');"}
+{"time":"2026-10-24T17:09:09.398Z","line":"await click('Search here'); return await shot('journey1-tower-search');"}
+{"time":"2026-10-24T17:09:28.308Z","line":"await click('look at the portcullis — Listen at it'); return await shot('journey1-portcullis-listen');"}
+{"time":"2026-10-24T17:09:57.654Z","line":"return await p.getByRole('button').filter({hasText:'The crypt under the tower'}).getAttribute('title');"}
+{"time":"2026-10-24T17:10:18.875Z","line":"await click('The foot of Sigakwinde by Tatharimlad'); await click('Make camp for the night'); await click('The ford at Tatharimlad'); await p.waitForTimeout(3000); await click('Seren’s alehouse'); return await shot('journey1-resupply-inn');"}
+{"time":"2026-10-24T17:10:44.259Z","line":"return await shot('journey1-retreat-state');"}
+{"time":"2026-10-24T17:10:54.858Z","line":"await click('alehouse'); return await shot('journey1-resupply-inn');"}
+{"time":"2026-10-24T17:11:22.509Z","line":"await p.getByText('Rolen',{exact:true}).click(); await p.waitForTimeout(1800); await click('Ask what brings'); return await shot('journey1-soldier');"}
+{"time":"2026-10-24T17:11:40.388Z","line":"await click('Ask about the old well'); return await shot('journey1-well-advice');"}
+{"time":"2026-10-24T17:11:58.378Z","line":"await click('Ask to join the company'); await click('Take your leave'); await p.getByText('Seren',{exact:true}).click(); await p.waitForTimeout(1800); return await shot('journey1-lodging');"}
+{"time":"2026-10-24T17:12:40.061Z","line":"return await shot('journey1-recruit-state');"}
+{"time":"2026-10-24T17:12:54.430Z","line":"global.click=async(text)=>{await p.getByRole('button').filter({hasText:text}).first().click({timeout:3000}); await p.waitForTimeout(150); await p.locator('.stage[aria-busy=\"true\"]').waitFor({state:'hidden',timeout:25000}); await p.waitForTimeout(400)}; await click('Take your leave'); return await shot('journey1-return-alehouse');"}
+{"time":"2026-10-24T17:13:09.196Z","line":"await p.getByText('Seren',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey1-seren');"}
+{"time":"2026-10-24T17:13:27.758Z","line":"await click('Ask about the old workings'); return await shot('journey1-deep-lead');"}
+{"time":"2026-10-24T17:13:56.977Z","line":"await click('Take a bench by the fire'); await click('Take your leave'); await click(/^Company$/); await click(/Dayereth.*mage/s); return await shot('journey1-mage-sheet');"}
+{"time":"2026-10-24T17:14:17.362Z","line":"await click(/^Company$/); await click(/Dayereth.*mage/s); return await shot('journey1-mage-sheet');"}
+{"time":"2026-10-24T17:14:32.920Z","line":"return await p.getByRole('button').evaluateAll(es=>es.map(e=>({text:e.innerText,title:e.title}))).then(es=>es.slice(0,12));"}
+{"time":"2026-10-24T17:14:42.490Z","line":"await p.screenshot({path:'/tmp/kyrie-review-2/mage-sheet-selection.png'}); await click(/^Pack$/); await click('Dayereth: Prepare spells'); await click('In place of Drench'); return await shot('journey1-light-prepared');"}
+{"time":"2026-10-24T17:15:05.725Z","line":"await click('The ford at Tatharimlad'); await click('The edge of Ringloew by Tatharimlad'); return await shot('journey1-marsh');"}
+{"time":"2026-10-24T17:15:18.734Z","line":"await click(/^Argentumons/); return await shot('journey1-mine');"}
+{"time":"2026-10-24T17:15:32.801Z","line":"await click('Argentumons'); return await shot('journey1-mine');"}
+{"time":"2026-10-24T17:15:53.814Z","line":"await click('The adit mouth'); return await shot('journey1-adit-dark');"}
+{"time":"2026-10-24T17:16:00.998Z","line":"await click('look at the enchanted object'); return await shot('journey1-enchanted-options');"}
+{"time":"2026-10-24T17:16:07.320Z","line":"await click(/^Look closely$/); return await shot('journey1-trap-examined');"}
+{"time":"2026-10-24T17:16:15.171Z","line":"await click('knock it over with the pole'); return await shot('journey1-trap-sprung');"}
+{"time":"2026-10-24T17:16:26.426Z","line":"await click('The adit'); return await shot('journey1-underground');"}
+{"time":"2026-10-24T17:16:43.561Z","line":"await click('Rolen: light a torch'); return await shot('journey1-lit');"}
+{"time":"2026-10-24T17:17:08.252Z","line":"await click('A Delver’s silver lamp'); return await shot('journey1-lamp');"}
+{"time":"2026-10-24T17:17:16.988Z","line":"await click(/^Take$/); await click('The crossing'); return await shot('journey1-crossing');"}
+{"time":"2026-10-24T17:17:34.775Z","line":"await click('Scattered coins'); return await shot('journey1-coins');"}
+{"time":"2026-10-24T17:17:42.374Z","line":"await click('Gather up the coins'); return await shot('journey1-coins-gathered');"}
+{"time":"2026-10-24T17:17:52.550Z","line":"await click('The head of the winze'); return await shot('journey1-winze');"}
+{"time":"2026-10-24T17:18:14.726Z","line":"await click('A damp notebook'); return await shot('journey1-notebook');"}
+{"time":"2026-10-24T17:18:20.259Z","line":"await click('Unstrap the notebook and read it'); return await shot('journey1-notebook-read');"}
+{"time":"2026-10-24T17:18:50.338Z","line":"await click(/^A torch$/); await click(/^Take$/); await click(/^A coil of rope$/); await click(/^Take$/); return await shot('journey1-tools-collected');"}
+{"time":"2026-10-24T17:19:07.719Z","line":"await click(/^Pack$/); return await shot('journey1-light-inventory');"}
+{"time":"2026-10-24T17:19:25.430Z","line":"await click('‹ Back'); await click('The foot of the winze'); return await shot('journey1-below');"}
+{"time":"2026-10-24T17:19:51.962Z","line":"await click(/^Attack$/); return await shot('journey1-hounds-combat');"}
+{"time":"2026-10-24T17:19:59.789Z","line":"await click('Other abilities'); await click(/^Guard$/); return await shot('journey1-guard-targets');"}
+{"time":"2026-10-24T17:20:19.870Z","line":"await click(/^Dayereth/); return await shot('journey1-guard-applied');"}
+{"time":"2026-10-24T17:20:30.636Z","line":"await click('Call Animal Companion'); return await shot('journey1-animal');"}
+{"time":"2026-10-24T17:20:44.007Z","line":"await click('Cure Light Wounds'); return await shot('journey1-healing-targets');"}
+{"time":"2026-10-24T17:20:51.496Z","line":"await click(/^Rolen/); return await shot('journey1-healed');"}
+{"time":"2026-10-24T17:21:01.045Z","line":"return await p.getByRole('button').filter({hasText:'Dancing Lights'}).getAttribute('title');"}
+{"time":"2026-10-24T17:21:12.878Z","line":"await click('Dancing Lights'); return await shot('journey1-dancing-lights');"}
+{"time":"2026-10-24T17:21:22.119Z","line":"await click('Inspire'); return await shot('journey1-inspire');"}
+{"time":"2026-10-24T17:21:31.142Z","line":"await click('Second Wind'); return await shot('journey1-second-wind');"}
+{"time":"2026-10-24T17:21:38.496Z","line":"await click('Rending bite'); return await shot('journey1-hound-targets');"}
+{"time":"2026-10-24T18:49:01.744Z","line":"await click(/^Feral cave hound 2/); await click('Shoot with the shortbow'); return await shot('journey1-bow-targets');"}
+{"time":"2026-10-24T18:49:20.140Z","line":"await click(/^Feral cave hound 2/); return await shot('journey1-bow-result');"}
+{"time":"2026-10-24T18:49:26.653Z","line":"await click('Scald'); await click(/^Feral cave hound 2/); return await shot('journey1-scald');"}
+{"time":"2026-10-24T18:49:51.433Z","line":"await click('Shoot with the shortbow'); await click(/^Feral cave hound 2/); return await shot('journey1-round3-shot');"}
+{"time":"2026-10-24T18:50:11.698Z","line":"await click('Cold Snap'); await click(/^Feral cave hound 2/); return await shot('journey1-cold-snap');"}
+{"time":"2026-10-24T18:50:26.226Z","line":"await click('Strike with the dagger'); return await shot('journey1-epoca-strike');"}
+{"time":"2026-10-24T18:50:31.552Z","line":"await click('Bite →'); await click('Other abilities'); return await shot('journey1-preparation-options');"}
+{"time":"2026-10-24T18:50:50.349Z","line":"return await p.getByRole('button').filter({hasText:'Prepare Charge'}).getAttribute('title');"}
+{"time":"2026-10-24T18:51:05.521Z","line":"await click('Strike with the battleaxe'); return await shot('journey1-hounds-finale');"}
+{"time":"2026-10-24T18:51:41.759Z","line":"await click(/^Company$/); await click(/Dayereth.*mage/s); return await shot('journey1-postfight-sheet');"}
+{"time":"2026-10-24T18:51:59.492Z","line":"await click('‹ Back'); await click('‹ Back'); await click('The head of the winze'); await click('The crossing'); await click('The adit'); await click('The adit mouth'); await click('Argentumons'); return await shot('journey1-outside-return');"}
+{"time":"2026-10-24T18:52:16.429Z","line":"await click('The edge of Ringloew by Tatharimlad'); await click('The edge of Ringloew by Brethelmasto'); return await shot('journey1-shortcut');"}
+{"time":"2026-10-24T18:52:32.500Z","line":"await click('The market-place of Brethelmasto'); await click('Orym’s herb-shop'); await p.getByText('Orym',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey1-creditor-return');"}
+{"time":"2026-10-24T18:52:45.340Z","line":"await click('Pay what you owe'); return await shot('journey1-debt-paid');"}
+{"time":"2026-10-24T18:52:52.176Z","line":"return await p.getByRole('button').filter({hasText:'Sell a Delver'}).getAttribute('title');"}
+{"time":"2026-10-24T18:53:03.905Z","line":"await click('Sell a Delver'); return await shot('journey1-lamp-sold');"}
+{"time":"2026-10-24T18:53:27.129Z","line":"await click(/^Buy$/); return await shot('journey1-buy-healing');"}
+{"time":"2026-10-24T18:53:48.136Z","line":"await click('Buy'); return await shot('journey1-buy-healing');"}
+{"time":"2026-10-24T18:53:59.486Z","line":"await click('Bandages ·'); await click(/^Pack$/); return await shot('journey1-bandages');"}
+{"time":"2026-10-24T18:54:19.099Z","line":"await click(/^Bandages$/); return await shot('journey1-bandage-options');"}
+{"time":"2026-10-24T18:54:24.531Z","line":"await click('Use on'); return await shot('journey1-bandage-targets');"}
+{"time":"2026-10-24T18:54:33.632Z","line":"await click(/^Dayereth$/); return await shot('journey1-bandaged');"}
+{"time":"2026-10-24T18:54:55.767Z","line":"await click(/^Notes$/); await shot('journey1-notes-complete'); const d=p.waitForEvent('download'); await click('Download a save file'); await (await d).saveAs('/tmp/kyrie-review-2/journey1-save.json'); global.j1=p; global.p=await (await b.newContext({viewport:{width:1440,height:1000}})).newPage(); await p.goto('https://jweissman.github.io/kyrie/'); await click('Begin'); return await shot('journey2-creation');"}
+{"time":"2026-10-24T18:55:28.229Z","line":"return await shot('journey2-creation-ready');"}
+{"time":"2026-10-24T18:55:39.954Z","line":"await p.getByRole('textbox').fill('Ada'); await click(/^Go$/); return await shot('journey2-home-arrival');"}
+{"time":"2026-10-24T18:55:53.746Z","line":"await p.getByRole('button',{name:'Map',exact:true}).waitFor({timeout:30000}); return await shot('journey2-home-ready');"}
+{"time":"2026-10-24T18:56:00.548Z","line":"await click('The landing at Heahfeallan'); return await shot('journey2-landing');"}
+{"time":"2026-10-24T18:56:18.967Z","line":"await p.getByText('Ulric',{exact:true}).click(); await p.waitForTimeout(1500); return await shot('journey2-brother');"}
+{"time":"2026-10-24T18:56:35.119Z","line":"await click('Ask what he means to do'); return await shot('journey2-family-plan');"}
+{"time":"2026-10-24T18:56:44.184Z","line":"await click('Ask to join the company'); return await shot('journey2-brother-joins');"}
+{"time":"2026-10-24T18:56:54.812Z","line":"await click('Ask about the road your father took'); return await shot('journey2-father-route');"}
+{"time":"2026-10-24T18:57:12.577Z","line":"await p.getByText('Nan',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-nan');"}
+{"time":"2026-10-24T18:57:26.511Z","line":"await click('Ask for the news'); return await shot('journey2-news');"}
+{"time":"2026-10-24T18:57:33.515Z","line":"await click('Ask about her work'); return await shot('journey2-work-topic');"}
+{"time":"2026-10-24T18:57:43.054Z","line":"await click('Take your leave'); await p.getByText('Nan',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-news-revisit');"}
+{"time":"2026-10-24T18:58:03.060Z","line":"await click('Take your leave'); await p.locator('li').filter({hasText:/the grey dog, the drover/}).getByRole('button').filter({hasText:'Make much of'}).click(); await p.waitForTimeout(2000); return await shot('journey2-grey-dog');"}
+{"time":"2026-10-24T18:58:21.673Z","line":"await click('The road between Heahfeallan and Zinburg'); return await shot('journey2-road');"}
+{"time":"2026-10-24T18:58:32.148Z","line":"await click('Search here'); return await shot('journey2-ruts-searched');"}
+{"time":"2026-10-24T18:58:43.477Z","line":"await click('Talk to Ulric'); return await shot('journey2-grief');"}
+{"time":"2026-10-24T18:58:53.934Z","line":"await click('Tell what you found'); return await shot('journey2-tell-brother');"}
+{"time":"2026-10-24T18:59:08.177Z","line":"await click('A drover’s knife'); return await shot('journey2-knife');"}
+{"time":"2026-10-24T18:59:14.811Z","line":"await click(/^Take$/); return await shot('journey2-knife-taken');"}
+{"time":"2026-10-24T18:59:29.513Z","line":"await click('Talk to Cuthbert'); return await shot('journey2-road-witness');"}
+{"time":"2026-10-24T18:59:38.939Z","line":"await click('Ask about the country off the road'); return await shot('journey2-country-advice');"}
+{"time":"2026-10-24T18:59:51.823Z","line":"await click('Take your leave'); await click(/^Notes$/); return await shot('journey2-notes');"}
+{"time":"2026-10-24T19:00:12.842Z","line":"await click('‹ Back'); await click('← The landing at Heahfeallan'); await click('The taproom of the Shadowy Ship'); return await shot('journey2-mother-inn');"}
+{"time":"2026-10-24T19:00:30.837Z","line":"await p.getByText('Asher',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-mother');"}
+{"time":"2026-10-24T19:00:47.342Z","line":"await click('Tell your mother what you found'); return await shot('journey2-homecoming');"}
+{"time":"2026-10-24T19:00:58.806Z","line":"await click('Show her husband’s knife'); return await shot('journey2-knife-returned');"}
+{"time":"2026-10-24T19:01:20.638Z","line":"await click('Take your leave'); await p.getByText('Jade',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-scholar');"}
+{"time":"2026-10-24T19:02:21.243Z","line":"await click('Ask what brings'); await click('Ask to join the company'); return await shot('journey2-scholar-joined');"}
+{"time":"2026-10-24T19:02:42.095Z","line":"await click('Ask about the old script'); return await shot('journey2-old-script');"}
+{"time":"2026-10-24T19:03:00.707Z","line":"await click('Take your leave'); await p.getByText('Zharash',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-inn-rumors');"}
+{"time":"2026-10-24T19:03:15.878Z","line":"await click('Ask about the singing halls'); return await shot('journey2-halls-lead');"}
+{"time":"2026-10-24T19:03:42.666Z","line":"await click('Take your leave'); await click(/^Map$/); await p.evaluate(()=>window.scrollTo(0,0)); return await shot('journey2-map');"}
+{"time":"2026-10-24T19:04:08.228Z","line":"await click('Back to where you are'); await click('The landing at Heahfeallan'); await click('The wright’s yard'); return await shot('journey2-wright');"}
+{"time":"2026-10-24T19:04:27.058Z","line":"await p.getByText('Emmot',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-wright-talk');"}
+{"time":"2026-10-24T19:04:50.292Z","line":"await click('Take your leave'); await click('The landing at Heahfeallan'); await click('The edge of Deopwudu by Heahfeallan'); return await shot('journey2-woods-edge');"}
+{"time":"2026-10-24T19:05:06.251Z","line":"await click('The old bank'); return await shot('journey2-old-bank');"}
+{"time":"2026-10-24T19:05:26.188Z","line":"await click('The edge of Deopwudu by Guldhricg'); return await shot('journey2-hall-track');"}
+{"time":"2026-10-24T19:05:47.674Z","line":"await click('Make camp for the night'); await click('Carmencaw'); return await shot('journey2-carmencaw');"}
+{"time":"2026-10-24T19:06:04.556Z","line":"await click('The mouth of the hall'); return await shot('journey2-hall-mouth');"}
+{"time":"2026-10-24T19:06:13.419Z","line":"await click('look at the hidden switch'); await click(/^Look closely$/); return await shot('journey2-switch-look');"}
+{"time":"2026-10-24T19:06:37.642Z","line":"await click('push the switch in with the pole'); await click('The hall of doors'); return await shot('journey2-hall-dark');"}
+{"time":"2026-10-24T19:06:54.728Z","line":"await click('Ada: light a torch'); return await shot('journey2-hall-lit');"}
+{"time":"2026-10-24T19:07:06.762Z","line":"await click('The listening-room'); return await shot('journey2-listening-room');"}
+{"time":"2026-10-24T19:07:25.784Z","line":"await click('The hall of doors'); await click('The echoing gallery'); return await shot('journey2-echoing-gallery');"}
+{"time":"2026-10-24T19:07:41.171Z","line":"await click('A cantor’s token'); return await shot('journey2-token');"}
+{"time":"2026-10-24T19:07:55.162Z","line":"await click(/^Take$/); await click('The head of the stair'); return await shot('journey2-stair-head');"}
+{"time":"2026-10-24T19:08:10.955Z","line":"await click('The pivot-door'); return await shot('journey2-pivot-inspect');"}
+{"time":"2026-10-24T19:08:24.688Z","line":"await click('Lift the settled door off its stone with a bar'); return await shot('journey2-door-lifted');"}
+{"time":"2026-10-24T19:08:38.914Z","line":"await click('Turn back to the head'); await click('The foot of the stair'); return await shot('journey2-lower-halls');"}
+{"time":"2026-10-24T19:09:02.339Z","line":"await click('The choir'); return await shot('journey2-choir');"}
+{"time":"2026-10-24T19:09:25.643Z","line":"return await p.getByRole('button').filter({hasText:'Flee'}).getAttribute('title');"}
+{"time":"2026-10-24T19:09:32.680Z","line":"await click('Flee'); return await shot('journey2-flee');"}
+{"time":"2026-10-24T19:09:50.851Z","line":"await click('Flee'); return await shot('journey2-withdrawn');"}
+{"time":"2026-10-24T19:10:13.463Z","line":"await click('Flee'); return await shot('journey2-retreat-result');"}
+{"time":"2026-10-24T19:10:34.046Z","line":"await click(/^Company$/); await click(/Jade.*mage/s); return await shot('journey2-injured-sheet');"}
+{"time":"2026-10-24T19:11:14.560Z","line":"await click(/^Notes$/); const d=p.waitForEvent('download'); await click('Download a save file'); await (await d).saveAs('/tmp/kyrie-review-2/journey2-save.json'); await shot('journey2-before-resume'); await click('Back to the title'); return await shot('journey2-title-for-resume');"}
+{"time":"2026-10-24T19:11:31.889Z","line":"await p.locator('input[type=file]').setInputFiles('/tmp/kyrie-review-2/journey2-save.json'); await p.getByRole('button',{name:'Map',exact:true}).waitFor({timeout:30000}); return await shot('journey2-restored');"}
+{"time":"2026-10-24T19:12:03.634Z","line":"await click('The head of the stair'); await click('The echoing gallery'); await click('The hall of doors'); await click('The mouth of the hall'); await click('Carmencaw'); await click('The edge of Deopwudu by Guldhricg'); await click('The ford at Guldhricg'); return await shot('journey2-retreat-town');"}
+{"time":"2026-10-24T19:12:56.089Z","line":"await p.getByText('Ghokarn',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-smith-resupply');"}
+{"time":"2026-10-24T19:13:21.082Z","line":"await click('Buy'); return await shot('journey2-smith-buy');"}
+{"time":"2026-10-24T19:13:28.811Z","line":"await click('A torch ·'); await click('Take your leave'); await p.getByText('Kestrel',{exact:true}).click(); await p.waitForTimeout(1200); return await shot('journey2-shrine-care');"}
+{"time":"2026-10-24T19:13:44.094Z","line":"await click('Ask for the shrine’s care'); await click('Take your leave'); return await shot('journey2-resupplied');"}
+{"time":"2026-10-24T19:14:26.835Z","line":"await click(/^Pack$/); await shot('journey2-spare-light-proof'); await click(/^Story$/); await shot('journey2-story'); fs.writeFileSync('/tmp/kyrie-review-2/journey2-story.txt',await p.locator('body').innerText()); global.j2=p; global.p=j1; await click(/^Story$/); fs.writeFileSync('/tmp/kyrie-review-2/journey1-story.txt',await p.locator('body').innerText()); global.p=j2; return 'Review evidence saved';"}
+{"time":"2026-10-24T19:15:39.778Z","line":"await click(/^Notes$/); const d=p.waitForEvent('download'); await click('Download a save file'); await (await d).saveAs('/tmp/kyrie-review-2/journey2-final-save.json'); return await shot('journey2-final-notes');"}
+{"time":"2026-10-24T19:16:27.156Z","line":"global.spot=await (await b.newContext({viewport:{width:1440,height:1000}})).newPage(); spot.on('response',async r=>{if(r.url().endsWith('/mono.js')) fs.writeFileSync('/tmp/kyrie-review-2/spot-browser-bundle.headers.json',JSON.stringify(await r.allHeaders(),null,2))}); global.p=spot; await p.goto('https://jweissman.github.io/kyrie/'); await p.locator('input[type=file]').waitFor({state:'attached',timeout:30000}); await p.locator('input[type=file]').setInputFiles('/tmp/kyrie-review-2/journey2-final-save.json'); await p.getByRole('button',{name:'Map',exact:true}).waitFor({timeout:30000}); await shot('spot-aa06-restored'); await click(/^Company$/); await click(/Jade.*mage/s); return await shot('spot-aa06-mage-sheet');"}
+{"time":"2026-10-24T19:17:26.946Z","line":"return await shot('spot-aa06-load-state');"}
+{"time":"2026-10-24T19:17:59.787Z","line":"await p.locator('input[type=file]').setInputFiles('/tmp/kyrie-review-2/journey2-save.json'); await p.waitForTimeout(2500); return await shot('spot-aa06-earlier-save');"}

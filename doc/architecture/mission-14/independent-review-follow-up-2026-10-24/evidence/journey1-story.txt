@@ -1,0 +1,274 @@
+‹ Back
+
+The story so far
+ORYM'S HERB-SHOP
+
+TALK TO ORYM
+
+You carry out the action.
+
+YOU ASK ORYM FOR FIVE DAYS MORE.
+
+Orym looks at you for a long moment. 'Five days,' he says. 'And five coin more, for the asking.'
+
+YOU TAKE YOUR LEAVE OF ORYM.
+
+You carry out the action.
+
+THE MARKET-PLACE OF BRETHELMASTO
+THE TAPROOM OF THE WEEPING WILLOW
+
+TALK TO THAMIOR
+
+You carry out the action.
+
+YOU ASK THAMIOR ABOUT THE LIGHT IN A LONE TOWER.
+
+Thamior tells you what they have heard about the light in a lone tower.
+
+YOU TAKE YOUR LEAVE OF THAMIOR.
+
+You carry out the action.
+
+TALK TO EPONA
+
+You carry out the action.
+
+YOU ASK EPONA WHAT BRINGS HER TO BRETHELMASTO.
+
+'Playing for my supper. The suppers have been thin, this side of the hills.' Epona looks you over. 'If you are going anywhere, I would come along. 3 coin, and my keep.'
+
+YOU ASK EPONA TO JOIN THE COMPANY.
+
+You carry out the action.
+
+YOU ASK EPONA FOR A SONG OF THIS COUNTRY.
+
+'There is only one song anybody here asks for.' Epona sings it low, so as not to wake the house: how the kingdom of Stāncepan rose on what the old makers left, where the power lay with merchant-princes who grew rich on the river trade, and how it fell to a plague that came up the river in a wool-ship and left whole villages empty. 'It is longer,' Epona says, 'but that is the bone of it.'
+
+THE MARKET-PLACE OF BRETHELMASTO
+THE EDGE OF EREGTAUR BY BRETHELMASTO
+THE FORD OF THE NÛRRANT
+
+The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'
+
+TALK TO THE TOLL-REEVE
+
+You carry out the action.
+
+YOU PAY THE LORD'S TOLL, THREE COIN.
+
+The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.
+
+YOU TAKE YOUR LEAVE OF THE TOLL-REEVE.
+
+You carry out the action.
+
+THE FORD AT TATHARIMLAD
+
+'Tatharimlad,' says Epona, and stands a moment where the track comes in. 'Smaller than it was.'
+
+Veyas looks up from the offerings and goes still, then laughs. 'Epona. The god has a sense of humour.' There is a blessing for the company, and bread from the offerings for the road.
+
+TALK TO DAYERETH
+
+You carry out the action.
+
+YOU ASK DAYERETH WHAT THE ONE IS.
+
+'There is one thing,' says Dayereth, 'and it does not change. The river, the hill, you and I and the dead: one thing, seen in pieces by eyes that see in pieces. What seems to end does not end. Nothing is lost, because nothing is apart.' The crowd murmurs; some of them nod.
+
+YOU TELL DAYERETH OF THE KINGDOM THAT CAME AFTER THE MAKERS, AND HOW IT FELL.
+
+You tell Dayereth of the kingdom that came after the makers, what it was and how it fell, with the names in it. 'Twice, then,' Dayereth says. 'Twice in this one country, a whole people ended.' Dayereth looks round at the town as if seeing it for the first time. 'I was wrong. Let me come with you, and see what else ends.'
+
+Epona makes the lore check (d20 20 + intelligence 2 + lore 2 = 24 against 13).
+
+Mira and Epona each gain 150 experience: the disputation on the green: The disputation on the green, seen through.
+
+Dayereth no longer teaches the One: things end, Dayereth tells whoever will listen, and the end of them is not seeming.
+
+YOU ASK DAYERETH TO JOIN THE COMPANY.
+
+You carry out the action.
+
+THE FOOT OF SIGAKWINDE BY TATHARIMLAD
+ROSATURRIS
+
+'Somebody should make a song about that place,' says Epona. 'Somebody probably did, and it was sad.'
+
+YOU LOOK CLOSELY.
+
+You look closely at the portcullis. Nothing comes of it.
+
+YOU PUSH AND PULL AT IT.
+
+You push at the portcullis, then pull. Nothing comes of it.
+
+YOU SEARCH ROSATURRIS.
+
+You search Rosaturris with care, a little at a time. You find nothing out of the ordinary.
+
+INTO THE BAILEY — LOOK AT THE PORTCULLIS — LISTEN AT IT
+
+You put an ear to the portcullis, and hold your breath. Nothing comes of it.
+
+THE FOOT OF SIGAKWINDE BY TATHARIMLAD
+THE FORD AT TATHARIMLAD
+SEREN'S ALEHOUSE
+
+TALK TO ROLEN
+
+You carry out the action.
+
+YOU ASK ROLEN WHAT BRINGS HER TO TATHARIMLAD.
+
+'My company was paid off at midsummer. I have a sword, a bad knee and no reason to be anywhere.' Rolen looks you over. 'If you are going anywhere, I would come along. 6 coin, and my keep.'
+
+YOU ASK ROLEN ABOUT THE OLD WELL AT ROSATURRIS.
+
+Rolen tells you what they have heard about the old well at Rosaturris.
+
+YOU ASK ROLEN TO JOIN THE COMPANY.
+
+You carry out the action.
+
+TALK TO SEREN
+
+You carry out the action.
+
+YOU ASK SEREN ABOUT THE OLD WORKINGS.
+
+'The Delvers' mine at Argentumons? There is still ore down there, they say, the pale kind. Nobody goes below the first level. The cage hangs in the shaft and the wheel will not turn.' Seren wipes the counter. 'It is out in Ringloew. Go in daylight, and take more light than you think.'
+
+YOU TAKE A BENCH BY THE FIRE FROM SEREN.
+
+You eat what is put in front of you, and sleep long, under a roof.
+
+The talk is all of the company's diggers, who went up to Argentumons at first light: five of them, with picks and shovels and a handcart, to bring out what the company says is its own.
+
+Carric Siannodel the messenger is already at the door, the satchel on, eating as he goes.
+
+Leshanna Amakiir the pilgrim stands in the door with a staff, looking at the sky to see what the day will be.
+
+HAVE DAYERETH PREPARE LIGHT IN PLACE OF DRENCH, IN A FIRST-LEVEL SLOT
+
+Dayereth spends an hour over Light.
+
+Dayereth: Light is ready.
+
+THE FORD AT TATHARIMLAD
+THE EDGE OF RINGLOEW BY TATHARIMLAD
+ARGENTUMONS
+
+Rolen looks at it the way a soldier looks at a wall: where it would break, and who would be standing there when it did.
+
+THE ADIT MOUTH
+
+YOU LOOK CLOSELY.
+
+You look closely at the enchanted object.
+
+The thing is set exactly where anyone going through must brush against it. Whatever is in it wants touching; it would go off for a stick as well as a hand.
+
+TO THE ADIT — KNOCK IT OVER WITH THE POLE, FROM WELL BACK
+
+The enchanted object has gone off, and is spent.
+
+An aura of necrotic energy radiates.
+
+THE ADIT
+
+YOU LIGHT A TORCH.
+
+Rolen lights a torch.
+
+A gallery runs on into the hill, dry and cold, the props on either hand furred with white mould. Somewhere ahead water drips into water.
+
+The enchanted object has gone off, and is spent.
+
+YOU COLLECT A DELVER'S SILVER LAMP FOR EPONA.
+
+Epona takes a Delver's silver lamp.
+
+THE CROSSING
+
+GATHER UP THE COINS
+
+Nothing is left in the dust but the shape of a purse.
+
+32 coin, all told, most of it old and some of it good.
+
+THE HEAD OF THE WINZE
+
+UNSTRAP THE NOTEBOOK AND READ IT
+
+A damp notebook, the last pages written small to save them. 'The cage is at the bottom and the wheel will not turn: rusted. Brann says a bar under the axle would free it, if we had brought one. The ladders in the winze are sound as far as we went. Something lives in the props by the adit; it bit Edda.'
+
+The notebook lies open by the dead fire where you left it.
+
+YOU COLLECT A TORCH FOR DAYERETH.
+
+Dayereth takes a torch.
+
+YOU COLLECT A COIL OF ROPE FOR ROLEN.
+
+Rolen takes a coil of rope.
+
+THE FOOT OF THE WINZE
+
+The cave hounds stand their ground and watch you. They will not have you here for long.
+
+YOU ATTACK THE CAVE HOUNDS.
+
+The second of the cave hounds takes 2 cold damage (0 HP left).
+
+The second of the cave hounds falls.
+
+Rolen hits the first of the cave hounds.
+
+The first of the cave hounds takes 6 slashing damage (0 HP left).
+
+The first of the cave hounds falls.
+
+Your company wins the encounter.
+
+Mira, Epona, Dayereth and Rolen each gain 241 experience.
+
+THE HEAD OF THE WINZE
+THE CROSSING
+THE ADIT
+THE ADIT MOUTH
+ARGENTUMONS
+THE EDGE OF RINGLOEW BY TATHARIMLAD
+THE EDGE OF RINGLOEW BY BRETHELMASTO
+THE MARKET-PLACE OF BRETHELMASTO
+ORYM'S HERB-SHOP
+
+TALK TO ORYM
+
+You carry out the action.
+
+YOU PAY ORYM WHAT YOU OWE.
+
+Orym counts it twice, and sweeps it into the drawer. 'We're square,' he says, and for the first time he smiles. 'I didn't think you would.'
+
+YOU SELL A DELVER'S SILVER LAMP TO ORYM.
+
+Orym turns a Delver's silver lamp over in the light, names a price, and counts out the coin.
+
+Mira, Epona, Dayereth and Rolen each gain 120 experience.
+
+YOU BUY BANDAGES FOR EPONA.
+
+Epona pays Orym, and takes bandages.
+
+YOU USE BANDAGES ON DAYERETH.
+
+Dayereth recovers 1 HP (4 HP).
+
+Map
+Notes
+Pack
+Company
+Story

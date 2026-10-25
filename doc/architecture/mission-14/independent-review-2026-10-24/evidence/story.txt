@@ -1,0 +1,246 @@
+‹ Back
+
+The story so far
+THE SHRINE OF LUGH
+
+TALK TO BROTTOR
+
+You carry out the action.
+
+YOU GIVE BROTTOR THE BROTHERS' LETTER.
+
+Brottor reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' Brottor says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for Stanumons: it is out in Muzghar, and I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight.'
+
+YOU TAKE YOUR LEAVE OF BROTTOR.
+
+You carry out the action.
+
+YOU LOOK CLOSELY AT THE ALTAR OF LUGH.
+
+You look closely at the altar of Lugh. Nothing comes of it.
+
+YOU LEAVE AN OFFERING, AND ASK THE GOD'S FAVOUR FOR WENNA.
+
+You leave 3 coin at the altar of Lugh and keep the observance.
+
+Wenna goes out with the favour of light.
+
+THE MARKET-PLACE OF BARAZNOF
+
+TALK TO DAGNY
+
+You carry out the action.
+
+YOU ASK DAGNY ABOUT HER WORK.
+
+'Knives ground, pots mended, and no questions,' says Dagny. 'I ask the questions.'
+
+YOU ASK DAGNY ABOUT HER WORK.
+
+'Knives ground, pots mended, and no questions,' says Dagny. 'I ask the questions.'
+
+YOU TAKE YOUR LEAVE OF DAGNY.
+
+You carry out the action.
+
+THE TAPROOM OF THE GENTLE SHIELD
+
+TALK TO GIMGEN
+
+You carry out the action.
+
+YOU ASK GIMGEN ABOUT THE OLD WORKINGS.
+
+'The Delvers' mine at Profundusmons? There is still ore down there, they say, the pale kind. Nobody goes below the first level. The cage hangs in the shaft and the wheel will not turn.' Gimgen wipes the counter. 'It is out in Ebarukayaar. Go in daylight, and take more light than you think.'
+
+YOU BUY ONE RATION FROM GIMGEN.
+
+Gimgen counts the coins and hands over a ration.
+
+YOU TAKE YOUR LEAVE OF GIMGEN.
+
+You carry out the action.
+
+TALK TO GIMBLE
+
+You carry out the action.
+
+YOU ASK GIMBLE WHAT BRINGS HER TO BARAZNOF.
+
+'I walk from shrine to shrine. The gods have not said where to stop.' Gimble looks you over. 'If you are going anywhere, I would come along. 3 coin, and my keep.'
+
+YOU ASK GIMBLE TO JOIN THE COMPANY.
+
+You carry out the action.
+
+YOU ASK GIMBLE ABOUT HOME.
+
+'Over at Barzelavor. Hawk is there, my godparent, and keeps the wayside shrine of Lugh there. The rest went away, or into the ground.'
+
+YOU ASK GIMBLE ABOUT THE GODS OF THIS COUNTRY.
+
+'This country keeps Lugh, mostly: Lord of Light. But every shrine keeps its own god too, and they do not all agree with one another.' Gimble speaks more quietly. 'The oldest holy place is not a shrine at all. Leohtcnyll, in Sataretz. Folk say it was holy before there were folk.'
+
+THE MARKET-PLACE OF BARAZNOF
+THE ROAD BETWEEN BARAZNOF AND GOTHNEKUDA
+
+GATHER A WAD OF SPHAGNUM MOSS FOR GIMBLE
+
+Gimble gathers a wad of sphagnum moss.
+
+THE GATE-YARD OF GOTHNEKUDA
+
+TALK TO THE PRIOR
+
+You carry out the action.
+
+YOU ASK THE PRIOR ABOUT THE OLD WORKINGS.
+
+'The brothers of Ísenheald kept that place once, and blessed it, and could not keep what was in it down,' says the prior. 'What the makers died for should not be sold in a market or carried before a lord. Bring the heart of the vein to us and it will be put where it can do no more harm. We are not rich; we can give 1000 coin, which is all the house has. If no one will go, the brothers will go themselves.'
+
+YOU ASK THE PRIOR FOR SOMETHING TO GO DOWN WITH.
+
+The prior gives you ten coin out of a box with a broken lock. 'For light. It comes off what the house can give you after.'
+
+YOU TAKE YOUR LEAVE OF THE PRIOR.
+
+You carry out the action.
+
+THE TOP OF THE LETZAMTZEMAVOR
+
+Pikes come down across the road. 'Toll,' says the sergeant, not getting up. 'Six coin, the lot of you. There's a war on.'
+
+TALK TO SERGEANT MAWR
+
+You carry out the action.
+
+YOU PAY THE DESERTERS' TOLL, SIX COIN.
+
+The sergeant bites a coin, spits, and waves you through. 'Mind how you go.'
+
+YOU TAKE YOUR LEAVE OF SERGEANT MAWR.
+
+You carry out the action.
+
+THE FOOT OF MUZGHAR BY MUZGGIBA
+
+YOU MAKE CAMP AT THE FOOT OF MUZGHAR BY MUZGGIBA.
+
+You find what shelter there is, and sleep as well as you can, with one ear open.
+
+The sun is warm, and the shadows are short.
+
+THE CRAG
+
+YOU CLIMB THE CRAG AND LOOK OUT OVER MUZGHAR.
+
+You know the lie of Muzghar: its paths, its water, and which way the edges lie.
+
+From the top of the crag the whole of Muzghar is laid out: the paths, the becks, the folds, and the valley road below.
+
+You know the way up now, and what can be seen from the top.
+
+THE TARN
+STANUMONS
+
+'Whoever made that prayed to something,' says Gimble. 'I would like to know what.'
+
+YOU READ THE LETTERS ON THE LINTEL BEAM.
+
+STANNUMMONS, the beam says, “tin mountain”; the hammer and the star were the Delvers' mark on whatever they claimed.
+
+INTO STANUMONS — PRESS THE WORD “SHIRT” (THE SPEAKING DOOR)
+
+The word sinks into the stone under your finger. Something deep in the door turns over, like a sleeper, and the whole slab swings on a pivot you could not see, and the way in is open.
+
+The stone door stands turned on its pivot, and the way in is open.
+
+THE ADIT GALLERY
+
+YOU LIGHT A TORCH.
+
+Wenna lights a torch.
+
+Rails of iron, black and flaking, run back into the hill on sleepers of oak. The walls are cut square and smooth; the Delvers did not hurry.
+
+Later miners worked the upper galleries for tin, and their rough pit-props stand among the Delvers' oak: the kingdom of Ísenheald took what it could reach. A crowbar lies where one of them left it.
+
+The stone door stands turned on its pivot, and the way in is open.
+
+YOU COLLECT A MINER'S CROWBAR FOR WENNA.
+
+Wenna takes a miner's crowbar.
+
+THE LIFT-HEAD
+
+TO THE FOOT OF THE SHAFT — BREAK THE RUST OFF THE WHEEL AND WIND THE LIFT-CAGE UP
+
+The lift-cage rides the shaft on its chains, groaning, the counterweight going up as it goes down.
+
+THE FOOT OF THE SHAFT
+THE DRESSING-HALL
+
+YOU READ THE TALLY ON THE WALL.
+
+The way to a great pit in the fellside with a wheel over it: to the foot of Muzghar by Muzggiba, and on to the crag, then the tarn, where the track to it starts. Before the folk came, the Delvers held this country. They followed the veins of a pale ore they called star-iron into the roots of the fells, timbered their galleries with oak that has not rotted yet, and raised their ore in iron cages on counterweights. They held that the earth's heart is a forge, and that whoever goes deep enough may stand beside the smith. How the Delvers ended: The star-iron gave out, and they turned on one another for what was left; the galleries fell silent in a single winter.
+
+They followed the veins of a pale ore they called star-iron into the roots of the fells, timbered their galleries with oak that has not rotted yet, and raised their ore in iron cages on counterweights.
+
+The star-iron gave out, and they turned on one another for what was left; the galleries fell silent in a single winter.
+
+With the story of the Delvers whole, one thing in it stands out that no single stone says: where they went at the end. Every inscription that speaks of it points the same way, to Muzghar.
+
+A tally of star-iron, cart by cart, for a hundred years; then a gap; then, cut deep and crooked: WE HAVE SHUT IT IN. DO NOT LET IT OUT.
+
+THE END OF THE LAST GALLERY
+
+YOU SEARCH THE END OF THE LAST GALLERY.
+
+Your light gives out, and there is no going on with it in the dark.
+
+Wenna's torch gutters out.
+
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+THE DRESSING-HALL
+THE FOOT OF THE SHAFT
+THE LIFT-HEAD
+THE ADIT GALLERY
+STANUMONS
+THE TARN
+THE CRAG
+THE FOOT OF MUZGHAR BY MUZGGIBA
+
+YOU MAKE CAMP AT THE FOOT OF MUZGHAR BY MUZGGIBA.
+
+You find what shelter there is, and sleep as well as you can, with one ear open.
+
+The sun is warm, and the shadows are short.
+
+THE TOP OF THE LETZAMTZEMAVOR
+
+Pikes come down across the road. 'Toll,' says the sergeant, not getting up. 'Six coin, the lot of you. There's a war on.'
+
+TALK TO SERGEANT MAWR
+
+You carry out the action.
+
+YOU ATTACK SERGEANT MAWR.
+
+Sergeant Mawr falls.
+
+Your company wins the encounter.
+
+Wenna and Gimble each gain 47 experience.
+
+Wenna and Gimble each gain 300 experience.
+
+YOU TAKE YOUR LEAVE OF SERGEANT MAWR.
+
+You carry out the action.
+
+Map
+Notes
+Pack
+Company
+Story

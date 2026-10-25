@@ -40,7 +40,7 @@ export default defineConfig([
       curly: ['error', 'all'],
       'max-lines-per-function': [
         'error',
-        { max: 120, skipBlankLines: true, skipComments: true, IIFEs: true },
+        { max: 60, skipBlankLines: true, skipComments: true, IIFEs: true },
       ],
       '@stylistic/max-len': [
         'error',
@@ -55,7 +55,7 @@ export default defineConfig([
       'max-lines': [
         'error',
         {
-          max: 500,
+          max: 400,
           skipBlankLines: true,
           skipComments: true,
         },
