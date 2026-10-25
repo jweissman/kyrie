@@ -734,8 +734,10 @@ excursion. It ranks twelve findings. I repaired these:
   of Kyr's own, held only against what it drew out). In a1's bone hall the ghouls of the long gallery come out to a
   lone cleric, who strikes first and still falls.
 - **A notebook read was taken from view** (its tenth, in part): what is looked at stays in view when nothing more
-  can be done with it, until it is turned away from (`test/thing-kept.test.ts`). Tending a wound from the pack still
-  goes back to the conversation it was opened over.
+  can be done with it, until it is turned away from (`test/thing-kept.test.ts`). And what is done from the pack or
+  the company page in the middle of a conversation is not said in it: the bandaging was told in the creditor's
+  dialogue, and the company was put back there; it goes back to the place, where it is told, and whoever was being
+  spoken with is still there to be turned to (the reader's browser test).
 - **An artifact offered nothing but Take, though its kind is described** (its twelfth, in part): a thing to be had is
   seen, looked at, in its kind's own words (`test/thing-described.test.ts`). The rest of that finding, repeated
   plants and journeys and a finished family that leaves nothing to ask, is not done.

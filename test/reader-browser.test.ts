@@ -68,6 +68,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
       expect((await d.inspect()).selected).not.toBe(before);
       expect(await Reading.hover(page)).toBe(0);
     }
+    // Something done from the pack in the middle of a conversation is not said in it: the follow-up review tended a
+    // wound from the pack and was put back in the creditor's dialogue with the bandaging told there.
+    expect((await d.inspect()).mode).toBe('talk');
+    await d.mode('i');
+    await d.choose('A torch', 'Light');
+    expect([(await d.inspect()).mode, (await d.inspect()).talk]).toEqual(['explore', []]);
     // Across country to the causeway; the map shows where the company is.
     await d.go('causeway');
     expect((await d.inspect()).place?.id).toBe('march__causeway');

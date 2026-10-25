@@ -160,7 +160,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     try {
       const next = await this.engine.request<Frame>({ kind: 'perform', command: choice.command!, said,
         move: choice.tone === 'way', named: choice.tone !== 'way' });
-      const attention = Conversation.holds(turning ?? this.state.attention, frame, next);
+      // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
+      // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
+      const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
+      const attention = aside ? Conversation.place : Conversation.holds(turning ?? this.state.attention, frame, next);
       const person = attention.kind === 'person';
       const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
       this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next, attention), hovered: undefined,

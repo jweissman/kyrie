@@ -8,6 +8,7 @@ export interface MonoInspection {
   choices: ChoiceShape[]; selected?: string; trail: string[];
   combat?: { ours: boolean; outcome: string | null; actorName: string; foes: { name: string; hp: number }[] };
   log: { title: string; lines: string[] }[]; party?: { name: string; hp: number }[]; pending: boolean; error: string;
+  talk?: { kind: string; text: string }[];
 }
 
 // Drives the Mono client through the keyboard (and optionally the pointer) using semantic ids and labels. It never
