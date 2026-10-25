@@ -1,4 +1,4 @@
-import type { Catalog, CompanyView, Frame, Member, Setting } from '../engine/protocol';
+import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
@@ -88,6 +88,12 @@ export class ReaderOpening {
     const starting = this.starting();
     this.app.setState({ phase: 'loading', stage: 'Setting out', error: '' });
     clearTimeout(this.readyTimer);
+    await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting }), 'company');
+  }
+  // Automation (kyrieMono.begin): set out with exactly this company, as Begin would, so a kept journey can be played
+  // again in the browser in the world it was recorded in.
+  async setOutWith(starting: Omit<Extract<Request, { kind: 'begin' }>, 'kind'>) {
+    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '' });
     await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting }), 'company');
   }
   async resume(text: string, world?: string) {

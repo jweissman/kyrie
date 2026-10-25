@@ -135,6 +135,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       talk: attention.kind !== 'person' ? this.state.talk : doing ? [{ kind: 'telling', text: doing }] : [], asked: [] });
     if (choice.command) { void this.perform(choice, choice.label, attention); }
   }
+  // Automation (kyrieMono.act): a command done by its id, as choosing it would, and timed as a choice is.
+  readonly act = (command: string, said: string) => {
+    if (this.state.pending || !this.state.frame) { return; }
+    Timings.chosen(said);
+    void this.perform({ id: command, label: said, command } as unknown as Choice, said);
+  };
   // Let the companion whose turn it is fight this turn on their own.
   readonly auto = () => {
     if (!this.state.frame?.combat?.ours || this.state.pending) { return; }
