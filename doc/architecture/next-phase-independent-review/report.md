@@ -682,3 +682,55 @@ authored and generated material. It is four documents in [`phase-2/`](phase-2/):
 (contributes, attaches, heard of, owns, exports, preserves, world may change), an append-only, traced, content-hashed
 plan generalising the kit ledger, the scenario hooks and the frontier, and installation inside the commands that bring
 the company to each contribution.
+
+---
+
+## 13. Phase III: adversarial critique of Phases I and II
+
+Phase III re-read both earlier phases looking for weaknesses, and ran three new probes on the same snapshot. The
+probes are in `phase-3/probes/`, each with its output beside it.
+
+1. **Two institutions** (`two-institutions.probe.ts`).
+   - An academy and a tower, neither naming the other, written against the shared rules plus a five-line shared `lore` vocabulary file.
+   - With both installed, the academy's rule found the tower's circle as the keeper of a forbidden codex. Its ambition advanced in stages and spent 15 gold. A companion-to-be (Ferrand) then had a new topic about the result.
+   - The live, restored and replayed games had equal fact hashes.
+   - With the academy alone, nothing happened.
+2. **Companion reaction** (`companion-reaction.probe.ts`).
+   - The tower adds a back stair onto the academy's *exported* stair without editing it.
+   - Reading the codex teaches a fact the tower marked `forbidden`. Ferrand's author wrote only "when the company knows something forbidden", and Ferrand's line was offered and spoken.
+   - **But** a `{?f}` in that line printed literally as "?f", accepted by the compiler; I did not run lint on it (`phase-3/probes/companion-name-variant.out`). The companion can react to another author's content but cannot name it.
+3. **Frontier identity** (code-path verified).
+   - `Frontier.drawn` keys the country beyond on what is already installed: `exclude: placed(installed)`, `taken: works(campaign)`, `named` (`src/world/frontier.ts:77-78`).
+   - So the same seed draws a different x1y0 depending on the route taken to it. Replay stays deterministic, but **the world is path-dependent**.
+
+### Revisions to my own conclusions
+
+| earlier claim | revision | why |
+|---|---|---|
+| Phase I C2: a module's actions should range over its own scope by default (*must fix*) | **Downgraded to "should fix", and narrowed** to a lint warning for unconstrained *player-offered* actions, plus disambiguating identical wordings. No scope by default. | Probe 1: world-wide rule reach *is* the mechanism of cross-campaign interaction. Scoping it by default would forbid the very thing the shared world wants. The defect is two identical labels, and an unconstrained offered action; not reach as such. |
+| Phase II C §2: strategic actors need public faces, stratagems, horizon scheduling and `worldMay` | **Not needed for a first strategic slice.** Rules, `ambitions.kyr` and a shared vocabulary file work today (probe 1). The missing piece is **information discipline**. | The academy learned of the tower *instantly*: rules read the world as an omniscient narrator would. Making actors act on claims carried by channels is the requirement; a strategic layer is not. |
+| Phase II C §3.3: a new Remark abstraction over exported tags | **Withdrawn for now.** A Topic whose condition has a variable over a shared vocabulary relation *is* a remark, and a shared relation (`forbidden`) *is* a tag (probe 2). | What is missing: variables rendered in Topic text (probe 2's "?f"); per-member witnessing (Phase I D1); volunteered rather than asked lines. |
+| Phase II A §5: a contribution manifest of about 10 fields (`compat`, `needs`, `face`, `owns`, `preserve`, `mayVary`, `worldMay`, …) | **Over-general.** Keep `attach` (entry plus join), `hooks` (they exist), and `compat` / `Arrival`. Defer `preserve`, `mayVary`, `owns` and `worldMay` until a concrete case appears. | Generation never alters an authored module today: they are separate installations. Probe 2 added a door to another author's place through the existing import model. No case yet needs the deferred fields. |
+| Phase II B §2: ward sockets, lots, `admits: overlay`, singular civic roles | **Over-general for a first city.** A hand-authored city module exporting its landmarks and wards, with contributions importing them (as probe 2 does), is enough to test the city hypothesis. Singular roles and sockets wait for a second competing contributor. | The import model already does "my building in your ward". Conflicts at three contributions are curation, not mechanism. |
+| Phase II A §6: "identity is the plan id, not the order of arrival" | **False of today's frontier** (probe 3). It is a real decision, not a given. | A pre-computed plan would make it true; path dependence may also be acceptable (DR1 in `phase-3/B-contracts-and-decisions.md`). |
+| Phase II A §3: eager installation dismissed | **Re-opened as an experiment.** The clock objection stands for adventures with absolute deadlines. Eager installation avoids the mid-play installation path where A1 and A2 live. Measured cost: a wait of 88 ms in a world of 37,800 facts with two adventures installed. | That is a measurement, not a projection. |
+| Phase I C1: namespace local kinds | **Tension noted.** Shared items across modules (a lens carried from the academy to Cobble Ring, a city's currency) need *shared* kinds. Namespacing by default would need kind exports. | Decide with DR3; do not namespace blindly. |
+| Phase I B1: presentation inside the authority boundary | **Kept at medium, confidence lowered** for the first direction (perception code in `presentation/`). The second direction is code-path verified: voiced lines are stored in the log, and the log is in `canonical()`, so a voice-table edit changes replay output. | No case was reproduced where the first direction changed a hash. |
+
+### Where the reviews underestimated existing infrastructure
+
+- **The hook pipeline is complete and tested, not partial:** carriers, channels, `opens` revealing a hidden way, and `test/way-in.test.ts`.
+- **Shared vocabulary files work as a medium for authors to interact:** a module lists `rules: ['world', '../lore/lore.kyr']`, and its relations stay unscoped.
+- **Imports of exported places let one author build onto another's place** without touching it.
+- **Role contracts with Kyr conditions already exist** (`RoleRequirements`).
+- **`ClockShift`, and installation inside a command with whole undo.**
+
+The earlier phases treated several of these as gaps to be built. They are tools to be used.
+
+### Phase III deliverables
+
+- [A. Validation plan](phase-3/A-validation-plan.md): six vertical slices, each with its hypothesis, acceptance and failure criteria, and performance implications. It also covers literary depth as an acceptance criterion: the literary diff, an editorial reading, and demanding test material.
+- [B. Contracts and decision records](phase-3/B-contracts-and-decisions.md): seven contracts (K1–K7), each justified by two or more concrete uses, and nine decision records (DR1–DR9).
+- [C. Implementation sequence](phase-3/C-implementation-sequence.md): what must precede the next phase, the order of the slices, the potential dead ends, and migration.
+- [D. Risks and dissent](phase-3/D-risks-and-dissent.md): the case against general systems, provisional budgets (measured against projected), and what remains uncertain.
+- [E. Executive recommendation](phase-3/E-executive-recommendation.md).

@@ -1,0 +1,13 @@
+
+== academy + tower: at start [ "quantity(academy__masters, gold) = 40" ]
+way to the tower offered from the stair: Take the back stair to Ashmere to the tower's upper room
+  "Shelves to the ceiling, and a reading-stand with a grey book"
+]
+back at academy__stair | Ferrand topics: [ "Talk to Ferrand", "Tell Ferrand what you read" ]
+Ferrand says: Ferrand hears you out without interrupting, which is not like him. 'Write none of that down,' he says. 'Not here. The masters would have it off you, and you with it.'
+facts hash: live cd2d07962a5db235 restored cd2d07962a5db235 replayed cd2d07962a5db235
+
+== academy alone: at start [ "quantity(academy__masters, gold) = 40" ]
+way to the tower offered from the stair: undefined
+back at academy__stair | Ferrand topics: [ "Talk to Ferrand" ]
+facts hash: live 3e31b49f5750106d restored 3e31b49f5750106d replayed 3e31b49f5750106d

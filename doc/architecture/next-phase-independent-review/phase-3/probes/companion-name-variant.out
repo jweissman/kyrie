@@ -1,0 +1,4 @@
+Variant of companion-reaction.probe.ts with Ferrand's line changed to include {?f}:
+  sed "s/which is not like him. 'Write none of that down,'/which is not like him. ({?f}) 'Write none of that down,'/" companion-reaction.probe.ts > variant.ts && bun variant.ts
+Output (Ferrand says):
+  Ferrand hears you out without interrupting, which is not like him. (?f) 'Write none of that down,' he says. 'Not here. The masters would have it off you, and you with it.'

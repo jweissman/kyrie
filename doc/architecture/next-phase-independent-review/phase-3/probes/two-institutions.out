@@ -1,0 +1,18 @@
+
+== academy + tower: at start [ "quantity(academy__masters, gold) = 40" ]
+after 4 hours: [ "academy__reported(academy__masters)", "academy__sentFor(academy__masters)",
+  "academy__watching(academy__masters, tower__circle)", "quantity(academy__masters, gold) = 25",
+  "stage(academy__inquiry) = 2"
+]
+Ferrand topics offered: [ "Talk to Ferrand", "Ask Ferrand what the reader found" ]
+after 3 more hours: [ "academy__reported(academy__masters)", "academy__sentFor(academy__masters)",
+  "academy__watching(academy__masters, tower__circle)", "quantity(academy__masters, gold) = 25",
+  "stage(academy__inquiry) = 4"
+] | topics: [ "Talk to Ferrand", "Ask Ferrand what the reader found" ]
+facts hash: live 5785dc2cfc1ab8be restored 5785dc2cfc1ab8be replayed 5785dc2cfc1ab8be
+
+== academy alone: at start [ "quantity(academy__masters, gold) = 40" ]
+after 4 hours: [ "quantity(academy__masters, gold) = 40", "stage(academy__inquiry) = 2" ]
+Ferrand topics offered: [ "Talk to Ferrand" ]
+after 3 more hours: [ "quantity(academy__masters, gold) = 40", "stage(academy__inquiry) = 4" ] | topics: [ "Talk to Ferrand" ]
+facts hash: live 8bac4bc3f3c50fe1 restored 8bac4bc3f3c50fe1 replayed 8bac4bc3f3c50fe1
