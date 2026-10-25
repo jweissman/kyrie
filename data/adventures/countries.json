@@ -1,5 +1,5 @@
 {
-  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts).",
+  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts). Of the countries among one kind (the independent adventures), a world holds only the one its seed chooses.",
   "countries": [
     {
       "id": "longman",
@@ -13,6 +13,65 @@
       ],
       "name": "Merrowdale",
       "terrain": "mountain"
+    },
+    {
+      "id": "thrume",
+      "bundle": "thrume/placed.json",
+      "entry": "salt_road",
+      "marker": "thane_ring",
+      "side": "east",
+      "beside": [
+        "mountain",
+        "frost",
+        "forest"
+      ],
+      "name": "Thrume",
+      "terrain": "mountain",
+      "among": "independent"
+    },
+    {
+      "id": "strewnfield",
+      "bundle": "house-that-grows/placed.json",
+      "entry": "rim",
+      "marker": "kezu_cup",
+      "side": "south",
+      "beside": [
+        "marsh",
+        "forest",
+        "desert"
+      ],
+      "name": "the Strewnfield",
+      "terrain": "marsh",
+      "among": "independent"
+    },
+    {
+      "id": "corrow",
+      "bundle": "let-one-remember/placed.json",
+      "entry": "eighth_bend",
+      "marker": "teshen",
+      "side": "west",
+      "beside": [
+        "forest",
+        "marsh"
+      ],
+      "name": "the Corrow",
+      "terrain": "mountain",
+      "among": "independent"
+    },
+    {
+      "id": "ghessil",
+      "bundle": "patient-star/placed.json",
+      "entry": "square",
+      "marker": "saro",
+      "side": "west",
+      "beside": [
+        "mountain",
+        "desert",
+        "frost"
+      ],
+      "name": "the Ghessil Uplands",
+      "terrain": "mountain",
+      "among": "independent"
     }
   ]
 }

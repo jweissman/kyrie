@@ -1,0 +1,6 @@
+Module season "Hold One Season" {
+  // The company: one cutter, in debt (placed.kyr is the world's own company, come in by the Shift Market).
+  Company party "You" of 1 at square.
+  Initially Set quantity(party, gold) to 9.
+  Initially Assert inDebtTo(party, dagny). Initially Set owes(party, dagny) to 28.
+}

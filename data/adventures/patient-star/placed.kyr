@@ -1,0 +1,4 @@
+Module season "Hold One Season" {
+  // The Ghessil Uplands as a country beyond a march: the company that comes into the Shift Market is the world's own.
+  Entity party: group "Your company".
+}

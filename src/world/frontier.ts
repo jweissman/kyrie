@@ -87,7 +87,7 @@ export class Frontier {
   // The authored country that fits beyond this march, if one does and is not in the world already.
   private fits(campaign: Campaign, here: string, side: Side): Country | undefined {
     const terrain = campaign.world.one('terrain', `${here}__region`)?.replace(/^.*__/, '') ?? '';
-    return Countries.fits(terrain, side, c => campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)));
+    return Countries.fits(terrain, side, c => campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), this.seed);
   }
   // Whether a campaign is a generated world (its manifest is one the assembler wrote), which can go on past its edges.
   static generated(scenario: string): boolean { return /(^|\/)world-[^/]*\.campaign\.json$/.test(scenario); }

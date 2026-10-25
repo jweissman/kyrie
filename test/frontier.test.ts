@@ -8,6 +8,7 @@ import { Countries } from '../src/world/countries';
 import { WorldGrid } from '../src/world/world-grid';
 import { RegionLand } from '../src/world/region-land';
 import { GeneratedWorld } from './support/generated';
+import { Journey } from '../src/session/journey';
 
 // A generated world goes on past the edges of its first region: an old road runs out to a march-stone on every side,
 // and the first time the company stands at one the country beyond is drawn from the world's seed and where it lies,
@@ -86,8 +87,30 @@ describe('the world beyond a region', () => {
     const storm = s.campaign.module.rules!.find(r => r.id === `${drawn!.rid}__storm_comes`)!;
     expect(JSON.stringify(storm.when)).toContain(`"value":${312 + elapsed}`);
     // Placed once: another upland country's north march leads into a country of its own.
-    expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`))))
+    expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), 'thorn'))
       .toBeUndefined();
   }, 120000);
+  // The independent adventures, as countries a generated world may hold: one to a world, as its seed chooses, beyond
+  // the first march where it fits; the folk of the first region speak of it, and the road across leads in.
+  it('holds one independent adventure, as its seed chooses, beyond the march where it fits, and leads the company in', async () => {
+    const yew = await WorldAssembler.assemble('yew', NodeBundleSource.shared, { region: { terrain: 'forest' } });
+    const beyond = Object.values(yew.report.region.beyond!).map(c => c!.name);
+    expect(yew.report.region.beyond!.east!.name).toBe('Thrume');
+    expect(beyond.filter(n => ['the Strewnfield', 'the Corrow', 'the Ghessil Uplands'].includes(n))).toEqual([]);
+    const s = await PlaySession.start(yew.path, 'yew', yew.source);
+    await GeneratedWorld.travel(s, 'edge_east');
+    const thrume = await new Frontier('yew', NodeBundleSource.shared).expand(s.campaign);
+    await March.choose(s, /road across the march to the salt road/);
+    expect(s.campaign.world.one('at', 'party')).toBe(`${thrume!.rid}__salt_road`);
+    expect(await Journey.of(s).play('^To the market', 'notice')).toContain('THE GIANT MÓRRACH');
+    // The Patient Star says what it will of the company that comes in (its breath, its memories), by names of its own.
+    const wren = await WorldAssembler.assemble('wren', NodeBundleSource.shared);
+    expect(wren.report.region.beyond!.west!.name).toBe('the Ghessil Uplands');
+    const u = await PlaySession.start(wren.path, 'wren', wren.source);
+    await GeneratedWorld.travel(u, 'edge_west');
+    const ghessil = await new Frontier('wren', NodeBundleSource.shared).expand(u.campaign);
+    await March.choose(u, /road across the march to the Shift Market/);
+    expect(u.campaign.world.one('at', 'party')).toBe(`${ghessil!.rid}__square`);
+  }, 180000);
 });
 

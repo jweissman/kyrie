@@ -1,0 +1,4 @@
+Module thrume "Thrume" {
+  // Thrume as a country beyond a march: the company that comes in by the salt road is the world's own.
+  Entity party: group "Your company".
+}

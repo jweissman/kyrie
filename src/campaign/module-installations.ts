@@ -86,10 +86,12 @@ export class ModuleInstallations {
       } else if (previous && !(ModuleNamespace.canonical.includes(entity.type)
         && JSON.stringify(previous) === JSON.stringify(entity))) { throw new Error(`Duplicate entity ${entity.id}`); }
     }
+    // What a module says of an imported entity by a name of its own (The Patient Star's breath and memories of the
+    // company) resets nothing the campaign had.
     for (const change of incoming.initial) {
-      const imported = draft.imports.includes(change.call.args[0]!);
+      const imported = draft.imports.includes(change.call.args[0]!), own = change.call.name.startsWith(`${draft.id}__`);
       const relation = incoming.relations.find(r => r.name === change.call.name);
-      if ((imported && (change.kind !== 'assert' || relation?.exclusive || (relation?.types.length ?? 0) < 2))
+      if ((imported && !own && (change.kind !== 'assert' || relation?.exclusive || (relation?.types.length ?? 0) < 2))
         || ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
           'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'proficient'].includes(change.call.name)) {
         throw new Error('Module initialization cannot reset imported or campaign-owned state');

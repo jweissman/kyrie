@@ -1,0 +1,6 @@
+Module hhg "The House That Grows" {
+  // A stare-student of Cobble Ring, in Kezu's kitchen (placed.kyr is the world's own company, come in by the rim).
+  Company party "You" of 1 at kezu_kitchen.
+  Initially Set quantity(party, gold) to 6.
+  Initially Assert stareTrained(party).
+}

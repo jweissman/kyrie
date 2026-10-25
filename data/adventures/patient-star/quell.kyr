@@ -29,11 +29,6 @@ Module season "Hold One Season" {
   Passage well_lane "the well lane" is path between square and well_head taking 5 minutes.
   Passage east_gate "the old east gate" is gate between square and old_quell.
 
-  // The company: one cutter, in debt.
-  Company party "You" of 1 at square.
-  Initially Set quantity(party, gold) to 9.
-  Initially Assert inDebtTo(party, dagny). Initially Set owes(party, dagny) to 28.
-
   Observe square_scene at square when not dark() "The square is umber brick on every side, the colour of dried blood, and not one window looks east. Sledges hiss on the cobbles between the shifts. At the weighing-yard gate a clerk calls the grades: 'One. One. Three. Reject.'".
   Observe square_night at square when dark() "The square is empty but for the dusk crew coming in, hoods back, grey in the face. Somebody coughs, dry and short, and does not stop for a while.".
   Observe yard_scene at mutual_yard when true "The Mutual's yard: sledges up on their ends against the wall, grit-sacks, coils of rope, and a trough of grey water where the cutters wash the glitter off their hands.".

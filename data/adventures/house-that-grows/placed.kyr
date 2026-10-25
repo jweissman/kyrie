@@ -1,0 +1,4 @@
+Module hhg "The House That Grows" {
+  // The Strewnfield as a country beyond a march: the company that comes in by the rim of Cobble Ring is the world's own.
+  Entity party: group "Your company".
+}

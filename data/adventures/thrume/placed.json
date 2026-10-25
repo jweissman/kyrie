@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "source": [
+    "clocks.kyr",
+    "saltgrave.kyr",
+    "shoulder.kyr",
+    "inward.kyr",
+    "hush.kyr",
+    "tomb.kyr",
+    "dream.kyr",
+    "between.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "fells",
+    "saltgrave": "market",
+    "salt_road": "salt_road"
+  }
+}

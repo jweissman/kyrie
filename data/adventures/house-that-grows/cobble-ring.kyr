@@ -38,10 +38,6 @@ Module hhg "The House That Grows" {
   Passage lip_path "the rim path to the east lip" is path between rim and east_lip.
   Initially Assert at(sleep_dreg, nowhere).
 
-  Company party "You" of 1 at kezu_kitchen.
-  Initially Set quantity(party, gold) to 6.
-  Initially Assert stareTrained(party).
-
   Observe rim_scene at rim as fixture when true "The rim of Cobble Ring is a ring of turf as wide as a lane, with the houses hung inside it facing the pond. Every house has a watch-loft on its rim side, a raised seat behind a shutter. Out over the plain the next crater-rims glitter, and over the middle of the country, a long way up, the city hangs in its grey skirt of cloud.".
   Observe rim_lofts at rim as ambience when dark() "Every watch-loft round the rim is lit. In each one, someone is sitting up.".
   Observe pond_scene at pond_side as fixture when true "A stone causeway runs across the crater pond to the sleeping-hall. Reed thatch, flat roofs, an anchor-stone at the causeway's end where the market is held. Kezu's door, the reeve's door and the hall's open off it.".

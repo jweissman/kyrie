@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": [
+    "cobble-ring.kyr",
+    "attention.kyr",
+    "annex.kyr",
+    "keel.kyr",
+    "lowmere.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "strewnfield",
+    "rim": "rim"
+  }
+}

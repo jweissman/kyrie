@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "source": [
+    "quell.kyr",
+    "tamaun.kyr",
+    "ennick.kyr",
+    "hour.kyr",
+    "neworrel.kyr",
+    "stairhead.kyr",
+    "weirs.kyr",
+    "undersun.kyr",
+    "corbel.kyr",
+    "clock.kyr",
+    "keeping.kyr",
+    "masonry.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world",
+    "stilling.kyr",
+    "moments.kyr"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "ghessil",
+    "square": "square"
+  }
+}

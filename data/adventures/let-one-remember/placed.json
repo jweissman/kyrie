@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": [
+    "clocks.kyr",
+    "scarp.kyr",
+    "well.kyr",
+    "hornwake.kyr",
+    "hightown.kyr",
+    "keld.kyr",
+    "wendmouth.kyr",
+    "act2_margin.kyr",
+    "act3_kin.kyr",
+    "act4_voyage.kyr",
+    "act5_road.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "corrow",
+    "eighth_bend": "eighth_bend"
+  }
+}

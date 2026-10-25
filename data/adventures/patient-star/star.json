@@ -12,7 +12,8 @@
     "corbel.kyr",
     "clock.kyr",
     "keeping.kyr",
-    "masonry.kyr"
+    "masonry.kyr",
+    "company.kyr"
   ],
   "rules": [
     "world",

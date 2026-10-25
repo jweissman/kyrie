@@ -140,7 +140,7 @@ export class WorldAssembler {
     const region = { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))),
       at, beyond: WorldGrid.beyond(seed, at) };
     // The first country knows what authored country lies beyond it; one drawn later is told by the frontier.
-    return at[0] === 0 && at[1] === 0 ? { ...region, beyond: Countries.beyond(region) } : region;
+    return at[0] === 0 && at[1] === 0 ? { ...region, beyond: Countries.beyond(region, seed) } : region;
   }
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
   // settlements; none placed elsewhere in the world already.

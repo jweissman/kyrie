@@ -558,6 +558,25 @@ did (`probes/reckoning`):
 A number in parentheses is a Deem expression, `(2d6)`, rolled once when the module is installed; arithmetic outside
 parentheses is worked out each time it is read.
 
+### Your adventure in a generated world
+
+A generated world can hold an authored country beyond one of its marches: the folk of the first region speak of it
+by name, and the road across the march comes into it ([data/adventures/countries.json](../../data/adventures/countries.json),
+`src/world/frontier.ts`). The Long Man is held this way wherever it fits; of Thrume, The House That Grows, The Road
+the Star Came Down and The Patient Star (`"among": "independent"`), a world holds the one its seed chooses, beyond the
+first march where it fits, so that its own countries go on beyond the rest. To offer yours:
+
+- keep its company in a file of its own (`company.kyr`), so that a second bundle, `placed.json`, can leave it out and
+  say instead, in `placed.kyr`, `Entity party: group "Your company".`, with `"imports": ["party"]` and
+  `"roles": { "party": { "type": "group" } }`;
+- export the room the road comes into (`"salt_road": "salt_road"`), outdoors at the country's edge;
+- add the country to `countries.json`: its bundle, that entry, an entity only it has (its marker), what it is called
+  and what kind of country it is, the side of a generated country it lies on, and the terrains of those it may lie
+  beside.
+
+Its clock runs from when it is reached (a rule at `watch(clock) >= 216` waits 216 watches from then), and what it says
+of the company that comes in is said by names of its own (`Initially Set breath(party) to 12`).
+
 ### How fast a member goes
 
 A member's `speed` is a measure of the shared rules, in hundredths of their own; unset is their own. A company walks

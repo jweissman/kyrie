@@ -1,7 +1,21 @@
 {
   "version": 1,
-  "source": ["cobble-ring.kyr", "attention.kyr", "annex.kyr", "keel.kyr", "lowmere.kyr"],
-  "rules": ["world"],
-  "globals": ["party"],
-  "exports": { "party": "party", "region": "strewnfield" }
+  "source": [
+    "cobble-ring.kyr",
+    "attention.kyr",
+    "annex.kyr",
+    "keel.kyr",
+    "lowmere.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "strewnfield"
+  }
 }
