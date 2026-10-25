@@ -129,19 +129,20 @@ export class Campaign implements WatchHost {
     campaign!.refresh(); ModuleInstallations.check(campaign!.module, campaign!.world);
     campaign!.compiled.name = manifest.name; return campaign!;
   }
-  async install(request: BundleRequest, source: BundleSource, checked = true): Promise<void> {
+  // checked: the joined whole checked now; everyone: every actor's creature facts projected again, not only the
+  // newcomers' (by default, when the whole is checked).
+  async install(request: BundleRequest, source: BundleSource, checked = true, everyone = checked): Promise<void> {
     this.installBoundary();
     if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
-    this.keepFacts();
     const startedAt = this.current.elapsed;
     const draft = await ModuleBundle.load(request, { seed: this.current.seed,
       elapsed: this.current.elapsed, installed: this.definition.installations }, source);
     this.installBoundary();
     if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
     Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
-    const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world,
+    const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
       budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
-    const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, checked);
+    const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, everyone);
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
     this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }

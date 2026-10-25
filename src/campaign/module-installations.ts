@@ -13,6 +13,7 @@ import { ClockShift } from './clock-shift';
 import { CreatureFacts } from './creature-facts';
 import { Progression } from './progression';
 import { Content } from '../content';
+import { InstalledInstance } from './installed-instance';
 import { Discovery } from '../information/discovery';
 
 export class ModuleInstallations {
@@ -33,8 +34,8 @@ export class ModuleInstallations {
   // goal they pursue is checked against that world before it is accepted.
   // everyone: whether everyone's facts are projected again, or only the newcomers' (while a campaign is assembled
   // from many modules at once, when everyone's are projected once at the end).
-  static populate(next: Instance, creatures: CreatureStore, current: Parameters<typeof Membership.live>[1],
-    everyone = true) {
+  static populate(next: Instance & { live?: World }, creatures: CreatureStore,
+    current: Parameters<typeof Membership.live>[1], everyone = true) {
     const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
     const live = Membership.live(next.campaign!.actors, current).actors;
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
@@ -44,9 +45,10 @@ export class ModuleInstallations {
       creature.state.gold += entry.gold;
       return creature;
     }));
-    CreatureFacts.initialize(new World(next.module, next.world), actors, store);
+    const joined = next.live ?? new World(next.module, next.world);
+    CreatureFacts.initialize(joined, actors, store);
     const projected = everyone ? live : live.filter(a => !had.has(a.id));
-    const world = CreatureFacts.project(new World(next.module, next.world), projected, store);
+    const world = CreatureFacts.project(joined, projected, store);
     Progression.outcomes(world, next.campaign!);
     for (const actor of next.campaign!.actors) {
       for (const goal of actor.goals) {
@@ -118,7 +120,9 @@ export class ModuleInstallations {
     new ModuleCompiler(RuntimeCapabilities.signatures).validate(module);
     Discovery.validate(module, world);
   }
-  static prepare(base: Instance | undefined, draft: ModuleDraft, elapsed: number, checked = true): Instance {
+  // base.live: the world the installation joins, as it is (given, it is not built again from every fact).
+  static prepare(base: (Instance & { live?: World }) | undefined, draft: ModuleDraft, elapsed: number, checked = true):
+    InstalledInstance {
     // A draft is made for the one installation, and is the installation's own to change.
     const incoming = draft.instance, addition = incoming.campaign!;
     ClockShift.apply(incoming.module, addition.schemas!, draft.id, elapsed);
@@ -144,14 +148,15 @@ export class ModuleInstallations {
       || addition.pressures.some(p => draft.imports.includes(p.id))) {
       throw new Error('A pressure must belong to one installed module');
     }
-    RoleRequirements.validate(draft.roles ?? [], module, new World(module, base?.world));
+    const joining = base?.live ? base.live.withModule(module) : new World(module, base?.world);
+    RoleRequirements.validate(draft.roles ?? [], module, joining);
     if (!module.entities.some(e => e.id === 'gold' && e.type === 'good')
       || !module.entities.some(e => e.id === 'clock' && e.type === 'clock')) {
       throw new Error('Campaign rules require shared gold and clock entities');
     }
-    const installed = new World(module, base?.world).apply(incoming.module.initial);
+    const installed = joining.apply(incoming.module.initial);
     if (checked) { this.check(module, installed); }
-    return { module, world: installed.snapshot, campaign: definition,
-      budget: Math.max(0, ...definition.installations!.flatMap(m => m.deadline === undefined ? [] : [m.deadline])) };
+    return new InstalledInstance(module, installed, definition,
+      Math.max(0, ...definition.installations!.flatMap(m => m.deadline === undefined ? [] : [m.deadline])));
   }
 }

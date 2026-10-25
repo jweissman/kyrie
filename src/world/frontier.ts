@@ -38,10 +38,13 @@ export class Frontier {
       country = this.fits(campaign, at[1]!, side);
       if (country) {
         await campaign.install({ id: rid, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
-          imports: { party: `${RegionWriter.id}.party` } }, this.base);
+          imports: { party: `${RegionWriter.id}.party` } }, this.base, false, true);
       } else {
+        // Each of its modules is checked as it is compiled; the joined whole is checked once, with the road in, as a
+        // campaign is assembled (Campaign.assemble). Everyone's creature facts are projected with each, as before: the
+        // order they come to be held in is the order rules read them in.
         const beyond = await this.drawn(campaign, x, y);
-        for (const request of beyond.requests) { await campaign.install(request, beyond.source); }
+        for (const request of beyond.requests) { await campaign.install(request, beyond.source, false, true); }
         region = beyond.region;
       }
     }

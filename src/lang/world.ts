@@ -82,6 +82,17 @@ export class World {
   }
   // Every fact whose first argument is this one, and every measure, relation by relation as the world holds them
   // (what a party's own facts are): read by each relation's index, not by going through every fact.
+  // The same facts and measures under a module joined to this one's (an installation's), shared as a fork shares
+  // them: installing a module costs what it brings, not every fact the world holds.
+  // A relation or measure left with nothing is dropped, as from a world built from its facts, so that the order the
+  // world lists its relations in (a save's, a receipt's) is the order it would have been.
+  withModule(module: Module): World {
+    const next = World.fork(this);
+    (next as { module: Module }).module = module;
+    for (const [name, facts] of next.byName) { if (!facts.size) { next.byName.delete(name); } }
+    for (const [name, values] of next.measuresByName) { if (!values.size) { next.measuresByName.delete(name); } }
+    return next;
+  }
   // The names of the relations it holds facts of, in the order it holds them.
   relationNames(): string[] { return [...this.byName.keys()]; }
   of(first: string): Call[] { return [...this.byName.keys()].flatMap(name => this.related(name, first)); }
