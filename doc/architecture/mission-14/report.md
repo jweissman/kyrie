@@ -732,11 +732,15 @@ excursion. It ranks twelve findings. I repaired these:
 - **An artifact offered nothing but Take, though its kind is described** (its twelfth, in part): a thing to be had is
   seen, looked at, in its kind's own words (`test/thing-described.test.ts`). The rest of that finding, repeated
   plants and journeys and a finished family that leaves nothing to ask, is not done.
+- **A pit with no entrance after a search** (its fourth, in part): a scenario's hidden way in opened only to those
+  who had heard the rumour, so a company that came on cov7's pit by itself searched it and found nothing. A scenario
+  may say what looking about where its way in starts finds (the brood's trodden path down to the sink, the tower's
+  well), and searching there finds it (`test/way-in.test.ts`).
 
-Not done, with the review's own ranking: inquiries that lead nowhere playable (a pit with no entrance after a
-search, a listening room with nothing to listen to; 4); an argument won by one example (9); portraits at odds with
-the prose, and one name (11): the "Immeral" who saw a sign first in a company that had no Immeral I could not
-reproduce, in a1 with every origin nor with a recruit joining, where everyone is named as the company knows them.
+Not done, with the review's own ranking: a listening room with nothing to listen to (the rest of 4); an argument
+won by one example (9); portraits at odds with the prose, and one name (11): the "Immeral" who saw a sign first in a
+company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining, where everyone
+is named as the company knows them.
 
 ## Invariants
 

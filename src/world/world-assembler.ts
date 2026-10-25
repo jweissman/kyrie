@@ -13,7 +13,6 @@ import { PlaceNames } from './place-names';
 import { RegionPeoples } from './region-peoples';
 import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
-import { RegionSites } from './region-sites';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
@@ -24,11 +23,12 @@ import type { KitEntry } from './compose/composition';
 import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
 import { WorldGrid } from './world-grid';
+import { ScenarioWord } from './scenario-word';
 import { Livelihoods } from './livelihoods';
 import { RegionWorks } from './region-works';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
-// way in that stays hidden until someone hears of it, and what people say about it.
+// way in that stays hidden until someone hears of it (or looks where it starts), and what people say about it.
 export interface ScenarioManifest {
   version: 1; id: string; name: string; instances?: number; weight?: number;
   // An adventure in a wild place (the default) or what is going on in a settlement (town).
@@ -39,6 +39,8 @@ export interface ScenarioManifest {
   places: Record<string, { site?: string[]; settlement?: string; way?: string }>;
   modules: { id: string; bundle: string; imports: Record<string, string>; context?: Record<string, DeemValue> }[];
   route?: string;
+  // What looking about where a hidden way in starts finds, so it is not hidden from a company that never heard of it.
+  found?: { known: string; told: string };
   // A hook is a fact the scenario establishes (module.export) that people pass on through some channels; unless it
   // `opens: false`, hearing it reveals the way in.
   hooks?: { fact: string; topic: string; channels: Carrier['channel'][]; opens?: boolean }[];
@@ -171,7 +173,7 @@ export class WorldAssembler {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
       modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
         ...this.folk(placement, region) }, region }));
-      const word = this.word(entry.manifest, placement, { region, contacts: at.contacts });
+      const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: at.contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
         files[`${root}/word-${placement.instance}/word.kyr`] = word.source;
@@ -333,7 +335,7 @@ export class WorldAssembler {
   }
   // A scenario reference: @party, @region, @role, @role.part (a settlement's green, a site's track or the country it
   // stands in…), @history.makers / .fate / .successors (the country's own history, to be found), module.export.
-  private static ref(value: string, placement: Placement, region?: Region): string {
+  static ref(value: string, placement: Placement, region?: Region): string {
     if (!value.startsWith('@')) {
       const [module, name] = value.split('.') as [string, string];
       return `${this.prefix(placement.rid)}${this.install(module, Number(placement.instance.match(/\d+$/)?.[0] ?? 1))}.${name}`;
@@ -371,85 +373,5 @@ export class WorldAssembler {
     return beast ? { beast: beast.species, beastCount: beast.count, beastLabel: beast.label, beastRole: beast.role,
       beastNature: beast.nature, ...beast.aspect ? { beastAspect: beast.aspect } : {},
       ...beast.template ? { beastTemplate: beast.template } : {} } : {};
-  }
-  // A hook's topic as a stranger would say it, with each place it names as it looks: "trouble at the fallen walls".
-  private static plainly(text: string, placement: Placement, region: Region): string {
-    return text.replace(/\{(\w+)\}/g, (whole, role: string) => {
-      const id = placement.bindings[role], seat = RegionGeography.seats(region).find(x => x.site.id === id);
-      return seat ? RegionSites.seenAs(seat, region) : region.settlements.find(t => t.id === id)?.name ?? whole;
-    });
-  }
-  // A hook's topic names the places it is about by role: {den} becomes a reference to the bound place, so it is said
-  // as the company knows it (a grassed mound, until someone names it).
-  private static named(text: string, placement: Placement,
-    at: { lines: string[]; imports: Record<string, string>; declared: Set<string> }): string {
-    return text.replace(/\{(\w+)\}/g, (whole, role: string) => {
-      const id = placement.bindings[role];
-      if (!id) { return whole; }
-      const local = `at_${role}`;
-      if (!at.declared.has(local)) {
-        at.lines.push(`  Place ${local} "Where it is" is room.`);
-        at.imports[local] = `${placement.rid}.${id}`; at.declared.add(local);
-      }
-      return `{${local}}`;
-    });
-  }
-  // The module that spreads word of a placed scenario: each hook is an established fact, known to carriers in the
-  // settlement nearest it and its neighbour along the road, offered as something to ask about; any of them reveals
-  // the way in.
-  private static word(s: ScenarioManifest, placement: Placement, at: { region: Region; contacts: Contact[] }) {
-    const { region, contacts } = at;
-    const hooks = s.hooks ?? [];
-    if (!hooks.length && !s.route) { return undefined; }
-    const q = JSON.stringify;
-    const firstSite = Object.entries(s.places).find(([, p]) => p.site)?.[0];
-    const site = region.sites.find(w => w.id === placement.bindings[firstSite ?? '']);
-    const home = site ? RegionWriter.near(region, site)
-      : region.settlements.find(t => Object.values(placement.bindings).includes(t.id)) ?? region.settlements[0]!;
-    // Word goes from the settlement nearest the trouble to its neighbour along the road.
-    const road = RegionGeography.roads(region).find(r => r.from.id === home.id || r.to.id === home.id);
-    const towns = [home, road ? (road.from.id === home.id ? road.to : road.from)
-      : region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!];
-    const imports: Record<string, string> = { party: `${RegionWriter.id}.party` }, lines: string[] = [];
-    lines.push(`Module word_${placement.instance} ${q(`Word of ${s.name}`)} {`, '  Entity party: group "Your company".');
-    // Local names are prefixed so they cannot shadow a rule's parameter names (site, way…).
-    if (s.route) { lines.push('  Entity route_in: passage "The way in".'); imports.route_in = this.ref(s.route, placement); }
-    const carriers = new Set<string>();
-    for (const [index, hook] of hooks.entries()) {
-      const fact = `h${index + 1}`;
-      lines.push(`  Entity ${fact}: fact "What people say".`);
-      imports[fact] = this.ref(hook.fact, placement);
-      if (s.route && hook.opens !== false) { lines.push(`  Initially Assert revealedBy(route_in, ${fact}).`); }
-      // Carriers in the towns nearest the scenario, and members' contacts anywhere who hear that kind of news.
-      const tellers = new Map<string, string>();
-      for (const town of new Set(towns)) {
-        for (const channel of hook.channels) {
-          tellers.set(`${town.id}_${this.speakers[channel]}`, SettlementWriter.standing(region, town, this.speakers[channel] as 'innkeeper'));
-        }
-      }
-      for (const c of contacts.filter(c => hook.channels.includes(c.channel))) {
-        tellers.set(c.carrier, c.room);
-        c.concern ??= this.plainly(hook.topic, placement, region);
-      }
-      for (const [carrier, room] of tellers) {
-        const topic = `${fact}_${carrier}`;
-        if (!carriers.has(carrier)) {
-          lines.push(`  Entity ${carrier}: group "Someone".`); carriers.add(carrier);
-          if (!carriers.has(room)) { lines.push(`  Place ${room} "Where they are" is room.`); carriers.add(room); }
-        }
-        imports[carrier] = `${placement.rid}.${carrier}`; imports[room] = `${placement.rid}.${room}`;
-        lines.push(`  Entity ${topic}: source ${q(this.named(hook.topic, placement, { lines, imports, declared: carriers }))}.`,
-          `  Initially Assert knows(${carrier}, ${fact}). Initially Assert testimony(${carrier}, ${topic}).`,
-          `  Initially Assert reveals(${topic}, ${fact}). Initially Assert noticeable(${topic}).`,
-          `  Initially Assert at(${topic}, ${room}).`);
-        (placement.carriers[hook.fact] ??= []).push(carrier);
-      }
-    }
-    lines.push('  Goal false.', '}');
-    const names = Object.keys(imports);
-    const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : n === 'route_in' ? 'passage'
-      : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop|green)$|^at_/.test(n) ? 'place' : 'group' }]));
-    return { source: lines.join('\n'), imports,
-      manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }
 }

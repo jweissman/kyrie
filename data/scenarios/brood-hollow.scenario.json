@@ -48,6 +48,10 @@
     }
   ],
   "route": "sink.path",
+  "found": {
+    "known": "A trodden path goes down to the lip of the sink, with wool caught on the thorns beside it.",
+    "told": "Where the grass grows long it has been trodden into a path going down, and tufts of wool are caught on the thorns beside it."
+  },
   "hooks": [
     {
       "fact": "brood.ewes",

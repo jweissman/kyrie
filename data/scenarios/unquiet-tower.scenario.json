@@ -40,6 +40,10 @@
     }
   ],
   "route": "tower.well",
+  "found": {
+    "known": "The old well behind the tower goes down under its walls.",
+    "told": "Pulling the nettles back from the well-head, you find the shaft open, and going down under the walls."
+  },
   "hooks": [
     {
       "fact": "tower.lights",
