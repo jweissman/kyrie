@@ -13,6 +13,20 @@
       ],
       "name": "Merrowdale",
       "terrain": "mountain"
+    },
+    {
+      "id": "lowwater",
+      "bundle": "low-water/placed.json",
+      "entry": "rim_road",
+      "marker": "deep_gate",
+      "side": "south",
+      "beside": [
+        "marsh",
+        "forest",
+        "frost"
+      ],
+      "name": "the Bowl of Ammerlin",
+      "terrain": "hills"
     }
   ]
 }

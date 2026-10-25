@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
+import { PlaySession } from '../src/session/play-session';
 
 // Low Water, played by the labels a player sees (doc/adventures/low-water). Ammerlin's Mere is falling; the company is
 // the Office's Independent Assessor. Each journey is one way the six days to the Hearing can go, from the Rim.
@@ -60,6 +61,8 @@ class Bowl {
     '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^Into the Office of Measures', "Registrar's room",
     'Talk to Registrar', "freeze the Ward's titles", 'Take your leave', '^To the hall of the Office', '^Out to Measures Square',
     '^Into the Full Measure', 'Take a bed and supper', 'Buy › A ration', 'Buy › A ration', 'Buy › A ration'];
+  static readonly toMootFromLock = ['^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^Into the Office of Measures',
+    'Moot Hall'];
   static readonly toMoot = ['^Out to Measures Square', '^Into the Office of Measures', 'Moot Hall'];
   static readonly finding = ['Rise and give your Finding', 'Say first that the Guild', "the Channel's draw", 'Corran engineers',
     "Isaura Vant's tally", 'register of the Mere gauge', "keeper's book", 'what the Seventh Remainder did',
@@ -223,5 +226,47 @@ describe('Low Water', () => {
     await j.play('=+6');
     expect(j.holds(L('dovHeld'), L('dov'))).toBe(false);
     expect(Bowl.said(j)).toContain('as if he had never seen her before');
+  }, 300000);
+  it('drains the Dyers\' Basin the quick way, by the Sump\'s overflow, and Mag Torrin loses her season', async () => {
+    const j = await Bowl.start('vats');
+    await j.play(...Bowl.arrive, ...Bowl.toDyers, "Unchain the Sump's overflow", '=+3', 'Wind the sump gate up', '=+3');
+    expect(j.holds(L('vatsDrowned'), L('vat_yard'))).toBe(true);
+    expect(j.measure(L('level'), L('dyers'))).toBeLessThanOrEqual(1);
+    await j.play('vat-yard', 'Talk to Mag', 'Say something to Mag Torrin');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('in a good clear voice');
+    expect(j.holds(L('grievance'), L('mag'), 'party')).toBe(true);
+    await j.play('Ask Isaura about Mag Torrin');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('if you\'d asked her');
+  }, 120000);
+  it('withdraws from the Equals when they turn, and comes back with weight to answer them', async () => {
+    const j = await Bowl.start('equals');
+    await j.play(...Bowl.act1, ...Bowl.trial, 'Fill a lantern', '^To the intake culvert', '^To the dry vestibule', 'Hall of the Equals');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('presses the air');
+    await j.play('^To the dry vestibule', '=+3');
+    expect(j.holds('tolerates', L('equals'), 'party')).toBe(true);
+    await j.play('^Take', '^Take', 'Hall of the Equals', 'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone',
+      'Put in › A weight-stone', '=+3', '^To the counting gallery');
+    expect(j.at('party')).toBe(L('count_gallery'));
+  }, 300000);
+  it('is the same game saved and opened again, from the Seventh\'s first night into the Undercroft', async () => {
+    const j = await Bowl.start('kept');
+    await j.play(...Bowl.act1, ...Bowl.trial);
+    const back = Journey.of(PlaySession.resume(JSON.parse(JSON.stringify(j.session.checkpoint()))));
+    await j.play(...Bowl.descent);
+    await back.play(...Bowl.descent);
+    expect(back.watch()).toBe(j.watch());
+    for (const f of ['engine_seen', 'question_heard', 'count_heard']) { expect(Bowl.knows(back, f)).toBe(Bowl.knows(j, f)); }
+    expect(back.taken.map(t => t.told)).toEqual(j.taken.slice(-back.taken.length).map(t => t.told));
+    expect(Bowl.mere(back)).toBe(Bowl.mere(j));
+  }, 300000);
+  it('names the Guild at the Hearing, and the Council closes the Channel and the mills go dark', async () => {
+    const j = await Bowl.start('guild');
+    await j.play(...Bowl.act1, '=820', ...Bowl.toMootFromLock, '=889', 'Rise and give your Finding', "the Channel's draw",
+      "Name the cause: the Guild", 'close the Fulling Channel', 'Rest your Finding');
+    expect(j.holds(L('verdictGuild'), L('ammerlin'))).toBe(true);
+    expect(j.holds(L('charterLost'), L('ammerlin'))).toBe(true);
+    expect(Bowl.state(j, 'channel_gate', 'to_mere')).toBe(true);
+    await j.play('^To the hall of the Office', '^Out to Measures Square', '^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
+    expect(j.holds('reached', L('guild'))).toBe(true);
   }, 300000);
 });

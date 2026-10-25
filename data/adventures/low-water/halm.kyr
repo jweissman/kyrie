@@ -7,6 +7,8 @@ Module lowwater "Low Water" {
     Buys keeper_mask for 25 coin.
     Buys bell_teeth for 12 coin.
   }
+  // The Collegium pays its Fellows badly and its finds well.
+  Initially Set quantity(halm, gold) to 120.
   Rule halm_to_inn when hour(clock) == 20 and at(halm, dig) { Retract at(halm, dig). Assert at(halm, taproom). }
   Rule halm_to_dig when hour(clock) == 8 and at(halm, taproom) and not halmBelow(halm) and not digClosed(dig) { Retract at(halm, taproom). Assert at(halm, dig). }
   Rule halm_to_hall when hour(clock) == 8 and at(halm, taproom) and digClosed(dig) and not halmBelow(halm) { Retract at(halm, taproom). Assert at(halm, listening_hall). }

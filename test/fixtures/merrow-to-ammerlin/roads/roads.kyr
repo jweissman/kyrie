@@ -1,0 +1,8 @@
+Module roads "The roads from the crossroads" {
+  Place here "the crossroads" is room.
+  Place merrow "where the Merrow road comes in" is room.
+  Place bowl "where the Ammerlin road comes in" is room.
+  Passage north_road "the road north to Merrowdale" is road between here and merrow taking 3 hours.
+  Passage south_road "the road south to Ammerlin" is road between here and bowl taking 3 hours.
+  Goal false.
+}

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "Merrowdale and Ammerlin",
+  "modules": [
+    { "id": "start", "bundle": "start/module.json" },
+    { "id": "longman", "bundle": "../../../data/adventures/the-long-man/placed.json", "imports": { "party": "start.party" } },
+    { "id": "lowwater", "bundle": "../../../data/adventures/low-water/placed.json", "imports": { "party": "start.party" } },
+    { "id": "roads", "bundle": "roads/module.json",
+      "imports": { "here": "start.crossroads", "merrow": "longman.road_end", "bowl": "lowwater.rim_road" } }
+  ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith" },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic" }
+  ]
+}

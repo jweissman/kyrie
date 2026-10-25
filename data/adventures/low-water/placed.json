@@ -6,5 +6,5 @@
   "globals": ["party"],
   "imports": ["party"],
   "roles": { "party": { "type": "group" } },
-  "exports": { "party": "party", "region": "bowl", "rim": "rim_road", "road_end": "rim_road", "collegium": "halm" }
+  "exports": { "party": "party", "region": "bowl", "rim_road": "rim_road", "collegium": "halm", "quill": "quill" }
 }
