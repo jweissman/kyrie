@@ -750,7 +750,9 @@ excursion. It ranks twelve findings. I repaired these:
   the second (`test/disputation.test.ts`). The philosopher's views still change nothing beyond the green.
 
 - **A brother's portrait became an initial as he joined** (its eleventh, in part): whoever travels with the company
-  was listed without the painting they were met with; they keep it (`test/origins.test.ts`).
+  was listed without the painting they were met with; they keep it (`test/origins.test.ts`). The herb-wife the debt
+  was owed to, painted as a woman, smiled as "he": the creditor is whoever keeps the shop, and is said without a
+  pronoun; the tower's necromancer, written as a man throughout, is declared one, so is painted as one.
 
 Not done, with the review's own ranking: the rest of the eleventh, portraits at odds with the prose (a worker
 painted as a courtly sitter, a mother who looks younger than her son), and one name: the "Immeral" who saw a sign

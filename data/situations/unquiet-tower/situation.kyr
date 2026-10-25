@@ -82,7 +82,7 @@ Module unquiet_tower "The unquiet tower" {
   }
 
   Person necromancer "Someone" at study {
-    Role "necromancer". Level 3.
+    Role "necromancer". Level 3. Pronouns he.
     State working "{necromancer} bends over a table of bones, muttering, and does not look up.".
     State broken "{necromancer} sits on the floor among the bones with his face in his hands.".
   }

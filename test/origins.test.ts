@@ -117,6 +117,12 @@ describe('an origin', () => {
     expect(brother().companion).toBe(true);
     expect(brother().portrait?.src).toBe(met.portrait!.src);
   }, 60000);
+  // The creditor is whoever keeps the shop, so is never said as he or she: the follow-up review's herb-wife, painted
+  // as a woman, smiled as "he".
+  it('says the creditor as whoever keeps the shop', async () => {
+    const source = await Bun.file(`${import.meta.dir}/../data/origins/debt/origin.kyr`).text();
+    expect(source.match(/\b(he|him|his|she|her)\b/gi) ?? []).toEqual([]);
+  });
   // The follow-up review asked for more time and found it owed five coin more: the terms are said, then taken or not.
   it('says the terms of more time before they are taken', async () => {
     const s = await Opening.start('debt');
