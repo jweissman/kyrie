@@ -37,7 +37,9 @@ export class DeepSounds {
     const ways = layout.links.filter(l => [l.a, l.b].includes(room));
     const next = [...new Set(ways.map(l => l.a === room ? l.b : l.a))];
     const by = !elite && temperament === 'ambush' ? ' as sign noticed by woodcraft' : '';
-    return [...said ? next.map(n => `  Observe ${id}_heard_${room}_${n} at ${n}${by} when able(${id})`
+    // What falls on whoever comes in, or is one of the worst, can be drawn out to be met (inhabitants.kyr).
+    const drawn = said && (elite || temperament === 'savage') ? [`  Initially Assert drawable(${id}).`] : [];
+    return [...drawn, ...said ? next.map(n => `  Observe ${id}_heard_${room}_${n} at ${n}${by} when able(${id})`
       + ` and at(${id}, ${room}) ${this.q(said.replace('{room}', `{${room}}`))}.`) : [],
     ...this.carried(layout, band, this.far[worst ?? (person ? 'person' : this.far[kindly] ? kindly : temperament)])];
   }

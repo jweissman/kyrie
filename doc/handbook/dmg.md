@@ -40,13 +40,13 @@ Also kept, without comment: refutes, scorns.
 
 *Kyr · relation(group, claim); measure(group, claim); relation(group)* · `rule:world_belief.believes`
 
-A claim someone holds, and how firmly they hold it: 3 sure of it, and at nothing they let it go. Whoever will hear reasons (a disputant) can be argued with; what tells against a claim is a fact about the world (refutes), true whether anyone knows it or not.
+A claim someone holds, and how firmly they hold it: 2 sure of it, 1 shaken, and at nothing they let it go. Whoever will hear reasons (a disputant) can be argued with; what tells against a claim is a fact about the world (refutes), true whether anyone knows it or not.
 
 #### reasoned, swayedBy, doubts
 
 *Kyr · relation(group, claim); relation(group, claim, group); relation(group, claim)* · `rule:world_belief.reasoned`
 
-How a claim was let go: for a reason the world gave (reasoned), or only to good arguing, and whose (swayedBy). Let go for a reason it stays let go. Argued away without one, it is back by morning, and the one who argued it away is scorned for it: not listened to again.
+How a claim was let go: for a reason the world gave (reasoned), or only to good arguing, and whose (swayedBy). A reason may shake a claim without its being let go: whoever was given one holds it still, less firmly, until the rest of the way is argued. Let go for a reason it stays let go. Argued away without one, it is back by morning, and the one who argued it away is scorned for it: not listened to again.
 
 #### let_go
 
@@ -62,7 +62,7 @@ How a claim was let go: for a reason the world gave (reasoned), or only to good 
 
 > When: doubts(?g, ?c); swayedBy(?g, ?c, ?a); not (reasoned(?g, ?c)); untilLight(clock) == 1
 
-> Then: Retract doubts(?g, ?c). Retract swayedBy(?g, ?c, ?a). Assert believes(?g, ?c). Set conviction(?g, ?c) to 3. Assert scorns(?g, ?a).
+> Then: Retract doubts(?g, ?c). Retract swayedBy(?g, ?c, ?a). Assert believes(?g, ?c). Set conviction(?g, ?c) to 2. Assert scorns(?g, ?a).
 
 ### What the company carries
 
@@ -1096,7 +1096,7 @@ Also kept, without comment: plea, greeting, greeted, petted, warned, yielded, wa
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 16 | 2 | 1 | 15 | 4 |
+| 1 | 18 | 2 | 1 | 16 | 5 |
 
 #### temperament
 
@@ -1347,6 +1347,34 @@ A proud creature names a price for letting you pass; paid, it keeps its word.
 > Needs: able(actor); company(actor); at(actor, site); at(lord, site); warned(lord, actor); temperament(lord, temper_proud); quantity(actor, gold) >= tribute(lord)
 
 > Then: Decrease quantity(actor, gold) by tribute(lord). Increase quantity(lord, gold) by tribute(lord). Assert tolerates(lord, actor). Retract warned(lord, actor).
+
+#### drawable, awaits
+
+*Kyr · relation(group); relation(group, group)* · `rule:inhabitants.drawable`
+
+What can be heard from the next room can be drawn out of it, and met where the company waits for it, ready: the first blow is the company's (see Environment). The follow-up review met a banshee as a fight the moment its room was entered, with no say in how. A place says which of its dwellers will come (drawable). The company awaits what it drew out until it is met: once they part, or it can fight no more, the waiting is over.
+
+#### awaiting_over
+
+*Kyr · rule* · `rule:inhabitants.awaiting_over`
+
+> When: awaits(?c, ?g); not (together(?c, ?g))) or (not (able(?g))
+
+> Then: Retract awaits(?c, ?g).
+
+#### draw out
+
+*Kyr · action (group, group, place, passage, place)* · `rule:inhabitants.draw_out`
+
+- Shown as: Draw out what is in {whence}, and wait for it here
+- Takes: 10 minutes
+- Costs: 1
+
+Make a noise at the way in, and step back to meet whatever comes, weapons out.
+
+> Needs: able(actor); company(actor); at(actor, site); drawable(lurker); able(lurker); not (routed(lurker)); at(lurker, whence); connects(way, whence, site); visibleTo(way, actor); passable(way, lurker)
+
+> Then: Assert at(lurker, site). Assert awaits(actor, lurker).
 
 ### Food and sleep
 

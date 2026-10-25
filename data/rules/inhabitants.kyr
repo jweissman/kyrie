@@ -169,4 +169,18 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     }
     Result "{lord} takes it, and lets you be.".
   }
+  // What can be heard from the next room can be drawn out of it, and met where the company waits for it, ready: the
+  // first blow is the company's (see Environment). The follow-up review met a banshee as a fight the moment its room
+  // was entered, with no say in how. A place says which of its dwellers will come (drawable). The company awaits what
+  // it drew out until it is met: once they part, or it can fight no more, the waiting is over.
+  Relation drawable(group). Relation awaits(group, group).
+  Rule awaiting_over when awaits(?c, ?g) and (not together(?c, ?g) or not able(?g)) { Retract awaits(?c, ?g). }
+  Action draw_out(actor: group, lurker: group, whence: place, way: passage, site: place) "Draw out what is in {whence}, and wait for it here" {
+    Description "Make a noise at the way in, and step back to meet whatever comes, weapons out.".
+    Requires able(actor) and company(actor) and at(actor, site) and drawable(lurker) and able(lurker) and not routed(lurker)
+      and at(lurker, whence) and connects(way, whence, site) and visibleTo(way, actor) and passable(way, lurker).
+    Time 5 minutes.
+    On success { Assert at(lurker, site). Assert awaits(actor, lurker). }
+    Result "You make a noise at the way into {whence}, and step back to wait, weapons out. Something comes.".
+  }
 }

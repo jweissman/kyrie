@@ -231,10 +231,10 @@ export class Campaign implements WatchHost {
     if (action?.resolve?.name !== 'combat') { throw new Error('Action does not resolve a combat encounter'); }
     const seed = this.randomSeed(action, 'combat'), group = action.resolve.args[0]!;
     const attacker = action.actor && this.definition ? this.live.find(a => a.id === action.actor) : undefined;
-    return Battle.encounter(this.creatures, [
-      ...(attacker?.members ?? this.current.partyIds).map(creatureId => ({ creatureId, team: 'fighters' as const })),
-      ...this.current.inhabitants[group]!.map(creatureId => ({ creatureId, team: 'goblins' as const })),
-    ], { seed, ...Environment.encounter(this.world, this.playerActor, attacker?.members ?? this.current.partyIds) });
+    const members = attacker?.members ?? this.current.partyIds, foes = this.current.inhabitants[group]!;
+    return Battle.encounter(this.creatures, [...members.map(creatureId => ({ creatureId, team: 'fighters' as const })),
+      ...foes.map(creatureId => ({ creatureId, team: 'goblins' as const }))],
+    { seed, ...Environment.encounter(this.world, this.playerActor, members, group) });
   }
 
   private action(id: string): Operator {

@@ -338,7 +338,9 @@
       "name": "Dead",
       "description": "Fallen, and not come round: beyond waking now, and only a raising of the dead will bring them back.",
       "lifetime": "persistent",
-      "modifiers": { "noActions": true },
+      "modifiers": {
+        "noActions": true
+      },
       "begins": "{target} does not come round, and will not: they have died where they fell.",
       "source": {
         "kyr": true,
@@ -356,6 +358,19 @@
       "source": {
         "kyr": true,
         "notes": "Kyr's own: a company weary for want of sleep (needs.kyr) fights under it."
+      }
+    },
+    "ready": {
+      "name": "Ready",
+      "description": "Waiting for it with weapons out, where the company chose to meet it: quick to strike first, and steadier for it.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "initiative": 10,
+        "toHit": 1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: a company that drew something out to meet it where it waited (inhabitants.kyr) fights under it."
       }
     }
   }

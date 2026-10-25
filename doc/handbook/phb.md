@@ -8910,6 +8910,14 @@ Resists 50% of necrotic, immune to charm.
 
 > Attains exceptional intellect and wit.
 
+### Ready
+
+*Kyr · lasts the fight at most* · `condition:ready`
+
++1 to hit, +10 initiative.
+
+> Waiting for it with weapons out, where the company chose to meet it: quick to strike first, and steadier for it.
+
 ### Reckless
 
 *Faithful · lasts the fight at most* · `condition:reckless`

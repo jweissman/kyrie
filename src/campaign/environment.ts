@@ -4,12 +4,17 @@ import type { World } from '../lang/world';
 // in a settlement, urban; in an unlit place, a cave; otherwise the terrain of the region it is in, if the region says.
 export class Environment {
   // What a fight where an actor stands is fought under: the ground (Orsino's environment), the place's laws, and
-  // whether the members fighting are weary.
-  static encounter(world: World, actor: string | undefined, members: string[] = []):
-    { environment?: string; laws: string[]; weary?: string[] } {
+  // whether the members fighting are weary, or ready for what they fight.
+  static encounter(world: World, actor: string | undefined, members: string[] = [], against?: string):
+    { environment?: string; laws: string[]; weary?: string[]; ready?: string[] } {
     const environment = Environment.of(world, actor);
     return { ...environment ? { environment } : {}, laws: Environment.laws(world, actor),
-      ...Environment.weary(world, actor, members) };
+      ...Environment.weary(world, actor, members), ...Environment.ready(world, { actor, against }, members) };
+  }
+  // A company that drew out what it fights, and waited for it (inhabitants.kyr): its members meet it ready.
+  static ready(world: World, at: { actor?: string; against?: string }, members: string[]): { ready?: string[] } {
+    return at.actor && at.against && world.view.relations.some(r => r.name === 'awaits' && r.args[0] === at.actor
+      && r.args[1] === at.against) ? { ready: members } : {};
   }
   // A company weary for want of sleep (needs.kyr): its members fight weary.
   static weary(world: World, actor: string | undefined, members: string[]): { weary?: string[] } {

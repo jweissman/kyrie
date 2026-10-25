@@ -104,6 +104,21 @@ describe('what it takes, as the page tells it', () => {
     expect(heard()).toContain('From the long gallery comes a cold you can feel on your face');
     expect(heard()).not.toContain('breathing, or something like it');
   }, 60000);
+  // The follow-up review met a banshee as a fight the moment its room was entered, with no say in how.
+  it('lets what falls on whoever comes in be drawn out, and met where the company waits for it, ready', async () => {
+    const s = await Barrow.start();
+    Barrow.put(s, 'w8_halls_bone_hall');
+    const draws = Barrow.names(s).filter(n => n.startsWith('Draw out'));
+    // The ghouls of the long gallery fall on whoever comes in, and the ossuary holds one of the worst; what moves
+    // about in the mourners' hall warns first, and is not drawn.
+    expect(draws).toEqual(['Draw out what is in the long gallery, and wait for it here',
+      'Draw out what is in the ossuary, and wait for it here']);
+    const draw = PlayerView.choices(s.campaign).find(x => /^Draw out what is in the long gallery/.test(x.choice.name))!;
+    const e = await s.perform(draw.choice.id);
+    expect(s.campaign.world.one('at', 'region__w8_halls_gallery_dwellers')).toBe('region__w8_halls_bone_hall');
+    const first = e.combat.find(x => x.type === 'initiative');
+    expect(first?.type === 'initiative' && first.order[0]!.id).toBe('region__party_1');
+  }, 60000);
   it('offers a remedy only to whoever it would help', async () => {
     const s = await Barrow.start();
     Barrow.put(s, 's4_green');

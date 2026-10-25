@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 361,
     "represented": 4,
-    "kyr": 87,
+    "kyr": 88,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -970,7 +970,7 @@
       "faithful": 123,
       "adapted": 25,
       "represented": 0,
-      "kyr": 29,
+      "kyr": 30,
       "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 194,
+    "kyr": 197,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 189,
+      "kyr": 192,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -9497,6 +9497,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:ready",
+   "title": "Ready",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:reckless",
    "title": "Reckless",
    "status": "faithful",
@@ -11291,6 +11298,27 @@
   {
    "id": "rule:inhabitants.pay_tribute",
    "title": "pay tribute",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.drawable",
+   "title": "drawable, awaits",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.awaiting_over",
+   "title": "awaiting_over",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.draw_out",
+   "title": "draw out",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"

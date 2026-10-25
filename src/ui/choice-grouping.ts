@@ -32,6 +32,8 @@ export class ChoiceGrouping {
   static readonly rules: Record<string, Rule> = {
     travel: { slot: 'exit', param: 'destination', path: ['Go'] },
     go: { slot: 'exit', param: 'destination', path: ['Go'] },
+    // Beside the way in, how to meet what is heard there: go in to it, or draw it out (the follow-up review).
+    draw_out: { slot: 'exit', param: 'whence', path: ['Draw out what is in there, and wait for it here'] },
     risk: { slot: 'exit', param: 'destination', path: ['Risk {trap}', '{victim} goes first'], passage: 'hazard',
       via: '{trap}', risk: true },
     change_thing: { slot: 'target', param: 'thing', path: ['{how}'] },

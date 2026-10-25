@@ -728,8 +728,11 @@ excursion. It ranks twelve findings. I repaired these:
   condition said to end while the card still shows it is not traced.
 - **A dweller met as a fight with breathing for its warning** (its seventh, in part): what falls on whoever comes in
   is heard from the next room as what kind of thing it is, the dead as a cold and a breath let out and never drawn
-  in, a thing of earth or water as weather, beasts still as breathing (`test/what-it-takes.test.ts`). A choice of how
-  to go in, rather than whether, is not done.
+  in, a thing of earth or water as weather, beasts still as breathing (`test/what-it-takes.test.ts`). And the
+  company has a say in how it meets it: beside the way in, what falls on whoever comes in (or is one of the worst)
+  can be drawn out, and met where the company waits for it, ready, so that the first blow is theirs (a condition
+  of Kyr's own, held only against what it drew out). In a1's bone hall the ghouls of the long gallery come out to a
+  lone cleric, who strikes first and still falls.
 - **A notebook read was taken from view** (its tenth, in part): what is looked at stays in view when nothing more
   can be done with it, until it is turned away from (`test/thing-kept.test.ts`). Tending a wound from the pack still
   goes back to the conversation it was opened over.
