@@ -412,8 +412,14 @@ remembered, by name; people do not yet remember what else a company did.
   once it is taken the room no longer says it is there. The debt of thirty coin was paid before noon of the first
   day out of the bard's own purse and the barrow's first chamber, so it is fifty, which asks for the second room as
   well; the creditor's greeting is said until it is answered. One level of the barrow, three rooms past two traps,
-  paid about 240 coin in coin and goods; the robbers' captain beyond the back-stone was left alone. Not fixed: a
-  torch going out at the moment a glyph is unsaid hides that it was (the darkness swallows the glyph's new look).
+  paid about 240 coin in coin and goods. With an eel-catcher hired at Meóstun the company went back: the robbers'
+  captain, a third-level warrior at the back-stone, "stood its ground", and the page reckoned "it" more than the
+  company could take; one of a people is now spoken of without "it" in the plain words and the reckoning. He was
+  talked round, and the company went over the portal stone by its gap with a rope into the halls, where the dead
+  were heard beyond the king's door, and turned back. The salter had sold a lantern and nothing to fill it; every
+  shop that sells a lantern now sells oil. Not fixed: a torch going out at the moment a glyph is unsaid hides that
+  it was (the darkness swallows the glyph's new look), and the switch's "Vines erupt to entangle", Orsino's own
+  words, is told under a chalk mound where nothing grows.
 - The keeper was never fought; whether a party of level 8 or so could fight it is untested.
 - Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
   second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
