@@ -1,0 +1,3 @@
+#!/bin/bash
+# n NAME "substring" [nth]  -> click first button containing substring
+./s $1 "const xs=await page.\$\$('button'); const m=[]; for (const b of xs){ if((await b.innerText()).includes($(python3 -c 'import json,sys;print(json.dumps(sys.argv[1]))' "$2"))) m.push(b);} if(!m.length) return 'NO MATCH'; await m[${3:-0}].click();"

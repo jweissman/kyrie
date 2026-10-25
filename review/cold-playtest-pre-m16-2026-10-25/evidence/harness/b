@@ -1,0 +1,4 @@
+#!/bin/bash
+# b NAME "button text" [exact]  -> click button by accessible name
+N=$1; T=$2
+WAIT=${WAIT:-1000} FULL=${FULL:-false} ./act $N "await page.getByRole('button',{name:$(python3 -c 'import json,sys;print(json.dumps(sys.argv[1]))' "$T"), exact:${EXACT:-true}}).first().click();"

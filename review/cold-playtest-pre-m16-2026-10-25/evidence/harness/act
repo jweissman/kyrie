@@ -1,0 +1,11 @@
+#!/bin/bash
+# usage: act NAME 'js body'   -> runs js, waits, screenshots, prints body text
+N=$1; shift
+JS="$1"
+/tmp/claude-0/drv/k <<J
+$JS
+await page.waitForTimeout(${WAIT:-800});
+await page.screenshot({path:"/tmp/claude-0/shots/$N.png", fullPage: ${FULL:-false}});
+return await page.innerText("body");
+J
+echo

@@ -1,0 +1,12 @@
+#!/bin/bash
+# s NAME 'js'  -> do action, screenshot, print main text + buttons compactly
+N=$1; JS=${2:-""}
+./k <<J
+$JS
+await page.waitForTimeout(${WAIT:-1200});
+await page.screenshot({path:"/tmp/claude-0/shots/$N.png", fullPage:true});
+const t = await page.innerText("body");
+const bs = await page.evaluate(()=>[...document.querySelectorAll("button")].map((e,i)=>i+": "+e.innerText.replace(/\n/g," | ").slice(0,110)).join("\n"));
+return t + "\n----BUTTONS----\n" + bs;
+J
+echo

@@ -1,0 +1,3 @@
+#!/bin/bash
+# c NAME index -> click nth button
+./s $1 "await (await page.\$\$('button'))[$2].click();"
