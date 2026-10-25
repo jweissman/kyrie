@@ -19,6 +19,7 @@ import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { Obituary } from '../../src/narrative/obituary';
+import { Endings } from '../../src/lang/endings';
 import { BandNames } from '../../src/narrative/band-names';
 
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
@@ -244,7 +245,7 @@ export class EngineHost {
         : this.fought && this.told && this.screen.running
           ? { combat: CombatModel.ended(this.fought, this.told.event.combat, BandNames.of(campaign)) } : {},
       opening: this.opening.filter(Boolean),
-      ...this.screen.running ? {} : { ending: Obituary.of(campaign) },
+      ...this.screen.running ? {} : { ending: Endings.reached(campaign.world) ?? Obituary.of(campaign) },
       chronicle: PlayerView.chronicle(campaign)
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
       transcript: session.transcript };

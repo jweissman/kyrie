@@ -16,9 +16,8 @@ import type { InstalledModule, CampaignActor, CampaignDefinition } from './defin
 import { ModuleWriter } from '../lang/module-writer';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store';
-import { CommittedWorld } from './committed-world';
-import { Projection } from './projection';
-import { CampaignGrounding } from './campaign-grounding';
+import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
+import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
 import type { Creature } from '../creature';
 import { Membership, type LiveCache } from './membership';
 import { CampaignPlan } from './campaign-plan';
@@ -157,10 +156,10 @@ export class Campaign implements WatchHost {
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
   get persistent(): boolean { return !!this.definition; }
   get running(): boolean {
-    return this.party.some(c => c.hp > 0) && (this.persistent || this.current.outcome === 'active');
+    return this.party.some(c => c.hp > 0) && (this.persistent || this.current.outcome === 'active')
+      && !Endings.reached(this.world);
   }
-  // A save holds action schemas; operators are grounded on demand, so every save is compact.
-  // A save is a copy, unless it is to be written out at once (live): then it is the campaign itself, not to be kept.
+  // A save holds schemas (operators are grounded on demand); a copy, unless written out at once (live: not to be kept).
   save(_compact = false, live = false): CampaignSave {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
     this.keepFacts();

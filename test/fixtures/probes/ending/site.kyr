@@ -1,0 +1,14 @@
+Module ending "A gate, and how the story ends" {
+  Place pass "the pass" is wilderness.
+  Place gatehouse "the gatehouse" is room within pass at 0, 0.
+  Company party "You" of 1 at gatehouse.
+  Thing lever "the gate lever" at gatehouse {
+    State down "An iron lever stands in its slot, down.".
+    State up "The gate lever is up, and the gate stands open.".
+    Change pull "Haul the lever up" from down to up.
+  }
+  Observe gatehouse_scene at gatehouse when true "A gatehouse over the pass, its gate shut.".
+  // Two endings whose conditions hold together: the first written is the one reached.
+  Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours. Here the story ends.".
+  Ending pulled "The Lever Pulled" when state(lever, up) "You pulled a lever.".
+}

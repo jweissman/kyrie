@@ -594,6 +594,18 @@ say, as an observation does, to a company that hears them (`test/fixtures/patien
   Event bell at yard when knows(party, same) "Across the yard the granary bell rings once." teaches rung.
 ```
 
+### How the story ends
+
+An ending closes the book. The first whose condition holds is reached once: its epilogue is told as it happens, play
+stops, and the page closes on its title and epilogue, as it does when no one is left standing
+(`test/fixtures/probes/ending`):
+
+```text
+  Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours.".
+```
+
+`reached(opened)` says which ending a game came to, in a kept game as in play.
+
 ### Numbers in what is said
 
 Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:
