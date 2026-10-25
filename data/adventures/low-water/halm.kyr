@@ -1,0 +1,86 @@
+Module lowwater "Low Water" {
+  Description "Teodor Halm, Fellow of the Collegium of Lesser Instruments, who would give the lake for the Reckoner under it.".
+
+  Person halm "Teodor Halm" at dig {
+    Role "Fellow of the Collegium of Lesser Instruments". Ancestry human. Calling mage. Level 3. Peaceable. Pronouns he. Manner cheerful.
+    Sells old_glossary for 30 coin from 1.
+    Buys weight_stone for 2 coin.
+    Buys keeper_mask for 25 coin.
+    Buys bell_teeth for 12 coin.
+  }
+  Rule halm_to_inn when hour(clock) == 20 and at(halm, dig) { Retract at(halm, dig). Assert at(halm, taproom). }
+  Rule halm_to_dig when hour(clock) == 8 and at(halm, taproom) and not halmBelow(halm) and not digClosed(dig) { Retract at(halm, taproom). Assert at(halm, dig). }
+  Rule halm_to_hall when hour(clock) == 8 and at(halm, taproom) and digClosed(dig) and not halmBelow(halm) { Retract at(halm, taproom). Assert at(halm, listening_hall). }
+  Relation halmBelow(group).
+
+  Topic halm_hello with halm "Ask the scholar who he is" when true once {
+    Says "'— and this, you see, isn't Aenean at all, look at the joins, the Aeneans couldn't cut a joint like that if you held a knife to their great-grandchildren, this is older, this is Mathematical, which means the temple was built on something, over something, the whole Ward is a lid — sorry. Sorry. I do this. Hello.' He wipes a hand on his coat and offers it, still muddy. 'Teodor Halm. Collegium of Lesser Instruments. Lesser because the greater instruments are all broken, ha. That's the Collegium joke. There's only the one.'".
+  }
+  Topic halm_collegium with halm "Ask Halm about the Collegium of Lesser Instruments" when true once {
+    Says "'A society. Forty Fellows, a library in a damp house in Corran, and a letter that goes round twice a year. We collect working things.' He lights up. 'Not ruins. Anybody can collect ruins. Working things. A clock in a dead city that still strikes. A door that opens to a word. A keeper of clay in a dale in the north, the reports say, that walks a wall at night and cuts the saplings. Things that were made to go on, and did.' He spreads his hands. 'Almost all of them are Mathematical, or learned from someone who learned from the Mathematical. Almost none of them have been understood.'".
+  }
+  Topic halm_age with halm "Ask Halm what the Mathematical Age was" when true once {
+    Says "'Nobody knows. That's the honest answer, and the Collegium has built a library on it.' He sits on a basket. 'Before the Aeneans, who were before everybody. People who made things to answer questions, by number, and made them so well they still run. We have their marks, which aren't letters. We have their works. We don't have one sentence of what they thought they were doing.' He picks up a weight-stone and turns it. 'Some of us think they were trying to finish something. Some of us think they were trying to stop something. I think they were asking. Everything they made is shaped like a question.'".
+  }
+  Topic halm_hum with halm "Ask Halm what is behind the wall at the bottom of the throat" when true once {
+    Says "'Have you heard it? Put your ear to the Hall's inner wall. Go on.' He waits, bright-eyed. 'Something down there is running. In three thousand years nobody's built a machine that runs a year without a man to oil it. And that has been running since before there were men here at all.' Then, quietly, for once: 'I'd give the lake for it. I'm sorry. I would. I'd give the lake.'".
+  }
+  Topic halm_lake with halm "Ask Halm whether he means that about the lake" when true once {
+    Says "He considers it seriously, which is the worst thing about him. 'The Mere is a great deal of water, and water comes again; it rains. The Reckoner is the only one in the world.' He sees your face. 'I know. I know how that sounds. There are people at the bottom of the Bowl, and I've eaten their fish, and Dov Vant would take my head off and he'd be right to.' He looks at the stone in his hands. 'I'm not saying it's right. I'm saying it's what I'd do. You should know that about me before you tell me anything useful.'".
+  }
+  Topic halm_keystone with halm "Ask Halm to read the letters under the keystone in the Listening Hall" when knows(actor, keystone_seen) and not knows(actor, keystone_read) once {
+    Says "'You found the keystone. Of course you did; I've been sitting on it for a month.' He takes your arm and walks you through it as if at a lecture. 'The Aenean line says THE FIRST VOICE NAMES; THE VOICE AFTER SAYS HOW MUCH. A grammar, you see: two words to a sentence. And under it, older, in the marks, which I can read about as well as a child reads a gravestone: THE HIGH VOICE IS NOT SUNG. IT IS THE END OF THE SONG.' He lets go of your arm. 'They wrote a grammar on the wall and a warning underneath it in a language they couldn't read themselves. They copied it because it was holy. That's the Aeneans all over.'".
+    On discuss { Assert knows(actor, keystone_read). }
+  }
+  Topic halm_glossary with halm "Ask Halm whether there is a book for the old marks" when true once {
+    Says "'There is, and I have it, and I'll sell it you, because I know it by heart and I'm short.' He produces from his coat a fat book in wooden boards. 'The Collegium's glossary of the old script. Brothers of a dead order wrote the marks beside their own letters. It won't make a scholar of you. It'll make a reader, which is better than most scholars manage.'".
+  }
+  Topic halm_lintel with halm "Ask Halm to read the letters the Reckoner lit over the long stair" when knows(actor, question_heard) once {
+    Says "Halm goes white, and then red, and then he sits down on the floor where he is. 'It answered you. In the First Remainder. It sang you its question.' He reads the lintel in a whisper, with his finger moving. 'IT COUNTS WHAT IS BOUND.' He reads it again. 'What is bound. Body and soul, the prima materium, the binding. It's counting the bound. All of it. Everything that is, or was, or will be held together.' He laughs, helplessly. 'A census. They built a census of the souls of the world and left it running under a pond.'".
+    On discuss { Assert knows(actor, census_read). }
+  }
+  Discovery census_read "Halm reads the lintel the Reckoner lit: IT COUNTS WHAT IS BOUND. The Reckoner is a census of everything that is, was or will be bound, body and soul, by the prima materium.".
+  Topic halm_door with halm "Ask Halm to read the words over the last door" when knows(actor, door_words) once {
+    Says "'WHAT IS COUNTED IS GIVEN,' Halm reads. 'WHAT IS GIVEN IS KEPT.' He touches the round door. 'Given to whom? Kept by whom?' He looks at you as if you might know. 'When it's finished, this opens, and the count goes through. Somebody is meant to receive it.' A long pause. 'I would very much like to know who.'".
+  }
+  // Teodor Halm and The Long Man: the clay keepers of Merrowdale, if anyone brings him a piece of one.
+  Event halm_mask near halm when keeps(halm, ?m) and itemKind(?m, keeper_mask) "Halm holds the grey face up to the light, turns it, strikes it gently with a fingernail, and listens to it ring. 'Hesk weirstone,' he says. 'From Merrowdale. From the keeper of the Long Man, or one of its sisters.' He is quite still. 'Do you know what this is? It's the same fired clay as the Dyers' arch. The same. The Hesk learned their craft from whoever learned it from the people who built this.' He looks at the floor of the Bowl as if he could see through it. 'They're all one family of machines. All over Imbar. All asking.'" then {
+    Assert halmHasMask(halm). }
+  Relation halmHasMask(group).
+  Event halm_teeth near halm when keeps(halm, ?t) and itemKind(?t, bell_teeth) "Halm tips the bronze bell-teeth into his hands one by one and rings each. 'Teeth from a counting wheel,' he says. 'Look at the pitch: each one a voice. Somebody up north was building machines that count in voices too, and somebody else has been prising them out and selling them by the pound.' He sounds personally wounded." then {
+    Assert halmHasTeeth(halm). }
+  Relation halmHasTeeth(group).
+
+  // What Halm does if he is left alone: he reads the keystone himself, goes down, and ends the song.
+  Relation halmKnows(group). Relation halmStopped(group). Relation halmPromised(group).
+  Rule halm_reads when watch(clock) >= 480 and not halmKnows(halm) { Assert halmKnows(halm). }
+  Rule halm_told when knows(party, grammar_known) and not halmKnows(halm) and at(halm, ?p) and at(party, ?p) { Assert halmKnows(halm). }
+  Query halmCanGo() means breached(dig) or state(deep_gate, lowered) or state(deep_gate, logged).
+  Rule halm_goes when halmKnows(halm) and halmCanGo() and watch(clock) >= 666 and hour(clock) == 23 and not halmBelow(halm) and not halmStopped(halm) and not complete(reckoner) and not broken(reckoner) {
+    Assert halmBelow(halm). Retract at(halm, dig). Retract at(halm, taproom). Retract at(halm, listening_hall). Assert at(halm, column_room). }
+  Rule halm_ends when halmBelow(halm) and at(halm, column_room) and hour(clock) == 2 and not complete(reckoner) and not broken(reckoner) and not halmStopped(halm) and not at(party, column_room) {
+    Set count(reckoner) to 900. Assert endedBy(reckoner, halm). }
+  Observe halm_below at column_room when at(halm, column_room) and not complete(reckoner) "Teodor Halm is sitting cross-legged on the floor by the listening column with a lamp and a notebook and three weight-stones in a sack beside him. He looks up at you with perfect, guilty joy. 'You came,' he says. 'Good. Somebody should see it.'".
+  Topic halm_dont with halm "Ask Halm not to sound the high voice" when at(halm, column_room) and not complete(reckoner) and not halmStopped(halm) once {
+    Says "'Why not?' He genuinely wants to know. 'It's nearly done. It's been nearly done for three thousand years. If I sound the end it finishes now, with what it has, instead of drinking the rest of the Mere to get there.' He holds the striker. 'Isn't that kinder? Give me a reason. A real one. I'll listen; I'm not a monster. I'm just the only person in this city who wants to know the answer more than he wants anything else.'".
+  }
+  Topic halm_reason_ward with halm "Tell Halm that ending it now takes the Ward's last water in one breath" when at(halm, column_room) and not complete(reckoner) and not halmStopped(halm) and (knows(actor, door_words) or knows(actor, census_read)) once {
+    Says "'One last breath,' he says. 'Yes. Six spans, by the look of the slot.' He looks at the striker a long time. 'And then nothing more, ever. Against six spans a night for a hundred nights.' He holds it out to you, handle first. 'Then you decide. You're the Assessor. That's the whole point of you, isn't it.' He sounds, for the first time, very tired. 'Somebody who isn't me.'".
+    On discuss { Assert halmStopped(halm). }
+  }
+  Topic halm_reason_city with halm "Tell Halm the city has a right to choose this, at the Hearing, and he doesn't" when at(halm, column_room) and not complete(reckoner) and not halmStopped(halm) once {
+    Says "Halm opens his mouth to argue and shuts it again. 'The city,' he says. 'Who've sung it orders for three thousand years without knowing. Yes, all right. That's a fair point. That's annoyingly fair.' He puts the striker back on its chain. 'Let them choose. But if they choose to break it, Assessor, I'll stand up at your Hearing and tell them they're vandals, and I'll be right.'".
+    On discuss { Assert halmStopped(halm). Assert willTestify(halm). }
+  }
+  Rule halm_returns when halmStopped(halm) and at(halm, column_room) and not at(party, column_room) { Retract at(halm, column_room). Assert at(halm, taproom). Retract halmBelow(halm). }
+  Rule halm_did_it when endedBy(reckoner, halm) and complete(reckoner) and not toldHalm(party)
+    says "In the morning, word: the scholar from the Collegium was seen coming up the Ward steps at dawn, wet to the chest, laughing and weeping at once." {
+    Assert toldHalm(party). Retract at(halm, column_room). Assert at(halm, taproom). Retract halmBelow(halm). }
+  Relation toldHalm(group).
+  Topic halm_after_end with halm "Ask Halm what he heard" when complete(reckoner) and not broken(reckoner) once {
+    Says "'Everything,' says Halm. 'Everything and a number.' He has not slept and does not look as if he will. 'The whole hymn came up out of the water at once, and then one long last tone that I think was the count, and then the door opened.' He shakes his head. 'I wrote down the tone. It's a number. I'll be fifty years working out what it means and I'll die before I do, and it'll be the best fifty years anybody in the Collegium ever had.' Then: 'Did it cost much? The water?' He listens to the answer. He does not argue with it.".
+  }
+  Topic halm_after_broken with halm "Say something to Halm about the Reckoner" when broken(reckoner) once {
+    Says "Halm does not look at you. 'I heard it stop,' he says. 'In the Hall. I had my ear to the wall and it stopped, like a heart.' He is packing his notebooks into a case, very neatly. 'I'll write to the Collegium tonight. I'll tell them the last working instrument of the Mathematical Age in the north of Imbar was broken by an Assessor of the Office of Measures, to save a pond.' He fastens the case. 'I'll tell them it was a very good pond. I'll be fair. I'm always fair. It's the worst thing about me.'".
+  }
+}

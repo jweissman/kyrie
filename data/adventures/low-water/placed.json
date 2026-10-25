@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "source": ["bowl.kyr", "rim.kyr", "measures.kyr", "sounding.kyr", "dyers.kyr", "locks.kyr", "ward.kyr", "merebed.kyr",
+    "undercroft.kyr", "interval.kyr", "isaura.kyr", "halm.kyr", "hearing.kyr", "placed.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party"],
+  "roles": { "party": { "type": "group" } },
+  "exports": { "party": "party", "region": "bowl", "rim": "rim_road", "road_end": "rim_road", "collegium": "halm" }
+}

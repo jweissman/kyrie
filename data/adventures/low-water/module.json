@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": ["bowl.kyr", "rim.kyr", "measures.kyr", "sounding.kyr", "dyers.kyr", "locks.kyr", "ward.kyr", "merebed.kyr",
+    "undercroft.kyr", "interval.kyr", "isaura.kyr", "halm.kyr", "hearing.kyr", "endings.kyr", "company.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "exports": { "party": "party", "region": "bowl", "rim": "rim_road", "collegium": "halm", "quill": "quill" }
+}

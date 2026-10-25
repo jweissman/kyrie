@@ -1,0 +1,181 @@
+Module lowwater "Low Water" {
+  Description "The Rim of the Bowl: the north road's end, the head of the Stair, the Rim Gauge where the Ninefold comes in, the Fulling Channel, the mills, and Harrow Quill's counting-house.".
+
+
+  Place rim_road "the north road, at the Rim" is room within ammerlin at 0, 0 outdoors.
+  Place rim_head "the head of the Stair" is room within ammerlin at 1, 0 outdoors.
+  Place rim_gauge "the Rim Gauge" is room within ammerlin at 2, 0 outdoors.
+  Place fulling_mills "the fulling mills" is room within ammerlin at 3, 0 outdoors.
+  Place counting_house "the Guild counting-house" is building within ammerlin.
+  Place quill_outer "the counting-house floor" is room within counting_house at 0, 0.
+  Place quill_room "Harrow Quill's counting-room" is room within counting_house at 1, 0.
+
+  Passage rim_gate "the Rim gate" is gate between rim_road and rim_head.
+  Passage gauge_walk "the walk along the Rim" is path between rim_head and rim_gauge taking 10 minutes.
+  Passage channel_walk "the Channel towpath" is path between rim_gauge and fulling_mills taking 10 minutes.
+  Passage counting_door "the counting-house door" is door between fulling_mills and quill_outer.
+  Passage quill_door "the door to the counting-room" is door between quill_outer and quill_room.
+
+  Discovery bowl_seen "Ammerlin goes down the inside of the Bowl in four terraces to the Mere, and the Mere is ringed with fresh mud.".
+  Observe road_first at rim_road when not knows(party, bowl_seen) "The road comes over the lip of the Bowl and stops, because the world does. Below you the city goes down in four great steps, each a ring of roofs and gardens and wet stone, and between the rings the water: falling, turning, held. You can hear it before you understand it, a sound like a great many people breathing out. At the bottom, very far, the Mere lies like a coin somebody dropped. There is a pale ring round it. It takes you a moment to see that the ring is mud." teaches bowl_seen.
+  Observe road_scene at rim_road when knows(party, bowl_seen) "The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall.".
+  Observe road_low at rim_road when knows(party, bowl_seen) and mere(bowl) <= 30 "From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it.".
+
+  Observe head_scene at rim_head when true "The head of the Stair: a stone landing the size of a market, where the Ninefold, brought along the Rim in a cut channel, drops into the first of the Nine Locks and goes down the Bowl in steps of white water. Stairs for people go down beside it. The spray makes a rainbow over the first lock at this hour and a cold mist at every other.".
+  Observe head_spray at rim_head when hour(clock) >= 7 and hour(clock) < 11 "The rainbow hangs over the first lock, so steady the carters use it to tell the time.".
+
+  // The Rim Gauge: where the Ninefold comes in, and where the Guild took its fifth.
+  Observe gauge_scene at rim_gauge when true "The Ninefold comes into the Bowl here, out of a cutting in the Rim, over a weir of dressed stone with a brass gauge-plate let into it. Past the weir the water splits at a stone head with three mouths: one down to the head of the Stair, one along the Rim in a new brick channel toward the sound of hammers, and one, the oldest, bricked up with stone so old it has gone green.".
+  Observe gauge_plate at rim_gauge when true "The brass plate on the weir is cut with the Office's marks, ells-per-day, and stamped with its seal. The water stands on it at three hundred and twenty.".
+  Discovery feeder_seen "At the Rim Gauge the channel head has a third mouth, the oldest, bricked up: a course that once went somewhere else than the Stair or the mills.".
+  Observe third_mouth at rim_gauge when not knows(party, feeder_seen) "The third mouth of the channel head is the strangest. The brick that stops it is a later patch on far older work: the arch round it is cut in a stone you have not seen anywhere else in the Bowl, grey, fine, with no tool marks at all." teaches feeder_seen.
+
+  Thing channel_gate "the channel head" at rim_gauge {
+    State to_mills "The channel head is set to the Guild's brick channel: a fifth of the Ninefold goes along the Rim to the mills, and the rest down the Stair.".
+    State to_mere "The channel head is set as it was before the Guild: all of the Ninefold goes down the Stair to the Mere, and the brick channel to the mills is a dry ditch.".
+    State to_deep "The old third mouth stands open, its patch broken out. A fifth of the Ninefold goes into it and away under the Rim with a hollow roar, toward the Ninth Lock by some way that is not the Stair.".
+  }
+  Thing guild_chain "the Guild's chain on the channel head" at rim_gauge {
+    State chain_locked "A chain as thick as a wrist holds the channel head's wheel, padlocked, with a tin plate on it: MILLWRIGHTS' GUILD. BY CHARTER.".
+    State chain_cut "The Guild's chain hangs in two pieces from the channel head's wheel.".
+    State chain_loose "The Guild's chain hangs loose from the channel head's wheel, its padlock open.".
+    Change cut "Break the Guild's chain off the channel head" from chain_locked to chain_cut needing crowbar.
+  }
+  Relation measured(entity). Relation channelLicensed(group). Relation feederLicensed(group).
+  Discovery channel_measured "The Fulling Channel takes twenty-two ells a day from the Ninefold. Isaura measured it twice, with the same result.".
+  Action measure_channel(actor: group, site: place) "Gauge the Fulling Channel's draw, with Isaura's rod" {
+    Description "Isaura sounds the brick channel at three places with the brass ell-rod and works the sum.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_gauge) and travelsWith(isaura, actor) and not measured(channel_gate).
+    Time 3.
+    On success { Assert measured(channel_gate). }
+    Result "Isaura goes down on one knee on the wet brick and puts the ell-rod into the Channel at its head, at its middle, and at the bend, and each time reads it, and each time writes. She works the sum on her knee with the graphite. 'Twenty-two,' she says. 'Twenty-two ells and a half, if I'm generous to them, which I'm not.' She does it again, from the beginning. 'Twenty-two.'".
+  }
+  Rule channel_known when measured(channel_gate) and not knows(party, channel_measured) says "Isaura closes her ledger on the figure: twenty-two ells a day." teaches channel_measured { }
+
+  // Turning the head: by right (the Guild's leave, or the Hearing's order), or by force.
+  Action restore_channel(actor: group, site: place) "Turn the channel head back into the Ninefold's course" {
+    Description "Send all of the Ninefold down the Stair to the Mere, as it went before the Guild.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_gauge) and not state(channel_gate, to_mere)
+      and (state(guild_chain, chain_cut) or state(guild_chain, chain_loose)).
+    Time 2.
+    On success { Assert state(channel_gate, to_mere). Assert turnedBy(channel_gate, actor). }
+    Result "The wheel is stiff, and then it is not. The brick channel to the mills chokes and empties, the Stair's white water thickens, and along the Rim the hammers of the mills go one by one out of time, and stop.".
+  }
+  Action feed_deep(actor: group, site: place) "Break out the old third mouth and send the Channel's water down it" {
+    Description "The oldest course, toward the Ninth Lock and the Deep, past the Mere.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_gauge) and knows(actor, feeder_known)
+      and not state(channel_gate, to_deep) and (state(guild_chain, chain_cut) or state(guild_chain, chain_loose)).
+    Time 3.
+    On success { Assert state(channel_gate, to_deep). Assert turnedBy(channel_gate, actor). }
+    Result "The patch comes out brick by brick, soft with age, and behind it the old grey arch goes on into the Rim, dry as a throat. You turn the wheel. The Channel's water leaves the brick for the grey stone as if it had always been waiting to, and goes in under the Rim with a hollow roar, and somewhere far below you, in the floor of the Bowl, something answers it with a long deep note.".
+  }
+  Action close_channel_head(actor: group, site: place) "Set the channel head back to the Guild's channel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_gauge) and not state(channel_gate, to_mills)
+      and (state(guild_chain, chain_cut) or state(guild_chain, chain_loose)).
+    Time 2.
+    On success { Assert state(channel_gate, to_mills). }
+    Result "The wheel goes round. The brick channel fills again, and along the Rim, after a while, the hammers start.".
+  }
+  Relation turnedBy(entity, group).
+
+  // The mills, and the people whose work the Channel is.
+  Observe mills_scene at fulling_mills when state(channel_gate, to_mills) "Eight new mill-houses of yellow brick stand along the Channel with their wheels turning and their hammers going, and the whole Rim shakes with it. Wet cloth hangs from frames in long red and blue banners. Four hundred people work here, more or less; the more is in the morning.".
+  Observe mills_idle at fulling_mills when not state(channel_gate, to_mills) "The mill wheels stand still in an empty channel. The hammers are up. Cloth hangs half-fulled on the frames, and the mill hands stand about in the lanes in groups, not talking much, looking toward the counting-house.".
+  Person sella "Sella Marsh" at fulling_mills {
+    Role "forewoman of the fulling mills". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+  }
+  Person hands "the mill hands" at fulling_mills {
+    Role "fullers and shearers of the Guild mills". Ancestry human. Numbers 6. Peaceable.
+  }
+  Discovery guild_unpaid "The Guild has not paid its mill hands since Lammas. Sella Marsh says Quill has sworn they will be paid when the charter is renewed." { Known by sella. }
+  Discovery engineers_report "Quill's own engineers measured the Fulling Channel the summer it was cut, and wrote that it could not account for the Mere's fall: it takes too little. Quill has the report." { Known by sella. }
+  Topic sella_work with sella "Ask Sella Marsh about the mills" when true once {
+    Says "'What about them?' Sella does not stop watching the hammers. 'Eight houses, four hundred hands, three shifts when there's orders. Cloth for half the north. Two years ago there were forty people here and a ruined farm.' She points with her chin at the brick channel. 'That's what water's for. Ask anybody who's been hungry.'".
+  }
+  Topic sella_wages with sella "Ask Sella when the hands were last paid" when true once {
+    Says "That makes her look at you. 'Who told you to ask that?' Nobody. She lets out a breath. 'Lammas. Not since Lammas. Master Quill says the charter comes up at the Council and once it's renewed the money's there, the creditors are waiting on it same as us.' She shrugs, hard. 'Four hundred people waiting on a vote. Don't write that down.'".
+    On discuss { Assert knows(actor, guild_unpaid). }
+  }
+  Topic sella_channel with sella "Ask Sella whether the Channel is draining the Mere" when knows(actor, channel_measured) once {
+    Says "'No,' she says, straight off, and then: 'Not like they say. Look, I was here the summer it was cut. Two engineers came up from Corran with a chain and a level, Quill paid them a fortune. They measured it every way there is. I carried their stakes.' She lowers her voice. 'They wrote it down. Twenty-two ells, they said, and the Mere's falling sixty, and the one can't be the other. Quill's got their report in his strongbox. He never showed it anybody. Why would he? Everybody blaming the Channel keeps everybody from asking where the rest's going.'".
+    On discuss { Assert knows(actor, engineers_report). }
+  }
+  Relation promised(group, group).
+  Topic sella_report with sella "Ask Sella if she could get the engineers' report out of the strongbox" when knows(actor, engineers_report) and not promised(actor, sella) once {
+    Says "'And lose my place?' But she is thinking about it. 'I've a key to the strongbox; I do the wages, when there are wages.' She looks at the hands in the lanes. 'Here's my price. At the Council you stand up and you say four hundred people haven't been paid since Lammas, and you say it before anything else. Whatever else you find. Promise me that and I'll have the copy on the bench by the door for you within the hour.'".
+  }
+  Topic sella_promise with sella "Promise Sella you will speak for the mill hands at the Hearing" when knows(actor, engineers_report) and not promised(actor, sella) {
+    Says "Sella looks at you a long while, then nods once. 'Within the hour,' she says, and goes into the counting-house by the side door, jingling.".
+    On discuss { Assert promised(actor, sella). Set reportAt(sella) to watch(clock) + 5. }
+  }
+  Measure reportAt(group).
+  Kind engineers_copy "the Corra engineers' report on the Fulling Channel" is treasure worth 0 weighing 0 described "Eleven pages in a good clerk's hand, with a drawing of the channel head and columns of figures. On the last page, underlined twice: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL OBSERVED IN THE MERE. Signed by two engineers of Corran, and countersigned by H. Quill, Master.".
+  Thing strongbox "the Guild strongbox" at quill_room {
+    Holds.
+    State box_locked closed "An iron strongbox stands under the window, locked, with the Guild's seal on its lid.".
+    State box_open "The Guild strongbox stands open.".
+    Change pick "Pick the strongbox's lock" from box_locked to box_open needing lockwork.
+  }
+  Item report "the engineers' report" is engineers_copy in strongbox owned by quill.
+  Rule report_brought at fulling_mills when promised(party, sella) and reportAt(sella) > 0 and watch(clock) >= reportAt(sella) and not broughtOut(report)
+    says "Sella Marsh comes out of the counting-house's side door, puts a fat fold of paper on the bench by the door under a stone, and goes back to the hammers without looking at you." {
+    Retract inside(report, strongbox). Assert at(report, fulling_mills). Assert broughtOut(report). }
+  Relation broughtOut(item).
+  Observe report_waiting at fulling_mills when at(report, fulling_mills) "On the bench by the counting-house door, under a stone, lies a fat fold of paper with a Corran seal.".
+
+  // Harrow Quill, Master of the Millwrights' Guild.
+  Observe outer_scene at quill_outer when true "A long room of clerks at high desks, each with a candle and a ledger, under a painted ceiling of the Ninefold coming down from the hills as a woman pouring a jar. The clerks look up at you all at once, and down again all at once, like birds.".
+  Observe quill_scene at quill_room when true "A counting-room with good windows over the Rim and the whole Bowl. Maps of the terraces cover one wall, the Ward's plots on them marked in red ink, a good many of them. A tray with a decanter and three glasses, as if visitors were expected and welcome.".
+  Person quill "Harrow Quill" at quill_room {
+    Role "the Master of the Millwrights' Guild". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+  }
+  Person bailiffs "the Guild's bailiffs" at quill_outer {
+    Role "three big men in green coats". Ancestry human. Calling warrior. Level 2. Numbers 3.
+    Temperament territorial.
+    Warns "The biggest of the bailiffs steps in front of you and lets his cudgel hang where you can see it. 'Guild ground,' he says. 'Off it.'".
+    Comes "The bailiffs come at you all three together, the way men do who have done it before.".
+    Flinches "The bailiffs back off, cudgels up, and go for help.".
+  }
+  Initially Assert tolerates(bailiffs, party).
+  Initially Assert serves(bailiffs, quill). Initially Assert keyholder(quill, guild_chain).
+  Topic quill_side with quill "Ask Harrow Quill for his side of it" when true once {
+    Says "'Sit, Assessor, sit. You'll want to hear my side and I'll want you to have heard it, so let's be efficient.' He pours three glasses and drinks one. 'Twenty-two ells. That's what my Channel takes, or near enough; your clerk will have it to the half-ell, I admire her enormously. Twenty-two ells, bought fairly from farms that were dying, and with it four hundred people have work who had none. The Mere has fallen sixty ells' depth in three years. Do the sum. I am a sliver of your problem. I am the sliver you can see, and so I'm the sliver everyone would like to cut out.'".
+  }
+  Topic quill_why with quill "Ask Quill why the Mere is falling, then" when true once {
+    Says "'Drought,' he says. 'In the hills. The Ninefold's been low three summers running; ask any carter.' He spreads his hands. 'The Bowl has always had good years and bad. My grandfather used to say the Mere breathed: a hundred years in, a hundred out. We are in the out. We will be in the in again. Meanwhile, should four hundred people starve so the fish can have their pond back?' He smiles. 'That's rhetoric. I apologise. I was trained to it, and it's a habit, like a limp.'".
+  }
+  Topic quill_ward with quill "Ask Quill about the red ink on the Ward map" when true once {
+    Says "'Oh, good. You've done more than walk around.' He is delighted. 'Yes. I'm buying it, plot by plot, through Basset. Somebody has to. When the Mere's down, and it's going down, Assessor, it's been going since before either of us drew breath, it's only faster now, that land will be the richest in Ammerlin. There are Aenean temples under it. Do you want them looted by fishermen with shovels, or dug properly, with wages?' He taps the map. 'Those are the only choices anyone's paying for.'".
+  }
+  Topic quill_good with quill "Ask Quill what he thinks water is for" when true once {
+    Says "'For?' He likes the question; he sits back. 'Everything. That's the difficulty. Water is the one thing every use of everything needs, so every use quarrels over it. The Office pretends the quarrel is settled by measuring, but measuring only tells you how much there is to quarrel about.' He turns his glass. 'I say it goes where it does the most good, and the most good can be counted: in cloth, in wages, in bread. The Ward says it goes where it has always gone. That's not an argument, Assessor. That's a habit with a grievance.' A pause. 'Though I grant you a habit with a grievance has won more elections than any argument I ever made.'".
+  }
+  Topic quill_many with quill "Ask Quill whether the most good of the many is the good of anyone" when knows(actor, guild_unpaid) once {
+    Says "He laughs, really laughs. 'You've been talking to Sella.' He puts the glass down. 'Yes, all right. The good of the many is a sum, and a sum is nobody's. Four hundred wages are four hundred suppers, and they're also a figure in a ledger I'm three quarters of a year behind on.' For a moment he looks his age. 'I overbuilt. Eight houses where five would have done. If the charter's renewed the creditors wait, and the hands are paid by spring. If it isn't, the Guild is a ruin by Candlemas and so are four hundred suppers. So when I tell you the Channel is a sliver, I'm telling you the truth, and I'm also telling you what I need to be true. I'd like you to remember both.'".
+  }
+  Topic quill_report with quill "Tell Quill you know what his engineers wrote" when knows(actor, engineers_report) once {
+    Says "Quill is quiet a moment. Then he gets up, goes to the strongbox, and does not open it; he stands with his hand on it. 'Sella,' he says, not to you. 'Well.' He turns. 'Yes. They wrote that the Channel can't be a third of it. I didn't publish it because the city was going to blame somebody, and if not me then somebody worse placed: the Ward, the Sounding, the Office. I am well placed to be blamed. I have lawyers.' He sits again. 'And because I hoped it was drought. It's not, is it. You know what it is.' He looks at you very directly. 'If you know where the rest is going, Assessor, I'll deal. I'm a reasonable man with a great many debts.'".
+    On discuss { Assert conceded(quill). }
+  }
+  Relation conceded(group).
+  Topic quill_engine with quill "Tell Quill there is a working machine under the Mere, and what it drinks" when knows(actor, engine_seen) and not quillDeal(quill) once {
+    Says "Quill listens to all of it without a word, which you have not seen him do before. 'A machine,' he says at last, 'that drinks a river, and has for three thousand years, and makes nothing anyone can see.' He gets up and looks at the Bowl from his window. 'You know what I hear? I hear that there's a way under the Rim that goes straight to it. That the old ones fed it from up here, past the Mere.' He turns round. 'My Channel could feed it. A few days of my water and it has what it wants, and the Mere keeps the rest. My mills would stand idle. Idle mills I can bear for a week, Assessor, if at the end of the week the city owes me something.'".
+    On discuss { Assert offered(quill, actor). }
+  }
+  Relation offered(group, group). Relation quillDeal(group).
+  Topic quill_terms with quill "Ask Quill what the city would owe him" when offered(quill, actor) and not quillDeal(quill) once {
+    Says "'The dig,' he says at once. 'The Ward plots I hold, confirmed, and the Aenean land under them, by the Office's seal. And the charter renewed, with your Finding saying in so many words that the Guild was not the cause.' He holds up a hand before you answer. 'I know whose land that is, by habit. I know whose brother digs it. I'm asking anyway. Somebody always gets the land, Assessor. I'm asking that it be somebody who'll pay wages on it.'".
+  }
+  Topic quill_agree with quill "Agree to Quill's terms: the Ward plots and the charter, for his Channel down the old course" when offered(quill, actor) and not quillDeal(quill) and knows(actor, feeder_known) {
+    Says "Quill shakes your hand, warmly, and holds it a moment longer than he needs to. 'Done.' He writes three lines on a slip, sands them, and rings for a clerk. 'The padlock on the head will be off within the hour. You'll want to do the turning yourself, I think; you'll want to be able to say you did.' At the door he says, not quite lightly: 'If it doesn't stop the Mere, I'll still want my plots.'".
+    On discuss { Assert quillDeal(quill). Assert state(guild_chain, chain_loose). Assert feederLicensed(actor). Assert channelLicensed(actor). }
+  }
+  Rule chain_cut_seen when state(guild_chain, chain_cut) and not chainReported(quill) says "Somewhere along the Rim a mill whistle goes, and keeps going. Somebody has seen the Guild's chain on the channel head lying in two pieces." {
+    Assert chainReported(quill). Retract tolerates(bailiffs, party). }
+  Relation chainReported(group).
+  // The bailiffs come to the head when the chain is broken, and do not let it lie.
+  Rule bailiffs_to_head when chainReported(quill) and not quillDeal(quill) and at(bailiffs, quill_outer) and not met(bailiffs, rim_gauge) {
+    Retract at(bailiffs, quill_outer). Assert at(bailiffs, rim_gauge). Assert met(bailiffs, rim_gauge). }
+  Relation met(group, place).
+  Observe bailiffs_at_head at rim_gauge when at(bailiffs, rim_gauge) "Three big men in green coats stand at the channel head with cudgels, the Guild's bailiffs, waiting for whoever broke the chain to come back.".
+}

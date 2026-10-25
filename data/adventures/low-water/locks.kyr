@@ -1,0 +1,111 @@
+Module lowwater "Low Water" {
+  Description "The Nine Locks: the stair of water down the third terrace, the Ninth Lock and its Deep Gate, the lock-house of Piet Harl, and the culvert beyond the gate.".
+
+
+  Place lock_stair "the lock stair" is room within ammerlin at 1, 3 outdoors.
+  Place ninth_lock "the Ninth Lock" is room within ammerlin at 1, 4 outdoors.
+  Place lock_house "the lock-house" is building within ammerlin.
+  Place piet_room "the keeper's room" is room within lock_house at 0, 0.
+  Place intake_culvert "the intake culvert" is room within undercroft at 0, 0 underground.
+
+  Passage third_stair "the Stair, from the Dyers' Walk down the Nine Locks" is steps between dyers_walk and lock_stair taking 20 minutes.
+  Passage ninth_steps "the steps to the Ninth Lock" is steps between lock_stair and ninth_lock.
+  Passage keeper_door "the lock-house door" is door between ninth_lock and piet_room.
+  Passage keepers_hatch "the keeper's hatch beside the Deep Gate" is steps between ninth_lock and intake_culvert
+    opening when state(deep_gate, lowered) or state(deep_gate, logged) or broken(reckoner) or complete(reckoner) "Beside the Deep Gate an iron hatch is set in the lock floor. Under it, the culvert beyond the gate is a black throat of water going down at a run. Nothing goes down it that wants to come back.".
+  Initially Assert unlit(intake_culvert).
+
+  Observe stair_scene at lock_stair when true "The Nine Locks go down the third terrace like a giant's stair: nine stone chambers one below another, each with its gates and its balance-beams and its keeper's bench, and the Ninefold going down them in white falls. Barges of stone and wool wait at the head of each to be let down. A keeper in a blue coat at every lock, and a bell-rope at every keeper.".
+  Observe ninth_scene at ninth_lock when true "The Ninth Lock is the last and the deepest, at the foot of the terrace, and it does not open onto the Mere. Its lowest chamber has no lower gate. The water comes in from above, goes round in a slow black eddy, and leaves by the floor.".
+  Discovery deep_drinks "The water of the Ninth Lock goes down through the Deep Gate in its floor, and no culvert from it comes out anywhere in the Bowl: not into the Mere, not into the Ward.".
+  Observe deep_looked at ninth_lock when (state(deep_gate, raised) or state(deep_gate, half)) and not knows(party, deep_drinks) "You lean over the chamber's edge. The eddy goes round and round and, at the bronze, down. You walk the lock's whole wall, and the Ward wall below it, for an outfall, a culvert, a weep-hole: there is none. Whatever goes down the Deep does not come back up anywhere you can find." teaches deep_drinks.
+  Discovery gate_hears "The Deep Gate answers the Hymn. At the first bell of the Sixth Remainder its bronze stirs in its bed, by nothing anyone can see.".
+  Observe gate_stirs at ninth_lock when hour(clock) == 19 and sungTonight(bowl) and not knows(party, gate_hears) and not state(deep_gate, logged) "At the first bell of the Hymn from the Sounding, far up the terraces, the bronze of the Deep Gate shivers in its bed, the whole width of it, the way a dog's skin shivers at its name. Nobody has touched it. The keeper on his bench writes something in his book." teaches gate_hears.
+  Discovery gate_falls_seen "At the Seventh Remainder, sung from the Sounding, the Deep Gate lay down in its bed by itself, as Abel Lusk said it always did.".
+  Observe gate_falls at ninth_lock when seventhTonight(bowl) and state(deep_gate, lowered) and hour(clock) == 20 and not knows(party, gate_falls_seen) "Four low notes come down the terraces from the Sounding, alike, alike, alike, alike. The Deep Gate goes down. It goes down slowly, the whole bronze width of it, until it lies flat in its bed with a thread of water running over its lip. Piet Harl is standing on his bench with his book in both hands, and he is crying." teaches gate_falls_seen.
+
+  // Piet Harl, keeper of the Ninth Lock.
+  Person piet "Piet Harl" at piet_room {
+    Role "the keeper of the Ninth Lock". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+  }
+  Rule piet_to_bench when hour(clock) == 18 and at(piet, piet_room) { Retract at(piet, piet_room). Assert at(piet, ninth_lock). }
+  Rule piet_to_room when hour(clock) == 22 and at(piet, ninth_lock) { Retract at(piet, ninth_lock). Assert at(piet, piet_room). }
+  Observe piet_room_scene at piet_room when true "A keeper's room the size of a cupboard: a cot, a stove, a window on the Deep. On the table, the lock-book, open, and a stack of older lock-books in a crate, and a shelf with a clay figure of a young man holding a wheel, which is not very like him.".
+  Observe piet_on_bench at ninth_lock when at(piet, ninth_lock) "Piet Harl sits on the keeper's bench with the lock-book on his knees, watching the Deep Gate the way you would watch a sleeping animal.".
+  Discovery lockbook_read "Piet Harl's lock-book has one entry a night for three years, in the same hand: Deep up at the Sixth. Seventh not sung. Deep did not come down.".
+  Thing lockbook "the lock-book" at piet_room {
+    State book_open "The lock-book lies open on the table.".
+    Tries looking.
+  }
+  Rule lockbook_looked when tried(lockbook, looking) and not knows(party, lockbook_read)
+    says "Each night one line in a careful hand. Deep up at the Sixth. Seventh not sung. Deep did not come down. The next night the same. You turn back through the book, and the book in the crate under it, and the one under that. A thousand nights and more. On the first page of the oldest, before the new Hymn: Deep up at the Sixth. Down at the Seventh. Cupful. Then again, Down at the Seventh. Cupful. Then one night: Seventh not sung." teaches lockbook_read { }
+  Discovery letters_read "Piet Harl wrote twice to the Sounding, the first winter of the Short Hymn, to ask when the Seventh Remainder would be sung, since the Deep Gate had not come down. The Sounding answered once, that the Remainders were a matter for the Cantors." {
+    Source letters "Piet's copies of his letters to the Sounding, and the answer" at piet_room readable by party.
+  }
+  Topic piet_job with piet "Ask Piet Harl what his work is" when true once {
+    Says "'Keeping the Ninth.' He says it as if it were obvious, and then sees it isn't. 'Letting the barges down to here, that's most of it, and the gates. And the Deep. At the Sixth Remainder it goes up, and at the Seventh it comes down, and I watch it, and I write it in the book.' He touches the book. 'Master Lusk said the keeper's not there to work the Deep. There's nothing to work it with. He's there to see it.'".
+  }
+  Topic piet_deep with piet "Ask Piet whether the Deep Gate comes down now" when true once {
+    Says "'No.' Very quiet. 'Not since the new Hymn. It goes up at the Sixth, they still sing the Sixth, it's the beautiful one. And then there's no Seventh, and it stays up.' He looks at the gate. 'Three years. I write it every night. Deep did not come down. I don't know what else to write. The rhyme says if it doesn't, send to the Sounding. I sent.'".
+  }
+  Topic piet_letters with piet "Ask Piet what the Sounding said" when true once {
+    Says "He takes two folded papers from under the lock-book and a third with a seal, and gives you all three without being asked twice; he has been waiting for somebody to ask. 'I wrote it plain. The Deep did not come down, when will the Seventh be sung. And then again at midwinter.' He taps the sealed one. 'A young Cantor answered. The Remainders are a matter for the Cantors and not the locks.' He tries to smile. 'I thought perhaps it was a test. Of the keeper. To see if I'd keep watching.' He has kept watching.".
+  }
+  Topic piet_close with piet "Ask Piet whether he could close the Deep Gate himself" when true once {
+    Says "'With what?' He shows you: no wheel, no chain, no pin, nothing to turn or pull. 'It's not a gate anybody works. It's a gate that works.' Then, reluctantly: 'There's the stop-logs. Oak beams, for when we dry a chamber to mend it. The crane can drop them in any slot in the Nine. Not the Deep, though. Never the Deep. Master Lusk said never.' A pause. 'He didn't say why. He said never the high voice, too, and he didn't say why that either.'".
+  }
+  Relation pietWilling(group). Relation pietAfraid(group).
+  Topic piet_logs with piet "Ask Piet to help drop the stop-logs in the Deep's mouth" when (warranted(actor) or knows(actor, hymn_cause)) and not pietWilling(piet) and state(deep_gate, raised) once {
+    Says "Piet looks at you, and at the Gate, and back. 'If you're sure,' he says, and you can see what it costs him. 'If it's the Office saying so. Somebody has to say so who isn't me.' He goes to the crane. 'They're heavy. It wants the two of us and the crane, and the Gate won't like it.' He does not explain how he knows what the Gate will like.".
+    On discuss { Assert pietWilling(piet). }
+  }
+  Topic piet_hymn_restored with piet "Ask Piet how it is now the Seventh is sung" when knows(actor, gate_falls_seen) once {
+    Says "'It came down.' He says it as if it might not be true if he says it too loud. 'At the Seventh. I wrote it in the book. Down at the Seventh. Cupful.' He laughs, and wipes his face with his sleeve, not hiding it. 'I wrote it in capitals. Master Lusk would have my ears for that.'".
+  }
+
+  // The stop-logs.
+  Thing crane "the stop-log crane" at ninth_lock {
+    State idle "An oak crane on the lock wall stands over a stack of stop-logs, square black beams as long as a cart.".
+  }
+  Action drop_logs(actor: group, site: place) "Drop the stop-logs into the Deep Gate's mouth, with Piet and the crane" {
+    Description "Jam the Deep Gate with oak, so it cannot draw. What the Gate's makers would think of it is another matter.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ninth_lock) and pietWilling(piet) and at(piet, ninth_lock)
+      and (state(deep_gate, raised) or state(deep_gate, half)).
+    Time 6.
+    On success { Assert state(deep_gate, logged). Set loggedAt(bowl) to watch(clock). }
+    Result "It takes an hour. The first log goes down into the eddy and is snatched against the bronze so hard the crane jumps. The second goes on top of it, and the third, and the fourth, and the water piles up behind them and goes over in a sheet, and the long breath of the Deep stops. In the silence you can hear the whole Stair above you. Then the bronze under the logs gives a single heave, and is still.".
+  }
+  Action drop_logs_alone(actor: group, site: place) "Drop the stop-logs into the Deep Gate's mouth with the crane" {
+    Description "Without the keeper. It is heavy work, and he will see it done.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ninth_lock) and capable(actor, brawn) and not pietWilling(piet)
+      and (state(deep_gate, raised) or state(deep_gate, half)).
+    Time 9.
+    On success { Assert state(deep_gate, logged). Set loggedAt(bowl) to watch(clock). Assert loggedAgainst(piet). }
+    Result "It takes an hour and a half, and one of the logs swings on the crane and nearly takes your head. But they go down, one on another, until the long breath of the Deep stops. In the silence you can hear the whole Stair above you, and somebody behind you on the lock wall saying no, no, no.".
+  }
+  Relation loggedAgainst(group).
+  Measure loggedAt(place).
+  Action lift_logs(actor: group, site: place) "Lift the stop-logs out of the Deep Gate's mouth" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ninth_lock) and state(deep_gate, logged)
+      and (pietWilling(piet) or capable(actor, brawn)).
+    Time 6.
+    On success { Assert state(deep_gate, raised). }
+    Result "The logs come up one by one, streaming. Before the last is clear the bronze heaves up under it, and the Deep takes its long breath again.".
+  }
+  // A day and a night of the Deep starved, and the Equals come up the culvert in the small hours and take the logs out.
+  Relation equalsRose(place).
+  Rule equals_rise when state(deep_gate, logged) and watch(clock) >= loggedAt(bowl) + 108 and hour(clock) == 3 and not broken(reckoner)
+    says "In the small hours there is a sound at the bottom of the Bowl like a cart of bells overturned, once, and then nothing. In the morning the Ward says the Ninth Lock is full of bronze men." {
+    Assert state(deep_gate, raised). Assert equalsRose(ammerlin). Set loggedAt(bowl) to 0. }
+  Observe equals_marks at ninth_lock when equalsRose(ammerlin) "The stop-logs lie on the lock wall in a neat stack, squared as if by a carpenter, with their ends dented in four places each, deep, by something that held them. The Deep Gate is up. Wet footprints too wide and too flat for any man's go from the hatch to the logs and back.".
+  Topic piet_equals with piet "Ask Piet what came up out of the Deep" when equalsRose(ammerlin) once {
+    Says "Piet has not slept. 'Two of them,' he says. 'Bronze. Like men if men were made by somebody who'd had men described to him.' He makes a shape with his hands, too broad. 'They came up the hatch. They didn't look at me. They took the logs out one in each hand like kindling and stacked them, very square, and went down again.' He swallows. 'They stacked them square. Why would they do that?'".
+  }
+
+  // The culvert beyond the gate: dry while the Deep is shut, and a death while it is open.
+  Observe culvert_scene at intake_culvert when true "A culvert of the fine grey stone, round as a pipe and tall as two men, going down at a steady slope into the dark. A thread of water runs along its floor. The walls are polished by three thousand years of water to the smoothness of the inside of a shell, and they hum, very faintly, all the time.".
+  Hazard culvert_flood "The Deep's water" means "Deal (3d6) physical damage to ally unless strength save against (14).".
+  Rule culvert_floods when at(party, intake_culvert) and (state(deep_gate, raised) or state(deep_gate, half)) and not complete(reckoner) and not broken(reckoner)
+    says "Behind you, far up the culvert, the bronze of the Deep Gate rises with a sound like a held breath taken. Then the water comes. It comes down the culvert as a wall and takes you off your feet and down, down, along the grey stone, in the dark, and throws you out at the bottom." {
+    Assert strikes(culvert_flood, party). Retract at(party, intake_culvert). Assert at(party, vestibule). }
+}

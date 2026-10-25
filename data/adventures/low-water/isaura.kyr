@@ -1,0 +1,123 @@
+Module lowwater "Low Water" {
+  Description "Isaura Vant, Clerk-Measurer, Third Grade, of the Office of Measures: who believes that what is measured honestly can be settled peacefully.".
+
+  Person isaura "Isaura Vant" at rim_head {
+    Role "Clerk-Measurer, Third Grade, of the Office of Measures". Ancestry human. Calling thief. Level 3. Peaceable. Pronouns she. Manner stoic.
+    Joins "Isaura tucks the brass ell-rod under her arm and falls in beside you, half a step behind, where she can see what you see and also write it down.".
+    Leaves "Isaura nods once. 'I'll be at the Office,' she says. 'Ask for Third Grade. They'll know which one you mean.'".
+    Greets "Isaura looks up from her ledger, finishes the line she was writing, and then looks up properly.".
+  }
+  Rule isaura_waits when watch(clock) >= 12 and at(isaura, rim_head) and not travelsWith(isaura, party) { Retract at(isaura, rim_head). Assert at(isaura, office_hall). }
+  Observe isaura_first at rim_head when at(isaura, rim_head) and watch(clock) < 12 "A woman in a grey coat is standing at the head of the Stair with a brass rod under her arm, as if she had been there all morning and would be there all afternoon.".
+  Topic isaura_hello with isaura "Ask the woman in grey if she is waiting for you" when not willing(isaura, actor) and not travelsWith(isaura, actor) once {
+    Says "'You're the Assessor.' It is not a question. 'Isaura Vant. Office of Measures, Third Grade. I'm to accompany you, record your findings, open what you need opened, and stop you being robbed. The Registrar would like your Finding at the Hearing, which is at noon in six days' time.' She glances down at the Mere. 'It was at the fourth step of the Ward landing when I was a girl. It's below the twenty-ninth now. I'll show you the twenty-ninth. That's the kind of thing I'm for.'".
+    On discuss { Assert willing(isaura, actor). Assert knows(actor, commission). }
+  }
+  Topic isaura_hello_office with isaura "Ask Clerk Vant if she will come with you after all" when not willing(isaura, actor) and not travelsWith(isaura, actor) and at(isaura, office_hall) once {
+    Says "'I waited at the Stair,' says Isaura, not reproachfully; it is a fact, and she is recording it. 'You came down another way, or not at all. Either is permitted.' She closes her ledger. 'I'm still assigned to you. I'd like to be useful. I am, generally, in the end.'".
+    On discuss { Assert willing(isaura, actor). Assert knows(actor, commission). }
+  }
+
+  // On the way: what she says when she is asked, and what comes of what she has seen.
+  Topic isaura_grade with isaura travelling "Ask Isaura what Third Grade means" when true once {
+    Says "'There are five grades. Fifth carries ledgers. Fourth copies them. Third measures. Second checks the measuring. First is the Registrar's deputy and measures nothing at all; he goes to dinners.' A pause exactly long enough. 'I've been offered Second twice. I'd have to stop measuring things and start checking other people measuring them, and they're nearly all wrong, and I'd have to be polite about it.' She shifts the ell-rod. 'I'm not good at polite. I'm good at accurate. They're not the same skill.'".
+  }
+  Topic isaura_office_faith with isaura travelling "Ask Isaura whether she believes what is over the Office door" when true once {
+    Says "'Yes.' Then, because you wait: 'My grandmother was nine in the Thirst Riots. She hid in a dye-vat on the Dyers' Terrace for two days while men cut each other's throats over the Dyers' Basin, the one with the arch in it. Afterwards the Office measured every right in the Bowl and wrote them down and read them out in the square, every one, for a month. And nobody fought again.' She looks at the terraces. 'It isn't a slogan. It's the reason there are people here. What is measured honestly can be settled peacefully. Honestly is the hard word. Most people think it's measured.'".
+  }
+  Topic isaura_pleasure with isaura travelling "Ask Isaura what she does when she is not working" when true once {
+    Says "She actually considers it. 'I measure the rain on my landlady's roof,' she says. 'With a pan. To compare it with the evaporation from a second pan. She thinks it's witchcraft and leaves me cake so I won't curse her.' A beat. 'It's a very good cake. I've told her it's science and she won't have it. I've stopped trying; the cake is better when she's frightened.' You realise, slightly late, that she has made a joke.".
+  }
+  Topic isaura_dov with isaura travelling "Ask Isaura about her brother" when knows(actor, isaura_ward) or met(dov, dov_yard) once {
+    Says "'Dov.' She walks a few steps. 'He's eleven months older and four times louder. He kept our father's boat when Father drowned. I went up to the Office.' She is quiet. 'He thinks I went up so I wouldn't have to go out on the water. He's half right. I went up so somebody in the family would know what the wind was going to do before it did it.' She looks at you sidelong. 'He calls me Measure. He thinks I hate it. I let him think so. It's the only thing he calls me.'".
+  }
+  Topic isaura_registrar with isaura travelling "Ask Isaura about Registrar Fenn" when knows(actor, commission) once {
+    Says "'Odile Fenn is the best Registrar the Office has had in a century,' says Isaura, 'and she'd tell you so herself, and she'd be right.' A pause. 'She's also been told by half the Council that the Office had better find the Guild guilty, or the charter of the Office comes up for review too. She hasn't told you that. I'm telling you. Note it however you like.'".
+  }
+  Topic isaura_quill with isaura travelling "Ask Isaura what she makes of Harrow Quill" when met(quill, quill_room) once {
+    Says "'He's honest about being dishonest.' She considers that. 'Which is a kind of dishonesty. He tells you exactly what he's doing so you'll admire the telling and forget the doing.' She walks on. 'He's also right that his Channel is twenty-two ells and the fall is sixty. I wish he weren't. It would be so much simpler to dislike him correctly.'".
+  }
+  Rule met_quill when at(party, quill_room) and at(quill, quill_room) and not met(quill, quill_room) { Assert met(quill, quill_room). }
+  Rule met_dov when perceives(dov, party) and not met(dov, dov_yard) { Assert met(dov, dov_yard). }
+  Rule met_orr when perceives(orr, party) and not met(orr, cantor_room) { Assert met(orr, cantor_room). }
+  Topic isaura_orr with isaura travelling "Ask Isaura what she thinks of Cantor Orr" when met(orr, cantor_room) once {
+    Says "'I went to the Short Hymn once. The first winter.' Isaura says it as if confessing to a fine. 'I stood at the back. I don't sing; I can't. But I stood there and the whole dome breathed in, and I breathed in with it, and I couldn't have told you how many people were in that room, and for once I didn't want to.' She is quiet a moment. 'I didn't go again. It frightened me. I like to know how many people are in a room.'".
+  }
+  Topic isaura_clock with isaura travelling "Ask Isaura how the locks know when to open" when true once {
+    Says "'The bells.' She seems surprised you need to ask, and then surprised that she has never been asked. 'Every keeper opens and shuts by the Hymn and the hours. The Third Bell, the Long Amen, the Sixth. It's the Lock-Rhyme; children skip to it.' She frowns. 'Nobody writes it down. It's the one schedule in the Bowl the Office doesn't keep. The Sounding keeps it. By singing.' You can see her not liking that, and filing it.".
+  }
+  Topic isaura_tally with isaura travelling "Ask Isaura what is troubling her" when knows(actor, channel_measured) and not knows(actor, discrepancy) once {
+    Says "'May I show you something that isn't in the official ledger?' She takes out a thin book. 'A ledger is what the Office believes. This is a tally: what I've counted.' Columns, tiny, perfect. 'Inflow at the Rim Gauge, less your twenty-two. Less every right recorded on every terrace. Less evaporation, from my landlady's roof. What's left should arrive in the Mere. It doesn't. Forty ells a day don't arrive anywhere.' She closes the book. 'Forty ells is a river. You can't steal a river in a bucket and nobody's dug a second one. It isn't stolen. It's missing. Water doesn't go missing. That's the first thing they teach you. This is the only figure I have ever written that I can't put somewhere.' And then, very low: 'If I give it to the Registrar she'll tell me to put it on the Guild. I'd be writing a lie with a number in it. People believe the number.'".
+    On discuss { Assert knows(actor, discrepancy). }
+  }
+  Discovery discrepancy "Isaura Vant's own tally of the Bowl's water does not close: forty ells a day of the Ninefold, after the Channel, every right on every terrace and the evaporation, never arrive in the Mere or anywhere else.".
+  Discovery missing_found "The forty ells a day Isaura's tally cannot place go down the Deep Gate at the Ninth Lock, and come out nowhere.".
+  Rule missing_put when knows(party, discrepancy) and knows(party, deep_drinks) and not knows(party, missing_found)
+    says "Forty ells a day that arrive nowhere, and a gate in the floor of the Ninth Lock that water goes down and does not come out of. Isaura says it before you do: 'There. That's where.'" teaches missing_found { }
+  Topic isaura_missing with isaura travelling "Ask Isaura what she makes of the Deep Gate" when knows(actor, missing_found) once {
+    Says "'It's not stolen. It's not lost. It's used.' She says it slowly, getting it right. 'Water you can account for goes somewhere you can put a rod in. This goes somewhere I can't. That's not a number problem, that's a, I don't know what it is.' She looks at the rod in her hand as if it had failed her. 'A thing that can take water out of the world without a place to put it. I don't have a column for that.'".
+  }
+  Topic isaura_letters with isaura travelling "Ask Isaura what she thinks of Piet Harl's letters" when knows(actor, letters_read) once {
+    Says "She reads them twice, standing, and gives them back. 'He wrote to the Sounding,' she says. 'Not to us. Of course he did; the rhyme tells him to.' A long pause. 'If he'd written to the Office, we'd have answered.' Another. 'We'd have answered with a form. Request for Inspection of a Gate, Sounding Post, in triplicate.' She puts her hands in her coat. 'And somebody would have filed it. I would have filed it, probably. Three years. Noted.'".
+  }
+  Topic isaura_hymn_cause with isaura travelling "Ask Isaura what she makes of the Short Hymn now" when knows(actor, hymn_cause) once {
+    Says "'A schedule nobody wrote down.' She is angrier than you have seen her, in her way, which is to say she is speaking very evenly. 'The most important operating order in the Bowl, kept by a choir, and changed by a choirmistress, for the best of reasons, with nobody told who would need to be told, because nobody knew it was an order.' She breathes. 'Everybody in this city did their job. That's what I can't forgive. Not one person was negligent. It was all the gaps between them.'".
+  }
+  Topic isaura_engine with isaura travelling "Ask Isaura what she makes of the Reckoner" when knows(actor, engine_seen) once {
+    Says "She has not said anything since the counting gallery. Now she says, 'It's a ledger.' You wait. 'It counts by passing water through itself, a measure at a time, and it records the count by turning, and when a wheel's full it locks and the next begins. Columns. It's a ledger.' She looks at her own book, in her hands. 'Somebody built a ledger out of a lake. A ledger is an instrument of settlement. You keep one because somebody, some day, is going to come and settle the account.' She closes the book very gently. 'Who? Settle what?'".
+  }
+  Topic isaura_census with isaura travelling "Ask Isaura what she thinks the Reckoner is counting" when knows(actor, census_read) once {
+    Says "'Halm says souls. The Cantor would say souls, if you asked her, and the Precentor's been saying souls for thirty years.' She walks a while. 'My grandmother used to say every drop in the Mere was somebody who'd lived in the Bowl. I thought it was a nursery thing.' She stops. 'I don't believe it. I want that noted. I don't believe it's counting souls. I believe it's counting something, and that whoever built it thought it was important enough to put a lake on top of.' Then, with an effort: 'But I'd like to know the number. I'd like that very much. Isn't that terrible.'".
+  }
+  Topic isaura_measure_early with isaura travelling "Ask Isaura whether everything can be measured" when not knows(actor, engine_seen) once {
+    Says "'Everything that is, can be.' She says it like a catechism, and then, because she is honest, keeps going. 'Not everything is easy. Grief is hard to measure. The Ward's grief is hard. But you can count the people who've left and what they owned and what the water would have been worth to them, and put that in a column, and then at least you're arguing about the same thing.' She looks at you. 'You think that's cold.' You don't say. 'It's the opposite of cold. It's the only way a city of people who hate each other can agree on anything at all.'".
+  }
+  Topic isaura_measure_late with isaura travelling "Ask Isaura again whether everything can be measured" when knows(actor, engine_seen) once {
+    Says "She is quiet so long you think she won't answer. 'Everything can be measured,' she says. 'That isn't the question. The question is who decides what to measure.' She holds up the ell-rod. 'I can tell you the Channel is twenty-two ells. I can't tell you whether the mill hands' wages weigh more than the Ward's fish. I can tell you what's left in the Mere; I can't tell you if a census of souls is worth a pond.' She lowers the rod. 'I used to think measuring settled things. It doesn't. It tells you exactly how big the thing is that you're going to have to decide anyway.'".
+  }
+  Topic isaura_one with isaura travelling "Ask Isaura whether the Bowl is one city or many" when met(orr, cantor_room) and met(quill, quill_room) once {
+    Says "'Many,' she says at once. 'Four terraces, nine locks, a hundred sluices, two thousand rights, and every one of them its own little quarrel with the next.' Then she frowns. 'And one water. That's the trouble. It all comes in at the Rim and it all goes down to the Mere, whoever has it on the way. You can't own a piece of it; you can only own the right to have it for a while as it goes past.' She thinks. 'A ledger is the many written down as if it were one. The Cantor's hymn is the many sung as if it were one. Quill wants it to be a sum.' A small smile. 'I prefer the ledger. You can check a ledger.'".
+  }
+  Topic isaura_equals with isaura travelling "Ask Isaura what she makes of the Equals" when knows(actor, equals_rule) once {
+    Says "'They're clerks.' She is entirely serious. 'Bronze clerks. They have one rule: keep the reckoning even. They don't care who you are or why you're on the floor; they care that the floor's tipped.' She considers. 'I've worked with worse. I've worked under worse.' A pause. 'I've been worse, some days. Noted.'".
+  }
+  Topic isaura_halm with isaura travelling "Ask Isaura what she thinks of Teodor Halm" when met(halm, dig) once {
+    Says "'He'd give the lake for the Reckoner.' She says it without heat. 'He told me so, the first day, so I wouldn't be surprised later. I appreciated that.' She thinks. 'He's the only person in Ammerlin who doesn't want any of the water. That should make him the most neutral person in the Bowl. It makes him the most dangerous.'".
+  }
+  Rule met_halm when perceives(halm, party) and not met(halm, dig) { Assert met(halm, dig). }
+  Topic isaura_ward_leaving with isaura travelling "Ask Isaura about the people leaving the Ward" when wardLeaving(ammerlin) once {
+    Says "'Forty-one households this week.' She has counted them, of course. 'Most up to the Dyers' Terrace, to cousins. Some to the mills, for Quill's wages, when there are wages. Some out of the Bowl altogether.' She walks a while. 'They won't come back. That's the thing nobody measures. The water can come back and the people won't. A street is not water. You can't pour it in again.'".
+  }
+  Topic isaura_drowned with isaura travelling "Say something to Isaura about the diggers who drowned" when drowned(diggers) once {
+    Says "'Hob Kettle,' says Isaura. 'Annet Kettle. Jory Pale.' She says it the way her brother said it, and you realise they must have learned that from the same person. 'I had the figure. Three spans under. I had it in my book.' She does not cry; her voice gets more exact. 'I should have taken the book down to him myself. I should have stood in the hole and read it out to him in a loud voice until he believed it.' She closes the book. 'I didn't, because he'd have shouted at me. Three people. Against being shouted at.'".
+  }
+  Topic isaura_quill_deal with isaura travelling "Ask Isaura what she thinks of your bargain with Quill" when quillDeal(quill) once {
+    Says "She does not answer for a long time. 'It's a good bargain,' she says at last. 'For the Mere. For the mills, even. The Reckoner gets its water and the Ward keeps its water.' She looks down the terraces, toward the Ward. 'And the Ward doesn't keep its ground. The dig and the temples and everything under them go to the Guild, sealed by the Office.' A pause. 'My brother will never speak to me again. I'd like you to know I've worked that out. I'm not asking you to undo it. I'm noting it.'".
+  }
+  Topic isaura_chain with isaura travelling "Ask Isaura what she thought of breaking the Guild's chain" when state(guild_chain, chain_cut) and not quillDeal(quill) once {
+    Says "'It was the Guild's by charter.' Flatly. 'You may have been right to break it. I'll write that you were right, if you were. I'll also write that you broke it.' She looks at you directly. 'That's what I'm for. I'm not here to make what you did look like something else.'".
+  }
+  Topic isaura_mag with isaura travelling "Ask Isaura about Mag Torrin's vats" when vatsDrowned(vat_yard) once {
+    Says "'A season's blue,' says Isaura. 'Five yards' worth, because the others dye from her vats too. I could put a figure on it.' She doesn't. 'She'll be at the Hearing. She's entitled to be.' She walks on, and then, without looking round: 'There was another way down to that floor. Mag would have taken her blue early if you'd asked her.'".
+  }
+  Topic isaura_reconciled with isaura travelling "Ask Isaura how it was, letting her brother out" when reconciled(isaura) once {
+    Says "'He put his hand on my head.' She seems to be checking that she has the fact right. 'He used to do that when I was small and had done something stupid and hadn't drowned. Like a, like a mark on a post. Still there.' She clears her throat. 'He's been arrested four times. I've never once signed him out. I always thought it would look like favour.' A pause. 'It did look like favour. Noted.'".
+  }
+  Topic isaura_dov_listened with isaura travelling "Tell Isaura that Dov listened to her figures" when warnedDov(dov) once {
+    Says "Isaura stops on the planks, in the middle of the mud, and stands there. 'He said that?' Yes. 'He said Measure's figures?' Yes. She looks across the mud at the dig, where her brother is shouting at people about sandbags. 'Huh,' says Isaura Vant, Clerk-Measurer, Third Grade, and does not write it down.".
+  }
+  Topic isaura_broken with isaura travelling "Ask Isaura how she feels about the Reckoner stopping" when broken(reckoner) once {
+    Says "'The Mere will stand,' she says. 'The figures will close. The forty ells will come to the Mere, and I'll be able to put them somewhere.' She is very quiet. 'And I'll never know what it was counting.' She tucks the ledger into her coat. 'I'm glad. I'm glad about the Mere. I want that recorded first. The other thing I'll keep in the tally, where it belongs.'".
+  }
+  Topic isaura_complete with isaura travelling "Ask Isaura how she feels about the count being finished" when complete(reckoner) once {
+    Says "'It closed.' She says it with wonder, and some fear. 'Whatever it was counting, the account is closed. Nine wheels locked.' She looks at her own book. 'Somebody's going to come and settle it, I suppose. Or nobody. Or they already have.' Then, practical, because she is: 'The Mere fell six spans in one breath. I measured it, after. Six. The Ward will want that figure.'".
+  }
+  // Before the Hearing: whether she will put her name to the Finding.
+  Relation isauraSigns(group). Relation isauraRefuses(group).
+  Topic isaura_sign with isaura travelling "Ask Isaura if she will sign the Finding with you" when knows(actor, discrepancy) and hearingDay() and not isauraSigns(isaura) and not isauraRefuses(isaura) once {
+    Says "'It'll be my tally in it.' She knows this already; she is making sure you do. 'The forty ells. That goes against the Office's own ledger. If I sign it, I'm a Third Grade clerk telling the Council that the Office has been wrong for three years.' She takes a breath. 'I'll sign what's true. I'll sign it in front of the Registrar and the Guild and my brother.' She looks at you very steadily. 'What I won't sign is anything that says it's settled when it isn't. If we're going to tell them a thing they have to decide, we tell them so.'".
+    On discuss { Assert isauraSigns(isaura). }
+  }
+  Event isaura_counting at count_gallery when travelsWith(isaura, party) and at(party, count_gallery) "Isaura stands in front of the nine wheels and you see her lips moving. She is counting the gates on the nearest wheel. When she gets to the end she starts again.".
+  Event isaura_column at column_room when travelsWith(isaura, party) and at(party, column_room) "Isaura looks up the still column of water into the dark for a long time. 'That goes up to the Sounding,' she says. 'Doesn't it. Every night. All of them singing into this.'".
+}

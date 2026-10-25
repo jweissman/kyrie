@@ -1,0 +1,72 @@
+Module lowwater "Low Water" {
+  Description "The bed of the Mere: the new mud, the Ward's dig, and the Listening Hall the water has given back, an Aenean temple in the shape of an ear, built over a throat that goes down.".
+
+  Place mudflats "the new mud" is room within merebed at 0, 0 outdoors.
+  Place dig "the dig" is room within merebed at 1, 0 outdoors.
+  Place hall_site "the Listening Hall" is site within merebed at 1, 1.
+  Place hall_floor_level "the spiral" is level within hall_site.
+  Place throat_level "the throat" is level within hall_site.
+  Place listening_hall "the Listening Hall" is room within hall_floor_level at 0, 0.
+  Place hall_throat "the throat of the Listening Hall" is room within throat_level at 0, 0 underground.
+  Place mere_edge "the edge of the Mere" is room within merebed at 0, 1 outdoors.
+
+  Passage plank_way "the planks over the mud" is path between ward_landing and mudflats taking 15 minutes.
+  Passage dig_planks "the planks to the dig" is path between mudflats and dig taking 5 minutes.
+  Passage hall_mouth "the Listening Hall's mouth" is doorway between dig and listening_hall.
+  Passage throat_stair "the stair down the throat" is stair between listening_hall and hall_throat taking 5 minutes
+    opening when mere(bowl) <= 34 "A stair goes down from the floor of the Listening Hall into black water. The Mere stands in the throat of the Hall and hides where it goes.".
+  Passage edge_way "the mud toward the water" is path between mudflats and mere_edge taking 20 minutes.
+
+  Observe mud_scene at mudflats when true "Grey mud to the horizon of the Bowl's floor, cracked into plates where it has dried and soft as dough where it has not. Planks go out across it, and things stand up out of it: the stumps of posts, the ribs of a boat, the top of a wall. The smell is of old water.".
+  Observe mud_cracks at mudflats when mere(bowl) <= 30 "The mud is drying faster than the planks can be moved. Cracks run across it a hand deep, and in the cracks, grey stone.".
+  Observe edge_scene at mere_edge when not wardEmpty(ammerlin) "The Mere: still, dark, very clear, with the whole Bowl upside down in it, terraces and Sounding and the Rim. It is cold enough to ache. The water's edge is a line of drying weed, and a hand further out than it was this morning.".
+  Observe edge_pond at mere_edge when wardEmpty(ammerlin) "What is left of the Mere is a pond you could throw a stone across. In the middle of it, the water is turning, very slowly, round and round, like water above a drain.".
+
+  // The dig.
+  Observe dig_scene at dig when not digClosed(dig) "A pit in the mud the size of a house, shored with old oars and boat-planks, down to a pavement of grey stone and a carved doorway half out of the silt. Baskets go up and down on ropes. Things the diggers have found lie sorted on a tarpaulin: green bronze, carved stone, a few squared weights with holes through them.".
+  Observe dig_closed at dig when digClosed(dig) "The dig is roped off with Guild rope and a Guild sign. Nobody is working. The tarpaulin of finds is gone.".
+  Observe dig_dam at dig when cofferdam(dig) and not breached(dig) "Round the mouth of the Hall's throat the diggers have raised a dam of boat-planks, sandbags and puddled mud, chest-high and still wet.".
+  Item dig_weight "a weight-stone" is weight_stone at dig.
+  Item dig_weight_b "a weight-stone" is weight_stone at dig.
+
+  // The Listening Hall: an Aenean temple in the shape of an ear, over the engine's listening shaft.
+  Observe hall_scene_mere at listening_hall when true "Inside, the Listening Hall is a spiral: a great curving room of grey and white stone that winds inward and down, narrowing, like the inside of a shell, or of an ear. Every surface is fluted. When you speak your voice goes round the curve and comes back to you from in front.".
+  Observe hall_low at listening_hall when mere(bowl) <= 24 "The Hall stands in the air entire now, and the light comes in at its mouth and goes round its curve and lights it all, white and grey, as nobody has seen it in a thousand years.".
+  Discovery hall_hums "Under the Listening Hall, deep in the rock, something is running: a single note, held, under water.".
+  Thing hall_wall "the inner wall of the spiral" at listening_hall {
+    State fluted "The innermost wall of the spiral is fluted like the rest, and cold, and faintly wet.".
+    Tries listening.
+  }
+  Rule hall_listened when tried(hall_wall, listening) and not knows(party, hall_hums)
+    says "You put your ear to the stone. At first, nothing; then, under the nothing, a sound so low it is almost not one: a single note, held, under water, and slowly, very slowly, a click, like a bead pushed along a wire, and the note again." teaches hall_hums { }
+
+  // The keystone, at the centre of the spiral: four voices, and what each names.
+  Discovery keystone_seen "At the centre of the Listening Hall a keystone is carved with four rows: beside the lowest note, a mouth; beside the second, a bundle of tally-sticks; beside the third, a door; beside the highest, a face singing. Under them, the four mouths of the Dyers' arch, shut to wide, and a line of letters.".
+  Observe keystone_scene at listening_hall when not knows(party, keystone_seen) "At the narrow heart of the spiral, where it ends in a round hole going down, a keystone is set in the wall at the height of a face. It is carved in four rows. Beside the lowest note-mark, a mouth. Beside the next, a bundle of tally-sticks tied together. Beside the third, a door. Beside the highest, a face with its mouth open, singing. Under the four rows, a line of four mouths from shut to wide, the same as on the arch in the Dyers' Basin, and a line of letters, Aenean, and under those, smaller and older, marks that are not letters at all." teaches keystone_seen.
+  Discovery keystone_read "The letters under the keystone, read: THE FIRST VOICE NAMES; THE VOICE AFTER SAYS HOW MUCH. And the oldest marks under them: THE HIGH VOICE IS NOT SUNG. IT IS THE END OF THE SONG." {
+    Found by searching listening_hall with lore "With the old script in your head, the letters under the keystone come clear: THE FIRST VOICE NAMES; THE VOICE AFTER SAYS HOW MUCH. And smaller, in the oldest marks: THE HIGH VOICE IS NOT SUNG. IT IS THE END OF THE SONG.".
+  }
+  // Put together: the arch, the keystone, its letters and the hymnal make the engine's speech plain.
+  Discovery grammar_known "The Remainders of the Long Hymn are the Reckoner's own speech. Its first voice names an organ (deep the mouth, middle the count, high the last door, bright its own voice), and its second says how much (deep least, bright all). The Seventh, deep and deep, is the mouth at its least: a cupful. The Sixth, deep and bright, is the mouth wide.".
+  Rule grammar_put_together when knows(party, keystone_seen) and knows(party, keystone_read) and knows(party, remainders_tones) and not knows(party, grammar_known)
+    says "It goes together all at once, the way a sum comes out: the keystone's four voices, the arch's four mouths, the Remainders in the Cantor's hymnal. The first note names; the second says how much. Deep and deep is the mouth, least. That is the Seventh Remainder. That is the cupful." teaches grammar_known { }
+
+  // The throat, going down.
+  Observe throat_scene at hall_throat when not breached(dig) "The throat of the Hall goes down in a stair round a shaft, until the stair stops at a wall of the fine grey stone with no door in it, across which the diggers have cut a ragged hole a hand deep. The floor is mud and standing water. The note you heard through the wall is louder here, so low it is in your teeth rather than your ears.".
+  Observe throat_breached at hall_throat when breached(dig) "At the bottom of the throat the grey wall is broken through. Beyond the hole, dark, and a draught of cold dry air coming up out of it, and the note.".
+  Passage breach_hole "the hole in the grey wall" is crawl between hall_throat and breach_gallery
+    opening when breached(dig) "At the bottom of the throat a wall of fine grey stone closes the way. The diggers' hole in it is a hand deep and the stone is hard as glass.".
+  // Breaking through by the company's own hands, where the diggers have not.
+  Action break_wall(actor: group, site: place) "Break through the grey wall at the bottom of the throat" {
+    Description "Days of work for the diggers; an hour's, with the right tools and the hole they began.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_throat) and not breached(dig) and capable(actor, digging) and not digClosed(dig).
+    Time 6.
+    On success { Assert breached(dig). Assert breachedBy(dig, actor). }
+    Result "You work at the diggers' hole for an hour with pick and bar, and the grey stone, which nothing could scratch, gives all at once along some old seam, and a slab of it falls inward into the dark.".
+  }
+  Relation breachedBy(entity, group).
+  Rule self_breach_floods when breachedBy(dig, party) and not cofferdam(dig) and mere(bowl) > 26 and not drownedSelf(dig)
+    says "The silt behind you goes with a sound like a sigh, and the Mere comes down the throat after it. It comes round the stair in a black rope and takes you off your feet and through the hole you made, and drops you, in the dark, on stone." {
+    Assert drownedSelf(dig). Assert strikes(culvert_flood, party). Assert at(party, breach_gallery). Decrease mere(bowl) by 1. }
+  Relation drownedSelf(entity).
+}

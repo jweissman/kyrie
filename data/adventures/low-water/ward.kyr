@@ -1,0 +1,163 @@
+Module lowwater "Low Water" {
+  Description "The Mere Ward: the landing and its gauge steps, Tench Row, Dov Vant's yard and boat, the Ward well, and the people at the bottom of the Bowl.".
+
+
+  Place ward_landing "the Ward landing" is room within ammerlin at 1, 5 outdoors.
+  Place tench_row "Tench Row" is room within ammerlin at 2, 5 outdoors.
+  Place dov_yard "Dov Vant's yard" is room within ammerlin at 3, 5 outdoors.
+  Place ward_well "the Ward well" is room within ammerlin at 0, 5 outdoors.
+
+  Passage ward_steps "the Ward steps, below the Nine Locks" is steps between lock_stair and ward_landing taking 15 minutes.
+  Passage row_way "the way along Tench Row" is path between ward_landing and tench_row taking 3 minutes.
+  Passage yard_way "Dov Vant's gate" is gate between tench_row and dov_yard.
+  Passage well_way "the lane to the well" is path between ward_landing and ward_well taking 3 minutes.
+
+  // The gauge steps: the Office's marks, cut in the landing stair, going down into the Mere.
+  Observe landing_scene at ward_landing when true "The Ward landing: a broad stair of stone going down into the Mere, built for boats to tie up at, with the Office's spans cut on every step and painted. Fishing boats lie along it, and not one of them is afloat. The water stands far below the last painted step, across a flat of grey mud with planks laid over it.".
+  Observe landing_gauge at ward_landing when true "On the lowest step the Office has painted a new mark this month and a newer one this week. The Ward gauge reads {mere(bowl)} spans.".
+  Observe landing_low at ward_landing when mere(bowl) <= 30 "The Mere is a long way off now. The planks over the mud have been laid three times and given up.".
+  Observe landing_rising at ward_landing when state(channel_gate, to_mere) and not draining() "There is water in the lowest of the old boat-rings again. Children are standing in it, to the shin, shouting.".
+  Observe children_skip at ward_landing when hour(clock) >= 15 and hour(clock) < 19 and not wardLeaving(ammerlin) "Children are skipping on the landing in the last of the sun, two turning a net-rope and one jumping, and all of them chanting: Rise at the Sixth, and the Deep goes up! Count at the Seventh, it takes its cup!".
+  Observe isaura_landing at ward_landing when travelsWith(isaura, party) and not knows(party, isaura_ward) "Isaura stops on the top step. She looks at the painted spans one by one down to the mud, the way you would read down a column of figures you already know the sum of. 'I learned to swim off the fourth step,' she says. 'It's the twenty-ninth span now.' She does not say anything else, and then she does: 'Noted.'" teaches isaura_ward.
+  Discovery isaura_ward "Isaura Vant learned to swim off the fourth step of the Ward landing.".
+
+  Observe row_scene at tench_row when not wardEmpty(ammerlin) "Tench Row: fishers' houses of tarred timber on stone feet, built for a shore that has walked away from them. Nets hang dry on every rail. Somebody is gutting the few fish there are on a door laid across two barrels, and a queue is waiting for them.".
+  Observe row_leaving at tench_row when wardLeaving(ammerlin) and not wardEmpty(ammerlin) "Handcarts in Tench Row, loaded with beds and pots and nets. People are going up the Ward steps with them, and others are standing in their doors watching them go.".
+  Observe row_empty at tench_row when wardEmpty(ammerlin) "Tench Row is empty. Doors stand open on bare rooms. A cat sits on a net-rail watching the Mere, which is a pond now, far off across the mud.".
+
+  // The Ward well, which fails at thirty spans.
+  Observe well_scene at ward_well when mere(bowl) > 30 "The Ward well: a round stone head with a windlass, older than the houses. The rope is let out much further than it was, by the marks on it.".
+  Observe well_dry at ward_well when mere(bowl) <= 30 "The Ward well has failed. The bucket comes up with a hand of grey silt in it, and people are queuing for the water-cart from the Dyers' Terrace instead, at a copper a jug.".
+  Relation wardLeaving(place). Relation wardEmpty(place).
+  Rule ward_leaves when mere(bowl) <= 30 and not wardLeaving(ammerlin) says "Word comes down the terraces, and up them: the Ward well has failed. In Tench Row the handcarts are coming out." {
+    Assert wardLeaving(ammerlin). }
+  Rule ward_empties when mere(bowl) <= 18 and not wardEmpty(ammerlin) { Assert wardEmpty(ammerlin). }
+
+  // Dov Vant, his yard, and the Tench.
+  Observe dov_yard_scene at dov_yard when true "A fisher's yard with a smoke-house, a boat-shed, and a heap of things that are not fish: carved grey stone, green bronze, a block with a hole through it, a broken lintel with letters on it, all sorted into piles by some system of Dov's.".
+  Person dov "Dov Vant" at dov_yard {
+    Role "fisher of the Mere Ward, and its loudest man". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner jovial.
+  }
+  Person diggers "the Ward diggers" at dig {
+    Role "fishers turned diggers, with shovels and baskets". Ancestry human. Numbers 6. Peaceable.
+  }
+  Item ward_weight "a weight-stone" is weight_stone at dov_yard.
+  Rule dov_by_day when hour(clock) == 7 and at(dov, dov_yard) and not dovHeld(dov) and not dovGrieving(dov) { Retract at(dov, dov_yard). Assert at(dov, dig). }
+  Rule dov_by_night when hour(clock) == 19 and at(dov, dig) { Retract at(dov, dig). Assert at(dov, dov_yard). }
+  Relation dovHeld(group). Relation dovGrieving(group).
+  Thing tench "the Tench" at ward_landing {
+    State afloat "Dov Vant's boat, the Tench, still floats at the end of the longest plank, in a channel the Ward has dug for her through the mud.".
+    State stranded "The Tench lies on her side in the mud at the end of the planks, her channel dried to a crust.".
+  }
+  Rule tench_strands when mere(bowl) <= 37 and state(tench, afloat) says "Down in the Ward the last boat on the Mere has gone over on her side in the mud: Dov Vant's Tench." {
+    Assert state(tench, stranded). }
+  Rule tench_floats when mere(bowl) >= 39 and state(tench, stranded) { Assert state(tench, afloat). }
+
+  Topic dov_hello with dov "Ask Dov Vant who he is" when true once {
+    Says "'Who am I?' He laughs, enormous. 'I'm the Ward, friend. I'm what's at the bottom when the water's gone.' He looks you over. 'You're the Assessor. The Office's outsider. Measure told me they were getting one.' He sees you not understand. 'My sister. Isaura. I call her Measure. She hates it. She's been measuring things since she could hold a stick, she measured our mother's coffin before the joiner did.'".
+  }
+  Topic dov_ward with dov "Ask Dov what is happening to the Ward" when true once {
+    Says "'It's being drunk.' He points up the terraces with a hand like a spade. 'Up there they've a Channel taking a fifth, and a Sounding taking their hymn out of the old order, and an Office writing it all down neat. And down here the water goes, and the fish go, and the well's going.' He spits. 'It's not drought. My grandfather's grandfather kept a mark on that landing and it never moved more than a hand in a hundred years. Somebody's taking it. Find me the somebody.'".
+  }
+  Topic dov_dig with dov "Ask Dov about the dig" when true once {
+    Says "'The only crop left.' He is proud of it and ashamed and won't choose. 'When the Mere went back off the old temple roofs, we went out on the mud with shovels. Grey stone, carved; old bronze; weights with holes in. The scholar buys it, Halm, pays silver. Forty families eat off it now.' He lowers his voice, which is still loud. 'And there's a way down. The temple's got a throat, a well inside it, going down, and there's a wall at the bottom of the throat, and something behind the wall that hums. We'll be through it in a few days.'".
+  }
+  Topic dov_quill with dov "Ask Dov about Quill's agent in the Ward" when true once {
+    Says "'Basset.' He says it like the name of a disease. 'Going door to door with Guild silver, buying plots off people whose well's failing. Half Tench Row's sold. He'll have the dig soon; old Marra owns the ground it's on and she's eighty and her daughter wants her up the terraces.' He breathes. 'Once Quill has the dig he'll put the bailiffs on it and dig it himself, with wages, he says. Wages. Off our own Mere.'".
+    On discuss { Assert knows(actor, ward_bought). }
+  }
+  Discovery ward_bought "Harrow Quill's agent Basset is buying the Mere Ward plot by plot with Guild silver, and will soon have the ground under the dig.".
+  Topic dov_measure with dov "Ask Dov about his sister" when true once {
+    Says "His face goes still, which on Dov is like a weather change. 'She went up,' he says. 'To the Office. Clerk-Measurer, Third Grade.' He makes it sound like a disease too, and then he doesn't. 'Our father drowned off the Tench when she was twelve. Squall. She said if we'd known the wind we'd have known not to go. And she went and learned how to know things.' He shrugs. 'I stayed and learned how to go anyway. One of us had to keep the boat.'".
+  }
+  Topic dov_halm with dov "Ask Dov about the scholar" when true once {
+    Says "'Halm's mad,' Dov says fondly. 'Good silver, though. Sits in the hole all day with his ear to the wall like a man listening to his wife through a door.' Then, less fondly: 'He told me what's behind the wall's worth more than the Ward. He didn't mean it as an insult. That's the worst of him. He never does.'".
+  }
+
+  // The danger the diggers do not see: the bottom of the throat is below the Mere's water.
+  Discovery dig_below "The bottom of the Hall's throat, where the diggers are breaking at the Undercroft wall, is below the level of the Mere standing a stone's throw off. Break through, and the Mere comes in after.".
+  Relation gauged(entity).
+  Action gauge_dig(actor: group, site: place) "Gauge the bottom of the throat against the Mere, with Isaura's rod and level" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_throat) and travelsWith(isaura, actor) and not gauged(diggers).
+    Time 3.
+    On success { Assert gauged(diggers). }
+    Result "Isaura sights along the brass level from the throat's lip to the Mere, and back down into the hole, and does the sum twice. She does not say anything for a moment. 'The bottom of that hole is three spans under the water out there,' she says. 'The silt's holding it out. When they break the wall, the silt goes, and the Mere comes down the throat after it. All of it that can.'".
+  }
+  Rule dig_known when gauged(diggers) and not knows(party, dig_below) says "Isaura writes it down and underlines it." teaches dig_below { }
+  Relation warnedDov(group). Relation cofferdam(entity).
+  Topic dov_warn with dov "Tell Dov the bottom of the throat is under the Mere" when knows(actor, dig_below) and not warnedDov(dov) and not breached(dig) once {
+    Says "Dov listens with his arms folded, and you can see him wanting not to believe it, and wanting more not to be the man who drowned his diggers. 'Whose figures?' Yours; Isaura's. He looks for a long moment at nothing. 'Measure's figures.' Then, abruptly: 'Right. A dam round the throat, then, before we break. Logs and bags and mud. It'll cost us a day.' He is already shouting for Hob and the baskets. Over his shoulder: 'Tell her. Tell her I listened.'".
+    On discuss { Assert warnedDov(dov). Assert cofferdam(dig). }
+  }
+  Relation breached(entity). Relation drowned(group). Relation digClosed(entity).
+  // At six on the fourth morning, if the diggers are still at it, they break through.
+  Rule breach_safe when watch(clock) >= 432 and hour(clock) == 6 and cofferdam(dig) and not breached(dig) and not digClosed(dig) and not shutBelow(dig)
+    says "Word comes up from the Ward at first light: the diggers are through the wall at the bottom of the Hall's throat. The dam held. Nobody was hurt, and Dov Vant is standing on top of it shouting at the sky." {
+    Assert breached(dig). }
+  Rule breach_drowns when watch(clock) >= 432 and hour(clock) == 6 and not cofferdam(dig) and not breached(dig) and not digClosed(dig) and mere(bowl) > 26 and not shutBelow(dig)
+    says "At first light there is a noise from the Ward like a door the size of a hill slammed shut, and then screaming. The diggers broke the wall at the bottom of the Hall's throat, and the silt went, and the Mere came down after it. Three were in the hole." {
+    Assert breached(dig). Assert drowned(diggers). Assert dovGrieving(dov). Decrease mere(bowl) by 2. Retract at(dov, dig). Assert at(dov, dov_yard). }
+  Rule breach_dry when watch(clock) >= 432 and hour(clock) == 6 and not cofferdam(dig) and not breached(dig) and not digClosed(dig) and mere(bowl) <= 26 and not shutBelow(dig)
+    says "Word comes up from the Ward: the diggers are through the wall at the bottom of the Hall's throat. The Mere has fallen so far that there was nothing above the silt to come in." {
+    Assert breached(dig). }
+  Relation shutBelow(entity).
+  Observe dov_grief at dov_yard when dovGrieving(dov) and at(dov, dov_yard) "Dov Vant is sitting on an upturned basket in his yard with his hands hanging between his knees. He does not get up.".
+  Topic dov_drowned with dov "Say something to Dov about the diggers" when drowned(diggers) once {
+    Says "'Hob Kettle,' says Dov. 'Annet Kettle, his girl, she was fifteen. And Jory Pale.' He says the names to the ground. 'They were in the hole when the wall went. Hob held the ladder for her.' He looks up at you at last, and you wish he hadn't. 'If somebody had told me,' he says. 'If anybody up there had told me anything.' Then he looks past you, to see if his sister is there.".
+  }
+
+  // Quill's agent, buying.
+  Person basset "Wenn Basset" at tench_row {
+    Role "agent of the Millwrights' Guild". Ancestry human. Peaceable. Pronouns he. Manner proud.
+  }
+  Initially Assert serves(basset, quill).
+  Relation digBought(entity).
+  Topic basset_buying with basset "Ask Basset what he is doing in the Ward" when true once {
+    Says "'Buying,' says Basset, who has a ledger under his arm and very clean boots. 'At a fair price, in silver, to people who would like to have silver. Nobody is made to sell. Nobody is ever made to sell.' He smiles. 'Their wells are failing, of course. That isn't me.'".
+    On discuss { Assert knows(actor, ward_bought). }
+  }
+  Rule dig_bought when watch(clock) >= 300 and not titlesFrozen(ammerlin) and not digBought(dig) says "In the Ward, an old woman called Marra Fen signs her plot over to the Guild in Basset's ledger, with her daughter's hand on her shoulder. The plot is the one the dig is on." {
+    Assert digBought(dig). }
+  Rule basset_stopped when titlesFrozen(ammerlin) and at(basset, tench_row) and not frozenSeen(basset) says "In Tench Row Wenn Basset reads an Office order with his mouth getting smaller, folds it into his ledger, and walks off up the Ward steps without a word to anyone." {
+    Assert frozenSeen(basset). Retract at(basset, tench_row). Assert at(basset, quill_outer). }
+  Relation frozenSeen(group).
+  // At three on the third afternoon, the Guild's bailiffs come to the dig it now owns.
+  Relation clashed(entity). Relation stoodBetween(group).
+  Rule bailiffs_to_dig when digBought(dig) and watch(clock) >= 330 and not clashed(dig) and not at(bailiffs, dig) and not sentAway(bailiffs) and not breached(dig) {
+    Retract at(bailiffs, quill_outer). Retract at(bailiffs, rim_gauge). Assert at(bailiffs, dig). Set clashAt(dig) to watch(clock) + 3. }
+  Measure clashAt(entity). Relation sentAway(group).
+  Observe bailiffs_at_dig at dig when at(bailiffs, dig) and not clashed(dig) "Three Guild bailiffs in green coats stand on the lip of the dig with cudgels and a paper. Below them in the hole the diggers have stopped, shovels in their hands, and Dov Vant is coming up the ladder.".
+  Action stand_between(actor: group, site: place) "Stand between the bailiffs and the diggers, and talk them down" {
+    Description "Talk to both sides at once, before anybody swings.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dig) and at(bailiffs, dig) and not clashed(dig) and not stoodBetween(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert stoodBetween(actor). Assert clashed(dig). Assert sentAway(bailiffs). Retract at(bailiffs, dig). Assert at(bailiffs, quill_outer). }
+    On failure { Assert stoodBetween(actor). }
+    Result "You get between them with your hands open and say the things you say, and keep saying them, until the biggest bailiff looks at the paper and at Dov and at you and decides it is not worth his wages. 'The Master'll hear of it,' he says, and they go. Dov lets out a breath that is almost a laugh.".
+    Otherwise "You get between them and talk, and for a moment it holds, and then Dov says the wrong word and the biggest bailiff says a worse one, and it is not your argument any more.".
+  }
+  Action show_warrant(actor: group, site: place) "Show the bailiffs the Office's warrant, and tell them the dig is under assessment" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dig) and at(bailiffs, dig) and not clashed(dig) and warranted(actor) and travelsWith(isaura, actor).
+    Time 1.
+    On success { Assert clashed(dig). Assert sentAway(bailiffs). Retract at(bailiffs, dig). Assert at(bailiffs, quill_outer). }
+    Result "Isaura takes the warrant out of her coat and reads it aloud, all of it, in the voice of the Office, to the end, including the seal. The bailiffs listen. When she has finished the biggest of them says, 'Right,' and they go back up the Ward steps. Dov looks at his sister as if he had never seen her before.".
+  }
+  Rule clash_happens when at(bailiffs, dig) and not clashed(dig) and clashAt(dig) > 0 and watch(clock) >= clashAt(dig)
+    says "At the dig it comes to cudgels and shovels. It is short and ugly. When it is over, two diggers are bleeding into the mud, the bailiffs have Dov Vant down with his arms tied behind him, and they march him up the Ward steps to the Office cells. The dig is the Guild's." {
+    Assert clashed(dig). Assert dovHeld(dov). Assert digClosed(dig). Retract at(dov, dig). Retract at(dov, dov_yard). Assert at(dov, office_cells).
+    Retract at(diggers, dig). Assert at(diggers, tench_row). Retract at(bailiffs, dig). Assert at(bailiffs, quill_outer). }
+  Place office_below "under the Office" is level within office.
+  Place office_cells "the Office cells" is room within office_below at 0, 0.
+  Passage cells_stair "the stair down to the cells" is stair between office_hall and office_cells.
+  Observe cells_scene at office_cells when true "Three cells under the Office, cut in the rock of the terrace, dry and clean and very cold. The doors have measure-marks on them, as if somebody had once worried about the cells being given short.".
+  Topic dov_held with dov "Ask Dov what happened at the dig" when dovHeld(dov) once {
+    Says "Dov sits on the cell's bench with a split lip and a look of enormous calm. 'They had a paper,' he says. 'Old Marra's plot, Guild's now. I told them where to put the paper.' He touches his lip. 'Ask my sister if she'll sign my release. Ask her. I want to hear what she says.'".
+  }
+  Relation released(group).
+  Topic dov_release with dov "Tell Dov he is free to go" when dovHeld(dov) and travelsWith(isaura, actor) and not released(dov) {
+    Says "Isaura unlocks the cell herself. She does not say anything, and neither does he, until he is past her in the door, and then he stops and puts his big hand on top of her head for a moment, the way you would with a child, and goes up the stair. She stands there. 'Noted,' she says, to nobody.".
+    On discuss { Assert released(dov). Retract dovHeld(dov). Retract at(dov, office_cells). Assert at(dov, dov_yard). Assert reconciled(isaura). }
+  }
+  Relation reconciled(group).
+}

@@ -1,0 +1,4 @@
+Module lowwater "Low Water" {
+  Company party "Your company" of 3 at rim_road.
+  Initially Set quantity(party, gold) to 15. Initially Set quantity(party, rations) to 3.
+}

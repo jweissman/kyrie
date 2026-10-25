@@ -1,0 +1,134 @@
+Module lowwater "Low Water" {
+  Description "The Sounding: the city's church and clock, its choir, Cantor Sabeth Orr who shortened the Hymn, and the bell-well that goes down from its floor into the great cistern.".
+
+  Place sounding "the Sounding" is building within ammerlin.
+  Place nave "the Sounding's nave" is room within sounding at 0, 0.
+  Place loft_level "the loft" is level within sounding.
+  Place choir_loft "the choir loft" is room within loft_level at 0, 0.
+  Place cantor_room "the Cantor's room" is room within sounding at 0, 1.
+  Place bell_well "the bell-well" is room within sounding at 1, 1.
+
+  Passage sounding_door "the Sounding's great door" is door between measures_square and nave.
+  Passage loft_stair "the loft stair" is stair between nave and choir_loft.
+  Passage cantor_door "the Cantor's door" is door between nave and cantor_room.
+  Passage well_door "the door to the bell-well" is door between nave and bell_well.
+
+  Observe nave_scene at nave when true "The Sounding: a round nave under a dome, with no altar, no image, nothing at the centre of the floor but a ring of bronze grating as wide as a threshing-floor, through which you can see, a long way down, black water. Benches face inward to it from every side. The dome is ribbed like the inside of a shell.".
+  Observe nave_full at nave when hour(clock) >= 18 and hour(clock) < 21 "The nave is full to the doors and up the walls: young people mostly, standing on the benches, and old ones sitting on them, and children on shoulders. The air is warm and loud with talk until the bells begin.".
+  Observe nave_hymn at nave when hour(clock) == 19 and sungTonight(bowl) "The Hymn. You have heard it from every terrace and it is nothing like this. The choir is in the loft and the whole nave is singing with it, a thousand voices, and the dome takes the sound and gives it down onto the grating and the black water under it, and the water answers: you feel it in the soles of your feet. It is like standing inside a bell.".
+  Observe nave_seventh at nave when seventhTonight(bowl) and hour(clock) == 20 "The Seventh Remainder. Four low notes, alike, sung by the whole nave, slow, over and over, and nobody looks bored, which you would not have guessed. Some of the old people are crying. Down through the grating the black water has gone perfectly still.".
+  Person orr "Cantor Sabeth Orr" at cantor_room {
+    Role "the Cantor of the Sounding". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Wants still_cup.
+  }
+  Rule orr_to_loft when hour(clock) == 18 and at(orr, cantor_room) { Retract at(orr, cantor_room). Assert at(orr, choir_loft). }
+  Rule orr_to_room when hour(clock) == 21 and at(orr, choir_loft) { Retract at(orr, choir_loft). Assert at(orr, cantor_room). }
+  Person tamsin "Tamsin Reed" at choir_loft {
+    Role "a chorister of sixteen, from the Dyers' Terrace". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+  }
+  Person fisk "Precentor Aldo Fisk" at nave {
+    Role "the Precentor, last of the old Cantors". Ancestry human. Peaceable. Pronouns he. Manner proud.
+  }
+  Observe loft_scene at choir_loft when true "The choir loft rings the dome halfway up, a gallery of benches and music-stands, worn by three thousand years of feet. From here you look straight down through the grating to the water.".
+  Observe cantor_scene at cantor_room when true "The Cantor's room: a bare cell with a clavichord in it, out of tune on purpose so that she can hear the voices against it, she says. Hymnals on every surface, some of them very old, their pages marked with ribbons and pressed flowers.".
+  Observe well_scene_s at bell_well when true "A narrow round chamber beside the nave, and in its floor a shaft, railed, going straight down into the dark. Far below, black water. The bell-ropes come down through the ceiling and hang over the shaft, and when the bells ring the water down there shakes into rings. You have the sense, looking down it, that it goes much further than the cistern it is said to serve.".
+  Discovery shaft_down "The Sounding is built over a shaft that goes down into the great cistern under Measures Terrace, and the water down there rings when the bells do.".
+  Rule shaft_seen when at(party, bell_well) and not knows(party, shaft_down) says "You drop a pebble. You count a long time before you hear it." teaches shaft_down { }
+
+  // The Long Hymn as it was: the hymnal with the Remainders.
+  Discovery remainders_tones "In the old hymnal, the Remainders are written in the Sounding's four voices, deep, middle, high and bright: the First is bright and then deep thrice; the Sixth, the Rising, is deep and then bright thrice; the Seventh is deep four times; and the Long Amen is middle four times." {
+    Source old_hymnal "the old hymnal of the Long Hymn, with its Remainders" at cantor_room readable by party.
+  }
+  Discovery short_hymn "Three autumns ago Cantor Orr shortened the Long Hymn from two hours to forty minutes, cutting the Fourth, Fifth and Seventh Remainders and keeping the Sixth.".
+
+  // Before she knows.
+  Topic orr_reform with orr "Ask Cantor Orr about the Short Hymn" when true once {
+    Says "'You've come about the hymn. Everyone comes about the hymn.' She does not get up from the clavichord. 'The old Cantors think I've cut the heart out of it. I've cut the fat out of it. Do you know what the Long Hymn was? Two hours. Seven Remainders, every one of them the same four bars, a hundred and twelve repetitions of phrases nobody could tell apart. I cut three of the worst and kept the Sixth because it's beautiful. The young came once, before, and never again.' Her chin comes up. 'Now they come. Three times as many. They sing, child. You should hear them.'".
+    On discuss { Assert knows(actor, short_hymn). }
+  }
+  Topic orr_building with orr "Ask Cantor Orr what a hymn is for" when true once {
+    Says "'For?' She plays a chord, badly, on purpose. 'A prayer is a letter. You write it alone and send it off and wait. A hymn is a building everybody stands in at once.' She turns round on the stool. 'A thousand people who can't agree about the price of fish breathe in at the same moment and out at the same moment for forty minutes, and for forty minutes they are one thing, and none of them is any less for it. That is the most important thing a city does and nobody counts it. If nobody stands in a building, it's a ruin, however holy the stones.'".
+  }
+  Topic orr_remainders with orr "Ask Cantor Orr what the Remainders were" when true once {
+    Says "'Accretions. Silt.' She is quite sure. 'Some copyist in the Aenean days liked a phrase and wrote it seven times over, and his successors were too frightened to take it out again. The Seventh was the worst. Four low notes all alike, again and again, for a quarter of an hour.' She hums it, flat, contemptuous: deep, deep, deep, deep. 'Like somebody counting coins. I thought it was the ugliest thing in the whole hymn.'".
+  }
+  Topic orr_voices with orr "Ask Cantor Orr how the hymn is written" when true once {
+    Says "'In the four voices, as everything in the Sounding is: deep, middle, high and bright.' She draws them in the air, a mark for each, rising. 'Not notes as a fiddler means them. Voices. The deep is the men at the back with chests like barrels, and the bright is little girls, and every phrase of the old hymn is so many of each.' She shrugs. 'It's older than any music anywhere else I know. There's an old hymnal on the shelf with the Remainders still in. Read it if you want to be bored.'".
+  }
+  Topic orr_one with orr "Ask Cantor Orr whether a city can really be one thing" when true once {
+    Says "'Not by argument.' She is very definite. 'You can't argue people into being one; Quill tries it at the Council and it only makes more of them. And not by counting, either, whatever Odile Fenn's Office thinks. Counting makes many things out of one, that's what it's for.' She hums a single held note, and you notice the cup on her table ring with it. 'But you can sing them into it. For a while. And then they go home and quarrel, and come back the next night and are one again. That's all there is. It's enough.'".
+  }
+  Topic orr_fisk with orr "Ask Cantor Orr about Precentor Fisk" when true once {
+    Says "'Aldo.' A long-suffering sound. 'Aldo thinks the Mere is falling because God is angry about the Remainders. He thinks God has strong views on liturgical length.' She smiles despite herself. 'He's a good singer, and a fool, and he's the only one of the old Cantors who still comes, so I let him stand at the back and look martyred.'".
+  }
+
+  // Precentor Fisk, who is right for the wrong reason.
+  Topic fisk_mere with fisk "Ask Precentor Fisk why the Mere is falling" when true once {
+    Says "'Because she cut the Remainders.' He says it with a terrible satisfaction. 'Three autumns ago she cut them, and three autumns ago the Mere began to fall. Seven Remainders, as it was given to the Aeneans and by them to us, and she took a knife to it like a tailor to a coat.' He folds his hands. 'The Mere is the dead, Assessor. Every soul a drop. When the hymn is broken the dead do not rest, and they go down, and away. I have said so at three Councils. They laugh.'".
+  }
+  Topic fisk_why with fisk "Ask Fisk how he knows it was the Remainders and not something else" when knows(actor, short_hymn) once {
+    Says "'Because I have faith,' he says, and then, seeing your face, rather less grandly: 'And because I can count. The Mere stood still two hundred years. Then it moved. The only thing that changed in the Bowl that autumn was the hymn.' He looks at you sidelong. 'The Guild's Channel was the next year. Nobody remembers that. Everybody remembers the Channel.'".
+  }
+
+  // Tamsin, who came because of the reform.
+  Topic tamsin_why with tamsin "Ask Tamsin why she sings" when true once {
+    Says "'Because it's the best thing in the world,' says Tamsin, as if you were slow. 'My mum used to say the Hymn was two hours of old men moaning. Then Cantor Orr made it short and my friend Jessa dragged me, and.' She stops, and starts again. 'When we all breathe in together it's like the whole dome breathes in. You can't do that on your own. You can't do it with five people. You need everybody.' She grins. 'Even Precentor Fisk.'".
+  }
+  Topic tamsin_seventh with tamsin "Ask Tamsin what she would think if the Seventh Remainder came back" when knows(actor, hymn_cause) once {
+    Says "Tamsin pulls a face, and then thinks about it properly, which you like her for. 'The counting one? It's dull. Everybody says so.' She chews her lip. 'But if it was for something. If it actually did something.' She looks down through the grating at the black water. 'I'd sing it. I'd sing it every night. It'd be like, like being the lock-keeper. Only all of us.'".
+  }
+
+  // After the hymn is known for what it does.
+  Discovery hymn_cause "The Mere began to fall the autumn the Short Hymn was first sung. The Seventh Remainder, which it leaves out, is the verse at which the Deep Gate at the Ninth Lock came down each night; since the Short Hymn, the Deep Gate has never come down.".
+  Rule hymn_cause_put when knows(party, short_hymn) and (knows(party, lockbook_read) or knows(party, letters_read)) and (knows(party, fall_dated) or knows(party, lock_rhyme)) and not knows(party, hymn_cause)
+    says "It comes together like two halves of a broken plate: the autumn the Short Hymn was first sung, and the autumn the Mere began to fall; the Seventh Remainder that the Short Hymn left out, and the nights since then in the keeper's book, every one of them the same. Deep did not come down." teaches hymn_cause { }
+  Relation orrKnows(group).
+  Topic orr_told with orr "Tell Cantor Orr what the Seventh Remainder did" when knows(actor, hymn_cause) and not orrKnows(orr) once {
+    Says "She stops you before you have finished. 'Say it plainly. I'm seventy-one. I haven't time for you to be kind.' You say it plainly. She sits for a long time with her hands in her lap, looking at nothing. 'Then it wasn't silt,' she says. 'Then somebody wrote it seven times because it was meant seven times.' She looks at her hands. 'And I thought it was ugly. I thought it was the ugliest thing in the hymn, those four bars. Like somebody counting.' A breath. 'It was somebody counting, wasn't it.'".
+    On discuss { Assert orrKnows(orr). }
+  }
+  Relation trialSung(place).
+  Topic orr_trial with orr "Ask Cantor Orr to sing the Seventh Remainder tonight, once, and watch the Deep Gate" when orrKnows(orr) and not seventhRestored(bowl) and not trialSung(bowl) and hour(clock) < 19 once {
+    Says "'Once.' She considers it like a doctor considering a dose. 'Yes. The choir will think I've gone mad, and Aldo will think he's won, and the young will be bored for a quarter of an hour.' She gets up, stiffly. 'Go down to the Ninth Lock and watch your gate. If it comes down at the Seventh, I'll know. If it doesn't, I'll know that too, and I'll thank you to tell me which.'".
+    On discuss { Assert trialSung(bowl). Assert seventhRestored(bowl). Set trialEnds(bowl) to watch(clock) + 48. }
+  }
+  Measure trialEnds(place).
+  Rule trial_over when trialSung(bowl) and trialEnds(bowl) > 0 and watch(clock) >= trialEnds(bowl) and not restoredForGood(bowl) and hour(clock) > 20 {
+    Retract seventhRestored(bowl). Set trialEnds(bowl) to 0. }
+  Relation restoredForGood(place).
+  Topic orr_restore with orr "Tell Cantor Orr the Deep Gate came down at the Seventh, and ask her to sing it every night" when orrKnows(orr) and knows(actor, gate_falls_seen) and not restoredForGood(bowl) once {
+    Says "She hears you out with her eyes shut. 'It came down,' she says. 'Piet Harl's gate. At my four ugly bars.' She opens her eyes. 'Every night, then. The Seventh and nothing else; the Fourth and Fifth can stay cut until somebody shows me they shut something too.' And then, sharp, because she is who she is: 'They'll sing it. You watch. Not because it's beautiful. Because it's for something. That's the thing I forgot. A building everybody stands in, yes, but somebody built it for a reason, and the reason was holding the roof up.'".
+    On discuss { Assert seventhRestored(bowl). Assert restoredForGood(bowl). }
+  }
+  Topic orr_restore_unseen with orr "Ask Cantor Orr to sing the Seventh every night from now on" when orrKnows(orr) and not knows(actor, gate_falls_seen) and not restoredForGood(bowl) and not trialSung(bowl) once {
+    Says "'On your word?' She is not unkind. 'Child, I cut it on my word, and look. I'll not put it back on yours. Show me. Let me sing it once and you go and watch that gate with your own eyes, and then come back and tell me, and I'll sing it till I die.'".
+  }
+  Topic orr_rubbing with orr "Show Cantor Orr the rubbing of the Dyers' arch" when carries(actor, rubbing) once {
+    Says "She takes the cloth to the window. 'These are the four voices.' She touches the note-marks one by one, deep to bright. 'Written the old way, the way the oldest hymnal writes them. And these.' The four mouths, shut to wide. 'Shut for the deep. Wide for the bright.' She is quiet. 'Somebody carved a table of what the voices mean. On the floor of a dye-basin.' She gives it back very carefully. 'If that is what they mean, then the Seventh is the deep voice, and the deep voice four times over, and the deep voice is a shut mouth. Somebody was telling something to keep its mouth nearly shut.'".
+  }
+  // What she comes to believe, after the engine.
+  Relation orrStance(group, entity). Kind stance.
+  Entity stance_building: stance "the hymn is still a building". Entity stance_answered: stance "the hymn was heard". Entity stance_numbers: stance "the hymn was numbers".
+  Topic orr_engine with orr "Tell Cantor Orr what is under the Mere, and what the Remainders are to it" when knows(actor, engine_seen) and orrKnows(orr) and not orrStanding(orr) once {
+    Says "She makes you tell it twice. The column, the wheels, the four bars of bronze. When you are done she says, 'Then I have spent my life singing to a machine.' She says it without self-pity, as if testing the weight of it. 'Three thousand years of choirs. The Aeneans, and us. Singing it what to do, and calling it praise, because we didn't know the words.' She looks up at you. 'Well, Assessor? You've been down there. What was it we were doing?'".
+    On discuss { Assert orrAsked(orr). }
+  }
+  Relation orrAsked(group). Relation orrStanding(group).
+  Topic orr_answer_building with orr "Tell her the hymn was still a building everybody stood in, whatever else it did" when orrAsked(orr) and not orrStanding(orr) {
+    Says "'Both,' she says, slowly. 'It held up the roof, and people stood under it.' She almost laughs. 'Every building's like that, isn't it. Nobody builds a roof for the joy of standing under it. They build it against the rain, and then the joy comes.' She takes your hand, briefly, a dry old hand. 'Thank you. That I can sing.'".
+    On discuss { Assert orrStance(orr, stance_building). Assert orrStanding(orr). }
+  }
+  Topic orr_answer_heard with orr "Tell her the Reckoner heard every note for three thousand years, and did what it was asked" when orrAsked(orr) and not orrStanding(orr) {
+    Says "Her eyes fill, which you did not expect. 'Heard,' she says. 'Something heard.' She wipes her face with the back of her wrist, impatient with herself. 'Aldo would say that's God. I'll not say that. But it's more than I had any right to.' She looks down through the floor, as if she could see it. 'We were heard. And when we stopped singing it the right words, it went on doing the last thing it was told. Like Piet.'".
+    On discuss { Assert orrStance(orr, stance_answered). Assert orrStanding(orr). }
+  }
+  Topic orr_answer_numbers with orr "Tell her it was only ever numbers, and the music was what people added" when orrAsked(orr) and not orrStanding(orr) {
+    Says "'Numbers.' She takes it like a blow and doesn't fall. 'Yes. I expect that's true.' She closes the clavichord's lid. 'Then I'll sing them the numbers, and I'll let the young think it's music, and perhaps that's what music always was.' She does not look at you again. 'Thank you, Assessor. You're very honest. Goodnight.'".
+    On discuss { Assert orrStance(orr, stance_numbers). Assert orrStanding(orr). }
+  }
+  Relation willTestify(group).
+  Topic orr_hearing with orr "Ask Cantor Orr to speak at the Hearing" when orrKnows(orr) and not willTestify(orr) once {
+    Says "'And say what? That I did it?' A dry look. 'Yes. Of course I'll say it. I'll stand up in front of Odile and Harrow Quill and the whole Council and say I cut three thousand years out of the Hymn because the children were bored.' She stands. 'Somebody should say it who's sorry. Not Aldo. He'd enjoy it.'".
+    On discuss { Assert willTestify(orr). }
+  }
+}

@@ -1,0 +1,238 @@
+Module lowwater "Low Water" {
+  Description "The Hearing before the Council of Ammerlin, at which the Assessor's Finding is read: exhibits, witnesses, a cause named and a remedy asked; and the city after.".
+
+  Person council "the Council of Ammerlin" at moot_hall {
+    Role "nine members, one for each lock, in grey". Ancestry human. Numbers 9. Peaceable.
+    Seen when hearingOpen(ammerlin) or hearingDone(ammerlin) and watch(clock) < hearingAt(bowl) + 36.
+  }
+  Relation hearingOpen(place). Relation hearingDone(place). Relation begun(group). Relation present(group).
+  Measure credence(group). Measure rebuttal(group).
+
+  // Noon on the day: the Council sits, and those who have said they will speak come.
+  Rule hearing_opens when watch(clock) >= hearingAt(bowl) and not hearingOpen(ammerlin) and not hearingDone(ammerlin)
+    says "From the Sounding the noon bell, and from the Office the long single note of the Office horn: the Hearing." {
+    Assert hearingOpen(ammerlin). Retract at(fenn, registrar_room). Assert at(fenn, moot_hall). Retract at(quill, quill_room). Assert at(quill, moot_hall).
+    Set hearingClosesAt(bowl) to watch(clock) + 12. }
+  Measure hearingClosesAt(place).
+  Rule orr_attends when hearingOpen(ammerlin) and willTestify(orr) and not present(orr) { Retract at(orr, cantor_room). Retract at(orr, choir_loft). Assert at(orr, moot_hall). Assert present(orr). }
+  Rule halm_attends when hearingOpen(ammerlin) and willTestify(halm) and not present(halm) and not halmBelow(halm) { Retract at(halm, dig). Retract at(halm, taproom). Retract at(halm, listening_hall). Assert at(halm, moot_hall). Assert present(halm). }
+  Rule dov_attends when hearingOpen(ammerlin) and not dovHeld(dov) and not present(dov) { Retract at(dov, dig). Retract at(dov, dov_yard). Assert at(dov, moot_hall). Assert present(dov). }
+  Rule piet_attends when hearingOpen(ammerlin) and willTestify(piet) and not present(piet) { Retract at(piet, piet_room). Retract at(piet, ninth_lock). Assert at(piet, moot_hall). Assert present(piet). }
+  Rule mag_attends when hearingOpen(ammerlin) and grievance(mag, party) and not present(mag) { Retract at(mag, vat_yard). Assert at(mag, moot_hall). Assert present(mag). }
+  Rule sella_attends when hearingOpen(ammerlin) and promised(party, sella) and not present(sella) { Retract at(sella, fulling_mills). Assert at(sella, moot_hall). Assert present(sella). }
+  Observe moot_hearing at moot_hall when hearingOpen(ammerlin) "The Moot Hall is full. The nine of the Council sit at the long table under the Office's seal, in grey; Registrar Fenn stands at its end. The benches are packed to the walls: millwrights in green, dyers with blue hands, Cantors in black, and at the back, standing, the Ward. Harrow Quill has a front bench to himself and is smiling at everyone.".
+  Topic piet_hearing with piet "Ask Piet Harl to speak at the Hearing" when knows(actor, letters_read) and not willTestify(piet) once {
+    Says "Piet goes the colour of the lock wall. 'In the Moot Hall? In front of the Council?' He looks at his book. 'I'd only be able to say what's in the book.' That is the point; you say so. He nods slowly. 'I can do that. I've had a lot of practice.'".
+    On discuss { Assert willTestify(piet). }
+  }
+
+  // The Finding, given item by item.
+  Action begin_finding(actor: group, site: place) "Rise and give your Finding to the Council" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, moot_hall) and hearingOpen(ammerlin) and not begun(actor).
+    Time 1.
+    On success { Assert begun(actor). }
+    Result "You rise. The hall goes quiet in the way of a hall that has been waiting to go quiet. Registrar Fenn says, 'The Independent Assessor, for the Office of Measures, on the matter of the Mere,' and sits.".
+  }
+  Relation laid(entity).
+  Kind exhibit. Entity ex_hands: exhibit "the mill hands' wages". Entity ex_channel: exhibit "the Channel's draw". Entity ex_report: exhibit "the engineers' report".
+  Entity ex_tally: exhibit "the tally". Entity ex_register: exhibit "the register". Entity ex_letters: exhibit "the keeper's letters and book".
+  Entity ex_hymn: exhibit "the Short Hymn". Entity ex_engine: exhibit "the Reckoner". Entity ex_grammar: exhibit "the Reckoner's speech". Entity ex_census: exhibit "the census".
+  Entity ex_diggers: exhibit "the drowned diggers".
+  Query giving(a: group) means begun(a) and hearingOpen(ammerlin) and not named(a).
+  Relation named(group).
+  Action speak_hands(actor: group, site: place) "Say first that the Guild's four hundred hands have not been paid since Lammas" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and promised(actor, sella) and not laid(ex_hands).
+    Time 1.
+    On success { Assert laid(ex_hands). Increase credence(council) by 1. }
+    Result "You say it first, as you promised: four hundred people, Lammas, the charter. It is not what the hall expected. At the back Sella Marsh folds her arms and nods once. On the front bench Harrow Quill stops smiling for the first time.".
+  }
+  Action lay_channel(actor: group, site: place) "Lay before the Council the Channel's draw: twenty-two ells a day" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, channel_measured) and not laid(ex_channel).
+    Time 1.
+    On success { Assert laid(ex_channel). Increase credence(council) by 1. }
+    Result "Twenty-two ells, gauged at the head, the middle and the bend, twice. The Councillor for the First Lock writes it down. Quill nods along graciously, as if you were reading his own speech.".
+  }
+  Action lay_report(actor: group, site: place) "Lay before the Council the Corra engineers' report, countersigned by Quill" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and carries(actor, report) and not laid(ex_report).
+    Time 1.
+    On success { Assert laid(ex_report). Increase credence(council) by 2. }
+    Result "You read the last page aloud: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL. Countersigned, H. Quill, Master. The paper goes along the Council's table hand to hand. Quill does not look at it. He looks, for a long moment, at the back of the hall, where Sella Marsh is standing, and then he looks at the ceiling.".
+  }
+  Action lay_tally(actor: group, site: place) "Lay before the Council Isaura Vant's tally: forty ells a day that arrive nowhere" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, discrepancy) and isauraSigns(isaura) and not laid(ex_tally).
+    Time 1.
+    On success { Assert laid(ex_tally). Increase credence(council) by 2. }
+    Result "Isaura stands up beside you with her thin book and reads it out: Rim Gauge, Channel, every right on every terrace, evaporation. Forty ells unaccounted. The Councillor for the Fourth Lock says, 'The Office's own ledger shows no such figure,' and Isaura says, 'No, sir. That's why I kept a tally.' Registrar Fenn closes her eyes, briefly, and then opens them and nods.".
+  }
+  Action lay_register(actor: group, site: place) "Lay before the Council the register of the Mere gauge: steady two hundred years, falling since three autumns ago" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, fall_dated) and not laid(ex_register).
+    Time 1.
+    On success { Assert laid(ex_register). Increase credence(council) by 1. }
+    Result "Two hundred years of the Office's own columns, and then three autumns ago, the turn. Somebody on the Cantors' bench says, quite loudly, 'That's the Short Hymn,' and is hushed.".
+  }
+  Action lay_letters(actor: group, site: place) "Lay before the Council the keeper's book and his letters to the Sounding" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and (knows(actor, letters_read) or knows(actor, lockbook_read)) and not laid(ex_letters).
+    Time 1.
+    On success { Assert laid(ex_letters). Increase credence(council) by 1. }
+    Result "Deep up at the Sixth. Seventh not sung. Deep did not come down. You read three nights of it and then stop, because the hall has understood, and because reading a thousand of them would be cruel.".
+  }
+  Rule piet_speaks when laid(ex_letters) and present(piet) and at(piet, moot_hall) and not spoke(piet)
+    says "Piet Harl stands up at the back without being called. 'I wrote it every night,' he says, too loud, and then quieter: 'I wrote it every night. I sent twice.' He sits down again, red to the ears. Nobody laughs." {
+    Assert spoke(piet). Increase credence(council) by 1. }
+  Relation spoke(group).
+  Action lay_hymn(actor: group, site: place) "Lay before the Council what the Seventh Remainder did, and what its leaving out has done" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, hymn_cause) and not laid(ex_hymn).
+    Time 1.
+    On success { Assert laid(ex_hymn). Increase credence(council) by 1. }
+    Result "You tell them about the Lock-Rhyme the children skip to, and what the Seventh Remainder told the Deep Gate, and the autumn it stopped. On the Cantors' bench Precentor Fisk is on his feet with a face like the end of the world, and Cantor Orr's hand on his sleeve is pulling him down.".
+  }
+  Rule orr_speaks when laid(ex_hymn) and present(orr) and at(orr, moot_hall) and not spoke(orr)
+    says "Cantor Orr stands. She does not ask leave. 'I cut it,' she says, to the Council and the hall. 'I cut three thousand years out of the Hymn because the children were bored, and I was proud of it, and I was right that they were bored, and I was wrong about everything else.' She looks at the back of the hall, at the Ward. 'I am sorry. We sing it again every night now. I'll sing it till I die.' She sits. The hall is so quiet you can hear the fountain in the square." {
+    Assert spoke(orr). Increase credence(council) by 2. }
+  Action lay_engine(actor: group, site: place) "Lay before the Council what lies under the Mere: a machine that counts by drinking" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, engine_seen) and not laid(ex_engine).
+    Time 1.
+    On success { Assert laid(ex_engine). Increase credence(council) by 1. Increase rebuttal(council) by 1. }
+    Result "You tell them about the Undercroft: the culvert, the Equals, the nine wheels, the column. It is a great deal for a hall to hear. The Councillor for the Ninth Lock, an old woman, says, 'Under the Ward? All this time?' and someone in the Ward says, 'Under us, aye,' and there is laughter, of the wrong kind.".
+  }
+  Rule halm_speaks when laid(ex_engine) and present(halm) and at(halm, moot_hall) and not spoke(halm)
+    says "Teodor Halm stands up uninvited and tells the Council, in four rapid sentences full of words nobody in the hall knows, that the Assessor is quite right, that the Reckoner is the last working instrument of the Mathematical Age in the north of Imbar, and that whoever breaks it will be remembered by the Collegium exactly as long as the Collegium remembers anything. He sits. The Council looks at him as people look at weather." {
+    Assert spoke(halm). Increase credence(council) by 1. }
+  Action lay_grammar(actor: group, site: place) "Lay before the Council how the Remainders speak to the Reckoner: the first voice names, the second says how much" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, grammar_known) and laid(ex_engine) and not laid(ex_grammar).
+    Time 1.
+    On success { Assert laid(ex_grammar). Increase credence(council) by 1. Decrease rebuttal(council) by 1. }
+    Result "The arch in the Dyers' Basin, the keystone in the Listening Hall, the four voices of the Sounding's hymnal. The Seventh is deep and deep: the mouth, least. A cupful. You watch it go round the hall and come back as a murmur, and then as Tamsin Reed on the Cantors' bench saying, quite clearly, 'Oh.'".
+  }
+  Action lay_census(actor: group, site: place) "Lay before the Council what the Reckoner counts, as Halm reads it: what is bound" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, census_read) and laid(ex_engine) and not laid(ex_census).
+    Time 1.
+    On success { Assert laid(ex_census). Increase credence(council) by 1. }
+    Result "IT COUNTS WHAT IS BOUND. Some of the hall hears souls and some hears nonsense and Precentor Fisk hears vindication and says so, and is hushed again. The Councillor for the Third Lock asks how many it has counted. You tell her. She writes the figure down, and then looks at it as if it might bite.".
+  }
+  Action lay_diggers(actor: group, site: place) "Lay before the Council the names of the three diggers who drowned" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and drowned(diggers) and not laid(ex_diggers).
+    Time 1.
+    On success { Assert laid(ex_diggers). }
+    Result "Hob Kettle. Annet Kettle. Jory Pale. At the back the Ward stands up, all of it, without a word, and stays standing until you have finished.".
+  }
+  Rule mag_speaks when begun(party) and present(mag) and at(mag, moot_hall) and not spoke(mag)
+    says "Before you have gone far Mag Torrin is on her feet with her blue hands on the bench in front of her. 'This Assessor,' she says in a good clear voice, 'drowned my vats for the sake of a stone arch, and ruined five yards' season, and never said sorry.' She sits. It costs you something with the Council; you can see it cost." {
+    Assert spoke(mag). Decrease credence(council) by 1. }
+  Rule dov_speaks when laid(ex_tally) and present(dov) and at(dov, moot_hall) and not spoke(dov) and not quillDeal(quill)
+    says "From the back, Dov Vant: 'That's my sister,' loud enough for the whole Bowl. 'Those are her figures. You can believe them.' Isaura does not turn round. Her ears go red." {
+    Assert spoke(dov). Increase credence(council) by 1. }
+
+  // Quill's answer, when a cause other than his Channel is named without the report to stop him.
+  Relation answered(group).
+  Rule quill_answers when named(party) and not laid(ex_report) and not causeGuild(party) and not quillDeal(quill) and not answered(quill)
+    says "Harrow Quill rises, gracious, and asks the Council's leave, and has it. 'An machine under the Ward,' he says. 'Bronze men. A hymn that works sluices.' He lets it hang. 'I don't doubt the Assessor saw something down there. I only observe that my Channel is in the Office's register and their machine is in a story.' It is very well done. Half the hall laughs." {
+    Assert answered(quill). Decrease credence(council) by 2. }
+  Rule quill_concedes when named(party) and laid(ex_report) and not answered(quill) and not quillDeal(quill)
+    says "Quill rises and, for once, does not wait for leave. 'The Assessor has my engineers' report,' he says. 'I should like it known I'd have published it myself in the end.' He considers. 'Probably. In the end.' He sits down to a laugh, which he has earned." {
+    Assert answered(quill). }
+  Rule quill_supports when named(party) and quillDeal(quill) and not answered(quill)
+    says "Quill rises to support the Assessor's Finding at once, in a short speech of great warmth, and sits down again, and the hall understands that some arrangement has been made, and the Ward understands what it was." {
+    Assert answered(quill). Increase credence(council) by 1. }
+
+  // The cause.
+  Relation causeGuild(group). Relation causeHymn(group). Relation causeEngine(group).
+  Action name_guild(actor: group, site: place) "Name the cause: the Guild's Fulling Channel" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor).
+    Time 1.
+    On success { Assert named(actor). Assert causeGuild(actor). }
+    Result "You name the Channel. The millwrights' benches roar. The Registrar writes it down without looking up.".
+  }
+  Action name_hymn(actor: group, site: place) "Name the cause: the Short Hymn, which left out the Seventh Remainder" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and laid(ex_hymn).
+    Time 1.
+    On success { Assert named(actor). Assert causeHymn(actor). }
+    Result "You name the Short Hymn. The Cantors' bench goes still, and then everyone on it looks at Cantor Orr, and she looks back at them.".
+  }
+  Action name_engine(actor: group, site: place) "Name the cause: the Reckoner under the Mere, drinking it through the Deep Gate, and the Hymn that stopped telling it its measure" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and laid(ex_engine) and laid(ex_hymn).
+    Time 1.
+    On success { Assert named(actor). Assert causeEngine(actor). Assert causeHymn(actor). }
+    Result "You name them both, and the gaps between them: a machine that does what it is told, a hymn that told it, a reform that stopped the telling, and nobody in the city who knew the hymn was an order. Every one of them doing their job. It is not a culprit. The hall does not know what to do with it, and you watch it decide to listen anyway.".
+  }
+
+  // The remedy.
+  Relation remedied(group). Relation askSeventh(group). Relation askBreak(group). Relation askFeed(group). Relation askAccord(group). Relation askClose(group).
+  Action ask_close(actor: group, site: place) "Ask the Council to close the Fulling Channel and send the Ninefold back to the Mere" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askClose(actor). }
+    Result "You ask for the Channel closed. The Councillors confer, heads together.".
+  }
+  Action ask_seventh(actor: group, site: place) "Ask the Council to order the Seventh Remainder sung every night, and the Reckoner kept at its cupful" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and causeHymn(actor) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askSeventh(actor). }
+    Result "The Seventh every night, as it was for three thousand years: the Reckoner at its cupful, the Mere left to come back, and the count left to go on as slowly as it always did. Nobody now living will hear it finish. You say so.".
+  }
+  Action ask_break(actor: group, site: place) "Ask the Council to order the Reckoner's governor broken, and the Mere kept for the Bowl" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and causeEngine(actor) and knows(actor, governor_known) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askBreak(actor). }
+    Result "Break the governor; stop the Reckoner for good; let every ell of the Ninefold come to the Mere from now on. Halm's face, if he is in the hall, is something you will remember.".
+  }
+  Action ask_feed(actor: group, site: place) "Ask the Council to send the Channel down the Grey Way to the Reckoner until its count is done, and the Mere spared" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and causeEngine(actor) and knows(actor, feeder_known) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askFeed(actor). }
+    Result "The Grey Way, as the oldest map shows it: the Channel's water past the Mere, straight to the Reckoner, for as long as it needs to finish. The mills idle. The Mere kept. And at the end, whatever the end is.".
+  }
+  Action ask_accord(actor: group, site: place) "Ask the Council to enter the Reckoner in the Office's ledger as a holder of a water-right, its ration sung each night by the Sounding and measured by the Office" {
+    Description "Not a culprit, and not a ruin: a citizen of the Bowl, with a right like any other, kept by the two institutions that between them were keeping it all along without knowing.".
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and causeEngine(actor) and laid(ex_grammar) and laid(ex_tally) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askAccord(actor). }
+    Result "You ask them to write it into the ledger: the Reckoner, a holder of a right of one cupful a night, by the Seventh Remainder; the Sounding to sing the ration, the Office to measure it, and both to answer to the Council for it. A right like a dyer's or a miller's. Isaura, beside you, has stopped breathing. Registrar Fenn has put down her pen.".
+  }
+
+  // The Council decides, on what it has been shown.
+  Relation verdictGuild(place). Relation verdictSeventh(place). Relation verdictBreak(place). Relation verdictFeed(place). Relation verdictAccord(place).
+  Relation charterRenewed(place). Relation charterLost(place). Relation findingRejected(place). Relation registrarsFinding(place).
+  Action rest_finding(actor: group, site: place) "Rest your Finding, and let the Council decide" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and remedied(actor) and hearingOpen(ammerlin).
+    Time 3.
+    On success { Retract hearingOpen(ammerlin). Assert hearingDone(ammerlin). }
+    Result "You sit down. The Council goes out to the Registrar's room. The hall waits, talking low, for half an hour that is very long; and then the nine come back in, and the Councillor for the First Lock stands.".
+  }
+  Rule council_closes when askClose(party) and hearingDone(ammerlin) and not decided(council)
+    says "'The Council accepts the Finding,' says the Councillor for the First Lock. 'The Fulling Channel is to be closed at the head and the Ninefold sent back to the Mere. The Guild's charter is not renewed.' At the back of the hall a mill hand shouts, and then a great many do." {
+    Assert decided(council). Assert verdictGuild(ammerlin). Assert charterLost(ammerlin). Assert state(channel_gate, to_mere). }
+  Rule council_seventh when askSeventh(party) and hearingDone(ammerlin) and credence(council) >= 4 and not decided(council)
+    says "'The Council accepts the Finding,' says the Councillor for the First Lock. 'The Sounding is to sing the Seventh Remainder every night, and the keeper of the Ninth Lock to record the Deep Gate's coming down, and report to the Office if it does not. The Guild is not found the cause, and its charter is renewed.' She sits. It is not applause, quite. It is the sound of a hall letting go of something it had held a long time." {
+    Assert decided(council). Assert verdictSeventh(ammerlin). Assert charterRenewed(ammerlin). Assert seventhRestored(bowl). Assert restoredForGood(bowl). }
+  Rule council_break when askBreak(party) and hearingDone(ammerlin) and credence(council) >= 5 and not decided(council)
+    says "'The Council accepts the Finding,' says the Councillor for the First Lock, 'and orders the Reckoner stopped. The Assessor is to see to it, with the Office's warrant.' From somewhere in the hall a man laughs, high and unhappy: Halm, or someone like him. 'The Guild's charter is renewed.'" {
+    Assert decided(council). Assert verdictBreak(ammerlin). Assert charterRenewed(ammerlin). Assert seventhRestored(bowl). }
+  Rule council_feed when askFeed(party) and hearingDone(ammerlin) and credence(council) >= 5 and not decided(council)
+    says "'The Council accepts the Finding,' says the Councillor for the First Lock. 'The Grey Way is to be opened at the head, and the Guild's Channel sent down it until the Reckoner's count is done, and the Guild compensated from the Office's funds for its idle days. The Guild's charter is renewed.' Quill, on the front bench, bows to nobody in particular." {
+    Assert decided(council). Assert verdictFeed(ammerlin). Assert charterRenewed(ammerlin). Assert state(channel_gate, to_deep). Assert state(guild_chain, chain_loose). }
+  Rule council_accord when askAccord(party) and hearingDone(ammerlin) and credence(council) >= 8 and not decided(council)
+    says "The Councillor for the First Lock does not stand at once. When she does, she reads from a paper in her own hand, slowly. 'The Council accepts the Finding. There is entered in the ledger of the Office of Measures a new right: to the Reckoner under the Mere, one cupful a night, by the Seventh Remainder, from this day. The Sounding shall sing it. The Office shall measure it. Both shall answer for it to this Council.' She puts the paper down. 'The Guild's charter is renewed. The Office will examine the Ward's titles.' For a moment nobody in the hall knows what to do, and then Cantor Orr, of all people, begins to laugh, and then everybody is talking at once." {
+    Assert decided(council). Assert verdictAccord(ammerlin). Assert charterRenewed(ammerlin). Assert seventhRestored(bowl). Assert restoredForGood(bowl). Assert titlesFrozen(ammerlin). }
+  Rule council_rejects when hearingDone(ammerlin) and remedied(party) and not decided(council) and not askClose(party)
+    says "'The Council thanks the Assessor,' says the Councillor for the First Lock, in the voice of someone closing a door politely, 'and does not find the Finding proven. It adopts instead the Registrar's provisional finding: the Fulling Channel is the cause of the fall, and is to be closed. The Guild's charter is not renewed.' Registrar Fenn looks at you across the table, and you cannot tell what she is thinking." {
+    Assert decided(council). Assert findingRejected(ammerlin). Assert verdictGuild(ammerlin). Assert charterLost(ammerlin). Assert state(channel_gate, to_mere). }
+  Relation decided(group).
+  // An Assessor who does not come: the Registrar gives her own finding.
+  Rule hearing_lapses when hearingOpen(ammerlin) and not begun(party) and watch(clock) >= hearingClosesAt(bowl)
+    says "Word comes, wherever you are: the Hearing sat and the Assessor did not come, and Registrar Fenn gave the Office's own finding in their place. The Guild's Fulling Channel, the cause; the Channel to be closed; the charter not renewed. The mills are out on the Rim, and the Ward is drinking to the Office in the Full Measure." {
+    Retract hearingOpen(ammerlin). Assert hearingDone(ammerlin). Assert decided(council). Assert registrarsFinding(ammerlin). Assert verdictGuild(ammerlin). Assert charterLost(ammerlin). Assert state(channel_gate, to_mere). }
+
+  // What the Council's verdict leaves the Bowl.
+  Rule hands_paid when charterRenewed(ammerlin) and not paidHands(sella) says "On the Rim, by evening, the Guild's mill hands are paid: Lammas to now, in Guild silver, the creditors having been told about the charter." { Assert paidHands(sella). }
+  Relation paidHands(group).
+  Observe mills_out at fulling_mills when charterLost(ammerlin) "The mills are dead, the Channel dry, and the counting-house shuttered. Sella Marsh is sitting on the bench by the door, alone, as if she were still waiting to be paid.".
+  Rule ward_kept when titlesFrozen(ammerlin) and decided(council) and not quillDeal(quill) and not wardKept(ammerlin) { Assert wardKept(ammerlin). }
+  Relation wardKept(place).
+  Rule plots_sealed when quillDeal(quill) and decided(council) and not plotsSealed(ammerlin) says "The Office seals the Ward plots to the Guild: the dig, the Listening Hall's ground, half Tench Row. In the Ward nobody says anything about it where the Office can hear." { Assert plotsSealed(ammerlin). }
+  Relation plotsSealed(place).
+  Observe accord_square at measures_square when verdictAccord(ammerlin) "Somebody has chalked on the Office's wall, under the words over the door, in a child's capitals: AND SUNG.".
+  Observe accord_office at office_hall when verdictAccord(ammerlin) "On the counter, open, the newest ledger of the Office of Measures, and on its newest page, in Isaura Vant's hand, a right that has never been written before: THE RECKONER UNDER THE MERE. ONE CUPFUL NIGHTLY. BY THE SEVENTH REMAINDER.".
+  Objective give_finding when knows(party, commission) and not hearingDone(ammerlin) "Find why the Mere is falling, and give your Finding to the Council at the Hearing in the Moot Hall.".
+  Objective break_ordered when verdictBreak(ammerlin) and not broken(reckoner) "The Council has ordered the Reckoner's governor broken, and left it to you.".
+}
